@@ -1,83 +1,108 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B9239C00F
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99B431E858
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791877244; cv=none; b=Hu/PhInK0Ek0t3YwFCzGN+29z5ol5uABhwY10WSoOWhqf7qkzWV+OKUZlsOC/X5eXxMZX2GErqMa587msk2JlcJubLnYwZp56D7VJOxL6E7lfrS+3Ct0TMkFVTDdC4ok9oC6UxgSTEWJWD86xRrmVuqDIYd2FuT3LCaXS+ANHHw=
+	t=1791877905; cv=none; b=eVGmDQozBMdQLD0ZxygAs1t5Nst58jTC2Y2zgOQQkvQKdRA3PuNH2yHoKPA3EdTU0kOxZ2eN4XY5WQPRU8nCl9ci2qMYVykbjp/2IL1UqEH6s9oj4IyO+DcPFK3TZTstweGWv3zRkQ5vIEL4L8ai9qjq37LaUtVYLDvIGKXDkKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791877244; c=relaxed/simple;
-	bh=BFe/yh5JnfR0DvilafSKJHlexjYInUwEeegNj8QpwgU=;
+	s=arc-20240116; t=1791877905; c=relaxed/simple;
+	bh=O/NVLhRI0uawWFT3foKO8gI9P0F95k0wJeBb3Mfs/aA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGTA/w59xN8vFdg/O8w5q1n4VR5cqDe7TepjmmKFnLJXnwgEobdAulPbwPPLpswbM4ZjrxZBMfE2XpvqFUb5db1Qr1C8FH1T9tJTWQH5S+7yiT8N6dhN3TW/tBrMtcTspPR3945fHqQBUcEgGAEptQFYYvY2+f2tbBdAqCHk3tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PB9r1oE0; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNCZB2T6lAB2D6MhdiAWlIDlKEo2mgfRDJJwLyq9QItUOqbn+t4R7QJI0D2BHY7iVRMIkqyJMEEHKgCOgObd9rFGxL2c9lWCq7io8xQEkGkjrF07etwOxXUa+VgzA1CjCrGrPCwIIQputupPzkdgt8AjxyAJkcEc5X1KT7LW1Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IMSdstEk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eoep68y3; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PB9r1oE0"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e8fe8e343fso5915735ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:40:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IMSdstEk";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eoep68y3"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D21E1X3752542
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:51:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=2e0hEvdU8b8VrnJnCx9DHHAI
+	iFUZiYK3o3ou5ROhbTI=; b=IMSdstEk9C7fgUIBCRRMTC8AKGYIHkhw1+ksTJOv
+	1xAVpTwk8ypXQCinfCkzKpAWKSf2Hl/CJM6Traomk+keHHaEymGGukXeBEJbQd1b
+	Zj+i9Bgdhnly5F4cpvXsc+3lJSne7PHNgdGkQNjyeycWf/hCWnyb0jP3gxTCR2aC
+	EOqmQhiEkUxSGZjN4f4M1aNughBK96tzuaI9CUPTv27jIKwZdA/O9E8lHdnmJFS5
+	OAbyYsyPSNwX2O2e6nl5/Zdcgr/CiZ7EuMEmRNBDV4ptXRliXFz1OmAe+ewtvRyJ
+	J6wm7P9/Ytx/lVWRt7NuGNguRBJh7b/+5iK64S2v7N7Vig==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h940w2xf7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:51:42 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93cbacbb996so438041685a.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791877242; x=1792482042; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1791877902; x=1792482702; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=sAnTgd/l711nspTx4PUavL/NLYQovTcbYgAtSFrcnZ8=;
-        b=PB9r1oE0F+uyaEdAjxwxbX4pziiS8Q9gfPg+pocqeAfmAB1gGfFwAIfrWc8eBOw8/f
-         MjTSi/9RaPwGbrM+s9pazj+eFgu1BxkFSwFuyjR8NF2dbm1GmoJsesAWdfwGuoIJwDrb
-         axjJUb8UaQUIuO3gnbHWVRGP4sTTPWlv/6NKAatL4HvgWHRmcmbXEyIxf88lE7IpzllX
-         v8zF/PfowqyugfnJqvz4isB44IAup8h/oro2fcW0ClcFK4Pmg2ONpTKdz6kZoB3v7r53
-         vKA2DFm1qJzNiSOqhNWSZ415R7sIifQWCh0H0yS+0RKnAzLYLMveoZnE1WQOH87r2ktV
-         JkXQ==
+        bh=2e0hEvdU8b8VrnJnCx9DHHAIiFUZiYK3o3ou5ROhbTI=;
+        b=eoep68y3LhLe5ZfP5ZK7KiQWHNKhwo7hu05t2Vz9e1DnBWyAXJ8TlbAF8hs7/lsDqc
+         BnsuFfz0EMI4B5p2rSsXBxEJYfifDfNjRimZ/eFUmCwOLOWmy1rYrFYLt3co6oLqqGbj
+         08+gZv6rKzzE/rWkApdGZIUCTcS+PPnDnwS6D+h6BKuKXz/GMfeMMxjct4wkNSswlfRW
+         1ZU0Hru9gEyLZoK/Jl4+F4pnTY+GX7739e6RomLaSpS03Mlbq3ZHzQ0XG/YPnWaelZf6
+         Kc3a2JjKyilcWP9FLjLSICQ+EmAMawsoQ1g9zCZt8c9dsWpkmqEaF2HZs4rRD+P4UxGe
+         +DtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791877242; x=1792482042;
+        d=1e100.net; s=20260707; t=1791877902; x=1792482702;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sAnTgd/l711nspTx4PUavL/NLYQovTcbYgAtSFrcnZ8=;
-        b=wATxGKPwm/q2DJMKUsRbKWI3t0oKC4sxeeGaXHWQaC7yq5JpJEAyXNNuOoS4DXyPNd
-         P0DJpG4evy8GihLLX5duex9XFndq+TQm6jTW/CpbXLsgWCO3sF28qshW2DZQKvhnOmt1
-         Vm8zv1ZdHq5tPLCvl3x7FHfbmT3vqP5SYOP+U/cN+TCym61Gj3n8K7afb/kPFlto7ZBa
-         /HHFXKCeZ/Q0W8poytQJhS5PkM9YnyfNeuYjJw77Dw9rbMxPP/zMKiPHBATolzRdNQdn
-         eYtnX/uQHyHrHdsPzPMLXB4G6/JaHXxZc3zKf186rWi8w6DDcVJvCzTzi/5FuboiPs2l
-         Q77g==
-X-Forwarded-Encrypted: i=1; AKwUvBzQxkFV7LM1sreYfkQhg/CXDudcSGJh3hUUxX6yr6/PtM9H/ykas7pEGz2qWRHJoUrg4fa1mzf0vg0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJtRv/Ey4sEsAfy9DdLyVJnAhNrIEUUalqAeq3jFWFkt6Of4QzZ
-	wD58Wy+WV32NjvnP6parsQGMbxoRT0skn6UNrj9Izkd+ZUZw7K0APgcX
-X-Gm-Gg: AYBFou0bRaDz5/ok4QMkO4HuhrwexCheFlGHVq0GMCGgHpGGpMo4RTjPggurXt3/C0z
-	Pkcnb0LkCtl/9nJg66VO0/TXezKne2JWd0Qm+OmqtjatQBF5netWxAyaSNYrD3pVhaeoHcbrsT1
-	dAqpYP0Dn5m1j3I51AXY2vdIEGkfYeuYfHMm4/s9eicMchpye9gKOScHoUHJFvk5I5R04a8Kuad
-	EuYyFVPrlXdZaMUyryizoWt2Lu2UODH2NeHj0wnjPv65edpVI3t+vs8UXMXsDYj3pfvNfO/pFYz
-	YVbcNcXYe28nhYgsyi8EMifICWK3Spw/Ite+V5uK6M6qhAIYnVSzmvsJ6gkn0dZuQ/slWY7UukX
-	TZNgUZT63dMtUbBjVT7VTNItuA3rP77uMN77Q51KZSFPm2IQrgmFtBh7TsuUegEUGg0e4Hp3kJz
-	t/0f1M719Irw1ZkqIgQMTY3DTfa60YFRHizBis47jOm7O8qf4lCB7Pj5lduY+K36QAOoUAJSTEJ
-	ZCLIS8rDI3zUkPM+5bFx/LDjbFy8w==
-X-Received: by 2002:a17:902:f64f:b0:2dd:ad73:c984 with SMTP id d9443c01a7336-2e842bc5ae0mr95318795ad.28.1791877242048;
-        Tue, 13 Oct 2026 00:40:42 -0700 (PDT)
-Received: from localhost ([47.254.74.32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e841432a03sm51700235ad.0.2026.10.13.00.40.41
+        bh=2e0hEvdU8b8VrnJnCx9DHHAIiFUZiYK3o3ou5ROhbTI=;
+        b=Wg6oCFoDqu4DlZnuZDQZyrmZO68/Dymv/eBxGY5olTscQPabRQ6jM9YFlNw9hywVf9
+         +3iCLctuG/E43O/AqNkd5XT2WrAFSxAy6qeubXgAk8WPAa1dKiVEhAzexwLlJNimDaes
+         gpA42XV9LLu1Kqne2cTtebVcL+OYVxOIr0beG0vG72TpyaESESvnkakEACf3dVAJGVYi
+         7UA+5+a8sugu6DlMRTkAqDOVzRvN47TlJPSN4dmFO/Y3ySuDRW6DLJC73rSrQiDdBjzY
+         1dDfblV8jqQk6goxUU4o6AkE0cRq3174pKpyk70d333zrZEbNTEBAug74zZdpg2t/BKQ
+         70JQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwI5N0hVihUatQtVNXcPj+UBgIpuUbv7hlxhRP6W8fGxBeVccvh5ZcVCs9KIXJ3/JcSBwy8Yt+0JrY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK27InjcnaOvtuqaDix4rQ2sJP6N4PG8JQwo/vMNL4TaPDdk16h
+	3vnbhpifC/Sz/qnBNPurY2sxSsOn9FJbg2EpmJq619idQZQrxAtx474EOZTXpreX0o7BeM1l2S1
+	1Jz3THidLQe/VHvJk0h+5t1O3ZiY7otHcBC2GhTMXhsEu66TzNQvC3b6w3b7JOPc=
+X-Gm-Gg: AYBFou2gP1ax25iceMv6oaNoY68Nj5jDxjlvxOwQMKT+VSGv59+3D1DHSOB6vgnDNcP
+	L7AZLgacBszPOpB6bLAUcCqAThERiMMPhy2vdBf/QazjeedsWWsiCbMV6z8i3kow2yCu8Evy+xz
+	Qplm1XByZdsFtxqimP26YhRDAuR1SjXhvvPghls4ZtEy0fIBnTzA7JvifQ/nhpZK2G7HwMCqBC9
+	+te0y7vmrUDKFq8nwSQQJGDKnxgFxojemVWec/gGZBFcd9lLWPFRFftA1A1f9kk6+NiRCVwT/YV
+	y2kjYi3ceU8+ZW13lmPUPeaPgbFt2MAf2xBBG71U/g2VAQ1BqM+E9hKB/Bwwyp8k/ScP//EuhFo
+	cJIv0SksPQJxt+aKmIlmWvqf7LZAoRaYTZ95LVvcDlXe5xTp2vWfrlvD5UQ2eIDwds7Ymgimlqd
+	/3+fBbylgbialk
+X-Received: by 2002:a05:620a:271a:b0:93e:48fc:aa85 with SMTP id af79cd13be357-93ebd2598c1mr1901243285a.43.1791877901686;
+        Tue, 13 Oct 2026 00:51:41 -0700 (PDT)
+X-Received: by 2002:a05:620a:271a:b0:93e:48fc:aa85 with SMTP id af79cd13be357-93ebd2598c1mr1901240985a.43.1791877901188;
+        Tue, 13 Oct 2026 00:51:41 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bcdde91281sm3367573e87.19.2026.10.13.00.51.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 00:40:41 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:40:36 +0800
-From: Lai Jiangshan <jiangshanlai@gmail.com>
-To: Kunwu Chan <kunwu.chan@gmail.com>
-Cc: paulmck@kernel.org, corbet@lwn.net, mingo@redhat.com, 
-	frederic@kernel.org, neeraj.upadhyay@kernel.org, josh@joshtriplett.org, 
-	urezki@gmail.com, dave@stgolabs.net, lianux.mm@gmail.com, 
-	stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org, 
-	boqun@kernel.org, npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk, 
-	luc.maranget@inria.fr, akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com, rostedt@goodmis.org, 
-	mathieu.desnoyers@efficios.com, qiang.zhang@linux.dev, brads@mainlining.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, lkmm@lists.linux.dev, 
-	linux-doc@vger.kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v3 08/15] locking/lockdep: use hazptr to wait for
- dynamic key lookups
-Message-ID: <as3aMmPdCHCXW6Ci@U-YXDQC754-96.local>
-References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
- <20261005171529.1378809-9-kunwu.chan@gmail.com>
+        Tue, 13 Oct 2026 00:51:39 -0700 (PDT)
+Date: Tue, 13 Oct 2026 10:51:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jessica Zhang <jesszhan0024@gmail.com>,
+        Konrad Dybcio <konradybcio@kernel.org>, Val Packett <val@packett.cool>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/9] drm/panel: add atomic state
+Message-ID: <7pptulwzceqg7xozps5boncgcpd5fpw2pdabcslp4den34ixjn@rzgkoe36itwm>
+References: <20261008-panel-atomic-state-v1-0-b157fddb8de1@oss.qualcomm.com>
+ <asyAObcpbFy3OeE2@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,149 +111,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261005171529.1378809-9-kunwu.chan@gmail.com>
+In-Reply-To: <asyAObcpbFy3OeE2@houat>
+X-Proofpoint-GUID: sFh8_l4po7eKYvEJMgaxktVjtyKFKGbS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzMSBTYWx0ZWRfX0GsTXnZ6+VWd
+ adv/H1tVNnRXfM4krNlt3cxPjS2bAx/7hcfTpJ5V78v48anONxAZ8QbHLFVlnPFZs4YA2e+0Gg0
+ diIcZG6S3C5r//MNrUtmyaD1mGGOukqrRiHeLy8d9FnLQkT8QefWaWrhy0wfygByJoaSgpX8O/7
+ FAdvhVkFjNOUk2NAvbC8nHm2aCL9wWgLTlo0YTm5spB7XCpOpGiGtCOL5W0ahRyH7BI0W3eSdRS
+ VtSOV2MMZJSoqL5MwqT260cZzs8ftnDxBFejQh0XYEJo9gZJ1+8l/w2qST30RuXDPT88FDdHe6f
+ yiIm+J2QWxwdnDAjYes9KWZ9c7uuajPgpjjNjRIiBEJugNHYnUOhrWBKffF9YrB0xUzg9Z296Bx
+ y/RrHVj++oqc0hRJJLbbELhBOtaOm+j8hDQYKZxbC3r6+N3lREFWti9yTmkGoA1Nub3tgpcDkb8
+ vwgf3ACNmZtNvkOwgHQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzMSBTYWx0ZWRfX+uzpE42M97PG
+ KdcgOS5qhJPWiGRYrnNkZNZyrqTiwUsfRMii9nW4s2PP3f1jfQDDDm69VyvJGGukuBIwwmEjtKy
+ Yc0nZeenQ0JNZKc9xcw2/SRIqtT3sVg=
+X-Authority-Analysis: v=2.4 cv=ftZJ914f c=1 sm=1 tr=0 ts=6acde30e cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=1JtaHRqB5YIky_o9nyUA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: sFh8_l4po7eKYvEJMgaxktVjtyKFKGbS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130031
 
-On Tue, Oct 06, 2026 at 01:15:22AM +0800, Kunwu Chan wrote:
-> lockdep_unregister_key() waits for is_dynamic_key() callers with
-> synchronize_rcu_expedited(), which requires system-wide coordination.
-> Make is_dynamic_key() protect the hash bucket with a hazard pointer
-> and use hazptr_synchronize() to wait for traversals of that bucket.
+On Mon, Oct 12, 2026 at 08:40:33AM +0200, Maxime Ripard wrote:
+> On Thu, Oct 08, 2026 at 04:14:22PM +0300, Dmitry Baryshkov wrote:
+> > Panel drivers don't have an atomic state and so they can't handle
+> > additional data to be stored at the atomic_check time or to be retrieved
+> > at the enable/disable time. For example, it prevents panel drivers from
+> > supporting multiple display modes or making DSC being optional in a
+> > clean way. Drivers like panel-novatek-nt35950, save the connector
+> > pointer in get_modes() and later dereference
+> > connector->state->crtc->state from prepare() without holding any locks.
+> > The panels also have no way to reject the configuration they cann't
+> > handle, as it doesn't take part in the atomic check.
+> > 
+> > The panel already embeds a drm_bridge, and the bridge has an atomic
+> > state which is property handled. Subclass it to provide atomic state for
+> > the panels. The callbacks can find the state of the other related
+> > objects (e.g. CRTC state to get the display mode).
+> > 
+> > The atomic state is opt-in. A panel that doesn't implement the state
+> > callbacks keeps working exactly as before, with the plain bridge state,
+> > so there is no need to touch the existing drivers. The panels which do
+> > implement them can only be driven through the embedded bridge, since
+> > there is no commit to hand over when the host calls drm_panel_prepare()
+> > and friends directly. Those entry points warn and refuse to handle such
+> > panels. There are still a dozen of display drivers calling these
+> > functions, and the panels used with them can not be converted until the
+> > hosts are switched to the panel bridge.
 > 
-> The hash bucket returned by keyhashentry() has a stable address, so
-> it can be used as the hazptr synchronization target.  Keep the key
-> hashlist lifetime RCU-based with hlist_del_rcu() and call_rcu().
+> I really don't think we should extend the panel API. All panels are
+> bridges now, consumers only care about bridges as well, and the bridges
+> API provides what you want already.
 > 
-> Protect the traversal with the hazptr scoped_guard() added earlier
-> in this series.
-> 
-> This adapts the lockdep use case from Boqun Feng's shazptr series
-> to the current hazptr API.
-> 
-> Link: https://lore.kernel.org/lkml/20250625031101.12555-1-boqun.feng@gmail.com/
+> Why not simply turn the panel drivers we want into bridges, possibly
+> with a bunch of specialized helpers to manage a panel state, and call it
+> a day?
 
-Hello,
+I think that panels provide good abstraction on top of the drm_bridge.
+For example, bridges don't have orientation, panels do. Also panels have
+followers, while bridges do not. I don't think that either of those APIs
+make sense for bridge. Last, but not least, we have drivers that were
+not converted to the bridged approach (*). As such I think we should
+evolve the drm_panel, extending it to support atomic state.
 
-I think this is a misuse of hazard pointers.
+(*) git grep points out the following direct users of drm_panel API:
 
-The bucket has a permanent, static address; its lifetime does not
-need hazard-pointer protection. Instead, this patch combines a
-hazard pointer with that address to construct a read-side/synchronize
-mechanism in the same category as RCU. However, this construction
-lacks the generation distinction needed to separate pre-existing
-readers from subsequent readers.
+drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:		drm_panel_enable(anx6345->panel);
+drivers/gpu/drm/bridge/ssd2825.c:		drm_panel_enable(priv->output.panel);
+drivers/gpu/drm/exynos/exynos_drm_dpi.c:		drm_panel_enable(ctx->panel);
+drivers/gpu/drm/logicvc/logicvc_interface.c:		drm_panel_enable(interface->drm_panel);
+drivers/gpu/drm/panel/panel-sitronix-st7703.c:	drm_panel_enable(&ctx->panel);
+drivers/gpu/drm/rockchip/rockchip_lvds.c:	drm_panel_enable(lvds->panel);
+drivers/gpu/drm/rockchip/rockchip_lvds.c:	drm_panel_enable(lvds->panel);
+drivers/gpu/drm/sti/sti_dvo.c:	drm_panel_enable(dvo->panel);
+drivers/gpu/drm/stm/lvds.c:		drm_panel_enable(lvds->panel);
+drivers/gpu/drm/sun4i/sun4i_lvds.c:		drm_panel_enable(lvds->panel);
+drivers/gpu/drm/sun4i/sun4i_rgb.c:		drm_panel_enable(rgb->panel);
+drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:		drm_panel_enable(dsi->panel);
+drivers/gpu/drm/tegra/dsi.c:		drm_panel_enable(output->panel);
+drivers/gpu/drm/tegra/sor.c:		drm_panel_enable(output->panel);
 
-The object being removed is the key, but the synchronization target
-is the bucket. Unlinking the key does not prevent new lookups from
-acquiring the same bucket address, including lookups for unrelated
-keys that hash to that bucket.
-
-This breaks the forward-progress argument used by the underlying
-hazptr implementation: after removing an object from publication,
-there should not be a continuing stream of new readers acquiring
-that same object. Here, the bucket is never unpublished.
-
-For example, let B be the bucket containing key K:
-
-  Updater                    Reader                 Scan kthread
-  -------                    ------                 ------------
-  Unlink K from B
-  hazptr_synchronize(B)
-                             Acquire B
-                                                    Observe B;
-                                                    retain waiter
-                             Release B
-                             Acquire B again
-                                                    Observe B;
-                                                    retain waiter
-                             Release B
-                             ...                    ...
-
-Every reader critical section can finish, and the scan kthread
-can keep running, while the updater waits indefinitely. Readers
-that could have observed K may already have completed; later
-lookups alone can keep the waiter pending.
-
-RCU does not need the reader population to become empty. Its
-generation (grace-period) machinery allows pre-existing readers to
-drain without letting a continuous stream of subsequent readers
-indefinitely extend that wait. This address-based construction has
-no equivalent distinction.
-
-So this is not merely protecting a different object with hazptr:
-it is using hazptr as a different synchronization primitive without
-providing the corresponding progress guarantee.
-
-I think we should retain the RCU wait here. If the intention is to
-implement bucket-scoped read-side synchronization, that needs an
-explicit protocol to distinguish the readers being drained from
-new arrivals; a permanent bucket address is not sufficient.
-
-Sorry for the lengthy reply, which was written with the help of an AI
-agent. I noticed this issue when this use case was first proposed, but
-I struggled to articulate my concerns clearly back then. Well, now we
-have AI. :)
-
-Thanks
-Lai
-
-> Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
-> ---
->  kernel/locking/lockdep.c | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
-> 
-> diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-> index c56a7f91d72e..d1ce5ace7fbf 100644
-> --- a/kernel/locking/lockdep.c
-> +++ b/kernel/locking/lockdep.c
-> @@ -58,6 +58,7 @@
->  #include <linux/context_tracking.h>
->  #include <linux/console.h>
->  #include <linux/kasan.h>
-> +#include <linux/hazptr.h>
->  
->  #include <asm/sections.h>
->  
-> @@ -1280,14 +1281,19 @@ static bool is_dynamic_key(const struct lock_class_key *key)
->  
->  	hash_head = keyhashentry(key);
->  
-> -	rcu_read_lock();
-> -	hlist_for_each_entry_rcu(k, hash_head, hash_entry) {
-> -		if (k == key) {
-> -			found = true;
-> -			break;
-> +	{
-> +		struct hazptr_ctx ctx;
-> +		void *bucket = hash_head;
-> +
-> +		scoped_guard(hazptr, &ctx, &bucket) {
-> +			hlist_for_each_entry_rcu(k, hash_head, hash_entry, 1) {
-> +				if (k == key) {
-> +					found = true;
-> +					break;
-> +				}
-> +			}
->  		}
->  	}
-> -	rcu_read_unlock();
->  
->  	return found;
->  }
-> @@ -6683,11 +6689,10 @@ void lockdep_unregister_key(struct lock_class_key *key)
->  	 *
->  	 * Some operations like __qdisc_destroy() will call this in a debug
->  	 * kernel, and the network traffic is disabled while waiting, hence
-> -	 * the delay of the wait matters in debugging cases. Currently use a
-> -	 * synchronize_rcu_expedited() to speed up the wait at the cost of
-> -	 * system IPIs. TODO: Replace RCU with hazptr for this.
-> +	 * the delay of the wait matters in debugging cases. Replace the
-> +	 * expedited RCU wait with hazptr_synchronize().
->  	 */
-> -	synchronize_rcu_expedited();
-> +	hazptr_synchronize(keyhashentry(key));
->  }
->  EXPORT_SYMBOL_GPL(lockdep_unregister_key);
->  
-> -- 
-> 2.43.0
-> 
+-- 
+With best wishes
+Dmitry
