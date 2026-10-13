@@ -1,217 +1,317 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD144F55C6
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 12:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7124FD272;
+	Tue, 13 Oct 2026 12:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791893603; cv=none; b=hsuKQvUCUGicAsJM3oUp2LUDLVdoD+rYttfHrqbT3KvuHfzwhYPQP1ojzkFGtUUi+Z6UfZXRTbALiKeWoRarvgBpXUcp9asaoB8hgs+DWAvUs7pS/4uhyQo6MTvwtYVD2IbIgScPevMUMhafC+oAKLi98SowQ1onmb/M+QoL2Yw=
+	t=1791893708; cv=none; b=fhdGTIe6lBc4CJpOA8ZKlu0PEbFWm6w+S+gBGmjp8yefnOk0Ds9/3DB1b3zgPtufQe33C6WzMozYz/1gDj/1kCpUGuRVlWuhrghQ7BChjtHBfXyKJKsljqkRsSo6suKNf8V7RVIi4Z/M47ap6LQMvLARhdyoVeiF2qoYkBGbqSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791893603; c=relaxed/simple;
-	bh=GmewS9MX/pMt0TQtYhdFbnW64zOueYVprrsOA812m8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lz0o0vyD94hH88lCcvrhkg+HLM/iEl2kMMshSUK1AvPGW11JvROyaZdNbOIbaomiXmUqGZ1KuM5+R/Tz79jdZUpvtagoaTFdV9Zlbh4sgkuoifaUV5owoeSnoBfVpPg1lGSPm83okAJ4OKS5KUu/aHhoZcxZkcBpxSkD7oeW2zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=e4mdUKVv; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1791893708; c=relaxed/simple;
+	bh=4M20D504q0ZCQTVOyoL2gjGWdMRznGiUEeQcUFyNWoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AmwMI1sJxUmXFdz98rW0n0S8SelENQrq+sdhPIILoWeebiaAxG+KQBEOvr3GNKLYYlZMw0hylALh0uo7DHlZtl7GXaGVHY3iDjrIFfagY7vFhaw6MbDrO01svMQwXUJvSz9IM9OWwScRHhBP2sAJvYIUHCmWVPZ+1wQ6ULNhtLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+fmZbrc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="e4mdUKVv"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso2317456f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791893600; x=1792498400; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=edUU9Hn3hyFtM1ngJWHa9pnhQIwExXlb5OPfjcFEs1c=;
-        b=e4mdUKVvX2QFZFAqZhyS3XKWTDGe5WE/vFc9b8SavFE6tFHsNpAMveofzH8UIR7X6W
-         BUQhPA2FVNP/q7kIY04R3J3S+YgzWfbdD+5GHDag8pGQ92byF9roQhOM38qHvri3NPNm
-         5AWBqxNNVhTLNX4r/hJtnA4OuoV90f2yFjInaMMXjTvg0hyJ+MBF+xoeWyXXhyqh4MW0
-         RutMB6IiwwjaZHWbUOi/fjrCFsBfwlTcMkHdlfBHnEPrPocoW+CuehAmVuPZ9oXJ+N7X
-         NdrHeBqQMG5rW+2FP92Oek8Smiu7aLM7AGhIXuDUNIaRS9Jlk4idLSh8aelDhfHD5fLh
-         188A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791893600; x=1792498400;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=edUU9Hn3hyFtM1ngJWHa9pnhQIwExXlb5OPfjcFEs1c=;
-        b=yS/5brYFPPm1k8bbNN7CTToB1s06H7KxHnkI66rB3p+D32reX7YB2eWIswtgn6AzI4
-         Ie2j79t2zSQGvgcz0p9yAyZQIClGS52GpLAcHZext04ml08djGPoM95X/7rZniYoy8tj
-         Zukks+bzN89DjBIior5eXTOjPee57M3mEseN5mJWrV2V+UZpzJ3CyR1nU+gFvFSaf2sv
-         AhtlGFn18FrW+hQbFr5h6yjXwsozSvgmAKo8zyH3c4fRpCJMR6x7FLN/U9IKAbEtuxt4
-         jL070kl69U+ZOH4EvAA2SkcxDnMyhJQKjSDk2ROn94oO3UfTQH3zAL3DK1laBJXY5AGS
-         s3dQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxDOuWPfPa0+9g+U6V8AD1UmR3gHR89ku5Dj5QYH1WYvaS/wPVkChBadOFobXHcITvDyoUu1yett2E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKzhP4LeF7NvI1E13Oob0KeI/LZy5xnNhVdIPIFyEar0xjtBeDq
-	FNB2z/djD7vCOmxUt0VY9JAsYc35Udj/0NHjQV5QmdICUhMoxJd/5vsLwvJt3ErleRo=
-X-Gm-Gg: AYBFou1zmzOp7LbJ8Qbxu/QaYztnwAvDeGr+okBwQ1E/Q2nGM245eXRq2dYLteaUPSD
-	lMKp8Ih8/IAQBTuNE0uUzEmTPsJZjro0dL9k/aSsyJ79jlVfeBCU4yPfG/pallPacBrI7hDWBop
-	egry1Jg0ItucFgOPxUkcwh4RYcbOVFLAZjlUEuBLxQ0nvGosWdqSMzjpzFPCEM4bYd36pgQwv1C
-	BsLdnFyJal/SXjBzcxUDdjTwW8NsWvTb8bd/HTOFKbyzFkWF++Pct7GFFuBJEoLez69tCONnMa1
-	TTbC+20fD3TPFV3c61LZHTA/v32XnsUtH5ZL/ht2/dsZbJv08h7jBYJ3iSKg2twsx2ltQQXUDVy
-	/OXvOAPVQfGa4V3TGyX3BWs7qOsZDnHj/69sagD7dzf6NKXoYTntZQZDQ8+CfPKGItIfn5gucG6
-	2gunlWDPZRdWdGzkINjyWgYco6wXUTNZYnyFmk+GzEyjTIAhzfdR7zmdss57BZ5FlDWyOAxaOXx
-	NQ30WSs/bujUsCwfbsegiE=
-X-Received: by 2002:a05:6000:491c:b0:488:8751:e78e with SMTP id ffacd0b85a97d-48dba9bdd09mr25645157f8f.16.1791893599634;
-        Tue, 13 Oct 2026 05:13:19 -0700 (PDT)
-Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [185.218.66.243])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab5991sm5087349f8f.29.2026.10.13.05.13.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 05:13:19 -0700 (PDT)
-Message-ID: <69fb13b5-857c-4819-bc8a-b87d1e7a1e28@suse.com>
-Date: Tue, 13 Oct 2026 15:13:17 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+fmZbrc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 207141F00893;
+	Tue, 13 Oct 2026 12:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791893706;
+	bh=ol0r0xyI57CbiZoEw7g0K/a40GjHU9K59dRHlAamXVs=;
+	h=From:To:Cc:Subject:Date;
+	b=O+fmZbrcWxxr/bak+a4hM1VIVWx4qi6345/Aa3Pt4lQO/8LeGYUSAcfvjykJ/yUCI
+	 X6SIVv/CKCAyTguEtcS8Yp4KMrG9W9butSHNO8Comif6QCPoONKMlW2iRrBnlNXSbO
+	 e2QMNs5ikTzMQlK5gGbI8fqRlOqT6/8tVJ74Be41WJ34uSy1zzXQirofBT9auOAjrZ
+	 8IJQHHFe2Hcy/fc9r5Kw4IoVTZVsJAwtn4YGiDnDwsDMvmVSCo8nnQ6L5ohFCpaMsY
+	 kmbVenOfPNExHRQdb6h1vVhMOQgWyyxtCQQfiuy4+jrGx0dRb2TDj5QlOfFpl9ysBs
+	 bB0b37dKi+WWw==
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Daniel Pereira <danielmaraboo@gmail.com>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Weijie Yuan <wy@wyuan.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Jeff Layton <jlayton@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Brian Foster <bfoster@redhat.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	David Disseldorp <ddiss@suse.de>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Justin Stitt <justinstitt@google.com>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: remove Assisted-by references
+Date: Tue, 13 Oct 2026 08:15:01 -0400
+Message-ID: <20261013121501.3738437-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] x86/tdx: Use TDVMCALLs directly for earlyprintk
-To: Vishal Verma <vishal.l.verma@intel.com>, x86@kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, Kiryl Shutsemau <kas@kernel.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- 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
-In-Reply-To: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Commit 78d979db6cef ("docs: add AI Coding Assistants documentation") asked
+contributors to add an Assisted-by tag to patches developed with help from an
+LLM, and commit 816d9992d9ed ("coding-assistants: simplify attribution") later
+reduced the tag to "Assisted-by: LLM".
 
+A proposal to drop the tag was turned down in July [1]. The main argument for
+keeping it was that maintainers wanted a signal that a patch was LLM-assisted,
+so that they could review it accordingly.
 
-On 6.10.26 г. 1:50 ч., Vishal Verma wrote:
-> Background
-> ==========
-> 
-> TDX guests have early_printk support, but it is through a roundabout way
-> using a #VE exception as a functional mechanism. The exception handler
-> has to use TDG.VP.VEINFO.GET to find out what faulted, and then issue
-> the TDVMCALL. Simplify this by using a TDVMCALL from the guest which can
-> directly perform the port I/O.
-> 
-> Patch details
-> =============
-> 
-> Patch 1 is a cleanup that moves the port I/O direction constants to
-> arch/x86/include/asm/shared/tdx.h.
-> 
-> Patch 2: Add a new earlyprintk=tdx option, which calls the new
-> tdx_serial_in() / tdx_serial_out() helpers to perform the port I/O
-> directly using TDVMCALLs.
-> 
-> The serial earlyprintk path is left as is - TD guests using this will
-> still take a #VE exception, and the exception handler will perform the
-> I/O.
-> 
-> Testing
-> =======
-> 
-> Added a counter for the number of COM1 port I/O #VEs handled:
-> 
->    no earlyprintk     -  ~63000
->    earlyprintk=ttyS0  -  ~61000
->    earlyprintk=tdx    -  ~35000
-> 
-> The new tdx option nearly halves the number of #VEs handled.
-> 
-> Additionally, ran the usual suite of CI testing, which covers KVM self
-> tests, KVM unit tests, and Avocado KVM tests without any regressions.
-> 
-> Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
-> ---
-> Changes in v4:
-> - Rename the tdx_inb()/tdx_outb() helpers directly to the serial
->    accessors with __noendbr annotations, and remove the config ifdefs
->    from early_printk.c. (Kiryl)
-> - Rebase to v7.3-rc6
-> - Link to v3: https://patch.msgid.link/20260922-b4-tdx_earlyprintk_tdcalls-v3-0-6ebaa599df10@intel.com
-> 
-> Changes in v3:
-> - Drop the ttySN and baudrate option parsing for earlyprintk=tdx (Dave Hansen)
-> - Link to v2: https://patch.msgid.link/20260921-b4-tdx_earlyprintk_tdcalls-v2-0-ad1fde3f25fd@intel.com
-> 
-> Changes in v2:
-> - Rebase to v7.3-rc4
-> - Move the TDX hypercall helpers into coco/tdx/tdx.c (Kiryl)
-> - Add a new earlyprintk=tdx option that implements the direct TDVMCALL
->    path (Dave Hansen)
-> - Link to v1: https://patch.msgid.link/20260910-b4-tdx_earlyprintk_tdcalls-v1-0-4b2b1bf9001b@intel.com
-> 
-> ---
-> Vishal Verma (2):
->        x86/tdx: Move port I/O definitions to a shared header
->        x86/early_printk: Add earlyprintk=tdx to drive the UART with TDVMCALLs
-> 
->   Documentation/admin-guide/kernel-parameters.txt |  8 ++++++
->   arch/x86/include/asm/shared/tdx.h               |  6 ++++
->   arch/x86/include/asm/tdx.h                      |  4 +++
->   arch/x86/boot/compressed/tdx.c                  |  4 +--
->   arch/x86/coco/tdx/tdx.c                         | 37 +++++++++++++++++++++----
->   arch/x86/kernel/early_printk.c                  | 20 +++++++++++++
->   6 files changed, 71 insertions(+), 8 deletions(-)
-> ---
-> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
-> change-id: 20260903-b4-tdx_earlyprintk_tdcalls-40d1b21a8ba2
-> 
-> Best regards,
-> --
-> Vishal Verma <vishal.l.verma@intel.com>
-> 
-> 
+The tag came up again at the 2026 Maintainers Summit [2]. Roughly 10% of the
+18,533 non-merge commits in 7.3 through -rc7 carry an Assisted-by tag, while
+actual LLM use is far more widespread. Some contributors do not know about the
+rule, others leave the tag off on purpose, and few maintainers ask about it. As
+a result, the tag does not provide the signal it was kept for: its absence says
+nothing about how a patch was made, and for developers who use these tools for
+almost everything, its presence says little more. The choice was between
+finding a way to enforce the requirement and dropping it, and there was a
+strong, though not unanimous, consensus in the room to drop it. Greg
+Kroah-Hartman, who argued for keeping the tag in July, supports removing it now
+[3].
 
-For the whole series :
+Maintainers do still want to know how a patch was created, but the view at the
+Summit was that this belongs in the cover letter, where it can describe how the
+tools were used, rather than in the changelog.
+Documentation/process/generated-content.rst already asks contributors to be
+transparent about tool use and is not changed here. The rules on the DCO and on
+the submitter's responsibility for the patch stay as they are.
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+Remove the Assisted-by sections from coding-assistants.rst,
+submitting-patches.rst, and the Italian, Brazilian Portuguese and Traditional
+Chinese translations, and drop the handling of the tag from checkpatch.
 
+[1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
+[2] https://lwn.net/Articles/1099594/
+[3] https://lore.kernel.org/all/2026101327-cupid-legal-6cf6@gregkh/
+
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Reviewed-by: Kees Cook <kees@kernel.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+Changes in v2:
+- Expand the changelog with the background and the Maintainers Summit
+  discussion (Laurent, Krzysztof, Greg, Lorenzo).
+- Rebase on docs-next and also remove the Assisted-by sections from the
+  pt_BR and zh_TW translations there.
+- Collect tags.
+
+v1: https://lore.kernel.org/all/20261009083137.3-1-sashal@kernel.org/
+
+ Documentation/process/coding-assistants.rst   | 21 +------------------
+ Documentation/process/submitting-patches.rst  | 10 ---------
+ .../it_IT/process/submitting-patches.rst      | 10 ---------
+ .../pt_BR/process/coding-assistants.rst       | 20 ------------------
+ .../pt_BR/process/submitting-patches.rst      | 10 ---------
+ .../zh_TW/process/submitting-patches.rst      |  7 -------
+ scripts/checkpatch.pl                         | 11 ----------
+ 7 files changed, 1 insertion(+), 88 deletions(-)
+
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 051f0d819f68e..509dbf23a099b 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -40,24 +40,6 @@ is responsible for:
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+ 
+-Attribution
+-===========
+-
+-When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
+-
+-  Assisted-by: LLM [TOOL1] [TOOL2]
+-
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
+-
+-Basic development tools (git, gcc, make, editors) should not be listed.
+-
+-Example::
+-
+-  Assisted-by: LLM coccinelle sparse
+-
+ Procedure for finding and fixing bugs
+ =====================================
+ 
+@@ -82,8 +64,7 @@ these steps:
+    another one. The fix must not add build warnings and must pass the
+    checkpatch.pl checks (see submitting-patches.rst).
+ 6. Commit the working fix with a detailed message describing the problem, the
+-   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
+-   Assisted-by tag, as described above.
++   solution and a Fixes tag. Do not add a Signed-off-by tag.
+ 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+    Documentation/process/security-bugs.rst shows how to do that.
+ 8. Indicate what could not be done. If the fix could not be built or tested, or
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 4c28a239e8cb5..f271d7413f72c 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -632,16 +632,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+ used there are private; so do not expose them in tags, unless the person
+ used them in earlier contributions.
+ 
+-Using Assisted-by:
+-------------------
+-
+-If you used any sort of advanced coding tool in the creation of your patch,
+-you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+-do so may impede the acceptance of your work.  Please see
+-Documentation/process/coding-assistants.rst for details regarding the
+-acknowledgment of coding assistants.
+-
+-
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index a742610cb0709..d0e0d6c9ecc2e 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -691,16 +691,6 @@ un luogo pubblico, ma gli indirizzi email usati lì sono privati; quindi non
+ esponeteli nelle etichette, a meno che la persona non li abbia già usati in
+ contributi precedenti.
+ 
+-Usare Assisted-by:
+--------------------
+-
+-Se avete usato un qualsiasi tipo di strumento di assistenza avanzata alla
+-scrittura del codice per la creazione della vostra patch, dovete darne atto
+-aggiungendo un'etichetta Assisted-by.  Non farlo può ostacolare
+-l'accettazione del vostro lavoro.  Fate riferimento a
+-Documentation/process/coding-assistants.rst per i dettagli su come dare
+-atto dell'uso di assistenti alla scrittura del codice.
+-
+ .. _it_the_canonical_patch_format:
+ 
+ Il formato canonico delle patch
+diff --git a/Documentation/translations/pt_BR/process/coding-assistants.rst b/Documentation/translations/pt_BR/process/coding-assistants.rst
+index 2055af34a9081..f6062b22a8fd8 100644
+--- a/Documentation/translations/pt_BR/process/coding-assistants.rst
++++ b/Documentation/translations/pt_BR/process/coding-assistants.rst
+@@ -38,23 +38,3 @@ A pessoa que envia é responsável por:
+ * Garantir conformidade com os requisitos de licença
+ * Acrescentar sua própria tag Signed-off-by para certificar o DCO
+ * Assumir toda responsabilidade pela contribuição
+-
+-Atribuições
+-===========
+-
+-Quando ferramentas de IA contribuírem para o desenvolvimento do kernel,
+-a atribuição adequada ajuda a rastrear a função da IA no processo de
+-desenvolvimento. Contribuições devem incluir a tag de assistência seguindo este
+-formato::
+-
+-    Assisted-by: LLM [FERRAMENTA1] [FERRAMENTA2]
+-
+-* ``[FERRAMENTA1] [FERRAMENTA2]`` são ferramentas de análise especializada
+-    opcionais (Exemplo: coccinelle, sparse, smatch, clang-tidy)
+-
+-Ferramentas básicas de desenvolvimento (git, gcc, make, editors) não são
+-listadas.
+-
+-Exemplo::
+-
+-  Assisted-by: LLM coccinelle sparse
+\ No newline at end of file
+diff --git a/Documentation/translations/pt_BR/process/submitting-patches.rst b/Documentation/translations/pt_BR/process/submitting-patches.rst
+index aad926c17fb45..4d1e75935745b 100644
+--- a/Documentation/translations/pt_BR/process/submitting-patches.rst
++++ b/Documentation/translations/pt_BR/process/submitting-patches.rst
+@@ -650,16 +650,6 @@ bugzilla.kernel.org é um local público nesse sentido, mas os endereços de e-m
+ usados lá são privados; portanto, não os exponha em tags, a menos que a pessoa
+ os tenha usado em contribuições anteriores.
+ 
+-Usando Assisted-by:
+--------------------
+-
+-Se você usou qualquer tipo de ferramenta avançada de codificação na criação do seu patch,
+-você precisa reconhecer esse uso adicionando uma tag Assisted-by. A falha em
+-fazer isso pode impedir a aceitação do seu trabalho. Por favor, veja
+-Documentation/process/coding-assistants.rst para detalhes sobre o
+-reconhecimento de assistentes de codificação.
+-
+-
+ .. _pt_BR_the_canonical_patch_format:
+ 
+ O formato canônico do patch
+diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+index b780f1539b46b..4a7c046b23894 100644
+--- a/Documentation/translations/zh_TW/process/submitting-patches.rst
++++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+@@ -503,13 +503,6 @@ Fixes: 指示補丁修復了之前提交中的一個缺陷。它可以便於確
+ 的。注意，就此而言bugzilla.kernel.org是公開場所，但其中使用的電子郵件地址
+ 是私密的；因此不要在標籤中暴露它們，除非該人在先前的貢獻中使用過。
+ 
+-使用Assisted-by:
+-----------------
+-
+-如果您在建立補丁的過程中使用了任何進階編碼工具，您需要透過添加Assisted-by
+-標籤來聲明這一使用。不這樣做可能會妨礙您的工作被接受。關於聲明編碼助手的
+-細節，請參見 Documentation/process/coding-assistants.rst 。
+-
+ .. _tw_the_canonical_patch_format:
+ 
+ 標準補丁格式
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 8a7787d228a63..c9840f5219c2a 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -655,7 +655,6 @@ our $signature_tags = qr{(?xi:
+ 	Reviewed-by:|
+ 	Reported-by:|
+ 	Suggested-by:|
+-	Assisted-by:|
+ 	To:|
+ 	Cc:
+ )};
+@@ -3124,16 +3123,6 @@ sub process {
+ 				}
+ 			}
+ 
+-			# Assisted-by uses a free-form value (e.g. "LLM"), not an
+-			# email address, so skip the email format checks below.
+-			if ($sign_off =~ /^Assisted-by:/i) {
+-				if ($email =~ /^\s*$/) {
+-					WARN("BAD_SIGN_OFF",
+-					     "Assisted-by requires a value\n" . $herecurr);
+-				}
+-				next;
+-			}
+-
+ 			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+ 			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
+ 			if ($suggested_email eq "") {
+
+base-commit: 8fdbd353e6928492fdc46c359aabd2bfb7630fba
+-- 
+2.53.0
 
