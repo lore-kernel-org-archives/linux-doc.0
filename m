@@ -1,257 +1,275 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36831531AEB;
-	Tue, 13 Oct 2026 17:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791914281; cv=none; b=YqNDM6/78MXg/l/FAlL0MLl9O8p8hOc34yNxEdL0aXVJ/1Rt2o9XEVY88k1VhNucOVAqpVcd7/kCpIpVJ2ccJJr28e4/FZt97evthrPU0ISgLtaG1xl2sU4vA/zWNIl0sMQFUroWK38vPK8evwGV70+fMJD0yNdhbwkT72o3EkM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791914281; c=relaxed/simple;
-	bh=GDmMD4sIrmNYBycrF7YP1/QQqlkzc2KhWvyRnBLeZBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CtitlUWgmzbMeUlHU8TIa61xM7x2g3ZJzzQNf/XIcqvyhSS7uEtD4UTXB3e3Q1TKgycgg7DgXL9TALQNIa0FAx0QjVwrSgLw7GZMc6i+h/mXS+zc7dk9Et5p+UhQTdbfD2f0YPGt0lVf/FYNBOKlOn6Z+XQJV7AAGmcChwcx7FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIPgPmso; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C798C522699;
+	Tue, 13 Oct 2026 18:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791915829; cv=fail; b=mzLMwfo/C49aaIEBD482V7sPpGVEfF7/tu7cuh12ELi6CK3bCKvXZ2zNKnkDD3gTA0lLYLTWVht+7A9/hfICPBSOX7dHobparrjpHfQ4+dKwoG3oSxYq2ujJot8iFgFv65bu9u4efQiVfJHV4nP6it6R7simfVcIERylymRo5ZI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791915829; c=relaxed/simple;
+	bh=CQd0vb8+l5O0ob0kOhYmFyhuFeRhirKo1T5iDazzQtc=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rcEXa/+0/Hxw26EeskDl2+1MzTqEnf1FPBKJ2KmAU3lX+91m7QWfXC3bF7dhGnF+zhW2MennXg+2oDL/6s7vXN8MLyVEPSP027fyBgvQ0325F5AA/vXRElM1lakU4kgDnX59ltf7wGkBXPdNgscX8uQYstImZ4sJQM5xcnbGuPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMz53XGa; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIPgPmso"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0051F1F000FF;
-	Tue, 13 Oct 2026 17:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791914279;
-	bh=i7AZZq2waiHhton6XVVNaa/s7XNNzzIS0f3JEI3r7co=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WIPgPmso+lzJ2fe2IG1tg5UoJDMGR9gFxSgW47cZEriKrbg+R13VP0bOdBImbzQ3F
-	 UvkiXhKQk3YJnHftUPtF+4HlwmOxBeZ0oaG4H2RCq21hg/IRellQlU4Fv+shiDfvSO
-	 dLZ1ztCcsnypuG2Wzd2uybvLPwW83iga3uB7IwAuGuYefmvS78kOyW4BrzH0DS4nv2
-	 LG9FKryw4s/R5vw4ydpESNdjegD0WnQjctz+xicIJ2zRCq8mjQsBa5Tg0dVDE0vgUd
-	 tfPt34LrZPJ12bm+gOBTWvW29u/Z4o3xhNdsPAX/GYWcCPvxDk2prBtR+3X7LNTZVS
-	 FBt49F+yfsYQg==
-Date: Tue, 13 Oct 2026 18:57:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alex Ousherovitch <aousherovitch@rambus.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
-	devicetree@vger.kernel.org,
-	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thi Nguyen <thin@rambus.com>
-Subject: Re: [PATCH 0/5] crypto: cmh - add Rambus CryptoManager Hub core
- driver and AES
-Message-ID: <20261013-evoke-coil-60a7037b7a0d@spud>
-References: <20261013174847.2192609-1-aousherovitch@rambus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMz53XGa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791915826; x=1823451826;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=CQd0vb8+l5O0ob0kOhYmFyhuFeRhirKo1T5iDazzQtc=;
+  b=QMz53XGa297wAK+YZVKc+aIiR1vGIWIbamlBBh/EoTg6ekfvnE0B2IOZ
+   RPd3CCWm998PYyGk65gYqZrd7UY6wQtblKEmy6ontHCdmF1Zm7l5uRZEE
+   1SZjPT1lsd5JhOFAG47zTjyR3DT9VF7+4/KoElo0O+anzh7slvQRxFtXo
+   O/meVOSuZZ9Tu/bwZDuTsKaiCs+fRik31tFUnl1cGv+GZnDyQSezbuTI4
+   5DTB0fv4jB78C2JShwPatyNkrGnDo8Yw5nxfS6gXP7KII+vU8FGigRziP
+   rtULOoSgGlp5lLt3jBdlCfZEpkYr2dempjkMHl5N4X1CLiuw7+FR0ki72
+   g==;
+X-CSE-ConnectionGUID: HTUexFZcQquQQ7/kwSMJuA==
+X-CSE-MsgGUID: nBplXukJRhqlZovgK3Kebw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="753659"
+X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
+   d="scan'208";a="753659"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 11:22:19 -0700
+X-CSE-ConnectionGUID: KuxE3ocmQFaiC7+XfQceyg==
+X-CSE-MsgGUID: 8Vre9E+ORmOhvrg55Iuoag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
+   d="scan'208";a="1155923"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 11:22:19 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 13 Oct 2026 11:22:18 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Tue, 13 Oct 2026 11:22:18 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.69)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 13 Oct 2026 11:22:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ta7wkTKbwqLyGs8G4W2L/OFEM9yUxAda9Fu2F/bq+sFUSXPQY6VkajJvPHtjLjM8zzOGlWjxmlTXKhXOFaRk4P5Ll0h9xIK393Ua7qocaFgfBWPdICacKPCuEJHiw/28ihv1vYadpcyStAoh/arQ+NQah/dfbQNvytlTDPGmgCbGrSLX0aP7CrDpBPEC2hg+CyHw6R4th4foXzW5qN6GhFbxkUG6MYSqI+4BpONPQghHFHxu71Dv2HquVpfdzbvXTm4ZXXGxnyMNoVjAKJ4VrMgpRm45LNMLQKbZmNVh5xOv6gazKDGyeZSCpsCKI6QCTrmwudsT+Y/umo8o00vRAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H+Zn6uIr4XsOTS7zRQzhUzPKptFR/zuUHVM/AgMKRoc=;
+ b=oZReJl6xKAk80HaJdAMLFrENsNUQAfjOMb7zsRoN1j2nPbjla7GOhfaEHW6pASwLkJMRwXkI/iGwWoQpsDHVZmExJGAZpAuqeu7HJ9GM2LJn3kaLvdI+h1xwHIRtSwD+z/Xb+l6OszqNpmH+mLTxAWZZOX80B56ouUqKSxUrt+h8ae0+lIpHKWYVUzT1fk9skb+T0s12ne1MwECCLuREJztIV/rcl5KSFyJmvKA62TELzUvsMFhxyyyOkH0bvqX+6bAbUm48Ev+28cO33V1Bu3T67s2Q8oazSFrcKARbq7pBHO6E1nI/UsbwIMBOXurI6+dcF1eMSWLfiZCkW/upIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
+ 2026 18:22:14 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0496.021; Tue, 13 Oct 2026
+ 18:22:14 +0000
+Message-ID: <4af177a1-7602-4b0a-a8ba-81575f1ec80f@intel.com>
+Date: Tue, 13 Oct 2026 11:22:11 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] fs/resctrl: Assign counters to existing groups
+ when enabling mbm_event
+To: Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	<tony.luck@intel.com>, <bp@alien8.de>
+CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <kas@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>
+References: <cover.1791589412.git.babu.moger@amd.com>
+ <3d966ae2e051ef54e1aedb1a2839c812ab880bcb.1791589412.git.babu.moger@amd.com>
+ <f79c5f94-3c5e-4c64-9b6f-95f186e1bdd7@arm.com>
+ <171f92a3-fa2e-44fb-b0d1-1250c72e31d1@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <171f92a3-fa2e-44fb-b0d1-1250c72e31d1@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4P220CA0016.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::21) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="svkqgvb3wERjsy4Q"
-Content-Disposition: inline
-In-Reply-To: <20261013174847.2192609-1-aousherovitch@rambus.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|MN0PR11MB6011:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a02b6d8-037f-47f8-1a13-08df2956e7ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|11063799006|56012099006|261009223027099003|4143699003|260925022911599003|260925021311599003|10067099003|260925021911599003|22082099003|18002099003|6133799003|13003099007;
+X-Microsoft-Antispam-Message-Info: MDhuNnJzwVJTf3GIe8MK5dG7v3ytuhzUXPQ5SvnlE6QD6K4J2bNlnkU4eyBa4FLLTrOlbjannWOqPdSHOaLnbwlnOauQrbXBujOgE2/8WF9+DLQyRMYvf4e9qaxj1lc02bYlxZ+DX2BaHZZxzvN/3I1d2h9D6wpbsAPrtOhfTlNwM9DsbEfHKLYnMkKCgoOjj3UpTL/94QfCsaKma2yZqO2XvxTGJ3Dca/t6gc3cnZrGFQtS7MkQpcnAaf94A77nmcpM2UZdsnAtJBL5bjLkek3Xs//QTItLihIUp7Xzn5wq6gcfkkLcCph+9vpdsTnvDabTUiDykTUTw0kOvQxw/vWyL8ljiN7mci8YDkomTNVmQ2rh+TTd5krOGzL+d4w2bbr6P4a5sdUYpfY/cfB4QOyqaehHay5p/0mJa4ND8heAYtyhuKkrr7QQYqiw2/xFfGzA5vjO7KnaPu0IllsNrwD2ra3NOjFy2w0VqXNMkMRseou6EwieQlwAe3KVlCdplq0g+BkroRbLCGqm037yzIkh0yQbm77nvK/iP3Vt1uzPfy+lzmokTAZgzOOdOZoVZa82D4qvr3pB0dRr9KeXk+LhejFu5nuxwiBhhvQEuhw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(11063799006)(56012099006)(261009223027099003)(4143699003)(260925022911599003)(260925021311599003)(10067099003)(260925021911599003)(22082099003)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0R5RTh3S1BuT0xHZkp4bjBIcTlyY1R0REgrR2xidWhUSHEyUmordEJvckpp?=
+ =?utf-8?B?OStraU95NW5zMFR0U3dYWTg1NjNCM1ArcFpUcTZhbzJwVGRlNGZwV2ZQejlW?=
+ =?utf-8?B?VDNDOWZUZVBPRU9sb1l1WTVRd1pndWsrQ2JyMENlZkpQa3pQNWgvdURYNTlz?=
+ =?utf-8?B?NENTSHY2TmVCbS83Q3RjdUs1a3NiUTVoRU5tUjBsc1Y4MTZ5MEhyRjAwL1Q0?=
+ =?utf-8?B?bHdva2lNOVlSVHc0QjY0clF1eU01L2I3anhuVGp4dFZGeWJBYVBnOW14Ri9w?=
+ =?utf-8?B?cHJBY2gxUmZ5VCtRaE1TaGpFOWk2MG1uM3RTV3RQRjNEY0dXREVIaHpzUHNW?=
+ =?utf-8?B?a0N6QmozemlWM2RYaGZnOHNheHl1RTQwU2duc1lqZEg5TnZhMzFrRHh2M1Fp?=
+ =?utf-8?B?R0pQbGdzNFBUOHFsQ0VDL1k5TStudE1MUzJDVlc1N1hEV1A1TXVKQWkyczBP?=
+ =?utf-8?B?RnEreUR2QkpOYnM4Q1pZTmMrSnBDeDRBdXNyVFhTWjc5bXNPemJRMjFvRm1x?=
+ =?utf-8?B?d0V6UytQVWVzWUljTjJOcGkwN0VmM2RmMkpHYUt1R1A4Qzd4cWJnUHFxcXZp?=
+ =?utf-8?B?ZUtrellyQkZnYTRGMUEybEdRS21aMlZpZ2xLYkhzeW5ucmwrU0lDY2Z3VEl6?=
+ =?utf-8?B?VUJnM3cwSDlZMWtEamFOYmxLQ2Y3L2dlY3A5Wit0Vzl5MC9LU3J1ZXJvQ0tQ?=
+ =?utf-8?B?WGpyREdnbzluYnErZzZqeGhvVmh0TGVKSGxURG9QZTRpRFBGK0RFRmp6U3NP?=
+ =?utf-8?B?K2tYRXlWVlo3TXI5aWpINElnNE40cUYrT0ZyUFdNdXkvNU9ETzdlNjJ4QlFG?=
+ =?utf-8?B?cEpFL3RrM1ZHMTJVYlNna1d1NXJhWDNMN1BoMmNQeVYzM2JlTHRPQkkvNUFL?=
+ =?utf-8?B?blZ0bjlSWkZ6anZxb25rUmhra1A1ZUVnL25FN05UNDAvOTFHVXNBVDFMdm1q?=
+ =?utf-8?B?dkhBczhZd3BmanNOcEJ3cWc0aEx1NXlsNzFnTVQrUTI2M04yZzBDVThKRmln?=
+ =?utf-8?B?dzE1Vk05ajljZ0wwcGhKR09lNXY1alJvSXVQNDZFUkZPMmdHazBhZWl0QTFX?=
+ =?utf-8?B?b2pmd1g3OXIwekJkYmJPL09Yc0tjdEduYVlreU1RL3dZQ01IYWF6YmZ1aEMx?=
+ =?utf-8?B?cm95bEV3cUUydzNFS29yZW56MVdITDJrd3gxZkFNazJ1eWtZU0pmM2p5NzVL?=
+ =?utf-8?B?cy8wN0dwajkvWU56R1haUEhici9GWFliUDkxYW5CMS9Cakdzc3lFSVg2NHRj?=
+ =?utf-8?B?QVAxMWp6ekQ1SWdCMDhJU3AvcFRiSWFUQ1RyNm9TeUp0TE9IZ1ZWNUM1N2JI?=
+ =?utf-8?B?ZzJaN0ZSczJldTQwZmRLc3E1eUdONSsvMnF2c1Q0R0VvemNhcmVFeEhxMXYv?=
+ =?utf-8?B?RXB4aDZLTmtsUnhUbURNSi9FSmxFSzdLVENQUHhhdzhEVkR2WGdBckg0Vkdu?=
+ =?utf-8?B?V0J0TVRkUWNOL1lCVXFpcmw5WGoxSzV2TE0yQVlMdkhYNjBJRGFNNXQvTU0z?=
+ =?utf-8?B?c0tlMFVHa3F0bFhzemNhUkx4Wm10dlFGZTRpQy9wYWMvSEhHSE5UcVJhYjYy?=
+ =?utf-8?B?elQ5andwMkdiL3hJNHZCb3RKWkVCZzlhTkQxZG1kTnlmOGdDdzZ4aG1BNDYr?=
+ =?utf-8?B?Y3ZiL2tvTlZxeTY1b3poWThNVkhaQkZLREkzV0xDSHBIbkNzSU9tUUQ1RTho?=
+ =?utf-8?B?TXBvdzVxNXlDV1hFMUFGdS9UaFNIbnJwSlBSMHpIS21KL1YxNS8xN3BmOUVn?=
+ =?utf-8?B?cWlpZGRWVG1lcGhsTDgxdzdJNVV2QU1TZ1YrQyt5MXVyaUVPMnNncERscnNT?=
+ =?utf-8?B?akVlZ2NnSTAybTlkSGFwWmlEZVJ2ZGhyazhmZUR2V0VaaW1rMCtYc21tNHpQ?=
+ =?utf-8?B?SE5FZXhnM0NYTTdhWTJTQUpnUmRhdks0Z2IvcEJiTmdJT2E0NFcrczcrY1p6?=
+ =?utf-8?B?ZndIU1pXQU9Qd3p4NjQwWlJ1UW9rVDVWbk5Kai83dWgwYndod1RTamFIVmxr?=
+ =?utf-8?B?RytxWGdQZGwxVzhGVm8vZzBvWHlPZzMwem54NmQwTW9UQmJIblB1QzJVVlVl?=
+ =?utf-8?B?K05JUUV5UlBqSFdWNnp2M2l1Z0hwV1loVWhTcXlkRU8wNnFPR1BIVHB4OWgv?=
+ =?utf-8?B?bnNrN1pNdWJ5YUkxekpBQk5reW1SaTZvd2phRk1NL1BSa0tzeGtsRW9lL096?=
+ =?utf-8?B?dCtLL1VBTkNFOGk1WWJmdWxhYmNjNGIvR1VHTlp4MnMwVXlneDNvYzNuU3dv?=
+ =?utf-8?B?Uk8xUlpkajhiK1pKdjRsS29aSitReUwySHNQcXpEY044Rnp5SEw4cFdTcWQ0?=
+ =?utf-8?B?VUpYU1JpZUY4eUR0N1c2MllpNkhhQ29WemQ3RmZPM2cwWXRFY2Z1cG1YR2hO?=
+ =?utf-8?Q?vwDrKEFiM1uJtBp4=3D?=
+X-Exchange-RoutingPolicyChecked: o0J2l4csH+aRb2+at7lUqFpY07sintOxEy1rN85VBeh+g+2hBj61ZMqh+wtYiERX7a0smW1juuAd8eNgNOAztY20C4ApSptyE0CEs0ql7Cz1ehPL+oHpCoUj3TgfAns0Q/J5G7doCGdErz82fgfudncl6ph0NUl7AyCaRA8lR5VZrCj0UA05zzSm9V8S7Gt2mLG26aLDEbY5wIXxeehJWa13oqvz2yzvwR8SApevkdit0iWBaoOQ6RDYrEVSfbXcwC2iXEhwAb3Mob2X5Rbml9KngvArhMfsw1Tn409ij0Dx6PEScLOESv45+MyCXKXn5wDtPg2m6DmdZFvUJur0Rw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a02b6d8-037f-47f8-1a13-08df2956e7ef
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 18:22:14.6635
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Osg5AuMcbgt97i6lKX53e+gU/H4adHUm7gdMKxR/iZBBOuNBckuXabj1IZnG3bjMmTl48B12pM27LY2YDAB4OzvurYBwgoVnezVdRMoi8L8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6011
+X-OriginatorOrg: intel.com
 
---svkqgvb3wERjsy4Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Babu,
 
-On Tue, Oct 13, 2026 at 10:48:42AM -0700, Alex Ousherovitch wrote:
-> This is the first of a short, incremental set of submissions adding
+On 10/13/26 9:51 AM, Babu Moger wrote:
+> On 10/13/26 10:57, Ben Horgan wrote:
+>> On 10/10/2026 00:44, Babu Moger wrote:
+>>> When the user switches counter assignment mode by writing "mbm_event" to
+>>> /sys/fs/resctrl/info/L3_MON/mbm_assign_mode, resctrl frees all assignable
+>>> counters, resets per-domain RMID state, and enables counter auto-assignment
+>>> exposed to user space as mbm_assign_on_mkdir.
+>>>
+>>> Even though counter auto-assignment is enabled, groups that already exist
+>>> at the time of the switch, including the default group created at mount,
+>>> are not assigned a counter. All MBM events read "Unassigned" until the user
+>>> assigns a counter by hand.
+>>>
+>>> Walk every existing CTRL_MON and its MON children after the reset and
+>>> assign counters to their MBM events. Enabling "mbm_event" now leaves the
+>>> same per-group state that auto-assignment would have produced. There may be
+>>> fewer available counters than MBM events across the existing groups; in
+>>> that case stop assignment when no counters remain. Events in the remaining
+>>> groups read "Unassigned", matching the behavior of creating a group when no
+>>> counters are available. Also revise the rdtgroup_assign_cntrs() function
+>>> comments to account for the new callers.
+>>>
+>>> Fixes: 8004ea01cf63 ("fs/resctrl: Introduce the interface to switch between monitor modes")
+>>> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>>> Closes: https://sashiko.dev/#/patchset/8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger%40amd.com
+>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>> Cc: stable@vger.kernel.org
+>>> ---
+>>> v4: Changelog update (Reinette's input).
+>>>      Function comment update for rdtgroup_assign_cntrs().
+>>>
+>>> v3: Changelog update.
+>>>      Code comment cleanup.
+>>>      Added Cc to stable.
+>>>      Added Reported-by and Closes tags.
+>>>
+>>> v2: New patch.
+>>>      This patch addresses the Sashiko comment about documentation issue where
+>>>      counters are not assigned automatically when mode is switched to mbm_event.
+>>>      https://sashiko.dev/#/patchset/8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger%40amd.com
+>>>      In fact, it exposed a real issue. When switching to mbm_event mode, existing
+>>>      monitoring groups should be assigned counters whenever counters are available.
+>>>      This provides a smooth transition between modes and aligns the behavior with
+>>>      the existing auto-assignment mechanism.
+>>
+>>
+>> Given the name of the option is 'mbm_assign_on_mkdir' I expected the auto assignment to only occur
+>> on the creation of ctrl groups or monitor groups. That's not my concern though. As you are now
+>> treating this as more of a general auto assignment should the assignment also be done when a resctrl
+>> domain is brought back online.
+>>
+>> For illustration on an MPAM model I see:
+>>
+>> /sys/fs/resctrl# cat mbm_L3_assignments
+>> mbm_total_bytes:2=e;3=e
+>>
+>> # offline one domain
+>> /sys/fs/resctrl# for i in $(seq 0 3); do echo 0 > /sys/devices/system/cpu/cpu$i/online; done
+>> /sys/fs/resctrl# cat mbm_L3_assignments
+>> mbm_total_bytes:3=e
+>>
+>> # bring the domain back online
+>> /sys/fs/resctrl# cat mbm_L3_assignments
+>> mbm_total_bytes:2=_;3=e # Would it be better, or worse, for auto-assignment to occur here?
+>>
+> Interesting.
+> 
+> We don't know the previous state. What if it looked like this before the CPU was taken offline?
+> 
+> /sys/fs/resctrl# cat mbm_L3_assignments
+> mbm_total_bytes:2=_;3=e
+> 
+> In that case, forcing auto-assignment may not be the right thing to do.
+> Since we don't know the previous state, we can only speculate.
+> 
+> It may be best to leave this decision to the user.
+I think this raises an important point. To get a better idea I looked back at the original
+bug report referenced by the "Closes:" tag and I do not think this is a relevant fix for
+that bug.
 
-Maybe you're breaking stuff down, but this is v6, not v1, and shopuld
-contain a changelog.
+Let me elaborate ...
 
-Thanks,
-Conor.
+The bug reported by Sashiko was in response to the patch that added a step to 
+"Examples on working with mbm_assign_mode" to switch to mbm_event mode from default
+mode. The rest of the example was not changed to accommodate the assign mode change
+and the documentation thus reflected the state of a system that was in mbm_event mode when
+the resource groups were created, not in the new default mode. 
 
-> support for the Rambus CryptoManager Hub (CMH), a hardware cryptographic
-> accelerator accessed through a mailbox-based VCQ (Virtual Command Queue)
-> interface.  To keep each posting small and independently reviewable, the
-> driver is submitted in self-contained parts; this first series adds the
-> core platform driver, the shared key/datastore layer and the AES
-> transforms (plus the device-tree binding and the MAINTAINERS entry).  AES
-> is the first and least-problematic algorithm family, so the core has a
-> user and the VCQ/DMA/completion data path is reviewable end to end.
-> Later series add the remaining symmetric ciphers (SM4, ChaCha20-Poly1305)
-> and the hwrng, the hashes and MACs, and finally the asymmetric and
-> post-quantum algorithms together with the /dev/cmh_mgmt management
-> interface.
->=20
-> The core driver binds the device, parses its device-tree description,
-> sets up DMA, the mailbox queue interface and the transaction manager,
-> and exposes sysfs/debugfs instrumentation.  The key/datastore patch adds
-> the key provisioning and system-object layer that the AES driver in this
-> series, and the algorithm drivers in the following series, build on.
->=20
-> The transaction manager runs as a kthread that packs VCQ entries, maps
-> DMA, and submits to the least-loaded mailbox; completion is handled by
-> per-mailbox threaded IRQs.  The data path is asynchronous: requests
-> return -EINPROGRESS and the driver honors CRYPTO_TFM_REQ_MAY_BACKLOG for
-> queue-full backpressure.  The CMH eSW is loaded independently by the
-> hardware before probe; the driver loads no firmware.
->=20
-> The CMH is a platform device matched via device tree (compatible
-> "rambus,cmh-v1030").  Following the inside-secure,eip93 binding model
-> and the DT maintainer's guidance, the schema requires a SoC-specific
-> compatible ahead of the IP fallback and therefore carries no example.
->=20
-> Public hardware documentation:
->   Product brief: https://go.rambus.com/ch-7xx-and-cc-7xx-product-brief
->   No public datasheets are currently available.  The driver was
->   developed against the Rambus CryptoManager Hub Hardware Reference
->   Manual (Rambus Inc. confidential).  Detailed hardware reference is
->   available under NDA from Rambus Inc.; contact the maintainers listed
->   in MAINTAINERS for access during review.
->=20
-> Developed against Herbert Xu's cryptodev tree.  checkpatch.pl --strict,
-> sparse (C=3D2) and a W=3D1 -Werror build are clean, and dtschema's
-> dt-doc-validate accepts the binding.  Exercised on riscv64 and arm64 --
-> QEMU with the CMH hardware model and a Xilinx VMK180 FPGA with the CMH
-> IP -- under lockdep/PROVE_LOCKING, DEBUG_OBJECTS,
-> KASAN/UBSAN/KMEMLEAK/KFENCE and (arm64) KCSAN with no findings;
-> worst-case stack stays under 1 KB.
->=20
-> Alex Ousherovitch (5):
->   dt-bindings: crypto: add Rambus CryptoManager Hub
->   crypto: cmh - add core platform driver
->   crypto: cmh - add key/datastore infrastructure
->   crypto: cmh - add AES skcipher/aead/cmac
->   MAINTAINERS: add Rambus CryptoManager Hub (CMH)
->=20
->  Documentation/ABI/testing/debugfs-driver-cmh  |  171 ++
->  Documentation/ABI/testing/sysfs-driver-cmh    |   67 +
->  Documentation/crypto/device_drivers/cmh.rst   |  340 +++
->  Documentation/crypto/device_drivers/index.rst |    1 +
->  .../bindings/crypto/rambus,cmh-v1030.yaml     |  144 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
->  MAINTAINERS                                   |   13 +
->  drivers/crypto/Kconfig                        |    1 +
->  drivers/crypto/Makefile                       |    1 +
->  drivers/crypto/cmh/Kconfig                    |   62 +
->  drivers/crypto/cmh/Makefile                   |   30 +
->  drivers/crypto/cmh/cmh_aes.c                  |  755 ++++++
->  drivers/crypto/cmh/cmh_aes_aead.c             | 1013 ++++++++
->  drivers/crypto/cmh/cmh_aes_cmac.c             |  476 ++++
->  drivers/crypto/cmh/cmh_config.c               |  619 +++++
->  drivers/crypto/cmh/cmh_debugfs.c              |  307 +++
->  drivers/crypto/cmh/cmh_dma.c                  |  482 ++++
->  drivers/crypto/cmh/cmh_key.c                  |  119 +
->  drivers/crypto/cmh/cmh_main.c                 |  394 +++
->  drivers/crypto/cmh/cmh_mqi.c                  |  344 +++
->  drivers/crypto/cmh/cmh_rh.c                   | 1211 +++++++++
->  drivers/crypto/cmh/cmh_sys.c                  |  376 +++
->  drivers/crypto/cmh/cmh_sysfs.c                |  108 +
->  drivers/crypto/cmh/cmh_txn.c                  | 2235 +++++++++++++++++
->  drivers/crypto/cmh/include/cmh.h              |   24 +
->  drivers/crypto/cmh/include/cmh_aes.h          |   24 +
->  drivers/crypto/cmh/include/cmh_aes_abi.h      |   98 +
->  drivers/crypto/cmh/include/cmh_ccp_abi.h      |  108 +
->  drivers/crypto/cmh/include/cmh_config.h       |  105 +
->  drivers/crypto/cmh/include/cmh_debugfs.h      |   93 +
->  drivers/crypto/cmh/include/cmh_dma.h          |  249 ++
->  drivers/crypto/cmh/include/cmh_drbg_abi.h     |   67 +
->  drivers/crypto/cmh/include/cmh_eac_abi.h      |   44 +
->  drivers/crypto/cmh/include/cmh_hc_abi.h       |  162 ++
->  drivers/crypto/cmh/include/cmh_hcq_abi.h      |  222 ++
->  drivers/crypto/cmh/include/cmh_key.h          |   73 +
->  drivers/crypto/cmh/include/cmh_kic_abi.h      |   77 +
->  drivers/crypto/cmh/include/cmh_mqi.h          |   35 +
->  drivers/crypto/cmh/include/cmh_pke_abi.h      |  272 ++
->  drivers/crypto/cmh/include/cmh_qse_abi.h      |  201 ++
->  drivers/crypto/cmh/include/cmh_registers.h    |  161 ++
->  drivers/crypto/cmh/include/cmh_rh.h           |   93 +
->  drivers/crypto/cmh/include/cmh_sm3_abi.h      |   79 +
->  drivers/crypto/cmh/include/cmh_sm4_abi.h      |  101 +
->  drivers/crypto/cmh/include/cmh_sys.h          |  111 +
->  drivers/crypto/cmh/include/cmh_sys_abi.h      |  148 ++
->  drivers/crypto/cmh/include/cmh_sysfs.h        |   14 +
->  drivers/crypto/cmh/include/cmh_txn.h          |  493 ++++
->  drivers/crypto/cmh/include/cmh_vcq.h          |  288 +++
->  49 files changed, 12613 insertions(+)
->  create mode 100644 Documentation/ABI/testing/debugfs-driver-cmh
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-cmh
->  create mode 100644 Documentation/crypto/device_drivers/cmh.rst
->  create mode 100644 Documentation/devicetree/bindings/crypto/rambus,cmh-v=
-1030.yaml
->  create mode 100644 drivers/crypto/cmh/Kconfig
->  create mode 100644 drivers/crypto/cmh/Makefile
->  create mode 100644 drivers/crypto/cmh/cmh_aes.c
->  create mode 100644 drivers/crypto/cmh/cmh_aes_aead.c
->  create mode 100644 drivers/crypto/cmh/cmh_aes_cmac.c
->  create mode 100644 drivers/crypto/cmh/cmh_config.c
->  create mode 100644 drivers/crypto/cmh/cmh_debugfs.c
->  create mode 100644 drivers/crypto/cmh/cmh_dma.c
->  create mode 100644 drivers/crypto/cmh/cmh_key.c
->  create mode 100644 drivers/crypto/cmh/cmh_main.c
->  create mode 100644 drivers/crypto/cmh/cmh_mqi.c
->  create mode 100644 drivers/crypto/cmh/cmh_rh.c
->  create mode 100644 drivers/crypto/cmh/cmh_sys.c
->  create mode 100644 drivers/crypto/cmh/cmh_sysfs.c
->  create mode 100644 drivers/crypto/cmh/cmh_txn.c
->  create mode 100644 drivers/crypto/cmh/include/cmh.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_aes.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_aes_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_ccp_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_config.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_debugfs.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_dma.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_drbg_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_eac_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_hc_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_hcq_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_key.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_kic_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_mqi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_pke_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_qse_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_registers.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_rh.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_sm3_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_sm4_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_sys.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_sys_abi.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_sysfs.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_txn.h
->  create mode 100644 drivers/crypto/cmh/include/cmh_vcq.h
->=20
->=20
-> ---
->=20
-> The CMH driver was first posted as a single series; it is now
-> split into smaller, independently reviewable series per maintainer
-> feedback.  Earlier single-series postings:
->   v1: https://lore.kernel.org/linux-crypto/20260625173328.1140487-1-skris=
-hnamoorthy@rambus.com/
->   v2: https://lore.kernel.org/linux-crypto/20260709203037.1884436-1-skris=
-hnamoorthy@rambus.com/
->   v3: https://lore.kernel.org/linux-crypto/20260806195519.2703224-1-skris=
-hnamoorthy@rambus.com/
->   v4: https://lore.kernel.org/linux-crypto/20260825221539.255951-1-aoushe=
-rovitch@rambus.com/
->   v5: https://lore.kernel.org/linux-crypto/20260917225929.2494111-1-aoush=
-erovitch@rambus.com/
-> base-commit: 9695df3b1db4ac4534274d38ee16e3b9b0bf910e
->=20
-> --=20
-> 2.43.7
->=20
+In this new version of the series the documentation change looks different - it does
+not imply that the system started out in default mode and thus does not imply any
+mode under which those resource groups were created. 
 
---svkqgvb3wERjsy4Q
-Content-Type: application/pgp-signature; name=signature.asc
+I agree with your final statement "It may be best to leave this decision to the user.".
+It is not possible for resctrl to know how user intends to assign counters. Why not just
+leave them all unassigned when switching to mbm_event mode?
 
------BEGIN PGP SIGNATURE-----
+Reinette
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCas5xIgAKCRB4tDGHoIJi
-0p4DAQCsuhJ7uCjrDn+zL9O+OmZw1FIK5NC33gbsGt7Mr2H2dAD+JlSflVPc6YB3
-9Tmx7kWjE9jon4co9zStzsBQoLSG3gM=
-=LQG7
------END PGP SIGNATURE-----
 
---svkqgvb3wERjsy4Q--
+
+
+
