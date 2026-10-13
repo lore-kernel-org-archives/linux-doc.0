@@ -1,294 +1,562 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DEA45039;
-	Tue, 13 Oct 2026 00:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791850079; cv=fail; b=Xm3vLL1YB4jK6mNX/Ubg3+wEe0SFHS1BtsASyS2i6BvS08uiO805bejT7tjzAzvCNpxOn8jNgyzYxMsGy9+WwqfpTxQwx4lhTQa4Gyi30sYOTLB4mhEY4QQavcNoomKOekkn1/veFur3h3LZB87nrmK2Z1MjlTxITSogjfIHUG8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791850079; c=relaxed/simple;
-	bh=UdockhbMlGNWeL5bYALFbxeBgG/uid9c6UxBI890meg=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=c4C35Knj2G/b9K7Zq9MdfbywOe/hZZZ9NLOnHqcHIGuySgE7VXsyuvNgDTngX17TmTjl85/Foy+FHjo0uwFhMUyVch2AjdpVQNx/NdqRMJ5YrE1d3177T2s0RTXGDGEMXzKRCn1H7dvoBGMcTTYvVUQL1tMVXkDHn/o7WS0pUvE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fYCe20s7; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBF6372060
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791851267; cv=none; b=UaZ5yYJtKJpu+FgF+/cZEUfQoNXhgBfyFjZFueloHk2003lIHlBAu/3eWm/7j9B+1TsdW8Lm5GCRla/Kjx+xMy3C18ALpazxWIjafacRLjuGOQWNJHIuG6yNz9Ac0fv089MqBTpVN3PaxXHDai9XFlft2Mu3r9K+iL91ErEGuOw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791851267; c=relaxed/simple;
+	bh=qn4BzWlSyl1lV6aXLg810BY1gHsy0tO4U3eIBblIpHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BvLkgu7UfrHugDXt6ZlFTaTMcsU5Ro+MWi4X6t1qOAI3lmpbPRzzY+sitJiZlt1dlv3UBzuFjt5vZYZsrBW4AUNObU978hygz7EEZWTm/1dM5s3aVsisEcyKhOYBVB/5BS9pDDmlSmGKh9H+b0xityVodLTqMCXJU9m+f6uyyjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=RJfufFFQ; arc=none smtp.client-ip=209.85.161.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fYCe20s7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791850078; x=1823386078;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UdockhbMlGNWeL5bYALFbxeBgG/uid9c6UxBI890meg=;
-  b=fYCe20s7m6hZD0gsqBF7HvAhbGcmQ1WL/yfL0JyyZ42yN30kA6rIubv6
-   HpiGn/9WcALJ2r1iHo4ugIrn8Ldhur68tsMNP0t+38jlz83QFH8aDXN0h
-   1cUdIPNJEzhl0VM+xR4A2CchEYZ1AaJw/KmcvCgBIIY5JVCWa2TxIN0lV
-   kwU0C3928TCFHy8kERjEgC5PClq+JkAAA/W/92+rVS0DtJYJv9hACM1lY
-   gZlKJ/uAT7s/hJjU+mojlDLpQWXp2LXY7Mf8VqwPX8AF2dGqE9t0FEFQk
-   1DBNMF5VmTYDkUh2Ax4pYHFV1gBUvUZ8XwWzE/yetcPQd09/5udcFhjoH
-   w==;
-X-CSE-ConnectionGUID: BxyzUT/BQZ2jCYpnQ3Bckw==
-X-CSE-MsgGUID: I2QbCXllTjyfCYE0QEbevQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="576814"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="576814"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 17:07:57 -0700
-X-CSE-ConnectionGUID: G113pLdDTZKf0hAsEpyVJg==
-X-CSE-MsgGUID: JnTufjM9RoKbJc9VUD11sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1392979"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 17:07:56 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 12 Oct 2026 17:07:55 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Mon, 12 Oct 2026 17:07:55 -0700
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.14) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 12 Oct 2026 17:07:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gr9AaN5tBWsmKGwZot+KBwhSBto4hzlAic+dplWjmlutLVVa1e2kSfzfMmZGCTTyE91kmbuJNC/7M97dbQIdW6DwnWJ0k7eLHFspl54b3fWJ9avcql89iqjLBMKJUodbr2S7c8wgIFTiX1O7Ndj9YkV8G/514am5eOV5OaX5J1NHwB24+tRhIspK+ogXa9VXN3vUjTuDi078Z1dopTdMPcAU0CvsuPJ+cbPx+8gIJ4CDQyXJ48GF0t9anudE6ESB1m45hzR0O8zuB29nKJtBwuAUoml7kG5Fqrp37vbYSS72Q3MMTu9AAW9P7D8KNtbVNEQf2V59JQNYHqMMUTo81A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ONsr4wXkPIv2r/MI+XFXiXlS20B0Bn7QHbbzwYIaDPw=;
- b=FmyOPplZS0ZJyJ9SBeqxHrgEZNI0kYr9hpv6I7pn7fUzWirbl0+ArK9VoZTjIIVkzZ5OcqjxXEtzPUBS9wMyadWSgYCIX+pUpTjftk70doJsuzzMQ81a/xbSBU3cHJTs/mgogpSp/6o1fLMQDyODqYC5lxbx7TFvUJabJbm5LxMx0IWMvUaYe5X5kQgpE/jKaNx519LiDBf9psp3kZJDO6Z/Mw6q4s4+BST4IXsOlQTxLfFqDsCPvHcV2XWxszKJmWqmfJ98sW1RUTy1qG5frZDym6hkyp6mlPKlDcrDc3DLdp4tfew1SWY8ILWAxyXcTmu6ObJtrt6Ln7/ys4e1dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by SAWPR11MB9711.namprd11.prod.outlook.com (2603:10b6:806:4cb::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Tue, 13 Oct
- 2026 00:07:41 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0496.018; Tue, 13 Oct 2026
- 00:07:41 +0000
-Message-ID: <eaeb4259-46d6-4656-8354-669ad32654b5@intel.com>
-Date: Mon, 12 Oct 2026 17:07:38 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-To: "Luck, Tony" <tony.luck@intel.com>
-CC: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
-	<aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra
-	<atishp@rivosinc.com>, Atish Patra <atish.patra@linux.dev>, Babu Moger
-	<babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>, Borislav Petkov
-	<bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, Conor Dooley
-	<conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua Yu
-	<fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai
-	<gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, James Morse
-	<james.morse@arm.com>, =?UTF-8?Q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, "Liu
- Zhiwei" <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>, Peter Newman <peternewman@google.com>,
-	=?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, Rob Herring
-	<robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Vasudevan Srinivasan
-	<vasu@rivosinc.com>, Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li
-	<liwei1518@gmail.com>, yunhui cui <cuiyunhui@bytedance.com>, Zhanpeng Zhang
-	<zhangzhanpeng.jasper@bytedance.com>, <linux-kernel@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <x86@kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>
-References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
- <20260901-dfustini-atl-sc-cbqri-dt-v7-2-ca2935d85622@kernel.org>
- <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
- <aqwN1szItGPg4Qjh@agluck-desk3> <as0Zeoyjiy5CW1DT@agluck-desk3>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <as0Zeoyjiy5CW1DT@agluck-desk3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0152.namprd03.prod.outlook.com
- (2603:10b6:303:8d::7) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="RJfufFFQ"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6df93f00f4dso1000839eaf.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 17:27:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1791851263; x=1792456063; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OLl+K5JelDXLCvIb6zgluMIer9KZQcOKUZY2UeWHu8s=;
+        b=RJfufFFQrrV3MExjACYXCN/6v21X+48tbUGRmUy5S7uE0HEFCAeoqypx1h+xzjSYKG
+         5lenxuxvHK7sFRBT58cBqdkw7kT4hGtQZPfDMmq/uOnan6hHcUT5ljqgxANNgt2kNFf0
+         x8BlLclXEXqJ2CCAHlq8qXrX2JlCwj8Ied9JmoOdeWcI9F8Dwcswal0ctdnQ0z9uJU1C
+         6fdPlo9KGN8JLZvQ9rDL+ybbSKt0Q6eqhtmT7it0Bz5nEG8SW7YPnykomjd9foSVjlUl
+         0SBknk+VdvN1UjcZpAKuPjUwza0e6lLQ/CvP5nui0+Q1ANPWC5bzs1JCmPmwOTMVt6OB
+         qcWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791851263; x=1792456063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OLl+K5JelDXLCvIb6zgluMIer9KZQcOKUZY2UeWHu8s=;
+        b=ey/qzlW8Oue2huge1n8LWq79wXRZ1fAdxxit+QwMEn6eo6iwDl0bfcVr96rRhOWIoL
+         m9JLu02609D7AEKK6MM5BIk9X8k9vauVCgY3L1/cr6GqTMm0jKXCBczqoeQpJEnpBLpD
+         iz+pLWMRH9YxS60jQteCzXSNzFAnPl4ZLdjvhnERTvx3SRM3hi8cCx26vJ11z4y4aOUV
+         0efkCKPfIWzIDSynI5/f8OTNCKF/GWFbvgmk1NmT5d5T18NmLwMwSn2xmVRAb5AH7q4n
+         rqFZgZWLioi0+CJ25iqGRQKHdeaaVleELH1qLMx9JX6GBQahxW/dec8xeErr6hS0zJWv
+         PTlw==
+X-Forwarded-Encrypted: i=1; AKwUvBxuaQjr9wxb5ZzPXIu99273lmNhUaG2PEo6/dlwMeryuiEZ7LkcsvHmWEI1cRi/gVtzHnxPlg2SOUk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL+tkyCliz3EfLslyk3IXhCOY2sjYY/Chvb422wz0RtqoqLaTW9
+	GBpb6ke6D3GmKJHGXNpt+V0ygW19a/bklram/m6taB4Z7NoCu2HnGvBZFaBK9r7HatM=
+X-Gm-Gg: AYBFou3F2u0VIWR87c9XR+3Ihpqwq3rWWoEdOgYQnux75g82704B2hjNbuWw/7cjZ5x
+	adNYO8fRaMSpPcTBzYaBeF9EPFspgOHuWT5vbgls4q/6OWEL+zXXX92cQIi1NlOVirlhY+iU8hz
+	5imepuyJl0QjmHBBQyMelJK3EmQxfsO5VHW+6jNgryWVJcT+YgChGwyPIFuGyGx7EFYbHXDuH/L
+	8NVDHjFdxHt2SBUImSbDFQ2dZ2feKnOw/QSl1EIAVnCZc8a0JLi18IHuhrxBXJaVWzBisk+Xlwh
+	mm9aaE1kBsKClyqj7bcOuVZHAI5141jsS44f25kyPsWgrWK0ECZQ+zqt+O2z8jYgXipF6TOfkvi
+	gO7BVJmO/OJlJaHOWWYqc45uk2jqo0weKwjg7+vX3kWq5C8zncIWikkyk07njJOYEifSUMPXCgj
+	jZRQHJA0y+SWQW7qMSd/dcyFFRZzQ3qd7B40+Ra/ewuPMoMBpDoNIOSo6GOlcmWN4wtDT0VotsQ
+	dA1/qLZx3w7NZkaGmsdnZSLS2ZmkRwBUbEuYAS3rNaCOXSvDUwNhRj/lCdETe0lC31CiZYqXFAG
+	2YF9idRhheuzdmAqTxj8yVoz5m7nFf5L6xwvncQksQcdDOfqQHdNE9uW5ZqfEAzg2/RdKykhE5o
+	7jXY339VY5mJQ2TVLoNKPcncT/FEC
+X-Received: by 2002:a05:6820:4dc9:b0:6dd:4a4b:1843 with SMTP id 006d021491bc7-6ef0eec8926mr9177943eaf.14.1791851262963;
+        Mon, 12 Oct 2026 17:27:42 -0700 (PDT)
+Received: from dev-rjethwani.dev.purestorage.com ([208.88.159.128])
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-83038f82468sm11455402a34.11.2026.10.12.17.27.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 17:27:41 -0700 (PDT)
+From: Rishikesh Jethwani <rjethwani@purestorage.com>
+To: Jakub Kicinski <kuba@kernel.org>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	John Fastabend <john.fastabend@gmail.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rishikesh Jethwani <rjethwani@purestorage.com>
+Subject: [PATCH net] tls: refuse RX records after record-number exhaustion
+Date: Mon, 12 Oct 2026 18:27:01 -0600
+Message-ID: <20261013002701.1957686-1-rjethwani@purestorage.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|SAWPR11MB9711:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fd8c6f3-53d2-4622-7e48-08df28bdffd4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|4143699003|11063799006|56012099006|18002099003|22082099003|6133799003|3023799007|10067099003|261009223027099003;
-X-Microsoft-Antispam-Message-Info: isgdq8Gg0gk8dxwa5SrJ2wYjMwtZ+Gu88Eamjnxqa1W+s2txijMiotZ5POnZIRM1VQvP1FuF4BdTn77QXuAtl20qMCaJn6GFdCQa+BRisnF90US8n2dJCiMa6YtLD3sgHVwfuQz/ZvVx+/aTEtKeEP4L+Lwu31W48KbUMKmWxWnxB+D++xP/O6T46AdwmMl8bArVKiDcJL+vIPx6Qu0Ynl+7FYZxtPoxis6mdRQeavqiW9STwJdtzY5YKplNHuwRcwSDsFmNqxMSIW7ACqYsQWsreZjswnfu55CfGN4ED/5g1HFnqdX8/u9Ni3c+/mfaLJLfH8pevdpXzEJf0I8WmMJXz0gcYStHZUtbrkCDIJIHtjPVGHvJ/zHg404jns0gE9SATs6dhXZL/Ql0njO+FgC+Qw5luisZMaxZgPCYIhHuvY+ypUiSR2d4rq37POlDEsXfIMkCi4RVydVvrbYD2MO/osweigAS5HsN+xZnxKuWmWoZ2awl6RikuvWkzg2/Bqxd92TMimWLJDKnUl0FQHHj28l9URC2WXXhhlNppXAuWzaTemZrOFheR6INoErPLCoMXQkDMu7gnAILxWX6uzwwDo4OubKt+36mBD5sdblfzIvMfDcnytNk3+Em7kxA
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(6133799003)(3023799007)(10067099003)(261009223027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXF5V2RLL2hVMDVNdDJnWUQraitMaTlXdmlsL3Vvdms5T2FVQXRMcExEUkI1?=
- =?utf-8?B?dmEzdTV1SHcrSnVZTUMxdDRiamFmK3pFaE50WlI5SUFMRmVTb3VtT1p3MkxE?=
- =?utf-8?B?RDJZNzZsMmp6dWpwYVZORUErNGRxdUI5b2ZaNnJDdlNHdTRKMXM3RURXSWFz?=
- =?utf-8?B?ck45NjBqUWlnRU1BNDc1S1VsbU1zTU5TS3VnNXhka0JBdzFHRi8yNFJCR0xZ?=
- =?utf-8?B?YnMwODR6b2ZrQ25zZ2FZM3hUc0ZxVVJGZGhtTjJjNUlwUGRiT0VFRGF6WXFv?=
- =?utf-8?B?ZWRkL3NZTmRSZExLcmp3MitlaDg5N1lHdXI2c0YzeWg3bWUreXBwVzVCUjZC?=
- =?utf-8?B?ZlJPbnpHMFFTZ3JiSWlHLy9rajVvR2Y1RjJMRlhOWSsxeXRPMXZTd0pvZ04x?=
- =?utf-8?B?QTB5djY3K0d2RHdCSi9Jb2EwOWozM2ZKV2VMc3BVVFE4b1dMQUFPNEEwMnVv?=
- =?utf-8?B?V0dUWHExaXk4eHBOdGtXTVJyMldsMitjYkFlOU9KR1BlWGhYVTlKdVlOR00y?=
- =?utf-8?B?VURjOWVJclpidmlCNFpvK1FpLzM5QXREbk5tMllRMkRLb2U3SWpaR0lUL3ZU?=
- =?utf-8?B?ckVFU0sycFM1N1oyckgxTUVoUXVSYUxCdUpmSGJEcEkybnJJUzIzSE1kcHc1?=
- =?utf-8?B?enlINVY2SURwcUM3NTNSRS9LdXpZL25HZHlVSzZETFBkVllDL0ttTlNaMHlW?=
- =?utf-8?B?bkc5R2FBMmpmOVhJUENJMmpvU3o1NUNHMHZySExEVHlNckJaOEJOYnBWdFVw?=
- =?utf-8?B?Q3NaV2QzYkpYR251aDNSVU4vRUFwUFBBRkhLT3VWSUFGdkhoQWZ6ZTYzYTNE?=
- =?utf-8?B?b3VUUC96SVAza1l5cVY1eU1Za3Q1UkZwd1pxOFVhUFE0OTR2MVY1Y1FobGdW?=
- =?utf-8?B?N0F0WkwxYk1Ba1hZTFQ3b0xuTHlteERKbHQzSk5wY2xoUzZwbHo3aTZveEpN?=
- =?utf-8?B?MG5MK2RFZGMvbGdXNXF4OGIwcVYvUjAvekZzUkx2ckRYSHJQMVozVWhrVHVa?=
- =?utf-8?B?MTM5L2VqT3RBbGVjdmxMMGZMY0J0U3dWTUhEdmQvSGphVklSMXhaZFNCMCsx?=
- =?utf-8?B?MnZQR2NZckJTK004akc1MTFWSDZzcGFHbnltTHY5SHdmQmF4V3hXOVhlZHpC?=
- =?utf-8?B?Y3ZDUldlVWgrbDI0NlVFTzdaa0kvelkvdGpJaDlGeHNkaVB2Vnh2MW9RdFB3?=
- =?utf-8?B?K2tTVWlqVTZkOWhvUTdzbXlxZWhJVnhhdjgrVWI5dnlINzkxTEJKZzJQR0E0?=
- =?utf-8?B?cmQvYjYzTks4b1JLdEE4RjhGaEFjYVAxbmRBMTM4TWpSaGFPbGhCd294VWJm?=
- =?utf-8?B?cHBnamNLMnpqWkNkV2ZDeHcxRnZvVWErc2ZobkgyWUJ6L3ozbWs5bGY4L2dC?=
- =?utf-8?B?eFhEcmlTYm9TemlYN25tN0VaR1N4cGRKNUVkMnlXSDE2Ti9NRFJ0a1pXVFlU?=
- =?utf-8?B?ajRIbmZ3REppdnNRdllIWGNsT0s5WGNLY0RHYnBwNVdHVWNLcEU4bE5oU0di?=
- =?utf-8?B?Nk9MLytkNk4zZkVOQnNGTEFSU1p2SGdSRC9sZURUNGY4SlpFalpsb2JRT0pk?=
- =?utf-8?B?VWhqdlpBWW8wZmZ3a2w0d2x2aGtieWtPTEFqa0Z6SEVXYTl5dk50UEVCbUlk?=
- =?utf-8?B?cjRoSkFoR1NFZHJVa1RHSkFFeVcyVlV0VmZjU1ZlWUs1cDNnN28xWlBHMG9N?=
- =?utf-8?B?aitnVmVwWEdGUnlDUzFFei8zd2dCeThYcHZ3TzE2YWFFMW5rVlE5ZXBSSmd1?=
- =?utf-8?B?YVhxMG15aWZHa0ovdkdFMU1OU00rUE1vYXZJN0krVlFZYXhPekRLaEU3eWZs?=
- =?utf-8?B?eDAwRE8rU3FnYm9BdjN3Z0Q5eDdLVEU3QWhuQWpEdk9aSW16MjNNbWNFdVIx?=
- =?utf-8?B?aHBxRnUzamlueEQ0K1NtUXphbDNadXR2eEs5dndzNzVuMVZXQkZjaVFtZkpR?=
- =?utf-8?B?NUNWWUY4eHdLTkpPU0VMTEZSSE1ObEFxU3Z3UXlkNzZ5cE9GOUE2M1IrK3Fv?=
- =?utf-8?B?VlEzSis3V1JIQzBHVXhFNjJESUl0UVZ5OEJvaUlGK1kvbUdiZU9MdWEzUW8z?=
- =?utf-8?B?dEVnd2RvTjc1QVN3U2wycmtPUmI0Q1FiaVU3VUd2VzdJb1lCdzNJWmlPSisv?=
- =?utf-8?B?NTMrVkp1SnZTY0l4Z1ZFb2dIL0JjUVcvTHh0QzdPRmRXQzVPUXhwakowWW9a?=
- =?utf-8?B?VXBjTXJQaGV3NWZjL2Y1VVZpYmVveVNEMFJYbEU5dWVXc04rc2RCaVFtQXYx?=
- =?utf-8?B?Yk91WmJ1NWRzTDU3TEpqL3FPckI1TTZUZjRWcVBtWHlZZTZxak1iY2JxS1Z0?=
- =?utf-8?B?SDFacHJvNVNadkZ6M2hONHpRRzVwRDFCM0p4aU85d2ZaMnE4NUJFVEFSNFdy?=
- =?utf-8?Q?LEyCXhIdDvMcK130=3D?=
-X-Exchange-RoutingPolicyChecked: yrr6a+WfsYTPy89FNnQYcsM8ksK6DpFkLQmx55hrRoROY7M5EG36OZsA6OJLH8FuPWjVxNqvctE1Z/Plep0X8YKRFGTRV6Xr/9h7fZ+CKSidg4SSrCFnU/0DQ1mGUKnQzXBd02Q534YwkJSDAcAUOb1RFW/y7UUBOiSJkBrnmnsTIreFuEKF2lC5/BSdlnx1qyYPMZHdCe9Rj948a+QVaOIqecdtOVRsa6L6n/MXAwmrJ8zkIOaMKiWpg0uBI/qQYH6hvbS6Z4DhgeZH7aQPeqxxjJdYzAPbg1f0vukSQNdKQYCvMg1mDm9/1BtK+XkVC9/T6QJhhJfO51wzq8VviA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fd8c6f3-53d2-4622-7e48-08df28bdffd4
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 00:07:41.7411
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r75Zn7wPoQmFUrW88l0zKM4ymXFjfUdR8eCDoTNW8vTfQ0S/bkn0148cNH6CHyDQhPahouZBAh9udgdaYD02PZ4VBLSyD49riwHvplZlQIY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR11MB9711
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+A receive socket records sequence-number exhaustion only in sk_err.
+After processing record UINT64_MAX, it advances the counter to zero and
+reports EBADMSG, but SO_ERROR or sock_error() can clear that error. A
+parser-ready record also bypasses the socket-error check in the record
+wait. The receiver can then accept a record authenticated for sequence
+zero under the same exhausted key.
 
-On 10/12/26 10:31 AM, Luck, Tony wrote:
-> On Thu, Sep 17, 2026 at 08:57:10AM -0700, Luck, Tony wrote:
->> On Thu, Sep 17, 2026 at 08:37:43AM -0700, Reinette Chatre wrote:
->>> On 9/1/26 3:31 PM, Drew Fustini wrote:
->>>> resctrl exposes a single cap set per rid, so when more than one capacity
->>>> controller backs a cache level they must agree on those caps. A level
->>>> whose controllers disagree is left unexposed. Other levels are
->>>> unaffected.
->>> If I understand correctly, while attempting to translate to resctrl terms,
->>> this means that a cache resource with several domains may support different
->>> capacity masks in the domains?
->>>
->>> I believe the "single cap set per rid" you refer to is
->>> /sys/fs/resctrl/info/L3/cbm_mask and /sys/fs/resctrl/info/L2/cbm_mask that
->>> exposes a single capacity bitmask representing the maximum allocation.
->>>
->>> As you know, resctrl is in the process of changing the way in which schema
->>> formats are described. The most recent PoC [1] added new bitmap description
->>> files but it kept a single value "max" file to describe the highest allocation
->>> possible for a bitmap schema.
->>>
->>> To support asymmetrical cache instances it looks like changing the interface
->>> to describe the maximum per domain (instead of one global value) could address
->>> the gap?
->>>
->>> For example, if there is a hypothetical system with two L2 cache instances, one
->>> with a 0xFF max CBM and the other with a 0XF max CBM then resctrl could expose it
->>> as:
->>
->> That sounds like the not-at-all-hypothetical Intel hybrid client parts
->> where P-core and E-core have different L2 masks.
->>
->>>
->>> 	# cat /sys/fs/resctrl/info/L2/schemata/L2/max
->>> 	0=ff;1=f
->>>
->>> The schemata file currently and will continue to display the allocations per domain.
->>>
->>> resctrl will need more changes to support different CBM per domain internally and
->>> until then all these CBMs will be the same, but adding this change to user interface now
->>> may set resctrl up to support these systems in the future?
->>
->> I think Fenghua once worked on patches to support this. But I don't
->> think they were every posted to LKML. One of the open issues at the time
->> was how to handle the info/L2/cbm_mask file.
-> 
-> I took git://git.kernel.org/pub/scm/linux/kernel/git/reinette/linux.git
-> branch resctrl/controls_rfc_v2.4 and added some patches to support L2
-> per-domain cache allocation bitmasks. Seems to be working OK. I can
-> share the patches if anyone is interested, but they aren't even up to
-> RFC quality yet.
-> 
-> I do have some questions:
-> 
-> 1) The repeated "L2" in the path seems awkward. The first is the
-> resource name, the second the control name. Makes sense for MBA where
-> there may be multiple control names. But for cache ... is there a better
-> name for the control than repeating the resource name?
+Getting there needs an initial record number installed close to the
+limit, since 2^64 records cannot be exchanged in practice, and a peer
+that sends the wrapped record, which the Linux TX path refuses to do.
 
-If we are using the same definitions of what a control and resource represents: no.
+Mark the RX key exhausted when its record number wraps, and refuse to
+wait for or decrypt another record under it, or to replace the key.
+Plaintext that is already decrypted can still be read. RFC 8446 lets a
+sender retire a key with a KeyUpdate as its last record, so in that
+case leave sk_err alone, report the pending key update as usual and
+let the new TLS_RX key clear the mark.
 
-A control is represented by an entry in the schemata file and is what the
-user interacts with to configure resource allocation. Today there is a 1:1
-relationship between a resource and its only control and today this control
-has the same name as the resource. This is not something we can change at
-this point for a legacy resource like "L2" since it is already represented
-in the schemata file by a control named "L2".
+Add fixed AES-GCM wire vectors and TLS 1.2/1.3 selftests for queued
+wrapped records, SO_ERROR clearing, splice, peek, partial reads, TLS
+1.3 key replacement and a KeyUpdate in the last record. Every case
+first verifies the penultimate record succeeds. The vectors avoid a
+userspace crypto dependency and the TX path's refusal to generate the
+maximum-number record.
 
-Multiple controls is not just for MBA. There will also be multiple cache controls.
-For reference:
-https://lore.kernel.org/lkml/20260921135702.2874931-1-ben.horgan@arm.com/
+Fixes: c46234ebb4d1 ("tls: RX path for ktls")
+Assisted-by: LLM
+Signed-off-by: Rishikesh Jethwani <rjethwani@purestorage.com>
+---
+ Documentation/networking/tls.rst  |  17 ++
+ include/net/tls.h                 |   2 +
+ net/tls/tls.h                     |  19 ++-
+ net/tls/tls_main.c                |   9 ++
+ net/tls/tls_sw.c                  |  19 ++-
+ tools/testing/selftests/net/tls.c | 258 +++++++++++++++++++++++++++++-
+ 6 files changed, 315 insertions(+), 9 deletions(-)
 
-All "legacy" resource have a control with the same name as the resource. At this
-point this is not required for new resources with first resource like this planned
-to be MB_NODE.
-> 2) Should the format of /sys/fs/resctrl/info/L2/schemata/L2/max depend
-> on whether the platform is asymmetric? Or just enumerate the per-domain
-> values even on symmetric systems? Likely easier for users to list all
-> domains.
+diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+index 980c442d7161..4b3c7a5a0780 100644
+--- a/Documentation/networking/tls.rst
++++ b/Documentation/networking/tls.rst
+@@ -202,6 +202,23 @@ received without a cmsg buffer set.
+ 
+ recv will never return data from mixed types of TLS records.
+ 
++Receive record-number exhaustion
++--------------------------------
++
++The receive record number must not wrap under the same key. Once the
++record with the last 64-bit record number has been received, no further
++record is decrypted under that key: a receive that needs another record
++fails with ``EBADMSG``, even after ``SO_ERROR`` has been read. Plaintext
++that was already decrypted, such as the rest of a partially read or
++peeked final record, can still be read. This applies to both software
++and hardware receive offload.
++
++Unless the final record is a TLS 1.3 KeyUpdate, the condition is
++terminal: the socket error is also set to ``EBADMSG``, and a ``TLS_RX``
++key replacement fails with ``EBADMSG``. A KeyUpdate in the final record
++retires the key the usual way: receives fail with ``EKEYEXPIRED`` until a
++new ``TLS_RX`` key is installed, after which receiving continues.
++
+ TLS 1.3 Key Updates
+ -------------------
+ 
+diff --git a/include/net/tls.h b/include/net/tls.h
+index e57bef58851e..73f2d0f24e54 100644
+--- a/include/net/tls.h
++++ b/include/net/tls.h
+@@ -139,6 +139,8 @@ struct tls_sw_context_rx {
+ 	u8 zc_capable:1;
+ 	u8 reader_contended:1;
+ 	bool key_update_pending;
++	/* record numbers of this key are used up; cleared by a KeyUpdate */
++	bool rec_seq_exhausted;
+ 
+ 	struct tls_strparser strp;
+ 
+diff --git a/net/tls/tls.h b/net/tls/tls.h
+index 60a37bdaaa25..3b2af529d977 100644
+--- a/net/tls/tls.h
++++ b/net/tls/tls.h
+@@ -307,17 +307,26 @@ static inline void tls_bigint_subtract(unsigned char *seq, int  n)
+ 	*p = cpu_to_be64(rcd_sn - n);
+ }
+ 
+-static inline void
+-tls_advance_record_sn(struct sock *sk, struct tls_prot_info *prot,
+-		      struct cipher_context *ctx)
++/* Returns true if the record number wrapped */
++static inline bool
++__tls_advance_record_sn(struct tls_prot_info *prot, struct cipher_context *ctx)
+ {
+-	if (tls_bigint_increment(ctx->rec_seq, prot->rec_seq_size))
+-		tls_err_abort(sk, -EBADMSG);
++	bool overflow = tls_bigint_increment(ctx->rec_seq, prot->rec_seq_size);
+ 
+ 	if (prot->version != TLS_1_3_VERSION &&
+ 	    prot->cipher_type != TLS_CIPHER_CHACHA20_POLY1305)
+ 		tls_bigint_increment(ctx->iv + prot->salt_size,
+ 				     prot->iv_size);
++
++	return overflow;
++}
++
++static inline void
++tls_advance_record_sn(struct sock *sk, struct tls_prot_info *prot,
++		      struct cipher_context *ctx)
++{
++	if (__tls_advance_record_sn(prot, ctx))
++		tls_err_abort(sk, -EBADMSG);
+ }
+ 
+ static inline void
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index fbb274287aa5..63bef0153182 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -730,6 +730,15 @@ static int do_tls_setsockopt_conf(struct sock *sk, sockptr_t optval,
+ 			conf = TLS_SW;
+ 		}
+ 	} else {
++		struct tls_sw_context_rx *rx_ctx = tls_sw_ctx_rx(ctx);
++
++		/* Only a KeyUpdate may follow the last record number */
++		if (update && rx_ctx->rec_seq_exhausted &&
++		    !rx_ctx->key_update_pending) {
++			rc = -EBADMSG;
++			goto err_crypto_info;
++		}
++
+ 		rc = tls_set_device_offload_rx(sk, ctx);
+ 		conf = TLS_HW;
+ 		if (!rc) {
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index d1ad31986cf2..cd1590e1f20f 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1104,6 +1104,10 @@ tls_rx_rec_wait(struct sock *sk, bool nonblock, bool released, bool has_copied)
+ 	if (unlikely(ctx->key_update_pending))
+ 		return -EKEYEXPIRED;
+ 
++	/* no record can follow the last one under this key */
++	if (unlikely(ctx->rec_seq_exhausted))
++		return -EBADMSG;
++
+ 	timeo = sock_rcvtimeo(sk, nonblock);
+ 
+ 	while (!tls_strp_msg_ready(ctx)) {
+@@ -1566,6 +1570,7 @@ static int tls_rx_one_record(struct sock *sk, struct msghdr *msg,
+ {
+ 	struct tls_context *tls_ctx = tls_get_ctx(sk);
+ 	struct tls_prot_info *prot = &tls_ctx->prot_info;
++	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
+ 	struct strp_msg *rxm;
+ 	int err;
+ 
+@@ -1580,9 +1585,18 @@ static int tls_rx_one_record(struct sock *sk, struct msghdr *msg,
+ 	rxm = strp_msg(darg->skb);
+ 	rxm->offset += prot->prepend_size;
+ 	rxm->full_len -= prot->overhead_size;
+-	tls_advance_record_sn(sk, prot, &tls_ctx->rx);
++	err = tls_check_pending_rekey(sk, tls_ctx, darg->skb);
++	if (__tls_advance_record_sn(prot, &tls_ctx->rx)) {
++		/* sk_err alone can't stop the next record, SO_ERROR clears
++		 * it. A KeyUpdate in the last record properly retires the
++		 * key, so don't treat that one as an error.
++		 */
++		ctx->rec_seq_exhausted = true;
++		if (!ctx->key_update_pending)
++			tls_err_abort(sk, -EBADMSG);
++	}
+ 
+-	return tls_check_pending_rekey(sk, tls_ctx, darg->skb);
++	return err;
+ }
+ 
+ int decrypt_skb(struct sock *sk, struct scatterlist *sgout)
+@@ -2518,6 +2532,7 @@ static void tls_finish_key_update(struct sock *sk, struct tls_context *tls_ctx)
+ 	struct tls_sw_context_rx *ctx = tls_ctx->priv_ctx_rx;
+ 
+ 	WRITE_ONCE(ctx->key_update_pending, false);
++	ctx->rec_seq_exhausted = false;
+ 	/* wake-up pre-existing poll() */
+ 	ctx->saved_data_ready(sk);
+ }
+diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
+index 9d3cd4fff062..f69c3a736b94 100644
+--- a/tools/testing/selftests/net/tls.c
++++ b/tools/testing/selftests/net/tls.c
+@@ -26,6 +26,7 @@
+ #define TLS_PAYLOAD_MAX_LEN 16384
+ #define TLS_HDR_LEN 5
+ #define SOL_TLS 282
++#define TLS_RECORD_TYPE_HANDSHAKE      0x16
+ 
+ static int fips_enabled;
+ 
+@@ -300,6 +301,261 @@ TEST_F(tls_basic, recseq_wrap)
+ 	EXPECT_EQ(errno, EBADMSG);
+ }
+ 
++/* Fixed AES-GCM records avoid a dependency on a userspace crypto library.
++ * Each authenticates "test", with zero key and static IV, at sequence
++ * numbers UINT64_MAX - 1, UINT64_MAX and zero. TLS 1.2 uses the record
++ * number as its explicit IV; TLS 1.3 appends inner content type 23.
++ * The last record must never be accepted after counter exhaustion.
++ * tls_rx_recseq_ku_record is a TLS 1.3 KeyUpdate at UINT64_MAX.
++ */
++static const char tls_rx_recseq_ku_record[] =
++	"\x17\x03\x03\x00\x16\x49\xd1\xc7\x79\x45\x74\xd7"
++	"\x12\xe8\xbf\xe4\xaa\x70\x17\x58\x60\x66\xa0\xf9"
++	"\x5b\xac\x6a";
++
++FIXTURE(tls_rx_recseq)
++{
++	int fd, cfd;
++	bool notls;
++};
++
++FIXTURE_VARIANT(tls_rx_recseq)
++{
++	uint16_t tls_version;
++	size_t record_len;
++	const char *records[3];
++};
++
++FIXTURE_VARIANT_ADD(tls_rx_recseq, 12_aes_gcm)
++{
++	.tls_version = TLS_1_2_VERSION,
++	.record_len = 33,
++	.records = {
++		"\x17\x03\x03\x00\x1c\xff\xff\xff\xff\xff\xff\xff"
++		"\xfe\x62\x3c\xf3\xee\x4d\x18\x45\xf7\x62\x62\x2c"
++		"\x01\x9a\xfc\x47\x3d\x82\xb0\x9f\x7f",
++		"\x17\x03\x03\x00\x1c\xff\xff\xff\xff\xff\xff\xff"
++		"\xff\x25\xb4\xb4\x0c\xf7\x4c\xef\x86\xa2\xe1\x2d"
++		"\xa6\x31\xb5\x64\xf6\x21\x81\x7f\xad",
++		"\x17\x03\x03\x00\x1c\x00\x00\x00\x00\x00\x00\x00"
++		"\x00\x77\xed\xa9\xba\xbb\x29\xb7\x1a\x44\x35\x46"
++		"\x0f\x55\x94\x07\xdd\xc3\xe4\x91\x80",
++	},
++};
++
++FIXTURE_VARIANT_ADD(tls_rx_recseq, 13_aes_gcm)
++{
++	.tls_version = TLS_1_3_VERSION,
++	.record_len = 26,
++	.records = {
++		"\x17\x03\x03\x00\x15\x62\x3c\xf3\xee\xd7\x87\xd1"
++		"\x21\x46\x96\xc2\xfc\x59\x1c\x4c\x15\xec\x57\x6d"
++		"\xc8\x0a",
++		"\x17\x03\x03\x00\x15\x25\xb4\xb4\x0c\x52\x2e\x4d"
++		"\xcd\xf4\xec\xc2\x7e\xb8\x85\xed\xb7\x79\xf8\x39"
++		"\x68\xd6",
++		"\x17\x03\x03\x00\x15\x77\xed\xa9\xba\x77\x59\x33"
++		"\x88\x89\x13\x8d\x3c\xb4\x2e\xe0\x64\x72\xa5\x17"
++		"\x71\x45",
++	},
++};
++
++FIXTURE_SETUP(tls_rx_recseq)
++{
++	struct timeval timeout = { .tv_sec = 2 };
++	struct tls_crypto_info_keys key;
++	socklen_t len;
++	char buf[4];
++	int err;
++
++	ulp_sock_pair(_metadata, &self->fd, &self->cfd, &self->notls);
++	if (self->notls)
++		SKIP(return, "no TLS support");
++
++	ASSERT_EQ(setsockopt(self->cfd, SOL_SOCKET, SO_RCVTIMEO,
++			     &timeout, sizeof(timeout)), 0);
++	tls_crypto_info_init(variant->tls_version, TLS_CIPHER_AES_GCM_128,
++			     &key, 0);
++	memset(key.aes128.rec_seq, 0xff, sizeof(key.aes128.rec_seq));
++	key.aes128.rec_seq[sizeof(key.aes128.rec_seq) - 1]--;
++	ASSERT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &key, key.len), 0);
++
++	/* The penultimate record must still advance normally. */
++	ASSERT_EQ(send(self->fd, variant->records[0], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_WAITALL), sizeof(buf));
++	ASSERT_EQ(memcmp(buf, "test", sizeof(buf)), 0);
++	len = sizeof(err);
++	ASSERT_EQ(getsockopt(self->cfd, SOL_SOCKET, SO_ERROR, &err, &len), 0);
++	ASSERT_EQ(err, 0);
++};
++
++FIXTURE_TEARDOWN(tls_rx_recseq)
++{
++	close(self->fd);
++	close(self->cfd);
++};
++
++static void tls_clear_rx_error(struct __test_metadata *_metadata, int fd)
++{
++	socklen_t len;
++	int err;
++
++	len = sizeof(err);
++	ASSERT_EQ(getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &len), 0);
++	ASSERT_EQ(err, EBADMSG);
++	len = sizeof(err);
++	ASSERT_EQ(getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &len), 0);
++	ASSERT_EQ(err, 0);
++}
++
++TEST_F(tls_rx_recseq, queued)
++{
++	char records[80], buf[8];
++
++	memcpy(records, variant->records[1], variant->record_len);
++	memcpy(records + variant->record_len, variant->records[2],
++	       variant->record_len);
++	ASSERT_EQ(send(self->fd, records, 2 * variant->record_len, 0),
++		  2 * variant->record_len);
++
++	/* Both records are queued, but only the final valid one can pass. */
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_WAITALL), 4);
++	EXPECT_EQ(memcmp(buf, "test", 4), 0);
++	tls_clear_rx_error(_metadata, self->cfd);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
++	EXPECT_EQ(errno, EBADMSG);
++}
++
++TEST_F(tls_rx_recseq, so_error)
++{
++	char buf[4];
++
++	ASSERT_EQ(send(self->fd, variant->records[1], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_WAITALL), sizeof(buf));
++	tls_clear_rx_error(_metadata, self->cfd);
++
++	ASSERT_EQ(send(self->fd, variant->records[2], variant->record_len, 0),
++		  variant->record_len);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), -1);
++	EXPECT_EQ(errno, EBADMSG);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
++	EXPECT_EQ(errno, EBADMSG);
++}
++
++TEST_F(tls_rx_recseq, splice)
++{
++	char buf[4];
++	int p[2];
++
++	ASSERT_EQ(send(self->fd, variant->records[1], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_WAITALL), sizeof(buf));
++	tls_clear_rx_error(_metadata, self->cfd);
++
++	ASSERT_EQ(send(self->fd, variant->records[2], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(pipe(p), 0);
++	EXPECT_EQ(splice(self->cfd, NULL, p[1], NULL, sizeof(buf), 0), -1);
++	EXPECT_EQ(errno, EBADMSG);
++	close(p[0]);
++	close(p[1]);
++}
++
++TEST_F(tls_rx_recseq, peek)
++{
++	char buf[4];
++
++	ASSERT_EQ(send(self->fd, variant->records[1], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_PEEK), sizeof(buf));
++	tls_clear_rx_error(_metadata, self->cfd);
++
++	/* Plaintext decrypted before exhaustion can still be read. */
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), sizeof(buf));
++	EXPECT_EQ(memcmp(buf, "test", sizeof(buf)), 0);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
++	EXPECT_EQ(errno, EBADMSG);
++}
++
++TEST_F(tls_rx_recseq, partial_read)
++{
++	char buf[4];
++
++	ASSERT_EQ(send(self->fd, variant->records[1], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, 1, 0), 1);
++	tls_clear_rx_error(_metadata, self->cfd);
++
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), 3);
++	EXPECT_EQ(memcmp(buf, "est", 3), 0);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
++	EXPECT_EQ(errno, EBADMSG);
++}
++
++/* Only a KeyUpdate may introduce a key after the last record number. */
++TEST_F(tls_rx_recseq, rekey)
++{
++	struct tls_crypto_info_keys key;
++	struct tls12_crypto_info_aes_gcm_128 before, after;
++	socklen_t len;
++	char buf[4];
++
++	if (variant->tls_version != TLS_1_3_VERSION)
++		SKIP(return, "rekey requires TLS 1.3");
++
++	ASSERT_EQ(send(self->fd, variant->records[1], variant->record_len, 0),
++		  variant->record_len);
++	ASSERT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_WAITALL), sizeof(buf));
++	tls_clear_rx_error(_metadata, self->cfd);
++
++	len = sizeof(before);
++	ASSERT_EQ(getsockopt(self->cfd, SOL_TLS, TLS_RX, &before, &len), 0);
++	tls_crypto_info_init(variant->tls_version, TLS_CIPHER_AES_GCM_128,
++			     &key, 1);
++	EXPECT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &key, key.len), -1);
++	EXPECT_EQ(errno, EBADMSG);
++	len = sizeof(after);
++	ASSERT_EQ(getsockopt(self->cfd, SOL_TLS, TLS_RX, &after, &len), 0);
++	EXPECT_EQ(memcmp(&before, &after, sizeof(before)), 0);
++}
++
++/* A KeyUpdate in the last record retires the key without an error. */
++TEST_F(tls_rx_recseq, keyupdate)
++{
++	size_t len = sizeof(tls_rx_recseq_ku_record) - 1;
++	struct tls_crypto_info_keys key;
++	socklen_t optlen;
++	char buf[16];
++	int err;
++
++	if (variant->tls_version != TLS_1_3_VERSION)
++		SKIP(return, "KeyUpdate requires TLS 1.3");
++
++	ASSERT_EQ(send(self->fd, tls_rx_recseq_ku_record, len, 0), len);
++	EXPECT_EQ(tls_recv_cmsg(_metadata, self->cfd, TLS_RECORD_TYPE_HANDSHAKE,
++				buf, sizeof(buf), 0), 5);
++	EXPECT_EQ(memcmp(buf, "\x18\x00\x00\x01\x00", 5), 0);
++	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
++	EXPECT_EQ(errno, EKEYEXPIRED);
++	optlen = sizeof(err);
++	ASSERT_EQ(getsockopt(self->cfd, SOL_SOCKET, SO_ERROR, &err, &optlen), 0);
++	EXPECT_EQ(err, 0);
++
++	/* The new key resets the record number, so receiving continues. */
++	tls_crypto_info_init(variant->tls_version, TLS_CIPHER_AES_GCM_128,
++			     &key, 1);
++	ASSERT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &key, key.len), 0);
++	ASSERT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX, &key, key.len), 0);
++	ASSERT_EQ(send(self->fd, "test", 4, 0), 4);
++	ASSERT_EQ(recv(self->cfd, buf, 4, MSG_WAITALL), 4);
++	EXPECT_EQ(memcmp(buf, "test", 4), 0);
++	optlen = sizeof(err);
++	ASSERT_EQ(getsockopt(self->cfd, SOL_SOCKET, SO_ERROR, &err, &optlen), 0);
++	EXPECT_EQ(err, 0);
++}
++
+ FIXTURE(tls)
+ {
+ 	int fd, cfd;
+@@ -1839,8 +2095,6 @@ TEST_F(tls, recv_efault)
+ 		EXPECT_EQ(memcmp(rec2, recv_mem + 9, ret - 9), 0);
+ }
+ 
+-#define TLS_RECORD_TYPE_HANDSHAKE      0x16
+-
+ TEST_F(tls_basic, recvmsg_nopad_retry_iov)
+ {
+ 	char payload[32];
 
-If it depends on the platform then resctrl would need to separately let user
-space know whether the platform is asymmetric or not. This additional information
-seems unnecessary if the only motivation is to let user know if the max values
-are per-domain or not. Always listing all domains seems to be the simplest and
-straightforward option.
-> 3) What should happen to the legacy /sys/fs/resctrl/info/L2/cbm_mask?
-> Just hide it? I also considered renaming the resource to "L2A" to
-> avoid surprising legacy code.
-The current direction is to have these top level files continue to return
-the properties of the default/legacy control while in "legacy" control mode.
-When user space switches the control mode then these files return empty. 
+base-commit: 8e2fbe0e75d38690d551456658194c632933cb57
+-- 
+2.50.1
 
-This is what is implemented in RFC v2 so you should be able to see it in action.
-
-It was noted as one of RFC v2's opens:
-	- When switching control mode to native the top level control info files
-	  stop returning information. This could be considered "work as intended"?
-
-An example of this behavior in action as applied to "min_bandwidth" can be seen 
-on slide 4 of
-https://lpc.events/event/20/contributions/2368/attachments/2066/4625/resctrl_2026_combined.pdf
-
-Hiding the files could also be an option. I have not heard strong opinions on how this
-should be handled after the above mentions of current direction.
-
-Reinette
