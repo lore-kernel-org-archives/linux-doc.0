@@ -1,130 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4281C19644B;
-	Tue, 13 Oct 2026 14:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791900357; cv=none; b=p8nKodMulqITIOduMAOvRlR8Afaw9Mbkn8V01kiNyENVtjJglwrrO3uSHddvbsTCLN0Z+RalWd+4Bk/PmsiNxNN28TPBg5Gdlb7RpRWvzEuZpGbesKckHPWEBPQq1fZNOCWTGlCT9tgcotWSuHIbuVK1Cz3NRRazXzB9bF5ekDw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791900357; c=relaxed/simple;
-	bh=AxX67jWsUuaTtZEoMRvguycN7NXZniKNWCLhrGf4Z6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fmPfRtQB6YMjGlNNxltJ1Yf+iNgHhxORzP/LYVOO/v6mqLoboOAvggKp6hWx1i1UUeABO1QUXNdol2EPDhpjVhUrOkiS6Hp6lx0r/oAWehr5lUSoX5DeV2Zc4ihSEHh2Qi65P00eFyGHz+XnKl4xBYGrN+Rq2a8CHquKL9KUHoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCh9+fKw; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03BC3C4B63
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 14:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791900822; cv=pass; b=FXSNGUZJ7kyXfuKur5wlVy+vij2kP9YYN7WLBS3mGbGZA9PzhRmsdtgARPRBd255pi30ec2LBcby95mfyUOkmMT/CL+wwG5zefqGfVa+osVGzabF/a6lNek0TrIdmHVNepODqJKrYbCx8mmkO3ZYZprq3+oXEdBbXtPQuw0MwVs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791900822; c=relaxed/simple;
+	bh=LBo+gm3j3VM7myxDHJop+NPUR8ZxxSNcMEpSSvadFCA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gcb6Gd3IEz7359VA0fQNRlvpjxfu0vwN/zqv5RoRmeWrQOo+mLfUNoo3DqJ0Iwx4iDzY5g3D2UPexsdLOGsqbOlgIMFsdrF5tjPsbqt3qxSBk2crfvqk7KzrVgYAc5DA2aX87sS3/1kkD2g8GAoOZUpSYPxp/pod0tP3B4mxSsg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=j10WrLuk; arc=pass smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCh9+fKw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405971F00898;
-	Tue, 13 Oct 2026 14:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791900356;
-	bh=wBeiSFuYNJNlJiX0o66jLleHJnMSSH0A/fVVYhXWVUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SCh9+fKwfPFlbm+dqOFxNbpv7nQ6MvOk6LR1Ba/cFLLZuXLTkf3DILdvZq3mPayjT
-	 1hvZ9F+NKnqBThyFqIW/IKuOfoThJyPDb/GaPLVoH5sAgQeJOWsV0S44UPkrY+CtYv
-	 e3tNkHaOfx0LmP147IciRaRPLxTWxqBRTqkQ6uQuA9CEr5y/tMUBP7mhAWwZJSo07I
-	 b139QjHb2uDs2StIe28gJy4GHJh6DpmcS3G2ArfQrEsto1WXuyIw2Wree5mdNlQ93e
-	 qr5s+jY9CeqtOinGH2PQxsMVeY4tOoiD1+0KDCduy3QuzMib/58ukzYqgNOCwYkZUu
-	 8OkMcFQMKEP0A==
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 4E0D8F4006A;
-	Tue, 13 Oct 2026 10:05:54 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Tue, 13 Oct 2026 10:05:54 -0400
-X-ME-Sender: <xms:wjrOauL_y9xJ-Q9kS9hA3cnVud5YCN6J4BD6r5rvR2uCktdRqg8IVg>
-    <xme:wjrOauiXXZX8pHFIhf2mdBXpgs1aR-KWtsWFi74OGb-A9vzZD7nCARaKSIp_g7y88
-    SrRsmdb3g90REg_u_qARvQMhnkCUrKnGlgdkr5WsAmkkwz8-xHbFGY>
-X-ME-Received: <xmr:wjrOag52-BMR6D7SFv4VPK9p2MbcDQoMpNjTCO8xPjIy7j9N9PPqeEOS08auQtWyuKDTWTMtt_MDz9ibAI43YHh5wfYR-rpi>
-X-ME-Proxy-Cause: dmFkZTGeM/pPa44CJBwRfpoej23aZ7wQowgrer9EOYnL4S+T9oDjmmM52/dhdIHCsg+Ls6
-    9STVkwSeUyJmqbr/FByPDyFPJei87B8sEhOOsEtxIuXosnWBMWLPmykC+c3cd1caU834fA
-    80wCdWNyc91VPDdPYrqHQsK/xQgWNtxN6BKUepHqAX/PnZuOKKRb6dEzYWu9dKhbuQoUbE
-    G7XwEZDYPrLjZ/ut2ClAMDiY4/rUJqZlbRmcLtiY40La0I/8WAci3ATDWaXoEYW9TItW/4
-    x0m4gW/KnRGqvxqgd9MfXICdre5g89hxO1ZNGfnNAu432NftIjHzEhV9Sn+Y3/fBgRt8dg
-    kYqEHcBRRMfmeUpDbD+nAfKGMlmoER4GB1UTppxTH06041K9UZJ4EnQLNau3W/1Y+bvDQV
-    3J9S7JxKY96URtAj2+1UAR93nwpfvg6hllTRrJ5ukfkstZqh4Zx3RQfODNR0h0o4/Y/HV7
-    b0XW0lrdm1KowNdR90sDkhDtJlsCQXaM0yXfc82bDQ9Z++oSfZQI7yNSv8BQAmW+YCNw61
-    MmkVRAj/cO/DQ7+ic/kRNMcG1b8d+VzCllBKsEngsPpT+GjtO/wwK23nXtSE6eGgTJIPEZ
-    dMngKnTowQ24a0MBY/YXIsU1jdO31r51jqMHJuK4L0F5g/sjd1myHwdeAtRw
-X-ME-Proxy: <xmx:wjrOarMJIaUb6vxxRtBCxu7LmsqtyNQuIFYQikBtJHOK-CTEbWLfFw>
-    <xmx:wjrOandcnXLXqRpQdPPCjlEaoirihjWnpvwmgZIFZtZLhIqH4RDv3w>
-    <xmx:wjrOau2n1uGiZnaL06HjPIeQ3MtOte309yVvgIrPPTCmxirdqlj0yw>
-    <xmx:wjrOavMXsvssSlJLPOhRq0cbM2BXsxHsGfYqqHFa-uIHahQUUJjSrQ>
-    <xmx:wjrOahfcU7L2PWCVED0xzu6ZglrZ0ExJQ6qjxvqoLmzsTkzSc2xzVD8N>
-Feedback-ID: i8dbe485b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Oct 2026 10:05:53 -0400 (EDT)
-Date: Tue, 13 Oct 2026 07:05:51 -0700
-From: Boqun Feng <boqun@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rust: workqueue: replace deprecated system_wq with
- system_{percpu,dfl}_wq
-Message-ID: <as46vy6LubLHHgzP@tardis.local>
-References: <20261013-rust-workqueue-system-fix-v1-1-e9ec616e402b@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="j10WrLuk"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1ad2e2391so6011385e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:13:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791900819; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hbP2kc7Hrwn2+WZ2avdJTsiLaFH+2DyTQVq8/7ZUGDl95RrWBIBYgS/176TbVvEx7i
+         cNihM2jW1wYk9KfrKltl+Zd96/SWaa9g09P8bXkrLtJ0Slyqmnin5u2iaQz+2Gs7kTd4
+         WBq75/VmFL1xLni3HFC4xlrR/G5q32bGfN5PbjU8EtVBuv2aNLFTIZMDWmPnxxhWPzqC
+         EKbfzshEVe299pvk1pB6wU2TPrvJP8llWUHUc1WOXLD6p9Wf91ZWgTDz3dBPb+7wu+lo
+         kox9zpADlD8TAs5kqLbQAEKC0bY4qpVhZVHs/tWVsyV25coB2uGiHgbjwGFqY0iU8wq9
+         LpzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1oU3+fnvsIsUPuUfSW3CY9TCTSfpntPjY/For+phGlk=;
+        fh=F42VU1KdK6A0msiHpo+wJAwmXioWteReGKLzbEPSY2Q=;
+        b=q3xPfBNUj06tLkX5Yfq2zncwXaX1xGZrRR3NsIN4ZxDCKrx2CB97rOtkRHyZroQhn+
+         O9TQy2sV5yjenlU+VqfY3uBHz1OUbz7ihUrzOwItIsoU+lMcuSQzJfbuDJXqU/JnehDJ
+         th+PMvE1bdND5qya1IhF4vfMvyaYBKSxehjv1VuXMCSjFuBR9vDW7CdAIXVX6xCaPLz0
+         2wY02skpAx9OiytQZK4OuGFFqhqCPnZ0irevXycQhNICSVQu8tPlbQfn8WBquEbvOweE
+         afNFDnHu8Q6m63v2v0+6indg7jLwKuDh0CfdZVdy4UgnhgvoTaIWZD/B1xb47x0GqxKN
+         PS0A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791900819; x=1792505619; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1oU3+fnvsIsUPuUfSW3CY9TCTSfpntPjY/For+phGlk=;
+        b=j10WrLukAMVmifdfiJMLd6LwM3DD1VoCKQ7lp1yihENW4WsK0PebFuRtrkl9BCJ/U7
+         rQ4osOPQaj7i/YbZl6GbWPrBE7mMyCQe/0s9qtE2eyTy7OgI0Q87lO5Rg+B5+FRpSEmZ
+         vDfUBqAVl2u+lHasDVXE+s85A+KFUSJX+H/hk62xjwWOLxbBUOXii0Q4gzi/AyrWXvXg
+         0+dvdabwfx0vGhpD4cCc06dXXTqt5AeNkh5Nx4Fc2uOsLT7rNrcE98L5yjx4lUFCEKoZ
+         635CXEZXOiI3pt3lz8fiMpNRJH2UF3bMA3XfTEmV9qupfLUve6zlJCsiE5U+cMiW6WBm
+         Warw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791900819; x=1792505619;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1oU3+fnvsIsUPuUfSW3CY9TCTSfpntPjY/For+phGlk=;
+        b=IUnA0t6oUZuR/2aiDvEs9bf/lThcmdkXKu65EjfCwjtqNjY+IOmp9Y8zAOvgpxdhXT
+         +ek5Z0ee3utNLv1vayG24RPxN4elyMARRYLxKQjGZJc892CvIAJLL6azUaZkkFN5LX/l
+         Eex77nv1bW4YBHjiILYxirq5Q1ZuT8RlKwW9tSLe/fwVx0L0ahMoRAX/IskaIQOpIi+V
+         MeKdPVszAExNK4r0YvfycLuVOZjr6E1qfeL24W6AavWcEBMUe9n9zjlLuUllCjYPxSAD
+         lM7QblUp1uyoJk94KjqpN+4ZbAyuiy5T14+916ugVlx6Wuf0ZkVy33GSjw4Osou4YJ+2
+         ga5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwGVbLWCfMpyg3e2NV9jXqYgxIlYFkIOfK4tlXIRQ8i3UUrOlRmIIkwQm4JyxMeWG5of+mXceQxHus=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLvzQiVN7kciER0aIe5BW/ZignNoWpVucFedCcUUmx5FtRKRJP0
+	Z9VqdWt3xBRsdyvDERzlR0KZGd2ui9rt3sYEePBp9fusmS0wPuJXt4R5OJIgChn3nPw55rKxjFC
+	0iiU7Tw+XY6zL2P+HurCGqRxJFS9Osm9uj6lQcNiH
+X-Gm-Gg: AYBFou1FLdA3w2M0EcbxhbXCiD9/50IXI3UcidkqWUaguxTopYDcz4T7UrJr0VOxYnF
+	aSa5cYpJF/ZVkuFNqbCCUnJh9sR1yJT1cuy9MO5QtuzROWlIgSnOTwdydB+tHnPOXg1PrlqmUN3
+	2Y4wKn3sBxtJhPuGW633MLrpQQO3kyZUeQJO6NC1eqAVnsvvHzTugMpyBaF9fbYYToRCHsLFMPB
+	JScbtgYzN7s54b/vwNH+dYSmVQN46Reg6CS24u8A/WceoCQ5uhK6X+QOkZLYbpfneq8CYdRNHPu
+	XcFCIFBv7Deb6vsRgLqWLxXigvMvcjDXxxmHfSRiD3D5XtO30tw1TSH8HCM8krUJsJCkAEkiRuu
+	geTtcL0VY9K0j+z+fu+WIMmc=
+X-Received: by 2002:a05:600c:4e91:b0:4a1:7ec7:a479 with SMTP id
+ 5b1f17b1804b1-4a18e4f56bcmr259716625e9.33.1791900816884; Tue, 13 Oct 2026
+ 07:13:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013-rust-workqueue-system-fix-v1-1-e9ec616e402b@google.com>
+References: <20261013-rust-workqueue-system-fix-v1-1-e9ec616e402b@google.com> <DM3RIG8CD89K.1HR52QEO55IU8@garyguo.net>
+In-Reply-To: <DM3RIG8CD89K.1HR52QEO55IU8@garyguo.net>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Tue, 13 Oct 2026 16:13:24 +0200
+X-Gm-Features: AclHuK87fvpdr3oX5HLfqNciClAH9QoGGC3hFM3xSlDtUMWAcOLzXqxC9G8ECqs
+Message-ID: <CAH5fLghXHoy_2yYyjf+GZ16OVqek52XbF2L9Da+3qWgpf5Fy_w@mail.gmail.com>
+Subject: Re: [PATCH] rust: workqueue: replace deprecated system_wq with system_{percpu,dfl}_wq
+To: Gary Guo <gary@garyguo.net>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
+	Marco Crivellari <marco.crivellari@suse.com>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 13, 2026 at 01:51:39PM +0000, Alice Ryhl wrote:
-> From: Danilo Krummrich <dakr@kernel.org>
-> 
-> system_wq is deprecated and triggers a runtime warning:
-> 
-> 	[    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7_ enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
-> 
-> Replace system() with system_percpu() and system_dfl(), to match the
-> previous behavior of the deprecated system() and convert doc examples
-> and tests to system_dfl().
-> 
-> Fixes: 64d8eae3f895 ("workqueue: Add warnings and fallback if system_{unbound}_wq is used")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+On Tue, Oct 13, 2026 at 3:58=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> On Tue Oct 13, 2026 at 2:51 PM BST, Alice Ryhl wrote:
+> > From: Danilo Krummrich <dakr@kernel.org>
+> >
+> > system_wq is deprecated and triggers a runtime warning:
+> >
+> >       [    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7=
+_ enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+> >
+> > Replace system() with system_percpu() and system_dfl(), to match the
+> > previous behavior of the deprecated system() and convert doc examples
+> > and tests to system_dfl().
+>
+> system_unbound() is also deprecated (replaced by system_dfl(). It appears=
+ to
+> have no users, so we should remove it in the same patch.
 
-FWIW:
+I will resend with that change tomorrow.
 
-Reviewed-by: Boqun Feng <boqun@kernel.org>
-
-Regards,
-Boqun
-
-> ---
-> This patch was previously sent as part of other workqueue series [1][2].
-> However it's a fix that is independent of those series, so it's sent on
-> its own here.
-> 
-> [1] https://lore.kernel.org/all/20260726223613.1242940-3-dakr@kernel.org
-> [2] https://lore.kernel.org/all/20260807165252.3849875-2-dakr@kernel.org
-> 
-> Changes since [2]:
->   - Rebase on v7.3-rc7 and also convert the new SpinLockIrq KUnit test,
->     which calls workqueue::system() and otherwise fails to build.
->   - Add Fixes: tag for the commit that made system_wq warn.
->   - Collect Reviewed-by from Daniel.
-> ---
-[...]
+Alice
