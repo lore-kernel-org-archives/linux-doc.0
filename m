@@ -1,130 +1,145 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E90454DAD3
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 20:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791924564; cv=pass; b=oCAArO6K6V/o2tCxgNck249E20Eji4WCxWk2cB2pgd9ZIaEx5i2ia0MXzaF8629WnD+xgZSiNbRbArcaBZBmJ22MdqmvkjOZ/sFlZseUV1RZAM2aajbCQpy/fGv/QFRGwsgsd1Bj7yVjIaukjyrsVLGtylH2nEbrUBWvy0qpfYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791924564; c=relaxed/simple;
-	bh=VCb03VA6LjpMHOfUp8pvf/EGXGe3r0X2vnJKPUWICB0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D509D387346
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 20:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791924756; cv=none; b=fWz1JS9CUTeEC2WSJgR61aZ5sk+wHsyEfNJ9ncX4MU7bXTHY3Ks05L6Kkg7EzW3nOqT0O2a83GSMwMnTiS2D703na1qMUE6B2kdCIaBtJG6l+0PnYEtS5zHvm0LR9cp1j04zseN3cWQzPt0t8LWc1Cos7HRoSUUhWI6qX8G1G/k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791924756; c=relaxed/simple;
+	bh=yf4RMSnfEunnWk24XKCESjvLCRcSQ8/3hZrlo8LL1ZM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eVOPgPlKofGes9MCFnfsAl9PcfLRZ1M9BVocBcZkY5B5iCukkCVh3dFmRZIojEgFFZnVCKzsHuIRMemq9TvkjFSJwDOk7lJf2hALuofxQo2pAeYIbNklFKIhGnYLmilPNi9d+33E5MZXDCRWoY/r1/Qq5AeuMfPFSKWzoY9BLgI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hq0WLQJE; arc=pass smtp.client-ip=74.125.224.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=ucqZzhnEBscdj+kkvstAr+k/FToTBqYbIKfv6syCl2LHrvqonMbWi647Rhxa5ksUjNzcpUZm17kbeBCY1QxtewKc5cVcXNTpSekNu/umlXREiYuu1LkC+QYK/EPFT5Kjbm6T8pxE3sTJu6V84rRNKyzMuisW1pTfch4RwM1mD20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=DmPlucQ9; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hq0WLQJE"
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-6768a9fc0e8so3182690d50.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:49:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791924562; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Qs8fWHB6sAXXNFnnpxIuxozIbMttTAAVvXWf8XHbRg0Z1CcKFbg5s3K6f/JMVyvLyT
-         XiJtrrj6XFXS1BMUEsCGPAeswAyL2B715Fp7thjbtG4yklx0hY/P7B3c6PB/09SEl8VS
-         cVNGyupgFZ6CMLAzoYOaUaBKKhutiTXOCfq4wQ9g0erUck9oMbttB0eEXh1X7USX/Wap
-         D/Zb67QzbZzkSaT6OP75h1W3DFtqt0OJsZwIXNuLg5ZPgjE0Dyrcsl5yDqbTvskO8m9Y
-         URH3qf0eRoEMgeydAXjSGHZszNYdk8KG15zlzonuYwMlgCpCCthYXrXbC2oX2pu/Qrls
-         fNEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VCb03VA6LjpMHOfUp8pvf/EGXGe3r0X2vnJKPUWICB0=;
-        fh=5ywNvpojPC+XBGlZp1Lkcf1SVWOLvlcn588t5rRD2e4=;
-        b=C6YBvK3m3IarykIdjMVVylKUer9ZdfMWRHsLABPLcbWCWr+ERJCx3RHfH1RMtBwK6U
-         tAFjWVGTBzK3bCke0JRUFrmmJZgSe6vATPSMsx/yv2Yl4wPIayI9f6IfHwQrIiE4sw/4
-         2xzsTqXsYDhPF75fFaK0XfGjhDhwqhMBrBRDVM0nL6MuSOcpIWztFr/lL3Ppv37GK6zw
-         QOHRfJbyzXeSqpax5CIz3z8HDJ9BOpvfos4u3hfcT1O5MuAPx6fgEp764KhWWBdGjr9k
-         A457Z/9v6/9E+MeLJMqfUHZLLUTDpHsj7DnBEitFrmVYE4WRkHOLokoBrHmf6WA2nGvO
-         DGfA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DmPlucQ9"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c31745ad205so890449466b.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1791924562; x=1792529362; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VCb03VA6LjpMHOfUp8pvf/EGXGe3r0X2vnJKPUWICB0=;
-        b=hq0WLQJEF6QP73pmJ6c8FJeMVwrlj6kQptWIXaj1nw7k4uKBOCtdqhFa4ZEx1U9iI5
-         2noQBoKQenrv5zmZJK06HyjM7oJBoTx6T6GOFZDkIBKYzCTH4eq2ThweRjcfkv9OdK9g
-         gmGNRBbxuOwIzL99EqhlmFKi50HlDL2A7kFw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791924562; x=1792529362;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1791924752; x=1792529552; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VCb03VA6LjpMHOfUp8pvf/EGXGe3r0X2vnJKPUWICB0=;
-        b=yhLdJWp83ARFzhgkNSNKFwzCdq9W22FOnoiN0Z6EaoW4HHARukywWu1qr/J9EOJBKi
-         ULRoSCum81Hgrf/QWlLgUNP8KIBhk9Xh5RQexJPCXdTXPDcrFzfrOSXXFhWZS+tzKlTQ
-         TPmt3GPSCpo0CwygqH8p/MKkMflEzlfbdAmH21bGzrDCPCGU8lOtyJTnfXm4g3f9sV5N
-         s8gNnhCenBivshLcMShAV5mVuWifwvpEJk3dS4ggtYyg31/U6Y8wNxwV+adL6M56S6O9
-         oISCLszQkDPdFrl4SBbWzndnR1mk52/7NwXJaqEpAlnt/qHcjeJn65n11ytt6omig3Dk
-         ITYQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw0gdY+dtR/h9l41XBjfR25/ntTiUR8uSitSSndyXJI05FSj4TkDgExmZLkVjrWQiN8ie/VqJnSvWg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKYKxP8mhwkhsKaCFumzIVh4e6VmAF4sVOE7lEEW8v6v5xXaInS
-	6Rw1DNhkAaPVDpejkPHQZ5TTN1B9bADWfDtVHJfRhLTJwyZC1+1fczStfEOx4IRQd+93MWDB5km
-	hBt9/Va5kJi/tNcFB11pv1XR/BTZQS0k8pDcnMtNT
-X-Gm-Gg: AYBFou1MwbC6xc8yEwZej4AcU+ExFNH79N9UDtHAV7/MYwtTfAK+Md/y28LCWnP4Cio
-	+fSvOeUTct1JOVGR3yFCz/UBgOgEd5NXjRvJptJmYf5z0unkVyZbMXm04hZHUpM/PYx5RRzKtGP
-	6rBXj7Zos66ttwft+RrZpfIvbayuph8ap6+OErZQSs8nND/LgbWk4Kson20KMRJF8OiZ8i95/gW
-	1XG9z8DgDv/M10MqPYrp8YdW7SyHDCJoD57vEb6FZpgMlXDx4jzjAtfqwoKzrZdpt5cPBsNn5QZ
-	lbPdUPM+jcM1ldi9i5v/9gauUIAQCrCsI1RFnmCCffnYsoIbpBwKK5xhL4qBtEaLooWmhwtFczO
-	CvdQLaHZVMg==
-X-Received: by 2002:a05:690c:3346:b0:89a:63da:fab2 with SMTP id
- 00721157ae682-8b07ee2c80emr43041947b3.109.1791924561531; Tue, 13 Oct 2026
- 13:49:21 -0700 (PDT)
+        bh=RudQW7LOxsA6jUYblmQYPlfgoE0oTplLFcjkSbHMtHo=;
+        b=DmPlucQ9V1WhTo8RDFtSvzu1CYWyRIkbo+IxvaUQkR1KXujA1uvNOtvOiFOvogXkKo
+         lWxobY9E6DdyJPCL7oZKpNNplbUG89lruEi6gmwNhfqRsoC2bPjqdiR/xbdXrNgRft1j
+         qTYFe0i4kGXoPXmBV9VXcGqdEcQASgijR2WEs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791924752; x=1792529552;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RudQW7LOxsA6jUYblmQYPlfgoE0oTplLFcjkSbHMtHo=;
+        b=xkiesNUpJ+uDCGrrcb1Bi4KugBWddQkFteSif+IYQVXyblFrqGnyY1l1r0jxONXLHb
+         RN1NnJhQfjS5biqQkANG/9LIv0esbnLVTivXJ87LOmW6HvQ/2HfMHX83IzKM+g/Zz593
+         VZo4TCA/EcUGrQx3FoLsCBcQMQqhHqAUqlBaWbILNJ+X5R6tr4TxWZoHRHgyD4rSfx36
+         q4jsw5Gk8p/z5t5VQX2Pr2WDYQH5OKvsfHg342H+/SBdvQ58AfH9nnlkJbhthmxq/SKH
+         2dgguWfSiFB8w6+rYMQNYWdccdLgA9nuZhe+ZCGLZiGteSsf6q6qyS0AcgcUzVNjuHVI
+         EdJA==
+X-Forwarded-Encrypted: i=1; AKwUvBwgC6dhkfDfhvGw4wxpHKSVZELAZeSlkCKKkilGZTqiGfVtT/UcYccRPHCLqBTGT3RCerwWfQ+wkSc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIbJEQwXedfVLAjuNG79Nwp+BELjIcb8oWKLH4n2iN2wZO19pQ9
+	IJC8ygL9FTj4ol9DFzx/Gd5mq6ynp+O0FNf+K7RhO1mPxDkvRv632oaulfAxypJK/rtkjozNUBw
+	XeK6kDKc=
+X-Gm-Gg: AYBFou3CEUCQ+KYrEJC/qtoJT37th78B3FiQE3PQEgq39D7c7kvCXkHeKfjnqSU7619
+	O6s3HUfHFd4DlCVQE48IW9BqR8eEn9GhWJZWq57RavRbgHtUqUXEAgIpXYz2VymoPgzm+CXVX8R
+	luyUlBq8oeACC6MNDQhkNYZByD/IxwTp/ZNrZ8DknY740lgdzFk9bSmbr/HLXhkXXSG2NokP4L/
+	9Hc6qknRAfcdDA9yPIoQ5xvTEwiisZYzrun1PEZnQ+GadMgCh/0U+GCQs7ehBoj5TbE0zSM29GC
+	qnOk4NzL2V1pWq48lpWmvgC6aTA20x371ldEjBlwyTGR1Pgb3KfmN+8OjZaME1d+v6jdimgI6qD
+	J/xVjsOuVak5ye9wuvn3Gk495IxvgubhVl4+DOOMN66bQl0Jg21WCg4MKzNjYHJAHN0EhF/LGpE
+	F6Qr+IiwFGTcScMBJCXSayYoIt9Vie8Fnp43RHfq4uH5DN5EHMyOIY8ET1FB7AB7flVYe1863Cs
+	2qojpyvle9H++sydSTf3ErlpIsdICoSjl5K4aaA2Gij/TeM
+X-Received: by 2002:a17:906:730f:b0:c2d:d4dd:8b5 with SMTP id a640c23a62f3a-c31a9fc0b88mr1317243166b.19.1791924752001;
+        Tue, 13 Oct 2026 13:52:32 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c31a9a3ae32sm634772566b.28.2026.10.13.13.52.31
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 13:52:31 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b1aa27963eso3481598a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:52:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzFeyyBHwtLCYMiAEHu5+Xcv6N/+U1DPUM7CIP86oim1SAZu6SD92vF7MMKApJ5numBMdW4oh0wP2k=@vger.kernel.org
+X-Received: by 2002:a17:907:3f12:b0:c2d:cc6b:27bd with SMTP id
+ a640c23a62f3a-c31aa0096d6mr1387682466b.23.1791924325873; Tue, 13 Oct 2026
+ 13:45:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
- <20261009-send-upstream-v5-1-384af01da3ee@chromium.org> <be3f853e-8b37-4b41-a998-94de1cb552f3@kernel.org>
-In-Reply-To: <be3f853e-8b37-4b41-a998-94de1cb552f3@kernel.org>
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Tue, 13 Oct 2026 13:49:10 -0700
-X-Gm-Features: AclHuK9ox7K2COGXrl-FRR9cM2pKj2PME_s-ad7oALLfV1KkNB6t3-cZk6Vgeos
-Message-ID: <CAEe3GZE-3rCTw-2L-dzXqim5qHxLs1BKjpbmo9aT85ZBLWm5_A@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] Documentation: Correction in HID output_report
- callback description.
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+References: <asz9AeFe3CutP73z@gremlin> <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin> <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin> <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
+ <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl> <202610131000.43AB316FBC@keescook>
+ <20261013174243.GC178151@killaraus.ideasonboard.com> <202610131216.C841415F01@keescook>
+ <20261013201628.GO4214@killaraus.ideasonboard.com>
+In-Reply-To: <20261013201628.GO4214@killaraus.ideasonboard.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 13 Oct 2026 13:45:09 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
+X-Gm-Features: AclHuK_onBbZH1In8K4ATjQxippesrsP-1df32iL1wjxMZwsoKfFWUOiqALbMNk
+Message-ID: <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kees Cook <kees@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, federico.vaga@vaga.pv.it, 
+	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, hbarnor@chromium.org, tfiga@chromium.org, 
-	fqwqf@fqwqf.xyz, daleyo@gmail.com, Jarrett Schultz <jaschultz@microsoft.com>, 
-	Dmitry Antipov <dmanti@microsoft.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Justin Stitt <justinstitt@google.com>, 
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Brian Foster <bfoster@redhat.com>, 
+	Christoph Hellwig <hch@infradead.org>, David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 11, 2026 at 11:04=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
+On Tue, 13 Oct 2026 at 13:16, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> On 10/10/2026 00:25, Jingyuan Liang wrote:
-> > From: Jarrett Schultz <jaschultz@microsoft.com>
-> >
-> > Originally output_report callback was described as must-be asynchronous=
-,
-> > but that is not the case in some implementations, namely i2c-hid.
-> > Correct the documentation to say that it may be asynchronous.
-> >
-> > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
-> > Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Tested-by: Dale Whinham <daleyo@gmail.com>
->
-> No, you cannot test documentation. Do not add fake tags when they simply
-> do not apply.
->
->
->
-> Best regards,
-> Krzysztof
+> What this is about is setting our expectations, telling what we want and
+> what we don't want.
 
-Thank you. I will drop the tested-by tag in v6.
+No. What you are about is something entirely different. It has nothing
+to do with "expectations", and it has everything to do with your
+hangups.
+
+I don't understand this whole idiotic concept of "don't use AI for X".
+
+Here's a new rule just for you: don't use compilers for any of your
+kernel submissions.
+
+Because if you can't show that you really understand what the machine
+is actually doing by writing your code in assembler, then I don't want
+to see your code contribution. You clearly aren't competent if you
+can't write it that way.
+
+And btw, you had better not use an editor to write that commit message either.
+
+Because I need you to show me that you can actually write a good
+commit message without using tools that make it easy to backspace and
+hide the mistakes you made while typing.
+
+Ok?
+
+Because otherwise those tool-assisted commits of yours clearly aren't
+showing that you know what you are doing.
+
+Do you not see how UTTERLY STUPID those kinds of rules would be?
+
+So no. We're not going to make stupid rules that say "you can't use
+tools for X".
+
+The kind of expectations *I* have is that people do their best and I
+expect people to understand what they are doing.
+
+But that understanding has very little to do with what tools they use.
+
+And quite honestly, in my experience, the people I respect and call
+intelligent are not the ones that shy away from using new and
+interesting tools.
+
+                   Linus
