@@ -1,56 +1,56 @@
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E908566C76
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 22:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324C1565102
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 22:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791931237; cv=none; b=oLvqIm0WZ7l95CZYMc4BmWGjoHFnu+wWNGS28Pml4qZ2UDOy5K9jk3Ut8k0px7/mXDzVPKsOiPxMACx6Gpntc7csPobkPA8eRO5rXT8Ptka0SObaInoErv2B84p14O5KFoHq8d9Dj7awsBMddTp0SCTTKjCJyKaY1msaujNgogY=
+	t=1791931241; cv=none; b=AxYFcrnXgyDcegqK5ZhL4TlV/iQKMRoEjwB9c4PzT0eXTObkMIi3zBvIqmywATzE5M9utWtzbHthrps2nRuOnjNXVvpgeVo5zHHNXMi7c4yfUybOnhjYzkJw82kBpj1iZhE8Gei80C6vEtqHTx1qNI+nbSvHBYsFZ6y/IHqXoBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791931237; c=relaxed/simple;
-	bh=yGWlUBd3WHI6EIBVLEUjSDo5J54V9OXwWHfKf5QXzl4=;
+	s=arc-20240116; t=1791931241; c=relaxed/simple;
+	bh=8Gue2D8FQmaltlyoDbMsbnZp55Xg5g8xWwVlxRKB8Ck=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MYTgblnad3zNVijVTZhCS6ELwwX5avwntiHC4MjAI6Xbp+88QDM+cG5lzBdYyOvRsriZXnWQ0ldhDVG3NzLQm6zw3x/3093O1rWs8ey2vSvpltviiT888tXRcajJIqisCtMoPk0g5d2Ymi3ir/FE+wTp9med0hUQb5RA7NO6WFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D6PME6Qb; arc=none smtp.client-ip=74.125.82.199
+	 To:Cc:Content-Type; b=vGDz/PCcC0x9GfW0CuZ6j616E0FedPUR+9vU+cierV7HdOff1NWbRkxr37F+H0jrfu6VoC1WzRhF2WYiqXL8kGaMrkn/k3dz6aNgjKsdQusdBvzi+hwfnlBSiGgaKSXcexZU8DfVyohNQfjyNfTulkSeAxFQ+UfO1nCoc+z4oz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rj+C+eNX; arc=none smtp.client-ip=74.125.82.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D6PME6Qb"
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-35d4538fd74so1601242eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 15:40:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rj+C+eNX"
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30bcb065bfdso6716343eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 15:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791931229; x=1792536029; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1791931231; x=1792536031; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SzuEQJa4uF6wSn0s7ZpxNvjcEHFt9KB4NkbiARikmlQ=;
-        b=D6PME6QbwFKv+KahHm2UhLUXoKc7xYvu4TdJvN60CUXxu2+gOj6PAbohr6Km2Yy2/3
-         4ESB8auB11kK5HlTEMDLXKzQ8M6RKPkMyzsCM07y88zl42jDswIlAB39TnfgWbmyTrN9
-         mctNQQw9yNaLcx5qwQiecf4HxIdS4n/DbBFaEHRyUbeaFgeWr0KbRPZxGZAiIh1uJaKw
-         1LQkOafoAAaETg7sD/4JwiKk6Qg+YkzfX5LVGbJTSxxEpohNfI2dl1K664SRRmgDQdXR
-         kvk5qwQHLrIx4zvJ8YaUbYp9KrFT9FpcZhFm7mVlSDopcRIclHsTeiIX+P6QjSACYGo9
-         6HRQ==
+        bh=E3db36lwsPWQArDIHzP6eqDHTacNJpd6D0FMiQjZlVc=;
+        b=rj+C+eNXOent5Mi1/wd3KOhalv/vtqTtEJbJ+egQ+qFOsL8TSAkizXzKvYeKIT3Gif
+         SEp9UTOzzHsTl9/PINSfb0zeoSXP7Ugi4c8RXsJR7fry/8ZXVbHsisByBm71gOmnoxqF
+         R+l5sXVZM5Yo9d7/IQAnzbeB6Nv82MbfCmeVD+hIM+NLxMKgNcZ1c+4poqTE7+3fl0Zr
+         P7ocO0j54KigRbcDngIP1jseesCb4XMfaPenzWX6gplpAPydvmHernQcWmdcVaeT6uLC
+         WY/4Pj4+yuS+Tb+9GhfZK8ENw+dYMKr3aHB3Wb3qQT0+WPyeAVSMuFBaDm8p8/CZnK/6
+         +Lpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791931229; x=1792536029;
+        d=1e100.net; s=20260707; t=1791931231; x=1792536031;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SzuEQJa4uF6wSn0s7ZpxNvjcEHFt9KB4NkbiARikmlQ=;
-        b=ylouVzhB5CZnp1KC49RLRlSHKyEORTfDn/zdrbiTKdsx0WvOTc0thK3EoXoSpKwDBN
-         ZIP6YFay2tsnyFC6hXLUsDy1Aa8xSEdROO3ZUESNO8dVeR9vQ7s/6Xju1Ru6jjUGg9EB
-         XTZ4Us0xA887pNnV0wfb2g4skfapoBLQ2Ba1GZmtQE5Di+dW57qHW/BfT1YIv3x5R3k2
-         HStYCVys+L8NVOZiAq7SfERTLFox9Hh9sGBV/rHHQW/XR5bbGCmrSMh+Ga37mZnqwMQ3
-         LAa8m9IzJzoEnSkLRWUG3zjFT8OakvNS+clLQ80IE4MTp66jr0y5Vpc5iLSoueM+3yk+
-         86+g==
-X-Forwarded-Encrypted: i=1; AKwUvByCiiK53vLIpMAQrPpQk7UT3kQE6HCvkmzbf+ry5v/W3QF6N57dZ5PmqD2n6QbKrBuMTdEtSzqtsFk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLV9Mq6dGLXhm7MkBA+9oQ7d/FDbbKQDnvZ52Mruw9j3NypOpD8
-	Ra+ZnykVeIxjtwH0ll5J43nj/goJWy3aQEmjovNytKKEN619+BdS+oKmkaV7hgMgDPymkWLKGHP
-	ZJVklB1x9VA==
-X-Received: from dybmf44.prod.google.com ([2002:a05:7301:92c:b0:358:41fa:f46f])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:c8c2:b0:35a:8dad:6724
- with SMTP id 5a478bee46e88-35a8dad7ec8mr9213311eec.22.1791931228757; Tue, 13
- Oct 2026 15:40:28 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:39:42 -0700
+        bh=E3db36lwsPWQArDIHzP6eqDHTacNJpd6D0FMiQjZlVc=;
+        b=02PNXC14a5/I0Z0rCSsj9eDFVKu+bynzIMWgUD0lqNLohGMLRxilLRuD0yC4/j4sxl
+         etdoGkvEPAulFEZOCvqILwn2d830ziSz1d4ybNYpJdS8No0LMMASioXG0iP3QhKbds89
+         2CfRotrlj3zOTM4M74KwdgQR13IoRt1i88rPHt9Uf8mKNTL3sq/WpMOMELSdLzyhFpMk
+         02nsAlZ8LPNmJunod/njBeSW702D471bfFb36e4nrHmCvtzlpWeAU0tnHkqKU73KYUC+
+         VD9mxvwaS8VFaeAcxS03wGYQDQMJknj5Fj9QKxyPQx6xPuhYA5iDDVJnkX9q/nmrDdco
+         BFRQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwgiBvs5Jc9hnroqZ/AiW8AjyRpVRVfx/0w1xjTMr4V5XpTV16cwvHWedrBM+nrMonZPLg69TZZcN0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLV+XYr56UdzC9ewbiQ3N9NLKzeOlonLI7kKojITAtVWUPmBD27
+	V2F5oGlHLoU2jXipPKQqOxwxbh0Rq++eWTjxqyT0oHl3vjHolMBCqHNvd88fXxs+TyxdsQDdaNt
+	A00QK/O219g==
+X-Received: from dybmd37.prod.google.com ([2002:a05:7301:1825:b0:351:1da6:c2e7])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:78cb:b0:351:515b:4e85
+ with SMTP id 5a478bee46e88-3537e088bd7mr19706222eec.16.1791931230851; Tue, 13
+ Oct 2026 15:40:30 -0700 (PDT)
+Date: Tue, 13 Oct 2026 15:39:43 -0700
 In-Reply-To: <20261013223946.1836757-1-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20261013223946.1836757-1-irogers@google.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261013223946.1836757-8-irogers@google.com>
-Subject: [PATCH 07/11] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+Message-ID: <20261013223946.1836757-9-irogers@google.com>
+Subject: [PATCH 08/11] s390/sclp_mem: Allocate struct sclp_mem dynamically and
+ add kobject release
 From: Ian Rogers <irogers@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -90,40 +91,176 @@ Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>
 	Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-hypervisor_init() in drivers/base/hypervisor.c creates hypervisor_kobj
-with kobject_create_and_add() (which allocates a dynamic kobject using
-dynamic_kobj_ktype), and hypervisor_subsys_init() in
-drivers/xen/sys-hypervisor.c then overwrites hypervisor_kobj->ktype with
-&hyp_sysfs_kobj_type, which had no .release callback.
+sclp_init_mem() allocated a single array of struct sclp_mem with
+kzalloc_objs() and registered each embedded kobject using a kobj_type
+without a .release callback. Allocate each struct sclp_mem individually
+with kzalloc_obj() instead and add sclp_mem_release() to free it.
 
-Add hyp_sysfs_release() calling kfree(kobj) to preserve the dynamic
-kobject release behavior.
-
-Fixes: cff7e81b3dd7 ("xen: add /sys/hypervisor support")
+Fixes: ff18dcb19aab ("s390/sclp: Add support for dynamic (de)configuration of memory")
 Assisted-by: Antigravity:gemini-3.1-pro
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- drivers/xen/sys-hypervisor.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/s390/char/sclp_mem.c | 73 +++++++++++++++++-------------------
+ 1 file changed, 34 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/xen/sys-hypervisor.c b/drivers/xen/sys-hypervisor.c
-index 91923242a5ae..0e8a2cd69fd6 100644
---- a/drivers/xen/sys-hypervisor.c
-+++ b/drivers/xen/sys-hypervisor.c
-@@ -659,7 +659,13 @@ static const struct sysfs_ops hyp_sysfs_ops = {
- 	.store = hyp_sysfs_store,
+diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
+index 6df1926d4c62..f7c161e0d836 100644
+--- a/drivers/s390/char/sclp_mem.c
++++ b/drivers/s390/char/sclp_mem.c
+@@ -49,11 +49,6 @@ struct sclp_mem {
+ #endif
  };
  
-+static void hyp_sysfs_release(struct kobject *kobj)
+-struct sclp_mem_arg {
+-	struct sclp_mem *sclp_mems;
+-	struct kset *kset;
+-};
+-
+ struct assign_storage_sccb {
+ 	struct sccb_header header;
+ 	u16 rn;
+@@ -304,7 +299,15 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
+ 	return rc ? rc : count;
+ }
+ 
++static void sclp_mem_release(struct kobject *kobj)
 +{
-+	kfree(kobj);
++	struct sclp_mem *sclp_mem = container_of(kobj, struct sclp_mem, kobj);
++
++	kfree(sclp_mem);
 +}
 +
- static const struct kobj_type hyp_sysfs_kobj_type = {
-+	.release = hyp_sysfs_release,
- 	.sysfs_ops = &hyp_sysfs_ops,
+ static const struct kobj_type ktype = {
++	.release = sclp_mem_release,
+ 	.sysfs_ops = &kobj_sysfs_ops,
  };
  
+@@ -321,36 +324,40 @@ static struct attribute_group sclp_mem_attr_group = {
+ 	.attrs = sclp_mem_attrs,
+ };
+ 
+-static int sclp_create_mem(struct sclp_mem *sclp_mem, struct kset *kset,
+-			   unsigned int id, bool config, bool memmap_on_memory)
++static int sclp_create_mem(struct kset *kset, unsigned int id, bool config,
++			   bool memmap_on_memory)
+ {
++	struct sclp_mem *sclp_mem;
+ 	int rc;
+ 
++	sclp_mem = kzalloc_obj(*sclp_mem);
++	if (!sclp_mem)
++		return -ENOMEM;
+ 	sclp_mem->memmap_on_memory = memmap_on_memory;
+ 	sclp_mem->config = config;
+ #ifdef CONFIG_KASAN
+ 	sclp_mem->early_shadow_mapped = config;
+ #endif
+ 	sclp_mem->id = id;
+-	kobject_init(&sclp_mem->kobj, &ktype);
+-	rc = kobject_add(&sclp_mem->kobj, &kset->kobj, "memory%d", id);
+-	if (rc)
++	rc = kobject_init_and_add(&sclp_mem->kobj, &ktype, &kset->kobj,
++				  "memory%d", id);
++	if (rc) {
++		kobject_put(&sclp_mem->kobj);
+ 		return rc;
+-	return sysfs_create_group(&sclp_mem->kobj, &sclp_mem_attr_group);
++	}
++	rc = sysfs_create_group(&sclp_mem->kobj, &sclp_mem_attr_group);
++	if (rc) {
++		kobject_put(&sclp_mem->kobj);
++		return rc;
++	}
++	return 0;
+ }
+ 
+ static int sclp_create_configured_mem(struct memory_block *mem, void *argument)
+ {
+-	struct sclp_mem *sclp_mems;
+-	struct sclp_mem_arg *arg;
+-	struct kset *kset;
+-	unsigned int id;
++	struct kset *kset = argument;
+ 
+-	id = mem->dev.id;
+-	arg = (struct sclp_mem_arg *)argument;
+-	sclp_mems = arg->sclp_mems;
+-	kset = arg->kset;
+-	return sclp_create_mem(&sclp_mems[id], kset, id, true, false);
++	return sclp_create_mem(kset, mem->dev.id, true, false);
+ }
+ 
+ static void __init align_to_block_size(unsigned long *start,
+@@ -368,8 +375,7 @@ static void __init align_to_block_size(unsigned long *start,
+ 	*size = size_align;
+ }
+ 
+-static int __init sclp_create_standby_mems_merged(struct sclp_mem *sclp_mems,
+-						  struct kset *kset, u16 rn)
++static int __init sclp_create_standby_mems_merged(struct kset *kset, u16 rn)
+ {
+ 	unsigned long start, size, addr, block_size;
+ 	static u16 first_rn, num;
+@@ -394,7 +400,7 @@ static int __init sclp_create_standby_mems_merged(struct sclp_mem *sclp_mems,
+ 		goto skip_add;
+ 	for (addr = start; addr < start + size; addr += block_size) {
+ 		id = addr / block_size;
+-		rc = sclp_create_mem(&sclp_mems[id], kset, id, false,
++		rc = sclp_create_mem(kset, id, false,
+ 				     mhp_supports_memmap_on_memory());
+ 		if (rc)
+ 			break;
+@@ -405,45 +411,34 @@ static int __init sclp_create_standby_mems_merged(struct sclp_mem *sclp_mems,
+ 	return rc;
+ }
+ 
+-static int __init sclp_create_standby_mems(struct sclp_mem *sclp_mems, struct kset *kset)
++static int __init sclp_create_standby_mems(struct kset *kset)
+ {
+ 	struct memory_increment *incr;
+ 	int rc = 0;
+ 
+ 	list_for_each_entry(incr, &sclp_mem_list, list) {
+ 		if (incr->standby)
+-			rc = sclp_create_standby_mems_merged(sclp_mems, kset, incr->rn);
++			rc = sclp_create_standby_mems_merged(kset, incr->rn);
+ 		if (rc)
+ 			return rc;
+ 	}
+-	return sclp_create_standby_mems_merged(sclp_mems, kset, 0);
++	return sclp_create_standby_mems_merged(kset, 0);
+ }
+ 
+ static int __init sclp_init_mem(void)
+ {
+-	const unsigned long block_size = memory_block_size_bytes();
+-	unsigned int max_sclp_mems;
+-	struct sclp_mem *sclp_mems;
+-	struct sclp_mem_arg arg;
+ 	struct kset *kset;
+ 	int rc;
+ 
+-	max_sclp_mems = roundup(sclp.rnmax * sclp.rzm, block_size) / block_size;
+-	/* Allocate memory for all blocks ahead of time. */
+-	sclp_mems = kzalloc_objs(struct sclp_mem, max_sclp_mems);
+-	if (!sclp_mems)
+-		return -ENOMEM;
+ 	kset = kset_create_and_add("memory", NULL, firmware_kobj);
+ 	if (!kset)
+ 		return -ENOMEM;
+ 	/* Initial memory is in the "configured" state already. */
+-	arg.sclp_mems = sclp_mems;
+-	arg.kset = kset;
+-	rc = for_each_memory_block(&arg, sclp_create_configured_mem);
++	rc = for_each_memory_block(kset, sclp_create_configured_mem);
+ 	if (rc)
+ 		return rc;
+ 	/* Standby memory is "deconfigured". */
+-	return sclp_create_standby_mems(sclp_mems, kset);
++	return sclp_create_standby_mems(kset);
+ }
+ 
+ static void __init insert_increment(u16 rn, int standby, int assigned)
 -- 
 2.56.0.385.gd3acb90ef8-goog
 
