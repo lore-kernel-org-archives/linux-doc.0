@@ -1,135 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5A7391E52
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F3646A5EC;
+	Tue, 13 Oct 2026 05:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791869223; cv=none; b=UBfUh1CWCm7mxX6v1UlRtVoNceaGGoxNcnF52OVfux8XrnL+u3qo4aGtcTzzLnzuzuUS9RA9n4aRdfhKzuT8YLBosGIc7ocZOtXia8yqT4iyBtyE+kbfIuq0wFlwnCkt07+1dQv/1x6UT7kgZjDERofZjSUR/Pu8l7tQ4s03UjM=
+	t=1791871030; cv=none; b=eSsqkSu+VNzFtPGbUvnxN/bebqSlMks91xQy6o0Mrl8NIO36RIpy6JCKWcMWUfMyEmBL77ieLhJsFg5JXxEfLqSZ6CuPvmuW7lFTLC3Kp0/625gr/twgwD3wU6ldwqDqgYautaoGW0BjsWuO4nUj5N6kciMIYnztwNxxExTyIPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791869223; c=relaxed/simple;
-	bh=hjt7WdqvBS+sKPOEWx62yXCoipEnUvIuBL1q83yUbyo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LhwXZ2zV5KdAeyzuqu67nFKLrUlChwqqQZPcG5xBKJftq0r50/YLwWRKBmrMGiSTXYa89qNdXNWkXRT3UBfM9OhcI7iihYzAAqt1kzCkGp7bUOrRIJ6oQeC9dhJAg+UtYlr8tG0BRaZCUMKgPywG5TQerldSxQD3vJOhTaRIHYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+NCQmjW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791871030; c=relaxed/simple;
+	bh=18/qfX4HcXJRPcrQ8STVuCZiIGfxRwH/y3T8TPswJRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YvUG7KL4YfC3x2qPZ3Zp8vlb3dM9t8OVFBxljXFdjxIP/JcBo1Z6AVAiK587ftqaEHh5fIxKIJt6TwBFoxiZ6A68fzeFlCLBL2926WjWNKxvBOWDArhul3lYkQw+Cw7g9gVaGWpCzEc8CkAptAiBTjdMnaTEwgO8Muj05W4RnDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DKJimCxr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+NCQmjW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 932CD1F008BC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791869222;
-	bh=hjt7WdqvBS+sKPOEWx62yXCoipEnUvIuBL1q83yUbyo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=n+NCQmjWoXbOOZxAomCytsmbb3aASwIZLPL3YVbo8rDWFRajKdOYFtX9TTerL1mmg
-	 CK4m51usMzr5qm17bBqE5xYBOCZKpmVMEFrxfk+WlMC4OSlAJ9rVNclUE6x/BTvkkK
-	 054SeUaZ1Pg9UMuOw8h0BM6Biq7qSuYcatAAJnuD91PfgmklFOUDcfL0vnXU6NzYIA
-	 o6JNU89q3wedXxDRA4m0ldetoqhCmvucflGiledMqA0w368d1gbIdzjiEhkaxBbanw
-	 HYMFffm2IG01aoR1Uk31n7rQzrTBciGsschJMz531fPAoTmUkPi9VpW3z8VLduW/rn
-	 LVHtxVMN6lcHg==
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c315729ad50so428019066b.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 22:27:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBytfp2UCVjt8UVe4YbnDN28V2u9iNBkIznmA2ggiANQKjPd0Frt+6cSULrqy9aFYmskr3MSYM4etlE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLFyXtsDjbhB5KtPVoS182jIH5Di3vQL9HGPGJ6yf+egDdKgPqw
-	bmezXYu7oFetwM+yadGv+UH+B+XrUjYDiBh9UX9MkdDB2ifPqbYDvolcLsERJtV2PmEUM+ZGTjA
-	am6L47nlmlGfszKnU5uTbm0A/bxd0/7e9oG34Y9KjFQ==
-X-Received: by 2002:a17:906:630c:b0:c2e:4601:24d7 with SMTP id
- a640c23a62f3a-c31aa0b038fmr1163593566b.39.1791869221297; Mon, 12 Oct 2026
- 22:27:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DKJimCxr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=mj1hufmP8BiibhXLbvfAtKRleJuT2qaHQl5ahc3a4Hs=; b=DKJimCxrh2hSz/OjLyxh4NPu7K
+	eubpknqXEcLrlsHHM1b9MgvHzI+F4M4vGFFZoIjxpueeC7ivt0FRAvO1aEon7BWtae4+W7h5BYuBl
+	h7BDQFn1VEltkZUF+9S6nGAJsBuBV6Hl/cPFkHt1Qk4bcCP1SXg65uE/ACIc4nPYHXV2WDp9JBeG6
+	UNQz9Z1K8xWSakFu6iqDwMGJevSczwbw8P6R3bzC8oKv4D4ErcNw4OdloC1+LtH/Wuxt4InvnLVHG
+	8QS3O8s4F3iRlAnqQU8OjUOYctFhCBs01byc/Pmc0zgtkuFAfxwiI7vbZCQ8xGvBeS8bnFE/i+lOR
+	mFtQlI/Q==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xGVVU-0000000C3vZ-1fl2;
+	Tue, 13 Oct 2026 05:57:00 +0000
+Message-ID: <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+Date: Mon, 12 Oct 2026 22:56:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org> <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com> <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
-In-Reply-To: <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
-From: Chris Li <chrisl@kernel.org>
-Date: Mon, 12 Oct 2026 22:26:49 -0700
-X-Gmail-Original-Message-ID: <CACePvbVTnCOh51jvEpkDJ32idvCubgN1eHBps6vESjhVC8E_aQ@mail.gmail.com>
-X-Gm-Features: AclHuK_DfQCPO4j2m10REoB4qF9zAuO9SjVMLTAFlHAeodT0hj3mwVtXkmxRAyo
-Message-ID: <CACePvbVTnCOh51jvEpkDJ32idvCubgN1eHBps6vESjhVC8E_aQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Kairui Song <ryncsn@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: remove Assisted-by references
+To: Kees Cook <kees@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+ apw@canonical.com, joe@perches.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261009083137.3-1-sashal@kernel.org>
+ <202610122124.08E058768D@keescook>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202610122124.08E058768D@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 5, 2026 at 5:19=E2=80=AFAM David Hildenbrand (Arm) <david@kerne=
-l.org> wrote:
->
-> On 9/22/26 15:38, Chris Li wrote:
-> > On Mon, Sep 21, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> w=
-rote:
-> >>
-> >> On Fri, Sep 18, 2026 at 11:50=E2=80=AFPM Chris Li <chrisl@kernel.org> =
-wrote:
-> >>> No that time slot is too late for Asia developers. I don't think we
-> >>> should use that time slot for swap alignment.
-> >>>
-> >>> We should find a time slot more friendly to Asia.
-> >>
-> >> Any time slot would have that kind of problem. We're spread out across
-> >> the globe.
-> >>
-> >> Let's just use a standardized time slot we have for MM alignment sessi=
-ons.
-> >
-> > There are more swap maintainers in Asia than in the US + Europe, at
-> > least based on the maintainer file. Please be more inclusive. If the
-> > alignment is done without key stakeholders, it miss the point.
-> >
-> > Sigh, we can't even align on a time slot.
-> >
-> > In that case, let's keep discussing on the mailing list. At least it
-> > is accessible to every one.
->
-> Looking at the mailing list, that approach doesn't seem to work.
->
-> Finding a time slot that makes US, Europe and Asia happy is ... tricky.
->
-> 1 AM is certainly unpleasant.
->
-> US vs. Asia is also tricky, but doable.
->
-> China 8AM vs. US West Coast 5PM?
->
-> China 9AM vs. US West Coast 6PM?
 
-Hi David,
 
-Thanks for organizing this. Time slot that works for Baoquan and
-Kairui should also work for me.
+On 10/12/26 9:24 PM, Kees Cook wrote:
+> On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
+>> The Maintainers Summit reached consensus to deprecate the Assisted-by
+>> tag. Remove the documentation requiring it.
+>>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> 
+> Yup, it has become as redundant as specifying what editor I use. ;)
+> 
+> Reviewed-by: Kees Cook <kees@kernel.org>
 
-Hi Kairui,
+and for those of us who don't know details about the discussion,
+how is it redundant?
+Do you assume that everyone now uses it (LLM), just as everyone
+uses an editor?
 
-I understand that you have some face-to-face discussions at the
-conference. Do we have a list of what has been aligned and what is
-pending to discuss? We should have an agenda to avoid repeating
-already aligned items.
+I still agree with what GregKH said on July 2, 2026, in
+https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
 
-Chris
+
+-- 
+~Randy
+
