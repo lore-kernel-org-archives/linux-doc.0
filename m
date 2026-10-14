@@ -1,207 +1,132 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3175D337699
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC2615665C;
+	Wed, 14 Oct 2026 09:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791971234; cv=none; b=pmnIJifsYdmU2Vv4yOHzNs06Hk9BFQ/mYQPzPQRWdbPvq4OLYy6ZN7q8iX0QBwNai7LHIdHzoisbd/JrOH0RyJl4Y8KyUDoODtojvU/rfj/niAZ0HDbMmnKqGxx0OUx2KTmSCB4RF6YRSYJAFXe7Hrt2c63itS+Kkdg6fiBfHLE=
+	t=1791971602; cv=none; b=CC43tOroXYqCSPmLLq5wa+PewgAFC6X01yO/shOyIrCLWsConJHytDwPGfzbfZ0pIQiJTOJrFY9SVczuCMCWpxPy15MJDmSAHya2/s3wokA5Llf9mFIyU2DVLHq1i5xEpIwS3SAQhT5jGoSt6TtSK4z6R/npbSW4eR1hGllA3hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791971234; c=relaxed/simple;
-	bh=aBVtLn5MQ5LxZew5OowEB1FNLtrfaSSvIihL5rNHeJo=;
-	h=Subject:Content-Type:Date:In-Reply-To:From:Message-Id:
-	 Mime-Version:References:To:Cc; b=Dd5tFT1FuqAszMRnY2ivHnRcrvg1G98fV4lDwoWurbvNBRIjEz64uJrSDJBQWQ5L+VrpYF5x7PVFMECXLp8M0E1Ot/Ylb7B02hfcZtKtI9nVzuxGoXriO27RcwNG4tDRbX3dt/npahXrL9FGPAAvooRhRKrPR5TOpJniX8VatPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UNWzPU7G; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1791971602; c=relaxed/simple;
+	bh=ulf5xv3gZRkzQ2p4iCZVnIb4iKNqtbR/JTlO3KsKFxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p61BhZzv9CbvgnBY/z6Z3ruz7j09sEqvvTOrC838lK+vxU1h5xFapoSmkeMI+OnJUC45RRO6MNkTMNFQ0HIQz0DyhdfM71ITZgmrHsxAvQ/7ltOKFHYSaXYXaCFH7cRmXfOhzDPMx2WezEV3QdOv0p2uihk2LuC2CkOsQVcQlRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=P5nRMCTi; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UNWzPU7G"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791971227; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=WvSSi/qfex9riZEpa78JUEMn8C07c1f5TdCJDgGPBWk=;
- b=UNWzPU7G/WKZtu+E2SlLjQSyjdH2ozBiMRrQCqdQqq5uL1k0IAqbf/KeqKt8zVXJcxSJQo
- zrJUKakCB1m4nYJM9XRplGQTbkVW/1I6uGihVaxjpdYxmsee2npPP6+63lie70RzZyArXm
- uffBP67OCtRFibDRnc+We89rPxhlooK2tkuZWVOSHDFybamQBqL3rVwMJFsYnmqss/nSNI
- f71ZrO9ONsgcj8ur58DpsJozBPqLznHK9aIcpuAOjqt7vTYtUAI9/w3eaV8jr6OszJjWP9
- B6b45DhBabq0hc2bhkMa6pKo/reYOT7Dnp4x2TAVjVRJ8zUCKviIM0L0rOV0zQ==
-Subject: [PATCH 6/6] sched/numa: ignore preferred nodes without normal balancing
-Content-Type: text/plain; charset=UTF-8
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.45.2
-Content-Transfer-Encoding: 7bit
-Date: Wed, 14 Oct 2026 17:43:47 +0800
-In-Reply-To: <20261014094347.99157-1-lizhe.67@bytedance.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Message-Id: <20261014094347.99157-7-lizhe.67@bytedance.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="P5nRMCTi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=hO
+	qqSU4bOLhFj0Ntu32+7viLCVetkiFnaPi1n9kTbzU=; b=P5nRMCTiZnum/Doead
+	++0vZl7Y6ejCyKz5hO408VmLoZwO076GqK5QL0N3O8062rn6mfVdw3R/7LTQrBzg
+	kRCB+dixqzp4ULHXH9wlSYLdQiRN982J/49oJ+R37UaWSRG9/Bd+yFNnzX8uf4+Y
+	Lx01p4XhedeqkXEEw4EQ47GbI=
+Received: from localhost (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgDXX9foUM9qdnafEA--.29710S2;
+	Wed, 14 Oct 2026 17:52:41 +0800 (CST)
+From: Hui Su <sh_def@163.com>
+To: elver@google.com,
+	dvyukov@google.com
+Cc: kasan-dev@googlegroups.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 2/4] kcsan: add debugfs target control
+Date: Wed, 14 Oct 2026 18:52:36 +0900
+Message-ID: <20261014095238.2132580-3-sh_def@163.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26acf4f99+c2e24e+vger.kernel.org+lizhe.67@bytedance.com>
-References: <20261014094347.99157-1-lizhe.67@bytedance.com>
-To: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
-	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <mgorman@suse.de>, 
-	<riel@redhat.com>, <juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
-	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
-	<vschneid@redhat.com>, <kprateek.nayak@amd.com>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>, "Li Zhe" <lizhe.67@bytedance.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgDXX9foUM9qdnafEA--.29710S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGFyxGF43uF4Utw4rAF1UJrb_yoW5Jw4Up3
+	45K345Wr4rJrWayr4fCF4kX34rGw1vgr129FWxurZ5C3Z8GryrWayfKFy3tFyYgry8Cr15
+	WF4q9rWUCFWDAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jjv38UUUUU=
+X-CM-SenderInfo: xvkbvvri6rljoofrz/xtbC6QncPGrPUOnUAwAA3L
 
-numa_preferred_nid is normal AutoNUMA task-placement state.
-Memory-tiering-only mode uses NUMA hint faults to drive page promotion,
-not CPU placement.
+Expose targeted sampling through the KCSAN debugfs file. Accept address
+and kallsyms targets, including module:symbol names, and allow sampling
+to be disabled with target=off.
 
-Even after tiering-only faults stop updating normal placement statistics,
-a task can still have a preferred NUMA node from earlier normal balancing
-or from previously polluted state. Several scheduler paths consume that
-stale state when the NUMA balancing static key is enabled, including
-explicit NUMA task migration, sched-cache preferred LLC and scan CPU mask
-selection, load-balance locality checks, fbq classification, and wakeup
-group selection.
+Use KSYM_SYMBOL_LEN for the input buffer so documented module symbols fit,
+and return -E2BIG for oversized writes.
 
-Add a small helper for normal NUMA placement being enabled and use it to
-ignore numa_preferred_nid when NUMA_BALANCING_NORMAL is disabled. Keep
-the preferred-node migration retry timestamp update before the normal-mode
-check so accepted non-normal sysctl states do not leave stale retry state
-behind.
-
-Keep the rq nr_numa_running and nr_preferred_running accounting unchanged
-so runtime mode changes do not make enqueue/dequeue accounting asymmetric;
-the load balancer simply stops consuming those counters while normal
-balancing is off.
-
-This does not clear numa_preferred_nid and does not change memory-tiering
-promotion decisions.
-
-Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+Signed-off-by: Hui Su <sh_def@163.com>
 ---
- kernel/sched/fair.c | 55 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 44 insertions(+), 11 deletions(-)
+ kernel/kcsan/debugfs.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index ec08406d1364..11b54bb353ad 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -1328,6 +1328,21 @@ static int select_idle_sibling(struct task_struct *p, int prev_cpu, int cpu);
- static unsigned long task_h_load(struct task_struct *p);
- static unsigned long capacity_of(int cpu);
- 
-+#ifdef CONFIG_NUMA_BALANCING
-+static inline bool numa_balancing_normal_enabled(void)
-+{
-+	return sysctl_numa_balancing_mode & NUMA_BALANCING_NORMAL;
-+}
-+
-+static inline int task_numa_preferred_nid(struct task_struct *p)
-+{
-+	if (!numa_balancing_normal_enabled())
-+		return NUMA_NO_NODE;
-+
-+	return p->numa_preferred_nid;
-+}
-+#endif
-+
- /* Give new sched_entity start runnable values to heavy its load in infant time */
- void init_entity_runnable_average(struct sched_entity *se)
+diff --git a/kernel/kcsan/debugfs.c b/kernel/kcsan/debugfs.c
+index 2af39ba5b70b..47becde9f1ae 100644
+--- a/kernel/kcsan/debugfs.c
++++ b/kernel/kcsan/debugfs.c
+@@ -191,6 +191,7 @@ static ssize_t insert_report_filterlist(const char *func)
+ static int show_info(struct seq_file *file, void *v)
  {
-@@ -1890,10 +1905,12 @@ static int get_pref_llc(struct task_struct *p, struct sched_cache_group *grp)
- 		 * than sched_setnuma() at least -- and thus the
- 		 * conflict only exists for a short period of time.
- 		 */
--		if (static_branch_likely(&sched_numa_balancing) &&
--		    p->numa_preferred_nid >= 0 &&
--		    cpu_to_node(mm_sched_cpu) != p->numa_preferred_nid)
--			mm_sched_llc = -1;
-+		if (static_branch_likely(&sched_numa_balancing)) {
-+			int pref_nid = task_numa_preferred_nid(p);
-+
-+			if (pref_nid >= 0 && cpu_to_node(mm_sched_cpu) != pref_nid)
-+				mm_sched_llc = -1;
-+		}
- #endif
+ 	int i;
++	unsigned long target;
+ 	unsigned long flags;
+ 
+ 	/* show stats */
+@@ -199,6 +200,12 @@ static int show_info(struct seq_file *file, void *v)
+ 		seq_printf(file, "%s: %ld\n", counter_names[i],
+ 			   atomic_long_read(&kcsan_counters[i]));
  	}
++	target = kcsan_target_get();
++	if (target)
++		seq_printf(file, "\ntarget: %pK (%pS)\n", (void *)target,
++			   (void *)target);
++	else
++		seq_puts(file, "\ntarget: none\n");
  
-@@ -2009,7 +2026,7 @@ static void get_scan_cpumasks(cpumask_var_t cpus, struct task_struct *p,
- 	 * current running node to mitigate the bouncing risk.
- 	 * TBD: numa_group should be considered during task aggregation.
- 	 */
--	pref_nid = p->numa_preferred_nid;
-+	pref_nid = task_numa_preferred_nid(p);
- 	/* honor the task's preferred node */
- 	if (pref_nid == NUMA_NO_NODE)
- 		goto out;
-@@ -3649,6 +3666,9 @@ static void numa_migrate_preferred(struct task_struct *p)
- 	interval = min(interval, msecs_to_jiffies(p->numa_scan_period) / 16);
- 	p->numa_migrate_retry = jiffies + interval;
- 
-+	if (!numa_balancing_normal_enabled())
-+		return;
-+
- 	/* Success if task is already running on preferred CPU */
- 	if (task_node(p) == p->numa_preferred_nid)
- 		return;
-@@ -10740,6 +10760,9 @@ static long migrate_degrades_locality(struct task_struct *p, struct lb_env *env)
- 	if (!static_branch_likely(&sched_numa_balancing))
- 		return 0;
- 
-+	if (!numa_balancing_normal_enabled())
-+		return 0;
-+
- 	if (!p->numa_faults || !(env->sd->flags & SD_NUMA))
- 		return 0;
- 
-@@ -12533,6 +12556,9 @@ static bool update_sd_pick_busiest(struct lb_env *env,
- #ifdef CONFIG_NUMA_BALANCING
- static inline enum fbq_type fbq_classify_group(struct sg_lb_stats *sgs)
+ 	/* show filter functions, and filter type */
+ 	raw_spin_lock_irqsave(&report_filterlist_lock, flags);
+@@ -220,10 +227,13 @@ static int debugfs_open(struct inode *inode, struct file *file)
+ static ssize_t
+ debugfs_write(struct file *file, const char __user *buf, size_t count, loff_t *off)
  {
-+	if (!numa_balancing_normal_enabled())
-+		return all;
-+
- 	if (sgs->sum_h_nr_running > sgs->nr_numa_running)
- 		return regular;
- 	if (sgs->sum_h_nr_running > sgs->nr_preferred_running)
-@@ -12542,6 +12568,9 @@ static inline enum fbq_type fbq_classify_group(struct sg_lb_stats *sgs)
+-	char kbuf[KSYM_NAME_LEN];
++	char kbuf[KSYM_SYMBOL_LEN + sizeof("target=")];
+ 	char *arg;
+ 	const size_t read_len = min(count, sizeof(kbuf) - 1);
  
- static inline enum fbq_type fbq_classify_rq(struct rq *rq)
- {
-+	if (!numa_balancing_normal_enabled())
-+		return regular;
++	if (count > sizeof(kbuf) - 1)
++		return -E2BIG;
 +
- 	if (rq->nr_running > rq->nr_numa_running)
- 		return regular;
- 	if (rq->nr_running > rq->nr_preferred_running)
-@@ -12843,17 +12872,21 @@ sched_balance_find_dst_group(struct sched_domain *sd, struct task_struct *p, int
- 		if (sd->flags & SD_NUMA) {
- 			int imb_numa_nr = sd->imb_numa_nr;
- #ifdef CONFIG_NUMA_BALANCING
--			int idlest_cpu;
-+			int pref_nid = task_numa_preferred_nid(p);
- 			/*
- 			 * If there is spare capacity at NUMA, try to select
- 			 * the preferred node
- 			 */
--			if (cpu_to_node(this_cpu) == p->numa_preferred_nid)
--				return NULL;
-+			if (pref_nid != NUMA_NO_NODE) {
-+				int idlest_cpu;
- 
--			idlest_cpu = cpumask_first(sched_group_span(idlest));
--			if (cpu_to_node(idlest_cpu) == p->numa_preferred_nid)
--				return idlest;
-+				if (cpu_to_node(this_cpu) == pref_nid)
-+					return NULL;
+ 	if (copy_from_user(kbuf, buf, read_len))
+ 		return -EFAULT;
+ 	kbuf[read_len] = '\0';
+@@ -239,6 +249,22 @@ debugfs_write(struct file *file, const char __user *buf, size_t count, loff_t *o
+ 		if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
+ 			return -EINVAL;
+ 		microbenchmark(iters);
++	} else if (str_has_prefix(arg, "target=")) {
++		char *target = &arg[strlen("target=")];
++		unsigned long addr;
 +
-+				idlest_cpu = cpumask_first(sched_group_span(idlest));
-+				if (cpu_to_node(idlest_cpu) == pref_nid)
-+					return idlest;
-+			}
- #endif /* CONFIG_NUMA_BALANCING */
- 			/*
- 			 * Otherwise, keep the task close to the wakeup source
++		if (!strcmp(target, "off")) {
++			kcsan_target_set(0);
++		} else if (!kstrtoul(target, 0, &addr)) {
++			if (!addr)
++				return -EINVAL;
++			kcsan_target_set(addr);
++		} else {
++			addr = kallsyms_lookup_name(target);
++			if (!addr)
++				return -ENOENT;
++			kcsan_target_set(addr);
++		}
+ 	} else if (!strcmp(arg, "whitelist")) {
+ 		set_report_filterlist_whitelist(true);
+ 	} else if (!strcmp(arg, "blacklist")) {
 -- 
-2.20.1
+2.55.0
+
