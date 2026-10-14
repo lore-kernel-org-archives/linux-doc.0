@@ -1,336 +1,453 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010041.outbound.protection.outlook.com [52.101.193.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134863FFABF;
-	Wed, 14 Oct 2026 17:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791998916; cv=fail; b=sp6iw6i0pdvNuER5pdkm/dIjIIeASbbZGmVs9mZFJTWld2FjcRfuiZPIxcHPlKFtrrMuRzaAxi7/0z9/DOBNdqmocimXZa9T8OVevwZtgbbxULQo6lJtYEptYRzK7+oOC10HVQPXXAI4CIf/4MmLYP9WKkk5vpyQGQ0UEZCSKWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791998916; c=relaxed/simple;
-	bh=Zaxu+xs8/TLfPPS7FJyy+3Izl3KVky4IwKpL0eBNGT4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=i9gw0xF3mMY7ft8lhJENiuq96ALdnAq0Yz6rvSV8r+TJBciocKYT7Ug3rsosGJiOxuLjmY3jxEX6f0iBhZ3rhttGxpnLP8WLHpbm5Bj4tVXncVK006aaB37swK0/zu0bwu7QVreYy8+6fD/YGWMh0YpCMG6FQoBJ+oBIgYdMjHA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=F2izcVJz; arc=fail smtp.client-ip=52.101.193.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4645304BC
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 17:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791999507; cv=none; b=om0B3QR71dWGTWbkvAd1uRGfimlNfFAmom1HqCZHRWS63Z6SZu3dgTHqVm9fulea9ijPWp6awesdyg3h0XaEktJ2sAhnhZvISiL9Tset9al9nxd+1yFnAdL4n9mRrnyxf/ddZRGkJDD68KZ0En08RFWlr+FP8nEseB5D4cT8mwg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791999507; c=relaxed/simple;
+	bh=pt1NF6o7q90HhdLfIGhzbo3+6Goc321bo82iB8AHcRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mvhy9wSjLjgNiNW6Ilkyi9qZvSFIqArUUMXqxeHV+bzxkOjnKirsr26FSgEbp8ad7FrTMfV2FYz+CH8IugDm/8xWEnX+FzbxDwF+i0iJA2I+IeOLpKmNcmlPzcNVEG84FwydbVJaOSIa9M/yj+dqVm5bLxI0C33ffNv+1KTIa9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=omq+HfKi; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="F2izcVJz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kPKnyWCpQPbyNgBhI9wjbSy1vAr9qhe/QeM/PNDY9vVHE4L2ISwQL3L/uX9Z+ipM0HN4R8d8WH0IjS/SLPUcI+dX3SasgrKZhvPmtAEi/T15KWUeG9wgKI03V9/bvsSVQdeoeqk74ZbuZdUd9xpHuXk/zfaHWhaANhujaFQF3STVqtLYHrYRDT5tpW3bAvDE+B2Qqd2D22hYFLT4+KGqqMsfJD0tMXEGCQg8XgMhlOPpTq8T1LziPaEdiSnwgzRksG62Hs3yrb3ejl7WRyXRf0zlqXlEdYv8IpGb54s9kA0lSwhqdetE1LXNEJUdT1cgHMEJRAKUpdfvy3sflqWdQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9zQo6auwQ99hZR3tkVJxqkOS0P8kXOvtGnZ2F3nStuk=;
- b=fQLAnFYUqYa4TCcul6ZoY6wL3ckmZZm9Xmn3rUag4hkaDW+VwwZtymBy9+IYZhye5xWTTthhXbO14MPLbf2hM9LZbeW4PFbW5xG9KjbYD6nST1izQoV5xp0yTtdDN6Iwoc6zauu6kSdioJUczC9trGwsVJ8Q7HB75vaVxh4LB4IG2uEMpdrCQldTOs6bj2K+o2ajBYIBwIzIxwo6Uw+mGeb4XJFKo2oxo5RXPhRVAC3LfVLz5ULHLITvfGtT+B2wwg1FL0SDwVk9rIt2KVEX1ICxSY5fvr2jBPV1iuHgV4Sv7Vf7JLIceCDiznaNew2N+/U5V1x3qNTpIxT83FbHfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9zQo6auwQ99hZR3tkVJxqkOS0P8kXOvtGnZ2F3nStuk=;
- b=F2izcVJzIjTuCC1rFOQMwT1SrhLNlfIJsH5UPWqlwM0XHWVg6k6UBNQ5izeMd8PWsK+Qbg4mp8KxagGeDmOqWyJBrY4huNy+F3VwDe0Hr8qcnAW++BI+PsOveKr7i60A3vHvfNcUsvPS6cozmH/VuQwZt84H7IZyqxWpyLk4GpoQ+eIGog3c5XA38lMLV8vnZuzTJYC1wCwghW9rv5GtTFBLZdoG7Qn+6yJJL0KWoVhd6G5BySekVykqFBop7cK9xqrxDVyZm1NsPCBZ+fiVy4ahBEAKUSwQiCxtsV5QhZ8sx8fM1JIK3+MOiSCgUmxOr5mJNs886gBHoKgt1fx29g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH1PR12MB9647.namprd12.prod.outlook.com (2603:10b6:610:2b0::10)
- by PH8PR12MB7447.namprd12.prod.outlook.com (2603:10b6:510:215::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
- 2026 17:28:25 +0000
-Received: from CH1PR12MB9647.namprd12.prod.outlook.com
- ([fe80::228c:766a:191d:77b2]) by CH1PR12MB9647.namprd12.prod.outlook.com
- ([fe80::228c:766a:191d:77b2%3]) with mapi id 15.21.0522.012; Wed, 14 Oct 2026
- 17:28:25 +0000
-Message-ID: <8584c31e-fd93-4f1a-9929-e71c5d9ccd0f@nvidia.com>
-Date: Wed, 14 Oct 2026 19:28:16 +0200
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: Luigi Rizzo <lrizzo@google.com>, Luigi Rizzo <rizzo.unipi@gmail.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, Joshua Washington <joshwash@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
- netdev@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261003212241.3432303-1-lrizzo@google.com>
-Content-Language: en-US
-From: Dragos Tatulea <dtatulea@nvidia.com>
-In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0156.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::17) To CH1PR12MB9647.namprd12.prod.outlook.com
- (2603:10b6:610:2b0::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="omq+HfKi"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-9905e692905so151108241.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 10:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791999502; x=1792604302; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KykqsFp4XoICGMhqL6MAImWxs26G3z8XCZelE10GDfc=;
+        b=omq+HfKizG08CZ9nRsR9Ow0iCE2i4LlaAZXzWsaq9M757A1gNX4bsFvKO56+FTg4uj
+         ro/mkXWkkW70AhbtZCqVdTB97KdeaN4rjR+lsyRO1AFKXNR71JZ1hFVJ/BVplqyosmpS
+         KXaSdHTsPrg9prnR5mISbI7ioAS+nUT8k9XxuEezhxiwYzc9doYX2k209aF0w+uiBvqU
+         OeQ3eoBWLHg5Ux9h7MXGwaq1p3u4zbfbu+Ib0EcF8V+p6PoPzOdUnqNLUhYM5KKHtxWa
+         DjXkrwdRANwKqmWufFU+2nqk0eEq7tSFmd18nX/54ohv7KpGldfSifgtSKhh1NaVvLtI
+         N2NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791999502; x=1792604302;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KykqsFp4XoICGMhqL6MAImWxs26G3z8XCZelE10GDfc=;
+        b=Zm+tCy2H2TJaGmdWDg5K8oxJujeDLCi2SrDIqcL+iPe+FTFHMrMR143Rsy+oH0JhSz
+         Gu9T4R7lDZQ0wSXSY0estpnMt+BMkh+m2quQExELFtNltVs8vZBEdkBvQ0GXCQW2Crhh
+         gtlkmvxKLip82VuMhDWr1sWJKOX3x+TynZGj6oBzn2HKF6n2ATyMb7PO9bXQ5OswldT7
+         Tyf3kKifeHEj4cp1LsgLni0IY+Bo0GyGqw4Cy4gGLjAB4IjkoL58nn9wy7x95h+Y5A5F
+         UOnFersYwRugpyFo8LMHCZzUzE1NYNm/1Yw9TLyAVbbdd3vYDR3XMAoKDvmKdhau0XWf
+         +SOw==
+X-Forwarded-Encrypted: i=1; AKwUvBzgxEH/DcnRly4MaiEkomydtsiuLYor/013mdyJDdAJrGxgVjgGEhyP7UpHX5ZIcdiXm1m7yYnVSQM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKGGGMEVZxEwOpWG/xvgOMy4fS4el9qIpEx4C4spom7bBi+9Sz
+	QFhlzoyFhJvHSzQnXPj0MpHGbq4a+gtiaXakzOUbSfGaM5NupQyPfJSu
+X-Gm-Gg: AYBFou0NAYe4P0o2Qj2c+ENx6u851vcT2dU2aLoiRCCYil6odwc4HhqWRVRRmk7AiSf
+	7vcIRX1igwvG1LMmJjY3NOQjFHXQKJLulTZNfT7dFq5FulVF7ZP8MuxXxx8bIfFjMhUqlQLc78/
+	n+iMI70IaaF8Cmo10yhkMDVnBp7LiXmZ3dDUXLPKb8Bh2SWqwy8+Mc2P7PSHvoCmcbOItyJESDn
+	MfSRNLjjHs6S0Vk39z5lF2jc7ZZtQwnOFSXlPBdsIAHYl7qn883ESat0mSCJsjgyJFgZbW1Cz/R
+	IpmG2XKv8I4znVM+4PnA7LMgrIh05YnAWnNCrvFRsG4kmAlO6b+ZOk9g5INNg2C1oVdUBB5sQQZ
+	ws+mseiuokIpOseAaVgx01UbtMW+vQueVqFTilDbzlyrbQv5SpQDoVIJUDyphIErjhCSySDH+L8
+	iN5H+z3hsFpsD8dg2PufSxQ2Qw/jA+22gA1x8EqEgqmhw/Cm0YfNvEKZLYJ0uCFzwvYnTCB0T23
+	pbATwJ69OZxMLJw0eMIQR/AvzG925nYoHYvmpZMLUMYLA+0PQv2sgJ1yHQnFqJ7WDvugXWmeDQT
+	qfkv50QV67/D319LY7iwlg==
+X-Received: by 2002:a05:6102:54a6:b0:7c1:b55d:373c with SMTP id ada2fe7eead31-7cb3a18c1b6mr3618030137.31.1791999501789;
+        Wed, 14 Oct 2026 10:38:21 -0700 (PDT)
+Received: from fedora ([2804:14c:a8:965f::1f2c])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cb39d6396asm11347987137.1.2026.10.14.10.38.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 10:38:21 -0700 (PDT)
+From: Igor Giamoniano <igorgphotoarte@gmail.com>
+To: danielmaraboo@gmail.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	Igor Giamoniano <igorgphotoarte@gmail.com>
+Subject: [PATCH v4] docs: pt_BR: process: translate userspace debugging guide
+Date: Wed, 14 Oct 2026 14:38:12 -0300
+Message-ID: <20261014173814.103903-1-igorgphotoarte@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PR12MB9647:EE_|PH8PR12MB7447:EE_
-X-MS-Office365-Filtering-Correlation-Id: cee8ed33-c83b-4a81-c6b7-08df2a188da9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|23010399003|921020|56012099006|11063799006|261009223027099003|10067099003|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	WHDcgCEWzJkPrqq20DZDeJl45jpjkxTcIefoS0OJetAZqU1JDeHmRkEA9J1JzEwllj749VARwtmK071Td+OUmtNbd5K9/03sn7Dhv1xZrZ5G7i/88ud1v56oztYl5GNYaS4m7Fm8OltURzv7i8qSaZrrh/xwGSoNNRRjFMl8rDdJuR4ehFmtPGY6JdjgFvhfZ/IYkjxAWguwwGomsXsdDC44jVixzAy7W3yf3r6Z4NmFO9ldBN4kUvLkrD863SjCyXOu821PyRrNu5z02pwndIQHDbabbRVCm465orT5qS8WhKhFNhDBmmsF6ybJZZdDm7hCYqPiBUu1qjWO1jOkdiQdA1DCe0FarEjJNgze8BHmuFrxrk49x15WVYBaDAtwae26H1rOkADTW2pZsgt28wJ9asc4V05B6WmzPnEuFb5Lzo/h04B59ovBORpDoppWFBgpEsy0ElAxTWAmsNk1d9Mi6G8US4pkWqZR2fKOujZM/A8zo3kdF95wAYPGvIgzK5BpZUrnWnAqVP1K+74PkjyZTWXgslc40lOlmp4oPMBr4B1oK4pwiRIXmAuA8eJGhDNlYYj/y5NqjlVPSy6MbUIjmN9nJcw3f1OaSoLaiI/aTBLpj/he1JaiBcBfsU/wz9yYHJ92UltkLgqkttTkmR/adTeiyMtkQ5/E3MVi37bzr56/jqxkYzi9vBv3mluYlGPlZq95KDVEBL0Lmhe24g==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH1PR12MB9647.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(23010399003)(921020)(56012099006)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TTFlVndZYjZva09QS2ZheVA4NFFlWGFXWm9IZkxYV0xPY0t2Tng3M2xUQWg5?=
- =?utf-8?B?ZHFzeTFqSEpCSFRrNFlUcWt4OEwxdkdHT3p4ZWxPYnRGejVRVjAyRmE0emV5?=
- =?utf-8?B?em90L2xPaXJNZUVQdFpva2Zva0ptaHhXenNacGtzbnNtSXpjV3A1aWdQdENm?=
- =?utf-8?B?NndmcGhTOUYrMUs5cGVwY3VORE94UzFndjZYdURWZjZTRXJjbFhEWkJ6Mnpz?=
- =?utf-8?B?SDNEZXAyTmkxbXhwMWdKQk5xdTArZ3hoN00rUnQyZ25raVlMS0c3WmptaGdH?=
- =?utf-8?B?cnVqL1pYRDFhY0FKK0RHMnpTZzlML3VYbUtHeERELzVaNzI1M2Nka2ZIdVhy?=
- =?utf-8?B?LzNjT3FiSG1oRjNaa3JiWXhuM05VZGhvdjdnY21LSWlWV2g0TWhZT281MW5V?=
- =?utf-8?B?ajRJUXh5cFYrejhma1NBSXJKR05NS1JsRXhhRjR6SWxmd3AvK2t5b0VHS2NN?=
- =?utf-8?B?STFsNzdTeEhmcVF0OWptKzZ2ZmZUMWttamdreENYY1d2a3B6RVQyaTVtVXpm?=
- =?utf-8?B?Z2MxaGRxZVMxK0lrcXBqSkQzZGNiTndtNktmTzFBa2MrMCswUkh2ZUMwYWF3?=
- =?utf-8?B?dUtPbTh2UFhFWnRveEM3dUNwc2RRdmNqcVBEWko0QW45ZXlCbzJwQ0FZRG84?=
- =?utf-8?B?clFza0s0OU9Sa3J2TXdWMkwzSjRwcG5RT25TQ3QxbWFaTkR4VmZYcmdrRmFD?=
- =?utf-8?B?MGMxY2YvbU96UHlMUVo5cHlIN05TZ0FZVUdpc2F0dFUyMlZSbUxXLzNHNngv?=
- =?utf-8?B?Y1JCU3ZodHpaUDduNC9wMElyUTROYkFCRysrMUJOVHM0blVSWDYvNTV0S3Ro?=
- =?utf-8?B?NDM0Q2ZSUmlhR2tLc29SUDQrNitpYmNhY2c1OThvVVpWRGZnYklIMmVheTdx?=
- =?utf-8?B?QmhLMlJvdmJxdm5hQnBNSnhUNnI4Z28yVm13OXZuejU1RlhwQklCNzZOMGZu?=
- =?utf-8?B?bCt6ZVdubWpwZzJFaWx4d2l4d2c3cU1YdnV1WjNZSWc0MHFMVDNRVUxaaVN6?=
- =?utf-8?B?TGtGSTdtMDZYcHZ6cUxYbFcwNWlKb3JwdXdWU1pDNHdsRllZRlNBc0xqd3Yw?=
- =?utf-8?B?NXZ6cVF6eEtJZG1JOHZ3Y3E1VHRiUkRrTHowRG1WY0UrdFJJZjV0K1NST0dN?=
- =?utf-8?B?WmszSWc5YXEza1NwS0pnT1pGM3YveEZDY3kyWTROajVKZE1jbHpEUCtKUGpo?=
- =?utf-8?B?ZHdmUGpvU05sTnB1VTcxWG9KSmhBa1NrTjBUN2poalpRaFlwSEx0dFlLVUY5?=
- =?utf-8?B?UjdqeHhwVzVBbEhPVlUvZnRSYmVNU2dXU09tellhTFkxdDVDZEdkWWcvcmNx?=
- =?utf-8?B?MmJ0bGZoZ1V2T1ZRUHczUHl2VzBDMmQ1QkNYRi95UzIzL003OUU5S3ZFVmg0?=
- =?utf-8?B?aHlRM0xNdm94bE5WWUlJaVZZbXRWbGxBZjNwb2hZY0RxQUk0aWhlcEFub09E?=
- =?utf-8?B?N0dIVFRZL3UwOS9PYnJ5aGRUQ3hqVXlrVDJLL04vSFYzQTM1djBYQStOS2ow?=
- =?utf-8?B?L3pLT0RWL2l4Q1RMQkZPZlBUSVREZllhT1R3UGVXM2g3eHBUNFJZSTJ0WTJK?=
- =?utf-8?B?aEhYVnpORHlQUnRiUmlGakRMcVhYVHVUN081NlAxMFpSbEQ4cVBzcWJNTUdr?=
- =?utf-8?B?NWM1YnZMNkNPNnNGdHBxTDBlY2JvWjB5MUR0RHNzWTI4VEkzM29WWkRzazZT?=
- =?utf-8?B?YnZPOXhZOHh5MVk5cWk0ZGRpV1VOZmpIYTZNaW9HWGVxalNndmplTjJLWEtG?=
- =?utf-8?B?aVc0RnkvcGtPQkJLN2Y0Z3pQMm1oVjVmR3pKUkwzMmk4ZndjN3UzZm5tbWdz?=
- =?utf-8?B?NjZYM2p0MnlCRmkyYVdnbERRdk03UDJEeERtNHUxLzQvYi9SNE5obS90c25p?=
- =?utf-8?B?QzU1elZXaGs3Umc4S3h5VnJDZXVVVlZwR09EbCtLcmk1UWtJSEsyd05uTmF3?=
- =?utf-8?B?QWUrWDRyU1NpNTh0YlN3N1F2VlJDSnkvMmdmd21mS2dsWVpqWmFWdU9DbHZu?=
- =?utf-8?B?RG9ZMU1OcllEckFrd2h3M3IrZWRic0tSWFJ4TEFHUzVZSWl2TTd6THM5ZUMw?=
- =?utf-8?B?Zy9FWW1sRk1TWUdTbW9zanlhamd1ajJ6ZjVDUmh3MnlhUXZuVWY4dkZ4dEN4?=
- =?utf-8?B?YlhEYUh3NSthY2t0U1JzL1ZnZjEwVXhnZ2tVQnNJREdhVWMyOFRtNTVScllZ?=
- =?utf-8?B?blZIWmVHSFYrYjZtUnRjWm90NElmczFidDdBS1JVM1M2UzhoMFl4OTZWSHBK?=
- =?utf-8?B?Vi9OSXdORlF1cGw5c3dZZ05zaDRpa2Z6azU1Z01McHB6UktvbHFwbnpWQTd2?=
- =?utf-8?B?eGFDdkVJMWgxb01Oekp2UGNhRFFEVmY0MkEzZ2JiRFV3U3lYT2krQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cee8ed33-c83b-4a81-c6b7-08df2a188da9
-X-MS-Exchange-CrossTenant-AuthSource: CH1PR12MB9647.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 17:28:25.6506
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jVM56snw1CO5qN98Evi1gsNXrsRJZT+R+KFGs3aagD4cTw/C+2q5E/16Kdj+CCKXHJE/gtvah9pD0b81M/+l/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7447
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Luigi,
+Translate the userspace debugging guide into Brazilian Portuguese, so
+that pt_BR readers have access to the overview of the tools available
+for debugging the kernel from userspace: dynamic debug, ftrace, the
+perf family and the kernel panic analysis tools.
 
-On 03.10.26 23:22, Luigi Rizzo wrote:
-> Here is a subsystem called DMA_PMD on which I would like feedback on
-> architecture, possible enhancements, or kernel components that could be
-> reused to avoid duplication.
-> 
-> I think it can be extremely useful for those affected by the HW/SW overhead
-> of IOMMU (especially IOTLB thrashing, see [1]), or confidential computing,
-> or preemptable VMs.
-> 
-> The (not too exaggerated) pitch line is
-> 
-> DMA_PMD has the performance of identity, guarantees that only IO buffers
-> can ever have active IOMMU or IOTLB mappings, removes the bounce buffer
-> overhead in confidential computing and preemptable VMs, and integrates
-> smoothly with existing kernel APIs.
-> 
-> === ARCHITECTURE
-> 
-> DMA_PMD was initially designed to address IOTLB thrashing (details in [1]),
-> but turned out to also resolve nicely the strict IOMMU overhead, and avoid
-> the bounce buffer overhead in preemptible VMs and Confidential Computing.
-> 
-> It works by combining several known techniques:
-> 
-> - transparently feed allocators of device memory (skb_page_frag_refill(),
->   dma_alloc_attrs(), pagepool, ...) with DMA_PMD pages, i.e. physically
->   contiguous PMD_SIZE (2MB) pages mapped via PDE_SIZE IOMMU entries
-> 
-> - heavy recycling of DMA_PMD pages (like pagepool) and lazy IOMMU unmapping
->   (like DMA-FQ), BUT:
-> 
-> - like strict IOMMU (DMA), safely release memory back to the kernel only
->   after destroying all of its IOMMU mappings and a synchronous IOTLB flush
-> 
-> - on allocation, DMA_PMD pages can be configured to be pinned in the host
->   (hence suitable for preemptible VMs) and/or unencrypted (hence suitable
->   for Confidential Computing), removing the need for bounce buffers
-> 
-> - there are global and per-device optin /sys/device/.../dma_pmd_*
->   and /proc/sys/net/core/tx_enable_dma_pmd
-> 
-> NIC drivers can typically use dma_pmd with no modifications for rings,
-> tx buffers, rx buffers (if they use pagepool), and rx headers. For tx
-> headers, almost all drivers need changes (see later patches in the series)
-> to implement cheap bounce buffers and avoid individual 4K mappings.
-> 
-> The series has the following main components:
-> 
-> - a sparse array (similar to pageblock_flags) to quickly attach metadata
->   to a 2MB page without fiddling with the struct page. Cost is 128B per 2MB
->   page used as an IO buffer, totally negligible.
-> 
-> - dma_pmd_pool, a replacement for alloc_pages() that can be instantiated
->   per-CPU or per receive queue. It handles the split of PMD_SIZE pages
->   into order-N blocks, handles dma_map and unmap, and aggressively recycles
->   entries. It is used to feed skb_page_frag_refill(), pagepool, and
->   receive buffers for drivers that do not use pagepool.
->   See [2] for "WHY NOT PAGEPOOL FOR TX AND EVERYTHING"
-> 
-> - dma_pmd_arena, is another allocator backed by DMA_PMD pages and
->   is used exclusively as the backend for dma_alloc_attrs().
->   Used for longer-lived allocations (descriptor/completion rings,
->   rx and tx header buffers)
-> 
-> - glue code to hook DMA_PMD into pagepool [2], skb_page_frag_refill(),
->   dma_alloc_attrs(), dma_map/unmap...
-> 
-> - per-driver patches, where necessary (e.g. tx header buffers [3])
-> 
-> === PERFORMANCE BENEFITS
-> 
-> Your mileage may vary. Enabling the IOMMU may have no throughput
-> impact, until it does when some system components (bus, IOTLB, CPU)
-> become overloaded.  Aside from throughput reduction, one interesting
-> parameter is the effectiveness of the IOTLB. Here is a sample of SMMU
-> performance counters for a large ARM system with 2x200G NICs doing
-> bidirectional traffic:
-> 
->     === DMA-FQ MODE (total throughput ~440Gbps)
->     25,757,488      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
->     16,634,941      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
-> 
->     === DMA_PMD on top of strict DMA (total throughput ~745Gbps)
->     22,693,218      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
->         30,536      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
->     (not a mistake, also lookups went down despite the higher rate
->     because the tx side can use larger segments)
-> 
-> The 2MB mappings made IOTLB misses almost non existent, because
-> the working set is reduced by a factor of ~512.
->        
-> Note, the code has more verbose comments than I would like.
-> Several of them are there to avoid Sashiko getting confused and
-> flagging false positives.
-> 
-> === NOTES
-> 
-> [1] IOMMU IMPACT AND IOTLB THRASHING
-> This is documented in more detail in Documentation/core-api/dma-pmd.rst
-> but the compact version is below.
-> 
-> There are three main costs involved with using the IOMMU:
-> - CPU cost for dma map/unmap
-> - CPU cost and latency for synchronous IOTLB flush (required for strong security)
-> - IOTLB thrashing, shows up dramatically when the IO access pattern
->   exceeds the IOTLB size, and IOMMU page walks slow down bus activity
->   up to a point where we see over 30..60% throughput reduction just for
->   this reason.  Some relevant references
-> 
->   https://lore.kernel.org/all/4b42f2eb-dc29-153e-ace9-5584ea2e5070@redhat.com/
->   https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10280580/
-> 
-> Specifically, NICs access 4 or more pages per packet (descriptor queue,
-> completion queue, rx or tx header, one or more buffers), with very little
-> locality especially for data buffers and tx headers. Each queue has 1-4K
-> entries, a fast NIC uses 16 or more queues per direction, so just the
-> data buffers cover 32..128K pages. Using 4KB mappings makes the IOTLB
-> ineffective, as shown by the performance counters shown earlier.
-> 
-> [2] WHY NOT PAGEPOOL FOR TX AND EVERYTHING
-> There is some overlap between pagepool and dma_pmd_pool in that both
-> implement a cache, but pagepool is missing some important features:
-> 
-> - pagepool does not handle splitting 2M pages in smaller chunks, or
->   the mappings. That would need to be implemented (and is what dma_pmd_pool does)
-> 
-> - pagepool's provided pages cannot be cleanly managed by
->   get_page()/put_page(), which is what all the consumers of
->   skb_page_frag_refill(). Fixing that would require dozen of changes
->   with high risk of missing some paths.
-> 
-> - even for the receive path, a provider for pagepool has more restrictions
->   than alloc_pages-supplied memory, so if I wanted to wrap dma_pmd_pool
->   as a provider I would have needed changes to the provider interface.
-> 
-> - pagepool requires a device at allocation time, which is not known when
->   skb_page_frag_refill() runs, hence the IOMMU mappings cannot be handled
->   at allocation time.
-> 
-> - page_pool_alloc_pages assumes a single NAPI consumer with BH disabled,
->   whereas skb_page_frag_refill() runs from a preemptive context.
-> 
-> - and last not least, we need to handle the dma_alloc_attrs() allocations
->   which don't match pagepool API
-> 
-> Of course all of the above could be modified, but the complexity
-> would be similar to that of implementing dma_pmd_pool, and with a
-> huge risk of breaking existing functionality or missing some path.
-> 
-> [3] DRIVER CHANGES
-> 
-> Most drivers need no change for rings, transmit buffers, or receive buffers
-> (if they use pagepool). Tx headers are generally mapped on the fly and
-> that is enough to trigger IOTLB thrashing, so most drivers need a small
-> change to implement very cheap tx bounce buffers backed by DMA_PMD pages.
-> 
-> We could avoid the bounce buffers using DMA_PMD for the skb->head region,
-> but that memory is contiguous to skb_shinfo so it would be exposed to
-> IO device access, which may be undesirable for security.
-> 
+Add the new document to the toctree of the pt_BR debugging index and
+make the index point to the translated file. Cross-references to
+documents that have no pt_BR translation yet still point to their
+English originals, so that no dangling references are created.
 
-Thanks for the RFC. Here are my notes (some points rephrase what was already
-said):
+Signed-off-by: Igor Giamoniano <igorgphotoarte@gmail.com>
+---
+Changes in v4:
+- Add an actual commit message body (Jonathan Corbet)
 
-- On CoCo VMs it seems that the only way to opt in the IOMMU optimization is to
-  also opt in the copy avoidance which is not always desirable.
+Changes in v3:
+- Point the "conselhos gerais" :doc: reference to the translated index
+  (relative <index>) instead of the English /process/debugging/index
+  (Daniel Pereira)
 
-- Having the pool generic opens up more visibility from the untrusted host
-  side. Having device based pools at least isolates one device's memory from
-  the rest of the system.
+Changes in v2:
+- Fix the title: "espaço usuário" -> "espaço de usuário" (Daniel Pereira)
+- Reword the ftrace bullet to read more naturally in Brazilian Portuguese
+- Keep "crash dump" untranslated as a technical term (2 occurrences)
+- Reword the Perfetto description
 
-- Also, device driver could help with provisioning just the right amount of
-  memory that is needed. And per device control also means that probably
-  you don't need to map everything RW to the IOMMU.
+The v2 rewording changes come from a review by Lucas Ramalho.
 
-Thanks,
-Dragos
+ .../pt_BR/process/debugging/index.rst         |  10 +-
+ .../debugging/userspace_debugging_guide.rst   | 297 ++++++++++++++++++
+ 2 files changed, 304 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/translations/pt_BR/process/debugging/userspace_debugging_guide.rst
 
-
-
-
+diff --git a/Documentation/translations/pt_BR/process/debugging/index.rst b/Documentation/translations/pt_BR/process/debugging/index.rst
+index b223fae34..ab739a6a3 100644
+--- a/Documentation/translations/pt_BR/process/debugging/index.rst
++++ b/Documentation/translations/pt_BR/process/debugging/index.rst
+@@ -7,12 +7,16 @@ Dicas de depuração para desenvolvedores do Kernel Linux
+ Guias gerais
+ ------------
+ 
++.. toctree::
++   :maxdepth: 1
++
++   userspace_debugging_guide
++
+ Todolist:
+ 
+ *   driver_development_debugging_guide
+ *   gdb-kernel-debugging
+ *   kgdb
+-*   userspace_debugging_guide
+ 
+ Guias específicos de subsistemas
+ --------------------------------
+@@ -40,8 +44,8 @@ andamento?
+ 
+ Nesse caso, sua capacidade de depuração depende do suporte de depuração
+ embutido no kernel fornecido pela distribuição.
+-O :doc:`/process/debugging/userspace_debugging_guide` fornece uma breve visão
+-geral sobre uma variedade de ferramentas de depuração possíveis nessa situação.
++O :doc:`userspace_debugging_guide` fornece uma breve visão geral sobre uma
++variedade de ferramentas de depuração possíveis nessa situação.
+ Você pode verificar a capacidade do seu kernel, na maioria dos casos, olhando o
+ arquivo de configuração dentro do diretório /boot.
+ 
+diff --git a/Documentation/translations/pt_BR/process/debugging/userspace_debugging_guide.rst b/Documentation/translations/pt_BR/process/debugging/userspace_debugging_guide.rst
+new file mode 100644
+index 000000000..8c1619213
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/debugging/userspace_debugging_guide.rst
+@@ -0,0 +1,297 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================================================
++Conselhos de depuração a partir do espaço de usuário
++====================================================
++
++Este documento fornece uma breve visão geral das ferramentas mais comuns
++para depurar o kernel Linux a partir do espaço de usuário.
++Para conselhos de depuração voltados a desenvolvedores de drivers, veja
++:doc:`aqui </process/debugging/driver_development_debugging_guide>`.
++Para conselhos gerais de depuração, veja o :doc:`documento de conselhos
++gerais <index>`.
++
++.. contents::
++    :depth: 3
++
++As seções a seguir apresentam as ferramentas disponíveis.
++
++Dynamic debug
++-------------
++
++Mecanismo para filtrar o que chega ao log do kernel, desabilitando ou
++habilitando mensagens de log.
++
++Pré-requisito: ``CONFIG_DYNAMIC_DEBUG``
++
++O dynamic debug só consegue atuar sobre:
++
++- pr_debug()
++- dev_dbg()
++- print_hex_dump_debug()
++- print_hex_dump_bytes()
++
++Por isso a utilidade dessa ferramenta é, até o momento, bastante limitada,
++já que não há uma regra uniforme para adicionar prints de depuração ao
++código-fonte, o que resulta em uma variedade de formas de implementar
++esses prints.
++
++Note também que a maioria das instruções de depuração é implementada como
++uma variação de dprintk(), que precisa ser ativada por um parâmetro no
++módulo correspondente; o dynamic debug não é capaz de fazer essa etapa por
++você.
++
++Eis um exemplo que habilita todos os pr_debug() disponíveis no arquivo::
++
++  $ alias ddcmd='echo $* > /proc/dynamic_debug/control'
++  $ ddcmd '-p; file v4l2-h264.c +p'
++  $ grep =p /proc/dynamic_debug/control
++   drivers/media/v4l2-core/v4l2-h264.c:372 [v4l2_h264]print_ref_list_b =p
++   "ref_pic_list_b%u (cur_poc %u%c) %s"
++   drivers/media/v4l2-core/v4l2-h264.c:333 [v4l2_h264]print_ref_list_p =p
++   "ref_pic_list_p (cur_poc %u%c) %s\n"
++
++**Quando usar isto em vez do Ftrace?**
++
++- Quando o código contém uma das instruções de print válidas (veja acima)
++  ou quando você adicionou várias instruções pr_debug() durante o
++  desenvolvimento
++- Quando o tempo não é um problema, ou seja, se várias instruções
++  pr_debug() no código não causarem atrasos
++- Quando você se importa mais em receber mensagens de log específicas do
++  que em rastrear o padrão de chamadas de uma função
++
++Para a documentação completa, veja
++:doc:`/admin-guide/dynamic-debug-howto`
++
++Ftrace
++------
++
++Pré-requisito: ``CONFIG_DYNAMIC_FTRACE``
++
++Esta ferramenta usa o sistema de arquivos tracefs para os arquivos de
++controle e de saída. Esse sistema de arquivos é montado como um diretório
++``tracing``, que pode ser encontrado em ``/sys/kernel/`` ou em
++``/sys/debug/kernel/``.
++
++Algumas das operações mais importantes para depuração são:
++
++- Você pode fazer um rastreamento de função adicionando o nome da função
++  ao arquivo ``set_ftrace_filter`` (que aceita qualquer nome de função
++  encontrado no arquivo ``available_filter_functions``) ou pode
++  desabilitar funções específicas adicionando seus nomes ao arquivo
++  ``set_ftrace_notrace`` (mais informações em:
++  :ref:`trace/ftrace:dynamic ftrace`).
++- Para descobrir de onde partem as chamadas, você pode ativar a opção
++  ``func_stack_trace`` em ``options/func_stack_trace``.
++- Rastrear as funções filhas de uma chamada e exibir os valores de retorno
++  é possível adicionando a função desejada ao arquivo
++  ``set_graph_function`` (requer a configuração ``FUNCTION_GRAPH_RETVAL``);
++  mais informações em
++  :ref:`trace/ftrace:dynamic ftrace with the function graph tracer`.
++
++Para a documentação completa do Ftrace, veja :doc:`/trace/ftrace`
++
++Você também pode rastrear eventos específicos :ref:`usando o rastreamento
++de eventos <trace/events:2. using event tracing>`, que pode ser definido
++conforme descrito aqui: :ref:`Criando um tracepoint customizado do Ftrace
++<process/debugging/driver_development_debugging_guide:ftrace>`.
++
++Para a documentação completa do rastreamento de eventos do Ftrace, veja
++:doc:`/trace/events`
++
++.. _pt_BR_read_ftrace_log:
++
++Lendo o log do ftrace
++~~~~~~~~~~~~~~~~~~~~~
++
++O arquivo ``trace`` pode ser lido como qualquer outro arquivo (``cat``,
++``tail``, ``head``, ``vim``, etc.); o tamanho do arquivo é limitado pelo
++``buffer_size_kb`` (``echo 1000 > buffer_size_kb``). O
++:ref:`trace/ftrace:trace_pipe` se comporta de forma semelhante ao arquivo
++``trace``, mas sempre que você lê o arquivo o conteúdo é consumido.
++
++Kernelshark
++~~~~~~~~~~~
++
++Uma interface gráfica para visualizar os rastreamentos em forma de gráfico
++e de lista, a partir da saída da aplicação `trace-cmd
++<https://git.kernel.org/pub/scm/utils/trace-cmd/trace-cmd.git/>`__.
++
++Para a documentação completa, veja
++`<https://kernelshark.org/Documentation.html>`__
++
++Perf e alternativas
++-------------------
++
++As ferramentas mencionadas acima oferecem maneiras de inspecionar o código
++do kernel, resultados, valores de variáveis, etc. Às vezes você precisa
++primeiro descobrir onde olhar e, para esses casos, um conjunto de
++ferramentas de acompanhamento de desempenho pode ajudar a delimitar o
++problema.
++
++Por que fazer uma análise de desempenho?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Uma análise de desempenho é um bom primeiro passo quando, entre outros
++motivos:
++
++- você não consegue definir o problema
++- você não sabe onde ele ocorre
++- o sistema em execução não deve ser interrompido, ou é um sistema remoto
++  no qual você não pode instalar um novo módulo/kernel
++
++Como fazer uma análise simples com ferramentas do Linux?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Para iniciar uma análise de desempenho, você pode começar com as
++ferramentas usuais, como:
++
++- ``top`` / ``htop`` / ``atop`` (*obtenha uma visão geral da carga do
++  sistema, veja picos em processos específicos*)
++- ``mpstat -P ALL`` (*observe a distribuição de carga entre as CPUs*)
++- ``iostat -x`` (*observe a utilização e o desempenho dos dispositivos de
++  entrada e saída*)
++- ``vmstat`` (*visão geral do uso de memória no sistema*)
++- ``pidstat`` (*semelhante ao* ``vmstat`` *, mas por processo, para
++  restringir ao alvo*)
++- ``strace -tp $PID`` (*uma vez que você conhece o processo, pode descobrir
++  como ele se comunica com o kernel*)
++
++Isso deve ajudar a reduzir suficientemente as áreas a serem investigadas.
++
++Indo mais fundo com o perf
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A ferramenta **perf** fornece uma série de métricas e eventos para
++aprofundar a investigação dos problemas.
++
++Pré-requisito: compilar ou instalar o perf no seu sistema
++
++Coletar dados estatísticos ao procurar todos os arquivos que começam com
++``gcc`` em ``/usr``::
++
++  # perf stat -d find /usr -name 'gcc*' | wc -l
++
++   Performance counter stats for 'find /usr -name gcc*':
++
++     1277.81 msec    task-clock             #    0.997 CPUs utilized
++     9               context-switches       #    7.043 /sec
++     1               cpu-migrations         #    0.783 /sec
++     704             page-faults            #  550.943 /sec
++     766548897       cycles                 #    0.600 GHz                         (97.15%)
++     798285467       instructions           #    1.04  insn per cycle              (97.15%)
++     57582731        branches               #   45.064 M/sec                       (2.85%)
++     3842573         branch-misses          #    6.67% of all branches             (97.15%)
++     281616097       L1-dcache-loads        #  220.390 M/sec                       (97.15%)
++     4220975         L1-dcache-load-misses  #    1.50% of all L1-dcache accesses   (97.15%)
++     <not supported> LLC-loads
++     <not supported> LLC-load-misses
++
++   1.281746009 seconds time elapsed
++
++   0.508796000 seconds user
++   0.773209000 seconds sys
++
++
++  52
++
++A disponibilidade de eventos e métricas depende do sistema em que você está
++executando.
++
++Para a documentação completa, veja
++`<https://perf.wiki.kernel.org/index.php/Main_Page>`__
++
++Perfetto
++~~~~~~~~
++
++Um conjunto de ferramentas para medir e analisar o desempenho de
++aplicações e sistemas. Você pode usá-lo para:
++
++* identificar gargalos
++* otimizar código
++* fazer o software rodar mais rápido e de forma mais eficiente.
++
++**Qual é a diferença entre o perfetto e o perf?**
++
++* o perf é uma ferramenta que faz parte do kernel Linux e é especializada
++  nele, com interface de linha de comando.
++* o Perfetto é um conjunto multiplataforma de ferramentas para análise de
++  desempenho, estende suas funcionalidades ao espaço de usuário e oferece
++  uma interface web.
++
++Para a documentação completa, veja `<https://perfetto.dev/docs/>`__
++
++Ferramentas de análise de kernel panic
++--------------------------------------
++
++  Para capturar o crash dump, use ``Kdump`` e ``Kexec``. Abaixo você
++  encontra alguns conselhos para analisar os dados.
++
++  Para a documentação completa, veja :doc:`/admin-guide/kdump/kdump`
++
++  Para encontrar a linha correspondente no código, você pode usar o
++  `faddr2line
++  <https://elixir.bootlin.com/linux/v6.11.6/source/scripts/faddr2line>`__;
++  note que é preciso habilitar ``CONFIG_DEBUG_INFO`` para que isso
++  funcione.
++
++  Uma alternativa ao ``faddr2line`` é o uso do ``objdump`` (e de suas
++  variantes para as diferentes plataformas, como
++  ``aarch64-linux-gnu-objdump``). Tome esta linha como exemplo:
++
++  ``[  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]``.
++
++  Podemos encontrar a linha de código correspondente executando::
++
++    aarch64-linux-gnu-objdump -dS drivers/staging/media/rkvdec/rockchip-vdec.ko | grep rkvdec_device_run\>: -A 40
++    0000000000000ac8 <rkvdec_device_run>:
++     ac8:	d503201f 	nop
++     acc:	d503201f 	nop
++    {
++     ad0:	d503233f 	paciasp
++     ad4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
++     ad8:	910003fd 	mov	x29, sp
++     adc:	a90153f3 	stp	x19, x20, [sp, #16]
++     ae0:	a9025bf5 	stp	x21, x22, [sp, #32]
++        const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
++     ae4:	f9411814 	ldr	x20, [x0, #560]
++        struct rkvdec_dev *rkvdec = ctx->dev;
++     ae8:	f9418015 	ldr	x21, [x0, #768]
++        if (WARN_ON(!desc))
++     aec:	b4000654 	cbz	x20, bb4 <rkvdec_device_run+0xec>
++        ret = pm_runtime_resume_and_get(rkvdec->dev);
++     af0:	f943d2b6 	ldr	x22, [x21, #1952]
++        ret = __pm_runtime_resume(dev, RPM_GET_PUT);
++     af4:	aa0003f3 	mov	x19, x0
++     af8:	52800081 	mov	w1, #0x4                   	// #4
++     afc:	aa1603e0 	mov	x0, x22
++     b00:	94000000 	bl	0 <__pm_runtime_resume>
++        if (ret < 0) {
++     b04:	37f80340 	tbnz	w0, #31, b6c <rkvdec_device_run+0xa4>
++        dev_warn(rkvdec->dev, "Not good\n");
++     b08:	f943d2a0 	ldr	x0, [x21, #1952]
++     b0c:	90000001 	adrp	x1, 0 <rkvdec_try_ctrl-0x8>
++     b10:	91000021 	add	x1, x1, #0x0
++     b14:	94000000 	bl	0 <_dev_warn>
++        *bad = 1;
++     b18:	d2800001 	mov	x1, #0x0                   	// #0
++     ...
++
++  Ou seja, nesta linha do crash dump::
++
++    [  +0.000240]  rkvdec_device_run+0x50/0x138 [rockchip_vdec]
++
++  Posso tomar ``0x50`` como deslocamento, que devo somar ao endereço base
++  da função correspondente, que encontro nesta linha::
++
++    0000000000000ac8 <rkvdec_device_run>:
++
++  O resultado de ``0xac8 + 0x50 = 0xb18``
++  E quando procuro por esse endereço dentro da função, obtenho a seguinte
++  linha::
++
++    *bad = 1;
++    b18:      d2800001        mov     x1, #0x0
++
++**Copyright** ©2024 : Collabora
+-- 
+2.55.0
 
