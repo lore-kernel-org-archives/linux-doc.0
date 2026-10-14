@@ -1,78 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DBB52F26F;
-	Wed, 14 Oct 2026 13:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1E23F5BFD
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 14:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791986195; cv=none; b=mC3HtD998iFONWjTtDjFJeC4C/3oZRYwP0VCTjHDG2z+bAnuDGX3cf+PX7igtsQwLhSAq3cbKfyOj+tSwhRGg4iQUPGe8aVyPIu1eQH+eH6CFoZTd+Vhd/1r0BthLR6qiYeTqHN69kEq++EdWV/bAxO6hrFRTr5S3aHmP5HnnzM=
+	t=1791986775; cv=none; b=cFJ7yVIAZ1XJMMMGXlAS/G93OJHxy89obDEuRg8RiI3jtAWGk6eA7UVpgUReWB0yHIu809ZGQC0Xon2GZGgQwEw+2t9NwAmNG/5lJvVUtGPAvHQmjPjdxgQwv0K7RW/ATN1r+GRDJr7uLJHE+y8SW8KRwSjfwY39Rmc9j6Yn/90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791986195; c=relaxed/simple;
-	bh=9wH24lS/DUHKt+iBUsYkazNAzuCCa+PwBEFcGNU7IVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JAvi/QDmA5kBwOKdc6ygs/v4ihwVizdEHO/1KJ5D8q7fQ5J4ttfqm8NcWegnkTMi6uZO6z5Yu68lp7LPVjhFQ2U46UIhFIim4mpyQwtBqyHEuNYHPkFpOdSaXbPZTDzmCXYZfdi7w0BKBU+S9MAN7VvATDdoZQj4Iq1GLtIZpzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S/AhSll2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791986775; c=relaxed/simple;
+	bh=+LPtWh1qFJlgPBvFQMTukUCo0zpCSuwiIYzyQE9FwWU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mMubm6RLHUW5cvayJtqJ7Zdoh1CXFGn9yKR8WnvyGNEue2JAusZBtT9IWN/0EQB6PkMtrd9ChzvFJUoTfmw0weXQv19EwjLb9KdaAh0qmFpN8Z6XsHhJ4jGcVzvcY4vbA0lKhMS7EhVsSTxqVq32MkkXsKd0msno3ww0bUztIJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZR5DkvGv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S/AhSll2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0631F00A2F;
-	Wed, 14 Oct 2026 13:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791986191;
-	bh=9wH24lS/DUHKt+iBUsYkazNAzuCCa+PwBEFcGNU7IVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S/AhSll2Yt7U7qmot/n7kSNd3j34r1D0eTJPXlry5v3EGMoO3NbJ+ntoXNFVA6SGe
-	 mV2yOM0SV3xWkd7YiyKqxQJp3pzr6aMAUJx31ZwKtfG5/vtPFNUK/twlRkF2MFCJKJ
-	 EH+QG0Y7sNHlz0m37JvMqq0NuMqYwsOzgmgT5i0aL72H1wlD1q2QfX+5f87TyQ/Z7d
-	 Z89xiHem+kfyrvtrj41GGWmfYskQoGe4xw3Ix1L2YjfwdKFKLePbQpmVWLPJlR8Gw9
-	 zEQxa/zjmhL5DUg8rao/J2XyWuqVkXx77YFvONxabqQTWjcLG1gbnJdEH6xCQXyJaW
-	 bEUQBDKNWIWLg==
-Date: Wed, 14 Oct 2026 14:56:22 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, federico.vaga@vaga.pv.it, 
-	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Justin Stitt <justinstitt@google.com>, 
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <as-Ino4KNmaG77_G@gremlin>
-References: <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
- <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
- <202610131000.43AB316FBC@keescook>
- <20261013174243.GC178151@killaraus.ideasonboard.com>
- <202610131216.C841415F01@keescook>
- <20261013201628.GO4214@killaraus.ideasonboard.com>
- <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZR5DkvGv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791986772;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HnvQD1sI3SbVIiglYRsgOb/vLGwCrdATaXJSnvrFMk4=;
+	b=ZR5DkvGvH5D5o3HibIiNa3qjiZQndQuKV+bZschV+h/utcmYoqBDPNdxUfyh+5kHrCejLK
+	jAsxZok/i13JaOkOUQNT+HDym7LeQQ4p+OQZ+VDJNBy4dxTI8M+0M8Lzna5GAoDlKeCzFZ
+	Kf5gpK4r5Ne0Da4eelTId03fOjpMp44=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-627-tHSEdSL1PrqhHCTsg4Jbvg-1; Wed,
+ 14 Oct 2026 14:06:08 +0000
+X-MC-Unique: tHSEdSL1PrqhHCTsg4Jbvg-1
+X-Mimecast-MFC-AGG-ID: tHSEdSL1PrqhHCTsg4Jbvg_1791986766
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7A8221956056;
+	Wed, 14 Oct 2026 14:06:06 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.rmtusnh.csb (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8BFD0418;
+	Wed, 14 Oct 2026 14:06:03 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Ridong Chen <ridong.chen@linux.dev>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Hui Peng <benquike@gmail.com>,
+	Guopeng Zhang <guopeng.zhang@linux.dev>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH-next v3 0/9] cgroup/cpuset: Fix various housekeeping check problems
+Date: Wed, 14 Oct 2026 10:05:39 -0400
+Message-ID: <20261014140548.575122-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whTs09_ozN+e09GU68N1wPP56MUzDjrg9rnKxQUa0A_4Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-On Tue, Oct 13, 2026 at 01:45:09PM -0700, Linus Torvalds wrote:
-> The kind of expectations *I* have is that people do their best and I
-> expect people to understand what they are doing.
->
-> But that understanding has very little to do with what tools they use.
+ v3:
+  - Further revise the code based on feedback from sashiko and
+    reviewers.
+  - Add a new fix patch which fixes a bug found during the testing process.
+  - Add a patch to impose a new restriction that creating a child root
+    partition under an isolated parent partition is not allowed.
 
-I think that's the crux of it. Don't send stuff you don't understand.
+ v2:
+  - Update patches 2 and 3 to address bugs reported by sashiko.
+  - Add a new test_cpuset_prs.sh patch to skip the test if some of the
+    required CPUs are offline.
 
-And if you do, expect to be ignored.
 
---
-Cheers, Lorenzo
+Commit 4a74e418881f ("cgroup/cpuset: Check partition conflict with
+housekeeping setup") and commit 103b08709e8a ("cgroup/cpuset: Fail if
+isolated and nohz_full don't leave any housekeeping") add housekeeping
+checks to fail partition changes that will violate the housekeeping
+rules. However there are several issues that make the check incomplete and
+missing in some cases. This series fixes the various known housekeeing
+check issues as well as imposing a new restriction that a local root
+partition cannot be created underneath an isolated partition. This
+new restriction will eliminate a number of hard to tackle corner cases
+which are unlikely to be used by the end users at all.
+
+The first patch fixes a bug found in the testing process which is not
+directly related to the goal of tackling the housekeeping check problem.
+This series also updates test_cpuset_prs.sh by adding new test cases
+to test the new code.
+
+Waiman Long (9):
+  cgroup/cpuset: Fix a missing isolated_cpus update in
+    update_cpumasks_hier()
+  cgroup/cpuset: Consolidate isolated_cpus_can_update() into
+    prstate_housekeeping_conflict()
+  cgroup/cpuset: Consider all the exclusive CPUs when doing housekeeping
+    check
+  cgroup/cpuset: Do housekeeping check before converting invalid
+    partition to valid
+  cgroup/cpuset: Properly disabling partition when partition state
+    switching fails
+  cgroup/cpuset: Don't allow a child root partition under an isolated
+    parent
+  selftests/cgroup: Add tests for isolcpus housekeeping check
+  selftests/cgroup: Add tests for nohz_full housekeeping check
+  selftests/cgroup: Skip test_cpuset_prs.sh test if some required CPUs
+    are offline
+
+ Documentation/admin-guide/cgroup-v2.rst       |   4 +-
+ kernel/cgroup/cpuset-internal.h               |   1 +
+ kernel/cgroup/cpuset.c                        | 191 +++++++-------
+ .../selftests/cgroup/test_cpuset_prs.sh       | 234 ++++++++++++++----
+ 4 files changed, 294 insertions(+), 136 deletions(-)
+
+-- 
+2.55.0
+
