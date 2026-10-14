@@ -1,177 +1,190 @@
-Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE8037CD2E
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F10B4AF9D1
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791971185; cv=none; b=HAqs20Wr7S/486+ZmoiaGu9IuUDzoFV9VAvEz9NP7ObxmRIW3m4yFyuFHYVt0/U6QH13Q0H6la6X33/IR4PKSMU1MmY2OdIYlpwz9vWYVQaIfvnpTn04ASM6KcKj+GBRVGVlzChi7GgUP4H3KXIwvuCEi/eguHdlRRC5dPpGphs=
+	t=1791971213; cv=none; b=afD5QZLRkbO7oSwfsIscRsP26jLsk3w7aMjd9K6npjyZ6BHWLULGkl0odx+K2KDIaA299m3pUSD4to1Ef2ATqpKfSF5N5QGp38zpLMCqVu5Yw/0kK/78xOipYm6+G2pOhSDRNICZTdKEBvfho6zL7jHDIkAm7gWr4ng5VttdDOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791971185; c=relaxed/simple;
-	bh=pPMR4Q8xaGvS7SttOwlONotpEI9RRoO0t+V8f8ieag8=;
-	h=To:In-Reply-To:From:Subject:Message-Id:Mime-Version:Date:
-	 References:Cc:Content-Type; b=hHQEFgkuALU+laLZH1I2cTo0JAMe9uKDIXbIX8dvB92zAbB/qXC2vOpPNG0vYm5gE8Ic2OIqm1beb8sL4Z70IVxAcalTikH9Ve6LKuS+nZGFvnRDGgoPRD7aNCwkRnm+os3P/FcI3UVScwte0OiW/WmG08ZgGWThTdT/Xu9e4Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=NmOPoufl; arc=none smtp.client-ip=209.127.230.113
+	s=arc-20240116; t=1791971213; c=relaxed/simple;
+	bh=0RoX8LB+/mNG41tlBKaVRsCEHnuku/wbGoyCG+ubsT8=;
+	h=To:Message-Id:Mime-Version:In-Reply-To:References:From:Subject:Cc:
+	 Date:Content-Type; b=sH6W9r8/yodaBiLoswSkp1esfSe45CPm7CUp5tyHgX4PHCz86bCUV5GKbsU8LQ+w4xt29vJQLH1kO1/p3N3DJK1jupcKQT9Jn5A+Z/ZCGFm4DN+4FDmB/0AF1T5o34MqY/IX6KxXMFzOLnSO5fEQsZfBjZhRKeVIsY4bHeSlFUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=WxmUyVUp; arc=none smtp.client-ip=209.127.230.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="NmOPoufl"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="WxmUyVUp"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791971173; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1791971198; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=5g9Mw8eoznlsynpSJ6z9deMC+OBzAzCqHJiI3+n9U7c=;
- b=NmOPouflIqEqOH2cP2X61xIj0lD7N1IcWwvu9ZWYCWbEVxWJkKWHNVAcUivyBsCDWBraID
- gfIhKANvNLEeJyrIsOiOtqgZwHw2VYRJCTZJqahRE9GsTy89NAaJ85gWM29cHTRn20rQdS
- 4KZjgfqBr6r2T4eDu9VKcwsk6ljqbi5WV37HJpzm3dIGFXVgbn8XeSBRPUHRM5NqJxeE88
- nobiGYrzgFqAAWP9S3li0Sq64nitxSilDh6mFaoyLQmayg6UowdnzTtATAohMr2KcocsKt
- Wvye9PH3L9IPP7Q6/ePdrzPJUe2Zgh+AvFuusSdx06FBHIvkmranlahIbxlIdg==
-X-Lms-Return-Path: <lba+26acf4f62+db2148+vger.kernel.org+lizhe.67@bytedance.com>
+ bh=EoGHK2d9o+Gv89lihwm7ZyHMnSAieOGeRDgz9v8xE8U=;
+ b=WxmUyVUp9f0VkCdRUyFck6O1+gg8N6BM8V54dce6x2J51ylLnREcTHnbg8xoTTh8WX7ule
+ UcDlljtAxYDJe9PZGMjF9/ZvsFUFuCiP7cNzOo4KvW8n+ZbBsHOdEG/87PdCu0TI9g2CdI
+ 0HC5T6BqjjrLsGNx1lvyd+pnJhrHspzWLKDPAN+8f3kE+KDgaSeg1gR69Q0SzPCi1/8Lml
+ i9xXN67sncjoqc17iXhoOMQod+ysi7jn5GxeCr3d0KpGbMIXI16S00Rd45OdqpHMR7nc9b
+ oR9sm2Vp/zf8+J+U9fxLoJ+32QCdGvh7Tb3HfXkX5eEAMi5kDh1JtDqdsTuqTQ==
+X-Mailer: git-send-email 2.45.2
 To: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
 	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, 
 	<mingo@redhat.com>, <peterz@infradead.org>, <mgorman@suse.de>, 
 	<riel@redhat.com>, <juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
 	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
 	<vschneid@redhat.com>, <kprateek.nayak@amd.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20261014094347.99157-1-lizhe.67@bytedance.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Content-Transfer-Encoding: 7bit
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Subject: [PATCH 4/6] sched/numa: make free-space tiering promotion bypass configurable
-Message-Id: <20261014094347.99157-5-lizhe.67@bytedance.com>
+Message-Id: <20261014094347.99157-6-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Date: Wed, 14 Oct 2026 17:43:45 +0800
+In-Reply-To: <20261014094347.99157-1-lizhe.67@bytedance.com>
 References: <20261014094347.99157-1-lizhe.67@bytedance.com>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Subject: [PATCH 5/6] sched/numa: do not feed tiering promotions into task placement stats
 Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
 	<linux-mm@kvack.org>, "Li Zhe" <lizhe.67@bytedance.com>
+Date: Wed, 14 Oct 2026 17:43:46 +0800
 Content-Type: text/plain; charset=UTF-8
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 7bit
+X-Lms-Return-Path: <lba+26acf4f7c+5a5bdf+vger.kernel.org+lizhe.67@bytedance.com>
 
-Memory tiering normally promotes any recently accessed slow-tier page if
-the target fast-tier node has enough free space. This preserves the
-existing policy of filling available fast memory before relying on
-hotness and rate-limit control.
+NUMA balancing has separate mode bits for normal task placement and
+memory tiering. In memory-tiering-only mode, NUMA hinting faults on
+slow-tier pages are used to detect hot pages and promote them to a top
+tier. They are not normal task-placement faults.
 
-That is not always the desired policy. Some workloads may intentionally
-place memory across CXL-attached memory and DRAM to use aggregate memory
-bandwidth. With the free-space bypass, cold one-shot accesses and bursts
-of hot accesses can refill the fast tier and pull the workload away from
-that distribution whenever DRAM has free space.
+task_numa_fault() already avoids normal placement accounting for slow-tier
+faults while memory tiering is enabled. However, a successful slow-to-fast
+promotion can bypass that check. do_numa_page() reports the destination
+node to task_numa_fault() after migration, so the fault is seen as a
+top-tier fault and can update p->numa_faults, task placement state and
+the preferred NUMA node.
 
-Add kernel.numa_balancing_promote_free_space_bypass. It defaults to 1,
-preserving the existing behavior. When cleared, enough free space in the
-target fast-tier node no longer bypasses the normal hotness and
-rate-limit controls.
+Slow-tier PTEs store access-time metadata in the folio last-cpupid field.
+Before this change, numa_migrate_check() returned the same all-ones
+last_cpupid value for those faults that normal AutoNUMA uses for a first
+or unknown access. Those cases are different: the ordinary unset value
+means there is no previous CPU/PID sample, while a slow-tier access-time
+value means the field does not contain a cpupid at all.
+
+Name the ordinary all-ones sentinel LAST_CPUPID_UNSET and use it for the
+normal first/unknown cpupid state. Return a distinct
+LAST_CPUPID_ACCESS_TIME value while the folio still carries access-time
+metadata. If normal NUMA balancing is disabled, keep the migrated-page
+accounting but skip normal task-placement accounting for those faults.
+
+When normal NUMA balancing and memory tiering are both enabled, promoted
+pages can still feed task placement. In that mode, the user has enabled
+both CPU placement feedback and tiering promotion, so a promoted top-tier
+fault is treated as an ordinary unset-cpupid AutoNUMA fault.
+
+A stale access-time value can also survive after memory tiering is
+disabled and later reach task_numa_fault() from a top-tier page, where
+the slow-tier validation no longer applies. Treat any remaining invalid
+last_cpupid as LAST_CPUPID_UNSET before task_numa_group() can decode a
+CPU from it.
+
+This does not change whether a page is promoted. It only prevents
+memory-tiering-only promotion faults from being consumed by the normal
+AutoNUMA placement heuristic.
 
 Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 16 ++++++++++++++
- include/linux/mmzone.h                      |  5 ++---
- kernel/sched/fair.c                         | 23 +++++++++++++++------
- 3 files changed, 35 insertions(+), 9 deletions(-)
+ include/linux/mm.h  |  5 ++++-
+ kernel/sched/fair.c | 26 +++++++++++++++++++++++++-
+ mm/memory.c         |  2 +-
+ 3 files changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index ffea61d448eb..4a035b18aff4 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -765,6 +765,22 @@ will be limited to be no more than the set value.
- A rule of thumb is to set this to less than 1/10 of the PMEM node
- write bandwidth.
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index dd09c438fa23..bb0c72640152 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2420,6 +2420,9 @@ static inline int folio_nid(const struct folio *folio)
+ #define PAGE_ACCESS_TIME_MASK				\
+ 	(LAST_CPUPID_MASK << PAGE_ACCESS_TIME_BUCKETS)
  
-+numa_balancing_promote_free_space_bypass
-+========================================
++#define LAST_CPUPID_UNSET		(-1 & LAST_CPUPID_MASK)
++#define LAST_CPUPID_ACCESS_TIME		(-2 & LAST_CPUPID_MASK)
 +
-+Controls whether memory tiering promotion may bypass the normal
-+hint-fault hotness check and promotion rate limit when the target
-+fast-tier node has enough free space.
-+
-+The default value is 1.  In this mode, if the fast tier has enough free
-+space, recently accessed slow-tier pages can be promoted without the
-+hotness check or the promotion rate limit, so the kernel can fill
-+available fast-tier capacity.
-+
-+When set to 0, enough free space no longer bypasses these controls.
-+A slow-tier page must pass the normal hotness and rate-limit checks before
-+promotion.
-+
- oops_all_cpu_backtrace
- ======================
- 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 94f9c3ff5416..5d583b17dfa2 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -297,9 +297,8 @@ enum node_stat_item {
- 	 */
- 	PGPROMOTE_CANDIDATE,
- 	/**
--	 * Not rate-limited (NRL) candidate pages for those can be promoted
--	 * without considering hot threshold because of enough free pages in
--	 * fast-tier node.  These promotions bypass the regular hotness checks
-+	 * Not rate-limited (NRL) candidate pages that are promoted through the
-+	 * free-space bypass. These promotions bypass the regular hotness checks
- 	 * and do NOT influence the promotion rate-limiter or
- 	 * threshold-adjustment logic.
- 	 * This is for statistics/monitoring purposes.
+ static inline int cpu_pid_to_cpupid(int cpu, int pid)
+ {
+ 	return ((cpu & LAST__CPU_MASK) << LAST__PID_SHIFT) | (pid & LAST__PID_MASK);
+@@ -2468,7 +2471,7 @@ static inline int folio_last_cpupid(struct folio *folio)
+ }
+ static inline void page_cpupid_reset_last(struct page *page)
+ {
+-	page->_last_cpupid = -1 & LAST_CPUPID_MASK;
++	page->_last_cpupid = LAST_CPUPID_UNSET;
+ }
+ #else
+ static inline int folio_last_cpupid(struct folio *folio)
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index ec8a6bfeb2c7..2e11107bf5ca 100644
+index 2e11107bf5ca..ec08406d1364 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -134,6 +134,8 @@ static unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
- #ifdef CONFIG_NUMA_BALANCING
- /* Restrict the NUMA promotion throughput (MB/s) for each target node. */
- static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
-+/* Preserve the existing default of using free fast-tier space eagerly. */
-+static unsigned int sysctl_numa_balancing_promote_free_space_bypass = 1;
- #endif
+@@ -4214,6 +4214,21 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	if (!p->mm)
+ 		return;
  
- #ifdef CONFIG_SYSCTL
-@@ -157,6 +159,15 @@ static const struct ctl_table sched_fair_sysctls[] = {
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 	},
-+	{
-+		.procname	= "numa_balancing_promote_free_space_bypass",
-+		.data		= &sysctl_numa_balancing_promote_free_space_bypass,
-+		.maxlen		= sizeof(unsigned int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
- #endif /* CONFIG_NUMA_BALANCING */
- };
++	/*
++	 * Slow-tier pages use last_cpupid as access-time metadata instead of
++	 * a real cpupid. Do not feed these faults into normal task placement
++	 * when normal NUMA balancing is disabled.
++	 */
++	if (last_cpupid == LAST_CPUPID_ACCESS_TIME) {
++		if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_NORMAL)) {
++			if (migrated)
++				p->numa_pages_migrated += pages;
++			return;
++		}
++
++		last_cpupid = LAST_CPUPID_UNSET;
++	}
++
+ 	/*
+ 	 * NUMA faults statistics are unnecessary for the slow memory
+ 	 * node for memory tiering mode.
+@@ -4223,6 +4238,15 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	     !cpupid_valid(last_cpupid)))
+ 		return;
  
-@@ -2816,11 +2827,10 @@ static inline bool cpupid_valid(int cpupid)
- }
++	/*
++	 * A stale slow-tier access timestamp can survive after memory tiering
++	 * is disabled and later reach here as if it was a cpupid from a
++	 * top-tier page. Treat any non-cpupid value as an ordinary first
++	 * access before task_numa_group() decodes a CPU from it.
++	 */
++	if (unlikely(!cpupid_valid(last_cpupid)))
++		last_cpupid = LAST_CPUPID_UNSET;
++
+ 	/* Allocate buffer to track faults on a per-node basis */
+ 	if (unlikely(!p->numa_faults)) {
+ 		int size = sizeof(*p->numa_faults) *
+@@ -4240,7 +4264,7 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	 * First accesses are treated as private, otherwise consider accesses
+ 	 * to be private if the accessing pid has not changed
+ 	 */
+-	if (unlikely(last_cpupid == (-1 & LAST_CPUPID_MASK))) {
++	if (unlikely(last_cpupid == LAST_CPUPID_UNSET)) {
+ 		priv = 1;
+ 	} else {
+ 		priv = cpupid_match_pid(p, last_cpupid);
+diff --git a/mm/memory.c b/mm/memory.c
+index 8b0c2c735d3d..212e9d1d5b64 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -6173,7 +6173,7 @@ int numa_migrate_check(struct folio *folio, struct vm_fault *vmf,
+ 	 * to record page access time.  So use default value.
+ 	 */
+ 	if (folio_use_access_time(folio))
+-		*last_cpupid = (-1 & LAST_CPUPID_MASK);
++		*last_cpupid = LAST_CPUPID_ACCESS_TIME;
+ 	else
+ 		*last_cpupid = folio_last_cpupid(folio);
  
- /*
-- * For memory tiering mode, if there are enough free pages (more than
-- * enough watermark defined here) in fast memory node, to take full
-- * advantage of fast memory capacity, all recently accessed slow
-- * memory pages will be migrated to fast memory node without
-- * considering hot threshold.
-+ * For memory tiering mode, if the target fast memory node has enough free
-+ * pages, recently accessed slow memory pages can bypass the normal hotness
-+ * check and rate limit so the fast tier can be filled. The bypass can be
-+ * disabled by numa_balancing_promote_free_space_bypass.
-  */
- static bool pgdat_free_space_enough(struct pglist_data *pgdat)
- {
-@@ -2941,7 +2951,8 @@ bool should_numa_migrate_memory(struct task_struct *p, struct folio *folio,
- 		long nr = folio_nr_pages(folio);
- 
- 		pgdat = NODE_DATA(dst_nid);
--		if (pgdat_free_space_enough(pgdat)) {
-+		if (sysctl_numa_balancing_promote_free_space_bypass &&
-+		    pgdat_free_space_enough(pgdat)) {
- 			/* workload changed, reset hot threshold */
- 			pgdat->nbp_threshold = 0;
- 			mod_node_page_state(pgdat, PGPROMOTE_CANDIDATE_NRL, nr);
 -- 
 2.20.1
