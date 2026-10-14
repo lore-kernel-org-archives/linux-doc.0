@@ -1,134 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3841E37F742;
-	Wed, 14 Oct 2026 14:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E6C54DAEA
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 15:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791989418; cv=none; b=eOqd3MOlc+Sex+kJWFgbT6lrHUSGMG2W0jIQ+XRfi+s+UaJXL9/CTeJHM23J/SrArpd6RRb0/sirwqxSYOp03l25Gn0ysqSMV8weqz1ukr8ZbFXf6qxu1Zr+C9m2LbZWfoDHLZdKUZfePbl8OiEtVSaLeULK1bwpNEMsPKyEPSk=
+	t=1791992331; cv=none; b=O44CYZXQCQEvPt6ep9oRZG/EQahufzMa4oidsztg3atjSY+nuZJBTW1oJgJ7T0UH++A/DxMUq2Zu9Toqwk8j9m4vK9oDz/AgAfAQAqrG6eza03TjOfe0ezH9iNItfC8Veqv88IRXPsLQ0znTUrZrjpZpG+QjheZ4jhNlH8/gs30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791989418; c=relaxed/simple;
-	bh=1ZGFJL3aWBxdpm2daJRhOsohwWnF9u/jnnIW8uUSFdI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=XBIeaKuEJ5ed0tp3tPqnmwHoae2MxjP+LJ1lZqf43Y9y0N9GBiUK5+iapYakOZSR9ol1doqJPyQ8euaSj4xZTIKWibL6+RcDiKQY0DldxoA+mjfXERKbj1h/jW2xyip/xdFk4r2iyLviIf8GF5UhHNCNnkwmM+KDKhniyTMY3xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BM+UwMfH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791992331; c=relaxed/simple;
+	bh=4BFLoc2Qyd3LlDRrfy6DeHLk7jZhhoPcwhcXm3WiVmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a85n001/aSBuL/0frtSGkDLeD8mnbAGvAbObIJsSvIMdHiqD78KjN0xsu9DWBQlUhLpyxnepcr1gwiG0uuFgqE/HimtuIzdohwCMuIeJxUVBaapRQfwOIBxpQm0LwvtFHdxKCXxUjtR0JMFw+fR36D7a1MB1Z9iJOhOeyOrc5Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HJBtKO4B; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BM+UwMfH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038681F000C6;
-	Wed, 14 Oct 2026 14:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791989414;
-	bh=NdWDzbW7Y26htAfpjZvTCflFdSCpG0s8lhU2ZneTFLQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=BM+UwMfHAZjW9N+hXqGXqJO9+J70Tu+8At5e5U9AabuLJPkoU+OY5Q1tGeuDSRar7
-	 h+ueY9Vo+zchRUUDgnBlJpJjetO+qPXf++oPOSRIyP/PLLyvuOMCgyJOlm++Hbpw60
-	 91hK/nZUCLHOb407EzR1u0TPmbD+57P+JLtsy0JLqNWJLg6hPEMYNaJhx/1+SxKz0d
-	 SO9dytJU49vKpXLjbMQzrDTGL+wUdcHlbtIZVVNCRud1aDPerhS0f2Ud7adqwIcLSQ
-	 +H4U30KC2ow3o0gXS5ee0f1ShRWTDgZpMUZXwUlPNsa0ImzI79zjWNk1pRc+3suPXr
-	 gOVfAi3aygJUg==
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfauth.stl.internal (Postfix) with ESMTP id 04A4D780043;
-	Wed, 14 Oct 2026 10:50:12 -0400 (EDT)
-Received: from stl-imap-11 ([10.204.2.102])
-  by stl-compute-04.internal (MEProxy); Wed, 14 Oct 2026 10:50:13 -0400
-X-ME-Sender: <xms:pJbParDoKmXnnnpeCXDM-T7ZQy3mvEAFl8leKVWTW8fxLoSHruK5UQ>
-    <xme:pJbPasUGIp5Y-WerYrbOqfCqOomhS8YNkL3QSuUtKHjrt1PtIhP5Tu_WX_moXYsdi
-    sbHexPhmB_BmED0e-qA-2512EZv-PGP1oM7DEoJZYvBXbW1hOGKzMw>
-X-ME-Proxy-Cause: dmFkZTEBp4CSFP+oEygyR/ha7jJPYfJMSPM5LgWWD6WbfqNZUsOvuFcngQ6E2/sdCMTQyy
-    HijyMuq/lh8owh49Uvpdcd1Ra8UygobWNKOnsEZkYTkmkHBveua5QlCVL0sCLNdxkZT+w3
-    DLhzUNIRhU4ZpiQON0x0kMLOeVf1NUWdQo8JyVcvXXYMchFoGUAJI+xNE/ThwwUpa6FP20
-    cODEKLQFrG3geSG9+uwSFuaKXh/2ud2Hqj5zJA8H7nV9YIwFspm4XSoh0NWLuXc9SN7nF+
-    M0GU0dQmTpL8asKz2BQ4XwgO2/Sbpm/VnJLXVHzZvHTjDZHcObiXGKyIKkXuB2XL3tAzYg
-    g5OGTBD8KSmGCXSDu0gnl3UHb3Lp0SpglQkUX+piCkkNEgINFXYTsBjDIeCtd2BdV9QJQ3
-    mTfP+iSHHMJzo+KhWjJukhVQ8api1RFiaA7pywTevfwudi7iFEWHwbF3fD5qNbbxrYH6AU
-    uYTVm5lCHKo9KUELmKH5bJ67yzCta8QTOKdU30qDP+TjTRIjQ+yKitK4LMuJrfSdbT2I9F
-    XD2Zr3H2f1O2VvIbU3//Z6dHBXNQw8Z3KtlE1yB8wGuWJDbUxnRMiVGCy3EYOa2136W6Bm
-    7OdRD5lAU7SoYDdBdbK4z9I3J6kegvsNGaHYnREsjFZCq7Mj6bavvPFXsDFw
-X-ME-Proxy: <xmx:pJbPansXMvJtbNWVaV-mNd-qlczn-gGt_SH9XPSu00VX_1SCUwMIlg>
-    <xmx:pJbPavaCY2nnNd54zW53nb1b3n4NiW-6Jz-Ae3Sgp4IwUoSeeyOUxQ>
-    <xmx:pJbPahNykOFC4DtN7tXyMI1gDyWwjUYT8QfRvRRh_Su1dkRJTn2MGA>
-    <xmx:pJbPakut9LU5_6VoGmrV77P8-_f8MaRAa1YriFmU-18E2Z6zPqispA>
-    <xmx:pJbPapJayEVieuXZFLVJRdxfrNSvTiCPGOlJqmlWP5cgxmEZki4NOH5n>
-Feedback-ID: i927946fb:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id 90E9119C0067; Wed, 14 Oct 2026 10:50:12 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HJBtKO4B"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so14629195e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1791992328; x=1792597128; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5Z/ndJCv29t79k2nyqVh+dd/kAn1yNzZHxVFtofaEew=;
+        b=HJBtKO4BZ1CCRbWOn4+IdVzFVP5UfdrXHTmLDYqlZb77Y0IV+H6F8LtTWM6iE1n3HO
+         spF2oukpA2adDLYbrsTLzVmX8hrHSWtyLr6jYOzWse00IrygNJdpggEJQrCLEOed/JSn
+         Lgq7uslVeyxyW8ZhRv30Y+jM5Yp1anWV6gln32B1x7JbGrC94FQZbbGA9hutb7ruYjB/
+         Ti88UOpZkztp+EQb714CwzbLJ4aqVw3S0h/5HDgFVjRsJt2AJw3gs82Vv0FLoRMi11yA
+         A3EZr05g0vOby42eIUXP3USGKzJfxYQx4yh0Iep3KNIcVgh/GcjgM6V6LQjhdD/avE6P
+         WUTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791992328; x=1792597128;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Z/ndJCv29t79k2nyqVh+dd/kAn1yNzZHxVFtofaEew=;
+        b=xCy2RUjui6AZGuRBmw1H7ol+FVTP8MtEVxtmRtsw5P342wUhYKpVUFshjj+c3TXMPp
+         c/fY/rJgRLGQuu5auA5BuVvivKuNX1mliVcslv5N60cUnDV4e0yBW4XMiZc09Q54ModB
+         G164dRvab4A4qDjA7DQPybHVCrE1OU6tptTkf9njiXX5mhN2qczqY7l2s3v55QwiH0X/
+         fNQ5FQG+AGX9FhRZgeBHb5vLodT8dKrJe1qVg27fktgJ4R5j/NyWkY4Vab5Kog05R5Jg
+         ktcWq/2IwX6QpDRmyUZ2VSasYN5k+/2LwOq0f8cSKxvFubpbsfMf1IXEbZ/p8JDIrBlp
+         HNiw==
+X-Forwarded-Encrypted: i=1; AKwUvBxkOLEXf5XsA2qbnrO5pF5MWk+T2dobED3e0wq0GBZVrhlpKdKeqpoQChemclwzqKwsn2UR/qXC3f0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKfi/bon+buErVSaenA+8JXjHPwmHq5ka5kz/uXYhIeHvhve5fA
+	lG88G4bw5iZqgDfjmixqmbr5EPaamOP2vHKUAGjQ24XD/i/3YY/iUj2KbNdFOWy08X0=
+X-Gm-Gg: AYBFou0YUW/VWy6lmHoCnyXy3yoh+7UXnXqhDwaPL8HtiAXNQwyDloRnBfdEmfmgOSt
+	M16/lkkm0qx1/ppzIOeTZeMOManyTmFQGX2h3AeCFIEh1DO189W8uO3tRQ82YQEQQPlkg4Fnu/K
+	VU9b21kuXTzYKDGW9U9MVSvZLkC4uoq2zjqorVdrDBvt10MNXmTckxTWuL7p8lhXPt/fPsdkuLi
+	BV6u/KrhC/UtXfiqRjIGgPr1/vzA1JMok6yr8nC5f3OJnexY7atBvKuPGncYOoNzUongF4FPupe
+	hLlPFQIJYXPHv+BZvB4x56WgWxQvCetft+u4ZtglN5hhMF7y/Clpi2pQoPX+gI3OlMN+45caI8G
+	AC5YMC5xiXy4qaHargrFHb5XUO760mVhz6te4Fig01s0gUQ8lwlBV/HWMjGVq/jXtX/piejVrbd
+	myRUE9w98EsIS6KeQQjUiFDpQudCRq4H3qFk28M8moxoqdY3g9pJ0eG3qi3AV3MYuWPCpkbs0es
+	RP6IUra5FM=
+X-Received: by 2002:a05:600c:609a:b0:4a1:7108:c2b6 with SMTP id 5b1f17b1804b1-4a18e4effabmr313776615e9.31.1791992327765;
+        Wed, 14 Oct 2026 08:38:47 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd68585csm1333085e9.4.2026.10.14.08.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 08:38:47 -0700 (PDT)
+Date: Wed, 14 Oct 2026 17:38:44 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+	David Gow <david@davidgow.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] hexdump: Allow skipping identical lines
+Message-ID: <as-iBP1781DVuZ7p@pathway.suse.cz>
+References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+ <as6TIm6xE8Izccb5@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 14 Oct 2026 17:49:53 +0300
-From: "Leon Romanovsky" <leon@kernel.org>
-To: "Bjorn Helgaas" <helgaas@kernel.org>
-Cc: "Bjorn Helgaas" <bhelgaas@google.com>,
- "Logan Gunthorpe" <logang@deltatee.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, iommu@lists.linux.dev,
- "Tushar Dave" <tdave@nvidia.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
- "Chaitanya Kulkarni" <kch@nvidia.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jens Axboe" <axboe@kernel.dk>, "Alex Williamson" <alex@shazbot.org>,
- "Ankit Agrawal" <ankita@nvidia.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Sumit Semwal" <sumit.semwal@linaro.org>
-Message-Id: <eb8e0edd-4c4d-402e-9875-bdbc6d191edf@app.fastmail.com>
-In-Reply-To: <20261014132353.GA1625948@bhelgaas>
-References: <20261014132353.GA1625948@bhelgaas>
-Subject: Re: [PATCH v11 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <as6TIm6xE8Izccb5@black.igk.intel.com>
 
+On Tue 2026-10-13 22:22:58, Andy Shevchenko wrote:
+> +Cc: KUnit maintainers + Kees
+> 
+> On Wed, Mar 19, 2025 at 05:08:09PM +0100, Miquel Raynal wrote:
+> > While working on NAND issues, I used print_hex_dump() a lot to compare
+> > data. But I am mostly working on embedded systems where the kernel
+> > messages go through a serial console. Sometimes network support is an
+> > option, sometimes not. Anyway, I often print buffers both in kernel
+> > space and user space to compare them, and they may be full of 0's or
+> > 1's, which means lines are repeated a lot in the output and this is slow
+> > *and* hard to compare.
+> > 
+> > I initially hacked into lib/hexdump.c for my own purpose and just
+> > discarded all the other users, but it felt like this might be a useful
+> > feature for others and decided to make it a public patch.
+> > 
+> > * First patch creates a helper named print_hex() with a prototype
+> >   containing a flags parameter, instead of an entry for the prefix type
+> >   and another entry for the ascii boolean. print_hex_dump() now
+> >   falls back to print_hex().
+> > * Second patch adds a new flag to possibly skip the identical lines.
+> > * Third patch is optional, and adds the offset at which the dump
+> >   finishes in case the last line to be printed would be skipped.
+> > 
+> > The Cc-list, as provided by get_maintainers.pl, was returning 330
+> > e-mail addresses which felt to much, so I ran the script only on the
+> > second patch (the printk/includes/debug/Doc changes). It gave this
+> > Cc-list which sounds more reasonable. Hopefully this is a smart move,
+> > otherwise let me know what you think would be best.
+> 
+> Sorry for the so late response. First of all, a bit of a background
+> development on my side. At some point a few months ago I asked John
+> Ogness to give me a private dive to the printk() guts. He explained
+> to me a lot about ow printk() circular buffer works and that the
+> implementation is nowadays done in the terms of circular buffer library
+> and printk() front-end. This gives a potential to get a clean solution
+> for the testing how printk() actually behaves.
 
+I am curious what printk() features you would like to test.
 
-On Wed, Oct 14, 2026, at 16:23, Bjorn Helgaas wrote:
-> On Wed, Oct 14, 2026 at 09:53:47AM +0300, Leon Romanovsky wrote:
->> On Tue, Oct 13, 2026 at 05:25:08PM +0300, Leon Romanovsky wrote:
->> > PCI P2PDMA applies Request and Completion Redirect throughout both paths.
->> > This misclassifies asymmetric and nested switches, and reports one answer
->> > for every kind of TLP.
->> > 
->> > Three ACS controls act on TLP attributes the Requester chooses rather
->> > than on the topology: Translation Blocking and Direct Translated P2P act on
->> > a Request's Address Type, and Completion Redirect skips Completions carrying
->> > Relaxed Ordering.
->> > 
->> > Evaluate each direction at the path divergence, decide every class from the
->> > one walk, and treat a client with ATS enabled as translating unless its
->> > driver declares per-mapping ATS.
->> > 
->> > This completes the P2PDMA side; dma-buf and mlx5 follow separately.
->> > 
->> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
->> > ---
->> > Changes in v11:
->> 
->> 
->> Bjorn,
->> 
->> Could you please save me from the AI-bot attack? Every rebase seems to
->> uncover another bizarre pre-existing issue. It never ends.
->
-> Can you elaborate?  I'm not sure what you'd like me to do here.  I
-> don't control the Sashiko reviews, and I thought Sashiko was recently
-> changed to put pre-existing issues in a database but not in the email
-> responses.
+> The main issue with the
+> real printk() is that the buffer it's using is defined globally and
+> for clean test cases the printk() can't be used. We discussed the way
+> of high-jacking that by linking an object file of printk() implementation
+> to the KUnit test, but it seems quite a tricky if ever achievable exercise.
+> 
+> Meanwhile Kees Cook seems found a nice workaround for the similar use case
+> in his recent patch series [1]. The idea is to register custom console and
+> provide a custom .write() method which is the heart of the solution. On
+> the writer side user prints something which has unique prefix, while the
+> console callback recognises that pattern and checks the rest of the line.
 
-AI reviews are not deterministic and every resubmission gives us slightly different result, which is in this phase of submission is  full of hallucinated flows not applicable to the upstream.
+I ask because the solution used by Kees seems to be quite complicated
+and unreliable for the given purpose. In particular, printk() does
+only the best effort to flush messages on legacy consoles. And NBCON
+consoles drivers are even offloaded to a kthread by default as
+pointed out by John in the other mail.
 
-In addition to upstream Sashiko, i run everything through local one with slightly better models which hallucinating even more.
+It seems that Kees just want to check some particular printk() calls
+and what messages they print. It might be easier and more reliable
+to redirect printk() to an alternative implementation via a hook
+in vprintk() in kernel/printk/printk_safe.c.
 
-I would ask you to merge the series so it gets real exposure in addition to my kunit and specific hw setup.
+The vprintk() function used to redirect printk() by context,
+e.g for recursive messages or NMI. It is much easier with the lockless
+ringbuffer now. But it still does a redirection for kdb_printf().
 
-Thanks 
+I could even imagine that it could call vprintk_emit() with some
+special facility which would cause redirecting the messages to
+an alternative ring_buffer. Or we could even add a parameter
+for this.
 
->
-> Bjorn
+Anyway, the console machinery is pretty complex and just a best
+effort. It would be better to avoid it unless you really want
+to test the full printk() machinery.
+
+Best Regards,
+Petr
