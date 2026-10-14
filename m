@@ -1,453 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011008.outbound.protection.outlook.com [40.93.194.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C3A4A1E04;
-	Wed, 14 Oct 2026 08:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791965343; cv=none; b=KXpSiliAkJsATDb2QGmO2O+srcvhMDASdLdkF7a2ydvCVpHd+G/nhD2oofCkR/gFXxhA500Hkjkk3m/M4T86QBrzOl9lTcYt5Sz+S7+hPz2yVIZj6h4n7zORDi05gWQ4iD3ZpHxKoSv34DwGhi/d8WnVPeRm0QfGZlR4YZYJD2w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791965343; c=relaxed/simple;
-	bh=FMCnP/Bt6vWYrgRPyZ/1cUDHYAvHo+tWYI7paomheD8=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=UJVOuXIQXeuoquwrc9rljlUqmrNbuMkPcTPPhAntQmKB3chpLhbIiY5F27lVNcOBc5FX5Eatfv8sE6sMaIxGFteauu71p/a8zv4tcyIIerXlRaECfWxx8WQ1E3/9qJD8AY0Z0lIIQswieM9u92lV0TyU0QrYyihwUNwD4e2fSqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtDlEKC7; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BA1DDC38;
+	Wed, 14 Oct 2026 08:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791965925; cv=fail; b=nR0hdTO74kxm+7MR/CvalPnY4OxkOE7IzNR0PW5j6cB+8mzvTtR7DQ9W1GYfgTzkc3dxOgVB9EdUdayX5uw9i9P/eSqproqM1reS13cnp7SpPw55/I9QApewo27oFIdDt2C0f/AzssGPKJ7EPs6zXJV9QcMTk2Yd0is4/LeO+6o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791965925; c=relaxed/simple;
+	bh=pZuKXL+/CjMooqGp5Hh5+kCSsAKZYzHwzsgyT7jkLF8=;
+	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Me7feii75cHVBdafyXi43JccdRMD/s4yPux2wljls9fbkuoZX83wmQQpp6QlM2LjAVe+PGou5oYQtvgcESwqfgrRrZ0nsHZxMshPZ9vbpzo0ZQFF64oGupxK9+UvNKTOMbaCFIhl+s+ZR1FRtml0GxFygYdjqWNV2kkR+u1alWw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x0W3CTep; arc=fail smtp.client-ip=40.93.194.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtDlEKC7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791965341; x=1823501341;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=FMCnP/Bt6vWYrgRPyZ/1cUDHYAvHo+tWYI7paomheD8=;
-  b=PtDlEKC7CJWTFt1bVrcLrGZcB0WqJKZ2PgNIHZlpdJZP1MumJpi7ncJU
-   dxgvIpfYn9Gdr12jinrN7gBBBDADgGxrfJR82fQiWIytyce5UbtUkVXQI
-   LFr1ORGg1YULCzTmOnoSF8gBtJSxnB0ByspxK6dTUHpOciuG2YoKNO1a+
-   HfxycmDbhM3f4CJI2bILfTV0/bWt2++U4ULdhYGhduYCrpmkqCtuOg/wn
-   S8iBQl6ho+LQH8s1Mei4xRbNk/FYm53X+zMjVz0OLnBs+lu/g7flRWG71
-   PUpA2o4mx5jOx2j3a1oBJwLqIK9+Zz4iUfCr2RgahxdmTxvNX+wEpK9SE
-   A==;
-X-CSE-ConnectionGUID: 9hqU/sexTty17QykyF9DeA==
-X-CSE-MsgGUID: 8bsp6C6aRamiqbcMJ3951w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="715431"
-X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="715431"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:08:59 -0700
-X-CSE-ConnectionGUID: b1YosQc3TdyCdwflI5hOUA==
-X-CSE-MsgGUID: eJy5EuBFQ1C/HQLkJJILAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1444910"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.234])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:08:54 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 14 Oct 2026 11:08:50 +0300 (EEST)
-To: Birk Skyum <birk.skyum@pm.me>
-cc: Anvesh Jain P <anvesh.p@oss.qualcomm.com>, 
-    Sibi Sankar <sibi.sankar@oss.qualcomm.com>, 
-    Hans de Goede <hansg@kernel.org>, 
-    Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-    Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-    Shuah Khan <skhan@linuxfoundation.org>, 
-    Randy Dunlap <rdunlap@infradead.org>, Daniel J Blueman <daniel@quora.org>, 
-    Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org, 
-    platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v2 1/2] platform: arm64: qcom-hamoa-ec: monitor Slim
- 7x legacy sensors
-In-Reply-To: <20260908135801.81436-2-birk.skyum@pm.me>
-Message-ID: <847772fa-4b09-75e7-704d-eccaf35879da@linux.intel.com>
-References: <20260908135801.81436-1-birk.skyum@pm.me> <20260908135801.81436-2-birk.skyum@pm.me>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x0W3CTep"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mk0I2KYY4brVYkRiVaEkPYi6HeOEQ4gQ+Vc7Durlch9LzBIvJGkTUtr9F6xvUzbH8NNLGpTHjwrAtl1SMxLkUdOJIJPqfcQWuB3febllDDE06ejbnSqGAqxEHd85H1RkGw0zy3UVFcyGQt54XKMaixeDt6wSWQra1rucSowYdQKjaOnn8anMGN+DkR91tq8SyjOPOU1/ITVB8bPBAjbTwP5E7yumrhxH8NWeUI7Wzyk4LJ+Z4neYO4JEOCBKO7wylQtRTailGETCthtB5GNR3oDALbCiLGDL5jUSAvjqB1jA4oZPGPUDm5uif6ojHjhcC5iGRm4TI9mfymZBTIEOSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B/O6P/5Mykn6grmjNggrSRIITjQ1hZN2/tusJ7WQk0I=;
+ b=k8JeDCYWX9r8SlVwxnpxsxxibo9DufkK8wo5a82yYpbdDs1EKqsercGZGYTMfQgOAjfI42xw8KZT24LOIGk7rRCW5T72Mvvuvwjj+YuhTv51mTKVbo/VuE+nbZwFmV40bcYjA9sR1mNkIq1Rc+gfqTgqiVJ103RHMdP3TbjPXxCiCjds5GZJy5bwSWshxDMyuwqpJhuXSbvgovzEbTpLm5Ww9vVyg7kcjPVo/pzMngWUM/eYDwTL39cnOszoT2aGikEBQAm9ZGrxqB+FaZmJKy5WWtechp63o7VfrXzKL3x1ZGrZLC+zpqgrEBG0HY2fpiequ0rSJL9llc+v2xtbEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B/O6P/5Mykn6grmjNggrSRIITjQ1hZN2/tusJ7WQk0I=;
+ b=x0W3CTepWnJgzEAVBsyan4wnQqFsTDhO6in1fe5iRWYo8DjYm9rZU0uJ+y8cXTX9wSJLqrXdqvTta4dJn2uibj+1RAVfax/8LQYM8QjeSmaJ8WXOjvn7EwmYktjmBU/bS/C+GAyyJJBx+hkWZ3TIybcKCgVyOaND2wV25/YGfhU=
+Received: from SJ0PR13CA0111.namprd13.prod.outlook.com (2603:10b6:a03:2c5::26)
+ by PH7PR12MB9223.namprd12.prod.outlook.com (2603:10b6:510:2f2::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
+ 2026 08:18:38 +0000
+Received: from SJ1PEPF000037A9.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c5:cafe::86) by SJ0PR13CA0111.outlook.office365.com
+ (2603:10b6:a03:2c5::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Wed, 14
+ Oct 2026 08:18:38 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF000037A9.mail.protection.outlook.com (10.167.244.182) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Wed, 14 Oct 2026 08:18:37 +0000
+Received: from [10.85.37.249] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 14 Oct
+ 2026 03:18:23 -0500
+Message-ID: <98ce2887-7df0-47e4-b1f6-4dba2442126f@amd.com>
+Date: Wed, 14 Oct 2026 13:48:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+CC: <sarunkod@amd.com>
+Subject: Re: [PATCH v4 6/7] KVM: SVM: Add support for AMD IOMMU Guest APIC
+ Physical Processor Interrupt (GAPPI)
+To: Vasant Hegde <vasant.hegde@amd.com>, "Borislav Petkov (AMD)"
+	<bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>, "Joerg Roedel (AMD)"
+	<joro@8bytes.org>, "Paul E. McKenney" <paulmck@kernel.org>, Andrew Morton
+	<akpm@linux-foundation.org>, Breno Leitao <leitao@debian.org>, "Christian
+ Brauner" <brauner@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, "Dave
+ Hansen" <dave.hansen@linux.intel.com>, Eric Biggers <ebiggers@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, Kiryl Shutsemau <kas@kernel.org>, Li RongQing
+	<lirongqing@baidu.com>, Marco Elver <elver@google.com>, Paolo Bonzini
+	<pbonzini@redhat.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, "Robin
+ Murphy" <robin.murphy@arm.com>, Sean Christopherson <seanjc@google.com>,
+	"Shuah Khan" <skhan@linuxfoundation.org>, Suravee Suthikulpanit
+	<suravee.suthikulpanit@amd.com>, Thomas Gleixner <tglx@kernel.org>, "Will
+ Deacon" <will@kernel.org>, <iommu@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <x86@kernel.org>
+References: <20260821055611.27138-1-sarunkod@amd.com>
+ <20260821055611.27138-7-sarunkod@amd.com>
+ <bdf29f6c-9f2e-4230-b5f5-5f25827f5b7a@amd.com>
+From: Sairaj Kodilkar <sarunkod@amd.com>
+Content-Language: en-US
+In-Reply-To: <bdf29f6c-9f2e-4230-b5f5-5f25827f5b7a@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000037A9:EE_|PH7PR12MB9223:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe97b226-96ed-4475-914e-08df29cbbfa8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|23010399003|36860700016|921020|56012099006|11063799006|4143699003|261009223027099003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	x0mCN7IgDrXaghCoGHC8EOOtM8J9EznMQ5iRwYmRp5yf7WuNBtJgF8oJ6lNTAlVGQT048kBC15ZMn/tUhbuaBA4jrrsRQQZc03AjEREekTcRVUatJ5f3/rZWdi1Aor+5ortiiX3PHIgjT34MJFHo3akPBAG7FcXyA6beB6narutttyAtyOxnr/jQOtUtxMVsxlK2g5sGvp+4B4Luxa5fGlicuDOCm1flvrM1I5cBq79ZWtG47wHQLSilkjchlvV8IuGSvS6JTq65eZ+P6VYXdnPV3Q58xpKQ4iYS2RChAowuWRKKD16puSfAC+Buv912NUpGtmhiftWSUDI6CC7ANthOuyZqnL1VGXccI3nvgtEslBXK6Asje6NVFrGfDsmWcyGCJ/WKwSLM2DnzpRb8Fa9sxXjK/q7YsY/78AxKYeLSCms3hLkEznAFNGHlpiKMAmTu+TrJlVBFhhWBEzA2FrD3WG3v4qDYNoXv18nlTw2nRQY+UYUxQOn3BOvAUG2MCQ9pLLQkt70SA3Tpm32fh8H/BbahAbyTFcHTQOwvec1tHEhuFrRvBAog35IXV1icuzbf+ZGCgTI1ldy9xzldrl0pRBqSrowUAmEwGnQ3T9rFFH9kvNk8w74oMKbN5eRSJaMT0JvFvlPVoPAeNecp0hVNn82pEc0yM40oAYYyEyx5jh8c8XCEJURqrBHAXSjE4byoXAY/nuLOXtg9Pht9XxSEGdc/ERSVdBcw7vv/585KlvZzY8rskQwyvzAEUOja
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(23010399003)(36860700016)(921020)(56012099006)(11063799006)(4143699003)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	MHYhb8X9cbYSojlSMYY+HfWhsiQsq9YRiZ5FqVTR1WzQhsPZG8ys6P5XadM0WMefVwmFId5fZxnjtCZNM15JcILg8Rad8YWzG0xhcGrIcaVLKdy512HsrLWAEf5Nt91zBindduNSI/dVwcyByDACQY7d1N0f6t7mKUtlKLYDoskxKfhEqjZiUtJ8/N/5H2HOQnyAV5tomJUXKQW3KHJCzQNpluUEl6b5arec9Ntwv8Mj/NwmjwShSDmgfcgxHc4MytPGnste6QdTNx8GD9oHyId4fzNgrellsHtpfyIWUg/XNra5Id5ZDcMtLgeNiFMGIu1hnPOnhaOGmoo4VagoA1kflfwcBE+dg60KTVJehZvlM6umKFTndO0rF6LQ4KYCPJAqdF2rCg+Qocer2ExKbqPYW1yNANbMlBu99SOuFUcLmAXiC4Kn7VjcrY91GsOr
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:18:37.9234
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe97b226-96ed-4475-914e-08df29cbbfa8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000037A9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9223
 
-On Tue, 8 Sep 2026, Birk Skyum wrote:
 
-> The Yoga Slim 7x EC returns an all-zero response to the reference-board
-> thermal capability command. Probe fails even though its legacy RPM and
-> thermistor queries work and firmware controls the fan automatically.
+
+On 8/21/2026 9:45 PM, Vasant Hegde wrote:
 > 
-> Select a read-only path for the Lenovo compatible. Expose its first RPM
-> channel and thermistor through hwmon, validating the transfer length and
-> RPM payload count and treating the thermistor's 0xff sentinel as ENODATA.
-> Do not enable SCI, register manual cooling controls or send standby
-> commands on this path. Keep the reference-board behavior and strict
-> capability validation unchanged.
 > 
-> The transactions are documented by the Yoga's FC22 and FC29/TZ39 DSDT
-> methods and Maya Matuszczyk's EC protocol notes. Anvesh Jain P's pending
-> fan-profile series also documents the RPM query. This change does not
-> include its calibration, LUT programming or temperature reporting.
+> On 8/21/2026 11:26 AM, Sairaj Kodilkar wrote:
+>> With AVIC guest-mode interrupt remapping, device interrupts are posted into
+>> the guest vAPIC backing page by the IOMMU. When the vCPU is not running
+>> (IRTE[IsRun] = 0), KVM must still be notified to schedule it. The legacy
+>> path uses the GA log.
+>>
+>> GAPPI (Guest APIC Physical Processor Interrupt) is an alternative to the
+>> GA log mechanism provided by the AMD IOMMU. With GAPPI enabled, the IOMMU
+>> still updates the vAPIC backing page IRR, but the host wakeup notification
+>> is delivered as a physical APIC interrupt to IRTE[Destination], using
+>> IRTE[GATag][7:0] as the vector (POSTED_INTR_WAKEUP_VECTOR).
+>>
+>> SVM follows the Intel posted-interrupt wakeup model. Each pCPU maintains
+>> a list of blocked vCPUs that may be woken by a GAPPI delivery to that CPU.
+>> When a vCPU blocks while waiting for an interrupt, SVM enqueues it on the
+>> wakeup list of the pCPU on which it was previously running and passes that
+>> same pCPU's physical APIC ID to the IOMMU to program IRTE[Destination].
+>> The rationale is that the vCPU is likely to run again on the same pCPU,
+>> which is common when vCPUs are pinned; targeting GAPPI notifications there
+>> reduces unnecessary VMEXITs from GAPPI deliveries on other CPUs. SVM
+>> registers the GAPPI handler via kvm_set_posted_intr_wakeup_handler(). On
+>> delivery, it walks the local vCPU list and wakes vCPUs with a pending IRR.
+>>
+>> All GAPPI logic is gated on amd_iommu_gappi. Without it, KVM and the IOMMU
+>> falls back to the legacy GA log mechanism for vCPU wakeup.
+>>
+>> Signed-off-by: Sairaj Kodilkar <sarunkod@amd.com>
+>> ---
+>>  arch/x86/kvm/svm/avic.c | 72 ++++++++++++++++++++++++++++++++++++-----
+>>  arch/x86/kvm/svm/svm.c  |  3 ++
+>>  arch/x86/kvm/svm/svm.h  |  5 +++
+>>  3 files changed, 72 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
+>> index dd497530d365..18ac24ef40e1 100644
+>> --- a/arch/x86/kvm/svm/avic.c
+>> +++ b/arch/x86/kvm/svm/avic.c
+>> @@ -874,6 +874,8 @@ int avic_init_vcpu(struct vcpu_svm *svm)
+>>  	INIT_LIST_HEAD(&svm->ir_list);
+>>  	raw_spin_lock_init(&svm->ir_list_lock);
+>>  
+>> +	svm->gappi_cpu = -1;
 > 
-> Link: https://github.com/aarch64-laptops/build/blob/2e58842f5fa2f87771c2df017ae4d8c65225ef10/misc/lenovo-yoga-slim-7x/acpi/dsdt.dsl
-> Link: https://lkml.iu.edu/hypermail/linux/kernel/2607.3/08806.html
-> Signed-off-by: Birk Skyum <birk.skyum@pm.me>
-> ---
-> Changes in v2:
-> - Move the platform-driver documentation to the laptop-driver guide and
->   update its index and MAINTAINERS entry, following Guenter's review.
-> - No driver code changes.
+> Can we initialize it to CPU0?
+
+Yeah, I think we can do this, I was worried about passing gappi_cpu=0 to
+kvm_pi_disable_wakeup_handler() when vCPU is not in list but I think it
+should be safe because of list_empty() check.
+
+>> +
+>>  	if (!enable_apicv || !irqchip_in_kernel(vcpu->kvm))
+>>  		return 0;
+>>  
+>> @@ -886,6 +888,20 @@ int avic_init_vcpu(struct vcpu_svm *svm)
+>>  	return ret;
+>>  }
+>>  
+>> +void avic_destroy_vcpu(struct vcpu_svm *svm)
+>> +{
+>> +	if (amd_iommu_gappi && svm->gappi_cpu != -1) {
 > 
->  Documentation/admin-guide/laptops/index.rst   |   1 +
->  Documentation/admin-guide/laptops/qcom-ec.rst |  40 +++++
->  MAINTAINERS                                   |   1 +
->  drivers/platform/arm64/Kconfig                |   4 +-
->  drivers/platform/arm64/qcom-hamoa-ec.c        | 153 +++++++++++++++++-
->  5 files changed, 194 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/admin-guide/laptops/qcom-ec.rst
+> Redundant amd_iommu_gappi check?
+
+I am not sure if we should call kvm_pi_disable_wakeup_handler() outside
+amd_iommu_gappi check. Although it is safe to do so, I want to have this
+call inside amd_iommu_gappi check.
+
+Thanks
+Sairaj.
+
 > 
-> diff --git a/Documentation/admin-guide/laptops/index.rst b/Documentation/admin-guide/laptops/index.rst
-> index c0b911d05..44c9c7c08 100644
-> --- a/Documentation/admin-guide/laptops/index.rst
-> +++ b/Documentation/admin-guide/laptops/index.rst
-> @@ -11,6 +11,7 @@ Laptop Drivers
->     asus-laptop
->     disk-shock-protection
->     lg-laptop
-> +   qcom-ec
->     samsung-galaxybook
->     sony-laptop
->     sonypi
-> diff --git a/Documentation/admin-guide/laptops/qcom-ec.rst b/Documentation/admin-guide/laptops/qcom-ec.rst
-> new file mode 100644
-> index 000000000..11f9f2347
-> --- /dev/null
-> +++ b/Documentation/admin-guide/laptops/qcom-ec.rst
-> @@ -0,0 +1,40 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +Kernel driver qcom-hamoa-ec
-> +==========================
-> +
-> +Supported systems:
-> +
-> +  * Lenovo Yoga Slim 7x (14Q8X9)
-> +
-> +    Prefix: 'qcom_ec'
-> +
-> +    I2C address: 0x76, instantiated from the device tree. No scanning.
-> +
-> +Description
-> +-----------
-> +
-> +The Yoga Slim 7x embedded controller provides a fan speed channel and a
-> +thermistor through a legacy interface. It does not provide the thermal
-> +capability response used by the Qualcomm reference-board interface.
-> +
-> +On this system the driver only reads sensors. Cooling remains under firmware
-> +control, including when the driver is unloaded. The driver does not change
-> +fan curves, fan profiles, PWM settings, SCI events or EC standby state.
-> +The exposed RPM channel does not establish the number of physical fans.
-> +
-> +The hwmon interface is selected by the ``lenovo,yoga-slim7x-ec`` compatible.
-> +It is not exposed on Qualcomm reference boards by this driver.
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +All attributes below are read-only.
-> +
-> +=============== ======================================================
-> +fan1_input      Fan speed in RPM. Zero is valid when the fan is stopped.
-> +temp1_input     EC thermistor temperature in millidegrees Celsius.
-> +=============== ======================================================
-> +
-> +An unavailable thermistor reading returns ``ENODATA``. A malformed fan
-
-Is this a temporary condition? If not, it should be hidden with 
-.is_visible.
-
-> +response or an incomplete bus transfer returns an error, not a zero speed.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6215fcb07..c3c208602 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22440,6 +22440,7 @@ M:	Anvesh Jain P <anvesh.p@oss.qualcomm.com>
->  M:	Sibi Sankar <sibi.sankar@oss.qualcomm.com>
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/admin-guide/laptops/qcom-ec.rst
->  F:	Documentation/devicetree/bindings/embedded-controller/qcom,hamoa-crd-ec.yaml
->  F:	drivers/platform/arm64/qcom-hamoa-ec.c
->  
-> diff --git a/drivers/platform/arm64/Kconfig b/drivers/platform/arm64/Kconfig
-> index e32e01b2a..4f338c715 100644
-> --- a/drivers/platform/arm64/Kconfig
-> +++ b/drivers/platform/arm64/Kconfig
-> @@ -94,6 +94,7 @@ config EC_QCOM_HAMOA
->  	tristate "Embedded Controller driver for Qualcomm Hamoa/Glymur reference devices"
->  	depends on ARCH_QCOM || COMPILE_TEST
->  	depends on I2C
-> +	depends on HWMON
->  	depends on THERMAL || THERMAL=n
->  	help
->  	  Say M or Y here to enable the Embedded Controller driver for Qualcomm
-> @@ -101,6 +102,7 @@ config EC_QCOM_HAMOA
->  	  control, temperature sensors, access to EC state changes and supports
->  	  reporting suspend entry/exit to the EC.
->  
-> -	  This driver currently supports Hamoa/Purwa/Glymur reference devices.
-> +	  This driver supports Hamoa/Purwa/Glymur reference devices and read-only
-> +	  fan speed and temperature monitoring on the Lenovo Yoga Slim 7x.
->  
->  endif # ARM64_PLATFORM_DEVICES
-> diff --git a/drivers/platform/arm64/qcom-hamoa-ec.c b/drivers/platform/arm64/qcom-hamoa-ec.c
-> index 4d2ad042a..3a4ca8a0d 100644
-> --- a/drivers/platform/arm64/qcom-hamoa-ec.c
-> +++ b/drivers/platform/arm64/qcom-hamoa-ec.c
-> @@ -9,6 +9,7 @@
->  #include <linux/device.h>
->  #include <linux/dev_printk.h>
->  #include <linux/err.h>
-> +#include <linux/hwmon.h>
->  #include <linux/i2c.h>
->  #include <linux/interrupt.h>
->  #include <linux/kernel.h>
-> @@ -16,10 +17,13 @@
->  #include <linux/pm.h>
->  #include <linux/slab.h>
->  #include <linux/thermal.h>
-> +#include <linux/unaligned.h>
->  
->  #define EC_SCI_EVT_READ_CMD	0x05
->  #define EC_FW_VERSION_CMD	0x0e
-> +#define EC_FAN_RPM_QUERY_CMD	0x22
->  #define EC_MODERN_STANDBY_CMD	0x23
-> +#define EC_THERMISTOR1_CMD	0x29
->  #define EC_FAN_DBG_CONTROL_CMD	0x30
->  #define EC_SCI_EVT_CONTROL_CMD	0x35
->  #define EC_THERMAL_CAP_CMD	0x42
-> @@ -76,13 +80,126 @@ struct qcom_ec_cooling_dev {
->  	u8 state;
->  };
->  
-> +struct qcom_ec_variant {
-> +	bool monitor_only;
-> +};
-> +
->  struct qcom_ec {
-> +	const struct qcom_ec_variant *variant;
->  	struct qcom_ec_cooling_dev *ec_cdev;
->  	struct qcom_ec_thermal_cap thermal_cap;
->  	struct qcom_ec_version version;
->  	struct i2c_client *client;
->  };
->  
-> +/* FC22 in the Slim 7x DSDT: command, fan ID; count, little-endian RPM. */
-> +static int qcom_ec_read_fan_rpm(struct qcom_ec *ec, long *val)
-> +{
-> +	struct i2c_client *client = ec->client;
-> +	u8 request[] = { EC_FAN_RPM_QUERY_CMD, 1 };
-> +	u8 response[3];
-> +	struct i2c_msg messages[] = {
-> +		{
-> +			.addr = client->addr,
-> +			.len = sizeof(request),
-> +			.buf = request,
-> +		}, {
-> +			.addr = client->addr,
-> +			.flags = I2C_M_RD,
-> +			.len = sizeof(response),
-> +			.buf = response,
-> +		},
-> +	};
-> +	int ret;
-> +
-> +	ret = i2c_transfer(client->adapter, messages, ARRAY_SIZE(messages));
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret != ARRAY_SIZE(messages))
-
-Add include.
-
-> +		return -EIO;
-> +	if (response[0] != sizeof(response) - 1)
-> +		return -EPROTO;
-> +
-> +	*val = get_unaligned_le16(&response[1]);
-
-Please use proper endianness type. I think the way you currently do this 
-would also trigger a warning in sparse's endianness checking.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t qcom_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
-> +					u32 attr, int channel)
-> +{
-> +	if (channel)
-> +		return 0;
-> +	if ((type == hwmon_fan && attr == hwmon_fan_input) ||
-> +	    (type == hwmon_temp && attr == hwmon_temp_input))
-> +		return 0444;
-> +
-> +	return 0;
-> +}
-> +
-> +static int qcom_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel, long *val)
-> +{
-> +	struct qcom_ec *ec = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	if (channel)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (type == hwmon_fan && attr == hwmon_fan_input)
-> +		return qcom_ec_read_fan_rpm(ec, val);
-> +
-> +	if (type != hwmon_temp || attr != hwmon_temp_input)
-> +		return -EOPNOTSUPP;
-> +
-> +	/* FC29/TZ39 report degrees Celsius, or 0xff if unavailable. */
-> +	ret = i2c_smbus_read_byte_data(ec->client, EC_THERMISTOR1_CMD);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (ret == 0xff)
-> +		return -ENODATA;
-> +
-> +	*val = ret * 1000;
-
-You can probably replace that 1000 with a define from units.h. Don't 
-forget to add also the include if you use something from there.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops qcom_ec_hwmon_ops = {
-> +	.is_visible = qcom_ec_hwmon_is_visible,
-> +	.read = qcom_ec_hwmon_read,
-> +};
-> +
-> +static const struct hwmon_channel_info * const qcom_ec_hwmon_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-> +	NULL,
-> +};
-> +
-> +static const struct hwmon_chip_info qcom_ec_hwmon_chip_info = {
-> +	.ops = &qcom_ec_hwmon_ops,
-> +	.info = qcom_ec_hwmon_info,
-> +};
-> +
-> +static int qcom_ec_hwmon_probe(struct qcom_ec *ec)
-> +{
-> +	struct device *dev = &ec->client->dev;
-> +	struct device *hwmon;
-> +	long rpm;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(ec->client->adapter,
-> +				     I2C_FUNC_I2C | I2C_FUNC_SMBUS_READ_BYTE_DATA))
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = qcom_ec_read_fan_rpm(ec, &rpm);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read fan RPM\n");
-> +
-> +	hwmon = devm_hwmon_device_register_with_info(dev, "qcom_ec", ec,
-> +						     &qcom_ec_hwmon_chip_info, NULL);
-> +	return PTR_ERR_OR_ZERO(hwmon);
-> +}
-> +
->  static int qcom_ec_read(struct qcom_ec *ec, u8 cmd, u8 resp_len, u8 *resp)
->  {
->  	int ret;
-> @@ -331,6 +448,10 @@ static const struct thermal_cooling_device_ops qcom_ec_thermal_ops = {
->  static int qcom_ec_resume(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
-> +	struct qcom_ec *ec = i2c_get_clientdata(client);
-> +
-> +	if (ec->variant->monitor_only)
-> +		return 0;
->  
->  	return i2c_smbus_write_byte_data(client, EC_MODERN_STANDBY_CMD,
->  					 EC_MODERN_STANDBY_EXIT);
-> @@ -339,6 +460,10 @@ static int qcom_ec_resume(struct device *dev)
->  static int qcom_ec_suspend(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
-> +	struct qcom_ec *ec = i2c_get_clientdata(client);
-> +
-> +	if (ec->variant->monitor_only)
-> +		return 0;
->  
->  	return i2c_smbus_write_byte_data(client, EC_MODERN_STANDBY_CMD,
->  					 EC_MODERN_STANDBY_ENTER);
-> @@ -356,14 +481,24 @@ static int qcom_ec_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	ec->client = client;
-> +	ec->variant = i2c_get_match_data(client);
-> +	if (!ec->variant)
-> +		return -ENODEV;
-> +	i2c_set_clientdata(client, ec);
-> +
-> +	/*
-> +	 * The Slim 7x does not implement the reference-board capability command.
-> +	 * Its firmware controls cooling autonomously. Only expose its legacy
-> +	 * sensors; do not enable SCI, fan debug control or standby notifications.
-> +	 */
-> +	if (ec->variant->monitor_only)
-> +		return qcom_ec_hwmon_probe(ec);
->  
->  	ret = devm_request_threaded_irq(dev, client->irq, NULL, qcom_ec_irq,
->  					IRQF_ONESHOT, "qcom_ec", ec);
->  	if (ret < 0)
->  		return ret;
->  
-> -	i2c_set_clientdata(client, ec);
-> -
->  	ret = qcom_ec_read_fw_version(dev);
->  	if (ret < 0)
->  		return dev_err_probe(dev, ret, "Failed to read EC firmware version\n");
-> @@ -410,6 +545,9 @@ static void qcom_ec_remove(struct i2c_client *client)
->  	struct device *dev = &client->dev;
->  	int ret;
->  
-> +	if (ec->variant->monitor_only)
-> +		return;
-> +
->  	ret = qcom_ec_sci_evt_control(dev, false);
->  	if (ret < 0)
->  		dev_err(dev, "Failed to disable SCI events: %d\n", ret);
-> @@ -421,14 +559,21 @@ static void qcom_ec_remove(struct i2c_client *client)
->  	}
->  }
->  
-> +static const struct qcom_ec_variant qcom_ec_reference = {};
-> +
-> +static const struct qcom_ec_variant qcom_ec_slim7x = {
-> +	.monitor_only = true,
-> +};
-> +
->  static const struct of_device_id qcom_ec_of_match[] = {
-> -	{ .compatible = "qcom,hamoa-crd-ec" },
-> +	{ .compatible = "lenovo,yoga-slim7x-ec", .data = &qcom_ec_slim7x },
-> +	{ .compatible = "qcom,hamoa-crd-ec", .data = &qcom_ec_reference },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, qcom_ec_of_match);
->  
->  static const struct i2c_device_id qcom_ec_i2c_id_table[] = {
-> -	{ "qcom-hamoa-ec", },
-> +	{ "qcom-hamoa-ec", (kernel_ulong_t)&qcom_ec_reference },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(i2c, qcom_ec_i2c_id_table);
+>> +		unsigned long flags;
+>> +
+>> +		local_irq_save(flags);
+>> +
+>> +		kvm_pi_disable_wakeup_handler(&svm->vcpu, svm->gappi_cpu);
+>> +		svm->gappi_cpu = -1;
 > 
-
--- 
- i.
+> Redundant assignement?
+> 
+> -Vasant
+> 
 
