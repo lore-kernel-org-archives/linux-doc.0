@@ -1,822 +1,175 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F2F4EC675
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791970683; cv=none; b=VMilYsqJlQbzhh9mBYd3+iJ05yBBdBJ+tQWX0K267MnXBq+jYaIZ1B8oFZjNuiBigncDe/RbfdQAVeCDooTt3EANFmUWLlYNXnnFFfS4wTLp7XxkWH9rq59fj5FE7/dxBzzOwVr43UC8iGzyVhJRxrz2sGhF4KeNtKPXh2G4OVI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791970683; c=relaxed/simple;
-	bh=/V+U3PDQJ0uh/BTV0juBBEBNRhb2Bdlk5F60ERn3HaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DIhZzEh7Q9K+k5u/2ugmzTgn3YV1yyPXn8sCivvIEyWcXikcJbBV4tBtZgWTadgZSMeowijS5CWJTnbC1wuOJFL/doVlsFiP5JQAeRr7yqIFVLK7uM31DqDFmphQMS23JjMYXbuuw7J427A15jGD7jPI1NJ4rXC0o1J0oY54m/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cbyi8x5s; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5436E47ACE7
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791970910; cv=pass; b=h9L2zulxNk8FWcGd7cjb0tyJ7rWNw2w/2eCmihv5Gy9vV405D3TJA/oZgtOIU3g8NbxN2SS3r9DcjuJiwcj4ioYBWC8SF6Hny8F4Qb8Iq82zIGWvi7Yny0fR4utpD2dnTmLDACl7kqRBM2zv4bventCNO96vqoA9i9hrk1QFu7U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791970910; c=relaxed/simple;
+	bh=FynELwXkhKh2itHTcxydPaQuuhTlrVIIDBXZCdEL7HU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lj+3MLr+rYg9jSNy4HOhFoLlWMGizTypNOrkaxWWgNjzF0iAUzciFqy/YyG2/VhyR+m5rFSDnHwQ0WHzL6+rWvEapOpn0Rg5nDjNrfRc0NwCpXG0gB2Xmjl7Tb80WPeWCmQn3fF6fTtDl0yOc14KVAyds5Z5QSRgW/4Bg0Ny9Eg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nI4KvZc3; arc=pass smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cbyi8x5s"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49ff680331aso8246575e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 02:37:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nI4KvZc3"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so32146075e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 02:41:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791970906; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Bzw7W6TaQepMCdO/x8m04pOPmAxspqnOOntVdIROmJ0zShN3/5wo5tB5sSx1wV3VTh
+         dtPa3GgXIkpqd1BN9DbMOSztMSQP6I7OXxb6mVGlh86Vn+uEB9pKp3OOEyUsfUBo1Wdy
+         oKRTSz/1AbhCxfzYiA3u0+AfeXjYx7yRwb15SJ6w07V3UsMgnidKlIGe6+64r4Gp1hWk
+         VUAdV/Ofg/JRWWh5cgD9I/hKtlSV86VKW6YkjZuDTQ9gzWtLL+GFOTFk/KRlW6o9htIG
+         pHakVS4UFdBy36KDNNWwauBro7u0mTsvDrH5lry4cA2Wfd78xSlRSgVRzZoskrfo5kt8
+         bcfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2p4Z2JkR9dHbrsrZ95OJ/nzHuSiRvbg2M5uH9KBvC8s=;
+        fh=KUSqzCiiVVwN71BMNqw8YzE7dG6XIDi/hYMKN7YjsPQ=;
+        b=TNm7jrKgMjamr4miz1j7YSiyKpmwQSTamysjFKUT6cPeWV5MRGYTvemGlKMSTOJtNR
+         zVffkvNJmKk07cNoicyPEa+XFLFgVYvHCN4A8GKu6ocEcZVqsJ1S8U4jsQIc+xm29R71
+         7FbGJPNJHk+aCYWgDpFdDAQR/LUrpZl8gjhr3rFG8SRb4jcNDm+x9Dm5N2MDRKCvMnyq
+         hLURa0KWa/cBX4DS8XI76+z2ts0xANp6Ab5H1nrUUbXhGRgeFSBeIPUb//CCQt9nnSvk
+         CM2uE+qSHGKXAP4B5apup97VKT3+UHFmhQtOuZAEUXs9x7Rk7v2Ag0MO45aOqI5iEsAh
+         oLaQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791970671; x=1792575471; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7H7ZE/xa2zi3u4fdcWWpstxxHIkVu+ASPHQYzwGB7qE=;
-        b=Cbyi8x5swM3O5Vzf6bhjyHKGgQyN1kMzt06t1lyH0CNd3PNwKw9ulYFNoyYIemM94q
-         IAK9U9KOch2mRB9JYMhWAhIPNIYZsoIE/SboMqStGngltArTglvqxeQZX2qM3gKSoiko
-         X2JCIW7SxTEI+9/drMAjoE86XVdcJDRU1o2xutqtoKLLUV+WjnHwvcvegczj7oOZygnl
-         +6qyMwgaOqgJZBv7dPFnbaluxhKSx1UL4ibZ8wYSeS6NCmVIZH7QEIRiosKGSSUKG0RK
-         +52SZn9pFmDrhZGGlAayomjK2Zm0T870hLVRQ/Qgu9GuHvWdgqe96gmrSDmfg6L0FYcR
-         /eLQ==
+        d=gmail.com; s=20251104; t=1791970906; x=1792575706; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2p4Z2JkR9dHbrsrZ95OJ/nzHuSiRvbg2M5uH9KBvC8s=;
+        b=nI4KvZc3UF7lDtCjY94ErSR/gv9Ha9fkIxXGjizSvz2KW/vVVuIU2ruicqulB+rPQw
+         PvrFLuJjMr31E2kxT9K3AEAxl1kxuTVT27w64xRehKhyGXczTHUTIi/WfL142hGQ71pF
+         rfTBKdLja3xVatX9YwsOGwlHhpQWRrczEs2d6tTENUWu3DnCBl37dtZsSl4AaBXUTI3D
+         LSKvDeD8cfSbdd+g8BEqIftq/ti8ev+YWqM5TY4EHUGEHW/A2/F7BbCCLBJw+nHrYKmm
+         Ie1wDPIh0YDzbGURNh9ONxxSDdRZUzhV8mnTaUBqoaVkEb3p1xF41j1Dl+mVpjkKh/Mj
+         6iew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791970671; x=1792575471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7H7ZE/xa2zi3u4fdcWWpstxxHIkVu+ASPHQYzwGB7qE=;
-        b=jpAjngTEBuO1mhTDA7u9YUOeNQcfjqoogQj3eAVS40HR19uqbN+ub85NeHfDeMMuzi
-         fzbQtXeSRxGH6bscHvN8R1Zq+AKYa0DnUNKDKL2yagi3kITnbCHlN5Ru023Qhhu90EXB
-         qn950BFsP7zw9Hb2GzY49330Kqppebgsg2kKCw6EuWfQ5wquiMryEdyjSi+D1a6Tlyyt
-         1UZcP+mzna0heVQnnFQXmviqbdvgExCnze9w3dUVr+Z8XUqyyTcs2OF3I0BwtEinV9+Q
-         IC3Z1PM1lhJRWvczP/tsNSRYUbnQ3dSlqfZbWZD5M7JSJlI8npWAGDgb8UDS72d0hDcs
-         PIsw==
-X-Forwarded-Encrypted: i=1; AKwUvBzMN8SMqocSwUwwWnjdufRro2FV2r2ORjtSfRseTBqHXTbiw57Q2diDzffk/jVaePWoRZzsWE/PC6k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLrms68QsmXzx5Y5U0sVixQke4mARNzJzMkL3e+1TjvVd/S39tp
-	Ckc8pENa9zJDpD4FeOtVthuqZ1mwj3nC+OKrmSPPLe6g3ROEu5lDswTm
-X-Gm-Gg: AYBFou2JGA6Q8pYFpuoTdQuJAvCpVqph2gINzYwnZ4N7VQEtvNFbEHNLma666R9ivxA
-	wlJ/yLshxGRAH1Vh+vRsjKKG6etP1Lu3VFGNMDA7bGSjA1CZ0a1NhZeo1xFqnaLSZnQTGSIiZId
-	l7tGsbMVPAhrEfNUnmmSBOyXmaviJtmXy+W6p7kAsOAV27Q7z4Xj8+mRHuenMmY1MMbwDyUt1o9
-	tbe3htfKi1Bd2nR8AdpoA5Ohmactag5ovnf6kvmjE1lksaFcAHSBfiJfBEIkSJXJdt7kheLKVwh
-	m923uBFTr58r41XVSAZBSMr0xa0fMUfKtOJfC8QILD6tMml+hIfQiqZNJd5SCciyjX8pL6pmaBU
-	iD7jn7HnCIi5fzKV5hf7m8/3IDlkIy+jI93+gouJij+V5KauOWT/H/pmMSNeMO8vRmx7K4VfUgo
-	lSE6HcvfZaHY8uz7bLPOoFA++354KhZHaZ2ualgmKpe+7DhGSb/IDt8YPGqVvhFA5Wjz/Dsh1TG
-	wvigb2WZgKlax60zTy1ssDfgGXwUQ3XDzuv8pqYMK0yjWIAeReCBSRDHXYI7BrgWuo9p2h4ImRK
-	uG7zoyo9I4q4YlTLI48MP3XzNmXitWM/P+Q=
-X-Received: by 2002:a05:600c:4747:b0:4a1:77db:45d9 with SMTP id 5b1f17b1804b1-4a18e47aa9amr317337615e9.6.1791970670603;
-        Wed, 14 Oct 2026 02:37:50 -0700 (PDT)
-Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de3f7f8b8sm9365477f8f.35.2026.10.14.02.37.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Oct 2026 02:37:50 -0700 (PDT)
-From: Fred Griffoul <griffoul@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	Ackerley Tng <ackerleytng@google.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v2 11/11] KVM: selftests: Test a memory provider shared by KVM and iommufd
-Date: Wed, 14 Oct 2026 09:37:33 +0000
-Message-ID: <20261014093733.90312-12-griffoul@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261014093733.90312-1-griffoul@gmail.com>
-References: <20261014093733.90312-1-griffoul@gmail.com>
+        d=1e100.net; s=20260707; t=1791970906; x=1792575706;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2p4Z2JkR9dHbrsrZ95OJ/nzHuSiRvbg2M5uH9KBvC8s=;
+        b=EGLgR0rHyfYnwHd6rz6wDOZTslhz9IEBfqC2Kb7nZQSq5YDxs4MttFHTsHIYsZChfr
+         w6BNOgShdBj0UHKwfrcaJv4mo4IupkTGXAN4WsPYU1/YIULT9G8ZFCvJvxWnC8PvOYXh
+         GqwHa/AfVmA6CXoILPFKbgLkwDl8SYoDf8oxLDm4K5V73LbQb/QuUukX/wNsme+VyM0k
+         Jqr3GMULwEsq0hJSJeAxBIcLsUUOlLGWfWBxl5fN43CIjWRI+k87ypgzb8p5tXnbD099
+         j9ua65HWp7uvEzaydSij/bstM/8FR1JnJsnpwVo9Fh4IEueBTV/GPKgk5ysHZNZEZyBy
+         gJUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx89K4a99JsXon+VKYk4Ar0GIBW61OaqUpT8Y6Z1x2nzzq13Hr7w46RB3tUlJtPUgy3FVMb8qT51/4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYITXwabU5KzeXc13TaCizPQu0kbYStasC/TyE5vl2iWhLvRl0jc
+	igXaUoEs07FvRKOAMO+UR2RwmT+RKcRuJQpJxGAykvZJ6w/+S22csvTsTy+MF0paUXdGS4KKDtj
+	eLYLvdPrzuUoWdq8Q613gqONTtjWE4gk=
+X-Gm-Gg: AYBFou0SdoPQ2IkKEITBtU/QlkD5qLaQ5tIDMluThKxnFxb+EtjSrnppWeNG6yZ1jll
+	nqG1zjM8OTvNBX9Mc2FbxYUqvB0EmR+t3srACgRxyV40kM7i9w1S2BbhHE0NkOnfoG7JZ6ZuSQP
+	d2vLKnHqf8t8H9Jrs5R5xDOsHUxBl2xHtj+nfPZRY4nfOutQ8AxF4Gz6ZS5LJ9ZTiz9Af/8lZdp
+	eogu9+fJcA/p3qUiXk2XZpH63VjH9TQ+1alZglLdpUZspu/1jmc8Rz5l8b/9CPP9yMj9EObujeS
+	884Ijv3Tw5QW0XmYr5UItciqft24W3/NTdn/Lnuf8Lt4gbYBMybSBzpc
+X-Received: by 2002:a05:600c:3e8c:b0:49e:6861:50f7 with SMTP id
+ 5b1f17b1804b1-4a18e49d251mr279042395e9.5.1791970906575; Wed, 14 Oct 2026
+ 02:41:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261009160010.1829642-1-kunwu.chan@gmail.com>
+ <20261009160010.1829642-2-kunwu.chan@gmail.com> <20261012104208.GQ4121339@noisy.programming.kicks-ass.net>
+In-Reply-To: <20261012104208.GQ4121339@noisy.programming.kicks-ass.net>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Wed, 14 Oct 2026 17:41:33 +0800
+X-Gm-Features: AclHuK8EhRdW1XB1lFhOOYtmbgRqEKuTBOCJoFE4a7nuDqVAjVQ67OjCxQHb4BE
+Message-ID: <CAN_Opa9S2ObHYqa+w5Tqh8PFPRijo=iUZDk97aCYmNZT_75yVQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] perf/core: add AUX buffer ownership for kernel events
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, sj@kernel.org, 
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	mark.rutland@arm.com, alexander.shishkin@linux.intel.com, jolsa@kernel.org, 
+	irogers@google.com, adrian.hunter@intel.com, james.clark@linaro.org, 
+	akpm@linux-foundation.org, lianux.mm@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Fred Griffoul <fgriffo@amazon.co.uk>
+On Mon, Oct 12, 2026 at 6:42=E2=80=AFPM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Fri, Oct 09, 2026 at 11:59:48PM +0800, Kunwu Chan wrote:
+> > Add an in-kernel AUX owner reference and setup/release helpers for
+> > kernel-created perf events that need an AUX buffer without a userspace
+> > mmap.  The setup path validates that the event is a kernel event with
+> > no parent, rejects non-power-of-two page counts and negative watermark
+> > values, allocates the perf buffer and AUX pages, records the kernel
+> > owner, and attaches the buffer under the same lock.
+> >
+> > perf_event_release_aux() stops AUX writers, frees AUX storage, and
+> > detaches the buffer, in that order, matching the AUX teardown ordering
+> > of perf_mmap_close(): perf_pmu_output_stop() walks event->rb->event_lis=
+t
+> > and rb_free_aux() must run while the buffer is still referenced by the
+> > event.  The single event->rb reference is dropped by
+> > ring_buffer_attach(event, NULL) itself, so the release path does not
+> > put it again.
+> >
+> > Both functions run under event->mmap_mutex, the lock that already
+> > serialises ring-buffer attach/detach transitions for an event:
+> > perf_mmap(), perf_mmap_close(), _perf_event_set_output() and
+> > _free_event() all hold it around ring_buffer_attach().  Concurrent
+> > perf_event_release_aux() callers therefore go through the same
+> > serialisation point, and a second release call, or a release of a
+> > buffer this API does not own, is a no-op.
+> >
+> > Keep aux_mmap_count dedicated to userspace mappings.
+> > perf_aux_output_begin() accepts a writer while either a userspace or ke=
+rnel
+> > owner remains, preserving the existing teardown ordering.
+> >
+>
+> > diff --git a/kernel/events/internal.h b/kernel/events/internal.h
+> > index c03c4f2eea57..760b7659ad87 100644
+> > --- a/kernel/events/internal.h
+> > +++ b/kernel/events/internal.h
+> > @@ -48,6 +48,12 @@ struct perf_buffer {
+> >       int                             aux_nr_pages;
+> >       int                             aux_overwrite;
+> >       refcount_t                      aux_mmap_count;
+> > +     /*
+> > +      * In-kernel AUX owner reference, set by perf_event_setup_aux():
+> > +      * admits writers and ties the AUX teardown to
+> > +      * perf_event_release_aux() when no userspace mmap holds the buff=
+er.
+> > +      */
+> > +     refcount_t                      aux_kernel_count;
+> >       unsigned long                   aux_mmap_locked;
+> >       void                            (*free_aux)(void *);
+> >       refcount_t                      aux_refcount;
+>
+> This doesn't make sense to me. If the even is a kernel event, then there
+> cannot be mmap users, so adding another refcount is just for giggles?
 
-Test that guest, host and device mappings of one provider file follow
-the provider's changes.
+Hi Peter,
 
-Two VMs get child files of the sample provider, each passed to
-guest_memfd and to an iommufd mock domain. The test moves a range
-between them, donates and reclaims pages, and makes a page read only.
-After each change it checks the guest, a host mapping and the device
-mapping. Pages are mapped on the host before a change, so the test
-checks that the revoke zaps them.
+I added `aux_kernel_count` to keep `aux_mmap_count`
+specific to userspace mappings. The two paths have different
+teardown responsibilities: `perf_mmap_close()` handles mmap
+cleanup, while `perf_event_release_aux()` stops AUX output,
+frees the AUX pages and detaches the buffer for a kernel
+consumer.
 
-A third VM, on a child that starts on a 2 MiB boundary, checks that
-KVM maps the provider's block with a 2 MiB page, and that donating a
-page inside the block takes that mapping away. It skips if the
-provider's frames are not aligned.
+`perf_aux_output_begin()` checks both counts so writers are
+admitted while either owner remains.
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
----
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/mem_provider_test.c     | 653 ++++++++++++++++++
- 2 files changed, 654 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/mem_provider_test.c
+Would you suggest a simpler approach here?
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index d28a057fa6c2..bde312dba7a8 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -89,6 +89,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
- TEST_GEN_PROGS_x86 += x86/kvm_clock_test
- TEST_GEN_PROGS_x86 += x86/kvm_pv_test
- TEST_GEN_PROGS_x86 += x86/kvm_buslock_test
-+TEST_GEN_PROGS_x86 += x86/mem_provider_test
- TEST_GEN_PROGS_x86 += x86/monitor_mwait_test
- TEST_GEN_PROGS_x86 += x86/msrs_test
- TEST_GEN_PROGS_x86 += x86/nested_close_kvm_test
-diff --git a/tools/testing/selftests/kvm/x86/mem_provider_test.c b/tools/testing/selftests/kvm/x86/mem_provider_test.c
-new file mode 100644
-index 000000000000..08555dbbfa07
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/mem_provider_test.c
-@@ -0,0 +1,653 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * mem_provider_test - one memory provider shared by KVM and iommufd.
-+ *
-+ * A control process and two VMMs, in one process:
-+ *
-+ *  ctl:  holds /dev/mem_provider_sample, the owner of the memory.  Creates a
-+ *        child provider file per VM, moves pages between children, donates
-+ *        and reclaims them, and makes them read only.
-+ *        Never touches a VM.
-+ *  vmm:  holds one child file, one VM and one iommufd IOAS on a mock domain.
-+ *        Passes the child file to KVM_CREATE_GUEST_MEMFD and to
-+ *        IOMMU_IOAS_MAP_FILE.  Never touches the control device.
-+ *
-+ * Scenarios:
-+ *
-+ *  1. Launch:    each guest writes to its memory, the host sees the write,
-+ *                and the device mapping covers the pages the child has.
-+ *  2. Move:      a range leaves A for B.  A's guest and A's host mapping
-+ *                fault on it and A's device loses only that range.  B's
-+ *                guest and host read what A wrote, and B's device reaches
-+ *                the frame A had.
-+ *  3. Donate:    a range leaves A for the root and comes back on reclaim,
-+ *                for the guest, the host mapping and the device.
-+ *  4. Read only: a guest write to a read-only page exits to the VMM and a
-+ *                host write raises SIGBUS; both land once the page is
-+ *                writable again.
-+ *  5. Window:    a host mapping of the guest_memfd faults after the range it
-+ *                covers is donated.
-+ *  6. Large:     a third VM, on an aligned child, gets a 2 MiB stage-2
-+ *                mapping, which a donation inside the block takes away.
-+ *
-+ * Requires samples/kvm/mem_provider_sample.ko and CONFIG_IOMMUFD_TEST.
-+ */
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <setjmp.h>
-+#include <signal.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+
-+#include <linux/iommufd.h>
-+
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+
-+/*
-+ * The iommufd mock domain test interface.  The iommufd selftest helpers
-+ * bring their own harness, which does not mix with the KVM selftest library.
-+ */
-+#include "../../../../../drivers/iommu/iommufd/iommufd_test.h"
-+
-+/* Mirrors samples/kvm/mem_provider_sample.h */
-+#define MPS_FLAG_MMAP_CAPABLE	(1u << 0)
-+
-+struct mps_new_child { __u32 flags, pad; __u64 offset, len; };
-+struct mps_move { __s32 src_fd, dst_fd; __u64 offset, len; };
-+struct mps_donate { __s32 fd; __u32 pad; __u64 offset, len; };
-+struct mps_ctl_range { __s32 fd; __u32 value; __u64 offset, len; };
-+struct mps_stats {
-+	__u64 region_offset, region_len, owned_pages, absent_pages, readonly_pages;
-+};
-+
-+#define MPS_NEW_CHILD		_IOW('P', 5, struct mps_new_child)
-+#define MPS_MOVE		_IOW('P', 6, struct mps_move)
-+#define MPS_DONATE		_IOW('P', 7, struct mps_donate)
-+#define MPS_RECLAIM		_IOW('P', 8, struct mps_donate)
-+#define MPS_GET_STATS		_IOR('P', 10, struct mps_stats)
-+#define MPS_CTL_SET_READONLY	_IOW('P', 11, struct mps_ctl_range)
-+
-+#define PAGE		0x1000ULL
-+#define HPAGE		0x200000ULL		/* 2 MiB */
-+#define CHILD_SIZE	0x400000ULL		/* 4 MiB per child */
-+#define GPA		(1ULL << 32)		/* each VM maps its child here */
-+#define IOVA		(1ULL << 28)		/* inside the mock aperture */
-+#define MAGIC_A		0xa11ce000a11ce000ULL
-+#define MAGIC_B		0xb0bb0bb0b0bb0bb0ULL
-+
-+/*
-+ * The ranges of A and B in the root overlap on [SHARED_OFF, +SHARED_LEN).
-+ * A is created first and has its whole range, B is created second and has
-+ * its range without the overlap.  The overlap can then move from A to B.
-+ */
-+#define A_OFF		0ULL
-+#define SHARED_LEN	(4 * PAGE)
-+#define B_OFF		(CHILD_SIZE - SHARED_LEN)
-+#define SHARED_OFF	B_OFF
-+
-+/* C, for the large page scenario, starts on a 2 MiB boundary after B. */
-+#define C_OFF		((B_OFF + CHILD_SIZE + HPAGE - 1) & ~(HPAGE - 1))
-+#define ROOT_SIZE	(C_OFF + CHILD_SIZE)
-+
-+#define A_SHARED_GPA	(GPA + (SHARED_OFF - A_OFF))
-+#define B_SHARED_GPA	(GPA + (SHARED_OFF - B_OFF))
-+#define A_SHARED_IOVA	(IOVA + (SHARED_OFF - A_OFF))
-+#define B_SHARED_IOVA	(IOVA + (SHARED_OFF - B_OFF))
-+
-+/* A page of A that never moves. */
-+#define RO_OFF		(64 * PAGE)
-+#define RO_GPA		(GPA + RO_OFF)
-+
-+/* Pages of A that are donated and reclaimed. */
-+#define DON_OFF		(8 * PAGE)
-+#define DON_GPA		(GPA + DON_OFF)
-+#define DON_IOVA	(IOVA + DON_OFF)
-+
-+/* A page that B has from the start. */
-+#define B_HOME_OFF	(CHILD_SIZE / 2)
-+#define B_HOME_GPA	(GPA + B_HOME_OFF)
-+
-+struct guest_args {
-+	uint64_t write_gpa;	/* 0 to skip */
-+	uint64_t write_val;
-+	uint64_t read_gpa;	/* 0 to skip; the value goes to GUEST_SYNC */
-+};
-+
-+static void guest_code(struct guest_args *a)
-+{
-+	if (a->write_gpa)
-+		*(volatile uint64_t *)a->write_gpa = a->write_val;
-+	if (a->read_gpa)
-+		GUEST_SYNC(*(volatile uint64_t *)a->read_gpa);
-+	GUEST_DONE();
-+}
-+
-+/* ---- Control process ---------------------------------------------------- */
-+
-+static int ctl;
-+
-+static int ctl_new_child(uint64_t off, uint64_t len)
-+{
-+	struct mps_new_child nc = {
-+		.flags = MPS_FLAG_MMAP_CAPABLE,
-+		.offset = off, .len = len,
-+	};
-+	int fd = ioctl(ctl, MPS_NEW_CHILD, &nc);
-+
-+	TEST_ASSERT(fd >= 0, "NEW_CHILD(%#llx, %#llx) errno=%d",
-+		    (unsigned long long)off, (unsigned long long)len, errno);
-+	return fd;
-+}
-+
-+static int ctl_move(int src, int dst, uint64_t off, uint64_t len)
-+{
-+	struct mps_move mv = { .src_fd = src, .dst_fd = dst,
-+			       .offset = off, .len = len };
-+
-+	return ioctl(ctl, MPS_MOVE, &mv) ? -errno : 0;
-+}
-+
-+static void ctl_donate(int fd, uint64_t off, uint64_t len, bool reclaim)
-+{
-+	struct mps_donate d = { .fd = fd, .offset = off, .len = len };
-+
-+	TEST_ASSERT(!ioctl(ctl, reclaim ? MPS_RECLAIM : MPS_DONATE, &d),
-+		    "%s errno=%d", reclaim ? "RECLAIM" : "DONATE", errno);
-+}
-+
-+static void ctl_readonly(int fd, uint64_t off, bool ro)
-+{
-+	struct mps_ctl_range cr = { .fd = fd, .value = ro, .offset = off,
-+				    .len = PAGE };
-+
-+	TEST_ASSERT(!ioctl(ctl, MPS_CTL_SET_READONLY, &cr),
-+		    "CTL_SET_READONLY errno=%d", errno);
-+}
-+
-+/* ---- VMM ---------------------------------------------------------------- */
-+
-+struct vmm {
-+	const char *name;
-+	int child;		/* the provider file */
-+	int gmem;		/* the guest_memfd backed by it */
-+	int iommufd;
-+	uint32_t ioas, stdev, hwpt;
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	void *hva;		/* host mapping of the whole guest_memfd */
-+	gva_t args_gva;
-+};
-+
-+static void vmm_create(struct vmm *v)
-+{
-+	v->vm = vm_create_with_one_vcpu(&v->vcpu, guest_code);
-+	v->args_gva = vm_alloc_page(v->vm);
-+}
-+
-+static bool vmm_iova_mapped(struct vmm *v, uint64_t iova, uint64_t len,
-+			    bool mapped)
-+{
-+	struct iommu_test_cmd cmd = {
-+		.size = sizeof(cmd), .op = IOMMU_TEST_OP_MD_CHECK_MAPPED,
-+		.id = v->hwpt,
-+		.check_mapped = { .mapped = mapped, .iova = iova,
-+				  .length = len },
-+	};
-+
-+	return !ioctl(v->iommufd, IOMMU_TEST_CMD, &cmd);
-+}
-+
-+static uint64_t vmm_iova_phys(struct vmm *v, uint64_t iova)
-+{
-+	struct iommu_test_cmd cmd = {
-+		.size = sizeof(cmd), .op = IOMMU_TEST_OP_MD_IOVA_TO_PHYS,
-+		.id = v->hwpt,
-+		.iova_to_phys = { .iova = iova },
-+	};
-+
-+	if (ioctl(v->iommufd, IOMMU_TEST_CMD, &cmd))
-+		return 0;
-+	return cmd.iova_to_phys.out_phys;
-+}
-+
-+/*
-+ * Map the guest_memfd on a 2 MiB boundary: KVM uses large pages only if the
-+ * memslot's guest and host addresses are aligned alike.
-+ */
-+static void *vmm_map_gmem(struct vmm *v)
-+{
-+	uint8_t *area, *aligned;
-+
-+	area = mmap(NULL, CHILD_SIZE + HPAGE, PROT_NONE,
-+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	TEST_ASSERT(area != MAP_FAILED, "%s: mmap(reserve) errno=%d", v->name,
-+		    errno);
-+	aligned = (uint8_t *)(((uintptr_t)area + HPAGE - 1) & ~(HPAGE - 1));
-+	if (aligned > area)
-+		munmap(area, aligned - area);
-+	munmap(aligned + CHILD_SIZE, area + HPAGE - aligned);
-+
-+	return mmap(aligned, CHILD_SIZE, PROT_READ | PROT_WRITE,
-+		    MAP_SHARED | MAP_FIXED, v->gmem, 0);
-+}
-+
-+/* Give the child file to KVM and to iommufd. */
-+static void vmm_attach(struct vmm *v, int child_fd)
-+{
-+	struct iommu_ioas_alloc alloc = { .size = sizeof(alloc) };
-+	struct kvm_create_guest_memfd gm = {
-+		.size = CHILD_SIZE,
-+		.flags = GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_USE_RESOURCE,
-+		.resource_fd = child_fd,
-+	};
-+	struct iommu_test_cmd mock = {
-+		.size = sizeof(mock), .op = IOMMU_TEST_OP_MOCK_DOMAIN,
-+	};
-+	struct iommu_ioas_map_file map = {
-+		.size = sizeof(map),
-+		.flags = IOMMU_IOAS_MAP_FIXED_IOVA | IOMMU_IOAS_MAP_READABLE |
-+			 IOMMU_IOAS_MAP_WRITEABLE,
-+		.fd = child_fd, .start = 0, .length = CHILD_SIZE, .iova = IOVA,
-+	};
-+	int r;
-+
-+	v->child = child_fd;
-+
-+	/* KVM: a guest_memfd backed by the child, behind one memslot. */
-+	v->gmem = __vm_ioctl(v->vm, KVM_CREATE_GUEST_MEMFD, &gm);
-+	TEST_ASSERT(v->gmem >= 0, "%s: KVM_CREATE_GUEST_MEMFD errno=%d",
-+		    v->name, errno);
-+	v->hva = vmm_map_gmem(v);
-+	TEST_ASSERT(v->hva != MAP_FAILED, "%s: mmap(guest_memfd) errno=%d",
-+		    v->name, errno);
-+	r = __vm_set_user_memory_region2(v->vm, 10, KVM_MEM_GUEST_MEMFD, GPA,
-+					 CHILD_SIZE, v->hva, v->gmem, 0);
-+	TEST_ASSERT(!r, "%s: SET_USER_MEMORY_REGION2 errno=%d", v->name,
-+		    errno);
-+	virt_map(v->vm, GPA, GPA, CHILD_SIZE / PAGE);
-+
-+	/* iommufd: the same child file, in an IOAS on a mock domain. */
-+	v->iommufd = open("/dev/iommu", O_RDWR);
-+	__TEST_REQUIRE(v->iommufd >= 0, "iommufd unavailable");
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_ALLOC, &alloc),
-+		    "IOAS_ALLOC errno=%d", errno);
-+	v->ioas = alloc.out_ioas_id;
-+
-+	mock.id = v->ioas;
-+	__TEST_REQUIRE(!ioctl(v->iommufd, IOMMU_TEST_CMD, &mock),
-+		       "no iommufd mock domain (CONFIG_IOMMUFD_TEST?)");
-+	v->stdev = mock.mock_domain.out_stdev_id;
-+	v->hwpt = mock.mock_domain.out_hwpt_id;
-+
-+	map.ioas_id = v->ioas;
-+	TEST_ASSERT(!ioctl(v->iommufd, IOMMU_IOAS_MAP_FILE, &map),
-+		    "%s: IOAS_MAP_FILE(provider) errno=%d", v->name, errno);
-+}
-+
-+/*
-+ * Continue the guest.  KVM_RUN fails with EFAULT for KVM_EXIT_MEMORY_FAULT,
-+ * which several scenarios expect; the expect_*() helpers check the exit.
-+ */
-+static void vmm_resume(struct vmm *v)
-+{
-+	int r = _vcpu_run(v->vcpu);
-+
-+	TEST_ASSERT(!r || (errno == EFAULT &&
-+			   v->vcpu->run->exit_reason == KVM_EXIT_MEMORY_FAULT),
-+		    "%s: KVM_RUN r=%d errno=%d exit=%s", v->name, r, errno,
-+		    exit_reason_str(v->vcpu->run->exit_reason));
-+}
-+
-+static void vmm_run(struct vmm *v, uint64_t write_gpa, uint64_t write_val,
-+		    uint64_t read_gpa)
-+{
-+	struct guest_args *a = addr_gva2hva(v->vm, v->args_gva);
-+
-+	a->write_gpa = write_gpa;
-+	a->write_val = write_val;
-+	a->read_gpa = read_gpa;
-+	vcpu_arch_set_entry_point(v->vcpu, guest_code);
-+	vcpu_args_set(v->vcpu, 1, v->args_gva);
-+	vmm_resume(v);
-+}
-+
-+static void expect_done(struct vmm *v)
-+{
-+	struct kvm_run *run = v->vcpu->run;
-+	struct ucall uc;
-+
-+	TEST_ASSERT(run->exit_reason != KVM_EXIT_MEMORY_FAULT,
-+		    "%s: unexpected memory fault at gpa %#llx", v->name,
-+		    (unsigned long long)run->memory_fault.gpa);
-+	TEST_ASSERT(get_ucall(v->vcpu, &uc) == UCALL_DONE, "%s: guest exit %s",
-+		    v->name, exit_reason_str(run->exit_reason));
-+}
-+
-+static uint64_t expect_sync_then_done(struct vmm *v)
-+{
-+	struct ucall uc;
-+	uint64_t val;
-+
-+	TEST_ASSERT(get_ucall(v->vcpu, &uc) == UCALL_SYNC, "%s: guest exit %s",
-+		    v->name, exit_reason_str(v->vcpu->run->exit_reason));
-+	val = uc.args[1];
-+	vmm_resume(v);
-+	expect_done(v);
-+	return val;
-+}
-+
-+static void expect_memory_fault(struct vmm *v, uint64_t gpa)
-+{
-+	struct kvm_run *run = v->vcpu->run;
-+
-+	TEST_ASSERT(run->exit_reason == KVM_EXIT_MEMORY_FAULT,
-+		    "%s: want KVM_EXIT_MEMORY_FAULT, got %s", v->name,
-+		    exit_reason_str(run->exit_reason));
-+	TEST_ASSERT(run->memory_fault.gpa == gpa,
-+		    "%s: fault at gpa %#llx, want %#llx", v->name,
-+		    (unsigned long long)run->memory_fault.gpa,
-+		    (unsigned long long)gpa);
-+}
-+
-+static void vmm_stats(struct vmm *v, struct mps_stats *st)
-+{
-+	TEST_ASSERT(!ioctl(v->child, MPS_GET_STATS, st),
-+		    "%s: GET_STATS errno=%d", v->name, errno);
-+}
-+
-+static void vmm_destroy(struct vmm *v)
-+{
-+	close(v->iommufd);
-+	kvm_vm_free(v->vm);
-+	munmap(v->hva, CHILD_SIZE);
-+	close(v->gmem);
-+	close(v->child);
-+}
-+
-+static sigjmp_buf host_jmp;
-+
-+static void host_sig(int sig)
-+{
-+	siglongjmp(host_jmp, sig);
-+}
-+
-+/*
-+ * Read @addr, or write @val to it, through a host mapping.  Return the
-+ * signal that the access raised, or 0.
-+ */
-+static int host_access(volatile uint64_t *addr, bool write, uint64_t val)
-+{
-+	struct sigaction sa = { .sa_handler = host_sig }, old_bus, old_segv;
-+	int sig;
-+
-+	sigaction(SIGBUS, &sa, &old_bus);
-+	sigaction(SIGSEGV, &sa, &old_segv);
-+	sig = sigsetjmp(host_jmp, 1);
-+	if (!sig) {
-+		if (write)
-+			*addr = val;
-+		else
-+			(void)*addr;
-+	}
-+	sigaction(SIGBUS, &old_bus, NULL);
-+	sigaction(SIGSEGV, &old_segv, NULL);
-+	return sig;
-+}
-+
-+#define host_read_faults(p)	(host_access(p, false, 0) == SIGBUS)
-+#define host_write_faults(p, v)	(host_access(p, true, v) == SIGBUS)
-+
-+/* ---- Scenarios ---------------------------------------------------------- */
-+
-+static void scenario_launch(struct vmm *a, struct vmm *b)
-+{
-+	pr_info("1. launch\n");
-+	vmm_run(a, GPA, MAGIC_A, 0);
-+	expect_done(a);
-+	vmm_run(b, B_HOME_GPA, MAGIC_B, 0);
-+	expect_done(b);
-+	TEST_ASSERT(*(volatile uint64_t *)a->hva == MAGIC_A,
-+		    "A: the guest write is not visible to the host");
-+	TEST_ASSERT(*(volatile uint64_t *)(b->hva + B_HOME_OFF) == MAGIC_B,
-+		    "B: the guest write is not visible to the host");
-+
-+	/* A has its whole range; B lacks the shared window. */
-+	TEST_ASSERT(vmm_iova_mapped(a, IOVA, CHILD_SIZE, true),
-+		    "A: device mapping incomplete");
-+	TEST_ASSERT(vmm_iova_mapped(b, B_SHARED_IOVA, SHARED_LEN, false),
-+		    "B: device maps a window that B does not have");
-+	TEST_ASSERT(vmm_iova_mapped(b, B_SHARED_IOVA + SHARED_LEN,
-+				    CHILD_SIZE - SHARED_LEN, true),
-+		    "B: device mapping incomplete");
-+}
-+
-+static void scenario_move(struct vmm *a, struct vmm *b)
-+{
-+	struct mps_stats st;
-+	uint64_t frame;
-+	int r;
-+
-+	pr_info("2. move A -> B\n");
-+	vmm_run(a, A_SHARED_GPA, MAGIC_A, 0);
-+	expect_done(a);
-+	frame = vmm_iova_phys(a, A_SHARED_IOVA);
-+	TEST_ASSERT(frame, "A: window not mapped before the move");
-+	/* Map the window on the host too, so that the move must zap it. */
-+	TEST_ASSERT(*(volatile uint64_t *)(a->hva + SHARED_OFF - A_OFF) ==
-+		    MAGIC_A, "A: host mapping does not see the guest write");
-+
-+	/* B does not have the window yet. */
-+	vmm_run(b, 0, 0, B_SHARED_GPA);
-+	expect_memory_fault(b, B_SHARED_GPA);
-+
-+	/* A move outside the destination's range is refused. */
-+	r = ctl_move(a->child, b->child, RO_OFF, PAGE);
-+	TEST_ASSERT(r == -EINVAL, "MOVE outside B's range returned %d", r);
-+
-+	r = ctl_move(a->child, b->child, SHARED_OFF, SHARED_LEN);
-+	TEST_ASSERT(!r, "MOVE returned %d", r);
-+
-+	vmm_stats(a, &st);
-+	TEST_ASSERT(st.owned_pages == (CHILD_SIZE - SHARED_LEN) / PAGE,
-+		    "A has %llu pages after the move",
-+		    (unsigned long long)st.owned_pages);
-+	vmm_stats(b, &st);
-+	TEST_ASSERT(st.owned_pages == CHILD_SIZE / PAGE,
-+		    "B has %llu pages after the move",
-+		    (unsigned long long)st.owned_pages);
-+
-+	/* A's device lost the window and only the window. */
-+	TEST_ASSERT(vmm_iova_mapped(a, A_SHARED_IOVA, SHARED_LEN, false),
-+		    "A: moved window still mapped");
-+	TEST_ASSERT(vmm_iova_mapped(a, IOVA, CHILD_SIZE - SHARED_LEN, true),
-+		    "A: the rest of the mapping went too");
-+
-+	/* A's guest and A's host mapping fault on the window. */
-+	vmm_run(a, 0, 0, A_SHARED_GPA);
-+	expect_memory_fault(a, A_SHARED_GPA);
-+	TEST_ASSERT(host_read_faults(a->hva + SHARED_OFF - A_OFF),
-+		    "A: host mapping of the moved window still readable");
-+
-+	/* B reads what A wrote, and B's device reaches A's frame. */
-+	vmm_run(b, 0, 0, B_SHARED_GPA);
-+	TEST_ASSERT(expect_sync_then_done(b) == MAGIC_A,
-+		    "B does not see A's write");
-+	TEST_ASSERT(*(volatile uint64_t *)(b->hva + SHARED_OFF - B_OFF) ==
-+		    MAGIC_A, "B: host mapping does not see A's write");
-+	TEST_ASSERT(vmm_iova_phys(b, B_SHARED_IOVA) == frame,
-+		    "B: window is not on the frame A had");
-+}
-+
-+static void scenario_donate(struct vmm *a)
-+{
-+	struct mps_stats st;
-+
-+	pr_info("3. donate and reclaim\n");
-+	/* Map the page on the host, so that the donation must zap it. */
-+	TEST_ASSERT(!host_access(a->hva + DON_OFF, false, 0),
-+		    "A: host mapping faults before the donation");
-+	ctl_donate(a->child, DON_OFF, 2 * PAGE, false);
-+	vmm_stats(a, &st);
-+	TEST_ASSERT(st.owned_pages == (CHILD_SIZE - SHARED_LEN) / PAGE - 2,
-+		    "A has %llu pages after the donation",
-+		    (unsigned long long)st.owned_pages);
-+	TEST_ASSERT(vmm_iova_mapped(a, DON_IOVA, 2 * PAGE, false),
-+		    "A: donated pages still mapped for the device");
-+	TEST_ASSERT(host_read_faults(a->hva + DON_OFF),
-+		    "A: host mapping of a donated page still readable");
-+	vmm_run(a, 0, 0, DON_GPA);
-+	expect_memory_fault(a, DON_GPA);
-+
-+	ctl_donate(a->child, DON_OFF, 2 * PAGE, true);
-+	vmm_stats(a, &st);
-+	TEST_ASSERT(st.owned_pages == (CHILD_SIZE - SHARED_LEN) / PAGE,
-+		    "A has %llu pages after the reclaim",
-+		    (unsigned long long)st.owned_pages);
-+	TEST_ASSERT(vmm_iova_mapped(a, DON_IOVA, 2 * PAGE, true),
-+		    "A: reclaimed pages not mapped again for the device");
-+	TEST_ASSERT(!host_access(a->hva + DON_OFF, false, 0),
-+		    "A: host mapping of a reclaimed page faults");
-+	vmm_run(a, 0, 0, DON_GPA);
-+	expect_sync_then_done(a);
-+}
-+
-+static void scenario_readonly(struct vmm *a)
-+{
-+	volatile uint64_t *page = (volatile uint64_t *)(a->hva + RO_OFF);
-+
-+	pr_info("4. read only\n");
-+	*page = MAGIC_B;
-+
-+	ctl_readonly(a->child, RO_OFF, true);
-+	TEST_ASSERT(vmm_iova_mapped(a, IOVA + RO_OFF, PAGE, true),
-+		    "A: read-only page not mapped for the device");
-+
-+	vmm_run(a, RO_GPA, MAGIC_A, 0);
-+	expect_memory_fault(a, RO_GPA);
-+	TEST_ASSERT(host_write_faults(page, MAGIC_A),
-+		    "A: host write to a read-only page did not fault");
-+	TEST_ASSERT(*page == MAGIC_B, "write to a read-only page landed");
-+
-+	/* Clear the bit; the guest retries the same write. */
-+	ctl_readonly(a->child, RO_OFF, false);
-+	vmm_resume(a);
-+	expect_done(a);
-+	TEST_ASSERT(*page == MAGIC_A, "write after clearing read only lost");
-+	TEST_ASSERT(!host_write_faults(page, MAGIC_B),
-+		    "A: host write after clearing read only faulted");
-+	TEST_ASSERT(*page == MAGIC_B, "host write after clearing read only lost");
-+}
-+
-+static void scenario_window(struct vmm *a)
-+{
-+	volatile uint64_t *win;
-+
-+	pr_info("5. host mapping\n");
-+	win = mmap(NULL, PAGE, PROT_READ | PROT_WRITE, MAP_SHARED, a->gmem,
-+		   DON_OFF);
-+	TEST_ASSERT(win != MAP_FAILED, "mmap(guest_memfd, page) errno=%d",
-+		    errno);
-+	*win = MAGIC_A;
-+	TEST_ASSERT(*(volatile uint64_t *)(a->hva + DON_OFF) == MAGIC_A,
-+		    "the two host mappings disagree");
-+
-+	ctl_donate(a->child, DON_OFF, PAGE, false);
-+
-+	TEST_ASSERT(host_read_faults(win),
-+		    "host mapping still readable after the donation");
-+
-+	ctl_donate(a->child, DON_OFF, PAGE, true);
-+	TEST_ASSERT(*win == MAGIC_A, "host mapping did not come back");
-+	munmap((void *)win, PAGE);
-+}
-+
-+static void scenario_large(void)
-+{
-+	struct vmm c = { .name = "C" };
-+	uint64_t before, after;
-+
-+	pr_info("6. large pages\n");
-+	vmm_create(&c);
-+	vmm_attach(&c, ctl_new_child(C_OFF, CHILD_SIZE));
-+
-+	/* The provider's blocks are aligned only if its frames are. */
-+	if (vmm_iova_phys(&c, IOVA) & (HPAGE - 1)) {
-+		pr_info("   skipped: the child's frames are not 2 MiB aligned\n");
-+		vmm_destroy(&c);
-+		return;
-+	}
-+
-+	/* Fault in the guest's code and stack first, then count. */
-+	vmm_run(&c, 0, 0, 0);
-+	expect_done(&c);
-+	before = vm_get_stat(c.vm, pages_2m);
-+
-+	vmm_run(&c, GPA, MAGIC_A, 0);
-+	expect_done(&c);
-+	after = vm_get_stat(c.vm, pages_2m);
-+	TEST_ASSERT(after == before + 1,
-+		    "C: %llu 2 MiB mappings, want %llu",
-+		    (unsigned long long)after,
-+		    (unsigned long long)before + 1);
-+
-+	/* A donation inside the block takes the large mapping away. */
-+	ctl_donate(c.child, C_OFF + DON_OFF, PAGE, false);
-+	TEST_ASSERT(vm_get_stat(c.vm, pages_2m) == before,
-+		    "C: the 2 MiB mapping survived a donation inside it");
-+	vmm_run(&c, 0, 0, GPA);
-+	TEST_ASSERT(expect_sync_then_done(&c) == MAGIC_A,
-+		    "C: the rest of the block lost the guest write");
-+	TEST_ASSERT(vm_get_stat(c.vm, pages_2m) == before,
-+		    "C: a 2 MiB mapping over a block with a hole");
-+	vmm_run(&c, 0, 0, DON_GPA);
-+	expect_memory_fault(&c, DON_GPA);
-+
-+	vmm_destroy(&c);
-+}
-+
-+int main(void)
-+{
-+	struct vmm a = { .name = "A" }, b = { .name = "B" };
-+	struct mps_new_child probe = { .offset = ROOT_SIZE - PAGE, .len = PAGE };
-+	int fd;
-+
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_GUEST_MEMFD_FLAGS) &
-+		     GUEST_MEMFD_FLAG_USE_RESOURCE);
-+
-+	ctl = open("/dev/mem_provider_sample", O_RDWR);
-+	__TEST_REQUIRE(ctl >= 0, "mem_provider_sample not loaded");
-+
-+	/*
-+	 * Without addr= and len=, the first NEW_CHILD sizes the root, so ask
-+	 * for its last page first and give it back.  A fixed root that is too
-+	 * small makes the test skip.
-+	 */
-+	fd = ioctl(ctl, MPS_NEW_CHILD, &probe);
-+	__TEST_REQUIRE(fd >= 0, "provider root smaller than %#llx bytes",
-+		       (unsigned long long)ROOT_SIZE);
-+	close(fd);
-+
-+	vmm_create(&a);
-+	vmm_create(&b);
-+	vmm_attach(&a, ctl_new_child(A_OFF, CHILD_SIZE));
-+	vmm_attach(&b, ctl_new_child(B_OFF, CHILD_SIZE));
-+
-+	scenario_launch(&a, &b);
-+	scenario_move(&a, &b);
-+	scenario_donate(&a);
-+	scenario_readonly(&a);
-+	scenario_window(&a);
-+
-+	vmm_destroy(&a);
-+	vmm_destroy(&b);
-+	scenario_large();
-+	close(ctl);
-+	pr_info("mem_provider: all scenarios passed\n");
-+	return 0;
-+}
--- 
-2.47.3
-
+Thanks,
+Kunwu
