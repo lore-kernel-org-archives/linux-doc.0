@@ -1,338 +1,298 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464AB32D0FC
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25363A9DB2
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791950574; cv=none; b=MJJ+PjqrG5QbTWID9OTldEIBvxmtFIQudqoOw0DUZ4ojOv9XlGVldshxpILWQelV+4l+nSE1AQva3CGs5Z5E0VZMqmM6YqVd7o+A2dft/gsYlTCfiWMGURzHP0vqGqLZFfEDZ78jhcL50KAlaU9Tamq0U1rrCwoiPsJwkE2T93Q=
+	t=1791951894; cv=none; b=oe/Gggk+5D/JRcOtx0n7KHb5hncHLY9pTyYI7mo+Hm4WRW7Cvg/G9obRIhfIocSnXgnzQhHG/+4AqlywWBhiFofOHNkfuEmceMK3cxa4ECbKpFiT9zWYtXJyRR5tV38ZlMOTgGqNLkwRGV68WfFff+agZX2zblOhnXWmFojt+8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791950574; c=relaxed/simple;
-	bh=zyFH7BN9ULbDLnV9+6C+CotRQ6LBNKREOzyRpiZpaDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KBtFBm8phT25up3vuczTR06M2kr4nZGi41SPwGa6Brtz/t2GEUtBw120vRPZO3uIp7NEJesYAEtqxc7V0bbevxB811Z209AJ99gIcnBV5hW6Sy6pJlwj+0tuAwtViNLPHC5WvrpfENrVLKLReQrOjxiSsM+REWSDgl+/G9s+npU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=p52aLg4o; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XsXGfdJt; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1791951894; c=relaxed/simple;
+	bh=uX2IrYZKuunh5Ay8wtG5R15VefK9qebescjFxGpBE28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hfhWf2dAjkDklbVAX7ylMAWyjWHej4bVGcqKTESqusOwmnOJHXNREVLuBXonaTym3pKAYE+0jAxrzfWOe5H3eHGfkXw2IIBwkUD8ifQ9zOxEZBoYetyhiwEQlgdIAP+8S1vJDvMOTNsOXTFn6Con4R/5vwePQXro15rD0KDaoN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mfBIXI1u; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=d/gg43Oy; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="p52aLg4o";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XsXGfdJt"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E1ceRm1592450
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:02:52 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mfBIXI1u";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="d/gg43Oy"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E2nkOY3000860
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:24:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=VWdbP2YpPS6VQfeV27iDbD/q
-	vWCuu42ZlVxsIM4yMqU=; b=p52aLg4oqtWTVq+OGhn1mbuFCCdAblvqzUacGfB0
-	U6X48RQ5MqlULeAjZr6+vISYvjeYJszESwFiSAp9TAIlVwKQvVJzUIML7zfIZ7yp
-	8f7J7WLfwEgM9ojdBzkMMC6ZpO0mKO3M5v5lNRCEFFA0EXmeNwOG1M3O/1TeBtGD
-	du4HXJ3eAwg/aIY+xMLOznrb8aluZFhodl+laqpIGjNsfydnfsKMcg00yI9HUICL
-	QXHmP/apS4j/N26cP7DpOnPDY+dUcYtd6LGIhrrKr/ThtFdRiMJsewoZa0YMHr3T
-	wRvWhxyZIOgEHBISEXEodQcOo3krDbHteXU0A/KH9M3PyQ==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9s1tj7y0-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	R/YWOWusTmnn9Tx8/iLnPWjpANYDhhlrDY+RymDC9lQ=; b=mfBIXI1uLAOYHNpx
+	M+pskrgQQbpJj/+60jNFLzZFxHw2r6RDPCnEYQak0C68FqNpjyua8eynX8SGcd1Y
+	2J1k4+K/t/BHMHnNSVt94VWd+zjp21ADu/+gT5GHSxkze+TVoAJ8ZcEJUegyUcj3
+	l02tjV+K80HtT6WpkHCz8hJA1pNAkGFI0embeDgtOOxCvfUQQ4c9lcW5zqnNjbim
+	+IIDJbRdlgftjP27N4Ac7M+zpCtJs+D/UR8kPP45vYPVDrD5gR3xqxJhNmnwyIgi
+	K4kI1TWbCLNx+Vt70sIiD4gGFEtC25wsPGiQD9gMthErtmViPMA3SxZL1fMU3msx
+	O1ZOMA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9sbet54a-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:02:51 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-341eff9e381so10060970eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 21:02:51 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:24:51 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2df8d1e91c9so74354845ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 21:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791950571; x=1792555371; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VWdbP2YpPS6VQfeV27iDbD/qvWCuu42ZlVxsIM4yMqU=;
-        b=XsXGfdJtjoOl1k4P6y8NfYE/K5BDKzYObKhcaViAnb4iP7QvKvI7deGKBe/awZHsSR
-         LzIbIZNVfCnPXb1sjGaB+wvfEkDA3gCvlyWHCKH/zSCZn54wAQ46fe30sfqZVm97v+W/
-         hjjKF02dlmxqIsuNlayl+A7/5ZdS9HS68PAKJfXcCjunAjohL3LjPE17tUv18K0J1yEq
-         5UZ/wAOUrXENVxEH5izYDb+t4yk6OLWTgsTBPGd7uO2kVs8qQ4X6kkq7S3VOG5Jk+2r2
-         jpHTPV/ijKrjFhjB+XPuoSwcOovt1SDjmj85kn6tTTQ0t1D6XDRPttnhpvoycP9I8Qc0
-         QUMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791950571; x=1792555371;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1791951891; x=1792556691; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VWdbP2YpPS6VQfeV27iDbD/qvWCuu42ZlVxsIM4yMqU=;
-        b=bvys7eRNZl/VDuZrT7n9xEIXx0eVEnYy1tF+WppyK6tx2Q66pb1R1OQLFJf0oATa6X
-         E7iAqzuNrdPLmhlXOGcKk9f8h8MIwO2bk1rbXw3r9KQmPXLcTp7K3JYkrHZgx4gQTH6z
-         j75iH98r2vDgkhPffM7s7eJvx1xPCjYHPiBbU3Zv+HhabGccQ3g1GID3690hbnhfsxlm
-         H6RpW/H5J/pZn+x+XLIp6FQSzjEX69zs4DCUlWNbssnXPf1uMaMNpqjevGIFDQBPmP5n
-         BB4qCdFMaLPaKjO0o24tmaCV4zHolj+EfIlCGMIbmja1GdATRsp3+oTxS45SzuZj3PZp
-         OAKw==
-X-Forwarded-Encrypted: i=1; AKwUvBxhcZhI+ObAcLJRCPLXI6+4PQULQVgXb8FyNJ3ztdjG5++UMg+lIaaqOCkthAUzSm/5kq3H0a5cIBo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJE31GK+bxe6n1aKH7K/jb0y6/3Mi1NGYWm0JYTBeOo8iLW9gy9
-	ow+Vbc1p1PVPrarDimeW+L0BZ35YRZfObNw4dGhNvB++qkHC+qVg1+hTylWh/fIhRBqw56zE1x4
-	NCZZoH6ulCRiXijjoiPeFLhNp0q8KZ+9fg8jF554RzWVnOnCboBCIdpkh8Dsgl2A=
-X-Gm-Gg: AYBFou146FJpNT/rgHdvVZT01YjuWk6YXV8G62gYYLx0+ne0J3JjqsiY9bYEZiC+im0
-	tY8k4LoQCGZEjoJHiUDV/ScSDJieTN3lYpqF8unoWM7WbNxQdzOGoMh/WriSFmg7Jw8xGKsR/xg
-	l9QtYxCMsG6YffSqBQscrwcKWrXynfhCqBWuL0YwoJ7uFEGpkdCwJFLBjDw0/ElBIkfgK+rVfdT
-	Taa3OQDs0pF8DfuFFMcd+HHQbyPkINZ8pg7J3zYw94YUMGW+p9BQKZTqdj0DAf/fbsAwXhe8djk
-	zMVtSSxyD64Ejwkh6xMAN/Qa19BHZrKGdaqZiseNpqoYn1m6mbakG5fMiwYzdtT8+vCo0EpWyFE
-	Y89CN1DyMvb0bwBFfC1TsVewAKN6LEjkoXv+b55d6+9Hg7imgdMZ1C8e0sQEYg9nqj7bzowG6aH
-	XTsUtA/mqAPFE8CsQTsnOHNgIC
-X-Received: by 2002:a05:7300:f0ce:b0:34b:b410:9352 with SMTP id 5a478bee46e88-3537de1ce96mr19572218eec.1.1791950570450;
-        Tue, 13 Oct 2026 21:02:50 -0700 (PDT)
-X-Received: by 2002:a05:7300:f0ce:b0:34b:b410:9352 with SMTP id 5a478bee46e88-3537de1ce96mr19572147eec.1.1791950569770;
-        Tue, 13 Oct 2026 21:02:49 -0700 (PDT)
-Received: from hu-himchau-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cacb61asm50995980eec.21.2026.10.13.21.02.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 21:02:48 -0700 (PDT)
-Date: Wed, 14 Oct 2026 09:32:36 +0530
-From: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Conor Dooley <conor@kernel.org>, Anup Patel <anup@brainfault.org>,
-        =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-        Yunhui Cui <cuiyunhui@bytedance.com>,
-        Atish Patra <atish.patra@linux.dev>,
-        Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
-        Yuanzhu <yuanzhu@bytedance.com>,
-        Yicong Yang <yang.yicong@picoheart.com>,
-        Susheng Yang <yang.susheng@zte.com.cn>,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 RESEND 3/9] riscv: sse: mask events during shutdown
- and kexec
-Message-ID: <as7-3PbWDxygadnJ@hu-himchau-blr.qualcomm.com>
-References: <cover.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
- <03472b45125793a768f3e5bbc168f167e673d4cc.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
+        bh=R/YWOWusTmnn9Tx8/iLnPWjpANYDhhlrDY+RymDC9lQ=;
+        b=d/gg43OyQJIyLQJ4aba4T5jNV4ea758iHy66fF/nH8LLj2KfCNUHNREkHxifmGvqKT
+         VRNCeBb60ZbgI8uheCRTIVLFGbwQAiD7wIvL+z2wsQUKxFIQZCAx+Nzoo1HZATZBG/In
+         /j4zZ2PyktfeXg7ojU4cxl7+cKNp2DjVZHb9rL1jewPuV60mK4SzbrTyxwuXkID4u9GN
+         JWcTTAwL5N235gL+1OIEtc1wdB4OidvcqwtT98iIuhzvwPau2URpK+GbHS8MvUXpi4eP
+         +nKo8am43xlIUmON7+2+yqh1CUdDxCiBpaNsJGaAuxp4rv+PX6ShGRqcY42alT/pXmxW
+         RKJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791951891; x=1792556691;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=R/YWOWusTmnn9Tx8/iLnPWjpANYDhhlrDY+RymDC9lQ=;
+        b=MKpRLnC9dWGqB6UmDP1taPH7Ud5+bJPQHmkrSvRamKgy/UBX4NlLMYjbPUurLF8gFM
+         oRSTfZM7Y+tupfHMdfjKWSDxJV+JgIIGcGOJvtqWO6lm93wzprdnrQq/AqStmPPw4IYv
+         DRaUNN8Ufr3TayXZdSpkll0jok/6m1VNSuRK8O7fgLhz69+S1F8K1KRqgfYw83zSXAvX
+         37JNesPyS6RR6BGfioXAMIiogZoCvUxUTDwu1wBGcs2wH2Ao6Advp/FmRPXwKERCT1io
+         CKbUS4+YRT7pr2JP+Jfk+cJo4vDngsBMcac0PwSbxnh8/TpSjx3nj3s9RQWXeqZdcWaz
+         zA5g==
+X-Forwarded-Encrypted: i=1; AKwUvBy+PDig8b5Su0o2qzijUHqiDacfeAfu5KP0ceuanJKCW7pjTo8EoJzzIEUVb+Fdc7JLH60H5dpTLDo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLVkVYqbAzvgx2amJI58U+3D6TmE7xLzlsZb4XIZnONf9N+QGHt
+	6dOWgKBaYSzbz0xnBr6uk0q0Vwva4zKfxe7EhNNwIheTvThsBvJezIv+AboYWwuZoeEe7Q+DDsv
+	CLY4TecsvQTb4mATfZ4iuTLQx1VTN0c2MeoOTuxfsQTuTGIRqGKdhl3fMpilwi0M=
+X-Gm-Gg: AYBFou0io92XNRUKZ67o6buc8VGAKXEqJL36lgolfamaYPTRFssTO0j+qRG/JSMdV4G
+	MqX+So3Fx9oh5S2edds7LYNWgrTF2p7N97pJGkqNzqtc7T6kyuEEFtUyj5hxo+Ry9LbEoqXhJ5y
+	GLQnjVKE9IDSktmNEewXnEkMwL/sU/bEi3O3+SQ5AwzY4Um35tTCYZj/iAMN//dm23DdzAmFNLz
+	wQzhmP1G+FAUfcZHIqqgFUhkfkWrYESzKGvhxYjwNIPrARajOP2N6iS+y71T3V3cHAfodT3NTjS
+	KlViELpYWpZ54d3Btn61k3jGfTZzYVmRTxt9CotpAtbYPDmx1uw6Lnrrbh3ueJ2DG80x0RWwF//
+	IBXDgem/sPSxd/MnIUBYF+4nOt8OBdu1sX49rzGftWJwqUhJP/0MiFhPDNoShH38Q/1avZk3W
+X-Received: by 2002:a17:90b:35cc:b0:3a5:147a:3b63 with SMTP id 98e67ed59e1d1-3ab3a33db36mr12329648a91.8.1791951891159;
+        Tue, 13 Oct 2026 21:24:51 -0700 (PDT)
+X-Received: by 2002:a17:90b:35cc:b0:3a5:147a:3b63 with SMTP id 98e67ed59e1d1-3ab3a33db36mr12329579a91.8.1791951890405;
+        Tue, 13 Oct 2026 21:24:50 -0700 (PDT)
+Received: from [10.133.33.242] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac63279277sm860530a91.1.2026.10.13.21.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 21:24:49 -0700 (PDT)
+Message-ID: <252e86f2-9663-4ac7-a19e-6056b44e769b@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 12:24:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03472b45125793a768f3e5bbc168f167e673d4cc.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
-X-Authority-Analysis: v=2.4 cv=IpOL47/g c=1 sm=1 tr=0 ts=6acefeeb cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=968KyxNXAAAA:8 a=a_nq2awA8k5mFBtTUooA:9 a=CjuIK1q_8ugA:10 a=O8hF6Hzn-FEA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAxNSBTYWx0ZWRfXxLjPDsAoQGCU
- 756HCW3Ia4ykixS9Nk+jEPcjwTEDPDJxbDLS+DQQbRwsgAYHTh/GFBrxk5rBFBbcNES9nl6jwhW
- n9Vu3a5iOVf1uqTnfoPwR3z/2zAEOYpwIpU7//0OCwhKGXY37URwe9fOO60l8A6URzhU9a/DYxi
- 4MNq9mjP1cG1QHbjDxp6QyUDOwWdhjYYNcI909NcTXxAj4yoOtki96SOVQv71map+zBku8ck7sz
- L4hJoqYjdiIEzKebk9AUooTIrWUjHChfqwjURZoBP6CeXNCHFngW/GfEVe8RPUVkzhMF7aOFSnE
- e3rCrNDn/WbfqO26rKymvcpVl7enZoGiIyBQ/+mx5vBm8DX75RSaA++kRxTiK7L0x2S9vJOUOdf
- WG3eTZORitDjLmB17xoZHThPnPzSYMDXz9FE0VA0ZdwwV5cpLc5KJv1A4tm9leQykW6TR3/tYwA
- jMsfAVMA7OGWAgLiTLA==
-X-Proofpoint-ORIG-GUID: OT15zNbWm7V7fzSoAaZnWux2EVFxu5nK
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAxNSBTYWx0ZWRfXzSI5wzJK6Bd4
- +82JS2T3jA2pnD+WiovmtOkThjexjy169OoNg35WqMmTlK5rtFUsB7/Mo2neUpK2nUbHxo96dAv
- oKhTavePx2MaucFKJfb2MnUrZ+Cfgag=
-X-Proofpoint-GUID: OT15zNbWm7V7fzSoAaZnWux2EVFxu5nK
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/11] cpufreq: Initialize kobj_type release callback in
+ ondemand and conservative governors
+To: Ian Rogers <irogers@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich
+ <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <chleroy@kernel.org>,
+        Nayna Jain <nayna@linux.ibm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        David Teigland
+ <teigland@redhat.com>,
+        Alexander Aring <aahringo@redhat.com>, Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Richard Weinberger <richard@nod.at>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        driver-core@lists.linux.dev, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        gfs2@lists.linux.dev, xen-devel@lists.xenproject.org,
+        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, zhongqiu.han@oss.qualcomm.com
+References: <20261013223946.1836757-1-irogers@google.com>
+ <20261013223946.1836757-5-irogers@google.com>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <20261013223946.1836757-5-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: hLwvXt9ju2zRswt3K6Zk6Kq7-HUJJuE9
+X-Proofpoint-GUID: hLwvXt9ju2zRswt3K6Zk6Kq7-HUJJuE9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAxNyBTYWx0ZWRfX6rHhv8Rgx0Rc
+ XygMGGkJwo9J3+7cisE4hVfjo8NoX4PLxItKxNmQAKrbJsYCn3ZwaQHx7hAqUpCENLvDEtm6G8V
+ tvnrPTqQA+YM5uWczJdZAqaRsX2WIEvgtoJSM0y24Y/mPZde6UZc8WuThsAKDjy8La9VHjpuxLw
+ Bx2P9fSTsyyPPX1QmlQnjWQVQxhZ7DDxvtJ16VKmwmDu1hd49mlq8JkKDfYlqgBJ4sOGJsH90Nm
+ EHO+ak13LGKSZ/sJuhtufxhXAqU9Y9/VFwe+9wNHveH28v7db/0oJQxuhCRLDBFW+I42qVDs/3M
+ z0WeNnTmLpYfcer1KcFqx6ooUrPHMXGO3J28m1lD/MdkwVwbkwp56YRjr3BPBlhash3cnBi55/X
+ E4+hGO7yJ991dGmou4fKLB2VvMWIFaJSCr/oED+8g/yGQtAP7simxAiXW2wP9xvpAKq4kQoNGWV
+ e5kgQHINNG4hYhBHZKA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAxNyBTYWx0ZWRfXxNGmv7x4cECr
+ SMGGn+XWi41Ya8oeyjOL5AU70zai53+Sguyii48nLXdtcqqLEPC59uf4BZc+lr+GglAHKMsKG4K
+ DPyxzfg6GLgCilOmE4RcRrMObY4zMJM=
+X-Authority-Analysis: v=2.4 cv=U7AHnuru c=1 sm=1 tr=0 ts=6acf0413 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=1XWaLZrsAAAA:8 a=Stt4M9KXtKJ5ZbChFzoA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610140015
+ clxscore=1015 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610140017
 
-On Mon, Sep 21, 2026 at 07:15:00PM +0800, Zhanpeng Zhang wrote:
-> SSE delivery is independent of normal S-mode interrupts. Firmware may also
-> retain an event registration until Linux explicitly unregisters it. A hart
-> must therefore stop accepting SSE events before Linux stops servicing the
-> registered handler.
+Hi Ian,
+
+Thanks a lot for the patch.
+
+On 10/14/2026 6:39 AM, Ian Rogers wrote:
+> Export cpufreq_dbs_data_release() and set .kobj_type.release in the
+> ondemand and conservative governors so their gov_attr_set kobjects have
+> a valid release callback, matching cpufreq_ governor_dbs.
+
+Commit a85ee6401a47 ("cpufreq: governor: Use kobject release() method to
+free dbs_data") has already addressed the missing release callback
+issue(it adds the missing cpufreq_dbs_data_release() function.), with 
+its Fixes tag pointing to c4435630361d.
+
+Besides, "matching cpufreq_ governor_dbs." seems to be a typo?
+
 > 
-> Mask SSE on the local hart before panic stop, CPU stop, restart, poweroff,
-> and crash shutdown paths. This prevents firmware from entering Linux-owned
-> handler state after the corresponding CPU or kernel context is no longer
-> valid.
+> This prepares for annotating struct kobj_type::release with
+> __require_explicit_initialization.
+
+It would be better to use "cpufreq: governor:" as the subject prefix.
+
 > 
-> A crash kernel cannot identify or take ownership of registrations
-> inherited from the crashed kernel. Reject a later normal kexec while such
-> SSE state may still exist, rather than transferring unknown firmware state
-> to another kernel.
-> 
-> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+> Fixes: c4435630361d ("cpufreq: governor: New sysfs show/store callbacks for governor tunables")
+
+Since a85ee6401a47 ("cpufreq: governor: Use kobject release() method to
+free dbs_data") has already fixed the missing release callback issue,
+current cpufreq patch 4/11 seems to only move the release callback
+initialization to the static initializer in preparation for 11/11. The
+same callback is already set at runtime in cpufreq_dbs_governor_init(),
+so there is no functional change or bug fix here. Should we drop the
+Fixes tag?
+
+So, at least for cpufreq, the issue described in the cover letter
+doesn't seem to exist, right?
+
+"Patches 2-10 fix 10 struct kobj_type definitions where dynamically
+allocated kobjects, ksets, or enclosing structures were either leaked on
+kobject_put() or freed prematurely before kobject release"
+
+
+> Assisted-by: Antigravity:gemini-3.1-pro
+> Signed-off-by: Ian Rogers <irogers@google.com>
 > ---
->  arch/riscv/kernel/machine_kexec.c | 11 +++++++++++
->  arch/riscv/kernel/reset.c         | 18 ++++++++++++++++++
->  arch/riscv/kernel/smp.c           | 17 +++++++++++++++++
->  3 files changed, 46 insertions(+)
+>   drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
+>   drivers/cpufreq/cpufreq_governor.c     | 3 ++-
+>   drivers/cpufreq/cpufreq_governor.h     | 1 +
+>   drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
+>   4 files changed, 11 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/riscv/kernel/machine_kexec.c b/arch/riscv/kernel/machine_kexec.c
-> index 738df176ff6f..24e7affae70b 100644
-> --- a/arch/riscv/kernel/machine_kexec.c
-> +++ b/arch/riscv/kernel/machine_kexec.c
-> @@ -14,10 +14,13 @@
->  #include <asm/set_memory.h>	/* For set_memory_x() */
->  #include <linux/compiler.h>	/* For unreachable() */
->  #include <linux/cpu.h>		/* For cpu_down() */
-> +#include <linux/crash_dump.h>
->  #include <linux/reboot.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
->  
-> +#include <asm/sse.h>
-> +
->  /*
->   * machine_kexec_prepare - Initialize kexec
->   *
-> @@ -36,6 +39,13 @@ machine_kexec_prepare(struct kimage *image)
->  	unsigned int control_code_buffer_sz = 0;
->  	int i = 0;
->  
-> +	/* A crash kernel cannot tear down registrations inherited from firmware. */
-> +	if (is_kdump_kernel() && image->type != KEXEC_TYPE_CRASH &&
-> +	    riscv_sse_available()) {
+> diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/cpufreq_conservative.c
+> index 0b32ae28ec85..38c3bd5bf75a 100644
+> --- a/drivers/cpufreq/cpufreq_conservative.c
+> +++ b/drivers/cpufreq/cpufreq_conservative.c
+> @@ -316,7 +316,10 @@ static void cs_limits(struct cpufreq_policy *policy)
+>   
+>   static struct dbs_governor cs_governor = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
+> -	.kobj_type = { .default_groups = cs_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = cs_groups,
+> +	},
 
-I just realized. This rejects a normal kexec from any kdump kernel whenever firmware
-merely advertises SSE, regardless of CONFIG_RISCV_SBI_SSE or whether anything is registered.
-Can you check if its breaking kexec() with SSE just being advertised?
+Nit: In that case, may I know can we also remove the following runtime
+assignment from cpufreq_dbs_governor_init() as below:
 
-Also, there are some shasiko's comments worth addressing.
+gov->kobj_type.release = cpufreq_dbs_data_release;
 
-> +		pr_err("Normal kexec from a crash kernel is unsupported with SSE\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
->  	/* Find the Flattened Device Tree and save its physical address */
->  	for (i = 0; i < image->nr_segments; i++) {
->  		if (image->segment[i].memsz <= sizeof(fdt))
-> @@ -127,6 +137,7 @@ void
->  machine_crash_shutdown(struct pt_regs *regs)
->  {
->  	local_irq_disable();
-> +	riscv_sse_mask_current_hart();
->  
->  	/* shutdown non-crashing cpus */
->  	crash_smp_send_stop();
-> diff --git a/arch/riscv/kernel/reset.c b/arch/riscv/kernel/reset.c
-> index 14eb08a6db85..fdab37e7ae52 100644
-> --- a/arch/riscv/kernel/reset.c
-> +++ b/arch/riscv/kernel/reset.c
-> @@ -6,6 +6,20 @@
->  #include <linux/efi.h>
->  #include <linux/reboot.h>
->  #include <linux/pm.h>
-> +#include <linux/smp.h>
-> +
-> +#include <asm/sse.h>
-> +
-> +#ifndef CONFIG_SMP
-> +void __noreturn panic_smp_self_stop(void)
-> +{
-> +	riscv_sse_mask_current_hart();
-This function call does SSE probe on every call. Wouldn't it be cheaper to do once?
 
-Regards
-Himanshu
+>   	.gov_dbs_update = cs_dbs_update,
+>   	.alloc = cs_alloc,
+>   	.free = cs_free,
+> diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufreq_governor.c
+> index 710d93ec89b5..97b64985927d 100644
+> --- a/drivers/cpufreq/cpufreq_governor.c
+> +++ b/drivers/cpufreq/cpufreq_governor.c
+> @@ -404,7 +404,7 @@ static void free_policy_dbs_info(struct policy_dbs_info *policy_dbs,
+>   	gov->free(policy_dbs);
+>   }
+>   
+> -static void cpufreq_dbs_data_release(struct kobject *kobj)
+> +void cpufreq_dbs_data_release(struct kobject *kobj)
+>   {
+>   	struct dbs_data *dbs_data = to_dbs_data(to_gov_attr_set(kobj));
+>   	struct dbs_governor *gov = dbs_data->gov;
+> @@ -412,6 +412,7 @@ static void cpufreq_dbs_data_release(struct kobject *kobj)
+>   	gov->exit(dbs_data);
+>   	kfree(dbs_data);
+>   }
+> +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
+>   
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>   {
+> diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufreq_governor.h
+> index 73b8ed7cfaae..c03d067f42eb 100644
+> --- a/drivers/cpufreq/cpufreq_governor.h
+> +++ b/drivers/cpufreq/cpufreq_governor.h
+> @@ -148,6 +148,7 @@ static inline struct dbs_governor *dbs_governor_of(struct cpufreq_policy *policy
+>   }
+>   
+>   /* Governor callback routines */
+> +void cpufreq_dbs_data_release(struct kobject *kobj);
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
+>   void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
+>   int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
+> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
+> index 9942dbb38dae..7386d043c665 100644
+> --- a/drivers/cpufreq/cpufreq_ondemand.c
+> +++ b/drivers/cpufreq/cpufreq_ondemand.c
+> @@ -374,7 +374,10 @@ static struct od_ops od_ops = {
+>   
+>   static struct dbs_governor od_dbs_gov = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
+> -	.kobj_type = { .default_groups = od_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = od_groups,
+> +	},
+>   	.gov_dbs_update = od_dbs_update,
+>   	.alloc = od_alloc,
+>   	.free = od_free,
 
-> +	local_irq_disable();
-> +
-> +	for (;;)
-> +		cpu_relax();
-> +}
-> +#endif
->  
->  static void __noreturn default_power_off(void)
->  {
-> @@ -18,6 +32,8 @@ EXPORT_SYMBOL(pm_power_off);
->  
->  void machine_restart(char *cmd)
->  {
-> +	riscv_sse_mask_current_hart();
-> +
->  	/*
->  	 * UpdateCapsule() depends on the system being reset via ResetSystem().
->  	 */
-> @@ -30,12 +46,14 @@ void machine_restart(char *cmd)
->  
->  void machine_halt(void)
->  {
-> +	riscv_sse_mask_current_hart();
->  	do_kernel_power_off();
->  	default_power_off();
->  }
->  
->  void machine_power_off(void)
->  {
-> +	riscv_sse_mask_current_hart();
->  	do_kernel_power_off();
->  	default_power_off();
->  }
-> diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
-> index fa66f9c97d74..7f0d4e7332f1 100644
-> --- a/arch/riscv/kernel/smp.c
-> +++ b/arch/riscv/kernel/smp.c
-> @@ -23,10 +23,13 @@
->  #include <linux/irq.h>
->  #include <linux/irq_work.h>
->  #include <linux/nmi.h>
-> +#include <linux/panic.h>
->  
->  #include <asm/tlbflush.h>
->  #include <asm/cacheflush.h>
->  #include <asm/cpu_ops.h>
-> +#include <asm/sbi.h>
-> +#include <asm/sse.h>
->  
->  enum ipi_message_type {
->  	IPI_RESCHEDULE,
-> @@ -79,8 +82,18 @@ int riscv_hartid_to_cpuid(unsigned long hartid)
->  	return -ENOENT;
->  }
->  
-> +void __noreturn panic_smp_self_stop(void)
-> +{
-> +	riscv_sse_mask_current_hart();
-> +	local_irq_disable();
-> +
-> +	for (;;)
-> +		cpu_relax();
-> +}
-> +
->  static void ipi_stop(void)
->  {
-> +	riscv_sse_mask_current_hart();
->  	set_cpu_online(smp_processor_id(), false);
->  	while (1)
->  		wait_for_interrupt();
-> @@ -91,6 +104,7 @@ static atomic_t waiting_for_crash_ipi = ATOMIC_INIT(0);
->  
->  static inline void ipi_cpu_crash_stop(unsigned int cpu, struct pt_regs *regs)
->  {
-> +	riscv_sse_mask_current_hart();
->  	crash_save_cpu(regs, cpu);
->  
->  	atomic_dec(&waiting_for_crash_ipi);
-> @@ -254,6 +268,8 @@ void smp_send_stop(void)
->  {
->  	unsigned long timeout;
->  
-> +	riscv_sse_mask_current_hart();
-> +
->  	if (num_online_cpus() > 1) {
->  		cpumask_t mask;
->  
-> @@ -301,6 +317,7 @@ void crash_smp_send_stop(void)
->  		return;
->  
->  	cpus_stopped = 1;
-> +	riscv_sse_mask_current_hart();
->  
->  	/*
->  	 * If this cpu is the only one alive at this point in time, online or
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
+
+-- 
+Thx and BRs,
+Zhongqiu Han
