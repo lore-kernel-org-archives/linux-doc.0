@@ -1,129 +1,119 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7404C14E5
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAA84E0216
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791983332; cv=none; b=e4tcmEeRij6n0+SDYE7ian0jdzx8fOjIi8GERXgTyBtaIi61SzJJHF5qu4xamZa14iMVd4EWXjF/1wWTVP9KDk3SEtbuLvGcL2ffRERFibEDENVL+mo//EFBJJsyoX81wp1yfvlBuSOz9OKaDQOsrfsYr0EEfYkO6MdTd7kYIfQ=
+	t=1791983561; cv=none; b=Akh2dANk32EzMm48hrMvmk+ZWgYEUJMfVwiaj/IPgr7rN1RwnadH4I43utXKSfL3JYiL+4ahBnqk6PDSdwexSmlfsfRdhOzpf4whf65kk6Yfv/acS3vg2p+VHGiGrKeShqZFd+bqm7ZuSeXjd5KtbvDA28WtY01PwX8D+tpqrzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791983332; c=relaxed/simple;
-	bh=zJyJwbqrIMCMA4hiRo6sDHUm2ZUNcy0WbKdZ2AnkuKA=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=mXvb2lS3rlA6LsPAFn5GsMa9xjAryWi0eB7COV3Q04DM/yK/Qwk/QQs0DFFA0V8T7ynvE5RPzJbmSBlP6MjeeARvbvZRvHbwdhMSVuzpFMalTZiISVOae0bezVe/docS8IVRqIMVuDJqnKHlfu0sX+6XbmSRvNqVQDYcxHYVCrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=i7FInNFO; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1791983561; c=relaxed/simple;
+	bh=O8NtjP6nu7AxNEUWbQ4bIzDBMnvkOBW0C4DQch6lsDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IV3FCXOFkGnswpZw3dLZul1q5CGQTajDIiVwFA/n+c+QsDH93uEmsmWTmexGuXe9Mn25/AujS//k3ljMdC9JeJpAFeUz3+uHvYl1wUihl8h9MptU4x3xl6rpa2fsU1nrwNXNT1e2YPW2DMywGByGNwnAaAevzjhr5B0CB5nbJyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ZZzBqF1r; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="i7FInNFO"
-X-KPN-MessageId: 60149d4e-c7d0-11f1-a5a4-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 60149d4e-c7d0-11f1-a5a4-005056994fde;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 60125701-c7d0-11f1-a0c8-0050569981f5;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ZZzBqF1r"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53396adbc53so3788091cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 06:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=oR4mGO5dXvh7uKRKRY3Q/50+aTcyc5zgByMmdRWQX9Q=;
-	b=i7FInNFO3Xb/ksxW4x8osITtPT4xSz04pTlwnYTx7E4hW9ztYG4GXo0yWPkII33k4rw4rwAtCseEG
-	 LuHgylaHq0usb47Ib/WrBBThh4ZfumoAByo5xMmMaUUhM5AG18TrbiPXc/9DVpX3QqlTOmjPhhmj+O
-	 LfLJ6Fjr1ppGXg6PguVYKrV/TvG8AQ5x8W4QA51S45ZkJHuAsNPPTqXYrU4jGbHZxtCvNvbhozrCcp
-	 OtcSfJ2FIwFWFlY4KNffHq4otolwWbzabvRGK9SK4bQscVT/E/44WjwNCsNaUxV+faHz5oHEeC6gxF
-	 HHkFmHCc+8BF4kJF/D/Cy1/cKnouO5Q==
-X-KPN-MID: 33|tlWIlI8UH/nPAUmArasZsw+htSSBd38ayYa+8PbDpIYyisi933DreQF95HlN+/K
- j++w9V9/D953sD/QQ6ZekmQ==
-X-CMASSUN: 33|8ilib81BGiC4Ogwbb2AYB7SCHM+Z9biBi7EbLayFamokYY6B9feuzD6Q667AspX
- h6S1+pwsvA643HRJXfC72Ig==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 60076661-c7d0-11f1-8edd-00505699eff2;
-	Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-Date: Wed, 14 Oct 2026 15:08:40 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Theodore Tso <tytso@mit.edu>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Message-ID: <1759910011.895530.1791983320339@kpc.webmail.kpnmail.nl>
-In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin> <as7uqZn9rQ52USwy@mit.edu>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+        d=gourry.net; s=google; t=1791983558; x=1792588358; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7jEpV9CpjUjV+rZO83DWrS1XtF4LOaO3+hdRBygY+Bw=;
+        b=ZZzBqF1rVo/3bVyXimsqlH1Beg/p0Q2iQ3BY87VIJrLdh/+F5wCdrPsmqh3VRtyYuF
+         PW6hSyZ9FWfQvQg4yTmr1+7vHH9K9UXgBAg+5IfM8ySMdiTtljob+6bzDeZ1EW8vMQ2O
+         BmUQT4hmbd0nGrSbOTOBCgFN+zCYnzfRKBgyRfsDvgfecbCprjM7g9aRgHmDUvCzutw5
+         qogkRbJrVoRs1W3b6SjNk/QrRJ6ELDP//aUvAG97wXYzNLwdIm0bWYPBF0oW/5TKtdkW
+         fOu03Gq5kg66GZ0fRpVKlfxZY+6RZODXOzV+umSMi0XlC3aveS84Jgjl1DevFElNDAJ5
+         51bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791983558; x=1792588358;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7jEpV9CpjUjV+rZO83DWrS1XtF4LOaO3+hdRBygY+Bw=;
+        b=a0DQXozASpMEFh1o9qzBID4EgkXTEbjU6N3Uu5HXl/qNR8NLhG7AGBGarpg4YRV8t4
+         Ijs5pjf8xRPtWJ2Rkno+RkKDZwhrDa8ropPysTh8mfDwtQVOPeVH7R9LlTDxU9Y6Rj9E
+         DK2AThmL5O8GuVz6+G5lDSA7UUQLjO3z5cIYmo8V+i0YiEm8ceSQQmfWCQ7BnyI2Rs7f
+         wyvqm7nhi92UdPHVOOQmB3nZgwLEURZzy4Bfhku4oTQNwNp7Dkgo2/EbNVNC48x4L/QK
+         guVJIIjmc3hh1DkpI4gkMPfNJrbDIHyf/VSlEA/ohZVcbswrbPiMU4ynOPNq1MCNy1OT
+         H4Fw==
+X-Forwarded-Encrypted: i=1; AKwUvBwUwb2rdObwn63t/cUK2yovpfzyQsoh1OS9ZcPY3BTo5HPmuDix4j4sTrQS5MkkEJ4P/QoVJe+DDR4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIoWdGeJddZCpNx9ObDyY6NwDDDISOa1JrtHCUUD3DHPh+AUkg1
+	tFthxbNMWTGlaR7Gk10EX+pJ7PuTOMW/krdkNOzWcXL7wgOOv22M+Ig7r9jVh5pr4Zs=
+X-Gm-Gg: AYBFou05THfj61GnToEr1//DyBYnf5ZxsSPtrzqUfzn3SgWZES7juj9okcM9uOSXtd5
+	ZjM9IAumf3sJa40Ke1/JATuVTvLr/t2BQ17x4iOQ+vgZXZ2aDUc6/PcN6XERP+NY8aCIflqY+KI
+	+pI6cOHkIMxfJdwVf5mcRnHp4g7AeTKqqlHDE8AOJPJHvOJJpbebFXy1Y0lTDa60BYCRg5Qv5My
+	6U8b46FVzNJHKEZp0A75Q/l6hB/s/p/kZmHMcC9bS6CEjsNjaBAKqVWMkpRNLYmPBRzP+Lif2u6
+	ZZPaPz/Q+5ca6man/J3R7huL35P2yzY0ZEFF+VE8KY10XAk9SsKH3M07pAGDdRAKgNbPCuXbl2D
+	mzG18A3uS0g+l2XsgGzp2BzS05PJKoSxfeJzIN066LPaCzZr7aHDZbyVUYlVtukRybLiV2yObnR
+	qhNcE6w063ilUNa15FPDAlUVw9ppUEIWfW4iYKnhej44iorGACJIl2HZUqEMkIaoTW3aRGNXo05
+	X7nU/fswSQS+9buKbeT70+wJyyskaMOq9JhAXdRTUPcZ773D/t4bMo=
+X-Received: by 2002:a05:622a:511:b0:533:3ec8:a834 with SMTP id d75a77b69052e-5359fb3dce3mr261396561cf.40.1791983557461;
+        Wed, 14 Oct 2026 06:12:37 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b6fa173sm124088821cf.7.2026.10.14.06.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 06:12:37 -0700 (PDT)
+Date: Wed, 14 Oct 2026 09:12:35 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Li Zhe <lizhe.67@bytedance.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	joshua.hahnjy@gmail.com, ziy@nvidia.com, mingo@redhat.com, peterz@infradead.org, 
+	mgorman@suse.de, riel@redhat.com, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, vschneid@redhat.com, kprateek.nayak@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 3/6] sched/numa: fix scan-period adjustment for shared
+ faults
+Message-ID: <as9_SwmLxAcTovnl@gourry-fedora-PF4VCD3F>
+References: <20261014094347.99157-1-lizhe.67@bytedance.com>
+ <20261014094347.99157-4-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261014094347.99157-4-lizhe.67@bytedance.com>
 
-
-> Op 13-10-2026 23:23 EDT schreef Theodore Tso <tytso@mit.edu>:
+On Wed, Oct 14, 2026 at 05:43:44PM +0800, Li Zhe wrote:
+> Commit 37ec97deb3a8 ("sched/numa: Slow down scan rate if shared faults
+> dominate") intended to slow scanning when either shared or local faults
+> dominate, and to speed scanning up only when many private faults are on
+> remote memory pages.
 > 
+> The implementation uses the private-fault ratio as the slow-scan signal.
+> That makes private-dominated samples slow scanning, while
+> shared-dominated samples can still fall through to the speed-up path.
+> That does not match the stated intent.
 > 
-> This isn't actually a new problem.  In the pre-AI era, we would
-> sometimes get marginal patches, and there is always a question of
-> whether it is the maintainer's time to try to engage with a new
-> contributor who might turn into the next valued senior contributor and
-> reviewer --- or who might be resistant to education and/or who might
-> disappear very shortly.  AI makes the problem worse in that there are
-> many more newcomers with new contributions, but it's really not a new
-> problem.
+> Replacing the private ratio with a shared ratio fixes the
+> shared-dominated case, but the scan-period code still only has separate
+> locality and sharing ratios. Those ratios cannot distinguish a window
+> with many remote shared faults and only a few remote private faults from
+> one with substantial remote private faults.
+> 
+> Track faults that are both remote and private, and only speed up scanning
+> when that signal is large enough. This keeps local or shared samples
+> slowing scanning and avoids extra hinting overhead when the remote
+> activity is mostly shared.
+> 
 
-This is aligned to the point that I was trying to make, and I believe you
-it is not a new problem: how do you identify these "next valued seniors"?
-What pipelines/processes does the kernel community have to identify and
-grow these people? Just showing up regularly on the list is becoming a less
-clear signal because of LLMs. Not because no useful contributions can come
-from them, but because a growing part of new contributors is of the drive-by
-variety. Jon recently outlined a case of someone submitting dozens of patches
-in a single day. Obviously this person is never going to be a core kernel
-developer, and the tool we have now (explicitly) is to ignore/deprioritize them.
-Zig took the approach to just disallow LLM contributions, Linux is explicitly
-not going down that road.
+This changes NUMA balancing behavior that's been around since 2017.
 
-This hopefully tackles the burn-out part of the equation, but it does not
-per se address the pipeline problem. I suggested maybe it could be addressed
-by simply seeing people at conferences (and I have a hard time understanding
-how one could grow into a senior without going to any ever). I imagine this more
-or less has always been the case anyway. It works the same way in academia,
-or really any field, if people don't know you, you likely won't get your paper
-published, savant or not. There was a time when kernel programming was fairly
-unapproachable, so that just the fact of submitting a patch was a signal of
-commitment or at least effort (and as you said, not even then always). That time
-is no more.
+While it's not the stated intent, it's been consistent since then,
+and i'm concerned that this could cause unexpected regressions.
 
-Yes, Hardy would have missed Ramanujan now maybe. But we also have the kernel
-mentorship program, and the community can think about other ways as well.
-As a senior kernel programmer, do you have any suggestions for this? I
-would be really interested in your take,
+Do you have performance numbers on this change to show it's actually
+beneficial compared to the existing behavior?
 
-Best,
-Jori.
+~Gregory
+
