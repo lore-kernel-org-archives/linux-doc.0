@@ -1,78 +1,80 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62157496D34
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 22:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8052231B101
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 22:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792017288; cv=none; b=foFQ2vjvfXCiJrs9EjJm88G2T9BhFplxRx8l4twjDALSh6MHf7Iw5LrwCgMo09j0KI1ybAnp6T7vZTOyB4uCH/i1LLoqkRVJ0rPfh6jfDe6GbvFoLG+WHqSRWXhQ7UU5me3325IOsOWLHcs5BLh3Tegvw1EZERtvqQSqp0YvCTU=
+	t=1792018047; cv=none; b=nSF9xSeMEpYNtJmqbYrXUMzEap0F7w/tOZhdiW46zrUEhQHjbksmyINxr63hXqqFD2mL8fPLPfLfMD5VwgwJRPmxVVON/2e7l5qUWPJ3T47FKFMyApLFuF9u2uWTOVhWBCudJ7YdzTCoZXI15SS4wLArfRkv8TSetwwVi4//1Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792017288; c=relaxed/simple;
-	bh=jvKieiN/MIDL0uMKt1BBJ3kYZRkWcRytAyOG613frss=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rDVSZE4YQlRCMlXfSB41b9ywRW4/yjHf8CjuNX28Y9Mli3SaxF8H2mwl+WVRJwA56gqY0zpJBlnJHGOOA0l0IYvDcYmNmYalX9oqZJwa/nfJzE/KTNuQZKFf0iT9DOtsq9gS/+vnJciI3MOckq/HSFcH48skH2no9BqftX3U090=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6U+usxO; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1792018047; c=relaxed/simple;
+	bh=vHMcvKy3pKTwKa8Hattf13WL89UUyhvm53gr9aJVY1k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EddIj5gX5NWF53dEBtMtAsJ7L6NLIccbrHgJdMNCtCKn21ezw+BljxhMlC45YNvXKBN3LfR+6dz2Uk7tbkPQdPBjVyaXwF9WuiUdXQm0PPYtMo5/xLIkcMeS8AjNP4sCBq0sHlO66O4wAJFud3QEjtS6PIu/yJ0bM2rQhAlB8d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VL50TiFA; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6U+usxO"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a17ce1dc00so9566755e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 15:34:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VL50TiFA"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48afbd35952so454438f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 15:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792017285; x=1792622085; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SmSt0lwwYpzoU3Z3FsPgmpJmsS1rTW6phAJMbyBSMEU=;
-        b=F6U+usxOSc8VA472o1QG4dbRVlIH/2J0kkMZHH6/tWlae5DaCaN+6hiAL3PQ+Bszm/
-         ecBXnUrH529WTZKiKh4ijr+6GE5IWxKHy0g70t4V0zkK+MQxNg23VDT3Pec8jw1EnF3i
-         VZZ1gD1J27d5+a9t++tQoGxb2Gno7KP7Y/zl/dBvD8vxCyy1Gz+aTmFZX3Vu0ZmaMSVj
-         t/eqhXGOyqUG6mG6dI0j5V2j4RK+LNtApPj4TfMDkfYZhBKZ4fxcn2NvRHF73+LtlqSm
-         lqHVXxZlQpaMVt0ISSzLbl2XpcUKAhUXJ3rJrqK7y0MQOc8XUwNUHH/bUzok+3ChFzF9
-         M14w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792017285; x=1792622085;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792018042; x=1792622842; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SmSt0lwwYpzoU3Z3FsPgmpJmsS1rTW6phAJMbyBSMEU=;
-        b=0NsxTfh1IdRWBoCdZaUjubgCS9QOhACOYnSgs1u4qzzFtnexHS2W/Po5nzO3iq9iIu
-         tZZhC3j0gFAQJNxrnBqpbpehLFWxrOaKdujUtzLnJxw6QR/QpjG5AQDPpIe1fkmfYmIS
-         KXKwjsur6ZhuV45yJ6a9YPVok7GMz/XbF7YOE7q1uDuaT/3tKC4wrEggR79gMrvhrj1V
-         WK1l8BvEc+A3qGjGJKNJPScNY9H/gZ1m3xg5KVmjtCwsGaV0Ua9yK3DmD/pr73v8106p
-         nFP2vxGZcrAczi2yanr8Sg3DUoop67jO19HQCtdQuEt4XO/eSkytosPYSSpfdZEFc+1C
-         R1gg==
-X-Gm-Message-State: AFq9FYLFbD+SmzXFAK9B3WKLouVcTsw0qozHijKvU1+LOl3JbnUIbwOF
-	ARAjpJS51LKCwz7Uzm3Y0JJmyT6C3Hf8Zq+yMCVfYRz9ebWv+1H6KhmSsPrPq0PeFPrYxg==
-X-Gm-Gg: AYBFou2ytqNksl3DjZdMd6ZfnGqgx1iKba2SCbQMUbMEXuu3U/e3KSdKuVQOVe51RzT
-	S2tut90r3FwCQXxP7iplDfjzQKFwof4EGE9nHhSxeJhx0M8Y7tPm795suIG65jLvOptnrQA2O+W
-	0qL6jwyWMlVxzk3d5e3uTGYKVlDkDmETZrdhIVsaq0gXcSOHWB5Km0TZZ/rrzz/f15BzcEnhsB3
-	Bw3103C+S+KyOdIar0TZi/ZtZ2/4p6rh08URUDTak9eY4SZiV09fNMm91GAFBrKYvnHyuWbgFd0
-	UgcSszDDWCkGTeRIAToBeGwe5JFiVjkqiQy+CVgy893o2Yz7O4Um2VkcOGT1S8pbU523Us+HL12
-	8esKymzyudD9OafnECEpUQ2OsnF2JXAU4UMnZdfWjV0LZeOGHJMcwSIiY/KSS5WpnY3uEquh626
-	ksJPA5pSpjkYKwMbNHRA+9wK3RNHblbACkSI/USJ2vQwN2K9KBms2iMYZ99qvEgMWORjcI9IEur
-	64r0PQhVFmN9CPYxBKkdhei8A1sRJKvut1nqcb9
-X-Received: by 2002:a05:600c:1912:b0:4a0:1e9f:64f6 with SMTP id 5b1f17b1804b1-4a18e3ef211mr319239075e9.0.1792017285347;
-        Wed, 14 Oct 2026 15:34:45 -0700 (PDT)
+        bh=vHMcvKy3pKTwKa8Hattf13WL89UUyhvm53gr9aJVY1k=;
+        b=VL50TiFAzlXAPDV2J4V5NHbGoErhby4V54tAUvLB2cbP+H9N0M4Mgi8GmvObAYsokq
+         RRqHYLAJ5ZDJzkTZ38HqvGVXHGosYw431sRV9OhfUi1p6FE3lK+GPfq9r7NkytmAI+66
+         2WG7cnSdDL5LXG25zTt2Eu3Q+22vYR4t2BX6/7cOgAwV5mFTq4OghzuFxPu5rKnAV51r
+         zBym6TAecWDbsZW7K64ketfZGSjxYhKUd42P6PixiEZA5QJLKQ+zbm5LGroDW6py7Rjb
+         eXab/ZwsvxdRoJA4fpReLDIiCgBW8QQk70sBwTEsr3OtY6c5k+/OxpezON4Jrh0jKPYE
+         deUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792018042; x=1792622842;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vHMcvKy3pKTwKa8Hattf13WL89UUyhvm53gr9aJVY1k=;
+        b=sWB9O81Xi3r2CMW58KSD7RRPZG0gFj+EJkdy0u11eMccJGkYUIJrP774q7YPHa9LYc
+         JRko3PzMmyxl+WzGptsXH/9etgVEYeiErfwyGCpIfqYRUaotl6ERItBHVEuT1EirxW4i
+         7QhVdIcnNrmFNaTI/FUZUNxS1ym8zg+WFB8Y4igvl5L+ytq0n5eNbBUUMbB5zvwI3uA5
+         J8AkoR9nZOFFC6xWbEF8zetH6TyMK9HmO3ULvaNpQqN5SPw39kfbDoshIHAoqi2oKX1g
+         qEywz/8ES3ax/Yj+J+QBcY35Vm8rT6PiSmpvWVGmyGcSzNJA9sP1s/SlbnRnEXriZpXR
+         iDaA==
+X-Gm-Message-State: AFq9FYJQfN1WkJO3Z3E5ro0FPda/CWv6HXXO6a7GqGubJmPqJONO45he
+	aJRWXLv3yUgdpMRYNzFjXa7PKC+zdTj8+Yhetm2MNK2AWCQc8shkDrkN
+X-Gm-Gg: AYBFou2KnkQB83laHbg5d4WGq2qvWNLj4T2QnOCgPuiNyzP+iuA3f22ldfjldJeKrts
+	mvyZA14WzInhDzc+KukPdWmkLMkM0n1HJ7J1VzQqVbujQB1duIh2KfGpx3ALXGOe9s+DsjPjX9X
+	FbrituDiyZ5Me8JU8JZx1aUOPbAbEJ3dckLfeghfLq3XWpXyRtVcna35gb8/NnCpQ0N/B33rtrG
+	7aa+TQ1Gl1WTPI7sgAi+1qehLsUcEKXcVVMvxogr05jh18Ud2av1MrddlywftUc6EohboFdgFYh
+	zsE3kCmWVYHzWjIfPrEwKCDMZbG1Nd+H/xlAUKvrEtfMq6v82VHnSs956gy9GXndC/QRv4pnXNb
+	v6eOmYh8nh6ZmPiBz3mBRW70D0rq+trG0Cf2p4CJOXehRBsAs2QTqEAUJl2aq65c4cDKU8q20Ik
+	wKyGsW9nbfGRFGed24f0u0Q1nouHeA7QJvR7jznFX8fVOoDbUWpXvf0FYKr8NHJX9oouijuDsA+
+	wtZiCsSwR9o/i/LCKNJ
+X-Received: by 2002:a05:6000:4696:b0:48d:f1b3:7e82 with SMTP id ffacd0b85a97d-48df1b3802emr1743774f8f.0.1792018041592;
+        Wed, 14 Oct 2026 15:47:21 -0700 (PDT)
 Received: from Nuel20.localdomain ([105.118.9.157])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c1eb3907sm1071785e9.7.2026.10.14.15.34.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de7273a0esm10487119f8f.29.2026.10.14.15.47.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 15:34:44 -0700 (PDT)
+        Wed, 14 Oct 2026 15:47:21 -0700 (PDT)
 From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: corbet@lwn.net,
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	rdunlap@infradead.org,
 	mchehab@kernel.org,
-	paulmck@kernel.org,
-	linusw@kernel.org,
-	Julia.Lawall@inria.fr,
-	gary@garyguo.net,
-	emmaonana18@gmail.com,
-	hemanth.selam@gmail.com
-Subject: [PATCH v2] docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes
-Date: Wed, 14 Oct 2026 23:34:37 +0100
-Message-ID: <20261014223437.16164-1-emmaonana18@gmail.com>
+	aleksandr.loktionov@intel.com,
+	bvanassche@acm.org,
+	tudor.ambarus@linaro.org,
+	emmaonana18@gmail.com
+Subject: Re: [PATCH] docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes
+Date: Wed, 14 Oct 2026 23:47:13 +0100
+Message-ID: <20261014224714.16922-1-emmaonana18@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <87qzhsurid.fsf@trenco.lwn.net>
+References: <87qzhsurid.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,78 +83,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kernel-doc fails to parse functions whose names are wrapped in the
-DOMAIN_NS() namespace macro, e.g. in
-drivers/iommu/generic_pt/iommu_pt.h:217:
+On Wed, 14 Oct 2026 11:22:02 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
+> Neither of these patches applies to docs-next...what did you base them
+> on?
 
-  ... expecting prototype for iova_to_phys(). Prototype was for
-  DOMAIN_NS() instead
+Hi Jon,
 
-function_xforms is the designated place for unwrapping function-name
-macros, but it has no entry for DOMAIN_NS(), so the macro name is kept
-as the prototype and the real name leaks into the parameter list.
+I had based both patches on mainline rather than docs-next. I have
+rebased both patches on top of docs-next and sent a v2 for both:
 
-Add a transform expanding DOMAIN_NS(op) to op, following the existing
-DEFINE_IDTENTRY_IRQ precedent.
+- https://lore.kernel.org/all/20261014223134.14772-1-emmaonana18@gmail.com/
+- https://lore.kernel.org/all/20261014223437.16164-1-emmaonana18@gmail.com/
 
-Add a regression test for the wrapped iova_to_phys() declaration.
+Apologies for the inconvenience.
 
-Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
----
- tools/lib/python/kdoc/xforms_lists.py |  6 ++++++
- tools/unittests/test_kdoc_parser.py   | 22 ++++++++++++++++++++++
- 2 files changed, 28 insertions(+)
-
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index 15f6f21c7a9e..c9ce9bddebba 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -92,6 +92,12 @@ class CTransforms:
-         (CMatch("__diagnose_as"), ""),
-         (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
-         (CMatch("DEFINE_IDTENTRY_IRQ"), r"static void \1(struct pt_regs *regs, u32 vector)"),
-+        #
-+        # DOMAIN_NS() wraps a function name with a namespace prefix
-+        # (see drivers/iommu/generic_pt/iommu_pt.h). Unwrap it so the
-+        # real function name is parsed.
-+        #
-+        (CMatch("DOMAIN_NS"), r"\1"),
-         (CMatch("__cond_acquires"), ""),
-         (CMatch("__cond_releases"), ""),
-         (CMatch("__acquires"), ""),
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index 4baa78ca02b3..768a5f01231b 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -444,6 +444,28 @@ class TestContextLockStruct(GenerateKdocItem):
-         self.assertEqual(entries[0].name, "debugfs_cancellation")
-         self.assertEqual(entries[0].warnings, [])
- 
-+class TestDomainNs(GenerateKdocItem):
-+    def test_domain_ns_wrapped_function(self):
-+        source = """
-+            /**
-+             * iova_to_phys() - Return the output address for the given IOVA
-+             * @domain: Table to query
-+             * @iova: IO virtual address to query
-+             */
-+            phys_addr_t DOMAIN_NS(iova_to_phys)(struct iommu_domain *domain,
-+                                                dma_addr_t iova);
-+        """
-+
-+        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-+        patcher = patch('builtins.open', new_callable=mock_open,
-+                        read_data=dedent(source))
-+        with patcher:
-+            _, entries = kernel_doc.parse_kdoc()
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "iova_to_phys")
-+        self.assertEqual(entries[0].warnings, [])
-+
- #
- # Class and logic to create dynamic tests from YAML
- #
--- 
-2.43.0
-
+Thanks,
+Omokefe
