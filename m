@@ -1,105 +1,106 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B615505C2
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 16:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60703560AAD
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 16:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791996274; cv=pass; b=mlfy1k8lOMkSW+3uEqG3Fl9BAdLWD+fw8UqhAPX7XvXgPmDY4EIcvXVDVJ+WnB6h2QkVGGTK36AYiUPT5R1fXPmAtG0GWePUh1m0FTLC3+IcAX6p66a2z6IUWJhhoisWMc/uB4MnX2FQ+rM1CeNBFXLb5ax7zVVk1nPuNry9nYA=
+	t=1791996286; cv=pass; b=muQvEJ/PCQcu2m7U6phFBrDmAlgHh3EF89xdpzBzMlfwvVEJ+rKMVUbP7zS/A3OPAllUWYvaGfubA3oFZpATnQ3CIDEzix2Wpeg6IFW6sfUDZJF23Iah6CGqHxhOkQF+JBqFKo7fUtbilZ53Qo6/PnLao10CfD3vMztNcdcbQxM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791996274; c=relaxed/simple;
-	bh=lG5fR4/c9rTkKwB+dH11HXxHn5DhiwcqDirk4k17QlI=;
+	s=arc-20240116; t=1791996286; c=relaxed/simple;
+	bh=aCsxctc/xcnHv1pMHQu5CMpv8HUZNsqkMA91yRiQJRQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uBDomy56JEj/XYTvkoab6gapc5MTyaHl2+H8UD3EJi86JVzxmOxNMAUYGAqrBlhaj30CNaDYcwv2RTJXSJE0j/11xITf9XmsZsVBOMZF1hmkMXXe2gK+rBg7mZFjGrFZ5uOnb0ZICl+iJIdITfWrG8xtxYaLB3vwPEmisJSk0LE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dG5LMeCX; arc=pass smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ZWR06swWaT2Nf9YeN/UIZ+tmroWT1foqy2wzA7RRmHfEB1YO5u2P206F35m4YSofCTP2zbDLud3XQ9XqPvWlNOqkD8XpJLcOI8Jg/Z3xDBiJuXQ6bBOLFPjcjku8Hhy62rse0gqjhxEao2QoMpiLUIqPr0QpETAtRLiPKqWDFEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XVy1VTdz; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dG5LMeCX"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33e623bd651so514498eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:44:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791996272; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XVy1VTdz"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso41009375e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:44:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791996283; cv=none;
         d=google.com; s=arc-20260327;
-        b=A2PX7FbBV1wW4GoFyZ/XLAOmQKKhO3MX9+cuIr5T+FOOfszohZH3qTTwlyQ0KMTJob
-         Fu3AOe6580UmyLSpSipG9rfGBSxlzuqYpgdx3wo8NaQTM2WFOAyVdv4nEntjWr5t+foH
-         mL1hdzTTaOCdABF28pCTYxRUeDHvOuS27JaOHFMqY4oTwXBSw5KjW8AuUBXDqVzrGTIi
-         w357B3iWtp5f70uQAj1S2okevRMCAT42B5+4iGQzjwnLuY8VxTQqU7ee5Bl/xfYiHs8U
-         01/rYF1j5ONr+A6tUrNdUSrdmgq8ZNKxBXIuNOID2eg1BZDOa68SNREurclFgKC79f8L
-         3MRQ==
+        b=SJLAvMeII9YzERMws18CqWkLII9h4yxWvlQSafn/Ifrp5o8fDdesvLANPtg55tG2Yy
+         wlkjPGWT81KJBRG6/kSSuDd3LbQHMdd4/KxSEdv4l2Ty7jPo0niCaJ2+5rKaGbmQJteP
+         4r7TFigXqkPqlEUunuHjJYCBVG112eGLDHm+qH4uq6jXOEd4eWi7qIwhvBS4qn6y3ujj
+         diXC3e0UpZMnR75MDEdwlhjgJRnE8LzYmoSrd+U2MT/jMK0fiQMpvL51HRKFawuP/7+q
+         WPqmrH+nkURxuFgJs6y1eTQ4JmdCiHbk+AtIJiBfBgiCb2qRfAa/umAp8tNAhS4UKE9h
+         gBHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lG5fR4/c9rTkKwB+dH11HXxHn5DhiwcqDirk4k17QlI=;
-        fh=axoSvqg5aGC4Xx9cbMBd0zXvLMthcO0+/AyLYT/aScA=;
-        b=cg8O/uYdtIoxV9H1hPn4IluK8SRbFrbITh6P8hwrRF8le6oYgzBXz2KeRm3Xc/2lu1
-         vGbdcp+n8ff+Ef8zd1Y03whWX8tiuOecSzPkEfEQ/dCtVKGfyHutAs5Q4b1ck4CSQ7qn
-         UblpSywxf0T9MLUaUoguQx35vWIXGKWajTH/ehZ0/B4Ad52JJCHHmfRV9O601S0kJGeN
-         mE7ryeNoyc44Kws+VR+r7aFrV6dLTh+MqfLHZF7WY8H/hPoPiYTJTHhXWcvWp/RgSXb7
-         22SWt1JsdXSjgjJI9S5fr7kWjqUNOTC38pb58nhkSuory/bWA8VxRSJ566saueQPHW1x
-         BWZQ==;
+        bh=hsPwLhsDZInozncTdS3m6Cc033xIb80Yu7bEmy4I9fE=;
+        fh=jDZMerXUUa7aa16FpVP3QaSBS6XYkoyfe/ohZY26xac=;
+        b=ci4YnGaajCpkccDQXeffQpyhBiL9iiJ4hhCiLkzUP73gBCG/uFVITNXRRdB4w07Yng
+         cd9HhRpvolZHkpfYUtIfh4o2bMqXtblgHxdSCk9FJ7s0wtbqSwaoFvYL62epZHuaWFxb
+         i5FZ6H/CzxuphdYThed5VM2VPSMgI+T3ovxIMXE39aQY4pdSiQF43oOhHezxS4ANy5bv
+         e2CJ9MZNYL3rfUoc7TdtFDgHn7OgodJqykQ5+hxuMhLi9YCl0T4qHDusoaAGTZCb56jP
+         PCXJZRUfqu5aGXalmUk290tPPD+lQo6E+eAfTNdxPwP7IE2bhE9tuBAzImNEGvWScaU5
+         plxQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791996272; x=1792601072; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1791996283; x=1792601083; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lG5fR4/c9rTkKwB+dH11HXxHn5DhiwcqDirk4k17QlI=;
-        b=dG5LMeCXSiSbpubk/BTMkvWJ2dvIK7jFfkGhSVKuiPvEccVQI9eRP/pY4aiG8kSDk8
-         sybScDEKYa9pUjoob3fVfnbNdFtdkBXsSjpfjP+bPyBK5Chd00x6HJJ7X+HteLAY7JfU
-         o4429zXiiE7e1UOccLBxgzcZh+G/nI2B8bjb9YKWi7iAEGL16Iblz9B6MpdkbUl3G+Fk
-         3lPFokI++jDRZ0Cwvj1/64bOOygK5BR8VGYFxRHD7siF53FrkARVocKqUOcShcj0hkn2
-         gYiKlI7ykCQvFk94TVoBL/XLbOsKN6gefpMbeBOS/eufSnZP21bV5ckiClL1WUdGnm6v
-         +u4g==
+        bh=hsPwLhsDZInozncTdS3m6Cc033xIb80Yu7bEmy4I9fE=;
+        b=XVy1VTdzq25mUFFqhWjSZoYY6RB8T8Sfq9yzmXB8hctLA1wT5xxF79ySOTctmXPkvg
+         pxBZANS8TYnM1kcpylPDuknUwRsmTpt4bmVkw9CeY/0Am+QRFEuOtZhf1FKSu93lfedk
+         dsPqeLZuW9lq4l2+YpXGZJ1nJCAy2cV/gzhdLu5Us9BpEn8c9wjPOtHz8+KelWtdoTpo
+         gZczbRT5vgc2YCEp3uVt8zABLCW1XvsmAsticJ2r0HU3/61uCpy9w+78S3X9Tom8IOmd
+         5AFjVudJTP5S6D8uV0qO07uty7hprnis9+zWgB9onASYfWAj6+bVQUD1KIH1xYz2o14c
+         D/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791996272; x=1792601072;
+        d=1e100.net; s=20260707; t=1791996283; x=1792601083;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lG5fR4/c9rTkKwB+dH11HXxHn5DhiwcqDirk4k17QlI=;
-        b=U0vLvaJZ5j2K+s4fLbF4ilnjt6MDd5JXdR8mDcRlBH/dhdlXtLHI3fGj1/orhAU9ME
-         M4ue229mOiVt60/GTvpljzzZc11vjIXwZFbuQjbdSSYEzEviiZlseRJZmB7lB+pL3opj
-         OfSWoND7eyxJ3i7xewsoKvdxLWsVpulJbUqMfsNveCpNSb5Sqo3y/1aK4G726z7Sg8vj
-         zrG8/p98tjWqXqnBplsymJIDjx3TQ17nRIKkdKczOmcTzfuYewchJ3Rg48jNAJduCHZQ
-         D4O2AdMWw0a1lyk24G+dODGh4u6bHlRWJStQUbs2WjmNHvBaPBxdY9Vj3sHC8azo5aMC
-         VBSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzdJ5HmvOauHneOhGqvgnapbbsYpWnlDSOq5OA9qs2+kPZhGHfl4/kbXY57Q3BX3ZBG9UCQUjg9klI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJJbfGPFzExlye5eWzUFK//h8LeJL3yCwsbRfarOvM90ZQdphp2
-	EWh6WKtiOpdu8iZmlxFncky7odjFedMHZm/CsAOJcDRGSP38ig7I4G7YBjK2H5eunhL/Q11Q2lj
-	62MvNg6OY6O+4yHa0lKlNboXKgmpAF0c=
-X-Gm-Gg: AYBFou0pYJlomjpHZZhRwiWzffCzoFF4K3jIuY2EEr0yONPgV9idghPBnuzkPrePMf0
-	me8DsC08B3iYn1yxJPWYi5B1ji3LoSwxvycWtO9Lb56wRokqJuxBqERj4IbtQweY3uzJ/vhTXqS
-	kMlgEbPmtSIBLRY7D+Gksx6i6PCgEVEmTWtIuzU6qGM1tXCU5kplHERjEIW162+eInio7f59PXS
-	zS75uhWtfdjsNh1l75+g7lPagFAqao1nRzZn6bj6FOT6YB3NcEao49UCWcwSHESGkonG2APMRup
-	s4Km+PCqgYrM95cvTo8PrlqOtcWYWhGaz/c0WLVc2H5HdKBfHWoUuGN11Ve2N4QQVN7BSnYE/pu
-	Z69zgk0Id8EcUoV/o3ncReD2pNRoBhWCTCypU3vfjB413hkyH3Lx9vlDG8klQsmT0KjA/pCeJXs
-	ktxkw/guVzUaLvSjt6zfS5FMkARaIZkSDlLUlIDuOXzZuQTYMmQN0=
-X-Received: by 2002:a05:7301:5413:b0:358:c9f3:b055 with SMTP id
- 5a478bee46e88-358c9f3b260mr28158500eec.1.1791996271702; Wed, 14 Oct 2026
- 09:44:31 -0700 (PDT)
+        bh=hsPwLhsDZInozncTdS3m6Cc033xIb80Yu7bEmy4I9fE=;
+        b=gYORBVxQiHzoypHju/hvYtM6uKwWNp8Jd8eh6dskSJAeE3WxhuYWZsPLaFJqEpfHZk
+         UmCE4tIEjKJN8qiCEBn2get5dW/F7H039d2K8eDp50I+f0zgcB3hTwfZY/UdzBqrwDkv
+         oafWed/NRTVqF/IYW9HS9ubffMR11O3tsQgF0m6eKh0jWXp3AHYm41pS949886jN2ZHp
+         GYfIRxRWKeGju/uI6+RzLNPSaPUB6Go5mhI8QBqX+h6I0/fvM7lYVRMbAWXNyBp+88th
+         we2vekYJ5CAmsNBy3NrF7hHUAzv4LJ1D6fm3RGJoZAy5mIgA0QrsUPC5qqqp1Gzi7Faf
+         GGXA==
+X-Forwarded-Encrypted: i=1; AKwUvByxA+X67htWGOTtn6oBGOr99eBzxLmRJUjF4j8nVuNSm+qhvs9qZPBGYccfd27/4UcSB6LFyWUpuxo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKUvPjxGpzBlluYkNuV09sdMSzpV6jX0Cl7wZOST6BFtCiGCJBJ
+	SRQEVbwpYDelqaRJQvEcByfOY2+C4AjjncgeiBhhuOyM/jPH1yGatgCvCjjqnIfNjqJu7tSFbgg
+	qgF+z0hpplPZ3XGzN3O6Slc0j02+WVq0alFLhLRmw
+X-Gm-Gg: AYBFou1LJq/t2ffZ9nGG6UKQ2cKoIqKZ/RwKxlgbjyZiTIE5aJlpJazdUAj1UAjWypV
+	BgDwCYQXr8aZht13JhLNkqA3Wm75+EDVLY6jXvqZr8dcjuUBy6wb3Gii9hbDZOslqBNLJZbw0XY
+	tact2lX32fbx53aMyF3yBvXeQXn5pnXg7moFlry5P2IGfCl3EUQSSfYGewAVtx+5v40ViKH4gqj
+	jmMVM9P+nTPKfyRg2mg2RWseCEYhmCfLM1LDzM1D2bWiqivMQuxhDZsSZtikASzpzKV3QPeDZQM
+	KyZhaYNHh2bJMPX31uSUHHvCuSnoJc7a8CK+v1sbYIjJRo0Z+V29YZYYz8+uuhge35ZgdEZxOPG
+	NDh+Ayv+8JmHbTwLTRpa2gOnfpDdkxNeus2IatOjUmyBH/lDYMz1kPygQ9b2IXnXemqFS/jNNym
+	3BAVW575ANWPcPPfp5qA7PI7Y/xf68pPgPIH9hZLneuGnRxrz4tFWr
+X-Received: by 2002:a05:600c:354a:b0:49c:d019:70c5 with SMTP id
+ 5b1f17b1804b1-4a18e3ef23cmr329192565e9.0.1791996281614; Wed, 14 Oct 2026
+ 09:44:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261013223946.1836757-1-irogers@google.com> <2026101425-why-boring-4f2d@gregkh>
- <202610140932.5F9CFCE5@keescook>
-In-Reply-To: <202610140932.5F9CFCE5@keescook>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 14 Oct 2026 18:44:18 +0200
-X-Gm-Features: AclHuK_d31yoge0njHjovdIQh7JfJY6W-PLjzMLBq14NjY-schAqigzEJUAQwG8
-Message-ID: <CANiq72=4WQ1B1oCSW=69u_Z=FFLE56hYCqDwWr+poQdzSTS31A@mail.gmail.com>
-Subject: Re: [PATCH 00/11] kobject: Require explicit initialization of struct kobj_type::release
-To: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ian Rogers <irogers@google.com>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+References: <20261013223946.1836757-1-irogers@google.com> <20261013223946.1836757-2-irogers@google.com>
+ <CANiq72mLUh1JB=9e=tqStuL_H3=Ormx5v-uFkCDp-0zZm7tBrQ@mail.gmail.com> <202610140937.B68C8C9AAC@keescook>
+In-Reply-To: <202610140937.B68C8C9AAC@keescook>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 14 Oct 2026 09:44:29 -0700
+X-Gm-Features: AclHuK9LUe2FvddsKjj0vYiArabpm2vrSaqioSsrjl7koqqOn_VyYRh6l-6milM
+Message-ID: <CAKwvOdm6nO6skW4-AZtmzpGoNyO126L_AN3Mz2fu23+3QXcshg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] Compiler Attributes: Add __require_explicit_initialization
+ macro
+To: Kees Cook <kees@kernel.org>, Ian Rogers <irogers@google.com>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
 	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
 	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Viresh Kumar <viresh.kumar@linaro.org>, 
 	David Teigland <teigland@redhat.com>, Alexander Aring <aahringo@redhat.com>, 
@@ -120,28 +121,49 @@ Cc: Ian Rogers <irogers@google.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2026 at 6:37=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+On Wed, Oct 14, 2026 at 9:37=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
 >
-> I'd really like to have the attribute available, and I've got at least
-> one user I can apply today that don't require fix-ups (seq_file), so
-> if Miguel is okay with it, I'd like to snag patch 1 and send it with
-> my seq_file "first user" for this coming merge window so it's available
-> starting with v7.4-rc1, and we don't end up needing to wait 10 weeks for
-> other subsystems to be able to use it. And the kobj fixups can continue
-> in parallel. Does that sounds okay?
+> On Wed, Oct 14, 2026 at 01:28:55PM +0200, Miguel Ojeda wrote:
+> > On Wed, Oct 14, 2026 at 12:40=E2=80=AFAM Ian Rogers <irogers@google.com=
+> wrote:
+> > >
+> > > +/*
+> > > + * Optional: not supported by gcc
+> > > + *
+> > > + * clang: https://clang.llvm.org/docs/AttributeReference.html#requir=
+e-explicit-initialization
+> > > + */
+> > > +#if __has_attribute(__require_explicit_initialization__)
+> > > +# define __require_explicit_initialization __attribute__((__require_=
+explicit_initialization__))
+> > > +#else
+> > > +# define __require_explicit_initialization
+> > > +#endif
+> >
+> > The LPC slides mention Clang 14+, but from a quick test in Compiler
+> > Explorer and a `git log --grep` on the LLVM repository to confirm, it
+> > seems the attribute was introduced in Clang 20+, no?
+> >
+> > If that is correct, then it is not available in all LLVM versions we
+> > support (LLVM 17+), so we should add:
+> >
+> >      * Optional: only supported since clang >=3D 20.0
+> >
+> > With that:
+> >
+> > Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> Yup, I can confirm, I only see it with 20+ too.
 
-Of course, please feel free to pick it up (with the small tweak I
-requested) if you have a user.
+Fix up the comment and have a coin, witcher.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-And if you don't pick the user, I could still pick the first patch up
-through the compiler attributes tree if you and other folks want to
-use it after -rc1.
+>
+> --
+> Kees Cook
 
-Greg: adding the attribute itself should be safe and would unblock
-others that may want to "protect" themselves, without having to wait
-for every potential user to get fixed (but of course I agree they
-should get fixed -- we should not forget about them, if that is your
-concern).
 
-Cheers,
-Miguel
+
+--=20
+Thanks,
+~Nick Desaulniers
