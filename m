@@ -1,176 +1,114 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EDA4FDE70
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 11:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975961; cv=pass; b=rvuoQY18zVUqQyKCkrFs2tOAD8XV512TR49FshdL2FMKU2QTv6KoFw6T20A69xRdNGUX/lGrFBpiP4nFwOCSLNyKrf1EB3/Eemo+JzvP+MWWmlOunhjPOSTmr1UxFd3LxACupLOqCrigi4yXJRKtBXHJ12kpB6//w12rsKm2fWU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975961; c=relaxed/simple;
-	bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CKWMzCEDlfyBo7Mmg97c52RJjmUPPEQL/lW6CIw8ZHWQaIMBjLedc4iP544yM9NjlorRo/8uDIsKgeJ4dQLQl2+MWS3XWasRn5bffviGUoiNndecFxvig+SSbsmvh5+9lpAozYzEiv3S8mHM1UP37r1Uiaw+RV60UkViC4pkpDo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YJ3g7cjH; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2913C4B04A8;
+	Wed, 14 Oct 2026 11:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791977025; cv=none; b=eeyyEukYK3oXJFVgfxAgJgGzu+cr1vvZk2ZCXRo63yGbrb68GeexfSuHwHKGSUvMryys/OfUj2O7wmcRHt0yl9cCP8lGB3L1J9t+gwCP+XymrlgpjvRjrPFqM4JZPAN5fCsBFE6F7xKGYaYbFii72QpGmKTPlc1TgLDLY4EbmlU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791977025; c=relaxed/simple;
+	bh=Q+RVusbeLdi8XIJXHf3HTvvYMVAilyCBSrlI/wes5Vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hLiS/JvasZxeDDpUuMj525k0EDXkeegQ5E+VRyQyxcjxMXKUMPHTQK3u3ULU07SxkTWpJYeR2qfzTq0SKrUQ6O0C/mOSRxaooXR2juAZOZmwSGuDFX2pogWhqGO3xvmsv0dCOnXC9irG6Ew8kbShUNREdavHkXTEFnuhob1X8z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ff7i8vxE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YJ3g7cjH"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2db33db4de9so212845ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 04:05:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791975956; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kqd5xPQsOgMDYLqjIq4MYhXrnscWwDZpsGJ83ihGo34kkFJ+4sjzlTAXl7II+CS7OZ
-         D3lvDDBBInJh3DaQd2U1C5SLSiNw8semDKF/ff6myCVrxEBNwvUOwXy2Asa8eKKwx2Ql
-         NMEc7FTGvN4aIEGG60Or0YOxZVs7/34l3Yyu+bX1TZmf9NYx/DEArLcglm3Ioddb0P+p
-         ClzeqpEvOhX2klbQ7QNu8ObuI3V7dj9v80M/lcOMrx1SnQuvcUi9o7WhFpH5yDX3bZWg
-         cMiX1M93xcSrEdtqeEHtsWDF04+x+NR4n8erXxCU4y1FXQx3tofqQ691y2clhcmKRhWM
-         soLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        fh=ef2xZHTLpRf0PiWmJoG7t4Gf+1dYNDRZUmENy2h7Yt4=;
-        b=rIcVDEL55mJUdcHwPZnCGy6644r7ODNToBjttuRKvYBF0mMH2iHutSby6bKEx25UV7
-         esevH+OjXVG5V9heoxD0cAhvQqWcNJ9bWK0QfVishqurBPv1B6VOPkOe8daNOmYcu9il
-         oHciZ3XEuANfYwZlixp+OrT3wvl+Z1lLGpQ8MZOb+zmg852HRNcv6nRLv0cmbltULTDi
-         fX9rqngcU4C3DAWPVwxQhk4BCxHAFgT/hKXPZcnVaZjKo+Xcs1/E2dDnraY6QM3SoS2y
-         qVK4w/ck4dFidZCAOI0aAEULP6iFfoQ1ESAzzbMCpNMMsIQIhtJI4L127a6Qqhsw70xN
-         /FDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791975956; x=1792580756; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        b=YJ3g7cjHMpm7TU8HvtpzJwSEN8H+q5OGe6ySUTtM/H6A5nduWlRHZJ/SoYWbknr+oR
-         WxXylTt012xWuCK43avh36CpAlVfVM6XDBxYX6A/UiyHUWj/onilcDN02WyBWqGR/0LS
-         wjto/T9bbfmolLeCoL7fKfNIvcgGp9bnyGaRh4bDWRIulY4qtm+Ao241Awqxve9VsSDB
-         X4bq0qbqIAFVwVOLKmcgnLrqp1H9qRdoL0RT/fv3cseDN/64Zy4hhpvjccBUSeJmLjh8
-         NVF16ZbmlIzEmI8pWK2ESTshLeWphtqx7OLEINl26D25miLzIV9jyp0gQdRfPeqAbv4G
-         8Y+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975956; x=1792580756;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        b=kX4R2hFzy2FqEMTEY4HRUsWVVuTIuIXVpjp5wKuqgiYzO9Jipj4ddOKhaCR2scVAG8
-         v6dulQ00pcW6/vl4UPJgy0s6My9Cy5KzMmjd8rZBcavxtnOIA2NCMyUpqGgZRpibfZO/
-         MnI6gb9dI1f+iRSzwtJeVSjFKMhg9kaNFH20JM5qTKL7JCm3qXhtGS118R3gPW4e9JCt
-         hwIHAc0/0Ycqs78qFqHhnyZT1NH4qXEn5mtjtCn3OVEOEoQsBL58FYrG05SbSfUKdYw1
-         qcWeVqkIMhOYWzCFMCViuQSVhr8zn34RetKcc88Xe4/x0PTXS+D/b3ZFBYq/8cizrBu4
-         uCmw==
-X-Forwarded-Encrypted: i=1; AKwUvByB8Jj/1ENi+pD/pG55yaILnw81dbf3qDYcuzJ542+ikdOOq5dKG7TbfMxEOhgFSGXuK6T552Xk15U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJI8FLT9XtFAZC6YgvowNnH895NaM8A9s8GNTwh/FT8JtbfJbbS
-	9vxi7uZ7IgzbSTDMDzsjwGKaM7FRT9hPoSDIrE9xC6p7eb2Gw0mL3a/Y/obBiz/tvPWdLLSEgtT
-	s6PN1W/vXHqiDjNx+efWIl0UaG8tV6wK9LUtKSCFM
-X-Gm-Gg: AYBFou0NIFxeRYy1oHzoFn3Ct2EKTdh6YHZ9uvwpPSGPyvWN0Q6Mhn84eMy+6j+Z2Wa
-	mn9aXqd7qWM8mZRVJ0g5eTAWaHZDUc7ylyD2utQrLXJiBROHY6jaMicg2fNPpLreh+vKAzcHdjy
-	amfJioXZmCCy/4XVsseGOw6V+vS82EAKx52jtja0MtYxurs7CJyumSK/1Yq3e56QYQMNjLB4xSg
-	oHQIccEE3gd0N8k+kOYJJPnGX1MRf4jiqYl0/MoztEc1Pi/ZlHsNGH4Xoa9yUePQq0W69yd/mLh
-	tuDALzq8AGnoBVfbJzmI005WLNAcRqOswgT5sLWD+viMIcCmF7fcu00P
-X-Received: by 2002:a17:903:1a2b:b0:2c6:99be:9dd with SMTP id
- d9443c01a7336-2e939d0f5c2mr3033515ad.12.1791975955291; Wed, 14 Oct 2026
- 04:05:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ff7i8vxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6AB1F000FF;
+	Wed, 14 Oct 2026 11:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791977023;
+	bh=JtekSZWk6e4uCmIrYJHo0FATFAlPDVmFTKhPQB8voEQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ff7i8vxExXHeIuDPOnYsN54xDzxoUFP0iDWue5CcR/jHq18/dEGKXUahZrI/fFpEq
+	 R/Lz49mqeD7x00fblhH5F6w7YeCEDM5iDbzkgeGH0IrtcbbUzSUVWd7/wvG43q19vQ
+	 Ej7b1nrqJayVTmUuwp2kstkEWbkJul2wsQRUI7q/edQqm4ZB6p4ydSIjaX6eA8NLvb
+	 v+QsUl9Pxni2WhwM1byepXWRKGWklhefLsO3HZEqaAu7GwIJgR9oj4iZJ2xR3uOuGn
+	 nwDvySCfjxLVsxlR7ANobTovTS5RAw6aodkObP0dyDAf5t24HMsX+2SipRPgLJKw0D
+	 MTOi4GVM5ltMw==
+Date: Wed, 14 Oct 2026 12:23:36 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Theodore Tso <tytso@mit.edu>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <18b8cc5e-477c-4ea4-b829-11cfeb85b0b3@sirena.org.uk>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <as7uqZn9rQ52USwy@mit.edu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <4fda41ed-741b-4c5f-ae83-e3ea5a447441@arm.com>
- <75c229ef-ae41-4072-9c90-98d4779c52bf@kernel.org>
-In-Reply-To: <75c229ef-ae41-4072-9c90-98d4779c52bf@kernel.org>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Wed, 14 Oct 2026 13:05:18 +0200
-X-Gm-Features: AclHuK8XP34mfrE8lQUslMQMNc1nPr8ujKpQNMaoAI_u53qDQl4REr9J8L8QdAk
-Message-ID: <CAMOZA0L6hWd=PYLF2PkYwMG11JCson6Wp4Fy9B3k3VC0Vt2R0w@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 14, 2026 at 12:48=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 10/13/26 12:42, Robin Murphy wrote:
-> > On 12/10/2026 8:43 pm, David Hildenbrand (Arm) wrote:
-> >> On 10/12/26 16:45, Luigi Rizzo wrote:
-> >>> On Mon, Oct 12, 2026 at 3:51=E2=80=AFPM David Hildenbrand (Arm)
-> >>> <david@kernel.org> wrote:
-> >>>
-> >>> I had to call it something... an earlier prototype used the name IOMM=
-U_2M,
-> >>> but I didn't want to suggest that the design was limited to 2M (it is=
- not).
-> >>>
-> >>> Aside from the name, the _current_ prototype restricts to 2M allocati=
-ons,
-> >>> exactly because too large units are expensive and wasteful.
-> >>>
-> >>> In the code, decoupling the allocation size from the PMD size is triv=
-ial.
-> >>
-> >> Yeah, we should do that.
-> >>
-> >> We should probably just find a way to describe that this is a POOL tha=
-t focuses
-> >> on physical contiguity in some configured granularity.
-> > And since it's intended for DMA we could call it dma_pool and oh look i=
-t already
-> > exists...
->
-> Heh, I did have "DMA_POOL" in mind when writing my reply.
-
-which confirms that naming is one of the hardest problems in CS...
-Let's try to figure out a good name before renaming everything.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CcA2oE3jWqldSecD"
+Content-Disposition: inline
+In-Reply-To: <as7uqZn9rQ52USwy@mit.edu>
+X-Cookie: Live free or die.
 
 
-> > Sure the current implementation is capped at PAGE_SIZE for allocation (=
-and thus
-> > mapping too), but I don't see why that couldn't just be made more flexi=
-ble.
->
-> That intuitively sounds like the right direction.
+--CcA2oE3jWqldSecD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Point taken, I will decouple the allocaiton size from PMD_SIZE this in
-the next iteration.
+On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
+> On Tue, Oct 13, 2026 at 02:29:08PM -0500, Lorenzo Stoakes (ARM) wrote:
+> > On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
+> > > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
 
-I have also followed up on most of Pranjal's feedback (stricter error check=
-ing,
-compact IOVA ranges, opt-in per destination on the tx path...) .
+> > > > Ignoring is the only workable long-term solution.
 
-I am also looking at reducing some inefficiencies (e.g. pagepool already ca=
-ches,
-and allocations of new pages are relatively rare, so there is not much
-of a point
-of having a dma_pmd_pool per queue; and on the tx side, something similar t=
-o the
-percpu page cache to reduce locking costs when a page is allocated on one C=
-PU
-and freed on a different one)
+> > > How do you decide which patches to ignore ?
 
-cheers
-luigi
+> > Anything that looks schloppy. ATM it's very easy to tell.
+
+> I think we're going about this the wrong way.  What we want is high
+> quality contributions.  If they are high quality, who cares if they
+> are AI-generated or not?
+
+I think when people are talking about slop there's always an implicit
+quality gate in there, what people are talking about is questionable
+contributions that have an aura of AI assistance about them.  It's a
+specific term for a specific kind of problematic contribution.
+
+--CcA2oE3jWqldSecD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPZjcACgkQJNaLcl1U
+h9BgxQf/WSCVFPpSX4m0B9KCLYfKnC1r1/ApOFFUWVLEJ9S6d/UR3ojfdWYmaeP4
+ur4jEkPKBCXM4fN0s9aw9SBZEp3DNeMCvac4u3n+/jiw1GcK3POpgWiK3ls+Ogld
+Lwm1Dd8BcVYEdseCpOsczzm6oR3G+yC2T2C1mpBPTesPcyulwHEcrHwZWqAp4q+6
+D7KOcoOnTPcMo8jshtzTXTDIPTG1ujR3VCN/yxmc7gk9rOwWsin+jVPQm23s741X
+nslf8VoQ+IDUms/BDADvOFLXpQTCDeKOnWThHaWMU/3LbD8IZ1BjNsGHAHrXCFyA
+HkkKkpG36uyvIjkKM5ywrzRQwFy7hA==
+=cj2/
+-----END PGP SIGNATURE-----
+
+--CcA2oE3jWqldSecD--
