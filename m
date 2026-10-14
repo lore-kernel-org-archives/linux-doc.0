@@ -1,47 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD09E548557
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 16:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A82312836;
+	Wed, 14 Oct 2026 17:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791997199; cv=none; b=GspikfMmnh5dh1A5v9rTZlGyO3Vo9+2OVi35jXhtqUyi50thqxmF1WAMhnl7pEYUWsN7PeY5fDt94qf7/5plmyEhA69VGHAdgvfwVwZv8Z7KwE/oT4EBbS95Vld7MYqtxfZMB9u+oFOQUj4dCcbboSKhu02rkj6EboUBmBTSweM=
+	t=1791997322; cv=none; b=tURgQEKAu1vuDkFd/mXrFzxCrC23YFHu+Zzi7NmfzIamO/lgM/misLsc5B4GWMQb8JeOGfdSYaDv41TVSqBkIOnSlNo6Hw5VgsVSZ4WrgKSwrfYBnLsUMr4RX0wUQO5OjZj1HtWqzpuZKNaNRqgGU7IOS0nndnfYimo71LBBPNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791997199; c=relaxed/simple;
-	bh=zx5uqaOpXjVx6checB1qXIv+yr4JTgjMSfqqBLDYbi4=;
+	s=arc-20240116; t=1791997322; c=relaxed/simple;
+	bh=FHuEQlrJeSyFCnx0Sl6KYjcJChvZI4aji8nSCtEbPo0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EUlZjEosh1RETkrSh7xwrJMcH9m9HrKJJbFupwu09EinbBG9yD2m6M9b8fWFYYtArYb5E0HosBPVktmluBtWbAWDOPafQPsVzXxwkM7q10CcjeoX8FjirBi4fSB465mHitQMEwPySTQ9jUdlJAUpCixFfgWOtlcEUFPaJE859oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cDC2mb3Q; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=RyvorHOOuqJNpLj03rS73PLfbE/rUVzzcsdjiNMSp/DUUw/BH9VMZaegWbuUeULD7EWoadoLxsdSWbCR7aEKjEc8er1o83nMTsdgiJ4d+c+MjzdHGm3nW7BSojR89pckKRZU8Wf+xyQeSY5wfTCXsAXF1VzZZc6xgkVfiU3AG3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eT7p6b1I; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cDC2mb3Q"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C91E2408FF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eT7p6b1I"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71E87408FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1791997196; bh=ducWgl8t5YTdVPH0AVTzo2zU1j3LwoaeHRRiYQM/8mc=;
+	t=1791997319; bh=r2IDnp5QEPh+48VvYTqPgu9xOpF9QcmZVlg8exZ1OMc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cDC2mb3QJysizydSN0AoQlmakFRAS48SnWW1hFCQ4xnKISZBLnL84sE9+Y7tmerFk
-	 3hfxLeVZP2XIavdHaz0afO/FKJD0UvlFZyU778uPLMLNfAfxAlNzRB6d8WOBS8r09m
-	 Dt2tSfvgy0tdXDaDkQFEZMGS+7snlYsuJ5pJhrKay0kIhx+8l+rcCm76hBXGPbqXvA
-	 3asMSNcvA4qg+6Qn8DSvPQ6aALTPIxBc19TDF575R68lMLtNRoD+ZUrr6unRvAG21O
-	 P+/88BAMzsOKQRi201GWucS86Z8SSDlPfJyFd8OYqb1PrfyyE5K51/1l5nNb/YrHg2
-	 NxMPfndzKIwHQ==
+	b=eT7p6b1Iq6jlbv8lusfy3cx/LuCOugso2dpGUqWtXa2Ywjsbe2EK+UgVy2a2teg2Z
+	 1RjxIhjytkIIFHxdjk60zKDUc8I9EgPXNRSXhbQmXRaAHwqhUB4YXZfa8XeuP6Pids
+	 fLQ09QC8HL/sA81PXhmyTVd12S07//AhFXFIOkFdoL5V/wPI6McXA8/7Zb3CBJ1iKM
+	 bryuAbYx8xE13ndyWetLSqIbVCeBoTcOxGtFl7xQhCS+eck6Y7a1rnfzpUcl713+Is
+	 kNJbaN2l9kgyKZJZGnsN+zy/nPEqRj/iDsXUsrnQFpPJypwsIR24ZZwd3B/EySFT9L
+	 jm+U/5Zp1OsBg==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C91E2408FF;
-	Wed, 14 Oct 2026 16:59:55 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 71E87408FF;
+	Wed, 14 Oct 2026 17:01:59 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Igor Giamoniano <igorgphotoarte@gmail.com>, danielmaraboo@gmail.com
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, Igor Giamoniano <igorgphotoarte@gmail.com>
-Subject: Re: [PATCH v3] docs: pt_BR: process: translate userspace debugging
- guide
-In-Reply-To: <20261012234410.13880-1-igorgphotoarte@gmail.com>
-References: <20261012234410.13880-1-igorgphotoarte@gmail.com>
-Date: Wed, 14 Oct 2026 10:59:55 -0600
-Message-ID: <87jynkw73o.fsf@trenco.lwn.net>
+To: Akiyoshi Kurita <weibu@redadmin.org>, Akira Yokosawa <akiyks@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
+Subject: Re: [PATCH v3] docs/ja_JP: translate submitting-patches.rst (review
+ and report tags)
+In-Reply-To: <20261007004715.107860-1-weibu@redadmin.org>
+References: <20261007004715.107860-1-weibu@redadmin.org>
+Date: Wed, 14 Oct 2026 11:01:58 -0600
+Message-ID: <87fqy8w709.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,33 +52,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Igor Giamoniano <igorgphotoarte@gmail.com> writes:
+Akiyoshi Kurita <weibu@redadmin.org> writes:
 
-> Signed-off-by: Igor Giamoniano <igorgphotoarte@gmail.com>
+> Translate the section describing Reported-by, Tested-by, Reviewed-by,
+> Suggested-by, and Fixes tags into Japanese.
+>
+> This includes the Reviewer's Statement and the guidance on adding or
+> removing review and testing tags in subsequent patch versions.
+>
+> Keep the Reviewer's Statement in English and add a Japanese tentative
+> translation in a formal style.
+>
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 > ---
 > Changes in v3:
-> - Point the "conselhos gerais" :doc: reference to the translated index
->   (relative <index>) instead of the English /process/debugging/index
->   (Daniel Pereira)
 >
-> Changes in v2:
-> - Fix the title: "espa=C3=A7o usu=C3=A1rio" -> "espa=C3=A7o de usu=C3=A1r=
-io" (Daniel Pereira)
-> - Reword the ftrace bullet to read more naturally in Brazilian Portuguese
-> - Keep "crash dump" untranslated as a technical term (2 occurrences)
-> - Reword the Perfetto description
+>  - Use the current Reviewer's Statement structure from the English
+>    documentation.
+>  - Make the Japanese tentative translation a literal block.
+>  - Remove reST markup from the Japanese literal block.
+>  - Translate "statement of oversight" as "=E7=9B=A3=E7=9D=A3=E5=A3=B0=E6=
+=98=8E".
 >
-> The v2 rewording changes come from a review by Lucas Ramalho.
->
->  .../pt_BR/process/debugging/index.rst         |  10 +-
->  .../debugging/userspace_debugging_guide.rst   | 297 ++++++++++++++++++
->  2 files changed, 304 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/translations/pt_BR/process/debugging/us=
-erspace_debugging_guide.rst
+>  .../ja_JP/process/submitting-patches.rst      | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
 
-Please resubmit with an actual changelog text and we should be able to
-get this applied after the merge window.
-
-Thanks,
+Applied, thanks.
 
 jon
