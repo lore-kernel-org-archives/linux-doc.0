@@ -1,183 +1,396 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B84A6886
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28383497B82
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 09:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791967697; cv=none; b=idRfF3zwPA5PxDo79ks3+GTI5OK7qume13tdsi3mnUZVdtTx3RVSaeiiwETuXxLxjCxHvxAVrKaUiPfP3xGNRCBKQAnmBGhn2ROFkx4SoZubX3iUlQXptmUIMErx4Ngq6wJ9gb+z60GqzwhH2ibOM9ZG9I51peK0KAwEZvjfrs0=
+	t=1791968928; cv=none; b=B9Ocymz9BxTsDCU2uQ0Rhnz9waGT3qf/H9o7f++FgLWH+xIKZG08Dnx47b++WGOeiccdcW1gIjvTcMXf9+WZ7hnlcj1dCESQGbW94FI3OljlvcIJiz5SJ+vGTU/HL3aud1HJaObRfgH1o+Zw38dtmuySNIfWeAyuqaGB7oycfXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791967697; c=relaxed/simple;
-	bh=ZGqvc7d+/iYrqhuRbrEYA2op0jAtZ/zizqGfMe9nFrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SVnQYkleFiCEWjvQ4j7mbwRbUyxu90zgYFTvLJc8eStZiRnYL87sK5m3AOH4+O0jJXIJhNQDcpQbVdrhRbChpwvHoxYJmFcDjg9jrtLNCVLlK7qbipmyM5uUJX90ni4etEWzALlwNBnqNqLK2aU2xpmbs2JDa8Tie5XP6ZuNvkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YbdfmR7q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NcC2o7ei; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791968928; c=relaxed/simple;
+	bh=Pe0ZjbdtqJ34ZuVR03sAPd5IzlevgH/YKkeJWSISC6o=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Jo4WwtBetFX3LH+weq26dPPoCwCaHIlPYfqNUvtAnCBpKgphuJBJV9NRoR48/Udz8DmcT38rZecfA5JZ/i9l/8HuhCODC8mYgyqQBdrwRYDzgFSQeKArmvv6j5bz+Ld29jjZbG71nMBYKbo2VYTiIiNfeKeLLFichRGO0hQcMi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dsLW9XuG; arc=none smtp.client-ip=209.85.128.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YbdfmR7q";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NcC2o7ei"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E8iAHk3000934
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=; b=YbdfmR7qFW3G1rkd
-	xmFuSJ2t92YC+447QJXN4AnFyDwRGXJEEKQSf+qjHKVVHGOKuxLEzofy1ukzFJct
-	POuUR9Hh//xyLs7vIQ+RxePCDXbADKxzlPdH/87KdqcSFeRrmiuLDifz4nfzglMj
-	8mYliWndv3ZliitjvIPjeN1i4E+OylEZ7xL80dJSQmNbizI1Zpp+fDS2HDRDbxs/
-	NMknhlL557L6rPlbwSJjL0Qt7s5f+Js3PZKLMSst6HHX1DueoJ6vfs3UTUZHqdOc
-	UctsWm7C+uCF1EbIk1WelpaixW38Nhu+5v3tjT17q7kAMSZkAURostJH08ZQcjrP
-	8zMxeA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9sbeu320-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:13 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e818ca61bfso7644455ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 01:48:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dsLW9XuG"
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a1ac6663e1so15034975e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 02:08:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791967693; x=1792572493; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=;
-        b=NcC2o7eiTghpUOBD4X6Dsj6Le1KI8KPwLZr6Fg1EsfV6yPNxv0sSLc7o5QNh4ZKe94
-         ymO2/j9UUvF/ssamBZt8cCdcfAK5zosrEBcwsM+2S+EjMHh8HeTqsHW5YgnHiJnkNoPo
-         GrKyQMLsR7sKcaQ0YARbqvuZOInqVJVuuXU+elMGHcclphRCxCfaTL9Xv6w28PN0q2uG
-         eRP+EA1W6RNMQ4Mzh3poLoMVoCvswNuxFzIB0DrwLkjXjc3sR4zWT5DPE3swMlYmGkhT
-         pHjo6EUWH8+KHMLzpr4BLEVmk2soe8xCApXjj+T+G6z73UMdMYtcsG8/ubrutBU4Mi7g
-         VEAA==
+        d=google.com; s=20251104; t=1791968924; x=1792573724; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:mime-version:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=yNj7ZKyhQnUw2YiRQPZiQ8batYyqgFaaTZueylCQvsE=;
+        b=dsLW9XuG/DeE68KAR7F4sVocsyqLIQiH1ZSZwd46BeVrvJIy7NmhSKSlWwS3ejXVTb
+         SafRhXjFLrtYSFeLsUAmge5NCI0EY1Et6PWxyoKydmuqFUk/a8rfgDF6FGQL2IWnkkb4
+         EgTkqSWINSDTvioACOYDyezrQjCDcwfvDm8f52l7n6ndiUrtCbB2GzPk5hbSDA8y+lX5
+         36mbbjoLNGxLuI7fX8kpe953cnQpacthReLTp+Q+dBw/LD72d7b1svQLjIBPJDYJpZ+m
+         oP94Bos4i2cYh547TP5YRQ2gBx3RDD7JP8OwAEH4g33+wdS92sVHhYA1T3t6J00kf8KV
+         4Arw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791967693; x=1792572493;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=;
-        b=h1frfaXg5QEVG2AtQv1cCj2Aa7+tA92WdyivNaOAZrXlSS78b7IpqljGiuuktXPw0t
-         8lJ1Qyn25VpUwICq9OqFAUE/nHWCaZKhBe1HY/qDhVibzhc6tOoImq8Xl3n62z7hoEcs
-         9BVv+5bhx3xs5lVEEJNO0veLV1gl+sc7uqX6F0dxI+jSCVDRARcbPWWzYWQeh/efS6Xf
-         k5AgLMjJkbQAzcwGydozxvfcwGtPEKOKrrrbClQbKhJy6Cd9dbu6to2wkCJVmCusN6T6
-         X3iWwl6VSwcn7p61iXe59w/FkTxWPVwW1nyVdVXtkOlrxrDVRi1NWmux/szjlbROJJhl
-         GJ3A==
-X-Forwarded-Encrypted: i=1; AKwUvBydNQuQemYIGaWuZQdYqweCgih9PJkr7Ti5nI9rfckgvpzG4yejlzOaCNa3ySgaPcQ3yEgGLLIrZaY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYITd1HC8+OnURe8z03efbqCT1DjirOd7SqgNBSqjdKZt+dpJYbT
-	KM3sy+FbkCntYS7wgQZQaQuoLT8xqiFj96pJszHkw98duvsKBYY0H2DT3hrVr9n7bLLCfb2+Ed4
-	zH25xWBsqv7v43JDvrxVIRwHeLHIZdDXgXujJdvvS2FfFWbHQ4Q0D3nOI9p2/pdc=
-X-Gm-Gg: AYBFou04xS395hu07jfNJpKKffJbXu/0O9KiB9yJCePKyUnG8z1CI0AQ9aQeqlPrzU8
-	+DRQvVkUwpSY8aMB5ZX2bcb1lEl+gEVyLY+J+ramCEC6hDhv34M5+55RnwqKqj+vIMGg56C1b58
-	SvVmmPxQKYAiDP5dywV3aiGmyY58ZdG59L83Z1IBLAlOLE5UD+szfbpn6VOMwpVo8KLQHdf9Osn
-	eDP6R3WcEsu4eCIXcMaLTvUuArprOtzXGVRBxw+ymZ1RF4gjc+SnaYgWtDkLqa9NS2ZWQFEymdW
-	ERmKf6QiaFsiUObMz/hC6+WrAlHl7dlpZv5jkhOVP6hlbFk0inDuC8xAdPCZxFWkNQTfpYUmNR0
-	7fC9ApSp9j06T3nNsqpOAQONfWr58RWOKIkm84fhjtbWIY/4JK5SwffXlm11G7tpL
-X-Received: by 2002:a17:902:f54f:b0:2e8:16e4:c568 with SMTP id d9443c01a7336-2e842cd278cmr129277125ad.37.1791967692862;
-        Wed, 14 Oct 2026 01:48:12 -0700 (PDT)
-X-Received: by 2002:a17:902:f54f:b0:2e8:16e4:c568 with SMTP id d9443c01a7336-2e842cd278cmr129276855ad.37.1791967692370;
-        Wed, 14 Oct 2026 01:48:12 -0700 (PDT)
-Received: from [10.133.33.181] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b16b3sm66817195ad.30.2026.10.14.01.48.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 01:48:10 -0700 (PDT)
-Message-ID: <c2e6d301-9f71-4b4d-a6a5-6be10f63efde@oss.qualcomm.com>
-Date: Wed, 14 Oct 2026 16:48:03 +0800
+        d=1e100.net; s=20260707; t=1791968924; x=1792573724;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:mime-version:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yNj7ZKyhQnUw2YiRQPZiQ8batYyqgFaaTZueylCQvsE=;
+        b=qfcw6ixVRTcNAIvw0LgTteWnV7maPyVVtKIoGBkvqaAxbtVb0yi1MowHxAIOqffx1N
+         NqSXgDzSfDCyT6TbGgW5no54krstu04fXAQmfCxRDsJO4q87H3AWqGBhnqEHxLuCArvM
+         ScU6UUMAip2ukKke4LCqjjIBJTV56uVdlERcwyYq/TwyWz2A8JinXKWI009aL9eWTGQ4
+         6WOw9WrY9b8gCcwsJMahemayef5AccHht2snRa9wXXZGJhamMgl5QOqbcQaZiw6c+KRP
+         9DPWYBhQzFDSEx8yWKc2KU54aoU886sQH8pd+8h2WPpAsoktPGH1BIXByBm/q6WY+gAE
+         i/yg==
+X-Forwarded-Encrypted: i=1; AKwUvBzX7ElF9yxEYbwOn07vmwdrmWcGDsUKjCldP/GW8UMEW4W2gJ2dX3GYwaIDH5Q01z2XVX638yi7Ipo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLnjp0XzIsK6cfDquH2pG15BwGwUhWalPwvvmVhtew31uBPwl8G
+	be2gMsG1CFwMb2Du7z3OEC5DFiBQhSs0j9NPrM7N5vVtfnkusSzdXCer16gHGGUbrAtNWcpp6/e
+	aR2UzwfmzztfwiQ3DKQ==
+X-Received: from wmbfl25.prod.google.com ([2002:a05:600c:b99:b0:4a1:84d4:a0a3])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600d:644f:10b0:4a1:9661:14b5 with SMTP id 5b1f17b1804b1-4a196611aa3mr173490095e9.29.1791968923883;
+ Wed, 14 Oct 2026 02:08:43 -0700 (PDT)
+Date: Wed, 14 Oct 2026 09:08:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 00/11] net: ethernet: qualcomm: ppe: Add
- support for IPQ5424 SoC
-To: netdev-bot+sinfo@kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
- <davem@davemloft.net>,
-        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal <quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com
-References: <20261011-qcom_ipq5424_ppe-v2-0-8c7b057e2c43@oss.qualcomm.com>
- <179172392274.2527009.4852578355298213005@kernel.org>
-Content-Language: en-US
-From: Jie Luo <jie.luo@oss.qualcomm.com>
-In-Reply-To: <179172392274.2527009.4852578355298213005@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 6dHYMAuL6nWIUSK5tL702kN1yjoGBOqO
-X-Proofpoint-GUID: 6dHYMAuL6nWIUSK5tL702kN1yjoGBOqO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAzNCBTYWx0ZWRfX9tucV848MX2s
- rnv8SG0rw0WjCzaYU5CLF+AAelPwCn8bibB+G31rg8UYOnYcwM4n0beU9fYLU1D3CnkRBDM7mmd
- Wa2NsJMk9iBWm/T+BbTjDWt/YYjWL8yx7X3FH5qUCXIQwJZmi3i7d4Sfrvfpw0e3dJ5wfGcxQ3B
- kWUTK9uVYoSdLBjIqLGCg8HJHsiIFFwnr4d2Ck13+mO+dTkB0aMePWgd8hmc+ybEHR7q3dyK+/X
- GGNxSA/s94FAStGztr2XIwfz+i3Ghr/S85/+wW5zmk5LoLXFVLgDjLwfmgqtU1GGjNRsWR6F5Za
- K0oWhFM7YUkf01RCGu1b+NQS4mTM4rUDEhF73nkp6cBnU1HviwlP1pd3Wq8/kK97BXnVchFUx+t
- +vIjQ0Ye1u7nvP+38MveXsygFcEXZ1L3FE04JtMJlUGc/5J4+26dOCZor2w2cd7YPGTpHNicsYA
- UYV8gIgxokkfG8xX1Aw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAzNCBTYWx0ZWRfX2zZuhthEeqvL
- ZzOmqmCGP8fZeB8AmoFi6WKSarE3idcxlhqKvw6Fzpl0puE7yJtFAuLWNwU3egts43B8099zEzo
- IcQVGfMKe1YhA3RtVjKHfCbfDQmZ/7Y=
-X-Authority-Analysis: v=2.4 cv=U7AHnuru c=1 sm=1 tr=0 ts=6acf41cd cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=wfrYX8O7EWgUh0Dss7UA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610140034
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAJJGz2oC/42NQQ6CMBBFr0Jm7Zi2KqauvIdhoXUKjcJgB1BCe
+ ncrJ3D5XvLfX0AoBhI4FQtEmoIE7jKYTQGuuXY1YbhnBqNMqZXeYRxlwDfHx2ukkVBmGahFHz5
+ 48FYZ5azy5gh530fKem1fqsxNkIHjvF5N+mf/qU4aNZIlV+qS9srczjVz/aSt4xaqlNIX4J17+ MMAAAA=
+X-Change-Id: 20261013-rust-workqueue-system-fix-5f9020c90f27
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11650; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=CkEMDYS0ZHIn6s4iXVju+TtmXA2gfi7ZtLcTMIzMHRA=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqz0aW65VWY1xCuEZuW8ormD1K6TIrIczojfZ0L
+ VzKcwtQHgOJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCas9GlgAKCRAEWL7uWMY5
+ RnRLD/9H11TwmmzHgRvlQlSqjuunj+IQ1FKVL0hGu7og+VjQSiHWjUiWabf0zEo7x0wqvl1pGfc
+ q5obfkqvb5kDzFMWIWS86MTMNdbUGruTRX6E0rWWtd2fHGayWYQtEcNo07Z5TOuLNcRV8fV7GNw
+ YEkcsxtnnlJnaX2hfwTXk8HNLYKrU8cvhzuPYT357FVw2iFjwgofaJ4rJCUi01Rcbsx5trtqmKg
+ VH6/LzzdpxWt8VTiPvoJUzo7mdG5Cr/CklJCsVO5sYKg4Vr6/mevHIu5Zy+PzGFbWrroCLYYOiY
+ u1eB8r1vj2Cnr9mZP+VAkhyC3t5hryhit/OQy0e88FxOrFkPVg8rN2hYqIyOqgeM/d2keWjTAJe
+ Sako/dPl894Dn+T6FpGXwFpNy5Ng5nqljD3kbm3gwm5LvjFLEFcDgdp5hjNEOY3PLzJf4LkE5mb
+ 6YL5LNBjPMS95wCbmmOPkRgpgQ1GuNZGBrGc27x31ZPRllMlzZ+uNhxY9V/qEqKqFj26o5j3iqg
+ OAx/a+V5pt57ZCF7mD1gy8wpHRuCQGu6FKn56/KDsXi/Ra8Tigrps3bAJJH+1MxSqGoTZbw60D3
+ lSKuZX2aHguaDDdQ6CB7n+dc5gF5aO5nXympMXPLVrseIHqugVa/qwbtvNfIN/iSNqpAQG3X+E7 Tl3MNmaArJKSlQg==
+X-Mailer: b4 0.14.3
+Message-ID: <20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com>
+Subject: [PATCH v2] rust: workqueue: replace deprecated system_wq with system_{percpu,dfl}_wq
+From: Alice Ryhl <aliceryhl@google.com>
+To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	"=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Carlos Llamas <cmllamas@google.com>, Marco Crivellari <marco.crivellari@suse.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+From: Danilo Krummrich <dakr@kernel.org>
 
+system_wq is deprecated and triggers a runtime warning:
 
-On 10/11/2026 9:05 PM, netdev-bot+sinfo@kernel.org wrote:
-> Hi!
-> 
-> This is an automated message. This series looks like a fix, but its
-> commit messages seem to be missing some information:
-> 
->  - How the issue was discovered, e.g. hit in production, hit during
->    development, syzbot report, manual code inspection, LLM or static
->    analysis tool scan.
-> 
->  - Whether the issue was actually triggered, or is only theoretical
->    (e.g. found by code inspection). If it was triggered please include
->    the symptoms, like the stack trace or error messages.
-> 
->  - What hardware the change was tested on. For driver fixes please
->    mention the device (and if relevant firmware version) used for
->    testing, or say that the change was not tested on real hardware.
-> 
-> Please do not repost the series just to address the above. Instead,
-> reply to this email with the missing information, so that reviewers
-> can take it into account. If the series needs another revision for
-> other reasons, please include the information in the commit messages
-> then.
-> 
-> The evaluation is done by an LLM so it may be wrong, if you think
-> that is the case please reply and explain.
+	[    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7_ enqueue=
+d on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
 
-As I replied on v1 [1], both issues were found by manual code inspection
-and are only theoretical. Neither was hit in production or reported by
-users, and the Fixes: tags were dropped in v2 for that reason.
+Replace system() with system_percpu() and system_dfl(), to match the
+previous behavior of the deprecated system() and convert doc examples
+and tests to system_dfl().
 
-The series was tested on the Qualcomm IPQ9574 RDP433 and IPQ5424 RDP466
-boards.
+system_unbound_wq is deprecated in the same way, in favor of
+system_dfl_wq. Since system_unbound() has no users, just remove it as
+well.
 
-[1]
-https://lore.kernel.org/all/4272947d-a9df-4cf2-b890-c2b2392800e5@oss.qualcomm.com/
+Fixes: 64d8eae3f895 ("workqueue: Add warnings and fallback if system_{unbou=
+nd}_wq is used")
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reviewed-by: Boqun Feng <boqun@kernel.org>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+This patch was previously sent as part of other workqueue series [1][2].
+However it's a fix that is independent of those series, so it's sent on
+its own here.
+
+[1] https://lore.kernel.org/all/20260726223613.1242940-3-dakr@kernel.org
+[2] https://lore.kernel.org/all/20260807165252.3849875-2-dakr@kernel.org
+---
+Changes in v2:
+- Also remove system_unbound(), which is deprecated in the same way
+  and has no users. (Gary)
+- Collect Reviewed-by from Boqun and Dongliang.
+- Link to v1: https://lore.kernel.org/r/20261013-rust-workqueue-system-fix-=
+v1-1-e9ec616e402b@google.com
+
+Changes since [2]:
+- Rebase on v7.3-rc7 and also convert the new SpinLockIrq KUnit test,
+  which calls workqueue::system() and otherwise fails to build.
+- Add Fixes: tag for the commit that made system_wq warn.
+- Collect Reviewed-by from Daniel.
+---
+ Documentation/rust/testing.rst                    |  2 +-
+ Documentation/translations/zh_CN/rust/testing.rst |  2 +-
+ drivers/android/binder/process.rs                 |  4 +-
+ rust/kernel/sync/completion.rs                    |  2 +-
+ rust/kernel/sync/lock/spinlock.rs                 |  2 +-
+ rust/kernel/workqueue.rs                          | 52 ++++++++++++-------=
+----
+ 6 files changed, 33 insertions(+), 31 deletions(-)
+
+diff --git a/Documentation/rust/testing.rst b/Documentation/rust/testing.rs=
+t
+index e3943aceceb9..73046523a9a2 100644
+--- a/Documentation/rust/testing.rst
++++ b/Documentation/rust/testing.rst
+@@ -97,7 +97,7 @@ operator are also supported as usual, e.g.:
+=20
+ 	/// ```
+ 	/// # use kernel::{spawn_work_item, workqueue};
+-	/// spawn_work_item!(workqueue::system(), || pr_info!("x\n"))?;
++	/// spawn_work_item!(workqueue::system_dfl(), || pr_info!("x\n"))?;
+ 	/// # Ok::<(), Error>(())
+ 	/// ```
+=20
+diff --git a/Documentation/translations/zh_CN/rust/testing.rst b/Documentat=
+ion/translations/zh_CN/rust/testing.rst
+index 6747d0012991..fdd88fa2fe40 100644
+--- a/Documentation/translations/zh_CN/rust/testing.rst
++++ b/Documentation/translations/zh_CN/rust/testing.rst
+@@ -93,7 +93,7 @@ KUnit =E6=B5=8B=E8=AF=95=E5=8D=B3=E6=96=87=E6=A1=A3=E6=B5=
+=8B=E8=AF=95
+=20
+ 	/// ```
+ 	/// # use kernel::{spawn_work_item, workqueue};
+-	/// spawn_work_item!(workqueue::system(), || pr_info!("x\n"))?;
++	/// spawn_work_item!(workqueue::system_dfl(), || pr_info!("x\n"))?;
+ 	/// # Ok::<(), Error>(())
+ 	/// ```
+=20
+diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/pro=
+cess.rs
+index 5372bfbd93b3..de5bca7f9fc7 100644
+--- a/drivers/android/binder/process.rs
++++ b/drivers/android/binder/process.rs
+@@ -1728,7 +1728,7 @@ pub(crate) fn release(this: Arc<Process>, _file: &Fil=
+e) {
+         if should_schedule {
+             // Ignore failures to schedule to the workqueue. Those just me=
+an that we're already
+             // scheduled for execution.
+-            let _ =3D workqueue::system().enqueue(this);
++            let _ =3D workqueue::system_percpu().enqueue(this);
+         }
+=20
+         drop(binderfs_file);
+@@ -1745,7 +1745,7 @@ pub(crate) fn flush(this: ArcBorrow<'_, Process>) -> =
+Result {
+         if should_schedule {
+             // Ignore failures to schedule to the workqueue. Those just me=
+an that we're already
+             // scheduled for execution.
+-            let _ =3D workqueue::system().enqueue(Arc::from(this));
++            let _ =3D workqueue::system_percpu().enqueue(Arc::from(this));
+         }
+         Ok(())
+     }
+diff --git a/rust/kernel/sync/completion.rs b/rust/kernel/sync/completion.r=
+s
+index 35ff049ff078..1771bfc0ade2 100644
+--- a/rust/kernel/sync/completion.rs
++++ b/rust/kernel/sync/completion.rs
+@@ -38,7 +38,7 @@
+ ///             done <- Completion::new(),
+ ///         }), GFP_KERNEL)?;
+ ///
+-///         let _ =3D workqueue::system().enqueue(this.clone());
++///         let _ =3D workqueue::system_dfl().enqueue(this.clone());
+ ///
+ ///         Ok(this)
+ ///     }
+diff --git a/rust/kernel/sync/lock/spinlock.rs b/rust/kernel/sync/lock/spin=
+lock.rs
+index aafc80125f59..92ad133262b6 100644
+--- a/rust/kernel/sync/lock/spinlock.rs
++++ b/rust/kernel/sync/lock/spinlock.rs
+@@ -450,7 +450,7 @@ fn run(this: Arc<Self>) {
+     fn spinlock_irq_condvar() -> Result {
+         let testdata =3D Test::new()?;
+=20
+-        let _ =3D workqueue::system().enqueue(testdata.clone());
++        let _ =3D workqueue::system_dfl().enqueue(testdata.clone());
+=20
+         // Let the updater know when we're ready to wait
+         let mut state =3D testdata.state.lock();
+diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
+index 7e253b6f299c..a872f9fffb90 100644
+--- a/rust/kernel/workqueue.rs
++++ b/rust/kernel/workqueue.rs
+@@ -67,7 +67,7 @@
+ //! /// This method will enqueue the struct for execution on the system wo=
+rkqueue, where its value
+ //! /// will be printed.
+ //! fn print_later(val: Arc<MyStruct>) {
+-//!     let _ =3D workqueue::system().enqueue(val);
++//!     let _ =3D workqueue::system_dfl().enqueue(val);
+ //! }
+ //! # print_later(MyStruct::new(42).unwrap());
+ //! ```
+@@ -121,11 +121,11 @@
+ //! }
+ //!
+ //! fn print_1_later(val: Arc<MyStruct>) {
+-//!     let _ =3D workqueue::system().enqueue::<Arc<MyStruct>, 1>(val);
++//!     let _ =3D workqueue::system_dfl().enqueue::<Arc<MyStruct>, 1>(val)=
+;
+ //! }
+ //!
+ //! fn print_2_later(val: Arc<MyStruct>) {
+-//!     let _ =3D workqueue::system().enqueue::<Arc<MyStruct>, 2>(val);
++//!     let _ =3D workqueue::system_dfl().enqueue::<Arc<MyStruct>, 2>(val)=
+;
+ //! }
+ //! # print_1_later(MyStruct::new(24, 25).unwrap());
+ //! # print_2_later(MyStruct::new(41, 42).unwrap());
+@@ -171,13 +171,13 @@
+ //! /// This method will enqueue the struct for execution on the system wo=
+rkqueue, where its value
+ //! /// will be printed 12 jiffies later.
+ //! fn print_later(val: Arc<MyStruct>) {
+-//!     let _ =3D workqueue::system().enqueue_delayed(val, 12);
++//!     let _ =3D workqueue::system_dfl().enqueue_delayed(val, 12);
+ //! }
+ //!
+ //! /// It is also possible to use the ordinary `enqueue` method together =
+with `DelayedWork`. This
+ //! /// is equivalent to calling `enqueue_delayed` with a delay of zero.
+ //! fn print_now(val: Arc<MyStruct>) {
+-//!     let _ =3D workqueue::system().enqueue(val);
++//!     let _ =3D workqueue::system_dfl().enqueue(val);
+ //! }
+ //! # print_later(MyStruct::new(42).unwrap());
+ //! # print_now(MyStruct::new(42).unwrap());
+@@ -1024,20 +1024,32 @@ unsafe impl<T, const ID: u64> RawDelayedWorkItem<ID=
+> for ARef<T>
+ {
+ }
+=20
+-/// Returns the system work queue (`system_wq`).
++/// Returns the system per-cpu work queue (`system_percpu_wq`).
+ ///
+ /// It is the one used by `schedule[_delayed]_work[_on]()`. Multi-CPU mult=
+i-threaded. There are
+ /// users which expect relatively short queue flush time.
+ ///
+ /// Callers shouldn't queue work items which can run for too long.
+-pub fn system() -> &'static Queue {
+-    // SAFETY: `system_wq` is a C global, always available.
+-    unsafe { Queue::from_raw(bindings::system_wq) }
++#[inline]
++pub fn system_percpu() -> &'static Queue {
++    // SAFETY: `system_percpu_wq` is a C global, always available.
++    unsafe { Queue::from_raw(bindings::system_percpu_wq) }
++}
++
++/// Returns the system default (unbound) work queue (`system_dfl_wq`).
++///
++/// Workers are not bound to any specific CPU, not concurrency managed, an=
+d all queued work items
++/// are executed immediately as long as `max_active` limit is not reached =
+and resources are
++/// available.
++#[inline]
++pub fn system_dfl() -> &'static Queue {
++    // SAFETY: `system_dfl_wq` is a C global, always available.
++    unsafe { Queue::from_raw(bindings::system_dfl_wq) }
+ }
+=20
+ /// Returns the system high-priority work queue (`system_highpri_wq`).
+ ///
+-/// It is similar to the one returned by [`system`] but for work items whi=
+ch require higher
++/// It is similar to the one returned by [`system_percpu`] but for work it=
+ems which require higher
+ /// scheduling priority.
+ pub fn system_highpri() -> &'static Queue {
+     // SAFETY: `system_highpri_wq` is a C global, always available.
+@@ -1046,26 +1058,16 @@ pub fn system_highpri() -> &'static Queue {
+=20
+ /// Returns the system work queue for potentially long-running work items =
+(`system_long_wq`).
+ ///
+-/// It is similar to the one returned by [`system`] but may host long runn=
+ing work items. Queue
+-/// flushing might take relatively long.
++/// It is similar to the one returned by [`system_percpu`] but may host lo=
+ng running work items.
++/// Queue flushing might take relatively long.
+ pub fn system_long() -> &'static Queue {
+     // SAFETY: `system_long_wq` is a C global, always available.
+     unsafe { Queue::from_raw(bindings::system_long_wq) }
+ }
+=20
+-/// Returns the system unbound work queue (`system_unbound_wq`).
+-///
+-/// Workers are not bound to any specific CPU, not concurrency managed, an=
+d all queued work items
+-/// are executed immediately as long as `max_active` limit is not reached =
+and resources are
+-/// available.
+-pub fn system_unbound() -> &'static Queue {
+-    // SAFETY: `system_unbound_wq` is a C global, always available.
+-    unsafe { Queue::from_raw(bindings::system_unbound_wq) }
+-}
+-
+ /// Returns the system freezable work queue (`system_freezable_wq`).
+ ///
+-/// It is equivalent to the one returned by [`system`] except that it's fr=
+eezable.
++/// It is equivalent to the one returned by [`system_percpu`] except that =
+it's freezable.
+ ///
+ /// A freezable workqueue participates in the freeze phase of the system s=
+uspend operations. Work
+ /// items on the workqueue are drained and no new work item starts executi=
+on until thawed.
+@@ -1078,7 +1080,7 @@ pub fn system_freezable() -> &'static Queue {
+ ///
+ /// It is inclined towards saving power and is converted to "unbound" vari=
+ants if the
+ /// `workqueue.power_efficient` kernel parameter is specified; otherwise, =
+it is similar to the one
+-/// returned by [`system`].
++/// returned by [`system_percpu`].
+ pub fn system_power_efficient() -> &'static Queue {
+     // SAFETY: `system_power_efficient_wq` is a C global, always available=
+.
+     unsafe { Queue::from_raw(bindings::system_power_efficient_wq) }
+@@ -1097,7 +1099,7 @@ pub fn system_freezable_power_efficient() -> &'static=
+ Queue {
+=20
+ /// Returns the system bottom halves work queue (`system_bh_wq`).
+ ///
+-/// It is similar to the one returned by [`system`] but for work items whi=
+ch
++/// It is similar to the one returned by [`system_percpu`] but for work it=
+ems which
+ /// need to run from a softirq context.
+ pub fn system_bh() -> &'static Queue {
+     // SAFETY: `system_bh_wq` is a C global, always available.
+
+---
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+change-id: 20261013-rust-workqueue-system-fix-5f9020c90f27
+
+Best regards,
+--=20
+Alice Ryhl <aliceryhl@google.com>
+
