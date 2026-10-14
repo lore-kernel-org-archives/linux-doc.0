@@ -1,136 +1,234 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CC4518149
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F621524AEF
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791984401; cv=none; b=R8VSXaMccRchM68JArMJSsY8lWLSoA5b8CbPQaGw8R+4g3a9yo3RNI+xrE/yKRhyErH+9UY+Ra0eGh0v/Up5dyq0PhROxH7xUwdCXkgH9p4Hc+y2Ybx4RHYYbxHShlBBSvRPzdxMYPX2ZIeTna4m5YRNIW+ejjrx9h+Zudw5gOs=
+	t=1791984612; cv=none; b=ScgluH7EmnU/WCenU82yDgjAstVUVTdbJ9TDcm+ufSrb30mvCK8C52AvlG3O3JhehBJLamf0WuuMmfmNpYWmEdERzL+vKs4BMhitLRuRuSKl27eCBtChMCwA2O5n+PruE9Xh3eannGDRPwjKL7KBX/6h52lNnib/rfGvNck8eF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791984401; c=relaxed/simple;
-	bh=6Wjwv/Huy1cZ/r5qRcIo5rFWepUhagJ/WEP5VD8YMa0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X0Z/1YZnN2/UxEzDCqm5lKXSg6hPYxBjthQSuiGiTOsLKTDGjTXLB/8lGG7jQrxlI+pG6PZR5gloiffUafvvNzc+M2ADzFkwsSYEAbRirHqg+tUa5QFovEf/7TQlBWbVui1q5VL5hLMXZKRh8tWsyTOK/Qz4wHGwzvA0cDg6qBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=lQYZ9WXv; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1791984612; c=relaxed/simple;
+	bh=+yMU48ccOQTDJqcL+wYe+JjnvkSW+/MtKgVT1KqC1QI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OTqOD8ou/BHSoyZbzbMbbWIL6hU7R8Lq+IPOha1kq0NPK3lEZjT2CqOXoNFyiZpSMhK+BI6D2Mkqum+KvFtbifdVmE2hKtqm+4SfwrOIBG15loPrrVh5ZMFHjrIkXHIIx4trHdWQnNYfvuImNy40Pw2E3ThFdDi6+eSRYvg9im0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GlnJRd80; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=F+Jl2IO4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="lQYZ9WXv"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-533797e72e8so2204531cf.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 06:26:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GlnJRd80";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="F+Jl2IO4"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69EBG4W53366064
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:30:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=WPKkYivj8JUBz6V608J8AiLTN9VSzh8FXI9
+	487Jr7wY=; b=GlnJRd803VKB8zt2rm3j33IoLgFkmEEZPHedUKVBMJV1Boaq38U
+	L4th1hQ4JO2esuvRjFaI5b7u5yWtim/p/3wzVmPQb9xAqJzrLRWpxtaQ8q/D74h1
+	hVGPR6svXiKiUr4IFxBaarVAE9XlMa8TYFweDbXlzpfOkPqPXrvUMwgOjL90zhuf
+	jsBU9Es4cYSMdhNyMcUwXeRSflNH424El/bMj222yE16+u01Owd1rFBgB9qxG5/V
+	MMaHXJ6t3AewG3UiqRHy2ucqhtR1t6Z3RhzGkUGTzLg/XQuWvKbhgMrwWIjtFrWM
+	oNlE8Fg60anK3iKiDWdcaGVtImo6Ea4qoXg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ha4621sqm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:30:03 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93dea1b6c89so787809285a.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 06:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1791984398; x=1792589198; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=i9IOcxSqwYrBSr8BFbrbfz8etoo1JAf0XtOV1kMheuQ=;
-        b=lQYZ9WXv3Q3VpT+aVY4LAvWuRFO0loiiiUepNoZX0MKnYJk+1n3nk39a75DWHIwfR9
-         ABoHUjeq+/Rn2hSYjZs7jfM8gt0DaTeUWp4mB9I1rF6pR8qn7Z6kQIf1kqAAiZmDmh+i
-         IoaJY6RViLAEoQ12QqTwki1y75Ms1GdF0gee5ON0tXpwJnbLKlwii7y0sHOV7YNo+9EN
-         Cc3L+lOCIRpE8/Eioy0UqyRoKEBr8uHrg2SkZ3m5Jte0yy79aex8w9QeoRi4z6bWRsu/
-         6SmL0JADly2qxSBOyh2wIc+Yt6arZYolFAvfFkKdjIZrpjLvfexSIYEO9d5Li2zD8cBl
-         wIyA==
+        d=oss.qualcomm.com; s=google; t=1791984602; x=1792589402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WPKkYivj8JUBz6V608J8AiLTN9VSzh8FXI9487Jr7wY=;
+        b=F+Jl2IO4vh1jQDJRHPE47fgaGvpnSq84YYOf5XEqowFl0xXIw0psjAN1MarauMgG5E
+         H5qfcPe4WHpNBFUU+5ly2H3oDkFbKMUHm2x/2b0yXEozb5uD5iEspPkyJFL95mVZxDKy
+         wntu9LbH475rmiswRZ051iC2qhhRypZ+8JwbYTPNI7XRu5KqY2jtckWgozGig/L01oub
+         oVmPDB1dfsXXWqEFMM3vtStQCTUNUy6ILq1kW3XbgONv6BLQOqjlXVISlRMlK0Tcm+Qt
+         MBlh/ox1fLB6wawFmLZEts9Hgs3bZSsL+6rZFaUxh/sHu/m3ux0VvE8YYRqczu6Z3fR+
+         UIbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791984398; x=1792589198;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i9IOcxSqwYrBSr8BFbrbfz8etoo1JAf0XtOV1kMheuQ=;
-        b=UpRXIZ2CYNki50Z3uBPBaIZOD/ob9ryikAth2AczQJZeHCSyNdlN54If71xqhKTxcO
-         1GfzyRQH5J3SFKRELuv9HGxbvfkywiXZCwzofKWKRH7s6wrB2cAYcmvZ5Vdc2fvgGpF+
-         GL+7Eq119FyXnVVK37LxClEtGGgu3+iV1PFzAYSCwQPSuozOHozt3ZF3LD9W1r0PONo6
-         4R1dh0COmC5nWMffGJHELY2SOexMvM2iDL76mJkld7JMZO2f336NrRA2ySLc9MN5ob3a
-         slwFdywYOxeEvuP7QJiE02Ty7xuaa4WN7j6wNbSK/ZGOlPQ6I2POvZHokF4DqqRqEUmo
-         W6bw==
-X-Forwarded-Encrypted: i=1; AKwUvBwY3NUPPweoQDNL00nnVpIQe/saXEtV1DKiBFocW1Q0a0Ejs3U69hNniLixyBcmBdZItBtfjMV2HrE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK/VmB2EfNZ3BrmUAWOgYIwdMCCmyFZ6y5kg1PVfwSXZkdkZHdm
-	foWMolujFb0NG3hdjjBMZA7VE63liMIQUOxWYuv/uZqfnZ0zkXa0VCLfsoWLgamKgvo=
-X-Gm-Gg: AYBFou153ZO/Mf6r6NkdfzUAb/uXzSdIzaEnyFBVRIpm7xuupEHwvRmfAbIRXyacOXy
-	EGuBkxbA6QZwcnWk+aopUn3Ew2bfy1Ke7Y+MEPjz2VQv4l0+hivrTFxI7M6bPs87DbZ9p+e0egi
-	k2NbTJE5GftvFtEk15tPdY+Fi9wXiXnHRWI0UjF5LZxqgAyF87p1o6AErFneByAlNbfwJZBkfvb
-	uM05D91GEpWktCLMsNXvDjwlpSkNOQ22NWIixqv0GqNSU+1h8T/Okh0gWSNvK4/1eQZEKZL78UD
-	bLtmjiFmKU3MjLX5mLHmjNpVnWaR95IfsVJiLCbKDxRA88SkYxg52dI3/AMA2r6YJaJ+qPUdeLR
-	zFXe+tl2mbfgOxzcEKolTWcrouofR8hrNtsv8irSkXcP7YPZY9qH8a1hT7JenqyZgf2NmO1XngV
-	U0MIFEuctTR06SGJsPMMG7HW9nOgriUES9pQJL2+0YhgY0cfnA3syq8vSJpYQwrP7bWw783mVyO
-	kafF6lT93D66nqxxG/kKzpiUM2KKsM+PSyQrre5oDWaQiEibILl/0g=
-X-Received: by 2002:a05:622a:5a0f:b0:535:f9df:cc8b with SMTP id d75a77b69052e-535f9e049f5mr53842251cf.21.1791984398464;
-        Wed, 14 Oct 2026 06:26:38 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b731a6csm125043441cf.11.2026.10.14.06.26.37
+        d=1e100.net; s=20260707; t=1791984602; x=1792589402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WPKkYivj8JUBz6V608J8AiLTN9VSzh8FXI9487Jr7wY=;
+        b=U7wgvy7lt4roIfgt9Q83J+JZwGAmV4yK/HEDcU5TWPuDyKkMxPW8RCBkMSYrmKTlZT
+         i0BLAAn+m2IDYn9WHz8BKAwnmuxkeSOzbCaYeb8Op7v/D6+T0Vv5hqL2r/tSVrXMgSkI
+         t0csSQv6tZ9nOmY1yrxhhUZGHld53hmks+anvh0K7OwofLrcy2RftywGsiKiiT4HC1Lz
+         9n+PQ++6au2zEpcDFneThZvJqFQLmj3LhZAMLLIUA9lqstxTTTJGZjQh48xMs+Z4qZ8I
+         j2l11iTy+Sdmz9SX3sFDiqnKTe5136uK2Om/cSQRdZb0Ctaq1yuD4tZI/aR4XMhIonTH
+         auew==
+X-Forwarded-Encrypted: i=1; AKwUvBzeN3VKBRcA0aZESIYgYE2oGq5yMuY9hkBxEnYkt/dJ1tSo9QC7hNjWqan488JkS7v4Kb3tuLDvN+Q=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLh+lVenTXIV7dhxAChrY0sxV2baTtVLWiw+6PxnzCPKKERPnoW
+	EMR7EoSY+dE4iYIzt9E5e3a0IGHQYZa7gzZdUqL5v5v6WYbzkuLMmpXswenXGv2HElxN2URRFf6
+	KmQYDQv77ORxeTaH7ZECYCMVwlVLoGQkMP7JhfQGAjf13uuZtIQkW8OUe0tC1ivY=
+X-Gm-Gg: AYBFou2NHTSjWXfPz7RAaldAAVF/6ChiQeDH5N2ItKnc7yQZF6HFAS8MNkTRdibn7Jf
+	+i/F7T+EjlUMzEpvF59yh/V72r7DOxwVviDrgf+5xyMlA8L0eWuoxMlDX/FuFHTJxDHwT5dfwf7
+	kjyclPtWjD0XJwsDGvNsIcRyIsXNTRKyf8LFMnZ9HJhBhoUdX6nhmmGrakeIVNrNX4rIJ8DOdPE
+	yDU/xcccgWMsLdJb5mITZoy1bOg1UfNn2gUUMquud4PoBc+2dmqdrqALNgm8woJnZv9AmVmbAIs
+	phO+vrVZP7QOul7GGhbYdjJ1xicfPoh/4e3Tfb3i8SCqw2c46DqGHauRbheZExvBOwpJy0LJM86
+	Xxg6bL+e30tBLTih7r04Hqdo4040=
+X-Received: by 2002:a05:620a:4493:b0:93e:592d:f5a2 with SMTP id af79cd13be357-93ebd0df023mr2426215085a.11.1791984602169;
+        Wed, 14 Oct 2026 06:30:02 -0700 (PDT)
+X-Received: by 2002:a05:620a:4493:b0:93e:592d:f5a2 with SMTP id af79cd13be357-93ebd0df023mr2426208085a.11.1791984601485;
+        Wed, 14 Oct 2026 06:30:01 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:7d20:e20f:a77f:4ef7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bcf552e8sm2027155e9.13.2026.10.14.06.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 06:26:38 -0700 (PDT)
-Date: Wed, 14 Oct 2026 09:26:36 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Li Zhe <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	joshua.hahnjy@gmail.com, ziy@nvidia.com, mingo@redhat.com, peterz@infradead.org, 
-	mgorman@suse.de, riel@redhat.com, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, vschneid@redhat.com, kprateek.nayak@amd.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 5/6] sched/numa: do not feed tiering promotions into task
- placement stats
-Message-ID: <as-CxqUTS-DjO5HU@gourry-fedora-PF4VCD3F>
-References: <20261014094347.99157-1-lizhe.67@bytedance.com>
- <20261014094347.99157-6-lizhe.67@bytedance.com>
+        Wed, 14 Oct 2026 06:30:00 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+To: rafael@kernel.org
+Cc: Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Hans de Goede <hansg@kernel.org>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "Derek J. Clark" <derekjohn.clark@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Jai Luthra <jai.luthra@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Armin Wolf <W_Armin@gmx.de>, Jack Wu <jackbb_wu@compal.com>,
+        "Mario Limonciello (AMD)" <superm1@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v1 0/4] Make platform profiles firmware independent
+Date: Wed, 14 Oct 2026 15:24:43 +0200
+Message-ID: <20261014132500.3817549-1-daniel.lezcano@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014094347.99157-6-lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: H0VcyTgDenPl39wyLfUZyEGppYKMbDAU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA1MyBTYWx0ZWRfX5CWsDZ5Q4vG0
+ Us4Dm+/Axw/4s6hAX/XxHedPU1qDZ4otV9cWr5Viu5gEF2Lz8Gl+KaeuDqETVgrWbLvZOfFxGQb
+ CUdPpp+POrfPcSqMM5CT93E2gVpPtNrpUpEjpfwJug1Nx3S/6F/hWi7MnCelckmgoJx6POlw7Qb
+ +uv9i/ltpwg23SWd3HzMEYxwtaPprlE5sTN7wqyLcKQBnEXP3eWmcZ1d+TVCcUXdXD+DMDTQWoG
+ gmw+fS8YV9RHD3T7lsvaqBou3lexOYNmVuAIq7irBVQ4T77/Uz7hZ4ckXOEVunnZJjnZThPQXr+
+ lQlCARxvIQ8o1yn7BCrkjK4k+kZQs28VWxC25o2/56gyoGAEaoPdTigc5vSiR+lwTkFWZZ+MrER
+ I9PKJptWil0JReblnZaGtHsiGHb5kBSPTThyIheuVOnRCGXH26jVa9CYk0TFfucoOoKCgZbVNAq
+ ahoqMy/LufCYKvTG84A==
+X-Authority-Analysis: v=2.4 cv=ErZHPicA c=1 sm=1 tr=0 ts=6acf83db cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=ZMhTd-B8TqveHcltUyQA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA1MyBTYWx0ZWRfX6XzO6JH3pBxg
+ T4Wfj5f+t29UJUCWeVqR0Wrie4ln0AO+QxQtkOj/XYrZdBoc32TfJs9M7Vb6PWln14NgyQs8OBm
+ ZKknvTjNS4/vs477QYce95o9+sbxp8I=
+X-Proofpoint-GUID: H0VcyTgDenPl39wyLfUZyEGppYKMbDAU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610140053
 
-On Wed, Oct 14, 2026 at 05:43:46PM +0800, Li Zhe wrote:
-> NUMA balancing has separate mode bits for normal task placement and
-> memory tiering. In memory-tiering-only mode, NUMA hinting faults on
-> slow-tier pages are used to detect hot pages and promote them to a top
-> tier. They are not normal task-placement faults.
-> 
-> task_numa_fault() already avoids normal placement accounting for slow-tier
-> faults while memory tiering is enabled. However, a successful slow-to-fast
-> promotion can bypass that check. do_numa_page() reports the destination
-> node to task_numa_fault() after migration, so the fault is seen as a
-> top-tier fault and can update p->numa_faults, task placement state and
-> the preferred NUMA node.
-> 
-> Slow-tier PTEs store access-time metadata in the folio last-cpupid field.
-> Before this change, numa_migrate_check() returned the same all-ones
-> last_cpupid value for those faults that normal AutoNUMA uses for a first
-> or unknown access. Those cases are different: the ordinary unset value
-> means there is no previous CPU/PID sample, while a slow-tier access-time
-> value means the field does not contain a cpupid at all.
-> 
-> Name the ordinary all-ones sentinel LAST_CPUPID_UNSET and use it for the
-> normal first/unknown cpupid state. Return a distinct
-> LAST_CPUPID_ACCESS_TIME value while the folio still carries access-time
-> metadata. If normal NUMA balancing is disabled, keep the migrated-page
-> accounting but skip normal task-placement accounting for those faults.
-> 
-> When normal NUMA balancing and memory tiering are both enabled, promoted
-> pages can still feed task placement. In that mode, the user has enabled
-> both CPU placement feedback and tiering promotion, so a promoted top-tier
-> fault is treated as an ordinary unset-cpupid AutoNUMA fault.
-> 
-> A stale access-time value can also survive after memory tiering is
-> disabled and later reach task_numa_fault() from a top-tier page, where
-> the slow-tier validation no longer applies. Treat any remaining invalid
-> last_cpupid as LAST_CPUPID_UNSET before task_numa_group() can decode a
-> CPU from it.
-> 
-> This does not change whether a page is promoted. It only prevents
-> memory-tiering-only promotion faults from being consumed by the normal
-> AutoNUMA placement heuristic.
->
+Make platform profile selection independent of ACPI firmware.
 
-Similarly with prior patches - this is a pretty major change. Although I
-agree with the premise, do you have any performance numbers that show
-this change is beneficial?
+The provider API already uses struct device, profile enums and callbacks;
+it does not require an ACPI handle or firmware node. However, the core is
+built under drivers/acpi/, its Kconfig symbol depends implicitly on ACPI,
+initialization fails when ACPI is disabled, and the system-wide profile
+interface is only exposed under /sys/firmware/acpi/.
 
-It's quite difficult to determine what the user-face effects of this
-change would be other than expecting some kind of performance benefit.
+This series moves the core to drivers/platform/profile/ and introduces
+CONFIG_PLATFORM_PROFILE, updating all existing provider selectors. It
+retains the tristate configuration and platform_profile module name.
+Firmware-specific discovery and profile operations remain with providers.
+The core can also be selected directly through its Kconfig prompt.
 
-~Gregory
+An optional ACPI adapter obtains the legacy sysfs kobject and is linked
+into the same module. The generic core contains no ACPI types or symbols
+and initializes without ACPI support or with ACPI disabled at boot.
+The existing /sys/firmware/acpi/platform_profile and
+/sys/firmware/acpi/platform_profile_choices attributes remain available
+on active ACPI systems.
+
+The new system-wide interface is:
+
+  /sys/kernel/platform_profile/choices
+  /sys/kernel/platform_profile/profile
+
+Both aggregate frontends use the same callbacks, handler set and profile
+semantics. The per-provider /sys/class/platform-profile/ interface is
+preserved. Notifications cover both aggregate frontends and direct
+per-provider writes. The new sysfs location is proposed ABI.
+
+The first patch fixes the lock/lifetime boundary before adding another
+frontend: sysfs teardown must not drain callbacks while holding the mutex
+those callbacks need. A separate registration mutex serializes lifecycle
+changes, while a profile-lock-protected handler list determines aggregate
+membership independently of the class device's teardown state.
+
+The second patch extracts the core and uses subsys_initcall_sync() so it
+initializes after ACPI and before built-in thermal and CPUFreq consumers.
+The third adds the generic aggregate interface, and the fourth documents
+the interfaces and extends maintainer coverage.
+
+Validation:
+
+  - ARM64 built-in core with CONFIG_ACPI=n: W=1 build and sparse.
+  - x86 modular core with CONFIG_ACPI=y: W=1 object build and sparse.
+  - Full x86 kernel link and QEMU boot with lockdep and list debugging,
+    with active ACPI and with acpi=off.
+  - Firmware-less providers exercising common and hidden choices,
+    profile reads/writes, invalid input, mixed profiles, cycling,
+    partial callback failures, POLLPRI and legacy/generic shared state.
+  - Concurrent sysfs I/O with two persistent providers while a third
+    provider is registered and removed 200 times, last-provider attribute
+    removal and repeated provider module reloads.
+
+The provider API and profile names are unchanged. Aggregate writes retain
+their sequential, non-transactional behavior: a failing callback does not
+roll back providers already updated.
+
+Daniel Lezcano (4):
+  platform profile: Separate handler locking from sysfs lifetime
+  platform profile: Extract the core from ACPI
+  platform profile: Add firmware-neutral aggregate sysfs interface
+  platform profile: Document firmware-independent profile selection
+
+ .../ABI/testing/sysfs-class-platform-profile  |   2 +-
+ .../ABI/testing/sysfs-kernel-platform_profile |  30 +++
+ .../ABI/testing/sysfs-platform_profile        |   7 +-
+ .../userspace-api/sysfs-platform_profile.rst  |  41 +++-
+ MAINTAINERS                                   |   6 +
+ drivers/acpi/Kconfig                          |   3 -
+ drivers/acpi/Makefile                         |   1 -
+ drivers/cpufreq/Kconfig.x86                   |   2 +-
+ drivers/platform/Kconfig                      |  16 ++
+ drivers/platform/Makefile                     |   2 +
+ drivers/platform/profile/Makefile             |   5 +
+ drivers/platform/profile/acpi.c               |  15 ++
+ .../profile/core.c}                           | 195 +++++++++++++-----
+ drivers/platform/profile/profile.h            |  17 ++
+ drivers/platform/surface/Kconfig              |   6 +-
+ drivers/platform/x86/Kconfig                  |  10 +-
+ drivers/platform/x86/amd/pmf/Kconfig          |   2 +-
+ drivers/platform/x86/dell/Kconfig             |   4 +-
+ drivers/platform/x86/hp/Kconfig               |   2 +-
+ drivers/platform/x86/lenovo/Kconfig           |   6 +-
+ drivers/thermal/intel/int340x_thermal/Kconfig |   2 +-
+ include/linux/platform_profile.h              |   3 +
+ 22 files changed, 288 insertions(+), 89 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-platform_profile
+ create mode 100644 drivers/platform/profile/Makefile
+ create mode 100644 drivers/platform/profile/acpi.c
+ rename drivers/{acpi/platform_profile.c => platform/profile/core.c} (79%)
+ create mode 100644 drivers/platform/profile/profile.h
+
+
+base-commit: d0cd1e850e1602729dd60dc3c5fd96f80e0cdc5d
+-- 
+2.43.0
+
