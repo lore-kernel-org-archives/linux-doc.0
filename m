@@ -1,120 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D838B3C1985;
-	Wed, 14 Oct 2026 14:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3841E37F742;
+	Wed, 14 Oct 2026 14:50:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791987355; cv=none; b=ZcJvMzVFfVq1Eqnzai8f9lPQwHt+q1qfLAE2iAcBnuyNnsRzOVqScF1yQdqqAzVPnqpWv+GULWG66v/R7FCTxsvlZmnEj4oOLQCxi63oWfpiBUAVTYzWsogLvkuHve1YdEWkLxg2iByf4Q7sSx1aJ27m+h+z8X4zoT6H7SCo/gs=
+	t=1791989418; cv=none; b=eOqd3MOlc+Sex+kJWFgbT6lrHUSGMG2W0jIQ+XRfi+s+UaJXL9/CTeJHM23J/SrArpd6RRb0/sirwqxSYOp03l25Gn0ysqSMV8weqz1ukr8ZbFXf6qxu1Zr+C9m2LbZWfoDHLZdKUZfePbl8OiEtVSaLeULK1bwpNEMsPKyEPSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791987355; c=relaxed/simple;
-	bh=yFy8jKNEVD5aCWcbmOASnsJk2pCrcuWkNIOMU0IPEjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qC5o/3izM9v0huhlfP+yBXzdf24rlpbEYtY2lUJMQzAuvrHrrRXz8VDUq2ncS25uqtjdEP13qwIaEA9ySp6jHrTMpyk8y5cTSv9uhtg0KZI2LBHR/7hKnb1/ynSL7g3pivPD9FO1wiKw9Gmi33eVvhr3ZLf/AdlT5weQvtYfe9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B5r8eGWH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791989418; c=relaxed/simple;
+	bh=1ZGFJL3aWBxdpm2daJRhOsohwWnF9u/jnnIW8uUSFdI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=XBIeaKuEJ5ed0tp3tPqnmwHoae2MxjP+LJ1lZqf43Y9y0N9GBiUK5+iapYakOZSR9ol1doqJPyQ8euaSj4xZTIKWibL6+RcDiKQY0DldxoA+mjfXERKbj1h/jW2xyip/xdFk4r2iyLviIf8GF5UhHNCNnkwmM+KDKhniyTMY3xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BM+UwMfH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B5r8eGWH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500FB1F00ADB;
-	Wed, 14 Oct 2026 14:15:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BM+UwMfH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038681F000C6;
+	Wed, 14 Oct 2026 14:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791987354;
-	bh=cNm60TBpTyZut0H523+N0q+d3z2GKFPS8cxZLfYPT1w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B5r8eGWHgk+I1TEgATWXTG7eRgO5lv1UuLPysWJwcZ5TgCFhyiY+iQJ3b4OWhctz8
-	 HjFRhWGMJaqlTiIb4x4Z1470K2eQikWj1CUgrzMVr4vR2sjdWZfMR+yluK4U6EIvAv
-	 agaqKU+wls3CmY89Q0qfHst1rxilBmujnW4H64imNeYQogt/AOYSpHlYJVZlvabXvl
-	 fLxyFhKrDOuC8rsu43D2t2SQYH6jgElObDeKZ4og5to8LK92WUcpo3gx9mxzmZQ5AA
-	 cBTHPdOc+k/150CvsLjga5sPYxHfhPxMl3+nXopjIAk6uWK/cwhhwOurxwP4YhHwEe
-	 4aPBQiVlCUDmg==
-Date: Wed, 14 Oct 2026 15:15:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <289112f3-41bf-4673-acb3-667bac48a76b@sirena.org.uk>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <as7uqZn9rQ52USwy@mit.edu>
- <as-Dwg8DcEOYMXki@gremlin>
+	s=k20260515; t=1791989414;
+	bh=NdWDzbW7Y26htAfpjZvTCflFdSCpG0s8lhU2ZneTFLQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=BM+UwMfHAZjW9N+hXqGXqJO9+J70Tu+8At5e5U9AabuLJPkoU+OY5Q1tGeuDSRar7
+	 h+ueY9Vo+zchRUUDgnBlJpJjetO+qPXf++oPOSRIyP/PLLyvuOMCgyJOlm++Hbpw60
+	 91hK/nZUCLHOb407EzR1u0TPmbD+57P+JLtsy0JLqNWJLg6hPEMYNaJhx/1+SxKz0d
+	 SO9dytJU49vKpXLjbMQzrDTGL+wUdcHlbtIZVVNCRud1aDPerhS0f2Ud7adqwIcLSQ
+	 +H4U30KC2ow3o0gXS5ee0f1ShRWTDgZpMUZXwUlPNsa0ImzI79zjWNk1pRc+3suPXr
+	 gOVfAi3aygJUg==
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfauth.stl.internal (Postfix) with ESMTP id 04A4D780043;
+	Wed, 14 Oct 2026 10:50:12 -0400 (EDT)
+Received: from stl-imap-11 ([10.204.2.102])
+  by stl-compute-04.internal (MEProxy); Wed, 14 Oct 2026 10:50:13 -0400
+X-ME-Sender: <xms:pJbParDoKmXnnnpeCXDM-T7ZQy3mvEAFl8leKVWTW8fxLoSHruK5UQ>
+    <xme:pJbPasUGIp5Y-WerYrbOqfCqOomhS8YNkL3QSuUtKHjrt1PtIhP5Tu_WX_moXYsdi
+    sbHexPhmB_BmED0e-qA-2512EZv-PGP1oM7DEoJZYvBXbW1hOGKzMw>
+X-ME-Proxy-Cause: dmFkZTEBp4CSFP+oEygyR/ha7jJPYfJMSPM5LgWWD6WbfqNZUsOvuFcngQ6E2/sdCMTQyy
+    HijyMuq/lh8owh49Uvpdcd1Ra8UygobWNKOnsEZkYTkmkHBveua5QlCVL0sCLNdxkZT+w3
+    DLhzUNIRhU4ZpiQON0x0kMLOeVf1NUWdQo8JyVcvXXYMchFoGUAJI+xNE/ThwwUpa6FP20
+    cODEKLQFrG3geSG9+uwSFuaKXh/2ud2Hqj5zJA8H7nV9YIwFspm4XSoh0NWLuXc9SN7nF+
+    M0GU0dQmTpL8asKz2BQ4XwgO2/Sbpm/VnJLXVHzZvHTjDZHcObiXGKyIKkXuB2XL3tAzYg
+    g5OGTBD8KSmGCXSDu0gnl3UHb3Lp0SpglQkUX+piCkkNEgINFXYTsBjDIeCtd2BdV9QJQ3
+    mTfP+iSHHMJzo+KhWjJukhVQ8api1RFiaA7pywTevfwudi7iFEWHwbF3fD5qNbbxrYH6AU
+    uYTVm5lCHKo9KUELmKH5bJ67yzCta8QTOKdU30qDP+TjTRIjQ+yKitK4LMuJrfSdbT2I9F
+    XD2Zr3H2f1O2VvIbU3//Z6dHBXNQw8Z3KtlE1yB8wGuWJDbUxnRMiVGCy3EYOa2136W6Bm
+    7OdRD5lAU7SoYDdBdbK4z9I3J6kegvsNGaHYnREsjFZCq7Mj6bavvPFXsDFw
+X-ME-Proxy: <xmx:pJbPansXMvJtbNWVaV-mNd-qlczn-gGt_SH9XPSu00VX_1SCUwMIlg>
+    <xmx:pJbPavaCY2nnNd54zW53nb1b3n4NiW-6Jz-Ae3Sgp4IwUoSeeyOUxQ>
+    <xmx:pJbPahNykOFC4DtN7tXyMI1gDyWwjUYT8QfRvRRh_Su1dkRJTn2MGA>
+    <xmx:pJbPakut9LU5_6VoGmrV77P8-_f8MaRAa1YriFmU-18E2Z6zPqispA>
+    <xmx:pJbPapJayEVieuXZFLVJRdxfrNSvTiCPGOlJqmlWP5cgxmEZki4NOH5n>
+Feedback-ID: i927946fb:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 90E9119C0067; Wed, 14 Oct 2026 10:50:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fbxWzeNq4nV8olKM"
-Content-Disposition: inline
-In-Reply-To: <as-Dwg8DcEOYMXki@gremlin>
-X-Cookie: Live free or die.
+Date: Wed, 14 Oct 2026 17:49:53 +0300
+From: "Leon Romanovsky" <leon@kernel.org>
+To: "Bjorn Helgaas" <helgaas@kernel.org>
+Cc: "Bjorn Helgaas" <bhelgaas@google.com>,
+ "Logan Gunthorpe" <logang@deltatee.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Joerg Roedel" <joro@8bytes.org>,
+ "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+ "Tushar Dave" <tdave@nvidia.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+ "Chaitanya Kulkarni" <kch@nvidia.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jens Axboe" <axboe@kernel.dk>, "Alex Williamson" <alex@shazbot.org>,
+ "Ankit Agrawal" <ankita@nvidia.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>
+Message-Id: <eb8e0edd-4c4d-402e-9875-bdbc6d191edf@app.fastmail.com>
+In-Reply-To: <20261014132353.GA1625948@bhelgaas>
+References: <20261014132353.GA1625948@bhelgaas>
+Subject: Re: [PATCH v11 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
---fbxWzeNq4nV8olKM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Oct 14, 2026 at 02:42:09PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
+On Wed, Oct 14, 2026, at 16:23, Bjorn Helgaas wrote:
+> On Wed, Oct 14, 2026 at 09:53:47AM +0300, Leon Romanovsky wrote:
+>> On Tue, Oct 13, 2026 at 05:25:08PM +0300, Leon Romanovsky wrote:
+>> > PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+>> > This misclassifies asymmetric and nested switches, and reports one answer
+>> > for every kind of TLP.
+>> > 
+>> > Three ACS controls act on TLP attributes the Requester chooses rather
+>> > than on the topology: Translation Blocking and Direct Translated P2P act on
+>> > a Request's Address Type, and Completion Redirect skips Completions carrying
+>> > Relaxed Ordering.
+>> > 
+>> > Evaluate each direction at the path divergence, decide every class from the
+>> > one walk, and treat a client with ATS enabled as translating unless its
+>> > driver declares per-mapping ATS.
+>> > 
+>> > This completes the P2PDMA side; dma-buf and mlx5 follow separately.
+>> > 
+>> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>> > ---
+>> > Changes in v11:
+>> 
+>> 
+>> Bjorn,
+>> 
+>> Could you please save me from the AI-bot attack? Every rebase seems to
+>> uncover another bizarre pre-existing issue. It never ends.
+>
+> Can you elaborate?  I'm not sure what you'd like me to do here.  I
+> don't control the Sashiko reviews, and I thought Sashiko was recently
+> changed to put pre-existing issues in a database but not in the email
+> responses.
 
-> > I think we're going about this the wrong way.  What we want is high
-> > quality contributions.  If they are high quality, who cares if they
-> > are AI-generated or not?
+AI reviews are not deterministic and every resubmission gives us slightly different result, which is in this phase of submission is  full of hallucinated flows not applicable to the upstream.
 
-> Recently 2 people sent 1,000 patches over 2 hours. Care to check each and
-> every patch for 'quality'? :) Only the beginning.
+In addition to upstream Sashiko, i run everything through local one with slightly better models which hallucinating even more.
 
-And, crucially, unlike what would have tended to happen in the past with
-mass patch sending a lot of the time the patches tend not to be
-repetitive patches fixing the same issue in the same way in many places
-like are seen when someone has a shiny new static check.
+I would ask you to merge the series so it gets real exposure in addition to my kunit and specific hw setup.
 
-> > I also suspect it should be possible to use something like Jev or some
-> > other System One LLM to help with an initial prioritization for the
-> > patch, and then have that prioritization be set in patchwork.  Each
+Thanks 
 
-> Using AI to detect AI right now works, who knows in the future. But that's
-> an arms race which we'll eventually lose. Which also costs money...
-
-Reports I've seen from other areas suggest a noticable false positive
-rate even with the current stuff.
-
---fbxWzeNq4nV8olKM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPjpEACgkQJNaLcl1U
-h9ASvggAhblOCoLUXEoPxwVvyi6GB2/D+t/3E8S5ENJTY1ft2fg1LoCQvTof7acG
-DAY2yJIwnh+UaQaXvPaMQ4cDYxe5wpFi01EJiEtHD/GeClmOZL706bPCDcdDKPuM
-i2/bpQk1OXRW0Vf7MhJqmW0drHKGTUrtmfPS3VFXplQWOlfQTXMC8kM0QhDmP2Jr
-BNvTAN4fbi198ILQ6GnrTvDXok+3LROl0GGkDrqEF9od5dJ9mWq2VUhzUEdFaHAW
-cVHIhXp7tvzTUNvEB5tbwCHEcf9LCRWnW1BKK/8ahokm6vlsbWLfVOHG6bDsorIC
-PGxdCTv47f4Poh/rpam8XmBZvYEKfw==
-=ZdWd
------END PGP SIGNATURE-----
-
---fbxWzeNq4nV8olKM--
+>
+> Bjorn
