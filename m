@@ -1,257 +1,215 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011052.outbound.protection.outlook.com [52.101.62.52])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2550747DF8C;
-	Wed, 14 Oct 2026 07:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791962855; cv=fail; b=jTMCkVibMRezsrbQ26ckYwZIgRnjtozIJCefn2iDKFeOkmqv1ssP3tD/ggCNyNd5nO4EZFEH3nIZY6NI+iahuHzDGshc5PmxWl2GzrkWRS0UeT6EQSmzBuuh1LyRn9OjlDWQs34bOUms93LINKoelOCvn6v0ujkLe09perUPBo4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791962855; c=relaxed/simple;
-	bh=43sbg2HA9VtZ6AM6yqlC2cG6cbs8uvO9skesdZnFmBs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tE+W3ZMf3kLAjj0fliTu6cUKQUmZH2AW54ChotN4ahreSlitx2jCAxTNy4+9wxfrEPIYiLk6dWE9G8dN2GRrjqncfcwOQJT02ksWu+uIw4uusIsJV8WSnG54vlLatx4QOrPx72cnkBZkufmqizvWI9Z7ZSKYPaKkJ2aa+Ysk/+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sAFOQ5PX; arc=fail smtp.client-ip=52.101.62.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C65049CF27
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 07:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791963849; cv=none; b=eAdgvhaguv+WKJDlOH0iQc0SYgzdsPDR2HxbcNecVXt7QGRXFEGYKXTA5cJC9OE9jMV7wGs8mz0oLDkmSnLPlbsXusTy9QgeFO4nSXYyWJ5nsu/VDa7MNo93CJrHQjGzm8p3j59ns9yCYt4Nsb9giAr/epLqQzpe7OnKyMZo1po=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791963849; c=relaxed/simple;
+	bh=R3DH/W8/F1I1fomUgkc5UfikhrAkhPlZqLDVrdjbMIU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qbTjMmG4X5x6mhR689r/QNrCwqw0W6EBz+BB2H17IGuuo1ErYGacoMljVG2qqj8OjPZHd8lixGF7kn2NmmiGHyCBa0V1BjEws5AKAO+xZwxSWSunguPzzRkGjUstjZKlbL8UJGkr4QG/zMhp/24KwlSfR0OY2KB+8TTplaCCR1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Lhcs8SBC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=P7oDsdnA; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sAFOQ5PX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FISzAHiyNbFXskWG/Ho8O80P7g35WBz16PT4/am950CgFDmdHqgRRvhedZDNRhdkYv28T23UNg7oXsXvjpXFeFp56GimBLpvTn4F2t7JrNqMlcEQOApIcYSrN2zMkTHHCb8o+c40x4gKRMhpYmulRN8r/S2c5IGmG0MBLZJUFlhB5IyoLXl9Q1zAsh0RqRYlS5FJf9M50LfF5gp+1qVW14xgWX0R/E0RD0qGQSVh7Q9A6tOBbmBjHUFFKjUDSEBS0xdEBIZ9GY+++HC+2ZtvbpA36+/xNpSZGgyITkb7fvjKDvybzsVus4C/MprWBKxSDUngK1D1Lj5G6DA9WTVB3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cdegQbfVYb7rxAdhJuisV8UafP7vtVKjc+m8LO/6j2g=;
- b=pu6QGJoh/56Lb1POVcPzfnJEIfJr0wus/q0S8WmhKbkN+62J+KhwPPqnJ3LGAJIEIwJlg0vGUobIS5NJmh2N9TOW2ue9hyn2Z674roWq0B8bn5xrxrKwdtOwt6yrIy3qVWzIM2L0xyv0D11hFVtOwW5T0wNsv7FnFlbxGWFbEVsXa4pA8Ss4XiPwhfVRU7JV0rkEUvPehLFtlBVzSiDmG6zDbRIES3uf7xFSgqZIjCw6koTdb0CnlrZbg4Xjf/NAr1aka8Zo6bpBFjEohmRxqtG7eXO00vkZyY5VlG1zpyZt+/Rr7GNwt5/qewZ0MODMA/1Inc9cOcxB8NoTZQGVhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cdegQbfVYb7rxAdhJuisV8UafP7vtVKjc+m8LO/6j2g=;
- b=sAFOQ5PXqZaWSun2nl3bjv0V6n8jV+j3ysNCff7Myus6Ss6iIUMhY0DRMHPlKq3NgGbEG47gVVAELNy3xE5OF7lBSYxBHiYVpOzAGhmV1kN71ZOZwF6s2sbOcNRvN6hRTDq8BkIfKO+Rg0fxN3CQnVR8k6mQsDkEfyqHVZdf8m0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY1PR12MB9557.namprd12.prod.outlook.com (2603:10b6:930:fe::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
- 2026 07:27:18 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0522.011; Wed, 14 Oct 2026
- 07:27:18 +0000
-Message-ID: <4154bb7d-c97a-402b-979a-0f49d7a02c53@amd.com>
-Date: Wed, 14 Oct 2026 09:27:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] Compiler Attributes: Add
- __require_explicit_initialization macro
-To: Ian Rogers <irogers@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Viresh Kumar <viresh.kumar@linaro.org>, David Teigland
- <teigland@redhat.com>, Alexander Aring <aahringo@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>,
- Zhihao Cheng <chengzhihao1@huawei.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, driver-core@lists.linux.dev,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-sh@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-acpi@vger.kernel.org, gfs2@lists.linux.dev,
- xen-devel@lists.xenproject.org, linux-s390@vger.kernel.org,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20261013223946.1836757-1-irogers@google.com>
- <20261013223946.1836757-2-irogers@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20261013223946.1836757-2-irogers@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0327.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:eb::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Lhcs8SBC";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="P7oDsdnA"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E2MXO13000893
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 07:43:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BTOjT4OUOzapuo6XNz1VJi2V1U4HM1++DKOVSU+njqk=; b=Lhcs8SBC/Z8xXDm8
+	wb0Mku3t1BE/Vmb+aq3adm51ngjgKzsIBNnwfILHQkXdYMwiBV6198agU4EhpK2c
+	LGbJPafhSczm4HnJp+jHGC8Jhm7ZDsOVyHSqBHszolA1I+eFSZyJ1YbzeLHUq6lJ
+	3L7ouQuBy3UOp7wSfXRGkQuY7DL4o61npICoB3p4V8zhc9dcqYZK0e9Xu7imZQO6
+	tmF6unthzf+Cgarn90hAQPsg0ef8Ej2zGk2gmZXbwuOUullkdG2o9PWi1/sQJMo5
+	y6Uhj4pSKPukdsFyCbq7XaFjq5U1K1IHSZZ4e8O4n/SkJVh3cu4vBTop7Fy7UE8E
+	1iq2dQ==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9sbettpj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 07:43:55 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-88629a452e0so1207778b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 00:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791963835; x=1792568635; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BTOjT4OUOzapuo6XNz1VJi2V1U4HM1++DKOVSU+njqk=;
+        b=P7oDsdnA1vpe8FiGcIotHirs9bnzJhQrwZpt6ApfNHSIiHwSHye/U5KVIcRDDwN1Pp
+         yLDZhe1S5+5/Vx3yxE80YtCo2cWmFncKsavHgdJv2v93FjdTQRlVMWkQJ9Z6VFD0LWEn
+         ENzGc0aePHXVer1N56LEZyWdBAeaDdRPG3OuFs/AVc0QBWYHdpF/SW7Zfzmmn83ST5v1
+         TZL2/64L6Vb76W70lzzdzUApUCg0tYXAldr4N9N3/APVd46UGl6RX0Qyq8ijijspN3wF
+         nkShJH0S4SPEG4/Qbg4ev06rDS+3NmiVe9Dmr3OX9zHnb8HUR7qSebBh/reI5DCHc7lW
+         ZBpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791963835; x=1792568635;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BTOjT4OUOzapuo6XNz1VJi2V1U4HM1++DKOVSU+njqk=;
+        b=1/XgxdChp4drb5WLclglSZnfPLxRSUnO7tbfnAurRMe6iztJce1uXFzQlceIz/Pt7T
+         blI8u3qu7BQcuwaJcLiW0UpnNnaCHLg5b5LInCxZtagcDgZu+hbSy0JpCs60H5c9kJDh
+         5zCwKI4H2/JoPQ6ynPZpKrGXhx8VSDntdaPueaClIquzZKnJrMKZFqY+smOkA90TYEKh
+         Nr4eQ1YyFXyn7XpcqxACyMjy2IbTYnRq+S+FNcQ1WTnW6o72VBHS2SxCa4Z5pIZTcsIB
+         A3Ik9NZbcUCnEHSpGg+Kh2+X3Mi64fkHbkTW1mVCPgvmPCJM3rrsn++WBz0kD+hj+EaB
+         2lMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwGCS2dYznnRBqtDZwpEJkChNoMSE1uGaX29sKAswalQ9ia6NOjPc2QjAp8NH26oad9bunANT+h6f0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIQN3j8uotBaIlfrv86RMuicD4umLfP65rRxrHeqfxNd/8yvFqq
+	wSlbl7rumxi4tcLbVWmVn0+mrY78T4wSP4QHR9Yx7G2DRgqcjCZu9c9fkXL01Qblon0WqglvN1t
+	D8trVldV8Vs6WrRyBSRqYi2fD73hYJyqI8IzqMopYH6mtR2dz0uAoWu6ryqWk6Bo=
+X-Gm-Gg: AYBFou3ONLy/iQN5OmkLOE/xBWvKSIxPy6NdTqlb2tyIhPkrGhTX7I48YcXZEUGf/Ux
+	KTICnzjdnfWQUwTXGR+Ndn2ke8KPHNY8fVbUrFGLER5l1YgAJbtjKvLNUuSAsosWGLJPLYehvZ7
+	wmPM0BL7QSszbu0d20MtF6hYVH4mWd2I0o4STtosSUBFmFpsFLDV16n4VU0cAav+rWinkq1OSaw
+	qRfgtcMi20RyyPUeNHq1Yrwszz78bXifrGJ+LO2f6bkHzDKWQiPggMaE9mFpYBVMxgo4RfBXQVe
+	OZBWjTVzwl92L7PyN/MSzo+SkOAnHHEkosj142p0thqDnzBvIVbhZkDoWHlnbiS18ATzlvXB4yV
+	7wEDdefHeHamvoyrNnFjx2Jmi2tDQhbiDZWboz+MQkDJjIN0FEMJHFo64yNAOJL+1Jg==
+X-Received: by 2002:a05:6a00:414f:b0:87d:e8a0:2389 with SMTP id d2e1a72fcca58-897c6a2ed8emr11225888b3a.21.1791963835185;
+        Wed, 14 Oct 2026 00:43:55 -0700 (PDT)
+X-Received: by 2002:a05:6a00:414f:b0:87d:e8a0:2389 with SMTP id d2e1a72fcca58-897c6a2ed8emr11225878b3a.21.1791963834667;
+        Wed, 14 Oct 2026 00:43:54 -0700 (PDT)
+Received: from [10.133.33.181] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d804ec645sm756056b3a.43.2026.10.14.00.43.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 00:43:53 -0700 (PDT)
+Message-ID: <43e6dcb5-9735-4e1a-87fd-506ee431fa2c@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 15:43:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY1PR12MB9557:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41e289b2-7011-4388-a159-08df29c493bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|56012099006|11063799006|4143699003|261009221227099003|261009223027099003|10067099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	BdC3OWiE215+NFZJKX+JRn/yJtBkqqprUiCnha4t5KMYNF49oIdBwAYRi5wxOcsQ1sWQH+Qhcl4te21euxRgP1H6RqN89sZG6HVaDYD4lL2fu0hEDDbHTekwYfAypN6i+nPVzQSsA6X+Vtoo9I9xRUPkm+gLkaxVm9rWOVoTjJY23USSMb8FH4Ooxjzf2etLU/BBQ8fUb1nSJ0K/P0jWBishZQfDFNNz5EjjJg9ctul7zw3+GPOw8GGQGeZiet1XePOj8QRwfzr9frlFox1TqNtjDFhJz284KRYInuJl0MYYQMF40w4dlgakZ49HD3bzByLpck+pm8LlBt15XNve8CrL0vK/dRKYBKTOtaF8Y/XTGyslLZTFAiTri3kSAciGuzY54FOobZa75FW0gxOIAYoyPQnslbORp0TeD8ylPOzXP1Dq49CH890BlZhnce0wHsE4pMmwodrs6LruRZindtAYO8j0CkvFQZ2/zfaBcZn9ZaJAj7xK9hmmss4PHSWvxQNg7vS/mhu2GCWQO9mZQ/9EAWJndH7EUbtk8PV+tNL5eVdIqjwXb7hOC/clRHNoZHBgWsN4CgMLZdtLT4egUf6pLiIRKfWSgWPboNWevc5zXrv2F0dsvwll6dIys/yY
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(56012099006)(11063799006)(4143699003)(261009221227099003)(261009223027099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q1I0S1dyeTBoWFhsbzNHS3RoVVNISG44WThsVENqZEF6WlpDWlp3WmZkY3hY?=
- =?utf-8?B?cUhHTmN1bXg1VlM2QWFyYnVEaUNqN3lzZzFWVUNyM1NUZXlxTTNrR3U5bEZa?=
- =?utf-8?B?a2d5YmphWEwvQzN4enNyWi9EQkVuVzltYjhEdXBqbEFWRGh6ZmFqTlBJeExC?=
- =?utf-8?B?RWo1WmRhQldMSkNKSHF1MVEzbm1oQmV0dVhDMk9vN2xqeEw4OGdYa1pNMlpI?=
- =?utf-8?B?MkgzSjZwYkhUSHE2QkNMYkhFWFladWxmZFY0MllLUllUbmRlaGhWemJ6cXk1?=
- =?utf-8?B?K01FRzQwOUJsTnNIRXB6S1ZtMjhyb1RJZVRKUnNkbXVPL2FNaVpKQncydVox?=
- =?utf-8?B?U1lWbG1IY1V1d1BSSEUwZHUycW9KblhQL2pLUjgyQTJjU29nYTU1VUlvbzhx?=
- =?utf-8?B?RHA5eHErWEI5b0xoWk9jSE81M296QlozSnBkYnB5dTVqU0c0TzczbUM2MFNr?=
- =?utf-8?B?bUZETjJiTDM5c2p1WWtTbHJlaXQrb2lUYVdJZEgrc29MRllzbGhzNlJDMWIv?=
- =?utf-8?B?T3RJQVhjUFE0dVRSWE9NenlMWjVhdVlSaWRGdlJyS0o5RnFhbmxCWUpmbFN4?=
- =?utf-8?B?bGlDTEJxQ1gweWJrdm5OdEJqT2tzejlRVlArdzI5bks2MU5JTmRxS3pQY2pi?=
- =?utf-8?B?YndQRHhSNDJjWmZkYUlkemxha0pxSVFocTlxMzhMSVE2dFdOOGRocTNTTDE1?=
- =?utf-8?B?eVlzWEpLaHVTdWtjeE83eGQwY01KeFdvSVNwVG1pWnpOWUhnN1lLUG4vendI?=
- =?utf-8?B?bWFRSEM1UWpJd3JwQm05M3FLRFBkdjFuZTN5ZXFpTjJ4eEpzb2Y2K3ExVThX?=
- =?utf-8?B?eS9OVzFWQ3I1T3BrbmpYeFNFVWMwQk55cVhnQWNJQUN2SzBpK2owTVM5RHdn?=
- =?utf-8?B?KzVRbjYwc1VQQzlxRWRzVXAwWk1kOEh5R2dYSmNtUlFaOGRTdGRpemZjMEto?=
- =?utf-8?B?UHI4bzV6NE1FdFdUMnBjZDJrVWIwb3ZLSWw5c2tiVWpvWnFHcXp1dE15c25q?=
- =?utf-8?B?RVV1NlNRY2N1b3hndUNyTmM2YlVyOHZiVVZtT1o3ckNHSW1PcVVtS0p0dEI2?=
- =?utf-8?B?a0VxWWQzc2czNlpDZTFZay83emgvejZoclVJK2k2Rnhpa0FOMXQxam84OUwr?=
- =?utf-8?B?ZUJyNmxDMXNJTTEvT1hHdDRVUjhHT1ZmblBTVzY0aVVadFpFSFJrN0JIRDVY?=
- =?utf-8?B?ZCsrMW9KRmZVTXcwK3hucVNpSFAxTDh3cllwV0lhR2wrR0xNWGY2bkFIeTF0?=
- =?utf-8?B?MjVlajA2VllCSUowcGNQa1QxcmhFL1FlNGptQThjelUwTmRwaUVoNTFoYWJv?=
- =?utf-8?B?WUdtaXlKSE9jd3J2eVhkRFVsSFZORkhWZ2J1enZ5T3FMZldNYWk0YS9tQllE?=
- =?utf-8?B?ZkdibW4yZ1VGWVh0K3p2Q3E3RVBndll3RWNrN2QvUEt5ZFcyU3RKWVZWbHZv?=
- =?utf-8?B?VS9iVDA1VTRTVkFjWkEzVTU1VzFINXJWTW1aUnp0Y1gxSnNibHpZSUtzYkhm?=
- =?utf-8?B?eGkrcnhWZ21sbWcrU3E2S1dsZkFhVGxmY1YvU29kbnFBUlRXUVh3UkhXbDB2?=
- =?utf-8?B?bVpFWUdrY2t3dTFJbE5qRmFjTVplZncreXNNQ3lIZitWQmdrdVk1QytpZVRF?=
- =?utf-8?B?MVptMXlxbERhb3pQUk4zcTBDZU5yL091bmFvbDlnQ1JnNDhUaE1FSWw2NU5Y?=
- =?utf-8?B?bFV0QTliYmlMdTZoWU9ZUnBvK242aERMSnlKVTdjZGwwTUVUeHVmTUJRczZt?=
- =?utf-8?B?ejVReSt1UUEzaXFMdmZHOWpHQmdkNzZDdzRpUkRLSml5UitoWS9MNGJpMllo?=
- =?utf-8?B?S05SUm1WUVNlM2oxdEJvUDdYYkw4cVVOZEFsSFp1NElRWjJlb2hiRXlFVXZm?=
- =?utf-8?B?S3hJK2RHUmpWMHBjZmNQNGFyWURERzc4dDhqYlBNcDZzSXVzZTdKbkRYLytp?=
- =?utf-8?B?bjE1U3pYNFRxQ3pCeURKdTlKYjlDMjdFcVZ1MmRXYWFYSGNjc202NjNvaFc5?=
- =?utf-8?B?bWhwMFgwZFFvalcvK29tRXN1ZTRwUUprMlludG84VWFYNE9manVFTlRLdG95?=
- =?utf-8?B?UlVRbGZzeE8yazFjcjRXTHZiK1hwSVAxV3RFVGFsYlIvUHpjODR3WW9WVGFT?=
- =?utf-8?B?a0xJcGpSdXBpSFdtajBOUVc5NTV5MElDSUpnMEpOalFUbnMrcElYeHVEcUlh?=
- =?utf-8?B?V0NEenIyLzJtUFVrcHJiN2VIQW9zK3RLcWVpRWo4ejltVW9oWE8rU2xuVjIv?=
- =?utf-8?B?N1hUZUNFTDU1N01SUnhyV1BXZ1JGallORXRRZ3NocUFkbE9zVkcwNGNIMVND?=
- =?utf-8?Q?hrqF6gI8LVp4KZy4bx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41e289b2-7011-4388-a159-08df29c493bc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 07:27:18.1391
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EPCX3t4rIs/vo7QVV+VbzZJKjMFIcuzUma/vpFm4ZHQP4jkDSIXRKWx/DcFcaCPG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9557
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 03/11] dt-bindings: net: qcom,ipq9574-ppe: Add
+ IPQ5424 PPE support
+To: netdev-bot+sashiko@kernel.org
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+        kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org, quic_leiwei@quicinc.com,
+        quic_suruchia@quicinc.com, quic_pavir@quicinc.com, horms@kernel.org,
+        corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+        netdev@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, quic_kkumarcs@quicinc.com,
+        quic_linchen@quicinc.com
+References: <20261011-qcom_ipq5424_ppe-v2-3-8c7b057e2c43@oss.qualcomm.com>
+ <179181021174.434549.3754588049756407155@kernel.org>
+Content-Language: en-US
+From: Jie Luo <jie.luo@oss.qualcomm.com>
+In-Reply-To: <179181021174.434549.3754588049756407155@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: stPsLK_KTU8u6s30XmfleyjTeRkgokWy
+X-Proofpoint-GUID: stPsLK_KTU8u6s30XmfleyjTeRkgokWy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAzMCBTYWx0ZWRfXxdAQ2b5x8zCF
+ xA7t6TaFT7t39/dbjGY3T7zikuhguBtRVOgC9IobXYdNp6U6pdPhBXg3n+Ayj+Rx3+s9GG6qvXn
+ sBYuIsWub9tHZFy7bPY6GI+sfPUTCShGoMxcOZo2tiSWD0uwMKwUrGFNfGRoHB4FGkboXvLh7hu
+ ZsdTkcHT476YZ5pOpDZPKeZkbuktml7y4f7197bPicms08SMuaIAIENQ9ZSHKn5qk7DwDPnk73T
+ ntyvY4fNZ10BjSwraK8evUW4l4dJbmtfPB16GWvDwR1aslCZf2Vj1cCkznYLWlwEYpNVrzX1k6M
+ r1RoQqV2ZHeVbmd+eElZAKHSrtP6exafJczcXBZey5ottFqPmOZ4SGoWLvYErR3JRrTCWKslpj0
+ 8prQglZ+3qJboO6bWLMqMO0baBWoRqLBn9dt9Eln4qxDFVlYycNmv5yX5D9mil0CkRITSLIfd9F
+ t1tgvkO+JQ4lCY72v+w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAzMCBTYWx0ZWRfX8khkwxdH8z6h
+ fgMAvoc61hBkZmMLwrWrIgrBxtSfPGL1WSMXsSj39OstCzqdUYWy4S2fRgaS9k49SPJ7WrwVlQA
+ zzy9LDiHK4TvK2q/T4okIB8C4W4ZZ8A=
+X-Authority-Analysis: v=2.4 cv=U7AHnuru c=1 sm=1 tr=0 ts=6acf32bb cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=EH141z8j1nZSuVZU4S0A:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610140030
 
-On 10/14/26 00:39, Ian Rogers wrote:
-> Clang supports the 'require_explicit_initialization' attribute on struct
-> fields to indicate that a field must be initialized explicitly by the
-> user when the object is constructed. When an aggregate initializer or
-> uninitialized variable omits an annotated field, Clang emits a
-> -Wuninitialized-explicit-init warning (enabled by default).
-> 
-> Add the __require_explicit_initialization macro to
-> include/linux/compiler_attributes.h (which is included by
-> include/linux/compiler_types.h and include/linux/compiler.h) so kernel
-> structs with error-prone initialization (such as mandatory callbacks or
-> cleanup handlers) can enforce explicit initialization at compile time,
-> as discussed at the Linux Plumbers Conference.
 
-Oh yes please! That is so nice to have, I have like halve a dozen use cases for this in the stuff I'm maintaining just of hand :D
 
-I'm not an expert for compiler interaction so I can't really review this patch, but please leave me a note when that is merged.
+On 10/12/2026 9:03 PM, netdev-bot+sashiko@kernel.org wrote:
+>> @@ -182,7 +179,7 @@ properties:
+>>  
+>>    ethernet-ports:
+>>      patternProperties:
+>> -      "^ethernet-port@[1-6]+$":
+>> +      "^ethernet-port@[0-9a-f]+$":
+>>          type: object
+>>          unevaluatedProperties: false
+>>          $ref: ethernet-switch-port.yaml#
+> [Severity: High]
+> 
+> The commit message says:
+> 
+>   Also match all Ethernet port nodes, so that ports out of the supported
+>   range are rejected by the reg limits instead of being left unchecked.
+> 
+> Does this pattern match all the port nodes the schema accepts? The
+> referenced ethernet-switch.yaml accepts both spellings for the container
+> and for its children:
+> 
+> Documentation/devicetree/bindings/net/ethernet-switch.yaml:
+> patternProperties:
+>   '^(ethernet-)?ports$':
+>     type: object
+>     unevaluatedProperties: false
+>     ...
+>     patternProperties:
+>       '^(ethernet-)?port@[0-9a-f]+$':
+>         type: object
+>         description: Ethernet switch ports
+> ...
+> oneOf:
+>   - required:
+>       - ports
+>   - required:
+>       - ethernet-ports
+> 
+> Take a qcom,ipq5424-ppe node with this child:
+> 
+>   ethernet-ports {
+>       port@5 {
+>           reg = <5>;
+>       };
+>   };
+> 
+> The port@5 child seems to match only the generic "type: object" pattern
+> in ethernet-switch.yaml. That means it counts as evaluated and passes
+> unevaluatedProperties: false.
+> 
+> None of the PPE port checks would run on it:
+> - the reg minimum and maximum
+> - the IPQ5424 "maximum: 3" limit
+> - the required clocks and resets
+> - the ethernet-switch-port.yaml reference
+> 
+> A "ports { port@N { ... }; };" container would skip all of the PPE port
+> checks in the same way.
+> 
+> The new IPQ5424 conditional in allOf uses the same
+> "^ethernet-port@[0-9a-f]+$" pattern, and only under ethernet-ports, so it
+> has the same gap. Later patches in the series don't seem to change these
+> patterns.
+> 
+> Could both this pattern and the IPQ5424 conditional use
+> '^(ethernet-)?ports$' and '^(ethernet-)?port@[0-9a-f]+$', as qca8k.yaml,
+> mt7530.yaml and lan966x-switch.yaml do?
+> 
+> [ ... ]
 
-Thanks a lot for that,
-Christian.
-
-> 
-> Also teach Sphinx (Documentation/conf.py), kernel-doc
-> (tools/lib/python/kdoc/xforms_lists.py), and checkpatch.pl about the new
-> attribute macro.
-> 
-> Link: https://lpc.events/event/20/contributions/2392/
-> Assisted-by: Antigravity:gemini-3.1-pro
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  Documentation/conf.py                 |  1 +
->  include/linux/compiler_attributes.h   | 11 +++++++++++
->  scripts/checkpatch.pl                 |  1 +
->  tools/lib/python/kdoc/xforms_lists.py |  1 +
->  4 files changed, 14 insertions(+)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 5ab26ce89daf..3e5cb9ca0970 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -203,6 +203,7 @@ c_id_attributes = [
->      "__noreturn",
->      "__packed",
->      "__pure",
-> +    "__require_explicit_initialization",
->      "__section",
->      "__always_unused",
->      "__maybe_unused",
-> diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-> index 476c4c560d17..60522ab80c5a 100644
-> --- a/include/linux/compiler_attributes.h
-> +++ b/include/linux/compiler_attributes.h
-> @@ -322,6 +322,17 @@
->   */
->  #define __pure                          __attribute__((__pure__))
-> 
-> +/*
-> + * Optional: not supported by gcc
-> + *
-> + * clang: https://clang.llvm.org/docs/AttributeReference.html#require-explicit-initialization
-> + */
-> +#if __has_attribute(__require_explicit_initialization__)
-> +# define __require_explicit_initialization __attribute__((__require_explicit_initialization__))
-> +#else
-> +# define __require_explicit_initialization
-> +#endif
-> +
->  /*
->   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-section-function-attribute
->   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-section-variable-attribute
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 8a7787d228a6..4a3ae6b0100a 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -6871,6 +6871,7 @@ sub process {
->                                 "noreturn"                      => "__noreturn",
->                                 "packed"                        => "__packed",
->                                 "pure"                          => "__pure",
-> +                               "require_explicit_initialization" => "__require_explicit_initialization",
->                                 "section"                       => "__section",
->                                 "used"                          => "__used",
->                                 "weak"                          => "__weak"
-> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-> index e3dda2fe8a53..32066fbbe763 100644
-> --- a/tools/lib/python/kdoc/xforms_lists.py
-> +++ b/tools/lib/python/kdoc/xforms_lists.py
-> @@ -36,6 +36,7 @@ class CTransforms:
->          (CMatch("CRYPTO_MINALIGN_ATTR"), ""),
->          (CMatch("__private"), ""),
->          (CMatch("__rcu"), ""),
-> +        (CMatch("__require_explicit_initialization"), ""),
->          (CMatch("____cacheline_aligned_in_smp"), ""),
->          (CMatch("____cacheline_aligned"), ""),
->          (CMatch("__cacheline_group_(?:begin|end)"), ""),
-> --
-> 2.56.0.385.gd3acb90ef8-goog
-> 
-
+The PPE ports are Ethernet ports, so this binding uses only the
+"ethernet-ports" / "ethernet-port@N" names, as required in the earlier
+review of this binding. The PPE port checks, including the IPQ5424
+"maximum: 3" limit, are meant for these nodes.
