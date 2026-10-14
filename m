@@ -1,167 +1,378 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011002.outbound.protection.outlook.com [40.93.194.2])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5050947F76B;
-	Wed, 14 Oct 2026 20:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792010106; cv=fail; b=hAsCHzxNsuZ08WbccXxagARR1oSBKF1tE5tuISeLaSasCTZPqfzLNOZTBxEpCifJXKtqAenf6bkN0efepP2fevpD3OA/XhCncpET2xnP8Be7lKmk+/DlggAWxH7OhomNO7GdB9uLGRiXyLNGDmEmB0jAc/qior4TsIDzh8KhWOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792010106; c=relaxed/simple;
-	bh=PmDpNcZdj9SKU60kZuF3boRlMFtkRKteB+tOM8z5iD8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uWss3spL7Nz7G7mH0ufk1YIYL4GJvq6DQ12Y1PlXOGWwrR6W85U8pvyfB0nI6C/0GxPOYS6KLK0fv3GzBXCvg6LQeT4xY/dJLsdVhscbPtnXEgUFoEOMsJBqlz5ffSr/EGaanCWM3f009EesF38iMndTS0EXkVD7UoFcdKneBf8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gWVNQILF; arc=fail smtp.client-ip=40.93.194.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBAB2E1EFC;
+	Wed, 14 Oct 2026 21:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792013515; cv=none; b=Hqfz4SLGHC4l4RfZkSd3Q/Ogs8+GDT434sVEjxHANnZWRF5mj2aKLwH+bg/03V3xmV7RYDPzr98xa4SStUMjqdS/M24BmVqnkoOjsDMYpna3h5nU5Pzlvir4cAPgNPDNPtdv4p0SOJ5CqmRRf4lQUsGbL1HrB99nmL+xNHRnT0U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792013515; c=relaxed/simple;
+	bh=aR5+VfiyeDilrEGKV1lJ2GI043AhmakRZD4ovEu0WN0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ASZwhSyC1UlnMXZpVFj2dqOTs5MzQpFtjQvWe/5X1fdEr5/ptckQhjLlex+L5WmrzIk5FNOm2SD/GaI8V4mMTp2b1JGOyX47yqxMqYT1lQY0ymBF/LbqWd8qbvFCkqlsmXmP7mcT0kSlUezqXzcn0T9QgaYQhc7mcQiXjBc3pf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=bF20Zd8Z; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gWVNQILF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WJHyw1o6hflM9mk1wkEYOuk849gERaw4Re/yyuq5JGJYrTyx3RI4xRPtyjzs4upyPzx0H2bT1Evq4x8dOOom4Xq9KtYOJhlGeZuWudzyeSWMbhKd9fmyisQ9XT+Y/SHWnvOBCNVTGalTlplYsSqgA+NEv9pjFhVqQPLSTaOqK8WSFulD2x+maBeTjfoFrzJii7FMtyFGsnoAh/i6E//W5h51lETj2AUiLaBFp8yH7/JdsP9pHmyGQJBMjt/30b8Jon8Yv/WTTkcLdWh5zwHVThy72QBSIkharWZXt0B3hEmMvVmLgzo+7o11QGusGV5oebhg6/ohnF/lba47PF0GDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8Fn+T4t70U3+FTaJEoLizrkBkKjb2GSDSp4wQ8au4Yk=;
- b=inl0xAEXINRz17hFQbnvTXr5x97R0eIYjzWPDMQRJtg9CKQY/lCwa3MIyb2BOsFHJ1/7NS5E2VK+agipE/PzV0Sf/1gChHrO5FwrvMW3b8uGnm0H8NxhTckKXT/qdSF23krvXtQViULpbUAPfQ8cssxx/HF02yAUQsDZdy0HAr7He0/O1LnVJ18bQRBjs1mxBJbmqeLa8zQ4M+vxgGrg2fYvlx2cok+QQLrMgr15bMpGlFYEuEjohfXdzp6846g4/9e4HIOWL2I/Ra7+cqdpIHIkpc3O/DdjuM8M6u1Ja4fpJy0qEiWPsgqNfjRMykmFzWbhhma+wsJmNTu4GL08qA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8Fn+T4t70U3+FTaJEoLizrkBkKjb2GSDSp4wQ8au4Yk=;
- b=gWVNQILFLVdxoA5YnkpyoE/qxYknOGdzBnzyvT42mSxfIniROdFYUrI9i3sQecqlyE8+4RLz3dfcAuSzcLha031vmk5lcotRKH95yLiE49qPzYr8lkxo9M8SEIMDWRE9YMkE8F7qyIgIJ7gQ4jA1zbVmxdatjyzrvMnNvbaokxtKVwKdIAvN6ix5QnITtAkikzFpzerpQQtddcMKSNYoIQ4PFWjiOauTy0Io2AJqjY11acNqI3bp9x4FmOZzLvL+a9+5tDKv38NvGSt9dNOaNVfyjK2YFt19kvwYHfmF1LbKNDSq4gcY70IndGSKRnFZFKEZpA5h6JrdsK+pnCB5WQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by BL4PR12MB9723.namprd12.prod.outlook.com (2603:10b6:208:4ed::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Wed, 14 Oct
- 2026 20:35:01 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0472.016; Wed, 14 Oct 2026
- 20:35:01 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Nimrod Oren <noren@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>,
- David Laight <david.laight.linux@gmail.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: stop recalculating min_free_kbytes once set by
- userspace
-Date: Wed, 14 Oct 2026 16:34:56 -0400
-X-Mailer: MailMate (3.0r7032)
-Message-ID: <DA36D13E-4E84-4F1F-A44B-B78A440BD80F@nvidia.com>
-In-Reply-To: <20261014140859.1006967-1-noren@nvidia.com>
-References: <20261014140859.1006967-1-noren@nvidia.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-MS-Reactions: disallow
-X-ClientProxiedBy: SA0PR11CA0039.namprd11.prod.outlook.com
- (2603:10b6:806:d0::14) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="bF20Zd8Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1792013498; x=1792618298; i=w_armin@gmx.de;
+	bh=aM2UhJ9H34f9pw+d3edmgLiVGPa0mDIo59IoLpF8DuE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=bF20Zd8Zx7P3NT9XNQjlEwh7am+ZTELtyKTQWNNCTX7//PdsVZm70ioR2NQ0h2pC
+	 TEhEJl9kJVWNTjge0BVbP10kb2bvd9y0B0bpDCgap+HyMJbj6TjxpaKC1ognV9DCP
+	 EN26LmGZm57L2jWxSDQNuUPYLo3wWc8vRkkjIgYEpRl5yeoXnBzE16Ck1PzRSX3fL
+	 KoiUb67WkiqAARMAnW8ksIYng3U0IxQZJwFeijTdLUKYEE/o0tu+S8tzq1iywA6XC
+	 x7qU0UXmL5p3bS+v7zb0+KKlvarFZWwut5gv+4FQXcHhv1x2bOGgX6LP53BEgLo0Z
+	 WsbLRxXxgyNGd+qEHQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MDhlV-1xNwac30sh-0025PU; Wed, 14
+ Oct 2026 23:31:37 +0200
+Message-ID: <c751e18d-57e9-4ce6-95dc-1bf53a7a4808@gmx.de>
+Date: Wed, 14 Oct 2026 23:31:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|BL4PR12MB9723:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0742dfe-0f42-4149-0d3e-08df2a329eb7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|6133799003|10067099003|18002099003|22082099003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	G7YnuYiQwVfOunu6MVFEkrvIeWZTD3/OR5sLuaMggvjD01EYX2ZKOawjSZNWzqH00d2pSTkhrHjL1khmhCdzdd7DmwpfaAOZaj2qsF6PPwgWqKZBdbs6HDMn1xeAF72J6nFYbu2vilKJDZwFZjUVu6ykbuhCE4u2vSWf9NA4X+SSFJnx7oTzzRTm2fJC+XMieSrllHL3jcnmycDKzvfofTmbLh+oC6ZJ8cl85pXtsbRAteeQrMEbkD2fCCQpDehdI/YLcX78IZ5HMMJHZvizpmyRerXy1eMyu76yMynvOqhd/K7qj81tSMARO6LcHcMLvJGgyKUZHgus/pXOG1ijhh0s+eGj35y03XulZlrK7sF3+SJA1mA4iNXZWtBUJkZ3Tcw8gsQ2+AZhZmWfEpf8bbfHFlXgjS5yT8x909Ntb5PumGdypSxEjXmO80MZFCURyG/6Ivgkglc8CpAZ1J3AuEyeJTmreX++3cKZxepqCgKe4UrOdbBg4s0XLWdxOpKw3uyzjDHZTaGoqN8DRG2eJu9OmQ7rBIIS0n3wtD+JEwFkPvvyV+izRkcpKLHYG89DB6fAes4yc390XVPWk+4lXLwytc16BB0KhvulcOmwyXzptseMSK956nZjscB9t/LBJ2XVqmCqaCEgnTB2lqvVlnL9g/sZFaoSPVF2NL5VYKs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(6133799003)(10067099003)(18002099003)(22082099003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LHiRH8xTWSKMYBvCc/oKtgmeBYKXHBJPnBd2oBv1vkRHNZJOe3ybIdnBXzi6?=
- =?us-ascii?Q?7vNcLfKIoic7SjvY2bKMuXEktG+y7TuSIqVfKvNB0K9duPx2xPJ1LLkab7uB?=
- =?us-ascii?Q?Iqby07QfSY59ObhGICKoTWPogSWLSzVAKi9icUkdzifa0BXjSluuecgXl+fv?=
- =?us-ascii?Q?vMZ55lTzAivOM+UUhqUKGChZB9K3NVxEmI/ji+O+AFQoPU0W49eCuukphiFT?=
- =?us-ascii?Q?xyCSfkyjHvTRrHqYTWnzyVUbUlrbMaGWPo4m1nENhNOn63OKc82c3TEok1Ue?=
- =?us-ascii?Q?fPTjGpouxsqKPATRc3J6JdQikMbEKPw4QjNUo1hIhEyTwq4f6LQHMVmIrjUw?=
- =?us-ascii?Q?jvrrFwEqqd3vmQGNXuhxMN/8toLgGLXFxrKNFUlNYRLab9bkJw4cH2RBsh3g?=
- =?us-ascii?Q?qhBMjCkBwQaM1e3KV3Rxj4V+6KgGjcLAsgCYoxHmHDjxeBtzNSCDtBvRIETd?=
- =?us-ascii?Q?5gyrrMXCDkQiQQBfcGDCG93SxwevwH/AopOa5uYmsgpdK/18m8JrMqQZjtjK?=
- =?us-ascii?Q?pcpm0EZ+3sgNHEvEos2kSzcUZZiJqAlG2uOpyJh63nFjEEKvvCEj7H9q99Kn?=
- =?us-ascii?Q?I3VjMALOR1gXR7xwUZF0qHqmoRpD9nRFndYE3wLaJW6+Be8ihiVM3+jpjVGV?=
- =?us-ascii?Q?8n1Yqg/pweOQhrDbZeECQyIZ22Vp6YI3oRcF96uIyUGyF3WLTS4feRYyDSes?=
- =?us-ascii?Q?iYYGtLv4oFH3WjBbnMaaLANArtti3uQ8p7dogQ83/pKJw8bRno5C8qWEdaD+?=
- =?us-ascii?Q?kHgQqhefL9qL64+heZTDUvYb7kJOSmQP3LlNoQJhBlLwXE1ND+zGpwwEfKql?=
- =?us-ascii?Q?WlFP6qDGOnOEp6d7E49iRQVUv61uy+aSVMmFMG2GPAb5p9l/WSXkUpIR908H?=
- =?us-ascii?Q?P3uIVxcyDjxzBKqV7ZZIkhMwti/m5A+RGYDWFfVnHigNm3t8oGBT/FbwViix?=
- =?us-ascii?Q?EE/mtllfxc5kpNZyLX3qOpNFEjwVNwr9+wr8hv8WV/IAfjyaMGAg7Us0+Yvw?=
- =?us-ascii?Q?lmR4nzJuyHgPWyq6p5+ypJatbz2kNA07XEjC7T14rFzz9mb3dqAaHcNKmHAT?=
- =?us-ascii?Q?R/zM822kJlGtEB13aVjPYR+wo7qwa5MGnReHCEzQcfqEM1xZ6AopVKCOi3vL?=
- =?us-ascii?Q?USsHwaiiQGwWfKUi/o+i0NPMcxDaIJvcs0zZ6rfXbxpBhPDiHX+fJ+n0hv7D?=
- =?us-ascii?Q?fjacxeYBKpvLG+rMgjLFh/riA4wexoLmsYwXV5jNv9Bm2mEc7nyYXhW4xWIZ?=
- =?us-ascii?Q?JVtm/ujE2iKNJCuef+hZqTFZ3PWUn7ZIZaR/KPcTF9JYg1PnJMw6oRS1DOjr?=
- =?us-ascii?Q?u5/ubcEYQTKXFlUxOigiPCIsDfFyS7Sfu4Lt665D68TnPX5buzXFMdgMpzuh?=
- =?us-ascii?Q?NDyvI9rrBzdyXwTm4r/Ft+Gbx5EVPm2ddkn/mPHpLye3HmbMUslAR2wDnEdP?=
- =?us-ascii?Q?5d0PTK4tEUMka2CB7KfK5Au3lQtVtJyX1a6Pewj/lrXk2nT9MiBucm2DOqWz?=
- =?us-ascii?Q?KtQDBPhZL01kC9Mfby+36yNCoa0yWYGlPmR9FW3UXeAHJp7KqL9fMImOpI8Z?=
- =?us-ascii?Q?Lr0JSQyU7GWBsWgG0WytT/LfyFBzlFOFBDGueEaEi/43INZk1QilMCWcccKo?=
- =?us-ascii?Q?S03ZafZ/PBL0XBKc/o8Ws90meJeXKjcmOSGHX1e3P0VoqB/p1kZ+nbbU2Ul3?=
- =?us-ascii?Q?+TN0FfNxKmZU0MIudDab0ycVvmJHHtuoQFtI1zeykDZro4wi?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0742dfe-0f42-4149-0d3e-08df2a329eb7
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 20:35:01.1801
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Il0gHHonPeYwwooKpwhFu5og4uduNTvIs6IOyn19cbRWrOcrXqFB8UyfUNs7yIEf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9723
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/4] platform profile: Add firmware-neutral aggregate
+ sysfs interface
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, rafael@kernel.org
+Cc: Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jack Wu <jackbb_wu@compal.com>, "Mario Limonciello (AMD)"
+ <superm1@kernel.org>, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20261014132500.3817549-1-daniel.lezcano@oss.qualcomm.com>
+ <20261014132500.3817549-4-daniel.lezcano@oss.qualcomm.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20261014132500.3817549-4-daniel.lezcano@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KvIyXOZv8Of9ngI43DUZZJblO1ZTX05en203T5afDZVS0h5qR4i
+ QEjCHC+4shtlOWr6hyRFGvJSlKJ0FrccQ7k16jvZeNOJWoBuVnKUv+UH+e3h3Tlef8RnKwb
+ 23o7pPACOG9DWNursFtNcvvlPgubLzkUJLp1BZkH6kpDX65ZheUUIGl/xI4c1qkEklRp0+L
+ HOLHKPWqrrNYXF0CH+YcA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:S4KYuole48k=;6NiKUx/3NVdTHJ3BhetuHoEIeSz
+ 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
 
-On 14 Oct 2026, at 10:08, Nimrod Oren wrote:
+Am 14.10.26 um 15:24 schrieb Daniel Lezcano:
 
-> min_free_kbytes is recalculated on memory hotplug and on THP sysfs
-> writes. The new value comes from calculate_min_free_kbytes() or, while
-> THP is enabled, from set_recommended_min_free_kbytes(). A value written=
-
-> to the vm.min_free_kbytes sysctl is replaced whenever the new value is
-> higher, so a lower value does not stick. This matters most when THP is
-> enabled on configurations with large pageblocks, where the new value
-> can be excessive [1].
+> The per-provider class interface is firmware-independent, but system-
+> wide profile selection is only exposed under /sys/firmware/acpi.
 >
-> Stop recalculating min_free_kbytes once a value has been written to the=
-
-> sysctl. Systems where the sysctl is never written keep the current
-> behavior.
+> Add /sys/kernel/platform_profile/{choices,profile}, sharing the existing
+> aggregate callbacks and semantics with the legacy interface. Keep
+> attributes hidden until a provider is registered and remove them after
+> the last provider.
 >
-> Link: https://lore.kernel.org/r/20260716173504.760369-1-noren@nvidia.co=
-m/ [1]
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Link: https://lore.kernel.org/r/d202dcc3-d7d7-4e98-a9a5-3137cfbfd041@ke=
-rnel.org/
-> Signed-off-by: Nimrod Oren <noren@nvidia.com>
+> Notify both aggregate frontends on profile changes. Also notify the
+> provider class device on a direct profile write, matching its documented
+> POLLPRI ABI. Restore aggregate visibility after a failed registration.
+
+IMHO the aggregate sysfs interface only exists for backwards-compatibility=
+,
+so i would be very happy if you could just make the associated code option=
+al
+and instead teach platform-profiles-daemon to use the individual class dev=
+ices
+instead.
+
+Thanks,
+Armin Wolf
+
+> Assisted-by: OpenCode:gpt-6.1-sol
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
 > ---
->  Documentation/admin-guide/sysctl/vm.rst | 7 +++++++
->  mm/khugepaged.c                         | 7 +------
->  mm/page_alloc.c                         | 6 +-----
->  3 files changed, 9 insertions(+), 11 deletions(-)
+>   drivers/platform/profile/core.c | 60 +++++++++++++++++++++++++++++----
+>   1 file changed, 53 insertions(+), 7 deletions(-)
 >
-
-Acked-by: Zi Yan <ziy@nvidia.com>
-
-Best Regards,
-Yan, Zi
+> diff --git a/drivers/platform/profile/core.c b/drivers/platform/profile/=
+core.c
+> index f18fd96b942c..507b96bdfdb1 100644
+> --- a/drivers/platform/profile/core.c
+> +++ b/drivers/platform/profile/core.c
+> @@ -26,9 +26,11 @@ static DEFINE_MUTEX(profile_lock);
+>   static DEFINE_MUTEX(profile_registration_lock);
+>   static LIST_HEAD(profile_handlers);
+>   static struct kobject *compat_kobj;
+> +static struct kobject *profile_kobj;
+>  =20
+>   static void profile_notify(void)
+>   {
+> +	sysfs_notify(profile_kobj, NULL, "profile");
+>   	if (compat_kobj)
+>   		sysfs_notify(compat_kobj, NULL, "platform_profile");
+>   }
+> @@ -250,6 +252,7 @@ static ssize_t profile_store(struct device *dev,
+>   		ret =3D _store_class_profile(dev, &index);
+>   		if (ret)
+>   			return ret;
+> +		_notify_class_profile(dev, NULL);
+>   	}
+>  =20
+>   	profile_notify();
+> @@ -324,7 +327,7 @@ static int _remove_hidden_choices(struct device *dev=
+, void *arg)
+>   }
+>  =20
+>   /**
+> - * platform_profile_choices_show - Show the available profile choices f=
+or legacy sysfs interface
+> + * platform_profile_choices_show - Show the aggregate profile choices
+>    * @kobj: The kobject
+>    * @attr: The attribute
+>    * @buf: The buffer to write to
+> @@ -360,7 +363,7 @@ static ssize_t platform_profile_choices_show(struct =
+kobject *kobj,
+>   }
+>  =20
+>   /**
+> - * _aggregate_profiles - Aggregate the profiles for legacy sysfs interf=
+ace
+> + * _aggregate_profiles - Aggregate the profiles across providers
+>    * @dev: The device
+>    * @data: The profile to return
+>    *
+> @@ -385,7 +388,7 @@ static int _aggregate_profiles(struct device *dev, v=
+oid *data)
+>   }
+>  =20
+>   /**
+> - * _store_and_notify - Store and notify a class from legacy sysfs inter=
+face
+> + * _store_and_notify - Store and notify a provider from an aggregate wr=
+ite
+>    * @dev: The device
+>    * @data: The profile to return
+>    *
+> @@ -403,7 +406,7 @@ static int _store_and_notify(struct device *dev, voi=
+d *data)
+>   }
+>  =20
+>   /**
+> - * platform_profile_show - Show the current profile for legacy sysfs in=
+terface
+> + * platform_profile_show - Show the current aggregate profile
+>    * @kobj: The kobject
+>    * @attr: The attribute
+>    * @buf: The buffer to write to
+> @@ -431,7 +434,7 @@ static ssize_t platform_profile_show(struct kobject =
+*kobj,
+>   }
+>  =20
+>   /**
+> - * platform_profile_store - Set the profile for legacy sysfs interface
+> + * platform_profile_store - Set the profile across all providers
+>    * @kobj: The kobject
+>    * @attr: The attribute
+>    * @buf: The buffer to read from
+> @@ -493,8 +496,30 @@ static const struct attribute_group platform_profil=
+e_group =3D {
+>   	.is_visible =3D profile_class_is_visible,
+>   };
+>  =20
+> +static struct kobj_attribute aggregate_choices =3D
+> +	__ATTR(choices, 0444, platform_profile_choices_show, NULL);
+> +static struct kobj_attribute aggregate_profile =3D
+> +	__ATTR(profile, 0644, platform_profile_show, platform_profile_store);
+> +
+> +static struct attribute *aggregate_attrs[] =3D {
+> +	&aggregate_choices.attr,
+> +	&aggregate_profile.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group aggregate_group =3D {
+> +	.attrs =3D aggregate_attrs,
+> +	.is_visible =3D profile_class_is_visible,
+> +};
+> +
+>   static int profile_update(void)
+>   {
+> +	int err;
+> +
+> +	err =3D sysfs_update_group(profile_kobj, &aggregate_group);
+> +	if (err)
+> +		return err;
+> +
+>   	if (compat_kobj)
+>   		return sysfs_update_group(compat_kobj, &platform_profile_group);
+>  =20
+> @@ -502,7 +527,7 @@ static int profile_update(void)
+>   }
+>  =20
+>   /**
+> - * platform_profile_notify - Notify class device and legacy sysfs inter=
+face
+> + * platform_profile_notify - Notify the provider and aggregate sysfs in=
+terfaces
+>    * @dev: The class device
+>    */
+>   void platform_profile_notify(struct device *dev)
+> @@ -643,6 +668,7 @@ struct device *platform_profile_register(struct devi=
+ce *dev, const char *name,
+>   cleanup_cur:
+>   	scoped_guard(mutex, &profile_lock)
+>   		list_del(&to_pprof_handler(ppdev)->node);
+> +	profile_update();
+>   	device_unregister(ppdev);
+>  =20
+>   cleanup_ida:
+> @@ -726,15 +752,33 @@ static int __init platform_profile_init(void)
+>   	if (err)
+>   		return err;
+>  =20
+> +	profile_kobj =3D kobject_create_and_add("platform_profile", kernel_kob=
+j);
+> +	if (!profile_kobj) {
+> +		err =3D -ENOMEM;
+> +		goto unregister_class;
+> +	}
+> +
+> +	err =3D sysfs_create_group(profile_kobj, &aggregate_group);
+> +	if (err)
+> +		goto put_kobj;
+> +
+>   	compat_kobj =3D platform_profile_compat_kobj();
+>   	if (compat_kobj) {
+>   		err =3D sysfs_create_group(compat_kobj, &platform_profile_group);
+>   		if (err) {
+>   			kobject_put(compat_kobj);
+> -			class_unregister(&platform_profile_class);
+> +			goto remove_group;
+>   		}
+>   	}
+>  =20
+> +	return 0;
+> +
+> +remove_group:
+> +	sysfs_remove_group(profile_kobj, &aggregate_group);
+> +put_kobj:
+> +	kobject_put(profile_kobj);
+> +unregister_class:
+> +	class_unregister(&platform_profile_class);
+>   	return err;
+>   }
+>  =20
+> @@ -744,6 +788,8 @@ static void __exit platform_profile_exit(void)
+>   		sysfs_remove_group(compat_kobj, &platform_profile_group);
+>   		kobject_put(compat_kobj);
+>   	}
+> +	sysfs_remove_group(profile_kobj, &aggregate_group);
+> +	kobject_put(profile_kobj);
+>   	class_unregister(&platform_profile_class);
+>   }
+>   subsys_initcall_sync(platform_profile_init);
