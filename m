@@ -1,128 +1,150 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C154B827E
-	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 13:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C5C534441;
+	Wed, 14 Oct 2026 13:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791985906; cv=none; b=ZiimT1RZfwRaWNhu8qyQR7+okQPIW+oAevvEaVuit4E+mkj8aAjPVc7eYaJA7/d+58r9KiXOoNrI9k03alFGcUVDlP9ozbaobcg3GdMQUxvilEALGT6xu4/nuEmiaF1M2fOrmiWwcXBEeqI73hFLAmk70sSmWTHpC+RvuzFyoOo=
+	t=1791985971; cv=none; b=HaZkrkfVuDxXi7UzAZyHyKL5E3/jXc3BOoXtACc1LbkdQlgC2oe59Srox3WMFmbvDfa3ObATf+eyWLYZfp5J1YCpk4dbDab6YV7beuy4iDEBQJoBKhfhOQIr8yTN31If3NHXajubXfWA3Hjs9GCiF7DPKOT+fYgPVDDf12xPDhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791985906; c=relaxed/simple;
-	bh=tgmSYRODldtiyEy+JXapeeoUqKtXmFc3P6QA8yFixoU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DPMyZ1ueNC69GknY8GVT07pOVApzmitocahNX6Jl0kqYhg8t/Ik5yCSydefYUD6LEtFfOXIwVOdzDt3LkMiWW8+0BVJ4q/DOV1Xygj9IUlANSbxsvwhcElP25Ld0ej6JDpwgW7NMF94OlQfoRGbLNXFbZkvx0O0ErQEgZIc3QZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c2e62319cfaso108963766b.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 06:51:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791985903; x=1792590703;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IEXfd68nGcyHVRwrJJo9fpBrzQEvxp+Eo/L7XZpCrXA=;
-        b=UAiN/bNyGvFfVlWazd7jwPZv8wIGtSHlfeyyho71/m3MkEVDjpoU/xcB2xRIRmqpvh
-         qruGdF00CwK6UKwW+tnDygNGK/1Jq1zUTznuCRg5FH7FMWd5r6h31K2MdGmNOZrBgt0B
-         tMs1TMgXquXAhZ1R2h21ykAfGQe/wM7OsQ96uJVc/hPk8CGz7M+0hTEaVJsbIeVA8E7h
-         gz113cWZEXb86qJwi+CdjuOvw6kqpUQTWujD92TAl4M4Ah6VEOXqwBXLJz5iQyfbleN9
-         TLmA0XUBRgTk4GOMidMpA6OLJuLsiFAt9OhTtA9bclSIaP7ZxGgRdn5nRZDN50dOtzcQ
-         ybeg==
-X-Forwarded-Encrypted: i=1; AKwUvBw8DGxYN+VK9gXDCjsqZ9MoJRgSXqDC6ed0yNVXHGSwrBU7nVhgoaHpqUqX6a3X3AjO1Pt3pvGQFGE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJDNLBf0sD42bNTG2cynnU+FPtSz4Tjy9T9eLSOPmxub2RiUn7S
-	PzNbcCh40lxUKilI+ggRO7ier1VzFhOKvu3UE8972rrogDg3z72KprmOmiz7JUbnZyU=
-X-Gm-Gg: AYBFou16MqJc1/gGzjSgqBnUeo+plnE1mk5dI8AvCV++ZJhAD6VYA/i4dzMthppbSV1
-	yPNslefMwG7+sarKqo+GzXRof0xkxs57Fn60uJROZNeQdCPvwvE2/mKxdFp9EF6FXINOx2uJt/f
-	UYOkp8oh3Ntc8c8V7E7cKbMoaJXqtLv4gy1NCkyA9VsaL2xps81zDhtDmn7YTXbejUZm0E8xoFZ
-	yZAY1HO65Co6QNdD6yq4YeiH45TcE0nMQf+33qnHAfeFu2i2/FYBk6ovuxnVmSbBsxywXmg0EHF
-	xRhWPc4nrJl8oidqVIioXoBjUAihKc1zWntCZ6UKpXI3H+rM78RoKDPAT3d+XJX+XjcZJ8UhFgE
-	bORYbcSYEYFmS0eBi8COjWY3hr0yHcN4TnCM0r5prsWBTSZ5fPw0DIK2uYd/cI+4Rn2Bp6g4Gue
-	OMR0DSP1VO71MQE842UmwC4LX8OfAjLguFM/LA/6XUZMzfk3SY/LxPuMptJKU4Z9J0mYhERRCIg
-	eWiGnLBS9SZ6T5vjk1PIx83zFkv17a8Eq5sso+Sag5Np/E=
-X-Received: by 2002:a17:907:9443:b0:c2e:4a61:d436 with SMTP id a640c23a62f3a-c31aa09632dmr1591730466b.36.1791985903038;
-        Wed, 14 Oct 2026 06:51:43 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3b5be19155sm61933666b.56.2026.10.14.06.51.40
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 06:51:41 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6ae27f06c2fso1861391a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 06:51:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxWWlF9mkWXIjn4vgCvF7OuUxr/NRIVX0SLMpmgsK1M1uCrYhSjBD2CbSps3oGffeaVfOXQzmAmiZE=@vger.kernel.org
-X-Received: by 2002:a05:6402:3046:20b0:6b1:da03:d010 with SMTP id
- 4fb4d7f45d1cf-6b1da03d6b8mr4816329a12.23.1791985900158; Wed, 14 Oct 2026
- 06:51:40 -0700 (PDT)
+	s=arc-20240116; t=1791985971; c=relaxed/simple;
+	bh=fVcfycRlOEElJyQh0w5ed2ebgn9Frj4EmHHrj7/wYFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GeaUEJkULg4QdofnC9cYpHSVlnPE2efCzB6Zw0nFsKqxxvBWpiVlYc69yotJTQEXqBMwAIY5bL7w2IlCz0Mnl1GxbrsZROPhndF6j24P6G5T6qBI8wWEBCz4xFSEzHGBE4L8e6px8XxZyGV/itxa4MRBiKN8lH91M6rfglnaldI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYLOKPLa; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYLOKPLa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1C41F00A2F;
+	Wed, 14 Oct 2026 13:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791985967;
+	bh=fG9/eyKPy40SDyhi1NG0w7HlNhFj+AsuLqMKvUUaVp0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=WYLOKPLa/MdYb05p7MIzhm8DPN1Fgwnkw40e7Vcv0XpzcecOvuBfoJmJJQaMhJfg+
+	 IluyIEbgm0hyTOWoLGLroYLWssx0UA+mqbOiopN0itMoaqt7pS7O/fG29bxG2exo+N
+	 dgfeKQ7BhsBwwKtkwCcaUtdYNdcKED4O387x1vtSk2ctGUWbio1z6qtAjQqFvBnG+M
+	 miDmC6C4EDRXpdP6D8ChQ+HjjbZNdo6NXJJFPHlvRqJ6Xcw5wxBSSMJjSH7kXJbq3L
+	 ro2dwVTOErDsgzlI8Z3+W4BgotVk7LyxyyK4qGMdGES8mqrxODugGCb1QM1W3HW+B3
+	 kyZN258MxGy3g==
+From: SJ Park <sj@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/admin-guide/mm/damon/lru_sort: fix grammar and stlye
+Date: Wed, 14 Oct 2026 06:52:38 -0700
+Message-ID: <20261014135239.3596-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <dfa05908286b5e5684ea0002dde1ee99627154a4.camel@mailbox.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012213452.1863248-1-sashal@kernel.org> <87zewiy1sd.fsf@trenco.lwn.net>
- <202610122047.A9E381A@keescook>
-In-Reply-To: <202610122047.A9E381A@keescook>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Oct 2026 15:51:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
-X-Gm-Features: AclHuK_-G5twnGpuXtga5uzESM43gtwqSHGN6ArqXvmpzC19Pilix33WOTvsZNE
-Message-ID: <CAMuHMdXR+U+pgyN+B=trSuPJuS5Kn1-kN=VMFPRSvSUiiwbqDg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-To: Kees Cook <kees@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org, 
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Leon Romanovsky <leon@kernel.org>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
-	"Michael S . Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 13 Oct 2026 at 05:49, Kees Cook <kees@kernel.org> wrote:
-> On Mon, Oct 12, 2026 at 04:47:14PM -0600, Jonathan Corbet wrote:
-> > Sasha Levin <sashal@kernel.org> writes:
-> > > At the Maintainers Summit, Ted asked whether the stable trees have a way
-> > > to deal with incorrect Fixes tags. Hannes estimated that 15-20% of them
-> > > are wrong, often because the author ran git blame and took the first
-> > > commit that touched the line [1]. We use LLM workflows to find the
-> > > commit that actually introduced a bug, and others asked us to share
-> > > them.
-> > >
-> > > This series adds them as agent skills under agents/skills/, together
-> > > with a skill for writing commit messages:
-> >
-> > Time to argue for a more fuchsia shade of mauve without actually getting
-> > into the substance of what you're doing...:)
-> >
-> > I wonder about the top-level agents/ directory.  If we regard this
-> > material as documentation, perhaps the "skills" should go there too?  As
-> > readable text, they might just help to improve human skills as well,
-> > assuming we think we still need those.  Under Documentation, they could
-> > be built into the rendered docs and made more widely available.
-> >
-> > Otherwise, if this is primarily a development tool, perhaps under tools/
-> > makes sense?
-> >
-> > I lack strong opinions here, but figured I would ask the question.
->
-> I was expecting this to appear under Documentation/. The agents are
-> designed to read human text, so let's make it at least passingly
-> sensible for humans to read too. :)
+On Wed, 14 Oct 2026 14:34:51 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-The expectation is that the agents are becoming better in understanding,
-so more "instructions" can be shared?
+> Hi SJ,
+> 
+> On Tue, 2026-10-13 at 17:32 -0700, SJ Park wrote:
+> > Hi Manuel,
+> > 
+> > On Tue, 13 Oct 2026 21:13:27 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+> > 
+> > > mention 'least-recently-used' AKA lru at the beginning
+> > 
+> > I think the readers would know what LRU means, and therefore
+> > 'least-recently-used' is not needed.
+> 
+> I'm probably one of the few that doesn't know. I didn't think of the whole picture.
+> You are right.
 
-If that is not the case, perhaps we need
-Documentation/translations/simple/, cfr. https://simple.wikipedia? ;-)
+Thank you for accepting my humble suggestion.
 
-Gr{oetje,eeting}s,
+[...]
+> > > @@ -17,7 +18,7 @@ systems, LRU lists are normally not proactively sorted but partially and
+> > >  As page-granularity access checking overhead could be significant on huge
+> 
+> Is this huge as in big or huge pages. For the latter I would put it: ``huge page``-systems
+> or `huge page`-systems.
 
-                        Geert
+It is the former case.  "huge" as in big.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> > >  systems, LRU lists are normally not proactively sorted but partially and
+> > >  reactively sorted for special events including specific user requests, system
+> > >  calls and memory pressure.  As a result, LRU lists are sometimes not so
+> > >  perfectly prepared to be used as a trustworthy access pattern source for some
+> > > -situations including reclamation target pages selection under sudden memory
+> > > +situations including reclamation of target pages selection under sudden memory
+> > >  pressure.
+> > 
+> > I cannot find what's wrong with the original sentence.  Could you expalin?
+> > Also, I think the updated sentence is rather easier to misread.
+> 
+> It's two long sentences, thus (I think) hard to understand. I _rewrote_ it this way:
+> 
+> As page-granularity access checking overhead could be significant on huge systems,
+> LRU lists are normally not fully nor proactively sorted but rather partially 
+> and reactively sorted for special events.  These events include specific user requests,
+> system calls and memory pressure.  As a result, LRU lists are sometimes not
+> suitable to be used as a trustworthy access pattern source. These situations 
+> including reclamation target page selection under sudden memory pressure.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I agree it is too long.  I like your suggestion, thank you.  Please ensure to
+put two spaces between sentences, though.  The last sentence has only single
+space after its former sentence.
+
+[...]
+> > > -DAMON_LRU_SORT finds hot pages (pages of memory regions that showing access
+> > > +DAMON_LRU_SORT finds hot pages (pages of memory regions that show access
+> > >  rates that higher than a user-specified threshold) and cold pages (pages of
+> > 
+> > rates that "are" higher?
+> ... that show access rates that are higher ...
+> and 
+> 
+> > 
+> > > -memory regions that showing no access for a time that longer than a
+> > > +memory regions that show no access for a time that longer than a
+> 
+> ... show no access for a duration that is longer than a 
+> 
+> Then ack.
+
+Looks good to me.  Thank you for the nice suggestion.
+
+[...]
+> > > -Desired active to [in]active memory ratio in bp (1/10,000).
+> > > +Desired active to (in)active memory ratio in bp (1/10,000).
+> > 
+> > I think use of brackets is also fine.  Let me know if I'm missing something.
+> 
+> There is 2x (de)prioritization, 6x [de]prioritizations, 2x[in]active and a few more in the
+> file. They are all fine by themself, but not mixed. [] or ()?
+
+That makes sense.  I agree consistency matters.  Let's use ().  Also please
+don't forget explaining the rationale of the change on the commit message.
+
+
+Thanks,
+SJ
+
+[...]
