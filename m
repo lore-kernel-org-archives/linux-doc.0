@@ -1,62 +1,87 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011008.outbound.protection.outlook.com [40.93.194.8])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BA1DDC38;
-	Wed, 14 Oct 2026 08:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791965925; cv=fail; b=nR0hdTO74kxm+7MR/CvalPnY4OxkOE7IzNR0PW5j6cB+8mzvTtR7DQ9W1GYfgTzkc3dxOgVB9EdUdayX5uw9i9P/eSqproqM1reS13cnp7SpPw55/I9QApewo27oFIdDt2C0f/AzssGPKJ7EPs6zXJV9QcMTk2Yd0is4/LeO+6o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791965925; c=relaxed/simple;
-	bh=pZuKXL+/CjMooqGp5Hh5+kCSsAKZYzHwzsgyT7jkLF8=;
-	h=Message-ID:Date:MIME-Version:CC:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Me7feii75cHVBdafyXi43JccdRMD/s4yPux2wljls9fbkuoZX83wmQQpp6QlM2LjAVe+PGou5oYQtvgcESwqfgrRrZ0nsHZxMshPZ9vbpzo0ZQFF64oGupxK9+UvNKTOMbaCFIhl+s+ZR1FRtml0GxFygYdjqWNV2kkR+u1alWw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x0W3CTep; arc=fail smtp.client-ip=40.93.194.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B84A6886
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791967697; cv=none; b=idRfF3zwPA5PxDo79ks3+GTI5OK7qume13tdsi3mnUZVdtTx3RVSaeiiwETuXxLxjCxHvxAVrKaUiPfP3xGNRCBKQAnmBGhn2ROFkx4SoZubX3iUlQXptmUIMErx4Ngq6wJ9gb+z60GqzwhH2ibOM9ZG9I51peK0KAwEZvjfrs0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791967697; c=relaxed/simple;
+	bh=ZGqvc7d+/iYrqhuRbrEYA2op0jAtZ/zizqGfMe9nFrs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SVnQYkleFiCEWjvQ4j7mbwRbUyxu90zgYFTvLJc8eStZiRnYL87sK5m3AOH4+O0jJXIJhNQDcpQbVdrhRbChpwvHoxYJmFcDjg9jrtLNCVLlK7qbipmyM5uUJX90ni4etEWzALlwNBnqNqLK2aU2xpmbs2JDa8Tie5XP6ZuNvkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YbdfmR7q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NcC2o7ei; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x0W3CTep"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mk0I2KYY4brVYkRiVaEkPYi6HeOEQ4gQ+Vc7Durlch9LzBIvJGkTUtr9F6xvUzbH8NNLGpTHjwrAtl1SMxLkUdOJIJPqfcQWuB3febllDDE06ejbnSqGAqxEHd85H1RkGw0zy3UVFcyGQt54XKMaixeDt6wSWQra1rucSowYdQKjaOnn8anMGN+DkR91tq8SyjOPOU1/ITVB8bPBAjbTwP5E7yumrhxH8NWeUI7Wzyk4LJ+Z4neYO4JEOCBKO7wylQtRTailGETCthtB5GNR3oDALbCiLGDL5jUSAvjqB1jA4oZPGPUDm5uif6ojHjhcC5iGRm4TI9mfymZBTIEOSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B/O6P/5Mykn6grmjNggrSRIITjQ1hZN2/tusJ7WQk0I=;
- b=k8JeDCYWX9r8SlVwxnpxsxxibo9DufkK8wo5a82yYpbdDs1EKqsercGZGYTMfQgOAjfI42xw8KZT24LOIGk7rRCW5T72Mvvuvwjj+YuhTv51mTKVbo/VuE+nbZwFmV40bcYjA9sR1mNkIq1Rc+gfqTgqiVJ103RHMdP3TbjPXxCiCjds5GZJy5bwSWshxDMyuwqpJhuXSbvgovzEbTpLm5Ww9vVyg7kcjPVo/pzMngWUM/eYDwTL39cnOszoT2aGikEBQAm9ZGrxqB+FaZmJKy5WWtechp63o7VfrXzKL3x1ZGrZLC+zpqgrEBG0HY2fpiequ0rSJL9llc+v2xtbEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B/O6P/5Mykn6grmjNggrSRIITjQ1hZN2/tusJ7WQk0I=;
- b=x0W3CTepWnJgzEAVBsyan4wnQqFsTDhO6in1fe5iRWYo8DjYm9rZU0uJ+y8cXTX9wSJLqrXdqvTta4dJn2uibj+1RAVfax/8LQYM8QjeSmaJ8WXOjvn7EwmYktjmBU/bS/C+GAyyJJBx+hkWZ3TIybcKCgVyOaND2wV25/YGfhU=
-Received: from SJ0PR13CA0111.namprd13.prod.outlook.com (2603:10b6:a03:2c5::26)
- by PH7PR12MB9223.namprd12.prod.outlook.com (2603:10b6:510:2f2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
- 2026 08:18:38 +0000
-Received: from SJ1PEPF000037A9.namprd03.prod.outlook.com
- (2603:10b6:a03:2c5:cafe::86) by SJ0PR13CA0111.outlook.office365.com
- (2603:10b6:a03:2c5::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Wed, 14
- Oct 2026 08:18:38 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF000037A9.mail.protection.outlook.com (10.167.244.182) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Wed, 14 Oct 2026 08:18:37 +0000
-Received: from [10.85.37.249] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 14 Oct
- 2026 03:18:23 -0500
-Message-ID: <98ce2887-7df0-47e4-b1f6-4dba2442126f@amd.com>
-Date: Wed, 14 Oct 2026 13:48:16 +0530
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YbdfmR7q";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NcC2o7ei"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E8iAHk3000934
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=; b=YbdfmR7qFW3G1rkd
+	xmFuSJ2t92YC+447QJXN4AnFyDwRGXJEEKQSf+qjHKVVHGOKuxLEzofy1ukzFJct
+	POuUR9Hh//xyLs7vIQ+RxePCDXbADKxzlPdH/87KdqcSFeRrmiuLDifz4nfzglMj
+	8mYliWndv3ZliitjvIPjeN1i4E+OylEZ7xL80dJSQmNbizI1Zpp+fDS2HDRDbxs/
+	NMknhlL557L6rPlbwSJjL0Qt7s5f+Js3PZKLMSst6HHX1DueoJ6vfs3UTUZHqdOc
+	UctsWm7C+uCF1EbIk1WelpaixW38Nhu+5v3tjT17q7kAMSZkAURostJH08ZQcjrP
+	8zMxeA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9sbeu320-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 08:48:13 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e818ca61bfso7644455ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 01:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791967693; x=1792572493; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=;
+        b=NcC2o7eiTghpUOBD4X6Dsj6Le1KI8KPwLZr6Fg1EsfV6yPNxv0sSLc7o5QNh4ZKe94
+         ymO2/j9UUvF/ssamBZt8cCdcfAK5zosrEBcwsM+2S+EjMHh8HeTqsHW5YgnHiJnkNoPo
+         GrKyQMLsR7sKcaQ0YARbqvuZOInqVJVuuXU+elMGHcclphRCxCfaTL9Xv6w28PN0q2uG
+         eRP+EA1W6RNMQ4Mzh3poLoMVoCvswNuxFzIB0DrwLkjXjc3sR4zWT5DPE3swMlYmGkhT
+         pHjo6EUWH8+KHMLzpr4BLEVmk2soe8xCApXjj+T+G6z73UMdMYtcsG8/ubrutBU4Mi7g
+         VEAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791967693; x=1792572493;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Iv3MbPKU2HM6gGRdqb50h6fRVjR44ldB1k8a2yxCqGo=;
+        b=h1frfaXg5QEVG2AtQv1cCj2Aa7+tA92WdyivNaOAZrXlSS78b7IpqljGiuuktXPw0t
+         8lJ1Qyn25VpUwICq9OqFAUE/nHWCaZKhBe1HY/qDhVibzhc6tOoImq8Xl3n62z7hoEcs
+         9BVv+5bhx3xs5lVEEJNO0veLV1gl+sc7uqX6F0dxI+jSCVDRARcbPWWzYWQeh/efS6Xf
+         k5AgLMjJkbQAzcwGydozxvfcwGtPEKOKrrrbClQbKhJy6Cd9dbu6to2wkCJVmCusN6T6
+         X3iWwl6VSwcn7p61iXe59w/FkTxWPVwW1nyVdVXtkOlrxrDVRi1NWmux/szjlbROJJhl
+         GJ3A==
+X-Forwarded-Encrypted: i=1; AKwUvBydNQuQemYIGaWuZQdYqweCgih9PJkr7Ti5nI9rfckgvpzG4yejlzOaCNa3ySgaPcQ3yEgGLLIrZaY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYITd1HC8+OnURe8z03efbqCT1DjirOd7SqgNBSqjdKZt+dpJYbT
+	KM3sy+FbkCntYS7wgQZQaQuoLT8xqiFj96pJszHkw98duvsKBYY0H2DT3hrVr9n7bLLCfb2+Ed4
+	zH25xWBsqv7v43JDvrxVIRwHeLHIZdDXgXujJdvvS2FfFWbHQ4Q0D3nOI9p2/pdc=
+X-Gm-Gg: AYBFou04xS395hu07jfNJpKKffJbXu/0O9KiB9yJCePKyUnG8z1CI0AQ9aQeqlPrzU8
+	+DRQvVkUwpSY8aMB5ZX2bcb1lEl+gEVyLY+J+ramCEC6hDhv34M5+55RnwqKqj+vIMGg56C1b58
+	SvVmmPxQKYAiDP5dywV3aiGmyY58ZdG59L83Z1IBLAlOLE5UD+szfbpn6VOMwpVo8KLQHdf9Osn
+	eDP6R3WcEsu4eCIXcMaLTvUuArprOtzXGVRBxw+ymZ1RF4gjc+SnaYgWtDkLqa9NS2ZWQFEymdW
+	ERmKf6QiaFsiUObMz/hC6+WrAlHl7dlpZv5jkhOVP6hlbFk0inDuC8xAdPCZxFWkNQTfpYUmNR0
+	7fC9ApSp9j06T3nNsqpOAQONfWr58RWOKIkm84fhjtbWIY/4JK5SwffXlm11G7tpL
+X-Received: by 2002:a17:902:f54f:b0:2e8:16e4:c568 with SMTP id d9443c01a7336-2e842cd278cmr129277125ad.37.1791967692862;
+        Wed, 14 Oct 2026 01:48:12 -0700 (PDT)
+X-Received: by 2002:a17:902:f54f:b0:2e8:16e4:c568 with SMTP id d9443c01a7336-2e842cd278cmr129276855ad.37.1791967692370;
+        Wed, 14 Oct 2026 01:48:12 -0700 (PDT)
+Received: from [10.133.33.181] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b16b3sm66817195ad.30.2026.10.14.01.48.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 01:48:10 -0700 (PDT)
+Message-ID: <c2e6d301-9f71-4b4d-a6a5-6be10f63efde@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 16:48:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,147 +89,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-CC: <sarunkod@amd.com>
-Subject: Re: [PATCH v4 6/7] KVM: SVM: Add support for AMD IOMMU Guest APIC
- Physical Processor Interrupt (GAPPI)
-To: Vasant Hegde <vasant.hegde@amd.com>, "Borislav Petkov (AMD)"
-	<bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>, "Joerg Roedel (AMD)"
-	<joro@8bytes.org>, "Paul E. McKenney" <paulmck@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Breno Leitao <leitao@debian.org>, "Christian
- Brauner" <brauner@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, "Dave
- Hansen" <dave.hansen@linux.intel.com>, Eric Biggers <ebiggers@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, Kiryl Shutsemau <kas@kernel.org>, Li RongQing
-	<lirongqing@baidu.com>, Marco Elver <elver@google.com>, Paolo Bonzini
-	<pbonzini@redhat.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, "Robin
- Murphy" <robin.murphy@arm.com>, Sean Christopherson <seanjc@google.com>,
-	"Shuah Khan" <skhan@linuxfoundation.org>, Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>, Thomas Gleixner <tglx@kernel.org>, "Will
- Deacon" <will@kernel.org>, <iommu@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-coco@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <x86@kernel.org>
-References: <20260821055611.27138-1-sarunkod@amd.com>
- <20260821055611.27138-7-sarunkod@amd.com>
- <bdf29f6c-9f2e-4230-b5f5-5f25827f5b7a@amd.com>
-From: Sairaj Kodilkar <sarunkod@amd.com>
+Subject: Re: [PATCH net-next v2 00/11] net: ethernet: qualcomm: ppe: Add
+ support for IPQ5424 SoC
+To: netdev-bot+sinfo@kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com
+References: <20261011-qcom_ipq5424_ppe-v2-0-8c7b057e2c43@oss.qualcomm.com>
+ <179172392274.2527009.4852578355298213005@kernel.org>
 Content-Language: en-US
-In-Reply-To: <bdf29f6c-9f2e-4230-b5f5-5f25827f5b7a@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Jie Luo <jie.luo@oss.qualcomm.com>
+In-Reply-To: <179172392274.2527009.4852578355298213005@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000037A9:EE_|PH7PR12MB9223:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe97b226-96ed-4475-914e-08df29cbbfa8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|23010399003|36860700016|921020|56012099006|11063799006|4143699003|261009223027099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	x0mCN7IgDrXaghCoGHC8EOOtM8J9EznMQ5iRwYmRp5yf7WuNBtJgF8oJ6lNTAlVGQT048kBC15ZMn/tUhbuaBA4jrrsRQQZc03AjEREekTcRVUatJ5f3/rZWdi1Aor+5ortiiX3PHIgjT34MJFHo3akPBAG7FcXyA6beB6narutttyAtyOxnr/jQOtUtxMVsxlK2g5sGvp+4B4Luxa5fGlicuDOCm1flvrM1I5cBq79ZWtG47wHQLSilkjchlvV8IuGSvS6JTq65eZ+P6VYXdnPV3Q58xpKQ4iYS2RChAowuWRKKD16puSfAC+Buv912NUpGtmhiftWSUDI6CC7ANthOuyZqnL1VGXccI3nvgtEslBXK6Asje6NVFrGfDsmWcyGCJ/WKwSLM2DnzpRb8Fa9sxXjK/q7YsY/78AxKYeLSCms3hLkEznAFNGHlpiKMAmTu+TrJlVBFhhWBEzA2FrD3WG3v4qDYNoXv18nlTw2nRQY+UYUxQOn3BOvAUG2MCQ9pLLQkt70SA3Tpm32fh8H/BbahAbyTFcHTQOwvec1tHEhuFrRvBAog35IXV1icuzbf+ZGCgTI1ldy9xzldrl0pRBqSrowUAmEwGnQ3T9rFFH9kvNk8w74oMKbN5eRSJaMT0JvFvlPVoPAeNecp0hVNn82pEc0yM40oAYYyEyx5jh8c8XCEJURqrBHAXSjE4byoXAY/nuLOXtg9Pht9XxSEGdc/ERSVdBcw7vv/585KlvZzY8rskQwyvzAEUOja
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(23010399003)(36860700016)(921020)(56012099006)(11063799006)(4143699003)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	MHYhb8X9cbYSojlSMYY+HfWhsiQsq9YRiZ5FqVTR1WzQhsPZG8ys6P5XadM0WMefVwmFId5fZxnjtCZNM15JcILg8Rad8YWzG0xhcGrIcaVLKdy512HsrLWAEf5Nt91zBindduNSI/dVwcyByDACQY7d1N0f6t7mKUtlKLYDoskxKfhEqjZiUtJ8/N/5H2HOQnyAV5tomJUXKQW3KHJCzQNpluUEl6b5arec9Ntwv8Mj/NwmjwShSDmgfcgxHc4MytPGnste6QdTNx8GD9oHyId4fzNgrellsHtpfyIWUg/XNra5Id5ZDcMtLgeNiFMGIu1hnPOnhaOGmoo4VagoA1kflfwcBE+dg60KTVJehZvlM6umKFTndO0rF6LQ4KYCPJAqdF2rCg+Qocer2ExKbqPYW1yNANbMlBu99SOuFUcLmAXiC4Kn7VjcrY91GsOr
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:18:37.9234
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe97b226-96ed-4475-914e-08df29cbbfa8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000037A9.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9223
+X-Proofpoint-ORIG-GUID: 6dHYMAuL6nWIUSK5tL702kN1yjoGBOqO
+X-Proofpoint-GUID: 6dHYMAuL6nWIUSK5tL702kN1yjoGBOqO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAzNCBTYWx0ZWRfX9tucV848MX2s
+ rnv8SG0rw0WjCzaYU5CLF+AAelPwCn8bibB+G31rg8UYOnYcwM4n0beU9fYLU1D3CnkRBDM7mmd
+ Wa2NsJMk9iBWm/T+BbTjDWt/YYjWL8yx7X3FH5qUCXIQwJZmi3i7d4Sfrvfpw0e3dJ5wfGcxQ3B
+ kWUTK9uVYoSdLBjIqLGCg8HJHsiIFFwnr4d2Ck13+mO+dTkB0aMePWgd8hmc+ybEHR7q3dyK+/X
+ GGNxSA/s94FAStGztr2XIwfz+i3Ghr/S85/+wW5zmk5LoLXFVLgDjLwfmgqtU1GGjNRsWR6F5Za
+ K0oWhFM7YUkf01RCGu1b+NQS4mTM4rUDEhF73nkp6cBnU1HviwlP1pd3Wq8/kK97BXnVchFUx+t
+ +vIjQ0Ye1u7nvP+38MveXsygFcEXZ1L3FE04JtMJlUGc/5J4+26dOCZor2w2cd7YPGTpHNicsYA
+ UYV8gIgxokkfG8xX1Aw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAzNCBTYWx0ZWRfX2zZuhthEeqvL
+ ZzOmqmCGP8fZeB8AmoFi6WKSarE3idcxlhqKvw6Fzpl0puE7yJtFAuLWNwU3egts43B8099zEzo
+ IcQVGfMKe1YhA3RtVjKHfCbfDQmZ/7Y=
+X-Authority-Analysis: v=2.4 cv=U7AHnuru c=1 sm=1 tr=0 ts=6acf41cd cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=wfrYX8O7EWgUh0Dss7UA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610140034
 
 
 
-On 8/21/2026 9:45 PM, Vasant Hegde wrote:
+On 10/11/2026 9:05 PM, netdev-bot+sinfo@kernel.org wrote:
+> Hi!
 > 
+> This is an automated message. This series looks like a fix, but its
+> commit messages seem to be missing some information:
 > 
-> On 8/21/2026 11:26 AM, Sairaj Kodilkar wrote:
->> With AVIC guest-mode interrupt remapping, device interrupts are posted into
->> the guest vAPIC backing page by the IOMMU. When the vCPU is not running
->> (IRTE[IsRun] = 0), KVM must still be notified to schedule it. The legacy
->> path uses the GA log.
->>
->> GAPPI (Guest APIC Physical Processor Interrupt) is an alternative to the
->> GA log mechanism provided by the AMD IOMMU. With GAPPI enabled, the IOMMU
->> still updates the vAPIC backing page IRR, but the host wakeup notification
->> is delivered as a physical APIC interrupt to IRTE[Destination], using
->> IRTE[GATag][7:0] as the vector (POSTED_INTR_WAKEUP_VECTOR).
->>
->> SVM follows the Intel posted-interrupt wakeup model. Each pCPU maintains
->> a list of blocked vCPUs that may be woken by a GAPPI delivery to that CPU.
->> When a vCPU blocks while waiting for an interrupt, SVM enqueues it on the
->> wakeup list of the pCPU on which it was previously running and passes that
->> same pCPU's physical APIC ID to the IOMMU to program IRTE[Destination].
->> The rationale is that the vCPU is likely to run again on the same pCPU,
->> which is common when vCPUs are pinned; targeting GAPPI notifications there
->> reduces unnecessary VMEXITs from GAPPI deliveries on other CPUs. SVM
->> registers the GAPPI handler via kvm_set_posted_intr_wakeup_handler(). On
->> delivery, it walks the local vCPU list and wakes vCPUs with a pending IRR.
->>
->> All GAPPI logic is gated on amd_iommu_gappi. Without it, KVM and the IOMMU
->> falls back to the legacy GA log mechanism for vCPU wakeup.
->>
->> Signed-off-by: Sairaj Kodilkar <sarunkod@amd.com>
->> ---
->>  arch/x86/kvm/svm/avic.c | 72 ++++++++++++++++++++++++++++++++++++-----
->>  arch/x86/kvm/svm/svm.c  |  3 ++
->>  arch/x86/kvm/svm/svm.h  |  5 +++
->>  3 files changed, 72 insertions(+), 8 deletions(-)
->>
->> diff --git a/arch/x86/kvm/svm/avic.c b/arch/x86/kvm/svm/avic.c
->> index dd497530d365..18ac24ef40e1 100644
->> --- a/arch/x86/kvm/svm/avic.c
->> +++ b/arch/x86/kvm/svm/avic.c
->> @@ -874,6 +874,8 @@ int avic_init_vcpu(struct vcpu_svm *svm)
->>  	INIT_LIST_HEAD(&svm->ir_list);
->>  	raw_spin_lock_init(&svm->ir_list_lock);
->>  
->> +	svm->gappi_cpu = -1;
+>  - How the issue was discovered, e.g. hit in production, hit during
+>    development, syzbot report, manual code inspection, LLM or static
+>    analysis tool scan.
 > 
-> Can we initialize it to CPU0?
+>  - Whether the issue was actually triggered, or is only theoretical
+>    (e.g. found by code inspection). If it was triggered please include
+>    the symptoms, like the stack trace or error messages.
+> 
+>  - What hardware the change was tested on. For driver fixes please
+>    mention the device (and if relevant firmware version) used for
+>    testing, or say that the change was not tested on real hardware.
+> 
+> Please do not repost the series just to address the above. Instead,
+> reply to this email with the missing information, so that reviewers
+> can take it into account. If the series needs another revision for
+> other reasons, please include the information in the commit messages
+> then.
+> 
+> The evaluation is done by an LLM so it may be wrong, if you think
+> that is the case please reply and explain.
 
-Yeah, I think we can do this, I was worried about passing gappi_cpu=0 to
-kvm_pi_disable_wakeup_handler() when vCPU is not in list but I think it
-should be safe because of list_empty() check.
+As I replied on v1 [1], both issues were found by manual code inspection
+and are only theoretical. Neither was hit in production or reported by
+users, and the Fixes: tags were dropped in v2 for that reason.
 
->> +
->>  	if (!enable_apicv || !irqchip_in_kernel(vcpu->kvm))
->>  		return 0;
->>  
->> @@ -886,6 +888,20 @@ int avic_init_vcpu(struct vcpu_svm *svm)
->>  	return ret;
->>  }
->>  
->> +void avic_destroy_vcpu(struct vcpu_svm *svm)
->> +{
->> +	if (amd_iommu_gappi && svm->gappi_cpu != -1) {
-> 
-> Redundant amd_iommu_gappi check?
+The series was tested on the Qualcomm IPQ9574 RDP433 and IPQ5424 RDP466
+boards.
 
-I am not sure if we should call kvm_pi_disable_wakeup_handler() outside
-amd_iommu_gappi check. Although it is safe to do so, I want to have this
-call inside amd_iommu_gappi check.
-
-Thanks
-Sairaj.
-
-> 
->> +		unsigned long flags;
->> +
->> +		local_irq_save(flags);
->> +
->> +		kvm_pi_disable_wakeup_handler(&svm->vcpu, svm->gappi_cpu);
->> +		svm->gappi_cpu = -1;
-> 
-> Redundant assignement?
-> 
-> -Vasant
-> 
-
+[1]
+https://lore.kernel.org/all/4272947d-a9df-4cf2-b890-c2b2392800e5@oss.qualcomm.com/
