@@ -1,467 +1,181 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B23CC313
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 14:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792075944; cv=none; b=vAneVoUkfTl2TRoVgDig+nKgZkLSlxZvCEcze6fB+tTBdJQkkpsGosL0/rnyKDumTk0Kml6Wqf2SnzYNUF7zSDtP2NyC9JMJW8L7amNM/XvzUY0hDzCscugCSUDVlQj0gx+S2Cv4DnAwUz+c6JGctESfTuZBio6hDm90KPjPGfo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792075944; c=relaxed/simple;
-	bh=IIYDSkmK5d46cA9S1uvpN3XtFbPTp7y5uXpeN3p4TGM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AYiIazuY0Nwf2Cpc0SPZW17vm3hlWxhSqVUGioD7/ovH7nINbDQ/AdqoQCm8lLQrJppY0lH5jDxHxDjlRn3b2bRRRI6K5Sae1DHHS9P54mPPmlMBlqkI6blqjJPMcs+ZckYSsHXTM8EcdBe4azz0mmWGLhGExjQcv5QWq9/FoQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=cnWmxz8Z; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80BF51DB07
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 14:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792076050; cv=pass; b=SUsA7/ekcGo+K3yXVGXOhlnRcRpDrJWNgeYkRxla5M8e9RjuclK5v22Nmjg0A3MZvX1fpS+zjQO1ra+aUYZG80xQUZxiWk27H1omHo+dshqFNS8aG0SzCPIRhKnLfh2SjkWiu33HuiSWRB+PorcvnYmJ0xH+pE1nq2Isihj6p+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792076050; c=relaxed/simple;
+	bh=AnKorVyMFsue4YLkX+u6nG8xKZlce7b3N8YLsAXV5Xs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c68SgMgPNnlm2EXDmHD/kJDRgi69TtpyEiQ9rkYcTIwNnbF5BQTNzrREBSX4gOmO+xahRf4t13UfnYVKesTtdxL6bL4WtfYRJNdMpDNiOOJXvuuWs+qDUqujI0sGMDuFXadpIppLj/oMiOx0aYC5NjtltWe3zFMVg0oU1FgMvD0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UxWAsH/C; arc=pass smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="cnWmxz8Z"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c2e4df2e26fso737429866b.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 07:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UxWAsH/C"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8a83d2706fdso21767037b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 07:54:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792076048; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VTj00te/AxDCU6n3ildZy8l8p/RKllB9v93dxsPgdbmG/u3KBZocClGMZxSYU80v+I
+         xjcmUPY043d8VZQ3YRS3SFkEUmaaIm0Ndan+7KAMlWlGR4pXoUq4LZk52LDHMpWHd0W7
+         9/KR3QBUu9p8QwYLOhT08tVZUOO2XdjfgfCS24lg1KQe4tZ+nkDlw6HIijjIb3oZ5fir
+         9dyJTzwBMbdrbYt4eursl8ZhLMCwKc8z/gPoMeT6CUBky/a9Ej5dSdiuhLtEphxf5U5W
+         xX17cr66x+looaCrGkoFjqeRBWpf4cx44STTbeZUtI7yVdazOwx6U4X7IKIHroRXbHRn
+         jrwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
+        fh=FQCJB1QHZInx3X/onOulcq7P9tINKOqojKJ/Q1IRbLA=;
+        b=S161OO7dqeHnRZWO/6bDx+2e1DiXHv3dVFou9RqX3f2pgSzZttETHv1VYWdA1YlRyy
+         V+EsTbHbtozuf4kshmJRdPFVBuEmOUToe46zyNudLaDd36dUuLAssLcd9ULUG1Qn+UxE
+         CFE1DD82PxnUCbOZisCptMgIkSZ1rFmSVwMpFmdcBnReYM6MMvS+mkzOJLsqDO49Gv11
+         MbmBMAF0/f69ar53hcFvnu0Fc3ThzLJ+YSFA13/QvS4qwrNtv67VrtwMGkYwVogTzv2o
+         aaaN8HrA+zyd+f+ghFRjXpnkUwkZGG99C1GrYumVpty33aOZSOurLD64exajvHIRNYkN
+         6oIQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1792075940; x=1792680740; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iVqDzpfDA3WTL/rRjIXG9OKMA9xQQIb+x8amT3YTw4A=;
-        b=cnWmxz8ZcnbfMHQTfn1P6thcq2rxXphes7bLwWIkOoHjHMtDBORrjJNyI0mo9Oe4hD
-         WWe3W5dQLvtTFk74/SwxoTkVNmpRDXrFz3GF6ZoUz8vrRMuPJWIvcIdUx40PFSC4XDG0
-         P3R+7bepXlyEQlb1mmeN2MFlLu6nxC1VSwXO3CQi98PIzDDdBcXSUQge+R79F+c8CcST
-         M8uE7yAZWgHGyceoOBFnvl+YeYepOAQ0uR4Xs4V1wZ3B55gT8L1lBT9Kes7tSyLoCXV+
-         6/Uy/aZoD6+AgUJMW9PRPpR8WaHm+QJN4oJGqoPFY/nLN/vKAJumYJZF+y5q57Pn3rFo
-         YsSA==
+        d=google.com; s=20251104; t=1792076048; x=1792680848; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
+        b=UxWAsH/Cl7/pyenIZyo5P3fZgk1zP6Tgjx/mH4nNHyPuv99+U32mBwhmKQYGIuy+rp
+         Mx90p+EvV2iZLOQHFf6O4FzMt3oILoc1Y/FiXHViCO9mFpZkVG/rjvoV85x5xbIhfjYm
+         1b1JJVJm0aFvmi8SA50Kh8CGnpVC3OzlSIKREiv5kYwpEMFgILUJrHGWXGoRw3AXMRZm
+         tYtwD861qNFtSI0ttepy8ANkUKBHddWoj6qAqyDVxIeBn5UmjXLUKl7rsXoKdbqzU+S5
+         ylflJHtR1kEDSLCbQ5txgFO3TY/5BIMusihTQ6KBMpDbKO1sbe+gYkoWuEfnM8EnacAy
+         kR2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792075940; x=1792680740;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iVqDzpfDA3WTL/rRjIXG9OKMA9xQQIb+x8amT3YTw4A=;
-        b=ttGDj9RB/+1i2LlOKZwdkgGWn82aE0EOZQ8O5dMnnBOTm6FAI3LHEsiVpWhaQ7zXlc
-         rvxhipz+5HNRgcIO9kAtuXtR/M6hs+cJdIhr3balI8xrY6fpwTZrVtZuCf/IZSfeQYlN
-         gfhLOd2Xsn1amjpKrFDZi/YDJOZOvRaOixb2rl2NOxRrk38TlTch0XsGJvyuUIrnDL0j
-         lptliN/xEJes/IQaKnTFZhbIiDZ/wgViqiID07ARLEREWUcEN/TVJn7r7ZPbUjZOBCaL
-         z3Il/ZD/3oolOOLiXFoSdEne822/eH4GzmMgv9GFk5723oi4M5gpd7QFTq9buCTVfLK0
-         SbUg==
-X-Forwarded-Encrypted: i=1; AKwUvBzXYkc7qPH+OTobczuWSNpo30qtSf1yxmxUVBPSzFEp5GK9ApNPfRA3m+MaekMF3azBEXATZ3EytSo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKNA/1ZKU4fqJ+65jnrLvYckeHz2TOg6wCkHJbi0iWylYBudqek
-	DALsO7nPRg2sHgI+k6EGJeX+7Dcfw9zN8B5D51G7RIAhWeS0oCiaDiqXQCXwBoVNGUM=
-X-Gm-Gg: AYBFou22mZkkJpfZYFoeDhifq4N6uZIs/PvzWLWnzuJZryVWHXLgawOiqpkvvsk6CR5
-	nVyKJ+9Y86+KWBlHyWHFV4pNWp6GJp5ayiihnOB17gQILoNYVwD9mC6KBPsnqy1NWOMv+BJfq7q
-	UPGUrA2AML+hDPeyaiHiu6tc/DyJdVZ1bM4MFtlgK6NCuSFguHhD1GU1+WbpeLT8i29nTugDnHM
-	PUVWgtEd8HsJ5zQMgJKhyitsC/O4eFxtgFdM8wUEyng+P5c9MLTHDsNozDP/n5OqC124U3/Tdch
-	Hxlq4NSGfl/J2M9mK8Ifnb/S/Mzz/QuqVVWEWLk+wRSWJc5uexLt6RPBSwcbMNOfgxFe5/S+p6T
-	U26JCt+AP5RLM9idqjcOJhdQT6d7Nzxhz+mFvJkP5HnVhkejGSXyQ0HvkFqav9rnRDToaibLfsw
-	qY567PLVjfJrXYHfedqqW+/YPasMYj4kVMNxY3By9UHQ9iag1GZNkDKn8Z6eE10IrkKBHdZ1pdn
-	EHE5Prm8A==
-X-Received: by 2002:a17:906:c10b:b0:c2e:4742:491c with SMTP id a640c23a62f3a-c31a9f887cbmr1836174666b.31.1792075939352;
-        Thu, 15 Oct 2026 07:52:19 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3f41b78f77sm95954666b.54.2026.10.15.07.52.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:52:18 -0700 (PDT)
-From: Jiri Pirko <jiri@resnulli.us>
-To: linux-coco@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	x86@kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	jgg@ziepe.ca,
-	david.quigley@intel.com,
-	lukas@wunner.de,
-	ksinyuk@kernel.org,
-	rodrigo.vivi@intel.com,
-	cedric.xing@intel.com,
-	sameo@meta.com,
-	drdeeglaze@gmail.com,
-	James.Bottomley@HansenPartnership.com,
-	aik@amd.com,
-	jpiotrowski@nvidia.com,
-	qinkun@google.com,
-	pgonda@google.com,
-	jic23@kernel.org,
-	alistair.francis@wdc.com,
-	ankita@nvidia.com,
-	suzuki.poulose@arm.com,
-	kas@kernel.org,
-	rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com,
-	dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com,
-	peter.fang@intel.com
-Subject: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Date: Thu, 15 Oct 2026 16:50:53 +0200
-Message-ID: <20261015145053.3664509-21-jiri@resnulli.us>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261015145053.3664509-1-jiri@resnulli.us>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
+        d=1e100.net; s=20260707; t=1792076048; x=1792680848;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dYgoYAnEHvzfJJCgXJF81sGKm1IaJw1pU61WKhV8va4=;
+        b=HcK8a8xieIKu9SOtFq6po0ZekXBf/pi1hG827XfLDVukPUnQoOKq60Y8nInm4pCP3Q
+         2P6yoUzKEVgHTo7+0P8bphgXJ/lYf2wr3FSMel9vep4tjIHJVX76xEKi5uuBfN60JPBx
+         0M3Db9ltsCSaEzZCzQMYmLMkyySupom0asVdEQUj8Flfilwe8oWH/7U0QJBes9v7Zu7I
+         ocPKZh7HA8wHIZgvizBQGuCpe5MLHxkRwtGBHdWlXcwd2iwv+UWGA9mDCPAKCbGrvk5p
+         WT0Vz9GmEBwS9unnZwO6dxdRFLuUpbE/rM3qNmSId2ouglAYhp3221boQCtdb7esXn9a
+         10WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwzL5mUbDlbKFPeTbit14o7G2SQu7G4XzpoZX+2HegWMFPT54hocFNeGaCNec/Iovj+IsN6MxAbKgs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLejZfUGxdkSCke6Ht+XvpwO0Fl80pbqmPBzoKLFYxO4b1X5fey
+	Em+LuuqGb9JRe0HpMeBRmF20PgmvY6wuxIuR7FVyQ6SP3cB6nww/tQd/emvEckiss+4/VR3vPMZ
+	sjgQm8M3ZDZxXffTmbyUmAmjZuqDWCemEm+i5xMKY
+X-Gm-Gg: AYBFou3Xy1h2d11rhKypWo5F56TZeqSGohQrVkvGg/6aX9dAG+o+WE7kFrjxAQ0MSK5
+	OAdtHx1oBXSC9BnZsmAHSByjNYGwLKcPJTUFUrXAr/B95EuvHDd397ESWuOKBhYm9z8Sv9kAzai
+	SBpxXZEzgSKNjP3dzJIyQxB+CEheBgSrB/iLPqNDY2EjE55mXqBLlUHu0uMsSVXLR4I4onyp91r
+	kfQoUchMaPoA+D89CV8czclkcfNIzxsQCuRHv5sL0b33Bjj3reStkgljvIGKg4OCm6xOLwctW+u
+	51GWtti8hHfemdiSZEpH7W6y0XE1yzK+dLp+4uV9kW21/4ks+hbA0wZx/4IWQh7uOiEJR17uv1n
+	nGoG9F7CthA==
+X-Received: by 2002:a05:690c:6601:b0:854:819:64c9 with SMTP id
+ 00721157ae682-8b07edb5ea4mr60117707b3.30.1792076046940; Thu, 15 Oct 2026
+ 07:54:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261014095238.2132580-1-sh_def@163.com>
+In-Reply-To: <20261014095238.2132580-1-sh_def@163.com>
+From: Marco Elver <elver@google.com>
+Date: Thu, 15 Oct 2026 16:53:29 +0200
+X-Gm-Features: AclHuK9m7JT0Qck1kk4b70bqEqtddMmAhlHS6jUlvnCmwhJmF1L67Sq-JSWhkSA
+Message-ID: <CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] kcsan: add targeted watchpoint sampling
+To: Hui Su <sh_def@163.com>
+Cc: dvyukov@google.com, kasan-dev@googlegroups.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jiri Pirko <jiri@nvidia.com>
+On Wed, 14 Oct 2026 at 11:52, Hui Su <sh_def@163.com> wrote:
+>
+> Hi,
+>
+> While investigating a low-frequency scheduler access around `calc_load_idx` in
+> `kernel/sched/loadavg.c`, I found that KCSAN's per-CPU `kcsan.skip_watch`
+> interval can make focused reproduction difficult. Unrelated instrumented
+> accesses on the same CPUs may consume the interval before execution reaches a
+> known suspicious address. This is a limitation in focused-debugging control;
+> the proposal leaves the default sampling policy unchanged.
+>
+> Setting `kcsan.skip_watch=0` removes the interval globally and can make
+> watchpoint setup much more frequent for all eligible accesses. The existing
+> debugfs whitelist and blacklist filter which reports are emitted after
+> watchpoint selection; they do not select which addresses may set up a
+> watchpoint. There is currently no runtime control to focus setup attempts on
+> one known address while leaving unrelated accesses out of that selection.
+>
+> This RFC adds an optional single-address target to the KCSAN debugfs
+> interface. When enabled, a non-atomic access is eligible to set up a watchpoint
+> only when its byte range contains the target address. Matching accesses bypass
+> the normal `kcsan.skip_watch` interval; nonmatching accesses neither set up a
+> watchpoint nor consume that interval. The target can be specified as an address
+> or a kallsyms symbol, including `module:symbol`; `target=off` restores normal
+> sampling. A static key guards the disabled path.
+>
+> Patch 1 adds single-address target matching and the static-key-guarded runtime
+> state. Patch 2 exposes address and symbol targets through debugfs, patch 3
+> tests the matching semantics, and patch 4 documents the interface and its
+> performance implications. The standalone integration module used for runtime
+> checks is local and is not included in the series.
+>
+> Testing:
+> - x86_64 GCC and Clang `bzImage modules` builds completed, and the candidate's
+>   built-in KCSAN selftest passed 4/4. Runtime validation recorded setup
+>   activity for exact-address and `module:symbol` targets, none for a
+>   nonmatching target, and normal sampling after `target=off`.
+> - In a separate motivating loadavg run, targeting `calc_load_idx` produced a
+>   KCSAN report involving `calc_global_load()` and `calc_load_nohz_start()`. A
+>   separate upstream run with the default `skip_watch=4000` did not report
+>   those locations during its test window.
+> - Across 10 rounds of 1,000,000 accesses, medians were `24.549 ns/access`
+>   upstream, `24.654 ns/access` with targeting disabled, and `26.981 ns/access`
+>   with an enabled nonmatching target. The disabled-path results were
+>   indistinguishable at this measurement granularity. A separate 10-round,
+>   10,000-access hot-match run measured `81.1 us/access`: every matching
+>   access enters `kcsan_setup_watchpoint()`, so this includes setup slow-path
+>   work and represents focused debugging rather than normal use.
 
-Connect the attestation family to the native TDX service. Expose
-TDREPORT, Quote, MRTD and RTMR operations while preserving the existing
-native interfaces.
+You should compare fast path disasm before/after, just to make codegen
+isn't adversely affected.
 
-Assisted-by: Cursor: GPT-5.6 Sol
-Assisted-by: Cursor: Claude Opus 5.5
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
- Documentation/driver-api/attestation.rst |  16 ++
- drivers/attestation/Kconfig              |  14 ++
- drivers/attestation/Makefile             |   5 +
- drivers/attestation/providers/tdx.c      | 277 +++++++++++++++++++++++
- 4 files changed, 312 insertions(+)
- create mode 100644 drivers/attestation/providers/tdx.c
+> Questions for discussion:
+> 1. Is address-targeted watchpoint sampling a useful primitive for focused
+>    KCSAN debugging?
 
-diff --git a/Documentation/driver-api/attestation.rst b/Documentation/driver-api/attestation.rst
-index 5ce121ded05f..f253c848e856 100644
---- a/Documentation/driver-api/attestation.rst
-+++ b/Documentation/driver-api/attestation.rst
-@@ -46,3 +46,19 @@ CTLV first drains userspace operations.  The base ``pre_fini`` callback then
- withdraws the instance from the kernel registry while provider state and CTLV
- event emission remain available.  CTLV stops events only after that callback
- returns; provider and base ``fini`` callbacks may then release native storage.
-+
-+TDX provider
-+============
-+
-+``CONFIG_ATTESTATION_TDX`` registers a ``ctlv-attestation-tdx`` instance for
-+the native TDX guest service.  MRTD has stable MR ID 0 and is read-only.
-+RTMR0 through RTMR3 have IDs 1 through 4 and are readable and extendable with
-+SHA-384.
-+
-+``EVIDENCE_GET`` supports complete raw TDREPORT and Quote objects.  Both
-+formats cryptographically bind all architectural TDX measurement registers,
-+so successful replies carry the matching MR-journal boundary.  The provider
-+exposes no verdict or device-security operation.
-+
-+The provider consumes only ``<linux/tdx-guest.h>``.  It does not call the TDX
-+misc ioctl, configfs TSM-report, or TSM-MR sysfs frontends.
-diff --git a/drivers/attestation/Kconfig b/drivers/attestation/Kconfig
-index e2fb4b4205fe..139bcc710019 100644
---- a/drivers/attestation/Kconfig
-+++ b/drivers/attestation/Kconfig
-@@ -10,3 +10,17 @@ menuconfig ATTESTATION
- 	  translate the common operations to their native service.
- 
- 	  If you are unsure, say N.
-+
-+if ATTESTATION
-+
-+config ATTESTATION_TDX
-+	tristate "TDX attestation provider"
-+	depends on TDX_GUEST_DRIVER
-+	help
-+	  Exposes TDREPORT, Quote, MRTD and RTMR operations through the common
-+	  attestation CTLV family. The native TDX misc, TSM-report and TSM-MR
-+	  interfaces remain available independently.
-+
-+	  If you are unsure, say N.
-+
-+endif # ATTESTATION
-diff --git a/drivers/attestation/Makefile b/drivers/attestation/Makefile
-index e520fee2e90d..d56df9adaa75 100644
---- a/drivers/attestation/Makefile
-+++ b/drivers/attestation/Makefile
-@@ -3,3 +3,8 @@ obj-$(CONFIG_ATTESTATION) += attestation.o
- 
- attestation-y := core/core.o core/ctlv.o core/events.o core/mr.o \
- 		 generated/ctlv_attestation_gen.o
-+
-+obj-$(CONFIG_ATTESTATION_TDX) += attestation-tdx.o
-+
-+attestation-tdx-y := providers/tdx.o \
-+		     generated/ctlv_attestation_tdx_gen.o
-diff --git a/drivers/attestation/providers/tdx.c b/drivers/attestation/providers/tdx.c
-new file mode 100644
-index 000000000000..9b41b985c783
---- /dev/null
-+++ b/drivers/attestation/providers/tdx.c
-@@ -0,0 +1,277 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <crypto/sha2.h>
-+#include <linux/attestation.h>
-+#include <linux/ctlv.h>
-+#include <linux/err.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/tdx-guest.h>
-+
-+#include "../generated/ctlv_attestation_tdx_gen.h"
-+
-+struct attestation_tdx_init_info {
-+	struct device *parent_dev;
-+	const struct tdx_guest_ops *ops;
-+};
-+
-+struct attestation_tdx {
-+	struct device *parent_dev;
-+	const struct tdx_guest_ops *ops;
-+};
-+
-+static const enum hash_algo attestation_tdx_algorithms[] = {
-+	HASH_ALGO_SHA384,
-+};
-+
-+static const struct attestation_mr_props attestation_tdx_mrs[] = {
-+	{
-+		.id = 0,
-+		.name = "mrtd",
-+		.algorithms = attestation_tdx_algorithms,
-+		.algorithms_count = ARRAY_SIZE(attestation_tdx_algorithms),
-+		.readable = true,
-+	},
-+	{
-+		.id = 1,
-+		.name = "rtmr0",
-+		.algorithms = attestation_tdx_algorithms,
-+		.algorithms_count = ARRAY_SIZE(attestation_tdx_algorithms),
-+		.has_register_index = true,
-+		.register_index = 0,
-+		.readable = true,
-+		.extendable = true,
-+	},
-+	{
-+		.id = 2,
-+		.name = "rtmr1",
-+		.algorithms = attestation_tdx_algorithms,
-+		.algorithms_count = ARRAY_SIZE(attestation_tdx_algorithms),
-+		.has_register_index = true,
-+		.register_index = 1,
-+		.readable = true,
-+		.extendable = true,
-+	},
-+	{
-+		.id = 3,
-+		.name = "rtmr2",
-+		.algorithms = attestation_tdx_algorithms,
-+		.algorithms_count = ARRAY_SIZE(attestation_tdx_algorithms),
-+		.has_register_index = true,
-+		.register_index = 2,
-+		.readable = true,
-+		.extendable = true,
-+	},
-+	{
-+		.id = 4,
-+		.name = "rtmr3",
-+		.algorithms = attestation_tdx_algorithms,
-+		.algorithms_count = ARRAY_SIZE(attestation_tdx_algorithms),
-+		.has_register_index = true,
-+		.register_index = 3,
-+		.readable = true,
-+		.extendable = true,
-+	},
-+};
-+
-+static const struct attestation_evidence_supported_object
-+attestation_tdx_evidence_objects[] = {
-+	{
-+		.format = "tdx-tdreport-1.0",
-+		.max_length = TDX_GUEST_REPORT_LEN,
-+		.binds_mrs = true,
-+	},
-+	{
-+		.format = "tdx-quote-1.0",
-+		.max_length = TDX_GUEST_QUOTE_MAX_LEN,
-+		.binds_mrs = true,
-+	},
-+};
-+
-+static const struct attestation_evidence_caps attestation_tdx_evidence_caps = {
-+	.min_challenge_length = TDX_GUEST_REPORTDATA_LEN,
-+	.max_challenge_length = TDX_GUEST_REPORTDATA_LEN,
-+	.max_total_output_length = TDX_GUEST_QUOTE_MAX_LEN,
-+	.objects = attestation_tdx_evidence_objects,
-+	.objects_count = ARRAY_SIZE(attestation_tdx_evidence_objects),
-+};
-+
-+static int
-+attestation_tdx_evidence_get(struct attestation *att,
-+			     const struct attestation_evidence_request *request,
-+			     struct attestation_evidence_result *result)
-+{
-+	const struct attestation_evidence_object_request *object;
-+	struct attestation_tdx *tdx = ctlv_priv_child(att);
-+	size_t length;
-+	void *buffer;
-+	int ret;
-+
-+	if (request->objects_count != 1)
-+		return -EOPNOTSUPP;
-+	object = &request->objects[0];
-+	buffer = kvmalloc(object->supported_object->max_length, GFP_KERNEL);
-+	if (!buffer)
-+		return -ENOMEM;
-+	if (object->supported_object == &attestation_tdx_evidence_objects[0])
-+		ret = tdx->ops->report_get(tdx->parent_dev,
-+			request->challenge,
-+			request->challenge_length, buffer,
-+			object->supported_object->max_length, &length);
-+	else if (object->supported_object ==
-+		 &attestation_tdx_evidence_objects[1])
-+		ret = tdx->ops->quote_get(tdx->parent_dev,
-+			request->challenge,
-+			request->challenge_length, buffer,
-+			object->supported_object->max_length, &length);
-+	else
-+		ret = -EOPNOTSUPP;
-+	if (!ret)
-+		ret = ctlv_blob_write(object->output, 0, buffer, length);
-+	if (!ret)
-+		result->object_lengths[0] = length;
-+	kvfree(buffer);
-+	return ret;
-+}
-+
-+static int attestation_tdx_mr_read(struct attestation *att, unsigned int mr_id,
-+				   struct attestation_digest_set *values)
-+{
-+	static const enum tdx_guest_mr native_mrs[] = {
-+		TDX_GUEST_MR_MRTD,
-+		TDX_GUEST_MR_RTMR0,
-+		TDX_GUEST_MR_RTMR1,
-+		TDX_GUEST_MR_RTMR2,
-+		TDX_GUEST_MR_RTMR3,
-+	};
-+	struct attestation_tdx *tdx = ctlv_priv_child(att);
-+
-+	if (mr_id >= ARRAY_SIZE(native_mrs) ||
-+	    values->values_count != 1 ||
-+	    values->values[0].algorithm != HASH_ALGO_SHA384)
-+		return -EINVAL;
-+	return tdx->ops->mr_read(tdx->parent_dev, native_mrs[mr_id],
-+		values->values[0].data);
-+}
-+
-+static int
-+attestation_tdx_mr_extend(struct attestation *att, unsigned int mr_id,
-+			  const struct attestation_digest_set *values)
-+{
-+	struct attestation_tdx *tdx = ctlv_priv_child(att);
-+
-+	if (mr_id < 1 || mr_id > 4)
-+		return -EOPNOTSUPP;
-+	if (values->values_count != 1 ||
-+	    values->values[0].algorithm != HASH_ALGO_SHA384)
-+		return -EINVAL;
-+	return tdx->ops->rtmr_extend(tdx->parent_dev, mr_id - 1,
-+				     values->values[0].data);
-+}
-+
-+static const struct attestation_provider attestation_tdx_provider = {
-+	.evidence_get = attestation_tdx_evidence_get,
-+	.mr_read = attestation_tdx_mr_read,
-+	.mr_extend = attestation_tdx_mr_extend,
-+	.evidence_caps = &attestation_tdx_evidence_caps,
-+	.mrs = attestation_tdx_mrs,
-+	.mrs_count = ARRAY_SIZE(attestation_tdx_mrs),
-+};
-+
-+size_t ctlv_attestation_tdx_priv_size(void)
-+{
-+	return sizeof(struct attestation_tdx);
-+}
-+
-+const void *ctlv_attestation_tdx_pre_init(const void *init_info)
-+{
-+	return &attestation_tdx_provider;
-+}
-+
-+int ctlv_attestation_tdx_init(struct ctlv_device *ctlvdev,
-+			      const void *init_info, void *priv)
-+{
-+	const struct attestation_tdx_init_info *info = init_info;
-+	struct attestation_tdx *tdx = priv;
-+
-+	if (!info || !info->parent_dev || !info->ops)
-+		return -EINVAL;
-+	tdx->parent_dev = info->parent_dev;
-+	tdx->ops = info->ops;
-+	return 0;
-+}
-+
-+void ctlv_attestation_tdx_fini(struct ctlv_device *ctlvdev, void *priv)
-+{
-+}
-+
-+int ctlv_attestation_tdx_op_pre(void *priv, struct ctlv_op_ctx *ctx)
-+{
-+	return ctlv_attestation_op_pre(ctlv_priv_parent(priv), ctx);
-+}
-+
-+void ctlv_attestation_tdx_op_post(void *priv, struct ctlv_op_ctx *ctx)
-+{
-+	ctlv_attestation_op_post(ctlv_priv_parent(priv), ctx);
-+}
-+
-+int ctlv_attestation_tdx_device_info_fill(void *priv,
-+					  struct ctlv_op_ctx *ctx,
-+					  const struct ctlv_cursor *request,
-+					  struct ctlv_cursor *nest)
-+{
-+	struct attestation_tdx *tdx = priv;
-+	const struct tdx_guest_info *info =
-+		tdx->ops->info_get(tdx->parent_dev);
-+	bool ok;
-+
-+	if (!info)
-+		return -ENODEV;
-+	ok = ctlv_attestation_tdx_info_mrconfigid_put(nest, info->mrconfigid,
-+						      sizeof(info->mrconfigid));
-+	ok &= ctlv_attestation_tdx_info_mrowner_put(nest, info->mrowner,
-+						    sizeof(info->mrowner));
-+	ok &= ctlv_attestation_tdx_info_mrownerconfig_put(nest,
-+							   info->mrownerconfig,
-+							   sizeof(info->mrownerconfig));
-+	return ok ? 0 : -EMSGSIZE;
-+}
-+
-+static void *attestation_tdx_add(struct device *parent_dev,
-+				 const struct tdx_guest_ops *ops)
-+{
-+	struct attestation_tdx_init_info info = {
-+		.parent_dev = parent_dev,
-+		.ops = ops,
-+	};
-+
-+	return ctlv_create(parent_dev, &ctlv_attestation_tdx_family,
-+			   &info);
-+}
-+
-+static void attestation_tdx_remove(void *client_priv)
-+{
-+	ctlv_destroy(client_priv);
-+}
-+
-+static const struct tdx_guest_client attestation_tdx_client = {
-+	.add = attestation_tdx_add,
-+	.remove = attestation_tdx_remove,
-+};
-+
-+static int __init attestation_tdx_init_module(void)
-+{
-+	return tdx_guest_client_register(&attestation_tdx_client);
-+}
-+
-+static void __exit attestation_tdx_exit_module(void)
-+{
-+	tdx_guest_client_unregister(&attestation_tdx_client);
-+}
-+
-+module_init(attestation_tdx_init_module);
-+module_exit(attestation_tdx_exit_module);
-+MODULE_DESCRIPTION("TDX attestation provider");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("ATTESTATION");
-+MODULE_IMPORT_NS("CTLV");
-+MODULE_IMPORT_NS("TDX_GUEST");
--- 
-2.56.0
+On surface, it seems helpful.
 
+But there's another angle: The need for reproduction arises because we
+want to debug an issue, and the fix it with a code change; after the
+code change and a recompile, are there new data races that were
+introduced as a side-effect? Perhaps the original data race you were
+hunting is gone, but new ones may have been introduced. So my approach
+has never been to try and focus on a single data race, but look for
+data races that may have appeared adjacent to code I touched
+(filtering based on function name). The method of reproduction are
+stress tests that more or less reliably trigger the original data
+race, but should also trigger data races (if they exist) adjacent to
+the code being scrutinized.
+
+But perhaps what you're after is asking "are all accesses to this
+variable data race free" only?
+
+> 2. Should matching accesses bypass the normal `kcsan.skip_watch` interval, as
+>    proposed here, or should targeted mode retain its own sampling interval?
+
+It might become quite slow for frequently accessed data, but perhaps
+that's intentional if we want maximum races detected for focused
+testing.
+
+> 3. Is the existing KCSAN debugfs file an appropriate interface for configuring
+>    a single target?
+
+This looks clean enough.
