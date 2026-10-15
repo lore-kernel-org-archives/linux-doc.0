@@ -1,38 +1,34 @@
 Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBC849AA24
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043643806D0
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:45:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064422; cv=none; b=oDNHMX/2R0k50GPXjpQds/btE1q2msAheYQJ4O8hqM5DBkpYnPjXOzKfWjy30bGERnbSAFDnE2z2lr6mEMmYB/REvjHbLp/z7X6prNGYyt8shmT8cSAHJIWkldHpHbdiZavkRLAAUbSzEgRA4eLYUCGnvu90eO3I2tAcjq4uFLQ=
+	t=1792064711; cv=none; b=l4WDwU424hhctKpI3CJK9xj6t8XOrFTj+HrGidtVPdMs0L3jvAU/3WQrYafWTTUk8VgjURs8wTfgzO0P05XmctczcaGsqMbkcYa1Ncau6QvCW7B8e5ATJYUmq3AxJv+RpVVAjoPPTp0HcOINoRQslrdGZkvDRr+Sdn7oiMy7Qos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064422; c=relaxed/simple;
-	bh=WrIl2V6/+vHdh9lsYXKRb2wtLrMBBxx5uhfmnB2HaOI=;
-	h=In-Reply-To:Date:Message-Id:Content-Type:Cc:From:Mime-Version:
-	 References:To:Subject; b=chNzKvTY+HA/U47V6DUzi7wLUZQdysI67R6Hiho2i/BJwesBeuuoQyC/G6ci9vFpyKrf06MLy8/PArKcg5UEOpIcYqZALNCH+bZw5rM5a3Y4BnyApoH3ln8JaTKngxOCpH9SkI0kVj9OHhropdAuBfr/hWlaCzpUZ3aNvfm9A/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=KMaBtk66; arc=none smtp.client-ip=209.127.230.111
+	s=arc-20240116; t=1792064711; c=relaxed/simple;
+	bh=td+2C/ZqZ0tJOzbidUjih2kVEMjBQk+gP/LTrHYJ9ZA=;
+	h=Message-Id:In-Reply-To:Cc:From:Subject:To:Date:Content-Type:
+	 Mime-Version:References; b=OQmWqj+YnL8bnjQi11Gwh7qyl+Uu3lMnvM/Skf7l04iuQOPN7WguwGPru6XM7ZdjLSaltd9IE5LAz1VzATsVeJ5YRTxpKgXwBRzLkgYf+ibdXsQb4fiVaG4KpdhwufCIdcYZ2PcMwyXHkLmScclKRkl+ySs+wjd7tiWASBTpjqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=iwKMRuyB; arc=none smtp.client-ip=209.127.230.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="KMaBtk66"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="iwKMRuyB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792064407; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1792064705; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=WrIl2V6/+vHdh9lsYXKRb2wtLrMBBxx5uhfmnB2HaOI=;
- b=KMaBtk66CUOyRVizyXfwVFkmtoIqA5aJKevCMvzv+ib3u39jeIBs1f6nTEs5DIqOsNpEvk
- GgM3JUescu7U4TGnKW0+5AVuswtaiQ6VERjptDC3Gp/CbCKyDN/dYXu/RcfuYJVpAHIhik
- eTsyZ9no+DEgRKtWU41b6v3NdOqmXjYpke5bnKmXgsO8eQK1FabjXwK/Hhy+uKA+dgz4sf
- k6Z/Y9a1gV5UtFWgUeWl5vBKxwOQRijsWhrcFfUKN8WR10P4dEEVZwjGJAci4+FQXF+Gkd
- KrF+X0s4AHDkvuWzGRdbuajgsYysEjrHKzXq5QKvafrNlJup6auZtdmGFolUUQ==
-In-Reply-To: <as9_SwmLxAcTovnl@gourry-fedora-PF4VCD3F>
-X-Lms-Return-Path: <lba+26ad0bb96+80f1c1+vger.kernel.org+lizhe.67@bytedance.com>
-User-Agent: Mozilla Thunderbird
-Date: Thu, 15 Oct 2026 19:39:42 +0800
+ bh=td+2C/ZqZ0tJOzbidUjih2kVEMjBQk+gP/LTrHYJ9ZA=;
+ b=iwKMRuyBVJxC9RCYYCPJvqQYmOqnh7J9TH5Hro6Fcc6VG3T6Ui3iROJoDGYCyPsXwJmaFP
+ pS2Ho7t5nOOc/UzZp5WgM4qBSspv21RDXwcJvSX+WRI0BuE/OrW/qoc2tPWiaKyUYaAAsB
+ 14f+DuWCr/FRfdIZXDE7nZGRbrbWE4CiYFkqGBb2wg1SykCVslXIisVichKLGrft/HRmSh
+ z3FMLZtnQCXllguzJTpogzAooHQxVJ+0seJ65QmRCqSdAphoQXxifUsKXXjiETViUcV3En
+ vVgd1yX93k8m9zqWFzqFHLGhx5l2mIlkGSTCP+9phw6Rd2eVDgWIoZFdcRTY5w==
+Message-Id: <5c26465f-3100-4f89-bacf-b395e413ed35@bytedance.com>
+In-Reply-To: <as-D8ff7oXKX_CwF@gourry-fedora-PF4VCD3F>
 X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Message-Id: <9b9e6c92-a291-48b4-a128-c31bc718db7a@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
 Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
 	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
 	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
@@ -42,71 +38,64 @@ Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
 	<linux-mm@kvack.org>
 From: "Li Zhe" <lizhe.67@bytedance.com>
+Subject: Re: [PATCH 6/6] sched/numa: ignore preferred nodes without normal balancing
+To: "Gregory Price" <gourry@gourry.net>
+Date: Thu, 15 Oct 2026 19:44:40 +0800
+Content-Transfer-Encoding: 7bit
+X-Lms-Return-Path: <lba+26ad0bcbf+8976d8+vger.kernel.org+lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-4-lizhe.67@bytedance.com> <as9_SwmLxAcTovnl@gourry-fedora-PF4VCD3F>
-To: "Gregory Price" <gourry@gourry.net>
-Subject: Re: [PATCH 3/6] sched/numa: fix scan-period adjustment for shared faults
+User-Agent: Mozilla Thunderbird
+References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-7-lizhe.67@bytedance.com> <as-D8ff7oXKX_CwF@gourry-fedora-PF4VCD3F>
 
-On 10/14/26 9:12 PM, Gregory Price wrote:
-> On Wed, Oct 14, 2026 at 05:43:44PM +0800, Li Zhe wrote:
->> Commit 37ec97deb3a8 ("sched/numa: Slow down scan rate if shared faults
->> dominate") intended to slow scanning when either shared or local faults
->> dominate, and to speed scanning up only when many private faults are on
->> remote memory pages.
+On 10/14/26 9:30 PM, Gregory Price wrote:
+> On Wed, Oct 14, 2026 at 05:43:47PM +0800, Li Zhe wrote:
+>> numa_preferred_nid is normal AutoNUMA task-placement state.
+>> Memory-tiering-only mode uses NUMA hint faults to drive page promotion,
+>> not CPU placement.
 >>
->> The implementation uses the private-fault ratio as the slow-scan signal.
->> That makes private-dominated samples slow scanning, while
->> shared-dominated samples can still fall through to the speed-up path.
->> That does not match the stated intent.
+>> Even after tiering-only faults stop updating normal placement statistics,
+>> a task can still have a preferred NUMA node from earlier normal balancing
+>> or from previously polluted state. Several scheduler paths consume that
+>> stale state when the NUMA balancing static key is enabled, including
+>> explicit NUMA task migration, sched-cache preferred LLC and scan CPU mask
+>> selection, load-balance locality checks, fbq classification, and wakeup
+>> group selection.
 >>
->> Replacing the private ratio with a shared ratio fixes the
->> shared-dominated case, but the scan-period code still only has separate
->> locality and sharing ratios. Those ratios cannot distinguish a window
->> with many remote shared faults and only a few remote private faults from
->> one with substantial remote private faults.
+>> Add a small helper for normal NUMA placement being enabled and use it to
+>> ignore numa_preferred_nid when NUMA_BALANCING_NORMAL is disabled. Keep
+>> the preferred-node migration retry timestamp update before the normal-mode
+>> check so accepted non-normal sysctl states do not leave stale retry state
+>> behind.
 >>
->> Track faults that are both remote and private, and only speed up scanning
->> when that signal is large enough. This keeps local or shared samples
->> slowing scanning and avoids extra hinting overhead when the remote
->> activity is mostly shared.
+>> Keep the rq nr_numa_running and nr_preferred_running accounting unchanged
+>> so runtime mode changes do not make enqueue/dequeue accounting asymmetric;
+>> the load balancer simply stops consuming those counters while normal
+>> balancing is off.
 >>
-> This changes NUMA balancing behavior that's been around since 2017.
+>> This does not clear numa_preferred_nid and does not change memory-tiering
+>> promotion decisions.
+>>
+> Same feedback - need to present user-facing performance changes to show
+> the impact of this change.
 >
-> While it's not the stated intent, it's been consistent since then,
-> and i'm concerned that this could cause unexpected regressions.
->
-> Do you have performance numbers on this change to show it's actually
-> beneficial compared to the existing behavior?
-
-
+> Sashiko also has some correctness feedback.
 Thanks for the review.
 
-I do not have convincing performance numbers to show that this is broadly
-beneficial across workloads. NUMA balancing heuristics are
-workload-dependent, and my motivation here was mainly the consistency of
-the scan-period decision logic rather than a broad performance claim.
+For the performance side, I do not have convincing user-facing
+performance numbers for this patch. Similar to patches 3 and 5, this was
+written from the code/semantic correctness side for memory-tiering-only
+mode, rather than as a general improvement for normal NUMA balancing
+workloads.
 
-The same concern also applies to patches 5 and 6. They were written from
-the code/semantic correctness side, but I do not have convincing workload
-numbers to show that they are broadly beneficial.
-
-For `update_task_scan_period()`, there is a more concrete issue in the
-memory-tiering-only case. The function currently depends on normal NUMA
-placement fault statistics. In memory-tiering-only mode, when there is no
-useful normal-placement feedback, it can keep taking the slow-down path
-and grow the scan period towards the maximum. I am testing a separate
-patch locally to handle the memory-tiering-only scan feedback explicitly.
-
-So I think I should separate the severe fixes from the heuristic changes.
-For the latter, I will narrow the next version to NUMA balancing behavior
-that is specific to memory tiering, instead of trying to justify the
-changes as general improvements for normal NUMA balancing workloads.
+I did not see Sashiko's correctness feedback on the public thread. Could
+you share it here, or ask Sashiko to reply on-list? That would help me
+understand the exact issue and make sure the next version addresses it.
 
 Thanks,
 Zhe
