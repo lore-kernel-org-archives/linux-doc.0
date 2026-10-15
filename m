@@ -1,91 +1,159 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-242.mta0.migadu.com [91.218.175.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B9E47ACE4;
-	Thu, 15 Oct 2026 13:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1784E0212
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 13:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792069258; cv=none; b=tx72oM2bfW8PTL4k1H+nx//EMg9bCpNUpdvdV5oqxN8wtXcwJBVmIA4jkWQjjO4ILFlAqSRQa3Qqm3rON3ueq77/YqSjKwwz2gVBkFCimfZ1Fa+wYDwyxkTXL0wP5PqkPIh4qw5LZzJDTXbCKOu9QIEFil9j3xqT0UkoBnz2jgw=
+	t=1792069385; cv=none; b=Ix210JwJGihe5Cl5JBJPF6AAiL9YnSCfBp9HjQ+Qu6WDXD++FQt16qCypSeInljA3HotYBHhf4fodG7tHP4xsmSdcdI4iera7DLpqBTMrfTCCj6lDjvjrN1/y15vc8NPRwTx5rALAfu+FdFrxF84fmdOjWT45ZqXWNspghu0cqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792069258; c=relaxed/simple;
-	bh=zkKSwzqobtkO50buLWMNOEnQsxnqkwYG6uach0BOGmo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j+ASBaqFXIBvF+SjqbWCvDYlB+vWHE46xYwJXnsZfn94mqEkTBQup0annWBsIQMvozME5OJ8xPmV8No90UWntJnBqvnxh7HxJTJIZY/Lfsf6WeuP9RLylUambeocM5qzGxBNOppd66f1uwzm0p8l0CL/Pt6O2UHA5CK20uWVH9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DERIIPKu; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1792069385; c=relaxed/simple;
+	bh=VdVodvPg3p6dDjQ9jUKaUEb04QaunJ71hLYZPi/ddKE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZdqEPXj75t3wD4Oa7BkDv8+/NrChxPpVycCoD78g1ezGtrwUM6Z/bz068H08J3WkDLLIDyqYBVokTTSK+2DO7EB7azXPWa1bnxc6g/ws7RShNV5VC0tKH36Dv4I1CJ4Kc4t6n8WU0fuYaZOfAXWxN/h/uHhL7hvXlgmQz5gp/BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RZmlHshl; arc=none smtp.client-ip=91.218.175.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DERIIPKu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 20D4D408F6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1792069250; bh=RP/W6qL9Y9sy24N/XTNR7g/wdRCQod3TW5Vn48QZhOw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DERIIPKuZ28chcZG/gwdW6ghWeGJWjr3oT/gL5Yc0GU0+VWYowGtxYPE5S/l64Kpf
-	 xwcvm5IdlpQtFxLYtn9k9J1eW3Nu9TiFkgSptEaJ2ao05i9CRhWVSDcl6VqfCuaGNF
-	 nRiT7YGLmUEffjhOhiZZ3TRSqXmRYzqCjoM/CKEoN5RKDtw1f+QbAXHQibbKcGmipx
-	 odd4ybaK77K3zaXzvqOUhaV9NVVDFFaGK/OTMVFXihk7Pqn79zFCMARvuLSfqZ/Sox
-	 0jJ36ZWiXPPMFenMCV1vX8fD78/GAJnOn5JlrTWh/2l+eDOy+B2m7mMH0M7t/v3zNb
-	 JcVx5qcWc8w2A==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 20D4D408F6;
-	Thu, 15 Oct 2026 13:00:50 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, rdunlap@infradead.org, mchehab@kernel.org,
- aleksandr.loktionov@intel.com, bvanassche@acm.org,
- tudor.ambarus@linaro.org, emmaonana18@gmail.com
-Subject: Re: [PATCH] docs: kdoc: strip DOMAIN_NS() wrapper in function
- prototypes
-In-Reply-To: <20261015005314.7195-1-emmaonana18@gmail.com>
-References: <20261014224714.16922-1-emmaonana18@gmail.com>
- <20261015005314.7195-1-emmaonana18@gmail.com>
-Date: Thu, 15 Oct 2026 07:00:49 -0600
-Message-ID: <8733u7t8xq.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RZmlHshl"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=VdVodvPg3p6dDjQ9jUKaUEb04QaunJ71hLYZPi/ddKE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792069380; v=1; x=1792674180;
+ b=RZmlHshlVdI7h8o4NDOlXIVeAXJzSXphNENBO7VVV0Kyx9uAzGB4mOQhyteuaTZO+7QdRJuK
+ MAt451h2Z/8ZWRWfOTnZiMFKDqHyMwdRP3RpI729GlgbNQAxucqjE81kdRQ3u8AJXxLZFaTVgo2
+ e6r1rhRXL4eKm0pTUhnAkw+4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5f4e01ac4f981c2e;
+	Thu, 15 Oct 2026 13:03:00 +0000
+X-Mizu-Trace-ID: 5f4e01ac4f981c2e
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <0bd7f6ff-3675-4447-a62a-a2047241e3e6@linux.dev>
+Date: Thu, 15 Oct 2026 21:02:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-next v3 1/9] cgroup/cpuset: Fix a missing isolated_cpus
+ update in update_cpumasks_hier()
+To: Waiman Long <longman@redhat.com>, Ridong Chen <ridong.chen@linux.dev>,
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Hui Peng <benquike@gmail.com>
+References: <20261014140548.575122-1-longman@redhat.com>
+ <20261014140548.575122-2-longman@redhat.com>
+Content-Language: en-US
+From: Guopeng Zhang <guopeng.zhang@linux.dev>
+In-Reply-To: <20261014140548.575122-2-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com> writes:
 
-> On Wed, 14 Oct 2026 11:22:02 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
->>> Neither of these patches applies to docs-next...what did you base them
->>> on?
->>
->> Hi Jon,
->>
->> I had mistakenly based both patches on mainline rather than docs-next.
->> I have rebased both on top of docs-next and sent a v2 for each:
->>
->> - docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser:
->>   https://lore.kernel.org/all/20261014223134.14772-1-emmaonana18@gmail.com/
->>
->> - docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes:
->>   https://lore.kernel.org/all/20261014223437.16164-1-emmaonana18@gmail.com/
->>
->
-> I just noticed another mistake on my part, because I prepared
-> the two v2 patches on separate independent branches off docs-next, both
-> patches add their regression test at the exact same location in
-> tools/unittests/test_kdoc_parser.py (line 444). Applying them sequentially will
-> cause a merge conflict
->
-> I didn't realize that patches modifying the exact same context in a file
-> should be stacked sequentially on a single branch as a patch series
-> rather than developed on separate branches.
->
-> Should I respin them as a 2-patch series against docs-next,
-> or would you prefer to resolve when applying?
 
-Redo them as a two-patch series if you could.
+在 2026/10/14 22:05, Waiman Long 写道:
+> It is found that when a local isolated partition is being invalidated
+> because its root partition parent is no longer valid, the isolated_cpus
+> cpumask may not be properly updated. If the parent was previously
+> an isolated partition, its invalidation should have properly updated
+> isolated_cpus before and no action will be needed.
+> 
+> Fix that by calling isolated_cpus_update() in this invalidation case
+> to update isolated_cpus. A test case in test_cpuset_prs.sh is modified
+> to test that.
+> 
+> Fixes: 11e5f407b64a ("cgroup/cpuset: Keep track of CPUs in isolated partitions")
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  kernel/cgroup/cpuset.c                        | 19 ++++++++++++++-----
+>  .../selftests/cgroup/test_cpuset_prs.sh       |  4 ++--
+>  2 files changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 0ebba2d646c3..6b5c870e5607 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -2229,7 +2229,9 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+>  		 * cpuset if the parent's effective_cpus changes.
+>  		 */
+>  		if ((cp != cs) && old_prs) {
+> -			switch (parent->partition_root_state) {
+> +			int parent_prs = parent->partition_root_state;
+> +
+> +			switch (parent_prs) {
+>  			case PRS_ROOT:
+>  			case PRS_ISOLATED:
+>  				update_parent = true;
+> @@ -2238,11 +2240,18 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+>  			default:
+>  				/*
+>  				 * When parent is not a partition root or is
+> -				 * invalid, child partition roots become
+> -				 * invalid too.
+> +				 * invalid, child partition roots become invalid
+> +				 * too. For an isolated partition with root
+> +				 * partition parent, isolated_cpus_updated()
+> +				 * is called to update isolated_cpus.
+>  				 */
+> -				if (is_partition_valid(cp))
+> -					new_prs = -cp->partition_root_state;
+> +				if (is_partition_valid(cp)) {
+> +					new_prs = -old_prs;
+> +					if ((old_prs == PRS_ISOLATED) &&
+> +					    (parent_prs == -PRS_ROOT))
+> +						isolated_cpus_update(old_prs, new_prs,
+> +								     cp->effective_xcpus);
+> +				}
+
+I tested switching a parent partition from root to member and found that
+CPUs can remain listed in cpuset.cpus.isolated. CPUs 0-15 are online, with
+nohz_full=2-15 and no isolcpus:
+
+    # cd /sys/fs/cgroup
+    # echo +cpuset > cgroup.subtree_control
+    # mkdir A
+    # echo 1-2 > A/cpuset.cpus
+    # echo root > A/cpuset.cpus.partition
+    # echo +cpuset > A/cgroup.subtree_control
+    # mkdir A/C
+    # echo 2 > A/C/cpuset.cpus
+    # echo isolated > A/C/cpuset.cpus.partition
+    # cat cpuset.cpus.isolated
+    2
+    # echo member > A/cpuset.cpus.partition
+    # cat A/C/cpuset.cpus.partition
+    isolated invalid (Parent is not a partition root)
+    # cat cpuset.cpus.isolated
+    2
+
+A is now a member and C is invalid, so cpuset.cpus.isolated should be
+empty here, but CPU 2 remains.
 
 Thanks,
+Guopeng>  				WRITE_ONCE(cp->prs_err,
+>  					   is_partition_invalid(parent)
+>  					   ? PERR_INVPARENT : PERR_NOTPART);
+> diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> index 7efd5e645767..874a8a161236 100755
+> --- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> +++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> @@ -292,9 +292,9 @@ TEST_MATRIX=(
+>  								       A1:P0|A2:P2|A3:P1 2-4|2-3"
+>  	"   C0-4    C1-4  C2-4     .    X2-4  X2-4:P2 X3-4:P1   .    0 A1:0-1|A2:2|A3:3-4 \
+>  								       A1:P0|A2:P2|A3:P1 2"
+> -	" C0-4:X2-4 C1-4:X2-4:P2 C2-4:X4:P1 \
+> +	" C0-4:X2-4 C1-4:X2-4:P1 C2-4:X4:P2 \
+>  				   .      .      X5      .      .    0 A1:0-4|A2:1-4|A3:2-4 \
+> -								       A1:P0|A2:P-2|A3:P-1 ."
+> +								       A1:P0|A2:P-1|A3:P-2 ."
+>  	" C0-4:X2-4 C1-4:X2-4:P2 C2-4:X4:P1 \
+>  				   .      .      .      X1      .    0 A1:0-1|A2:2-4|A3:2-4 \
+>  								       A1:P0|A2:P2|A3:P-1 2-4"
 
-jon
