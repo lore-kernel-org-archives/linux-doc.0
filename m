@@ -1,104 +1,61 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043643806D0
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084FF49F115;
+	Thu, 15 Oct 2026 12:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064711; cv=none; b=l4WDwU424hhctKpI3CJK9xj6t8XOrFTj+HrGidtVPdMs0L3jvAU/3WQrYafWTTUk8VgjURs8wTfgzO0P05XmctczcaGsqMbkcYa1Ncau6QvCW7B8e5ATJYUmq3AxJv+RpVVAjoPPTp0HcOINoRQslrdGZkvDRr+Sdn7oiMy7Qos=
+	t=1792066292; cv=none; b=BD4NSECgzaoy2v9PGJziK6nXrx6IS6RgjiOvCGLdE+ByrbLed7/F5Oyqthu5bGHRL54ktC1yuoyyjZcSVEirU85InpL2GHF46eaAsQc+d3w4zoOpZXWNVGK7tX1aAkRiD59UktYi2nQPhvbNLpNRzM4JDlA8KBqZxR1b+6C5kgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064711; c=relaxed/simple;
-	bh=td+2C/ZqZ0tJOzbidUjih2kVEMjBQk+gP/LTrHYJ9ZA=;
-	h=Message-Id:In-Reply-To:Cc:From:Subject:To:Date:Content-Type:
-	 Mime-Version:References; b=OQmWqj+YnL8bnjQi11Gwh7qyl+Uu3lMnvM/Skf7l04iuQOPN7WguwGPru6XM7ZdjLSaltd9IE5LAz1VzATsVeJ5YRTxpKgXwBRzLkgYf+ibdXsQb4fiVaG4KpdhwufCIdcYZ2PcMwyXHkLmScclKRkl+ySs+wjd7tiWASBTpjqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=iwKMRuyB; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1792066292; c=relaxed/simple;
+	bh=2NtPz39aovy4RnKvI/EytnYTuchMrt4CPkEO4fsxov8=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=CLYAf16G3r59wkAm0YF1wSTzzPjsEdo7e+1+TEzbJjidjHHavXyQr2CuEFv5OdHph4zIKkTmaXwaW+gvZgd9w7FwlQZE5Tdw+HhQnGy+VpboadaiJscfsuJV+Jjm6aSc2rbBn+j0QplwfR//VxjKC8ypUXOtaSteUvRgxp+IlN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/Q7753D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="iwKMRuyB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792064705; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=td+2C/ZqZ0tJOzbidUjih2kVEMjBQk+gP/LTrHYJ9ZA=;
- b=iwKMRuyBVJxC9RCYYCPJvqQYmOqnh7J9TH5Hro6Fcc6VG3T6Ui3iROJoDGYCyPsXwJmaFP
- pS2Ho7t5nOOc/UzZp5WgM4qBSspv21RDXwcJvSX+WRI0BuE/OrW/qoc2tPWiaKyUYaAAsB
- 14f+DuWCr/FRfdIZXDE7nZGRbrbWE4CiYFkqGBb2wg1SykCVslXIisVichKLGrft/HRmSh
- z3FMLZtnQCXllguzJTpogzAooHQxVJ+0seJ65QmRCqSdAphoQXxifUsKXXjiETViUcV3En
- vVgd1yX93k8m9zqWFzqFHLGhx5l2mIlkGSTCP+9phw6Rd2eVDgWIoZFdcRTY5w==
-Message-Id: <5c26465f-3100-4f89-bacf-b395e413ed35@bytedance.com>
-In-Reply-To: <as-D8ff7oXKX_CwF@gourry-fedora-PF4VCD3F>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
-	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
-	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
-	<juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
-	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
-	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Subject: Re: [PATCH 6/6] sched/numa: ignore preferred nodes without normal balancing
-To: "Gregory Price" <gourry@gourry.net>
-Date: Thu, 15 Oct 2026 19:44:40 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/Q7753D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 131511F000C4;
+	Thu, 15 Oct 2026 12:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792066291;
+	bh=c6YnxnG+gJbch+R5VS3vE5pnef9Y+ENKkjRrOC1AvnE=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc;
+	b=m/Q7753DNhXKEODgQGQdxWcbrMpjx1MzEMR7nI3q8i13U46QsL98/SDWtVjpraAtq
+	 gypNBCcMRkHTE93IervYneCQI7U2jIEAFHvLvskPHo8VY9tMCrk7So5mbtzTFEJIdn
+	 EiYPuRSHEPJtRAlPvZ8eC7rFQvQUEFEb9xWo3xDK3Hx/lWF4uTpfyCN7xqBO2KyLsR
+	 lHOWBtBr9srEbnksFyYU3MItPH4GmPbQoCF4Rux1liPgn3zBaqnVi959Bm4vY3Kc4S
+	 GFxTzVT5y9vQoM/vgZFV/vOla4FhxBNOVLd3wqZkw9XWAjqeIxuSPL/Z0wIfsiG1Yq
+	 5Kf3rmItiOMxw==
+Message-ID: <b9c2f013a83257e2416ece9183d7efda@kernel.org>
+Date: Thu, 15 Oct 2026 12:11:27 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Albert Esteve" <aesteve@redhat.com>
+Subject: Re: [PATCH v2 0/3] drm/amd/display: use kunit/visibility.h for test
+ helpers
+In-Reply-To: <20261013-visibility-unification-v2-0-3ce8d458bddf@redhat.com>
+References: <20261013-visibility-unification-v2-0-3ce8d458bddf@redhat.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alex
+ Deucher" <alexander.deucher@amd.com>, =?utf-8?b?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, "David
+ Airlie" <airlied@gmail.com>, "Harry Wentland" <harry.wentland@amd.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Leo Li" <sunpeng.li@amd.com>, "Maxime Ripard" <mripard@kernel.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, "Rodrigo Siqueira" <siqueira@igalia.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Simona Vetter" <simona@ffwll.ch>
 Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+26ad0bcbf+8976d8+vger.kernel.org+lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-User-Agent: Mozilla Thunderbird
-References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-7-lizhe.67@bytedance.com> <as-D8ff7oXKX_CwF@gourry-fedora-PF4VCD3F>
 
-On 10/14/26 9:30 PM, Gregory Price wrote:
-> On Wed, Oct 14, 2026 at 05:43:47PM +0800, Li Zhe wrote:
->> numa_preferred_nid is normal AutoNUMA task-placement state.
->> Memory-tiering-only mode uses NUMA hint faults to drive page promotion,
->> not CPU placement.
->>
->> Even after tiering-only faults stop updating normal placement statistics,
->> a task can still have a preferred NUMA node from earlier normal balancing
->> or from previously polluted state. Several scheduler paths consume that
->> stale state when the NUMA balancing static key is enabled, including
->> explicit NUMA task migration, sched-cache preferred LLC and scan CPU mask
->> selection, load-balance locality checks, fbq classification, and wakeup
->> group selection.
->>
->> Add a small helper for normal NUMA placement being enabled and use it to
->> ignore numa_preferred_nid when NUMA_BALANCING_NORMAL is disabled. Keep
->> the preferred-node migration retry timestamp update before the normal-mode
->> check so accepted non-normal sysctl states do not leave stale retry state
->> behind.
->>
->> Keep the rq nr_numa_running and nr_preferred_running accounting unchanged
->> so runtime mode changes do not make enqueue/dequeue accounting asymmetric;
->> the load balancer simply stops consuming those counters while normal
->> balancing is off.
->>
->> This does not clear numa_preferred_nid and does not change memory-tiering
->> promotion decisions.
->>
-> Same feedback - need to present user-facing performance changes to show
-> the impact of this change.
->
-> Sashiko also has some correctness feedback.
-Thanks for the review.
+On Tue, 13 Oct 2026 13:58:12 +0200, Albert Esteve wrote:
+> amdgpu_dm grew its own STATIC_IFN_KUNIT / EXPORT_IF_KUNIT /
+> INLINE_IFN_KUNIT macros instead of using kunit/visibility.h. This
+> series switches the KUnit helpers over to the common API.
+> 
+> VISIBLE_IF_KUNIT is gated on CONFIG_KUNIT rather than
+> 
+> [ ... ]
 
-For the performance side, I do not have convincing user-facing
-performance numbers for this patch. Similar to patches 3 and 5, this was
-written from the code/semantic correctness side for memory-tiering-only
-mode, rather than as a general improvement for normal NUMA balancing
-workloads.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-I did not see Sashiko's correctness feedback on the public thread. Could
-you share it here, or ask Sashiko to reply on-list? That would help me
-understand the exact issue and make sure the next version addresses it.
-
-Thanks,
-Zhe
-
->
-> ~Gregory
+Thanks!
+Maxime
