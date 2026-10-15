@@ -1,119 +1,75 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm2-f9.google.com (mail-wm2-f9.google.com [74.125.225.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F3655C314
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 17:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BC9560AAA
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 17:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792084678; cv=none; b=E8AF4edbNDA9uz8k69mhL5gR+Tlhkgjhm5/118S4p3ccjZGZVr5VMBu1jB/vQfFy8FL7v7NnyVCxVy/RIvYVFpVvyIZY/ozEVy/dQqVRxvyzximGuhfzVrwgDf2Zoc+1mRj/sqZpXMQkcr7Zr5lB8IFr4UtpiMTqfaWv+vLbTOE=
+	t=1792084712; cv=none; b=VYHE5t/kVbNdbttUFx1Ux48U7841/3pwMjDFer+ab3XOflvUNF86Rfd7g2Y3d/JQ0DOwDJXJWsKfeCd9CH+ourwOE9Ybpycl5N1C3hRGwhZqiE8Lop5ruT09VQGMcbpxwvCKsYklC0kZOqoWpBpbRurgYwgSV1Il6fxk/CwofvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792084678; c=relaxed/simple;
-	bh=97nz3x4cCT7jJVkf7khGZ92jWq9O4MzPPIoGZFfCE3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ISMNSz9E8lW8dl2rvDcABvKhCVCkU/Ri1XwqZhB5H+F5ZafcY5Rpwaa+ScvS8taHuwJE30Cfe0D7IxDWLH+JyKSc2GMLu3ZK+bQEfAarX2UijJbCQFpKuZEdtBh0O9VCmN2clba5nWSkU0srW7K1lrXr0xUF6jDwcgLwh8r+zAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGHjnZQ2; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1792084712; c=relaxed/simple;
+	bh=I5Ur39HsqT6WeE3BnrxrMW7SOD/vom+1FTMZtowBYM8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PWAA+7TRmY+kR2k6VVxKtHh7f8hLEuuQpt+uW2bBzrTtVoNgZzMAUpI4WUrkIib9a+licp0tRvuTpw/THWAqlnvHY6HxQWzfHoVdNwbS1p3NHipXx1bxOdO7aT7uDEZdueJTlTj6ydB0IiDEJ9Rj623F4z2HPuBJXGY3KoX2X2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XS05rIck; arc=none smtp.client-ip=74.125.225.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGHjnZQ2"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-486e70f2457so889177f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 10:17:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XS05rIck"
+Received: by mail-wm2-f9.google.com with SMTP id 5b1f17b1804b1-49e6eb11e9cso9148025e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 10:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792084669; x=1792689469; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
-        b=LGHjnZQ2i3mxf4ZTcid18hLmSzPCcPavgFPgZXktiYaRW1loWCVGAx9MKQnl/QcRCf
-         ehi71GtHRfcunwNyEobfohUWmkeA9mNpHK4FLA4407u/3wMFSFhlWGMhG5S2neNoRtEJ
-         zbkFGb+xPzgYcG8N/dR2fxLkkuMk7YYGP73vQni7JEphDT8lsWRDGrTYwq7CHBDrCojT
-         GASpge4oiIj0VCC1VtwWK2UYDpvGJzquN+0TjRWAufqxK1f4pkXz2DlI5Y4bHumxbJ/u
-         Vu9hHXOCPX9rWAqEaf2aAporaEoq3Dq13KZi0t2lBQOo7uWkK1mx2b7X/TcgLYg3LcCj
-         I20A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792084669; x=1792689469;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792084700; x=1792689500; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nUb4cagls44kE5et9qrliHAU76p7w/thb7bKXpN7Lxs=;
-        b=2fkDfY036gbxHCiI1R407P4Qh1O3u7GKlwL7MJ0W0GwLn+Te1JOj2LOTndBFUS9d44
-         K+rMnYXP9PCI6Fex6+zSZi0EKQjdqCJCkh+R3IHjOpB8HH553YHWLvzwrOIuWZ8EOwZX
-         z3kclmE8U+Z69SvFpv3xqkagBj7TLjCXsnfbiSb884C/2Cc3seVXWjRPg9aQTxDRV4gG
-         5H2XDbHi7TzqgLvM+jrqTRTVOU9UVyinYgIWv2AKDdVv86CMSgn4W4/RF8T13Om+G/Fk
-         hglTgBy16dMt9byJm6BkbDR8C9sIwY4CILIQ5A0VEVjIeRJjT706IAH70s1oj17KpcGn
-         R3cQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzS8/4Pt2uheYblqA7mrizWaCvmcIqz9vF1c6nYAp8TobbxeD+ZnL2fT3UC2LtxrLHQs9J4PlBqpVc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLWI12uBMG73DbGtereJR4pkTXp3qAkIfOpI8zJmn46sNumiIcX
-	ryNtHvITg3kdCeBm+gEeFDgU/tBxSlZ2vwTDbO3zWBLE8KVFfOmNM3Ed
-X-Gm-Gg: AYBFou2HrIfY5iQaJudb8UARp9s+fW2TkcK6D2cF1JXWIGWxDAukfR6p0XRO71ApXiI
-	GI/RTU7CR8s4dAn9LAj/kVynIqdvebUj9hj/NrOOQ0I7/SEUdmq3uiaCxq3rDPShxalrOUtBb7v
-	MQ+aX+aAP6q3gCd+O6Tv8DLlVKpllJU8TnEbYdiOMDO11bMIoUIdVsRYky+KAcK9yA8rrT91Pr0
-	sC7leCOjFsj1Iq8G+DgjOgVm5IBDc6VUmG+JD4n7eAK+Jo2lASeob4PQ6xgIYzbVTiyOfKZRmlK
-	/LNNq0qbUE3Uk6S9EGqaAKjJLngFGG3IN7UxNXAvJbbGi6WNs6dvbDhD7HV5ClYuT4Jt2PzoM3a
-	8pmO3VNIsY/Bn9qOFoFhXCip5iD7b9nM/RHcUqMWR/rN79EYTM8iTdVU5VFbTZ0Kt6XSA8Za5xF
-	PVXcIICdgoIcthJc9GlRA53A41QVPvBr3fC12lU+gIOnsp14PSuR66vQOYBrwndGruvWJ3f43do
-	78HvlTJX+6XSUgFyhgk+/Cu1WNUZAxYG4ykoiZDpINR7QV+UdwI1lVB8GoB5Oj9/TYzB2RX9E1x
-	EwTaSib1tyFhcyNIrvPjqpj/aLjSJDnomQU=
-X-Received: by 2002:a5d:44cd:0:b0:488:89e4:c3af with SMTP id ffacd0b85a97d-48dbaae4869mr30499724f8f.45.1792084668569;
-        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
-Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfaf1acd7sm1180327f8f.1.2026.10.15.10.17.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 15 Oct 2026 10:17:48 -0700 (PDT)
-From: Fred Griffoul <griffoul@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ackerley Tng <ackerleytng@google.com>
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
+        bh=CUpuLMD6iQzc1bzNNihjv73gE3OjQ/PX0ITyufY5za8=;
+        b=XS05rIckQK5HnuIE2EK4slHSDEgo/FSPmnqCMi6M9Rtys7FIEuoy88Dp6VHULu2pWt
+         1yw4F5X/VwlJL4vuMATyiLlL92mB6lnrBNMvF3RZRMOTQYxpp4W1JsGx6/zmox6oD2dK
+         9eSRGTjasU+VN+e4+rGSCMLC0qQmGU6KAk+Cg8VMOh6EBI5tSfYzl0H/m66HsEGHW0/Q
+         NDixzerrQ68hlCkVmXZzq2vYDoO2lKkYQ47TrqJMRAM4sGvuQ0nFG5YHyygAhwYH/ex3
+         Dv7EMgHcJ0D5jsL7JJ///Hd3z4VgCdMuLD7FkM0/gbpm1rlw1u8j4X+D883DmrxO2Yyv
+         3b/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792084700; x=1792689500;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CUpuLMD6iQzc1bzNNihjv73gE3OjQ/PX0ITyufY5za8=;
+        b=lsMdC3+vKbLspndm6CLsTIgsdu+xAUF1r1agrf49bSPiKBs5PpC489PVIFRoiMGNju
+         L5HomrhQZRUz1l79GH9xLWY/J1+UfMvznPqK+N/AiwL3qKIFDsM9TVmxlV2K2L/qxWXU
+         HxaPUcTDvV9Bwoqbi2yb7EhWHGT/RQWDGqvnmhxOc3dxzwo/TMXeKLppnZas1HwXbjJ+
+         1t/drt15IQlIXaEutnWrYyOqMi8I8b1kl0P41B/4JpKojda/qWlxob/4NNRm8air2reH
+         HN07n10bndDnH3kFgB4vfRCRogkUieMrQ/3xRD6zCbbcHtgcrdrUXK6xO+fRpBSWv8lW
+         FB6Q==
+X-Forwarded-Encrypted: i=1; AKwUvBySFGb2O89f2ltS0wrDEY/dE9IO3aP+HE7onpNz1YuZSZh8KVY0j5x5E99JQubgD+/absm5z2L6VCY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYILDc0aQEcvkqy1wKQOJ7TiLDBWTRMHfC+jBp4cS1s6pMqZpOje
+	MkbisNDQ87ivgRoLpYuVZYWFGNUCMoSlY5AWwV+OJLQ+ogiUXJR9bHFR
+X-Gm-Gg: AYBFou3xb97GXnM+EbTSx3+IWg863o2ngPcQMUFILigKw0wP6nV7j2arWfLbp4Iyw/w
+	1f6kE6+OzZL2NPrqbr7PITdE4K4zr43YxJHbwjelzhys06c2jW03ELcGE0Iciw+PyGkmKMjXZbb
+	RcSTjYSoezrqBf/48xnC/VHhIF50enubXUj6FRbSUsfo5HJ1/6BakYpDwIxC7IIBnedODTJIn/d
+	bfGG5VR13hyiQcGs7qmBPQ8XfG2RV4jHa9x2fBjTO5aPIKFPETHAryBzzdEhDmQE4CjgYzBM6S/
+	DIExA1FelToVbOASI3Ku9az8iDgT3DJZ4YX7WzDsBgV8QSNk6lNJXnYULAYqot51ecxOpjcpbXj
+	dkYXIarHjknsXZbJVBWDJpz9qX6kfHLs1cfLXixkqnjBLFRkyAbH1WwqF48A2re9RWaigsTVwAn
+	eBmopg/gTKs1afn/BbPOrbkt6gMZJdm3p5TZzGF+oJrWZqygTd8tOzNqsC3UPvrZs=
+X-Received: by 2002:a05:600c:8708:b0:4a1:7b05:3a6d with SMTP id 5b1f17b1804b1-4a18e49881amr387691725e9.8.1792084700107;
+        Thu, 15 Oct 2026 10:18:20 -0700 (PDT)
+Received: from CachyOS ([176.88.124.226])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bf63567esm123820185e9.10.2026.10.15.10.18.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 10:18:19 -0700 (PDT)
+From: =?UTF-8?q?Asaf=20Nuri=20Bertizlio=C4=9Flu?= <ycistak@gmail.com>
+To: linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] mm: Memory providers for guest_memfd and iommufd
-Date: Thu, 15 Oct 2026 17:17:46 +0000
-Message-ID: <20261015171746.51538-1-griffoul@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
-References: <20260720111259.122911-1-dwmw2@infradead.org> <20261006183235.16576-1-griffoul@gmail.com> <CAEvNRgEseLO+LbkwXrEit0H2LH5Wx-srSvHEMpt0=upPL3tF=g@mail.gmail.com> <20261014095702.39676-1-griffoul@gmail.com> <CAEvNRgHtB8j6=9r=txjsKvQM0F85nRN4KW5sdnuv_-Og=cWEfg@mail.gmail.com>
+	=?UTF-8?q?Asaf=20Nuri=20Bertizlio=C4=9Flu?= <ycistak@gmail.com>
+Subject: [PATCH] hwmon: (coretemp) Document sysfs numbering and label meaning
+Date: Thu, 15 Oct 2026 20:17:59 +0300
+Message-ID: <20261015171759.704526-1-ycistak@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -123,81 +79,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Ackerley Tng <ackerleytng@google.com> writes:
+The documentation says that all sysfs entries are named with their
+core_id, and that the "Core X" label contains the processor number.
+Neither is accurate. create_core_attrs() numbers the per-core
+attributes core_id + 2 and always uses temp1 for the package sensor,
+and show_label() prints topology_core_id(), not the logical CPU
+number.
 
-> To borrow David's words, the part about this that makes me itch is
-> conversion. We have to support conversions. Even if it doesn't merge in
-> the first patch series, we have to have line of sight to how conversions
-> would work.
->
-> Conversion requests originate from the guest and then the host handles
-> the guest request by making calling an ioctl on guest_memfd. Hopefully
-> this part doesn't change with alternative provider support.
+The difference is easy to see on hybrid CPUs. On an i7-14700F, the
+"Core 4" label is on temp6 and belongs to CPUs 2 and 3, and the
+E-cores report core IDs 32 to 43.
 
-Agreed, and it doesn't change. Conversions still go through
-guest_memfd. It is the only one that knows which pages are private.
+Describe the actual numbering.
 
-> Suppose guest_memfd still gets the conversion request first, in RFCv2,
-> to reach all the mappings in various page tables, it would have to be
->
-> + [GUEST_MEMFD] -> [KVM], [USERSPACE]
-> + [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
->
-> since guest_memfd must ensure no IOMMU mappings to guest private pages?
-> There's that extra step through the [PROVIDER]...
+The mismatch was found by an LLM comparing the documentation with the
+code, and verified on the i7-14700F above.
 
-Right, there is a step through [PROVIDER]. But it can be a step through
-the mem_provider code in mm, which every provider shares, rather than
-through each provider driver. Then guest_memfd doesn't need to know who
-else maps the frames, and providers don't have to get it right one by
-one.
+Assisted-by: LLM
+Signed-off-by: Asaf Nuri Bertizlioğlu <ycistak@gmail.com>
+---
 
-Here is the idea, on top of your in-place conversion. The VMM gives the
-same provider file to guest_memfd and to iommufd, as in v2. When
-guest_memfd converts a range to private, it claims the range:
+Notes:
+    The LLM (Claude) also drafted the documentation change and this
+    changelog. Values checked on my machine: temp6_label is "Core 4",
+    cpu2 and cpu3 have core_id 4, temp1_label is "Package id 0".
 
-  int mem_provider_claim(struct mem_provider_attachment *att,
-                         loff_t offset, loff_t len);
-  void mem_provider_unclaim(struct mem_provider_attachment *att,
-                            loff_t offset, loff_t len);
+ Documentation/hwmon/coretemp.rst | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-The claim revokes the range for every other consumer of the file. After
-that, get_page() returns a hole to them. So iommufd unmaps the pages
-and can't map them again, and nothing changes on the iommufd side.
-guest_memfd zaps its own mappings, as it does today.
+diff --git a/Documentation/hwmon/coretemp.rst b/Documentation/hwmon/coretemp.rst
+index 34930168338..95b0a578c4d 100644
+--- a/Documentation/hwmon/coretemp.rst
++++ b/Documentation/hwmon/coretemp.rst
+@@ -46,7 +46,8 @@ mechanism will perform actions to forcibly cool down the processor. Alarm
+ may be raised, if the temperature grows enough (more than TjMax) to trigger
+ the Out-Of-Spec bit. The following table summarizes the exported sysfs files:
+ 
+-All sysfs entries are named with their core_id (represented here by 'X').
++Per-core sysfs entries are numbered core_id + 2 (represented here by 'X').
++The package entries, if available, are always temp1_*.
+ 
+ ================= ========================================================
+ tempX_input	  Core temperature (in millidegrees Celsius).
+@@ -55,9 +56,12 @@ tempX_max	  Maximum recommended operating temperature (Tcontrol).
+ tempX_crit	  Maximum junction temperature (in millidegrees Celsius).
+ tempX_crit_alarm  Set when Out-of-spec bit is set, never clears.
+ 		  Correct CPU operation is no longer guaranteed.
+-tempX_label	  Contains string "Core X", where X is processor
+-		  number. For Package temp, this will be "Package id Y",
+-		  where Y is the package number.
++tempX_label	  Contains string "Core N", where N is the core_id
++		  (X - 2), as shown in
++		  /sys/devices/system/cpu/cpu*/topology/core_id. This
++		  is not the logical CPU number, and core_id values
++		  may be sparse. For Package temp, this will be
++		  "Package id Y", where Y is the package number.
+ ================= ========================================================
+ 
+ On modern CPUs (Nehalem and newer), TjMax is read from the
+-- 
+2.56.0
 
-Going back to shared is the reverse. guest_memfd returns the frames to
-the host first, then unclaims the range. The other consumers then map
-the frames again. So a conversion looks like:
-
-  [GUEST_MEMFD] -> [KVM], [USERSPACE]
-  [GUEST_MEMFD] -> [PROVIDER] -> [IOMMU]
-
-That is your second chain, but the [PROVIDER] step is the common code
-in mm/mem_provider.c. It does the revokes and hands out the holes. The
-provider driver itself only gets one callback, and it can refuse a
-claim. For example, it would refuse if it also lends those frames
-through another file. Conversions can already fail, so this fits. If a
-later step fails, guest_memfd just unclaims the range.
-
-This also answers your earlier question. The provider doesn't need to
-know what is shared or private. It only needs to know which ranges are
-claimed, so that it doesn't move or share them, and only takes them
-back once the guest has given them up.
-
-I haven't implemented this yet. My plan is to rebase on kvm-x86 next,
-which has your conversion code. Then I'd demo it with a
-KVM_X86_SW_PROTECTED_VM and the sample provider. A device sees a shared
-page, loses it when the page becomes private, and sees the same frame
-again when it goes back to shared.
-
-Does that match what you have in mind?
-
-> Thanks, I will prototype what I have in mind too to make sure things
-> work as I think they will :)
-
-Thanks, that would really help. The sample provider and the KVM
-selftest in the series could be a starting point.
-
-Thanks,
-Fred
