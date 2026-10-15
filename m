@@ -1,114 +1,147 @@
-Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57F33EDE64
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 03:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A47231836;
+	Thu, 15 Oct 2026 03:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792036216; cv=none; b=P3QYbWBiAv1s1XRyuoEnjLTa8YKMP2VK8iCaA186HL40mjqvlTQJjaeoJsSdqlBum6+Npi9zG8b4jOD1y1B3WybNfTCjrY/JP936aSHTCybXFUBaN8aDVm2hjXvXel8dS7Eih9L2FGHvkLTUOjpEgME85rn1rSR97C/O0+FrWvs=
+	t=1792036645; cv=none; b=OFzlCi280G4glWsdmDdVeRPsOvOITA1N3IML5pM4MyK1aqX/MTaOWyBMxcfgZvUQ+44auziEQxUwepsSu413b5y98+ulBPOhXvNiZTPOd+kFX+XKoXsJJJw1yKQhMEWYgmoMex4bX2kjBC3VUn48V7qbKVX1i0Ez6k7k/bYMlC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792036216; c=relaxed/simple;
-	bh=jHIpP8m8Fuscpg5gvqfH9E/D3yufuKsQ5zb0J7Ryd90=;
-	h=From:Subject:References:To:Cc:Date:In-Reply-To:Message-Id:
-	 Mime-Version:Content-Type; b=AVnmhJ05n0yvfFNfS57MEZclXRK3mlc6RCft8hOAq/eO4sV6GzpEL8fYNWISZ+Hd6LfLxpLiQ5LCnALWMmpXqYmrbksOPafFAKVVaZyV5ZVL0Y70C5klG6XWJ6rkL+oCwTlxsNplBL7ImX0Q/bBA9F3y/jbQs+T5neBw1RJlkhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dxwdwJln; arc=none smtp.client-ip=209.127.230.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dxwdwJln"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792036200; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=6Om/DEKPFgRQsjS9jvWBk11FC4wZN19UjaH+0CqwpAI=;
- b=dxwdwJlnYCvYFuDN0uI3dvjULpWjZ2U6A372BqgWqi6XJfySB2uOVrMU+NFI7qqAvSG463
- JIw6LGFL7kmBPv7V3WcggWfUW53ZJOaFtWyelh03b2MaZqb8dD/AUyTdnDJz3omqRW4czQ
- KKMcGnTWpbdFHNx8yFJUf0YIX+fGZPgr6Jo3hj/EAy8ilW8RceI5SUn7CkLJOYdv8F4RjN
- I3vx4QvFrxYYimjUcRYOO1uosFuB3ZghKyfFX2dIlq/9kwSS5uwjc+nBrqRl19eEru2SVK
- VjaG4/QLyYVy99e9OYtnHpQn0QVXDNZjpHJeM3NpMYgedfIAA9Q/J02pBEZhmA==
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Subject: Re: [PATCH 2/6] sched/numa: fix scan-period ratio denominator checks
-References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-3-lizhe.67@bytedance.com> <as97rD5uxYva4ayg@gourry-fedora-PF4VCD3F>
-To: "Gregory Price" <gourry@gourry.net>
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
-	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
-	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
-	<juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
-	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
-	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Date: Thu, 15 Oct 2026 11:49:34 +0800
-In-Reply-To: <as97rD5uxYva4ayg@gourry-fedora-PF4VCD3F>
-Message-Id: <4231150e-ea20-473b-bec7-cf2787c1b567@bytedance.com>
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+26ad04d66+4ee2f8+vger.kernel.org+lizhe.67@bytedance.com>
+	s=arc-20240116; t=1792036645; c=relaxed/simple;
+	bh=laQEQmrevBbZLzCFQIVrAgnpTTHO73JD9uv0iZcWKOg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=cpGg0kLG45pDTgiWmT3c1AGLfUNHnZz36jBgeYA7I5tNiBuu01ijVQ+auvLTRa8XDK04QLLaHjAL8lIYb2iN4D/uv7LrNNm2JDkJlHKgpi2dJRwceOzxHLPcVmwrELH6VH17QJIEqy+3ithgMdcKp+XW+u1F6cSwbf7vmtIC7Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j4v8l59c0zKm8R;
+	Thu, 15 Oct 2026 11:44:55 +0800 (CST)
+Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
+	by mail.maildlp.com (Postfix) with ESMTPS id E97934057C;
+	Thu, 15 Oct 2026 11:57:17 +0800 (CST)
+Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
+ (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 15 Oct
+ 2026 11:57:16 +0800
+Message-ID: <526758a6-40f5-4810-8e17-6e94afc3fab2@hisilicon.com>
+Date: Thu, 15 Oct 2026 11:57:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Jie Zhan <zhanjie9@hisilicon.com>
+Subject: Re: [PATCH 1/3] cpufreq: Add a driver frequency resolution callback
+To: Christian Loehle <christian.loehle@arm.com>, <rafael@kernel.org>
+CC: <zhenglifeng1@huawei.com>, <zhongqiu.han@oss.qualcomm.com>,
+	<viresh.kumar@linaro.org>, <linux-kernel@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>, K
+ Prateek Nayak <kprateek.nayak@amd.com>, Huang Rui <ray.huang@amd.com>, Perry
+ Yuan <perry.yuan@amd.com>, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	Vanshidhar Konda <vanshikonda@os.amperecomputing.com>, Shubhang Kaushik
+	<sh@gentwo.org>, Pierre Gondois <pierre.gondois@arm.com>, Beata Michalska
+	<beata.michalska@arm.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ionela Voinescu <ionela.voinescu@arm.com>, Sudeep Holla
+	<sudeep.holla@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, Jeremy Linton
+	<jeremy.linton@arm.com>, Peter Zijlstra <peterz@infradead.org>,
+	<jonathanh@nvidia.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+References: <20260929102957.2591657-1-christian.loehle@arm.com>
+ <20260929102957.2591657-2-christian.loehle@arm.com>
+Content-Language: en-US
+In-Reply-To: <20260929102957.2591657-2-christian.loehle@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf200017.china.huawei.com (7.202.181.10)
 
-On 10/14/26 8:56 PM, Gregory Price wrote:
-> On Wed, Oct 14, 2026 at 05:43:43PM +0800, Li Zhe wrote:
->> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
->> index 1053437933ee..76532b8202dc 100644
->> --- a/kernel/sched/fair.c
->> +++ b/kernel/sched/fair.c
->> @@ -3698,6 +3698,8 @@ static void update_task_scan_period(struct task_struct *p,
->>   
->>   	unsigned long remote = p->numa_faults_locality[0];
->>   	unsigned long local = p->numa_faults_locality[1];
->> +	unsigned long locality_faults = local + remote;
->> +	unsigned long type_faults = private + shared;
->>   
->>   	/*
->>   	 * If there were no record hinting faults then either the task is
->> @@ -3706,7 +3708,7 @@ static void update_task_scan_period(struct task_struct *p,
->>   	 * migration then it implies we are migrating too quickly or the local
->>   	 * node is overloaded. In either case, scan slower
->>   	 */
->> -	if (local + shared == 0 || p->numa_faults_locality[2]) {
->> +	if (!locality_faults || !type_faults || p->numa_faults_locality[2]) {
->>   		p->numa_scan_period = min(p->numa_scan_period_max,
->>   			p->numa_scan_period << 1);
->>
-> This does more than just change the div/o below, it changes the behavior
-> of the function overall.  It's not clear to me this change is correct.
 
-Yes, this intentionally changes the fallback condition.
 
-The old local + shared check mixes two independent dimensions. The
-ratios below are computed from local + remote and private + shared, so
-those are the denominators that decide whether the sample is usable.
+On 9/29/2026 6:29 PM, Christian Loehle wrote:
+> Without a frequency table, cpufreq treats the policy range as continuous
+> even when the driver selects discrete performance levels. Governors can
+> then issue different kHz requests for the same driver setting.
+> 
+> Add ->resolve_freq() for table-less ->target() drivers to canonicalize
+> requests within the supplied limits using CPUFREQ_RELATION_{L,H,C}.
+> Document the callback and verification contracts so callers can safely
+> cache resolved requests.
+Hi Christian,
 
-The old check can also classify a pure remote-private window as an
-unusable sample: local == 0 and shared == 0, while remote and private
-are non-zero. That is exactly the kind of signal that should go through
-the normal scan-period decision, since commit 37ec97deb3a8 wanted to
-speed scanning up only when many private faults are on remote memory.
+IIUC, ->target() + ->resolve_freq() should do almost the same work as
+->target_index() + freq_table. Why not switch to ->target_index() if that's
+intended?
 
-So the fallback is meant to be used when one of the actual ratios cannot
-be computed, i.e. when local + remote == 0 or private + shared == 0.
-Otherwise the sample should not be discarded before the ratio logic.
+I had a few unsent comments on the second CPPC patch but perhaps we discuss
+this first.
 
-Thanks,
-Zhe
-
->
->> @@ -3723,8 +3725,8 @@ static void update_task_scan_period(struct task_struct *p,
->>   	 *	 >= NUMA_PERIOD_THRESHOLD scan period increases (scan slower)
->>   	 */
->>   	period_slot = DIV_ROUND_UP(p->numa_scan_period, NUMA_PERIOD_SLOTS);
->> -	lr_ratio = (local * NUMA_PERIOD_SLOTS) / (local + remote);
->> -	ps_ratio = (private * NUMA_PERIOD_SLOTS) / (private + shared);
->> +	lr_ratio = (local * NUMA_PERIOD_SLOTS) / locality_faults;
->> +	ps_ratio = (private * NUMA_PERIOD_SLOTS) / type_faults;
->>   
-> This otherwise looks fine.
->
-> ~Gregory
+Jie
+> 
+> Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+> ---
+>  Documentation/admin-guide/pm/cpufreq.rst |  4 ++++
+>  Documentation/cpu-freq/cpu-drivers.rst   | 19 +++++++++++++++++++
+>  drivers/cpufreq/cpufreq.c                | 17 +++++++++++++++--
+>  include/linux/cpufreq.h                  | 10 ++++++++++
+>  4 files changed, 48 insertions(+), 2 deletions(-)
+> 
+[...]
+>  
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 54dde8419bdc..44bda2f32fcf 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -480,8 +480,12 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
+>  
+>  	target_freq = clamp_val(target_freq, min, max);
+>  
+> -	if (!policy->freq_table)
+> +	if (!policy->freq_table) {
+> +		if (cpufreq_driver->resolve_freq)
+> +			return cpufreq_driver->resolve_freq(policy, target_freq, min, max,
+> +							    relation & ~CPUFREQ_RELATION_E);
+>  		return target_freq;
+> +	}
+>  
+>  	idx = cpufreq_frequency_table_target(policy, target_freq, min, max, relation);
+>  	policy->cached_resolved_idx = idx;
+> @@ -495,7 +499,10 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
+>   * @policy: associated policy to interrogate
+>   * @target_freq: target frequency to resolve.
+>   *
+> - * The target to driver frequency mapping is cached in the policy.
+> + * The frequency-table resolution path caches the mapping in the policy.
+> + *
+> + * Keep the policy active and exclude driver teardown; a policy reference
+> + * alone does not protect driver-private data.
+Do you mean the caller should ensure this?
+This function doesn't seem to do this.
+>   *
+>   * Return: Lowest driver-supported frequency greater than or equal to the
+>   * given target_freq, subject to policy (min/max) and driver limitations.
+> @@ -1445,6 +1452,11 @@ static int cpufreq_policy_online(struct cpufreq_policy *policy,
+>  		 * If there is a problem with its frequency table, take it
+>  		 * offline and drop it.
+>  		 */
+> +		if (policy->freq_table && cpufreq_driver->resolve_freq) {
+> +			ret = -EINVAL;
+> +			goto out_offline_policy;
+> +		}
+> +
+>  		ret = cpufreq_table_validate_and_sort(policy);
+>  		if (ret)
+>  			goto out_offline_policy;
+> @@ -2925,6 +2937,7 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data)
+>  
+>  	if (!driver_data || !driver_data->verify || !driver_data->init ||
+>  	     (driver_data->target_index && driver_data->target) ||
+> +	     (driver_data->resolve_freq && !driver_data->target) ||
+>  	     (!!driver_data->setpolicy == (driver_data->target_index || driver_data->target)) ||
+>  	     (!driver_data->get_intermediate != !driver_data->target_intermediate) ||
+>  	     (!driver_data->online != !driver_data->offline) ||
+[...]
