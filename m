@@ -1,164 +1,127 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB675427EE
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 16:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D883E5577;
+	Thu, 15 Oct 2026 16:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792082805; cv=none; b=MuEVPgVLAu7enOhQ0nbJXSfBopzZm1lDaEAN7l3vSPU4/u80a6fP22HlICFTNyBoVDY9rrMoFqAT4GC4ySNOiAW7L2vVsT5KuqqNnB9Ynu8eHeAjWcn0YWmKynUlul5JCgHPFtPOoKNgu4a71GPdlOajztXzX2ZIdyX9dEsF9Go=
+	t=1792082995; cv=none; b=aAlaBIqiZtR0SknRrIJguMdINrnPO/eXLUZjsytWu4U0Qo0FnXYBWR8wLLXpIBHRR/1QCQx7kd2UE8j7Gp4Wo4qIiJXrwfvUcfT6DhDP/EUw608819VktZ2CcNi0A1a4h+q3FkoNY7MFlcaBtePvQegbEm6WaEII2ofvtpyjvZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792082805; c=relaxed/simple;
-	bh=jkdi5QcywCYSdKu/51WGs5jsXahFqaUqx+5RgoXU3xI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=USeWzYu3+DDQTzqw4qDTNrxPvigyedsshOf8MXVLdkogO2dqgwmIV/Rla64mmiCSA6fYTSV5sOCgzgokSu7xq9xRIxWelZLdi/n3uemGXyiZkgEefMi3USM3MbweAYx80xO8hAzaEbaMkZmpwh/yq6QCxssC99LtL1lywMcqeYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T6w6SM97; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792082995; c=relaxed/simple;
+	bh=0+HWhSkCpghkOfm79SliF6p8qXrll7DuCOm1mvzp4Gs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=otG5XLbnRnyEHjptWOI5qbzs2F66QiOlkM7qjUVbcVsWG1ayW7wIRTeYTdY5s5IYlILprM9h6WwKAxPPG/ylX8L8gaFy4rhA9eF0ngw4roSxtbmYYM5hNh1i7/dIEnMEFVjPd/NQ+rQNIct7TUmTydzv0vmCYTa2YiS0y24/xVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONJIZ6OF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T6w6SM97"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4887dbe4f2dso555109f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792082786; x=1792687586; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=J9OiKqs3sSh08wicaZgXTABHq96NHbvROo2HibEzA6A=;
-        b=T6w6SM97MTM6ypLiB0WgcQ8iLzgYb3yyF175paJbR1TNYsHJsEssDLJaEiQ7qpMtn7
-         k7a8r8kh5mQd3XVM3VCfz+Coux+Y56ECe5Yaqwtg9lND1OSoU9e7pbCyaNe22fBlY5Yz
-         YgQd6H8EErxze4NUE3im0UY3g5VaKsHd0dH+NaJDwsjHU5/rjImR3OQURD4iP5X13MqK
-         hGVuT7MDljyDM2KohpRVCIUQxyf2EIl42W46rMPFxBuNX5AZkks/uuU0ZPUG914IIakC
-         eObu/qPPNfmZH5sYEcaJNlXv2AY7W0r7CTdBec/9ZLsv2aY8VdBu2WxTynyvB7Q2CgAN
-         UInw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792082786; x=1792687586;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J9OiKqs3sSh08wicaZgXTABHq96NHbvROo2HibEzA6A=;
-        b=Kq7Imx7blwTSVe/OLfFvcyToFX/TMgJLYUgeLBmk2RSoMOniD8j2ZMSw5W+3hPuAdV
-         uCMf4GkGaChQcqUCgpnR75xWXqMGomIR5O4Xyta6xoK0e9wnjjBQrQ7aU+UqjImuTFG7
-         LPU5x8GHe2DpQeyP2De8yG1QDP15HQs3n3EU3aKsyIHMxE8DCFtulXdgDK0FRYn32TUI
-         uWOVq2FTui2YfQHkgAe6LfdjCOZbgVXOyS06UZviD75qwKgDZYUCZ2ER8xnaPUfmHBDV
-         JC0/cju3Pm9Vke4rMmZnrAosz187QASr+oi/fNg002B87laO6jeR6D9Rqr7z2BqWaMjM
-         xkZQ==
-X-Gm-Message-State: AFq9FYJWFwbCGeB6GBBD3FLYp/rJzNNarVTtpwPfdXrhJcWrp321Fh4r
-	UIxaiydp7eRhQ5LWLDNKZFxb5J+eMLgI2hsZKsgPC+uHqIm71BN6kPgI
-X-Gm-Gg: AYBFou0oujGpjWxmWROMOLczSQbF6AjCBJyXL1RbBjcIpiQRAdFXJw6kjElzVEtr8s+
-	+NnJ/xR0udgB79WOSXKy+Nn9OOcSpc/uREKuAX2dO9ogyDUJbX5dsuDzKaYurwXuRbno5EKCNPO
-	YnCzy38af7IOkhGCfZbU3ZmgtshLHdZWhjA0a73WrUgBPmzbQenQq9SPeBfw9Z4Yg6zhIXvCBHA
-	4eLobPTQbQUat39B8QAQD/kDneTvq+s8dGx/CbmXEShR70fBVLKg/n96uSdfiSoSzQIUhBBJUtB
-	Ja8HP/eIUovhBncK9DTvoYgoNZpWDsqxVdmeX89DHc8kerqt8Z5zox5pmdmPreKIQXdWA/SCpo8
-	u0M7mJq/juMJw1O56xrjQ57hGpEIMpBrSeRFZc3/rgdL+9UhUESD1VNBuhXmVQSIdufDQnX9HNY
-	ez9MFl3pwLvivvRs5kwq+sYY2egDlqWKPMpMWly6Dg6yV3CMAOheLP/tufaJjzHtVZDxWIPlBLY
-	5LUn2QLxjzi9GvBEtWz
-X-Received: by 2002:a05:6000:4696:b0:48d:f1b3:7e82 with SMTP id ffacd0b85a97d-48df1b3802emr5501546f8f.0.1792082785513;
-        Thu, 15 Oct 2026 09:46:25 -0700 (PDT)
-Received: from Nuel20.localdomain ([105.118.74.201])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc85b1sm19110712f8f.54.2026.10.15.09.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 09:46:25 -0700 (PDT)
-From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	mchehab@kernel.org,
-	paulmck@kernel.org,
-	linusw@kernel.org,
-	Julia.Lawall@inria.fr,
-	gary@garyguo.net,
-	rmk+kernel@armlinux.org.uk,
-	hemanth.selam@gmail.com,
-	emmaonana18@gmail.com
-Subject: [PATCH v3 2/2] docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes
-Date: Thu, 15 Oct 2026 17:44:48 +0100
-Message-ID: <20261015164524.14066-3-emmaonana18@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261015164524.14066-1-emmaonana18@gmail.com>
-References: <8733u7t8xq.fsf@trenco.lwn.net>
- <20261015164524.14066-1-emmaonana18@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONJIZ6OF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C2F02C2BCC7;
+	Thu, 15 Oct 2026 16:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792082994;
+	bh=0+HWhSkCpghkOfm79SliF6p8qXrll7DuCOm1mvzp4Gs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ONJIZ6OFHVHLdS44JZbhblC41vVSux7wQRY57ig9bxlLSz6IIW2LySqePDbe+aps4
+	 SLpwwEKJDkMrdTisaYkRO4aF1oZO/rYauV44v9Sr7n96zJgGUOdB6xPLEWTbuhydpx
+	 KYjIKOyg08LNAAERGTCBqD9QkEFd2Dx3pqsYKBSDIYyiHNZgmmSF4cy9KFWhweoyTp
+	 mRqp8UzYQQXLi96ENjx4tSi5anzAV/5x0Jk4e/mFyPTKf9k2DKuRe2eo3Nq3ED7hzQ
+	 sUMmPSmlLhwUzk4hDGhYfWLVjSFJnpPnWADc390PUmvIVZgfSFY5uUi9n86wfr2Ga+
+	 SlMGLjiikUKVA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E3A6CC6B33;
+	Thu, 15 Oct 2026 16:49:54 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Subject: [PATCH 00/10] iio: frequency: ad9910: add IIO backend support
+Date: Thu, 15 Oct 2026 13:49:40 -0300
+Message-Id: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACQE0WoC/yXMQQrCMBBA0auUWTswaYMhXkVcpMmoo5CGTCtC6
+ d0b6/It/l9BuQorXLoVKn9EZcoN5tRBfIb8YJTUDD31Z/IDYUjeG8IxxDfnhLqUMtUZjQvWJeO
+ sHQhaXCrf5XuMr7e/dRlfHOffDbZtByM6BTB6AAAA
+X-Change-ID: 20260930-ad9910-backend-support-17a47d174430
+To: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux@analog.com, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792082993; l=2640;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=0+HWhSkCpghkOfm79SliF6p8qXrll7DuCOm1mvzp4Gs=;
+ b=ymNJ8Ey19sr74mQ8L7kQqU2ubD3ozWIDgnC/+dBWV+57liYowKul7/gFlZbvMUrMXQ2QsRMGg
+ h7G4N+upt/VAZ9nV8P1TafnbbkyVfKnoFfVkNAaM+UDSyDtwO4l3pAx
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-kernel-doc fails to parse functions whose names are wrapped in the
-DOMAIN_NS() namespace macro, e.g. in
-drivers/iommu/generic_pt/iommu_pt.h:217:
+This series extends the AD9910 DDS driver with support for an IIO backend,
+enabling data streaming through the parallel data port, and with control of
+the DRCTL pin, which defines the slope direction of the digital ramp
+generator (DRG).
 
-  ... expecting prototype for iova_to_phys(). Prototype was for
-  DOMAIN_NS() instead
+The parallel data port allows modulation of the DDS core parameters
+(amplitude, phase, frequency or polar) at up to the PDCLK rate, which is
+SYSCLK / 4. Such data rates require an FPGA IP core as the data source, so
+an AXI backend driver is added for the AD9910 HDL reference design. Besides
+streaming data from memory via DMA, the IP core also drives the PROFILE[2:0]
+and DRCTL pins. The latter is exposed as a PWM output, so that the frontend
+driver can consume it through the PWM framework without depending on the
+backend being present.
 
-function_xforms is the designated place for unwrapping function-name
-macros, but it has no entry for DOMAIN_NS(), so the macro name is kept
-as the prototype and the real name leaks into the parameter list.
+The backend is optional: the AD9910 remains functional through the SPI
+control interface alone, hence the new devm_iio_backend_get_optional()
+helper.
 
-Add a transform expanding DOMAIN_NS(op) to op, following the existing
-DEFINE_IDTENTRY_IRQ precedent.
-
-Add a regression test for the wrapped iova_to_phys() declaration.
-
-Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- tools/lib/python/kdoc/xforms_lists.py |  6 ++++++
- tools/unittests/test_kdoc_parser.py   | 22 ++++++++++++++++++++++
- 2 files changed, 28 insertions(+)
+Rodrigo Alencar (10):
+      iio: frequency: ad9910: powerdown fix
+      iio: backend: add devm_iio_backend_get_optional()
+      dt-bindings: iio: frequency: add adi,ad9910-axi-backend
+      dt-bindings: iio: frequency: ad9910: add io-backends property
+      iio: frequency: ad9910: move channel indexes into a shared header
+      iio: frequency: ad9910: add axi backend driver
+      iio: frequency: ad9910: support drctl control
+      iio: frequency: ad9910: support iio backend
+      iio: ABI: add integration_time for output channels
+      docs: iio: ad9910: document DRCTL pin control
 
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index 15f6f21c7a9e..c9ce9bddebba 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -92,6 +92,12 @@ class CTransforms:
-         (CMatch("__diagnose_as"), ""),
-         (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
-         (CMatch("DEFINE_IDTENTRY_IRQ"), r"static void \1(struct pt_regs *regs, u32 vector)"),
-+        #
-+        # DOMAIN_NS() wraps a function name with a namespace prefix
-+        # (see drivers/iommu/generic_pt/iommu_pt.h). Unwrap it so the
-+        # real function name is parsed.
-+        #
-+        (CMatch("DOMAIN_NS"), r"\1"),
-         (CMatch("__cond_acquires"), ""),
-         (CMatch("__cond_releases"), ""),
-         (CMatch("__acquires"), ""),
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index 04dafae412e4..e4f44535d0dc 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -472,6 +472,28 @@ class TestTraceEventFn(GenerateKdocItem):
-         self.assertEqual(entries[0].name, "trace_gpu_power_status")
-         self.assertEqual(entries[0].warnings, [])
- 
-+class TestDomainNs(GenerateKdocItem):
-+    def test_domain_ns_wrapped_function(self):
-+        source = """
-+            /**
-+             * iova_to_phys() - Return the output address for the given IOVA
-+             * @domain: Table to query
-+             * @iova: IO virtual address to query
-+             */
-+            phys_addr_t DOMAIN_NS(iova_to_phys)(struct iommu_domain *domain,
-+                                                dma_addr_t iova);
-+        """
-+
-+        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-+        patcher = patch('builtins.open', new_callable=mock_open,
-+                        read_data=dedent(source))
-+        with patcher:
-+            _, entries = kernel_doc.parse_kdoc()
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "iova_to_phys")
-+        self.assertEqual(entries[0].warnings, [])
-+
- #
- # Class and logic to create dynamic tests from YAML
- #
--- 
-2.43.0
+ Documentation/ABI/testing/sysfs-bus-iio            |  17 +
+ .../iio/frequency/adi,ad9910-axi-backend.yaml      |  74 ++++
+ .../bindings/iio/frequency/adi,ad9910.yaml         |  38 ++
+ Documentation/iio/ad9910.rst                       |  90 ++++-
+ MAINTAINERS                                        |   3 +
+ drivers/iio/frequency/Kconfig                      |  18 +
+ drivers/iio/frequency/Makefile                     |   1 +
+ drivers/iio/frequency/ad9910-axi-backend.c         | 396 ++++++++++++++++++++
+ drivers/iio/frequency/ad9910.c                     | 402 ++++++++++++++++++---
+ drivers/iio/frequency/ad9910.h                     |  44 +++
+ drivers/iio/industrialio-backend.c                 |  34 +-
+ include/linux/iio/backend.h                        |   2 +
+ 12 files changed, 1052 insertions(+), 67 deletions(-)
+---
+base-commit: a22dc7ebb21a6bd4c8b63bc2c1dd46a24945aae7
+change-id: 20260930-ad9910-backend-support-17a47d174430
+
+Best regards,
+--  
+Rodrigo Alencar <rodrigo.alencar@analog.com>
+
 
