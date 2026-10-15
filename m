@@ -1,141 +1,216 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633E03F8231;
-	Thu, 15 Oct 2026 18:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6BE3DD526;
+	Thu, 15 Oct 2026 18:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792089768; cv=none; b=fZxrNb390QfsHbH9P4MQe+FdsXw3z+aOgwobhaump5002brK7G5vfUNJnwC9YROwsg0cJ8OYstb7s6Y3qvwA4jn7xwbPqKPkkqVoAjmM17sbKwYkRtCcCFo8Z6frDj1Ln3fOEbZGQT1V5xXpbfoi9121fLO3Y5oVwdEdtgvryXg=
+	t=1792090795; cv=none; b=SUwN6+af1stH04Ka/EbI+QszlEp4TbBUVUNmPTy1M3Rh3FOltJNF8RHTHgdKGpOQH7Z6zlL8emhzyOPw4TxqOGPCrc3i3lRa+nBoEQSKvKKLMW/IJaRQ1VSnzf5i2mjFFkOVxrrjQb/xNm3IzEa/n/BiZ8w1bRdzSzWYq/w96XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792089768; c=relaxed/simple;
-	bh=tDYWq06Lr0v8aO4d/FRTH+CAmRSgkd1Ug4MoqdpKYsg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FWcdTPylywntQXNJ+tiwqApJbSIz+sOCRv9MPZ39pIK/puVEweepqZX+YNXs/5qa4pfuU8JZXUvlP6wNSLyzAaT6U888mxGo0emxlpvqdrh9RuPrMD7kPKYQcQ2/M6Vhw70CTwhdCS1pIVx3aLQ30qu5yIMUh09TRA7/L80PRpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5ALtjyC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792090795; c=relaxed/simple;
+	bh=eEElU/ASY7hM4FjTNpS3QxyZuVDzXjY8CVAKzpMxQIU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5LRleHFId0XQg7DlKi9Af20Y1Ss7K6PFXSwm2k4FpOJ9JZjj4KJE3lRQHu4d8sa/29hBLX2Oh6F6t+Oyqpn/ZNgnt1Kn4kmNyUhnfouG5ALW/gCuSUAyQ4UWwhFkTCmudDz4OKzcZ+q/5EymEciEL82iiGfqxJQECeoNXdCVjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wth7eYeZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5ALtjyC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FF051F000C4;
-	Thu, 15 Oct 2026 18:42:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wth7eYeZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A961F000C4;
+	Thu, 15 Oct 2026 18:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792089765;
-	bh=dg/1OSkrW8sX2euc3aZ8a5bssRkph0JoeOFI3JZD560=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=D5ALtjyC68GN/mpi+ZK8E1mWTMEDomCnS/ERWCEN6bBJPQCtugUMl+B22l+1wJ87o
-	 Hf+WjNfvU8VHb/MOo35aSpSbbtiJhvFwkuvJy8SdvTs4tED3cQebluDVjjUjxXz1RV
-	 10NtAzv7C/NQEJIftkQyH6he5O0wyi7/R2K/bcps+aobJQauR6XU/5Rlvb/ksM6j/L
-	 59oVD/dzJZQhZZ9ETV4mkQ0Wny9IbBXisFIw8Uq9voEdcR0398E47anliP1+RMUf+R
-	 NcmjNIg3KkyRf2CsCMhsGMRZueAB/J4ydYChvpem9THId0Ab9GKuFOOBhOgZqJyrv/
-	 Y3fVl4kmGEfLQ==
-Message-ID: <f482b724-7217-412c-a0d9-7d8e322fcc84@kernel.org>
-Date: Thu, 15 Oct 2026 13:42:43 -0500
+	s=k20260515; t=1792090793;
+	bh=QRhDD5Kba1/4vJE/aynvHCteJlbfDqNA5/X4nzhZ0Bg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Wth7eYeZLmsM9VNp67WWO1Jb1ODN2CZb/kNwAsaHlgnb/surWcINGPQvTTFkpYAMU
+	 gujfqTmB2U1usi+lAQEN8gnwjzWfjZZM+wW9HyeCCzxjc4ZHw47i7wICudgNN/Kw0w
+	 aZ33rlRbNnX/Ju0Bbicedo8WHWI7cP5HDq34oBhIClUvXr83IwbPIwCkAz+Ltz6JDR
+	 AxHvw17fBIWnV0+quaMclCvUSClt0U8ZMxq73VfPE0USoQVNqBxOIFa+noZFNw+Ph9
+	 iv0Tqyl4iT0qqhSGwU7HKtMhFyr5XsHXMwsljVEyjkl0Y3gg40bqdEAJwAWeuVTiSz
+	 5fYJNzS9T1dlw==
+Date: Thu, 15 Oct 2026 19:59:47 +0100
+From: Conor Dooley <conor@kernel.org>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@analog.com, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 03/10] dt-bindings: iio: frequency: add
+ adi,ad9910-axi-backend
+Message-ID: <20261015-enjoying-dividers-94790b437fcd@spud>
+References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
+ <20261015-ad9910-backend-support-v1-3-3c21648c8e26@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/4] platform profile: Add firmware-neutral aggregate
- sysfs interface
-Content-Language: en-US
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>,
- Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
- Hans de Goede <hansg@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Maximilian Luz <luzmaximilian@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
- Greg KH <gregkh@linuxfoundation.org>, Jack Wu <jackbb_wu@compal.com>,
- "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pm@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- Kurt Borja <kuurtb@gmail.com>
-References: <20261014132500.3817549-1-daniel.lezcano@oss.qualcomm.com>
- <20261014132500.3817549-4-daniel.lezcano@oss.qualcomm.com>
- <c751e18d-57e9-4ce6-95dc-1bf53a7a4808@gmx.de>
- <CAJZ5v0jQQsXP4v7dymuHZhy2oVjPwV9eXhqV4bGPUgMyGyUsUQ@mail.gmail.com>
- <1cba0f2a-38cd-42b2-a773-9dca5d7519e5@app.fastmail.com>
- <68128016-661b-4b78-bac1-b7e23029d8de@kernel.org>
- <CAJZ5v0gHHoJVm9o-ZzD38jWpGbAZML4AMEpSmy9C9n5TSVYppg@mail.gmail.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0gHHoJVm9o-ZzD38jWpGbAZML4AMEpSmy9C9n5TSVYppg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Oi1NC4/rev2QJv0k"
+Content-Disposition: inline
+In-Reply-To: <20261015-ad9910-backend-support-v1-3-3c21648c8e26@analog.com>
 
-On 10/15/26 13:33, Rafael J. Wysocki (Intel) wrote:
-> On Thu, Oct 15, 2026 at 8:28 PM Mario Limonciello <superm1@kernel.org> wrote:
->>
->> On 10/15/26 13:04, Mark Pearson wrote:
->>>
->>> On Thu, Oct 15, 2026, at 7:30 AM, Rafael J. Wysocki (Intel) wrote:
->>>> On Wed, Oct 14, 2026 at 11:31 PM Armin Wolf <W_Armin@gmx.de> wrote:
->>>>>
->>>>> Am 14.10.26 um 15:24 schrieb Daniel Lezcano:
->>>>>
->>>>>> The per-provider class interface is firmware-independent, but system-
->>>>>> wide profile selection is only exposed under /sys/firmware/acpi.
->>>>>>
->>>>>> Add /sys/kernel/platform_profile/{choices,profile}, sharing the existing
->>>>>> aggregate callbacks and semantics with the legacy interface. Keep
->>>>>> attributes hidden until a provider is registered and remove them after
->>>>>> the last provider.
->>>>>>
->>>>>> Notify both aggregate frontends on profile changes. Also notify the
->>>>>> provider class device on a direct profile write, matching its documented
->>>>>> POLLPRI ABI. Restore aggregate visibility after a failed registration.
->>>>>
->>>>> IMHO the aggregate sysfs interface only exists for backwards-compatibility,
->>>>> so i would be very happy if you could just make the associated code optional
->>>>> and instead teach platform-profiles-daemon to use the individual class devices
->>>>> instead.
->>>>
->>>> It is not just a matter of opinion AFAICS, the aggregate interface has
->>>> been regarded as legacy for quite a while (see commit 778b94d7ac17
->>>> "ACPI: platform_profile: Add support for hidden choices" for example)
->>>> and it was retained exactly for backwards compatibility reasons IIRC.
->>>>
->>>> I'm with Armin on this.
->>>>
->>>> Thanks!
->>>
->>> I don't think we can get rid of the legacy aggregate interface - which I think is what you and Armin are asking for? What does making it optional mean?
->>>
->>> Reading through the patch series it seemed quite reasonable to me to move it out from under ACPI but still have the old interface working. What are the alternatives?
->>>
->>> User space (and users) are still using the aggregate interface in my experience
->>>
->>> Mark
->>
->> If we want to get rid of the legacy interface eventually I think this is
->> how you can do it:
->>
->> 1) Wrap it with a boolean Kconfig.  Default to enabled.
->> 2) Add some messaging in this Kconfig that it's being removed after the
->> LTS kernel from 2028.
->> 3) Emit a pr_notice_once() or similar that it's deprecated and will be
->> removed in the future.
->> 4) Modify all (known) userspace software to stop using it.
->> 5) Wait for userspace software to tag new releases.
->> 6) Change default to disabled.
->> 7) Wait some time.
->> 7) Next LTS is declared.
->> 7) Drop kconfig and legacy code.
-> 
-> That should work, but my point is rather to avoid adding another
-> aggregate interface to replace the old one and instead switch over the
-> ecosystem to the existing (and documented) class device platform
-> profile interface.
-> 
-> The legacy aggregate one may simply be removed when everybody stops
-> using it (which may take a while and it may be moved to staging at one
-> point).
+--Oi1NC4/rev2QJv0k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Right totally agreed.  I was meaning userspace software should switch to 
-class interfaces not add a new aggregate one.
+On Thu, Oct 15, 2026 at 01:49:43PM -0300, Rodrigo Alencar via B4 Relay wrot=
+e:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+>=20
+> Add bindings for the AD9910 AXI backend IP core. The FPGA IP core
+> interfaces with the data and control pins of the AD9910 DDS, streaming
+> data from memory via DMA into the 18-bit parallel data port (F[1:0] and
+> D[15:0] pins), which is clocked by the PDCLK output of the device. It
+> also drives the PROFILE[2:0] pins and the DRCTL pin, which controls the
+> slope direction of the digital ramp generator (DRG). The DRCTL pin is
+> driven by a PWM generator, so the IP core is described both as an IIO
+> backend and as a PWM provider.
+>=20
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  .../iio/frequency/adi,ad9910-axi-backend.yaml      | 74 ++++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 75 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,ad9910-a=
+xi-backend.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,ad991=
+0-axi-backend.yaml
+> new file mode 100644
+> index 000000000000..20b884e8eb10
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910-axi-back=
+end.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/frequency/adi,ad9910-axi-backend.=
+yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD9910 AXI Backend IP core
+> +
+> +maintainers:
+> +  - Rodrigo Alencar <rodrigo.alencar@analog.com>
+> +
+> +description:
+> +  FPGA IP core that interfaces with the data and control pins of the AD9=
+910
+> +  Direct Digital Synthesizer. The SPI bus is used as the control interfa=
+ce
+> +  of the AD9910 device, while this IP core streams data from memory via =
+DMA
+> +  into the 18-bit parallel data port (F[1:0] and D[15:0] pins), which is
+> +  clocked by the PDCLK output of the AD9910. The IP core also drives the
+> +  PROFILE[2:0] pins for profile selection and provides a PWM generator t=
+hat
+> +  drives the DRCTL pin, controlling the digital ramp generator (DRG) slo=
+pe
+> +  direction.
+> +
+> +  https://www.analog.com/en/products/ad9910.html
 
+Should this link not point to the docs for the backend device?
+
+Otherwise, this is pretty fine I think..
+
+Conor.
+
+> +
+> +properties:
+> +  compatible:
+> +    const: adi,ad9910-axi-backend
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: AXI bus clock (s_axi_aclk).
+> +
+> +  dmas:
+> +    maxItems: 1
+> +
+> +  dma-names:
+> +    items:
+> +      - const: tx
+> +
+> +  '#io-backend-cells':
+> +    const: 0
+> +
+> +  '#pwm-cells':
+> +    const: 3
+> +    description:
+> +      The first cell must be 0, as only the DRCTL PWM output is availabl=
+e.
+> +      The second cell is the PWM period in nanoseconds and the third cell
+> +      holds the PWM flags.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - dmas
+> +  - dma-names
+> +  - '#io-backend-cells'
+> +  - '#pwm-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    ad9910_backend: dds-backend@44a00000 {
+> +        compatible =3D "adi,ad9910-axi-backend";
+> +        reg =3D <0x44a00000 0x10000>;
+> +        clocks =3D <&clkc 15>;
+> +        dmas =3D <&tx_dma 0>;
+> +        dma-names =3D "tx";
+> +        #io-backend-cells =3D <0>;
+> +        #pwm-cells =3D <3>;
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3a2dfd1a4fd8..93ad6a829cb3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1731,6 +1731,7 @@ S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/ABI/testing/debugfs-iio-ad9910
+>  F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9910
+> +F:	Documentation/devicetree/bindings/iio/frequency/adi,ad9910-axi-backen=
+d.yaml
+>  F:	Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
+>  F:	Documentation/iio/ad9910.rst
+>  F:	drivers/iio/frequency/ad9910.c
+>=20
+> --=20
+> 2.43.0
+>=20
+>=20
+
+--Oi1NC4/rev2QJv0k
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCatEioAAKCRB4tDGHoIJi
+0p6EAQClRur2Sf3UhlxYAaTJqDsuSMyJevkhnvLthhhfwjKnwAD7BunpY9WqCaXo
+F3lDqqxKkiJbBPwxk6IK+Jp+wCE6fg8=
+=4WDP
+-----END PGP SIGNATURE-----
+
+--Oi1NC4/rev2QJv0k--
