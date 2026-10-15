@@ -1,113 +1,130 @@
-Received: from va-2-114.ptr.blmpb.com (va-2-114.ptr.blmpb.com [209.127.231.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A32377EC3
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDB319DF62;
+	Thu, 15 Oct 2026 04:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792037395; cv=none; b=WVbvu8n6okFDtUSHIYwMPC7CmECf3j0Z4ZqXeTc/NWCqtnIpZ97XXxS9mRnSDeJmHI+ugg0qtKr6ztnjOo5UfQNKx2JyHAJThWMxNXAxIqiXKEXiTrcNF7dCJvZZmw7GXkyQ8JqTmygaS3Sh8njpfJsKz3QSV3T62rHfjS6aZyE=
+	t=1792039118; cv=none; b=T7yTVKKpf22F+ColqAyDSUCdegpBcn1AjGFSb3k0vdN3TdJiAIICspOSJxNnOEikyAUuL0+71YoDRz0EqV327PsdypdZjUpahhLQws/bcn/sq9XZt6hSys+K2ePbxeNxiKH3Vfx/oG2JvAZ6vU0JRakOm1fqfyZm25QivD41ZK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792037395; c=relaxed/simple;
-	bh=8+Y3lqx7DoXLn6uMpykiqLK9WKGpfJOp/EpoHwnmKak=;
-	h=Content-Type:To:Date:References:Cc:Message-Id:Mime-Version:
-	 In-Reply-To:From:Subject; b=lN0dMJ4GFl7EYGXAH/AC2zlqLiebfKyr8uJWY/gz56scyb88sh+g8uzERgmmyMOWc2GT+3vMfxbzvnfcP6MfnluzljDWlh0IX7rYAiaemPf/3fp2oTMrjmecI/vE7RJse7SbjUT3FPbyX4nxK582qy7T88IWnSG03JRf4P4bFxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Oei178cR; arc=none smtp.client-ip=209.127.231.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1792039118; c=relaxed/simple;
+	bh=zrCxM1Z8Ln43pKllhc7ExMt4XHr/FbkHu2DnzRLllhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IrZWk7ltd46eUVtgIfsF9Incn2eRPRFtoZG5V8lsSClaKqM5hAdmI5qHsxdHaKRN+MXaMunKc9qDESBzHwfXGS4Ukw6rc5aRN02XnebxBHAZxKfp5arN8+dG5qhEyk1zVTK9dEpDnhzSbUJdf6Qkf6xvR+b1a3lBtg9LoJJ/Efw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+2oOwwY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Oei178cR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792037381; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=ZRj2GAZqXT54HVtNDIUND68T2cWL0CDUpFdwNDt9C/c=;
- b=Oei178cRmt4vFYunYV+nz2zYtcJOdySv/VpwVa+HnCmkfWrMeUVWCQ1+Q64g/UIo9oSNxl
- wfXlLAOeCpZfRCRxh2bJHLSkV4PtOiz0UvVqUlUxbSage3FEQG9M2mLZxhB8Qx5ujj1CY8
- IeRVuMcxf5YRPImNqkrtgNYqCa8e6mBVIh2/SgkVcN2rl0NBjJaktlOed1H8bTnFs49ost
- Ux+6tWmGIZk90EOvrIgpD3UvK1BUWevxq8Gf6k227grE1YvrDwhBG9Jy0bG9cOvfYNMYRo
- /nleHmd11clal0/S/mmfYgO8aH8LJppW/S4G7YFZ1v7BbGf+kUDlNtuq7QFxKw==
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To: "Gregory Price" <gourry@gourry.net>
-Date: Thu, 15 Oct 2026 12:09:17 +0800
-References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-5-lizhe.67@bytedance.com> <as-AV04p-AZ45-mw@gourry-fedora-PF4VCD3F>
-User-Agent: Mozilla Thunderbird
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
-	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
-	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
-	<juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
-	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
-	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Message-Id: <a01ccd5a-f443-49bb-a615-5712881ee7cd@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+2oOwwY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C4021F000C4;
+	Thu, 15 Oct 2026 04:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792039117;
+	bh=QMdbQQ8MSxOvImF8HNFP4RPydFgLhwcIAf1buxq3ETs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z+2oOwwYeiyDfIcRFAUPdkerYZ6fzMooWEnD3ZvppyjeXkFeHpES2pASe1+cGfHoI
+	 D0bNlUzJeaHh2CBgDYJETgB2dYCg1UcGsBs6T9qE7wSLVMT8zyQYtmN73KXdUcrL9K
+	 /8EcuD0UBO/eQtmhMx4DWn9gscB9SRuqL/I3FRJ3ZppO8XKXmOWaxgdVLE3XCwtVqt
+	 WQoGgjiv1Fx4lVSDANmOiAA8Uu83Evp7eD1bkqP6klH73PZOFudfhHUxpoQH83XtkB
+	 VKw+xsdpHhAZpyjSsxLEAo9/cQgT66hNr899ecfJjVg4Fu21DX5EcsK4CD6DDRvRyS
+	 jPUdlhPHvLZWw==
+Date: Wed, 14 Oct 2026 21:38:37 -0700
+From: Kees Cook <kees@kernel.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	David Gow <david@davidgow.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Laight <david.laight.linux@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] hexdump: Allow skipping identical lines
+Message-ID: <202610142135.0326EA9C@keescook>
+References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+ <as6TIm6xE8Izccb5@black.igk.intel.com>
+ <as-iBP1781DVuZ7p@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26ad05203+82078e+vger.kernel.org+lizhe.67@bytedance.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-In-Reply-To: <as-AV04p-AZ45-mw@gourry-fedora-PF4VCD3F>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Subject: Re: [PATCH 4/6] sched/numa: make free-space tiering promotion bypass configurable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <as-iBP1781DVuZ7p@pathway.suse.cz>
 
-On 10/14/26 9:16 PM, Gregory Price wrote:
-> On Wed, Oct 14, 2026 at 05:43:45PM +0800, Li Zhe wrote:
->> Memory tiering normally promotes any recently accessed slow-tier page if
->> the target fast-tier node has enough free space. This preserves the
->> existing policy of filling available fast memory before relying on
->> hotness and rate-limit control.
->>
->> That is not always the desired policy. Some workloads may intentionally
->> place memory across CXL-attached memory and DRAM to use aggregate memory
->> bandwidth. With the free-space bypass, cold one-shot accesses and bursts
->> of hot accesses can refill the fast tier and pull the workload away from
->> that distribution whenever DRAM has free space.
->>
->> Add kernel.numa_balancing_promote_free_space_bypass. It defaults to 1,
->> preserving the existing behavior. When cleared, enough free space in the
->> target fast-tier node no longer bypasses the normal hotness and
->> rate-limit controls.
->>
-> A global switch for this is a poor solution for this problem.
->
-> Also, if the memory was spread out intentionally, it presumably was done
-> so with a memory policy.  In that case, if the user did not set
-> MPOL_F_NUMA_BALANCING - that spread is already protected because the
-> mempolicy overrides the numa balancing fault and no migration occurs.
->
-> I don't think this is the right direction.
+On Wed, Oct 14, 2026 at 05:38:44PM +0200, Petr Mladek wrote:
+> On Tue 2026-10-13 22:22:58, Andy Shevchenko wrote:
+> > +Cc: KUnit maintainers + Kees
+> > 
+> > On Wed, Mar 19, 2025 at 05:08:09PM +0100, Miquel Raynal wrote:
+> > > While working on NAND issues, I used print_hex_dump() a lot to compare
+> > > data. But I am mostly working on embedded systems where the kernel
+> > > messages go through a serial console. Sometimes network support is an
+> > > option, sometimes not. Anyway, I often print buffers both in kernel
+> > > space and user space to compare them, and they may be full of 0's or
+> > > 1's, which means lines are repeated a lot in the output and this is slow
+> > > *and* hard to compare.
+> > > 
+> > > I initially hacked into lib/hexdump.c for my own purpose and just
+> > > discarded all the other users, but it felt like this might be a useful
+> > > feature for others and decided to make it a public patch.
+> > > 
+> > > * First patch creates a helper named print_hex() with a prototype
+> > >   containing a flags parameter, instead of an entry for the prefix type
+> > >   and another entry for the ascii boolean. print_hex_dump() now
+> > >   falls back to print_hex().
+> > > * Second patch adds a new flag to possibly skip the identical lines.
+> > > * Third patch is optional, and adds the offset at which the dump
+> > >   finishes in case the last line to be printed would be skipped.
+> > > 
+> > > The Cc-list, as provided by get_maintainers.pl, was returning 330
+> > > e-mail addresses which felt to much, so I ran the script only on the
+> > > second patch (the printk/includes/debug/Doc changes). It gave this
+> > > Cc-list which sounds more reasonable. Hopefully this is a smart move,
+> > > otherwise let me know what you think would be best.
+> > 
+> > Sorry for the so late response. First of all, a bit of a background
+> > development on my side. At some point a few months ago I asked John
+> > Ogness to give me a private dive to the printk() guts. He explained
+> > to me a lot about ow printk() circular buffer works and that the
+> > implementation is nowadays done in the terms of circular buffer library
+> > and printk() front-end. This gives a potential to get a clean solution
+> > for the testing how printk() actually behaves.
+> 
+> I am curious what printk() features you would like to test.
+> 
+> > The main issue with the
+> > real printk() is that the buffer it's using is defined globally and
+> > for clean test cases the printk() can't be used. We discussed the way
+> > of high-jacking that by linking an object file of printk() implementation
+> > to the KUnit test, but it seems quite a tricky if ever achievable exercise.
+> > 
+> > Meanwhile Kees Cook seems found a nice workaround for the similar use case
+> > in his recent patch series [1]. The idea is to register custom console and
+> > provide a custom .write() method which is the heart of the solution. On
+> > the writer side user prints something which has unique prefix, while the
+> > console callback recognises that pattern and checks the rest of the line.
+> 
+> I ask because the solution used by Kees seems to be quite complicated
+> and unreliable for the given purpose. In particular, printk() does
+> only the best effort to flush messages on legacy consoles. And NBCON
+> consoles drivers are even offloaded to a kthread by default as
+> pointed out by John in the other mail.
+> 
+> It seems that Kees just want to check some particular printk() calls
+> and what messages they print. It might be easier and more reliable
+> to redirect printk() to an alternative implementation via a hook
+> in vprintk() in kernel/printk/printk_safe.c.
 
-I agree that a workload which wants to fully preserve its initial spread
-can avoid MPOL_F_NUMA_BALANCING.
+Yeah, I was just trying to "prove" that seq_buf_do_printk() actually
+put something onto the console (and to match up what was written and how
+truncation behaved). :P I'm open to adjusting this however it should be...
 
-The case I had in mind is different: the workload wants to opt in to
-tiering, so hot and cold pages can still be adjusted, while keeping the
-DRAM/CXL distribution meaningful. This is the same kind of use case I
-was trying to describe for weighted interleave plus NUMA balancing:
 
-https://lore.kernel.org/all/20260930072617.64665-1-lizhe.67@bytedance.com/
-
-With the current free-space bypass, opting in to tiering can promote
-recently accessed slow-tier pages without the normal hotness and
-rate-limit checks whenever the top tier has enough free space. That makes
-it hard to combine weighted or interleaved placement with tiering
-feedback.
-
-That said, I see your point that a global switch is coarse. Maybe this
-should be controlled by a per-workload policy instead. For example,
-Yafang's RFC for BPF-based per-cgroup NUMA balancing mode selection seems
-related:
-
-https://lore.kernel.org/lkml/3eda489898ebf7c848ce61760af745d9@kernel.org/
-
-Would a per-cgroup control for this promotion behavior be a more
-reasonable direction than a global sysctl?
-
-Thanks,
-Zhe
-
->
-> ~Gregory
+-- 
+Kees Cook
