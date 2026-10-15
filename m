@@ -1,109 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A630A43C7C2;
-	Thu, 15 Oct 2026 19:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22C846EF93;
+	Thu, 15 Oct 2026 19:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792093880; cv=none; b=McZ8U4C33jHO+R3sIr6u0Ue7Q1FNcT0NbG/PfnyofdeSupzHDdfgkGpx5B/5hgMqkOUUFQ416ZH4HK67eCOSgBGOmNNmENFwmboDuXx8CsWa0mCMAJaXfE3xdCSA1qp/LzWR4q7uQmjXQ2Gc6cAwLkoFWVH5c4sCaxa89qehoBs=
+	t=1792094304; cv=none; b=bR6SHFvarDHJAUzV4fTyi/ZdlunOVI0dTVDfETPOOaeiQtbLNnm54kjW5rjfIOytA3fNaIaXUojMVmGy8MlgGgCW9fG0nkiRT0EABC9Kw6HRqMz6Aj+3FwOoU0bXTsrDakcwM6jFI8uv5vNg1K+MObuRTwIU8bXP31DeCtAUerw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792093880; c=relaxed/simple;
-	bh=ga6JYYLzzscZKA6V9O1XfWF5Uf0DD39/Nn3cQ8QDo/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KkmelGwybMyiPyE0pdsJipQZQEvG21LXSoO7Zf+6c1vqgcOTeA6PX2qM/93vfUnEFaqxxuTbYLauS3OMf8ld2TWdZPbFKNYfJ1CMRGMFq1qPlwtEuTLLEjltEUmhI6adipSVWOlt8ZOiKKcTbQtwbWzIwrKZuyeMxnoOD/XNY0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAfpDwii; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792094304; c=relaxed/simple;
+	bh=4JQ4FqbdpI3MwSUoWdEE76cU0QpDYkzKLrUSTSZvtPU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=o7gWy71COy2Fm13n/wORDlxI//PWgXSZKTQ4coXia3s34Rp/xVP3KcZX6teLQxrFgpuiEnex+3ILB8xv5BplfnNj/RkrK2dt1RFDxzcZgOUuP9Eyq3WFF9S5z1P5r4Y2IuHbr1YYnMZmt7paj+T/NDzlBUaW27FDXp1cxuYQz9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEpOUl+a; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAfpDwii"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EBD61F000C4;
-	Thu, 15 Oct 2026 19:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792093879;
-	bh=jIGO386Z+1/YyIE6BOFStksGPSpSiXsQ9RgmeE/zm1Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FAfpDwiimyOYzZ5JcENHIs5Vi+2y6MQ9waCDCqjQ5+IsJfkUSeldpuMERPh/ju+9C
-	 AmLFsYRx4ss/RQjY/bWbRusizOO22JZJyVNL7y9OrfXKArSLmo2eEK9R+IRfaM4DuI
-	 zy/7m5tTu5LXC9BM3BCyuvZ5W7IcKf7K9Pg6mLifvUxZHSedzm26VdWYvbvixTcnuf
-	 rwr/4AsRtD7ujDYGbxhGrNTq8Gp9V5d5z3AjS+c4MEV2RnQ8EhPHaqIMi6lzgKjf2l
-	 mCnpem+7WCa6NI6q4/DEoE/J0Ed0EUSU/S5PHY14wTr8pGPA7si/H/ns0p1C0yzx1i
-	 9bUpKICgHIs3g==
-Date: Thu, 15 Oct 2026 19:51:17 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Frank.Li@oss.nxp.com
-Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Song Liu <song@kernel.org>, Yu Kuai <yukuai@fygo.io>,
-	Li Nan <magiclinan@didiglobal.com>, Xiao Ni <xiao@kernel.org>,
-	Dan Williams <djbw@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	Anatolij Gustschin <agust@denx.de>,
-	Saeed Bishara <saeed@marvell.com>,
-	Rameshwar Prasad Sahu <rsahu@apm.com>,
-	Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-	Anup Patel <anup.patel@broadcom.com>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH RFC 0/4] async_tx/md: Remove async_tx framework
-Message-ID: <20261015195117.GI2170687@google.com>
-References: <20261015-asycn_tx_remove-v1-0-056a7085e0a1@nxp.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEpOUl+a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792094302; x=1823630302;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=4JQ4FqbdpI3MwSUoWdEE76cU0QpDYkzKLrUSTSZvtPU=;
+  b=jEpOUl+a1jtBBya72Fz09pdkS6hHL1pNBbSf+ebuOAm8m8PA3dtRuSge
+   rqtXL9aBthqAOsjLkkaMujX/qL/eYmqd8G05F+EKEV5Z+DMl3uswgw0vh
+   mh6T++E7kWsAtnAuLDOFA5RlwbcTpIPtfrc5GRP0s3a4OQDANPgsrn7Wn
+   B51EhHyzyQq+WZqLZriKsKdQHS9lMo5sv0tIGfS2V4BPdCEQZaxkmg4eM
+   JvtXubpq2b9kHYgURB7nvYCIlsoGuLo55mWDmhaegQX//vnexetQQES7j
+   IXX6kzmIEDm3VUovrpfA/2aCmuD/VoGHCz/n7bo4/6zuYE/Iqs4v8PyLS
+   Q==;
+X-CSE-ConnectionGUID: 9FLmVZMrQR278YtcZAuvSw==
+X-CSE-MsgGUID: z9TunxW2TJWlOp0Rt2rvng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="759094"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="759094"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 12:58:21 -0700
+X-CSE-ConnectionGUID: eSw31gJ8Q628BMhKq26DRw==
+X-CSE-MsgGUID: PJM9UxMdSkeWW1lzMZnORw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1743045"
+Received: from unknown (HELO [10.241.242.105]) ([10.241.242.105])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 12:58:21 -0700
+Message-ID: <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
+Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA
+ balancing control
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>, Chen Yu <yu.c.chen@intel.com>, 
+ "David Hildenbrand (Red Hat)"
+	 <david@kernel.org>, ljs@kernel.org
+Cc: Li Zhe <lizhe.67@bytedance.com>, mingo@redhat.com, peterz@infradead.org,
+ 	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, 	rostedt@goodmis.org, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, 	kprateek.nayak@amd.com,
+ linux-kernel@vger.kernel.org, 	linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, tim.c.chen@intel.com, 	mkoutny@suse.com,
+ tj@kernel.org
+Date: Thu, 15 Oct 2026 12:58:20 -0700
+In-Reply-To: <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
+References: <20260908122446.56708-1-lizhe.67@bytedance.com>
+		 <as3gQ8jfa_6eBf15@chenyu-dev>
+	 <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261015-asycn_tx_remove-v1-0-056a7085e0a1@nxp.com>
 
-On Thu, Oct 15, 2026 at 03:22:24PM -0400, Frank.Li@oss.nxp.com wrote:
-> This RFC is collecting more feedbacks to device when is good time to remove
-> whole async_tx framework and how to remove it safely. And is overall
-> direction correction.
-> 
-> Little to no real hardware acceleration usage:
->   Most systems run RAID5/6 parity calculations on the CPU using optimized
->   XOR/PQ implementations, while DMAEngine-backed async_tx acceleration is
->   rarely present or exercised.
-> 
-> Added abstraction and maintenance cost:
->   async_tx introduces an extra layer between MD RAID and parity operations,
->   making the code harder to understand, debug, and maintain.
-> 
-> Modern CPUs outperform DMA offload:
->   SIMD implementations (SSE/AVX/NEON and architecture-specific RAID
->   routines) often provide better performance than DMA descriptor setup and
->   completion handling overhead.
-> 
-> Obsolete hardware dependencies:
->   Many async_tx acceleration backends were designed for older DMA/XOR
->   engines that are no longer common in contemporary systems.
-> 
-> Complex asynchronous execution model:
->   Dependency chains, callback handling, and DMA transaction management
->   increase code complexity without corresponding performance benefits on
->   typical deployments.Simplifies RAID code paths: Removing async_tx allows
->   direct use of synchronous XOR/PQ helpers, reducing indirection in raid5.c
->   source code [linux/drivers/md/raid5.c].
-> 
-> Reduces testing burden:
->   Eliminates rarely used code paths that are difficult to validate and more
->   likely to accumulate latent bugs.
-> 
-> Aligns implementation with actual usage:
->   The vast majority of MD RAID deployments already rely on software parity
->   generation rather than DMA offload.
-[..]
->  17 files changed, 281 insertions(+), 2843 deletions(-)
+On Tue, 2026-10-13 at 17:31 +0800, Yafang Shao wrote:
+> On Tue, Oct 13, 2026 at 3:52=E2=80=AFPM Chen Yu <yu.c.chen@intel.com> wro=
+te:
+> >=20
+> > On Tue, Sep 08, 2026 at 08:24:42PM +0800, Li Zhe wrote:
+> > > Automatic NUMA balancing is controlled globally through the
+> > > kernel.numa_balancing sysctl and can be influenced indirectly through
+> > > memory policy. That works well as a system default, but it is too coa=
+rse
+> > > for workloads where a launcher wants most processes to use the defaul=
+t
+> > > policy while a selected process opts out because it already manages N=
+UMA
+> > > placement or cannot afford the sampling overhead.
+> > >=20
+> > > A recent per-cgroup proposal tried to address this by adding a
+> > > cgroup-local enable knob plus a NUMA_BALANCING_CGROUP mode where
+> > > balancing was disabled by default and then enabled for selected cgrou=
+ps
+> > > [1]. The discussion also noted that automatic NUMA balancing already
+> > > operates at task/process granularity, that the knob is not a resource
+> > > control attribute, and that task/process controls such as sched_setat=
+tr()
+> > > or prctl() may be a better fit while cgroups and cpusets continue to
+> > > describe workload grouping and placement domains.
+> > >=20
+> > > There is also prior art from 2023 prctl() proposals [2][3]. Those
+> > > versions used a per-mm mode with disabled/enabled/default states, add=
+ed
+> > > NumaB_mode to /proc/<pid>/status, and changed the global static key
+> > > handling so a per-process enable could override the global sysctl.
+> > >=20
+> > > This series takes a more conservative variant to preserve existing
+> > > administrator and workload expectations. Keeping the global sysctl as=
+ a
+> > > hard off switch means an administrator can still disable all automati=
+c
+> > > NUMA balancing activity with one knob. Using a weak two-state
+> > > per-process opt-out/allow ABI avoids exposing a "default" state whose
+> > > meaning depends on global policy and is therefore easy to misinterpre=
+t.
+> > > Storing the configured mode in signal_struct gives the control explic=
+it
+> > > thread-group semantics and avoids making unrelated non-thread CLONE_V=
+M
+> > > users share the policy merely because they share an mm.
+> > >=20
+> > > The series implements a per-process interface: a thread group may use
+> > > prctl() to set or get its configured automatic NUMA balancing mode. A
+> > > process can opt out of new periodic NUMA scan scheduling and NUMA
+> > > scheduler accounting, or opt back in. Existing hinting faults and que=
+ued
+> > > work are allowed to drain naturally as the disabled state takes effec=
+t.
+> > > When kernel.numa_balancing is 0, a process-local enable request does =
+not
+> > > override it.
+> > >=20
+> > > A separate task_struct scheduler snapshot is used by enqueue/dequeue
+> > > accounting so the scheduler can consistently account the state that w=
+as
+> > > in effect when a task entered the runqueue. This avoids changing
+> > > historical task accounting while still allowing a process mode change=
+ to
+> > > take effect through the normal dequeue/update/enqueue path.
+> > >=20
+> > > The series also exposes the process NUMA balancing mode in
+> > > /proc/<pid>/status and documents the new prctl() ABI and its interact=
+ion
+> > > with the global sysctl.
+> > >=20
+> >=20
+> > Can the global key be extended to tri-state, like the THP settings?
+>=20
+> IIUC, a BPF-based THP policy is yet to be developed as prctl() doesn't
+> fit some use cases, especially mTHP.
+>=20
+> > To keep it backward-compatible, echoing 0 and 1 remains the same effect=
+.
+> > The user can also echo always, advise, or never to it.
+> > We have a similar proposal here for cache-aware scheduling[1]
+>=20
+> We are also experimenting with the LLC-aware scheduler on production
+> servers, and we want to enable it per cgroup rather than globally
+> there as well.  Given the lessons we have learned from THP, what
+> about implementing it as a BPF-based feature from the beginning, so
+> that the semantics can still change when new use cases show up?
 
-I haven't been paying much attention to the crypto/async_tx/ directory,
-but this makes sense to me.  This mirrors similar trends that we've seen
-with the crypto and CRC algorithms.  For these types of algorithms, just
-using the CPU is faster and much simpler than trying to offload the
-operation to some external hardware engine (which rarely even exist).
+Some questions about per-cgroup based cache aware scheduling:
 
-- Eric
+1) What should be done if you want to group specific processes in different=
+ cgroups?
+It may not be desirable to put them together in the same cgroup for other r=
+easons
+like IO or memory resource policies.
+
+2) What is the inheritance rule for cache grouping of tasks in a cgroup
+with child cgroups?
+There may be too many tasks in parent to try to fit them all in a LLC when
+there are only certain subset of tasks sharing data that should be grouped
+together cache wise.
+
+With prctl, we can be precise in grouping only tasks that we truly
+want to be together.  If we want to bunch tasks in a cgroup cache wise,
+it is easy to write a daemon to put tasks in a cgroup into the same
+cache group.
+
+Thanks.
+
+Tim
+
+
+>=20
+> > In this way, the user does not have to disable NUMA balancing one by on=
+e
+> > across the whole system.
+> >=20
+> > Yafang Shao has a bpf-cgroup based NUMA balancing proposal[2].
+> > Overall I support fine-grained control of NUMA balancing, and I'm curio=
+us
+> > what the possible setting would be in the production environment, would
+> > something like Kubernetes be responsible for setting the NUMA
+> > balancing attribute via prctl, or as Yafang proposed, leverage cgroup
+> > interface?
+> >=20
+> > [1] https://lore.kernel.org/lkml/fd341106e7e6cbd2f047656650f43ee87c6633=
+c1.1787955777.git.tim.c.chen@linux.intel.com/
+> > [2] https://lore.kernel.org/lkml/20261012120438.52849-1-laoar.shao@gmai=
+l.com/
+>=20
