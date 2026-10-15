@@ -1,147 +1,220 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581C251B16E
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1211A5158A8
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064071; cv=none; b=fy4mFtM9FosvxJyU0+olvFZRoAXnaBYcu0jqwGoRhqjbv1OCSiiZin9VPf1r9+IeLF3ONdqwtx/BwLGVkXv3/nPsZZ8vYqt7xFVnHi5ir8DgeqBzBJrbH7fPwJdoDW7PdFtD8AqwHEJVww506iirqbgPD5YTHqKLkvtHlJp6Cv8=
+	t=1792064072; cv=none; b=csEoxQpPgB2PDSEBhmLzSrml8j8FK/a1OuLQs/PDsibvffsb2MJv42neXPBtYbP+Rss+zbTMpxjbgxsiZEcEJSlVT68la8uQpUhpzh9mirrI9XfcfL5RBQASXdq01N4C45p/SjxpU4shCZt5S0krey94ca8F/Xw6fpD0BRPaLlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064071; c=relaxed/simple;
-	bh=fMhh+As12S3nR/iURiRUct1XBwgb+4I9PkfgdBveLy0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dr64ardr8SuDNaTINuuWde2NQA+CoUq3CYG+uouRnZthf86w5pcKGwaYUM/9+WvGO8M8oav0SDo2jOIRtkWHSeHeyvDQ85uKLdaH0oHVJ5vFJgESmUILMaUFO1laYrRypG1246gY4pAiRUawoKYukmchf1iL/1FKC2Qy6SVRIMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sWvlMzhO; arc=none smtp.client-ip=74.125.82.173
+	s=arc-20240116; t=1792064072; c=relaxed/simple;
+	bh=XOFaTVSwW/9YBFC6mfw/z7wVwnNezmfJy/wesJmf7IQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WLFA3Tef+85K8PBAL++GAR7vIQxDKbxVYpyXafeIcJvZ8ywpqas3xuiO+wch/PidNYHzeofO/0ID6Bjw2XinhhOYp8ByhWiA2ygvcoGcxpn39cM8RwoolMn/0P98B7ofSvmOEW0vNBeIYOGLVyZX8EQ2LGGz0X2GgHFJx86evNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qC1SzCgD; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sWvlMzhO"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so3049836eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:34:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qC1SzCgD"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso5959691eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792064057; x=1792668857; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sqH6Etq1dF28Ug85NB55VFGwQmAV67ee0QqxAVFL824=;
-        b=sWvlMzhOIb0yEApf1Gw6WBCIDs8WdWsMP/PCgkJrRSANnPpPvkc2UVWqRFnUl4Y9HI
-         oo7D/qTvOzz2YqGYvOgVerwzo5oJN2XGxfhk9825yyI42PzMZQ/JOOD3BNKIZDbtxdHe
-         5PnYSmi2WMgaBO5a9Vh3wHpKdXRBdOxHihc+hDLI8qxKdT7UNYCkEPTgUYtlFKqB9R50
-         AVsLAX3vdimHn8kjg1Sz5Iclc6UY5GUUR2g4lDtCNwviyDtyeJE91goxM+sHEGIGdYAc
-         wODfLSisdTBpzc9WCAF2LH70h+AF1Yx+qdDPkKk+9dYPzwhawaZJJAsPwd9YkZQI/dfv
-         F3uw==
+        d=gmail.com; s=20251104; t=1792064065; x=1792668865; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+kuxUp68NfE1BX6EejbUySHt6ovgmEbDuypLUDZaOH4=;
+        b=qC1SzCgD0r8vgvS1/Kc+FEVv/AczDSyiFv5ZGa0n18h2rTQfYz85sqAozwYAbnSXgN
+         dI5HlfaIk6V2AJtXTGd7sGRIJNyJh8x9HCxDeVcdcvlRF0G4OxMBLcGp9XTX0AmQTbnp
+         M39iIeEZwV1PhCsKEtohsY0SO0KesC9elPiFoj9zUoiSRMrxnX9VUeJYO/R2VRd1UDrb
+         xzclGuI6DC9c0httjnP7c93SXy0t2jHnUR7etEi40+ZcU1J5ekSagu6gG84maCr6/Xuu
+         8GS+vYo8kYm+93OuySY3InyDZ6fdBBvJfrfNGcOQRQQOTdAiAHp+tQr9SEaw+ija9lW4
+         rVKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792064057; x=1792668857;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sqH6Etq1dF28Ug85NB55VFGwQmAV67ee0QqxAVFL824=;
-        b=Xsygm6WRAEGALoUDNN+yNAdGDou3tUFyFHZhco+5Oc2xxJkmU7MDUmKYX9mw+wCfas
-         ixnKg4ZNve86/0KZnsJw/CBGH9zJV1MerROjusiEulRu2n6QUobtjdyRNsMHEvbH2E4F
-         upUoP5Xe/l3cUEldb5NF3DJKBnzWhg8Z1lsGCbB1ZQ+89b7zIs2jSEA3+fPlFaIVQru4
-         IvRIgugh3JwxdlgNQdNgnjQeNj3+b0ZjICwGoG6ip3gyMfnIPBOAbgTHLqIqEJe/Eby7
-         R/sHHNiAjJRp30xP5Gw3yRMNy0S4zGOwxFiPlk4KIIj6xIWbDhpRgDe3YYiT592sYEO8
-         UtzA==
-X-Gm-Message-State: AFq9FYIfD3h05zp0zb5O1QpZCYg474qipE8t8At5xAwsxUQYc8b023tx
-	2i65qZWbe7H9XzqZjsw8/83uMQ9xsz8F+gkbmOO9b5u0LaEFYEEsb5Qcb1ec9nMV
-X-Gm-Gg: AYBFou1U935jWussqkS6pgLnPQkTGqZL+e0V/0DI6v9iCyNUi6trOH2yhkqsACEYtMo
-	DwCQSqZ1Po3JxEBgBwSFnWpCFioqtXtgOPsHkeRffKSCgoReGCowj1KCDPkSzGARTVYMcD1w54I
-	OKm6pgGHPQOPLJaknomYvJI5A+ewwaYb0En9B88Nh/mdihz6ApkVujQkCoESU0rTtAty+Ps6mR8
-	aGeWUtB96U+Hs8/ZecRJlAAzt04Kuc1/XzZEQycAhGImMK5iy/NqjYPgCr/fsUUZlzCYgTWUbdI
-	9aUbT8M4beWFjhDYL8Aq+WtdkXa9vJqdtZKUgQx2SOMsr+eiQcauxhEWzEksviGbq/5y8u48lkK
-	UW/+T5i4X+apF+qwyXWqzIT+sZkcFqjOscuWp6c/kPFXRhk7Fh+UCobvIQHBadad63AFz3mqLGX
-	LSKebJUN7OBvP7kLbHNdrATOcfP49QsTUhCuqCDYvyDyH6ZIBL+Yw31xqvhGu+XluNax7WCIwdZ
-	AaxEIadpp4ASOvGoldmo0nWyHf4e9h/63jmfIfy+zbldPh5y2CsjSdr3/hXrKlMUFJgPbGOfHSU
-	As2eY1g8c4sicx6JkkZfA7un
-X-Received: by 2002:a05:7301:6e98:b0:353:599e:4f8f with SMTP id 5a478bee46e88-3537e013215mr26898481eec.29.1792064056537;
-        Thu, 15 Oct 2026 04:34:16 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792064065; x=1792668865;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+kuxUp68NfE1BX6EejbUySHt6ovgmEbDuypLUDZaOH4=;
+        b=mFrDPJ7eM1KXGaEuHwADi+eRo7VSiV/pMExAPyK0PV8k8USwFtWCfmJojqx6xqLxN+
+         JsqFk8Njw3ZnYcCAjO2ZqpWnCKVDjFNz8YXNcFm08Z9Jo3e/QQ0EPiTDZ6jjQd4HGyr7
+         i05wfNfP90C9TcbRiEWzbF9iAIXBNqi7Nc43IzmxqKcHielPV34Sx+Y6B/mf/7BN9Rk+
+         KdDoRx3erHOTfJW3LACI+VUlIB4KVrV4sE0nNy5iLIlAUXbgcQZYuvXAqi22eRWAFuiF
+         j7/FiqGjFe8xHFL6H1QYgqqsfuON2tJRnT/GkbaSUUHhoOoMCAh5gJmBj5vMiTHN8bnd
+         1AQg==
+X-Gm-Message-State: AFq9FYI2zhU9KV8XAbPIfujYqNIyx/ORWyqHg/CftRwsLjaRkCBrKh9G
+	XkKlQZ6NimLGQk2z8R2grgvyDpcbi0AMawwGQz5rlLf4eRbQf3WQnaU/celRebop
+X-Gm-Gg: AYBFou3CweS7weVUuQap3sNAfAqGCHbR+vLJzTJW/vooj9pSN1lS9gzsqBXSu39pTz1
+	Ycy/49/cuEGQGhgiqS9+jxQVjDrRyTUV+v2ryyoB8cK8IDMep3MlwR+aOqwTdqfzXGaLBI2WLdN
+	p06hs+C+EkFWDCtlRZttdGRnYpovhMjsc0EEkzsZLywb5ZGY4BMYJUPYmdkgtcn389JRwcnKm4o
+	vmPiwOEw4/d9kYyy+AkxUohIxR7Ky0+hI1sgnX7GX3ePSYnCf/tdIloGHIYAZ4db/yZ4M59x9/V
+	yZgeoQPsT4IaCfhCHXh9hfq6poits6k3UG+L/hBPifHzygex/paB2PQ+kPOxiwqXVGkP4IgkADs
+	jD+Ck8RUu1oQTeTm6YZrSHvJXlmu905hJKWPqh7uURiwSRy++DtPq7zHv7EgOowvMMyFUAkH9L3
+	Bp72Y5MVY5eUB+CP3uQtxDgLDr1YTjgvrM1SOFzXUGZaZd/TY9PxqUb/gbL9CbXBTFZ6ga1Kdp8
+	bdkZ/JQRYjpJB/1zGjyJgB4d/B67/FcnxXHxE1yBAoRBtuQwTmfs3LEjH9Q3t7zugn3Qp8+TWR6
+	5eBUhEBLHxJbrv6glDoIYfo=
+X-Received: by 2002:a05:7300:8803:b0:351:735e:2ef8 with SMTP id 5a478bee46e88-3537df50e9dmr29151243eec.7.1792064064381;
+        Thu, 15 Oct 2026 04:34:24 -0700 (PDT)
 Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c841648sm69156913eec.3.2026.10.15.04.34.14
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c841648sm69156913eec.3.2026.10.15.04.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 04:34:16 -0700 (PDT)
+        Thu, 15 Oct 2026 04:34:24 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v2 00/10] docs/translations/pt_BR: admin-guide: add multiple translations
-Date: Thu, 15 Oct 2026 08:31:08 -0300
-Message-ID: <20261015113121.4550-1-danielmaraboo@gmail.com>
+Subject: [PATCH v2 04/10] docs/translations/pt_BR: admin-guide: add cputopology.rst
+Date: Thu, 15 Oct 2026 08:31:12 -0300
+Message-ID: <20261015113121.4550-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261015113121.4550-1-danielmaraboo@gmail.com>
+References: <20261015113121.4550-1-danielmaraboo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series adds Portuguese (pt_BR) translations for several documents
-in Documentation/admin-guide/, continuing the effort to expand the
-Brazilian Portuguese documentation in the Linux kernel:
+Add translation of cputopology.rst to Portuguese and update
+admin-guide/index.rst.
 
-- features.rst
-- sysfs-rules.rst
-- sysctl/index.rst
-- cputopology.rst
-- hw-vuln/index.rst
-- LSM/index.rst
-- perf-security.rst
-- bootconfig.rst
-- kernel-parameters.rst
-- efi-stub.rst
-
-All documents were translated following the original documentation
-closely and keeping formatting, Sphinx directives and code blocks
-intact. The admin-guide/index.rst was updated alongside each translation,
-moving translated documents from Todolist into appropriate toctrees.
-All patches have been validated with checkpatch.pl and verified with
-'make htmldocs' (no new warnings).
-
-Changes in v2:
-- bootconfig.rst: replace the kernel-doc directives for
-  include/linux/bootconfig.h and lib/bootconfig.c with plain references
-  to the source files, as done in the zh_CN and zh_TW translations.
-  Pulling the kernel-doc comments into the translation registered the C
-  declarations a second time and caused a large number of "Duplicate C
-  declaration" warnings in 'make htmldocs' (reported by Jonathan Corbet).
-- No changes to the other patches.
-
-v1: https://lore.kernel.org/linux-doc/20261002171133.50969-1-danielmaraboo@gmail.com/
-
-Daniel Pereira (10):
-  docs/translations/pt_BR: admin-guide: add features.rst
-  docs/translations/pt_BR: admin-guide: add sysfs-rules.rst
-  docs/translations/pt_BR: admin-guide: add sysctl/index.rst
-  docs/translations/pt_BR: admin-guide: add cputopology.rst
-  docs/translations/pt_BR: admin-guide: add hw-vuln/index.rst
-  docs/translations/pt_BR: admin-guide: add LSM/index.rst
-  docs/translations/pt_BR: admin-guide: add perf-security.rst
-  docs/translations/pt_BR: admin-guide: add bootconfig.rst
-  docs/translations/pt_BR: admin-guide: add kernel-parameters.rst
-  docs/translations/pt_BR: admin-guide: add efi-stub.rst
-
- .../pt_BR/admin-guide/LSM/index.rst           |  53 +++
- .../pt_BR/admin-guide/bootconfig.rst          | 425 ++++++++++++++++++
- .../pt_BR/admin-guide/cputopology.rst         | 105 +++++
- .../pt_BR/admin-guide/efi-stub.rst            | 102 +++++
- .../pt_BR/admin-guide/features.rst            |   3 +
- .../pt_BR/admin-guide/hw-vuln/index.rst       |  30 ++
- .../translations/pt_BR/admin-guide/index.rst  |  34 +-
- .../pt_BR/admin-guide/kernel-parameters.rst   | 134 ++++++
- .../pt_BR/admin-guide/perf-security.rst       | 328 ++++++++++++++
- .../pt_BR/admin-guide/sysctl/index.rst        | 108 +++++
- .../pt_BR/admin-guide/sysfs-rules.rst         | 195 ++++++++
- 11 files changed, 1503 insertions(+), 14 deletions(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/LSM/index.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/bootconfig.rst
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ .../pt_BR/admin-guide/cputopology.rst         | 105 ++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |   2 +-
+ 2 files changed, 106 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/pt_BR/admin-guide/cputopology.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/efi-stub.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/features.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/hw-vuln/index.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/perf-security.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/sysctl/index.rst
- create mode 100644 Documentation/translations/pt_BR/admin-guide/sysfs-rules.rst
 
-
-base-commit: 8fdbd353e6928492fdc46c359aabd2bfb7630fba
+diff --git a/Documentation/translations/pt_BR/admin-guide/cputopology.rst b/Documentation/translations/pt_BR/admin-guide/cputopology.rst
+new file mode 100644
+index 000000000..f7321e275
+--- /dev/null
++++ b/Documentation/translations/pt_BR/admin-guide/cputopology.rst
+@@ -0,0 +1,105 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================================================================
++Como as informações de topologia de CPU são exportadas via sysfs
++================================================================
++
++As informações de topologia de CPU são exportadas via sysfs. Os itens
++(atributos) são semelhantes à saída de /proc/cpuinfo em algumas arquiteturas.
++Eles residem em /sys/devices/system/cpu/cpuX/topology/. Por favor, consulte o
++arquivo de ABI: Documentation/ABI/stable/sysfs-devices-system-cpu.
++
++O arquivo independente de arquitetura, drivers/base/topology.c, exporta esses
++atributos. No entanto, os arquivos do sysfs relacionados à hierarquia de die,
++cluster, book e drawer só serão criados se uma arquitetura fornecer as macros
++relacionadas, conforme descrito abaixo.
++
++Para que uma arquitetura ofereça suporte a esse recurso, ela deve definir
++algumas dessas macros em include/asm-XXX/topology.h::
++
++	#define topology_physical_package_id(cpu)
++	#define topology_die_id(cpu)
++	#define topology_cluster_id(cpu)
++	#define topology_core_id(cpu)
++	#define topology_book_id(cpu)
++	#define topology_drawer_id(cpu)
++	#define topology_sibling_cpumask(cpu)
++	#define topology_core_cpumask(cpu)
++	#define topology_cluster_cpumask(cpu)
++	#define topology_die_cpumask(cpu)
++	#define topology_book_cpumask(cpu)
++	#define topology_drawer_cpumask(cpu)
++
++O tipo das ``macros **_id`` é int.
++O tipo das ``macros **_cpumask`` é ``(const) struct cpumask *``. Estas últimas
++correspondem aos atributos apropriados ``**_siblings`` do sysfs (exceto por
++topology_sibling_cpumask(), que corresponde a thread_siblings).
++
++Para manter a consistência em todas as arquiteturas, include/linux/topology.h
++fornece definições padrão para qualquer uma das macros acima que não estejam
++definidas em include/asm-XXX/topology.h:
++
++1) topology_physical_package_id: -1
++2) topology_die_id: -1
++3) topology_cluster_id: -1
++4) topology_core_id: 0
++5) topology_book_id: -1
++6) topology_drawer_id: -1
++7) topology_sibling_cpumask: apenas a CPU fornecida
++8) topology_core_cpumask: apenas a CPU fornecida
++9) topology_cluster_cpumask: apenas a CPU fornecida
++10) topology_die_cpumask: apenas a CPU fornecida
++11) topology_book_cpumask: apenas a CPU fornecida
++12) topology_drawer_cpumask: apenas a CPU fornecida
++
++Além disso, as informações de topologia de CPU são fornecidas sob
++/sys/devices/system/cpu e incluem estes arquivos. A fonte interna para a saída
++está entre colchetes ("[]").
++
++    =========== ==========================================================
++    kernel_max: o índice máximo de CPU permitido pela configuração do kernel.
++		[NR_CPUS-1]
++
++    offline:	CPUs que não estão online porque foram desligadas via
++		HOTPLUG ou excedem o limite de CPUs permitido pela
++		configuração do kernel (kernel_max acima).
++		[~cpu_online_mask + cpus >= NR_CPUS]
++
++    online:	CPUs que estão online e sendo escalonadas [cpu_online_mask]
++
++    possible:	CPUs para as quais foram alocados recursos e que podem ser
++		colocadas online se estiverem presentes. [cpu_possible_mask]
++
++    present:	CPUs que foram identificadas como presentes no
++		sistema. [cpu_present_mask]
++    =========== ==========================================================
++
++O formato para a saída acima é compatível com cpulist_parse()
++[veja <linux/cpumask.h>]. Alguns exemplos a seguir.
++
++Neste exemplo, existem 64 CPUs no sistema, mas as cpus 32-63 excedem
++o máximo do kernel, que está limitado a 0..31 devido à opção de
++configuração NR_CPUS ser 32. Observe também que as CPUs 2 e 4-31 não estão
++online, mas poderiam ser colocadas online, pois estão tanto presentes
++quanto possíveis::
++
++     kernel_max: 31
++        offline: 2,4-31,32-63
++         online: 0-1,3
++       possible: 0-31
++        present: 0-31
++
++Neste exemplo, a opção de configuração NR_CPUS é 128, mas o kernel foi
++iniciado com possible_cpus=144. Existem 4 CPUs no sistema e a cpu2
++foi colocada offline manualmente (e é a única CPU que pode ser colocada
++online.)::
++
++     kernel_max: 127
++        offline: 2,4-127,128-143
++         online: 0-1,3
++       possible: 0-127
++        present: 0-3
++
++Consulte Documentation/core-api/cpu_hotplug.rst para o parâmetro de inicialização
++do kernel possible_cpus=NUM, bem como para obter mais informações sobre as
++várias cpumasks.
+diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
+index 878a88d71..c574515c2 100644
+--- a/Documentation/translations/pt_BR/admin-guide/index.rst
++++ b/Documentation/translations/pt_BR/admin-guide/index.rst
+@@ -37,10 +37,10 @@ com eles.
+ 
+    sysfs-rules
+    sysctl/index
++   cputopology
+ 
+ Todolist:
+ 
+-*   cputopology
+ *   abi
+ 
+ Documentação relacionada à segurança:
 -- 
 2.47.3
 
