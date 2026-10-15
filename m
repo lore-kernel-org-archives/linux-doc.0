@@ -1,42 +1,35 @@
-Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
+Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758B530EF86
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 03:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57F33EDE64
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 03:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792035752; cv=none; b=Aj0QJwojtSmv6Ez/23prDJKH9dReINMugqOclmZT8eeHu291c9SR5Gg5FpGO8VVR3Zjk9P8wWg7XRPscluYgQCutFeG0kGSQTeIJLYb1mfVb5zhh19Mawc1BYFg5J35hFyXdAA6loFFkwPFCOpXz8jN4mqKvhFR5v9hENExC6M0=
+	t=1792036216; cv=none; b=P3QYbWBiAv1s1XRyuoEnjLTa8YKMP2VK8iCaA186HL40mjqvlTQJjaeoJsSdqlBum6+Npi9zG8b4jOD1y1B3WybNfTCjrY/JP936aSHTCybXFUBaN8aDVm2hjXvXel8dS7Eih9L2FGHvkLTUOjpEgME85rn1rSR97C/O0+FrWvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792035752; c=relaxed/simple;
-	bh=MAle1rxtN+5sTXt5cEGX2nYA+bMHJgSJkkzcPshSUHQ=;
-	h=Message-Id:Mime-Version:To:From:Cc:Subject:References:Date:
-	 Content-Type:In-Reply-To; b=k82Gu8JR4oDobBgt6J6/QZWnJ/nXknww2YucElAm/tqTmzygP0RHk9CvaWV7uInC3i/Uc72wlDfkeP4czTeizK1+jQWaR4+ZmglvrhnLWAYEzZrk4M4Jcczu1pHl0pK+T87Ze5Q1rKkiJWrJM0EcTT62OgUEtjUEDx207spnqgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=a4qzHdzJ; arc=none smtp.client-ip=209.127.230.113
+	s=arc-20240116; t=1792036216; c=relaxed/simple;
+	bh=jHIpP8m8Fuscpg5gvqfH9E/D3yufuKsQ5zb0J7Ryd90=;
+	h=From:Subject:References:To:Cc:Date:In-Reply-To:Message-Id:
+	 Mime-Version:Content-Type; b=AVnmhJ05n0yvfFNfS57MEZclXRK3mlc6RCft8hOAq/eO4sV6GzpEL8fYNWISZ+Hd6LfLxpLiQ5LCnALWMmpXqYmrbksOPafFAKVVaZyV5ZVL0Y70C5klG6XWJ6rkL+oCwTlxsNplBL7ImX0Q/bBA9F3y/jbQs+T5neBw1RJlkhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=dxwdwJln; arc=none smtp.client-ip=209.127.230.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="a4qzHdzJ"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="dxwdwJln"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792035737; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1792036200; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=18g34PysGbh5XHdISii7T815efgfUCVrzKpp9lKPQHQ=;
- b=a4qzHdzJzwSU4RNzZZTWTpnjQiz55jgr+5VWbz7fivEVDT1rBuc6khUdLFCbF55lx05SIc
- 3UEUAi0hEtppmsSxwRaNA2JNGmyPGWJ7QERlBZIVDbjC+0NQtBD9Bw1xzjD4km4Qfglj3n
- KXO4T+Bo4R57nExxL1d5hSpVEgOeMSos1Ir5wGcU9r59DTL1uMZf0XuOgYWG7cU2mSaWVV
- QWnls9oaxwlSYiZsddmjolHoKZkDjDISS/44ve9sFsJS8asbQNuUCnJ07h4omYju492GgF
- DtDLsJ8AOeAdTr5Dc+I/UlRNDEJhyOx2MLiA/8Y8QSQgeC5lYkUEkfFXfo+XbQ==
-Message-Id: <359a4776-6737-43b3-8c26-77b2d3bae081@bytedance.com>
-Precedence: bulk
-X-Mailing-List: linux-doc@vger.kernel.org
-List-Id: <linux-doc.vger.kernel.org>
-List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-To: "Gregory Price" <gourry@gourry.net>
+ bh=6Om/DEKPFgRQsjS9jvWBk11FC4wZN19UjaH+0CqwpAI=;
+ b=dxwdwJlnYCvYFuDN0uI3dvjULpWjZ2U6A372BqgWqi6XJfySB2uOVrMU+NFI7qqAvSG463
+ JIw6LGFL7kmBPv7V3WcggWfUW53ZJOaFtWyelh03b2MaZqb8dD/AUyTdnDJz3omqRW4czQ
+ KKMcGnTWpbdFHNx8yFJUf0YIX+fGZPgr6Jo3hj/EAy8ilW8RceI5SUn7CkLJOYdv8F4RjN
+ I3vx4QvFrxYYimjUcRYOO1uosFuB3ZghKyfFX2dIlq/9kwSS5uwjc+nBrqRl19eEru2SVK
+ VjaG4/QLyYVy99e9OYtnHpQn0QVXDNZjpHJeM3NpMYgedfIAA9Q/J02pBEZhmA==
 From: "Li Zhe" <lizhe.67@bytedance.com>
-User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] sched/numa: fix scan-period ratio denominator checks
+References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-3-lizhe.67@bytedance.com> <as97rD5uxYva4ayg@gourry-fedora-PF4VCD3F>
+To: "Gregory Price" <gourry@gourry.net>
 Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
 	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
 	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
@@ -45,92 +38,77 @@ Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>,
 	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
 	<linux-mm@kvack.org>
-Subject: Re: [PATCH 1/6] sched/numa: clear fault locality state on execve
-X-Lms-Return-Path: <lba+26ad04b97+90936a+vger.kernel.org+lizhe.67@bytedance.com>
-References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-2-lizhe.67@bytedance.com> <as98SA5yfBaeI4oj@gourry-fedora-PF4VCD3F>
-Date: Thu, 15 Oct 2026 11:41:51 +0800
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <as98SA5yfBaeI4oj@gourry-fedora-PF4VCD3F>
+Date: Thu, 15 Oct 2026 11:49:34 +0800
+In-Reply-To: <as97rD5uxYva4ayg@gourry-fedora-PF4VCD3F>
+Message-Id: <4231150e-ea20-473b-bec7-cf2787c1b567@bytedance.com>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26ad04d66+4ee2f8+vger.kernel.org+lizhe.67@bytedance.com>
+Precedence: bulk
+X-Mailing-List: linux-doc@vger.kernel.org
+List-Id: <linux-doc.vger.kernel.org>
+List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
 X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10/14/26 9:02 PM, Gregory Price wrote:
-> On Wed, Oct 14, 2026 at 05:43:42PM +0800, Li Zhe wrote:
->> task_numa_free(p, false) is used by execve() to reset NUMA balancing
->> state without freeing p->numa_faults, because concurrent readers may
->> still observe the task.
+On 10/14/26 8:56 PM, Gregory Price wrote:
+> On Wed, Oct 14, 2026 at 05:43:43PM +0800, Li Zhe wrote:
+>> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+>> index 1053437933ee..76532b8202dc 100644
+>> --- a/kernel/sched/fair.c
+>> +++ b/kernel/sched/fair.c
+>> @@ -3698,6 +3698,8 @@ static void update_task_scan_period(struct task_struct *p,
+>>   
+>>   	unsigned long remote = p->numa_faults_locality[0];
+>>   	unsigned long local = p->numa_faults_locality[1];
+>> +	unsigned long locality_faults = local + remote;
+>> +	unsigned long type_faults = private + shared;
+>>   
+>>   	/*
+>>   	 * If there were no record hinting faults then either the task is
+>> @@ -3706,7 +3708,7 @@ static void update_task_scan_period(struct task_struct *p,
+>>   	 * migration then it implies we are migrating too quickly or the local
+>>   	 * node is overloaded. In either case, scan slower
+>>   	 */
+>> -	if (local + shared == 0 || p->numa_faults_locality[2]) {
+>> +	if (!locality_faults || !type_faults || p->numa_faults_locality[2]) {
+>>   		p->numa_scan_period = min(p->numa_scan_period_max,
+>>   			p->numa_scan_period << 1);
 >>
-> Is a process that exec()'s going to run long enough to actually collect
-> any real numa fault data?
->
->> the retained p->numa_faults array, but leaves the current-window buffer
->> half and p->numa_faults_locality unchanged. Those are also NUMA fault
->> feedback consumed by task_numa_placement() and update_task_scan_period(),
->> so a newly executed image can inherit stale fault feedback from the old
->> image.
-> I'm not sure this actually corrects much unless you have a long running
-> program that eventually exec()'s - and even then it seems like this all
-> self-corrects within a couple seconds.
->
-> Do you have some clear reproduction that makes an obvious wrong effect,
-> or was this just some static analysis?
->
-> It's "not wrong", but I'm trying to understand what impact this actually
-> has.
+> This does more than just change the div/o below, it changes the behavior
+> of the function overall.  It's not clear to me this change is correct.
 
+Yes, this intentionally changes the fallback condition.
 
-This was found by code inspection, but it is related to the same class of
-stale numa_faults_locality problem Eric fixed for update_task_scan_period():
+The old local + shared check mixes two independent dimensions. The
+ratios below are computed from local + remote and private + shared, so
+those are the denominators that decide whether the sample is usable.
 
-https://lore.kernel.org/all/OS7PR01MB139144C7E07C97B3F3B47016796D52@OS7PR01MB13914.jpnprd01.prod.outlook.com/
+The old check can also classify a pure remote-private window as an
+unusable sample: local == 0 and shared == 0, while remote and private
+are non-zero. That is exactly the kind of signal that should go through
+the normal scan-period decision, since commit 37ec97deb3a8 wanted to
+speed scanning up only when many private faults are on remote memory.
 
-That patch clears locality feedback after the scan-period update, so stale
-locality and migration-failure information does not affect later scan-period
-decisions. This patch handles another reset boundary: execve() already calls
-task_numa_free(p, false) to reset NUMA balancing state for the new 
-image, but
-that path leaves the current-window counters and numa_faults_locality 
-behind.
-
-So a newly exec'ed image can consume locality or migration-failure feedback
-from the old image during its first placement update. I agree that the 
-impact
-is likely transient, especially once Eric's fix is present. The intent 
-here is
-to make the execve reset path complete, rather than to claim a severe 
-runtime
-bug.
+So the fallback is meant to be used when one of the actual ratios cannot
+be computed, i.e. when local + remote == 0 or private + shared == 0.
+Otherwise the sample should not be discarded before the ratio logic.
 
 Thanks,
 Zhe
 
-
 >
->> The non-final path clears p->total_numa_faults and the averaged half of
->>
->> Clear the whole retained p->numa_faults array and p->numa_faults_locality
->> together in the non-final reset path.
->>
->> Fixes: 04bb2f947505 ("sched/numa: Adjust scan rate in task_numa_placement")
->> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
->> ---
->>   kernel/sched/fair.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
->> index 57360f5cdde4..1053437933ee 100644
->> --- a/kernel/sched/fair.c
->> +++ b/kernel/sched/fair.c
->> @@ -4177,8 +4177,9 @@ void task_numa_free(struct task_struct *p, bool final)
->>   		kfree(numa_faults);
->>   	} else {
->>   		p->total_numa_faults = 0;
->> -		for (i = 0; i < NR_NUMA_HINT_FAULT_STATS * nr_node_ids; i++)
->> -			numa_faults[i] = 0;
->> +		memset(p->numa_faults_locality, 0, sizeof(p->numa_faults_locality));
->> +		memset(numa_faults, 0, sizeof(*numa_faults) *
->> +		       NR_NUMA_HINT_FAULT_BUCKETS * nr_node_ids);
->>   	}
->>   }
+>> @@ -3723,8 +3725,8 @@ static void update_task_scan_period(struct task_struct *p,
+>>   	 *	 >= NUMA_PERIOD_THRESHOLD scan period increases (scan slower)
+>>   	 */
+>>   	period_slot = DIV_ROUND_UP(p->numa_scan_period, NUMA_PERIOD_SLOTS);
+>> -	lr_ratio = (local * NUMA_PERIOD_SLOTS) / (local + remote);
+>> -	ps_ratio = (private * NUMA_PERIOD_SLOTS) / (private + shared);
+>> +	lr_ratio = (local * NUMA_PERIOD_SLOTS) / locality_faults;
+>> +	ps_ratio = (private * NUMA_PERIOD_SLOTS) / type_faults;
 >>   
->> -- 
->> 2.20.1
+> This otherwise looks fine.
+>
+> ~Gregory
