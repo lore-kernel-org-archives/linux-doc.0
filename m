@@ -1,122 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12A24A0F01;
-	Thu, 15 Oct 2026 07:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F078347DD77;
+	Thu, 15 Oct 2026 07:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792048247; cv=none; b=Cide1G3DwrqQ75X0huOAUNb5Zh76Ty+v8Mz4D44mCN+tKjtBrYm4ETnptGqWjKz8ZcqL1BlBn974suc3oFg4gQ8xWIYmta9Q8dCNmQJ+ZZwBPShdAqvnMTApaGJHZY+XTrHgAelw0ntK0On/oKBYINv+ml4pffR0Br9+Nu1fiMo=
+	t=1792049668; cv=none; b=YvZNnymj5DrYM1BpQYJaqB26NbN+GEGqiUR9B7W58vrhbQ+DIqZjvPNuIWZUFp72IiWWzLxmkXPtNqFqa4BHCJjcdy0UAlB1XmN9ldD+42GnY/oTOM8vAcXGVzmF+Z81GE3cxNZRX1eU93ykgxvmu4aNlcf5fRFX3pXaRKuSga0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792048247; c=relaxed/simple;
-	bh=WiDxLwRc8l+63GRJReDGwoeViR7iwJaKNodwD4jyc3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B7nOLi1tazpFBKuGs9CmCUPGjehAPl+YQvzn98+asN9UEqZ//Y4F4WeEoRNR/plTNB2gW0iW1Xt/X4r07XSJgxpqAAZv/H0gllk74Uo/ENAipNXm65cKv7RG/uMnGn0jXTJ+A07hzUIZld2jyWrH8rjgJN6EEZ86tFE1Sz9lbP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AtteeYFf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792049668; c=relaxed/simple;
+	bh=LrBrSJmD/UxphG9gvZu2dp5jVZSeM0Sig/nKKcgBgTI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RBoIda2Dzh5W9cfjw3qUm9jrjdYF/ZC9ZN/IZ32WNomI/u0IeQzhDm3XQUYjOyUnD61St8NBm+I4K5/Hctj5Vq8ijDg19kkX3VbHtT7Uxgps+SdooPstU7sxh36prunAEp5PJa/4tg7WWFXkVmqTWhX9majuOp760iD2+cYcrsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WJ0cVWt0; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AtteeYFf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2571F000C4;
-	Thu, 15 Oct 2026 07:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792048238;
-	bh=t35CZqhZ37FpgWrxYiwnoxvM2WrIBjmPysOYClvNAFg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=AtteeYFfkxiI7tEEpMbi8Yt7KJIKQSaoWpn4H36UJAg09QBpf7WG4edfMyvKSNnmk
-	 f8K68Cx3Q/125UsxrICx0flle39xsvHYEgg2vTNLdV9dvODivacIr0a2kWbAdpAY84
-	 JkR5imJAv2Fud4Q/jO6EXhK4to8N6hfGPKinyQ6fKNWbtQwyzmf7Q2eTvxgEUdkFF4
-	 KxtZAGiEhyIOGhpWb2ACDNImCrhkmB+dLsPbO92NkHm1xREah+d0w7UJcIBo/A9ADe
-	 pOMorbyndlL677Oaj4VHidtSTpiYXIJ9HHYJfTMNOWR7sALvJZ23LBMBXZiCnhXrXq
-	 joWvay/B8zEtw==
-Message-ID: <51b242a5-3918-446b-8884-30d6d05327aa@kernel.org>
-Date: Thu, 15 Oct 2026 09:10:31 +0200
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WJ0cVWt0"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j50FP0Y2WzKnNf;
+	Thu, 15 Oct 2026 09:34:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792049657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5BbSMtY+9Kbz5WrucAlpB74oey3pZ7xFI2/f3PZfg8I=;
+	b=WJ0cVWt0CO90YoIk8WOSdU9JWWqR/gk+s+jOZKKuzmyqLpiPgHHEqZ6T0iecGzqaJSnhvR
+	DopRTNElY6VV6Ad0nF4dK1C/hd7A5GHPZrWTCT8AhnzLPEGPa2AJf9j2vMW+LhmSQiY27s
+	3OHQabVF4eNuGaaMUbvFxNTjhZR+zg8S1iXpnQ0aAzTQVu++CVXTkNX/LCXQ/InygRbAe1
+	A9Bvou1y1Erdo7j7tTSXaY5pc15GPe3UE86RYEv3kC4EcvLL47m94tlG6UUkrBR6qK9uK0
+	jQM7WQ/cgJJKOSQ6zs0oh4OVnESTwS+H4PtZf1354rmuji+E6HyvrxFnpze7SQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mm/damon/lru_sort: fix grammar and stlye
+Date: Thu, 15 Oct 2026 09:29:47 +0200
+Message-ID: <20261015072947.802821-2-manuelebnerli@mailbox.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: stop recalculating min_free_kbytes once set by
- userspace
-To: Nimrod Oren <noren@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Brendan Jackman
- <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
- David Laight <david.laight.linux@gmail.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261014140859.1006967-1-noren@nvidia.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=vbabka@kernel.org; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
- gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
- CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
- UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
- XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
- 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
- FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
- QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
- 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
- icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
- uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
- SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
- cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
- La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
- FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
- bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
- +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
- jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
- CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
- HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
- SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
- 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
- 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
- 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
- wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
- NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
- OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
- jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <20261014140859.1006967-1-noren@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: idn3gxtcdjt6emcbahy53p5jocy9zney
+X-MBO-RS-ID: 344519cfb3155f51206
 
-On 10/14/26 16:08, Nimrod Oren wrote:
-> min_free_kbytes is recalculated on memory hotplug and on THP sysfs
-> writes. The new value comes from calculate_min_free_kbytes() or, while
-> THP is enabled, from set_recommended_min_free_kbytes(). A value written
-> to the vm.min_free_kbytes sysctl is replaced whenever the new value is
-> higher, so a lower value does not stick. This matters most when THP is
-> enabled on configurations with large pageblocks, where the new value
-> can be excessive [1].
-> 
-> Stop recalculating min_free_kbytes once a value has been written to the
-> sysctl. Systems where the sysctl is never written keep the current
-> behavior.
-> 
-> Link: https://lore.kernel.org/r/20260716173504.760369-1-noren@nvidia.com/ [1]
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Link: https://lore.kernel.org/r/d202dcc3-d7d7-4e98-a9a5-3137cfbfd041@kernel.org/
-> Signed-off-by: Nimrod Oren <noren@nvidia.com>
+Fix tenses. Split long sentences thereby imporove readability.
+Replace 'set as' with 'set to'. Replace [] with () to make the file uniform.
 
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+ .../admin-guide/mm/damon/lru_sort.rst         | 61 +++++++++----------
+ 1 file changed, 30 insertions(+), 31 deletions(-)
 
-Thanks!
+diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
+index 0c04d238ed..aa4cc90ca5 100644
+--- a/Documentation/admin-guide/mm/damon/lru_sort.rst
++++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
+@@ -5,20 +5,19 @@ DAMON-based LRU-lists Sorting
+ =============================
+ 
+ DAMON-based LRU-lists Sorting (DAMON_LRU_SORT) is a static kernel module that
+-aimed to be used for proactive and lightweight data access pattern based
++aims to be used for proactive and lightweight data access pattern based
+ (de)prioritization of pages on their LRU-lists for making LRU-lists a more
+ trustworthy data access pattern source.
+ 
+ Where Proactive LRU-lists Sorting is Required?
+ ==============================================
+ 
+-As page-granularity access checking overhead could be significant on huge
+-systems, LRU lists are normally not proactively sorted but partially and
+-reactively sorted for special events including specific user requests, system
+-calls and memory pressure.  As a result, LRU lists are sometimes not so
+-perfectly prepared to be used as a trustworthy access pattern source for some
+-situations including reclamation target pages selection under sudden memory
+-pressure.
++As page-granularity access checking overhead could be significant on huge systems,
++LRU lists are normally not fully nor proactively sorted but rather partially
++and reactively sorted for special events.  These events include specific user requests,
++system calls and memory pressure.  As a result, LRU lists are sometimes not
++suitable to be used as a trustworthy access pattern source.  These situations
++including reclamation target page selection under sudden memory pressure.
+ 
+ Because DAMON can identify access patterns of best-effort accuracy while
+ inducing only user-specified range of overhead, proactively running
+@@ -28,9 +27,9 @@ pattern source with low and controlled overhead.
+ How It Works?
+ =============
+ 
+-DAMON_LRU_SORT finds hot pages (pages of memory regions that showing access
+-rates that higher than a user-specified threshold) and cold pages (pages of
+-memory regions that showing no access for a time that longer than a
++DAMON_LRU_SORT finds hot pages (pages of memory regions that show access
++rates that are higher than a user-specified threshold) and cold pages (pages of
++memory regions that show no access for a duration that is longer than a
+ user-specified threshold) using DAMON, and prioritizes hot pages while
+ deprioritizing cold pages on their LRU-lists.  To avoid it consuming too much
+ CPU for the prioritizations, a CPU time usage limit can be configured.  Under
+@@ -63,10 +62,10 @@ enabled
+ 
+ Enable or disable DAMON_LRU_SORT.
+ 
+-You can enable DAMON_LRU_SORT by setting the value of this parameter as ``Y``.
+-Setting it as ``N`` disables DAMON_LRU_SORT.  Note that DAMON_LRU_SORT could do
++You can enable DAMON_LRU_SORT by setting the value of this parameter to ``Y``.
++Setting it to ``N`` disables DAMON_LRU_SORT.  Note that DAMON_LRU_SORT could do
+ no real monitoring and LRU-lists sorting due to the watermarks-based activation
+-condition.  Refer to below descriptions for the watermarks parameter for this.
++condition.  Refer to below descriptions of the watermarks parameter for this.
+ 
+ commit_inputs
+ -------------
+@@ -74,9 +73,9 @@ commit_inputs
+ Make DAMON_LRU_SORT reads the input parameters again, except ``enabled``.
+ 
+ Input parameters that updated while DAMON_LRU_SORT is running are not applied
+-by default.  Once this parameter is set as ``Y``, DAMON_LRU_SORT reads values
++by default.  Once this parameter is set to ``Y``, DAMON_LRU_SORT reads values
+ of parameters except ``enabled`` again.  Once the re-reading is done, this
+-parameter is set as ``N``.  If invalid parameters are found while the
++parameter is set to ``N``.  If invalid parameters are found while the
+ re-reading, DAMON_LRU_SORT will be disabled.
+ 
+ Once ``Y`` is written to this parameter, the user must not write to any
+@@ -86,37 +85,37 @@ violate this rule, the kernel may exhibit undefined behavior.
+ active_mem_bp
+ -------------
+ 
+-Desired active to [in]active memory ratio in bp (1/10,000).
++Desired active to (in)active memory ratio in bp (1/10,000).
+ 
+ While keeping the caps that set by other quotas, DAMON_LRU_SORT automatically
+ increases and decreases the effective level of the quota aiming the LRU
+-[de]prioritizations of the hot and cold memory resulting in this active to
+-[in]active memory ratio.  Value zero means disabling this auto-tuning feature.
++(de)prioritizations of the hot and cold memory resulting in this active to
++(in)active memory ratio.  Value zero means disabling this auto-tuning feature.
+ 
+ Disabled by default.
+ 
+ autotune_monitoring_intervals
+ -----------------------------
+ 
+-If this parameter is set as ``Y``, DAMON_LRU_SORT automatically tunes DAMON's
++If this parameter is set to ``Y``, DAMON_LRU_SORT automatically tunes DAMON's
+ sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
+ amount of access events in each DAMON-snapshot, while keeping the sampling
+-interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
+-``N`` disables the auto-tuning.
++interval to 5 milliseconds in minimum, and to 10 seconds in maximum.  Setting this
++to ``N`` disables the auto-tuning.
+ 
+ Disabled by default.
+ 
+ filter_young_pages
+ ------------------
+ 
+-Filter [non-]young pages accordingly for LRU [de]prioritizations.
++Filter (non-)young pages accordingly for LRU (de)prioritizations.
+ 
+ If this is set, check page level access (youngness) once again before each
+-LRU [de]prioritization operation.  LRU prioritization operation is skipped
++LRU (de)prioritization operation.  LRU prioritization operation is skipped
+ if the page has not accessed since the last check (not young).  LRU
+ deprioritization operation is skipped if the page has accessed since the
+ last check (young).  The feature is enabled or disabled if this parameter is
+-set as ``Y`` or ``N``, respectively.
++set to ``Y`` or ``N``, respectively.
+ 
+ Disabled by default.
+ 
+@@ -235,7 +234,7 @@ max_nr_regions
+ Maximum number of monitoring regions.
+ 
+ The maximum number of monitoring regions of DAMON for the cold memory
+-monitoring.  This can be used to set upper-bound of the monitoring overhead.
++monitoring.  This can be used to set the upper-bound of the monitoring overhead.
+ However, setting this too low could result in bad monitoring quality.  Please
+ refer to the DAMON documentation (:doc:`usage`) for more detail.  1000 by
+ defaults.
+@@ -268,7 +267,7 @@ This parameter is for setting and getting the :ref:`address unit
+ 
+ ``monitor_region_start`` and ``monitor_region_end`` should be provided in this
+ unit.  For example, let's suppose ``addr_unit``, ``monitor_region_start`` and
+-``monitor_region_end`` are set as ``1024``, ``0`` and ``10``, respectively.
++``monitor_region_end`` are set to ``1024``, ``0`` and ``10``, respectively.
+ Then DAMON_LRU_SORT will work for 10 KiB length of physical address range that
+ starts from address zero (``[0 * 1024, 10 * 1024)`` in bytes).
+ 
+@@ -291,22 +290,22 @@ If DAMON_LRU_SORT is enabled, this becomes the PID of the worker thread.  Else,
+ nr_lru_sort_tried_hot_regions
+ -----------------------------
+ 
+-Number of hot memory regions that tried to be LRU-sorted.
++Number of hot memory regions that were tried to be LRU-sorted.
+ 
+ bytes_lru_sort_tried_hot_regions
+ --------------------------------
+ 
+-Total bytes of hot memory regions that tried to be LRU-sorted.
++Total bytes of hot memory regions that were tried to be LRU-sorted.
+ 
+ nr_lru_sorted_hot_regions
+ -------------------------
+ 
+-Number of hot memory regions that successfully be LRU-sorted.
++Number of hot memory regions that were successfully LRU-sorted.
+ 
+ bytes_lru_sorted_hot_regions
+ ----------------------------
+ 
+-Total bytes of hot memory regions that successfully be LRU-sorted.
++Total bytes of hot memory regions that were successfully LRU-sorted.
+ 
+ nr_hot_quota_exceeds
+ --------------------
+-- 
+2.55.0
 
