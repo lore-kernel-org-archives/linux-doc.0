@@ -1,127 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FDB3546CA
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 02:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574323B777C;
+	Thu, 15 Oct 2026 02:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792029894; cv=none; b=giGlZNWVDpfDTMCJOD7GNfloLNZ0mQBeoxbT8VABn3YOQegaH0eDdNaft50591N3LCnBOrQTXlveyv0oEjvubK4cotYUkwpOaQql4uc4Grs/D5VZaqS5VJVRnBrOGxDlM8+vJiM63hTJIZJ+wTlarpcMl4HdF/RW4KvvNWdZcxU=
+	t=1792030420; cv=none; b=R6PEkpTT81PXup9RYW5QXN0XuKWWh8aNAWhd4c0lFnNwsQYoGtAeGuKOF2Ul0F3eLivAu+PRwu5RYaoqYogGNe9PoMRZm3aXTt0EI9pAubMu8Y3a/wLBO9URhhpx6OAnZsL9f66+RJt1SkvYghWQQ0Erg4L8tQbJlrd7HN1MuQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792029894; c=relaxed/simple;
-	bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=m39z345DZpqyEqBEOcDJQUJqOp6RjDtsf3zCitvKENFW/hBv2vtveeGSbd9aMtEgsCyJVORv79mxGjAwzVrGkpuPVv6JsV510pVZHTSbUaH52cusijtonqGgL18EgFdeXC8GDNCmO0Kr+JqZmumfLLBPSS00H6Pj/7t9HT3tbMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iH/H4vhA; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792030420; c=relaxed/simple;
+	bh=U7vH0R44tZr4m3fbNbq/kdl55DVhNFYvuaigztL5f+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eAzeMkw6wu+FlsfVldQXuVCy1FJSlnuS8E/KWCWQP0rlCHMld5F8zaFzGig3S+DSSNy+wlN5Dw2ijdHN/d5XZ1SmYWGl9G3gQq6Zpz8KJv9Q6LLUZWZ8CD32A7ID0kDwm5alNvU6aFPobn0csvcd7fsml8TZlYBZ/2k/V8soifI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ca+x6RHd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iH/H4vhA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792029892; x=1823565892;
-  h=date:from:to:cc:subject:message-id;
-  bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
-  b=iH/H4vhAkAPfrjM76CTRaXNXMc26W/nLvvtgCk5zZIUDMjPgfKxsPyDz
-   V7YAmrYWhq3xTRBjXtR0aTz9C94smXuHfaCazjgJzGY5bCWadTlhRZc5f
-   ycO8frIP0zwVlHEmeOApVoWo6UCX5anJaMtc4QnTqrwhj2lJgNKVZFIEU
-   OwjmPM1sNL/IK++hzYWaKP2jc/kYLQrB16wx0DP5LuxJGiT+GRgRHYnJ5
-   jmjMwvOUnIkoxg91KFh+4CuCnR1orktgmEaxA00EMw53/OM+AjFIH5ABq
-   MoCSSiPfhbfIGkUQSxedQ1Nf0o3K+xmmHq77RrGzaFu+JFnlo5hU9Cb6r
-   A==;
-X-CSE-ConnectionGUID: TbIqFj4zTtaewws731RUCQ==
-X-CSE-MsgGUID: qnUM/SEkTqq6wtXeuv2DPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="678789"
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="678789"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 19:04:51 -0700
-X-CSE-ConnectionGUID: cHSlUstTSuKotkWxJi+3RQ==
-X-CSE-MsgGUID: ITR43aVGS/ecJVf0RyzT4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="2008585"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 14 Oct 2026 19:04:50 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHApr-00000000BY4-0mgL;
-	Thu, 15 Oct 2026 02:04:47 +0000
-Date: Thu, 15 Oct 2026 04:04:06 +0200
-From: kernel test robot <lkp@intel.com>
-To: Waqar Hameed <waqar.hameed@axis.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-doc@vger.kernel.org
-Subject: [linux-next:master 3621/16987] htmldocs:
- Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <202610150317.bFM5n9PA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ca+x6RHd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E02E1F000C4;
+	Thu, 15 Oct 2026 02:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792030414;
+	bh=lYGm7luE63xYSigJ7AvIGcEshWOQl1LBRF7q+2lkSJg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ca+x6RHdf1/mOon8Y2zQUYOCRw/Fl1NLIrNEgYE1wUH6yScU7TVNUFvRV0y36s5GO
+	 cS0dQG1JM7IpURZnNkmSU9ii1fyQWLn7OVGtV5s2qjtW4frOkY8tWn79tt1Domvrgj
+	 FUs5EIChA1q/+P+Od5MssV9At101XB7ZJIG0wpC6jTtwEkib6ch43XtDT9oplLpN+4
+	 3ZUMyxNKvvN1SCP7SqK836RfujFwX8hLtt5iYpkjhocZiHpPCoiO/ISXW9SXfgxbbp
+	 qvT5S5CbDmF/DcOnbUhCe/RVGsa5HpTe9sMJwQpf+y6VWpfE5CqAk+X4HZxjPWHoID
+	 07Q7vEfYUOS3w==
+Date: Wed, 14 Oct 2026 19:13:32 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+	Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>,
+	"guo.wenjia23@zte.com.cn" <guo.wenjia23@zte.com.cn>,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	"liu.qingtao2@zte.com.cn" <liu.qingtao2@zte.com.cn>,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 2/5] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <atA2zA3S9Z8qpik5@thelio>
+References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
+ <20260901-dfustini-atl-sc-cbqri-dt-v7-2-ca2935d85622@kernel.org>
+ <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
+ <aqwN1szItGPg4Qjh@agluck-desk3>
+ <as0Zeoyjiy5CW1DT@agluck-desk3>
+ <eaeb4259-46d6-4656-8354-669ad32654b5@intel.com>
+ <SJ1PR11MB6083F4281EDD036A4E73A532FC9E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <a85a5aef-5468-47ba-afba-8bdd666dadd4@intel.com>
+ <as6Y72SbiXcJh6Ei@agluck-desk3>
+ <22ecec13-a703-414e-9f5e-75c89173e845@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22ecec13-a703-414e-9f5e-75c89173e845@intel.com>
 
-Hi Waqar,
+On Tue, Oct 13, 2026 at 02:29:41PM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 10/13/26 1:47 PM, Luck, Tony wrote:
+[..]
+> > Don't bother with a control_mode to switch between legacy and native.
+> > Just auto-select the "L2A" control on asymmetric systems.
+> > 
+> > But since this thread started from a RISC-V thread, it would be good to
+> > hear what is needed for RISC-V.
+> ack.
 
-FYI, the error/warning still remains.
+For RISC-V CBQRI, the number of capacity blocks (NCBLKS) is a field of
+each controller's cc_capabilities register, so two controllers at one
+cache level can report different values. This series will leave a level
+unexposed if NCBLKS differs. The per-domain max would allow such
+controllers to be fully represented in resctrl.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d419d682257d813f6cb7a28e42b35d0edf4ad038
-commit: cb012fe405f0f487e9480472f3558e678556ed49 [3621/16987] power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20261015/202610150317.bFM5n9PA-lkp@intel.com/reproduce)
+The hardware I am working with (Ascalon shared cache) has only a single
+NCBLKS value, and I am not aware of any RISC-V hardware with different
+NCBLKS at the same cache level. Therefore, I don't think it is an
+immediate concern, but the spec does make it possible for asymmetric
+systems to emerge in the future. It would probably be reasonable to
+require native controls to be used for such systems.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150317.bFM5n9PA-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Using alabaster theme
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
-
-
-vim +1 Documentation/ABI/testing/sysfs-class-power-rt9471
-
-ab8174bbc396693 ChiYuan Huang 2023-01-13  @1  What:		/sys/class/power_supply/rt9471-*/sysoff_enable
-ab8174bbc396693 ChiYuan Huang 2023-01-13   2  Date:		Feb 2023
-ab8174bbc396693 ChiYuan Huang 2023-01-13   3  KernelVersion:	6.3
-ab8174bbc396693 ChiYuan Huang 2023-01-13   4  Contact:	ChiYuan Huang <cy_huang@richtek.com>
-ab8174bbc396693 ChiYuan Huang 2023-01-13   5  Description:
-ab8174bbc396693 ChiYuan Huang 2023-01-13   6  		This entry allows enabling the sysoff mode of rt9471 charger devices.
-ab8174bbc396693 ChiYuan Huang 2023-01-13   7  		If enabled and the input is removed, the internal battery FET is turned
-ab8174bbc396693 ChiYuan Huang 2023-01-13   8  		off to reduce the leakage from the BAT pin. See device datasheet for details.
-ab8174bbc396693 ChiYuan Huang 2023-01-13   9  		It's commonly used when the product enter shipping stage. After entering
-ab8174bbc396693 ChiYuan Huang 2023-01-13  10  		shipping mode, only 'VBUS' or 'Power key" pressed can make it leave this
-ab8174bbc396693 ChiYuan Huang 2023-01-13  11  		mode. 'Disable' also can help to leave it, but it's more like to abort
-ab8174bbc396693 ChiYuan Huang 2023-01-13  12  		the action before the device really enter shipping mode.
-ab8174bbc396693 ChiYuan Huang 2023-01-13  13  
-cb012fe405f0f48 Waqar Hameed  2026-09-01  14  		Note: use /sys/class/power_supply/rt9471-*/load_switch instead.
-cb012fe405f0f48 Waqar Hameed  2026-09-01  15  
-ab8174bbc396693 ChiYuan Huang 2023-01-13  16  		Access: Read, Write
-ab8174bbc396693 ChiYuan Huang 2023-01-13  17  		Valid values:
-ab8174bbc396693 ChiYuan Huang 2023-01-13  18  		- 1: enabled
-ab8174bbc396693 ChiYuan Huang 2023-01-13  19  		- 0: disabled
-ab8174bbc396693 ChiYuan Huang 2023-01-13  20  
-
-:::::: The code at line 1 was first introduced by commit
-:::::: ab8174bbc39669321b25a0fbeef630fdbe1b8ffe Documentation: power: rt9471: Document exported sysfs entries
-
-:::::: TO: ChiYuan Huang <cy_huang@richtek.com>
-:::::: CC: Sebastian Reichel <sre@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Drew
