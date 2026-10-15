@@ -1,124 +1,127 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD112367B8
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 02:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FDB3546CA
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 02:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792029800; cv=none; b=OFA9LZSCstJN09WZi0ePsagiqJTyMcV+w9NB7BLOE3eqFItAIPQOUSHr1KnMlytQ3knUOX7pbSiKWop/NQKiJgDGLVov7gjg7ddfJt2Er+KQYOcJjuenrNRfOPItJ9iN4hLsvcRRRCb8kVuDRm4Mz5wkNVRk67pnk378KzPPufs=
+	t=1792029894; cv=none; b=giGlZNWVDpfDTMCJOD7GNfloLNZ0mQBeoxbT8VABn3YOQegaH0eDdNaft50591N3LCnBOrQTXlveyv0oEjvubK4cotYUkwpOaQql4uc4Grs/D5VZaqS5VJVRnBrOGxDlM8+vJiM63hTJIZJ+wTlarpcMl4HdF/RW4KvvNWdZcxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792029800; c=relaxed/simple;
-	bh=2QaBfjgy+OjyNrWT8jTp9HBMm5x2DeO/63S3SR1N5qs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=X91ymkm5UxCNn0PpEs5RWqy4LdaQMSBdx+0GxBA+lKrUihbzVxTGGQBk6DhvwFnwJP46sXZ5iGn0Vv2Buw6atzmM/3NNaw/FEPk9eSdXzFShQscFeu2ZAK2ISNFNeyiJtzoylPzibawF2CC+G1lhGYCN2Ko0lRI/4B6uH+CoX44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=C0FGkXs7; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1792029894; c=relaxed/simple;
+	bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m39z345DZpqyEqBEOcDJQUJqOp6RjDtsf3zCitvKENFW/hBv2vtveeGSbd9aMtEgsCyJVORv79mxGjAwzVrGkpuPVv6JsV510pVZHTSbUaH52cusijtonqGgL18EgFdeXC8GDNCmO0Kr+JqZmumfLLBPSS00H6Pj/7t9HT3tbMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iH/H4vhA; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="C0FGkXs7"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5e78346891fso3683552e0c.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Oct 2026 19:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792029798; x=1792634598; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NUNOoS2iIKhfEq8rmR2m7meaweAbFoUqZ53SZ4RiyMU=;
-        b=C0FGkXs7xBtMFgHKq1nQ2DdPQ4QLe1pxKi1CkRm5gP4Cw4ND1rwYTxQGjXBbwCApgV
-         5zXuhpQ1NDKzxLYXooX+tpnU8iey5PXcEeAlmrybwOnznI6lQLhYKySSDAauqFvn9JJ1
-         My891HEwVlFWYPfmgKnJfNLw6+2QGAqXzGV01BFhsKOlxDyUL1Fa8O+GArBtHVqdh63v
-         VEP0iUOMrCPS6tj56Gde5vZmI+U+9MBkhrIsDDYqjD/Y/kLl/5prZpZDFM5HvOrKL+iT
-         qct4PPsKU1wJna/JdIFiwuKsBj0RnsVugJCLzybAB9IUR588chQJ0u6n3Yd0AhPa7dxS
-         Z+Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792029798; x=1792634598;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NUNOoS2iIKhfEq8rmR2m7meaweAbFoUqZ53SZ4RiyMU=;
-        b=yDXmKvUFPCAX33+aIf+Q0z3TSHWNcE+2xuGpt++n5duFgIDp4ldK1LX6fhWgOgI0AX
-         RW6uDnznepQtbd/AKOuEGlVBFaF/mNDfTaXf3zJKmnqWMfje8YOiLQpzfRMne7sqWJLY
-         IN9OtG4ELARiWOyKGMSRSZ05pdyifXDa5fRXmbmQ3hq8JCVI7S6Q//R7eX97mCZMa5bn
-         hqganXUWlKfioTjYzfOhDYc/75Ht6gj52Cd+h89WCFrhB/T2yOqpvI2Misfl2cA43ELR
-         KETjC8ECwHLeTxBxo1QlfSDk4xx7/P/RzHoqjmO4+z930HqKLYuOBtV77IHDhK0S1nCh
-         Ys1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBws2Hannf6cQZrfhsjVGBAZPYMND04oMqhgPkN4x6xj/+JdWzwYGEZPfIMC3+LcuCbeQ125p5pb+k0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3Bvn4FsSSBsrfTrh3QkVHpMeB2SsYIxV6DEvzG7UVVWGaIITk
-	2wkAk4zQsZcOvKE15pDdJyjZx7P1RTBnUBc1z4DShmm+oFY+2/6Lut22JTm90FAb7zotwuWOqBY
-	BQBcelR0=
-X-Gm-Gg: AYBFou2h4EP1dEjeiLoop4jEE7HGTscwivU3w2k9I+C8XE0WEe7vy6sPdTO3XHon0BN
-	u0gYFNupLNuDpERn/FqMpwyHI8grAtjFvyqFvXciOzFKSah56mKF0T6sub6mb6eeMF1VWBmgtBl
-	VM6a5gbjWoxapUY0fYYI+NBn8Dw8zm7pVQeoVAKGs4eijQXEiJijNf7YW2ohZ2FQi+dz13geiJr
-	uBqBLyyKSMqL3S3SZ3Sla/FnSUhPX5bwcxPTOPT0aD0k9nDigqShZnh0H1iOVvvUSmVOFw+yPYV
-	SpJYL50EI1Nscccdu1o1NL6SWhvZyoSDj0G5WR8eR9Wbgm+rd7zsY2jUtnzhyBdcjOhVoxulpkj
-	lLJUvjvNyJOrEUpZP3i0kwaVIHs/Pyb3/R6WyPGcvdSa4BEnBh22RrPeGnRt97sd9o5H6JoDZkL
-	yk4SbXOeUlBP9wG5oQCccd/+kle8E+OKIB806QSLZC0km5Y2b6KfQ3/OE+UodABk41D/oAXvyGp
-	AnGBYX8UFcWA1eqfrBh37eH0saIcWZ4EwIMLlmGIwCqtsa+ljH6VNx+LNGAqum9xMw/BTQ8VYZH
-	qY1AiqFKlEu7GBJO/D+CqA==
-X-Received: by 2002:a05:6122:e213:b0:5de:655e:4056 with SMTP id 71dfb90a1353d-5e91f3f5ff1mr6177997e0c.6.1792029797642;
-        Wed, 14 Oct 2026 19:03:17 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5e91cb3e435sm12477115e0c.10.2026.10.14.19.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 19:03:17 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: rppt@kernel.org,
-	tudor.ambarus@linaro.org,
-	mchehab+huawei@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	pasha.tatashin@soleen.com,
-	aleksandr.loktionov@intel.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	rdunlap@infradead.org
-Subject: [PATCH v1] docs: xforms_lists: Handle DECLARE_KHOSER_PTR() struct members
-Date: Wed, 14 Oct 2026 22:03:13 -0400
-Message-ID: <20261015020313.946940-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iH/H4vhA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792029892; x=1823565892;
+  h=date:from:to:cc:subject:message-id;
+  bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
+  b=iH/H4vhAkAPfrjM76CTRaXNXMc26W/nLvvtgCk5zZIUDMjPgfKxsPyDz
+   V7YAmrYWhq3xTRBjXtR0aTz9C94smXuHfaCazjgJzGY5bCWadTlhRZc5f
+   ycO8frIP0zwVlHEmeOApVoWo6UCX5anJaMtc4QnTqrwhj2lJgNKVZFIEU
+   OwjmPM1sNL/IK++hzYWaKP2jc/kYLQrB16wx0DP5LuxJGiT+GRgRHYnJ5
+   jmjMwvOUnIkoxg91KFh+4CuCnR1orktgmEaxA00EMw53/OM+AjFIH5ABq
+   MoCSSiPfhbfIGkUQSxedQ1Nf0o3K+xmmHq77RrGzaFu+JFnlo5hU9Cb6r
+   A==;
+X-CSE-ConnectionGUID: TbIqFj4zTtaewws731RUCQ==
+X-CSE-MsgGUID: qnUM/SEkTqq6wtXeuv2DPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="678789"
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="678789"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 19:04:51 -0700
+X-CSE-ConnectionGUID: cHSlUstTSuKotkWxJi+3RQ==
+X-CSE-MsgGUID: ITR43aVGS/ecJVf0RyzT4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="2008585"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 14 Oct 2026 19:04:50 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xHApr-00000000BY4-0mgL;
+	Thu, 15 Oct 2026 02:04:47 +0000
+Date: Thu, 15 Oct 2026 04:04:06 +0200
+From: kernel test robot <lkp@intel.com>
+To: Waqar Hameed <waqar.hameed@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-doc@vger.kernel.org
+Subject: [linux-next:master 3621/16987] htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <202610150317.bFM5n9PA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-KHO ABI structures declare their preservation pointers with
-DECLARE_KHOSER_PTR(name, type), which expands to a union of the pointer
-and its physical address. kernel-doc does not know the macro and does
-not see the member: it warns that an unnamed member is not described
-and that the description of the member is excess.
+Hi Waqar,
 
-Translate DECLARE_KHOSER_PTR(name, type) into "type name", as is done
-for DECLARE_KFIFO_PTR().
+FYI, the error/warning still remains.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/lib/python/kdoc/xforms_lists.py | 1 +
- 1 file changed, 1 insertion(+)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d419d682257d813f6cb7a28e42b35d0edf4ad038
+commit: cb012fe405f0f487e9480472f3558e678556ed49 [3621/16987] power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261015/202610150317.bFM5n9PA-lkp@intel.com/reproduce)
 
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index e3dda2fe8a537..e81d8a7702cbb 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -45,6 +45,7 @@ class CTransforms:
-         (CMatch("DECLARE_HASHTABLE"), r"unsigned long \1[1 << ((\2) - 1)]"),
-         (CMatch("DECLARE_KFIFO"), r"\2 *\1"),
-         (CMatch("DECLARE_KFIFO_PTR"), r"\2 *\1"),
-+        (CMatch("DECLARE_KHOSER_PTR"), r"\2 \1"),
-         (CMatch("(?:__)?DECLARE_FLEX_ARRAY"), r"\1 \2[]"),
-         (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
-         (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150317.bFM5n9PA-lkp@intel.com/
 
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-prerequisite-patch-id: 557b4f406b7530b8be07d3e3aa6015ad89ceaa6d
-prerequisite-patch-id: c0430a4f0096e4be93a6200aa4e8a1d392238ca5
-prerequisite-patch-id: 524c71eab38a9175f9920f38717c8ed3b157299f
-prerequisite-patch-id: 61cfc274edef2fb23a1b867c9e0d063578387c45
-prerequisite-patch-id: ac022b05628f8e495a224216352aa037a022aae4
-prerequisite-patch-id: 50668baf257da9873190d08f21538ddc453261a8
--- 
-2.56.0.385.gd3acb90ef8-goog
+All warnings (new ones prefixed by >>):
 
+   Using alabaster theme
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+
+
+vim +1 Documentation/ABI/testing/sysfs-class-power-rt9471
+
+ab8174bbc396693 ChiYuan Huang 2023-01-13  @1  What:		/sys/class/power_supply/rt9471-*/sysoff_enable
+ab8174bbc396693 ChiYuan Huang 2023-01-13   2  Date:		Feb 2023
+ab8174bbc396693 ChiYuan Huang 2023-01-13   3  KernelVersion:	6.3
+ab8174bbc396693 ChiYuan Huang 2023-01-13   4  Contact:	ChiYuan Huang <cy_huang@richtek.com>
+ab8174bbc396693 ChiYuan Huang 2023-01-13   5  Description:
+ab8174bbc396693 ChiYuan Huang 2023-01-13   6  		This entry allows enabling the sysoff mode of rt9471 charger devices.
+ab8174bbc396693 ChiYuan Huang 2023-01-13   7  		If enabled and the input is removed, the internal battery FET is turned
+ab8174bbc396693 ChiYuan Huang 2023-01-13   8  		off to reduce the leakage from the BAT pin. See device datasheet for details.
+ab8174bbc396693 ChiYuan Huang 2023-01-13   9  		It's commonly used when the product enter shipping stage. After entering
+ab8174bbc396693 ChiYuan Huang 2023-01-13  10  		shipping mode, only 'VBUS' or 'Power key" pressed can make it leave this
+ab8174bbc396693 ChiYuan Huang 2023-01-13  11  		mode. 'Disable' also can help to leave it, but it's more like to abort
+ab8174bbc396693 ChiYuan Huang 2023-01-13  12  		the action before the device really enter shipping mode.
+ab8174bbc396693 ChiYuan Huang 2023-01-13  13  
+cb012fe405f0f48 Waqar Hameed  2026-09-01  14  		Note: use /sys/class/power_supply/rt9471-*/load_switch instead.
+cb012fe405f0f48 Waqar Hameed  2026-09-01  15  
+ab8174bbc396693 ChiYuan Huang 2023-01-13  16  		Access: Read, Write
+ab8174bbc396693 ChiYuan Huang 2023-01-13  17  		Valid values:
+ab8174bbc396693 ChiYuan Huang 2023-01-13  18  		- 1: enabled
+ab8174bbc396693 ChiYuan Huang 2023-01-13  19  		- 0: disabled
+ab8174bbc396693 ChiYuan Huang 2023-01-13  20  
+
+:::::: The code at line 1 was first introduced by commit
+:::::: ab8174bbc39669321b25a0fbeef630fdbe1b8ffe Documentation: power: rt9471: Document exported sysfs entries
+
+:::::: TO: ChiYuan Huang <cy_huang@richtek.com>
+:::::: CC: Sebastian Reichel <sre@kernel.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
