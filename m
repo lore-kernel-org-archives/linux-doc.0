@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D86E384CCD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C14548554;
 	Thu, 15 Oct 2026 16:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792082995; cv=none; b=ahRMoRdC7GTjM/uxnPCYey1ImEsb6Y3YqGfMDj0gX6l2WS7ppgWljHV4gvotfHgTP71gUmZUuuzB9WY5aIls3ZbR4xOOjUEOSen8sx542xWgiOhn7Libb77KFUlC/lntoOa3PBNqf29cuUsRHCCtAvKqzdpkLODHacjCKa5zbZ8=
+	t=1792082996; cv=none; b=cBsB4KsviuvTy+AUsAUa5Ez0Hj1QA4G9L9TZ05Wf4Pz5nylK6fz3pEjXBWMzPvnx7Yx3nrfqu/iI3ELhw1DtbxEYvkKj+LHLZqvMDBAilZ0wMJNALE+nBIWnggj8im0oBX3KihTXZGlHQ0W5Je9xlfv/5YQBdVq2OOeLFq2H3E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792082995; c=relaxed/simple;
-	bh=eAb5oFB+rdh2Zz6njY91rxePgaWUNucu8QwqMo+DuCE=;
+	s=arc-20240116; t=1792082996; c=relaxed/simple;
+	bh=UELqeIQMLribOGV8awN5nOAA+BGfrVwbtmkojR88hVg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aAFIO4O1XxBjZGcCS0uqdbEptIzmsI38OsihWCxG8YyszzzHNzIepFchB/NFpVq+dYcOL7+Vr8jc26PXrI87rv4rGW3wT11xYVK1J6faZTDnm+Ix0BYt32GNmc+UgnoBHmMbyRHY3x53ixoEyvwxYlHlDLGKP+6LBxwSbTe/FtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qf+AjsLh; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=DokMXHAy3UGLycNejRy9EAZgw4FFSj/XJAabQFyAjSuYs9WInEpBFygfuWuddvrQuxDk6R1stlrED/JODI57dGVmFYfFLKXaXlSRPqZ7QUb0A4htt4y/R7TbmsAD/H1okCz4HMaQEuTxr96qp4WNmANdIhr4T+tyBh+xC5rrqos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wtajyma8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qf+AjsLh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF26BC2BCF5;
-	Thu, 15 Oct 2026 16:49:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wtajyma8"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5CBF4C2BCF4;
+	Thu, 15 Oct 2026 16:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792082994;
-	bh=eAb5oFB+rdh2Zz6njY91rxePgaWUNucu8QwqMo+DuCE=;
+	s=k20201202; t=1792082995;
+	bh=UELqeIQMLribOGV8awN5nOAA+BGfrVwbtmkojR88hVg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Qf+AjsLhz4AfkZ2mvB/FOclY9mC0ye0yqp9WCofv4H6mh2NCmqOKZxU7DPfzjGw7O
-	 eVzt4CABi/TlRVW10qeMvT7cPcawn/UVA6drd6mKYmKb43r1dMa22FNLLfQTnyVtiY
-	 yAmu4sCJ9CLVlalNWeRNn17Z7BU1mpxy6x8N82IZtbZSLjF4Hdzfil3SlYL/BFCEks
-	 TWwJERX2sZ9+/lfxhHufL9a56xdXHoEAMlBtwmUTxu5mTmAlbKwxxbnMKwIlBC3B2A
-	 lduqCTpsib8q8EKbfQatzAC4LBiaAcgZSBjH3TfxJZD8R1LxD4pIyX06c7MHid8kLy
-	 U372z/RiEeRKQ==
+	b=Wtajyma8TMGo9W5vs/e5qSE7bBmoFhyHR51f8akR+z3Jx52pcY42YYTa7nAM7115z
+	 Xyjg7ibqA1hZvhgpHCZO1LCVV/khOH2D74TfMtRretAZboZ0k+9QYMRUoYG06cPixp
+	 m70udQNaOPd9z1NyFO9/3imxnJB1M9PyTnxxEUq84rZ8ybtk94y61o2i4R9Y1MJ3jE
+	 ekPNUfxNWl8h+Yk5UfqYUxYfo7MUlUkG9AlQFTsg4XOBMqoTWwouN4Wi/h2PcA4MSU
+	 C9zxcZl/jWJiuctchSRUG8NABqopAIGSsc0369oz0fNavAEyH6Xpgo2O9kOrE5Bqma
+	 E7J2Ihtfw0rUw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF192CC6B39;
-	Thu, 15 Oct 2026 16:49:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A81FCC6B39;
+	Thu, 15 Oct 2026 16:49:55 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Thu, 15 Oct 2026 13:49:41 -0300
-Subject: [PATCH 01/10] iio: frequency: ad9910: powerdown fix
+Date: Thu, 15 Oct 2026 13:49:50 -0300
+Subject: [PATCH 10/10] docs: iio: ad9910: document DRCTL pin control
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-ad9910-backend-support-v1-1-3c21648c8e26@analog.com>
+Message-Id: <20261015-ad9910-backend-support-v1-10-3c21648c8e26@analog.com>
 References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
 In-Reply-To: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
 To: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -58,11 +58,11 @@ Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
  Randy Dunlap <rdunlap@infradead.org>, 
  Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792082993; l=2033;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792082993; l=6219;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=z7PqLUz1GS3N66gFTTPD/4sazamj3Ede7ek83iY24FI=;
- b=v3kIziO3EaoK9N1dW+gWYnAJBcqYdT/6j2lGpDIPLJMxA/OeAZrnJe7PdyQBwxGHRyMoYM4AK
- mfY6ZmIzvwcBkwwwtsSlJZns0QgAvD2PPvv0cXt0fZCeh3DR1zIiywX
+ bh=9AdEqIZ+bYqk9Lw6P7OuqM0LPTI0z5xHBJLcZX+ImKY=;
+ b=iEB0Y0PLticdgwYdAAxIokYTL7YY0uahxuWGbnuUTbq7d067PpbmhYNaQYCaEVqF2iBpSxjO4
+ fr0brdPY/RZBnmGlAv1b0geUbVjekTb1BEcpQ6kE81EU8ieL+j0zvgz
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -72,59 +72,161 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Enable the software powerdown on all the applicable CFR1 register bits at
-once with an IO update.
+Document the integration_time attribute of the digital ramp generator
+(DRG) rising and falling channels, and describe how the DRCTL pin
+waveform is generated from those values according to the dwell_en
+configuration. Add usage examples for triangular and sawtooth sweeps
+driven through the DRCTL pin.
 
-It turns out that DIGITAL and REFCLK_INPUT powerdown do need an IO update
-when enabling the powerdown, but that is not the case when powering it up
-again. It is an asymmetric behavior, which was observed while profiling
-power consumption in the lab.
-
-Fixes: 22452fe6cd08 ("iio: frequency: ad9910: initial driver implementation")
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- drivers/iio/frequency/ad9910.c | 26 ++++++++------------------
- 1 file changed, 8 insertions(+), 18 deletions(-)
+ Documentation/iio/ad9910.rst | 90 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 84 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad9910.c
-index 04a4e184b873..8bc24d0b7442 100644
---- a/drivers/iio/frequency/ad9910.c
-+++ b/drivers/iio/frequency/ad9910.c
-@@ -621,26 +621,16 @@ static int ad9910_sw_powerdown_set(struct ad9910_state *st, bool enable)
- 	if (ad9910_sw_powerdown_get(st) == enable)
- 		return 0;
+diff --git a/Documentation/iio/ad9910.rst b/Documentation/iio/ad9910.rst
+index aab569f561db..bff55cca8c82 100644
+--- a/Documentation/iio/ad9910.rst
++++ b/Documentation/iio/ad9910.rst
+@@ -85,13 +85,13 @@ system clock (SYSCLK) which affects all other channels.
+      - ``drg_rising_frequency``
+      - ``drg_frequency``
+      - DRG frequency rising-ramp parameters: limit code, dwell enable,
+-       ramp clock, rate of change.
++       ramp clock, rate of change, integration time.
  
--	/*
--	 * When powering down, the DAC and AUX_DAC (SW1) must be powered down
--	 * first, as they require an I/O update to take effect. The opposite is
--	 * true when powering up, the DAC and AUX_DAC must be powered up last,
--	 * i.e., after the DIGITAL and REFCLK_INPUT (SW0) power up.
--	 */
--	if (enable) {
--		ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
--					  AD9910_CFR1_SW1_POWER_DOWN_MSK,
--					  AD9910_CFR1_SW1_POWER_DOWN_MSK,
--					  true);
--		if (ret)
--			return ret;
--
-+	if (enable)
- 		return ad9910_reg32_update(st, AD9910_REG_CFR1,
--					   AD9910_CFR1_SW0_POWER_DOWN_MSK,
--					   AD9910_CFR1_SW0_POWER_DOWN_MSK,
--					   false);
--	}
-+					   AD9910_CFR1_SW_POWER_DOWN_MSK,
-+					   AD9910_CFR1_SW_POWER_DOWN_MSK,
-+					   true);
+    * - ``out_frequency132``
+      - ``drg_falling_frequency``
+      - ``drg_frequency``
+      - DRG frequency falling-ramp parameters: limit code, dwell enable,
+-       ramp clock, rate of change.
++       ramp clock, rate of change, integration time.
  
-+	/*
-+	 * When powering up, the DIGITAL and REFCLK_INPUT (SW0) must be powered
-+	 * up first, as they do not require an I/O update to take effect.
-+	 */
- 	ret = ad9910_reg32_update(st, AD9910_REG_CFR1,
- 				  AD9910_CFR1_SW0_POWER_DOWN_MSK, 0, false);
- 	if (ret)
+    * - ``out_phase130``
+      - ``drg_phase``
+@@ -104,13 +104,13 @@ system clock (SYSCLK) which affects all other channels.
+      - ``drg_rising_phase``
+      - ``drg_phase``
+      - DRG phase rising-ramp parameters: limit code, dwell enable, ramp clock,
+-       rate of change.
++       rate of change, integration time.
+ 
+    * - ``out_phase132``
+      - ``drg_falling_phase``
+      - ``drg_phase``
+      - DRG phase falling-ramp parameters: limit code, dwell enable, ramp clock,
+-       rate of change.
++       rate of change, integration time.
+ 
+    * - ``out_altcurrent130``
+      - ``drg_amplitude``
+@@ -123,13 +123,13 @@ system clock (SYSCLK) which affects all other channels.
+      - ``drg_rising_amplitude``
+      - ``drg_amplitude``
+      - DRG amplitude rising-ramp parameters: limit code, dwell enable,
+-       ramp clock, rate of change.
++       ramp clock, rate of change, integration time.
+ 
+    * - ``out_altcurrent132``
+      - ``drg_falling_amplitude``
+      - ``drg_amplitude``
+      - DRG amplitude falling-ramp parameters: limit code, dwell enable,
+-       ramp clock, rate of change.
++       ramp clock, rate of change, integration time.
+ 
+    * - ``out_altcurrent140``
+      - ``ram``
+@@ -493,6 +493,60 @@ Ramp channel attributes
+        from the hardware step size and the current ramp clock. Writing
+        requires ``sampling_frequency`` to be configured first.
+ 
++   * - ``integration_time``
++     - s
++     - Time interval assigned to the ramp direction, which is used to generate
++       the DRCTL pin waveform. See `DRCTL pin control`_. Rising and falling
++       ramp channels of all destinations share the same underlying value for
++       their respective directions. The written value is adjusted to the
++       resolution supported by the PWM provider.
++
++DRCTL pin control
++^^^^^^^^^^^^^^^^^
++
++The DRCTL pin selects the DRG slope direction: a logic high drives the ramp
++towards the upper limit and a logic low drives it towards the lower limit.
++When a PWM is assigned to the DRCTL pin (via the ``pwms`` and ``pwm-names``
++devicetree properties), the driver generates the DRCTL waveform from the
++``integration_time`` of the rising and falling ramp channels, according to the
++``dwell_en`` configuration:
++
++.. flat-table::
++   :header-rows: 1
++
++   * - Rising ``dwell_en``
++     - Falling ``dwell_en``
++     - DRCTL waveform
++
++   * - 1
++     - 1
++     - DRCTL is held high for the rising ``integration_time`` and then held
++       low for the falling ``integration_time``. The PWM period is the sum of
++       both intervals. If a ramp reaches its limit before its interval
++       elapses, the output dwells at that limit.
++
++   * - 0
++     - 1
++     - Sawtooth rising ramp: a new ramp starts at every DRCTL rising edge,
++       which happens periodically at the rising ``integration_time``. The
++       falling ``integration_time`` is not used.
++
++   * - 1
++     - 0
++     - Sawtooth falling ramp: a new ramp starts at every DRCTL falling edge,
++       which happens periodically at the falling ``integration_time``. The
++       rising ``integration_time`` is not used.
++
++   * - 0
++     - 0
++     - Bidirectional continuous ramp. DRCTL is not relevant and it is held
++       low.
++
++The DRCTL output is disabled when the resulting PWM period is zero, e.g., when
++the relevant ``integration_time`` attributes are set to ``0``. Without a PWM
++assigned to the DRCTL pin, writing to ``integration_time`` fails with
++``-EOPNOTSUPP``.
++
+ Usage examples
+ ^^^^^^^^^^^^^^
+ 
+@@ -525,6 +579,30 @@ Configure a frequency sweep from 40 MHz to 60 MHz with a rate of change of
+   # Enable the DRG with frequency as the destination
+   echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency130_en
+ 
++With the same limits and rate of change, each ramp takes 0.8 ms to complete.
++Configure a PWM-driven triangular sweep that dwells 0.2 ms at each limit:
++
++.. code-block:: bash
++
++  # Enable dwell on both limits, so DRCTL controls the ramp direction
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency131_dwell_en
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency132_dwell_en
++
++  # DRCTL high for 1 ms (rising ramp) and low for 1 ms (falling ramp)
++  echo 0.001 > /sys/bus/iio/devices/iio\:device0/out_frequency131_integration_time
++  echo 0.001 > /sys/bus/iio/devices/iio\:device0/out_frequency132_integration_time
++
++Configure a rising sawtooth sweep that restarts every 1 ms:
++
++.. code-block:: bash
++
++  # No dwell at the upper limit: the ramp returns to the lower limit
++  echo 0 > /sys/bus/iio/devices/iio\:device0/out_frequency131_dwell_en
++  echo 1 > /sys/bus/iio/devices/iio\:device0/out_frequency132_dwell_en
++
++  # A new rising ramp starts every 1 ms
++  echo 0.001 > /sys/bus/iio/devices/iio\:device0/out_frequency131_integration_time
++
+ RAM mode
+ --------
+ 
 
 -- 
 2.43.0
