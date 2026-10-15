@@ -1,248 +1,329 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609FC3EC6AA
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 15:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792078982; cv=none; b=FyRaKHJaBcqgreoX2MkKkZuwSBK9bTZ5d3/bVu0nmGvC+GqRsh/mWpxd17cmEFoBlr0B5r0wmhUd/b6a26xaGMRQBcgNmnPZuC2NGgFPpnca8r6UKpnGBnNYkuR670xxqlAFV8vbSBkM748Fm/bq4ESOqLj/usRmq/Th6tIgcJY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792078982; c=relaxed/simple;
-	bh=1fUOi+Usxn2LQcFzjoDicMxQvfperVSbtfIS6t3a0mM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gpBzFTeqHQ+85wOmg3iSv4FePW8PwYZ+L+COgFewECgnWOWQqBBjiY6qsgTWRF+0fuV1xBlWS8UMzVYOTVlfyX0KadJxzOzoNj0/ML4/9SnWtghZG3DtqScZbrcNNOMY4u42ppcCLP3VY/wFVdpGWtX+mEsEXy7RWupzZncDN6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=R0UR9SXf; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07524ED18A;
+	Thu, 15 Oct 2026 15:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792079046; cv=fail; b=INEXn+9chXwj6SX3MW95/lN93JaVXB78s/qesG5S9ePDrrYLCCo/QAsxdkHWYn8vaeVFLEOutJpPB9rFEZ+Pbkgh3NBnQHLJia3U1hCR5n6VqOLa6xDEmIWIsrfgv91WCs4ckl37hgWvU8rlmJajvpyu2Hv9z1KkZ9MPBJJ1h3g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792079046; c=relaxed/simple;
+	bh=o4w0ruqToEepV1V/UnVVaJEgD1YpDFe1/GbmroL9bSA=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZOIFHcx+DSs0B6ZvdWxa1nl56SanWa+ikJD4/zLic6HsUKOIy2DpkHn0NKHgVgL+mmCj//D51Cbn+E3+x9II1Jm+ZnUcmHFjPYSEZZAaPXC1R/kUEqy+0FCbgM6FamKAsVEU8SVXyVlfYwl5aJIkr2Lw2UTNy9DCUV07u1eph+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jmX/pFp0; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="R0UR9SXf"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a0213948d3so34013475e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 08:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792078967; x=1792683767; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8EVUVXTF9B/pmjVEVo0zfJaBGiZoNVg7V5lse2RyO7M=;
-        b=R0UR9SXfSdLRKN8vgsjzhyd81oaEz7tHTwslAVD4uu2yocB8iyTzeaX91HJfAF2HSZ
-         zfyNFy9tY2rveIy5HSk4kHu6cou98Mmm65Nw/ib9mtV2wnXWSnap0yORcKiRn9+bhNLb
-         /HvkgPwk8c21B4vfdeFwnATqt/tKh7V1N6JFjc1GswxG79FMaIisTlhabNQRTkYz/AAi
-         A1KK2BSF7pJOfDu8sLbpi305mh4DqIdXIenAOtLPi3roSTwyU1GWiEULVpymwqlkfLkZ
-         ApWTy1oTpVVOcfy57kt0RsQYUZoCNCDNc0yb16GC0j95gqwCT6HKnJMFBD1/29NWON5y
-         v/Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792078967; x=1792683767;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8EVUVXTF9B/pmjVEVo0zfJaBGiZoNVg7V5lse2RyO7M=;
-        b=gvlLg3cOYJaed5txlxHor/8UeTqib7AsitgDDn0KYRcXhWbILMQTYdP9OWyh9J1cxS
-         BFEq3rAk+3SlA+oGoWRDvC7pzfXVTzsJgYZsOzczLG19O2IQVOudkQIpHX4W9CP6js6c
-         TTgo9PLF+XHP6Tp/I+G30V9Eo5pYUN98eUkSZ/t+h75PJyY+ChYyibL9cHWV+KTk0Mm1
-         1bJv2daRGn5Wckm6mEtwGrrKFW6BTK8wuDqHTXEj2oc27Vcj20TJ/5/8UIrjtFxdZcoz
-         yreip4blfcZKjRyOkkaewK6UlcgqWzDnvibPk6gQ9Mzy85RPRsdEuFCfVpzzX1A2DQbR
-         /2ZA==
-X-Forwarded-Encrypted: i=1; AKwUvBz50BtMkHkt4ltzYL8wXli+7+68Tngy7mnZKF4iDOgPRxq3tKG/r/kkggG8xG3bINz1tldRhv8mXoM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJGRXvOrgBFRvSwGTEXO3Xf58vwszLaQ06E4txRtb3bKyjuKl7E
-	loRL1wd3oPdEq+m3Q7ljtUViNrmv9pnA1T0I9wUaf/a9jInN5URj43XtxKJphp7Zbic=
-X-Gm-Gg: AYBFou0srC1/zsQiPiAmcnIOF77uvI1PKwrbS7/vhzibR0wtJYN87su4fH8wr+WzG0F
-	4H30Vuuc/aYI7KcT9+81yg3kgRs6OlIvlGbv3HYW07N/yx6Db7MKNX6s2JfEtenOF1es8LRqKj+
-	i23lWI3SnbEkC/tYAtdPL7BHqQoOPgbe+5wKGJOXv1dtA72e3DYyf49KQW825FtC1AmTzDNigfa
-	HHed4q0lAa6fD7ggwSF8/ZTKLSg+8DSTbKf3zEYr4PYT4qTSd09qzI3QE+Nd0cFyCJ+xE+FqSGE
-	dnkXi2MD+y+J1MU3n9+AadjZkLfxVED35zB9fpQNYcDqxCPwOQeGCb24vUg+cNltCN1FIORjyym
-	OKOqJsL7BCZ+CBYAVKdJrf8QSKS8NV2lLruCHkUTLxSl7LDwA5tC5FOk3LLMu62oL/ZvII8UKb6
-	hc1H6nhNev2MwJB2iIIkz8J73BD5NX/TLF7R9dGaClxGaa+/uy/BZ3tEa2AuxMNQbcTTwF35Iqp
-	DEkK89ADSFSSa1AjpN4kAuszPN9zjDYW6OqTZcOAqu4Lg==
-X-Received: by 2002:a05:600c:8b82:b0:49f:fd2d:23c7 with SMTP id 5b1f17b1804b1-4a18e4b887amr354993855e9.27.1792078967287;
-        Thu, 15 Oct 2026 08:42:47 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd66c5e6sm52172585e9.2.2026.10.15.08.42.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Oct 2026 08:42:46 -0700 (PDT)
-Message-ID: <d17b00f9-2a6c-425f-9697-6bc8f31f7a7a@suse.com>
-Date: Thu, 15 Oct 2026 17:42:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jmX/pFp0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792079032; x=1823615032;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=o4w0ruqToEepV1V/UnVVaJEgD1YpDFe1/GbmroL9bSA=;
+  b=jmX/pFp0MuX7CUHd+Xroq6pjeXtwC5lCNBGEhEsRtNVb6KC+lJkoI/rg
+   Y8qOWvo9JjyKyonA5LxC6J2dwrxt1GRjFfH82Ic7ANXIdtMSk4PdwN3LK
+   NMlNCjjriGbfAXLj4MU/vqJoeC/5GbMcJyqcIgbHWHCBb5Q2BZDguLl5Q
+   irPxR09dDozH4s3dS4qK3bycSKM3w8E5ivjH4qoQvcI6zO2x4Ji7MbZ8l
+   121w/R5BDH47kgmectxhBZFAMVKvYwWKTkuLO3l6HVV7l9VYQ9Fgy+8vh
+   MuRwdE27Q5vF1ABK0sIbTB3opkWhIB6vomuDerpD4mwK1jWlLYCszLL2c
+   A==;
+X-CSE-ConnectionGUID: cSf4Q2jiS8WGxifI0UCTQQ==
+X-CSE-MsgGUID: nuJhiRnXTtCJ8b+5wGFtWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="843931"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="843931"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 08:43:50 -0700
+X-CSE-ConnectionGUID: 5/XxSRyFRfunX5kRPjxsSA==
+X-CSE-MsgGUID: d+zvZbO6SPWtcer0RMo5CQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1636219"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 08:43:51 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 08:43:50 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Thu, 15 Oct 2026 08:43:50 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.64) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 08:43:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e/ZlEWC9yv2pG5BqrId+5Zs/1QKYs5uKhXy75WLKtVKe/8XJLRsXCrk0GBwt+5rFpj4xWCkcyy7YawG8++sZufailrl9BMrQ3NERnnwAO9o72agVl/xgYfqSKTBpY9LOfnJJiVIebBb77uxV+v02KuY6PZQgQoLpoAvVr38tDCk2iyhqQrPsSMnskIPySV5823GRgjuj9NtwqBySHg/pCRbKkIA48LlLNvYcdzUrQ+eS9VaguRiZlmW5JDlaxGzgPf0vFK2G1wVtgEA37f9beuBW8GXbZNwacg4izRn1GKMj2dxKelXAshoa54ftoddA7DciWZUH2TbjFZIze6ieLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KFiJwY1+4aTrsdQuK/3KCL/iA8SaY6pPMxTRkNPtzI8=;
+ b=B3Fx2HYp3ldxHrikyyeLBoQP37PVuowvdb4258QqFbTzyfnVEAF7+uQef2qSY0qGODQT1ByK9Z07tLIbZYOlnzxeY3fqDKahdFljF2O2iknUkA3GQgX8kNG+VDxDPAbBlyaSweFoyTDIibQERCR0sNR1/F9EIZqGibIH+E2XjTrh30nTfDDQypt5ZVTcqd8LCZn6cR3T4GfaPB5eswQ3y7cl4Hh4ewwIjwIi9Bqlgo4yAuJGJaqmUeJopEevaGXZz4UZa85rveuuzfoZXAo+pqAIRBdab+ie/gfhhEB7Dn87y149xF1erRKLcivHKXie+r+7gyHj0Z4BtOUIx7re9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by PH7PR11MB6884.namprd11.prod.outlook.com (2603:10b6:510:203::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Thu, 15 Oct
+ 2026 15:43:46 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0496.021; Thu, 15 Oct 2026
+ 15:43:46 +0000
+Message-ID: <08e1de88-cab0-4caa-87f2-94db0f698ba7@intel.com>
+Date: Thu, 15 Oct 2026 08:43:42 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 13/18] fs/resctrl: Deactivate kernel mode associations
+ when a group is removed
+To: Babu Moger <babu.moger@amd.com>, <tony.luck@intel.com>, <bp@alien8.de>,
+	<ben.horgan@arm.com>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <fenghuay@nvidia.com>, <kas@kernel.org>,
+	<rick.p.edgecombe@intel.com>, <akpm@linux-foundation.org>, <rppt@kernel.org>,
+	<dapeng1.mi@linux.intel.com>, <elver@google.com>, <enelsonmoore@gmail.com>,
+	<jlayton@kernel.org>, <kuba@kernel.org>, <ebiggers@kernel.org>,
+	<seanjc@google.com>, <ewanhai-oc@zhaoxin.com>, <binbin.wu@linux.intel.com>,
+	<peterz@infradead.org>, <ashish.kalra@amd.com>, <superm1@kernel.org>,
+	<chang.seok.bae@intel.com>, <prathyushi.nangia@amd.com>,
+	<kim.phillips@amd.com>, <ackerleytng@google.com>,
+	<elena.reshetova@intel.com>, <naveen@kernel.org>, <darwi@linutronix.de>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <e9a2b05b2322acf51e16571d07bc7ee297613b3c.1790867441.git.babu.moger@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <e9a2b05b2322acf51e16571d07bc7ee297613b3c.1790867441.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0116.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::31) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/22] modpost: cache section relocation mismatch state
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- linux-hardening@vger.kernel.org
-References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
- <20260923-build-speedup-v4-13-73128809a4a4@kernel.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260923-build-speedup-v4-13-73128809a4a4@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|PH7PR11MB6884:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e248364-ac15-4485-9ba3-08df2ad3194a
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|18002099003|22082099003|10067099003|4143699003|261009223027099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: SsALWOLw7Jn0+x31kIgRbh0DnS5MPlebZ7ytKJOx5GXjWE7axUBfhZa/E7Kf1NA8VbCutET+p1MI3sfJ/xe30xBDiutGltxKwUQtIyo4731c4OAZ4AOh8PDcvZbg4TacGAwoshis/a3AB/MVVM8/tcDRLOuvOOMK3OjznkgXVE4Sk0PRl1F1td3VdxwOsBesrtH1uOxVq9NkY4htGsicVy5n0jpWjlv8MJm0DPHNgridfGhJSqptBXQ7z9cHVxRs9kAhExyh5wbhmDspgj8SGYnqwpn1VNhF1umRg/jR2oFGkJd4HQVT8Nzr8ufEes29TRSfyAurMCZPMSu1eSUzS+APeSXYny7H+J/pFuTZQMVhbT2haZpVieH7nvpRL6ChcSZ0nNy9TOIHzVXKBz5wvWqLbPMLNLs/S79z5pe9snEzNACu8rJ2TToP/q3YpanX6GTNe2Sz1lkP4e3FZPdZkgyUQTni4Iv68Cd/AYQmFIVheohd+w23C31YIH41q+roj5m1PRZXeF8bw0J7rxbSvk4rKFZoAyBsMuEOeyaxltpjiEiZfaQ3/mWJpToNo84GeRF+yxjsbIRDpVlUD3A4S2P9ed8sQiM+T7+qjlFOXOMJ4bL/LAL5Wth/qewUwqUtp6/2a9DImyir91Zp/kurlboTblTaadi0DTYdGB15IAo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(18002099003)(22082099003)(10067099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3dWRlNZNkZpNUhhNVRuY2lZRXFjMEdXN0g3SFFJamhtdnFqeHhRVHVrb3RQ?=
+ =?utf-8?B?K09aR05vdjVrTnRIQWJ5UDg0eHI1Mnc4bFpMU1MrajBwazR2dmhHRGI5SHpP?=
+ =?utf-8?B?WFJ2VjROR0lsS2p6R0tSdzF3YlRPK0JSeVhBTVJjRmE4YjhYdzNPMGJ2akta?=
+ =?utf-8?B?dG5RNmNZYWpUNGc2T2ZEWlpKaDVaMTI3Q3ZHNlpGYkYvbGRjVEdYeVZ6UVc3?=
+ =?utf-8?B?ZkpGdGwyQUlXTHJQVjhaS2ZRcDVzeEIyalBySytHckFvbys2TE5zblByOHNI?=
+ =?utf-8?B?NTErUGI5aFZOanBObE5SUHRlbGdXVVJTeEJkbDdvdTIvZU0rVWZsQ1pLSFJz?=
+ =?utf-8?B?eVdISk5WcHJiVmxOYWtXQ0JjekxQL0NaNDRONGtIeWtXQjNwNmIwWWNncE5V?=
+ =?utf-8?B?SHhjRTd5OElKbWttbG13ak50MDlQWGZMUFlXTEZhenZFcGtUeko2YVFNREdC?=
+ =?utf-8?B?Y2ZhK0JwNEpPWHVIRzFmLzZLbVpKVzdzOUFXQ2JJRVlnWjZVaElOU1hPNmxw?=
+ =?utf-8?B?NUNEMUVFdHB3SUs1a3A4R3hMQjdpdG9pVHpwOFMyVjhoQzJkWWVibjVpd3I2?=
+ =?utf-8?B?aDNWVjNRdkdGOHdOd2JpOUUrU3JhQUVBdmNKWnhrWFkyVUNNWWhSbjltNURZ?=
+ =?utf-8?B?L1RnVzlKVEJzRHp0UzJidHFCWmJycjdzSHlna1c0aDZySzNsYWtGS1VmaW9M?=
+ =?utf-8?B?TFhjSFJDZEEvRXkrNEM0Q0hTTlhyNlNtWFM4OTR1d2p4WFhrMExQc3RtZmlm?=
+ =?utf-8?B?VlZaa0lvTGhabi9DYU9FU2JFeEZYaUZ6YVJtSjFuVUo4S1VrbG9LNUdLVm9N?=
+ =?utf-8?B?bzIvb2FKZGo4UHB3N2hnL1pGdk1mbUQ2dzc2RGw0dXZkY21admtUcFdma3FY?=
+ =?utf-8?B?RUNMZVg2UzlLVGNnTjFZR09jQXJJbStnT3U2VkRPNTlubk1Gd013QS9ZbVM5?=
+ =?utf-8?B?ODF2d3QyYUpZQVpiQ2lYQTJ2WUxyaDZCcFg5MW9Md0k5SFdmYzN3RkNOb0Vi?=
+ =?utf-8?B?bUxpbkxJZWRpS0xKR2M2ZXFLZ3l1ZitsZzhFK3RHYXZIM1BVRDc0NllhM25m?=
+ =?utf-8?B?N1F1REFEVDhvbnRxNWdqR1JSdjBMTkZ0YlRwRGswR2dBdlZTWTFaZW5FNDRw?=
+ =?utf-8?B?dkNPbHN0ZDhGNUl3WjRLS1VmMXBYMWZLUGJPSEUwZUhUWjdpeGdxS2NqaEVu?=
+ =?utf-8?B?aXNGUTlscHMvY3F6eVUxaWJPZlZsdkp3TUVYbnBDOStqTGFocnpXZENHUGZE?=
+ =?utf-8?B?OEJYYmVVZ1ZHVWFuMnFyN2o3TUtGN2c2ZUpJSjhXL1pRU0ZpQ2E0eDNOM1Vj?=
+ =?utf-8?B?RzQzWTkwNzJkL25XUk5VUVV0a1N5QXFzdkIxYVJKMks5VDlGcDlEbEQ1NmR3?=
+ =?utf-8?B?dzFtQk8rS1MvZG9KK3BUWHllMnNNeDVLV21TT0E5ZkY5TVZmY2JoalJINjJs?=
+ =?utf-8?B?M09vOGcvTjBqMjF2ZS9jRmRNN1RlclRIbDJzWk9zRWZtWVZ3a1Rid3dmYzhO?=
+ =?utf-8?B?QUNCVUYvb3N6dkpnK3AvK1BTL2FDbmxDSnhXWUFQTDF0TjlXWFVtaExWVmND?=
+ =?utf-8?B?VThDQi9JbHRKNHArL2I0aXBVcW5hZG9tWlBBcjZub3ZlM1RLQmFsSG9sNVhT?=
+ =?utf-8?B?c3hOVFhmeFZlUnBRRG9WeWNlelhCdFFiSVh3QzJnUzFBMG1YOUMwM0lPMzli?=
+ =?utf-8?B?YS93K01aTTg3LytwMjF5VVlWS1NOaWlBUm8xVndBOVVOQ1YxVW4xczBuZDJv?=
+ =?utf-8?B?MUt2eTV2SVV4UGI1UEo1Y2NiUGNtVklLWHEwckhycTBGSmVXa1kvZDRLb0c1?=
+ =?utf-8?B?b25waW9IaStzakY0aExzMUczNExEaTJ1WmxKalNFT1JLQWpmZE5JWUVqcHhV?=
+ =?utf-8?B?ckRIMkVYVDE1RFBkcXo4R2lHdHJIWkdMMG1meXdKR0l2TWlQNUNQSUtQZGx4?=
+ =?utf-8?B?YlNJY0xCMlhOK1JvdGJkTExNMXU1bzVtSlVleFdXTXdKZlFYdXZoa1JSMnJH?=
+ =?utf-8?B?OGZSNnoxYkN3RkNnSk8zWE5oSCtJY3FEcExXeG9ZMk5GVnBEU3ZZWlp6ZmtS?=
+ =?utf-8?B?YklHL25FTWs5RHJRUmV4bm1FYmdUY0VFVjVlRlphTDI4bTRJenc5L2dTVndO?=
+ =?utf-8?B?Q202eTFOOGxuYVRWMWZmWGRKUXB3RGVMaUExSHpVL1U5S0ZQMk1rM1N6UGZY?=
+ =?utf-8?B?N1QvTUJuRFlMMjQwb2JVU0RkLzFPeXpSLzZrMzBSeG83V1pTVjlmeW1HeUlC?=
+ =?utf-8?B?N202V1lJNEw0bm11RE5LbVJuWmxGREJHazBmRnFobmhFQk9tZ2M1aGpFYjlu?=
+ =?utf-8?B?d0NaZE0xWHB5N2FIM0JCZHdRQ0VnWlpMWXlRaUVzWmR5U3RKR0JPVlFSalRB?=
+ =?utf-8?Q?RBKJ1CiEzuXaiOY0=3D?=
+X-Exchange-RoutingPolicyChecked: MeXwI5jlYphWlqA63t0ZqAG5zQTha57gldJXf3tZsfL6Oi4rlAyRtZpYBHF3JD6xH3KkpeMG2SPztn+m/fsQWzonNkRxK9fkLA6pS9jFJRuybalDrR5HhSq+kQt8kkZZT33giYBPeIeGN3iuSQKozvukllxP8DGbtLkQ671ItM828lo3J8Sbs5DAEUzTJ74A7P0jO13uATFbjNrcpG/TRyAS1IvSIRBpU3IwU9r8EDq9yt53hAg9SAqGVKFx2qr7HHHqHO7M1JIFsXIhYKiUjTtZb5gx+QH1vu3UZxuRmOoZbwDCFnvEs8z5ZTRhbWCFpubqDy+oMC/RiWeRdcY0hw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e248364-ac15-4485-9ba3-08df2ad3194a
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 15:43:46.1823
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MoFRJrOMDdCifMTMpqXFBbTDs3LVyD/qppNHTZRGQq6d7tgwHJFkzeZjP+PlzLMyVeyfesrWjkUpXTkNQ7s8Y3WNSf095WOv4xqC2ocINPs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6884
+X-OriginatorOrg: intel.com
 
-On 9/23/26 7:18 PM, Lorenzo Stoakes (ARM) wrote:
-> For every relocation modpost invokes check_section_mismatch() to determine
-> whether there is any kind of mismatch between the source and destination,
-> and if so which classification applies.
-> 
-> Each time it does this it invokes section_mismatch() which iterates
-> through the sectioncheck[] array every time it's called.
-> 
-> When walked a relocation section the source is fixed and there aren't many
-> targets, so the same names are looked up over and over again.
-> 
-> Therefore cache not only mismatch categorisation but also whether a
-> mismatch even exists for a given section and look up the sections in the
-> cache.
-> 
-> Special indices (undefined, absolute, common) take the uncached path as
-> before.
-> 
-> This results in very significant speed ups for allmodconfig incremental
-> builds.
-> 
-> modpost is on the serial tail of every build that links vmlinux.
-> 
-> Whole build, 128-thread Threadripper 9980X, best of N runs:
-> 
->                                          before   after     delta
->                                          -------------------------------
->   x86 defconfig, touch mm/vma.c, gcc        8.5s     8.3s    -0.14s (-2%)
->   x86 defconfig, touch mm/vma.c, clang      7.7s     7.6s    -0.13s (-2%)
->   x86 allmodconfig, touch mm/vma.c, gcc    33.9s    29.4s     -4.5s (-13%)
->   x86 allmodconfig, touch mm/vma.c, clang  31.9s    27.9s     -4.0s (-13%)
-> 
-> Assisted-by: LLM
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hi Babu,
 
-This looks mostly ok to me. Below are some nits you might want to
-consider addressing.
+On 10/1/26 8:10 AM, Babu Moger wrote:
+> The active kernel mode association is backed by either a CTRL_MON or
+> MON group.
+
+This context does not reflect the code at this point in series but what
+behavior will be after entire series is applied. It is also written as
+general but specific to the global per-CPU kernel mode.
+
+> When the backing group is removed, or when resctrl is unmounted, clear
+> the programmed association and restore the default settings.
+
+Please provide more context to user and help reader to understand what the
+patch does without needing to decipher the patch.
+
+For example, "restore the default settings" is a very vague way to
+describe that removing the group backing the global per-CPU kernel mode
+automatically switches the kernel mode to "inherit user". Please explain
+at high level what the code does and why. As a hypothetical, why not
+keep the kernel mode as "global per-CPU kernel mode" but switch the assigned
+group to the default group? This would match most other similar resctrl behaviors,
+no?
+
+This is also user visible behavior that should be documented in resctrl.rst.
 
 > ---
->  scripts/mod/modpost.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 64 insertions(+), 2 deletions(-)
+>  fs/resctrl/rdtgroup.c | 44 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
 > 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 75374c64b8cc..0fd43c8a89ea 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1155,12 +1155,67 @@ static void check_export_symbol(struct module *mod, struct elf_info *elf,
->  			 name);
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index f5c7790f7970..0cdc868a55b1 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -1167,6 +1167,36 @@ static void resctrl_kmode_global_offline_cpu(unsigned int cpu)
+>  	resctrl_configure_kmode_global(cpumask_of(cpu), rdtgrp, false);
 >  }
 >  
 > +/*
-> + * mismatch_cache[section index] ->
-> + *   0 - uncached.
-> + *  -1 - no mismatch.
-> + *  >0 - mismatch index + 1.
+> + * Disable the association on @rdtgrp's kmode_cpu_mask, clear the mask, and
+> + * hide the group's kmode_cpus files.
+
+"hide the group's kmode_cpus files"? Does not match the code below.
+Even so, the comments just narrate the function.
+
 > + */
-> +static int *mismatch_cache;
-
-It might be cleaner to maintain this cache per elf_info, since it
-logically belongs to the processing of an individual ELF file. This
-would also be consistent with the existing symsearch cache, which uses
-elf::symsearch.
-
-The description could use 'to_secndx' instead of 'section index' to
-clarify whether it refers to the source or destination section of
-a relocation.
-
-> +
-> +static void init_mismatch_cache(unsigned int num_sections)
+> +static void rdtgroup_kmode_global_deactivate(struct rdtgroup *rdtgrp)
 > +{
-> +	mismatch_cache = xcalloc(num_sections, sizeof(*mismatch_cache));
+> +	resctrl_configure_kmode_global(&rdtgrp->kmode_cpu_mask, rdtgrp, false);
+> +	cpumask_clear(&rdtgrp->kmode_cpu_mask);
 > +}
 > +
-> +static void reset_mismatch_cache(unsigned int num_sections)
+> +/*
+> + * rdtgroup_kmode_global_detach() - Detach @rdtgrp from the global per-CPU mode
+> + * @rdtgrp: Resctrl group being removed or torn down.
+> + *
+> + * If @rdtgrp backs the active association, disable it, clear kernel mode
+> + * state, and restore RESCTRL_INHERIT_USER.
+> + */
+> +static void rdtgroup_kmode_global_detach(struct rdtgroup *rdtgrp)
 > +{
-> +	memset(mismatch_cache, 0, num_sections * sizeof(*mismatch_cache));
-> +}
-> +
-> +static void free_mismatch_cache(void)
-> +{
-> +	free(mismatch_cache);
-> +	mismatch_cache = NULL;
-> +}
-> +
-> +static const struct sectioncheck
-> +*cache_mismatch(unsigned int secndx, const struct sectioncheck *mismatch)
+> +	if (resctrl_kmode.rdtgrp != rdtgrp)
 
-Similarly here, s/secndx/to_secndx/.
+Please do not use tests on resctrl_kmode.rdtgrp as synonym for
+resctrl_kmode.active == RESCTRL_GLOBAL_ENABLE_PER_CPU.
 
-> +{
-> +	if (!mismatch) {
-> +		mismatch_cache[secndx] = -1;
-> +		return NULL;
-> +	}
+> +		return;
 > +
-> +	mismatch_cache[secndx] = (mismatch - sectioncheck) + 1;
-> +	return mismatch;
+> +	rdtgroup_kmode_global_deactivate(rdtgrp);
+> +
+> +	resctrl_kmode.rdtgrp = NULL;
+> +	resctrl_kmode.kmode_cur = RESCTRL_INHERIT_USER;
+> +	resctrl_kmode.ctrl = KMODE_ASSIGN;
+> +	resctrl_kmode.mon = KMODE_ASSIGN;
 > +}
-> +
-> +static const struct sectioncheck *get_section_mismatch(const char *fromsec,
-> +		const struct elf_info *elf, unsigned int secndx)
 
-s/secndx/to_secndx/, and the fromsec and elf arguments could be swapped
-for consistency with the rest of the code.
+There seems to be some duplication between rdtgroup_kmode_global_detach() and
+resctrl_kmode_switch(). Since the contract is already established that
+disabling RESCTRL_GLOBAL_ENABLE_PER_CPU enables RESCTRL_INHERIT_USER, could this
+reset to RESCTRL_INHERIT_USER not just be done in rdtgroup_kmode_global_deactivate()
+without duplicating it in rdtgroup_kmode_global_detach() and resctrl_kmode_switch()?
 
-> +{
-> +	int cached;
+With that done, it looks like rdtgroup_kmode_global_detach() could just be
+dropped if rdtgroup_kmode_global_deactivate() gets the check to ensure the
+group needs removing?
+
+
 > +
-> +	if (secndx >= elf->num_sections)
-> +		return section_mismatch(fromsec, sec_name(elf, secndx));
-> +
-> +	cached = mismatch_cache[secndx];
-> +	if (cached < 0)
-> +		return NULL;
-> +	if (cached > 0)
-> +		return &sectioncheck[cached - 1];
-> +
-> +	return cache_mismatch(secndx,
-> +			      section_mismatch(fromsec, sec_name(elf, secndx)));
-> +}
-> +
->  static void check_section_mismatch(struct module *mod, struct elf_info *elf,
->  				   Elf_Sym *sym,
->  				   unsigned int fsecndx, const char *fromsec,
->  				   Elf_Addr faddr, Elf_Addr taddr)
+>  void *rdt_kn_parent_priv(struct kernfs_node *kn)
 >  {
-> -	const char *tosec = sec_name(elf, get_secindex(elf, sym));
-> +	const unsigned int to_secndx = get_secindex(elf, sym);
+>  	/*
+> @@ -3228,6 +3258,7 @@ static void free_all_child_rdtgrp(struct rdtgroup *rdtgrp)
+>  
+>  	head = &rdtgrp->mon.crdtgrp_list;
+>  	list_for_each_entry_safe(sentry, stmp, head, mon.crdtgrp_list) {
+> +		rdtgroup_kmode_global_detach(sentry);
+>  		rdtgroup_unassign_cntrs(sentry);
+>  		free_rmid(sentry->closid, sentry->mon.rmid);
+>  		list_del(&sentry->mon.crdtgrp_list);
+> @@ -3265,6 +3296,7 @@ static void rmdir_all_sub(void)
+>  		cpumask_or(&rdtgroup_default.cpu_mask,
+>  			   &rdtgroup_default.cpu_mask, &rdtgrp->cpu_mask);
+>  
+> +		rdtgroup_kmode_global_detach(rdtgrp);
+>  		rdtgroup_unassign_cntrs(rdtgrp);
+>  
+>  		if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP ||
+> @@ -3360,6 +3392,7 @@ static void resctrl_fs_teardown(void)
+>  		return;
+>  
+>  	rmdir_all_sub();
+> +	rdtgroup_kmode_global_detach(&rdtgroup_default);
+>  	rdtgroup_unassign_cntrs(&rdtgroup_default);
+>  	mon_put_kn_priv();
+>  	rdt_pseudo_lock_release();
+> @@ -4395,6 +4428,8 @@ static int rdtgroup_rmdir_mon(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
+>  	u32 closid, rmid;
+>  	int cpu;
+>  
+> +	rdtgroup_kmode_global_detach(rdtgrp);
+> +
+>  	/* Give any tasks back to the parent group */
+>  	rdt_move_group_tasks(rdtgrp, prdtgrp, tmpmask);
+>  
+> @@ -4442,9 +4477,18 @@ static int rdtgroup_ctrl_remove(struct rdtgroup *rdtgrp)
+>  
+>  static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
+>  {
+> +	struct rdtgroup *sentry;
+>  	u32 closid, rmid;
+>  	int cpu;
+>  
+> +	/*
+> +	 * A monitor group uses its parent's CLOSID. Detach a child that
+> +	 * backs the association before that CLOSID is freed.
 
-The const qualifier can be dropped from the to_secndx definition to
-match the usual kernel style.
+Why does this have to be done before the CLOSID is freed? The monitor groups
+are cleared later from free_all_child_rdtgrp() that will call
+rdtgroup_kmode_global_detach() for every monitor again.
 
--- 
-Thanks,
-Petr
+> +	 */
+> +	list_for_each_entry(sentry, &rdtgrp->mon.crdtgrp_list, mon.crdtgrp_list)
+> +		rdtgroup_kmode_global_detach(sentry);
+> +	rdtgroup_kmode_global_detach(rdtgrp);
+> +
+>  	/* Give any tasks back to the default group */
+>  	rdt_move_group_tasks(rdtgrp, &rdtgroup_default, tmpmask);
+>  
+
+Reinette
