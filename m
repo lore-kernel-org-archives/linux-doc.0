@@ -1,128 +1,108 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B9239D6E7;
-	Thu, 15 Oct 2026 15:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8F55C31C
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 16:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792079489; cv=none; b=CIcgONsVwUQ3/N0Nkyh1OPD1bsDnffz61mRtwKRweKk7kHZJ1dGWNP6ljmMNP32Ajfgnsf9iS3IKXNyzUkrQ+kfhNXDprqn7787EePOHaVm0+uXKmCxDSZpYTXLtVEaBH5f6oOXY5OTMm+uGkdVFLCw119IHKCGLOQY0l6LxaTo=
+	t=1792080158; cv=none; b=u5s4Cb/7sTWEtrw7zFQBTB+UZUXP87ZQ9tYVnEnFmk68RuAXkd1DQ1WgL9ek+ZAwlRfOZhY45cNw0ftknUehw5Sx1dhD5oToL8lfjFCcL6Si0jf19EsxYw/vu1F/cKRfePQN2bOJ+LGxvHMqfB/IGR0sERAmMNsw2ARj4GDJbxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792079489; c=relaxed/simple;
-	bh=Kmt3eqXzrIk1GticGB8EBuJzsvlpaYQn/Ti6aENHLtQ=;
-	h=From:To:Cc:Date:Message-ID:Subject:In-Reply-To:References; b=tCCiUSjRUUZdGA71VNBjjdLnqzgFsIFjRQ3h8cHMTvvQweyHDNHMgHMOxaODIwVe0zniWZ6pAlU2OQrVGo6Qek2+InPdFUpN1i5ImeE8/TPQJMKU2LjRFmjhTmZmHOBg32Y7mSfGiYc/+/n14Y0UvZq/xSfVgVFjC6iWZ6iOPQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BXmvIgg7; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1792080158; c=relaxed/simple;
+	bh=YMS3STAi2ZRbq9hPB/V+mwXl8+F2jV0JX5lnw3Xx+7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uxDBQxFX+4WW4vyurlxNblBpAHuVvLzHaJbCyZXjcl07KpWGPe4L2mnR+qXD4AzmBvPErwZtCNOEsOCkWYVzd70y2U58kRAaEW8pZUQgdrDKZOLThe1rClMoo7FQZJ+g0JKwR/qUvvzVO0TlLdvvIvdde+iGiL2uROhE3ICAkhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=L5RL9daN; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BXmvIgg7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Date:Message-ID:Subject; bh=pV3u3W3cVSRN2sg
-	rn4Jh3xJKuGS6llGgumz3/Bt71S4=; b=BXmvIgg7yjTbRob3ynt/eArnI1muIPn
-	JRx7MTXUvWuUNN3k3JToIZhWN+zvDR6+FE+1TFW7xJaNnHbTVCvtT867eS48PbQW
-	WsXQfF9n6CfDHWYvzoVmaJb6eoKYFEHzIkcYZCr01lbC1Y8Y2PlCXCU/Qb3UXAaj
-	U43R2VPOU/a4=
-Received: from localhost (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDH725F9tBq_DgYAA--.3201S2;
-	Thu, 15 Oct 2026 23:50:30 +0800 (CST)
-From: Hui Su <sh_def@163.com>
-To: Marco Elver <elver@google.com>
-Cc: dvyukov@google.com,
-	kasan-dev@googlegroups.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Date: Fri, 16 Oct 2026 00:41:52 +0900
-Message-ID: <179207891210.785435.2410067352826371928@163.com>
-Subject: Re: [RFC PATCH 0/4] kcsan: add targeted watchpoint sampling
-In-Reply-To: <CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
-References: <20261014095238.2132580-1-sh_def@163.com>
-	<CANpmjNNhZq6z8hZN-125OPNbho+YBwWJeOsa6QRedkqOdJP0kQ@mail.gmail.com>
-X-CM-TRANSID:PygvCgDH725F9tBq_DgYAA--.3201S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWry3Ww15WryUXr1DKF4fAFb_yoW5Kryfpa
-	yFk3yrKr4DJrWIyF92y3W7ZF109rs5Xw4UAa18Kr47A398CFyavr4Iq34UZa98Crn5Aa45
-	Ww4UZ34UW3yDAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UYhFsUUUUU=
-X-CM-SenderInfo: xvkbvvri6rljoofrz/xtbC6ged-GrQ9kf4XQAA3i
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="L5RL9daN"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-917a20e9efeso76955246d6.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:02:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1792080146; x=1792684946; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Qp/9SKATs2UWKIBCgmjLLiq0NUYRNZM0vL2DioomkZ0=;
+        b=L5RL9daNOk9LXpcTLefoJTLCjwlJVn6GjjyBeT70CHgHuNbyAYa3HOXTTaI+A+9TL5
+         rLlqy3UXypEyKlDFTtB2k/vtcrrHdQHIFfkqfVTchzGx+kMqgt8SMlbPJ31NldA3Xh46
+         abEkquWndp94Rl++gDxxrJ3Znuq5ELEll/+yuHgmo0ed3Qu7ZoDd4tC8YJEqM6XhuzjA
+         RcKZdnHY/AgISnIa/vTY0mIAzt4X8Ir6+E1a7uJz4Tn5uuV7LFCipWcBBUy3d8sj9wZF
+         RX0Prw6CS86AwLVZJCgf/OasBuMg2/jemy0INqWfnW0dvtvYhF9ihzM2l69jizJksdzY
+         36Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792080146; x=1792684946;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qp/9SKATs2UWKIBCgmjLLiq0NUYRNZM0vL2DioomkZ0=;
+        b=2iW+as/YSIn0qcpHk1HAkUm98wOaaGOs9AIM9C0mJOdBEfgMpUwjDLUCZGoiw2an/V
+         ktvKQXCnCnoYbd4pa0Axn6vFs0eXSPbtVvOlizFORVXygQM07QV5waihSL/6L5MA+tGQ
+         Ez9w4ZcE7IDa9lTjMYeJ9zIeW91AsBjq7rI9o0sFH/pAT//KfZNtGm+hClWj0Rb5r9lw
+         SU2NTy+HasdbY369/6LhilprumZZw9sTpx+KRdZcJyEu6Zec79fybu7PDecYrlNndjA3
+         5615GIA7E38uSYey2OPB+f9BIgkMmvbUcYSSPJyO7UeEvJK56jcIMbfAHY4hGxDRDl4U
+         EREQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzKDrfKzwDUdTcEuN5fRRwdWGJgYq1ewQfQY/rj3wgmTn2q5nbpMMjqUvIvaNvbkEEGMxGh4SFZqYk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK3hHE0SMJJJMAPgFQXuuEeFMjqz/3NKOYVaUGNo5pmMrBXdTvn
+	0JcmzzspS+d3hFJL6LU4ciWMyZ3jDx8+8APUT9O3cn8NvH+Z4AU3fnVyAZr5ZFblTms=
+X-Gm-Gg: AYBFou27N6shTNdTyyLCfq66PyCX2JqQsv+xdJPvtgZBZe3JBC9dNUO5vrm2xj9cYw8
+	LfEguzmITxeNcZcdafCxK3gSIodB9iCzxRReSgYXxlMaopDSveIS9T0iSsr7tgu/cGSEY4Ncfwo
+	PrfVwLitWbSA5CXz60VeCK7L5PBSjbK2E5WgnK2rclBby9JQCNmlq1zeo39Odthx2h7lUq4x5s/
+	Hd3RyR7mPVs+wcwi84fRs1nUCGsvyl/BMwx7WhpzuLgDfG7PHBrFZ7f/A5iFMkUW84rHxOs45Oa
+	D8pRnuxi5kfQeqoR1rLn3qIEkvubJphIzCQGUMyPWMeJpkS6sF8Vb/ZbVT4YPp7p+Wa8qGVtM5/
+	MCRd7GeCTjEKy9dGpMAKm5fxBUfuYbxzDGGAmOXhgHWteTzhSs0mPt4qBkSRnghIVIsgUy9M0Wh
+	Uo33RD8p046DE0Nm3w13PA+n2Nw04DhkdFLwgeIF3LF453HgQiYKnDR09/97wjADslBvttqN010
+	XspnbU40S66PQW8M3bWninHNyvyb6ABnHTY3Frc6B7JUySCP1b08Y8=
+X-Received: by 2002:ad4:4eeb:0:b0:914:5552:8a56 with SMTP id 6a1803df08f44-91b5533f620mr339928906d6.4.1792080146178;
+        Thu, 15 Oct 2026 09:02:26 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b99ed3e9fsm78354316d6.29.2026.10.15.09.02.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 09:02:25 -0700 (PDT)
+Date: Thu, 15 Oct 2026 12:02:23 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Li Zhe <lizhe.67@bytedance.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	joshua.hahnjy@gmail.com, ziy@nvidia.com, mingo@redhat.com, peterz@infradead.org, 
+	mgorman@suse.de, riel@redhat.com, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, vschneid@redhat.com, kprateek.nayak@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 3/6] sched/numa: fix scan-period adjustment for shared
+ faults
+Message-ID: <atD3qhbqzN2R9Bxx@gourry-fedora-PF4VCD3F>
+References: <20261014094347.99157-1-lizhe.67@bytedance.com>
+ <20261014094347.99157-4-lizhe.67@bytedance.com>
+ <as9_SwmLxAcTovnl@gourry-fedora-PF4VCD3F>
+ <9b9e6c92-a291-48b4-a128-c31bc718db7a@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9b9e6c92-a291-48b4-a128-c31bc718db7a@bytedance.com>
 
-> You should compare fast path disasm before/after, just to make codegen
-> isn't adversely affected.
+On Thu, Oct 15, 2026 at 07:39:42PM +0800, Li Zhe wrote:
+> So I think I should separate the severe fixes from the heuristic changes.
 
-I also checked the x86-64 fast-path code generation as suggested. In
-paired GCC and Clang comparisons, I found no new calls, stack spills,
-stack-frame adjustment, or callee-saved register saves on the disabled
-path. The detailed `__tsan_read8` disassembly comparison is in my reply to
-patch 1:
+This would be appreciated.  The heuristic changes that aren't obvious
+Fixes: should not be lumped in.
 
-https://lore.kernel.org/lkml/179207802520.771660.5931695730876285158@163.com/
+> For the latter, I will narrow the next version to NUMA balancing behavior
+> that is specific to memory tiering, instead of trying to justify the
+> changes as general improvements for normal NUMA balancing workloads.
 
-> Questions for discussion:
-> 1. Is address-targeted watchpoint sampling a useful primitive for focused
->    KCSAN debugging?
->
-> On surface, it seems helpful.
->
-> But there's another angle: The need for reproduction arises because we
-> want to debug an issue, and the fix it with a code change; after the
-> code change and a recompile, are there new data races that were
-> introduced as a side-effect? Perhaps the original data race you were
-> hunting is gone, but new ones may have been introduced. So my approach
-> has never been to try and focus on a single data race, but look for
-> data races that may have appeared adjacent to code I touched
-> (filtering based on function name). The method of reproduction are
-> stress tests that more or less reliably trigger the original data
-> race, but should also trigger data races (if they exist) adjacent to
-> the code being scrutinized.
->
-> But perhaps what you're after is asking "are all accesses to this
-> variable data race free" only?
+For heuristic changes, please try to generate some kind of data that
+demonstrate the behavior being changed. Some of this scan-period tweaking
+is very difficult to understand how it will affect end-users without
+examples.
 
-Not exactly. This interface is not intended to prove that all accesses
-to a variable are race-free. The motivating use case is narrower: after
-a reproducer or report points to a suspicious address, make accesses
-overlapping that address eligible for watchpoint setup without unrelated
-accesses consuming the skip interval.
+There's risk of introducing unexpected regressions when we change these
+heuristics.  For example - the recent shmem scanning fix.  Fixing that
+resulted in 4-5 other regressions, despite being a "correctness" change.
 
-I agree that function-scoped filtering and stress testing remain useful
-for looking for races around code changed in a fix. Targeted mode is
-complementary to that workflow when a known low-frequency location is
-difficult to reproduce.
-
-In the motivating loadavg run, targeting `calc_load_idx` produced a KCSAN
-report involving `calc_global_load()` and `calc_load_nohz_start()`. A separate
-upstream run with the default `kcsan.skip_watch=4000` did not report those
-locations during its test window. This is evidence for that workload and
-window, not proof that the accesses are race-free when no report appears.
-
-> 2. Should matching accesses bypass the normal `kcsan.skip_watch` interval, as
->    proposed here, or should targeted mode retain its own sampling interval?
->
-> It might become quite slow for frequently accessed data, but perhaps
-> that's intentional if we want maximum races detected for focused
-> testing.
-
-Yes, bypassing the normal `kcsan.skip_watch` interval for matching
-accesses is the intended tradeoff in this RFC. Nonmatching accesses
-neither set up a watchpoint nor consume that interval. `target=off`
-restores normal sampling. Targeted mode is intended for focused debugging,
-not steady-state use.
-
-The hot-target cost is therefore expected. In the RFC measurements an
-enabled nonmatching target was 26.981 ns/access versus 24.549 ns/access
-upstream, while a deliberately hot matching target measured 81.1 us/access
-because every matching access entered `kcsan_setup_watchpoint()`.
-
-> 3. Is the existing KCSAN debugfs file an appropriate interface for configuring
->    a single target?
->
-> This looks clean enough.
-
-Thanks. I'll keep the debugfs interface as proposed.
-
+~Gregory
