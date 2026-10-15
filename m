@@ -1,189 +1,113 @@
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CB43EF0BE;
-	Thu, 15 Oct 2026 06:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.139.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7850B4A441F
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 07:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792047513; cv=none; b=DLJzJkorJNq1npC8zvWvinS7GguDgzmCdpm1dN3MAKvi4X8UsZGx8kpafLyUuSpr30RfLqey/CLndcQSCP633EozIDGHEfHCF9MsAl9JQmxCT0sEmPci+E5SbiIT1mgxtVq6Y/a4ocqlTbFC1dOqSVmKY0V10GHMotKiq9SJ4WM=
+	t=1792047839; cv=none; b=nTkkwusLU93CwY26e9rrC+Pu4fuiWTlM3Thk4UGMOO3cQLTYyuEwYAMuUEmhL3gfRZGz/7cHA7+o/x9lp77B6OK7qCvSE5EbS+cuQyPCxTh5S5uVCVRDG17GzQJpi3FzZzcq1gnF2iLm8+4jmGlD9GN+B71VWxACYy2DbmlFUQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792047513; c=relaxed/simple;
-	bh=6crGBfKNi73PeQjC9z/ZUIYzlXDzPo55Yd+1Y0VGCww=;
+	s=arc-20240116; t=1792047839; c=relaxed/simple;
+	bh=YH+ljlbj+7YXt8V/106ea4EkaH6+7QTpER8ynX/uKVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T9au/Xm59un50wfQcK/EGaEmjvZt4t1ZTsBopOMCWPSH/mpglQ8CcGhfdQw6d1T8cg4XCBYubYsG2v5hdFpuPyqDYOFZDoU2x8zUB1Zd7WxNa2Agh6LY+x3Q09dcQmJXg+LTw0Uv8+1eQcDybHi2n3l7bNCGkHQev63cxPb1/yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=Wb6s3g5C; arc=none smtp.client-ip=68.232.139.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBMEr2Uoy4BWZiUs7JHYYljw1++RrBZszPriChC5SepvD23blYuj85JscNX+f8WNxr15nw/yuaEVmJJJFSMkk0+EDnBV/KIa5sLQyWyBh3ULJ0HKKL/vL6+0Ksns7tNBOEqTutqLWyjpM+FJDHxqliv2U4axMgiy66kKj/YrFao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=spKdn0e0; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="Wb6s3g5C"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1792047507; x=1823583507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6crGBfKNi73PeQjC9z/ZUIYzlXDzPo55Yd+1Y0VGCww=;
-  b=Wb6s3g5CVHWNagJTWn1Rrsw8AxuBUHsQJndI3wrbk2DkS12O7P2pufYx
-   5FSgTcezsJ9FodHjwRmi9f10qRa0YdNRTI56QF52gbE2lRNyzHa4lAW43
-   ACMkc+4qeVBer8CnoDiIzLcm98fi+RiVaVXCcR5JIsGSlmjroAhrG2zcY
-   Kzs78gTsi7bea7K7e5oqsMLlhWqWBpmEYnQ97h2eD+0E5M9OQK48pYfQh
-   Bl8hO2iUbp7vGA62VmowVh/BQESR7cfR1MJ8w6ho7jr0FuFwU1urahg+V
-   U7woLghvWcvI9FkbRlVNHVRquC/KK7UIMIdCSG1AWkssk0gsJ0mKdp54R
-   A==;
-X-CSE-ConnectionGUID: 5Qx/URfMSRmFPn37IyxpTQ==
-X-CSE-MsgGUID: VTcKqDlwT2+h/GVTyJP2Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="256490962"
-X-IronPort-AV: E=Sophos;i="6.27,159,1786978800"; 
-   d="scan'208";a="256490962"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 15:58:24 +0900
-Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 77715C023E8;
-	Thu, 15 Oct 2026 06:58:24 +0000 (UTC)
-Received: from az2uksmom2.o.css.fujitsu.com (unknown [10.151.22.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 2D27792675F;
-	Thu, 15 Oct 2026 06:58:24 +0000 (UTC)
-Received: from FCCLS0092175.localdomain (unknown [10.8.129.144])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with SMTP id 2DA60140011B;
-	Thu, 15 Oct 2026 06:58:18 +0000 (UTC)
-Date: Thu, 15 Oct 2026 15:58:16 +0900
-From: Kohei Enju <enju.kohei@fujitsu.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Tomohiro Misono <misono.tomohiro@fujitsu.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA
- erratum E#030003
-Message-ID: <atB4BkUqPnGJs7yR@FCCLS0092175.localdomain>
-References: <20261002-monaka-fix-for-upstream-v1-0-4aec0b0cbe34@fujitsu.com>
- <20261002-monaka-fix-for-upstream-v1-4-4aec0b0cbe34@fujitsu.com>
- <86tsn42sqr.wl-maz@kernel.org>
- <asS5r0WNCQpMIo4p@FCCLS0092175.localdomain>
- <878q4b2mj5.wl-maz@kernel.org>
- <asX5CiaDodoFrn0q@FCCLS0092175.localdomain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="spKdn0e0"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49d05d51553so11073065e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 00:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792047829; x=1792652629; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oRc1d4pt3qQo/WdkDK7cDhZYT5ZdWLtpTnmXMIrJlP4=;
+        b=spKdn0e0uG/N550Z4RIZg/YsgMqHf2RWuTc2FoZoJXOIQrdTW51uUzrXS6bQnqoK5r
+         WXLOfB7Z1cRcvyI6q+QprmeTQ+wOhP59B7Fmspvcv8sk50ge4O4FlJbUIMbKZgVZClQ0
+         bTTDwwMsgHblIP3ydPHD4ViQucc9uFeDhYDb1dJrjEaDruJeW/fDjrqzUO2MD6ZB477w
+         i+oE6f/iayQkQhx/KlM9zvqJcHtUHLONT8hF/jC51GW8Ko6mULdEVSFE+Obn6OPoRdhQ
+         CupdlgjQxNH7P/U8S53OisBiBs4D9RI6PIikG4dNsGwkPieDCkPAjiAs61xnCa5iDL9+
+         iKaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792047829; x=1792652629;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oRc1d4pt3qQo/WdkDK7cDhZYT5ZdWLtpTnmXMIrJlP4=;
+        b=jzaKSl783pHi/6TagrOhq2htf8T7eybqPXh+zu0HgP7eBPXg/liVw6CerHCB0mzcNj
+         RfYeSLuk5wP2L8D89zqdp3V7Vhe94SVeDgvyKe0uf4F6eCUOHZSm0G2uqUV4tfPEIMjO
+         zedDv8TNDEBQ6ao7dJ+x1RIPGB0lfD6KkYMdJT5plXYp9utDWn219ljViRrmxrwvoJxz
+         6RXjrhqoJnAOb31kR1wkrHP8JrumF8FI4latfvepc7F9HYn4HENAJ00dNTVkrN3WG0Dv
+         4v3CNrUU3TuletEiEPQl0EarObJVEaz7qU3dlgGM+nOt+TN0Z8bFh+tWbz2rD1nxCkyq
+         hMBg==
+X-Forwarded-Encrypted: i=1; AKwUvBxsOPVIPUay6FUKv/z9Bkb0hRPvCRDDadTp1UksYB5D9z+mDWLgukNkMnsU0IX/DV0fauL5RJ6Zd1c=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL5aa3PQ+3/Uvw3yR9e4Img6BS1Cm9stLvJ6Bf406c8yMvIEnUW
+	KYGJwSnnPZXlHikiwHBx5GKiZOhi6yn4WvAmmlLgII2zRTxZDV74KZKK
+X-Gm-Gg: AYBFou2WCrICS9w8zJEBk1K+CTXtiu3eJrBcclg85M9QCY5aujuJ/LaOBHjnWYaqNo7
+	A1tN8LzlzEBu/QSd2mqMNdOJjjgIoCuCwaa2FOQ9mUFU3psaJJmKT1pOLwTa//qfZY7vEcNp99w
+	A8rQ3Aribz8pdD7ReQL1T2RjV2nNv/bkkgtt5qom6NZfyGcUD5IGgM3IWwx6oH+yhPzq+Da1xxT
+	hfvqniVvH8RRBje8mxiiTZxYcQ4Bu8whQE/UD8RU+h/dDcGtJdh9E/+GjnguHAkEssHjRJCGeYX
+	BpPf5fHclO2G004XU3kDtc7/8BNOVevEvIhCp+N3yfnhGKRlVypn6s1Us0Ww6AkasHcf3D6o92g
+	QPuKCnomJluWfjlKFxA9EjWXz0CNPnIzMYrybz4FgGjZbtzJ9YNaST7NPyLlwDsU25PpHMGljfD
+	AKmwJhUoWUq4J6B9vcXSNzUwuPPlS4GwUJMJx7LYhCGkANasdJ/dfKdCCj+F+u3A0BNpTaQyNim
+	tMUbxPe/Aj6vEg7lZ4SJb0AxPT+/qYc2dxBafwAx6iR7tw1YnxqWOUtvwZDiTSOO760Idr0wjiz
+	rO/LhWMSwAvgWocQZxxCNQedGUubeyknROdEDV6/zA3TAkxs8tYZ2oEWvG8xyx7F9yt6T/u/xHY
+	=
+X-Received: by 2002:a05:600c:1549:b0:4a0:25c:8af2 with SMTP id 5b1f17b1804b1-4a18e491051mr404160705e9.17.1792047828269;
+        Thu, 15 Oct 2026 00:03:48 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-aeb3-cd01-f139-812c-65df-b930.310.pool.telefonica.de. [2a02:3100:aeb3:cd01:f139:812c:65df:b930])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9a8a15sm48374825e9.4.2026.10.15.00.03.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 00:03:47 -0700 (PDT)
+Date: Thu, 15 Oct 2026 09:03:45 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: kerneldoc.py: preserve headings in kernel-doc
+ output
+Message-ID: <atB0hpxP2UwKCUF4@gmail.com>
+References: <20261002230114.39651-1-kmehltretter@gmail.com>
+ <8733u8w6p4.fsf@trenco.lwn.net>
+ <20261014233956.605e0960@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <asX5CiaDodoFrn0q@FCCLS0092175.localdomain>
+In-Reply-To: <20261014233956.605e0960@foz.lan>
 
-On 10/07 17:17, Kohei Enju wrote:
-> Hi Marc,
+On Wed, Oct 14, 2026 at 11:46:13PM +0100, Mauro Carvalho Chehab wrote:
+> e.g. the ones found on distros up to Fedora 42 and the latest version
+> on that time.
 > 
-> On 10/06 10:42, Marc Zyngier wrote:
-> > On Tue, 06 Oct 2026 10:08:19 +0100,
-> > Kohei Enju <enju.kohei@fujitsu.com> wrote:
-> > > 
-> > > On 10/02 13:26, Marc Zyngier wrote:
-> > > > On Fri, 02 Oct 2026 11:26:52 +0100,
-> > > > Tomohiro Misono <misono.tomohiro@fujitsu.com> wrote:
-> > > > > 
-> > > > > From: Kohei Enju <enju.kohei@fujitsu.com>
-> > > > > 
-> > > > > On affected FUJITSU-MONAKA CPUs, an SGI generated by writing to
-> > > > > ICC_SGI0R_EL1, ICC_SGI1R_EL1, or ICC_ASGI1R_EL1 may be lost if the
-> > > > > operation races with CPU interface processing triggered by the arrival
-> > > > > of a higher-priority interrupt, an update to a pending interrupt, or a
-> > > > > transition of the PE to the Sleep state. When this occurs, the system
-> > > > > register write does not complete, causing the issuing core to hang.
-> > > > >
-> > > > 
-> > > > Is the SGI lost? Or is the sender core hanging?
-> > > 
-> > > Both: the SGI is lost, and the sysreg write does not complete, causing
-> > > the sending core to hang.
-> > 
-> > I don't think the two are distinguishable. You might want to simplify
-> > the commit message to simply say that the CPU hangs.
-> > 
-> > [...]
-> > 
-> > > > > +		 */
-> > > > > +		for_each_cpu(cpu, mask)
-> > > > > +			gic_send_sgi_via_rdist(cpu, d->hwirq);
-> > > > > +
-> > > > > +		/* Force the above writes to GICR_ISPENDR0 to be executed */
-> > > > > +		dsb(st);
-> > > > 
-> > > > This doesn't force things to be executed. This is about completion of
-> > > > the access, and with an nGnRE mapping, it doesn't enforce that the
-> > > > stores actually reach the RDs, only an arbitrary point in the memory
-> > > > subsystem.  The only way to guarantee this is to perform a read-back.
-> > > 
-> > > Understood.
-> > > 
-> > > I hadn't considered this when writing v1, but on further reflection, I
-> > > don't think gic_ipi_send_mask() needs to wait for the target CPUs to
-> > > handle the IPIs.
-> > 
-> > It's not about the target CPU handling the IPI, that'd be crazy. It is
-> > about making sure that the IPI request has been observed by the HW and
-> > that it is not going to race with something else.
-> > 
-> > > Given that the GICv2 driver does not wait for MMIO
-> > > write completion either, I don't think we need to ensure completion of
-> > > these writes before returning.
-> > 
-> > GICv2 has different architectural requirements (i.e. none). GICv3 is a
-> > bit clearer, see the requirements at the end of 12.1.3 in IHI0069H.b.
-> > 
-> > > 
-> > > If my understanding is correct, I'll remove the dsb(st) in v2.
-> > >
-> > 
-> > As indicated in the spec, you either need nGnRnE+DSB, or a read-back.
-> > Given that Linux uses nGnRE for all device mappings, read-back is the
-> > only option here.
+> to be really sure, use "-f" to test all possible versions.
 > 
-> I understand that section 12.1.3 describes how software can guarantee
-> completion of a memory-mapped GIC write. With an nGnRE mapping, if the
-> GICR_ISPENDR0 writes must complete before gic_ipi_send_mask() returns, a
-> read-back from each target Redistributor is needed.
+> (*) even with the simplified version checks, ti runs for quite a while: 
+> some versions take ~20 mins to build docs.
 > 
-> What I am trying to understand is whether completion at this point is an
-> architectural requirement for this particular write, or a requirement of
-> Linux's ipi_send_mask() interface.
-> 
-> I could not find an explicit completion requirement for ipi_send_mask()
-> itself. The normal GICv3 path also appears to return after an ISB,
-> without the DSB described in section 12.1.6 as necessary to guarantee
-> that the associated Redistributor has observed the write. This is why I
-> am unsure what completion guarantee is required here.
-> 
-> More specifically, I would like to understand:
-> - What could an outstanding IPI request race with?
-> - Which component must have observed the request before
->   gic_ipi_send_mask() returns: the CPU interface, the sending PE's
->   Redistributor, or the target Redistributor?
-> 
-> A pointer to the relevant architectural requirement or an example of
-> such a race in Linux would help me understand why completion is needed
-> here.
 
-Hi Marc,
+Thanks. To be really sure, I am running the full A/B matrix from
+tools/docs/test_doc_build.py -f, also newer Sphinx versions and the
+Sphinx 9.1.0/Docutils 0.21.2 combination mentioned earlier.
 
-A gentle ping on this question. I am preparing v2 with the other review
-comments addressed.
+The endpoint tests have passed:
 
-I would like to better understand the completion requirement so that I
-can address this correctly in v2. In particular, could you clarify what
-an outstanding IPI request could race with, and which component must
-have observed the request before gic_ipi_send_mask() returns?
+  - Sphinx 3.4.3 / Docutils 0.16
+  - Sphinx 9.1.0 / Docutils 0.22.4
 
-Any clarification would be appreciated.
+Both builds complete successfully. There are no unexpected diagnostic or
+output differences. Changes are limited to the intended heading
+restoration and warning removal.
 
-Thanks,
-Kohei
+The remaining matrix is running. I will report the full results.
+
+Karl
