@@ -1,293 +1,435 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013324825A8
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 20:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A745B59B68F;
+	Thu, 15 Oct 2026 20:31:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792095199; cv=none; b=jXMGPOeb/6rG7/7R69OujMHJ1zabq3MdI79u4W+J2PpYznNBq9NKkg0adaO+GuqAiQ/INtaTnJK5s+QH7+9fIVBOcJzd3AkbDDmuilfmEbhlev9h7UGQpZRqmkdzng9MyOpGSGoW+fYjXmBRc0kzCpwjwyt0u3sHu0IPjE8zJqM=
+	t=1792096321; cv=none; b=frWuWp5WQfFk5bIzfB0SCRr4WjX2hYoaROvbuDdnWeB2SkauJverf5yTrEBvtS14+ml5jhiut9+MHcbQALmEO0zpebPklruyhWqeS+QnwU0vW3TGaldYHdZdgMHMJ1lJ4i7kB9XdfPNpm+vcMZOp6wp84n1Fx3UELeVzegtAGk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792095199; c=relaxed/simple;
-	bh=puljsiBncNir51HENmYDqQYvkJWr++Qpsxmt3QVVOh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JezouvvRL8Mo5zK4F7dOGVZb5BlfEiS9BH3axzXdoBt7wjaH6oUQ+1sN8uEejUkckhRcGdUsPB9YadtdEatEf6iVqkc3W1DvyECYZkmtZuyiTJ0rXaaBD66kgPPng37ny5d8vX7YiIluwwHAkpseNp3sSfnVJ1+DCyIvDu8ua9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hmWSkgEu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792096321; c=relaxed/simple;
+	bh=Ye9J+QlosXJybdaRR+F+8QPGWiEWV4w9P+CbaR3rRhU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V5X6qegzgkWqUaNMp7+rz7IRSU7tgNq0Owm5qUrgrY1RD/cxmGFxCA1FkLlqm1M2WU5paUVJkgFIEYR1uRCNRfFqCy6lg2fx+lo2iA4RT9MLghTLC1g22JF8nBM5eYQIQwoswn9hFFgTo3SFhBAplt7XHfKG2eSeOZ8JKprM8bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aJWuvlVW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hmWSkgEu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACF121F000C9
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 20:13:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aJWuvlVW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD961F000C4;
+	Thu, 15 Oct 2026 20:31:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792095197;
-	bh=zg1Fcqd9aOaP7LnSdGUbj9RofhX1aHB9kDv3Ci8HRAQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=hmWSkgEuNUdgBZZeYKXqLrjmhoFPyEBn8SUuaDVR05mKHszsvu1mrzRS6CN7Iy9KL
-	 Cc+1wfhms20sHmCKmptFf/IZDSFQUuG+UAYCPLOSVl9IlNuOWrRwrwC1emlG9x+Do6
-	 Oaq2geaoVtGyqAUiizoAfHkPZSUmMR1aniAeCoMDWK7NTcKXT4F5Dv9PM7IXtwdmwa
-	 2Q7yD7xsfV6dnyoqGJ51z0rPBl7Fp52Ed6ihi/v/+IlvtMehxDjPIX9K1fb2hZnk1I
-	 d8mlwBijOShVRdtGKZlij1urCbYIcJ14xb2Bso5jEsv+cqbnp9hjjCupR6WBoahtgB
-	 kxE4mhdHgPKlA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a60cb94b80so60873551fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 13:13:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw1lec7/DUVE1XdNQQmcYx/UMnTVL9yBfjrfoPm4GkocS6wwvswwlNPNHHXhuDFxOnkbG31e8a76f0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJLNI830Bsf+O1+LgX5Ul6G9DyVuiKoiSpfe+LAUShkqAA+UGO0
-	nvq6pTEt2Ldv0EvNX4JGvG6NpPNBIXpAVsZBSReCPbjtU28Uv4Y9SpSeJ1rpYYXy62Z8kfsal3e
-	SgTDi3kYGBRnWrmkMWNEPrLkGcRDybLY=
-X-Received: by 2002:a05:6512:682:b0:5ba:4296:cb8d with SMTP id
- 2adb3069b0e04-5bcde8cb267mr7259163e87.57.1792095196023; Thu, 15 Oct 2026
- 13:13:16 -0700 (PDT)
+	s=k20260515; t=1792096313;
+	bh=cquZm0232ROzOo71FMBkiAHEc+4rux+dVirL11TLe7o=;
+	h=From:Date:Subject:To:Cc;
+	b=aJWuvlVWOmWZzuiLHUUmXLqCZhC8C4oilWq7Pm32YXpntLuWdOh1l9HszZrbI49U6
+	 1SKNjincHiwuC2eMmDTG+8lSvtiU6BB5R9NqZrXQYSopW6CBZ2N2RmkdUyWhrnYnqr
+	 HT6/CIlLCsVA9HVud+wjwbirA3ORQhb9az/Gz7wZrL2zNXVdXmG6gucibdkUL5wwiC
+	 pZCBSvdzW76WAUSSg8B0V/xupfZ2dtg13f7j+cpxMhqlCSQIjV/83laSwuuo4RNM+1
+	 ilvGdpoWVOkHzP9USCEHh9DDvYNildh2lw9W+lQZHHcgbpHlrEy2FdQ87fPvi3Ev+X
+	 5LK9v/wr7a/ew==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Date: Thu, 15 Oct 2026 21:31:44 +0100
+Subject: [PATCH] mm/vma: avoid spurious write locks when mm->mm_lock_seq
+ overflows
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261001155118.1750028-1-briannorris@chromium.org>
- <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
- <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com> <as_i5MEz3WfnDQmf@google.com>
-In-Reply-To: <as_i5MEz3WfnDQmf@google.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 15 Oct 2026 22:11:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
-X-Gm-Features: AclHuK8mMQkjXiiDqDXWjOSaTWHNWM8laVY-TcPVYuhIWw64OjtDDNvcCixv618
-Message-ID: <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
-To: Brian Norris <briannorris@chromium.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Doug Anderson <dianders@chromium.org>, Len Brown <lenb@kernel.org>, Ulf Hansson <ulfh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261015-fix-vma-lock-overflow-v1-1-01beb245d9da@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MSwqAMBDFriKzdsAKinoVcVHrqw5+Ki1UQby7x
+ WUgyUMBXhCoyx7yiBLEHQlUnpFZ9DGDZUpMZVHWqlAVW7k57po3Z1Z2Ed5u7mLYSTVGjzXQUmp
+ PjyT+33543w/wAPIxZwAAAA==
+X-Change-ID: 20261015-fix-vma-lock-overflow-efd18cab6ee9
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, ljs@kernel.org, 
+ Daehyeon Ko <4ncienth@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15772; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=Ye9J+QlosXJybdaRR+F+8QPGWiEWV4w9P+CbaR3rRhU=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLIuWpgYmeZVsZW/Odg6f8cOg0/PdA7/VPZ4a5w5ZaVNK
+ qPOPWnmjhIWBjEuBlkxRZbnX8T3B4mEzeu84O8GM4eVCWQIAxenAEzkiRfDj21dKTb3+h4ZpQS+
+ Nn7zsDrKc//Vfrt3P2d+2nXG61Z2DCPDr5jPdrZV9n+mbL+g/YVBcObuc9FHVYLjzt3nfS+dLbS
+ MHQA=
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Hi Brian,
+So far the assumption has been that mm->mm_lock_seq overflow is benign,
+resulting only in readers spuriously falling back to the mmap lock, however
+it turns out that this was an unsafe assumption.
 
-On Wed, Oct 14, 2026 at 10:15=E2=80=AFPM Brian Norris <briannorris@chromium=
-.org> wrote:
->
-> Hi Rafael,
->
-> On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > On Thu, Oct 1, 2026 at 5:51=E2=80=AFPM Brian Norris <briannorris@chromi=
-um.org> wrote:
-> > >
-> > > The runtime PM API surface is pretty large, but there are a few commo=
-n
-> > > patterns that many drivers should follow. Add some illustrative
-> > > examples, to help guide the most common audience for runtime PM docs =
---
-> > > driver writers.
-> > >
-> > > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > > ---
-> > >
-> > > Changes in v4:
-> > >  * "state" to "status", to be consistent with Introduction terminolog=
-y
-> > >
-> > > Changes in v3:
-> > >  * Rewrite Examples to avoid devm_* at first, to highlight correct
-> > >    approaches
-> > >  * Include error-handling and remove() in any probe() Examples
-> > >  * Advise more caution when using devm_*, as ordering issues are subt=
-le
-> > >
-> > > Changes in v2:
-> > >  * Add appropriate teardown to "Probe with Hardware Powered Off"
-> > >    Example, as the remove() + power-off behavior is subtle here, and
-> > >    easy to get wrong
-> > >
-> > >  Documentation/power/runtime_pm.rst | 475 +++++++++++++++++++++++++++=
-+-
-> > >  1 file changed, 473 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power=
-/runtime_pm.rst
-> > > index e4407b687f8b..cb25e0bb4ca7 100644
-> > > --- a/Documentation/power/runtime_pm.rst
-> > > +++ b/Documentation/power/runtime_pm.rst
-> > > @@ -429,7 +429,8 @@ in ->probe(). Usually this means calling pm_runti=
-me_disable(),
-> > >  pm_runtime_dont_use_autosuspend() etc. Alternatively, drivers can us=
-e
-> > >  devm_pm_runtime_enable() during probe, which automatically takes car=
-e of
-> > >  calling pm_runtime_disable() and pm_runtime_dont_use_autosuspend() u=
-pon driver
-> > > -detachment.
-> > > +detachment. See also the Examples in `Section 10`_ for some effectiv=
-e
-> > > +strategies for driver teardown.
-> > >
-> > >  The user space can effectively disallow the driver of the device to =
-power manage
-> > >  it at run time by changing the value of its /sys/devices/.../power/c=
-ontrol
-> > > @@ -654,7 +655,9 @@ The implementation is well suited for asynchronou=
-s use in interrupt contexts.
-> > >  However such use inevitably involves races, because the PM core can'=
-t
-> > >  synchronize ->runtime_suspend() callbacks with the arrival of I/O re=
-quests.
-> > >  This synchronization must be handled by the driver, using its privat=
-e lock.
-> > > -Here is a schematic pseudo-code example::
-> > > +Here is a schematic pseudo-code example:
-> > > +
-> > > +.. code-block:: c
-> > >
-> > >         foo_read_or_write(struct foo_priv *foo, void *data)
-> > >         {
-> > > @@ -720,3 +723,471 @@ pm_runtime_autosuspend_expiration() from within=
- the ->runtime_suspend()
-> > >  callback while holding its private lock.  If the function returns a =
-nonzero
-> > >  value then the delay has not yet expired and the callback should ret=
-urn
-> > >  -EAGAIN.
-> > > +
-> > > +.. _Section 10:
-> > > +
-> > > +10. Example Driver Patterns
-> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> > > +
-> > > +The runtime PM API is large and complex, but most device drivers fol=
-low a small
-> > > +set of canonical patterns when interacting with runtime PM. This sec=
-tion
-> > > +illustrates standard patterns for device probing, performing I/O, an=
-d handling
-> > > +interrupts.
-> > > +
-> > > +Probe and Initialization
-> > > +------------------------
-> > > +
-> > > +Basic Probe
-> > > +~~~~~~~~~~~
-> > > +
-> > > +A driver that powers on its hardware during probe and does not use a=
-utosuspend
-> > > +can initialize runtime PM using standard helpers:
-> > > +
-> > > +.. code-block:: c
-> > > +
-> > > +       static int foo_probe(struct platform_device *pdev)
-> > > +       {
-> > > +               struct device *dev =3D &pdev->dev;
-> > > +               struct foo_priv *priv;
-> > > +               int ret;
-> > > +
-> > > +               priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL)=
-;
-> > > +               if (!priv)
-> > > +                       return -ENOMEM;
-> > > +
-> > > +               platform_set_drvdata(pdev, priv);
-> > > +
-> > > +               /* Power on and initialize hardware registers... */
-> > > +
-> > > +               /*
-> > > +                * The code above left hardware powered on and operat=
-ional, so
-> > > +                * tell the PM core that the device is active before =
-enabling
-> > > +                * runtime PM.
-> > > +                */
-> > > +               pm_runtime_set_active(dev);
-> > > +               pm_runtime_enable(dev);
-> > > +
-> > > +               /*
-> > > +                * Perform remaining driver setup (e.g. register inte=
-rrupts, device nodes).
-> > > +                * If any step fails after enabling runtime PM:
-> > > +                */
-> > > +               ret =3D foo_register_device(priv);
-> > > +               if (ret)
-> > > +                       goto err_pm_disable;
-> > > +
-> > > +               /*
-> > > +                * Upon successful return from ->probe(), the driver =
-core
-> > > +                * automatically executes pm_request_idle(dev), allow=
-ing the
-> > > +                * device to suspend asynchronously if its usage coun=
-ter is zero.
-> > > +                */
-> > > +               return 0;
-> > > +
-> > > +       err_pm_disable:
-> > > +               pm_runtime_disable(dev);
-> > > +               if (!pm_runtime_status_suspended(dev)) {
-> > > +                       /*
-> > > +                        * Power back off, in case device did not sus=
-pend yet.
-> > > +                        * For example, leverage your .runtime_suspen=
-d()
-> > > +                        * implementation:
-> > > +                        */
-> > > +                       foo_runtime_suspend(dev);
-> >
-> > There are two reasons why this may not work, here and below.
-> >
-> > First off, if a non-trivial PM domain or bus type etc is involved, its
-> > .runtime_suspend() callback may need to be invoked in addition to
-> > foo_runtime_suspend() to actually power off the device.
->
-> Good point. While it's a platform_device (not a complex bus), I suppose
-> the PM domain may be relevant, at least for remove(). (probe() is
-> already handled automatically by the device core.)
+If a VMA can be spuriously considered write locked that means read lock
+exclusion does not take place, and thus a VMA can end up write-locked with
+concurrent readers.
 
-If this is a platform device, the PM domain detach will power it off,
-which I forgot about, so the driver only needs to prepare the device
-for that.  If there is no PM domain, the driver runtime suspend
-callback function can be used for the power off in principle.
+Since overflow only occurs every 2^31 write lock/unlock cycles, resolve the
+issue by resetting every VMA's vma->vm_lock_seq each time such an overflow
+occurs.
 
-So I think that the original code flow here is fine with the caveat
-that if a PM domain is there, the driver may not actually need to
-carry out the power off by itself.
+This is done in vma_end_write_all(), which is called when the mmap write
+lock is released, i.e. in mmap_write_unlock() and mmap_write_downgrade().
 
-> > That's why
-> > pm_runtime_force_suspend() looks for the callback to invoke.
->
-> Would you be OK with pm_runtime_force_suspend() as an alternative here?
-> It seems like some drivers have started using that in remove(), which
-> doesn't quite match its docs, but otherwise seems OK to me. I was
-> considering that already here, and I even think it might be a good idea
-> to do automatically in devm_*, as I noted here:
->
->   https://lore.kernel.org/all/arVWVA3lks7SopQH@google.com/
->
->   (note: there's definitely at least one typo in there; should be
->   !pm_runtime_status_suspended(); and it needs some other adjustments to
->   actually verify the device was suspended at time of enable(); ... so
->   consider it a concept, not a patch.)
->
-> But I kinda wanted a maintainer opinion before I went too far on that.
+Care must be taken, as resetting the sequence count at overflow means
+changing the seqcount of VMAs which are already attached and observable.
 
-That shouldn't be necessary as per the above.
+The mm's seqcount is guaranteed to be odd when a write lock is held, and
+thus any write locked VMA will have an odd seqcount assigned.
 
-> > Second, if the driver expects the device to be powered up and
-> > operational at the beginning of probe, which this one does AFAICS,
->
-> No, that's not the intention. See:
->
->   "A driver that powers on its hardware during probe"
+Therefore resetting to an even value prevents spurious write locks, since
+these can only occur with the mmap write lock held, at which point the mmap
+seqcount will be odd.
 
-So this effectively assumes no PM domain because platform_probe()
-calls dev_pm_domain_attach() with PD_FLAG_ATTACH_POWER_ON set.
+However, vma_start_read() also checks vma->vm_lock_seq == mm->mm_lock_seq,
+bailing if so (indicating a write lock).
 
-> And the pseudocode/comment:
->
->                /* Power on and initialize hardware registers... */
->
-> i.e., probe() is doing the power-on work, but it's elided.
->
-> Perhaps that wasn't obvious enough, so I can replace that with
+This would cause any even reset value chosen to prevent VMA read locks from
+being taken - avoid this by also checking whether the VMA seqcount is odd
+before bailing on the read lock.
 
-No, it's fine with me except that there is a difference between the
-"PM domain present" and "no PM domain" cases and at least some drivers
-may need to take it into account.
+So far, vma->vm_lock_seq has defaulted to UINT_MAX, but this has been
+unnecessary since commit e5e7fb278e59 ("mm: convert mm_lock_seq to a proper
+seqcount"), since this is assigned when the VMA is still detached, and
+cannot be observed.
 
-> more-convincing code-like structures
-> (regulator_get()/regulator_enable(), etc., for example) if you think
-> that would help.
+Therefore perform both reset and initialisation of vma->vm_lock_seq by
+simply setting vma->vm_lock_seq to zero.
+
+The reset, performed in reset_vma_seqcounts(), only needs to WRITE_ONCE()
+the value. The stores follow the smp_wmb() in do_raw_write_seqcount_end(),
+so a reader observing a reset value also observes the VMA modifications
+made under the write lock.
+
+Since all VMA write locks were just released and the mmap write lock is
+still held, there are no concurrent VMA writers.
+
+Concurrent VMA readers are unaffected. New VMA readers observe either zero,
+never a write lock, or the prior seqcount, behaving as before the reset.
+
+Since this only occurs every 2^31 write lock/unlock cycles, the time taken
+to update all VMAs is considered to be acceptable.
+
+Also update comments, documentation and VMA userland tests to reflect the
+change.
+
+Reported-by: Daehyeon Ko <4ncienth@gmail.com>
+Closes: https://lore.kernel.org/all/20261015143735.1630957-1-4ncienth@gmail.com/
+Fixes: 5e31275cc997 ("mm: add per-VMA lock and helper functions to control it")
+Cc: stable@vger.kernel.org
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+Andrew - since we're so close to the merge window I'm applying this against
+mm-unstable.
+
+I think it's fine to just send it (early :) in the merge window.
+---
+ Documentation/mm/process_addrs.rst | 14 +++++--
+ include/linux/mm_types.h           | 12 ++++--
+ include/linux/mmap_lock.h          | 24 +++++++++---
+ mm/mmap_lock.c                     | 76 ++++++++++++++++++++++++++++++++++----
+ tools/testing/vma/include/dup.h    |  2 +-
+ tools/testing/vma/shared.c         |  8 ++--
+ 6 files changed, 111 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+index 78231995e490..1a98798b2cda 100644
+--- a/Documentation/mm/process_addrs.rst
++++ b/Documentation/mm/process_addrs.rst
+@@ -819,9 +819,17 @@ All this is achieved by the use of per-mm and per-VMA sequence counts, which are
+ used in order to reduce complexity, especially for operations which write-lock
+ multiple VMAs at once.
+ 
+-If the mm sequence count, :c:member:`!mm->mm_lock_seq` is equal to the VMA
+-sequence count :c:member:`!vma->vm_lock_seq` then the VMA is write-locked. If
+-they differ, then it is not.
++The mm sequence count :c:member:`!mm->mm_lock_seq` is incremented on both mmap
++write lock and unlock, so it is odd while the mmap write lock is held. If it is
++equal to the VMA sequence count :c:member:`!vma->vm_lock_seq`, and that value
++is odd, then the VMA is write-locked. If they differ, then it is not.
++
++A VMA's sequence count is not updated on unlock, so after 2^31 write lock/unlock
++cycles the mm sequence count would wrap and match stale VMA values again. To
++prevent this, when the mm sequence count wraps to zero,
++:c:func:`!vma_end_write_all` invokes :c:func:`!reset_vma_seqcounts` to reset
++every VMA's sequence count to zero, an even value which can never indicate a
++write lock.
+ 
+ Each time the mmap write lock is released in :c:func:`!mmap_write_unlock` or
+ :c:func:`!mmap_write_downgrade`, :c:func:`!vma_end_write_all` is invoked which
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 0dead656d3e3..3241a28fbc8a 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -992,15 +992,19 @@ struct vm_area_struct {
+ 	 * Can only be written (using WRITE_ONCE()) while holding both:
+ 	 *  - mmap_lock (in write mode)
+ 	 *  - vm_refcnt bit at VM_REFCNT_EXCLUDE_READERS_FLAG is set
++	 * The one exception is reset_vma_seqcounts(), which stores zero (an
++	 * even value, which can never indicate a write lock) under the mmap
++	 * write lock alone once the mm seqcount has wrapped, so a reader
++	 * holding only vm_refcnt may observe the value change from odd to zero.
+ 	 * Can be read reliably while holding one of:
+ 	 *  - mmap_lock (in read or write mode)
+-	 *  - vm_refcnt bit at VM_REFCNT_EXCLUDE_READERS_BIT is set or vm_refcnt > 1
++	 *  - vm_refcnt bit at VM_REFCNT_EXCLUDE_READERS_BIT is set
+ 	 * Can be read unreliably (using READ_ONCE()) for pessimistic bailout
+ 	 * while holding nothing (except RCU to keep the VMA struct allocated).
+ 	 *
+-	 * This sequence counter is explicitly allowed to overflow; sequence
+-	 * counter reuse can only lead to occasional unnecessary use of the
+-	 * slowpath.
++	 * Assigned the (odd) mm seqcount on write lock and not updated on
++	 * unlock, so a stale value would alias the mm seqcount again 2^31 write
++	 * lock/unlock cycles later. The reset described above prevents this.
+ 	 */
+ 	unsigned int vm_lock_seq;
+ 
+diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
+index e5553f4a414c..ec859b350dda 100644
+--- a/include/linux/mmap_lock.h
++++ b/include/linux/mmap_lock.h
+@@ -154,7 +154,7 @@ static inline void vma_lock_init(struct vm_area_struct *vma, bool reset_refcnt)
+ #endif
+ 	if (reset_refcnt)
+ 		refcount_set(&vma->vm_refcnt, 0);
+-	vma->vm_lock_seq = UINT_MAX;
++	vma->vm_lock_seq = 0;
+ }
+ 
+ /*
+@@ -229,8 +229,9 @@ static inline void vma_refcount_put(struct vm_area_struct *vma)
+ 
+ /*
+  * Use only while holding mmap read lock which guarantees that vma lock is not
+- * contended (nobody can concurrently write-lock the vma). vma_start_read() should
+- * not be used in such cases because it might fail due to mm_lock_seq overflow.
++ * contended (nobody can concurrently write-lock the vma). vma_start_read() need
++ * not be used in such cases, as the mmap lock already excludes VMA writers so
++ * its sequence number checks are redundant.
+  * This functionality is used to obtain vma read lock and drop the mmap read lock.
+  *
+  * VMA can't be detached while we are holding mmap lock, therefore in practice this
+@@ -252,8 +253,9 @@ static inline bool vma_start_read_locked_nested(struct vm_area_struct *vma, int
+ 
+ /*
+  * Use only while holding mmap read lock which guarantees that vma lock is not
+- * contended (nobody can concurrently write-lock the vma). vma_start_read() should
+- * not be used in such cases because it might fail due to mm_lock_seq overflow.
++ * contended (nobody can concurrently write-lock the vma). vma_start_read() need
++ * not be used in such cases, as the mmap lock already excludes VMA writers so
++ * its sequence number checks are redundant.
+  * This functionality is used to obtain vma read lock and drop the mmap read lock.
+  *
+  * VMA can't be detached while we are holding mmap lock, therefore in practice this
+@@ -552,6 +554,8 @@ static inline int __must_check mmap_write_lock_killable(struct mm_struct *mm)
+ 	return ret;
+ }
+ 
++void reset_vma_seqcounts(struct mm_struct *mm);
++
+ /*
+  * Drop all currently-held per-VMA locks.
+  * This is called from the mmap_lock implementation directly before releasing
+@@ -564,6 +568,16 @@ static inline void vma_end_write_all(struct mm_struct *mm)
+ {
+ 	mmap_assert_write_locked(mm);
+ 	mm_lock_seqcount_end(mm);
++
++	/*
++	 * VMA seqcounts are not updated on unlock, so once the mm seqcount has
++	 * wrapped, any VMA still carrying a sequence number from before the
++	 * wrap would satisfy __is_vma_write_locked() when that number comes
++	 * round again, and readers would not be excluded. Reset every VMA's
++	 * seqcount so that no stale value survives the wrap.
++	 */
++	if (unlikely(!mm->mm_lock_seq.sequence))
++		reset_vma_seqcounts(mm);
+ }
+ 
+ static inline void mmap_write_unlock(struct mm_struct *mm)
+diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
+index 2f94ee0fdee2..285583a0c437 100644
+--- a/mm/mmap_lock.c
++++ b/mm/mmap_lock.c
+@@ -194,21 +194,37 @@ void __vma_exclude_readers_for_detach(struct vm_area_struct *vma)
+ 	WARN_ON_ONCE(!ves.detached);
+ }
+ 
++/* Do the VMA, mm seqcounts indicate the VMA is write locked? */
++static bool vma_seqcount_is_write_locked(unsigned int vma_seq, unsigned int mm_seq)
++{
++	/* VMA and mm sequence numbers must match for a write lock. */
++	if (vma_seq != mm_seq)
++		return false;
++
++	/*
++	 * The VMA seqcount is always odd if locked. An even value can only be
++	 * the zero stored by reset_vma_seqcounts(), never a write lock.
++	 */
++	return vma_seq & 1;
++}
++
+ /*
+  * Try to read-lock a vma. The function is allowed to occasionally yield false
+  * locked result to avoid performance overhead, in which case we fall back to
+  * using mmap_lock. The function should never yield false unlocked result.
+- * False locked result is possible if mm_lock_seq overflows or if vma gets
+- * reused and attached to a different mm before we lock it.
++ * False locked result is possible if vma gets reused and attached to a
++ * different mm before we lock it.
+  * Returns the vma on success, NULL on failure to lock and EAGAIN if vma got
+  * detached.
+  *
+  * IMPORTANT: RCU lock must be held upon entering the function, but upon error
+  *            IT IS RELEASED. The caller must handle this correctly.
+  */
+-static inline struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+-						    struct vm_area_struct *vma)
++static struct vm_area_struct *vma_start_read(struct mm_struct *mm,
++					     struct vm_area_struct *vma)
+ {
++	unsigned int vma_seq;
++	unsigned int mm_seq;
+ 	struct mm_struct *other_mm;
+ 	int oldcnt;
+ 
+@@ -220,7 +236,9 @@ static inline struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 	 * we don't rely on for anything - the mm_lock_seq read against which we
+ 	 * need ordering is below.
+ 	 */
+-	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(mm->mm_lock_seq.sequence)) {
++	vma_seq = READ_ONCE(vma->vm_lock_seq);
++	mm_seq = READ_ONCE(mm->mm_lock_seq.sequence);
++	if (vma_seqcount_is_write_locked(vma_seq, mm_seq)) {
+ 		vma = NULL;
+ 		goto err;
+ 	}
+@@ -246,17 +264,23 @@ static inline struct vm_area_struct *vma_start_read(struct mm_struct *mm,
+ 		goto err_unstable;
+ 
+ 	/*
+-	 * Overflow of vm_lock_seq/mm_lock_seq might produce false locked result.
+-	 * False unlocked result is impossible because we modify and check
++	 * False unlocked result is impossible because a write lock sets
+ 	 * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lock_seq
+ 	 * modification invalidates all existing locks.
+ 	 *
++	 * The only other writer is reset_vma_seqcounts(), which stores zero
++	 * (even, so never a write lock) after the mmap write lock's seqcount
++	 * has been released and before any new write lock can be taken, hence
++	 * the READ_ONCE().
++	 *
+ 	 * We must use ACQUIRE semantics for the mm_lock_seq so that if we are
+ 	 * racing with vma_end_write_all(), we only start reading from the VMA
+ 	 * after it has been unlocked.
+ 	 * This pairs with RELEASE semantics in vma_end_write_all().
+ 	 */
+-	if (unlikely(vma->vm_lock_seq == raw_read_seqcount(&mm->mm_lock_seq))) {
++	vma_seq = READ_ONCE(vma->vm_lock_seq);
++	mm_seq = raw_read_seqcount(&mm->mm_lock_seq);
++	if (unlikely(vma_seqcount_is_write_locked(vma_seq, mm_seq))) {
+ 		vma_refcount_put(vma);
+ 		vma = NULL;
+ 		goto err;
+@@ -466,6 +490,42 @@ struct vm_area_struct *lock_next_vma(struct mm_struct *mm,
+ 	return vma;
+ }
+ 
++/*
++ * Called with mmap write lock held after mm->mm_lock_seq just overflowed (and
++ * therefore zero), with all VMA write locks now released.
++ *
++ * The stores below follow the smp_wmb() in do_raw_write_seqcount_end(), so
++ * a reader that observes a reset value also observes this cycle's VMA
++ * modifications (ordered by the smp_rmb() in raw_read_seqcount()).
++ */
++void reset_vma_seqcounts(struct mm_struct *mm)
++{
++	struct vm_area_struct *vma;
++	VMA_ITERATOR(vmi, mm, 0);
++
++	mmap_assert_write_locked(mm);
++	VM_WARN_ON_ONCE(mm->mm_lock_seq.sequence);
++
++	/*
++	 * Failing to reset means stale vma->vm_lock_seq values could result in
++	 * those VMAs becoming spuriously write locked when mm->mm_lock_seq
++	 * happens to match their values.
++	 *
++	 * This is problematic, as it causes the VMA write lock to not exclude
++	 * readers, which can result in concurrent readers while a VMA write
++	 * lock is held.
++	 *
++	 * Avoid this by resetting to an even value (indicates no write lock
++	 * held).
++	 *
++	 * Readers will either observe zero (not write locked) or the previous
++	 * value, so this is safe.
++	 */
++	for_each_vma(vmi, vma)
++		WRITE_ONCE(vma->vm_lock_seq, 0);
++}
++EXPORT_SYMBOL(reset_vma_seqcounts);
++
+ #ifdef CONFIG_LOCK_MM_AND_FIND_VMA
+ #include <linux/extable.h>
+ 
+diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+index 718132580fac..f449129ea97a 100644
+--- a/tools/testing/vma/include/dup.h
++++ b/tools/testing/vma/include/dup.h
+@@ -1225,7 +1225,7 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ 	vma->vm_mm = mm;
+ 	vma->vm_ops = &vma_dummy_vm_ops;
+ 	INIT_LIST_HEAD(&vma->anon_vma_chain);
+-	vma->vm_lock_seq = UINT_MAX;
++	vma->vm_lock_seq = 0;
+ }
+ 
+ /*
+diff --git a/tools/testing/vma/shared.c b/tools/testing/vma/shared.c
+index 8c4826499f40..c1e0c2280101 100644
+--- a/tools/testing/vma/shared.c
++++ b/tools/testing/vma/shared.c
+@@ -65,7 +65,7 @@ struct vm_area_struct *alloc_and_link_vma(struct mm_struct *mm,
+ 	 * begun. Linking to the tree will have caused this to be incremented,
+ 	 * which means we will get a false positive otherwise.
+ 	 */
+-	vma->vm_lock_seq = UINT_MAX;
++	vma->vm_lock_seq = 0;
+ 
+ 	return vma;
+ }
+@@ -97,13 +97,13 @@ int cleanup_mm(struct mm_struct *mm, struct vma_iterator *vmi)
+ 
+ bool vma_write_started(struct vm_area_struct *vma)
+ {
+-	int seq = vma->vm_lock_seq;
++	unsigned int seq = vma->vm_lock_seq;
+ 
+ 	/* We reset after each check. */
+-	vma->vm_lock_seq = UINT_MAX;
++	vma->vm_lock_seq = 0;
+ 
+ 	/* The vma_start_write() stub simply increments this value. */
+-	return seq > -1;
++	return seq > 0;
+ }
+ 
+ void __vma_set_dummy_anon_vma(struct vm_area_struct *vma,
+
+---
+base-commit: 5ba29027115bc6717b8d6dc3296aae0240933811
+change-id: 20261015-fix-vma-lock-overflow-efd18cab6ee9
+
+Cheers,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
