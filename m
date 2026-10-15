@@ -1,154 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E673451AB;
-	Thu, 15 Oct 2026 16:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792080576; cv=none; b=bOq09BO2cVHRNn7hBo4gZzbJ6UdpmQcBS2WYvziAad2OMcsuAVh24WLBDTQwzyy5zoQfh4HlztZ013VlzFdcEHtQKzHX+sHodkMvZzA9kdxXiTXt6qukes/0ptQFCrzpL/fx0wIVYWKxb/WOtzNiQ7HwV2WqcXhBJpmKAHMoCKQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792080576; c=relaxed/simple;
-	bh=xUYSc1GtxCVfzN96qjN2XGL1JkMKNdAEDY7ouFyuldM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WvXJ2Ku8LcutNIoFj5OiTTX86hwDs00ivXY4JY3aW0+H9x6QB/5fdcaUM+X4fbT3omaWsDDYuiD1OQK+1jzBsfAGA+rVexGKAr3bEUysQxfLu3+TFUyQh2BOf5921n2j+NoBfHmoU0S1hca28KUTCz/Qc+zOOnb1guuDudsIPCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ded3lnyp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECEF542EEC
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 16:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792080940; cv=pass; b=EGmHc/Ao3wsooBcuVtCxhrzLJajRWwxdc71eC7GN1YTbyitvG8wl9opSJ13SEH3+eDlGmP5pwefVLCRvE/ikqf097QjW1Fabd78PeVg+N4wGndHY3BxCqapPgBxCT81kVCjcYrchUIYa6QBoevD0nimlfg44zM31li2kDunhBr4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792080940; c=relaxed/simple;
+	bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I0bPOtdl+1TiBtdCkDR1LY/iSv6ebuTWs1QJbYgydiwIHMoaypbK7qNHBPZPsIaEErYHaTpwvYelZMYHksEJ/Zr8fcjaXI0yoHF2yohNRZGIAXseeOhPefupW8YIEIbtz937tnRUvL14vKaskp8fKFnFBryyniySEtzIt0dJWR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XutVYcfh; arc=pass smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ded3lnyp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 11A99C2BCC7;
-	Thu, 15 Oct 2026 16:09:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792080576;
-	bh=xUYSc1GtxCVfzN96qjN2XGL1JkMKNdAEDY7ouFyuldM=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Ded3lnyprRwuVCs47lzD1qCE6FGH5eYJBkNLbue8UoUAzAG660Phx7cFMrd1v/yEg
-	 85hZbaqOaSOdaw5WvYRPgNAkPYlCyt90qLstuWNMI4ffNuCIJ42M9GvpRTT8JzofmF
-	 RoEatW8p6GmxvYMdpHSjK9ktMbOHGn/RH62nPH5rWbvR/x1jgHNdqcexvkhimDt7nN
-	 71Mdb7mbmPloMzZUh/aPmscd0iD6aiYtVJeIgyC/ZBN4UQTS6jq5J6ZW9Qxo/MMsHH
-	 moEf/5EwE8Ncphq8K1whuoImsP5aHviD5PAi0UMUaKrYDWQpUuUHh/brjvtJMGuqe2
-	 Imv1qCaT3be3A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BCCCC6B3A;
-	Thu, 15 Oct 2026 16:09:35 +0000 (UTC)
-From: Remy Demangeot via B4 Relay <devnull+remy.demangeot.net@kernel.org>
-Date: Thu, 15 Oct 2026 18:09:31 +0200
-Subject: [PATCH] hwmon: (asus-ec-sensors) add MAXIMUS IX EXTREME
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XutVYcfh"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-35159e0092aso638604eec.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:15:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792080929; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NFPUFqQG73C6gbjGps7EUJ5yAd27vGZggVcoHqSRE+CWjvYmGbGFPWPzvUvti2qivK
+         /zZCv6EgfYJbWCpZXnEgJkfKg9KZPbwNIKGvPNsF+pSdrUMubq1/XX5ySdHzc/6vdnbe
+         2jJkURe/ezLulIWANFjYUl/ATHlogeCs1M2jxagMfoPc4AKMLI8pHSKLMQe8kV5buGOP
+         GK6/KXmZRSnRIkgVFiEhWIUtAzKazs0uxK63jzhcaWnID+qtqLMPuDwQm1hJSvIu0U1Q
+         aZgrIV91vLrn6fIAaWpuCAgKIq8UYcM7enTaBARTGPWitW0oy0xy9H1gmQ0HugJgbYn+
+         olqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        fh=xt9vHJirMuVHSMwfjPZvRWdBrRnMYpiS9ksyi+BeDIw=;
+        b=EKHhbFZctCXMcSHTat8ExqTe0Zg3jvNschG2OESxxht9xF07O+YswAKcP2SgOguDku
+         ru80o1TMzgzMa4dLILzzRUHCRWt8cNgwp2ibKV/oWU4gnLH1K385jF39j6PFxVMOMi8x
+         7mHMX8xJsdh5UTl+lyvjZ0SKxpazs5F8jsVXl1S4GzswvAaxn4SylxaSI7ncOa6cioFM
+         nUWGZrbock9ow34GnNq1Hwh4lyzm5goxrxUw2AKLoAX7mSTwz3l3JWuQM83U0lAddTyQ
+         EOdG5/mjPQJJ9EuYInrpBCwK7QoxSwPf8KX0T+//EB+JLfRgoF8Fe7tL8RLCOPCZc42d
+         K44A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792080929; x=1792685729; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        b=XutVYcfhfuIwYt7oz3fIbtmTfgpStJjx0N7LF92toIkgvtGcj2MmD5s/cVeJiTxigI
+         LV+Fyr3gB5C6KJ/2BkH+cV2QBADoqzCXxAmJGt1H2E7qzljiCj+T9pzzVWPKXWcTQey9
+         SIomRRuCS/L+IZvkJRCM+9kgl/OyB8TGUeC0WzP5sNjFobcjxGSGT++Yd/ljP4ZVuCzk
+         6iulHb5Wha2Ih86swcKayujTnHVNmYMWixdP1Coo6LvkJ5hM2U5tcLDG6iQeFvIPB+sX
+         HLz06BZ8XKlGRVhsDLCkzENGM7IGpoyud+xiLOu4KoFxA5sxTfeTHMsBrODtFe9hRXLQ
+         DVEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792080929; x=1792685729;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G5AcZOU+pdoePF3JVJGwstAOUQkYC3WUg5uKVwxeFqQ=;
+        b=n135Ck2eke5bcc5wUQ6f6RAkTPjrT2FkP0LcSLEvshW9VAUcbhRWKFzn4+qoY7f5wL
+         B66tTnjJ2GUxh5rmtzb5RKEXlT327BYhx/NlAefqODSfsJwOYbB4HcDXPh0jQUdTz/YW
+         NLr4iP9TEmRj/HQaQn3GEAxPnDRVP6/28ji34QSHNgi8Efo1hY4SoRXdPW9lqBaOu/mi
+         trX2AEpTLTrD4GJtixF/aaGBdjr0TbNtMcXsb5bThYN+TsrEyB4GXDLrbT/MLvaqeTBR
+         WkOHIyGx+zja+eiITYzVcTTeMtZnSZiYC+11mO5jUCHTegdHt/Q36SeGxrXApcVoirue
+         r+ew==
+X-Forwarded-Encrypted: i=1; AKwUvBz2Z9nSGaZaNIT9Hl5DdXPQHTM5i3YhNTG+xOVdJWP0ulYQ05Fxl8tMiUjfjoEg+v2Uv7PFWzwCxJ8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJHG3ELsvS2hqBYJ3rXxhVv6dl44w67kbEsyGWG+1u9bk/KRkXt
+	XTvqixSqytmD3lThCa/IL9sgwL0K7tMtz7Kvw4peMOObbHor/5CUa5b3+DLuoUpnu4pJo7R8ijs
+	TyMHfVuBFQgwGnmxIQUExO0zZfiFf+PM=
+X-Gm-Gg: AYBFou24IARoarhwdZjcPfsqhlQKj2ufCk1a44289i/vB0YxlRYqO0y0JMZTaHOhTx/
+	Y2PmQXt7nzOsQ55WD1dlyHNuy0FK/QGgintAW51KbWcke5KzQNeBf0vMemJD0cAnGO2ebC5Ze3y
+	e+Qxb4Qb+dxjVdbvOckTW2L3KeHWjJN27dqCa4gzk2h5yBgPJKmHiPp5LLn353+aZFu+6bWW0O2
+	QzUGG7v4EZoHPIHvNFeHpveps6mi3mwvJqLKmeIOMLvbzG44ncp7IoYSSGHCoCZoA8p4IoA4zGv
+	OLjPafgBd31Up9EPCuupsfpkBE0N3To0iFQa3XELlFjT0DzStmnZqETgKW+Jbc+G5WfHOAMfm1K
+	5s3cIi2vqMnIT4IxU1T40eBhXN8RiMZz7ejzOh4vBpUyHAYokSFnWwBI2Xjge6L75SWXHnKhbLC
+	5HK3FqG7XahNB7FbdaQg/mYb15n+W4LSRL6R2cfYLp8hqBP5H6leTAlQUUumF32vg=
+X-Received: by 2002:a05:693c:66d0:10b0:35c:492b:e310 with SMTP id
+ 5a478bee46e88-35c492be9f8mr17514341eec.0.1792080928498; Thu, 15 Oct 2026
+ 09:15:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-b4-m9e-extreme-v1-1-621da921e320@demangeot.net>
-X-B4-Tracking: v=1; b=H4sIALr60GoC/x3MOwqAMBBF0a3I1A4kosG4FbGI8alT+CEREYJ7N
- 1ie4t5EEUEQqSsSBdwS5dgzdFmQX92+gGXKpkpVRivd8FjzZsF4roAN7J1x1livMLeUozNgluc
- f9sP7fiWlCJRgAAAA
-X-Change-ID: 20261015-b4-m9e-extreme-ca6a969c0ef8
-To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Remy Demangeot <remy@demangeot.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792080575; l=3658;
- i=remy@demangeot.net; s=20261015; h=from:subject:message-id;
- bh=s3RVR8WZtpDUVgsbn6tZJmB7/61SZqwM9dWjrNL/sE8=;
- b=rGwERFoK5sFkNhsxqY7emnSMCBzhsr0L6ItSBTwV90Dhc8YICxW+OQZv1Y524JOzlNTUgdRT+
- gDnKpI49Nx2CUKVfZCvwZQHtj4vVjJvoVV6BWRrnox9vbIJyLBpiFDd
-X-Developer-Key: i=remy@demangeot.net; a=ed25519;
- pk=h/s5N2ZlgZ0m+8FpMhSaCNJt0jvb9whRBAdJwpC+VAo=
-X-Endpoint-Received: by B4 Relay for remy@demangeot.net/20261015 with
- auth_id=1194
-X-Original-From: Remy Demangeot <remy@demangeot.net>
-Reply-To: remy@demangeot.net
+References: <cover.1791499378.git.sashal@kernel.org> <20261014174838.114990-1-ojeda@kernel.org>
+ <as_Cr4FhzyAh-kC4@laps> <CANiq72m6okeCHuR8BCGENTw=wJhfXXZbXZtJq8xtoeVfvfo3TQ@mail.gmail.com>
+ <atDYWe9L0tv90Xjk@laps> <CANiq72mgS15ZKwd-u1t1xvAaNf3ivpXdUMmVDfmGRyq1OewLvw@mail.gmail.com>
+ <87jynjrrqo.fsf@trenco.lwn.net> <CANiq72=raWNCedXQW9dSDwxQTE0hfs9ecyGChRPnWqO6DUvbOw@mail.gmail.com>
+ <atDlfUEr-d_sRP7c@mit.edu>
+In-Reply-To: <atDlfUEr-d_sRP7c@mit.edu>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 15 Oct 2026 18:15:15 +0200
+X-Gm-Features: AclHuK-PjnHmcyinHcDPK4Z6dnO9W7SGIPggSgvmNWFmm386jeOM2Bdrq8WVyuA
+Message-ID: <CANiq72m+j4j86sCnKUzjjq8udcW+hgdrnTa28WUWfyFu9qHXDw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] agents: add portable agent skills and Fixes attribution
+To: Theodore Tso <tytso@mit.edu>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	broonie@kernel.org, ksummit@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rdunlap@infradead.org, 
+	skhan@linuxfoundation.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Remy Demangeot <remy@demangeot.net>
+On Thu, Oct 15, 2026 at 4:43=E2=80=AFPM Theodore Tso <tytso@mit.edu> wrote:
+>
+> I'm a bit confused why people are assuming that we would need to have
+> copies of the same or similar content in Documentation/ and agents/.
+> For agents are are *doing* somethiing --- for example, determining the
+> correct commit for a Fixes: tag is not something I'd think would be relev=
+ant for Documentations.
 
-Add support for the ROG MAXIMUS IX EXTREME (Intel Z270). The board
-uses the same EC layout as the PRIME Z270-A for the chipset and
-T_Sensor temperatures, and additionally exposes the VRM temperature
-at the same register as the 300-series boards (bank 0, 0x3e), so add
-that sensor to the Intel 200-series family.
+I am confused -- I am not saying we will have copies between
+`Documentation/` and `agents/` of similar content.
 
-The hardware access mutex is \_SB_.PCI0.LPCB.SIO1.MUT0, as on the
-PRIME Z270-A (verified in the board's DSDT).
+I am saying that `SKILL.md` is necessarily Markdown (please see
+Sasha's patch), but most of the actual text is in the `.rst` instead,
+and that such a split is more complicated than a single Markdown file,
+especially if we don't plan to do any processing on it (as you say, it
+is mostly text).
 
-Readings were checked against HWiNFO 8.54 on the same machine
-(Chipset 47 C, T_Sensor 25 C, VRM 32 C).
+(I do think certain skills may want to point the agent to some
+`Documentation/` by file path; that is fine.)
 
-Signed-off-by: Remy Demangeot <remy@demangeot.net>
----
-The board's EC also exposes more sensors that HWiNFO reads, but they
-need access patterns the driver does not have yet:
- - three extension card fans (EXT_FAN1-3): write 0x0a/0x0b/0x0c to
-   bank 0 register 0x43 (selector), then read 0x57:0x58 (BE RPM);
- - EXT_Sensor1-3 temperatures at bank 0, 0x60-0x62;
- - Water_In/Out and Water_In2/Out2 on a second EC (firmware ID
-   "RGE2-Z270-0109") at I/O ports 0x68/0x6c, bank 1, registers
-   0x0d/0x0b/0x13/0x11 (same offsets as Water_In/Out on AMD boards).
-
-I have a working out-of-tree driver for these and can prepare follow-up
-patches if this approach would be acceptable.
----
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
-
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 7032c40731d900f6b345c3f52512eab4866cbe93..6d1fa99acefc94bf018b70715ae2f057d1d58fa6 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -5,6 +5,7 @@ Kernel driver asus_ec_sensors
- 
- Supported boards:
-  * MAXIMUS VI HERO
-+ * MAXIMUS IX EXTREME
-  * PRIME X470-PRO
-  * PRIME X570-PRO
-  * PRIME X670E-PRO WIFI
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 19f423e45ce5e4b2cfdd5befea2450318ac626ba..3c97ae09cc19acad54696bff9e65d6bc4f3ce835 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -358,6 +358,7 @@ static const struct ec_sensor_info sensors_family_intel_200[] = {
- 		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
- 	[ec_sensor_temp_t_sensor] =
- 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-+	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
- 	[ec_sensor_fan_cpu_opt] =
- 		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xbc),
- };
-@@ -520,6 +521,13 @@ static const struct ec_board_info board_info_maximus_vi_hero = {
- 	.family = family_intel_300_series,
- };
- 
-+static const struct ec_board_info board_info_maximus_ix_extreme = {
-+	.sensors = SENSOR_TEMP_CHIPSET | SENSOR_TEMP_T_SENSOR |
-+		SENSOR_TEMP_VRM,
-+	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_LPCB_SIO1_MUT0,
-+	.family = family_intel_200_series,
-+};
-+
- static const struct ec_board_info board_info_maximus_x_hero = {
- 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
- 		SENSOR_TEMP_T_SENSOR |
-@@ -882,6 +890,8 @@ static const struct ec_board_info board_info_zenith_ii_extreme = {
- static const struct dmi_system_id dmi_table[] = {
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("MAXIMUS VI HERO",
- 					&board_info_maximus_vi_hero),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("MAXIMUS IX EXTREME",
-+					&board_info_maximus_ix_extreme),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("PRIME X470-PRO",
- 					&board_info_prime_x470_pro),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("PRIME X570-PRO",
-
----
-base-commit: 4781ca52761e666cf18b591e6bb0478396c90320
-change-id: 20261015-b4-m9e-extreme-ca6a969c0ef8
-
-Best regards,
--- 
-Remy Demangeot <remy@demangeot.net>
-
-
+Cheers,
+Miguel
