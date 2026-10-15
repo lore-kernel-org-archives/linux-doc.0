@@ -1,130 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-240.mta0.migadu.com [91.218.175.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF993033D8;
-	Thu, 15 Oct 2026 14:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E48130BBBF
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 14:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792072892; cv=none; b=X/Z72njbpJzrq3Z65eAcX1tEwEc5jBr4icMLbSDNNpuwIJfgSDA9Ekld+tVpBVWusM/PBtCJQPSTvKvig/V71O9MhSOq036WaNEqWl5xtE8B8X3uDPOQOJLSNKei1A0sXP+qC4d4r0NMRZswUp0hOIfDfubllccdBtm7fF0AlXA=
+	t=1792073010; cv=none; b=fNwwqaKlsEHXuLfOxbTAAQVwZM9g8ojvJ5C97mEO8Af+YVNKnh+obbr43s5kSxdkeZXr9xaDk4+sbUz6xC8Neu6RiJ14XzyuEGFPcZJX53CRUK0o9zRqXu3kWVVAu3d2ZSMgE+fdrj2x9RmzPt3HvMosUb/ko8W2NKhlkSfaw3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792072892; c=relaxed/simple;
-	bh=PxPkj8P6sFCU6I5bcGPXvDOZAOCbk8lGJaiHBkYxc6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ctl9p2i3pvJnuaG0wPstkQXYZiLSLDotE9lPgY97FdANT1JybrQagFLtt0gUPbjRyGSzpQMvlYymiYJU2RIYjJNf7tlVVVQ35/xVkllQQJ+j7Dr+tYvPkH5sFAW/z+2G4J87sYbAbMebmW/Oi9jj5Dd4vVXVF3NtlRSt9ne22KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UT4XHyFt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792073010; c=relaxed/simple;
+	bh=kD35mh/XAMFfuSXQzIr95gIjKd15P5wZkU96wBaod5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KP3udnzWgIP+yivAQLmr+3scFcvQ/bm5uV8Mg05W7dzbN3knFWJiV0hkyhRMAqB7QwaHP306FxPRhhTSz7uDVl4hMmtpRWmoXKHleQLuzavXt/IsODRfdUZwaEjmCHBweuj/T3PLTIktAGWKWrgKtrYWwBsjhbLhBrNYfnYVjsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=QaFB6tfi; arc=none smtp.client-ip=91.218.175.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UT4XHyFt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9621F000C4;
-	Thu, 15 Oct 2026 14:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792072890;
-	bh=F5GxbzSSJJMmmoCWuuAA7PdJJ+sbINi80CfgoWLf4j0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UT4XHyFtHBGn1rRrXjn9SLpSN9MVXDIPuD1KNe/4nwRcGEzR+c7aUSdS6GUbecIjC
-	 3RATCfSZhqo1tNCBC6m3Xae6tuUpHgG0LxkW3ihof7Q6/CHgT4dKyqTKBKX/XpI5MO
-	 JSC7CDgVddkHyBX6/oEO78op/tAsukNv42hSo5OoCdriN/LHd6ZR6HEGUMdztiDySX
-	 kzmMwYaEVGCP/NmbEvih3tL+UxjlvkMdDuHnMu81CNA8cjSK5eWbgk9ErXz/rkpNca
-	 pp7PpaFKCTTZdsQWS4q7ShOTCailDTbgcaBG5x5DveBb69I+N02abVxnw0g0DOI8qT
-	 AkegIM4UEYbZg==
-From: SJ Park <sj@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="QaFB6tfi"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=kD35mh/XAMFfuSXQzIr95gIjKd15P5wZkU96wBaod5I=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792073005; v=1; x=1792677805;
+ b=QaFB6tfiwSNZZhIWwbp6KOMxA0Wt9Yf4pJcqH8DexJetNSXtvMgGzoOMNWU8B6csqQVW1Tqy
+ tpXWNtYwep7luQdwoU+FnXdLZ2vrNePPhBX+KY6iMHjg1yg+O9HxaZwvx/MHH9DT6Wni5XjiXlH
+ mmtt4a+tdjaIte/oEPuKQEgeB4NI+F6xk+xgwI1hOrwrTU1C4paNILY4QGNPgBXkjxr7thpVmud
+ gebUL7HmioLVkEr6Tw9IdnIpMslIx4nevPbNGex+4dfeb7+/l0uv0eO8tGmNDK+a14ieV3SIEVe
+ ij12+cwB2II5jxpS0qWEC68V04Vxl/EAPJqvspSNYy7PA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id ddd49aec7f51196c;
+	Thu, 15 Oct 2026 14:03:25 +0000
+X-Mizu-Trace-ID: ddd49aec7f51196c
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 15 Oct 2026 22:03:17 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Daniel Pereira <danielmaraboo@gmail.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/damon/reclaim: improve grammar and style
-Date: Thu, 15 Oct 2026 07:01:21 -0700
-Message-ID: <20261015140122.87808-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261015080623.808458-2-manuelebnerli@mailbox.org>
-References: 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Subject: Re: [PATCH 1/2] docs: doc-guide: add a guide for translators
+Message-ID: <atDdJS0HxZZ7O92B@wyuan.org>
+References: <20261013003702.5824-1-danielmaraboo@gmail.com>
+ <20261013003702.5824-2-danielmaraboo@gmail.com>
+ <atC5u4RPzVkVgTNm@wyuan.org>
+ <CAMAsx6eef_2Gcf_WhvTkFWz-fOjyaWjP+h3US0v1=w-W5RdHBQ@mail.gmail.com>
+ <atDVxZQUiJfsqEBr@wyuan.org>
+ <87o6cvrs27.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o6cvrs27.fsf@trenco.lwn.net>
 
-On Thu, 15 Oct 2026 10:06:23 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
++cc zh_CN maintainers
 
-> Fix tenses. Replace 'set as' with 'set to'.
-> Rewrite complex sentences.
+On 2026-10-15 07:50:40 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
 
-Let's put two sentences in one line, while breaking it for the 75 column limit.
+> Weijie Yuan <wy@wyuan.org> writes:
+> 
+> >> > For the Translator field, zh_TW just did a cleanup to totally remove
+> >> > them.
+> >> 
+> >> Makes sense. I dropped the ":Translator:" line from the example, and the
+> >> guide keeps the advice to leave contact information to MAINTAINERS.
+> >
+> > I personally think this is somehow a hard tradeoff, so my opinion is
+> > rather neutral, and I respect your decisions.
+> >
+> > On the one hand, I think keeping this field is indeed a way to give
+> > credit to the contributors, which can motivate more contributions and
+> > contributors. On the other hand, over the years, this field has seemed a
+> > bit cumbersome and inconsistent in both Chinese translations.
+> 
+> I personally don't see why translations are different from any other
+> contribution in this regard.  The credit lives in the commit logs; we
+> don't sprinkle our names throughout the source for every change we make.
 
-[...]
-> @@ -113,8 +113,8 @@ quota_sz
->  
->  Limit of size of memory for the reclamation in bytes.
->  
-> -DAMON_RECLAIM charges amount of memory which it tried to reclaim within a time
-> -window (quota_reset_interval_ms) and makes no more than this limit is tried.
-> +DAMON_RECLAIM recordes the amount of memory which it tried to reclaim within a time
+Yes, very reasonable.
 
-s/recordes/charges/  or s/recordes/records/ ?
+I haven't found out the reason why we had the "Translator" field at the
+very beginning. I guess it might be something like translating a book.
+Usually, the translator's name would be written below/near the original
+author's name on the title page. (?) However, the difference is that we
+have commit logs, so I totally agree.
 
-I'd prefer charges, but my English is definitely bad, so looking for your
-suggestion.
+Then perhaps we could also clean up zh_CN later.
 
-> +window (quota_reset_interval_ms) and stops when this memory limit is reached.
-
-I feel like readers might wonder what is stopped.  How about "stops trying
-reclaiming memory when ..." ?
-
->  This can be used for limiting consumption of CPU and IO.  If this value is
->  zero, the limit is disabled.
->  
-> @@ -125,19 +125,19 @@ quota_reset_interval_ms
->  
->  The time/size quota charge reset interval in milliseconds.
->  
-> -The charge reset interval for the quota of time (quota_ms) and size
-> -(quota_sz).  That is, DAMON_RECLAIM does not try reclamation for more than
-> +The quota reset interval of time is quota_ms and of size is
-> +quota_sz.  That is, DAMON_RECLAIM does not try reclamation for more than
-
-I think this change is just wrong?  quota_ms is not quota reset interval of
-time.  Which part of the original sentence was difficult to read?
-
->  quota_ms milliseconds or quota_sz bytes within quota_reset_interval_ms
->  milliseconds.
->  
-> -1 second by default.
-> +1000 (1 second) by default.
-
-Isn't this (1 second in milliseconds is 1,000) easy enough to infer for
-readers?
-
->  
->  quota_mem_pressure_us
->  ---------------------
->  
->  Desired level of memory pressure-stall time in microseconds.
->  
-> -While keeping the caps that set by other quotas, DAMON_RECLAIM automatically
-> +While keeping the caps set by other quotas, DAMON_RECLAIM automatically
-
-How about "caps that are set by ..." ?
-
->  increases and decreases the effective level of the quota aiming this level of
->  memory pressure is incurred.  System-wide ``some`` memory PSI in microseconds
->  per quota reset interval (``quota_reset_interval_ms``) is collected and
-
-
-Thanks,
-SJ
-
-[...]
+Thanks!
