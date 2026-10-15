@@ -1,108 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCDD37F30C;
-	Thu, 15 Oct 2026 18:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2739E3C1F22;
+	Thu, 15 Oct 2026 18:28:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792088652; cv=none; b=f4WIB0wxuvGqspn5zdG4l3KZfpQgfINw583/Ulos1zFS+XvJXtGeWc9Lq+kT6sBMK/myO0Q0urno94cGO1a+FSiSMf3yoCoQA8N//Mn70Ea6tnOxKpoknc0MZfv3TkAViAUqvl9NUWeCR1e+PEmtg3wu+uuWKd7t/c0UqR2UEkY=
+	t=1792088920; cv=none; b=EGpYDZ99XtITvvciiZRIKiGXxHGHKJJrHi3TEv90kQq9Zuj/qVc/JrYJ+GfJvOQr20Y7gL5QMY8ztU0d7o5gct7rXgf4zoksIhtvqTZgaKooJSYkibDhrPdefPACki4BzpyvV9xh7ej8mjFL5rWjCfKOhKYUy6Gnt3NVNSwJcyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792088652; c=relaxed/simple;
-	bh=+dSo6jOK+EVtMlh8EnYN97wOjoN/ktEPgeiVNsuVkD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BW/AptTAMcPyIWob/ZdJxkNPQD1Yd1ONtU403LiAacrX3hPofIj9+LKNFiBf9Ro5fMfF2rHwY/7xS5VOeOh4vF989Sd6r/K/P3PNRrel879xDZ0/C3o+wc4/PYqGTdupo2TyEWaHtDiP9uw87sI/p7Qti5oB5s6ABJeve6+skYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YI6LO+2E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792088920; c=relaxed/simple;
+	bh=9/W98+UPcz7+z2gbQuRuoeZt7XD0ZsfntBJYAWvwY4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uBTbL00GkCNZyZCvc9D7uL4lvlOfdkyU4ow+jHsZRlJIPv8XCSbjUOW7f/yq3whTBx/MFYmtg9kihceQLX6EQg9D5ZvBPTcWZXEpnYEcbI5NX2LoAL4+jQ71sa8hzgYVfzomzSo3DW9dwTjg4u6hCdy+9GTKKvmURbeCjV2jrpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwOmq2Fs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YI6LO+2E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A68B1F000C4;
-	Thu, 15 Oct 2026 18:24:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwOmq2Fs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC001F000C4;
+	Thu, 15 Oct 2026 18:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792088648;
-	bh=uA57A2DWEvF/qcxiPG3vFpzt2rPKzW0R+wSjr1T3+xk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YI6LO+2Ez6GeyOjH80TxYg6+SlCszBAeDhXDr6EW4UW4d940nyW/89Kk6N/ASctEh
-	 H1YUobP5V8tpKrNLlu99o7KCbWXAE45BHRBixSsWwE8ptHPeGzmH97JVc0x2cyYXQi
-	 t/KHa6MeND9tUcZkxhuYA3OCYRSdr36nvqjX+safhonE6GfjjGg2QkCqYivJEqQrXq
-	 uglJB9sch1HJuMbIuLAyIa1OK2TcfqrgbQWeJUm8V0oxnG33WOgAcVV2rpt6iJsixD
-	 bv7uvYxO9fzxtVme0/D6ZHyH8qlk2LuJnYaJyaCKQ4VVb0eV2YASDA5XpZZAFPeu5O
-	 l0Nf0B6a6lr/Q==
-Date: Thu, 15 Oct 2026 13:24:06 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sashiko AI <sashiko-bot@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Yanteng Si <si.yanteng@linux.dev>,
-	Frank Rowand <frowand.list@gmail.com>, devicetree@vger.kernel.org,
-	Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] of: overlay: remove unused of_overlay_remove_all()
-Message-ID: <179208864454.2159760.12479056769082812070.robh@kernel.org>
-References: <20261014-b4-of-overlay-remove-all-fix-v2-1-cf5ea2cc9dc3@nexthop.ai>
+	s=k20260515; t=1792088918;
+	bh=i2iJnFn6v25FyyvDfOpMCGiZQScbECC6kU6MH9ZcSYU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kwOmq2Fs4H9Ev2Bu5YczV98sxuuHuk6MJsK9/9ukp5JMI0LAIcWdfB5Q8w60kaDIx
+	 QLYirymjeH55T/GkOc6I1Ka/5TD+iAvyQTcZLPs+45Y1LC5PvXeC7nFYW8nduqQy4L
+	 otdE1GSxy03GTpsM9WwRI9V//ErwjVSMYSLNE/Oj8Q/BwWajTsYA4RTxFcSgfU9AW9
+	 JEWdJkKizJpeuT1DMi+RgLH2vzWHbcmzx4gitmqbe68yeeEMPBLLjqJU/Z0u8E1TVn
+	 faIM4LBWoF4jBOkKrgS9szutg4MDKuLY2uDN8GotrNh9Yi6XRmo2Z7axlZrxDZDZFF
+	 sFp2K1SQtMCIw==
+Message-ID: <68128016-661b-4b78-bac1-b7e23029d8de@kernel.org>
+Date: Thu, 15 Oct 2026 13:28:34 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014-b4-of-overlay-remove-all-fix-v2-1-cf5ea2cc9dc3@nexthop.ai>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/4] platform profile: Add firmware-neutral aggregate
+ sysfs interface
+Content-Language: en-US
+To: Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Armin Wolf <W_Armin@gmx.de>,
+ Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
+ Hans de Goede <hansg@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Jack Wu <jackbb_wu@compal.com>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ Kurt Borja <kuurtb@gmail.com>
+References: <20261014132500.3817549-1-daniel.lezcano@oss.qualcomm.com>
+ <20261014132500.3817549-4-daniel.lezcano@oss.qualcomm.com>
+ <c751e18d-57e9-4ce6-95dc-1bf53a7a4808@gmx.de>
+ <CAJZ5v0jQQsXP4v7dymuHZhy2oVjPwV9eXhqV4bGPUgMyGyUsUQ@mail.gmail.com>
+ <1cba0f2a-38cd-42b2-a773-9dca5d7519e5@app.fastmail.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <1cba0f2a-38cd-42b2-a773-9dca5d7519e5@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 10/15/26 13:04, Mark Pearson wrote:
+> 
+> On Thu, Oct 15, 2026, at 7:30 AM, Rafael J. Wysocki (Intel) wrote:
+>> On Wed, Oct 14, 2026 at 11:31 PM Armin Wolf <W_Armin@gmx.de> wrote:
+>>>
+>>> Am 14.10.26 um 15:24 schrieb Daniel Lezcano:
+>>>
+>>>> The per-provider class interface is firmware-independent, but system-
+>>>> wide profile selection is only exposed under /sys/firmware/acpi.
+>>>>
+>>>> Add /sys/kernel/platform_profile/{choices,profile}, sharing the existing
+>>>> aggregate callbacks and semantics with the legacy interface. Keep
+>>>> attributes hidden until a provider is registered and remove them after
+>>>> the last provider.
+>>>>
+>>>> Notify both aggregate frontends on profile changes. Also notify the
+>>>> provider class device on a direct profile write, matching its documented
+>>>> POLLPRI ABI. Restore aggregate visibility after a failed registration.
+>>>
+>>> IMHO the aggregate sysfs interface only exists for backwards-compatibility,
+>>> so i would be very happy if you could just make the associated code optional
+>>> and instead teach platform-profiles-daemon to use the individual class devices
+>>> instead.
+>>
+>> It is not just a matter of opinion AFAICS, the aggregate interface has
+>> been regarded as legacy for quite a while (see commit 778b94d7ac17
+>> "ACPI: platform_profile: Add support for hidden choices" for example)
+>> and it was retained exactly for backwards compatibility reasons IIRC.
+>>
+>> I'm with Armin on this.
+>>
+>> Thanks!
+> 
+> I don't think we can get rid of the legacy aggregate interface - which I think is what you and Armin are asking for? What does making it optional mean?
+> 
+> Reading through the patch series it seemed quite reasonable to me to move it out from under ACPI but still have the old interface working. What are the alternatives?
+> 
+> User space (and users) are still using the aggregate interface in my experience
+> 
+> Mark
 
-On Wed, 14 Oct 2026 15:59:36 -0700, Abdurrahman Hussain wrote:
-> of_overlay_remove_all() has no in-tree callers.
-> 
-> It is also subtly broken. It passes &ovcs->id to of_overlay_remove(),
-> which zeroes *ovcs_id once the changeset is reverted, before calling
-> free_overlay_changeset(). Through the aliased pointer that zeroes
-> ovcs->id itself, so free_overlay_changeset()'s "ovcs->id > 0" guard is
-> false and both idr_remove() and list_del() are skipped: the
-> overlay_changeset is kfree()d while still linked in ovcs_list and
-> registered in ovcs_idr.
-> 
-> Rather than fix a helper nobody calls, remove it, along with its
-> !CONFIG_OF_OVERLAY stub and the paragraph documenting it in
-> overlay-notes.rst and in the zh_CN translation.
-> 
-> ovcs_list itself stays: overlay_removal_is_ok() still walks it to check
-> that a changeset is topmost.
-> 
-> Reported-by: Sashiko AI <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/20260901014554.83A8D1F000E9@smtp.kernel.org
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Link: https://lore.kernel.org/all/20260928182658.GA185307-robh@kernel.org/
-> Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-> ---
-> Changes in v2:
-> - Drop the one-liner fix and just remove of_overlay_remove_all(), as
->   Rob suggested: it has no in-tree callers, so there is nothing to fix.
-> - Also drop the !CONFIG_OF_OVERLAY stub and the paragraph documenting
->   the function in overlay-notes.rst and in the zh_CN translation.
-> - No longer tagged for stable: a removal is not a backport candidate.
-> - Link to v1: https://patch.msgid.link/20260917-b4-of-overlay-remove-all-fix-v1-1-920441cecae2@nexthop.ai
-> 
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Alex Shi <alexs@kernel.org>
-> To: Yanteng Si <si.yanteng@linux.dev>
-> To: Dongliang Mu <dzm91@hust.edu.cn>
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: Shuah Khan <skhan@linuxfoundation.org>
-> To: Saravana Kannan <saravanak@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/devicetree/overlay-notes.rst         |  4 ----
->  .../zh_CN/devicetree/overlay-notes.rst             |  3 ---
->  drivers/of/overlay.c                               | 23 ----------------------
->  include/linux/of.h                                 |  6 ------
->  4 files changed, 36 deletions(-)
-> 
+If we want to get rid of the legacy interface eventually I think this is 
+how you can do it:
 
-Applied, thanks!
+1) Wrap it with a boolean Kconfig.  Default to enabled.
+2) Add some messaging in this Kconfig that it's being removed after the 
+LTS kernel from 2028.
+3) Emit a pr_notice_once() or similar that it's deprecated and will be 
+removed in the future.
+4) Modify all (known) userspace software to stop using it.
+5) Wait for userspace software to tag new releases.
+6) Change default to disabled.
+7) Wait some time.
+7) Next LTS is declared.
+7) Drop kconfig and legacy code.
 
