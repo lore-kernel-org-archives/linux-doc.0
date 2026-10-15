@@ -1,143 +1,107 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A958A50C299
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792057615; cv=pass; b=ARUyeAos405hJTRWPAB0xa58x3l10Yyb3Gjf3TYFb3hwJksq11hVzoOXnjYjKk89zlCupLLBc7niz+eesPla7DPR3yXkHEdj+Op+tn6UcbKeBGlF+FzkcZOsZOoolYff/JYFep0GYRcKgFptibvOav8ykaXjX6ziqCCEJEtrols=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792057615; c=relaxed/simple;
-	bh=ICrTBQhAcFMBle4ZO3IusjWW50Bxu9MMe+LD1licGqo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nat5hRqgHB4sxi8VzDIq7vjCsCrvzX/XmjjEE7C3/7Y4KpBjxf8H1msoIFUOVafnUyRiSC6jItxPxSbWaqdp4gAZMLBhFB//XK4KtExWGFHYUnA5Z+FFxd4FvNc7bY9mHcBfMWgrc5bqM+5L4bq1Y2CVZcox++r9G/IDW8Uzs8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=P8s3zewn; arc=pass smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4591503BF3;
+	Thu, 15 Oct 2026 09:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792058062; cv=none; b=mIZB8v/PYKlcxCLo7/vtlpubxdCle9M9qFbjAUNRYnKayDF2n6LGJBQ/6P80yh8kL2W9KqrxOqpRmscpdCkVltY2GYzsflN6H1oIxdCqV3TMLhGEkFeTu2gtpqDFvrBdGOQzi9XVt4SHhinQUg9AjDvjajHExW8TLO0E1ztQzsw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792058062; c=relaxed/simple;
+	bh=UL2cUuM9jWClRNs+NjvX3Sg7IF6yTgJ7aMrxlv2SVDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=seYZVO0xZUkMAcAdAxpLBHzbWhVg3ktj/grqJTnFsUgYC4apJlenCzElHvyENpJUra1vyCmrRntkpv851YDgsk/YTZXMkR+jdWJjRbvynTf/4bnopU2k/IRwJBSmOHj8BmZ0icMcZOJvuNHLAddKVDOJep7NhVmeNMmTdAThkLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=dNnLFCDd; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="P8s3zewn"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5be3ed646a5so334325e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 02:46:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792057612; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gABmkoVv+sKCKY/y+t+mRYclDM7+Cr39DUW2ZBBpfm6GQkAP/y5Dv4HOtl42C1X9Rv
-         HKq7t1Wyue3AhqUNo6lZk2F3nQWGNM0P2/prAh88p7drwrI5YGvH91TXa3vfeb7EOy4+
-         TlLwhm60tF+iplSe7RcYDD0q8ZfWYZp533lLxMK0WjaO7LRraUh5WSR4NXutiNiih0D2
-         V4tuX5dAqiTOLZFrlZCbN44siiAN5ZhF6y4+p39ypsoVng2A3zBQtql+Iw3oI1n9IgiR
-         ZV8zsKdOpASiWGcVpzZQZeZzkyNpgblkXzOpsycB6O2eMoUG1pDDnD2ioDiWq3Xbaqzc
-         16yA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KZ5hcI7sSvmMGW83CeAYEeOw/S5ozCHpu45O4BxP46g=;
-        fh=ec8KqmEFmvhTy/UReY+t3KZXge4Rc2XubTH1MbJGMpw=;
-        b=gSG7gEHkMDX2BxjXQTjlPdWeeNfXzcd/AbAGsJkB4QxB2BntPeoCAeHSSxhrrM89+p
-         FoPc00BdMQKofTDO+S0ZMLNcEDP2rvc8cj8soiXEBb5STCHhj3bA03/EWLvLJtngXqLw
-         kTO60qoWD+0NiRKHKrPaAzjK7zB72xkz3/SzUrF+0BbysaistXzTIWUnr87PaAzJ8jEe
-         sZagpZSyAzDz3hbnAhrRyeCU9jLbycCLRojSSEyzDTojNg+nI0lACS2+CbV0zsGPb9kc
-         l00Rz9Bdi7tMD4GxdyK3fW72WvAZWUpQeFzQmBNIOCnXBdDxmoXqaOwyocxLoop3Usgv
-         Ps9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792057612; x=1792662412; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KZ5hcI7sSvmMGW83CeAYEeOw/S5ozCHpu45O4BxP46g=;
-        b=P8s3zewnfLUipatq+GqLCGSvx1i+EJ7DV6ToSXJXwViWZ5+6/8kf8sUXAmHYA0WqF5
-         dOGILgLTSYULGBXFCZaNARNcqmTUgIZZkHroeS1typd4X1bbk13RmWviU1ePgAhFRBpg
-         EdOqKN4VwLFl0wNQbBTtDQbOicOqSBAJ8TWFBAVl6EG5RhHG6RWYWGhEtir9/DYxKXP1
-         MGKazALbGicfMHQyJGxpTs4luLDCo0j62vDl87NXtfOUhnO6JNVZZTX3AuEZpV+ejq18
-         vcbh4Rm5+MZ/+513KO5SxXN0Su6jVTq8fJCvIckEb6F48Z2/HeS3ATacZI9Dse5YgjvH
-         GCIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792057612; x=1792662412;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KZ5hcI7sSvmMGW83CeAYEeOw/S5ozCHpu45O4BxP46g=;
-        b=TU/Pt89gxuYo5Zgkx0vlLLK0Bd/cwHPRztjbsbGAsd+erjl0r0RPFZqQVAF9ws+t6f
-         CHcf4x2hqnhfG77noH73VpSaUac660dOfdc3yaRurYbiAxNHIx9k2VfFhUgKVJbp4+EE
-         LLsE7EHIdQiVQ14lYvzje+EHs2gIjEvGB/3/lG9auAmdSAxrKR6m8xNYvKfRNVXS77n3
-         sBTEPneKWu46pLyT9AlDFiucW9EFqatu4CulntJICfl3Em6Eu5Vwoi2cj+VXEneMSWXN
-         Be/iuPBtsTAs/sNS5K8UfAvQyKy7vpqEa5GjzzYw/I0gyjURkdLfs4eqxGFYQwLBru0N
-         MpQQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzT7aGrakzzmrAXVWiqxV5LevgiGeFoI5pP10XbCm4O5tF7KvI1xbBOms/nNYzX8yDTXeLrECo8pfE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLV21aSNlZvsFVYSIdW2kA1gPkIRpsTynPAD4V1FyfEWku19tYI
-	reKn87mJNRN3mwKspI271H2OsVPDTxzaJYmKBEwoEYG9vRsqkpGhO+/yrenHYA50qYDDtlKHrtC
-	k3ljef+dM0Avp8lHfmGSJkESnss4wgwpOPdkBEVf9b2/PHFoK3TTglxO/JA==
-X-Gm-Gg: AYBFou0ut0s4aJe48L8ef+PxH88ifxyfnjDw/A7FzlWsepcQIGEeFeNurUdhF7zGJP5
-	40+BdwEtsfSCAf5Y1euF0TUdPDaPDlM2iCLoAiZ3Y28gaH4ZzTxHVNzSJwWy3qY2YHDo6aq9gTf
-	znIndEV+A+7KZEtAfyjH9XOHgvCAevT7CvwY2pYuHFT9JmbW3NwPniW1Fb6tUPpiknjlsZ8x9Ju
-	pk79T7fbkrcZ25v1/Ehe6BEMlhU7g+Tou/FrRgHMNb0xS5cW7Df/BpYAkO9peK6Vbnc/qopr0Vz
-	ymGCd7PoyBg2akSEu8yIdP9GIPgaxyCmWNGYW95+vNDeBz3wkHKvl18l+1qA0McVPx3CBQmI/BQ
-	X0cJmPDL4WH9RF05iVIEgWjeg
-X-Received: by 2002:a05:6512:3b8a:b0:5bc:cbe1:8ac4 with SMTP id
- 2adb3069b0e04-5bcde35d84cmr7124226e87.4.1792057611692; Thu, 15 Oct 2026
- 02:46:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="dNnLFCDd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FTiAObyAESh3G5YxQwvY1f/k5aL+7XVnCiMQ+GLcbRk=; b=dNnLFCDdJxUFAnrNjRUh3QEdY7
+	2KbWJtVpT8MtlXfHPk4eNHJ0WK0IHo26G9EEcRYvjgB21eaBUz8/eg+lr/VKHV4xsxuwxhEgClC5v
+	Sin9Tp+SerlmItUku+HmrO1sk0egRZlwpHgJrGq3UC1n5SnbgDFZq4A1N8KVgXVsM3brOzcMfZX65
+	CScOmGCD+sEkN+ZwDz0wRROYnLq8o4GpMh9Y0DKHQHUA5UsZI7fu/fg0t6eIoPWVOVmD94lCBg03U
+	kdUaj7kaHdSWHDTbKli3+NrOc89nucwHa/GwQQCF3dTFnjvtB8NZXVsHY8IQ7+1710ULQyru7cUbR
+	cK+eNmHw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xHI94-0056ak-1F;
+	Thu, 15 Oct 2026 09:53:06 +0000
+Date: Thu, 15 Oct 2026 02:52:58 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Chia-Wei Wang <chiawei_wang@aspeedtech.com>, 
+	Oskar Senft <osk@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jani Nikula <jani.nikula@intel.com>, 
+	Vitaly Lubart <lubvital@gmail.com>, Hanjun Guo <guohanjun@huawei.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Alexander Usyskin <alexander.usyskin@intel.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	James Morse <james.morse@arm.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Dave Penkler <dpenkler@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Dan Williams <djbw@kernel.org>, Mukesh Rathor <mrathor@linux.microsoft.com>, 
+	Vladimir Oltean <vladimir.oltean@nxp.com>, Alexandra Winter <wintera@linux.ibm.com>, 
+	Julian Braha <julianbraha@gmail.com>, Karthikeyan KS <karthiproffesional@gmail.com>, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v2 1/4] uart-routing: Add common UART routing framework
+Message-ID: <atCibvmbCSTMTMYD@gmail.com>
+References: <20260905102901.126035-1-changhuang.liang@starfivetech.com>
+ <20260905102901.126035-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com>
-In-Reply-To: <20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Thu, 15 Oct 2026 11:46:40 +0200
-X-Gm-Features: AclHuK-V4MMe-c4XgIPiZC8N9eZ4vEYkszRRk_SEIQzq_Xg0na_JHo_eBAyU_j8
-Message-ID: <CAAofZF4m3Fus+SizDwAdDEMr9V8RSgybveMhNg=nbM3dZj=JNw@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: workqueue: replace deprecated system_wq with system_{percpu,dfl}_wq
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260905102901.126035-2-changhuang.liang@starfivetech.com>
+X-Debian-User: leitao
 
-On Wed, Oct 14, 2026 at 11:08=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> =
-wrote:
->
-> From: Danilo Krummrich <dakr@kernel.org>
->
-> system_wq is deprecated and triggers a runtime warning:
->
->         [    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7=
-_ enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
->
-> Replace system() with system_percpu() and system_dfl(), to match the
-> previous behavior of the deprecated system() and convert doc examples
-> and tests to system_dfl().
->
-> system_unbound_wq is deprecated in the same way, in favor of
-> system_dfl_wq. Since system_unbound() has no users, just remove it as
-> well.
->
-> Fixes: 64d8eae3f895 ("workqueue: Add warnings and fallback if system_{unb=
-ound}_wq is used")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Reviewed-by: Boqun Feng <boqun@kernel.org>
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+On Sat, Sep 05, 2026 at 03:28:58AM -0700, Changhuang Liang wrote:
+> +ssize_t uart_routing_show(struct device *dev, struct device_attribute *attr,
+> +                       char *buf)
+> +{
+> +     const struct uart_routing_selector *sel = to_uart_routing_selector(attr);
+> +     struct uart_routing *routing = uart_routing_from_dev(dev);
+> +     unsigned int val, pos;
+> +     int len, ret;
+> +
+> +     ret = regmap_read(routing->regmap, sel->reg, &val);
 
-Acked-by: Marco Crivellari <marco.crivellari@suse.com>
+It seems routing can be NULL here if the file is read while the device
+is being unbound, and uart_routing_store() has the same problem.
 
-Thanks!
---=20
+I hit this while testing v2 on arm64 (next-20261008 with KASAN), and the
+code is unchanged in v3.
 
-Marco Crivellari
+        d=/sys/bus/platform/devices/$DEV
+        drv=/sys/bus/platform/drivers/aspeed-uart-routing
+        while :; do cat $d/uart1; done >/dev/null 2>&1 &
+        while :; do echo $DEV > $drv/unbind; echo $DEV > $drv/bind; done
 
-SUSE Labs
+and then got:
+
+    KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+    Internal error: Oops: 0000000096000006 [#1]  SMP
+    pc : uart_routing_show+0x64/0x288 [uart_routing]
+    Call trace:
+     uart_routing_show+0x64/0x288 [uart_routing] (P)
+     dev_attr_show+0x64/0xc0
+     sysfs_kf_seq_show+0x21c/0x380
+     kernfs_seq_show+0x138/0x1c8
+     seq_read_iter+0x358/0xa30
+     kernfs_fop_read_iter+0x438/0x500
+     vfs_read+0x484/0x6f0
+
+--breno
