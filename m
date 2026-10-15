@@ -1,71 +1,71 @@
 Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC2B4AA56B
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ECD51AFFF
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:34:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064079; cv=none; b=nCyVBjWq2hm8cVRbLfP/oLSbXE/PzjvDbtzfiFLU6Zwzdm96R80R0B5Gh3o2RKqZLTk6CV3OYh+vifXb0msODvsxfmBrrue1gNbvFk/fNbdJu/zjWrCviNd+vIr+ccl1JULFdigKscm67QALMQcA0iCCQEjyirw0o2uNA+8yDxg=
+	t=1792064081; cv=none; b=i51uRpHPXt1vrMsHQrT4m3Yrc1e7UEnZwpgQ5mJMP09fEh0EBSreYls4wy+XPpKg8KDXvhCBFnYfINNDEI0m7Myewmo2/6k0fcrp7IsTLZ5YGiZ+w77SVCiAhkA2Uc0ki3vqoULZvLe2rIhkZ4YS8FR67tGlHYtZ7o9XLiNpcqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064079; c=relaxed/simple;
-	bh=32TjjRMMJ7+KKnLyboqWQUrK9OCoGxunEEm//YiqimY=;
+	s=arc-20240116; t=1792064081; c=relaxed/simple;
+	bh=ylMoyoNl3bPGg8sy6lcplFRL1WtqDJSqbqF1c4BB82k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VJbTnQfQQxJJsAFhXLOGcg+GUHmEGOiqoMdovgiUzZyhKl/rb0b+/FarRC+Ba0wR0sKZssq0+8sI1zP0HtktBjNwJXnrT/e2s4Z0PodB/VGuauDdMORrqXjlkip49Z+sM3gdrGD09V05BnHM5VesgA4iW1nl7io9q0fZkCAmwJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eW2+m7HW; arc=none smtp.client-ip=74.125.82.171
+	 MIME-Version:Content-Type; b=U2G09yO/2/LEflslzJRTRXW4l2nIqUCj+b2jFf0MfqJkWju2Djfidnu6c2d2jQ/o0Vx2osItMAilFx2Sb6UZ6LYXDy/yJz+bcT8qRHwKKJ8RCxfsrxaMPmhDbcF2F4xtzopowCJQftKpnGDEfGKkcgsI4cj2xpMzz8OHUmxJPKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=im7QwJ0z; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eW2+m7HW"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3862330eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:34:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="im7QwJ0z"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3550c917fd3so2678918eec.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792064071; x=1792668871; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792064074; x=1792668874; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ogfvfPGqo9zzMz+pM15R7UNKVXaOckp2kbIMPMixs0U=;
-        b=eW2+m7HWRtaFvnT2J4I0JnfM9e54URnOfWqril2Dn4M7UIqBRHguFDhCou4hMqzQIk
-         FG1u27VQ0YH69RDc15seACEApl1vDUhCWgeovnESEP/hrHRNSBU0VU2pMW1e+lmvUhZa
-         S8GI3ccAuOUk9ZSPqFMTcNybJK5kS4wUFeFxj75psaoVy2YBllcFvOr6CwrPe4zBeKoe
-         ZEeMqF/i/MU5ptfqGXW3mtygoYdEXp2j+P/90SjFmND+0fl6kZc4Fg1M2WpuVkmXdstG
-         h66wvLH+DIgivd5mbVuRXULOJM+M3FjLYNLQocWMXfVEeNeXiXUz/cS40NbY2P09byXc
-         lcHg==
+        bh=1ETz2NEGQjwg661u3Zmhj4060E03wnCO7VGx/FKNzKw=;
+        b=im7QwJ0zBn9H17XgbvkRMeJp7fWTZxoNMgMAvtL2kgPa/cn/xTw7kelArju1FBSotQ
+         I+wEWc4Ikt7tN+b5rUzMx+9nJPrmvJhob+5P8skmDU0Es0Im8kMrhyOTRFOC7wKY7YK4
+         AD1813kF1Tpc36+27n2aY66B8K8NozNassRv5icW2ksQDv3x8qzULLtQHheulbXi8hE+
+         0lj3WZxOApBkluD4qbAku5LcBVWJLBXkELVAkln9FkTmiAK/MxsoWHQyizga8k7ghmaX
+         G/mVkbhaciOmfevLF+7b3knNR2C2xZqzgBGfmcLZBSPANeN4+YVAM8SApqpMcAzWG4Rk
+         Q/BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792064071; x=1792668871;
+        d=1e100.net; s=20260707; t=1792064074; x=1792668874;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ogfvfPGqo9zzMz+pM15R7UNKVXaOckp2kbIMPMixs0U=;
-        b=YNZbr8BE/Eaew8VF3O9liXqjh6YIfFKIutaLtsgE4Tg8km6nPCrTa7H952ZYlewEJO
-         VdHJra1gM7WbEO3KbLJugZqTIi63RYCwMwau2Jx7br5ddIBAygdE63UCreEVMEtmKq0Q
-         FHJmDtSF+btjugtfyuD6xkC2Dv5/Ibpkw+USguTwcFFvCv/hjAz31k31NGJ9noFPJS79
-         mUnN9zG7s0CER1uf8nmAZCg1xp2J3YWuIDRKuYOSv0QV6YWPU/az7PzQ0iYCa0ldP9nL
-         qdRIaJe46QijTunVSFBXWj6Vt3o7qnQE5xG2zdqdrlvLdTuewu9fE3+2a+yVojOqcdEX
-         5i4w==
-X-Gm-Message-State: AFq9FYL4nZ6jmW3Y2k9rUXkKDoEFqqFgRYa2o5eKaMdBuMuGNaTYPQED
-	xMm5No7ljKsNIrmh7m/wJcPhKG4XfRBXi6VmsIsvPsNuImkuHBGmEQKOgZI1STr1
-X-Gm-Gg: AYBFou12tRmq+cCDKyhumVJKfREDq+KNjzAdZQWdlVhBNqRYq7uRlFCUdUbTinDROab
-	qBz/QWPnW9F/V376xzddNM9dC1f4p04NIgWLaK3zvsYqHM06zRxsZG6jsmCB5QUxKurHp8KJ+XA
-	Q6f+2h2tKnj6VdvOptaIe34o4UpdqZNueSw6M0kQjYNIEjFtQdAxAVOx0K1nesil/SOPLiZqITu
-	raMnh2dQ/wEWKwm/ZXz8fnUvzd5ExI3VtmxZlkmlJ+4bgPnV2F5JtnVDKWyOZtG3l9r50bKr7F5
-	wDHYipGeSxee/zt6d7yyhhTXDc5YEOdZsumWqeUkHTHIwtYs19XT4Cwe7+ug7eT96qIsWnhGBxC
-	iAbxqWPX1c7uFos2vLkoQXGnUBDT/iRY3nxIeKS838rJ9fd94OIffoOnrtjZ36YOEPwKRPwLKjd
-	stK7M3yZhygklMKBaNWAF+QdY6Ce3Hm2NpC0YboMThKrdVmhQMXcUWv8AEiv1W2KpsHVXDFeM7C
-	BVrn3EuFcUaeku+fSwv1GMDfKL7rxdRXBwW/b2VGOJUGvUApWwKPWPkxpdDtXgBcsT/X4WK8LNZ
-	G4lG1yUF5fdw85Po1I/fMcce
-X-Received: by 2002:a05:693c:895a:20b0:351:f762:a10c with SMTP id 5a478bee46e88-3537dc3ca81mr25473838eec.0.1792064070196;
-        Thu, 15 Oct 2026 04:34:30 -0700 (PDT)
+        bh=1ETz2NEGQjwg661u3Zmhj4060E03wnCO7VGx/FKNzKw=;
+        b=NnC5xw5MVGNkmRy3OBo8RvfanG2Cb4YwkFOScyH5EjttyrAatPLRz+L+4TSga7nPqh
+         3NYfH6vqmXx3aECeGtxg6oa0dEHBqSzVDbs4j+s7la3npcda1mYZcVI0bMyGGf4VZtzM
+         KjGFVK9hS+mf3k4puxVYu91UrYXhAsmC79rvsptUZLwv49ryyUorCI7VEBCYhY51l3Ol
+         +aALTTgrUYVVtBDbLBDcQzY7kmq5Z/uBjtKSg137al0ByTrgngawXx8RdHvJNs9285jK
+         jNE1BlhM/JGC2Z3NDVhsVV1mSZvEc/d9fo7e7Q7z0Y1YJOsUqj8WQBUg1D9MWVPzVJT4
+         U0jg==
+X-Gm-Message-State: AFq9FYK9PbLOe9wP+6aFgBO6veifgyS0jaYlnOgBdnwRjQR3aS8EVXI3
+	07dJxYIQGlgKnt2SbIZgfv9z/FrQaGV0Ws5ZDFrupvtSEimTErOg+UDw2H1rhMvz
+X-Gm-Gg: AYBFou0FRsIDJm3Z1rUappxF/p2YhZHO7sz1tLBPN9R/i2EfV4/CWu8T48//0oR5QSR
+	8d58Hj46GryTHRixLQSDRFIDlzqgGrr6brXBoM3cNNSOuqdItIY2jNjsEOjq/1RF45+hW3zqgfb
+	cC8YbJ+BMtJz/0jPpNi1jcNdz+XqxYL5cCig9ETvjFLnZok6I+vkGr1tW1zoawOhxMQ6XYYUITC
+	FFjl+sa/t0YdqzRk0BVi1vOl/upDMWPMyB9fIYAHaXaMI503c5M//2FZASJcVzmBx2Xdrg/Fx63
+	6aL7RExcZRAycz0u90ZX/8+BvonInIcq36/pN7VxQ92niOksN+5hbzOoQ9nfH9J8gvnv7SNlNal
+	O5x39yU8ilffB8Osiz6DRo9LwQZ975uiBKuNocEyXBY/pVtaU4f/W4OpJmcm1RBMGPezAGFhNnc
+	Qhg01vyBtoWgWWeu4CdZYHOr9X3nVciJBZCJnVFW0AHRxxJONK6DB14+cuMJcuUfOcU5R9uBkmy
+	iXA8rCPL2udiUqaJZBHGmDNvC4ZxwkRpg7+qcVFif6uoVxDgGLE8TXYZqAJODJyA1k3TFCr9wdI
+	oZzw2kSvWJocy0L/qpSpHqVW
+X-Received: by 2002:a05:7300:d18b:b0:351:1e2e:da4d with SMTP id 5a478bee46e88-3537e0bdfe0mr26560530eec.23.1792064073846;
+        Thu, 15 Oct 2026 04:34:33 -0700 (PDT)
 Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c841648sm69156913eec.3.2026.10.15.04.34.28
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c841648sm69156913eec.3.2026.10.15.04.34.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 04:34:29 -0700 (PDT)
+        Thu, 15 Oct 2026 04:34:32 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v2 07/10] docs/translations/pt_BR: admin-guide: add perf-security.rst
-Date: Thu, 15 Oct 2026 08:31:15 -0300
-Message-ID: <20261015113121.4550-8-danielmaraboo@gmail.com>
+Subject: [PATCH v2 08/10] docs/translations/pt_BR: admin-guide: add bootconfig.rst
+Date: Thu, 15 Oct 2026 08:31:16 -0300
+Message-ID: <20261015113121.4550-9-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261015113121.4550-1-danielmaraboo@gmail.com>
 References: <20261015113121.4550-1-danielmaraboo@gmail.com>
@@ -78,366 +78,471 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add translation of perf-security.rst to Portuguese and update
+Add translation of bootconfig.rst to Portuguese and update
 admin-guide/index.rst.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../translations/pt_BR/admin-guide/index.rst  |   5 +-
- .../pt_BR/admin-guide/perf-security.rst       | 328 ++++++++++++++++++
- 2 files changed, 329 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/perf-security.rst
+Changes in v2:
+- Replace the kernel-doc directives with plain references to
+  include/linux/bootconfig.h and lib/bootconfig.c, fixing the
+  "Duplicate C declaration" warnings in 'make htmldocs'.
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 19678a358..264b3c1c8 100644
---- a/Documentation/translations/pt_BR/admin-guide/index.rst
-+++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -50,10 +50,7 @@ Documentação relacionada à segurança:
- 
-    hw-vuln/index
-    LSM/index
--
--Todolist:
--
--*   perf-security
-+   perf-security
- 
- Inicializando o kernel
- ----------------------
-diff --git a/Documentation/translations/pt_BR/admin-guide/perf-security.rst b/Documentation/translations/pt_BR/admin-guide/perf-security.rst
+ .../pt_BR/admin-guide/bootconfig.rst          | 425 ++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |   6 +-
+ 2 files changed, 430 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/bootconfig.rst
+
+diff --git a/Documentation/translations/pt_BR/admin-guide/bootconfig.rst b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
 new file mode 100644
-index 000000000..7af45868a
+index 000000000..2914d91ea
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/perf-security.rst
-@@ -0,0 +1,328 @@
++++ b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
+@@ -0,0 +1,425 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Segurança das ferramentas e eventos Perf
-+========================================
++====================
++Configuração de boot
++====================
++
++:Autor: Masami Hiramatsu <mhiramat@kernel.org>
 +
 +Visão geral
++===========
++
++A configuração de boot expande a linha de comando atual do kernel para suportar
++dados adicionais de chave-valor ao inicializar o kernel de forma eficiente.
++Isso permite que os administradores passem um arquivo de configuração estruturado
++por chaves.
++
++Sintaxe do arquivo de configuração
++==================================
++
++A sintaxe de configuração de boot é uma estrutura simples de chave-valor. Cada
++chave consiste em palavras conectadas por pontos, e a chave e o valor são
++conectados por ``=``. A string de valor deve ser terminada pelos seguintes
++delimitadores descritos abaixo.
++
++Cada palavra-chave deve conter apenas letras do alfabeto, números, traço (``-``)
++ou sublinhado (``_``). E cada valor contém apenas caracteres imprimíveis ou espaços,
++exceto delimitadores como ponto e vírgula (``;``), quebra de linha (``\n``),
++vírgula (``,``), cerquilha (``#``) e chave de fechamento (``}``).
++
++Se o ``=`` for seguido por espaços em branco até um desses delimitadores, a chave
++será atribuída a um valor vazio.
++
++Para arrays, os valores do array são separados por vírgula (``,``), e comentários
++e quebras de linha com nova linha (``\n``) são permitidos entre os valores do array
++para facilitar a legibilidade. Assim, a primeira entrada do array deve estar na
++mesma linha da chave.::
++
++  CHAVE[.PALAVRA[...]] = VALOR[, VALOR2[...]][;]
++
++Diferente da sintaxe de linha de comando do kernel, espaços em branco (incluindo
++tabs) são ignorados ao redor da vírgula e do ``=``.
++
++Se você quiser usar esses delimitadores em um valor, pode usar aspas duplas
++(``"VALOR"``) ou aspas simples (``'VALOR'``) para colocá-lo entre aspas. Observe
++que você não pode escapar essas aspas.
++
++Pode haver uma chave que não tenha valor ou tenha um valor vazio. Essas chaves
++são usadas para verificar se a chave existe ou não (como um booleano).
++
++Sintaxe de chave-valor
++----------------------
++
++A sintaxe do arquivo de configuração de boot permite que o usuário mescle chaves
++com palavras parcialmente iguais usando chaves (braces). Por exemplo::
++
++ foo.bar.baz = value1
++ foo.bar.qux.quux = value2
++
++Elas também podem ser escritas assim::
++
++ foo.bar {
++    baz = value1
++    qux.quux = value2
++ }
++
++Ou de forma mais concisa, escrita da seguinte maneira::
++
++ foo.bar { baz = value1; qux.quux = value2 }
++
++Em ambos os estilos, as mesmas palavras-chave são mescladas automaticamente ao
++serem analisadas no momento da inicialização. Assim, você pode anexar árvores ou
++pares de chave-valor semelhantes.
++
++Valores com a mesma chave
++-------------------------
++
++É proibido que dois ou mais valores ou arrays compartilhem a mesma chave.
++Por exemplo::
++
++ foo = bar, baz
++ foo = qux  # !ERRO! não podemos redefinir a mesma chave
++
++Se você quiser atualizar o valor, deve usar o operador de substituição (override)
++``:=`` explicitamente. Por exemplo::
++
++ foo = bar, baz
++ foo := qux
++
++então, ``qux`` é atribuído à chave ``foo``. Isso é útil para sobrescrever o
++valor padrão adicionando bootconfigs personalizados (parciais) sem precisar
++analisar o bootconfig padrão.
++
++Se você quiser anexar o valor a uma chave existente como membro de um array,
++pode usar o operador ``+=``. Por exemplo::
++
++ foo = bar, baz
++ foo += qux
++
++Neste caso, a chave ``foo`` conterá ``bar``, ``baz`` e ``qux``.
++
++Além disso, subchaves e um valor podem coexistir sob uma chave pai.
++Por exemplo, a seguinte configuração é permitida::
++
++ foo = value1
++ foo.bar = value2
++ foo := value3 # Isto atualizará o valor de foo.
++
++Observe que, como não há sintaxe para colocar um valor puro diretamente sob uma
++chave estruturada, você deve defini-lo fora das chaves. Por exemplo::
++
++ foo {
++     bar = value1
++     bar {
++         baz = value2
++         qux = value3
++     }
++ }
++
++Além disso, a ordem do nó de valor sob uma chave é fixa. Se houver um valor e
++subchaves, o valor será sempre o primeiro nó filho da chave. Portanto, se o
++usuário especificar subchaves primeiro, por exemplo::
++
++ foo.bar = value1
++ foo = value2
++
++No programa (e em /proc/bootconfig), ele será exibido conforme abaixo::
++
++ foo = value2
++ foo.bar = value1
++
++Comentários
 +-----------
 +
-+O uso dos Contadores de Desempenho para Linux (perf_events) [1]_ , [2]_ , [3]_
-+pode impor um risco considerável de vazamento de dados confidenciais acessados
-+por processos monitorados. O vazamento de dados é possível tanto em cenários de
-+uso direto da API de chamadas de sistema perf_events [2]_ quanto por meio de
-+arquivos de dados gerados pelo utilitário em modo de usuário da ferramenta
-+Perf (Perf) [3]_ , [4]_ . O risco depende da natureza dos dados que as unidades
-+de monitoramento de desempenho (PMU - Performance Monitoring Units) do
-+perf_events [2]_ e o Perf coletam e expõem para análise de desempenho.
-+Os dados de sistema e de desempenho coletados podem ser divididos em várias
-+categorias:
++A sintaxe de configuração aceita comentários no estilo shell-script. Os comentários
++iniciados com cerquilha ("#") até a quebra de linha ("\n") serão ignorados.
 +
-+1. Dados de configuração de hardware e software do sistema, por exemplo: um
-+   modelo de CPU e sua configuração de cache, a quantidade de memória disponível
-+   e sua topologia, versões do kernel e do Perf utilizadas, configuração de
-+   monitoramento de desempenho incluindo tempo de experimento, configuração de
-+   eventos, parâmetros de linha de comando do Perf, etc.
++::
 +
-+2. Caminhos de módulos de usuário e de kernel e seus endereços de carregamento com
-+   tamanhos, nomes de processos e threads com seus PIDs e TIDs, registros de data
-+   e hora (timestamps) para eventos capturados de hardware e software.
++ # linha de comentário
++ foo = value # valor atribuído a foo.
++ bar = 1, # 1º elemento
++       2, # 2º elemento
++       3  # 3º elemento
 +
-+3. Conteúdo de contadores de software do kernel (por exemplo, para trocas de contexto,
-+   falhas de página, migrações de CPU), contadores arquiteturais de desempenho de
-+   hardware (PMC) [8]_ e registradores específicos de modelo (MSR) [9]_ que fornecem
-+   métricas de execução para várias partes monitoradas do sistema (por exemplo,
-+   controlador de memória (IMC), interconexão (QPI/UPI) ou contadores uncore
-+   periféricos (PCIe)) sem atribuição direta a qualquer estado de contexto de execução.
++Isto é analisado como abaixo::
 +
-+4. Conteúdo de registradores de contexto de execução arquiteturais (por exemplo,
-+   RIP, RSP, RBP em x86_64), endereços de memória e dados de espaço de usuário
-+   e de kernel de processos, conteúdo de vários MSRs arquiteturais que capturam
-+   dados desta categoria.
++ foo = value
++ bar = 1, 2, 3
 +
-+Dados que pertencem à quarta categoria podem conter potencialmente dados confidenciais
-+do processo. Se as PMUs em alguns modos de monitoramento capturam valores de registradores
-+de contexto de execução ou dados da memória do processo, o acesso a esses modos de
-+monitoramento precisa ser ordenado e protegido adequadamente. Portanto, as operações de
-+monitoramento de desempenho e observabilidade do perf_events são objeto de gerenciamento
-+de controle de acesso de segurança [5]_ .
++Observe que você NÃO pode colocar um comentário ou uma quebra de linha entre o
++valor e o delimitador (``,`` ou ``;``). Isso significa que a seguinte configuração
++possui um erro de sintaxe::
 +
-+Controle de acesso do perf_events
++ key = 1 # comentário
++       ,2
++
++
++/proc/bootconfig
++================
++
++/proc/bootconfig é uma interface de espaço de usuário da configuração de boot.
++Diferente de /proc/cmdline, este arquivo exibe a lista no estilo chave-valor.
++Cada par chave-valor é mostrado em cada linha no seguinte formato::
++
++ CHAVE[.PALAVRAS...] = "[VALOR]"[,"VALOR2"...]
++
++
++Inicializando o kernel com um Boot Config
++=========================================
++
++Existem duas opções para inicializar o kernel com bootconfig: anexar o bootconfig
++à imagem initrd ou embuti-lo no próprio kernel.
++
++Anexando um Boot Config ao Initrd
 +---------------------------------
 +
-+Para realizar verificações de segurança, a implementação do Linux divide os
-+processos em duas categorias [6]_ : a) processos privilegiados (cujo ID de
-+usuário efetivo é 0, chamados de superusuário ou root) e b) processos não
-+privilegiados (cujo UID efetivo é diferente de zero). Processos privilegiados
-+ignoram todas as verificações de permissão de segurança do kernel, de modo que
-+o monitoramento de desempenho do perf_events está totalmente disponível para
-+processos privilegiados sem restrições de acesso, escopo e recursos.
++Como o arquivo de configuração de boot é carregado com o initrd por padrão, ele
++será adicionado ao final do arquivo de imagem do initrd (initramfs) com
++preenchimento (padding), tamanho, checksum e palavra mágica de 12 bytes conforme
++abaixo.
 +
-+Processos não privilegiados estão sujeitos a uma verificação completa de permissão
-+de segurança com base nas credenciais do processo [5]_ (geralmente: UID efetivo,
-+GID efetivo e lista de grupos suplementares).
++[initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
 +
-+O Linux divide os privilégios tradicionalmente associados ao superusuário em
-+unidades distintas, conhecidas como capacidades (capabilities) [6]_ , que podem
-+ser habilitadas e desabilitadas independentemente por thread para processos e
-+arquivos de usuários não privilegiados.
++Os campos de tamanho (size) e checksum são valores de 32 bits sem sinal em little endian.
 +
-+Processos não privilegiados com a capacidade CAP_PERFMON habilitada são tratados
-+como processos privilegiados em relação às operações de monitoramento de
-+desempenho e observabilidade do perf_events, contornando, assim, as verificações
-+de permissões de *escopo* no kernel. A CAP_PERFMON implementa o princípio do menor
-+privilégio [13]_ (POSIX 1003.1e: 2.2.2.39) para operações de monitoramento de
-+desempenho e observabilidade no kernel e fornece uma abordagem segura para o
-+monitoramento de desempenho e observabilidade no sistema.
++Quando a configuração de boot é adicionada à imagem do initrd, o tamanho total
++do arquivo é alinhado a 4 bytes. Para preencher a lacuna, caracteres nulos
++(``\0``) serão adicionados. Assim, ``size`` é o comprimento do arquivo bootconfig
+++ bytes de preenchimento.
 +
-+Por motivos de compatibilidade retroativa, o acesso às operações de monitoramento
-+e observabilidade do perf_events também é aberto para processos privilegiados com
-+CAP_SYS_ADMIN, mas o uso de CAP_SYS_ADMIN para casos de uso de monitoramento e
-+observabilidade seguros é desencorajado em relação à capacidade CAP_PERFMON.
-+Se os registros de auditoria do sistema [14]_ para um processo usando a API de
-+chamada de sistema perf_events contiverem registros de negação para a obtenção de
-+ambas as capacidades CAP_PERFMON e CAP_SYS_ADMIN, fornecer ao processo apenas a
-+capacidade CAP_PERFMON é recomendado como a abordagem segura preferida para resolver
-+o log duplo de negação de acesso relacionado ao uso de monitoramento de desempenho
-+e observabilidade.
++O kernel Linux decodifica a última parte da imagem do initrd na memória para
++obter os dados de configuração de boot.
++Por causa desse método "piggyback", não há necessidade de alterar ou atualizar o
++carregador de inicialização (boot loader) e a própria imagem do kernel, desde que
++o boot loader passe o tamanho correto do arquivo initrd. Se, por qualquer motivo,
++o boot loader passar um tamanho maior, o kernel não conseguirá encontrar os
++dados do bootconfig.
 +
-+Antes do Linux v5.9, processos não privilegiados que usavam a chamada de sistema
-+perf_events também estavam sujeitos à verificação do modo de acesso ptrace
-+PTRACE_MODE_READ_REALCREDS [7]_ , cujo resultado determina se o monitoramento é
-+permitido. Portanto, processos não privilegiados com a capacidade CAP_SYS_PTRACE
-+recebiam permissão efetiva para passar na verificação. A partir do Linux v5.9, a
-+capacidade CAP_SYS_PTRACE não é necessária e a CAP_PERFMON é suficiente para que
-+processos executem operações de monitoramento de desempenho e observabilidade.
++Para realizar esta operação, o kernel Linux fornece o comando ``bootconfig`` sob
++tools/bootconfig, que permite ao administrador aplicar ou excluir o arquivo de
++configuração na/da imagem do initrd. Você pode compilá-lo com o seguinte comando::
 +
-+Outras capacidades concedidas a processos não privilegiados podem efetivamente
-+permitir a captura de dados adicionais necessários para análises posteriores de
-+desempenho de processos monitorados ou do sistema. Por exemplo, a capacidade
-+CAP_SYSLOG permite a leitura de endereços de memória do espaço de kernel a partir
-+do arquivo /proc/kallsyms.
++ # make -C tools/bootconfig
 +
-+Grupos de usuários privilegiados do Perf
-+----------------------------------------
++Para adicionar seu arquivo de configuração de boot à imagem do initrd, execute o
++bootconfig conforme abaixo (dados antigos são removidos automaticamente se existirem)::
 +
-+Mecanismos de capacidades, arquivos privilegiados desprovidos de capacidade
-+(capability-dumb) [6]_, ACLs de sistema de arquivos [10]_ e o utilitário
-+sudo [15]_ podem ser usados para criar grupos dedicados de usuários privilegiados
-+do Perf com permissão para executar monitoramento de desempenho e observabilidade
-+sem limites. As etapas a seguir podem ser seguidas para criar esses grupos de
-+usuários privilegiados do Perf.
++ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
 +
-+1. Crie o grupo perf_users de usuários privilegiados do Perf, atribua o grupo
-+   perf_users ao executável da ferramenta Perf e restrinja o acesso ao executável
-+   para outros usuários no sistema que não estejam no grupo perf_users:
++Para remover a configuração da imagem, você pode usar a opção -d como abaixo::
 +
-+::
++ # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
 +
-+   # groupadd perf_users
-+   # ls -alhF
-+   -rwxr-xr-x  2 root root  11M Oct 19 15:12 perf
-+   # chgrp perf_users perf
-+   # ls -alhF
-+   -rwxr-xr-x  2 root perf_users  11M Oct 19 15:12 perf
-+   # chmod o-rwx perf
-+   # ls -alhF
-+   -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
++Em seguida, adicione "bootconfig" na linha de comando normal do kernel para instruir
++o kernel a procurar pelo bootconfig no final do arquivo initrd.
++Como alternativa, compile seu kernel com a opção Kconfig ``CONFIG_BOOT_CONFIG_FORCE``
++selecionada.
 +
-+2. Atribua as capacidades necessárias ao arquivo executável da ferramenta Perf e
-+   habilite os membros do grupo perf_users com privilégios de monitoramento e
-+   observabilidade [6]_ :
++Embutindo um Boot Config no kernel
++----------------------------------
 +
-+::
++Se você não puder usar initrd, também poderá embutir o arquivo bootconfig no
++kernel através de opções do Kconfig. Nesse caso, você precisa recompilar o
++kernel com as seguintes configurações::
 +
-+   # setcap "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
-+   # setcap -v "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" perf
-+   perf: OK
-+   # getcap perf
-+   perf = cap_sys_ptrace,cap_syslog,cap_perfmon+ep
++ CONFIG_BOOT_CONFIG_EMBED=y
++ CONFIG_BOOT_CONFIG_EMBED_FILE="/CAMINHO/PARA/ARQUIVO/BOOTCONFIG"
 +
-+Se a libcap [16]_ instalada ainda não oferecer suporte a "cap_perfmon", use "38",
-+ou seja:
++``CONFIG_BOOT_CONFIG_EMBED_FILE`` requer um caminho absoluto ou um caminho
++relativo para o arquivo bootconfig a partir da árvore de código-fonte ou da
++árvore de objetos. O kernel o embutirá como o bootconfig padrão.
 +
-+::
++Assim como ao anexar o bootconfig ao initrd, você precisa da opção ``bootconfig``
++na linha de comando do kernel para habilitar o bootconfig embutido ou,
++alternativamente, compilar seu kernel com a opção Kconfig
++``CONFIG_BOOT_CONFIG_FORCE`` selecionada.
 +
-+   # setcap "38,cap_ipc_lock,cap_sys_ptrace,cap_syslog=ep" perf
++Observe que, mesmo se você definir esta opção, poderá sobrescrever o bootconfig
++embutido por outro bootconfig anexado ao initrd.
 +
-+Observe que você pode precisar incluir 'cap_ipc_lock' na combinação para
-+ferramentas como 'perf top'; alternativamente, use 'perf top -m N' para reduzir a
-+memória que ele usa para o buffer de anel (ring buffer) do perf; consulte a seção
-+de alocação de memória abaixo.
++Renderizando chaves kernel.* embutidas em tempo de compilação
++-------------------------------------------------------------
 +
-+O uso de uma libcap sem suporte a CAP_PERFMON fará com que cap_get_flag(caps, 38,
-+CAP_EFFECTIVE, &val) falhe, o que fará com que o evento padrão seja 'cycles:u',
-+portanto, como solução alternativa, solicite explicitamente o evento 'cycles', ou seja:
++Por padrão, o bootconfig embutido (``CONFIG_BOOT_CONFIG_EMBED=y``) é analisado
++em tempo de execução, após ``parse_early_param()`` já ter sido executado. Os
++tratadores de parâmetros iniciais (early parameters) (``mem=``, ``earlycon=``,
++``loglevel=``, ...) não conseguem, portanto, ver valores fornecidos através da
++subárvore ``kernel`` embutida.
 +
-+::
++A opção ``CONFIG_CMDLINE_FROM_BOOTCONFIG`` resolve isso renderizando a subárvore
++``kernel`` de ``CONFIG_BOOT_CONFIG_EMBED_FILE`` em uma string de cmdline plana em
++tempo de compilação do kernel (via ``tools/bootconfig -C``) e prefixando-a a
++``boot_command_line`` durante a configuração arquitetural inicial, de modo que
++as chaves fiquem visíveis para ``parse_early_param()``.
 +
-+  # perf top -e cycles
++A opção requer ``CONFIG_BOOT_CONFIG_EMBED=y``, um ``CONFIG_BOOT_CONFIG_EMBED_FILE``
++não vazio, ``CONFIG_CMDLINE`` vazio e uma arquitetura que selecione
++``CONFIG_ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG``. Atualmente apenas x86 a seleciona;
++em outras arquiteturas, o bootconfig embutido ainda funciona, mas apenas por meio
++do analisador tardio em tempo de execução.
 +
-+Para obter amostras do kernel e do usuário com um binário do perf com apenas CAP_PERFMON.
++A mesma ativação explícita de ``bootconfig`` se aplica como em outros lugares:
++as chaves renderizadas são prefixadas apenas quando ``bootconfig`` (em qualquer
++forma) aparece na linha de comando do kernel, ou quando ``CONFIG_BOOT_CONFIG_FORCE``
++está definido, cujo padrão é ``y`` quando ``CONFIG_BOOT_CONFIG_EMBED`` está definido.
 +
-+Como resultado, os membros do grupo perf_users são capazes de conduzir
-+monitoramento de desempenho e observabilidade utilizando a funcionalidade do
-+executável da ferramenta Perf configurado que, ao ser executado, passa nas
-+verificações de escopo do subsistema perf_events.
++Por exemplo, dado::
 +
-+Caso não seja possível atribuir as capacidades necessárias ao executável da
-+ferramenta Perf (por exemplo, o sistema de arquivos está montado com a opção
-+nosuid ou atributos estendidos não são suportados pelo sistema de arquivos), a
-+criação de um ambiente privilegiado por capacidades, naturalmente um shell, é
-+possível. O shell fornece aos processos herdados a CAP_PERFMON e outras
-+capacidades necessárias para que operações de monitoramento de desempenho e
-+observabilidade estejam disponíveis no ambiente sem limites. O acesso ao ambiente
-+pode ser aberto via utilitário sudo apenas para membros do grupo perf_users. Para
-+criar tal ambiente:
++ kernel {
++   loglevel = 7
++   mem = 4G
++ }
 +
-+1. Crie um script shell que utilize o utilitário capsh [16]_ para atribuir a
-+   CAP_PERFMON e outras capacidades necessárias no conjunto de capacidades
-+   ambiente (ambient capability set) do processo do shell, travar os bits de
-+   segurança do processo após habilitar os bits SECBIT_NO_SETUID_FIXUP,
-+   SECBIT_NOROOT e SECBIT_NO_CAP_AMBIENT_RAISE e, em seguida, alterar a
-+   identidade do processo para o chamador do script via sudo, que deve ser
-+   essencialmente um membro do grupo perf_users:
++o kernel inicializa como se ``loglevel=7 mem=4G`` tivesse sido prefixado à linha
++de comando do carregador de inicialização, com os valores visíveis para os
++tratadores analisados precocemente. Valores separados por vírgula ainda são
++expandidos em múltiplas entradas de linha de comando de acordo com a convenção
++de array do bootconfig -- o ``kernel.earlycon = "uart8250,io,0x3f8"`` embutido
++deve estar entre aspas para resultar em uma única entrada ``earlycon=``, exatamente
++como no analisador em tempo de execução.
 +
-+::
++Se a string renderizada não couber em ``COMMAND_LINE_SIZE`` juntamente com a
++linha de comando existente, o prefixo será ignorado e um erro será registrado,
++de modo que um bootconfig embutido superdimensionado não possa travar a inicialização.
 +
-+   # ls -alh /usr/local/bin/perf.shell
-+   -rwxr-xr-x. 1 root root 83 Oct 13 23:57 /usr/local/bin/perf.shell
-+   # cat /usr/local/bin/perf.shell
-+   exec /usr/sbin/capsh --iab=^cap_perfmon --secbits=239 --user=$SUDO_USER -- -l
++Interação com outras fontes de linha de comando e bootconfig
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+2. Estenda a política do sudo no arquivo /etc/sudoers com uma regra para o grupo
-+   perf_users:
++Com ``CONFIG_CMDLINE_FROM_BOOTCONFIG=y``, a subárvore ``kernel`` renderizada
++comporta-se como uma linha de comando em tempo de compilação (semelhante a
++``CONFIG_CMDLINE``), e não como uma fonte de bootconfig. Ela é prefixada a
++``boot_command_line`` em ``setup_arch()``, antes de ``parse_early_param()`` e
++muito antes de o analisador em tempo de execução inspecionar um initrd. As opções
++podem chegar ao kernel a partir de até quatro locais:
 +
-+::
++- Linha de comando do carregador de inicialização (bootloader): os argumentos
++  que o carregador de inicialização passa. A linha de comando embutida é
++  prefixada na frente deles, portanto, para parâmetros onde o último vence
++  (last-one-wins), uma opção do bootloader ainda sobrescreve o valor embutido.
++  Visível em /proc/cmdline.
++- Linha de comando embutida (esta opção): a subárvore ``kernel`` renderizada,
++  prefixada precocemente para ser vista por ``parse_early_param()``. Visível em
++  /proc/cmdline.
++- Bootconfig do initrd: analisado tardiamente em ``setup_boot_config()``; suas
++  chaves ``kernel`` são colocadas antes de ``boot_command_line``, ou seja, antes
++  da linha de comando embutida, portanto, a regra do último vencedor favorece os
++  valores embutidos. Como uma fonte de bootconfig, um bootconfig do initrd ainda
++  substitui o bootconfig embutido. Visível em /proc/cmdline e /proc/bootconfig.
++- Bootconfig embutido (tempo de execução): analisado tardiamente, apenas quando
++  nenhum bootconfig do initrd estiver presente. Visível em /proc/cmdline e
++  /proc/bootconfig.
 +
-+   # grep perf_users /etc/sudoers
-+   %perf_users    ALL=/usr/local/bin/perf.shell
++Assim, com esta opção, os valores ``kernel.*`` embutidos têm precedência sobre os
++valores ``kernel.*`` de um bootconfig do initrd: para parâmetros iniciais, o initrd
++ainda não foi analisado e, para parâmetros comuns, as chaves embutidas chegam mais
++tarde na linha de comando. Se você precisa que um bootconfig do initrd sobrescreva
++as chaves ``kernel.*`` embutidas, deixe esta opção desativada e confie no analisador
++em tempo de execução.
 +
-+3. Verifique se os membros do grupo perf_users têm acesso ao shell privilegiado
-+   e têm a CAP_PERFMON e outras capacidades necessárias habilitadas nos conjuntos
-+   de capacidades permitidas (permitted), efetivas (effective) e ambiente (ambient)
-+   de um processo herdado:
++A string renderizada faz parte da linha de comando, portanto aparece em
++/proc/cmdline. Ela deliberadamente não é mostrada em /proc/bootconfig: esse
++arquivo continua relatando a árvore de bootconfig analisada -- o bootconfig do
++initrd se presente, caso contrário o bootconfig embutido -- independentemente de a
++renderização da linha de comando em tempo de compilação estar ativada.
 +
-+::
++Parâmetros do kernel via Boot Config
++====================================
 +
-+  $ id
-+  uid=1003(capsh_test) gid=1004(capsh_test) groups=1004(capsh_test),1000(perf_users) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-+  $ sudo perf.shell
-+  [sudo] password for capsh_test:
-+  $ grep Cap /proc/self/status
-+  CapInh:        0000004000000000
-+  CapPrm:        0000004000000000
-+  CapEff:        0000004000000000
-+  CapBnd:        000000ffffffffff
-+  CapAmb:        0000004000000000
-+  $ capsh --decode=0000004000000000
-+  0x0000004000000000=cap_perfmon
++Além da linha de comando do kernel, a configuração de boot pode ser usada para
++passar os parâmetros do kernel. Todos os pares chave-valor sob a chave ``kernel``
++serão passados diretamente para a linha de comando do kernel. Além disso, os pares
++chave-valor sob ``init`` serão passados para o processo init via linha de comando.
++Os parâmetros são concatenados com a string de linha de comando do kernel fornecida
++pelo usuário na seguinte ordem, de modo que o parâmetro de linha de comando possa
++sobrescrever os parâmetros de bootconfig (isso depende de como o subsistema lida com
++parâmetros, mas em geral, o parâmetro anterior será sobrescrito pelo posterior)::
 +
-+Como resultado, os membros do grupo perf_users têm acesso ao ambiente
-+privilegiado onde podem usar ferramentas que empregam APIs de monitoramento
-+de desempenho governadas pela capacidade Linux CAP_PERFMON.
++ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
 +
-+Este gerenciamento específico de controle de acesso está disponível apenas para
-+processos em execução pelo superusuário ou root com as capacidades CAP_SETPCAP,
-+CAP_SETFCAP [6]_ .
++Aqui está um exemplo de arquivo bootconfig para parâmetros de kernel/init::
 +
-+Usuários não privilegiados
-+--------------------------
++ kernel {
++   root = 01234567-89ab-cdef-0123-456789abcd
++ }
++ init {
++  splash
++ }
 +
-+O controle de *escopo* e *acesso* do perf_events para processos não
-+privilegiados é governado pela configuração perf_event_paranoid [2]_ :
++Isto será copiado na string de linha de comando do kernel da seguinte forma::
 +
-+-1:
-+     Não impõe restrições de *escopo* e *acesso* ao uso do monitoramento de
-+     desempenho do perf_events. O limite de travamento perf_event_mlock_kb [2]_
-+     por usuário e por CPU é ignorado ao alocar buffers de memória para armazenar
-+     dados de desempenho. Este é o modo menos seguro, pois o *escopo* monitorado
-+     permitido é maximizado e nenhum limite específico do perf_events é imposto
-+     aos *recursos* alocados para o monitoramento de desempenho.
++ root="01234567-89ab-cdef-0123-456789abcd" -- splash
 +
-+>=0:
-+     O *escopo* inclui o monitoramento de desempenho por processo e em todo o
-+     sistema, mas exclui o monitoramento de tracepoints brutos e tracepoints de
-+     funções do ftrace. Eventos de CPU e do sistema ocorridos durante a execução
-+     no espaço de usuário ou no espaço de kernel podem ser monitorados e capturados
-+     para análise posterior. O limite de travamento perf_event_mlock_kb por usuário
-+     e por CPU é imposto, mas ignorado para processos não privilegiados com a
-+     capacidade CAP_IPC_LOCK [6]_ .
++Se o usuário fornecer alguma outra linha de comando como::
 +
-+>=1:
-+     O *escopo* inclui apenas o monitoramento de desempenho por processo e exclui
-+     o monitoramento de desempenho em todo o sistema. Eventos de CPU e do sistema
-+     ocorridos durante a execução no espaço de usuário ou no espaço de kernel podem
-+     ser monitorados e capturados para análise posterior. O limite de travamento
-+     perf_event_mlock_kb por usuário e por CPU é imposto, mas ignorado para
-+     processos não privilegiados com a capacidade CAP_IPC_LOCK.
++ ro bootconfig -- quiet
 +
-+>=2:
-+     O *escopo* inclui apenas o monitoramento de desempenho por processo. Eventos
-+     de CPU e do sistema ocorridos durante a execução apenas no espaço de usuário
-+     podem ser monitorados e capturados para análise posterior. O limite de
-+     travamento perf_event_mlock_kb por usuário e por CPU é imposto, mas ignorado
-+     para processos não privilegiados com a capacidade CAP_IPC_LOCK.
++A linha de comando final do kernel será a seguinte::
 +
-+Controle de recursos
-+--------------------
++ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
 +
-+Descritores de arquivo abertos
-+++++++++++++++++++++++++++++++
 +
-+A API de chamada de sistema perf_events [2]_ aloca descritores de arquivo para cada
-+evento de PMU configurado. Descritores de arquivos abertos são um recurso contabilizado
-+por processo e governado pelo limite RLIMIT_NOFILE [11]_ (ulimit -n), que geralmente é
-+derivado do processo do shell de login. Ao configurar a coleta do Perf para uma longa
-+lista de eventos em um sistema de servidor grande, esse limite pode ser facilmente
-+atingido, impedindo a configuração de monitoramento necessária. O limite RLIMIT_NOFILE
-+pode ser aumentado por usuário modificando o conteúdo do arquivo limits.conf [12]_ .
-+Normalmente, uma sessão de amostragem do Perf (perf record) requer uma quantidade de
-+descritores de arquivos perf_event abertos que não seja inferior ao número de eventos
-+monitorados multiplicado pelo número de CPUs monitoradas.
++Limitações do arquivo de configuração
++=====================================
 +
-+Alocação de memória
-++++++++++++++++++++
++Atualmente, o tamanho máximo da configuração é de 32 KB e o total de palavras-chave
++(não entradas de chave-valor) deve ser inferior a 1024 nós.
++Nota: este não é o número de entradas, mas de nós; uma entrada deve consumir mais
++de 2 nós (uma palavra-chave e um valor). Portanto, teoricamente, haverá até 512
++pares chave-valor. Se as chaves contiverem 3 palavras em média, poderá conter 256
++pares chave-valor. Na maioria dos casos, o número de itens de configuração estará
++abaixo de 100 entradas e será menor que 8 KB, o que seria suficiente.
++Se o número de nós exceder 1024, o analisador retornará um erro mesmo se o tamanho
++do arquivo for menor que 32 KB. (Observe que esse tamanho máximo não inclui os
++caracteres nulos de preenchimento.)
++De qualquer forma, como o comando bootconfig verifica isso ao anexar uma configuração
++de boot à imagem initrd, o usuário pode perceber antes da inicialização.
 +
-+A quantidade de memória disponível para processos de usuário para captura de dados
-+de monitoramento de desempenho é governada pela configuração perf_event_mlock_kb [2]_ .
-+Esta configuração de recurso específica do perf_event define os limites gerais de
-+memória por CPU permitidos para mapeamento pelos processos de usuário para executar
-+o monitoramento de desempenho. A configuração essencialmente estende o limite
-+RLIMIT_MEMLOCK [11]_ , mas apenas para regiões de memória mapeadas especificamente
-+para a captura de eventos de desempenho monitorados e dados relacionados.
 +
-+Por exemplo, se uma máquina tiver oito núcleos e o limite perf_event_mlock_kb estiver
-+definido como 516 KiB, então um processo de usuário receberá 516 KiB * 8 = 4128 KiB
-+de memória acima do limite RLIMIT_MEMLOCK (ulimit -l) para buffers mmap do perf_event.
-+Em particular, isso significa que, se o usuário desejar iniciar dois ou mais processos
-+de monitoramento de desempenho, ele deverá distribuir manualmente os 4128 KiB disponíveis
-+entre os processos de monitoramento, por exemplo, usando a opção do modo de gravação
-+--mmap-pages do Perf. Caso contrário, o primeiro processo de monitoramento de desempenho
-+iniciado alocará todos os 4128 KiB disponíveis e os outros processos falharão em prosseguir
-+devido à falta de memória.
++APIs do Bootconfig
++==================
 +
-+As restrições de recursos RLIMIT_MEMLOCK e perf_event_mlock_kb são ignoradas para
-+processos com a capacidade CAP_IPC_LOCK. Assim, usuários privilegiados de
-+perf_events/Perf podem receber memória acima das restrições para fins de monitoramento
-+de desempenho de perf_events/Perf fornecendo a capacidade CAP_IPC_LOCK ao executável
-+do Perf.
++O usuário pode consultar ou iterar sobre pares chave-valor; também é possível
++encontrar um nó de chave raiz (prefixo) e encontrar chaves-valores sob esse nó.
 +
-+Bibliografia
-+------------
++Se você tiver uma string de chave, poderá consultar o valor diretamente com a chave
++usando xbc_find_value(). Se quiser saber quais chaves existem no bootconfig, pode
++usar xbc_for_each_key_value() para iterar sobre os pares chave-valor.
++Observe que você precisa usar xbc_array_for_each_value() para acessar o valor de
++cada array, por exemplo::
 +
-+.. [1] `<https://lwn.net/Articles/337493/>`_
-+.. [2] `<http://man7.org/linux/man-pages/man2/perf_event_open.2.html>`_
-+.. [3] `<http://web.eece.maine.edu/~vweaver/projects/perf_events/>`_
-+.. [4] `<https://perf.wiki.kernel.org/index.php/Main_Page>`_
-+.. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
-+.. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
-+.. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
-+.. [8] `<https://en.wikipedia.org/wiki/Hardware_performance_counter>`_
-+.. [9] `<https://en.wikipedia.org/wiki/Model-specific_register>`_
-+.. [10] `<http://man7.org/linux/man-pages/man5/acl.5.html>`_
-+.. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
-+.. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
-+.. [13] `<https://sites.google.com/site/fullycapable>`_
-+.. [14] `<http://man7.org/linux/man-pages/man8/auditd.8.html>`_
-+.. [15] `<https://man7.org/linux/man-pages/man8/sudo.8.html>`_
-+.. [16] `<https://git.kernel.org/pub/scm/libs/libcap/libcap.git/>`_
++ vnode = NULL;
++ xbc_find_value("key.word", &vnode);
++ if (vnode && xbc_node_is_array(vnode))
++    xbc_array_for_each_value(vnode, value) {
++      printk("%s ", value);
++    }
++
++Se você quiser focar em chaves que tenham uma string de prefixo, pode usar
++xbc_find_node() para encontrar um nó pela string de prefixo e iterar pelas chaves
++sob o nó de prefixo com xbc_node_for_each_key_value().
++
++Mas o uso mais típico é obter o valor nomeado sob o prefixo ou obter o array
++nomeado sob o prefixo, como abaixo::
++
++ root = xbc_find_node("key.prefix");
++ value = xbc_node_find_value(root, "option", &vnode);
++ ...
++ xbc_node_for_each_array_value(root, "array-option", value, anode) {
++    ...
++ }
++
++Isso acessa um valor de "key.prefix.option" e um array de "key.prefix.array-option".
++
++O bloqueio (locking) não é necessário, pois após a inicialização, a configuração
++torna-se somente leitura. Todos os dados e chaves devem ser copiados se você
++precisar modificá-los.
++
++
++Funções e estruturas
++====================
++
++Para a documentação kernel-doc das definições, consulte:
++
++ - include/linux/bootconfig.h
++ - lib/bootconfig.c
+diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
+index 264b3c1c8..96a54595f 100644
+--- a/Documentation/translations/pt_BR/admin-guide/index.rst
++++ b/Documentation/translations/pt_BR/admin-guide/index.rst
+@@ -55,9 +55,13 @@ Documentação relacionada à segurança:
+ Inicializando o kernel
+ ----------------------
+ 
++.. toctree::
++   :maxdepth: 1
++
++   bootconfig
++
+ Todolist:
+ 
+-*   bootconfig
+ *   kernel-parameters
+ *   efi-stub
+ *   initrd
 -- 
 2.47.3
 
