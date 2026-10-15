@@ -1,63 +1,63 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDB31A682C
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 16:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE51E3BFE44
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 16:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792082774; cv=none; b=i3LdpNtDicgbnXpKLCy0LtwT6sKDaqLORK7I5vvQPXiVqQqvwDKIZwQHeS8f30MR+CSqxT46nk+gbfrkvQfhhX1pUdYgoR6VU67Fpbeti1/XaCTlV5FDlJcAX42eZXSvlueKJ03e2NTWqY8dTz1RbRjci/nrldfieHMSEekhUmE=
+	t=1792082789; cv=none; b=S8B46F6d8ynqNZUYx9QMBQOjwS13YTMT1UOrHlKew/f0w1lwjIxlENUEIdROYI32HAoAD6996IBnBXFrEWL4wwYSRLc2xrKwq/0vyf+7Lyc4thGfxwd43LClMgHvdr7GFD0PMbLngvoib9gH54u0zQalgMYhNGKUrP5iCz+JxBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792082774; c=relaxed/simple;
-	bh=4CG7Q72yRGz5EsH68xLRNRJVsKA1jOWn98uDNF0DgEg=;
+	s=arc-20240116; t=1792082789; c=relaxed/simple;
+	bh=e8AVypFcDpfdqFKE+7LYw0E3D2q4xn1i6UyrrzKEcsA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NmfaA0i3MNC6O6qSrfzDxC0bUTnDjwKkxnKu4AWLeYcZtUpW7EGwdKWHIJWycINDpqHgCd8Mml8V5KMojglLdRqIASMxNKhn9VaZoGTuLyqGmYFVUkUTrBuQXZvkr9DjU0hNQelb7KFE7Uxr5a6DST0kYLi1z2WOCsE24m084Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZmQVP98D; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=LIqi4uKQSTuQZpc5CDqZgIxj2FBs2EGjcVkfG4Hsv88R0xgk3EUb0LUH2b+UNfnUkQWDmawdm+PYYthXiF2Nzk2sBgakEyWQ9tNdtW3AHxUXhNevYXIhDJ6Uk05DfXATJs6bul/hI1sw5ikNXRAX0zz6xynNY5LQtF+rHnLlZKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E54S7zeW; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZmQVP98D"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48dc1508191so647427f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:46:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E54S7zeW"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48afbd35952so587276f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 09:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792082761; x=1792687561; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792082776; x=1792687576; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zrXV9sC8WQ9ZwV/XmjLuOdbNwXh/8tikKfM8d34Nfhk=;
-        b=ZmQVP98DfOHlSUbELiu6x61tUnZxQv/cjYguiIw4ZotPnbGjGiy72CtJv2UVKI7krx
-         bvzdZZOhNYZxKHAALvo10l+68tbRcEtoVN60fQMVaKrRho9eYMFsfe/eULzvyA9SJQav
-         H6zBB/m0u9F2YczUVDpIbv6WUSfBssAinUhluoUtbZG6JRdNEBR7FMWeOHYOc3QID0Z2
-         j6lu3x8SAvadnPPNcBlCTG3zefhfFCm0RpCTxtSvEc+Nzbv19Px/wy6VPfdSuiiMO8jT
-         hCKinGWDCe5EopYbqvmeW4PGMqXdmE0gyV5JaqewaWg98r4gWqczXJADQJkdz1Pc5ep8
-         8ovQ==
+        bh=CzeUoH4s3R1vjJ6KljgBZ8kapLArpobGIe88CwWkAgM=;
+        b=E54S7zeWXEg84RvSAk3CujpXeA544CpbGqTgiwxcTgnRV9JJg4bArgQX42ZifVvQMK
+         2zbaP0mFzKRXb/F7Ut82Rbc8LUNdmIsHVdezcnnjy4u1vjwvv24iMuCTrgjwV0f79wYK
+         i7Lv+R2AJKMYuM4/Chp3Qmt2AuozyzxaRtjt9wY/VasmOUgEeilrYyfZ4IRCm1oXTf5L
+         dAjdm1pdoZP7/EpCkgWD/h/a0N4SvwbiNvr6u9apsiTYOx+UIMjoC16lWu6IzqWsQTST
+         RL66+6V6a0OkHeCF+mwTX0dWOvhse03Bpm/YfVU2Zhm1sczTA/paFixs6F1pHy8v641i
+         +rQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792082761; x=1792687561;
+        d=1e100.net; s=20260707; t=1792082776; x=1792687576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zrXV9sC8WQ9ZwV/XmjLuOdbNwXh/8tikKfM8d34Nfhk=;
-        b=THwUPgPJ+HBdiCEROVk0apNJAT01qYq0qlQ4Q7qRku5xFi895CpJM3oml+6uqbcZ4N
-         QfmBNi64/nuTcDGWlhCK/PyHD4pcdxy/f5XzdG28Lq93/X6QPG/QHgP3KZMRZG47CUhp
-         Og+bpn8W3X3+z0SEHbfGvYrj8y+BTuZaejEgJgWaUY99lcs9uJmFApIxedY4PbEqaJI9
-         ImPw6Ha6/tS9xd9aBZEPmKV6kAa/H8xHYTE6aHMDZ76/YUZ5mM0FsO0wqg9iDZAB/Uj7
-         ArmkYfbpZN7/LrVjEIyAyrQ4btcxdOFGCjp1/5CouIqhB5npPCz2cOI1u2jTFqibyw3b
-         nxHQ==
-X-Gm-Message-State: AFq9FYI5TMlcOvKnf89MbHlgOaZOd1AbRPFkXktmlT60ZhqS7ROBTIUe
-	qUc/dx7c8z1jhTFQshXTyGcidbVAOUwUWLJnDqtBUWZdH6rHunD/RRmr
-X-Gm-Gg: AYBFou2qgC6okkxJY6sk4P1owVUF2hfGW23w+F8Zyt9v2hseRDMQsxph+hmJlH3UN//
-	5KtuNuHXj0kw+/2eVCpw2mngax/ydijILGLdiDvPfyUGJfKHEnVdvfbUEhDyL02YCsxqOzs47ah
-	rtQpAjNGZ6xcxHlw4veeMjQXCKJQSt9C2MMTNYM2BrOQR4SMCRBYAN5EkRx73ZOaTFARHSPzo+v
-	kyvMaLm9jfo3rLZ6wjEXkYG3S4hAz9Gajh2dx1BpgcDFg7jmTvNPUNq/7OKsqAZDUPo9K68vK3t
-	Fi33m+Cdz/XRSegxlpHsYZc9Y8xqnnMwaZDtQ1ONQhdwTKlvs6SwIULRbvBWYWKaNPVEurGwjvE
-	IN2JfQ4jXIVem+jArxrACIRPmib3gKsb+NbgM6ps9c8r3nSjNvksWiK4tcKFxo5idl/bIavcpi2
-	PESQHTTJ94so2wbRkMQM1WKMDK6oOPQ1j+V9qBcU3DyZTORXkLv+od/lsLAGPGrg4YsI9ILOhpg
-	3w0HTgzbhYL4BfmCKUA
-X-Received: by 2002:a05:6000:24c2:b0:48d:f102:aba5 with SMTP id ffacd0b85a97d-48df102acfbmr9440964f8f.0.1792082760502;
-        Thu, 15 Oct 2026 09:46:00 -0700 (PDT)
+        bh=CzeUoH4s3R1vjJ6KljgBZ8kapLArpobGIe88CwWkAgM=;
+        b=MGZGQvf32uimgdp+QS47vTFmaNy/5T2vBmJJzQDBspuQ3oBE6WlzTexdJHN5ITMBPA
+         CFIPK387GBTEfEXGJBa3/yJrpIAA26hSJsPfnp2dxnII5z7UBKA1Mp8QT59yknZO1ip1
+         ngNZfAXZsw5JluiSyr07O39WHfplRWD7MSGPBXl7bu7XnpNSLUj1GgIXe7xTiPL8fnO/
+         W8cXqVWfYrraek4M16+ulwZXhYUBtls3Fe5xb9ShSs6gYoohQ0MbuJrhVVzcTFdvxtLs
+         sLUfIKbheV9pZhaXWyWbK5OQIbHVpfLhexHOVHfWq/kl89qmrx+EbphRQ5KQVDw9hGdn
+         S9fg==
+X-Gm-Message-State: AFq9FYJ1jvspCtZn5n7HHG1RhgI5bOzpwlY3X5O4DMFWet5yam1R2ytx
+	LbuEU9dMUGbM29P9rrwUxh+1i3zky01Li2dA4MQeEtlOSP97r9S2xXQ+
+X-Gm-Gg: AYBFou0OWdGK+JOn7y7tfIS8URJZObQiVZpLVYnFou1x7MFIseCPZaTPZ6J2ds/OhpP
+	rAKcSoFtMDv5wBpE7M5GsgHcf7tdGY2cWT7JoOu3274v0vyicjFFUmSQj0N4MUDN4M21NnHrzdJ
+	z24BH3MsShVvenwE3Ay0I7kaRANAQEd/AnVrgTraTGAIvYxfD92Vys+y9YM97I+gDhlVlvIrjST
+	WYlyLM0/eYEbj3ea5Gi6IPU1zynbg7G3IY1ZLQxC+3zhhIf8DI9Dlua3rBfb/wutd3HB3tyUhi7
+	jThQCaMAjKMto1SXb2FTrWLU4IIoGfAigBHx4y0mgUk3op1p52V6V/wZSxcWe2oNDxBnYlaCVm+
+	nppEgMjGOznZoXY+j6eYhhAqqgDvgbWLW2ogYYmiiHYJBCnDTdHlaf7BkHOJKGzC9yTltFwzliC
+	IJ9BI+XTT2F1Sn/pPj5upWx4g3wv4sOhxqIcFjVvVWvS8uhSQQLny5g31VTZBLzo981idLRKxDV
+	czDttGTPAfeabRACfGElNadXpCQdas=
+X-Received: by 2002:adf:e00a:0:10b0:487:8ba:8b4c with SMTP id ffacd0b85a97d-48dba79fbf3mr27881997f8f.1.1792082775368;
+        Thu, 15 Oct 2026 09:46:15 -0700 (PDT)
 Received: from Nuel20.localdomain ([105.118.74.201])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc85b1sm19110712f8f.54.2026.10.15.09.45.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc85b1sm19110712f8f.54.2026.10.15.09.46.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 09:46:00 -0700 (PDT)
+        Thu, 15 Oct 2026 09:46:14 -0700 (PDT)
 From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
@@ -72,12 +72,13 @@ Cc: linux-doc@vger.kernel.org,
 	rmk+kernel@armlinux.org.uk,
 	hemanth.selam@gmail.com,
 	emmaonana18@gmail.com
-Subject: [PATCH v3 0/2] docs: kdoc: fix TRACE_EVENT_FN and DOMAIN_NS parsing
-Date: Thu, 15 Oct 2026 17:44:46 +0100
-Message-ID: <20261015164524.14066-1-emmaonana18@gmail.com>
+Subject: [PATCH v3 1/2] docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser
+Date: Thu, 15 Oct 2026 17:44:47 +0100
+Message-ID: <20261015164524.14066-2-emmaonana18@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <8733u7t8xq.fsf@trenco.lwn.net>
+In-Reply-To: <20261015164524.14066-1-emmaonana18@gmail.com>
 References: <8733u7t8xq.fsf@trenco.lwn.net>
+ <20261015164524.14066-1-emmaonana18@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,26 +87,106 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes two kernel-doc parsing failures where the
-prototype was misidentified and parameters leaked into garbage:
+kernel-doc fails to parse tracepoint declarations that use
+TRACE_EVENT_FN(), e.g. gpu_power_status:
 
-- TRACE_EVENT_FN() family tracepoints (e.g. gpu_power_status)
-- DOMAIN_NS() wrapped function names (e.g. iova_to_phys)
+  drivers/gpu/drm/panthor/panthor_trace.h:28 ... Unrecognized
+  tracepoint format ...
+  ... expecting prototype for gpu_power_status(). Prototype was for
+  TRACE_EVENT_FN() instead
 
-Rebased onto docs-next and stacked as a series per Jon's feedback
-to avoid both tests landing at the same spot in
-test_kdoc_parser.py.
+tracepoint_munge() only matches TRACE_EVENT(), so the macro name is
+kept as the prototype and the TP_PROTO() arguments leak into the
+parameter list as garbage.
 
+Match TRACE_EVENT_FN(), TRACE_EVENT_FN_COND(),
+TRACE_EVENT_CONDITION() and TRACE_EVENT_SYSCALL() the same way as
+TRACE_EVENT() and list them explicitly at the call site in
+process_proto_function().
 
-Omokefe Emmanuel Onanaroghene (2):
-  docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser
-  docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes
+Add a regression test for the gpu_power_status declaration.
 
- tools/lib/python/kdoc/kdoc_parser.py  | 18 +++++++++-
- tools/lib/python/kdoc/xforms_lists.py |  6 ++++
- tools/unittests/test_kdoc_parser.py   | 50 +++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+), 1 deletion(-)
+Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+---
+ tools/lib/python/kdoc/kdoc_parser.py | 18 +++++++++++++++++-
+ tools/unittests/test_kdoc_parser.py  | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
 
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index 80d4245acd17..a65bda3e81b9 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -1545,6 +1545,22 @@ class KernelDoc:
+         if r.search(proto):
+             tracepointname = r.group(1)
+ 
++        r = KernRe(r'TRACE_EVENT_FN\((.*?),')
++        if r.search(proto):
++            tracepointname = r.group(1)
++
++        r = KernRe(r'TRACE_EVENT_FN_COND\((.*?),')
++        if r.search(proto):
++            tracepointname = r.group(1)
++
++        r = KernRe(r'TRACE_EVENT_CONDITION\((.*?),')
++        if r.search(proto):
++            tracepointname = r.group(1)
++
++        r = KernRe(r'TRACE_EVENT_SYSCALL\((.*?),')
++        if r.search(proto):
++            tracepointname = r.group(1)
++
+         r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
+         if r.search(proto):
+             tracepointname = r.group(1)
+@@ -1604,7 +1620,7 @@ class KernelDoc:
+                 self.entry.prototype = self.syscall_munge(ln,
+                                                           self.entry.prototype)
+             else:
+-                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
++                r = KernRe(r'TRACE_EVENT|TRACE_EVENT_FN|TRACE_EVENT_FN_COND|TRACE_EVENT_CONDITION|TRACE_EVENT_SYSCALL|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
+                 if r.search(self.entry.prototype):
+                     self.entry.prototype = self.tracepoint_munge(ln,
+                                                                  self.entry.prototype)
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index 4baa78ca02b3..04dafae412e4 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -444,6 +444,34 @@ class TestContextLockStruct(GenerateKdocItem):
+         self.assertEqual(entries[0].name, "debugfs_cancellation")
+         self.assertEqual(entries[0].warnings, [])
+ 
++class TestTraceEventFn(GenerateKdocItem):
++    def test_trace_event_fn_declaration(self):
++        source = """
++            /**
++             * gpu_power_status - called when hardware turns on or off
++             * @dev: pointer to device
++             * @shader_bitmap: bitmap
++             */
++            TRACE_EVENT_FN(gpu_power_status,
++                TP_PROTO(const struct device *dev, u64 shader_bitmap),
++                TP_ARGS(dev, shader_bitmap),
++                TP_STRUCT__entry(__field(u64, shader_bitmap)),
++                TP_fast_assign(__entry->shader_bitmap = shader_bitmap;),
++                TP_printk("%s", __get_str(dev_name)),
++                my_register, my_unregister
++            );
++        """
++
++        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
++        patcher = patch('builtins.open', new_callable=mock_open,
++                        read_data=dedent(source))
++        with patcher:
++            _, entries = kernel_doc.parse_kdoc()
++
++        self.assertEqual(len(entries), 1)
++        self.assertEqual(entries[0].name, "trace_gpu_power_status")
++        self.assertEqual(entries[0].warnings, [])
++
+ #
+ # Class and logic to create dynamic tests from YAML
+ #
 -- 
 2.43.0
 
