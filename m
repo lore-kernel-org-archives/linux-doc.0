@@ -1,142 +1,295 @@
-Received: from mail-wm2-f9.google.com (mail-wm2-f9.google.com [74.125.225.137])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BC9560AAA
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 17:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C553D8123
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 17:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792084712; cv=none; b=VYHE5t/kVbNdbttUFx1Ux48U7841/3pwMjDFer+ab3XOflvUNF86Rfd7g2Y3d/JQ0DOwDJXJWsKfeCd9CH+ourwOE9Ybpycl5N1C3hRGwhZqiE8Lop5ruT09VQGMcbpxwvCKsYklC0kZOqoWpBpbRurgYwgSV1Il6fxk/CwofvQ=
+	t=1792086667; cv=none; b=STtE+8U6wLfCsg1nxF4UAzQWdN1mFhTgm8Smg2xF6Mo1idiIhMnGIYbO4u32/ffY1si/+ogyU+c8gx4lu4vCMoQwVLiTWphFA6kBWRm15+E3gycV1R9G3QsnNl63PNn9OCE5wywyD3+Q1dRL22hdOjcfy7DtFzLkjNN7H33qpec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792084712; c=relaxed/simple;
-	bh=I5Ur39HsqT6WeE3BnrxrMW7SOD/vom+1FTMZtowBYM8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PWAA+7TRmY+kR2k6VVxKtHh7f8hLEuuQpt+uW2bBzrTtVoNgZzMAUpI4WUrkIib9a+licp0tRvuTpw/THWAqlnvHY6HxQWzfHoVdNwbS1p3NHipXx1bxOdO7aT7uDEZdueJTlTj6ydB0IiDEJ9Rj623F4z2HPuBJXGY3KoX2X2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XS05rIck; arc=none smtp.client-ip=74.125.225.137
+	s=arc-20240116; t=1792086667; c=relaxed/simple;
+	bh=fMqpqs1u8LBcIFnBHT9B79hdJta82WzO1YoJAMI+N7M=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=GMZdV7i8YDjSR1oO4xK4YbhqT+GIf32JFBgMFpQpsfLlHcdqjWaojnSsCxLZ+ZEKp6DWI4xRfK04g+BHsvrrQNdNmjRCGbSKcSedzW7JwkvbIKlZ/5a4BUxD1pdopC7tD8YfgYCnlI7rd+Bb6zsLzcAtrqC9TA1o6uHFLg2u5mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qQ+6hQ+N; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XS05rIck"
-Received: by mail-wm2-f9.google.com with SMTP id 5b1f17b1804b1-49e6eb11e9cso9148025e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 10:18:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qQ+6hQ+N"
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5ea9a2c3936so6101e0c.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 10:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792084700; x=1792689500; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CUpuLMD6iQzc1bzNNihjv73gE3OjQ/PX0ITyufY5za8=;
-        b=XS05rIckQK5HnuIE2EK4slHSDEgo/FSPmnqCMi6M9Rtys7FIEuoy88Dp6VHULu2pWt
-         1yw4F5X/VwlJL4vuMATyiLlL92mB6lnrBNMvF3RZRMOTQYxpp4W1JsGx6/zmox6oD2dK
-         9eSRGTjasU+VN+e4+rGSCMLC0qQmGU6KAk+Cg8VMOh6EBI5tSfYzl0H/m66HsEGHW0/Q
-         NDixzerrQ68hlCkVmXZzq2vYDoO2lKkYQ47TrqJMRAM4sGvuQ0nFG5YHyygAhwYH/ex3
-         Dv7EMgHcJ0D5jsL7JJ///Hd3z4VgCdMuLD7FkM0/gbpm1rlw1u8j4X+D883DmrxO2Yyv
-         3b/A==
+        d=gmail.com; s=20251104; t=1792086656; x=1792691456; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=i8+0UTRzQqbINpMv2vf6iArLkPondg+9Xp/w3H+DSS4=;
+        b=qQ+6hQ+N+JP7CD/z5gwoOG894MOrFmKyno0zks6XEUmtUmmiWCRUo+ZVCKlMqR/OBl
+         dZPn7qvtV6AA+8z4/JsCn/ptrnKc+fqHxF1O3DbfWFjBKILH+YPh3r7zb75tjLC7rH86
+         Wqrq4oVCk6xlX7iEeF7ZEzreqtWiYq91hvmrTg3kS6pe8a9TqGS5AUV2m6aXGBSOEukk
+         jb07MC2IijNzuFQW6SV5Nq9LAZKechRgaOfitBq1KtXHhllWWZpj8OOsyfQmPTdXTlq4
+         edlBAn+7FmE4yLtXrdn4AJqAyb9W95hhjaPhnXPIqRVJ/i5EsRytRDs7r2ygNg2zJW5L
+         YYMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792084700; x=1792689500;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CUpuLMD6iQzc1bzNNihjv73gE3OjQ/PX0ITyufY5za8=;
-        b=lsMdC3+vKbLspndm6CLsTIgsdu+xAUF1r1agrf49bSPiKBs5PpC489PVIFRoiMGNju
-         L5HomrhQZRUz1l79GH9xLWY/J1+UfMvznPqK+N/AiwL3qKIFDsM9TVmxlV2K2L/qxWXU
-         HxaPUcTDvV9Bwoqbi2yb7EhWHGT/RQWDGqvnmhxOc3dxzwo/TMXeKLppnZas1HwXbjJ+
-         1t/drt15IQlIXaEutnWrYyOqMi8I8b1kl0P41B/4JpKojda/qWlxob/4NNRm8air2reH
-         HN07n10bndDnH3kFgB4vfRCRogkUieMrQ/3xRD6zCbbcHtgcrdrUXK6xO+fRpBSWv8lW
-         FB6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBySFGb2O89f2ltS0wrDEY/dE9IO3aP+HE7onpNz1YuZSZh8KVY0j5x5E99JQubgD+/absm5z2L6VCY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYILDc0aQEcvkqy1wKQOJ7TiLDBWTRMHfC+jBp4cS1s6pMqZpOje
-	MkbisNDQ87ivgRoLpYuVZYWFGNUCMoSlY5AWwV+OJLQ+ogiUXJR9bHFR
-X-Gm-Gg: AYBFou3xb97GXnM+EbTSx3+IWg863o2ngPcQMUFILigKw0wP6nV7j2arWfLbp4Iyw/w
-	1f6kE6+OzZL2NPrqbr7PITdE4K4zr43YxJHbwjelzhys06c2jW03ELcGE0Iciw+PyGkmKMjXZbb
-	RcSTjYSoezrqBf/48xnC/VHhIF50enubXUj6FRbSUsfo5HJ1/6BakYpDwIxC7IIBnedODTJIn/d
-	bfGG5VR13hyiQcGs7qmBPQ8XfG2RV4jHa9x2fBjTO5aPIKFPETHAryBzzdEhDmQE4CjgYzBM6S/
-	DIExA1FelToVbOASI3Ku9az8iDgT3DJZ4YX7WzDsBgV8QSNk6lNJXnYULAYqot51ecxOpjcpbXj
-	dkYXIarHjknsXZbJVBWDJpz9qX6kfHLs1cfLXixkqnjBLFRkyAbH1WwqF48A2re9RWaigsTVwAn
-	eBmopg/gTKs1afn/BbPOrbkt6gMZJdm3p5TZzGF+oJrWZqygTd8tOzNqsC3UPvrZs=
-X-Received: by 2002:a05:600c:8708:b0:4a1:7b05:3a6d with SMTP id 5b1f17b1804b1-4a18e49881amr387691725e9.8.1792084700107;
-        Thu, 15 Oct 2026 10:18:20 -0700 (PDT)
-Received: from CachyOS ([176.88.124.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bf63567esm123820185e9.10.2026.10.15.10.18.18
+        d=1e100.net; s=20260707; t=1792086656; x=1792691456;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=i8+0UTRzQqbINpMv2vf6iArLkPondg+9Xp/w3H+DSS4=;
+        b=TG/j8uOCpbVvKocvZPEbz/eh4/1+cgMOGjRjevaYah+fXUiEgs04WfJ7TiRSQ3kp+Q
+         5RyAE1fOBex0HOpC/PYBcjZ847ZDQLznRE9Q+Qs1G62R9JEdoZvGDtad6z1uMtdHau5s
+         /ZJgAEf14GnhKDZueYwlxr2fQLOI6McybH6bOuMEhAvf2+DKyae+YGWOxqe6CbkvV98t
+         B5T9F/xsU7BMC4qVHmEev31v9SrSpxr2DI62Xci4PFw0Moh+KtCV3SYNbm4r/pm1LF3z
+         HSR/qg0ksMiFHM5Bu2YJy9x6RdU/zebVV1kl4Uz6nhhKbH09inkKQUctCO97Gm0wSh+D
+         jlVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxwiwk/02Objl3n/FH0mPJ0oNF1Jg0c1TrYvkH2aUUZ43xiFXhjgeYl1RlEQGRuk2GkEpEmjKNUS0A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI/CPvVZp9TinGqvU6WVMuB9ilnX9VKyobbZIW7kl21wQldTEwi
+	3RxQ4EABWuNuM+ILdnuIFmcbOlNOIX76tCyVVipumPQUYY0FU28WnhbZ
+X-Gm-Gg: AYBFou1AV7rgnoGz/4gH47VYZcj4j3SmzBc/n3UfofQvuXKwP0NQ7MI1525VzvoRFqM
+	eVhL27cKsMOahmfUNVsZPoQdkrDTxsZMn2j1A43Nm0VtlJAyUeAdGEyIlzio4xanutYNWoGtTBU
+	dvzEA9piPWLrNYAfaZmRLeKv01lDo6x3wCamddkcXisn8+j/81F7frt6Z1RED2BkPWl7kwyT8/v
+	4mtIpc5kRw7GkOuZdG6lYuzGXzb3FTss34GZa3nKVz/kG0n+8MRNCezk1yrFMIv7SBKzP6l0VR9
+	JjdR17AtZV61tOTNzle1SKXuumhSa2N57jztvts3MhXCits3hcwRm8F8Br+geC8QjdoNBr3LEel
+	DIOtaBsx+99Agj+ThL8OjgH2rQwyaEPwm2+E+wCFUEJ2zLclw6KbKvPyUnw+Mfcj93U1ahXuySY
+	o7FOgT0u8/SAhqggi2TLgrnEFUz8pgItW2+i3PVa810ST+Me/7UMxvrQgwl+hkgdSsawXf3Wdyj
+	AP7v4slDpMzG21csvTpempHVLp4ttCfvGtMGkgbsaJCObpJubQFADbBFyS571GbQR1i4yjM+CuR
+	AuJnfwP5N6BA2cWW7vUAiMlSv5cfz59/MYkwsctTvIwNwh8q
+X-Received: by 2002:a05:6122:3d14:b0:5e7:fc09:890a with SMTP id 71dfb90a1353d-5e91f48135bmr6780539e0c.11.1792086656401;
+        Thu, 15 Oct 2026 10:50:56 -0700 (PDT)
+Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea994fcf47sm222175e0c.15.2026.10.15.10.50.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 10:18:19 -0700 (PDT)
-From: =?UTF-8?q?Asaf=20Nuri=20Bertizlio=C4=9Flu?= <ycistak@gmail.com>
-To: linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Asaf=20Nuri=20Bertizlio=C4=9Flu?= <ycistak@gmail.com>
-Subject: [PATCH] hwmon: (coretemp) Document sysfs numbering and label meaning
-Date: Thu, 15 Oct 2026 20:17:59 +0300
-Message-ID: <20261015171759.704526-1-ycistak@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        Thu, 15 Oct 2026 10:50:55 -0700 (PDT)
+Date: Thu, 15 Oct 2026 13:50:54 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, 
+ linux-kernel@vger.kernel.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowangio@gmail.com>, 
+ =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ netdev@vger.kernel.org, 
+ virtualization@lists.linux.dev, 
+ Rusty Russell <rusty@rustcorp.com.au>, 
+ Max Krasnyansky <maxk@qualcomm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Simon Horman <horms@kernel.org>, 
+ linux-doc@vger.kernel.org
+Message-ID: <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
+In-Reply-To: <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
+References: <cover.1792067836.git.mst@redhat.com>
+ <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
+Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
+ net hdr checksum validation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The documentation says that all sysfs entries are named with their
-core_id, and that the "Core X" label contains the processor number.
-Neither is accurate. create_core_attrs() numbers the per-core
-attributes core_id + 2 and always uses temp1 for the package sensor,
-and show_label() prints topology_core_id(), not the logical CPU
-number.
+Michael S. Tsirkin wrote:
+> The ingress validation as implemented by the previous
+> patch is stricter than what it replaced: GSO
+> packets whose checksum metadata matches no transport header are
+> dropped, and non-GSO ones get their checksum completed in place.
+> Such packets used to pass with the metadata unvalidated,
+> and with no overhead.
+> 
+> I judge that this should not affect any deployments, but there is still
+> some risk that it does.  In case a deployment depends on them anyway,
+> provide a per-netns switch to get the old behavior back:
+> 
+> echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> 
+> The default is validating.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
+>  include/linux/virtio_net.h               | 23 ++++++++++
+>  include/net/netns/core.h                 |  1 +
+>  net/core/dev.c                           |  6 +++
+>  net/core/net_namespace.c                 |  1 +
+>  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
+>  6 files changed, 100 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> index e586e17fc7a5..7f230929c37e 100644
+> --- a/Documentation/admin-guide/sysctl/net.rst
+> +++ b/Documentation/admin-guide/sysctl/net.rst
+> @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
+>  Default: 1 (on)
+>  
+>  
+> +virtio_net_hdr_csum_check
+> +-------------------------
 
-The difference is easy to see on hybrid CPUs. On an i7-14700F, the
-"Core 4" label is on temp6 and belongs to CPUs 2 and 3, and the
-E-cores report core IDs 32 to 43.
+Make more generic, virtio_net_hdr_validate?
 
-Describe the actual numbering.
+In case we add more validation in the future (as we have in the past),
+without having to introduce multiple such knobs.
 
-The mismatch was found by an LLM comparing the documentation with the
-code, and verified on the i7-14700F above.
+> +
+> +When processing packets with a virtio net header (through tun, tap, a
+> +packet socket or a virtio network device) that request checksum offload
+> +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
+> +in software, or drop the packet where the header does not match it.
+> +
+> +When disabled, the header is trusted not to corrupt the packet, and the
+> +checksum is offloaded to hardware (or not verified if it never reaches
+> +hardware). This is only safe if no protocol is processing the packets.
+> +
+> +Default: 1 (on)
+> +
+> +
+>  wmem_default
+>  ------------
+>  
+> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+> index 357115ff0ec2..aa2f8ac4657c 100644
+> --- a/include/linux/virtio_net.h
+> +++ b/include/linux/virtio_net.h
+> @@ -5,6 +5,7 @@
+>  #include <linux/if_vlan.h>
+>  #include <linux/ip.h>
+>  #include <linux/ipv6.h>
+> +#include <linux/jump_label.h>
+>  #include <linux/netdevice.h>
+>  #include <linux/udp.h>
+>  #include <net/gso.h>
+> @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
+>  	*thoff = nhoff + iph->ihl * sizeof(u32);
+>  	return iph;
+>  }
+> +/* Defined in net/core/dev.c, enabled while any network namespace
+> + * has net.core.virtio_net_hdr_csum_check set to 0.
+> + */
 
-Assisted-by: LLM
-Signed-off-by: Asaf Nuri Bertizlioğlu <ycistak@gmail.com>
----
+Should this be a global sysctl, rather than per netns?
 
-Notes:
-    The LLM (Claude) also drafted the documentation change and this
-    changelog. Values checked on my machine: temp6_label is "Core 4",
-    cpu2 and cpu3 have core_id 4, temp1_label is "Package id 0".
+Even if per-netns, most likely do not want it writable by netns root
+with user namespaces.
 
- Documentation/hwmon/coretemp.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
+of many crashes due to bad packets ingested by, e.g., a packet socket.
 
-diff --git a/Documentation/hwmon/coretemp.rst b/Documentation/hwmon/coretemp.rst
-index 34930168338..95b0a578c4d 100644
---- a/Documentation/hwmon/coretemp.rst
-+++ b/Documentation/hwmon/coretemp.rst
-@@ -46,7 +46,8 @@ mechanism will perform actions to forcibly cool down the processor. Alarm
- may be raised, if the temperature grows enough (more than TjMax) to trigger
- the Out-Of-Spec bit. The following table summarizes the exported sysfs files:
- 
--All sysfs entries are named with their core_id (represented here by 'X').
-+Per-core sysfs entries are numbered core_id + 2 (represented here by 'X').
-+The package entries, if available, are always temp1_*.
- 
- ================= ========================================================
- tempX_input	  Core temperature (in millidegrees Celsius).
-@@ -55,9 +56,12 @@ tempX_max	  Maximum recommended operating temperature (Tcontrol).
- tempX_crit	  Maximum junction temperature (in millidegrees Celsius).
- tempX_crit_alarm  Set when Out-of-spec bit is set, never clears.
- 		  Correct CPU operation is no longer guaranteed.
--tempX_label	  Contains string "Core X", where X is processor
--		  number. For Package temp, this will be "Package id Y",
--		  where Y is the package number.
-+tempX_label	  Contains string "Core N", where N is the core_id
-+		  (X - 2), as shown in
-+		  /sys/devices/system/cpu/cpu*/topology/core_id. This
-+		  is not the logical CPU number, and core_id values
-+		  may be sparse. For Package temp, this will be
-+		  "Package id Y", where Y is the package number.
- ================= ========================================================
- 
- On modern CPUs (Nehalem and newer), TjMax is read from the
--- 
-2.56.0
+A global sysctl also allows using proc_do_static_key and avoids the
+custom logic in virtio_net_hdr_csum_check_sysctl.
+
+>  /* Where does the L3 header start, and what protocol is it?
+>   * Handles Ethernet and VLAN headers; other devices use the
+> @@ -152,6 +166,12 @@ virtio_net_csum_partial_ok_at_offset(struct sk_buff *skb, u8 hdr_gso_type,
+>  	unsigned int thoff;
+>  	int ip_proto;
+>  
+> +	/* Failsafe: a namespace opted out of the validation,
+> +	 * trust the checksum metadata as before.
+> +	 */
+
+nit: as before, imho the code here is clear and comment unnecessary.
+
+> +	if (virtio_net_hdr_csum_check_disabled(skb))
+> +		return true;
+> +
+>  	if (!virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
+>  		return false;
+>  
+> @@ -483,6 +503,9 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool outer_isv6,
+>  	unsigned int thoff;
+>  	int ip_proto;
+>  
+> +	if (virtio_net_hdr_csum_check_disabled(skb))
+> +		return true;
+> +
+>  	if (!virtio_net_l3_start(skb, &nhoff, &proto))
+>  		return false;
+>  	if (outer_isv6 != (proto == htons(ETH_P_IPV6)))
+
+> +/* Defined in net/core/dev.c, declared for the gate in
+> + * include/linux/virtio_net.h.
+> + */
+> +DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
+> +
+> +/*
+> + * Protects changes to virtio_net_hdr_csum_check_disabled_key and each
+> + * net->core.sysctl_virtio_net_hdr_csum_check. Readers don't use a lock.
+> + */
+> +static DEFINE_MUTEX(virtio_net_hdr_csum_check_mutex);
+> +
+> +static int virtio_net_hdr_csum_check_sysctl(const struct ctl_table *table,
+> +					    int write, void *buffer,
+> +					    size_t *lenp, loff_t *ppos)
+> +{
+> +	struct net *net = (struct net *)table->data;
+> +	/* checkpatch warns but this can't be const: tmp.data is set below */
+> +	struct ctl_table tmp = *table;
+> +	u8 old;
+> +	int ret;
+> +
+> +	/*
+> +	 * Make sure virtio_net_hdr_csum_check_disabled_key counts zero values of
+> +	 * net->core.sysctl_virtio_net_hdr_csum_check.
+> +	 */
+> +	mutex_lock(&virtio_net_hdr_csum_check_mutex);
+> +
+> +	old = net->core.sysctl_virtio_net_hdr_csum_check;
+> +	tmp.data = &net->core.sysctl_virtio_net_hdr_csum_check;
+> +	ret = proc_dou8vec_minmax(&tmp, write, buffer, lenp, ppos);
+> +	if (write && !ret && old != net->core.sysctl_virtio_net_hdr_csum_check) {
+> +		if (net->core.sysctl_virtio_net_hdr_csum_check)
+> +			static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
+> +		else
+> +			static_branch_inc(&virtio_net_hdr_csum_check_disabled_key);
+> +	}
+> +
+> +	mutex_unlock(&virtio_net_hdr_csum_check_mutex);
+> +
+> +	return ret;
+> +}
+> +
+>  static const struct ctl_table netns_core_table[] = {
+>  #if IS_ENABLED(CONFIG_RPS)
+>  	{
+> @@ -737,6 +780,15 @@ static const struct ctl_table netns_core_table[] = {
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE
+>  	},
+> +	{
+> +		.procname	= "virtio_net_hdr_csum_check",
+> +		.data		= &init_net,
+> +		.maxlen		= sizeof(u8),
+> +		.mode		= 0644,
+> +		.proc_handler	= virtio_net_hdr_csum_check_sysctl,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE
+> +	},
+>  	/* sysctl_core_net_init() will set the values after this
+>  	 * to readonly in network namespaces
+>  	 */
+> @@ -841,6 +893,8 @@ static __net_exit void sysctl_core_net_exit(struct net *net)
+>  	tbl = net->core.sysctl_hdr->ctl_table_arg;
+>  	unregister_net_sysctl_table(net->core.sysctl_hdr);
+>  	BUG_ON(tbl == netns_core_table);
+> +	if (!net->core.sysctl_virtio_net_hdr_csum_check)
+> +		static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
+>  #if IS_ENABLED(CONFIG_RPS)
+>  	kfree(net->core.rps_default_mask);
+>  #endif
+> -- 
+> MST
+> 
+
 
