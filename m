@@ -1,153 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE8C445AC1
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 18:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F15436E489;
+	Thu, 15 Oct 2026 18:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792089367; cv=none; b=f0XrW3wHHXayy/sx45tV4USJ+vuC8ikth0IXOvzuuzbHnGk7L4IspAgkHK4a055yJPoc18nZJzvEWe7FDhBD1Wuj3JjZntz95YwDdruapo2hWsDsUXHSkKlWb5VnE26X4zCnLhsWm9KGE+UMlpADmtWNkh2IYoAcuCSL9ZJHtTQ=
+	t=1792089516; cv=none; b=IiMg51k/kQ+ekqE4H19GBbWwb8h2JNsS5xfK2+LiPcKF+nwKehvW4lDHynQ26Nkf354HE0wcela7tn2RlJ3HcL7ReRRLfePJFw5Zg9abthJDUmA8AHn9LmGfG723/gINsbWSO5DazuPiM31EqEomrRVjWFo5kJbz+SIplreh8mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792089367; c=relaxed/simple;
-	bh=Rxr70OUK5WYSwtm825V5nDAcBBsxCFNwc7Z367PEJrk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UmKiawR3m6AIifGqUGNe5LZ4o6y54xYuQCZV0NTcZp5igO45/weVrXXhhh8lImHMG02k0zJYUqDo4n1NCTwmOzzGHZ63KSgvY+izcJi8Kzf3QbgwrZkSfjyntyad8CdY3Wfpy3MvRc01Y2qn2Gu/FrXmebKPdbWHI6hFtGuVL+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAvkCDs3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792089516; c=relaxed/simple;
+	bh=p0zyaiB/QkMIe/4knRRT5laTpC7gfvVv5sTEpKaE1J0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QlZHA4p+wG9noIUAxXs+tEfxiAUPsszC5ndZRWM22AmvRhi9zfNBzLxcm0B41bOQmaQnad0sg8tfEmE72HfIet6jfDIk2arOYyH7VT0QtsBiJH/jAqFupkOLfeMDLJ/SsPj6SYmYOOF7ZguoYPAahiNaxv08AYjQ77Kb4ei8D90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUkrxtgF; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAvkCDs3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9433E1F000C9
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 18:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792089361;
-	bh=TAT1WVYaIsbS6wC6+XdBxxLaPnglWOSAhGw1snc3Z7o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=XAvkCDs3G9UD5UYA1rxGM5HU9+063wQI8GKHonI8V3hCB2MipQ1VBXGjgtO6Xz0a4
-	 L91L4naHnvAnKcFYuN+b+tTStARm1KK8PLz6BbRfEZcy0dbJ1tKkXTRNQsZEj/ICkG
-	 Og3SFXl5zomTGmZta8jC++ugT92wpLZ7o7OHi/775CI8ZwBXKhWHMM6L6JXSGxGmBA
-	 hvhEEyo+sDpx4u1hUO1xZh18nOuqRSJ7/pnq5ZPWj4MrogGPK1hHAUn5PF8InpIEga
-	 oXtvYnyT6GGX1BdbXm6sHnmTYhYSiXfSU8ofFxvMbIzfHGau1llvYwRvD/phLtj+9n
-	 4eYaeKHyul0Ow==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3a9787a15bdso46340901fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 11:36:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwV575zRuIbOGcZLj5LUz4nInrVYEPJ6LvYX8xdvYx0K5ZZBnhiGvKHVg5/YZqNIOkO7VPT8z5SODQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLoXbKWJcS9+ER1m8K7VKBjw4ezdR8InwfI5OkbwuUcoaCJ/RVd
-	AcN3+lYRWw4ORXCC4zKuAp0DXNaU3ZkScXrlVXx4QYrJtwS4oxNI3G3ft6BmD5kuHfk+pJ3eaFF
-	0TEm9pdhCsjF8PRyi+0GRp1ATaaaQAZc=
-X-Received: by 2002:a05:6512:b93:b0:5be:4340:d591 with SMTP id
- 2adb3069b0e04-5be4340d8afmr671496e87.37.1792089360006; Thu, 15 Oct 2026
- 11:36:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUkrxtgF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792089515; x=1823625515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p0zyaiB/QkMIe/4knRRT5laTpC7gfvVv5sTEpKaE1J0=;
+  b=NUkrxtgFQ20f3houCELjKRfHSp/SdtoGNqmCkaRSS9+SGT4+m+OlVbzr
+   VFRB7CHGFF/uzyZlp9AU9bgjB/LXc/P36ZYvdLixUqzx8msV8YbzU5v6N
+   0BCJd5aufKoI1/F8UNuNm3YPeLv8+ckY2lgHs/1vQlOkwcco/Qv/tNFql
+   qQgBL/Q0qJozkTu6tWEFINEr44g61C+jCgRPRsKMG5RMuttfUDvSqPkVE
+   Oc2J+yNFIiPaBc49fRj4g4NCXJw4jRc2N8gnorEcr3DZp6a26nA4MCgP3
+   9Uj5aNzPn3CVZ5AGKRr05TLlrBjvHOZ6OONIbYl3hSlu3ubeYRNVDn3C8
+   g==;
+X-CSE-ConnectionGUID: ddSahdNcRg69ROEFkRaPpg==
+X-CSE-MsgGUID: 2IYXP40ATdKFRzCLOCPOzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="873686"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="873686"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:38:34 -0700
+X-CSE-ConnectionGUID: zbX4f40iTp2j4tYoSwZ75g==
+X-CSE-MsgGUID: BSq9KBZoQFO1J8w8+DdeaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="2184405"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.117])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:38:29 -0700
+Date: Thu, 15 Oct 2026 21:38:27 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@analog.com, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 09/10] iio: ABI: add integration_time for output channels
+Message-ID: <atEdo8cO1mSBcZk5@ashevche-desk.local>
+References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
+ <20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261014132500.3817549-1-daniel.lezcano@oss.qualcomm.com>
- <20261014132500.3817549-4-daniel.lezcano@oss.qualcomm.com>
- <c751e18d-57e9-4ce6-95dc-1bf53a7a4808@gmx.de> <CAJZ5v0jQQsXP4v7dymuHZhy2oVjPwV9eXhqV4bGPUgMyGyUsUQ@mail.gmail.com>
- <1cba0f2a-38cd-42b2-a773-9dca5d7519e5@app.fastmail.com> <68128016-661b-4b78-bac1-b7e23029d8de@kernel.org>
-In-Reply-To: <68128016-661b-4b78-bac1-b7e23029d8de@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 15 Oct 2026 20:33:48 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gHHoJVm9o-ZzD38jWpGbAZML4AMEpSmy9C9n5TSVYppg@mail.gmail.com>
-X-Gm-Features: AclHuK-zwepZBWgGWfQ2Rb3a95AKJxB8UAHcwiyfC3i8PVmAX_sdIYfZj5CHoKk
-Message-ID: <CAJZ5v0gHHoJVm9o-ZzD38jWpGbAZML4AMEpSmy9C9n5TSVYppg@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] platform profile: Add firmware-neutral aggregate
- sysfs interface
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Armin Wolf <W_Armin@gmx.de>, Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, 
-	Hans de Goede <hansg@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	"Derek J . Clark" <derekjohn.clark@gmail.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Greg KH <gregkh@linuxfoundation.org>, 
-	Jack Wu <jackbb_wu@compal.com>, 
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>, Kurt Borja <kuurtb@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Oct 15, 2026 at 8:28=E2=80=AFPM Mario Limonciello <superm1@kernel.o=
-rg> wrote:
->
-> On 10/15/26 13:04, Mark Pearson wrote:
-> >
-> > On Thu, Oct 15, 2026, at 7:30 AM, Rafael J. Wysocki (Intel) wrote:
-> >> On Wed, Oct 14, 2026 at 11:31=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> w=
-rote:
-> >>>
-> >>> Am 14.10.26 um 15:24 schrieb Daniel Lezcano:
-> >>>
-> >>>> The per-provider class interface is firmware-independent, but system=
--
-> >>>> wide profile selection is only exposed under /sys/firmware/acpi.
-> >>>>
-> >>>> Add /sys/kernel/platform_profile/{choices,profile}, sharing the exis=
-ting
-> >>>> aggregate callbacks and semantics with the legacy interface. Keep
-> >>>> attributes hidden until a provider is registered and remove them aft=
-er
-> >>>> the last provider.
-> >>>>
-> >>>> Notify both aggregate frontends on profile changes. Also notify the
-> >>>> provider class device on a direct profile write, matching its docume=
-nted
-> >>>> POLLPRI ABI. Restore aggregate visibility after a failed registratio=
-n.
-> >>>
-> >>> IMHO the aggregate sysfs interface only exists for backwards-compatib=
-ility,
-> >>> so i would be very happy if you could just make the associated code o=
-ptional
-> >>> and instead teach platform-profiles-daemon to use the individual clas=
-s devices
-> >>> instead.
-> >>
-> >> It is not just a matter of opinion AFAICS, the aggregate interface has
-> >> been regarded as legacy for quite a while (see commit 778b94d7ac17
-> >> "ACPI: platform_profile: Add support for hidden choices" for example)
-> >> and it was retained exactly for backwards compatibility reasons IIRC.
-> >>
-> >> I'm with Armin on this.
-> >>
-> >> Thanks!
-> >
-> > I don't think we can get rid of the legacy aggregate interface - which =
-I think is what you and Armin are asking for? What does making it optional =
-mean?
-> >
-> > Reading through the patch series it seemed quite reasonable to me to mo=
-ve it out from under ACPI but still have the old interface working. What ar=
-e the alternatives?
-> >
-> > User space (and users) are still using the aggregate interface in my ex=
-perience
-> >
-> > Mark
->
-> If we want to get rid of the legacy interface eventually I think this is
-> how you can do it:
->
-> 1) Wrap it with a boolean Kconfig.  Default to enabled.
-> 2) Add some messaging in this Kconfig that it's being removed after the
-> LTS kernel from 2028.
-> 3) Emit a pr_notice_once() or similar that it's deprecated and will be
-> removed in the future.
-> 4) Modify all (known) userspace software to stop using it.
-> 5) Wait for userspace software to tag new releases.
-> 6) Change default to disabled.
-> 7) Wait some time.
-> 7) Next LTS is declared.
-> 7) Drop kconfig and legacy code.
+On Thu, Oct 15, 2026 at 01:49:49PM -0300, Rodrigo Alencar via B4 Relay wrote:
 
-That should work, but my point is rather to avoid adding another
-aggregate interface to replace the old one and instead switch over the
-ecosystem to the existing (and documented) class device platform
-profile interface.
+> Document the integration_time attribute for output channels, which is
+> the time interval during which the output is generated by integrating
+> a quantity, such as its rate of change. It is the output counterpart of
+> the integration_time already defined for input channels.
+> Add entries for the altcurrent, frequency and phase channel types, which
+> are going to be used by the AD9910 DDS driver.
 
-The legacy aggregate one may simply be removed when everybody stops
-using it (which may take a while and it may be moved to staging at one
-point).
+...
+
+> +KernelVersion:	7.4
+
+That boat is about to sail... It means, no chances you can get onboard.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
