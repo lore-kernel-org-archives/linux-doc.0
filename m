@@ -1,108 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B92F4825BA
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 08:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EECC47124E;
+	Thu, 15 Oct 2026 08:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792051947; cv=none; b=MXxHiu1o/IJUdtxVcbOmjVgtuSGu15qy60X/i+t1ZF3BCm1PjvnYOp2MlHEQFIjJE7HkR61wPyxeLqXNRODE1/jF99LrZ7RpkubVwwYWiqvbnj/7eGEV/MIfUAHOWRnc3L52iM92L6hkiJTUoz79iXSjCc4hvyfHJsSKZgecj3s=
+	t=1792053821; cv=none; b=NmiEY4i6Wts5eVEd9FwFpLlAIg7d2LGmDaYGOOvB+Oi/BHqv7wvc6oREwW/mOksTb/rl8FoEzXi5L+YvvxgGGY3AIGjCzLWuGjSc1pVYtVXWMDtDRNSc1TpoIrXAmvaEPtq32dcYJtzlB3nFJXK1enGmydLt8cjQR8P34VBbHUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792051947; c=relaxed/simple;
-	bh=DG+fU/4OrA94zK1U+TxxVq5gj97r0bK0vhRma1rP+yU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aqIxcpSV4/PmUXqmatyfnGjp+FwiUhDpJyG81T5mIUAnNrCYDYnhoO1+SP9diWNavnhXZa402Bslp1qF2Bn5TxVsc/WP6iuuYWNGX20qjGUZ9b/FFZuse4PyGDmYpi8hsjDAf8fQC2bUTS9VmSBue2whVcRAcMzY2DGyLYgZCrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/n8M3TR; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792053821; c=relaxed/simple;
+	bh=YgKvxDdIrE/DwgcgGoG6EMBpTFfiJDYREx6kNkv4f6E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eH/ysGdaEQIExgN85Sr/snmIcE4J4uItcOj3D6L1dGjEan7HgplmC47k9t5UxLJGrHRrxpyFBt6L/asO0QUH+i7FHl7oMh5+IV43pIwOCr+f3nYY1k63XJ75o5btefjM5mimlV+Daw/P/viilHY1zve3knRr5mkoujGePbwyzZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HZ/8OCjH; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/n8M3TR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792051946; x=1823587946;
-  h=date:from:to:cc:subject:message-id;
-  bh=DG+fU/4OrA94zK1U+TxxVq5gj97r0bK0vhRma1rP+yU=;
-  b=D/n8M3TRrUp6OszUr6ZVxFr7D3ukpaLv+CGVc+d0UAZDi61UdDuyn4KZ
-   bSX41pbQo808O2o1b2Cc7UATvBnQUPE1vCJR7NxvNXXlel/2rBlCpIEJK
-   Tpe/WxiOH1yY7zRf2ltJdhhQlTPVF+V0Tzq1QsWNwf8DVhZIg+aFugafQ
-   3L7fQA+vEweFuiAGItMjnTjYJyDUtWMBwJeWOr11bMiC2aXXRz1hmHOBs
-   uXeRdWlpAq/RB0sI3x0zWNGFi9+NCMWRG4iVfRmbYPKOZLpF7V6zU0vjz
-   ImXFPUqnQlXx4q6At0uxRD4BLzxaa+TSFRIker13qiBpD4OAnxgfbqEVu
-   A==;
-X-CSE-ConnectionGUID: PFLdnMASRK2lMFd+R4wi+g==
-X-CSE-MsgGUID: khxJFBgSQBOVpRNeIe7/1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="699547"
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="699547"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 01:12:25 -0700
-X-CSE-ConnectionGUID: +GaMWRGlRKyHfES3B+cJOA==
-X-CSE-MsgGUID: FyRcD/RNRfalx/dEAvBT8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="2074918"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 15 Oct 2026 01:12:23 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHGZY-00000000Bf1-3JuK;
-	Thu, 15 Oct 2026 08:12:20 +0000
-Date: Thu, 15 Oct 2026 10:11:50 +0200
-From: kernel test robot <lkp@intel.com>
-To: Waqar Hameed <waqar.hameed@axis.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-doc@vger.kernel.org
-Subject: [linux-next:master 3622/16987] htmldocs:
- Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <202610151025.1g5IgCv2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HZ/8OCjH"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 60B524E41247;
+	Thu, 15 Oct 2026 08:43:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2A74B60360;
+	Thu, 15 Oct 2026 08:43:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 068A510328814;
+	Thu, 15 Oct 2026 10:43:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1792053814; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=1M02JcwXO7QeeqbCBZB0mq8pldIjh44mpDvB43Gt0H0=;
+	b=HZ/8OCjHNOuTtBwoxUX3dp7AneRXaGHw4uNWKS5gWKctVbkvaJvQ7MheTfr+OqD5snRX0F
+	sidtcGOx/HLBEgnuucz6mvvhXBAHysEn4qkb7RbnQWj2uVCkbemcNkJQ/5t+4Ar2OzjT/I
+	IKmXkkDfbhmY7+9/gQcLnKVojrh2SbvzKQjYixOeDalG08NwMfRHZZnN1Vqp3laUbBnl06
+	7+nAxnbu4zQAAX0nmcWmvCEE27Qi1I+iiL1MvxbucZQRXHfjag/oQ6oY+c+eoYnoEVSkE4
+	GkUvNJZJTq7yPSfX8cfpZg854Bnxd0fIA3AQA5srh2uogILJz1JpzRVou25Jbg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Petr Mladek <pmladek@suse.com>,  Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>,  David Gow <david@davidgow.net>,
+  Brendan Higgins <brendan.higgins@linux.dev>,  David Laight
+ <david.laight.linux@gmail.com>,  Steven Rostedt <rostedt@goodmis.org>,
+  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Sergey Senozhatsky
+ <senozhatsky@chromium.org>,  Jonathan Corbet <corbet@lwn.net>,  John
+ Ogness <john.ogness@linutronix.de>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] hexdump: Allow skipping identical lines
+In-Reply-To: <202610142135.0326EA9C@keescook> (Kees Cook's message of "Wed, 14
+	Oct 2026 21:38:37 -0700")
+References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+	<as6TIm6xE8Izccb5@black.igk.intel.com>
+	<as-iBP1781DVuZ7p@pathway.suse.cz> <202610142135.0326EA9C@keescook>
+User-Agent: mu4e 1.12.12; emacs 30.2
+Date: Thu, 15 Oct 2026 10:43:26 +0200
+Message-ID: <87se27wdzl.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Waqar,
+Hi,
 
-FYI, the error/warning still remains.
+On 14/10/2026 at 21:38:37 -07, Kees Cook <kees@kernel.org> wrote:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d419d682257d813f6cb7a28e42b35d0edf4ad038
-commit: 3f21de6784a654503cc148169d1f59d89971da13 [3622/16987] power: supply: rt9467: Use POWER_SUPPLY_PROP_LOAD_SWITCH
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20261015/202610151025.1g5IgCv2-lkp@intel.com/reproduce)
+> On Wed, Oct 14, 2026 at 05:38:44PM +0200, Petr Mladek wrote:
+>> On Tue 2026-10-13 22:22:58, Andy Shevchenko wrote:
+>> > +Cc: KUnit maintainers + Kees
+>> >=20
+>> > On Wed, Mar 19, 2025 at 05:08:09PM +0100, Miquel Raynal wrote:
+>> > > While working on NAND issues, I used print_hex_dump() a lot to compa=
+re
+>> > > data. But I am mostly working on embedded systems where the kernel
+>> > > messages go through a serial console. Sometimes network support is an
+>> > > option, sometimes not. Anyway, I often print buffers both in kernel
+>> > > space and user space to compare them, and they may be full of 0's or
+>> > > 1's, which means lines are repeated a lot in the output and this is =
+slow
+>> > > *and* hard to compare.
+>> > >=20
+>> > > I initially hacked into lib/hexdump.c for my own purpose and just
+>> > > discarded all the other users, but it felt like this might be a usef=
+ul
+>> > > feature for others and decided to make it a public patch.
+>> > >=20
+>> > > * First patch creates a helper named print_hex() with a prototype
+>> > >   containing a flags parameter, instead of an entry for the prefix t=
+ype
+>> > >   and another entry for the ascii boolean. print_hex_dump() now
+>> > >   falls back to print_hex().
+>> > > * Second patch adds a new flag to possibly skip the identical lines.
+>> > > * Third patch is optional, and adds the offset at which the dump
+>> > >   finishes in case the last line to be printed would be skipped.
+>> > >=20
+>> > > The Cc-list, as provided by get_maintainers.pl, was returning 330
+>> > > e-mail addresses which felt to much, so I ran the script only on the
+>> > > second patch (the printk/includes/debug/Doc changes). It gave this
+>> > > Cc-list which sounds more reasonable. Hopefully this is a smart move,
+>> > > otherwise let me know what you think would be best.
+>> >=20
+>> > Sorry for the so late response. First of all, a bit of a background
+>> > development on my side. At some point a few months ago I asked John
+>> > Ogness to give me a private dive to the printk() guts. He explained
+>> > to me a lot about ow printk() circular buffer works and that the
+>> > implementation is nowadays done in the terms of circular buffer library
+>> > and printk() front-end. This gives a potential to get a clean solution
+>> > for the testing how printk() actually behaves.
+>>=20
+>> I am curious what printk() features you would like to test.
+>>=20
+>> > The main issue with the
+>> > real printk() is that the buffer it's using is defined globally and
+>> > for clean test cases the printk() can't be used. We discussed the way
+>> > of high-jacking that by linking an object file of printk() implementat=
+ion
+>> > to the KUnit test, but it seems quite a tricky if ever achievable exer=
+cise.
+>> >=20
+>> > Meanwhile Kees Cook seems found a nice workaround for the similar use =
+case
+>> > in his recent patch series [1]. The idea is to register custom console=
+ and
+>> > provide a custom .write() method which is the heart of the solution. On
+>> > the writer side user prints something which has unique prefix, while t=
+he
+>> > console callback recognises that pattern and checks the rest of the li=
+ne.
+>>=20
+>> I ask because the solution used by Kees seems to be quite complicated
+>> and unreliable for the given purpose. In particular, printk() does
+>> only the best effort to flush messages on legacy consoles. And NBCON
+>> consoles drivers are even offloaded to a kthread by default as
+>> pointed out by John in the other mail.
+>>=20
+>> It seems that Kees just want to check some particular printk() calls
+>> and what messages they print. It might be easier and more reliable
+>> to redirect printk() to an alternative implementation via a hook
+>> in vprintk() in kernel/printk/printk_safe.c.
+>
+> Yeah, I was just trying to "prove" that seq_buf_do_printk() actually
+> put something onto the console (and to match up what was written and how
+> truncation behaved). :P I'm open to adjusting this however it should be...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610151025.1g5IgCv2-lkp@intel.com/
+Just to redirect the discussion towards my initial goal, what I would
+like to bring is a userspace-like hexdump output which allows to skip
+identical lines. I am printing a lot of flash content. Empty flashes are
+full of ones, I mostly do not care about them, yet, during
+tracing/debugging they take ages to be printed at 115200 bauds. So I was
+just proposing to skip identical lines (with a '*') like in userspace.
 
-All warnings (new ones prefixed by >>):
+Following my proposal, Andy requested that I would add unit testing of
+this outpout. At that time I refused it for two main reasons:
+- it is mostly a debugging mechanism, so if it ever breaks or changes,
+  it is not (IMHO) a big problem;
+- there was no accessible testing infrastructure that would not be
+  overly complex for verifying the output of those calls.
 
-   Using alabaster theme
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
->> Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
-   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+I am still convinced adding testing here is superfluous.
 
+Andy and myself met during LPC in Prague. Andy claimed that we might now
+have the relevant infrastructure to add the tests. If there is an easy
+way, I will just do it and move on. But based on the recent exchanges,
+that does not seem so obvious.
 
-vim +1 Documentation/ABI/testing/sysfs-class-power-rt9467
+So, what is the appropriate move here?
 
-eedb923279b78cb ChiaEn Wu 2023-01-03 @1  What:		/sys/class/power_supply/rt9467-*/sysoff_enable
-
-:::::: The code at line 1 was first introduced by commit
-:::::: eedb923279b78cbfe16dd54dade0d73e9977f118 Documentation: power: rt9467: Document exported sysfs entries
-
-:::::: TO: ChiaEn Wu <chiaen_wu@richtek.com>
-:::::: CC: Sebastian Reichel <sre@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Miqu=C3=A8l
