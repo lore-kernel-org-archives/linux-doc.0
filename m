@@ -1,147 +1,113 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-114.ptr.blmpb.com (va-2-114.ptr.blmpb.com [209.127.231.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A47231836;
-	Thu, 15 Oct 2026 03:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A32377EC3
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 04:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792036645; cv=none; b=OFzlCi280G4glWsdmDdVeRPsOvOITA1N3IML5pM4MyK1aqX/MTaOWyBMxcfgZvUQ+44auziEQxUwepsSu413b5y98+ulBPOhXvNiZTPOd+kFX+XKoXsJJJw1yKQhMEWYgmoMex4bX2kjBC3VUn48V7qbKVX1i0Ez6k7k/bYMlC0=
+	t=1792037395; cv=none; b=WVbvu8n6okFDtUSHIYwMPC7CmECf3j0Z4ZqXeTc/NWCqtnIpZ97XXxS9mRnSDeJmHI+ugg0qtKr6ztnjOo5UfQNKx2JyHAJThWMxNXAxIqiXKEXiTrcNF7dCJvZZmw7GXkyQ8JqTmygaS3Sh8njpfJsKz3QSV3T62rHfjS6aZyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792036645; c=relaxed/simple;
-	bh=laQEQmrevBbZLzCFQIVrAgnpTTHO73JD9uv0iZcWKOg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=cpGg0kLG45pDTgiWmT3c1AGLfUNHnZz36jBgeYA7I5tNiBuu01ijVQ+auvLTRa8XDK04QLLaHjAL8lIYb2iN4D/uv7LrNNm2JDkJlHKgpi2dJRwceOzxHLPcVmwrELH6VH17QJIEqy+3ithgMdcKp+XW+u1F6cSwbf7vmtIC7Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j4v8l59c0zKm8R;
-	Thu, 15 Oct 2026 11:44:55 +0800 (CST)
-Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
-	by mail.maildlp.com (Postfix) with ESMTPS id E97934057C;
-	Thu, 15 Oct 2026 11:57:17 +0800 (CST)
-Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
- (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 15 Oct
- 2026 11:57:16 +0800
-Message-ID: <526758a6-40f5-4810-8e17-6e94afc3fab2@hisilicon.com>
-Date: Thu, 15 Oct 2026 11:57:16 +0800
+	s=arc-20240116; t=1792037395; c=relaxed/simple;
+	bh=8+Y3lqx7DoXLn6uMpykiqLK9WKGpfJOp/EpoHwnmKak=;
+	h=Content-Type:To:Date:References:Cc:Message-Id:Mime-Version:
+	 In-Reply-To:From:Subject; b=lN0dMJ4GFl7EYGXAH/AC2zlqLiebfKyr8uJWY/gz56scyb88sh+g8uzERgmmyMOWc2GT+3vMfxbzvnfcP6MfnluzljDWlh0IX7rYAiaemPf/3fp2oTMrjmecI/vE7RJse7SbjUT3FPbyX4nxK582qy7T88IWnSG03JRf4P4bFxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Oei178cR; arc=none smtp.client-ip=209.127.231.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Oei178cR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1792037381; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=ZRj2GAZqXT54HVtNDIUND68T2cWL0CDUpFdwNDt9C/c=;
+ b=Oei178cRmt4vFYunYV+nz2zYtcJOdySv/VpwVa+HnCmkfWrMeUVWCQ1+Q64g/UIo9oSNxl
+ wfXlLAOeCpZfRCRxh2bJHLSkV4PtOiz0UvVqUlUxbSage3FEQG9M2mLZxhB8Qx5ujj1CY8
+ IeRVuMcxf5YRPImNqkrtgNYqCa8e6mBVIh2/SgkVcN2rl0NBjJaktlOed1H8bTnFs49ost
+ Ux+6tWmGIZk90EOvrIgpD3UvK1BUWevxq8Gf6k227grE1YvrDwhBG9Jy0bG9cOvfYNMYRo
+ /nleHmd11clal0/S/mmfYgO8aH8LJppW/S4G7YFZ1v7BbGf+kUDlNtuq7QFxKw==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To: "Gregory Price" <gourry@gourry.net>
+Date: Thu, 15 Oct 2026 12:09:17 +0800
+References: <20261014094347.99157-1-lizhe.67@bytedance.com> <20261014094347.99157-5-lizhe.67@bytedance.com> <as-AV04p-AZ45-mw@gourry-fedora-PF4VCD3F>
+User-Agent: Mozilla Thunderbird
+Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>, 
+	<joshua.hahnjy@gmail.com>, <ziy@nvidia.com>, <mingo@redhat.com>, 
+	<peterz@infradead.org>, <mgorman@suse.de>, <riel@redhat.com>, 
+	<juri.lelli@redhat.com>, <vincent.guittot@linaro.org>, 
+	<dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>, 
+	<vschneid@redhat.com>, <kprateek.nayak@amd.com>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
+Message-Id: <a01ccd5a-f443-49bb-a615-5712881ee7cd@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Jie Zhan <zhanjie9@hisilicon.com>
-Subject: Re: [PATCH 1/3] cpufreq: Add a driver frequency resolution callback
-To: Christian Loehle <christian.loehle@arm.com>, <rafael@kernel.org>
-CC: <zhenglifeng1@huawei.com>, <zhongqiu.han@oss.qualcomm.com>,
-	<viresh.kumar@linaro.org>, <linux-kernel@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>, K
- Prateek Nayak <kprateek.nayak@amd.com>, Huang Rui <ray.huang@amd.com>, Perry
- Yuan <perry.yuan@amd.com>, "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	Vanshidhar Konda <vanshikonda@os.amperecomputing.com>, Shubhang Kaushik
-	<sh@gentwo.org>, Pierre Gondois <pierre.gondois@arm.com>, Beata Michalska
-	<beata.michalska@arm.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ionela Voinescu <ionela.voinescu@arm.com>, Sudeep Holla
-	<sudeep.holla@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, Jeremy Linton
-	<jeremy.linton@arm.com>, Peter Zijlstra <peterz@infradead.org>,
-	<jonathanh@nvidia.com>, Vincent Guittot <vincent.guittot@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-References: <20260929102957.2591657-1-christian.loehle@arm.com>
- <20260929102957.2591657-2-christian.loehle@arm.com>
-Content-Language: en-US
-In-Reply-To: <20260929102957.2591657-2-christian.loehle@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf200017.china.huawei.com (7.202.181.10)
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+26ad05203+82078e+vger.kernel.org+lizhe.67@bytedance.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+In-Reply-To: <as-AV04p-AZ45-mw@gourry-fedora-PF4VCD3F>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Subject: Re: [PATCH 4/6] sched/numa: make free-space tiering promotion bypass configurable
 
+On 10/14/26 9:16 PM, Gregory Price wrote:
+> On Wed, Oct 14, 2026 at 05:43:45PM +0800, Li Zhe wrote:
+>> Memory tiering normally promotes any recently accessed slow-tier page if
+>> the target fast-tier node has enough free space. This preserves the
+>> existing policy of filling available fast memory before relying on
+>> hotness and rate-limit control.
+>>
+>> That is not always the desired policy. Some workloads may intentionally
+>> place memory across CXL-attached memory and DRAM to use aggregate memory
+>> bandwidth. With the free-space bypass, cold one-shot accesses and bursts
+>> of hot accesses can refill the fast tier and pull the workload away from
+>> that distribution whenever DRAM has free space.
+>>
+>> Add kernel.numa_balancing_promote_free_space_bypass. It defaults to 1,
+>> preserving the existing behavior. When cleared, enough free space in the
+>> target fast-tier node no longer bypasses the normal hotness and
+>> rate-limit controls.
+>>
+> A global switch for this is a poor solution for this problem.
+>
+> Also, if the memory was spread out intentionally, it presumably was done
+> so with a memory policy.  In that case, if the user did not set
+> MPOL_F_NUMA_BALANCING - that spread is already protected because the
+> mempolicy overrides the numa balancing fault and no migration occurs.
+>
+> I don't think this is the right direction.
 
+I agree that a workload which wants to fully preserve its initial spread
+can avoid MPOL_F_NUMA_BALANCING.
 
-On 9/29/2026 6:29 PM, Christian Loehle wrote:
-> Without a frequency table, cpufreq treats the policy range as continuous
-> even when the driver selects discrete performance levels. Governors can
-> then issue different kHz requests for the same driver setting.
-> 
-> Add ->resolve_freq() for table-less ->target() drivers to canonicalize
-> requests within the supplied limits using CPUFREQ_RELATION_{L,H,C}.
-> Document the callback and verification contracts so callers can safely
-> cache resolved requests.
-Hi Christian,
+The case I had in mind is different: the workload wants to opt in to
+tiering, so hot and cold pages can still be adjusted, while keeping the
+DRAM/CXL distribution meaningful. This is the same kind of use case I
+was trying to describe for weighted interleave plus NUMA balancing:
 
-IIUC, ->target() + ->resolve_freq() should do almost the same work as
-->target_index() + freq_table. Why not switch to ->target_index() if that's
-intended?
+https://lore.kernel.org/all/20260930072617.64665-1-lizhe.67@bytedance.com/
 
-I had a few unsent comments on the second CPPC patch but perhaps we discuss
-this first.
+With the current free-space bypass, opting in to tiering can promote
+recently accessed slow-tier pages without the normal hotness and
+rate-limit checks whenever the top tier has enough free space. That makes
+it hard to combine weighted or interleaved placement with tiering
+feedback.
 
-Jie
-> 
-> Signed-off-by: Christian Loehle <christian.loehle@arm.com>
-> ---
->  Documentation/admin-guide/pm/cpufreq.rst |  4 ++++
->  Documentation/cpu-freq/cpu-drivers.rst   | 19 +++++++++++++++++++
->  drivers/cpufreq/cpufreq.c                | 17 +++++++++++++++--
->  include/linux/cpufreq.h                  | 10 ++++++++++
->  4 files changed, 48 insertions(+), 2 deletions(-)
-> 
-[...]
->  
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 54dde8419bdc..44bda2f32fcf 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -480,8 +480,12 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
->  
->  	target_freq = clamp_val(target_freq, min, max);
->  
-> -	if (!policy->freq_table)
-> +	if (!policy->freq_table) {
-> +		if (cpufreq_driver->resolve_freq)
-> +			return cpufreq_driver->resolve_freq(policy, target_freq, min, max,
-> +							    relation & ~CPUFREQ_RELATION_E);
->  		return target_freq;
-> +	}
->  
->  	idx = cpufreq_frequency_table_target(policy, target_freq, min, max, relation);
->  	policy->cached_resolved_idx = idx;
-> @@ -495,7 +499,10 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
->   * @policy: associated policy to interrogate
->   * @target_freq: target frequency to resolve.
->   *
-> - * The target to driver frequency mapping is cached in the policy.
-> + * The frequency-table resolution path caches the mapping in the policy.
-> + *
-> + * Keep the policy active and exclude driver teardown; a policy reference
-> + * alone does not protect driver-private data.
-Do you mean the caller should ensure this?
-This function doesn't seem to do this.
->   *
->   * Return: Lowest driver-supported frequency greater than or equal to the
->   * given target_freq, subject to policy (min/max) and driver limitations.
-> @@ -1445,6 +1452,11 @@ static int cpufreq_policy_online(struct cpufreq_policy *policy,
->  		 * If there is a problem with its frequency table, take it
->  		 * offline and drop it.
->  		 */
-> +		if (policy->freq_table && cpufreq_driver->resolve_freq) {
-> +			ret = -EINVAL;
-> +			goto out_offline_policy;
-> +		}
-> +
->  		ret = cpufreq_table_validate_and_sort(policy);
->  		if (ret)
->  			goto out_offline_policy;
-> @@ -2925,6 +2937,7 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data)
->  
->  	if (!driver_data || !driver_data->verify || !driver_data->init ||
->  	     (driver_data->target_index && driver_data->target) ||
-> +	     (driver_data->resolve_freq && !driver_data->target) ||
->  	     (!!driver_data->setpolicy == (driver_data->target_index || driver_data->target)) ||
->  	     (!driver_data->get_intermediate != !driver_data->target_intermediate) ||
->  	     (!driver_data->online != !driver_data->offline) ||
-[...]
+That said, I see your point that a global switch is coarse. Maybe this
+should be controlled by a per-workload policy instead. For example,
+Yafang's RFC for BPF-based per-cgroup NUMA balancing mode selection seems
+related:
+
+https://lore.kernel.org/lkml/3eda489898ebf7c848ce61760af745d9@kernel.org/
+
+Would a per-cgroup control for this promotion behavior be a more
+reasonable direction than a global sysctl?
+
+Thanks,
+Zhe
+
+>
+> ~Gregory
