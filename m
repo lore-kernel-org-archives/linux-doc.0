@@ -1,295 +1,257 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C553D8123
-	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 17:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792086667; cv=none; b=STtE+8U6wLfCsg1nxF4UAzQWdN1mFhTgm8Smg2xF6Mo1idiIhMnGIYbO4u32/ffY1si/+ogyU+c8gx4lu4vCMoQwVLiTWphFA6kBWRm15+E3gycV1R9G3QsnNl63PNn9OCE5wywyD3+Q1dRL22hdOjcfy7DtFzLkjNN7H33qpec=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792086667; c=relaxed/simple;
-	bh=fMqpqs1u8LBcIFnBHT9B79hdJta82WzO1YoJAMI+N7M=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=GMZdV7i8YDjSR1oO4xK4YbhqT+GIf32JFBgMFpQpsfLlHcdqjWaojnSsCxLZ+ZEKp6DWI4xRfK04g+BHsvrrQNdNmjRCGbSKcSedzW7JwkvbIKlZ/5a4BUxD1pdopC7tD8YfgYCnlI7rd+Bb6zsLzcAtrqC9TA1o6uHFLg2u5mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qQ+6hQ+N; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D02541E7D;
+	Thu, 15 Oct 2026 18:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792087390; cv=fail; b=Ho+fAkIV9P/3m1foXsf1o3o1zyhj/NlEiyTHwKt1L/LCa+JvxNclCyXoNxkQbTRf8Of6bixZmdhAC6tKEf7RDPB1xKXBEKKrb4DL4yyJQ3IIdLiGg84i8E/O14ShQLfrmgmtixS29vbfsLNnPbAkJs1aUeKZcO9i6iyN04/z11k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792087390; c=relaxed/simple;
+	bh=ncbnQ+iakl9vM5hTrct+vETuelrzzZWTpzlY2BdVizc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=oXHP5yCMlFhwn0hu9uW/kcE2pt1wSMfp0XUpQ/TRinGms2otjgZJ384xSV/MoyEhC+vrJ0CL54qHgaUC5uH08tveWmxxYo/yHRtWA1Td+5+fQ4vFcCmL6liZ3dCaoQsj56KoF+XYO+NMuXR2OBHzBQKkokrbW+IHdGYRbzW5vMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqGIRxhn; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qQ+6hQ+N"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5ea9a2c3936so6101e0c.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 10:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792086656; x=1792691456; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=i8+0UTRzQqbINpMv2vf6iArLkPondg+9Xp/w3H+DSS4=;
-        b=qQ+6hQ+N+JP7CD/z5gwoOG894MOrFmKyno0zks6XEUmtUmmiWCRUo+ZVCKlMqR/OBl
-         dZPn7qvtV6AA+8z4/JsCn/ptrnKc+fqHxF1O3DbfWFjBKILH+YPh3r7zb75tjLC7rH86
-         Wqrq4oVCk6xlX7iEeF7ZEzreqtWiYq91hvmrTg3kS6pe8a9TqGS5AUV2m6aXGBSOEukk
-         jb07MC2IijNzuFQW6SV5Nq9LAZKechRgaOfitBq1KtXHhllWWZpj8OOsyfQmPTdXTlq4
-         edlBAn+7FmE4yLtXrdn4AJqAyb9W95hhjaPhnXPIqRVJ/i5EsRytRDs7r2ygNg2zJW5L
-         YYMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792086656; x=1792691456;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i8+0UTRzQqbINpMv2vf6iArLkPondg+9Xp/w3H+DSS4=;
-        b=TG/j8uOCpbVvKocvZPEbz/eh4/1+cgMOGjRjevaYah+fXUiEgs04WfJ7TiRSQ3kp+Q
-         5RyAE1fOBex0HOpC/PYBcjZ847ZDQLznRE9Q+Qs1G62R9JEdoZvGDtad6z1uMtdHau5s
-         /ZJgAEf14GnhKDZueYwlxr2fQLOI6McybH6bOuMEhAvf2+DKyae+YGWOxqe6CbkvV98t
-         B5T9F/xsU7BMC4qVHmEev31v9SrSpxr2DI62Xci4PFw0Moh+KtCV3SYNbm4r/pm1LF3z
-         HSR/qg0ksMiFHM5Bu2YJy9x6RdU/zebVV1kl4Uz6nhhKbH09inkKQUctCO97Gm0wSh+D
-         jlVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxwiwk/02Objl3n/FH0mPJ0oNF1Jg0c1TrYvkH2aUUZ43xiFXhjgeYl1RlEQGRuk2GkEpEmjKNUS0A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI/CPvVZp9TinGqvU6WVMuB9ilnX9VKyobbZIW7kl21wQldTEwi
-	3RxQ4EABWuNuM+ILdnuIFmcbOlNOIX76tCyVVipumPQUYY0FU28WnhbZ
-X-Gm-Gg: AYBFou1AV7rgnoGz/4gH47VYZcj4j3SmzBc/n3UfofQvuXKwP0NQ7MI1525VzvoRFqM
-	eVhL27cKsMOahmfUNVsZPoQdkrDTxsZMn2j1A43Nm0VtlJAyUeAdGEyIlzio4xanutYNWoGtTBU
-	dvzEA9piPWLrNYAfaZmRLeKv01lDo6x3wCamddkcXisn8+j/81F7frt6Z1RED2BkPWl7kwyT8/v
-	4mtIpc5kRw7GkOuZdG6lYuzGXzb3FTss34GZa3nKVz/kG0n+8MRNCezk1yrFMIv7SBKzP6l0VR9
-	JjdR17AtZV61tOTNzle1SKXuumhSa2N57jztvts3MhXCits3hcwRm8F8Br+geC8QjdoNBr3LEel
-	DIOtaBsx+99Agj+ThL8OjgH2rQwyaEPwm2+E+wCFUEJ2zLclw6KbKvPyUnw+Mfcj93U1ahXuySY
-	o7FOgT0u8/SAhqggi2TLgrnEFUz8pgItW2+i3PVa810ST+Me/7UMxvrQgwl+hkgdSsawXf3Wdyj
-	AP7v4slDpMzG21csvTpempHVLp4ttCfvGtMGkgbsaJCObpJubQFADbBFyS571GbQR1i4yjM+CuR
-	AuJnfwP5N6BA2cWW7vUAiMlSv5cfz59/MYkwsctTvIwNwh8q
-X-Received: by 2002:a05:6122:3d14:b0:5e7:fc09:890a with SMTP id 71dfb90a1353d-5e91f48135bmr6780539e0c.11.1792086656401;
-        Thu, 15 Oct 2026 10:50:56 -0700 (PDT)
-Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea994fcf47sm222175e0c.15.2026.10.15.10.50.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 10:50:55 -0700 (PDT)
-Date: Thu, 15 Oct 2026 13:50:54 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, 
- linux-kernel@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowangio@gmail.com>, 
- =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- netdev@vger.kernel.org, 
- virtualization@lists.linux.dev, 
- Rusty Russell <rusty@rustcorp.com.au>, 
- Max Krasnyansky <maxk@qualcomm.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Simon Horman <horms@kernel.org>, 
- linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
-In-Reply-To: <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
-References: <cover.1792067836.git.mst@redhat.com>
- <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
-Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
- net hdr checksum validation
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqGIRxhn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792087386; x=1823623386;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=ncbnQ+iakl9vM5hTrct+vETuelrzzZWTpzlY2BdVizc=;
+  b=lqGIRxhnV7C+Msy2tS2N7P1E+BTJS2H8mx4ZhAF00OkkyyQn3DIGI3rb
+   XDTowJ2NYH84BPrhp1daYyD4PIh038kq9dJlsFVAXrKZdkGGZu7sHLBxq
+   MMFDMtfySOOuvWN6DHCQQbWIWuKM+ejIuIMCoHUCN2BzjZIThfpz3tJOQ
+   JUn0lxe5PqJZFGTMU3mAQgU5Koq53M3/3s+/tm/Df3UHSqev3wnNntQpn
+   2ZLKvYRCt7jJevQAxwrHuSF3/Ubp6/WBwjCTbjKvP0siflQaJrmlkIVKu
+   +cwWGINnZf4ugGKipzt+MhdJd9c+axO4bpgYb980gb5bSfsc0NjXoGnE8
+   Q==;
+X-CSE-ConnectionGUID: xkULKGPBRTGfT7IaDaf4sA==
+X-CSE-MsgGUID: 4YmdXPyqSp+fb/dWGYN7bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="877709"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="877709"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:03:04 -0700
+X-CSE-ConnectionGUID: dF/gCt35RzizeyF52ptl0g==
+X-CSE-MsgGUID: 2FzpDoBUTSeqcv9JyrRKKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="2177613"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:03:03 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 11:03:02 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Thu, 15 Oct 2026 11:03:02 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.5) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 15 Oct 2026 11:03:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oC4mVOn4ZrTdXl2K19hsNoNkqwz8Z2lVstZalOEfdC60J6SArN4l78SjtYUcracuyZGB8Va6IrGg5Fb0DzbIScktwNfN7L4ABSED3ATJL5mOsAtkrXkzMop4/Tem/pVH6zR4k18fxlpk3BV58xqla2t/dmTQ7x7Q99C6mXdcDNie38lvG2jbLscuVHE3l03cUsDnN7KrceyL3FXtl3wXFHv+DK30wOa0/foScHUk6Vj6n38ld6bdNcdL9fsibtEl0cGZ2o2CWaYE8O3ckP1BcbUgaPTYBoQd2OvsjU6fhjyjUXzx3GHVu9W5KeS3uBzT/ww/RETFHD4Dbs3jV1fVqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L4lUSwTLKL0ryEPYFejWWtjjbmRlZY99cNxP9YD7KkU=;
+ b=SXc03L/huBG7NW/Wv1+UJ4dhMG+c2MK+3cN7/OvZyoG8JG/C4Aub6+QEaCKSfLBmWQQv9u7gbEsdOo7LILlPBcVAooDQnV7aKZeDEebiwtNRqDpTH6qAFIDplanwIDfoZNkVp/JbfXhhHt9kIr0cPsRvKOjr3r/gUBbNs7muJUJCkREAcZmPp5JwJR5bhSQKXgc9BqmT0hnp+8U5hX1b2pJ+WmlZ4tPgSN49mnSwriM8n2FvQPgKhXKdA5RPmLZE4HooPefyLABeXuYSHkcCu8H697/oOxS7seAb+5Z8wfW8jraanDJakKHvrbjGW0tsPegB5yp5k3pT/9O77VMQVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6117.namprd11.prod.outlook.com (2603:10b6:8:b3::19) by
+ DS4PPF3FCD980E2.namprd11.prod.outlook.com (2603:10b6:f:fc02::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Thu, 15 Oct
+ 2026 18:02:53 +0000
+Received: from DM4PR11MB6117.namprd11.prod.outlook.com
+ ([fe80::d9b3:e942:2686:3cdd]) by DM4PR11MB6117.namprd11.prod.outlook.com
+ ([fe80::d9b3:e942:2686:3cdd%6]) with mapi id 15.21.0522.012; Thu, 15 Oct 2026
+ 18:02:53 +0000
+Date: Thu, 15 Oct 2026 20:02:41 +0200
+From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
+CC: Magnus Karlsson <magnus.karlsson@intel.com>, Stanislav Fomichev
+	<sdf@fomichev.me>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+	<kernel-team@meta.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Jesper Dangaard
+ Brouer" <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>, Pavel Begunkov
+	<asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii Nakryiko
+	<andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, "Kumar Kartikeya
+ Dwivedi" <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
+ Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
+	<jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
+	<ihor.solodrai@linux.dev>, <netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<io-uring@vger.kernel.org>, "Mike Marciniszyn (Meta)"
+	<mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, "Nikolay
+ Aleksandrov" <razor@blackwall.org>, David Wei <dw@davidwei.uk>, "Alexander
+ Lobakin" <aleksander.lobakin@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Mina Almasry <almasrymina@google.com>,
+	<clecigne@google.com>
+Subject: Re: [RFC net-next 01/15] xdp: Size zero-copy skb heads by their
+ contents
+Message-ID: <atEVQXajVzoWSFzc@boxer>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-2-bjorn@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261002190018.696925-2-bjorn@kernel.org>
+X-ClientProxiedBy: VI1PR06CA0141.eurprd06.prod.outlook.com
+ (2603:10a6:803:a0::34) To DM4PR11MB6117.namprd11.prod.outlook.com
+ (2603:10b6:8:b3::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6117:EE_|DS4PPF3FCD980E2:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfbb244c-67e7-44cc-6156-08df2ae68856
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|56012099006|5023799004|11063799006|261009223027099003|4143699003|18002099003|10067099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 9w66xkZpAoi/ffTsEJ9Gy6fJxhUbxKWySGbEBa1xTB5PEqrWWfsN7N94Jk4UCZ2imsbC6Z6+6Z1l+tk402Axs1ce1npJ7t45tJMArU+WUQ6kxR2lylO5Q3wTabRbGFLMggQtZEff436UvcwKLFmTfLihTGVpK1Cer4nrTh+D+iEwGfVuNMnwW3lt+0Jy7W3qDuYpmj7yh1P/0w+u9Fii5JUwpv+URpl/zK6NpIAMSgT4N81Ph2F/s6f2J/Bh3ISI6mANQT25AtgTn4enIYgOp33bRAForm8y0ElhzcDjYvst9kKhntSSWD/E8jNlGEC24OM4z0Kvsn/mijR4xRE/ZtPNkKwAyJu/ZAhG6xS0zTLSr+s4OyFp1gNB/RMxvXNZUVPG/kEw9y2XsX4iWanddNOY1D/sydLqNsNOUzIUj0hD7XJZjqf7HRjkWHFjIItp8uu3QSkiVElyipPQ7PlogcJa79Y+Eauf5V2OkQUBEEEvxEo1H9275oFpfWckOWqEwKT3hkayk5c9xv4Ju+8QG98EwpPY0SwrMW5Uk2yGclBJMKDlIG6c/e1BrbVMcOm4MeFoLBWxtBn7KFBodMR1Wi3pG025bOC+VzK9OEHjIXONwLgjtINvBcKdrC3IaI2Z
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6117.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(56012099006)(5023799004)(11063799006)(261009223027099003)(4143699003)(18002099003)(10067099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?6wR6kfN18rzSxVhktSGcDL6lCPpVySWiputJbBDN2EPKjQaNBNvc+jveJ+?=
+ =?iso-8859-1?Q?fbL/pAFpVx4coMfFy36YsHBE+HyjpaCrbS9dy7K151n4COTG8STNw07kNi?=
+ =?iso-8859-1?Q?ekdOiHfpyeebSkAPnU/rt+UGsfNV+5NvpTitqAAqaeKIg4sqshz18z7tG/?=
+ =?iso-8859-1?Q?gjdJjRTTvaPAgx6YWDVRxOfwL3O93LB9DuO2gwqWcWajsqwAp+92aktZ9B?=
+ =?iso-8859-1?Q?soPrDVFgCz3Lr62CZfjWUU9w1vZsdlSYcxwcTnH7c4WmDfRfvmm1Lda1ZA?=
+ =?iso-8859-1?Q?Z9nloprjpeP3gjLqk7ea/chhWPH4Um15mV++5ci788mW16mopNcu9ueVDy?=
+ =?iso-8859-1?Q?cYM4n0w9gy8D/33MgjS0Ovc6wAFfqN9h4XO+LqWM3CASstzuR1DfR1p+Xe?=
+ =?iso-8859-1?Q?8PZkmakoeWGoPP3LD1/sqMeaxr8gVPxQOZUy8PtSBiI5f/UBkHKr76IURk?=
+ =?iso-8859-1?Q?7v8nDQK8WTGvmsK+p8DTItG8KqGeW98DeUDPR7lNGxaOvX467OPRYp2N1f?=
+ =?iso-8859-1?Q?t1TljpRatCxtckPHZBxwO1X6cYkWgZhC6tw5xMxIZ1LqVE72cpIVuapDsY?=
+ =?iso-8859-1?Q?EX35U50WOnyx/AUGPm8VwssW/aqK5qqBKIgnbUy7AsW/1m+Q3yvavHf4Vi?=
+ =?iso-8859-1?Q?+U3v8tXKOjDYVR8PGb1YK780bx8SBhg5pwLPYa55x75SgmSIvIqYYNwIYE?=
+ =?iso-8859-1?Q?f37L4eyDjMdo2F0ska6LU0KSLFnqW5XqXlQVngdZQwp6oSqysX2I6Zcrho?=
+ =?iso-8859-1?Q?bEL+Ft3shp0JB1qdM4Oa4JEN8YkZCDGjnosDNUCZu0DiShNWjZ5JQcfWm3?=
+ =?iso-8859-1?Q?MweceYdT4ygPGOhKa05va5+cFR0m2s5rTa8/q6peDLh4s9H6sNGLPyQ+2p?=
+ =?iso-8859-1?Q?sXu1vwUX4o2ZirqW8uSSxY/fTBkygeoVEx/rHVPriybr3MwHlvqIb5ZJnr?=
+ =?iso-8859-1?Q?lZ31X9DUdcDaDP5+2RZ1dBiFPc2Gq6JTvSvVrGjSreMrfEhgrcVbB/t025?=
+ =?iso-8859-1?Q?3nJ/STms5XRPb9g23g6cG7p+gCRIJXeuiFqgr9rhggEv6x0T48+wAulz1U?=
+ =?iso-8859-1?Q?skQNGTR/1IoNRiRf1TQGw5qWnMgf8WqaCMoQn6vGoLMOii952GixrRFS6H?=
+ =?iso-8859-1?Q?1v5Oj05pMsOHcQcRg/jPTOCuFR+m1fnTA4xyswipJYTBteBKD7zbcPfzhO?=
+ =?iso-8859-1?Q?zbGCSWS57XpPOCQ/K6SJuz82pIT9KTjGLui4yNkt9W7pkxyhr41ujF+T6+?=
+ =?iso-8859-1?Q?tKlYAlTQjZOFypHpWbuvyeMt4DPkaRS+D0yedvulpdwy71SVaREg+Karep?=
+ =?iso-8859-1?Q?x/+ogig2iumbOBFOZDCI1jqzGHWjM47PmHGB6z8QnFrHVzr2ARI2NSOtgk?=
+ =?iso-8859-1?Q?LmMvF+vVYhnkf9bHUxyH6oiZppCrol7lhBRYVKoS3x08DXoq3ECByzdsn5?=
+ =?iso-8859-1?Q?0iYf5E67/COvgBEyCOQcobfUF1QK9EUxruYqar9hmuoficEM2DYTdK2nne?=
+ =?iso-8859-1?Q?oMsErrTKUSEf93ET3X7sFDp40JCzXQtBbIBCQq4Dr3q32b39o/5j3vLxuR?=
+ =?iso-8859-1?Q?gTYQNNlI5zSDU76Eor6TDayQGbM0Nqd6lEi4MKrO1SS9X5a+oIltR4tI7f?=
+ =?iso-8859-1?Q?RbAjpCEzQm1iucZLqU3vTVlVCzdR4/qhumvm9GcqkYp6brnAOWb/20vwL1?=
+ =?iso-8859-1?Q?ePN4R1YaCTk1Y9l58e1q+pvLm2KUUP0lxsKzYWkLcFMhUw+RGKGOslfVZe?=
+ =?iso-8859-1?Q?sc3ZgPwr1UBurqmKnVTZNfi59OLS5z8lRwtdAluFe+tRIa/7HmEYZbCZVI?=
+ =?iso-8859-1?Q?86jgnSF90iECqylS+TEyjxfFEVnmjLc=3D?=
+X-Exchange-RoutingPolicyChecked: W4E10VDg5iADnoT9//Nu1o9wdw0qnKAAGsJI1IiAYU6NtyzynbYdphr/LqVUxPTzLm7kifqyx1latRypjnWSryEp8bhUMq/82Lsnfi3GyuXu/nBLS3CrIopkDWRvU24iwk5MXT87sI+i8XEqXsZfzrjzzSM6DMSpPZcEPNf1ubqn7trcoNxC6Qk4ToapIlwUEmRmdZOMNTZD+fkcV/LLf5irKSCyT1Ghu6a+yJurC74W8saqJglJFkFAYtHmGJG8cDzCWiNiewWP8d3GvOveISelbWBxIKiIJ4+F2S8kq8A7+d7Qy6HbvPzvUsZZekGfJChypr/oV+tSRvpRToBbwA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfbb244c-67e7-44cc-6156-08df2ae68856
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6117.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 18:02:53.0255
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +pl0eBHR48Mhdd9/f68lpqdfOYbeT/cD1L0He27+jR1CkG0go+I7VYKiKvmxBO/yT4hUKgZx30hVt9gxxY1sIGqb2uXk4P8tzE1mB/qq1ek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF3FCD980E2
+X-OriginatorOrg: intel.com
 
-Michael S. Tsirkin wrote:
-> The ingress validation as implemented by the previous
-> patch is stricter than what it replaced: GSO
-> packets whose checksum metadata matches no transport header are
-> dropped, and non-GSO ones get their checksum completed in place.
-> Such packets used to pass with the metadata unvalidated,
-> and with no overhead.
+On Fri, Oct 02, 2026 at 09:00:02PM +0200, Björn Töpel wrote:
+> xdp_build_skb_from_zc() sizes the skb head by the XSK frame size,
+> which leaves no room for skb_shared_info. With 2 KiB chunks, a
+> 1514 byte frame overwrites 48 bytes of it. Both copies also round
+> the length up to LARGEST_ALIGN, past the end of the new buffers.
 > 
-> I judge that this should not affect any deployments, but there is still
-> some risk that it does.  In case a deployment depends on them anyway,
-> provide a per-netns switch to get the old behavior back:
+> Size the head from headroom plus data, copy exactly the data, and
+> drop frames whose head does not fit in a page.
 > 
-> echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> Discovered by an AI code review agent. Reproduced on fbnic in QEMU
+> with AF_XDP zero-copy from the page-pool series: an XDP program that
+> adds metadata, grows the frame to its end and passes it gets UMEM
+> bytes in the skb's shared info. A new xskxceiver test,
+> XDP_PASS_FULL_FRAME, checks this and passes with the fix. The test
+> will be posted separately.
 > 
-> The default is validating.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Fixes: 560d958c6c68 ("xsk: add generic XSk &xdp_buff -> skb conversion")
+> Signed-off-by: Björn Töpel <bjorn@kernel.org>
+
+Late on the ball here, but I believe this is the case Clement reported and
+we rejected it as the reproducer was OOT module.
+
+https://lore.kernel.org/bpf/20260629072300.1664622-1-clecigne@google.com/
+
+Should we proceed with Clement's fix then?
+
 > ---
->  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
->  include/linux/virtio_net.h               | 23 ++++++++++
->  include/net/netns/core.h                 |  1 +
->  net/core/dev.c                           |  6 +++
->  net/core/net_namespace.c                 |  1 +
->  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
->  6 files changed, 100 insertions(+)
+>  net/core/xdp.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> index e586e17fc7a5..7f230929c37e 100644
-> --- a/Documentation/admin-guide/sysctl/net.rst
-> +++ b/Documentation/admin-guide/sysctl/net.rst
-> @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
->  Default: 1 (on)
+> diff --git a/net/core/xdp.c b/net/core/xdp.c
+> index 1d679e8fd649..386240bd24c9 100644
+> --- a/net/core/xdp.c
+> +++ b/net/core/xdp.c
+> @@ -709,7 +709,7 @@ static noinline bool xdp_copy_frags_from_zc(struct sk_buff *skb,
+>  		}
 >  
+>  		memcpy(page_address(page) + offset, skb_frag_address(frag),
+> -		       LARGEST_ALIGN(len));
+> +		       len);
+>  		__skb_fill_page_desc_noacc(sinfo, i, page, offset, len);
 >  
-> +virtio_net_hdr_csum_check
-> +-------------------------
-
-Make more generic, virtio_net_hdr_validate?
-
-In case we add more validation in the future (as we have in the past),
-without having to introduce multiple such knobs.
-
-> +
-> +When processing packets with a virtio net header (through tun, tap, a
-> +packet socket or a virtio network device) that request checksum offload
-> +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
-> +in software, or drop the packet where the header does not match it.
-> +
-> +When disabled, the header is trusted not to corrupt the packet, and the
-> +checksum is offloaded to hardware (or not verified if it never reaches
-> +hardware). This is only safe if no protocol is processing the packets.
-> +
-> +Default: 1 (on)
-> +
-> +
->  wmem_default
->  ------------
+>  		tsize += truesize;
+> @@ -738,17 +738,23 @@ static noinline bool xdp_copy_frags_from_zc(struct sk_buff *skb,
+>   */
+>  struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp)
+>  {
+> +	u32 headroom = xdp->data_meta - xdp->data_hard_start;
+>  	const struct xdp_rxq_info *rxq = xdp->rxq;
+>  	u32 len = xdp->data_end - xdp->data_meta;
+> -	u32 truesize = xdp->frame_sz;
+>  	struct sk_buff *skb = NULL;
+>  	struct page_pool *pp;
+> +	u32 truesize;
+>  	int metalen;
+>  	void *data;
 >  
-> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-> index 357115ff0ec2..aa2f8ac4657c 100644
-> --- a/include/linux/virtio_net.h
-> +++ b/include/linux/virtio_net.h
-> @@ -5,6 +5,7 @@
->  #include <linux/if_vlan.h>
->  #include <linux/ip.h>
->  #include <linux/ipv6.h>
-> +#include <linux/jump_label.h>
->  #include <linux/netdevice.h>
->  #include <linux/udp.h>
->  #include <net/gso.h>
-> @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
->  	*thoff = nhoff + iph->ihl * sizeof(u32);
->  	return iph;
->  }
-> +/* Defined in net/core/dev.c, enabled while any network namespace
-> + * has net.core.virtio_net_hdr_csum_check set to 0.
-> + */
-
-Should this be a global sysctl, rather than per netns?
-
-Even if per-netns, most likely do not want it writable by netns root
-with user namespaces.
-
-That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
-of many crashes due to bad packets ingested by, e.g., a packet socket.
-
-A global sysctl also allows using proc_do_static_key and avoids the
-custom logic in virtio_net_hdr_csum_check_sysctl.
-
->  /* Where does the L3 header start, and what protocol is it?
->   * Handles Ethernet and VLAN headers; other devices use the
-> @@ -152,6 +166,12 @@ virtio_net_csum_partial_ok_at_offset(struct sk_buff *skb, u8 hdr_gso_type,
->  	unsigned int thoff;
->  	int ip_proto;
+>  	if (!IS_ENABLED(CONFIG_PAGE_POOL))
+>  		return NULL;
 >  
-> +	/* Failsafe: a namespace opted out of the validation,
-> +	 * trust the checksum metadata as before.
-> +	 */
-
-nit: as before, imho the code here is clear and comment unnecessary.
-
-> +	if (virtio_net_hdr_csum_check_disabled(skb))
-> +		return true;
+> +	/* The XSK frame size leaves no room for skb_shared_info. */
+> +	truesize = SKB_HEAD_ALIGN(headroom + len);
+> +	if (unlikely(truesize > PAGE_SIZE))
+> +		return NULL;
 > +
->  	if (!virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
->  		return false;
+>  	local_lock_nested_bh(&system_page_pool.bh_lock);
+>  	pp = this_cpu_read(system_page_pool.pool);
+>  	data = page_pool_dev_alloc_va(pp, &truesize);
+> @@ -762,9 +768,9 @@ struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp)
+>  	}
 >  
-> @@ -483,6 +503,9 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool outer_isv6,
->  	unsigned int thoff;
->  	int ip_proto;
+>  	skb_mark_for_recycle(skb);
+> -	skb_reserve(skb, xdp->data_meta - xdp->data_hard_start);
+> +	skb_reserve(skb, headroom);
 >  
-> +	if (virtio_net_hdr_csum_check_disabled(skb))
-> +		return true;
-> +
->  	if (!virtio_net_l3_start(skb, &nhoff, &proto))
->  		return false;
->  	if (outer_isv6 != (proto == htons(ETH_P_IPV6)))
-
-> +/* Defined in net/core/dev.c, declared for the gate in
-> + * include/linux/virtio_net.h.
-> + */
-> +DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
-> +
-> +/*
-> + * Protects changes to virtio_net_hdr_csum_check_disabled_key and each
-> + * net->core.sysctl_virtio_net_hdr_csum_check. Readers don't use a lock.
-> + */
-> +static DEFINE_MUTEX(virtio_net_hdr_csum_check_mutex);
-> +
-> +static int virtio_net_hdr_csum_check_sysctl(const struct ctl_table *table,
-> +					    int write, void *buffer,
-> +					    size_t *lenp, loff_t *ppos)
-> +{
-> +	struct net *net = (struct net *)table->data;
-> +	/* checkpatch warns but this can't be const: tmp.data is set below */
-> +	struct ctl_table tmp = *table;
-> +	u8 old;
-> +	int ret;
-> +
-> +	/*
-> +	 * Make sure virtio_net_hdr_csum_check_disabled_key counts zero values of
-> +	 * net->core.sysctl_virtio_net_hdr_csum_check.
-> +	 */
-> +	mutex_lock(&virtio_net_hdr_csum_check_mutex);
-> +
-> +	old = net->core.sysctl_virtio_net_hdr_csum_check;
-> +	tmp.data = &net->core.sysctl_virtio_net_hdr_csum_check;
-> +	ret = proc_dou8vec_minmax(&tmp, write, buffer, lenp, ppos);
-> +	if (write && !ret && old != net->core.sysctl_virtio_net_hdr_csum_check) {
-> +		if (net->core.sysctl_virtio_net_hdr_csum_check)
-> +			static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
-> +		else
-> +			static_branch_inc(&virtio_net_hdr_csum_check_disabled_key);
-> +	}
-> +
-> +	mutex_unlock(&virtio_net_hdr_csum_check_mutex);
-> +
-> +	return ret;
-> +}
-> +
->  static const struct ctl_table netns_core_table[] = {
->  #if IS_ENABLED(CONFIG_RPS)
->  	{
-> @@ -737,6 +780,15 @@ static const struct ctl_table netns_core_table[] = {
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= SYSCTL_ONE
->  	},
-> +	{
-> +		.procname	= "virtio_net_hdr_csum_check",
-> +		.data		= &init_net,
-> +		.maxlen		= sizeof(u8),
-> +		.mode		= 0644,
-> +		.proc_handler	= virtio_net_hdr_csum_check_sysctl,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE
-> +	},
->  	/* sysctl_core_net_init() will set the values after this
->  	 * to readonly in network namespaces
->  	 */
-> @@ -841,6 +893,8 @@ static __net_exit void sysctl_core_net_exit(struct net *net)
->  	tbl = net->core.sysctl_hdr->ctl_table_arg;
->  	unregister_net_sysctl_table(net->core.sysctl_hdr);
->  	BUG_ON(tbl == netns_core_table);
-> +	if (!net->core.sysctl_virtio_net_hdr_csum_check)
-> +		static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
->  #if IS_ENABLED(CONFIG_RPS)
->  	kfree(net->core.rps_default_mask);
->  #endif
+> -	memcpy(__skb_put(skb, len), xdp->data_meta, LARGEST_ALIGN(len));
+> +	memcpy(__skb_put(skb, len), xdp->data_meta, len);
+>  
+>  	metalen = xdp->data - xdp->data_meta;
+>  	if (metalen > 0) {
 > -- 
-> MST
+> 2.55.0
 > 
-
-
