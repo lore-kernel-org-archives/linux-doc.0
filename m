@@ -1,174 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D8E51A74D;
-	Thu, 15 Oct 2026 13:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3DC30C161
+	for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 13:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792070211; cv=none; b=mBX/qdx9EQMb6oA6saf8BQOPP7+4fFJqpG2G3xvVpsaZ1k+bXoaQTuPBwIHo2u1b5MtQXU7f9npoiDRt/2YMV+iE1DSX07T0EohFvqBwAD/nbD5Jbzf/IVAXW91/vQkvX/OZYfdw0MJfzQbgCFhf6/H+3Y5nvcC8WW9Vjji0GeI=
+	t=1792071118; cv=none; b=HqP3uLpXB44aNRJqM8OBIvvt83QPc+7FyrciJ+RkMOCfTkxRcrsNtoGZlA8eb28D3xUKyEicYmjmYnzvRFxmeGjCq3S4UhaN9/SX6+YObsorolYWE1ql60Q9Kihz0YgazjOm6/m0Bb0MA0LTyOKT+1IEtQw2/7wiWKbk5o2APy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792070211; c=relaxed/simple;
-	bh=xphmFiHpnI/HmhlmkPm/h3prswLmj4PwQpyRncK3sKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMmV6t1QEVwDc6W2xn7nlo+GUu+SwaqT2MFQYOleRORgYqbzwZKfK1WXqttji+t7V4Dpygam8GJca0FcD4PKIj2G6KASLaJxde4m504ghucSenhjUwduLL5WsDoh6jxIBqfUh3gDGtwq54JUth1s9nv9ETWnqTdzlp1OziwZePM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJZqkXRM; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1792071118; c=relaxed/simple;
+	bh=+KIU1bRrcoVVbS8IUa84eRSPGoeUTQ2rkJ36Chjo6is=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pj5hw3Heq7gougKLSHXImupxGOwJCfGENSRSZQSjzTzDKm5AxvaG1USIp4cjrhlLU25o+ytSzfOaPGpYlB4IZp3YqAu5HbOmUdmlnMpFKr22i+roqnD+L+II3GrmmXhJ7gQ2jBb6G894pyBXB/D+iuGQvnnQ/l7HGjFLX0dd444=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jf+Z+SKU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=jNsHiQ8q; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJZqkXRM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792070209; x=1823606209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xphmFiHpnI/HmhlmkPm/h3prswLmj4PwQpyRncK3sKg=;
-  b=nJZqkXRMMu7Fopf2mmMuFnEkojkD4LcgV5lsdzKoR4GJPGvvTkrFTIZU
-   UfBm8XQcC0hxRfreYKL2gdIB+UrFOw+6kiH6YdIGoZYQCHhHwkFlUydP1
-   LBq7Vn5l6ZfieHdzq555tMwqHoeVxtoOWRxWVE00BizMSQV2/VIXK8ZUX
-   VETOULvktZd9dhRDb69foPXfOWMZdzKRrJwLImGkcShTxsyxX8xWeRLHa
-   lEnXpwEjg8jo9ZXKsyiS++OgtUR4aBD2bK2JrsxI5DDlyfOx9+i530xZU
-   S/6+N6M015tNhO/dH/aWZ55FWCV/Knl61oO8pNaOGC/v3e3y7iwHJTfvm
-   A==;
-X-CSE-ConnectionGUID: G8GhbtnHR125CKqBZYB8gw==
-X-CSE-MsgGUID: teZ+qyBfSsGA3pLR3gopCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="724144"
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="724144"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 06:16:48 -0700
-X-CSE-ConnectionGUID: 3XtOOWnuTwOuHWs75W8FAA==
-X-CSE-MsgGUID: EzCabojDT/eI9tS8qVy7/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="1786153"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.117])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 06:16:44 -0700
-Date: Thu, 15 Oct 2026 16:16:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
-	David Gow <david@davidgow.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Laight <david.laight.linux@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] hexdump: Allow skipping identical lines
-Message-ID: <atDSOfZy1RDhB_ff@ashevche-desk.local>
-References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
- <as6TIm6xE8Izccb5@black.igk.intel.com>
- <as-iBP1781DVuZ7p@pathway.suse.cz>
- <202610142135.0326EA9C@keescook>
- <87se27wdzl.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jf+Z+SKU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="jNsHiQ8q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792071115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=+KIU1bRrcoVVbS8IUa84eRSPGoeUTQ2rkJ36Chjo6is=;
+	b=Jf+Z+SKUqTE2tLwGJa+lIU0TOJxBAL4sUbZGOGpkGdTqhzFTRWq+nYiphXcrb/bntczpVj
+	AixSIpObwI0mzKv8RruAZclmwv6uUUcIvayXJ7Np/mSRx7Q+7roc+g+hOqejoOfAxSbMAu
+	udUfTq4xKlHVzfMniI3R8kxQ0J6L2sI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-womO7Xu9Oritreyk3gvDYw-1; Thu, 15 Oct 2026 13:31:54 +0000
+X-MC-Unique: womO7Xu9Oritreyk3gvDYw-1
+X-Mimecast-MFC-AGG-ID: womO7Xu9Oritreyk3gvDYw_1792071113
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6b1bc2e62d5so4781519a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Oct 2026 06:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792071113; x=1792675913; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+KIU1bRrcoVVbS8IUa84eRSPGoeUTQ2rkJ36Chjo6is=;
+        b=jNsHiQ8qtZ1AQbbAEY+pTUhXZLsnQqJAgrz9CQzNN0vlNBbNs1DXOrnL7QONZwJ3jt
+         v+yLEEZ9Wiwr4AI0mYUfcVDGggC4lFVmrMteca3KbFDjE02oy28KU0x2g1/cCq5ZdmCQ
+         FhbP1zIJS9q8gcM0qZWL03ssugBux7qmAxV9Lng79v/oE4pl1/ksi/39M/pgNtwx5wmF
+         qfYPlyzuwlijxyIIR58hifT30hB0f5Kpw4uj9trlURGXQmaeoufcfOq1BS5G5/Zd3dTu
+         so2NekgjcX5kQqwZWH2h11ZXCvwiKbQ99q315EH2ENIW3ikV5t59fICzdihhuua8PwaT
+         2EHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792071113; x=1792675913;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=+KIU1bRrcoVVbS8IUa84eRSPGoeUTQ2rkJ36Chjo6is=;
+        b=o8f5L9GMKqeX2OhPDsT3NbQDMDsHpwEyjSrTqseLO76ShpclAlrcTLJ/sDl73KuKj+
+         N7otUPyhQJWIzoBphkaRhakgqqIQ2Bu9+ASP+XGsoYS9L3e3zJRwW6YgBy7WMaSQ5rdr
+         kgQJ/B7UqrX/zjeDMagW+NUz+PbwG9VJFDFnWBLaBZrrqNocra+/YbXITrniz/gG6Kgw
+         z5Bd6vz6+K2nsoji5xIyMpcvv1jWiUVW2M8OvyVPLbSEq6eSAgkBK7PpOsgkm3fhA2Ti
+         ijYFakfubJMDYCNxF0u9s8jErg4mzKT1jDchAQgL9BQSTw4Y2BgsDgDbEN6r1Cf/bboV
+         8l+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxs/u64WLd6rFnwIYFreOfEYU+spH58fArpNRhtjGVrGXo49tPuBoFRUuvPXEp3w9wqDu8Fp36/1Bg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK7VtogPzoEwiYQGtfzsmlr5utGSDg+d7AkdIVeMwVUNIakjm7+
+	owCihDkwZi7NVZIMla2tmbEffBH5P/RJlS1B67codvZYDVpvfROb9fnNwctHaEKAgk5arXhCowT
+	lQe/lJWrwkkJtMAxKxgClHLYACd2pZNVWxIayoXOOAiF7zwW0/jcthDZPMGdFOw==
+X-Gm-Gg: AYBFou0WrtDLAQRTc2/9+t4xWOVklkCMk/sRFlWCjYV+LZ2IvhUkXpp5SQdm5UIkQq+
+	fSleVhBN6k+4XAlnkO1JVbb1CGis8TRKeJnxaVfBNEbg53DXPRf8Vpkk2as32GnGNjfokHzfh8R
+	c6E4iX10uTAGxd0VBbJV8FApIfxhTg3wIbVtAHH1qiewcOzvTFitRFPNcU+UCcn9Y8WfcNzpYUK
+	PLmj7mfSM6EUjt1CSADA1EIKRF0PmzWQd5L2HScG3LV+ZY8C/3XF79nrsE7a3GOd2U5zwdsXjW7
+	Eqj56UO2G8dFaA7lHn5+XTAiCKHE3tq+CsUJi+/qEV2ve3vd/OpZnyXIAnxnSGpIDLt9QgYKH+Y
+	VZpmaSOvgvpdL/yswUa5JclJ5hVjr
+X-Received: by 2002:a05:6402:2381:b0:6af:5b14:78e7 with SMTP id 4fb4d7f45d1cf-6b17c2754e6mr13047923a12.34.1792071113191;
+        Thu, 15 Oct 2026 06:31:53 -0700 (PDT)
+X-Received: by 2002:a05:6402:2381:b0:6af:5b14:78e7 with SMTP id 4fb4d7f45d1cf-6b17c2754e6mr13047909a12.34.1792071112780;
+        Thu, 15 Oct 2026 06:31:52 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48df2619703sm6019856f8f.24.2026.10.15.06.31.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 06:31:52 -0700 (PDT)
+Message-ID: <5af5de33f57fec18c8026f20c131830924438dca.camel@redhat.com>
+Subject: Re: [PATCH v2 0/3] rv: per-edge dwell-time statistics for per-cpu
+ monitors
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
+	 <rostedt@goodmis.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rpm@xenomai.org, 	jan.kiszka@siemens.com
+Date: Thu, 15 Oct 2026 15:31:49 +0200
+In-Reply-To: <3ac898ad-b367-449b-bb0e-841a4fc6c190@siemens.com>
+References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
+	 <4759c9b0dacdf1f9c0cf47158895860dbd0ec401.camel@redhat.com>
+	 <cfd7123a-e83d-490d-918b-154d45aad92d@siemens.com>
+	 <aa16855bc9ccc6b776ba4f513b86e3eadf889f74.camel@redhat.com>
+	 <3ac898ad-b367-449b-bb0e-841a4fc6c190@siemens.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87se27wdzl.fsf@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Oct 15, 2026 at 10:43:26AM +0200, Miquel Raynal wrote:
-> On 14/10/2026 at 21:38:37 -07, Kees Cook <kees@kernel.org> wrote:
-> > On Wed, Oct 14, 2026 at 05:38:44PM +0200, Petr Mladek wrote:
-> >> On Tue 2026-10-13 22:22:58, Andy Shevchenko wrote:
-> >> > On Wed, Mar 19, 2025 at 05:08:09PM +0100, Miquel Raynal wrote:
+On Wed, 2026-10-14 at 21:27 +0200, Tobias Schaffner wrote:
+> Nothing generates NMIs. But from the linux kernel's point of view any
+> activity of the companion core is NMI-like, since disabling interrupts
+> from the linux kernel does not stop it from running.
+>=20
+> Our co-kernel keeps control of the real interrupt mask, so Linux cannot
+> delay it. Most of the time what Linux disables and enables is a virtual
+> mask instead of the real one.
+>=20
+> Tracing already works inside EVL, thanks to a downstream patch [1]. It
+> is mainly fixing all the points that rely on interrupt masking by
+> calling the correct wrappers.
+>=20
+> I would expect that we have to do similar for BPF. Some of the checks
+> already exist to cope with NMIs and we would just have to make it
+> recognize our stage too.
+>=20
+> [1]=20
+> https://gitlab.com/Xenomai/linux-dovetail/-/commit/2fc39d2bb5d9ca1c0e8987=
+94fc0297eb04cf67d9
+>=20
+
+Nice, thanks for sharing. Yeah you probably need to do similar things here =
+and
+there for BPF too, but perhaps some things (e.g. tracepoints) would be reus=
+ed.
+
+> You are clearly much more into the topic than I am. I will have to take
+> a closer look to better understand the BPF data structures and,
+> especially, their locking mechanisms before I can answer this.
+>=20
+> My use case is, so far, not that strict. It is more that the bigger the
+> tool gets, the harder it becomes to argue that it does not change the
+> behavior of the system under test. If the tool remains simple in the end
+> and I can describe its behavior as deterministic, there will be no issue.
 
 ...
 
-> >> > Sorry for the so late response. First of all, a bit of a background
-> >> > development on my side. At some point a few months ago I asked John
-> >> > Ogness to give me a private dive to the printk() guts. He explained
-> >> > to me a lot about ow printk() circular buffer works and that the
-> >> > implementation is nowadays done in the terms of circular buffer library
-> >> > and printk() front-end. This gives a potential to get a clean solution
-> >> > for the testing how printk() actually behaves.
-> >> 
-> >> I am curious what printk() features you would like to test.
+> It sounds to me that you think about moving the complete RV system to
+> BPF. Is this correct? In the end I will try to follow if you decide to
+> go down the BPF route. Possibly after some delay but nevertheless.
 
-Besides the case the Miquel has I was think more of the testing the front-end
-part of printk(). The back-end, id est vsnprintf(), is well covered already
-since we may control the buffer the vsnprintf() prints to. With real printk()
-there is no control of the buffer, and as you explained below it might be
-required to add some more hooks and code.
+Frankly, I wanted to keep both representations and I'm designing the BPF se=
+ries
+to share code and keep both in-kernel and BPF maintainable.
 
-> >> > The main issue with the
-> >> > real printk() is that the buffer it's using is defined globally and
-> >> > for clean test cases the printk() can't be used. We discussed the way
-> >> > of high-jacking that by linking an object file of printk() implementation
-> >> > to the KUnit test, but it seems quite a tricky if ever achievable exercise.
-> >> > 
-> >> > Meanwhile Kees Cook seems found a nice workaround for the similar use case
-> >> > in his recent patch series [1]. The idea is to register custom console and
-> >> > provide a custom .write() method which is the heart of the solution. On
-> >> > the writer side user prints something which has unique prefix, while the
-> >> > console callback recognises that pattern and checks the rest of the line.
-> >> 
-> >> I ask because the solution used by Kees seems to be quite complicated
-> >> and unreliable for the given purpose. In particular, printk() does
-> >> only the best effort to flush messages on legacy consoles. And NBCON
-> >> consoles drivers are even offloaded to a kthread by default as
-> >> pointed out by John in the other mail.
-> >> 
-> >> It seems that Kees just want to check some particular printk() calls
-> >> and what messages they print. It might be easier and more reliable
-> >> to redirect printk() to an alternative implementation via a hook
-> >> in vprintk() in kernel/printk/printk_safe.c.
-> >
-> > Yeah, I was just trying to "prove" that seq_buf_do_printk() actually
-> > put something onto the console (and to match up what was written and how
-> > truncation behaved). :P I'm open to adjusting this however it should be...
-> 
-> Just to redirect the discussion towards my initial goal, what I would
-> like to bring is a userspace-like hexdump output which allows to skip
-> identical lines. I am printing a lot of flash content. Empty flashes are
-> full of ones, I mostly do not care about them, yet, during
-> tracing/debugging they take ages to be printed at 115200 bauds. So I was
-> just proposing to skip identical lines (with a '*') like in userspace.
-> 
-> Following my proposal, Andy requested that I would add unit testing of
-> this outpout. At that time I refused it for two main reasons:
-> - it is mostly a debugging mechanism, so if it ever breaks or changes,
->   it is not (IMHO) a big problem;
+But this was mainly under the assumption that some use-cases would still re=
+quire
+in-kernel and/or BPF wouldn't be able to do everything we need with the sam=
+e
+quality/speed/determinism.
 
-I find this feature is good in general and maybe actually part of the real ABI
-or just beyond debugging.
+Now, I'm still assessing it but it seems BPF is good enough, at least for t=
+he
+use-cases I tested, this assessment is going to take time as well.
 
-> - there was no accessible testing infrastructure that would not be
->   overly complex for verifying the output of those calls.
-> 
-> I am still convinced adding testing here is superfluous.
+For the time being in-kernel is surely going to stay and I'd really value
+external opinion bringing other points on why it should not go away. I know=
+ the
+industrial/automotive use-cases are the strictest and if BPF doesn't fit th=
+ere,
+I wouldn't drop in-kernel support.
 
-Petr, also note, that this series doesn't use any modifications to the
-hex_dump_to_buffer() facility as it's done on the upper layer of the printk()
-that is not anyhow covered by unit tests. That's why I was insisting on the
-test cases.
+So now it's the time to line out and validate all requirements.
 
-And since we want to cover lib/ with unit tests, I tend to try to fulfil that.
-However, if there is a majority of stakeholders (Miquel, PRINTK() maintainers,
-and reviewers) think otherwise we might do no tests exceptionally.
+> Should I wait with proposing a v3 of this patch set until you made a
+> final decision or do you want to merge this in the current RV system no
+> matter how this develops?
 
-> Andy and myself met during LPC in Prague. Andy claimed that we might now
-> have the relevant infrastructure to add the tests. If there is an easy
-> way, I will just do it and move on. But based on the recent exchanges,
-> that does not seem so obvious.
-> 
-> So, what is the appropriate move here?
+The good thing about your series is that you're using very few dependencies=
+,
+just like DA monitors. This makes it straightforward to use your header dir=
+ectly
+in BPF with minimal modifications.
+I'd say, continue your work towards a v3 and in the meanwhile I'll try and =
+see
+how to align your changes to be easily usable in BPF.
 
-Yep, we need some discussion here how to move forward. Again, I like
-the feature, I just don't like it may go without testing.
+Realistically, DA monitor support won't reach upstream before the end of th=
+e
+year and after that I'd need to do the same work for LTL and HA. That's goi=
+ng to
+be more complex.
+Only then, if everything is really smooth, we're going to think if it makes
+sense to migrate existing monitors and deprecate in-kernel ones.
 
--- 
-With Best Regards,
-Andy Shevchenko
+In my opinion, your contribution stays relevant either way.
 
+Thanks,
+Gabriele
 
