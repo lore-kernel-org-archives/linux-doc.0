@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F5D75328D0;
-	Thu, 15 Oct 2026 14:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13FDD535FAA;
+	Thu, 15 Oct 2026 14:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074385; cv=none; b=hMWjZSSNwvFV4wrzYN4JBhqc2LrbrCusUgu777pqBN0ejTfdeoSTDmTcQsPzzpOz8AKxKBjSqF3kMfu+kde51+X2xYPVXjas+i+Oiis00dIZSgvAovj3os9ILhY7DU05obU+fZF6SMwFKtj1pLRA0QVzqqCsO6qsQcZs1r5QSkY=
+	t=1792074393; cv=none; b=nC9qdP2VpiXs2NnGNHZyd71pXXTDDMBo1POK4rEsmYUhvSE7kBCbM69/zRThoGDD0DCXAEHnKy1MCN3bLAdM2sPBpJJJG9bgwgcv1O7AkJoiA6jx0kHe/8VDohniORVlvw71oBGiwdx+AIgR0siaVSRqfNRGEZ1zURRhaLZSsBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074385; c=relaxed/simple;
-	bh=92g4f16JkFzfa2eJ04OERqd5V71ETIp+E0Q4Liww/Oc=;
+	s=arc-20240116; t=1792074393; c=relaxed/simple;
+	bh=05KhQBlLMMcBUNB/YK9iSgcp4Cp+gQe+85V4m76ZWnU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RbB1UtQiMPUf6imzy11RcU7yoe19CQiCirU89czfVf0SjrOXg1k8Iu08Io0BVsdvrUkeNCOWCz9R1tEV0rEkMIRbVidvW4eg9T42SaDhoS3Sb73uqHCHFYfYlAtqdb6N3lWRX1SpJNkoTxBtjPUX7UA/5m+fd79bqYhIiSdb5KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aGfkQgtI; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=CH6pKHtCnR12GeTU6k1BfG3yql1xiMILFntnS1ttxgPzBAhMDMkwPwXEJPSvK7EqXjpF8/3as4/ff6WmriG0VQwx9VdGnFpaKZvs7ckGtN19GXJLBf5yGweNun3THZbkp6wKIudZCOgVPlGH9U4wFG7y+FDBdusl2Qw0EC3OMzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pteDuhxp; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aGfkQgtI"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pteDuhxp"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCBD01516;
-	Thu, 15 Oct 2026 07:26:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DAC91477;
+	Thu, 15 Oct 2026 07:26:21 -0700 (PDT)
 Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.2.198.107])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D28EE3F871;
-	Thu, 15 Oct 2026 07:26:14 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC9823F871;
+	Thu, 15 Oct 2026 07:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792074378; bh=92g4f16JkFzfa2eJ04OERqd5V71ETIp+E0Q4Liww/Oc=;
+	t=1792074384; bh=05KhQBlLMMcBUNB/YK9iSgcp4Cp+gQe+85V4m76ZWnU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aGfkQgtItwhplFdngNnFUSeRIjclF8TsuG5CJFFS6DBauQHwmKAGxv7D2TNyk2rRE
-	 HHS0Qj5G/ETDBBVZc0dLDGIyxEBFJOVCv2qNbRCiDwOHGKeYHooYGvowUaMMePaKBp
-	 hHmREOSZSxfKv11x7ANwu6wtkR0NFaX423eAFcvo=
+	b=pteDuhxpEAoGDtrwUFa2OEkQeIaXnJ9FyDsm6fKmfWOVkF2fRFHoaJSK1yxsaHekj
+	 SaaJyxn2NMswr79AdcItzxqATQM5+ERBvWHCWOqHbOmy8F31+OPKGUAVWkaZ2Jp5Dj
+	 zyPZHXCVcNUARZU7C8dkSAzPIUeKpMN0Jj7VPto8=
 From: Ryan Roberts <ryan.roberts@arm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Arnd Bergmann <arnd@arndb.de>,
@@ -50,9 +50,9 @@ Cc: Ryan Roberts <ryan.roberts@arm.com>,
 	devicetree@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v2 04/15] misc/arm-cla: Probe firmware-described devices
-Date: Thu, 15 Oct 2026 15:25:38 +0100
-Message-ID: <20261015142552.4128028-5-ryan.roberts@arm.com>
+Subject: [RFC PATCH v2 06/15] misc/arm-cla: Accelerator context save and restore
+Date: Thu, 15 Oct 2026 15:25:40 +0100
+Message-ID: <20261015142552.4128028-7-ryan.roberts@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261015142552.4128028-1-ryan.roberts@arm.com>
 References: <20261015142552.4128028-1-ryan.roberts@arm.com>
@@ -66,540 +66,525 @@ Content-Transfer-Encoding: 8bit
 
 From: Jean-Philippe Brucker <jpb@kernel.org>
 
-Discover CLA devices from firmware and instantiate the driver with
-platform_driver_probe(), since the set of devices is fixed at boot. Map
-the MMIO frame, select the kernel-accessible privilege-level frame and
-associate each CLA with the CPU named by firmware.
+Add helpers to save and restore CLA context for later domain switching.
+The saved state includes DATA registers, LRESP, per-accelerator SRSTATE
+and any implementation-defined internal accelerator state exposed
+through the IAS register window.
 
-Add the topology code used to group CLAs into domains. Domains represent
-the smallest unit that can be assigned independently, because CLAs in
-the same domain cannot be isolated from each other. Build lookup tables
-indexed by CPU and by mmap page offset for later fast access.
+Use ENTERSR to stop each accelerator and collect SRSTATE, then read the
+advertised internal register state with REGREAD. Restore by entering SR
+mode from a reset, idle accelerator, writing the saved internal state
+with REGWRITE and completing the transition with EXITSR.
 
-Register CPU hotplug callbacks so that hardware setup and teardown can
-run on the CPU local to each CLA, which is the only CPU allowed to
-access that CLA's registers.
+Reject accelerators that require SAVE/RESTORE operations during setup,
+since that path needs a DMA buffer for state storage. Allocate
+per-device save areas for all CLAs in a domain, sized from the combined
+IASSIZE discovered at setup time.
 
-Co-developed-by: Ryan Roberts <ryan.roberts@arm.com>
-Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
 Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
 ---
- drivers/misc/arm-cla/Makefile       |   3 +-
- drivers/misc/arm-cla/arm-cla.h      |  46 ++++++
- drivers/misc/arm-cla/cla-init.c     | 222 ++++++++++++++++++++++++++++
- drivers/misc/arm-cla/cla-topology.c | 172 +++++++++++++++++++++
- 4 files changed, 442 insertions(+), 1 deletion(-)
- create mode 100644 drivers/misc/arm-cla/cla-topology.c
+ drivers/misc/arm-cla/Makefile   |   1 +
+ drivers/misc/arm-cla/arm-cla.h  |  32 ++++
+ drivers/misc/arm-cla/cla-init.c |  35 ++++
+ drivers/misc/arm-cla/cla-ops.c  |  49 ++++++
+ drivers/misc/arm-cla/cla-regs.c | 295 ++++++++++++++++++++++++++++++++
+ 5 files changed, 412 insertions(+)
+ create mode 100644 drivers/misc/arm-cla/cla-regs.c
 
 diff --git a/drivers/misc/arm-cla/Makefile b/drivers/misc/arm-cla/Makefile
-index 3fa8567c8b3e..84ed1a054a21 100644
+index 84ed1a054a21..c1b14155454d 100644
 --- a/drivers/misc/arm-cla/Makefile
 +++ b/drivers/misc/arm-cla/Makefile
-@@ -2,6 +2,7 @@
- 
+@@ -3,6 +3,7 @@
  arm-cla-y := \
  	cla-init.o \
--	cla-ops.o
-+	cla-ops.o \
-+	cla-topology.o
+ 	cla-ops.o \
++	cla-regs.o \
+ 	cla-topology.o
  
  obj-$(CONFIG_ARM_CLA) += arm-cla.o
 diff --git a/drivers/misc/arm-cla/arm-cla.h b/drivers/misc/arm-cla/arm-cla.h
-index 4884e4804ab3..61176c4fce0f 100644
+index 6890c813a5c3..6d72d57e5422 100644
 --- a/drivers/misc/arm-cla/arm-cla.h
 +++ b/drivers/misc/arm-cla/arm-cla.h
-@@ -17,6 +17,8 @@
- #define CLA_NUM_DATA_REGS	8
- #define CLA_SRSTATE_LEN		8
- 
-+struct cla_domain;
-+
- /**
-  * struct cla_dev - CLA device
+@@ -29,6 +29,7 @@ struct cla_domain;
+  * @pfn:		Page of registers assigned to user.
+  * @accelerators:	Available accelerators.
+  * @pg_offset:		Mmap offset of this device.
++ * @iassizes:		Combined regstate of all accels in bytes.
+  * @domain:		The domain this CLA belongs to.
   *
-@@ -24,13 +26,41 @@
-  * @cpu:		The CPU this CLA is attached to.
-  * @regs:		Registers accessed by the kernel.
-  * @dev:		The platform device.
-+ * @pfn:		Page of registers assigned to user.
-+ * @pg_offset:		Mmap offset of this device.
-+ * @domain:		The domain this CLA belongs to.
-  */
- struct cla_dev {
- 	unsigned int cpu;
- 	void __iomem *regs;
- 	struct device *dev;
-+	unsigned long pfn;
-+	unsigned long pg_offset;
-+	struct cla_domain *domain;
-+};
-+
-+/**
-+ * struct cla_domain - Collection of cla_dev
-+ *
-+ * Immutable state:
-+ * @id:			Consecutive userspace domain identifier.
-+ * @pg_offset:		Mmap offset of the first device.
-+ * @nr_devs:		Number of devices in the domain.
-+ * @devs:		Devices.
-+ */
-+struct cla_domain {
-+	unsigned int id;
-+	unsigned long pg_offset;
-+	unsigned int nr_devs;
-+	struct cla_dev **devs;
+  * Mutable, protected by CPU hotplug locking:
+@@ -42,6 +43,7 @@ struct cla_dev {
+ 	unsigned long pfn;
+ 	u8 accelerators;
+ 	unsigned long pg_offset;
++	unsigned long iassizes;
+ 	struct cla_domain *domain;
+ 
+ 	bool discovered;
+@@ -64,6 +66,27 @@ struct cla_domain {
+ 	struct cla_dev **devs;
  };
  
-+extern struct xarray cla_domains;
-+extern unsigned int cla_nr_domains;
-+extern struct cla_dev **cla_lut_cpu;
-+extern struct cla_dev **cla_lut_pg;
-+extern unsigned int cla_nr_devs;
-+
- #define cla_dbg(_dev, fmt, ...) \
- 	dev_dbg((_dev)->dev, "[%u] " fmt, (_dev)->cpu, ##__VA_ARGS__)
- #define cla_info(_dev, fmt, ...) \
-@@ -38,6 +68,13 @@ struct cla_dev {
- #define cla_err(_dev, fmt, ...) \
- 	dev_err((_dev)->dev, "[%u] " fmt, (_dev)->cpu, ##__VA_ARGS__)
- 
-+#define CLA_REG_SIZE	SZ_64K
-+#define CLA_FRAME_SIZE	(4 * CLA_REG_SIZE)
-+
-+/* Return the registers corresponding to this privilege level */
-+#define cla_get_regs(base, pl) \
-+	((typeof(base))((uintptr_t)(base) + (pl) * CLA_REG_SIZE))
-+
- static inline u64 cla_reg_read(struct cla_dev *dev, off_t reg)
- {
- 	/* MMIO reads are all relaxed, since the driver doesn't use DMA. */
-@@ -50,6 +87,15 @@ static inline void cla_reg_write(struct cla_dev *dev, off_t reg, u64 val)
- 	return writeq_relaxed(val, dev->regs + reg);
- }
- 
-+/*
-+ * If we're at EL2, use PL2. If we're a guest or nVHE host, use PL1.
++/**
++ * struct cla_regs_pl0 - Saved CLA register state (PL0)
++ *
++ * @data:		DATA registers.
++ * @lresp:		LRESP register.
++ * @accel_valid:	Accelerator state has been saved once.
++ * @srstate:		Save/restore state for each accelerator.
++ * @regstate:		Internal accelerator state.
 + */
-+#define cla_kernel_pl (is_kernel_in_hyp_mode() ? 2 : 1)
++struct cla_regs_pl0 {
++	u64 data[CLA_NUM_DATA_REGS];
++	u64 lresp;
++	bool accel_valid;
++	u64 srstate[CLA_NUM_ACC][CLA_SRSTATE_LEN];
++	u64 regstate[];
++};
 +
-+struct cla_domain *cla_dev_domain_get(struct cla_dev *dev);
-+int cla_domains_finalise(void);
-+void cla_domains_free(void);
++struct cla_ctx {
++	void **regs;
++};
 +
- int cla_op_wait_lresp(struct cla_dev *dev, u64 *lresp);
- int cla_op_reset(struct cla_dev *dev, unsigned int accid);
- int cla_op_regread(struct cla_dev *dev, unsigned int accid, unsigned int regidx,
+ extern struct xarray cla_domains;
+ extern unsigned int cla_nr_domains;
+ extern struct cla_dev **cla_lut_cpu;
+@@ -116,5 +139,14 @@ int cla_op_regread(struct cla_dev *dev, unsigned int accid, unsigned int regidx,
+ 		   size_t nregs, u64 *regs);
+ int cla_op_regwrite(struct cla_dev *dev, unsigned int accid,
+ 		    unsigned int regidx, size_t nregs, u64 *regs);
++int cla_op_entersr(struct cla_dev *dev, unsigned int accid, u64 *srstate);
++int cla_op_exitsr(struct cla_dev *dev, unsigned int accid, u64 *srstate);
++
++int cla_regs_install(struct cla_dev *dev, struct cla_ctx *ctx,
++		     unsigned int ctx_id);
++int cla_regs_uninstall(struct cla_dev *dev, struct cla_ctx *ctx,
++		       unsigned int ctx_id);
++int cla_ctx_alloc_regs(struct cla_domain *domain, struct cla_ctx *ctx);
++void cla_ctx_free_regs(struct cla_domain *domain, struct cla_ctx *ctx);
+ 
+ #endif /* _ARM_CLA_H_ */
 diff --git a/drivers/misc/arm-cla/cla-init.c b/drivers/misc/arm-cla/cla-init.c
-index 3d1f47592842..6818fb8c38ed 100644
+index 2974bf71033c..a4d2ffaa3136 100644
 --- a/drivers/misc/arm-cla/cla-init.c
 +++ b/drivers/misc/arm-cla/cla-init.c
-@@ -5,7 +5,229 @@
-  * Copyright 2026 Arm Limited.
-  */
+@@ -7,8 +7,10 @@
  
-+#include <linux/cpuhotplug.h>
-+#include <linux/cpuhplock.h>
+ #include <linux/cpuhotplug.h>
+ #include <linux/cpuhplock.h>
++#include <linux/math.h>
  #include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/smp.h>
-+
-+#include <asm/virt.h>
-+
-+#include "arm-cla.h"
-+
-+static int cla_cpuhp_state = -1;
-+
-+static int cla_dev_setup(unsigned int cpu)
-+{
-+	struct cla_dev *dev;
-+
-+	dev = cla_lut_cpu[cpu];
-+	if (!dev)
-+		return 0;
-+
-+	if (WARN_ON(smp_processor_id() != cpu || dev->cpu != cpu))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int cla_dev_teardown(unsigned int cpu)
-+{
-+	struct cla_dev *dev;
-+
-+	/*
-+	 * Careful what we return here, the teardown path isn't really allowed
-+	 * to fail (BUG_ON in kernel/cpu.c)
-+	 */
-+	dev = cla_lut_cpu[cpu];
-+	if (!dev)
-+		return 0;
-+
-+	return 0;
-+}
-+
-+static int cla_of_to_cpu(struct device_node *of_node)
-+{
-+	int cpu;
-+	int ret;
-+	u32 cpu_phandle;
-+	struct device_node *cpu_node;
-+
-+	if (!of_node)
-+		return -ENODEV;
-+
-+	ret = of_property_read_u32(of_node, "cpu", &cpu_phandle);
-+	if (WARN_ON(ret))
-+		return -EINVAL;
-+
-+	cpu_node = of_find_node_by_phandle(cpu_phandle);
-+	if (WARN_ON(!cpu_node))
-+		return -EINVAL;
-+
-+	cpu = of_cpu_node_to_id(cpu_node);
-+	of_node_put(cpu_node);
-+
-+	return cpu;
-+}
-+
-+static struct cla_dev *cla_dev_alloc(struct device *parent, int cpu,
-+				     void __iomem *regs, phys_addr_t base)
-+{
-+	struct cla_dev *dev;
-+
-+	dev = devm_kzalloc(parent, sizeof(*dev), GFP_KERNEL);
-+	if (!dev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	dev->pfn = __phys_to_pfn(base);
-+	dev->regs = cla_get_regs(regs, cla_kernel_pl);
-+	dev->cpu = cpu;
-+	dev->dev = parent;
-+
-+	/* Attempt to find device domain, or allocate a new one */
-+	dev->domain = cla_dev_domain_get(dev);
-+	if (IS_ERR(dev->domain))
-+		return ERR_CAST(dev->domain);
-+
-+	cla_nr_devs++;
-+
-+	return dev;
-+}
-+
-+static int cla_probe(struct platform_device *pdev)
-+{
-+	int cpu;
-+	void __iomem *reg;
-+	size_t reg_size;
-+	struct cla_dev *dev;
-+	struct resource *res;
-+
-+	/*
-+	 * TODO: the firmware maps this as well to access PL3, and the guest
-+	 * will map PL1 and PL0. Avoid TLB attr mismatches by only mapping what
-+	 * we need.
-+	 */
-+	reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(reg)) {
-+		dev_err(&pdev->dev, "could not map CLA registers\n");
-+		return PTR_ERR(reg);
-+	}
-+
-+	if (!IS_ALIGNED(res->start, SZ_256K)) {
-+		dev_err(&pdev->dev, "invalid CLA registers alignment\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * As a guest we may not get PL3 or PL2. Tolerate CLAs smaller
-+	 * than 4*CLA_REG_SIZE.
-+	 */
-+	reg_size = resource_size(res);
-+	if (reg_size > CLA_FRAME_SIZE ||
-+	    reg_size < (cla_kernel_pl + 1) * CLA_REG_SIZE) {
-+		dev_err(&pdev->dev, "unexpected CLA registers size\n");
-+		return -EINVAL;
-+	}
-+
-+	cpu = cla_of_to_cpu(pdev->dev.of_node);
-+	if (cpu < 0)
-+		return cpu;
-+
-+	/* Reject CLAs for offline CPUs. See cla_module_init(). */
-+	if (!cpu_online(cpu))
-+		return -ENODEV;
-+
-+	dev = cla_dev_alloc(&pdev->dev, cpu, reg, res->start);
-+	if (IS_ERR(dev))
-+		return PTR_ERR(dev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id cla_of_match[] = {
-+	{.compatible = "arm,cla",},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, cla_of_match);
-+
-+static struct platform_driver cla_driver = {
-+	.driver	= {
-+		.name			= "arm-cla",
-+		.of_match_table		= cla_of_match,
-+	},
-+};
-+
-+static int __init cla_module_init(void)
-+{
-+	bool driver_registered = false;
-+	int ret;
-+
-+	/*
-+	 * For now, we reject any CLAs discovered via FW tables, whose CPU is
-+	 * offline during init. This keeps things simple by allowing us to probe
-+	 * all HW at init time. Keep the online CPU set stable so that the
-+	 * cpu_online() check in cla_probe() is consistent with the online cpus
-+	 * when we call cpuhp_setup_state().
-+	 */
-+	scoped_guard(cpus_read_lock) {
-+		/*
-+		 * CPUs may be hotplugged, but all CLAs are described by
-+		 * firmware so the probe can be synchronous. This only sets up
-+		 * the resources, and CPUHP callbacks do the actual peeking and
-+		 * poking. This returns an error when no CLA has an online CPU.
-+		 */
-+		ret = platform_driver_probe(&cla_driver, cla_probe);
-+		if (ret) {
-+			if (ret != -ENODEV)
-+				pr_err("arm-cla: probe failed with %d\n", ret);
-+			/* Some domains may have been created during probe. */
-+			goto err_hardware;
-+		}
-+		driver_registered = true;
-+
-+		ret = cla_domains_finalise();
-+		if (ret) {
-+			pr_err("arm-cla: failed to finalise domains: %d", ret);
-+			goto err_hardware;
-+		}
-+
-+		/*
-+		 * Each CPU initializes their own CLA. CPUHP uses a pair of
-+		 * smp_mb() when calling the startup callback, ensuring that
-+		 * cla_dev_setup() reads fully initialized cla_lut_cpu and
-+		 * cla_dev structures.
-+		 */
-+		ret = cpuhp_setup_state_cpuslocked(CPUHP_AP_ONLINE_DYN,
-+						   "arm-cla", cla_dev_setup,
-+						   cla_dev_teardown);
-+		if (ret < 0) {
-+			pr_err("arm-cla: failed to setup cpuhp: %d", ret);
-+			goto err_hardware;
-+		}
-+		cla_cpuhp_state = ret;
-+	}
-+
-+	return 0;
-+
-+err_hardware:
-+	if (cla_cpuhp_state >= 0)
-+		cpuhp_remove_state(cla_cpuhp_state);
-+	cla_domains_free();
-+	if (driver_registered)
-+		platform_driver_unregister(&cla_driver);
-+	return ret;
-+}
-+
-+static void __exit cla_module_exit(void)
-+{
-+	cpuhp_remove_state(cla_cpuhp_state);
-+	cla_domains_free();
-+	platform_driver_unregister(&cla_driver);
-+}
-+
-+module_init(cla_module_init);
-+module_exit(cla_module_exit);
+ #include <linux/of.h>
++#include <linux/overflow.h>
+ #include <linux/platform_device.h>
+ #include <linux/smp.h>
  
- MODULE_DESCRIPTION("Arm Core Local Accelerator");
- MODULE_AUTHOR("Arm Limited");
-diff --git a/drivers/misc/arm-cla/cla-topology.c b/drivers/misc/arm-cla/cla-topology.c
-new file mode 100644
-index 000000000000..5137a0e041e5
---- /dev/null
-+++ b/drivers/misc/arm-cla/cla-topology.c
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Arm CLA driver - device topology initialization
+@@ -82,6 +84,38 @@ static int cla_reset_pmu(struct cla_dev *dev, unsigned int accid)
+  */
+ static int cla_dev_discover_accel(struct cla_dev *dev, unsigned int accid)
+ {
++	unsigned long iassizes;
++	u64 iassize;
++	u64 acap;
++	int ret;
++
++	/*
++	 * This driver supports context switching with REGREAD and REGWRITE.
++	 * SROP (SAVE and RESTORE ops) requires DMA-backed state storage, which
++	 * is not implemented here.
++	 */
++	ret = cla_op_regread(dev, accid, CLA_REG_ACAP, 1, &acap);
++	if (ret)
++		return ret;
++	if (FIELD_GET(CLA_ACAP_SROP, acap)) {
++		cla_err(dev, "[%u] SROP not supported\n", accid);
++		return 1;
++	}
++
++	ret = cla_op_regread(dev, accid, CLA_REG_IASSIZE, 1, &iassize);
++	if (ret)
++		return ret;
++	if (FIELD_GET(CLA_ACAP_REGSTATE, acap)) {
++		/* Reserve whole u64 entries for each accelerator's state. */
++		if (check_add_overflow(iassize, sizeof(u64) - 1, &iassize) ||
++		    check_add_overflow(dev->iassizes, round_down(iassize,
++				       sizeof(u64)), &iassizes)) {
++			cla_err(dev, "[%u] IASSIZE total overflows\n", accid);
++			return -EOVERFLOW;
++		}
++		dev->iassizes = iassizes;
++	}
++
+ 	dev->accelerators |= (1 << accid);
+ 
+ 	return 0;
+@@ -181,6 +215,7 @@ static int cla_dev_setup(unsigned int cpu)
+ 	if (!dev->discovered) {
+ 		/* Discard partial results from an earlier, failed discovery. */
+ 		dev->accelerators = 0;
++		dev->iassizes = 0;
+ 	}
+ 
+ 	/* Clear DATA and LRESP_DATANZ */
+diff --git a/drivers/misc/arm-cla/cla-ops.c b/drivers/misc/arm-cla/cla-ops.c
+index 5d053c6aa1f7..bb0bac5c2d35 100644
+--- a/drivers/misc/arm-cla/cla-ops.c
++++ b/drivers/misc/arm-cla/cla-ops.c
+@@ -314,3 +314,52 @@ int cla_op_regwrite(struct cla_dev *dev, unsigned int accid,
+ 	return cla_op_access_reg(dev, CLA_LAUNCH_OP_REGWRITE, CLA_DATA_IN,
+ 				 accid, regidx, nregs, regs);
+ }
++
++/**
++ * cla_op_entersr - launch ENTERSR operation.
++ * @dev: CLA device.
++ * @accid: accelerator ID.
++ * @srstate: 64-byte save/restore state written by CLA. May be NULL if the
++ *           SRSTATE isn't needed.
 + *
-+ * A CLA domain is a group of devices that work together and cannot be isolated
-+ * from each other. They are owned by a single user at a time.
++ * Return: 0 on success, or an error.
++ */
++int cla_op_entersr(struct cla_dev *dev, unsigned int accid, u64 *srstate)
++{
++	int ret;
++	u64 status;
++	struct cla_launch launch = {
++		.op		= CLA_LAUNCH_OP_ENTERSR,
++		.ndata_m1	= 7,
++		.accid		= accid,
++		.data_mode	= srstate ? CLA_DATA_OUT : CLA_DATA_NONE,
++		.data		= srstate,
++	};
++
++	ret = cla_op_launch(dev, &launch);
++	if (ret)
++		return ret;
++
++	return cla_wait_status_dmb(dev, accid, &status);
++}
++
++/**
++ * cla_op_exitsr - launch EXITSR operation.
++ * @dev: CLA device.
++ * @accid: accelerator ID.
++ * @srstate: 64-byte save/restore state written to CLA.
++ *
++ * Return: 0 on success, or an error.
++ */
++int cla_op_exitsr(struct cla_dev *dev, unsigned int accid, u64 *srstate)
++{
++	struct cla_launch launch = {
++		.op		= CLA_LAUNCH_OP_EXITSR,
++		.ndata_m1	= 7,
++		.accid		= accid,
++		.data_mode	= CLA_DATA_IN,
++		.data		= srstate,
++	};
++
++	return cla_op_launch(dev, &launch);
++}
+diff --git a/drivers/misc/arm-cla/cla-regs.c b/drivers/misc/arm-cla/cla-regs.c
+new file mode 100644
+index 000000000000..2452a7601990
+--- /dev/null
++++ b/drivers/misc/arm-cla/cla-regs.c
+@@ -0,0 +1,295 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Arm CLA driver - save/restore accelerator context
 + *
 + * Copyright 2026 Arm Limited.
 + */
 +
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/gfp.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
++#include <linux/io.h>
++#include <linux/overflow.h>
 +
 +#include "arm-cla.h"
 +
-+DEFINE_XARRAY(cla_domains);
-+unsigned int cla_nr_domains;
-+
-+/*
-+ * Some CPUs may not have a CLA. So cla_lut_cpu (indexed by CPU) may be sparse,
-+ * but cla_lut_pg (indexed by page offset in mmap'ed file) is a contiguous array
-+ * of all devices, of size cla_nr_devs, sorted by domain.
-+ */
-+struct cla_dev **cla_lut_cpu;
-+struct cla_dev **cla_lut_pg;
-+unsigned int cla_nr_devs;
-+
-+static struct cla_domain *cla_domain_alloc(struct cla_dev *dev, unsigned int fwid)
++static int cla_regs_save_accel(struct cla_dev *dev, unsigned int accid,
++			       struct cla_regs_pl0 *regs, size_t *regstate_off)
 +{
 +	int ret;
-+	struct cla_domain *domain;
++	u64 status;
++	size_t regstate_size;
++	u64 *srstate = regs->srstate[accid];
++	size_t nr_regstate = dev->iassizes / sizeof(u64);
 +
-+	domain = kzalloc_obj(*domain);
-+	if (!domain)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = xa_insert(&cla_domains, fwid, domain, GFP_KERNEL);
-+	if (ret < 0)
-+		goto err_free_domain;
-+
-+	domain->nr_devs = 1;
-+	domain->devs = kzalloc_obj(*domain->devs);
-+	if (!domain->devs) {
-+		ret = -ENOMEM;
-+		goto err_free_id;
-+	}
-+	domain->devs[0] = dev;
-+
-+	return domain;
-+
-+err_free_id:
-+	xa_erase(&cla_domains, fwid);
-+err_free_domain:
-+	kfree(domain);
-+	return ERR_PTR(ret);
-+}
-+
-+/**
-+ * cla_dev_domain_get - get or create a CLA domain for a device
-+ * @dev: CLA device
-+ *
-+ * Return: CLA domain pointer on success, or an ERR_PTR() on failure.
-+ */
-+struct cla_domain *cla_dev_domain_get(struct cla_dev *dev)
-+{
-+	int ret;
-+	unsigned int fwid;
-+	struct cla_dev **devs;
-+	struct cla_domain *domain;
-+
-+	/* Domain ID is provided by firmware */
-+	ret = of_property_read_u32(dev->dev->of_node, "arm,domain", &fwid);
-+	if (WARN_ON(ret))
-+		return ERR_PTR(-EINVAL);
-+
-+	domain = xa_load(&cla_domains, fwid);
-+	if (domain) {
-+		devs = krealloc_array(domain->devs, domain->nr_devs + 1,
-+				      sizeof(*devs), GFP_KERNEL);
-+		if (!devs)
-+			return ERR_PTR(-ENOMEM);
-+		domain->devs = devs;
-+		domain->devs[domain->nr_devs++] = dev;
-+		return domain;
++	ret = cla_op_entersr(dev, accid, srstate);
++	if (ret) {
++		/*
++		 * Note that we don't expect the accelerator to return an error.
++		 * Implementations that don't support context switch cancel the
++		 * work and write an error in SRSTATE_STATUS, but don't fail
++		 * ENTERSR.
++		 */
++		return ret;
 +	}
 +
-+	return cla_domain_alloc(dev, fwid);
-+}
-+
-+/**
-+ * cla_domains_finalise - build CLA device lookup tables
-+ *
-+ * Return: 0 on success, or a negative error code.
-+ */
-+int __init cla_domains_finalise(void)
-+{
-+	int ret = -ENOMEM;
-+	unsigned int j;
-+	unsigned long fwid;
-+	struct cla_domain *domain;
-+	unsigned int pg_offset = 0;
-+
-+	cla_lut_cpu = kzalloc_objs(*cla_lut_cpu, nr_cpu_ids);
-+	if (!cla_lut_cpu)
-+		goto err_free;
-+
-+	cla_lut_pg = kzalloc_objs(*cla_lut_pg, cla_nr_devs);
-+	if (!cla_lut_pg)
-+		goto err_free;
-+
-+	ret = -EINVAL;
-+	cla_nr_domains = 0;
++	status = cla_reg_read(dev, CLA_REG_STATUS(accid));
++	if ((status & CLA_STATUS_STATE_MASK) != CLA_STATUS_STATE_SRMODE) {
++		cla_err(dev, "unexpected SR status 0x%llx\n", status);
++		return -EIO;
++	}
 +
 +	/*
-+	 * Populate the lookup tables. Domains are keyed by fwid (which may be
-+	 * arbitrary) in xarray. Provide domain with a suitable, consecutive id
-+	 * for user space.
++	 * A device that supports SROP fails device probe. Others should not
++	 * report SROP here, we don't support it.
 +	 */
-+	xa_for_each(&cla_domains, fwid, domain) {
-+		domain->id = cla_nr_domains++;
-+		domain->pg_offset = pg_offset;
++	WARN_ON(FIELD_GET(CLA_SRSTATE_0_SROP, srstate[0]));
 +
-+		for (j = 0; j < domain->nr_devs; j++) {
-+			struct cla_dev *dev = domain->devs[j];
++	regstate_size = FIELD_GET(CLA_SRSTATE_0_REGSTATE, srstate[0]);
++	if (WARN_ON(*regstate_off > nr_regstate ||
++		    regstate_size > nr_regstate - *regstate_off))
++		return -ENOSPC;
 +
-+			if (WARN_ON(dev->cpu >= nr_cpu_ids) ||
-+			    WARN_ON(pg_offset >= cla_nr_devs) ||
-+			    WARN_ON(cla_lut_cpu[dev->cpu]) ||
-+			    WARN_ON(cla_lut_pg[pg_offset]))
-+				goto err_free;
-+
-+			cla_lut_cpu[dev->cpu] = dev;
-+			cla_lut_pg[pg_offset] = dev;
-+			dev->pg_offset = pg_offset;
-+			pg_offset++;
++	if (regstate_size) {
++		ret = cla_op_regread(dev, accid, CLA_REG_IASn, regstate_size,
++				     regs->regstate + *regstate_off);
++		if (ret) {
++			cla_err(dev, "failed to save regstate: %d\n", ret);
++			return ret;
 +		}
 +	}
 +
-+	return 0;
++	*regstate_off += regstate_size;
 +
-+err_free:
-+	kfree(cla_lut_cpu);
-+	kfree(cla_lut_pg);
-+	cla_lut_cpu = NULL;
-+	cla_lut_pg = NULL;
-+	return ret;
++	return 0;
++}
++
++/*
++ * Errors are very unlikely, but if they happen the device is left in SRMODE.
++ */
++static int cla_regs_restore_accel(struct cla_dev *dev, unsigned int accid,
++				  struct cla_regs_pl0 *regs,
++				  size_t *regstate_off)
++{
++	int ret;
++	u64 status;
++	size_t regstate_size;
++	u64 *srstate = regs->srstate[accid];
++	size_t nr_regstate = dev->iassizes / sizeof(u64);
++
++	/*
++	 * The accelerator was reset and isn't in SRMODE. Later we could support
++	 * coming directly from cla_regs_save_accel() in SRMODE, but at the
++	 * moment we always need a RESET.
++	 */
++	status = cla_reg_read(dev, CLA_REG_STATUS(accid));
++	if ((status & CLA_STATUS_STATE_MASK) != CLA_STATUS_STATE_IDLE) {
++		cla_err(dev, "unexpected status 0x%llx\n", status);
++		return -EIO;
++	}
++
++	ret = cla_op_entersr(dev, accid, NULL);
++	if (ret)
++		return ret;
++
++	WARN_ON(FIELD_GET(CLA_SRSTATE_0_SROP, srstate[0]));
++
++	regstate_size = FIELD_GET(CLA_SRSTATE_0_REGSTATE, srstate[0]);
++	if (WARN_ON(*regstate_off > nr_regstate ||
++		    regstate_size > nr_regstate - *regstate_off))
++		return -ENOSPC;
++
++	if (regstate_size) {
++		ret = cla_op_regwrite(dev, accid, CLA_REG_IASn, regstate_size,
++				      regs->regstate + *regstate_off);
++		if (ret) {
++			cla_err(dev, "failed to restore regstate: %d\n", ret);
++			return ret;
++		}
++	}
++
++	*regstate_off += regstate_size;
++
++	return cla_op_exitsr(dev, accid, srstate);
++}
++
++static int cla_regs_uninstall_pl0(struct cla_dev *dev, struct cla_ctx *ctx,
++				  unsigned int ctx_id)
++{
++	int i;
++	int ret;
++	unsigned int accid;
++	size_t regstate_off = 0;
++	struct cla_regs_pl0 *regs = ctx->regs[ctx_id];
++
++	/*
++	 * When we interrupt the user process in the middle of launching a
++	 * command, we have to wait for LRESP_PENDING to clear before we can
++	 * launch a new command or save the DATA registers.
++	 */
++	ret = cla_op_wait_lresp(dev, &regs->lresp);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < CLA_NUM_DATA_REGS; i++)
++		regs->data[i] = cla_reg_read(dev, CLA_REG_DATA(i));
++
++	cla_for_each_accid(dev, accid) {
++		ret = cla_regs_save_accel(dev, accid, regs, &regstate_off);
++		if (ret)
++			return ret;
++	}
++
++	regs->accel_valid = true;
++
++	/*
++	 * "If the accelerator is non idle when ENTERSR is launched, then a
++	 * RESET operation is required after the internal accelerator state has
++	 * been saved"
++	 *
++	 * Reset unconditionally to establish a clean state before assigning
++	 * the next context.
++	 */
++	return cla_op_reset_all(dev);
++}
++
++static int cla_regs_install_pl0(struct cla_dev *dev, struct cla_ctx *ctx,
++				unsigned int ctx_id)
++{
++	int i;
++	int ret;
++	unsigned int accid;
++	size_t regstate_off = 0;
++	struct cla_regs_pl0 *regs = ctx->regs[ctx_id];
++
++	cla_for_each_accid(dev, accid) {
++		if (regs->accel_valid) {
++			ret = cla_regs_restore_accel(dev, accid, regs, &regstate_off);
++			if (ret)
++				return ret;
++			/*
++			 * At this point we must not read STATUS because that
++			 * would clear EVENT. Userspace always gets a spurious
++			 * EVENT on restore, because we have no way to
++			 * save/restore EVENT and userspace missing an event
++			 * would be worse than getting a spurious one.
++			 */
++		} else {
++			/*
++			 * If this context has never been scheduled, then we
++			 * just clean the CLA regs. Also clear EVENT by reading
++			 * STATUS, to provide a pristine context.
++			 */
++			cla_reg_read(dev, CLA_REG_STATUS(accid));
++		}
++	}
++
++	for (i = 0; i < CLA_NUM_DATA_REGS; i++)
++		cla_reg_write(dev, CLA_REG_DATA(i), regs->data[i]);
++	cla_reg_write(dev, CLA_REG_LRESP, regs->lresp);
++
++	return 0;
 +}
 +
 +/**
-+ * cla_domains_free - free CLA domains and lookup tables
++ * cla_regs_install - Install and/or restore CLA context
++ * @dev: CLA device
++ * @ctx: CLA context to install
++ * @ctx_id: CLA context number within the domain
 + *
-+ * Domain schedulers must be stopped and CPU hotplug callbacks removed first.
++ * Save the kernel context if necessary, and install a user context.
++ *
++ * PL0 context: Restore the DATA and LRESP registers, and accelerator state if
++ * one has been saved.
++ *
++ * This function is called with all accelerators idle and no trace of previous
++ * work.
++ *
++ * Return: 0 on success, or an error
 + */
-+void cla_domains_free(void)
++int cla_regs_install(struct cla_dev *dev, struct cla_ctx *ctx,
++		     unsigned int ctx_id)
 +{
-+	unsigned long fwid;
-+	struct cla_domain *domain;
++	return cla_regs_install_pl0(dev, ctx, ctx_id);
++}
 +
-+	kfree(cla_lut_cpu);
-+	kfree(cla_lut_pg);
-+	cla_lut_cpu = NULL;
-+	cla_lut_pg = NULL;
-+	xa_for_each(&cla_domains, fwid, domain) {
-+		xa_erase(&cla_domains, fwid);
-+		kfree(domain->devs);
-+		kfree(domain);
++/**
++ * cla_regs_uninstall - Remove and/or save CLA context
++ * @dev: CLA device
++ * @ctx: CLA context to remove
++ * @ctx_id: CLA context number within the domain
++ *
++ * Uninstall a user context, and restore the kernel context if necessary.
++ *
++ * PL0 context: Save the DATA and LRESP registers and accelerator state.
++ *
++ * When this completes, all accelerators are idle. If this fails, some
++ * accelerators may still be running.
++ *
++ * Return: 0 on success, or an error.
++ */
++int cla_regs_uninstall(struct cla_dev *dev, struct cla_ctx *ctx,
++		       unsigned int ctx_id)
++{
++	return cla_regs_uninstall_pl0(dev, ctx, ctx_id);
++}
++
++/**
++ * cla_ctx_alloc_regs - Allocate register state for a CLA context
++ * @domain: CLA domain
++ * @ctx: CLA context
++ *
++ * Allocate register state to save and restore every device in @domain, store it
++ * in @ctx.
++ *
++ * Return: 0 on success, or an error
++ */
++int cla_ctx_alloc_regs(struct cla_domain *domain, struct cla_ctx *ctx)
++{
++	void **regs_ptrs;
++	size_t size;
++	int i;
++
++	regs_ptrs = kmalloc_objs(*regs_ptrs, domain->nr_devs,
++				 GFP_KERNEL_ACCOUNT);
++	if (!regs_ptrs)
++		return -ENOMEM;
++
++	for (i = 0; i < domain->nr_devs; i++) {
++		struct cla_dev *dev = domain->devs[i];
++		size_t nr_regstate = dev->iassizes / sizeof(u64);
++		void *regs;
++
++		/*
++		 * The regs structures are only ever accessed from the CLA
++		 * device's CPU, so try to allocate them on the right NUMA node
++		 */
++		size = struct_size_t(struct cla_regs_pl0, regstate, nr_regstate);
++		regs = kvzalloc_node(size, GFP_KERNEL_ACCOUNT,
++				     cpu_to_node(dev->cpu));
++		if (!regs)
++			goto err_free;
++
++		regs_ptrs[i] = regs;
 +	}
-+	cla_nr_domains = 0;
++
++	ctx->regs = regs_ptrs;
++	return 0;
++
++err_free:
++	for (i--; i >= 0; i--)
++		kvfree(regs_ptrs[i]);
++	kfree(regs_ptrs);
++	return -ENOMEM;
++}
++
++/**
++ * cla_ctx_free_regs - Free register state for a CLA context
++ * @domain: CLA domain
++ * @ctx: CLA context
++ */
++void cla_ctx_free_regs(struct cla_domain *domain, struct cla_ctx *ctx)
++{
++	int i;
++
++	for (i = 0; i < domain->nr_devs; i++)
++		kvfree(ctx->regs[i]);
++	kfree(ctx->regs);
 +}
 -- 
 2.43.0
