@@ -1,117 +1,172 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B1338910F
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D57466B75;
+	Fri, 16 Oct 2026 09:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792141046; cv=none; b=szy3/x1JWWEvsBzUJaHVChP5w64okMqBgeNuZTMkImrjYQC6bLJADDSDCzC2FxxUbcpzbdLF/pQFvcgoeFMPoWISX4ALjR/rnDdqGKJb8HeyFg8XBhfWH4VQJNVVqQFvzOd8MyeIHG7AD+27BjegtV0rFU6g7hTblVR3RFbueog=
+	t=1792141980; cv=none; b=GII0as2LoigkeiFIYS8wvVNyoWXiucGWMlOO4YFQnqNE1X9S5p/qDVEEGD68qx4fn1OOw1OBx876MAnjPiqLqqw/lqv36NII3ngAccO8I9R6GgUreivn9O964KhKJrJR4N/pW/CuqxjNvm27WuapxcLBMl+OzeDiPHKGLzDed2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792141046; c=relaxed/simple;
-	bh=uL1w8BEtt8Np/I2lqGqbLuXM7I9yviHkRH0NnWW0ons=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K5XZjyjJiXNYfIayeqFmRzgQXkGjqeLi/cpqAztM4G6TwWxw74BYGlRgVnI1HvZnO5YLbs4RkZzN9asAS5js9EDywK1+qU4lCe10lDJ/Hk8OqBesBXFd7IfTwdVxlVj7vDi/WCBTMuwIU1vND8s4H4UoWdCF4lM/KOQC3/KppEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OdledJKk; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792141980; c=relaxed/simple;
+	bh=tIkUz86ONiXurGzEfoccU/KpLb0S8j0MPoniAWV3O6g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GnVkQeEEB/p/+LvubBv9QBasF5gmHpD6H4ahByto5LJV85+G+Irj+LIyeij3Rct5dyB6CUKQhezQf+oNloLPO/wHY/nSiwQlFHEK/msudYr0iCU8aJPY+xttO4Ri4qzO+R68O/C0fpAUbZiwYWtwh23dEwduv+MaRuIOY4yJK6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYZgl/L4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OdledJKk"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e00eee27dso171396f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 01:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792141043; x=1792745843; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=x/q2L7BS45aTpoyNh7m1QrG5eRubgbrBzhsyuMzS0/Y=;
-        b=OdledJKkHyKkUe6e5iBmeFLKmwU4PVSsxli3jDVGIf+o2l8l/lL/Q+j1oJ2S+OFZkZ
-         vu1HLC3kzj3iQ81Du7bUKzkjPOXU6kzbKOss+TygfuoNDqCJpX9bnLZh6HATnZ6gFEpC
-         2cFzzS5HTqFarzB0Fe4uaW/n83p3wxocH21RfEM02yq6NBTJPhuaJGU6P5yDl7K7GC28
-         FT219PpULEJ93e3nq047QIiZ+xObxIw7LApAj16ai6Y+1iFPmVjW4L9m+gs40+k/R5TJ
-         Nd7sfxW0mU3wypTvpiiXEuSj7lDUbSD75uz0m9WjqXnxtRDLLaRAnsGaS4TErlGrUrtY
-         b+gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792141043; x=1792745843;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x/q2L7BS45aTpoyNh7m1QrG5eRubgbrBzhsyuMzS0/Y=;
-        b=Dz5LvFC0FEcjXKoYUdb+EJC/Pur9uvQrsqvODNhxyEQ1dQPd09Vj04g6CAlCp9oZ2U
-         MGmYmoO0OXPksKl42givu2edT5+8Kpp8cM/P8LWXLImLE3y6b1Rq5C84yD6yutUZlGvJ
-         BOsY78yHK1JcNgEpWoKwnHIMHpJkeJjGjlocY4fsJpYBvgyPtfgOSpZIqP0JiSA+fH97
-         WThQ/KV2aAZpXWW8gwkRTRID8HAzREjFsR9w3D0EBSZHb3UZKYGdwRY5vNQSkU7su7en
-         HN/LhfuEV6YwXaHYWiMpwRj1Gswmw+pq/RxDGXJ3FVjO3ZLqYxSWxvedYuue8q3+naJh
-         Lo3w==
-X-Forwarded-Encrypted: i=1; AKwUvBwGViIfEGwuYgehb4wP2cY22mjYMjJt1oLxf6VqRFuyTo6LlQWNWPN3n8LsiIb+07pNnVbGjJ5fhPs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL1ATWGehKZzv2oA1KSK+2mBb5z/vMX3JA6Qyr0ooB2CgBBS2Cl
-	doaMoR7M72irNIYc7K9tTHf/ZJt7ZkWu+/ZD/CVf4HCQtlc/n2UWBlEF
-X-Gm-Gg: AYBFou1S1/fcdbxSaMUgflwqmK1+U0oV4d+4YiNR72YQ7T1wi1uWgAehOrfBhvtuA7h
-	a42yP6I3i76DNQO92b/SOD1NyEPZemKYeYFB8F/Fkh7XGN7AwHqzI8PDPE5qUxWiOMPxs0rUIeZ
-	NJk9PhZkP7ijwo/LHG2rjaFyzPKfHiYMaT/Oh/LfOtmwF3eOSbk2MizFwCRToI1MR2Rj462K4ne
-	JzEt3/+tbYiCKDykgZ5mPWclk1uNTUwj5zQ5bXtTj/mA+uEjlSgAE672Vs2QdKPnpPB+Edglupf
-	fzhdRGWKBEIVpLgxFYD0BCrnvdZz/Nd/ARGinIqV1c4ZvTBjhSxLBxdPsjH2bfsKPQbc/R20LH2
-	MXg40sEVuuOJl3UVZbUa2GxIBgz4YikPVN0jrt4gYpUXuT/ugK7Vu6s0EX7hgxQQTNhpRqAcM/3
-	6g6gxU4bdZOPt3MkWdj3rJTh01zEeL4f+muJkVKnyAuIKXEGLqerDlatVvYxzX0378YDPo8yEBM
-	hV3kCemelZGurjTqeUqD8vckJb9oNeFh39O3ouuDryNYUeh66s=
-X-Received: by 2002:a5d:5e8d:0:b0:48d:f7ef:721f with SMTP id ffacd0b85a97d-48df7ef72e4mr8636884f8f.11.1792141042620;
-        Fri, 16 Oct 2026 01:57:22 -0700 (PDT)
-Received: from [192.168.1.18] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfdcc0f20sm3509146f8f.11.2026.10.16.01.57.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 01:57:22 -0700 (PDT)
-Message-ID: <eaeeaecd-f51a-4c2e-8439-36c7b8f6721b@gmail.com>
-Date: Fri, 16 Oct 2026 10:57:20 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYZgl/L4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521BE1F000C4;
+	Fri, 16 Oct 2026 09:12:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792141979;
+	bh=mQH+kXpKSTymGia/uumXbgT78aV2agpPTvM0izIRqhE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=LYZgl/L47fPO8Aq+OVvp5UAIfE6hgsH5zIh9oJrQPyGOyzlbTMZ+sEC6Ba2iivygG
+	 TkPuULqc5Ixpat8F42Z/hB853dD7BfPLHituatCT9QtBtX37bYoB2UITBUScGPZJTv
+	 /usSd5kkvMwdNHq8GlE8NVjVR68AUrk8rBGTbLTczFneKEc+Vlra2BuBzIxoldvSJD
+	 5k/PrxNtsyWoMGyB7jwmq/3ALOfJ2jyscwflYFHeck2tVFD/wKAmWKx5Sd0GuFkzRm
+	 5Nais/Vmmp4nMWPIYN3Q5NTbSyK91tqJb4EB8JS7BrO04489Jub9pYLLW9dhx6IUPi
+	 ELIJk5iqbinsA==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Fred Griffoul <griffoul@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: David Woodhouse <dwmw2@infradead.org>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 00/11] mm: Memory providers for guest_memfd and
+ iommufd
+In-Reply-To: <20261014093733.90312-1-griffoul@gmail.com>
+References: <20261014093733.90312-1-griffoul@gmail.com>
+Date: Fri, 16 Oct 2026 14:42:40 +0530
+Message-ID: <yq5a4iem57qv.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/vma: avoid spurious write locks when mm->mm_lock_seq
- overflows
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Daehyeon Ko <4ncienth@gmail.com>, stable@vger.kernel.org
-References: <20261015-fix-vma-lock-overflow-v1-1-01beb245d9da@kernel.org>
- <f5548d05-5aec-42d0-b9d9-c14fb575dec9@gmail.com> <atHa3-KlMPg6oy8v@gremlin>
-Content-Language: en-US
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <atHa3-KlMPg6oy8v@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 10/16/26 10:19 AM, Lorenzo Stoakes (ARM) wrote:
-> It seems likely that you're using AI to generate these review points. Please do
-> say if you're doing that, thanks.
+Fred Griffoul <griffoul@gmail.com> writes:
 
-yes, I used an LLM to find the commits I pointed out and check if my
-reasoning was correct. my bad for not mentioning it. anyway, I reviewed
-everything and checked that it was correct.
+> From: Fred Griffoul <fgriffo@amazon.co.uk>
+>
 
-[snip]
+ [ ... 24 lines skipped ... ] 
 
->>> Cc: stable@vger.kernel.org
->>
->> the parity check relies on e5e7fb278e59. before that, mm_lock_seq only
->> increments on unlock, so locked values can be odd or even. should this
->> be limited to 6.14+, with a note that older trees need a different fix?
->> a straight backport of the odd check would ignore write locks taken on
->> even cycles.
-> 
-> I have a plan for older kernels (just make the value 64 bit...)
+>
+> Why a new interface
+> ===================
+>
+> kvm_gmem_ops gives KVM a way in. For devices, the only option today is
+> a dma-buf plus a private call that iommufd looks up with symbol_get(),
+> which is how vfio-pci works. Each new owner would need another such
+> lookup, and iommufd would end up knowing each owner by name. With a
+> common interface, a provider module only calls into mm, and nothing
+> needs symbol_get().
+>
+> It also means the provider revokes a range once. The VMM hands the
+> same file to KVM and to iommufd; on a revoke the core forwards it to
+> every consumer, so KVM clears the range from stage-2, iommufd from the
+> IOMMU page tables, and guest_memfd from the VMM's own mapping, all
+> before the revoke returns.
+>
 
-okay, I didn't know.
+What confused me was the introduction of memory providers as a subsystem
+in their own. What we really need is the ability to map PFNs from
+other subsystems into KVM stage-2 and into subsystems such as iommufd?.
 
--- 
-cheers,
-jose a. p-a
+Restricting the scope to the above, at least initially, would make this
+much easier to reason about.
+
+For my use case, the VFIO fd becomes the backing provider (referred to
+as backend below). We can create a guest_memfd using that
+resource_fd, allowing MMIO BAR ranges to be mapped into KVM stage-2.
+
+Another feature provided by this series is the ability to map the same
+range into iommufd. We probably want to restrict this to shared ranges.
+It may be simpler for guest_memfd to drive this. The resulting
+relationship would be:
+
++-----------------------+
+| VFIO PCI BAR backing  |
++-----------------------+
+            |
+            | guest_memfd_backing_ops
+            | Supplies BAR PFNs
+            v
++------------------------------------------+
+| guest_memfd                              |
+|                                          |
+| Controls shared/private state            |
+| Exports shared, accessible PFNs          |
+| Revokes consumer mappings when needed    |
++------------------------------------------+
+            |
+            | mem_provider_ops
+            | IOAS_MAP_FILE(fd = guest_memfd)
+            v
++-----------------------+
+| IOMMUFD               |
+|                       |
+| Creates and refreshes |
+| IOMMU DMA mappings    |
++-----------------------+
+            |
+            v
+      Device DMA access
+
+
+Another capability the memory-provider interface could provide is
+kernel-initiated IOAS mapping, for example by allowing a guest_memfd fd
+to be used with IOAS_MAP_FILE.
+
+Currently, a private-to-shared conversion causes a VM exit, followed by
+an IOAS_MAP for the newly shared range. Could using guest_memfd with
+IOAS_MAP_FILE avoid this?
+
+Perhaps the series could be rearranged as follows:
+
+- Allow a guest_memfd fd to be used with IOAS_MAP_FILE.
+- Add a VFIO or other backend for guest_memfd, without calling it a provider.
+- Add support for guest_memfd to provide guest PFNs to other subsystems
+  through its file descriptor.
+
+Would this work?
+
+-aneesh
