@@ -1,125 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98858487CF8
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DC542AD83;
+	Fri, 16 Oct 2026 18:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792174047; cv=none; b=qZnMIojR7oHoK8lNsA99dJvYHybsHwRBUwEPIRnrWG3Wi0QE2XSdY4v2sjTpEE35ACd/o0c0WTwrqMGRvufXUE5+x4kOoDpWaV3A7s+RbfjUJsT6p7GiZub+mquawBRystuzZ8iln4NijpyvCK3wa7/SUyuMoUG1sFEoE9oelWw=
+	t=1792174179; cv=none; b=VE8f2wobBmUKZjTnVBbUr6ck7Ws2qBeg4r6i99Ds/YAT1co0OPeR1wiUtcoivoVxl8qz/1u/cgREAXDmwoKD3FyU2he6dQHeX01VAcT36pmuby8Q0Qo5EsXVkfj820D7nGGrHQC4iOnkibqwnGeYu6B3SruZMu7E8u/JdMKvOmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792174047; c=relaxed/simple;
-	bh=fOPONE/qJIlIU+Jzg1y7JgvnTtAaoti/FDGk/Xww4Zc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j6qBNIcDU7Q00noPoQYa0nZ5LZQOwL88yy7srjkSroSsOVoCU5+pjF0OpDiPgVfjDzNYDtWMd5d5VgvQWR5DNQ8Xs5ggaq4L656ruf7czhCJXN4wD1ezOhK4f8L8DfB7LOx0p1SX434ruruoJX6YOuUVYPxr5hdihEe5PhVKKTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llMY71ru; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792174179; c=relaxed/simple;
+	bh=BwBb/iQhmwyFpIsWc1e0cRY+3DwDXxopYk9N0BxGy3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCaQp7h/8w5w9lK1RB62bQKgZ/1ru1kkmPRhXi/G3jt3lk4gm5Us80l0dO2TSKoCztwNRwHU+KwGsaPJPubhIBDzFkVEaZEpKorg9j4wy9Fr1ZSde6//xfaOW50TM3FF7X9R/NGou/EXArBZUfk9Myx/O1s/Qrr96r/u9UFyIHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfVvNugc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llMY71ru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C04A1F000C9
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:07:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfVvNugc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6106D1F000C5;
+	Fri, 16 Oct 2026 18:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792174046;
-	bh=fOPONE/qJIlIU+Jzg1y7JgvnTtAaoti/FDGk/Xww4Zc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=llMY71ruDgforWY4R0EbAe+fRsHPMlysRm53CZk2X4FFzUwUtXXejzHByXYEtZBcA
-	 +fRlfTFJL2UUCeJ2Ci6I3mJ+m2mpN7eSCwcNjjBoS3/qoY+dtAAs9WEub7Ln7+gbWk
-	 uK+/25jGRPZM2kiINuOIp6PSMkJfS3BgfNDIxTF0lNh1UoTAWfPi3cW5Iu3iC62AGV
-	 Uk1eGSETWA+WDvDhj+2tStuF8/5cT5BqvAAt8Vzo7blG3RXO8OH9DuFkQE6tFMjlG9
-	 GXnm7DuXnJnlxb8BoimVQDu+qDYep63GwaHPz+oeFZC/n8REtbOEYrIVxzqtHBwuzP
-	 KDIXbYoHhzCow==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5bcc6094d7fso191902e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 11:07:26 -0700 (PDT)
-X-Gm-Message-State: AFq9FYICn2dEn/04c0sETVGNrMUUsb1ki68WgGuyIUm3pgkAe6DpP2GR
-	vUpqey4N2Yx3MGm28cjHZ0qbeOsTin/6veBdIuiclNtthqGGJTxV0ckcPjYnwGueXTMXKQBXvU4
-	ZxRW8osQxta6EGmrfLwaOvRx8WgmHuq8=
-X-Received: by 2002:ac2:568e:0:b0:5b8:f0a4:3501 with SMTP id
- 2adb3069b0e04-5be509ef4b1mr131455e87.2.1792174044892; Fri, 16 Oct 2026
- 11:07:24 -0700 (PDT)
+	s=k20260515; t=1792174178;
+	bh=FUVAWKj9r4KOI5/GXEr1JrbHLpB7Le69t/ZWzFOTel4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mfVvNugcanwAcvAPHuTMfi6nQB0ozDdJD76KvDBfaJXBfirSxjqdwmLNsn0dppORr
+	 nAb1A2OM/lRNOvFrgyHryb+nmihODqKfDwiKOS+kMgEa85BlehTG5Wz3hVV5zlnUcP
+	 YfuatYv0ay5YyMAg10PVdgNOHnheM8bkp2NSsBVBTXEPgQX6RVOR9u8ueXioO9BcO6
+	 b+ZKwawezMRG67ja5XilRay/xMpiMEbMaDRcxba1rUBVk3kLRbGWxPoTtESf4ci+YN
+	 UMVLOw+7OtgeQ3CIoZtleAs5cdmfbxiAhL7nVefRtZAcaagRbGh2T+42ttlizdT8HQ
+	 Z43OyfZq5zOTA==
+Date: Fri, 16 Oct 2026 14:09:37 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH v3 6/7] agents: add a skill to find other instances of a
+ fixed bug
+Message-ID: <atJoYRBujlGx0xTV@laps>
+References: <20261016152828.3765695-1-sashal@kernel.org>
+ <20261016152828.3765695-7-sashal@kernel.org>
+ <957f530-7954-3e2c-9975-d369af37270@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261001155118.1750028-1-briannorris@chromium.org>
- <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
- <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com>
- <as_i5MEz3WfnDQmf@google.com> <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
- <atE9urIHXAJZXu6k@google.com> <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 16 Oct 2026 20:05:12 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gNQqffxcdzWff=z3hi0BXzJBOV6WKgf6RXuOydzQJQMw@mail.gmail.com>
-X-Gm-Features: AclHuK-_yBC6d8kzcVp_W8DXOmsw3GBEaUg-TmgYG396XRvYg6GisvbciFhwYyI
-Message-ID: <CAJZ5v0gNQqffxcdzWff=z3hi0BXzJBOV6WKgf6RXuOydzQJQMw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
-To: Brian Norris <briannorris@chromium.org>
-Cc: linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Doug Anderson <dianders@chromium.org>, 
-	Ulf Hansson <ulfh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <957f530-7954-3e2c-9975-d369af37270@inria.fr>
 
-On Fri, Oct 16, 2026 at 7:42=E2=80=AFPM Rafael J. Wysocki (Intel)
-<rafael@kernel.org> wrote:
-> On Thu, Oct 15, 2026 at 10:55=E2=80=AFPM Brian Norris <briannorris@chromi=
-um.org> wrote:
-> > On Thu, Oct 15, 2026 at 10:11:04PM +0200, Rafael J. Wysocki (Intel) wro=
-te:
-> > > On Wed, Oct 14, 2026 at 10:15=E2=80=AFPM Brian Norris <briannorris@ch=
-romium.org> wrote:
-> > > > On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (Intel)=
- wrote:
-> > > > > On Thu, Oct 1, 2026 at 5:51=E2=80=AFPM Brian Norris <briannorris@=
-chromium.org> wrote:
-> > > > > >
-
-[cut]
-
-> >
-> > I kinda think the point of most of this power domain architecture is
-> > that a typical driver just doesn't have to worry about it at all (in
-> > probe(), and if you use runtime PM properly), so I'd prefer not
-> > mentioning it in the Basic example. But sure.
+On Fri, Oct 16, 2026 at 02:00:15PM -0400, Julia Lawall wrote:
 >
-> Well, your basic example needs to be put in a certain context because
-> it may not be generally applicable everywhere.
 >
-> I think that you should make it clear what the driver's expectations
-> regarding the physical state of the device at the probe time are and
-> the general rule is that it is better to leave the device in the same
-> state in which it is expected to be found next time.
+>On Fri, 16 Oct 2026, Sasha Levin wrote:
+>
+>> A bug fixed in one place often exists elsewhere, in copied code, sibling
+>> drivers, or other users of the same interface, and reviewers routinely
+>> ask whether that was checked. Left alone, agents tend to audit the whole
+>> tree by reading it. Add a skill that states the defect as a rule,
+>> searches for it through shared interfaces, copied code, the introducing
+>> series and earlier fixes, and verifies each candidate before reporting
+>> it.
+>>
+>> When Coccinelle is available, the skill searches with a semantic patch:
+>> it looks for an existing one under scripts/coccinelle/, checks that the
+>> rule marks the fixed site in the code before the fix, runs it over the
+>> whole tree with coccicheck, and checks which code spatch could not
+>> parse. These steps live in references/coccinelle.md, which the agent
+>> reads only when it uses Coccinelle.
+>
+>Could I get some feedback from this?  I would be interested to know about
+>code that it can't parse.  Maybe AI could write a semantic patch and try
+>it?
 
-To be somewhat more precise, if the driver expects to find the device
-completely off and the runtime PM callbacks are set up to make it
-operational, runtime PM can be used to power it up in probe:
+Right, this is exactly what the skill currently says:
 
-/* Assume the runtime PM status to be "suspended". */
-pm_runtime_enable(dev);
-pm_runtime_get_sync(dev);
++2. Otherwise, write a semantic patch outside the repository. Match only what
++   the defect needs, not names or statements specific to the fixed site. Mark
+[...]
 
-but then in remove or on probe errors the "power off" state needs to
-be restored manually:
+I'd expect the agent to have information in the transcript about this, or are
+you looking for something different?
 
-pm_runtime_disable(dev);
-/* Allow the parent and suppliers (if any) to suspend. */
-pm_runtime_set_suspended(dev);
-device_specific_power_off(dev);
-
-However, if the driver expects to find the device operational (for
-example, because it assumes the ACPI PM domain to be there), it may
-just update the runtime PM status before enabling runtime PM:
-
-/* Assume the runtime PM status to be "suspended". */
-pm_runtime_set_active(dev);
-pm_runtime_enable(dev);
-
-but then in remove or on probe errors it may just leave the device in
-its current physical state (whatever it is) and assume somebody else
-to take care of turning it off subsequently:
-
-pm_runtime_disable(dev);
-/* Allow the parent and suppliers (if any) to suspend. */
-pm_runtime_set_suspended(dev);
-
-These are two distinct cases that are rather hard to cover in one
-simple example.
+-- 
+Thanks,
+Sasha
