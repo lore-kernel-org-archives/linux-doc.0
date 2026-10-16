@@ -1,72 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACB83E49FE;
-	Fri, 16 Oct 2026 08:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792138301; cv=none; b=kycyRKi7KZUlcVpzLeoRAemt5HtO81AyoIaVoOyTNQXFVnPd5vsUjdRdtWS8xdTPtKQkjyyl77iDUXuogU1LVWVIhxi0V6gfgnqP/EpjJjFUfaD+pqEbR+1MlTXlMjmml6WgPxYQslWQ5qeSFpiAjBboTNd3qxFGNc6p+CxVqWM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792138301; c=relaxed/simple;
-	bh=fJ7CvucKno65olNhbcWL4ZDFKdJHu9ghSScEyiyfRC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JRNF/Oe/c6mg6yvTm7vB2Ac/j1BcoE8V8LEcH0xYjAv8OxKIaUhIQPF9bFjiIk2ZmKnb8xXL87PFaT7ReERWNmPlQVYIUdHk/oNZwZl8q/Ylex5+z8GvB1+jfkEZdmvbvgqkZFyzorXf3QYkmZkBZOZuut9AEsIi4ogTlyYjFEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9Qc3KBd; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF86439B943
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792138738; cv=pass; b=RiZ66v423PCw6cYkuexT411SWx2q4b1kPwwTO1s9sdfRa+q4ci0EC36nJOnAzMz3bljDf1x6ZH+ahgjm7RmPZ7/fpxgiR071MufgoHKSIUAl+3NB+8ABvTlb+hwPz8k0AIDbxnq1WfNGi/jup1xGv+usyfICB0ifjyuPy7GJsRQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792138738; c=relaxed/simple;
+	bh=TJpRkoynlry2geAXK8OkwmCvIsCu/qH7mlFTnmgK4Yg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bfZPx+PofNr0thmbWw/UXkc+Nt9JexQAJ8MEZkjVWQ8ARQ+8wNAKBy6yFztwy0+iZ5CxB9Qyil4Z44sgGpnhWbeBr59iKXRuGeUFSSj8pe5PiZwjh8cPTpBFGkBAHhsnJWjGL2aaxpLNHlPt3tnERxIfN6Y282MotZ8nN1g5iLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDctdG3P; arc=pass smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9Qc3KBd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 886951F000C4;
-	Fri, 16 Oct 2026 08:11:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792138300;
-	bh=BBGAT7ue9VgHZMuu5dAb/6oFafAsXIvH9NDdySY61DU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y9Qc3KBdcZWgZjWsaAYnSgSER1uaz+BaIQ2eo8wOVW2XevFfSrviKphX0IpLqNOQU
-	 J3rNGys0fEfxFxyjD6NGhqth8kxZet5yd4j+UsdTVoDsSdZuH5UcQuNWzG+QRh8swv
-	 egdH5IAmn6eWndutGah39BCtH0vUezekNLRCZ/vEUFLRL0T+VyKxINBN8U8s7r7QoL
-	 3wBKxEC7c6UUQPYd9jPvqWr8zcYJY9m+RumfPmgmejL/Q6Fnj+lTXXDJjsOwGOZJbn
-	 jdxy1IRC7v4xAjsIrHPzHSTtR+yWxvhHddNJlK4RSEzryGAgYkHiU9392IxR1qvkkX
-	 GGXM7I2+M3iDA==
-Date: Fri, 16 Oct 2026 09:11:30 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Nimrod Oren <noren@nvidia.com>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, David Laight <david.laight.linux@gmail.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: stop recalculating min_free_kbytes once set by
- userspace
-Message-ID: <atHcD0azFKNLvPN0@gremlin>
-References: <20261014140859.1006967-1-noren@nvidia.com>
- <20261014144823.8c89da26c547fa95936a2fe5@linux-foundation.org>
- <26103c38-7b22-4176-8bc3-63e4b8fc6bbb@nvidia.com>
- <20261015173826.e7ffb7333fb84f5be927ae88@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDctdG3P"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-679a420b96eso766157d50.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 01:18:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792138736; cv=none;
+        d=google.com; s=arc-20260327;
+        b=O5WU8bLj8RLCTaXLLf7EERyidTH1MMHKcWfEf33gWGCj4I0eZkC7ykW/8ru6wr/Xo3
+         4Cx2mbwfpIm0BKpAeQy5gjkagUqoVyR6rR6fXjhRjnoHVMze741AXLHUnYYsGdM7njvy
+         u3pmG26VY3f5/WObpy0rSKxVgpEDZu5ZY6SpTQsqPfUcLKYMZ7ISbmIJKI08XtiiQ7Wn
+         lLN43GPDE7ffb1TsC/wMjhUTEB87avRFJi5sBuna/SyGvAKnMFM8ksKSQgoXEbvVDCux
+         lIRC3kURTNEr0I16Ejyu9pw2e23bRq4S3SXrhw+WxIh9/c0GOJgLb4MAAon7LLLcDTc+
+         BOSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
+        fh=x0TG9FgYYRE+pEcvq1oSBl0us3FdBCfCiRGWT3bd2vU=;
+        b=k4bQufulAjuVsQO06qQu1TqW8531PAUCXy72kY3UJMFgmSRE8OtHgeDOgcudF1c+8n
+         ABTE7AErtOvslt9sL+44cb+HF43WhwNrIcBOSaxbANACtnj9r2ebJKonUeUQIHlNGKqc
+         m9Fcc1MSbwa6bcChzmhijUjOvC8AlCYRpwzyTfW90BrT5R6dBS9Imfj69BvAaDPKBwAk
+         M4i1dgrlruqIqrCIf1Dz+D1Yj3VbUMutuDdeGehfmdBqNz6vmr4GosNn/1Z9teSstc1F
+         hR3QcSbMU80xq/AuJk/+FpUVf9T9W3Tx0/qzAaXaIzwfGDzSsrQshD7DhAmgcbK3NZUO
+         /GNA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792138736; x=1792743536; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
+        b=TDctdG3P3hqBv7Kmp9O69TG/m8pZWfGK3WkV8CEODNgKQ4ETVbdNSk6ewwgHGYwaRe
+         O8U2S4+OqkYRsjloampfShtwy4XKMrVtbQw3Bk1nlCT/uB8UyKFl9/Ozm+3UZm7F68ZS
+         lcaH0omgr4sMqtAXnmzZbF40fWYU2J6/JGISbJTo1MlrLItg/f9eVjGcmGc/TbM1xPmG
+         nVU23PzrABXRfa+WHOQJjPZDqcjmVNRHD9zxDs2V451VykC1BiHMn/woKRYcsSoyryIV
+         slCadhfuKr0QSoyFzna/MrQ0eHMR/ZgjJWOWAq/l3I47zBkVdb9NFmiku2rGoa39pO0/
+         iwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792138736; x=1792743536;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7jP1ajt49g9ePjtG83cMVBJePTr3Nno+FbpJNYv5nwM=;
+        b=me9jvg2xF13AZms8jKzP7PHYLjHXypeZVqAN1DJ9k3gXbI8LNWfiugvyrKJQE8kDlo
+         5+lW5MgKbCOgVVlhouQ00YnpG+0B2w/KwvUuEoSxthC4wo9WnNTb+XUcmwg7L0eDpEJb
+         CuldPXD+9YSOAkZTwJn3ALkf8IJXy5mp56Z7DWz3RqYHw94oneW635mPkNFp55gnxTHO
+         ylF+ThPhkSdAh1fMLKZp4kEb1L4p376nayX5L6aB5Tc1VkPo0UCGQlx1pzN6qfsr+F0h
+         IgLZTjLcdziiu2R0jjJ6tO5Rfc5ymAsrhWgGEwEibGuHWuvrCKgLKkPob6NG3KaIjvQu
+         zm7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBw/ndAUtMeJ1jC0CXdI8qRZ+mxO/3v0OEPSgMLXvrrydYEzAOeRRg273uhg+mEngzDiOJzLiRTJdpc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLZfc/eiBcQy8j765IYz1cTkBmPdGnLAcSUXROeT3JUl/QSUWdw
+	A8YzktgeR5yM8l2HN69iMVgfFH6Yf0YUAR3yFVhH7IMfsWZXqmpTDCAclxsLTBjs0FO/qWoAFTS
+	EkxSvipXWPlTFhnkMsYktQwalIyw1sXA=
+X-Gm-Gg: AYBFou35YEObuhOyITH4ipMeY6C1S/SJcLiEGUOlMRM7/jy8m1hPQYDIiHeSPNI3kQD
+	zl6LOGJPxGfJix0Ug4epnaPH1Q2Ezku7yH1cXF2xs4yF2v6tWDY8y4AXHUQe0uEfKRTJo9EdWNy
+	OZFBfyLAVpccUEqrwjY2xiUKZwNeQody2uo1WFX6kAs8812wZZVaG2lkz0CpJ5qSF2m5MZZS+ov
+	NHmKALawjGQ5iNtZ/dczVAoP4oONy6fledvcXqwEnE3tiUFWuIJPhGyw92NWnMO1ppoPfe9kTn5
+	BZfPAYXkGpCWirgBjTdWlyS96CWxTUV9/zDYVUEsAhCvQVBwA7IcrzSEqTRgHzk60npIS4IWFCc
+	La3RM5iqoeivsFnO77+ql
+X-Received: by 2002:a53:ac8d:0:b0:679:97d1:439e with SMTP id
+ 956f58d0204a3-679b0e651ddmr785846d50.2.1792138735738; Fri, 16 Oct 2026
+ 01:18:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261015173826.e7ffb7333fb84f5be927ae88@linux-foundation.org>
+References: <20260908122446.56708-1-lizhe.67@bytedance.com>
+ <as3gQ8jfa_6eBf15@chenyu-dev> <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
+ <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
+ <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com>
+ <atG4VXk4t-m8VubY@chenyu-dev> <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
+ <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com>
+In-Reply-To: <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Fri, 16 Oct 2026 16:18:18 +0800
+X-Gm-Features: AclHuK9l0UDwRtdZnr0wuccDYOekKzVCW2ycclDkqHbzyqX2JXnysUW2dhrKAo8
+Message-ID: <CALOAHbALpHebACLUmvet_tFH_w-iK3TWpY52OhYTUVoLzoGKkg@mail.gmail.com>
+Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
+To: "Chen, Yu C" <yu.c.chen@intel.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, Li Zhe <lizhe.67@bytedance.com>, 
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	tim.c.chen@intel.com, mkoutny@suse.com, tj@kernel.org, chen.yu@linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 15, 2026 at 05:38:26PM -0700, Andrew Morton wrote:
-> Do you (and others) feel that we should backport this?  Or is it just
-> not applicable to real-world users of older kernels?
+On Fri, Oct 16, 2026 at 4:01=E2=80=AFPM Chen, Yu C <yu.c.chen@intel.com> wr=
+ote:
 >
-> If we expect there to be non-zero users of 64k-page kernels on older
-> versions then I think "yes, our users will benefit from this".
+> On 10/16/2026 3:38 PM, Yafang Shao wrote:
+> > On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.com> w=
+rote:
+> >> A more complex scenario is when cgroup A and cgroup B become threaded =
+domains:
+> >>
+> >>                           root
+> >>                          /    \
+> >>                         X      Y
+> >>                         |      |
+> >>                         A      B          A, B: threaded domains (thre=
+ad roots)
+> >>                        / \    / \         separate memory.max / io.max
+> >>                      A1   A2 B1  B2       threaded cgroups
+> >>                      ^        ^
+> >>                      |        |
+> >>                      +--------+
+> >>                    want to share one cache group
+> >>
+> >> In the above case, we might need to change the deployed cgroup hierarc=
+hy.
+> >
+> > I think we can enable LLC-aware scheduling for both A1 and A2 =E2=80=94=
+ does
+> > that sound right?
+> >
+>
+> Here A1 wants to share data with B1, but A2 does not want to share data
+> with B2 nor B1 nor A1. Enabling cache-aware for A1 and A2 might not help
+> in this case.
 
-This is a functional change, so I don't think a backport is appropriate. We add
-useful stuff in newer kernel versions all the time :) users who wish to benefit
-from them need to update their kernels.
+I'm not sure whether this is a real use case or merely a theoretical
+one. I'd suggest we not focus too much on purely theoretical scenarios
+unless someone can demonstrate a practical need.
 
---
-Cheers, Lorenzo
+>
+> >>
+> >> Suppose threads in A1 and threads in A2 belong to the same process Pa,
+> >> this reminds me of the cgroup bpf NUMA balancing case: after enabling
+> >> NUMA balancing for A1 but not setting it for A2, what would be the fin=
+al
+> >> NUMA balancing decision for process Pa, is it enabled or disabled?
+> >> The NUMA balancing scan/invalid seems to be per process, so if we chan=
+ge
+> >> the setting of its threads, the whole process will be impacted. Or may=
+be
+> >> we should not enable NUMA balancing for threaded cgroups? Anyway I hav=
+en't
+> >> digged into your cgroup bpf patch set yet, let me try to look at it.
+> >
+> > cgroup NUMAB works the same way: the setting is per cgroup and opt-in.
+> > For Pa in your example, since its threads spread across A1 and A2, you
+> > would enable it on both =E2=80=94 enabling it on only one of them is no=
+t
+> > meaningful.
+> >
+>
+> I see. I haven't yet digged into your code, is there a per cgroup flag
+> cgroup.numab.enabled?
+
+Right. I will introduce a cgroup::numab_mode field, but without a
+cgroupfs interface file; it will be written through a BPF program.
+
+> Would there be a logic in the kernel, when
+> A1.numab.enabled
+> is written to true, the kernel detects all the other cgroups {X} that
+> contains threads
+> share the same mm_struct as A1's threads/tasks, and then update {X}'s
+> numab.enabled
+> to the same value as A1, to keep consistency?
+
+We have no plan to support threaded cgroups for now. If a real need
+arises, the BPF program can be extended to handle it, which would just
+require more kfuncs.
+
+> In summary, if threads are
+> spread
+> cross different cgroups, when you set the enable flag for 1 cgroup, will =
+the
+> kernel iterates all the other cgroups to update their flags as well? Or
+> leverage userspace to do that?
+
+I believe this should be implemented in userspace, not automatically
+in the kernel. Use cases are always complex, and flexibility is
+important here.
+
+--=20
+Regards
+Yafang
