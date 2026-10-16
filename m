@@ -1,240 +1,110 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D893C48DB41
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE6D47FB0D
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792174783; cv=none; b=MCh6k9f1qKmJvTzWJYBQz3vOwWpbBcBH0toX9VaF2qB/RlM8LULgsxWnwon3KUoa8deIBnsWe9A73qQhfd4Ttr/Ou8xv2MjbW1Krx1xrbRLat4tjM/63SZRa83qsEM0xJ/FsLm75IIZB5Fc27O8hP8VwA1vHWtT74e/W8zOZCMk=
+	t=1792175058; cv=none; b=k2pdbUvKqbMzxlqXWOQj0MK2WpxjMBWDbsBrUvJd/yX4+3Ic8PwLl+rb7O4jqY7fDqyCQCxeVj8th362TjeY4s/b3+VIpL5dH34Akg07cjOkLxfleXn9jS2ApEk3RK24Ii6PnlbNhFu5VHCJRppWtsNJe1j6b/EZsyDSW0JnHM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792174783; c=relaxed/simple;
-	bh=7oz8HPvheVIvTGYESdpSdhYdJVJsRJpxnpOPaR0bQ90=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=oh7j7HfGjwa2UY3y07VOrr+hs6ugkqmb0cmJMWbKwCwkgW23XDK2QE5SmQJLQp5JYMGztSCN8CvGjVkipRuIDPlJs6g3aw7deLM6MBuUtsc+XIxepOAI+rykU8LKzv6Y/FMTMp8mAe2fm9eSdQXyMWkoTvbLZ8KYs0m0ftT5tww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmoWLcYf; arc=none smtp.client-ip=209.85.222.54
+	s=arc-20240116; t=1792175058; c=relaxed/simple;
+	bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:MIME-Version; b=JMGrG6IUdkUTOLTaJ5bxWLWPKFG/s+vHtmOVB8pZt/9upju5YZbZGqFN6zvKcu/8+tMf0BjirBKLrsWRnuKABdlONVWrQ5+Qn0Vttj6nTu45CMZXNGxAo/44y2qNxkEiZpYCneNwMKYWb03e8TYuRtpm9Ql/xEJRG6zb1msxV3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5l55XuL; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmoWLcYf"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-98c7798ce74so72426241.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 11:19:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5l55XuL"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8875d220446so160338b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 11:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792174781; x=1792779581; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=RVF+KNTB3PtvNAoY46w+x0vdrM5zplysVyH1LA9K07M=;
-        b=NmoWLcYfRo52mtDN875V+tDOnyXSuBV3EEenqQ4VK54P3YmJhCTmp/tBwwRZYumSD9
-         x/e5moJsq8QENUOzQNdUXdx6HTaIYYH2aC3U8siN+npNX+OEl0W6l+xwPVycqrS6kLPr
-         JxIYzUxBXj4TL5QF2SKB587vTjgB0WpPHKnDqZE9a/TruClb465zuRRUmvd2H4wxvvWZ
-         yxrtjFIH4TEbaCC4xTcSqYC6mwWtIyrABsMKS/SmxXGOGpKrjBuQdCkQ4pkDjFsZUVy3
-         Uhia4+QxkRAGjSl6+ZJ5YfXGWuHd5XYp1C0c2lBZp+gMFEs0O4IEe3lKg/N6RxfYZD1f
-         x4Sg==
+        d=gmail.com; s=20251104; t=1792175057; x=1792779857; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
+        b=b5l55XuLf4CP3BRvUqG+XkMBAHbn4cXQ/jQVbkSRkBEkPv4QIN/8I4DuigTBnZ0cs3
+         klUirn4hyw3Jh0auzmAHtsqQoeS1tlU2YD1kVL6CRw9RghaU6lLmWuL/PCIyy4/+NQEx
+         0haL5wH3moPytqEENOkCe415nZUpbJ17TR+DV8A8EDbyqEj+gRQMBtfR8ipiruRbb5a5
+         KUHtJiXaHT3/evZVSCiAoYQ9UoTaGudRW0MsAHJd/+ixtTOZJgiQUWWTe+OsNhvqgWcZ
+         Q4CgjWz8Us7UP39g5MQTE15sioUUDj+rS5d82PMNvQgzF/UEAEG//CwwxOCcVvKkAuYJ
+         VKfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792174781; x=1792779581;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792175057; x=1792779857;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RVF+KNTB3PtvNAoY46w+x0vdrM5zplysVyH1LA9K07M=;
-        b=zGyJEZTuK7JoExhiiQIxcjsgY6pofQ8BYYaFxKtZakMNLOp9kfsAwtOPmDOkYUwAoo
-         1iuVmyGofSgYE0h0Y8WtZjuTYskablakuuKSMgWNEMMf7n17yyEufzMr+WL4ISIANmxL
-         38sp8V0tM9UTi3m8Qhjk7qB1zyKvH2FnfpN5z6QqS1hgLMV8btSdWRWBUtPkfpN3XLVi
-         NgRqFaMlykdezrM5WOTrJKNbIabKtT2URqe+W1iFyM3J+dcN4vzRblX+tKuNt7WovOuQ
-         MXhmwWWFUq0joc5sNfI39J+ipNlWFoGMIj+fh8WVIVT5bDh94oLTxiBDcMig6sz7bk+8
-         Ib/A==
-X-Forwarded-Encrypted: i=1; AKwUvBzuaUNT/V0m1upSLCWOKhmp4OnvUoqIrJxTFDJ4GxKZgDREQpRNPC0zb+DYF8JLc0KJTkuHRx2TgrI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ1OvyVOcnaj9T3/nOF6FNsdF6PCJd8AtSJvSV/yh87p8pMcdy4
-	13NYwVOD21AhiDrbqGpr8Eor+uJ9zLXCTWSNcLOejx4JfuD3MWbDEUe4
-X-Gm-Gg: AYBFou2BgSmDfL40g7WDkGiE6be4FQPoUUWUUY8BhJVYpCb0Xqli4HQUsb6lw9li9ud
-	8e+c15dWDr1NY4jZmDwGdWUs8vWY9Xvko7JtGeT8Z+psXCnPMEuMWA7FicIylF5nAWoUH0rpYIp
-	jUHL9CJxT+I17w4g2gWuG6+vh/DKjdANNxKHN7hnou7AD3mwNUm103HHarmn6nw2Yf1tu9ftDor
-	LpAG66w+EAXgfpAj+kRb2m+5XSNCHU/dYjPgCWWkgI4VwJFa8D3XGzdXTiN7SVuJ3oph1VrlFgf
-	E+6ImnAeF+1SqBQBw5OMTJM3ShiUfpjJAWl2AgkPqwbRGwa1fBcYTwSML9XhkxS74bC0m5dYtgx
-	2dNf/o5MgxpfYa1DlOSUGJT5bTY2q4DiXSs5ddvKox3qE67O14VJzSucz/pq0qL49z671+DOKee
-	bqRowuNni4+2W8feOCa02q2cFzKLpGnSYO7RT6DttmAleFslu6Pkfz36JEEKkPJId6+g8k4RjsZ
-	fbVpjTeuZ1AH4CYNE7WBQQ+k1xks1UB5NLGKNzU565EvgG+4TCQ9BgIpZuS6nQqr+v4KyStpUML
-	2s+stLdhHPJYo6bd0LBH+4kEvt/DKVbs4gNJZN1TMOG6DXcQHA==
-X-Received: by 2002:a05:6102:419e:b0:7c3:2f33:54bb with SMTP id ada2fe7eead31-7cc36aa3d6bmr96424137.28.1792174780679;
-        Fri, 16 Oct 2026 11:19:40 -0700 (PDT)
-Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990835c253csm2173395241.5.2026.10.16.11.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 11:19:40 -0700 (PDT)
-Date: Fri, 16 Oct 2026 14:19:39 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
- Jason Wang <jasowangio@gmail.com>, 
- =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- netdev@vger.kernel.org, 
- virtualization@lists.linux.dev, 
- Rusty Russell <rusty@rustcorp.com.au>, 
- Max Krasnyansky <maxk@qualcomm.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Simon Horman <horms@kernel.org>, 
- linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.2deaddfb31bd9@gmail.com>
-In-Reply-To: <20261016134823-mutt-send-email-mst@kernel.org>
-References: <cover.1792067836.git.mst@redhat.com>
- <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
- <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
- <20261016051827-mutt-send-email-mst@kernel.org>
- <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
- <20261016134823-mutt-send-email-mst@kernel.org>
-Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
- net hdr checksum validation
+        bh=bIepsGyPsDjDb0Ip+H9KtkM7Sr8wz3KXlJWJMjG+7aI=;
+        b=XAqN+IQI3NjIFkEhOLPbEUwkNhhw91ae+JgJwFCIWzXFE658mrWsbaNm20sL8670lH
+         bKNXMOzL9Iol7yP5uGKZ0dNDupAnUZk9jDv2cY/2mUVMb3WdTM6QV2iuBWPwyLdeiJ3b
+         WwzM1TDqm0HKYvSrIgdkZspMu7l/MRPeVj/AC0Qcs0144BR/IWpXqc+Rpk3t5NqLSq/b
+         ZXrSIKsDO6D3PKtB2HyvEybeuDw3+PHA1RHnvadcVVWrxKrA0TPKqaO7QCu2cNJNEskz
+         oa7A05HFHgRctXMK6DDDJIIo7o6cV1DjC88891FEjALxCQD2Fnl2n/i7AXhg5TML3XI3
+         7dVQ==
+X-Forwarded-Encrypted: i=1; AKwUvByzmdahH8fxT28MG5veI1d3xO2d+Hhmuvdn54Wp8bPi/ERtr7QyjVGEyA9La+cuPO370u/ERrUjRyc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIQiJVaBtKrSwBpqDHhYRBHvQjfoo1pPqxG5eL1k8BDfWwlZayh
+	nafM+SD2uXKa7hEp5sr3bVvzEDdbKTneBLN+SS5WgoLL4b6RnDUYY0vc
+X-Gm-Gg: AYBFou0Km5hvFUvZ6ISn/kS24tDwuIaCdVkeUxnYlClo3BH5Fsj56GtFKyC1DKMzxPP
+	hJWZYj/r19IOs2q7/zDDLAemmtiNAMwhdTk8RYyA29bh5xq6PtkI5RMw4hU5o4fM3PpyXnHbLyI
+	/98xXoPanDtan/IPRQlvTGweJr3B5c3p2DuqUmq4MVZUuy3kG94Zpma3xLr+3KHhnjnMGxDkAMT
+	sdfUvHm/HvVDBVHS8avRd1gqX3145GfLgN+cE8wwkE77x3w3eVE3Xh4DT9WZ9u9yrbxgipSzdoQ
+	nPu7bG7NVml6+7Bg/kXBUj143ITBcbbqURSlLD9HevAjkNGrqlQ65vOoHvjgXPdCckO20s6r8kS
+	t3jG0eFcFAaMP14y6w3NRY3YrzojVCiSyaeBV/wPyishxIkbKfnIzP14vn1rP6i74Pc3I5F6Bcg
+	yFHsjZh1GFbLL3P7EgdMipqZQqWJAs3itNjW73CdfKydOBtv3q+qvkIcgKXdChpd3/Ntsty4q6F
+	pVW+QntscmGFErmEPjPmT0mWhd3yiEZrNvrtPaBbRl7qxD7BcoYv2Weu7xk/GJZ37H/BrEHV3MF
+	isI=
+X-Received: by 2002:a05:6a00:4106:b0:87d:dc3c:1b5e with SMTP id d2e1a72fcca58-8a04ba2601bmr396865b3a.26.1792175056503;
+        Fri, 16 Oct 2026 11:24:16 -0700 (PDT)
+Received: from localhost ([153.61.198.248])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f56c8cf81sm1506688b3a.16.2026.10.16.11.24.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 11:24:16 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 16 Oct 2026 18:24:13 +0000
+Message-Id: <DM6H19P1797J.2QYZAQAOI9FTN@gmail.com>
+Cc: <workflows@vger.kernel.org>, <ksummit@lists.linux.dev>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, "Mark Brown" <broonie@kernel.org>,
+ "Theodore Ts'o" <tytso@mit.edu>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Leon Romanovsky" <leon@kernel.org>,
+ "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>, "Thorsten
+ Leemhuis" <linux@leemhuis.info>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 4/5] agents: add a skill to find other instances of a
+ fixed bug
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Sasha Levin" <sashal@kernel.org>
+In-Reply-To: <atJnq_ssIAGK-OSZ@laps>
+References: <20261012213452.1863248-1-sashal@kernel.org> <20261012213452.1863248-5-sashal@kernel.org> <DM6DXZJSMPO3.J5PONDJ3HWNP@gmail.com> <atJnq_ssIAGK-OSZ@laps>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
 
-Michael S. Tsirkin wrote:
-> On Fri, Oct 16, 2026 at 11:30:17AM -0400, Willem de Bruijn wrote:
-> > Michael S. Tsirkin wrote:
-> > > On Thu, Oct 15, 2026 at 01:50:54PM -0400, Willem de Bruijn wrote:
-> > > > Michael S. Tsirkin wrote:
-> > > > > The ingress validation as implemented by the previous
-> > > > > patch is stricter than what it replaced: GSO
-> > > > > packets whose checksum metadata matches no transport header are
-> > > > > dropped, and non-GSO ones get their checksum completed in place.
-> > > > > Such packets used to pass with the metadata unvalidated,
-> > > > > and with no overhead.
-> > > > > 
-> > > > > I judge that this should not affect any deployments, but there is still
-> > > > > some risk that it does.  In case a deployment depends on them anyway,
-> > > > > provide a per-netns switch to get the old behavior back:
-> > > > > 
-> > > > > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
-> > > > > 
-> > > > > The default is validating.
-> > > > > 
-> > > > > Assisted-by: LLM
-> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > ---
-> > > > >  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
-> > > > >  include/linux/virtio_net.h               | 23 ++++++++++
-> > > > >  include/net/netns/core.h                 |  1 +
-> > > > >  net/core/dev.c                           |  6 +++
-> > > > >  net/core/net_namespace.c                 |  1 +
-> > > > >  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
-> > > > >  6 files changed, 100 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > > > > index e586e17fc7a5..7f230929c37e 100644
-> > > > > --- a/Documentation/admin-guide/sysctl/net.rst
-> > > > > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > > > > @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
-> > > > >  Default: 1 (on)
-> > > > >  
-> > > > >  
-> > > > > +virtio_net_hdr_csum_check
-> > > > > +-------------------------
-> > > > 
-> > > > Make more generic, virtio_net_hdr_validate?
-> > > > 
-> > > > In case we add more validation in the future (as we have in the past),
-> > > > without having to introduce multiple such knobs.
-> > > 
-> > > But it's uapi, are you sure we'll be able to change the meaning
-> > > of an existing knob, even if we keep the name vague?
-> > > 
-> > > > > +
-> > > > > +When processing packets with a virtio net header (through tun, tap, a
-> > > > > +packet socket or a virtio network device) that request checksum offload
-> > > > > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
-> > > > > +in software, or drop the packet where the header does not match it.
-> > > > > +
-> > > > > +When disabled, the header is trusted not to corrupt the packet, and the
-> > > > > +checksum is offloaded to hardware (or not verified if it never reaches
-> > > > > +hardware). This is only safe if no protocol is processing the packets.
-> > > > > +
-> > > > > +Default: 1 (on)
-> > > > > +
-> > > > > +
-> > > > >  wmem_default
-> > > > >  ------------
-> > > > >  
-> > > > > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-> > > > > index 357115ff0ec2..aa2f8ac4657c 100644
-> > > > > --- a/include/linux/virtio_net.h
-> > > > > +++ b/include/linux/virtio_net.h
-> > > > > @@ -5,6 +5,7 @@
-> > > > >  #include <linux/if_vlan.h>
-> > > > >  #include <linux/ip.h>
-> > > > >  #include <linux/ipv6.h>
-> > > > > +#include <linux/jump_label.h>
-> > > > >  #include <linux/netdevice.h>
-> > > > >  #include <linux/udp.h>
-> > > > >  #include <net/gso.h>
-> > > > > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
-> > > > >  	*thoff = nhoff + iph->ihl * sizeof(u32);
-> > > > >  	return iph;
-> > > > >  }
-> > > > > +/* Defined in net/core/dev.c, enabled while any network namespace
-> > > > > + * has net.core.virtio_net_hdr_csum_check set to 0.
-> > > > > + */
-> > > > 
-> > > > Should this be a global sysctl, rather than per netns?
-> > > 
-> > > 
-> > > For customers I work with, it would be much less useful.
-> > 
-> > Third option: make it an integer rather than a boolean.
-> > 
-> > 0: no validation
-> > 1: current level of validation
-> > 2 and beyond: if we have to extend it later
-> > 
-> > Not pretty, I'll admit. So fine to keep as is too if you prefer.
-> > But I do foresee more changes in this area, if history is a guide.
-> >  
-> > > 
-> > > > Even if per-netns, most likely do not want it writable by netns root
-> > > > with user namespaces.
-> > > >
-> > > > That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
-> > > > of many crashes due to bad packets ingested by, e.g., a packet socket.
-> > > 
-> > > Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
-> > > on by default?
-> > 
-> > A single system wide field is simplest.
-> > 
-> > Is there a benefit to making this configurable on a per netns basis?
-> 
-> As I tried to explain: a specific container breaks, you decide to trust it,
-> you do not need to trust all.
+On Fri, Oct 16, 2026 at 02:06 PM Sasha Levin <sashal@kernel.org> wrote:
+> What I had in mind was the kind of bug our scripts/coccinelle/ rules look for.
 
-Ok
+For kfree_mismatch.cocci kind, yes. Each site is its own bug.
+But the other example in the guide is "a missing put when leaving a loop".
+That's iterators/for_each_child.cocci. It was fixed one driver at a time
+for years until for_each_child_of_node_scoped() made the put automatic.
 
-> > If so, that's fine too. As long as root-in-namespace cannot modify it,
-> > so readonly indeed.
-> 
-> 
-> Right. So I envision along the lines of:
-> 
-> net.core.virtio_net_hdr_validate_all - validate packets from any netns,
-> netns root can not change it, only host root
-> 
-> net.core.virtio_net_hdr_validate - per netns
+> I agree that fixing the interface is better, but do we want to push all these
+> agents there?
 
-Then skip the global option, as it's just a convenience: the same can be
-achieved by iterating over all the per-netns settings.
+To report it, yes. The skill is read-only anyway.
+Whether to change the interface is for the human to decide.
 
-Per netns validation, but only settable by root, not by root-in-namespace.
+> So I think it should be a balance. When the skill finds the same defect
+> in several places, it should also ask whether the interface invites the
+> mistake, and if so report that the fix belongs there instead of handing
+> back a list for N maintainers
 
+Makes sense to me.
