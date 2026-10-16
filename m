@@ -1,147 +1,449 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012054.outbound.protection.outlook.com [40.107.209.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DD3384CEE;
-	Fri, 16 Oct 2026 14:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792161743; cv=fail; b=sBOtY6zZuFsesyccZVwBfOLQiiovxK/u/tDN02U7FJpNNZ+2M7OLjLrth/JmiBgOio1GFD3qlRcFIOyvfrz2WrlukLJ26Qc+uNdzCWp49k6r+G4ZcT7PAEKOtQoVuYZ4vtyo9Kz5CIy4A3rjY4io+TCig+fytVdB0opwG0SBPN0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792161743; c=relaxed/simple;
-	bh=KBGfTGdcJ57X7uho9dnSm0pskpKmrgoXHa0KjqwkEjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AlymOHYWwbumlu74xmmPTFLTLCX8/2o8UulcgzzqxLOlobEVPijoPRRz7LCOsppD949s5AhV5WgPEKchptJeJrxtY5N1K/HWFIbrHAZH7mPLfs+5pyfzNEPO9CCGP2KILqSn/921613pEdJBhup4QPf0DP0glyI5BgAAtKIwqVk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=o9tnFaAC; arc=fail smtp.client-ip=40.107.209.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CC14D98E6
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 14:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792161865; cv=none; b=LPBBxVkxdcW6lvHRME4MbiaquRf5OeTchpDEOPnVq/BGK/3v0Lu2q5mHMdEDkXFNZOqSJPeqYqoOh8Lh4Kgh++O9bzHzXfTTja7tSVsL6Tob4KihxBQ8lvvsUGjmblCVaL6fvi35JOgRmLCagmrn6FmSfr8NdoXQUxe1U2WgcyU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792161865; c=relaxed/simple;
+	bh=TOIiJPI34vCinEaBrduHlT9a71FAHO435ctrN82VAoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJtGmLYvAdBWj+Ntp6+hMcBq993b48ZioNhk8cuwkCHegd/9Tp+Yui7rduaf9zBQQdqrwLF+559Foos7SnHw1ntQ7ZRsH6dgLEVDcU+5o8kJWJwH4HGwliHyv3VPl2sjpfhjjq7y21fH3RhuXt/fe5WCDnhzVYaE57vyOoLYSRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTKfLCJY; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="o9tnFaAC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LeNhcAJwZCtD+888P71e24/2/1UVvUWiKxMvlpDPRqfhNeH5jbSTDmfaBLrSvdWkLBaCdC/6LhM+ZvaoUv+VKuXBbm1GoIDEwL4tBWT+raT76n1mHYmIlz+6Wixay6H3xMGuat2eXSLvxIj2GadtUPRteGco4KhQa+yHDzjiFW2sI57zXaTkTwR4tjUdAJbOUCMTxuv3D1Wi2/5FFNHEyl/rTYZMgfMgBgTY+mTEIrLEqqG0PWRqbSwoqjqIPm1Jfu/z6+TIldKutlZZaZaYk606KAGoY08sDBe9d6LTYmWiNnWP51U1Q9y8Eu1VXCncji9hwopOv8OE8KQX5TFDWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eeo4UlR7k9ii5pcApr0byuh6zl14tsTVmNFEH/do4mk=;
- b=b6lk8pr+SfzFlRcvenjLJH+fKa1pmvlifOm0lGXGFDEPAlKpPjZWaSRRx0BsLLPi2doEHrWE1fddot7FknVAIwVlK7s1R43NfCosOBMzeHyqgmaLEowQ60roJHnIq6UjMmbdG7lVtrifiBtgToGbifL6Z8XzkoEMd8yoOr/AF3Qn1VP2qSots5DCNeUpAM7fltsrblpqBYgdsvZt6Ae8Ha9ncd+MbMbA0HCu1FNSg1il+ZFF5KuaCkSfbFncUtiMUDjvdxPtF97zX+FjsnGs8Q2MLT/RyFO8rmvQv+gJh8Ob/D/Kxnr2EqrqLkMKszqPnw37yufYU1ruxz3oOVC4AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eeo4UlR7k9ii5pcApr0byuh6zl14tsTVmNFEH/do4mk=;
- b=o9tnFaACfjoSIlktuB3ZYXPWvycrGNZZY9Z7bMX4coHABx4AFS/91ZFKp1UuRggOCenQAAwMX7GHpXozHMyKxaVHkRkR3mzgho3V0cPppcaO/RbqydF613JElm4zqe0cUUBniqoZhI3Nc2+Z7YBGepntMVf69EMyJQxBhLiNQ/Czsd2Mb0rjrSFfIwjDMWWZR8CWaNnhcpCpYN6HpRM5VrV2qjqRtbzeL6ydySxpZUvO42xQqMCAmSKBWqbHTZx1BBVFRUzbZUKGG5LsxOCmfX38MOni7qAxDIy7q5W/SrUnclnRa16kHfWmPXQjK7iBF0/S1yLYXQrz0880/yxN4A==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by CH1PR12MB9696.namprd12.prod.outlook.com
- (2603:10b6:610:2b0::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
- 2026 14:42:03 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
- 14:42:03 +0000
-Date: Fri, 16 Oct 2026 11:42:02 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jean-Philippe Brucker <jpb@kernel.org>
-Cc: Ryan Roberts <ryan.roberts@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Alex Williamson <alex@shazbot.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2 15/15] misc/arm-cla: Add vfio-mdev user interface
-Message-ID: <20261016144202.GG13920@nvidia.com>
-References: <20261015142552.4128028-1-ryan.roberts@arm.com>
- <20261015142552.4128028-16-ryan.roberts@arm.com>
- <20261015164102.GC13920@nvidia.com>
- <CABCqBse_aZL-EH0us2uA5X10q6E4WP02MoHTYf+M9ezRZr26WQ@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCqBse_aZL-EH0us2uA5X10q6E4WP02MoHTYf+M9ezRZr26WQ@mail.gmail.com>
-X-ClientProxiedBy: YT4PR01CA0215.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ad::24) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTKfLCJY"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8b0a28a720aso49099847b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 07:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792161860; x=1792766660; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b5mPysmOg/X2gxFC8sSeZVp+7zx/SSikTAHOJ0n/l4g=;
+        b=gTKfLCJYZqf9Va4X2gK4hWvh8JGoXo5O8GFEPbdK5EGPNk1+nMF69RBEbV56m7VuOa
+         u1/uUe52eoiqI9sJYiLcG8LRb7athiBY4YQdiuquYPDED6zea7ip1ow8YfUiVI5ALhmQ
+         L+EQJFBIjJ6HUsDnxw+ITN5Q1ujd38a6+1giBhswT7LZd0r5VyP94zQOvnzn4r3xOOHD
+         g+hmZ1QF9i+dNNoRfoqKzDPfpDjJ/fdl/Ygmq//k/M8kIvU278oZpbQ8rILnv2tqpwXL
+         3A2dYomZAyKqfrfk8w7PFMNPIFePM/8IocWMtWX19I88Ccq3Nfrz7GCPL0+eCWDnKAFR
+         Xiiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792161860; x=1792766660;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b5mPysmOg/X2gxFC8sSeZVp+7zx/SSikTAHOJ0n/l4g=;
+        b=cuKJMXsBDGLmGaxPu8di7aIo48t9ikI71vDZYQOzx5Q8HQClkfFdmIZkoKl5cZ2r3d
+         gxoWEZLH4MV2guh0v+6ODdIM5XroxgO6VHCcMMKXCCgkT2Va4V48JIS0A4lXBlgHv0MC
+         RxMebgjbQ6nbph8D8+cddetzvF8bpjpX79ygw8LjhIJETtZzDUxhdUj+qe8ikPR92YcV
+         iDqM6g5u5q9Mj5/ExFfUxw+/rRj737NOeEd1/VuE41q15W3MEwPJ6cMjm0Ur7K72G+nv
+         r3DStlg3w0QWvHv5pWjk9xFAd1RK4mVTodmW6EMUpT6tAOMciy4nlzakaFOOGAdBibMS
+         W4vQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx4ofOd1+d/W3+AmiGSy86DqgkO1PvfP2yW0KTmk9HXMiofurEl2Wm2dB2Ld07HPoUgPxfFqrs8Fx8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKMKyw6DyZTmerWt3Spcr5jNnDnLOW+o/fKFiOlr3LmgUtFijer
+	vyXN7pIjxDub2+vGNotgcOQTSKdg7rb7LeGM6wHXb0GMAT/ZlWDuiWOy
+X-Gm-Gg: AYBFou1t4KX2X+vGvNkRUrwSFpjeX/TaI1yBENnMmuCVw3lT/VOYymlpD6WtPXOqobU
+	KmpQq8pSUNtale/6TGnflVFzLQ+y7pHbstbAupVPeg7S0kYd4O9MlH6JW8TOQYWXezVEczU1cz0
+	706G2NGaWfl+T0YREfHwe12T34ddIBf6k5/1lfkvgA44VMGuqVp+ZoKMSR8xd/P3g/chPKTQosn
+	3p+QnequLHLOCreWYdkjYcZrxGHppZJo0nNzjZnzR3wqJgXhCuIS1Ul7UFaUHAh12p9KeRnNnRI
+	MUXfnC+hf9NHZUIoDIJJjq9gWVt+mEEcMrInBSn4XiidmbO++e8nUwGsYeIx5n2H0dbgLdXyu99
+	aLH+0qQziTpqk8qb68xEHeHht/xmiqte9oTDEaqsD/1RbmTPtmpT4/aAV3taBaUaB9LEGMi3Fee
+	6/zSyS13BfVk0Hqhokm0VaidjNiRJiRufx3dVB+b0Rcx/cW9U4D3iruN5kktRube9CNN7S/mAO
+X-Received: by 2002:a05:690c:a4d4:b0:8ae:8d28:77be with SMTP id 00721157ae682-8b0f205d6dfmr777507b3.1.1792161858531;
+        Fri, 16 Oct 2026 07:44:18 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:1002:ecef:6e38:613d])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e5888166sm9663717b3.14.2026.10.16.07.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 07:44:17 -0700 (PDT)
+Date: Fri, 16 Oct 2026 10:44:16 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, 
+	code@tyhicks.com, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, 
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, 
+	hyc.lee@gmail.com, miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
+	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
+	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <atI20Vs7Du9-g1Hz@zenbox>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-10-caixinchen1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|CH1PR12MB9696:EE_
-X-MS-Office365-Filtering-Correlation-Id: c078ee85-1e09-4269-1428-08df2b93a4e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|56012099006|5023799004|4143699003|11063799006|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	luTy4I5MeNJoC2lX1K1KwquUU+RrCSez7DMm1K8AH2i/Cl+7n3VgkrMQkUWuU2ktIRbugWSUiaCdIQ39a2ZRL/dzE1S9n+/HEqjEAMrSJwWB9L3BaZwfjfGEOpEvJPmkdtBgZHNTFVgCvLh2xEkuRxD+elWq4jAjiwhMkk+5VkzvcQ5fUkBHl1kd1IFEZrXyJ7uKd/7joYLlBHD7UzCe2FZIms54Lsr+qVqd+h13X9Ah23Xi9kMSeRU6CFWBb4oJeEIvTAyDG80n8P5yGssRfOsNNWSMl48twMclorPdBhdqhQ9SVNWgOAUVavwxLFkWNIagI41c5y5CMY/sJLLt7qHQvcspysN+H1Z914B/G+XD+jS7i8HpGYv+lP6O/4L0xRWeGYqlGXJjim0jbpWZSYBj/MsibhTGf+BWMSYZMbbwDiUROfpnLJYu53nQrmAxmU1W8d2RE9AHZ6rJ5LjeoTTITg1sNFvG3eqr+7WfzcbTDKiIduJTLVdKODGuAydMQjmtqV+jUpQ/Fg68Ng0ZSTPALo9HbVXj8g1g995BkKk+ZZIj1WjTH98oGUWMQrPJEvMfBZtTF/ZqkyEv3spq2nuUkqQf6JJMpE5khn+OJc8+uEySi0QvIkZwPNJ1rTThcC5gdPQ/S3JSS1zS0L4cBwvK2QQkCpOsA9JjKhyhlDs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(56012099006)(5023799004)(4143699003)(11063799006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4qGvtiRciud8Qja3vBAYUVRggMSOleDBs07xQia/qu3pXXU2+ehHMStAZP+j?=
- =?us-ascii?Q?8Ke6rDsEFs84uqzJTLrOvY28yRzxZbRO1nsTQVMvfjzP3ItMfSYuxkJhxKjH?=
- =?us-ascii?Q?360gtiMcTHmx2aAklby5ZBj5iB4ex0ar+iZdn33xGMYUlz+ol2bpqjUBZgu0?=
- =?us-ascii?Q?Snqo6pib+iBAwKhTB6q+TQsAsXbqmZAJITqTjIKH/pr8vUWPs3EySS3Jkk7M?=
- =?us-ascii?Q?6cK6Mx/SPEUUK919NykhZwNY9Az9qliEhorp2l4mi0psxwcjTtw8t+LFMLeV?=
- =?us-ascii?Q?XhiM8BPbJIg8tDV47EVOaEG7hEai/SNAArPktpIT/saXhjiJ9bj5BOM6KFD6?=
- =?us-ascii?Q?mJFc5lpCZTi8yfSvvJQcqCtQnYKqkSEqtFKMB2HDr5QmN3E75yiXra5uVOEm?=
- =?us-ascii?Q?g0ZyqmZS+VTUOQLHP1NVYGo82p9w+0jLZBsxlvlQXAJ67uZo4OUWosmTSU9X?=
- =?us-ascii?Q?azzQoroIIfft8wBiLd/YTtAuA4g0vsD+VcqfczdbKQJZTBLa0REMOfx/PBZV?=
- =?us-ascii?Q?Q4+d8MqWI84HwGUL0o8anD4dVI7OyM29U07amUyW0X0Lxv2PTxQGYC1Snt6Q?=
- =?us-ascii?Q?JXtckzPQCVMhMhejfnE8mO5fP6+WP9fvWylGq4HqrMh9U3h4pWG6fkO3mDiS?=
- =?us-ascii?Q?tWXtoi0R6iJTxox2aZljoei7i+M3NXue0zMa0RgPo2qEl0eFApZHwXsGBzRA?=
- =?us-ascii?Q?XB1FAa/RMW9GWFY9LUwRhopw8EO40LFZd957uLerDE3xX8v0ynkwiGU1hLjR?=
- =?us-ascii?Q?UW4cI0iNjBIkIEbDpoGu+UMS9c3ymdBOrfV8QR57xsoSq6j8zMZEx2n2ySQT?=
- =?us-ascii?Q?8mWR4WqX06Xo8NouCOR5x5J2P9fYKTzO0MprW/pU1WM7mmlbhGJ/TbCUanzL?=
- =?us-ascii?Q?YpzTnRiVeOgg+N56dRCCFfxQcA1xZZLKqXku3XdJ3S6BVlsZOljmwa95p0tH?=
- =?us-ascii?Q?3iv+fUjr8RuPsVkhqRCbJvkrgTIqv5HwTRQtDzZ5zf3mkYr4kyUrzGQUVmF2?=
- =?us-ascii?Q?YssdCR+gDhpVJsq6V4lADae0hyu/B1SuhBDD5k+KgHSZVuk8oykF8i38Qmu0?=
- =?us-ascii?Q?MtyiNbsvRvXTctEtMs8A/H7e5uqmEdzmA2xWEfKNo+sLVcP+GrpIOA9a3WQg?=
- =?us-ascii?Q?oDygiyZrCRLjbyrcX/431CA63kwd7wSrPRv+4RDiDabjT4ZtjmLMdfp63qaA?=
- =?us-ascii?Q?J4lt2X7Nq5h/8T7o4/mNUUeKDQlCFVBRno3334wCXc/qOm+FwbUqR6MENHwR?=
- =?us-ascii?Q?w1cQ4y7fyQj72voSXw3GzYFKm3m7WZ9UiLvVgRUuHEjAhmfOb2PdSkxc8kTZ?=
- =?us-ascii?Q?sthPiJUJJZ6CKPqUao7zdDxG1UATmhWV4ltLHG+5eiBTrj71tAwNt34Yygg4?=
- =?us-ascii?Q?n+6uMhK5N/SA/Xvvcce/DpTSYXEhm5vZI+lGLEpMrsXj/oqgg+phDuB9Jtnd?=
- =?us-ascii?Q?Ly+A7u/wkjKKdVaeag82JtM4xEzowQzeX3t4vbiQODchu0n5Dd1Uj9mk9TyD?=
- =?us-ascii?Q?lLbCYyHPqgN1Zz8wCz1ZuVyaocBZ3GnwJW00OZevw1Oq6ciO+QZp/BaT8EoV?=
- =?us-ascii?Q?W5GYPGtFJZuD5Js3MvSTAviskF0QjmLxWJZa4+KF4fwaMAjTqL8ZfOgvSXXb?=
- =?us-ascii?Q?rPXEr4kGDws54L8sDpB6pe+7dYSWawjvd1zOkvZDNqQxG4GKXbqAG6+fHC1X?=
- =?us-ascii?Q?CK3a069aDVf5FVgCuP3HColxswijIiAt0oax0JzzlYPEfkS4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c078ee85-1e09-4269-1428-08df2b93a4e3
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 14:42:03.7323
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5jDHCnPjEGqPTqWVP8aaAt5ndfR4m9ntZLf5wWnohvVckKkpEIQwNF/eXomr0Ijj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9696
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015125425.3246251-10-caixinchen1@huawei.com>
 
-On Fri, Oct 16, 2026 at 03:22:00PM +0100, Jean-Philippe Brucker wrote:
-> On Thu, 15 Oct 2026 at 17:41, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> > I think I said this last time, please don't use vfio mdev for
-> > anything. There is nothing mediated about this.
+On Thu, Oct 15, 2026 at 08:54:15PM +0800, Cai Xinchen wrote:
+> Add two new filesystem access rights to control file metadata access:
 > 
-> We don't multiplex a device between guests, but the host driver must
-> control part of the device registers while the remainder is assigned to
-> a guest. The host configures accelerator access, stage-2 translation,
-> handles CPUHP and context save/restore. So we can't bind the device to
-> vfio-platform.
+> - LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata
+>   (e.g. inode attributes, extended attributes and POSIX ACLs) through
+>   stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+>   friends, listxattr(2) and friends, and the POSIX ACL read
+>   operations.
+> - LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory
+>   metadata through chmod(2) and friends, chown(2) and friends,
+>   utimensat(2) and friends, setxattr(2) and friends, removexattr(2)
+>   and friends, and the POSIX ACL set and remove operations.
+> 
+> This follows the coarse-grained grouping approach discussed in the
+> mailing list [1], where file metadata operations are grouped by
+> security relevance rather than by individual syscall.
+> 
+> Implement the two rights by hooking the inode_getattr,
+> inode_file_getattr, inode_setattr, inode_file_setattr,
+> inode_setxattr, inode_getxattr, inode_listxattr, inode_removexattr,
+> inode_set_acl, inode_get_acl and inode_remove_acl LSM hooks, which
+> now receive a struct path thanks to the preceding VFS and LSM
+> refactoring.  The following system calls are now controlled:
+> 
+> - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+>   friends, listxattr(2) and friends, POSIX ACL reads, and the
+>   chattr(1)/xfs_io style reads: ioctl(FS_IOC_GETFLAGS),
+>   ioctl(FS_IOC_FSGETXATTR) and file_getattr(2) via inode_getattr,
+>   inode_getxattr, inode_listxattr, inode_get_acl and
+>   inode_file_getattr (READ_METADATA)
+> - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
+>   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
+>   utime(2), setxattr(2) and friends, removexattr(2) and friends,
+>   POSIX ACL set and remove, and the chattr(1)/xfs_io style writes:
+>   ioctl(FS_IOC_SETFLAGS), ioctl(FS_IOC_FSSETXATTR) and
+>   file_setattr(2) via inode_setattr, inode_file_setattr,
+>   inode_setxattr, inode_removexattr, inode_set_acl and
+>   inode_remove_acl (WRITE_METADATA)
+> 
+> Both new rights are added to ACCESS_FILE as they apply to both files
+> and directories.
+> 
+> hook_inode_setattr only restricts explicit metadata changes, i.e. it
+> checks WRITE_METADATA only when the ia_valid mask contains
+> ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
+> Metadata changes that the kernel performs implicitly, such as
+> timestamp updates on write(2) or size changes on truncate(2), are
+> therefore not restricted, and neither are chmod(2)/chown(2) calls
+> that do not change any attribute (e.g. chown(2) with -1/-1, which is
+> a no-op that never reaches the hook), matching the behavior of the
+> SELinux inode_setattr hook.
+> 
+> Stacking filesystems forward fileattr operations to underlying inodes
+> without calling the LSM hooks again (see the preceding patch), so a
+> fileattr operation on an overlayfs file is checked once on the
+> user-facing merged path and is not spuriously denied because of the
+> kernel-side creator credentials used for the forward.
+> 
+> Kernel-internal accesses performed with override_creds() (e.g.
+> overlayfs and cachefiles) are not affected because Landlock domains
+> are attached to credentials, and kernel threads without a Landlock
+> domain (e.g. nfsd and ksmbd) are not restricted either.
+> 
+> Remove stat(2), chmod(2), chown(2), setxattr(2) and utime(2) from the
+> list of file-related actions that cannot be restricted yet, and add
+> the names of the new rights to _LANDLOCK_ACCESS_FS_NAMES in
+> include/linux/landlock.h, which is shared by audit records and trace
+> events, so that denied accesses can be reported with a human-readable
+> name and the static assertion on fs_access_strings in
+> security/landlock/audit.c stays valid.
+> 
+> Increment the Landlock ABI version from 12 to 13, and update the ABI
+> version check in tools/testing/selftests/landlock/base_test.c
+> accordingly.
+>
+LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
+the mechanic for the truncate right. Otherwise the access for already
+opened file descriptors would be changed. See hook_file_open in
+security/landlock/fs.c and this discussion here [1]
 
-That's fine, you can make a proper vfio-cla driver.
+It should have clear documentation for this as well.
 
-Jason
+Justin
+[1] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
+
+
+> [1]
+> https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
+> 
+> Assisted-by: opencode: glm-5.3
+> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
+> ---
+>  include/linux/landlock.h      |   4 +-
+>  include/uapi/linux/landlock.h |  25 ++++++-
+>  security/landlock/fs.c        | 126 ++++++++++++++++++++++++++++++++++
+>  security/landlock/limits.h    |   2 +-
+>  security/landlock/syscalls.c  |   2 +-
+>  5 files changed, 153 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/landlock.h b/include/linux/landlock.h
+> index 0ee4880988ba..ee1234fbc9f0 100644
+> --- a/include/linux/landlock.h
+> +++ b/include/linux/landlock.h
+> @@ -41,7 +41,9 @@
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_REFER, "refer"), \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_TRUNCATE, "truncate"), \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_IOCTL_DEV, "ioctl_dev"), \
+> -	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_RESOLVE_UNIX, "resolve_unix")
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_RESOLVE_UNIX, "resolve_unix"), \
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_READ_METADATA, "read_metadata"), \
+> +	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_FS_WRITE_METADATA, "write_metadata")
+>  
+>  #define _LANDLOCK_ACCESS_NET_NAMES \
+>  	_LANDLOCK_NAME_ENTRY(LANDLOCK_ACCESS_NET_BIND_TCP, "bind_tcp"), \
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index 24510e5d8479..36dfb499e48e 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -429,6 +429,25 @@ struct landlock_capability_attr {
+>   *
+>   *   The rationale for this design is described in
+>   *   :ref:`Documentation/security/landlock.rst <scoped-flags-interaction>`.
+> + * - %LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata (e.g.
+> + *   inode attributes, extended attributes, and POSIX ACLs) through
+> + *   :manpage:`stat(2)`, :manpage:`fstat(2)`, :manpage:`lstat(2)`,
+> + *   :manpage:`newfstatat(2)`, :manpage:`getxattr(2)`, and
+> + *   :manpage:`listxattr(2)`.
+> + *
+> + *   This access right is available since the thirteenth version of the
+> + *   Landlock ABI.
+> + * - %LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory metadata
+> + *   (e.g. inode attributes, extended attributes, and POSIX ACLs) through
+> + *   :manpage:`chmod(2)`, :manpage:`chown(2)`, :manpage:`utimensat(2)`,
+> + *   :manpage:`setxattr(2)`, and :manpage:`removexattr(2)`, as well as related
+> + *   system calls.  Implicit metadata changes performed by the kernel (e.g.
+> + *   timestamp updates with :manpage:`write(2)`, or set-user-ID and
+> + *   set-group-ID bit clearing with :manpage:`write(2)` or
+> + *   :manpage:`truncate(2)`) are not restricted by this access right.
+> + *
+> + *   This access right is available since the thirteenth version of the
+> + *   Landlock ABI.
+>   *
+>   * Whether an opened file can be truncated with :manpage:`ftruncate(2)` or used
+>   * with `ioctl(2)` is determined during :manpage:`open(2)`, in the same way as
+> @@ -493,9 +512,7 @@ struct landlock_capability_attr {
+>   *
+>   *   It is currently not possible to restrict some file-related actions
+>   *   accessible through these syscall families: :manpage:`chdir(2)`,
+> - *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`chmod(2)`,
+> - *   :manpage:`chown(2)`, :manpage:`setxattr(2)`, :manpage:`utime(2)`,
+> - *   :manpage:`fcntl(2)`, :manpage:`access(2)`.
+> + *   :manpage:`flock(2)`, :manpage:`fcntl(2)`, :manpage:`access(2)`.
+>   *   Future Landlock evolutions will enable to restrict them.
+>   */
+>  /* clang-format off */
+> @@ -516,6 +533,8 @@ struct landlock_capability_attr {
+>  #define LANDLOCK_ACCESS_FS_TRUNCATE			(1ULL << 14)
+>  #define LANDLOCK_ACCESS_FS_IOCTL_DEV			(1ULL << 15)
+>  #define LANDLOCK_ACCESS_FS_RESOLVE_UNIX			(1ULL << 16)
+> +#define LANDLOCK_ACCESS_FS_READ_METADATA		(1ULL << 17)
+> +#define LANDLOCK_ACCESS_FS_WRITE_METADATA		(1ULL << 18)
+>  /* clang-format on */
+>  
+>  /**
+> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+> index a8fa8f77e775..f56277c67a24 100644
+> --- a/security/landlock/fs.c
+> +++ b/security/landlock/fs.c
+> @@ -318,6 +318,8 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
+>  	LANDLOCK_ACCESS_FS_EXECUTE | \
+>  	LANDLOCK_ACCESS_FS_WRITE_FILE | \
+>  	LANDLOCK_ACCESS_FS_READ_FILE | \
+> +	LANDLOCK_ACCESS_FS_READ_METADATA | \
+> +	LANDLOCK_ACCESS_FS_WRITE_METADATA | \
+>  	LANDLOCK_ACCESS_FS_TRUNCATE | \
+>  	LANDLOCK_ACCESS_FS_IOCTL_DEV | \
+>  	LANDLOCK_ACCESS_FS_RESOLVE_UNIX)
+> @@ -1676,6 +1678,119 @@ static int hook_path_truncate(const struct path *const path)
+>  	return current_check_access_path(path, LANDLOCK_ACCESS_FS_TRUNCATE);
+>  }
+>  
+> +static int hook_inode_getattr(const struct path *const path)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_file_getattr(const struct path *const path,
+> +				   struct file_kattr *const fa)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_setattr(const struct path *const path,
+> +			      struct iattr *const attr)
+> +{
+> +	unsigned int ia_valid = attr->ia_valid;
+> +
+> +	/*
+> +	 * Only explicit metadata changes are checked: implicit
+> +	 * timestamp updates never go through notify_change(), and size
+> +	 * changes (ATTR_SIZE) are governed by the truncate hooks
+> +	 * instead.  See the "File metadata" section in the user space
+> +	 * documentation for the full semantics.
+> +	 *
+> +	 * Clearing the setuid and setgid bits on write(2) or
+> +	 * truncate(2) is also an implicit change: callers request it
+> +	 * with ATTR_KILL_S[UG]ID, and do_notify_change() then adds a
+> +	 * synthesized ATTR_MODE (with these bits removed) before
+> +	 * calling this hook.  As do_notify_change() makes it a bug for
+> +	 * callers to pass ATTR_MODE together with a kill flag, an
+> +	 * ATTR_MODE seen along with ATTR_KILL_S[UG]ID is always
+> +	 * kernel-synthesized and must not be checked.  An explicit
+> +	 * chmod(2) never sets a kill flag, and an explicit chown(2) on
+> +	 * a privileged file is still checked thanks to ATTR_UID and
+> +	 * ATTR_GID.
+> +	 */
+> +	if (ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))
+> +		ia_valid &= ~ATTR_MODE;
+> +
+> +	if (!(ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID |
+> +			  ATTR_TIMES_SET | ATTR_TOUCH)))
+> +		return 0;
+> +
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_file_setattr(const struct path *const path,
+> +				   struct file_kattr *const fa)
+> +{
+> +	/*
+> +	 * The chattr(2) style flags (e.g. FS_IMMUTABLE_FL) and fsxattr
+> +	 * fields are metadata: writing them requires WRITE_METADATA.  The
+> +	 * user-facing path is checked here; stacking filesystems skip this
+> +	 * hook on their internal forwards because they were already
+> +	 * checked on the user-facing path.
+> +	 */
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_setxattr(const struct path *const path,
+> +			       const char *const name,
+> +			       const void *const value, const size_t size,
+> +			       const int flags)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_getxattr(const struct path *const path,
+> +			       const char *const name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_listxattr(const struct path *const path)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_removexattr(const struct path *const path,
+> +				  const char *const name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_set_acl(const struct path *const path,
+> +			      const char *const acl_name,
+> +			      struct posix_acl *const kacl)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+> +static int hook_inode_get_acl(const struct path *const path,
+> +			      const char *const acl_name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_READ_METADATA);
+> +}
+> +
+> +static int hook_inode_remove_acl(const struct path *const path,
+> +				 const char *const acl_name)
+> +{
+> +	return current_check_access_path(path,
+> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
+> +}
+> +
+>  /**
+>   * unmask_scoped_access - Remove access right bits in @masks in all layers
+>   *                        where @client and @server have the same domain
+> @@ -2100,6 +2215,17 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
+>  	LSM_HOOK_INIT(path_unlink, hook_path_unlink),
+>  	LSM_HOOK_INIT(path_rmdir, hook_path_rmdir),
+>  	LSM_HOOK_INIT(path_truncate, hook_path_truncate),
+> +	LSM_HOOK_INIT(inode_getattr, hook_inode_getattr),
+> +	LSM_HOOK_INIT(inode_file_getattr, hook_inode_file_getattr),
+> +	LSM_HOOK_INIT(inode_setattr, hook_inode_setattr),
+> +	LSM_HOOK_INIT(inode_file_setattr, hook_inode_file_setattr),
+> +	LSM_HOOK_INIT(inode_setxattr, hook_inode_setxattr),
+> +	LSM_HOOK_INIT(inode_getxattr, hook_inode_getxattr),
+> +	LSM_HOOK_INIT(inode_listxattr, hook_inode_listxattr),
+> +	LSM_HOOK_INIT(inode_removexattr, hook_inode_removexattr),
+> +	LSM_HOOK_INIT(inode_set_acl, hook_inode_set_acl),
+> +	LSM_HOOK_INIT(inode_get_acl, hook_inode_get_acl),
+> +	LSM_HOOK_INIT(inode_remove_acl, hook_inode_remove_acl),
+>  	LSM_HOOK_INIT(unix_find, hook_unix_find),
+>  
+>  	LSM_HOOK_INIT(file_alloc_security, hook_file_alloc_security),
+> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
+> index ddd300e10689..ed606ee3102f 100644
+> --- a/security/landlock/limits.h
+> +++ b/security/landlock/limits.h
+> @@ -21,7 +21,7 @@
+>  #define LANDLOCK_MAX_NUM_LAYERS		16
+>  #define LANDLOCK_MAX_NUM_RULES		U32_MAX
+>  
+> -#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_RESOLVE_UNIX
+> +#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_WRITE_METADATA
+>  #define LANDLOCK_MASK_ACCESS_FS		((LANDLOCK_LAST_ACCESS_FS << 1) - 1)
+>  #define LANDLOCK_NUM_ACCESS_FS		__const_hweight64(LANDLOCK_MASK_ACCESS_FS)
+>  
+> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
+> index fb5af318b69b..11d3a2abcec1 100644
+> --- a/security/landlock/syscalls.c
+> +++ b/security/landlock/syscalls.c
+> @@ -191,7 +191,7 @@ static const struct file_operations ruleset_fops = {
+>   * If the change involves a fix that requires userspace awareness, also update
+>   * the errata documentation in Documentation/userspace-api/landlock.rst .
+>   */
+> -const int landlock_abi_version = 12;
+> +const int landlock_abi_version = 13;
+>  
+>  /**
+>   * sys_landlock_create_ruleset - Create a new ruleset
+> -- 
+> 2.18.0.huawei.25
+> 
+> 
