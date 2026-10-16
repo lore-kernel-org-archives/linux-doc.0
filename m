@@ -1,187 +1,264 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55923CC313
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792139969; cv=none; b=NcP9ae8aEOKe4hDaOA0tjoVgqmGNvlgq7GUqMt7RXAk0zKlXmH5Jy35QOjpM1GcGfNI1+rSM+opsXFQF6TXUvjnXILA21u37hwDSmSQRNHf5RmlFrDvx9RkAmrzRPdPz6LgKe14c63xxzaAKJdAomY4g2Zb/F54LNdP1QBoKkww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792139969; c=relaxed/simple;
-	bh=2vUfpCqB6arRjfJ3KPHapqfeAhBKxgvIcU1LXx14dMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GalilHKDMqRZc3/Xy4/B7atWN27qiQZvB5Fpg0vMi/ffJllqN8Z3bTW5lFFzqECK1N1pPq84/fdBSsnEeA8XRojxi0ubCmq+hpUjIp1fVi/oq+OBEV8zCF/iSDAF6o5R7MoY/+/JwqdO3qMTCPmZAJdf/cW3NjPGR9AaHOvs34I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=SlwEFiw0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u/KtTLyi; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8F82F60B2;
+	Fri, 16 Oct 2026 08:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792140250; cv=fail; b=fHdCjXXMLCO09ZQXs77rOHJpAfP4urPWZUVOrgenvenHAtZlnTPN8VZJSs7joH6hnFwtUWZPKZWdph4zaiarlIf+nG4qdUbiHnDt7RolO3Di7hTgO5UB6mVnJF6oSTJqEuAl8qooWLyrMm7ghuN13ADFDve70ud9xDqcC2g02gA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792140250; c=relaxed/simple;
+	bh=/YuLWCtVX9AUdQyTkNVs0hl5/S27zuUWoV2uvYslXkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XkxaTwk5EeRshZgOJPl/w3nbI0ue0IJqHuR80G8BiCJBr07U5e4lFCVEZJMuUeFZayAiyvfv4bfoFrJM+MagGpPCpqGgC/h44U7rwZd4Dm1/cJaVtF7TYz8xamB3D1UbvdibxautqEIVltL1m+zu4GivfeDz8pgkG0P0AqJmUAw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b=BJadn2on; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=p39Us+Jh; arc=fail smtp.client-ip=148.163.139.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="SlwEFiw0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u/KtTLyi"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id EBEE01400150
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 04:39:25 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Fri, 16 Oct 2026 04:39:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1792139965; x=1792226365; bh=MGcm7yt5rkjkwGxDwn+nCpIgUmt3dbHJ
-	nZ2E7d60Ius=; b=SlwEFiw0UmH2omxWxjkD0qBibzBO+jmJwH+L9/fQe4A2fZa5
-	nf1RZKteXF8PWVbQkxOdyW9wyEZ2XuhiKC6wnTsqFVHZITBB3mxuI21EwDyI8huQ
-	i12x+MQKfgjYUD5xtSqKYJNOUO2+V9UxeWdEMbSYYxuKypSdla2TUarpOb5PUQeC
-	KhCHsZYksx3ag7phBknXjYonObcrHk1lMlaU0A5JtKK/7w14deQVUx9xO1r1D0Hs
-	3dlApU7j/fJ+ZRVCjbIcRaXA+CygllCv8zG+k39OpYzKQpQ2tHVM9PvA6MnH4/tn
-	GUOjHNIHLbzLewKm4LK3VKgjFES5LPOi+h8E6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792139965; x=
-	1792226365; bh=MGcm7yt5rkjkwGxDwn+nCpIgUmt3dbHJnZ2E7d60Ius=; b=u
-	/KtTLyi1nFZyzGsxSqBC87fzQZHV2wb2ZrzmXgeMYOLCn9d+B8eVRmV1I8s/AhpL
-	ct3q1ryiEhXKuyD1/U6+5Qt0nQeoilPldjwHxIvS4w+dnSxDgAsMs5tuXUKSsLhw
-	TRse8YOLctNw4PQm0d6/CnXvBQ7gWu0YGWjbfCOiAJuxmvQzon86nL8Q2zX33EtK
-	CT1ii+nMESa28z25iu8GgBJuxIbLNpz2JuUf8lvElFn9pkkhPlhiRAG65gv11VZc
-	4j8POxT3hgYoxAa4PV8iAravcZPzMrCXUkJt0S0kxWrsYaI3BQbxd1ygFxjwaSkj
-	jeaK43BXVL8EJ7qCxzMbQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=sign d=queasysnail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792139965; d=queasysnail.net;
-	mf=PHNkQHF1ZWFzeXNuYWlsLm5ldD4=;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm3:rsa-sha256:JmhBqLNTj01vT/NeO7MMCf4e6FI1QCr5YVb0TcqUB34K13Z
-	5ZoZN3KLUSvGi2lh2LS0/mZXgmGb6Mfy/4SwL+F3TcUd2A3WO0vP9uJfBTJSArVz
-	wsAUz695PRUyZxwMpLJpFqvlSMqixXu6rZsjypsnQTMKmS95Cyqj0CuvU3HjU9dl
-	41260cvma+9KU1F7aCjFEpogy5/kKSd4LiVPsbuKNOv1vFKcni78kJO1gONfr4OO
-	OuH/OneRUY5hu8rTq6jRchyKbmhmuNeSLrKvvajYFckybVJM1Rv88vDEcFwsDbP6
-	hqKZ2wHg9o1a4F3TKqLLTnkLugIzc2cEOxs37MQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-disposition,content-transfer-encoding,
-	content-type,date,feedback-id,from,in-reply-to,message-id,
-	mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:SJ3kX2eTGKgXrqDXngm6d4mVMdr2f/LtcavSxlxMiQg=:2vUfpCqB6arRjfJ3KPHapqfeAhBKxgvIcU1LXx14dMo=;
-X-ME-Sender: <xms:veLRardFrgOBH04g7LNC9ujzhFMD9sJiNojeVTsWzqMbtSkCikBZJQ>
-    <xme:veLRak4MULgsNrfgs15inipPNcKYWwQLU5Q0ypJC4DNucUJG8lzgNutCbDw4pBJMK
-    7mWchuVCScR0fQRqBaHx5JVZVGWWaSxHmdZbIhTj235InPm_UFvbs4>
-X-ME-Received: <xmr:veLRatKegijhwrkemurOvHzEMBHnVwhSwaO0GsSZXTAQ_gwknmzzDzMGCPA>
-X-ME-Proxy-Cause: dmFkZTGm6mBkZB8wsCnbaRONJj0gUzKLj4+7j3xqlzxkDDn0+lEwC8DyiDGNrr3QdPq3gU
-    NSYOeOP1jbjKE25PhP5WFZf7RozX4BYk6jeohnf1cWoF2Jn/Qyyg0pFAi1nqBLDqI3OX5O
-    VGp24z2ABNdPAb6iQubwN8g5q7BzdIS3tdl1+PENBcWj8in7R6arbtlu4huAmdZg1s+IGk
-    9y7c3m00fOFRlxPPWw1/5xDkZnwVpGK/3v/9rT04Yaqs6A9qEv88UOOcded3Rk+GQmtk/p
-    CsniU0NAQIKm6FayrBKbRCby51SCzKYNAG5fOCObWKActP+FzNq6I/egqci3nVyDNvSyWa
-    zifKPzJy9Ht5nQfPX0FmR2CuyRwoPaxa/+fGTLSdTr6H7ke4iAor9MRbgR+dB5tm85grhr
-    P45tkiFgk5DxLwCOUhBTG392xd8pjUH8BOuO/T34NzXbzvc+51NN6hH6cq53VpD+fZYn6W
-    1SBnViQhKwOukZF83p1eNtKMdYrnD+oTF2vDoyixkx5hNBSxqFH57mesBXGwBygnMaZx9L
-    gLFnsYaYUXFmnnAKBVJy/UVan5kRp1A+9J+A0OyttqI0e3XCIet4oZPhQ3ODoaFnIA/twr
-    RTatQjVJ1Heb7Bteyo7AwC1UcgMms7Zo4L+1CPh+XDHHYpoJVXHNv2lmaaQw
-X-ME-Proxy: <xmx:veLRauWSZlDfLsAbdr00xNPBIEhbR5kc8vG5B7jXr98jpti7rQtJwQ>
-    <xmx:veLRapHRLISPzlPJHwwFCexD2jJ55fx1vWSCffkSwIRkjueBTLpWRQ>
-    <xmx:veLRat6_JxmrjObz0e4FkWnODUQflo_7Y-ffE1xkVM2FCrPUPqWyvA>
-    <xmx:veLRave4cbPQi04zxBszKlsvrJHCVlQs3Tqu1wleiI-SalZ77ADh6g>
-    <xmx:veLRaum5F-zyh5VRkeUDnf4ws1zNf6a9s4e0DmGMMy3Igr-4TIzGZFJB>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 Oct 2026 04:39:24 -0400 (EDT)
-Date: Fri, 16 Oct 2026 10:39:23 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Rishikesh Jethwani <rjethwani@everpuredata.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] tls: refuse RX records after record-number exhaustion
-Message-ID: <atHiu9gmKQAoqTD0@krikkit>
-References: <20261013002701.1957686-1-rjethwani@purestorage.com>
- <as37-A3DKONrFuxs@krikkit>
- <CAKaoeS1E7jMyP8F9a+SAheE4+o6RG2VOdA5uiSjZe5yX+E0wEg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b="BJadn2on";
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="p39Us+Jh"
+Received: from pps.filterd (m0375854.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G8BZ6f2077197;
+	Fri, 16 Oct 2026 04:43:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=PTEUbzwvs9jz1KBH7V553R+JQB7gA5g8Ql4nj+vt63w=; b=BJadn2o
+	nBqeO1SnJpI4WbVYXM50m3nWYcEIWyh+i8Ry2OwfBA+s0ljdv9WB9kz4puzNVIl/
+	5wN5VSQFw1Dlnf6QskaI2o8NBit74gqs5jo8kcv1rnrNVT567P6qnyx01O6raK+w
+	hYWpxaFatxyICGfxhsv78oS9HjjNI/acotxclexxI8vRPo0P8wUjvFcxS9ldMZGI
+	UnqqG5a+0+ZI1oM8+aD04v+TESkRzmS78B3HvQoSURMLwiGFXAzVipUyQ5vF3UMt
+	T0mz6gHey9aZjcHnl8t+TpxIroOl7SOhEv6n0uGq8O2sQ4JPT16qcLbNt6AfmNu8
+	hHU/yluYsoFBCDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=PTEUb
+	zwvs9jz1KBH7V553R+JQB7gA5g8Ql4nj+vt63w=; b=p39Us+Jh0tBR5RFqzONBu
+	w1UUDwkHATkVowzXc0Or49iGPbDz2m/pvBKkeKMShqbtAq9apwCTcAJyn6arTABX
+	/+f90uhlHp9/vPMiHZ2HJIdNG2o1gIATjGYipoZoGa1uK0XtxpCr1rKnw0mrT90w
+	Z83xW0rmyPdmB4upHGJL3biNrWbx86B+pG0tAXNXm7MD03paGH2wNP/GND/v+xGW
+	d/4qvMLsxO1jbfwDv4W4qGBnVNLg35goEaK4U200fLvaN7s7PSv5jQixJdYr90gc
+	bLkM9nJSe54+aZZfoDgLk0QCG4N3y3JNotHMuZS2UdzYyykGv/NTJdNQEmtcZFpS
+	Q==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011051.outbound.protection.outlook.com [40.93.194.51])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4havj3xb09-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 16 Oct 2026 04:43:43 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=brKtRCibJf3BgWGRIE3g3ktY9sPhENFH3WBhLBwtZG1qH63+zj92ELmg2x2LhNNddVlcRZZVlj23xnzgiqKsfHsKDefsHn8UnENhUlFzSYtZyRkRNwziATxrgBp+6tLL7IhUSMi/js1zIVI8HXyjKyKwxowb9m/Ti7dRneOW1/TPYpt6YnTuvifp4ROkNArxPVAwndlWFtgElNdGXi1E0jMwgmCsJ6lbCibT6UUYI0g0R7XlpwGAMsp9QzEZcnCvy0k24l88f0Pylvg9gB1szH0kM03KQLpLPhKpRMOrohWOs+IM6d0fCYy2YwoUxT9n8F36xgMfU6OQiP09Y14caw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PTEUbzwvs9jz1KBH7V553R+JQB7gA5g8Ql4nj+vt63w=;
+ b=fXMyes4ZQCcxDCFavUNXaNJZRYHKKJrCPBOuZsp/veVSfPTC1cHNjTy/XDxAf/PadfE7hN4//w80gM1c6pFjrBwgI7oRMx+OGAjIDttTcpQFyiEgVEIS/ptPzZUTzdztXga++IUzGQY3Siw5oAOQOCCrHJ3yDKguU84ew7O1qAbiTXoz2iNYBTiU5iiKzy53YKYcEmEPFbkspM6KozBHYhUA7rZTzfFfiygLoajXgOj+CsNJ1jwxfLzsu43H/BJcDoIx/xUh0JVEtGYsGOA8zmwZpMC7YTYi629oLdvGgkrvjc9I2ZZUq/FKGL+8lwB+JWK11bCEzQEuikK63vZiqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analog.com;
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com (2603:10b6:a03:28a::17)
+ by SA1PR03MB6564.namprd03.prod.outlook.com (2603:10b6:806:1cb::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.15; Fri, 16 Oct
+ 2026 08:43:40 +0000
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a]) by SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a%6]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 08:43:40 +0000
+Date: Fri, 16 Oct 2026 09:45:01 +0100
+From: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@analog.com,
+        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 02/10] iio: backend: add devm_iio_backend_get_optional()
+Message-ID: <atHjHqyxXj6jkObW@nsa>
+References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
+ <20261015-ad9910-backend-support-v1-2-3c21648c8e26@analog.com>
+ <atEeZPOLASHAcnjF@ashevche-desk.local>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <atEeZPOLASHAcnjF@ashevche-desk.local>
+X-ClientProxiedBy: MR1P264CA0099.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:50::22) To SJ0PR03MB5469.namprd03.prod.outlook.com
+ (2603:10b6:a03:28a::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKaoeS1E7jMyP8F9a+SAheE4+o6RG2VOdA5uiSjZe5yX+E0wEg@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5469:EE_|SA1PR03MB6564:EE_
+X-MS-Office365-Filtering-Correlation-Id: d936b5b4-d446-434e-f232-08df2b6193b5
+X-LD-Processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|56012099006|4143699003|11063799006|261009223027099003|10067099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+ q/chOf+kATjMs3zLzjcQqQzAQ3KKPMz4k80lzBrRIe59lU/FLtvVJWPq0CWY58kCKpf3MlnmpW8bwMpn+oHYk3G7G0XTd2e5ZzTPl8wcfCIAFehGNLPh1TyS22nGQNTljgWkHQUoAXEPIJ1epTtGM3dHwsaRbGy9I5eApzTd2unxqAuTEUKE7+j51J/5WZivB9DvcUeQIqaAiwNZJOdKTuC+aGOl9oXqAOmY0Dd+6lfoeHduwuKt+TeKaq5rhKa5zjdTKikMq5egTHqCo2uPYpAsMX14jsSAFWuuRlhCI5z7LlCK47i83jDxgsMjQXuuu/trA4ef9rCyPzJVVPR8RkB0a4QDJ3jqj/xQm8G7+gZGrrIP8j7Qc86H9dVhVw79PDQCgHNPQR3AKHBCN70tXgGujvraxYo2PL6Fpc7h1poOYCC3i6/1hhoUEvOC7vTcyhl5cDg4YEfvgHwkILZhOPQ+OG9Ln98vF5ss+x4TUKyrfOoc+Ws/SFy1lailv34Acuhol6cGE7tuE3NK1cu6B0+YzhiMDQH0FaAQld+9bV+URSWDeZeykCbY7g4HjFLEMP6UGOj8SSJ2qfR1WRZsNwJkOG6Z0fNoaWJoJ+UyeNHNadB/OUrUbX680bStJ1QX6fzaKU4VBDSXHP3mpYN8qNXBPjcibb720ukNE9jqY8k=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5469.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Q1V4WWtrK0JXcm5KZk1LUEdSYVl0aVRRaTQ3NHhjTWtnVDZwZlBNZGJIM1U0?=
+ =?utf-8?B?Ky9sc3A4VzZGcDNKL1F3elJIUWlkbzJPblBOVVVUb09JWmN3NmdhSVNpZEpD?=
+ =?utf-8?B?djdCeTNmd3R6Uk9Fc1g4VHZ2MmRFRWNWa3pWdy8ySUkxMHYzTlRBSnZhWnR6?=
+ =?utf-8?B?V3phSXhIYlBZemhScG5LK1B3d0hSenIreFBUbGNWYnFpdnU2NkE0NTJmTmVz?=
+ =?utf-8?B?T05wajhYNFhtTjVRS0pBTjI4UXdiV1BwRWpTb1hqM0wzdktiRUltYkZhQU8x?=
+ =?utf-8?B?ck5Famt3MXd0MFBXWVl4TkxRVldmRUFIRlZ4SE9JdGh4K0IxUWpxb1hJdERy?=
+ =?utf-8?B?UEQ2UzhHMXQyakFnUUg4eGJaYXJNc2hCdll5OUlZZE5tdFprUldKYnk1UmQ3?=
+ =?utf-8?B?bmluSldtdmx6RTdmRlluY1dGRnBwdEZoZXlqbXVDUjA3RlNjcHhZenJNU2Iv?=
+ =?utf-8?B?dlpvYXZMWHFibU9XbGlabWpiaFdoUk53VjNId3NMeUFhb2xPa0VyNGw2cy8r?=
+ =?utf-8?B?VDFpNlRoSmZIWXFHbHkwL29laXNjVVR3a1NqUEIvR2J0QWdpRVV4R25PdVFD?=
+ =?utf-8?B?RnBqTlBidHRnYkczVWo3aXg4MmViaXpXVkxNd1ZmMGdPakxaYTlMbjJQQ21q?=
+ =?utf-8?B?RVlxRUh1Q0VLaytvYk90NGpDelBSQW9kNFoxQXJXRVJ4UWtDTVo3eU1wUTdU?=
+ =?utf-8?B?OStzeE43S0xRMm9SQTNIRThPUStsSU9sWlhtUFdKUUFndnJwZmp1WU92ZU9C?=
+ =?utf-8?B?VGFnNERsbXJ6a3oySWo1QUhFM1lZYmZDRUM4S2tCZ3RuankxUThISnhFZExq?=
+ =?utf-8?B?NzQxWXNrc1E0WWZyZERWNkRxcU9SRnphcXdLWWtPWHE4WFBSV0l6akE3eG9D?=
+ =?utf-8?B?OW9NNjh4K2taaVhQNTk5QytvREFzb3RSaVhlNzJNYXpkL2lad0JCbTJwT09V?=
+ =?utf-8?B?NlpHMFIrYlYxL3ZFdFVsWjMvTlFWVzdHRFV0c0ZWT1hiT0diYkRKY1l1UWNu?=
+ =?utf-8?B?V0NVVU91M3MxQ3Y4K2ZwUE5GanMrOURnTllyZ2h4UFY5SDlXUEcza1Y0MDBR?=
+ =?utf-8?B?Ym9IUDFkWFphT0dsYWplWDhkOTY4cVNHMlNlT09ib25SNmJiYWpVLzBTbWl5?=
+ =?utf-8?B?OEJtRFZtVm95R00wM1pobWpKMWIwclRNUi9ySE1FaDVrOVJJRXZGV1pVR0tT?=
+ =?utf-8?B?RTBCRlBySzk1aXJCWXQ5Y3I4VmVGekJGRlJ5NHE0bnFibUFjU0w4bTVEMzBs?=
+ =?utf-8?B?MlF1REh1a0FMSFcxQjFnck90SFBibmZ2RGhGaVZTR3M5RG5QNjJTZ2JpZTFE?=
+ =?utf-8?B?U29XK2o2MWppWGYyYm9zcncrZEhSa2lGVnhvZTN1Um9PWDAwMTd0c0F2Yjdu?=
+ =?utf-8?B?aDNpUjlQYndDQS9zZG55NXBpWk1oL2NPVUVuYXdXV2hySUliSDZyZmJMVDFa?=
+ =?utf-8?B?M1RvQUtOTzR5Q0JHQi9mcnZERjZIWWFuWnJLdTR2MDg4KzB3Rm9VSkQwSnpH?=
+ =?utf-8?B?WnVyaGt0d1pNYzNlOEJGYm51KzlsSk5jSDZ1bXczMGd1WmlIOW1WdVVWWFBn?=
+ =?utf-8?B?OHMrWE9iT3ZkdzJLak5makxaTXRTNmNJd1RxK0g5dldGYUtySjNRcEc4Rms2?=
+ =?utf-8?B?aEpnNS9qcHlGeHg1RDVxTFVVRXcwRjd0RjVPUmo3UG9FcngzS0lRdmx2aWNN?=
+ =?utf-8?B?UFpLSkV3eW1ET0cyS1U1MWpzMW5JV2o0dnhRVWVvbWt5bWVvY1BMUEpyb1gv?=
+ =?utf-8?B?TXFFRFA2eUYrdkwxU0FVVGJ3RDhGZlR2YkhyZ1dLTGJjQ1lDaGVFSlBObGww?=
+ =?utf-8?B?ZjFGeTJvSTVNT1FxaTEwM0g5eWtFSURCbjNhWnNybUxRWlVONUJzOHJCN2Yw?=
+ =?utf-8?B?NEJTS05QcnVCOFZodFRKdG1nS3MrSDhrbFFIbEVqVmZ4RENmMEN1VHRTRm5F?=
+ =?utf-8?B?bS9FWlY3R0J1TFc4dGhRejNxTXdaWjR3VmswSHV2R00xT2xQKzFrNWoyY2N4?=
+ =?utf-8?B?SXRENks4VWxFZnV2bUphS2U3aURtZkhaT1ZNTFFsSjVtb3pVckNIaEY1MFl4?=
+ =?utf-8?B?MnlsMk9RbGVndTdleWpybFZvWDVaM2dMa0ViN0VCUjNVV016TjdrMU8wdG05?=
+ =?utf-8?B?eEhLVi90bUR2NkVML2lROW5qbC90bjlnNEx4WHBVMXVqZWMvNFA2MFloOE5D?=
+ =?utf-8?B?Q2MzQWdLaFE2dzRwSlVWUlpnU1lleDB1L3FvUWZNRmJRMEJpQldnMS9MZEtH?=
+ =?utf-8?B?MTQrNEJKK0NpMVBxbE95ZTFiYWt2QzNmWlBTRjdwL0M0S1hWWlJwSHUzcnRP?=
+ =?utf-8?B?VlJEUXE2dEhxS0RyckFvU3ZrelZVV2ZHTzBWeERWQm0vZTVXYzIvZz09?=
+X-Exchange-RoutingPolicyChecked:
+	c29Ab5t5P3Ew0Q617pKxzIYXz0/ZUDP3wehJLhxRSOGNAscCSZeKyGZOdSGnc8tOVPwtlWc+t2fa77NDg+aKunAXRHkjfOE70xRFP6wH116NPsuThjoehRR/tVpOqMYOLNrKzSzy7x5ol+5hsPnF6BThJIauCd5lZFWezKSlfLHblMx+Xh5anD7wLcf9/EHCjL1t+kOg8EQ67uR+Io39DXZ1QDYzfSch38sHxG8VG7APFupAIFiYVMgGm4vJqsmt67ITs4RJg2gewLTx1EJj4iCjfakKgH/iyj+NIjIZHGrIN7dwfwRM2eaJ+V1vWkvbEZBUzp38ar697Ax2fL4odw==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d936b5b4-d446-434e-f232-08df2b6193b5
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5469.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 08:43:40.0920
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QiUcK2aheHbSdB5wTDuh1TWhjYSw1h0EIHbYxWfOUiEPlkvHyOJg4jzMsxPvMwfkjymRdf9OTqwhRPXcWc1ukQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR03MB6564
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAzNCBTYWx0ZWRfX7MR9FWpOB6kP
+ 7Z4wmM26H6e17ChQ1KBNJYHIUa2kJOMT7+MsS7j9FHbtAt7raH+WhKXksBlotFWppBznSReLgxA
+ dwGJe/cdnHa00sKN9tOQHGRgpQlRkd+A/1Th3QpXCii4rzLqOLwhl5cS37b0GJmU44cvc+mBfNX
+ 27FTW8EONHiBGf23OWgfIIwSfrPwUfKyve3E0qMmTxsIKSDalMFnpPn+FTZtwMvgPkr4xZIbXBs
+ 0EFdeu+zh+hMmHVpx6GYI01NdO0daccjm/9FD1pulAzL4wGU9Ld9zx3C8ujKmbqWtxn+ZvWMexJ
+ 77dqn1gRyLx1fPqbbAcYm5yKaWSzlKHAkfXhY2ZMchR1lJ+17avPsHeJpekcJ6ZWWO5w0RHj9up
+ cNPHMTcs6ULsEBRl9poBWW6ofn1G3rsX88k6LE1QVtEpTxV9EO8Lqgh6t7SPwwMf7WrCgJV0acf
+ i53FfMEsB0jVcRBxRdQ==
+X-Proofpoint-GUID: 6bgBYAv-Plju12zxtwKtbcx2EZkT98c1
+X-Authority-Analysis: v=2.4 cv=Wtu+otfv c=1 sm=1 tr=0 ts=6ad1e3bf cx=c_pps
+ a=TqpEWdQu6X+pWU0GeT7YGQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=iZSIUCweCk2Oy3QsdGPA:22
+ a=ld_VjaQ0FNuBJsBB_hkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 6bgBYAv-Plju12zxtwKtbcx2EZkT98c1
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAzNCBTYWx0ZWRfXwSHNJ7GOwCul
+ xGJDBOfSs9XdW+Q/ATaPREBM3RYLmImisYncqfMzVl3cwMx7LrnCTVPKpDhoV+2FD138zk9UTO2
+ ki34KF1NKQYk2/qBl4syA+0FD6HQ3DphtJwlmuovG1DCCrgBFzBo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0 impostorscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 clxscore=1011 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160034
 
-2026-10-13, 10:55:26 -0700, Rishikesh Jethwani wrote:
-> On Tue, Oct 13, 2026 at 2:38 AM Sabrina Dubroca <sd@queasysnail.net> wrote:
-> >
-> > 2026-10-12, 18:27:01 -0600, Rishikesh Jethwani wrote:
-> > > A receive socket records sequence-number exhaustion only in sk_err.
-> > > After processing record UINT64_MAX, it advances the counter to zero and
-> > > reports EBADMSG, but SO_ERROR or sock_error() can clear that error.
-> >
-> > I vaguely remember a discussion around making some fatal errors more
-> > permanent (ie not use sk_err).
+On Thu, Oct 15, 2026 at 09:41:40PM +0300, Andy Shevchenko wrote:
+> On Thu, Oct 15, 2026 at 01:49:42PM -0300, Rodrigo Alencar via B4 Relay wrote:
 > 
-> Do you have a pointer to that thread? If there's a preferred way to make
-> these errors sticky, I'd rather use it than add a one-off flag.
+> > Frontend devices might not need a backend driver to rely on. An IIO device
+> > that supports backends can behave differently when they are not available
+> > and that should be acceptable. Such parts may provide basic functionality
+> > solely using the control interface (SPI for instance), being able to have
+> > extended features when a backend is present.
+> > 
+> > Add devm_iio_backend_get_optional(), which returns NULL when the backend
+> > is not described in firmware, i.e., when the io-backends property is not
+> > present or, for a named lookup, when the name is not listed in the
+> > io-backend-names property. Other errors, such as probe deferral, are
+> > still returned.
+> > 
+> > To make that possible, a named lookup that does not match any entry of
+> > io-backend-names now fails with -ENOENT, the same error returned when the
+> > io-backends reference is missing. Also, the missing reference is no longer
+> > logged as an error, leaving that to the caller.
+> 
+> ...
+> 
+> >  	struct fwnode_handle *fwnode_back __free(fwnode_handle) =
+> >  		fwnode_find_reference(fwnode, "io-backends", index);
+> > -	if (IS_ERR(fwnode_back))
+> > +	if (IS_ERR(fwnode_back)) {
+> > +		/* not described in firmware, let the caller decide what to do */
+> > +		if (PTR_ERR(fwnode_back) == -ENOENT)
+> > +			return ERR_CAST(fwnode_back);
+> > +
+> >  		return dev_err_cast_probe(dev, fwnode_back,
+> >  					  "Cannot get Firmware reference\n");
+> > +	}
+> 
+> Simpler to do is just to add
+> 
+> 	/* not described in firmware, let the caller decide what to do */
+> 	if (PTR_ERR(fwnode_back) == -ENOENT)
+> 		return ERR_CAST(fwnode_back);
+> 
+> just before IS_ERR() check.
+> 
+> ...
+> 
+> >  		ret = device_property_match_string(dev, "io-backend-names", name);
+> > +		if (ret == -EINVAL || ret == -ENODATA)
+> > +			return ERR_PTR(-ENOENT);
+> 
+> No. Please, use device_property_present() instead.
 
-https://lore.kernel.org/all/ajFpejsl1ukTbG96@krikkit/
+Oh right! Totally forgot about that internally :). And it fits into my
+internal point where I don't agree much in treating -ENODATA the same
+way as property does not exist.
 
-and I had a suggestion at the end, but I guess I got interrupted and
-never got back to it.
+- Nuno Sá
 
 > 
-> > > parser-ready record also bypasses the socket-error check in the record
-> > > wait. The receiver can then accept a record authenticated for sequence
-> > > zero under the same exhausted key.
-> >
-> > I guess, but what's the problem with wrapping as long as we don't
-> > reuse the same record number?
+> >  		if (ret < 0)
+> >  			return ERR_PTR(ret);
 > 
-> You're right, in practice there isn't one. The only way to get there is
-> for userspace to install a rec_seq close to the limit, so sequence 0 was
-> never used under that key and nothing can be replayed. Starting there
-> already breaks RFC 8446 5.3, which requires the first record under a
-> key to use sequence number 0.
+> -- 
+> With Best Regards,
+> Andy Shevchenko
 > 
-> What's left is consistency. Today the wrap gives at most one EBADMSG,
-> and none if the next record has already been parsed. After that recv
-
-I'm not seeing the "none if the next record has already been parsed"
-flow. Can you describe the sequence of events?
-
-> continues at record 0, which is neither rekeying nor terminating. TX
-> behaves the same way: the UINT64_MAX record is queued, and it goes out
-> once SO_ERROR is cleared.
-
-Then why are you patching only RX here? Both are just as problematic?
-
-
-If we implement the "abort with (some error code) is actually final,
-and not cleared with sk_err" idea, all this goes away?
-
-
-> So I'll drop the security framing and the Fixes tag. I can either drop
-> the patch, or send a minimal version for net/net-next that makes the wrap
-> error stick on both RX and TX, without touching the rekey path. Which
-> would you prefer?
-
-For this, net-next should be fine.
-
-
-> > For 1.3, just do a "silent rekey" (change the key but don't send a
-> > keyupdate) on the TX side to record number 0 with the same key? And it
-> > should be enough to test this with just 1.3.
 > 
-> Agreed, that gets rid of the fixed vectors. Since 1.3 only uses the
-> record number in the nonce, TX can also produce the UINT64_MAX record
-> cleanly, using rec_seq 0 and the IV XORed with UINT64_MAX. If the patch
-
-I don't get this rec_seq 0 and IV to reach UINT64_MAX. Why not just
-pass rec_seq = 0xff..., like the current recseq_wrap test?
-
--- 
-Sabrina
