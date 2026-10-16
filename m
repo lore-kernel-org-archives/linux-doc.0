@@ -1,137 +1,134 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D214B1269
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC8E3019A9;
+	Fri, 16 Oct 2026 13:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792156484; cv=none; b=tuJRSUzFprjn8FVQePHIWvmzS9h4f6JpMYqaRTcgaKR1qeJ1k/FGBUqZog5aPQRRjNogjjJdQk3uh8GlA4hShv1H17foMFZ3dHT40pklqYhtUBwF9tfWvk0+HV8de2mVQSsCV7SIm+pISZuxIdX+r1JZ+vw7gaSRaWYuGItbFT8=
+	t=1792156783; cv=none; b=C6VaQAcWRoOKpVuozAxdKAwhPVBj8a9tIWxwfhxVNRFVSdadpcyMsXFCKwqDg8Nh+Kwe94HPFlPDO6nxp3ukD24q4AfIK8hqgUJ/2KBVix8JTWo8MA0mVJ1hl1xQhvGVYiS3fKar+yyyCZkMXvcCeyLbNpDLokf9hbFZ4yi+Gsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792156484; c=relaxed/simple;
-	bh=/NqlYCkwEDnx+3z9fm1ChPu+6B52abvScuA7rF51W+g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MSuucnTFM064w3ay/FSMmqBj8EUylEyOsxHv/tWfZil2wFH/M+A3yOvzIKBhMV6Jp8Yk5r0+XGCZCP2IC/XD88h8h00qw+aAZrqWQ7atkstZKiK4lGroYL2y2K2/bu2RXwaS+YLeTpC6dlAFhdShEp8uMiHxD/RUChHnKLQIUjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lVkxGAv3; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1792156783; c=relaxed/simple;
+	bh=V4PkteCKx/ZxERlS7LFcwpcqpKl234HFVZU267Hcd0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NHoAgrIB5PVz175Z/65S7KwyG4eATZFjUmRtVSSQMeB5jUNq8O5xkuAVjimQ98X9G7CkWfeKBi373hh+KNsg86PTr2foDSyZxC7eW/LPFD5U9c77tf6fohNW2RK2S2dun1IzwOIz58UgPme9ebWH9eH6dszQy65OzBJMlzOJYMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmlkGu/o; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lVkxGAv3"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso30037075e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 06:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792156476; x=1792761276; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tsX0Fx1Vu5oxDkz2SE9XCwKJJhLzTUajSbyoGIgpXkI=;
-        b=lVkxGAv3KRfnAswDLSd36aWmt0Bju6YzWZE6WRaoancEPy0fPAVpUXdazP+b3GqMgS
-         u+jKQL+gPzPyrgCf4YaaYOfe2Ls/cBqdAK2KuSTdLB+gd395A21Uhae8RMzoAMsOTaSx
-         cBxDkYE9w14L47pLFweQ6EwQQv0f+sbsZvI0g6jB5N5P1ce8KJ1Lu73gEQAqSI1ytg2G
-         vgqSbVy1y6dKs0pQ01eqcbgDY31nfaeiTKAfobT9p8P8FgCMrEXdcegWlGJkf7OkHQWz
-         btp7PkDxoLQTbNtFBZGO2kH1a865jQsqoB+Ikj6p1nKAwxIGD7+6sWroBETIIg8nAtS6
-         P6ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792156476; x=1792761276;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tsX0Fx1Vu5oxDkz2SE9XCwKJJhLzTUajSbyoGIgpXkI=;
-        b=L/AYQCNx26kbnrMKGQa0iJ858sHygxwfjGdbWWD5MNlKKzeOe8O+4Z0Lbgk242QX4j
-         vEemsuVKaCPVNClPLL43uuPi84GQYKwVC2ce2L3UNy8AT5dVipUzw0OGO3HUol5/arwa
-         yH/YUu6opt+Yl2p4L/CVYyJa36uJ1hTpfqHxwm3QMd/tf0WFnMpNVOKW1Shgeq+HUHTl
-         lwk6ImAUfxwPceDFaho9adjhFrm/m5/FftmzfpGeB+p5bmkF8F8ygDo7+hox/r6Yh+Pt
-         g04Fy8RiAj3ATw2/pk8qsWon5knWQkfV1Ymx1a6IaU/zQ9tuVVXaszP1tQVmVH8xAxMb
-         lWBw==
-X-Forwarded-Encrypted: i=1; AKwUvBxTvXy3MBuT64sRkOjeWY6/MIk95kDaTHOQ7bpDi6z19Ewiof47iblLBFa8BjINvY5U2MO8GgQgO8Q=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJqKgrkilBZ1dnoz8j0OyJTT5Znaso7dHTJ919+9UtaX1HUqqEX
-	bXv45ZrfEc9koifOSlN5VhcEAz33k1WvyAmNXX+b8khvWQyG/4sQ85RQDrCCpjtJ7wU=
-X-Gm-Gg: AYBFou3QnGULFiEQWTLRs+WwPVIM/Ty5dIJXVCXhMu8OiX1n0gaznwXJF1o4rRiqIrr
-	DDjEVmnnxVMcnb3HSeqqiKZ51nt0TS8G0WyDb0+OrRuKqHrZF9TfQsa4p4y/Rc0+bsPHLnl574d
-	F3/7/KaaVLiMywRB1YMDBioqwgOueAq9Fw9kI21rN4c76FumiHCDPoIiXJ6B6C+Dxo58ZuEj/3E
-	w3alx4+l3A4oxGcOWeMJQgjlO0hBlgrsEEaIjYaqeFxhbw+yvIxmUXZg130ffuwrMyQO3ou44nQ
-	HyA8yEuK4t3uwDrylrIVOgAe3+DtFyZpfBDh4txjF8erXBtrmfU6UyJpoBIugwA5LPteu0UvqrH
-	8Chr2DVsHCRvhAWq3K9v/yftByr6YEo71pv7dudwPOV3B+rczK0hZFfS0mykc1x8LCvHEOVEvpo
-	wPsCmk0AKy7jAuw7IFfvQI96QxOWjYbg0oSXZTdwhL8zPUookGhLaO1qfE3zVkvhM3FV8AgXB+J
-	sQ=
-X-Received: by 2002:a05:600c:3144:b0:4a1:70b2:8dbb with SMTP id 5b1f17b1804b1-4a18e4b0347mr432306165e9.19.1792156474596;
-        Fri, 16 Oct 2026 06:14:34 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8ac4c70sm45400235e9.2.2026.10.16.06.14.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 06:14:34 -0700 (PDT)
-Message-ID: <13ac34bc-fc8e-43b8-8976-05e91ae46e71@linaro.org>
-Date: Fri, 16 Oct 2026 14:14:32 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmlkGu/o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792156782; x=1823692782;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=V4PkteCKx/ZxERlS7LFcwpcqpKl234HFVZU267Hcd0g=;
+  b=CmlkGu/oUXS5PckbGPTSen2oX5soqc/Lp0aWkut7A/dM0NAdCzG50ntK
+   jZjVlQQ+/c09gPSNT1Q30CuHmQB2ElwUmAYHJ/DzgPwd3PY39aNA2oVNX
+   WRiWo3jYB4MI9HvHg6H+bULsqSqxzX+BqhzI8I5okc4Ryak8rAVvE7UsH
+   BfDXik0/X5adPEqCFop+go4o81WPT0FBsHsT21Uhi+Jja2WywW9ABZH9D
+   gKsmkNx7ptLLQIhGmmNuDXdCLjYgXzi+64zKRoyo3s5rUDq1Ycw8oJFcK
+   J3HYWoUW9g4h0mnyMECbFf9XmK2Kg8wbCK723mqH60WIy1bqblHt41T7Y
+   g==;
+X-CSE-ConnectionGUID: o3cHtQacQc6ckGZNyxMm+w==
+X-CSE-MsgGUID: Biv+r8jMRHOdPJSMJ9sWtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="951416"
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="951416"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 06:19:41 -0700
+X-CSE-ConnectionGUID: AcvKuJBFRfCe6ErDfXiifA==
+X-CSE-MsgGUID: y9cPUVNMSNOTskDScbYCzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="2367032"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 06:19:36 -0700
+Date: Fri, 16 Oct 2026 16:19:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@analog.com, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 02/10] iio: backend: add devm_iio_backend_get_optional()
+Message-ID: <atIkZa0noHjcl13X@ashevche-desk.local>
+References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
+ <20261015-ad9910-backend-support-v1-2-3c21648c8e26@analog.com>
+ <atEeZPOLASHAcnjF@ashevche-desk.local>
+ <atHjHqyxXj6jkObW@nsa>
+ <w7waqang6lriwbcq6o5s5yuedouuwgacmnj55qsjpzjrv3jut2@cthvkakgyhpi>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/25] perf/core: Reject non-positive AUX snapshot sizes
-To: Leo Yan <leo.yan@arm.com>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-1-35cf6f297d20@arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-1-35cf6f297d20@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <w7waqang6lriwbcq6o5s5yuedouuwgacmnj55qsjpzjrv3jut2@cthvkakgyhpi>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Fri, Oct 16, 2026 at 08:18:08AM -0300, Rodrigo Alencar wrote:
+> On 16/10/26 09:45, Nuno Sá wrote:
+> > On Thu, Oct 15, 2026 at 09:41:40PM +0300, Andy Shevchenko wrote:
+> > > On Thu, Oct 15, 2026 at 01:49:42PM -0300, Rodrigo Alencar via B4 Relay wrote:
+> > > 
+> > > > Frontend devices might not need a backend driver to rely on. An IIO device
+> > > > that supports backends can behave differently when they are not available
+> > > > and that should be acceptable. Such parts may provide basic functionality
+> > > > solely using the control interface (SPI for instance), being able to have
+> > > > extended features when a backend is present.
+> > > > 
+> > > > Add devm_iio_backend_get_optional(), which returns NULL when the backend
+> > > > is not described in firmware, i.e., when the io-backends property is not
+> > > > present or, for a named lookup, when the name is not listed in the
+> > > > io-backend-names property. Other errors, such as probe deferral, are
+> > > > still returned.
+> > > > 
+> > > > To make that possible, a named lookup that does not match any entry of
+> > > > io-backend-names now fails with -ENOENT, the same error returned when the
+> > > > io-backends reference is missing. Also, the missing reference is no longer
+> > > > logged as an error, leaving that to the caller.
 
+...
 
-On 15/09/2026 16:48, Leo Yan wrote:
-> The existing validation rejects negative copy errors but allows a zero
-> return. In that case no AUX data was copied, but it is incorrectly
-> passed to the alignment-padding check.
-> 
-> Reject zero together with negative errors before calculating the padding.
-> This reports the invalid snapshot result and avoids treating a missing
-> AUX payload as alignment padding.
-> 
-> Fixes: a4faf00d994c ("perf/aux: Allow using AUX data in perf samples")
-> Assisted-by: Codex:gpt-6
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->   kernel/events/core.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/kernel/events/core.c b/kernel/events/core.c
-> index fe33fe15689d077e7f445c0b17d9c2e638c884a1..17355e4b8b7c6c106117153c9eb8509e6f9a41e3 100644
-> --- a/kernel/events/core.c
-> +++ b/kernel/events/core.c
-> @@ -8058,12 +8058,11 @@ static void perf_aux_sample_output(struct perf_event *event,
->   	size = perf_pmu_snapshot_aux(rb, sampler, handle, data->aux_size);
->   
->   	/*
-> -	 * An error here means that perf_output_copy() failed (returned a
-> -	 * non-zero surplus that it didn't copy), which in its current
-> -	 * enlightened implementation is not possible. If that changes, we'd
-> -	 * like to know.
-> +	 * A negative return means that perf_output_copy() failed, while zero
-> +	 * means that no AUX data was copied despite a non-zero request. Neither
-> +	 * can be treated as alignment padding below.
->   	 */
-> -	if (WARN_ON_ONCE(size < 0))
-> +	if (WARN_ON_ONCE(size <= 0))
->   		goto out_put;
->   
->   	/*
-> 
+> > > >  		ret = device_property_match_string(dev, "io-backend-names", name);
+> > > > +		if (ret == -EINVAL || ret == -ENODATA)
+> > > > +			return ERR_PTR(-ENOENT);
+> > > 
+> > > No. Please, use device_property_present() instead.
+> > 
+> > Oh right! Totally forgot about that internally :). And it fits into my
+> > internal point where I don't agree much in treating -ENODATA the same
+> > way as property does not exist.
 
-Reviewed-by: James Clark <james.clark@linaro.org>
++1
+
+> Say a frontend consumes multiple backends, but some of them are optional.
+> If we care only about the presence of the property we would fail when
+> trying to acquire the optional ones when the required ones are defined.
+> am I thinking correctly?
+
+If there is an empty property for names, shouldn't we simply fail? I rather
+would consider the firmware table to be broken in such a case.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
