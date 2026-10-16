@@ -1,166 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218374E73B8;
-	Fri, 16 Oct 2026 15:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6E84DF4B4
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 15:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792164528; cv=none; b=rmvcm5xZVB/vPPMEznXXvyC8wg3t+0XlGm3iiPeiIO/DfAO2GrtFIS1vqMwDdD3Cj9YyoDLYM0YUn1D1WTxDrLK0CwaEBO2dQ/Y+iVp7QoS2soYBxL2hIlUFdHUdh10UGmMipiff3sHt196sQs9Fdnv0c4NJPnO/7EFk+iJddf4=
+	t=1792164621; cv=none; b=rIMje0AYBlWM9v7CzP+hAGhuBOsHzymQm4w8OicnyPk2vOVWLpMjG44+jWOABYgpQgy81xEINn21rWomgCAXWbpnkbUUfk+4RK6lLphWJdA2PQjh3zFldzObBUU4pCQV6IaKR5QHBEE2Z0JAibt6zjcXMIfuOwXXZzbS3UoQjaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792164528; c=relaxed/simple;
-	bh=/PwxB63ZoOfB2/5xFJosvWKGJ6EpfHIzhRbOfapizU0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9hUbozbjcaQijmpxxoHTAZng+2aJWRWt54EABrH8wiITCEhxEK9b07la1IcIeM5B4gejqjkBnvdUd340tGT8hS/Na+3PGvW84ZcRFvQ+qI4K4pmnVrlGW1Q6Obgcvozkj08X7ukZ2pFbzZqA62wb8rU34OASKIm9B3rAcRMUog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=flVrMcYp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792164621; c=relaxed/simple;
+	bh=IMgRqh7P9bFjG3FfvNoeXAv6Y2588Kxr8DTOqxdoKgw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=nlpIGCo0sndsCzLawH3ma61/NBIzxPW5MMOAXy13TEAmEVDekAjmU4teT3IBD/paPkYAnukPXTM/7iu9SJRRe4vNs8mz6YlaxYkWhJyJTcspDm0rrt4hVkm24zvtzvusp57W+SmDNpAd+uceV8qKXbsWX0uvmDe1CDH5d195Rh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHcDDe3T; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="flVrMcYp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C30D91F000C4;
-	Fri, 16 Oct 2026 15:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792164526;
-	bh=scyt5e+BoH7eAKJNSiBVIsQ9P94M5xVl/mVZ28jvaOo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=flVrMcYpJV87IqkvJnml08hgJRVew2VmPox+be/ylw70rygmdB1YDWb+1XgvdZ41E
-	 BOtZcz0GWHKP5eTgGN9oiVcQ8SrJaTIV+CVjNIG1EA//8eaRkiQrexcvQp6KfqfDrg
-	 zQSrXOzUIsI9zEqmTPv+WRCKHRP/KD2dPI+Akk6jBiJl9fEo/2NRezkIbiRQliJ/BJ
-	 c4/qOA20ECN/r4PU0vbRkBuXTbXNpvMynsYkM6QPzrpaWU9cvE6gKd5hpEHcnwMpHq
-	 xbFZ3/R/X1KSDAEH+N8nYuuRMgSp7mQ53tyGdwvyhKdwVL+2ms0tLOEBrRR1ruu7h+
-	 0yTAUPstLWbHg==
-From: Sasha Levin <sashal@kernel.org>
-To: workflows@vger.kernel.org,
-	ksummit@lists.linux.dev
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v3 7/7] agents: add a skill to write commit messages
-Date: Fri, 16 Oct 2026 11:28:27 -0400
-Message-ID: <20261016152828.3765695-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261016152828.3765695-1-sashal@kernel.org>
-References: <20261016152828.3765695-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHcDDe3T"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5e3e525cf4bso18445e0c.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792164619; x=1792769419; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EzgDhar5zkz19hBJENwPklhUs01SGYbuNfu08NDtMCg=;
+        b=KHcDDe3TiZHqPdrRSG1PuehEC3fud6vLfAYiRm5TT3GDi3zkDvf6KoV5YT+OK5B20x
+         piaQ2+hRNyy7xWEF48DyfIv1AIpiMeGFMF0s8fbLNy8x5kc+FLiYyLOe3BAposIrH/Pg
+         GOPIYGO/y/lWgppiHaknIzgJOzLIQDecBgK8eW6Pmr2/DKeQk6P9YYWV0Coxuo3ykfY0
+         ycNph4bc11HWb2ddYSS803JPu7nIkMJMFQVCOWdXb6/4isbWfeU5SezjIlLjs+9foQvo
+         ePAFFkOAlPLScxddFDbVRWosIXe/vWKuxC8VsI6rU+Y3p8A2er+A+O77EyIs6X7bUOEP
+         GYsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792164619; x=1792769419;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EzgDhar5zkz19hBJENwPklhUs01SGYbuNfu08NDtMCg=;
+        b=DtfAsvVFoQ07TXMAIW7o5wSt2YzqMgOzWHPdHve68Ox5B2jVodi2XyCmf58vzVzg+a
+         ihU3jwOp7l0Ebm86PUP42gTKGNRkaAjCpuqMN8buE6nxcrfKjd5Zz+Vf8KRUfQ5yZuwQ
+         zTk7ointzCf5OnfDy7evwvJmfjVQfc5EuRlA4JWzbyVF1Sd9k4HASUKRwkw0Pz/vkjHl
+         FH2vj1Y2/uR7quHGvu8fDKlSE3RCBKF3sUYE2XEYd6OPffurIa9py3vcx2MW9tHoZL8W
+         HJqYspjMD4VtjKMTANMYM3ZPv31kIrM+VGLzatzkFR/gUQioNxaO1Y3O5h1gEx3faQ1E
+         /6Bw==
+X-Forwarded-Encrypted: i=1; AKwUvBwFNb09GtMXVrHAJbQwk20bZkXROCOzhpYQ59pgTYqBsAovI4hDT240JD0YTCVmYv0MHF0U8ptwHLI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK808aTnOi4VfkeBGA7Kpt/uVsT+SYz3KwapbiIugK9xsYTgH7j
+	3SleujW3ZhSnSkzUrL5dFmBQkAsKnUAFwwRdWZh4oEwIqy0I3B0ogYIk
+X-Gm-Gg: AYBFou2v7qq3i5ylVpjWNC3m76Y8wn3sxTokDPDVKvDTpKfE8fIDs4yL8V6gYdgwRzy
+	RDZOsHDpdeqL36Vp/Fiw7qNkc0TBycoTiuDQIL4OogYbrtBb9KvoZqinz78I0KDhUGNqEkntx+P
+	vNDVhuZSV8G0p5o5Hx3tojyb3ndvcJpmTwlrFSHgxUechDKhhXt49WdgZSTk/Ym8HK2kDgBKZr5
+	7GEm+i984wR9MU+VMzF9l8Jj4Lf30S007LGwHatVTeBd/4f2VviRvqRLMLBL2yXX79dxx/Gse1d
+	4hoImS8rKy6he17TYYPpBN2p8k1HCz/pJz26wiICQLGwPuffASAP47nt28B2TVDakwUe8tXQahB
+	Xg4r3qJo2va403HKSBb2GGTz5c10IpQalMtR1z5yCQ6vdU/wgwzGy7p6ID6PwX67KMhg3KelfkK
+	pMqCNvu1yPygjevj+kLH8OnwINougM+mIx1s+XUjOu0HMSh62iV65bTjcffChagNIcJfHC8cO+2
+	qO7hCNOE1OgqgYULSt8qwOLHOWYaV/WetM4CcIvtN6roY+23Yfj2Jw2EX/hCIRthaKuZhxEd1Pi
+	1jVKKnHyhfSGtzDnenrYrJYyjbLmcXiuCnyrtw==
+X-Received: by 2002:a05:6102:94a:b0:7cc:1ace:fd14 with SMTP id ada2fe7eead31-7cc1acf084bmr1323389137.33.1792164618748;
+        Fri, 16 Oct 2026 08:30:18 -0700 (PDT)
+Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990833c2c2dsm1836983241.2.2026.10.16.08.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 08:30:17 -0700 (PDT)
+Date: Fri, 16 Oct 2026 11:30:17 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: linux-kernel@vger.kernel.org, 
+ Jason Wang <jasowangio@gmail.com>, 
+ =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ netdev@vger.kernel.org, 
+ virtualization@lists.linux.dev, 
+ Rusty Russell <rusty@rustcorp.com.au>, 
+ Max Krasnyansky <maxk@qualcomm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Simon Horman <horms@kernel.org>, 
+ linux-doc@vger.kernel.org
+Message-ID: <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
+In-Reply-To: <20261016051827-mutt-send-email-mst@kernel.org>
+References: <cover.1792067836.git.mst@redhat.com>
+ <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
+ <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
+ <20261016051827-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
+ net hdr checksum validation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Assistants are asked to commit a fix with a detailed message, and the
-find-fixes and stable-tag skills leave their tags for that message, but
-nothing says how to write it. Messages written by assistants tend to be
-long, and Linus recently asked that pull request text written with an
-LLM be less verbose and prefer the imperative voice.
+Michael S. Tsirkin wrote:
+> On Thu, Oct 15, 2026 at 01:50:54PM -0400, Willem de Bruijn wrote:
+> > Michael S. Tsirkin wrote:
+> > > The ingress validation as implemented by the previous
+> > > patch is stricter than what it replaced: GSO
+> > > packets whose checksum metadata matches no transport header are
+> > > dropped, and non-GSO ones get their checksum completed in place.
+> > > Such packets used to pass with the metadata unvalidated,
+> > > and with no overhead.
+> > > 
+> > > I judge that this should not affect any deployments, but there is still
+> > > some risk that it does.  In case a deployment depends on them anyway,
+> > > provide a per-netns switch to get the old behavior back:
+> > > 
+> > > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> > > 
+> > > The default is validating.
+> > > 
+> > > Assisted-by: LLM
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > ---
+> > >  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
+> > >  include/linux/virtio_net.h               | 23 ++++++++++
+> > >  include/net/netns/core.h                 |  1 +
+> > >  net/core/dev.c                           |  6 +++
+> > >  net/core/net_namespace.c                 |  1 +
+> > >  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
+> > >  6 files changed, 100 insertions(+)
+> > > 
+> > > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> > > index e586e17fc7a5..7f230929c37e 100644
+> > > --- a/Documentation/admin-guide/sysctl/net.rst
+> > > +++ b/Documentation/admin-guide/sysctl/net.rst
+> > > @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
+> > >  Default: 1 (on)
+> > >  
+> > >  
+> > > +virtio_net_hdr_csum_check
+> > > +-------------------------
+> > 
+> > Make more generic, virtio_net_hdr_validate?
+> > 
+> > In case we add more validation in the future (as we have in the past),
+> > without having to introduce multiple such knobs.
+> 
+> But it's uapi, are you sure we'll be able to change the meaning
+> of an existing knob, even if we keep the name vague?
+> 
+> > > +
+> > > +When processing packets with a virtio net header (through tun, tap, a
+> > > +packet socket or a virtio network device) that request checksum offload
+> > > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
+> > > +in software, or drop the packet where the header does not match it.
+> > > +
+> > > +When disabled, the header is trusted not to corrupt the packet, and the
+> > > +checksum is offloaded to hardware (or not verified if it never reaches
+> > > +hardware). This is only safe if no protocol is processing the packets.
+> > > +
+> > > +Default: 1 (on)
+> > > +
+> > > +
+> > >  wmem_default
+> > >  ------------
+> > >  
+> > > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+> > > index 357115ff0ec2..aa2f8ac4657c 100644
+> > > --- a/include/linux/virtio_net.h
+> > > +++ b/include/linux/virtio_net.h
+> > > @@ -5,6 +5,7 @@
+> > >  #include <linux/if_vlan.h>
+> > >  #include <linux/ip.h>
+> > >  #include <linux/ipv6.h>
+> > > +#include <linux/jump_label.h>
+> > >  #include <linux/netdevice.h>
+> > >  #include <linux/udp.h>
+> > >  #include <net/gso.h>
+> > > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
+> > >  	*thoff = nhoff + iph->ihl * sizeof(u32);
+> > >  	return iph;
+> > >  }
+> > > +/* Defined in net/core/dev.c, enabled while any network namespace
+> > > + * has net.core.virtio_net_hdr_csum_check set to 0.
+> > > + */
+> > 
+> > Should this be a global sysctl, rather than per netns?
+> 
+> 
+> For customers I work with, it would be much less useful.
 
-Add a skill that sends the agent to the parts of submitting-patches.rst,
-5.Posting.rst and the maintainer documentation that cover commit
-messages, cover letters and pull requests, and to the P: profiles of the
-changed files. It adds what agents get wrong: stating only what the
-change and the supplied sources support, keeping the text short and in
-the imperative mood, and adding no tags that were not supplied.
+Third option: make it an integer rather than a boolean.
 
-Point the bug-fix procedure in coding-assistants.rst at the skill.
+0: no validation
+1: current level of validation
+2 and beyond: if we have to extend it later
 
-Link: https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/process/coding-assistants.rst | 10 +++--
- agents/skills/commit-message/SKILL.md       | 42 +++++++++++++++++++++
- 2 files changed, 48 insertions(+), 4 deletions(-)
- create mode 100644 agents/skills/commit-message/SKILL.md
-
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index a89a33980c41f..9cae53cc5d8b9 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -41,6 +41,8 @@ The following skills are available:
-   returns its stable tag, or checks an existing one.
- * agents/skills/find-siblings/SKILL.md looks for the same bug elsewhere in the
-   tree.
-+* agents/skills/commit-message/SKILL.md writes, rewrites or reviews a commit
-+  message or cover letter, and writes the text of a pull request.
+Not pretty, I'll admit. So fine to keep as is too if you prefer.
+But I do foresee more changes in this area, if history is a guide.
  
- Licensing and Legal Requirements
- ================================
-@@ -105,10 +107,10 @@ these steps:
-    another one. The fix must not add build warnings and must pass the
-    checkpatch.pl checks (see submitting-patches.rst). Then look for the same
-    bug elsewhere with the find-siblings skill.
--6. Commit the working fix with a detailed message describing the problem, the
--   solution, a Fixes tag determined with the find-fixes skill, and a stable tag
--   if the stable-tag skill calls for one. Do not add a Signed-off-by tag, and
--   add an Assisted-by tag, as described above.
-+6. Commit the working fix with a message written with the commit-message skill,
-+   describing the problem, the solution, a Fixes tag determined with the
-+   find-fixes skill, and a stable tag if the stable-tag skill calls for one. Do
-+   not add a Signed-off-by tag, and add an Assisted-by tag, as described above.
- 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
-    Documentation/process/security-bugs.rst shows how to do that.
- 8. Indicate what could not be done. If the fix could not be built or tested, or
-diff --git a/agents/skills/commit-message/SKILL.md b/agents/skills/commit-message/SKILL.md
-new file mode 100644
-index 0000000000000..0825c2f5117c9
---- /dev/null
-+++ b/agents/skills/commit-message/SKILL.md
-@@ -0,0 +1,42 @@
-+---
-+# SPDX-License-Identifier: GPL-2.0-only
-+name: commit-message
-+description: >-
-+  Write, rewrite or review the commit message for a Linux kernel change or
-+  the cover letter for a patch series, and write the signed tag and pull
-+  request text for a subsystem pull. Use when committing or preparing
-+  patches, when asked to improve or check a commit message, or when
-+  preparing a pull request for an upstream maintainer.
-+---
-+
-+# Write a commit message
-+
-+Read "Describe your changes", the sections on tags, "The canonical patch
-+format" and "Commentary" in Documentation/process/submitting-patches.rst, and
-+Documentation/process/5.Posting.rst for cover letters. Follow the maintainer
-+profiles, the `P:` entries in MAINTAINERS, for the changed files; they take
-+precedence. Follow the rules for skills and for attribution in
-+Documentation/process/coding-assistants.rst, and
-+Documentation/process/generated-content.rst when a tool found the problem.
-+When editing someone else's message, also follow
-+Documentation/maintainer/modifying-patches.rst.
-+
-+- State only what the diff and the sources you were given support, such as a
-+  bug report, a crash log, test results, or the list discussion found with
-+  `lei q` on lore.kernel.org. If the reason for the change is not known,
-+  return no message and say what is missing.
-+- Take the Fixes and stable tags from the find-fixes and stable-tag skills.
-+  Add other tags only when they were supplied or given on the list. Never add
-+  a Signed-off-by.
-+- Use the imperative mood and keep the message as short as its content
-+  allows. Leave out markdown, labels such as "Root cause:", intensifiers, a
-+  restatement of the subject, and the story of the investigation.
-+- Check the result with `scripts/checkpatch.pl --no-signoff`.
-+
-+For the signed tag and email of a pull request, follow
-+Documentation/maintainer/pull-requests.rst,
-+Documentation/maintainer/rebasing-and-merging.rst and
-+Documentation/maintainer/messy-diffstat.rst. Summarize what the pull contains
-+and why from the commit messages in the range, in the same voice, without
-+repeating the shortlog. Ask the caller for conflict resolutions and testing
-+that the history does not show.
--- 
-2.53.0
+> 
+> > Even if per-netns, most likely do not want it writable by netns root
+> > with user namespaces.
+> >
+> > That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
+> > of many crashes due to bad packets ingested by, e.g., a packet socket.
+> 
+> Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
+> on by default?
+
+A single system wide field is simplest.
+
+Is there a benefit to making this configurable on a per netns basis?
+
+If so, that's fine too. As long as root-in-namespace cannot modify it,
+so readonly indeed.
 
