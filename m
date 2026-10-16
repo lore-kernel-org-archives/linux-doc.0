@@ -1,174 +1,100 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013041.outbound.protection.outlook.com [40.93.201.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830014DD3B5;
-	Fri, 16 Oct 2026 15:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792165878; cv=fail; b=j5dHYGVhBWC3Xm830+mSF1I8C8/ql4jCyLdBxhOiMP1cGe66XytnB7KWsd77udz1tWWO533i1NxxspkhJsWGM9Y+/75V4fpIo+sMivmfqDbmb5xB0nEnL9q1aqPh44BC2qWTE+ktO+tiGpF25D3fU5QkszpSplhFAMwCs5LWCys=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792165878; c=relaxed/simple;
-	bh=xJFS5ZHmrA36UwRimDLWeAxPunwJRIArilrpUPmhWcw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OwgbnO/7wjpKTsybtT0u0WO/nO8yDSKH4Oega43OdcWVV1wwdiSor26cnOzc6jfUWIqGX8Gh4Fkin/cVyNPiNENZU9BZTMKQlFiKQwbZ2Wgamx+jWkBlD9gC/f1SLucIhbRycVuaTy24AXNpgY9HcxRTW6W1tgvMPN5OmxH3eTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WbSO8NUF; arc=fail smtp.client-ip=40.93.201.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450DA4E06F3
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 15:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792166338; cv=none; b=I4Wo2faFZFzi36woXKVG8IG+GyuxuOhRLdDdqzTfVJel4LduSsiaLLLXZGYSLTfTm1MVAvgrkjnE/Mft9eYeAjC6HoiPo6t4RSU5LQtFpchJBAXkc2IatMtAcCTAPtdwgSjygCs6eobgAnTveT+bQI9RH+Asxcuhn9vfZydHtN0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792166338; c=relaxed/simple;
+	bh=JqL4+jW/dPxuUWw9P2AtsAeVwSlP0jkggzpO1fy+cyE=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:MIME-Version; b=ZqnF6kBZ8bPP9fOpyYBrTTwL5dGIqTMP8iqnno6OLLUxL8uiHpBaCvn8dNDugOw6oUP8OjWQdwg12G9hT2VgcLzHdYl/8fLRhtB/9tyxpLyLOeAMy4I5HM4AHbnA/WYxFP/TtLTSbeRk+fhV4usZZJgNlp7nk5H5SO8URCBX82M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHy0g03g; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WbSO8NUF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wDi6rCaIXHXEyuzymlFdJJKlA5wHkdbJ6VYHNjuSYDZmZ6sUxbn2snnTiSlxVuiz7fLu5+wxnP0J6k86TWTGjCyfy9ib1vyeSBFQipturuydXwNpHJ1ap2w0/QiIeoPmhRbx3D21TtJPIgBqwat4r+aiyW519TDvDFY/PrETggVoCTecrD/owJqde0PK/OhUGfmg4JnNyl4DwK6NlkhuQw7fcFNm+PSs8HPzym+MY8bhHNQcXG590qgIx5uyV486YBWqqFuBlTGomq6L5g2DUNp+5JYPlbEQnSPVNwrZGtJfBj3FJWK7g2P85jaVEhcLO2cAUTRiGe4wkCGHrUzxBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ccMvktBl/Wixz9VRLF1EnsnxWwd7e9jNRcVPk1eUWjw=;
- b=Q9svggORrPtWol4RSSlLkTPFrlmTgNT6gMFeDfJMJOdQcv2z6JyHNzD/OKu+EA8th3mQlAblkTDlMYH5ehJa88XgFFXf2DuWeDWPLcD1ofRK4O8ou3Ejm8ojmwu4Hgt+tqzkKvFq0MSwxWH0JqYPIsg2/tmnbz/D+UF5RsV2AGD/S/5WbH7oEYE5zICuERcvQ6fjSSPTUhOF3prj16YJXp901K0FPyv1bBZ/nrfBO1vMDWrvOqiKHFJ4+6I00LzCHZPbCbwu37Kk75Pnjdkbp/Xfm6Cv5+wwWJ3oE5DouubPR4gz5jWzPK/ZPGlWWNdC+48xV2W7bKPmtJgwS6Y6gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ccMvktBl/Wixz9VRLF1EnsnxWwd7e9jNRcVPk1eUWjw=;
- b=WbSO8NUF0vef4gLGJIF8myOuxEuO8uiayn3HRcOogtmiHMgGhOdzhSZlgKZBsj1uJNsaLcuL9TLOC2AnTaKIVHmDjqQdScs9yh7fQJldGHUpEtt21JERZsmSlKLJeVlb0iLvCT4YPnonYn6FPVXyooSaUASzDohZ52LMa1Ar5DA=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by IA1PR12MB6330.namprd12.prod.outlook.com (2603:10b6:208:3e4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Fri, 16 Oct
- 2026 15:51:10 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
- 15:51:10 +0000
-Message-ID: <efe71c1b-00c4-46e3-8cfe-31020f6ff74d@amd.com>
-Date: Fri, 16 Oct 2026 10:50:58 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/18] x86/resctrl: Register
- RESCTRL_GLOBAL_ENABLE_PER_CPU when PLZA is available
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
- ben.horgan@arm.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
- mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
- fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
- akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
- elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
- kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
- ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
- ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
- prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
- elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
- peternewman@google.com
-References: <cover.1790867441.git.babu.moger@amd.com>
- <05717f15f11f9e11f6b2a2737f4ed2f01fd9733b.1790867441.git.babu.moger@amd.com>
- <b3f44e74-dbb6-428d-a746-618b7288df5c@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <b3f44e74-dbb6-428d-a746-618b7288df5c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH7PR10CA0012.namprd10.prod.outlook.com
- (2603:10b6:510:23d::26) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHy0g03g"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-43bf9548df4so133635fac.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792166336; x=1792771136; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JqL4+jW/dPxuUWw9P2AtsAeVwSlP0jkggzpO1fy+cyE=;
+        b=OHy0g03gx7siMgxrgc8b8AZ8HWAQQp4scuBLSHuhEvaMZMG69vQ5moJfM/ruNxmd9E
+         4tWCQhYQljs1N5bsjxAf1zITMRKID/jhaIV6mWx0nQ/Jy+iI4+Lg8ryDMJrigLXWI2Np
+         1YZwDIVUlK5ILajo9jSUvTODOCiHc862qkOav6iQNtGCUPV8t5fM/7cdp9q95UYOMoHX
+         NIZQoDEwf7jmtzaLYbQTngm5M62GeIFUtMNH8M+raAkDZoKB96Tb0D6XcL77lF4T6pAK
+         TIxT8XzU3XIUX3gdNmv1xB2HjSZwIaAAvl23Mg1F7fm7B+vzagjIqgt5WVgC5i7JqlnI
+         heFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792166336; x=1792771136;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JqL4+jW/dPxuUWw9P2AtsAeVwSlP0jkggzpO1fy+cyE=;
+        b=N5V3H9xxczTDMZr07EL68Ghm2EqB9dC5RvCmHUIAwB4P40Q8XBMcY8Q/3JvprIjPGn
+         U9WbRdWGlYXBtURjGgn9//Jubwrf9iIESYt6GEdwfbmTWdmu0dErOo1oe6MRVMb7rdhg
+         sgUE54ImlgUQZuh32Qt2rTHNEtLpWWSCpQhYM7e9lBRjHbCfnHqW3rPwgZ4Dle8JsCtj
+         1S4wfJ0eGb75Ft1vRu5S3634klnKQTmdIohG7fXxRpjuAEzBSC5GBmkM65E2jqW8BYK8
+         GCxFCisHTE7zO132BbJPqCl4YJKdkTWbhs4qOIxueSTARnPD0m5Vz/iJPzsw5NkHJUsJ
+         y91g==
+X-Gm-Message-State: AFq9FYLe03A3STEVSN0pprwixJdhYbVR+pOXQ9sVWwCScdPcckXk12Ox
+	xFUScIXscIVG4ezSyIMIfiw/t9YgABrNgTblOEoJyToKqhMiQBjFX4nl
+X-Gm-Gg: AYBFou15jRju8ZXAk4Pj853ojLzm+CF7Th9snQVDHtusdlLZ/sB435ncpXiVwrdBgdl
+	SAUUblJqB9t11bbbCC9E7wu3DcXjj01Y2sgadpBK7Z1tT2vJOmzzYxzkM1IPoy133+aJbIf8zIj
+	L9iHVekFO/eEDp5tW4ltu9eF8wlOQIByx8182fMinV3SjBS1onbeLb0D82V53LrB4hMYJtL97Wd
+	7puoJZWF4zuq6UmybLKovkj54VL86KUdIKzH4TPrd0rQ6mDv/reMg2ko6YdNOFSIkLs8XS/xqlX
+	6udTjyBUINQsfbzq7jl58AQAvAu2KsX4zc/OxOkDtKd89f/KA8w5NlAwCxuR+Re3TA6je7S1ts0
+	5Dsr4vzFxjonOFh0TU2SDmceKJ/f05uL2kwCKNKTNelBwrTsZKbwxw+Jnnk4azhbA+BTtasFLgZ
+	XxxjErj9Z6CREWXeM2kjMx3ziwnfTjcPiqiGgPUHaKRq8zN7aLgyw2LKdUtDvVsuhCwVeizcxB0
+	CP1MN6mniLeAHZAUNwz9X2bY+wUWU8tN9CYHSwukeyi+UcNjkWSK/TJqZqFTtdftp4gsg0vRxcI
+	P4M=
+X-Received: by 2002:a05:6871:c91c:b0:49e:5d89:be9a with SMTP id 586e51a60fabf-4a757a9a88dmr355079fac.58.1792166335764;
+        Fri, 16 Oct 2026 08:58:55 -0700 (PDT)
+Received: from localhost ([153.61.198.254])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73adff016sm2102314fac.0.2026.10.16.08.58.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 08:58:55 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 16 Oct 2026 15:58:53 +0000
+Message-Id: <DM6DXZJSMPO3.J5PONDJ3HWNP@gmail.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, "Mark Brown" <broonie@kernel.org>,
+ "Theodore Ts'o" <tytso@mit.edu>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Leon Romanovsky" <leon@kernel.org>,
+ "Konstantin Ryabitsev" <konstantin@linuxfoundation.org>, "Thorsten
+ Leemhuis" <linux@leemhuis.info>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 4/5] agents: add a skill to find other instances of a
+ fixed bug
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Sasha Levin" <sashal@kernel.org>, <workflows@vger.kernel.org>,
+ <ksummit@lists.linux.dev>
+In-Reply-To: <20261012213452.1863248-5-sashal@kernel.org>
+References: <20261012213452.1863248-1-sashal@kernel.org> <20261012213452.1863248-5-sashal@kernel.org>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA1PR12MB6330:EE_
-X-MS-Office365-Filtering-Correlation-Id: 71c22056-bfa6-4217-6a63-08df2b9d4c95
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|6133799003|22082099003|18002099003|10067099003|4143699003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	JX+dWmYpT30X0ncrY7OBxKUvUabZ/jTwgNJAFRqjoibkQAmCxreoVFIDWH3nwcsrirdfxM2wtx2zxRDDI+Ej4UjDG/ezN5wkXSG0xU0ppU/iKYWfxQJMRUfe4C3giteKmyw/ATDN57KxByRHWuaOOAWx5XuENSCqdyKV0o8Cip+Yx2WBHwzH5NRhTWTOHYTMHNW9enAe1gjVIAsS5WK9ygqz90K8relC9iyB8WukwLvlnhN1JFtO+SHg8eYLbtCR2zUezBjvHd0nQrdpwvcOikDbIXQPLRmhkRqbhgPg3ohKC67yqSOGLlNhrQ4DhFPjs5DrUpitknJWetE8cDt6idg23kdDN2J3HFmW/1YcX1IRabotXrnsFQMKRSNm1eNJ9ylcOKa8ZcZIxa7U9/PCzpIK/FHBrN9n67k7N/5uadaPk4a4TDtt0WbgoDEmCx6qWeOKmvAo8KD0hF9tc2ZCwkkHz2V/t4BI+WZT3d1AK+Ki+CUe/qEL5PcLsfHViqowtDrkcD8b37D7yag+5669Kt0/gOSkp8j/GRHpoA5FGDutY4BwGTfCt4ASi1GinCKXIpIrbxCO17cR0py1WppjrH/wTXaZQzcORkrQvnxALDpQyoEBjRcRkzmRzV4Z/GFULD+5p3ywnQxKZNkQFxKhJEWQu2W7nfCZGyjBBUFJ0J0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(6133799003)(22082099003)(18002099003)(10067099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K0RtWU4yQjh4d3NHNTBLeVkrVUkrMjk0UTE0NTJUYjNyT21nNkF5em9EcjFv?=
- =?utf-8?B?d3htTndJSXJsbytZaHdGYy9YNXlIZ1VnUG5tNkMrNVpIYTcvNTB5NzZzS3I2?=
- =?utf-8?B?NU5iS1hEOFJKdTdpK1lSN2lRY0lxcWtEQk9oSC9mTW96NEdzU1J6ZVA0c1VD?=
- =?utf-8?B?TDNIRlJzSmZxNnZSWVhoTmtEeElzRmp5ZFlKOHlOSkJHWGF4S3gxM2RhOTVz?=
- =?utf-8?B?M1lxei9EZzBUNmYrUmV3YnllWVpteWFwOFFDSnJEdm8yam94UTlra0RiZmV5?=
- =?utf-8?B?Q1pjdWxCeDc5VGJxYW10U0phK2V1NWRTU1J3WmZWbzNieGU2T0lkR2k5V1l1?=
- =?utf-8?B?a3duQU9lMmNRY3IwSWUweUlVM200aHJpK3JmcTVsYWVxL25ldXIwUlVVbnFC?=
- =?utf-8?B?UEFzeCszUU5vQUZWanJIU2Y5Q3ZwTFA3dDBhNkdReko2TW4rRGFweXdFWi9P?=
- =?utf-8?B?Snh5Vi9UbDg1dDJ1cTFzMGEzYlJ5V3Y0YWFPem9nOG54ZTBMTlg5Rm1iRWV0?=
- =?utf-8?B?RFFSUXVjeW1zaWFwdlJjUGI4ejIyVmo1ZDIzU3dKckVBdVk3OFVGaXlreEU4?=
- =?utf-8?B?L3YzOXdGcTQydTVwSk9LRzdROVlScHJOZ2tlRXFIOGpQTnE1OTZSOHFKN3hw?=
- =?utf-8?B?T3hiTmQ1UlEyOURLVDBPb21uR2hCWUlES3B6eS9CaXZuaHJsSFNBSUhrdy9s?=
- =?utf-8?B?bU1BeWQrdlFyZXZnNGtiY2orUnJXZ0ZkaWxIa1lVRUdSSWQyby92TllrRlF0?=
- =?utf-8?B?cHl6UWk0ZTNwSzlpWFRMYmZIdXcyZmZMbnlSOW9CTzFTMzdSWVBxWmVJSWh6?=
- =?utf-8?B?QWxpMExrNEc2eDZ5eXNHUmJtUm1GRzlqVXM2eE9lSWpKaXIrUVhwV2RBdktP?=
- =?utf-8?B?TFAzeW1USW80ZXJpWk5ZTDBTc2JTY1d2QVJBWDR4TTVCQlNIR091NExPUFJr?=
- =?utf-8?B?aUV0MkVyeXNtS0wwTXlFajZsMVZhRFNRa0FpRWxwcU5ZaUtyMGdBdnZhMUIy?=
- =?utf-8?B?ckVwbm9GcHhGZy9IZnlSeDRwK0J0ZzVuck5taGo3aklnQlFSazdYeS91Y3Jo?=
- =?utf-8?B?YVNVallveFZpREFvNHlsdEJkTkFmdEJZdU1ReVBQNVF2Q0ljT09kN1JDbi9P?=
- =?utf-8?B?ZEFoQ0lPM1Y5bDV1VEZtNkdxY20wY3RNNWVRU3JtWnI4OUpWT3ZlYmhKUnJH?=
- =?utf-8?B?RFpwNkFkQUxDSkExMXl2S0RkTWVvUDc3Z3RuV0NFUEI5aHJrK1RGNEhZdUZ5?=
- =?utf-8?B?SDMxd3FCY2ZPQXFuK0VYbFpzVkJDTGZ4WFYwMDU5NkxQMFZCZytKcHR0aHRC?=
- =?utf-8?B?c2ZrcERIZ25Kb0hscEw0UEVmK29CejVveEtBc3E5VEh0MUQzaGIzTW1oZEMz?=
- =?utf-8?B?ZzlENk1kR2JrdzJNYUNBVXdFZ1lOVlB4ZXVqSmdSRTQzSmRwOXRWZzFoMVEz?=
- =?utf-8?B?Zlcybm5kcTl5bE5nSUx6KzhXRythQldlOVYzM3J3d21saWYrVkM1ZHY4eEEw?=
- =?utf-8?B?NlZYaTIvOFZzWnlCeC9DZEFmc2gwNEZ4bTlVSDJLMzdzYkpKSEpHcXJDekZD?=
- =?utf-8?B?a3NYUEJUUGxQY280ZEFnTklSeUNJeDBCS2VMZW4rcG5MTW92TUVSVzZSd3Rx?=
- =?utf-8?B?QjJUcXhDWlE2MTl1aTBhMzN4ODJZeVJzcTQwdU1ERTdFMVpHTlZUY0w1RVlS?=
- =?utf-8?B?ZDY0OVVubVhLRGtBdTI4R0Nnc01ITmoycXBWV0VVcnFVUGV2UUJwSEVTYUoz?=
- =?utf-8?B?dnJDVE14OGx4UTJaNFlXZmYzb3lyWTlwRkVoOWVFc1B2b0k4N2JvV0J4VzVF?=
- =?utf-8?B?eWZQa0UwY1BXSDZXaWlmMXl2dy9hUmVxTlNJajF2TGhPNXFKY1N0enRicEtF?=
- =?utf-8?B?SGV5TzBtRVpsZ0txNzNiOFBralJPQUN5NnJJMDJpaGRPakZRWTlSN0szTXVu?=
- =?utf-8?B?K0xMbFR6UTZjZHNpV3I4RkFuMXQ5MkIwclhCK3hxWTRaeFVSOHBObmxQR3k4?=
- =?utf-8?B?VkEvOEIxYy85SzQwczM3dlZkM3lpa0kxRCtiM24zYkFyQytVYjU3aVhUVnVZ?=
- =?utf-8?B?NUtlbndsOUp1U0syWnhKZjFBTHBJMTVBOWJOaVMrS2p5ZVhlNEtnc0NMR1JJ?=
- =?utf-8?B?ZXJwUnpZQ0JycDVCUmNNRU1xU3RtZk92MmpvUWV6S1ZaZ0tSYk9yUVQvRnBw?=
- =?utf-8?B?eXpGT2p3Qmgxekl2MVJndXhtbE96UG41WGRVdUtxUWw0bnZQdnd2WDVIdU02?=
- =?utf-8?B?d3BxYVV4N0U2OG12bThCYVB3U29HMXRRam9pWU1ZMWxWb2FKWVhZUUxudlJO?=
- =?utf-8?Q?X1jn1+bpjhkyoJ1ay9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71c22056-bfa6-4217-6a63-08df2b9d4c95
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 15:51:10.5804
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uJAXRJksiQRERWyG+n/Pb78Rmj9smXvjNAEC9cLkWVWQMZhfd3woDyFmNX35JO0n
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6330
 
-Hi Reinette,
+On Mon, Oct 12, 2026 at 05:34 PM Sasha Levin <sashal@kernel.org> wrote:
+> +Each confirmed site is a separate bug. It needs its own fix, and its own Fixes
+> +tag and stable decision, as described in agents/skills/find-fixes/guide.rst
+> +and agents/skills/stable-tag/guide.rst. Sites in different drivers or
+> +subsystems usually get separate patches, possibly in one series.
 
-On 10/15/2026 9:46 AM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 10/1/26 8:10 AM, Babu Moger wrote:
->> PLZA (Privilege Level Zero Association) provides the global per-CPU kernel
->> mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, allowing kernel work to use allocation
->> and monitoring associations that differ from user tasks.
->>
->> Add x86 support for this kernel mode and make it available through the
-> 
-> nit: This patch does not add any support, it just registers the mode
-> with resctrl fs (as the subject already indicates). Didn't patch #5 already
-> claim to add support?
-
-Yes. Will change it to:
-
-PLZA (Privilege Level Zero Association) provides the global per-CPU
-kernel mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, allowing kernel work to use
-allocation and monitoring associations that differ from user tasks.
-
-Register the PLZA kernel mode with the resctrl kernel mode
-infrastructure so it can be exposed through the resctrl filesystem.
-
-
-Thanks
-Babu
+I don't think it's a right message to send to agents and humans.
+When the same mistake is made in N places the interface is the problem.
+It should be fixed in one common place.
+This text tells the agent to produce N spot fixes for N maintainers.
+We already see this issue on bpf list, let's not amplify wrong behavior.
