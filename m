@@ -1,246 +1,421 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4021953FD51;
-	Fri, 16 Oct 2026 17:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECBE57ED83
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792170397; cv=none; b=G/VRubjwY/HpHTAjO2mxmgnBtbwskRD7rSbcP0kwdGhGCpI8w2g28WsGet6NiEBsWZAgkA54oHZJcUc6SMg2JuN2VykUgg5UH58NErtM9THJ4HdSauvFAmabKybOrXonRdPUMmMR8O21JdHhOzAMNbTuY+cEXIoLtdanEzwsTek=
+	t=1792172702; cv=none; b=MNiysdioFDXudEscztdK6mTOl/7EqkQ5j4e33mr8937g5+AOnPNbLrUw3Hs1vlRa24xshAAl1+5b60dPoFhGhiE8Ko/6lADT7ezKnbOwA8GvQq/YJ0fKH1S2clPyRueZWjOUt+BQk8IRIQfGwYMzDIycDjv4i6wr7Se9/4I9eAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792170397; c=relaxed/simple;
-	bh=cq+dFtbOvjF5bRDFpILdaqjX9inVYxdxNGz98Swem/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OVkdlXWycLamckJPKOsIdTM7qR5G3fDwaF9fwWMb4d4RoBImbbS55voBAnkgZ9uVwnlY+CrLP0o1LQqAgPDDTRm+5ibX5R8jfzaoIGpqyW097JZmCijFFsonxc2zPEczdP5sqdedWDHwG6GqbZWzeSmzFmPOzlB3B0RonwFCpLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dAEwm+Ll; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792172702; c=relaxed/simple;
+	bh=6YWqw5adQQTHyDOP+dipmwSrpo7kmtbYWeMfW0Lybi4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S+gRl17XoDG1bAsi7qfkHu9Emv9Z5YNbRYJA+gvYdytKoK9fmwe/X5+OSOjO7t7JzhEyLXXhpbf35r0ip26ubR/PONebjBIl5P2r0BobwZIzKZ3cmw6dSQ9pz4Sjhd12pJhZm8rJpnf0T5lQxlqETmqO6hVbOXbNsIaiJ+wx3LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQEftoNE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dAEwm+Ll"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601221F000C5;
-	Fri, 16 Oct 2026 17:06:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQEftoNE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1B3D1F000C4
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792170396;
-	bh=BSEXDWNORjZsXLCu9GysuRDNJRkpmKxIZz1Z4Vu8yyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dAEwm+Ll7zWYzg0O2/opPmRwyuEcN5vqyx3FOLNDe47i4s7xuUix1uZgX/dlo2aoM
-	 gtUuBpX6Fvsl5QjvcsgAZ5oPtoDo+OMgyE8aK8spLzAERzLCaFNIJs6/Qvzl0qnuim
-	 CshJT9OrW+ZwAkEtWFTxheF0/JtB2cxxYCtpVciK8lXHSLiNWUSX1zG+Hn6EYDT6Hz
-	 MgQ0bQbHhTXuIQ+rz+pxCsR4iOPyrfRvk0p9omqb6aOluXTdX6TMvIUYLozs+lZt/Z
-	 CMVPW48qhmbZqUwBF2LfXpAqSNHOd5zr0FRgTctbs4uLs/WeE4Pk21uIXN24Gk11u6
-	 dZVi7zkFQbQoA==
-Date: Fri, 16 Oct 2026 18:06:21 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v4 14/22] modpost: emit module descriptors as assembly
-Message-ID: <atJVYDgv8ejLoIrA@gremlin>
-References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
- <20260923-build-speedup-v4-14-73128809a4a4@kernel.org>
- <b17e9924-ca92-4cdf-b5e6-54164039e09a@suse.com>
+	s=k20260515; t=1792172700;
+	bh=FhZpz0gNx+lODojiEUjkU4/f3Iup9LR+x6EGW2kJ3Jk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WQEftoNEUxGBZeU0u1KvKkeoGyFpimR/tYUa5i9PwDWRt3GwpgsrZn+qT4A1bWLic
+	 P377Zz2evfsNLpHLm7POJfVdFj8AYIFJW009i1LEwPoJdLnncVLZ39lLy3w9XcDa3m
+	 UiPvdu2XL15jbFSy95xvMXS1uCkuZCfYo1Uu82mO++RQ/7eMZZsz6ZzF1K6YOKcL4E
+	 FUXje33gU4TJIbCICtIPQ42QBA31Oe/NyQpw+tnA7K/7eB9jfnmV/jAJKh1pYrs1bb
+	 Mxd0ye8LaXoXqrHVF0qZKxrU8ZDrN+/ycMrMbxTE4Oo3W7cLRhyYvLO5Jt72rm3pFz
+	 IWAJl983o8rig==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5ba35c0df4fso225616e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 10:45:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxPFfJLPvJkRwkSCdY1PWgqfxvODZ1s5fVznHddSrNZE/jDzCjr8w6uVLXU3AVdVGQpKTu0KpRQRbM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK4luft9T9LTPQ6RY307xPOIzogtwiBxDnjIKSeP9ALUpZYWVMl
+	InU+gPwxdbFR/f6+m+UIckFzoOt2+OtIQ5HMieoho+STK9Kwak5+W4Rmwkxb0QyVeWIuKRuJpBY
+	PbeowsVva99+gHGDItuYcIf4Z6oKsAcE=
+X-Received: by 2002:ac2:5696:0:b0:5be:48d2:eecf with SMTP id
+ 2adb3069b0e04-5be50a45c92mr103560e87.10.1792172698532; Fri, 16 Oct 2026
+ 10:44:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b17e9924-ca92-4cdf-b5e6-54164039e09a@suse.com>
+References: <20261001155118.1750028-1-briannorris@chromium.org>
+ <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+ <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com>
+ <as_i5MEz3WfnDQmf@google.com> <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
+ <atE9urIHXAJZXu6k@google.com>
+In-Reply-To: <atE9urIHXAJZXu6k@google.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 16 Oct 2026 19:42:47 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
+X-Gm-Features: AclHuK_QSqbyNDSUeAPeGbmAFi4tvRiNzYZUfuFoEZNOJZW1Dhx4ZOH96CNLtjc
+Message-ID: <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
+To: Brian Norris <briannorris@chromium.org>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Doug Anderson <dianders@chromium.org>, Len Brown <lenb@kernel.org>, Ulf Hansson <ulfh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 16, 2026 at 02:14:16PM +0200, Petr Pavlu wrote:
-> This version looks mostly ok to me, from a modules perspective. Below
-> are a few nits plus one more useful comment about handling
-> MODULE_ARCH_INIT.
+Hi Brian,
 
-Ack thanks :)
-
+On Thu, Oct 15, 2026 at 10:55=E2=80=AFPM Brian Norris <briannorris@chromium=
+.org> wrote:
 >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 0fd43c8a89ea..9d96459e492c 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-...
-> > +/* The equivalent of KSYMTAB_FUNC()/KSYMTAB_DATA(). */
-> > +static void add_asm_ksymtab(struct buffer *buf, const struct symbol *sym)
-> > +{
-> > +	const char *name = sym->name;
-> > +
-> > +	add_asm_kstrtab(buf, sym);
-> > +
-> > +	buf_printf(buf, "\t.section \"___ksymtab+%s\", \"a\"\n", name);
-> > +	buf_printf(buf, "\t.balign %d\n", KSYM_ALIGN);
-> > +	buf_printf(buf, "__ksymtab_%s:\n", name);
-> > +	add_asm_ksym_ref(buf, sym->is_func ? MOD_FUNC_PREFIX : "", name);
-> > +	add_asm_ksym_ref(buf, "__kstrtab_", name);
-> > +	add_asm_ksym_ref(buf, "__kstrtabns_", name);
-> > +	buf_printf(buf, "\t.previous\n");
-> > +
-> > +	add_asm_kflagstab(buf, sym);
-> > +}
+> Hi Rafael,
 >
-> add_asm_kstrtab() and add_asm_kflagstab() are only called from
-> add_asm_ksymtab() and their logic is fairly short. I suggest merging
-> these functions.
-
-Ack, done for v5.
-
+> On Thu, Oct 15, 2026 at 10:11:04PM +0200, Rafael J. Wysocki (Intel) wrote=
+:
+> > On Wed, Oct 14, 2026 at 10:15=E2=80=AFPM Brian Norris <briannorris@chro=
+mium.org> wrote:
+> > > On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (Intel) w=
+rote:
+> > > > On Thu, Oct 1, 2026 at 5:51=E2=80=AFPM Brian Norris <briannorris@ch=
+romium.org> wrote:
+> > > > >
+> > > > > The runtime PM API surface is pretty large, but there are a few c=
+ommon
+> > > > > patterns that many drivers should follow. Add some illustrative
+> > > > > examples, to help guide the most common audience for runtime PM d=
+ocs --
+> > > > > driver writers.
+> > > > >
+> > > > > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > > > > ---
+> > > > >
+> > > > > Changes in v4:
+> > > > >  * "state" to "status", to be consistent with Introduction termin=
+ology
+> > > > >
+> > > > > Changes in v3:
+> > > > >  * Rewrite Examples to avoid devm_* at first, to highlight correc=
+t
+> > > > >    approaches
+> > > > >  * Include error-handling and remove() in any probe() Examples
+> > > > >  * Advise more caution when using devm_*, as ordering issues are =
+subtle
+> > > > >
+> > > > > Changes in v2:
+> > > > >  * Add appropriate teardown to "Probe with Hardware Powered Off"
+> > > > >    Example, as the remove() + power-off behavior is subtle here, =
+and
+> > > > >    easy to get wrong
+> > > > >
+> > > > >  Documentation/power/runtime_pm.rst | 475 +++++++++++++++++++++++=
++++++-
+> > > > >  1 file changed, 473 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/Documentation/power/runtime_pm.rst b/Documentation/p=
+ower/runtime_pm.rst
+> > > > > index e4407b687f8b..cb25e0bb4ca7 100644
+> > > > > --- a/Documentation/power/runtime_pm.rst
+> > > > > +++ b/Documentation/power/runtime_pm.rst
+> > > > > @@ -429,7 +429,8 @@ in ->probe(). Usually this means calling pm_r=
+untime_disable(),
+> > > > >  pm_runtime_dont_use_autosuspend() etc. Alternatively, drivers ca=
+n use
+> > > > >  devm_pm_runtime_enable() during probe, which automatically takes=
+ care of
+> > > > >  calling pm_runtime_disable() and pm_runtime_dont_use_autosuspend=
+() upon driver
+> > > > > -detachment.
+> > > > > +detachment. See also the Examples in `Section 10`_ for some effe=
+ctive
+> > > > > +strategies for driver teardown.
+> > > > >
+> > > > >  The user space can effectively disallow the driver of the device=
+ to power manage
+> > > > >  it at run time by changing the value of its /sys/devices/.../pow=
+er/control
+> > > > > @@ -654,7 +655,9 @@ The implementation is well suited for asynchr=
+onous use in interrupt contexts.
+> > > > >  However such use inevitably involves races, because the PM core =
+can't
+> > > > >  synchronize ->runtime_suspend() callbacks with the arrival of I/=
+O requests.
+> > > > >  This synchronization must be handled by the driver, using its pr=
+ivate lock.
+> > > > > -Here is a schematic pseudo-code example::
+> > > > > +Here is a schematic pseudo-code example:
+> > > > > +
+> > > > > +.. code-block:: c
+> > > > >
+> > > > >         foo_read_or_write(struct foo_priv *foo, void *data)
+> > > > >         {
+> > > > > @@ -720,3 +723,471 @@ pm_runtime_autosuspend_expiration() from wi=
+thin the ->runtime_suspend()
+> > > > >  callback while holding its private lock.  If the function return=
+s a nonzero
+> > > > >  value then the delay has not yet expired and the callback should=
+ return
+> > > > >  -EAGAIN.
+> > > > > +
+> > > > > +.. _Section 10:
+> > > > > +
+> > > > > +10. Example Driver Patterns
+> > > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > > > > +
+> > > > > +The runtime PM API is large and complex, but most device drivers=
+ follow a small
+> > > > > +set of canonical patterns when interacting with runtime PM. This=
+ section
+> > > > > +illustrates standard patterns for device probing, performing I/O=
+, and handling
+> > > > > +interrupts.
+> > > > > +
+> > > > > +Probe and Initialization
+> > > > > +------------------------
+> > > > > +
+> > > > > +Basic Probe
+> > > > > +~~~~~~~~~~~
+> > > > > +
+> > > > > +A driver that powers on its hardware during probe and does not u=
+se autosuspend
+> > > > > +can initialize runtime PM using standard helpers:
+> > > > > +
+> > > > > +.. code-block:: c
+> > > > > +
+> > > > > +       static int foo_probe(struct platform_device *pdev)
+> > > > > +       {
+> > > > > +               struct device *dev =3D &pdev->dev;
+> > > > > +               struct foo_priv *priv;
+> > > > > +               int ret;
+> > > > > +
+> > > > > +               priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KER=
+NEL);
+> > > > > +               if (!priv)
+> > > > > +                       return -ENOMEM;
+> > > > > +
+> > > > > +               platform_set_drvdata(pdev, priv);
+> > > > > +
+> > > > > +               /* Power on and initialize hardware registers... =
+*/
+> > > > > +
+> > > > > +               /*
+> > > > > +                * The code above left hardware powered on and op=
+erational, so
+> > > > > +                * tell the PM core that the device is active bef=
+ore enabling
+> > > > > +                * runtime PM.
+> > > > > +                */
+> > > > > +               pm_runtime_set_active(dev);
+> > > > > +               pm_runtime_enable(dev);
+> > > > > +
+> > > > > +               /*
+> > > > > +                * Perform remaining driver setup (e.g. register =
+interrupts, device nodes).
+> > > > > +                * If any step fails after enabling runtime PM:
+> > > > > +                */
+> > > > > +               ret =3D foo_register_device(priv);
+> > > > > +               if (ret)
+> > > > > +                       goto err_pm_disable;
+> > > > > +
+> > > > > +               /*
+> > > > > +                * Upon successful return from ->probe(), the dri=
+ver core
+> > > > > +                * automatically executes pm_request_idle(dev), a=
+llowing the
+> > > > > +                * device to suspend asynchronously if its usage =
+counter is zero.
+> > > > > +                */
+> > > > > +               return 0;
+> > > > > +
+> > > > > +       err_pm_disable:
+> > > > > +               pm_runtime_disable(dev);
+> > > > > +               if (!pm_runtime_status_suspended(dev)) {
+> > > > > +                       /*
+> > > > > +                        * Power back off, in case device did not=
+ suspend yet.
+> > > > > +                        * For example, leverage your .runtime_su=
+spend()
+> > > > > +                        * implementation:
+> > > > > +                        */
+> > > > > +                       foo_runtime_suspend(dev);
+> > > >
+> > > > There are two reasons why this may not work, here and below.
+> > > >
+> > > > First off, if a non-trivial PM domain or bus type etc is involved, =
+its
+> > > > .runtime_suspend() callback may need to be invoked in addition to
+> > > > foo_runtime_suspend() to actually power off the device.
+> > >
+> > > Good point. While it's a platform_device (not a complex bus), I suppo=
+se
+> > > the PM domain may be relevant, at least for remove(). (probe() is
+> > > already handled automatically by the device core.)
+> >
+> > If this is a platform device, the PM domain detach will power it off,
+> > which I forgot about,
 >
-> > +
-> > +/* The equivalent of SYMBOL_CRC(). */
-> > +static void add_asm_crc(struct buffer *buf, const struct symbol *sym)
-> > +{
-> > +	buf_printf(buf, "\t.section \"___kcrctab+%s\",\"a\"\n", sym->name);
-> > +	buf_printf(buf, "\t.balign 4\n");
-> > +	buf_printf(buf, "__crc_%s:\n", sym->name);
-> > +	buf_printf(buf, "\t.long 0x%08x\n", sym->crc);
-> > +	buf_printf(buf, "\t.previous\n");
-> > +}
-> > +
-> > +static bool export_is_kept(const struct symbol *sym)
-> > +{
-> > +	return !trim_unused_exports || sym->used;
-> > +}
+> I kinda get lost in that too sometimes... so even remove() is OK
+> actually. Good.
 >
-> export_is_kept() is only called once from add_asm_exported_symbols().
-> The condition can be inlined directly there.
-
-Ack done.
-
-> > +/*
-> > + * The equivalent of:
-> > + *
-> > + *	__visible struct module __this_module __section(".gnu.linkonce.this_module")
-> > + *		= { .name = KBUILD_MODNAME, .init = init_module, .exit = cleanup_module,
-> > + *		    .arch = MODULE_ARCH_INIT };
-> > + *
-> > + * Everything not listed is zero, MODULE_ARCH_INIT included, except on m68k.
-> > + */
-> > +static void add_asm_this_module(struct buffer *buf, const struct module *mod,
-> > +				const char *modname)
-> > +{
-> > +	struct this_module_field fields[THIS_MODULE_MAX_FIELDS];
-> > +	const unsigned int nr_fields = get_this_module_fields(mod, modname, fields);
+> > so the driver only needs to prepare the device
+> > for that.  If there is no PM domain, the driver runtime suspend
+> > callback function can be used for the power off in principle.
 >
-> The const qualifier can be removed from the nr_fields definition to
-> match the usual kernel style.
+> What's the distinction?
 
-Ack done.
+First, note that "PM domain" is not a synonym for "power domain".
 
-> > +/*
-> > + * The equivalent of:
-> > + *	static const u32 ____version_ext_crcs[] __section("__version_ext_crcs") = { crc, ... };
-> > + *	static const char ____version_ext_names[] __section("__version_ext_names") = "name\0" ...;
-> > + *
-> > + * for unresolved symbols.
-> > + */
-> > +static void add_asm_extended_versions(struct buffer *buf, struct module *mod)
-> > +{
-> > +	struct symbol *sym;
-> > +
-> > +	if (!extended_modversions)
-> > +		return;
-> > +
-> > +	buf_printf(buf, "\n\t.section __version_ext_crcs,\"a\",%%progbits\n");
-> > +	buf_printf(buf, "\t.balign 4\n");
-> > +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> > +		if (skip_unversioned(mod, sym))
-> > +			continue;
-> > +
-> > +		buf_printf(buf, "\t.long 0x%08x\n", sym->crc);
-> > +	}
-> > +
-> > +	/*
-> > +	 * A symbol without a CRC was warned about above, and is skipped here
-> > +	 * too so that the names line up with the CRCs.
-> > +	 */
-> > +	buf_printf(buf, "\t.section __version_ext_names,\"a\",%%progbits\n");
-> > +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> > +		if (!sym->module || !sym->crc_valid)
-> > +			continue;
+A PM domain is essentially a set of PM callbacks that are invoked by
+the PM core for the devices the PM domain is attached to instead of
+their bus type callbacks.
+
+There can be only one PM domain attached to a device at any time and
+the idea is that it will amend driver PM callbacks with whatever is
+needed to power manage the device from the platform or board
+perspective.
+
+For example, the ACPI PM domain uses ACPI power management (which is
+based on platform-specific and board-specific information) to amend
+platform driver PM callbacks.  In the presence of the ACPI PM domain,
+platform device drivers may expect the devices to be ready to use at
+probe time and to be turned off after driver removal.
+
+When genpd was introduced, the idea was that it would work in analogy
+with the ACPI PM domain, but I'm not sure if and to what extent that
+is the case now.
+
+Anyway, in the absence of a PM domain, the driver is responsible for
+doing all of the PM-related work which may make a difference at least
+in some cases.
+
+> To me, power domains are not the only thing that
+> constitute "powering on the device" -- drivers may be handling resets,
+> clocks, regulators, etc., too. In either case, those are things that the
+> driver is powering on in probe(), and should be torn down in error-exit
+> and in remove().
 >
-> This condition must match the logic in skip_unversioned(). It would be
-> clearer to keep it only in one place by calling skip_unversioned() here
-> and adding a "silent" parameter to the function.
-
-Ack done.
-
+> But in either case, those are probably things the driver is doing in its
+> runtime_suspend callback.
 >
-> > diff --git a/scripts/mod/module-offsets.c b/scripts/mod/module-offsets.c
-> > new file mode 100644
-> > index 000000000000..a336dd47aa33
-> > --- /dev/null
-> > +++ b/scripts/mod/module-offsets.c
+> Maybe I'm clouding things by mentioning "runtime_suspend" here; the
+> concept here is "power off anything you turned on in probe". So if you'd
+> like another spin here, I may just call it foo_initialize() and
+> foo_uninitialize(), with some comments about "power on any necessary
+> resources: clocks, regulators, resets, ...".
 
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Layout of the structures modpost emits into *.mod.S, extracted from the
-> > + * target headers as devicetable-offsets.c does for the device tables.
-> > + */
+I think that this would be somewhat better or at least less confusing.
+
+> > So I think that the original code flow here is fine with the caveat
+> > that if a PM domain is there, the driver may not actually need to
+> > carry out the power off by itself.
 >
-> The second part of the comment, after the comma, is superfluous. It is
-> expected that the various parts of modpost use consistent mechanisms
-> where appropriate.
+> I kinda think the point of most of this power domain architecture is
+> that a typical driver just doesn't have to worry about it at all (in
+> probe(), and if you use runtime PM properly), so I'd prefer not
+> mentioning it in the Basic example. But sure.
 
-Ack done.
+Well, your basic example needs to be put in a certain context because
+it may not be generally applicable everywhere.
 
-> > +int main(void)
-> > +{
-> > +	DEFINE(MOD_SIZEOF_LONG, sizeof(long));
-> > +	DEFINE(MOD_PREL32_RELOCATIONS, IS_ENABLED(CONFIG_HAVE_ARCH_PREL32_RELOCATIONS));
-> > +	DEFINE(MOD_FUNC_PLABEL, IS_ENABLED(CONFIG_PARISC) && IS_ENABLED(CONFIG_64BIT));
-> > +
-> > +	DEFINE(MOD_SIZEOF_struct_module, sizeof(struct module));
-> > +	DEFINE(MOD_ALIGNOF_struct_module, __alignof__(struct module));
-> > +	OFFSET(MOD_OFF_module_name, module, name);
-> > +	OFFSET(MOD_OFF_module_init, module, init);
-> > +#ifdef CONFIG_MODULE_UNLOAD
-> > +	OFFSET(MOD_OFF_module_exit, module, exit);
-> > +#endif
-> > +#if defined(CONFIG_M68K) && defined(CONFIG_MMU)
-> > +	/* MODULE_ARCH_INIT: the only architecture where it is not all zeroes. */
-> > +	OFFSET(MOD_OFF_module_arch_fixup_start, module, arch.fixup_start);
-> > +	OFFSET(MOD_OFF_module_arch_fixup_end, module, arch.fixup_end);
-> > +#endif
+I think that you should make it clear what the driver's expectations
+regarding the physical state of the device at the probe time are and
+the general rule is that it is better to leave the device in the same
+state in which it is expected to be found next time.
+
+> > > > That's why
+> > > > pm_runtime_force_suspend() looks for the callback to invoke.
+> > >
+> > > Would you be OK with pm_runtime_force_suspend() as an alternative her=
+e?
+> > > It seems like some drivers have started using that in remove(), which
+> > > doesn't quite match its docs, but otherwise seems OK to me. I was
+> > > considering that already here, and I even think it might be a good id=
+ea
+> > > to do automatically in devm_*, as I noted here:
+> > >
+> > >   https://lore.kernel.org/all/arVWVA3lks7SopQH@google.com/
+> > >
+> > >   (note: there's definitely at least one typo in there; should be
+> > >   !pm_runtime_status_suspended(); and it needs some other adjustments=
+ to
+> > >   actually verify the device was suspended at time of enable(); ... s=
+o
+> > >   consider it a concept, not a patch.)
+> > >
+> > > But I kinda wanted a maintainer opinion before I went too far on that=
+.
+> >
+> > That shouldn't be necessary as per the above.
 >
-> I feel it is a bit of a layering violation for modpost to know how
-> individual architectures need to initialize module::arch.
-
-Yeah that is kinda gross :)
-
+> OK, yes, not necessary in this particular example.
 >
-> For now, this is probably ok. I would just remove MODULE_ARCH_INIT from
-> include/linux/module.h and arch/m68k/include/asm/module.h, along with
-> the comment referring to it in scripts/mod/modpost.c.
-
-ack done.
-
+> But my hope is that devm_pm_runtime_enable() can be made easier to use.
+> It would be nice if we had the property:
 >
-> In the future, this could be avoided by having the m68k module support
-> look up the .m68k_fixup section at runtime, as other architectures
-> typically do for similar sections.
+>   If your device was suspended (most resources powered off) when
+>   devm_pm_runtime_enable() is called, the PM helpers will suspend it
+>   (power it back off) on remove().
 
-Yes, arch stuff should live with the arch-specific stuff.
+I'm not quite convinced that runtime PM is suitable for devm_ type of
+management.
 
---
-Cheers, Lorenzo
+IIRC, devm_pm_runtime_enable() was introduced to avoid some code
+duplication between drivers, but I don't think that it may be expected
+to be universally applicable.
+
+> To me, PM runtime is pretty unique relative to other devm-supported
+> subsystems: even if you carefully undo everything you did in probe in
+> exactly the right inverse order, you still get things wrong -- because
+> PM runtime is so stateful (especially forbid()), and so you have to
+> account for an extra unwind step (call runtime_suspend-like functions in
+> remove()).
+>
+> And to be clear, that proposal would only be useful for the "Probe with
+> Hardware Powered Off" case (which I think is actually quite common, and
+> quite common to do incorrectly), and not this "Basic Probe" (that powers
+> on during probe).
+
+Certainly, helpers that cover sufficiently common scenarios and help
+to avoid code duplication are useful, but it needs to be clear when
+exactly they are applicable and to what extent.
+
+> > > > Second, if the driver expects the device to be powered up and
+> > > > operational at the beginning of probe, which this one does AFAICS,
+> > >
+> > > No, that's not the intention. See:
+> > >
+> > >   "A driver that powers on its hardware during probe"
+> >
+> > So this effectively assumes no PM domain because platform_probe()
+> > calls dev_pm_domain_attach() with PD_FLAG_ATTACH_POWER_ON set.
+>
+> Yes or no, depending on your understanding of what "powers on its
+> hardware" means. Holistically, I don't usually consider something "on"
+> if its power domain is on but it's still in reset, or its clocks are
+> off, or its regulators are off, or ...
+>
+> Is there some better terminology you'd prefer here?
+
+You may say "operational" to refer to a state in which the device is
+accessible and functional, which should also be the case when the
+device is "active" from the runtime PM perspective.
+
+> > > And the pseudocode/comment:
+> > >
+> > >                /* Power on and initialize hardware registers... */
+> > >
+> > > i.e., probe() is doing the power-on work, but it's elided.
+> > >
+> > > Perhaps that wasn't obvious enough, so I can replace that with
+> >
+> > No, it's fine with me except that there is a difference between the
+> > "PM domain present" and "no PM domain" cases and at least some drivers
+> > may need to take it into account.
+>
+> I'm not really getting what the distinction is, from a driver writer
+> point of view. With or without a PM domain, the driver most likely
+> doesn't need to worry about the distinction. (Caveat: if you have 2 or
+> more domains, you have to manage that yourself as the driver core
+> doesn't handle it. But that becomes obvious rather quickly.)
+
+I've tried to explain that above.
+
+Thanks,
+Rafael
