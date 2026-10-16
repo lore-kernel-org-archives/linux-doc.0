@@ -1,221 +1,319 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F9446EC79;
-	Fri, 16 Oct 2026 09:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142520; cv=fail; b=ofefxRSGTHf2pwvzyTd9tFBe2JdXLF92nM3yreJAHBBStq46e2gk06xRORIcHeXOD3wdRZ3AJSQuxF3KgYPAUmdKdGTrpSGGBQDJhSFDx7z6Oe5+BeKBFPu9C0MZDYR8VTU/nHK/jJCglce8IRGe+m75LNbUF0H1z16RTfv5qzw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142520; c=relaxed/simple;
-	bh=KDuNhCUtfaxmu0rLDLQn21rvt/r+xTfu/16p1Kx1yrc=;
-	h=Content-Type:Subject:From:To:Cc:In-Reply-To:References:Date:
-	 Message-Id:MIME-Version; b=Vc6YRZldNMEqa4odDVtjR+vnb7CzD8K5dzvaeyNVzLVNoJQ2i5txjMbEKSWC+gWtj82+dwc46SkSjcr3EEMHAgpGmWASnMu+3h3UgzzI5IAimifSrkgo4vfB7Q2czlXhPhSDJo5a49gzMgdan3nRH/TP+pQaFTviYq+7EsUtV8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b=s3AJf/wr; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=yhilu8LJ; arc=fail smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7024647D471
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 09:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792143196; cv=none; b=FHICKrQYgv7jfZzrpgSz7bku9L/oo0MmJtZP/HInhM4KCswFbM9u6oMRLLgosReQAh1nWyyiVH4sqTsSxzwkiS0vlwLacQ4Yu6e+Ms0rWh/d3+wPWtaMArKoDRrvh+RXvdnNnbZdlrhf7P1+CbRlQz1XXNen0zFLvncYR0EeDyg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792143196; c=relaxed/simple;
+	bh=O/OiA4BQPUKLUXonJsE5pdtPrknSunNzaSfCvLDOogo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bsuo8ULLyb13xkJk5QrmpgDIe5se24l2MJbHjpOK/Rya0JrmVs3a/l2dtTyzOJy55RRsnnHoyCuWe/yhiSdHOibxfvuWxlc7n3eGbiQUXN2wG826KIitjrdEf5r9A4n+a2anm/7Gf25hvkDpvF/XxiGS202XsBKO9W2xP5t33ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AM3nYNW6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=N1ydN9P6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b="s3AJf/wr";
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="yhilu8LJ"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G80TZn3639241;
-	Fri, 16 Oct 2026 05:21:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	DKIM; bh=jlHLrLLkRQLUaMsNdmq0JbK3xWMKyJTOtvvCOcHXXEE=; b=s3AJf/w
-	rTQBD+JVKJc0q2EsJNmITfC7yKYoW7EZNCb5wvPaoaDp/UxgLbGGLInhGBJWcWXI
-	s5MivwhCl5CXaQfzc19wNIsjZy/BX3g32eACKpGql6b6O3JrG4CgH3y0KfR4AeHL
-	NtLFlVLpT7rz9w59pi1bBniqTddqKPpTCBsMVQIJe8cM0jIAkuLAUMrQG6k3dJm3
-	0nWmaA8AP7HX0nsHk46iKbTJm5hW9KeI9sQ85NJ9DkFzsH376+a9XbFAG9Pnux8N
-	SZ/97cRpdnZnm2Gy3YfiRCTqOvdpXjr+6vF13R958Qbke86T/78qLuaTYkcesVPI
-	GLDHb7q4RIdmvaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=jlHLr
-	LLkRQLUaMsNdmq0JbK3xWMKyJTOtvvCOcHXXEE=; b=yhilu8LJcsj245tuGWvth
-	bK5OzL5PF27QpngTawhHy59BTPX7uK6SWJbU0cE+zplVBNBtSGKpojRtss2198Uk
-	IbXDObNPmRxtoXBDbE9CNnyySCJeA/c5oktlkoGYkxHBh/dAtu38tTOwG4tvZxFi
-	E/eBjhpZjMYN16bHd0N3QDQ6OtG1rvox7Gn7R4CV8gb8B5lJUe0YMS4ah7l/4crg
-	NsVl0fdW18jpZ8A2jtUXI4ZEBj7U0UA6cCRszpWu26pLugqgdt4S/WFdb4wA0443
-	+Sq6g+HXEny7T3xv1TGQncZjctt4/xbpTHNOjOia2Gh6BKLAFjHrvd0F4DmepTN5
-	A==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012032.outbound.protection.outlook.com [52.101.48.32])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4hbajk24cd-2
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 16 Oct 2026 05:21:47 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mAl1K9B4/4TIcGWdDyRRHD079zs1wiwk0VmWjcVfovqCGG24KST4Kui6loLFX6cqhOMcBEbgipIyPFOPEDW4+BFR2Pa3ryDhxQk7JDytJNKAvtVgASEZ6ToC1nXYgiSH2z+f400CmF+x2w2iAnSdQ/28ooDCG+UPUFtUFXx2cjsFz8Ogn+WwxfgzFYCKS994Y6WZvE8ObpJ6sIo6eQwILZYwtHeS65rZX0/OFXnsGUac4TuuutxMOQzhWxmu7BHis/iq0iI802k8HUyHnOf7ev7w6XW58wcF+iJxnOQ5GVX1lLdOvm1oj8YI5FFnhvFBbTPNNcWJmrtgDWoG132UXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jlHLrLLkRQLUaMsNdmq0JbK3xWMKyJTOtvvCOcHXXEE=;
- b=iZZjXRYhaj7cU34HDN9HQwDpNuKJ+IVbn1TRScTlOb429p8r2cJjr1eYIC2nbJ7eW1xiYwXC2uIQLUnTmzTs7LDKzyVD+oHY4tvWMZpc13A+xAND8ZQdEyW5TbfU23I3E96tGIWUYpXh7n1kKTCl3UyPlusw/4NQqY6DYczyXIDTIS6nUGZLXxfVWVpRxdw5bUrn6DXOg7fPxym0ux6SPls+4e19XcZViSL7KtmpySge8r5EFMhAp22GmsxmGiEWuAgZ+hOD53zI5zZjJczcU9r1Qyd1S3X4v6TP5nUp2vzHRIT4IwqKouwLu9znx+fFgo/lYe/jZiAVWjQheL/GCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analog.com;
-Received: from SJ0PR03MB5469.namprd03.prod.outlook.com (2603:10b6:a03:28a::17)
- by LV8PR03MB8138.namprd03.prod.outlook.com (2603:10b6:408:296::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
- 2026 09:21:44 +0000
-Received: from SJ0PR03MB5469.namprd03.prod.outlook.com
- ([fe80::2a19:76b2:e731:8c5a]) by SJ0PR03MB5469.namprd03.prod.outlook.com
- ([fe80::2a19:76b2:e731:8c5a%6]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
- 09:21:43 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 09/10] iio: ABI: add integration_time for output
- channels
-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux@analog.com,
-        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David Lechner <dlechner@baylibre.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
-References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
- <20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
-Date: Fri, 16 Oct 2026 10:22:35 +0100
-Message-Id: <179214255505.3322.16323794686488802474.b4-review@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792142556; l=689;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=KDuNhCUtfaxmu0rLDLQn21rvt/r+xTfu/16p1Kx1yrc=;
- b=i2mIIQLIFVTqdKvOUhKwCAZTte9w7W6uSWrhyg3WO1LvTnplnHrGTgWXQUyO0ENaq/Irfi7fZ
- ytG99vafUCgDrESPORyPRilMQ2p/3Gm5bOM4P/X+ktEpPS1OigVRAUV
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-ClientProxiedBy: ZR0P278CA0065.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:21::16) To SJ0PR03MB5469.namprd03.prod.outlook.com
- (2603:10b6:a03:28a::17)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AM3nYNW6";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="N1ydN9P6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792143191;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F1WIlfJD+ulbctbVceU+ouilxpQA89DiQidLIlC9D0g=;
+	b=AM3nYNW6DdV4sLxY3CPMCibgsaUUcnEaJr838VbRYWooywOAc9W2riMWm0uYP/QNUdsiS9
+	UROl6aHd0q36spBJY7jDeL7QhfAI7+Tkwf+nYH+kpt1rp9sTlmvJrfyBMb58I7AxG9IbaT
+	2ghXsttvD2VRv0XqZYJQIp9NpUnkrug=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-311-xTq6-GBPPyWgtXIfCinb4g-1; Fri, 16 Oct 2026 09:33:09 +0000
+X-MC-Unique: xTq6-GBPPyWgtXIfCinb4g-1
+X-Mimecast-MFC-AGG-ID: xTq6-GBPPyWgtXIfCinb4g_1792143188
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49cdc4080ddso5674945e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 02:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792143188; x=1792747988; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=F1WIlfJD+ulbctbVceU+ouilxpQA89DiQidLIlC9D0g=;
+        b=N1ydN9P6jLCmdDDkPrFUc99czMW1fGI89cmkgFqItRS830Tj1gH/9haAuXopUzLd/g
+         ojf9cj63SI2Hn0u0l+9+dkKAmqU5x7CqxhhXb8auls1inzCAMN40dFUJkVqLiCykg106
+         EyqqdmDFdN5jo7hFTCuz8nQcSyShwXwHK6i1wR7iFzqO7e+vidlS4pymB3S28lNcRH8u
+         7FtMR5sqpeyvFXs2lgYezdZ0h9SADSRIbsk/JE9SB8MvFgNsMpH7jrOyFYFlJaAybwWQ
+         vtJNRZaNUIrw59/W/W0CtP7cPevLjTUcjpGYNqezScXdzgNXkWLDcZgdg/nKWZq83gpX
+         zPQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792143188; x=1792747988;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F1WIlfJD+ulbctbVceU+ouilxpQA89DiQidLIlC9D0g=;
+        b=EeDsX8EeaXsbMyhYnOWSZlJBBMGVfLbZ8YrVXo7ncqgnvNF0M/EVi2eqb8qVRxsOkS
+         8j0LU4iyoEDXbm6+AjhBfj07luGEYCocm92lyOFfmlM9ar7pjfjVImcHG0b0SMh+OkWV
+         3u2lm0VzOO/fJqgU1KSbCsgJXE1J2PwTnL4o2yn4AhrAhAPtdcbP5hO8SroaEzmBDXw/
+         pB7hKuyvjIX990qfAq0HZ/uN7fBdMXsAujxM48siW/IA5fA9qylCJ1+QYNGUeRdKmVaG
+         pdU96ZKLjwblgBWU2G5nOhr+6pBICTcSp5Bk7DLGxmITKimhMMxzvr38BskzK3uD9iQ9
+         2mAg==
+X-Forwarded-Encrypted: i=1; AKwUvBx93nSJJp2HqQc0Em3xl9i3gEaKvpQKrNoNblX42imfOgemX/ek8Yr+g7Iw7FSoT+SsOjlgI69kkWo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKq/jWE8AAROzF/onpLNqzdG4rE3VcYdWajtLV/LXA4fDupnUpk
+	6fosBFuw11oEtPNIqRRQTOpbO+x1ToXDJTruw2bK/dCM1loXe0KUdrDASQ2Y3Db+JDDZFnb+0ld
+	pBQPEcJArNjlvIBYa2ZRaI4Q/F63P9n80hIbXtpWl7lm172x79czIpGABFmpzgQ==
+X-Gm-Gg: AYBFou1FnukvdZtstnkACxgT2p2N0bGFt9FoVMSpXggIJWY/R63F0wC8n9xYswnisIT
+	SQ1HxSWvavxeQOuLQ2uDc2Hssp1uufhD3+H+W5xu1FNPU+d0wRp1yFtuvk8KExmE9nkBnA3a69J
+	vkDlDSpcsmJXbwsmGN7ZmPT/jB9/6KKVrCzoQYyKyZkyxA2JJIK7xpbzRQmqSeXEh9mGn//0qoo
+	8NqvikMoMgR5kiBeeW4olDqHZ02H2/3WbAnXq+dUvlBHhaO7g2QEbeYcb0YhbPyDWlh96cev7iy
+	CtC4QvYWbMeQiPWpOJw7QtAnxhG0D5dkJi++mrtvUstH5cguA5IyeOt1J1tbkWLmFs6miQ==
+X-Received: by 2002:a05:600c:c0d4:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-4a1c664db70mr51292215e9.6.1792143188151;
+        Fri, 16 Oct 2026 02:33:08 -0700 (PDT)
+X-Received: by 2002:a05:600c:c0d4:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-4a1c664db70mr51291755e9.6.1792143187537;
+        Fri, 16 Oct 2026 02:33:07 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:3fd7:5300:3d6b:52a4:a23f:9d0b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8ae6d2esm44682945e9.6.2026.10.16.02.33.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 02:33:06 -0700 (PDT)
+Date: Fri, 16 Oct 2026 05:33:03 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Jason Wang <jasowangio@gmail.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, virtualization@lists.linux.dev,
+	Rusty Russell <rusty@rustcorp.com.au>,
+	Max Krasnyansky <maxk@qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Simon Horman <horms@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
+ net hdr checksum validation
+Message-ID: <20261016051827-mutt-send-email-mst@kernel.org>
+References: <cover.1792067836.git.mst@redhat.com>
+ <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
+ <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR03MB5469:EE_|LV8PR03MB8138:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17f9f3ff-3346-42da-f846-08df2b66e4ef
-X-LD-Processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|56012099006|4143699003|11063799006|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
- OI2B2PDEvGJVzYCmPM5AjgIGN5+hnku/vrqcgPZqy8ldYFb74VGaf3zaq1XXKbgDcDWHjn+4hAfrFfLQtHlBXuGshCgVyJtf+coK6hNqy9d3U+PLeWTQHKoQQb4FbFYwoFTpFtt5Z9LWGdIJdF7Bt6dwjcH60f2Al4Dtz6P8PPHV1XwonHKKcPnsfSBYt6zOVZVE1UuO4msGPewnvz8Xeaj0wohfhWfa+WcXANo4VskjTPS9o+u6WCeH63i4wybRsSz9357gdBlp50smvDaS021xQ/Bf/hVT2Bg23xz03aU0Xa5VW0oHRFE9y7Vvyf4FO8x/9FUn5O8Ks4z460LoUfGxBlVRADe2LNpQoMeZpNz+R79mQiz6rvJppyH7CEl9+pdIbdyD/dVPGhgUhsWJPXNBlPSiaU+9ghb1pzJtzyaJSfnmMMkOeK905X0SMBcsmLNazatkTCjpDLNVx4+foBBzrvCEXs9U+O/syM9LxpViV2KyF9EdUMt/qgw5iYvHphTy8ZQYMK3LGYEtSf+lXXuO/JTgQJVaF6Poq0sP5i+rieftWckn5QWmX5aHcjynuM7D5lhOPc0A1a6WNQ1jyHROt7iZY+5rWOejWWKdO/ZBznlHQFiB1Ao5XyzDxnVGGYC6QtibrVteNDVEZJ8njUF/p3eMZI/7l/nvUtfdWo8=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5469.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?YlF6ODA3NC9sYUZMTTc4MW54T1BXSDFRM09zUWxDMDljME5iWnNxZzNveFZF?=
- =?utf-8?B?bkd0bS9KMnRIYTczelc5bDNBME50VEU1b2RhVVNseGNyQTM5LzBySU1VZzd0?=
- =?utf-8?B?WjlxdVNVYVEvQjdwSnRvdHV6cTZ0ODNHTlViR2lHaTYva0RUajZIbS9LQ0d6?=
- =?utf-8?B?QVNYNjFnMXo0NzgrOXdVL29XR3pDa1ZwUmVnSzAxOEtpcVBoSWt1QnNyaGtX?=
- =?utf-8?B?VERWV1NUY0ZpM25MZm4xQjJMeGVVcmJ0NjhOTmhuWXkxZHMwSGZBWURKa2FF?=
- =?utf-8?B?b0dQUTVEN2tQbW80TmRlbEVWT01ONU5jWmhkMEZCQ21TVytEOXRiSkRpei9I?=
- =?utf-8?B?RTUvVXMzaUhIeXBiRUtWVXR5dW1udlQ0dmlubWF5TWViQlVYZHhLQWI1ZytH?=
- =?utf-8?B?SE1BNlo4d0NqMlRPa2xmMXJGYndMdld6YUs4Nmp0cGhrWUpxWTFwMlcvdkxr?=
- =?utf-8?B?ZVdWUTJkbGV4MWpyQmhoV1ZudXRkQXMxM3dSUjNtc0xrUGlFT1RkMlRTWVMz?=
- =?utf-8?B?UGM0eC9paTF4UWExeEpqd1cyRUxhbHJkU0d4WTE5U2FkdkRBT0dMOCtuRFNW?=
- =?utf-8?B?ZkRYQm5Cb2tJTWpCeHllWWNGZDNCQ3hzQUgvL3lOMzNxSU9LNXM3Q1FLNlZ1?=
- =?utf-8?B?U3NiN0lPK29RZVpDMWU1K29xanc4QWhDNVpJSEViU1QrelFBOE9vc2Q0U0J5?=
- =?utf-8?B?VWVXelduSEZ1ODVFT29pM1Y0ZVlWN3NtT0xvQzFxWDlqK1IyTytCTEZSUmhT?=
- =?utf-8?B?UzhTL2Y2anVFNDFncDJXRUF0SkVXU0Y3T1VEMXdvR0ZRaDAwWlZLeFZUY0Vt?=
- =?utf-8?B?amdVVm1YMG96VDdsL2dmR3ZTZzRVS0V5eXVEcFNRR0RzRUQ0OWRwUjJ1cGtu?=
- =?utf-8?B?ZWRYeVNWSGNmbUFRQUx0eTY1bzVPTjJZcUVLdHdSMktlcTUyNUdNdzBSSVJG?=
- =?utf-8?B?Mzh6b05LNXp2OVBwQkxHMGZaRllHVS9aVU9va0RlazZCOEVCOS8zd3M3WVIy?=
- =?utf-8?B?UW5zeDVsaVRTMk1nU2ZzQXU0RkhJTkNnK1BXOEQrWnJtbzdrWnpVekUvam1a?=
- =?utf-8?B?eW1Uem5GaTVkYmJESHprazV5dTc1aHhlbFJqTG9QWThBMXpHL0JoWm1HNHY1?=
- =?utf-8?B?TWlUUUQ2ZkoydUxlWHp3TTNRblhVczJRNmV2Y1Z2L05JU2kyMDFwSEFsanRp?=
- =?utf-8?B?OXc3OWwxeU5rVTRSOHVBSXVmK0ZiQWw4WkZtcDBLeGpKVFliMVU1ckJ6Q0lx?=
- =?utf-8?B?MWcrU3hldGYxRjlkdm10UEgrQW5tSXk1VGNQTi9WdVl3YlkyZkRMcVIyMFVX?=
- =?utf-8?B?bnBDbGUxQUFmRENwczBJaE4yTTZxU1NBc1AwMDB5bmF3QWNVNG1XWkFVcTdV?=
- =?utf-8?B?eDZybW04U2p1ZXgrbkZYYi9jTk93WUl2TTluSERoZmpiNHB5ZGpRSThsZHFQ?=
- =?utf-8?B?RlpQa1d6YXh4dDRBZnlGS2lrUlBzb2p3UUtiWjJLbjhKMEw4VE9xTkM3MzNp?=
- =?utf-8?B?UmY4VlVvMEhwZi9ITlRRbmVTNlhLUDlTT0FyOGYrMnY0bjFiRWkxWXQ3Y2c0?=
- =?utf-8?B?Y0l1VHdtTW0za0RFdmNPcllIc1UzNzdDZHh2MDFvSk8reEpBMC94cW5WWjJK?=
- =?utf-8?B?MWdHRmpLWkVhNDh6WGRwTmVFTWI2VHA3eEdCZ2RTMk8rcXFSZVV5OWIrVEVP?=
- =?utf-8?B?b1Z0OVF4SndabzZQVVAvVXdTeHhoYXVjeUM0R1h6MzdCSlh3Uzl0NnRDUVBp?=
- =?utf-8?B?algrMG8rVm51UjRaaWtFdjlGVHlweWxhakZ2MUxwRlZXRU9INjNtTEoyYUlx?=
- =?utf-8?B?QkdwSlRlOWNBVU1WaDB0blcwRitjTjRtMy9jTWZrTmJPeVJxdCtLUDRqS00w?=
- =?utf-8?B?Q2NsdVBiSFQ1RXJsRDlKOVdPREpaZ3gzcmNiVE5EZDlHRGNkSHdkT2JaS1Zl?=
- =?utf-8?B?U2dPbkw0QUlONnVuQnR4aHI4eGVYYnJ3bGRueGJJV0F4THR3bjBNTlZ6SkdT?=
- =?utf-8?B?VGNCblRzSHUzbFczcUxrb0tLTk1wVzdNWXpvYnlocWRySEhqYmM1cURwTGdW?=
- =?utf-8?B?dTB3cUswelk0NXZVN3dLVEozaDBHWk1YaTZ3S0ltSHp3QmVvaHdWQnpOWjBv?=
- =?utf-8?B?NUgzMDJNYitBN0ZpeTBjM3hscFVkRzVsMExkTzh4Znp1bW5mWDFlMVMxU2F3?=
- =?utf-8?B?UlpiMXplaWFpaUFxc1pxTjJzemdVWlVuS1FYOGZkRFVGME5ZSEEvQ1VpOFE2?=
- =?utf-8?B?T1E3MU9vM0hwd3lncFV4SHhDVFB3UFRSWG15ZG4yWjN3Y3JXMEZqSzlaWUU5?=
- =?utf-8?B?NkdXaG9sbnlxY2pjVnJGMjFMM0ZiVy9ienZNUE12UjRJVUY1ZGFUZz09?=
-X-Exchange-RoutingPolicyChecked:
-	iJGs7zsTHtUDlqx1KPbwFdX8PsDAZUY/68/1s9tbZ9pz6iDU50Kg8cNHeY6oKSQt7V8eeJjpIpylCoghcXHuqHDhRYhFPUgW+mUJBzhvjyzEIw3lStqxWNxJw5MvbBQY8Vsw0Leqzgq6TkGSyjWneQQOYbbB3zcZx4/lkHDcqkGxODGR08pYL5zcEhmClicoFR7el74HFtGbog8hmmsdqUl4GIicUaVLi81ojBMDqZ2sULPfFYS53kVWBHwj0OuDBoDB9alkCKWRKHlyY4g9f/mulHY05oqtYeplVoxJTYJynvE4FLO3wUZia7HrxxtwjhTk3dOLa1IOGJQJgLm8nA==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17f9f3ff-3346-42da-f846-08df2b66e4ef
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5469.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 09:21:43.8674
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D4JvfqylnarfBKAGb+bP2RRS6Fu8hlCiRB6QwrafAh6BtBEXbA81VekDHpJ/K1eLTagIw7agFi2oh8uaqlyQsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR03MB8138
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAzNyBTYWx0ZWRfX/wlNotHUCm7M
- Cp/Bd3fdX2/IVqhOhR3eWCdcWJeFYjosWj7xFadpxHx1+SJng2irUfKMOcfjxZuWTMBgjsr+2FR
- MeIFGOSDTOmXcocmBKT6SxARyb6auR+n58f8tXg/PJ1Xri6bnJyw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAzNyBTYWx0ZWRfX423c2hYC2nDx
- WvYd/Z8lXnfnhHcnDMiS9pgZjaDmJ+JR5trex23POGkNXmcEo6wMt136LunOr4JYap/RvnUXw6y
- CLj7262z7CBVYPYd9fni9PxpAF5pd4x6mFlJRYtOO6oeEMOeSXZtUQHg+XlRtYEpdZywLsBXSu7
- rayRqlyLpldsXwS6x4IvQ8Wb6Y2cezIFBjWbCRw+4U8ZBWP5PetNCOjofiO5it6HGtdLp5sPowz
- 6sff+MadSq0cAmu8QjOAaIvsLwPBAUukk4CqMuCKYAx0cbCw52ZAQhVNVxCFPAUr4DKYrnv5Q4r
- HpfuRd9vqP4OD/IuvUHmU9kWtMuZasT1aN++2uWx5b4QcS1z/Z3lxKIfHNeBndyoTCxCZPY3/Ss
- wInvaQWGRQa3Nkdfzi/NcH05CVya8eMO2zdxPSOPI5tmLBzCH0t2N7M+83Qkq2RPMR58yWPVzcB
- MvIizskG08Et+e3h7EA==
-X-Proofpoint-GUID: PGRRoX74kw3hGtZbbyVR47DK93R4c9ag
-X-Proofpoint-ORIG-GUID: PGRRoX74kw3hGtZbbyVR47DK93R4c9ag
-X-Authority-Analysis: v=2.4 cv=eLqGH3p1 c=1 sm=1 tr=0 ts=6ad1ecab cx=c_pps
- a=NeHo0b9PnFRHZsaa1SN7PQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M51BFTxLslgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
- a=gAnH3GRIAAAA:8 a=QeTJlRhm2XaCXXULJ0MA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160037
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
 
-On Thu, 15 Oct 2026 13:49:49 -0300, Rodrigo Alencar <rodrigo.alencar@analog.com> wrote:
-> Document the integration_time attribute for output channels, which is
-> the time interval during which the output is generated by integrating
-> a quantity, such as its rate of change. It is the output counterpart of
-> the integration_time already defined for input channels.
-> Add entries for the altcurrent, frequency and phase channel types, which
-> are going to be used by the AD9910 DDS driver.
+On Thu, Oct 15, 2026 at 01:50:54PM -0400, Willem de Bruijn wrote:
+> Michael S. Tsirkin wrote:
+> > The ingress validation as implemented by the previous
+> > patch is stricter than what it replaced: GSO
+> > packets whose checksum metadata matches no transport header are
+> > dropped, and non-GSO ones get their checksum completed in place.
+> > Such packets used to pass with the metadata unvalidated,
+> > and with no overhead.
+> > 
+> > I judge that this should not affect any deployments, but there is still
+> > some risk that it does.  In case a deployment depends on them anyway,
+> > provide a per-netns switch to get the old behavior back:
+> > 
+> > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> > 
+> > The default is validating.
+> > 
+> > Assisted-by: LLM
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
+> >  include/linux/virtio_net.h               | 23 ++++++++++
+> >  include/net/netns/core.h                 |  1 +
+> >  net/core/dev.c                           |  6 +++
+> >  net/core/net_namespace.c                 |  1 +
+> >  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
+> >  6 files changed, 100 insertions(+)
+> > 
+> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> > index e586e17fc7a5..7f230929c37e 100644
+> > --- a/Documentation/admin-guide/sysctl/net.rst
+> > +++ b/Documentation/admin-guide/sysctl/net.rst
+> > @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
+> >  Default: 1 (on)
+> >  
+> >  
+> > +virtio_net_hdr_csum_check
+> > +-------------------------
 > 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> Make more generic, virtio_net_hdr_validate?
+> 
+> In case we add more validation in the future (as we have in the past),
+> without having to introduce multiple such knobs.
 
-With the minor change pointed by Andy,
+But it's uapi, are you sure we'll be able to change the meaning
+of an existing knob, even if we keep the name vague?
 
-Reviewed-by: Nuno Sá <nuno.sa@analog.com>
+> > +
+> > +When processing packets with a virtio net header (through tun, tap, a
+> > +packet socket or a virtio network device) that request checksum offload
+> > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
+> > +in software, or drop the packet where the header does not match it.
+> > +
+> > +When disabled, the header is trusted not to corrupt the packet, and the
+> > +checksum is offloaded to hardware (or not verified if it never reaches
+> > +hardware). This is only safe if no protocol is processing the packets.
+> > +
+> > +Default: 1 (on)
+> > +
+> > +
+> >  wmem_default
+> >  ------------
+> >  
+> > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+> > index 357115ff0ec2..aa2f8ac4657c 100644
+> > --- a/include/linux/virtio_net.h
+> > +++ b/include/linux/virtio_net.h
+> > @@ -5,6 +5,7 @@
+> >  #include <linux/if_vlan.h>
+> >  #include <linux/ip.h>
+> >  #include <linux/ipv6.h>
+> > +#include <linux/jump_label.h>
+> >  #include <linux/netdevice.h>
+> >  #include <linux/udp.h>
+> >  #include <net/gso.h>
+> > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
+> >  	*thoff = nhoff + iph->ihl * sizeof(u32);
+> >  	return iph;
+> >  }
+> > +/* Defined in net/core/dev.c, enabled while any network namespace
+> > + * has net.core.virtio_net_hdr_csum_check set to 0.
+> > + */
+> 
+> Should this be a global sysctl, rather than per netns?
 
--- 
-Nuno Sá <nuno.sa@analog.com>
+
+For customers I work with, it would be much less useful.
+
+
+> Even if per-netns, most likely do not want it writable by netns root
+> with user namespaces.
+>
+> That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
+> of many crashes due to bad packets ingested by, e.g., a packet socket.
+
+Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
+on by default?
+
+> A global sysctl also allows using proc_do_static_key and avoids the
+> custom logic in virtio_net_hdr_csum_check_sysctl.
+> 
+> >  /* Where does the L3 header start, and what protocol is it?
+> >   * Handles Ethernet and VLAN headers; other devices use the
+> > @@ -152,6 +166,12 @@ virtio_net_csum_partial_ok_at_offset(struct sk_buff *skb, u8 hdr_gso_type,
+> >  	unsigned int thoff;
+> >  	int ip_proto;
+> >  
+> > +	/* Failsafe: a namespace opted out of the validation,
+> > +	 * trust the checksum metadata as before.
+> > +	 */
+> 
+> nit: as before, imho the code here is clear and comment unnecessary.
+
+
+Ugh. One of these got through. Absolutely.
+
+> > +	if (virtio_net_hdr_csum_check_disabled(skb))
+> > +		return true;
+> > +
+> >  	if (!virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
+> >  		return false;
+> >  
+> > @@ -483,6 +503,9 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool outer_isv6,
+> >  	unsigned int thoff;
+> >  	int ip_proto;
+> >  
+> > +	if (virtio_net_hdr_csum_check_disabled(skb))
+> > +		return true;
+> > +
+> >  	if (!virtio_net_l3_start(skb, &nhoff, &proto))
+> >  		return false;
+> >  	if (outer_isv6 != (proto == htons(ETH_P_IPV6)))
+> 
+> > +/* Defined in net/core/dev.c, declared for the gate in
+> > + * include/linux/virtio_net.h.
+> > + */
+> > +DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
+> > +
+> > +/*
+> > + * Protects changes to virtio_net_hdr_csum_check_disabled_key and each
+> > + * net->core.sysctl_virtio_net_hdr_csum_check. Readers don't use a lock.
+> > + */
+> > +static DEFINE_MUTEX(virtio_net_hdr_csum_check_mutex);
+> > +
+> > +static int virtio_net_hdr_csum_check_sysctl(const struct ctl_table *table,
+> > +					    int write, void *buffer,
+> > +					    size_t *lenp, loff_t *ppos)
+> > +{
+> > +	struct net *net = (struct net *)table->data;
+> > +	/* checkpatch warns but this can't be const: tmp.data is set below */
+> > +	struct ctl_table tmp = *table;
+> > +	u8 old;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Make sure virtio_net_hdr_csum_check_disabled_key counts zero values of
+> > +	 * net->core.sysctl_virtio_net_hdr_csum_check.
+> > +	 */
+> > +	mutex_lock(&virtio_net_hdr_csum_check_mutex);
+> > +
+> > +	old = net->core.sysctl_virtio_net_hdr_csum_check;
+> > +	tmp.data = &net->core.sysctl_virtio_net_hdr_csum_check;
+> > +	ret = proc_dou8vec_minmax(&tmp, write, buffer, lenp, ppos);
+> > +	if (write && !ret && old != net->core.sysctl_virtio_net_hdr_csum_check) {
+> > +		if (net->core.sysctl_virtio_net_hdr_csum_check)
+> > +			static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
+> > +		else
+> > +			static_branch_inc(&virtio_net_hdr_csum_check_disabled_key);
+> > +	}
+> > +
+> > +	mutex_unlock(&virtio_net_hdr_csum_check_mutex);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static const struct ctl_table netns_core_table[] = {
+> >  #if IS_ENABLED(CONFIG_RPS)
+> >  	{
+> > @@ -737,6 +780,15 @@ static const struct ctl_table netns_core_table[] = {
+> >  		.extra1		= SYSCTL_ZERO,
+> >  		.extra2		= SYSCTL_ONE
+> >  	},
+> > +	{
+> > +		.procname	= "virtio_net_hdr_csum_check",
+> > +		.data		= &init_net,
+> > +		.maxlen		= sizeof(u8),
+> > +		.mode		= 0644,
+> > +		.proc_handler	= virtio_net_hdr_csum_check_sysctl,
+> > +		.extra1		= SYSCTL_ZERO,
+> > +		.extra2		= SYSCTL_ONE
+> > +	},
+> >  	/* sysctl_core_net_init() will set the values after this
+> >  	 * to readonly in network namespaces
+> >  	 */
+> > @@ -841,6 +893,8 @@ static __net_exit void sysctl_core_net_exit(struct net *net)
+> >  	tbl = net->core.sysctl_hdr->ctl_table_arg;
+> >  	unregister_net_sysctl_table(net->core.sysctl_hdr);
+> >  	BUG_ON(tbl == netns_core_table);
+> > +	if (!net->core.sysctl_virtio_net_hdr_csum_check)
+> > +		static_branch_dec(&virtio_net_hdr_csum_check_disabled_key);
+> >  #if IS_ENABLED(CONFIG_RPS)
+> >  	kfree(net->core.rps_default_mask);
+> >  #endif
+> > -- 
+> > MST
+> > 
+> 
+
