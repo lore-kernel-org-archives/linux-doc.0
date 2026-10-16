@@ -1,159 +1,229 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4254ED199
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 16:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792168772; cv=pass; b=gBgm1Wzd+9BvU6Es2A+FjyrUf5dhOMvNrVgpigEqz+AW9Pvtlh4+HMER1dQCzdg0bQZAjI40YUzD0zLJaQIRdHMEGF0T/VTNrRL8gY/L+HWxkLjnmOivKUymUN5a/GGDhWlfhZbESabaEqQkrLQQ+G7EahR27BwM9XaqoD/y6Ww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792168772; c=relaxed/simple;
-	bh=GYZa+WYjfY4q7qD6twJL6utNn4fuZ9ttx5FDCieufDQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TMglxaUYxs3e3+1e9ywZbkEuUs0TB5u27FTQLUEzbmjT3LhMuw2fEkc2Hnba6SW3PQul8X2JJiaCueuUZyrdkRhRo4WLS0CQLDDKEbX+winX0zX1of0T73nluj1tw9xQcgL9NSZkU1oULXR244TlpKSpBq0kqHEH79YfRWHKUJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XBLiA8Xl; arc=pass smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4238A37F006;
+	Fri, 16 Oct 2026 16:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792169099; cv=none; b=IqtqERFyZZTi/0MmwoCtAyyw/kSthJSDHXzLeXgAdk2dTfu9MAwKYF645zjWeRYjeOndb40+q9D15jxY+FkRxvs9QUpvzSAnHUn/j3QZGXVb/MbwRYVBiDlGV2UUDT8KofsoYrsr5afKVerRHzXN0ImHy9vyJyX6UckFUGOmtAA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792169099; c=relaxed/simple;
+	bh=VfWTephl8pf2SRTSLnrpj8mX4tB8jBBntqEfoI1/V+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQH3QsGttsBsP7Sw4+/wgDvQ4Pvw35HjbF945M0dj1YZiO3oDLiM5uQ++e1wgPHVvywDnVz3n2jBDHwh5YMHHCytm8IGkY864VIj2vyNJEtTJ7PBSGuXWnk9BO4dSJXbUFCoIzBEQUVOkeiSfj/Mf4GS4RCUkU28ViuSJAngyus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZHEARvLf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XBLiA8Xl"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93f1cd0b004so12013885a.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 09:39:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792168769; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iAoCxEj5fTSecXqulySsQV+HRkV4npETbQeLsYqaJvX0sJYHiCCvy8BR2zC6pGMd7U
-         cd9v+OHDsBd53KP47xJeMMvlKsOcjib5/8fqG24VcfxX/9U72qZmTfLlwBeDLXr2RVrV
-         /Onv2FTe85/6FTrg7KmEyfPk+LxH+caeQHJ806rECcSJ4yWX5qFbkrNm1P3bWZ8g5bnC
-         iCB5S6x3xge19PsuB3bY4y+frG/CViMRUIh8/47rtNHoqXuiQaBQBzKF0OdlbCSD++3E
-         ZsBbZDZPw15+C3H7Zg8M4hsBbDaWAOMEnECExEjdLE5jDsoAzof8e3uqVuO34HdRFM57
-         h3rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AXnPIgMXiyBd1h2THh7HTsYWO/OramMboVGVD9BzIk8=;
-        fh=6oJZIqVE0RNO3n23EHQF9f7duGG2THALGAiJH8kYl/c=;
-        b=RJkcO8VJIStS711BRUutm3nyo9x8+Hw+XFRrG7KSCYMtqBImi0bC6cY9XVl8nqIixr
-         4Fp1srHU7KURFkM0KdU04Rf70E+l18uOpSNMUGTPsFGmX9uzImsngfNLFnuIGHQQkgZI
-         +AGYVbss/vb0hl22mDb5bH5a2ELJjekBM//ZKD2bnhoB6YFvAzu0WSkD4NREqdxkhmse
-         OGnEzMmc9729oxuajwq/HIpCsslPfD771umGg996zcYa0XLfBu6oQviS9fNBOBd9Vbpu
-         K6ct59Ez3pemU1O7sUNM8uUBZ/eaNhZMCN1eRGDw/G6yeWSJDt6z8zDLN6jz+ebkojC6
-         x0rw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792168769; x=1792773569; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AXnPIgMXiyBd1h2THh7HTsYWO/OramMboVGVD9BzIk8=;
-        b=XBLiA8XliZKkW3zJdWaMAxNTsvlCGvsyWdTYwW3nIJCs0bCr+uBm2maybYrtvNkvfd
-         3aCMqBRIqnCcYiPP0wQqXniUENZsyxZekOY5B0nWfDoWs0VSMwHJSeyMuEI8pyhimfB/
-         jyz6OgCHUJGJU2O5Paq/q1AfrY2aeHFnSJLdikiB1x9XYAwOyS8ON1tYx/7ZKCrOwJaC
-         9xNf0Q9RTptQd+UOAkPD1UKo2VRCoDIEBWQeNOpHMIGjotfBHpO3hrOqUpvp0ejpQag1
-         TNWHUcmgIWujwMTYg43NP1AuLDIuR+I6LCSZRu8J7W3pkv96n5UmJ08+YDJbAXbjrzLr
-         8HBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792168769; x=1792773569;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AXnPIgMXiyBd1h2THh7HTsYWO/OramMboVGVD9BzIk8=;
-        b=wZelSYQJCdySDE+4w5Oaj1+2cfu8skedylsdTNEO6rFh2DVaqYNeM1zrocVPqCCWIT
-         +A8i6c2KQyGypQ/Uo8wm7XJDpjG76BETBfmgOTSCIMKApE4TcNwhLa0sTu8LWnftvNe2
-         SeZ5AGHOpg0AXpl71O6LaREZlVa6D9cm61enCDQRaekbnpa9WTOjU6i0fSot2OsHtffy
-         y4pfjGIefqBpE2CYyAE37iiECxqLxRd80SmgltnZ74IGSJ/OesA/F99n5N1SV18I/soE
-         K/d8mJpzwhwCd6Fz73lao5Vp0Yw9cWwPJzio1zL4u3782ZdS1Vazq9UBKOtfrkMy63Cp
-         O/jA==
-X-Forwarded-Encrypted: i=1; AKwUvBw8/eAPMFqvWCfkkGsSbt54rzgTBQDPYQNBxlUPtUpiXaxGEqsbASIzQCa48gWdP6W293mI807aaXY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL3ZERQbi336OrsmpxvX1HBuQeP2xMNyPqBzC3ebA9ZqayeD2uv
-	MinJf3ehgjdJmw/ibGP98lcThAt3ipsj/aLAAMQWnAep3bmfGAbuF6foPMmfwIN1bjbeho4Ylf1
-	5P0VDibtcU/GTjEecO0vkUUNwXSC83vU=
-X-Gm-Gg: AYBFou1q4ns0dCTXAb2FZ9s468QhZhUYBeO7ThYB2YKqqB1/egsujFzsNhM0Uuwo0i/
-	c02T4LBT140fqOwhFCZqA+3dMhPMLDq3gp3cN8zrz1E50AN1cYqodufmLkxljchS6ptNoC30aFf
-	80GwqWBvlOsQ9PZKNL9UAduYpfZUv0Sl/KlADUtycxPqoUEbbWGZ6DXYXINTXI5NNNrgCr0e9Vg
-	zxlt3K8azWKAn/iU2tY4H9rY3O6ju79DhE/PJCS0taPaRUIsuvGZypHUlGvv7EJkTY1UsZkhJZW
-	AFEt/ALiWBL9IhegrF1g4NfWd+E5ai22Dtl2EEXHeL1G9226Gt8W5N37devcGQkhiQ==
-X-Received: by 2002:a05:620a:258d:b0:93a:f9:614a with SMTP id
- af79cd13be357-93f29d3838cmr70178285a.34.1792168768959; Fri, 16 Oct 2026
- 09:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZHEARvLf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49C781F000C5;
+	Fri, 16 Oct 2026 16:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792169097;
+	bh=k2PPYvoZtUDSB0QpI8y8nVKIfHe5I595bZB7KIFYEN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZHEARvLfZu4O/g6Nyh0bXYaTzR2KpzPxcMjSlF8WaiY/AYMp8ZUEmePIH0x36U+AV
+	 dkGwRrXAcFPcowGe92stgaKYD7QbEfeew/4welqoD2TdO8E3G7pWh4Akq9DgiIX+yY
+	 y7j2qTukGvCvUuXxqMnQU8W0m4veYSXueEI9aC/y0saah/MBrQvwOds90nNz56BGRz
+	 +QdA3dTRZZDcbLU9t9fTB+48//FTEt8/i35gzhvPAtyFMgY64PRofFRMPgv6Ez/dmW
+	 OX3dQA2Arl+QnBRQMKaCABNa+ahDxt+2Czw0mPgyVccH7WW3sgmmy1U8zy7PM0Rdoo
+	 WUGmNlCnL+E9g==
+Date: Fri, 16 Oct 2026 17:44:42 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4 13/22] modpost: cache section relocation mismatch state
+Message-ID: <atJSEhfOu-LWWHr_@gremlin>
+References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
+ <20260923-build-speedup-v4-13-73128809a4a4@kernel.org>
+ <d17b00f9-2a6c-425f-9697-6bc8f31f7a7a@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261014233318.34567-1-heyheyco@gmail.com> <a0fb773d-dff3-46d0-9bc6-f408049ba12d@roeck-us.net>
-In-Reply-To: <a0fb773d-dff3-46d0-9bc6-f408049ba12d@roeck-us.net>
-From: Qian Xiao <heyheyco@gmail.com>
-Date: Fri, 16 Oct 2026 09:38:51 -0700
-X-Gm-Features: AclHuK_bv1MWXz6zynnaQJQy2jLr00--eLrquQDSSFo031ibxp4R7aAroGr5hV0
-Message-ID: <CAFGXJCn6ODtgLtnCSgciVWCaXQCYHXbMfPKBCR+-XSjT31Do-Q@mail.gmail.com>
-Subject: Re: [PATCH] hwmon: (asus_wmi_sensors) Drop misleading BIOS upgrade advice
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Ed Brindley <kernel@maidavale.org>, Denis Pauk <pauk.denis@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d17b00f9-2a6c-425f-9697-6bc8f31f7a7a@suse.com>
 
-Thanks, that makes sense. Sent v2:
-https://lore.kernel.org/linux-hwmon/20261016163509.249020-1-heyheyco@gmail.=
-com/
-
-On Fri, Oct 16, 2026 at 9:09=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> =
-wrote:
+On Thu, Oct 15, 2026 at 05:42:45PM +0200, Petr Pavlu wrote:
+> On 9/23/26 7:18 PM, Lorenzo Stoakes (ARM) wrote:
+> > For every relocation modpost invokes check_section_mismatch() to determine
+> > whether there is any kind of mismatch between the source and destination,
+> > and if so which classification applies.
+> >
+> > Each time it does this it invokes section_mismatch() which iterates
+> > through the sectioncheck[] array every time it's called.
+> >
+> > When walked a relocation section the source is fixed and there aren't many
+> > targets, so the same names are looked up over and over again.
+> >
+> > Therefore cache not only mismatch categorisation but also whether a
+> > mismatch even exists for a given section and look up the sections in the
+> > cache.
+> >
+> > Special indices (undefined, absolute, common) take the uncached path as
+> > before.
+> >
+> > This results in very significant speed ups for allmodconfig incremental
+> > builds.
+> >
+> > modpost is on the serial tail of every build that links vmlinux.
+> >
+> > Whole build, 128-thread Threadripper 9980X, best of N runs:
+> >
+> >                                          before   after     delta
+> >                                          -------------------------------
+> >   x86 defconfig, touch mm/vma.c, gcc        8.5s     8.3s    -0.14s (-2%)
+> >   x86 defconfig, touch mm/vma.c, clang      7.7s     7.6s    -0.13s (-2%)
+> >   x86 allmodconfig, touch mm/vma.c, gcc    33.9s    29.4s     -4.5s (-13%)
+> >   x86 allmodconfig, touch mm/vma.c, clang  31.9s    27.9s     -4.0s (-13%)
+> >
+> > Assisted-by: LLM
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >
-> On 10/14/26 16:33, Qian Xiao wrote:
-> > The Known Issues section suggests that upgrading to a BIOS with WMI
-> > method version two or greater should rectify the problem. However, the
-> > driver refuses to bind when the BIOS reports a version below two, so
-> > every system using the driver already meets that condition and the
-> > advice does not help.
-> >
-> > Remove the sentence. While at it, fix a typo in the preceding sentence.
-> >
-> > Link: https://lore.kernel.org/linux-hwmon/CAFGXJCm6ZWK0NsFhZ1_ycgYtTTT3=
-nhqj9mose60t+Rrry1aPvw@mail.gmail.com/
-> > Signed-off-by: Qian Xiao <heyheyco@gmail.com>
+> This looks mostly ok to me. Below are some nits you might want to
+> consider addressing.
+
+Thanks! :)
+
+>
 > > ---
-> > For context, the fan issue has continued to be reported with the in-tre=
-e
-> > driver (which implies method version >=3D 2), e.g.:
-> > https://www.reddit.com/r/archlinux/comments/tunnvb/psa_if_youre_experie=
-ncing_weird_fan_behaviour_on/
-> > https://forums.unraid.net/topic/131340-semi-solved-611x612x-bug-system-=
-fans-stopped-after-a-few-hours-asus-mainboard-linux-517-driver-asus-wmi-dri=
-ver-issue/
+> >  scripts/mod/modpost.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 64 insertions(+), 2 deletions(-)
 > >
->
-> Then maybe the advice should be changed to "upgrading to a more recent BI=
-OS
-> version might help" instead of being dropped entirely.
->
-> Guenter
->
->
-> >   Documentation/hwmon/asus_wmi_sensors.rst | 4 +---
-> >   1 file changed, 1 insertion(+), 3 deletions(-)
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 75374c64b8cc..0fd43c8a89ea 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -1155,12 +1155,67 @@ static void check_export_symbol(struct module *mod, struct elf_info *elf,
+> >  			 name);
+> >  }
 > >
-> > diff --git a/Documentation/hwmon/asus_wmi_sensors.rst b/Documentation/h=
-wmon/asus_wmi_sensors.rst
-> > index 8f2096c..f6fa66f 100644
-> > --- a/Documentation/hwmon/asus_wmi_sensors.rst
-> > +++ b/Documentation/hwmon/asus_wmi_sensors.rst
-> > @@ -72,7 +72,5 @@ Known Issues:
-> >      X470 Pro seems particularly bad for this. The more frequently the =
-WMI
-> >      interface is polled the greater the potential for this to happen. =
-Until you
-> >      have subjected your computer to an extended soak test while pollin=
-g the
-> > -   sensors frequently, don't leave you computer unattended. Upgrading =
-to new
-> > -   BIOS version with method version greater than or equal to two shoul=
-d
-> > -   rectify the issue.
-> > +   sensors frequently, don't leave your computer unattended.
-> >    * A few boards report 12v voltages to be ~10v.
+> > +/*
+> > + * mismatch_cache[section index] ->
+> > + *   0 - uncached.
+> > + *  -1 - no mismatch.
+> > + *  >0 - mismatch index + 1.
+> > + */
+> > +static int *mismatch_cache;
 >
+> It might be cleaner to maintain this cache per elf_info, since it
+> logically belongs to the processing of an individual ELF file. This
+> would also be consistent with the existing symsearch cache, which uses
+> elf::symsearch.
+
+Ack, makes sense, moved the decl inside elf_info.
+
+>
+> The description could use 'to_secndx' instead of 'section index' to
+> clarify whether it refers to the source or destination section of
+> a relocation.
+
+Ack, updated for v5.
+
+>
+> > +
+> > +static void init_mismatch_cache(unsigned int num_sections)
+> > +{
+> > +	mismatch_cache = xcalloc(num_sections, sizeof(*mismatch_cache));
+> > +}
+> > +
+> > +static void reset_mismatch_cache(unsigned int num_sections)
+> > +{
+> > +	memset(mismatch_cache, 0, num_sections * sizeof(*mismatch_cache));
+> > +}
+> > +
+> > +static void free_mismatch_cache(void)
+> > +{
+> > +	free(mismatch_cache);
+> > +	mismatch_cache = NULL;
+> > +}
+> > +
+> > +static const struct sectioncheck
+> > +*cache_mismatch(unsigned int secndx, const struct sectioncheck *mismatch)
+>
+> Similarly here, s/secndx/to_secndx/.
+
+Ack, done.
+
+>
+> > +{
+> > +	if (!mismatch) {
+> > +		mismatch_cache[secndx] = -1;
+> > +		return NULL;
+> > +	}
+> > +
+> > +	mismatch_cache[secndx] = (mismatch - sectioncheck) + 1;
+> > +	return mismatch;
+> > +}
+> > +
+> > +static const struct sectioncheck *get_section_mismatch(const char *fromsec,
+> > +		const struct elf_info *elf, unsigned int secndx)
+>
+> s/secndx/to_secndx/, and the fromsec and elf arguments could be swapped
+> for consistency with the rest of the code.
+
+Ack, done.
+
+>
+> > +{
+> > +	int cached;
+> > +
+> > +	if (secndx >= elf->num_sections)
+> > +		return section_mismatch(fromsec, sec_name(elf, secndx));
+> > +
+> > +	cached = mismatch_cache[secndx];
+> > +	if (cached < 0)
+> > +		return NULL;
+> > +	if (cached > 0)
+> > +		return &sectioncheck[cached - 1];
+> > +
+> > +	return cache_mismatch(secndx,
+> > +			      section_mismatch(fromsec, sec_name(elf, secndx)));
+> > +}
+> > +
+> >  static void check_section_mismatch(struct module *mod, struct elf_info *elf,
+> >  				   Elf_Sym *sym,
+> >  				   unsigned int fsecndx, const char *fromsec,
+> >  				   Elf_Addr faddr, Elf_Addr taddr)
+> >  {
+> > -	const char *tosec = sec_name(elf, get_secindex(elf, sym));
+> > +	const unsigned int to_secndx = get_secindex(elf, sym);
+>
+> The const qualifier can be dropped from the to_secndx definition to
+> match the usual kernel style.
+
+Ack, done.
+
+>
+> --
+> Thanks,
+> Petr
+
+Thanks for the review!
+
+--
+Cheers, Lorenzo
