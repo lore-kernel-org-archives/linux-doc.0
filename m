@@ -1,413 +1,260 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012071.outbound.protection.outlook.com [52.101.53.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E980348C6B;
-	Fri, 16 Oct 2026 21:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792185115; cv=none; b=Qg8KtTTHbIscm69sbJrPpk1Wg6fR6ARJYdmn0bcFet1+v5aY94KByv3eW7qCznN0NIRgYtho46ja1o7GClXKR/Vk+2Po3yNGao9qSuQhK9y7B7YevUSWHHZ57MWJ5UG9gVJ3GNpDk5LJgWc3vG3SPMOt8wud6vNvwS4dsBcvjzA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792185115; c=relaxed/simple;
-	bh=v5IRc2wXkJvb9zEx9NMmKT+hK8jhjvsVg6/IJYj+gEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zu3ehefq6L5t3pE7IUA6vQiJz2H5rJaJLhPGVDOh9zsoo3FyeHGmjBqS+Uym+zzhZE+cmfmKqxHdNnzEYSZtDI9cq+QH8fOCKKrL5Hfpilv9ccr+F0a0jRJ8foaJFy3OVTE/32IqUv3RNxwbbY+f91ACFH1hLGm1hPum6fp/evA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ibfn3GXR; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E973F1046;
+	Fri, 16 Oct 2026 21:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792186408; cv=fail; b=qUnnQR+Xb7K2vh7VLMKccxUlhAVcH+gsRcO2L+lm6gELAu+OC7JVe61g+sfDCzoER0x4dvaPKstJ7xbqTlzeqsXRBhRs86eC6RlGHzSv0YnxTuY9zLW14XQKXvHkH0VBeWqKbWjWYVUr1g8vJfAQT9Ks2ZhJrMysSUvyNXAwhrY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792186408; c=relaxed/simple;
+	bh=+5h2ULNN/hZLwy12Y7wiUXQIkO8IIc3cr+Gjx5EU92w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=naq+JH0sldjgDL/NYVODEmTf41yzWPh8yzcybQvEufh2X2iCcyG5psxQrYo5LYCmxGMDL/G9HojV0Vvd0Z61Pu0Yr54kuf8xooKNaPoUEd1qnO2YcBAjxTbatTJDssnI1vheJkxsyyPEdg6L88G5eSnNjZXze9Q1hHwcMZlqIuE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=v+PxE4PB; arc=fail smtp.client-ip=52.101.53.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ibfn3GXR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15B291F000C4;
-	Fri, 16 Oct 2026 21:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792185113;
-	bh=2tEGSeF5PI35Lt2CQPZaEHitbLYXEGdQbg6YAh37VEU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Ibfn3GXRGAzXdkltyjMBNq2ArWdRdSJRJkwjOFbDhecAKm9B4NfzLIgCAF7tvTvLD
-	 lKLsFFfdurC5miZLFn72wsAHygR8YBvo4bhLD/WxeXL0BMsj7nZtqchLbt7WmoXy/j
-	 L2ttbSHVVi9BQhL46o7+hYVQOiFkueoM1kigYhfAxcHaFq/kofNsht9Pci7P1+L1EF
-	 Kt/xthVwWi2solX8hXftLUdleM5XSCRIHsyLUf7qMemM4LQxmUPYHGprIIJsIJlNLW
-	 l8hqYUcg7OUV9/NVb8biL/yXAZwWSw4sSPBDlNQSgm7ZQxaPVrgIaPd8ULBYiPADhe
-	 AM1ZgFHyTzPfg==
-Date: Fri, 16 Oct 2026 23:11:48 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- rdunlap@infradead.org, mchehab@kernel.org, paulmck@kernel.org,
- linusw@kernel.org, Julia.Lawall@inria.fr, gary@garyguo.net,
- rmk+kernel@armlinux.org.uk, hemanth.selam@gmail.com
-Subject: Re: [PATCH] docs: kdoc: handle TRACE_EVENT_FN() family in
- tracepoint parser
-Message-ID: <20261016231148.7b5a88ef@foz.lan>
-In-Reply-To: <20261016204335.46241-1-emmaonana18@gmail.com>
-References: <20261015190639.7b722dd7@foz.lan>
-	<20261016204335.46241-1-emmaonana18@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="v+PxE4PB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gq3SOVTM6J2uA4088izoYMXO8sggc2nETScvv85gbF86tsZdCEvyDNisIsRXmR9R2XptY9qrDC8ORAUgbIUoxK6QbLjmsqqxGteYkDgcox4yRVb9W0SIqnrrjQRmWv3oOhw2ePDtEqWzCM3OLZ+zQ2IKl5I2N/AeP9Wx6pm/+319sCI1x/aSp89HbbHeQC9/X0lmI6BWl0PGA+1R++xkiqtX5n4yZcnjwDLdJwrl31YSGiswXI6MfvYe18X4ZndpyS0+IzfXP+6S0m8RWV5vGhdbeba87JpEm1XnArfkqR02rcxNwzcQo9GZuz1Ut9teW6faKSl/aKzZVwLh3NMNrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XWCmXYUgzja27WQRclz7GDyB4RO872xsPlU51jh879Q=;
+ b=kYPNwpPGICx53xdKWlMU2nHUetDoyw+xVD/bjGdpZNTAgqVvXwePpkyDUwl8id24xyNH4bcP5J8EwjkkxocidMef66R5EZjTjBnhFEOeACqWT4bvEnEhbej+JD1Pzrdgf8hz+p9cDeg7eWnrKGc6uIDyoCMXHPZx/0Cq1oEYXkTV/Lbh5PKJ7JDKVy/DRkQCDra+b8+OZQOEoOBMeG+ja/gxJGq4Nkr6V/npH6T29aJiSlUzgaaSr1vNSKsnidJvpxR3WiVEAxlL+M0oQGqXRgFV+fkQgor3NJqhu3MmgXhxZ3JyIrH0XTmBatesTh4mX8P8naGdBoDt86c8n1PvrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWCmXYUgzja27WQRclz7GDyB4RO872xsPlU51jh879Q=;
+ b=v+PxE4PBUWRYzoD5rODcMMA7/nKwJ3WLjE39qBlIT3BXXFgjJICth3vnok7OY7Wv0BC7l30q6HEmrR4/4o4KVBMQ2/DvS6BLyKp9J7pr7AjWeoikx62QkSZJIkC3dOqZ00oXI7tiq2rfCkUDIPmjlIeKHMyifg4Aky5avgO57Bs=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by IA0PR12MB7577.namprd12.prod.outlook.com (2603:10b6:208:43e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 21:33:20 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 21:33:20 +0000
+Message-ID: <d7ba6551-adfc-4078-abd7-0f016d7a5dfa@amd.com>
+Date: Fri, 16 Oct 2026 16:33:10 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 11/18] fs/resctrl: Introduce kmode_cpus/kmode_cpus_list
+ per rdtgroup
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
+ ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+ akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
+ elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
+ kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
+ ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
+ ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
+ prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
+ elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <54b0c60041902accde067b48bc3178c6756294d6.1790867441.git.babu.moger@amd.com>
+ <0096fb82-4104-429a-bd69-7f733624c664@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <0096fb82-4104-429a-bd69-7f733624c664@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7PR04CA0027.namprd04.prod.outlook.com
+ (2603:10b6:806:f2::32) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA0PR12MB7577:EE_
+X-MS-Office365-Filtering-Correlation-Id: de15c6bb-5762-4262-4f4d-08df2bcd192b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|56012099006|6133799003|10067099003|18002099003|22082099003|3023799007|4143699003|11063799006|261009223027099003;
+X-Microsoft-Antispam-Message-Info:
+	ATarEq0qekcuJ3PgPg5XDJd3vtJSTrVJ62JBdBi45de0B1l2MXSIKQJxrb1nxGtyBhUl+UkwGEppM2U0iyHb4hwHSdtTTNhEVF3U3KgLCuuCIzk+/utDxwdzTFHJsfhvW33Fiuhe22QdxsFCpf8j7iswjgIdzPXOWR+6zMKnKcYpcqv1D5cSRkJ96Zouoi6nH9GhkpG/SFiPJeSlOvudb9azPlEqbLDNNmifC5szXYGD73Vo7Vgem+D4SMBH1O1JIM9y045PwbgcfUVPDZKvmy/sniSapUms9I/jQfRSRGEc7E54ZPHH1hmhnjSbUXEXBagogIAWKxilvmSSDdvlUXIDFgHkCOJmTVy1aFORAaf9fSOh8CrIXlZwdInapDNNDJxo13zdaqNKEUw0fTbJ7iCfUsvWVefn9ytURJKYzL2LZJSxyX03hCpzIMg2OnXSqNG4u2+3h29a8y1acNZw4tXWeKmkn3SwqpnqStd0HlIKUioJqseet2nAgfu1bYd+A0S17lrIT8ZVwl0hUjKF/Yf+mYYvKhhpGm+C7Gh1ytg2QZw1qizy7rERv0Bjxtfc4h/D8b2T3C0PLhabvpmbTZGA10w/eLomohvzJMo0ZYR79c6n/u04+ssag5spOh19HFybEwK1xo2HFsBac0p72it1bVI8/dLmLwJMDd9dE50=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(56012099006)(6133799003)(10067099003)(18002099003)(22082099003)(3023799007)(4143699003)(11063799006)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aDlVYldSMEFZb2lkekpDeTlhbHVEMTJoWWVqdG5XbWg2K2s1bFUwekVWcGsy?=
+ =?utf-8?B?SnVqdkZXYnF3SFZkaitrc0VXM1c3LzllZEY3NUVwbHRTbk5QZjlianpmVi9F?=
+ =?utf-8?B?MWoyeG91UFpHQ1FURXF6ejByaUNJS1pLOHcyL21qTUZVenV4RjUvWWo4MDY3?=
+ =?utf-8?B?MENIYk9ubGdsNmo4NGZaSXVHQkNxZERrdDRNdWMzaysxNGdtK0hOUkhqdE95?=
+ =?utf-8?B?OEgzRnhSdWZBb05Ib2hXTnNaYTVTeDJGbUpISXZYV1o2Ky9UWFRWVjVjMkFh?=
+ =?utf-8?B?QVAwRnpOVjZadVFpOTJHaEE2RVhiZzhQT1prRGQwb3ZPaXlpeWt3U1VqdUtv?=
+ =?utf-8?B?Z2dYbkZPaVRhbUtCZ1E2bVpUWWZwRzN1TVluUHdXUXl1SHdFaGFaWDROWnZm?=
+ =?utf-8?B?emJsb2N4bjRKTE9NeDU2UmVrNngyRWo0VWMyVXJSekJUUlp0Z1lmNFVhQkVX?=
+ =?utf-8?B?b2pPb1FYc1JVb0RxdVNFczV2bmt0ZldkY1VjTHhkRDJWaVJsNVc0dHpXck4v?=
+ =?utf-8?B?MkQzakpBaWlidHdBeGUrRnJxdkFKSFZLNlNWRXpsd1kyMDRlMmtrb0ViNUJt?=
+ =?utf-8?B?ZkFmNUNXUkk1Z2lWNWEySTZRY1BVY3kxM04vWEk3MTdnbHU2ZEdSSDA2aWlj?=
+ =?utf-8?B?dnpUVXozRGxWMDhIYXNiNUVQQTh6dGhFU0hFSnNtM0FvNzJGam84UTYxMGFn?=
+ =?utf-8?B?L1lWM0xOZEhXSnBSL2J1ejNLaXRBZis3ZlAvVTlIVW9tRGN6d2VIcENJSDNB?=
+ =?utf-8?B?WEJ1KzgzZ1phTm43MnA2eW10ZGNJUzl4MndrVXA0RzJaSS9OOEVwYTNMZXY3?=
+ =?utf-8?B?eGlaeDROTzU3R1BtR3BtSklRUTFML3M4dEhPZkhya2FOUTA5S2ZoVjNoSFlx?=
+ =?utf-8?B?TmNxQWV3dzRXWFQ5djlzZW92blJ3MzEycHVlQmZHRzVkSHR6dXlVRTZ5a01M?=
+ =?utf-8?B?bjcxcjBGK0EzSlNlcFBGekowRUhCNDR2L0lLSExUOTkwc0NvWDRzelBuanRv?=
+ =?utf-8?B?c1NsL01DUFZzRmlBa3FzN1NwSUFhRDlzQW82SitDWGtVeGx1Y203SVBoWHlx?=
+ =?utf-8?B?eU1JMUdhdGFNYTNsZjA5VXZBS2ZrYUJuNUdvNGoxT3NrTk9NVWkzM2dBK1FR?=
+ =?utf-8?B?N0QyMlhTdHoxdUxhcndWSXRwNENFL1pjQ0VlTUs4eDlhWllpbzRJemQvZ0pU?=
+ =?utf-8?B?Q0tKcE5vZm5lZnBuV1pmd0ZzUk1lOVI0YUpqUG5yK1huVWNiRkw4by9mVFhD?=
+ =?utf-8?B?d2d4WjArb0FoQWMwZ0hYandDdmduQllDUklKZ0ovT29hTkdFMElDVTNrSTdl?=
+ =?utf-8?B?eEVYYk4zbFY4S1BWYmJZTGl5bk5hKy9mZTB4VlFLV2pNdlVBUjFmOFpTT0No?=
+ =?utf-8?B?NWNQMzVtSmFuVE9MQldIaUIxdWRQQnR6NkFkWDRvK00wRFhGVU9QSW9xLytP?=
+ =?utf-8?B?NUF6Q0wyVUh1ZFc1WTZackQ3dlNYMC90dVo5aWpyejlxT1M1VUoxUTE0ZUlZ?=
+ =?utf-8?B?aUJTR2hnbG1LLy83a0lsNWRXeGZQanZFSHhUN0hSZEhVdmVJdVdWM2NDTVNs?=
+ =?utf-8?B?TFdYakJDZHU2WEVPVFgrNHcvQ1BLRVhzSzNqL2Ftbm4wanhPUEhYVWlxeUhV?=
+ =?utf-8?B?RFlSNlRpc0tPWHdPUmI3WE45Mml4NHpLMTJGVDdFb0hvZUQ5Q2RtZHZaZHdN?=
+ =?utf-8?B?NWd1aG5RRG1xKzFDcTU5UTdqUHl2ZmJNMzBxTk9XS2MyZStLNWFrS09zanRk?=
+ =?utf-8?B?RGJqSS9aVTlzcEV0bHVGUlNZN2x1eiswc2llVkdraVErenVxSEkwbjZDMUoz?=
+ =?utf-8?B?SC9nVDRpWlNyanRzbE54aU1uR2VwMms1RjBtZ0NCejhBOU1abFNtL1hoLzFB?=
+ =?utf-8?B?U1RtK0lGaG40aGthQ1JxcUFBRCt6a2NlSVhMcWJkZHJEclc4WUhtVWt2Ym9q?=
+ =?utf-8?B?azZFV0x4QnJkQ1hpNkR6bkNrUnFueGdMK0ZNbU1saFFpMU5OK0NYc0hhUmxv?=
+ =?utf-8?B?UWM5RVdZSHI3T09hQzFhcCt0ekFyaGtkS3hkamRtUzRFcnRMT2RXZUhBL0pn?=
+ =?utf-8?B?NWtDT21aUktxY2lwOG4zMlU5RG9iZGJmaURVaXBkTVdjM21JOGFESmJ3c2JV?=
+ =?utf-8?B?ak1pODlXaDZnZkhxbnNKdUpkUXkzR3lIT2ExZThqQ0FuMk1SNzlWYjFBOXRp?=
+ =?utf-8?B?NDlRQTd3a1YwWHo2d1phekJCcDlMSEVMTEZpZXN5RzhQUDRHNzc3eVNsVis3?=
+ =?utf-8?B?ZDhtNm1hTldXeCtyMnc0TTQ3dkVQSGhoeHNsSVp3R1NIb2ZQVCtSWVR5dGVK?=
+ =?utf-8?Q?fC+d54r8x7BHUeJ1u+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de15c6bb-5762-4262-4f4d-08df2bcd192b
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 21:33:20.7845
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zlGhyetg0c3gyKuzLzvjYegLjyL/1wmje2ZAjdWqvS3kjYybK0bkGk2ZJdfrJjZK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7577
 
-On Fri, 16 Oct 2026 21:43:35 +0100
-Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com> wrote:
+Hi Reinette,
 
-> kernel-doc fails to parse tracepoint declarations that use
-> TRACE_EVENT_FN(), e.g. gpu_power_status:
+
+On 10/15/2026 10:31 AM, Reinette Chatre wrote:
+> Hi Babu,
 > 
->   drivers/gpu/drm/panthor/panthor_trace.h:28 ... Unrecognized
->   tracepoint format ...
->   ... expecting prototype for gpu_power_status(). Prototype was for
->   TRACE_EVENT_FN() instead
+> On 10/1/26 8:10 AM, Babu Moger wrote:
+>> The RESCTRL_GLOBAL_ENABLE_PER_CPU kernel mode allows tasks to use different
+>> allocation and monitoring associations when transitioning from user mode to
 > 
-> tracepoint_munge() only matches TRACE_EVENT(), so the macro name is
-> kept as the prototype and the TP_PROTO() arguments leak into the
-> parameter list as garbage.
-> 
-> Match TRACE_EVENT_FN(), TRACE_EVENT_FN_COND(),
-> TRACE_EVENT_CONDITION() and TRACE_EVENT_SYSCALL() the same way as
-> TRACE_EVENT()
-> 
-> Add a regression test for the gpu_power_status declaration.
-> 
-> Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-> ---
-> Move tracepoint handling to xforms_lists, together with SYSCALL_DEFINE
-> as requested by Mauro.
-> 
-> Question for Mauro: is adding syscall_munge() and
-> tracepoint_munge() in apply() what you meant, or
-> did you want a pure CMatch? 
+> Could "different allocation and monitoring associations" just be "different
+> CLOSID and RMID" (in places where this is what it refers to)? Being specific
+> and consistent with terms would make this so much easier to understand.
 
-I meant a pure CMatch. One of the hardest things to maintain at
-kernel-doc are those complex regex logic spread all over it. The
-goal for CMatch and the C tokenizer is to avoid adding more - and 
-instead - to reduce the existing ones over time.
-
-In the specific case of commas, the tokenizer, ideally double commas
-should be generating a singe STRING token and single commas a single
-CHAR.
-
-> A pure CMatch looks
-> like it would need a tokenizer fix for nested
-> commas, so I'd prefer to keep it this way unless
-> you want the pure CMatch rework.
-
-If the nested commas logic there is broken, indeed it needs a fix, on a 
-separate patch.
+I avoided using CLOSID and RMID terms in filesystem specific code. If 
+you are ok with that then I will use these terms.
 
 > 
->  tools/lib/python/kdoc/kdoc_parser.py  | 110 ++++++--------------------
->  tools/lib/python/kdoc/xforms_lists.py | 109 +++++++++++++++++++++++++
->  tools/unittests/test_kdoc_parser.py   |  28 +++++++
->  3 files changed, 159 insertions(+), 88 deletions(-)
+>> kernel mode. The mode is enabled/disabled on a per-CPU basis.
+>>
+>> Add kmode_cpus and kmode_cpus_list to display the CPUs associated with a
+>> kernel mode. These files are exposed only when the global_enable_per_cpu
 > 
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index 80d4245acd17..a274e06b9f23 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -1059,8 +1059,27 @@ class KernelDoc:
->              #
->              # Apply the initial transformations.
->              #
-> +            # This also handles SYSCALL_DEFINE*() and TRACE_EVENT*()/
-> +            # DEFINE_EVENT*() via CTransforms (see xforms_lists.py).
-> +            #
->              prototype = self.xforms.apply("func", prototype)
->  
-> +            #
-> +            # Tracepoints are documented with their short name, e.g.
-> +            # gpu_power_status for trace_gpu_power_status().
-> +            # Accept the short name and store the full trace_ name.
-> +            #
-> +            r = KernRe(r'\btrace_(\w+)')
-> +            if r.search(prototype):
-> +                if self.entry.identifier == r.group(1):
-> +                    self.entry.identifier = f"trace_{self.entry.identifier}"
-> +
-> +
-> +            r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-> +            if r.search(prototype):
-> +                self.emit_msg(ln,
-> +                              f"Unrecognized tracepoint format:\n{prototype}\n")
-> +
->          # Yes, this truly is vile.  We are looking for:
->          # 1. Return type (may be nothing if we're looking at a macro)
->          # 2. Function name
-> @@ -1493,82 +1512,6 @@ class KernelDoc:
->              self.entry.add_text(doc_content.group(1))
->          # else ... ??
->  
-> -    def syscall_munge(self, ln, proto):         # pylint: disable=W0613
-> -        """
-> -        Handle syscall definitions.
-> -        """
-> -
-> -        is_void = False
-> -
-> -        # Strip newlines/CR's
-> -        proto = re.sub(r'[\r\n]+', ' ', proto)
-> -
-> -        # Check if it's a SYSCALL_DEFINE0
-> -        if 'SYSCALL_DEFINE0' in proto:
-> -            is_void = True
-> -
-> -        # Replace SYSCALL_DEFINE with correct return type & function name
-> -        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
-> -
-> -        r = KernRe(r'long\s+(sys_.*?),')
-> -        if r.search(proto):
-> -            proto = KernRe(',').sub('(', proto, count=1)
-> -        elif is_void:
-> -            proto = KernRe(r'\)').sub('(void)', proto, count=1)
-> -
-> -        # Now delete all of the odd-numbered commas in the proto
-> -        # so that argument types & names don't have a comma between them
-> -        count = 0
-> -        length = len(proto)
-> -
-> -        if is_void:
-> -            length = 0  # skip the loop if is_void
-> -
-> -        for ix in range(length):
-> -            if proto[ix] == ',':
-> -                count += 1
-> -                if count % 2 == 1:
-> -                    proto = proto[:ix] + ' ' + proto[ix + 1:]
-> -
-> -        return proto
-> -
-> -    def tracepoint_munge(self, ln, proto):
-> -        """
-> -        Handle tracepoint definitions.
-> -        """
-> -
-> -        tracepointname = None
-> -        tracepointargs = None
-> -
-> -        # Match tracepoint name based on different patterns
-> -        r = KernRe(r'TRACE_EVENT\((.*?),')
-> -        if r.search(proto):
-> -            tracepointname = r.group(1)
-> -
-> -        r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
-> -        if r.search(proto):
-> -            tracepointname = r.group(1)
-> -
-> -        r = KernRe(r'DEFINE_EVENT\((.*?),(.*?),')
-> -        if r.search(proto):
-> -            tracepointname = r.group(2)
-> -
-> -        if tracepointname:
-> -            tracepointname = tracepointname.lstrip()
-> -
-> -        r = KernRe(r'TP_PROTO\((.*?)\)')
-> -        if r.search(proto):
-> -            tracepointargs = r.group(1)
-> -
-> -        if not tracepointname or not tracepointargs:
-> -            self.emit_msg(ln,
-> -                          f"Unrecognized tracepoint format:\n{proto}\n")
-> -        else:
-> -            proto = f"static inline void trace_{tracepointname}({tracepointargs})"
-> -            self.entry.identifier = f"trace_{self.entry.identifier}"
-> -
-> -        return proto
-> -
->      def process_proto_function(self, ln, line, source):
->          """Ancillary routine to process a function prototype."""
->  
-> @@ -1598,18 +1541,9 @@ class KernelDoc:
->              r = KernRe(r'^(\S+\s+)\(\s*\*(\S+)\)')
->              self.entry.prototype = r.sub(r'\1\2', self.entry.prototype)
->              #
-> -            # Handle special declaration syntaxes
-> -            #
-> -            if 'SYSCALL_DEFINE' in self.entry.prototype:
-> -                self.entry.prototype = self.syscall_munge(ln,
-> -                                                          self.entry.prototype)
-> -            else:
-> -                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-> -                if r.search(self.entry.prototype):
-> -                    self.entry.prototype = self.tracepoint_munge(ln,
-> -                                                                 self.entry.prototype)
-> -            #
-> -            # ... and we're done
-> +            # ... and we're done. SYSCALL_DEFINE*() and TRACE_EVENT*()/
-> +            # DEFINE_EVENT*() are handled via xforms_lists.CTransforms
-> +            # inside dump_function().
->              #
->              self.dump_function(ln, self.entry.prototype, source)
->              self.reset_state(ln)
-> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-> index 15f6f21c7a9e..aa82dc927ef1 100644
-> --- a/tools/lib/python/kdoc/xforms_lists.py
-> +++ b/tools/lib/python/kdoc/xforms_lists.py
-> @@ -17,6 +17,98 @@ class CTransforms:
->      into something we can parse and generate kdoc for.
->      """
->  
-> +    @staticmethod
-> +    def syscall_munge(proto):
-> +        """
-> +        Handle syscall definitions.
-> +
-> +        Turns SYSCALL_DEFINE*() into a plain C prototype, e.g.::
-> +
-> +            SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
-> +            -> long sys_setpriority(int which, int who, int niceval)
-> +        """
-> +
-> +        is_void = False
-> +
-> +        # Strip newlines/CR's
-> +        proto = re.sub(r'[\r\n]+', ' ', proto)
-> +
-> +        # Check if it's a SYSCALL_DEFINE0
-> +        if 'SYSCALL_DEFINE0' in proto:
-> +            is_void = True
-> +
-> +        # Replace SYSCALL_DEFINE with correct return type & function name
-> +        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
-> +
-> +        r = KernRe(r'long\s+(sys_.*?),')
-> +        if r.search(proto):
-> +            proto = KernRe(',').sub('(', proto, count=1)
-> +        elif is_void:
-> +            proto = KernRe(r'\)').sub('(void)', proto, count=1)
-> +
-> +        # Now delete all of the odd-numbered commas in the proto
-> +        # so that argument types & names don't have a comma between them
-> +        count = 0
-> +        length = len(proto)
-> +
-> +        if is_void:
-> +            length = 0  # skip the loop if is_void
-> +
-> +        for ix in range(length):
-> +            if proto[ix] == ',':
-> +                count += 1
-> +                if count % 2 == 1:
-> +                    proto = proto[:ix] + ' ' + proto[ix + 1:]
-> +
-> +        return proto
-> +
-> +    @staticmethod
-> +    def tracepoint_munge(proto):
-> +        """
-> +        Handle tracepoint definitions.
-> +
-> +        Turns TRACE_EVENT*()/DEFINE_EVENT*() into a plain C prototype,
-> +        e.g.::
-> +
-> +            TRACE_EVENT_FN(gpu_power_status, TP_PROTO(...), ...)
-> +            -> static inline void trace_gpu_power_status(...)
-> +
-> +        Returns the original string if the tracepoint format is not
-> +        recognized, letting the caller emit a warning.
-> +        """
-> +
-> +        tracepointname = None
-> +        tracepointargs = None
-> +
-> +        # Match tracepoint name based on different patterns.
-> +        # NOTE: DEFINE_EVENT*() takes a template name first, so the
-> +        # event name is the second argument.
-> +        for pattern, group in [
-> +            (r'TRACE_EVENT\((.*?),', 1),
-> +            (r'TRACE_EVENT_FN\((.*?),', 1),
-> +            (r'TRACE_EVENT_FN_COND\((.*?),', 1),
-> +            (r'TRACE_EVENT_CONDITION\((.*?),', 1),
-> +            (r'TRACE_EVENT_SYSCALL\((.*?),', 1),
-> +            (r'DEFINE_SINGLE_EVENT\((.*?),', 1),
-> +            (r'DEFINE_EVENT\((.*?),(.*?),', 2),
-> +        ]:
-> +            r = KernRe(pattern)
-> +            if r.search(proto):
-> +                tracepointname = r.group(group)
-> +
-> +        if tracepointname:
-> +            tracepointname = tracepointname.lstrip()
-> +
-> +        r = KernRe(r'TP_PROTO\((.*?)\)')
-> +        if r.search(proto):
-> +            tracepointargs = r.group(1)
-> +
-> +        if not tracepointname or not tracepointargs:
-> +            return proto
-> +
-> +        return f"static inline void trace_{tracepointname}({tracepointargs})"
-> +
-> +
->      #
->      # NOTE:
->      #      Due to performance reasons, place CMatch rules before KernRe,
-> @@ -147,6 +239,23 @@ class CTransforms:
->          if xforms_type not in self.xforms:
->              return source
->  
-> +        #
-> +        # Handle special declaration syntaxes first, so that the
-> +        # declarative transforms below see plain C prototypes.
-> +        #
-> +        if xforms_type == "func":
-> +            source_str = str(source)
-> +            if 'SYSCALL_DEFINE' in source_str:
-> +                source_str = self.syscall_munge(source_str)
-> +                source = source_str
-> +            else:
-> +                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-> +                if r.search(source_str):
-> +                    munged = self.tracepoint_munge(source_str)
-> +                    # tracepoint_munge() returns the input unchanged
-> +                    # when the format is not recognized.
-> +                    source = munged
-> +
->          if isinstance(source, str):
->              source = CTokenizer(source)
->  
-> diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-> index 4baa78ca02b3..04dafae412e4 100755
-> --- a/tools/unittests/test_kdoc_parser.py
-> +++ b/tools/unittests/test_kdoc_parser.py
-> @@ -444,6 +444,34 @@ class TestContextLockStruct(GenerateKdocItem):
->          self.assertEqual(entries[0].name, "debugfs_cancellation")
->          self.assertEqual(entries[0].warnings, [])
->  
-> +class TestTraceEventFn(GenerateKdocItem):
-> +    def test_trace_event_fn_declaration(self):
-> +        source = """
-> +            /**
-> +             * gpu_power_status - called when hardware turns on or off
-> +             * @dev: pointer to device
-> +             * @shader_bitmap: bitmap
-> +             */
-> +            TRACE_EVENT_FN(gpu_power_status,
-> +                TP_PROTO(const struct device *dev, u64 shader_bitmap),
-> +                TP_ARGS(dev, shader_bitmap),
-> +                TP_STRUCT__entry(__field(u64, shader_bitmap)),
-> +                TP_fast_assign(__entry->shader_bitmap = shader_bitmap;),
-> +                TP_printk("%s", __get_str(dev_name)),
-> +                my_register, my_unregister
-> +            );
-> +        """
-> +
-> +        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-> +        patcher = patch('builtins.open', new_callable=mock_open,
-> +                        read_data=dedent(source))
-> +        with patcher:
-> +            _, entries = kernel_doc.parse_kdoc()
-> +
-> +        self.assertEqual(len(entries), 1)
-> +        self.assertEqual(entries[0].name, "trace_gpu_power_status")
-> +        self.assertEqual(entries[0].warnings, [])
-> +
->  #
->  # Class and logic to create dynamic tests from YAML
->  #
+> 
+> "a kernel mode" -> this is specific to RESCTRL_GLOBAL_ENABLE_PER_CPU kernel
+> mode node?
 
+Sure.
 
+> 
+> This switches from "RESCTRL_GLOBAL_ENABLE_PER_CPU kernel mode" to
+> "global_enable_per_cpu mode" mid changelog.
 
-Thanks,
-Mauro
+Will change it.
+
+> 
+>> mode is active.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...> ---
+>>   fs/resctrl/internal.h |  2 ++
+>>   fs/resctrl/rdtgroup.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 44 insertions(+)
+>>
+>> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
+>> index 986b9c942fb2..6b8d14c4bd83 100644
+>> --- a/fs/resctrl/internal.h
+>> +++ b/fs/resctrl/internal.h
+>> @@ -216,6 +216,7 @@ struct mongroup {
+>>    * @mon:			mongroup related data
+>>    * @mode:			mode of resource group
+>>    * @mba_mbps_event:		input monitoring event id when mba_sc is enabled
+>> + * @kmode_cpu_mask:		CPUs in this group's kernel-mode association
+> 
+> Could there be a caveat that the value is only valid when the resource group
+> is backing the RESCTRL_GLOBAL_ENABLE_PER_CPU kernel mode?
+
+Sure.
+
+> 
+>>    * @plr:			pseudo-locked region
+>>    */
+>>   struct rdtgroup {
+>> @@ -229,6 +230,7 @@ struct rdtgroup {
+>>   	struct mongroup			mon;
+>>   	enum rdtgrp_mode		mode;
+>>   	enum resctrl_event_id		mba_mbps_event;
+>> +	struct cpumask			kmode_cpu_mask;
+>>   	struct pseudo_lock_region	*plr;
+>>   };
+>>   
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index 46b2cafd9411..0e638dc654c1 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -385,6 +385,31 @@ static int rdtgroup_cpus_show(struct kernfs_open_file *of,
+>>   	return ret;
+>>   }
+>>   
+>> +/*
+>> + * Display CPU masks for the kernel-mode associated resource group.
+> 
+> nit: "masks for" -> "mask of"?
+
+Sure.
+
+> 
+>> + * Supports both "kmode_cpus" (bitmap format) and "kmode_cpus_list"
+>> + * (range list format); the output format is selected accordingly.
+>> + *
+>> + * Returns -ENOENT on error.
+>> + */
+>> +static int rdtgroup_kmode_cpus_show(struct kernfs_open_file *of,
+>> +				    struct seq_file *s, void *v)
+>> +{
+>> +	struct rdtgroup *rdtgrp;
+>> +	int ret = 0;
+>> +
+>> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
+>> +
+>> +	if (!rdtgrp || rdtgrp != resctrl_kmode.rdtgrp)
+> 
+> Could the changelog please help reader understand the patches better?
+> For example, the additional "rdtgrp != resctrl_kmode.rdtgrp" check is
+> subtle but very important to maintain synchronization, but it is
+> never mentioned why this is used.
+
+Will add a line in changelog about this check.
+
+Thanks
+Babu
+
