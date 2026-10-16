@@ -1,68 +1,68 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF345472F73
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA314C9E01
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792158367; cv=none; b=BT/lo30o2k15Ve28JPt+zttylm5Bf7u9WlCVRZTDWI64V+y5R80SmxY1YQI7qfKtW6pHDpNxbn9AhavnOqCg4cX5cu+dJoDMPaAtpnlh7YhYBCBNEThjaw8mp5FbpLrx+TVC1/nOtyWVHysxV27fqovwkCrkjVWZ0E+U0HDVZNY=
+	t=1792158791; cv=none; b=DtJmxEuaSKWEQkj06yWquWYkT/7VbfoT2SF5WNcUl9tbwz3FIhUts2urqKRjtVBq+FkbdbY10v2CEib+REW8eDEK4+j0Y1ZtSTTUtMJOaSgKYA6fhqnZeOAhbLJyhCDqhQVURp2L/JSsw63h6H2PzWPzRLzPqJixjpxknKVsIWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792158367; c=relaxed/simple;
-	bh=GqoyPzCw3FD2mwFuPLSh66nmW0x7vmAOEeQWUGZxYEQ=;
+	s=arc-20240116; t=1792158791; c=relaxed/simple;
+	bh=oNZoC/1XfNmiFXh0Vy39LTZxHGERleLuLCyxabvzoWc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B50inYzgNbwciMSebatU33UKZ2mTtNkVaB6Em8CEhqLAtyIo7vOPfO5hlZjTAtx+yDjfqFdYd81NivRg21mHHR7p7o4G3pOjMz+TQKcVKx0iPY4LXP/lzmVPfEWzzmLB9NO/dgczojE4pXPtVnDPitGunpAnT2MQwsLJvrL2rjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g5G5AIXS; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:Content-Type; b=OyhQUTeBseAb9YgfOCjgmlJ2gwwp0LtpNNRa3PzIq1r0/2jyQoL3q73ID1p6tGnjNVls8z5jzq+GRV3O3Np6ECQ20kSTubjy9CtjaCLbRGYr64YrtvNBmkTsfo39w/2rPD/bvPldyPFH1pqzWp0VBPc8uon4hRlnbskStXUAoTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B36rcz9t; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g5G5AIXS"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e011d370dso457490f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 06:46:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B36rcz9t"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso46949735e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 06:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792158363; x=1792763163; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1792158788; x=1792763588; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fEv96mAiPQXcl62IaJ8y1AeLrRIcw4KQYmrAeodFZwk=;
-        b=g5G5AIXSz2p0WFNhb1t1rjLPZ3zLydwET6dKEmri6jZAR+txbQVeqNSYS5kzyAn4ip
-         XMNuWVzEisve94pFucxav0k2jynnwAM2+aGqk4361TxoXMwT1Ok4aP3ABHDxtzgBg3JF
-         x4BgIpSvhdHrqI91LX9wMVJPtsAfggAD9TyYA75tmedm/KTYj7VVkMit+NaCN4rLr2HW
-         7OnZLGhwy1Ei7G8SBNCF4DBxok2xMcRJmoFJmU5wqUinqz2RBdyaDfzQMtYJId0kB6Z/
-         Dw6llHpu7wI9uhzxOhm3Ly2rBUsG6VoFTUoqu8Y6UWcv7k9t5RDBUX0+A3Y0lJL5Esy9
-         tbNw==
+        bh=5u1hd3MVH4854Wnbwnw1BZQepD7XiDLggdf6oqUpphg=;
+        b=B36rcz9tosqcvMwRjZlWNJEugPuiP1/Vv11WHCTKzQPcBx2bck5/+9HD3aBgCFWR5b
+         4OzHSE1LaWCQ0qNslA9cZVPTTK67KvuTW2gd3yF4qj74X8fUdcov9gd4GGmHxkN97xYV
+         wyns4yjJkb6X+tl68GbxwUbzc7n29c09aJtEXCh/OkTUIjTFAXDIoLkAJBxqXqUH3PAw
+         E1X08r1+HeeIJvHikozl7fZnl7FFkbjZED/R5m/dnDLnmB8oiQCm6mV6vom/pBV/PBo7
+         htd09EEyBTxG9mkLKUjKakb9VzFW3Ts10uJe+uGGBetspL2Ve1gd8Ja6lgp8dnPEaWTd
+         ZCRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792158363; x=1792763163;
+        d=1e100.net; s=20260707; t=1792158788; x=1792763588;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fEv96mAiPQXcl62IaJ8y1AeLrRIcw4KQYmrAeodFZwk=;
-        b=dr4ztDCu4Oi/bSM2Vzh5Yq1Zbs1yw5rkUmH8TbaV7lfkhFYNsvqJCwHLZq+SyjiCF0
-         MFSw6AUFa+eftj/MxSCfKz7DyK79+CUqnWomrlblg0q0UyM1qb7g0xwtGZD3P1a1g8YX
-         k9sWBl15PIWWmCHp8niwhZE29KyIOq2nW72Upy59ger1Wd5AEqVX3TecrdP2b0ma8pyF
-         qr9M/f7ykqqU2s7r7Jlk/omt5D/kyqkNEeoGGPqDkCIfAHcC5lM8gCwesGjhjwiRa3Yo
-         mWv+/uKKdDamg97DS1aAqFZwPsFRwsU8h7Buoxb5RBiRKahK1X1U7M3I5y5crSxCzDfr
-         i9UQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwWzoYRB+DmapRdrs1mOMwpnbKkT0pY8hwNeRXAB0ly93fB24I2RJEWxwa3eEuo2sXS1FAJ0bUWwwU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5HUTZP2Ab1C/euMQjoKGRuOzuAkicmacvjk3BexYTBvW7j62t
-	AFHGEcgey91iynCV5dc3o3Az0+/PYwRiDS7215DvKDb+Chm+OZHfHudWXVJjz9xZ2zI=
-X-Gm-Gg: AYBFou0ozYsd1oIxX/1X0AU1aqNo6vQXZhWKbxTroMdpzbqRM6zuFlD31OMG068bonQ
-	dya2VmWwp9atJAB9KPbe/2rbE84XJYzvNssTTwpA2ezomWaaPAJAHTXoNx9KofcHHYdRfdIra2s
-	99hk2zW0H6ftBJT+CaN5mp+Upq/ExJ64Veiul9+3Lepz82EtHB7CtDJwAfG92UKBub3X5ItKa9i
-	QZPquvXBJhkjV/6FBOUl5zAVaUY5hXDVzQQohJorC26sxDZUFgOBHwXeohpAw/3vMD6Q3xScNhA
-	8dcdVyVb6yc/JxnxkyJ/pvRmwa6F/UEgiiX6BP3Y/5ehSNZ1M7BbnwSzVT/dE/vl25wU374KX9u
-	iaHiuNnagEorZgijcvuF5UKKRxInB6LxbNeMUXvjxW1bZRRwM7Btj8bCbwNeUG9rGtOQoPderTn
-	MJSO8XP1lJ+p3HHzAQcMyvb17xCheAJQRzy8VjXNnWMl7xzkRitOk9xTxxE4ITT9VbJxVTFz67g
-	FOMxq4MYxdgLQ==
-X-Received: by 2002:a05:6000:4b14:b0:48d:eb6b:9d0f with SMTP id ffacd0b85a97d-48deb6b9db7mr17860299f8f.11.1792158362872;
-        Fri, 16 Oct 2026 06:46:02 -0700 (PDT)
+        bh=5u1hd3MVH4854Wnbwnw1BZQepD7XiDLggdf6oqUpphg=;
+        b=e7xTdr16EAP+btK2vCRuEAwIFFxmu+ILvilsUfqmF5nEvZD7XE1Wk60TXziw5AYQIj
+         Fv16dtNLlrTJjtKJHMh//rLt/hkDFS0zXAuXDUSZsa8iHm1l2sVolr0bC/IPeRjkHWbL
+         r10Z9EFWuMFCsLapltMVwGjup7j1beDdBfCQxGUh2TSGV4rYNBIlwWJu8x92oGl8OwId
+         wWMQEKHffCWMVjevIbA3wWk3agERVtDg3ZSO4yRk+NjWX882lvZO+E8Z1mEq109LNBOe
+         2+bayT0M3CqKKbFwiY6jUZXlcq/2sePyQIVSDvAiRWW6zuBZKAdXOVNLVY/yhKQxFHiC
+         iiAg==
+X-Forwarded-Encrypted: i=1; AKwUvBw1p0WkEmqYhUHsbVv281LqNCjHpDF4/ZFNWe2stWEBRDD1kotqN13yzzRi4iCloo0lx7GbnT/Y/iQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJUgq7YjAyTsuk4oYEZo4idgle/5nIPbmOyf8x8bIHb2TH/G2wT
+	XxkEiLAnnvWOEth2tmi9VnbtfcdZvJLeM5IQl80VFYcU7fOvkMBAGtOOb2q4r0eeqac=
+X-Gm-Gg: AYBFou2orJgK5jASkfrn832e7OYmsPbC7fmiIkvw2LSMKM4XKf3GxZorV/+o0A8GfRc
+	R8HROrhgDMpt5H6D/NcB6+S+JqHP/tS1XacYAiYDz+fZy0r4b/D2IB2V8BPonOccz2I/M1vcU1T
+	iAAcpbkFg55WZ5Xrg7YQ0rH4VGjMc7WAreRrXrDJJ1k9YHEI2fZ4Q0WLIAaQ23MmjrM2IsTgtC5
+	TDJwu4RMoNWQt/B76cPvfpJ8s7aJWA8AgXubb7by0UPN84NENsOEEs7YPlGIAp1mRj3ZXdheHjD
+	jXaSY3PWWW/tEVVX/zjIOwNjty3N6Cv/j2g8NcK4ZAMCk3bL5ZS9WnPVBrR9Z9shs6t+1Y1mT27
+	2se9gH3QrK5N/txHeyZZZlw3si3KoQKWAdqmfeqdHO0iEDDeplfQNdKwYdoQ4726zUtFkm9ga48
+	eJQ9u50tESq8mgThq3aNxCpgjzSS8FOcSVc89tfXJq7Y3RMrJlgH30IRASVibjE1yTxgpab/QvA
+	C8=
+X-Received: by 2002:a05:600c:6388:b0:4a1:ac66:5ffe with SMTP id 5b1f17b1804b1-4a1ac666396mr241877715e9.15.1792158787676;
+        Fri, 16 Oct 2026 06:53:07 -0700 (PDT)
 Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd47104csm5885319f8f.8.2026.10.16.06.46.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d0e2bb8dsm35630445e9.2.2026.10.16.06.53.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 06:46:02 -0700 (PDT)
-Message-ID: <b851c070-19d2-42b8-b19d-be4b02ad9715@linaro.org>
-Date: Fri, 16 Oct 2026 14:46:00 +0100
+        Fri, 16 Oct 2026 06:53:06 -0700 (PDT)
+Message-ID: <43db2ca6-27be-416b-83f8-131676e5d444@linaro.org>
+Date: Fri, 16 Oct 2026 14:53:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,8 +70,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/25] coresight: perf: End AUX output when an event is
- throttled
+Subject: Re: [PATCH 05/25] coresight: perf: Extract AUX buffer update helper
 To: Leo Yan <leo.yan@arm.com>
 Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
  linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
@@ -85,114 +84,159 @@ Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
  Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
  Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
 References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-4-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-5-35cf6f297d20@arm.com>
 Content-Language: en-US
 From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-4-35cf6f297d20@arm.com>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-5-35cf6f297d20@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 15/09/2026 16:48, Leo Yan wrote:
-> Since commit 9734e25fbf5a ("perf: Fix the throttle logic for a
-> group"), the perf core stops every event in a throttled group by calling
-> the PMU stop callback with flags set to zero:
+> The pause and stop callbacks duplicate the sequence that updates a sink
+> buffer and finishes the current AUX output transaction. Move the common
+> sequence into etm_event_update_buffer() for a single implementation.
 > 
->    perf_event_throttle()
->      `> event->pmu->stop(event, 0)
+> The helper first verifies that perf handle is active. It updates the
+> buffer when PERF_EF_UPDATE is requested and otherwise ends the
+> transaction without data. The pause callback can then start a new perf
+> handle for resuming trace.
 > 
-> The ETM perf stop callback only ends the AUX output handle when
-> PERF_EF_UPDATE was set. For throttling with mode is zero, it skips to
-> end the AUX handle. When the event is later unthrottled and ETM tracing
-> is started again, perf_aux_output_begin() sees the perf handle is nest
-> enabled and triggers a warning:
-> 
->    [  181.161897] ------------[ cut here ]------------
->    [  181.161906] WARNING: kernel/events/ring_buffer.c:415 at perf_aux_output_begin+0x1dc/0x1f0, CPU#0:2
->    [  181.234120] arm-scmi arm-scmi.1.auto: timed out in resp(caller: do_xfer+0x1a0/0x558)
->    [  181.234223] cpufreq: __target_index: Failed to change cpu frequency: -110
->    [  181.286675] Modules linked in: panfrost tda9950 hdlcd tda998x drm_shmem_helper drm_client_lib cect
->    [  181.314139] CPU: 0 UID: 0 PID: 352 Comm: perf Not tainted 7.1.0-rc1-00058-gdca922e019dd-dirty #11
->    [  181.323915] Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform, B5
->    [  181.334732] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    [  181.341721] pc : perf_aux_output_begin+0x1dc/0x1f0
->    [  181.346547] lr : perf_aux_output_begin+0x9c/0x1f0
->    [  181.351280] sp : ffff800080003be0
->    [  181.354606] x29: ffff800080003be0 x28: ffff0008023fc000 x27: ffff4b45d287f000
->    [  181.361789] x26: ffff0009764787a8 x25: 0000000000000000 x24: ffff00080dc99710
->    [  181.368970] x23: ffffb4c334553000 x22: 0000000000000001 x21: ffff00080dc99710
->    [  181.376151] x20: ffff0009764787a8 x19: ffff000801cc6000 x18: 00000000ffffffff
->    [  181.383332] x17: 0000000000000000 x16: ffffb4c3a118c998 x15: 0000000000000000
->    [  181.390512] x14: 00003d0900000000 x13: 00000001ffff006e x12: 696765625f747570
->    [  181.397692] x11: ffffb4c3a52758d8 x10: 0000000000000108 x9 : ffffb4c3a117f620
->    [  181.404873] x8 : ffff800080003a58 x7 : ffff000808de4000 x6 : 00000000000fffff
->    [  181.412053] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
->    [  181.419232] x2 : 0000000000000007 x1 : 0000000000000000 x0 : 0000000000000007
->    [  181.426411] Call trace:
->    [  181.428868]  perf_aux_output_begin+0x1dc/0x1f0 (P)
->    [  181.433692]  etm_event_start+0xdc/0x290 [coresight]
->    [  181.438665]  perf_event_unthrottle+0x70/0xa8
->    [  181.442964]  perf_event_unthrottle_group+0x40/0x170
->    [  181.447871]  perf_adjust_freq_unthr_events+0x178/0x1a8
->    [  181.453038]  perf_adjust_freq_unthr_context+0x74/0xf8
->    [  181.458120]  perf_event_task_tick+0xa8/0x290
->    [  181.462418]  sched_tick+0x144/0x2c8
->    [  181.465937]  update_process_times+0xc0/0x198
-> 
-> Reproduce this with the command:
-> 
->    perf record -a -e cs_etm/aux-action=start-paused/k \
-> 	-e cycles/aux-action=pause,period=3000/ \
-> 	-e cycles/aux-action=resume,period=1500/ -- sleep 10
-> 
-> An update of the sink buffer is unnecessary when PERF_EF_UPDATE is not
-> set, but the AUX output operation must still be terminated. End it with
-> a size of zero so that a later restart can acquire a new handle.
-> 
-> Fixes: 9734e25fbf5a ("perf: Fix the throttle logic for a group")
+> Assisted-by: Codex:gpt-6
 > Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
->   drivers/hwtracing/coresight/coresight-etm-perf.c | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
+>   drivers/hwtracing/coresight/coresight-etm-perf.c | 89 ++++++++++--------------
+>   1 file changed, 36 insertions(+), 53 deletions(-)
 > 
 > diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index 09b21a711a8764ea429d712890265c84648e889e..a45f69f39f175f3044322b25fe5413fb97154496 100644
+> index a45f69f39f175f3044322b25fe5413fb97154496..13d865ca86f1161b2e21174f096473c4829afc8c 100644
 > --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
 > +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -748,13 +748,16 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	 * handle due to lack of buffer space), we don't
->   	 * have to do anything here.
->   	 */
-> -	if (handle->event && (mode & PERF_EF_UPDATE)) {
-> +	if (!handle->event)
+> @@ -637,6 +637,38 @@ static void etm_event_start(struct perf_event *event, int flags)
+>   	return;
+>   }
+>   
+> +static void etm_event_update_buffer(struct perf_output_handle *handle,
+> +				    struct etm_event_data *event_data,
+> +				    struct coresight_device *sink,
+> +				    int mode)
+> +{
+> +	unsigned long size;
+> +
+> +	/*
+> +	 * Make sure the handle is still valid, as the sink may close it from
+> +	 * the IRQ handler. E.g., the sink driver may fail to restart the
+> +	 * handle during interrupt handling due to insufficient buffer space.
+> +	 * The sink driver must serialize update_buffer() with IRQ handling,
+> +	 * so this should return either a valid handle with a valid size
+> +	 * (which may be 0), or no handle at all.
+> +	 */
+> +	if (!perf_get_aux(handle))
+> +		return;
+> +
+> +	if (!sink_ops(sink)->update_buffer)
 > +		goto out;
 > +
 > +	if (mode & PERF_EF_UPDATE) {
->   		if (WARN_ON_ONCE(handle->event != event))
-> -			return;
-> +			goto out;
->   
->   		/* update trace information */
->   		if (!sink_ops(sink)->update_buffer)
-> -			return;
-> +			goto out;
->   
->   		size = sink_ops(sink)->update_buffer(sink, handle,
->   					      event_data->snk_config);
-> @@ -773,8 +776,11 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   			perf_aux_output_end(handle, size);
->   		else
->   			WARN_ON(size);
-> +	} else {
-> +		perf_aux_output_end(handle, 0);
->   	}
->   
+> +		size = sink_ops(sink)->update_buffer(sink, handle,
+> +						     event_data->snk_config);
+> +		perf_aux_output_end(handle, size);
+> +		return;
+> +	}
+> +
 > +out:
+> +	perf_aux_output_end(handle, 0);
+> +}
+> +
+>   static void etm_event_pause(struct coresight_path *path,
+>   			    struct perf_event *event,
+>   			    struct etm_ctxt *ctxt)
+> @@ -644,7 +676,6 @@ static void etm_event_pause(struct coresight_path *path,
+>   	struct perf_output_handle *handle = &ctxt->handle;
+>   	struct coresight_device *source, *sink;
+>   	struct etm_event_data *event_data;
+> -	unsigned long size;
+>   
+>   	if (!path)
+>   		return;
+> @@ -669,27 +700,16 @@ static void etm_event_pause(struct coresight_path *path,
+>   	if (WARN_ON_ONCE(handle->event != event))
+>   		return;
+>   
+> -	if (!sink_ops(sink)->update_buffer)
+> -		return;
+> -
+>   	event_data = READ_ONCE(ctxt->event_data);
+> -	size = sink_ops(sink)->update_buffer(sink, handle,
+> -					     event_data->snk_config);
+> -	if (READ_ONCE(handle->event)) {
+> -		if (!size)
+> -			return;
+> +	etm_event_update_buffer(handle, event_data, sink, PERF_EF_UPDATE);
+>   
+> -		perf_aux_output_end(handle, size);
+> -		perf_aux_output_begin(handle, event);
+> -	} else {
+> -		WARN_ON_ONCE(size);
+> -	}
+> +	/* Prepare the handle for resuming trace */
+> +	perf_aux_output_begin(handle, event);
+>   }
+>   
+>   static void etm_event_stop(struct perf_event *event, int mode)
+>   {
+>   	int cpu = smp_processor_id();
+> -	unsigned long size;
+>   	struct coresight_device *source, *sink;
+>   	struct etm_ctxt *ctxt = this_cpu_ptr(&etm_ctxt);
+>   	struct perf_output_handle *handle = &ctxt->handle;
+> @@ -742,45 +762,8 @@ static void etm_event_stop(struct perf_event *event, int mode)
+>   	/* tell the core */
+>   	event->hw.state = PERF_HES_STOPPED;
+>   
+> -	/*
+> -	 * If the handle is not bound to an event anymore
+> -	 * (e.g, the sink driver was unable to restart the
+> -	 * handle due to lack of buffer space), we don't
+> -	 * have to do anything here.
+> -	 */
+> -	if (!handle->event)
+> -		goto out;
+> -
+> -	if (mode & PERF_EF_UPDATE) {
+> -		if (WARN_ON_ONCE(handle->event != event))
+> -			goto out;
+> -
+> -		/* update trace information */
+> -		if (!sink_ops(sink)->update_buffer)
+> -			goto out;
+> +	etm_event_update_buffer(handle, event_data, sink, mode);
+>   
+> -		size = sink_ops(sink)->update_buffer(sink, handle,
+> -					      event_data->snk_config);
+> -		/*
+> -		 * Make sure the handle is still valid as the
+> -		 * sink could have closed it from an IRQ.
+> -		 * The sink driver must handle the race with
+> -		 * update_buffer() and IRQ. Thus either we
+> -		 * should get a valid handle and valid size
+> -		 * (which may be 0).
+> -		 *
+> -		 * But we should never get a non-zero size with
+> -		 * an invalid handle.
+> -		 */
+> -		if (READ_ONCE(handle->event))
+> -			perf_aux_output_end(handle, size);
+> -		else
+> -			WARN_ON(size);
+> -	} else {
+> -		perf_aux_output_end(handle, 0);
+> -	}
+> -
+> -out:
 >   	/* Disabling the path make its elements available to other sessions */
 >   	coresight_disable_path(path);
 >   }
 > 
-
 Reviewed-by: James Clark <james.clark@linaro.org>
-
