@@ -1,1942 +1,426 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5064CF47A;
-	Fri, 16 Oct 2026 18:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792177128; cv=none; b=EdIjHN6Hu63XEfDWIUViu16seTFKk9lrnvM8h/PhdhTHFuufNi13pABoX/1CPh0RZNYdC9QbS2iD6snGvntOr50Hx2GGcFpjrr91m4WtQ1V+3cGO6+WEMyGup7rH06HMhRSBgpT3OzkuA3y1RY74RKdirTJ9w9dXzVThc40+z4U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792177128; c=relaxed/simple;
-	bh=u4tbNj6zLpWWyjedOPfdbvsLMm9MTBEYSN8Q9wxYtyQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ha28N4OwFjsNpFcuUENR7dGc/MTS+EVtO5B7ZjoFH8DrVxJa+UQWLtTSDWl75/OegV6/uv1W/jOhv069tADdGYcGvel+kHIJJ20DA8xJ3HF1/sYHZq0IVyW7MsiR7WgMRHhIAR+3PC2gtjnmQ/m1cqZ+GNJ4T3anfsP/TbK9ySU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=kzBMJ3yH; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010002.outbound.protection.outlook.com [40.93.198.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB584CF480;
+	Fri, 16 Oct 2026 19:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792177831; cv=fail; b=kQvWuUyPMzTw76i64MwT21lGg7N9qmbnqgIDh6PNfqn3H0slESVLrNo3lKKDTSTkNTWs4TFmFFrPQFBK4ZPKjGwUmWNH6XFkp//4WnukUZpVY8Oim/q1xmviX44UndjjIF7o/X7Wb4fbet1hbBAnX1yQxAR3APapS7155ibjMyo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792177831; c=relaxed/simple;
+	bh=LDTQ6O9iqyU35Zqoz0o2NEEpsH18uWP0j7ZCPL8Oeo8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=R6wrUlAx4mP0z2lqYjQgPPcivmfQ+aZI8BICnaQrNjAGqFRnFPH4OI0V0oH1d8XNx7GK+cQcy20cgIrzbO0dbO1Bq0+mLK8iEQt9Fz4J8MS90GSZha8Q0VFHtmagEuxVTN+qGIJaH2u2199G+H8uwjkzadFqWNFTMdrppGEIbsk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oBjxFFKe; arc=fail smtp.client-ip=40.93.198.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="kzBMJ3yH"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28A4E14BF;
-	Fri, 16 Oct 2026 11:58:33 -0700 (PDT)
-Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 05B163F7B4;
-	Fri, 16 Oct 2026 11:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792177116; bh=u4tbNj6zLpWWyjedOPfdbvsLMm9MTBEYSN8Q9wxYtyQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kzBMJ3yHW4sS9LUUuSAYdk60BjG78RRhnCtzLu3vEHXgiLbM8cPfaux8FugaXoWFL
-	 49/pt46/l6cQd5uoku8M30CLR75Cktx2HwO7Aa+WsSNN7AurwjRVDzn6WOSp7UPbEn
-	 K0R0DVradzsZxj75s50COtR4i7vByYwZQhWv+u9k=
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	d-gole@ti.com,
-	jonathan.cameron@oss.qualcomm.com,
-	elif.topuz@arm.com,
-	lukasz.luba@arm.com,
-	philip.radford@arm.com,
-	david@kernel.org,
-	souvik.chakravarty@arm.com,
-	leitao@kernel.org,
-	kas@kernel.org,
-	puranjay@kernel.org,
-	usama.arif@linux.dev,
-	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v14 32/32] kselftest/arm64: Add SCMI Telemetry UAPI compliance testcases
-Date: Fri, 16 Oct 2026 19:55:53 +0100
-Message-ID: <20261016185553.2794459-33-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261016185553.2794459-1-cristian.marussi@arm.com>
-References: <20261016185553.2794459-1-cristian.marussi@arm.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oBjxFFKe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SroybyN4ntJQinD6EgMngVGJQxMse+asmONp1G2xzdNmi2N2sWbzEqZnjXa8U2Qf1uNJlqm4nQ9heWj5YtWADe3f2hhu7GbaKpMpeV65RL0dHrFhlWLy9PruCu4A8uFjXW6YgaD4xy6qt/BsMBc/h/p61o8IunTjNAjYw9ROQ+oYIqsRHm+mkP6nN/n2vx377qwMkSwzUrfcovbjeG0zUN02J/iZOvA/QLdjWvlp5AIt5v6AoqJ78C+CNGP0PEFCqMosvR125zs8JEvjSLTEFtyhsNrxE5Kxl9qJNiO5hr8zqHcYQ/VJm83k363rxFRLiW1U2McnUumEBomFzloWvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aUeECETb4nQamasCRaoOiUWQRkLne8+9Xp9q5cLlOjA=;
+ b=dxa7bmxYCx07x9SkC5+53B3RC7bbnVBF7ZkeSgMBpwSt/Q7XkRHZZyBBhHzMydKnpDqf3PNgbv3rX7VOVjuLZ0yiZ2ijjERWCSHVVsKhgxnAXggn7K7BxTBeYHmBN/camqabqsv1KDQjar7coDvTMjBgXqJVA3bZLKCc8U7H7IfczQTzBtBZxE6UT/sBUEx805SGf+B5EH2d4ZLzQ/y2PeNBYY3f3JTc2b8JPUX7NpWDzZ54IGDtsYnQOXKDhN7qT5GZVhjaQUdkLmZl7RcBs1GQfULDXTjcPvD1pEOLwAv0rnN6mIZJpjV0xQJYBBeMzzCZGkjTLbGPGWETp30RIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aUeECETb4nQamasCRaoOiUWQRkLne8+9Xp9q5cLlOjA=;
+ b=oBjxFFKeGWl6ZastcKB5avCB8wCvWAtpPp/edE8s7G0ey+c4wg5NHE9H4pSC1OoSaYW7+Am+G6FyEXnin4xoKIOSUx3FwA+iUFu/CfDhTQh3it9M4h8NBrjldjqZzum1BvV+cv70zuVOdOiw0TEOcWjuIWLw9DBMccjmT9vBRiY=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by PH6PR12MB220232.namprd12.prod.outlook.com (2603:10b6:510:3da::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 19:10:26 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 19:10:26 +0000
+Message-ID: <f0bb62e7-3044-4248-9f4d-c6a8f23de7b9@amd.com>
+Date: Fri, 16 Oct 2026 14:10:16 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 09/18] fs/resctrl: Add interface to display kernel mode
+ status
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
+ ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+ akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
+ elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
+ kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
+ ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
+ ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
+ prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
+ elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <e044c381e0a8720649408bea47f9251a0dfa1693.1790867441.git.babu.moger@amd.com>
+ <7d4770b8-779a-4c7a-b5cd-cd3739172a92@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <7d4770b8-779a-4c7a-b5cd-cd3739172a92@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA0PR11CA0015.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::20) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|PH6PR12MB220232:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77487157-f4dc-4f45-7a9f-08df2bb922cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|1800799024|376014|366016|6133799003|8126099003|22082099003|18002099003|3023799007|4143699003|5023799004|11063799006|10067099003|56012099006|261009223027099003;
+X-Microsoft-Antispam-Message-Info:
+	lHd9kD9uNaMDk4+3NXjOO6Ft9tfC/1sPmDVSG1yyhofMg4azWFn9tSUjhWX7+L4fcYBhTXxTsw35SiPSSF2MD5cCGuzyrRubXaMiDU0dIWVM4euU7sx+cfPz/XaGzt9n6mYzpvPuKEUkwuR9htLvQgfHVluSku5khcBId2r5JRN/5tfL79WCv4SsjziPPgJ2PSr29SzQsyKbZ85VzhZlhy6lHeTgIY3E1XSG7FMBMqeFX69doRgjrGKLgYsGZBIqWMBQ5mlCSE6iG+sC1MSE6C3rX6ynTjQFAJrdTCXKD8JULfYyU8RrwvXvWSn+bSrPyK9mNqXuQXD5lmFw1SBoSEzneMvrh/2tl9wp2spUdPxKco4/22R5hSThH0qASPNjQDEksph+sYH/noVDekJeMyyDf1SLpvesC7jJ8vnwP/oSD2S7AFMk7QdfgdDG1tgfx+dTEdqXnqYZNcDtJYJxaFI3i71CKW4fpt4TmzigHM0E62MdJ3PgDoesdiVzSIiQMXXLbUwPTrourmaPpj093ehn9d9An/KaLbKZQVYA/LDlSiEUw7Y7yucCMa0creH/7OwCu8wYcDHC6o8cfWBfnibQdMv6iJKpraIqpgef1W5XyIGQNYQvKLChuyB3c2DRI55BG+7ofuKZAyfdfOOVJGL6qaleuWgJwu3eAoo6VpY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(376014)(366016)(6133799003)(8126099003)(22082099003)(18002099003)(3023799007)(4143699003)(5023799004)(11063799006)(10067099003)(56012099006)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZGNOT0hWL0RoTnZxNUpmZ2JaYm5kYXpEMlc3V0U5TU5nRWxjNGNMM2JWdHkr?=
+ =?utf-8?B?WStJZFJZcXNBV2lmVDFtZWpMWi9oWlZkaCtmVUJNWmozbWJ3b0g0a1plcFEz?=
+ =?utf-8?B?cHhiakZQTEZDdTdTdjJ4WVliUnhrL0RDSDFyUG9vWXgveE5SUUxRT0ZDeGh0?=
+ =?utf-8?B?eWJ4eTBrWm1JREx3dEZXV1Q2SHRib0ZZT011bEhnblFmdTBRWDloaXhwd0dy?=
+ =?utf-8?B?V3VUMzJLVEJZbC9OSWJidUZQRElFcFdJbGNKdFh4dmVoSWd5d3Z5cGk5T3pj?=
+ =?utf-8?B?YUFxaW5zV2ZkeVcvdFAyeWc0L0pRMmdtODZtNlpvRGF1Vm9ZeUZFYWh1WXJT?=
+ =?utf-8?B?a3YvT0cxMmliWFluVGtuQk03S1NHTWs2OFgvcUxGSkRpdmliaXpBdUtwZmx3?=
+ =?utf-8?B?TlpqSUlFelpVRFhWRU9PRVhSWFVOS09ROTVOZ0pqbXlvbllFN3p1bGtqU05E?=
+ =?utf-8?B?SmUzRDhrbXh1ZWlVRVduVnJ0NlFjRlI5TExQYkVNR2lMS3VpM21GenNNVHg1?=
+ =?utf-8?B?eGxCaTJvYWxVZjNLUVBza3J0YnVGcFdFNUNUVmM3b0ZMYVpCM1ZFbDd1VzI3?=
+ =?utf-8?B?QkpZa0F1NmlLeUFwZG9iZTFBcE5sU1VuWE9ZQmZQRTFIbjZBMXJpeko2ek5B?=
+ =?utf-8?B?eVM4YTdGZjVHY3EwZWk4c2Z3Y2RhRU1ncml5ZDFRUlZ2V05XSk5FK1pwTzQ3?=
+ =?utf-8?B?QXNQdkdmYmUzTVFQd1BpYVFyWS9BODBHYnk2ajd4RWp6R2Vndzk3UHhxWm1F?=
+ =?utf-8?B?TnhTaEdyZUkrUmlXTWRjN2JIV0J2UEFoSW5pUmhHMjNVZ2ZFVm1EZTN0UTgr?=
+ =?utf-8?B?c1Q0bE1Nb1czQWZoeTNjZURHK0hqamZZUVRPemR0cmtNczNVV3IwcUdmRDdw?=
+ =?utf-8?B?OXkxMkdicHRRcTFiNHZtbll4VGc0dFo2UTdMRW9QMUx2enhiNkhyUVAwd1Rh?=
+ =?utf-8?B?Rm1EN1lZcFpLYTBTK2FtMEEwemhaZ25lVUR5YjR6M3dEa1VPM2dEUXRoVTVY?=
+ =?utf-8?B?R1lCOVRIaG0wOHVkVFV0elVqQ01aZ2JBNTNJVC81T3ZkZTRxNWRhZEdXbDBj?=
+ =?utf-8?B?blBPdWJWNWRsemg0eGVoR2o0M2cvRno1ckpobGdTTldUczc1K2xGaHhnem9x?=
+ =?utf-8?B?ellqd0YxdUpJS1MwZmIvYVlvV1NEaEx3OEJXeUwvK3hxM0s0RTN5ajlEcWI2?=
+ =?utf-8?B?Qk96MnZmRXN5TE94WXY3ZzdLWGVXVFZXcHpEdU56R21KYXlPSUtTc1lMWjBI?=
+ =?utf-8?B?Z3NRaXZiMG5TS2hOTHFNUHhBVW15eEhMeVRqeWc4ZW52VnlCVVZrbmhUeHJE?=
+ =?utf-8?B?bS9TUUVhcFNOYmFwUjBNdFRTbW9WeGhqNU5WeWUrM0E2eTAzckxWSmFDRU9P?=
+ =?utf-8?B?RjBLdHpOOVRmUDUzcXlsS3BEQnNWVm1VaGx1bis0M09kOEZHc0FPQmtxa01I?=
+ =?utf-8?B?bWR6OUlRQTl4U1ZxRTA1MlliVjgyNzNlY0NHMTdzbkk4SzJBQ3Z4N1c3T3cw?=
+ =?utf-8?B?VTB5RURsWU1BV0ZGWXdhaTFYN0toby9aeVVRTWJ2SlE3M3U3QmhCMms4TG54?=
+ =?utf-8?B?aHVJMkFkS1R5YTZVYjA5ODhPcUNyWmRnaDNvbmE1YlNiYjVKclhDbXFHR2Jr?=
+ =?utf-8?B?Yjg2dEdTLzhDeW1Wbms4aG5nYWRFUG1PVFQyMTRNVS9MSlI0MGZJVVJueUVw?=
+ =?utf-8?B?eEk0dGQ5ZFZiNkY0ckIyVW5GQjRveUUxSG44ZklvTUtyQzRDbjBrb0NNaTEr?=
+ =?utf-8?B?NGxZdHR1RGV5NDc0UXZZVFR3M003K3RVTFFmbFY1amJWclFpaFFkQjJUaFBT?=
+ =?utf-8?B?ZFZwZGt1dVVFa0JSNEg3cnI1eXRMekU4Rm5ONWRXZlpsd2cwMGJDVFh2MGhY?=
+ =?utf-8?B?L0t6VnBGWGkra2lZSXIyME9hVm8wOHBsVVZQNHQ4RGNsMm5CcGUwczRRN052?=
+ =?utf-8?B?WnM3bi9KTmkvZzZzeVZBLzZsbDZNenpjSTRZMC9jc2JIei92WXR2TjdYVXQ0?=
+ =?utf-8?B?VTU5bUFnZ01TbENheDdjRGRoOXIwSFJxTnNHaURPRDdqSkFUdHdwVlBsVnNV?=
+ =?utf-8?B?QjllZWp1YllVL3NlWjFzRkgvSzJBUU0vTmlhZkJzRVZyMGg5aHpEM3EvY2ZQ?=
+ =?utf-8?B?MXp6eUxpS0lIWDhGNFhLc0NrOWQwTEs2TG5rVHc1UkF3eXFtblJ1d2NkRzVj?=
+ =?utf-8?B?cXJNVDRsQnF4N3p4SXp6eDVSazVCV3RKRitTMlZHMDF3U1o3dC8zay9nT2hZ?=
+ =?utf-8?B?N3VOU2xJbGR3RmltamF6aXpqYWh1N1pWeDF1c3NTV05pWWdoOVBSRHYrZkxx?=
+ =?utf-8?Q?4V4loYj7x7tqSDLR6j?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77487157-f4dc-4f45-7a9f-08df2bb922cc
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 19:10:26.4606
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4BSs0OcZ/hrIkZFRk5Vli6JtGDNdsNcllUQuRnJ8l7jJyUa3vTggSqQ0Mtl+H+YA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH6PR12MB220232
 
-From: Philip Radford <philip.radford@arm.com>
+Hi Reinette,
 
-Add support to test SCMI Telemetry UAPI compliance testcases.
+On 10/15/2026 10:16 AM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 10/1/26 8:10 AM, Babu Moger wrote:
+>> Resctrl kernel modes control how allocation and monitoring associations
+> 
+> "allocation and monitoring associations" - unclear what this refers to at this point.
+> 
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
-Co-developed-by: Cristian Marussi <cristian.marussi@arm.com>
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- tools/testing/selftests/arm64/Makefile        |    2 +-
- tools/testing/selftests/arm64/scmi/Makefile   |   12 +
- tools/testing/selftests/arm64/scmi/config     |    2 +
- .../arm64/scmi/test_scmi_telemetry_uapi.c     | 1810 +++++++++++++++++
- 4 files changed, 1825 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/arm64/scmi/Makefile
- create mode 100644 tools/testing/selftests/arm64/scmi/config
- create mode 100644 tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
+Hmm.. Not sure what other alternative.
 
-diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
-index e456f3b62fa1..f3beae2ae164 100644
---- a/tools/testing/selftests/arm64/Makefile
-+++ b/tools/testing/selftests/arm64/Makefile
-@@ -4,7 +4,7 @@
- ARCH ?= $(shell uname -m 2>/dev/null || echo not)
- 
- ifneq (,$(filter $(ARCH),aarch64 arm64))
--ARM64_SUBTARGETS ?= tags signal pauth fp mte bti abi gcs
-+ARM64_SUBTARGETS ?= tags signal pauth fp mte bti abi gcs scmi
- else
- ARM64_SUBTARGETS :=
- endif
-diff --git a/tools/testing/selftests/arm64/scmi/Makefile b/tools/testing/selftests/arm64/scmi/Makefile
-new file mode 100644
-index 000000000000..3d9576c7a3e8
---- /dev/null
-+++ b/tools/testing/selftests/arm64/scmi/Makefile
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2026 ARM Limited
-+
-+# Additional include paths needed by kselftest.h and local headers
-+CFLAGS += -std=gnu99 -I.
-+LDFLAGS += -static
-+
-+# Generated binaries to be installed by top KSFT script
-+TEST_GEN_PROGS := test_scmi_telemetry_uapi
-+
-+# Include KSFT lib.mk.
-+include ../../lib.mk
-diff --git a/tools/testing/selftests/arm64/scmi/config b/tools/testing/selftests/arm64/scmi/config
-new file mode 100644
-index 000000000000..63cd7e67ab55
---- /dev/null
-+++ b/tools/testing/selftests/arm64/scmi/config
-@@ -0,0 +1,2 @@
-+CONFIG_ARM_SCMI_SYSTEM_TELEMETRY=y
-+
-diff --git a/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
-new file mode 100644
-index 000000000000..24a8170a4380
---- /dev/null
-+++ b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
-@@ -0,0 +1,1810 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2026 ARM Limited
-+
-+#include <fcntl.h>
-+#include <stddef.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/eventfd.h>
-+#include <sys/ioctl.h>
-+
-+#include "kselftest_harness.h"
-+
-+#include <../../../../../include/uapi/linux/scmi.h>
-+
-+#define TLM_0	"tlm_0"
-+
-+struct scmi_ksft_session {
-+	bool initialized;
-+	struct scmi_tlm_abi_info info;
-+	struct scmi_tlm_config *original_cfg;
-+	struct scmi_tlm_intervals available;
-+	struct scmi_tlm_update_interval *intervals;
-+	struct scmi_tlm_de_info *de_list;
-+	unsigned int num_des;
-+
-+} ksft_session;
-+
-+static int scmi_tlm_batch_init(struct scmi_tlm_batch *batch,
-+			       unsigned int num_items,
-+			       size_t item_sz,
-+			       bool with_states)
-+{
-+	void *items = NULL;
-+	int *states = NULL;
-+
-+	bzero(batch, sizeof(*batch));
-+
-+	if (num_items) {
-+		items = malloc(item_sz * num_items);
-+		if (!items)
-+			return -1;
-+
-+		bzero(items, item_sz * num_items);
-+	}
-+
-+	if (with_states && num_items) {
-+		states = malloc(sizeof(*states) * num_items);
-+		if (!states) {
-+			free(items);
-+			return -1;
-+		}
-+
-+		bzero(states, sizeof(*states) * num_items);
-+	}
-+
-+	batch->num_items = num_items;
-+	batch->item_sz = item_sz;
-+	batch->items = (__u64)items;
-+	batch->states = (__u64)states;
-+
-+	return 0;
-+}
-+
-+static void scmi_tlm_batch_free(struct scmi_tlm_batch *batch)
-+{
-+	free((void *)batch->items);
-+	free((void *)batch->states);
-+	bzero(batch, sizeof(*batch));
-+}
-+
-+static __attribute__((constructor)) void scmi_tlm_initialize(void)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	int fd, ret;
-+
-+	fd = open("/dev/scmi/" TLM_0, O_RDWR);
-+	if (fd < 0) {
-+		fprintf(stderr, "INIT: device not available\n");
-+		return;
-+	}
-+
-+	ksft_session.info.size = sizeof(struct scmi_tlm_abi_info);
-+	ret = ioctl(fd, SCMI_TLM_GET_ABI_INFO, &ksft_session.info);
-+	if (ret) {
-+		fprintf(stderr, "INIT: failed to get ABI info\n");
-+		goto out;
-+	}
-+
-+	if (ksft_session.info.abi_version != SCMI_TLM_ABI_VERSION_V1) {
-+		fprintf(stderr, "INIT: ABI Version %u NOT supported",
-+			ksft_session.info.abi_version);
-+		goto out;
-+	}
-+
-+	if (ksft_session.info.num_des) {
-+		ret = scmi_tlm_batch_init(&batch, ksft_session.info.num_des,
-+					  sizeof(*ksft_session.de_list), false);
-+		if (!ret) {
-+			ret = ioctl(fd, SCMI_TLM_GET_DE_LIST, &batch);
-+			if (!ret) {
-+				ksft_session.de_list = (struct scmi_tlm_de_info *)batch.items;
-+				ksft_session.num_des = batch.num_items;
-+			} else {
-+				scmi_tlm_batch_free(&batch);
-+			}
-+		}
-+	}
-+
-+	if (ksft_session.info.num_intervals) {
-+		int num_intervals = ksft_session.info.num_intervals;
-+		struct scmi_tlm_update_interval *intervals;
-+
-+		intervals = malloc(sizeof(*intervals) * num_intervals);
-+		if (!intervals) {
-+			fprintf(stderr, "INIT: Failed to allocate intervals");
-+			goto out;
-+		}
-+
-+		bzero(intervals, sizeof(*intervals) * num_intervals);
-+
-+		ksft_session.intervals = intervals;
-+		ksft_session.available.intervals = (__u64)intervals;
-+		ksft_session.available.num_intervals = num_intervals;
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_INTRVS, &ksft_session.available);
-+		if (ret) {
-+			fprintf(stderr, "INIT: Failed to retrieve intervals");
-+			free(intervals);
-+			goto out;
-+		}
-+	}
-+
-+	fprintf(stdout, "INIT: Found ABI version %u\n",
-+		ksft_session.info.abi_version);
-+	fprintf(stdout, "INIT: Discovered %u global update intervals\n",
-+		ksft_session.available.num_intervals);
-+
-+	ksft_session.original_cfg = malloc(sizeof(*ksft_session.original_cfg));
-+	if (ksft_session.original_cfg) {
-+		bzero(ksft_session.original_cfg, sizeof(*ksft_session.original_cfg));
-+
-+		ret = ioctl(fd, SCMI_TLM_GET_CFG, ksft_session.original_cfg);
-+		if (ret) {
-+			free(ksft_session.original_cfg);
-+			ksft_session.original_cfg = NULL;
-+		}
-+	}
-+
-+	ksft_session.initialized = true;
-+
-+out:
-+	close(fd);
-+}
-+
-+TEST(scmi_tlm_config_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_config));
-+	ASSERT_EQ(0,  offsetof(struct scmi_tlm_config, enable));
-+	ASSERT_EQ(1, offsetof(struct scmi_tlm_config, t_enable));
-+	ASSERT_EQ(2, offsetof(struct scmi_tlm_config, flags));
-+	ASSERT_EQ(3, offsetof(struct scmi_tlm_config, pad));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_config, grp_id));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_config, active));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_config, reserved));
-+}
-+
-+TEST(scmi_tlm_abi_info_struct_layout) {
-+	ASSERT_EQ(56, sizeof(struct scmi_tlm_abi_info));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_abi_info, size));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_abi_info, abi_version));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_abi_info, abi_features));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_abi_info, primary_de_impl_version));
-+	ASSERT_EQ(28, offsetof(struct scmi_tlm_abi_info, num_des));
-+	ASSERT_EQ(32, offsetof(struct scmi_tlm_abi_info, num_groups));
-+	ASSERT_EQ(36, offsetof(struct scmi_tlm_abi_info, num_intervals));
-+	ASSERT_EQ(40, offsetof(struct scmi_tlm_abi_info, num_shmtis));
-+	ASSERT_EQ(44, offsetof(struct scmi_tlm_abi_info, features));
-+	ASSERT_EQ(48, offsetof(struct scmi_tlm_abi_info, reserved));
-+}
-+
-+TEST(scmi_tlm_update_interval_struct_layout) {
-+	ASSERT_EQ(8, sizeof(struct scmi_tlm_update_interval));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_update_interval, secs));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_update_interval, exp));
-+}
-+
-+TEST(scmi_tlm_intervals_struct_layout) {
-+	ASSERT_EQ(32, sizeof(struct scmi_tlm_intervals));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_intervals, grp_id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_intervals, flags));
-+	ASSERT_EQ(5, offsetof(struct scmi_tlm_intervals, pad));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_intervals, num_intervals));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_intervals, pad2));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_intervals, reserved));
-+	ASSERT_EQ(24, offsetof(struct scmi_tlm_intervals, intervals));
-+}
-+
-+TEST(scmi_tlm_de_config_struct_layout) {
-+	ASSERT_EQ(48, sizeof(struct scmi_tlm_de_config));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_de_config, id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_de_config, enable));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_de_config, t_enable));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_de_config, sid));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_de_config, offset));
-+	ASSERT_EQ(20, offsetof(struct scmi_tlm_de_config, pad));
-+	ASSERT_EQ(24, offsetof(struct scmi_tlm_de_config, uuid));
-+	ASSERT_EQ(40, offsetof(struct scmi_tlm_de_config, reserved));
-+}
-+
-+TEST(scmi_tlm_de_info_struct_layout) {
-+	ASSERT_EQ(72, sizeof(struct scmi_tlm_de_info));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_de_info, id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_de_info, grp_id));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_de_info, data_sz));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_de_info, type));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_de_info, unit));
-+	ASSERT_EQ(20, offsetof(struct scmi_tlm_de_info, unit_exp));
-+	ASSERT_EQ(24, offsetof(struct scmi_tlm_de_info, ts_rate));
-+	ASSERT_EQ(28, offsetof(struct scmi_tlm_de_info, instance_id));
-+	ASSERT_EQ(32, offsetof(struct scmi_tlm_de_info, compo_instance_id));
-+	ASSERT_EQ(36, offsetof(struct scmi_tlm_de_info, compo_type));
-+	ASSERT_EQ(40, offsetof(struct scmi_tlm_de_info, persistent));
-+	ASSERT_EQ(41, offsetof(struct scmi_tlm_de_info, flags));
-+	ASSERT_EQ(42, offsetof(struct scmi_tlm_de_info, pad));
-+	ASSERT_EQ(44, offsetof(struct scmi_tlm_de_info, pad2));
-+	ASSERT_EQ(48, offsetof(struct scmi_tlm_de_info, name));
-+	ASSERT_EQ(64, offsetof(struct scmi_tlm_de_info, reserved));
-+}
-+
-+TEST(scmi_tlm_de_sample_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_de_sample));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_de_sample, id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_de_sample, pad));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_de_sample, tstamp));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_de_sample, val));
-+}
-+
-+TEST(scmi_tlm_data_read_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_data_read));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_data_read, grp_id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_data_read, flags));
-+	ASSERT_EQ(5, offsetof(struct scmi_tlm_data_read, pad));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_data_read, pad2));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_data_read, num_samples));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_data_read, samples));
-+}
-+
-+TEST(scmi_tlm_batch_struct_layout) {
-+	ASSERT_EQ(32, sizeof(struct scmi_tlm_batch));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_batch, num_items));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_batch, item_sz));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_batch, reserved));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_batch, states));
-+	ASSERT_EQ(24, offsetof(struct scmi_tlm_batch, items));
-+}
-+
-+TEST(scmi_tlm_grp_info_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_grp_info));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_grp_info, grp_id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_grp_info, num_des));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_grp_info, num_intervals));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_grp_info, pad));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_grp_info, reserved));
-+}
-+
-+TEST(scmi_tlm_grp_desc_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_grp_desc));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_grp_desc, grp_id));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_grp_desc, num_des));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_grp_desc, composing_des));
-+}
-+
-+TEST(scmi_tlm_shmti_info_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_shmti_info));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_shmti_info, sid));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_shmti_info, fd));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_shmti_info, len));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_shmti_info, offset));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_shmti_info, reserved));
-+}
-+
-+TEST(scmi_tlm_uuid_struct_layout) {
-+	ASSERT_EQ(16, sizeof(struct scmi_tlm_uuid));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_uuid, bytes));
-+}
-+
-+TEST(scmi_tlm_event_struct_layout) {
-+	ASSERT_EQ(24, sizeof(struct scmi_tlm_event));
-+	ASSERT_EQ(0, offsetof(struct scmi_tlm_event, type));
-+	ASSERT_EQ(4, offsetof(struct scmi_tlm_event, efd));
-+	ASSERT_EQ(8, offsetof(struct scmi_tlm_event, cookie));
-+	ASSERT_EQ(12, offsetof(struct scmi_tlm_event, pad));
-+	ASSERT_EQ(16, offsetof(struct scmi_tlm_event, reserved));
-+}
-+
-+FIXTURE(stlm) {
-+	int fd;
-+};
-+
-+FIXTURE_SETUP(stlm) {
-+	if (!ksft_session.initialized)
-+		SKIP(return, "initialization failed");
-+
-+	self->fd = open("/dev/scmi/" TLM_0, O_RDWR);
-+	if (self->fd < 0)
-+		SKIP(return, "device not available");
-+
-+	TH_LOG("Testing ABI Version %u on device %s",
-+	       ksft_session.info.abi_version, TLM_0);
-+}
-+
-+FIXTURE_TEARDOWN(stlm) {
-+	close(self->fd);
-+}
-+
-+TEST_F(stlm, tlm_get_cfg) {
-+	struct scmi_tlm_config cfg = {};
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	ASSERT_EQ(0, cfg.pad);
-+	ASSERT_EQ(0, cfg.reserved);
-+	ASSERT_EQ(0, cfg.flags & ~SCMI_TLM_CONFIG_FLAGS);
-+
-+	TH_LOG("SCMI_TLM_GET_CFG - ena:%u  t_ena:%u  secs:%u  exp:%d",
-+	       cfg.enable, cfg.t_enable, cfg.active.secs, cfg.active.exp);
-+
-+	for (int i = 0; i < ksft_session.info.num_groups; i++) {
-+		cfg.flags = SCMI_TLM_CONFIG_GROUP;
-+		cfg.grp_id = i;
-+
-+		ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+		ASSERT_EQ(0, cfg.pad);
-+		ASSERT_EQ(0, cfg.reserved);
-+		ASSERT_EQ(SCMI_TLM_CONFIG_GROUP, cfg.flags & SCMI_TLM_CONFIG_FLAGS);
-+		ASSERT_EQ(i, cfg.grp_id);
-+
-+		TH_LOG("SCMI_TLM_GET_CFG - ena:%u  t_ena:%u  grp_id:%u  secs:%u  exp:%d",
-+		       cfg.enable, cfg.t_enable, cfg.grp_id, cfg.active.secs, cfg.active.exp);
-+	}
-+
-+	/* Invalid GRP ID should be ignored when proper flags missing */
-+	cfg.grp_id = ksft_session.info.num_groups;
-+	cfg.flags = 0x0;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	ASSERT_EQ(0, cfg.pad);
-+	ASSERT_EQ(0, cfg.reserved);
-+}
-+
-+TEST_F(stlm, tlm_get_cfg_bad_group) {
-+	struct scmi_tlm_config cfg = {};
-+
-+	cfg.flags = SCMI_TLM_CONFIG_GROUP;
-+	cfg.grp_id = ksft_session.info.num_groups;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	ASSERT_EQ(0, cfg.pad);
-+	ASSERT_EQ(0, cfg.reserved);
-+	ASSERT_EQ(0, cfg.flags & ~SCMI_TLM_CONFIG_FLAGS);
-+}
-+
-+TEST_F(stlm, tlm_get_cfg_null_ptr_rejected) {
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_CFG, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_cfg_invalid_request) {
-+	struct scmi_tlm_config cfg = { };
-+
-+	cfg.pad = 0x1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	cfg.pad = 0x0;
-+	cfg.reserved = 0x1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	cfg.reserved = 0x0;
-+	cfg.flags = ~SCMI_TLM_CONFIG_FLAGS;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_CFG, &cfg));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_set_cfg) {
-+	struct scmi_tlm_config old_cfg = {};
-+	struct scmi_tlm_config new_cfg = {};
-+	struct scmi_tlm_config check_cfg = {};
-+
-+	if (!ksft_session.original_cfg)
-+		SKIP(return, "original config not available");
-+
-+	old_cfg = *ksft_session.original_cfg;
-+
-+	new_cfg = old_cfg;
-+	new_cfg.enable = !old_cfg.enable;
-+
-+	if (ksft_session.info.num_intervals > 1) {
-+		int num_intervals = ksft_session.info.num_intervals;
-+		struct scmi_tlm_update_interval *intervals;
-+
-+		intervals = (struct scmi_tlm_update_interval *)ksft_session.available.intervals;
-+		for (int i = 0; i < num_intervals; i++) {
-+			if (intervals[i].secs == old_cfg.active.secs &&
-+			    intervals[i].exp == old_cfg.active.exp)
-+				continue;
-+
-+			/* pick another valid interval */
-+			new_cfg.active.secs = intervals[i].secs;
-+			new_cfg.active.exp = intervals[i].exp;
-+			break;
-+		}
-+	}
-+
-+	TH_LOG("SCMI_TLM_SET_CFG - ena:%u  t_ena:%u  secs:%u  exp:%d",
-+	       new_cfg.enable, new_cfg.t_enable, new_cfg.active.secs, new_cfg.active.exp);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SET_CFG, &new_cfg));
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_CFG, &check_cfg));
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SET_CFG, &old_cfg));
-+
-+	ASSERT_EQ(new_cfg.enable, check_cfg.enable);
-+	ASSERT_EQ(new_cfg.active.secs, check_cfg.active.secs);
-+	ASSERT_EQ(new_cfg.active.exp, check_cfg.active.exp);
-+	ASSERT_EQ(0, check_cfg.pad);
-+	ASSERT_EQ(0, check_cfg.reserved);
-+}
-+
-+TEST_F(stlm, tlm_get_intrvs) {
-+	struct scmi_tlm_update_interval *intervals;
-+	struct scmi_tlm_intervals ivs = {};
-+	int num_intervals = ksft_session.info.num_intervals;
-+
-+	if (!num_intervals)
-+		SKIP(return, "No update intervals available");
-+
-+	intervals = malloc(sizeof(*intervals) * num_intervals);
-+	ASSERT_NE(NULL, intervals);
-+	bzero(intervals, sizeof(*intervals) * num_intervals);
-+
-+	ivs.num_intervals = num_intervals;
-+	ivs.intervals = (__u64)intervals;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+
-+	ASSERT_EQ(num_intervals, ivs.num_intervals);
-+	ASSERT_EQ(0, ivs.pad[0]);
-+	ASSERT_EQ(0, ivs.pad[1]);
-+	ASSERT_EQ(0, ivs.pad[2]);
-+	ASSERT_EQ(0, ivs.pad2);
-+	ASSERT_EQ(0, ivs.reserved);
-+	ASSERT_EQ(0, ivs.flags & ~SCMI_TLM_INTERV_FLAGS);
-+
-+	for (int i = 0; i < num_intervals; i++) {
-+		TH_LOG("SCMI_TLM_GET_INTRVS - [%d] secs:%u exp:%d", i,
-+		       intervals[i].secs, intervals[i].exp);
-+	}
-+
-+	free(intervals);
-+}
-+
-+TEST_F(stlm, tlm_get_intrvs_invalid_request) {
-+	struct scmi_tlm_update_interval interval = {};
-+	struct scmi_tlm_intervals ivs = {};
-+
-+	ivs.num_intervals = 1;
-+	ivs.intervals = (__u64)&interval;
-+	ivs.pad[0] = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&ivs, sizeof(ivs));
-+	ivs.num_intervals = 1;
-+	ivs.intervals = (__u64)&interval;
-+	ivs.pad2 = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&ivs, sizeof(ivs));
-+	ivs.num_intervals = 1;
-+	ivs.intervals = (__u64)&interval;
-+	ivs.reserved = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&ivs, sizeof(ivs));
-+	ivs.num_intervals = 1;
-+	ivs.intervals = (__u64)&interval;
-+	ivs.flags = ~SCMI_TLM_INTERV_FLAGS;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+}
-+
-+TEST_F(stlm, tlm_get_intrvs_oversized) {
-+	struct scmi_tlm_update_interval interval = {};
-+	struct scmi_tlm_intervals ivs = {};
-+
-+	ivs.num_intervals = ksft_session.info.num_intervals + 1;
-+	ivs.intervals = (__u64)&interval;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_INTRVS, &ivs));
-+	EXPECT_EQ(ENOSPC, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_list)
-+{
-+	struct scmi_tlm_de_info *des;
-+	struct scmi_tlm_batch batch = {};
-+
-+	if (!ksft_session.info.num_des)
-+		SKIP(return, "no DEs available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, ksft_session.info.num_des,
-+					 sizeof(*des), false));
-+
-+	des = (struct scmi_tlm_de_info *)batch.items;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+
-+	ASSERT_LE(batch.num_items, ksft_session.info.num_des);
-+
-+	for (int i = 0; i < batch.num_items; i++) {
-+		ASSERT_EQ(0, des[i].reserved);
-+		ASSERT_EQ(0, des[i].pad[0]);
-+		ASSERT_EQ(0, des[i].pad[1]);
-+		ASSERT_EQ(0, des[i].pad2);
-+		ASSERT_EQ(0, des[i].flags & ~SCMI_TLM_DEINFO_FLAGS);
-+
-+		TH_LOG("SCMI_TLM_GET_DE_LIST - [%d] id:0x%x name:%s", i, des[i].id,
-+		       des[i].name);
-+	}
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_de_list_zero_size_query)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(struct scmi_tlm_de_info);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+	ASSERT_EQ(ksft_session.info.num_des, batch.num_items);
-+	ASSERT_EQ(sizeof(struct scmi_tlm_de_info), batch.item_sz);
-+	ASSERT_EQ(0, batch.reserved);
-+	ASSERT_EQ(0, batch.items);
-+}
-+
-+TEST_F(stlm, tlm_get_de_list_zero_size_query_bad_item_sz)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(struct scmi_tlm_de_info) + 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_list_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_info de = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(de) + 1;
-+	batch.items = (__u64)&de;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(de);
-+	batch.reserved = 1;
-+	batch.items = (__u64)&de;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = ksft_session.info.num_des + 1;
-+	batch.item_sz = sizeof(de);
-+	batch.items = (__u64)&de;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_info)
-+{
-+	struct scmi_tlm_de_info info = {};
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	info.id = ksft_session.de_list[0].id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_INFO, &info));
-+	ASSERT_EQ(0, info.reserved);
-+	ASSERT_EQ(0, info.pad[0]);
-+	ASSERT_EQ(0, info.pad[1]);
-+	ASSERT_EQ(0, info.pad2);
-+	ASSERT_EQ(0, info.flags & ~SCMI_TLM_DEINFO_FLAGS);
-+
-+	TH_LOG("SCMI_TLM_GET_DE_INFO - id:0x%x name:%s data_sz:%u",
-+	       info.id, info.name, info.data_sz);
-+}
-+
-+TEST_F(stlm, tlm_get_de_info_invalid_request)
-+{
-+	struct scmi_tlm_de_info info = {};
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	info.id = ksft_session.de_list[0].id;
-+	info.flags = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_INFO, &info));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&info, sizeof(info));
-+	info.id = ksft_session.de_list[0].id;
-+	info.pad[0] = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_INFO, &info));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&info, sizeof(info));
-+	info.id = ksft_session.de_list[0].id;
-+	info.reserved = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_INFO, &info));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_info_bad_id)
-+{
-+	struct scmi_tlm_de_info info = {};
-+
-+	info.id = 0xffffffff;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_INFO, &info));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_cfg)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config *cfg;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), false));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	cfg[0].id = ksft_session.de_list[0].id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	ASSERT_EQ(1, batch.num_items);
-+	ASSERT_EQ(ksft_session.de_list[0].id, cfg[0].id);
-+	ASSERT_EQ(0, cfg[0].reserved);
-+
-+	TH_LOG("SCMI_TLM_GET_DE_CFG - id:0x%x ena:%u sid:%u offset:%u",
-+	       cfg[0].id, cfg[0].enable, cfg[0].sid,
-+	       cfg[0].offset);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_de_cfg_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config cfg = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(cfg) + 1;
-+	batch.items = (__u64)&cfg;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = ksft_session.info.num_des + 1;
-+	batch.item_sz = sizeof(cfg);
-+	batch.items = (__u64)&cfg;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(cfg);
-+	batch.items = 0;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_de_cfg_bad_id)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config *cfg;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), false));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	cfg[0].id = 0xffffffff;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	EXPECT_EQ(ENODEV, errno);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_de_cfg_bad_id_with_states)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config *cfg;
-+	int *states;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), true));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	states = (int *)batch.states;
-+
-+	cfg[0].id = 0xffffffff;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	ASSERT_LT(states[0], 0);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_de_read)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+	__u32 de_id;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list availalbe");
-+
-+	de_id = ksft_session.de_list[0].id;
-+	sample.id = de_id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_DE_READ, &sample));
-+	ASSERT_EQ(de_id, sample.id);
-+	ASSERT_EQ(0, sample.pad);
-+
-+	TH_LOG("SCMI_TLM_DE_READ - id:0x%x tstamp:%llu val:%llu", sample.id,
-+	       sample.tstamp, sample.val);
-+}
-+
-+TEST_F(stlm, tlm_de_read_invalid_request)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	sample.id = ksft_session.de_list[0].id;
-+	sample.pad = 1;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_DE_READ, &sample));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_de_read_null_ptr_rejected)
-+{
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_DE_READ, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_de_read_bad_id)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+
-+	sample.id = 0xffffffff;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_DE_READ, &sample));
-+	EXPECT_EQ(ENOENT, errno);
-+}
-+
-+TEST_F(stlm, tlm_single_read)
-+{
-+	struct scmi_tlm_de_sample *samples;
-+	struct scmi_tlm_data_read read = {};
-+	int num_samples = ksft_session.num_des;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	samples = malloc(sizeof(*samples) * num_samples);
-+	ASSERT_NE(NULL, samples);
-+	bzero(samples, sizeof(*samples) * num_samples);
-+
-+	read.num_samples = num_samples;
-+	read.samples = (__u64)samples;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SINGLE_READ, &read));
-+	ASSERT_LE(read.num_samples, num_samples);
-+	ASSERT_EQ(0, read.pad[0]);
-+	ASSERT_EQ(0, read.pad[1]);
-+	ASSERT_EQ(0, read.pad[2]);
-+	ASSERT_EQ(0, read.pad2);
-+	ASSERT_EQ(0, read.flags & ~SCMI_TLM_READ_FLAGS);
-+
-+	for (int i = 0; i < read.num_samples; i++) {
-+		ASSERT_EQ(0, samples[i].pad);
-+
-+		TH_LOG("SCMI_TLM_SINGE_READ = [%d] id:0x%x tstamp:%llu val:%llu", i,
-+		       samples[i].id, samples[i].tstamp, samples[i].val);
-+	}
-+
-+	free(samples);
-+}
-+
-+TEST_F(stlm, tlm_single_read_invalid_request)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+	struct scmi_tlm_data_read read = {};
-+
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.pad[0] = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SINGLE_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&read, sizeof(read));
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.pad2 = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SINGLE_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&read, sizeof(read));
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.flags = ~SCMI_TLM_READ_FLAGS;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SINGLE_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_single_read_oversized)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+	struct scmi_tlm_data_read read = {};
-+
-+	read.num_samples = ksft_session.info.num_des + 1;
-+	read.samples = (__u64)&sample;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SINGLE_READ, &read));
-+	EXPECT_EQ(E2BIG, errno);
-+}
-+
-+TEST_F(stlm, tlm_single_read_null_ptr_rejected)
-+{
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SINGLE_READ, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_bulk_read)
-+{
-+	struct scmi_tlm_de_sample *samples;
-+	struct scmi_tlm_data_read read = {};
-+	int num_samples = ksft_session.num_des;
-+	int i;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	samples = malloc(sizeof(*samples) * num_samples);
-+	ASSERT_NE(NULL, samples);
-+	bzero(samples, sizeof(*samples) * num_samples);
-+
-+	read.num_samples = num_samples;
-+	read.samples = (__u64)samples;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_BULK_READ, &read));
-+	ASSERT_LE(read.num_samples, num_samples);
-+	ASSERT_EQ(0, read.pad[0]);
-+	ASSERT_EQ(0, read.pad[1]);
-+	ASSERT_EQ(0, read.pad[2]);
-+	ASSERT_EQ(0, read.pad2);
-+	ASSERT_EQ(0, read.flags & ~SCMI_TLM_READ_FLAGS);
-+
-+	for (i = 0; i < read.num_samples; i++) {
-+		ASSERT_EQ(0, samples[i].pad);
-+
-+		TH_LOG("SCMI_TLM_BULK_READ - [%d] id:0x%x tstamp:%llu val:%llu", i,
-+		       samples[i].id, samples[i].tstamp, samples[i].val);
-+	}
-+
-+	free(samples);
-+}
-+
-+TEST_F(stlm, tlm_bulk_read_invalid_request)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+	struct scmi_tlm_data_read read = {};
-+
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.pad[0] = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BULK_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&read, sizeof(read));
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.pad2 = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BULK_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&read, sizeof(read));
-+	read.num_samples = 1;
-+	read.samples = (__u64)&sample;
-+	read.flags = ~SCMI_TLM_READ_FLAGS;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BULK_READ, &read));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_bulk_read_oversized)
-+{
-+	struct scmi_tlm_de_sample sample = {};
-+	struct scmi_tlm_data_read read = {};
-+
-+	read.num_samples = ksft_session.info.num_des + 1;
-+	read.samples = (__u64)&sample;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BULK_READ, &read));
-+	EXPECT_EQ(E2BIG, errno);
-+}
-+
-+TEST_F(stlm, tlm_bulk_read_null_ptr_rejected)
-+{
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BULK_READ, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_batch_read)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_sample *samples;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*samples),
-+					 false));
-+
-+	samples = (struct scmi_tlm_de_sample *)batch.items;
-+	samples[0].id = ksft_session.de_list[0].id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+
-+	ASSERT_EQ(1, batch.num_items);
-+	ASSERT_EQ(ksft_session.de_list[0].id, samples[0].id);
-+	ASSERT_EQ(0, samples[0].pad);
-+
-+	TH_LOG("SCMI_TLM_BATCH_READ - id:0x%x tstamp:%llu val:%llu", samples[0].id,
-+	       samples[0].tstamp, samples[0].val);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_batch_read_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_sample sample = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(sample) + 1;
-+	batch.items = (__u64)&sample;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(sample);
-+	batch.reserved = 1;
-+	batch.items = (__u64)&sample;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = ksft_session.info.num_des + 1;
-+	batch.item_sz = sizeof(sample);
-+	batch.items = (__u64)&sample;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_batch_read_bad_items_ptr)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(struct scmi_tlm_de_sample);
-+	batch.items = 0;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_batch_read_bad_id)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_sample *samples;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*samples), false));
-+
-+	samples = (struct scmi_tlm_de_sample *)batch.items;
-+	samples[0].id = 0xffffffff;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	EXPECT_EQ(ENOENT, errno);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_batch_read_bad_id_with_states)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_sample *samples;
-+	int *states;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*samples), true));
-+
-+	samples = (struct scmi_tlm_de_sample *)batch.items;
-+	states = (int *)batch.states;
-+
-+	samples[0].id = 0xffffffff;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_BATCH_READ, &batch));
-+	ASSERT_EQ(-ENOENT, states[0]);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_list_zero_size_query)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(struct scmi_tlm_grp_info);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_LIST, &batch));
-+	ASSERT_EQ(ksft_session.info.num_groups, batch.num_items);
-+	ASSERT_EQ(sizeof(struct scmi_tlm_grp_info), batch.item_sz);
-+	ASSERT_EQ(0, batch.reserved);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_list)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_grp_info *groups;
-+	int i;
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, ksft_session.info.num_groups,
-+					 sizeof(*groups), false));
-+
-+	groups = (struct scmi_tlm_grp_info *)batch.items;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_LIST, &batch));
-+	ASSERT_LE(batch.num_items, ksft_session.info.num_groups);
-+
-+	for (i = 0; i < batch.num_items; i++) {
-+		ASSERT_EQ(i, groups[i].grp_id);
-+		ASSERT_EQ(0, groups[i].pad);
-+		ASSERT_EQ(0, groups[i].reserved);
-+
-+		TH_LOG("SCMI_TLM_GRP_LIST - [%d] grp:%u num_des:%u num_intervals:%u",
-+		       i, groups[i].grp_id, groups[i].num_des, groups[i].num_intervals);
-+	}
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_list_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_grp_info group = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(group) + 1;
-+	batch.items = (__u64)&group;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(group);
-+	batch.reserved = 1;
-+	batch.items = (__u64)&group;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = ksft_session.info.num_groups + 1;
-+	batch.item_sz = sizeof(group);
-+	batch.items = (__u64)&group;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_info)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	group.grp_id = 0;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+	ASSERT_EQ(0, group.grp_id);
-+	ASSERT_EQ(0, group.pad);
-+	ASSERT_EQ(0, group.reserved);
-+
-+	TH_LOG("SCMI_TLM_GET_GRP_INFO - grp:%u num_des:%u num_intervals:%u",
-+	       group.grp_id, group.num_des, group.num_intervals);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_info_invalid_request)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+
-+	group.grp_id = 0;
-+	group.pad = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&group, sizeof(group));
-+	group.grp_id = 0;
-+	group.reserved = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_info_bad_group)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+
-+	group.grp_id = ksft_session.info.num_groups;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_desc)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+	struct scmi_tlm_grp_desc desc = {};
-+	int i;
-+	__u32 *de_ids;
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	group.grp_id = 0;
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+
-+	if (!group.num_des)
-+		SKIP(return, "group had no DEs");
-+
-+	de_ids = malloc(sizeof(*de_ids) * group.num_des);
-+	ASSERT_NE(NULL, de_ids);
-+	bzero(de_ids, sizeof(*de_ids) * group.num_des);
-+
-+	desc.grp_id = group.grp_id;
-+	desc.num_des = group.num_des;
-+	desc.composing_des = (__u64)de_ids;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_DESC, &desc));
-+	ASSERT_EQ(group.grp_id, desc.grp_id);
-+	ASSERT_LE(desc.num_des, group.num_des);
-+	ASSERT_EQ(0, desc.reserved);
-+
-+	for (i = 0; i < desc.num_des; i++)
-+		TH_LOG("SCMI_TLM_GET_GRP_DESC - grp:%u de[%d]:0x%x", desc.grp_id,
-+		       i, de_ids[i]);
-+
-+	free(de_ids);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_desc_invalid_request)
-+{
-+	struct scmi_tlm_grp_desc desc = {};
-+	__u32 de_id = 0;
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	desc.grp_id = 0;
-+	desc.num_des = 1;
-+	desc.composing_des = (__u64)&de_id;
-+	desc.reserved = 1;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_DESC, &desc));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_desc_bad_group)
-+{
-+	struct scmi_tlm_grp_desc desc = {};
-+	__u32 de_id = 0;
-+
-+	desc.grp_id = ksft_session.info.num_groups;
-+	desc.num_des = 1;
-+	desc.composing_des = (__u64)&de_id;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_DESC, &desc));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_desc_oversized)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+	struct scmi_tlm_grp_desc desc = {};
-+	__u32 de_id = 0;
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	group.grp_id = 0;
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+	desc.grp_id = 0;
-+	desc.num_des = group.num_des + 1;
-+	desc.composing_des = (__u64)&de_id;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_DESC, &desc));
-+	EXPECT_EQ(ENOSPC, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_grp_desc_bad_pointer)
-+{
-+	struct scmi_tlm_grp_info group = {};
-+	struct scmi_tlm_grp_desc desc = {};
-+
-+	if (!ksft_session.info.num_groups)
-+		SKIP(return, "no groups available");
-+
-+	group.grp_id = 0;
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_GRP_INFO, &group));
-+
-+	if (!group.num_des)
-+		SKIP(return, "group has no DEs");
-+
-+	desc.grp_id = 0;
-+	desc.num_des = group.num_des;
-+	desc.composing_des = 0;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_GRP_DESC, &desc));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_all_cfg)
-+{
-+	struct scmi_tlm_de_config cfg = {};
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_ALL_CFG, &cfg));
-+	ASSERT_EQ(0, cfg.reserved);
-+	ASSERT_LE(cfg.enable, 1);
-+	ASSERT_LE(cfg.t_enable, 1);
-+
-+	TH_LOG("SCMI_TLM_GET_ALL_CFG - ena:%u t_ena:%u", cfg.enable, cfg.t_enable);
-+}
-+
-+TEST_F(stlm, tlm_get_all_cfg_invalid_request)
-+{
-+	struct scmi_tlm_de_config cfg = {};
-+
-+	cfg.reserved = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_ALL_CFG, &cfg));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_all_cfg_null_ptr_rejected)
-+{
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_ALL_CFG, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_set_de_cfg)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config old_cfg = {};
-+	struct scmi_tlm_de_config new_cfg = {};
-+	struct scmi_tlm_de_config check_cfg = {};
-+	struct scmi_tlm_de_config *cfg;
-+	int set_ret;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), false));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	cfg[0].id = ksft_session.de_list[0].id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	old_cfg = cfg[0];
-+
-+	new_cfg = old_cfg;
-+	new_cfg.enable = !old_cfg.enable;
-+
-+	cfg[0] = new_cfg;
-+	set_ret = ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch);
-+	ASSERT_EQ(0, set_ret);
-+
-+	cfg[0].id = old_cfg.id;
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &batch));
-+	check_cfg = cfg[0];
-+
-+	cfg[0] = old_cfg;
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+
-+	ASSERT_EQ(new_cfg.id, check_cfg.id);
-+	ASSERT_EQ(!!new_cfg.enable, !!check_cfg.enable);
-+	ASSERT_EQ(!!new_cfg.t_enable, !!check_cfg.t_enable);
-+	ASSERT_EQ(0, check_cfg.reserved);
-+
-+	TH_LOG("SCMI_TLM_SET_DE_CFG = id:0x%x ena:%u t_ena:%u", check_cfg.id,
-+	       check_cfg.enable, check_cfg.t_enable);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_set_de_cfg_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config cfg = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(cfg) + 1;
-+	batch.items = (__u64)&cfg;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = ksft_session.info.num_des + 1;
-+	batch.item_sz = sizeof(cfg);
-+	batch.items = (__u64)&cfg;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(cfg);
-+	batch.items = 0;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_set_de_cfg_read_only_rejected)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config cfg = {};
-+	int fd;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	fd = open("/dev/scmi/" TLM_0, O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+
-+	cfg.id = ksft_session.de_list[0].id;
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(cfg);
-+	batch.items = (__u64)&cfg;
-+
-+	ASSERT_EQ(-1, ioctl(fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	EXPECT_EQ(EPERM, errno);
-+
-+	close(fd);
-+}
-+
-+TEST_F(stlm, tlm_set_de_cfg_bad_id)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config *cfg;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), false));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	cfg[0].id = 0xffffffff;
-+	cfg[0].enable = 1;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	EXPECT_EQ(ENODEV, errno);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_set_de_cfg_bad_id_with_states)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_de_config *cfg;
-+	int *states;
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, 1, sizeof(*cfg), true));
-+
-+	cfg = (struct scmi_tlm_de_config *)batch.items;
-+	states = (int *)batch.states;
-+
-+	cfg[0].id = 0xffffffff;
-+	cfg[0].enable = 1;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &batch));
-+	ASSERT_LT(states[0], 0);
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_set_all_cfg)
-+{
-+	struct scmi_tlm_batch saved_batch = {};
-+	struct scmi_tlm_de_config *saved;
-+	struct scmi_tlm_de_config old_all = {};
-+	struct scmi_tlm_de_config new_all = {};
-+	struct scmi_tlm_de_config check_all = {};
-+	int i, ret;
-+
-+	if (!ksft_session.de_list || !ksft_session.num_des)
-+		SKIP(return, "no DE list available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&saved_batch, ksft_session.num_des,
-+					 sizeof(*saved), false));
-+
-+	saved = (struct scmi_tlm_de_config *)saved_batch.items;
-+
-+	for (i = 0; i < ksft_session.num_des; i++)
-+		saved[i].id = ksft_session.de_list[i].id;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_DE_CFG, &saved_batch));
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_ALL_CFG, &old_all));
-+
-+	new_all.enable = !old_all.enable;
-+	new_all.t_enable = !old_all.t_enable;
-+
-+	ret = ioctl(self->fd, SCMI_TLM_SET_ALL_CFG, &new_all);
-+	if (ret) {
-+		ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &saved_batch);
-+		scmi_tlm_batch_free(&saved_batch);
-+		ASSERT_EQ(0, ret);
-+	}
-+
-+	ret = ioctl(self->fd, SCMI_TLM_GET_ALL_CFG, &check_all);
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_SET_DE_CFG, &saved_batch));
-+
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(!!new_all.enable, !!check_all.enable);
-+	ASSERT_EQ(!!new_all.t_enable, !!check_all.t_enable);
-+	ASSERT_EQ(0, check_all.reserved);
-+
-+	TH_LOG("SCMI_TLM_SET_ALL_CFG - ena:%u t_ena:%u", check_all.enable,
-+	       check_all.t_enable);
-+
-+	scmi_tlm_batch_free(&saved_batch);
-+}
-+
-+TEST_F(stlm, tlm_set_all_cfg_invalid_request)
-+{
-+	struct scmi_tlm_de_config cfg = {};
-+
-+	cfg.reserved = 1;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_ALL_CFG, &cfg));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_set_all_cfg_null_ptr_rejected)
-+{
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_SET_ALL_CFG, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_set_all_cfg_read_only_rejected)
-+{
-+	struct scmi_tlm_de_config cfg = {};
-+	int fd;
-+
-+	fd = open("/dev/scmi/" TLM_0, O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(-1, ioctl(fd, SCMI_TLM_SET_ALL_CFG, &cfg));
-+	EXPECT_EQ(EPERM, errno);
-+
-+	close(fd);
-+}
-+
-+TEST_F(stlm, tlm_get_shmti_list_zero_size_query)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(struct scmi_tlm_shmti_info);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_SHMTI_LIST, &batch));
-+	ASSERT_EQ(ksft_session.info.num_shmtis, batch.num_items);
-+	ASSERT_EQ(sizeof(struct scmi_tlm_shmti_info), batch.item_sz);
-+	ASSERT_EQ(0, batch.reserved);
-+	ASSERT_EQ(0, batch.items);
-+}
-+
-+TEST_F(stlm, tlm_get_shmti_list)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_shmti_info *shmtis;
-+	int i;
-+
-+	if (!ksft_session.info.num_shmtis)
-+		SKIP(return, "no SHMTIs available");
-+
-+	ASSERT_EQ(0, scmi_tlm_batch_init(&batch, ksft_session.info.num_shmtis,
-+					 sizeof(*shmtis), false));
-+
-+	shmtis = (struct scmi_tlm_shmti_info *)batch.items;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_SHMTI_LIST, &batch));
-+	ASSERT_LE(batch.num_items, ksft_session.info.num_shmtis);
-+
-+	for (i = 0; i < batch.num_items; i++) {
-+		EXPECT_EQ(0, shmtis[i].reserved);
-+		EXPECT_GT(shmtis[i].len, 0);
-+		EXPECT_NE(SCMI_TLM_SHMTI_ID_INVALID, shmtis[i].sid);
-+
-+		EXPECT_NE(-1, fcntl(shmtis[i].fd, F_GETFD));
-+		EXPECT_EQ(FD_CLOEXEC, fcntl(shmtis[i].fd, F_GETFD) & FD_CLOEXEC);
-+
-+		TH_LOG("SCMI_TLM_GET_SHMTI_LIST - [%d] sid:%u fd:%u len:%u offset:%u",
-+		       i, shmtis[i].sid, shmtis[i].fd, shmtis[i].len, shmtis[i].offset);
-+
-+		close(shmtis[i].fd);
-+	}
-+
-+	scmi_tlm_batch_free(&batch);
-+}
-+
-+TEST_F(stlm, tlm_get_shmti_list_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_shmti_info shmti = {};
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(shmti) + 1;
-+	batch.items = (__u64)&shmti;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_SHMTI_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(shmti);
-+	batch.reserved = 1;
-+	batch.items = (__u64)&shmti;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_SHMTI_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_shmti_list_bad_items_ptr)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	if (!ksft_session.info.num_shmtis)
-+		SKIP(return, "no SHMTIs available");
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(struct scmi_tlm_shmti_info);
-+	batch.items = 0;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_SHMTI_LIST, &batch));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_uuid_list_zero_size_query)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-+		SKIP(return, "UUID list not supported");
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(struct scmi_tlm_uuid);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+	ASSERT_EQ(sizeof(struct scmi_tlm_uuid), batch.item_sz);
-+	ASSERT_EQ(0, batch.reserved);
-+	ASSERT_EQ(0, batch.items);
-+
-+	TH_LOG("SCMI_TLM_GET_UUID_LIST - num_uuids:%u", batch.num_items);
-+}
-+
-+TEST_F(stlm, tlm_get_uuid_list)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_uuid *uuids;
-+	int i, j;
-+	bool nonzero;
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-+		SKIP(return, "UUID list not supported");
-+
-+	batch.num_items = 0;
-+	batch.item_sz = sizeof(*uuids);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+
-+	if (!batch.num_items)
-+		SKIP(return, "no UUIDs available");
-+
-+	uuids = malloc(sizeof(*uuids) * batch.num_items);
-+	ASSERT_NE(NULL, uuids);
-+	bzero(uuids, sizeof(*uuids) * batch.num_items);
-+
-+	batch.items = (__u64)uuids;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+	ASSERT_GT(batch.num_items, 0);
-+	ASSERT_EQ(sizeof(*uuids), batch.item_sz);
-+	ASSERT_EQ(0, batch.reserved);
-+
-+	for (i = 0; i < batch.num_items; i++) {
-+		nonzero = false;
-+
-+		for (j = 0; j < SCMI_TLM_DE_IMPL_UUID_SZ; j++) {
-+			if (uuids[i].bytes[j]) {
-+				nonzero = true;
-+				break;
-+			}
-+		}
-+
-+		EXPECT_TRUE(nonzero);
-+
-+		TH_LOG("SCMI_TLM_GET_UUID_LIST - [%d] %02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-+		       i, uuids[i].bytes[0], uuids[i].bytes[1],
-+		       uuids[i].bytes[2], uuids[i].bytes[3],
-+		       uuids[i].bytes[4], uuids[i].bytes[5],
-+		       uuids[i].bytes[6], uuids[i].bytes[7],
-+		       uuids[i].bytes[8], uuids[i].bytes[9],
-+		       uuids[i].bytes[10], uuids[i].bytes[11],
-+		       uuids[i].bytes[12], uuids[i].bytes[13],
-+		       uuids[i].bytes[14], uuids[i].bytes[15]);
-+	}
-+
-+	free(uuids);
-+}
-+
-+TEST_F(stlm, tlm_get_uuid_list_invalid_request)
-+{
-+	struct scmi_tlm_batch batch = {};
-+	struct scmi_tlm_uuid uuid = {};
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-+		SKIP(return, "UUID list not support");
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(uuid) + 1;
-+	batch.items = (__u64)&uuid;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&batch, sizeof(batch));
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(uuid);
-+	batch.reserved = 1;
-+	batch.items = (__u64)&uuid;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+	EXPECT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(stlm, tlm_get_uuid_list_bad_items_ptr)
-+{
-+	struct scmi_tlm_batch batch = {};
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-+		SKIP(return, "UUID list not supported");
-+
-+	batch.num_items = 1;
-+	batch.item_sz = sizeof(struct scmi_tlm_uuid);
-+	batch.items = 0;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_F(stlm, tlm_reset)
-+{
-+	if ((ksft_session.info.features & SCMI_TLM_SCMI_SUPPORT_RESET) == 0)
-+		SKIP(return, "reset not supported");
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_RESET));
-+
-+	TH_LOG("SCMI_TLM_RESET");
-+}
-+
-+TEST_F(stlm, tlm_reset_read_only_rejected)
-+{
-+	int fd;
-+
-+	if ((ksft_session.info.features & SCMI_TLM_SCMI_SUPPORT_RESET) == 0)
-+		SKIP(return, "reset not supported");
-+
-+	fd = open("/dev/scmi/" TLM_0, O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(-1, ioctl(fd, SCMI_TLM_RESET));
-+	EXPECT_EQ(EPERM, errno);
-+
-+	close(fd);
-+}
-+
-+TEST_F(stlm, tlm_event_subscribe)
-+{
-+	struct scmi_tlm_event evt = {};
-+	int efd;
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_EVENT) == 0)
-+		SKIP(return, "events not supported");
-+
-+	efd = eventfd(0, EFD_CLOEXEC);
-+	ASSERT_GE(efd, 0);
-+
-+	evt.type = SCMI_TLM_EVT_GENERATION;
-+	evt.efd = efd;
-+	evt.cookie = 0;
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+	ASSERT_GT(evt.cookie, 0);
-+	ASSERT_EQ(0, evt.pad);
-+	ASSERT_EQ(0, evt.reserved);
-+
-+	TH_LOG("SCMI_TLM_EVENT_SUBSCRIBE - type:%u cookie:%u", evt.type,
-+	       evt.cookie);
-+
-+	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+
-+	close(efd);
-+}
-+
-+TEST_F(stlm, tlm_event_subscribe_invalid_request)
-+{
-+	struct scmi_tlm_event evt = {};
-+	int efd;
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_EVENT) == 0)
-+		SKIP(return, "events not supported");
-+
-+	efd = eventfd(0, EFD_CLOEXEC);
-+	ASSERT_GE(efd, 0);
-+
-+	evt.type = SCMI_TLM_EVT_GENERATION;
-+	evt.efd = efd;
-+	evt.pad = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	bzero(&evt, sizeof(evt));
-+	evt.type = SCMI_TLM_EVT_GENERATION;
-+	evt.efd = efd;
-+	evt.reserved = 1;
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+	EXPECT_EQ(EINVAL, errno);
-+
-+	close(efd);
-+}
-+
-+TEST_F(stlm, tlm_event_subscribe_bad_type)
-+{
-+	struct scmi_tlm_event evt = {};
-+	int efd;
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_EVENT) == 0)
-+		SKIP(return, "events not supported");
-+
-+	efd = eventfd(0, EFD_CLOEXEC);
-+	ASSERT_GE(efd, 0);
-+
-+	evt.type = SCMI_TLM_EVT_LAST + 1;
-+	evt.efd = efd;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+	EXPECT_EQ(ENODEV, errno);
-+
-+	close(efd);
-+}
-+
-+TEST_F(stlm, tlm_event_subscribe_bad_eventfd)
-+{
-+	struct scmi_tlm_event evt = {};
-+
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_EVENT) == 0)
-+		SKIP(return, "events not supported");
-+
-+	evt.type = SCMI_TLM_EVT_GENERATION;
-+	evt.efd = -1;
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, &evt));
-+	EXPECT_EQ(EBADF, errno);
-+}
-+
-+TEST_F(stlm, tlm_event_subscribe_null_ptr_rejected)
-+{
-+	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_EVENT) == 0)
-+		SKIP(return, "events not supported");
-+
-+	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_EVENT_SUBSCRIBE, NULL));
-+	EXPECT_EQ(EFAULT, errno);
-+}
-+
-+TEST_HARNESS_MAIN   /* generates main() */
--- 
-2.54.0
+>> are applied in kernel mode relative to user mode.
+>>
+>> Add info/kernel_mode to expose the supported and active kernel modes via
+>> the resctrl filesystem. Supported modes are listed one per line, with the
+> 
+> (needs imperative)
+> 
+Sure.
 
+>> active mode enclosed in square brackets.
+>>
+>> Document the interface in Documentation/filesystems/resctrl.rst.
+> 
+> Above sentence is not necessary, it is obvious from the patch.
+
+Sure.
+
+A resctrl kernel mode enables kernel work to use different allocation
+and monitoring associations than the originating user task.
+
+Add info/kernel_mode to expose the supported and active kernel modes
+through the resctrl filesystem. List supported modes one per line, with
+the active mode enclosed in square brackets.
+
+
+
+> 
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> ...
+> 
+>> ---
+>>   Documentation/filesystems/resctrl.rst |  48 +++++++++++++
+>>   fs/resctrl/rdtgroup.c                 | 100 ++++++++++++++++++++++++++
+>>   2 files changed, 148 insertions(+)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index 73bf89d0ac83..73ccbb9594f5 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -527,6 +527,54 @@ conveyed in the error returns from file operations. E.g.
+>>   	# cat info/last_cmd_status
+>>   	mask f7 has non-consecutive 1-bits
+>>   
+>> +"kernel_mode":
+>> +	In the top level of the "info" directory, "kernel_mode" lists the
+> 
+> Note that just above this addition the documentation reads: "Finally, in the
+> top level of the "info" directory there is a file named "last_cmd_status"."
+> This addition thus creates a contradiction by adding another file after the
+> "Finally". Could you please rework that portion of the documentation to
+> have an introduction for the files in the top level info directory and make
+> it clear how there are two files in this directory, similar to how the other
+> directories are documented?
+
+Sure. Will do. Probably separate patch to change "last_cmd_status".
+
+> 
+>> +	kernel modes supported by the system, one per line, with the active
+>> +	mode enclosed in square brackets. A kernel mode determines the
+>> +	allocation and monitoring associations when a task switches from
+> 
+> Would user space know what "allocation and monitoring associations" means?
+> 
+
+Will add a line about association means.
+
+>> +	user mode to kernel mode.
+>> +
+>> +	Possible kernel modes are:
+>> +
+>> +	"inherit_user":
+>> +		Kernel mode work uses the allocation and monitoring associations
+>> +		of the user-space task on whose behalf it runs.
+>> +
+>> +	"global_enable_per_cpu":
+>> +		Kernel mode work uses the allocation and/or monitoring
+>> +		association of a backing CTRL_MON or MON group. The mode can
+>> +		be activated or deactivated per CPU. The line contains group=
+> 
+> Having a global "activate"/"deactivate" as well as a per CPU "activate"/"deactivate"
+> is confusing. The series switches between language here but I find other places
+> that refer to the global "activate"/"deactivate" and then per CPU "enable"/"disable"
+> to be easier to follow. Doing so will match the text of the "kmode_cpus" file that
+> reads "The association is enabled on CPUs added to the mask and disabled on CPUs
+> removed".
+
+Sure.
+
+> 
+>> +		and whichever of ctrl= and mon= the platform supports::
+>> +
+>> +		  global_enable_per_cpu:ctrl=<assign|inherit>;mon=<assign|inherit>;group=<CTRL_MON>/<MON>/
+>> +
+>> +		"ctrl":
+>> +			"assign" if kernel mode work uses the allocation
+>> +			association of the resource group named by "group",
+>> +			"inherit" if it uses the allocation association of
+>> +			the user-space task. Present only on systems that
+>> +			support allocation.
+> 
+> ok - this is already late in the series but this seems to make it clear that
+> "allocation association" means the portions of resources allocated to this group.
+> Thus the earlier " enum kmode_state - Control or monitoring association" is wrong?
+
+I think, it should be " enum kmode_state - Allocation or monitoring 
+association"
+
+> 
+>> +		"mon":
+>> +			"assign" if kernel mode work uses the monitoring
+>> +			association of the resource group named by "group",
+>> +			"inherit" if it uses the monitoring association of
+>> +			the user-space task. Present only on systems that
+>> +			support monitoring.
+>> +		"group":
+>> +			Path of the resource group, relative to the resctrl
+>> +			mount point. A CTRL_MON group is shown as <CTRL_MON>//,
+> 
+> Shouldn't it just be <CTRL_MON>/ ?
+
+Or We can say "<CTRL_MON>/<MON>/" to be generic for both cases.
+
+"The group is shown as  "<CTRL_MON>/<MON>/".
+
+
+> 
+>> +			a MON group as <CTRL_MON>/<MON>/.
+>> +
+>> +		When the mode is not active, the parameters are the defaults
+>> +		used if it is activated without new values.
+> 
+> "parameters are the defaults" seems to conflate two things: (a) the
+> supported parameters, and (2) the default values of those supported
+> parameters.
+> 
+
+When the mode is not active, the output shows the supported parameters
+and their default values, which are used if the mode is activated
+without new values.
+
+>> +
+>> +	Example of a system that supports allocation and monitoring, with
+>> +	default mode inherit_user::
+>> +
+>> +	  # cat info/kernel_mode
+>> +	  [inherit_user]
+>> +	  global_enable_per_cpu:ctrl=assign;mon=assign;group=//
+>> +
+>>   Resource alloc and monitor groups
+>>   =================================
+>>   
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index 75b81d07a247..e82709d64a00 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -993,6 +993,99 @@ static int rdt_last_cmd_status_show(struct kernfs_open_file *of,
+>>   	return 0;
+>>   }
+>>   
+>> +/* Names used in info/kernel_mode; indexed by enum resctrl_kernel_mode */
+>> +static const char * const resctrl_kmode_str[] = {
+>> +	[RESCTRL_INHERIT_USER]		= "inherit_user",
+>> +	[RESCTRL_GLOBAL_ENABLE_PER_CPU]	= "global_enable_per_cpu"
+>> +};
+>> +
+>> +static_assert(ARRAY_SIZE(resctrl_kmode_str) == RESCTRL_NUM_KERNEL_MODES);
+>> +
+>> +static const char *resctrl_kmode_state_str(enum kmode_state state)
+>> +{
+>> +	return state == KMODE_ASSIGN ? "assign" : "inherit";
+>> +}
+>> +
+>> +static void resctrl_kmode_group_path(struct rdtgroup *rdtgrp,
+>> +				     const char **ctrl, const char **mon)
+>> +{
+>> +	*ctrl = "";
+>> +	*mon = "";
+>> +
+>> +	if (rdtgrp->type == RDTMON_GROUP) {
+>> +		*ctrl = rdt_kn_name(rdtgrp->mon.parent->kn);
+>> +		*mon = rdt_kn_name(rdtgrp->kn);
+>> +	} else {
+>> +		*ctrl = rdt_kn_name(rdtgrp->kn);
+>> +	}
+>> +}
+>> +
+>> +/**
+>> + * resctrl_kernel_mode_show() - Display supported and active kernel modes
+>> + * @of:		kernfs open file
+>> + * @seq:	output seq_file
+>> + * @v:		unused
+>> + *
+>> + * Lists one line per mode and brackets the active mode. inherit_user
+>> + * has no parameters. global_enable_per_cpu prints ctrl= only when
+>> + * allocation is supported and mon= only when monitoring is supported,
+>> + * then group=.
+>> + *
+>> + * Return: 0 on success, or -ENOENT on error.
+>> + */
+>> +static int resctrl_kernel_mode_show(struct kernfs_open_file *of,
+>> +				    struct seq_file *seq, void *v)
+>> +{
+>> +	const char *ctrl_grp, *mon_grp;
+>> +	enum resctrl_kernel_mode mode;
+>> +	bool active;
+>> +	char sep;
+>> +
+>> +	if (!info_kn_lock(of->kn))
+>> +		return -ENOENT;
+>> +
+>> +	for (mode = 0; mode < RESCTRL_NUM_KERNEL_MODES; mode++) {
+>> +		if (!test_bit(mode, resctrl_kmode.kmode_sup))
+>> +			continue;
+>> +
+>> +		active = resctrl_kmode.kmode_cur == mode;
+>> +
+>> +		seq_printf(seq, active ? "[%s" : "%s", resctrl_kmode_str[mode]);
+>> +
+>> +		if (mode == RESCTRL_GLOBAL_ENABLE_PER_CPU) {
+>> +			ctrl_grp = "";
+>> +			mon_grp = "";
+>> +			if (active) {
+>> +				if (resctrl_kmode.rdtgrp)
+>> +					resctrl_kmode_group_path(resctrl_kmode.rdtgrp,
+>> +								 &ctrl_grp, &mon_grp);
+>> +				else
+>> +					pr_warn("%s active without a resource group\n",
+>> +						resctrl_kmode_str[mode]);
+>> +			}
+>> +
+>> +			sep = ':';
+>> +			if (resctrl_arch_alloc_capable()) {
+>> +				seq_printf(seq, "%cctrl=%s", sep,
+>> +					   resctrl_kmode_state_str(resctrl_kmode.ctrl));
+>> +				sep = ';';
+>> +			}
+>> +			if (resctrl_arch_mon_capable()) {
+>> +				seq_printf(seq, "%cmon=%s", sep,
+>> +					   resctrl_kmode_state_str(resctrl_kmode.mon));
+>> +				sep = ';';
+>> +			}
+>> +			seq_printf(seq, "%cgroup=%s/%s/", sep, ctrl_grp, mon_grp);
+> 
+> Looks like this will print a monitoring group on a system that does not support
+> monitoring? I understand that the monitoring group will be the empty string in this
+> scenario but in resctrl that has meaning of "default monitoring group" so printing
+> this when monitoring is not supported is unexpected.
+> 
+
+Ok. If monitoring not supported it will be "CTRL_MON/" (Example 
+group=ctrl1/") and then default group is "/".
+
+Is that what you are suggesting?
+
+
+> I also do not expect the monitoring group to be displayed if "mon=inherit" since
+> that presents a contradiction with stating that "monitoring group is inherited"
+> while printing a monitoring group.
+
+Yes. We should not display "mon=inherit" when monitoring in not 
+supported. Will check on this.
+
+Thanks
+Babu
