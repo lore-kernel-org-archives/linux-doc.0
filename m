@@ -1,218 +1,174 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013041.outbound.protection.outlook.com [40.93.201.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6E84DF4B4
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 15:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792164621; cv=none; b=rIMje0AYBlWM9v7CzP+hAGhuBOsHzymQm4w8OicnyPk2vOVWLpMjG44+jWOABYgpQgy81xEINn21rWomgCAXWbpnkbUUfk+4RK6lLphWJdA2PQjh3zFldzObBUU4pCQV6IaKR5QHBEE2Z0JAibt6zjcXMIfuOwXXZzbS3UoQjaU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792164621; c=relaxed/simple;
-	bh=IMgRqh7P9bFjG3FfvNoeXAv6Y2588Kxr8DTOqxdoKgw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=nlpIGCo0sndsCzLawH3ma61/NBIzxPW5MMOAXy13TEAmEVDekAjmU4teT3IBD/paPkYAnukPXTM/7iu9SJRRe4vNs8mz6YlaxYkWhJyJTcspDm0rrt4hVkm24zvtzvusp57W+SmDNpAd+uceV8qKXbsWX0uvmDe1CDH5d195Rh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHcDDe3T; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830014DD3B5;
+	Fri, 16 Oct 2026 15:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792165878; cv=fail; b=j5dHYGVhBWC3Xm830+mSF1I8C8/ql4jCyLdBxhOiMP1cGe66XytnB7KWsd77udz1tWWO533i1NxxspkhJsWGM9Y+/75V4fpIo+sMivmfqDbmb5xB0nEnL9q1aqPh44BC2qWTE+ktO+tiGpF25D3fU5QkszpSplhFAMwCs5LWCys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792165878; c=relaxed/simple;
+	bh=xJFS5ZHmrA36UwRimDLWeAxPunwJRIArilrpUPmhWcw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OwgbnO/7wjpKTsybtT0u0WO/nO8yDSKH4Oega43OdcWVV1wwdiSor26cnOzc6jfUWIqGX8Gh4Fkin/cVyNPiNENZU9BZTMKQlFiKQwbZ2Wgamx+jWkBlD9gC/f1SLucIhbRycVuaTy24AXNpgY9HcxRTW6W1tgvMPN5OmxH3eTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WbSO8NUF; arc=fail smtp.client-ip=40.93.201.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHcDDe3T"
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5e3e525cf4bso18445e0c.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 08:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792164619; x=1792769419; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EzgDhar5zkz19hBJENwPklhUs01SGYbuNfu08NDtMCg=;
-        b=KHcDDe3TiZHqPdrRSG1PuehEC3fud6vLfAYiRm5TT3GDi3zkDvf6KoV5YT+OK5B20x
-         piaQ2+hRNyy7xWEF48DyfIv1AIpiMeGFMF0s8fbLNy8x5kc+FLiYyLOe3BAposIrH/Pg
-         GOPIYGO/y/lWgppiHaknIzgJOzLIQDecBgK8eW6Pmr2/DKeQk6P9YYWV0Coxuo3ykfY0
-         ycNph4bc11HWb2ddYSS803JPu7nIkMJMFQVCOWdXb6/4isbWfeU5SezjIlLjs+9foQvo
-         ePAFFkOAlPLScxddFDbVRWosIXe/vWKuxC8VsI6rU+Y3p8A2er+A+O77EyIs6X7bUOEP
-         GYsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792164619; x=1792769419;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EzgDhar5zkz19hBJENwPklhUs01SGYbuNfu08NDtMCg=;
-        b=DtfAsvVFoQ07TXMAIW7o5wSt2YzqMgOzWHPdHve68Ox5B2jVodi2XyCmf58vzVzg+a
-         ihU3jwOp7l0Ebm86PUP42gTKGNRkaAjCpuqMN8buE6nxcrfKjd5Zz+Vf8KRUfQ5yZuwQ
-         zTk7ointzCf5OnfDy7evwvJmfjVQfc5EuRlA4JWzbyVF1Sd9k4HASUKRwkw0Pz/vkjHl
-         FH2vj1Y2/uR7quHGvu8fDKlSE3RCBKF3sUYE2XEYd6OPffurIa9py3vcx2MW9tHoZL8W
-         HJqYspjMD4VtjKMTANMYM3ZPv31kIrM+VGLzatzkFR/gUQioNxaO1Y3O5h1gEx3faQ1E
-         /6Bw==
-X-Forwarded-Encrypted: i=1; AKwUvBwFNb09GtMXVrHAJbQwk20bZkXROCOzhpYQ59pgTYqBsAovI4hDT240JD0YTCVmYv0MHF0U8ptwHLI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK808aTnOi4VfkeBGA7Kpt/uVsT+SYz3KwapbiIugK9xsYTgH7j
-	3SleujW3ZhSnSkzUrL5dFmBQkAsKnUAFwwRdWZh4oEwIqy0I3B0ogYIk
-X-Gm-Gg: AYBFou2v7qq3i5ylVpjWNC3m76Y8wn3sxTokDPDVKvDTpKfE8fIDs4yL8V6gYdgwRzy
-	RDZOsHDpdeqL36Vp/Fiw7qNkc0TBycoTiuDQIL4OogYbrtBb9KvoZqinz78I0KDhUGNqEkntx+P
-	vNDVhuZSV8G0p5o5Hx3tojyb3ndvcJpmTwlrFSHgxUechDKhhXt49WdgZSTk/Ym8HK2kDgBKZr5
-	7GEm+i984wR9MU+VMzF9l8Jj4Lf30S007LGwHatVTeBd/4f2VviRvqRLMLBL2yXX79dxx/Gse1d
-	4hoImS8rKy6he17TYYPpBN2p8k1HCz/pJz26wiICQLGwPuffASAP47nt28B2TVDakwUe8tXQahB
-	Xg4r3qJo2va403HKSBb2GGTz5c10IpQalMtR1z5yCQ6vdU/wgwzGy7p6ID6PwX67KMhg3KelfkK
-	pMqCNvu1yPygjevj+kLH8OnwINougM+mIx1s+XUjOu0HMSh62iV65bTjcffChagNIcJfHC8cO+2
-	qO7hCNOE1OgqgYULSt8qwOLHOWYaV/WetM4CcIvtN6roY+23Yfj2Jw2EX/hCIRthaKuZhxEd1Pi
-	1jVKKnHyhfSGtzDnenrYrJYyjbLmcXiuCnyrtw==
-X-Received: by 2002:a05:6102:94a:b0:7cc:1ace:fd14 with SMTP id ada2fe7eead31-7cc1acf084bmr1323389137.33.1792164618748;
-        Fri, 16 Oct 2026 08:30:18 -0700 (PDT)
-Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990833c2c2dsm1836983241.2.2026.10.16.08.30.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 08:30:17 -0700 (PDT)
-Date: Fri, 16 Oct 2026 11:30:17 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
- Jason Wang <jasowangio@gmail.com>, 
- =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- netdev@vger.kernel.org, 
- virtualization@lists.linux.dev, 
- Rusty Russell <rusty@rustcorp.com.au>, 
- Max Krasnyansky <maxk@qualcomm.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Simon Horman <horms@kernel.org>, 
- linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
-In-Reply-To: <20261016051827-mutt-send-email-mst@kernel.org>
-References: <cover.1792067836.git.mst@redhat.com>
- <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
- <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
- <20261016051827-mutt-send-email-mst@kernel.org>
-Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
- net hdr checksum validation
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WbSO8NUF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wDi6rCaIXHXEyuzymlFdJJKlA5wHkdbJ6VYHNjuSYDZmZ6sUxbn2snnTiSlxVuiz7fLu5+wxnP0J6k86TWTGjCyfy9ib1vyeSBFQipturuydXwNpHJ1ap2w0/QiIeoPmhRbx3D21TtJPIgBqwat4r+aiyW519TDvDFY/PrETggVoCTecrD/owJqde0PK/OhUGfmg4JnNyl4DwK6NlkhuQw7fcFNm+PSs8HPzym+MY8bhHNQcXG590qgIx5uyV486YBWqqFuBlTGomq6L5g2DUNp+5JYPlbEQnSPVNwrZGtJfBj3FJWK7g2P85jaVEhcLO2cAUTRiGe4wkCGHrUzxBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ccMvktBl/Wixz9VRLF1EnsnxWwd7e9jNRcVPk1eUWjw=;
+ b=Q9svggORrPtWol4RSSlLkTPFrlmTgNT6gMFeDfJMJOdQcv2z6JyHNzD/OKu+EA8th3mQlAblkTDlMYH5ehJa88XgFFXf2DuWeDWPLcD1ofRK4O8ou3Ejm8ojmwu4Hgt+tqzkKvFq0MSwxWH0JqYPIsg2/tmnbz/D+UF5RsV2AGD/S/5WbH7oEYE5zICuERcvQ6fjSSPTUhOF3prj16YJXp901K0FPyv1bBZ/nrfBO1vMDWrvOqiKHFJ4+6I00LzCHZPbCbwu37Kk75Pnjdkbp/Xfm6Cv5+wwWJ3oE5DouubPR4gz5jWzPK/ZPGlWWNdC+48xV2W7bKPmtJgwS6Y6gQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ccMvktBl/Wixz9VRLF1EnsnxWwd7e9jNRcVPk1eUWjw=;
+ b=WbSO8NUF0vef4gLGJIF8myOuxEuO8uiayn3HRcOogtmiHMgGhOdzhSZlgKZBsj1uJNsaLcuL9TLOC2AnTaKIVHmDjqQdScs9yh7fQJldGHUpEtt21JERZsmSlKLJeVlb0iLvCT4YPnonYn6FPVXyooSaUASzDohZ52LMa1Ar5DA=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by IA1PR12MB6330.namprd12.prod.outlook.com (2603:10b6:208:3e4::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Fri, 16 Oct
+ 2026 15:51:10 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 15:51:10 +0000
+Message-ID: <efe71c1b-00c4-46e3-8cfe-31020f6ff74d@amd.com>
+Date: Fri, 16 Oct 2026 10:50:58 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 08/18] x86/resctrl: Register
+ RESCTRL_GLOBAL_ENABLE_PER_CPU when PLZA is available
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
+ ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+ akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
+ elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
+ kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
+ ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
+ ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
+ prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
+ elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <05717f15f11f9e11f6b2a2737f4ed2f01fd9733b.1790867441.git.babu.moger@amd.com>
+ <b3f44e74-dbb6-428d-a746-618b7288df5c@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <b3f44e74-dbb6-428d-a746-618b7288df5c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH7PR10CA0012.namprd10.prod.outlook.com
+ (2603:10b6:510:23d::26) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA1PR12MB6330:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71c22056-bfa6-4217-6a63-08df2b9d4c95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|6133799003|22082099003|18002099003|10067099003|4143699003|261009223027099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	JX+dWmYpT30X0ncrY7OBxKUvUabZ/jTwgNJAFRqjoibkQAmCxreoVFIDWH3nwcsrirdfxM2wtx2zxRDDI+Ej4UjDG/ezN5wkXSG0xU0ppU/iKYWfxQJMRUfe4C3giteKmyw/ATDN57KxByRHWuaOOAWx5XuENSCqdyKV0o8Cip+Yx2WBHwzH5NRhTWTOHYTMHNW9enAe1gjVIAsS5WK9ygqz90K8relC9iyB8WukwLvlnhN1JFtO+SHg8eYLbtCR2zUezBjvHd0nQrdpwvcOikDbIXQPLRmhkRqbhgPg3ohKC67yqSOGLlNhrQ4DhFPjs5DrUpitknJWetE8cDt6idg23kdDN2J3HFmW/1YcX1IRabotXrnsFQMKRSNm1eNJ9ylcOKa8ZcZIxa7U9/PCzpIK/FHBrN9n67k7N/5uadaPk4a4TDtt0WbgoDEmCx6qWeOKmvAo8KD0hF9tc2ZCwkkHz2V/t4BI+WZT3d1AK+Ki+CUe/qEL5PcLsfHViqowtDrkcD8b37D7yag+5669Kt0/gOSkp8j/GRHpoA5FGDutY4BwGTfCt4ASi1GinCKXIpIrbxCO17cR0py1WppjrH/wTXaZQzcORkrQvnxALDpQyoEBjRcRkzmRzV4Z/GFULD+5p3ywnQxKZNkQFxKhJEWQu2W7nfCZGyjBBUFJ0J0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(6133799003)(22082099003)(18002099003)(10067099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K0RtWU4yQjh4d3NHNTBLeVkrVUkrMjk0UTE0NTJUYjNyT21nNkF5em9EcjFv?=
+ =?utf-8?B?d3htTndJSXJsbytZaHdGYy9YNXlIZ1VnUG5tNkMrNVpIYTcvNTB5NzZzS3I2?=
+ =?utf-8?B?NU5iS1hEOFJKdTdpK1lSN2lRY0lxcWtEQk9oSC9mTW96NEdzU1J6ZVA0c1VD?=
+ =?utf-8?B?TDNIRlJzSmZxNnZSWVhoTmtEeElzRmp5ZFlKOHlOSkJHWGF4S3gxM2RhOTVz?=
+ =?utf-8?B?M1lxei9EZzBUNmYrUmV3YnllWVpteWFwOFFDSnJEdm8yam94UTlra0RiZmV5?=
+ =?utf-8?B?Q1pjdWxCeDc5VGJxYW10U0phK2V1NWRTU1J3WmZWbzNieGU2T0lkR2k5V1l1?=
+ =?utf-8?B?a3duQU9lMmNRY3IwSWUweUlVM200aHJpK3JmcTVsYWVxL25ldXIwUlVVbnFC?=
+ =?utf-8?B?UEFzeCszUU5vQUZWanJIU2Y5Q3ZwTFA3dDBhNkdReko2TW4rRGFweXdFWi9P?=
+ =?utf-8?B?Snh5Vi9UbDg1dDJ1cTFzMGEzYlJ5V3Y0YWFPem9nOG54ZTBMTlg5Rm1iRWV0?=
+ =?utf-8?B?RFFSUXVjeW1zaWFwdlJjUGI4ejIyVmo1ZDIzU3dKckVBdVk3OFVGaXlreEU4?=
+ =?utf-8?B?L3YzOXdGcTQydTVwSk9LRzdROVlScHJOZ2tlRXFIOGpQTnE1OTZSOHFKN3hw?=
+ =?utf-8?B?T3hiTmQ1UlEyOURLVDBPb21uR2hCWUlES3B6eS9CaXZuaHJsSFNBSUhrdy9s?=
+ =?utf-8?B?bU1BeWQrdlFyZXZnNGtiY2orUnJXZ0ZkaWxIa1lVRUdSSWQyby92TllrRlF0?=
+ =?utf-8?B?cHl6UWk0ZTNwSzlpWFRMYmZIdXcyZmZMbnlSOW9CTzFTMzdSWVBxWmVJSWh6?=
+ =?utf-8?B?QWxpMExrNEc2eDZ5eXNHUmJtUm1GRzlqVXM2eE9lSWpKaXIrUVhwV2RBdktP?=
+ =?utf-8?B?TFAzeW1USW80ZXJpWk5ZTDBTc2JTY1d2QVJBWDR4TTVCQlNIR091NExPUFJr?=
+ =?utf-8?B?aUV0MkVyeXNtS0wwTXlFajZsMVZhRFNRa0FpRWxwcU5ZaUtyMGdBdnZhMUIy?=
+ =?utf-8?B?ckVwbm9GcHhGZy9IZnlSeDRwK0J0ZzVuck5taGo3aklnQlFSazdYeS91Y3Jo?=
+ =?utf-8?B?YVNVallveFZpREFvNHlsdEJkTkFmdEJZdU1ReVBQNVF2Q0ljT09kN1JDbi9P?=
+ =?utf-8?B?ZEFoQ0lPM1Y5bDV1VEZtNkdxY20wY3RNNWVRU3JtWnI4OUpWT3ZlYmhKUnJH?=
+ =?utf-8?B?RFpwNkFkQUxDSkExMXl2S0RkTWVvUDc3Z3RuV0NFUEI5aHJrK1RGNEhZdUZ5?=
+ =?utf-8?B?SDMxd3FCY2ZPQXFuK0VYbFpzVkJDTGZ4WFYwMDU5NkxQMFZCZytKcHR0aHRC?=
+ =?utf-8?B?c2ZrcERIZ25Kb0hscEw0UEVmK29CejVveEtBc3E5VEh0MUQzaGIzTW1oZEMz?=
+ =?utf-8?B?ZzlENk1kR2JrdzJNYUNBVXdFZ1lOVlB4ZXVqSmdSRTQzSmRwOXRWZzFoMVEz?=
+ =?utf-8?B?Zlcybm5kcTl5bE5nSUx6KzhXRythQldlOVYzM3J3d21saWYrVkM1ZHY4eEEw?=
+ =?utf-8?B?NlZYaTIvOFZzWnlCeC9DZEFmc2gwNEZ4bTlVSDJLMzdzYkpKSEpHcXJDekZD?=
+ =?utf-8?B?a3NYUEJUUGxQY280ZEFnTklSeUNJeDBCS2VMZW4rcG5MTW92TUVSVzZSd3Rx?=
+ =?utf-8?B?QjJUcXhDWlE2MTl1aTBhMzN4ODJZeVJzcTQwdU1ERTdFMVpHTlZUY0w1RVlS?=
+ =?utf-8?B?ZDY0OVVubVhLRGtBdTI4R0Nnc01ITmoycXBWV0VVcnFVUGV2UUJwSEVTYUoz?=
+ =?utf-8?B?dnJDVE14OGx4UTJaNFlXZmYzb3lyWTlwRkVoOWVFc1B2b0k4N2JvV0J4VzVF?=
+ =?utf-8?B?eWZQa0UwY1BXSDZXaWlmMXl2dy9hUmVxTlNJajF2TGhPNXFKY1N0enRicEtF?=
+ =?utf-8?B?SGV5TzBtRVpsZ0txNzNiOFBralJPQUN5NnJJMDJpaGRPakZRWTlSN0szTXVu?=
+ =?utf-8?B?K0xMbFR6UTZjZHNpV3I4RkFuMXQ5MkIwclhCK3hxWTRaeFVSOHBObmxQR3k4?=
+ =?utf-8?B?VkEvOEIxYy85SzQwczM3dlZkM3lpa0kxRCtiM24zYkFyQytVYjU3aVhUVnVZ?=
+ =?utf-8?B?NUtlbndsOUp1U0syWnhKZjFBTHBJMTVBOWJOaVMrS2p5ZVhlNEtnc0NMR1JJ?=
+ =?utf-8?B?ZXJwUnpZQ0JycDVCUmNNRU1xU3RtZk92MmpvUWV6S1ZaZ0tSYk9yUVQvRnBw?=
+ =?utf-8?B?eXpGT2p3Qmgxekl2MVJndXhtbE96UG41WGRVdUtxUWw0bnZQdnd2WDVIdU02?=
+ =?utf-8?B?d3BxYVV4N0U2OG12bThCYVB3U29HMXRRam9pWU1ZMWxWb2FKWVhZUUxudlJO?=
+ =?utf-8?Q?X1jn1+bpjhkyoJ1ay9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71c22056-bfa6-4217-6a63-08df2b9d4c95
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 15:51:10.5804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uJAXRJksiQRERWyG+n/Pb78Rmj9smXvjNAEC9cLkWVWQMZhfd3woDyFmNX35JO0n
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6330
 
-Michael S. Tsirkin wrote:
-> On Thu, Oct 15, 2026 at 01:50:54PM -0400, Willem de Bruijn wrote:
-> > Michael S. Tsirkin wrote:
-> > > The ingress validation as implemented by the previous
-> > > patch is stricter than what it replaced: GSO
-> > > packets whose checksum metadata matches no transport header are
-> > > dropped, and non-GSO ones get their checksum completed in place.
-> > > Such packets used to pass with the metadata unvalidated,
-> > > and with no overhead.
-> > > 
-> > > I judge that this should not affect any deployments, but there is still
-> > > some risk that it does.  In case a deployment depends on them anyway,
-> > > provide a per-netns switch to get the old behavior back:
-> > > 
-> > > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
-> > > 
-> > > The default is validating.
-> > > 
-> > > Assisted-by: LLM
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
-> > >  include/linux/virtio_net.h               | 23 ++++++++++
-> > >  include/net/netns/core.h                 |  1 +
-> > >  net/core/dev.c                           |  6 +++
-> > >  net/core/net_namespace.c                 |  1 +
-> > >  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
-> > >  6 files changed, 100 insertions(+)
-> > > 
-> > > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > > index e586e17fc7a5..7f230929c37e 100644
-> > > --- a/Documentation/admin-guide/sysctl/net.rst
-> > > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > > @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
-> > >  Default: 1 (on)
-> > >  
-> > >  
-> > > +virtio_net_hdr_csum_check
-> > > +-------------------------
-> > 
-> > Make more generic, virtio_net_hdr_validate?
-> > 
-> > In case we add more validation in the future (as we have in the past),
-> > without having to introduce multiple such knobs.
+Hi Reinette,
+
+On 10/15/2026 9:46 AM, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> But it's uapi, are you sure we'll be able to change the meaning
-> of an existing knob, even if we keep the name vague?
+> On 10/1/26 8:10 AM, Babu Moger wrote:
+>> PLZA (Privilege Level Zero Association) provides the global per-CPU kernel
+>> mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, allowing kernel work to use allocation
+>> and monitoring associations that differ from user tasks.
+>>
+>> Add x86 support for this kernel mode and make it available through the
 > 
-> > > +
-> > > +When processing packets with a virtio net header (through tun, tap, a
-> > > +packet socket or a virtio network device) that request checksum offload
-> > > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
-> > > +in software, or drop the packet where the header does not match it.
-> > > +
-> > > +When disabled, the header is trusted not to corrupt the packet, and the
-> > > +checksum is offloaded to hardware (or not verified if it never reaches
-> > > +hardware). This is only safe if no protocol is processing the packets.
-> > > +
-> > > +Default: 1 (on)
-> > > +
-> > > +
-> > >  wmem_default
-> > >  ------------
-> > >  
-> > > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-> > > index 357115ff0ec2..aa2f8ac4657c 100644
-> > > --- a/include/linux/virtio_net.h
-> > > +++ b/include/linux/virtio_net.h
-> > > @@ -5,6 +5,7 @@
-> > >  #include <linux/if_vlan.h>
-> > >  #include <linux/ip.h>
-> > >  #include <linux/ipv6.h>
-> > > +#include <linux/jump_label.h>
-> > >  #include <linux/netdevice.h>
-> > >  #include <linux/udp.h>
-> > >  #include <net/gso.h>
-> > > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
-> > >  	*thoff = nhoff + iph->ihl * sizeof(u32);
-> > >  	return iph;
-> > >  }
-> > > +/* Defined in net/core/dev.c, enabled while any network namespace
-> > > + * has net.core.virtio_net_hdr_csum_check set to 0.
-> > > + */
-> > 
-> > Should this be a global sysctl, rather than per netns?
-> 
-> 
-> For customers I work with, it would be much less useful.
+> nit: This patch does not add any support, it just registers the mode
+> with resctrl fs (as the subject already indicates). Didn't patch #5 already
+> claim to add support?
 
-Third option: make it an integer rather than a boolean.
+Yes. Will change it to:
 
-0: no validation
-1: current level of validation
-2 and beyond: if we have to extend it later
+PLZA (Privilege Level Zero Association) provides the global per-CPU
+kernel mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, allowing kernel work to use
+allocation and monitoring associations that differ from user tasks.
 
-Not pretty, I'll admit. So fine to keep as is too if you prefer.
-But I do foresee more changes in this area, if history is a guide.
- 
-> 
-> > Even if per-netns, most likely do not want it writable by netns root
-> > with user namespaces.
-> >
-> > That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
-> > of many crashes due to bad packets ingested by, e.g., a packet socket.
-> 
-> Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
-> on by default?
+Register the PLZA kernel mode with the resctrl kernel mode
+infrastructure so it can be exposed through the resctrl filesystem.
 
-A single system wide field is simplest.
 
-Is there a benefit to making this configurable on a per netns basis?
-
-If so, that's fine too. As long as root-in-namespace cannot modify it,
-so readonly indeed.
-
+Thanks
+Babu
