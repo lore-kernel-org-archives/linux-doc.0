@@ -1,100 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FA12E5B2A;
-	Fri, 16 Oct 2026 00:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDE4320A14;
+	Fri, 16 Oct 2026 01:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792111110; cv=none; b=PaURvSxhIpjuOBDLdueW3pmXqKp64CGlnQSbR1hX1Ejr3ptHPyZyybjX0818QxQZTIVGBjfOPSphRJcNF3zuylK32dgFQboDocahkIzshlAx/D0XkeFsDfr5WnLCmb5PmJ/Z4FWOtX3csTANGbSg4LpecFb8jRGaU9+feXnIgD4=
+	t=1792113012; cv=none; b=co4LquQ8BqdX8RYHJHg/lEzfJMfGS5HfbGaXxTt9WS88c5oF0w8EwHr4u3DaODkskr5/AQrMXiZ2TjHzpHFrhBj8ftQ/U+cz1nQN2I6Jdqv6K7fuGLEXIcqVLY5ev1j1pA3K7SosFI9oOlhU7Soxf1nhN3N0eNXnyvZJRXPyOug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792111110; c=relaxed/simple;
-	bh=NgcR8jGYw8Ii1hwCDbbFCJgZmg5BJd9Tvj+Gqt+ug/Q=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=dQmKiQAHL1qZf9lEmPBWPvzmnITgVAxXuOamcxj321aSU7hhHimi/CY6I6RwociJrpGAY7po8g629CSGvCb1UMvuslOL7wZ+02pm6WkxN+xRhZqMqnSoGYIHkj8pEQGCI4BnLKUPcmyWWOf/pcoaTfIUEHK4/dTzm/fJVG2mJtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZurLXw1a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792113012; c=relaxed/simple;
+	bh=jJBwI57N8NxOtNqR/lw1rTxK+DKwr9DBAKHPdGAVqQA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=osHtIruFxzkPBCwAudIIXYTJ+KYZgXoOJEIDVWs2uh0vERCtgzMMCzdSB69AxD+Xuc1VrVDoLXfKGcbPVuiTp9PBD7pbYoMteFuIGSmoWDXIFGQtnbSX9ZHf274ZkpxqESi2FkwPoEge3Z5jp4jrcm2U6ck5W6r7bFfdP9+tDdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3AMCqLG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZurLXw1a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58E81F000C4;
-	Fri, 16 Oct 2026 00:38:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1792111107;
-	bh=5TB8q3jOLCWfi6nq3LQFTYj1ETHvnif/9oaoAQuSXpY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZurLXw1a+hxon7EKEidO2yueKgWEk5blqWjqaamtLSRCsBIzY8FHyhEzvzkEUTA7B
-	 tBlA3od06X0fsQSI0Wcp2Y+7VfqBs2+xpZQVUi0mJyBXIfLW2sIC8wENlGkLLwMQPL
-	 agL+iUAd4qWd+NsX+vwGLfXAVs7Rr+vSDGtOq+zw=
-Date: Thu, 15 Oct 2026 17:38:26 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Nimrod Oren <noren@nvidia.com>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Brendan Jackman
- <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, David
- Laight <david.laight.linux@gmail.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: stop recalculating min_free_kbytes once set by
- userspace
-Message-Id: <20261015173826.e7ffb7333fb84f5be927ae88@linux-foundation.org>
-In-Reply-To: <26103c38-7b22-4176-8bc3-63e4b8fc6bbb@nvidia.com>
-References: <20261014140859.1006967-1-noren@nvidia.com>
-	<20261014144823.8c89da26c547fa95936a2fe5@linux-foundation.org>
-	<26103c38-7b22-4176-8bc3-63e4b8fc6bbb@nvidia.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3AMCqLG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067D51F000C4;
+	Fri, 16 Oct 2026 01:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792113011;
+	bh=3QKdo1CDvZjCcBHwv4n9MX+nM3umv5CEWvZzfgzuyUc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=O3AMCqLG6ivZN/p0HbmyAfcRQir91OOXINWIySGfFmZcmlUDylPZgdNV65fvMlnlv
+	 aSk2Kqc2K15XeSm9um7lSpXwcI5ehQ+Yq00+Wxzh4kHZ41Wh2imI7HtMpz424Hj945
+	 yfbkQau+S5qfzfUw9ApMRHcFFk4DDIOWWNOgAYhtgJNGQus+AP2DINDAtg802jqHpD
+	 Mwijn17tQDT1Is+iBOdxGhqOzYaZ1i04Xb+fuwzv30q8S/Ysc/rATh0lR6YSSVM1l8
+	 rJRdWD9lOfGzSWZNJ0i39s1vg3285GQ+d4zZvoU48DKuvW/CDcmX23xY7jaqLaHZz0
+	 UIzg7Ou7HTctw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F15853808209;
+	Fri, 16 Oct 2026 01:10:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] devlink: Fix accidental merge error in nested devlink
+ docs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179211300952.4187796.17115058563137504280.git-patchwork-notify@kernel.org>
+Date: Fri, 16 Oct 2026 01:10:09 +0000
+References: <20261011090739.746757-1-tariqt@nvidia.com>
+In-Reply-To: <20261011090739.746757-1-tariqt@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ cjubran@nvidia.com, cratiu@nvidia.com, gal@nvidia.com, jiri@resnulli.us,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, skhan@linuxfoundation.org, horms@kernel.org
 
-On Thu, 15 Oct 2026 19:16:40 +0300 Nimrod Oren <noren@nvidia.com> wrote:
+Hello:
 
-> On 15/10/2026 0:48, Andrew Morton wrote:
-> > On Wed, 14 Oct 2026 17:08:59 +0300 Nimrod Oren <noren@nvidia.com> wrote:
-> > 
-> >> min_free_kbytes is recalculated on memory hotplug and on THP sysfs
-> >> writes. The new value comes from calculate_min_free_kbytes() or, while
-> >> THP is enabled, from set_recommended_min_free_kbytes(). A value written
-> >> to the vm.min_free_kbytes sysctl is replaced whenever the new value is
-> >> higher, so a lower value does not stick. This matters most when THP is
-> >> enabled on configurations with large pageblocks, where the new value
-> >> can be excessive [1].
-> >>
-> >> Stop recalculating min_free_kbytes once a value has been written to the
-> >> sysctl. Systems where the sysctl is never written keep the current
-> >> behavior.
-> > 
-> > This problem lies somewhere in the range of "minor annoyance" to
-> > "catastrophically horrible", but it isn't clear where in that range it
-> > falls.
-> > 
-> > So can we please can we have a paragraph which explains the real-world
-> > userspace-visible runtime effects of this problem?
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sun, 11 Oct 2026 12:07:39 +0300 you wrote:
+> From: Cosmin Ratiu <cratiu@nvidia.com>
 > 
-> Sure. Can we add the following after the first paragraph?
+> The referenced "Fixes" commit accidentally reverted a correction
+> introduced in commit [1].
+> Revert that mistake.
 > 
->   For example, with default arm64 pageblock sizes, the THP
->   recommendation can reach 5.5 GiB per eligible zone with 64 KiB
->   pages vs 22 MiB with 4 KiB pages. This keeps a significant amount
->   of memory free, reducing what applications can use and triggering
->   reclaim much earlier. Users can lower vm.min_free_kbytes to avoid
->   this, but the lower value only sticks until the next recalculation.
+> [1] commit e504cf18ef47 ("docs: net: fix minor issues with devlink
+> docs")
+> Fixes: 3bf4c5970ca8 ("devlink: Update nested instance locking comment")
+> Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
+> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
 > 
+> [...]
 
-Thanks.
+Here is the summary with links:
+  - [net] devlink: Fix accidental merge error in nested devlink docs
+    https://git.kernel.org/netdev/net-next/c/393acb51d048
 
-Do you (and others) feel that we should backport this?  Or is it just
-not applicable to real-world users of older kernels?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-If we expect there to be non-zero users of 64k-page kernels on older
-versions then I think "yes, our users will benefit from this".
 
