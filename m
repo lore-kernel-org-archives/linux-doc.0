@@ -1,431 +1,200 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012041.outbound.protection.outlook.com [52.101.53.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5A4310779
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 20:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792183453; cv=none; b=r6fOwT7Yt92Ca75KLRm7GjSCo6bjFczBKnI+7w0R+FNyMolYr+EeWU/z88Zn4Zk/DnTL64eyCFJZAphz+LVzb+qD9G0yVYQKpE/lq+9YmP6daNIN2Xc/z4NAUzQoUopPuBIsjvyeRHn31caKTPA1ohdhE6/sIhBhRwSduwtxzF4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792183453; c=relaxed/simple;
-	bh=HkzCWUaXCSiZSlDOZOV2MoIIwhun+7kLsYQliY/CDLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dcsst9llqhU3pjhZx9YtkU7pz+Mb7oascC+edgDbI5Hl9kJQNecTBhbOkaLoyaSBf0HQrVcAf2l5NcKvvsR9WD4SWFpvfJgXOlJ0HA+IOl+wEdnnXK2gEqp3SqhE8xqP43vxiz0cQ85YLUplczXyOCNNeoKE4lqUtvg8XTa2Eeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sBYSUEtu; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2361E3812DB;
+	Fri, 16 Oct 2026 20:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792184025; cv=fail; b=VRpZl15d2q2vnl1F4Bj+q2uLwxesQlshsadmZcg9A3BGaCT/Jf1rWXdmTtLZJMKbUcpSidCCL31DKqbvH6Nb+NbH+jw4yTiK/wR5nTR1S5Kw8hvX+gLsCGk3bZRDOAyBtBbSeS2iLI2k/HTJG0H5Sg0YIPCPxNIOrn+zjpKP2dM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792184025; c=relaxed/simple;
+	bh=14086800gVworB+I65hSBgA3jifAIE4N7p3Z7vQUOhk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=e8+G7diI1jnyZmpUG1Yo7IX8mFZ/xCOuPaioDUu9ETeRK4Qev5XstLbzN1iV80KcJz1PQmZYLUQRvD+n7In46oP7OnjSyMjXeL9iLE8kUjDpMS+HF/7jjCQeZDUTnDCVAUGO1cvbzmwGFg9kaO0vTldJ5tHGf1rTCk2oBSL9xbo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zd3L8h40; arc=fail smtp.client-ip=52.101.53.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sBYSUEtu"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dc1508191so26725f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792183449; x=1792788249; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=haHwrcUAVioW0k4WW0rn4ICUkA35L0lW3cPQKSkeq6k=;
-        b=sBYSUEtuE/hdsM8PG7CDinbQEyM6PxK89H/RDqpMGjozeKEGBYvKWMIw8hR4TCTMtV
-         V1AkjQZ63Nbc1wC1RuNJRQxXms28Kh6S1mg+AHzLz/5eM6hCgdRtLVqPZj0L8kfllFoe
-         9Xmr6Y5P3jhNJYolCgEVDPAGQd1aYeYibpEzF66KHIgDeJFI7Lp0hvchEP4Xx0E/MDU6
-         lVjfBJEVeVN5xWcz1EXfA1Pk2aiAGTB3D2zAx4/kU01WJExPfzASyfjNFQFYlKXVnAKi
-         fiBlRSSu2THG0EBxhbseiam0ZbkGQX4aFRHyAJO9DIiab6TWEv0NTkeu3s5rmdjW/c4b
-         QJIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792183449; x=1792788249;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=haHwrcUAVioW0k4WW0rn4ICUkA35L0lW3cPQKSkeq6k=;
-        b=PGe4hCrloCj8lhCXJ6pSvyNO9WuM3Ii6Zq2suWW89Ef43IZRGljlGTRtVyVn2VhY/e
-         Ia+I7hsHPD3SWqqO0QJhjtvoElkbktYK5fzj/DW/tWbNRYAGYmY3N2XY+w0mQ/jK5Vpb
-         fm06D45EqOK+xtAC3dl+7qWVuUiQ0bm3/YqiVHUn0udsxZcb4K3kEs3y0noPTOuw1a7N
-         wkmYg4+hIjrOlaoR8G9u4yjLju9GDk+XSZdwV+fr6j7O2rMOhXn3i5fJUOxzeqZq9usu
-         Cn2cJqz2BXZ8Awp7pQltHWfXrv6AzgX+8oc6QBM19q5vXdt/Dkjn+Be6/ow0dBoNBO6N
-         ncjA==
-X-Forwarded-Encrypted: i=1; AKwUvBxyx+HWsbjclWlDTpTdxiSi06m6t/I4RpIGSNDqYy799ruaGp8sEzUoYR5NxLbXmBWzc5wLKE3f5I4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL6D6OK+gYHTFTU5jnuDf3YmHmVoDOz2UrcCZu7IHI9LLekWuqc
-	xuSDJdHOBBPmDAj87GOsBc9jEMIb90wv1P8WEygJoVCS74mu/+St+BJT
-X-Gm-Gg: AYBFou2Ji3IfuS7UnqyCB4EvGFtKj8ds4t0kbQJgDdOgaJ+VKxBo2PfHsuQykOWvt1A
-	oJO4QPHbrzMYh3F5B3Rcog3MzQLi0isGAt0YJL9kZUJkAJowHjNC73H/cipuRNyDW2JuDT0Diag
-	mVhhe0mm4Wxux7rzYvviwf8vIxNExtbf4Kmr5/TMR2rA4FMXel08nZWCYhi/NflElTNP5NygLPA
-	OJzqZrk5PcC2iUgZRcaKt9e1Ilh/yrav13Tt8hiFRgjHQxPGFuPxcbgu9NpeC48RLYcyoox36zx
-	F0Zqoj458amBrat5sAh8xmEjdRk20H++72Vtes8nP2XvIuTe5zLgqsBuje7RIweYKKkvUwMjZW5
-	gF8RBoXaAFTc9foGVPTJsdfKw/yrN8uL4TjjbYrO5DxxJPOdJrduZbbsJPd4Qc68FFKqNUdP8iR
-	xOb2QCmX92Bi54b7Q+L9qt6RCUxIxg70GYJHbmLo0fXLGcY4GHzxwpVUzFJPGSSKTumIoQT2o6+
-	R13EVfNRaNhlrJp8l2nA2s3JEBQavpO4lk3aJ4k
-X-Received: by 2002:a05:600c:8506:b0:4a1:c7f3:218e with SMTP id 5b1f17b1804b1-4a1d75dc193mr19946235e9.1.1792183449276;
-        Fri, 16 Oct 2026 13:44:09 -0700 (PDT)
-Received: from Nuel20.localdomain ([105.118.76.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f576asm7502077f8f.32.2026.10.16.13.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 13:44:08 -0700 (PDT)
-From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	mchehab@kernel.org,
-	paulmck@kernel.org,
-	linusw@kernel.org,
-	Julia.Lawall@inria.fr,
-	gary@garyguo.net,
-	rmk+kernel@armlinux.org.uk,
-	hemanth.selam@gmail.com,
-	Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-Subject: [PATCH] docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser
-Date: Fri, 16 Oct 2026 21:43:35 +0100
-Message-ID: <20261016204335.46241-1-emmaonana18@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261015190639.7b722dd7@foz.lan>
-References: <20261015190639.7b722dd7@foz.lan>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zd3L8h40"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wt0B8odFc2k8gWISW8OuKX1Fp8mBOvtuJ2ooid7P8Orc9NDMZwTmV/KID91ONxWtrmD6/2x1R8PX2/iE91AcliyVzZv9D8vSWBOSwpSFWbdKAc/4Or0vL6lOIMeb+ah2yQT8PfUt2n6ukHGrliyvE1SwpvB/p/UB+tVhJmM2CrnCbeg4t7KuObtsTvvQUpQp5jLh45CHPtiiYUgoY0IMGpXss6zvuq0BukASS3PcRtctyxO9OuPQ2X/NVRbeH77qIjBQ3jTK1RKKZrYXzOSFvEc3aa3f69+FKBaiNiDSYHYqQV4rzndi10Yc9+8VHS+bT0KBRSdW4wBo/KoZETS7xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p0mF232IflyvifGc2IXf7P6jXrZOBWgKMb1aq4CLVMU=;
+ b=LRak4zKGOqnBarGMb3XP6LVDDq2p/93vhpp+3GOe9WTfxq5pqtx7HLB2QGbcMF+5Gtqg1b+81gIPHfjyk0Kwth87VPeR7ChEH58B2o//piMoNrhM2m4FJkKVG58RRTIDaSgKhXgDAU+Db67iTKuNtijmIimM4036sPu49Bbq+AjAcZEODtZ41Wz06wr+0lRh4pXfLeEDL+q9luIFsg6yOLhf2tJZY6U6Q/uCj7vH+sFYDE5o5xtNaKiC0Tcus6cdMjVE3WwVZgXE0vBEGJ27IrN97EUtRq0QbtKI02kPk6zjxjoNeneiojBGVrKlKsesT6hp9aTehWotipmPSYCcjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p0mF232IflyvifGc2IXf7P6jXrZOBWgKMb1aq4CLVMU=;
+ b=zd3L8h40RUn9lyEyiwmUxlN3zJU50ns4DBs0IJu0QzFJtzhkI+v0hjSRzcO1j2CXBVuKCKrBHkP5QGUME58PZbVSlSF4jLORLgIvLHAznhvkSGlx/QFF3Levjc2YIo5Q6Z7vIrBSauLz2NxVfJJ/IyvdJYAzwp/0re2RbIaiFYQ=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by MW6PR12MB8916.namprd12.prod.outlook.com (2603:10b6:303:24b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 20:53:40 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
+ 20:53:39 +0000
+Message-ID: <89715865-895d-4771-a700-f1a8aaa385cc@amd.com>
+Date: Fri, 16 Oct 2026 15:53:29 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 10/18] fs/resctrl: Add support for hidden resource
+ group files
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
+ ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+ akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
+ elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
+ kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
+ ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
+ ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
+ prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
+ elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <9e770ba6dff365f823e702430ec3872709bc92d4.1790867441.git.babu.moger@amd.com>
+ <0ad861e2-1dce-4179-986c-872a33eff38a@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <0ad861e2-1dce-4179-986c-872a33eff38a@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0002.namprd13.prod.outlook.com
+ (2603:10b6:806:21::7) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|MW6PR12MB8916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e789879-368d-4f1a-99ce-08df2bc78e51
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|11063799006|56012099006|5023799004|4143699003|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	4YhkdYSTx00UXTtpuTkNwfeohAI2r9vcNLSHVkVvOmnbhimuNJNQIEtJfzNyrqlukL1jUr/VhDRi/YYU2LkOayUBY4jhLDYOt02CIhq0SaxMhlWtFKalBU2r/NdkcSxAUmVNQdOCImiEeT/MjK4u49f4FrNc1A6z0n1W0LHx/1wcbdXSkqoVclwBU7ybXDhKIfazAtw1TmlV8RfKe1VdB3s1/IX1beH70GdUl0BJ6u3lz9UuB4rIMgF+0O4alSqMKkbNf2j6Tlx/rO1yY5+zFgwPz6uUnt/vN0rhBjUpNzzaZNWkV2jQtCJEwMyX0gVzMge1RC8DBVEKWkeBQ+WNNRcu5jsHn6IsdjxtYDAFPPIA0lV9EaaoQXnEdzwWHZogmVbHx2VtAOiyFc4yTmYb1aIvO/Gmbct174Ybtqef/sOlRs56lokqurUORyJ0bXZWUuVrV3IjawIFfDZSnSecLu6dpPRK8mX47Oc0GGxEouEEESu4dX2/3p8BxL+m4sCdjQ1Ip7YTM0t6iqgzk+Ua98ifxT/naMJrdGgALSpNMIMHrLeTmCkVRg3gME6tagqVUhe1YpIep2M6ODITEgY9BiX3UbMDzn7kSRuut5jKF65ym7NC+EVABgbuHTCkADY4knwY7U64clZhdmpF3426GfbtuSRn4VcyJF24IdjHkIc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(11063799006)(56012099006)(5023799004)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QUcxZ2tydjVSTGlPclA5RTVSYTV5ZmgvdWltMEpoM3g5Q0F6dVhINUhtcGhr?=
+ =?utf-8?B?cW1UbXUrNjhZQzZOdDJIbSthNDladnRad1RRdnFVdllPSDh6NWZWZEZ6bXZJ?=
+ =?utf-8?B?RzZsVGhKVmNTaUNET1NUL09nTVJ4WWdQWU80UWpvVmNJZzhrV3BCRUdGTTYx?=
+ =?utf-8?B?S2hzMGNCTndKNC80Q21xRXhtbTBKYVUzeWlvQ25SY0JvVWdUUUZvb3MwTHlB?=
+ =?utf-8?B?WkxVWTJzTnlYY3VlK3BsN0tTcW1YY09kVEFnNHYzZTFGSUZUQ2lCK3ViSWdo?=
+ =?utf-8?B?dllpVFV4VU1UN1JYVjdCN2ZRSW9NdXRkNHJLS2FsNUZDVDhtV2tOWHI4bi9q?=
+ =?utf-8?B?bGVTRDVQMHhHSXRqbHZuZ3ZNT05KbHQwSjk4U1UyTS9qOVB5V3hINlJ4Y1Fo?=
+ =?utf-8?B?K2xLT09CYm1peG11RWRrZVY5dFlDelk1WEhoLzByNUU3b2xzSm84eTJQL0hs?=
+ =?utf-8?B?SGdSV0hTK2dqaEpjaDQwU3ZaMm1xL2wzcVJTcWxZa3Q4SnFaTGdublk4MkR3?=
+ =?utf-8?B?dTVUcWJRV0NjWXNEWlBqQ3FEZFdHd2lnT1gvVXlvYmhmS2lUbmJPd2dRTUdj?=
+ =?utf-8?B?NStGQ29JZlI1b0VtUU5SSkI1WkhBZEVwYXBwQVVrcUJyL3Q4MHNKUitXc3ZP?=
+ =?utf-8?B?TWpzRlJ1UWloWEdoMXVKODFnRlFlYmFkWFM1Z0d3Qm9HbzZRNGozSjloUDJK?=
+ =?utf-8?B?eUhrNHJHT0oxcG9JaXhrWFI0MVdqRFp1blVOSVVBZG92cTM3OHlFMkpKQkNI?=
+ =?utf-8?B?a3ZpajFiUWlyZTF0SDBlYklMSXRSK3RRaWpQeHc0Rnk4dTVYQnF5WEhWYVBD?=
+ =?utf-8?B?MUNXdHJzRWVlOVlvMFJwdW03SWE5dmhMSjhlQk9ZV3Jmc3hqcjdLWWJ4b0JT?=
+ =?utf-8?B?em45THQ4emx4RkZYVkVlK1M4SDhwdmJ4RTBESkhCdDRXRG8vYTRtSytCUFo0?=
+ =?utf-8?B?MWhnWGVyeTJkdTZ4ajI0TEs3LzZIb2JGOGUzVDZFY2F3U0FFa0xIUVVGK0NM?=
+ =?utf-8?B?UHZLalJyc29odzJ6eWl2QTN4MC9kdVdKYnJnNEUxdUdxMkZab2p3QlkvY0hU?=
+ =?utf-8?B?a0ZIMU9sUWlkYTZySkl4ZEdIa2Rhc2Y5d3QzSk1GMGgxSU16T2dGOS9EdFl2?=
+ =?utf-8?B?L1d4M3EwT1JTTzRIY0dKTUcyWmcwQWpBeXgrbGxkYXJXUVZjZDdqdTYwcDN0?=
+ =?utf-8?B?dzFBKzNNOXNsRStqTUFlZWpHSnk5cGpnT0JBZkpZVHl2cDh5bGduaG4rTGtl?=
+ =?utf-8?B?NzRYZU9KT3pKT3FTUW9sMzMyQU1hWk1pRWFkejMzdVBJSEU1QVRzM2RaeVBp?=
+ =?utf-8?B?MnpWbWsrcTljYklrOEFVcVNFUXJKUXk3QVV0Q3dWV2U2bGNzQ09xWDNZSFU1?=
+ =?utf-8?B?S3VBY21TYUs4dFJXR2pQRlJkaUJ3VGFsVDRSN3orQi9ZVC9CSXFzMjBES3Iy?=
+ =?utf-8?B?U1FnWEFHbHlPR1FUYWxCZ211QmxaODZOWjVrWktwcWlTMDNoNGlYWXA4dnZo?=
+ =?utf-8?B?ZkExM1ZRdVdEc0t2MitSMGRzTTF1WThnNW1FUVVZUXgwM0NXTGoybTlMV3VX?=
+ =?utf-8?B?bENlbklTWUU3enhIS0RiQTJhUWZPMHRsNnE0ZFRRUzY5alIrbVkzTHQ1RXl4?=
+ =?utf-8?B?clZDc1U2RzFCcUs1S0o3bDlYTGdrN21wK21ocThFeEtMYWJWNmRuM29TMStB?=
+ =?utf-8?B?WlZ2THlObzFOVEtXbjVlNysrMmxZdzBPdDJHemdJK2xLdGJ5REt3TzBOL1Y0?=
+ =?utf-8?B?Y0tOOUNLMGlVRCtrU2JHbWg1M0ZIYU1hMTk5L0R4ZlZXRVo5SXRDZHFaYkh2?=
+ =?utf-8?B?bTFjMnI3VXBzaEZFbDNGTEZrQXRGSjc0TUFyU3VBbEVseTJaMGV1Y3hBWHkw?=
+ =?utf-8?B?QTJ4azczZFZCVTVSMkp0eGJrNVZmbmZOSm1uTGlqOEdWQndkSmZBTnExS1lX?=
+ =?utf-8?B?ZXUyRGtMbEFVUmhXYXRqV0tib2Q0ZmxPYlZRdC9TU1JWd2k1dWtXTHVwSTdQ?=
+ =?utf-8?B?Rkp2b1hJZk9SRy9CMVNzREZaQkhTVUErK0dOcEJ6b1NxZnpqT2o0WmhBWW5u?=
+ =?utf-8?B?REc5VGI5M3RTcTVXSEhvZW00L21tRE5zNE42cG1BNXR4YlBaTnkzQmhqWkVx?=
+ =?utf-8?B?TVg4U0VZdmV4SjVObnJWamxXdTlGVlc3cnY5L0hDSXpGTVNHM3pPMnJ1bFU3?=
+ =?utf-8?B?NGZ5TUN3K21MaENDd2xmZnoyVjE0MEhTTGd6NW42VjBqWXZMMGp0RkhGMmdG?=
+ =?utf-8?B?MEtsN0V0S0F0UVN3b1UrM2xzWGNERFAzMWhZMmRRQnFIYTNRQ21mcE95bW1y?=
+ =?utf-8?Q?oGbv5ZW/DWGb/yVhc9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e789879-368d-4f1a-99ce-08df2bc78e51
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 20:53:39.8099
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L3Y1nfYgOceigfY6B6D2pt3CJDvIXsqvJzS9med3ZUfd22DEYNYDgfUnaa1k/NlP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8916
 
-kernel-doc fails to parse tracepoint declarations that use
-TRACE_EVENT_FN(), e.g. gpu_power_status:
+Hi Reinette,
 
-  drivers/gpu/drm/panthor/panthor_trace.h:28 ... Unrecognized
-  tracepoint format ...
-  ... expecting prototype for gpu_power_status(). Prototype was for
-  TRACE_EVENT_FN() instead
 
-tracepoint_munge() only matches TRACE_EVENT(), so the macro name is
-kept as the prototype and the TP_PROTO() arguments leak into the
-parameter list as garbage.
+On 10/15/2026 10:27 AM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 10/1/26 8:10 AM, Babu Moger wrote:
+>> Some per-group resctrl files are only meaningful once a resource group
+>> has an active kernel mode association.
+> 
+> Could this elaborate more about how the files depend on the kernel mode
+> and why they may not always be meaningful?
+> 
+>>
+>> Creating them only at activation would complicate group setup and
+> 
+> Why would it complicate group setup and teardown? I think it would
+> rather complicate mode activation and de-activation but since there is
+> no detail about how this will complicate group setup it is difficult to
+> compare. It is difficult to reason about a patch when the motivation is
+> vague.
+> 
+>> teardown, while exposing them on every group would show empty files
+> 
+> "show empty files" - technically these files, as they are implemented,
+> will not be empty but return errors
+> 
+>> with no clear purpose.
+>>
+>> Add a hidden property to struct rftype to hide files at creation.
+> 
+> Missing a "why".
+> This can append to describe how this adds the foundational support in
+> preparation for features to restore visibility when the feature's files
+> need to be exposed to user space.
+> 
 
-Match TRACE_EVENT_FN(), TRACE_EVENT_FN_COND(),
-TRACE_EVENT_CONDITION() and TRACE_EVENT_SYSCALL() the same way as
-TRACE_EVENT()
+Will rephrase the whole changelog:
 
-Add a regression test for the gpu_power_status declaration.
+"Some per-group resctrl files are only applicable to resource groups
+with an active kernel mode association. Accessing these files before a
+kernel mode association is established would result in errors and does
+not provide useful information.
 
-Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
----
-Move tracepoint handling to xforms_lists, together with SYSCALL_DEFINE
-as requested by Mauro.
+Creating and removing these files when a kernel mode is activated or
+deactivated would add complexity to the mode management path. Add a
+hidden property to struct rftype so files can be created with the
+resource group and exposed only when they become applicable.
 
-Question for Mauro: is adding syscall_munge() and
-tracepoint_munge() in apply() what you meant, or
-did you want a pure CMatch? A pure CMatch looks
-like it would need a tokenizer fix for nested
-commas, so I'd prefer to keep it this way unless
-you want the pure CMatch rework.
+This provides the infrastructure needed to control file visibility for
+future kernel-mode-specific resctrl interfaces."
 
- tools/lib/python/kdoc/kdoc_parser.py  | 110 ++++++--------------------
- tools/lib/python/kdoc/xforms_lists.py | 109 +++++++++++++++++++++++++
- tools/unittests/test_kdoc_parser.py   |  28 +++++++
- 3 files changed, 159 insertions(+), 88 deletions(-)
-
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 80d4245acd17..a274e06b9f23 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -1059,8 +1059,27 @@ class KernelDoc:
-             #
-             # Apply the initial transformations.
-             #
-+            # This also handles SYSCALL_DEFINE*() and TRACE_EVENT*()/
-+            # DEFINE_EVENT*() via CTransforms (see xforms_lists.py).
-+            #
-             prototype = self.xforms.apply("func", prototype)
- 
-+            #
-+            # Tracepoints are documented with their short name, e.g.
-+            # gpu_power_status for trace_gpu_power_status().
-+            # Accept the short name and store the full trace_ name.
-+            #
-+            r = KernRe(r'\btrace_(\w+)')
-+            if r.search(prototype):
-+                if self.entry.identifier == r.group(1):
-+                    self.entry.identifier = f"trace_{self.entry.identifier}"
-+
-+
-+            r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-+            if r.search(prototype):
-+                self.emit_msg(ln,
-+                              f"Unrecognized tracepoint format:\n{prototype}\n")
-+
-         # Yes, this truly is vile.  We are looking for:
-         # 1. Return type (may be nothing if we're looking at a macro)
-         # 2. Function name
-@@ -1493,82 +1512,6 @@ class KernelDoc:
-             self.entry.add_text(doc_content.group(1))
-         # else ... ??
- 
--    def syscall_munge(self, ln, proto):         # pylint: disable=W0613
--        """
--        Handle syscall definitions.
--        """
--
--        is_void = False
--
--        # Strip newlines/CR's
--        proto = re.sub(r'[\r\n]+', ' ', proto)
--
--        # Check if it's a SYSCALL_DEFINE0
--        if 'SYSCALL_DEFINE0' in proto:
--            is_void = True
--
--        # Replace SYSCALL_DEFINE with correct return type & function name
--        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
--
--        r = KernRe(r'long\s+(sys_.*?),')
--        if r.search(proto):
--            proto = KernRe(',').sub('(', proto, count=1)
--        elif is_void:
--            proto = KernRe(r'\)').sub('(void)', proto, count=1)
--
--        # Now delete all of the odd-numbered commas in the proto
--        # so that argument types & names don't have a comma between them
--        count = 0
--        length = len(proto)
--
--        if is_void:
--            length = 0  # skip the loop if is_void
--
--        for ix in range(length):
--            if proto[ix] == ',':
--                count += 1
--                if count % 2 == 1:
--                    proto = proto[:ix] + ' ' + proto[ix + 1:]
--
--        return proto
--
--    def tracepoint_munge(self, ln, proto):
--        """
--        Handle tracepoint definitions.
--        """
--
--        tracepointname = None
--        tracepointargs = None
--
--        # Match tracepoint name based on different patterns
--        r = KernRe(r'TRACE_EVENT\((.*?),')
--        if r.search(proto):
--            tracepointname = r.group(1)
--
--        r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
--        if r.search(proto):
--            tracepointname = r.group(1)
--
--        r = KernRe(r'DEFINE_EVENT\((.*?),(.*?),')
--        if r.search(proto):
--            tracepointname = r.group(2)
--
--        if tracepointname:
--            tracepointname = tracepointname.lstrip()
--
--        r = KernRe(r'TP_PROTO\((.*?)\)')
--        if r.search(proto):
--            tracepointargs = r.group(1)
--
--        if not tracepointname or not tracepointargs:
--            self.emit_msg(ln,
--                          f"Unrecognized tracepoint format:\n{proto}\n")
--        else:
--            proto = f"static inline void trace_{tracepointname}({tracepointargs})"
--            self.entry.identifier = f"trace_{self.entry.identifier}"
--
--        return proto
--
-     def process_proto_function(self, ln, line, source):
-         """Ancillary routine to process a function prototype."""
- 
-@@ -1598,18 +1541,9 @@ class KernelDoc:
-             r = KernRe(r'^(\S+\s+)\(\s*\*(\S+)\)')
-             self.entry.prototype = r.sub(r'\1\2', self.entry.prototype)
-             #
--            # Handle special declaration syntaxes
--            #
--            if 'SYSCALL_DEFINE' in self.entry.prototype:
--                self.entry.prototype = self.syscall_munge(ln,
--                                                          self.entry.prototype)
--            else:
--                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
--                if r.search(self.entry.prototype):
--                    self.entry.prototype = self.tracepoint_munge(ln,
--                                                                 self.entry.prototype)
--            #
--            # ... and we're done
-+            # ... and we're done. SYSCALL_DEFINE*() and TRACE_EVENT*()/
-+            # DEFINE_EVENT*() are handled via xforms_lists.CTransforms
-+            # inside dump_function().
-             #
-             self.dump_function(ln, self.entry.prototype, source)
-             self.reset_state(ln)
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index 15f6f21c7a9e..aa82dc927ef1 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -17,6 +17,98 @@ class CTransforms:
-     into something we can parse and generate kdoc for.
-     """
- 
-+    @staticmethod
-+    def syscall_munge(proto):
-+        """
-+        Handle syscall definitions.
-+
-+        Turns SYSCALL_DEFINE*() into a plain C prototype, e.g.::
-+
-+            SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
-+            -> long sys_setpriority(int which, int who, int niceval)
-+        """
-+
-+        is_void = False
-+
-+        # Strip newlines/CR's
-+        proto = re.sub(r'[\r\n]+', ' ', proto)
-+
-+        # Check if it's a SYSCALL_DEFINE0
-+        if 'SYSCALL_DEFINE0' in proto:
-+            is_void = True
-+
-+        # Replace SYSCALL_DEFINE with correct return type & function name
-+        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
-+
-+        r = KernRe(r'long\s+(sys_.*?),')
-+        if r.search(proto):
-+            proto = KernRe(',').sub('(', proto, count=1)
-+        elif is_void:
-+            proto = KernRe(r'\)').sub('(void)', proto, count=1)
-+
-+        # Now delete all of the odd-numbered commas in the proto
-+        # so that argument types & names don't have a comma between them
-+        count = 0
-+        length = len(proto)
-+
-+        if is_void:
-+            length = 0  # skip the loop if is_void
-+
-+        for ix in range(length):
-+            if proto[ix] == ',':
-+                count += 1
-+                if count % 2 == 1:
-+                    proto = proto[:ix] + ' ' + proto[ix + 1:]
-+
-+        return proto
-+
-+    @staticmethod
-+    def tracepoint_munge(proto):
-+        """
-+        Handle tracepoint definitions.
-+
-+        Turns TRACE_EVENT*()/DEFINE_EVENT*() into a plain C prototype,
-+        e.g.::
-+
-+            TRACE_EVENT_FN(gpu_power_status, TP_PROTO(...), ...)
-+            -> static inline void trace_gpu_power_status(...)
-+
-+        Returns the original string if the tracepoint format is not
-+        recognized, letting the caller emit a warning.
-+        """
-+
-+        tracepointname = None
-+        tracepointargs = None
-+
-+        # Match tracepoint name based on different patterns.
-+        # NOTE: DEFINE_EVENT*() takes a template name first, so the
-+        # event name is the second argument.
-+        for pattern, group in [
-+            (r'TRACE_EVENT\((.*?),', 1),
-+            (r'TRACE_EVENT_FN\((.*?),', 1),
-+            (r'TRACE_EVENT_FN_COND\((.*?),', 1),
-+            (r'TRACE_EVENT_CONDITION\((.*?),', 1),
-+            (r'TRACE_EVENT_SYSCALL\((.*?),', 1),
-+            (r'DEFINE_SINGLE_EVENT\((.*?),', 1),
-+            (r'DEFINE_EVENT\((.*?),(.*?),', 2),
-+        ]:
-+            r = KernRe(pattern)
-+            if r.search(proto):
-+                tracepointname = r.group(group)
-+
-+        if tracepointname:
-+            tracepointname = tracepointname.lstrip()
-+
-+        r = KernRe(r'TP_PROTO\((.*?)\)')
-+        if r.search(proto):
-+            tracepointargs = r.group(1)
-+
-+        if not tracepointname or not tracepointargs:
-+            return proto
-+
-+        return f"static inline void trace_{tracepointname}({tracepointargs})"
-+
-+
-     #
-     # NOTE:
-     #      Due to performance reasons, place CMatch rules before KernRe,
-@@ -147,6 +239,23 @@ class CTransforms:
-         if xforms_type not in self.xforms:
-             return source
- 
-+        #
-+        # Handle special declaration syntaxes first, so that the
-+        # declarative transforms below see plain C prototypes.
-+        #
-+        if xforms_type == "func":
-+            source_str = str(source)
-+            if 'SYSCALL_DEFINE' in source_str:
-+                source_str = self.syscall_munge(source_str)
-+                source = source_str
-+            else:
-+                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-+                if r.search(source_str):
-+                    munged = self.tracepoint_munge(source_str)
-+                    # tracepoint_munge() returns the input unchanged
-+                    # when the format is not recognized.
-+                    source = munged
-+
-         if isinstance(source, str):
-             source = CTokenizer(source)
- 
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index 4baa78ca02b3..04dafae412e4 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -444,6 +444,34 @@ class TestContextLockStruct(GenerateKdocItem):
-         self.assertEqual(entries[0].name, "debugfs_cancellation")
-         self.assertEqual(entries[0].warnings, [])
- 
-+class TestTraceEventFn(GenerateKdocItem):
-+    def test_trace_event_fn_declaration(self):
-+        source = """
-+            /**
-+             * gpu_power_status - called when hardware turns on or off
-+             * @dev: pointer to device
-+             * @shader_bitmap: bitmap
-+             */
-+            TRACE_EVENT_FN(gpu_power_status,
-+                TP_PROTO(const struct device *dev, u64 shader_bitmap),
-+                TP_ARGS(dev, shader_bitmap),
-+                TP_STRUCT__entry(__field(u64, shader_bitmap)),
-+                TP_fast_assign(__entry->shader_bitmap = shader_bitmap;),
-+                TP_printk("%s", __get_str(dev_name)),
-+                my_register, my_unregister
-+            );
-+        """
-+
-+        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-+        patcher = patch('builtins.open', new_callable=mock_open,
-+                        read_data=dedent(source))
-+        with patcher:
-+            _, entries = kernel_doc.parse_kdoc()
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "trace_gpu_power_status")
-+        self.assertEqual(entries[0].warnings, [])
-+
- #
- # Class and logic to create dynamic tests from YAML
- #
--- 
-2.43.0
-
+Thanks
+Babu
