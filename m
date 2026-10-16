@@ -1,135 +1,169 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C3714D98E6;
-	Fri, 16 Oct 2026 13:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128974756DF
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792157252; cv=none; b=kQ0qiOhEZaIfHqvQWX+TGC32cTMXeJia134PteHRoT+J3ySjw8yE6JCPJBd1fWmq8ppSmXnC7bVHgUBnlxnuS/Nr3qZVOFR4wC2dveTjhaq3x3BCx/Pg2Eojdz22/6XHHcOvNmOhFHpYLCaheprtiUulHJZ8+GP8ah9dqE/2N18=
+	t=1792157380; cv=none; b=Zri04ivZ07faqz6+RkWglh//Ns/UCNjNje4X2f+4j41aei40bt0EM8kC4a8rZcRCu3YhV1biX5tGebPsjK9XZnTcuSXVoAtfhKR/YkUGBOBmdvsCFSOem9ZuJJ158f5OaXhUZMmSMrhoJ2OrgxxymUwx/r/NLloaH0Z6mBq2TRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792157252; c=relaxed/simple;
-	bh=gJL+Ig+PnJG4Ys4tk6ii6Z0DhYNYqk+8QqkSxXfINF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=acCo4LNLqMxGXucz4a7tUkXysfZUv4/LJNGEfwP5+GiH0i60RkdsErsC4bRRf6mtnY8Oq7wemQCN1MradI1icoKKpGTaGBmkA9FXd4R5G90SWKfh/apSBfPa/w8EGNbG4g3D/qL8AzqkGANz5yO2NB1KFWQZhToptsQHRaq9w1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Hlz+sTX/; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1792157380; c=relaxed/simple;
+	bh=YBJCnJ8rsdKqrUNhHjjL6sBtv233CpMKpsd1Gw/TmLw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Na/VTJRJxrVvaLU/XrcEz2YWoNYNyshESh79Vya0XCY8XtawITCHRaslQQtf46DGVMXDYJeDbW4T/h2DziO6QYB5Co0oV3gdBip2WVsgxtbXPmulmr+/Ya2sbuKPqx/BQrazle4e3QBF8H1G69n7MdDyKwbRoRsMiVnPkIkY7E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZpU/OEyL; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Hlz+sTX/"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E07A714BF;
-	Fri, 16 Oct 2026 06:27:25 -0700 (PDT)
-Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26FFA3F673;
-	Fri, 16 Oct 2026 06:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792157249; bh=gJL+Ig+PnJG4Ys4tk6ii6Z0DhYNYqk+8QqkSxXfINF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hlz+sTX/WZBD14pDUSYYkKwmv8GmcUxwHxVccqYoVMhG3esxdy6A3JvJgOwBi2JA6
-	 ieAN1ymj8V+r0tdA69+KXVWQXF5ZKVBpDodL3Eko6E/WFPrI/moIeUIVupT+KvSRHv
-	 64botKz15g5rDwrSMbdkTCYJidJSwkBlrGJXasS4=
-Date: Fri, 16 Oct 2026 14:27:14 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: "Tomohiro Misono (Fujitsu)" <misono.tomohiro@fujitsu.com>
-Cc: 'Catalin Marinas' <catalin.marinas@arm.com>,
-	'Will Deacon' <will@kernel.org>, 'Jonathan Corbet' <corbet@lwn.net>,
-	'Shuah Khan' <skhan@linuxfoundation.org>,
-	'Randy Dunlap' <rdunlap@infradead.org>,
-	'Marc Zyngier' <maz@kernel.org>,
-	'Thomas Gleixner' <tglx@kernel.org>,
-	'Radu Rendec' <radu@rendec.net>, 'Oliver Upton' <oupton@kernel.org>,
-	'Fuad Tabba' <fuad.tabba@linux.dev>,
-	'Joey Gouly' <joey.gouly@arm.com>,
-	'Steffen Eiden' <seiden@linux.ibm.com>,
-	'Suzuki K Poulose' <suzuki.poulose@arm.com>,
-	'Zenghui Yu' <yuzenghui@huawei.com>,
-	"Kohei Enju (Fujitsu)" <enju.kohei@fujitsu.com>,
-	"'linux-arm-kernel@lists.infradead.org'" <linux-arm-kernel@lists.infradead.org>,
-	"'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>,
-	"'linux-doc@vger.kernel.org'" <linux-doc@vger.kernel.org>,
-	"'linux-perf-users@vger.kernel.org'" <linux-perf-users@vger.kernel.org>,
-	"'kvmarm@lists.linux.dev'" <kvmarm@lists.linux.dev>
-Subject: Re: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU-MONAKA
- Erratum E#030002
-Message-ID: <atImMmlBmOYlY5T2@J2N7QTR9R3.cambridge.arm.com>
-References: <20261016-monaka-fix-for-upstream-v2-0-fc7ede7f9f48@fujitsu.com>
- <20261016-monaka-fix-for-upstream-v2-3-fc7ede7f9f48@fujitsu.com>
- <atIT0dmeqAXLoThW@J2N7QTR9R3.cambridge.arm.com>
- <OSCPR01MB1573944ED57DC682897594F06E59B2@OSCPR01MB15739.jpnprd01.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZpU/OEyL"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1570890f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 06:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1792157377; x=1792762177; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8jpDLmMBbHfkeVF10s2tGINPrgBL1dTjWhJOL3aqJTw=;
+        b=ZpU/OEyLXA+Mq7KbIo199qfX5BpcXlLuOPVbM/KdkSf4q9Vj0sIt7l0tzl/IIZAWT2
+         Qp0ncOfC8Ban/DUJzDJ81C/UFjZryqF+NXb5oPVSC9URR6w+JxCnrgNcu81jVqyvSWzX
+         ogzCDVrnbVOixRbZF9950FqGuy6WHAtXxJQopx2JjA1E12inU71N1T1PitZIeHKfeOOw
+         XZWKSEcpmjAX7E/CzFOQ5EtVQ6oy0i8s391QuKZeT2t2la1WoyUNqlv6LSQRQ2UO3LJF
+         DJ8sE9SibYexUF+opKbsxkwykQfboZnU46jcbR4P1npGa9Ww6vUGemzkGP8aiHzN2t1X
+         Yo+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792157377; x=1792762177;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8jpDLmMBbHfkeVF10s2tGINPrgBL1dTjWhJOL3aqJTw=;
+        b=jLcVdDhHkt/3B3nzc0LcmBeG+Sl/tj9XrodiCNiX7k5OoJtPdiHeX+MDx0Vo4yn810
+         DAhWDlmmYGFURWzUT9d7dY+rYGSJBXOx7ketEN6T+BQTq09p/8KfRhu/SsaYBEHj72Mb
+         eQg87013/uw2ps/TqQiF3M2al2Q97eeqU5PqDEH0M5GWMCDugehbT98SFC5hZixUcgty
+         VaMAlQAAvtinq/yoImoGYz+gurMIIEkXAsV60X90/RWre/dF5C6JLFtRVwKOrrDw7lk4
+         XH0iw/PRjZ1SADlYmIgEOByCPOiP9/Ls7vOBBzY5CiP+QLT5eyxSpv17qBTP+90fRhs6
+         bUtA==
+X-Forwarded-Encrypted: i=1; AKwUvBxWaTqEQg3sv809wn7xgIkoaIU78CGqP9lq9KIVf5NLMw4AGDkRWmU9faLzYMv8q8qC4KV9nwvNXVc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLRuKfCLC66KLKg7FURf59YCYHhBKdlMEiB3yUaoq324n7PIR5C
+	KPmj+FijMI9aLrBTmbGNADEaXypSpQXw3Lagvi/UEcMewSChYLksh7eTGmj3F2BT7JE=
+X-Gm-Gg: AYBFou1se6+QKMjdL7wsPTi7BIv1eZKhk1ryBl/9ANEUNKGo/Tj8d645SMHtjBEM1IW
+	jXh/hZQlgQxZA63LN2+nYtMYh0H4aOLRa+3Fd9anYab8FTguSUSndWGxGqKTex2GCQCJyiB8Xzb
+	dxOknJDlGz/c2BRu+DYS5rbgclnpebIE75tYrVay80lyA9OaDYPY35yd2I2HXO79eKWTGN15YJn
+	K3kbi2tC3Gzh8cebRfvl+03/7Q1TV3vVK5HSax3ljrwgKAafzK4nINpWDPYdCMAQND0mTciBq2f
+	CzfKLSDTLslmKLbVBIjSQNpRASXlM0gH4QUpEKZX09ZLdz1i/UlXL7wDIp11sOVdDidmIAJhDt6
+	XnHIIXJthlLo4iUMCJ6V8Xxx+Pgjh53cKQNdr455hDHjUUN06PmnOLgttfdvmWmcJWo6xReFEMC
+	qxqyqf7F1pjlk10tXU6UJqQC4AkNIKZiHpQbMtz0U12ik+9/Pz1iHblmggfe5kBHXOJup+jUNaC
+	nE=
+X-Received: by 2002:a05:6000:26c7:b0:48d:f851:ee5f with SMTP id ffacd0b85a97d-48df851f00dmr9820547f8f.24.1792157377206;
+        Fri, 16 Oct 2026 06:29:37 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4d4dddsm5173034f8f.22.2026.10.16.06.29.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 06:29:36 -0700 (PDT)
+Message-ID: <f1a7dac8-5a01-4fc2-bf81-b7609e332e9d@linaro.org>
+Date: Fri, 16 Oct 2026 14:29:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSCPR01MB1573944ED57DC682897594F06E59B2@OSCPR01MB15739.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/25] perf/core: Prevent AUX sampling from racing with
+ pause/resume
+To: Leo Yan <leo.yan@arm.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-2-35cf6f297d20@arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-2-35cf6f297d20@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2026 at 01:00:13PM +0000, Tomohiro Misono (Fujitsu) wrote:
-> > Subject: Re: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU-MONAKA Erratum E#030002
-> > 
-> > On Fri, Oct 16, 2026 at 07:00:47PM +0900, Tomohiro Misono wrote:
-> > > FUJITSU-MONAKA Erratum E#030002 affects FUJITSU-MONAKA CPU.
-> > >
-> > > On affected FUJITSU-MONAKA CPUs, after a PMU event counter is
-> > > stopped at a value just before overflow, an overflow might still
-> > > be incorrectly detected, resulting interrupt storm in some case.
-> > >
-> > > For example, if the following conditions are met:
-> > >   1) Running perf to count an event in user space only
-> > >   2) The event can also occur in kernel space
-> > >   3) The counter value is set just before the overflow
-> > >      (when using the -F option, initial counter value is -1)
-> > >
-> > > when the kernel is about to return to user space after enabling
-> > > the count, an overflow interrupt is incorrectly triggered by an
-> > > event that occurred in kernel space. Since the counter value is
-> > > not updated (correctly), the interrupt handler does nothing and
-> > > returns with the same condition. This leads to another wrong interrupt
-> > > and results in an interrupt storm and eventually a softlockup.
-> > 
-> > I don't fully understand this.
-> > 
-> > Surely the relevant PMOVS{CLR,SET}[n] bit set as if the counter n
-> > overflowed?
-> > 
-> > If that bit is set, the handler will certainly do *something*.
-> > 
-> > If that bit is not set, the interrupt shouldn't be asserted at all. When
-> > does it get de-asserted?
+
+
+On 15/09/2026 16:48, Leo Yan wrote:
+> AUX snapshot sampling and AUX pause/resume can both run from NMI
+> context. Each path currently guards only against its own recursion.
+> An NMI can therefore enter one path while the other is changing the
+> AUX hardware or buffer state, allowing snapshot_aux() and the PMU
+> pause/resume callbacks to overlap.
 > 
-> Sorry, my explanation wasn't clear. The interrupt will be de-asserted
-> as usual.
+> Use aux_in_sampling and aux_in_pause_resume as a shared exclusion
+> scheme. If sampling nests inside pause/resume, emit the regular sample
+> without an AUX payload. If pause/resume nests inside AUX sampling, drop
+> the AUX action, matching the existing behavior for recursive
+> pause/resume.
+> 
+> This prevents overlapping PMU operations without waiting in NMI
+> context.
+> 
+> Assisted-by: Codex:gpt-6
 
-I'm trying to work out which of the following happens due to the
-erratum:
+Does this need a fixes tag? Seems like using these two things at the 
+same time could have gotten you into a state where tracing was enabled 
+but aux_paused=1 etc.
 
-(a) When the erratum occurs, the HW sets a bit in PMOVS*. An overflow
-    interrupt is asserted because PMOVS* is non-zero. The overflow
-    handler will see that bit was set in PMOVS*. Clearing PMOVS*
-    de-asserts the interrupt as usual.
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>   kernel/events/core.c | 17 +++++++++++------
+>   1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 17355e4b8b7c6c106117153c9eb8509e6f9a41e3..a524eb381d4b5731650ec0105d9794b8c89fba4d 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -7990,10 +7990,12 @@ static unsigned long perf_prepare_sample_aux(struct perf_event *event,
+>   		goto out;
+>   
+>   	/*
+> -	 * If this is an NMI hit inside sampling code, don't take
+> -	 * the sample. See also perf_aux_sample_output().
+> +	 * If this is an NMI hit inside AUX sampling or pause/resume, don't
+> +	 * include AUX data in the sample. See also perf_aux_sample_output()
+> +	 * and perf_event_aux_pause().
+>   	 */
+> -	if (READ_ONCE(rb->aux_in_sampling)) {
+> +	if (READ_ONCE(rb->aux_in_sampling) ||
+> +	    READ_ONCE(rb->aux_in_pause_resume)) {
 
-(b) When the erratum occurs, the HW does not set a bit in PMOVS*, and
-    asserts an overflow interrupt even if PMOVS* is clear.  The overflow
-    handler might not see a bit set in PMOVS*.
+I suppose this means that sampling could be quite unpredictable for 
+users if sometimes samples are dropped while pausing is happening. You 
+might expect to receive a non empty sample even if its triggered while a 
+pause is happening? But preventing concurrent use of the two features 
+would be difficult and restrictive.
 
-(c) Something else.
+>   		data->aux_size = 0;
+>   	} else {
+>   		size = min_t(size_t, size, perf_aux_size(rb));
+> @@ -8869,10 +8871,13 @@ static void perf_event_aux_pause(struct perf_event *event, bool pause)
+>   
+>   	scoped_guard (irqsave) {
+>   		/*
+> -		 * Guard against self-recursion here. Another event could trip
+> -		 * this same from NMI context.
+> +		 * Guard against self-recursion and AUX sampling. Another event
+> +		 * could trigger either path from NMI context, in which case the
+> +		 * AUX action is dropped instead of waiting for the preempted
+> +		 * context.
+>   		 */
+> -		if (READ_ONCE(rb->aux_in_pause_resume))
+> +		if (READ_ONCE(rb->aux_in_pause_resume) ||
+> +		    READ_ONCE(rb->aux_in_sampling))
+>   			break;
+>   
+>   		WRITE_ONCE(rb->aux_in_pause_resume, 1);
+> 
 
-Can you pleaes confirm what HW does with PMOVS* when the erratum occurs?
-I assume (a), but you haven't explicitly stated that so far.
-
-> The problem is that armpmu_event_set_period() will not update the counter
-> value if, for example, the counter is -1. Therefore, false overflow detection will continue.
-> With this patch, armpmu_event_set_period() will force the counter to -6 so that
-> false overflow detection won't occur in the kernel, since the maximum event
-> count at a time is 5.
-
-I expected that were this to occur a number of times in quick
-succession, the core perf code would throttle the event, and adjust the
-period.
-
-I am presumably missing some detail that prevents that.
-
-I assume you've seen the issue in practice? i.e. you've actucally
-triggered this with the perf tool on real hardware?
-
-Mark.
