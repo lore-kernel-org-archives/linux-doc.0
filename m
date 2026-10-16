@@ -1,295 +1,431 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E327335B137;
-	Fri, 16 Oct 2026 20:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5A4310779
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 20:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792182748; cv=none; b=nwn9e3NvRRGReB0eBGzuKcPKQa5YY6U+HWsX7CHBdULr5OAPRq8Ir6/uqJONRfC/qsYaTFyrykp/DxLuBtf7WADdiC6uBjygyYveiJkdMYh0AQtjYsxoPeu9o/bg6pKMcPSEbTvuEXGaBSDeLMIEvQ0nCmHV/6v5GIlC0JAkblA=
+	t=1792183453; cv=none; b=r6fOwT7Yt92Ca75KLRm7GjSCo6bjFczBKnI+7w0R+FNyMolYr+EeWU/z88Zn4Zk/DnTL64eyCFJZAphz+LVzb+qD9G0yVYQKpE/lq+9YmP6daNIN2Xc/z4NAUzQoUopPuBIsjvyeRHn31caKTPA1ohdhE6/sIhBhRwSduwtxzF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792182748; c=relaxed/simple;
-	bh=d95wB2P3vIwny0rfuJdp7OjALDCyPSSLkR7Bq9zYu9w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kPAc994w2bdbbISVaUtIgkrDWoF7OcNTahsVsfQOFbmcpwNG2bhGp+mYDy0vHIwr7GF9z8O25vp2UURdQzfl/wkNgKEnywAwD+bRNfeRGn9WXuR/ahQfAPYowkFCnUoQkmiOgWDBaEAggxR7RH1pwtw8QpAIq8EXgNdl5uP61z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZnQEfeB; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1792183453; c=relaxed/simple;
+	bh=HkzCWUaXCSiZSlDOZOV2MoIIwhun+7kLsYQliY/CDLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Dcsst9llqhU3pjhZx9YtkU7pz+Mb7oascC+edgDbI5Hl9kJQNecTBhbOkaLoyaSBf0HQrVcAf2l5NcKvvsR9WD4SWFpvfJgXOlJ0HA+IOl+wEdnnXK2gEqp3SqhE8xqP43vxiz0cQ85YLUplczXyOCNNeoKE4lqUtvg8XTa2Eeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sBYSUEtu; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZnQEfeB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792182745; x=1823718745;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=d95wB2P3vIwny0rfuJdp7OjALDCyPSSLkR7Bq9zYu9w=;
-  b=XZnQEfeBLcBtruJe0XxYcXv350mXdgWW/LrFa/p5S6U9wm70AlFlTS/7
-   x3/zWKxNP0nSSkSdHZeaAVGTb+UHojeY1p55I4LXJrEyOqTTbShl6IuuJ
-   QCdnNgWoXG4E/8lx+2SS2/iZf9yIL2EbpPhVciZzgORjHwVXSqlg7VZBQ
-   uQTbqPpnkSqhNg3GzNuAC7QdG+syXsp4Yt9TuEfLbONtUH9eeli5yTrNN
-   Qe40j+2kbzLklkRHMa6oEshXA8fEJJpP++CBsBDULCPQlrm8PbvbBULIa
-   rIn6RcTIcRrcVHyP5gPVDb69ZtZa3Kaxpf7mjtcR4AYGZjKV7vDu0iwy+
-   A==;
-X-CSE-ConnectionGUID: WnCXO7RzTq6yZeWh6rK4Eg==
-X-CSE-MsgGUID: 2fNtQynmRKOtzsjDQVm2kA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="852932"
-X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
-   d="scan'208";a="852932"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 13:32:24 -0700
-X-CSE-ConnectionGUID: 0lWe9QFISVexDKKmldjkeg==
-X-CSE-MsgGUID: ZxvaYP6eQiOBncO/WyLNjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
-   d="scan'208";a="2013833"
-Received: from schen9-mobl4.amr.corp.intel.com (HELO [10.125.110.175]) ([10.125.110.175])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 13:32:24 -0700
-Message-ID: <8d1997019d00fad3f250c4df3f18c53dff25e054.camel@linux.intel.com>
-Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA
- balancing control
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>, "Chen, Yu C" <yu.c.chen@intel.com>
-Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, Li Zhe
-	 <lizhe.67@bytedance.com>, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, 	rostedt@goodmis.org, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, 	kprateek.nayak@amd.com,
- linux-kernel@vger.kernel.org, 	linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, tim.c.chen@intel.com, 	mkoutny@suse.com,
- tj@kernel.org, chen.yu@linux.dev, Vern Hao <vernhao@tencent.com>,  Vern Hao
- <haoxing990@gmail.com>, Qais Yousef <qyousef@layalina.io>
-Date: Fri, 16 Oct 2026 13:32:23 -0700
-In-Reply-To: <CALOAHbALpHebACLUmvet_tFH_w-iK3TWpY52OhYTUVoLzoGKkg@mail.gmail.com>
-References: <20260908122446.56708-1-lizhe.67@bytedance.com>
-	 <as3gQ8jfa_6eBf15@chenyu-dev>
-	 <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
-	 <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
-	 <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com>
-	 <atG4VXk4t-m8VubY@chenyu-dev>
-	 <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
-	 <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com>
-	 <CALOAHbALpHebACLUmvet_tFH_w-iK3TWpY52OhYTUVoLzoGKkg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sBYSUEtu"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dc1508191so26725f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 13:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792183449; x=1792788249; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=haHwrcUAVioW0k4WW0rn4ICUkA35L0lW3cPQKSkeq6k=;
+        b=sBYSUEtuE/hdsM8PG7CDinbQEyM6PxK89H/RDqpMGjozeKEGBYvKWMIw8hR4TCTMtV
+         V1AkjQZ63Nbc1wC1RuNJRQxXms28Kh6S1mg+AHzLz/5eM6hCgdRtLVqPZj0L8kfllFoe
+         9Xmr6Y5P3jhNJYolCgEVDPAGQd1aYeYibpEzF66KHIgDeJFI7Lp0hvchEP4Xx0E/MDU6
+         lVjfBJEVeVN5xWcz1EXfA1Pk2aiAGTB3D2zAx4/kU01WJExPfzASyfjNFQFYlKXVnAKi
+         fiBlRSSu2THG0EBxhbseiam0ZbkGQX4aFRHyAJO9DIiab6TWEv0NTkeu3s5rmdjW/c4b
+         QJIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792183449; x=1792788249;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=haHwrcUAVioW0k4WW0rn4ICUkA35L0lW3cPQKSkeq6k=;
+        b=PGe4hCrloCj8lhCXJ6pSvyNO9WuM3Ii6Zq2suWW89Ef43IZRGljlGTRtVyVn2VhY/e
+         Ia+I7hsHPD3SWqqO0QJhjtvoElkbktYK5fzj/DW/tWbNRYAGYmY3N2XY+w0mQ/jK5Vpb
+         fm06D45EqOK+xtAC3dl+7qWVuUiQ0bm3/YqiVHUn0udsxZcb4K3kEs3y0noPTOuw1a7N
+         wkmYg4+hIjrOlaoR8G9u4yjLju9GDk+XSZdwV+fr6j7O2rMOhXn3i5fJUOxzeqZq9usu
+         Cn2cJqz2BXZ8Awp7pQltHWfXrv6AzgX+8oc6QBM19q5vXdt/Dkjn+Be6/ow0dBoNBO6N
+         ncjA==
+X-Forwarded-Encrypted: i=1; AKwUvBxyx+HWsbjclWlDTpTdxiSi06m6t/I4RpIGSNDqYy799ruaGp8sEzUoYR5NxLbXmBWzc5wLKE3f5I4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL6D6OK+gYHTFTU5jnuDf3YmHmVoDOz2UrcCZu7IHI9LLekWuqc
+	xuSDJdHOBBPmDAj87GOsBc9jEMIb90wv1P8WEygJoVCS74mu/+St+BJT
+X-Gm-Gg: AYBFou2Ji3IfuS7UnqyCB4EvGFtKj8ds4t0kbQJgDdOgaJ+VKxBo2PfHsuQykOWvt1A
+	oJO4QPHbrzMYh3F5B3Rcog3MzQLi0isGAt0YJL9kZUJkAJowHjNC73H/cipuRNyDW2JuDT0Diag
+	mVhhe0mm4Wxux7rzYvviwf8vIxNExtbf4Kmr5/TMR2rA4FMXel08nZWCYhi/NflElTNP5NygLPA
+	OJzqZrk5PcC2iUgZRcaKt9e1Ilh/yrav13Tt8hiFRgjHQxPGFuPxcbgu9NpeC48RLYcyoox36zx
+	F0Zqoj458amBrat5sAh8xmEjdRk20H++72Vtes8nP2XvIuTe5zLgqsBuje7RIweYKKkvUwMjZW5
+	gF8RBoXaAFTc9foGVPTJsdfKw/yrN8uL4TjjbYrO5DxxJPOdJrduZbbsJPd4Qc68FFKqNUdP8iR
+	xOb2QCmX92Bi54b7Q+L9qt6RCUxIxg70GYJHbmLo0fXLGcY4GHzxwpVUzFJPGSSKTumIoQT2o6+
+	R13EVfNRaNhlrJp8l2nA2s3JEBQavpO4lk3aJ4k
+X-Received: by 2002:a05:600c:8506:b0:4a1:c7f3:218e with SMTP id 5b1f17b1804b1-4a1d75dc193mr19946235e9.1.1792183449276;
+        Fri, 16 Oct 2026 13:44:09 -0700 (PDT)
+Received: from Nuel20.localdomain ([105.118.76.209])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f576asm7502077f8f.32.2026.10.16.13.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 13:44:08 -0700 (PDT)
+From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mchehab@kernel.org,
+	paulmck@kernel.org,
+	linusw@kernel.org,
+	Julia.Lawall@inria.fr,
+	gary@garyguo.net,
+	rmk+kernel@armlinux.org.uk,
+	hemanth.selam@gmail.com,
+	Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+Subject: [PATCH] docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser
+Date: Fri, 16 Oct 2026 21:43:35 +0100
+Message-ID: <20261016204335.46241-1-emmaonana18@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261015190639.7b722dd7@foz.lan>
+References: <20261015190639.7b722dd7@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-10-16 at 16:18 +0800, Yafang Shao wrote:
-> On Fri, Oct 16, 2026 at 4:01=E2=80=AFPM Chen, Yu C <yu.c.chen@intel.com> =
-wrote:
-> >=20
-> > On 10/16/2026 3:38 PM, Yafang Shao wrote:
-> > > On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.com>=
- wrote:
-> > > > A more complex scenario is when cgroup A and cgroup B become thread=
-ed domains:
-> > > >=20
-> > > >                           root
-> > > >                          /    \
-> > > >                         X      Y
-> > > >                         |      |
-> > > >                         A      B          A, B: threaded domains (t=
-hread roots)
-> > > >                        / \    / \         separate memory.max / io.=
-max
-> > > >                      A1   A2 B1  B2       threaded cgroups
-> > > >                      ^        ^
-> > > >                      |        |
-> > > >                      +--------+
-> > > >                    want to share one cache group
-> > > >=20
-> > > > In the above case, we might need to change the deployed cgroup hier=
-archy.
-> > >=20
-> > > I think we can enable LLC-aware scheduling for both A1 and A2 =E2=80=
-=94 does
-> > > that sound right?
-> > >=20
-> >=20
-> > Here A1 wants to share data with B1, but A2 does not want to share data
-> > with B2 nor B1 nor A1. Enabling cache-aware for A1 and A2 might not hel=
-p
-> > in this case.
->=20
-> I'm not sure whether this is a real use case or merely a theoretical
-> one. I'd suggest we not focus too much on purely theoretical scenarios
-> unless someone can demonstrate a practical need.
+kernel-doc fails to parse tracepoint declarations that use
+TRACE_EVENT_FN(), e.g. gpu_power_status:
 
-In our discussions with Vern Hao from Tencent, they have use cases where
-A1 and B1 are dealing with data compressions while A2 and B2 are dealing
-with databases.  So data are mostly shared between A1 and B1, A2 and B2
-due to functionality.  We may put the parent A or B in the same sched group=
-,
-but the sched group may contain too many threads to fix in a LLC.
+  drivers/gpu/drm/panthor/panthor_trace.h:28 ... Unrecognized
+  tracepoint format ...
+  ... expecting prototype for gpu_power_status(). Prototype was for
+  TRACE_EVENT_FN() instead
 
-The tricky thing is if there are scenarios where
-we want to do grouping one way when we consider resource
-usage but another way when we consider data sharing.
-=20
->=20
-> >=20
-> > > >=20
-> > > > Suppose threads in A1 and threads in A2 belong to the same process =
-Pa,
-> > > > this reminds me of the cgroup bpf NUMA balancing case: after enabli=
-ng
-> > > > NUMA balancing for A1 but not setting it for A2, what would be the =
-final
-> > > > NUMA balancing decision for process Pa, is it enabled or disabled?
-> > > > The NUMA balancing scan/invalid seems to be per process, so if we c=
-hange
-> > > > the setting of its threads, the whole process will be impacted. Or =
-maybe
-> > > > we should not enable NUMA balancing for threaded cgroups? Anyway I =
-haven't
-> > > > digged into your cgroup bpf patch set yet, let me try to look at it=
-.
-> > >=20
-> > > cgroup NUMAB works the same way: the setting is per cgroup and opt-in=
-.
-> > > For Pa in your example, since its threads spread across A1 and A2, yo=
-u
-> > > would enable it on both =E2=80=94 enabling it on only one of them is =
-not
-> > > meaningful.
-> > >=20
-> >=20
-> > I see. I haven't yet digged into your code, is there a per cgroup flag
-> > cgroup.numab.enabled?
->=20
-> Right. I will introduce a cgroup::numab_mode field, but without a
-> cgroupfs interface file; it will be written through a BPF program.
->=20
-> > Would there be a logic in the kernel, when
-> > A1.numab.enabled
-> > is written to true, the kernel detects all the other cgroups {X} that
-> > contains threads
-> > share the same mm_struct as A1's threads/tasks, and then update {X}'s
-> > numab.enabled
-> > to the same value as A1, to keep consistency?
->=20
-> We have no plan to support threaded cgroups for now. If a real need
-> arises, the BPF program can be extended to handle it, which would just
-> require more kfuncs.
->=20
-> > In summary, if threads are
-> > spread
-> > cross different cgroups, when you set the enable flag for 1 cgroup, wil=
-l the
-> > kernel iterates all the other cgroups to update their flags as well? Or
-> > leverage userspace to do that?
->=20
-> I believe this should be implemented in userspace, not automatically
-> in the kernel. Use cases are always complex, and flexibility is
-> important here.
+tracepoint_munge() only matches TRACE_EVENT(), so the macro name is
+kept as the prototype and the TP_PROTO() arguments leak into the
+parameter list as garbage.
 
-I think there is a misunderstanding that using prctl necessarily mean
-we have to modify the user programs.
+Match TRACE_EVENT_FN(), TRACE_EVENT_FN_COND(),
+TRACE_EVENT_CONDITION() and TRACE_EVENT_SYSCALL() the same way as
+TRACE_EVENT()
 
-With the prctl that Chen Yu and I proposed for cache aware scheduling
-[1], the application does not have to change at all. The prctl can be
-issued by an orchestrator daemon on other tasks:
-the caller passes a target pid and a pid_type (thread,
-thread group or process group), and the permission check is      =20
-ptrace_may_access(), as in core scheduling. So a daemon run by the =20
-platform team can put the application's threads into the right cache       =
-                  =20
-group from outside:                           =20
-                                                                           =
-                 =20
-  prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_CREATE, leader, 0, PIDTYPE_TGID);   =
- =20
-  prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_SHARE_FROM, tid, leader, PIDTYPE_PID=
-);                =20
-                                                                           =
-                                                                           =
-                                                                =20
-The daemon can take its policy from wherever is convenient: cgroup=20
-membership, the pod spec, process names, or a config file. Changing=20
-the policy means changing the daemon, which the same team owns. That
-is the same round-trip as changing a BPF program, and no application
-team is involved. This is how schedqos already uses the core               =
-                  =20
-scheduling prctl.                             =20
+Add a regression test for the gpu_power_status declaration.
 
-That said, we may start with a per cgroup control of
-cache aware scheduling that sit next to the prctl [1]
-without either one replacing the other.  A lot of the
-code in [1] can be reused with per cgroup control
-of cache aware scheduling.
+Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+---
+Move tracepoint handling to xforms_lists, together with SYSCALL_DEFINE
+as requested by Mauro.
 
-It starts small, in the form Tejun suggested for NUMA balancing
-in your series [2], and grows only when a real need shows up.
+Question for Mauro: is adding syscall_munge() and
+tracepoint_munge() in apply() what you meant, or
+did you want a pure CMatch? A pure CMatch looks
+like it would need a tokenizer fix for nested
+commas, so I'd prefer to keep it this way unless
+you want the pure CMatch rework.
 
-The rule for every step with a BPF based cgroup interface:
-the per-task p->sched_cache_grp from [1]=20
-is the only thing the scheduler reads. Each interface is just
-another way to set it, so the scheduler side never changes.
+ tools/lib/python/kdoc/kdoc_parser.py  | 110 ++++++--------------------
+ tools/lib/python/kdoc/xforms_lists.py | 109 +++++++++++++++++++++++++
+ tools/unittests/test_kdoc_parser.py   |  28 +++++++
+ 3 files changed, 159 insertions(+), 88 deletions(-)
 
-Step 1: a per-cgroup setting
-----------------------------
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index 80d4245acd17..a274e06b9f23 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -1059,8 +1059,27 @@ class KernelDoc:
+             #
+             # Apply the initial transformations.
+             #
++            # This also handles SYSCALL_DEFINE*() and TRACE_EVENT*()/
++            # DEFINE_EVENT*() via CTransforms (see xforms_lists.py).
++            #
+             prototype = self.xforms.apply("func", prototype)
+ 
++            #
++            # Tracepoints are documented with their short name, e.g.
++            # gpu_power_status for trace_gpu_power_status().
++            # Accept the short name and store the full trace_ name.
++            #
++            r = KernRe(r'\btrace_(\w+)')
++            if r.search(prototype):
++                if self.entry.identifier == r.group(1):
++                    self.entry.identifier = f"trace_{self.entry.identifier}"
++
++
++            r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
++            if r.search(prototype):
++                self.emit_msg(ln,
++                              f"Unrecognized tracepoint format:\n{prototype}\n")
++
+         # Yes, this truly is vile.  We are looking for:
+         # 1. Return type (may be nothing if we're looking at a macro)
+         # 2. Function name
+@@ -1493,82 +1512,6 @@ class KernelDoc:
+             self.entry.add_text(doc_content.group(1))
+         # else ... ??
+ 
+-    def syscall_munge(self, ln, proto):         # pylint: disable=W0613
+-        """
+-        Handle syscall definitions.
+-        """
+-
+-        is_void = False
+-
+-        # Strip newlines/CR's
+-        proto = re.sub(r'[\r\n]+', ' ', proto)
+-
+-        # Check if it's a SYSCALL_DEFINE0
+-        if 'SYSCALL_DEFINE0' in proto:
+-            is_void = True
+-
+-        # Replace SYSCALL_DEFINE with correct return type & function name
+-        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
+-
+-        r = KernRe(r'long\s+(sys_.*?),')
+-        if r.search(proto):
+-            proto = KernRe(',').sub('(', proto, count=1)
+-        elif is_void:
+-            proto = KernRe(r'\)').sub('(void)', proto, count=1)
+-
+-        # Now delete all of the odd-numbered commas in the proto
+-        # so that argument types & names don't have a comma between them
+-        count = 0
+-        length = len(proto)
+-
+-        if is_void:
+-            length = 0  # skip the loop if is_void
+-
+-        for ix in range(length):
+-            if proto[ix] == ',':
+-                count += 1
+-                if count % 2 == 1:
+-                    proto = proto[:ix] + ' ' + proto[ix + 1:]
+-
+-        return proto
+-
+-    def tracepoint_munge(self, ln, proto):
+-        """
+-        Handle tracepoint definitions.
+-        """
+-
+-        tracepointname = None
+-        tracepointargs = None
+-
+-        # Match tracepoint name based on different patterns
+-        r = KernRe(r'TRACE_EVENT\((.*?),')
+-        if r.search(proto):
+-            tracepointname = r.group(1)
+-
+-        r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
+-        if r.search(proto):
+-            tracepointname = r.group(1)
+-
+-        r = KernRe(r'DEFINE_EVENT\((.*?),(.*?),')
+-        if r.search(proto):
+-            tracepointname = r.group(2)
+-
+-        if tracepointname:
+-            tracepointname = tracepointname.lstrip()
+-
+-        r = KernRe(r'TP_PROTO\((.*?)\)')
+-        if r.search(proto):
+-            tracepointargs = r.group(1)
+-
+-        if not tracepointname or not tracepointargs:
+-            self.emit_msg(ln,
+-                          f"Unrecognized tracepoint format:\n{proto}\n")
+-        else:
+-            proto = f"static inline void trace_{tracepointname}({tracepointargs})"
+-            self.entry.identifier = f"trace_{self.entry.identifier}"
+-
+-        return proto
+-
+     def process_proto_function(self, ln, line, source):
+         """Ancillary routine to process a function prototype."""
+ 
+@@ -1598,18 +1541,9 @@ class KernelDoc:
+             r = KernRe(r'^(\S+\s+)\(\s*\*(\S+)\)')
+             self.entry.prototype = r.sub(r'\1\2', self.entry.prototype)
+             #
+-            # Handle special declaration syntaxes
+-            #
+-            if 'SYSCALL_DEFINE' in self.entry.prototype:
+-                self.entry.prototype = self.syscall_munge(ln,
+-                                                          self.entry.prototype)
+-            else:
+-                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
+-                if r.search(self.entry.prototype):
+-                    self.entry.prototype = self.tracepoint_munge(ln,
+-                                                                 self.entry.prototype)
+-            #
+-            # ... and we're done
++            # ... and we're done. SYSCALL_DEFINE*() and TRACE_EVENT*()/
++            # DEFINE_EVENT*() are handled via xforms_lists.CTransforms
++            # inside dump_function().
+             #
+             self.dump_function(ln, self.entry.prototype, source)
+             self.reset_state(ln)
+diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+index 15f6f21c7a9e..aa82dc927ef1 100644
+--- a/tools/lib/python/kdoc/xforms_lists.py
++++ b/tools/lib/python/kdoc/xforms_lists.py
+@@ -17,6 +17,98 @@ class CTransforms:
+     into something we can parse and generate kdoc for.
+     """
+ 
++    @staticmethod
++    def syscall_munge(proto):
++        """
++        Handle syscall definitions.
++
++        Turns SYSCALL_DEFINE*() into a plain C prototype, e.g.::
++
++            SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
++            -> long sys_setpriority(int which, int who, int niceval)
++        """
++
++        is_void = False
++
++        # Strip newlines/CR's
++        proto = re.sub(r'[\r\n]+', ' ', proto)
++
++        # Check if it's a SYSCALL_DEFINE0
++        if 'SYSCALL_DEFINE0' in proto:
++            is_void = True
++
++        # Replace SYSCALL_DEFINE with correct return type & function name
++        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
++
++        r = KernRe(r'long\s+(sys_.*?),')
++        if r.search(proto):
++            proto = KernRe(',').sub('(', proto, count=1)
++        elif is_void:
++            proto = KernRe(r'\)').sub('(void)', proto, count=1)
++
++        # Now delete all of the odd-numbered commas in the proto
++        # so that argument types & names don't have a comma between them
++        count = 0
++        length = len(proto)
++
++        if is_void:
++            length = 0  # skip the loop if is_void
++
++        for ix in range(length):
++            if proto[ix] == ',':
++                count += 1
++                if count % 2 == 1:
++                    proto = proto[:ix] + ' ' + proto[ix + 1:]
++
++        return proto
++
++    @staticmethod
++    def tracepoint_munge(proto):
++        """
++        Handle tracepoint definitions.
++
++        Turns TRACE_EVENT*()/DEFINE_EVENT*() into a plain C prototype,
++        e.g.::
++
++            TRACE_EVENT_FN(gpu_power_status, TP_PROTO(...), ...)
++            -> static inline void trace_gpu_power_status(...)
++
++        Returns the original string if the tracepoint format is not
++        recognized, letting the caller emit a warning.
++        """
++
++        tracepointname = None
++        tracepointargs = None
++
++        # Match tracepoint name based on different patterns.
++        # NOTE: DEFINE_EVENT*() takes a template name first, so the
++        # event name is the second argument.
++        for pattern, group in [
++            (r'TRACE_EVENT\((.*?),', 1),
++            (r'TRACE_EVENT_FN\((.*?),', 1),
++            (r'TRACE_EVENT_FN_COND\((.*?),', 1),
++            (r'TRACE_EVENT_CONDITION\((.*?),', 1),
++            (r'TRACE_EVENT_SYSCALL\((.*?),', 1),
++            (r'DEFINE_SINGLE_EVENT\((.*?),', 1),
++            (r'DEFINE_EVENT\((.*?),(.*?),', 2),
++        ]:
++            r = KernRe(pattern)
++            if r.search(proto):
++                tracepointname = r.group(group)
++
++        if tracepointname:
++            tracepointname = tracepointname.lstrip()
++
++        r = KernRe(r'TP_PROTO\((.*?)\)')
++        if r.search(proto):
++            tracepointargs = r.group(1)
++
++        if not tracepointname or not tracepointargs:
++            return proto
++
++        return f"static inline void trace_{tracepointname}({tracepointargs})"
++
++
+     #
+     # NOTE:
+     #      Due to performance reasons, place CMatch rules before KernRe,
+@@ -147,6 +239,23 @@ class CTransforms:
+         if xforms_type not in self.xforms:
+             return source
+ 
++        #
++        # Handle special declaration syntaxes first, so that the
++        # declarative transforms below see plain C prototypes.
++        #
++        if xforms_type == "func":
++            source_str = str(source)
++            if 'SYSCALL_DEFINE' in source_str:
++                source_str = self.syscall_munge(source_str)
++                source = source_str
++            else:
++                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
++                if r.search(source_str):
++                    munged = self.tracepoint_munge(source_str)
++                    # tracepoint_munge() returns the input unchanged
++                    # when the format is not recognized.
++                    source = munged
++
+         if isinstance(source, str):
+             source = CTokenizer(source)
+ 
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index 4baa78ca02b3..04dafae412e4 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -444,6 +444,34 @@ class TestContextLockStruct(GenerateKdocItem):
+         self.assertEqual(entries[0].name, "debugfs_cancellation")
+         self.assertEqual(entries[0].warnings, [])
+ 
++class TestTraceEventFn(GenerateKdocItem):
++    def test_trace_event_fn_declaration(self):
++        source = """
++            /**
++             * gpu_power_status - called when hardware turns on or off
++             * @dev: pointer to device
++             * @shader_bitmap: bitmap
++             */
++            TRACE_EVENT_FN(gpu_power_status,
++                TP_PROTO(const struct device *dev, u64 shader_bitmap),
++                TP_ARGS(dev, shader_bitmap),
++                TP_STRUCT__entry(__field(u64, shader_bitmap)),
++                TP_fast_assign(__entry->shader_bitmap = shader_bitmap;),
++                TP_printk("%s", __get_str(dev_name)),
++                my_register, my_unregister
++            );
++        """
++
++        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
++        patcher = patch('builtins.open', new_callable=mock_open,
++                        read_data=dedent(source))
++        with patcher:
++            _, entries = kernel_doc.parse_kdoc()
++
++        self.assertEqual(len(entries), 1)
++        self.assertEqual(entries[0].name, "trace_gpu_power_status")
++        self.assertEqual(entries[0].warnings, [])
++
+ #
+ # Class and logic to create dynamic tests from YAML
+ #
+-- 
+2.43.0
 
-  - struct cgroup gets a sched_cache_grp pointer and a mode:
-    inherit (default), off, or "this subtree is one group".
-  - One kfunc sets the mode by cgroup id. No cgroupfs file for now.
-  - The kernel puts tasks in the cgroup's group:
-      - when the mode is set: allocate the group, publish it, then
-        walk the cgroup's tasks
-      - at fork: in sched_post_fork(), right after cgroup_post_fork()
-      - at exec: exec_mmap() installs the cgroup's group instead of the
-        mm's one
-      - on migration: in cgroup_migrate_execute(), next to the
-        ss->attach() calls
-  - A task that was grouped explicitly (by the prctl, or later by BPF)
-    keeps its group. Cgroup changes do not override it.
-  - In the "advise" mode the cgroup's group is created enabled, since
-    a new group starts disabled there.
-
-This reuses most of [1]: the refcounted sched_cache_group (patches
-1-3), __sched_cache_set() with the pi_lock swap and the footprint
-transfer (patch 4), the fork and exec handling (patches 2 and 4), the
-per-group enabled flag (patch 5) and the always/advise/never mode
-(patch 6). Only the prctl UAPI itself is not needed.
-
-This covers the the case where the sched groups match well with
-cgroups: cache aware scheduling can be turned on for group A
-only. The other part, a footprint threshold for A that differs from
-the global llc_aggr_tolerance, would need a per-group tolerance that
-the per-cgroup setting can carry.
-
-Step 2: BPF picks the group
----------------------------
-
-Add kfuncs to create, read, set and reset a group (thin wrappers around
-the same code), and one that stores a BPF-chosen group in a cgroup.
-The kernel still installs tasks at fork, exec and migration as in step
-1. The difference is that two cgroups can now share one group, for
-example A1 and B1 in one sched group in the above example.
-
-Step 3: BPF decides per task
-----------------------------
-
-Only if someone needs it: programs on the fork, exec and cgroup-attach
-hooks that set a task's group directly, for example to split a cgroup
-that is too big for one LLC, or to group only some of its tasks. The
-set kfunc takes pi_lock, so it needs a context filter that allows it
-only in sleepable programs and those hooks.
-
-Each step stands on its own. If step 1 is all anyone ever needs, we
-stop there. The prctl stays for users who do not run cgroups or schedqos.
-
-Does step 1 match what you have in mind for the LLC-aware scheduler
-on your servers?
-
-[1] https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.inte=
-l.com/
-[2] https://lore.kernel.org/lkml/20261012120438.52849-1-laoar.shao@gmail.co=
-m/
-
-Thanks.
-
-Tim
