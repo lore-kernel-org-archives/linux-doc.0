@@ -1,421 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECBE57ED83
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A7358E2D8
+	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172702; cv=none; b=MNiysdioFDXudEscztdK6mTOl/7EqkQ5j4e33mr8937g5+AOnPNbLrUw3Hs1vlRa24xshAAl1+5b60dPoFhGhiE8Ko/6lADT7ezKnbOwA8GvQq/YJ0fKH1S2clPyRueZWjOUt+BQk8IRIQfGwYMzDIycDjv4i6wr7Se9/4I9eAw=
+	t=1792173094; cv=none; b=gpKuJHjRWYXEId84+amv+9dMqnJ2uf78geJ70wGm4G1D1Q0fDnmMZ3/kLOkfKRAALQoD9VTdt+FrfcPL4hdB5Z8CfsduoiOGquy6KX2iIT3jnOlcJfJ7SzS1z4/J2G8rtCRtnW+dJk7+E74PqG9dYsirxf+C76Z4+x+VQGkY56I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172702; c=relaxed/simple;
-	bh=6YWqw5adQQTHyDOP+dipmwSrpo7kmtbYWeMfW0Lybi4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S+gRl17XoDG1bAsi7qfkHu9Emv9Z5YNbRYJA+gvYdytKoK9fmwe/X5+OSOjO7t7JzhEyLXXhpbf35r0ip26ubR/PONebjBIl5P2r0BobwZIzKZ3cmw6dSQ9pz4Sjhd12pJhZm8rJpnf0T5lQxlqETmqO6hVbOXbNsIaiJ+wx3LY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQEftoNE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792173094; c=relaxed/simple;
+	bh=mcjHbTCaVayfmlcAGqrGUKY2cLvBM1brbv0Ml34HCNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3E/6sM5bJOS5xKPJ/7GZS03cOzyLL8rB/juKg0pPZLdGmTqXK7wFWj7MtpdNODJOqJhKaM3/U6Qh1HrR1HDCba+Ws/MswJj0BnMqFYusTaAipHLZvCFM9DP/6RPNBaiX4whYkNk/HSMgFClRY2g/xbAi5RQJzZFerXWifbj5Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hEZWR9TO; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BfleaDsC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQEftoNE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1B3D1F000C4
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792172700;
-	bh=FhZpz0gNx+lODojiEUjkU4/f3Iup9LR+x6EGW2kJ3Jk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WQEftoNEUxGBZeU0u1KvKkeoGyFpimR/tYUa5i9PwDWRt3GwpgsrZn+qT4A1bWLic
-	 P377Zz2evfsNLpHLm7POJfVdFj8AYIFJW009i1LEwPoJdLnncVLZ39lLy3w9XcDa3m
-	 UiPvdu2XL15jbFSy95xvMXS1uCkuZCfYo1Uu82mO++RQ/7eMZZsz6ZzF1K6YOKcL4E
-	 FUXje33gU4TJIbCICtIPQ42QBA31Oe/NyQpw+tnA7K/7eB9jfnmV/jAJKh1pYrs1bb
-	 Mxd0ye8LaXoXqrHVF0qZKxrU8ZDrN+/ycMrMbxTE4Oo3W7cLRhyYvLO5Jt72rm3pFz
-	 IWAJl983o8rig==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5ba35c0df4fso225616e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 10:45:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxPFfJLPvJkRwkSCdY1PWgqfxvODZ1s5fVznHddSrNZE/jDzCjr8w6uVLXU3AVdVGQpKTu0KpRQRbM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4luft9T9LTPQ6RY307xPOIzogtwiBxDnjIKSeP9ALUpZYWVMl
-	InU+gPwxdbFR/f6+m+UIckFzoOt2+OtIQ5HMieoho+STK9Kwak5+W4Rmwkxb0QyVeWIuKRuJpBY
-	PbeowsVva99+gHGDItuYcIf4Z6oKsAcE=
-X-Received: by 2002:ac2:5696:0:b0:5be:48d2:eecf with SMTP id
- 2adb3069b0e04-5be50a45c92mr103560e87.10.1792172698532; Fri, 16 Oct 2026
- 10:44:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hEZWR9TO";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BfleaDsC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792173092;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W74nlXHsz1uD6EVItToAyocJ9byMIagIgs9+oTaSxM0=;
+	b=hEZWR9TOgLF1iH4ciKnUY1IAjvpNGM8V37blixJD/tWb8LwATZpEi5Woft0Z7BMq3OmeS9
+	/ovz3omlWi+xBj1Xc0QCb7N4nPYafTzkIJ16wuoBZ9o1y0jxINoVXnRcBLcpO/Q4chalzI
+	c847JSKOMvhhgsIuMsjS6uMUA3X6ghQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-259-LbcWv2cdPMemHmWqH84YNA-1; Fri, 16 Oct 2026 17:51:30 +0000
+X-MC-Unique: LbcWv2cdPMemHmWqH84YNA-1
+X-Mimecast-MFC-AGG-ID: LbcWv2cdPMemHmWqH84YNA_1792173088
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48b02e93a1eso68464f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 10:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792173088; x=1792777888; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=W74nlXHsz1uD6EVItToAyocJ9byMIagIgs9+oTaSxM0=;
+        b=BfleaDsCKFL9BHUqW/U6Sh0oe1BWsxCMN8//1ucf7R2GouhOYYoNVU83o8D/VPxhZe
+         WZ/hLcGUS1c/FZK7uCv/XMMsc8NqtxVXFQ4ap2gPy6nVikwYgJZC+ezCiJML0r097TnW
+         J6qHkT9u6RH7kK+IJA9GVvmWbIhIXK25KmygwnYIyRZvX2MB+cMgmscU6I6M9A+LG3rb
+         yWUL6Dmf/XGSbbN2U281cW6gMbOZH6pUAAMz703dRE9yL4ZNyWMqjQPcWqjW6RtrzgE9
+         tDeErOkgMOUh92F/resIwFB7NsngkzD3w/RhxRDFsYMZi5BMdws7+0Cy2p0+homNNry8
+         wGsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792173088; x=1792777888;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=W74nlXHsz1uD6EVItToAyocJ9byMIagIgs9+oTaSxM0=;
+        b=Ni9b2adrC3smRUQ8XBsbPAv2xuVc6XV2N6i+JMy4jnzV1HtsYvJZCLfHPsQekz10dZ
+         KNuSr2OWiC8KRBFqbUOC2gP+b9p1hy6qTqK2NJUgeRW8r0OQnfSb/odij1c9F5ivdue7
+         Rvt4IdJ4Zs65j3BVXWVDr57XogmdwC8AWjxcyfnT5IEOB5BUPIquNe7iz8HCoqjI9aGq
+         vZnL4J21leX8i00tjY4UQ4ktjCY9sc0kKXQkSAojuKShW8+0FesFobSWnUDZLSRrssEP
+         zoT8Q34rNbzcwT4mkVPMDhLWrryr2lQ8PLcfkn7spB2XSKh2mQUNkbhGZPg6r4RVaP2Z
+         58Vw==
+X-Forwarded-Encrypted: i=1; AKwUvBzoIIVdtgk7eEHFV5dSfOIGGLkOyx6h/3tJIZ320yJ2H3PpgIMkVR6e+azykS4B+AcfvjM8cFcssAo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJuyvXMos0PWM4+RUZLfTBG+Hvi7husNSpdFyzwiF/PZRbXGHjH
+	EprbMhRIrr3aQ+Ri50sD2lGasDzXzZHESF+WHNUy6LMtqHzn9/zalo+xCepDnzN+hn4NtUohivA
+	J5JuRptl0AWZAuPvyu4eC+7ji++qJJZsZuGFwFdMWXSoLu5IgeiMglUvkcInEGA==
+X-Gm-Gg: AYBFou2ZrZZ4JcHGTTw46ESm/O+HomBD2Cga63/Miy1Dsr2B36ncgRkWyYt6uzUdPXS
+	/PdReDkSHtlAJwSSZGpKSDO1mZ2f/rZUUC272JqJ75Zf+Ksa82izLHS64Mj64zfX5kWPm5Pp71e
+	Ai309V+dIQuYXSaQqq+V0cpSaggzlIDMikzor2CuK1M53YYc4RT3c6dEcm/MGYfviSPn3VsUIZh
+	tku6fznmBXlBVI33RmNdJ+EkaPSMFI+ZwP/l7XP7mTTYcDgxrxspMBk+pBD7FfchqUxySO2t0dU
+	QgJ7DfNC7fZ7QcuZn3g/wkOzBZxxB3LbhhcOpbcpmgoOM03IGzeudngNR8hcuK+s6Kw1C+A=
+X-Received: by 2002:a05:6000:40e1:b0:48b:1c:d6e1 with SMTP id ffacd0b85a97d-48e07f9ebc9mr605349f8f.43.1792173087860;
+        Fri, 16 Oct 2026 10:51:27 -0700 (PDT)
+X-Received: by 2002:a05:6000:40e1:b0:48b:1c:d6e1 with SMTP id ffacd0b85a97d-48e07f9ebc9mr605297f8f.43.1792173087273;
+        Fri, 16 Oct 2026 10:51:27 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:73fb:d100:601d:d7d4:d03f:527b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfe4d2321sm6861579f8f.19.2026.10.16.10.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 10:51:26 -0700 (PDT)
+Date: Fri, 16 Oct 2026 13:51:21 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Jason Wang <jasowangio@gmail.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, virtualization@lists.linux.dev,
+	Rusty Russell <rusty@rustcorp.com.au>,
+	Max Krasnyansky <maxk@qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Simon Horman <horms@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
+ net hdr checksum validation
+Message-ID: <20261016134823-mutt-send-email-mst@kernel.org>
+References: <cover.1792067836.git.mst@redhat.com>
+ <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
+ <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
+ <20261016051827-mutt-send-email-mst@kernel.org>
+ <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261001155118.1750028-1-briannorris@chromium.org>
- <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
- <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com>
- <as_i5MEz3WfnDQmf@google.com> <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
- <atE9urIHXAJZXu6k@google.com>
-In-Reply-To: <atE9urIHXAJZXu6k@google.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 16 Oct 2026 19:42:47 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
-X-Gm-Features: AclHuK_QSqbyNDSUeAPeGbmAFi4tvRiNzYZUfuFoEZNOJZW1Dhx4ZOH96CNLtjc
-Message-ID: <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
-To: Brian Norris <briannorris@chromium.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Doug Anderson <dianders@chromium.org>, Len Brown <lenb@kernel.org>, Ulf Hansson <ulfh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
 
-Hi Brian,
-
-On Thu, Oct 15, 2026 at 10:55=E2=80=AFPM Brian Norris <briannorris@chromium=
-.org> wrote:
->
-> Hi Rafael,
->
-> On Thu, Oct 15, 2026 at 10:11:04PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > On Wed, Oct 14, 2026 at 10:15=E2=80=AFPM Brian Norris <briannorris@chro=
-mium.org> wrote:
-> > > On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (Intel) w=
-rote:
-> > > > On Thu, Oct 1, 2026 at 5:51=E2=80=AFPM Brian Norris <briannorris@ch=
-romium.org> wrote:
-> > > > >
-> > > > > The runtime PM API surface is pretty large, but there are a few c=
-ommon
-> > > > > patterns that many drivers should follow. Add some illustrative
-> > > > > examples, to help guide the most common audience for runtime PM d=
-ocs --
-> > > > > driver writers.
-> > > > >
-> > > > > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > > > > ---
-> > > > >
-> > > > > Changes in v4:
-> > > > >  * "state" to "status", to be consistent with Introduction termin=
-ology
-> > > > >
-> > > > > Changes in v3:
-> > > > >  * Rewrite Examples to avoid devm_* at first, to highlight correc=
-t
-> > > > >    approaches
-> > > > >  * Include error-handling and remove() in any probe() Examples
-> > > > >  * Advise more caution when using devm_*, as ordering issues are =
-subtle
-> > > > >
-> > > > > Changes in v2:
-> > > > >  * Add appropriate teardown to "Probe with Hardware Powered Off"
-> > > > >    Example, as the remove() + power-off behavior is subtle here, =
-and
-> > > > >    easy to get wrong
-> > > > >
-> > > > >  Documentation/power/runtime_pm.rst | 475 +++++++++++++++++++++++=
-+++++-
-> > > > >  1 file changed, 473 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/power/runtime_pm.rst b/Documentation/p=
-ower/runtime_pm.rst
-> > > > > index e4407b687f8b..cb25e0bb4ca7 100644
-> > > > > --- a/Documentation/power/runtime_pm.rst
-> > > > > +++ b/Documentation/power/runtime_pm.rst
-> > > > > @@ -429,7 +429,8 @@ in ->probe(). Usually this means calling pm_r=
-untime_disable(),
-> > > > >  pm_runtime_dont_use_autosuspend() etc. Alternatively, drivers ca=
-n use
-> > > > >  devm_pm_runtime_enable() during probe, which automatically takes=
- care of
-> > > > >  calling pm_runtime_disable() and pm_runtime_dont_use_autosuspend=
-() upon driver
-> > > > > -detachment.
-> > > > > +detachment. See also the Examples in `Section 10`_ for some effe=
-ctive
-> > > > > +strategies for driver teardown.
-> > > > >
-> > > > >  The user space can effectively disallow the driver of the device=
- to power manage
-> > > > >  it at run time by changing the value of its /sys/devices/.../pow=
-er/control
-> > > > > @@ -654,7 +655,9 @@ The implementation is well suited for asynchr=
-onous use in interrupt contexts.
-> > > > >  However such use inevitably involves races, because the PM core =
-can't
-> > > > >  synchronize ->runtime_suspend() callbacks with the arrival of I/=
-O requests.
-> > > > >  This synchronization must be handled by the driver, using its pr=
-ivate lock.
-> > > > > -Here is a schematic pseudo-code example::
-> > > > > +Here is a schematic pseudo-code example:
-> > > > > +
-> > > > > +.. code-block:: c
-> > > > >
-> > > > >         foo_read_or_write(struct foo_priv *foo, void *data)
-> > > > >         {
-> > > > > @@ -720,3 +723,471 @@ pm_runtime_autosuspend_expiration() from wi=
-thin the ->runtime_suspend()
-> > > > >  callback while holding its private lock.  If the function return=
-s a nonzero
-> > > > >  value then the delay has not yet expired and the callback should=
- return
-> > > > >  -EAGAIN.
-> > > > > +
-> > > > > +.. _Section 10:
-> > > > > +
-> > > > > +10. Example Driver Patterns
-> > > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > > > > +
-> > > > > +The runtime PM API is large and complex, but most device drivers=
- follow a small
-> > > > > +set of canonical patterns when interacting with runtime PM. This=
- section
-> > > > > +illustrates standard patterns for device probing, performing I/O=
-, and handling
-> > > > > +interrupts.
-> > > > > +
-> > > > > +Probe and Initialization
-> > > > > +------------------------
-> > > > > +
-> > > > > +Basic Probe
-> > > > > +~~~~~~~~~~~
-> > > > > +
-> > > > > +A driver that powers on its hardware during probe and does not u=
-se autosuspend
-> > > > > +can initialize runtime PM using standard helpers:
-> > > > > +
-> > > > > +.. code-block:: c
-> > > > > +
-> > > > > +       static int foo_probe(struct platform_device *pdev)
-> > > > > +       {
-> > > > > +               struct device *dev =3D &pdev->dev;
-> > > > > +               struct foo_priv *priv;
-> > > > > +               int ret;
-> > > > > +
-> > > > > +               priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KER=
-NEL);
-> > > > > +               if (!priv)
-> > > > > +                       return -ENOMEM;
-> > > > > +
-> > > > > +               platform_set_drvdata(pdev, priv);
-> > > > > +
-> > > > > +               /* Power on and initialize hardware registers... =
-*/
-> > > > > +
-> > > > > +               /*
-> > > > > +                * The code above left hardware powered on and op=
-erational, so
-> > > > > +                * tell the PM core that the device is active bef=
-ore enabling
-> > > > > +                * runtime PM.
-> > > > > +                */
-> > > > > +               pm_runtime_set_active(dev);
-> > > > > +               pm_runtime_enable(dev);
-> > > > > +
-> > > > > +               /*
-> > > > > +                * Perform remaining driver setup (e.g. register =
-interrupts, device nodes).
-> > > > > +                * If any step fails after enabling runtime PM:
-> > > > > +                */
-> > > > > +               ret =3D foo_register_device(priv);
-> > > > > +               if (ret)
-> > > > > +                       goto err_pm_disable;
-> > > > > +
-> > > > > +               /*
-> > > > > +                * Upon successful return from ->probe(), the dri=
-ver core
-> > > > > +                * automatically executes pm_request_idle(dev), a=
-llowing the
-> > > > > +                * device to suspend asynchronously if its usage =
-counter is zero.
-> > > > > +                */
-> > > > > +               return 0;
-> > > > > +
-> > > > > +       err_pm_disable:
-> > > > > +               pm_runtime_disable(dev);
-> > > > > +               if (!pm_runtime_status_suspended(dev)) {
-> > > > > +                       /*
-> > > > > +                        * Power back off, in case device did not=
- suspend yet.
-> > > > > +                        * For example, leverage your .runtime_su=
-spend()
-> > > > > +                        * implementation:
-> > > > > +                        */
-> > > > > +                       foo_runtime_suspend(dev);
-> > > >
-> > > > There are two reasons why this may not work, here and below.
-> > > >
-> > > > First off, if a non-trivial PM domain or bus type etc is involved, =
-its
-> > > > .runtime_suspend() callback may need to be invoked in addition to
-> > > > foo_runtime_suspend() to actually power off the device.
+On Fri, Oct 16, 2026 at 11:30:17AM -0400, Willem de Bruijn wrote:
+> Michael S. Tsirkin wrote:
+> > On Thu, Oct 15, 2026 at 01:50:54PM -0400, Willem de Bruijn wrote:
+> > > Michael S. Tsirkin wrote:
+> > > > The ingress validation as implemented by the previous
+> > > > patch is stricter than what it replaced: GSO
+> > > > packets whose checksum metadata matches no transport header are
+> > > > dropped, and non-GSO ones get their checksum completed in place.
+> > > > Such packets used to pass with the metadata unvalidated,
+> > > > and with no overhead.
+> > > > 
+> > > > I judge that this should not affect any deployments, but there is still
+> > > > some risk that it does.  In case a deployment depends on them anyway,
+> > > > provide a per-netns switch to get the old behavior back:
+> > > > 
+> > > > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> > > > 
+> > > > The default is validating.
+> > > > 
+> > > > Assisted-by: LLM
+> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > ---
+> > > >  Documentation/admin-guide/sysctl/net.rst | 15 +++++++
+> > > >  include/linux/virtio_net.h               | 23 ++++++++++
+> > > >  include/net/netns/core.h                 |  1 +
+> > > >  net/core/dev.c                           |  6 +++
+> > > >  net/core/net_namespace.c                 |  1 +
+> > > >  net/core/sysctl_net_core.c               | 54 ++++++++++++++++++++++++
+> > > >  6 files changed, 100 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> > > > index e586e17fc7a5..7f230929c37e 100644
+> > > > --- a/Documentation/admin-guide/sysctl/net.rst
+> > > > +++ b/Documentation/admin-guide/sysctl/net.rst
+> > > > @@ -246,6 +246,21 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
+> > > >  Default: 1 (on)
+> > > >  
+> > > >  
+> > > > +virtio_net_hdr_csum_check
+> > > > +-------------------------
+> > > 
+> > > Make more generic, virtio_net_hdr_validate?
+> > > 
+> > > In case we add more validation in the future (as we have in the past),
+> > > without having to introduce multiple such knobs.
+> > 
+> > But it's uapi, are you sure we'll be able to change the meaning
+> > of an existing knob, even if we keep the name vague?
+> > 
+> > > > +
+> > > > +When processing packets with a virtio net header (through tun, tap, a
+> > > > +packet socket or a virtio network device) that request checksum offload
+> > > > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
+> > > > +in software, or drop the packet where the header does not match it.
+> > > > +
+> > > > +When disabled, the header is trusted not to corrupt the packet, and the
+> > > > +checksum is offloaded to hardware (or not verified if it never reaches
+> > > > +hardware). This is only safe if no protocol is processing the packets.
+> > > > +
+> > > > +Default: 1 (on)
+> > > > +
+> > > > +
+> > > >  wmem_default
+> > > >  ------------
+> > > >  
+> > > > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+> > > > index 357115ff0ec2..aa2f8ac4657c 100644
+> > > > --- a/include/linux/virtio_net.h
+> > > > +++ b/include/linux/virtio_net.h
+> > > > @@ -5,6 +5,7 @@
+> > > >  #include <linux/if_vlan.h>
+> > > >  #include <linux/ip.h>
+> > > >  #include <linux/ipv6.h>
+> > > > +#include <linux/jump_label.h>
+> > > >  #include <linux/netdevice.h>
+> > > >  #include <linux/udp.h>
+> > > >  #include <net/gso.h>
+> > > > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
+> > > >  	*thoff = nhoff + iph->ihl * sizeof(u32);
+> > > >  	return iph;
+> > > >  }
+> > > > +/* Defined in net/core/dev.c, enabled while any network namespace
+> > > > + * has net.core.virtio_net_hdr_csum_check set to 0.
+> > > > + */
+> > > 
+> > > Should this be a global sysctl, rather than per netns?
+> > 
+> > 
+> > For customers I work with, it would be much less useful.
+> 
+> Third option: make it an integer rather than a boolean.
+> 
+> 0: no validation
+> 1: current level of validation
+> 2 and beyond: if we have to extend it later
+> 
+> Not pretty, I'll admit. So fine to keep as is too if you prefer.
+> But I do foresee more changes in this area, if history is a guide.
+>  
+> > 
+> > > Even if per-netns, most likely do not want it writable by netns root
+> > > with user namespaces.
 > > >
-> > > Good point. While it's a platform_device (not a complex bus), I suppo=
-se
-> > > the PM domain may be relevant, at least for remove(). (probe() is
-> > > already handled automatically by the device core.)
-> >
-> > If this is a platform device, the PM domain detach will power it off,
-> > which I forgot about,
->
-> I kinda get lost in that too sometimes... so even remove() is OK
-> actually. Good.
->
-> > so the driver only needs to prepare the device
-> > for that.  If there is no PM domain, the driver runtime suspend
-> > callback function can be used for the power off in principle.
->
-> What's the distinction?
+> > > That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
+> > > of many crashes due to bad packets ingested by, e.g., a packet socket.
+> > 
+> > Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
+> > on by default?
+> 
+> A single system wide field is simplest.
+> 
+> Is there a benefit to making this configurable on a per netns basis?
 
-First, note that "PM domain" is not a synonym for "power domain".
+As I tried to explain: a specific container breaks, you decide to trust it,
+you do not need to trust all.
 
-A PM domain is essentially a set of PM callbacks that are invoked by
-the PM core for the devices the PM domain is attached to instead of
-their bus type callbacks.
+> If so, that's fine too. As long as root-in-namespace cannot modify it,
+> so readonly indeed.
 
-There can be only one PM domain attached to a device at any time and
-the idea is that it will amend driver PM callbacks with whatever is
-needed to power manage the device from the platform or board
-perspective.
 
-For example, the ACPI PM domain uses ACPI power management (which is
-based on platform-specific and board-specific information) to amend
-platform driver PM callbacks.  In the presence of the ACPI PM domain,
-platform device drivers may expect the devices to be ready to use at
-probe time and to be turned off after driver removal.
+Right. So I envision along the lines of:
 
-When genpd was introduced, the idea was that it would work in analogy
-with the ACPI PM domain, but I'm not sure if and to what extent that
-is the case now.
+net.core.virtio_net_hdr_validate_all - validate packets from any netns,
+netns root can not change it, only host root
 
-Anyway, in the absence of a PM domain, the driver is responsible for
-doing all of the PM-related work which may make a difference at least
-in some cases.
+net.core.virtio_net_hdr_validate - per netns
 
-> To me, power domains are not the only thing that
-> constitute "powering on the device" -- drivers may be handling resets,
-> clocks, regulators, etc., too. In either case, those are things that the
-> driver is powering on in probe(), and should be torn down in error-exit
-> and in remove().
->
-> But in either case, those are probably things the driver is doing in its
-> runtime_suspend callback.
->
-> Maybe I'm clouding things by mentioning "runtime_suspend" here; the
-> concept here is "power off anything you turned on in probe". So if you'd
-> like another spin here, I may just call it foo_initialize() and
-> foo_uninitialize(), with some comments about "power on any necessary
-> resources: clocks, regulators, resets, ...".
 
-I think that this would be somewhat better or at least less confusing.
+both set by default, validation runs if either is set.
 
-> > So I think that the original code flow here is fine with the caveat
-> > that if a PM domain is there, the driver may not actually need to
-> > carry out the power off by itself.
->
-> I kinda think the point of most of this power domain architecture is
-> that a typical driver just doesn't have to worry about it at all (in
-> probe(), and if you use runtime PM properly), so I'd prefer not
-> mentioning it in the Basic example. But sure.
+-- 
+MST
 
-Well, your basic example needs to be put in a certain context because
-it may not be generally applicable everywhere.
-
-I think that you should make it clear what the driver's expectations
-regarding the physical state of the device at the probe time are and
-the general rule is that it is better to leave the device in the same
-state in which it is expected to be found next time.
-
-> > > > That's why
-> > > > pm_runtime_force_suspend() looks for the callback to invoke.
-> > >
-> > > Would you be OK with pm_runtime_force_suspend() as an alternative her=
-e?
-> > > It seems like some drivers have started using that in remove(), which
-> > > doesn't quite match its docs, but otherwise seems OK to me. I was
-> > > considering that already here, and I even think it might be a good id=
-ea
-> > > to do automatically in devm_*, as I noted here:
-> > >
-> > >   https://lore.kernel.org/all/arVWVA3lks7SopQH@google.com/
-> > >
-> > >   (note: there's definitely at least one typo in there; should be
-> > >   !pm_runtime_status_suspended(); and it needs some other adjustments=
- to
-> > >   actually verify the device was suspended at time of enable(); ... s=
-o
-> > >   consider it a concept, not a patch.)
-> > >
-> > > But I kinda wanted a maintainer opinion before I went too far on that=
-.
-> >
-> > That shouldn't be necessary as per the above.
->
-> OK, yes, not necessary in this particular example.
->
-> But my hope is that devm_pm_runtime_enable() can be made easier to use.
-> It would be nice if we had the property:
->
->   If your device was suspended (most resources powered off) when
->   devm_pm_runtime_enable() is called, the PM helpers will suspend it
->   (power it back off) on remove().
-
-I'm not quite convinced that runtime PM is suitable for devm_ type of
-management.
-
-IIRC, devm_pm_runtime_enable() was introduced to avoid some code
-duplication between drivers, but I don't think that it may be expected
-to be universally applicable.
-
-> To me, PM runtime is pretty unique relative to other devm-supported
-> subsystems: even if you carefully undo everything you did in probe in
-> exactly the right inverse order, you still get things wrong -- because
-> PM runtime is so stateful (especially forbid()), and so you have to
-> account for an extra unwind step (call runtime_suspend-like functions in
-> remove()).
->
-> And to be clear, that proposal would only be useful for the "Probe with
-> Hardware Powered Off" case (which I think is actually quite common, and
-> quite common to do incorrectly), and not this "Basic Probe" (that powers
-> on during probe).
-
-Certainly, helpers that cover sufficiently common scenarios and help
-to avoid code duplication are useful, but it needs to be clear when
-exactly they are applicable and to what extent.
-
-> > > > Second, if the driver expects the device to be powered up and
-> > > > operational at the beginning of probe, which this one does AFAICS,
-> > >
-> > > No, that's not the intention. See:
-> > >
-> > >   "A driver that powers on its hardware during probe"
-> >
-> > So this effectively assumes no PM domain because platform_probe()
-> > calls dev_pm_domain_attach() with PD_FLAG_ATTACH_POWER_ON set.
->
-> Yes or no, depending on your understanding of what "powers on its
-> hardware" means. Holistically, I don't usually consider something "on"
-> if its power domain is on but it's still in reset, or its clocks are
-> off, or its regulators are off, or ...
->
-> Is there some better terminology you'd prefer here?
-
-You may say "operational" to refer to a state in which the device is
-accessible and functional, which should also be the case when the
-device is "active" from the runtime PM perspective.
-
-> > > And the pseudocode/comment:
-> > >
-> > >                /* Power on and initialize hardware registers... */
-> > >
-> > > i.e., probe() is doing the power-on work, but it's elided.
-> > >
-> > > Perhaps that wasn't obvious enough, so I can replace that with
-> >
-> > No, it's fine with me except that there is a difference between the
-> > "PM domain present" and "no PM domain" cases and at least some drivers
-> > may need to take it into account.
->
-> I'm not really getting what the distinction is, from a driver writer
-> point of view. With or without a PM domain, the driver most likely
-> doesn't need to worry about the distinction. (Caveat: if you have 2 or
-> more domains, you have to manage that yourself as the driver core
-> doesn't handle it. But that becomes obvious rather quickly.)
-
-I've tried to explain that above.
-
-Thanks,
-Rafael
