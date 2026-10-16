@@ -1,171 +1,131 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074AF519E09
-	for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 16:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243CC3812D2;
+	Fri, 16 Oct 2026 16:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792166952; cv=none; b=oB6fAtm3AYIw/GeKnx2DaJoeb+atLqfzpXgRaBJrrSGDO5+a0BUia5ZA02Qbknke8Q9D7bsqtLI0b+VE5gFc9a8r8lV8ybpDbl+g72GlnsyWnJCtSMTNXs3YdrUrftVKH05d1fYIQZzx1MGxsHTwgVWKj+1t+6jAfWbDTb9Tijk=
+	t=1792167253; cv=none; b=h6dk6idBH50IWGplW4XPhhDqbifRRrfvI9YqxylefMNvoefDPwiP3anYNp4anRoBAmlaSOpF/Qq8s7mf3HOCEb57/sIew4Mlb1+6vPPts81OkTT8wwJ+JSLyGYEWoETajU3hcxWkNRz6SRjpifpvrJw/vd3Pie8xUii33EEW7So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792166952; c=relaxed/simple;
-	bh=tCpJKERnr0ZloXOK19BWLHYdWvp2e1dFzy3ltFf2BYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NOocQrKDlSSDCbTsP8wUMBkGdj56qJs1U1NxykOfciXtRYUloEn4GyAqxrfao6HbhykdefjCkYMItF3j4nZhl+RUxo7GDuNP7m1h55bKFG9wNzX0CJHVukjQQpJQg8mFPtqdJ0S0iCbbFBd8NI2118156sFau1jVhuslpT56rF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMxlHvSU; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792167253; c=relaxed/simple;
+	bh=T/M3FgE2S0gHydqo2K66Min/mGnFLCTuCoxxmE69db8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qH/hP66kISiWJRgoWLuWjQfMzuuMUpzBySJMCNl7DHzoHCV6m5IMPvAXz1F/MNpzgRwOricmAEiVoBhWdsz/+6ymVsRj45CCAyWk10CkWw1xxkyGBLaWkURLT9251Ra1TOpRWd8HuFfZVG0HC1pH8RuDVlS172x0//8OXAhVj5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otWvrSJX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMxlHvSU"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ab3260b2cdso103252a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 09:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792166948; x=1792771748; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wW5ZaLzQtiiOdwOE1f4XYPa5S1VjrcXxgM6O8zAvb8M=;
-        b=aMxlHvSUPlZd5AbJ/CnLjszZG1/QyqXoiaDOdAW/S2i21skXV/KGaOci1Nqp3W4NZ4
-         HYulBVNyNSCjt/hiUz/q65TT7GtpmIkKMiaVl5gpwDYawILRBpROkIPiGGLQfkjAltPq
-         PYssX2dw2gSDP86zlSLp7jR5taMA25uvz8Wkz05O37FVfDpW2N/78W6YUMY3BFczj4rj
-         EzzOE1NBLNI5ovIwNTTtKRIIG4E4HQUe21pUfDg2f0vrGn8VqErgn2qqxQhXgmIxUpjg
-         JRLY++194uvq2ZIeG6GSVjI5il46a8xsrdRIvpYoQSDlKvWk392i+3P5Xg6lMCurwXGo
-         sCaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792166948; x=1792771748;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=wW5ZaLzQtiiOdwOE1f4XYPa5S1VjrcXxgM6O8zAvb8M=;
-        b=xcHyp6qR0srTlJFGhD3PRFIHrJo/dSDy9nV8NWB0DtnBew/RHMb0BW6ye65Jcm5guJ
-         P/t/hTyD0qoN/mpD5edi2Lgded1NFW82HOriAHXJ8HE7UeNkWkAjbAe3Lr6Tb3hhflmP
-         HLWahP3MlldHGp5QqzIuF0jvSoXfuhr8caZorY9b1TQlbZ/SR+s94wBiHadi7iQmxB09
-         RdxyAXfU3lzSbnNREVC/tOQL/lbxQ9i733+sU0HL7/D+mUWjYPKUNI59RfTXf3fF/YcC
-         tCXCsXaXgW3iZFQdXzROHri1b9jmCh6mn+ZY3bS+2ULwq6NdisWPQ96UT3KbdROoOdQq
-         zuBg==
-X-Forwarded-Encrypted: i=1; AKwUvBy74ouuiuYfAm3bbVcam04qbR6/pyO3KgvieKDLRfQwKwb5wCk2/Ee28cERhXaS5OSEk2I5o0+fz5o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ4OScehxFIZ0jgYQfNpbHkT3OKTeIjQL4odBWAsUsHVvb3Ih1e
-	CNnvoY7uErWgBM2YVW9w9XB10eyYa+XmsuRDrQHUx34gaeeHvnxwLlOu
-X-Gm-Gg: AYBFou04QOUHTo+RY6Fr3UHuvaSdFQrEvtvonUQMH+X6hW4AEMeNW+HAv/oa4rOJkAY
-	zrnmAVFnBTjx+YtltDiRZosz8F0He/QKtCNtus59vPLPt0bOB0DXnqu2nl525iNdaZhqWqMekSe
-	SzQfPj+I5r93sDf7Y0pwls4q6eOEaLpmjK6lxm800iJyyLwnauJU8DNuR9sZ5dO34sN8ZOTeey1
-	mWMPEJtDU3BpkGzvwPJqMM+GZ1/t3kcK8Wph81zfEiWrNEo2dZ64wG+ejot9HHJEuJxMBBZJxZG
-	PSbeup3z8Ti2B8+lr8a+5oyNbyTWxntPqtMp5HRKDPKSu0PQuNxFZWD7mOU5jQvyPt3LqHFFY3w
-	O7SVRPVNPOmg6OlPoLQGcnWYwiPqkxtdI06xMtnAhdwWXXbtWlFZDH4qCyio3Tv/0/bgSAz1oiw
-	GFoHXVhuMXtVe/yodcrjIzlAP7eDEPBSJXaeaMWI9bDsdeqgQ3DxkqtT4ZbVo0zpmLvJ436kHCS
-	sgcI1oVmlKBF3mvr9KS3O9LIAgBr4CkLC4Cuy2cKxfW+xnc
-X-Received: by 2002:a17:90b:5112:b0:3ab:c80:9365 with SMTP id 98e67ed59e1d1-3acef0f47a8mr284962a91.42.1792166948066;
-        Fri, 16 Oct 2026 09:09:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac945e72c6sm9692007a91.5.2026.10.16.09.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 09:09:07 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a0fb773d-dff3-46d0-9bc6-f408049ba12d@roeck-us.net>
-Date: Fri, 16 Oct 2026 09:09:05 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otWvrSJX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB081F000C4;
+	Fri, 16 Oct 2026 16:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792167250;
+	bh=T/M3FgE2S0gHydqo2K66Min/mGnFLCTuCoxxmE69db8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=otWvrSJXHsurzGaHAbePB5oAHNk2uAGwd9jUZ02mYctQnhDhmb/6YJAXD4d4fmCrm
+	 UWe6tw4FryKYSAjr5rqrvV3DH6z+2TXBQrZtMg+2uUwBTE4I1xw7pQEEcaicRTLd02
+	 AZ1wsLsPQ/BJ5IqWTooQuIZHAiqK0fLGzU6tzE+bDd3fDYb+lhcvu5OVHTtS5u8ncS
+	 Eu04OKEwg1gHlgQ/kp4mo3NFzv0sMqanDyCBKOqedE5GeXchXn7T+OgBbOsFl902Uk
+	 QM8GDIGOZfgn14EtKmFyuxz6KCf1q5tw9tqon36TjpZ64EEF1ClKNjVlPKfgEHb5bG
+	 CQPJBVWXRVnpg==
+Date: Fri, 16 Oct 2026 17:14:02 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>, 
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Justin Stitt <justinstitt@google.com>, Carlos Maiolino <cem@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@infradead.org>, 
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>, 
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <atI_TSQXzAQFWBfx@gremlin>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <20261013173240.GK4214@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (asus_wmi_sensors) Drop misleading BIOS upgrade
- advice
-To: Qian Xiao <heyheyco@gmail.com>
-Cc: Ed Brindley <kernel@maidavale.org>, Denis Pauk <pauk.denis@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261014233318.34567-1-heyheyco@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261014233318.34567-1-heyheyco@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013173240.GK4214@killaraus.ideasonboard.com>
 
-On 10/14/26 16:33, Qian Xiao wrote:
-> The Known Issues section suggests that upgrading to a BIOS with WMI
-> method version two or greater should rectify the problem. However, the
-> driver refuses to bind when the BIOS reports a version below two, so
-> every system using the driver already meets that condition and the
-> advice does not help.
-> 
-> Remove the sentence. While at it, fix a typo in the preceding sentence.
-> 
-> Link: https://lore.kernel.org/linux-hwmon/CAFGXJCm6ZWK0NsFhZ1_ycgYtTTT3nhqj9mose60t+Rrry1aPvw@mail.gmail.com/
-> Signed-off-by: Qian Xiao <heyheyco@gmail.com>
-> ---
-> For context, the fan issue has continued to be reported with the in-tree
-> driver (which implies method version >= 2), e.g.:
-> https://www.reddit.com/r/archlinux/comments/tunnvb/psa_if_youre_experiencing_weird_fan_behaviour_on/
-> https://forums.unraid.net/topic/131340-semi-solved-611x612x-bug-system-fans-stopped-after-a-few-hours-asus-mainboard-linux-517-driver-asus-wmi-driver-issue/
-> 
+On Tue, Oct 13, 2026 at 07:32:40PM +0200, Laurent Pinchart wrote:
+> > Yes there will be collateral damage, but it's that or no more open source (we're
+> > not the only ones going through this!)
+>
+> Think how you will feel the day you will be treated as collateral
+> damage.
 
-Then maybe the advice should be changed to "upgrading to a more recent BIOS
-version might help" instead of being dropped entirely.
+I'm already working evenings and weekends to deal with AI slop to the point
+of burnout (finished work at 9pm last night, for instance), so I already
+feel like I'm collateral damage.
 
-Guenter
+And it's utterly thankless work. You get negativity no matter what you do
+with this stuff.
 
+I accept all that, I do it because I care. So you take it on the chin. But
+the AI slop wave has changed everything.
 
->   Documentation/hwmon/asus_wmi_sensors.rst | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/asus_wmi_sensors.rst b/Documentation/hwmon/asus_wmi_sensors.rst
-> index 8f2096c..f6fa66f 100644
-> --- a/Documentation/hwmon/asus_wmi_sensors.rst
-> +++ b/Documentation/hwmon/asus_wmi_sensors.rst
-> @@ -72,7 +72,5 @@ Known Issues:
->      X470 Pro seems particularly bad for this. The more frequently the WMI
->      interface is polled the greater the potential for this to happen. Until you
->      have subjected your computer to an extended soak test while polling the
-> -   sensors frequently, don't leave you computer unattended. Upgrading to new
-> -   BIOS version with method version greater than or equal to two should
-> -   rectify the issue.
-> +   sensors frequently, don't leave your computer unattended.
->    * A few boards report 12v voltages to be ~10v.
+What was already an unsustainable review load has now doubled, or tripled,
+and there's every reason to believe it's only the beginning.
 
+So now maintainership and review is thankless at an unprecedented scale,
+which leads to only one thing - burnout. Possibly even the medical variety,
+where you don't come back for a long while, if ever.
+
+The project simply cannot function like this, it can't. And nothing that
+requires per-submitter effort scales.
+
+There are people sending 500 patches in 2 hours already, for instance.
+
+The only solution that can possibly work is large-scale ignoring, because
+the number of submissions can grow exponentially, and even small
+effort-per-submission is vastly beyond available resource.
+
+The alternative is maintainers quitting en masse and the project dies at that
+point. So it's a choice between two bad options, but one of them is 'linux
+dies'. So the other one seems better.
+
+>
+> I find this mail thread it taking an almost cynical and violent turn.
+> Are people rejoicing at the prospect of actively discriminating against
+> sincere contributors, or am I misreading it ? The kernel community needs
+> more care.
+
+You're misreading it.
+
+I feel _terrible_ for newcomers. Really. It hurts me that this situation
+exists.
+
+I came up as a hobbyist from nowhere. I wrote a book thinking nobody would
+care, part-time, while doing a busy non-kernel job.
+
+And the kernel being what it is let me get where I am, for which I'm
+eternally grateful.
+
+I want to encourage talented newcomers. They are rare, and are the future
+of the kernel.
+
+I explicitly spent time at LPC encouraging newer people, in person, for
+instance. I have (often behind the scenes) encouraged young, talented
+developers. So in general, I've _actively_ worked on this.
+
+And new people sending small, sensible, non-slopped patches/series will
+still most likely get their stuff merged in mm.
+
+So it's very far from the case of 'oh wow now I can just ignore everybody'.
+
+--
+Cheers, Lorenzo
