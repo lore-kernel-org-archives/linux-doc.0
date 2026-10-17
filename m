@@ -1,48 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D473911A9;
-	Sat, 17 Oct 2026 16:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7359A3AAF69;
+	Sat, 17 Oct 2026 16:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792254602; cv=none; b=ExDFI27Z7OHoz4FRqq7fcT30+FH+AEVG2+4zHlihJynRdgWysZO7TReWJ+i4dW4Vbfd8SVxgq9p/8MX52wB+pa2ePBxV0LqoYCVuIM+4YWrR4vHRBXzWTyr8V37U+AGGb6GCWr88FmSl4BVyF1b2N2Nnol92kiwRd3RmQKxNTHo=
+	t=1792255457; cv=none; b=DqdMTno+79CgMZicnrYkj5RDFMw+lByFEoPamBpm2meEJ2OBbKQmqHXIfTdxxa7ew4RdmdfaBRuRrJkNnCFQOuH8pBHEZEua5afaWF5LLIf95DoPkUH5Y+PSIexKCtTWU8vqtLdIPBOzRHhPNbDQNAbDtjY9UkgGH63wzSFyFag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792254602; c=relaxed/simple;
-	bh=NdPSzd4ka+nLN/DB/bzIh2jM9+rUkYsB2FWpRT5BCBY=;
+	s=arc-20240116; t=1792255457; c=relaxed/simple;
+	bh=UKfbu1T20lQWRoXbYY8lBXY7F/u8wdHGM7XgPm/Ol3Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E0cPpJvSNreCLd0ptdHvsYEzDIjvmpIhFaYoFRgOU+F59c/hMGxwZeAo1zUpOJ8QU+6gtui+LCDrRPZeul9GrgkvH60NmpbgdFgUNnOnmsM54UFXhp9Gvh2Jomr5oPs5R8aJAi84ag7cR/887GYPsVMExRVpZGqo0qiY9B33JCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PeKmOw4J; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=mdza5P8bW2QtK4PLoN1VZdtbd8OKXrLeoW4hJA7sQUPrvV1nLRXCzK/+zOnyXTaX5IJwL9eim5a8rddyJ2J1hI5g6VmD+WquaISu8sfG6o0bifBB1bzmjtRF8lXI4J7tZ7SMfZ7yqoOdZXMEiRQQMnFo8M+SW7xlQi6QQzXVOH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UahZwYB/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeKmOw4J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 245001F000C5;
-	Sat, 17 Oct 2026 16:30:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UahZwYB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BBF1F000C5;
+	Sat, 17 Oct 2026 16:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792254601;
-	bh=X0DmlSRuNRCJbXtkSTjE1NDx4IN1vmXMrnRQ7uFb2H0=;
+	s=k20260515; t=1792255456;
+	bh=7G2NT+fxfzQbeg8Nb8I82d+DeZrkITmTp7CpnmRJeHA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PeKmOw4Jiki3/fJnnAJ22M5qF9oJIzt1qIMerDBuwvmo8EqZCLozJKW1Ihpmg944G
-	 99/UgGyFtilWGzHziQ+CviBtvZwzdfMdEOlbNfPUkv7z8veajSn85RyxLbw/WSh/1a
-	 PT7DNvFmI5IuBUg+BLAoFDvrY6v6Uy7MdOIvA2j+NnVDN5Qnl0y8ti6ZF/GYwZqpEL
-	 E4sNe0SQrXbOD8A897GjW6N7g/Lcwuv1CFFnN2OZrMDbV0aytqS00JjeEN7s7e1vaf
-	 B1nnGFXH5+upytKF2oEAJpyYXLmY5FK+4VtrNRkNxaQoNFonowvyo6RVd4W9hEigTy
-	 QSfYTlWEGVCUA==
+	b=UahZwYB/srfY5H1wEt+QhcwHwIMamSV2QK6PUOvWsyvAWb26Ujy9ZyGZZbRIE7cx9
+	 L4sFGTVbTrdEP6DUKl5iIcs+0PqSzivCsyWpbT8QIjlPo4xXhWsO+2ymfBAO3/70ew
+	 i2c1sHcxmCq7aOBZwj7cGzkqkTgDWhBNYw3Nj7WkyzPo8eXCdXyfGPDNN02IkY8U1k
+	 PscUh0mSTdTv/nu6ZXb0ks5naIMwGvLp9KcfXw2nL/DtBxx3f/EtyvDMygbPCUFr9/
+	 4E93+YOyIxPjqYtGQ0RJSlElpcI2D2tEqQGquvN/2pynoT5jKOLzZFx9AuGopuW9Vt
+	 qKGJEjMVJzPCA==
 From: SJ Park <sj@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Sasha Levin <sashal@kernel.org>
 Cc: SJ Park <sj@kernel.org>,
-	damon@lists.linux.dev,
+	workflows@vger.kernel.org,
+	ksummit@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aveline Noir <jm5905938@gmail.com>,
-	"Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
-Subject: Re: [Duplicate Text] in mm/damon/ and Doc/admin-guide/mm/damon/
-Date: Sat, 17 Oct 2026 09:29:53 -0700
-Message-ID: <20261017162954.104148-1-sj@kernel.org>
+	Mark Brown <broonie@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] docs: stable-kernel-rules: drop rules the stable trees do not apply
+Date: Sat, 17 Oct 2026 09:44:08 -0700
+Message-ID: <20261017164408.104457-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <1061edcf257c9e625efe5f6f000013e9b2d4c650.camel@mailbox.org>
+In-Reply-To: <20261016152828.3765695-4-sashal@kernel.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -52,25 +63,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat, 17 Oct 2026 17:32:47 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+On Fri, 16 Oct 2026 11:28:23 -0400 Sasha Levin <sashal@kernel.org> wrote:
 
-> Hi SJ,
+> The stable trees do not apply the 100 line limit or the exclusion of
+> theoretical issues, and they require a fix to be correct and tested
+> rather than obviously correct. Drop those rules.
 > 
-> there is a lot of duplicated text in these directories. Diff doesn't show
-> any because in mm/damon/ the text is a multi-line comment.
-> 
-> ~40 Lines in lru_sort.c and lru_sort.rst,
-> ~50 Lines in reclaim.c and reclaim.rst and
-> a few Lines in stat.c and stat.rst.
-> 
-> I think it's important to decide on how to handle the duplication before
-> patching.
-> 
-> Delete one set, keep (and fix) both or add a reference in one place to
-> the other? Could sphinx do the duplication?
+> Assisted-by: LLM
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Let's keep and fix both for now.  We can consider deduplicating if it turns out
-to be too much overhead.  I don't feel so yet.
+Acked-by: SJ Park <sj@kernel.org>
+
+[...]
+> @@ -24,9 +23,6 @@ Rules on what kind of patches are accepted, and which ones are not, into the
+>      regression they should only be submitted by a distribution kernel
+>      maintainer and include an addendum linking to a bugzilla entry if it
+>      exists and additional information on the user-visible impact.
+> -  - No "This could be a problem..." type of things like a "theoretical race
+> -    condition", unless an explanation of how the bug can be exploited is also
+> -    provided.
+
+I initially thought requestion the explanation of how it can be exploited is
+still good.  But, that's maybe what need to be requested when the commit is
+landed on the mainline.  So this looks good to me.
 
 
 Thanks,
