@@ -1,260 +1,131 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-126.mta1.migadu.com [95.215.58.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411FD3CE4BE;
-	Sat, 17 Oct 2026 08:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2524052D8
+	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 09:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792226204; cv=none; b=cOkgaA0LuSkk8L1p/NpiCYdBo11s4RKAE3qg1OHkZbahwqZkurqsTqtvIlIedBMLU8TPQtrm3U5fN/0e37nrkt74/xIdxHcdLvRD4cASEi57LEtIdVgc+4BjXujsO9OvoZD4idVcQautOWTU8wX9bYKft9mL4sN7OKazXNqdwEQ=
+	t=1792228440; cv=none; b=XAITiH5Tk+U0BvLizc/KKkk9Ke6716h4QOXJgWUVbSzK6i6avmuTrlASmV10HTAa3fHCyZz4KjUv3ouT2a3TZZl6mmvgRp0NSJ3XCJPlWmCuMXfGBfTjWJ4dZN0brH9qGlKAWzSpyoy80oNtzTNDU6clUJX8h9Z9eFzJMbo55jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792226204; c=relaxed/simple;
-	bh=6SeJ4Hl24zyy4exhjtnlHcNJJiQVuN0BNii3iL9g0qw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SeUDmoEbsqIB7ewxUgAOz/rLntypUz6RZnE3onp/FD/FyTEGgTUB1ADyywL1zRKBuiRAnh/PTGFhAeRo+G5Se2FknS/k6GvirG/dbuKm369yBIaDuyGqGqyNa8nh0xKV8iTrRcrjzHPdvyLqmTJVcgXdjKQOIoO2JiK4hjM6+Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Dc2HkLmZ; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1792228440; c=relaxed/simple;
+	bh=EvUH/ifmbrml9nHlgOiU5kMRxvjJDNadN4/C6gpKGWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fHewfHFjaU/OXLBtV+B4HmL9ZKo68k9UOkPIM/vP2rPoV0lq0qmtYg3wZEhQ7DW/UskHeJ52O0oEsPFA7M7uP+94Yl7eE8nploldJY4oaeL0hP6c6KDHsxFg9XHN/QPB8iQ2JmcEqjT1Kyrg1X/mSZn+Q7VUJRFSdui7n+5IyuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=dbQI+jta; arc=none smtp.client-ip=95.215.58.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Dc2HkLmZ"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4j6FXQ0pgcz8t2h;
-	Sat, 17 Oct 2026 10:36:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1792226198;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=daD3WZTzmfa4KXrJR0YhoGudN1Nbz0tk7iqpRXDolW0=;
-	b=Dc2HkLmZUEX3jqyRHuvtVm5AB1f9xOguV/lBqT3hQMxeFhxoUQjObGYfhcBFI96gpaaq3I
-	dpCv26hfqDcV14U/hRPNyIlUaOiLRMv1EBnMWhHDnVZqZJJ25TRQStQXeQQcUUvlZiW4or
-	TxMnv21HtuoGkcBnLmCp4wP1zkrPlKvsDRKfkNZjuaCtZUl1wrFlg7TnLI6Tm6t1LGyd5J
-	eAns+A86qi+NyaPvsx+CowrB/CWsQjD3ZjwXm9+mSsuk7VPq2P0IFPG1KJfRZ/VbupYuu/
-	/KVSL0wZlhI674swou5UZPy/dHLjbV31mZuGmXMjkj3fnzERX7dMnjwg8W/4PA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="dbQI+jta"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=EvUH/ifmbrml9nHlgOiU5kMRxvjJDNadN4/C6gpKGWs=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792228432; v=1; x=1792833232;
+ b=dbQI+jtabdL/ZnvkJIR+AHy5bPcG4s6MmE/ydDqppWgO3yOspW4WcpgzGn4rV+Tmn7ny7FN/
+ l1p0PxXTdWhoK4Il5i1HgXWfDbd6d0NFsgqybDgSdyCpBXu2UBZEkDy91+cYIMaY/QUT7veUU6Y
+ SU2JMMh20HRKKfB70lcDfOquVy2R3X8tGQNL4n+v0/uq2RzL4zaj1ifQkYynUUSBZAAQUoKmcHz
+ CVTC5VfVN0PgUX+GQvey+NG3BKcAIlwNz4fmhoBvrID1WyXQSIJCTLdvyNsm+0RzM5XjvPTIoAn
+ zVPHqXZG6LuaFEg9O7gBs1c677q9H/SpQuZJAEKdJjijg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id cc049a13f0df8977;
+	Sat, 17 Oct 2026 09:13:52 +0000
+X-Mizu-Trace-ID: cc049a13f0df8977
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 17 Oct 2026 17:13:45 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Docs/admin-guide/mm/damon/lru_sort: fix grammar and stlye
-Date: Sat, 17 Oct 2026 10:35:34 +0200
-Message-ID: <20261017083535.1261388-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.55.0
+Subject: Re: [PATCH 1/2] docs/zh_CN: remove translator-related headers
+Message-ID: <atM8STwzREGJ_-Vd@wyuan.org>
+References: <cover.1792167855.git.wy@wyuan.org>
+ <a7c3af29fd1783bbca36cdacd3f17bf52cd5ef3f.1792167856.git.wy@wyuan.org>
+ <3ee47cf1-a7a2-481a-bf46-46e74bdaa1e5@hust.edu.cn>
+ <atMxWvnyYmD5r6O3@wyuan.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 5d8c7knged71kbud9uke1omjmz5jwanr
-X-MBO-RS-ID: 1717f57581f65708ba3
+In-Reply-To: <atMxWvnyYmD5r6O3@wyuan.org>
 
-Fix tenses. Split long sentences thereby imporove readability.  Replace
-'set as' with 'set to'. Replace [] with () to make the file uniform.
+On 2026-10-17 16:27:12 +0800, Weijie Yuan <wy@wyuan.org> wrote:
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Reviewed-by: SJ Park <sj@kernel.org>
----
-SJ, could you please replace 38b3709936fa ([v2] 'mm/damon/lru_sort: fix
-grammar and stlye') with this patch? I messed up the path in the subject line.
-Thanks
- Manuel
+> On 2026-10-17 10:06:39 +0800, Dongliang Mu <dzm91@hust.edu.cn> wrote:
+> 
+> > On 10/17/26 12:52 AM, Weijie Yuan wrote:
+> > > The headers related to translators and proofreaders appear multiple
+> > > times in our directory. Their information is duplicated with that in the
+> > > commit logs, making it difficult to maintain over an extended period
+> > > of time, as there have been multiple instances of requests to update the
+> > > email address.
+> > > 
+> > > Remove all the related fields to make our source clean.
+> > > 
+> > > Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> > > Signed-off-by: Weijie Yuan <wy@wyuan.org>
+> > > ---
+> > > The diffs are inconvenient to review, sorry. Because I cannot find a
+> > > better way to split them up besides by directories.
+> > 
+> > 1. I recommend to preserve the RST anchors because other files would use
+> > this.
+> 
+> Yes, I also removed some top-level labels while I was at it, though I
+> would better have done that in a separate patch. (My Git index was messy
+> with these large diff. So later, the topic was expanded to a cleanup.
+> But yes, I should split it)
+> 
+> But I checked that none of these removed labels are referenced
+> elsewhere, if I was doing it correctly. (No invalid citations were
+> reported by 'make htmldocs'.)
 
-[v3]
- Split long line
- Fix path in subject / One-line summary
+Oops, I mean the removed labels are not used by other places according
+to 'make htmldocs'.
 
-[v2]
- https://lore.kernel.org/20261015072947.802821-2-manuelebnerli@mailbox.org
- Collect R-b: from SJ.
+Thanks.
 
-[v1]
- https://lore.kernel.org/20261013191327.663331-2-manuelebnerli@mailbox.org
- Wordsmith commit message.
- Fixup a few trivial wording.
+> 
+> Anyway, I'll not touch these labels in next re-roll.
+> 
+> > 2. There are three checkpatch SPDX warnings during the review:
+> > 
+> > dev-tools/sparse.rst | Missing or malformed SPDX-License-Identifier tag in
+> > line 1
+> > process/howto.rst | Missing or malformed SPDX-License-Identifier tag in line
+> > 1
+> > process/kernel-enforcement-statement.rst | Missing or malformed
+> > SPDX-License-Identifier tag in line 1
+> > 
+> > Each warning is triggered because the patch changes that file´s first line.
+> > All three files already lacked an SPDX tag before the patch.
+> 
+> Oh, I forgot to mention this when writing cover lettter, sorry I did
+> send these emails a bit too hastily.
+> 
+> I did run checkpatch and got these reminders.
+> 
+> The original Engish versions of these three are missing
+> SPDX-License-Identifier(s), so as far as I know, our translation is
+> better not to add this first.?
+> 
+> Please see: https://lore.kernel.org/linux-doc/87y0dv1wp3.fsf@trenco.lwn.net/
+> 
+> But I guess we could add the identifier with Alex's and Yanteng's ack,
+> as they are the original translator if we want to.
+> 
+> Thanks!
+> 
+> 
+> p.s. Many of the recipients' addresses are no longer in use. To avoid
+> unnecessary clutter, I will simplify the list of recipients in the next
+> version.
 
-
- .../admin-guide/mm/damon/lru_sort.rst         | 61 +++++++++----------
- 1 file changed, 30 insertions(+), 31 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index 0c04d238ed..aa4cc90ca5 100644
---- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -5,20 +5,19 @@ DAMON-based LRU-lists Sorting
- =============================
- 
- DAMON-based LRU-lists Sorting (DAMON_LRU_SORT) is a static kernel module that
--aimed to be used for proactive and lightweight data access pattern based
-+aims to be used for proactive and lightweight data access pattern based
- (de)prioritization of pages on their LRU-lists for making LRU-lists a more
- trustworthy data access pattern source.
- 
- Where Proactive LRU-lists Sorting is Required?
- ==============================================
- 
--As page-granularity access checking overhead could be significant on huge
--systems, LRU lists are normally not proactively sorted but partially and
--reactively sorted for special events including specific user requests, system
--calls and memory pressure.  As a result, LRU lists are sometimes not so
--perfectly prepared to be used as a trustworthy access pattern source for some
--situations including reclamation target pages selection under sudden memory
--pressure.
-+As page-granularity access checking overhead could be significant on huge systems,
-+LRU lists are normally not fully nor proactively sorted but rather partially
-+and reactively sorted for special events.  These events include specific user requests,
-+system calls and memory pressure.  As a result, LRU lists are sometimes not
-+suitable to be used as a trustworthy access pattern source.  These situations
-+including reclamation target page selection under sudden memory pressure.
- 
- Because DAMON can identify access patterns of best-effort accuracy while
- inducing only user-specified range of overhead, proactively running
-@@ -28,9 +27,9 @@ pattern source with low and controlled overhead.
- How It Works?
- =============
- 
--DAMON_LRU_SORT finds hot pages (pages of memory regions that showing access
--rates that higher than a user-specified threshold) and cold pages (pages of
--memory regions that showing no access for a time that longer than a
-+DAMON_LRU_SORT finds hot pages (pages of memory regions that show access
-+rates that are higher than a user-specified threshold) and cold pages (pages of
-+memory regions that show no access for a duration that is longer than a
- user-specified threshold) using DAMON, and prioritizes hot pages while
- deprioritizing cold pages on their LRU-lists.  To avoid it consuming too much
- CPU for the prioritizations, a CPU time usage limit can be configured.  Under
-@@ -63,10 +62,10 @@ enabled
- 
- Enable or disable DAMON_LRU_SORT.
- 
--You can enable DAMON_LRU_SORT by setting the value of this parameter as ``Y``.
--Setting it as ``N`` disables DAMON_LRU_SORT.  Note that DAMON_LRU_SORT could do
-+You can enable DAMON_LRU_SORT by setting the value of this parameter to ``Y``.
-+Setting it to ``N`` disables DAMON_LRU_SORT.  Note that DAMON_LRU_SORT could do
- no real monitoring and LRU-lists sorting due to the watermarks-based activation
--condition.  Refer to below descriptions for the watermarks parameter for this.
-+condition.  Refer to below descriptions of the watermarks parameter for this.
- 
- commit_inputs
- -------------
-@@ -74,9 +73,9 @@ commit_inputs
- Make DAMON_LRU_SORT reads the input parameters again, except ``enabled``.
- 
- Input parameters that updated while DAMON_LRU_SORT is running are not applied
--by default.  Once this parameter is set as ``Y``, DAMON_LRU_SORT reads values
-+by default.  Once this parameter is set to ``Y``, DAMON_LRU_SORT reads values
- of parameters except ``enabled`` again.  Once the re-reading is done, this
--parameter is set as ``N``.  If invalid parameters are found while the
-+parameter is set to ``N``.  If invalid parameters are found while the
- re-reading, DAMON_LRU_SORT will be disabled.
- 
- Once ``Y`` is written to this parameter, the user must not write to any
-@@ -86,37 +85,37 @@ violate this rule, the kernel may exhibit undefined behavior.
- active_mem_bp
- -------------
- 
--Desired active to [in]active memory ratio in bp (1/10,000).
-+Desired active to (in)active memory ratio in bp (1/10,000).
- 
- While keeping the caps that set by other quotas, DAMON_LRU_SORT automatically
- increases and decreases the effective level of the quota aiming the LRU
--[de]prioritizations of the hot and cold memory resulting in this active to
--[in]active memory ratio.  Value zero means disabling this auto-tuning feature.
-+(de)prioritizations of the hot and cold memory resulting in this active to
-+(in)active memory ratio.  Value zero means disabling this auto-tuning feature.
- 
- Disabled by default.
- 
- autotune_monitoring_intervals
- -----------------------------
- 
--If this parameter is set as ``Y``, DAMON_LRU_SORT automatically tunes DAMON's
-+If this parameter is set to ``Y``, DAMON_LRU_SORT automatically tunes DAMON's
- sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
- amount of access events in each DAMON-snapshot, while keeping the sampling
--interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
--``N`` disables the auto-tuning.
-+interval to 5 milliseconds in minimum, and to 10 seconds in maximum.  Setting this
-+to ``N`` disables the auto-tuning.
- 
- Disabled by default.
- 
- filter_young_pages
- ------------------
- 
--Filter [non-]young pages accordingly for LRU [de]prioritizations.
-+Filter (non-)young pages accordingly for LRU (de)prioritizations.
- 
- If this is set, check page level access (youngness) once again before each
--LRU [de]prioritization operation.  LRU prioritization operation is skipped
-+LRU (de)prioritization operation.  LRU prioritization operation is skipped
- if the page has not accessed since the last check (not young).  LRU
- deprioritization operation is skipped if the page has accessed since the
- last check (young).  The feature is enabled or disabled if this parameter is
--set as ``Y`` or ``N``, respectively.
-+set to ``Y`` or ``N``, respectively.
- 
- Disabled by default.
- 
-@@ -235,7 +234,7 @@ max_nr_regions
- Maximum number of monitoring regions.
- 
- The maximum number of monitoring regions of DAMON for the cold memory
--monitoring.  This can be used to set upper-bound of the monitoring overhead.
-+monitoring.  This can be used to set the upper-bound of the monitoring overhead.
- However, setting this too low could result in bad monitoring quality.  Please
- refer to the DAMON documentation (:doc:`usage`) for more detail.  1000 by
- defaults.
-@@ -268,7 +267,7 @@ This parameter is for setting and getting the :ref:`address unit
- 
- ``monitor_region_start`` and ``monitor_region_end`` should be provided in this
- unit.  For example, let's suppose ``addr_unit``, ``monitor_region_start`` and
--``monitor_region_end`` are set as ``1024``, ``0`` and ``10``, respectively.
-+``monitor_region_end`` are set to ``1024``, ``0`` and ``10``, respectively.
- Then DAMON_LRU_SORT will work for 10 KiB length of physical address range that
- starts from address zero (``[0 * 1024, 10 * 1024)`` in bytes).
- 
-@@ -291,22 +290,22 @@ If DAMON_LRU_SORT is enabled, this becomes the PID of the worker thread.  Else,
- nr_lru_sort_tried_hot_regions
- -----------------------------
- 
--Number of hot memory regions that tried to be LRU-sorted.
-+Number of hot memory regions that were tried to be LRU-sorted.
- 
- bytes_lru_sort_tried_hot_regions
- --------------------------------
- 
--Total bytes of hot memory regions that tried to be LRU-sorted.
-+Total bytes of hot memory regions that were tried to be LRU-sorted.
- 
- nr_lru_sorted_hot_regions
- -------------------------
- 
--Number of hot memory regions that successfully be LRU-sorted.
-+Number of hot memory regions that were successfully LRU-sorted.
- 
- bytes_lru_sorted_hot_regions
- ----------------------------
- 
--Total bytes of hot memory regions that successfully be LRU-sorted.
-+Total bytes of hot memory regions that were successfully LRU-sorted.
- 
- nr_hot_quota_exceeds
- --------------------
--- 
-2.55.0
 
