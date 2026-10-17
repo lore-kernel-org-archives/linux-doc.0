@@ -1,345 +1,129 @@
-Received: from mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE5A3B14A4
-	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 10:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6D447B43A;
+	Sat, 17 Oct 2026 11:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792234460; cv=none; b=Gkqhc/glT/D8mvod+/ik0lFqzqHD1UsF9DdQlmKxeXL75qbIDBUfXaQuWo6868O8hs+d5xOJBCGRA7tclMaqDbp47oaLOoZlrr4NwgR98BcrU2q4rHtgzMa03xWLgnlnk86h4jLgT/lX9+EHg8YsM1LPISYK5BHQTSCRtNlnDw4=
+	t=1792237797; cv=none; b=HiK+PBY59XjAeVDE28fpxlDkMyFOK4odn8CRDDuiNuG47+3TTyPz0Sm8cGs2Qfen39+6We+CJ8kISmR0uOzmRwdk+oec3UnLOctp4yQIv6r8JcQ31vNqBKAhEeCloSOuA39bpTwnvFqxwcuOgJi5gJSen5o/Kkqocp11rEeFS08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792234460; c=relaxed/simple;
-	bh=2N9BQKz6AnVfddAOlxhaAFtPmyMyrlSN/sFqe0szwXI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GdqTacNfIkMEBhrX0SVvwGoIxfYGOlcQe8LHnOk5MJPzeiPvEhgz3nYORbxS9/GnsL4rEKM8WnmMDfyXg/RMfRuR3igVUOH4K3juP1dgI2URYddwn45FMVSp79KOFG9An2Np8aiduwuw5ud3VafGKwu2lPXdYPiAcp82LGErNnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Xqm5loDr; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792237797; c=relaxed/simple;
+	bh=I9rUXOsPvPb1Pr+yDalZ+a5oJd95FTQW828LowTVdXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPPAA9TIIRFMowyv65IXm0eGW6WD8DX1dbrHSdUN7XRvBjrdVc3qQmqwrikVZ5jigvYCPlssNclc2QRFjA0vEXOjHQc5AF37JcHZHZ+VmtowW362qyY5ip9mB9E5debH0t/47qRMx0pavFPoOJgdxgNpGPdo+ltaiuyaBGO1svI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VyfByGnW; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Xqm5loDr"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=2N9BQKz6AnVfddAOlxhaAFtPmyMyrlSN/sFqe0szwXI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792234454; v=1; x=1792839254;
- b=Xqm5loDrTqvvBVVVoUKDVyg8AWU7oFll7Z1LCNmxsDQFEhTESbTLuSowRt8V8AYu/LH0Lhyo
- U8yOpNOjpa3a/Rtq64RQhZfcpKcMBqgCDC3EZkkTzgbp5TE1tw5VygWcqxKq3DjrfolSkxZ+UZ+
- 3lmZD70weD3fff5dW7fEtYW0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id bbef089e09e1860e;
-	Sat, 17 Oct 2026 10:54:14 +0000
-X-Mizu-Trace-ID: bbef089e09e1860e
-X-Migadu-Flow: FLOW_OUT
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-To: Jens Axboe <axboe@kernel.dk>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VyfByGnW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792237795; x=1823773795;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I9rUXOsPvPb1Pr+yDalZ+a5oJd95FTQW828LowTVdXA=;
+  b=VyfByGnWNKbn2kfyVg0MSWDUPSd5gMLacSgiGpVThbxumWonxg2S+Fh/
+   yopAomT7444DhiWJlXp+N315x66TT6ffaEhyGkNksLfRBlrKba1pFf2Uj
+   W6HJhTwuYn/NWhlCkmJlGmxhgl4e9iFFASPGaBuYosI0nvkB19hIUyiEm
+   lXZ0jKTl1VRc5IS42x8xlAAjlqjKymY62JycSn/wGUCYATa7QPNWAECjl
+   GiDO4/lwoJpTKHnn0KW7zQRhB6/vAMxfLlGPA1W9rQ43i77UfdVAlG/IU
+   WqqTrd9R6pUCwcYQOKC5I/8aptLs2faKQlxQejNuAkxeoq7TSopsSWX4t
+   A==;
+X-CSE-ConnectionGUID: 6ujM+xjnQtWbALrQ7b/nQg==
+X-CSE-MsgGUID: lYbnUNUcQK+zskpXytlzuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="890579"
+X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
+   d="scan'208";a="890579"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 04:49:54 -0700
+X-CSE-ConnectionGUID: DYy1T7yHTp+E+xZibSr/fQ==
+X-CSE-MsgGUID: jNHTC4sES8KGI2xa8NxPhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
+   d="scan'208";a="2248423"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 17 Oct 2026 04:49:45 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xI2v0-00000000JL4-2aZn;
+	Sat, 17 Oct 2026 11:49:42 +0000
+Date: Sat, 17 Oct 2026 19:48:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomohiro Misono <misono.tomohiro@fujitsu.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: [PATCH] blk-mq: add direct dispatch support for mq-deadline
-Date: Sat, 17 Oct 2026 18:54:00 +0800
-Message-ID: <20261017105400.95967-1-kaitao.cheng@linux.dev>
-X-Mailer: git-send-email 2.54.0
+	Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kohei Enju <enju.kohei@fujitsu.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA
+ erratum E#030003
+Message-ID: <202610171939.VWCcPPra-lkp@intel.com>
+References: <20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48@fujitsu.com>
 
-From: Kaitao Cheng <chengkaitao@kylinos.cn>
+Hi Tomohiro,
 
-On fast devices such as NVMe SSDs with spare capacity, scheduler insertion,
-sorting and merging may add CPU overhead with little benefit. Allowing new
-requests to reach the driver directly can reduce submission latency and
-improve bandwidth when this overhead limits performance.
+kernel test robot noticed the following build errors:
 
-Add a skip_request elevator callback to support direct dispatch for
-unplugged submissions and plug flushes outside the scheduling path.
-Implement it in mq-deadline with request accounting preserved across
-reinsertion and retries.
+[auto build test ERROR on 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907]
 
-Expose a dispatch_direct tunable, enabled by default. Directly dispatched
-requests may bypass queued requests, including higher priority or expired
-requests. Setting dispatch_direct to 0 restores normal scheduler insertion.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomohiro-Misono/arm64-cputype-Add-FUJITSU-MONAKA-definition/20261016-190045
+base:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+patch link:    https://lore.kernel.org/r/20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48%40fujitsu.com
+patch subject: [PATCH v2 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA erratum E#030003
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261017/202610171939.VWCcPPra-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171939.VWCcPPra-lkp@intel.com/reproduce)
 
-Test sequential writes on an NVMe SSD with fio, comparing none, unmodified
-mq-deadline, and mq-deadline with this patch and dispatch_direct enabled.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610171939.VWCcPPra-lkp@intel.com/
 
-test A:
-fio -name=jobs1-4k -direct=1 -iodepth=16 -numjobs=1 -filename=fiolog.txt
-    -ioengine=libaio -blocksize=4k -size=10GB -rw=write -runtime=120
-    -time_based -ramp_time=30
-test B:
-fio -name=jobs10-4k -direct=1 -iodepth=16 -numjobs=10 -filename=fiolog.txt
-    -ioengine=libaio -blocksize=4k -size=10GB -rw=write -runtime=120
-    -time_based -ramp_time=30
-test C:
-fio -name=jobs1-32k -direct=1 -iodepth=16 -numjobs=1 -filename=fiolog.txt
-    -ioengine=libaio -blocksize=32k -size=10GB -rw=write -runtime=120
-    -time_based -ramp_time=30
+All errors (new ones prefixed by >>):
 
-Bandwidth in MiB/s:
+>> drivers/irqchip/irq-gic-v3.c:1892:34: error: use of undeclared identifier 'ARM_CPU_IMP_FUJITSU'
+    1892 |         if (read_cpuid_implementor() != ARM_CPU_IMP_FUJITSU ||
+         |                                         ^~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-gic-v3.c:1893:34: error: use of undeclared identifier 'FUJITSU_CPU_PART_MONAKA'
+    1893 |             read_cpuid_part_number() != FUJITSU_CPU_PART_MONAKA)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-  Workload        none    mq-deadline    my-patch
-  jobs1-4k        1209           1047        1174
-  jobs10-4k       2458            946        2349
-  jobs1-32k       2568           2565        2562
 
-Direct dispatch improves bandwidth over unmodified mq-deadline by 12.1%
-with one job and 148.3% with multiple jobs for the 4 KiB workloads,
-reaching 97.1% and 95.6% of the bandwidth achieved with none, respectively.
-All three configurations achieve the same maximum bandwidth.
+vim +/ARM_CPU_IMP_FUJITSU +1892 drivers/irqchip/irq-gic-v3.c
 
-Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
----
- Documentation/block/deadline-iosched.rst | 14 +++++++
- block/blk-mq.c                           | 40 ++++++++++++++-----
- block/elevator.h                         |  1 +
- block/mq-deadline.c                      | 50 +++++++++++++++++++++++-
- 4 files changed, 94 insertions(+), 11 deletions(-)
+  1889	
+  1890	static bool gic_enable_quirk_fujitsu_030003(void *data)
+  1891	{
+> 1892		if (read_cpuid_implementor() != ARM_CPU_IMP_FUJITSU ||
+> 1893		    read_cpuid_part_number() != FUJITSU_CPU_PART_MONAKA)
+  1894			return false;
+  1895	
+  1896		static_branch_enable(&gic_fujitsu_030003_erratum);
+  1897		return true;
+  1898	}
+  1899	
 
-diff --git a/Documentation/block/deadline-iosched.rst b/Documentation/block/deadline-iosched.rst
-index 9f5c5a4c370e..3d0900b4546c 100644
---- a/Documentation/block/deadline-iosched.rst
-+++ b/Documentation/block/deadline-iosched.rst
-@@ -69,4 +69,18 @@ that comes at basically 0 cost we leave that on. We simply disable the
- rbtree front sector lookup when the io scheduler merge function is called.
- 
- 
-+dispatch_direct (bool)
-+----------------------
-+
-+Enabled by default. Allows new requests to bypass the scheduler's sort tree,
-+FIFO and merge hash when the hardware context is not congested, stopped or
-+quiesced. On fast devices such as NVMe SSDs with spare capacity, sorting and
-+merging may offer little benefit while adding CPU overhead and limiting
-+bandwidth. Direct dispatch can reduce this overhead and submission latency.
-+
-+Direct dispatch reduces opportunities for merging and sorting, and may bypass
-+queued requests, including higher priority or expired requests. Set
-+dispatch_direct to 0 to restore normal scheduler insertion.
-+
-+
- Nov 11 2002, Jens Axboe <jens.axboe@oracle.com>
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 1b7f8cbbda8b..615ecacba1ed 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2751,17 +2751,26 @@ static bool blk_mq_get_budget_and_tag(struct request *rq)
- static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
- 		struct request *rq)
- {
-+	bool use_sched = rq->rq_flags & RQF_USE_SCHED;
-+	bool run_queue_async = use_sched || (rq->cmd_flags & REQ_NOWAIT);
- 	blk_status_t ret;
- 
- 	if (blk_mq_hctx_stopped(hctx) || blk_queue_quiesced(rq->q)) {
- 		blk_mq_insert_request(rq, 0);
--		blk_mq_run_hw_queue(hctx, false);
-+		blk_mq_run_hw_queue(hctx, use_sched);
- 		return;
- 	}
- 
--	if ((rq->rq_flags & RQF_USE_SCHED) || !blk_mq_get_budget_and_tag(rq)) {
-+	if (use_sched) {
-+		struct elevator_mq_ops *ops = &rq->q->elevator->type->ops;
-+
-+		if (ops->skip_request)
-+			use_sched = !ops->skip_request(rq);
-+	}
-+
-+	if (use_sched || !blk_mq_get_budget_and_tag(rq)) {
- 		blk_mq_insert_request(rq, 0);
--		blk_mq_run_hw_queue(hctx, rq->cmd_flags & REQ_NOWAIT);
-+		blk_mq_run_hw_queue(hctx, run_queue_async);
- 		return;
- 	}
- 
-@@ -2927,9 +2936,14 @@ static void blk_mq_dispatch_list(struct rq_list *rqs, bool from_sched)
- 		spin_unlock(&this_hctx->lock);
- 		blk_mq_run_hw_queue(this_hctx, from_sched);
- 	} else if (this_hctx->queue->elevator) {
--		this_hctx->queue->elevator->type->ops.insert_requests(this_hctx,
--				&list, 0);
--		blk_mq_run_hw_queue(this_hctx, from_sched);
-+		if (!this_hctx->dispatch_busy && !from_sched)
-+			blk_mq_run_dispatch_ops(this_hctx->queue,
-+				blk_mq_try_issue_list_directly(this_hctx, &list));
-+		if (!list_empty(&list)) {
-+			this_hctx->queue->elevator->type->ops.insert_requests(
-+					this_hctx, &list, 0);
-+			blk_mq_run_hw_queue(this_hctx, from_sched);
-+		}
- 	} else {
- 		blk_mq_insert_requests(this_hctx, this_ctx, &list, from_sched);
- 	}
-@@ -2984,6 +2998,7 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 		struct list_head *list)
- {
-+	struct elevator_queue *e = hctx->queue->elevator;
- 	int queued = 0;
- 	blk_status_t ret = BLK_STS_OK;
- 
-@@ -2991,6 +3006,14 @@ static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 		struct request *rq = list_first_entry(list, struct request,
- 				queuelist);
- 
-+		/* Scheduler requests need approval and dispatch accounting. */
-+		if (e && (READ_ONCE(hctx->dispatch_busy) ||
-+			  blk_mq_hctx_stopped(hctx) ||
-+			  blk_queue_quiesced(hctx->queue) ||
-+			  !e->type->ops.skip_request ||
-+			  !e->type->ops.skip_request(rq)))
-+			break;
-+
- 		list_del_init(&rq->queuelist);
- 		ret = blk_mq_request_issue_directly(rq, list_empty(list));
- 		switch (ret) {
-@@ -3010,7 +3033,7 @@ static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 	}
- 
- out:
--	if (ret != BLK_STS_OK)
-+	if (ret != BLK_STS_OK || !list_empty(list))
- 		blk_mq_commit_rqs(hctx, queued, false);
- }
- 
-@@ -3218,8 +3241,7 @@ void blk_mq_submit_bio(struct bio *bio)
- 	}
- 
- 	hctx = rq->mq_hctx;
--	if ((rq->rq_flags & RQF_USE_SCHED) ||
--	    (hctx->dispatch_busy && (q->nr_hw_queues == 1 || !is_sync))) {
-+	if (hctx->dispatch_busy && (q->nr_hw_queues == 1 || !is_sync)) {
- 		blk_mq_insert_request(rq, 0);
- 		blk_mq_run_hw_queue(hctx, true);
- 	} else {
-diff --git a/block/elevator.h b/block/elevator.h
-index 3eb32516be0b..871d166eaf25 100644
---- a/block/elevator.h
-+++ b/block/elevator.h
-@@ -74,6 +74,7 @@ struct elevator_mq_ops {
- 	void (*insert_requests)(struct blk_mq_hw_ctx *hctx, struct list_head *list,
- 			blk_insert_t flags);
- 	struct request *(*dispatch_request)(struct blk_mq_hw_ctx *);
-+	bool (*skip_request)(struct request *rq);
- 	bool (*has_work)(struct blk_mq_hw_ctx *);
- 	void (*completed_request)(struct request *, u64);
- 	void (*requeue_request)(struct request *);
-diff --git a/block/mq-deadline.c b/block/mq-deadline.c
-index e5db1ee097c3..c4cc482000f0 100644
---- a/block/mq-deadline.c
-+++ b/block/mq-deadline.c
-@@ -99,6 +99,7 @@ struct deadline_data {
- 	int writes_starved;
- 	int front_merges;
- 	int prio_aging_expire;
-+	bool dispatch_direct;
- 
- 	spinlock_t lock;
- };
-@@ -310,8 +311,11 @@ static struct request *dd_start_request(struct deadline_data *dd,
- 	enum dd_prio prio = ioprio_class_to_prio[ioprio_class];
- 
- 	dd->per_prio[prio].latest_pos[data_dir] = blk_rq_pos(rq);
--	dd->per_prio[prio].stats.dispatched++;
--	rq->rq_flags |= RQF_STARTED;
-+	/* Count each request once, including direct dispatch followed by requeue. */
-+	if (!(rq->rq_flags & RQF_STARTED)) {
-+		dd->per_prio[prio].stats.dispatched++;
-+		rq->rq_flags |= RQF_STARTED;
-+	}
- 	return rq;
- }
- 
-@@ -550,6 +554,7 @@ static int dd_init_sched(struct request_queue *q, struct elevator_queue *eq)
- 	dd->last_dir = DD_WRITE;
- 	dd->fifo_batch = fifo_batch;
- 	dd->prio_aging_expire = prio_aging_expire;
-+	dd->dispatch_direct = true;
- 	spin_lock_init(&dd->lock);
- 
- 	/* We dispatch from request queue wide instead of hw queue */
-@@ -728,6 +733,29 @@ static bool dd_has_work(struct blk_mq_hw_ctx *hctx)
- 	return false;
- }
- 
-+/*
-+ * When blk-mq finds the hctx uncongested, let new requests skip the sort tree,
-+ * FIFO and merge hash
-+ */
-+static bool dd_skip_request(struct request *rq)
-+{
-+	struct deadline_data *dd = rq->q->elevator->elevator_data;
-+	const enum dd_data_dir data_dir = rq_data_dir(rq);
-+	const enum dd_prio prio = ioprio_class_to_prio[dd_rq_ioclass(rq)];
-+	struct dd_per_prio *per_prio = &dd->per_prio[prio];
-+
-+	if (!READ_ONCE(dd->dispatch_direct) || rq->elv.priv[0] ||
-+	    READ_ONCE(rq->mq_hctx->dispatch_busy))
-+		return false;
-+
-+	spin_lock(&dd->lock);
-+	per_prio->stats.inserted++;
-+	rq->elv.priv[0] = per_prio;
-+	dd_start_request(dd, data_dir, rq);
-+	spin_unlock(&dd->lock);
-+	return true;
-+}
-+
- /*
-  * sysfs parts below
-  */
-@@ -745,6 +773,7 @@ SHOW_JIFFIES(deadline_prio_aging_expire_show, dd->prio_aging_expire);
- SHOW_INT(deadline_writes_starved_show, dd->writes_starved);
- SHOW_INT(deadline_front_merges_show, dd->front_merges);
- SHOW_INT(deadline_fifo_batch_show, dd->fifo_batch);
-+SHOW_INT(deadline_dispatch_direct_show, READ_ONCE(dd->dispatch_direct));
- #undef SHOW_INT
- #undef SHOW_JIFFIES
- 
-@@ -778,6 +807,21 @@ STORE_INT(deadline_fifo_batch_store, &dd->fifo_batch, 0, INT_MAX);
- #undef STORE_INT
- #undef STORE_JIFFIES
- 
-+static ssize_t deadline_dispatch_direct_store(struct elevator_queue *e,
-+					     const char *page, size_t count)
-+{
-+	struct deadline_data *dd = e->elevator_data;
-+	bool enabled;
-+	int ret;
-+
-+	ret = kstrtobool(page, &enabled);
-+	if (ret)
-+		return ret;
-+
-+	WRITE_ONCE(dd->dispatch_direct, enabled);
-+	return count;
-+}
-+
- #define DD_ATTR(name) \
- 	__ATTR(name, 0644, deadline_##name##_show, deadline_##name##_store)
- 
-@@ -788,6 +832,7 @@ static const struct elv_fs_entry deadline_attrs[] = {
- 	DD_ATTR(front_merges),
- 	DD_ATTR(fifo_batch),
- 	DD_ATTR(prio_aging_expire),
-+	DD_ATTR(dispatch_direct),
- 	__ATTR_NULL
- };
- 
-@@ -989,6 +1034,7 @@ static struct elevator_type mq_deadline = {
- 		.limit_depth		= dd_limit_depth,
- 		.insert_requests	= dd_insert_requests,
- 		.dispatch_request	= dd_dispatch_request,
-+		.skip_request		= dd_skip_request,
- 		.prepare_request	= dd_prepare_request,
- 		.finish_request		= dd_finish_request,
- 		.next_request		= elv_rb_latter_request,
--- 
-2.54.0 (Apple Git-157)
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
