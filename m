@@ -1,131 +1,181 @@
-Received: from mta1.migadu.com (out-126.mta1.migadu.com [95.215.58.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2524052D8
-	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 09:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.126
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E99246EF93;
+	Sat, 17 Oct 2026 09:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792228440; cv=none; b=XAITiH5Tk+U0BvLizc/KKkk9Ke6716h4QOXJgWUVbSzK6i6avmuTrlASmV10HTAa3fHCyZz4KjUv3ouT2a3TZZl6mmvgRp0NSJ3XCJPlWmCuMXfGBfTjWJ4dZN0brH9qGlKAWzSpyoy80oNtzTNDU6clUJX8h9Z9eFzJMbo55jo=
+	t=1792228723; cv=none; b=tVnKx31575MH8RUgExXJQC3DUzH0oroWNIS4i/UJDclMTkkdjxA6ybGM1NEVwz4W8LPLtHobThroaMnGocTI45mNWCmYyLbScoWKrCZyOMC8RLCiPoydMGmaVq5xB5WS2mk+axyHJMjpoLCCQJnNH+ESW3PrLNKj+lSzojxA/lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792228440; c=relaxed/simple;
-	bh=EvUH/ifmbrml9nHlgOiU5kMRxvjJDNadN4/C6gpKGWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHewfHFjaU/OXLBtV+B4HmL9ZKo68k9UOkPIM/vP2rPoV0lq0qmtYg3wZEhQ7DW/UskHeJ52O0oEsPFA7M7uP+94Yl7eE8nploldJY4oaeL0hP6c6KDHsxFg9XHN/QPB8iQ2JmcEqjT1Kyrg1X/mSZn+Q7VUJRFSdui7n+5IyuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=dbQI+jta; arc=none smtp.client-ip=95.215.58.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1792228723; c=relaxed/simple;
+	bh=AJNqfW0ioAwXAyHgrrMYr3i85p2JVBdKUXfKlT6Pido=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Dg7XDm07USmyNkybwGc+GKN+fE1PPPnrjEo1oDDaOEoRMoFDVDRlELFk130vhCapCxQAFxtB6I60TkF+ZKMiiCyC0R/2ZbYiG0elpd1kCPvkKb/W/clrbAyQLkB2H8l3sezx465hrCNrf3s5uKnosx0f6nrVWbYuZH45X02z+rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UqxkiEmf; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="dbQI+jta"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=EvUH/ifmbrml9nHlgOiU5kMRxvjJDNadN4/C6gpKGWs=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792228432; v=1; x=1792833232;
- b=dbQI+jtabdL/ZnvkJIR+AHy5bPcG4s6MmE/ydDqppWgO3yOspW4WcpgzGn4rV+Tmn7ny7FN/
- l1p0PxXTdWhoK4Il5i1HgXWfDbd6d0NFsgqybDgSdyCpBXu2UBZEkDy91+cYIMaY/QUT7veUU6Y
- SU2JMMh20HRKKfB70lcDfOquVy2R3X8tGQNL4n+v0/uq2RzL4zaj1ifQkYynUUSBZAAQUoKmcHz
- CVTC5VfVN0PgUX+GQvey+NG3BKcAIlwNz4fmhoBvrID1WyXQSIJCTLdvyNsm+0RzM5XjvPTIoAn
- zVPHqXZG6LuaFEg9O7gBs1c677q9H/SpQuZJAEKdJjijg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id cc049a13f0df8977;
-	Sat, 17 Oct 2026 09:13:52 +0000
-X-Mizu-Trace-ID: cc049a13f0df8977
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 17 Oct 2026 17:13:45 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs/zh_CN: remove translator-related headers
-Message-ID: <atM8STwzREGJ_-Vd@wyuan.org>
-References: <cover.1792167855.git.wy@wyuan.org>
- <a7c3af29fd1783bbca36cdacd3f17bf52cd5ef3f.1792167856.git.wy@wyuan.org>
- <3ee47cf1-a7a2-481a-bf46-46e74bdaa1e5@hust.edu.cn>
- <atMxWvnyYmD5r6O3@wyuan.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UqxkiEmf"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j6GSs6Ct8zKnTY;
+	Sat, 17 Oct 2026 11:18:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792228717;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJNqfW0ioAwXAyHgrrMYr3i85p2JVBdKUXfKlT6Pido=;
+	b=UqxkiEmf8ArLdQmOp8pJzr16B+51FF6wd4VGNwPO/FNzS9wMD4L7/Bw1W9+HrxX4DFJBCi
+	KqL8s8ND8VeJOTdFwRlJFsG5Ixw6fkR9jChBnm7cE/8TwGKdjtyzWSJ2F5xskI94RkLHjJ
+	DD942aHIEMFTwtPKU6CmFWoWSUvbQH/cBml5Ja36Nigncb2r92fmRxBQRlNl4+QwSPe8+G
+	MK/DhOJEWw2tK3SL0FvP3hyxhKOSu+O20vHcHkEw+LrfF7hoW+K4KFha1rIHQpt0FHfmkk
+	c3kRrkpvLs89UAhUewPF+EFadAunu790rbD7e9wWaNL5R7PWwZ7DR0zUGEPt2Q==
+Message-ID: <c575314d3e52d5fcff3d6fc47d12dc118a24bd63.camel@mailbox.org>
+Subject: Re: [PATCH] mm/damon/reclaim: improve grammar and style
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: SJ Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
+ damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Aveline Noir <jm5905938@gmail.com>
+Date: Sat, 17 Oct 2026 11:18:34 +0200
+In-Reply-To: <20261015140122.87808-1-sj@kernel.org>
+References: <20261015140122.87808-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <atMxWvnyYmD5r6O3@wyuan.org>
+X-MBO-RS-META: 1hapjjy6635khx6ean1i9pxm4mypfzp9
+X-MBO-RS-ID: 3cc1a3b206adc544abb
 
-On 2026-10-17 16:27:12 +0800, Weijie Yuan <wy@wyuan.org> wrote:
+Hi SJ,
 
-> On 2026-10-17 10:06:39 +0800, Dongliang Mu <dzm91@hust.edu.cn> wrote:
-> 
-> > On 10/17/26 12:52 AM, Weijie Yuan wrote:
-> > > The headers related to translators and proofreaders appear multiple
-> > > times in our directory. Their information is duplicated with that in the
-> > > commit logs, making it difficult to maintain over an extended period
-> > > of time, as there have been multiple instances of requests to update the
-> > > email address.
-> > > 
-> > > Remove all the related fields to make our source clean.
-> > > 
-> > > Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> > > Signed-off-by: Weijie Yuan <wy@wyuan.org>
-> > > ---
-> > > The diffs are inconvenient to review, sorry. Because I cannot find a
-> > > better way to split them up besides by directories.
-> > 
-> > 1. I recommend to preserve the RST anchors because other files would use
-> > this.
-> 
-> Yes, I also removed some top-level labels while I was at it, though I
-> would better have done that in a separate patch. (My Git index was messy
-> with these large diff. So later, the topic was expanded to a cleanup.
-> But yes, I should split it)
-> 
-> But I checked that none of these removed labels are referenced
-> elsewhere, if I was doing it correctly. (No invalid citations were
-> reported by 'make htmldocs'.)
+On Thu, 2026-10-15 at 07:01 -0700, SJ Park wrote:
+> On Thu, 15 Oct 2026 10:06:23 +0200 Manuel Ebner <manuelebnerli@mailbox.or=
+g> wrote:
+>=20
+> > Fix tenses. Replace 'set as' with 'set to'.
+> > Rewrite complex sentences.
+>=20
+> Let's put two sentences in one line, while breaking it for the 75 column =
+limit.
 
-Oops, I mean the removed labels are not used by other places according
-to 'make htmldocs'.
+Will do.
+>=20
+> [...]
+> > @@ -113,8 +113,8 @@ quota_sz
+> > =C2=A0
+> > =C2=A0Limit of size of memory for the reclamation in bytes.
+> > =C2=A0
+> > -DAMON_RECLAIM charges amount of memory which it tried to reclaim withi=
+n a time
+> > -window (quota_reset_interval_ms) and makes no more than this limit is =
+tried.
+> > +DAMON_RECLAIM recordes the amount of memory which it tried to reclaim =
+within a time
+>=20
+> s/recordes/charges/=C2=A0 or s/recordes/records/ ?
 
-Thanks.
+For me charge is such a weird word exepct in 'charge a battery' or 'charge =
+a fee'. And
+'recordes' is a typo. Does this work:
 
-> 
-> Anyway, I'll not touch these labels in next re-roll.
-> 
-> > 2. There are three checkpatch SPDX warnings during the review:
-> > 
-> > dev-tools/sparse.rst | Missing or malformed SPDX-License-Identifier tag in
-> > line 1
-> > process/howto.rst | Missing or malformed SPDX-License-Identifier tag in line
-> > 1
-> > process/kernel-enforcement-statement.rst | Missing or malformed
-> > SPDX-License-Identifier tag in line 1
-> > 
-> > Each warning is triggered because the patch changes that file´s first line.
-> > All three files already lacked an SPDX tag before the patch.
-> 
-> Oh, I forgot to mention this when writing cover lettter, sorry I did
-> send these emails a bit too hastily.
-> 
-> I did run checkpatch and got these reminders.
-> 
-> The original Engish versions of these three are missing
-> SPDX-License-Identifier(s), so as far as I know, our translation is
-> better not to add this first.?
-> 
-> Please see: https://lore.kernel.org/linux-doc/87y0dv1wp3.fsf@trenco.lwn.net/
-> 
-> But I guess we could add the identifier with Alex's and Yanteng's ack,
-> as they are the original translator if we want to.
-> 
-> Thanks!
-> 
-> 
-> p.s. Many of the recipients' addresses are no longer in use. To avoid
-> unnecessary clutter, I will simplify the list of recipients in the next
-> version.
+DAMON_RECLAIM records the amount of memory which it tried to reclaim within=
+ a time
 
+I could do this in a second patch aswell.
 
+>=20
+> I'd prefer charges, but my English is definitely bad, so looking for your
+> suggestion.
+>=20
+> > +window (quota_reset_interval_ms) and stops when this memory limit is r=
+eached.
+>=20
+> I feel like readers might wonder what is stopped.=C2=A0 How about "stops =
+trying
+> reclaiming memory when ..." ?
+
+window (quota_reset_interval_ms) and stops trying to reclaim memory when th=
+is limit is reached.
+
+>=20
+> > =C2=A0This can be used for limiting consumption of CPU and IO.=C2=A0 If=
+ this value is
+> > =C2=A0zero, the limit is disabled.
+> > =C2=A0
+> > @@ -125,19 +125,19 @@ quota_reset_interval_ms
+> > =C2=A0
+> > =C2=A0The time/size quota charge reset interval in milliseconds.
+> > =C2=A0
+> > -The charge reset interval for the quota of time (quota_ms) and size
+> > -(quota_sz).=C2=A0 That is, DAMON_RECLAIM does not try reclamation for =
+more than
+> > +The quota reset interval of time is quota_ms and of size is
+> > +quota_sz.=C2=A0 That is, DAMON_RECLAIM does not try reclamation for mo=
+re than
+>=20
+> I think this change is just wrong?=C2=A0 quota_ms is not quota reset inte=
+rval of
+> time.=C2=A0 Which part of the original sentence was difficult to read?
+
+'charge' again, and I think there is the verb is missing.
+
+>=20
+> > =C2=A0quota_ms milliseconds or quota_sz bytes within quota_reset_interv=
+al_ms
+> > =C2=A0milliseconds.
+> > =C2=A0
+> > -1 second by default.
+> > +1000 (1 second) by default.
+>=20
+> Isn't this (1 second in milliseconds is 1,000) easy enough to infer for
+> readers?
+
+Ok.
+
+> > =C2=A0
+> > =C2=A0quota_mem_pressure_us
+> > =C2=A0---------------------
+> > =C2=A0
+> > =C2=A0Desired level of memory pressure-stall time in microseconds.
+> > =C2=A0
+> > -While keeping the caps that set by other quotas, DAMON_RECLAIM automat=
+ically
+> > +While keeping the caps set by other quotas, DAMON_RECLAIM automaticall=
+y
+>=20
+> How about "caps that are set by ..." ?
+
+Yes, this was my second choice.
+
+>=20
+> > =C2=A0increases and decreases the effective level of the quota aiming t=
+his level of
+> > =C2=A0memory pressure is incurred.=C2=A0 System-wide ``some`` memory PS=
+I in microseconds
+> > =C2=A0per quota reset interval (``quota_reset_interval_ms``) is collect=
+ed and
+>=20
+>=20
+> Thanks,
+> SJ
+
+I messed up the subject line, should be:
+Docs/admin-guide/mm/damon/reclaim: improve grammar and style
+
+I'll follow up with a [v2], including Aveline suggestions.
+
+Thanks,
+ Manuel
+>=20
+> [...]
