@@ -1,149 +1,118 @@
-Received: from smtp2.iinet.com (smtp2.iinet.com [52.129.46.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A7838DC44;
-	Sat, 17 Oct 2026 15:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.129.46.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F93303A04
+	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 16:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792252580; cv=none; b=mbE/y1PA0IjiS+y+jMwTeGXZ+dTZLa+zKmtEEolZMRde19choxTWkJ0DQABpqYsePuE/fydvFcfjp0B8dRQczRlMb33mJRCFvL1A6ZsdFeA/hTPHlfkkHUjwFMjOhKmfRZSiBKcPHfxPDHlvgl7TCi63Uc0GzIiaixBhMO38PUQ=
+	t=1792253334; cv=none; b=ZplEzRJ/stxCgMnKLiDajTb3N8/nKwvbfEBOQ7algia7Hk0daFLdIB1tpCL+HzX73p6v/mhWCuwdxoCaWVl80V2+GjFCElcLtBGhwncKRK05DowrDUsnff9iz/txhXhRjiLN+o3GqHNMnno+qpdfSP6hs6h1e9Dmj/r5yCMsbpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792252580; c=relaxed/simple;
-	bh=8p2lca59Kr/sPXCKE0RC6oNDFhBqdb/jXD9F09ecVvs=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=UATTaM2UKEgdl46xhIbpdfRKK2y6nxRpgNAu8MX7DnVRJnodW2GBE9QyxCSdWTxwoWV1iEe9QshVE9GRyId13Tz0aR17AXc9/oF02dqbhuKZmXXArLNBvVzdyq5t/TV/PFJ9fvA95sxAL+KUsZc/yJ1Avq9DTyncovmsiSeSKNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com; spf=pass smtp.mailfrom=nwlink.com; dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b=XAwKO+Zv; arc=none smtp.client-ip=52.129.46.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
+	s=arc-20240116; t=1792253334; c=relaxed/simple;
+	bh=DWCmY5z7z4vq4G12qv/hRWrXt2RrydGaFmtxVM/Sg7c=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=fQvOvOh5oAfy53blS2NImN2ZUK/tp+OZHKJOmr7fqYII1ZsEj76Lws5ndC7XrYfIk8U78gJxCTeed0+/7ly1QCZXGm2dlZwSsKzJ0pHpmkYfsrNIQ9l4pyWricaL4j39k4CdrrIboe/eAnqKspYBRLFz2xetd0VaM0fcUwvcJmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mgJ5G8sW; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b="XAwKO+Zv"
-Received: from webmail.iinet.com (web1.iinet.com [52.129.46.51])
-	(Authenticated sender: kaf@nwlink.com)
-	by smtp2.iinet.com (Postfix) with ESMTPA id F4024B42BD1;
-	Sat, 17 Oct 2026 08:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
-	t=1792252578; bh=wOC3z8d3unpvQdUfL2bvr+OorEHjTzNQZKSBDptrq6I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=XAwKO+ZvEyUqx00zvjmuaTE/L9dRem0ramAaHSewGTTBAzjCD1A+fEG8pR4XFg4Dm
-	 gUJY8aXJ43X5SOn1D0iVJj0pu/g9Jy/JF2aAyAR+ORSAykMZQ2VKylEczL9aJXPJ8D
-	 BUGyrH7162eWdGVa42ZU9XxmFza+eiRzzFH/Z8J7HcEyF8SXGquOOZWV6T3Wx53pow
-	 znAbaT33WQAGu89m/spHLSHFidV9PJu0DvNw9OOGec2h2On7EmTMB6hdI1fVEErsrd
-	 DSUeLBfVDkTSRkjazJQZ4l9T3A3CNv+NXBYiWVEU2KSl7YFRO4fLHCTJdL6PtNnvZA
-	 f5L9gR6Y2wVhw==
-Received: from c-98-203-133-45.hsd1.wa.comcast.net ([98.203.133.45])
- by webmail.iinet.com
- with HTTP (HTTP/1.1 POST); Sat, 17 Oct 2026 08:56:15 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mgJ5G8sW"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3acb11973c3so850781a91.3
+        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 09:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792253333; x=1792858133; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2cUeaEgu4p26tZrZN56rXhHr90NwI8Pog8folKw9Xmw=;
+        b=mgJ5G8sWVoZtRbteR6hqdKRBd/svddwH70mq+8vEfAJ5233Yqs5fX0++rEDG5SVMI3
+         1EZUBmYlYJ3S496jqxehDNh1rSfGkAN+4s70eVkWLG9L072BTTl1emeECsQwZyRRildY
+         fiiJj1ifqs26OpWFWBZNgoNxG0Bs+XpXNhFFrGEM7nUWROfFAaXz4+NjpnQ99C/2Jemw
+         O2ddVXxuhSLkWIv/G41/jhX3bfbPm1MjSM9te1bR/BMpPB7QW9ZX9hRIPGatcNTJ0wog
+         JcOVPdPECqoWiy1Uqe/rSriO6BMj6ybQFCwcAmuTXimIOq/e8kRQBo3Dp1VfiysdjQn2
+         goKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792253333; x=1792858133;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2cUeaEgu4p26tZrZN56rXhHr90NwI8Pog8folKw9Xmw=;
+        b=m9np4yQJnwH2C8CCPlsN6CRdA1RwiF8pyYKMNPKMqtF3CtZLALFqWb0g4NxDKZQ1By
+         LaSda0Ls/Fdp1uQhATiSH5CVAfK+sTXtPSzGA6oIXjPwzkKm4e9RBm38ghR9dBErSQDC
+         21oE5UVI2qAAkMOXk3uZcbWD1pm30TXBJq75zMlS62ZwsVxvMhbSKOass2xtbRFA04Ba
+         RdqZbZUjWziObzss6NMrzTSZpcYsJnl+MjdxBSx1k9cv4uWNCZ7PXE4smRiEs/7UfUPY
+         VX0yWKALzz5G4OlkNLO1n+CZjyiYi3T7IazOYDIZJfcSNJ8C7kLL6vFdJTZslYCQ2zbV
+         FORA==
+X-Forwarded-Encrypted: i=1; AKwUvBz472+JvmUS9NoryHRyEuB9abkSJAC9lzdAolk6L5cGMl25L9aivGoV0tm3WJyTe1j9KFgnEBq0nik=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxCHlkxg3clfAPkV+UtCSz8L9XgkkGPqhtrVEMUR0/NZwsLmBE
+	zLogWjkS8iyH0AUjtc8YxcyNBmZtxkSn4q4RqLJJ8VhP1phvC+FFYRKG
+X-Gm-Gg: AYBFou0rVJh/CVJNR0MBxZcQMFwE5rUJ3rA3K4p/96ShEzu+dU0NLpnDlmjwt+/9PMn
+	TV7BOuXiryeT6o98+3D6TmqBH4zFntwPw6bMpxywkS6g5FIvMF+xK/8TcTfaQDuvxaJxWEeOOQJ
+	t5c/Cfbp9862IJpD2Slkf/TnPpvDHq8BdAUWOcDPn+3wgt0DLU6Ut3FHpBp/T61HQrqV/Q+1RMn
+	pObU7hRP5NBAnIKnDidGAWGwHrGU7W6zFPrb5D1oHm9d9OlbH8t2kOpebr1KlbEb00G5RT5U5kV
+	oZkUzncGES9HrVyaP8uJ+ixu3g2h/CpytK4OxFCxBkDRv04iipy9omy8xOtM+Kuqd5vp2OBYdG7
+	WdKfo6r0klXt6QWgI7Zat3GfGxuZpEExACIeDkRtVqx0V/7yV0OHyJB4pqg1KE0AkYWOc05WItG
+	ZPC7QbcQ4cEgjrStFrY5hp9mM6iYs0ZpwXHYkwTXvT/AxfIe05QJrJbCP0tY86Tvdw3spi6U4Lg
+	aZpST2j0ZKZDlk96Qt+YFIA3kRsNcNhcdYnjixS7NubIWnJyosMPK+wzExjayUJ
+X-Received: by 2002:a17:90b:4ac6:b0:3ac:9e76:aa97 with SMTP id 98e67ed59e1d1-3acee277119mr2806327a91.6.1792253332865;
+        Sat, 17 Oct 2026 09:08:52 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm8349666a91.17.2026.10.17.09.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 09:08:52 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/1] Documentation: hyperv: Update information on guest CPU offlining
+Date: Sat, 17 Oct 2026 09:08:48 -0700
+Message-Id: <20261017160848.14730-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 17 Oct 2026 08:56:15 -0700
-From: kaf@nwlink.com
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/2 RESEND] usb: gadget: uac2: support explicit channel
- counts
-In-Reply-To: <2026101742-ouch-sensually-f5a4@gregkh>
-References: <20261016162534.384844-1-kaf@nwlink.com>
- <2026101742-ouch-sensually-f5a4@gregkh>
-User-Agent: Roundcube Webmail/1.4.3
-Message-ID: <fef8f9aa36c922e846d37e686b38f6c3@nwlink.com>
-X-Sender: kaf@nwlink.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2026-10-17 01:05, Greg Kroah-Hartman wrote:
-> On Fri, Oct 16, 2026 at 09:25:32AM -0700, Kyle Farrell wrote:
->> USB Audio Class 2.0 permits up to 255 channels in an audio channel 
->> cluster
->> via bNrChannels. Independently, a channel-location bitmap is specified 
->> via
->> bmChannelConfig for up to 27 predefined spatial locations. Setting
->> bmChannelConfig to zero indicates that the channels have no predefined
->> spatial positions.
->> 
->> The current UAC2 gadget driver derives bNrChannels from the number of 
->> set
->> bits in bmChannelConfig. Since bmChannelConfig provides 27 predefined
->> spatial locations this limits playback and capture streams to 27 
->> channels.
->> 
->> This series allows channel counts up to the UAC2 limit of 255 without
->> requiring predefined spatial channel locations in bmChannelConfig.
->> Existing ConfigFS channel-mask configuration continues to work 
->> unchanged.
->> New optional playback and capture count attributes allow the number of
->> channels to be specified separately from the channel-location bitmap.
->> 
->> The series is split so that the shared u_audio infrastructure is 
->> updated
->> first without changing behavior, followed by the UAC2 functional 
->> change.
->> 
->> Patch 1:
->>   Pass resolved playback and capture channel counts explicitly into
->>   the UAC1/UAC2 shared u_audio implementation instead of deriving them
->>   from channel masks.
->> 
->> Patch 2:
->>   Add ConfigFS playback/capture channel-count attributes to the UAC2
->>   function driver and use them when generating descriptors and stream
->>   configuration, allowing counts beyond the 27 predefined channel
->>   locations.
->> 
->> Testing
->> 
->> Testing was performed using a Raspberry Pi Zero 2 W configured as a 
->> USB
->> UAC2 gadget. Streaming and descriptor validation were performed 
->> against
->> both Linux and macOS hosts.  Windows hosts were not tested.
->> 
->> UAC1
->>   - Verified playback/capture operation via alsaloop.
->>   - No descriptor or behavioral changes observed.
->> 
->> UAC2
->>   - Verified legacy channel-mask configuration (1-27 channels).
->>   - Verified explicit channel-count mode with 2, 28, 61, 62, 96 
->> channels.
->>   - Verified invalid channel-count/channel-mask combinations are 
->> rejected.
->>   - Verified Feature Unit descriptor size limits at 61/62 channel 
->> boundary.
->>   - Verified descriptors including:
->>       * bNrChannels
->>       * bmChannelConfig
->>       * Feature Unit presence and bLength
->>       * AudioControl wTotalLength
->>       * endpoint wMaxPacketSize
->>   - Verified ALSA-reported playback and capture channel counts.
->>   - Verified streaming using alsaloop.
->> 
->> Changes in v2:
->>   - Edit commit messages for clarity and brevity.
->>   - Add Assisted-by: LLM attribution.
->>   - No code changes.
-> 
-> Why was RESEND needed here?  Saying that would be nice.
-> 
-> Also, sashiko points out a number of problems...
-> 
-> thanks,
-> 
-> greg k-h
+In Hyper-V Overview documentation, remove the out-of-date reference
+to explicitly reassigning VMBus channel interrupts before taking a
+guest CPU offline. Instead, reference the VMBus documentation, which
+is already up-to-date on this topic.
 
-I resent v2 as both it and v1 had received no review. I should have 
-stated
-that in the cover letter.
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+ Documentation/virt/hyperv/overview.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-I'm reviewing the Sashiko findings and will address relevant issues 
-before
-submitting a revised series.
+diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
+index 77408a89d1a4..63489f73a299 100644
+--- a/Documentation/virt/hyperv/overview.rst
++++ b/Documentation/virt/hyperv/overview.rst
+@@ -132,11 +132,11 @@ Starting in Windows Server 2022 Hyper-V, the ACPI tables reflect
+ only the CPUs actually present in the VM, so Linux does not report
+ any hot-add CPUs.
+ 
+-A Linux guest CPU may be taken offline using the normal Linux
+-mechanisms, provided no VMBus channel interrupts are assigned to
+-the CPU.  See the section on VMBus Interrupts for more details
+-on how VMBus channel interrupts can be re-assigned to permit
+-taking a CPU offline.
++A Linux guest CPU may be taken offline, and subsequently brought
++back online, using the normal Linux mechanisms. See the "VMBus
++Interrupts" section of Documentation/virt/hyperv/vmbus.rst
++documentation for how VMBus channel interrupts are automatically
++re-assigned if necessary when taking a CPU offline.
+ 
+ 32-bit and 64-bit
+ -----------------
+-- 
+2.25.1
 
-Thanks,
-Kyle
