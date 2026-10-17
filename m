@@ -1,188 +1,154 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AA51A682A
-	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 01:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78DB38654F
+	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 01:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792199371; cv=none; b=lrvv+HHArqqQAKQk7L/WdXymSxnEV/hvO+Y49mupZc5uTEmFe+OnVdrJLjjEIlCONkIxh58BK2bJlm2e9jT6U3T4KiUE+L6T4wZw13HT50H3YBT/Joav0mao5NJLU5eponMarninlFC27hxOEbol2d+meivHV/89L3kUpyZby38=
+	t=1792202158; cv=none; b=esZu0E2Yy1b5HxYi+8jhRzpUGk9qDY4JVIqwxJbR6/p3Zk/QvlqK/Cx5c1cDxJ1SkfLcNCkN68H8nTpgks5mzym+6idhJfWFrG3njRjYWkhqYwiyLr2fXVaE4U8COL/TqOJYLi/gmejVjZJhLAiM0C29hoz3pCww0e6RrI8kU6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792199371; c=relaxed/simple;
-	bh=XVP7VgwmFS1l8OgeV7xL1TtOBdkcTzkbgWgi4SDvNdM=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=qJLj6Qa8wuxUNV2uc50m/tl4DZfDPLYUjh1/ErqIElCuwNuL3LCQRsiaORDT0URWIi5AAOnB4cCPY4jkau5J1qkUfxLKy4r/rHrmZ3EKfESv3ezdGRCqYrJmXPbeHdQxqHkzezg9LNJeFznk4vR4zip6RglA5fpmYXb5Yh/zn/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dEe0dia3; arc=none smtp.client-ip=209.85.222.44
+	s=arc-20240116; t=1792202158; c=relaxed/simple;
+	bh=amj26N7GBgNkKSic738dtOdhoZO7SxmjDL8PSryCbBM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=V0Ewbxq5M0GATKL9nSHJE5T4Cu9SCDmRnF9UMyuHe7OKEJNKVBpp2DM/Ssxfj1SMRUx71IZWt/vmrCZPt08Oql6xvtHBgmESdkZAQb9oueCEo8Rsu5FuQ9l9gnvoid56fxhRcwnng5Kqq9/AdSIYTJPQ2I3JY6nslanBICdLP9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KyBIzeHZ; arc=none smtp.client-ip=209.85.128.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dEe0dia3"
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-988c7371716so152096241.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:09:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KyBIzeHZ"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8ac8a2ac52bso6069827b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792199369; x=1792804169; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XeNbXablXhJqiCV04B7oY6//U0VnicAkT7qj9GdtyP4=;
-        b=dEe0dia3Mdf/S8bZmbbckpmr1BS/t02+Du5YqjSBunSK21yoq5LvMdrOu2wzs9K7Ue
-         95nUfax4fZTXDHNqyMX3IIrJN3Qh722NT/Uy9HBAIRE+JIg7OI9sU5iIjgOKNDUf1uoL
-         eMy1vnEmRyTbIQjo8rES85/qcVaLX9MDyPSIqkmKsv0a54SYRF4AmraJR+G9Ffo2yS/8
-         gncIUR/kv/o+VI8JioT2hyk1omYRGYdHQM6obDjc68Bo8T7EN2EwizL0gzjUJyQou2u0
-         pgesZbmkoGcpwcmgk8hD+pdwJxraugQ3CRnc08DnjAArJviTPcgLIgQ8g6SKMZznJMIL
-         jf/g==
+        d=gmail.com; s=20251104; t=1792202155; x=1792806955; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=V5KfIFOpzzVgEmADZkACyBVWel5cim9UCxoXS8oTCY4=;
+        b=KyBIzeHZBFSGJopzAV18TAIGtbwWivzxYOmavLodDM+juWnRhEp1Kr2nVTf+a5qUKg
+         v5UrzbO2cE9p4/lDVSr7eBNay8uE2rE6nVFmR4qzGVjdJbsYEBZvoapqRdnUwrKdnXXm
+         ReqML3nKDFFB8VqwE65GTlQ4P2t7wiAtB/nbREheOC8IfUIDHpXAHYozodQJ3xbpTrGl
+         lvnyeVPOOuCQGUCvWldw0SwEFOrDNoUOAJDhBWw6ST+accIwCRddSIDGmyGCgwMdQyr3
+         a1C02yAEpLFaDidk1FShhi1pKeL8Ec0tIaAERm9GTYuLwzXFs7alNGnFO0ekayT7WRK3
+         lI2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792199369; x=1792804169;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XeNbXablXhJqiCV04B7oY6//U0VnicAkT7qj9GdtyP4=;
-        b=dquSdFYEmJFiXma7m4hooceqDNscg4bhUufwDx7zumaUWriStIKZ5SQM9KWbbWkH4f
-         3QcLojh+6w7p5Iv0uDfaQ4CvuHlZ4zg5UmkJvVI6qMgZKMj2F+vqVJ0VDeIUbqDuPqwr
-         ZIPJax9VX7je9YpnJFxkSyerxtSJKsLSIebiczu0fgU8KH3ZjGlg5o1wcIU0VDbhYypd
-         fL4mBf72PfXBvo+G9wEx97dzYeouHMB77JCVxbIapevABhHq3W0Q3buoFwl0Iaxo5PIr
-         koyriBBE0qPpfxWH0j2zCDEOHi3Phu+JqNZEMNg+bKzWy8xR3QGVxTSfPaQgWziGk8Ce
-         RNPA==
-X-Forwarded-Encrypted: i=1; AKwUvBzGhU6o6qFXaV6mz1ZrtD1+Q+vV7yOMPnA0yIW48h84qyta7nAVYZktyc7TCsML/xFJEAjLmzuhub4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJkabObMaEOoEygWsY5Tcgq4NUECyyc9I0BEGtwuDQe2jMe6xfS
-	YV9VxULbVG0mtY/ElBd1VpXa8nkQPEmFeNsTw3O15IFz9cgDlGSDShat
-X-Gm-Gg: AYBFou0VpjMF2MM7C3oW9FrMyTfowtfd7htnBeSHj9uLwnhBy9AbeNxTXKhCHh/9hzu
-	K/rWxqNigyHPJhLh8txDKtl0i30OtBVnaR8fwfqRLKBnk0uD2IZ2gSr2L6Fl2WDCt4p+ImNzKgJ
-	qi1LspV2c/QX7e7XzaL7alIwTc1mjMIIFD24KFejOYUNyCu0w/UVxtq+783wedGvYGsvBTyhd8u
-	Tcnv/2RWgLTD/KBbzxsRB9M9gvzte7uw1SrAeeNxp8sV7aYu+7uXFRfd55npnJzfEUitENFJ1bx
-	qhFXdexk1lmsPmNNmBM+dAlywRqdF3FsXI+qWt646UenWz3g0esOPFdA9EQaUYRRxC1j7BrKDIn
-	QXMC+jqzbnYNm4CNm3g9bkt0INTNdEWBRrTGdvRWIcIVjgfqEHrPmY8osBJLxMycnwACxPDqBWl
-	5RGtfsYLc5O2CSv7h7/Qa1pqIW2UJYKDRnKVbxxpLLoe454N5SdmpSZ4XV6UU3QSnazOUS9HXIc
-	agFBpIeBfPXYiB/uyWt3UGjgA+cCgc5pVnX6GEuIpWU6vrjUYNR06rd838FeNgj5UQlQSlZ6aJ3
-	RC1hMVd4W/BkCOaFsLi1eUInZbvTaxgA+MiBQ4A=
-X-Received: by 2002:a05:6102:6d0:b0:7cc:285d:4df7 with SMTP id ada2fe7eead31-7cc3699ca12mr344286137.16.1792199368918;
-        Fri, 16 Oct 2026 18:09:28 -0700 (PDT)
-Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cc1987c95csm3579604137.11.2026.10.16.18.09.28
+        d=1e100.net; s=20260707; t=1792202155; x=1792806955;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=V5KfIFOpzzVgEmADZkACyBVWel5cim9UCxoXS8oTCY4=;
+        b=pZ+mXfDPSZI1FBZTJZFYPJ5RtTbSVc23mb/MeCOl8/zDUrPhLRsE/9xpt/nRxXNGQb
+         K6r6pAQEND3Op9ystjEc+roWQwo2gBhfDz/1H/80ekvl7d7sguQMZ7RPm9eQQmV5CiZg
+         Qhuch6NbBe8AqObPR9qg12tmGkfGH+gtQI7DCppbCSQjW67rCpd8TMo6SW3GcvK76ag5
+         I47+UzPiK3+43lPMMiODw6V4xBQCNe+Sdw54j339p99CMrIXDNm9cArP+93G4F3ciPHY
+         XHr9xfhwPaVC4cmjTzvJSVQow94+EQJ1pyTF3Y7Xzoh5f01LDR5gZC3y/e1pHJZWfn2O
+         DmCw==
+X-Forwarded-Encrypted: i=1; AKwUvBy/EzL1OZXoHMTtzPNBSv9qhdCwQ5JYUyYIJzqmlPjVf4weDVSfyKtZJKcydCh4stzKQLwTIGBsIzY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKxL78p7IfRbfQO+NLtOINWGs9ys/XrhoF5d24KZOjd3PuIsBpD
+	pQyTAyaVZzCMfV8XIRAZE771b7Y70t+IJX7jyj7xPTpfONudTcRdl+m+
+X-Gm-Gg: AYBFou2pqVh8PR4tWrC6TP7gL7oPjDRNO1c2KzSock7V7CwX9mVLXX+2Jtcvv2Nkj6P
+	QicuiMgx0zMjX4ITsIE5h4iUk/47I8RLm4/F8Fs55ARd2PgRJqG9UStYVvxx53gxBArcwX8kkDJ
+	RIHCeD61DTOZNxmdNECkek2ncBMtSaqUoBNZWm1Zyz0ZUV/GcU5EMBJE/Kvb/3momFKVMAMDBcx
+	IWgPxqKxk/H9tysmP3LJBUzIS5r1nk8BWiU6BXh9vkhx6AKktVlzjCCEyPMNHCRjwpMOU5dIsPA
+	izzuZ0HeXZJlC4hKud8/VMlYb0TFGZSpDvNJTwM61hEGCbll8O5G5Czmz85odJr4PlYZ5Iszc3O
+	8wtSsjJKwfhFuLHiHLiCCBYwA0dCJXo/iqAyW+G/UbUGDEKE7aNqoe0ZgC86Qun1f5DLJ8A33VF
+	Uq8KfdtSQTL0ol82Hqrv4agmWtOVKUHMsmPI/8tB/hrrZ0/WjHpxRXYch1rwytiZs+cZ4kuYieJ
+	qF4LSeqkt3WQ9A24AYda9bU7tXvRU6mDWUpMW46FmwgF8mCf8+ge46fNexvYgh6c/XiNOK1DCdV
+	isni2mK+FYVnkV7PxYypcGI5as88
+X-Received: by 2002:a05:690c:60c6:b0:8b0:56e6:54ff with SMTP id 00721157ae682-8b0f20f2b8fmr6810397b3.6.1792202154647;
+        Fri, 16 Oct 2026 18:55:54 -0700 (PDT)
+Received: from localhost (108-93-236-139.lightspeed.chtnsc.sbcglobal.net. [108.93.236.139])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e590b586sm15829807b3.31.2026.10.16.18.55.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 18:09:28 -0700 (PDT)
-Date: Fri, 16 Oct 2026 21:09:27 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: linux-kernel@vger.kernel.org, 
- Jason Wang <jasowangio@gmail.com>, 
- =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- netdev@vger.kernel.org, 
- virtualization@lists.linux.dev, 
- Rusty Russell <rusty@rustcorp.com.au>, 
- Max Krasnyansky <maxk@qualcomm.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Simon Horman <horms@kernel.org>, 
- linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.32f6b1ecd121a@gmail.com>
-In-Reply-To: <20261016143944-mutt-send-email-mst@kernel.org>
-References: <cover.1792067836.git.mst@redhat.com>
- <ad05a40681719a579691a1da6413f0dd7064f2a0.1792067836.git.mst@redhat.com>
- <willemdebruijn.kernel.3a7d04e1c306e@gmail.com>
- <20261016051827-mutt-send-email-mst@kernel.org>
- <willemdebruijn.kernel.1d7ce6b64753a@gmail.com>
- <20261016134823-mutt-send-email-mst@kernel.org>
- <willemdebruijn.kernel.2deaddfb31bd9@gmail.com>
- <20261016143944-mutt-send-email-mst@kernel.org>
-Subject: Re: [PATCH net-next v2 5/7] net: add a sysctl to opt out of virtio
- net hdr checksum validation
+        Fri, 16 Oct 2026 18:55:53 -0700 (PDT)
+From: Matt Turner <mattst88@gmail.com>
+Subject: [PATCH v2 0/5] alpha: perf register sampling and user stack dumps
+Date: Fri, 16 Oct 2026 21:55:46 -0400
+Message-Id: <20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NywrCQAxFf0WyNjJJaauu/A/pIoxpG+iLGRmU0
+ n93LC5dngP33BWiBtMI18MKQZNFm6cMfDyA72XqFO2RGdhxRc4RyrD0gouGFoN2EVOBtXJRurM
+ nLwx5uARt7bVH703m3uJzDu/9I9HX/nL0N5cIHapIxaUUl5r41o1iw8nPIzTbtn0A3qXslrQAA
+ AA=
+X-Change-ID: 20261001-alpha-perf-regs-v3-7e23508c1ca2
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Magnus Lindholm <linmag7@gmail.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ Ian Rogers <irogers@google.com>, Matt Turner <mattst88@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2600; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=amj26N7GBgNkKSic738dtOdhoZO7SxmjDL8PSryCbBM=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLIuXV10VlF/39zcEnabm29+TT3kMS/kx1KnuxE/ue+/q
+ VO/dvaiRMdHFgYxLoaZYooscesVWWa17Vjqc1r6F8wcViaQIdIiDQxAwMLAl5uYV2qkY6Rnqm2o
+ Zwhk6BjFQ+T0GDQyi4tLU4t00wqKHPLySxJLMvPzivXyC1LzCtIL9NIy00oyMvKLilOBRujlpZa
+ Yujq6GRkamFg6Wpg5WTiamjg7Oxk6uTk6Ors6GVmamxg4WzqauFqaM3BxCsBc8+sII8OBrdfP7X
+ Eqff9YNU3ZSX5F71HXXXLHn+imX3ir3Lk8a7cSw/+I9/9t113QsWAvmjDz/+8rwXUP++dvXz5n2
+ /tNtxWXsuczAwA=
+X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
+ fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-> > > > > > Should this be a global sysctl, rather than per netns?
-> > > > > 
-> > > > > 
-> > > > > For customers I work with, it would be much less useful.
-> > > > 
-> > > > Third option: make it an integer rather than a boolean.
-> > > > 
-> > > > 0: no validation
-> > > > 1: current level of validation
-> > > > 2 and beyond: if we have to extend it later
-> > > > 
-> > > > Not pretty, I'll admit. So fine to keep as is too if you prefer.
-> > > > But I do foresee more changes in this area, if history is a guide.
-> > > >  
-> > > > > 
-> > > > > > Even if per-netns, most likely do not want it writable by netns root
-> > > > > > with user namespaces.
-> > > > > >
-> > > > > > That is the equivalent of ns_capable(CAP_NET_RAW), which is the cause
-> > > > > > of many crashes due to bad packets ingested by, e.g., a packet socket.
-> > > > > 
-> > > > > Hmm, yes i get that. Two knobs? a. verify b. the per netns value ro? Both
-> > > > > on by default?
-> > > > 
-> > > > A single system wide field is simplest.
-> > > > 
-> > > > Is there a benefit to making this configurable on a per netns basis?
-> > > 
-> > > As I tried to explain: a specific container breaks, you decide to trust it,
-> > > you do not need to trust all.
-> > 
-> > Ok
-> > 
-> > > > If so, that's fine too. As long as root-in-namespace cannot modify it,
-> > > > so readonly indeed.
-> > > 
-> > > 
-> > > Right. So I envision along the lines of:
-> > > 
-> > > net.core.virtio_net_hdr_validate_all - validate packets from any netns,
-> > > netns root can not change it, only host root
-> > > 
-> > > net.core.virtio_net_hdr_validate - per netns
-> > 
-> > Then skip the global option, as it's just a convenience: the same can be
-> > achieved by iterating over all the per-netns settings.
-> > 
-> > Per netns validation, but only settable by root, not by root-in-namespace.
-> 
-> Hmm I don't know how to achieve that. Are there examples of such
-> options?
+This lets perf sample registers and dump the user stack on alpha, which
+perf record --call-graph dwarf needs to unwind user space.
 
-Two examples, both basically make the sysctl writable by root-in-ns,
-but then add an extra capable() check in the write handler.
+r9-r15 are not in pt_regs, so they cannot be sampled. An unwinder
+therefore cannot get past a first frame that uses $15 as its frame
+pointer (-O0 code or alloca).
 
-ipvs max_conn: in proc_do_conn_max()
+The perf tool side is a separate patch for perf-tools-next:
 
-        if (write && !rc && val != unset) {
-                struct netns_ipvs *ipvs = table->extra2;
-                bool priv = capable(CAP_NET_ADMIN);
-                int max;
+  https://lore.kernel.org/r/20261011-alpha-perf-tools-regs-v1-1-2a5940e22548@gmail.com
 
-                mutex_lock(&ipvs->service_mutex);
-                /* Unprivileged admins can not go above the hard limit */
-                max = priv ? IP_VS_CONN_MAX : ipvs->conn_max_limit;
-                if (val < 0 || val > max) {
-                        rc = -EINVAL;
+libdw also needs alpha unwinding support, which I sent to
+elfutils-devel:
 
-ns_last_pid, which in its original commit b8f566b04d3c ("sysctl: add
-the kernel.ns_last_pid control")had a direct capable check (it was
-later relaxed):
+  https://inbox.sourceware.org/elfutils-devel/20261012-alpha-v1-0-46760216dfb7@gmail.com/
 
-        static int pid_ns_ctl_handler(struct ctl_table *table, int write,
-                       void __user *buffer, size_t *lenp, loff_t *ppos)
-        {
-               struct ctl_table tmp = *table;
-        
-               if (write && !capable(CAP_SYS_ADMIN))
-                       return -EPERM;
+---
+Changes in v2:
+- Patch 4: report sp as 0 for software event samples, whose pt_regs is
+  a per-CPU buffer rather than a trap frame (Magnus).
+- New patch 5: fill in pc for those samples via
+  perf_arch_fetch_caller_regs() (Magnus).
+- Collect trailers. Magnus's Tested-by on patch 4 dropped until he
+  retests the change.
+- Link the perf and elfutils postings.
+- Link to v1: https://lore.kernel.org/r/20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com
 
+---
+Matt Turner (5):
+      alpha: fix stale user_stack_pointer()
+      alpha: stop storing the user stack pointer in pt_regs
+      alpha: use user_stack_pointer() in KSTK_ESP() and dump_elf_thread()
+      alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP support
+      alpha: fill in pc for software event samples
+
+ .../features/perf/perf-regs/arch-support.txt       |  2 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
+ arch/alpha/Kconfig                                 |  2 +
+ arch/alpha/include/asm/perf_event.h                |  7 +++
+ arch/alpha/include/asm/processor.h                 |  3 +-
+ arch/alpha/include/asm/ptrace.h                    |  7 +--
+ arch/alpha/include/uapi/asm/perf_regs.h            | 45 +++++++++++++++
+ arch/alpha/include/uapi/asm/ptrace.h               |  2 +-
+ arch/alpha/kernel/Makefile                         |  1 +
+ arch/alpha/kernel/asm-offsets.c                    |  1 -
+ arch/alpha/kernel/entry.S                          |  5 --
+ arch/alpha/kernel/perf_regs.c                      | 64 ++++++++++++++++++++++
+ arch/alpha/kernel/process.c                        |  2 +-
+ arch/alpha/kernel/ptrace.c                         | 12 ++++
+ arch/alpha/kernel/traps.c                          |  8 ---
+ 15 files changed, 137 insertions(+), 26 deletions(-)
+---
+base-commit: 8f5dbfb93440d1aba216a1a34369a65654b94be9
+change-id: 20261001-alpha-perf-regs-v3-7e23508c1ca2
+
+Best regards,
+-- 
+Matt Turner <mattst88@gmail.com>
 
