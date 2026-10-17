@@ -1,146 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCA6493639;
-	Sat, 17 Oct 2026 14:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9607F392836;
+	Sat, 17 Oct 2026 15:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792248656; cv=none; b=e9yZE6ZP+p8ZUD7HN5FAFbSYcELh7Zi1ez/UvyvLbP8rPbaJBd6/fzxUguaDNzBEj+mc5cbfYABDw5yf4ClKBDzE3v+dMOUbuQswPKQCTShd7nnQr1pTRCsM340YvKxFp1jbsjsfDGumPiYUJz/n7toE6GIirJCTsWmwgsEElbM=
+	t=1792251182; cv=none; b=fY1ii6NzmPLMT8eueUSjvcH2F2oYUKy1vZWjNf7D8apioZoLiaCyHmhrcQkCnvqw02lJpv9lgNzh8kS2sbfC2aT8kINnzSFUlt9nSs+hfId5odwyvDycAayNJ6LozbmKopDUATG7dpELD5Nh8FoY2+mVCuF8hMcl0aIvBtCGRfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792248656; c=relaxed/simple;
-	bh=mXB6tIL/+qLpJiz4Sn4FUNs0zYbvBZ/cActaGcwuZns=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DWgSW1xEa587cy0rE7D9t78Vz+EXZ38AqDvYvZujkoht1VAWaouUoysDYZ92BO9Fn8N0Q8ObFaoeydFsN9Sp3iIyx+TIKLKBpO+BYF4dhpOhaQ7VHTX+/KIfHZmwv9UgLhaJM0sWoaMOX6oBlT50GWgbSSNv3+3DE4iwamydlQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o6McW2T7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792251182; c=relaxed/simple;
+	bh=awm/5T3OP8nOySmaCCffHZ2HNGXR56c+zXIdHAAIc7o=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=RieBkW3BBd2RmtACdzyQ8+x82160+2Rex3hek99lTNr9KrEPZ8+rPRbaLay/2ci1raxzt8293zuwHEvJbi6bmt29e/Csr7qxmATCPNk5dvmOR0ss3O1GQ3aUVtkuEXyFxf3ZL9JIc8OYKdsQezB6XadKTgM8KbQ3GD6tbaVSBwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=i+vP8gz/; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o6McW2T7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8126BC2BCFA;
-	Sat, 17 Oct 2026 14:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792248656;
-	bh=mXB6tIL/+qLpJiz4Sn4FUNs0zYbvBZ/cActaGcwuZns=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=o6McW2T7vbO4CyNy9OouBAAjrvPz/CwRj3+jigb8koaxo5R7GpaKUTe1+Nfe0/4yQ
-	 h/ZmuD2Iyu4luOMJADAkMny0H2CN+OdwOsBUGv4SPm7CczflfM8adyV4btTp0IRC3r
-	 J2mzgcYjrTaUvobg2LiXT5Fs08s0gjQm7puhMLBOlMWUhkvBmy2qtink6lnNd8l8N/
-	 mgigMtyQnJVX+5xMFMtAzvaZ1iUkFhkRjMVKbCyGYJa7iPT4LGtXxSU2ZjLJ2fhPWV
-	 1Pv2ImueT7AlGx6LsJsnkTk3C4spP92T+TfvJY2ueKi9c2m3dY5N3vbqAwufLv/z/t
-	 q9oLzHrE7l5DA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F308CCF2C1;
-	Sat, 17 Oct 2026 14:50:56 +0000 (UTC)
-From: Cunhao Lu via B4 Relay <devnull+1579567540.qq.com@kernel.org>
-Date: Sat, 17 Oct 2026 22:50:56 +0800
-Subject: [PATCH net v6 6/6] can: rockchip_canfd: serialize timecounter
- timestamp conversion
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="i+vP8gz/"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j6Qmg4SVdzKmwd;
+	Sat, 17 Oct 2026 17:32:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792251171;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=awm/5T3OP8nOySmaCCffHZ2HNGXR56c+zXIdHAAIc7o=;
+	b=i+vP8gz/PgzUMFCTE97ScuteN1psg6DccE5r+va7MmD0Nlx01PCH3SHzKQlFjfs9hMkE5k
+	EABtAgU22fv3uacWuuyTANWTDzGF2QrNnOiysHqAzlx+njp4+LNwPWs/xyS/Mf0ntZHDQp
+	IzXaaw4Tg3QOmfAqOD8ZayjGzzuabgBnnNW5JEXdh8GdlmcTAW3QqSVgcLQsY3dmMUK4GP
+	Jv6vFHx2gSJyginlU7cC8azrv5TNZeQn6h9b6jymJH0FVbpCEDOPhLP8w2OFWPVgaN2nj0
+	t/8uW6LCaoXbW1n9qyyHLZa1LQZc4nWbTWkiahoFpt84hU5HSS2pQ2Njto+Z1g==
+Message-ID: <1061edcf257c9e625efe5f6f000013e9b2d4c650.camel@mailbox.org>
+Subject: [Duplicate Text] in mm/damon/ and Doc/admin-guide/mm/damon/
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: SJ Park <sj@kernel.org>, damon@lists.linux.dev
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Aveline Noir <jm5905938@gmail.com>, "Adrian
+ Huang (Lenovo)" <adrianhuang0701@gmail.com>
+Date: Sat, 17 Oct 2026 17:32:47 +0200
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261017-rockchip-canfd-restart-close-v6-6-ed605feb4b6e@qq.com>
-References: <20261017-rockchip-canfd-restart-close-v6-0-ed605feb4b6e@qq.com>
-In-Reply-To: <20261017-rockchip-canfd-restart-close-v6-0-ed605feb4b6e@qq.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>, 
- Vincent Mailhol <mailhol@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- "David S. Miller" <davem@davemloft.net>, 
- Wolfgang Grandegger <wg@grandegger.com>, 
- Oliver Hartkopp <socketcan@hartkopp.net>, kernel@pengutronix.de, 
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, stable@vger.kernel.org, 
- Cunhao Lu <1579567540@qq.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792248654; l=2940;
- i=1579567540@qq.com; s=20261015; h=from:subject:message-id;
- bh=PpQslORihJNgfj4mzr9VTzdMu4X2EvQLejo/FRw489Q=;
- b=ePvaeQozhEYsa/ePirwiG2llAcEhxRrpEqR3ehdU7AuYWHAd5VaNp20yypzZH4+YrUsFIHWgZ
- JWbt8OX2FdoDP/5PCcHX9Cm4poP6MxPECQMx3e4fZ5LUQhEs6I2HeWB
-X-Developer-Key: i=1579567540@qq.com; a=ed25519;
- pk=sUTWrzlIwT4C7ctjNfVZAzzg0G7QUn2XxRGpYsw4RtM=
-X-Endpoint-Received: by B4 Relay for 1579567540@qq.com/20261015 with
- auth_id=1177
-X-Original-From: Cunhao Lu <1579567540@qq.com>
-Reply-To: 1579567540@qq.com
+X-MBO-RS-ID: f1c05a7b6cbdf6f28a8
+X-MBO-RS-META: 5enp6ifq9dbwkjns356ocpn3tbqsbwnj
 
-From: Cunhao Lu <1579567540@qq.com>
+Hi SJ,
 
-The timestamp worker advances the timecounter with timecounter_read()
-while RX, TX completion and error-frame paths use timecounter_cyc2time()
-to convert hardware timestamps without holding timestamp_lock.
+there is a lot of duplicated text in these directories. Diff doesn't show
+any because in mm/damon/ the text is a multi-line comment.
 
-timecounter_read() updates frac, cycle_last and nsec in separate steps.
-A concurrent conversion can observe the new cycle_last with the old
-nsec and produce an incorrect timestamp.
+~40 Lines in lru_sort.c and lru_sort.rst,
+~50 Lines in reclaim.c and reclaim.rst and
+a few Lines in stat.c and stat.rst.
 
-Hold timestamp_lock across timecounter_cyc2time(), using the same lock
-as timecounter_read() and timecounter_init(). Keep the SKB timestamp
-assignment outside the critical section.
+I think it's important to decide on how to handle the duplication before
+patching.
 
-TX completion nests timestamp_lock inside tx_lock; no timestamp-lock
-holder acquires tx_lock.
+Delete one set, keep (and fix) both or add a reference in one place to
+the other? Could sphinx do the duplication?
 
-Fixes: 4e1a18bab124 ("can: rockchip_canfd: add hardware timestamping support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cunhao Lu <1579567540@qq.com>
----
- drivers/net/can/rockchip/rockchip_canfd-timestamp.c | 5 ++++-
- drivers/net/can/rockchip/rockchip_canfd.h           | 4 ++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/can/rockchip/rockchip_canfd-timestamp.c b/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-index 0fa791849c95..05f1005ee506 100644
---- a/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-+++ b/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-@@ -15,13 +15,16 @@ static u64 rkcanfd_timestamp_read(struct cyclecounter *cc)
- 	return rkcanfd_get_timestamp(priv);
- }
- 
--void rkcanfd_skb_set_timestamp(const struct rkcanfd_priv *priv,
-+void rkcanfd_skb_set_timestamp(struct rkcanfd_priv *priv,
- 			       struct sk_buff *skb, const u32 timestamp)
- {
- 	struct skb_shared_hwtstamps *hwtstamps = skb_hwtstamps(skb);
-+	unsigned long flags;
- 	u64 ns;
- 
-+	spin_lock_irqsave(&priv->timestamp_lock, flags);
- 	ns = timecounter_cyc2time(&priv->tc, timestamp);
-+	spin_unlock_irqrestore(&priv->timestamp_lock, flags);
- 
- 	hwtstamps->hwtstamp = ns_to_ktime(ns);
- }
-diff --git a/drivers/net/can/rockchip/rockchip_canfd.h b/drivers/net/can/rockchip/rockchip_canfd.h
-index 4a2bdc205296..63f146ff8e6b 100644
---- a/drivers/net/can/rockchip/rockchip_canfd.h
-+++ b/drivers/net/can/rockchip/rockchip_canfd.h
-@@ -489,7 +489,7 @@ struct rkcanfd_priv {
- 
- 	struct cyclecounter cc;
- 	struct timecounter tc;
--	/* Protects timestamp_active and worker reads/requeueing. */
-+	/* Protects tc, timestamp_active and worker requeueing. */
- 	spinlock_t timestamp_lock;
- 	struct delayed_work timestamp;
- 	unsigned long work_delay_jiffies;
-@@ -557,7 +557,7 @@ void rkcanfd_ethtool_init(struct rkcanfd_priv *priv);
- 
- int rkcanfd_handle_rx_int(struct rkcanfd_priv *priv);
- 
--void rkcanfd_skb_set_timestamp(const struct rkcanfd_priv *priv,
-+void rkcanfd_skb_set_timestamp(struct rkcanfd_priv *priv,
- 			       struct sk_buff *skb, const u32 timestamp);
- void rkcanfd_timestamp_work_init(struct rkcanfd_priv *priv);
- void rkcanfd_timestamp_init(struct rkcanfd_priv *priv);
-
--- 
-2.34.1
-
-
+Thanks
+ Manuel=20
