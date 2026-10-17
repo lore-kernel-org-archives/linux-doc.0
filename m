@@ -1,73 +1,149 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp2.iinet.com (smtp2.iinet.com [52.129.46.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9607F392836;
-	Sat, 17 Oct 2026 15:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A7838DC44;
+	Sat, 17 Oct 2026 15:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.129.46.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792251182; cv=none; b=fY1ii6NzmPLMT8eueUSjvcH2F2oYUKy1vZWjNf7D8apioZoLiaCyHmhrcQkCnvqw02lJpv9lgNzh8kS2sbfC2aT8kINnzSFUlt9nSs+hfId5odwyvDycAayNJ6LozbmKopDUATG7dpELD5Nh8FoY2+mVCuF8hMcl0aIvBtCGRfw=
+	t=1792252580; cv=none; b=mbE/y1PA0IjiS+y+jMwTeGXZ+dTZLa+zKmtEEolZMRde19choxTWkJ0DQABpqYsePuE/fydvFcfjp0B8dRQczRlMb33mJRCFvL1A6ZsdFeA/hTPHlfkkHUjwFMjOhKmfRZSiBKcPHfxPDHlvgl7TCi63Uc0GzIiaixBhMO38PUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792251182; c=relaxed/simple;
-	bh=awm/5T3OP8nOySmaCCffHZ2HNGXR56c+zXIdHAAIc7o=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=RieBkW3BBd2RmtACdzyQ8+x82160+2Rex3hek99lTNr9KrEPZ8+rPRbaLay/2ci1raxzt8293zuwHEvJbi6bmt29e/Csr7qxmATCPNk5dvmOR0ss3O1GQ3aUVtkuEXyFxf3ZL9JIc8OYKdsQezB6XadKTgM8KbQ3GD6tbaVSBwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=i+vP8gz/; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1792252580; c=relaxed/simple;
+	bh=8p2lca59Kr/sPXCKE0RC6oNDFhBqdb/jXD9F09ecVvs=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=UATTaM2UKEgdl46xhIbpdfRKK2y6nxRpgNAu8MX7DnVRJnodW2GBE9QyxCSdWTxwoWV1iEe9QshVE9GRyId13Tz0aR17AXc9/oF02dqbhuKZmXXArLNBvVzdyq5t/TV/PFJ9fvA95sxAL+KUsZc/yJ1Avq9DTyncovmsiSeSKNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com; spf=pass smtp.mailfrom=nwlink.com; dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b=XAwKO+Zv; arc=none smtp.client-ip=52.129.46.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="i+vP8gz/"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j6Qmg4SVdzKmwd;
-	Sat, 17 Oct 2026 17:32:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1792251171;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=awm/5T3OP8nOySmaCCffHZ2HNGXR56c+zXIdHAAIc7o=;
-	b=i+vP8gz/PgzUMFCTE97ScuteN1psg6DccE5r+va7MmD0Nlx01PCH3SHzKQlFjfs9hMkE5k
-	EABtAgU22fv3uacWuuyTANWTDzGF2QrNnOiysHqAzlx+njp4+LNwPWs/xyS/Mf0ntZHDQp
-	IzXaaw4Tg3QOmfAqOD8ZayjGzzuabgBnnNW5JEXdh8GdlmcTAW3QqSVgcLQsY3dmMUK4GP
-	Jv6vFHx2gSJyginlU7cC8azrv5TNZeQn6h9b6jymJH0FVbpCEDOPhLP8w2OFWPVgaN2nj0
-	t/8uW6LCaoXbW1n9qyyHLZa1LQZc4nWbTWkiahoFpt84hU5HSS2pQ2Njto+Z1g==
-Message-ID: <1061edcf257c9e625efe5f6f000013e9b2d4c650.camel@mailbox.org>
-Subject: [Duplicate Text] in mm/damon/ and Doc/admin-guide/mm/damon/
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: SJ Park <sj@kernel.org>, damon@lists.linux.dev
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Aveline Noir <jm5905938@gmail.com>, "Adrian
- Huang (Lenovo)" <adrianhuang0701@gmail.com>
-Date: Sat, 17 Oct 2026 17:32:47 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b="XAwKO+Zv"
+Received: from webmail.iinet.com (web1.iinet.com [52.129.46.51])
+	(Authenticated sender: kaf@nwlink.com)
+	by smtp2.iinet.com (Postfix) with ESMTPA id F4024B42BD1;
+	Sat, 17 Oct 2026 08:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
+	t=1792252578; bh=wOC3z8d3unpvQdUfL2bvr+OorEHjTzNQZKSBDptrq6I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XAwKO+ZvEyUqx00zvjmuaTE/L9dRem0ramAaHSewGTTBAzjCD1A+fEG8pR4XFg4Dm
+	 gUJY8aXJ43X5SOn1D0iVJj0pu/g9Jy/JF2aAyAR+ORSAykMZQ2VKylEczL9aJXPJ8D
+	 BUGyrH7162eWdGVa42ZU9XxmFza+eiRzzFH/Z8J7HcEyF8SXGquOOZWV6T3Wx53pow
+	 znAbaT33WQAGu89m/spHLSHFidV9PJu0DvNw9OOGec2h2On7EmTMB6hdI1fVEErsrd
+	 DSUeLBfVDkTSRkjazJQZ4l9T3A3CNv+NXBYiWVEU2KSl7YFRO4fLHCTJdL6PtNnvZA
+	 f5L9gR6Y2wVhw==
+Received: from c-98-203-133-45.hsd1.wa.comcast.net ([98.203.133.45])
+ by webmail.iinet.com
+ with HTTP (HTTP/1.1 POST); Sat, 17 Oct 2026 08:56:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: f1c05a7b6cbdf6f28a8
-X-MBO-RS-META: 5enp6ifq9dbwkjns356ocpn3tbqsbwnj
+Date: Sat, 17 Oct 2026 08:56:15 -0700
+From: kaf@nwlink.com
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2 RESEND] usb: gadget: uac2: support explicit channel
+ counts
+In-Reply-To: <2026101742-ouch-sensually-f5a4@gregkh>
+References: <20261016162534.384844-1-kaf@nwlink.com>
+ <2026101742-ouch-sensually-f5a4@gregkh>
+User-Agent: Roundcube Webmail/1.4.3
+Message-ID: <fef8f9aa36c922e846d37e686b38f6c3@nwlink.com>
+X-Sender: kaf@nwlink.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi SJ,
+On 2026-10-17 01:05, Greg Kroah-Hartman wrote:
+> On Fri, Oct 16, 2026 at 09:25:32AM -0700, Kyle Farrell wrote:
+>> USB Audio Class 2.0 permits up to 255 channels in an audio channel 
+>> cluster
+>> via bNrChannels. Independently, a channel-location bitmap is specified 
+>> via
+>> bmChannelConfig for up to 27 predefined spatial locations. Setting
+>> bmChannelConfig to zero indicates that the channels have no predefined
+>> spatial positions.
+>> 
+>> The current UAC2 gadget driver derives bNrChannels from the number of 
+>> set
+>> bits in bmChannelConfig. Since bmChannelConfig provides 27 predefined
+>> spatial locations this limits playback and capture streams to 27 
+>> channels.
+>> 
+>> This series allows channel counts up to the UAC2 limit of 255 without
+>> requiring predefined spatial channel locations in bmChannelConfig.
+>> Existing ConfigFS channel-mask configuration continues to work 
+>> unchanged.
+>> New optional playback and capture count attributes allow the number of
+>> channels to be specified separately from the channel-location bitmap.
+>> 
+>> The series is split so that the shared u_audio infrastructure is 
+>> updated
+>> first without changing behavior, followed by the UAC2 functional 
+>> change.
+>> 
+>> Patch 1:
+>>   Pass resolved playback and capture channel counts explicitly into
+>>   the UAC1/UAC2 shared u_audio implementation instead of deriving them
+>>   from channel masks.
+>> 
+>> Patch 2:
+>>   Add ConfigFS playback/capture channel-count attributes to the UAC2
+>>   function driver and use them when generating descriptors and stream
+>>   configuration, allowing counts beyond the 27 predefined channel
+>>   locations.
+>> 
+>> Testing
+>> 
+>> Testing was performed using a Raspberry Pi Zero 2 W configured as a 
+>> USB
+>> UAC2 gadget. Streaming and descriptor validation were performed 
+>> against
+>> both Linux and macOS hosts.  Windows hosts were not tested.
+>> 
+>> UAC1
+>>   - Verified playback/capture operation via alsaloop.
+>>   - No descriptor or behavioral changes observed.
+>> 
+>> UAC2
+>>   - Verified legacy channel-mask configuration (1-27 channels).
+>>   - Verified explicit channel-count mode with 2, 28, 61, 62, 96 
+>> channels.
+>>   - Verified invalid channel-count/channel-mask combinations are 
+>> rejected.
+>>   - Verified Feature Unit descriptor size limits at 61/62 channel 
+>> boundary.
+>>   - Verified descriptors including:
+>>       * bNrChannels
+>>       * bmChannelConfig
+>>       * Feature Unit presence and bLength
+>>       * AudioControl wTotalLength
+>>       * endpoint wMaxPacketSize
+>>   - Verified ALSA-reported playback and capture channel counts.
+>>   - Verified streaming using alsaloop.
+>> 
+>> Changes in v2:
+>>   - Edit commit messages for clarity and brevity.
+>>   - Add Assisted-by: LLM attribution.
+>>   - No code changes.
+> 
+> Why was RESEND needed here?  Saying that would be nice.
+> 
+> Also, sashiko points out a number of problems...
+> 
+> thanks,
+> 
+> greg k-h
 
-there is a lot of duplicated text in these directories. Diff doesn't show
-any because in mm/damon/ the text is a multi-line comment.
+I resent v2 as both it and v1 had received no review. I should have 
+stated
+that in the cover letter.
 
-~40 Lines in lru_sort.c and lru_sort.rst,
-~50 Lines in reclaim.c and reclaim.rst and
-a few Lines in stat.c and stat.rst.
+I'm reviewing the Sashiko findings and will address relevant issues 
+before
+submitting a revised series.
 
-I think it's important to decide on how to handle the duplication before
-patching.
-
-Delete one set, keep (and fix) both or add a reference in one place to
-the other? Could sphinx do the duplication?
-
-Thanks
- Manuel=20
+Thanks,
+Kyle
