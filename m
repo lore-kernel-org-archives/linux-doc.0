@@ -1,111 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C2A1F30BB;
-	Sat, 17 Oct 2026 20:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572391F30BB;
+	Sat, 17 Oct 2026 20:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792269809; cv=none; b=oVw86CphZwDbdoKftdrx2SroDSH4tYPg/sodwDMKl0k/TKrLCeg02dJXImEqhc2Lll14E1BHcJKKHin6/OMrbK4EIdL6RPv4TTA24dv8cPsNadKSwzYoAfEbK8p++ERh00RIMQxBVLjhE2sdve2rgY0EsNYLtXIQYyAN5OIlyxg=
+	t=1792270511; cv=none; b=G7qMZhs18a7kmV3f3qr7AKJQxzk8ES6cviHm7vbwkKV8a1FsrHjEGQVVslc0SpmWQaXo8EmjL27YelCgt4TDXRU3+0pUzB8OOwGL5A0KjlEWGYpwjSS2Jlx9mlrPL6lJZrcUwiWxhiJ2pGrsi7/351Yp16b6KWE6AjEINCzs1N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792269809; c=relaxed/simple;
-	bh=XLTzlxNswd+J2h5xRwgmO2wKKamRw8v4OH5Ce/ACgKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fbkfi48iZ4Xif62OJni0WPcwIwQuu1le0puXkf3nG7wrYqRno/k1EeRzCu0OOt6UvT7Ymapu8D0DBDfxhnXvQhc3sW74QZ/4OptLNCVYwiz9i7XC1lBUAgE/HBbP+xxmzoHHg98lzxunzk7SAkgoPXmdt7MH56iT15+biopWSk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bd1ia3aY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792270511; c=relaxed/simple;
+	bh=yGno2iTDq5hw0OHBXLo7UU2CESgBiS7RV1/ZeYDAU1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c8IHjro0Z9Lx7OyDzS1286rVT2sWDIwBWFQGqPKoDWtqmm166DAP4XEiW0hCg8C4HKFAfwhaxHzebaFnz5wrZAKXeZvnpEl2b4sF3RumgOiZWdepIGCH4Ef1F+AAfl6++qk4xUz4dIXzugLJvNZ0DPxXwNc80D5FpRVh2VEHHBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VW6kcfxX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bd1ia3aY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA6E1F000C4;
-	Sat, 17 Oct 2026 20:43:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VW6kcfxX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 414541F000C4;
+	Sat, 17 Oct 2026 20:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792269808;
-	bh=RtHD7f1E0o6AMzDo/ulqt+/XCIIbhi0p9y0fo3+h8wU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Bd1ia3aYyEjVie7uNtMVne8BJwiJJT88JfxC2z8Fu5TjP9YitgKTUDH0UgMKqWk1b
-	 PWdjZmRieRoRaNL8gNXTCEE/8UsthVrHXiXhzMmBn7W/8NUG5/flHzpOwESKSqpFfw
-	 NzY4DKyZGK7HfvbcLAZ2yF2zTfX0D+1lW0tuWZwibYpi3OeNqh3QTzeD/IeYgJYRNt
-	 BvR5W0vdvmkhSHbVAsyesh6MOmkGDlYbwMX2c6LF1sFI3NxZxf1Mqw5fnV7rN95JXg
-	 A/N/69vY1M5dcW8oRA0lSRNYTO/AWPK18IUMWBu1nhcEXQrMpRRrZAjR97RugS//XL
-	 zJ7ZnLXkAAqzQ==
-Date: Sat, 17 Oct 2026 21:43:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux@analog.com, devicetree@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, Olivier Moysan
- <olivier.moysan@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, David
- Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 09/10] iio: ABI: add integration_time for output
- channels
-Message-ID: <20261017214321.2b9adfd4@jic23-hlaptop>
-In-Reply-To: <20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
-References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
-	<20261015-ad9910-backend-support-v1-9-3c21648c8e26@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1792270509;
+	bh=P/uqGyU7l9Qf7Ba9DLV47J1ke5U16L/bBf8Zedn49kY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VW6kcfxXDGhEdgWIZabCbJZltp6NVLkCivx7DW93VkCROqiGBjJxHGRkPstlE7dJz
+	 8OWfvSBoy1upGSVCquk+/ZYV+/bi8sWpaqOdeMwHCnr5aKtIeIgvNfxzlFj8a9Bz0l
+	 oF6TOpM3MKifRjY0c2TKrqg8i0vws+gckl6kxxo86Xg9+FBOygXdDDzOtmBu0hpPC0
+	 k7ab54vOWRhB+QyxffXDFVBNEKX+gI0K2itji1CG79+R7n/0oFWeic+SdfxI6pirZS
+	 hj6AkUIuSHGSkc5QDo36VjcSI98n6D7/NPuQgPMmqjsFLhmuFMSTkDWAZyQ+SJzdoN
+	 /dMGYaCjjSifQ==
+Date: Sat, 17 Oct 2026 23:55:05 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Dionna Glaze <drdeeglaze@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+Message-ID: <atPgqROZZxnihYfC@kernel.org>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261016234354.GA664420@nvidia.com>
+ <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
+ <20261017203407.GM13920@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261017203407.GM13920@nvidia.com>
 
-On Thu, 15 Oct 2026 13:49:49 -0300
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Sat, Oct 17, 2026 at 05:34:07PM -0300, Jason Gunthorpe wrote:
+> > +Jarkko
+> > The TPM driver is pretty entrenched and heavily used by different user
+> > space applications, so it seems really ambitious to bundle in TPM
+> > here.
 > 
-> Document the integration_time attribute for output channels, which is
-> the time interval during which the output is generated by integrating
-> a quantity, such as its rate of change. It is the output counterpart of
-> the integration_time already defined for input channels.
-> Add entries for the altcurrent, frequency and phase channel types, which
-> are going to be used by the AD9910 DDS driver.
+> By "ROT agility" I mean if you want to do an extend operation you
+> should not have to know the details of the HW holding the "PCR".
 > 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
->  Documentation/ABI/testing/sysfs-bus-iio | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+> One of the APIs offered here is a HW agnostic extend that can be used
+> to build ROT agility into user space programs that are doing
+> logging. That's systemd-pcr-extend for example.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> index 2b6f57041763..a41a96935cfb 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> @@ -1744,6 +1744,23 @@ Description:
->  		seconds. If shared across all channels of a given type,
->  		<type>_integration_time is used.
->  
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_integration_time
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_frequencyY_integration_time
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_phaseY_integration_time
-> +KernelVersion:	7.4
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		This attribute is used to get/set the integration time in
-> +		seconds of an output channel, i.e., the time interval during
-> +		which the output is generated by integrating (accumulating) a
-> +		quantity over time, such as the rate of change (roc) of the
-> +		channel. The output variation over this interval corresponds to
-> +		the integral of that quantity, which may be bounded by limits
-> +		configured through other channel attributes. The written value
-> +		may be adjusted to the nearest interval supported by the
-> +		hardware. If shared across all channels of a given type,
-> +		<type>_integration_time is used.
-Interesting adaption.  I wonder how often we will see this in drivers.
-Works for me as I can't think what else integration time would mean
-for outputs.
+> The extent of the TPM support is to be able to issue a PCR extend
+> triggered with a TPM command by the agnostic API. Not ambitious at
+> all.
 
-Jonathan
+I wish I had a better picture what is going on.
 
-> +
->  What:		/sys/.../iio:deviceX/in_velocity_sqrt(x^2+y^2+z^2)_integration_time
->  KernelVersion:	4.0
->  Contact:	linux-iio@vger.kernel.org
-> 
+I don't have capacity to heavily on this but can help sorting out
+issues if they are put better into nutshell.
 
+I would recommend to at least check out tpm2-protocol because when
+I did it my main use case was exactly protocol interceptor. It is
+designed from the bottom for that one use case. Plus zero cost
+memory usage can be casted to a raw pointer.
+
+Br, Jarkko
