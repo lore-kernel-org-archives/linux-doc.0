@@ -1,50 +1,56 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51AB381B1C;
-	Sat, 17 Oct 2026 00:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49DD368D74;
+	Sat, 17 Oct 2026 00:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792195211; cv=none; b=IMSCGl7rt6D9IWIZ9h85oIJaeCSN6JB5kxX2keQucAVioenejRXXQOrc3H093c+Ud0c6lMXJKpN3fBf24hb0q0eJz+p+SKY2m0uXaa+lXfaRz3SSU3EoT495PJ4Y/DZdg79Q9Ya73+hR4xyYllG/pQZm4YMyX4xWJINOJNzLWhQ=
+	t=1792195221; cv=none; b=A36nwyhHk1uvY5BtHxUfMrilbQ6+EC78stsNEA/ijJc6GZMbMsz876gjmldGjqsEmqPQLMCTRzq7/NfX7aBnKpzxmVyMwpOlQduJ6GQkHj7zG/sIYGyViSiED+sjxOh720PJAF66JdSm/ycEcG/YGBFtHXbhClleETs5AgpJ9C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792195211; c=relaxed/simple;
-	bh=9xDY8RJxMnbDzlivRKIo9yR1vRznPmY5J8sWs5iLWd4=;
+	s=arc-20240116; t=1792195221; c=relaxed/simple;
+	bh=i9zKLdNcKo9YWS1g3aVivo6LBgLE830YLqDYVybAJkE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LB7Wn8POr6t4+Rd0aGIYeqCtL1qUWZTiDkA/hoRw8nMZ6VDzxNpc+XU0RX7W6fzaqImCJtN7o2Gt6XjjgNeo75EEiz1eez9sxjafq3ZI+WqjXhE0tW27RPEtO4JGxOWFoy8vJIQ0kCfcTF68ukLMciA8c0rc2cj8W/FFshXP9x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ogijTMZc; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 MIME-Version; b=Uce2bBauBSFBMIkKx6s0OwAELOKya03vHg8VWDV9+v9Pw9gYfqlYESB4Y/1EJ5o4AUC1KHnRbYmgGS1XZ+JOeJ/wPHTxqGRQq57XC2L5rUJqAs66Xhgc/H5qQkxNelTjlHewcYIfBwDBnxBCYxuZMtkOcmZeheoSH7zJ7CqrMqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YT/Kniwn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ogijTMZc"
-Received: by linux.microsoft.com (Postfix, from userid 1216)
-	id 8A62720B7168; Fri, 16 Oct 2026 17:00:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8A62720B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1792195204;
-	bh=ibhrdaDiErzJvlxjxB5JJub8TppCWT7KleXCU2bg3eE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ogijTMZcO/0ALxKv13Ohj+MKuj45OFTZ0nU3H0mCwu8YSnLeZLFt1WaEkrUxdOo9C
-	 pKneCHDhuAq0xFa8Ki+qiXMJcLiYCAGAfWZAjmXPsAKXLny3xBf2s3eeepZdZocaTg
-	 k6WWRKSLPK9vFCrvmZZTqMJB8RNpT6s8+9S6glHg=
-From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org
-Cc: Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YT/Kniwn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D44CE1F000C4;
+	Sat, 17 Oct 2026 00:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792195220;
+	bh=ShCsr8VpmfSVrYE38tsQnynm8VtQ88LG2PyXK4mEIVw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=YT/Kniwnli+s29yW9eREh6MrxOIb3XDAYCRJjjRU3iAFlX4Oax5cV3OHzXWrGRey4
+	 bFO67sh6yb+zwA2ElR6CrK26oeD8wD2nT0urKNWD4Yw7YjlVS+Oh4Dtc96+PXgWhEG
+	 rI5oltlo7G2B2tfYJdEdBZwS+Ys1Or4rMvJYUcgzSYxi7n4zo4ain6IDRw5/LdYAeL
+	 G5Myn5WbJzSFWUYa67ozwJpjnK6syDV+TdXK1RQY4pv8gzKAxxzfjGc3MkpH8CIq5N
+	 6IgcpXVJq5pRsI49kaMj/czV0hdUb18bzlaq4y32H+PQAki3gGlItpIdpaVT+cC9lc
+	 E6Zrqu8at65Dw==
+From: SJ Park <sj@kernel.org>
+To: Aveline Noir <jm5905938@gmail.com>
+Cc: SJ Park <sj@kernel.org>,
+	Manuel Ebner <manuelebnerli@mailbox.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Subject: [PATCH 2/2] PCI: hv: add vPCI device reset support
-Date: Fri, 16 Oct 2026 19:59:40 -0400
-Message-ID: <20261016235940.942090-2-hamzamahfooz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
-References: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/damon/reclaim: improve grammar and style
+Date: Fri, 16 Oct 2026 17:00:12 -0700
+Message-ID: <20261017000013.97300-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <179216914308.58773.4774391289742300524.b4-reply@b4>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,146 +59,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hyper-V vPCI protocol version 1.5 adds a RESET_DEVICE request for
-projected PCI functions. Negotiate the new protocol version and, when it
-is in use, implement the pci_host_bridge::reset_root_port() callback by
-issuing the request through the vPCI VMBus channel.
+On Sat, 17 Oct 2026 00:45:43 +0800 Aveline Noir <jm5905938@gmail.com> wrote:
 
-Hyper-V has no Root Ports and exposes projected functions directly on
-the root bus, so PCI core uses the callback for the "bus" reset method
-of a function that is the only one on its vPCI bus.
+> Hi SJ,
+> 
+> On Fri, 16 Oct 2026 07:29:21 -0700, SJ Park wrote:
+> 
+> > If both of you agree to my abovely suggested/agreed changes ('s/page out/ pages
+> > out those/' and 's/records/charges/'), I will update this patch in damon/next
+> > tree with those changes.
 
-Use the existing VMBus response path. Return -ENOTTY when the host
-reports STATUS_NOT_SUPPORTED so PCI core may try another reset method.
+I was wrongly thinking this patch is already in damon/next.  It is not.  I am
+waiting for Manuel's replies to my review.  So I will not do the update of this
+patch on my own but wait for Manuel's answer and revisioning.
 
-Co-developed-by: Wei Liu <wei.liu@kernel.org>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
----
- Documentation/virt/hyperv/vpci.rst  |  2 +-
- drivers/pci/controller/pci-hyperv.c | 54 +++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+), 1 deletion(-)
+> 
+> Both changes sound good to me. Keeping this patch focused makes sense.
 
-diff --git a/Documentation/virt/hyperv/vpci.rst b/Documentation/virt/hyperv/vpci.rst
-index b65b2126ede3..6bfee7225c14 100644
---- a/Documentation/virt/hyperv/vpci.rst
-+++ b/Documentation/virt/hyperv/vpci.rst
-@@ -65,7 +65,7 @@ exchange messages with the vPCI VSP for the purpose of setting
- up and configuring the vPCI device in Linux.  Once the device
- is fully configured in Linux as a PCI device, the VMBus
- channel is used only if Linux changes the vCPU to be interrupted
--in the guest, or if the vPCI device is removed from
-+in the guest, or if the vPCI device is reset or removed from
- the VM while the VM is running.  The ongoing operation of the
- device happens directly between the Linux device driver for
- the device and the hardware, with VMBus and the VMBus channel
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 85d826f8f68d..790bf533a7e3 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -68,6 +68,7 @@ enum pci_protocol_version_t {
- 	PCI_PROTOCOL_VERSION_1_2 = PCI_MAKE_VERSION(1, 2),	/* RS1 */
- 	PCI_PROTOCOL_VERSION_1_3 = PCI_MAKE_VERSION(1, 3),	/* Vibranium */
- 	PCI_PROTOCOL_VERSION_1_4 = PCI_MAKE_VERSION(1, 4),	/* WS2022 */
-+	PCI_PROTOCOL_VERSION_1_5 = PCI_MAKE_VERSION(1, 5),	/* GE, device reset */
- };
- 
- #define CPU_AFFINITY_ALL	-1ULL
-@@ -77,6 +78,7 @@ enum pci_protocol_version_t {
-  * first.
-  */
- static enum pci_protocol_version_t pci_protocol_versions[] = {
-+	PCI_PROTOCOL_VERSION_1_5,
- 	PCI_PROTOCOL_VERSION_1_4,
- 	PCI_PROTOCOL_VERSION_1_3,
- 	PCI_PROTOCOL_VERSION_1_2,
-@@ -90,6 +92,7 @@ static enum pci_protocol_version_t pci_protocol_versions[] = {
- #define MAX_SUPPORTED_MSI_MESSAGES 0x400
- 
- #define STATUS_REVISION_MISMATCH 0xC0000059
-+#define STATUS_NOT_SUPPORTED     0xC00000BB
- 
- /* space for 32bit serial number as string */
- #define SLOT_NAME_SIZE 11
-@@ -136,6 +139,7 @@ enum pci_message_type {
- 	PCI_BUS_RELATIONS2		= PCI_MESSAGE_BASE + 0x19,
- 	PCI_RESOURCES_ASSIGNED3         = PCI_MESSAGE_BASE + 0x1A,
- 	PCI_CREATE_INTERRUPT_MESSAGE3   = PCI_MESSAGE_BASE + 0x1B,
-+	PCI_RESET_DEVICE                = PCI_MESSAGE_BASE + 0x1C,
- 	PCI_MESSAGE_MAXIMUM
- };
- 
-@@ -1416,6 +1420,52 @@ static int hv_pcifront_write_config(struct pci_bus *bus, unsigned int devfn,
- 	return PCIBIOS_SUCCESSFUL;
- }
- 
-+static int hv_pci_reset_device(struct pci_host_bridge *bridge,
-+			       struct pci_dev *pdev)
-+{
-+	struct hv_pcibus_device *hbus =
-+		container_of(bridge->sysdata, struct hv_pcibus_device, sysdata);
-+	struct pci_child_message reset = {};
-+	struct hv_pci_compl comp_pkt;
-+	struct pci_packet pkt = {
-+		.completion_func = hv_pci_generic_compl,
-+		.compl_ctxt = &comp_pkt,
-+	};
-+	enum hv_pcibus_state state;
-+	int ret;
-+
-+	/* Do not take state_lock: eject holds it while removing/locking pdev. */
-+	state = READ_ONCE(hbus->state);
-+	if (state != hv_pcibus_probed && state != hv_pcibus_installed)
-+		return -ENODEV;
-+
-+	init_completion(&comp_pkt.host_event);
-+	reset.message_type.type = PCI_RESET_DEVICE;
-+	reset.wslot.slot = devfn_to_wslot(pdev->devfn);
-+
-+	ret = vmbus_sendpacket(hbus->hdev->channel, &reset, sizeof(reset),
-+			       (unsigned long)&pkt, VM_PKT_DATA_INBAND,
-+			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
-+	if (ret)
-+		return ret;
-+
-+	ret = wait_for_response(hbus->hdev, &comp_pkt.host_event,
-+				"PCI_RESET_DEVICE");
-+	if (ret)
-+		return ret;
-+
-+	if (comp_pkt.completion_status == STATUS_NOT_SUPPORTED)
-+		return -ENOTTY;
-+
-+	if (comp_pkt.completion_status) {
-+		pci_err(pdev, "Hyper-V device reset failed: %#x\n",
-+			comp_pkt.completion_status);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
- /* PCIe operations */
- static struct pci_ops hv_pcifront_ops = {
- 	.read  = hv_pcifront_read_config,
-@@ -2017,6 +2067,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 		break;
- 
- 	case PCI_PROTOCOL_VERSION_1_4:
-+	case PCI_PROTOCOL_VERSION_1_5:
- 		size = hv_compose_msi_req_v3(&ctxt.int_pkts.v3,
- 					cpu,
- 					hpdev->desc.win_slot.slot,
-@@ -2546,6 +2597,9 @@ static int create_root_hv_pci_bus(struct hv_pcibus_device *hbus)
- 	bridge->sysdata = &hbus->sysdata;
- 	bridge->ops = &hv_pcifront_ops;
- 
-+	if (hbus->protocol_version >= PCI_PROTOCOL_VERSION_1_5)
-+		bridge->reset_root_port = hv_pci_reset_device;
-+
- 	error = pci_scan_root_bus_bridge(bridge);
- 	if (error)
- 		return error;
--- 
-2.56.0
+Thank you for confirming.
 
+
+Thanks,
+SJ
+
+[...]
