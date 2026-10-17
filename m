@@ -1,234 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024FE3B42F2;
-	Sat, 17 Oct 2026 03:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6441925BC;
+	Sat, 17 Oct 2026 04:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792206730; cv=none; b=WjMpABRCRN/x2M01AL6yVFKoiBuVsC70zk20JQ7PXvQg2KpUGZQbzT9J9evDLOxM1SE1wC1+Wl0vNIOtaLI+dSvCfzQhVsuWzc65Ox0YNCNnUOfD0ZtVFBN9rG2YIQqN216ADGZmBDisQ1hjCJpT1xqTmo96rxXF86c3mUkCpmQ=
+	t=1792210980; cv=none; b=Bxt0XP3Cd986/nAOw+sqx26ERPmgIZgUu3vMyxLYY5DjFPTJgo6VSO+PWSwEei9O7UN4KBNXHsQES75AbfTOpGjLmKQe0udLafnlA3f+YMCYZjQmMzrKxSHS5U+9saQcTEQWKHBxXvB63XKMax0e6pblDuq7Ds1KuWXizt86W4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792206730; c=relaxed/simple;
-	bh=2B7R18j6bcZQAq0aIetlfTUxGElhT/YSCSUN6yZw/ro=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=JUVNjk+ETmAHFyikisK/hEUiaJvJrhOJiId+zxxwjn80ZcBrX2XGn5l+9+KI+P9mUj6hSWioJhII89ibuu6SWejVGtpCzHtfetAbEXfFJfaAa/z3WUXOBd8ckJGyO2Y12RVBux/SiaGnt9yW4X3HXAxB5sr4HrUxPlss1ZcQMNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=1NOOALiy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792210980; c=relaxed/simple;
+	bh=R+SpqW4MZ48QJKzzDNXKrEGl63U9IRkjWNCl0O/GHmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5k/uu/Z6itUnYFZoLvWRWSJQFcma77wZ62F3vPVB8CzhSUSpnGOe1nHb9tY4f/uhI8/a2Hc2qNR9/tYKW+tgV9pHVWrsou6+Ix3hIAx+Px/7eaTMu7YdLydZKSue1gndBdusGcpEUtV0phDw19zBwg44kxhWTssM7s5lFmnJd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=GqdIvXw8 reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="1NOOALiy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E72731F000C4;
-	Sat, 17 Oct 2026 03:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1792206728;
-	bh=Gzd6R4kXyaI9HHxLjr1N3XSpTiCwIBCoqOgIfzXjZTE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=1NOOALiy3mqY+yAiTp5t+cV2XykkM0Q53+883i9ROQbvGIqJBYaYnc4fpngT4X/XQ
-	 yP86WlnY0bZJg6va2xK2tJmnKD6bbWgVblISYHmd85mWLIe8s4tiAvppPQl8/kQl0C
-	 USfftFje4AVWndWWFQZZo1zjF+0btHvt6W2s15qA=
-Date: Fri, 16 Oct 2026 20:12:07 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Shakeel Butt
- <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Jann Horn
- <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, Daehyeon Ko
- <4ncienth@gmail.com>
-Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
- mm->mm_lock_seq overflows
-Message-Id: <20261016201207.c122f6a7e0607c31a9d9634f@linux-foundation.org>
-In-Reply-To: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
-References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="GqdIvXw8"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5F26540E03BE;
+	Sat, 17 Oct 2026 04:22:48 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id TUYCDTo08E0I; Sat, 17 Oct 2026 04:22:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1792210965; bh=kDZQQH7hqxy27MFGHbhtcoKGmXL6dyq5YBHj2HXhVsg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GqdIvXw8GTcynBcaSSC/jLrsVdzfNLOypcTTmoIwMf4sELi6zAZUEq4RUL7XO9Bdi
+	 INSw2oxapHOv8JbF1PLl5soo1PDG3N/iOeI9YwzyLwCxNz49ofvnllEmK0CH5A0Omf
+	 qhLRS+KI1XsQSIFc0G3UpzgQ8PghjJYGVchptViY07Zmc5UwyuvTkTAoZ5vxZBaGcf
+	 5mSDWvNBC6EfMgkQYfASvtkS20GTucP7ZD8b7Xguil5cuovBsJcioh8LnvPN61e8Eh
+	 VxMHFHEMn9Xe4IrDDSJECr0x474sJskG8+ZvZY+o9Q9EQjzn/iYPX6aEv14opfDXUr
+	 9W9MUV5vjCbCFhVApkXOYaI5EhZjmNMeP++uiI/BbAJ3GvG5oVIoGcvMRr2T8bWHFx
+	 QGEq9SbkwSRMkBQWykPO+OXotKuPWoo4pFHQRv6L/sf3kjsEtJTP0pQpSRIhdTGpxW
+	 hacx1YYlDs4iVyTz5UXdxbZu/pZxrJj+ED6rhLq5cbAcNOBNhO9yuwviFagaMyVFbR
+	 7SqDUlNhzLELw24/JqoPGRxXkDhAg3D4TeLaj/zOQrZKKFng+ChN8Z8pPy5v/Vsho6
+	 ixdTKO+Zns8y1Rg3Ae24/T6z0Mk0b4/ODtaBCYZHWhfGf0LpaHYp5AligPDxps8vTB
+	 1gv5ItyVg++gFtiJQrOP8WBY=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4471840E01B4;
+	Sat, 17 Oct 2026 04:22:08 +0000 (UTC)
+Date: Fri, 16 Oct 2026 21:22:04 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
+Message-ID: <20261017042204.GAatL37AhysV7BZBod@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260807055952.GIanV0WDlB9-eP9VdV@fat_crate.local>
+ <CAG4KcRJcpLREkbmOEEw7nGD+_PNOd+fWHkODqfWo1M8hmxA_Bg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAG4KcRJcpLREkbmOEEw7nGD+_PNOd+fWHkODqfWo1M8hmxA_Bg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 16 Oct 2026 12:34:33 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Sun, Aug 09, 2026 at 05:21:35PM +0100, Shiju Jose wrote:
+> > +static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx=
+ *ras2_ctx)
+> > +{
+> [ ... ]
+> > + if  (ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
+> > + ras2_ctx->od_scrub =3D true;
+> > + ras2_ctx->base =3D ioread64(&ps_sm->params.actl_addr_range[0]);
+> > + ras2_ctx->size =3D ioread64(&ps_sm->params.actl_addr_range[1]);
+> > + } else {
+> > + ras2_ctx->od_scrub =3D false;
+> > + }
+> > +
+> > + return 0;
+> > +}
+> Does this logic misidentify a pre-existing background scrub as a demand
+> scrub?
+> If the platform firmware has background scrubbing enabled prior to driv=
+er
+> initialization,
 
-> So far the assumption has been that mm->mm_lock_seq overflow is benign,
-> resulting only in readers spuriously falling back to the mmap lock, however
-> it turns out that this was an unsafe assumption.
-> 
-> If a VMA can be spuriously considered write locked that means read lock
-> exclusion does not take place, and thus a VMA can end up write-locked with
-> concurrent readers.
-> 
-> Since overflow only occurs every 2^31 write lock/unlock cycles, resolve the
-> issue by resetting every VMA's vma->vm_lock_seq each time such an overflow
-> occurs.
-> 
-> This is done in vma_end_write_all(), which is called when the mmap write
-> lock is released, i.e. in mmap_write_unlock() and mmap_write_downgrade().
-> 
-> Care must be taken, as resetting the sequence count at overflow means
-> changing the seqcount of VMAs which are already attached and observable.
-> 
+First of all, when and how can that even happen?
 
-Updated mm-unstable, thanks.
+How can it happen that the platform has enabled background scrubbing befo=
+re
+the driver loads?
 
-> Fixes: 5e31275cc997 ("mm: add per-VMA lock and helper functions to control it")
-> Andrew - no stable tag please.
-> 
-> I will do the stable backports manually, they can be solved with a different
-> approach.
-> 
+And if that behind the driver enabling is legitimate, the driver should l=
+oad
+and ask the hw what scrubbing is currently enabled and mirror that in its
+internal structures tracking those settings, right?
 
-Wilco.  It's a little unusual - we'd normally add the cc:stable and
-wait for -stable people to say "hey this needs rework".  But if the
-upstream patch happens to apply to the -stable tree then yes, that
-would be a problem.
+I haven't looked in detail yet so perhaps you're doing it already. I need=
+ to
+clean up that code first, though, because it is very hard to read.
 
-> Also, since, we're so close to the merge window I'm applying this against
-> mm-unstable.
-> 
-> So I think it's fine to just send it (early :) in the merge window.
+> ioread32() will read RAS2_PS_FLAG_SCRUB_RUNNING. Because
+> the driver's internal bg_scrub state is initialized to false, this assu=
+mes
+> the active scrub is a demand scrub and sets od_scrub =3D true.
+> Would this prevent the user from controlling hardware memory scrubbing =
+via
+> sysfs, since writing to enable_background might return -EBUSY and
+> writing to enable_demand might return -EOPNOTSUPP?
+>=20
+> Shiju:  This is not a valid comment.
+> Please find a description from the spec.ACPI spec 6.5 RAS2
+> Table 5.87: Parameter Block Structure for PATROL_SCRUB:
+> Flags (OUTPUT) : The platform returns this value in response to
+> GET_PATROL_PARAMETERS:
+> Bit [0]: Will be set if memory scrubber is already running for address
+> range specified in =E2=80=9CActual Address
 
-Yeah, I'm adding late-arriving backportable fixes into the second-week
-pile.  21 cc:stables in there so far...
+Which memory scrubber? The background one?
 
-> v2:
-> * Updated comment in vma_seqcount_is_write_locked() to mention the VMA
->   being attached.
-> * Renamed reset_vma_seqcounts() to __mm_reset_vma_seqcounts().
-> * Used acquire semantics in vma_start_reads() to avoid race with reset -
->   there is another acquire immediately after this one so it should just be
->   noise perf-wise.
-> * Removed stable tag, will do the backports manually (just make the value
->   64 bits...)
-> * Updated comments to reflect changes.
-> * Added user-facing effects as per Vlasta ;)
+> Range=E2=80=9D.Bits [31:1]: Reserved, must be zero.
+>=20
+>  ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING
+>  ACPI spec 6.5 RAS2 Table 5.87: Parameter Block Structure for PATROL_SC=
+RUB
+>   Field: Flags (OUTPUT): bit[0] - returns status for demand scrub only,
 
-Here's how v2 altered mm.git:
+You lost me here. Where is that stated in that table 5.87?
 
+Confused just like the AI :)
 
- Documentation/mm/process_addrs.rst |    6 ++--
- include/linux/mm_types.h           |    6 ++--
- include/linux/mmap_lock.h          |    4 +--
- mm/mmap_lock.c                     |   33 +++++++++++++++------------
- 4 files changed, 27 insertions(+), 22 deletions(-)
+The rest later.
 
---- a/Documentation/mm/process_addrs.rst~a
-+++ a/Documentation/mm/process_addrs.rst
-@@ -827,9 +827,9 @@ is odd, then the VMA is write-locked. If
- A VMA's sequence count is not updated on unlock, so after 2^31 write lock/unlock
- cycles the mm sequence count would wrap and match stale VMA values again. To
- prevent this, when the mm sequence count wraps to zero,
--:c:func:`!vma_end_write_all` invokes :c:func:`!reset_vma_seqcounts` to reset
--every VMA's sequence count to zero, an even value which can never indicate a
--write lock.
-+:c:func:`!vma_end_write_all` invokes :c:func:`!__mm_reset_vma_seqcounts` to
-+reset every VMA's sequence count to zero, an even value which can never
-+indicate a write lock.
- 
- Each time the mmap write lock is released in :c:func:`!mmap_write_unlock` or
- :c:func:`!mmap_write_downgrade`, :c:func:`!vma_end_write_all` is invoked which
---- a/include/linux/mmap_lock.h~a
-+++ a/include/linux/mmap_lock.h
-@@ -554,7 +554,7 @@ static inline int __must_check mmap_writ
- 	return ret;
- }
- 
--void reset_vma_seqcounts(struct mm_struct *mm);
-+void __mm_reset_vma_seqcounts(struct mm_struct *mm);
- 
- /*
-  * Drop all currently-held per-VMA locks.
-@@ -577,7 +577,7 @@ static inline void vma_end_write_all(str
- 	 * seqcount so that no stale value survives the wrap.
- 	 */
- 	if (unlikely(!mm->mm_lock_seq.sequence))
--		reset_vma_seqcounts(mm);
-+		__mm_reset_vma_seqcounts(mm);
- }
- 
- static inline void mmap_write_unlock(struct mm_struct *mm)
---- a/include/linux/mm_types.h~a
-+++ a/include/linux/mm_types.h
-@@ -992,9 +992,9 @@ struct vm_area_struct {
- 	 * Can only be written (using WRITE_ONCE()) while holding both:
- 	 *  - mmap_lock (in write mode)
- 	 *  - vm_refcnt bit at VM_REFCNT_EXCLUDE_READERS_FLAG is set
--	 * The one exception is reset_vma_seqcounts(), which stores zero (an
--	 * even value, which can never indicate a write lock) under the mmap
--	 * write lock alone once the mm seqcount has wrapped, so a reader
-+	 * The one exception is __mm_reset_vma_seqcounts(), which stores zero
-+	 * (an even value, which can never indicate a write lock) under the
-+	 * mmap write lock alone once the mm seqcount has wrapped, so a reader
- 	 * holding only vm_refcnt may observe the value change from odd to zero.
- 	 * Can be read reliably while holding one of:
- 	 *  - mmap_lock (in read or write mode)
---- a/mm/mmap_lock.c~a
-+++ a/mm/mmap_lock.c
-@@ -202,8 +202,9 @@ static bool vma_seqcount_is_write_locked
- 		return false;
- 
- 	/*
--	 * The VMA seqcount is always odd if locked. An even value can only be
--	 * the zero stored by reset_vma_seqcounts(), never a write lock.
-+	 * The VMA seqcount is always odd if locked. For an attached VMA an even
-+	 * value can only be the zero stored by __mm_reset_vma_seqcounts(),
-+	 * never a write lock.
- 	 */
- 	return vma_seq & 1;
- }
-@@ -268,17 +269,20 @@ static struct vm_area_struct *vma_start_
- 	 * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lock_seq
- 	 * modification invalidates all existing locks.
- 	 *
--	 * The only other writer is reset_vma_seqcounts(), which stores zero
--	 * (even, so never a write lock) after the mmap write lock's seqcount
--	 * has been released and before any new write lock can be taken, hence
--	 * the READ_ONCE().
-+	 * ACQUIRE semantics are required for both reads.
- 	 *
--	 * We must use ACQUIRE semantics for the mm_lock_seq so that if we are
--	 * racing with vma_end_write_all(), we only start reading from the VMA
--	 * after it has been unlocked.
--	 * This pairs with RELEASE semantics in vma_end_write_all().
-+	 * __mm_reset_vma_seqcounts() might reset vma->vm_lock_seq to zero
-+	 * after an overflow. A reader observing that zero must also observe
-+	 * the VMA modifications made under the write lock which just ended, so
-+	 * the ACQUIRE pairs with the smp_wmb() in do_raw_write_seqcount_end()
-+	 * that precedes the reset stores.
-+	 *
-+	 * The ACQUIRE semantics for the mm_lock_seq read is required so that,
-+	 * if we are racing with vma_end_write_all(), we only start reading from
-+	 * the VMA after it has been unlocked. This pairs with the RELEASE
-+	 * semantics in vma_end_write_all().
- 	 */
--	vma_seq = READ_ONCE(vma->vm_lock_seq);
-+	vma_seq = smp_load_acquire(&vma->vm_lock_seq);
- 	mm_seq = raw_read_seqcount(&mm->mm_lock_seq);
- 	if (unlikely(vma_seqcount_is_write_locked(vma_seq, mm_seq))) {
- 		vma_refcount_put(vma);
-@@ -496,9 +500,10 @@ fallback:
-  *
-  * The stores below follow the smp_wmb() in do_raw_write_seqcount_end(), so
-  * a reader that observes a reset value also observes this cycle's VMA
-- * modifications (ordered by the smp_rmb() in raw_read_seqcount()).
-+ * modifications (ordered by the ACQUIRE on vma->vm_lock_seq in
-+ * vma_start_read()).
-  */
--void reset_vma_seqcounts(struct mm_struct *mm)
-+void __mm_reset_vma_seqcounts(struct mm_struct *mm)
- {
- 	struct vm_area_struct *vma;
- 	VMA_ITERATOR(vmi, mm, 0);
-@@ -524,7 +529,7 @@ void reset_vma_seqcounts(struct mm_struc
- 	for_each_vma(vmi, vma)
- 		WRITE_ONCE(vma->vm_lock_seq, 0);
- }
--EXPORT_SYMBOL(reset_vma_seqcounts);
-+EXPORT_SYMBOL(__mm_reset_vma_seqcounts);
- 
- #ifdef CONFIG_LOCK_MM_AND_FIND_VMA
- #include <linux/extable.h>
-_
+--=20
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
