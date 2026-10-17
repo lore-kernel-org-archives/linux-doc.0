@@ -1,337 +1,179 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119681DF748;
-	Sat, 17 Oct 2026 00:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54191302CD5
+	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 00:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792197102; cv=none; b=py0Fj+jJyH7I9DWa1pc23GGaFYelsk9PDhD4pEdiri9lOSAuhPZYYwOsy0+eD31quqJxrXZ4hD6hajP2nRCziykCrO8TvliNkWZTM3VL/7wz1ibIyc22o4CFchv6yUYEkeZHuwarkwSA53ySaXZbJFpaOsTWQrxbthah8efHyEw=
+	t=1792197287; cv=none; b=fLULYoe5oawNE9yPMd/g+D4UFebUXyl5SFtP3e+V7Coaj2OMY70vLqqjKc1+QiBJs4uNTCkhXWaprz8HSJPNo5WwxMQqX+UwBvVh+P5OlmF24epckpWsbHujIbt0LS9MrPFdAJcuFUrW8FrbTTfr/1BowwdPgwjs7hgfBkLfFlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792197102; c=relaxed/simple;
-	bh=xHmRw2cRQagCKkS8PJSihbgYajdbuGTI060lbUJ2Oyk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WD0S7vyFKQ3Hu4oyGaguUM9L79pWBVg5HM2Z1mGiIQLDk2UpCvhLIwAUeAr01awVoi7JaFZFS4E38PJvv51sv71OAxdq0ZSJczeADbBB4A/oSPcH0v/w4oh7JPvji6V8sg3h42rYiJCiuo+3FiMs9EJxRfMsCuMdsvX8GXrVTTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=VyCBASqu; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1792197287; c=relaxed/simple;
+	bh=Sdv7CtUWrHDpWs7HDwx2mV6IO/EUxee2clEbWUOToFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ox+PZNyJ9Rtwtj7M6C17EIDd07N0p5yLB7rlbUTbXeRMc2oaHrBJOtbX7s96lmZuHDmPsd1h4rS9q8lRaTQNW5J2jJ3aI0wp6Dm9n5jYayY9qNgyBrwBdJmlEybmHG7prMphETJJ2opnROFVhjb4y2wHGfy5ulXD4SaYNip13q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Vqh+tUUm; arc=none smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="VyCBASqu"
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69GNFjUY611926;
-	Fri, 16 Oct 2026 17:31:14 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=zby02wAL5TpiWDd6bifHL/lm8nLGoWYVqnELw
-	eQC2EM=; b=VyCBASquBzYKAzjY1W+65UoYOmwFqsxOYxfxIAN8L1KsSHDC2YgK4
-	D+v0gY+gDeGF21MY4LW/PHxo/9W7FEnIf5qFQdEvvc4xLhdh/yQ15eAlga/AK4Ak
-	bnxXyFPAXOl8e+JKAyFVl3wAj4e418pg2LrfyIDlMcrlOP6rGohIDyMumo7iYB9I
-	XqE47CR2YXmQz8/jG+JopknlSqORe1L8ghhfsdm8Y7bUIamWtn2OFkuGGaV2VvOd
-	Sa9tXXKIfgNMOM1rST0Tu7ayMPUw79qmpStrw0rcfkKEj4VdCzl0h9R/8g0LG1vO
-	3aXCmAKC8nkYAIgCO1l28nLfqSddXLrJQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4hb52n271a-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 16 Oct 2026 17:31:14 -0700 (PDT)
-Received: from localhost (2620:10d:c0a8:fe::f072) by mail.thefacebook.com
- (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.49; Sat, 17 Oct
- 2026 00:31:12 +0000
-Date: Fri, 16 Oct 2026 17:31:11 -0700
-From: Bobby Eshleman <bobbyeshleman@meta.com>
-To: <netdev-bot+sashiko@kernel.org>
-CC: <sgarzare@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
-        <skhan@linuxfoundation.org>, <stefanha@redhat.com>, <mst@redhat.com>,
-        <jasowangio@gmail.com>, <xuanzhuo@linux.alibaba.com>,
-        <eperezma@redhat.com>, <shuah@kernel.org>, <rdunlap@infradead.org>,
-        <donald.hunter@gmail.com>, <edumazet@kernel.org>,
-        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <sargun@sargun.me>, <jlinbox@meta.com>
-Subject: Re: [PATCH net-next v3 4/7] vsock: add a netlink command to assign
- the g2h device to a netns
-Message-ID: <atLBzxk7MKIfjcOV@devvm29614.prn0.facebook.com>
-References: <20261012-vsock-guest-ns-v3-4-b32447c66b23@meta.com>
- <179193191574.434549.17107426250790354528@kernel.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vqh+tUUm"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-35943f55c06so638727eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 17:34:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1792197285; x=1792802085; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KsjFJvXudSwXdcgN7c4k2FLE+FzpOd2OfS6oolBJa/8=;
+        b=Vqh+tUUm1X/c5ImFWpyEZ7/5xpZ/yVUTPtG/RW8YI35G6i23yUUgWTypnXNwJgtBYZ
+         31EH4N/myhFL/uDcfnb+JNsb2S5Ei+2LtBzvdEsAJUxnqZn9ePvHXkbIa/ncwJ/q4xAU
+         bkXeFSaUBSUemGKoVOibHNJ8mpOaP0cygsD0Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792197285; x=1792802085;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=KsjFJvXudSwXdcgN7c4k2FLE+FzpOd2OfS6oolBJa/8=;
+        b=qt+/n1JWh70Ui0Jp8oUnPO9QoI7D/QBIlbJ5UtJOu2oSTygWGb2sm32Ts65dCHgfmU
+         9wO4saGsXRnjyZjTEyzQocmCTer73ulub29oZ+W3mq0yuociPHjbvvg8634USMUWuwry
+         QDV0XO2xlkV8J4crH199C14L39JKf9z1xWSOGfdUsXpRXz7EyGw8mek2/esFB3tWElN7
+         N4PjlZKdetoxWGupDQQWUSULqVg3ckcxdnq7/SIYgXEnesPvzQsH5FNYKN5a9EZpRezf
+         prpzt0qlXOIHTwuhfGU10U4+eOtBPvzjBRRm7RkWTLdwATX0qVIoOg8GmzuUiayy5xqS
+         Q/GQ==
+X-Gm-Message-State: AFq9FYLndAFnKT8YAeZ+sKGqRdtBmSgInNAgS0LhmJoponp+8WhvFM6+
+	VqLlL9J5XM5ge7XnQr/xdgFdrDPqYSYJBWTbhEDLVnRh7xUEaZY9aIwAofoyXdnsVA==
+X-Gm-Gg: AYBFou3ET3pozyh37WT1pCZ9jHn9MAE2IET+BQyeIhL4x6WyMKxKX7BgHLFreEMRFLA
+	LpNzwCuvefzNDUnymxyAoX8n6wVD7B4aSZx7XYE41UX/dNfcgYQsPehcdrR1aWkzB7PJ5bg5gtE
+	MXi6kw2+P2ormNvni/DnBsKXMyGVa8Jr7neV99g+XiqLBLB8ba7Lq7UatmrWCC+zdIDFhPcuCXa
+	fW+X7We8Az1+G/IhhuN6Rsfmy7mxORFJBGAOPxbfjoJ2LHApCTsfftvF78/6HSyIhDNtUp0fql0
+	uv9f1uhIMp19u8EmKJ3vcFA2YaEbvYhKCobYkDmK4Xvhm0N7+6BiGyTT6NeabZFLplBQLNcOLuR
+	LMFQcXq8C0YW+vuNg6intPAwd5smHRH5LRTCr+nodMBiXDz4UZtH/n1XJLS5w9jaIQf/ZmSLK5f
+	ScJ8nYbmeb3iln4cS8ulyLnEarHufGUtitoC1SgxH8sy0oYB4WsuQVTGtIDGs98aZA1JIRj9WBu
+	tqcN6pc5qdeX2ako+E+yBqdYbeaN0Q1Wes0
+X-Received: by 2002:a05:7300:dd0b:b0:361:a195:c46e with SMTP id 5a478bee46e88-361a195c51cmr1438547eec.1.1792197285163;
+        Fri, 16 Oct 2026 17:34:45 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:d542:736d:a85:f140])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-36082b8573dsm9819489eec.25.2026.10.16.17.34.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 17:34:43 -0700 (PDT)
+Date: Fri, 16 Oct 2026 17:34:42 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
+	Ulf Hansson <ulfh@kernel.org>
+Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
+Message-ID: <atLCom0YznHV8U6D@google.com>
+References: <20261001155118.1750028-1-briannorris@chromium.org>
+ <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+ <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com>
+ <as_i5MEz3WfnDQmf@google.com>
+ <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
+ <atE9urIHXAJZXu6k@google.com>
+ <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
+ <CAJZ5v0gNQqffxcdzWff=z3hi0BXzJBOV6WKgf6RXuOydzQJQMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <179193191574.434549.17107426250790354528@kernel.org>
-X-Proofpoint-GUID: rYRV4izQldbowqQDpsQbkvqZ4Wxxf07w
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE3MDAwMSBTYWx0ZWRfX1H+Z4ndQMHwb
- K3Oc9Y4lMwR1a2odi/8d/9MrN6pu09uo9sJ+Y99BsJHcP3olrukV8IlS/dn8oNfEabf2OuU/8hX
- EYErk/hpIfRhqwJpqr9B3S6ZYOjhHRyKHcvFbigPUH31YE08LqHARDGL8dQHHlPosnUSN6aOGR0
- F/SQDaIhzJqY2fzyLuYPTFhwFpiYO/xMGjPeKpCxvGmIoYOBW+K60l2x3Up+gf7Bn0rX5Dqhy4r
- da4bQLUeOPNoO76SB/x3kwUbs01zAl/9LFDtUiB/fVH2IzpoQQ63Zp5nwxu3FTFEBXSIJ1OFeh1
- QSOzr/ulGng1KM9F359UaJpe4Na5TrQyOcZMDrvx9zzgu1dcgp+4cGlAwK1fRuCSjRWEmNHz6X7
- +n9/YNAMOlmKqu6v9aRwANa4crIIrb/uboxNYRj7TauEQOsAHMSPS5WUQLJnaljoAqRviEx1hrQ
- vG6PSvdm4VtVbvsh2eQ==
-X-Authority-Analysis: v=2.4 cv=KNrPn1Fo c=1 sm=1 tr=0 ts=6ad2c1d2 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=8nJEP1OIZ-IA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=7x6HtfJdh03M6CCDgxCd:22 a=855S8uPTkML1Oy45N9_h:22 a=VwQbUJbxAAAA:8
- a=9R54UkLUAAAA:8 a=VabnemYjAAAA:8 a=zjU2S2RF1nsdpTlKO_gA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=YTcpBFlVQWkNscrzJ_Dz:22 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-ORIG-GUID: rYRV4izQldbowqQDpsQbkvqZ4Wxxf07w
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE3MDAwMSBTYWx0ZWRfXzTs+hVolHVn8
- a0qQgW5jauiNKbTZAa2LoUcTsLH2vk6afuzGrJ8JYWqUUa5vG0V3UrKArMwXeZHtXFqzcuE4CgD
- cp2vD48U1/u2le2l7Zh4jUI8uO0kpA8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-16_04,2026-10-14_01,2025-10-01_01
+In-Reply-To: <CAJZ5v0gNQqffxcdzWff=z3hi0BXzJBOV6WKgf6RXuOydzQJQMw@mail.gmail.com>
 
-On Tue, Oct 13, 2026 at 10:51:55PM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 4 potential
-> issue(s) to consider.
-> 
-> Critical: 0 · High: 0 · Medium: 2 · Low: 2
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [Medium] Take a namespace that cannot reach the assigned G2H device, on
->   a system with vhost-vsock (H2G) and vsock_loopback loaded.
-> - [Medium] `vsock_g2h_reset_unreachable()` in net/vmw_vsock/af_vsock.c
->   resets sockets without lock_sock() while the device stays live.
-> - [Low] No in-tree transport sets the new capability at this commit.
-> - [Low] `vsock_g2h_net_assign()` in net/vmw_vsock/af_vsock.c sends the
->   success reply before it commits the assignment.
+Hi Rafael,
 
-pw-bot: cr
+On Fri, Oct 16, 2026 at 08:05:12PM +0200, Rafael J. Wysocki (Intel) wrote:
+> On Fri, Oct 16, 2026 at 7:42â€¯PM Rafael J. Wysocki (Intel)
+> <rafael@kernel.org> wrote:
+> > On Thu, Oct 15, 2026 at 10:55â€¯PM Brian Norris <briannorris@chromium.org> wrote:
+> > > On Thu, Oct 15, 2026 at 10:11:04PM +0200, Rafael J. Wysocki (Intel) wrote:
+> > > > On Wed, Oct 14, 2026 at 10:15â€¯PM Brian Norris <briannorris@chromium.org> wrote:
+> > > > > On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (Intel) wrote:
+> > > > > > On Thu, Oct 1, 2026 at 5:51â€¯PM Brian Norris <briannorris@chromium.org> wrote:
+> > > > > > >
+> 
+> [cut]
 
+[ Thanks for the earlier clarification about PM domain. It helps me
+  understand where you're coming from. ]
+
+> > > I kinda think the point of most of this power domain architecture is
+> > > that a typical driver just doesn't have to worry about it at all (in
+> > > probe(), and if you use runtime PM properly), so I'd prefer not
+> > > mentioning it in the Basic example. But sure.
+> >
+> > Well, your basic example needs to be put in a certain context because
+> > it may not be generally applicable everywhere.
+> >
+> > I think that you should make it clear what the driver's expectations
+> > regarding the physical state of the device at the probe time are and
+> > the general rule is that it is better to leave the device in the same
+> > state in which it is expected to be found next time.
+
+Ack, will do to the best of my ability.
+
+> To be somewhat more precise, if the driver expects to find the device
+> completely off and the runtime PM callbacks are set up to make it
+> operational, runtime PM can be used to power it up in probe:
 > 
-> --
+> /* Assume the runtime PM status to be "suspended". */
+> pm_runtime_enable(dev);
+> pm_runtime_get_sync(dev);
 > 
-> vsock: add a netlink command to assign the g2h device to a netns
+> but then in remove or on probe errors the "power off" state needs to
+> be restored manually:
 > 
-> This patch adds a vsock generic netlink family with two commands.
-> VSOCK_CMD_DEV_NETNS_SET moves the guest's G2H vsock device into the
-> caller's network namespace, and VSOCK_CMD_DEV_NETNS_GET reports where the
-> device is. After a move, connected sockets that can no longer reach the
-> device are closed with ECONNRESET, and the assignment holds a reference on
-> the target namespace.
+> pm_runtime_disable(dev);
+> /* Allow the parent and suppliers (if any) to suspend. */
+> pm_runtime_set_suspended(dev);
+> device_specific_power_off(dev);
+
+That's ... precisely the second example, "Probe with Hardware Powered
+Off". It's couched more in my non-ACPI background, but it's the same.
+And it mostly avoids pseudocode, so it should be a bit more clear than
+the "Basic Probe" we've been talking about.
+
+But there, I still propose that the main distinction is about what work
+needs done in the driver in question. The PM domain is still mostly
+irrelevant to the driver writer, except perhaps in the language I use
+about "on", "off", "operational", etc. And yes, sometimes that means the
+work needed to "become operational" is minimal/empty; but that seems
+like an obvious reduction from "do what's needed to power on" (nothing)
+and "undo what you did on the way up" (nothing).
+
+> However, if the driver expects to find the device operational (for
+> example, because it assumes the ACPI PM domain to be there), it may
+> just update the runtime PM status before enabling runtime PM:
 > 
-> Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
+> /* Assume the runtime PM status to be "suspended". */
+> pm_runtime_set_active(dev);
+> pm_runtime_enable(dev);
 > 
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index fe43e85959583..9276479004c0f 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -529,6 +529,43 @@ their hosts. The behavior of VSOCK sockets in a network namespace is determined
+> but then in remove or on probe errors it may just leave the device in
+> its current physical state (whatever it is) and assume somebody else
+> to take care of turning it off subsequently:
 > 
-> [ ... ]
+> pm_runtime_disable(dev);
+> /* Allow the parent and suppliers (if any) to suspend. */
+> pm_runtime_set_suspended(dev);
 > 
-> > +Support is transport dependent. A G2H transport that does not implement the
-> > +move refuses the command with ``EOPNOTSUPP``. Of the in-tree guest transports,
-> > +only virtio-vsock implements it.
-> 
-> [Severity: Low]
-> This is a minor point. Is this sentence accurate at this commit?
-> 
-> No in-tree transport sets netns_assign_allow yet, so this check in
-> vsock_g2h_net_assign() always fails:
-> 
-> 	if (!vsock_net_assignable(transport_g2h)) {
-> 
-> As a result, VSOCK_CMD_DEV_NETNS_SET returns -EOPNOTSUPP (or -ENODEV) for
-> every G2H transport. The new exports vsock_g2h_net_get(), vsock_g2h_net_eq()
-> and vsock_maybe_set_connected() also have no callers yet.
-> 
-> The next patch in the series, "vsock/virtio: support guest device network
-> namespace", adds .netns_assign_allow = true to virtio_transport and calls
-> those helpers. So the mismatch only exists at bisect points between the two
-> patches. Could this sentence move into that patch?
-> 
-> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-> > index 8f34bf68f9164..e663be3bbfa0b 100644
-> > --- a/net/vmw_vsock/af_vsock.c
-> > +++ b/net/vmw_vsock/af_vsock.c
-> 
-> [ ... ]
-> 
-> > @@ -564,7 +632,12 @@ static bool vsock_use_local_transport(unsigned int remote_cid)
-> >  		return true;
-> >  
-> >  	if (transport_g2h) {
-> > -		return remote_cid == transport_g2h->get_local_cid();
-> > +		u32 cid = __vsock_registered_transport_cid(&transport_g2h, net);
-> > +
-> > +		/* The device may be unreachable from @net, in which case
-> > +		 * @remote_cid is not the local CID.
-> > +		 */
-> > +		return cid != VMADDR_CID_ANY && remote_cid == cid;
-> >  	} else {
-> >  		return remote_cid == VMADDR_CID_HOST;
-> >  	}
-> 
-> [Severity: Medium]
-> Suppose the G2H device has been assigned to a local mode namespace, and
-> vhost-vsock and vsock_loopback are also loaded. What happens in a namespace
-> that can no longer reach the device?
-> 
-> In that namespace, IOCTL_VM_SOCKETS_GET_LOCAL_CID in vsock_dev_do_ioctl()
-> gets VMADDR_CID_ANY from transport_g2h and falls back to transport_h2g:
-> 
-> 	cid = vsock_registered_transport_cid(&transport_g2h, net);
-> 	if (cid == VMADDR_CID_ANY)
-> 		cid = vsock_registered_transport_cid(&transport_h2g,
-> 						     net);
-> 
-> vhost_transport_get_local_cid() returns VHOST_VSOCK_DEFAULT_HOST_CID, so the
-> namespace is told its local CID is 2. __vsock_find_cid(net, 2) is also true
-> through the transport_h2g && cid == VMADDR_CID_HOST check, so bind() to
-> CID 2 succeeds.
-> 
-> A connect() to CID 2 then enters the transport_g2h branch above, because the
-> pointer is non-NULL. It returns false because cid is VMADDR_CID_ANY, so the
-> remote_cid == VMADDR_CID_HOST loopback fallback in the else branch is never
-> reached.
-> 
-> vsock_assign_transport() then picks transport_g2h for
-> remote_cid <= VMADDR_CID_HOST and fails at the new check:
-> 
-> 	if (vsock_g2h_unreachable(new_transport, sock_net(sk))) {
-> 		ret = -ENETUNREACH;
-> 
-> Should an unreachable G2H transport be treated the same as an absent one
-> here, so that connecting to the namespace's own reported CID uses loopback?
-> The later virtio patch in the series makes this path reachable and does not
-> change this logic.
-> 
-> [ ... ]
-> 
-> > @@ -742,8 +823,267 @@ bool vsock_find_cid(unsigned int cid)
-> 
-> [ ... ]
-> 
-> > +/* Close every connected socket of @t that can no longer reach the g2h device.
-> > + */
-> > +static void vsock_g2h_reset_unreachable(const struct vsock_transport *t)
-> > +{
-> > +	struct vsock_sock *vsk, *tmp;
-> > +	struct sock *sk;
-> > +	int i;
-> > +
-> > +	lockdep_assert_held(&vsock_register_mutex);
-> > +
-> > +	spin_lock_bh(&vsock_table_lock);
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(vsock_connected_table); i++) {
-> > +		list_for_each_entry_safe(vsk, tmp, &vsock_connected_table[i],
-> > +					 connected_table) {
-> > +			sk = sk_vsock(vsk);
-> > +
-> > +			if (vsk->transport != t ||
-> > +			    sk->sk_state == TCP_CLOSE ||
-> > +			    vsock_g2h_reachable_sk(vsk))
-> > +				continue;
-> > +
-> > +			/* If close has already been scheduled for this socket,
-> > +			 * we can skip.
-> > +			 */
-> > +			if (vsk->close_work_scheduled)
-> > +				continue;
-> > +
-> > +			sk->sk_state = TCP_CLOSE;
-> > +			sk->sk_err = ECONNRESET;
-> > +			sk_error_report(sk);
-> > +
-> > +			__vsock_remove_connected(vsk);
-> 
-> [Severity: Medium]
-> Can these writes race with the socket's own state machine?
-> 
-> Only vsock_register_mutex and vsock_table_lock are held here, and neither
-> one excludes lock_sock() holders. close_work_scheduled is read the same way.
-> 
-> The existing lockless resets, virtio_vsock_reset_sock() and
-> vhost_vsock_reset_orphans(), only run when the device is going away. Here
-> the device keeps running, so its RX path can work on the same socket at the
-> same time.
-> 
-> With the later virtio patch, virtio_transport_rx_work() checks
-> vsock_g2h_net_eq(net) for each packet but does not synchronize with the
-> swap. That patch's commit message also notes that an assign can land while
-> rx_work is draining a batch:
-> 
-> CPU1 (assign)                      CPU2 (rx_work)
->                                    vsock_g2h_net_eq(net) returns true
-> vsock_g2h_net_swap()
->                                    virtio_transport_recv_pkt()
->                                      lock_sock(sk)
->                                      sk_state is TCP_ESTABLISHED
-> vsock_g2h_reset_unreachable()
->   sk->sk_state = TCP_CLOSE
->   sk->sk_err = ECONNRESET
->   __vsock_remove_connected(vsk)
->                                      virtio_transport_recv_connected()
->                                        virtio_transport_do_close()
->                                          sk->sk_state = TCP_CLOSING
-> 
-> If an incoming SHUTDOWN or RST arrives at that point, doesn't the socket end
-> up in TCP_CLOSING with ECONNRESET set and outside the connected table?
-> 
-> There is a similar window on the send side. vsock_connectible_sendmsg() may
-> already have passed its sk_err check and could enqueue one more chunk
-> through the device after the sweep. KCSAN would also likely report these
-> unannotated stores against the locked writers.
-> 
-> Refcounting looks balanced, because vsock_remove_connected() re-checks table
-> membership. So the effect appears to be limited to inconsistent socket
-> state.
-> 
-> [ ... ]
-> 
-> > +static int vsock_g2h_net_assign(struct net *net, struct sk_buff *msg,
-> > +				struct genl_info *info)
-> > +{
-> 
-> [ ... ]
-> 
-> > +	ret = -EMSGSIZE;
-> > +	hdr = genlmsg_iput(msg, info);
-> > +	if (!hdr)
-> > +		goto unlock;
-> > +	genlmsg_end(msg, hdr);
-> > +
-> > +	ret = genlmsg_reply(msg, info);
-> > +	msg = NULL;
-> > +	if (ret)
-> > +		goto unlock;
-> > +
-> > +	old = vsock_g2h_net_swap(net, &old_tracker);
-> > +
-> > +	/* See vsock_maybe_set_connected() comment about synchronizing with
-> > +	 * connecting sockets.
-> > +	 */
-> > +	vsock_g2h_reset_unreachable(transport_g2h);
-> 
-> [Severity: Low]
-> Is this ordering intended? The success reply goes out before
-> vsock_g2h_net_swap() and vsock_g2h_reset_unreachable() run.
-> 
-> This means userspace can see VSOCK_CMD_DEV_NETNS_SET succeed while
-> vsock_g2h_net still points at the old namespace and the established sockets
-> there are still open. Those sockets' send and receive paths take lock_sock(),
-> not vsock_register_mutex, so the mutex does not hold them off.
-> 
-> The move also depends on the reply being delivered. genlmsg_reply() does a
-> MSG_DONTWAIT unicast, so if the requester's receive buffer is full it
-> returns -EAGAIN and the swap is skipped. Neither the commit message nor the
-> docs mention this failure mode.
-> 
-> Could the swap and the sweep run first, with the reply sent after them?
-> 
-> -- 
-> Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261012-vsock-guest-ns-v3-0-b32447c66b23%40meta.com
+> These are two distinct cases that are rather hard to cover in one
+> simple example.
+
+To me, this case is barely different than my existing "Basic Probe"
+case, except that the "/* Power on and initialize hardware registers... */"
+(or "foo_initialize()") is empty, and so the setup and teardown becomes
+smaller.
+
+So I still think my first 2 example cases are perfectly sufficient to
+cover what you're talking about. I can just improve a bit of the
+language and clarity w.r.t. the things you've mentioned. For example, I
+can clarify that the driver might need to power on resources or itself,
+or the PM domain might have done that for you -- regardless, one needs
+to tear down what they set up (which is nothing but the
+pm_runtime_set_[status](), in some cases).
+
+Brian
