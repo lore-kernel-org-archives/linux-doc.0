@@ -1,131 +1,353 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A913876A1
-	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 01:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792202190; cv=none; b=Ix+XPg5uKWm1RLSkl6J8caCZe3wsLDEG0Mh976yixFlmIY8QZeIspkVoJLYuyqDPJDRdRiKOMzSOaSAifHyAz3fS/VG/NnLnK84XmCqSWAXjR0iMSEim3qSCowACMXBaai7WP59UaAh8MAilbScS+s/Xec163F7In1RWtmKffRE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792202190; c=relaxed/simple;
-	bh=XzDXuW7sU8rtcOd5zk/hMQc5CYYT30++tB7FfX76MzY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s9paTMFaxKh5DZtxi0iB/uX6bg1VNfVUZAgSfiNJcnx4A+knOqxnZm4Tm41+hq8fDDtAQOyjyZ3HjkV22MKtb1xo/PLlTORtjVTJYKHKdEEKtvcWpEknIrgJDRu94ilrvs2/vgxQnZtDYRgKlQDugALqLNo0bPAwHe2+1e2HZwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fszfe2zc; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246138F630
+	for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 01:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792202381; cv=pass; b=nHUNSlw9vc4abaxd1nUziG6J4rpJ0sMqvwenrEtQJ295+XuX3Fkz7IixE5hnZ+yOPg1PYFg+l6vGTNCieyP2l2WrA2+4L1UooPwo8F2kt2Ga+8CPAMAG1SbgaRDCIcwtz70W7SZ0kr7E/t7MoQdp1s2uB7DE2pmnkb0hmDONlnI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792202381; c=relaxed/simple;
+	bh=lluafLLQeeo2AuTO+6C62Oie8+3t2kap/gM/nsFIWHw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ksHgMyunFvct1IrkThpJOWMnmLFBZWkT5UsQqI3QNNkmzXuuqfNXoLpwfli36EELFMPU5jsogy2H7h0CLBftZZCmb2MNPIZmivHx+vLWI6EhtwgmXlkPiD0P5ERZXpm3gJLYvnz73N0jL5YnyqdIfUD6pyhjxPqrHvwdCHwsQa0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPZGLQM9; arc=pass smtp.client-ip=74.125.224.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fszfe2zc"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8ab3d3c5761so4172567b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:56:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPZGLQM9"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6798d4ab549so591321d50.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Oct 2026 18:59:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792202379; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ij0XPVOFR56MnWlL3OTIR1UdwF9mFHEp52VcarmqgsYvArHII6rse6QnBjqjX0ne/E
+         rdO3uREhYSd826dIo1nkzTgxFlEoGxwjEjWeDtU4ltXYxoGoYCZpAJaYrM3q5Y81ocrj
+         TrpZnJeuaNFs6Db4MOz8uidp55N7HwOobPkudJk4U88rRfqRqDU9bRBEs3RUMDmKU6Cj
+         HgVRkjFJnQCTqHoNNMfo4X0zqUAnBcwWUFomyz2YidUT7rUgDqV/azVbZMTbjTgZT7a4
+         8BOnocV+l7CrvXS1cq4hBaXybskT7DmySHOLFEZzzUEOzq6k5h8dJ2sUK+Gb5kwNSZUx
+         K4ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cG9ATYqMl/y18XgW8djL6SHSrSp+vtak/e3H6LudwE4=;
+        fh=oQFGnXcHt/QFAHf0AsHTB5Uz5Qw+kjkoxUV58rZmaUQ=;
+        b=S6qvR12xCMYBXRbl/PMpipjiqAQDVxOHdRBgJrwH7ZO9fLCR5QDnJrmleFOKxsWwRo
+         enDPNjCiwRM2HeMev60D6jH4Axa13nZijtYkG3Rs3/OwdncYbMelH+JKIw1mRYGJ4KSe
+         9T1j9uQMMomdX94ygCoz/3geuVhstos11cfDS4zc7h58WAYCaFGDedDs7n/93kJJyFgK
+         M2kExlm4jwAxJYQ3diSCjVwV54W8rr/RX/7JLO+WjufD5i3ac6rhO32ahU6Nt6qQJxOK
+         A67GID98xoaR8if5WFIFL+HDkFg58I5Jbbwz56atd3y+1k0la6bkkI2VHye/76A11Ji6
+         PhiA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792202188; x=1792806988; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5yiDiU01DIEHMV3YQU+fkAajpEqVu8gHxIrnBDEjtWE=;
-        b=fszfe2zciNvw1YmntPOInLymoB+tMNGzPmjy4p4YTPNaKj27mrpWYth7eDjakjO1oX
-         14RrqzeMloREl1DbjtrfiePVg8p+TRyGAVALDHAPvpr4KqlGLXlxRQ2mTACHEQ4ai8o+
-         +LVr84QnKnt4OzF2ir+yiVoxWApplo0wNoDKpzBZuOmi9p5fYl/UDUFAaXmGIwnNiGYm
-         nNqF/EGMJbaB2bB39shiSqd02sm69e72pP0Twq5rKX3x6koWIHRZs7wvPEEXjx/GGvsw
-         uMJVWpdoBJmetjd2bL3UvzZIzv7xKZum3oHPESlNa9EVl77N8L3elAzea/4cqagO+jjV
-         pdGg==
+        d=gmail.com; s=20251104; t=1792202379; x=1792807179; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cG9ATYqMl/y18XgW8djL6SHSrSp+vtak/e3H6LudwE4=;
+        b=YPZGLQM9LKK/sxC85q17uyigRrGtvxhPcpSLKIAly4iq+NQE1ZodPwjHZYI1nQK9+P
+         +2bKE8HTE27u2O2gCIEqH1K3/U/Sqnos4GDnIyods0zlBdT8IXuP2zdvdPPBfyS/EjMW
+         mtBAj5gleW1uDAmJ/PGyjtzMyRO/Z2chB9V1U+vrOPdHYMNRwrbcJ7jq4XxAg7rf7Q95
+         p9ALwuShLefRlAgk0dLN0nrxXkSm0yRLSPlO75N9Mo9lsj+AMitjaZElI/oCtQtToUYH
+         I6aKZe4fsOpFgljzH7Rct4sdYmll6UVXKmbX10IdWSXkksd12knxvKALHKuMJkNJJyUp
+         rdDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792202188; x=1792806988;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792202379; x=1792807179;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5yiDiU01DIEHMV3YQU+fkAajpEqVu8gHxIrnBDEjtWE=;
-        b=UOr9ZUbz3EeSGmlOQa5xmDOTaA3v3Su9yeMYsOVE1EtjANrVc3LsiYrXokOrmFYD9L
-         OIJvOZlsMmk0nyt+9F54HZFDuAjGZH8JyPIOmMkR5v2Qq88DTxaiJwFmyb8EtOleXxno
-         SsCgBmH6gm8jnUTeN0L3VUOzJRbpmSGRSdZkPdysW7FVhfj8NwIGNo33DDSHx0SXHaVp
-         qA3bUi0FzwZ/2b6pC4VZklhvW1kKqQzx+ShwxVP9Og51qmwFLmPqfk3Qnr9DH5fS/Wrt
-         3iTwmDVayNaj0kCLRuEi9JJ/KCOggkwCyFp71eADo5JbHzsEcvIcVu2DFhujv8FlyVO6
-         8Ltg==
-X-Forwarded-Encrypted: i=1; AKwUvBz6SUZQVIkPj82hFIuCCy3JyLYGZRcYZ2ZRhbNw/wy3Pdxd9A8Ftj1NKcgElfTklMxe6XboN9btIyY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI8OpzviU1O3Gc+d6rg6IZkxJFpYDmFBX/z+Wo3hvIBFQpRGY8q
-	ZVwNG5ajLEXRbEe2eQS7B8TkERfA7TdBjarwXO+fqdTSObYLc1joVh5X
-X-Gm-Gg: AYBFou16sJ7vvYzj+GoIBnPG4j2elnwnW43P6sOkf31m1YmR2uUULqa8ZHkdxbmqusy
-	FxqPntSi6ufG+zJtnq00JtUgiED6TSxBLa19bYdsKA0wyEFuAZBqJ6BH0rL9rynNsoTsyln/grT
-	Zd7vkWgNXdNeSlS76GHZZSvXndarYSwdcIoTouSUbbi8BcEBOZulzxAOVGSPmH9fKLprHYrqmhQ
-	2sj2d+qHL71KHfcaehmNizlT31emq29V+aWUbvkalFdP9LJ0L1SYduo+ID0BBHIezoYBuA6V+SU
-	wYjLPghdiBp0yPggJDo3tx08iL6jMWQ/2hP7edFRL0SlP0LFfb9o6Jl6ngWLEGVWbd8fFAHgLsa
-	umIrgUo60S//ZPa742J5qps0KNWJ8q88J13FHBPjxbqCDTFSS73VpKxHIE3eou2gWpc3jrYpzNH
-	zGd1D16GzX/ehxpx3928pJtsa1yj4IetXc5CEktcdn6o2H59amT0J+awSfwQTMXgSE59SfcmbtW
-	WBrcwzErn/ODo9DXYcOdrACGkjpndARVw8foiF9r/lMqq169+pXJepLTvTGr9qr31rHqLaDlYFp
-	yEA2ILy5auortHX64sSaOIG/Lpew
-X-Received: by 2002:a05:690c:c68b:b0:8b0:6d14:23fe with SMTP id 00721157ae682-8b0f2202eb1mr4915017b3.52.1792202188255;
-        Fri, 16 Oct 2026 18:56:28 -0700 (PDT)
-Received: from localhost (108-93-236-139.lightspeed.chtnsc.sbcglobal.net. [108.93.236.139])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b0e58f84c3sm16439187b3.28.2026.10.16.18.56.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 18:56:27 -0700 (PDT)
-From: Matt Turner <mattst88@gmail.com>
-Date: Fri, 16 Oct 2026 21:55:51 -0400
-Subject: [PATCH v2 5/5] alpha: fill in pc for software event samples
+        bh=cG9ATYqMl/y18XgW8djL6SHSrSp+vtak/e3H6LudwE4=;
+        b=F6NppCHR9Rh47maCz1Vzczo7DFWaPLK5XgbAruU+a1lHEVn5FY7buR/j9OnxTHfg6t
+         bTP3373cFTkHR0++/jMKkNyZJ3kjq+XkxNS3l0nUYa6Jyqa53ePPjoNngSkWMeofu1o/
+         xjJp1hO4fodmR0vHYUvwO92gmJAq+Di+cGSBFJkkn0CN/FsbCMUPi3FYZq9EeG39vrRk
+         dsJQDVS0HE3c4qW0jhEgeFpWoI2vKLVWxUCEqvdNrMXLb86bxHxbQergyvqyrYZKkyFm
+         BuWQECNZs3v6lgS2PZtVHTtRnA0WLHyXaS01Fu0n1+ihNZfJ89Dw4LELWbKSchbM8XUS
+         j/Jw==
+X-Forwarded-Encrypted: i=1; AKwUvBzwXNG1iVNNZGSXqdrp48oWhsxVFKVoRGEuZaJeL0y4o1CNaEyCSnCk6ocxRdZyPQWjHZJ5bGR6w00=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLd8RpPynMLH51jmXaxzkbO42eAicZ/QG8E5s0DPv49s7UVjNbN
+	T3V+686R0G0hDAhQmZX1xP3vav+B+V7rJ908WH/XwEAFcqirBjQUXUoXae4nLmZiIYd1NDS3HYF
+	whUd8n4e1Ove/zWD/fKYq4xpzIbyS0AE=
+X-Gm-Gg: AYBFou2PhDs+XASJ4wWcFIpXPPI7MMIqKBQ9yh8bhR7ZxjO6O2LnrptJq7JQOpU33xI
+	gy5IVFCeB3THX5vnpm+6wNF84EZN3K9zIfi6ujWMFfRbQlVJ+z3p6vmcBClN44VZOfvWLoIwwNF
+	xgYOQbFM0YLLLvKsOvlnatLmmHpwkp9FvdVfRUPhtd4UnepyjVbrwxFLNu6CwUzr4uJ+VWxS1N2
+	JfnS70C5iIl5Md2gus0+w0yCFr7eealq0/cp3fPeQ213uAbat7zzrwOChQs3OaJrmKBCA7r6rLE
+	JsijkMgjlyo0WsLBZOGDhS1s9nPo+VHzPrLHYhOMrUS0k/XW4jq9CWf6Sv1BmE6OTL9RaRjbVzW
+	NfgK86z+zEQ==
+X-Received: by 2002:a05:690e:dcb:b0:674:a7b:a07e with SMTP id
+ 956f58d0204a3-679ca744120mr424310d50.29.1792202378667; Fri, 16 Oct 2026
+ 18:59:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261016-alpha-perf-regs-v3-v2-5-17654742226a@gmail.com>
-References: <20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com>
-In-Reply-To: <20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>, 
- Magnus Lindholm <linmag7@gmail.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- Matt Turner <mattst88@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1346; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=XzDXuW7sU8rtcOd5zk/hMQc5CYYT30++tB7FfX76MzY=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLIuXV3McGFl+7mwrwp6NzzcLjky9fEnCTSWbbKVTfrdu
- kCZJbyv4yMLgxgXw0wxRZa49Yoss9p2LPU5Lf0LZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- BDJ0jOIhcnoMGpnFxaWpRbppBUUOefkliSWZ+XnFevkFqXkF6QV6aZlpJRkZ+UXFqUAj9PJSS0x
- dHd2MDA1MLB0tzJwsHE1NnJ2dDJ3cHB2dXZ2MLM1NDJwtHU1cLc0ZuDgFYK45w8jwV9aXW2KKpO
- wFkVt84gfZwvfbTbm4h0//4nrxQK3jN8Jm7WVk+NUp2qN6LOJCXAiPIb87+6MXm1srtpqHNTzVv
- +zQ/GYGEwA=
-X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
- fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
+References: <20260908122446.56708-1-lizhe.67@bytedance.com>
+ <as3gQ8jfa_6eBf15@chenyu-dev> <CALOAHbBssx9ZHGwebGZCvzT4d_soyjNfZRj4L6gnxHRXtc7eMA@mail.gmail.com>
+ <807eb0e80c76c3ccb85024b360bd47ace201931b.camel@linux.intel.com>
+ <CALOAHbCt+iGGWMxzjrcRamdSqD48_v+V685-qi7_Qy7UL8bxxQ@mail.gmail.com>
+ <atG4VXk4t-m8VubY@chenyu-dev> <CALOAHbDY6zLcEc4kGhC9GSFsOsREadkWN7Q4CmZuR_m_BMHAyg@mail.gmail.com>
+ <bcabbe25-5b2c-464a-a22d-5375a342f938@intel.com> <CALOAHbALpHebACLUmvet_tFH_w-iK3TWpY52OhYTUVoLzoGKkg@mail.gmail.com>
+ <8d1997019d00fad3f250c4df3f18c53dff25e054.camel@linux.intel.com>
+In-Reply-To: <8d1997019d00fad3f250c4df3f18c53dff25e054.camel@linux.intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sat, 17 Oct 2026 09:59:02 +0800
+X-Gm-Features: AclHuK-nWLmy9xCqiE3rlEx99gEKF6vkNm0ULanpBQ42g6oWCUWpeUa-WtIJ04A
+Message-ID: <CALOAHbDGx-2MfHiUs2S5cWT9yWiKp_22kg-OFL4gtuGG4aCUAw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] sched/numa: Add per-process automatic NUMA balancing control
+To: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: "Chen, Yu C" <yu.c.chen@intel.com>, "David Hildenbrand (Red Hat)" <david@kernel.org>, ljs@kernel.org, 
+	Li Zhe <lizhe.67@bytedance.com>, mingo@redhat.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
+	kprateek.nayak@amd.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	tim.c.chen@intel.com, mkoutny@suse.com, tj@kernel.org, chen.yu@linux.dev, 
+	Vern Hao <vernhao@tencent.com>, Vern Hao <haoxing990@gmail.com>, 
+	Qais Yousef <qyousef@layalina.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Context switch and tracepoint events have no trap frame, so perf builds
-one with perf_fetch_caller_regs(). Alpha does not define
-perf_arch_fetch_caller_regs(), which leaves that pt_regs zeroed, and
-these samples report pc as 0.
+On Sat, Oct 17, 2026 at 4:32=E2=80=AFAM Tim Chen <tim.c.chen@linux.intel.co=
+m> wrote:
+>
+> On Fri, 2026-10-16 at 16:18 +0800, Yafang Shao wrote:
+> > On Fri, Oct 16, 2026 at 4:01=E2=80=AFPM Chen, Yu C <yu.c.chen@intel.com=
+> wrote:
+> > >
+> > > On 10/16/2026 3:38 PM, Yafang Shao wrote:
+> > > > On Fri, Oct 16, 2026 at 1:51=E2=80=AFPM Chen Yu <yu.c.chen@intel.co=
+m> wrote:
+> > > > > A more complex scenario is when cgroup A and cgroup B become thre=
+aded domains:
+> > > > >
+> > > > >                           root
+> > > > >                          /    \
+> > > > >                         X      Y
+> > > > >                         |      |
+> > > > >                         A      B          A, B: threaded domains =
+(thread roots)
+> > > > >                        / \    / \         separate memory.max / i=
+o.max
+> > > > >                      A1   A2 B1  B2       threaded cgroups
+> > > > >                      ^        ^
+> > > > >                      |        |
+> > > > >                      +--------+
+> > > > >                    want to share one cache group
+> > > > >
+> > > > > In the above case, we might need to change the deployed cgroup hi=
+erarchy.
+> > > >
+> > > > I think we can enable LLC-aware scheduling for both A1 and A2 =E2=
+=80=94 does
+> > > > that sound right?
+> > > >
+> > >
+> > > Here A1 wants to share data with B1, but A2 does not want to share da=
+ta
+> > > with B2 nor B1 nor A1. Enabling cache-aware for A1 and A2 might not h=
+elp
+> > > in this case.
+> >
+> > I'm not sure whether this is a real use case or merely a theoretical
+> > one. I'd suggest we not focus too much on purely theoretical scenarios
+> > unless someone can demonstrate a practical need.
+>
+> In our discussions with Vern Hao from Tencent, they have use cases where
+> A1 and B1 are dealing with data compressions while A2 and B2 are dealing
+> with databases.  So data are mostly shared between A1 and B1, A2 and B2
+> due to functionality.  We may put the parent A or B in the same sched gro=
+up,
+> but the sched group may contain too many threads to fix in a LLC.
 
-Record the caller's address as pc. The zero ps already marks the frame
-as kernel mode, and pt_regs has nowhere to keep sp, so pc is all that
-can be filled in.
+Good to know. While I'm not sure why it's deployed that way, I
+understand that real-world use cases are often complex.
 
-Reported-by: Magnus Lindholm <linmag7@gmail.com>
-Closes: https://lore.kernel.org/all/CA%2B%3DFv5S8-Zk8-LUpZnWiBfTGSQXthepmRc_-a9O%2BpEPmVW0mRA@mail.gmail.com/
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Matt Turner <mattst88@gmail.com>
----
- arch/alpha/include/asm/perf_event.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+>
+> The tricky thing is if there are scenarios where
+> we want to do grouping one way when we consider resource
+> usage but another way when we consider data sharing.
+>
+> >
+> > >
+> > > > >
+> > > > > Suppose threads in A1 and threads in A2 belong to the same proces=
+s Pa,
+> > > > > this reminds me of the cgroup bpf NUMA balancing case: after enab=
+ling
+> > > > > NUMA balancing for A1 but not setting it for A2, what would be th=
+e final
+> > > > > NUMA balancing decision for process Pa, is it enabled or disabled=
+?
+> > > > > The NUMA balancing scan/invalid seems to be per process, so if we=
+ change
+> > > > > the setting of its threads, the whole process will be impacted. O=
+r maybe
+> > > > > we should not enable NUMA balancing for threaded cgroups? Anyway =
+I haven't
+> > > > > digged into your cgroup bpf patch set yet, let me try to look at =
+it.
+> > > >
+> > > > cgroup NUMAB works the same way: the setting is per cgroup and opt-=
+in.
+> > > > For Pa in your example, since its threads spread across A1 and A2, =
+you
+> > > > would enable it on both =E2=80=94 enabling it on only one of them i=
+s not
+> > > > meaningful.
+> > > >
+> > >
+> > > I see. I haven't yet digged into your code, is there a per cgroup fla=
+g
+> > > cgroup.numab.enabled?
+> >
+> > Right. I will introduce a cgroup::numab_mode field, but without a
+> > cgroupfs interface file; it will be written through a BPF program.
+> >
+> > > Would there be a logic in the kernel, when
+> > > A1.numab.enabled
+> > > is written to true, the kernel detects all the other cgroups {X} that
+> > > contains threads
+> > > share the same mm_struct as A1's threads/tasks, and then update {X}'s
+> > > numab.enabled
+> > > to the same value as A1, to keep consistency?
+> >
+> > We have no plan to support threaded cgroups for now. If a real need
+> > arises, the BPF program can be extended to handle it, which would just
+> > require more kfuncs.
+> >
+> > > In summary, if threads are
+> > > spread
+> > > cross different cgroups, when you set the enable flag for 1 cgroup, w=
+ill the
+> > > kernel iterates all the other cgroups to update their flags as well? =
+Or
+> > > leverage userspace to do that?
+> >
+> > I believe this should be implemented in userspace, not automatically
+> > in the kernel. Use cases are always complex, and flexibility is
+> > important here.
+>
+> I think there is a misunderstanding that using prctl necessarily mean
+> we have to modify the user programs.
+>
+> With the prctl that Chen Yu and I proposed for cache aware scheduling
+> [1], the application does not have to change at all. The prctl can be
+> issued by an orchestrator daemon on other tasks:
+> the caller passes a target pid and a pid_type (thread,
+> thread group or process group), and the permission check is
+> ptrace_may_access(), as in core scheduling. So a daemon run by the
+> platform team can put the application's threads into the right cache
+> group from outside:
+>
+>   prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_CREATE, leader, 0, PIDTYPE_TGID);
+>   prctl(PR_SCHED_CACHE, PR_SCHED_CACHE_SHARE_FROM, tid, leader, PIDTYPE_P=
+ID);
+>
+> The daemon can take its policy from wherever is convenient: cgroup
+> membership, the pod spec, process names, or a config file. Changing
+> the policy means changing the daemon, which the same team owns. That
+> is the same round-trip as changing a BPF program, and no application
+> team is involved. This is how schedqos already uses the core
+> scheduling prctl.
+>
+> That said, we may start with a per cgroup control of
+> cache aware scheduling that sit next to the prctl [1]
+> without either one replacing the other.  A lot of the
+> code in [1] can be reused with per cgroup control
+> of cache aware scheduling.
+>
+> It starts small, in the form Tejun suggested for NUMA balancing
+> in your series [2], and grows only when a real need shows up.
 
-diff --git a/arch/alpha/include/asm/perf_event.h b/arch/alpha/include/asm/perf_event.h
-index 5996e7a6757e..72536566014a 100644
---- a/arch/alpha/include/asm/perf_event.h
-+++ b/arch/alpha/include/asm/perf_event.h
-@@ -1,4 +1,11 @@
- #ifndef __ASM_ALPHA_PERF_EVENT_H
- #define __ASM_ALPHA_PERF_EVENT_H
- 
-+/*
-+ * Software events have no trap frame, so perf_fetch_caller_regs() fills
-+ * in a zeroed pt_regs. A zero ps already means kernel mode; only pc is
-+ * missing.
-+ */
-+#define perf_arch_fetch_caller_regs(regs, __ip)	((regs)->pc = (__ip))
-+
- #endif /* __ASM_ALPHA_PERF_EVENT_H */
+That's great.
 
--- 
-2.55.0
+>
+> The rule for every step with a BPF based cgroup interface:
+> the per-task p->sched_cache_grp from [1]
+> is the only thing the scheduler reads. Each interface is just
+> another way to set it, so the scheduler side never changes.
+>
+> Step 1: a per-cgroup setting
+> ----------------------------
+>
+>   - struct cgroup gets a sched_cache_grp pointer and a mode:
+>     inherit (default), off, or "this subtree is one group".
+>   - One kfunc sets the mode by cgroup id. No cgroupfs file for now.
+>   - The kernel puts tasks in the cgroup's group:
+>       - when the mode is set: allocate the group, publish it, then
+>         walk the cgroup's tasks
+>       - at fork: in sched_post_fork(), right after cgroup_post_fork()
+>       - at exec: exec_mmap() installs the cgroup's group instead of the
+>         mm's one
+>       - on migration: in cgroup_migrate_execute(), next to the
+>         ss->attach() calls
+>   - A task that was grouped explicitly (by the prctl, or later by BPF)
+>     keeps its group. Cgroup changes do not override it.
+>   - In the "advise" mode the cgroup's group is created enabled, since
+>     a new group starts disabled there.
+>
+> This reuses most of [1]: the refcounted sched_cache_group (patches
+> 1-3), __sched_cache_set() with the pi_lock swap and the footprint
+> transfer (patch 4), the fork and exec handling (patches 2 and 4), the
+> per-group enabled flag (patch 5) and the always/advise/never mode
+> (patch 6). Only the prctl UAPI itself is not needed.
+>
+> This covers the the case where the sched groups match well with
+> cgroups: cache aware scheduling can be turned on for group A
+> only. The other part, a footprint threshold for A that differs from
+> the global llc_aggr_tolerance, would need a per-group tolerance that
+> the per-cgroup setting can carry.
+>
+> Step 2: BPF picks the group
+> ---------------------------
+>
+> Add kfuncs to create, read, set and reset a group (thin wrappers around
+> the same code), and one that stores a BPF-chosen group in a cgroup.
+> The kernel still installs tasks at fork, exec and migration as in step
+> 1. The difference is that two cgroups can now share one group, for
+> example A1 and B1 in one sched group in the above example.
+>
+> Step 3: BPF decides per task
+> ----------------------------
+>
+> Only if someone needs it: programs on the fork, exec and cgroup-attach
+> hooks that set a task's group directly, for example to split a cgroup
+> that is too big for one LLC, or to group only some of its tasks. The
+> set kfunc takes pi_lock, so it needs a context filter that allows it
+> only in sleepable programs and those hooks.
+>
+> Each step stands on its own. If step 1 is all anyone ever needs, we
+> stop there. The prctl stays for users who do not run cgroups or schedqos.
+>
+> Does step 1 match what you have in mind for the LLC-aware scheduler
+> on your servers?
 
+Thanks for the detailed explanation.  It works for me.
+
+My original idea was a simpler cgroup-field-only scheme: store the
+mode on the cgroup and derive each task's group from its cgroup at
+lookup time, which would avoid the fork/exec/migration hooks. On a
+closer look that does not hold up for LLC: the prctl can set a
+task's group explicitly and that has to keep precedence, and the
+footprint estimate has to move between groups on a membership
+change. Since most of the infrastructure is reused from the
+prctl()-based series, I'm fine with implementing it that way.
+
+Please Cc me when you post it.
+
+>
+> [1] https://lore.kernel.org/lkml/cover.1787955777.git.tim.c.chen@linux.in=
+tel.com/
+> [2] https://lore.kernel.org/lkml/20261012120438.52849-1-laoar.shao@gmail.=
+com/
+>
+> Thanks.
+>
+> Tim
+
+
+--
+Regards
+Yafang
