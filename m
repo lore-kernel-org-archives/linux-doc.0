@@ -1,131 +1,171 @@
-Received: from mta1.migadu.com (out-201.mta1.migadu.com [95.215.58.201])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CC212AAF1
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 13:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93824B0E3F
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 14:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792331172; cv=none; b=aryqdAezcDxqFY3Drom7N4BOoxBRSkNkdckn6gHLs7TjrdjPZanx0DuBQC6xZQ1nLT1D51NdJo7kHyHWvtiujvSlz40HKF0D+KdI+6SWMk5OwFzuhtdQCc8raSivoqdP6jlQKkirj2IzgPi84HYUlyA4KjwUcjTYwZIgm8wOGS4=
+	t=1792333333; cv=none; b=GHDRDGia4kVJdd17+hrlfa+jvrdj8M6lvnFHglC9vveXL7HcTUYX5USZ3gZCPeRdDCgl9UwtbxJqdkSa9h78GMOBJl681/ReVlyPnZ4tcZy8iFarZP87aiDL6lqi2G6BzpxVxp2V/dgR/SS4kQE1GpTYUSvHCWaJFWuCSwMz16I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792331172; c=relaxed/simple;
-	bh=JzIcJHzHMVjfXxwn7Jz6JzobbGD+KEgGPZQVmSvW38s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jAWaD+CmXgOHXxTxG2bcY1Ql+Vi90KG9kX4vy0B92LOCcX6e5hZBli+WxXaDVzEhCWeYtTP9zwNIiwA5e+JSfF2KOJcoqJSD6/34njBJJMb3HEPnhTYvEsMVpg88XIjWjsDvj76YpVKHqUsn0bdOseHqURvvgOqVIF73IA08QOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=MTItRupQ; arc=none smtp.client-ip=95.215.58.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1792333333; c=relaxed/simple;
+	bh=LjMXoezUDF/yb2bIlsKflM7rVcpM8+PuJScfVp3m1Bs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ugf80Mhylc0u5iftQHeulYeV9bI0xaiErTAwaAXJUFxOI9DbJABpOIYUa8eSBzQuIWQXzFvFXpwVQXg3CnYZoEFX+S8pmsEps94Vsu29f9XV1FnfM4fn2WeWniRlfpJMW2S1GsIxtkm5G3lPsnxwQ0p8QXfGmFEy3LgIORAt0vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B1YuEqeK; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="MTItRupQ"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=JzIcJHzHMVjfXxwn7Jz6JzobbGD+KEgGPZQVmSvW38s=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792331166; v=1; x=1792935966;
- b=MTItRupQz22Tm48o2dHY1pd7lr4F0AmSAMrnpikXWIQXdfinjyUdP65JwRm05ZIv2mQuCOkR
- QSTqfyLIwb5tn3Pv64EiRY6WcVOKw2GhP/snULr7nquacXSx+Mz/DlCgMPxXIk0o76zC7pZQokH
- oyq+n/n4iA3y2LGjRUtd6DvQoloDFSjT46U8S4NMBXfHdjYXeUKjbd+DRX8R/tFNlCRtmI5sqI4
- jMjnfrZ5Urec4yjFZzF+LeQMRVHj7VJMfkxpr7KIu4pXNlbOV63ddaRYTzTj3ZU9OhXVL5KL/tB
- lsqhhkY5SW4QzyPhIp5NUYN7s6ZU+tUr7lSA1e7lA2Xpg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 661a52f8541ff91e;
-	Sun, 18 Oct 2026 13:46:03 +0000
-X-Mizu-Trace-ID: 661a52f8541ff91e
-X-Migadu-Flow: FLOW_OUT
-Date: Sun, 18 Oct 2026 21:45:53 +0800
-From: Weijie Yuan <kernel@wyuan.org>
-To: "wpeterYY@outlook.com" <wpeterYY@outlook.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"alexs@kernel.org" <alexs@kernel.org>,
-	"si.yanteng@linux.dev" <si.yanteng@linux.dev>,
-	"dzm91@hust.edu.cn" <dzm91@hust.edu.cn>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQw==?= =?utf-8?Q?H?= v2 0/5]
- docs/zh_CN: add fault-injection Chinese translations
-Message-ID: <atTNkdCp3TUJdG5t@wyuan.org>
-References: <SI2PPFCA6543649A0CB710CDA1CA17757DDDD992@SI2PPFCA6543649.apcprd04.prod.outlook.com>
- <SI2PPFCA6543649026B29FF8D47801DCE66DD992@SI2PPFCA6543649.apcprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B1YuEqeK"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b056d58f2aso9040437b3.2
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 07:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792333329; x=1792938129; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=8nQnAWl5gVJ2vAvs9R4XU9C2GQ8g7WYmvy6TT/ECoDA=;
+        b=B1YuEqeKSa7Z16vieB31Pv+JiKrhOnv1gnCwk5OiiRLnx2hQE4jcyfaZN7dsw59OKb
+         kr7TrhXxUz+iEwdtcM0spdhmDZ18f0IoRSOx3841tYPkTqvsXKi0KrPPfCeJ3UpSz871
+         /oImLw9442WN2oJumVYtXxJrjIc5tELoUHbiWS+sbf7x0v1T6Lrs5kjvphoLV81X/D8s
+         meiwQL9sytdP3K8i3PG3ib94281Gn3yNvjjNDGjweE2faq8TkUTGTi37znS0+I/u65KV
+         Q3edA84I4QhPtAMEcdpnZAubaLQtYjiGS9ZX4NeE0c9VkTE+q+TK2qwuu+BUpGSl0Spt
+         sS8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792333329; x=1792938129;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=8nQnAWl5gVJ2vAvs9R4XU9C2GQ8g7WYmvy6TT/ECoDA=;
+        b=EesjwrJ1P5zQSiUGvHRaBZqWo7cVhqXZlpwUIg46ZuQiLpluXHbGisBPPRurca1tBV
+         7PzuJuJdF+oAfVpGZiIVxUi9hPZa4BdgaBA6Er232jeIUQsoysIqmKk8T+Hi1r+yKcAo
+         IxHGfzy01syM5R7CTP88ztggIaAA2xjuBRwOhBSlKqWwHftrZinLWXggUuf4PHO52FN8
+         665CAXC8tMqP+tuGt7So2I2vhI+oF5BBxXoiEVDd1uH0BDbQu/Y3jC1j3cO7riAtbm+v
+         9ojdamZLrUC8/WGipm2bdboxnizgeembsMkoZJqpaDS2NZNXGp9C8YKCJVTKdPjlJ991
+         fZ7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxXgZnpyzljhPkVX7/xYW5CiXTXcK7cqNUSl1m/06c82eIIomgpYDQqG/3lK0t700hrExvoXPSfxh4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIIoDcjZFZRNRkNCtcY9fsODrkry5VbG/FzWiMoDCuLgIQB/HFs
+	c05JtqhsqExYOG/KBrIMGKINXhTwSJEIH+AHw/azZN6ees9fDIYtPEJJ
+X-Gm-Gg: AYBFou33G4ZjxEvhsa0sCMBYgAEbq/ZtUompKlgcgvVhKFt2rHWS/X7p9haCvBmr/+v
+	C6wfPMNGoJAj8ztLBhVmgSErZnM0LEn1F5p4vPUZ/WI3Ry1bSYf7yQjbxVq70i2gUNvFkuaS0fh
+	rBw/5PZADO6wdA6PDV3Tec/n1BHktzKyqFRInF3hf+UEvWrwoaYeX72iEp4FhF1i6Kg/OacJEkE
+	fSMhU3q6xhBf36JYIUd6Dh0/0OOQLxCFlfsFSC2539qTX92ZPjmTs2xsaLXeM9KAr16bfFP7aLU
+	crJFj0XB3J3S6gL8Q6iCdekHC/P3CT+44ljlE6R0yJoUd2GL4Cjh0j2DrewrSlSBobsefAkqsl0
+	5OTOtUS1X7bY1DaG3bdHbd7Fq/6IuXex8z2zjD/fcjcX/KaMclSKhGeYHwl7oR1irkzLQEy/BEV
+	h1IoIgG1+ffVWa7gBCuJBNtStQArq6S3++WyzOHjflokrg9wXYXY7hHlfX34QYtn0borQclBWLr
+	LGckHccXTsXl/Miw06w8Mw6WZYrIGovrew1Cj3AimNegtDSBMc0DxfifPC4G2G4lT5KLHUvOiAw
+	I4cq8VRCHuhnE469wHWLvoKJRLqPcO9Occ7vDIsULpulu1lfhk4uBajSaBO4HciYXdlA1+cj5US
+	bBlIydpGi+A==
+X-Received: by 2002:a05:690c:6603:b0:8b0:f1c0:60b1 with SMTP id 00721157ae682-8b0f21b03bcmr16727947b3.60.1792333329438;
+        Sun, 18 Oct 2026 07:22:09 -0700 (PDT)
+Received: from localhost (108-93-236-139.lightspeed.chtnsc.sbcglobal.net. [108.93.236.139])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679b1e79bcesm3061221d50.12.2026.10.18.07.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 07:22:08 -0700 (PDT)
+From: Matt Turner <mattst88@gmail.com>
+Subject: [PATCH v3 0/5] alpha: perf register sampling and user stack dumps
+Date: Sun, 18 Oct 2026 10:22:00 -0400
+Message-Id: <20261018-alpha-perf-regs-v3-v3-0-52be85332c57@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SI2PPFCA6543649026B29FF8D47801DCE66DD992@SI2PPFCA6543649.apcprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23NTQrCMBCG4auUrB1JJm2irryHuBjitA30j0SCU
+ np30+Kiiy7fD+aZWUQOnqO4FbMInHz045BDnwrhWhoaBv/KLVCiUVIqoG5qCSYONQRuIiQNllF
+ X8uKUIxT5cApc+8+GPp65Wx/fY/huP5Ja1z+nDrmkQAITGaxIX63Ce9OT785u7MXKJdwT5pDAT
+ ChrqtKWiGhoTyzL8gNcgVp+9wAAAA==
+X-Change-ID: 20261001-alpha-perf-regs-v3-7e23508c1ca2
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Magnus Lindholm <linmag7@gmail.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ Ian Rogers <irogers@google.com>, Matt Turner <mattst88@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3469; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=LjMXoezUDF/yb2bIlsKflM7rVcpM8+PuJScfVp3m1Bs=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLKuXOO4+uKjX2/LvHz59lZpzfW5RWYVsZnF1z3WCvlun
+ XqvWqWx4yMLgxgXw0wxRZa49Yoss9p2LPU5Lf0LZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ BDJ0jOIhcnoMGpnFxaWpRbppBUUOefkliSWZ+XnFevkFqXkF6QV6aZlpJRkZ+UXFqUAj9PJSS0x
+ dHd2MDA1MLB0tzJwsHE1NnJ2dDJ3cHB2dXZ2MLM1NDJwtHU1cLc0ZuDgFYK4Rm8HI0OzZb1O4Y+
+ +sV38f96/n8j++afv8tF6xVWcM2BjLlBVZ7BgZdpVnrWF+6vpaN6JIYke8kEH5/wuiZuzCVj8ZK
+ /5+93ZnBQA=
+X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
+ fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-On Sun, Oct 18, 2026 at 02:10:52AM +0000, wpeterYY@outlook.com wrote:
-> Hi Alex and all,
-> 
-> A quick note on the submission format: my email provider (outlook.com)
-> has SMTP/IMAP client authentication disabled, so I can only send mail
-> through the webmail interface, and changing the subject line of a
-> reply detaches it from the original thread. As a result, the patches
-> in this series appear as separate emails instead of a single thread.
+This lets perf sample registers and dump the user stack on alpha, which
+perf record --call-graph dwarf needs to unwind user space.
 
-Aha, I remember that back to 2016 in Kernel Recipes 2016 - Patches
-carved into stone tablets… by Greg KH, he said that Exchange and Outlook
-are known to corrupt patches. I don't know if we can do it or how to do
-it now, a decade later. ;-) Because I do remember recently I saw a patch
-is sent with outlook.com and seems to be able to be applied cleanly.
+r9-r15 are not in pt_regs, so they cannot be sampled. An unwinder
+therefore cannot get past a first frame that uses $15 as its frame
+pointer (-O0 code or alloca).
 
-Here comes the interesting part:
+The perf tool side is a separate patch for perf-tools-next:
 
-# on Jon's docs-mw branch
-$ b4 shazam 'https://lore.kernel.org/linux-doc/SI2PPFCA6543649A0CB710CDA1CA17757DDDD992@SI2PPFCA6543649.apcprd04.prod.outlook.com/'
-Looking up SI2PPFCA6543649A0CB710CDA1CA17757DDDD992@SI2PPFCA6543649.apcprd04.prod.outlook.com
-Checking for newer revisions
-Grabbing search results from lore.kernel.org
-Analyzing 3 messages in the thread
-Looking for additional code-review trailers on lore.kernel.org
-Analyzing 0 code-review messages
-Checking attestation on all messages, may take a moment...
+  https://lore.kernel.org/r/20261011-alpha-perf-tools-regs-v1-1-2a5940e22548@gmail.com
+
+libdw also needs alpha unwinding support, which I sent to
+elfutils-devel:
+
+  https://inbox.sourceware.org/elfutils-devel/20261012-alpha-v1-0-46760216dfb7@gmail.com/
+
 ---
-  ✓ [PATCH v2 1/5] docs/zh_CN: add fault-injection index Chinese translation
-    ✓ Signed: DKIM/outlook.com
-  ERROR: missing [2/5]!
-  ERROR: missing [3/5]!
-  ERROR: missing [4/5]!
-  ERROR: missing [5/5]!
+Changes in v3:
+- Patch 4: rename the uapi <asm/perf_regs.h> include guard from
+  _UAPI_ASM_ALPHA_PERF_REGS_H to _ASM_ALPHA_PERF_REGS_H, matching
+  x86, arm64 and most other architectures. headers_install strips
+  the _UAPI prefix, so installed headers were fine, but code built
+  against the uapi directory in the kernel tree saw a different
+  guard. elfutils tests for _ASM_ALPHA_PERF_REGS_H, and without the
+  rename it disabled alpha perf sample unwinding in that case
+  (Magnus).
+- Patch 5: make alpha_ftrace_return_address0() available without
+  CONFIG_FRAME_POINTER. CALLER_ADDR0 was 0 in that configuration, so
+  software event samples still reported pc as 0 (Magnus).
+- Collect trailers.
+- Link to v2: https://lore.kernel.org/r/20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com
+
+Changes in v2:
+- Patch 4: report sp as 0 for software event samples, whose pt_regs is
+  a per-CPU buffer rather than a trap frame (Magnus).
+- New patch 5: fill in pc for those samples via
+  perf_arch_fetch_caller_regs() (Magnus).
+- Collect trailers. Magnus's Tested-by on patch 4 dropped until he
+  retests the change.
+- Link the perf and elfutils postings.
+- Link to v1: https://lore.kernel.org/r/20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com
+
 ---
-Total patches: 1
+Matt Turner (5):
+      alpha: fix stale user_stack_pointer()
+      alpha: stop storing the user stack pointer in pt_regs
+      alpha: use user_stack_pointer() in KSTK_ESP() and dump_elf_thread()
+      alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP support
+      alpha: fill in pc for software event samples
+
+ .../features/perf/perf-regs/arch-support.txt       |  2 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
+ arch/alpha/Kconfig                                 |  2 +
+ arch/alpha/include/asm/ftrace.h                    |  5 +-
+ arch/alpha/include/asm/perf_event.h                |  7 +++
+ arch/alpha/include/asm/processor.h                 |  3 +-
+ arch/alpha/include/asm/ptrace.h                    |  7 +--
+ arch/alpha/include/uapi/asm/perf_regs.h            | 45 +++++++++++++++
+ arch/alpha/include/uapi/asm/ptrace.h               |  2 +-
+ arch/alpha/kernel/Makefile                         |  1 +
+ arch/alpha/kernel/asm-offsets.c                    |  1 -
+ arch/alpha/kernel/entry.S                          |  5 --
+ arch/alpha/kernel/perf_regs.c                      | 64 ++++++++++++++++++++++
+ arch/alpha/kernel/process.c                        |  2 +-
+ arch/alpha/kernel/ptrace.c                         | 12 ++++
+ arch/alpha/kernel/traps.c                          |  8 ---
+ 16 files changed, 139 insertions(+), 29 deletions(-)
 ---
-WARNING: Thread incomplete!
-Applying: docs/zh_CN: add fault-injection index Chinese translation
-Patch failed at 0001 docs/zh_CN: add fault-injection index Chinese translation
-error: patch failed: Documentation/translations/zh_CN/index.rst:74
-error: Documentation/translations/zh_CN/index.rst: patch does not apply
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-hint: When you have resolved this problem, run "git am --continue".
-hint: If you prefer to skip this patch, run "git am --skip" instead.
-hint: To restore the original branch and stop patching, run "git am --abort".
-hint: Disable this message with "git config set advice.mergeConflict false"
+base-commit: 8f5dbfb93440d1aba216a1a34369a65654b94be9
+change-id: 20261001-alpha-perf-regs-v3-7e23508c1ca2
 
-# i.e. [1/5] can not be applied successfully.
+Best regards,
+-- 
+Matt Turner <mattst88@gmail.com>
 
-$ git am --abort
-
-$ b4 shazam 'https://lore.kernel.org/linux-doc/SI2PPFCA6543649423BA7595B9B6BF31774DD992@SI2PPFCA6543649.apcprd04.prod.outlook.com/'
-Looking up SI2PPFCA6543649423BA7595B9B6BF31774DD992@SI2PPFCA6543649.apcprd04.prod.outlook.com
-Analyzing 1 messages in the thread
-Looking for additional code-review trailers on lore.kernel.org
-Analyzing 8 code-review messages
-Checking attestation on all messages, may take a moment...
----
-  ERROR: missing [1/5]!
-  ✓ [PATCH v2 2/5] docs/zh_CN: add fault-injection Chinese translation
-    ✓ Signed: DKIM/outlook.com
-  ERROR: missing [3/5]!
-  ERROR: missing [4/5]!
-  ERROR: missing [5/5]!
----
-Total patches: 1
----
-WARNING: Thread incomplete!
-Applying: docs/zh_CN: add fault-injection Chinese translation
-
-# i.e. [2/5] can be applied successfully on top of Jon's docs-mw branch.
-
-Perhaps I need to see if there's anything I did wrong.
-
-Thanks.
