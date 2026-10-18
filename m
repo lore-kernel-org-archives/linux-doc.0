@@ -1,234 +1,153 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431CB3D903B
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 22:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3CB3DAAB3
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 23:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792364195; cv=pass; b=DP/UtnddFJ7kivXpdTeQjlnliMV1qR5i8uWxw8RaCtKLeQnX2GSWzUge8VRMVZakKLMcZog+H9bmb2QmyTd9lhWr1C0OE/eSmXJ33mFLiQ2gBvV8Q1ndOHFSdnDwCmQDhXjHIvUl8Iq7h0rN+sq6irVXyiJAbz3zaevHmZILrGw=
+	t=1792367621; cv=pass; b=dsYxzqqBfxzQHqy0pQKwXpycVzHqml+KtUUUxsbk5OfWqjKYjRfvKUlNzNfCi3uIMZaZJPlNA68niTWAm8NvmzivzQk4DjhI4SzFzy7DaokCPxx46C36oPlIzhz6/5Ka5Pi9OKZoCTt9WeEYtR+QgjiiZB1OMJrJ+n5+9b9GeBQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792364195; c=relaxed/simple;
-	bh=VOFkIvAigdspmltRsC5BPa5luOWcWKRWs14otyoXgFw=;
+	s=arc-20240116; t=1792367621; c=relaxed/simple;
+	bh=ikcStFONhfs5hokFZ9u0J5DwZzPFduPyuFeHVqSmKog=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PdM5xF7NfJKfBVBITmAvrbt9Ym75Gd3PF3oowF2bqPqfkMdU6KhmSJ9MdHnTLqe+KNJTQJXyLsiIFHA8xgik1C69RPsjVdMbfaHnUOAJz0B2svofvHZyR8yTfK7gnQPwqykFJd31W7g769/kiguHcPmF13WazdvOnqwPS75ytyY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=loErZrPs; arc=pass smtp.client-ip=209.85.210.48
+	 To:Cc:Content-Type; b=Pful3PwyDJZ67DSsFUNXjDR3auRM52vkqHc58eQe3UdypUYksg3c7Z2t+kbUWj/ZZ23A709GvMYkbNDzz2Dd3EDTOVCxG80pRIyQ11sreuoF2fkUvugl3wm4IqVQ3fd8BQezLMdsnmXKtSXkqTbthU2NSNokSAe7eShQmhNsl/M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZDgA8XP; arc=pass smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="loErZrPs"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-81ae6aefdceso1371460a34.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 15:56:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792364193; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZDgA8XP"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8a0673d9bd2so297113b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 16:53:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792367620; cv=none;
         d=google.com; s=arc-20260327;
-        b=XSncXMJEFVb2ZbVtLq7eI/WZ16RdR6do/gB4CVYdEkCq8UXfJ9f5l2KzlnN+z5X/q7
-         mg3NvH85nXE7flaataXun8LvcsXU+YsCLLtnppU/F44Zq44ti+Ygoh2B+1ZpUZ+6yt+C
-         zmHinqJWthloFMcLwsP4limfDCyYfTFNVyb1ja+AeXoXCAa4vxArUQ7OW2jG3pO/SvBH
-         ZONkSRVVxvUwTMnKp3EKE2Pjlmw+fBZDm+3hoNMSlN5svpDXltXaSe8qjSqMOjeSq3ti
-         EvxVMBOE0Uep5EV6IoR77e0o/8FJSldmOOHuluiGvYRBmAW1nW3xerxISw5aT25sRjI+
-         KlFg==
+        b=daD0HZNUY1xRB9m57exr98AC1zvNgPA0zo3VhvdeP0Soakg/u+Xqh3u/Velwe/1RZ5
+         cmXMpuajKzucIE9q43Fz0dWFlGsY5KrhZxGtki8ycBQlEwUMXAtd9SJ7wgO9GEiUMN2e
+         sNHwummdNuwAF0k9BifJx20qR6z5jJGqeYl4jx1ZENripn+BRSbq6Yfi9rPRaqdCHalO
+         4g1UKnheG1OnRR+GJL4Pe7zAZk3UuOPTC5Ous4j55Bc0SCw90lKALBrd+2UWuyXe7EIG
+         qTd45qwFW4uYN/2gabhpmcLzDkU0QfHNsuyi5YUvji7hZE9VwulAWvNRjSqy8apxHIv0
+         r3dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
-        fh=ZARqXFHXY+xpR+XCNtwm4x330gncvHvkigeCOlqfLw8=;
-        b=lh+g+hpyyPlXv5+idcNEAqphjmvluMbGsNe/dYqd1eVajU1Vbi8dwAOeJcFUdodcDf
-         BbxDGvATjhvnN6Ge4kAErsmhKxOSWiUFjZPfzWGCAxG4NAZjxnLtPCNo9F463mXE6GUc
-         uhEwjMEM5vxweN15SeAIGHmNLS98L/S9CobUcOfEByXi9R6aXI4ASnhHSJBARFn7alOa
-         Iyhjx2CZskbKxkj8hNUXSj1gC5oZY+0ZLnkLnaCUkm1H6/+HSTorl/gYccHDzpl62VBi
-         4raU2p8z3ZXhoMndBhEYFLYlM3hSPqgyGUmzAYl4Rm7e2QGIrHcUMHJbc6JaCYjDfoQd
-         Iidg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ikcStFONhfs5hokFZ9u0J5DwZzPFduPyuFeHVqSmKog=;
+        fh=lXsDFaeOENkutiZlXjGo1kP3/bTdcMF0yz/iZyy4PpI=;
+        b=o7li3KeJVdKrdjr7OOCV1/4RwsJlum+d+F3/zpjf7c8iGSZFHaq05rQ5QccV/8t8UX
+         pWXlUCv/hznUzoBYPedzTHt8kWPZ6qYlozq9m5n84mH2r8k2LQMLWA2m9Bh/IeqH4FWn
+         EIHzJNoi+rj0esjzzUEuseM7/V+IuGMRTVBwsVx9xABqjnCde9K36D3RaQWrWqsthejv
+         yjJe0RMP73G47ZeORy64c1JJfo7D0LndkQcV27A/66J1UW6lMLC9SgWRYyofz9RUduWV
+         Ir/aItcPTIPYBWL/XlGo1f8YZha0MKLLIqMXsqeEGuOTw1SS19/PZeA6S0IFO6cDkqLs
+         2Reg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792364193; x=1792968993; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
-        b=loErZrPsVxfxTvLN3UWmgTs8Wtm6cLLzrYo6DywA4QFZniisWD9tcisU9w6WB23bVC
-         XzRBNaWKDnmSg/rWBmzWe9W9urGOPIBIGq6gWH5t2wn43VQ/bRjsMqRGokNzRa0h97Yc
-         IYx3BNEiElmqZuNM5Vo31V4W9Uq/mHPHFVIK4gxseI2QTfq8z6JPlR32XmvGiHxonzdt
-         tiQz1PFgfw6dzDm99MosMlh9k7BCsQXxjToyYaMGxdm5DN07XLDy6ruljYKo8lc1dvdo
-         VJ1lA5Z+dC6C+e8DPOEehRZTcLc/3y59ZzwLH7oJSEmqai/mrWVo/ASj/HXi6uI4II2F
-         0gUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792364193; x=1792968993;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792367620; x=1792972420; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
-        b=at0I3+dPe1XGFSy551bdSoQ234T/C21uFOPHXgSHdFeIaNQPMynKhQuP9TGTmVRpZQ
-         fetmDHAfsXRg4wpdRcS7Al2+0US5zYvd4N17Fj40uobfN/qmv7B3ZD1Un4J/s+iyGjN2
-         9IRrFwCT5wxlH6S354ATbwooesj13CqOptPv5ip/+EFxcHSOstLncdVofgneS+vV8fww
-         O1yvSOrK/DVNDI78CiT5ROy/lqL9J5mqFMbmjioU/BvJV5Q2OUOtWKdqr7ESFJZbLkPn
-         3kyKUj+OgDqFylHuSdO3+dYflC49iagPQCebjoY52Q/308x6Hcq5Va9eLymaMWL5aDJ2
-         +WVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzd4asFN488wRQrlQ6YBvt4uOiEMgKnWLVWN8x+J7AX8PH8RbyPF957us/QyHbxtRieqIqbxvyAVJg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJHp+ZkUpl4EB9bnzR546zF5YNGpj32Q/XjVG40RoIj2rXvunLC
-	gvCXMI/gGp+8nrNoFYBMlLieRxV7XAh5+169b153364trvhreK/qJerTJUsafqEqzxvqo6Yi6cu
-	fv+BHbx7qaNq2TtUxuzhvJ8WXyH8lBZU=
-X-Gm-Gg: AYBFou37u0D9JE3FVQudbOuO2igMRyNqrGNjYw4BVxdJ+5D2fvdaziPcF1RkIzT78sO
-	GO7VAItASZzWoPAU/nyyVizE79VAI1bYolWfkYj5a3wtm0/6TPV77r+1Tf15TBO0fFy4g1JELI7
-	IpuzR23cQ3jRtDLXzpOsdx3odkGl5V8hhWxJ/Q07qYtLK+nEGgCXyKHhKGc2u2uibaTBHHbVtAJ
-	E/kfy32qJQ2S/xjDoXvXy3bSJmrYHu6KN2fyplljy1Rftml3s0acF046AjKJ+784gkl+c65kYeZ
-	Wg6+GujPx93l3lrQXJbTNvRRNtz/ZcPf+qrJrg9wJysyEMWff79QqnM=
-X-Received: by 2002:a05:6830:4128:b0:81d:8057:9b7f with SMTP id
- 46e09a7af769-84500f4d898mr5770027a34.28.1792364193081; Sun, 18 Oct 2026
- 15:56:33 -0700 (PDT)
+        bh=ikcStFONhfs5hokFZ9u0J5DwZzPFduPyuFeHVqSmKog=;
+        b=IZDgA8XPxtSh5SmNztAw9myhG61BrYOUczUp3QyZ3U4M+b/31OnoF0hdpSfL5a9W5k
+         SpPaQA4NCvjY+GWzDVkjQV69DzntUDS4Ha/r+7fZn86vIwu+VmFE45/Ck7dzcO+W0JVn
+         x/My9Pz7dv+WqOzz/StA6xrhvATJoLdO01IcgioEpSnVnJWn8Ogdya6qJUpGNhte2N+Q
+         GBJYQQYzLlELK87jq34hmdd7p69WK4c2g3UfEFkmE/G5EmOvx3d/9U2LaVcqjo1YUb9j
+         XX4j1xByvqrIP//XQuoJ6Uby3mYfgTjlMF2qCNt9T/2+eRhh6IqYmuOcrMis2cTt/Bhr
+         8w6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792367620; x=1792972420;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ikcStFONhfs5hokFZ9u0J5DwZzPFduPyuFeHVqSmKog=;
+        b=cOtcf53AnPm/4N0BcvzblnpMY9oiek2O5SGALD0BnHdcbB2h6b3JNTSNOl8VEqCJ5y
+         7Gw2kU57Ni6Fq0nST9CxJ+NfPapDt352L4Hk37on/BMUFkn9nYatJAzAO7OE/rvnV55n
+         17iFYwM/14f6CvYhT7Xy+BOnnSZVGeBrXSkwH6zSRUbbGIlx4CuOBKW3gNjIP6dPBzbb
+         fENegiNwdJJzghuu76TIAhidJYQLcutIxhpz3ZqsJflQmNEKfINcabcA3FBf4/NNcmDI
+         z9H4f/u/gK+aHZDwf0OfNf/1syXG7W4EmpwAsu57TwrQWP2r5VaV6hqeYxCjyEvkKNh5
+         fCWg==
+X-Forwarded-Encrypted: i=1; AKwUvBz0z7uLQBc4TSLIeGdoVNu1KSO+aImS2GNWKzPl1bJ/Rmo3qmZDWTU88jJc+Xf2nkP1Peo18FYF4lU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKg9z0c4lV8jwHdHLMxkarNvtGFHcB75IBsEXCvthhnDgy8xhmu
+	Wv6n7Eg5iCH3bs4WQRlxgEuOg31D3q8g45if5SPqYvQbz+8lGTb1cH++chg4IyBzAyGKgYnYAk8
+	1PiOtVH5YNG9+dMWuaggZZ3fYkkcZqeY=
+X-Gm-Gg: AYBFou3fNjOscCZY0govBP96tOv2t+TJjxl72WQqvKWlnBb5hEgoQ/t26g1Uy2YCVqQ
+	5q/5eK6tWz9rE9iITk6+iVpL0PB5NzbBNt/2qaDCVmv738X7WlNCtYZmGbN27q9ymJ6yArEpwDf
+	AlvZLisMA6QZxtIIN4rmEl54zWiXhPBntPXhQlbji3jAOQLg3UB+I0LaYhipTTeUK7UyjoVMOyW
+	Q+CkQ+iP54+njTX2TmQAheBvHMbnQtrwU5Ks5TnbjkRvefOFD4htkj6oPBXbF8MfzbM6Qn1cP8g
+	mIZl9oWbJpN0i2cPtGfaP8PFAqjwgWHw4jTHUcLdal1H3Lh24f6Swh/zNkSEWznV12PilvPHZnx
+	WMBazaI+t03TnvwM2Pg==
+X-Received: by 2002:a05:6a00:1806:b0:892:597f:37d8 with SMTP id
+ d2e1a72fcca58-8a04ba18454mr4779902b3a.15.1792367619719; Sun, 18 Oct 2026
+ 16:53:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
-In-Reply-To: <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
-From: Shiju Jose <shijujose2008@gmail.com>
-Date: Sun, 18 Oct 2026 23:56:22 +0100
-X-Gm-Features: AclHuK-FL-g-dxxplQ9WjTqpUo6LUA2zDPurgO-FQV-GA5RtzvuribE1sLlFWfg
-Message-ID: <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
-Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
-To: Borislav Petkov <bp@alien8.de>
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
-	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
-	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
-	wanghuiqiang@huawei.com
+References: <20261015145053.3664509-1-jiri@resnulli.us> <20261016234354.GA664420@nvidia.com>
+ <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
+ <20261017203407.GM13920@nvidia.com> <atPgqROZZxnihYfC@kernel.org> <20261017231007.GP13920@nvidia.com>
+In-Reply-To: <20261017231007.GP13920@nvidia.com>
+From: Dionna Glaze <drdeeglaze@gmail.com>
+Date: Sun, 18 Oct 2026 16:53:28 -0700
+X-Gm-Features: AclHuK9GuI1sFp98b1K0khmGUju9GL5ycOOU8Mt4euoyLz8UHj6wifrtGgAMHK0
+Message-ID: <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX support
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, david.quigley@intel.com, 
+	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
+	cedric.xing@intel.com, sameo@meta.com, James.Bottomley@hansenpartnership.com, 
+	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com, 
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 17, 2026 at 6:59=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Sun, Jul 26, 2026 at 10:28:12PM +0100, shijujose2008@gmail.com wrote:
-> > From: Shiju Jose <shijujose2008@gmail.com>
-> >
-> > ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS=
-2).
-> > Driver adds support for RAS2 feature table, which provides interfaces f=
-or
-> > platform RAS features, e.g., for HW-based memory scrubbing, and logical=
- to
-> > PA translation service. RAS2 uses PCC channel subspace for communicatin=
-g
-> > with the ACPI compliant HW platform.
-> >
-> > ACPI RAS2 auxiliary driver for the memory features binds to the auxilia=
-ry
-> > device, which is added by the RAS2 table parser in the ACPI RAS2 driver=
-.
-> >
-> > Given the address range provided to the userspace may be the lowest scr=
-ub
-> > address range in the presence of disjoint address ranges, skipping addr=
-ess
-> > ranges that are from other NUMA nodes but happen to lie within this ran=
-ge.
-> >
-> > Driver retrieves the PA range of the NUMA domain and use it as the
-> > 'Requested Address Range', when send RAS2 command GET_PATROL_PARAMETERS
-> > to get parameters that apply to all addresses in the NUMA domain.
-> >
-> > Device with ACPI RAS2 scrub feature registers with EDAC device driver,
-> > which retrieves the scrub descriptor from EDAC scrub and exposes
-> > the scrub control attributes for RAS2 scrub instance to userspace in
-> > /sys/bus/edac/devices/acpi_ras_memX/scrub0/.
-> >
-> > Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
-> > the demand scrub, which is used in the RAS2 demand scrub control.
-> > When a demand scrub is started, any background scrub currently in progr=
-ess
-> > will be stopped and then automatically restarted at the beginning when =
-the
-> > demand scrub has completed.
-> >
-> > Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> > Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> > Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> > Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> > ---
-> >  Documentation/ABI/testing/sysfs-edac-scrub |  20 +-
-> >  Documentation/edac/scrub.rst               |  70 +++
-> >  drivers/edac/scrub.c                       |  12 +
-> >  drivers/ras/Kconfig                        |  13 +
-> >  drivers/ras/Makefile                       |   1 +
-> >  drivers/ras/acpi_ras2.c                    | 624 +++++++++++++++++++++
-> >  include/acpi/ras2.h                        |  29 +
-> >  include/linux/edac.h                       |   4 +
-> >  8 files changed, 768 insertions(+), 5 deletions(-)
-> >  create mode 100644 drivers/ras/acpi_ras2.c
->
-> Was this supposed to build on x86?
->
-> drivers/ras/acpi_ras2.c: In function =E2=80=98ras2_update_patrol_scrub_pa=
-rams_cache=E2=80=99:
-> drivers/ras/acpi_ras2.c:68:9: error: implicit declaration of function =E2=
-=80=98iowrite64=E2=80=99; did you mean =E2=80=98iowrite32=E2=80=99? [-Werro=
-r=3Dimplicit-function-declaration]
->    68 |         iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_ran=
-ge[0]);
->       |         ^~~~~~~~~
->       |         iowrite32
-> drivers/ras/acpi_ras2.c:99:34: error: implicit declaration of function =
-=E2=80=98ioread64=E2=80=99; did you mean =E2=80=98ioread32=E2=80=99? [-Werr=
-or=3Dimplicit-function-declaration]
->    99 |                 ras2_ctx->base =3D ioread64(&ps_sm->params.actl_a=
-ddr_range[0]);
->       |                                  ^~~~~~~~
->       |                                  ioread32
-> cc1: some warnings being treated as errors
-> make[4]: *** [scripts/Makefile.build:290: drivers/ras/acpi_ras2.o] Error =
-1
-> make[4]: *** Waiting for unfinished jobs....
-> make[3]: *** [scripts/Makefile.build:551: drivers/ras] Error 2
-> make[3]: *** Waiting for unfinished jobs....
-> make[2]: *** [scripts/Makefile.build:551: drivers] Error 2
-> make[2]: *** Waiting for unfinished jobs....
->
-> .config attached.
+> On Sat, Oct 17, 2026 at 11:55:05PM +0300, Jarkko Sakkinen wrote:
+> > I wish I had a better picture what is going on.
 
-Hi Boris,
+Me too. I've spent my Sunday with Claude trying to build some
+understanding of all this stuff, and put together a static site about
+this series.
 
-I have got an arm64 setup only, did not try to build for X86 recently
-after adding the following change
-of using iowrite64 and ioread64 as suggested by
-https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei.com
+https://deeglaze.github.io/scratch/ctlv-site/index.html
 
-Following change is required to build for X86_64 build when using
-iowrite64 and ioread64, while it was
-fine for the ARM64 build.
-Note: I'm not sure whether RAS2 is needed for the 32 bit build or not
-and the result of the 32 bit build.
+It includes a review that I've personally walked through to ensure it
+wasn't off base, but of course we're all fallible here.
+I haven't decided to email the review comments to the list yet because
+it's pretty thorough for something posted here as an RFC.
 
-diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
-index 51adfcddfa99..cb389ae6a3fa 100644
---- a/drivers/ras/acpi_ras2.c
-+++ b/drivers/ras/acpi_ras2.c
-@@ -12,6 +12,7 @@
- #include <linux/bitfield.h>
- #include <linux/delay.h>
- #include <linux/edac.h>
-+#include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/kthread.h>
- #include <linux/platform_device.h>
- #include <acpi/ras2.h>
+I think something to be really careful about with this series is how
+it's managing kernel memory.
 
-Thanks,
-Shiju
+* https://deeglaze.github.io/scratch/ctlv-site/review-02.html#reply-7
+* https://deeglaze.github.io/scratch/ctlv-site/review-04.html#reply-27
+* https://deeglaze.github.io/scratch/ctlv-site/review-07.html#reply-7
+* https://deeglaze.github.io/scratch/ctlv-site/review-11.html#reply-8
+* https://deeglaze.github.io/scratch/ctlv-site/review-16.html#reply-30
+* https://deeglaze.github.io/scratch/ctlv-site/review-18.html#reply-19
+
+Something I and some others dislike about IMA is the unbounded log. I
+don't know how many stalled proposals there have been so far to permit
+some model of "snapshot/endorse and truncate" to allow a remote
+attestation verification service to store existing logs in object
+storage, measure the reference and/or trusted signature that the log
+was "good", and then drop everything in the log prior to the
+pointer/endorsement event, but we have a chance to start with the
+right model here. I liked Tushar's talk in 2024
+https://www.youtube.com/watch?v=5cXDrIx8Qgo
+IMA carries its log through kexec and this log doesn't, which is a
+hazard to later attestations that don't have some other out of band
+protocol to associate its boot instance with some off-box cache of the
+rest of the log.
 
 >
-> --
-> Regards/Gruss,
->     Boris.
+> Currently we don't have an intention to flow TPM command packets
+> through this. Anything would be a high level operation like 'extend'
 >
-> https://people.kernel.org/tglx/notes-about-netiquette
+
+If you're not intercepting all extends through other interfaces to the
+registers (e.g., /dev/tpmrm0), then it needs to be clearer in the
+documentation that users not using the interface will break users of
+the interface when they both target overlapping sets of registers.
