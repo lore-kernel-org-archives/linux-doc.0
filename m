@@ -1,261 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFE03D88F2;
-	Sun, 18 Oct 2026 19:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792350084; cv=none; b=CktF0z+xBwhNG1bDKIl1P/qtDOlcV4fYptb0N62td3KM/xw8zDeaPCGFxEZTaWb0KwJnP2M7uK4vBYb04T7zqBSvNd00L94tzDscXWxTu7xzjmk9DkBp5eg89q/VJoenZAGftVD286axY8a5Xog8xxXaFiD+Nk5EYCYeHE+nzv8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792350084; c=relaxed/simple;
-	bh=iWJG779yOuxF9lIWVVKE3yiLd3Z3jYZQJzScMH5sPK8=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XvVhjB8xKPkjGlpdmXiN7DA5bBNfG1AJOb1f+YFWIl5t+k2rlH/buew8wP0tMPbCdsc5uI5DWmN867NkCH/+I0XbXgGBNpQW45rmvDE2ym5UzfORP0B+Np3juyN71ZQBwcU5fhi1rxF4lNzMAyyRIaLzhoDaN2v9a/GxoQZ6ysw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ht/NiUdE; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431CB3D903B
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 22:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792364195; cv=pass; b=DP/UtnddFJ7kivXpdTeQjlnliMV1qR5i8uWxw8RaCtKLeQnX2GSWzUge8VRMVZakKLMcZog+H9bmb2QmyTd9lhWr1C0OE/eSmXJ33mFLiQ2gBvV8Q1ndOHFSdnDwCmQDhXjHIvUl8Iq7h0rN+sq6irVXyiJAbz3zaevHmZILrGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792364195; c=relaxed/simple;
+	bh=VOFkIvAigdspmltRsC5BPa5luOWcWKRWs14otyoXgFw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PdM5xF7NfJKfBVBITmAvrbt9Ym75Gd3PF3oowF2bqPqfkMdU6KhmSJ9MdHnTLqe+KNJTQJXyLsiIFHA8xgik1C69RPsjVdMbfaHnUOAJz0B2svofvHZyR8yTfK7gnQPwqykFJd31W7g769/kiguHcPmF13WazdvOnqwPS75ytyY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=loErZrPs; arc=pass smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ht/NiUdE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909131F000C4;
-	Sun, 18 Oct 2026 19:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792350082;
-	bh=1/PiK1yxGcnIDZlYmYqoPQmryik+z+AWLSMwNlikbBw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ht/NiUdEvCwYshvmFt2PDa6DtD5Ta1XQ/3vbSy9go+k4FTloGl8d55IsD8A68yDNE
-	 bMduZCrtwF+HJ2LgHaG3w2Woy0bm7oPCml4/gYVBZKY3EBk8T6KVsQN91eZYLlkdqW
-	 J8x535+qdY4X/mQrAw1tO5SkoBwMV3radDDtIaH9AS2Cioo0Jk0Gc4KUeTxyn0QmNb
-	 VEiHdmOf81piVkURmO8BCUzNotdA/WTGx0n8Hla/3o4V1H7hS7FrwAgRRWGl3mATrh
-	 Asy5vqc0k1PCqRU/5Gqaha+mwIO1ryBNieAzmsZ1t2zkH7GWH+Bxh0bdI+RO/i6MY5
-	 hSnDQPERoAx/w==
-Subject: Re: [PATCH net-next v3 3/3] selftests: drv-net: pause: Validate pause
- autoneg interactions with link autoneg
-From: netdev-bot+sashiko@kernel.org
-To: maxime.chevallier@bootlin.com
-Cc: andrew@lunn.ch, kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, linux@armlinux.org.uk,
- hkallweit1@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org,
- o.rempel@pengutronix.de, vladimir.oltean@nxp.com, f.fainelli@gmail.com,
- thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Sun, 18 Oct 2026 19:01:21 +0000
-Message-ID: <179235008114.3135.14318594489781607533@kernel.org>
-In-Reply-To: <20261015134350.629593-4-maxime.chevallier@bootlin.com>
-References: <20261015134350.629593-4-maxime.chevallier@bootlin.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="loErZrPs"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-81ae6aefdceso1371460a34.0
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 15:56:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792364193; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XSncXMJEFVb2ZbVtLq7eI/WZ16RdR6do/gB4CVYdEkCq8UXfJ9f5l2KzlnN+z5X/q7
+         mg3NvH85nXE7flaataXun8LvcsXU+YsCLLtnppU/F44Zq44ti+Ygoh2B+1ZpUZ+6yt+C
+         zmHinqJWthloFMcLwsP4limfDCyYfTFNVyb1ja+AeXoXCAa4vxArUQ7OW2jG3pO/SvBH
+         ZONkSRVVxvUwTMnKp3EKE2Pjlmw+fBZDm+3hoNMSlN5svpDXltXaSe8qjSqMOjeSq3ti
+         EvxVMBOE0Uep5EV6IoR77e0o/8FJSldmOOHuluiGvYRBmAW1nW3xerxISw5aT25sRjI+
+         KlFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
+        fh=ZARqXFHXY+xpR+XCNtwm4x330gncvHvkigeCOlqfLw8=;
+        b=lh+g+hpyyPlXv5+idcNEAqphjmvluMbGsNe/dYqd1eVajU1Vbi8dwAOeJcFUdodcDf
+         BbxDGvATjhvnN6Ge4kAErsmhKxOSWiUFjZPfzWGCAxG4NAZjxnLtPCNo9F463mXE6GUc
+         uhEwjMEM5vxweN15SeAIGHmNLS98L/S9CobUcOfEByXi9R6aXI4ASnhHSJBARFn7alOa
+         Iyhjx2CZskbKxkj8hNUXSj1gC5oZY+0ZLnkLnaCUkm1H6/+HSTorl/gYccHDzpl62VBi
+         4raU2p8z3ZXhoMndBhEYFLYlM3hSPqgyGUmzAYl4Rm7e2QGIrHcUMHJbc6JaCYjDfoQd
+         Iidg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792364193; x=1792968993; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
+        b=loErZrPsVxfxTvLN3UWmgTs8Wtm6cLLzrYo6DywA4QFZniisWD9tcisU9w6WB23bVC
+         XzRBNaWKDnmSg/rWBmzWe9W9urGOPIBIGq6gWH5t2wn43VQ/bRjsMqRGokNzRa0h97Yc
+         IYx3BNEiElmqZuNM5Vo31V4W9Uq/mHPHFVIK4gxseI2QTfq8z6JPlR32XmvGiHxonzdt
+         tiQz1PFgfw6dzDm99MosMlh9k7BCsQXxjToyYaMGxdm5DN07XLDy6ruljYKo8lc1dvdo
+         VJ1lA5Z+dC6C+e8DPOEehRZTcLc/3y59ZzwLH7oJSEmqai/mrWVo/ASj/HXi6uI4II2F
+         0gUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792364193; x=1792968993;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ejS/LpjqoYagtCx8wF4IBCZ5sMYQJivNYsQq5fSIx44=;
+        b=at0I3+dPe1XGFSy551bdSoQ234T/C21uFOPHXgSHdFeIaNQPMynKhQuP9TGTmVRpZQ
+         fetmDHAfsXRg4wpdRcS7Al2+0US5zYvd4N17Fj40uobfN/qmv7B3ZD1Un4J/s+iyGjN2
+         9IRrFwCT5wxlH6S354ATbwooesj13CqOptPv5ip/+EFxcHSOstLncdVofgneS+vV8fww
+         O1yvSOrK/DVNDI78CiT5ROy/lqL9J5mqFMbmjioU/BvJV5Q2OUOtWKdqr7ESFJZbLkPn
+         3kyKUj+OgDqFylHuSdO3+dYflC49iagPQCebjoY52Q/308x6Hcq5Va9eLymaMWL5aDJ2
+         +WVQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzd4asFN488wRQrlQ6YBvt4uOiEMgKnWLVWN8x+J7AX8PH8RbyPF957us/QyHbxtRieqIqbxvyAVJg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJHp+ZkUpl4EB9bnzR546zF5YNGpj32Q/XjVG40RoIj2rXvunLC
+	gvCXMI/gGp+8nrNoFYBMlLieRxV7XAh5+169b153364trvhreK/qJerTJUsafqEqzxvqo6Yi6cu
+	fv+BHbx7qaNq2TtUxuzhvJ8WXyH8lBZU=
+X-Gm-Gg: AYBFou37u0D9JE3FVQudbOuO2igMRyNqrGNjYw4BVxdJ+5D2fvdaziPcF1RkIzT78sO
+	GO7VAItASZzWoPAU/nyyVizE79VAI1bYolWfkYj5a3wtm0/6TPV77r+1Tf15TBO0fFy4g1JELI7
+	IpuzR23cQ3jRtDLXzpOsdx3odkGl5V8hhWxJ/Q07qYtLK+nEGgCXyKHhKGc2u2uibaTBHHbVtAJ
+	E/kfy32qJQ2S/xjDoXvXy3bSJmrYHu6KN2fyplljy1Rftml3s0acF046AjKJ+784gkl+c65kYeZ
+	Wg6+GujPx93l3lrQXJbTNvRRNtz/ZcPf+qrJrg9wJysyEMWff79QqnM=
+X-Received: by 2002:a05:6830:4128:b0:81d:8057:9b7f with SMTP id
+ 46e09a7af769-84500f4d898mr5770027a34.28.1792364193081; Sun, 18 Oct 2026
+ 15:56:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+In-Reply-To: <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Sun, 18 Oct 2026 23:56:22 +0100
+X-Gm-Features: AclHuK-FL-g-dxxplQ9WjTqpUo6LUA2zDPurgO-FQV-GA5RtzvuribE1sLlFWfg
+Message-ID: <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+To: Borislav Petkov <bp@alien8.de>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
+	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
+	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+On Sat, Oct 17, 2026 at 6:59=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Sun, Jul 26, 2026 at 10:28:12PM +0100, shijujose2008@gmail.com wrote:
+> > From: Shiju Jose <shijujose2008@gmail.com>
+> >
+> > ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS=
+2).
+> > Driver adds support for RAS2 feature table, which provides interfaces f=
+or
+> > platform RAS features, e.g., for HW-based memory scrubbing, and logical=
+ to
+> > PA translation service. RAS2 uses PCC channel subspace for communicatin=
+g
+> > with the ACPI compliant HW platform.
+> >
+> > ACPI RAS2 auxiliary driver for the memory features binds to the auxilia=
+ry
+> > device, which is added by the RAS2 table parser in the ACPI RAS2 driver=
+.
+> >
+> > Given the address range provided to the userspace may be the lowest scr=
+ub
+> > address range in the presence of disjoint address ranges, skipping addr=
+ess
+> > ranges that are from other NUMA nodes but happen to lie within this ran=
+ge.
+> >
+> > Driver retrieves the PA range of the NUMA domain and use it as the
+> > 'Requested Address Range', when send RAS2 command GET_PATROL_PARAMETERS
+> > to get parameters that apply to all addresses in the NUMA domain.
+> >
+> > Device with ACPI RAS2 scrub feature registers with EDAC device driver,
+> > which retrieves the scrub descriptor from EDAC scrub and exposes
+> > the scrub control attributes for RAS2 scrub instance to userspace in
+> > /sys/bus/edac/devices/acpi_ras_memX/scrub0/.
+> >
+> > Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+> > the demand scrub, which is used in the RAS2 demand scrub control.
+> > When a demand scrub is started, any background scrub currently in progr=
+ess
+> > will be stopped and then automatically restarted at the beginning when =
+the
+> > demand scrub has completed.
+> >
+> > Co-developed-by: Jonathan Cameron <jic23@kernel.org>
+> > Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+> > Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> > Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
+> > ---
+> >  Documentation/ABI/testing/sysfs-edac-scrub |  20 +-
+> >  Documentation/edac/scrub.rst               |  70 +++
+> >  drivers/edac/scrub.c                       |  12 +
+> >  drivers/ras/Kconfig                        |  13 +
+> >  drivers/ras/Makefile                       |   1 +
+> >  drivers/ras/acpi_ras2.c                    | 624 +++++++++++++++++++++
+> >  include/acpi/ras2.h                        |  29 +
+> >  include/linux/edac.h                       |   4 +
+> >  8 files changed, 768 insertions(+), 5 deletions(-)
+> >  create mode 100644 drivers/ras/acpi_ras2.c
+>
+> Was this supposed to build on x86?
+>
+> drivers/ras/acpi_ras2.c: In function =E2=80=98ras2_update_patrol_scrub_pa=
+rams_cache=E2=80=99:
+> drivers/ras/acpi_ras2.c:68:9: error: implicit declaration of function =E2=
+=80=98iowrite64=E2=80=99; did you mean =E2=80=98iowrite32=E2=80=99? [-Werro=
+r=3Dimplicit-function-declaration]
+>    68 |         iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_ran=
+ge[0]);
+>       |         ^~~~~~~~~
+>       |         iowrite32
+> drivers/ras/acpi_ras2.c:99:34: error: implicit declaration of function =
+=E2=80=98ioread64=E2=80=99; did you mean =E2=80=98ioread32=E2=80=99? [-Werr=
+or=3Dimplicit-function-declaration]
+>    99 |                 ras2_ctx->base =3D ioread64(&ps_sm->params.actl_a=
+ddr_range[0]);
+>       |                                  ^~~~~~~~
+>       |                                  ioread32
+> cc1: some warnings being treated as errors
+> make[4]: *** [scripts/Makefile.build:290: drivers/ras/acpi_ras2.o] Error =
+1
+> make[4]: *** Waiting for unfinished jobs....
+> make[3]: *** [scripts/Makefile.build:551: drivers/ras] Error 2
+> make[3]: *** Waiting for unfinished jobs....
+> make[2]: *** [scripts/Makefile.build:551: drivers] Error 2
+> make[2]: *** Waiting for unfinished jobs....
+>
+> .config attached.
 
-Low priority / nit picks for your consideration:
+Hi Boris,
 
-- [Low] The commit message says the tests check two invariants: (1) if
-  pause autoneg is on, it stays on when link autoneg is disabled; (2) if…
-- [Low] Two test docstrings claim more than the tests check.
-- [Low] The supported_pauseparams() docstring says it returns 'The rx/tx
-  params covering every mode the local device supports', and callers say…
-- [Low] require_link_autoneg() reads `ethtool(f"{cfg.remote_ifname}",
-  json=True, host=cfg.remote)[0]["supports-auto-negotiation"]` (lines…
+I have got an arm64 setup only, did not try to build for X86 recently
+after adding the following change
+of using iowrite64 and ioread64 as suggested by
+https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei.com
 
---
+Following change is required to build for X86_64 build when using
+iowrite64 and ioread64, while it was
+fine for the ARM64 build.
+Note: I'm not sure whether RAS2 is needed for the 32 bit build or not
+and the result of the 32 bit build.
 
-selftests: drv-net: pause: Validate pause autoneg interactions with link autoneg
+diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
+index 51adfcddfa99..cb389ae6a3fa 100644
+--- a/drivers/ras/acpi_ras2.c
++++ b/drivers/ras/acpi_ras2.c
+@@ -12,6 +12,7 @@
+ #include <linux/bitfield.h>
+ #include <linux/delay.h>
+ #include <linux/edac.h>
++#include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/kthread.h>
+ #include <linux/platform_device.h>
+ #include <acpi/ras2.h>
 
-This commit adds four tests and some helpers to the drv-net pause.py
-selftest. The tests check that toggling pause autoneg keeps the user's
-rx/tx intent and advertising. They also check that pause autoneg and link
-autoneg do not override each other.
+Thanks,
+Shiju
 
-> diff --git a/tools/testing/selftests/drivers/net/hw/pause.py b/tools/testing/selftests/drivers/net/hw/pause.py
-> index cd117296be333..ca4a55e59c30f 100755
-> --- a/tools/testing/selftests/drivers/net/hw/pause.py
-> +++ b/tools/testing/selftests/drivers/net/hw/pause.py
-> @@ -119,6 +119,17 @@ def require_controllable_lp(cfg):
->      if not controllable_lp(cfg):
->          raise KsftSkipEx(f"{cfg.remote_ifname} is not directly connected to {cfg.ifname}")
->  
-> +def require_link_autoneg(cfg):
-> +    """ Skip if local or remote device don't support link aneg """
-> +    # Does local device support link aneg
-> +    if not ethtool(f"{cfg.ifname}", json=True)[0]["supports-auto-negotiation"]:
-> +        raise KsftSkipEx(f"{cfg.ifname} doesn't support link autoneg")
-> +
-> +    # Does remote device support link aneg
-> +    if not ethtool(f"{cfg.remote_ifname}",
-> +                   json=True, host=cfg.remote)[0]["supports-auto-negotiation"]:
-> +        raise KsftSkipEx(f"Remote {cfg.remote_ifname} doesn't support link autoneg")
-
-[Severity: Low]
-What happens here if the remote doesn't report link modes at all? ethtool
-prints supports-auto-negotiation together with the other link mode fields.
-If the key is missing, this raises KeyError instead of KsftSkipEx.
-
-In pause_autoneg_state_adv(), the only guard before this call is
-require_pause_supported_anyof(), and it looks only at the local device.
-pause_setup() would skip cleanly in this case:
-
-    if "auto-negotiation" not in link:
-        raise KsftSkipEx(f"{cfg.remote_ifname} doesn't report its link modes")
-
-but pause_setup() runs after require_link_autoneg(). ksft_run() counts any
-exception other than KsftSkipEx/KsftXfailEx as a failure.
-
-Would pause_autoneg_state_adv() then fail instead of skip on such a setup?
-
-The other three new tests call require_peer_pause_supported_allof() first,
-and it already skips when the remote reports no link modes.
-
-[ ... ]
-
-> @@ -290,8 +315,51 @@ def require_peer_pause_supported_allof(cfg, linkmodes):
->          if lm not in pause_support:
->              raise KsftSkipEx(f"Remote device doesn't support {lm}")
->  
-> +def supported_pauseparams(cfg):
-> +    """ The rx/tx params covering every mode the local device supports """
-> +
-> +    _, pause_support = get_local_pause_supported(cfg)
-> +    if "Pause" in pause_support:
-> +        return 1, 1
-
-[Severity: Low]
-This isn't a bug, but does the docstring match what this function returns?
-In pauseparams_to_linkmodes, rx=1/tx=1 maps to Pause only:
-
-        1: {"rx": 1, "tx": 1, "linkmodes": ["Pause"]}},
-
-On a device that supports both Pause and Asym_Pause, this returns (1, 1).
-So pause_autoneg_state_adv(), pause_autoneg_off_while_link_autoneg_on() and
-pause_autoneg_link_autoneg() never advertise Asym_Pause on that device. Only
-rx=1/tx=0 advertises both modes.
-
-The caller comments "Enable all possible pauseparams" and "Enable all
-possible pause modes" describe the same wider coverage.
-
-> +    if "Asym_Pause" in pause_support:
-> +        return 0, 1
-> +
-> +    raise KsftSkipEx("Local device doesn't support pause")
-
-[ ... ]
-
-> @@ -663,12 +731,211 @@ def pause_aneg_resolution(cfg, settings):
-
-[ ... ]
-
-> +@ksft_disruptive
-> +def pause_autoneg_off_while_link_autoneg_on(cfg):
-> +    """ Validate that when link autoneg is on but pause autoneg is off, we do
-> +        not use negotiated pause parameters.
-> +
-> +        Failing this test means the MAC driver incorrectly accounts for the
-> +        negotiated pause parameters even with pause aneg off, likely due to
-> +        confusion between link autoneg and pause autoneg.
-> +    """
-
-[ ... ]
-
-> +    set_peer_pauseparams(cfg, 0, 0, True)
-> +    wait_for_aneg(cfg)
-> +
-> +    ethtool(f"-r {cfg.ifname}")
-> +    wait_for_aneg(cfg, link_drop=True)
-> +
-> +    # Pause autoneg must still be off even after a link renegotiation
-> +    check_local_pauseparams(cfg, False, rx, tx)
-
-[Severity: Low]
-Can this check detect what the docstring describes? check_local_pauseparams()
-only compares the autonegotiate, rx and tx fields from ethtool -a. For
-phylink drivers those fields hold the stored request, not what was
-programmed into the MAC:
-
-drivers/net/phy/phylink.c:phylink_ethtool_get_pauseparam() {
-    ...
-	pause->autoneg = !!(pl->link_config.pause & MLO_PAUSE_AN);
-	pause->rx_pause = !!(pl->link_config.pause & MLO_PAUSE_RX);
-	pause->tx_pause = !!(pl->link_config.pause & MLO_PAUSE_TX);
-}
-
-Many non-phylink drivers also return their cached rx/tx values. Suppose the
-peer moves to rx 0 / tx 0 and the MAC wrongly applies the resolved all-off
-result. It would still report the forced values here and pass. The check
-does catch drivers whose get_pauseparam reports the resolved state.
-
-The pause_autoneg_link_autoneg() docstring has a similar gap:
-
-    is the user intent. When link autoneg is re-enabled, pause params must be
-    derived from the negotiation.
-
-After link autoneg is re-enabled, that test only checks the cached intent
-and the local and link partner advertising. Unlike pause_aneg_resolution(),
-it never reads params["negotiated"]. Nothing checks pause frame counters or
-traffic to confirm that the MAC applies the negotiated flow control.
-
-ethtool also seems to compute its negotiated output in userspace from the
-local and link partner advertising. If so, pause frame statistics may be
-the only way to see what the MAC is really doing.
-
-Should the docstrings be narrowed to what is actually checked? Or could the
-tests verify the applied state, for example through pause frame statistics?
-
-[ ... ]
-
-> +@ksft_disruptive
-> +def pause_autoneg_link_autoneg(cfg):
-
-[ ... ]
-
-> +    # Enable all possible pause modes and autoneg
-> +    set_peer_pauseparams(cfg, 1, 1, True)
-> +    ksft_eq(set_local_pauseparams(cfg, rx, tx, True), 0)
-> +    wait_for_aneg(cfg)
-
-[ ... ]
-
-> +    # Re-enable autoneg
-> +    ethtool(f"-s {cfg.remote_ifname} autoneg on", host=cfg.remote)
-> +    ethtool(f"-s {cfg.ifname} autoneg on")
-> +    wait_for_aneg(cfg)
-
-[Severity: Low]
-The commit message lists two invariants:
-
-     - If Pause autoneg is on, it must stay on when link autoneg is disabled
-       (even though Pause won't actually be negotiated)
-     - If Pause autoneg is off, it must stay off when link autoneg is
-       enabled
-
-It also says the tests verify "that the user intent is correctly cached when
-toggling link autoneg".
-
-Is the second invariant covered when link autoneg is toggled? This is the
-only test that toggles link autoneg, and pause autoneg is always on when it
-does.
-
-pause_autoneg_off_while_link_autoneg_on() is the only test that runs with
-pause autoneg off. It keeps link autoneg on the whole time and only
-restarts negotiation:
-
-    ethtool(f"-r {cfg.ifname}")
-
-pause_autoneg_state_adv() and pause_autoneg_state_params() never change
-link autoneg. The steady state with link autoneg on, including a
-renegotiation, is tested, but an explicit link autoneg off -> on transition
-with pause autoneg off is not.
-
-Suppose a driver's set_link_ksettings copies cmd->base.autoneg into its
-cached pause autoneg. Wouldn't that driver pass every test in the suite?
-
-Could a pause autoneg off variant of this test run the same link autoneg
-off -> on cycle?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261015134350.629593-1-maxime.chevallier%40bootlin.com
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
