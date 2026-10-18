@@ -1,108 +1,148 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B043B71DC
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 06:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625173A1E80;
+	Sun, 18 Oct 2026 06:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792304532; cv=none; b=nlwvd/L+eweVs7Crn4gyAyj7Z/5WPG6vuzKuQC1haZHn6Kr5rNzn8JH6d/swCHuhIMc+/bo9DRNBCVXKXgEaMhJJ5i/VFkdUaYvlD+/JJFGM8l58IGv2rvOm5BA+1Ha9/4t8MdbXpXft5lbFHSsIZyBcbgsx3uRcvT9jH6LousQ=
+	t=1792304662; cv=none; b=DxJhQVCrM08eqKx2chE55WdjRfp/fcmGTFitTTKeZtH3KhfiuMg8hKmz4MH41n91Xif/9eK2/Ugloo2GPWSE6HDheNXKQcGkSCZa2p8YoP4V4o6o8AAqOJNw/5Rk/DtUVXaIAu37nj4Yz3YHuuGoGHtN8OoAuFJV4rCwVq33Ra8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792304532; c=relaxed/simple;
-	bh=y8F7dXJHndM13xZhNRXHWKnJACtvf/G0EiIhGDJJtWw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SooJHYjE3u0kPwfIW1NMq1PlfB+cEOby1rI5oEsO9xyPavJ98XEhL6p1ysrRtgLwncIrxZhVodXzlwaOeopdNP2kUwgdttItEhoh596rcUeI9JIvjDEuxIw5yOX7kurmd8tzV5gBbMG5fVuaXbi7fpqi3ttGa0TxuPihLo8bjws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpRZ6G95; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792304662; c=relaxed/simple;
+	bh=/agrnax0wfksccKHgEoBGnRbFp7OLiMy5dYjThZCV3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=laLTFZ0L8EZtYibBQZssoj7jd0mVxO66dr9IpZMNj1jnDWhfKquCcGMmPlyiqE6zP3iBjCDJ47Xt3smhd/pN0+vp6fZBbLQim9fRP3mp+3H2XezU8gSR20e6LXLRnJt+x6erH5WZD4yZN4h11BfGyU8VeFSJ9P3Dt7yspp9meVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePeHDgCz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpRZ6G95"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-873a4edb243so656066b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 23:22:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792304530; x=1792909330; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9ImNMEDi8oPrWIx71COnlaNJwSBMr2u0fGsfEGtTKVc=;
-        b=jpRZ6G95dVbCisuXSRF1PGL7VWpZfc7cqqzlvnta0wcWdu7mkYPlgmpooLCj7yNDcV
-         +7JooiXIsgUqoeARYKEPCsesEBLTcQwBq7pDTavELZTRJpSJ9zNNz3iKaOCOVhmJzX7j
-         1+z2POJbvLq5itzyfI8qpw5syO7D7robQJAC6nV9vLvATm6ekntSHSo2nXI208gbI0l6
-         cQisLx1Am2Z0t6Z1QjAoSqVZfIF021GMN86X9zDmUMXwHgsKiGjxrWE8JL+9mIgrHtOs
-         Bad5Nr5MDW5i4lqaRCSRkHM3PqyUjjjDx+lFZGp5L0n1M7kJQFrTEQoDGfyncVS4H6Sh
-         GhUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792304530; x=1792909330;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9ImNMEDi8oPrWIx71COnlaNJwSBMr2u0fGsfEGtTKVc=;
-        b=o6PYfsD4hMufKO2mqJ0OJErdsGt/Xe0JD6icSr94kPkTgiGCY1prD4xICQWJ4BYZ2V
-         BCgGSMpvOFu2c/7AK6IrTBn8+cBi40+B99dwL2QhTY1qMtetHZ9V8XJHNuGeyopr2Tip
-         8l3Wt4/RTFoKdVMo42ow+nLt7TXVruqaT2hFbCi2BeZj8C75UIV5bSAUc+8RLTWbz2T2
-         oU6b+UylBE+p+scWvBs/+8G3uGuFajjCMNckdWcQ9WctsEulpdUSolKWLIh7VH+FUpeo
-         O3bSvFuXRlYvIAtRhBPaNifscSfqg0ogmMnfVj0hJLIdyykrs6o/99t0hVfj/qf8rEeA
-         OpcA==
-X-Forwarded-Encrypted: i=1; AKwUvBx7R38a2CEkEvmy9Br2WvK6/ob+yXb4NZupI8M2lx7eXGXpG4ee0ChbfdvOEDt2XsKyBiOweYWz5H4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKmKj5BWTk43ac6qRTBx24u4jsMhRrCVT+5e16R2PHOSw1je2H5
-	h51GsVUnzIpsS//l4kFPHwSesB4I6qEQogDLkEY9ZBeZm6YflQ/oilwp1h7gQA==
-X-Gm-Gg: AYBFou1nKZb8LEHJ5/KPtyhw1sIoaLHUsHet8QAS/Vi6c1KOeHw051scTnLiqFm49E6
-	NhK3/8gZ0uG9bNpD1bPmLCHMp1xdUaVR2ZWHC5Mw7xFGLxuB7uKVehCrNE9/VfaSM2AwItkQ8nA
-	yVX6cK/zHKHER7Zez1yHPy+g4WoT1Co9nIIkltI6OcgLUMIcLy9lXemK8/BDZUOWiiRksXXi8Ev
-	IW6KfrsthrSRKvX1OvVtWaPhe3xVFK8bwKT1XWLqutMXQR6wOMedx6n0RRgrrLga0z2ux4AGEFP
-	ebXNlUJJiruYECk7r/2PVhbCUqnWbqxM7GMzkyv4tctJhOLAXxzztbXDOxtDrSNdogVsR9jMgbS
-	e1tHzHB36E8naU07mxSZltFAEE1bxhKVMvmP9CpJMYFosyTB3fZQ2IJ03hHRVhcW4tp+jUadFQ9
-	AzpsGNi96AKmfJVlVMRTvQewyZklxJl89k/c6ctxPQNv+H6bhxtFrWv3ijRZ1l5lRyK2AYmvEhR
-	ipFrn1yzOMGKd8oV9/f8WCi3+Z6
-X-Received: by 2002:a05:6a00:1707:b0:882:ae75:b846 with SMTP id d2e1a72fcca58-8a04ac2a7e8mr3453484b3a.4.1792304529741;
-        Sat, 17 Oct 2026 23:22:09 -0700 (PDT)
-Received: from localhost.localdomain ([222.254.197.26])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a05d4b04dcsm584738b3a.16.2026.10.17.23.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 23:22:09 -0700 (PDT)
-From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Subject: Re: [PATCH] docs: submitting-patches: use git switch to create branches
-Date: Sun, 18 Oct 2026 13:22:00 +0700
-Message-ID: <20261018062200.29256-1-ducthinh100812@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <ardqGdjnd7kC1B-E@wyuan.org>
-References: <ardqGdjnd7kC1B-E@wyuan.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePeHDgCz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CA51F000C4;
+	Sun, 18 Oct 2026 06:24:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792304660;
+	bh=w2Qw0jIYjCcszsE1XhibnTlIkBb9EQqyKTQh4sDtAhk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ePeHDgCzDAgLo5tVEJsA16jTv75lNDD4irGGQJwjWhGDdajzpwDF1XoZKX2cH8FKG
+	 6+84L4TEf90k5sfW+5L0TxhPmVmwCWlmu6H+ZGx8D0RX67pZp744hZPBx9G1cHMBot
+	 UdMQaY3PzH1HKDwkxskY0TPGkM4ms2SL1DZcxvgCbnagZIRlGcBPr0XL7gbNWxaaQf
+	 JAsWz6BXTpZdRev/RVo/hBr4Zj8ghnrg0namZ1kxJS40CHQhfFnLtZ57xyk73av15d
+	 ZCXRYLjrG5uGL7EwCp1kRZbF1khfUAb/o+8QTP4rJ9tHcijYsoX88mHRWVDalZCG4O
+	 u5IIlWgJaAxvA==
+Date: Sat, 17 Oct 2026 23:24:19 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Sunil V L <sunilvl@oss.qualcomm.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 5/5] riscv_cbqri: Add CBQRI capacity allocation
+ platform driver
+Message-ID: <atRmE5lKNxmskzTm@thelio>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
+ <20261003-dfustini-atl-sc-cbqri-dt-v9-5-52fd8be98dcf@kernel.org>
+ <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
 
-On Sat, Sep 26, 2026 at 14:45:45 +0800, Weijie Yuan wrote:
->     \$ git checkout -t -b my-topical-branch master
-> +    \$ git switch -t -c my-topical-branch master
->      Branch 'my-topical-branch' set up to track local branch 'master'.
->      Switched to a new branch 'my-topical-branch'
-> 
-> @@ -882,7 +882,7 @@ notice that it will have the ``base-commit:`` trailer at the very
->  bottom, which provides the reviewer and the CI tools enough information
->  to properly perform ``git am`` without worrying about conflicts::
-> 
-> -    \$ git checkout -b patch-review [base-commit-id]
-> +    \$ git switch -c patch-review [base-commit-id]
->      Switched to a new branch 'patch-review'
->      \$ git am patches.mbox
->      Applying: First Commit
+On Mon, Oct 12, 2026 at 10:33:21PM +0530, Sunil V L wrote:
+> On Sat, Oct 3, 2026 at 12:45 PM Drew Fustini <fustini@kernel.org> wrote:
+> >
+> > Add a platform driver for CBQRI capacity controllers described in
+> > device tree with the riscv,cbqri-capacity-controller compatible.
+> >
+> > The controller node points at the cache it governs with a
+> > riscv,cbqri-cache phandle. The driver looks that cache up in cacheinfo
+> > and uses its cache id as the resctrl domain id, so the binding does not
+> > need to carry a CPU mask. The controller is then handed to the CBQRI
+> > core, which probes its capabilities and decides whether to expose it
+> > through resctrl.
+> >
+> > Nothing is vendor-specific and reg is the CBQRI register block itself,
+> > so any SoC that describes a CBQRI capacity controller in device tree can
+> > use the driver unchanged.
+> >
+> > Assisted-by: LLM
+> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  MAINTAINERS                      |   1 +
+> >  drivers/resctrl/Kconfig          |  15 +++++
+> >  drivers/resctrl/Makefile         |   1 +
+> >  drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 144 insertions(+)
+[..]
+> > diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
+> > new file mode 100644
+> > index 000000000000..0670a676bdb1
+> > --- /dev/null
+> > +++ b/drivers/resctrl/cbqri_capacity.c
+[..]
+> > +static int cbqri_capacity_probe(struct platform_device *pdev)
+> > +{
+> > +       struct device *dev = &pdev->dev;
+> > +       struct cbqri_controller_info info = {};
+> > +       struct device_node *cache_np;
+> > +       struct resource *res;
+> > +       u32 rcid_count, cache_level;
+> > +       int cache_id, cpu, ret;
+> > +
+> > +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +       if (!res)
+> > +               return -EINVAL;
+> > +
+> Unless I am missing something, I think you can simplify the code by
+> using devm_platform_ioremap_resource().
 
-Hi Weijie,
+Yes, I'll switch to devm_platform_get_and_ioremap_resource().
 
-Thank you for putting this patch together and for the credit. The
-conversion to the modern command layout keeps the guide fully up to
-date with current Git usage practices.
+[..]
+> > +
+> > +       info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
+> > +       info.addr = res->start;
+> > +       info.size = resource_size(res);
+> > +       info.rcid_count = rcid_count;
+> > +       info.cache_id = cache_id;
+> > +
+> > +       ret = riscv_cbqri_register_cc_dt(&info, cache_level);
+> >
+> As I mentioned in the comment for another patch, this function doesn't
+> need to have "_dt" in its name.
 
-Reviewed-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+Good point, I'll drop it.
 
+Thanks,
+Drew
