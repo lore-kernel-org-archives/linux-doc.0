@@ -1,148 +1,278 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01FA44236C
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 08:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1882D41D133
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 09:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792311494; cv=pass; b=JvEU8n7FkjkhV2SN9GV5wXOEowmTIBM15L8btdou2Q+ny6Myp2l+ZB1iNPky6C05UqKaTFNKTIfDlFSt8vt7FaRqj3PdAlmmJu45NvFsHbhC8N6nfZCs9vt5qoGIZx4SOtTvhAe9Ae2d7TpdIkC1pJRAI5ZUNdUgQ5kKJqAdSqs=
+	t=1792316830; cv=pass; b=AIMnx5q3xkPjxMbgaSvPjnpNbjm4MyyRC3fLQ2VkQWvySI8YE8cglmJJR1EArfEfXMlJJNs9ig7F/oZBE1uyU/1E6kJM7f4XxNTWY/HA+ZxQdMq+GL2Z2UoxzuLjRj5pp3livw0Zfta/HO5aYMyzNxXgN3KtQdKs++CwaTWAq1g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792311494; c=relaxed/simple;
-	bh=m9LovGZRm71Kz/26siQRqDNvtYfWBfw9Tv7L/BOcLq8=;
+	s=arc-20240116; t=1792316830; c=relaxed/simple;
+	bh=UN4K3bSJ71N5QveRWSG/7Yxfwh7QELJyj6YausPDmkY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OrXeSRXP9TLvH2X9Xel4n/Xk/cwhttNCSJEye/gqCa9GFLPtBioXI5qbJGQeAEeJ/2ZrPvx8c8LwfAAEsNzPD4Ksb7Q4GIUNbtTPNTKa7oevFJu1mi5FIESN+0AtA3SNJEydZukRFt/+fF1g93J0DFvornSEayTeY4Y9ANJHHN0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbB1coky; arc=pass smtp.client-ip=209.85.128.176
+	 To:Cc:Content-Type; b=ubip/EHDmM3xvXMJTwT0yBmPZfKd5mN2/hyPp39QVAq3pgkkEP8aMrExrgFLdaQ81eEeG517qKMWo5o41HSI6XVCLCI1eN6UXE6BDA7h3YQJZ4Y4kbMWkDUX/o+BtuZpPaGm8CLQ97pyj5tcWmvGvklebVBb1lhZ++1IzMnyLXE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B45DobkT; arc=pass smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbB1coky"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b0e21048f8so7000007b3.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 01:18:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792311489; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B45DobkT"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-35f036b17easo2447855eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 02:47:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792316828; cv=none;
         d=google.com; s=arc-20260327;
-        b=SOUqw97Vt71xMRmYvm6zFCJZe3U7/hNO1tl3k+MDKZcoW2PNODrIABKm8GqSz5HqMB
-         KNxasLks8w5qPfsDZqPcScbFTPs/rsJcP+TNHn2J6fHNyL/5A42VwlAT/7sai60ghuSd
-         xpPGU38LA41prbapM2xg+1qYhEVIckK+bUp4L+yhSbWds2YkTRxb1rUqI1++eZwRljKo
-         ow/pYGmzyXs/W+9JSHzNJhngLfE3SysqjEiQB+vBdEBSFMlqiXEGaAhkkxT3M7a+39/t
-         kd+/Ok/mcszrhYYW3i8Vh72nW9HKvQAoB+hrSOQAgV6rEqa+CMEjv73m3h+/YR1daKOi
-         yMpw==
+        b=b2ENu3+OutevADUS/Nluawz0RPe0tH+72gAGpzcBcV3r80RoCSx+MI9aIyEeY/qKVu
+         0PLrkDoMTkwFcOUkRFD/XkOos0rxt206kYYWK2OlgrO8wP15UKj3nFJztK26SbVaZz1u
+         eYCJGKg5W8+yJXMkdaFXUoCBOclzT9LquKoXhvqCQ06v7l/qvy5MhMeJEZdk1chCigQg
+         4UlnSbl0Ql2IU2foQ734gdq+6xPkvDMT5gVGId0+q7pBxygqCkgUkO6j5HiaRqXV4Z//
+         99fN8Cm8cqpcOhrnFvruqIqDftZxI0azxTidrXF+VUMR4R7ZdqW5Zpp6BDbUkyJ1ji8C
+         SbVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZKQD7f8VncSnmQVt+FYovLRzFClXdtIOZ4L3tv3n0X0=;
-        fh=sR/S6m+RpSPoXxCrQ8esHw0i+XQ0572E+3+fb+mHEww=;
-        b=EV+7J3ns7uN59F0yhD8YRMieDQKNqqVRurABpk2ymAAYFHmgAwxXh9ytbcfjnafXDG
-         hVVwmf9QnnsOgkY5oIgMv2U+r4XIUMbXdOcvWE6QQ43Q73XQyDJq360cclqrzIZAymn0
-         rGrbrkJO8D7DNJqfDJuaUVCT3xBvxzE9pOO7EwTpjknwY02NmOgTV7I8tAc6UdeIcNTV
-         q16T3J2wYXjAADnZsriQsRTxkjjxskXsC4Jy/iPx4QwLS0lU30VLN/VINObq1H3NPeJH
-         qB5T2xMdzFj/PlPM9HFkWgT3kRnzoy/WbIpsYYPGyOFFmzWUmRYfaEmaxOSuLPSRRsZQ
-         3YgA==;
+        bh=wqVM+Dir6IA0H5/+vTX3FKWkOia/C6P0aBNw671rlPo=;
+        fh=EYkdHwZhc7uyLabuOmKF2xzWqW2D3QnhU4t8JVPHiXo=;
+        b=QdBh1q0YM1HUAEVvXxoXhm5BLcHKn7PdjwTp6+ThY1JpstEoK/uSHWLsdclgiDkcCf
+         sy/t/wHJUeU8Jh1749XK8YHjzxqhOTJzxX8UjEC0MQ1IEGlfig54ipSKEumLUVc3GkKe
+         jknxF/KUmpr3PtW/Q7DIB8ESdTf9IhPJVt22qQOFBRlsQ52CA1nr1MJxR5B3vSyeqRHz
+         1DnaATNPB1F7Bq679jERmT+zLqoDPJA7AY+LTqwnOIPHCqGyKNDbmqjWQAyhIIstr/8m
+         azHlcu/6mZACOh1Bi+8yBWRQZMzyj8HJhZCwE+LmC0nyEfNg/I6IJDyWTgPWYbSa9wy/
+         d5sA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792311489; x=1792916289; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792316828; x=1792921628; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZKQD7f8VncSnmQVt+FYovLRzFClXdtIOZ4L3tv3n0X0=;
-        b=BbB1cokyERZfK0hTfxQTtmwmvtFW/q2hmlF+irPUC/MDzL2O0/Pxenl+uXX7ayPMsA
-         oaqNS4//XDbeIKgq7EspM7Z+rZb2/O4hklyewBfMvczfAsMmNUDKiIWKgPPK1bPM8ej3
-         cBccKYLiMgbI4sEQ1r8LJL9amuuzd9RLa7YiZpyi7sZ6q9hAf/1VyMCSuMzeVThNBtj6
-         o9os4L3gEcv1FtYdqfqARbnb1Uc1d1C2MCkE/VdCDEfe9Fe/qDYRjMz71OScZt75ayF4
-         Edsop6C0EVZ3cXRB/6B3repVPVdKU6zgXKiT+dqYVaQv+ddpeUSqoumW8mO2C3HoaTrB
-         HTYg==
+        bh=wqVM+Dir6IA0H5/+vTX3FKWkOia/C6P0aBNw671rlPo=;
+        b=B45DobkT2Ehurn+wtKbSROEhuInigesGjK50GxYZku1+PBqB5fylY7jC9xORlvFePQ
+         dRwE7DnZ/o28SyItZRe0H+UbBo+p7cS4g4doqPxKk/Cuy9pqjO7PwrYEyj8sor8oIbzJ
+         uGij4+rij8X3O1x8POiF5pE63p5+gdAM8C69OuWytWp0ojfd1b4DaOqZDdw+9PAbrYX6
+         zmbb/LT7VI81119Qikf9qcUjcJiSiKwWOoLJ+BalB2Eje7UmEqS+6/9IWsy6VeODwNvG
+         yFe4UfCw2lL1jLaVp4AabvYnkZG+iBbUoxewyKipeoF4WBw+XphHGqxJy99PFKauSHHw
+         HFMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792311489; x=1792916289;
+        d=1e100.net; s=20260707; t=1792316828; x=1792921628;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZKQD7f8VncSnmQVt+FYovLRzFClXdtIOZ4L3tv3n0X0=;
-        b=R9ZsQ5+6ORAtE4yDRQo1zkMuMJuzaUTGAsJt41JSLpgU+vficQKYWVKxbT2GLm7RUu
-         ICEMpO2iYCMlajFQa/2rQmpGlDTkuhVY02rwxtKludm1Kzotr84UoM8VLeHsibqa3h6Z
-         nwgZIPGgoit7aCnzD7MQQp3deFbczmpOI9Yphhe7Mp0hF4mCYjSnJDXNKbZIU39N+pfT
-         mJ7T7d4cfrKDxOFbXtA4/VPZ/uoMf0855qpEFM0dZCpi/1q3dpc+vU9htlW8vIEClRo2
-         5U6sSBji+wnVl1LfWc4wWtNXgk2KdHicgkZZfwTIhBR1S28eUTiceNCin2p7QouQklPC
-         9wFw==
-X-Forwarded-Encrypted: i=1; AKwUvBxy1WQrKNlYZuto2G1kbZyiB50otzNl5Fu5EBEXXuZb3s4DuVmTkfHsUe3gi2eEHdzb18c2SlAWc7A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLBOTe8bPNwZocPgiqsK3faLAYX0rlEU2+NE5N0FQlbwrvkBnm1
-	qTeOWfCbPoLjSqQ+D6SOnheNrJKX0qjmyt3R5vAuaRCpOlHXvco5fibZ8UYNF9YlOukUVr7HqOg
-	Hp5451ky2DHknXVUSHYzIkdYrRPW1ikk=
-X-Gm-Gg: AYBFou3nFXLnPNSQo8McmpAPkwmGz5dp9eXnL+0b9yvIsHqxqTfno0UUA7lfuHIWOoT
-	lnOY3oUDX03NtXD7fg692CcsXMNpIq3y7inNYt4uFxkrSzR+vu3QB+5Ysa7EWGWKm/ighz7cCr/
-	LjHLP4ch6NCtDWOpb8yWpq2mBIjKrDOOC+/vKtrixJ+qc4ZSc8QQaNQNBOPWoiy4WX2yXLW+Bz9
-	O9Ucse7pDwiq/I8Be2QJbEK5UnY9bejHm9S7RxnE1/l0rRoKF6gJV7UJZszo1Zh8hGm1ZAblsUr
-	hd88CyC34N0rsrsEXamPHMrHQfe0suoY4VLuvbkHJQM+RCVPeL4jBtSVhd6vd5UUvtBbNih53Kg
-	ey7MEiXRR9qdtEPS9Fc7fSGBiOZhJIkhI2xzmDY1493ahFeq+li/+
-X-Received: by 2002:a05:690c:f13:b0:8b0:89bc:92b4 with SMTP id
- 00721157ae682-8b0f21bbb4bmr16206517b3.51.1792311488622; Sun, 18 Oct 2026
- 01:18:08 -0700 (PDT)
+        bh=wqVM+Dir6IA0H5/+vTX3FKWkOia/C6P0aBNw671rlPo=;
+        b=MgCLdM2xPIpuzmzMitiJqt0ZqtKy6H16y3SmvfueER/1aN2dlRYx5tCmyp1KO66P/2
+         RXsdnQt8rsLFHlhxRRSu7v7mjweRclNg+fUmTq13NQC6cPz9dxyHphEtnJXX2l7Sjif9
+         ASjtxki+p3xIz3RcuACwMe1CniYpDut4JF2z+XC1W/3degX2zVrwOoEwQlLH8VxfCYyV
+         rOrlC7LdGnMepp4tImSDukupL6iKgHhuFHh5WjFz6MRVCyZhqpJcEyff7VxtAb22m5sz
+         FQaH3F+cZeEJpmZge8ud3HKjJCmdMw6MbMTp0/Y9sSsm7eLpwoqw2OKvF0xIN8ZGPjgW
+         A3ew==
+X-Forwarded-Encrypted: i=1; AKwUvBwLuf0bsahtIMQSyLIRpzYCZjpd2JJOlR9FRx407fTRuiTaGs/qrlWyaCgjPuW0o1M3bPCQ9D4mP18=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJPEdHoQo+W8QhwcTuHw/P9Vo9WWoW/Hr6guvKhh4IFxA8BbVA/
+	PGynAfxQVOF7sovX9OjS6+MKgCvjcixy0FhWze0v3chVES/jVwHWfFbKih3nTVSjPJkkDseDlDs
+	GQT28jVEd2QNcAKwIjFdcAeo7GrIStUE=
+X-Gm-Gg: AYBFou0pZSCCvoTBciduD6j/97sKv0X8i4NV7fvwSWJ+YvVqKTtlB1v0JNrOKN5IjLc
+	YmtP0uj6FLGuKueKHYXKmckmGMHxIQ3bCLMBhz+Jb+P9yRZQxFYGi2j3cCm9dV1bi8yLoplK66E
+	KMY3FBGkyfJAh6h8TNIy8JWj9mjSJ/sY2Npl5iklY7FxphL7fH1+lhhWwK6eaQu3pBqJ/xD7MKV
+	DqVtI7mom6Q3GB9Q7rmK1e4XMEZVDi2cyaAtZxRP6kXw/42tfuMFoxeqLGifIJF+5qq7uCY+9b7
+	rTgjilG5+2mE9qGSJxRnNa6sHHjC2obZv/g5iyC81VfH4kiZrQrogj8NJ6ZMr2Bo02wy8GMURVh
+	zPQqacj3gLL1vp42iomsdPXPyWPd5uBZ6WNsw/axBKzRSAEDh5V4=
+X-Received: by 2002:a05:693c:860a:10b0:351:727d:b9c2 with SMTP id
+ 5a478bee46e88-361a18634bcmr7945595eec.17.1792316828034; Sun, 18 Oct 2026
+ 02:47:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com> <20261016-alpha-perf-regs-v3-v2-5-17654742226a@gmail.com>
-In-Reply-To: <20261016-alpha-perf-regs-v3-v2-5-17654742226a@gmail.com>
-From: Magnus Lindholm <linmag7@gmail.com>
-Date: Sun, 18 Oct 2026 10:17:54 +0200
-X-Gm-Features: AclHuK_OPAh6roFXb_L2yR4ZCbLp7NUjn97i4r3orTmSL6OpqXmOnn6fpLIEIiY
-Message-ID: <CA+=Fv5Rmwd6pjs_MBo01Zvqo3CwufefqZvPCJeEvK60Ona0tJg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] alpha: fill in pc for software event samples
-To: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, linux-alpha@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org
+References: <20261011231340.42885-1-kimjinseob88@gmail.com> <20261018010201.4b427c3c@jic23-hlaptop>
+In-Reply-To: <20261018010201.4b427c3c@jic23-hlaptop>
+From: Kim Jinseob <kimjinseob88@gmail.com>
+Date: Sun, 18 Oct 2026 18:46:56 +0900
+X-Gm-Features: AclHuK9u8xRFkOblgjIxx2Du_9jPdrJ4Qhw268FvpslDoMIezVpcmynAFFby9aY
+Message-ID: <CALMSewJZbDbEe28v9VJ7sfTTNVJfvfcryS=0gpARAvc7g3MP8w@mail.gmail.com>
+Subject: Re: [PATCH v11 0/8] iio: add Open Sensor Fusion UART support
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	neil.armstrong@linaro.org, andersson@kernel.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matt,
+Hi Jonathan,
 
-On Sat, Oct 17, 2026 at 3:56=E2=80=AFAM Matt Turner <mattst88@gmail.com> wr=
-ote:
->
-> Context switch and tracepoint events have no trap frame, so perf builds
-> one with perf_fetch_caller_regs(). Alpha does not define
-> perf_arch_fetch_caller_regs(), which leaves that pt_regs zeroed, and
-> these samples report pc as 0.
->
-> Record the caller's address as pc. The zero ps already marks the frame
-> as kernel mode, and pt_regs has nowhere to keep sp, so pc is all that
-> can be filled in.
->
-> Reported-by: Magnus Lindholm <linmag7@gmail.com>
-> Closes: https://lore.kernel.org/all/CA%2B%3DFv5S8-Zk8-LUpZnWiBfTGSQXthepm=
-Rc_-a9O%2BpEPmVW0mRA@mail.gmail.com/
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Matt Turner <mattst88@gmail.com>
-> ---
->  arch/alpha/include/asm/perf_event.h | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/arch/alpha/include/asm/perf_event.h b/arch/alpha/include/asm=
-/perf_event.h
-> index 5996e7a6757e..72536566014a 100644
-> --- a/arch/alpha/include/asm/perf_event.h
-> +++ b/arch/alpha/include/asm/perf_event.h
-> @@ -1,4 +1,11 @@
->  #ifndef __ASM_ALPHA_PERF_EVENT_H
->  #define __ASM_ALPHA_PERF_EVENT_H
->
-> +/*
-> + * Software events have no trap frame, so perf_fetch_caller_regs() fills
-> + * in a zeroed pt_regs. A zero ps already means kernel mode; only pc is
-> + * missing.
-> + */
-> +#define perf_arch_fetch_caller_regs(regs, __ip)        ((regs)->pc =3D (=
-__ip))
-> +
->  #endif /* __ASM_ALPHA_PERF_EVENT_H */
->
-> --
-> 2.55.0
->
+I investigated the review comments on the two pending OSF KUnit patches.
 
-Thanks, this looks good to me.
+The revised Kconfig allows the tests to run when OSF is built as a
+module, using the existing composite driver without exporting internal
+symbols.
 
-Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
+I validated the following configurations:
+
+OSF=3Dy, KUNIT=3Dy
+
+OSF=3Dm, KUNIT=3Dy
+
+OSF=3Dm, KUNIT=3Dm
+
+All configurations used the enabled KUnit test selector. The existing
+16 core and 2 IIO tests passed, including actual module load/unload
+testing.
+
+I also added deferred mutex cleanup for the pending-session, receive
+and IIO test fixtures, and strengthened the producer/configuration
+synchronization. The relevant cleanup paths were validated, including
+assertion-abort cases.
+
+The unregister concurrency test depends on mainline commit
+84bb0fc46ccf, which is not yet in jic23/testing. I therefore ran that
+test on a separate integration tree containing the fix.
+
+I have prepared and validated an updated, signed two-patch KUnit-only
+series based on the already applied OSF driver patches.
+
+Since you mentioned wanting to review the KUnit tests further, would
+you prefer that I send the updated two-patch series now, or wait until
+you have completed your review?
+
+Thanks,
+
+Jinseob
+
+
+2026=EB=85=84 10=EC=9B=94 18=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 9:02, =
+Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Mon, 12 Oct 2026 08:13:32 +0900
+> Jinseob Kim <kimjinseob88@gmail.com> wrote:
+>
+> > This series adds a UART/serdev receiver for the project's fixed OSF
+> > Device-to-Host 0.0 protocol. Complete capability snapshots create IIO
+> > accelerometer, gyroscope, magnetometer and temperature devices with RAW=
+,
+> > descriptor-derived SCALE and initialized buffered scans.
+> >
+> > The receiver validates the fixed OSF0 envelope, CRC and exact known
+> > message lengths. Equivalent capability reports are idempotent; changes
+> > to a bound supported inventory fault the session until explicit rebind.
+> > IIO samples use host timestamps.
+> >
+> Hi Jinseob,
+>
+> I'm going to do something a little unusual which is more about the time
+> I have available today and desire to look more closely at your unit tests
+> to learn from them.  So for now I'm just going to apply the driver (so
+> patches 1-6) and leave the last two on list and in patchwork as still nee=
+ding
+> review.  Hopefully I will get time to circle back to them later this
+> kernel cycle!  In general I'm keen to get broad testing into IIO so
+> want to learn from what you have done there.
+>
+> Jonathan
+>
+> > Changes since v10:
+> > - Move OSF under drivers/iio/sensorhubs/osf/ following review.
+> > - Use the OSF GREEN compatible with the generic OSF fallback.
+> > - Clarify complete capability-report snapshot semantics.
+> > - Use designated decoded-frame initialization and drop decoded reserved
+> >   fields while retaining reserved wire-byte tolerance.
+> > - Reuse stream reset and simplify core/serdev locking and lifecycle.
+> > - Use IIO buffer-mode claims instead of a private buffer lock.
+> > - Simplify scan storage and channel declarations.
+> > - Fix KUnit worker/device/mutex/resource/completion lifetimes.
+> >   Generic IIO self-test extraction remains deferred.
+> > - Synchronize KUnit fault observation and configuration completion with
+> >   completions and thread joins instead of short polling/deadline window=
+s.
+> >
+> > The IIO buffer teardown serialization issue found during the v10 review
+> > was fixed separately and is now in mainline as commit 84bb0fc46ccf
+> > ("iio: buffer: serialize buffer teardown with mode claims").
+> >
+> > This series is based on the IIO testing snapshot fetched for this submi=
+ssion:
+> > a22dc7ebb21a6bd4c8b63bc2c1dd46a24945aae7
+> > Runtime validation used this testing base plus the eight OSF patches
+> > and the exact mainline IIO core fix 84bb0fc46ccf6a545b8fdf57cda83770186=
+ed8dd.
+> > The core fix is not included in this series and must be present when
+> > running the series on this testing base.
+> >
+> > Fresh validation of this source:
+> > - GCC and Clang W=3D1 kernel builds; module builds.
+> > - osf-core (16 tests) and osf-iio (2 tests), with KASAN, lockdep,
+> >   DEBUG_MUTEXES, DEBUG_LOCK_ALLOC, DEBUG_OBJECTS and DEBUG_OBJECTS_FREE=
+.
+> > - 200 production module load/unload cycles and 200 test-enriched module
+> >   load/unload cycles using identical driver/test C sources, exercising
+> >   20,000 IIO buffer toggles, scan subsets, timestamps and unregister.
+> > - DT binding/style/example/schema checks and IIO Sphinx build.
+> > - Clean sequential application and relevant builds of all eight patches=
+.
+> > Physical board tests were not repeated for this revision.
+> >
+> > Canonical specification (fixed revision):
+> > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca9c=
+dea1ae550c2b4d6f29f87877adae99470744/spec/osf-d2h-0.0.md
+> >
+> > The fixed public specification is maintained and adopted by the OSF
+> > project. This does not imply Linux maintainer approval of the
+> > specification or driver.
+> >
+> > Jinseob Kim (8):
+> >   dt-bindings: iio: add Open Sensor Fusion device
+> >   Documentation: iio: add Open Sensor Fusion driver overview
+> >   iio: osf: add protocol decoding
+> >   iio: osf: add validated stream parser
+> >   iio: osf: add UART transport and core receive path
+> >   iio: osf: add IIO devices from capability reports
+> >   iio: osf: add core KUnit tests
+> >   iio: osf: add IIO KUnit tests
+> >
+> >  .../bindings/iio/opensensorfusion,osf.yaml    |   55 +
+> >  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+> >  Documentation/iio/index.rst                   |    1 +
+> >  Documentation/iio/open-sensor-fusion.rst      |   81 ++
+> >  MAINTAINERS                                   |    8 +
+> >  drivers/iio/Kconfig                           |    1 +
+> >  drivers/iio/Makefile                          |    1 +
+> >  drivers/iio/sensorhubs/Kconfig                |    7 +
+> >  drivers/iio/sensorhubs/Makefile               |    3 +
+> >  drivers/iio/sensorhubs/osf/Kconfig            |   27 +
+> >  drivers/iio/sensorhubs/osf/Makefile           |    7 +
+> >  drivers/iio/sensorhubs/osf/osf_core.c         |  460 +++++++
+> >  drivers/iio/sensorhubs/osf/osf_core.h         |   75 ++
+> >  drivers/iio/sensorhubs/osf/osf_core_test.c    | 1056 +++++++++++++++++
+> >  drivers/iio/sensorhubs/osf/osf_iio.c          |  288 +++++
+> >  drivers/iio/sensorhubs/osf/osf_iio.h          |   22 +
+> >  drivers/iio/sensorhubs/osf/osf_iio_test.c     |  386 ++++++
+> >  drivers/iio/sensorhubs/osf/osf_protocol.c     |  215 ++++
+> >  drivers/iio/sensorhubs/osf/osf_protocol.h     |   99 ++
+> >  drivers/iio/sensorhubs/osf/osf_serdev.c       |  151 +++
+> >  drivers/iio/sensorhubs/osf/osf_stream.c       |  230 ++++
+> >  drivers/iio/sensorhubs/osf/osf_stream.h       |   53 +
+> >  22 files changed, 3228 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/iio/opensensorfus=
+ion,osf.yaml
+> >  create mode 100644 Documentation/iio/open-sensor-fusion.rst
+> >  create mode 100644 drivers/iio/sensorhubs/Kconfig
+> >  create mode 100644 drivers/iio/sensorhubs/Makefile
+> >  create mode 100644 drivers/iio/sensorhubs/osf/Kconfig
+> >  create mode 100644 drivers/iio/sensorhubs/osf/Makefile
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_core.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_core.h
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_core_test.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_iio.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_iio.h
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_iio_test.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_protocol.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_protocol.h
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_serdev.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_stream.c
+> >  create mode 100644 drivers/iio/sensorhubs/osf/osf_stream.h
+> >
+> >
+> > base-commit: a22dc7ebb21a6bd4c8b63bc2c1dd46a24945aae7
+> >
+>
