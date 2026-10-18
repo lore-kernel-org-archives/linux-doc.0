@@ -1,76 +1,77 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5977C3C10A0
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 16:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5843F36196E
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 16:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792339794; cv=none; b=lbRZmw2OebcogGxAoF0+DDcG4ddLLL+ok/jkZgxWfYnQQwxQf0Zvxrj18Tgs/J7ydzep2Io2udNVdDQKrxRBTsCmpfryhtUyolvg17c+jUocyKW79Zajn3WG0aFEuCNZ+18K4PzuKQK3pArwbdJ1NzPMa/0ieSNP7Pb82cjr6eE=
+	t=1792341088; cv=none; b=I/+OiI0rAEUQQfnRBRz5CwvNX3cNTHjoc5ZwBqOLCqMILHQzVvoYRrtj66Ks94Y0rE+8izfiVn1FheNshtLmhFonLomZwtsWCsduFdN0DzSa4l3zQRwPtaFFHxGaBhAM6tbDBAvLumOxyc9mmvhQKm7Qxmc7hZax8X0eGq8pTpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792339794; c=relaxed/simple;
-	bh=K7+HPRoT8cC9vA5FhgvhzRNw1g9Mo76Ky1GUeYVLRfM=;
+	s=arc-20240116; t=1792341088; c=relaxed/simple;
+	bh=au8Gvd6+WEU8zV/daAfKj+L+yF0iVWqrpQqPfGml9hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OMtT1Jjmi8pqCt4NrD2Ez/DRWeOUxXC/l3PABkHF1ILGye8DYFmIYB40+Y9Ai0qm/mp8bUJS8TtSmOD6iu0UYEaMRiAMULoaT4cZP6ovhAl3vOO4zWcFDpKp1WsMAgyrwo5ifVKIoJD7/2wcEEYMlETCt/QoUlcv7nf6vyG4T/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIxOpE27; arc=none smtp.client-ip=74.125.82.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=uQVMEEPjm39Npysy6UE7V1624qBgi26bup6J6yOV4xAtpqVyc0NkrEaky43NJsQxV1xVuIihxZ9WRwiLPyZxVJ/vQDAWat/PsfLyzBeFNJBaCE/nU8Vd9+FUMzev3AGlVlqM2sl3SBocY12bQA2omf1/LKjyS5mzUfTbKCfDIO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K68T5dXo; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIxOpE27"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso114672eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 09:09:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K68T5dXo"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so706547a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 09:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792339791; x=1792944591; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792341087; x=1792945887; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=ltRwcLJB2IvTeYU1P4tvckFXLR/qTUoJOrgmykztVO4=;
-        b=hIxOpE27TBfTd9z+/+LRrmHxFaBFUK02GZk2NjHeQZhrilLl35DZPUGoSGyKspiRYc
-         w6B14WFbVzsVyYd3htwhh5wECpHyZhTbqreTE0sMwinZwtHooW3vXwgKg5pfrrsC+Yll
-         BxgrdNEEdRwnNkCflDm+PktPFkRb3vmca04vOPDNiIZPIWuaJF1y5GqctM/xCMK+oAog
-         kwAsNMfs/qcojris8KuT5Bqgga35j1BrnxpStdJ66+wtXKZ6HCObC6TwY4gYK9JSs72L
-         35DE6ZDgdu3Mk+BpEMTqtcOcsQDtCmJfrUcFexvkGxt3m0xC5vle/I31SXI7ZxZoswu/
-         7qsw==
+        bh=WhZ6HkRzC6hmWIpP7WOwdVZqWzvDpVWCEpyfcLFKaWA=;
+        b=K68T5dXoYJ4LB0dffdYrHGl8E09ixEURtKBRxGfRCzYSoQHua7ORO28K/S7uhmvK+R
+         zNBDpAe2SaEqzJLKwXS1qlnBmKARmCMW5Epw3uBTrErM31vIYbnArkeqyuV4ntlBzenA
+         mog7uzYm1Ua39+NUkd6QDzxNowI3ZC0r64gNMqKA1cCuqFb/k/BUlxvuauCULT/7h4mM
+         DKs/bs5jpJ/A6rsrr6x6mTcvjmFU/LvddoxIH7aZkY5DYRsNqtDtfO0JlsSz1kFkNGIn
+         P5bFPR9ZGWHdUAuR+jpw6OjE4987B9USltJeCtJlmWMQCz3pybLkKBrCfqzdUE93wkvC
+         2Mdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792339791; x=1792944591;
+        d=1e100.net; s=20260707; t=1792341087; x=1792945887;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ltRwcLJB2IvTeYU1P4tvckFXLR/qTUoJOrgmykztVO4=;
-        b=GB1Pq2fYGq0GkGo+PrSJdZoAM3w2oU8RDNiPjZ57gGbcKsXmrpt79BlHRELmPOD3P7
-         8mSQAP3RJKiAAFPsAucf4TnFea7xc0w6RRXTOWVICtQjnSybJ2aWPHGpO2iusSUzfJX3
-         EGGu41BkNlR9JY2zUs/Di9zq2Vha7kmJQZkJPWnFo/JRgA6HfYCq/HYg4PJNj1iYH1Vx
-         euJJCN+DDs3iufnqP50A99s077JyZBAipkHBglquaWI6SNYL0uICzAiS7uFFsQfoFcjB
-         KNWk+H+FTtup+iP1yIyHZcjqkbqc3Y7TE6euQGOlbssidtPv1JUADx1Sugd8HuQWGGg7
-         5f5A==
-X-Forwarded-Encrypted: i=1; AKwUvBxI9aT+srbsT4rif5ZxuOWN5OhVYFo1FLU9ziCyzOIzgNhOGgjZF9aUHr6bRFGxgV3y6uZEQMlKE5w=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIMRtdZJ4M5eQr7WQ0QT4LHj2B3oBhkwzLloPAWk3eXOqbmkWqP
-	Flb8OtESNZrOmo17oDe/7F608dt2QbPy3O9LC6nbGrtq3woSH3fdZvoB
-X-Gm-Gg: AYBFou2bq0b9wHlSM+Cm3e4BVg71yh0XPYLeI2Ne0jG3B1qr+4ABplZo+NikmtTUcsp
-	2ZzSG2HMajKv8waGHuMCR/AyoMdqAB809r2afnhQdt+dDRXCUVw3hSrHqtvJSHGn2v6j2TBuIxf
-	Cxb+kNP3/1Sn2GFs4DDfP1dtTrrdBs25WcBAgZbOb7nRxjQ2GExpH3RJZ7kDNbMR8H8i7A87vrf
-	xm2qA+9a760mHwi9E1CD6U50GbXJd4QloefGm/51+hoZeMqXd5TSp1peWxbwMFoqP0Kkl4qGPzF
-	nTttgcEOXo5nhxawCOJfnMFBuw3cKGf7oXbMvLLrSAGuNc+UEjc5p7Zt2iwOSbO8FFq8ht9Oyf1
-	Yrcr7lrd0Bo41mMCTUDZOEjkT2p1SLji7LtTwMAGcs/qm0FrE8rJiUdv8PuNhbzmR558ZlISkYh
-	3/h9wsVO9bkOUZhORXR8vzJZxQNt6Idv9VR+nZ9LGENESgwA5EjteGImfI7ZT1+zsWJkDpce/+h
-	Id1zSRtTMRC
-X-Received: by 2002:a05:701b:21c7:b0:168:6ad8:e8c6 with SMTP id a92af1059eb24-18512c382d1mr7146694c88.15.1792339790889;
-        Sun, 18 Oct 2026 09:09:50 -0700 (PDT)
+        bh=WhZ6HkRzC6hmWIpP7WOwdVZqWzvDpVWCEpyfcLFKaWA=;
+        b=Reeqzd8c5A4qb9ly9NvcWCyHA4Gp5EpePsh+rxU/IXN1atudvdRhlUT//QFGxEEPwU
+         A2jP26WW6kTUOQOxeMZjAhTQmWE/f5LTrsSZ8qaintrzgCtse5PVqwocdl7sn2yz5NDy
+         +FT9qCwpHAfRVn0RPBdoL2hftfqonONXL9O4ZEtASq1qGz7UXzBkJDIFlBYDhYPz+CQc
+         i/iG+1ILI32QxXIyoB53mq3WNgZT+VgafDYD5ypvx7EPVVOPUq1J0yxDTpdX9HsP/3Wb
+         pstQkuLDSt7oSO1aM/AE9bphFJsLqDSKsCEgzyr568udxd3GHQhX+KiNo84g9Nt4rZLV
+         vsfQ==
+X-Forwarded-Encrypted: i=1; AKwUvBykjSUmB59bFggbWUrbGq67coiYyFNJMFUV5O0BSXckCu4uMUSd4m1b6d/GoI+N3+7Dy5biN4E8Xls=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKzDDchb/toIKGT7WHKvfQBaBYneNVej6NwrMQMfwxWMz1lL96k
+	94icjc6BqmzEZ6igYV6AMRxR1SVxSq4RFvihKA6auPJ4SsE6kabb5Eah
+X-Gm-Gg: AYBFou0zgBRZCihsYhIc5fs6auKfkCCQM9aBypczswz9XnFMlnNcd+nAvmp8PZOozYp
+	AvCADXFhBNDlXPWO5wodkoxeXv8mJg0F/pqGRmvu34MCz5wnPcWO1S/NlaS7vVXvNbcqn1Q4Itq
+	W9i36NSYQZRXcW6+BT6rEwEgREB5z9jxmnpnMkXfoTnpUL0tAauwW9KdBIJvQRT2CoYGw5dk/0C
+	eV8COuwU0xYRjiJM+a5wEAIefi735lMbAR8jCyf6Qkc0Qc1vhSIKGZIi51dZjMmIZWxxgAgeOX8
+	wGw9PwUH53yBnGDCD5sNux+BQMHtelr1YTf8rpYfSr7E5RZ8qEV42RsZz4bId7S3Ja5I9dGDDYC
+	zmwaaymMicLwuEzMUoRzGT8de4zLk8UHN1AdvMgAWsJya11WE3nWeBbGS7JejvBSPPVgsv91/V6
+	g3Y16xWouBbqp804BkdEtE9uh8MDNAazWf/Wp49CrPSj25tETzOYQ/YY4SzwcaONw6gnoat4fv/
+	xjJP4BBP/MjPnYBz4Ir+sI=
+X-Received: by 2002:a05:6a20:43ac:b0:3de:7f6c:b871 with SMTP id adf61e73a8af0-3e22607ded2mr3605547637.36.1792341086646;
+        Sun, 18 Oct 2026 09:31:26 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831b75be5esm28812835c88.16.2026.10.18.09.09.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89fd2737d20sm2611477b3a.35.2026.10.18.09.31.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 09:09:50 -0700 (PDT)
+        Sun, 18 Oct 2026 09:31:25 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 18 Oct 2026 09:09:49 -0700
+Date: Sun, 18 Oct 2026 09:31:24 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	ricardo.neri@intel.com
-Subject: Re: [PATCH v2] hwmon: (coretemp) Return -ENODATA for invalid
- temperature readings
-Message-ID: <ef041f4b-4592-4693-a9d7-a5c82aab9c77@roeck-us.net>
-References: <20261006-coretemp-enodata-v2-1-64e788acc7dc@linux.intel.com>
+To: Qian Xiao <heyheyco@gmail.com>
+Cc: Ed Brindley <kernel@maidavale.org>, Denis Pauk <pauk.denis@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (asus_wmi_sensors) Reword BIOS upgrade advice
+Message-ID: <08bd0bd3-a80f-41bd-a057-208da8e823cd@roeck-us.net>
+References: <20261016163509.249020-1-heyheyco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,121 +80,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261006-coretemp-enodata-v2-1-64e788acc7dc@linux.intel.com>
+In-Reply-To: <20261016163509.249020-1-heyheyco@gmail.com>
 
-On Tue, Oct 06, 2026 at 06:04:56AM -0700, Ricardo Neri wrote:
-> IA32_THERM_STATUS and IA32_PACKAGE_THERM_STATUS have a valid bit, bit 31.
-> The Intel SDM documents it only for the former, but the package register
-> implements it too: x86_pkg_temp_thermal has required it since commit
-> f1a18a105660 ("Thermal: CPU Package temperature thermal").
+On Fri, Oct 16, 2026 at 09:35:08AM -0700, Qian Xiao wrote:
+> The Known Issues section suggests that upgrading to a BIOS with WMI
+> method version two or greater should rectify the problem. However, the
+> driver refuses to bind when the BIOS reports a version below two, so
+> every system using the driver already meets that condition and the
+> advice does not help.
 > 
-> This driver checked the bit for both registers as well, until
-> commit bf6ea084ebb5 ("hwmon: (coretemp) Do not return -EAGAIN for low
-> temperatures") made it ignore the bit because some CPUs clear it while
-> the temperature is too low to be measured. Since then, temp%d_input
-> reports such a reading as a real temperature. Userspace cannot tell it
-> apart from a genuinely low one.
+> Instead, suggest that upgrading to a more recent BIOS version might
+> help. While at it, fix a typo in the preceding sentence.
 > 
-> Fail the read with -ENODATA while the CPU reports the reading as invalid.
-> On a CPU that clears the bit, reading temp%d_input now fails where it
-> used to return a low value. sensors(1) shows N/A in its place.
-> 
+> Link: https://lore.kernel.org/linux-hwmon/CAFGXJCm6ZWK0NsFhZ1_ycgYtTTT3nhqj9mose60t+Rrry1aPvw@mail.gmail.com/
 > Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Link: https://lore.kernel.org/all/46f9f319-de71-412f-a424-6cb801478456@roeck-us.net/
-> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> Signed-off-by: Qian Xiao <heyheyco@gmail.com>
 
 Applied.
 
 Thanks,
 Guenter
-
-> ---
-> Changes in v2:
-> - Patches 1 and 2 of v1 have been applied. This is a rework of patch 3.
-> - Drop temp%d_fault and fail temp%d_input with -ENODATA instead. (Guenter)
-> - Link to v1: https://lore.kernel.org/r/20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com
-> ---
->  Documentation/hwmon/coretemp.rst |  3 +++
->  drivers/hwmon/coretemp.c         | 21 +++++++++++++++------
->  2 files changed, 18 insertions(+), 6 deletions(-)
-> 
-> 
-> ---
-> base-commit: 4781ca52761e666cf18b591e6bb0478396c90320
-> change-id: 20261003-coretemp-enodata-e424540e3b4c
-> 
-> Best regards,
-> 
-> diff --git a/Documentation/hwmon/coretemp.rst b/Documentation/hwmon/coretemp.rst
-> index 349301683381..09f885a847e3 100644
-> --- a/Documentation/hwmon/coretemp.rst
-> +++ b/Documentation/hwmon/coretemp.rst
-> @@ -50,6 +50,9 @@ All sysfs entries are named with their core_id (represented here by 'X').
->  
->  ================= ========================================================
->  tempX_input	  Core temperature (in millidegrees Celsius).
-> +		  Reading fails with -ENODATA while the CPU reports the
-> +		  temperature as invalid. Some CPUs do this when the
-> +		  temperature is too low to be measured.
->  tempX_max	  Maximum recommended operating temperature (Tcontrol).
->  		  All cooling devices should be turned on.
->  tempX_crit	  Maximum junction temperature (in millidegrees Celsius).
-> diff --git a/drivers/hwmon/coretemp.c b/drivers/hwmon/coretemp.c
-> index 0ab6bbff5637..a9edbb4924a7 100644
-> --- a/drivers/hwmon/coretemp.c
-> +++ b/drivers/hwmon/coretemp.c
-> @@ -60,6 +60,8 @@ enum coretemp_attr_index {
->  
->  /*
->   * Per-Core Temperature Data
-> + * @temp_valid: Whether the CPU reported @temp as valid. @temp is not
-> + *		reported when this is false.
->   * @tjmax: The static tjmax value when tjmax cannot be retrieved from
->   *		IA32_TEMPERATURE_TARGET MSR.
->   * @last_updated: The time when the current temperature value was updated
-> @@ -72,6 +74,7 @@ enum coretemp_attr_index {
->   */
->  struct temp_data {
->  	int temp;
-> +	bool temp_valid;
->  	int tjmax;
->  	unsigned long last_updated;
->  	unsigned int cpu;
-> @@ -398,7 +401,8 @@ static ssize_t show_temp(struct device *dev,
->  {
->  	struct msr val;
->  	struct temp_data *tdata = container_of(devattr, struct temp_data, sd_attrs[ATTR_TEMP]);
-> -	int tjmax;
-> +	int tjmax, temp;
-> +	bool valid;
->  
->  	mutex_lock(&tdata->update_lock);
->  
-> @@ -407,17 +411,22 @@ static ssize_t show_temp(struct device *dev,
->  		tjmax = get_tjmax(tdata, dev);
->  		rdmsrq_on_cpu(tdata->cpu, tdata->status_reg, &val.q);
->  		/*
-> -		 * Ignore the valid bit. In all observed cases the register
-> -		 * value is either low or zero if the valid bit is 0.
-> -		 * Return it instead of reporting an error which doesn't
-> -		 * really help at all.
-> +		 * Bit 31 indicates whether the reading is valid. Some CPUs
-> +		 * clear it while the temperature is too low to be measured.
-> +		 * Such a reading is not a temperature. Do not report it.
->  		 */
-> +		tdata->temp_valid = (val.l >> 31) & 1;
->  		tdata->temp = tjmax - ((val.l >> 16) & 0xff) * 1000;
->  		tdata->last_updated = jiffies;
->  	}
->  
-> +	valid = tdata->temp_valid;
-> +	temp = tdata->temp;
->  	mutex_unlock(&tdata->update_lock);
-> -	return sprintf(buf, "%d\n", tdata->temp);
-> +
-> +	if (!valid)
-> +		return -ENODATA;
-> +	return sprintf(buf, "%d\n", temp);
->  }
->  
->  static int create_core_attrs(struct temp_data *tdata, struct device *dev)
