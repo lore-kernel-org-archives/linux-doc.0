@@ -1,71 +1,71 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92031330307
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 02:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F661D5160
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 02:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792289512; cv=none; b=IsKoMqhrwcWt8Z4Uc4bp3nr4jbOgdttrSs46n26MlrcrC6BV2cVhztXA39bwlv8wmzCKstQHMH4HTcSGHOzS+U2h2ibAYPB5Wu4fvpIyzpNc4z1DqWUP2boz2JFuZcY1ltuQNR+M45+NItFihO9XDN3Bi3SvVBLA3gH7rDkdfaE=
+	t=1792290334; cv=none; b=Jdcrln6bhb1YrEp6RcrgIhtAPPmK8iD/8idwRTD6hXuxQryHE4/A3RJ5rOuuzNk2FrbitY5HvBh08tg7AX7NrHB4Owp4YE7nOh9MkE+Z9PrcSqbM1WJkum2J1hf6RsQAzOKM+tP3gp2qyVqkM8SC4mm26Zu0ESRNXouxa8SBs0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792289512; c=relaxed/simple;
-	bh=quR7zaG5HvFKkoAcyflM6P6NFsJA2yI0PSyMysQvzs4=;
+	s=arc-20240116; t=1792290334; c=relaxed/simple;
+	bh=cOWgL4Y5aOSoL3opS9VqD9bwE2Ik8UunaS8+RLwbmv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bPljZHcZGU8dYUAt7utcMewQYMtJHGWqbH7BclyinzkK9KG7T+yhTIdg8uinIfbcYtPeawpUIa/TdrSelEKhXLf1LoP0gRAwIAi30fnenqj2wXuNSDrp81zj2VXSAZle41hUcfuL/x993HshG1S0mBZXHqJ4LZjFX3KuXM+oqMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de; spf=pass smtp.mailfrom=bairaktaris.de; dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b=QQIw8NTp; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=IghhErVbBmJ8FnRGa9VbMxfb0dDI63rkmtEO4vTdDiuxrv0u0gJJBMoBc+AJycUrER3QszMOVisS1cVlsBFmpwNpE8MsVhFL/dzjAg50xnANBSAsyKCK3AAjiB5kHMESvLoNPJMBqck3gJogZtVNQQZaRxnP7NVQek53OV5eOz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de; spf=pass smtp.mailfrom=bairaktaris.de; dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b=sJbwSk21; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b="QQIw8NTp"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so93204466b.3
-        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 19:11:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b="sJbwSk21"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c315869241fso106818666b.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Oct 2026 19:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bairaktaris.de; s=google; t=1792289510; x=1792894310; darn=vger.kernel.org;
+        d=bairaktaris.de; s=google; t=1792290332; x=1792895132; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=quR7zaG5HvFKkoAcyflM6P6NFsJA2yI0PSyMysQvzs4=;
-        b=QQIw8NTpx0NQVnPaElOZevzSeEGsEd1HNJUlehuDS2MEursrdpPIEapiL/nlrwPAE/
-         vq1GtTOJLBBFzsy2D0eKUgVaMXkXNnlc9hM9pcp+OFhy1Qqea/tzUdKQb4PA1t6akFN/
-         cHtMznWJFCw4lQ27SP+Fn0vLmmQnDzceYS703/4CVpDi+IOwlQpwy+l/6eu2+UseMIPO
-         ag5rkYqKZqUJYwHjnvtlCMlqbB16c80fXFZqqfGFY+Fc8LCAzS1UAKU7KONBsC0sLibl
-         4CEkkS5xkd1WiCOa1QExUiKXoKCDozL1d7rLPQHNqv3/HHW6ctYc2n7SAyJEMueDqmDm
-         DxxQ==
+        bh=cOWgL4Y5aOSoL3opS9VqD9bwE2Ik8UunaS8+RLwbmv0=;
+        b=sJbwSk2180ZFZkpasPbMUs+VnMuDmisi/Ml/uMIqWgJu+Wy2c8tk0IPP8f1gNewA+9
+         7j4qFEMLErx/AMNezdDNt1ya079p74pP1J2G07FVj4DcMBu3XwhRcP/KVRuQY9N/X8zI
+         g3QUPlvDmAud0UDDID/3PKF3hyiMlNaFURBHy6HaQCah7yvngWZbyE8FWAZOz2EIZ6im
+         4Ztw1lG2LyAbP/lJW1CMRQa/j1l0sWkuM+ufTN7wTzXQoxvLfe7no1E6s+oAoor7hb48
+         dwwcD7adG3cEge0Ghw7bGupo+mxFmjjgLJHC5r5QdV9kGaSUvM0u0sObg0arJdHDXXcD
+         VfHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792289510; x=1792894310;
+        d=1e100.net; s=20260707; t=1792290332; x=1792895132;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=quR7zaG5HvFKkoAcyflM6P6NFsJA2yI0PSyMysQvzs4=;
-        b=yY1x9LuG0nbzfutO2wi5AhjzqCCi+S9F9oSkAExkDWwFg1n2jngCj8eiR5tty75IQJ
-         vX7+X9dJTokMvuq9vNKmfgrk07HOBu3bQGfKOkUIcEyDLjzGaiEtB1lA6EfRH6B2H0lh
-         Feq1vFZXiIY4y4cw+mLOIEjA6irk0RsTYJ4j+uEukYvKfWyrp/Vt3zfJWzxRUqWrKIyI
-         G8/Pr+FLY29ZjUYDg5tDT7kUsSOiRIgvErbC6kM4QmtPyHeMzPLnHLn6stXqjDDjGLBz
-         zupyadCdz+5588dngDTEENvaot6WJaKSAcA08pC5pIhkiL13fjyT8yLWiwoSO71dYozs
-         FevA==
-X-Forwarded-Encrypted: i=1; AKwUvBw2Jl8nWue1ZULp5sc2eOxLWFeOzwMIIpq3v9j/kTsaCM+fBSviZ4kklO4vJSCbSfvMwy6jRdJvmgc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJGW56kgeUni3jvzQ+ZJywsUL56CGwUMOny3+o3OWg1gmc3DWtW
-	GspSSdL4OLGAa1uGBQNIUmgT8Bu3yUNXAzgvdFSOjfU04thpJvgjHpf33R+9SlCYiw==
-X-Gm-Gg: AYBFou3VRT10kkJ/g36TO6dqNRMw8jYq3TCn0QJWyqFSSSHypN7A8DUL6QDVNTJYlRS
-	asoBgFUrwP2lZ3eQlwMmHrScmNWIzGUexl5AKjEU3nrGeYZUeQL1AIpkBcWJ1+gSkcM416R1hRI
-	Xeu946snuvhUaOhHXvqM4ZU/IC5oW8IJbfxYqcHYWTIKrN109ZEyu2F9q5RW7+jN4YNmWDT00Lj
-	5g4pvMSFM650NfAp7+tbOnI21t20Zx41J6cwQmLva1KWaImzamM7YAFUC4K/LdwCbzBjvvTSyHf
-	7bUXEDKRuHjjij7ip2JcOB1u2MqImBAzXSofaG4MnIpsyM9jftgZLeNRAIJDHPdmvfYVNZCzaPx
-	8o1Ka3U/uA5TAkNHa85mHFvBSCepzHgEFSvL38YlgXT4/ZOaPqgPe33I7F0gL83a9IJ8t9a8c9U
-	P87NgvVw12RfaG3w47JcoX+xsOCtqmFWz4tA11rfqjh1s9Mfo16uKHPeCXgLkCQeybgoM4nrtmC
-	WkYb6iXNQCzHfcsFvAFSvY2QGEQgMmUBZ+YnUEzUjN3EpIrbThNuJaG0VnE71AdwldeXU8sUO1C
-	R++E0/tNu6Lt+0KMujTWtwP6LaKtHLxzFA/4nC6F6GE88TfpuJzb++V7rAVrAeoEN0HOGMm0eJR
-	J4lp/1vgZCuH7rGXc9/I0dMHR3GLvNK6fiPpwZwBZ7pdOhaHszMfVj2GwyDHODQZ6wAD6cxXhqc
-	zZkXc2kHOo8CqtUQAmmEudvOXMuNQQp6z2xOuLDD5eam15356XUey1tBAYhUn+3t+SegNjPQIBH
-	2XhARIE
-X-Received: by 2002:a17:907:c48b:b0:c35:d50a:1356 with SMTP id a640c23a62f3a-c41a08dc5fcmr283934966b.42.1792289509761;
-        Sat, 17 Oct 2026 19:11:49 -0700 (PDT)
-Received: from Desktop.fritz.box (p200300f247424f103187cc9af620d661.dip0.t-ipconnect.de. [2003:f2:4742:4f10:3187:cc9a:f620:d661])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4091eb1835sm224698366b.79.2026.10.17.19.11.47
+        bh=cOWgL4Y5aOSoL3opS9VqD9bwE2Ik8UunaS8+RLwbmv0=;
+        b=OfNNm5GLpStkCnaqS3wjNv+iZ+buHwVRnT6gFGnIO1A3h6MrD87jS9e7sSat+BIcZS
+         KDouVXKT1bhLFs+67GhFOUBKQVvHryTBEgpYY/uBPQ14r36xy++mT3oCKVRjE6tpYoOa
+         y2qlz7eJvFXTW0ORpGMmUSxsbxd6r7wv3ocKB5LD7vInPlHZO59ZILJi7XMLtd/m7XsO
+         92BKJ8VHIToFaLTZheHe4dH1zJV89xGCmOup8W2NKvCPKDukwAz1j8A2eT7C3JFhSB6N
+         umVLhMYQhZf6CUe7Ub2MRMUiwDf7Eo7D/whxeiNeR6artoxTUGWPLXuPbVb31CjXsxca
+         S+VQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy7VEiKnPtMoseBIsAkJX3G+hLAFslUo41Pud0bJrcmmY4VUJFrxPWjEfhO9J2PTuKi4iIp8wXhlEI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJDAA6hH0fNQxpBwd28zqDdsy1KZdQBHMsx+2ZbaGt2Ehkviq62
+	9vn8UbBa+9/o6jqnQNjIpUCBD0SYSic7W/OumYHWhbYw3UjKjdM2PgQaVKBBmf+ZWA==
+X-Gm-Gg: AYBFou3TVTX+2UkbDrVILSpTSCI2OQFHBG1JvYvjwnfBQ0mAZjged/CR2te0jj3lFSe
+	LsCKpEAHz/Wi7XjUuoAq2DEnfWTKZ8984I3Jej5G55s4zw12zhHOhXu+aMh7ZCF9G/2yRrhfzff
+	zDcGQkZBULDmRbNWM3OQN98YPdmJ4NqQxcvxYj9CpqlTniQ0+YRESkIG1Hkh053MtHUqxrcBiW9
+	le3Cibpl3czSQwZabDv+mYwgX9Xm0Vb8NeGD04DzWroWvroABF2c0Lpio3ymGYqTKdRMXyk+0iE
+	fDkffsdqL1UyGTKnc/9jcQAVdNi6enfpdXH03n5irvhyFDBPihrFTepgwZY/8uIUUHtS9KGfTJ9
+	arA/tS6eD1Y4hQ8BXlOvIu1T5BKpnFiwA21T/TKJDXkq2noNwuO1Ig8Sm4fg6D9E87DPenSHEJa
+	7TV3uEcn4yUvaQubF4qXKD+Zxo3OJbZGM1WIe3aCzoKzTJxJKVJnk9MektmfQxjUy+DqPPtIaH5
+	1yHM0FVhOtX/djSmBkF9uTw53e+RJnII3rhhvEbQk+0WFuytnpS/Ki2moEyml+GaHhW7gBVk6GX
+	aR4HFR7skclzJTE8s7h1bi9EajSeFPwVIRZ1NZvVKuzm/atZyadU9nBXlnInDqM4u3bI1k1b3mR
+	HzT1j+qIbWKymk1tIyRUZ4OkFbj8Wp3Uh4kQEaDB4MS5XPoiMO/upMokNUzjLKs/SbLlyafGrEJ
+	0ATvS656u6JHHbpIEgLDQwIlS/vTIONT4b6GhDisLoUgNHSeg5XbrPR6TtOijJYA==
+X-Received: by 2002:a17:907:e849:b0:c40:4320:de2c with SMTP id a640c23a62f3a-c419e73e2a1mr277700866b.15.1792290331870;
+        Sat, 17 Oct 2026 19:25:31 -0700 (PDT)
+Received: from Desktop.fritz.box (p200300f247429d100000000000000a27.dip0.t-ipconnect.de. [2003:f2:4742:9d10::a27])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c40913c4c5dsm222994366b.39.2026.10.17.19.25.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 19:11:48 -0700 (PDT)
+        Sat, 17 Oct 2026 19:25:30 -0700 (PDT)
 From: Julius Bairaktaris <julius@bairaktaris.de>
-To: pablo@netfilter.org
-Cc: fw@strlen.de,
+To: jianbol@nvidia.com
+Cc: pablo@netfilter.org,
+	fw@strlen.de,
 	phil@nwl.cc,
 	netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org,
@@ -93,12 +93,12 @@ Cc: fw@strlen.de,
 	mbloch@nvidia.com,
 	linux-rdma@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH nf-next v3 2/3] netfilter: flowtable: carry a priority into the offload
-Date: Sun, 18 Oct 2026 04:11:45 +0200
-Message-ID: <20261018021145.3769432-1-julius@bairaktaris.de>
+Subject: Re: [PATCH nf-next v3 1/3] net/mlx5e: Ignore FLOW_ACTION_PRIORITY on flowtable offload
+Date: Sun, 18 Oct 2026 04:25:27 +0200
+Message-ID: <20261018022527.4065122-1-julius@bairaktaris.de>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <atQkUoH3aa-J5-vf@chamomile>
-References: <atQkUoH3aa-J5-vf@chamomile>
+In-Reply-To: <CAC1t37K0tEMzxmRhLeHnH-TPx61pZmCHt0xxTJ5Wq2Wxvzv8Jw@mail.gmail.com>
+References: <CAC1t37K0tEMzxmRhLeHnH-TPx61pZmCHt0xxTJ5Wq2Wxvzv8Jw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -107,13 +107,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 18, 2026 at 03:43:46AM +0200, Pablo Neira Ayuso wrote:
-> I think we already mentioned this only works for hardware, this is a
-> no-go.
+Hi Jianbo,
 
-It works in software too. nf_flow_offload_forward() and
-nf_flow_offload_ipv6_forward() set skb->priority from the flow, see the
-nf_flow_table_ip.c hunks. The selftest checks it on veth, without
-hardware offload.
+v4 is ready with your Reviewed-by on 1/3, the rename to
+skbedit_prio.c and the consequence line. Pablo asked to handle one
+series at a time, so I will post it once the fdb roaming series is
+merged.
 
+Thanks,
 Julius
