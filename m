@@ -1,148 +1,332 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625173A1E80;
-	Sun, 18 Oct 2026 06:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792304662; cv=none; b=DxJhQVCrM08eqKx2chE55WdjRfp/fcmGTFitTTKeZtH3KhfiuMg8hKmz4MH41n91Xif/9eK2/Ugloo2GPWSE6HDheNXKQcGkSCZa2p8YoP4V4o6o8AAqOJNw/5Rk/DtUVXaIAu37nj4Yz3YHuuGoGHtN8OoAuFJV4rCwVq33Ra8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792304662; c=relaxed/simple;
-	bh=/agrnax0wfksccKHgEoBGnRbFp7OLiMy5dYjThZCV3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laLTFZ0L8EZtYibBQZssoj7jd0mVxO66dr9IpZMNj1jnDWhfKquCcGMmPlyiqE6zP3iBjCDJ47Xt3smhd/pN0+vp6fZBbLQim9fRP3mp+3H2XezU8gSR20e6LXLRnJt+x6erH5WZD4yZN4h11BfGyU8VeFSJ9P3Dt7yspp9meVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePeHDgCz; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DB43CAE9B
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 08:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792310887; cv=pass; b=OYPx4vOpQtT+LrO+EBe/DZlNrHGFjX+r+rwCPzK0izKWwF5MKhlgXGbVdbo0ot9vEWONuGwUXP65rtVRuKOwXImWpv8KMtS2PF7USew1M8k4nmLtJcF4aI4tvw9Kb9VOedpI+30CTFBWkZm0sTs8e/ZxPiuzoyZ+tskcvcenMXs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792310887; c=relaxed/simple;
+	bh=y5XFEsvnDCd+UySf+pmbl1sH78HpJs5GMPMF7q8dor4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HigXUz5H973tQn1MT3dSuKof41qjnLTPeDkOVzxr6k4WBohxfhqC3+T3O5JFpee3WVA4G1NWNOwzqZWNgYrQD8e2WQ1OJ2yGCmqXgaPs/imZoMqvog5TZihQPg8pOAuIbBkYAqtKPjKBHYb3p6zIRwnGjRZa7ttoXV9dRs75EDo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Onc8bUu6; arc=pass smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePeHDgCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CA51F000C4;
-	Sun, 18 Oct 2026 06:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792304660;
-	bh=w2Qw0jIYjCcszsE1XhibnTlIkBb9EQqyKTQh4sDtAhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ePeHDgCzDAgLo5tVEJsA16jTv75lNDD4irGGQJwjWhGDdajzpwDF1XoZKX2cH8FKG
-	 6+84L4TEf90k5sfW+5L0TxhPmVmwCWlmu6H+ZGx8D0RX67pZp744hZPBx9G1cHMBot
-	 UdMQaY3PzH1HKDwkxskY0TPGkM4ms2SL1DZcxvgCbnagZIRlGcBPr0XL7gbNWxaaQf
-	 JAsWz6BXTpZdRev/RVo/hBr4Zj8ghnrg0namZ1kxJS40CHQhfFnLtZ57xyk73av15d
-	 ZCXRYLjrG5uGL7EwCp1kRZbF1khfUAb/o+8QTP4rJ9tHcijYsoX88mHRWVDalZCG4O
-	 u5IIlWgJaAxvA==
-Date: Sat, 17 Oct 2026 23:24:19 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 5/5] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
-Message-ID: <atRmE5lKNxmskzTm@thelio>
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-5-52fd8be98dcf@kernel.org>
- <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Onc8bUu6"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b1f4d8e09aso1657880a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 01:08:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792310883; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WlsIsR6WPP8UJvqvm8d6exERea2yPtFiqbRWd/Gg+Uprxa6EzRYkwdbQIXrTYt0WFb
+         Xi3r53Yf019RXARFtOYxbZgV/E7RG3SeWIQrIGLsfWgi02xPemKdYwBJbGCTeTl/3dHB
+         hYlmVGjEByQwiRQZUyDWHY9lhyqM4ETgztgkmGvUX5cNa2IcxCaM6IPNfFpUZxzY7THG
+         ioUS9YTeiKMGTasNCG8CWpO0TtF4JjGizI+0DS0y9YeRJLd93DsDIkDkl5G9787KmpLh
+         4aTEL4x+ZlXB2TrGeKmrezaZz6wXmKFmtAN7aaoIK987yiPj/jm/GYL0IJVfJv+cqm3P
+         o2MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ilZ4wI/E3Hj/jf8XjpsaqFvh6n8hcaWUBtaKdqcYMKQ=;
+        fh=8HfdtCkop0/yy27yPcy56YGLlhwwW7kJVj5s+/a0wdc=;
+        b=Afd17bLnT0C7+WXy8iDYTa3HnP3YMh+Nq98GbNfSUcKo3louDdUxEIqAznKJdWNurc
+         iVarTuf2CHOJWqf4pcPGwjuJopJZnlEowOVpt+3q3ZkGtyXf/+cPoUhElGnVZ5E/ZpUp
+         8LYvgsIgwREN/pIq8fnCBYJSIOOtiJN7vjIBobbSvo3PgVGgnMsGlPU2wBfQQRbCtoil
+         FIEM+zQxQ7ismnoo5J+Nrdki4gNuxw+XYLNqSPs5xBzrKEDZ2doz8/uu5r9GTF1/pO1K
+         5JHJjW5t/GQJx7av8o/NBlhv2RANGo2KUnuWG65J8/V4WCnE6X5PMbNvgJ2tpCTO36es
+         qWZg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792310883; x=1792915683; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ilZ4wI/E3Hj/jf8XjpsaqFvh6n8hcaWUBtaKdqcYMKQ=;
+        b=Onc8bUu6Ldi4XCsQHhnBDZGF/IKxuk/7Anei7g8kAksDx4lzKGOeRf5pgv8Jbkq4em
+         asMw3+EAELQV/eEXDuh+tvpQ82ASTWawjQlFT9gOQzigu91G5zlR5Ua/i98mlWR8ufvB
+         3ZJKMcadaYj5RDNS1nHn5OI39AvDxd4eoqkMrZ/+bLUle2LIBcZHMfE0VFDSs/xB9XMk
+         QTogOwp/lhPdyXGuRm3/Ol8yqgxBDNDUjxXkun9KmJcTjUnj7NZvDq6A1bOhfFtFi1XZ
+         4vd+DndliPFDI9oCO6D8KM6ZapX6H/vnhXJaK8iSjY0RiDOXZaUMvHGekP7a7qHX/Fgm
+         /D6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792310883; x=1792915683;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ilZ4wI/E3Hj/jf8XjpsaqFvh6n8hcaWUBtaKdqcYMKQ=;
+        b=igc23Thu7ojY3O3MqXSIn+F0uTsrWnZQtW4n5MqgajMfxV+QDejIK1zPorQYNbjGtP
+         VBPKianNF3BBLCk1+unSt0R6z32bb081l8Khe+ZU8xr70qXuSMuCi7xkPnx+ZWkMg4Bx
+         1S6F2cwA7T7V+f0hzQR46jU/1QLPvWy2rFUdWCTvKkcBVUTYGAIlNRFoW5Ff//us5ikv
+         yQPdKOBrCBy43zOm1gFKuPB08uyVmoG22dIuTTHSgdwL/Uv+KawmGkGgZ1wOjAoUCdBj
+         bgL4j0ydbnn9ydQ6cO7KGBVw67yYCrVdHQm3PS0GPWONMRStnAr1vIcRNBw02+L7Pu/R
+         GVxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwcOETLYiQnu5ybX4StiMfD0iqCtNBVdSqoUorCT7owebHmKJqJulSJRxaPCJc4UCgQOgKTfFffPdM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3Q6ONY8VGcnPt9fE8y6yy/T5ZbNC4xn0n/DW5hhuSnCiPuu+s
+	1w/UKmowvd6Lwe2KyM2QCRHugnSUAM0v08IiEuaQjteNTBs/zHX3NJvihjDOCi7dK9BbD1PguP7
+	mKcgLXTVP3BTihK01SazpS6Ls9CggaTo=
+X-Gm-Gg: AYBFou1vye9mwpZ+/EvuivfOprNtRwZb/tK+ur2AVWEYESDDzsz+L60cor7Dbxe9dBr
+	2sYgyPnBchqgF9sdyC62hbygFKZOwWXwb0r68c3DK4eAp7Of3kFJva6v3Tgb5n3JxUjANAs9LXv
+	GMoe6A4cR1NebmQvsNy56qONkT9ZGOWVGo132fyHDyJHUyDGI9odHr5eK5/lTlonprO5bsyRFDT
+	oRzsY2jH2nEBBWsCqZpMPIB8BdmZEPepMYG1LN/ks8ZJDBW3vwH0wECaHN1AB8sGW8lNFcRPs60
+	jtX0q4k0Lzqv2SdKG5Kk24OlK8NrZsOoD7nl7gMzAZP30tr3N6eNgppYw4XNFAOJ+6Y5WSpiPLI
+	N36KFVRSiE9gxLw6TYQg1kC/cb7j5mo/74nsqYF/2Vg==
+X-Received: by 2002:a05:6402:2706:b0:6b1:e4cb:a23e with SMTP id
+ 4fb4d7f45d1cf-6b3a8173599mr2673068a12.14.1792310882887; Sun, 18 Oct 2026
+ 01:08:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAB19ukEMKp7iFHrTPawNj2dwf1n0D9VDBC2ycBPdCRbkGYN2eg@mail.gmail.com>
+References: <20261016-alpha-perf-regs-v3-v2-0-17654742226a@gmail.com> <20261016-alpha-perf-regs-v3-v2-4-17654742226a@gmail.com>
+In-Reply-To: <20261016-alpha-perf-regs-v3-v2-4-17654742226a@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Sun, 18 Oct 2026 10:07:51 +0200
+X-Gm-Features: AclHuK-VNsafBbC0UElzSysk3-G5WNDIzbQ-ccYV-utxuPfu6H2A1XeMjX_M9H0
+Message-ID: <CA+=Fv5TmOWVV379PuTV+7Zhbq9MziJ4Jt9pr_gxvvnz_ca6RXg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP
+ support
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2026 at 10:33:21PM +0530, Sunil V L wrote:
-> On Sat, Oct 3, 2026 at 12:45 PM Drew Fustini <fustini@kernel.org> wrote:
-> >
-> > Add a platform driver for CBQRI capacity controllers described in
-> > device tree with the riscv,cbqri-capacity-controller compatible.
-> >
-> > The controller node points at the cache it governs with a
-> > riscv,cbqri-cache phandle. The driver looks that cache up in cacheinfo
-> > and uses its cache id as the resctrl domain id, so the binding does not
-> > need to carry a CPU mask. The controller is then handed to the CBQRI
-> > core, which probes its capabilities and decides whether to expose it
-> > through resctrl.
-> >
-> > Nothing is vendor-specific and reg is the CBQRI register block itself,
-> > so any SoC that describes a CBQRI capacity controller in device tree can
-> > use the driver unchanged.
-> >
-> > Assisted-by: LLM
-> > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > ---
-> >  MAINTAINERS                      |   1 +
-> >  drivers/resctrl/Kconfig          |  15 +++++
-> >  drivers/resctrl/Makefile         |   1 +
-> >  drivers/resctrl/cbqri_capacity.c | 127 +++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 144 insertions(+)
-[..]
-> > diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-> > new file mode 100644
-> > index 000000000000..0670a676bdb1
-> > --- /dev/null
-> > +++ b/drivers/resctrl/cbqri_capacity.c
-[..]
-> > +static int cbqri_capacity_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device *dev = &pdev->dev;
-> > +       struct cbqri_controller_info info = {};
-> > +       struct device_node *cache_np;
-> > +       struct resource *res;
-> > +       u32 rcid_count, cache_level;
-> > +       int cache_id, cpu, ret;
-> > +
-> > +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +       if (!res)
-> > +               return -EINVAL;
-> > +
-> Unless I am missing something, I think you can simplify the code by
-> using devm_platform_ioremap_resource().
+Hi Matt,
 
-Yes, I'll switch to devm_platform_get_and_ioremap_resource().
+On Sat, Oct 17, 2026 at 3:56=E2=80=AFAM Matt Turner <mattst88@gmail.com> wr=
+ote:
+>
+> Let perf sample registers and dump the user stack, which is what the
+> perf tool needs for --call-graph dwarf.
+>
+> The register indices follow the hardware numbering, so r0-r30 map
+> directly to DWARF register numbers, with pc after them. r9-r15
+> are callee-saved and live in switch_stack rather than pt_regs, so they
+> cannot be sampled. Without r15 an unwinder cannot recover the CFA of a
+> first frame that uses $15 as its frame pointer.
+>
+> sp is not in pt_regs either: for user frames it comes from
+> user_stack_pointer(), and for kernel frames (PERF_SAMPLE_REGS_INTR) it
+> is the end of the trap frame, as in stacktrace.c.
+>
+> Software events such as context switches and tracepoints hand perf a
+> per-CPU pt_regs filled in by perf_fetch_caller_regs() instead of a
+> trap frame. It is not on the stack and has no room for sp, so report
+> sp as 0 there rather than the address of the per-CPU buffer.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Acked-by: Ian Rogers <irogers@google.com>
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>  .../features/perf/perf-regs/arch-support.txt       |  2 +-
+>  .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
+>  arch/alpha/Kconfig                                 |  2 +
+>  arch/alpha/include/uapi/asm/perf_regs.h            | 45 +++++++++++++++
+>  arch/alpha/kernel/Makefile                         |  1 +
+>  arch/alpha/kernel/perf_regs.c                      | 64 ++++++++++++++++=
+++++++
+>  6 files changed, 114 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Doc=
+umentation/features/perf/perf-regs/arch-support.txt
+> index 4c9a5a012075..7d736d678fd4 100644
+> --- a/Documentation/features/perf/perf-regs/arch-support.txt
+> +++ b/Documentation/features/perf/perf-regs/arch-support.txt
+> @@ -6,7 +6,7 @@
+>      ---------add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP support---=
+-----------
+>      |         arch |status|
+>      -----------------------
+> -    |       alpha: | TODO |
+> +    |       alpha: |  ok  |
+>      |         arc: | TODO |
+>      |         arm: |  ok  |
+>      |       arm64: |  ok  |
+> diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt =
+b/Documentation/features/perf/perf-stackdump/arch-support.txt
+> index dd362b5cb638..17b84ea7769d 100644
+> --- a/Documentation/features/perf/perf-stackdump/arch-support.txt
+> +++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
+> @@ -6,7 +6,7 @@
+>      -----------------------
+>      |         arch |status|
+>      -----------------------
+> -    |       alpha: | TODO |
+> +    |       alpha: |  ok  |
+>      |         arc: | TODO |
+>      |         arm: |  ok  |
+>      |       arm64: |  ok  |
+> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+> index b2c359b947f6..8fafbfabd1e5 100644
+> --- a/arch/alpha/Kconfig
+> +++ b/arch/alpha/Kconfig
+> @@ -41,6 +41,8 @@ config ALPHA
+>         select HAVE_PAGE_SIZE_8KB
+>         select HAVE_PCSPKR_PLATFORM
+>         select HAVE_PERF_EVENTS
+> +       select HAVE_PERF_REGS
+> +       select HAVE_PERF_USER_STACK_DUMP
+>         select NEED_DMA_MAP_STATE
+>         select NEED_SG_DMA_LENGTH
+>         select GENERIC_IRQ_PROBE
+> diff --git a/arch/alpha/include/uapi/asm/perf_regs.h b/arch/alpha/include=
+/uapi/asm/perf_regs.h
+> new file mode 100644
+> index 000000000000..da96a31b12fb
+> --- /dev/null
+> +++ b/arch/alpha/include/uapi/asm/perf_regs.h
+> @@ -0,0 +1,45 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_ASM_ALPHA_PERF_REGS_H
+> +#define _UAPI_ASM_ALPHA_PERF_REGS_H
+> +
+> +/*
+> + * Indices 0-30 match the hardware (and DWARF) register numbers.
+> + * r9-r15 are not saved in pt_regs and cannot be sampled.
+> + */
+> +enum perf_event_alpha_regs {
+> +       PERF_REG_ALPHA_R0,
+> +       PERF_REG_ALPHA_R1,
+> +       PERF_REG_ALPHA_R2,
+> +       PERF_REG_ALPHA_R3,
+> +       PERF_REG_ALPHA_R4,
+> +       PERF_REG_ALPHA_R5,
+> +       PERF_REG_ALPHA_R6,
+> +       PERF_REG_ALPHA_R7,
+> +       PERF_REG_ALPHA_R8,
+> +       PERF_REG_ALPHA_R9,
+> +       PERF_REG_ALPHA_R10,
+> +       PERF_REG_ALPHA_R11,
+> +       PERF_REG_ALPHA_R12,
+> +       PERF_REG_ALPHA_R13,
+> +       PERF_REG_ALPHA_R14,
+> +       PERF_REG_ALPHA_R15,
+> +       PERF_REG_ALPHA_R16,
+> +       PERF_REG_ALPHA_R17,
+> +       PERF_REG_ALPHA_R18,
+> +       PERF_REG_ALPHA_R19,
+> +       PERF_REG_ALPHA_R20,
+> +       PERF_REG_ALPHA_R21,
+> +       PERF_REG_ALPHA_R22,
+> +       PERF_REG_ALPHA_R23,
+> +       PERF_REG_ALPHA_R24,
+> +       PERF_REG_ALPHA_R25,
+> +       PERF_REG_ALPHA_R26,
+> +       PERF_REG_ALPHA_R27,
+> +       PERF_REG_ALPHA_R28,
+> +       PERF_REG_ALPHA_GP,
+> +       PERF_REG_ALPHA_SP,
+> +       PERF_REG_ALPHA_PC,
+> +       PERF_REG_ALPHA_MAX,
+> +};
+> +
+> +#endif /* _UAPI_ASM_ALPHA_PERF_REGS_H */
+> diff --git a/arch/alpha/kernel/Makefile b/arch/alpha/kernel/Makefile
+> index 4ea5c189e60e..0c04b89676ed 100644
+> --- a/arch/alpha/kernel/Makefile
+> +++ b/arch/alpha/kernel/Makefile
+> @@ -18,6 +18,7 @@ obj-$(CONFIG_PCI)     +=3D pci.o pci_iommu.o pci-sysfs.=
+o
+>  obj-$(CONFIG_SRM_ENV)  +=3D srm_env.o
+>  obj-$(CONFIG_MODULES)  +=3D module.o
+>  obj-$(CONFIG_PERF_EVENTS) +=3D perf_event.o
+> +obj-$(CONFIG_HAVE_PERF_REGS) +=3D perf_regs.o
+>  obj-$(CONFIG_RTC_DRV_ALPHA) +=3D rtc.o
+>  obj-$(CONFIG_AUDIT)    +=3D audit.o
+>
+> diff --git a/arch/alpha/kernel/perf_regs.c b/arch/alpha/kernel/perf_regs.=
+c
+> new file mode 100644
+> index 000000000000..33ea2e831ba0
+> --- /dev/null
+> +++ b/arch/alpha/kernel/perf_regs.c
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/bits.h>
+> +#include <linux/perf_event.h>
+> +#include <linux/sched/task_stack.h>
+> +#include <asm/perf_regs.h>
+> +
+> +#define REG(idx, field) \
+> +       [PERF_REG_ALPHA_##idx] =3D offsetof(struct pt_regs, field)
+> +
+> +#define REG_RESERVED   (~GENMASK_ULL(PERF_REG_ALPHA_MAX - 1, 0) | \
+> +                        GENMASK_ULL(PERF_REG_ALPHA_R15, PERF_REG_ALPHA_R=
+9))
+> +
+> +static const unsigned int pt_regs_offset[PERF_REG_ALPHA_MAX] =3D {
+> +       REG(R0, r0),    REG(R1, r1),    REG(R2, r2),    REG(R3, r3),
+> +       REG(R4, r4),    REG(R5, r5),    REG(R6, r6),    REG(R7, r7),
+> +       REG(R8, r8),    REG(R16, r16),  REG(R17, r17),  REG(R18, r18),
+> +       REG(R19, r19),  REG(R20, r20),  REG(R21, r21),  REG(R22, r22),
+> +       REG(R23, r23),  REG(R24, r24),  REG(R25, r25),  REG(R26, r26),
+> +       REG(R27, r27),  REG(R28, r28),  REG(GP, gp),    REG(PC, pc),
+> +};
+> +
+> +u64 perf_reg_value(struct pt_regs *regs, int idx)
+> +{
+> +       if (idx =3D=3D PERF_REG_ALPHA_SP) {
+> +               if (user_mode(regs))
+> +                       return user_stack_pointer(regs);
+> +               /*
+> +                * Software events built by perf_fetch_caller_regs() use =
+a
+> +                * per-CPU pt_regs rather than a trap frame, and pt_regs =
+has
+> +                * nowhere to record sp, so report none.
+> +                */
+> +               if (!object_is_on_stack(regs))
+> +                       return 0;
+> +               /* Same kernel sp approximation as stacktrace.c. */
+> +               return (unsigned long)(regs + 1);
+> +       }
+> +
+> +       if (WARN_ON_ONCE((u32)idx >=3D PERF_REG_ALPHA_MAX ||
+> +                        BIT_ULL(idx) & REG_RESERVED))
+> +               return 0;
+> +
+> +       return *(unsigned long *)((void *)regs + pt_regs_offset[idx]);
+> +}
+> +
+> +int perf_reg_validate(u64 mask)
+> +{
+> +       if (!mask || mask & REG_RESERVED)
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +
+> +u64 perf_reg_abi(struct task_struct *task)
+> +{
+> +       return PERF_SAMPLE_REGS_ABI_64;
+> +}
+> +
+> +void perf_get_regs_user(struct perf_regs *regs_user,
+> +                       struct pt_regs *regs)
+> +{
+> +       regs_user->regs =3D task_pt_regs(current);
+> +       regs_user->abi =3D perf_reg_abi(current);
+> +}
+>
+> --
+> 2.55.0
+>
 
-[..]
-> > +
-> > +       info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-> > +       info.addr = res->start;
-> > +       info.size = resource_size(res);
-> > +       info.rcid_count = rcid_count;
-> > +       info.cache_id = cache_id;
-> > +
-> > +       ret = riscv_cbqri_register_cc_dt(&info, cache_level);
-> >
-> As I mentioned in the comment for another patch, this function doesn't
-> need to have "_dt" in its name.
+Retested on my AlphaServer ES40. Synthetic context-switch and
+sched_switch samples now report SP=3D0 as intended. Register sampling,
+user stack dumps and DWARF unwinding also passed, with the documented
+r15 limitation.
 
-Good point, I'll drop it.
+Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
+Tested-by: Magnus Lindholm <linmag7@gmail.com>
 
 Thanks,
-Drew
+Magnus
