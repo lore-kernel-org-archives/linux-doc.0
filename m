@@ -1,102 +1,104 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5843F36196E
-	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 16:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E191C3EA963
+	for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 16:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792341088; cv=none; b=I/+OiI0rAEUQQfnRBRz5CwvNX3cNTHjoc5ZwBqOLCqMILHQzVvoYRrtj66Ks94Y0rE+8izfiVn1FheNshtLmhFonLomZwtsWCsduFdN0DzSa4l3zQRwPtaFFHxGaBhAM6tbDBAvLumOxyc9mmvhQKm7Qxmc7hZax8X0eGq8pTpc=
+	t=1792341492; cv=none; b=hVxPuJww382T5Syn+GksLvcoSLJxc7OuklSc53hb3RhVfTTaZJF9KK1UjudWtvXQlJGdiTVD+i8CwnJIEaejCBynICOYaUGMguoPuxRaBIAVbQjH3LqHWcaNk1uBIeWv7aXI+UmpCrY5e4qM/mDilCt2qMVpFhWGPKePuq+M44U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792341088; c=relaxed/simple;
-	bh=au8Gvd6+WEU8zV/daAfKj+L+yF0iVWqrpQqPfGml9hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uQVMEEPjm39Npysy6UE7V1624qBgi26bup6J6yOV4xAtpqVyc0NkrEaky43NJsQxV1xVuIihxZ9WRwiLPyZxVJ/vQDAWat/PsfLyzBeFNJBaCE/nU8Vd9+FUMzev3AGlVlqM2sl3SBocY12bQA2omf1/LKjyS5mzUfTbKCfDIO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K68T5dXo; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1792341492; c=relaxed/simple;
+	bh=cWbrnQSlLPZR13S2XvAfyai9aYQ6B1FO4xtNhX/Qx4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TqajxeauLo3e2V40syP0FI0qVdpWd3lpTbRA5pRWvi6tEffIeyCsigzP87DCDNZ22gwyepINY2usSckft6RIW/EVj04V3sNOxBh+RmP5dVCK0S7rNUP2Xl5N/JNiH3NVUPKjb5vFeOadib1f/fxQv2uFvxk9ZoVWM+uQNY8NEgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUr1RGgJ; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K68T5dXo"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so706547a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 09:31:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUr1RGgJ"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a1d75f2f11so9084675e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 09:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792341087; x=1792945887; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WhZ6HkRzC6hmWIpP7WOwdVZqWzvDpVWCEpyfcLFKaWA=;
-        b=K68T5dXoYJ4LB0dffdYrHGl8E09ixEURtKBRxGfRCzYSoQHua7ORO28K/S7uhmvK+R
-         zNBDpAe2SaEqzJLKwXS1qlnBmKARmCMW5Epw3uBTrErM31vIYbnArkeqyuV4ntlBzenA
-         mog7uzYm1Ua39+NUkd6QDzxNowI3ZC0r64gNMqKA1cCuqFb/k/BUlxvuauCULT/7h4mM
-         DKs/bs5jpJ/A6rsrr6x6mTcvjmFU/LvddoxIH7aZkY5DYRsNqtDtfO0JlsSz1kFkNGIn
-         P5bFPR9ZGWHdUAuR+jpw6OjE4987B9USltJeCtJlmWMQCz3pybLkKBrCfqzdUE93wkvC
-         2Mdg==
+        d=gmail.com; s=20251104; t=1792341487; x=1792946287; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TUsjSvWYWV+jMep3Ewn28rSL6gnhBkjB2DvYwQ5XLq4=;
+        b=iUr1RGgJrvWVubQmNgV6Brv5RxQCXzHv27D49TgZTx5jctorfkH9t10V7X6CoI8GIe
+         3Z4YKok8jtpRQ4CE546T+9b/2BuMOxpxFCs2a2Gjappoj5BqF9SRHJsi/yjbPFv+2fVD
+         ycj652tN7XbZckRChijHBlVI6A0kZP9bRwrRhf97kkh6+Jldsdj+AW16Y8VWdKwz5d12
+         eQncEQQpE7WQ1vzFTivEATMXgFmAayd+FrHfI1aCr3FcxFe0F9nJRJDMTktbvSmGdg7e
+         Ub5FefKrlH63LV7HhvipTIeRARZg9CAEIM+A1BuuugaDHbxBYE8Z4sSxhjb0nBwB5sQn
+         srxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792341087; x=1792945887;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WhZ6HkRzC6hmWIpP7WOwdVZqWzvDpVWCEpyfcLFKaWA=;
-        b=Reeqzd8c5A4qb9ly9NvcWCyHA4Gp5EpePsh+rxU/IXN1atudvdRhlUT//QFGxEEPwU
-         A2jP26WW6kTUOQOxeMZjAhTQmWE/f5LTrsSZ8qaintrzgCtse5PVqwocdl7sn2yz5NDy
-         +FT9qCwpHAfRVn0RPBdoL2hftfqonONXL9O4ZEtASq1qGz7UXzBkJDIFlBYDhYPz+CQc
-         i/iG+1ILI32QxXIyoB53mq3WNgZT+VgafDYD5ypvx7EPVVOPUq1J0yxDTpdX9HsP/3Wb
-         pstQkuLDSt7oSO1aM/AE9bphFJsLqDSKsCEgzyr568udxd3GHQhX+KiNo84g9Nt4rZLV
-         vsfQ==
-X-Forwarded-Encrypted: i=1; AKwUvBykjSUmB59bFggbWUrbGq67coiYyFNJMFUV5O0BSXckCu4uMUSd4m1b6d/GoI+N3+7Dy5biN4E8Xls=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKzDDchb/toIKGT7WHKvfQBaBYneNVej6NwrMQMfwxWMz1lL96k
-	94icjc6BqmzEZ6igYV6AMRxR1SVxSq4RFvihKA6auPJ4SsE6kabb5Eah
-X-Gm-Gg: AYBFou0zgBRZCihsYhIc5fs6auKfkCCQM9aBypczswz9XnFMlnNcd+nAvmp8PZOozYp
-	AvCADXFhBNDlXPWO5wodkoxeXv8mJg0F/pqGRmvu34MCz5wnPcWO1S/NlaS7vVXvNbcqn1Q4Itq
-	W9i36NSYQZRXcW6+BT6rEwEgREB5z9jxmnpnMkXfoTnpUL0tAauwW9KdBIJvQRT2CoYGw5dk/0C
-	eV8COuwU0xYRjiJM+a5wEAIefi735lMbAR8jCyf6Qkc0Qc1vhSIKGZIi51dZjMmIZWxxgAgeOX8
-	wGw9PwUH53yBnGDCD5sNux+BQMHtelr1YTf8rpYfSr7E5RZ8qEV42RsZz4bId7S3Ja5I9dGDDYC
-	zmwaaymMicLwuEzMUoRzGT8de4zLk8UHN1AdvMgAWsJya11WE3nWeBbGS7JejvBSPPVgsv91/V6
-	g3Y16xWouBbqp804BkdEtE9uh8MDNAazWf/Wp49CrPSj25tETzOYQ/YY4SzwcaONw6gnoat4fv/
-	xjJP4BBP/MjPnYBz4Ir+sI=
-X-Received: by 2002:a05:6a20:43ac:b0:3de:7f6c:b871 with SMTP id adf61e73a8af0-3e22607ded2mr3605547637.36.1792341086646;
-        Sun, 18 Oct 2026 09:31:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89fd2737d20sm2611477b3a.35.2026.10.18.09.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 09:31:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 18 Oct 2026 09:31:24 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Qian Xiao <heyheyco@gmail.com>
-Cc: Ed Brindley <kernel@maidavale.org>, Denis Pauk <pauk.denis@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: (asus_wmi_sensors) Reword BIOS upgrade advice
-Message-ID: <08bd0bd3-a80f-41bd-a057-208da8e823cd@roeck-us.net>
-References: <20261016163509.249020-1-heyheyco@gmail.com>
+        d=1e100.net; s=20260707; t=1792341487; x=1792946287;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TUsjSvWYWV+jMep3Ewn28rSL6gnhBkjB2DvYwQ5XLq4=;
+        b=PLHQdj8+Eexx8GgyLeDYq8mcZk75xtN8DC4JTPH5BMo9p4POPIiSbN0jF7ufCdjxIF
+         +P9yuHk8EtscMV1iBzBBcZWAv/vc3IGor/31Att/mchiVSISpLAj8LYTFH69IWcOpkcy
+         CNUFdDbEwC6G3jGbhb0+8LwdCknZmSfMvaeAwz4RrxIwsK95gpzC4/TuqwSWvAfgYVT0
+         fGN2RVLBywH9ZllbPXccb1poRFvTNolPtcoRTI9Rh82CkeRXBRYvRcaBpdGDYVZW2kPX
+         u3Pv+Z377/4/AzUfaV/WoL3oS3jNd6OiIqpVKfr/7LKqq7ol63U2Et7bCnKiN9iq1ARK
+         dMlQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz8T2d81Hw02DnjTujbEDUmX47wBkT0MdwR3y3azMpx9Bua7rDxIKPfLn0JoDNE0dfa8Nhcc2M232s=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLz8QCQOhtwB4Gqv+8EjbcBEhV7lilBGWgjKGa2jwlLHhqHnQzb
+	j9fLvRCtn3EhW78T6IsyqIGXJAYO/QogRnO9JLIfLqGMuM6oepoRZAKX/lXqUigA
+X-Gm-Gg: AYBFou07uyPmDQT0S9g19b/VYNVACGCW/q8vv2S9Ed76B7ws43afE52DEn7oBOuRKLy
+	X35EyXSE5VIhom2JJxRmejzSiLQGE1YvGVYR2QOcfUNq9mw7N3VsGp39Wkl1cRE8yuanARVc12x
+	5HE3zfIFJ5dVgMCamCoKQy1qBNPptl0nNw2AHEEkRWNfEHFP6H4ZGyWkaga2Lj7dGuM5dXOZA/r
+	q5Ib0+pNLU5Li5DH0vumJsq2zH59rxajLgW/EOu1NwtJjIlBISwmm9SHuPCnzT/QON+A1kyMbXi
+	3abwHGItCeF1peYPSjfZZyzn9wgs0TNjT4FZ6xSbv3fPGYSUhx84SHnXHl8fqOAakmrlCH8adZh
+	KKgY3Ag0cj88tz+uR2hBG2kyiQhq00si6GWSG+sOSvdiiuRbGB4gjJh3H02Q2R2dkwdePlTf8xE
+	GT+glRmFJ04yVjbWRBdBVlJpTHkj8OeroTW6TTLJ4BbIHvoMZRUPX6DhCfSoYs9AaphYC5yzfPW
+	cH6JKTGLq9JOib3llBzOqY9y8K6F2HYZ/dWghvs+kaqt+lAKtNG5G4jlinDVyW9ow==
+X-Received: by 2002:a05:600c:1d05:b0:4a1:bd69:526f with SMTP id 5b1f17b1804b1-4a1d75ab235mr106971665e9.4.1792341486776;
+        Sun, 18 Oct 2026 09:38:06 -0700 (PDT)
+Received: from localhost.localdomain (bba-217-164-203-125.alshamil.net.ae. [217.164.203.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd47104csm19824339f8f.8.2026.10.18.09.38.05
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 18 Oct 2026 09:38:06 -0700 (PDT)
+From: Ximing Zhang <xzhangjr@gmail.com>
+To: ycistak@gmail.com
+Cc: linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (coretemp) Document sysfs numbering and label meaning
+Date: Sun, 18 Oct 2026 20:36:54 +0400
+Message-ID: <20261018163654.45358-1-xzhangjr@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261015171759.704526-1-ycistak@gmail.com>
+References: <20261015171759.704526-1-ycistak@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016163509.249020-1-heyheyco@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 09:35:08AM -0700, Qian Xiao wrote:
-> The Known Issues section suggests that upgrading to a BIOS with WMI
-> method version two or greater should rectify the problem. However, the
-> driver refuses to bind when the BIOS reports a version below two, so
-> every system using the driver already meets that condition and the
-> advice does not help.
-> 
-> Instead, suggest that upgrading to a more recent BIOS version might
-> help. While at it, fix a typo in the preceding sentence.
-> 
-> Link: https://lore.kernel.org/linux-hwmon/CAFGXJCm6ZWK0NsFhZ1_ycgYtTTT3nhqj9mose60t+Rrry1aPvw@mail.gmail.com/
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Qian Xiao <heyheyco@gmail.com>
+I tested the documented sysfs numbering on an Intel Core i7-10510U
+running 7.2.5-1-cachyos, with all eight logical CPUs online.
 
-Applied.
+coretemp exposed the package sensor as temp1 with label "Package id 0".
+The four per-core sensors were exposed as temp2 through temp5 with
+labels "Core 0" through "Core 3", respectively.
 
-Thanks,
-Guenter
+The topology files reported the following SMT sibling pairs:
+
+  cpu0/cpu4: core_id 0
+  cpu1/cpu5: core_id 1
+  cpu2/cpu6: core_id 2
+  cpu3/cpu7: core_id 3
+
+This confirms that the per-core attribute number is core_id + 2 and
+that the label identifies the core_id rather than the logical CPU
+number.
+
+Tested-by: Ximing Zhang <xzhangjr@gmail.com>
+Reviewed-by: Ximing Zhang <xzhangjr@gmail.com>
