@@ -1,107 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.70
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792451500;
-	b=FHXIgzKNchxZ6N8NIrdOZ1lFSicJJ8lwmBx8ZjPaIzJ7jd14MAHbGGy6O0UxF5zZzimo
-	 BqP+g11oZOjZnPP/tQUJ+w+kTp+0JEupRDnwPNcDuNp6QbfVlStYK9RyTW2C0Fblh+yfV
-	 zaaMIusv+Sm8WGNJIRUAfNUbD4GDRyjjRjzJqvpKkw+n/+sVnG5yAlORCIYDqhIDTDOtU
-	 pOfWw154mu2BnuLSVkkFU7ID1Y7iRZmsrDCZTbWRwtQHNhUyDmlIsdnzE5E2C43HVyPN3
-	 53POkBp0lbSKXLcqK1tCjhNiOOLfVdY9+CMY9FBc992hN50V1VYdHqRy13FjioU92Zw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792451500;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Pk3BetNzco22ofDGndAoQ+zxFz/nVvlehUw2PuEfUN8=;
-	b=EQGY2XrXtEVLeB7QuQtazPfBvs9F3h/7n+9uD39IT0wfB54p1mbZmlI8tcKFMGB9L8hX
-	 3p7ENQuxKJFOqQYeMDLckBuni1aN9FvMd+p0tuvhuzq9P4GLtbuKT1wbokc/dGh67DgYv
-	 1U6O121BcYvEmBoCtubu7LDJycFitj6YbXRQjxbbV00UrqwqnFLEPP1kQyIPP1mnlw6+s
-	 T5ancqUNxPPNy70gryzImNQEXUsP0m5M43BjktNti1oMKB8oq5+W9U5oSE4QK1s+IcC6n
-	 7JwTLx3zCb50d/bcThAmVyztYx50QqaCXMwgLgzlGqtYaLRdOTRuz3iEwAhAgvOL4yQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=aUAbArE4;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.70
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013070.outbound.protection.outlook.com [40.107.201.70])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792451759;
+	b=r3XvS67NmwmCthMpViVYj4gVfYfuNNM4z/8UuFPuNLEkHHqIdUuLDRnjHc3/NaDc5UYO
+	 1z0Zsl5ZFuguERnhlkTSharwYsKI6YPll2YIW8+qt/21OVX5FoLkXnc/8oqLmtJEAytRO
+	 54a47+BtxBg9EpGceim3AFTvkTlV4r+NmGlUSTMNryZiEw2lBUvoXICPV/E8370ToEmcz
+	 cTxdaY+MjphkexSZBqMtp+OOnQH51SwmJjEPVyvJXbwEP8aQtNs3vpErS44tcE95OmF3Y
+	 Q9oc/CHwa4StI5GEA8D5nnLajJi4h+sKWNwmhu2pPXq2vQXK3RWElgjIeTSvYmcox3A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792451759;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ZFh4t2a+XC8DHJvTpV0MW4bJipbpqLj03+M6T9LwwnI=;
+	b=MosacQhYQ4TWqBBprm4hgMeV63T/9LKRxZDvRo5rtGXtkCAGZZoDI0sj7+3BN7N6ffWn
+	 yHGz10nwCOqSLnaTzQjz0grbl23yHk5LmFjvI22N6/3xb0xwIJgdkLOTFNSmy9kJXPx/y
+	 NUOFeGkwWZ34A8MiV7S4YdqfSXzHjsvjsR8Gv3xdp3FR1gLb0A1HrEY0z5YDCNx2bt1uj
+	 9x4+Q56FQ1clL9pvKaPs6EnH98qocRr4LWT5+zDxBuG0rHtkxPSH7VyA4GsPO5HTasUiC
+	 yxUGxEa7vJvNNJi415ec+LmQ9m43govz7cBFTNfKaIOwCoQAZ5SbJqijydcXKtz3hGw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPIOEqzK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6B3606A31A;
-	Mon, 19 Oct 2026 23:11:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D6B3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA340606A31A;
+	Mon, 19 Oct 2026 23:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=aUAbArE4
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vLh3K8VXqQjbe5TFXopGyUR0yUyfq0gkMBwC/unir6Wwqj/REexbhi94xuUKL1NevP1CyBkdNPgHqTBQCaAMQIh7n+mTM3uFz1HYgB5JyAa+kjk6cwa4xTOoM9dllw3Clgn38Jh7cUP/NglB5O4quYaDdtZaqo+kSFRpPb3FSjvpEqvYyu4Pq9zmH0ElYj7HCdfX68RnTmMskR0FKucUNP3euI6KduOF+c6umrppmjlilSsZ+EmF5Hr8bmrFRjBewzLKPwTaxqaswVfdDHHJpIVu3GLopq67i4FCf4ELxuj2kXqaAe4XFwyN26l7LoDeXdbg7o00l3i/OUj4XnnzGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pk3BetNzco22ofDGndAoQ+zxFz/nVvlehUw2PuEfUN8=;
- b=V9WKz3zskQ3W5dK2mVqn1K184VOLeWRufrf9L9vDnjnrU1jRWC8KEmTFPE1+jE8tmc3+oEWweH6Ypi3VIbtsAUulAm9X4iz3l0mz2ouNFiz0D8unx9NU85OIbAuToCGEbihFrzb00iNglZj4Q2PH1IqYShMHJcE2IscxCwrM6FNAkGvXL+aXhUhAObV0wriGAyXylULuccBPe/NnZgIO8hPGZSV6zt7i6a+xtaM90NR6vl+zY/aMRhoE8aUlkSVf5yvX7ag8ZmnL2bFodOgirvjqaMiYvF0FpZpXeEk+6FumSCj5do24Z7e/UAluD77dXJaPzwCa7X7r846DGMh/sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pk3BetNzco22ofDGndAoQ+zxFz/nVvlehUw2PuEfUN8=;
- b=aUAbArE4Gl4L8CPFXuS/7QePwriXB+en7vuv46oRJ16sgXX5qcwg5mIgd/KOI943/B1xYU7b2h5rF9leW05837ILj9XcVmr/Hycpbkcl4jJxXUtNalK9bUHRxCHFHjAZGlRnaDNWdU0Hg2Ze8tWaWdtPAd4M2/WOyC1ARtG9prqfwwiSxbkp+E2UKVkuX+YVvwk2/TXDTKJfGJBHwfvHlHzw7PlMESUfEH9IsEnUz+A3Q++fwXpIKUr8062NPPElXQgjhg57hUxC4IvLO7+wXbqpWjgVbzB4C1TWtO8Vj0t1bMUn6buC83pTo9zdpxg2+uxW18IOy+b0lxyIjymbbQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by CH3PR12MB8993.namprd12.prod.outlook.com
- (2603:10b6:610:17b::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 23:11:34 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 23:11:34 +0000
-Date: Mon, 19 Oct 2026 20:11:33 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Dionna Glaze <drdeeglaze@gmail.com>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
-	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
-	sameo@meta.com, James.Bottomley@hansenpartnership.com, aik@amd.com,
-	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <20261019231133.GT13920@nvidia.com>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261016234354.GA664420@nvidia.com>
- <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
- <20261017203407.GM13920@nvidia.com>
- <atPgqROZZxnihYfC@kernel.org>
- <20261017231007.GP13920@nvidia.com>
- <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
-X-ClientProxiedBy: BN9PR03CA0253.namprd03.prod.outlook.com
- (2603:10b6:408:ff::18) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bPIOEqzK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AB371F000C4;
+	Mon, 19 Oct 2026 23:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792451758;
+	bh=ZFh4t2a+XC8DHJvTpV0MW4bJipbpqLj03+M6T9LwwnI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bPIOEqzKnmKauAtxooCrPQvPo9UW0wwVRVFWyPm/EFIRdYWNuLal3MOkYwCxk+ckc
+	 qsI6gRZEEft2sEl58tKgnJRrJSPMOLCq3dCSFvudrL4YQAKPDo0p4LHZG/Oel0uv9o
+	 mqY5ty8k37BBkJMg+Vk8VmNMLze5a0tT78MMuBqFii2pT0URI+OmkDsbEizwdmxGTK
+	 iZ/CrN8vPzXUyvy4G2ZRm4OXOGzy3Jv7W949rxatRhlMwLlpo9rJFieOjyCEMKZder
+	 vkE3FgPykTxNNkIErS9wR93pSPftiMRneXy1NRffwHxX2OhvvRwABnrlWy3/SyDZG7
+	 HRSJv16QpB3og==
+Message-ID: <702ade20-a2f3-4919-97e6-c72faa89399a@kernel.org>
+Date: Mon, 19 Oct 2026 16:15:57 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,100 +51,269 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|CH3PR12MB8993:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69c2e298-2222-484c-4921-08df2e36518a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|7416014|1800799024|22082099003|18002099003|4143699003|11063799006|261009223027099003|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	oMoOBxApfLb+UgZHEQHm0CIIPkROq62OiKn7lZTb3Ge7pG1BK+qjrR2DJcR4wFgjeN68oYWtyd8QSu1MhvhnCMP+QKHqZRioNlvb+iUBzWSC4syC4aYYzWcsDexd0l0K7XtZLdGI4c1tilSaPmSYbFY1Qf6knwLd/wJknefzcqxNIlqH1497QGgjfsTiG7J0BaSulR4ocIf1fYqNfg6LTSU+Akhnldvidm822/8g23KX8r1oOqfkREVQNwg8uFgoSXPhjeE6SL0yQWULKX99QDAiRofQE30K53G8YSgHlxwnDKdeXXfd15BhekLCLenbhcptGl24VF7BXVgj2gzZ93XfijvklkTvtUVZfIqgcMFrl3gEtt2JZLn6jZ9kqaZRYJuUOLiX+qG4doMkasTXo2hF45fmTzFiBSDfJovN716l2epiQXbS/TFOsEiYT6Aa4SPhfotClyQmcIvpe4l7Z86+gkzV7h1VrYJS05Zi/14arPERnnbXE89nBNnIGeEv7b1oU0NbUluIMYQDbPEJIi9R64g4KyWSkOtIZ8pIuZFAYpLuNQT7r8lf5K7Jy8eqsuIAG+P63wycMYG6AMWhbEkKZSizGDIjdftn0x6XcwEJk0m1A7CNb/MZQJTSjIKAcC381aIwORPkzuZ1OQNFbSGNV3keX9Fq5rPedDoRnO8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(7416014)(1800799024)(22082099003)(18002099003)(4143699003)(11063799006)(261009223027099003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Cq8NXeTQakZh3CrmJqoJnx34STvs2XRiC+/7PwqkAJH/U9xb4ddWW3WNt4/m?=
- =?us-ascii?Q?OgGtQvUHc60tK0pZ2MB97+lCC8aZSqm9mmG/gkod20tiQk4RdE5XI9kzYMLI?=
- =?us-ascii?Q?4aQ1hYxHVY/OlItXPWq6kWbnTJWZeLKtKL3dTNp82qZyKjpnUT5Qm3AaYMcZ?=
- =?us-ascii?Q?oTP11zsasDTr3ab2PSt2QvMs2Qxgv8hLf3n0AHcVggcsN/nkUDctOoQlWLl8?=
- =?us-ascii?Q?Of333krYWd1uJKqpQ7SJalgLjbn6/uaWSKRj2aKYCmp7yw0KwYpCnypCUB2t?=
- =?us-ascii?Q?Lcl9B19KnuzhKwUOcZZFOluHGEh818UO69XO9zCswLUlR9r1F4rQ6t6AFP5a?=
- =?us-ascii?Q?dpGhXg+/Y02E7IA45ABX364gfZX4+hxcDEYisW2gK4wMixac7iLmlhEtO7IN?=
- =?us-ascii?Q?wmULbDyM0LGhS+0BpxLYFaggddMM4Ml9ICgJ4Vp7TW07T3TT/60yw3NW8v4w?=
- =?us-ascii?Q?NMq4V5u7B9cS8cyko7a/vdWlqVqfMisURFC5H4iG7Z8B7mzvKX9+h8qoJiZh?=
- =?us-ascii?Q?AzV6zIq3H7G7QkyuyFPwlIpSFA9ESxJG6B7i7c8sS957YB4dICpPdX5y7gmb?=
- =?us-ascii?Q?9h6pAYAG0/klxe09YfhkXR/qkgTGx/BhRGgr3QQs57FM+q8x+5/jzZVhI3J7?=
- =?us-ascii?Q?DBQfwtpuHz/d/s6JTxXKdhrI+cNfX9iwuInOFwxO19CtubTRJ06Zdn2qLJ7A?=
- =?us-ascii?Q?cfI13dC3NFwxd+iJvTOfyTe5Czp2I+ELnF1fHfCn/32YPLyQKM92rwBotNiq?=
- =?us-ascii?Q?lj/SFf/s4oSOqKPczaL4tL9NzIs9oOVVWNQG8W1AQVoI0mYVlJbBUhZ08/AG?=
- =?us-ascii?Q?QN7/zXqPwbQY2GsCqewYC6kSwnuMIjEKK9Vjh8PK0WA89o2QJLH2NYL6nBo3?=
- =?us-ascii?Q?LYD92cdfejzzFYUQBYVU0o1dQWl3Cfi0RmraSvFxI3HdYz79i2L9PHjRXU/D?=
- =?us-ascii?Q?TfMMLPw+q2tkl7RkvonalD02B1LpTjhaMk17Vm2F7c1zE+VSBY3zfef6leec?=
- =?us-ascii?Q?XcExPPRyPVIcab4mgcYOfBPg66JKcTxNWa6xygJVijbK9PRdzHBzZKkVjmS3?=
- =?us-ascii?Q?SRTQjSRajPtDylaHiHsXl+11LUf1ARhSie6jBRXfaMfMjRll5WoII8OCly3M?=
- =?us-ascii?Q?O2kTeHtRNin5m9mBnLmFDxW+3ihoYMJNKKS8mYWSkjcn5elBnlk9igDEtmob?=
- =?us-ascii?Q?VHFCeVEuQr8Vq73gtm8nKzi+NeQa2sgByd3J15HBRxPpBhj4+28WZXHEvmGs?=
- =?us-ascii?Q?fnTULFzsQDnI9MMQlFF2xss7j9xCLHUEgG+DI7O9GmVYrLI/v+mHJ7TcZB1F?=
- =?us-ascii?Q?shLQYGYQ7PyWNnrCMMPYuIcaJ2vKYcCghuTLVI8vQxcbl49Cjytb57gqSjqA?=
- =?us-ascii?Q?baQ2J6kgjMVeQL4a4yzeBcdcZnJBoDehQC75K4RGHTrk4ziYlUF4mM+zh5YI?=
- =?us-ascii?Q?BwGeKaG6w4qkCBqfEhZRvu65Guvsw5dzgo4m2kkG2Q8rMLgYILzbkPRMZJuW?=
- =?us-ascii?Q?l8rAqSadMatSOiiF8y5EicW+Djse0TmJO5PV8c3zMSuoFCNEgv6i0SPCTeyI?=
- =?us-ascii?Q?ASDxhhlAWxNi2vJr3gWwSByK4TPqYEnT4zHshilL2+1P0Lj/x0hqmZhf/yK4?=
- =?us-ascii?Q?Lh0/jYLPhyjEJUvSiuKt2LElyEQ/z9ODA/jfO2BhDTNPWohi1TWaldlo26JM?=
- =?us-ascii?Q?J3/aOxXUyHoTrMpWlfjWBBD+0Py3C8GololpVFlXzF7RyVM5?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69c2e298-2222-484c-4921-08df2e36518a
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 23:11:34.1963
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4928tsZ4Imjas5Uzn9QC/hSc/bNr839fEWpWM8maay7GeT04u+aG+gPyCtFs52SO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8993
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 1/4] ipe: add the .ipe policy keyring
+To: manuelh@nvidia.com, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Andrew Halaney <andrew@amutable.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261019-b4-ipe-keyring-rfc-v1-0-156f0b93e843@nvidia.com>
+ <20261019-b4-ipe-keyring-rfc-v1-1-156f0b93e843@nvidia.com>
+Content-Language: en-US
+From: Fan Wu <wufan@kernel.org>
+In-Reply-To: <20261019-b4-ipe-keyring-rfc-v1-1-156f0b93e843@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 18, 2026 at 04:53:28PM -0700, Dionna Glaze wrote:
-> > On Sat, Oct 17, 2026 at 11:55:05PM +0300, Jarkko Sakkinen wrote:
-> > > I wish I had a better picture what is going on.
+
+
+On 10/19/2026 2:40 PM, Manuel Huber via B4 Relay wrote:
+> From: Manuel Huber <manuelh@nvidia.com>
 > 
-> Me too. I've spent my Sunday with Claude trying to build some
-> understanding of all this stuff, and put together a static site about
-> this series.
+> Add a dedicated .ipe keyring for IPE policy signature verification,
+> modeled after the .dm-verity and .bpf keyring implementations.
 > 
-> https://deeglaze.github.io/scratch/ctlv-site/index.html
+> With this, userspace can provision its own keys into the keyring,
+> then restrict it and activate it for IPE policy signature verification.
 > 
-> It includes a review that I've personally walked through to ensure it
-> wasn't off base, but of course we're all fallible here.
-> I haven't decided to email the review comments to the list yet because
-> it's pretty thorough for something posted here as an RFC.
-
-It is a really fascinating summary with an interesting construction
-for the CTLV part, I hope to read it more carefully this week. Thanks
-for preparing it
-
-I'm still digesting the documentation as well and have made some notes
-about improvements. I feel like it goes straight to a highly technical
-summary and perhaps some kind of more gradual build up would be nicer.
-
-> > Currently we don't have an intention to flow TPM command packets
+> This enables scenarios in which a trusted userspace component generates
+> an IPE policy, and creates an ephemeral policy-signing key pair,
+> provisions its public certificate, and restricts the IPE keyring during
+> the early lifetime of a system. The trusted component can then sign the
+> IPE policy, destroy the private key, and load and activate the policy.
+> During that phase, the system is considered in a trusted state whereas
+> the system transitions into a possibly untrusted state afterwards,
+> running arbitrary user-provided applications. In such a scenario, the
+> trusted userspace component could reside on a dm-verity protected
+> rootfs disk, and applications would reside on additional dm-verity
+> protected disks. The latter disks would be dynamically attached and
+> their dm-verity root hashes and/or signatures not known a priori to
+> launching the system.
 > 
-> If you're not intercepting all extends through other interfaces to the
-> registers (e.g., /dev/tpmrm0), then it needs to be clearer in the
-> documentation that users not using the interface will break users of
-> the interface when they both target overlapping sets of registers.
 
-This is sort of already the existing case with all of this. There is
-no way to 'lock' a measurement register so that only one use can write
-to it. eg you can't prevent some other user app from opening
-/dev/tpmrm0 and trashing the MR your app is using.
+You might need to explain why the existing keyrings, i.e. builtin/secondary/platform cannot be used in your scenario. Like the firmware is not trusted?
 
-That you can do it through this interface is, to me, just more of the
-same ...
+> A concrete usage scenario could be Kata Containers, which enables
+> running Kubernetes pods in ephemeral, headless utility VMs, possibly
+> without systemd. The rootfs disk is static and known beforehand, but
+> containerd's image layers might be acquired and transported into the
+> VM using the erofs snapshotter and dynamic block device attachment
+> using dm-verity.
+> 
+> Signed-off-by: Manuel Huber <manuelh@nvidia.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  9 +++
+>  security/ipe/Makefile                           |  1 +
+>  security/ipe/ipe.c                              |  2 +
+>  security/ipe/keyring.c                          | 79 +++++++++++++++++++++++++
+>  security/ipe/keyring.h                          | 16 +++++
+>  security/ipe/policy.c                           | 10 ++++
+>  6 files changed, 117 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e75344f4e0cd..fd508dd779ed 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2733,6 +2733,15 @@ Kernel parameters
+>  			Determine whether IPE starts in permissive (0) or
+>  			enforce (1) mode. The default is enforce.
+>  
+> +	ipe.keyring_unsealed=
+> +			[IPE]
+> +			Format: <bool>
+> +			When set to 1, leave the IPE policy keyring
+> +			unsealed after initialization so userspace can provision
+> +			keys. Once the keyring is nonempty and restricted, it is
+> +			searched during policy-signature verification. The default
+> +			is 0, which creates the keyring restricted and empty.
+> +
 
-But yes, it should be made clear where all the overlaps lie. Hopefully
-nobody finds this surprising and there already shouldn't be two
-userspaces using the same MR.
+I would prefer a Kconfig CONFIG_SECURITY_IPE_KEYRING default to N instead, like the fsverity keyring. In the kconfig you can also describe in which cases should this option be turned on. 
 
-Jason
+>  	ipe.success_audit=
+>  			[IPE]
+>  			Format: <bool>
+> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+> index 2ffabfa63fe9..109e736696a5 100644
+> --- a/security/ipe/Makefile
+> +++ b/security/ipe/Makefile
+> @@ -20,6 +20,7 @@ obj-$(CONFIG_SECURITY_IPE) += \
+>  	hooks.o \
+>  	fs.o \
+>  	ipe.o \
+> +	keyring.o \
+
+with Kconfig this can be obj-$(CONFIG_IPE_KEYRING) += keyring.o
+
+>  	policy.o \
+>  	policy_fs.o \
+>  	policy_parser.o \
+> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+> index 495bb765de1b..f5232f850dc2 100644
+> --- a/security/ipe/ipe.c
+> +++ b/security/ipe/ipe.c
+> @@ -7,6 +7,7 @@
+>  #include "ipe.h"
+>  #include "eval.h"
+>  #include "hooks.h"
+> +#include "keyring.h"
+>  
+>  extern const char *const ipe_boot_policy;
+>  bool ipe_enabled;
+> @@ -97,4 +98,5 @@ DEFINE_LSM(ipe) = {
+>  	.init = ipe_init,
+>  	.blobs = &ipe_blobs,
+>  	.initcall_fs = ipe_init_securityfs,
+> +	.initcall_late = ipe_keyring_init,
+>  };
+> diff --git a/security/ipe/keyring.c b/security/ipe/keyring.c
+> new file mode 100644
+> index 000000000000..ea8d164b62a6
+> --- /dev/null
+> +++ b/security/ipe/keyring.c
+> @@ -0,0 +1,79 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+> + */
+> +
+> +#include <linux/cred.h>
+> +#include <linux/err.h>
+> +#include <linux/key.h>
+> +#include <linux/moduleparam.h>
+> +
+> +#include "ipe.h"
+> +#include "keyring.h"
+> +
+> +static struct key *ipe_keyring __ro_after_init;
+
+You can remove static here then the other ipe code can directly use the variable instead of a function call. 
+
+> +
+> +static bool ipe_keyring_unsealed __ro_after_init;
+> +
+> +/* Set the right module name for built-in parameters. */
+> +#ifdef KBUILD_MODNAME
+> +#undef KBUILD_MODNAME
+> +#define KBUILD_MODNAME "ipe"
+> +#endif
+> +
+> +module_param_named(keyring_unsealed, ipe_keyring_unsealed, bool, 0444);
+> +MODULE_PARM_DESC(keyring_unsealed, "Leave the IPE keyring unsealed");
+> +
+
+...
+
+> +
+> +/**
+> + * ipe_keyring_init() - Allocate and configure the IPE keyring.
+> + *
+> + * Return: Always %0. A failure leaves IPE without its dedicated keyring.
+> + */
+> +int __init ipe_keyring_init(void)
+> +{
+> +	struct key *keyring;
+> +	int rc;
+> +
+> +	keyring = keyring_alloc(".ipe", GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
+> +				current_cred(),
+> +				KEY_POS_SEARCH |
+> +				KEY_USR_VIEW | KEY_USR_READ | KEY_USR_WRITE |
+> +				KEY_USR_SEARCH | KEY_USR_SETATTR,
+> +				KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
+> +	if (IS_ERR(keyring)) {
+> +		pr_err("failed to allocate keyring: %ld\n", PTR_ERR(keyring));
+> +		return 0;
+
+You might need to panic here like the fsverity kerying.
+
+> +	}
+> +
+> +	if (!ipe_keyring_unsealed) {
+> +		rc = keyring_restrict(make_key_ref(keyring, true), NULL, NULL);
+> +		if (rc) {
+> +			pr_err("failed to restrict keyring: %d\n", rc);
+> +			key_revoke(keyring);
+> +			key_put(keyring);
+> +			return 0;
+> +		}
+> +	}
+
+This looks kind of awkward, like if unseal is not set, it can create an empty keyring then immediately seal it. I would switch to the fsverity's approach to let userspace seal it.
+
+> +
+> +	ipe_keyring = keyring;
+> +
+> +	return 0;
+> +}
+> diff --git a/security/ipe/keyring.h b/security/ipe/keyring.h
+> new file mode 100644
+> index 000000000000..3d450a465511
+> --- /dev/null
+> +++ b/security/ipe/keyring.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+> + */
+> +
+> +#ifndef _IPE_KEYRING_H
+> +#define _IPE_KEYRING_H
+> +
+> +#include <linux/init.h>
+> +
+> +struct key;
+> +
+> +int __init ipe_keyring_init(void);
+> +struct key *ipe_keyring_lookup(void);
+> +
+> +#endif /* _IPE_KEYRING_H */
+> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
+> index e542329726bc..abc1ff9ac230 100644
+> --- a/security/ipe/policy.c
+> +++ b/security/ipe/policy.c
+> @@ -9,6 +9,7 @@
+>  #include "ipe.h"
+>  #include "eval.h"
+>  #include "fs.h"
+> +#include "keyring.h"
+>  #include "policy.h"
+>  #include "policy_parser.h"
+>  #include "audit.h"
+> @@ -160,6 +161,7 @@ struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
+>  				  const char *pkcs7, size_t pkcs7len)
+>  {
+>  	struct ipe_policy *new = NULL;
+> +	struct key *keyring;
+>  	int rc = 0;
+>  
+>  	new = kzalloc_obj(*new);
+> @@ -189,6 +191,14 @@ struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
+>  						    VERIFYING_UNSPECIFIED_SIGNATURE,
+>  						    set_pkcs7_data, new);
+>  #endif
+> +		if (rc == -ENOKEY || rc == -EKEYREJECTED) {
+> +			keyring = ipe_keyring_lookup();
+> +			if (keyring)
+> +				rc = verify_pkcs7_signature(NULL, 0, new->pkcs7,
+> +							    pkcs7len, keyring,
+> +							    VERIFYING_UNSPECIFIED_SIGNATURE,
+> +							    set_pkcs7_data, new);
+> +		}
+
+With Kconfig this part can be just like the above cases. 
+
+Fan
+
+>  		if (rc)
+>  			goto err;
+>  	} else {
+> 
+
