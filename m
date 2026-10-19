@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6397C4FB9D5;
-	Mon, 19 Oct 2026 13:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF156DCCC;
+	Mon, 19 Oct 2026 13:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418090; cv=none; b=QKrmVFJwU75lC8mVIon+Ruvq6NGH36+eXPhUd+mJJfeIdUBMTaQT6kZkVqynykvEB58x3eUHTp7PFIxvLzSecvvVPTH4GR+o1hjcvC6hrCCJxAzxkmgdnFM/XgfadtT6GjK422WTfKwuGvWgz5cqYmj9RUbOZc8cT+KLT1FoYfc=
+	t=1792418286; cv=none; b=bVVCi79WI0CNj3x2pMcm+Ivf3vT7xpPPML54DEmtiIMtZ30vUJ9QDudB1Bk0rS+IFjXsv/r2WSQevYzh8zPWZqWXRCXk2qt1TKUgbYeVtNNF7OoqZO3ygYWc7KaZHr2rlGGZ7QQmQC7nyxuJvg3RQ+2mJWpLAiSxpoMQcaQ0Jr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418090; c=relaxed/simple;
-	bh=tmqPc6UZCJQUzYP/TCc+RhS4jDKHImkL64fnuWK2zYk=;
+	s=arc-20240116; t=1792418286; c=relaxed/simple;
+	bh=3QGg+1T51XI+6ErIgq7haAN3iJcqq4509MpqRcj74Es=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UF1rqgwh1o4cp0LcrGvc1JtB8Hel0eFojK7i3IbrpINhU144bz7wyfbq5FU4Ryb0GrCg+ubJuFGUr35eQKGjt7kO7pg6iJhl4GSwq2aN9IkMJAhdzbqEqapzX8Eo10FQr+b3T5B7zBVmsj06nQCj3r1Xhsaozy5jH9i1bx3mFBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghIxZkxD; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=qIKSOvXSdJLL/6G3nWE5fVb03TCr2MFy7iiw0MtGbx1I4fbo2uqRGGijx/KrXUizy1os8JahicfCT0FlhkNjpj8Nknk80Bwe1w7jSAOCdseWAgoANLs3zwHqepqgw8i/evko4JO4gFAiK318TxWK9W1VFmNs9hyEUxu1DykiYbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2lWsD3/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghIxZkxD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478D31F000C7;
-	Mon, 19 Oct 2026 13:54:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2lWsD3/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C433F1F000C6;
+	Mon, 19 Oct 2026 13:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418087;
-	bh=UT703PQW66foZVKNkQrObg9w1QyCa8II10FWAWp7oss=;
+	s=k20260515; t=1792418283;
+	bh=Dv3twa7zYOB3knqGrwOntSkkwfPWGCbTt5dOVIhc7Fc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ghIxZkxD7vtIYYioc0con473xy6ahvb8RXFcjPVZv39zayXcwzNRDOmWy2eyUFKTx
-	 ysNzwN6N0pUuI0zoSmwaU2HtyLRJioUe4zPWe9q82YrXqOfhrCO4PNJUUvX4hkmmlf
-	 PvuyDG/8xekutukzkkdNnhcSvSHGYbWO5DUW0iPXxWdKUhXdbzN31HP8/8r8CHb9h+
-	 qqK1QxT001nHwc7OJc4yHgVOmW+PprmGJM8F2UZCkqI/heFmQweEchQgklLreP0EWA
-	 3YmlbKT8jnFPKRTNh3KAQQ22qC7rQ63XafpZGqDAemKBGv0lnxgFjupOnzhYS5OnfR
-	 ed+DsLKBLjmog==
+	b=l2lWsD3/9dHeUKkLyg+Z6WFUrxPIulOKlijIB69wU2fTw7mbnD0ceHmMy6CTOWqXv
+	 NxpOM9SDBm/HUsSBGDXGfmn4WvoM6lDD7How7yVRn12lcb+uDb7p7tZd4z2NRvtvZu
+	 IdQTJPqRcnHgPZZ7hzYOfphQGBgpkcwBwc6n9nyARAlswKmBmpC64+srtMQwJcXfsQ
+	 Ahd7IyUCF9+sJnuHyrM7o8Wfnxgm2//KAjhAsPYPLJcKdRBpCkTRwFW60CV6rU6zMc
+	 AUf1NEOc9VJ4SGbnBo695HH+pGwVBCHYH/vHxYr/f+7NTKXaMFpQbontv/0JZ0jN09
+	 TgbTaxKq7SKyw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Christian Brauner <brauner@kernel.org>,
+Cc: Jenson Johnathon Reggentin <mail@jregg.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net,
+	axboe@kernel.dk,
+	linux-block@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] docs: update the unmount propagation rule
-Date: Mon, 19 Oct 2026 09:44:54 -0400
-Message-ID: <20261019135441.1420968-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] docs: block: fix dead http link in blk-mq.rst
+Date: Mon, 19 Oct 2026 09:47:09 -0400
+Message-ID: <20261019135441.1420968-138-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -52,430 +55,377 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Christian Brauner <brauner@kernel.org>
+From: Jenson Johnathon Reggentin <mail@jregg.de>
 
-[ Upstream commit 3f5dc09141a7bfe286620a6869d1d70ffe32d6b8 ]
+[ Upstream commit b40a680ea4efe4ef2addada63e304a94d19500d1 ]
 
-Section 5f still describes the rule propagate_umount() used before
-commit f0d0ba19985d ("Rewrite of propagate_umount()"). It states that a
-mount that receives the unmount by propagation is left alone as soon as
-it has any submount. That's not true anymore.
+The current link http://kernel.dk/blk-mq.pdf leads to a 404 error page.
+https://www.kernel.dk/blk-mq.pdf leads to the correct document.
 
-A propagated unmount unmounts a mount with sub-mounts as long as every
-sub-mount gets unmounted together with it. This is the case when the
-sub-mounts are unmounted by the same propagation. Only a sub-mount that
-cannot be unmounted keeps its parent mounted.
+v2 to add the missing www. prefix in the actual file change.
 
-The section also only describes a single mount without sub-mounts. But
-lazy unmounts take a tree and every mount of the tree propagates its
-unmount from its parent mount.
-
-Link: https://patch.msgid.link/20260923-work-mount-fixes-v1-8-f424cf8d3242@kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Signed-off-by: Jenson Johnathon Reggentin <mail@jregg.de>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Message-ID: <20260819192422.42189-1-mail@jregg.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a documentation-only correction of stale unmount-propagation
-text. The local tree is **6.18.57** (`v6.18.57-155-gcdf239ca885b2`). The
-rewrite it documents is already in that tree, so the question is whether
-this docs update belongs here.
+I have the tree identity, the dead URL in-tree, review history, and a
+clean apply. Next I’ll finish call-site and stable-rule checks, then
+give the backport verdict.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
 Step 1.1: PARSE THE SUBJECT LINE
-Record: **[docs]** **[update]** Update the unmount propagation rule in
-shared-subtree documentation.
+Record: `[docs: block:]` `[fix]` `[dead HTTP link in blk-mq.rst]` —
+documentation URL correction in the block multi-queue overview.
 
 Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- Link: `https://patch.msgid.link/20260923-work-mount-
-  fixes-v1-8-f424cf8d3242@kernel.org`
-- Signed-off-by: Christian Brauner (Amutable) \<brauner@kernel.org\>
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable on this patch itself
-- Cover letter of the same series (`[PATCH 0/8] mount: a few gnarly
-  fixes`) did Cc stable; this 8/8 docs patch did not
-- Ignore pipeline tags: `[Upstream commit 3f5dc09141a7…]`, `Signed-off-
-  by: Sasha Levin`
+- Signed-off-by: Jenson Johnathon Reggentin `<mail@jregg.de>` (author)
+- Acked-by: Randy Dunlap `<rdunlap@infradead.org>` (docs reviewer)
+- Signed-off-by: Jonathan Corbet `<corbet@lwn.net>` (docs maintainer,
+  applied it)
+- Message-ID: `<20260819192422.42189-1-mail@jregg.de>` (v2 submission)
+- No Fixes: tag (expected)
+- No Reported-by / Tested-by / Reviewed-by on the committed form (v1 had
+  Reviewed-by: Md Haris Iqbal; that tag was not carried to v2)
+- No Cc: stable (expected; not a negative)
+- Ignore any pipeline “Upstream commit” / “Signed-off-by: Sasha Levin”
+  markers if present
 
 Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** Section 5f of `sharedsubtree.rst` still describes pre-rewrite
-  `propagate_umount()`: a receiver with any sub-mount is left mounted.
-- **Symptom:** Documentation disagrees with current kernel behavior. A
-  propagated unmount may take a mount that has children if those
-  children are also unmounted by the same propagation. Only a child that
-  cannot be unmounted keeps its parent.
-- **Also missing:** Lazy `MNT_DETACH` unmounts a tree; every mount in
-  that tree propagates from its own parent.
-- **Version info:** Behavior changed in `f0d0ba19985d` (“Rewrite of
-  propagate_umount()”).
-- **Root cause:** Overview docs were not updated when
-  `propagate_umount()` was rewritten.
+- Bug: `http://kernel.dk/blk-mq.pdf` in the “Further reading” section
+  returns 404.
+- Symptom: readers of blk-mq documentation cannot open the canonical
+  blk-mq paper.
+- Fix: switch to `https://www.kernel.dk/blk-mq.pdf`.
+- v2 note: v1 used `https://kernel.dk/blk-mq.pdf` (missing `www.`),
+  which still 404’d / had a bad cert; v2 adds `www.`.
+- No kernel version range given; no crash/trace.
 
 Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a hidden runtime fix. It is an explicit documentation
-correction of obsolete unmount semantics. No code, locking, or error-
-path change.
+Record: Not a hidden runtime fix. It is exactly what it says: a
+documentation hyperlink correction. Not a leak/race/UAF disguised as
+cleanup.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+---
+
+## PHASE 2: DIFF ANALYSIS
 
 Step 2.1: INVENTORY THE CHANGES
 Record:
-- File: `Documentation/filesystems/sharedsubtree.rst` (+14 / −6)
-- One section: “f) Unmount semantics”
-- Scope: single-file documentation, surgical
+- File: `Documentation/block/blk-mq.rst` — 1 line changed (`-1/+1`)
+- Functions: none
+- Scope: single-file, surgical documentation edit
 
 Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
-- Before: receivers at dentry `b` are unmounted only if they have no
-  sub-mounts. Any child on C2/C3 blocks that receiver; C1 with sub-
-  mounts fails the whole umount.
-- After: receivers are unmounted if every mount below them is also
-  unmounted. A child unmounted by the same propagation does not pin its
-  parent. Adds lazy-umount tree propagation and a pointer to
-  `Documentation/filesystems/propagate_umount.txt`.
-- Path affected: documentation of umount/propagation semantics only.
+- Before: RST link target `http://kernel.dk/blk-mq.pdf`
+- After: RST link target `https://www.kernel.dk/blk-mq.pdf`
+- Path affected: documentation “Further reading” only; no execution path
 
 Step 2.3: IDENTIFY THE BUG MECHANISM
-Record:
-- Category: documentation correctness (obsolete comment/docs)
-- Mechanism: overview text still described the old “any sub-mount blocks
-  the receiver” rule. Code after `f0d0ba19985d` unmounts a receiver when
-  remaining children are themselves candidates (`trim_one()` / non-
-  shifting set).
+Record: Not a memory-safety/locking/refcount bug. Category:
+documentation correctness (dead external URL). Mechanism: site now
+requires HTTPS + `www.` hostname.
 
 Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- Obviously correct relative to this tree’s `propagate_umount()` and
-  `propagate_umount.txt`
-- Minimal; no unrelated edits
-- Regression risk: none (no executable code)
-- Red flags: none
+- Obviously correct once v2 uses the working URL.
+- Minimal; no unrelated edits.
+- Regression risk: none at runtime. Residual risk is only that the
+  remote host could move again (same class of risk as any external
+  link).
+- v1 was wrong (Randy Dunlap reported continued 404 / bad SSL);
+  committed v2 addresses that.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+Verified live:
+- `http://kernel.dk/blk-mq.pdf` → 404
+- `https://www.kernel.dk/blk-mq.pdf` → PDF retrieved (51.5 KB)
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
 
 Step 3.1: BLAME THE CHANGED LINES
 Record:
-- Original unmount-semantics prose: `9cfcceea8f7e8f` (Ram Pai,
-  2005-11-07, `Documentation/sharedsubtree.txt`)
-- ReST conversion/formatting: Bagas Sanjaya, 2025-08 (`a8886b42d57b8`,
-  `b293fd55a1b89`)
-- Behavior change that made the text wrong: `f0d0ba19985d` (Al Viro,
-  2025-06-29, ~v6.17)
-- That rewrite **is** an ancestor of this 6.18.y tree
+- Introduced in `46e906144c3f4b` (“docs: block: Create blk-mq
+  documentation”, André Almeida, 2020-06-19)
+- First appeared: `v5.9-rc1` (`git describe --contains` →
+  `v5.9-rc1~150^2~141`)
+- Present in this tree for the entire 6.12 lifetime
 
 Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. Expected. The related behavioral commit is
-`f0d0ba19985d`, already in `v6.18.57`.
+Record: No Fixes: tag. The introducing commit is the original
+documentation add, not a later regression in C code.
 
 Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record:
-- Recent `sharedsubtree.rst` work is formatting/ReST, not semantics
-- Precise rules already live in
-  `Documentation/filesystems/propagate_umount.txt` (added by the
-  rewrite)
-- Standalone: patch 8/8 of Brauner’s “mount: a few gnarly fixes”; this
-  hunk does not depend on patches 1–7
+Record (this tree, `-- Documentation/block/blk-mq.rst`):
+- `41bd33df4e180` docs: correct places → place
+- `c19430eec84f7` Fix small typo
+- `2bc602cb0e0d9` correct drive → driver
+- `8ac867340bd8c` / `9303c9d5e9883` Sphinx `:c:type` cleanup
+- `46e906144c3f4b` create the file
+No later URL rewrite in this checkout. Standalone; not patch X/Y of a
+functional series.
 
 Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record:
-- Author is VFS maintainer (`FILESYSTEMS (VFS and infrastructure)` in
-  MAINTAINERS)
-- Same series includes real umount/mount bugfixes (busy propagated
-  umount, unbindable copy, etc.)
-- This patch is the docs companion, not one of those code fixes
+Record: `git log --author="Jenson Johnathon Reggentin"` /
+`mail@jregg.de` on this tree: no hits. One-off docs contributor, not the
+block maintainer. Applied by Jonathan Corbet; Acked-by Randy Dunlap.
 
 Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record:
-- Depends only on the rewrite already present here, and on
-  `propagate_umount.txt`, which exists at `v6.18.57`
-- Can apply standalone. No new helpers or struct changes.
+Record: No new helpers, structs, or APIs. The hunk matches the current
+file byte-for-byte. Can apply standalone.
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `b4 dig -c 3f5dc09141a7…` matched patch-id `0b2df883901084c2…`
-- Lore URL: https://patch.msgid.link/20260923-work-mount-
-  fixes-v1-8-f424cf8d3242@kernel.org
-- Series: v1 only (`[PATCH 8/8] docs: update the unmount propagation
-  rule`), 2026-09-23
-- Cover letter: `[PATCH 0/8] mount: a few gnarly fixes`
-- Direct replies in the saved thread are about patch 5/8 (`fs: don't
-  silently unmount busy mounts`), not this docs patch
-- No NAK, no reviewer concern, no stable nomination on 8/8 itself
-- WebFetch of lore.kernel.org returned 403; thread recovered via `b4 dig
-  -m`
+- `b4 mbox 20260819192422.42189-1-mail@jregg.de` saved 12-message thread
+  (lore HTTP 403 from WebFetch; b4 succeeded).
+- v1: `https://kernel.dk/blk-mq.pdf` (no www)
+- v2 (applied): `https://www.kernel.dk/blk-mq.pdf`
+- Randy Dunlap: v1 still 404 + invalid SSL; confirmed `www.` works;
+  Acked-by on v2; asked changelog-after-`---` nit
+- Haris Iqbal: Reviewed-by on v1; spotted missing `www.`
+- Jonathan Corbet: asked for a version that actually works; applied v2
+  (“Applied, thanks.”)
+- No NAK. No reviewer asked for Cc: stable.
+- Included in Corbet’s `[GIT PULL] Documentation stragglers for 7.3`
+  (`docs-7.3-2`), described as late-arriving docs fixes, not a stable-
+  critical runtime fix.
+- Syzbot CI skipped both versions: “AI determined the patch has no
+  functional impact”
 
 Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record (`b4 dig -w`):
-- Recipients: Christian Brauner, linux-fsdevel, Linus Torvalds,
-  Alexander Viro, Jan Kara
-- Right maintainers/lists. No extra Reviewed-by on 8/8. Brauner is both
-  author and VFS maintainer.
+Record (syzbot CI Cc + thread):
+- To/Cc: Jens Axboe, Jonathan Corbet, linux-block, linux-doc
+- Reviewers who spoke: Randy Dunlap (ack), Md Haris Iqbal (v1 r-b),
+  Jonathan Corbet (applied)
+- Block maintainer was copied; no Axboe reply in the 12-message thread
 
 Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No user/syzbot report for the docs. The body is the author’s
-observation that section 5f lagged the rewrite. Severity is
-documentation inaccuracy, not a crash.
+Record: No bugzilla/syzbot crash. Author observed a 404. Confirmed
+independently in this analysis.
 
 Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record:
-- Series of 8: unbindable copy, MOVE_MOUNT_SET_GROUP, busy propagated
-  umount, migrating-task ref, plus selftests, plus this docs update
-- 8/8 does not implement those fixes; it only restates
-  `propagate_umount()` after the 2025 rewrite
-- Self-contained
+Record: Standalone. v1→v2 only to correct the hostname. No sibling
+functional patches required.
 
 Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record:
-- Cover letter Cc’d `stable@vger.kernel.org`
-- Patches 1/8 and 5/8 had explicit `Cc: stable` in the body; 8/8 did not
-- Direct lore.kernel.org/stable search was blocked (bot challenge). No
-  additional stable-thread evidence beyond the series headers.
+Record: lore.kernel.org/stable WebFetch returned 403. UNVERIFIED that
+stable@ discussed this specific URL. No evidence in the docs thread of a
+stable nomination or of a reason to exclude it.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+---
 
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: None. Documentation only. Semcode tools are not available.
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+Step 5.1: KEY FUNCTIONS
+Record: None. Only an RST hyperlink.
 
 Step 5.2: TRACE CALLERS
-Record: N/A for the diff. Documented behavior is implemented by
-`propagate_umount()` in `fs/pnode.c`, called from `fs/namespace.c`
-(`umount_tree` / `do_umount` path).
+Record: N/A — not callable kernel code. Consumers are humans (and Sphinx
+HTML on kernel.org / distro doc packages).
 
 Step 5.3: TRACE CALLEES
-Record: `propagate_umount()` gathers candidates, `trim_one()` /
-`trim_ancestors()` enforce the non-shifting set, `handle_locked()`
-enforces locked-mount (non-revealing) rules. That matches “unmount a
-parent if every child is also unmounted; a child that cannot be
-unmounted keeps the parent.”
+Record: N/A.
 
 Step 5.4: FOLLOW THE CALL CHAIN
-Record: Reachable from `umount(2)` / `umount2(MNT_DETACH)` on
-shared/slave mounts. Common container/namespace path. The **patch**
-itself is not on that path; it only describes it.
+Record: Not reachable from syscalls. User impact is documentation-only.
+kernel.org `v6.12` HTML is built from this tree, so the 404 is user-
+visible for people reading 6.12 docs.
 
 Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Detailed rules already in
-`Documentation/filesystems/propagate_umount.txt`. This change makes the
-overview consistent with that file instead of contradicting it.
+Record: `kernel.dk/blk-mq` appears only in `Documentation/block/blk-
+mq.rst` in this tree. Other `kernel.dk` hits are emails/copyrights, not
+this PDF.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
 Record:
-- Local tree: VERSION 6.18.57 (`v6.18.57-155-gcdf239ca885b2`)
-- Stale section 5f is present at
-  `v6.18.57:Documentation/filesystems/sharedsubtree.rst` (identical to
-  the candidate’s pre-image)
-- Rewrite `f0d0ba19985d` **is** in `v6.18.57`
-- So this tree’s kernel already uses the new rule, while the overview
-  still documents the old one
-- Bug introduced (as a docs mismatch) when the rewrite landed (~v6.17),
-  i.e. before this 6.18 branch
+- `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`
+- `make kernelversion` / Makefile → **6.12.111**, branch `pending-6.12`
+- Line 142 of `Documentation/block/blk-mq.rst` still has
+  `http://kernel.dk/blk-mq.pdf`
+- `git merge-base --is-ancestor 46e906144c3f4b HEAD` → yes
+- Bug introduced v5.9-rc1 (2020); present here
 
 Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Clean apply. `diff` of `v6.18.57` vs the candidate pre-image is
-empty (both 994 lines). Context matches.
+Record: Surrounding hunk is identical to the patch context. Expected
+apply: **clean**. `git log v6.12..HEAD -- Documentation/block/blk-
+mq.rst` is empty (no conflicting stable edits).
 
 Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: Replacement URL not present. No alternate rewrite of this link.
+Comparable docs-link backports **do** exist after v6.12 in this tree,
+e.g.:
+- `b23111ec50d86` `docs: hwmon: fix link to g762 devicetree binding`
+- `a7f28636da6f9` `docs: media: update location of the media patches`
+  (explicit Cc: stable)
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+Step 7.1: SUBSYSTEM AND CRITICALITY
 Record:
-- Precise notes (`propagate_umount.txt`) already here
-- Related code fix `bf2c8dec26fb7` (“fs: don't silently unmount busy
-  mounts”) is already in `v6.18.57`; that does not replace this overview
-  correction
-- No earlier equivalent rewrite of section 5f
+- Subsystem: Documentation for the block layer (`Documentation/block/`,
+  MAINTAINERS: BLOCK LAYER, Jens Axboe; docs tree via Corbet)
+- Criticality of **blk-mq itself**: IMPORTANT (common block I/O)
+- Criticality of **this change**: documentation-only, not the I/O path
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+Step 7.2: SUBSYSTEM ACTIVITY
+Record: `Documentation/block/` is mature; this file’s last change in-
+tree is a 2023 typo fix. The URL has been wrong/stale for years; the
+site layout change is what made `http://kernel.dk/...` a hard 404.
 
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+Step 8.1: WHO IS AFFECTED
+Record: Anyone reading in-tree or generated blk-mq docs (developers,
+distro doc packages, kernel.org HTML for 6.12). Not a
+runtime/driver/config population.
+
+Step 8.2: TRIGGER CONDITIONS
+Record: Opening the “Further reading” PDF link. Common for people
+studying blk-mq; never triggered by unprivileged syscalls. Not a race.
+
+Step 8.3: FAILURE MODE SEVERITY
 Record:
-- Subsystem: VFS / mount namespace documentation
-  (`Documentation/filesystems/`)
-- Documents CORE mount/umount propagation used by containers
-- The change itself is docs, not core code
-- Criticality of the **text**: IMPORTANT for people who rely on shared-
-  subtree docs; runtime criticality: none
+- Failure: HTTP 404 / cannot open the referenced paper
+- Severity: **LOW** (incorrect documentation, no crash/corruption/hang)
+- No kernel oops, leak, or security effect
 
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Mount/namespace code is actively maintained (Brauner/Viro).
-`sharedsubtree.rst` itself is old and mostly formatting churn; the
-semantics gap dates to the 2025 rewrite.
-
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
-
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Anyone reading shared-subtree unmount docs (container/namespace
-users and developers). No runtime user population is changed.
-
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Not a runtime trigger. The mismatch is visible whenever someone
-reads section 5f and compares it to `umount` on shared mounts with
-nested children.
-
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Step 8.4: RISK-BENEFIT RATIO
 Record:
-- Failure mode: incorrect documentation of `umount(2)` propagation
-- Userspace that trusts the old “any child blocks the receiver” rule can
-  mis-predict which mounts disappear
-- Accurate rules already exist in `propagate_umount.txt`
-- Severity: **LOW** for runtime; **MEDIUM** as a docs bug about user-
-  visible mount semantics
+- Benefit: working further-reading link in 6.12 docs; small but real for
+  doc users
+- Risk: **very low** (one RST URL; no code, locks, APIs)
+- Ratio: favorable *if* documentation corrections are in scope; not a
+  stability win
 
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record:
-- Benefit: overview matches this tree’s actual `propagate_umount()`;
-  avoids a documented lie about umount
-- Risk: none (14 insertions / 6 deletions, docs only)
-- Ratio: favorable — small, zero-risk correction of obsolete docs for
-  behavior that is already here
+---
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+## PHASE 9: FINAL SYNTHESIS
 
 Step 9.1: COMPILE THE EVIDENCE
 
-FOR:
-- Section 5f is factually wrong in this 6.18.y tree because
-  `f0d0ba19985d` is present
-- Stable exception for documentation/comment fixes applies
-- Small, contained, maintainer-authored
-- Applies cleanly to `v6.18.57`
-- Points at `propagate_umount.txt`, which already exists here
-- Zero runtime regression risk
+FOR backporting:
+- Dead link is real (404 verified); replacement URL works
+- One-line, obviously correct v2 after review
+- Docs maintainer applied it; Randy Dunlap Acked-by
+- Buggy line exists in this 6.12.111 tree since v5.9; applies cleanly
+- User-facing exception: documentation/comment fixes with zero runtime
+  regression
+- This same 6.12 tree already took other documentation link-location
+  fixes
 
-AGAINST:
-- No crash, UAF, deadlock, corruption, or security fix
-- This patch was not itself Cc’d to stable (1/8 and 5/8 were)
-- Precise behavior is already documented in `propagate_umount.txt`
-- No user report of the docs bug
+AGAINST backporting:
+- Not a crash, deadlock, corruption, UAF, or security bug
+- Official rule 3 (“important issue”) is not met in the runtime sense
+- No functional kernel impact (syzbot CI skipped it for that reason)
+- No Cc: stable; landed as docs-7.3 stragglers, not a hotfix
+- Stable rules also discourage purely trivial edits; this is adjacent to
+  that class
+- Benefit is only to documentation readers, not production uptime
 
 UNRESOLVED:
-- lore.kernel.org HTTP fetch returned 403; thread was recovered with `b4
-  dig`
-- Could not search lore.kernel.org/stable beyond a bot wall
-- No Reviewed-by on 8/8 (unverified whether silent acks existed off-
-  thread)
+- Could not fetch lore.kernel.org or lore stable search via WebFetch
+  (403); thread recovered via b4
+- Commit SHA is not in this checkout’s `master` (that tip is ~7.2; patch
+  went in docs-7.3-2)
 
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? **PASS** — text matches
-   `propagate_umount()` / `propagate_umount.txt` in this tree
-2. Fixes a real bug that affects users? **PASS** — obsolete description
-   of user-visible umount semantics (not a runtime bug)
+Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — v2 URL verified; Acked-by +
+   maintainer apply
+2. Fixes a real bug that affects users? **PASS** — 404 in
+   shipped/generated docs, not a runtime bug
 3. Important issue (crash, security, corruption, deadlock)? **FAIL** as
-   a runtime issue; **PASS** under the documentation exception
-4. Small and contained? **PASS** — +14/−6, one rst file
+   runtime severity; **LOW** doc defect only
+4. Small and contained? **PASS** — 1 line, one file
 5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — context at `v6.18.57` is
-   identical
+6. Can apply to the local tree? **PASS** — context identical, URL still
+   old
 
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: **Documentation fix** — correcting obsolete comments/docs. Zero
-runtime risk.
+Step 9.3: EXCEPTION CATEGORIES
+Record: **Documentation fix** (incorrect/obsolete external link). That
+exception is why a LOW-severity, zero-runtime patch can still be
+appropriate for this tree.
 
-Step 9.4: MAKE YOUR DECISION
-The rewrite this documents is already in 6.18.y, the overview is still
-wrong, and the patch is a tiny docs-only correction that applies
-cleanly. That is exactly the documentation exception. It should be
-backported to this tree.
+Step 9.4: DECISION
+The change does not stabilize running 6.12 systems, but it is a
+contained, verified correction of documentation this tree still ships,
+with no regression surface and with precedent for similar doc-link
+backports here. That matches the documentation exception, not a “new
+feature” or refactor.
 
-Verification:
-- [Phase 1] Parsed subject/tags: docs update; Link to patch 8/8 of work-
-  mount-fixes; no Fixes/Reported-by/Cc:stable on this patch
-- [Phase 1] Cover letter Cc’d stable; patches 1/8 and 5/8 had `Cc:
-  stable` in the body; 8/8 did not
-- [Phase 2] Diff: `Documentation/filesystems/sharedsubtree.rst` +14/−6;
-  section 5f only
-- [Phase 3] `git describe HEAD` / Makefile: 6.18.57
-- [Phase 3] `git merge-base --is-ancestor f0d0ba19985d v6.18.57`:
-  rewrite is in this tree
-- [Phase 3] Blame: original text Ram Pai 2005; stale vs rewrite 2025-06
-- [Phase 3] `git show
-  v6.18.57:Documentation/filesystems/sharedsubtree.rst`: old “any sub-
-  mounts” wording still present
-- [Phase 4] `b4 dig -c 3f5dc09141a7`:
-  https://patch.msgid.link/20260923-work-mount-
-  fixes-v1-8-f424cf8d3242@kernel.org
-- [Phase 4] `b4 dig -a`: v1 only, series of 8
-- [Phase 4] `b4 dig -w`: vfs maintainers + linux-fsdevel
-- [Phase 4] mbox: no NAK on 8/8; discussion was about 5/8
-- [Phase 4] WebFetch lore: 403; UNVERIFIED beyond b4 mbox
-- [Phase 5] Semcode unavailable; `propagate_umount()`/`trim_one()` in
-  `fs/pnode.c` match the new wording
-- [Phase 6] File at v6.18.57 identical to candidate pre-image (994
-  lines, empty diff) — clean apply
-- [Phase 6] `propagate_umount.txt` exists at v6.18.57
-- [Phase 7] Author is VFS maintainer in MAINTAINERS
-- [Phase 8] Failure mode: stale umount-propagation docs; severity LOW
-  runtime / docs exception
-- UNVERIFIED: stable-list discussion beyond series headers
+What it solves for stable users: kernel.org / distro HTML for 6.12
+currently points “Further reading” at a 404; after backport it points at
+Jens Axboe’s actual blk-mq PDF.
 
-This is a small, obviously correct documentation fix for mount-namespace
-behavior that this tree already implements. Risk is zero.
+Risk vs benefit: negligible risk, modest doc benefit. No dependencies or
+backport rework.
+
+---
+
+## Verification
+- [Phase 1] Tags: author SOB, Randy Dunlap Acked-by, Jonathan Corbet
+  SOB, Message-ID v2; no Fixes/Reported-by/Cc-stable
+- [Phase 2] Diff: single RST URL `http://kernel.dk/blk-mq.pdf` →
+  `https://www.kernel.dk/blk-mq.pdf`
+- [Phase 2] WebFetch: old URL 404; new URL returns the PDF
+- [Phase 3] `git blame` line 142: `46e906144c3f4b` (2020); `git describe
+  --contains` → v5.9-rc1
+- [Phase 3] `git merge-base --is-ancestor 46e906144c3f4b HEAD` succeeded
+- [Phase 3] Author has no other commits in this tree; file history is
+  typo/Sphinx-only
+- [Phase 4] `b4 mbox`: 12-message v1/v2 thread; Randy caught v1 404/SSL;
+  Corbet applied v2
+- [Phase 4] LKML pull: included in Documentation stragglers for 7.3
+- [Phase 4] Syzbot CI: skipped, no functional impact
+- [Phase 4] UNVERIFIED: lore.kernel.org/stable search (HTTP 403)
+- [Phase 5] No functions/callers; only docs consumers
+- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; kernelversion
+  6.12.111; dead URL still at blk-mq.rst:142
+- [Phase 6] Apply would be clean; no post-v6.12 edits to this file
+- [Phase 6] Precedent: `docs: hwmon: fix link to g762...` and `docs:
+  media: update location...` already in this 6.12 tree
+- [Phase 8] Failure mode: documentation 404, severity LOW; runtime risk
+  none
 
 **YES**
 
- Documentation/filesystems/sharedsubtree.rst | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ Documentation/block/blk-mq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/sharedsubtree.rst b/Documentation/filesystems/sharedsubtree.rst
-index 8b7dc91590837..8bae6d9a7e047 100644
---- a/Documentation/filesystems/sharedsubtree.rst
-+++ b/Documentation/filesystems/sharedsubtree.rst
-@@ -564,8 +564,8 @@ f) Unmount semantics
-    where 'A' is a mount mounted on mount 'B' at dentry 'b'.
+diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+index fc06761b6ea90..2798761efe0d6 100644
+--- a/Documentation/block/blk-mq.rst
++++ b/Documentation/block/blk-mq.rst
+@@ -139,7 +139,7 @@ completed.
+ Further reading
+ ---------------
  
-    If mount 'B' is shared, then all most-recently-mounted mounts at dentry
--   'b' on mounts that receive propagation from mount 'B' and does not have
--   sub-mounts within them are unmounted.
-+   'b' on mounts that receive propagation from mount 'B' are unmounted as
-+   well, if every mount below them is also unmounted.
+-- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <http://kernel.dk/blk-mq.pdf>`_
++- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <https://www.kernel.dk/blk-mq.pdf>`_
  
-    Example: Let's say 'B1', 'B2', 'B3' are shared mounts that propagate to
-    each other.
-@@ -584,10 +584,18 @@ f) Unmount semantics
- 
-    So all 'C1', 'C2' and 'C3' should be unmounted.
- 
--   If any of 'C2' or 'C3' has some child mounts, then that mount is not
--   unmounted, but all other mounts are unmounted. However if 'C1' is told
--   to be unmounted and 'C1' has some sub-mounts, the umount operation is
--   failed entirely.
-+   If any of 'C2' or 'C3' has a child mount that cannot be unmounted
-+   then that mount is not unmounted. But all other mounts are unmounted.
-+   A child mount that is itself unmounted by the same unmount
-+   propagation does not keep its parent mounted. However if 'C1' is
-+   supposed to be unmounted and 'C1' has some sub-mounts, the unmount
-+   fails.
-+
-+   A lazy umount (MNT_DETACH) takes a whole tree. Every mount of the
-+   tree then propagates its unmount from its own parent as described
-+   above, so the mounts that receive propagation lose the corresponding
-+   trees as well. Documentation/filesystems/propagate_umount.txt has the
-+   precise rules, including the ones for locked mounts.
- 
- g) Clone Namespace
+ - `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
  
 -- 
 2.53.0
