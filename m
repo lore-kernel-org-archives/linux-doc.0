@@ -1,176 +1,259 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077324B2049
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBFD4B8270;
+	Mon, 19 Oct 2026 09:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403116; cv=none; b=izYFG5QLhgdhofFGd4PWI5YxaDghMpya2FS4/9T1cw08Wcy2VwbrL+MDm3/z4Yf1K8Vrp+qFw1zPRl+Mlyf3sYw6qQiiOgT7IVl84NRaVrOUhss3iXhfvSR+yFcTJDgnei07wPdf8BEJ3hWo9AghA9dpt2bQJa+J7U/TtPVArZA=
+	t=1792403613; cv=none; b=AiD6Vd7F35rGq6DpzUITgT5069gwo4VCNgIirTBB8F6iRyV7T5aesjzZZ1Fpt7COxNxFp+Xrpuyjf2s7+1sfSx68S0bAOvbZlXtDWiqYRvc8iL2Wv7cipBTC8ORwIykqYTL0k1i2mGFqTZLYSG9j8ULI/2NIjpXVE0tyhmpRFbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403116; c=relaxed/simple;
-	bh=Jaiqy8f/Sl/4tupxPExjmNLGv0E136+VgC8GLOr8zAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k35a79E3t1UEuJCzZoWLL1w+XdjcSll0TCU505aft3jB+AdpPrOAaLf3+xCJTj7oGVxg9M5LOOYf8JzeTf8FMGZgmrLU2ApMBh2Yht1VfU3rF6IitU+aevrBKigMr9TRhLtfh9YV8BVFg348zWeb42joOMR97sf3Thuig8aXrcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bHjbtOe9; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1792403613; c=relaxed/simple;
+	bh=LL45I+R6h545NOISuRIggUtq27/B1IK8pCC6oyxCegU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyCdj3cfrtKpJOBPt00rUGgvXW5O+5f44HrDlogP+PptR5aAhf/0RsIOxOr52t4b2tMnm3u1bXKsnPWVKMICx8HbR1e2a1iE6yXDDliyJz9TdrNbWC06iuLnQ1y8a2cTPFHwCyLM2i3FHsNcoPV4jWM4T6Z/U9Drjm5DtpMWYDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNiH6jAG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IMKWDODb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNiH6jAG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IMKWDODb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bHjbtOe9"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a018dc1f98so13156375e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:45:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792403113; x=1793007913; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oSec+D9Gcxlfy6q4kTQg7A+nAzcOiDEiKgFT1VAeycs=;
-        b=bHjbtOe96ZF0J5S7kfI9OaYDIq/DeE446+7RhNdlZFlXUkrPL2EXhtFwrYlWOO2SF5
-         XZ6bzXs4lsiKiPqGEeEusF/6JlqmcaxTae1LwGCblOvkVe796eqU1v8zrv7bXPWiNsH6
-         xe7fHETWgjcE4uXgBNBIayJ94DeqmWeieWxZnVkruthmuMyn77eS1OZ1bBjSh6HzUA+5
-         fAds8m73pOzPlyVcrHeiPo6iZhF7s/mnMPDM0aW/WOo2lCTn67/ArqqXWsHpID0mQ4gQ
-         tjUtE55BeqktKCAfsFYud7U5rjWOYc7+PKp6m9f/dPVixLXva7eqKIUNkuK0NApDoXEh
-         ESqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792403113; x=1793007913;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oSec+D9Gcxlfy6q4kTQg7A+nAzcOiDEiKgFT1VAeycs=;
-        b=MCOFPMGr7ClTqM2ZpXD22bluEUvqOEfhGIpP/BmmLE7STSqaz4LpwQq/zob3sCnEeq
-         +iVG0DXKWSXFvyEnA/D32/hq1SXVx/qJ9Uc7zVIZUtYKB8aoe2AaoVYQz/Wy01CsyMuZ
-         +F/B4KXxmgaOp06Ze3o4BCk8UXHJ/4JqBTbUU+0RCTFAT2wJIgkcK6U8MZpSIWvOLbYc
-         M02tiytvLxmphgbprwf+D/DEQHyNGKWuvfBqpRqLnSOyzMkiyokydJvwvVqU5qgLIx6X
-         EISEz+e5BpHX5tkYElLJdhwxXV/PMasGo+C0TRwUTUoPQvXD3QnrBVZrRe7CFH9SuUhP
-         VGNA==
-X-Forwarded-Encrypted: i=1; AKwUvBwnBuR4IIiEHZdD6kMDQztQrF4ju4WxCfCZO1SKremU6EXpsokqhFB6yPEge6y7lk11Lt6ESRILMWs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3aCwKrlqJDX/bFpfoZTkHfDmHQ4/VcaAf8ZQL0SBa+EvaO5ZR
-	QZsOtg+g/hNbS5cZwgROSuFteBKCSHC/KeubgQ0pAdZqfgOnYYbR5/WKS/mhSWOCqQI=
-X-Gm-Gg: AYBFou0WpgRhgypTov1UuY6CE2Dd040dMJQFz5qrwuH9MnD4zP5veUWfPzAjpHOfs6N
-	FoL+kpav/qmFL9Nwx6BFhHiXkp6kpzCXBLPFf8sPHV/Pz6T74NRxZLV9ktQy82m28+gzPyeNhlQ
-	HJwmPBtCB/5SM79klt+8HXfigQyGwo//KocQuFSuKT4lDiELv+Dw/9o0al+78Tp4a78J6wlqRMo
-	YBiE5kIEMgz7kATOl02RLCHHviPIrvrUSQZOB3LzsdL//mIBw+zoDot4Wm0zIzfFQ6uHYmblN5A
-	LlDqZwHdtIVoVjjQG31e2rRbvPoaNIsNb00zrssBsy4ynF0zLmDlj2e/drKWMZYrD8b52kITl0I
-	+VLFMnb1wlvQEjuMaNIIy2f8nD9bsPxAA9vfvStgp79QEtlyKjwNCBsbXg58x9JECu7KoNfZNwD
-	k+qviUZQuRnmzoddeDmrbk3zcqsJRSgMPSOpmgoPhsidAy8nFxT9gR/+UIhL211BVow0GcCPbSY
-	t0=
-X-Received: by 2002:a05:600c:1395:b0:4a1:c6fe:5c0e with SMTP id 5b1f17b1804b1-4a1d76148e6mr149657955e9.33.1792403111528;
-        Mon, 19 Oct 2026 02:45:11 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd91c55bsm311684915e9.0.2026.10.19.02.45.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 02:45:11 -0700 (PDT)
-Message-ID: <3d4a1883-3600-4e83-96ca-ccaec398fe91@linaro.org>
-Date: Mon, 19 Oct 2026 10:45:09 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNiH6jAG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IMKWDODb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNiH6jAG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IMKWDODb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3BB3121AC0;
+	Mon, 19 Oct 2026 09:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792403610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
+	b=TNiH6jAGWzJ+CcphCjW4j7aj5U0zeU2N7JUCu5ljMtqB9zQxmzOq8YRau0SpCDN/Tnb02Q
+	ahicBwHrHCw5SO2pH6kRe68ZDqSaS7aHEX9UPBg8P5zUXJ7Puj/y+xTRwvkrsHE4jTNiAB
+	kRcd3Vn7S05FSmK01RYD+x5vtTkQBUk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792403610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
+	b=IMKWDODbku31f9X+imJzQOexZonmmj16TZ2NhoXcsP1S/iPoyWMdMHJAmLh+ZIE4EYWEan
+	6BsoR6hGM5kS4FCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792403610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
+	b=TNiH6jAGWzJ+CcphCjW4j7aj5U0zeU2N7JUCu5ljMtqB9zQxmzOq8YRau0SpCDN/Tnb02Q
+	ahicBwHrHCw5SO2pH6kRe68ZDqSaS7aHEX9UPBg8P5zUXJ7Puj/y+xTRwvkrsHE4jTNiAB
+	kRcd3Vn7S05FSmK01RYD+x5vtTkQBUk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792403610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
+	b=IMKWDODbku31f9X+imJzQOexZonmmj16TZ2NhoXcsP1S/iPoyWMdMHJAmLh+ZIE4EYWEan
+	6BsoR6hGM5kS4FCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0BBCD134B3;
+	Mon, 19 Oct 2026 09:53:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Hk4/NZjo1Wo2OwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Mon, 19 Oct 2026 09:53:28 +0000
+Date: Mon, 19 Oct 2026 10:53:27 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
+	Daehyeon Ko <4ncienth@gmail.com>
+Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
+ mm->mm_lock_seq overflows
+Message-ID: <atXjbsDn7DJybsHU@pedro-suse.tail5790ac.ts.net>
+References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/25] coresight: trbe: Pad snapshot buffers
-To: Leo Yan <leo.yan@arm.com>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-10-35cf6f297d20@arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-10-35cf6f297d20@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[linux-foundation.org,google.com,infradead.org,kernel.org,linux.dev,suse.com,lwn.net,kvack.org,vger.kernel.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-
-
-On 15/09/2026 16:48, Leo Yan wrote:
-> Snapshot buffers use the head as the write pointer without checking its
-> alignment or the space remaining before the limit. After a stop or a
-> move to another CPU, the head can be misaligned for the current TRBE.
-> It can also leave too little space for the Fill mode out-of-range
-> workaround.
+On Fri, Oct 16, 2026 at 12:34:33PM +0100, Lorenzo Stoakes (ARM) wrote:
+> So far the assumption has been that mm->mm_lock_seq overflow is benign,
+> resulting only in readers spuriously falling back to the mmap lock, however
+> it turns out that this was an unsafe assumption.
 > 
-> Pad the head to the current CPU's alignment. If the remaining buffer
-> cannot hold the minimum trace region, pad to the end of buffer. Update
-> the head for setting next write pointer.
+> If a VMA can be spuriously considered write locked that means read lock
+> exclusion does not take place, and thus a VMA can end up write-locked with
+> concurrent readers.
 > 
-> Fixes: 3fbf7f011f24 ("coresight: sink: Add TRBE driver")
-> Assisted-by: Codex:gpt-6
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> Since overflow only occurs every 2^31 write lock/unlock cycles, resolve the
+> issue by resetting every VMA's vma->vm_lock_seq each time such an overflow
+> occurs.
+> 
+> This is done in vma_end_write_all(), which is called when the mmap write
+> lock is released, i.e. in mmap_write_unlock() and mmap_write_downgrade().
+> 
+> Care must be taken, as resetting the sequence count at overflow means
+> changing the seqcount of VMAs which are already attached and observable.
+> 
+> The mm's seqcount is guaranteed to be odd when a write lock is held, and
+> thus any write locked VMA will have an odd seqcount assigned.
+> 
+> Therefore resetting to an even value prevents spurious write locks, since
+> these can only occur with the mmap write lock held, at which point the mmap
+> seqcount will be odd.
+> 
+> However, vma_start_read() also checks vma->vm_lock_seq == mm->mm_lock_seq,
+> bailing if so (indicating a write lock).
+> 
+> This would cause any even reset value chosen to prevent VMA read locks from
+> being taken - avoid this by also checking whether the VMA seqcount is odd
+> before bailing on the read lock.
+> 
+> So far, vma->vm_lock_seq has defaulted to UINT_MAX, but this has been
+> unnecessary since commit e5e7fb278e59 ("mm: convert mm_lock_seq to a proper
+> seqcount"), since this is assigned when the VMA is still detached, and
+> cannot be observed.
+> 
+> Therefore perform both reset and initialisation of vma->vm_lock_seq by
+> simply setting vma->vm_lock_seq to zero.
+> 
+> The reset, performed in __mm_reset_vma_seqcounts(), only needs to
+> WRITE_ONCE() the value.
+> 
+> However the read of vma->vm_lock_seq in vma_start_read() needs to have
+> acquire semantics to pair with the smp_wmb() in do_raw_write_seqcount_end()
+> so a reader reading a reset value also observes VMA modifications made
+> under the write lock.
+> 
+> Since all VMA write locks were just released and the mmap write lock is
+> still held, there are no concurrent VMA writers.
+> 
+> Concurrent VMA readers are unaffected. New VMA readers observe either zero,
+> never a write lock, or the prior seqcount, behaving as before the reset.
+> 
+> Since this only occurs every 2^31 write lock/unlock cycles, the time taken
+> to update all VMAs is considered to be acceptable.
+> 
+> Also update comments, documentation and VMA userland tests to reflect the
+> change.
+> 
+> User facing effects are - dangerous races that could cause memory
+> corruption or NULL pointer derefences (especially on page table traversal)
+> are avoided.
+> 
+> Reported-by: Daehyeon Ko <4ncienth@gmail.com>
+> Closes: https://lore.kernel.org/all/20261015143735.1630957-1-4ncienth@gmail.com/
+> Fixes: 5e31275cc997 ("mm: add per-VMA lock and helper functions to control it")
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
->   drivers/hwtracing/coresight/coresight-trbe.c | 36 ++++++++++++++++++----------
->   1 file changed, 24 insertions(+), 12 deletions(-)
+> Andrew - no stable tag please.
 > 
-> diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
-> index c7cbca45f2debd4047b93283ea9fe5dd9e1f2ebf..a31f2ebc327cd681344a62de28c0b3840505a9cb 100644
-> --- a/drivers/hwtracing/coresight/coresight-trbe.c
-> +++ b/drivers/hwtracing/coresight/coresight-trbe.c
-> @@ -374,18 +374,6 @@ static void trbe_pad_buf(struct perf_output_handle *handle, int len)
->   		perf_aux_output_skip(handle, len);
->   }
->   
-> -static unsigned long trbe_snapshot_offset(struct perf_output_handle *handle)
-> -{
-> -	struct trbe_buf *buf = etm_perf_sink_config(handle);
-> -
-> -	/*
-> -	 * The ETE trace has alignment synchronization packets allowing
-> -	 * the decoder to reset in case of an overflow or corruption.
-> -	 * So we can use the entire buffer for the snapshot mode.
-> -	 */
-> -	return buf->nr_pages * PAGE_SIZE;
-> -}
-> -
->   static u64 trbe_min_trace_buf_size(struct perf_output_handle *handle)
->   {
->   	u64 size = TRBE_TRACE_MIN_BUF_SIZE;
-> @@ -405,6 +393,30 @@ static u64 trbe_min_trace_buf_size(struct perf_output_handle *handle)
->   	return size;
->   }
->   
-> +static unsigned long trbe_snapshot_offset(struct perf_output_handle *handle)
+> I will do the stable backports manually, they can be solved with a different
+> approach.
+> 
+> Also, since, we're so close to the merge window I'm applying this against
+> mm-unstable.
+> 
+> So I think it's fine to just send it (early :) in the merge window.
+> ---
+> v2:
+> * Updated comment in vma_seqcount_is_write_locked() to mention the VMA
+>   being attached.
+> * Renamed reset_vma_seqcounts() to __mm_reset_vma_seqcounts().
+> * Used acquire semantics in vma_start_reads() to avoid race with reset -
+>   there is another acquire immediately after this one so it should just be
+>   noise perf-wise.
+> * Removed stable tag, will do the backports manually (just make the value
+>   64 bits...)
+
+I guess you're fitting this where __vm_anon_pgoff_lo now sits? If so, then
+this patch probably wants backporting to 7.3.
+
+> * Updated comments to reflect changes.
+> * Added user-facing effects as per Vlasta ;)
+> 
+> v1:
+> https://lore.kernel.org/r/20261015-fix-vma-lock-overflow-v1-1-01beb245d9da@kernel.org
+> ---
+>  
+> +/*
+> + * Called with mmap write lock held after mm->mm_lock_seq just overflowed (and
+> + * therefore zero), with all VMA write locks now released.
+> + *
+> + * The stores below follow the smp_wmb() in do_raw_write_seqcount_end(), so
+> + * a reader that observes a reset value also observes this cycle's VMA
+> + * modifications (ordered by the ACQUIRE on vma->vm_lock_seq in
+> + * vma_start_read()).
+> + */
+> +void __mm_reset_vma_seqcounts(struct mm_struct *mm)
 > +{
-> +	struct trbe_buf *buf = etm_perf_sink_config(handle);
-> +	struct trbe_cpudata *cpudata = buf->cpudata;
-> +	u64 buf_size = (u64)buf->nr_pages << PAGE_SHIFT;
-> +	u64 head = PERF_IDX2OFF(handle->head, buf);
-> +	u64 next = round_up(head, cpudata->trbe_align);
+> +	struct vm_area_struct *vma;
+> +	VMA_ITERATOR(vmi, mm, 0);
+> +
+> +	mmap_assert_write_locked(mm);
+> +	VM_WARN_ON_ONCE(mm->mm_lock_seq.sequence);
 > +
 > +	/*
-> +	 * A task event may migrate to a CPU with a different alignment or
-> +	 * errata. Make sure it has enough space, pad up to the alignment
-> +	 * required by the current TRBE.
+> +	 * Failing to reset means stale vma->vm_lock_seq values could result in
+> +	 * those VMAs becoming spuriously write locked when mm->mm_lock_seq
+> +	 * happens to match their values.
+> +	 *
+> +	 * This is problematic, as it causes the VMA write lock to not exclude
+> +	 * readers, which can result in concurrent readers while a VMA write
+> +	 * lock is held.
+> +	 *
+> +	 * Avoid this by resetting to an even value (indicates no write lock
+> +	 * held).
+> +	 *
+> +	 * Readers will either observe zero (not write locked) or the previous
+> +	 * value, so this is safe.
 > +	 */
-> +	if (buf_size - next < trbe_min_trace_buf_size(handle))
-> +		next = buf_size;
-> +
-> +	if (next != head) {
-> +		__trbe_pad_buf(buf, head, next - head);
-> +		handle->head += next - head;
-> +	}
-> +
-> +	return buf_size;
-> +}
-> +
->   /*
->    * TRBE Limit Calculation
->    *
-> 
+> +	for_each_vma(vmi, vma)
+> +		WRITE_ONCE(vma->vm_lock_seq, 0);
 
-Wouldn't it make sense to have compute_trbe_buffer_limit() do the 
-padding now that it happens for both normal and snapshot mode?
+I'm concerned by the possible latency when doing this to many VMAs. Do you
+have any numbers?
 
-Either way:
-
-Reviewed-by: James Clark <james.clark@linaro.org>
-
+-- 
+Pedro
