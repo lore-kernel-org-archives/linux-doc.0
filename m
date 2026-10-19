@@ -1,68 +1,68 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6A1483823
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA2D3D9035
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792402409; cv=none; b=LlOoQowR17eFZHbZNzoo6vpKr83y/8ywDtOMr2Km8r7vyVeJJzryeiF/Pd5roYJbyov1YPVA3lUwJdT5ATwseZbSgmzUw5wnYvXQLvIRIz7iZP1/aRYMcu2XjxrRvJSN0oSn9v47Zjgm87MqAdeOenyoxJCyP0sIbFbQkvol5uY=
+	t=1792402513; cv=none; b=ddzlusUisFFb2UmvLRVe82aWWGPOs8zsd7DXxlMxtChgVd6aSNPepW7jeii7isGZX0xZjwUl2Fey5vIB2wXnfM+2e+bZEgeE8DbfK0LouwBepp3YhQ/Keu8VLmvqcIbnQbyjFe99H/sNf2hEntpWTU4p3KwB2WFB/YKdiARW5KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792402409; c=relaxed/simple;
-	bh=YjWzbirDWLgeb8E0r2U0TDoM/eN47zJuQ3QNGq/Lxls=;
+	s=arc-20240116; t=1792402513; c=relaxed/simple;
+	bh=4QAG6NlT/0nwL//USt0n95Bo3PHood1TAUditJeGxo0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XSaRD52iWTQTYfgT3RNbLBftYQKJ1QLf+Rnued6NaHQO7oGWYxgVaZDZ4L0kz9doDffkGe9AZJ9Aw0MYgqZ6HU5tg2zUBfCJOYxys/jBHuy/3aSkdYEmhQYTa6epqhM6sOZaOyBnqk/bUyOxRniRxcDPJ1F6mTbHYL/j57t6dRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hhWVM3+p; arc=none smtp.client-ip=209.85.221.54
+	 In-Reply-To:Content-Type; b=a6Lg3718s0uc3hLcTyMYsf7vpTD9erhNe9HXJ7X0LOJeF++5spGztk8PaopgYSxAmmw64vWnPpiYq60LKUni2UiF3uOXHx9DGB4d9tx2PWKupP+ouQUu1yEtanjnvv6SETZBCSwDYZaPfMxQHictK7dR2hwHY0bSS9RGScw1fbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=edjQydIV; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hhWVM3+p"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48c4d870d54so1129654f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:33:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="edjQydIV"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48df54150dfso1380876f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792402406; x=1793007206; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1792402510; x=1793007310; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=okjHac9HA8yNuFEbyuUJm7e15weplnoREC6dmkLj8fw=;
-        b=hhWVM3+pg4lFr7LQuAocxcyqiTlb/XaiMSbdNuLDV3rmCUueDCE37GWKwD7hvpNh5q
-         Dl67pa9D0J9NnGS4cyRxgndVtF0Q7/10IlCODdhPNs3sF7AxLsMuG51eH6vPqFhPr5XR
-         D+m5oU3oQnYsIBLDT9JSoHxXLPIhMQUxGUNNw24reSNt0fwS2WUx1Y44dlObmBL1UZMQ
-         7dotvbC4XEn8hoGf3Z9eth3jWJXpjcqlXR4WLZ6Ui07EaFVNO8BexTP6RtQyUiOs7slY
-         e6iLEhJMtVZFVbPIIRERLuZVa5mY2u/Tf1GRsGjDGCVn88gKVTv54qm15y2MQvYNijcF
-         fhfA==
+        bh=fTaWLyJQguuj+iwhlfuFOJfOVGeQt6aW3eAE90gC5/k=;
+        b=edjQydIVroGocCiby5po1vFmjvDcWPtZAZPZVWWaAQ1jwmG39Y9jPKIQBl7/DQ3xlM
+         n17Zhg+K67XwA7oS05ZDr3ks80jEhO8rHJWhmLQ3uQReOJKLqjhstfOroDhkT6kus0Dy
+         lbTF8NgOVrI+Bb8kvPRQ+UZXRbCgbYxLInpKRidFoL77PUHiTdu8gLTZAmhMGPqfydtm
+         N0aSuSa47TSzFPPqbgEC6eWYDtqorQ4yHtwAYKeD+IozijiDUBUFzNogMR6am5bcO87O
+         N1vcvToVR8FiFpVbp0vxGxxq5//rHi/fDLxFmqgvISZH+SXHl4kpYfaWqFQWH7E/I7XY
+         s9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792402406; x=1793007206;
+        d=1e100.net; s=20260707; t=1792402510; x=1793007310;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=okjHac9HA8yNuFEbyuUJm7e15weplnoREC6dmkLj8fw=;
-        b=c5e5lvKRyyrKVvtHdHsupkPHx0RJjlb3f+F3iYwks2Lxubly/3nXT3vKapC8BrDSum
-         ogZcqO2sJLexRY0BaQQ4AkqXguY9qtSvVmlmZPyDCavsCp2MbT1jcXj57ayJ3dDGlr7X
-         hnYOGfbBCvlJEXoweJIWuwkvIVYj0AgsqCUyPC8QYapCO6H+eIIOfhINlGmLLKV1/zCC
-         i/htjB4bxgwF2elSAlPPdps61o39UEX0EkD5klWZ8qHc2DNR3jC2C49do5sBtCbzrS4x
-         /KUbrZvcBZD5TXPIPeZJa7SavRDYB09BpuhbV/k86Rl9RG5z+TK3wD1W3YKBjGVVzAhA
-         cCzA==
-X-Forwarded-Encrypted: i=1; AKwUvBxvSCV1xGEhrL6QCLI1g4OylwPoRbo+oTDgoqNdBhKgUTZadeCX8W+Zp4CnGfOYuqSFQ2jP476h6Ts=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJfBQRMJ2itwXR2M8z5kD/WvGhyJFZeVnOWw1Y8WZjAN481a0wA
-	N4zSRQo0G96K3a3cM/7INo3DETukwkZaeMB2ZW82i+OfK2CxiPOHgVl8hUnVULULiUg=
-X-Gm-Gg: AYBFou1asKs592DirPbJWAYPOh4a7jfJ3eyBjsruXsHdKJZdCkIZAxomGL8pOusIFXU
-	YDDTlRZb3A8S5vG064+qU8obrSslBjpyTDy2GgIY08KwrFQHSgVjCTH7JOCi4h3uaeSRakeqhda
-	813lbLold/uvWuehYZ2wgCuKaO8//o3MpqDUADdzKhhWKt5zxAfIszRTL522856L6y64dN0UXKN
-	iZ0uS8atSb5on/5Xbxm1IU7TBXz9+1E/0OB9CpTQG9WsmY30voR+AOABOEClSZ0TqKVLhc1dnLa
-	svU7TRsSIBNapenYmXyns1j/iQD5LeQSiU1t290caD7KgYsMAan1yWsc2rikmNrY80V2Gy1yMWr
-	3vCsrdlMW8eDqrnciPP5fSd3ePKJC6ilJpbXG1MRyCwqm9/Z6heO5oDSDo4UVFLqU/5NX15WtvN
-	qv/5IpyTwYN0n/QlrP+7WtwiHQgOnSLC3crE39Bm7UtyaJKAsDx6ErECRcFg30cAD14dJxZlth0
-	TQ=
-X-Received: by 2002:a05:6000:490f:b0:48b:9d80:53a5 with SMTP id ffacd0b85a97d-48e07bbe5d5mr13361426f8f.10.1792402405652;
-        Mon, 19 Oct 2026 02:33:25 -0700 (PDT)
+        bh=fTaWLyJQguuj+iwhlfuFOJfOVGeQt6aW3eAE90gC5/k=;
+        b=nTPO+6gruVLJelXK77aQ8sDqxkADuEJmgrPbLyBfGw3/Ku0kiOUEsQ+l2YrO1HQNo9
+         5oKo9ovF1X8RR+HQLdENTKDZunNtlXyYrce338uW7XaEm4aIZ4ue/7TZOt2/YtqKhulk
+         bww7puuQLJQdsdYDneOSGU7Vd9EV14g2fl5vTHCAN2TlglNTZF5O3RQzZP/QyyRCZvqk
+         gmsTaYtsu5cBu9N/fkJXQTxOAvN4tx2VitPYbusKuiARphBs3MNe8PqXISN1i3HoXN1i
+         CtNeFLPHfd+4iqZTAXqS6lVS7KaTeBrSeJ+JIBSZ+8nRH7gUcI5qdCseQDwswnQJFmY0
+         HRHg==
+X-Forwarded-Encrypted: i=1; AKwUvBx7z6eYIcASDI1DG16aKHbcpjosL2mcW24lTGojj2tYi4+48Wx7Gb3vMW8XMo9zt7yh2OAzAUda+08=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKEu/HjdcGWLRA8sGlh7WbCVDsxd/8rA0ROg5RFOuPlO7/g+T1Y
+	nRrKiv2pXvPyz9a2u65GtxLVpHLo1Kphgh0aqMYMD9rKxCtQILIOVedSz5vLF+jWAc8=
+X-Gm-Gg: AYBFou211oD5gSLiumt3iHZzSo42UrImOkwleqYGaBA1XP4zj3bJT4RZpDvTsfxzq4V
+	XWw74UMRA5bkotJibXm+W54EX76KJ/LhVWDnQoxKdeDgqatgrpugNvISFbsgX6Of0SCSId9mSWc
+	TJCDJp2spXb0w4WF3B3Zq8W+0mlnEYAX1nuF9QN0Q5pffPAsqiJxTja/IzMZB+8oUqLVJbKk13g
+	9aDKPsLSA+YzHRURMVjJXKFLPi2y1K7vIvKDEY8UW7jSUVFDwORW8obFvIrXnZenHjQXd6teaeu
+	X1I9CNN8XPIiA8LXWo0dKTxbtR98efCulKri+SDPhpfMNf7c77ugiGUveY5GW/dqmurwh0Pyoee
+	bB5awGVDJNje8lZdTkwiWhgToWuuVWeAzWn93ObbUcGMqliydlKYE4JSicWquQGDia6OMAratbs
+	cLJcTW1EXfJSth45dPA7rf/BUL0q3BBAa4d1RadMMDcxsauUvIjkktQIyhTFuHgRXg60i5OR1t3
+	4yE
+X-Received: by 2002:a05:6000:4b1a:b0:48d:f034:7fcd with SMTP id ffacd0b85a97d-48e07fa2f48mr12167246f8f.51.1792402510355;
+        Mon, 19 Oct 2026 02:35:10 -0700 (PDT)
 Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1afbf534sm323988f8f.35.2026.10.19.02.33.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a1fsm18752727f8f.3.2026.10.19.02.35.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 02:33:25 -0700 (PDT)
-Message-ID: <ebf74a45-f406-4502-99e3-434e19feef6e@linaro.org>
-Date: Mon, 19 Oct 2026 10:33:23 +0100
+        Mon, 19 Oct 2026 02:35:09 -0700 (PDT)
+Message-ID: <296f398a-a351-4290-80e5-d18427a88dac@linaro.org>
+Date: Mon, 19 Oct 2026 10:35:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -119,169 +119,6 @@ On 15/09/2026 16:48, Leo Yan wrote:
 >   }
 >   
 > +static inline void etm_event_set_hw_state(struct perf_event *event, int mask)
-> +{
-> +	struct hw_perf_event *hwc = &event->hw;
-> +
-> +	WRITE_ONCE(hwc->state, READ_ONCE(hwc->state) | mask);
-> +}
-> +
-> +static inline void etm_event_clear_hw_state(struct perf_event *event, int mask)
-> +{
-> +	struct hw_perf_event *hwc = &event->hw;
-> +
-> +	WRITE_ONCE(hwc->state, READ_ONCE(hwc->state) & ~mask);
-> +}
-> +
->   static void etm_event_read(struct perf_event *event) {}
->   
->   static int etm_addr_filters_alloc(struct perf_event *event)
-> @@ -520,6 +534,7 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
->   static int etm_event_resume(struct etm_ctxt *ctxt)
->   {
->   	struct perf_output_handle *handle = &ctxt->handle;
-> +	struct perf_event *event = handle->event;
->   	struct coresight_device *source;
->   	struct coresight_path *path;
->   	int ret;
-> @@ -536,10 +551,13 @@ static int etm_event_resume(struct etm_ctxt *ctxt)
->   		return 0;
->   
->   	ret = coresight_resume_source(source);
-> -	if (ret < 0)
-> +	if (ret < 0) {
->   		dev_err(&source->dev, "Failed to resume ETM event.\n");
-> +		return ret;
-> +	}
->   
-> -	return ret;
-> +	etm_event_clear_hw_state(event, PERF_HES_UPTODATE);
-> +	return 0;
->   }
->   
->   static void etm_event_start(struct perf_event *event, int flags)
-> @@ -553,8 +571,7 @@ static void etm_event_start(struct perf_event *event, int flags)
->   	u64 hw_id;
->   
->   	if (flags & PERF_EF_RESUME) {
-> -		if (etm_event_resume(ctxt) < 0)
-> -			goto fail;
-> +		WARN_ON_ONCE(etm_event_resume(ctxt));
->   		return;
->   	}
->   
-> @@ -583,7 +600,7 @@ static void etm_event_start(struct perf_event *event, int flags)
->   	 */
->   	if (!cpumask_test_cpu(cpu, &event_data->mask)) {
->   		perf_aux_output_end(handle, 0);
-> -		event->hw.state = 0;
-> +		etm_event_clear_hw_state(event, PERF_HES_STOPPED);
->   		return;
->   	}
->   
-> @@ -621,7 +638,7 @@ static void etm_event_start(struct perf_event *event, int flags)
->   	}
->   
->   	/* Tell the perf core the event is alive */
-> -	event->hw.state = 0;
-> +	etm_event_clear_hw_state(event, PERF_HES_STOPPED | PERF_HES_UPTODATE);
->   	/* Save the event_data for this ETM */
->   	WRITE_ONCE(ctxt->event_data, event_data);
->   	return;
-> @@ -639,11 +656,12 @@ static void etm_event_start(struct perf_event *event, int flags)
->   		perf_aux_output_end(handle, 0);
->   	}
->   fail:
-> -	event->hw.state = PERF_HES_STOPPED;
-> +	etm_event_set_hw_state(event, PERF_HES_STOPPED);
->   	return;
->   }
->   
-> -static void etm_event_update_buffer(struct perf_output_handle *handle,
-> +static void etm_event_update_buffer(struct perf_event *event,
-> +				    struct perf_output_handle *handle,
->   				    struct etm_event_data *event_data,
->   				    struct coresight_device *sink,
->   				    int mode)
-> @@ -668,6 +686,7 @@ static void etm_event_update_buffer(struct perf_output_handle *handle,
->   		size = sink_ops(sink)->update_buffer(sink, handle,
->   						     event_data->snk_config);
->   		perf_aux_output_end(handle, size);
-> +		etm_event_set_hw_state(event, PERF_HES_UPTODATE);
->   		return;
->   	}
->   
-> @@ -704,7 +723,8 @@ static void etm_event_pause(struct coresight_path *path,
->   		return;
->   
->   	event_data = READ_ONCE(ctxt->event_data);
-> -	etm_event_update_buffer(handle, event_data, sink, PERF_EF_UPDATE);
-> +	etm_event_update_buffer(event, handle, event_data, sink,
-> +				PERF_EF_UPDATE);
->   
->   	/* Prepare the handle for resuming trace */
->   	perf_aux_output_begin(handle, event);
-> @@ -716,8 +736,13 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	struct etm_ctxt *ctxt = this_cpu_ptr(&etm_ctxt);
->   	struct perf_output_handle *handle = &ctxt->handle;
->   	struct coresight_path *path = etm_event_get_ctxt_path(ctxt);
-> +	struct hw_perf_event *hwc = &event->hw;
->   	struct etm_event_data *event_data;
->   
-> +	/* If we're already stopped, then nothing to do */
-> +	if (READ_ONCE(hwc->state) & PERF_HES_STOPPED)
-> +		return;
-> +
->   	if (mode & PERF_EF_PAUSE)
->   		return etm_event_pause(path, event, ctxt);
->   
-> @@ -726,7 +751,7 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	 * to synchronize. Mark the event stopped and up to date.
->   	 */
->   	if (!path) {
-> -		event->hw.state = PERF_HES_STOPPED | PERF_HES_UPTODATE;
-> +		etm_event_set_hw_state(event, PERF_HES_STOPPED | PERF_HES_UPTODATE);
->   		return;
->   	}
->   
-> @@ -734,9 +759,6 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	/* Clear the event_data as this ETM is stopping the trace. */
->   	WRITE_ONCE(ctxt->event_data, NULL);
->   
-> -	if (event->hw.state == PERF_HES_STOPPED)
-> -		return;
-> -
->   	source = coresight_get_source(path);
->   	sink = coresight_get_sink(path);
->   	if (!source || !sink)
-> @@ -746,9 +768,9 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	coresight_disable_source(source, event);
->   
->   	/* tell the core */
-> -	event->hw.state = PERF_HES_STOPPED;
-> +	etm_event_set_hw_state(event, PERF_HES_STOPPED);
->   
-> -	etm_event_update_buffer(handle, event_data, sink, mode);
-> +	etm_event_update_buffer(event, handle, event_data, sink, mode);
->   
->   	/* Disabling the path make its elements available to other sessions */
->   	coresight_disable_path(path);
-> @@ -759,12 +781,12 @@ static int etm_event_add(struct perf_event *event, int mode)
->   	int ret = 0;
->   	struct hw_perf_event *hwc = &event->hw;
->   
-> +	etm_event_set_hw_state(event, PERF_HES_STOPPED | PERF_HES_UPTODATE);
-> +
->   	if (mode & PERF_EF_START) {
->   		etm_event_start(event, 0);
-> -		if (hwc->state & PERF_HES_STOPPED)
-> +		if (READ_ONCE(hwc->state) & PERF_HES_STOPPED)
->   			ret = -EINVAL;
-> -	} else {
-> -		hwc->state = PERF_HES_STOPPED;
->   	}
->   
->   	return ret;
-> 
 
-Reviewed-by: James Clark <james.clark@linaro.org>
+Extremely minor nit, but inline does nothing here.
 
