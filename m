@@ -1,84 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422878;
-	b=fFt3Xeeb4FgJ4C3/K5NQd7tQ/I/txXzm0gqb3oTxzBoD1U73JWI5NWSPLipN0sdhuCDo
-	 Uo9g6ot4ESuDGH4oJOBKbIDJUWVmUR2ZRoZQudpgC1HdkTWH+H01KfCMUE0CAwraTbZcC
-	 cVpa6R04j7ZYSH0ecBObceoMI2ifb6YVDUxJbbgdj/YVaOZzWGYyB5UCo0X60dapUxG3y
-	 /6LbwEbo9pMEzhJGxtac6k468FIPV9AHd1+YKgIx/qnRvCe1DS0N0dVaRdQ1zJbK8EJX7
-	 2BgZycU36QCkVFCrKKk/ZHVGLcF6DXQhC+VKFhF2c39EEycL0gnJ6GFkmTeA2UAcTbw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422878;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=5Rg8ro+nVC+0k89M1QmhZ1e0RzR/D2AdQ8L9fKW1vx4=;
-	b=Oi/NgL/RK42UrLQjY8ZmdONddBC9YOtJ8IQnlfNRMv756olksqXykvakGEZ0HpqhIatB
-	 zWW3Wy8y4XCWEpP6N5HqASusR3l0OUWQnrMU/oZCxH9SAXhCJC1m1ZW/7PTtolMIpEv8x
-	 PsCXLCkwhDUHUlTdRfizoWU/ymgZGQqzweLC7FdLYFm8axZ/E0K5dKGhVZMhxFqxJVpps
-	 d80uEOJ49OxgPRNI7TAERJzFBchkUrah5drfsM7Ulnk5E1s/uNeX3bpHONhuHRTo72+Aq
-	 GxkpsO4o3dDZZ8f6xCD/gGB6en2mgt+FmEQDnXUUjZk10SKYaiddorH3tFL5fn+KSNQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fcCGXFNm;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505FA609CEDF;
-	Mon, 19 Oct 2026 15:14:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 505FA609CEDF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792421796;
+	b=JMYM5XwsorwVN4aeuRb0pLE67jJ4KGTJ+0YWCgIgurn6sCzacK4Q7ZpgN62jIM9J2ztF
+	 /LM9L4xUwjvOozliYEBJUEuzVzbSPmA0sE42GCJNqdO8ZNgET3FihlUhTn5g1xF2ymsRy
+	 /+XHCNv2cW7gNay7APjPEGUJjjMXQX4rKKxL5GmsqGq0crQXSJJexj7wutWKt2ZMhtjQ9
+	 OH/fV5R/n/J6Of5ryDyYr1UDLhkaHS2CtjVuRiCKFIp0AthfqrFerfjfxWmStel5qNIwJ
+	 DmEi2npRPOQpT5PGqNDkVH95AOrJIwyAbJYNR37+WzM1JJPSdk+7KAFfMJrrvCu2uVQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792421796;
+	h=Received:Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=1Gq2xabCUzWCgQFVttvePt4Zi7fwm2U8qXzH8Q9Ni/Q=;
+	b=wg3HlpDwDLWCVRlHEgLAWX89EDzaAIF+t9KVaH/CfXH22h/EZKvvpuExERjRU5e1v8Vn
+	 DdV+S2VZ1hYzUfQXx19xzALN2k60b0AMPw+eMIwsFP9urt8rXG5HpZa36XCs+nItRpdY5
+	 UyTn7Ma8C+lBwUTEnExmO3z/Krz6hkqzEBx8wh+dj9btGwmiW7hmHpR7qOamXCtxXqqcw
+	 4K0mfXL+M3pfmeimO/t4C+pe+CrYtHgwd+4Zzz4ZhZ6CClU2C4jWXYxgpBOzP2HOvIqwW
+	 BFo3KhTMHtr4XEa/lXxC2ev133PknMtJYkQZ1hFHoWljwvlbsLCusD+12RCfVt7AxHw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h4FlIoiC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF1760724A8;
+	Mon, 19 Oct 2026 14:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fcCGXFNm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792422878; x=1823958878;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1XahINlI+qtzt3WIrBdAjFdXjrmyMcpiOfQXjm/4WOY=;
-  b=fcCGXFNm/+4tvDAC36LEQQYj/Mk0wDjMwXaWB/V445pm0ltz3z1lTG/k
-   t7urc0htJ0sQsminiS9njcPS/VNGhDE8AEh0HtLVUbBvyN79vVDztIzcP
-   1jdYIiNZUMjDJsmogimO9gI+1MVk6tdhOdlVBWMujXlx25+bWLb5Axx7e
-   E9Bs4UfKrZo0uM4mFS3HaRIQSy1kStpmByS7R5aG8Nv/DdiIg7u0dvlCr
-   uEerl7UE/oyKi9oBjU2h/6cqUbk6uSI5FMJrXqmnEZe2OnkoWumj+J8u1
-   ULJ+jVYaZdRDI+tuQr6ibDhhySxXq+AekZI1MuQhmORQinT20+2dGOnFN
-   g==;
-X-CSE-ConnectionGUID: UzJr9t8fRG234Li6t5Crgg==
-X-CSE-MsgGUID: 8k/cbX9hSXiS/jq57ZMLOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="992130"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="992130"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:14:36 -0700
-X-CSE-ConnectionGUID: wG5r3/fiQl2BWTJBHQT9Jw==
-X-CSE-MsgGUID: X2Ddg/jvSledtfS/BnPcuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2636142"
-Received: from jf5300-15a101203tc.jf.intel.com (HELO meta-crater2c.jf.intel.com) ([10.54.113.49])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 08:14:35 -0700
-From: Daniel Byrne <daniel1.byrne@intel.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Frank Li <Frank.Li@kernel.org>,
-	Vinicius Costa Gomes <vinicius.gomes@intel.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h4FlIoiC
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95206513C1;
+	Mon, 19 Oct 2026 14:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792421796; cv=none; b=erpIf4m0+al3Unx5M7lfx9ZeMDn72Ek7RlA2D3BblYUZqi7fPB/eFBHg0uRYVLTZx7Z59Gdlv6NhWSg9SukG7YwOxwdDaEGKBmkNT6Ig3sSFUuEHlmpk2999Vb96+zjaXNDN3hUAnSVH609cz0WKGZeT2XPfFvu3ZjOMNNRzxu8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792421796; c=relaxed/simple;
+	bh=DwEfxiBZ++0PR9E/Pqv4joVI5/7plphHGS4+UCDxy1w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JggorhJoy5DgEkisj0J35jWkhKqWmAYeVYIv05IXg89w4GwKs01cuOydHKW3Ia1NJkQ/QdMUM6T+VIammAaTn7z8ISG/wqOxq3pIM0eB/qSyhbBe/Xllin0Vs+eUYQSQaqAmmiW18/sfbzbRnK03EewQdkCBAExbwsOzJPuBKpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4FlIoiC; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D584D1F000C4;
+	Mon, 19 Oct 2026 14:56:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792421795;
+	bh=1Gq2xabCUzWCgQFVttvePt4Zi7fwm2U8qXzH8Q9Ni/Q=;
+	h=From:To:Cc:Subject:Date;
+	b=h4FlIoiCv3D+ES1G8MT6j4RW5bq5GmaYRH8qBgMKRvYB9D+WXOrDPcOdQiio5dRbH
+	 63rANYmMZGMaPbaJyKssOyszIcvC9xZiDdCfCIrUYs+KNq68eqwlM9RKo0NhRVWymP
+	 uK4qvvpy/hCnvoSpVbOujwVGPDX7YJzKTwUtTPxdiTPTZVCmNLPUIhwE89NR3iFQrd
+	 h344LLQpsnjnYK2vf7wzSYHZEh6MoeAYvCUR34MaGT7AAbSSocDkkdVFAkhw4Jf0+C
+	 WGLJE6jDVhw4G23yht9x/8Z1P/6mTNUHP5QvH06i8RLPg6v6SALgp8OGkqS8SYpioN
+	 4Qk3hu5whq3lA==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: keyrings@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	stable@vger.kernel.org,
+	Jann Horn <jannh@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] dmaengine: idxd: generation-number transaction status
-Date: Mon, 19 Oct 2026 08:06:31 -0700
-Message-ID: <20261019150632.4026424-3-daniel1.byrne@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261019150632.4026424-1-daniel1.byrne@intel.com>
-References: <20261019150632.4026424-1-daniel1.byrne@intel.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM)
+Subject: [PATCH v2 1/2] KEYS: Return user session keyring on lookup
+Date: Mon, 19 Oct 2026 17:56:22 +0300
+Message-ID: <20261019145624.309790-1-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,323 +80,110 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement device_tx_status() by reading the addressed descriptor's
-completion record. The cookie encodes the descriptor id in its lower
-16 bits and a generation number in the 14 bits above, so a query
-against a recycled descriptor sees a stale cookie and reads
-DMA_COMPLETE. The generation wraps after 16383 submissions of the same
-slot; the contract is that a client polls a cookie to its terminal
-answer, or abandons it, before its slot has been reused 16383 times,
-which every in-tree polling client satisfies by construction.
+A process without a session keyring looking up KEY_SPEC_SESSION_KEYRING
+without KEY_LOOKUP_CREATE mutates the credentials. This causes struct creds
+instances shared with other subsystems to become stale.
 
-Descriptors with a completion interrupt armed stay with the IRQ
-handler: a generic client such as dmatest may request an interrupt,
-and reading such a descriptor's completion record here would race with
-the handler recycling it. tx_status therefore reports DMA_IN_PROGRESS
-while such a cookie is live and the stale-cookie check answers once the
-handler has completed it. Whether a descriptor is interrupt-armed
-travels in the cookie, in the bit below the sign bit, since the
-descriptor's own flags are rewritten when the handler recycles it.
+Address this by returning the resolved user session keyring directly
+without installing it into credentials.
 
-A polled descriptor has two terminal answers. Its completion record
-gives the first; the query retires the descriptor and reports
-DMA_COMPLETE or DMA_ERROR from the status. The second is DMA_ERROR for
-a descriptor outstanding on a work queue or a device that is no longer
-enabled, since nothing will complete it; the slot is retired only when
-the device halted, which kills it for good. Descriptors carry the
-device's reset epoch from submit time for that, and the halt stores its
-state before it bumps the epoch, so a poll that read the old epoch and
-the halted state reads the epoch again and retires on a mismatch. The
-same epoch lets device_synchronize() treat a drain that a halt ended
-as complete, since the halt killed everything the drain covered.
-
-Switch the prep callbacks' descriptor allocation to IDXD_OP_NONBLOCK:
-prep callbacks may not sleep, and on an exhausted pool they return NULL
-so the caller falls back. Direct kernel clients such as iaa_crypto keep
-the blocking allocator path. This gives dmaengine_async_is_tx_complete()
-exact per-descriptor results for polling clients on a device whose work
-queues complete out of order across a group's engines.
-
-Assisted-by: Claude:claude-opus-5-5
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: Daniel Byrne <daniel1.byrne@intel.com>
+Cc: stable@vger.kernel.org # v5.10+
+Suggested-by: Jann Horn <jannh@google.com>
+Closes: https://lore.kernel.org/keyrings/CAG48ez0XjVSR=M--UBauTm8sJuc+ZbhKzaPa3a6wrSVHyoKevw@mail.gmail.com/
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- drivers/dma/idxd/device.c |   1 +
- drivers/dma/idxd/dma.c    | 158 ++++++++++++++++++++++++++++++++++++--
- drivers/dma/idxd/idxd.h   |   3 +
- drivers/dma/idxd/irq.c    |   8 ++
- 4 files changed, 165 insertions(+), 5 deletions(-)
+v2:
+- Added mandatory tags.
+- No code changes.
+---
+ Documentation/security/keys/core.rst |  6 ++--
+ security/keys/process_keys.c         | 44 +++++++---------------------
+ 2 files changed, 14 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/dma/idxd/device.c b/drivers/dma/idxd/device.c
-index 5ccdc5ff8d53..68a7de74f9e6 100644
---- a/drivers/dma/idxd/device.c
-+++ b/drivers/dma/idxd/device.c
-@@ -155,6 +155,7 @@ int idxd_wq_alloc_resources(struct idxd_wq *wq)
- 			desc->iax_completion = &wq->iax_compls[i];
- 		desc->compl_dma = wq->compls_addr + idxd->data->compl_size * i;
- 		desc->id = i;
-+		desc->gen = 1;
- 		desc->wq = wq;
- 		desc->cpu = -1;
- 	}
-diff --git a/drivers/dma/idxd/dma.c b/drivers/dma/idxd/dma.c
-index 0a7517cb51f2..dd5a9d9274ce 100644
---- a/drivers/dma/idxd/dma.c
-+++ b/drivers/dma/idxd/dma.c
-@@ -12,6 +12,20 @@
- #include "registers.h"
- #include "idxd.h"
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+index 326b8a973828..c81a3a9fe236 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -165,8 +165,10 @@ The key service provides a number of features besides keys:
+      When a process changes its real UID, if it used to have no session key, it
+      will be subscribed to the default session key for the new UID.
  
-+#define DMA_COOKIE_BITS (sizeof(dma_cookie_t) * 8)
-+/*
-+ * The descriptor id takes the lower 16 bits of the cookie.
-+ */
-+#define DESC_ID_BITS 16
-+#define DESC_ID_MASK ((1 << DESC_ID_BITS) - 1)
-+/*
-+ * The generation takes the 14 bits above the id. Since dma_cookie_t is
-+ * signed, the upper-most bit is left for the sign, and the bit below it
-+ * records that the descriptor completes by interrupt.
-+ */
-+#define IDXD_COOKIE_RCI BIT(DMA_COOKIE_BITS - 2)
-+#define DESC_GEN_MAX ((1 << (DMA_COOKIE_BITS - DESC_ID_BITS - 2)) - 1)
-+
- static inline struct idxd_wq *to_idxd_wq(struct dma_chan *c)
- {
- 	struct idxd_dma_chan *idxd_chan;
-@@ -93,7 +107,7 @@ idxd_dma_prep_interrupt(struct dma_chan *c, unsigned long flags)
- 		return NULL;
+-     If a process attempts to access its session key when it doesn't have one,
+-     it will be subscribed to the default for its current UID.
++     If a process attempts to access its session keyring when it doesn't have
++     one, the default user session keyring for its current UID is returned
++     without being installed into its credentials.  If creation is requested,
++     an anonymous session keyring is installed.
  
- 	op_flag_setup(flags, &desc_flags);
--	desc = idxd_alloc_desc(wq, IDXD_OP_BLOCK);
-+	desc = idxd_alloc_desc(wq, IDXD_OP_NONBLOCK);
- 	if (IS_ERR(desc))
- 		return NULL;
- 
-@@ -120,7 +134,7 @@ idxd_dma_submit_memcpy(struct dma_chan *c, dma_addr_t dma_dest,
- 		return NULL;
- 
- 	op_flag_setup(flags, &desc_flags);
--	desc = idxd_alloc_desc(wq, IDXD_OP_BLOCK);
-+	desc = idxd_alloc_desc(wq, IDXD_OP_NONBLOCK);
- 	if (IS_ERR(desc))
- 		return NULL;
- 
-@@ -154,11 +168,128 @@ static void idxd_dma_free_chan_resources(struct dma_chan *chan)
- 		idxd_wq_refcount(wq));
+   *  Each user has two quotas against which the keys they own are tracked. One
+      limits the total number of keys and keyrings, the other limits the total
+diff --git a/security/keys/process_keys.c b/security/keys/process_keys.c
+index 1a51a36ce32a..558ffe58b5d6 100644
+--- a/security/keys/process_keys.c
++++ b/security/keys/process_keys.c
+@@ -346,31 +346,6 @@ int install_session_keyring_to_cred(struct cred *cred, struct key *keyring)
+ 	return 0;
  }
  
-+/*
-+ * A cookie has exactly one polling owner, the client that submitted the
-+ * transaction. Observing a terminal completion record here retires and
-+ * recycles the descriptor, since a polled descriptor has no interrupt
-+ * and nobody else will. Two contexts polling the same live cookie
-+ * would race that recycle, which every in-tree dmaengine polling
-+ * client already avoids by construction.
-+ */
- static enum dma_status idxd_dma_tx_status(struct dma_chan *dma_chan,
- 					  dma_cookie_t cookie,
- 					  struct dma_tx_state *txstate)
- {
--	return DMA_OUT_OF_ORDER;
-+	struct idxd_wq *wq;
-+	struct idxd_desc *desc;
-+	u32 idx;
-+	u8 status;
-+
-+	if (txstate)
-+		memset(txstate, 0, sizeof(*txstate));
-+
-+	if (dma_submit_error(cookie))
-+		return DMA_ERROR;
-+
-+	wq = to_idxd_wq(dma_chan);
-+
-+	idx = cookie & DESC_ID_MASK;
-+	if (idx >= wq->num_descs)
-+		return DMA_ERROR;
-+
-+	desc = wq->descs[idx];
-+
-+	/*
-+	 * Descriptors with a completion interrupt armed (RCI) are
-+	 * completed and recycled by the IRQ handler. Reading their
-+	 * completion record here would race with the handler, and so
-+	 * would reading the recycled descriptor's flags, which is why
-+	 * the property travels in the cookie the caller owns. The handler
-+	 * invalidates the cookie on completion, so a matching cookie means
-+	 * the command is still in progress.
-+	 */
-+	if (cookie & IDXD_COOKIE_RCI)
-+		return READ_ONCE(desc->txd.cookie) == cookie ?
-+			DMA_IN_PROGRESS : DMA_COMPLETE;
-+
-+	if (desc->txd.cookie != cookie) {
-+		/*
-+		 * The cookie belongs to an old transaction that has
-+		 * already completed and been recycled.
-+		 */
-+		return DMA_COMPLETE;
-+	}
-+
-+	status = desc->completion->status & DSA_COMP_STATUS_MASK;
-+
-+	if (status) {
-+		/* Capture completion record fields before desc is freed below. */
-+		u8 fault_info = desc->completion->fault_info;
-+		u64 fault_addr = desc->completion->fault_addr;
-+
-+		/*
-+		 * Check against the original status because ABORT is
-+		 * software defined as 0xff, which DSA_COMP_STATUS_MASK
-+		 * can mask out.
-+		 */
-+		if (unlikely(desc->completion->status == IDXD_COMP_DESC_ABORT))
-+			idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true, NULL, NULL);
-+		else
-+			idxd_dma_complete_txd(desc, IDXD_COMPLETE_NORMAL, true, NULL, NULL);
-+
-+		dev_dbg(&wq->idxd->pdev->dev,
-+			"dsa completion: status=0x%02x fault_info=0x%02x fault_addr=0x%llx\n",
-+			status, fault_info, fault_addr);
-+
-+		if (status == DSA_COMP_SUCCESS)
-+			return DMA_COMPLETE;
-+
-+		return DMA_ERROR;
-+	}
-+
-+	/*
-+	 * The descriptor is genuinely outstanding. A polled descriptor
-+	 * carries no interrupt, so nothing but this function will ever
-+	 * retire it, and a work queue or device that is no longer enabled
-+	 * will not complete it either. Report the failure instead of
-+	 * leaving the caller polling forever.
-+	 *
-+	 * A descriptor submitted before a device halt is dead for good:
-+	 * the halt ended the engines and the reset that follows starts
-+	 * them empty, so its record will never be written even once the
-+	 * device is enabled again. Only in that case can the descriptor
-+	 * be retired here safely; otherwise the pool would shrink by one
-+	 * for every descriptor caught by a halt.
-+	 */
-+	if (desc->epoch != READ_ONCE(wq->idxd->reset_epoch)) {
-+		idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true, NULL, NULL);
-+		return DMA_ERROR;
-+	}
-+	/*
-+	 * A device that is no longer enabled runs nothing it holds, so an
-+	 * outstanding descriptor on it has failed. A halt stores its state
-+	 * before it bumps the epoch, and this poll may have read the epoch
-+	 * before the halt and the state after it, so the epoch is read
-+	 * again: only the retire frees the slot of a descriptor the halt
-+	 * caught. A halted device whose epoch still matches is between the
-+	 * two stores, and the next poll retires the descriptor. The submit
-+	 * reads the state after the stamp, so it refuses a descriptor
-+	 * stamped with the bumped epoch.
-+	 */
-+	if (wq->idxd->state != IDXD_DEV_ENABLED) {
-+		if (desc->epoch != READ_ONCE(wq->idxd->reset_epoch)) {
-+			idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true,
-+					      NULL, NULL);
-+			return DMA_ERROR;
-+		}
-+		if (wq->idxd->state == IDXD_DEV_HALTED)
-+			return DMA_IN_PROGRESS;
-+		return DMA_ERROR;
-+	}
-+	if (wq->state != IDXD_WQ_ENABLED)
-+		return DMA_ERROR;
-+
-+	return DMA_IN_PROGRESS;
- }
- 
+-/*
+- * Install the given keyring as the session keyring of the current task,
+- * replacing the existing one if any.  If the given keyring is NULL, then
+- * install a new anonymous session keyring.
+- *
+- * Return: 0 on success; -errno on failure.
+- */
+-static int install_session_keyring(struct key *keyring)
+-{
+-	struct cred *new;
+-	int ret;
+-
+-	new = prepare_creds();
+-	if (!new)
+-		return -ENOMEM;
+-
+-	ret = install_session_keyring_to_cred(new, keyring);
+-	if (ret < 0) {
+-		abort_creds(new);
+-		return ret;
+-	}
+-
+-	return commit_creds(new);
+-}
+-
  /*
-@@ -177,7 +308,17 @@ static dma_cookie_t idxd_dma_tx_submit(struct dma_async_tx_descriptor *tx)
- 	int rc;
- 	struct idxd_desc *desc = container_of(tx, struct idxd_desc, txd);
+  * Handle the fsuid changing.
+  */
+@@ -664,20 +639,21 @@ key_ref_t lookup_user_key(key_serial_t id, unsigned long lflags,
  
--	cookie = dma_cookie_assign(tx);
-+	cookie = (desc->gen << DESC_ID_BITS) | (desc->id & DESC_ID_MASK);
-+	if (desc->hw->flags & IDXD_OP_FLAG_RCI)
-+		cookie |= IDXD_COOKIE_RCI;
+ 	case KEY_SPEC_SESSION_KEYRING:
+ 		if (!ctx.cred->session_keyring) {
+-			/* always install a session keyring upon access if one
+-			 * doesn't exist yet */
+ 			ret = look_up_user_keyrings(NULL, &user_session);
+ 			if (ret < 0)
+ 				goto error;
+-			if (lflags & KEY_LOOKUP_CREATE)
 +
-+	if (desc->gen == DESC_GEN_MAX)
-+		desc->gen = 1;
-+	else
-+		desc->gen++;
-+
-+	tx->cookie = cookie;
-+	desc->epoch = READ_ONCE(wq->idxd->reset_epoch);
++			if (lflags & KEY_LOOKUP_CREATE) {
++				key_put(user_session);
+ 				ret = join_session_keyring(NULL);
+-			else
+-				ret = install_session_keyring(user_session);
++				if (ret < 0)
++					goto error;
++				goto reget_creds;
++			}
  
- 	rc = idxd_submit_desc(wq, desc);
- 	if (rc < 0) {
-@@ -219,6 +360,7 @@ static void idxd_dma_synchronize(struct dma_chan *c)
- {
- 	struct idxd_wq *wq = to_idxd_wq(c);
- 	LIST_HEAD(quarantined);
-+	u32 epoch;
- 
- 	/*
- 	 * dmaengine_synchronize() promises the client that its memory may
-@@ -240,7 +382,13 @@ static void idxd_dma_synchronize(struct dma_chan *c)
- 	 * Only a device reset ends the exposure of the client's memory.
- 	 */
- 	idxd_wq_quarantine_take(wq, &quarantined);
--	if (!idxd_wq_drain(wq)) {
-+	/*
-+	 * A halt during the drain kills every descriptor submitted before
-+	 * it, which is all of them, and a reset that followed may have
-+	 * ended the drain itself. Such a drain is as good as complete.
-+	 */
-+	epoch = READ_ONCE(wq->idxd->reset_epoch);
-+	if (!idxd_wq_drain(wq) || READ_ONCE(wq->idxd->reset_epoch) != epoch) {
- 		idxd_wq_quarantine_free(wq, &quarantined);
- 		WRITE_ONCE(wq->stuck, false);
- 		return;
-diff --git a/drivers/dma/idxd/idxd.h b/drivers/dma/idxd/idxd.h
-index b0cfd7101174..7fe5ec6c3bf3 100644
---- a/drivers/dma/idxd/idxd.h
-+++ b/drivers/dma/idxd/idxd.h
-@@ -349,6 +349,7 @@ struct idxd_device {
- 	spinlock_t cmd_lock;	/* spinlock for device commands */
- 	struct completion *cmd_done;
- 	u32 cmd_seq;		/* bumps when a command starts running */
-+	u32 reset_epoch;	/* bumps on every device halt */
- 	struct idxd_group **groups;
- 	struct idxd_wq **wqs;
- 	struct idxd_engine **engines;
-@@ -447,9 +448,11 @@ struct idxd_desc {
- 	struct list_head list;
- 	int id;
- 	int cpu;
-+	u16 gen;
- 	u16 terminate_gen;	/* the queue's terminate_gen at an
- 				 * interrupt-armed submit
- 				 */
-+	u32 epoch;		/* the device reset_epoch at submit */
- 	struct idxd_wq *wq;
- };
- 
-diff --git a/drivers/dma/idxd/irq.c b/drivers/dma/idxd/irq.c
-index 8217698056bb..5e34790359ee 100644
---- a/drivers/dma/idxd/irq.c
-+++ b/drivers/dma/idxd/irq.c
-@@ -508,6 +508,14 @@ static irqreturn_t idxd_halt(struct idxd_device *idxd)
- 	gensts.bits = ioread32(idxd->reg_base + IDXD_GENSTATS_OFFSET);
- 	if (gensts.state == IDXD_DEVICE_STATE_HALT) {
- 		idxd->state = IDXD_DEV_HALTED;
-+		/*
-+		 * Every descriptor submitted before this point is dead: the
-+		 * device will never write its completion record. Pollers
-+		 * compare their descriptor's epoch against this to retire
-+		 * such descriptors instead of waiting for a record that never
-+		 * comes.
-+		 */
-+		WRITE_ONCE(idxd->reset_epoch, idxd->reset_epoch + 1);
- 		if (gensts.reset_type == IDXD_DEVICE_RESET_SOFTWARE) {
- 			/* The reinit below re-enables the queues, so revive them. */
- 			idxd_wqs_halt_flush(idxd, true);
+-			key_put(user_session);
+-			if (ret < 0)
+-				goto error;
+-			goto reget_creds;
++			key = user_session;
++			key_ref = make_key_ref(key, 1);
++			break;
+ 		} else if (test_bit(KEY_FLAG_UID_KEYRING,
+ 				    &ctx.cred->session_keyring->flags) &&
+ 			   lflags & KEY_LOOKUP_CREATE) {
 -- 
-2.43.0
+2.47.3
 
