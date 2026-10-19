@@ -1,259 +1,270 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBFD4B8270;
-	Mon, 19 Oct 2026 09:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693924B2CD3
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 10:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403613; cv=none; b=AiD6Vd7F35rGq6DpzUITgT5069gwo4VCNgIirTBB8F6iRyV7T5aesjzZZ1Fpt7COxNxFp+Xrpuyjf2s7+1sfSx68S0bAOvbZlXtDWiqYRvc8iL2Wv7cipBTC8ORwIykqYTL0k1i2mGFqTZLYSG9j8ULI/2NIjpXVE0tyhmpRFbw=
+	t=1792404804; cv=none; b=CQFlx+UBGG4l06OVmrnfK4OZaPGmr19sxBT2UutfBu0O0fMna4tb2BmMtYH8l5z2yt3/0vhOUbLZ5o2bRhPYbfk8kHHh+IElxgfl03N2UhR1d3ezqZ8LwhBTy/BpyjyOOR1+RNK2f1EAxEiHqN+aG0p5sMsu1nBoDu5TV0cceMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403613; c=relaxed/simple;
-	bh=LL45I+R6h545NOISuRIggUtq27/B1IK8pCC6oyxCegU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MyCdj3cfrtKpJOBPt00rUGgvXW5O+5f44HrDlogP+PptR5aAhf/0RsIOxOr52t4b2tMnm3u1bXKsnPWVKMICx8HbR1e2a1iE6yXDDliyJz9TdrNbWC06iuLnQ1y8a2cTPFHwCyLM2i3FHsNcoPV4jWM4T6Z/U9Drjm5DtpMWYDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNiH6jAG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IMKWDODb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNiH6jAG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IMKWDODb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792404804; c=relaxed/simple;
+	bh=hMelsRvLjfrvdim4P2XvKNTjKGwBcZMmyVl7OcEV0vQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dq3GoC93J1QC0V0q8O3kgzPsUNPK1LHMg7OJDaXYayvBbf91rgLFzarxHrxGTrosrpe/7eFSCvEZZ7ALOGn6S4Dtj6iaxNuF7LUKTLb5cJomUyvHx1O6kwyrPZO44nAD0LVn4IjJLO+Xja7X18PCQpsqHykFmZfw6+bA5zVa+UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dk9g/gsX; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNiH6jAG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IMKWDODb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNiH6jAG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IMKWDODb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3BB3121AC0;
-	Mon, 19 Oct 2026 09:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792403610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
-	b=TNiH6jAGWzJ+CcphCjW4j7aj5U0zeU2N7JUCu5ljMtqB9zQxmzOq8YRau0SpCDN/Tnb02Q
-	ahicBwHrHCw5SO2pH6kRe68ZDqSaS7aHEX9UPBg8P5zUXJ7Puj/y+xTRwvkrsHE4jTNiAB
-	kRcd3Vn7S05FSmK01RYD+x5vtTkQBUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792403610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
-	b=IMKWDODbku31f9X+imJzQOexZonmmj16TZ2NhoXcsP1S/iPoyWMdMHJAmLh+ZIE4EYWEan
-	6BsoR6hGM5kS4FCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792403610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
-	b=TNiH6jAGWzJ+CcphCjW4j7aj5U0zeU2N7JUCu5ljMtqB9zQxmzOq8YRau0SpCDN/Tnb02Q
-	ahicBwHrHCw5SO2pH6kRe68ZDqSaS7aHEX9UPBg8P5zUXJ7Puj/y+xTRwvkrsHE4jTNiAB
-	kRcd3Vn7S05FSmK01RYD+x5vtTkQBUk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792403610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DKiqBw8kgNDEliDnoLY6tY5aR14ZoTfXZiHIpRU4Bno=;
-	b=IMKWDODbku31f9X+imJzQOexZonmmj16TZ2NhoXcsP1S/iPoyWMdMHJAmLh+ZIE4EYWEan
-	6BsoR6hGM5kS4FCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0BBCD134B3;
-	Mon, 19 Oct 2026 09:53:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Hk4/NZjo1Wo2OwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Mon, 19 Oct 2026 09:53:28 +0000
-Date: Mon, 19 Oct 2026 10:53:27 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
-	Daehyeon Ko <4ncienth@gmail.com>
-Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
- mm->mm_lock_seq overflows
-Message-ID: <atXjbsDn7DJybsHU@pedro-suse.tail5790ac.ts.net>
-References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dk9g/gsX"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b042c0728so456449f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 03:13:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1792404799; x=1793009599; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FQaS45ib1uYNqWgIS/krAmhGoRTZgg0tky+KTZ6OzjU=;
+        b=dk9g/gsXjB9F1y8lV3r1qZxTfkGw4pO+siPh87BtZdV6oRB+VRx0jppKSqJjSu15jJ
+         wIDLN7ptrgPgfRttxv4gQTkhtf2J2JQOTNsdwV3D4qpk9PWjsQ/otL7GG3HsDxAbG0A/
+         vagHtneWyQ/xIi/xBNSvDam/K4EGJ1XPKqTpTfR+8OcCfCPjOxIgikwnLT8j9TWtAPIS
+         iYx2fs2u6e9t2VU5QribruiRrZvuUCknsSz5PltxlDfov0ddHsRpk8UR+/PsDCwjnEt7
+         NvnMmM8C1jpZgtL8FQv9dsK5Xh8k7o8Ubu/Rlmk5ok2IQJ+NmQvFjVTYup7Mie9IJYk9
+         IsVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792404799; x=1793009599;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FQaS45ib1uYNqWgIS/krAmhGoRTZgg0tky+KTZ6OzjU=;
+        b=riKYsbviI7bCFYgCMhbflTPMhiGaWHy7+4YPB07L4kZBF6E4cBXNXZyA7OMiXmDChY
+         L6PYfC1Z1XLKc1xhgZbbKpiDYPs471MSoEBFL3KENZoB6dMVTIMVwQNkMk8AL39ofufQ
+         VwxJxvvwylvvllvzNLRkOdFG3LzX1gbE8xmiZ8S9A4DWgG2vDtHR4KJBTlWn5NshAwrT
+         c/SOpsUdaF+g+QV2jhuX7Wtb0vZcyeEI1MHt6aV5cfUhQn0Uigs+8m9lfaP7VULh/1Xc
+         HuVJMLJtZjGYI5SSrAFhuJVG94tYTCk4KTi5hTwAWk1/xRGRevdvpvrP4ZZHmSQYPT4K
+         9yow==
+X-Forwarded-Encrypted: i=1; AKwUvBwEyyaUIX8YnHiFr6k44Vm50PT4CPHqx+UMyNslqMjqFAAknNhPIIuzDXC1S0oUsVdBUu81lGOtZ4w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIw0NFGxpLLzmOsjgpqX9dK+N/iRTLMmAb4aGIWsnO6Bu5XADC4
+	sU27GMNNgB1eSWoyL+oL7rtb+CUk3l7nWsoxRPpssTdFoVuq8NjbUdjIdIuEzEP/XLE=
+X-Gm-Gg: AYBFou2It0SD21qbMS8KCJQsRQdvE9guiVEeUfO8mU2woNhWyL4aA3oRdn1B9E7cTOl
+	HgtDO8cCttjGtFQ3W1ZKAOcJiei8L9HQPowsTh3RH5Ls4RyY5QJVEFnnzRcKcfHgsSnSigrkVwL
+	KJorJ/0GmiMVDlWHVaww8TbHF3I/JgFAUh5/GfdV3OCi7CyZrQFzCkh0a7gxd+ZL+MFSJSYEE/+
+	gJePRTEe1ubMOXd3gTqG2rKafGL3Y+0bgPtfCO7TKerMgxQuUESoDCdtSiL7N7B2iEo4GQAuXj4
+	Yxc+EVpBb5ZdKDFjIihqznbMawUbl1rpgWmbIIltDjAB7BCuNJKf0wB98RCXnJ5Z6OVEqS3KT+p
+	6i2eqbtNoaBdN39r9nyRn3cX7iGihpF0YgImtEoBk2XhIfZzuWNmGP1RZr6qhkupOwXhRyhmpuK
+	YND1P6UeU8xwuCub15jPq1vADM129pVgh5o338t2TaJb8e5+g4rWuwPyudPqhG0zw2WlR/r1Xpq
+	0c=
+X-Received: by 2002:a05:6000:1b8f:b0:487:72f:fb41 with SMTP id ffacd0b85a97d-48e07fa0e82mr10206523f8f.39.1792404799491;
+        Mon, 19 Oct 2026 03:13:19 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd510201sm23032525f8f.55.2026.10.19.03.13.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 03:13:19 -0700 (PDT)
+Message-ID: <1a8321c1-f8de-4f6c-bf3c-78ccb23a6402@linaro.org>
+Date: Mon, 19 Oct 2026 11:13:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[linux-foundation.org,google.com,infradead.org,kernel.org,linux.dev,suse.com,lwn.net,kvack.org,vger.kernel.org,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/25] coresight: trbe: Use circular buffer mode for
+ snapshots
+To: Leo Yan <leo.yan@arm.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-11-35cf6f297d20@arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-11-35cf6f297d20@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2026 at 12:34:33PM +0100, Lorenzo Stoakes (ARM) wrote:
-> So far the assumption has been that mm->mm_lock_seq overflow is benign,
-> resulting only in readers spuriously falling back to the mmap lock, however
-> it turns out that this was an unsafe assumption.
-> 
-> If a VMA can be spuriously considered write locked that means read lock
-> exclusion does not take place, and thus a VMA can end up write-locked with
-> concurrent readers.
-> 
-> Since overflow only occurs every 2^31 write lock/unlock cycles, resolve the
-> issue by resetting every VMA's vma->vm_lock_seq each time such an overflow
-> occurs.
-> 
-> This is done in vma_end_write_all(), which is called when the mmap write
-> lock is released, i.e. in mmap_write_unlock() and mmap_write_downgrade().
-> 
-> Care must be taken, as resetting the sequence count at overflow means
-> changing the seqcount of VMAs which are already attached and observable.
-> 
-> The mm's seqcount is guaranteed to be odd when a write lock is held, and
-> thus any write locked VMA will have an odd seqcount assigned.
-> 
-> Therefore resetting to an even value prevents spurious write locks, since
-> these can only occur with the mmap write lock held, at which point the mmap
-> seqcount will be odd.
-> 
-> However, vma_start_read() also checks vma->vm_lock_seq == mm->mm_lock_seq,
-> bailing if so (indicating a write lock).
-> 
-> This would cause any even reset value chosen to prevent VMA read locks from
-> being taken - avoid this by also checking whether the VMA seqcount is odd
-> before bailing on the read lock.
-> 
-> So far, vma->vm_lock_seq has defaulted to UINT_MAX, but this has been
-> unnecessary since commit e5e7fb278e59 ("mm: convert mm_lock_seq to a proper
-> seqcount"), since this is assigned when the VMA is still detached, and
-> cannot be observed.
-> 
-> Therefore perform both reset and initialisation of vma->vm_lock_seq by
-> simply setting vma->vm_lock_seq to zero.
-> 
-> The reset, performed in __mm_reset_vma_seqcounts(), only needs to
-> WRITE_ONCE() the value.
-> 
-> However the read of vma->vm_lock_seq in vma_start_read() needs to have
-> acquire semantics to pair with the smp_wmb() in do_raw_write_seqcount_end()
-> so a reader reading a reset value also observes VMA modifications made
-> under the write lock.
-> 
-> Since all VMA write locks were just released and the mmap write lock is
-> still held, there are no concurrent VMA writers.
-> 
-> Concurrent VMA readers are unaffected. New VMA readers observe either zero,
-> never a write lock, or the prior seqcount, behaving as before the reset.
-> 
-> Since this only occurs every 2^31 write lock/unlock cycles, the time taken
-> to update all VMAs is considered to be acceptable.
-> 
-> Also update comments, documentation and VMA userland tests to reflect the
-> change.
-> 
-> User facing effects are - dangerous races that could cause memory
-> corruption or NULL pointer derefences (especially on page table traversal)
-> are avoided.
-> 
-> Reported-by: Daehyeon Ko <4ncienth@gmail.com>
-> Closes: https://lore.kernel.org/all/20261015143735.1630957-1-4ncienth@gmail.com/
-> Fixes: 5e31275cc997 ("mm: add per-VMA lock and helper functions to control it")
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
-> Andrew - no stable tag please.
-> 
-> I will do the stable backports manually, they can be solved with a different
-> approach.
-> 
-> Also, since, we're so close to the merge window I'm applying this against
-> mm-unstable.
-> 
-> So I think it's fine to just send it (early :) in the merge window.
-> ---
-> v2:
-> * Updated comment in vma_seqcount_is_write_locked() to mention the VMA
->   being attached.
-> * Renamed reset_vma_seqcounts() to __mm_reset_vma_seqcounts().
-> * Used acquire semantics in vma_start_reads() to avoid race with reset -
->   there is another acquire immediately after this one so it should just be
->   noise perf-wise.
-> * Removed stable tag, will do the backports manually (just make the value
->   64 bits...)
 
-I guess you're fitting this where __vm_anon_pgoff_lo now sits? If so, then
-this patch probably wants backporting to 7.3.
 
-> * Updated comments to reflect changes.
-> * Added user-facing effects as per Vlasta ;)
+On 15/09/2026 16:48, Leo Yan wrote:
+> TRBE uses Fill mode for snapshots, stopping trace collection and raising
+> a maintenance interrupt at each wrap. Circular buffer mode retains the
+> most recent trace without stopping collection or generating wrap
+> interrupts.
 > 
-> v1:
-> https://lore.kernel.org/r/20261015-fix-vma-lock-overflow-v1-1-01beb245d9da@kernel.org
+> Use circular buffer mode for snapshots unless the CPU requires the write
+> out-of-range workaround. Keep Fill mode and its guard page on affected
+> CPUs. Select the mode on each enable to handle task migration.
+> 
+> Calculate the minimum known trace advance from the write pointer and the
+> WRAP flag, since additional complete laps cannot be counted. Advance the
+> AUX head by this amount, then clamp the reported size to one buffer of
+> retained trace.
+> 
+> Assisted-by: Codex:gpt-6
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
->  
-> +/*
-> + * Called with mmap write lock held after mm->mm_lock_seq just overflowed (and
-> + * therefore zero), with all VMA write locks now released.
-> + *
-> + * The stores below follow the smp_wmb() in do_raw_write_seqcount_end(), so
-> + * a reader that observes a reset value also observes this cycle's VMA
-> + * modifications (ordered by the ACQUIRE on vma->vm_lock_seq in
-> + * vma_start_read()).
-> + */
-> +void __mm_reset_vma_seqcounts(struct mm_struct *mm)
+>   drivers/hwtracing/coresight/coresight-trbe.c | 61 +++++++++++++++++++++-------
+>   1 file changed, 47 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
+> index a31f2ebc327cd681344a62de28c0b3840505a9cb..ab3c5c7d27f3d272b07eade1e6452559808b196c 100644
+> --- a/drivers/hwtracing/coresight/coresight-trbe.c
+> +++ b/drivers/hwtracing/coresight/coresight-trbe.c
+> @@ -69,6 +69,7 @@ struct trbe_buf {
+>   	int nr_pages;
+>   	void **pages;
+>   	bool snapshot;
+> +	bool circular;
+>   	struct trbe_cpudata *cpudata;
+>   };
+>   
+> @@ -324,9 +325,11 @@ static void trbe_stop_and_truncate_event(struct perf_output_handle *handle)
+>    * When the write pointer reaches the address just before the limit pointer, it gets
+>    * wrapped around again to the base pointer. This is called a TRBE wrap event, which
+>    * generates a maintenance interrupt when operated in WRAP or FILL mode. This driver
+> - * uses FILL mode, where the TRBE stops the trace collection at wrap event. The IRQ
+> - * handler updates the AUX buffer and re-enables the TRBE with updated WRITE and
+> - * LIMIT pointers.
+> + * uses FILL mode for non-overwrite buffers, where the TRBE stops trace collection
+> + * at a wrap event. The IRQ handler updates the AUX buffer and re-enables the TRBE
+> + * with updated WRITE and LIMIT pointers. Snapshot buffers use Circular Buffer
+> + * mode where possible, overwriting old trace without stopping or interrupting
+> + * the CPU when the write pointer wraps.
+>    *
+>    *	Wrap around with an IRQ
+>    *	------ < ------ < ------- < ----- < -----
+> @@ -628,6 +631,7 @@ static void set_trbe_limit_pointer_enabled(struct trbe_buf *buf)
+>   {
+>   	u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
+>   	unsigned long addr = buf->trbe_limit;
+> +	u64 mode = buf->circular ? TRBLIMITR_EL1_FM_CBUF : TRBLIMITR_EL1_FM_FILL;
+>   
+>   	WARN_ON(!IS_ALIGNED(addr, (1UL << TRBLIMITR_EL1_LIMIT_SHIFT)));
+>   	WARN_ON(!IS_ALIGNED(addr, PAGE_SIZE));
+> @@ -638,15 +642,11 @@ static void set_trbe_limit_pointer_enabled(struct trbe_buf *buf)
+>   	trblimitr &= ~TRBLIMITR_EL1_LIMIT_MASK;
+>   
+>   	/*
+> -	 * Fill trace buffer mode is used here while configuring the
+> -	 * TRBE for trace capture. In this particular mode, the trace
+> -	 * collection is stopped and a maintenance interrupt is raised
+> -	 * when the current write pointer wraps. This pause in trace
+> -	 * collection gives the software an opportunity to capture the
+> -	 * trace data in the interrupt handler, before reconfiguring
+> -	 * the TRBE.
+> +	 * Circular mode keeps the most recent trace in a snapshot buffer
+> +	 * without generating wrap interrupts. Use Fill mode otherwise so
+> +	 * the IRQ handler can collect the trace before it is overwritten.
+>   	 */
+> -	trblimitr |= (TRBLIMITR_EL1_FM_FILL << TRBLIMITR_EL1_FM_SHIFT) &
+> +	trblimitr |= (mode << TRBLIMITR_EL1_FM_SHIFT) &
+>   		     TRBLIMITR_EL1_FM_MASK;
+>   
+>   	/*
+> @@ -757,6 +757,26 @@ static unsigned long trbe_get_trace_size(struct perf_output_handle *handle,
+>   	return size;
+>   }
+>   
+> +static unsigned long trbe_get_circular_size(struct perf_output_handle *handle,
+> +					    struct trbe_buf *buf, u64 status)
 > +{
-> +	struct vm_area_struct *vma;
-> +	VMA_ITERATOR(vmi, mm, 0);
-> +
-> +	mmap_assert_write_locked(mm);
-> +	VM_WARN_ON_ONCE(mm->mm_lock_seq.sequence);
+> +	u64 start = PERF_IDX2OFF(handle->head, buf);
+> +	u64 write = get_trbe_write_pointer() - buf->trbe_base;
 > +
 > +	/*
-> +	 * Failing to reset means stale vma->vm_lock_seq values could result in
-> +	 * those VMAs becoming spuriously write locked when mm->mm_lock_seq
-> +	 * happens to match their values.
-> +	 *
-> +	 * This is problematic, as it causes the VMA write lock to not exclude
-> +	 * readers, which can result in concurrent readers while a VMA write
-> +	 * lock is held.
-> +	 *
-> +	 * Avoid this by resetting to an even value (indicates no write lock
-> +	 * held).
-> +	 *
-> +	 * Readers will either observe zero (not write locked) or the previous
-> +	 * value, so this is safe.
+> +	 * WRAP indicates at least one crossing of the limit. Any additional
+> +	 * full laps cannot be determined, so account only for the trace
+> +	 * known to have been collected. This also preserves the write offset
+> +	 * when updating the head.
 > +	 */
-> +	for_each_vma(vmi, vma)
-> +		WRITE_ONCE(vma->vm_lock_seq, 0);
+> +	if (is_trbe_wrap(status))
+> +		write += (u64)buf->nr_pages << PAGE_SHIFT;
 
-I'm concerned by the possible latency when doing this to many VMAs. Do you
-have any numbers?
+A wrap in snapshot mode only indicates a crossing of LIMIT, not when 
+data past the tail pointer has been overwritten (which is what snapshot 
+mode should actually consider as a wrap). For example for a buffer of 
+100 bytes, if you write 120 bytes from [head - 10  .. 10] it's marked as 
+"wrapped", then:
 
--- 
-Pedro
+   size = write + buffer_size - start
+   size = 10 + 100 - 90
+   size = 20
+
+So it only reports a snapshot size of 20 bytes and the rest of the trace 
+is dropped.
+
+The way to detect wraps for snapshot mode would be to set the trigger 
+counter to buffer_size, and when it reaches zero you know there has been 
+a wrap (overwriting data in the buffer) since the last snapshot, then 
+you can use size = buffer_size, otherwise with no wrap detected do the 
+calculation above.
+
+I think this is technically a regression because the previous fill mode 
+handled both 1x and 2x wrap scenarios properly.
+
+> +	else if (WARN_ON_ONCE(write < start))
+> +		return 0;
+> +
+> +	return write - start;
+> +}
+> +
+>   static void *arm_trbe_alloc_buffer(struct coresight_device *csdev,
+>   				   struct perf_event *event, void **pages,
+>   				   int nr_pages, bool snapshot)
+> @@ -887,14 +907,19 @@ static unsigned long arm_trbe_update_buffer(struct coresight_device *csdev,
+>   		wrap = true;
+>   	}
+>   
+> -	size = trbe_get_trace_size(handle, buf, wrap);
+> +	if (buf->circular)
+> +		size = trbe_get_circular_size(handle, buf, status);
+> +	else
+> +		size = trbe_get_trace_size(handle, buf, wrap);
+>   
+>   done:
+>   	local_irq_restore(flags);
+>   
+>   	if (buf->snapshot)
+>   		handle->head += size;
+> -	return size;
+> +
+> +	/* At most one full buffer of trace is available */
+> +	return min(size, (unsigned long)buf->nr_pages << PAGE_SHIFT);
+>   }
+>   
+>   
+> @@ -973,7 +998,8 @@ static int trbe_apply_work_around_before_enable(struct trbe_buf *buf)
+>   	 *  - At trace collection:
+>   	 *     - Pad the 256bytes skipped above again with IGNORE packets.
+>   	 */
+> -	if (trbe_has_erratum(buf->cpudata, TRBE_WORKAROUND_OVERWRITE_FILL_MODE)) {
+> +	if (!buf->circular &&
+> +	    trbe_has_erratum(buf->cpudata, TRBE_WORKAROUND_OVERWRITE_FILL_MODE)) {
+>   		if (WARN_ON(!IS_ALIGNED(buf->trbe_write, PAGE_SIZE)))
+>   			return -EINVAL;
+>   		buf->trbe_hw_base = buf->trbe_write;
+> @@ -1056,6 +1082,13 @@ static int arm_trbe_enable(struct coresight_device *csdev, enum cs_mode mode,
+>   	cpudata->mode = mode;
+>   	buf->cpudata = cpudata;
+>   
+> +	/*
+> +	 * A CPU affected by the write out-of-range erratum cannot use circular
+> +	 * mode, as the TRBE continues tracing after wrapping and may write out
+> +	 * of range. Fall back to FILL mode so the IRQ handler can fix this up.
+> +	 */
+> +	buf->circular = buf->snapshot && !trbe_may_write_out_of_range(cpudata);
+> +
+>   	return __arm_trbe_enable(buf, handle);
+>   }
+>   
+> 
+
