@@ -1,68 +1,40 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2054F30F0
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 13:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C388E4F4043;
+	Mon, 19 Oct 2026 13:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792414950; cv=none; b=Mr9PByZG8e08IXkqlN207ncQlf313/3KO/hiFux3G9R8Nlutu4urN3/RY1b9lrYkQK9rJk9vMng1i9Pbm2vQ117EaB7wuyefFAsnkn80OWvzYPYeVBrC12FP3aIk9jHRgonHuiXIjxYSXKL02PiU/aFGeRPEiMDHCR6MuXdq3Is=
+	t=1792415807; cv=none; b=p9y034GIKmj4+x2ziW0SHvyiIy6KpV+4gM9hwHkf4SpI1WD5bNfXvlk6wmN02Rykiv/Br/YOrfokJtDWhbEBp2w5wD0E0f5eDZcI/DEJ7vTGT4uuIJEFNn/JnaJavg/lZ5aEaSbn/jbmcPsYyQrdRAZjxIa4CWLcNWCO2ECsWMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792414950; c=relaxed/simple;
-	bh=ITGubtGNjSygiFFFgjcYQsMniq1IJVNmaGpLd6Hctno=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CJyFALz2861RBNST/bwoR8sqXs+jOptYPcmBGkHgsAH9KlCHAtMG+dhmuh0PVc93jAofH7SAwH37fa9i/aQI5Oq5FG08Hzy0A5QWV1iU3IGaQIjRGC0sb8M+XNxzZbNOW/mbckIF3mVytLP9Dca2O/MlICQjXZvm1otKIizsXt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Eu2K9O4V; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1792415807; c=relaxed/simple;
+	bh=KEfUjJ+sWeyEpypWIo35O6elA0OeVZ28l/vNOIqBtYE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mA5/VZwc5jpK8Yvou1ZFTHU80J2mswJ24LI3Boh1XORYUYOGJ7C3SX5xYGegXqi5nVbI2fdtrTIwxSDnvltkUUHaL/joIQZGSrD+FMg0OC0iXHsb3acLJ3cEb/9DU9OTaiHq+y4juD2qWTHboD48rp66iSVaQvrOSQp+um4GJGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CGjJxHSS; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Eu2K9O4V"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c2afa22e1dcso315607966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 06:02:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792414947; x=1793019747; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=O9/kdLN3peEHedgTST7BmoC/amAyj0eADKM6T0Uw2sA=;
-        b=Eu2K9O4VznZMFk1AXlGIlIYy4+kG7PLuf1qCQsfBF6nFMwvfyxX6J63U09xH4YfG7a
-         +xsrPTNgH2rDwGjiJBqYHUIqFsitoidIa03Bw67u8asMl03yueH9uRCqQ9zzkpJZEPyD
-         AkyuXgAUSzlvTT2Au3mi9AUmjUw37Qc7xKn6qbHPNA+HopblxbYruKhBiWFWfbnew/FN
-         EFAJ5idL0+iK+KDXdmLiS1cYsZSztvY1rc9q9KtTD8LhFT+dDXGu30nwUChuXz5q2Dqs
-         xY4Jo2vNyjVpCAlg9bK14Z8jKLxR9F5bktKR9BMqHoPlOHXJEu39+5cGbuCzwYot94av
-         liEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792414947; x=1793019747;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=O9/kdLN3peEHedgTST7BmoC/amAyj0eADKM6T0Uw2sA=;
-        b=aw++kCg5siaBtP0KiRpJpoUcwvnuCl8ERIQq7561WcEEnMSmAdADW+t2Ly9iH7s7KT
-         x0MpZ7js9q1y9JdfI9VxHGIlZ3l1fPa4PY2MEhWOhyJgscMtK6dTBfTDi2kZ2v0r8KCN
-         rQ/ZniwD5+Tt8VT7OQuc0gh3evdisVyKevLcF0b8wS20WajWYjsdjRQ6ioZhjDTbaFj7
-         Kr2qcninYmryYW+YjfkzSzBW3rZQnwVy8aH8Mi2MSizOZU3U1t0MTu5DL/BUIaL0DZFr
-         AIvNnsolgL88KvMT05p8VmLbyfAoe6TqFRrNJQTFPoEbMpfZJ+bKfHf5lNorjeRE2XLa
-         KeMg==
-X-Forwarded-Encrypted: i=1; AKwUvBysWa4gmIPBBZTWDUqQeBNH7xYsIM4zfIThXIXuo3J8uZqoF6RG6F8RktUZ8e4mxAPS8WfuQMijRaA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJlDQ9ZYofWBKft7LnzqOjWDy0w3N531L17Xo4psjHSZwIoRdK7
-	D+inEZbav3jqWMx8xgY0NaPpxxUGbOsnizHfZY6wXZ9lbk/C4y18Rxiigq3h1/8V11Y=
-X-Gm-Gg: AYBFou3EdJLYd+E79KcU3Uj4/Nd3gXZPtrieXpJSgqGXE7JlifAqTpUu+RJv4dVcdVU
-	8EieWcvc0AsLPJBqYQlRcEOu5n35rTOB5psn8bxjkUMuZS70iy8Mv/ijCk6P3Z3MqDCDl20jgTG
-	uedc65Qn29FPw3iUrwtbSQbGXsDJ6ghcvF/6DgmetCga+KmsuTqlBfYlhuqjeJg2dL0I9XojgfQ
-	l+oFW2QYiK1LMvBp6h6dtQI6aTjWmVY3O9weUHqvOnhQkMWmhMQ3dkMFIqoM8FQjDBijvypiw04
-	ojjAgv/V25k13K12rtB/BAHPNIn1Sjj8LkaosIwX/NusE4nV0WT3dnLsMUY2L9StG2+rzRDkW4h
-	DGEi9m5VBjwNGxBQLkXDAgKxuWsfEoJOf9ec2yza7+OJQ1Gr5XsYymS5Z3nTzrzjx6FEQ4SPHp4
-	C3Ccxf8HoOwchY78Hk8MILcshXMVNKKhRBk5yF+frBVmOkXjwXZizuJU0/ifhIoKQRQV0iU+I9P
-	Ec=
-X-Received: by 2002:a17:907:b046:20b0:c42:102f:15db with SMTP id a640c23a62f3a-c42102f3704mr293529366b.34.1792414946853;
-        Mon, 19 Oct 2026 06:02:26 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd510201sm24019139f8f.55.2026.10.19.06.02.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 06:02:25 -0700 (PDT)
-Message-ID: <5a438ddf-4e6e-4c7e-b6e5-0434f9d9dbe8@linaro.org>
-Date: Mon, 19 Oct 2026 14:02:23 +0100
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CGjJxHSS"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KEfUjJ+sWeyEpypWIo35O6elA0OeVZ28l/vNOIqBtYE=;
+	b=CGjJxHSSLnLyFiBJ6fmCvw7MlJSp71N6IQMPcQkTfVBF4w4+qhSNBqybtc2YkWCvE5LwoEOVU
+	nkl6Q6kL3AgrL1evhkMPi2OeyEjemmmAVgbOgxQlks5tBhbrz4Ra7a12Oy27gvkosJfa6xtd7mk
+	IO1wVoLvEGKoMecheF6kbbs=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4j7bfV0G5ZzRhrQ;
+	Mon, 19 Oct 2026 21:16:34 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3320840575;
+	Mon, 19 Oct 2026 21:16:37 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 19 Oct 2026 21:16:30 +0800
+Message-ID: <5e6e9ac9-172e-4434-a333-8bcad9e026de@huawei.com>
+Date: Mon, 19 Oct 2026 21:16:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,69 +42,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/25] coresight: perf: Serialize AUX pause and resume
- with event stops
-To: Leo Yan <leo.yan@arm.com>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-15-35cf6f297d20@arm.com>
+Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+To: Justin Suess <utilityemal77@gmail.com>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
+	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
+	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
+	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
+	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+	<jack@suse.cz>, <dhowells@redhat.com>, <code@tyhicks.com>,
+	<linkinjeon@kernel.org>, <sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
+	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
+	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
+	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
+	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
+	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-10-caixinchen1@huawei.com> <atI20Vs7Du9-g1Hz@zenbox>
 Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-15-35cf6f297d20@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <atI20Vs7Du9-g1Hz@zenbox>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
+Hello Justin,
 
+Thank you for the review, and for thinking the implications through so
+carefully -- the concrete scenarios you describe were very helpful to
+settle the design.
 
-On 15/09/2026 16:49, Leo Yan wrote:
-> A PMU NMI can throttle a group during an AUX pause or resume, stopping
-> its CoreSight event before the callback finishes. The callback can then
-> restart tracing or reopen an AUX output handle after teardown.
-> 
-> Use per-CPU atomic STOP and AUX bits to serialize these callbacks. Reject
-> AUX operations while a stop is pending and defer stops until an active
-> AUX operation finishes. Complete deferred stops through etm_event_stop()
-> and set PERF_HES_STOPPED only after disabling the source and path.
-> 
-> Assisted-by: Codex:gpt-6
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->   drivers/hwtracing/coresight/coresight-etm-perf.c | 104 ++++++++++++++++++-----
->   1 file changed, 84 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index 8f803914e9abfb18e080ff68371ad8b32042f180..8020a4d8af18bb669441824cfdb687f4fa299eb4 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -4,6 +4,7 @@
->    * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
->    */
->   
-> +#include <linux/atomic.h>
->   #include <linux/bitfield.h>
->   #include <linux/coresight.h>
->   #include <linux/coresight-pmu.h>
-> @@ -26,6 +27,9 @@
->   #include "coresight-syscfg.h"
->   #include "coresight-trace-id.h"
->   
-> +#define ETM_PERF_ACT_STOP		BIT(0)
-> +#define ETM_PERF_ACT_AUX		BIT(1)
+I agree it should be a conscious
+decision: the next revision will make the *_METADATA checked at open time
 
-No comments other than naming. But would PAUSE_RESUME be better than 
-AUX, or at least add a comment? It's a bit ambiguous what AUX means, and 
-etm_event_aux_begin() is very close to perf_aux_output_begin(). Or maybe 
-ACTION?
+and follow the mechanic for the truncate right
 
-Reviewed-by: James Clark <james.clark@linaro.org>
-
+On 10/16/2026 10:44 PM, Justin Suess wrote:
+> LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
+> the mechanic for the truncate right. Otherwise the access for already
+> opened file descriptors would be changed. See hook_file_open in
+> security/landlock/fs.c and this discussion here [1]
+>
+> It should have clear documentation for this as well.
