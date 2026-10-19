@@ -1,152 +1,113 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362C644C64B
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 12:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647444AB1A8;
+	Mon, 19 Oct 2026 12:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792413998; cv=none; b=Y9Q1cEryusO2BPee2qFESBl1ptZL76cy4fPLDnQ8MSOnCyF+y/1p6DIqc6NiCr2aJmnCmG5RGhvi6Fjkv0kcYkyGPtxGdNyIbUwRdHZJxoefWt70JIx9OIwm4J7jGGvzGqjjdwy5l7CzRZ4BUwPPAzLZ6QUiyKofS/NNO5+W304=
+	t=1792414484; cv=none; b=MmgdnhrzW2nDkpKUOYDMtDaAFSM14cA2wn5k7kVUV1A9ew08SnhAki+dxpN7Udlegd7kGxzLI/Tz65pQL7LSTkKUVJ6Yn6ZC5f1LTRl0xK7d4JJ8vhIyX/hEjgeq5Pi8neeO9a/LKUYgcNFRlK33fb6Vcw0LS+vQbVU4WWA7a9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792413998; c=relaxed/simple;
-	bh=frC5S9v5QSZonWeKI4grV884xjjdJOy9f/1uWnDHZEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iBkyMj26acNIQIMzWD1BC7YNSW9/kTde5pz95qt+kLR1BxJVO90mdzOZyIA9CEi6rQv/90PDl1fgP7O+LhouNc7n+HP82OTwkkrKfxDZ3qjg29HmsxNqa20SaWzdWc3RMbdvXtk07NwTPjXqI+vLMycdQsRAdfNEEYQFxrIuKUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ULCMXX5X; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1792414484; c=relaxed/simple;
+	bh=lG8ba8f3XvMZ016RxZR1uTEgZGmbv/N4GGCyJVqPUXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sG0UuE4mkHGEpQqInnZAZ6IgKe8MwEAMRAqF1AyuTOG3NOxQN7oqTWTKi4kr43pNzvb9bdq8tgoK+7nH+g0uwUcp/uIRSIUgmwOzebntCNbSPtM9+iCa5b6fFKofV66PFsdN8BAplPHJYvCmx4QtlXhNv7QrLJvbrQjaKTqAhZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=Tw5QL/pZ; arc=none smtp.client-ip=207.54.90.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ULCMXX5X"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c20ce3c118aso378434266b.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 05:46:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792413995; x=1793018795; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/g8SN2WKb9PmJxIeGRbGVw4NTAI8lYKDRiQUVJJ/IV0=;
-        b=ULCMXX5XR/DnZS6ae++KGh2U0xzFEGoIuWQhPt2dJ7l/xdrH9V+95ULWI2rV7iVrNU
-         /cLWeOqDWSRJyrTGMt/JrMP+CdZPlQ7njSZvUqR20VgDDouCdwmg/kbZCYMDl95cToZZ
-         7ohRrvOmCmadR5/oMV3hl9Uh2paQ8SmejUHcCGuAwnX6U6QHWNrUogS8zuXlafW9aku7
-         N//ClaCLurH9IZbr2B88fz7YqPAZxiaXNqrGhEedc51VsFbPMSTky1X5ZhT0LfUB8baj
-         B7ZYqEHnTdoQPHvxm+i2nnPP5TpdxJjI6OGRwsPtNxysweOKmzpfh1YLWv3bhSm1Q1WB
-         cZzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792413995; x=1793018795;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/g8SN2WKb9PmJxIeGRbGVw4NTAI8lYKDRiQUVJJ/IV0=;
-        b=wgX8o4Qptnjsl6az8nwKqYTQ0bzP3Uc7u0iyrwkHcSMh+pTWP35HHjpMyZpkntYF00
-         NlzEm1uitRLcIbkQS6htx7iiIYlJeu0ZKcZZVhKAja87Y3VilyGM7C89qdW0bfmRIn+p
-         dKzeOYDo0mZh3CGpzr1Z1ghvLR1qnLUASdrSwoY0RwLmtJeR+nES8VNGjGnaWBEbooxa
-         S1utb3jN2csC4K5yY47II4qw7QAGr7NZejtCa6EN6Nok3JRIIPkmomvoHobyVh1Iq1cN
-         wI+sKZm9spBogsUSC6lZqUa9PJW5VQCn9eKSLyBgtgwlAWQYr126YFW89NsAnv8zjINZ
-         /ViA==
-X-Forwarded-Encrypted: i=1; AKwUvBwOj4Sf5aC5yPkSPXvWGpiE0hWU7TlULEBusxHv0lmp0qWn2Fjup04b2EOqmnIVH4MmqLW1VZ5B8CE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKOfvpGBMl8NNNkQj8r13Nq2LcF4vzjIdrZ33t/yU8QOU9UchWf
-	yLyV9KU27e0q7ykNICvqHiDSbI3QN5aqKeNkhQbtyYXAiMrlivU9lHaRER97x86IcrQ=
-X-Gm-Gg: AYBFou2Kuq215LOc45zNoenbSjWjbTKtLbdyd503SQ+uYYcrcxEoMGeff2R9FbLGP7n
-	aTWUiJoyp5DxtHYoBOGCXXPWTa4u9hzCMMbS0qDsh7x9lJNmBh/WY4pZC5oMjkyjJgBuqSwl8w6
-	NznH8tEWbz7kcjCavSY+PDo2Q1Iv5rGi83PZop4BP1/IO++5AlrYcmF0cUeK58vxTQqA177fDyV
-	NX+2UwKn9l23cI33/Rdvok0VWEriuYz0y3gNzRu7T0fTvx9S19lZtogw3BtCVc5L62YSOS5pXzF
-	iJUQxDQYOExnmS0FzArcOU3TFKqLfFj2rHHsj9iWxbKPMixzKHCnrp6q8CIU+y+995fP24y7ztq
-	oKHoFtFjsATwPmXHgewtT4oB/HEdJ/T0ui6hS6db4Ci4wDyQnsfzUJsgTVmIl3QQesJI0BCk1FG
-	MWVVdPkyOomgFgvaT0EsMPGPhBy9Sk0hDs9A/U+6Qwo2cL3k0iSjGL4A/tsNJb6IuqFANkwxgFg
-	aU=
-X-Received: by 2002:a17:907:930c:b0:c2d:c060:160 with SMTP id a640c23a62f3a-c40223d9d7dmr819450866b.25.1792413995187;
-        Mon, 19 Oct 2026 05:46:35 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4091eae235sm373825266b.67.2026.10.19.05.46.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 05:46:34 -0700 (PDT)
-Message-ID: <95c31a70-81d9-4e77-9e77-0397c5252fa1@linaro.org>
-Date: Mon, 19 Oct 2026 13:46:33 +0100
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="Tw5QL/pZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1792414488; x=1823950488;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lG8ba8f3XvMZ016RxZR1uTEgZGmbv/N4GGCyJVqPUXg=;
+  b=Tw5QL/pZ20tk9BQT1nNGhI6mrrTYb1vfZkMylF3Gv9Gwb9jrAdCDi45S
+   bAA6MwVwTV4F9FWbyBzz9sAgxk1g6x1mP/3OzO0OgEB/OxIBHVwJYUGlX
+   vcpvUeLxRQ8vaI4le/5n6qKUUx5eqQKO3dEIHUyWdBRuBfooeqGzdcNmw
+   VzSTHygkoZsa1wjEr8/3xaYIG7zRLIoV1NQh5zz50gjZ/tCpLDn5x5ENw
+   /L33dBfpxSIRM3yn35yr0Vg6LNqGZ5jVcAIxrzep8umSJZW9PNMnsY2EY
+   5UN/J+KimyGiJOw3PIrdLNapKGZ1qSrsIzDsdwkCoT6970Ggv2zMD7dO3
+   w==;
+X-CSE-ConnectionGUID: liAOrRF1RQ6AdicakOhZCw==
+X-CSE-MsgGUID: n67OlmF4SUmbLeE8K6aFIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="258703256"
+X-IronPort-AV: E=Sophos;i="6.27,167,1786978800"; 
+   d="scan'208";a="258703256"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 21:53:36 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 357C41C000D4;
+	Mon, 19 Oct 2026 12:53:30 +0000 (UTC)
+Received: from az2nlsmom4.fujitsu.com (unknown [10.150.26.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id D86341000867;
+	Mon, 19 Oct 2026 12:53:29 +0000 (UTC)
+Received: from FCCLS0092175.localdomain (unknown [10.8.51.148])
+	by az2nlsmom4.fujitsu.com (Postfix) with SMTP id 9EDCE2000233;
+	Mon, 19 Oct 2026 12:53:21 +0000 (UTC)
+Date: Mon, 19 Oct 2026 21:53:20 +0900
+From: Kohei Enju <enju.kohei@fujitsu.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Tomohiro Misono <misono.tomohiro@fujitsu.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+	Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>, 
+	Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA
+ erratum E#030003
+Message-ID: <atYOKfirjR1VqBZ3@FCCLS0092175.localdomain>
+References: <20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48@fujitsu.com>
+ <202610171939.VWCcPPra-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/25] coresight: perf: Look up the trace path in
- etm_event_pause()
-To: Leo Yan <leo.yan@arm.com>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-14-35cf6f297d20@arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-14-35cf6f297d20@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202610171939.VWCcPPra-lkp@intel.com>
 
-
-
-On 15/09/2026 16:49, Leo Yan wrote:
-> Have etm_event_pause() retrieve the active path from the event context
-> instead of passing the path from etm_event_stop(). Move the stop path
-> lookup after the pause dispatch so each operation resolves its own path.
+On 10/17 19:48, kernel test robot wrote:
+> Hi Tomohiro,
 > 
-> This prepares etm_event_stop() to coordinate hardware access before
-> looking up the active context.
+> kernel test robot noticed the following build errors:
 > 
-> Assisted-by: Codex:gpt-6
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->   drivers/hwtracing/coresight/coresight-etm-perf.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
+> [auto build test ERROR on 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907]
 > 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index f66c99b26e1862ab04105704276c901b21728207..8f803914e9abfb18e080ff68371ad8b32042f180 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -694,10 +694,10 @@ static void etm_event_update_buffer(struct perf_event *event,
->   	perf_aux_output_end(handle, 0);
->   }
->   
-> -static void etm_event_pause(struct coresight_path *path,
-> -			    struct perf_event *event,
-> +static void etm_event_pause(struct perf_event *event,
->   			    struct etm_ctxt *ctxt)
->   {
-> +	struct coresight_path *path = etm_event_get_ctxt_path(ctxt);
->   	struct perf_output_handle *handle = &ctxt->handle;
->   	struct coresight_device *source, *sink;
->   	struct etm_event_data *event_data;
-> @@ -735,7 +735,7 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   	struct coresight_device *source, *sink;
->   	struct etm_ctxt *ctxt = this_cpu_ptr(&etm_ctxt);
->   	struct perf_output_handle *handle = &ctxt->handle;
-> -	struct coresight_path *path = etm_event_get_ctxt_path(ctxt);
-> +	struct coresight_path *path;
->   	struct hw_perf_event *hwc = &event->hw;
->   	struct etm_event_data *event_data;
->   
-> @@ -744,7 +744,9 @@ static void etm_event_stop(struct perf_event *event, int mode)
->   		return;
->   
->   	if (mode & PERF_EF_PAUSE)
-> -		return etm_event_pause(path, event, ctxt);
-> +		return etm_event_pause(event, ctxt);
-> +
-> +	path = etm_event_get_ctxt_path(ctxt);
->   
->   	/*
->   	 * With no path enabled, there is no hardware to stop or trace data
+> url:    https://github.com/intel-lab-lkp/linux/commits/Tomohiro-Misono/arm64-cputype-Add-FUJITSU-MONAKA-definition/20261016-190045
+> base:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+> patch link:    https://lore.kernel.org/r/20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48%40fujitsu.com
+> patch subject: [PATCH v2 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA erratum E#030003
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20261017/202610171939.VWCcPPra-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171939.VWCcPPra-lkp@intel.com/reproduce)
 > 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610171939.VWCcPPra-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/irqchip/irq-gic-v3.c:1892:34: error: use of undeclared identifier 'ARM_CPU_IMP_FUJITSU'
+>     1892 |         if (read_cpuid_implementor() != ARM_CPU_IMP_FUJITSU ||
+>          |                                         ^~~~~~~~~~~~~~~~~~~
+> >> drivers/irqchip/irq-gic-v3.c:1893:34: error: use of undeclared identifier 'FUJITSU_CPU_PART_MONAKA'
+>     1893 |             read_cpuid_part_number() != FUJITSU_CPU_PART_MONAKA)
+>          |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+>    2 errors generated.
 
-Reviewed-by: James Clark <james.clark@linaro.org>
-
-
+Oops, I missed testing this with CONFIG_ARM=y. I will fix this in v3.
