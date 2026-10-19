@@ -1,111 +1,152 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DAF4A64E0
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 12:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362C644C64B
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 12:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792413929; cv=none; b=MxKgakTr2Vw53K8KXYyImj3qkqV3EmpxMWYPiFkZPBvYJmwX3hUk5wlXc9N+PNGib7Mu7RM8h/s1F+T/vZdQw7eFPyg7vnTkS983tjFHecvNhJooYQFjC/xlPctmZsLsO1bO3rv51aKGBx92ams3sIshScJLnksPWW2pY4OGCR4=
+	t=1792413998; cv=none; b=Y9Q1cEryusO2BPee2qFESBl1ptZL76cy4fPLDnQ8MSOnCyF+y/1p6DIqc6NiCr2aJmnCmG5RGhvi6Fjkv0kcYkyGPtxGdNyIbUwRdHZJxoefWt70JIx9OIwm4J7jGGvzGqjjdwy5l7CzRZ4BUwPPAzLZ6QUiyKofS/NNO5+W304=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792413929; c=relaxed/simple;
-	bh=CxFwB3NB1ukGlnP0K4LvgyQtIKLtXdStrK1ZRzGD03M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PjRR66LgH9Pk65+1aExKTxHCoE2/o9zucPn2dNZFSDV+gP/RUznnuQwOS9UiA4c7aeX1vSlyJIqG2LJTgF4d/0PeImFWVd8q7z9L8rpMrRX9zV51TuZEzRjXUrJf/5UbpuR4Op/4MAmI6x52B1BUGG9vMKsGBkqtIOFC4yLvczQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPht6Xb6; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792413998; c=relaxed/simple;
+	bh=frC5S9v5QSZonWeKI4grV884xjjdJOy9f/1uWnDHZEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iBkyMj26acNIQIMzWD1BC7YNSW9/kTde5pz95qt+kLR1BxJVO90mdzOZyIA9CEi6rQv/90PDl1fgP7O+LhouNc7n+HP82OTwkkrKfxDZ3qjg29HmsxNqa20SaWzdWc3RMbdvXtk07NwTPjXqI+vLMycdQsRAdfNEEYQFxrIuKUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ULCMXX5X; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPht6Xb6"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso6008938eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 05:45:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ULCMXX5X"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c20ce3c118aso378434266b.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 05:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792413926; x=1793018726; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:from:to:cc:subject:date:message-id:reply-to
+        d=linaro.org; s=google; t=1792413995; x=1793018795; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Oo5b+mGdxcUtc+pXMAzRoUpMwm26Steg70hnsQp65WY=;
-        b=FPht6Xb6VGL80aGbNPAdBRfg/sudz7zEXFdn/maPQyhp1O+KKMxdmAQbjJwcqeLNZg
-         o4mALJTQy8LB1Dz1FO0sQ4Cx0RadQfRWF+Jgv7KpUQMQ3aPyvpmVSKz85GbQEuguxWSb
-         2J/v1VHU4AXTGFy+9XBJqqCGZagvOpfxPtSyyFRfArrkvgALgeZTCi4IowJ20HA5Md67
-         4Okr4Amtr1U24fm+cN5HpP2o1B2c82coZ1luUpQzeFZ1vadFoXjHSy5qW7R/EGHJKcqH
-         Y/Mywd5+EKryOLUh9ji0lgVjI6FywcLU6/NIThxrngY0zd0bbzQkH+R1qlZMVsJha9Uq
-         NY0w==
+        bh=/g8SN2WKb9PmJxIeGRbGVw4NTAI8lYKDRiQUVJJ/IV0=;
+        b=ULCMXX5XR/DnZS6ae++KGh2U0xzFEGoIuWQhPt2dJ7l/xdrH9V+95ULWI2rV7iVrNU
+         /cLWeOqDWSRJyrTGMt/JrMP+CdZPlQ7njSZvUqR20VgDDouCdwmg/kbZCYMDl95cToZZ
+         7ohRrvOmCmadR5/oMV3hl9Uh2paQ8SmejUHcCGuAwnX6U6QHWNrUogS8zuXlafW9aku7
+         N//ClaCLurH9IZbr2B88fz7YqPAZxiaXNqrGhEedc51VsFbPMSTky1X5ZhT0LfUB8baj
+         B7ZYqEHnTdoQPHvxm+i2nnPP5TpdxJjI6OGRwsPtNxysweOKmzpfh1YLWv3bhSm1Q1WB
+         cZzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792413926; x=1793018726;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792413995; x=1793018795;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Oo5b+mGdxcUtc+pXMAzRoUpMwm26Steg70hnsQp65WY=;
-        b=x15+bnXSywDjV2bavyHtIHvSDd9Q9vw9ETpNEmAJBkOLVwIraVEXt7/iRIqrOR/Jap
-         ifWdPDOFheIY+KPvzVxd0ll3f9DY2ytpiDboJFdLJmKyOD3dwXRWlOfaUZWoTisb0nKl
-         kkPO7ioOwTzBLbhJsTGf2x7ArrjW5BPslJUzorSMP4utjlstuT2bXbT3hUmx0in03k0J
-         ChtAgXOWgcaw7HaPWTjHkInw3I0F+in+D9TNTcdWItU7JTHa9RPg6lRx7uRUWcGoCyT0
-         HL1PgL5OcmNBejsudLjXlsnZBST4rs2ls67NyGAdcp1Ie8mq/lo7w/81RkrgpmblNN8+
-         wgOA==
-X-Forwarded-Encrypted: i=1; AKwUvBwLoL6lV37O8Q8/BwM48dvSLaw5Q+ZbTpb/4UYCN3ix96+N2xlHTiAYAEoeflMQW8/inW/pGvRR5/8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL0FAeGxRbG4bJf1r6WPWkUBJfbwfYyCrx6ZhVszzIcXobyLhW3
-	lIve9GIbO8FVUjinDXvX7+OWpEUu+TZWnvKOHQjdGezqbej7O7s5zg5C
-X-Gm-Gg: AYBFou1n5tZtUcfhEjFnwLSjMEbNcV5801bri8vPCBBDVENe1JbTUtPwG4SBJd2VteU
-	pfvxR8QWCAWUqW8GfeVBeLRaizs5Zvr+yjOt8Lzh6cZalybNTzTNhmWilsF1lPB72RA6GUnsnXh
-	sWGNC7a1l70qzxqswPa5HS6Li/UALdtbi1gy9q2E/sHzeihxf3fnK0WEEcREfrRrDc+xhGIOQo4
-	SVI1QniFGB+S438Ad/sGREb3sDppVNitAUHJoXZxJYA86KlF83UwJzDoE7OD86LL3y+5kNxWJhk
-	c60CjfRJnpL8H1XI4YKwkXP1BfdYY4zpaJByBIaCZjVx3oSr+8WNaLPDCwVga7jpEzJ5oQ5hdIp
-	Q36BtRpMNdQAxmNHXzIXqX3qQlD9S+y2rkKwuxJzLc62515mZ5B+hM/qha4/Z021/ozuclNZaAK
-	dxm+F5gIXK1dKmMn8ducCoDJgqLJewLy5HdoktqzhnzSd/tiUsdKJ1C2mt8DsgdoTkPFmROm/vw
-	L0Xt51wRdK7
-X-Received: by 2002:a05:693c:8107:b0:358:1f59:48c9 with SMTP id 5a478bee46e88-361a1f4a9bcmr12517584eec.24.1792413926068;
-        Mon, 19 Oct 2026 05:45:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36082a7b33bsm59496695eec.24.2026.10.19.05.45.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 05:45:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 19 Oct 2026 05:45:24 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Asaf Nuri =?utf-8?Q?Bertizlio=C4=9Flu?= <ycistak@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	rdunlap@infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (coretemp) Document sysfs numbering and label
- meaning
-Message-ID: <57ef30df-052a-4189-9000-deccaba6c117@roeck-us.net>
-References: <20261015171759.704526-1-ycistak@gmail.com>
+        bh=/g8SN2WKb9PmJxIeGRbGVw4NTAI8lYKDRiQUVJJ/IV0=;
+        b=wgX8o4Qptnjsl6az8nwKqYTQ0bzP3Uc7u0iyrwkHcSMh+pTWP35HHjpMyZpkntYF00
+         NlzEm1uitRLcIbkQS6htx7iiIYlJeu0ZKcZZVhKAja87Y3VilyGM7C89qdW0bfmRIn+p
+         dKzeOYDo0mZh3CGpzr1Z1ghvLR1qnLUASdrSwoY0RwLmtJeR+nES8VNGjGnaWBEbooxa
+         S1utb3jN2csC4K5yY47II4qw7QAGr7NZejtCa6EN6Nok3JRIIPkmomvoHobyVh1Iq1cN
+         wI+sKZm9spBogsUSC6lZqUa9PJW5VQCn9eKSLyBgtgwlAWQYr126YFW89NsAnv8zjINZ
+         /ViA==
+X-Forwarded-Encrypted: i=1; AKwUvBwOj4Sf5aC5yPkSPXvWGpiE0hWU7TlULEBusxHv0lmp0qWn2Fjup04b2EOqmnIVH4MmqLW1VZ5B8CE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKOfvpGBMl8NNNkQj8r13Nq2LcF4vzjIdrZ33t/yU8QOU9UchWf
+	yLyV9KU27e0q7ykNICvqHiDSbI3QN5aqKeNkhQbtyYXAiMrlivU9lHaRER97x86IcrQ=
+X-Gm-Gg: AYBFou2Kuq215LOc45zNoenbSjWjbTKtLbdyd503SQ+uYYcrcxEoMGeff2R9FbLGP7n
+	aTWUiJoyp5DxtHYoBOGCXXPWTa4u9hzCMMbS0qDsh7x9lJNmBh/WY4pZC5oMjkyjJgBuqSwl8w6
+	NznH8tEWbz7kcjCavSY+PDo2Q1Iv5rGi83PZop4BP1/IO++5AlrYcmF0cUeK58vxTQqA177fDyV
+	NX+2UwKn9l23cI33/Rdvok0VWEriuYz0y3gNzRu7T0fTvx9S19lZtogw3BtCVc5L62YSOS5pXzF
+	iJUQxDQYOExnmS0FzArcOU3TFKqLfFj2rHHsj9iWxbKPMixzKHCnrp6q8CIU+y+995fP24y7ztq
+	oKHoFtFjsATwPmXHgewtT4oB/HEdJ/T0ui6hS6db4Ci4wDyQnsfzUJsgTVmIl3QQesJI0BCk1FG
+	MWVVdPkyOomgFgvaT0EsMPGPhBy9Sk0hDs9A/U+6Qwo2cL3k0iSjGL4A/tsNJb6IuqFANkwxgFg
+	aU=
+X-Received: by 2002:a17:907:930c:b0:c2d:c060:160 with SMTP id a640c23a62f3a-c40223d9d7dmr819450866b.25.1792413995187;
+        Mon, 19 Oct 2026 05:46:35 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4091eae235sm373825266b.67.2026.10.19.05.46.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 05:46:34 -0700 (PDT)
+Message-ID: <95c31a70-81d9-4e77-9e77-0397c5252fa1@linaro.org>
+Date: Mon, 19 Oct 2026 13:46:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261015171759.704526-1-ycistak@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/25] coresight: perf: Look up the trace path in
+ etm_event_pause()
+To: Leo Yan <leo.yan@arm.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-14-35cf6f297d20@arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-14-35cf6f297d20@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 15, 2026 at 08:17:59PM +0300, Asaf Nuri Bertizlioğlu wrote:
-> The documentation says that all sysfs entries are named with their
-> core_id, and that the "Core X" label contains the processor number.
-> Neither is accurate. create_core_attrs() numbers the per-core
-> attributes core_id + 2 and always uses temp1 for the package sensor,
-> and show_label() prints topology_core_id(), not the logical CPU
-> number.
-> 
-> The difference is easy to see on hybrid CPUs. On an i7-14700F, the
-> "Core 4" label is on temp6 and belongs to CPUs 2 and 3, and the
-> E-cores report core IDs 32 to 43.
-> 
-> Describe the actual numbering.
-> 
-> The mismatch was found by an LLM comparing the documentation with the
-> code, and verified on the i7-14700F above.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Asaf Nuri Bertizlioğlu <ycistak@gmail.com>
-> Tested-by: Ximing Zhang <xzhangjr@gmail.com>
-> Reviewed-by: Ximing Zhang <xzhangjr@gmail.com>
 
-Applied.
 
-Thanks,
-Guenter
+On 15/09/2026 16:49, Leo Yan wrote:
+> Have etm_event_pause() retrieve the active path from the event context
+> instead of passing the path from etm_event_stop(). Move the stop path
+> lookup after the pause dispatch so each operation resolves its own path.
+> 
+> This prepares etm_event_stop() to coordinate hardware access before
+> looking up the active context.
+> 
+> Assisted-by: Codex:gpt-6
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>   drivers/hwtracing/coresight/coresight-etm-perf.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> index f66c99b26e1862ab04105704276c901b21728207..8f803914e9abfb18e080ff68371ad8b32042f180 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> @@ -694,10 +694,10 @@ static void etm_event_update_buffer(struct perf_event *event,
+>   	perf_aux_output_end(handle, 0);
+>   }
+>   
+> -static void etm_event_pause(struct coresight_path *path,
+> -			    struct perf_event *event,
+> +static void etm_event_pause(struct perf_event *event,
+>   			    struct etm_ctxt *ctxt)
+>   {
+> +	struct coresight_path *path = etm_event_get_ctxt_path(ctxt);
+>   	struct perf_output_handle *handle = &ctxt->handle;
+>   	struct coresight_device *source, *sink;
+>   	struct etm_event_data *event_data;
+> @@ -735,7 +735,7 @@ static void etm_event_stop(struct perf_event *event, int mode)
+>   	struct coresight_device *source, *sink;
+>   	struct etm_ctxt *ctxt = this_cpu_ptr(&etm_ctxt);
+>   	struct perf_output_handle *handle = &ctxt->handle;
+> -	struct coresight_path *path = etm_event_get_ctxt_path(ctxt);
+> +	struct coresight_path *path;
+>   	struct hw_perf_event *hwc = &event->hw;
+>   	struct etm_event_data *event_data;
+>   
+> @@ -744,7 +744,9 @@ static void etm_event_stop(struct perf_event *event, int mode)
+>   		return;
+>   
+>   	if (mode & PERF_EF_PAUSE)
+> -		return etm_event_pause(path, event, ctxt);
+> +		return etm_event_pause(event, ctxt);
+> +
+> +	path = etm_event_get_ctxt_path(ctxt);
+>   
+>   	/*
+>   	 * With no path enabled, there is no hardware to stop or trace data
+> 
+
+Reviewed-by: James Clark <james.clark@linaro.org>
+
+
