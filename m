@@ -1,228 +1,250 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010011.outbound.protection.outlook.com [52.101.228.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E528D3B442F
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 06:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792389966; cv=none; b=UQ6IfAqShKSYojBbWDg2wvvQSY7Mm4il4HvO3iaQKqELjY4uEBLM6yArLlfPTN81SPKMPDpcTbqay0T1xbwrNFfD0h5WSUhQ710Kl04MRwzM22vlW5o67r9lNk8u9iZgHP5Z866YO+Zqu8B6jNDMveT6xJeDXVmDLTRByeVm5BE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792389966; c=relaxed/simple;
-	bh=6LwTmVt0WwD7hvgGsw8DPupUoKZXFuHF3AJCdQqKNqI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UVpHhuFnZRlBXBA06CQ6gK+RmotfisOuX+sqBMLXkPMX5iyj+KaFHGvG9/8zT18ZdjADNzwzt4L+7rvi+PMVyrb9UbPZbvv+GBxRIzyw6T/EIXjRyX1RasxIFSCH3yu1qv4OJ0WN9u/JhOWjSG0B0q8c1MVOOxXGwJUNKVgPWTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pC1tnusJ; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00DD36605E;
+	Mon, 19 Oct 2026 06:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792390785; cv=fail; b=f3GDLkVCx1ULKXHanQrvs1riwC1rOeu8HAQ7/8sFRDKji+qd50tuQbP8HcMpeEayMMWN07PE8afvNoRY2thZ85d8FmclsmBMU5W23eomh/rSr1Y4e9RQqfExKADZ4Xkpa2Qwys8VGt1jx0puMN4t2yihohCqOxQToQUd6pmqrP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792390785; c=relaxed/simple;
+	bh=x4lp3vz7k2dALzsz7Xifh/INIdl4+GWwu/Nhpwcnwpg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YeWP0v3fjj3P32edox7kAERDBB6ObLoNs0JikkqJXPrXDNzvnIrDiUa04CHRngg6BSkXVUs9jzfrFlq9Bq6EK5YFoMRwa859SeppXfnz2zgGl+IXXxECkhXRa4BrVilTWY/MH1GKqSOaxFtnLC5FTzS+Z1n55tr8WNapNC89yX4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=H/uKuep3; arc=fail smtp.client-ip=52.101.228.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pC1tnusJ"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b060ec084so1043188f8f.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 23:06:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792389963; x=1792994763; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=xfNDVcCLMyws7NZEalRZx3KM792JOu/3dZx8XrnMr4E=;
-        b=pC1tnusJeAN0rPNSgLi4hLJc0Wg88TU6ItH9cSzTX1joY4XVrY4oqe4IY8UHMeahYt
-         6lskKdFBG36Ka6OV1lF9vHA5U8uY6DoAd/8u+jyeAKPlK6H2uvxjrs+6lF13d2lNh9Vx
-         eztzIakkkHZymu3Ky5Gvg5vsOSf9k8ZUyTfneKDciXS7M5LANrzoVXHgrAcnhRw+jRQw
-         TkPv73zSjpUbcJjoTLQUwWQ+UWHSXz6Dh6cDu9Ydw6YYFSAfTBZwifHjh0gRGzIMS3Mx
-         1XhwZ050GXhOiIj8Wh7IHtTlBjMhXr784GXn+lerBAa50Vj9WV6hS5bUSjgdxh/h834+
-         ++3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792389963; x=1792994763;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xfNDVcCLMyws7NZEalRZx3KM792JOu/3dZx8XrnMr4E=;
-        b=QWkfJoyjA4l36snAENibPHSgjU7qn+3pYwxSPEOUji3u/9yzwUzAvJKdGuKLB9QLjj
-         hnf6PNhSjgQavW2BeLMaE8500rpeyKHR54aFhS9hCvw0veU2vcJ2+ISvBVMC5GkNXCpP
-         n8bME35JpAMcP6+mMqdXKA3ffBeXbMQhwbM0y6Fv2QAbJ3p0e4tG3KyNkHb2nc1G13H8
-         cMNyiEw+N2Z1TeQo3vcha7Res+j6UZy5Wp8VbyI8PQ/xMqV5IIEeFeH3BBbD+tV0DioI
-         gzW/sjV4izS191/ZOChgWl841AXM8iVY5ykcjs3MtAHr6Mtqn481w1AKKbfZmyg7sZ6Q
-         f8Rw==
-X-Forwarded-Encrypted: i=1; AKwUvBwV+qD2PNeSDKqf5S/KCFuXezBRyiJVoKP+u9sUNGgtgmCoC4Ix/uQq+5IsoZzTv+Bo/meCDnNFULo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLeCXHJsZzpStBxsBUA98jfidJSJo7VcHXzWN9UoddEjMiE5dx4
-	GNNosOkl6dTmN1yXu2SLAEgTF5stsE3YckdZzGGR0lLWtgnc/XS8nTu9
-X-Gm-Gg: AYBFou3AbQZWwv4xr8MuydMsM3pIMrVm+RRDnThkElzq16DVkC6vev+wXLAfy2KwKsZ
-	W+D2MRHuAMuHJ9qg5sxX2RszhS5shxrGiYlDcPcLejFqKIdoHnH8NsMYDUUERax38A+fEFACsfy
-	Ppbn/GLyyWVaxNv68oO27Gowy3IQcKH1rTXov3kAuYymvk5r2Jc8D+ZnFnd3l50YogJUUq8wtaM
-	qylqdUk8QRfYMNuBDRI2sq+22R8VO1/BUugiF7ikLLjueAEx70L1rjrAH/t9tvO190oIT5/NWkm
-	U5AET6M8ZzFd8v8MFb9eK449087+DOceWkbITUpZWjcmY0lZSVGlpXOzhYwnNYivibRjtnUsl3O
-	BjaF7dLj6qkPo7vh8ATLB9dw2hN3aH1kHN505c7REbi2oVpHNl+ZeG/Yf0VEDnFdSMYkIuGUsHi
-	6W8+cvhISfB6SBoPD5udSKYIxQkjPHB8ikezBxBj7OTIho4Ny3DbuZE6NH99oRy6SBQ1KUvHiOS
-	L0RyrUfG/BIo7QDUuGnrhO7bc/iJcFq9kR449T7WlcBfUUFwX8xH/gYZmUsOKoQl6JcxjXRcj2R
-	KezA3w==
-X-Received: by 2002:a05:6000:4549:b0:48b:69d4:bb35 with SMTP id ffacd0b85a97d-48e07bbe545mr7818984f8f.12.1792389963039;
-        Sun, 18 Oct 2026 23:06:03 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd540bc4sm21248191f8f.2.2026.10.18.23.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 23:06:02 -0700 (PDT)
-Message-ID: <c1cb1b7ca3f69d5d456d6940f5dd8d93a0a91e8e.camel@gmail.com>
-Subject: Re: [PATCH 02/10] iio: backend: add devm_iio_backend_get_optional()
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Rodrigo Alencar	
- <455.rodrigo.alencar@gmail.com>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux@analog.com, devicetree@vger.kernel.org,
- 	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, Olivier Moysan	
- <olivier.moysan@foss.st.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring	 <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,  Jonathan Corbet	
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap	
- <rdunlap@infradead.org>
-Date: Mon, 19 Oct 2026 07:07:34 +0100
-In-Reply-To: <20261017212834.002392c6@jic23-hlaptop>
-References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
-		<20261015-ad9910-backend-support-v1-2-3c21648c8e26@analog.com>
-		<atEeZPOLASHAcnjF@ashevche-desk.local>	<atHjHqyxXj6jkObW@nsa>
-		<w7waqang6lriwbcq6o5s5yuedouuwgacmnj55qsjpzjrv3jut2@cthvkakgyhpi>
-		<atIkZa0noHjcl13X@ashevche-desk.local>	<atIt3eXNeTT7cqxH@nsa>
-	 <20261017212834.002392c6@jic23-hlaptop>
-Content-Type: text/plain; charset="UTF-8"
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="H/uKuep3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H9tseiLn7acK/um7ZSOsz8PyXcVLdBGGMLmKI7l+rJ0k5+Rsf2+FqHYNi5b/rsw8v+bdBJhsQupRwZm3MABxC7jSpYOY/L7Y4+mmaEQwMyWWR3h58ESLX/DbtHudLliziCnL1G2lZAbyY30sOMcK4afYyHEpH12/LeR7XhDgyYFks4dzGeRlOVkpDuThg3L39LPsIJvsCuHbu6whRk/5DHX+rzO+3uFkuJshJoOiZR/5B0tr6dxYKfEWESlikcONdhPKf9ecQrqHAmfdYDq5zzcn/ht4JEo2uQlk8aZ6kA8QvO12Vd5vvR2KQeOaXjOQPVSZLqC4u6SsTatW00RTiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iQYtJj9pzuBEu8fqxXANYq6Z7GlZbDsPr4ZK5gqbZOA=;
+ b=sP/+LDmSinAVEUK2rRnKHmFYvt/bhH7Gg6BHjuYlWQr6p3F5B4yTGV745EeYPSVv6Zr98dOcg61MNvv781uKMEPLPXlO+GB63+VTZT+orcnOyhyDaUEZDvydZYRrDg04Tma6ZPltFlcnc1w8GuAp2m41sUbmC3xhcbwGBa7wNU8TfWWieHGigfUu3HR28E9jXasvxKV3GIAVUSDfcjbRDCqzsAdV2HPHhqegWZMVMmhA2lZZHHsOIOj+veUdbMyCA1wFRbPasFWFMVu/wD+m55W7vQ+CVd/M/F5yJXXPEqSlEuLTgbhXQXujU/t4Jm4d+EOlCRt6zI5uG0ONcUE4rQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iQYtJj9pzuBEu8fqxXANYq6Z7GlZbDsPr4ZK5gqbZOA=;
+ b=H/uKuep3RMTN00qMNBkm5ycjmsP25k9AZKFyPc4RbMR9odFvy8t310Y3mLpwGwDWv2la0HPAGxO6v5VEkCILtBME9ZkjmoVL/zlrptUZJK1WiAmu3fKXN5bHis9sWKOiaCrGrhw8sgB1meynKMx6ta/Bry6IIocDMBQmb1YwyQko3Ru9p51tasMG0clQamGxq1bfiuc8vyYOyWmedTtcTwcIQs8sKy6s/scF8aF7CfYchBHVY0RIVRiB/4IAoLkhKITQcv+SfXbdUW6vCApFo98jbQ0tapdrs42nWX7s3LS7DWQ7gVt1riKjtqPWDCpCIrhx7A9BV0/No16SilXHPQ==
+Received: from TY7PR01MB15746.jpnprd01.prod.outlook.com (2603:1096:405:290::6)
+ by TYYPR01MB7998.jpnprd01.prod.outlook.com (2603:1096:400:ff::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Mon, 19 Oct
+ 2026 06:19:40 +0000
+Received: from TY7PR01MB15746.jpnprd01.prod.outlook.com
+ ([fe80::bc79:d427:b0a9:a793]) by TY7PR01MB15746.jpnprd01.prod.outlook.com
+ ([fe80::bc79:d427:b0a9:a793%5]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 06:19:40 +0000
+From: "Tomohiro Misono (Fujitsu)" <misono.tomohiro@fujitsu.com>
+To: 'Mark Rutland' <mark.rutland@arm.com>
+CC: 'Catalin Marinas' <catalin.marinas@arm.com>, 'Will Deacon'
+	<will@kernel.org>, 'Jonathan Corbet' <corbet@lwn.net>, 'Shuah Khan'
+	<skhan@linuxfoundation.org>, 'Randy Dunlap' <rdunlap@infradead.org>, 'Marc
+ Zyngier' <maz@kernel.org>, 'Thomas Gleixner' <tglx@kernel.org>, 'Radu Rendec'
+	<radu@rendec.net>, 'Oliver Upton' <oupton@kernel.org>, 'Fuad Tabba'
+	<fuad.tabba@linux.dev>, 'Joey Gouly' <joey.gouly@arm.com>, 'Steffen Eiden'
+	<seiden@linux.ibm.com>, 'Suzuki K Poulose' <suzuki.poulose@arm.com>, 'Zenghui
+ Yu' <yuzenghui@huawei.com>, "Kohei Enju (Fujitsu)" <enju.kohei@fujitsu.com>,
+	"'linux-arm-kernel@lists.infradead.org'"
+	<linux-arm-kernel@lists.infradead.org>, "'linux-kernel@vger.kernel.org'"
+	<linux-kernel@vger.kernel.org>, "'linux-doc@vger.kernel.org'"
+	<linux-doc@vger.kernel.org>, "'linux-perf-users@vger.kernel.org'"
+	<linux-perf-users@vger.kernel.org>, "'kvmarm@lists.linux.dev'"
+	<kvmarm@lists.linux.dev>
+Subject: RE: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU-MONAKA
+ Erratum E#030002
+Thread-Topic: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU-MONAKA
+ Erratum E#030002
+Thread-Index: AQHdXVVbzJOi/425oUyzsr9T2p9p/LcAE4mAgAADN9CAABKyAIAEOluQ
+Date: Mon, 19 Oct 2026 06:19:25 +0000
+Deferred-Delivery: Mon, 19 Oct 2026 06:18:41 +0000
+Message-ID:
+ <TY7PR01MB15746F6C7CF8E021A0FBA5743E5982@TY7PR01MB15746.jpnprd01.prod.outlook.com>
+References: <20261016-monaka-fix-for-upstream-v2-0-fc7ede7f9f48@fujitsu.com>
+ <20261016-monaka-fix-for-upstream-v2-3-fc7ede7f9f48@fujitsu.com>
+ <atIT0dmeqAXLoThW@J2N7QTR9R3.cambridge.arm.com>
+ <OSCPR01MB1573944ED57DC682897594F06E59B2@OSCPR01MB15739.jpnprd01.prod.outlook.com>
+ <atImMmlBmOYlY5T2@J2N7QTR9R3.cambridge.arm.com>
+In-Reply-To: <atImMmlBmOYlY5T2@J2N7QTR9R3.cambridge.arm.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ActionId=969935b1-c26a-4e1f-90e2-a7a740456de3;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_ContentBits=0;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Enabled=true;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Method=Privileged;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Name=FUJITSU-PUBLIC?;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SetDate=2026-10-19T06:16:17Z;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_1e92ef73-0ad1-40c5-ad55-46de3396802f_Tag=10,
+ 0, 1, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY7PR01MB15746:EE_|TYYPR01MB7998:EE_
+x-ms-office365-filtering-correlation-id: df24a1ae-4703-4b28-b54f-08df2da8f569
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|38070700021|1580799027|6133799003|5023799004|11063799006|22082099003|18002099003|10067099003|4143699003|56012099006;
+x-microsoft-antispam-message-info:
+ lYCLPfhW09tUtU5G2Jf06T8iKwXx4CwGqt9Ejb0JIU95rsxElTXZMGy9EC7f+CK73Up3Tq29+RhRERj37jqG+tFHstwo2Lhrg8QiQiaTNLoz6U6uBWMsLImTJqSMe08h9xQmoWEZMY1pFUyXDI5DFR+tXpmrfokpDO0pwdLn6g1vsMXr62fMTuYwcVsWsPf7OAxl9qQZytByz1hQo2MAbM1TNvVqUE92SDZczd331yJC+YQiKAEakCHE98XGyC2uGoztbNxaXoPpFHbV2JRFkCA2xuYllhnP97E0nDmShn+4nZGRuUrPCNidaiCg8S/fhjtdL08jGRboK6+PyIyihoVm/aPz17rfMRElpDo9qJAoPCZjCDDX0pqcMB2h3quIqUVivN2ZEv5SYsdeHZvIa5ef5vd0a7Ns47YDiyqCqxNv2uTtLPaYMCvgWQBFSq5mD+rl8lfaslJDWE2Mez2azzdNZkAevz7t/WKxtOPPD2fTzCcX/s7jcb6R3gLUR309D9z3YUIkGUltznsh3lLjMShki9slGMP/MedXnfOaFhh1jY4Iyt/M2fVWnXOZwuAQOfR5C+R3o9EE9INJXcbhpt86RYimHMyjfBNGOPRO964I0ckHbTbHUZB6UaQd0YuiE5cy/Xr5eC1RUUwXpXTYAHMM2qk0KFA9DuDAEaXpK7NmJFphu3Ba+1RfW1tahby7OSmIvNAnmXGTaszxff5pBsz16Hf8tCPSWCoWqQdfn//Lyj3LA5hc3Bmyr/ouBDpg
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7PR01MB15746.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(38070700021)(1580799027)(6133799003)(5023799004)(11063799006)(22082099003)(18002099003)(10067099003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-2022-jp?B?VlhianJXN1FTei9sTlBlMmN5QmQ3TDdGNlY2N1BWRndWM0JiSVJZOW9C?=
+ =?iso-2022-jp?B?T1dPV2dhcnEwcVBnUlBHc0ZLbHU0STlzR0Uya0hzNi8rT2RBZVo3ZFV4?=
+ =?iso-2022-jp?B?MjFESUJtNExwRGx6TncrRVFTQ1BBUDZVcVJQWm9qNnB0dUlFV2ZONDhY?=
+ =?iso-2022-jp?B?V3JBWk5oczhtUXpEcndYMWozL0VxOEZtVnBGSytxRUFXTEd4ODIySjlZ?=
+ =?iso-2022-jp?B?MlFXZ1ZNTjlpMU5BSkJ6TitlUk1WZlR1UklTWjdSRlg5N3pXN0JNVDVD?=
+ =?iso-2022-jp?B?KzdUWm0vSGxTejFvVXJoSmRvM1pXbEFlclRZZnBTd1NLeEgwM1JTQmFI?=
+ =?iso-2022-jp?B?bklQc2tyN29hQUZhV2NoRjZEZ2dsZHA3bzRkY0RCb2cvdHFKWXkvZUlv?=
+ =?iso-2022-jp?B?cVN2OEJWY1plUExKZGtweVRkQnhqZklpbWo1ZlJydnZ5ZVdJRmN3WVB3?=
+ =?iso-2022-jp?B?YThpa3g1d2Y3Z2E0QUc4TWplMENvZzYwSnZvenBtU1VnaGViRFNMQ0lH?=
+ =?iso-2022-jp?B?WFFoTDFuc1h2UWRCVVNlQ2RZUHBBazN2d2IwUnBNZTBNSWdFWE5QN3pF?=
+ =?iso-2022-jp?B?L1hTVnpiM1RxQWk5ZEtaV3VKdnQ5dFR1TlZQZUorc0FpUXluYy9pa0lU?=
+ =?iso-2022-jp?B?a3U2WkhaOXFiMStSRUFhSXRsQ0NrNUpHT0dXbFFSSDBHcm50Z3U1NWFq?=
+ =?iso-2022-jp?B?Um5DRXc2OTRMMWxTRG5WSnhBYTJtM2hsdGIxaDFPOHkzM1BKaThHNWh2?=
+ =?iso-2022-jp?B?WE93RmZZUzBEckU5dENScXpXd05EaUtlMnR0VDZOS1EwMFp3eDBQSGJI?=
+ =?iso-2022-jp?B?RGE4d2p6Rm9nN0crWDlYQW9iK3dvK2NlVHUrUnhscmxWd2QrY3p5ejhk?=
+ =?iso-2022-jp?B?MUh1T2UxQVhPSFdubjFSWVY1MmdMTU52NC9YR0NZYkhHSGtRNHQ0MzdX?=
+ =?iso-2022-jp?B?TWpHZnlvTjhvcU9qVFVwLzU4LzRmSXMzYVU5QjVzd0RtWXgrOStONy80?=
+ =?iso-2022-jp?B?WkM4cWExaDNNdk9hUEhnVXdCdHhhRGV0eXZIKy9MNWhCSkRSZ3BSZ3VX?=
+ =?iso-2022-jp?B?ek9mdldqdVVITVpmRWp3THJQMklRWHJ5MzZ0NHJzU243amJCdGFiZDdI?=
+ =?iso-2022-jp?B?cDNzUDlaRmNvSGpsUDFOOGZLOWd5RG54K1RFTDM2YTZ4NVJET3R4cXNT?=
+ =?iso-2022-jp?B?dnRJZEdGV09ZZjJWNXBlMFBtTjdHNUNkSVZWQmdWMmFwdHhaWms4WGNs?=
+ =?iso-2022-jp?B?eGRqM3FaZENIOWFDWUUxS1IzR2VTaDFEQ2dsbkVCQU9NL2pTS3RrRUVn?=
+ =?iso-2022-jp?B?MkpmdGl1UisrSjR0Mml5cklHSXlMb09MTzEvQmI4bi85TjBiQkZjeURk?=
+ =?iso-2022-jp?B?c3Y1UDh0UHp1Q3FwTm1UT2FMTC9iQVFaWlVCK2F0Zk8xeXhBNVVSUE1v?=
+ =?iso-2022-jp?B?bW1YcUlxRWJWQVdPMkZKdTZIZkNmUU9LbUhEWk4zY2RMTDZ4SVp4VFJW?=
+ =?iso-2022-jp?B?QzF4aktQdFg0U2tMZjgxZWRqbUtaU09CbW1vb3hiTFlQbjVEd2VYRUgv?=
+ =?iso-2022-jp?B?V1BjQWtuYkhTSVA5VXdBa1JWWlZMb0hwbDJiK3V3RkZVR3hXMWtBRC9I?=
+ =?iso-2022-jp?B?SXBndXVvMWh6K0Jqd0VTU2xDajhoRzk0Skl0cTA2VVlLZ3o4L0F1N2ND?=
+ =?iso-2022-jp?B?N1dMZWZkTUkwUTNhemQvTVUxMGpqMERvNjl4VktqR1A5TE5mRkZ0QTFO?=
+ =?iso-2022-jp?B?Z1g2a0xxQ1o2SmRKeEM1N1Y4TGZmbDJOaE5OQXJtM3UrYTFCVnE5Nk94?=
+ =?iso-2022-jp?B?L1ZZSTNUcDFYdlZFc28zVmNjMk9tbHVSWEtGbFdlV3dZMjBzYW9wVXFp?=
+ =?iso-2022-jp?B?NGhmS2owdWpUYjV2dW0xUDA1eWMvQ0NJY2Vad1FPa3ZlUGxxanJEb29s?=
+ =?iso-2022-jp?B?Z1h3V3d4VmFKcEFyZ1ZpQXhuMGlKVWdKbVAyVys5U25iQ0pSS0hXMWtU?=
+ =?iso-2022-jp?B?cnFjSk9WWkZJNC9YeDhRcjZNNGpSR2pURnhraUUrS2hiTTNCNnltZU05?=
+ =?iso-2022-jp?B?Vk9udVhVUW5wejRCSnNKMkRub2pCT2h1OU04Uzk2RE5TNXZ3ZlYvbWpN?=
+ =?iso-2022-jp?B?U0NCSmhjdnlEZzlMTE1GdTRsRUc0Njl2eFE0MmlOa0c4SFlGY1ZQWno2?=
+ =?iso-2022-jp?B?U2RzOGVZWGd5TDh5b1hpbXk1S1pwTUw1Zm1PQ3oxRVdVeEVWQ1J1VDVZ?=
+ =?iso-2022-jp?B?UDM3UzhPalNpWmtMWE5NaFBFVGN3LzAyREIxV1pHZVQrQkFmdWhCTjdL?=
+ =?iso-2022-jp?B?RGNyUEJOaU1zZ3hUZ2JqeXU0TSs2NkFHNXhoSWJYU29JKzZxdW1Idlh6?=
+ =?iso-2022-jp?B?ZkxNaFE3K1BsZ3k5LzFJRkV1SHdZSmV4enNkV2JoQ1l5anUyYzY0c0hO?=
+ =?iso-2022-jp?B?Zmw4cTQ0ay84M2dmcmRrSXJSNlpLYWdmVURuRzdRb1QxWWZWMDdMS0hI?=
+ =?iso-2022-jp?B?eDN5M25PZ290VWZXR3NTREhjK3Zid08wREJXM2g3OGw3bjFhQmFSZ3hL?=
+ =?iso-2022-jp?B?MVkySVFGOD0=?=
+Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked:
+	SXy04JchoOmfNp0YEc0XX4zGM5X1AJnhm/rBxj6RcdRkjf+F+O7toESSDSoXUCho/dyexFO6ca5Y47moZ+fsVKHkh8tELwGusrUCHnYGO15a1FMghlinZ5h87EssDZ1xLm4ORQL3d3EXFiAo8OH8H06xLyUA5exj6SR4X9V5VIoc8R4iBDQHzGobpqDhd7GCeyCLm7+w4IImNWZbQznJYUYhuls5PU3cB/XEP8KMiUaeIbauRhAWWGTdh2XhVLXB9iJ//00fj/7RtkfpvxHO+2TXe9nWU8n5Cw0/w2nukmY3igWPlZf56W/8f0fTCFextuqjUma9mFGOhrobm1QtTQ==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY7PR01MB15746.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df24a1ae-4703-4b28-b54f-08df2da8f569
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2026 06:19:40.4424
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LqAtKdOmz3S4uo1z6Zex/Hu9QKhJnaKmlgtgjCflLEyUvkmAKH3F1I1dEuhhOl/SDdc0M4uY+v4LEsFw/OhsXP9P7RwiLi0ScgejtSouqJ8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7998
 
-On Sat, 2026-10-17 at 21:28 +0100, Jonathan Cameron wrote:
-> On Fri, 16 Oct 2026 15:07:02 +0100
-> Nuno S=C3=A1 <nuno.sa@analog.com> wrote:
+> Subject: Re: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU-MON=
+AKA Erratum E#030002
 >=20
-> > On Fri, Oct 16, 2026 at 04:19:33PM +0300, Andy Shevchenko wrote:
-> > > On Fri, Oct 16, 2026 at 08:18:08AM -0300, Rodrigo Alencar wrote:=C2=
-=A0=20
-> > > > On 16/10/26 09:45, Nuno S=C3=A1 wrote:=C2=A0=20
-> > > > > On Thu, Oct 15, 2026 at 09:41:40PM +0300, Andy Shevchenko wrote:=
-=C2=A0=20
-> > > > > > On Thu, Oct 15, 2026 at 01:49:42PM -0300, Rodrigo Alencar via B=
-4 Relay
-> > > > > > wrote:
-> > > > > > =C2=A0=20
-> > > > > > > Frontend devices might not need a backend driver to rely on. =
-An IIO
-> > > > > > > device
-> > > > > > > that supports backends can behave differently when they are n=
-ot
-> > > > > > > available
-> > > > > > > and that should be acceptable. Such parts may provide basic
-> > > > > > > functionality
-> > > > > > > solely using the control interface (SPI for instance), being =
-able to
-> > > > > > > have
-> > > > > > > extended features when a backend is present.
-> > > > > > >=20
-> > > > > > > Add devm_iio_backend_get_optional(), which returns NULL when =
-the
-> > > > > > > backend
-> > > > > > > is not described in firmware, i.e., when the io-backends prop=
-erty is
-> > > > > > > not
-> > > > > > > present or, for a named lookup, when the name is not listed i=
-n the
-> > > > > > > io-backend-names property. Other errors, such as probe deferr=
-al, are
-> > > > > > > still returned.
-> > > > > > >=20
-> > > > > > > To make that possible, a named lookup that does not match any=
- entry of
-> > > > > > > io-backend-names now fails with -ENOENT, the same error retur=
-ned when
-> > > > > > > the
-> > > > > > > io-backends reference is missing. Also, the missing reference=
- is no
-> > > > > > > longer
-> > > > > > > logged as an error, leaving that to the caller.=C2=A0=20
-> > >=20
-> > > ...
-> > > =C2=A0=20
-> > > > > > > =C2=A0		ret =3D device_property_match_string(dev, "io-backend=
--
-> > > > > > > names", name);
-> > > > > > > +		if (ret =3D=3D -EINVAL || ret =3D=3D -ENODATA)
-> > > > > > > +			return ERR_PTR(-ENOENT);=C2=A0=20
-> > > > > >=20
-> > > > > > No. Please, use device_property_present() instead.=C2=A0=20
-> > > > >=20
-> > > > > Oh right! Totally forgot about that internally :). And it fits in=
-to my
-> > > > > internal point where I don't agree much in treating -ENODATA the =
-same
-> > > > > way as property does not exist.=C2=A0=20
-> > >=20
-> > > +1
-> > > =C2=A0=20
-> > > > Say a frontend consumes multiple backends, but some of them are opt=
-ional.
-> > > > If we care only about the presence of the property we would fail wh=
-en
-> > > > trying to acquire the optional ones when the required ones are defi=
-ned.
-> > > > am I thinking correctly?=C2=A0=20
-> > >=20
-> > > If there is an empty property for names, shouldn't we simply fail? I =
-rather
-> > > would consider the firmware table to be broken in such a case.=C2=A0=
-=20
-> >=20
-> > What Rodrigo is saying is that an IIO frontend driver can have multiple
-> > backends. So in practice:
-> >=20
-> > io-backend-names =3D "foo", "bar";
-> >=20
-> > But we might want to have foo as optional while bar is mandatory so tha=
-t
-> >=20
-> > io-backend-names =3D "bar"
+> On Fri, Oct 16, 2026 at 01:00:13PM +0000, Tomohiro Misono (Fujitsu) wrote=
+:
+> > > Subject: Re: [PATCH v2 3/4] perf: arm_pmu: Add workaround for FUJITSU=
+-MONAKA Erratum E#030002
+> > >
+> > > On Fri, Oct 16, 2026 at 07:00:47PM +0900, Tomohiro Misono wrote:
+> > > > FUJITSU-MONAKA Erratum E#030002 affects FUJITSU-MONAKA CPU.
+> > > >
+> > > > On affected FUJITSU-MONAKA CPUs, after a PMU event counter is
+> > > > stopped at a value just before overflow, an overflow might still
+> > > > be incorrectly detected, resulting interrupt storm in some case.
+> > > >
+> > > > For example, if the following conditions are met:
+> > > >   1) Running perf to count an event in user space only
+> > > >   2) The event can also occur in kernel space
+> > > >   3) The counter value is set just before the overflow
+> > > >      (when using the -F option, initial counter value is -1)
+> > > >
+> > > > when the kernel is about to return to user space after enabling
+> > > > the count, an overflow interrupt is incorrectly triggered by an
+> > > > event that occurred in kernel space. Since the counter value is
+> > > > not updated (correctly), the interrupt handler does nothing and
+> > > > returns with the same condition. This leads to another wrong interr=
+upt
+> > > > and results in an interrupt storm and eventually a softlockup.
+> > >
+> > > I don't fully understand this.
+> > >
+> > > Surely the relevant PMOVS{CLR,SET}[n] bit set as if the counter n
+> > > overflowed?
+> > >
+> > > If that bit is set, the handler will certainly do *something*.
+> > >
+> > > If that bit is not set, the interrupt shouldn't be asserted at all. W=
+hen
+> > > does it get de-asserted?
+> >
+> > Sorry, my explanation wasn't clear. The interrupt will be de-asserted
+> > as usual.
 >=20
-> Not sure mandatory or not is relevant.=C2=A0 Two optional backends where =
-the
-> driver can run with either or both of them would hit the same problem of
-> present property but particular backend not being there.
+> I'm trying to work out which of the following happens due to the
+> erratum:
 >=20
+> (a) When the erratum occurs, the HW sets a bit in PMOVS*. An overflow
+>     interrupt is asserted because PMOVS* is non-zero. The overflow
+>     handler will see that bit was set in PMOVS*. Clearing PMOVS*
+>     de-asserts the interrupt as usual.
+>=20
+> (b) When the erratum occurs, the HW does not set a bit in PMOVS*, and
+>     asserts an overflow interrupt even if PMOVS* is clear.  The overflow
+>     handler might not see a bit set in PMOVS*.
+>=20
+> (c) Something else.
+>=20
+> Can you pleaes confirm what HW does with PMOVS* when the erratum occurs?
+> I assume (a), but you haven't explicitly stated that so far.
 
-True.
+I confirmed that HW works as (a). I will update the comments in v3.
 
-> >=20
-> > So if we treat all errors (after checking for presence) the same we wil=
-l fail
-> > in the optional one. Note -ENODATA also means match_string() failed.
-> >=20
-> > As of now there's no such usecase in tree or oeven out of tree (that I'=
-m
-> > aware of) but to support it is also fairly simple that I don't mind to
-> > have it now.
 >=20
-> I'm in two minds over this. It's unused complexity, but it also makes the
-> function behave how a user might expect.=C2=A0 Definitely needs some
-> good justifying comments in the code though as it will look weird!
+> > The problem is that armpmu_event_set_period() will not update the count=
+er
+> > value if, for example, the counter is -1. Therefore, false overflow det=
+ection will continue.
+> > With this patch, armpmu_event_set_period() will force the counter to -6=
+ so that
+> > false overflow detection won't occur in the kernel, since the maximum e=
+vent
+> > count at a time is 5.
 >=20
+> I expected that were this to occur a number of times in quick
+> succession, the core perf code would throttle the event, and adjust the
+> period.
 
-Agreed! Yes, already asked for it as well special because of the non common=
- -ENODATA
-check.
+I didn't see that happen. I'll take a look at the core perf code.
 
-- Nuno S=C3=A1
+>=20
+> I am presumably missing some detail that prevents that.
+> I assume you've seen the issue in practice? i.e. you've actucally
+> triggered this with the perf tool on real hardware?
 
-> Jonathan
->=20
->=20
-> >=20
-> > - Nuno S=C3=A1
-> >=20
-> > >=20
-> > > --=20
-> > > With Best Regards,
-> > > Andy Shevchenko
-> > >=20
-> > > =C2=A0=20
+Yes, I see this problem on real hardware when using perf with
+the -F 99 option or the -c 1 option, specifying counting in user space only=
+.
+
+Best Regards,
+Tomohiro Misono
