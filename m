@@ -1,59 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792451773;
-	b=h0/ZZebyWaIXydFRkRU0nhLKuK4loGq5Ew4gMUCS9KIGhs6A678UgOQAfK1crEaP/4uo
-	 IMwYqz2u/zN6F9L090Rlb0EMdlS/bQiTwl1mlgg/kdD/+7eTeODshjKO3GghFfpbVkfGg
-	 7d0t8SKMou//gFqpNQttEoVkQoFzixJghm7c+ETQ4UCzmSNsNf5P+kMSnwFml85xH3JDv
-	 dVCHcaf4M5SPAfgcu057KpC4KiVlpYmEzrXQsWXj/qgV53W6G6x78UZWGp0TVZc79tNwV
-	 8nE1EDQJS/ttUaLt0JPT3sF1gyMzlDQeQ0vIUPcGick8zpsgha4TloI7KJjvzJwWbZw==
+	t=1792451977;
+	b=b/c6tzEzLV0yrupXkkCEVOfFcefQ2TM235qqAxbqu5fUh4e/+6LGdOT1H1rouppyc58m
+	 IiI3cpihsQ57zhwHuQ22/FtXA1xAud+MHwM98UDeJRPQG3q1jHl+i+R34T2U51q6DeFQw
+	 WyCn2Qy3BaKgAPsqwX5KscW51+GTUIJUqiiJ0328Nl35URzrQwe7cPqi0mTEs7f+2dlz6
+	 a/+dG6TP/VXr+6qoMBwreYtIEeFQbfXYh43eD5H0WqVv+Nqs08Y0goEdyATJCtyVY2UZW
+	 BWmqA/7VowVTD6v6lRAqj9RlH7mN3h+2IASzMG5R3CXgYiVYpHk2+fK/zKP/ZfM9K6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792451773;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References;
-	bh=sb5/RITy1eFGsr3qG/Edmwuyn6lOyRFKHbFGJssFJTc=;
-	b=EscFs9bRPFJnqwzp4f8WLGSjKLXr/bzsXQPDqhgGWANhGY5prQq9ZDbQyjSMVcj15M8/
-	 2HIFMtglvV8l50gINy1HQq5f3gMYbZSInAMYBZohUeXNIX5zDiciXwOz+jKHO06ONmUTg
-	 POTFd7oB9hzlN8jlvvX6eTD4ofgnJiGUd5UrnGlw70Lyj5/o3Nk15mbUSAgvzTYOrrjcF
-	 AzwLV+WJh9tOfHrvw0khoPlauaX2drNPEzJ7NEJgKbXzR3mUgCk8GH6WR0oy4ayQBsgpI
-	 Sm15Wq/cc809EaPd09fCMcXb5hueuTTo0VKeFEmJjxCFrpI38qKJQdbHN/NcTi9N50A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792451977;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=uDfMtRoZCH80axFWEKnZVBPQmCcG6I0J7UKe06Tt0rY=;
+	b=dSK8I5QtKl03EJx+lPI44c4Rg7Qn8aCscRZGpyhR8i4r8Jh2i9qFEK0lf6StIlEbJpBh
+	 u22zVHnwSY7YbUQ/cXvTlSN5EQrtsS3fzgqBG6MKMs2AZs4DhmFIokhj0xA8BQQOugj9G
+	 qBEF47I4zNwHeKX1pYyWS3viBEYT9ZhOn9XRyBRa1HgQUrfanDghf9kdVrhmpwzulZXER
+	 TPwUziu/hmMOywK1uzcvTgrePTgYpxYjpc3x9wySmja+m5pXsH8aLN9qdyuZ+I3GcC+KA
+	 W1zfsVMvtthsZc77DaA7/zwHTyNYQMx4B+PtD/Ab75+Hn2DhcI8bbxcv1MzH+vVcNsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPcQG4ai;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kx/wOj/I";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28185606A31D;
-	Mon, 19 Oct 2026 23:16:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AF5606A31B;
+	Mon, 19 Oct 2026 23:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPcQG4ai
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2F01F000CA;
-	Mon, 19 Oct 2026 23:16:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kx/wOj/I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E121F000C4;
+	Mon, 19 Oct 2026 23:19:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792451772;
-	bh=sb5/RITy1eFGsr3qG/Edmwuyn6lOyRFKHbFGJssFJTc=;
+	s=k20260515; t=1792451977;
+	bh=uDfMtRoZCH80axFWEKnZVBPQmCcG6I0J7UKe06Tt0rY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=OPcQG4aiQe/HP4yIZioj8N7r6ZbGA10GQ4GlKy2l0Zime9ouyffpoaiQ+48mzKGHX
-	 UVGwFlFZwAO7Hr9IAk+MsiXqXJ5Y4APIZjGQE1OJkRgh+a5ztRvnpZjKYREu61KnuC
-	 ev+tQHxB1SVb0zB+bAKhrR1XiMVykfViIDrr2ybrBp6FmkVolQR76nrQ+qNKd/R7Yf
-	 JJ6i/d1vp3Swci0vb3UrOd8IaNqdD3tTNSKhcbCYfl6rXHdjqTEDc9oOWZ2vU57M2I
-	 wPXcD/Mjf/E1NQjW0o2ILeALOYTUsuZvNLaPDvNwHTOBSJhGPkaW41NtOpIgEf5ePc
-	 adRQwVYhc/0/g==
-Date: Mon, 19 Oct 2026 13:16:11 -1000
-Message-ID: <abf437b321bfa2e1c84f2d4bed0b9b58@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Ridong Chen <ridong.chen@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Hui Peng <benquike@gmail.com>,
-	Guopeng Zhang <guopeng.zhang@linux.dev>,
-	Guopeng Zhang <zhangguopeng@kylinos.cn>, sashiko-bot@kernel.org
-Subject: Re: [PATCH-next v4 0/9] cgroup/cpuset: Fix various housekeeping check problems
-In-Reply-To: <20261019181020.1069325-1-longman@redhat.com>
-References: <20261019181020.1069325-1-longman@redhat.com>
+	b=kx/wOj/INd8YymLTyweVrYqb1xOqMzmQEHZaAG4ilqRU1kxW/1UAlej3OzsVMJMbe
+	 TE0zuI35zWzmOxaz5LahDgqeU70tdPTMN2CaYWUtxHbQ8q74J9/1sjIARpWzF9MOgI
+	 +zN6Znw9aph7AmrkFqxLOhMQNcvBecoe0RnPJwLrJT8zA7aYLdRrMNJllttiL0JKpC
+	 CZj8KaT6eK7MLmMTzBVxPidI1DaxNHArjaNwbBNohn6UG/tigt+FAGGwPI2PTN5Bvs
+	 3fiFkSt89FGCtqxJODY22wJUNT0W26WU4x/wYzyvF9huWqpZQvuJKLWr/ri+sr+171
+	 sQoTj+SEhDx2Q==
+Date: Mon, 19 Oct 2026 16:19:35 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Subash Abhinov Kasiviswanathan
+ <subash.a.kasiviswanathan@oss.qualcomm.com>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, corbet@lwn.net, horms@kernel.org,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, lkp@intel.com
+Subject: Re: [PATCH net-next v3 0/8] Add HW GRO handling in rmnet
+Message-ID: <20261019161935.742cd8d0@kernel.org>
+In-Reply-To: <20261009084351.317632-1-subash.a.kasiviswanathan@oss.qualcomm.com>
+References: <20261009084351.317632-1-subash.a.kasiviswanathan@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,28 +60,16 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
->   cgroup/cpuset: Fix a missing isolated_cpus update in
->     update_cpumasks_hier()
->   cgroup/cpuset: Consolidate isolated_cpus_can_update() into
->     prstate_housekeeping_conflict()
->   cgroup/cpuset: Consider all the exclusive CPUs when doing housekeeping
->     check
->   cgroup/cpuset: Do housekeeping check before converting invalid
->     partition to valid
->   cgroup/cpuset: Properly disabling partition when partition state
->     switching fails
->   cgroup/cpuset: Don't allow a child root partition under an isolated
->     parent
->   selftests/cgroup: Add tests for isolcpus housekeeping check
->   selftests/cgroup: Add tests for nohz_full housekeeping check
->   selftests/cgroup: Skip test_cpuset_prs.sh test if some required CPUs
->     are offline
+On Fri,  9 Oct 2026 01:43:43 -0700 Subash Abhinov Kasiviswanathan wrote:
+> This patch series adds downlink packet coalescing support to the rmnet driver.
 
-Applied 1-9 to cgroup/for-7.4-fixes. Never mind the post-rc1 ping. I just
-opened the fixes branch on top of for-7.4.
-
-Thanks.
-
---
-tejun
+AI review seems to raise some good points (I looked at patches 1 and 5).
+We're expecting a respin addressing valid feedback.
+Please note (1) that net-next is currently close, check
+https://netdev.bots.linux.dev/net-next.html
+before posting the next version,
+Please note (2) that you are expected to respond to the AI feedback.
