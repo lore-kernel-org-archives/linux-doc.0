@@ -1,119 +1,79 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FB64AA030
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7C648FF74;
+	Mon, 19 Oct 2026 09:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792401629; cv=none; b=NvRATZEWPrBm2VecEkhvj2cBTRDtP12c6dzddA3lR/Ez+m5C1GGDmNMFMEPmcFxteVwI6uYgJY+RVtqQofuoiMlFYA05oLWE7hXG9pG7tk+VmwRYYb4naOynr0UDHkKcbIscloFH2RIwgthAheS9m07DyIeguJ7FI+dbH5G7kiI=
+	t=1792401799; cv=none; b=lbKhxYx+kQWRhqdJk1lDXQVXdWnvl2vNb5mxoLUKW1gbrR6AM3ks5Ub71dTe8G0xFqtgMFVHBYRFTepb08SgerRvWpUoG3h2kv2aCclG5dqrH1kZlSZ6/BsqvPgoh9hhBxYRky+DGdNJVpGreZr79cEWH4C0byQLXrnTd0Z1XGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792401629; c=relaxed/simple;
-	bh=23uLVGVu4LenPJTiUbtiHkyS7W5/ZO7Ic3YJWLzrJ8Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FtPylIdCekc0M2cXDTS7S7MFxEwrirBTL4JEc6wAwY/jXworKjuzaD67SqdsBST+yHobmdgG+cHXUafgm4VwGSfEsjBPlBn5YvjmAlHMfzRZ1wvW57Wj2CrkZ6vRbunOwEYLFrOxeBiUXa61yuTVNXWuFzJwIGOcMP7nwpeWjXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=YkAQvvIu; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	s=arc-20240116; t=1792401799; c=relaxed/simple;
+	bh=9PebdIH/SVuVj9MRbPB/1J1o0shLFs/Jpdx34TKGXEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jlr1noSM+lth8ejndvjbJhoWVKCbxmdlCsDLhzY/dkHLRwbtppXnYzw/mprQ+bQDv3S3bKoF12Fav0MNiA4JB4JlvrADn5jHhuLMtpTKyV1++UihNuquiYAMqscrsLkcn4Bk2fDg5RlxXBXHzeOAdKihImvoxtCwo+efGhTCSTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=C+Y1yTco; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="YkAQvvIu"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c45551fa84eso18248266b.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1792401625; x=1793006425; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rCnbEw2lvBYbntrA6KDS3EO6vufdqSnBrzMmqli8drs=;
-        b=YkAQvvIuHuowSee2x3VLY7CfVobYt77NsPUM3HIsxQ///kzMSqrSD12p2MrYnfCP4+
-         dmPvKSy/aEAnG7LcnZDQ28BRTliLTVT6V0BefFCBQAL7Xe0ydWI7Nyg+z6SnjSSD6GnR
-         37VqCbD8afiqNGMMkLSv0qu2/nveqKtAWPWjah1dWrAZhbSd105mAz+mUPAch5CwFn8D
-         azULWHO7AsryJ6TeTa0OdyBb5r6dluUSfaa7m/+nCoviOzIUy9EOelYtWnXYfyR5H+1S
-         HUEyumbSmBcGUSRNs9l0dvzCeZ+C126RKbgWytgm3YoYDodC//4wDFGix5cOQm4sLbuc
-         3Opw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792401625; x=1793006425;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=rCnbEw2lvBYbntrA6KDS3EO6vufdqSnBrzMmqli8drs=;
-        b=Pgcz4XeQGJgcolzIK355mtXT+2ABUgubu21379ZzfrJUkSIIfG9Yt304Ty2g9EFW9z
-         60ypOHL/18au54aRh950AHyvVMcp3SaCr5MEEfhLTlKiXNIhIVEy7a8VNS19JrDzwAis
-         W6HQ7gAcihOLd89N4no/LQtmoa2oafdFgmAtR6rVp5qsE6+gZecMXj1aLEPJHXldRcPl
-         b3J9GxKx6FSL8jHw4gpz30lkAWCEy8UgS/cSI+KYKy5FFiaDzVnbG6WzO+TtRMrJ2hhq
-         iMn7OZBRlkd9/by+UrCYhdP1+JdZkGcoZHfJ9cQYG2IRdZ/4hkS+BgMWocrwpWeJ8NWl
-         hvaw==
-X-Forwarded-Encrypted: i=1; AKwUvBycIkPQYRGdSTxs3Fy8op2119vLWhaAcRq8rb5nEkSaXvQ0z35iVsnuiQVKsKZ6cnesLNrrM5fQ8sc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI/6/nuIJYmiscURgqp7lL6HdTy1kj+t4BpZLAdiI87qW+ClzAE
-	WDkaEaQZpRLhErzXK5u0LJEcUOd0ZIWKLiz0rRQuHSdtCsma7TNz9VEEJS2bzpwIVJI=
-X-Gm-Gg: AYBFou3D1QfqK4D1Qgu9Ao0VRnzBuz2zz0nyv8g61DskmNF0vHOZ6vJqVKpP40ZUCB4
-	Nw5ct1k+BrH7lf+CiSJNyekTp04H29yPUj27Ig00pkoX+o7FFyOx80rIQ6zysu+J6bTDVclpvJF
-	EM1WMlGhFu2xhV5ndfDect5ww9x96UKxy9D2ZRyyVuVAiSa8YC/bLaf06SC7+zJ0/nGmu+HqO0S
-	UZM+olBDJsPDlSGtNGLk3Uc9uZan0A3VYUWosLwqzozLTbeJYkL741pONdwFD+xoUSiTu6uEAm8
-	urjq4SWj6BKfW3UAsIXULg1Z73lelyMTL0HXdL/8Bh3i14M6p2hQhQBgO9vflNFsimCImOVbFPn
-	tRFYK2zopJAlVIW5/CvHXMGxfcKJ2VXM8ShbmrFakFY+nho5TPxgsGv3aZPQ3Xbw9U6WunUCI8d
-	Vm9NhTbqVY4EpQNOKdo7xCt3cWK1OhsA6uFx/uTI9PwpEeUavE/dZ21xPDB3MG
-X-Received: by 2002:a17:906:ba89:b0:c31:c767:ae0b with SMTP id a640c23a62f3a-c4196dac03amr433604866b.0.1792401625664;
-        Mon, 19 Oct 2026 02:20:25 -0700 (PDT)
-Received: from cloudflare.com ([2a09:bac6:5067:2dc::49:220])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c40919c0402sm342196266b.61.2026.10.19.02.20.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 02:20:25 -0700 (PDT)
-From: Jakub Sitnicki <jakub@cloudflare.com>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Willem Ferguson <wferguson@cloudflare.com>,  netdev@vger.kernel.org,
-  davem@davemloft.net,  edumazet@kernel.org,  kuba@kernel.org,
-  pabeni@redhat.com,  ncardwell@google.com,  bpf@vger.kernel.org,
-  ast@kernel.org,  daniel@iogearbox.net,  andrii@kernel.org,
-  eddyz87@gmail.com,  memxor@gmail.com,  linux-doc@vger.kernel.org,
-  corbet@lwn.net,  linux-kselftest@vger.kernel.org,  shuah@kernel.org,
-  linux-kernel@vger.kernel.org,  kernel-team@cloudflare.com
-Subject: Re: [RFC PATCH net-next 0/4] tcp: carry a BPF-chosen identifier in
- TSval low bits
-In-Reply-To: <atFI9vl5hy09Dc0t@devvm7509.cco0.facebook.com> (Stanislav
-	Fomichev's message of "Thu, 15 Oct 2026 14:45:02 -0700")
-References: <20261013103906.2660384-1-wferguson@cloudflare.com>
-	<atFI9vl5hy09Dc0t@devvm7509.cco0.facebook.com>
-User-Agent: mu4e 1.14.1; emacs 30.2
-Date: Mon, 19 Oct 2026 11:20:24 +0200
-Message-ID: <87a4oaf3mv.fsf@cloudflare.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="C+Y1yTco"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB0351477;
+	Mon, 19 Oct 2026 02:23:12 -0700 (PDT)
+Received: from [10.0.152.204] (e121487-lin.cambridge.arm.com [10.0.152.204])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8BF463F7D8;
+	Mon, 19 Oct 2026 02:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792401796; bh=9PebdIH/SVuVj9MRbPB/1J1o0shLFs/Jpdx34TKGXEg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C+Y1yTcoKKTeRGxeqTyg1bb//zBo/34B94yQoPCY8Z3TFTWlPLYAqR+kfzFP/WUTg
+	 wcMt2ARDZEf2af+mvA9gjVQuj5IIGdx+Cvs/7LSXLhe70k4TcVAJprfzM2ozRDBJKM
+	 AD6JEGRA9yLKmyScnBGv/fMHzUKKr7+ir8KeI1Cc=
+Message-ID: <494fd8b9-b7cc-43ef-af0a-218c6afe0fed@arm.com>
+Date: Mon, 19 Oct 2026 10:23:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] arm64: tlb: Add tlbi workaround for FUJITSU-MONAKA
+ Erratum E#030001
+To: Tomohiro Misono <misono.tomohiro@fujitsu.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>
+Cc: Kohei Enju <enju.kohei@fujitsu.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20261016-monaka-fix-for-upstream-v2-0-fc7ede7f9f48@fujitsu.com>
+ <20261016-monaka-fix-for-upstream-v2-2-fc7ede7f9f48@fujitsu.com>
+Content-Language: en-GB
+From: Vladimir Murzin <vladimir.murzin@arm.com>
+In-Reply-To: <20261016-monaka-fix-for-upstream-v2-2-fc7ede7f9f48@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hey Stan,
+Hi,
 
-On Thu, Oct 15, 2026 at 02:45 PM -07, Stanislav Fomichev wrote:
-> On 10/13, Willem Ferguson wrote:
+On 10/16/26 11:00, Tomohiro Misono wrote:
+> +#ifdef CONFIG_FUJITSU_ERRATUM_030001
+> +	{
+> +		.desc = "FUJITSU-MONAKA Erratum E#030001",
+> +		.capability = ARM64_WORKAROUND_FUJITSU_030001,
+> +		ERRATA_MIDR_RANGE_LIST(((const struct midr_range[]) {
+> +					MIDR_ALL_VERSIONS(MIDR_FUJITSU_MONAKA),
+> +					{}
+> +				})),
+I reckon that can be simplified to
 
-[...]
++	ERRATA_MIDR_ALL_VERSIONS(MIDR_FUJITSU_MONAKA),
 
->> Questions for reviewers:
->> 
->>  1. Is encoding an identifier in the low bits of TSval acceptable in
->>     principle, given the trade-offs above?
->>  2. If so, what feedback do you have on the implementation?
->
-> Don't see any feedback yet, so from the top of my head: looks like you
-> control two sides of the communication, so why not a custom (bpf) tcp option?
-> Would you need that on every packet and it makes it expensive?
->
-> Or any other field you can abuse maybe? IPv6 Flow label?
-
-Nah, we don't control the client unfortunately.
-
-Client here is any device that connects to our edge PoP.
-
-> Implementation-wise, the sock_ops is going away in favor of bpf_tcp_ops,
-> so BPF_SOCK_OPS_TCP_TS_ID_CB_FLAG is a no go.
-
-Yeah, we have just recently realized [1].
-
-Thanks for feedback.
-
-[1] https://lore.kernel.org/all/877bjk893u.fsf@cloudflare.com/
+Cheers
+Vladimir
 
 
