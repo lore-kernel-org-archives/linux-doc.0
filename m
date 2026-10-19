@@ -1,411 +1,291 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9324A360EF6
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC20360EC6;
+	Mon, 19 Oct 2026 02:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792375893; cv=none; b=bjG82BHHf1n9OP3wK7IwJMr9H0khqDbg9jZKjr85XfFbprbhulKot9RoynTxL6Xn3n9lrSX6mKxGs2RMpnIUmx3zWZNOulZzcBLMW8jk2S2SjK6evlJ48LNesa2d7D+DWDkMcWqLJyKPUg9ZLs86LPE9ujrzXeoQf1bXBWrnTfw=
+	t=1792378642; cv=none; b=bqTGy0QcGErvgi9teohl4JXF0vGMOukieKQMfsLuBmxzOlb6EMXqLhgkvCwDAGu8XAzLGpbrLgbclBcykgRhuN+Cp8xKpo8112VfFAWTUw7csl2C8SSrQG28pLf6dyYip8PN483FesdDmXktpmHBeoEZkwFPsO+A37QbZSUiRhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792375893; c=relaxed/simple;
-	bh=pwyWuRiWJ0XbQLyrnTziguc/5+rNlEmAfK7XQkPICrg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CrcHoEqj7iO/q+WSSqokb/i9AIIulGuavoCWSbUfH6pUOp+J6jNXr2rFn0n6NGcOcAZyUKL48EWKcOYHyE4xZAtN8OKXfIb7QION8YO9cc4rFMuSSA0tsi6ycmcEr81rogsN7JIqEfi1570XpaD+G8+zcCNcGLNcKHu6RN8j7bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hafb1hdJ; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1792378642; c=relaxed/simple;
+	bh=MROBembhKh2MtsGxWOWhn2y86sktX7Rgv9BN5HTh3g0=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iJqKfmoGaD3PUMcTfHut6UfQA8P7XpQRuqHxHAo/qVvDantkgY2iE4YWvd7EjAOyVUFiMuYbhcVRPKwDjIPGpfbo4IWBPH9eglPIM/tj/MTmu2avE1Fhsee7ihsvdhcaWMPx3D2Vuj5StnN7sq42hydIo+hIdN+wpfOjHAugw+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U1E4tGPh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hafb1hdJ"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5eac925bac3so55216e0c.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 19:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792375889; x=1792980689; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=UmeYwpV1WXgURkKRUEhvLrRNpkq1JL/wE/xlQQFWMQk=;
-        b=hafb1hdJtXxE3TAENCumLDHX1IhPujvOYGudQRldwd8CG9D9LAy9TgHEr4NTIUi3z5
-         hoUiOOVHbCyWoYW2r0h2GnZfJUc4J1lZySSy7Ata8PbNzr0dux5B6pVfLuAat8YeU3o6
-         EM9o0kklhJBYUa8MDZFFB7O8sA4QEz2bZ6Tyz8NSLkDgch3lbRCcfQsUFHFS61Z6yVmN
-         zUxRljJ2RHNTSJfI575bVhDyegDnwOB2xcn5opCBUDSvgJrry3KRxI/wsZt2n/hUgumP
-         n4t2Ld6aR/qIRImMJUqBhYtXdSdzZvTBmg122bpLE/8bNRA0aE43SA6WszjVDvi23IM/
-         X/bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792375889; x=1792980689;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=UmeYwpV1WXgURkKRUEhvLrRNpkq1JL/wE/xlQQFWMQk=;
-        b=p67CIdA7WhY/8kUsUSzyEcZNy75e6g+iWh+FxNNtITvauagtYPBnQbKGbgyr1Rt7Oh
-         nviJhEeW9qtaXeYiG208bX4PzDkd/OFMgdf3LFZk2E4jtb6xMST2EBJzz6RUdXtYield
-         o6Tial9f5ZR7ycmZ0wGTwRI+H0vVAXZTz5mAM1mUL9RWjbzZa6gieFEAMZpNl0yjqLel
-         PKqwLXS2RbdKUIUg5FPKRcEwhlsae2xxV0exS9dfMjmkbT5OQ302o6ekwMcBnJbPr8yz
-         k8SrhOQCk+1Q1bn+4sfcr2WieZ/Y2nI9kEwlLq8HZvjjQrFr5UCqJLEajJsKD+vb0De0
-         ggGg==
-X-Forwarded-Encrypted: i=1; AKwUvBxxXdX1MK30wA/X5h+VgLw+3p6fvSU9qyB7i001uPXIuhZqUgFuGbjDxtowe3WozWGRJiia6A5Q2cs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ+dqzUnPe6swpcp0OkxQ6rvzVtSHnzWL+MnDR36w0GeGBM8/87
-	yjYvGVgVYeBXUmkHiptmcy5LDFLf3/jsMcZtlgPoK2CQanYR0+swq4pflpf7lei2icA=
-X-Gm-Gg: AYBFou2k0BjBnxE3GEiFOILcwtmrOPUSF738qQ30R4AdL10XviLL+SX8zIYSYN6UznG
-	MGp/6qWq4x2ar9Ojh4CefOMdNbwO6xZbiDuk2l3mggipm7bN+sMius34B/wgi6gz9gbnkYOcmv1
-	FnUf3BEl8fMOQUk8uhRoDQ+cj0n2yWz9dg+oaAffJlb87oeXG/IdFSunMezLTcUGvUYKApzn411
-	BvZ3WzD+V20MmqJAM/9L+tMgx6GduNtzRXnkg00hS+VnIzO7OLhBeCoJZfkFQMyudKiRZfrigTE
-	TU+m7FGDIct+Otp4N3bE9xFJ/NmhXnOLwb2WmEoXmuWWDZaSNxzyel+WLFxQS6PMKw75tTCRAvG
-	EagjLcRY9dkGQvwT9TSBw1NKKN6qrzz9Ul5LEvAu3Y+R+WQ3Pe9UsHueCwGjMgO1eNwdYKu6Kea
-	jX9ZrhNONATlgXMZ6hlMec66ZNuoSk4DgPAMmrjqFcZTnM+XL6DKk0o8K+ufxwbP7gIwZGlh+nu
-	T6D17xcU0mz5q7eVEvOPUbWSVHZz9L2EipbvfJs1WQgEKuR6PYWJyel7OZ/ciGodQwtzDoJrrXR
-	GDAXXNXe72S/aagsCFnX3jk1l6guEg==
-X-Received: by 2002:a05:6122:8616:b0:5c9:a60b:e5c8 with SMTP id 71dfb90a1353d-5eaaa414a8bmr2432423e0c.11.1792375889472;
-        Sun, 18 Oct 2026 19:11:29 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eabbd9ea2bsm4271383e0c.2.2026.10.18.19.11.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 19:11:29 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: linux-kselftest@vger.kernel.org,
-	rppt@kernel.org,
-	kuba@kernel.org,
-	enelsonmoore@gmail.com,
-	bp@alien8.de,
-	shuah@kernel.org,
-	david@kernel.org,
-	akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	vbabka@kernel.org,
-	dapeng1.mi@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	surenb@google.com,
-	pasha.tatashin@soleen.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	rdunlap@infradead.org,
-	elver@google.com,
-	graf@amazon.com,
-	lirongqing@baidu.com,
-	liam@infradead.org,
-	jlayton@kernel.org
-Subject: [PATCH v1 8/8] selftests: kho: add read-only KHO test to vmtest.sh
-Date: Sun, 18 Oct 2026 22:11:11 -0400
-Message-ID: <20261019021111.990394-9-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.56.0.176.g3575e65682-goog
-In-Reply-To: <20261019021111.990394-1-pasha.tatashin@soleen.com>
-References: <20261019021111.990394-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U1E4tGPh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633EE1F000C4;
+	Mon, 19 Oct 2026 02:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792378640;
+	bh=hqGSmcH9+ql+tEzrz3OUYyCpkz7GsJAUKHd9AYB6ZuE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=U1E4tGPhA3a75LS+t0HIP1THYdihWm2Qztg4A6+NkkiArrZ+mmMwdD3i15saFKXxk
+	 aMPzC/lu35nY4M1rePgi8YaCCKxj6VKytt2aLhGHKqj7hNauNunFbVrZZvfv7B0i4Q
+	 ULNq3sHrD3s3K6MD80dA7WnH83y/VIohMGrV73He3O3PN7wVufgHsyVJd42QHZoz/G
+	 JESmb15SmA4darfDuW9EWRIFKYxeXc4Pi++YrEzbj2TMxQPaUPZ+40g/9G8UPkHHgN
+	 7jei6u8hFYYP0W25FzlBR+1tznmH3bdicTd3vBK9zy7AWI9B9NIHB9neYOFhK+5WSv
+	 m12WjGjIhag2w==
+Subject: Re: [PATCH net v6 1/6] can: dev: prevent bus-off recovery when the
+ interface is not running
+From: netdev-bot+sashiko@kernel.org
+To: 1579567540@qq.com
+Cc: mkl@pengutronix.de, mailhol@kernel.org, heiko@sntech.de,
+ davem@davemloft.net, wg@grandegger.com, socketcan@hartkopp.net,
+ kernel@pengutronix.de, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-can@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, stable@vger.kernel.org
+Date: Mon, 19 Oct 2026 02:57:18 +0000
+Message-ID: <179237863891.3135.16148468658160918424@kernel.org>
+In-Reply-To: <20261017-rockchip-canfd-restart-close-v6-1-ed605feb4b6e@qq.com>
+References: <20261017-rockchip-canfd-restart-close-v6-1-ed605feb4b6e@qq.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Extend tools/testing/selftests/kho/vmtest.sh and init.c to run a second
-QEMU test verifying read-only KHO ('kho_ro=<fdt_phys>') after the
-standard KHO test on both x86_64 and aarch64:
+Thank you for your contribution! Sashiko AI review found 3 potential
+issue(s) to consider.
 
-- Build a second kernel configured with CONFIG_KEXEC_HANDOVER_READONLY=y
-  (and CONFIG_KEXEC_HANDOVER=n).
-- Pass KHO_RO_CMDLINE ('nokaslr kho_bootmem=64M,64M,64M' on x86_64,
-  'cma=116M@0x40c00000' on aarch64) to the first kernel in the read-only
-  test run so KHO allocations are placed in predictable physical ranges.
-- When booted with 'kho_ro_test', read /debugfs/kho/out/fdt_phys in
-  init.c and kexec into the read-only kernel with 'kho_ro=<fdt_phys>'
-  and architecture-specific memory parameters
-  ('memmap=792M$16M memmap=24M$1000M' on x86_64,
-  'mem=128M cma=12M@0x40000000' on aarch64) so the preserved pages are
-  excluded from the boot memory map and mapped via kho_ro_map_folio().
-- Verify 'KHO restore succeeded' from test_kho in read-only mode.
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 2
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/testing/selftests/kho/arm64.conf |   3 +
- tools/testing/selftests/kho/init.c     |  38 ++++++++-
- tools/testing/selftests/kho/vmtest.sh  | 103 +++++++++++++++++--------
- tools/testing/selftests/kho/x86.conf   |   1 +
- 4 files changed, 112 insertions(+), 33 deletions(-)
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-diff --git a/tools/testing/selftests/kho/arm64.conf b/tools/testing/selftests/kho/arm64.conf
-index ee696807cd35..36dd8c46060c 100644
---- a/tools/testing/selftests/kho/arm64.conf
-+++ b/tools/testing/selftests/kho/arm64.conf
-@@ -4,6 +4,9 @@ CONFIG_SERIAL_AMBA_PL010=y
- CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
- CONFIG_SERIAL_AMBA_PL011=y
- CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
-+CONFIG_CMA=y
-+CONFIG_DMA_CMA=y
- "
- KERNEL_IMAGE="Image"
- KERNEL_CMDLINE="console=ttyAMA0"
-+KHO_RO_CMDLINE="cma=116M@0x40c00000"
-diff --git a/tools/testing/selftests/kho/init.c b/tools/testing/selftests/kho/init.c
-index 88a41b6eba95..272338f186be 100644
---- a/tools/testing/selftests/kho/init.c
-+++ b/tools/testing/selftests/kho/init.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <stdio.h>
-+#include <string.h>
- #include <unistd.h>
- #include <fcntl.h>
- #include <sys/syscall.h>
-@@ -12,6 +13,15 @@
- #define COMMAND_LINE_SIZE	2048
- 
- #define KERNEL_IMAGE "/kernel"
-+#define FDT_PHYS_PATH "/debugfs/kho/out/fdt_phys"
-+
-+#if defined(__x86_64__)
-+#define KHO_RO_MEM_PARAM "memmap=792M$16M memmap=24M$1000M"
-+#elif defined(__aarch64__)
-+#define KHO_RO_MEM_PARAM "mem=128M cma=12M@0x40000000"
-+#else
-+#define KHO_RO_MEM_PARAM ""
-+#endif
- 
- static int mount_filesystems(void)
- {
-@@ -32,7 +42,8 @@ static long kexec_file_load(int kernel_fd, int initrd_fd,
- static int kexec_load(void)
- {
- 	char cmdline[COMMAND_LINE_SIZE];
--	ssize_t len;
-+	ssize_t len, fdt_len;
-+	char fdt_phys[64];
- 	int fd, err;
- 
- 	fd = open("/proc/cmdline", O_RDONLY);
-@@ -41,11 +52,34 @@ static int kexec_load(void)
- 
- 	len = read(fd, cmdline, sizeof(cmdline));
- 	close(fd);
--	if (len < 0)
-+	if (len <= 0)
- 		return -1;
- 
- 	/* replace \n with \0 */
- 	cmdline[len - 1] = 0;
-+
-+	if (strstr(cmdline, "kho_ro_test")) {
-+		fd = open(FDT_PHYS_PATH, O_RDONLY);
-+		if (fd < 0)
-+			return -1;
-+
-+		fdt_len = read(fd, fdt_phys, sizeof(fdt_phys) - 1);
-+		close(fd);
-+		if (fdt_len <= 0)
-+			return -1;
-+
-+		if (fdt_phys[fdt_len - 1] == '\n')
-+			fdt_len--;
-+		fdt_phys[fdt_len] = 0;
-+
-+		len = (len - 1) + snprintf(cmdline + len - 1,
-+					   sizeof(cmdline) - (len - 1),
-+					   " kho_ro=%s " KHO_RO_MEM_PARAM,
-+					   fdt_phys) + 1;
-+		if (len <= 0 || (size_t)len > sizeof(cmdline))
-+			return -1;
-+	}
-+
- 	fd = open(KERNEL_IMAGE, O_RDONLY);
- 	if (fd < 0)
- 		return -1;
-diff --git a/tools/testing/selftests/kho/vmtest.sh b/tools/testing/selftests/kho/vmtest.sh
-index 0014bd76e88d..b3659e4fd1c9 100755
---- a/tools/testing/selftests/kho/vmtest.sh
-+++ b/tools/testing/selftests/kho/vmtest.sh
-@@ -35,32 +35,25 @@ trap cleanup EXIT
- function skip() {
- 	local msg=${1:-""}
- 
--	ktap_test_skip "$msg"
-+	while [[ "$KTAP_TESTNO" -le "$KSFT_NUM_TESTS" ]]; do
-+		ktap_test_skip "$msg"
-+	done
- 	exit "$KSFT_SKIP"
- }
- 
--function fail() {
--	local msg=${1:-""}
--
--	ktap_test_fail "$msg"
--	exit "$KSFT_FAIL"
--}
--
- function build_kernel() {
- 	local build_dir=$1
- 	local make_cmd=$2
- 	local arch_kconfig=$3
- 	local kimage=$4
-+	local kho_mode=${5:-"rw"}
- 
- 	local kho_config="$tmp_dir/kho.config"
- 	local kconfig="$build_dir/.config"
- 
- 	# enable initrd, KHO and KHO test in kernel configuration
--	tee "$kconfig" > "$kho_config" <<EOF
-+	cat > "$kho_config" <<EOF
- CONFIG_BLK_DEV_INITRD=y
--CONFIG_KEXEC_HANDOVER=y
--CONFIG_KEXEC_HANDOVER_DEBUG=y
--CONFIG_KEXEC_HANDOVER_DEBUGFS=y
- CONFIG_TEST_KEXEC_HANDOVER=y
- CONFIG_DEBUG_KERNEL=y
- CONFIG_DEBUG_VM=y
-@@ -70,20 +63,50 @@ CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
- $arch_kconfig
- EOF
- 
-+	if [[ "$kho_mode" == "ro" ]]; then
-+		cat >> "$kho_config" <<EOF
-+# CONFIG_KEXEC_HANDOVER is not set
-+CONFIG_KEXEC_HANDOVER_READONLY=y
-+EOF
-+	else
-+		cat >> "$kho_config" <<EOF
-+CONFIG_KEXEC_HANDOVER=y
-+CONFIG_KEXEC_HANDOVER_DEBUG=y
-+CONFIG_KEXEC_HANDOVER_DEBUGFS=y
-+EOF
-+	fi
-+
- 	make_cmd="$make_cmd -C $kernel_dir O=$build_dir"
--	$make_cmd olddefconfig
-+	local need_config=0
-+	if [[ ! -f "$kconfig" ]]; then
-+		need_config=1
-+	else
-+		while read -r opt ; do
-+			[[ -z "$opt" ]] && continue
-+			grep -q "^$opt$" "$kconfig" || need_config=1
-+		done < "$kho_config"
-+	fi
-+
-+	if [[ "$need_config" -eq 1 ]]; then
-+		cp "$kho_config" "$kconfig"
-+		$make_cmd olddefconfig
-+	fi
- 
- 	# verify that kernel confiration has all necessary options
- 	while read -r opt ; do
--		grep "$opt" "$kconfig" &>/dev/null || skip "$opt is missing"
-+		[[ -z "$opt" ]] && continue
-+		grep -q "^$opt$" "$kconfig" || skip "$opt is missing"
- 	done < "$kho_config"
- 
- 	$make_cmd "$kimage"
--	$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
-+	if [[ "$kho_mode" != "ro" ]]; then
-+		$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
-+	fi
- }
- 
- function mkinitrd() {
- 	local kernel=$1
-+	local out_initrd=$2
- 
- 	"$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib \
- 			-fno-asynchronous-unwind-tables -fno-ident \
-@@ -100,25 +123,31 @@ file /init $tmp_dir/init 0755 0 0
- file /kernel $kernel 0644 0 0
- EOF
- 
--	"$build_dir/usr/gen_init_cpio" "$tmp_dir/cpio_list" > "$initrd"
-+	"$build_dir/usr/gen_init_cpio" "$tmp_dir/cpio_list" > "$out_initrd"
- }
- 
- function run_qemu() {
- 	local qemu_cmd=$1
- 	local cmdline=$2
- 	local kernel=$3
-+	local initrd_path=$4
-+	local test_name=$5
- 	local serial="$tmp_dir/qemu.serial"
- 
- 	cmdline="$cmdline kho=on panic=-1"
- 
--	$qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults \
--		  -accel kvm -accel hvf -accel tcg  \
--		  -serial file:"$serial" \
--		  -append "$cmdline" \
--		  -kernel "$kernel" \
--		  -initrd "$initrd"
--
--	grep "KHO restore succeeded" "$serial" &> /dev/null || fail "KHO failed"
-+	rm -f "$serial"
-+	if $qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults \
-+		     -accel kvm -accel hvf -accel tcg  \
-+		     -serial file:"$serial" \
-+		     -append "$cmdline" \
-+		     -kernel "$kernel" \
-+		     -initrd "$initrd_path" && \
-+	   grep "KHO restore succeeded" "$serial" &> /dev/null; then
-+		ktap_test_pass "$test_name succeeded"
-+	else
-+		ktap_test_fail "$test_name failed"
-+	fi
- }
- 
- function target_to_arch() {
-@@ -164,7 +193,7 @@ function main() {
- 	done
- 
- 	ktap_print_header
--	ktap_set_plan 1
-+	ktap_set_plan 2
- 
- 	if [[ "$target" != "$(uname -m)" ]] && [[ -z "$CROSS_COMPILE" ]]; then
- 		skip "Cross-platform testing needs to specify CROSS_COMPILE"
-@@ -174,17 +203,29 @@ function main() {
- 	local arch=$(target_to_arch "$target")
- 	source "$test_dir/$arch.conf"
- 
--	# build the kernel and create initrd
-+	# build the kernels and create initrds
- 	# initrd includes the kernel image that will be kexec'ed
- 	local make_cmd="make ARCH=$arch CROSS_COMPILE=$CROSS_COMPILE -j$jobs"
--	build_kernel "$build_dir" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE"
-+	build_kernel "$build_dir" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE" "rw"
- 
--	local kernel="$build_dir/arch/$arch/boot/$KERNEL_IMAGE"
--	mkinitrd "$kernel"
-+	local kernel="$tmp_dir/$KERNEL_IMAGE"
-+	cp "$build_dir/arch/$arch/boot/$KERNEL_IMAGE" "$kernel"
-+	mkinitrd "$kernel" "$initrd"
-+
-+	local build_dir_ro="${build_dir}-ro"
-+	if [[ ! -d "$build_dir_ro" ]]; then
-+		cp -a "$build_dir" "$build_dir_ro"
-+	fi
-+	build_kernel "$build_dir_ro" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE" "ro"
-+	local kernel_ro="$build_dir_ro/arch/$arch/boot/$KERNEL_IMAGE"
-+	local initrd_ro="$tmp_dir/initrd-ro.cpio"
-+	mkinitrd "$kernel_ro" "$initrd_ro"
- 
--	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE" "$kernel"
-+	trap - ERR
- 
--	ktap_test_pass "KHO succeeded"
-+	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE" "$kernel" "$initrd" "KHO"
-+	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE $KHO_RO_CMDLINE kho_ro_test" \
-+		 "$kernel" "$initrd_ro" "KHO read-only"
- }
- 
- main "$@"
-diff --git a/tools/testing/selftests/kho/x86.conf b/tools/testing/selftests/kho/x86.conf
-index b419e610ca22..2c097c5bd6c6 100644
---- a/tools/testing/selftests/kho/x86.conf
-+++ b/tools/testing/selftests/kho/x86.conf
-@@ -5,3 +5,4 @@ CONFIG_SERIAL_8250_CONSOLE=y
- "
- KERNEL_IMAGE="bzImage"
- KERNEL_CMDLINE="console=ttyS0"
-+KHO_RO_CMDLINE="nokaslr kho_bootmem=64M,64M,64M"
+- [Medium] The patch is titled 'prevent bus-off recovery when the
+  interface is not running', but the netif_running() checks it adds are…
+- [Low] The patch rewords the bus-off recovery paragraph in
+  Documentation/networking/can.rst so that the 'e.g.::' now follows the…
+- [Low] The new user-facing text in Documentation/networking/can.rst
+  states that recovery happens only while the interface is running, with…
+
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch only
+  narrows it.
+
+--
+
+can: dev: prevent bus-off recovery when the interface is not running
+
+This patch adds a netif_running() check to can_restart() before the echo
+skbs are flushed and the driver restart callback is called. It also changes
+can_bus_off() so the restart work is only scheduled when restart_ms is set
+and the interface is running. Documentation/networking/can.rst is updated to
+describe the running-interface requirement.
+
+> diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
+> index 536ff411da1d1..861397e4ce906 100644
+> --- a/Documentation/networking/can.rst
+> +++ b/Documentation/networking/can.rst
+> @@ -1298,7 +1298,8 @@ More info to the above output:
+>  	Automatic restart delay time. If set to a non-zero value, a
+>  	restart of the CAN controller will be triggered automatically
+>  	in case of a bus-off condition after the specified delay time
+> -	in milliseconds. By default it's off.
+> +	in milliseconds, provided the interface is running. By default
+> +	it's off.
+
+[Severity: Low]
+Is this guarantee accurate as written? The bus-off paragraph below makes the
+same claim with no qualification ("Recovery is only scheduled and started
+while the interface is running").
+
+Each new check is a single lockless netif_running() snapshot. Once the check
+in can_restart() passes, the function still goes on to do:
+
+	can_flush_echo_skb(dev);
+	...
+	netif_carrier_on(dev);
+	err = priv->do_set_mode(dev, CAN_MODE_START);
+
+Nothing orders this against __dev_close_many() clearing __LINK_STATE_START
+and calling ndo_stop(). In the same way, can_bus_off() saves netif_running()
+into restart and only queues the work later.
+
+The only wait point is cancel_delayed_work_sync() in close_candev(). That
+runs inside ndo_stop, after the interface has already stopped running.
+
+The commit message says as much ("These checks do not wait for recovery
+that has already passed the check, nor serialize the check with work
+submission"), but the user documentation doesn't. Would softer wording, for
+example that recovery is not scheduled and is skipped once the interface is
+down, describe the behaviour more accurately?
+
+> @@ -1372,7 +1373,8 @@ before you can start it to avoid error-prone default settings::
+>  A device may enter the "bus-off" state if too many errors occurred on
+>  the CAN bus. Then no more messages are received or sent. An automatic
+>  bus-off recovery can be enabled by setting the "restart-ms" to a
+> -non-zero value, e.g.::
+> +non-zero value. Recovery is only scheduled and started while the
+> +interface is running, e.g.::
+>  
+>      $ ip link set canX type can restart-ms 100
+
+[Severity: Low]
+Is the "e.g.::" now attached to the wrong sentence? Before this patch, the
+example showed how to enable recovery by setting restart-ms. Now it follows
+the "while the interface is running" sentence, so it reads as a command to
+run on a running interface.
+
+can_changelink() rejects that case:
+
+drivers/net/can/dev/netlink.c:can_changelink() {
+    ...
+		/* Do not allow changing restart delay while running */
+		if (dev->flags & IFF_UP)
+			return -EBUSY;
+    ...
+}
+
+Could the "e.g.::" stay on the enabling sentence, with the running-interface
+note moved after the example? It might also be worth saying that restart-ms
+must be set while the interface is down.
+
+> diff --git a/drivers/net/can/dev/dev.c b/drivers/net/can/dev/dev.c
+> index 769745e22a3c7..d5cb22db2a346 100644
+> --- a/drivers/net/can/dev/dev.c
+> +++ b/drivers/net/can/dev/dev.c
+> @@ -198,6 +198,9 @@ static int can_restart(struct net_device *dev)
+>  	if (!priv->do_set_mode)
+>  		return -EOPNOTSUPP;
+>  
+> +	if (!netif_running(dev))
+> +		return -ENETDOWN;
+> +
+
+[Severity: Medium]
+Does this check actually close the window the subject line describes?
+can_restart_work() runs on system_percpu_wq without RTNL. That means the
+check can pass just before __dev_close_many() clears __LINK_STATE_START:
+
+CPU0 (restart work)              CPU1 (RTNL held)
+can_restart_work()
+  can_restart()
+    netif_running() == true
+                                 __dev_close_many()
+                                   clear_bit(__LINK_STATE_START)
+                                   dev_deactivate_many()
+                                   flexcan_close()
+                                     free_irq()
+                                     flexcan_chip_stop_disable_on_error()
+                                     can_rx_offload_del()
+                                     flexcan_transceiver_disable()
+    netif_carrier_on()
+    flexcan_set_mode(CAN_MODE_START)
+      flexcan_chip_start()
+      flexcan_chip_interrupts_enable()
+      netif_wake_queue()
+                                     close_candev()
+                                       cancel_delayed_work_sync()
+
+flexcan_close() calls close_candev() only after all of the hardware
+teardown. So cancel_delayed_work_sync() just waits for the restart to
+finish.
+
+Could the controller then stay restarted and active on the bus after
+ifdown, with its IRQ freed and the transceiver disabled?
+
+can_bus_off() has a similar gap. restart comes from a snapshot, and
+schedule_delayed_work() runs later. hi3110_stop() calls close_candev()
+before free_irq(), so in drivers like hi3110 the work can be queued after
+the only cancel. If the interface is reopened within restart_ms, that stale
+work would run can_restart() on a live controller.
+
+The commit message scopes this case out. A later patch in the series adds
+close_candev_cancel_restart_sync(), but only rockchip_canfd uses it. At the
+end of the series flexcan, hi3110 and the other in-tree drivers still have
+this race.
+
+Is real serialization needed here to stop recovery once the interface starts
+closing? For example, the restart work could be cancelled at the start of
+ndo_stop (in each driver, or through a core hook), or the work could use an
+rtnl_trylock() and requeue on failure.
+
+> @@ -259,13 +262,15 @@ int can_restart_now(struct net_device *dev)
+
+[ ... ]
+
+>  void can_bus_off(struct net_device *dev)
+>  {
+>  	struct can_priv *priv = netdev_priv(dev);
+> +	const bool restart = priv->restart_ms && netif_running(dev);
+>  
+> -	if (priv->restart_ms)
+> +	if (restart)
+>  		netdev_info(dev, "bus-off, scheduling restart in %d ms\n",
+>  			    priv->restart_ms);
+>  	else
+> @@ -273,7 +278,7 @@ void can_bus_off(struct net_device *dev)
+>  
+>  	netif_carrier_off(dev);
+>  
+> -	if (priv->restart_ms)
+> +	if (restart)
+>  		schedule_delayed_work(&priv->restart_work,
+>  				      msecs_to_jiffies(priv->restart_ms));
+>  }
+
+[Severity: High]
+This is a pre-existing issue, but this patch only narrows it and doesn't
+close it. Can restart_work still be queued after close_candev() and then
+outlive the net_device?
+
+Here is the teardown path with hi3110:
+
+hi3110_can_remove()
+  unregister_candev()
+    __dev_close_many()
+      hi3110_stop()
+        close_candev()
+          cancel_delayed_work_sync()   <- nothing pending yet
+        priv->force_quit = 1;
+        free_irq()
+
+Meanwhile the threaded IST can be on its way into can_bus_off(). It calls
+can_bus_off() whatever the value of restart_ms:
+
+hi3110_can_ist()
+    ...
+			if (new_state == CAN_STATE_BUS_OFF) {
+				if (skb)
+					netif_rx(skb);
+				can_bus_off(net);
+
+Suppose the IST computed restart as true before __LINK_STATE_START was
+cleared, and was then delayed until after close_candev(). In that case
+schedule_delayed_work() queues the work after the only cancel.
+hi3110_can_remove() then calls free_candev(), which is just:
+
+void free_candev(struct net_device *dev)
+{
+	free_netdev(dev);
+}
+
+When restart_ms expires, the delayed_work timer and can_restart_work() would
+run on freed memory. That covers the container_of() to priv, the priv->dev
+load, the new netif_running() read of dev->state, and the indirect call
+through priv->do_set_mode. The new check in can_restart() can't help here,
+because it reads the freed net_device itself.
+
+Before this patch, any can_bus_off() after close_candev() queued the work,
+so the window is now much smaller. The commit message leaves the remaining
+case to drivers, and no later patch in the series changes hi3110 or the core
+free path.
+
+Would closing this need either serialization of the check and the queuing
+against close_candev(), or a cancel/disable of restart_work in the
+unregister or free path?
+
 -- 
-2.56.0.176.g3575e65682-goog
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261017-rockchip-canfd-restart-close-v6-0-ed605feb4b6e%40qq.com
