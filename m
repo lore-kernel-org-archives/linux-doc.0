@@ -1,238 +1,171 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3CD4AA3F4
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 11:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578C74E36C3
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 11:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792410203; cv=none; b=uxkl+BhLFFASPZHBjIO2A5WZu0dpsU7tgnMtBXJmsy9GwiH0nLY03Z4LMo3kT9RpxkwOv882RT6PMaW+BKvCo7KlrB+qWerhtBGJ4F6rQ8BEbHhO1V2CdrOuGvulvCjtaEzitDgszH4UHTw73WqfCehf1LpBUSnAZOwnYUBNzSk=
+	t=1792410857; cv=none; b=AArsF8tE1p3oVC2zFkUhlMZIbfUqO0SFKmiqmJ0KTeSUN7hF0swOZSvz/ffsBJaI9vESZaS1+zihobDh8qxOxsNC1XjqHRSIU23ZwQ8JyXkWJWnzbzj88zLOqE+RimbPE9vzuGESLLL7IdnaERS89W8O/rjuoPWVZUp0vcFWSGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792410203; c=relaxed/simple;
-	bh=0h+fMlcy0nHUgqx0ZgNb3jSrGz0nmItuE/FyNlwIrZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZ0Ui6wH0vRWpvfqI1onVL1/RrYPB1U/rvrv5PbTnv1O2/JBPKE15ZgWPVyDZL1e4OET1ewsEgx3CfQEVxT4AUGZu2odExOj/aFJgB40WDZwDQBnzP/JSo+PF24oUXUQR+Y1S1TWzr+SYx2Y/rKwzs7oDOEeA+PLn4y8rS5lj1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oCnoYDeR; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1792410857; c=relaxed/simple;
+	bh=IBXBdxbYHimkoMM+XMeqTFEe7fU69XJjeKdcPHeecxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i/f0J1rGQ6548W4aoq7uA7Y7M8nEE6t28iO7aN+fPcI3Z5dh21c9t2VCXmVODIqrzirvM9E200X3+qnfD9n92sMawSe3+eJzmi/TZoLJUzhBeZO87sRVa4T6UDIqbDD5EEVxXz7YlnkMUQL8cT/cjAq6C1G7lMRmqPQb9N+2swo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v3a4OZW3; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCnoYDeR"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso21258845e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 04:43:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v3a4OZW3"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48b042c0728so504496f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 04:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792410195; x=1793014995; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
-        b=oCnoYDeRKqohdjoF8yr1PWKPgjlJR2mynK3Kjw0YrYFdWEIOUbtfjYoSGPcg1BAe2H
-         1DY4sGaClDUz5ITMycr6otyeVliHy73RZe1F2S0imQfR//X654PXu+KRRG+qJn+5Imqd
-         AI33Mk3uXVl96Den2MWa9znDNxqIwXe+AS+Vy+TIJmqWia89kcDUkJ+2E7cAHexwmvfU
-         dipwrGtY7YZIj2CluWUoxjLZlVxTJH2o++eXf28eNuPS7eV3ygGea33WzNOs2I2NTARY
-         JPQiuAp0NTayS9tg69d+UFM9ZMAiJawDf3LxW0Jw0iS9e8G4fsWaO6r3/l/MWZdn3ryM
-         Q4ow==
+        d=linaro.org; s=google; t=1792410853; x=1793015653; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3Oq/GPmuBLsTY8Av2UJYLNH0P0AYmxlI1V5awo5gufM=;
+        b=v3a4OZW3YYdFyZp1UYK50eE6m7aYc5DxJeSc8VkvI0U8qORmQ7Iw0EVlJfuN/NrJXK
+         /DmODUK4xoH+1iXLS+jlBgffTuNFa4dyfnDmL0kYlVKC7BKgDrixTd4zXeyGG/bIixOL
+         1k2AHlKR/aLmGdAH3z2OhqjJ7IGI4VjR/9Y+MBK70V2K9NSj3p6Hs/Jm8cvj6o03YO9x
+         6KMHyKXtj+jgDE0jrcgJPSWgVjNxfXF7cuBAXPJMaBupxiz1hTNWESJ1UIsOBl7KhmVz
+         BJMidgkKDRA7TNJQTiFKCI/gmAi92VYCg6SPcqqM7LfoPBmRIC0rTtb6pKOE1bJ+3zRi
+         qa9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792410195; x=1793014995;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
-        b=hbslPXaPkUgEMM3kzUszCn2SmuGHaEoOIjKHgReMr8OQdt8TM1kK02E6sTxngGaRU6
-         Y4sBDIG2dt6m3N/iRvYzlsbZ6ppGoiExYzqMYg6OTStG+rDZT53YSUFwgIddZLm78JrP
-         laEuNqy6vGb7+ELTCQKdu3s1Iy9bNfdPtMTChsYv3LqWdpBHaYFKnkMMEwxQ1n6tEe3h
-         sWMNJiG/f7Nn70LbuS9e9wuagR4+TtTV+mBpi/IwKbRe3ZgyJwc+DjrccNtwqfLFJ1SQ
-         smZYSKF/QDu7wRyNCh0rlszgts3lYza7oTnDqmLfAuMDsnLfZcvFtpnYuA+d23Mj+rpN
-         Mtgw==
-X-Forwarded-Encrypted: i=1; AKwUvByPtldrOntfQ7SFjm/RpZ5NWlDyBRcHZ2eha69n+nn6jaQVPqGJ4cR27i7vS5QV+vQApfyQuOpXo/0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIq2EJXi772kMCMbebVIiag2cnVwoYmtEoSGp8X/NVaim9jzczE
-	aE+sZ5To98cvZYVJwQZlPnPdHFvysLRYrjki+1OFX6uT44DTUL8tdQk5gUBETHW0NQ==
-X-Gm-Gg: AYBFou2X0VicOrXJxGDGx5OFQGnC+sHhC1s29Gb/hVx6kcrQvJqygUO7176JZ7JpUlh
-	ohLBiZWkBoZ1UmXV+50/dIyIkelqQlpZlV6ua2KvfvxL4Ra0UGDTpK6iyNz32mM0bmjQDVyWgpa
-	6LqLtJLOgUAh4QMDAfVqFa+ZoGYrtGc7lMlw7OS+btzxyPcWHUyi6cEmoUSnRpRONpyDtO9phOf
-	7ZoWDywzIezDzk52fBoyHiuWHohcl+lMvMyKlv/+X0foLbMibH7O+IY2w76xA7JCZI69n9A3zU0
-	FkY/A4GcS4ljAjosW9Q4IBKh5Bq4e2bp/WjWWPFJOKgb2ortWmUVV20ch4cfWU7pcott93XCNwQ
-	5Avdez4KsA9PaznFukTvubY9+Xrcn4NyJ6pIAfyvs4kkdkUs8jzyWPeZBZFBA3L2g8230n2q/SD
-	IPgIs9AqnLxvGjNrXmqijTJW3oGGBvS6xHVMcKP4gkNjoG+nPbZlD5WedbK8et+mF3JQ74f+WNp
-	ORqC1xj83kcmv878utQTd3RxXBMvFQ=
-X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr165269695e9.32.1792410194117;
-        Mon, 19 Oct 2026 04:43:14 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:d186:2d44:63ff:537f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e9423f20sm58112105e9.7.2026.10.19.04.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 04:43:13 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:43:04 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com,
-	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
-	ihor.solodrai@linux.dev, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, hyc.lee@gmail.com, miklos@szeredi.hu,
-	amir73il@gmail.com, senozhatsky@chromium.org,
-	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org,
-	matt@bobrowski.net, rostedt@goodmis.org, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, john.johansen@canonical.com,
-	georgia.garcia@canonical.com, zohar@linux.ibm.com,
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com,
-	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com,
-	nanx95726@gmail.com, djwong@kernel.org, lujialin4@huawei.com,
-	bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev,
-	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <atYBVCIYE1zDb7do@google.com>
-References: <20261015125425.3246251-1-caixinchen1@huawei.com>
- <20261015125425.3246251-10-caixinchen1@huawei.com>
- <atI20Vs7Du9-g1Hz@zenbox>
+        d=1e100.net; s=20260707; t=1792410853; x=1793015653;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3Oq/GPmuBLsTY8Av2UJYLNH0P0AYmxlI1V5awo5gufM=;
+        b=g6/3hscMg2Q+TgiXLwuXpuvn3Rb6uCze7VxkAIsVkbnNt1pvQ8GvdXIMlhWZVF5DIi
+         UoqeWMhiGTd4aC0YAATzKuxVgnsa6HLoEvGPrEb37fAVdVXsK64qQuC8VTe3zgu4sSNO
+         GvkQAKKOHJ7aT0sd6GSQzAg8yJMqQIA8VzlkaccF3vMLj39GOH+s6PT0i3H/56JTYAWu
+         Vl6DVXLQh7s/ajix9P9PHcSyikTo+PmF0TvynKFoCbyK0OSZSaUwLIYAoIM6WADZggO0
+         WQBDYzjmew6DKtHBmKLyFyjNYdHiHZl+DDuVAkyPwM9m+Zbiq9wOQHtYGzysezYbEQ9j
+         XRbQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwevcu1k58OWtllKaF+QrvcXmUdVNnfc/u8abROc+MBNKXIYwx5BLPUrV51NwfqyR1RiLwMRrp7ljU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKHa9bvm4SmJW9uTvMZvIFlCaSPNz0aPBVk2dod9pWrRFS+e69q
+	gettH3R2hIVw2Z8KBvXiziCZfEKVwNc9DhnU+RCSSdnsXSb0dowgy3WJpIpSpbAWCAQ=
+X-Gm-Gg: AYBFou1vtY4vblH0BcHLzk/jPx+ZK3NIgg+rcfiM2YFrAHHrQ8myjXEJ2p/PvsvTyiN
+	nYAWDlQaIhOG/k9P4Dz/oyX7rudmz0xE/nmk0JnQdZpRlwXxmDwj5Q/fJFWp4wmuzFNq+6NATo4
+	64fAEEz9ePOs3BcnTLt0ccmGGmmKcWxeUPKPfpgeSKO0dBaUD47mNs4LvHe04VF/e8mD0qWPnAM
+	WvMb8Dbef8VdzZXGpHKFakZ3CRNZO4KmRffJBcWED0PCa2AqC8SiltwLWtX4fvNdOBRgfhDZGck
+	hzHVzzDof3dLC5mtyZV1zEZ4CfoeQOX9RIPdMlcKqzBnCFSkPEYgzUMFQbRKDHJsIbkgMa36xXm
+	AI2z501kEn2IyuCRXkYwYr3RWECYr1mY7M7+MqRSAIv8bz3bcTPLzujhrpnbbzvj1+/C1ZD/pMu
+	e/ew/4tvZN96k8sDFaOb8xumxK73V1ABlMKjBkF6qej+BpqjkKRUPvEKza89f13HJ0s0N0YCMGF
+	RM=
+X-Received: by 2002:a05:6000:2dc8:b0:48c:4d32:ccf8 with SMTP id ffacd0b85a97d-48e07bbe524mr14711381f8f.16.1792410853522;
+        Mon, 19 Oct 2026 04:54:13 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4d4978sm21216127f8f.21.2026.10.19.04.54.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 04:54:12 -0700 (PDT)
+Message-ID: <aadce723-2a51-4d57-8d16-03a101d1a93f@linaro.org>
+Date: Mon, 19 Oct 2026 12:54:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <atI20Vs7Du9-g1Hz@zenbox>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/25] coresight: trbe: Track per-CPU sink interrupt
+ handling
+To: Leo Yan <leo.yan@arm.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-12-35cf6f297d20@arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-12-35cf6f297d20@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello!
 
-On Fri, Oct 16, 2026 at 10:44:16AM -0400, Justin Suess wrote:
-> On Thu, Oct 15, 2026 at 08:54:15PM +0800, Cai Xinchen wrote:
-> > Add two new filesystem access rights to control file metadata access:
-> > 
-> > - LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata
-> >   (e.g. inode attributes, extended attributes and POSIX ACLs) through
-> >   stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
-> >   friends, listxattr(2) and friends, and the POSIX ACL read
-> >   operations.
-> > - LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory
-> >   metadata through chmod(2) and friends, chown(2) and friends,
-> >   utimensat(2) and friends, setxattr(2) and friends, removexattr(2)
-> >   and friends, and the POSIX ACL set and remove operations.
-> > 
-> > This follows the coarse-grained grouping approach discussed in the
-> > mailing list [1], where file metadata operations are grouped by
-> > security relevance rather than by individual syscall.
-> > 
-> > Implement the two rights by hooking the inode_getattr,
-> > inode_file_getattr, inode_setattr, inode_file_setattr,
-> > inode_setxattr, inode_getxattr, inode_listxattr, inode_removexattr,
-> > inode_set_acl, inode_get_acl and inode_remove_acl LSM hooks, which
-> > now receive a struct path thanks to the preceding VFS and LSM
-> > refactoring.  The following system calls are now controlled:
-> > 
-> > - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
-> >   friends, listxattr(2) and friends, POSIX ACL reads, and the
-> >   chattr(1)/xfs_io style reads: ioctl(FS_IOC_GETFLAGS),
-> >   ioctl(FS_IOC_FSGETXATTR) and file_getattr(2) via inode_getattr,
-> >   inode_getxattr, inode_listxattr, inode_get_acl and
-> >   inode_file_getattr (READ_METADATA)
-> > - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
-> >   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
-> >   utime(2), setxattr(2) and friends, removexattr(2) and friends,
-> >   POSIX ACL set and remove, and the chattr(1)/xfs_io style writes:
-> >   ioctl(FS_IOC_SETFLAGS), ioctl(FS_IOC_FSSETXATTR) and
-> >   file_setattr(2) via inode_setattr, inode_file_setattr,
-> >   inode_setxattr, inode_removexattr, inode_set_acl and
-> >   inode_remove_acl (WRITE_METADATA)
-> > 
-> > Both new rights are added to ACCESS_FILE as they apply to both files
-> > and directories.
-> > 
-> > hook_inode_setattr only restricts explicit metadata changes, i.e. it
-> > checks WRITE_METADATA only when the ia_valid mask contains
-> > ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
-> > Metadata changes that the kernel performs implicitly, such as
-> > timestamp updates on write(2) or size changes on truncate(2), are
-> > therefore not restricted, and neither are chmod(2)/chown(2) calls
-> > that do not change any attribute (e.g. chown(2) with -1/-1, which is
-> > a no-op that never reaches the hook), matching the behavior of the
-> > SELinux inode_setattr hook.
-> > 
-> > Stacking filesystems forward fileattr operations to underlying inodes
-> > without calling the LSM hooks again (see the preceding patch), so a
-> > fileattr operation on an overlayfs file is checked once on the
-> > user-facing merged path and is not spuriously denied because of the
-> > kernel-side creator credentials used for the forward.
-> > 
-> > Kernel-internal accesses performed with override_creds() (e.g.
-> > overlayfs and cachefiles) are not affected because Landlock domains
-> > are attached to credentials, and kernel threads without a Landlock
-> > domain (e.g. nfsd and ksmbd) are not restricted either.
-> > 
-> > Remove stat(2), chmod(2), chown(2), setxattr(2) and utime(2) from the
-> > list of file-related actions that cannot be restricted yet, and add
-> > the names of the new rights to _LANDLOCK_ACCESS_FS_NAMES in
-> > include/linux/landlock.h, which is shared by audit records and trace
-> > events, so that denied accesses can be reported with a human-readable
-> > name and the static assertion on fs_access_strings in
-> > security/landlock/audit.c stays valid.
-> > 
-> > Increment the Landlock ABI version from 12 to 13, and update the ABI
-> > version check in tools/testing/selftests/landlock/base_test.c
-> > accordingly.
-> >
-> LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
-> the mechanic for the truncate right. Otherwise the access for already
-> opened file descriptors would be changed. See hook_file_open in
-> security/landlock/fs.c and this discussion here [1]
+
+On 15/09/2026 16:48, Leo Yan wrote:
+> A sampling NMI can interrupt TRBE while it is using the active AUX
+> handle or buffer. Circular buffer mode avoids wrap interrupts but can
+> still generate fault interrupts.
 > 
-> It should have clear documentation for this as well.
+> Add an in_interrupt flag to per-CPU sinks and set it around the TRBE IRQ
+> handler. Compiler barriers keep AUX buffer accesses between the flag
+> updates. This lets NMI callbacks detect when they have interrupted sink
+> handling before modifying its state.
 > 
-> Justin
-> [1] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
-
-
-I agree with Justin here.
-
-Apart from what I said in [1], Justin and Mickaël pointed out this
-other aspect in which it is similar to *_TRUNCATE, in [2] and [3]:
-System calls like fstat(2) operate on an already-opened file
-descriptor, and the semantic that Landlock has so far been following
-for these is that the effective access rights for that file descriptor
-would be determined at the time of open(2) and stored in the opened
-struct file, just as it has been done for the *_TRUNCATE and
-*_IOCTL_DEV access rights in the hook_file_open() call which Justin
-points to above.
-
-That way, an already opened file acts as a handle for a "capability"
-(in the more general sense of the word), and the things you can do
-with that opened file don't change as the process enforces nested
-Landlock domains.
-
-Landlock's documentation describes this in
-https://docs.kernel.org/userspace-api/landlock.html#rights-associated-with-file-descriptors
-
-It feels that this would be in order for the *_METADATA rights as
-well?  Does this seem reasonable to you?
-
-(If you have arguments against that, I'm also more than happy to
-discuss, but we should make a conscious decision. :-))
-
-—Günther
-
-[1] https://lore.kernel.org/all/arurOphe6QIx2Zr8@google.com/
-[2] https://lore.kernel.org/all/arvjb0HJYh1KyEBB@suesslenovo/
-[3] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
+> Assisted-by: Codex:gpt-6
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>   drivers/hwtracing/coresight/coresight-trbe.c | 17 ++++++++++++++++-
+>   include/linux/coresight.h                    |  2 ++
+>   2 files changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
+> index ab3c5c7d27f3d272b07eade1e6452559808b196c..8eb625d3fc99db57a18e35ef59ef814dacf20a09 100644
+> --- a/drivers/hwtracing/coresight/coresight-trbe.c
+> +++ b/drivers/hwtracing/coresight/coresight-trbe.c
+> @@ -1185,7 +1185,7 @@ static u64 cpu_prohibit_trace(void)
+>   	return trfcr;
+>   }
+>   
+> -static irqreturn_t arm_trbe_irq_handler(int irq, void *dev)
+> +static irqreturn_t __arm_trbe_irq_handler(int irq, void *dev)
+>   {
+>   	struct perf_output_handle **handle_ptr = dev;
+>   	struct perf_output_handle *handle = *handle_ptr;
+> @@ -1249,6 +1249,21 @@ static irqreturn_t arm_trbe_irq_handler(int irq, void *dev)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static irqreturn_t arm_trbe_irq_handler(int irq, void *dev)
+> +{
+> +	struct coresight_device *csdev = coresight_get_percpu_sink(smp_processor_id());
+> +	irqreturn_t ret;
+> +
+> +	/* Circular Buffer mode can still interrupt on a fault. */
+> +	WRITE_ONCE(csdev->in_interrupt, true);
+> +	barrier();
+> +	ret = __arm_trbe_irq_handler(irq, dev);
+> +	barrier();
+> +	WRITE_ONCE(csdev->in_interrupt, false);
+> +
+> +	return ret;
+> +}
+> +
+>   static int arm_trbe_save(struct coresight_device *csdev)
+>   {
+>   	struct trbe_cpudata *cpudata = dev_get_drvdata(&csdev->dev);
+> diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+> index ddf18c970e343041787424c2019f2b5dd49154c2..8830c30be0df53a22525ef4fc3c7e41a0ec6fd90 100644
+> --- a/include/linux/coresight.h
+> +++ b/include/linux/coresight.h
+> @@ -275,6 +275,7 @@ struct coresight_trace_id_map {
+>    *		when a source has been selected and a path is enabled from
+>    *		source to that sink. A sink can also become enabled but not
+>    *		activated if it's used via Perf.
+> + * @in_interrupt: Per-CPU sink interrupt handler is running.
+>    * @ea:		Device attribute for sink representation under PMU directory.
+>    * @def_sink:	cached reference to default sink found for this device.
+>    * @nr_links:   number of sysfs links created to other components from this
+> @@ -299,6 +300,7 @@ struct coresight_device {
+>   	bool orphan;
+>   	/* sink specific fields */
+>   	bool sysfs_sink_activated;
+> +	bool in_interrupt;
+>   	struct dev_ext_attribute *ea;
+>   	struct coresight_device *def_sink;
+>   	struct coresight_trace_id_map perf_sink_id_map;
+> 
+Reviewed-by: James Clark <james.clark@linaro.org>
 
