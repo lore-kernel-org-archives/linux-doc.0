@@ -1,107 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792423312;
-	b=dknZM2VqG7+NVccVu2otPl7ZpAnQPnZAIhHuJ6SYP8nHNoa30tpJpR0F1oqydgOGMJFB
-	 jHvin284GR0S14SJUgnFe3x7OXxWQqP0qSRxCUiMihPyL/woiR0w2s+pyBjIZm8oNkpvG
-	 W3E85k/e1ahp4uS2HWX8WZiLxjLXRCzFwfjWwxLo2g5bIhqZE+IyBGVRhBOseVK8hjpHc
-	 GEwUJgwH9WH7yZTn6uwORraCOS4eg/fLl4nE9eVq1zp3enZFCZMvHHVG39NYvIQqKQHh9
-	 vuWYJOj0Q8E1Ooz4GsvqbdQDDKwjaa8G00YP0/2Q0NYz+KblgmDqtw1EmzELoScbdeQ==
+	t=1792422878;
+	b=fFt3Xeeb4FgJ4C3/K5NQd7tQ/I/txXzm0gqb3oTxzBoD1U73JWI5NWSPLipN0sdhuCDo
+	 Uo9g6ot4ESuDGH4oJOBKbIDJUWVmUR2ZRoZQudpgC1HdkTWH+H01KfCMUE0CAwraTbZcC
+	 cVpa6R04j7ZYSH0ecBObceoMI2ifb6YVDUxJbbgdj/YVaOZzWGYyB5UCo0X60dapUxG3y
+	 /6LbwEbo9pMEzhJGxtac6k468FIPV9AHd1+YKgIx/qnRvCe1DS0N0dVaRdQ1zJbK8EJX7
+	 2BgZycU36QCkVFCrKKk/ZHVGLcF6DXQhC+VKFhF2c39EEycL0gnJ6GFkmTeA2UAcTbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792423312;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=09q/0iBwzQnusWfsQDP8VzXzU6qhw6PdbTeHiI84DZo=;
-	b=ePuzo4yTpT+jHTA06smpQsKhmXDueBTZo2fSCWlhqX9Rex7CHBNE3b1vvJJsrlPsJzRD
-	 QnrUw2OhSUEACqqG80Rlq9HKSZwE2Il99BRl5U4qcbJgf/mNHAuSdxHr5nPPxRCEVMdiY
-	 uhvUZnhghuwYhb11/CS59zzrnm9JrerTVvnLhJyZyGMcbPEDyLcejktocY8oNll9D4X/z
-	 9bh2vcuPG2Q3sJIy65V7qTeqsmI8utJ0aJIMjP8/BYAw0jIzoWpmtAcWtzjPK75ozutvt
-	 1ls6OlIn7GczbeCTglOqPVqQ7LAqOzQMVdPy+zG4d2x/mfVielwWn5KPwfI8qyN+jag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422878;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5Rg8ro+nVC+0k89M1QmhZ1e0RzR/D2AdQ8L9fKW1vx4=;
+	b=Oi/NgL/RK42UrLQjY8ZmdONddBC9YOtJ8IQnlfNRMv756olksqXykvakGEZ0HpqhIatB
+	 zWW3Wy8y4XCWEpP6N5HqASusR3l0OUWQnrMU/oZCxH9SAXhCJC1m1ZW/7PTtolMIpEv8x
+	 PsCXLCkwhDUHUlTdRfizoWU/ymgZGQqzweLC7FdLYFm8axZ/E0K5dKGhVZMhxFqxJVpps
+	 d80uEOJ49OxgPRNI7TAERJzFBchkUrah5drfsM7Ulnk5E1s/uNeX3bpHONhuHRTo72+Aq
+	 GxkpsO4o3dDZZ8f6xCD/gGB6en2mgt+FmEQDnXUUjZk10SKYaiddorH3tFL5fn+KSNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BZxMeqSy;
-	arc=none smtp.remote-ip=209.85.161.42
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fcCGXFNm;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4856F609CED8
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 15:21:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4856F609CED8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505FA609CEDF;
+	Mon, 19 Oct 2026 15:14:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 505FA609CEDF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BZxMeqSy
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6fe4372c5f3so1485471eaf.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 08:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792423311; x=1793028111; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=09q/0iBwzQnusWfsQDP8VzXzU6qhw6PdbTeHiI84DZo=;
-        b=BZxMeqSyHw1y80ZpE+7SKu/0wXvAIOP2ZQXBuB9LvBw5vhAkeBD4sx46ejdlC3rVos
-         Qs74yzruFTb6P0Z6TXSBOroWRIR+DYJNP+61SERGpZCXEfDCudFtLUGscCq1nAy/mYo7
-         Gly4NKDm9F5U36fYJWcWzxnNKndZG2S77eQuPEH92dqCkyvg9NMs+90fNwzs/3ZYEzL/
-         oqrEK9WlvWRNpbSbXBS+qzLT2Y/HeE28gdLTOCjMHNXp9IRF2lW+RVq77nEvlujS6pAR
-         5mZgEZ0PVFPTiCN8Z9RKgQ1uXOSJQ+Bn8513CosHh9Gg+WJU2+DHGsXy9Dw2W0vPFc1f
-         JIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792423311; x=1793028111;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=09q/0iBwzQnusWfsQDP8VzXzU6qhw6PdbTeHiI84DZo=;
-        b=t7k2cjx9/zkS02o4dZYlx8sx+zESmeQkAfcod0bucrdcRVMBFlvR7S/oWmrupIqsR2
-         rpMkzpyfyz+aFVslvt8IgtdGVsJBVQXQ9+IHoubcQiOb6Ib0c3LreIzOCXwe7+k+Ldus
-         nytjsAk5FXcQpzvsGxIeFrkHoabzBQyNWkcqT2jzcNfjf2SNBu29fHUBcKF+4X8nnQoZ
-         5hR6jMtTqN3Jbup+sY4eBD55Djiqk4leNRnZADy5m+lmqmVt34Z9cPZp1bJv8/TXygDr
-         DREHb+ddOC2n8ms2d0AyaPCkZp13j8XsuJWVLNun9YP4eC1936qjkrxiEDePMk679D1L
-         QWCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwWd/OmkpopiMBk0huThc44ILjHt87H8gm846YD0IbQMHu9TU6UP0raEeFSBzjrA/2gCLsch8I4UhY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ4/KT7H/JYlgWC6ERuOAu0z9+lbgTjTaQrtUBHtuBtFICgFUEc
-	zKWcNwh++ud6a2GJrmGABBTCqc29tQuh7I2HS3/6LuS7OUXoC/vCxn4u
-X-Gm-Gg: AYBFou1RuPorcvFkoAzHHCLm4l5xsP9U8muXbi0w0JAd0Y7pMdTpXxn2Eqy9Iij7dY2
-	xUOxvrajWcpctkqRBLi+fqRVfUgeTQd8LH+FSUo+8wwwxM+bE5jPnZEahSBlQTsk6R3fYXQoAzL
-	cO8pkK1OVTKDLmOYkEAysKLvbxmjtAliUHlJ9yVTI5UJtZI5f7SBwOkWNQlIW3bWgBaw/UqRJl+
-	rAWhn6dsLWq6MluwFhYS8w96TDKK4kQy1oE0iirFHl5qkaRKTumZNvuIUC8uIXZ6KpitJjjraVo
-	oQd/VwCdtbIzFP3gq1GpkueFg1rjnaOr1bOP3ol6ss8DJ/XZXIVyC1uoMk8pWmb8D48y3KBMyVr
-	o6cU0+gs9v/tInxGLA5blpeGcVMPnZvmdSFB8p6THkwrTqJ2eVjx5+TpsgG9aNcrYdJ25RbrwMi
-	tMs0yTq4Oq2Jm6Y1FUXXAVaJaLOw3LnBfuMsBnaenRZ1G90bwerhxz11Y+9AfgyeHcZ16IKH0x2
-	PUcRhaloLezoY+TJOR/JthyWmje
-X-Received: by 2002:a05:6820:a515:20b0:703:4766:16e with SMTP id 006d021491bc7-70357099e1cmr4063847eaf.56.1792423311061;
-        Mon, 19 Oct 2026 08:21:51 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:4::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73b6cac55sm9160419fac.11.2026.10.19.08.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 08:21:50 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: "Li Zhe" <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org,
-	david@kernel.org,
-	gourry@gourry.net,
-	ziy@nvidia.com,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	weixugc@google.com,
-	cgroups@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fcCGXFNm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792422878; x=1823958878;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=1XahINlI+qtzt3WIrBdAjFdXjrmyMcpiOfQXjm/4WOY=;
+  b=fcCGXFNm/+4tvDAC36LEQQYj/Mk0wDjMwXaWB/V445pm0ltz3z1lTG/k
+   t7urc0htJ0sQsminiS9njcPS/VNGhDE8AEh0HtLVUbBvyN79vVDztIzcP
+   1jdYIiNZUMjDJsmogimO9gI+1MVk6tdhOdlVBWMujXlx25+bWLb5Axx7e
+   E9Bs4UfKrZo0uM4mFS3HaRIQSy1kStpmByS7R5aG8Nv/DdiIg7u0dvlCr
+   uEerl7UE/oyKi9oBjU2h/6cqUbk6uSI5FMJrXqmnEZe2OnkoWumj+J8u1
+   ULJ+jVYaZdRDI+tuQr6ibDhhySxXq+AekZI1MuQhmORQinT20+2dGOnFN
+   g==;
+X-CSE-ConnectionGUID: UzJr9t8fRG234Li6t5Crgg==
+X-CSE-MsgGUID: 8k/cbX9hSXiS/jq57ZMLOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="992130"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="992130"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:14:36 -0700
+X-CSE-ConnectionGUID: wG5r3/fiQl2BWTJBHQT9Jw==
+X-CSE-MsgGUID: X2Ddg/jvSledtfS/BnPcuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2636142"
+Received: from jf5300-15a101203tc.jf.intel.com (HELO meta-crater2c.jf.intel.com) ([10.54.113.49])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 08:14:35 -0700
+From: Daniel Byrne <daniel1.byrne@intel.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Frank Li <Frank.Li@kernel.org>,
+	Vinicius Costa Gomes <vinicius.gomes@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	dmaengine@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
-Date: Mon, 19 Oct 2026 08:21:48 -0700
-Message-ID: <20261019152148.3330024-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261019141401.11927-1-lizhe.67@bytedance.com>
-References: 
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] dmaengine: idxd: generation-number transaction status
+Date: Mon, 19 Oct 2026 08:06:31 -0700
+Message-ID: <20261019150632.4026424-3-daniel1.byrne@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261019150632.4026424-1-daniel1.byrne@intel.com>
+References: <20261019150632.4026424-1-daniel1.byrne@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,139 +90,323 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Oct 2026 22:13:59 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrote:
+Implement device_tx_status() by reading the addressed descriptor's
+completion record. The cookie encodes the descriptor id in its lower
+16 bits and a generation number in the 14 bits above, so a query
+against a recycled descriptor sees a stale cookie and reads
+DMA_COMPLETE. The generation wraps after 16383 submissions of the same
+slot; the contract is that a client polls a cookie to its terminal
+answer, or abandons it, before its slot has been reused 16383 times,
+which every in-tree polling client satisfies by construction.
 
-> memory.reclaim is a useful proactive reclaim interface for memcgs, but
-> tiered memory makes "reclaim N bytes from this memcg" underspecified for
-> userspace controllers that manage memory placement across tiers. The
-> kernel's reclaim policy is aging-based, and on tiered systems aging may
-> demote folios before they are eventually evicted. Without a way to
-> declare where reclaim pressure should start, userspace can only reclaim
-> from the memcg as a whole and observe one aggregate progress value.
+Descriptors with a completion interrupt armed stay with the IRQ
+handler: a generic client such as dmatest may request an interrupt,
+and reading such a descriptor's completion record here would race with
+the handler recycling it. tx_status therefore reports DMA_IN_PROGRESS
+while such a cookie is live and the stale-cookie check answers once the
+handler has completed it. Whether a descriptor is interrupt-armed
+travels in the cookie, in the bit below the sign bit, since the
+descriptor's own flags are rewritten when the handler recycles it.
 
-Hi Li,
+A polled descriptor has two terminal answers. Its completion record
+gives the first; the query retires the descriptor and reports
+DMA_COMPLETE or DMA_ERROR from the status. The second is DMA_ERROR for
+a descriptor outstanding on a work queue or a device that is no longer
+enabled, since nothing will complete it; the slot is retired only when
+the device halted, which kills it for good. Descriptors carry the
+device's reset epoch from submit time for that, and the halt stores its
+state before it bumps the epoch, so a poll that read the old epoch and
+the halted state reads the epoch again and retires on a mismatch. The
+same epoch lets device_synchronize() treat a drain that a halt ended
+as complete, since the halt killed everything the drain covered.
 
-Thank you for working on this patch. I think it's quite interesting.
-I have many comments about implementation detials but for now let's
-discuss the direction of this series first.
+Switch the prep callbacks' descriptor allocation to IDXD_OP_NONBLOCK:
+prep callbacks may not sleep, and on an exhausted pool they return NULL
+so the caller falls back. Direct kernel clients such as iaa_crypto keep
+the blocking allocator path. This gives dmaengine_async_is_tx_complete()
+exact per-descriptor results for polling clients on a device whose work
+queues complete out of order across a group's engines.
 
-> There is prior history here [1]. The old nodes= proposal tried to let
-> memory.reclaim scan selected NUMA nodes, but the discussion left several
-> ABI questions unresolved:
-> 
-> - nodes= did not clearly say whether the mask was a source selector, a
->   reclaim domain, or a demotion-target constraint.
-> - The implementation did not apply the mask to the whole reclaim path,
->   so demotion could allocate outside the mask. If userspace interpreted
->   the mask as a domain or target constraint, the ABI did not provide
->   that.
-> - Selecting top-tier nodes could become an implicit way to request
->   demotion without uncharge. That would make userspace depend on a
->   particular reclaim policy and could make future policy changes hard.
-> - The separate completion-accounting question remained: demotion can
->   count as reclaim progress even though memory.current is not reduced.
-> 
-> This series takes a narrower approach.
+Assisted-by: Claude:claude-opus-5-5
+Assisted-by: Claude:claude-fable-5-1
+Signed-off-by: Daniel Byrne <daniel1.byrne@intel.com>
+---
+ drivers/dma/idxd/device.c |   1 +
+ drivers/dma/idxd/dma.c    | 158 ++++++++++++++++++++++++++++++++++++--
+ drivers/dma/idxd/idxd.h   |   3 +
+ drivers/dma/idxd/irq.c    |   8 ++
+ 4 files changed, 165 insertions(+), 5 deletions(-)
 
-I think this is the way to go.
-
-> It adds a typed source= key which
-> declares only the source on which the existing memory.reclaim aging
-> pipeline should be applied.
-
-Calling it an "aging pipeline" is a big confusing to me. Maybe just call
-it eviction targets or reclaim targets?
-
-> It is not a demotion target selector, not a
-> demotion-only goal, not an eviction-only goal, and not a change to the
-> existing completion accounting. Leaving source unspecified preserves the
-> existing memory.reclaim behavior.
-> 
-> In that sense, this series extends node-scoped reclaim pressure to the
-> memcg memory.reclaim interface. The existing node memory_reclaim
-> interface can apply pressure to a node, but it is not scoped to a
-> particular memcg. This series lets userspace apply the same kind of
-> source-scoped pressure to a cgroup's resident memory on selected nodes
-> or tiers, while still using the normal memcg reclaim path.
-> 
-> The main benefit of this series is to give userspace a steering knob
-> for per-node and per-tier memory placement control. A tiering controller
-> can observe the resident memory distribution across nodes or memory
-> tiers, and then apply reclaim pressure to the source that should be
-> relieved. For example, it can apply pressure to top-tier nodes so that,
-> under the existing tiering policy, cold folios can be aged and usually
-> demoted to lower tiers, or reclaim from a terminal tier when it needs
-> actual charge reduction.
-
-To me I think the other interesting aspect is being able to evict memory
-from lower tiers out to swap so that toptier always has room for
-demotions, preventing swapouts from higher tiers. In fact I think for
-my interests this is the more important use case.
-
-> The existing memory.reclaim interface cannot express this. It applies
-> pressure to the memcg as a whole, so on a multi-tier system the kernel
-> may make progress in a tier different from the one userspace is trying
-> to control. That makes feedback control of tier ratios ineffective: the
-> controller can observe that a specific tier is over its desired resident
-> footprint, but it cannot direct the next reclaim request to that tier.
-
-This part is confusing to me. The kernel curently doesn't observe
-per-tier-memcg memory footprint and try to manage it, does it?
-( that is what I'm trying to solve currently in my tiered memcg series ; -)
-  but as it stands right now, I don't think there is any feedback loop )
-
-> Patch 1 adds source=nodes:<nodelist>, which is the basic source
-> selector.
-
-In general I agree with Lorenzo, it took me a second to realize that the
-bulk of this series is just adding a nodemask to
-try_to_free_mem_cgroup_pages. It might be helpful to just call it
-"reclaim" instead of calling it an aging pipeline.
-
-> Patch 2 adds source=tier:<N>, where N is the memory_tierN id
-> exposed by /sys/devices/virtual/memory_tiering/. The tier selector is
-> only a convenience layer over the same source semantics: it resolves the
-> current tier nodelist at write time and then uses the same source-scoped
-> reclaim path as source=nodes:<nodelist>.
-
-Personally I think that it makes more sense to just start with a
-node-based reclaim interface, and then extending it to tiers. It seems
-like the tier usecase is entirely doable with just a nodemask interface.
-
-And in this case, since we're just selecting the sources of reclaim,
-tiers don't really matter, right? That is, we don't care if the memory
-gets demoted or swapped out, we just care that the footprint for the
-tier memcg goes down. 
-
-> The remaining issues from the old discussion are intentionally left out
-> of this series. If userspace needs to control demotion targets, that
-> should be a separate target/demotion-policy ABI rather than folded into
-> source=. If userspace needs a strict "bytes actually uncharged"
-> completion mode, that should be discussed as a separate accounting or
-> goal extension because it would change the observable meaning of
-> memory.reclaim progress. This series only adds source selection for the
-> existing reclaim policy.
-
-100% agree.
-
-Thanks Li, I hope you have a great day!
-Joshua
+diff --git a/drivers/dma/idxd/device.c b/drivers/dma/idxd/device.c
+index 5ccdc5ff8d53..68a7de74f9e6 100644
+--- a/drivers/dma/idxd/device.c
++++ b/drivers/dma/idxd/device.c
+@@ -155,6 +155,7 @@ int idxd_wq_alloc_resources(struct idxd_wq *wq)
+ 			desc->iax_completion = &wq->iax_compls[i];
+ 		desc->compl_dma = wq->compls_addr + idxd->data->compl_size * i;
+ 		desc->id = i;
++		desc->gen = 1;
+ 		desc->wq = wq;
+ 		desc->cpu = -1;
+ 	}
+diff --git a/drivers/dma/idxd/dma.c b/drivers/dma/idxd/dma.c
+index 0a7517cb51f2..dd5a9d9274ce 100644
+--- a/drivers/dma/idxd/dma.c
++++ b/drivers/dma/idxd/dma.c
+@@ -12,6 +12,20 @@
+ #include "registers.h"
+ #include "idxd.h"
  
-> References:
-> [1] https://lore.kernel.org/all/Y5bsmpCyeryu3Zz1@dhcp22.suse.cz/
-> 
-> Li Zhe (2):
->   mm: add source selector to memory.reclaim
->   mm: add tier source selector to memory.reclaim
-> 
->  Documentation/admin-guide/cgroup-v2.rst | 29 +++++++++++
->  include/linux/memory-tiers.h            |  6 +++
->  mm/internal.h                           |  3 +-
->  mm/memcontrol-v1.c                      |  6 ++-
->  mm/memcontrol.c                         | 11 +++--
->  mm/memory-tiers.c                       | 24 ++++++++++
->  mm/vmscan.c                             | 64 +++++++++++++++++++++++--
->  7 files changed, 133 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.20.1
++#define DMA_COOKIE_BITS (sizeof(dma_cookie_t) * 8)
++/*
++ * The descriptor id takes the lower 16 bits of the cookie.
++ */
++#define DESC_ID_BITS 16
++#define DESC_ID_MASK ((1 << DESC_ID_BITS) - 1)
++/*
++ * The generation takes the 14 bits above the id. Since dma_cookie_t is
++ * signed, the upper-most bit is left for the sign, and the bit below it
++ * records that the descriptor completes by interrupt.
++ */
++#define IDXD_COOKIE_RCI BIT(DMA_COOKIE_BITS - 2)
++#define DESC_GEN_MAX ((1 << (DMA_COOKIE_BITS - DESC_ID_BITS - 2)) - 1)
++
+ static inline struct idxd_wq *to_idxd_wq(struct dma_chan *c)
+ {
+ 	struct idxd_dma_chan *idxd_chan;
+@@ -93,7 +107,7 @@ idxd_dma_prep_interrupt(struct dma_chan *c, unsigned long flags)
+ 		return NULL;
+ 
+ 	op_flag_setup(flags, &desc_flags);
+-	desc = idxd_alloc_desc(wq, IDXD_OP_BLOCK);
++	desc = idxd_alloc_desc(wq, IDXD_OP_NONBLOCK);
+ 	if (IS_ERR(desc))
+ 		return NULL;
+ 
+@@ -120,7 +134,7 @@ idxd_dma_submit_memcpy(struct dma_chan *c, dma_addr_t dma_dest,
+ 		return NULL;
+ 
+ 	op_flag_setup(flags, &desc_flags);
+-	desc = idxd_alloc_desc(wq, IDXD_OP_BLOCK);
++	desc = idxd_alloc_desc(wq, IDXD_OP_NONBLOCK);
+ 	if (IS_ERR(desc))
+ 		return NULL;
+ 
+@@ -154,11 +168,128 @@ static void idxd_dma_free_chan_resources(struct dma_chan *chan)
+ 		idxd_wq_refcount(wq));
+ }
+ 
++/*
++ * A cookie has exactly one polling owner, the client that submitted the
++ * transaction. Observing a terminal completion record here retires and
++ * recycles the descriptor, since a polled descriptor has no interrupt
++ * and nobody else will. Two contexts polling the same live cookie
++ * would race that recycle, which every in-tree dmaengine polling
++ * client already avoids by construction.
++ */
+ static enum dma_status idxd_dma_tx_status(struct dma_chan *dma_chan,
+ 					  dma_cookie_t cookie,
+ 					  struct dma_tx_state *txstate)
+ {
+-	return DMA_OUT_OF_ORDER;
++	struct idxd_wq *wq;
++	struct idxd_desc *desc;
++	u32 idx;
++	u8 status;
++
++	if (txstate)
++		memset(txstate, 0, sizeof(*txstate));
++
++	if (dma_submit_error(cookie))
++		return DMA_ERROR;
++
++	wq = to_idxd_wq(dma_chan);
++
++	idx = cookie & DESC_ID_MASK;
++	if (idx >= wq->num_descs)
++		return DMA_ERROR;
++
++	desc = wq->descs[idx];
++
++	/*
++	 * Descriptors with a completion interrupt armed (RCI) are
++	 * completed and recycled by the IRQ handler. Reading their
++	 * completion record here would race with the handler, and so
++	 * would reading the recycled descriptor's flags, which is why
++	 * the property travels in the cookie the caller owns. The handler
++	 * invalidates the cookie on completion, so a matching cookie means
++	 * the command is still in progress.
++	 */
++	if (cookie & IDXD_COOKIE_RCI)
++		return READ_ONCE(desc->txd.cookie) == cookie ?
++			DMA_IN_PROGRESS : DMA_COMPLETE;
++
++	if (desc->txd.cookie != cookie) {
++		/*
++		 * The cookie belongs to an old transaction that has
++		 * already completed and been recycled.
++		 */
++		return DMA_COMPLETE;
++	}
++
++	status = desc->completion->status & DSA_COMP_STATUS_MASK;
++
++	if (status) {
++		/* Capture completion record fields before desc is freed below. */
++		u8 fault_info = desc->completion->fault_info;
++		u64 fault_addr = desc->completion->fault_addr;
++
++		/*
++		 * Check against the original status because ABORT is
++		 * software defined as 0xff, which DSA_COMP_STATUS_MASK
++		 * can mask out.
++		 */
++		if (unlikely(desc->completion->status == IDXD_COMP_DESC_ABORT))
++			idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true, NULL, NULL);
++		else
++			idxd_dma_complete_txd(desc, IDXD_COMPLETE_NORMAL, true, NULL, NULL);
++
++		dev_dbg(&wq->idxd->pdev->dev,
++			"dsa completion: status=0x%02x fault_info=0x%02x fault_addr=0x%llx\n",
++			status, fault_info, fault_addr);
++
++		if (status == DSA_COMP_SUCCESS)
++			return DMA_COMPLETE;
++
++		return DMA_ERROR;
++	}
++
++	/*
++	 * The descriptor is genuinely outstanding. A polled descriptor
++	 * carries no interrupt, so nothing but this function will ever
++	 * retire it, and a work queue or device that is no longer enabled
++	 * will not complete it either. Report the failure instead of
++	 * leaving the caller polling forever.
++	 *
++	 * A descriptor submitted before a device halt is dead for good:
++	 * the halt ended the engines and the reset that follows starts
++	 * them empty, so its record will never be written even once the
++	 * device is enabled again. Only in that case can the descriptor
++	 * be retired here safely; otherwise the pool would shrink by one
++	 * for every descriptor caught by a halt.
++	 */
++	if (desc->epoch != READ_ONCE(wq->idxd->reset_epoch)) {
++		idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true, NULL, NULL);
++		return DMA_ERROR;
++	}
++	/*
++	 * A device that is no longer enabled runs nothing it holds, so an
++	 * outstanding descriptor on it has failed. A halt stores its state
++	 * before it bumps the epoch, and this poll may have read the epoch
++	 * before the halt and the state after it, so the epoch is read
++	 * again: only the retire frees the slot of a descriptor the halt
++	 * caught. A halted device whose epoch still matches is between the
++	 * two stores, and the next poll retires the descriptor. The submit
++	 * reads the state after the stamp, so it refuses a descriptor
++	 * stamped with the bumped epoch.
++	 */
++	if (wq->idxd->state != IDXD_DEV_ENABLED) {
++		if (desc->epoch != READ_ONCE(wq->idxd->reset_epoch)) {
++			idxd_dma_complete_txd(desc, IDXD_COMPLETE_ABORT, true,
++					      NULL, NULL);
++			return DMA_ERROR;
++		}
++		if (wq->idxd->state == IDXD_DEV_HALTED)
++			return DMA_IN_PROGRESS;
++		return DMA_ERROR;
++	}
++	if (wq->state != IDXD_WQ_ENABLED)
++		return DMA_ERROR;
++
++	return DMA_IN_PROGRESS;
+ }
+ 
+ /*
+@@ -177,7 +308,17 @@ static dma_cookie_t idxd_dma_tx_submit(struct dma_async_tx_descriptor *tx)
+ 	int rc;
+ 	struct idxd_desc *desc = container_of(tx, struct idxd_desc, txd);
+ 
+-	cookie = dma_cookie_assign(tx);
++	cookie = (desc->gen << DESC_ID_BITS) | (desc->id & DESC_ID_MASK);
++	if (desc->hw->flags & IDXD_OP_FLAG_RCI)
++		cookie |= IDXD_COOKIE_RCI;
++
++	if (desc->gen == DESC_GEN_MAX)
++		desc->gen = 1;
++	else
++		desc->gen++;
++
++	tx->cookie = cookie;
++	desc->epoch = READ_ONCE(wq->idxd->reset_epoch);
+ 
+ 	rc = idxd_submit_desc(wq, desc);
+ 	if (rc < 0) {
+@@ -219,6 +360,7 @@ static void idxd_dma_synchronize(struct dma_chan *c)
+ {
+ 	struct idxd_wq *wq = to_idxd_wq(c);
+ 	LIST_HEAD(quarantined);
++	u32 epoch;
+ 
+ 	/*
+ 	 * dmaengine_synchronize() promises the client that its memory may
+@@ -240,7 +382,13 @@ static void idxd_dma_synchronize(struct dma_chan *c)
+ 	 * Only a device reset ends the exposure of the client's memory.
+ 	 */
+ 	idxd_wq_quarantine_take(wq, &quarantined);
+-	if (!idxd_wq_drain(wq)) {
++	/*
++	 * A halt during the drain kills every descriptor submitted before
++	 * it, which is all of them, and a reset that followed may have
++	 * ended the drain itself. Such a drain is as good as complete.
++	 */
++	epoch = READ_ONCE(wq->idxd->reset_epoch);
++	if (!idxd_wq_drain(wq) || READ_ONCE(wq->idxd->reset_epoch) != epoch) {
+ 		idxd_wq_quarantine_free(wq, &quarantined);
+ 		WRITE_ONCE(wq->stuck, false);
+ 		return;
+diff --git a/drivers/dma/idxd/idxd.h b/drivers/dma/idxd/idxd.h
+index b0cfd7101174..7fe5ec6c3bf3 100644
+--- a/drivers/dma/idxd/idxd.h
++++ b/drivers/dma/idxd/idxd.h
+@@ -349,6 +349,7 @@ struct idxd_device {
+ 	spinlock_t cmd_lock;	/* spinlock for device commands */
+ 	struct completion *cmd_done;
+ 	u32 cmd_seq;		/* bumps when a command starts running */
++	u32 reset_epoch;	/* bumps on every device halt */
+ 	struct idxd_group **groups;
+ 	struct idxd_wq **wqs;
+ 	struct idxd_engine **engines;
+@@ -447,9 +448,11 @@ struct idxd_desc {
+ 	struct list_head list;
+ 	int id;
+ 	int cpu;
++	u16 gen;
+ 	u16 terminate_gen;	/* the queue's terminate_gen at an
+ 				 * interrupt-armed submit
+ 				 */
++	u32 epoch;		/* the device reset_epoch at submit */
+ 	struct idxd_wq *wq;
+ };
+ 
+diff --git a/drivers/dma/idxd/irq.c b/drivers/dma/idxd/irq.c
+index 8217698056bb..5e34790359ee 100644
+--- a/drivers/dma/idxd/irq.c
++++ b/drivers/dma/idxd/irq.c
+@@ -508,6 +508,14 @@ static irqreturn_t idxd_halt(struct idxd_device *idxd)
+ 	gensts.bits = ioread32(idxd->reg_base + IDXD_GENSTATS_OFFSET);
+ 	if (gensts.state == IDXD_DEVICE_STATE_HALT) {
+ 		idxd->state = IDXD_DEV_HALTED;
++		/*
++		 * Every descriptor submitted before this point is dead: the
++		 * device will never write its completion record. Pollers
++		 * compare their descriptor's epoch against this to retire
++		 * such descriptors instead of waiting for a record that never
++		 * comes.
++		 */
++		WRITE_ONCE(idxd->reset_epoch, idxd->reset_epoch + 1);
+ 		if (gensts.reset_type == IDXD_DEVICE_RESET_SOFTWARE) {
+ 			/* The reinit below re-enables the queues, so revive them. */
+ 			idxd_wqs_halt_flush(idxd, true);
+-- 
+2.43.0
+
