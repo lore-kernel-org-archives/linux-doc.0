@@ -1,84 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422877;
-	b=uqIln9mOTzgK5RUH94e2p6m3G/VLf7tum/NIy4bVlRQ+UfbH1bii20IEgHxIL7IBTFXn
-	 3D5PxpXfisbSBjjxfPRS2Olu/UI/AyTFbMsTlRHPCiukDd4epqqyu7cehmr5TYbs3DcUq
-	 7pE35xjev74Jtc5huJm9D3B+oz+VmsAzfvNiBWmuiKx6pYb5/ubgisFyja6mPD/pG1zeD
-	 HJj7/kUE3XNd54PiyE/YMOweeauR0Db2Ei6/WC2y/V9CsWgNTEa8lM8+yity6rL4zdb3b
-	 beJXf1aDZLE/9zE6YNGfPG+YLD2g/kw2x9PtMzYvox8F4fwl9r23P2b0Enjr3e9FOJQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422877;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=RLjqAdwihfwMILiMHPnz0FYmmo76i0aPQCh334CV9WE=;
-	b=L1CX0BIFF4iHSEkW2J1UN8vXyLANCPWyHF2X8gtS9gCx2IlqtL8IwPCryLi2hDb4o8sP
-	 nrUoE+Db8tjfQo+KYvA+VuTFWWAsTCsuEKb2RpNRsvI2/lIRbbbgARUAOBJrKVresZfCF
-	 zY4dgE2Jo47W5SYBM22ZemnMIHrea/kXVMhIk0CZmHbWtMxMLtk5xbKuqyPC7r6eZXgWp
-	 6GGDnra7ZaaQMQAxypvY8jScuvt651np+oziTmJV9oYoHJx6HqQVrgAV1PUuFS9gelEv4
-	 h5OtnUGH/ZbkfECUFmDW2wRzIIquSR+zUA8bSYa2rx6KJAPAKIOqCQjJ+FnrX8b4TIg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="WEvhS/HD";
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.139
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792423628;
+	b=wbIOT4dCveo9JkpT5LUXuDlcZf/yiX4Jk/IJAPAj8NE7rUbeUGIIqZcdcnOs7eN/i2oO
+	 dX6paid65O/KiIxhUqjdly942k20kXJsgf5UTFULcQYGLTz4IaqyjtmLYSxKgGrQMPWt+
+	 YmMywQiADzX9Q0DjNZPgJBCHBJjgnTqycX8YefiWzscaezzgHwX2AWtdpF0raQquP9ZHZ
+	 OFpTmi5XAKfKVm1JPdik0+Z/spDN7aLp4vwWdI0Hwu9uQcMs7Exm17RDaNmFskzBwsyml
+	 M38Daux2MLTYA4Qgqp5rqlfsQTUAoAInZd8riyWavj0JAtsTbHmGVAK/0qye2KWFOyg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792423628;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=0fFKCtmcV7Z/b/qf9UFqFjiqIaTYbRmHh6zBXGUjDyE=;
+	b=yzZSTAsnZnF0yh+Fe7z0c9y10XWTa0+dzeFfAKwupmYd4Y0S6pCT+OI7ouGXLy0miYd7
+	 P6rJIdT1lk1r0lnd3it+OSFEThlnvjP+DqvUalN+IWUKam79WlgCctMyawxjZEOggJ6VP
+	 UFRJhf4MARG0XA8MDK+MFvLKNW9t26aZ7IInHmNLcQvfKXT6qjrEsQcMl/01OPWvPocuS
+	 Qm4tGLZJZakpV7+HJ0vTe6xUmWFO/4z1ulH66O5fda6ltFUERBUakLuK+Jn2S4sPkVVpw
+	 pwgXN0VzRnrFA1Zk7qrgUFsYhbpjmQgUUzDlNjM+Wu1PS+1cGm4N0h8jrrrc6gXCyaw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=garyguo.net;
+	spf=pass smtp.mailfrom=garyguo.net;
+	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=r5xqp0B3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.95.139
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021139.outbound.protection.outlook.com [52.101.95.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F84609CEDE;
-	Mon, 19 Oct 2026 15:14:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28F84609CEDE
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58CA60B39B6;
+	Mon, 19 Oct 2026 15:27:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B58CA60B39B6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WEvhS/HD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792422878; x=1823958878;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TDUC9/ygnBevxT8Y20L5HUe3WFLonkXYpQ/2lAUky5g=;
-  b=WEvhS/HDqalAO53KHkJ85ksgnVVW4ZpDMo/rpLAalKTXzCTlu3tjyQQS
-   nDX+Z5/+xwBqWWfTwQdD2c1zS8e0nZmVOcmZOIOgGsBEff9NxvKrxySGX
-   DWiztdlCiUPSosIgaroPDlyfdICwK2UYGtdr5VJrnYZDS7ze1gzeRox0B
-   j+1oPPXXWy/X4kscZ5ZwBs00ixkHWGPXMSZ5S+1EnHrt+8IAnQVGyirRx
-   sxVMzOMAFM7QiuyQq46OVP5BvcKaUNZJjN+I1hrb4HC19D3C7JWpd3DcF
-   Qr7bfJzXQIRpR6cmv89KX7kLv4xHdxeVuSwOSbZB9X7MvBgRMGhE7cc6n
-   w==;
-X-CSE-ConnectionGUID: uIAJmcl7RPuY+gqe12bUcg==
-X-CSE-MsgGUID: YzLfwR9ZT5iKs7iqRKCgDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="992128"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="992128"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:14:36 -0700
-X-CSE-ConnectionGUID: ts3hCmxIRqujsEnHjHCn9g==
-X-CSE-MsgGUID: IxcBpJplQy6yQzPxTgk6JQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2636138"
-Received: from jf5300-15a101203tc.jf.intel.com (HELO meta-crater2c.jf.intel.com) ([10.54.113.49])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 08:14:35 -0700
-From: Daniel Byrne <daniel1.byrne@intel.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Frank Li <Frank.Li@kernel.org>,
-	Vinicius Costa Gomes <vinicius.gomes@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] dmaengine: add dmaengine_async_is_tx_complete() for channel status queries
-Date: Mon, 19 Oct 2026 08:06:30 -0700
-Message-ID: <20261019150632.4026424-2-daniel1.byrne@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261019150632.4026424-1-daniel1.byrne@intel.com>
-References: <20261019150632.4026424-1-daniel1.byrne@intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=r5xqp0B3
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qViw4gsgVKmH5PPpAVjObylhaSrUMIvyxX8TX54DAgrqerMXhfglVym/X3BD+ApMi3eVyMngPnQ4MieUubnRT/rtYMYu6JCIsIKQPVpZ6NhWHTvrcXb6uA56P51BYpx9IsELhaF1fucf0WqU2jZngl90fXITqcdSXsei/XsN+CVzNeeRMDsXdPyGYQqkp5aD0sg8gaLnzcfWF3aJAfTtBpMQkX4X/D+FFt54Lq/noXMpOVfeXQsZRvKMb9oK0eEdZtez2t891q7O2JUVoT8BT3LcmQAFC/ccNs9OnE1OHhXWfVoxU5Nm2sRsVYjr+stbdKtR8/jcHQvmDUFrrnAE4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0fFKCtmcV7Z/b/qf9UFqFjiqIaTYbRmHh6zBXGUjDyE=;
+ b=Bu2hf23lTIkGrJP2mTACzHEWXt0ioI6nF5gJEJtm3rbvndnMVE9pFfA1Ocmlub9ZgmlhnJxnJwgka1ExBPh9ofgA/lofjBjwxS7yP+nM6Y4zYiFjPRo+FZyBUYrvhUE3VXS6ySuq5sqwHu2nFvNjhcHa66eKQAwJgW6H90OE08ZptM9smmOIgKAyzzD+g2KJa3+dqlWsIzSdb24aF0X+QGiA3damWWzZ7vRZ88stwZiCbZRxFxOKS98vl7XpvVk/Z4g33t11iH7fNLo4219DpirUOTG2rtI7HRXv+NEG6Gq+GSrwhzS1ymEdOXaZTKiapENC1mXlgE/nXzp0SoTSVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0fFKCtmcV7Z/b/qf9UFqFjiqIaTYbRmHh6zBXGUjDyE=;
+ b=r5xqp0B3NOhcyH9W1bfoDUCKJnulSDAvXLdzy5ko1k6tGVyp4fCUYXcMC/AE0XdfdlAY119LGj9/glijyzzRNBut83GNvZYPzNwhbtbjAiIz93vi6cRI8Edw0baEV9Zyl2/JC5HvDeO5xVF7IizzDEHNSQRt/qKSxo2JWInpQ4g=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO4P265MB6252.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:27f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 15:26:50 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 15:26:48 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 16:26:47 +0100
+Message-Id: <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
+Cc: "Alexander Potapenko" <glider@google.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, <kasan-dev@googlegroups.com>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Vyukov" <dvyukov@google.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Nick Desaulniers"
+ <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>, "Justin
+ Stitt" <justinstitt@google.com>, "Asahi Lina" <lina+kernel@asahilina.net>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Yury Norov" <ynorov@nvidia.com>,
+ "David Gow" <david@davidgow.net>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Alvin Sun" <alvin.sun@linux.dev>, "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Petr Mladek" <pmladek@suse.com>, <workflows@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>, <llvm@lists.linux.dev>
+Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
+From: "Gary Guo" <gary@garyguo.net>
+To: "Marco Elver" <elver@google.com>
+X-Mailer: aerc 0.22.0
+References: <20261015145714.3327543-1-elver@google.com>
+In-Reply-To: <20261015145714.3327543-1-elver@google.com>
+X-ClientProxiedBy: LO6P123CA0046.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:310::8) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,330 +117,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO4P265MB6252:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d7b8ba0-0483-4e9f-defd-08df2df5648a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|376014|7416014|23010399003|1800799024|366016|6133799003|22082099003|18002099003|10067099003|56012099006|261009223027099003;
+X-Microsoft-Antispam-Message-Info:
+	OYEzN7B+fIphDFuMDRvVy4BDDFyEwWoGN92tl1r5FN1z4WI69W5OTuVPy2ugogbR5c3DtFWauiiXIEtQ0C9mF2wVx8XBCrb6pjkEqEQoxJM42wymVPUsvlks1bCnR0wSwwnz4LnnWxSELYIId8rskjAz8GWPUCMLQL/R3QqG8lB6j765j8C5f/Pjr4TmcrzGvdWSEiiRDm0r6rqfMB4DI6mYJzgyUDAUw3DqwWCVszPgIGJDLnyh6eqMgFJhOLkji3CKx/2zIzXz4GciEX9U/43aJPX9miN6v2XwJTE43wlZ362lEO0FtRkBgx2hlAHhzkVNqyF8D1hIlEBb/8ot6abRNHk+fIUlWMvnwGfeCJazkv5DToppFMI46zfR00SgxOoo63aSttF3bd+5bT5a3h8S/OLT9T5uXBpJQzK0C3cDXIbgL2oVz6CM6bxKdIMJVh11RhsNQ0BttsJToPVGPdVGw4Na03Wo15tOBIZsrhpYRbprpZUwNp+n2JTLF9n5eiq8l0WJ8xDc7712FpeFpiOalrdJhCHBEae5xDlhZYjLtaYJV9i4ED06lkDUxFMxH504F7WbRzKafkXV59D+w6cULaTs2aK7k35DvJKtYTbMW91tVdLD6YWONUrhiAYL7qb2xNsWrDn7twap0Lc4fFWh0MJHHtro9B07UCpedJg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(23010399003)(1800799024)(366016)(6133799003)(22082099003)(18002099003)(10067099003)(56012099006)(261009223027099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MStBdm9WYVpxUVd2TDB1Vks4YitIL01vWkRLV0FmWUZraTNUSW81a01NZWNS?=
+ =?utf-8?B?Zm1mWkJPL2JZZVJYd1ArZTJKTXByUEVITXpiTUlSUDZCRXR2eEhyc0VPR0lO?=
+ =?utf-8?B?bVMvd2dvOXIwMTV0b1FNbEtxYmRWeW5uZmowak5NL3hVU1ZMV254N0FxUXpn?=
+ =?utf-8?B?N21rc1ZUaWJYeDZDa2t5eTAvMHBZSUZleWY2ZmF5RDdMRGtjdFRyL0lBMHZI?=
+ =?utf-8?B?T3BMZ2ZUbnVRNGpJUHZEdTNIbkpmakZBRkNlS0pqNytQTWpyNUdNRmtSVzZQ?=
+ =?utf-8?B?UCtuZlZPZDZMeFlMcWY5R3dCNjFLN202SG83eVkxOTVIUysvTTZYYTUwcStR?=
+ =?utf-8?B?VTZ2SjhxUlpzZkdkU2FuZGdKNVdrU0hNNjZ6RGtGOEpZSzQwd3Ntek9hdUxs?=
+ =?utf-8?B?OE1jSWVNaUJPbk0reGJJTkxLM2U1Y0YwSzNQRkV5NTVNZU9EQlFaeGZHVDln?=
+ =?utf-8?B?dVRXRnFyeC9jK3dMbW13UElRV2N0SlZIOG4xOGZUUktJU3BtSWk3V09jNXV0?=
+ =?utf-8?B?Wk1jSHRXYjFTdStJNFdJeFFMMU1hL0JRcC94eVd1SDB0SDl2OGFTTVdWeXZU?=
+ =?utf-8?B?NENIc2c3Q1BqQjlwRXFwWmRuZEYxNTNwcC84WWMwWnEvZUFFWFM3eVAwNnNW?=
+ =?utf-8?B?eldZdDB4eWhjYXlISW1NMExoSVVCa2VkYUZ1RjhUUERtWFZZZis0YkpyQlQ2?=
+ =?utf-8?B?NXhVWW1NQ3B0NFp0SGlUcTF4NFJsa2l5dmpXZ3pFWGxWY1AzOXl0WkluMzdH?=
+ =?utf-8?B?eHoxL3NNdnQ5dkV2dDBBOHQ4TFpKd3QwREF5Y3I0ek84OU1HL1NFVE95Qnpv?=
+ =?utf-8?B?NXVmUUZTV2UwSWM1SDJuSHVqa1gzWm10NDNHUHRwMUlCblZPNERtUElnY2l3?=
+ =?utf-8?B?V0g3b2FZMnhka01RZDhqYmtBM3FrenNaL055RnFydlFzMmtFcXZQdUZEM0FN?=
+ =?utf-8?B?b2lTRVQ0WllJTGFnV20yY2NMZFhrbHZjd1JnblIzV0NoV2lJNWwrOW1lNGo5?=
+ =?utf-8?B?VGNBbzRJdHYvSEpaUmRCMXZzRXpzdld4UzVaQkRuVGZ3SHBPZmNMQ3FrRzla?=
+ =?utf-8?B?a3BTRkt0ZEVvVVhSK1VDTXFXN2pZbzBVMG9NMUFzZXVDUWxJbFp6NU5ieVVN?=
+ =?utf-8?B?UEFOTkcxRkU2RW1vNER1cWczcGd0S1I3SlhmSHk5WHFESlNVd2F1VHI3d3pu?=
+ =?utf-8?B?VVNZQzFGMzl1MkVDOEVqcjJYcUZ0WXJ2M2tIS1ozdFp0d1JHd3g0K1preVJT?=
+ =?utf-8?B?Z1Q1a0JFbmVVTDBVNDN6ajZyREJtSnVCVW50ckxCdWtGNnl4VkRySU9hRWZl?=
+ =?utf-8?B?UWc4a0k4N0ZLMFBUdDVTKzNObGpuR3VwK1dSMSt1MVVERE9hUEhIVDZ0azRM?=
+ =?utf-8?B?aHBEWjdLRnM2YXJtaXFvTjZiZnZPem1TSW93aXhuSktnZGlJM0YySXg2b0o3?=
+ =?utf-8?B?cTJBcUxSMmdvaWFmekxyNFNCOE1VYUZZRXRUcGpoeFZlc0o5Wk5uTXBXNCtF?=
+ =?utf-8?B?cW9IMjJGemFKQ0wzUmpENkpkYnYrckZjdE02Qnp0NklkZkZ5SFFxMWtlMDIv?=
+ =?utf-8?B?RFlKNUVybDJHbDJyRjg5UFhsWm5FQ2ZGNHk3Y0Z5OGhyWk1DSFhWbGxkMzMy?=
+ =?utf-8?B?VU5lWmdoU2VlVTc5STVjR3VpcWl2eUFoMEFhc05WMThCenptK0U5aWhZMW5p?=
+ =?utf-8?B?bkZyNWRDOVU0Y1l2cm1qQjZwTkR3YnZiSGNYVG5wL2N2TEhOdDVKUUVpZHVX?=
+ =?utf-8?B?Y1NZMTZ2UUcrK01PMk94Q1ZCT3FES21OYm9xY3BtbGpWc3NqVzBPVW9lbTRo?=
+ =?utf-8?B?YlI3VVl5TzlZQmR5TzhUK00rNDkxYi9Tc09zbGJmTFNUQS9acnFFT3k3ZlFY?=
+ =?utf-8?B?aWFkWGFPYVZkRXdvSFAzK2xlZjRYczlmVHpZUjlma3p5WFZqM2xUY3NwakRu?=
+ =?utf-8?B?eVllL3RIL3RyM1NOSUNTOFFuVkZvUzFNVDNTRXhrMGVnSkxuUXFqdWhqOXZX?=
+ =?utf-8?B?aldIRERDSFJhZ0lsMS9JT0xNMG55S2kzcTVYcUpZK2pHVUUwTGpvRWFCdUZK?=
+ =?utf-8?B?OGVpMmEwYjFMTHZvVGpzM3dId3owakF5Q2Y4Zks1bVYxZm8yS2dXd3VJUE5h?=
+ =?utf-8?B?MTg2ZmJtcERLRy83K0U0c09wVVBFOXQ1NXQ1NU1Hd2lBbm1kR0FYbG1adzFn?=
+ =?utf-8?B?ei9MaFcvYWMwaFlGcFJVVGxIUHJVZ05vMFdMQVRhczNvWUNKcFNtY3JKa3lC?=
+ =?utf-8?B?bUYvYzRhN3JBaU5wdXZtWnI3bzEvdE14alFiWGpNcTl6SkFLTnROSVdiWjhD?=
+ =?utf-8?B?Z3Jhb2UvQXM0SXQ4KzdVVnVjUmNoMm9XUXJIRldldHZOcEpKZS9Hdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d7b8ba0-0483-4e9f-defd-08df2df5648a
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 15:26:48.8171
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YCEQnNdAW7F1WWyf8l1Uh5+HcZibVa05mQyl60zmcMYi89poGO1394GYJAwvO9UrZ+5VN5jZH7f2yqUtjBig4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6252
 
-Add dmaengine_async_is_tx_complete() as the client API for polling the
-completion of one transaction. Like dma_async_is_tx_complete(), which
-it deprecates, it routes the query to the channel's device_tx_status()
-callback; the change is that it drops the @last and @used outputs,
-which only make sense for providers that complete in cookie order.
-A provider that tracks per-descriptor state can answer exactly from
-that state, and a high-rate in-kernel polling user, the io_uring DSA
-copy offload to be posted separately, depends on such answers.
+On Thu Oct 15, 2026 at 3:56 PM BST, Marco Elver wrote:
+> Rust supports ThreadSanitizer instrumentation via LLVM, which is what
+> KCSAN relies on; however, Rust code is not currently instrumented.
+>=20
+> Pass -Zsanitizer=3Dthread and the same TSan backend options used for C
+> code to rustc. Wire up KCSAN_SANITIZE in scripts/Makefile.lib for parity
+> with C (though rustc currently rejects linking crates with mismatched
+> instrumentation).
+>=20
+> rustc only accepts -Zsanitizer=3Dthread for targets that declare support
+> for it. Of the targets used by the kernel, this is only possible for the
+> generated x86_64 target specification, so restrict instrumentation of
+> Rust code to x86_64 for now via HAVE_KCSAN_RUSTC. On other architectures
+> Rust code remains uninstrumented as before.
+>=20
+> All TSan options used are supported by the LLVM versions of the minimum
+> supported rustc, so no rustc-option checks are needed (they would also
+> fail, because x86_64-unknown-none used for option checks does not
+> support -Zsanitizer=3Dthread).
+>=20
+> Unlike Clang and GCC, an equivalent to -fno-optimize-sibling-calls is
+> omitted for Rust because rustc provides no corresponding option. While
+> disabling tail-call optimizations helps preserve complete stacks traces
+> in reports, it is optional and not required for KCSAN to function.
+>=20
+> With this enabled we can detect data races in kernel Rust code and
+> between Rust and C code.
+>=20
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Boqun Feng <boqun@kernel.org>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-The kernel-doc says how far such an answer goes. It is exact for a
-transaction submitted without DMA_PREP_INTERRUPT, on the first query
-that reports it finished. An interrupt-armed transaction reports its
-result through callback_result, and a cookie whose descriptor has been
-retired reads DMA_COMPLETE. The client guide's advice to pause or stop
-the channel before a query points at that text.
+Acked-by: Gary Guo <gary@garyguo.net>
 
-dma_async_is_complete() was only used through dma_cookie_status(), so
-delete it from the client header and open-code the cookie-window
-comparison there. Move dma_set_tx_state(), which only providers call,
-from the client header into drivers/dma/dmaengine.h; every in-tree
-user already includes it. Convert dma_sync_wait() and dmatest to the
-new helper, fix the two comments that still name the deleted helper,
-and document the cookie assignment helpers in the provider guide.
-
-Assisted-by: Claude:claude-opus-5-5
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: Daniel Byrne <daniel1.byrne@intel.com>
----
- Documentation/driver-api/dmaengine/client.rst | 24 ++++-----
- .../driver-api/dmaengine/provider.rst         | 45 ++++++++++++++--
- drivers/dma/amba-pl08x.c                      |  2 +-
- drivers/dma/at_hdmac.c                        |  5 +-
- drivers/dma/dmaengine.c                       |  2 +-
- drivers/dma/dmaengine.h                       | 21 +++++++-
- drivers/dma/dmatest.c                         |  3 +-
- include/linux/dmaengine.h                     | 54 +++++++++----------
- 8 files changed, 103 insertions(+), 53 deletions(-)
-
-diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-index 5ee5d4a3596d..255aaad33339 100644
---- a/Documentation/driver-api/dmaengine/client.rst
-+++ b/Documentation/driver-api/dmaengine/client.rst
-@@ -277,8 +277,8 @@ The details of these operations are:
- 
-       dma_cookie_t dmaengine_submit(struct dma_async_tx_descriptor *desc)
- 
--   This returns a cookie can be used to check the progress of DMA engine
--   activity via other DMA engine calls not covered in this document.
-+   This returns a cookie that can be used to check the progress of a transaction
-+   via dmaengine_async_is_tx_complete().
- 
-    dmaengine_submit() will not start the DMA operation, it merely adds
-    it to the pending queue. For this, see step 5, dma_async_issue_pending.
-@@ -357,23 +357,23 @@ Further APIs
- 
-    .. code-block:: c
- 
--      enum dma_status dma_async_is_tx_complete(struct dma_chan *chan,
--		dma_cookie_t cookie, dma_cookie_t *last, dma_cookie_t *used)
-+      enum dma_status dmaengine_async_is_tx_complete(struct dma_chan *chan,
-+		dma_cookie_t cookie)
- 
--   This can be used to check the status of the channel. Please see
--   the documentation in include/linux/dmaengine.h for a more complete
--   description of this API.
--
--   This can be used in conjunction with dma_async_is_complete() and
--   the cookie returned from dmaengine_submit() to check for
--   completion of a specific DMA transaction.
-+   This can be used with the cookie returned from dmaengine_submit()
-+   to check for completion of a specific DMA transaction.
- 
-    .. note::
- 
-       Not all DMA engine drivers can return reliable information for
-       a running DMA channel. It is recommended that DMA engine users
-       pause or stop (via dmaengine_terminate_all()) the channel before
--      using this API.
-+      using this API, unless the provider tracks per-descriptor state.
-+      Even such a provider answers exactly only within the limits that
-+      the kernel-doc of dmaengine_async_is_tx_complete() in
-+      include/linux/dmaengine.h describes: for a transaction submitted
-+      without DMA_PREP_INTERRUPT, and on the first query that reports it
-+      finished.
- 
- 5. Synchronize termination API
- 
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index f4ed98f701c9..ef342886af96 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -419,7 +419,9 @@ supported.
- 
-     - tx_submit: A pointer to a function you have to implement,
-       that is supposed to push the current transaction descriptor to a
--      pending queue, waiting for issue_pending to be called.
-+      pending queue, waiting for issue_pending to be called. Each
-+      descriptor is given a cookie to identify it. See the section
-+      "Cookie Management" below.
- 
-     - phys: Physical address of the descriptor which is used later by
-       the dma engine to read the descriptor and initiate transfer.
-@@ -533,6 +535,41 @@ supported.
- 
-   - May sleep.
- 
-+Cookie Management
-+------------------
-+
-+When a transaction is queued for submission via tx_submit(), the provider
-+must assign that transaction a cookie (dma_cookie_t) to uniquely identify it.
-+The provider is allowed to perform this assignment however it wants, but for
-+convenience the following utility functions are available to create
-+monotonically increasing cookies:
-+
-+  .. code-block:: c
-+
-+    void dma_cookie_init(struct dma_chan *chan);
-+
-+  Called once at channel creation.
-+
-+  .. code-block:: c
-+
-+    dma_cookie_t dma_cookie_assign(struct dma_async_tx_descriptor *tx);
-+
-+  Assign a cookie to the given descriptor.
-+
-+  .. code-block:: c
-+
-+    void dma_cookie_complete(struct dma_async_tx_descriptor *tx);
-+
-+  Mark the descriptor as complete and invalidate the cookie.
-+
-+  .. code-block:: c
-+
-+    enum dma_status dma_cookie_status(struct dma_chan *chan,
-+      dma_cookie_t cookie, struct dma_tx_state *state);
-+
-+  Report the status of the cookie, filling in the state structure if
-+  it is not NULL.
-+
- 
- Misc notes
- ==========
-@@ -550,10 +587,10 @@ where to put them)
- 
- dma_cookie_t
- 
--- it's a DMA transaction ID that will increment over time.
-+- it's a DMA transaction ID.
- 
--- Not really relevant any more since the introduction of ``virt-dma``
--  that abstracts it away.
-+- The value can be chosen by the provider, or use the helper APIs
-+  such as dma_cookie_assign() and dma_cookie_complete().
- 
- dma_vec
- 
-diff --git a/drivers/dma/amba-pl08x.c b/drivers/dma/amba-pl08x.c
-index 5e88fd44812d..8c235a603bb0 100644
---- a/drivers/dma/amba-pl08x.c
-+++ b/drivers/dma/amba-pl08x.c
-@@ -1536,7 +1536,7 @@ static void pl08x_free_chan_resources(struct dma_chan *chan)
- }
- 
- /*
-- * Code accessing dma_async_is_complete() in a tight loop may give problems.
-+ * Code polling the transaction status in a tight loop may give problems.
-  * If slaves are relying on interrupts to signal completion this function
-  * must not be called with interrupts disabled.
-  */
-diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
-index e5b30a57c477..7ea0822a3900 100644
---- a/drivers/dma/at_hdmac.c
-+++ b/drivers/dma/at_hdmac.c
-@@ -1666,9 +1666,8 @@ static int atc_terminate_all(struct dma_chan *chan)
-  * @cookie: transaction identifier to check status of
-  * @txstate: if not %NULL updated with transaction state
-  *
-- * If @txstate is passed in, upon return it reflect the driver
-- * internal state and can be used with dma_async_is_complete() to check
-- * the status of multiple cookies without re-checking hardware state.
-+ * If @txstate is passed in, upon return it reflects the driver
-+ * internal state: the last completed and the last issued cookie.
-  */
- static enum dma_status
- atc_tx_status(struct dma_chan *chan,
-diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-index ced78c985d1c..d7febef65a2d 100644
---- a/drivers/dma/dmaengine.c
-+++ b/drivers/dma/dmaengine.c
-@@ -537,7 +537,7 @@ enum dma_status dma_sync_wait(struct dma_chan *chan, dma_cookie_t cookie)
- 
- 	dma_async_issue_pending(chan);
- 	do {
--		status = dma_async_is_tx_complete(chan, cookie, NULL, NULL);
-+		status = dmaengine_async_is_tx_complete(chan, cookie);
- 		if (time_after_eq(jiffies, dma_sync_wait_timeout)) {
- 			dev_err(chan->device->dev, "%s: timeout!\n", __func__);
- 			return DMA_ERROR;
-diff --git a/drivers/dma/dmaengine.h b/drivers/dma/dmaengine.h
-index 53f16d3f0029..e72876a512a3 100644
---- a/drivers/dma/dmaengine.h
-+++ b/drivers/dma/dmaengine.h
-@@ -79,7 +79,26 @@ static inline enum dma_status dma_cookie_status(struct dma_chan *chan,
- 		state->residue = 0;
- 		state->in_flight_bytes = 0;
- 	}
--	return dma_async_is_complete(cookie, complete, used);
-+
-+	if (complete <= used) {
-+		if ((cookie <= complete) || (cookie > used))
-+			return DMA_COMPLETE;
-+	} else {
-+		if ((cookie <= complete) && (cookie > used))
-+			return DMA_COMPLETE;
-+	}
-+	return DMA_IN_PROGRESS;
-+}
-+
-+static inline void dma_set_tx_state(struct dma_tx_state *st,
-+	dma_cookie_t last, dma_cookie_t used, u32 residue)
-+{
-+	if (!st)
-+		return;
-+
-+	st->last = last;
-+	st->used = used;
-+	st->residue = residue;
- }
- 
- static inline void dma_set_residue(struct dma_tx_state *state, u32 residue)
-diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c
-index 2ae3469397f3..3d0d54a97add 100644
---- a/drivers/dma/dmatest.c
-+++ b/drivers/dma/dmatest.c
-@@ -847,8 +847,7 @@ static int dmatest_func(void *data)
- 					done->done,
- 					msecs_to_jiffies(params->timeout));
- 
--			status = dma_async_is_tx_complete(chan, cookie, NULL,
--							  NULL);
-+			status = dmaengine_async_is_tx_complete(chan, cookie);
- 		}
- 
- 		if (!done->done) {
-diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-index 4178248611d9..83bef7a70b99 100644
---- a/include/linux/dmaengine.h
-+++ b/include/linux/dmaengine.h
-@@ -1596,9 +1596,12 @@ static inline void dma_async_issue_pending(struct dma_chan *chan)
-  * @last: returns last completed cookie, can be NULL
-  * @used: returns last issued cookie, can be NULL
-  *
-- * If @last and @used are passed in, upon return they reflect the driver
-- * internal state and can be used with dma_async_is_complete() to check
-- * the status of multiple cookies without re-checking hardware state.
-+ * This function is deprecated. New code should use
-+ * dmaengine_async_is_tx_complete() instead.
-+ *
-+ * If @last and @used are passed in, upon return they reflect the most
-+ * recently submitted (used) cookie and the most recently completed
-+ * cookie.
-  */
- static inline enum dma_status dma_async_is_tx_complete(struct dma_chan *chan,
- 	dma_cookie_t cookie, dma_cookie_t *last, dma_cookie_t *used)
-@@ -1615,36 +1618,29 @@ static inline enum dma_status dma_async_is_tx_complete(struct dma_chan *chan,
- }
- 
- /**
-- * dma_async_is_complete - test a cookie against chan state
-- * @cookie: transaction identifier to test status of
-- * @last_complete: last know completed transaction
-- * @last_used: last cookie value handed out
-+ * dmaengine_async_is_tx_complete - poll for transaction completion
-+ * @chan: DMA channel
-+ * @cookie: transaction identifier to check status of
-  *
-- * dma_async_is_complete() is used in dma_async_is_tx_complete()
-- * the test logic is separated for lightweight testing of multiple cookies
-+ * Query the provider's device_tx_status() callback for the state of a
-+ * single transaction. Providers that rely on cookie ordering answer with
-+ * the cookie-window approximation. Providers that track per-descriptor
-+ * state can answer exactly, but only for a transaction submitted without
-+ * DMA_PREP_INTERRUPT and only on the first query that reports it
-+ * finished. A transaction submitted with DMA_PREP_INTERRUPT reports its
-+ * result through callback_result, and the query only tells whether it
-+ * has finished. Once the first terminal answer has retired the
-+ * descriptor, a later query for the same cookie reads DMA_COMPLETE.
-+ *
-+ * Return: DMA_COMPLETE, DMA_IN_PROGRESS, DMA_PAUSED, DMA_ERROR or
-+ * DMA_OUT_OF_ORDER.
-  */
--static inline enum dma_status dma_async_is_complete(dma_cookie_t cookie,
--			dma_cookie_t last_complete, dma_cookie_t last_used)
--{
--	if (last_complete <= last_used) {
--		if ((cookie <= last_complete) || (cookie > last_used))
--			return DMA_COMPLETE;
--	} else {
--		if ((cookie <= last_complete) && (cookie > last_used))
--			return DMA_COMPLETE;
--	}
--	return DMA_IN_PROGRESS;
--}
--
--static inline void
--dma_set_tx_state(struct dma_tx_state *st, dma_cookie_t last, dma_cookie_t used, u32 residue)
-+static inline enum dma_status dmaengine_async_is_tx_complete(struct dma_chan *chan,
-+	dma_cookie_t cookie)
- {
--	if (!st)
--		return;
-+	struct dma_tx_state state;
- 
--	st->last = last;
--	st->used = used;
--	st->residue = residue;
-+	return chan->device->device_tx_status(chan, cookie, &state);
- }
- 
- #ifdef CONFIG_DMA_ENGINE
--- 
-2.43.0
+> ---
+> v2:
+> * Add note on -fno-optimize-sibling-calls to commit message.
+> ---
+>  Documentation/dev-tools/kcsan.rst |  7 +++++++
+>  lib/Kconfig.kcsan                 |  7 +++++++
+>  scripts/Makefile.kcsan            | 13 +++++++++++++
+>  scripts/Makefile.lib              |  3 +++
+>  scripts/generate_rust_target.rs   |  2 +-
+>  5 files changed, 31 insertions(+), 1 deletion(-)
 
