@@ -1,65 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792433449;
-	b=YJuQVJxwlN7iJWYaE4XBq6MiP1gkJxvwkPnFffEp1jvD//H3+CLyQ32vnBiXn1TMyDHL
-	 315N2XLl6H1V/X+oYJLDh77yccIrsbwZCAHyHBSfTEe7DImzkQBOscBEXD3iPlMg/h+YG
-	 dk1Tk9w6xxeboZY5D1j2wNo91zkACSeDwvrDEFo+bW+wFJDwbFWd31F3DmhWn19ISLRKz
-	 ToupLm0zDKU8oKlGUiMDM8ltEbhONN8FYshyL/RwREVaeTww65l7Qf/WkXDOVExPlGSTI
-	 ZFvwjJgSdPQPdPhrROiwXB3h2aHTYXso82A85KJCsvds+wuNLII4iieMtUYozKndw2w==
+	t=1792433451;
+	b=a0WTRvBKaSmNrgXkBo4vxCjjlWCqrAf4Rj7StNRVMjH+EOBHTvebZTi0vqqw4zFlYlBU
+	 5jnRRVfiklk9B4n2nPVQVSQo4oJfQLg1BjV++PgsNAdzpyzn0rOjmVjUCySV+HiJHhNLr
+	 7Pob6s/3QOf5yYFvsjYKj29SgV3C2T7+oFvoRFyFK/ZL5ecue+uJjXSa+je36aGRqjmwI
+	 k1mIqljoiSW2DI3D2ZJnVbQMBJ7R27yMBVihYEi3J7ek4rnQrJ+8tor9rDD9DD3XOnVRT
+	 YanKfZ5OSzDrvQtIlnkG+/VFSnqnpHqh4oxpqJbZ19KSPvyVSPObUqZbovqFK9o4hdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792433449;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792433451;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=uFkQQEsey5nMywqpv8Gu9QV7T6PVhaqd/+P20TcJHwQ=;
-	b=0ie1hLACrX5V5PLCfvPlsq2x3CqXYh+gLGfreIqqFkY/FYwzhdfueQojZAZLR+W5cZ0h
-	 0uXQjNg5lRvhHRRYNcCPzqhzA700xqXWN8xsA5BXaDJU6dWB51ZOwhXjvHTlaeRPhlGEy
-	 DJAbemjINVk1Ufu0LT+ENi9+yNgN2x6N1EoagjyJze+4gC+9sEIntwGxoPcG+8Vpcyas8
-	 RTrNHtLm/h3GfEf4ZGjDW1KpX1tssIIDXYJgpmsJOrl9UXB/BQX3/OhQ/rqjvftpRGI9+
-	 XbcHoOEl8MGtq/AsYbzaFNLjLw6X7bFzivSF39wwQZQBB4hp+hzuVl/r+bjXogXwROQ==
+	bh=ZyfpykCvInVMKic3t98t/CnToCYK32/Po5GGPUhKuaE=;
+	b=vdJ2UVUFDFmycMBZqn0rPGOrVHAURfcaAKQdTi476raZTKlGpemI3dnj2rg8ZBO9Zy4v
+	 xT+Nv6X9pL1bd9JelXlkwQSNR3fx+Bqr5BA3U7FN77njWaLp++jdP82PGeUEnpDScK/MD
+	 QbnXt3UiPdz5ej1gHUgeIypQ1r7hWzxgr5raRnqPz7Dl32rf/q2EUjjw0kt37fLxBXpOs
+	 cWc8H1oQbPsJ6UdVxxfpjV5I66slYzKSwB1BbsbHfgpOCDA0Rw0/RPXTLVV3vQp7/lE7d
+	 he20d0KPHKrginLmUSH0DpReoWpudvs41/Y8FJyZk1gxr6B4j8qw11dgLBCspYNGytg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gq3SsJCF;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LiPiL5zp;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7ADB60A2605
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 18:10:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7ADB60A2605
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEB560A2616
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 18:10:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCEB560A2616
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Gq3SsJCF
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LiPiL5zp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792433448;
+	s=mimecast20190719; t=1792433449;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uFkQQEsey5nMywqpv8Gu9QV7T6PVhaqd/+P20TcJHwQ=;
-	b=Gq3SsJCFrHJPpyh/dpLzRxc1xIz+1w8U6ntJNOvHzjmkJ9r+TqveaGRQcNXyGH6bGRwCtW
-	UTkqud5rp1AUXa0IEi528zkyE0Na7G1q2gmLo9UDpW0DWjYwtSNmQf+bAf58cY5UssMWb3
-	DuX2B7i6uz/JLIarlaqY1PEEJAt/Aco=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=ZyfpykCvInVMKic3t98t/CnToCYK32/Po5GGPUhKuaE=;
+	b=LiPiL5zpr3+knDo+Jc2iIyccm1ucdukXE5uqlyxi6diK7/9iOEKvfOxAHa0oTRG9k2fDmX
+	3Hzd3g3GWM/ztNxvyq/jRIW/3k/2cSKdahwHah2UqdOCN5O5W1L0jMAP65qn4zZMfHM5Oi
+	W8GsgEPCe224j41N1IvxHf0gJaOnaBI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-640-_8Cd_HIpMR-GTx65VGkt6A-1; Mon,
- 19 Oct 2026 18:10:42 +0000
-X-MC-Unique: _8Cd_HIpMR-GTx65VGkt6A-1
-X-Mimecast-MFC-AGG-ID: _8Cd_HIpMR-GTx65VGkt6A_1792433440
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-629-aA_X-Xz1MyGs8CJnOCVWUw-1; Mon,
+ 19 Oct 2026 18:10:48 +0000
+X-MC-Unique: aA_X-Xz1MyGs8CJnOCVWUw-1
+X-Mimecast-MFC-AGG-ID: aA_X-Xz1MyGs8CJnOCVWUw_1792433446
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9F79A195605A;
-	Mon, 19 Oct 2026 18:10:40 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 53DEA1956072;
+	Mon, 19 Oct 2026 18:10:46 +0000 (UTC)
 Received: from llong-thinkpadp16vgen1.rmtusnh.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 76B08418;
-	Mon, 19 Oct 2026 18:10:38 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C5EB6418;
+	Mon, 19 Oct 2026 18:10:43 +0000 (UTC)
 From: Waiman Long <longman@redhat.com>
 To: Ridong Chen <ridong.chen@linux.dev>,
 	Tejun Heo <tj@kernel.org>,
@@ -74,10 +74,11 @@ Cc: cgroups@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	Hui Peng <benquike@gmail.com>,
 	Guopeng Zhang <guopeng.zhang@linux.dev>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH-next v4 3/9] cgroup/cpuset: Consider all the exclusive CPUs when doing housekeeping check
-Date: Mon, 19 Oct 2026 14:10:14 -0400
-Message-ID: <20261019181020.1069325-4-longman@redhat.com>
+	Waiman Long <longman@redhat.com>,
+	Guopeng Zhang <zhangguopeng@kylinos.cn>
+Subject: [PATCH-next v4 5/9] cgroup/cpuset: Properly disabling partition when partition state switching fails
+Date: Mon, 19 Oct 2026 14:10:16 -0400
+Message-ID: <20261019181020.1069325-6-longman@redhat.com>
 In-Reply-To: <20261019181020.1069325-1-longman@redhat.com>
 References: <20261019181020.1069325-1-longman@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -92,153 +93,119 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-When prstate_housekeeping_conflict() is called to perform housekeeping
-check with cpumask changes, the cpumask changes are passed in via add_cpus
-and del_cpus parameters. With this arrangement, the exclusive CPUs owned
-by the child partitions and not affected by the cpumask change, if any,
-are excluded in the analysis. The only places where there are separate
-add and delete masks are when the cpuset.cpus or cpuset.cpus.exclusive
-is being changed. In both cases, partition_cpus_change() is a good place
-to perform the housekeeping check.
+Before commit 103b08709e8a ("cgroup/cpuset: Fail if isolated and nohz_full
+don't leave any housekeeping"), the partition state can be freely switched
+from "root" to "isolated" and vice versa. After that commit, the switch
+from "root" to "isolated" can fail if it exhausts all the housekeeping
+CPUs. Later on, the switch from "isolated" to "root" can also fail if
+some of the partition CPUs are boot-time isolated by "isolcpus".
 
-If we allow a root partition to be created under an isolated partition,
-it is possible the cpumask change will still leave active housekeeping
-CPUs but then no housekeeping CPUs will be left when the child partitions
-are disabled or invalidated.
+A local or remote partition is made invalid when the switch fails.
+However there are 2 problems with the existing invalidation code.
 
-As a first step to protect against this possibility, all the exclusive
-CPUs of the cpuset should be considered to be owned by the current cpuset
-when doing housekeeping check. At the same time, we do want to know if
-some housekeeping CPUs are going to be removed from the isolated partition
-that there will be no danger of losing all the active housekeeping CPUs.
-So the current add_cpus paremeter is renamed as new_cpus to indicate
-that it includes the complete set of effective xcpus.
+ 1) Both the subpartitions_cpus and isolated_cpus are not properly
+    updated.
+ 2) In the case of remote partition with remote_partition flag set, it
+    is not cleared.
 
-With the new check in partition_cpus_change(), the housekeeping check
-in update_parent_effective_cpumask() with partcmd_update and newmask
-is now duplicative and can be removed. The housekeeping check in
-remote_cpus_update(), however, will still be useful as this function can
-be called directly from update_cpumasks_hier() without going through
-partition_cpus_change(). The update_parent_effective_cpumask() call
-from update_cpumasks_hier() is partcmd_update with no cpumask which
-still have the housekeeping check and so is covered.
+Fix this by calling the proper partition disabling function in this case.
 
+On an x86 test system with boot option "isolcpus=10 cgroup_debug" set
+and more than 16 cores, the following commands were executed after boot.
+
+  # cd /sys/fs/cgroup
+  # echo +cpuset > cgroup.subtree_control
+  # cat cpuset.cpus.isolated
+  10
+  # mkdir A
+  # echo 10-12 > A/cpuset.cpus
+  # echo isolated > A/cpuset.cpus.partition
+  # cat A/cpuset.cpus.partition
+  isolated
+
+Before the patch:
+
+  # echo root > A/cpuset.cpus.partition
+  # cat A/cpuset.cpus.partition
+  root invalid (partition config conflicts with housekeeping setup)
+  # cat cpuset.cpus.isolated .__DEBUG__.cpuset.cpus.subpartitions
+  10-12
+  10-12
+
+After the patch:
+
+  # echo root > A/cpuset.cpus.partition
+  # cat A/cpuset.cpus.partition
+  root invalid (partition config conflicts with housekeeping setup)
+  # cat cpuset.cpus.isolated .__DEBUG__.cpuset.cpus.subpartitions
+  10
+
+Reported-by: Tejun Heo <tj@kernel.org>
+Link: https://lore.kernel.org/lkml/7f4c57b26ad120ab30adf35653f1dd94@kernel.org/
+Fixes: 4a74e418881f ("cgroup/cpuset: Check partition conflict with housekeeping setup")
 Fixes: 103b08709e8a ("cgroup/cpuset: Fail if isolated and nohz_full don't leave any housekeeping")
+Reviewed-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- kernel/cgroup/cpuset.c | 46 +++++++++++++++++++++++++-----------------
- 1 file changed, 27 insertions(+), 19 deletions(-)
+ kernel/cgroup/cpuset.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 5acdc3897ef2..cef3cd0a6906 100644
+index 046c7ce5a037..5a0a4269e7c0 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -1356,19 +1356,19 @@ static void partition_xcpus_del(int old_prs, struct cpuset *parent,
-  * prstate_housekeeping_conflict - check for partition & housekeeping conflicts
-  * @new_prs: new partition root state to be checked
-  * @parent_prs: Parent partition root state
-- * @add_cpus: additional CPUs to be added to current cpuset
-- * @del_cpus: CPUs to be removed from current cpuset, can be NULL
-+ * @new_cpus: the set of new effective xcpus in the current cpuset
-+ * @del_cpus: old CPUs going to be removed from current cpuset, can be NULL
-  * Return: true if there is conflict, false otherwise
-  *
-  * There are two different housekeeping conflicts to be checked:
-- * 1) If new_prs is PRS_ROOT, none of the @add_cpus can be a boot-time isolated
-- *    CPU. IOW, the whole @add_cpus must be a subset of HK_TYPE_DOMAIN_BOOT.
-+ * 1) If new_prs is PRS_ROOT, none of the @new_cpus can be a boot-time isolated
-+ *    CPU. IOW, the whole @new_cpus must be a subset of HK_TYPE_DOMAIN_BOOT.
-  * 2) If nohz_full is enabled and we have isolated CPUs, their combination must
-  *    still leave housekeeping CPUs. This check is only needed if new_prs
-  *    differs from parent_prs and one of them is PRS_ISOLATED.
-  */
- static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
--					  struct cpumask *add_cpus,
-+					  struct cpumask *new_cpus,
- 					  struct cpumask *del_cpus)
- {
- 	cpumask_var_t full_hk_cpus;
-@@ -1393,7 +1393,7 @@ static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
- 		new_prs = -new_prs;
+@@ -2928,6 +2928,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 	struct cpuset *parent = parent_cs(cs);
+ 	struct tmpmasks tmpmask;
+ 	bool isolcpus_updated = false;
++	bool disable_partition = false;
  
- 	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT) && (new_prs == PRS_ROOT) &&
--	    !cpumask_subset(add_cpus, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)))
-+	    !cpumask_subset(new_cpus, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)))
- 		return true;
- 
- 	/*
-@@ -1409,12 +1409,12 @@ static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
- 		return false;
- 
- 	/*
--	 * Now make sure that @add_cpus contains new CPUs to be isolated and
-+	 * Now make sure that @new_cpus contains new CPUs to be isolated and
- 	 * @del_cpus contains isolated CPUs to be un-isolated.
--	 * With the guards above, @add_cpus can't be NULL after the swap.
-+	 * With the guards above, @new_cpus can't be NULL after the swap.
- 	 */
- 	if (parent_prs == PRS_ISOLATED)
--		swap(add_cpus, del_cpus);
-+		swap(new_cpus, del_cpus);
- 
- 	if (del_cpus &&
- 	   (cpumask_first_and_and(del_cpus, housekeeping_cpumask(HK_TYPE_KERNEL_NOISE),
-@@ -1428,7 +1428,7 @@ static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
- 		    housekeeping_cpumask(HK_TYPE_DOMAIN));
- 	cpumask_andnot(full_hk_cpus, full_hk_cpus, isolated_cpus);
- 	cpumask_and(full_hk_cpus, full_hk_cpus, cpu_active_mask);
--	res = !cpumask_weight_andnot(full_hk_cpus, add_cpus);
-+	res = !cpumask_weight_andnot(full_hk_cpus, new_cpus);
- 
- 	free_cpumask_var(full_hk_cpus);
- 	return res;
-@@ -1718,7 +1718,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
- 			 cpumask_subset(top_cpuset.effective_cpus, tmp->addmask))
- 			WRITE_ONCE(cs->prs_err, PERR_NOCPUS);
- 		else if (prstate_housekeeping_conflict(prs, PRS_ROOT,
--						       tmp->addmask, tmp->delmask))
-+						       excpus, tmp->delmask))
- 			WRITE_ONCE(cs->prs_err, PERR_HKEEPING);
- 		if (cs->prs_err)
- 			goto invalidate;
-@@ -1932,14 +1932,6 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 					       parent->effective_xcpus);
- 		}
- 
--		/*
--		 * Check for housekeeping conflicts
--		 */
--		if (is_partition_valid(cs) &&
--		    prstate_housekeeping_conflict(old_prs, parent_prs,
--						  tmp->delmask, tmp->addmask))
--			part_error = PERR_HKEEPING;
--
+ 	if (old_prs == new_prs)
+ 		return 0;
+@@ -2984,15 +2985,21 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 		 * Need to update isolated_cpus.
+ 		 */
+ 		if (prstate_housekeeping_conflict(new_prs, parent_prs,
+-						  cs->effective_xcpus, NULL))
++						  cs->effective_xcpus, NULL)) {
++			disable_partition = true;
+ 			err = PERR_HKEEPING;
+-		else
++		} else {
+ 			isolcpus_updated = true;
++		}
+ 	} else {
  		/*
- 		 * The new CPUs to be removed from parent's effective CPUs
- 		 * must be present.
-@@ -2470,6 +2462,22 @@ static void partition_cpus_change(struct cpuset *cs, struct cpuset *trialcs,
- 		return;
- 
- 	prs_err = validate_partition(cs, trialcs);
-+	if (!prs_err && !cpumask_empty(trialcs->effective_xcpus)) {
-+		int prs = cs->partition_root_state;
-+		int parent_prs = is_remote_partition(cs)
-+			       ? PRS_ROOT : parent_cs(cs)->partition_root_state;
-+		/*
-+		 * Check for housekeeping conflict by passing the whole
-+		 * effective_xcpus as well as those CPUs that are to be
-+		 * removed from cs as delmask.
-+		 */
-+		cpumask_andnot(tmp->delmask, cs->effective_xcpus, trialcs->effective_xcpus);
-+		if (parent_prs > 0 &&
-+		    prstate_housekeeping_conflict(prs, parent_prs,
-+						  trialcs->effective_xcpus, tmp->delmask))
-+			prs_err = PERR_HKEEPING;
+ 		 * Switching back to member is always allowed even if it
+ 		 * disables child partitions.
+ 		 */
++		disable_partition = true;
 +	}
 +
- 	if (prs_err) {
- 		WRITE_ONCE(cs->prs_err, prs_err);
- 		trialcs->prs_err = prs_err;
++	if (disable_partition) {
+ 		if (is_remote_partition(cs))
+ 			remote_partition_disable(cs, &tmpmask);
+ 		else
+@@ -3001,7 +3008,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 
+ 		/*
+ 		 * Invalidation of child partitions will be done in
+-		 * update_cpumasks_hier().
++		 * update_cpumasks_hier() below.
+ 		 */
+ 	}
+ out:
+@@ -3020,8 +3027,8 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 		isolated_cpus_update(old_prs, new_prs, cs->effective_xcpus);
+ 	spin_unlock_irq(&callback_lock);
+ 
+-	/* Force update if switching back to member & update effective_xcpus */
+-	update_cpumasks_hier(cs, &tmpmask, !new_prs);
++	/* Force update if partition is disabled & update effective_xcpus */
++	update_cpumasks_hier(cs, &tmpmask, disable_partition);
+ 
+ 	/* A newly created partition must have effective_xcpus set */
+ 	WARN_ON_ONCE(!old_prs && (new_prs > 0)
 -- 
 2.55.0
 
