@@ -1,67 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792423257;
-	b=JPaNGcLhUvGJuATmCugzVGXGXJNRalZqd/pyHN5IwVfl+SaWxz+Gjo9IYt+FFrrrtB6T
-	 zMAqJjFCbbdwN1fkMxPv2GGau2m58tE4cJJww3g8w5Ta7qI4A9z67BaZKi5nV9l/a70aJ
-	 3J+mz9U5jZbN87LjHzxvUagDJjZe7zljuDdJ8pRYv4vTB094GodwgUrP573jYpUpt7yah
-	 BpYP9cHqwnGpZD5dIJvquKSmHv/5gshFSglKjPcz+ITd+jK6rvB7Xyu5HGMZ996iLxGuM
-	 JAFFeIrp3zoIkkRsTQtJghSBIZ1YYIV1Z41HULokZcPtShe3WMMUziXgZYQbO/4q5EQ==
+	t=1792422879;
+	b=nmA4tCEqKGsottnGWh6DWPu/Drw/ld1TNBkdkS8iOgSAKLxZlitouRtnGKaLZgK8yqra
+	 Eg2fmqMV/yQRTivDw90QjjM1Q+l0s9amGkgK+tCPvFLdjkXQTm5NPccfe+JmirUbEByvO
+	 lV1WXbQ2ol0dpvqvZODqAauawIcfo5quwDryUFHXTBrusu7/nGa6+UTdzboufU2utOYel
+	 n7m73DG/R713mFm2xMose7KYB5g6Te0ES2gFyrWUr5TkflSETrt/hhSM5ROI6vf+dE5K2
+	 7h8vtW79kxWJUXMl+KsHZBWZewUDi4aayPNvYb0EWqjRjUn8FFXiQTIFPT6uSVBDG7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792423257;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=NDxpkGNoz7BmnUqvvkIeuzCaJB7Pz7RiPfeGG6dFS7k=;
-	b=uU3mMBuG0bSxl9u0wKov40n/V2rIDRC5UsIjBdfGbf+RxlnpQLlGHoNtVwfirm/urdVT
-	 sfQ0Y9qJ3nTX4yXPZzbQKDYvJ03L71uZJXj4Qg2zoubT8CFPfbbxfqPhGyu/9iKg24o4h
-	 WFf7clzS4cuOEWrkEoUQwENrCkg1oqK965OODPHECzlitT3oEoV4C4KGM2SSFF4vj+a57
-	 YVrLD6GGZ2j6+7xl3KljP4kAM49+Hxd8VgjOIiaB1dU6dkQIKVluIs408D4DGL1ocMdz2
-	 5nBApjypeTgItaAapTC9BK4qhXviGmQVmgjLpsriP8Bt2ihR7cqZ0drUbtIiT+Jm7Zw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422879;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=z2W4QtM//rkXfqjHQ7/TEqFOqtfnpjSrxUFW4r4yHmY=;
+	b=HWTDg/SjW/YVOuSSQhm4hgDO1Z339sow/SmhSp0Z6rtxQXfBw+AdexrpZEwlN/qvj2ba
+	 lXv6CHxarVQvHAbYffgA/m+jq2Cd1qDtcjKAblSoBde/iq28jlwxaoeKyOO2ipnbzjJgT
+	 XwxnLhkefNuzrTduf008+pHjqhRp8WJwa2MXCgC0lcSsI/1QWyyysHooZQXc/huYun6RT
+	 CEpZDWiS8lEso6aGbsdpaY4gc+1DkZDAkAmcpYgJId0V75y0t/Pt+5a4Ovqbl0JYpLtvg
+	 TUP5VJ81gTcbn5D9M6KRkSeuSte/m0Ok8fWzPorKEcq9eCVvAAoJ94Cp4SJFnRrrbsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X3nBHbhF;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YeAeR60b;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9602760A7E5E
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 15:20:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9602760A7E5E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04407609CECF;
+	Mon, 19 Oct 2026 15:14:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04407609CECF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X3nBHbhF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792423255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NDxpkGNoz7BmnUqvvkIeuzCaJB7Pz7RiPfeGG6dFS7k=;
-	b=X3nBHbhFojIeCZPAoUdSjEVXZcQ3wdY7EQ1xGf6dnjz4Iw00zd4XZdgcIBxvenP6Gff8EQ
-	TY2AxY8wCYam/sOhUnq9c5UfqHEhjJqeQtqipEHc2fUoRWKMHVEgwVAKRfzYWhqTQ4X3od
-	QnhQr2sj5RnXrgTAVNTfs3i8jeufKA8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-355-wbqslNhsODGZaDT2JDQoaw-1; Mon,
- 19 Oct 2026 15:20:45 +0000
-X-MC-Unique: wbqslNhsODGZaDT2JDQoaw-1
-X-Mimecast-MFC-AGG-ID: wbqslNhsODGZaDT2JDQoaw_1792423243
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D943F180061F;
-	Mon, 19 Oct 2026 15:20:42 +0000 (UTC)
-Received: from [100.91.18.181] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6854B180057F;
-	Mon, 19 Oct 2026 15:20:40 +0000 (UTC)
-Message-ID: <c27e9477-656e-4fd5-bf6d-a59b426d70eb@redhat.com>
-Date: Mon, 19 Oct 2026 11:20:39 -0400
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YeAeR60b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792422879; x=1823958879;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4TTqTt9wzLanOmqx5tRJYgHRoGJHQa7XuL3mClvOZ3Q=;
+  b=YeAeR60b1PLTk6v3Er/fE2/Yxw06x1WKSBhBPop7cnQyMxXSMuuQMcY0
+   XqyzbMejcDzrEZTdVxepmlmhWjd/U6lBojPaG7EtObfsXOigpW0pm1+/v
+   Z1nqYQHEYPn2RaphLa0NOlGbRLgmwlsebHWRXOTdRiFVp4/DQSF6POMoN
+   FUU8JaXagVfDGGN75HzQEikYUELzaSF2Nm7YJQjO4rpS3KaYo05WMR2xU
+   pbtxKBpWFlg5Wq0gjtuTrTtK40HMOezrNkvKFQXslsTO1Htd1Hg3njIb5
+   0MvJff4K9sDZcxADaTLHEDIsfAg1hldZA9kVg8QhZscKD1XAY3cQ8vu+x
+   w==;
+X-CSE-ConnectionGUID: FWbVHQqkQZ+924jaflNnvQ==
+X-CSE-MsgGUID: ZbO0D9CeTNeMo/jMaOKOug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="992135"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="992135"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:14:36 -0700
+X-CSE-ConnectionGUID: Es0OG1AjQvONz3CixRLctA==
+X-CSE-MsgGUID: jLfSd1UcT+SHn92uwWKARg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2636147"
+Received: from jf5300-15a101203tc.jf.intel.com (HELO meta-crater2c.jf.intel.com) ([10.54.113.49])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 08:14:36 -0700
+From: Daniel Byrne <daniel1.byrne@intel.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>,
+	Frank Li <Frank.Li@kernel.org>,
+	Vinicius Costa Gomes <vinicius.gomes@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] dmaengine: drop DMA_COMPLETION_NO_ORDER and DMA_OUT_OF_ORDER
+Date: Mon, 19 Oct 2026 08:06:32 -0700
+Message-ID: <20261019150632.4026424-4-daniel1.byrne@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261019150632.4026424-1-daniel1.byrne@intel.com>
+References: <20261019150632.4026424-1-daniel1.byrne@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,131 +88,151 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-next v3 1/9] cgroup/cpuset: Fix a missing isolated_cpus
- update in update_cpumasks_hier()
-To: Guopeng Zhang <guopeng.zhang@linux.dev>,
- Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Hui Peng <benquike@gmail.com>
-References: <20261014140548.575122-1-longman@redhat.com>
- <20261014140548.575122-2-longman@redhat.com>
- <0bd7f6ff-3675-4447-a62a-a2047241e3e6@linux.dev>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <0bd7f6ff-3675-4447-a62a-a2047241e3e6@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 10/15/26 9:02 AM, Guopeng Zhang wrote:
->
-> 在 2026/10/14 22:05, Waiman Long 写道:
->> It is found that when a local isolated partition is being invalidated
->> because its root partition parent is no longer valid, the isolated_cpus
->> cpumask may not be properly updated. If the parent was previously
->> an isolated partition, its invalidation should have properly updated
->> isolated_cpus before and no action will be needed.
->>
->> Fix that by calling isolated_cpus_update() in this invalidation case
->> to update isolated_cpus. A test case in test_cpuset_prs.sh is modified
->> to test that.
->>
->> Fixes: 11e5f407b64a ("cgroup/cpuset: Keep track of CPUs in isolated partitions")
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>   kernel/cgroup/cpuset.c                        | 19 ++++++++++++++-----
->>   .../selftests/cgroup/test_cpuset_prs.sh       |  4 ++--
->>   2 files changed, 16 insertions(+), 7 deletions(-)
->>
->> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->> index 0ebba2d646c3..6b5c870e5607 100644
->> --- a/kernel/cgroup/cpuset.c
->> +++ b/kernel/cgroup/cpuset.c
->> @@ -2229,7 +2229,9 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->>   		 * cpuset if the parent's effective_cpus changes.
->>   		 */
->>   		if ((cp != cs) && old_prs) {
->> -			switch (parent->partition_root_state) {
->> +			int parent_prs = parent->partition_root_state;
->> +
->> +			switch (parent_prs) {
->>   			case PRS_ROOT:
->>   			case PRS_ISOLATED:
->>   				update_parent = true;
->> @@ -2238,11 +2240,18 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->>   			default:
->>   				/*
->>   				 * When parent is not a partition root or is
->> -				 * invalid, child partition roots become
->> -				 * invalid too.
->> +				 * invalid, child partition roots become invalid
->> +				 * too. For an isolated partition with root
->> +				 * partition parent, isolated_cpus_updated()
->> +				 * is called to update isolated_cpus.
->>   				 */
->> -				if (is_partition_valid(cp))
->> -					new_prs = -cp->partition_root_state;
->> +				if (is_partition_valid(cp)) {
->> +					new_prs = -old_prs;
->> +					if ((old_prs == PRS_ISOLATED) &&
->> +					    (parent_prs == -PRS_ROOT))
->> +						isolated_cpus_update(old_prs, new_prs,
->> +								     cp->effective_xcpus);
->> +				}
-> I tested switching a parent partition from root to member and found that
-> CPUs can remain listed in cpuset.cpus.isolated. CPUs 0-15 are online, with
-> nohz_full=2-15 and no isolcpus:
->
->      # cd /sys/fs/cgroup
->      # echo +cpuset > cgroup.subtree_control
->      # mkdir A
->      # echo 1-2 > A/cpuset.cpus
->      # echo root > A/cpuset.cpus.partition
->      # echo +cpuset > A/cgroup.subtree_control
->      # mkdir A/C
->      # echo 2 > A/C/cpuset.cpus
->      # echo isolated > A/C/cpuset.cpus.partition
->      # cat cpuset.cpus.isolated
->      2
->      # echo member > A/cpuset.cpus.partition
->      # cat A/C/cpuset.cpus.partition
->      isolated invalid (Parent is not a partition root)
->      # cat cpuset.cpus.isolated
->      2
->
-> A is now a member and C is invalid, so cpuset.cpus.isolated should be
-> empty here, but CPU 2 remains.
+DMA_COMPLETION_NO_ORDER (commit 47ec7f09bc10 ("dmaengine: cookie bypass
+for out of order completion")) flagged devices whose completions can
+overtake submission order. On DSA this happens when a work queue (one
+dmaengine channel) belongs to a group that contains several engines.
+Per-channel cookie tracking gives wrong answers in this case, since
+dma_cookie_complete() moves the completed-cookie watermark past
+still-in-flight earlier descriptors, so cookie-order status can report
+DMA_COMPLETE for a running transfer. Clients were told to use
+callbacks only, dmatest refused polled mode, and DMA_OUT_OF_ORDER
+existed as the tx_status answer for such devices.
 
-Yes, this patch isn't quite correct and can't catch some corner cases. I 
-have a new version that should work much better and I can't reproduce 
-your test case with the new patch. I will send out a v4 soon.
+idxd, the only in-tree setter, now answers
+dmaengine_async_is_tx_complete() from per-descriptor generation
+numbers, exactly within the limits that helper's kernel-doc states: for
+a transaction submitted without DMA_PREP_INTERRUPT, on the first query
+that reports it finished. Polling an out-of-order device is therefore
+safe and neither the capability nor the status code has any remaining
+meaning. Drop them.
 
-Cheers,
-Longman
+Whether reordering occurs at all is group configuration rather than a
+device property. A group with a single engine completes its work
+queues' descriptors in order. However, the driver cannot assume how
+the administrator grouped engines, and the all-engines-in-one-group
+layout is the device's throughput configuration.
 
-> Thanks,
-> Guopeng>  				WRITE_ONCE(cp->prs_err,
->>   					   is_partition_invalid(parent)
->>   					   ? PERR_INVPARENT : PERR_NOTPART);
->> diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
->> index 7efd5e645767..874a8a161236 100755
->> --- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
->> +++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
->> @@ -292,9 +292,9 @@ TEST_MATRIX=(
->>   								       A1:P0|A2:P2|A3:P1 2-4|2-3"
->>   	"   C0-4    C1-4  C2-4     .    X2-4  X2-4:P2 X3-4:P1   .    0 A1:0-1|A2:2|A3:3-4 \
->>   								       A1:P0|A2:P2|A3:P1 2"
->> -	" C0-4:X2-4 C1-4:X2-4:P2 C2-4:X4:P1 \
->> +	" C0-4:X2-4 C1-4:X2-4:P1 C2-4:X4:P2 \
->>   				   .      .      X5      .      .    0 A1:0-4|A2:1-4|A3:2-4 \
->> -								       A1:P0|A2:P-2|A3:P-1 ."
->> +								       A1:P0|A2:P-1|A3:P-2 ."
->>   	" C0-4:X2-4 C1-4:X2-4:P2 C2-4:X4:P1 \
->>   				   .      .      .      X1      .    0 A1:0-1|A2:2-4|A3:2-4 \
->>   								       A1:P0|A2:P2|A3:P-1 2-4"
+Assisted-by: Claude:claude-opus-5-5
+Assisted-by: Claude:claude-fable-5-1
+Signed-off-by: Daniel Byrne <daniel1.byrne@intel.com>
+---
+ .../driver-api/dmaengine/provider.rst         | 19 -------------------
+ drivers/dma/dmatest.c                         | 11 +----------
+ drivers/dma/idxd/dma.c                        |  1 -
+ include/linux/dmaengine.h                     |  5 +----
+ 4 files changed, 2 insertions(+), 34 deletions(-)
+
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index ef342886af96..435ccd3bedac 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -260,22 +260,6 @@ Currently, the types available are:
+     want to transfer a portion of uncompressed data directly to the
+     display to print it
+ 
+-- DMA_COMPLETION_NO_ORDER
+-
+-  - The device does not support in order completion.
+-
+-  - The driver should return DMA_OUT_OF_ORDER for device_tx_status if
+-    the device is setting this capability.
+-
+-  - All cookie tracking and checking API should be treated as invalid if
+-    the device exports this capability.
+-
+-  - At this point, this is incompatible with polling option for dmatest.
+-
+-  - If this cap is set, the user is recommended to provide an unique
+-    identifier for each descriptor sent to the DMA device in order to
+-    properly track the completion.
+-
+ - DMA_REPEAT
+ 
+   - The device supports repeated transfers. A repeated transfer, indicated by
+@@ -468,9 +452,6 @@ supported.
+   - In the case of a cyclic transfer, it should only take into
+     account the total size of the cyclic buffer.
+ 
+-  - Should return DMA_OUT_OF_ORDER if the device does not support in order
+-    completion and is completing the operation out of order.
+-
+   - This function can be called in an interrupt context.
+ 
+ - device_config
+diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c
+index 3d0d54a97add..fbfa2f1d6f29 100644
+--- a/drivers/dma/dmatest.c
++++ b/drivers/dma/dmatest.c
+@@ -854,10 +854,7 @@ static int dmatest_func(void *data)
+ 			result("test timed out", total_tests, src->off, dst->off,
+ 			       len, 0);
+ 			goto error_unmap_continue;
+-		} else if (status != DMA_COMPLETE &&
+-			   !(dma_has_cap(DMA_COMPLETION_NO_ORDER,
+-					 dev->cap_mask) &&
+-			     status == DMA_OUT_OF_ORDER)) {
++		} else if (status != DMA_COMPLETE) {
+ 			result(status == DMA_ERROR ?
+ 			       "completion error status" :
+ 			       "completion busy status", total_tests, src->off,
+@@ -1035,12 +1032,6 @@ static int dmatest_add_channel(struct dmatest_info *info,
+ 	dtc->chan = chan;
+ 	INIT_LIST_HEAD(&dtc->threads);
+ 
+-	if (dma_has_cap(DMA_COMPLETION_NO_ORDER, dma_dev->cap_mask) &&
+-	    info->params.polled) {
+-		info->params.polled = false;
+-		pr_warn("DMA_COMPLETION_NO_ORDER, polled disabled\n");
+-	}
+-
+ 	if (dma_has_cap(DMA_MEMCPY, dma_dev->cap_mask)) {
+ 		if (dmatest == 0) {
+ 			cnt = dmatest_add_threads(info, dtc, DMA_MEMCPY);
+diff --git a/drivers/dma/idxd/dma.c b/drivers/dma/idxd/dma.c
+index dd5a9d9274ce..19340c7ae2d3 100644
+--- a/drivers/dma/idxd/dma.c
++++ b/drivers/dma/idxd/dma.c
+@@ -417,7 +417,6 @@ int idxd_register_dma_device(struct idxd_device *idxd)
+ 
+ 	dma_cap_set(DMA_INTERRUPT, dma->cap_mask);
+ 	dma_cap_set(DMA_PRIVATE, dma->cap_mask);
+-	dma_cap_set(DMA_COMPLETION_NO_ORDER, dma->cap_mask);
+ 	dma->device_release = idxd_dma_release;
+ 
+ 	dma->device_prep_dma_interrupt = idxd_dma_prep_interrupt;
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index 83bef7a70b99..9f73470759bb 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -39,7 +39,6 @@ enum dma_status {
+ 	DMA_IN_PROGRESS,
+ 	DMA_PAUSED,
+ 	DMA_ERROR,
+-	DMA_OUT_OF_ORDER,
+ };
+ 
+ /**
+@@ -62,7 +61,6 @@ enum dma_transaction_type {
+ 	DMA_SLAVE,
+ 	DMA_CYCLIC,
+ 	DMA_INTERLEAVE,
+-	DMA_COMPLETION_NO_ORDER,
+ 	DMA_REPEAT,
+ 	DMA_LOAD_EOT,
+ /* last transaction type for creation of the capabilities mask */
+@@ -1632,8 +1630,7 @@ static inline enum dma_status dma_async_is_tx_complete(struct dma_chan *chan,
+  * has finished. Once the first terminal answer has retired the
+  * descriptor, a later query for the same cookie reads DMA_COMPLETE.
+  *
+- * Return: DMA_COMPLETE, DMA_IN_PROGRESS, DMA_PAUSED, DMA_ERROR or
+- * DMA_OUT_OF_ORDER.
++ * Return: DMA_COMPLETE, DMA_IN_PROGRESS, DMA_PAUSED or DMA_ERROR.
+  */
+ static inline enum dma_status dmaengine_async_is_tx_complete(struct dma_chan *chan,
+ 	dma_cookie_t cookie)
+-- 
+2.43.0
 
