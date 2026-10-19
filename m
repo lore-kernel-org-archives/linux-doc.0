@@ -1,85 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792449529;
-	b=K5hpvXNFREQcUgIN6dMz6/4OC9xyDvkD+/lOBxBUR2Jk3T/FRXEYVuNxA7mEukc37kU4
-	 Beh15gjnh1O7UWFOj84h+exsEbL6AbhDJzGf/oweEQCCd1jK9pa9+/5dK4CDonVXJSCuO
-	 kDn3tGhxBj+BW2puL1UY/6+9/uXAyOI4RfAYmkTzz2LM6nb5oNFegBrsI2ybmL1QW9VSF
-	 dhbh3juPlZGZBuIkCbG4AXJR6nDAI7d2uaif0BRFmzCS/NKC+ugFhlDEZ0WLMDdJY4OwB
-	 sqtVsP/8shyCYatOUjRNzhrPhIo496zO3RZGPy9IhVq3U1+tyBdnRCQFEnskZ8NeV4g==
+	t=1792449893;
+	b=JhhaqX1tXQqUVeLsj862Pf9/QjuIX2H1HDre+Ecmi1Rx8NxvCinyfW+sRSQzoe5KqPw/
+	 so+adXWfWY5wWGPwTVSoO1ePHP1RD5bHDEQFbwJxgX7HesCQo3avqkV3jkNO0nRhp3vhp
+	 O6lbpjorbmfD69O8H5rWcs4GBBVWhwU4dsBKDB53o+ws0i6LIm0gav3aB9z2UYBDf5H/I
+	 zvHvUbvaEKfkOBUbVryoi78FnwVYCIdHXwIqhEr/Or/A2iHv5LDCWdKR7+qKr2LRadQhk
+	 5GLBVcS7KHLGCwIs/ZwGD+uUYyS+sgmtAjLRYR+3Eb8ExYMng99wthIy8ph8SkJBqhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792449529;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=43K4aQKligxqq/vuFO+T8e4jf0Zsw4MIuMv9mG5KIHk=;
-	b=s50OJeIAXVLePw6xJCD+m4eYn3fML27yL97bQv6Kq1Mlky72VAk5ZRPSBo/1bOEKVlxk
-	 wcTkqrkcNfAs5jhTrl3bIU6tXvfKXjStX1cI05dhPtfWySrdah/9EESwRtV4XtV+nzvVk
-	 XpIC8Xxn/8vK5EMbT303dnqX0EVZ2qYsVGnjBKoWoWfx6hggHWwt3tM4JmEgn/yrYNV/3
-	 GC6Fxf20CbTDA2id7OaGd600dQdCUCP+8FBFR6m6DNbr/DQQQ/1wQFv42xgveBc95aDLx
-	 7NKJUT4cQyfMEyypV+UHQwTvRVNei4AF9EZuKRXNBuFX77L6ChuaBne+1v8WbGiSs0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792449893;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=87IXxZqsowa9WY0C27LLwmzXedneWOVTtTPcbXwZCjk=;
+	b=2wy7oClRnyf3TfAS+/hZHFsN7NjfnTzkPH7YlGKmUVmko+Nk8R/PPJzMSyozvId1H1FJ
+	 lTDez/s5zdUbYb0x+r1B8WU5mPeTQyFamRxry1+TW1vuaGsAGmFVmQLqBpIGzM32a8SAW
+	 TLz/bulYI2rM4oxWYpouZuowl9hbPeu4OCQIH6DXXR9NvsVMaEsApf9n1thysBpiVz2dc
+	 uZgmdDM0cPVN4gZcNtHcg44iGmZexGKc2tdzrzTYZdrAZzQl32NzG/Kc1bLhK76MWbbdf
+	 2dDp8COEUE6ApGpW2GhYtOmVIrYAk8wX9zJ8VsK1/ESt3OhbIPetWLV3XI+2jNc5wGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.215.170
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UZiFLgVo;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2C4606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 22:38:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B2C4606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cd5e6f0a22bso951012a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 15:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792449528; x=1793054328; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=43K4aQKligxqq/vuFO+T8e4jf0Zsw4MIuMv9mG5KIHk=;
-        b=UUs+0Rzcflurmt8UXhJYofzLWPIeoSGahP+pbpa6TFBcyi7FvfRdfRnKwInxcyvp8m
-         zzGsfKoh6sJ87QXbHusLssoSJiVcQg+Z83TE3Hxp9s7S9PL7QHBYm3vVhoCEVNoXT2LI
-         o/dEbz38pzS8v3GrN8xWYieFzOT/pzVAFFVgq8I9Ma4oI14eejAhRC5CcxUmNHhAIiYI
-         GG/BsRLGnhg6LL7AHbX1T3l2ncIv24y7wxdzT+j9Cj+DRGMHz/Sj9jfp904a1tZOMlht
-         i0vbkuMunNqHzGCTA3+qV8wltGjdJsJgX8UTDufFctuqRzB3EJ3vofGbjs8u9UO63SUX
-         phlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792449528; x=1793054328;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=43K4aQKligxqq/vuFO+T8e4jf0Zsw4MIuMv9mG5KIHk=;
-        b=NultIRWJXGCuESdFuI24bMPobbcgwpnr9Pf+Yg6KpQTDh5SOJZcjVKCqKzeNgHYnXd
-         CrqTk4k9nMtgwpgKaYsiFHe/MTj1RKws6JuV2mUPn7JkoIQJU50Ic7KoXYSn6lyyqiC5
-         BwGHhH0On+fuKkzIDQz4eK27X5vtkOThjLLIcIDz6ErndZz2GGHyC/7jN+1Dira3R33c
-         7HtSYdrcNfzdJ5fF/VMlwRJCKk46CxaQZBcYPZXxsBLJGXQ94wz3VAk79T9FALLIjOwF
-         VRHouKur3IcvfF0BgNaE0fGss6WPS+dlO/1yNQ6oFuXxPRm9Vth3pDXlvrIG+iH9UEFA
-         +88Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxcMuUFg34ZrySg81Lx8MwW/365P+8vHLOkvtPh+rNAaKUTVSnNkkZZIFcQ+4lYGNoOBxIOKKNPQvk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJM9eolL5MejLl0YVji2H7ecOUpl+tzhGNhg4CYbFAJ8FIGL2dd
-	O6vovHeVJPAwChPE3usFWpu8/1nNRw7Hs9HoJpBKdy7b/IdHV+uUVAQj
-X-Gm-Gg: AYBFou08NMdHXWsfk6wHsCskfq1dWi77FQRRU5nwEjJwK+Ai01716nAb+uUDinE2q9x
-	jPqMyarVfsvBmwkV6Kn9fj5HIL411tbvTnaX2euf5RHTkQYgGJPROe3nTwTmDMjylVyjCNbjmbI
-	V3AXtLvVHDOva2RkKHGSd3Jzs6YRmiXvQMhWwpbIEdQAol0U4HBWBAMAcPpKr5P3aC+EDHgoJQV
-	4a2WtdVXlsY6o11IH9kOV4LGz5uIdZlRsdBRKWEvK/S//9KdPKNyh/gmeINOS7C96F5s6YZuxi4
-	m0CZ7FCR2yisivLjlHeiuU2p2JDOcDypApeUrJKXsRIFCWZ9mwora2UUsMcDTb1I/2FyzGCEQ2c
-	viVS/fnMOgi/FQTHcfHtKKR9aYZqyzLL1MGcS+05V9OrgH/tRtGFH/LGkxEd9D0R4XaJSOkRdCS
-	QoxGrFZrk9TIzDWhQSnzmbVBbwlpEmIjr0b+MmMJYdlt+oGn77S++rY2/S7Dei+QJEcVsvDb2ZL
-	fHiSqR7vgl9el3u5cfdP6oMrJc/RAWJNBt01SvjdngyE8uwll54CCJuXecz
-X-Received: by 2002:a17:90b:5111:b0:3a8:7242:e8d3 with SMTP id 98e67ed59e1d1-3acee293023mr7943932a91.7.1792449528378;
-        Mon, 19 Oct 2026 15:38:48 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad5d4004cbsm1270090a91.3.2026.10.19.15.38.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 15:38:47 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4cb23fc0-2939-4ac7-ba0d-c7e0906434d8@roeck-us.net>
-Date: Mon, 19 Oct 2026 15:38:46 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42BF606A319;
+	Mon, 19 Oct 2026 22:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E42BF606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UZiFLgVo
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD9F04B0;
+	Tue, 20 Oct 2026 00:42:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1792449764;
+	bh=GjiflgJjyYsS6WFluUw0flEVnXTtdzMofp1CJbun8dg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UZiFLgVoafmWTtKpkHNdzLnR6LkGkUa+dzsBOluBO2OEzBahJDUey2LEd6EBjhz7M
+	 z1aMKuPPmPoYAAif37t+6iAhfoGMyglBkeL8+02eDRYS6kHvFlU9wLa9LOSkhzH2+w
+	 BszRJJv7r2HLKUEGnNf+06T0k7hbQhbQqXysZCts=
+Date: Tue, 20 Oct 2026 01:44:48 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Theodore Tso <tytso@mit.edu>, Krzysztof Kozlowski <krzk@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <20261019224448.GC15441@killaraus.ideasonboard.com>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <as7uqZn9rQ52USwy@mit.edu>
+ <as-Dwg8DcEOYMXki@gremlin>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,130 +84,79 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] docs: hwmon: Document the uhwmon userspace interface
-To: Jihong Min <hurryman2212@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1791531025.git.hurryman2212@gmail.com>
- <c02aeee5b7e7a5d159d4df5baabe925e16814e94.1791559095.git.hurryman2212@gmail.com>
- <e77719ee-c813-400e-b49a-9f8a3b0e2e91@roeck-us.net>
- <CAAwencqEVCjtnJfmnut2zXXPvuwju5T89FDSpHN3wPfrrJnRdQ@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CAAwencqEVCjtnJfmnut2zXXPvuwju5T89FDSpHN3wPfrrJnRdQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <as-Dwg8DcEOYMXki@gremlin>
 
-On 10/18/26 10:27, Jihong Min wrote:
-> Ok. Then I will withdraw these patch series.
+On Wed, Oct 14, 2026 at 02:42:09PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Tue, Oct 13, 2026 at 11:23:53PM -0400, Theodore Tso wrote:
 > 
-> But then let me ask you the initial question that brought this patch series: Do you think it is at least OK to add kernel drivers for network-based sensors? Or do you think those are also to be subjected to be rejected (or remained in DKMS projects)?
+> > I think we're going about this the wrong way.  What we want is high
+> > quality contributions.  If they are high quality, who cares if they
+> > are AI-generated or not?
 > 
+> Recently 2 people sent 1,000 patches over 2 hours. Care to check each and
+> every patch for 'quality'? :) Only the beginning.
 
-What is a "network-based sensor" ?
+That's the kind of behaviour that should be easy to detect, and I have
+absolutely no issue with sending all those patches to /dev/null. This is
+script kiddies behaviour, not the work of someone with good intentions.
+Ignoring those patches is not "collateral damage".
 
-Regarding the references, wireview has a USB interface, and I am
-quite sure that it should be possible to write a kernel driver for it.
-There are several hwmon kernel drivers implementing access through USB,
-so the same should be possible here.
+We could go a step further. There's also an increase in patches from
+newcomers who send a few patches only, with the usual signs of not
+understanding what they're doing: code changes that give an eerie
+feeling, very large comment to code ratios, and commit messages longer
+than the three volumes of Lord of the Rings combined. As far as I
+understand, those are also the kind of contributions that many
+maintainers in this e-mail thread would like to ignore. Perhaps with an
+automated reply to tell that the kernel expects submitters to understand
+what they're doing and own their code, as this category is less of an
+obvious on-purpose DoS attack.
 
-The Tapo API reference points to an "Unofficial Tapo API client",
-written in AI-guided Rust. Google tells me:
+There's some irony there though. I wouldn't be surprised if the
+headlines about kernel maintainers loving LLMs made the flood of patches
+even worse, and we now have maintainers essentially saying they don't
+want to receive most of the LLM-generated patches.
 
-"
-There is no official public API documentation released by TP-Link for
-Tapo smart devices. Because Tapo uses a cloud-centric and encrypted
-local communication protocol, developers rely entirely on
-reverse-engineered, community-driven API clients to interact with
-these devices locally or via the cloud.
-"
-
-I have no idea if it is possible to implement a kernel driver for
-this. There are various hwmon drivers with reverse engineered APIs
-(such as the Corsair power supply drivers), so relying on reverse
-engineering is not a problem. I am, however, not going to dig through
-the above mentioned clients to figure out what the API actually is
-and how to use it. The guidance provided by Google suggests that
-it requires per-client credentials (account email and password),
-which would be problematic.
-
-Either case, it appears that this would be about monitoring remote
-devices. That is really out of scope for the hardware monitoring
-subsystem. The hardware monitoring subsystem is monitoring _this_
-system. Adding support for monitoring remote devices would be
-a stretch.
-
-Guenter
-
+> > If we get a contribution which is sloppy, it could be because the
 > 
-> Sincerely,
-> Jihong Min
+> Schloppy, not sloppy :) I.e. tells. Turn of phrase, certain 'shapes' in the
+> code/commit msgs, newcomer/recently reactivated? Sent a bunch of mails
+> across many subsystems? etc.
 > 
-> On Mon, Oct 19, 2026 at 01:06 Guenter Roeck <linux@roeck-us.net <mailto:linux@roeck-us.net>> wrote:
+> To be scaleable the check has to be very quick. In the end it'll sadly
+> probably just have to be 'newcomer?'. It sucks but this is existential.
 > 
->     On Sat, Oct 10, 2026 at 12:38:44AM +0900, Jihong Min wrote:
->      > Document the uhwmon UAPI for developers implementing userspace hwmon
->      > drivers. Cover device registration, request handling, notifications
->      > and device lifetime.
->      >
->      > Assisted-by: Codex:gpt-6-astra
->      > Signed-off-by: Jihong Min <hurryman2212@gmail.com <mailto:hurryman2212@gmail.com>>
+> > This isn't actually a new problem.  In the pre-AI era, we would
 > 
->     I am not going to review, much less apply, this series.
->     Exposing subsystem internals to userspace is a bad idea and would limit
->     future improvements of the hardware monitoring subsystem. User space file
->     systems are bad enough and cause all kinds of trouble. I don't want to have
->     to deal with the same kind of issues in the hardware monitoring subsystem.
+> Sorry you're completely wrong, it's entirely a new problem.
 > 
->     Interested parties should implement kernel hardware monitoring
->     drivers instead.
+> Nobody could drive thousands of at least plausible patches end-to-end with
+> little to no input in the past. INCLUDING replies.
 > 
->     Guenter
+> > If AI is making the review problem more challenging, the good news is
+> > that there are ways that AI can help.  For example Sashiko can help
 > 
+> Sashiko only checks if the code is buggy or not, not whether it's worth
+> having or is a total mess or not. So completely unhelpful (speaking from
+> experience).
+> 
+> > I also suspect it should be possible to use something like Jev or some
+> > other System One LLM to help with an initial prioritization for the
+> > patch, and then have that prioritization be set in patchwork.  Each
+> 
+> Using AI to detect AI right now works, who knows in the future. But that's
+> an arms race which we'll eventually lose. Which also costs money...
 
+I'm sure AI companies will disagree with you :-)
+
+> > Using AI-assited priotization may have some collateral damange because
+> > it might not get the prioritization correct.  But ultimately, if we
+> 
+> Any solution will incur collateral damage, sadly inevitable.
+
+-- 
+Regards,
+
+Laurent Pinchart
