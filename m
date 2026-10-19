@@ -1,179 +1,179 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011068.outbound.protection.outlook.com [40.93.194.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D7E3AC17;
-	Mon, 19 Oct 2026 00:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792368228; cv=fail; b=P6PTvM4Y0xK9dnurp84y02Zv4+Phs+WmUH8k7CnV84/8IKGz9SuF1YW0iS7UHuy5juryrVVqJhW2ZdQhpEOKhEQpFrGqSCjuwneQ2ldgji1VjLHm19opmtXeihxiQrsp4bm8/FYl4EELZulFB8Cd1YCyrVKiuWmNNX52KelVko0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792368228; c=relaxed/simple;
-	bh=U3UEvUlG5YeSrrOatKZ2jxI3VpGfnKVd9u1bgzAzpR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Mr9STSVWLSpAYxhDJjh6boRjdOg4lVrnEp8mnvu4wWv8h7ysJh/gU9cvszCjvUCmW9CkEW37rsLfK3HQjin9NGtGm/E815qrEkBEYe4NdQ66j2iAymlnWx7TvaBt7/IMJiHC2ULa3uZq8Nw4NqFc7SLkb2ODhvRbvvXDRBqzlBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bkFT4+qk; arc=fail smtp.client-ip=40.93.194.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3516D34DCF3
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792375879; cv=none; b=gHJn771sABp6Z5LwBF0Oq4NgbWmPJzf3YxBMXNtrrhyCglG+9xXevkhyYFzkapqIWGLJPPn1FfveOf+ayWZ57Ux5FyJKAFcrPGQUQa7ZHmPzDInUlK7I607qdzxC8uqgSHaLRhhktx/q41W7iq6BOecKwvqfwCahEDizKYMXIQQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792375879; c=relaxed/simple;
+	bh=wxoW0aT2RHLJSmw422NSIU8DuZaWXgM5+CO93cYfqNY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=KusUEaHeIdqEevqUc200O5XF6//41K73WpS0hmGuFzUNhs8c+0WC0hjb3QIHxrylot+50nFRd2qSpzrCiHcBtq88g2SirsfbbMMQGbJwO4HE/M+OU+0pWxEb3bDaespAn5teqWEjWmw5DJnsNqSLGmgw6PnaA2yQivPMeAXT2bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=MqI+Zsxt; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bkFT4+qk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vWkrDEyx6V0NJ17TKyJ7RWrdZgwLtxn6poLue0YE+rdxd4AgfmEQgw+Du19AORzv7l6YHRp9g2jWOKiJJp+6NquBLq06qmXjlhEfd200lmERHdl36JLOtp3FofNMomnUyfE0uHpJpjUkwjPD6YvgZe6TRzMT9AnfbG97tK7zp4LchxL1lnoqgTb4cihXbS9RzEmKWf+SG1+3wi/ZQ4IzXmPKK+/bOyAItCr4Ej+xMR4NU56l3HTDbh6WFeEdabZuKzgBn8hZzSqqByniWbmcJwTJigIye6S7UxQnQ96Pu4CfARzcloo6FB7jJizY1Ou1YDmyoouSz2b2+5fOoxC+Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y2JjDllqHhuBL1fXlfooWHLvZiFd+yoiB2bLd05ZVZI=;
- b=Ul0cWCBIi49jYRalHb5LXWt4NKvGoL++ItpdEHvMkjilImGmhw9m6tqvszLshYIsRHMRhzRh9GFKSHCQxB8cf0azlRHkDUqcA9XZ//43nwDTTQBuWwlKj7mn3cZ7of5vA2ZevXkkUa1esWebjbS8tHY+RJBGtXfc8pnJ9oHhDFZK7peKpmC0wMzPe/Fk8lPxQN7o9LXdecUy486uSsxx1Xv+RzR3/HIBWDi1G8DDz+Z6KjJkP5SzmUhMsNrZS2Qi14hyw3Q/k4BDhOYXxXEXUjI3ACOZOZz73IoZ2h6st+XLNbkpR+L2ndcDBmv7gZ/5L6QYqCQWu+UOVBcNofbOrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y2JjDllqHhuBL1fXlfooWHLvZiFd+yoiB2bLd05ZVZI=;
- b=bkFT4+qko/k04C/HCeuv0Dsz3mNxZoCmOQHQIoV+5Y5XZDjJ51HFPAKbvtFTqhPyne+Fkt8B3z42js4mAarUia+R8s3HweREjtNaHqE6itfPvvmsGWU1Srf/9UI8Q2ftpcdmyyA7WgYpesvILumhS1oqHbYaa23vWFlgxPVgPNae0mVyvcSeDqoarg8IbxlVxnlHIsRY9/7wa0806vtHHD0Y/CEv0+5eerY8O+I/jRRYIR4gSjPV4kfJELv8RazAWX9ctscMh2W1V9zYVptX53KDj/FgeGXteHPWk/Ge/0nCI7pXF3r5ccnJsmmbt1hfhZkyClYZW62SKUpbj6ccvg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB7742.namprd12.prod.outlook.com (2603:10b6:8:102::18)
- by SJ1PR12MB6171.namprd12.prod.outlook.com (2603:10b6:a03:45a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.17; Mon, 19 Oct
- 2026 00:03:44 +0000
-Received: from DM4PR12MB7742.namprd12.prod.outlook.com
- ([fe80::8df:c519:298a:94f6]) by DM4PR12MB7742.namprd12.prod.outlook.com
- ([fe80::8df:c519:298a:94f6%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 00:03:44 +0000
-Date: Sun, 18 Oct 2026 20:03:41 -0400
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Zqiang <qiang.zhang@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Yonghao Zhang <hyz3367@gmail.com>,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com,
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: Fix stale RCU_GP_WAIT_FQS value in stallwarn.rst
-Message-ID: <20261019000341.GB123764@joelbox>
-References: <20261014063130.3691735-1-hyz3367@gmail.com>
- <363ea835-81bd-4045-bf1e-f5a460fd698b@infradead.org>
- <f6509555c4e1abfc3bf67643d568887a7f9b7215@linux.dev>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6509555c4e1abfc3bf67643d568887a7f9b7215@linux.dev>
-X-ClientProxiedBy: BL1PR13CA0240.namprd13.prod.outlook.com
- (2603:10b6:208:2bf::35) To DM4PR12MB7742.namprd12.prod.outlook.com
- (2603:10b6:8:102::18)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="MqI+Zsxt"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5e931215e5fso1428882e0c.3
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 19:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1792375876; x=1792980676; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YAWJPU0bKj56z57yKFJ+IjOtblegGIXvDvyM4kHd1kM=;
+        b=MqI+ZsxtKDw2aduUWuMip3r+QkiJCfwdnaax2ogon1fQ9R1bHvYLpuy8URs+dXTRbf
+         YMs1Y57So8tMhIvoR/nkWBq6nFmDDtYV0c7rHQFikRuKA8L3yMw44xvOpoKidZsWbUM/
+         ZZT42bneeIwA2hU/Dm2xty35o1m8HEpwcU7BBwSmO/Ct8DleqSjQfwUCfauc1yRjVzoO
+         QR6PILKh+sP4oe0bypXyzxbdV2GJbHnwxOy/cyfUvNas0ohActA0XRRDq6AOl+055Z+j
+         FIFrL9bGm28hkutKghXgrP2VOKGHghzqEhK7TYSF7+XRnHSBpFvBtuLoHpR2DPAHHqjx
+         LDLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792375876; x=1792980676;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=YAWJPU0bKj56z57yKFJ+IjOtblegGIXvDvyM4kHd1kM=;
+        b=vif8VRrmWeXtVD0fqYezuEQWbbgmFBLQ2owa2kSMbnYStLyz5gjN2clWwqzMivZODt
+         2c7tyifU39Tcc0gBG8nhhHvlD79K39LnaOEy3g0LvV/upzv/K5MOEzCCFCtViIiPtkzQ
+         mHGuVSYhNfx/xh6xAd1eosnWcmg1qNG5m1ikGfEk9t16jlMXyEVPIRbzdBk/H1ZUpWbn
+         eoXDUQKKDCgkq0GrML0WwW+RQYmmWSinmFwm2EXdH0AV7AWx9Kx8uZt4NjMgl+TeaAuc
+         quRFi3PLCqgrL0x16akCaetjCOqZl3i8g1LtSQs/4ox5mPyEqbionpwJuN50ggiavtab
+         lBIA==
+X-Forwarded-Encrypted: i=1; AKwUvBwtq1uTX77mwgaL2q8O6t9w+kQT/q6JSSn5G1uS9ZhFL+C7C4hge98JvMpby7J1ksmDWTYPwUxVAbs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIRpG+yIeQeWnicb9zxkBhm6BJStHJEA+QgIhfyGtoLkJ6OvvH2
+	nUUq5/SI0kreL+8cNyewBv0vTjC1r8jSMYBI1Wlff+o6d3/oZUeogkPqpXAs7W8+pDI=
+X-Gm-Gg: AYBFou3cfZHPLEKc4cYblJ1IO/E359YW84bLpBf9l83buB6pYKd4VhXonJz5Nm9JqJB
+	14Iu6JOCkycT1R/NdPCBT6N3goIY75WvCvRIgoaDd/PoHuotTmK3eqE/JA3KQ+VtFhC4qcy1K80
+	Fmu/ZIS4A2jKN5Daaqa2xAooGMeQyHRAxO6z8z5bxYJc8hmXSOY2z2mO9m8EUPrwZphoKC6Ocqu
+	gbkeVzcVkpV6nJc+g8JOLd+VS+L64scMwB6cm7Q/e1q/Pxwg490keYtiapiA7au65T/2Q5e9FbM
+	/ih4iPq4+jGkoeTV2twgeyAr9X7oscHNnXIu1l+CMV8oAtr6UaBrLjdmuRrchOz4tiJ/E/aAkPc
+	WmE4Uw0Ooru8PUZoVSALPvjHz+q+fFlFF6EIQBs/iOhIbgNlc+8D54B/OUUk10JMOz6i4LFlvF7
+	yXBt88KO6e4Gfwcv311GM7TVk/mN12gl8TWWY4jLjMdFWFCFgg6Zy2mlBjFAkLbCja3w4bNs1vM
+	4AVTEQZclTlgdBUvGN1cJw1Cl2xZegOhltwx6IBdLRGA7NnlBK8FkSVkduX+DGMZa9CccwlcZ9q
+	5PlzT299VWmTL18kE8hy
+X-Received: by 2002:a05:6122:4f87:b0:5ea:a21b:31c6 with SMTP id 71dfb90a1353d-5eaaa0fd89amr2353045e0c.2.1792375876111;
+        Sun, 18 Oct 2026 19:11:16 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eabbd9ea2bsm4271383e0c.2.2026.10.18.19.11.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 19:11:15 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: linux-kselftest@vger.kernel.org,
+	rppt@kernel.org,
+	kuba@kernel.org,
+	enelsonmoore@gmail.com,
+	bp@alien8.de,
+	shuah@kernel.org,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mhocko@suse.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	vbabka@kernel.org,
+	dapeng1.mi@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	surenb@google.com,
+	pasha.tatashin@soleen.com,
+	kexec@lists.infradead.org,
+	pratyush@kernel.org,
+	rdunlap@infradead.org,
+	elver@google.com,
+	graf@amazon.com,
+	lirongqing@baidu.com,
+	liam@infradead.org,
+	jlayton@kernel.org
+Subject: [PATCH v1 0/8] kho: add read-only Kexec Handover mode
+Date: Sun, 18 Oct 2026 22:11:03 -0400
+Message-ID: <20261019021111.990394-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.56.0.176.g3575e65682-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB7742:EE_|SJ1PR12MB6171:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ea518c7-1e45-4334-cad5-08df2d7470ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|6133799003|10067099003|18002099003|22082099003|3023799007|4143699003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	asNejJTVlybY9UmgbCANPEy1NPdl2dLcXpdlvEE9U4cEh58KvLeW/QvHcBVW9EtGiEo+kygvnSV1iEUm7USyqMnfwUsk7eSWwzx0DJaQ0WQr1MyBQYOie72drFOert/4vYq1FSzrFDdHjAXx6kJGS7cj6yMfBb9HnhzrHtr0tDNF9KYOL4V2R5Q1AM6zfOPod8Ed0DFyGaY1Mwb5WQnUM0efrltSH5jacDX5x37BtHvUKES3XQ9DH0Y6HEEuqEpvNTuNuZBE8I067gG2ze/iIxbsVTZqTJ5Peo7if9RPq8L3sSx8mjCYNpo3BFYIs1q34aWCwOCW7jmgS42oQ2TyXjhMp80yTbeU/MF94vYlkU6tYxN7oFx8E9FDbSAkytEALQTsKHzSNksxhz0zpcFzvuG/yEtWZ3VSyysx2n5AcDyHIYs6RuQp3CUgPWOdbq7+8eX4w2lkoyZ8cpOsp3ntUifza5FHs4p8/RBbLTKZ/lFpmRWj2yA7Vf0BvWkQnSQbcjhPe1W+PZHAp2Nad0hcAGIjnPCtoAyVTTdaglpqJG+KI9slSferS8XMAgpydDVWwxrOIoOSc4iMLC8QrrfEGbabDHZ9hsOBbmNMiH1oS0IivwzZ8DcAvkTqxRq63bZGL9hnEHn0O2pj3wX0YRFSx2coOg4LLY67l7L8kdyXv9Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB7742.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(3023799007)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7iYDcAbxKmvDhAbpUaSSU+gSxpOMGkG4UWhrzLIW1Po0w2nsQP/FopzILuB5?=
- =?us-ascii?Q?Gw5Ua9SQ13WuBXfKlKTTY9HMsL6gfDR/9kF+2dJn+SSgVeAkUATZ10IzKDwM?=
- =?us-ascii?Q?ohf+0LMaV2i9zPnF7dfl6LJvFuRkfOoE5Vfi+rqqiLVEePekKjOIhrT/cX8P?=
- =?us-ascii?Q?7f9+109zjxXokVsxQ7cI3RWSV7AiBgDmXmZs1AxM4BRGxj0sWxtj/aTccQUa?=
- =?us-ascii?Q?fVSOb+HvNTPPwJNFbFlnTTnYYvbaJolKuaXCK6EvU+Qt3fVE2ntG91yOXidT?=
- =?us-ascii?Q?zEWNg7X7d7ZrJPfVixNRpoHR72XttGlTjQRAtssWR6QY2o0B9UcdOe45Y/jr?=
- =?us-ascii?Q?FY0MvjfqlqU+YVd5quKGyYAgYVfEitAlFUZNbkTVO55L8dZD2YdNmI5rfz91?=
- =?us-ascii?Q?llqvFOBeJWjtahBVD16gk0GCnR88NpdN4lbZmPZAa2/2uGSB5qW5gllYn+JE?=
- =?us-ascii?Q?eQRkCtiFBQpyHkDmvOEH5XF8iDB3RpGYh6cGOlROrN7Ng/ZejOGUVbDGszzS?=
- =?us-ascii?Q?KNF9U9AjCOjZLxAZRSyg8u9Myu1VALjA8HmDQiRloT2t4JMHtm3uDtnwf4r7?=
- =?us-ascii?Q?I+QNabI1LDA4XB2lD8Ic0E+OftrFIvHLUumIo40Ed78/E621oJslDH+O+4J6?=
- =?us-ascii?Q?5sMgGOO3FYp8uTo/vJuMvm9s7Mx1mRrMq5gJJU3CokkjN4ru+mbshHGKb6e9?=
- =?us-ascii?Q?ltnRw/sBtjhR7cue4gQvP7KRbYkCREk8vLDt90KLBLtSbriW/xM7VEDehrZe?=
- =?us-ascii?Q?RUdoQR4vAf6nNu1OEE3tv7RalF+QjjQt30K9a69NZirY3Vhym4jcNP9xcK4V?=
- =?us-ascii?Q?BWDuluEwTcDI10KoTelhtuWdlBCYSFqtEDLJBjDGbzMlyIHdkt3YoYLxa0dD?=
- =?us-ascii?Q?EBouNn8+m99n3SAccFGlgmXxP++dPE4arieKabrqr5XrLJ7RKxZyrEn5c69x?=
- =?us-ascii?Q?PfQG8rJKY4ovy4zPEJWmE6Lvx5wggW5U/WTkmoQ8KakWSKsAqa8+ct7gtGvA?=
- =?us-ascii?Q?IYfToi1l3R+28zahjJryp7fkrXMM5HC7ZA3YDsTM6h4xBm4CbhD9HtM/u75X?=
- =?us-ascii?Q?b7AQRSspw1xXttypPqvZ/I742e8ZgUjNkIggNydHdc3xYJEHHU7prisvbDCx?=
- =?us-ascii?Q?XbXSuipvY6NAQwopplqSxHbeCo2Wj3LoX5CEgOAMyPmiMKS3Ae2ZmfR25Mzf?=
- =?us-ascii?Q?uSAVd1JAE9koSKDlc4Fvif9VrK9EEhwspo76/cAe0W23kNm2vRQ+gE6Mj4gh?=
- =?us-ascii?Q?jmOC3j7Z5lTsgU+OGbMq6NdUE8zq+QS+qpuP1lp+sQqoBXs2IMwxoa9XV0pZ?=
- =?us-ascii?Q?/ATVfsp+nGZaYQU0Linddv2mDnZFOsb56/UAQVcMpJ6icy6ZsndNJg2Ija+Z?=
- =?us-ascii?Q?gg0obCoquDKCLV+JTDeXKI3oxxJsakh3G9yS4nT28MBl3LLv/gE2y4CBeswr?=
- =?us-ascii?Q?VBImmQvq1jz2HdkJWiGSC7QAqb2SGHrnqeMQ17JuVjVjhoCOYBXisRu6Tl4+?=
- =?us-ascii?Q?GlTL4jz1VkfRiqZNwGxBRSunR/aOEsU1N6j7Kr7Kdc3imio6F9O0A9KDRUKw?=
- =?us-ascii?Q?7UEm1Y0JLc/nx88rDkQb/OkwI9AoVvRiqwxkpCBxHGtxQkBwPaOYf1hLejjC?=
- =?us-ascii?Q?jOPsvLowpoMVEmtkDavWtZuNzTgZweVzPX2liEyWkvHX5ngMxJUzNA4bvbrY?=
- =?us-ascii?Q?U7MBYL+wzqPSNQ5SBTG0ILMS/hZXMuhQuitpI9dFYR5HTXVGQ7ya/U0Q4W1e?=
- =?us-ascii?Q?xwcswkESvw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ea518c7-1e45-4334-cad5-08df2d7470ad
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB7742.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 00:03:44.1395
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wQUWpqfdJgUdjLBLuoF3SechQj8FSldyubCqPjOEVn91vmfN5ZEZcXoJUmFtGhd+gaTAr2IZtx28iu6T6ZrfUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6171
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 11:54:39PM +0000, Zqiang wrote:
-> > 
-> > On 10/13/26 11:31 PM, Yonghao Zhang wrote:
-> > 
-> > > 
-> > > The sample "kthread starved" splat in stallwarn.rst shows
-> > >  RCU_GP_WAIT_FQS(3), which was correct when the example was captured,
-> > >  but has been stale since commit fea3f222d352 ("rcu: Record ->gp_state
-> > >  for both phases of grace-period initialization") inserted
-> > >  RCU_GP_ONOFF (3) and RCU_GP_INIT (4) ahead of it, shifting
-> > >  RCU_GP_WAIT_FQS from 3 to 5.
-> > >  
-> > >  Update the sample output to show (5), matching the current tree.h
-> > >  values and the later "kthread timer wakeup" example in the same file.
-> > >  
-> > >  Fixes: fea3f222d352 ("rcu: Record ->gp_state for both phases of grace-period initialization")
-> > >  Signed-off-by: Yonghao Zhang <hyz3367@gmail.com>
-> > > 
-> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Reviewed-by: Zqiang <qiang.zhang@linux.dev>
+This series introduces a read-only Kexec Handover mode, enabled at boot
+via 'kho_ro=<pa>' pointing to the physical address of the KHO FDT.
 
-Applying for 7.5 with the tags, thank you!
+In standard KHO, the target kernel takes ownership of preserved memory
+during early boot, initializes struct pages for preserved folios, and
+reclaims KHO metadata and preserved pages back into the page allocator
+as they are restored.
 
-Joel Fernandes
+In some scenarios (such as a caretaker, inspection kernel, firmware), a
+kernel needs to inspect and consume preserved KHO subtrees, radix trees,
+and serialized metadata without taking ownership of or modifying the KHO
+state, leaving the preserved KHO tree intact for a subsequent kernel.
+In this mode, the KHO physical memory lies outside the kernel's direct
+map.
 
-> 
-> Thanks
-> Zqiang
-> 
-> > Thanks.
-> > 
-> > > 
-> > > ---
-> > >  Documentation/RCU/stallwarn.rst | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >  
-> > >  diff --git a/Documentation/RCU/stallwarn.rst b/Documentation/RCU/stallwarn.rst
-> > >  index b888e13c02a4..049694b9c681 100644
-> > >  --- a/Documentation/RCU/stallwarn.rst
-> > >  +++ b/Documentation/RCU/stallwarn.rst
-> > >  @@ -379,7 +379,7 @@ If the relevant grace-period kthread has been unable to run prior to
-> > >  the stall warning, as was the case in the "All QSes seen" line above,
-> > >  the following additional line is printed::
-> > >  
-> > >  - rcu_sched kthread starved for 23807 jiffies! g7075 f0x0 RCU_GP_WAIT_FQS(3) ->state=0x1 ->cpu=5
-> > >  + rcu_sched kthread starved for 23807 jiffies! g7075 f0x0 RCU_GP_WAIT_FQS(5) ->state=0x1 ->cpu=5
-> > >  Unless rcu_sched kthread gets sufficient CPU time, OOM is now expected behavior.
-> > >  
-> > >  Starving the grace-period kthreads of CPU time can of course result
-> > > 
-> > -- 
-> > ~Randy
-> >
+To support this cleanly without duplicating KHO traversal logic:
+- Patch 1 exposes the physical address of the outgoing KHO FDT via
+  /sys/kernel/debug/kho/out/fdt_phys so userspace tooling can pass it
+  to a 'kho_ro=<pa>' kernel.
+- Patch 2 moves the shared radix-tree key encoding and indexing,
+  vmalloc flag conversion, and FDT validation and subtree lookup helpers
+  to kernel/liveupdate/kexec_handover_internal.h so they can be shared
+  between standard and read-only KHO.
+- Patch 3 hardens kho_restore_vmalloc() by introducing
+  kho_vmalloc_validate() in kernel/liveupdate/kexec_handover_internal.h
+  to validate the preservation metadata header and flags before
+  restoring the vmalloc area.
+- Patch 4 avoids modifying ser->next and bs->head_pa in kho_block_add()
+  and kho_block_set_shrink_one() when operating on an incoming block
+  set, as the chain is already linked and incoming blocks must not be
+  modified in KHO read-only mode.
+- Patch 5 adds CONFIG_KEXEC_HANDOVER_READONLY and
+  kernel/liveupdate/kexec_handover_ro.c. When booted with
+  'kho_ro=<pa>', preserved KHO metadata is mapped read-only
+  (PAGE_KERNEL_RO), with the FDT and radix-tree nodes mapped lazily on
+  first visit and kept cached, providing read-only implementations of
+  kho_retrieve_subtree(), kho_restore_vmalloc(),
+  kho_ro_lookup_folio_order(), kho_ro_map_folio(), and kho_ro_unmap().
+- Patch 6 updates kho_block to map incoming serialized blocks read-only
+  via kho_ro_map_folio() and unmap them via kho_ro_unmap() in read-only
+  KHO mode.
+- Patches 7 and 8 extend test_kho and tools/testing/selftests/kho/vmtest.sh
+  to test read-only KHO handover when preserved memory lies outside
+  the boot kernel's initial memory range on both x86_64 and arm64.
+
+Pasha Tatashin (8):
+  kho: expose physical address of outgoing FDT
+  kho: move radix tree, vmalloc, and FDT helpers to internal header
+  kho: validate preservation metadata in kho_restore_vmalloc()
+  kho: do not modify incoming serialized blocks
+  kho: add read-only Kexec Handover mode
+  kho: support read-only KHO mode in kho_block
+  kho: test: support read-only KHO mode in test_kho
+  selftests: kho: add read-only KHO test to vmtest.sh
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/admin-guide/mm/kho.rst          |   3 +
+ include/linux/kexec_handover.h                |  53 ++-
+ kernel/liveupdate/Kconfig                     |  16 +
+ kernel/liveupdate/Makefile                    |   4 +-
+ kernel/liveupdate/kexec_handover.c            | 142 +------
+ kernel/liveupdate/kexec_handover_debugfs.c    |  22 +-
+ kernel/liveupdate/kexec_handover_internal.h   | 171 +++++++-
+ kernel/liveupdate/kexec_handover_ro.c         | 378 ++++++++++++++++++
+ kernel/liveupdate/kho_block.c                 |  92 +++--
+ lib/Kconfig.debug                             |   2 +-
+ lib/test_kho.c                                |  68 +++-
+ tools/testing/selftests/kho/arm64.conf        |   3 +
+ tools/testing/selftests/kho/init.c            |  38 +-
+ tools/testing/selftests/kho/vmtest.sh         | 103 +++--
+ tools/testing/selftests/kho/x86.conf          |   1 +
+ 16 files changed, 881 insertions(+), 221 deletions(-)
+ create mode 100644 kernel/liveupdate/kexec_handover_ro.c
+
+
+base-commit: 27be83a12b246b6b3783e7d3ac5c378ff7520f25
+-- 
+2.56.0.176.g3575e65682-goog
+
