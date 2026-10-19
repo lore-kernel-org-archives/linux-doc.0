@@ -1,148 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792427886;
-	b=xGOC0om4jIvVt4sz1jAm5QhZXKxhPWwgekgNuQ2H7V5empilTUrXJ+s3cuO5hzbhCG3Q
-	 IBwgVnAZIn72DIzDGYQD/DHf5XKzzsa9A3sKjgIY0UO8jaZfnk0HC//PllW7gFdu+9uL2
-	 buB9o/0KIo71cOBeu1rsjYexxtPdSJFt+GG+9ZzSZfromky7Sgp26bbbiB1bHx2yYV7Pr
-	 q4TsXjre3m/37AO3MQA2Dhp1CbCBttb659Zxz+ihkru/uHdhhoe3d6lasB6E2PJ1Ej5/3
-	 YHLYlDJ1fL9XqZvcwiWmWEGirOe69FRSh8NGNG2dbZwfwqEzqNfMvQjA9s/KNOBJxsg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792427886;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=bXQTftAIxHpGXBystEqHMJHPXjOGoFcAfRSYpYXMNjc=;
-	b=M5m3gZ3EBAqBCiBlV1qWAbP7GlAuP2BNJMTyxAeClXjD76Zijmtat1hHkJtidV0p9Ylj
-	 4eiqm1FzwEBPgWBR/aJ12GxHLew5Lw+zZaQtUND1H3pRRtJBAkUEj6+uxbIQIM3udBDH2
-	 M4lcUt0NZVc3p8VLBq2tuxMaQR64j0kLPbR7BemFdOkL8x75fk1yuJhOIcTUswFEBVO7+
-	 6ogrrcZ+h97kF+GAqUa2HOvRx5nYyqXlKVREe1KP2ZAC0+cXzGFIniNX0alWRJIj7Gyj7
-	 A372vTLpOiZsICyrXcXK423EV9yX9wYHazR+fKedPyR1e3L9oFOLxOoedTgiKUwnrGA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E2kXHnnE;
-	arc=fail smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792428606;
+	b=XX/h5/kg8g4/Hl1ueuoSzsvRDQB3R2lHFNAUX5jqoALEJ8gR3tp+BKM2BGyPRZDP05lJ
+	 aikAjbf7SpfJVewGIaw5rl0eR9TAdAqxqVAOP+2imxtnkKTa2GM9tE5GJXCfUxMmoXItN
+	 bxJBuggzHDMG2RFzthALxTk6m5ZZmPsAJRzQb2DfUJVz19EtlE3e/7Km4v3E/fUXPpzWk
+	 GDqpnn4jdXAZQndTPrJCNkqF8ELaRhQKlVgB8TAQQhRm1QG8Zlz2EzbGNCHQkAUwT/QjG
+	 h0v48GfNZK4DddMxRacEVuWQ5AZ1Cfyam5k2GmXc5DmV1rzulIkFdmzcQRuC30voqIA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792428606;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version;
+	bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+	b=yrJCXmSrzjSH6dCpE17QLpmOLSgLZPbifqqXeV0etEjNHgfmcj3w4VzlrK1Z3QuB9mqb
+	 VOU/AfKaS/TjGzMEAsCYEPZk1VvtEWJs1kg1+IB8+eVBl5/+su6rd26TBzTGJ9r+ZDbJQ
+	 lbQGDCIXWtBUt48SOw+OM9r2WYeBoL4xABx/l3rKvTF+wLgGPdEP62yAX6VW4l4vZ3vpi
+	 eNstsib6D/73NH9WX2nRb9jgVHNPyvn16sM3h5XLbp9m2UO3ohP9CioPPOMB5703Ba8Qc
+	 sFOcchGOV/oUu2JvVLw2YeXygrKPMcDNaZVHf02Z/wwK0leAWIytPI/8Sj9IARHR0SA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dcRMvGrR;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eDiGZkgg;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB8606A327;
-	Mon, 19 Oct 2026 16:38:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2BB8606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6C9606A31B
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 16:50:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E6C9606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E2kXHnnE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792427886; x=1823963886;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=uk9yMaz+KYEHAPaYXNXWbOwIPdKaPofw7dnuvzkBNGg=;
-  b=E2kXHnnE4o8ZblMTlqwuL4RZQlGhtgZbVDzDUmj5bmnD3SPjYt/dVcM5
-   DHSGYP0JbGXz25/r65NhJY5SCZQrXDMgUNqaCeLoPHxM5HkKxd6RmNzaB
-   aDUJUBlishVLH8+OdTTa8qn24o/Kl9O0GdLXVWXYynxaSREFlqXAohZW1
-   MYf7iYWgrFmJUbQzRiNWU9m+k9cU9X5nhVeqXIQPYkMBXyvAGV8wv2dZy
-   Krt7e7Zm+xz14ocA99JyOBAReAmkCDR3vKsTlOdqzhhtq5QzM93OVCspe
-   +h3C5Rph8Sn1Op8uPYdCCgqk/Fa7KfJdqdcdYtVbCjZ3PU78meB2vVb3n
-   A==;
-X-CSE-ConnectionGUID: Beo9rabIQfCaa3vDOHinNA==
-X-CSE-MsgGUID: fyVjQywXSxGqP6gpIWAw4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1118678"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1118678"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 09:38:02 -0700
-X-CSE-ConnectionGUID: 6G7iwiRASVaM3d0+zc+rBA==
-X-CSE-MsgGUID: a9OTJPFORgyNmm4ywOSAVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2464197"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 09:38:02 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 19 Oct 2026 09:38:00 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Mon, 19 Oct 2026 09:38:00 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.68) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 19 Oct 2026 09:38:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LtzvmMzY/cIZFvWMI6TetiuXKcdmm9ssFSWnlGdatd8RL/WRXxZZNtS6IMNCtEisN3SjEoGg8Y9n0z23GcOdRsfvh+5CWYCrG/BIKtlrRNtvkwA6C6Bw45PNK76ekpYjQlDpoORZTcTry6q6VLva8arNUjBEDli64dZ/PVNO/h/yWcq/y9e2ZB4YXFAvSzGojWsNL7ALbXV6eJ7DHb6gDMTZQKdrpsLJNvbNnpa03BMl8alzU1vCC0QSv9LAdGFauWruL6uQ/YLoFoCCe8zeh/ciS5B8T17wriGidG+ufLAckA+AkLQQXr0C7NYh10WbHeNtaP9RRLIRZ6oGzUw91Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bXQTftAIxHpGXBystEqHMJHPXjOGoFcAfRSYpYXMNjc=;
- b=kECT7B4IGS4/Bs//zhGtM11LeGvS3hf2CsbIPV7mu+Mxj46R5ARnAH+4JDS+esN551jSYZg2TINrvATAY/2vmIuzNaZ5PryIr3NnCAvzR/ZErVIwFfrvuZmDRjWOfPSvXzidpvvtSou5CC0d30C0dXknuWhOSjT2zN0NHgqbyXLioxXwuhpLqaP1mE3BHzUhrhmVpY7ha3FvJgwN031wHwQuPa9P82oUuPX/iLLq4Hc9m6ht21RdyT2/BbJdYxvgm8ALY2yJCYURogy8H5EyvNbyjfSWQb4bRJSzPzNPW1OC/xsDjO9D55HxXP8w7wRbXD/Gttoy98tzBrrgo8M03A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
- by PH3PPF801A91A7D.namprd11.prod.outlook.com (2603:10b6:518:1::d34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 16:37:51 +0000
-Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
- ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 16:37:50 +0000
-Message-ID: <f7a56c83-b732-4959-9f31-6273d25963d1@intel.com>
-Date: Mon, 19 Oct 2026 09:37:47 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/18] fs/resctrl: Deactivate kernel mode associations
- when a group is removed
-To: Babu Moger <babu.moger@amd.com>, <tony.luck@intel.com>, <bp@alien8.de>,
-	<ben.horgan@arm.com>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <fenghuay@nvidia.com>, <kas@kernel.org>,
-	<rick.p.edgecombe@intel.com>, <akpm@linux-foundation.org>, <rppt@kernel.org>,
-	<dapeng1.mi@linux.intel.com>, <elver@google.com>, <enelsonmoore@gmail.com>,
-	<jlayton@kernel.org>, <kuba@kernel.org>, <ebiggers@kernel.org>,
-	<seanjc@google.com>, <ewanhai-oc@zhaoxin.com>, <binbin.wu@linux.intel.com>,
-	<peterz@infradead.org>, <ashish.kalra@amd.com>, <superm1@kernel.org>,
-	<chang.seok.bae@intel.com>, <prathyushi.nangia@amd.com>,
-	<kim.phillips@amd.com>, <ackerleytng@google.com>,
-	<elena.reshetova@intel.com>, <naveen@kernel.org>, <darwi@linutronix.de>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>, <eranian@google.com>,
-	<peternewman@google.com>
-References: <cover.1790867441.git.babu.moger@amd.com>
- <e9a2b05b2322acf51e16571d07bc7ee297613b3c.1790867441.git.babu.moger@amd.com>
- <08e1de88-cab0-4caa-87f2-94db0f698ba7@intel.com>
- <cabf7da5-e5ba-4a49-9edf-f801f344ded6@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <cabf7da5-e5ba-4a49-9edf-f801f344ded6@amd.com>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=dcRMvGrR;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=eDiGZkgg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792428605;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+	b=dcRMvGrRYE65JobqEJDpqLlcG2AUFd2X9z6vY7tccthbk8ulGh9fHfHP5R5uhUSZtTnIas
+	FnLOYQmG7x7LW9KPi/Lfp2k6zXZ2g4+tpwruPPHPKCxrVxMck1gzPDY+pM0XTYr0vmBCs8
+	pEv+LnN8Mpfp8HHCjJYUbcFtGdqup0U=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-263-LPqWzw9QNjSMcifzCLukzw-1; Mon, 19 Oct 2026 16:50:03 +0000
+X-MC-Unique: LPqWzw9QNjSMcifzCLukzw-1
+X-Mimecast-MFC-AGG-ID: LPqWzw9QNjSMcifzCLukzw_1792428603
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93ecdc701a2so274650885a.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792428603; x=1793033403; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+        b=eDiGZkggUvGmkPK8PjiQVX2k3YcgL59lqvZLJAlQnPsJHHX2GIzOJ8FzKkEfD3StbL
+         pKVLwkvgjzSu3unmR/AQqh5lVn6itXI37kYmdpgk35fjOJrtmsXnE/lKnGb31zeg5I5L
+         eIzYi2kamp3D0512lhUHo5/IhxLbLhJBPGUiNY3Zp7IV+csJabwiuu+L/vZffmpWCVh5
+         VX83DpyuaJn7167VE/A5+XS9WN9c9pExbD08Yn086L+ChBLs0dpBG+TVOeL+tav6FAGO
+         +erMoD5MGoaHwf5zuqUj7VO2QkwUn2dR8YjEgv+xeSSLjKNIiQLa5hWw1YtQV58oewYF
+         Sy6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792428603; x=1793033403;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Uxw38r8wB/IQJnVPPwaZxC07zUgL/ICYp4/1chpBGhc=;
+        b=EevG232m03m8d2QoewOiBZ1XycyAVo045oLLtUMUlvSKG/tBT3LBWr+DOC0GjFUnaH
+         xTwXojL1hd1Wa86/zfMEhZGDcDCcRe/XjHY5FU3bkTz4NhTqQEjNzmpR/79Pli5e4YMD
+         qhldCycFJeUFbbaHIyTBH6m3vbLKXABdorm5SDgvxkgnBl4F4DtqK9i6Ej8LJ9XKJ424
+         WmFD0wiqoAME8oIFpmupVHJEyWr8XEjPrS9qM0jRKeKjCNUB87GzZpowE1kjBITQIg84
+         4ROdtdzgrtR28FNbfWfXD2FjS30P3s7etf+r7eMjZkoYz5a4IeuiiVfiiX/m63Jee24S
+         bowQ==
+X-Forwarded-Encrypted: i=1; AKwUvByszhyzQWGh8htrPvwGIlRF6DHvtpXC/yZyweCn2R5YuEOqG/Z5BZBkMcGEM46pf5M3ebA8KzQ23Ro=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK6ADwAZTPSPlih9VXBUdQwlNw2ApJktqf5FTKDXVRmZzbAlTKW
+	JUwLiwqJ73QCTl7XnVqItMHRxuApYLHfnOCMcUrQ+A58rWlyqeWYRgqzLizSWy0OHWYnKIzV5vQ
+	iswF4xRXkgfTGf1LfKDSpO8TEHWKcCCFwnM8h6rAzSwdsxUHO220hlQUW7N5hFw==
+X-Gm-Gg: AYBFou3vn0xFgIWmc3u4czfiCdffuZNyL94a8E5GReESoLj+706v0innIL1n+z9AcAY
+	7Lk56DQMjmzmQ6XWlhUq8JyPRdmB/d0lXdOEGoyx8qBhspBVRcGyuWN1+LLQAj4lHe7XdXUxSJM
+	fnHjMG422Te5sgqlPXUOUlGGtMQ+dY8GhiNo8b8wuR/IeoMoC0+BDyTmDolMX9T4hXn3ytuc2Ye
+	rQVp9cyfs+7Qv2NCbL+g0aOhQI7hYjcHq5JDCTegtO4fQpbIRNzNNwdgR/07pRSAdEuNgPj0Z29
+	a7Rl+N5MiaBFChudahd74kIvQ4K/clEQz1r7b3Hfhw8vFiGlIzMpfHOL/KMJZAnDcWZM7+c=
+X-Received: by 2002:a05:620a:2954:b0:93e:48fc:aa88 with SMTP id af79cd13be357-93f29d492c0mr1355988985a.44.1792428603067;
+        Mon, 19 Oct 2026 09:50:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:2954:b0:93e:48fc:aa88 with SMTP id af79cd13be357-93f29d492c0mr1355980285a.44.1792428602323;
+        Mon, 19 Oct 2026 09:50:02 -0700 (PDT)
+Received: from [192.168.8.4] ([100.0.180.93])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f4af42903sm3989085a.5.2026.10.19.09.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 09:50:01 -0700 (PDT)
+Message-ID: <c0e0a34aa136104c9644e007032b98cf0d56417a.camel@redhat.com>
+Subject: Re: [PATCH] docs: remove Assisted-by reference
+From: lyude@redhat.com
+To: Jori Koolstra <jkoolstra@xs4all.nl>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Sasha
+ Levin <sashal@kernel.org>, corbet@lwn.net, skhan@linuxfoundation.org,
+ federico.vaga@vaga.pv.it, 	apw@canonical.com, joe@perches.com,
+ workflows@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 19 Oct 2026 12:50:00 -0400
+In-Reply-To: <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
+References: <20261009083137.3-1-sashal@kernel.org>
+	 <202610122124.08E058768D@keescook>
+	 <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
+	 <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
+	 <20261013125559.GG4214@killaraus.ideasonboard.com>
+	 <158571150.788122.1791896588591@kpc.webmail.kpnmail.nl>
+	 <20261013131056.GI4214@killaraus.ideasonboard.com>
+	 <28216768.791900.1791897606751@kpc.webmail.kpnmail.nl>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0212.namprd03.prod.outlook.com
- (2603:10b6:303:b9::7) To SJ2PR11MB8370.namprd11.prod.outlook.com
- (2603:10b6:a03:540::20)
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -152,141 +130,156 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|PH3PPF801A91A7D:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3779c88-e6ef-4e26-039c-08df2dff50d4
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|7416014|22082099003|18002099003|10067099003|4143699003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: GmHjNMSDurw3jQQ/SvrGciCvRdcN8nfU8cgRWfp1n407IEzY4LL5/1F9c2T8AgFErvyywZOatMrgZE+1eGChFvuFLi7QLhenf56whS7Pp7YR+9mrG7j70LH1Lb0UfPXAPZuswy4b0s+QcsIIVeFWiZpMR/YOZE25ltXgry7zFORytDXyOvROkfLYYOxDmuDBUGZKX9HQKqaFjxs7uoNVCAGPQlP5o/tWD7ZohdlvJtDlTuORcXVWRp88gBBG5eflzEAdW4fYrgH8/tJiDKfo6icg9MA9OrPGPKRcS/Wss35Spt0cBOTwaPZlU4gVs2bTNKOhKTFRcko4mG+ff0Pixt73apaPjDy4an8GWpq9bLqn7yRIrL7WYwY7ble1e+C8KpgVnhu+pcggtl9f79AhFo0sGzW1bqOeF8MtHdxO1DRLN0DSjg+T6Dl+TYWvCOlLNnCs/VRBdJosEfRYabRYB3T66aZyhnP59MLMf0zrMrsc0LMF+HHLQluUrbBFhQYPNjEQYPDNEPO2H3KJUCG3hFSNstocW6fXUGPpNygES1ziTI32BOWzWYxgA66JXmEWSDhZL5ezmZYDUu/LjLstxUr5097S6/7fru/5D8qSV1cLL1raUgPYEKm2ktO8n6LK/Q5PzdCrfCkGuGQDpgRD4UWR2Ri5DxgpPzWMHoWyFN0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(7416014)(22082099003)(18002099003)(10067099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkkvT2thWlBaUWx4VEZ1MXBlS0F3YTBMTHh3aTBLTnpDZWlmUFExelJoMkRN?=
- =?utf-8?B?MnhGaG1PZ2hKYWVtbGppUlNiNmcreG5vK1hJSDBGY01qMStMcFRueU9MVEd1?=
- =?utf-8?B?eGcxY3Myb3RuZ1JFTEM3L2xwZGlkYXlqOGp3emVjelFGdExYcllEelBQamht?=
- =?utf-8?B?VnRGN3hpMGMyVWYwaEozUkRKc0NBcWdMdmlqblJxN08ySXpvTi9Jd1lKc21N?=
- =?utf-8?B?dTdtZlFCL0FENXBUKy80MHJHenBqS25zTGFHS3FiWTE1SVQvZWVBamw1b1B1?=
- =?utf-8?B?VmJkbHMrb3dmTGhGQU0yeGNsYlV1Q3VDbStRSlFkVEpUMU9wN3lsNUZWcGYy?=
- =?utf-8?B?L0h5bTRlZmp5T1dhL3BJaWlFTWN4MW8raWwwZVcrRmF5TitiWDhRdjRqVzhW?=
- =?utf-8?B?Zi8wSjRhOEZHVnJqQUcyY1RMQVI5b29lNGZCdUdNS3EyRmYvN3B4V2lGNEF1?=
- =?utf-8?B?TXBOd0xZN29SdG9DSHZsWEY4YnZwelB6akVJYVRyOHlhZmhtcld0dUVzOXVM?=
- =?utf-8?B?Tll1Nk1mVW9vMmtKUXlhK3lqZjFyVnQrWWxuVDg2c3hYVWQvQ20yUitieEtD?=
- =?utf-8?B?LytoUHBtVVo5aTZjdFdUb1JyaE03U3pLMXNldFFOdUlCeTNvY3ZyTi8rcmVj?=
- =?utf-8?B?bURzM2UyUDhYR2VYM1dLOStVRzAxaDFvNFhiRVhqM1dDYXVOSlFMZEdPR3lL?=
- =?utf-8?B?TndmdDU5bHpTM09oNy9TYnU4dTl4QTJhcUlhUTRCcGlXMTEveU5hbVZPN1N2?=
- =?utf-8?B?aE91K3Fad3pPZ0pHVXFVbzgyZWlsMDVsbUNyQWpNNFNYWGo4UjR3UVVDaVpo?=
- =?utf-8?B?N2dOOEdmbmRVM295ZDRrcEpwSHdTYzBVWmxHdzYxT2xBVktvNVdWdDk4UGY0?=
- =?utf-8?B?alV6M05mT0lTdkd5ZkZzRnpBVElnTEMwb3hXaERHcUR4YldSTTNlbm53cWRi?=
- =?utf-8?B?akU5a0hNT0M0SUVlTlQ5WUJkUWZkOGRjcjQ0YVhYcVdRSFVJVFovL2tnb2hW?=
- =?utf-8?B?M29KVkJ3dGx1M3ZzM1pqZ2NnT1J6UGs3cU93UU90bUpFTkNXcW5oYjNMUnJl?=
- =?utf-8?B?T0tHT3hyZVVqYXRYKzREdE5oNlN3SzBUVFFBemwxMUxMK0RiV2tYZERXdmtB?=
- =?utf-8?B?azhSTERDcDBoNUFyc1BXQytRTkRaT3RxcGpBU0JjcUNNODdlWTRNanJNQ1ZS?=
- =?utf-8?B?bTcwWUlGNFZGMHJ1MkE0azk4Z0pTYkVMd3NINnpTcHY1UUtJQkJ6TXM5MjZH?=
- =?utf-8?B?THNUbW04MnFiZmJsTkEwcHVSTVU4djdIbmt5TGZMeE55NVpDNmNOeVRWVUtu?=
- =?utf-8?B?NHdmSlRaMS9xNWg4a1JsTzBxc1QvSnZrNE9iRURYWmlTS0o0MnRvbkJtOXo5?=
- =?utf-8?B?STN0OG03SlppTlBpcDRCSkc1M2o0USs0UHEzaGNDeXU1djJjc0kwQ3U3QWFo?=
- =?utf-8?B?VTZSS0ZlSE9SZzhOeDd4RGdwc3lVREoyMXk2anNaOTQrWTd5YnhOVFk5Mjlr?=
- =?utf-8?B?WGhqWG5lcjNMRGZFOXlQNzNZeXM3M1AwRXZEdlU2bmhiMzBWeDZ2RnlBRm1U?=
- =?utf-8?B?MnVhdkhudUZzYXcycTVVWEFVbU9CN0RXZlpGMUVPZDlMOWc4UzlIMHNwQld5?=
- =?utf-8?B?R3c5ZTJXQWVHVUJMWk8wL3dMVFdYQ1BvekM3VEtOeVA4S0xJa1prUGd6T0dQ?=
- =?utf-8?B?dEZibUNITGVhQzI3RHB0YmtKYmxsQklTU0RJYmZtQ2d4cDhqZWo1YWdDWkxo?=
- =?utf-8?B?cmNLVDRKRzdZempod2ZsMFZQc214Z1lsUHQ5cER3VWZGVE5KWEQ5cFlRdXFu?=
- =?utf-8?B?aHU3YW9TeWMyeVRyZGdkNG56elUzKzJUVzBIUEdodkFuM25aSTZhYkNseUcz?=
- =?utf-8?B?TTZ3dnB4aDVESXNoQmRQTFJuNTRwT2N6OXFKSlg5bVlPUXNtWG1aMTF5NjJp?=
- =?utf-8?B?RjQxVnE5S0MvNEFieU55dFJwd2prWkphUFZQMno5VmVtalVqS2xhNEcvakl3?=
- =?utf-8?B?SXV1UWdDZmlYL3QrVzJCWWNYN3RuVXZuL2NSRkZZWGhrTm9ubWQ3eXlJb3ZZ?=
- =?utf-8?B?bXlRTkJqWEtKQjA3QlNrUnl1dnptMVM1S0tQNFc0aEJVUWIvdnBmdWJxR3FQ?=
- =?utf-8?B?L2JVZVVrK2QrQWpmNjBFejJuSHdLcVBmbVNKRE9naThrOEpFazRiMjZWcU02?=
- =?utf-8?B?dHcyUE1wSWtsQkNPWTAySXlwNVBEdTA1ZDVodnoxbksvbU51RDNpQk03SG1r?=
- =?utf-8?B?UFUvZ2l5S0xVaTlaaVh2V2U4c2F2MjdsMStXM3hQQlZySXlOQXROQWNkQTN4?=
- =?utf-8?B?VStkczN4anZOTVR6VFJCcUpURXhVTWNkQnk4K3ZhSkNySElsYTR0ZmVYZ0hF?=
- =?utf-8?Q?v5+40uVPnafPKHXc=3D?=
-X-Exchange-RoutingPolicyChecked: sz7LPN411kmsq3jHTMLf1x3sPyaWB+FpXdA4p3KnBhXbia8r1EnPRzkuhlD6JmzjnV2kKS6GMHGoHQbVjGmnla74ypW/2kNNsxlucPmrLCwgHZkGtdG3mdwPm30ri3Jy1Ki65BGzfj2s3xosnRAaLuw2cAP3+ItUyDzTTQSe2ZFr2zP+9ToIBjIdcSWYs+ClmaJCItvVYB8r6yZjsvZ1RdapCrDuC0mJgA5nmqg7oNY6kFUAOOqjoTfvcyTWasD8EN7cHi0zUk0iyWBUvGFsGeXmyhvY9l6vvMqBFgnzbHoerBsC7AAVkzg51Qtu+gcIj4ZsHJuF05nUV54u0E8u8A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3779c88-e6ef-4e26-039c-08df2dff50d4
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 16:37:50.7597
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3TtKAQDoaWIIM+VvTKQlhVBAZHi/uWtjzAjZzQX21zjNiWWiupX0CBcFM+EltydMAtYHVBeM9Ip0NBZuv+ZyHCmxK6NEbvS/t4VGf7QX/a8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF801A91A7D
-X-OriginatorOrg: intel.com
 
-Hi Babu,
+On Tue, 2026-10-13 at 15:20 +0200, Jori Koolstra wrote:
+>=20
+> > Op 13-10-2026 15:10 CEST schreef Laurent Pinchart <laurent.pinchart@ide=
+asonboard.com>:
+> >=20
+> > =C2=A0
+> > On Tue, Oct 13, 2026 at 03:03:08PM +0200, Jori Koolstra wrote:
+> > > > Op 13-10-2026 14:55 CEST schreef Laurent Pinchart:
+> > > > On Tue, Oct 13, 2026 at 02:28:43PM +0200, Jori Koolstra wrote:
+> > > > > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
+> > > > > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
+> > > > > > > On 10/12/26 9:24 PM, Kees Cook wrote:
+> > > > > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote=
+:
+> > > > > > > > > The Maintainers Summit reached consensus to deprecate the=
+ Assisted-by
+> > > > > > > > > tag. Remove the documentation requiring it.
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > > > > > > >=20
+> > > > > > > > Yup, it has become as redundant as specifying what editor I=
+ use. ;)
+> > > > > > > >=20
+> > > > > > > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > > > > > >=20
+> > > > > > > and for those of us who don't know details about the discussi=
+on,
+> > > > > > > how is it redundant?
+> > > > > >=20
+> > > > > > No, I mean I use an LLM constantly for almost all aspects of my
+> > > > > > development work, in multiple dimensions, so if the old tag req=
+uirement
+> > > > > > held, my email body template would just put "Assisted-by: LLM" =
+in there
+> > > > > > because at the very least, it drove the build and test stage. I=
+t was
+> > > > > > redundant in the sense of "yeah, of course I used an LLM at som=
+e point
+> > > > > > for this patch". ("This tag means nothing *from* me")
+> > > > > >=20
+> > > > > > > Do you assume that everyone now uses it (LLM), just as everyo=
+ne
+> > > > > > > uses an editor?
+> > > > > >=20
+> > > > > > I don't make that assumption, but I always held the position th=
+at the
+> > > > > > tag was meaningless because it's the human wielding it that mat=
+ters:
+> > > > > > they either sent a good patch or a bad patch, and if it was man=
+gled by
+> > > > > > gmail or an LLM, it doesn't really matter. ("This tag means not=
+hing *to*
+> > > > > > me")
+> > > > >=20
+> > > > > I think the tag did have a genuine purpose for a while. Now we ha=
+ve just
+> > > > > decided to implicitly attach it to every new submitter (because
+> > > > > basically that is the case.) The point was that a patch that was
+> > > > > obviously LLM generated could be rejected for not carrying the ta=
+g, and
+> > > > > a patch that carried the tag could be asked to explain further (i=
+f they
+> > > > > had not done so.) Or at least, that is how I felt and have unders=
+tood
+> > > > > Greg, for instance :)
+> > > > >=20
+> > > > > Essentially, the way I read it, is that Linus said we don't need =
+this
+> > > > > roundabout way because we can just reject effortless LLM generate=
+d
+> > > > > patches outright. This is good and an improvement.
+> > > >=20
+> > > > The absence of the tag on a suspicious series offered a low-effort =
+way
+> > > > for maintainers to push back. What's the proposed low-effort replac=
+ement
+> > > > ?
+> > >=20
+> > > To ignore it, really. Even less effort :)
+> >=20
+> > Are you saying that we should ignore series when we have even a slight
+> > suspicion they're not perfect ? If not, I don't understand what you're
+> > proposing exactly.
+> >=20
+>=20
+> I am saying it is up to the maintainer. The word is out and we are allowe=
+d to
+> ignore poor contributions, in particular if they are LLM generated. The w=
+hole point
+> is that in the past poor contributions were still a signal someone was tr=
+ying and
+> it might be worthwhile to help them to grow. It is not that signal anymor=
+e per se.
 
-On 10/19/26 8:47 AM, Babu Moger wrote:
-> On 10/15/26 10:43, Reinette Chatre wrote:
->> On 10/1/26 8:10 AM, Babu Moger wrote:
->>> The active kernel mode association is backed by either a CTRL_MON or
->>> MON group.
->>
->> This context does not reflect the code at this point in series but what
->> behavior will be after entire series is applied. It is also written as
->> general but specific to the global per-CPU kernel mode.
->>
->>> When the backing group is removed, or when resctrl is unmounted, clear
->>> the programmed association and restore the default settings.
->>
->> Please provide more context to user and help reader to understand what the
->> patch does without needing to decipher the patch.
-> 
-> "The global per-CPU kernel mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, allows kernel work to use allocation and monitoring associations that differ from those of the originating user task. When the mode is active, "info/kernel_mode" displays the backing mode. If the backing group is removed, or resctrl is unmounted, the association becomes invalid.
-> 
-> Clear the programmed association and revert the kernel mode to the default "inherit user" behavior. This ensures that kernel work continues to use the allocation and monitoring associations of the originating user task until a new kernel mode association is configured.
-> 
-> Document this user-visible behavior in resctrl.rst."
-> 
->>
->> For example, "restore the default settings" is a very vague way to
->> describe that removing the group backing the global per-CPU kernel mode
->> automatically switches the kernel mode to "inherit user". Please explain
->> at high level what the code does and why. As a hypothetical, why not
->> keep the kernel mode as "global per-CPU kernel mode" but switch the assigned
->> group to the default group? This would match most other similar resctrl behaviors,
->> no?
-> 
-> My assuption, you are not asking me to change it to "global per-CPU kernel mode" when the group is removed.
+I consistently see new contributors getting involved in the kernel who
+are not using LLM tooling. This is still very much a thing, and I would
+advise against missing the forest for the trees because the new
+contributors with LLM tooling are so much louder then the ones without
+because only one of those two groups can send patch bombs at a moment's
+notice that require going through in order to know whether or not to
+ignore it.
 
-Not specifically, but since the behavior is different from the typical resctrl behavior that,
-for example moves a removed group's tasks etc. to the default group, it would be valuable to
-know *why* this behavior was chosen.
+> We need other avenues to identify talent. The kernel mentorship program i=
+s one of
+> those, as is showing up in person at conferences.
 
-...
+This is an open source project, submitting work - even for people using
+LLMs - should be one of the ways that people can get involved. It has
+far less barriers to attending a conference in person, and not all
+contributors can or want to be at an in-person event just to contribute
+to a project.
 
->>> + */
->>> +static void rdtgroup_kmode_global_deactivate(struct rdtgroup *rdtgrp)
->>> +{
->>> +    resctrl_configure_kmode_global(&rdtgrp->kmode_cpu_mask, rdtgrp, false);
->>> +    cpumask_clear(&rdtgrp->kmode_cpu_mask);
->>> +}
->>> +
->>> +/*
->>> + * rdtgroup_kmode_global_detach() - Detach @rdtgrp from the global per-CPU mode
->>> + * @rdtgrp: Resctrl group being removed or torn down.
->>> + *
->>> + * If @rdtgrp backs the active association, disable it, clear kernel mode
->>> + * state, and restore RESCTRL_INHERIT_USER.
->>> + */
->>> +static void rdtgroup_kmode_global_detach(struct rdtgroup *rdtgrp)
->>> +{
->>> +    if (resctrl_kmode.rdtgrp != rdtgrp)
->>
->> Please do not use tests on resctrl_kmode.rdtgrp as synonym for
->> resctrl_kmode.active == RESCTRL_GLOBAL_ENABLE_PER_CPU.
-> 
-> Not really. This was a check to make sure kernel mode is pointing to correct group that is being removed.
+Also - I've been a kernel maintainer and I've never been at LPC. I know
+plenty of people who have never been to LPC, it is more then just
+financial constraints. If an LPC is so truly representative of
+maintainers at large here, then why are there maintainers responding
+here with objections? What challenge would there be to actually opening
+this discussion up to all of the other maintainers who were not there?
 
-The problem is this "global per-CPU kernel mode" specific function is called without ever
-checking if "global per-CPU kernel mode" is active. Instead it uses one of the parameter
-values as synonym for whether the "global per-CPU kernel mode" is active. What is a future
-developer to understand from this? This implies there are two *interchangeable* ways to determine
-whether "global per-CPU kernel mode" is active ... sometimes
-resctrl_kmode.active == RESCTRL_GLOBAL_ENABLE_PER_CPU is/should be used and sometimes the value
-of resctrl_kmode.rdtgrp is/should be used. How should somebody interpret this? Are these
-two interchangeable tests (and thus making one redundant) or is the test dependent on the scenario
-(which is not explained anywhere).
+>=20
+> The tag helped some maintainers to push back (like Lorenzo). The tag isn'=
+t needed
+> anymore, because the push back isn't needed. I think that's an improvemen=
+t, and at
+> any rate was inevitable.
 
-Reinette
+It is, though. I want people who actually took the time to learn how to
+contribute to a codebase I maintain to actually have some kind of
+priority over new contributors using LLMs, because we still attract new
+contributors and talent who don't want anything to do with LLMs.
+Projects like Asahi I've pretty much only started getting involved in
+because of their no LLM policy.
+
+Have you considered that maybe this is a self-fulfilling prophecy that
+is partly the result of a lack of maintainers and the difficulty
+imposed on new contributors getting involved because of policies like
+"just ignore work and don't respond if it looks like slop"? The person
+who could contribute and decides it's not welcoming, or there's not
+much chance of their work getting reviewed, etc. is not typically the
+person that says so on a mailing list, or as I've started seeing - just
+simply doesn't want to look at the project because they are not
+enthusiastic about working with LLMs in their spare time or ever. More
+likely, they just leave and don't contribute.
+
+Has the rest of the kernel really gotten so bad at attracting new
+contributors outside of LLM spheres you just, don't get these people
+anymore?
+
+>=20
+> Best,
+> Jori.
+
