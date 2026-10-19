@@ -1,65 +1,65 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A59D20E6E2
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9324A360EF6
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 02:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792375892; cv=none; b=UPjVL1tAoHuRjb4FAY3c/UAVyq/dMo3WSYzxgTlEJzqnSekgSbcTEr3sV4j7LYmKnTKKJr+4XrywOqBmMrGzrDNVRTfhywJDwS2/X6r8lI8lpNUv658mZojV71r5eYS2vbqvC5J5VOuY9uSKQ0de7teHNJLIo4vaUB+OX4AwGKY=
+	t=1792375893; cv=none; b=bjG82BHHf1n9OP3wK7IwJMr9H0khqDbg9jZKjr85XfFbprbhulKot9RoynTxL6Xn3n9lrSX6mKxGs2RMpnIUmx3zWZNOulZzcBLMW8jk2S2SjK6evlJ48LNesa2d7D+DWDkMcWqLJyKPUg9ZLs86LPE9ujrzXeoQf1bXBWrnTfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792375892; c=relaxed/simple;
-	bh=Z+xQnvDTnThgai6dpy0hQArRVZ+9TxKC6/pfh5wkiYY=;
+	s=arc-20240116; t=1792375893; c=relaxed/simple;
+	bh=pwyWuRiWJ0XbQLyrnTziguc/5+rNlEmAfK7XQkPICrg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=te14qi2HI+yCQ3U6ceX9tNMAxa+R1c/eONJx22TX68oy7ZjhmjzhbcVBcWQ6nlJjSGGcxQ5pdIvGD6TPBv5tyrG7MOVpl5OHhU+z/UCBK+39DF5Yz54aGcNgrig84fjCCViiz+2YfEyX/OS7IOH4q/NAuAFjjWrTKMOZvOWBalA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=aXKElFZS; arc=none smtp.client-ip=209.85.217.46
+	 MIME-Version; b=CrcHoEqj7iO/q+WSSqokb/i9AIIulGuavoCWSbUfH6pUOp+J6jNXr2rFn0n6NGcOcAZyUKL48EWKcOYHyE4xZAtN8OKXfIb7QION8YO9cc4rFMuSSA0tsi6ycmcEr81rogsN7JIqEfi1570XpaD+G8+zcCNcGLNcKHu6RN8j7bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hafb1hdJ; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="aXKElFZS"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7a6e560f580so966201137.1
-        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 19:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hafb1hdJ"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5eac925bac3so55216e0c.0
+        for <linux-doc@vger.kernel.org>; Sun, 18 Oct 2026 19:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792375888; x=1792980688; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792375889; x=1792980689; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=PhWkLfOOfteM1FeePp68BcqpwCgdE0YNcf9YXtfJq5A=;
-        b=aXKElFZSyyRWtFGq1dIMH9ro4VT1vH8Z1hq8focCp0oX67cTnKQeaBf1+cUrDryPke
-         rnh/IymcZEgmFU86NKDn9PR0mi6nis+LNES710EqZjX4V3DnbZqayhnAmnQyldom+iJa
-         dFTy50HxpM4ZLVLVZFOkjN/ovWTWGlxZtAZwkFrNuOZSVWIdtxR7G1dDVcOqmqCaXt3U
-         BmyBMq8HgDg/WbHTl5qCQdqJgUkxtQoeBIvF5e5yeAVQWYnRsHD+NfUrEE4jRacHR7hX
-         mWqVBopGvbXnh691zPaTfenUYUY4hBooiqRq1hcBkyAhd8o1bEhpRXELpauG5iOFIFOC
-         B2+A==
+        bh=UmeYwpV1WXgURkKRUEhvLrRNpkq1JL/wE/xlQQFWMQk=;
+        b=hafb1hdJtXxE3TAENCumLDHX1IhPujvOYGudQRldwd8CG9D9LAy9TgHEr4NTIUi3z5
+         hoUiOOVHbCyWoYW2r0h2GnZfJUc4J1lZySSy7Ata8PbNzr0dux5B6pVfLuAat8YeU3o6
+         EM9o0kklhJBYUa8MDZFFB7O8sA4QEz2bZ6Tyz8NSLkDgch3lbRCcfQsUFHFS61Z6yVmN
+         zUxRljJ2RHNTSJfI575bVhDyegDnwOB2xcn5opCBUDSvgJrry3KRxI/wsZt2n/hUgumP
+         n4t2Ld6aR/qIRImMJUqBhYtXdSdzZvTBmg122bpLE/8bNRA0aE43SA6WszjVDvi23IM/
+         X/bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792375888; x=1792980688;
+        d=1e100.net; s=20260707; t=1792375889; x=1792980689;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=PhWkLfOOfteM1FeePp68BcqpwCgdE0YNcf9YXtfJq5A=;
-        b=BnXJqz5k43wTw2GtnkdUIUMHEWzQHm78gqqqqkk+dN9Zp/it/voUqtXVbZ8hIMe20H
-         y/pqwW7Rg3fHBascUxz8MkAKZZtsIn16g4ZlrMXA/dBrA1WqS+V3fmqCaG6sI7rKbYX0
-         boRyyXblyJlVtEWjCHGK90+Y7N4OsSWyQlRND4q0EDSraey7f2Vw0uxYvEmkjFAECxXE
-         sHirgoRmcNuGy7vJx1PybiunGY+0ImNe6jQEZsfhYQXYV4igUMxC0jweGKOQOKEd/X9m
-         DHTXcZ3hdM59q+jVJNcRF9gKGccLcu79w7rR34/m3SH/NpjEPdVHvfPVlBBDiQDHSX8a
-         +J1w==
-X-Forwarded-Encrypted: i=1; AKwUvByUzkueLLtU4KBfuQwV+pvvTABe8Nq94mvG29vUoJYFDB1k1j7PEvlPb+Ixk+96DOp/72y+2/mofu4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJTgLzaXP17kWANwDPnbZs5oDcCsOHS1+dnPRgdKctiTCKnBrib
-	rSa1CkKn9DlfDnhLyha621ImvZJmwfQ70E41/YJXuGbhTkiuwh5n3hqzkjd6+4wkPhA=
-X-Gm-Gg: AYBFou0JTIhBWbC+2YcMBl3gMSPj+BJotADps/a0ieVWSnyahRtzSyENThI8Djbmmqo
-	tPxkTWqq32hvC48ldCAvPutbQLvyOTs9TlkI7XQWXjrW3x7ed6KVsfAOxAvOvxiq4ptJJU3izYo
-	MDfhcjwnJCdjxCbEChjBs+NodnZ2ifZzvBigP7Z8joovu13/ZQU8vqHnzzqaYfCbh0QW7txBrjx
-	a9WuG0Ldw0S633SeoZpcDZbRmiKVL29wWYiZgrdN9mIRL+fxHooGp9Ngd4JbxW8U5xIJigKIMr5
-	i4XEmRuidRF1eD3DjPnc8GwCXD6CYS7AKqDqdgL9GV25RcLypnjg11IAraTkieAFjpi1lILEk6J
-	4aTgPwRwjWL2HD4XPo6AA8lGyNMWUEhFPs0Lg5s8OeBwoLi8RWT021ZF3/Ka0hG/T+whw9WQaug
-	8x5RjVEGrQqL+OIUBJO3d60URYbyuzZOfP0gJdy5A9KKFhdokCEP37ynEBjcpeMAeSmQfA6wsC+
-	1wSS0dhhbawgKVZitLM4Ip8Iw+ujlfvK4ld6BoTy9cZ40zgMe6C37MGVO61IU0EgZlfJR2gOtQh
-	zwqI2us5c4eYWUf+/r5XhdNb9xDV4Q==
-X-Received: by 2002:a05:6102:849b:20b0:7cc:3eb0:6ef5 with SMTP id ada2fe7eead31-7cc3eb09b24mr1037299137.11.1792375888447;
-        Sun, 18 Oct 2026 19:11:28 -0700 (PDT)
+        bh=UmeYwpV1WXgURkKRUEhvLrRNpkq1JL/wE/xlQQFWMQk=;
+        b=p67CIdA7WhY/8kUsUSzyEcZNy75e6g+iWh+FxNNtITvauagtYPBnQbKGbgyr1Rt7Oh
+         nviJhEeW9qtaXeYiG208bX4PzDkd/OFMgdf3LFZk2E4jtb6xMST2EBJzz6RUdXtYield
+         o6Tial9f5ZR7ycmZ0wGTwRI+H0vVAXZTz5mAM1mUL9RWjbzZa6gieFEAMZpNl0yjqLel
+         PKqwLXS2RbdKUIUg5FPKRcEwhlsae2xxV0exS9dfMjmkbT5OQ302o6ekwMcBnJbPr8yz
+         k8SrhOQCk+1Q1bn+4sfcr2WieZ/Y2nI9kEwlLq8HZvjjQrFr5UCqJLEajJsKD+vb0De0
+         ggGg==
+X-Forwarded-Encrypted: i=1; AKwUvBxxXdX1MK30wA/X5h+VgLw+3p6fvSU9qyB7i001uPXIuhZqUgFuGbjDxtowe3WozWGRJiia6A5Q2cs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ+dqzUnPe6swpcp0OkxQ6rvzVtSHnzWL+MnDR36w0GeGBM8/87
+	yjYvGVgVYeBXUmkHiptmcy5LDFLf3/jsMcZtlgPoK2CQanYR0+swq4pflpf7lei2icA=
+X-Gm-Gg: AYBFou2k0BjBnxE3GEiFOILcwtmrOPUSF738qQ30R4AdL10XviLL+SX8zIYSYN6UznG
+	MGp/6qWq4x2ar9Ojh4CefOMdNbwO6xZbiDuk2l3mggipm7bN+sMius34B/wgi6gz9gbnkYOcmv1
+	FnUf3BEl8fMOQUk8uhRoDQ+cj0n2yWz9dg+oaAffJlb87oeXG/IdFSunMezLTcUGvUYKApzn411
+	BvZ3WzD+V20MmqJAM/9L+tMgx6GduNtzRXnkg00hS+VnIzO7OLhBeCoJZfkFQMyudKiRZfrigTE
+	TU+m7FGDIct+Otp4N3bE9xFJ/NmhXnOLwb2WmEoXmuWWDZaSNxzyel+WLFxQS6PMKw75tTCRAvG
+	EagjLcRY9dkGQvwT9TSBw1NKKN6qrzz9Ul5LEvAu3Y+R+WQ3Pe9UsHueCwGjMgO1eNwdYKu6Kea
+	jX9ZrhNONATlgXMZ6hlMec66ZNuoSk4DgPAMmrjqFcZTnM+XL6DKk0o8K+ufxwbP7gIwZGlh+nu
+	T6D17xcU0mz5q7eVEvOPUbWSVHZz9L2EipbvfJs1WQgEKuR6PYWJyel7OZ/ciGodQwtzDoJrrXR
+	GDAXXNXe72S/aagsCFnX3jk1l6guEg==
+X-Received: by 2002:a05:6122:8616:b0:5c9:a60b:e5c8 with SMTP id 71dfb90a1353d-5eaaa414a8bmr2432423e0c.11.1792375889472;
+        Sun, 18 Oct 2026 19:11:29 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eabbd9ea2bsm4271383e0c.2.2026.10.18.19.11.27
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eabbd9ea2bsm4271383e0c.2.2026.10.18.19.11.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 19:11:28 -0700 (PDT)
+        Sun, 18 Oct 2026 19:11:29 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -88,9 +88,9 @@ To: linux-kselftest@vger.kernel.org,
 	lirongqing@baidu.com,
 	liam@infradead.org,
 	jlayton@kernel.org
-Subject: [PATCH v1 7/8] kho: test: support read-only KHO mode in test_kho
-Date: Sun, 18 Oct 2026 22:11:10 -0400
-Message-ID: <20261019021111.990394-8-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 8/8] selftests: kho: add read-only KHO test to vmtest.sh
+Date: Sun, 18 Oct 2026 22:11:11 -0400
+Message-ID: <20261019021111.990394-9-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.176.g3575e65682-goog
 In-Reply-To: <20261019021111.990394-1-pasha.tatashin@soleen.com>
 References: <20261019021111.990394-1-pasha.tatashin@soleen.com>
@@ -102,170 +102,310 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow CONFIG_TEST_KEXEC_HANDOVER to be enabled with
-CONFIG_KEXEC_HANDOVER_READONLY and update test_kho to verify preserved
-state when booted in read-only KHO mode.
+Extend tools/testing/selftests/kho/vmtest.sh and init.c to run a second
+QEMU test verifying read-only KHO ('kho_ro=<fdt_phys>') after the
+standard KHO test on both x86_64 and aarch64:
 
-In read-only mode, test_kho retrieves the test FDT subtree, maps the FDT
-folio via kho_ro_map_folio(..., PAGE_KERNEL_RO), restores the preserved
-vmalloc folio descriptor array via kho_restore_vmalloc(), verifies each
-folio's preserved order in the KHO radix tree via
-kho_ro_lookup_folio_order(), maps each folio via kho_ro_map_folio() (and
-unmaps via kho_ro_unmap()), and verifies the checksum over all preserved
-pages.
+- Build a second kernel configured with CONFIG_KEXEC_HANDOVER_READONLY=y
+  (and CONFIG_KEXEC_HANDOVER=n).
+- Pass KHO_RO_CMDLINE ('nokaslr kho_bootmem=64M,64M,64M' on x86_64,
+  'cma=116M@0x40c00000' on aarch64) to the first kernel in the read-only
+  test run so KHO allocations are placed in predictable physical ranges.
+- When booted with 'kho_ro_test', read /debugfs/kho/out/fdt_phys in
+  init.c and kexec into the read-only kernel with 'kho_ro=<fdt_phys>'
+  and architecture-specific memory parameters
+  ('memmap=792M$16M memmap=24M$1000M' on x86_64,
+  'mem=128M cma=12M@0x40000000' on aarch64) so the preserved pages are
+  excluded from the boot memory map and mapped via kho_ro_map_folio().
+- Verify 'KHO restore succeeded' from test_kho in read-only mode.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- lib/Kconfig.debug |  2 +-
- lib/test_kho.c    | 68 ++++++++++++++++++++++++++++++++++-------------
- 2 files changed, 51 insertions(+), 19 deletions(-)
+ tools/testing/selftests/kho/arm64.conf |   3 +
+ tools/testing/selftests/kho/init.c     |  38 ++++++++-
+ tools/testing/selftests/kho/vmtest.sh  | 103 +++++++++++++++++--------
+ tools/testing/selftests/kho/x86.conf   |   1 +
+ 4 files changed, 112 insertions(+), 33 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 134b15a44625..74223ef8bd1c 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3381,7 +3381,7 @@ config TEST_OBJPOOL
- config TEST_KEXEC_HANDOVER
- 	bool "Test for Kexec HandOver"
- 	default n
--	depends on KEXEC_HANDOVER
-+	depends on KEXEC_HANDOVER || KEXEC_HANDOVER_READONLY
- 	help
- 	  This option enables test for Kexec HandOver (KHO).
- 	  The test consists of two parts: saving kernel data before kexec and
-diff --git a/lib/test_kho.c b/lib/test_kho.c
-index aa6a0956bb8b..1e0f257a5854 100644
---- a/lib/test_kho.c
-+++ b/lib/test_kho.c
-@@ -239,7 +239,7 @@ static int kho_test_restore_data(const void *fdt, int node)
- 	phys_addr_t *folios_info;
- 	const __wsum *old_csum;
- 	__wsum csum = 0;
--	int len;
-+	int len, i;
+diff --git a/tools/testing/selftests/kho/arm64.conf b/tools/testing/selftests/kho/arm64.conf
+index ee696807cd35..36dd8c46060c 100644
+--- a/tools/testing/selftests/kho/arm64.conf
++++ b/tools/testing/selftests/kho/arm64.conf
+@@ -4,6 +4,9 @@ CONFIG_SERIAL_AMBA_PL010=y
+ CONFIG_SERIAL_AMBA_PL010_CONSOLE=y
+ CONFIG_SERIAL_AMBA_PL011=y
+ CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
++CONFIG_CMA=y
++CONFIG_DMA_CMA=y
+ "
+ KERNEL_IMAGE="Image"
+ KERNEL_CMDLINE="console=ttyAMA0"
++KHO_RO_CMDLINE="cma=116M@0x40c00000"
+diff --git a/tools/testing/selftests/kho/init.c b/tools/testing/selftests/kho/init.c
+index 88a41b6eba95..272338f186be 100644
+--- a/tools/testing/selftests/kho/init.c
++++ b/tools/testing/selftests/kho/init.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
  
- 	node = fdt_path_offset(fdt, "/data");
+ #include <stdio.h>
++#include <string.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+ #include <sys/syscall.h>
+@@ -12,6 +13,15 @@
+ #define COMMAND_LINE_SIZE	2048
  
-@@ -259,11 +259,28 @@ static int kho_test_restore_data(const void *fdt, int node)
- 	if (!folios_info)
- 		return -EINVAL;
- 
--	for (int i = 0; i < *nr_folios; i++) {
-+	for (i = 0; i < *nr_folios; i++) {
- 		unsigned int order = folios_info[i] & ~PAGE_MASK;
- 		phys_addr_t phys = folios_info[i] & PAGE_MASK;
--		unsigned int size = PAGE_SIZE << order;
- 		struct folio *folio;
-+		size_t size;
+ #define KERNEL_IMAGE "/kernel"
++#define FDT_PHYS_PATH "/debugfs/kho/out/fdt_phys"
 +
-+		if (order > MAX_PAGE_ORDER)
-+			break;
-+		size = PAGE_SIZE << order;
-+
-+		if (kho_is_ro()) {
-+			void *addr;
-+
-+			if (kho_ro_lookup_folio_order(phys) != order)
-+				break;
-+			addr = kho_ro_map_folio(phys, PAGE_KERNEL_RO);
-+			if (!addr)
-+				break;
-+			csum = csum_partial(addr, size, csum);
-+			kho_ro_unmap(addr);
-+			continue;
-+		}
++#if defined(__x86_64__)
++#define KHO_RO_MEM_PARAM "memmap=792M$16M memmap=24M$1000M"
++#elif defined(__aarch64__)
++#define KHO_RO_MEM_PARAM "mem=128M cma=12M@0x40000000"
++#else
++#define KHO_RO_MEM_PARAM ""
++#endif
  
- 		folio = kho_restore_folio(phys);
- 		if (!folio)
-@@ -278,50 +295,65 @@ static int kho_test_restore_data(const void *fdt, int node)
- 
- 	vfree(folios_info);
- 
--	if (csum != *old_csum)
-+	if (i != *nr_folios || csum != *old_csum)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
--static int kho_test_restore(phys_addr_t fdt_phys)
-+static int kho_test_restore(phys_addr_t fdt_phys, size_t fdt_size)
+ static int mount_filesystems(void)
  {
--	void *fdt = phys_to_virt(fdt_phys);
- 	const unsigned int *magic;
--	int node, len, err;
-+	int node, len, err = -EINVAL;
-+	void *fdt;
+@@ -32,7 +42,8 @@ static long kexec_file_load(int kernel_fd, int initrd_fd,
+ static int kexec_load(void)
+ {
+ 	char cmdline[COMMAND_LINE_SIZE];
+-	ssize_t len;
++	ssize_t len, fdt_len;
++	char fdt_phys[64];
+ 	int fd, err;
+ 
+ 	fd = open("/proc/cmdline", O_RDONLY);
+@@ -41,11 +52,34 @@ static int kexec_load(void)
+ 
+ 	len = read(fd, cmdline, sizeof(cmdline));
+ 	close(fd);
+-	if (len < 0)
++	if (len <= 0)
+ 		return -1;
+ 
+ 	/* replace \n with \0 */
+ 	cmdline[len - 1] = 0;
 +
-+	if (!fdt_size)
-+		return -EINVAL;
++	if (strstr(cmdline, "kho_ro_test")) {
++		fd = open(FDT_PHYS_PATH, O_RDONLY);
++		if (fd < 0)
++			return -1;
 +
-+	if (kho_is_ro()) {
-+		if (kho_ro_lookup_folio_order(fdt_phys) < get_order(fdt_size))
-+			return -EINVAL;
-+		fdt = kho_ro_map_folio(fdt_phys, PAGE_KERNEL_RO);
-+		if (!fdt)
-+			return -EINVAL;
-+	} else {
-+		fdt = phys_to_virt(fdt_phys);
++		fdt_len = read(fd, fdt_phys, sizeof(fdt_phys) - 1);
++		close(fd);
++		if (fdt_len <= 0)
++			return -1;
++
++		if (fdt_phys[fdt_len - 1] == '\n')
++			fdt_len--;
++		fdt_phys[fdt_len] = 0;
++
++		len = (len - 1) + snprintf(cmdline + len - 1,
++					   sizeof(cmdline) - (len - 1),
++					   " kho_ro=%s " KHO_RO_MEM_PARAM,
++					   fdt_phys) + 1;
++		if (len <= 0 || (size_t)len > sizeof(cmdline))
++			return -1;
 +	}
++
+ 	fd = open(KERNEL_IMAGE, O_RDONLY);
+ 	if (fd < 0)
+ 		return -1;
+diff --git a/tools/testing/selftests/kho/vmtest.sh b/tools/testing/selftests/kho/vmtest.sh
+index 0014bd76e88d..b3659e4fd1c9 100755
+--- a/tools/testing/selftests/kho/vmtest.sh
++++ b/tools/testing/selftests/kho/vmtest.sh
+@@ -35,32 +35,25 @@ trap cleanup EXIT
+ function skip() {
+ 	local msg=${1:-""}
  
- 	node = fdt_path_offset(fdt, "/");
- 	if (node < 0)
--		return -EINVAL;
-+		goto out_unmap;
- 
- 	if (fdt_node_check_compatible(fdt, node, KHO_TEST_COMPAT))
--		return -EINVAL;
-+		goto out_unmap;
- 
- 	magic = fdt_getprop(fdt, node, "magic", &len);
- 	if (!magic || len != sizeof(*magic))
--		return -EINVAL;
-+		goto out_unmap;
- 
- 	if (*magic != KHO_TEST_MAGIC)
--		return -EINVAL;
-+		goto out_unmap;
- 
- 	err = kho_test_restore_data(fdt, node);
--	if (err)
--		return err;
- 
--	return 0;
-+out_unmap:
-+	if (kho_is_ro())
-+		kho_ro_unmap(fdt);
-+	return err;
+-	ktap_test_skip "$msg"
++	while [[ "$KTAP_TESTNO" -le "$KSFT_NUM_TESTS" ]]; do
++		ktap_test_skip "$msg"
++	done
+ 	exit "$KSFT_SKIP"
  }
  
- static int __init kho_test_init(void)
- {
- 	phys_addr_t fdt_phys;
-+	size_t fdt_size;
- 	int err;
+-function fail() {
+-	local msg=${1:-""}
+-
+-	ktap_test_fail "$msg"
+-	exit "$KSFT_FAIL"
+-}
+-
+ function build_kernel() {
+ 	local build_dir=$1
+ 	local make_cmd=$2
+ 	local arch_kconfig=$3
+ 	local kimage=$4
++	local kho_mode=${5:-"rw"}
  
--	if (!kho_is_enabled())
-+	if (!kho_is_enabled() && !kho_is_ro())
- 		return 0;
+ 	local kho_config="$tmp_dir/kho.config"
+ 	local kconfig="$build_dir/.config"
  
--	err = kho_retrieve_subtree(KHO_TEST_FDT, &fdt_phys, NULL);
-+	err = kho_retrieve_subtree(KHO_TEST_FDT, &fdt_phys, &fdt_size);
- 	if (!err) {
--		err = kho_test_restore(fdt_phys);
-+		err = kho_test_restore(fdt_phys, fdt_size);
- 		if (err)
- 			pr_err("KHO restore failed\n");
- 		else
-@@ -330,7 +362,7 @@ static int __init kho_test_init(void)
- 		return err;
- 	}
+ 	# enable initrd, KHO and KHO test in kernel configuration
+-	tee "$kconfig" > "$kho_config" <<EOF
++	cat > "$kho_config" <<EOF
+ CONFIG_BLK_DEV_INITRD=y
+-CONFIG_KEXEC_HANDOVER=y
+-CONFIG_KEXEC_HANDOVER_DEBUG=y
+-CONFIG_KEXEC_HANDOVER_DEBUGFS=y
+ CONFIG_TEST_KEXEC_HANDOVER=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_DEBUG_VM=y
+@@ -70,20 +63,50 @@ CONFIG_DEFERRED_STRUCT_PAGE_INIT=y
+ $arch_kconfig
+ EOF
  
--	if (err != -ENOENT) {
-+	if (err != -ENOENT || kho_is_ro()) {
- 		pr_warn("failed to retrieve %s FDT: %d\n", KHO_TEST_FDT, err);
- 		return err;
- 	}
++	if [[ "$kho_mode" == "ro" ]]; then
++		cat >> "$kho_config" <<EOF
++# CONFIG_KEXEC_HANDOVER is not set
++CONFIG_KEXEC_HANDOVER_READONLY=y
++EOF
++	else
++		cat >> "$kho_config" <<EOF
++CONFIG_KEXEC_HANDOVER=y
++CONFIG_KEXEC_HANDOVER_DEBUG=y
++CONFIG_KEXEC_HANDOVER_DEBUGFS=y
++EOF
++	fi
++
+ 	make_cmd="$make_cmd -C $kernel_dir O=$build_dir"
+-	$make_cmd olddefconfig
++	local need_config=0
++	if [[ ! -f "$kconfig" ]]; then
++		need_config=1
++	else
++		while read -r opt ; do
++			[[ -z "$opt" ]] && continue
++			grep -q "^$opt$" "$kconfig" || need_config=1
++		done < "$kho_config"
++	fi
++
++	if [[ "$need_config" -eq 1 ]]; then
++		cp "$kho_config" "$kconfig"
++		$make_cmd olddefconfig
++	fi
+ 
+ 	# verify that kernel confiration has all necessary options
+ 	while read -r opt ; do
+-		grep "$opt" "$kconfig" &>/dev/null || skip "$opt is missing"
++		[[ -z "$opt" ]] && continue
++		grep -q "^$opt$" "$kconfig" || skip "$opt is missing"
+ 	done < "$kho_config"
+ 
+ 	$make_cmd "$kimage"
+-	$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
++	if [[ "$kho_mode" != "ro" ]]; then
++		$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
++	fi
+ }
+ 
+ function mkinitrd() {
+ 	local kernel=$1
++	local out_initrd=$2
+ 
+ 	"$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib \
+ 			-fno-asynchronous-unwind-tables -fno-ident \
+@@ -100,25 +123,31 @@ file /init $tmp_dir/init 0755 0 0
+ file /kernel $kernel 0644 0 0
+ EOF
+ 
+-	"$build_dir/usr/gen_init_cpio" "$tmp_dir/cpio_list" > "$initrd"
++	"$build_dir/usr/gen_init_cpio" "$tmp_dir/cpio_list" > "$out_initrd"
+ }
+ 
+ function run_qemu() {
+ 	local qemu_cmd=$1
+ 	local cmdline=$2
+ 	local kernel=$3
++	local initrd_path=$4
++	local test_name=$5
+ 	local serial="$tmp_dir/qemu.serial"
+ 
+ 	cmdline="$cmdline kho=on panic=-1"
+ 
+-	$qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults \
+-		  -accel kvm -accel hvf -accel tcg  \
+-		  -serial file:"$serial" \
+-		  -append "$cmdline" \
+-		  -kernel "$kernel" \
+-		  -initrd "$initrd"
+-
+-	grep "KHO restore succeeded" "$serial" &> /dev/null || fail "KHO failed"
++	rm -f "$serial"
++	if $qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults \
++		     -accel kvm -accel hvf -accel tcg  \
++		     -serial file:"$serial" \
++		     -append "$cmdline" \
++		     -kernel "$kernel" \
++		     -initrd "$initrd_path" && \
++	   grep "KHO restore succeeded" "$serial" &> /dev/null; then
++		ktap_test_pass "$test_name succeeded"
++	else
++		ktap_test_fail "$test_name failed"
++	fi
+ }
+ 
+ function target_to_arch() {
+@@ -164,7 +193,7 @@ function main() {
+ 	done
+ 
+ 	ktap_print_header
+-	ktap_set_plan 1
++	ktap_set_plan 2
+ 
+ 	if [[ "$target" != "$(uname -m)" ]] && [[ -z "$CROSS_COMPILE" ]]; then
+ 		skip "Cross-platform testing needs to specify CROSS_COMPILE"
+@@ -174,17 +203,29 @@ function main() {
+ 	local arch=$(target_to_arch "$target")
+ 	source "$test_dir/$arch.conf"
+ 
+-	# build the kernel and create initrd
++	# build the kernels and create initrds
+ 	# initrd includes the kernel image that will be kexec'ed
+ 	local make_cmd="make ARCH=$arch CROSS_COMPILE=$CROSS_COMPILE -j$jobs"
+-	build_kernel "$build_dir" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE"
++	build_kernel "$build_dir" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE" "rw"
+ 
+-	local kernel="$build_dir/arch/$arch/boot/$KERNEL_IMAGE"
+-	mkinitrd "$kernel"
++	local kernel="$tmp_dir/$KERNEL_IMAGE"
++	cp "$build_dir/arch/$arch/boot/$KERNEL_IMAGE" "$kernel"
++	mkinitrd "$kernel" "$initrd"
++
++	local build_dir_ro="${build_dir}-ro"
++	if [[ ! -d "$build_dir_ro" ]]; then
++		cp -a "$build_dir" "$build_dir_ro"
++	fi
++	build_kernel "$build_dir_ro" "$make_cmd" "$QEMU_KCONFIG" "$KERNEL_IMAGE" "ro"
++	local kernel_ro="$build_dir_ro/arch/$arch/boot/$KERNEL_IMAGE"
++	local initrd_ro="$tmp_dir/initrd-ro.cpio"
++	mkinitrd "$kernel_ro" "$initrd_ro"
+ 
+-	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE" "$kernel"
++	trap - ERR
+ 
+-	ktap_test_pass "KHO succeeded"
++	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE" "$kernel" "$initrd" "KHO"
++	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE $KHO_RO_CMDLINE kho_ro_test" \
++		 "$kernel" "$initrd_ro" "KHO read-only"
+ }
+ 
+ main "$@"
+diff --git a/tools/testing/selftests/kho/x86.conf b/tools/testing/selftests/kho/x86.conf
+index b419e610ca22..2c097c5bd6c6 100644
+--- a/tools/testing/selftests/kho/x86.conf
++++ b/tools/testing/selftests/kho/x86.conf
+@@ -5,3 +5,4 @@ CONFIG_SERIAL_8250_CONSOLE=y
+ "
+ KERNEL_IMAGE="bzImage"
+ KERNEL_CMDLINE="console=ttyS0"
++KHO_RO_CMDLINE="nokaslr kho_bootmem=64M,64M,64M"
 -- 
 2.56.0.176.g3575e65682-goog
 
