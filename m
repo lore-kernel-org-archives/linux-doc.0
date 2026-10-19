@@ -1,127 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792442832;
-	b=x1syxeBSykcmTfG4vC+m2zHgKZ30l2yap0Pfa+1QKe1PTxPc5LXe8r+5T8mgF6l0zCnZ
-	 0kLufvRPvK/OCHxEhtxPt5Tf3jli8JAvHW+xcp6TASZaG3ZJYJ1KnVjaXfBbsW8IVRR2n
-	 Dj9d1CP1lREOOwGRQ/UTrrGtN1f4+C+je89jg+W0DTM6ispN3FrRoYku2NdYWVJfr7cgI
-	 QwJUxtjNOOgm0eK2z9p14EdEaoYgqnnsoXT/37zeN6yNwPXgPIJRXObZxyATl0RFByatu
-	 q8s9be5Tmj4ZHPiVygogaRT1aMp9TjReiHKRJ2GO9NU1dXD61J6T0kPzehOo8C9CksA==
+	t=1792443078;
+	b=DPW26RGBBnrutViqg/Xk7WA6M0DnGcaOgbLcnnMQVwuL5SSxENGwHPNRDpZxjifxg2qa
+	 wT/pad1E+v2lGNpsT2+w/jp4ydzq/wMTeRfuWtg4f8qXGoNY0kLofO9toW0N8gYS3zZ43
+	 n3TNZgpVdVZfutxgj71pVUoqvxbm3Qtjx5WKCCwz0ysxqmUJiObJ3lDFDr2OyvMhui67s
+	 XnfatNhX6J8+JKPd5nogXXAC+iGilP5pu8JqIXsOm2h1V+1icrIOHrG58ahq5RjR9lDIx
+	 XIGJPyKpigUyUgI2kKccrvGWifDwquzDGL1f6Tjd/14TUfBkoM5n4Hel2XkW84zDHfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792442832;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=i66f027a2fvWrHzOUQKFbeRuC5NYtmte7oNPdO77ZEM=;
-	b=iiwkh7YOBNjme3TF2MS/uOzeu06u6E4duuD7xq7R0geKLXSooxVtl3dGmjvRZ67kTwZX
-	 aM0dI9FQrJrwAfU6I8tBENQiATXG1U0o9+wRyYR4RaIkyRs2RF7wegnt6N3bx9MRPceDL
-	 HFRiw9tNVnKXxrgnDm+AXFplbJI9Fz2Dqq8CChNGlqR1q/EQMCwHV64WzCOfSzUclz8mG
-	 9YgXO3Pjg5slFmfqIxbK+k8NfMyXik6atJhpOkjsaHE8BFeGzOUpuysI+GLhk8WUdhNCd
-	 tj8lsrEmDrryW/Wi3ysTIAEymuoH/kNIz8hWYxvHs5bDH9UGkZPSO0Z3P7z5PHdm8NQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792443078;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zfW8vKVwAPFLCJpFfrgthdURXxETyav5wwNzczUFP3s=;
+	b=C+e3a2hTeZYtpC9I0TGoUyviYXQE8Ww2hpPMoblReTK5dpeWvdZ+79RiV/Y8+mgDWMYg
+	 A8SufojDC1dGZvP6krPV2ofinBbdUrXsLlERuYtomcaec3flj7d1MOa7pDoJ/yO56B+7E
+	 uvU8IBaCeZLBuHCdwX0ArZ6abu5XMfJ8pQYpoQkkefkxR3HaK7NDtONanZ4kyw2T80UQN
+	 kaxus/WLiIETGw26gsj5tvttw33rI7ucGP8Mz5bjclq9dWDWmOgr4nBY+lixkHho7R83n
+	 tdeOyEw7SAKr5Nd/pCoy3CqN7TaAliVhlvODDMipIlKjQBywcjNNXUxyrzHyRK9r8DQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="c85oB9L/";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bYfW8Uqb;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vmp6keEJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930A6606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 20:47:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 930A6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095D560A6F44;
+	Mon, 19 Oct 2026 20:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=c85oB9L/;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bYfW8Uqb
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69JJK8Ya2604978
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 20:47:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	i66f027a2fvWrHzOUQKFbeRuC5NYtmte7oNPdO77ZEM=; b=c85oB9L/ttWD3DI3
-	j5a1EP/lz73swN31wwZ/uAEcNqOxfohgnNNhIzuvLaNoy7yihUjx2XYAJa0NukA6
-	mVGsolWsAJoPzUs0ChV5hz3WQYY08WmKzu8bYyj1zzOQVJxAuYW25vmi/U8das7N
-	9diXIpQWC8e0ohwVC5gtziFLQJpFTpluPw7xjsUZklTNxzyIUAeZ7WNGRoL99b/m
-	KIM/20GLwpKKYnTm63gavifZ9lN04kbVCV+XXtHUznXjTPGrtRzeN1GExPTwxZ9X
-	qvnNO2W1Bb1DXc3s666eF5Ik21vURClCNhib6oxqdmJOwzVvMW681HdBaomykbqE
-	RAJIeA==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdr4a0kgx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 20:47:10 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-3580c07911eso7344735eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 13:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792442829; x=1793047629; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=i66f027a2fvWrHzOUQKFbeRuC5NYtmte7oNPdO77ZEM=;
-        b=bYfW8UqbC9equPYOWSY5/FdvXXgdJWAtGjb4lkLXygvFGy1NtoO+nRPKbFVKYXOnwH
-         lTNXyayE/E6a5iCSBbkyGQQWfKMNwAKnlFfdAtzU5yV7ztM+fpWXsPMvmOyQtomBthoc
-         nKR+Ee0lDrfG2M/aBWcr5glmA1KZSxiVi2i10ELxVY0HbLvJk6Yo35bt4Qp4hzALtzdL
-         b55ALeN0kyTtNW5JxkeSPNc0X8NS4ytq7VHFGDYWcbO5yU0HOq1mryHtq3Di3ZtjP8QJ
-         4Ze22RGIJbtMm0+aNFRQ9PCv+OI1g1HdtNuYOdk7Y4KFYDMHzj4c9xgdviqwZd2DlZsK
-         d2kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792442829; x=1793047629;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i66f027a2fvWrHzOUQKFbeRuC5NYtmte7oNPdO77ZEM=;
-        b=LP1qwK1OQ+rUP0izVhhtsaynXjC936HhaYnLLs5xIcu1nRB59fGwex6wCPlNlnMa/t
-         y0bHgjUyMm5f/aKAr4Nwry/uCIjW1ET9yb1BTMIs+8x1rh3xZ08TAz0sMr7946El6mcX
-         eqh69im5tMhsSOWG/saz24X3Go3PZe1+XGLBGyCjDwlddHwTMSmYj5d0vY2WHtTfS8cs
-         AQ4/vapHyjtvOvKVlQHHzK1TgI7LVb8Y0JPK5jlQVJunF2vkPg7pKiS7B8oM8EHR3eEd
-         u91j9ljS0ThVWkXhgBeHVOeeluZm1vo0RYPpHqXrhss2GXgTT/hmQw5FG+QdBH2JTVLu
-         uQhg==
-X-Forwarded-Encrypted: i=1; AKwUvBzh862KpNcs0+FKuqyesP/dsbIkB4J1tIh5UtUEZaDVsF7u9wMstRmn0iTWF+ADOtmsLvwCuyssUa8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJoLaAEAOpwBuvocrOXU9Ii86NVaddrtLxrHXzSojocW/xBQp/g
-	I83aHBT/izkVQi/KuZx8BvJm5UjM8ilQN2Nwh1kp9LQykol9mAUhsP0VXz93UkIlFo5dqNMI/ub
-	YamHOCYKqoQwK/EWNjA/rBIJyjmaB64aAGpqFVCadwYDBiw0fIfMalt2JH47Dge4=
-X-Gm-Gg: AYBFou03I97o7rx1kaKa520w25xv7333wENvfuWFHyFurlO/xeEnW6EZjcr8YsSA4oQ
-	+1SYJH6DOK9OBPkzrzQPJKtodC59Publ+Y7TNfjjKbFDyc7i3/vCmeDo3VzjcLuQH6KciSGIu46
-	JovlGJuma/L2Qam72EHuu1uyduPzDa0KPrVcJMLOGP4jXg711HcGp40WqOMVL517ptDWJdH81aW
-	mBJ6vpAtrwA2c/ci6FkyJ6uaf24Beue0JmRfWpglvQwfeMfvF88rnj6gLvrq9zFPhEEx9noRD/g
-	gkJ3oX3DD3SU4mooy/1Zibernz+yQE2aQKmbUTRSJm7wID4JC9rzrdAhtJbpUhu1prOnhO6zWN3
-	V7rc5VxpVInXcOmb5VueBlglGRFY/5Qzev0/sWni12g==
-X-Received: by 2002:a05:693c:4003:b0:351:6409:25c9 with SMTP id 5a478bee46e88-361a2942adbmr13915318eec.35.1792442829233;
-        Mon, 19 Oct 2026 13:47:09 -0700 (PDT)
-X-Received: by 2002:a05:693c:4003:b0:351:6409:25c9 with SMTP id 5a478bee46e88-361a2942adbmr13915262eec.35.1792442828380;
-        Mon, 19 Oct 2026 13:47:08 -0700 (PDT)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3607bc950f9sm38362321eec.0.2026.10.19.13.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 13:47:08 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:46:57 -0700
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
-        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-        usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v14 03/32] firmware: arm_scmi: Refactor
- __scmi_event_handler_get_ops helper
-Message-ID: <20261019134657.0000624a@oss.qualcomm.com>
-In-Reply-To: <20261016185553.2794459-4-cristian.marussi@arm.com>
-References: <20261016185553.2794459-1-cristian.marussi@arm.com>
-	<20261016185553.2794459-4-cristian.marussi@arm.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vmp6keEJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0811F000C5;
+	Mon, 19 Oct 2026 20:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792443077;
+	bh=zfW8vKVwAPFLCJpFfrgthdURXxETyav5wwNzczUFP3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Vmp6keEJklR0Umt8EXKRhsUO2hQfqfjmQ0Rmidhw9JbHI2lIHe8ajRRlhYME+5ebr
+	 hTa7EjQVgBwDbXJWhOmik/zYMOA1MRblF1etj7at3M8c3lnruXusHWZIh0th0SPoGj
+	 KT6Y6sMgTXkm46T2n9GNUGi3zfnHvnIN623q1M4OJt3H8u6IyegQXB1kBb4Ushu+qy
+	 ekTfFHKpiHMHjBdtKYYJi1yyLG2X/dzxt+Xt41otof9u+iKllVzEI2jMzengyzTMPP
+	 YMbzqPRHRJywt5mBy7qculoeJII5RIBwA5q7PakMjTA0U+T9tgqUqpDnSS//rabHmo
+	 CD0QspKsPHV0g==
+Date: Mon, 19 Oct 2026 10:51:16 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Ridong Chen <ridong.chen@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Hui Peng <benquike@gmail.com>,
+	Guopeng Zhang <guopeng.zhang@linux.dev>
+Subject: Re: [PATCH-next v4 0/9] cgroup/cpuset: Fix various housekeeping
+ check problems
+Message-ID: <ataCxJxYwg_uhS-j@slm.duckdns.org>
+References: <20261019181020.1069325-1-longman@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -131,116 +63,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDA4MiBTYWx0ZWRfX2sbdN9lS6cRj
- m0ZwZ7XAcNL+SNng/OVFof1JJKAJAbm4+0o8vjn080GZBgwax4aiokWBQODhsdRQvgG6Qt6Jgad
- BiVOEJUqfaTmfgIN7vbKb25kTeuLJcM=
-X-Authority-Analysis: v=2.4 cv=Zt54uN7G c=1 sm=1 tr=0 ts=6ad681ce cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=0wFYMLthbzNeuU8dIDoA:9 a=CjuIK1q_8ugA:10
- a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: RApB1Rv6iEr-R_cGQF0oZKRvr8QGhioC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDA4MiBTYWx0ZWRfX1rtIol4x0Upx
- YGzoXqUaH7qOrpOVcV7Lt5u7X5IAGwXYZFKyQ88g6cK88pbmcxFQyiNCwsNo1Yim5md7ySMyEDM
- RqfCku8ZgaB7zEH+BoFo8XHjhcYfAWuqkP2c9SB4KffuR9LpX9PL5VKNhD955kpKyHtmUPoWBXL
- jSenTtDUr6V1lyK9+ugE+MIqv7U9S3tl7RiWiAD2tEksC2CywOkoIog7Zu7PGJSzoz6dqACPI6X
- thBriCrQGhoJTAEtOw1iTKYsCkA+JG2Xlerxh8V60Vpmd2rCw88/s1nSLOna27ZAEQWWlCAh4cG
- aEK++dgSCiwUmt0RIIZ49bFBWhaUaoSBEsl76qTbbUhkB3ApyWLtKKzY5k6m/nqdFrKVA21Z8/Z
- OJz4R5Xdn106x6pzY7fo7CMrLoemWuJH6XOiD4vfrLpeXRN2UnU66xQrrvHfocVB11+0yvfn5Dt
- JAKOCzpgSY9zf5yq6FA==
-X-Proofpoint-GUID: RApB1Rv6iEr-R_cGQF0oZKRvr8QGhioC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-19_05,2026-10-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 phishscore=0 impostorscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190082
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019181020.1069325-1-longman@redhat.com>
 
-On Fri, 16 Oct 2026 19:55:24 +0100
-Cristian Marussi <cristian.marussi@arm.com> wrote:
-
-> Refactor the __scmi_event_handler_get_ops notification helper to simplify
-> its logic and make use of guards for locking.
+On Mon, Oct 19, 2026 at 02:10:11PM -0400, Waiman Long wrote:
+>  v4:
+>   - Adjust a number of patches to fix issues reported by Sashiko and
+>     Guopeng Zhang.
+>   - Add more test cases to test_cpuset_prs.sh to improve test coverage.
 > 
-> Mostly no functional change, in the sense that while the functionality
-> remained the same, a richer set of errors is returned where before was
-> always a -EINVAL.
-
-Maybe mention why scmi_allocate_event_handler() is now wrapped in
-an scmi_allocate_pending_event_handler()
-
-I like the change but beyond logical division of activities it
-isn't immediately obvious why that split exists.
-
-One really minor thing inline that I don't care that much about.
-
-Anyhow, both trivial so
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-
+>  v3:
+>   - https://lore.kernel.org/lkml/20261014140548.575122-1-longman@redhat.com
+>   - Further revise the code based on feedback from sashiko and
+>     reviewers.
+>   - Add a new fix patch which fixes a bug found during the testing process.
+>   - Add a patch to impose a new restriction that creating a child root
+>     partition under an isolated parent partition is not allowed.
 > 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
->  drivers/firmware/arm_scmi/notify.c | 73 +++++++++++++++++++-----------
->  1 file changed, 46 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-> index 7d1bb424a723..2bc2e03df639 100644
-> --- a/drivers/firmware/arm_scmi/notify.c
-> +++ b/drivers/firmware/arm_scmi/notify.c
-> @@ -890,7 +890,6 @@ void scmi_deregister_protocol_events(const struct scmi_handle *handle,
->  
->  /**
->   * scmi_allocate_event_handler()  - Allocate Event handler
-> - * @ni: A reference to the notification instance to use
->   * @evt_key: 32bit key uniquely bind to the event identified by the tuple
->   *	     (proto_id, evt_id, src_id)
->   *
-> @@ -903,8 +902,7 @@ void scmi_deregister_protocol_events(const struct scmi_handle *handle,
->   * Context: Assumes to be called with @pending_mtx already acquired.
->   * Return: the freshly allocated structure on Success
->   */
-> -static struct scmi_event_handler *
-> -scmi_allocate_event_handler(struct scmi_notify_instance *ni, u32 evt_key)
-> +static struct scmi_event_handler *scmi_allocate_event_handler(u32 evt_key)
->  {
->  	struct scmi_event_handler *hndl;
->  
-> @@ -914,8 +912,20 @@ scmi_allocate_event_handler(struct scmi_notify_instance *ni, u32 evt_key)
->  	hndl->key = evt_key;
->  	BLOCKING_INIT_NOTIFIER_HEAD(&hndl->chain);
->  	refcount_set(&hndl->users, 1);
-> -	/* New handlers are created pending */
-> -	hash_add(ni->pending_events_handlers, &hndl->hash, hndl->key);
-> +
-> +	return hndl;
-> +}
-> +
-> +static struct scmi_event_handler *
-> +scmi_allocate_pending_event_handler(struct scmi_notify_instance *ni,
-> +				    u32 evt_key)
-> +{
-> +	struct scmi_event_handler *hndl;
-> +
-> +	lockdep_assert_held(&ni->pending_mtx);
-> +	hndl =  scmi_allocate_event_handler(evt_key);
-> +	if (hndl)
-> +		hash_add(ni->pending_events_handlers, &hndl->hash, hndl->key);
-Trivial but I'd keep to a strict errors out of line
-	if (!hndl)
-		return NULL
+>  v2:
+>   - Update patches 2 and 3 to address bugs reported by sashiko.
+>   - Add a new test_cpuset_prs.sh patch to skip the test if some of the
+>     required CPUs are offline.
 
-	hash_add(ni->...
-	
-	return hndl;
+Can you ping me after -rc1 drops?
 
-It burns a few lines be saves a few brain cells.
+Thanks.
 
->  
->  	return hndl;
->  }
-
+-- 
+tejun
