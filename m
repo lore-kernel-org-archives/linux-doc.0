@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BF156DCCC;
-	Mon, 19 Oct 2026 13:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF18D5FC780;
+	Mon, 19 Oct 2026 14:02:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418286; cv=none; b=bVVCi79WI0CNj3x2pMcm+Ivf3vT7xpPPML54DEmtiIMtZ30vUJ9QDudB1Bk0rS+IFjXsv/r2WSQevYzh8zPWZqWXRCXk2qt1TKUgbYeVtNNF7OoqZO3ygYWc7KaZHr2rlGGZ7QQmQC7nyxuJvg3RQ+2mJWpLAiSxpoMQcaQ0Jr4=
+	t=1792418569; cv=none; b=Wbv0Jx10holXSqrLe82aKIgdRbrXFoFAw1OxzJDwJMPhBbNRuzd1pzZ3e+zIkdIeg1ZWWi+Quv33Rn0YxU19EIHbcF0MC5rWpipho8smOPBMifJEB0QfWxMcLAvTPeFFGTYNzs/X5h68VGmizw7oW4CJPFikMQ2zinX8HQF6IZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418286; c=relaxed/simple;
-	bh=3QGg+1T51XI+6ErIgq7haAN3iJcqq4509MpqRcj74Es=;
+	s=arc-20240116; t=1792418569; c=relaxed/simple;
+	bh=93xRt5SqTDeuO4zPLFVami2lPD1a5rffG1IebGHPqMg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qIKSOvXSdJLL/6G3nWE5fVb03TCr2MFy7iiw0MtGbx1I4fbo2uqRGGijx/KrXUizy1os8JahicfCT0FlhkNjpj8Nknk80Bwe1w7jSAOCdseWAgoANLs3zwHqepqgw8i/evko4JO4gFAiK318TxWK9W1VFmNs9hyEUxu1DykiYbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2lWsD3/; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=FUYuH6siLpBJBnObBG9BcEZpWonnEmPZccHoJ++nTNN221W0vtDLpM+XR+D562xALIRC46BSM2+XNkajG7qh4q95z26hrHrcfpBzlrHxeiwUOlKrM83J9T+lx+QR5i0KA7uiYAk8g7+Ipsjwb2Iowd/+713nfu/EIkQ4z8qbTHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ak8DZthQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2lWsD3/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C433F1F000C6;
-	Mon, 19 Oct 2026 13:58:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ak8DZthQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D1A1F000C6;
+	Mon, 19 Oct 2026 14:02:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418283;
-	bh=Dv3twa7zYOB3knqGrwOntSkkwfPWGCbTt5dOVIhc7Fc=;
+	s=k20260515; t=1792418566;
+	bh=xnMRlEbWMji5JvM0Y6k9F2Yr83rEUi+mlxkt5SalFyQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=l2lWsD3/9dHeUKkLyg+Z6WFUrxPIulOKlijIB69wU2fTw7mbnD0ceHmMy6CTOWqXv
-	 NxpOM9SDBm/HUsSBGDXGfmn4WvoM6lDD7How7yVRn12lcb+uDb7p7tZd4z2NRvtvZu
-	 IdQTJPqRcnHgPZZ7hzYOfphQGBgpkcwBwc6n9nyARAlswKmBmpC64+srtMQwJcXfsQ
-	 Ahd7IyUCF9+sJnuHyrM7o8Wfnxgm2//KAjhAsPYPLJcKdRBpCkTRwFW60CV6rU6zMc
-	 AUf1NEOc9VJ4SGbnBo695HH+pGwVBCHYH/vHxYr/f+7NTKXaMFpQbontv/0JZ0jN09
-	 TgbTaxKq7SKyw==
+	b=Ak8DZthQfV7UxlY0jDW5rwrqfp8aI/t4J+IcFWa6FBrHkImQSFd/qB/za0WCdhQWZ
+	 xBgAwmKGENXEZhUMXqXql6yJFDjvyqKw3XKrQmG2PzZHH5o/MbENTfJGpKt3RwCXD8
+	 5EVmbekqBO2D1n9oPZamGXQrnMyHg2Suz4VzmFStrDB7B5XgmrmSv69l8lE4vDyfzy
+	 LWFxgWN/xFUK8udKethalsC0RtmjQzrJeQRiE2hA2Xm55L3lAZxfOCnv8YKfdv6IQl
+	 FeDbRQJnTeIlgtd9LS6hTlWK+3yVhJ9QWPR6R8EsMlqDTXMm+SMXVPQrzfoxLV9erY
+	 Nxlw+en1BD6HA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jenson Johnathon Reggentin <mail@jregg.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+Cc: Zhe Liu <liuzhe1@kylinos.cn>,
+	Tao Cui <cuitao@kylinos.cn>,
+	Tejun Heo <tj@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	axboe@kernel.dk,
-	linux-block@vger.kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	corbet@lwn.net,
+	cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] docs: block: fix dead http link in blk-mq.rst
-Date: Mon, 19 Oct 2026 09:47:09 -0400
-Message-ID: <20261019135441.1420968-138-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] docs: cgroup-v2: fix stale "io" controller introduction
+Date: Mon, 19 Oct 2026 09:50:30 -0400
+Message-ID: <20261019135441.1420968-339-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -55,378 +57,435 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jenson Johnathon Reggentin <mail@jregg.de>
+From: Zhe Liu <liuzhe1@kylinos.cn>
 
-[ Upstream commit b40a680ea4efe4ef2addada63e304a94d19500d1 ]
+[ Upstream commit 3345c7248a9e2a91cb9e2477c29af16881706f4f ]
 
-The current link http://kernel.dk/blk-mq.pdf leads to a 404 error page.
-https://www.kernel.dk/blk-mq.pdf leads to the correct document.
+The introductory paragraph for the IO controller still states that
+weight based distribution is "available only if cfq-iosched is in use"
+and that "neither scheme is available for blk-mq devices".  This text
+dates from when the cgroup v2 documentation was first written (2015)
+and was correct at the time, but is no longer accurate:
 
-v2 to add the missing www. prefix in the actual file change.
+  * cfq-iosched was removed in v5.0;
+  * blk-mq is now the only block I/O path, and both the absolute limit
+    scheme (io.max via blk-throttle) and the weight based scheme
+    (io.weight via iocost, or io.bfq.weight under BFQ) work on it;
+  * latency based protection (iolatency) and I/O priority (ioprio)
+    controllers have since been added.
 
-Signed-off-by: Jenson Johnathon Reggentin <mail@jregg.de>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Message-ID: <20260819192422.42189-1-mail@jregg.de>
+The rest of the section already documents io.weight, io.max,
+io.cost.{qos,model}, io.latency and io.prio.class correctly, so the
+introduction is the only part that contradicts them.  Rewrite it to
+reflect the current state.
+
+Signed-off-by: Zhe Liu <liuzhe1@kylinos.cn>
+Reviewed-by: Tao Cui <cuitao@kylinos.cn>
+Signed-off-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have the tree identity, the dead URL in-tree, review history, and a
-clean apply. Next I’ll finish call-site and stable-rule checks, then
-give the backport verdict.
+I have enough to decide: this is a docs-only correction of text that is
+already wrong in 6.12, and the rewrite matches features this tree
+actually ships.
 
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
 Step 1.1: PARSE THE SUBJECT LINE
-Record: `[docs: block:]` `[fix]` `[dead HTTP link in blk-mq.rst]` —
-documentation URL correction in the block multi-queue overview.
+Record: [docs / cgroup-v2] [fix] [rewrite the stale IO controller
+introduction so it no longer claims CFQ-only weights and no blk-mq
+support]
 
 Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- Signed-off-by: Jenson Johnathon Reggentin `<mail@jregg.de>` (author)
-- Acked-by: Randy Dunlap `<rdunlap@infradead.org>` (docs reviewer)
-- Signed-off-by: Jonathan Corbet `<corbet@lwn.net>` (docs maintainer,
-  applied it)
-- Message-ID: `<20260819192422.42189-1-mail@jregg.de>` (v2 submission)
+- Signed-off-by: Zhe Liu <liuzhe1@kylinos.cn> (author)
+- Reviewed-by: Tao Cui <cuitao@kylinos.cn>
+- Signed-off-by: Tejun Heo <tj@kernel.org> (cgroup maintainer; applied
+  the patch)
 - No Fixes: tag (expected)
-- No Reported-by / Tested-by / Reviewed-by on the committed form (v1 had
-  Reviewed-by: Md Haris Iqbal; that tag was not carried to v2)
-- No Cc: stable (expected; not a negative)
-- Ignore any pipeline “Upstream commit” / “Signed-off-by: Sasha Levin”
-  markers if present
+- No Reported-by / Tested-by / Link / Cc: stable
+- Ignore any pipeline-added Sasha Levin SOB / "[Upstream commit ...]"
+  markers; they are not evidence of selection
+
+Notable pattern: maintainer SOB plus a Reviewed-by; single standalone
+patch, not a series.
 
 Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- Bug: `http://kernel.dk/blk-mq.pdf` in the “Further reading” section
-  returns 404.
-- Symptom: readers of blk-mq documentation cannot open the canonical
-  blk-mq paper.
-- Fix: switch to `https://www.kernel.dk/blk-mq.pdf`.
-- v2 note: v1 used `https://kernel.dk/blk-mq.pdf` (missing `www.`),
-  which still 404’d / had a bad cert; v2 adds `www.`.
-- No kernel version range given; no crash/trace.
+- [Bug] Admin-guide intro for the cgroup v2 "io" controller still says
+  weight-based control needs cfq-iosched and that neither weight nor
+  limits work on blk-mq.
+- [Symptom] Operators reading the intro are told IO control does not
+  work on modern (blk-mq-only) kernels, which contradicts the rest of
+  the same document.
+- [Version info] Text written in 2015; cfq-iosched removed in v5.0; blk-
+  mq is now the only block path.
+- [Root cause] Documentation was never updated after CFQ removal and
+  after iocost / iolatency / ioprio / BFQ cgroup support landed. The
+  rest of the section already documents io.weight, io.max,
+  io.cost.{qos,model}, io.latency, and io.prio.class.
 
 Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a hidden runtime fix. It is exactly what it says: a
-documentation hyperlink correction. Not a leak/race/UAF disguised as
-cleanup.
+Record: Not a hidden runtime bug. It is an explicit documentation
+correction of obsolete, contradictory admin-guide text. No leak/race/UAF
+disguised as cleanup.
 
----
-
-## PHASE 2: DIFF ANALYSIS
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
 Step 2.1: INVENTORY THE CHANGES
 Record:
-- File: `Documentation/block/blk-mq.rst` — 1 line changed (`-1/+1`)
-- Functions: none
-- Scope: single-file, surgical documentation edit
+- File: `Documentation/admin-guide/cgroup-v2.rst` (+7 / -3, 10 lines
+  with context)
+- Functions modified: none (prose only)
+- Scope: single-file surgical documentation rewrite of one introductory
+  paragraph
 
 Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
-- Before: RST link target `http://kernel.dk/blk-mq.pdf`
-- After: RST link target `https://www.kernel.dk/blk-mq.pdf`
-- Path affected: documentation “Further reading” only; no execution path
+- Before: "weight based distribution is available only if cfq-iosched is
+  in use and neither scheme is available for blk-mq devices."
+- After: Absolute BPS/IOPS limits via blk-throttle on all devices;
+  proportional weight via iocost (`CONFIG_BLK_CGROUP_IOCOST`) and BFQ
+  (`io.bfq.weight` when BFQ is the device scheduler); also iolatency
+  (`CONFIG_BLK_CGROUP_IOLATENCY`) and ioprio
+  (`CONFIG_BLK_CGROUP_IOPRIO`).
+- Path affected: documentation readers only; no kernel execution path.
 
 Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: Not a memory-safety/locking/refcount bug. Category:
-documentation correctness (dead external URL). Mechanism: site now
-requires HTTPS + `www.` hostname.
+Record: [Logic / correctness in documentation] The intro describes
+2015-era CFQ/legacy-request_fn constraints that do not exist in this
+tree. Not a memory-safety, locking, or refcount bug.
 
 Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- Obviously correct once v2 uses the working URL.
-- Minimal; no unrelated edits.
-- Regression risk: none at runtime. Residual risk is only that the
-  remote host could move again (same class of risk as any external
-  link).
-- v1 was wrong (Randy Dunlap reported continued 404 / bad SSL);
-  committed v2 addresses that.
+- Obviously correct relative to this tree: CFQ is gone, blk-mq is the
+  I/O path, and the named configs/files exist.
+- Minimal: one paragraph, no unrelated edits.
+- Regression risk: none at runtime. Residual docs risk is only if the
+  new sentence were wrong; it matches `block/Kconfig`,
+  `block/Kconfig.iosched`, and the later IO sections of the same file.
+  `io.bfq.weight` is documented in `Documentation/block/bfq-
+  iosched.rst`, not in the cgroup-v2 interface-file list; that is
+  consistent with the intro pointing at BFQ's own cgroup support.
 
-Verified live:
-- `http://kernel.dk/blk-mq.pdf` → 404
-- `https://www.kernel.dk/blk-mq.pdf` → PDF retrieved (51.5 KB)
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
 Step 3.1: BLAME THE CHANGED LINES
-Record:
-- Introduced in `46e906144c3f4b` (“docs: block: Create blk-mq
-  documentation”, André Almeida, 2020-06-19)
-- First appeared: `v5.9-rc1` (`git describe --contains` →
-  `v5.9-rc1~150^2~141`)
-- Present in this tree for the entire 6.12 lifetime
+Record: Stale paragraph introduced by `6c2920926b10e8` ("cgroup: replace
+unified-hierarchy.txt with a proper cgroup v2 documentation", Tejun Heo,
+2015-11-16). Present since cgroup v2 docs were written. Converted to rST
+by `633b11bee40c37` (2017) without changing that claim. `git merge-base
+--is-ancestor 6c2920926b10e8 HEAD` succeeded.
 
 Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. The introducing commit is the original
-documentation add, not a later regression in C code.
+Record: No Fixes: tag. Not applicable. The "bug" is long-lived stale
+documentation, not a later functional regression.
 
 Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record (this tree, `-- Documentation/block/blk-mq.rst`):
-- `41bd33df4e180` docs: correct places → place
-- `c19430eec84f7` Fix small typo
-- `2bc602cb0e0d9` correct drive → driver
-- `8ac867340bd8c` / `9303c9d5e9883` Sphinx `:c:type` cleanup
-- `46e906144c3f4b` create the file
-No later URL rewrite in this checkout. Standalone; not patch X/Y of a
-functional series.
+Record: Recent `cgroup-v2.rst` changes in this tree are unrelated
+(writeback folio conversion, mm/zswap docs, cgroup-for-6.12 merge). No
+prerequisite refactor of the IO intro. Standalone one-patch change (b4:
+v1 only, not patch X/Y).
 
 Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: `git log --author="Jenson Johnathon Reggentin"` /
-`mail@jregg.de` on this tree: no hits. One-off docs contributor, not the
-block maintainer. Applied by Jonathan Corbet; Acked-by Randy Dunlap.
+Record: Zhe Liu has this one commit on `origin/master` for this file.
+Tejun Heo (cgroup maintainer) applied it. Tao Cui reviewed and corrected
+the CFQ-removal version in the commit message from v4.12 to v5.0.
 
 Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: No new helpers, structs, or APIs. The hunk matches the current
-file byte-for-byte. Can apply standalone.
+Record: No code-structure dependencies. The rewrite only names
+controllers/configs that already exist in 6.12 (`BLK_CGROUP_IOCOST`,
+`BLK_CGROUP_IOLATENCY`, `BLK_CGROUP_IOPRIO`, `BFQ_GROUP_IOSCHED`,
+`BLK_DEV_THROTTLING`). Can apply standalone. `git show 3345c7248a9e2 |
+git apply --check` succeeded at offset -172 lines.
 
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
 Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `b4 mbox 20260819192422.42189-1-mail@jregg.de` saved 12-message thread
-  (lore HTTP 403 from WebFetch; b4 succeeded).
-- v1: `https://kernel.dk/blk-mq.pdf` (no www)
-- v2 (applied): `https://www.kernel.dk/blk-mq.pdf`
-- Randy Dunlap: v1 still 404 + invalid SSL; confirmed `www.` works;
-  Acked-by on v2; asked changelog-after-`---` nit
-- Haris Iqbal: Reviewed-by on v1; spotted missing `www.`
-- Jonathan Corbet: asked for a version that actually works; applied v2
-  (“Applied, thanks.”)
-- No NAK. No reviewer asked for Cc: stable.
-- Included in Corbet’s `[GIT PULL] Documentation stragglers for 7.3`
-  (`docs-7.3-2`), described as late-arriving docs fixes, not a stable-
-  critical runtime fix.
-- Syzbot CI skipped both versions: “AI determined the patch has no
-  functional impact”
+- Commit: `3345c7248a9e2a91cb9e2477c29af16881706f4f` (not an ancestor of
+  this HEAD; `git merge-base --is-ancestor` exit 1)
+- b4 dig:
+  https://patch.msgid.link/20260810063535.327765-1-liuzhe1@kylinos.cn
+- Single v1 series; no v2/v3. Tejun applied v1 after fixing the CFQ
+  version in the changelog.
+- Reviewer feedback: Tao Cui, "cfq-iosched was removed in v5.0, not
+  v4.12 (f382fb0bcef4)". Otherwise "looks good." Reviewed-by added.
+- Tejun: "Applied to cgroup/for-7.3 with the cfq removal version in the
+  description corrected to v5.0"
+- No NAK, no stable nomination in the thread
+- Included in the v7.3 cgroup pull (`[GIT PULL] cgroup: Changes for
+  v7.3`)
+- Later `origin/master` text of this paragraph is unchanged; no follow-
+  up rewrite
 
 Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record (syzbot CI Cc + thread):
-- To/Cc: Jens Axboe, Jonathan Corbet, linux-block, linux-doc
-- Reviewers who spoke: Randy Dunlap (ack), Md Haris Iqbal (v1 r-b),
-  Jonathan Corbet (applied)
-- Block maintainer was copied; no Axboe reply in the 12-message thread
+Record (b4 dig -w): To/Cc included tj@kernel.org, hannes@cmpxchg.org,
+mkoutny@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, cgroups@,
+linux-doc@, linux-kernel@. Those are the cgroup maintainers plus linux-
+doc. Applied by Tejun Heo.
 
 Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No bugzilla/syzbot crash. Author observed a 404. Confirmed
-independently in this analysis.
+Record: No Reported-by, bugzilla, or syzbot. Author noticed the intro
+contradicting the rest of the same document. Severity from a reporter's
+perspective: documentation accuracy, not a crash.
 
 Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone. v1→v2 only to correct the hostname. No sibling
-functional patches required.
+Record: Standalone. Later cgroup-v2 doc commits on `origin/master`
+(misc.events, io.latency rotational, io.pressure, etc.) do not touch
+this paragraph and are not prerequisites.
 
 Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: lore.kernel.org/stable WebFetch returned 403. UNVERIFIED that
-stable@ discussed this specific URL. No evidence in the docs thread of a
-stable nomination or of a reason to exclude it.
+Record: lore.kernel.org/stable WebFetch returned HTTP 403. UNVERIFIED
+whether anyone already requested or rejected this on stable@. No
+evidence from b4 or lkml mirrors of a stable discussion.
 
----
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-Step 5.1: KEY FUNCTIONS
-Record: None. Only an RST hyperlink.
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: None. Documentation only.
 
 Step 5.2: TRACE CALLERS
-Record: N/A — not callable kernel code. Consumers are humans (and Sphinx
-HTML on kernel.org / distro doc packages).
+Record: N/A — no functions. Impact surface is readers of the cgroup v2
+admin guide (container/cgroup operators), not a call graph.
 
 Step 5.3: TRACE CALLEES
 Record: N/A.
 
 Step 5.4: FOLLOW THE CALL CHAIN
-Record: Not reachable from syscalls. User impact is documentation-only.
-kernel.org `v6.12` HTML is built from this tree, so the 404 is user-
-visible for people reading 6.12 docs.
+Record: N/A for kernel reachability. The misleading text is in the
+primary user-facing cgroup v2 document. Userspace does not "trigger" a
+bug; operators can be misled about whether io.max / io.weight work.
 
 Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: `kernel.dk/blk-mq` appears only in `Documentation/block/blk-
-mq.rst` in this tree. Other `kernel.dk` hits are emails/copyrights, not
-this PDF.
+Record: `cfq-iosched` in this tree's docs remains only in this stale
+intro (plus an unrelated historical RCU lockdep-splat example).
+`init/Kconfig` BLK_CGROUP help still mentions CFQ; that is a separate
+stale-help issue, not part of this patch.
 
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
 Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record:
-- `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`
-- `make kernelversion` / Makefile → **6.12.111**, branch `pending-6.12`
-- Line 142 of `Documentation/block/blk-mq.rst` still has
-  `http://kernel.dk/blk-mq.pdf`
-- `git merge-base --is-ancestor 46e906144c3f4b HEAD` → yes
-- Bug introduced v5.9-rc1 (2020); present here
+Record: Yes. Local tree is **6.12.111** (`pending-6.12`, `git describe
+HEAD` = p-6.12-3-gc504cf0baa3d8). Stale text is at `Documentation/admin-
+guide/cgroup-v2.rst` lines 1834–1838. Features the rewrite describes are
+present:
+- CFQ source `block/cfq-iosched.c` absent; removed by `f382fb0bcef4`
+  (ancestor of HEAD)
+- iocost: `block/blk-iocost.c`, `CONFIG_BLK_CGROUP_IOCOST`
+  (`7caa47151ab2e`, ancestor)
+- iolatency: `block/blk-iolatency.c` (`d70675121546c`, ancestor)
+- ioprio: `block/blk-ioprio.c` (`556910e39249d`, ancestor)
+- blk-throttle: `CONFIG_BLK_DEV_THROTTLING`
+- BFQ cgroup: `CONFIG_BFQ_GROUP_IOSCHED`, `io.bfq.weight` in
+  `Documentation/block/bfq-iosched.rst`
+- Same file already documents io.cost.*, io.weight, io.max, io.latency,
+  io.prio.class
 
 Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Surrounding hunk is identical to the patch context. Expected
-apply: **clean**. `git log v6.12..HEAD -- Documentation/block/blk-
-mq.rst` is empty (no conflicting stable edits).
+Record: Clean apply with hunk offset -172 (upstream intro at ~1988; this
+tree at ~1833). Surrounding Memory Ownership / IO Interface Files
+context matches. Difficulty: clean apply.
 
 Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: Replacement URL not present. No alternate rewrite of this link.
-Comparable docs-link backports **do** exist after v6.12 in this tree,
-e.g.:
-- `b23111ec50d86` `docs: hwmon: fix link to g762 devicetree binding`
-- `a7f28636da6f9` `docs: media: update location of the media patches`
-  (explicit Cc: stable)
+Record: `git log --grep='stale "io" controller'` and `--grep='cfq-
+iosched'` on this file: empty. No equivalent fix in this checkout. `git
+merge-base --is-ancestor 3345c7248a9e2 HEAD` failed.
 
----
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: [Documentation / cgroup v2 admin-guide] Criticality: IMPORTANT
+for operators (the user-facing contract for cgroup IO), PERIPHERAL for
+kernel runtime (no code change). MAINTAINERS: CONTROL GROUP, Tejun Heo
+et al., file `Documentation/admin-guide/cgroup-v2.rst`.
 
-Step 7.1: SUBSYSTEM AND CRITICALITY
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: cgroup-v2.rst still receives interface-doc updates. The IO intro
+itself has been untouched since 2015. Mature, long-stale paragraph
+rather than a bug in brand-new code.
+
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Anyone reading the cgroup v2 IO intro on 6.12 (container hosts,
+systemd/cgroup users, Kubernetes node kernels). Not a
+runtime/config/platform subset. No kernel code path changes.
+
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Reading the admin guide. Common for operators enabling IO
+control. Not a race; not triggerable as a crash by unprivileged users.
+
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: [Failure mode] Contradictory, obsolete documentation: claims IO
+weight/limits do not work on blk-mq, i.e. on essentially all 6.12 block
+devices. [Severity] LOW as kernel runtime; the rest of the same chapter
+already describes working interfaces. The harm is misleading operators,
+not oops/corruption/deadlock.
+
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
 Record:
-- Subsystem: Documentation for the block layer (`Documentation/block/`,
-  MAINTAINERS: BLOCK LAYER, Jens Axboe; docs tree via Corbet)
-- Criticality of **blk-mq itself**: IMPORTANT (common block I/O)
-- Criticality of **this change**: documentation-only, not the I/O path
+- Benefit: medium for documentation accuracy of a widely used
+  controller; the intro currently tells 6.12 users the opposite of
+  reality.
+- Risk: very low (docs-only, 7 insertions / 3 deletions, apply-check
+  clean).
+- Ratio: high benefit-to-risk for a documentation exception; no runtime
+  regression vector.
 
-Step 7.2: SUBSYSTEM ACTIVITY
-Record: `Documentation/block/` is mature; this file’s last change in-
-tree is a 2023 typo fix. The URL has been wrong/stale for years; the
-site layout change is what made `http://kernel.dk/...` a hard 404.
-
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-Step 8.1: WHO IS AFFECTED
-Record: Anyone reading in-tree or generated blk-mq docs (developers,
-distro doc packages, kernel.org HTML for 6.12). Not a
-runtime/driver/config population.
-
-Step 8.2: TRIGGER CONDITIONS
-Record: Opening the “Further reading” PDF link. Common for people
-studying blk-mq; never triggered by unprivileged syscalls. Not a race.
-
-Step 8.3: FAILURE MODE SEVERITY
-Record:
-- Failure: HTTP 404 / cannot open the referenced paper
-- Severity: **LOW** (incorrect documentation, no crash/corruption/hang)
-- No kernel oops, leak, or security effect
-
-Step 8.4: RISK-BENEFIT RATIO
-Record:
-- Benefit: working further-reading link in 6.12 docs; small but real for
-  doc users
-- Risk: **very low** (one RST URL; no code, locks, APIs)
-- Ratio: favorable *if* documentation corrections are in scope; not a
-  stability win
-
----
-
-## PHASE 9: FINAL SYNTHESIS
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
 Step 9.1: COMPILE THE EVIDENCE
+FOR:
+- Stale intro is present in this 6.12 tree and is factually false here
+  (CFQ gone since v5.0; blk-mq-only; iocost/iolatency/ioprio/BFQ all
+  present).
+- Same document already documents the working interfaces; the intro is
+  the part that contradicts them.
+- Small, obviously correct, maintainer-applied (Tejun Heo), Reviewed-by
+  Tao Cui.
+- Applies cleanly.
+- Zero runtime risk.
+- Documentation/comment fixes are an allowed stable exception.
+- This pending-6.12 tree already carries other `docs:` backports under
+  `Documentation/admin-guide/`.
 
-FOR backporting:
-- Dead link is real (404 verified); replacement URL works
-- One-line, obviously correct v2 after review
-- Docs maintainer applied it; Randy Dunlap Acked-by
-- Buggy line exists in this 6.12.111 tree since v5.9; applies cleanly
-- User-facing exception: documentation/comment fixes with zero runtime
-  regression
-- This same 6.12 tree already took other documentation link-location
-  fixes
-
-AGAINST backporting:
-- Not a crash, deadlock, corruption, UAF, or security bug
-- Official rule 3 (“important issue”) is not met in the runtime sense
-- No functional kernel impact (syzbot CI skipped it for that reason)
-- No Cc: stable; landed as docs-7.3 stragglers, not a hotfix
-- Stable rules also discourage purely trivial edits; this is adjacent to
-  that class
-- Benefit is only to documentation readers, not production uptime
+AGAINST:
+- Not a crash, UAF, deadlock, corruption, or security hole.
+- No user report / syzbot / Cc: stable (absence of Cc: stable is
+  expected and not a negative).
+- Later sections already describe the real interfaces, so a careful
+  reader can recover.
+- `stable-kernel-rules.rst` also says no trivial-without-benefit
+  changes; this is more than spelling, but it is still docs-only.
 
 UNRESOLVED:
-- Could not fetch lore.kernel.org or lore stable search via WebFetch
-  (403); thread recovered via b4
-- Commit SHA is not in this checkout’s `master` (that tip is ~7.2; patch
-  went in docs-7.3-2)
+- lore.kernel.org/stable search HTTP 403; no confirmed stable@ thread.
 
-Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **PASS** — v2 URL verified; Acked-by +
-   maintainer apply
-2. Fixes a real bug that affects users? **PASS** — 404 in
-   shipped/generated docs, not a runtime bug
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — matches Kconfig and the rest
+   of the same document; reviewed and applied by the cgroup maintainer.
+2. Fixes a real bug that affects users? **PASS** (documentation bug) —
+   the intro is wrong for every 6.12 blk-mq system.
 3. Important issue (crash, security, corruption, deadlock)? **FAIL** as
-   runtime severity; **LOW** doc defect only
-4. Small and contained? **PASS** — 1 line, one file
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — context identical, URL still
-   old
+   a runtime severity; **PASS** under the documentation exception
+   (incorrect admin-guide, not a spelling nit).
+4. Small and contained? **PASS** — 10 lines, one file.
+5. No new features or APIs? **PASS** — describes existing 6.12
+   interfaces only.
+6. Can apply to the local tree? **PASS** — `git apply --check`
+   succeeded.
 
-Step 9.3: EXCEPTION CATEGORIES
-Record: **Documentation fix** (incorrect/obsolete external link). That
-exception is why a LOW-severity, zero-runtime patch can still be
-appropriate for this tree.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: **Documentation fix** (incorrect/obsolete admin-guide text).
+That exception applies. Not a device-ID, quirk, DT, or build fix.
 
-Step 9.4: DECISION
-The change does not stabilize running 6.12 systems, but it is a
-contained, verified correction of documentation this tree still ships,
-with no regression surface and with precedent for similar doc-link
-backports here. That matches the documentation exception, not a “new
-feature” or refactor.
+Step 9.4: MAKE YOUR DECISION
+This should be backported to **this** 6.12 tree. The buggy paragraph is
+here, the features the new text describes are here, the patch applies,
+and runtime risk is zero. Stable rules allow documentation corrections
+of incorrect material; this is not a feature add and not a whitespace
+cleanup.
 
-What it solves for stable users: kernel.org / distro HTML for 6.12
-currently points “Further reading” at a 404; after backport it points at
-Jens Axboe’s actual blk-mq PDF.
+What it solves for stable users: the cgroup v2 admin guide currently
+says weight-based IO control needs CFQ and that neither weights nor
+limits work on blk-mq. On 6.12 that is false for all block devices and
+contradicts io.max / io.weight / iocost / iolatency / ioprio in the same
+file.
 
-Risk vs benefit: negligible risk, modest doc benefit. No dependencies or
-backport rework.
+Risk vs benefit: documentation-only, surgical, maintainer-acked; benefit
+is correcting the primary operator document for a common container
+feature.
 
----
+Concerns: none on apply or prerequisites. Not a crash-class fix;
+accepted because it is a contained docs correction of still-present
+stale text.
 
-## Verification
-- [Phase 1] Tags: author SOB, Randy Dunlap Acked-by, Jonathan Corbet
-  SOB, Message-ID v2; no Fixes/Reported-by/Cc-stable
-- [Phase 2] Diff: single RST URL `http://kernel.dk/blk-mq.pdf` →
-  `https://www.kernel.dk/blk-mq.pdf`
-- [Phase 2] WebFetch: old URL 404; new URL returns the PDF
-- [Phase 3] `git blame` line 142: `46e906144c3f4b` (2020); `git describe
-  --contains` → v5.9-rc1
-- [Phase 3] `git merge-base --is-ancestor 46e906144c3f4b HEAD` succeeded
-- [Phase 3] Author has no other commits in this tree; file history is
-  typo/Sphinx-only
-- [Phase 4] `b4 mbox`: 12-message v1/v2 thread; Randy caught v1 404/SSL;
-  Corbet applied v2
-- [Phase 4] LKML pull: included in Documentation stragglers for 7.3
-- [Phase 4] Syzbot CI: skipped, no functional impact
-- [Phase 4] UNVERIFIED: lore.kernel.org/stable search (HTTP 403)
-- [Phase 5] No functions/callers; only docs consumers
-- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; kernelversion
-  6.12.111; dead URL still at blk-mq.rst:142
-- [Phase 6] Apply would be clean; no post-v6.12 edits to this file
-- [Phase 6] Precedent: `docs: hwmon: fix link to g762...` and `docs:
-  media: update location...` already in this 6.12 tree
-- [Phase 8] Failure mode: documentation 404, severity LOW; runtime risk
-  none
+Verification:
+- [Phase 1] Parsed tags: SOB Zhe Liu, Reviewed-by Tao Cui, SOB Tejun
+  Heo; no Fixes/Reported-by/Cc: stable
+- [Phase 1] Body: stale 2015 CFQ/blk-mq claims; cfq removed v5.0
+- [Phase 2] Diff: `Documentation/admin-guide/cgroup-v2.rst` +7/-3, IO
+  intro only
+- [Phase 3] `git describe HEAD` / `make kernelversion`:
+  p-6.12-3-gc504cf0baa3d8, 6.12.111, branch pending-6.12
+- [Phase 3] `git blame`: stale lines from `6c2920926b10e8` (2015);
+  ancestor of HEAD
+- [Phase 3] `git merge-base --is-ancestor 3345c7248a9e2 HEAD`: not in
+  this tree
+- [Phase 3] CFQ removal `f382fb0bcef4` is ancestor; no `block/cfq-
+  iosched.c`
+- [Phase 3] iocost `7caa47151ab2e`, iolatency `d70675121546c`, ioprio
+  `556910e39249d` are ancestors
+- [Phase 3] `git apply --check` of 3345c7248a9e2: hunk succeeded at 1833
+  (offset -172)
+- [Phase 4] b4 dig -c 3345c7248a9e2: msgid
+  20260810063535.327765-1-liuzhe1@kylinos.cn
+- [Phase 4] b4 dig -a: v1 only
+- [Phase 4] b4 dig -w: cgroup maintainers + linux-doc on the original
+  To/Cc
+- [Phase 4] lkml/openwall: Tao Cui v5.0 correction; Tejun applied to
+  cgroup/for-7.3; no NAK
+- [Phase 4] origin/master still has the rewritten paragraph; no later
+  rewrite
+- [Phase 4] lore.kernel.org/stable: HTTP 403, UNVERIFIED
+- [Phase 5] No functions/callers; docs-only
+- [Phase 6] Stale text at lines 1834–1838 of this tree's cgroup-v2.rst;
+  io.cost/io.weight/io.max/io.latency/io.prio.class already documented
+  below
+- [Phase 6] `CONFIG_BLK_CGROUP_IOCOST`, `IOLATENCY`, `IOPRIO`,
+  `BFQ_GROUP_IOSCHED`, `BLK_DEV_THROTTLING` exist in this tree
+- [Phase 7] MAINTAINERS CONTROL GROUP: Tejun Heo; file listed
+- [Phase 8] Failure mode: misleading admin-guide, severity LOW runtime /
+  docs exception
+- UNVERIFIED: whether this SHA was already discussed on stable@
 
 **YES**
 
- Documentation/block/blk-mq.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/cgroup-v2.rst | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
-index fc06761b6ea90..2798761efe0d6 100644
---- a/Documentation/block/blk-mq.rst
-+++ b/Documentation/block/blk-mq.rst
-@@ -139,7 +139,7 @@ completed.
- Further reading
- ---------------
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index edcd125d6992f..a62505e55dd07 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1959,9 +1959,13 @@ IO
  
--- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <http://kernel.dk/blk-mq.pdf>`_
-+- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <https://www.kernel.dk/blk-mq.pdf>`_
+ The "io" controller regulates the distribution of IO resources.  This
+ controller implements both weight based and absolute bandwidth or IOPS
+-limit distribution; however, weight based distribution is available
+-only if cfq-iosched is in use and neither scheme is available for
+-blk-mq devices.
++limit distribution.  Absolute BPS and IOPS limits are enforced by
++blk-throttle and apply to all devices, while weight based proportional
++distribution is provided by the iocost cost model controller
++(CONFIG_BLK_CGROUP_IOCOST) and, when the BFQ I/O scheduler is in use
++for a device, by BFQ's own cgroup support.  Latency-based protection
++(CONFIG_BLK_CGROUP_IOLATENCY) and I/O priority assignment
++(CONFIG_BLK_CGROUP_IOPRIO) are also available.
  
- - `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
  
+ IO Interface Files
 -- 
 2.53.0
 
