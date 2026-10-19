@@ -1,149 +1,115 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682334DE724
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 12:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792413337; cv=pass; b=P+eRQrEaPB42RRve852vRuHRUc5bUTDd2faROp73tnD285nEk8SBupvsFfsg4qnn5T5FrfbS6N+2a0NEZwbO/hZDWVx0rvreQI5FL1qAl8/MHTA5kX/iE6zfHl+AEndllmhPwB0FjyDLu+l65Ze6ocpYVlrsuW9+k2VzXMb2j2Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792413337; c=relaxed/simple;
-	bh=h2JbWnV9rUc1EeFvFy7Tjt14h2irL2wrPatMAzjOJ7w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AnP4WxxsZ2aSRjZKDSYffhvMl9ydIyGp6+uCLf/9+nTUEacs+zpc9llwUIpIG7Inw+q7vUMnidEVwZvW+ATVrtSmMXmV1wMrHRYLr374ZZfubVOBoVmLpsw9rJp44YeQXKT7z/+hCtSY2dBHi4r5Q438fxECphq2exJOtNK+e2Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lTvgTBaM; arc=pass smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183944B923E
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 12:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792413397; cv=none; b=jYVrB2Bbissus+yHikRl8QyCGAix9jjClgqLO1Vlhn7bOYJymMsGnDJwf55lJ5Mzc8ulGOYvDcHBk4C2VJZqLzDCR8tsZj5xTAUZXLYwGVuxvE+vsEGtg7rSRvEf2296VIKAhQ4o1GolZU/+G0X9U5p/b5WVzwhT2X52i1E66TU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792413397; c=relaxed/simple;
+	bh=UKlFAIv61fd71VUwUM/FKMoaKXoEHin6opnNpKyBXpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4Tf5y61erbWfi2Xfmu0SuCZdNHjQcbip2qI45Y2Pa6EzaicrgfZXoLUozoUGtkuERuKm5AXLKEjldCXtmbeHWF7W42UnuIuthLG9VmYBMwbIl3HUieW/ZJ96vnUs23lHCYXhXRsa9Ypj8yuyJ6xH7Wsb/wrpTAfkLlkzuXcIZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4mjYjMq; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lTvgTBaM"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48afbd2c386so1000777f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 05:35:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792413323; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Fj0HgQbzE3WJ9/AXT9bhWtBZf5y95WhLgthNsLZbG1WchXizlWxBFIJNQJyyPWe84y
-         fAO1HZGgOk0p36aoD7SzpbLM++Md7ac//9r8EbDSL3sp48huRn/ok8dgwPK8HO3JmUfM
-         gqosVOjIVK5vdZkLvIC8g3UH/TkVXsvHwJjZDlpy1mByFGpJoIiapzGzcqqw9ySitoqE
-         dDuwqDPy+e6N0QGhygWRke00wNJt5Z06DnMnoaRz03/Gcw/IxzESwM8AOK7LRiK/y5gl
-         YgKM+SyP7zEt+1gl7Lr1g08BiyV7FolstVsCJloopK2MMQH9da6qN6BBOwo97vLMwcFD
-         1uZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=h2JbWnV9rUc1EeFvFy7Tjt14h2irL2wrPatMAzjOJ7w=;
-        fh=w/iQWR2cVny46EPMycjk3vH5pBPzRT/j4KEWEJalZgg=;
-        b=jid3heBUYot8i1PZ2jlF3QRxNKe1HVXVBgVQrlXWV1UrmHtuccylE9e4QkwIiWlcfK
-         hzSAfLN40w69HWhxT54hCqWRBfnUkbaShusQWrNZ33OAOpBwNFL4rFW5pUNntOBeI/nQ
-         Tw/Pf9qCT5SW75NSkmGiSTmpC1cPCD4Mt/bMaf8TGXfbshFAIIAbuhmy0YxIDCr/3unV
-         OoSpmwiB/UZRFVsYjV9sb/mThKR+1+NoSHHgtTvDUBx3Gfzr53qc5QJu1147Swy4zMDc
-         tP+/0nBAHBpCrMxGaBkAWqFqpucCj5z1rb2W2J+yFceHF8tGQQAs8VAfEZ6ZAmBKFQjm
-         NsUg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H4mjYjMq"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b167ffd132so3502142a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 05:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792413323; x=1793018123; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792413382; x=1793018182; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=h2JbWnV9rUc1EeFvFy7Tjt14h2irL2wrPatMAzjOJ7w=;
-        b=lTvgTBaMCa4ZKG4V6wMLE2eP/d7WRz7sxcNslCTgjSzmzn7wxfsLAZGIw2FIkasboh
-         06b5zxWkhCcKg2YQ4KLKKaPhfwT1CzyVn85Cg7RxE0qnE1K+OtJGicUqiByHoo2DPcKt
-         2MZpI48UuoaK0crE+VsMbkHty1XqZ7gVlt4mWpA6LyCC+L2frjakQ7a5Fi/T2csjqrEh
-         ISuIzLpLAdXyd0CjRA0x6B71oXWjsIYKJ9e1eCUT7bq2ndNSzQLNJ6/O5rYbDoyXnjvS
-         6a7gFPZ5kDLxZtpqMJsSRzaoHTtUbUNa0Tt5mcu2kJkczGE9B9wYjxPC2UpRQFDzgCNq
-         Rsdg==
+        bh=em0NrM2bDMBNAYsHZhxOy8+BDCr4wFVKc/N8ia9VJ7Y=;
+        b=H4mjYjMqUV/z+0JH+ng370uNm7gGmtJIjtxj6aI0TnV5wziionG2XVzoRLZwfEui8A
+         SMf3jSBZoBIfi8kpUTCPRLYO9yGoAGAILg1vJ9T2/N3KM1CLpFqkstwdm0Ko4ojjfP8u
+         hgKnZftpXDSkQnMYncDcDxDzsNOKbpo7IuKKh6SCFgEzcIGVrN3HaFpHv/8iyeAkJ32+
+         hAwK4bjTn9cGAnKVLfhGko/3RiD3jQ5scbt++k1OcY673v9Coi2+aEo9qYYOLKGsXWYL
+         s8Lz3BCI2c6Gor6qoUdqB6hSakahtg5+SFftsMTiBdY69y/zNu3nC3Wbk3PApHvZlW96
+         TNEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792413323; x=1793018123;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792413382; x=1793018182;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=h2JbWnV9rUc1EeFvFy7Tjt14h2irL2wrPatMAzjOJ7w=;
-        b=ok82v8jGQEGSTjwCJQlS8sewbXLkdapYii+lc2Q63d/kp66DCDjlI98/t4IMMhWkD5
-         K5sQS2HrH8AI+sZkeFdOe0hTKgR+pai1b4qgmnlyMbdTnTgFFzVgGeGgd+NyVGlankB+
-         wnYxWRCsCejlVNL4KtUyjUR8WuRmDuxFN+YvkKKSg6SNXIbbzGEKRPv+s/x6qWp3ksgC
-         Nbk+1CzaANmOTGmo0YWkPHkdIcSGEt3jce4RgsPBnNS5KvyIAAXV39yWWkSzu88V+nf+
-         DifHhXxjEM+Boog4CJ2lpaziLi+4etRohC26qv2sEGUFXmog4cYUHbbIR5fpREo+c7/V
-         qPoA==
-X-Forwarded-Encrypted: i=1; AKwUvBzBsPcQ3aTA366qRQ1Lfasc/U38NGwbePKzp8JkToNqx+UI1ZQ45TKOmWIsV/fSjijhJ/Z4qb71FoI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKJgTK71phq9ZNzRcLbh5e/JdNZVwWaXIuMpzAZo2JRzIHKb4H6
-	vUQZ7R5NMnhU9leSjrxCFlcBuJCvuxfPJuQbfO6Co9KmeikbEYqhM0oVjZgpWWlJuJ5bnKuMdQI
-	iUU8J+15G+5xNfj8Xr/OsF7Ev5rywBvg=
-X-Gm-Gg: AYBFou1LKzOSGGFLEgmEUOYOGsP3GvawqCJ7obcpSZQ02zGok5PD5DSkYtDp1F/HWMy
-	RU6RztMs/TXF/R7XUDUaxHpdN58u/eEn1i3JZ2I/MeQjm8OiYChq+Vt413ZJQZZfueRiWnNI72K
-	hHsHSXyViKQCeE1szfTkVDmhwNcqWoHu8g6jz7uZYgCBSKfe3guwesfpekson0S19XjKtxGbCYx
-	8/Kyf67zMrLAKe5N0M72ADOetUDNW73wCekMuz+hr+KMO3OmwT+mYpODZyAkPJrWLGYKmGIyN+D
-	WC9h6uHG5zmrTnBKNTH693cgZ+JEWFAYf6AmgbHWNzr7DeCfGbpUeGYzQN4JPVS1mb4ahbVlmNa
-	UsFT7W8quKZtBKFD55ZjW8th3mDU3BEiqltgAzduDwRxuH5vJXwprHm6NRCuI/Ujg0ANbGJ0=
-X-Received: by 2002:a05:6000:220b:b0:48d:ca32:e90f with SMTP id
- ffacd0b85a97d-48e07fb8457mr14720830f8f.55.1792413323141; Mon, 19 Oct 2026
- 05:35:23 -0700 (PDT)
+        bh=em0NrM2bDMBNAYsHZhxOy8+BDCr4wFVKc/N8ia9VJ7Y=;
+        b=zpT7ps192L+1oG9xGx4t/Yaj4I8qXY7d51yjE43CYlxYQhwkedc+dawD9QsYjextsu
+         Aesg6wO4Ijik2LX/f6uunfkJRukkVbyODNWia0rtRTSV8UT/lKSOfwvyXZVMfkooIYy3
+         hNKVeHc2HFUCWIWm6zDai95RoVxws5AHsSAHguD9qYqSrPEGpICiJlrbRs2TKoMl5hcm
+         chB9kWT3rtpy8JtkHOsZQDODU9IC0/JmpEN0962rnSZ7vKwjRHFKIYQV80pnaz4YZM6W
+         KGJ56QNxfvyy8apj/oE8kHeaA/bzNCas8i1aCoatCrWCwjvLrcMxSYPPI//ZX8RjF/wu
+         LTAg==
+X-Forwarded-Encrypted: i=1; AKwUvByMjYB6icOW9u4qhmak4bEiHfkR+w0t9C6g7b+au7Fh8CHicdlQjdKgMIA0IsRuFmsUZT3fjRne/fo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIyEIr3600vwL0VVaObbKqfPlMrCTBMENJXLnvXFKBwV2c72JVb
+	nfuNeCBF7Ib0e4J3blz2cU4SkvoF6dRhB62Z4Jz4fysEydmenWOBSG2x
+X-Gm-Gg: AYBFou24PsYtKciXx81J06y0hzIJKU4Ly2PlP4B5Pb7mZ9LsHK2Cj2VmM08WLWdcnFi
+	s3q+7XPGuw2Mvd/5U3O0DWh+XIARAEld+hGGbrlmmzT+74VAQ3glL8HD1Z6O6tk4LGMACq/G3eL
+	NC6ng2i9tEFZEfQ7BNBnIU0mzKhwlZhXcV9r1fJB1O2sD7u/rxeSvWLNZVHxrr8aWQaxVBcKl7y
+	jgGM5TFVt5GkwY2pezkAJzokI9lxJMLQJGFcf4m+6Q7wDJTvPGdmAdqy4z4sJ1OLoLxiZHYtlvM
+	V7WcZtEjOZ/+kqreF3oQlEuN8bhtTxyvfeg7Pq0zUV0Ffc6vG29ZbqNNebdRzOxO/mwVPhcctZK
+	nXkYFDyEs4v0YsefhNJUoUbqrPA6hZ3JG/YuL/3TZ/gAcBa0TxOVx4BJCZjAxrWo/hClHEr8wwL
+	qQx7z/6JMvwmbTcXcIurydWSCt4/+7VQhRc8n0lziOimE8OOctkowPfSsPOMCLcYucpwg=
+X-Received: by 2002:a05:6402:4551:b0:6b1:c355:c7b3 with SMTP id 4fb4d7f45d1cf-6b3a818633cmr3493949a12.25.1792413381456;
+        Mon, 19 Oct 2026 05:36:21 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b38a1e70c1sm3799334a12.30.2026.10.19.05.36.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 05:36:19 -0700 (PDT)
+Date: Mon, 19 Oct 2026 15:36:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] tools/vm: rename tools/vm to tools/mm
+Message-ID: <atYOvqkdVSgjXZVM@stanley.mountain>
+References: <20230103180754.129637-1-sj@kernel.org>
+ <20230103180754.129637-4-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
- <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <20261014195354.GA371161@cmpxchg.org>
- <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com> <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
-In-Reply-To: <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 19 Oct 2026 05:35:11 -0700
-X-Gm-Features: AclHuK-Ym9EzJ2CIcu1okawbU1UiB-xvQtvgaUvkzS7VoDFrSu5HhWBluHPj1QE
-Message-ID: <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230103180754.129637-4-sj@kernel.org>
 
-On Mon, Oct 19, 2026 at 5:28=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 10/19/26 14:24, Nhat Pham wrote:
->
-> I'm traveling this week, so it's a bit tricky. I cannot make Thursday mor=
-ning.
->
-> On Thursday I'll be traveling back from Cambridge. But hang on.
->
-> My plan lands on Oct 22, 11:10 PM. I should be home around Friday 1.30am =
-- 2am.
->
-> I could just naturally join that day.
->
-> So one day later would work for me.
+On Tue, Jan 03, 2023 at 06:07:52PM +0000, SeongJae Park wrote:
+> Rename tools/vm to tools/mm for being more consistent with the code and
+> documentation directories, and won't be confused with virtual machines.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/admin-guide/mm/idle_page_tracking.rst | 2 +-
+>  Documentation/admin-guide/mm/pagemap.rst            | 4 ++--
+>  Documentation/mm/page_owner.rst                     | 2 +-
+>  Documentation/mm/slub.rst                           | 2 +-
+>  Documentation/translations/zh_CN/mm/page_owner.rst  | 2 +-
+>  MAINTAINERS                                         | 2 +-
+>  mm/Kconfig.debug                                    | 2 +-
+>  mm/memory-failure.c                                 | 2 +-
+>  tools/{vm => mm}/.gitignore                         | 0
+>  tools/{vm => mm}/Makefile                           | 0
+>  tools/{vm => mm}/page-types.c                       | 0
+>  tools/{vm => mm}/page_owner_sort.c                  | 0
+>  tools/{vm => mm}/slabinfo-gnuplot.sh                | 0
+>  tools/{vm => mm}/slabinfo.c                         | 0
+>  14 files changed, 9 insertions(+), 9 deletions(-)
+>  rename tools/{vm => mm}/.gitignore (100%)
+>  rename tools/{vm => mm}/Makefile (100%)
+>  rename tools/{vm => mm}/page-types.c (100%)
+>  rename tools/{vm => mm}/page_owner_sort.c (100%)
+>  rename tools/{vm => mm}/slabinfo-gnuplot.sh (100%)
+>  rename tools/{vm => mm}/slabinfo.c (100%)
 
-Would that be too rushed for you? :)
+Is there a reason we left the tools/vm directory even though
+it's empy?  Is it for backwards compatability or something?
 
-For everyone's convenience, this would be the time slot:
+regards,
+dan carpenter
 
-PDT: Thu Oct 22, 5:00 PM
-EDT: Thu Oct 22, 8:00 PM
-Europe: Fri Oct 23, 2:00 AM
-China: Fri Oct 23, 8:00 AM
