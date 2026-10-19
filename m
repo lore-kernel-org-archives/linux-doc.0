@@ -1,216 +1,238 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2117.outbound.protection.partner.outlook.cn [139.219.146.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D88F4CF473;
-	Mon, 19 Oct 2026 11:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792410034; cv=fail; b=CztH8RNFWXKVCXSZp1GIQLOhtLHBHEirO8kaA9j0WYw6bI28007QqLA8B8XDAO6TwEzZQEvT7kEclPw1jOpVNGZBG/wgFF8CoABq65nBqvM5+YtEEElgLkOFpW9J37Nba3Vro+aq0UPiVWD9Ac4dugpbXvVj440z95FZFueNrdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792410034; c=relaxed/simple;
-	bh=OmgMQo1CZxuG6sD5lt5LhCPhQ5rdzOtN8tyswjc4PXk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QtInnVdeB1NkasTtOhWrO/FjGdxp+/i7GKDimV2il4BVBK/hIAg8KSFtjezbU7O5ZcRx+Gm2ZqUwYlihKY/XRrnaFb9IfMJ4XWn0GNM68wG78LwGyinH1ZsCbHSF2yJ7M3NuM+BJdJS6GVXY58olNlEKJho3LfasFdaRDk+1Wqs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UMzKqhc+Qqnu/4oK8V8AS+EKOVcXnpVnZ8/MlMn+/TfCHLcsiOXpadHPCd5tC/tRiXr16Gzf5UES8enUVMPWrsypNzk2JNXR4tibAXcU3n3d+4kNutbKTGfV3GJY0ngkzDSZCA5jxxHkzosm3dHkMdjSA2z4oPGGZ8t3FaF+FJq0bJBcfj9cjdTg0828lIqAB1LARmVJZc0wUf31DtwfFGDHORALhL1EUXg8vQfU6rYP4utHlcd2Dpa1XKXwqseFc9M/J0Iajfw8qDtYs/vcFdhCQrwwsvTLS0QsymwlVrt0/dDkrCXHNAI1hUXgdF7y3DZuZOCrfQuCVwKek+21CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=15hUMvN0PPzdUn/IJzzq8MDlV86NiVKJxdczp5axw50=;
- b=D/tjaPyz/BfaYrJqYYaGbH/qlUkQUGej72woBppudnab6ZlycMtJgssAOBJFcbg9A9VRi5TYl15LGs35AsVx0G1VRCUTv1AFV6A8mzoWCbBYIiD+J+5vCGljrTsfi83DmivB6ROfLJ5KpFNX42+hVF6uHdDZZSSQMt0og4EX2xwlQkAFGFhvfEFZWrmB6PGnrmMV22pTkb7UvO3lhceDjPNjef2mVjvqSlSNFNCf5HEXrtVN01K6ouzdDOL0D2vgdd8gzJTbPWwMxOUOX2AuUh4YwlT0Zh0NIr/ek5iTzc4HAvEZzvUSW6XmO/5hvx8OvYIvzNEkPvj5WgT/8kuqEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:17::6) by ZQ4PR01MB1204.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:14::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 10:07:03 +0000
-Received: from ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
- ([fe80::e7d4:256c:b066:850d]) by
- ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn ([fe80::e7d4:256c:b066:850d%4])
- with mapi id 15.21.0522.017; Mon, 19 Oct 2026 10:07:03 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Chia-Wei Wang <chiawei_wang@aspeedtech.com>,
-	Oskar Senft <osk@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Vitaly Lubart <lubvital@gmail.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Breno Leitao <leitao@debian.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	James Morse <james.morse@arm.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Dave Penkler <dpenkler@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dan Williams <djbw@kernel.org>,
-	Mukesh Rathor <mrathor@linux.microsoft.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Julian Braha <julianbraha@gmail.com>,
-	Karthikeyan KS <karthiproffesional@gmail.com>,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	openbmc@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v4 3/4] dt-bindings: soc: starfive: Add StarFive JHB100 UART routing
-Date: Mon, 19 Oct 2026 03:06:42 -0700
-Message-Id: <20261019100643.49099-4-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261019100643.49099-1-changhuang.liang@starfivetech.com>
-References: <20261019100643.49099-1-changhuang.liang@starfivetech.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: NT0PR01CA0011.CHNPR01.prod.partner.outlook.cn (10.2.10.20)
- To ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn (10.2.3.102)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3CD4AA3F4
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 11:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792410203; cv=none; b=uxkl+BhLFFASPZHBjIO2A5WZu0dpsU7tgnMtBXJmsy9GwiH0nLY03Z4LMo3kT9RpxkwOv882RT6PMaW+BKvCo7KlrB+qWerhtBGJ4F6rQ8BEbHhO1V2CdrOuGvulvCjtaEzitDgszH4UHTw73WqfCehf1LpBUSnAZOwnYUBNzSk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792410203; c=relaxed/simple;
+	bh=0h+fMlcy0nHUgqx0ZgNb3jSrGz0nmItuE/FyNlwIrZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZ0Ui6wH0vRWpvfqI1onVL1/RrYPB1U/rvrv5PbTnv1O2/JBPKE15ZgWPVyDZL1e4OET1ewsEgx3CfQEVxT4AUGZu2odExOj/aFJgB40WDZwDQBnzP/JSo+PF24oUXUQR+Y1S1TWzr+SYx2Y/rKwzs7oDOEeA+PLn4y8rS5lj1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oCnoYDeR; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCnoYDeR"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso21258845e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 04:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792410195; x=1793014995; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
+        b=oCnoYDeRKqohdjoF8yr1PWKPgjlJR2mynK3Kjw0YrYFdWEIOUbtfjYoSGPcg1BAe2H
+         1DY4sGaClDUz5ITMycr6otyeVliHy73RZe1F2S0imQfR//X654PXu+KRRG+qJn+5Imqd
+         AI33Mk3uXVl96Den2MWa9znDNxqIwXe+AS+Vy+TIJmqWia89kcDUkJ+2E7cAHexwmvfU
+         dipwrGtY7YZIj2CluWUoxjLZlVxTJH2o++eXf28eNuPS7eV3ygGea33WzNOs2I2NTARY
+         JPQiuAp0NTayS9tg69d+UFM9ZMAiJawDf3LxW0Jw0iS9e8G4fsWaO6r3/l/MWZdn3ryM
+         Q4ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792410195; x=1793014995;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
+        b=hbslPXaPkUgEMM3kzUszCn2SmuGHaEoOIjKHgReMr8OQdt8TM1kK02E6sTxngGaRU6
+         Y4sBDIG2dt6m3N/iRvYzlsbZ6ppGoiExYzqMYg6OTStG+rDZT53YSUFwgIddZLm78JrP
+         laEuNqy6vGb7+ELTCQKdu3s1Iy9bNfdPtMTChsYv3LqWdpBHaYFKnkMMEwxQ1n6tEe3h
+         sWMNJiG/f7Nn70LbuS9e9wuagR4+TtTV+mBpi/IwKbRe3ZgyJwc+DjrccNtwqfLFJ1SQ
+         smZYSKF/QDu7wRyNCh0rlszgts3lYza7oTnDqmLfAuMDsnLfZcvFtpnYuA+d23Mj+rpN
+         Mtgw==
+X-Forwarded-Encrypted: i=1; AKwUvByPtldrOntfQ7SFjm/RpZ5NWlDyBRcHZ2eha69n+nn6jaQVPqGJ4cR27i7vS5QV+vQApfyQuOpXo/0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIq2EJXi772kMCMbebVIiag2cnVwoYmtEoSGp8X/NVaim9jzczE
+	aE+sZ5To98cvZYVJwQZlPnPdHFvysLRYrjki+1OFX6uT44DTUL8tdQk5gUBETHW0NQ==
+X-Gm-Gg: AYBFou2X0VicOrXJxGDGx5OFQGnC+sHhC1s29Gb/hVx6kcrQvJqygUO7176JZ7JpUlh
+	ohLBiZWkBoZ1UmXV+50/dIyIkelqQlpZlV6ua2KvfvxL4Ra0UGDTpK6iyNz32mM0bmjQDVyWgpa
+	6LqLtJLOgUAh4QMDAfVqFa+ZoGYrtGc7lMlw7OS+btzxyPcWHUyi6cEmoUSnRpRONpyDtO9phOf
+	7ZoWDywzIezDzk52fBoyHiuWHohcl+lMvMyKlv/+X0foLbMibH7O+IY2w76xA7JCZI69n9A3zU0
+	FkY/A4GcS4ljAjosW9Q4IBKh5Bq4e2bp/WjWWPFJOKgb2ortWmUVV20ch4cfWU7pcott93XCNwQ
+	5Avdez4KsA9PaznFukTvubY9+Xrcn4NyJ6pIAfyvs4kkdkUs8jzyWPeZBZFBA3L2g8230n2q/SD
+	IPgIs9AqnLxvGjNrXmqijTJW3oGGBvS6xHVMcKP4gkNjoG+nPbZlD5WedbK8et+mF3JQ74f+WNp
+	ORqC1xj83kcmv878utQTd3RxXBMvFQ=
+X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr165269695e9.32.1792410194117;
+        Mon, 19 Oct 2026 04:43:14 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:d186:2d44:63ff:537f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e9423f20sm58112105e9.7.2026.10.19.04.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 04:43:13 -0700 (PDT)
+Date: Mon, 19 Oct 2026 13:43:04 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com,
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
+	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
+	ihor.solodrai@linux.dev, rdunlap@infradead.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, hyc.lee@gmail.com, miklos@szeredi.hu,
+	amir73il@gmail.com, senozhatsky@chromium.org,
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org,
+	matt@bobrowski.net, rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, john.johansen@canonical.com,
+	georgia.garcia@canonical.com, zohar@linux.ibm.com,
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com,
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp,
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com,
+	nanx95726@gmail.com, djwong@kernel.org, lujialin4@huawei.com,
+	bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev,
+	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com,
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <atYBVCIYE1zDb7do@google.com>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-10-caixinchen1@huawei.com>
+ <atI20Vs7Du9-g1Hz@zenbox>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ4PR01MB1202:EE_|ZQ4PR01MB1204:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5fad4be-8837-49da-931c-08df2dc8b953
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|52116014|18002099003|22082099003|3023799007|10067099003|261009223027099003|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	KJs/p4/WYcehR6w9dENBaKh4NPikvRIpEI7XKUmdd0E52jQVNFXekW+NHvLk9F0VzwRNORVba65RXAtTLDPnl2vU4U8cJZh3Vmr6d6raI6e6V9bU5VAJPgnse7qwPuFernhG2UdOCVbMiAFJfariqkPnjN80wyhXtMgQBM20MEOaOVjZXuFUoMA3Hbqu1RKiOuTVvQo2LT86BwbpfzgjVmOoMGF30HdjNn9/+/HO051Q+aHcR+JEIyZyyVTuCuyLA6oE/l5xiebjtGyUvfYPdO89VpD3HXxWqzo74YyGhJV1V3IN3dpXZXeFVQaF7QIz0OK1eNWggmFD+wESWG2aR+ZGRzuyCArMwAy8r1nyjaxIUXoBxoRJCJfeBdyrjLKcdusE/3dY8g9afvzJ8H7nRghCpG2AOSkmRZgelArp6dIaG6wVCaSaFK6rI5ePE72y6+9p8diQ+6IbmN/smzbjxFOGF7UHfrnhUDmo2xfnuB5yQacsT1zVMI+c/Cx2Ba0Fgmza5mkFea0i+t71uXng4HiYP8XhVKbS+eHQT1UW6DUib/o3GBsWXlg1KPjVkibS
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(52116014)(18002099003)(22082099003)(3023799007)(10067099003)(261009223027099003)(56012099006)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Q9ktnBLEEjSWHmS03DQJazSoPHtkstvI//g3gYU8F29Y05bnC10g01BDB4Xx?=
- =?us-ascii?Q?UoLMym602rZ63W82wRNRuixGTEGGRqvAy2ZXlHiFnqqV0ZGlLezxRRCdaCFE?=
- =?us-ascii?Q?6Uv7fFZ9iGB5+a40SMLdca43BIe7Hs/ou4J8Bx4us9w/U93hMk0971kv0EP4?=
- =?us-ascii?Q?yohMWNUq0uB/8RIPeJ3fjKZLkLmpYY5ZJaoOquB1BSQCfJmikBbWaCUc4eLa?=
- =?us-ascii?Q?5Y6O2Km8Xwf663iO1q2OIVLRW95Bipdd9Racd7KleOP0Out8vUMDjlu7nHiP?=
- =?us-ascii?Q?9Fpx7T5D9SHF7VFj1slcJmqT7w66p1k8CylY1uAS7WYY5PI0yE5vY/UOoJMV?=
- =?us-ascii?Q?4NLlPvGihP26UHNFNXIR7w4kg51WqSGwG964p39QwhK+VcUj3/1W/v11zLrH?=
- =?us-ascii?Q?uIg3Aw1J1A4/b4ykdQUV5i8+u2ZLExgtio9na6PvsHlSQlGGHQ4iUJyZVKOC?=
- =?us-ascii?Q?Nc1qa8FgP+O4mUBWm/cBw+ZDoed/fuBjhOlxLFMw7SZNdUrds7tUwaA5H7wS?=
- =?us-ascii?Q?BqrlICyqA2LefxWKYPl609o0izCt5yfYUJxBRsoFvofbkU6Xl5tnZCLHbuDm?=
- =?us-ascii?Q?aLKwqrtgfTIuQufN22PxcoQ6TQg9DADQ5Qh9SMuKRowlkcXQMNqHS/ZIu4NR?=
- =?us-ascii?Q?2RAYu+GAHzT+xfjx2Likl3YGBvylinXIhzc2cA6r6g2aUhKWm37kSHnwMMB4?=
- =?us-ascii?Q?t5sQsbMyGisOo1BT5TQlLH1Lf2Sx0v8vX5iUNgQvSnLLxRO1/pDsuSW9EuvG?=
- =?us-ascii?Q?D/Tp/eeOw1+vAUwcWCYaXOt2rx8IBuPbcvZmaRSCqeyoIXcI0yXDB/X7FRse?=
- =?us-ascii?Q?KJiXM5ADeT2WTlVkS3LBw6OPxrCUP5GCyED9HtsAOM7YRSSKSOEOouh75pIA?=
- =?us-ascii?Q?DN1CxNgly9I3lwS6JQaVZGFzp0gTg/0w+7oD8dwNQVJm099olZFACUBE9b10?=
- =?us-ascii?Q?ONQ3gvQwfpwSYmQex6NBn8nYu8vqK8xEKIGl1UI9vBrf2S5JjZ1Z4FkI/vTj?=
- =?us-ascii?Q?MAFO+dedEAtgFgocV6jHA047ida8woV9m/6Em4XB9ydwErELdR0av3w57gl7?=
- =?us-ascii?Q?5VJz68M0Cx/95wh/1xnnGHVmGUzUENOtv8iBFXlHg6SMCHCSdwLWMEGoyJZs?=
- =?us-ascii?Q?Qh763G2MnYYzmOStrbt/Dky+Lft7qPdXSM9uQteI8x2Mw8Fhgaq4cz5PVFZJ?=
- =?us-ascii?Q?0NEC77eZy5vP7XVf+GM76khTJxRJy8mveytMSmhkH7XlSSABqpEc35sToAmV?=
- =?us-ascii?Q?FPHYWJb8ax5ESl3kAnJ6fMmXgnsEbqC0IpVwBBP8LWBo04HCuPnKRnWrtSw/?=
- =?us-ascii?Q?tI0O3eV6i8W67KWUdKoK0QM6r/IJj2UvHobKge3zelS4DCvgF430xo81havo?=
- =?us-ascii?Q?JfQzHA0znPdi3vW7H4Dot2cFL6HZvY5n/U2DQBgxVBuOW2Ip0/UgniLewu/M?=
- =?us-ascii?Q?p9Qs/vNHJdcAeNJW/3VGQtbJx9JCLwSX2aYijhrIf3wHmFdkrAGaTzrItlQ4?=
- =?us-ascii?Q?Mcdx+t8J87NIhL1agQVuN4rbJE17EhI7S+ITWPCnSph/IqXsavVCVUxHD2/x?=
- =?us-ascii?Q?HkKiZ7lYcMM69vO09uxosWCk2572kt/jMz7wMEnY3pAn8eiqNRp7DHdiF+Sr?=
- =?us-ascii?Q?k6ruRUoNAGWxfA3mV+DymD3c2AEH+u//B6SA2VX141po9692P+69Wfk8PqQA?=
- =?us-ascii?Q?H1POF6hJkLwZdp6Pm7QsJTv8E4G7JOZQhGu55PLhnVlQbF5jjvyCQwOH6frn?=
- =?us-ascii?Q?PifiN0yhFwT/vOafp6gDId8hbfw1fAnVn2JP3OSdUCaMti6PJHh2?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5fad4be-8837-49da-931c-08df2dc8b953
-X-MS-Exchange-CrossTenant-AuthSource: ZQ4PR01MB1202.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 10:07:03.7437
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n/+XcDsnacamgFVMk8cprd97whYURy5I1VIpQaCRYkCX1TepMctlwvWxt6EgnhavPPpn8M3vMJeArsAhNlJW+7Ws59OoD+3EeuMZy9SZT8Lx9/629aDn25ZwEdPBwzgL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ4PR01MB1204
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <atI20Vs7Du9-g1Hz@zenbox>
 
-Add device tree binding for the StarFive JHB100 UART routing controller.
-This controller allows dynamic routing of inputs between built-in UARTs
-and physical serial I/O ports, enabling use cases such as Host <-> BMC
-communication via UARTs.
+Hello!
 
-The clocks property exists in the hardware, but the driver does not use
-it.
+On Fri, Oct 16, 2026 at 10:44:16AM -0400, Justin Suess wrote:
+> On Thu, Oct 15, 2026 at 08:54:15PM +0800, Cai Xinchen wrote:
+> > Add two new filesystem access rights to control file metadata access:
+> > 
+> > - LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata
+> >   (e.g. inode attributes, extended attributes and POSIX ACLs) through
+> >   stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+> >   friends, listxattr(2) and friends, and the POSIX ACL read
+> >   operations.
+> > - LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory
+> >   metadata through chmod(2) and friends, chown(2) and friends,
+> >   utimensat(2) and friends, setxattr(2) and friends, removexattr(2)
+> >   and friends, and the POSIX ACL set and remove operations.
+> > 
+> > This follows the coarse-grained grouping approach discussed in the
+> > mailing list [1], where file metadata operations are grouped by
+> > security relevance rather than by individual syscall.
+> > 
+> > Implement the two rights by hooking the inode_getattr,
+> > inode_file_getattr, inode_setattr, inode_file_setattr,
+> > inode_setxattr, inode_getxattr, inode_listxattr, inode_removexattr,
+> > inode_set_acl, inode_get_acl and inode_remove_acl LSM hooks, which
+> > now receive a struct path thanks to the preceding VFS and LSM
+> > refactoring.  The following system calls are now controlled:
+> > 
+> > - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
+> >   friends, listxattr(2) and friends, POSIX ACL reads, and the
+> >   chattr(1)/xfs_io style reads: ioctl(FS_IOC_GETFLAGS),
+> >   ioctl(FS_IOC_FSGETXATTR) and file_getattr(2) via inode_getattr,
+> >   inode_getxattr, inode_listxattr, inode_get_acl and
+> >   inode_file_getattr (READ_METADATA)
+> > - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
+> >   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
+> >   utime(2), setxattr(2) and friends, removexattr(2) and friends,
+> >   POSIX ACL set and remove, and the chattr(1)/xfs_io style writes:
+> >   ioctl(FS_IOC_SETFLAGS), ioctl(FS_IOC_FSSETXATTR) and
+> >   file_setattr(2) via inode_setattr, inode_file_setattr,
+> >   inode_setxattr, inode_removexattr, inode_set_acl and
+> >   inode_remove_acl (WRITE_METADATA)
+> > 
+> > Both new rights are added to ACCESS_FILE as they apply to both files
+> > and directories.
+> > 
+> > hook_inode_setattr only restricts explicit metadata changes, i.e. it
+> > checks WRITE_METADATA only when the ia_valid mask contains
+> > ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
+> > Metadata changes that the kernel performs implicitly, such as
+> > timestamp updates on write(2) or size changes on truncate(2), are
+> > therefore not restricted, and neither are chmod(2)/chown(2) calls
+> > that do not change any attribute (e.g. chown(2) with -1/-1, which is
+> > a no-op that never reaches the hook), matching the behavior of the
+> > SELinux inode_setattr hook.
+> > 
+> > Stacking filesystems forward fileattr operations to underlying inodes
+> > without calling the LSM hooks again (see the preceding patch), so a
+> > fileattr operation on an overlayfs file is checked once on the
+> > user-facing merged path and is not spuriously denied because of the
+> > kernel-side creator credentials used for the forward.
+> > 
+> > Kernel-internal accesses performed with override_creds() (e.g.
+> > overlayfs and cachefiles) are not affected because Landlock domains
+> > are attached to credentials, and kernel threads without a Landlock
+> > domain (e.g. nfsd and ksmbd) are not restricted either.
+> > 
+> > Remove stat(2), chmod(2), chown(2), setxattr(2) and utime(2) from the
+> > list of file-related actions that cannot be restricted yet, and add
+> > the names of the new rights to _LANDLOCK_ACCESS_FS_NAMES in
+> > include/linux/landlock.h, which is shared by audit records and trace
+> > events, so that denied accesses can be reported with a human-readable
+> > name and the static assertion on fs_access_strings in
+> > security/landlock/audit.c stays valid.
+> > 
+> > Increment the Landlock ABI version from 12 to 13, and update the ABI
+> > version check in tools/testing/selftests/landlock/base_test.c
+> > accordingly.
+> >
+> LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
+> the mechanic for the truncate right. Otherwise the access for already
+> opened file descriptors would be changed. See hook_file_open in
+> security/landlock/fs.c and this discussion here [1]
+> 
+> It should have clear documentation for this as well.
+> 
+> Justin
+> [1] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../soc/starfive/starfive,uart-routing.yaml   | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/soc/starfive/starfive,uart-routing.yaml
 
-diff --git a/Documentation/devicetree/bindings/soc/starfive/starfive,uart-routing.yaml b/Documentation/devicetree/bindings/soc/starfive/starfive,uart-routing.yaml
-new file mode 100644
-index 000000000000..5de809ab3a99
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/starfive/starfive,uart-routing.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/soc/starfive/starfive,uart-routing.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: StarFive JHB100 UART Routing Controller
-+
-+maintainers:
-+  - Changhuang Liang <changhuang.liang@starfivetech.com>
-+
-+description: |
-+  The StarFive JHB100 UART routing controller allows dynamic routing of the
-+  inputs for the built-in UARTs and the physical serial I/O ports.
-+
-+  This allows, for example, connecting the output of one UART to another
-+  UART, which can be used to enable Host <-> BMC communication over UARTs,
-+  e.g. to give the BMC access to the Host's serial console.
-+
-+properties:
-+  compatible:
-+    const: starfive,jhb100-uart-routing
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    uart-routing@11a42a00 {
-+        compatible = "starfive,jhb100-uart-routing";
-+        reg = <0x11a42a00 0x100>;
-+        resets = <&per0crg 74>;
-+    };
--- 
-2.25.1
+I agree with Justin here.
+
+Apart from what I said in [1], Justin and Mickaël pointed out this
+other aspect in which it is similar to *_TRUNCATE, in [2] and [3]:
+System calls like fstat(2) operate on an already-opened file
+descriptor, and the semantic that Landlock has so far been following
+for these is that the effective access rights for that file descriptor
+would be determined at the time of open(2) and stored in the opened
+struct file, just as it has been done for the *_TRUNCATE and
+*_IOCTL_DEV access rights in the hook_file_open() call which Justin
+points to above.
+
+That way, an already opened file acts as a handle for a "capability"
+(in the more general sense of the word), and the things you can do
+with that opened file don't change as the process enforces nested
+Landlock domains.
+
+Landlock's documentation describes this in
+https://docs.kernel.org/userspace-api/landlock.html#rights-associated-with-file-descriptors
+
+It feels that this would be in order for the *_METADATA rights as
+well?  Does this seem reasonable to you?
+
+(If you have arguments against that, I'm also more than happy to
+discuss, but we should make a conscious decision. :-))
+
+—Günther
+
+[1] https://lore.kernel.org/all/arurOphe6QIx2Zr8@google.com/
+[2] https://lore.kernel.org/all/arvjb0HJYh1KyEBB@suesslenovo/
+[3] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
 
