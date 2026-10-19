@@ -1,120 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792426557;
-	b=d0uBkeYVSKp7uGlvzCeVy6M2Lbcy6ASzCtUoIV2FnBN8Zrg/WDVqEGewtszlYYnuTZlI
-	 Z5OWOVvtkZGWlXIWuA7Lnem+K9NqPr7tU7jlzsVxZ19evsBhgOIcDpTc8wU77pYgoC7Zm
-	 sPG8sFonozcIuL0TPLNdllmxkSklhFHv/aRDB/cHvuqKLERDWYld4O/vlq6Gd96Ie2Sby
-	 zWN0nYfGAC6zrYn/9Xhy4qhQLVDibyVQFEx478XthzzKYbHXqbcye3ubB/+OiLNEwemwo
-	 SRb2klTrdYFs3o+2GfUoATgx0IjEW+b/yhSyHyYdtxmnyXWE1B9S+1WSp+UzSgfeXsg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792426557;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=UFFxL1UFds4GWqnT5XtzZvSspwC5fuyrVnzJMfy/5ls=;
-	b=2Bw7FYZLS/xDM1ggWnLBxU4eZrOtjBRHvBgAUHbBCZCBZllWvwmUbj8VpXb5VUgKFwmT
-	 eU27xI05kp6M6KPDfDTW7CuQXRJzjwHxl2ybeGVwAQgil4tu5Cf29xBwaIkPVpRhL0Nxs
-	 wnk3XleaqcIQXo2IlDLYB4YRnrzV6+Z215WWh2LqEapIXXuutG1/TJR4jIuMGVR9EryFS
-	 mf5S1jfjTWAskJLIJEfQyqTQpEZfw74kx+VbwmkNNVwEOWZwL6jafxpLo4K+DNKLNKGN1
-	 TN+yNG0Xk9PjOukdTX1Xgycgg3taP3lyy5aMz7ow0NMjM2SfiGL0UMw61KJMJ9p6iAA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Dz9J9N9B;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=m6V++kXF;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.19
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1792426622;
+	b=nYuK9lXyAEI4P2SdCRBZ6r4IOdai7DHUvReqGlhjH7rIQHJ9qRfT85hJnZQBj0fKJAOs
+	 /R9k9O5SEowGY6vXx6AD43RKVueDGVSn1ZEPgWWS54plRLul/5vNvIQQQdzuI8+F5yyTJ
+	 0ZXvvrum5d4rGA1BycJS9nSJT1rwBFmbV29HB03tgd0a9MaEdYJ/Zds3HxsmCKauAkWDM
+	 5kOx+X6hdGH/YwV+qADHtTmMKxozCGEHnA96U3ZmZuL1b/8M2eKGvMZZmaQRPzZl3jgAB
+	 1BkpVWX9M2pCgWaZr1p8/rc44uZoOjIIoZkqRSIGvwNPRlH1+SI+MNGwTAPgHacrg3g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792426622;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=ED4Z1tjutcqWXLRf15vj3+isg/AYNyP61d7x5U98mIk=;
+	b=axws4IvgCJayp5ZmEEQAKRrUGt9tWbdNG3t/BbU665Du7gO7/39/2Pz58VL0MwADL1Y4
+	 i5raQoxlNQ9tw0bQIfvqetpvgfjS6bB7F1LUJccRWCjwVWy0Xxc6HWC3Mqgw8CYvs0J+Q
+	 ONGxVYwJON+sPyquByxKqapj0LAhG9FduZceK6LiRpnm5r4+FZJ71QFCkCT82zZ1/u+SB
+	 rvfxkF7evjIxYm51aIoii0nB3rkq0WXLynvyiZaF0YS8uLSbcfRrCYGF5ao41A1+Uf+uw
+	 ivnoUuF+S5QuDJ0+5F6Z9HNULtLwuvrz+ewc/Xt1ThLcLT+oqTTRsX5kSOj7sQ2vqFw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y6sj7HLY;
+	arc=fail smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FDD606A31F
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 16:15:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22FDD606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5B1606A31C;
+	Mon, 19 Oct 2026 16:17:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E5B1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Dz9J9N9B;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=m6V++kXF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792426555;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFFxL1UFds4GWqnT5XtzZvSspwC5fuyrVnzJMfy/5ls=;
-	b=Dz9J9N9BQ/IpGRuad+OzQWpExzQ2qUXSjxOIBmKE3NwTluR3yoqul50RcHLT6rMCqHvIIN
-	JfltOHFzEhkrhaxKfwS4G4JLExxVkxfppoB7hwjfJIqjcG1wBIe7SH2FZAJBe7LhUAHN+7
-	+7sOeJH3XejKEWAaxImoZG6PCTEfwCQ=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-ipFLZ7z4Ppeoxr8uX3X3Pg-1; Mon, 19 Oct 2026 16:15:53 +0000
-X-MC-Unique: ipFLZ7z4Ppeoxr8uX3X3Pg-1
-X-Mimecast-MFC-AGG-ID: ipFLZ7z4Ppeoxr8uX3X3Pg_1792426553
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-847e2926d94so3323628a34.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 09:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792426553; x=1793031353; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=UFFxL1UFds4GWqnT5XtzZvSspwC5fuyrVnzJMfy/5ls=;
-        b=m6V++kXF+0jMuveqDKrirlDPJaYAuVm24hJJTa2PdUmC9iVitkhjayI3wkB+HDMomN
-         0+NsRJ2bY03K3ZhUiG0FZt+KsOeTqzHKsMG0zitwXybfGMehs5aSv3CjfsYRDlW/eOZR
-         qw1H9Om3FsgE6n6VYxMl5eWkT3GRO7nRJkqXLtM1czfuVCNk+JzI7uq+mSAUcUgAxt6W
-         GoE5C/CoiYJ40pzz6gPDe4rRC2coDFrAxdjhcTwz4us8XMRovdwhWrc0Qt/nB9IHeQd9
-         XmkVn4Va1RW+ntMOAuW5KJFZ7PC2D9NKx/ogShcRRxTLw1uh5W1djvhAjG2Fio4SdVed
-         Xx8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792426553; x=1793031353;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UFFxL1UFds4GWqnT5XtzZvSspwC5fuyrVnzJMfy/5ls=;
-        b=ialeItPOVN27RFvHCyQ8tFi4HTUO6frzXhgAwk2lGM2aGTdzKrsYyNUucdr+97k2B2
-         /kTlhzZcQYyhnXJlKZK3cC9OzOEWcZSgRpl5L7z0zqbu340EhhkfjfxyCKUDdC555qx4
-         /tAEvItyOA2P0X1Jc0ddcN2+j4ZIH3kLXm9RDSl4tm6YmSHO9czk+ctN2eD+qz7qTgOZ
-         81OXaDL22+w7kXQhe1KFd3rIkSiin3Sqv7F8/lb0F6GehFAY68JO/ME92TLC2AUW1UjQ
-         LHF1Adu/NkF9GUwOufnth9OTlgLtPFndnAFNfWrHdpuZTFmEMsdonLHu67ZwUBAbdIjC
-         NEpQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwXpI7OILGzqEcTbMQ0fCnc58R6YAW/dBoXskFXslFawgErXkBpO6W6DeFbk2PijOckFwvfhXya5Jc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLtzJenXG13GSg0XvNLwniW8wQZbqT8YoaHEHTs3McCHQJM+Pub
-	xqnX7BqC162O9+MJUvnHed3fSIoHWoHoVxpb9FkMY/E+QcMGH3qggRqCA1AIuN/T4/D3IO8IeLK
-	D0n1w4tTAEJ+sdrvG2iPbCkmzxDWgVKp0LbiZ77ugUdZqQFlWN/e2QZbN9FGuWEf2+RLJ7g==
-X-Gm-Gg: AYBFou3GGeBw70YBkPfVpyfRo/T2im/s/2oUKkaqyCPV/znjVWWG84bsNqENUF+6/QI
-	7StOOWOlnuvR+D1c/3IC4fNvHlhooqMMJ34p/Fb894mR+zjJO3TqjX4RJ/7Uxt1IzGW0i6HLvcW
-	d+hke6XUBgdSyiSOypxEm5RNUfuplkXhQicK2VWP3RDVzBhand2zTafGWTntCuetmmSLsTHY/rc
-	ERjVFH5/3omT2Mh15XGObvwNxmrJM3LJxnfKMLrCXpXRUDwg5g7t6CHvNsEKqKLjFS55UUWDwaZ
-	MrgyZl6qSbK7UaNDH3AoAhsQXWsO+ydJbg/7wFzQ5tu33wc39ZyDDmAjH4tgkw6siQ48+oc=
-X-Received: by 2002:a05:6820:8597:20b0:6d9:277d:79dd with SMTP id 006d021491bc7-7035709d74emr4079163eaf.58.1792426552844;
-        Mon, 19 Oct 2026 09:15:52 -0700 (PDT)
-X-Received: by 2002:a05:6214:5683:b0:91b:81ee:a847 with SMTP id 6a1803df08f44-91bdf06366fmr143746986d6.30.1792426541314;
-        Mon, 19 Oct 2026 09:15:41 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcb8c6d2csm102278596d6.4.2026.10.19.09.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 09:15:39 -0700 (PDT)
-Message-ID: <4a55a48948a1f01686b0471307b6fc2d52be7896.camel@redhat.com>
-Subject: Re: [PATCH] docs: remove Assisted-by reference
-From: lyude@redhat.com
-To: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>, 
-	corbet@lwn.net, skhan@linuxfoundation.org, federico.vaga@vaga.pv.it, 
-	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 19 Oct 2026 12:15:38 -0400
-In-Reply-To: <as4gLo_6acb_zZu0@daedalus>
-References: <20261009083137.3-1-sashal@kernel.org>
-	 <202610122124.08E058768D@keescook>
-	 <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
-	 <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y6sj7HLY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792426621; x=1823962621;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=EvoD0i60hlN2ixLM/IzzOxpy4DF+kLOzDXYg85UoiF4=;
+  b=Y6sj7HLYMSJkjiactQ2exVCjQNkc2nx93UyqXr0OWPT5dar1ptKuy2kD
+   bykU2MBYXZas0ydHWQTexGN/UxbXuLVJgAxxIJEcOXnqxuTiaiX0FwGvx
+   PjHsnHOFRs6KjO6Dyt83w+BxOuA/Kv2+22ani+8PYWWG5kndogouOtyxL
+   P/SrXD52nl5yW0QK6GI10oNz7D5gI4sM4IZtjuUTpHQDCUpu+hK4R3utc
+   gxipzDKMpLwxpwiEU07royxkGrUoTOONnFst3cGo/hU/b8x22wA1Hlc46
+   ixPvpF+ZfDmisOMrV6Y72LApo0dLgYZ4Sth2KUrlfaFG1TfWWo2/pHSj0
+   w==;
+X-CSE-ConnectionGUID: 8kA8qcxZQn2XLTUnFotoqQ==
+X-CSE-MsgGUID: Rnh+hJLhR22AhUpzjwjXdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1151888"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1151888"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 09:17:01 -0700
+X-CSE-ConnectionGUID: gRzaI5xuTRu/rbdBtLhcSw==
+X-CSE-MsgGUID: C22kqsQFTBmKgbxbqAcC0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2871472"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 09:16:59 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 19 Oct 2026 09:16:58 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Mon, 19 Oct 2026 09:16:58 -0700
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.15) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 19 Oct 2026 09:16:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vNN+eTzwLgA4NeTl/2792+TkxNbJrKAJhd9o/DOa4JNVYT6KvBDHE3el/xNBQmWPeCFxOBo+ErK3+hDJi0FaHpRcI5I7jZqPG1RCl5b6HIsb4y8BcAPQo6rSr4X+3lIHjzZ6MEoHg+2PJmFPwX53pOYq5TiSrDkj3h9j/T2o5wBlgvPm4paIhKmj3xXjgXRdT1F2NkS3PG642qW6zf8e1D+d5/ne3Co90DIkt0a72QVUI3YdSUaqui63+IY8+ogek66smtlRVf4iWXkare8alzYNPAVplp/FpCNTnjH21j7QfjbYsmbtFyegmSrcch4eCFxd2Qa9gouTXKCxNuq9BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ED4Z1tjutcqWXLRf15vj3+isg/AYNyP61d7x5U98mIk=;
+ b=jCXzYB2BJ7igjF2AE88+rntCOVefhDNxk+1IscLpRxm8PZAHxZ2+qcQ7XNIsw4tRAyKhBRBz898ORdKUM0B18xcfBj4dOwOmZ/5tWvJFIrX+QBwfmDPgWtmMgYtxG3V3O4y4l4SPbH3+2ihoeC9BjGARwfq07wmTO+mUwZ7D6TIdT7eZtsO6UFlDuqiXIN7RM11we7z7ageAi1uamTw5reC5R7+VQnlIl4uTEJbIyhC4ScAswNp11L/1n0BYnO78Cnz5i9b6WCdWTdwJ51yaeLXVSxy/T2Xo5V1PQPAeJwwXgal/ku+mH08JwUFfKxaHWEDq8m5Dzt2KT5Gdv0gF/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by SA1PR11MB8349.namprd11.prod.outlook.com (2603:10b6:806:383::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 16:16:52 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 16:16:52 +0000
+Message-ID: <dde507b4-6592-4450-80c6-41af64c1796b@intel.com>
+Date: Mon, 19 Oct 2026 09:16:48 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/18] x86/resctrl: Add PLZA configuration definitions
+ and data structures
+To: Babu Moger <babu.moger@amd.com>, <tony.luck@intel.com>, <bp@alien8.de>,
+	<ben.horgan@arm.com>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <fenghuay@nvidia.com>, <kas@kernel.org>,
+	<rick.p.edgecombe@intel.com>, <akpm@linux-foundation.org>, <rppt@kernel.org>,
+	<dapeng1.mi@linux.intel.com>, <elver@google.com>, <enelsonmoore@gmail.com>,
+	<jlayton@kernel.org>, <kuba@kernel.org>, <ebiggers@kernel.org>,
+	<seanjc@google.com>, <ewanhai-oc@zhaoxin.com>, <binbin.wu@linux.intel.com>,
+	<peterz@infradead.org>, <ashish.kalra@amd.com>, <superm1@kernel.org>,
+	<chang.seok.bae@intel.com>, <prathyushi.nangia@amd.com>,
+	<kim.phillips@amd.com>, <ackerleytng@google.com>,
+	<elena.reshetova@intel.com>, <naveen@kernel.org>, <darwi@linutronix.de>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <608876cedf5eece3f8b9297bcf21663a86a6380d.1790867441.git.babu.moger@amd.com>
+ <bf4bd727-eac2-48ba-ad85-539a818524d6@intel.com>
+ <c557ea83-11aa-4747-b305-93d554d3fbc4@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <c557ea83-11aa-4747-b305-93d554d3fbc4@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0148.namprd04.prod.outlook.com
+ (2603:10b6:303:84::33) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -124,100 +152,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|SA1PR11MB8349:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a88e47c-08f8-4dc1-6b12-08df2dfc62d0
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|6133799003|18002099003|10067099003|22082099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: OfdS8nnNFILipZUKRXQYQk2zaOHpn/kgZnMKDTnEphLPz8VfIGRXzaM/gRwcbpftm4IsGORZ+6E3X6/eJsgJbtBW5srgk4KtERigqveJqSF6/6gdJJLSoRWCrJKFEdyGI6SjtK/obSU5xda7TnUBkeXGxIu1WGtRpufOSeO91KjUr2C3MPg6ag0xiQJg70pDi+O41nwskIekD8HQurfJsA6s3pt8XbtsmeHvSpZTPg7AGlX5w/s4Mfd/HlvzSKLVl/QmX2Rv5OGI8JtbUAHKxtKhsCwJU2ip5gxZhUjC0re5J7xX2wuOWqraBMfoM/Oe6ua7aV3RhIe5BUrxdsYq7sKxMgHf/9C1N6nHyMSo5SMmJvoUOqv0lS64ZQm5AmdXIseD1OqVEJW3Bw85nodZSw4krwCWm8AItoahrY4eB7+WtxkSfVKYZO9oVFz47FVt6QH7KO1WgRPX+GU+JJo2Kb/Xqv7NDL68aGIe+r8RdvvyJx3z7MPOiUQFxK8kBlPavHw4d00dpJJfW0U/Fy00Cl+5kfOpuqpzjNOTQRoKcJDARrzoC0BvNGAEba620xh+1O53Q/vEJh/3IUOdwwK1u6OWuH7Bf8vVWLv2iZBp1MBwV7hhR5eLwLRZjwod6VZEDr9D+LuXV1o4enIS02aEVZazn0E/q84ZtyD9AchoVlo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(6133799003)(18002099003)(10067099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZThrWUViUTlweEYxMHpySHVub1J3NktKWXFrYXpCME8rNG5UZDF1ODlBbHBi?=
+ =?utf-8?B?Tm5KOVBvM1pkTmVvMUxFUVJSSlUvMGN4eStzVzNBeU9sNFdTRkdYVk1Wa3Zs?=
+ =?utf-8?B?Sktvdk9PbWpENEM2T1BUa3JnZ1pQVHoyZHljOHJnY3ZBQ0hFQ3ZXNldMaFkx?=
+ =?utf-8?B?MThES09LdFpRS2U5T1lKMTJFM1NrYVhUOE1pTjNaSlRjUU8vNFU1VGVUbXd6?=
+ =?utf-8?B?Z1lXNW9JaURPWVgvKzZuaFMrSnF5bHdoUURzQVU1dkJwYmltODI4ekEwTWJ4?=
+ =?utf-8?B?Z0pHYUxPa3lxeVltM1ViZ29hd2xhcHlRREdCZjZYRGVZem15NDJrbENDRzlh?=
+ =?utf-8?B?UmI4THdtV2hKQnhvM0xlMU9RMGlRSVhNbTVuY0hnZkVWL0ZSRFZhUWhVZStv?=
+ =?utf-8?B?VlVEQ3c2ek9DWHRWS1dEWXY4Zi84elUyTm02UU9UV256NnZiWlN5UHNoQ1Rj?=
+ =?utf-8?B?VDA2ZnE0ZkEvQUtqUHZtbVFaeVRVTXhmNGpDbnQwbGVIbHg3bkkvZkZmcWV6?=
+ =?utf-8?B?cDZDWWpxenBvMlRZMGM2dHhZMFBiZXVRVHMvYVQ3T2JueGJMeDlDOHg3eTdR?=
+ =?utf-8?B?UkVzaklaSlZ1Q24rNkZTZjFaTStvUHpLeWxGQVJGU1lFSHhyQW1OMUcyV1hl?=
+ =?utf-8?B?QndndGgxYUV0Z2xDd1JqbitsQm1VQXc4SG91b0EvQTdGTVBzbWhPckk3R0Ji?=
+ =?utf-8?B?ekNzbWRVRUpVSm03MThVTE9YcWg5WklKT0V1VGRWMnRBK1ZkMHFNeVBBVnlm?=
+ =?utf-8?B?M2pyWWR6aVhKZzZmSi83TzJxdXBOVUs1WU9YVzZYbEFEaHZjaGpNMlM5MzU0?=
+ =?utf-8?B?NWlCVWZLeWdrZFRacTl6YldnVGRDREtiZ1BmM0d0VmNBd1luODRKS2R6eU1S?=
+ =?utf-8?B?bUNaVU5vRHFOME0rbm5lVVJRT0RDenhCQmFEci90ZkQ0Nnh5bkJLcFU0OFdn?=
+ =?utf-8?B?QWtiVXRMVFB5S0NNY2V6M0p2cHAySUFoUXhrU1JIQzFjUzNRM3h1NGZpd2lU?=
+ =?utf-8?B?RklNRGlBVnRueStaNDByMTFFeXI4bGtoNlFFUmtXbzhaaVFBZFVhYm5tb25z?=
+ =?utf-8?B?eWQvN1E0UzFwTmpKUU43UjNzOW5GWDIxSVc1cXJWOVhFdlN1amR1VmxrV3A2?=
+ =?utf-8?B?QU5VZFJtb0dJcVI3cUtuWGllS3owaVoyUHRJOTZXdDVFWW5rdlFiTTNjUGZu?=
+ =?utf-8?B?WDhQV1Uxa2Nwa05WK3dtTnZOVllTNmg3N3d5ZitqU2RYNE5RRUk3eFFTRDNi?=
+ =?utf-8?B?QUJMZzBSWWVCd0NocDFZVjE0RnRneXZVSTF6eXA1ZThiTVZqSGRTeHQ5Q2pp?=
+ =?utf-8?B?YnVkeWg0UG9RZXVSZUx6L00zVE8vS2RMMkY0WGVlcmNVUHZSZ2srd1ZZcUln?=
+ =?utf-8?B?a3Z5SENTT2thN2FCRmJGd211VUJGaGFreE85cytIbjFoSG4wcHF1c2VabkZT?=
+ =?utf-8?B?TlJtRC9sVG92dXdIYTAyWjZKTTluR2FmbU1xcWVwR0ZuT1JDUGdvZVBpbjNS?=
+ =?utf-8?B?UVQvVk80d251Sm1XUlpkd1ZRUmZ2ZUc1ZFdaTWtCV2ZkQXlUTnZqRW9wMnRC?=
+ =?utf-8?B?ZzdkWUpycUQ0YlNFWWQ2dWRLM3VtT214VVdZUU5LT0ZhTEhML3pCc3hQSjJD?=
+ =?utf-8?B?YkU1YzE1aVNpWVZrUElib1lXSG9PR0xOMSs1MW93VE8zNWZSOEc3alhscnZo?=
+ =?utf-8?B?eGtxWkFUZVNvc3dhL1JlbG5mWTA5anBTVlRicmRlTFNSUHNkeDlkRlpFa3Zy?=
+ =?utf-8?B?cG8zeGpDR2wzZXFFOVlXaStPa3ZyYmh1MXlJTTQ1OWNNc2xob3ZxNG5XNlZ3?=
+ =?utf-8?B?V3JYazZ1L2syYXd1ZVc4Y1ptaXZvekFwTU9jZEFrTmhZV1huUVMxa0VRUEhK?=
+ =?utf-8?B?NE5GbmlMUWpFWXoyYjY5WHoza25xTk9RdjVhWk95RG9RZkVxTXVrOU11VmVQ?=
+ =?utf-8?B?UWJVRFU0MU1mL0poT1BaL2NEYkI3YjR2d2o2WXBPMXhOZmZhbjBWRjBjYk14?=
+ =?utf-8?B?Z2tZQUkrK0lWTzd5NFZMNnhLcWtac093dk1YdXo5aUx6QTVEaXZyUjAyME5x?=
+ =?utf-8?B?VTBvYUdLNWVhQkk0cjhibm9jZ3RtZlkxQ1J3OXo2TmRoZElmZnVwZndXb3RQ?=
+ =?utf-8?B?VU0vRUdldDNQQlUxNjNzZUUyTHl2bDc4Q3lMMWNsdlZxWFpuSlNSRzJxV01T?=
+ =?utf-8?B?SGM1aDJzbkw1TG12VU9YemxZUlgwM1N0ekNnaVBpTlBtOUJkOHE4OUJVNmZn?=
+ =?utf-8?B?RDB5Z1ViQllwRXJFcllTTFVFMU81bXVNSjU0aWtuSG9Fd1k4cnFwcUNoRU96?=
+ =?utf-8?B?ajFCTjZiUDM2S281RTVDL0QwaXM0UmY0ZHJFVE1vR3ZWMlp4MnV5ZjFLa1hF?=
+ =?utf-8?Q?bd+sXUDB0ftvF5Q8=3D?=
+X-Exchange-RoutingPolicyChecked: LKfmPh/QbH2ROpoFa5X3Vk5XbXSqAPO2kHkJ9hN0xzdHzHrMlsRKWLTXqrbOzqh2dEOMUhy3QEUU56EeIP/RV8l9bxaKtxGLrv+PsJEIC1XUTnwu+SLGZiYQ12MKU6FRWEqV1rruxNbIhHf0QMSKd9lYPYJWHXDyXAOp8YItbRPm72C6zmD9fk1kPfF2kCqHXBjzW0oK6kQePKV+pjzvKcBZGtm2alg91NBr5hz4ejEtV/Xg1YJjImhVHaSTciZaNM1hasfP8V2rtDwBnAB0KyrTPDS7GFtpAlRlK8MU3dkEL7OE3te3GV9cM4VRe7WhlQangp5HVOgwPRQ7AHOHUQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a88e47c-08f8-4dc1-6b12-08df2dfc62d0
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 16:16:52.4959
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Fz+bBfZ26t/IXbk+pw8LbMXRVZHHDeIJA5sAUA0/8BTOic/zQbDXr2wyvR13UlIQknqil5XlnF4d3KNCEK3v4+WxujZjJGefrd07sPgrJOI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8349
+X-OriginatorOrg: intel.com
 
-On Tue, 2026-10-13 at 14:28 +0200, Jori Koolstra wrote:
-> On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
-> > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
-> > > On 10/12/26 9:24 PM, Kees Cook wrote:
-> > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
-> > > > > The Maintainers Summit reached consensus to deprecate the Assiste=
-d-by
-> > > > > tag. Remove the documentation requiring it.
-> > > > >=20
-> > > > > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > >=20
-> > > > Yup, it has become as redundant as specifying what editor I use. ;)
-> > > >=20
-> > > > Reviewed-by: Kees Cook <kees@kernel.org>
-> > >=20
-> > > and for those of us who don't know details about the discussion,
-> > > how is it redundant?
-> >=20
-> > No, I mean I use an LLM constantly for almost all aspects of my
-> > development work, in multiple dimensions, so if the old tag requirement
-> > held, my email body template would just put "Assisted-by: LLM" in there
-> > because at the very least, it drove the build and test stage. It was
-> > redundant in the sense of "yeah, of course I used an LLM at some point
-> > for this patch". ("This tag means nothing *from* me")
-> >=20
-> > > Do you assume that everyone now uses it (LLM), just as everyone
-> > > uses an editor?
-> >=20
-> > I don't make that assumption, but I always held the position that the
-> > tag was meaningless because it's the human wielding it that matters:
-> > they either sent a good patch or a bad patch, and if it was mangled by
-> > gmail or an LLM, it doesn't really matter. ("This tag means nothing *to=
-*
-> > me")
->=20
-> I think the tag did have a genuine purpose for a while. Now we have just
-> decided to implicitly attach it to every new submitter (because
-> basically that is the case.) The point was that a patch that was
+Hi Babu,
 
-I know plenty of people who would love to contribute to the kernel who
-haven't before, who do not want to be involved or use LLM tools in
-their own development. Considering how much LLMs lower the bar for
-people to be able to submit fixes, I think it's also worth pointing out
-that just because you've sent a patch doesn't mean you're a contributor
-who is going to actually come back or is actually interested in trying
-to get a patch to the finish line. I've even ran into 'contributors'
-who wouldn't even avoid using an LLM to respond to review feedback
-which makes it nearly impossible for them to actually retain any of the
-critique they've received on their work.
+On 10/15/26 4:07 PM, Babu Moger wrote:
+> On 10/15/26 09:22, Reinette Chatre wrote:
+>> On 10/1/26 8:10 AM, Babu Moger wrote:
+>>> Privilege Level Zero Association (PLZA) enables the kernel to switch to
+>>> a different CLOSID and/or RMID than those used in user mode when entering
+>>> kernel mode. CLOSID and RMID selection are independent and can be
+>>> configured separately.
+>>
+>> That CLOSID and RMID are independent on x86 is clear to me. That they can be
+>> configured separately is not clear to me in this context. What does this
+>> "separate configuration" refer to? Looking at the later patches kernel
+>> mode allocation and monitoring associations are always configured together
+>> and written to same MSR at the same time?
+> 
+> 
+> Good point. Its confusing.  What I meant is that allocation (CLOSID)
+> and monitoring (RMID) associations are independent PLZA features and
+> can be enabled independently in hardware. For example, a platform
+> may enable kernel mode CLOSID association without enabling kernel
+> mode RMID association, or vice versa.
+> 
+> Yes. The kernel interface configures both together because they are carried in the same IA32_PQR_ASSOC MSR update.
+> 
+> How about?
+> 
+> Privilege Level Zero Association (PLZA) enables the kernel to use a
+> different CLOSID and/or RMID in kernel mode than in user mode.
+> Allocation (CLOSID) and monitoring (RMID) associations are
+> independent PLZA features and may be enabled independently by
+> hardware.
 
-> obviously LLM generated could be rejected for not carrying the tag, and
-> a patch that carried the tag could be asked to explain further (if they
-> had not done so.) Or at least, that is how I felt and have understood
-> Greg, for instance :)
->=20
-> Essentially, the way I read it, is that Linus said we don't need this
-> roundabout way because we can just reject effortless LLM generated
-> patches outright. This is good and an improvement.
->=20
-> What do you think about requiring people to explain how they used an LLM
-> for code generation? I don't care if someone uses it for review, or
-> brainstorming, or whatever, and I have never understood the tag to be
-> required for that. But if the code is LLM generated, it would be nice to
-> know for instance what prompts you used. We should have some way to not
-> devolve into the maze that Jonathan Corbet has sketched, where no one
-> really knows what's going on.
+Which CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid) and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid)
+is used in kernel mode is different from whether the CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid_en)
+and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid_en) is used in kernel mode.
 
-Prompts aren't deterministic, and this also expects that everyone is
-using LLMs (most of the contributors I work with do not actually use
-LLMs, and most of the ones who do stop short of actually generating
-code outside of large tree-wide changes with it). There are also
-already drivers in the kernel which have adopted their own no-LLM
-policies.
+This series uses the high level "allocation and monitoring association" term
+interchangeably for both of these meanings and doing so causes confusion.
 
-I have wanted better tagging for a while, because I do agree Assisted-
-by: isn't great, but just going "well you can reject slop :)" makes it
-dramatically more difficult for me to tell the difference between a new
-contributor who just doesn't know how to structure their patches
-correctly, and one that just let their LLM take the wheel and barely
-understands what they sent to me.
+Please pick specific terms to refer to the CLOSID/RMID assigned to kernel mode vs
+whether the CLOSID/RMID assignment is enabled and use it throughout the series.
 
-Something that would be dramatically better, and I really hope would be
-considered over the nuclear option of just dropping this patch:
-
-Co-authored-by: LLM
-Reported-by: LLM
-
->=20
-> Best,
-> Jori.
->=20
-> >=20
-> > -Kees
-> >=20
-> > -- Kees Cook
-
+Reinette
