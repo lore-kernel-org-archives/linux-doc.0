@@ -1,81 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422877;
-	b=2rMrzEk1ZRg9hxoC28qASmgchmJUQr5wxDT+CJtV1+Xq8oxSMY9pL6vRANFuCOVfuD3O
-	 c3y52OTj3Q0l3lXNZ2C2xaRfjgDmOO2orHKMF++nfcWPahrIItL9MLV5/DVx+Cu344GgK
-	 EvCM/J3oTJgFm8BJCJZ61+7UX+Eclrli6IrBqaQgYph8o0VZwHsPYgd+0YsxTXgm72YFs
-	 dJ+aHjm5YrfuJIPb/zpv/Zoer4PhN/6OvVGV/VC0VtPI6/buP+z/qE35B3uGIgxpefHPx
-	 A8pBRmKKC4l/faFT311CAXGWb/Yr+AciNIC54W9MzYvjBnVkNthLRFjR/ww0Wniv4qQ==
+	t=1792423473;
+	b=kRQpqDRKXhTZx4ATRFOfV69n7i2rMEhZR1gO/1NcPSjORgL0B51vjS5nxy2siQQ9eoeH
+	 V0QeCJF9LC8zaybZQs4RKhKl3tYoOj6UBRd3n4SgPltm93jeLQpjz3G5djXEXHFYiRP7J
+	 vYHE5kflxtq57t1oFH6i61nJrMyeV5qdzJ7pPWVbycyXqd5Jev4/co/qWGmDZRsSUlafB
+	 RhmgL6F3ammmiAglnvnMKlWuz8fRjALjmoZ5kY+pGKsKSQ6JoL+DM/6B0iTBMwZeOOI7i
+	 RnNBMP2vkkjgRlNlYAdxuhJGJmDZJBUHz91LZXH31JpzYbAYT0FlSzO0zV9nyeYTdJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422877;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=GwztzXGiW7OnAu9QbRSyq73Z8Eatn3pZ575kk94zIeU=;
-	b=OHbwRgjShnsmAjXHEhCgDvk3BPy85EOMIwA34oFNzD2p6uqu3jq5WnZ1n96fBBJozTbA
-	 ASOrqjGRvc6jrWuD3nBwfx76wEA0WnDrCXAwuvqorgewbksEPRDEYdVzxBtmrhMRAF8f2
-	 9/WA6V7k+vBVzGWZZ9Fn2nThFNV6HysTwzrQwv6TJkrXNv9GeTSFBBpXp9ASkqUcJQl8E
-	 Q4YaBvCqj4TXs5L9Crr1fxpyG2vBL3q9nNewmUgGX4DTPUYgtwqCitXYnsL1SmZ6OGTqu
-	 4g9EIZZ1Wx0hKL29hbvYAXtmzQ1jQNFkSb07qMyXuQzoTKt4/YCAy1UdktyCGwY1pQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792423473;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
+	bh=IFwSeD1ovfD41NQTL9oOWjnQ3ijZeEdakcY9lvs54e4=;
+	b=41jXC+xHja/j8pfyhZl32aX/tmmBZ9pkEgRREnU9IZogaGAUZfyzMTq9gFhrl/lqBigz
+	 VUuXhEkYYtUjmbT2AtBrUhU5drIuHOvp4DzPz+xgV5x9nGfXMxXy/qJVIWhZT0JrlggPg
+	 kaSqIED1pKPPDbX2Nwq8dgF4Z40VPiieKKr8ko9eIFjveZMxEJ/YGt3cXN8hmH6Upmb7R
+	 1/YAhqPogVQXNsquiWDhc6WUG4K6T+4OKbu8aSRdBLkZhB49IeBY0ufuUbY41z+j0PumA
+	 8POg+QUQohgPlXmJCzqABZ2yJLnlQ1BnzPgOORQzAdKdxo+gl4SwQ3ha/q1ZMtRaxLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Cb/pLjbt";
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NPWj82nq;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA15609CED4;
-	Mon, 19 Oct 2026 15:14:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDA15609CED4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D197260AF782
+	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 15:24:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D197260AF782
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cb/pLjbt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792422876; x=1823958876;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OxZSt/jYZA56remEOs1LpCwtEvXYIh/MngBNA+cobgk=;
-  b=Cb/pLjbtqHSrTwHgmm1m1TDPMaxt6VGIzMe0NbgnzO/0mEfp7zcAGVwD
-   ZVwBIqRBqbS6J6FPvorBpA0e9eq46FXU2xcp0OUGBLt/cCv0osWd8t/tb
-   l/NpaFq0dUV25OEpH+xhreC84r29mlZ7fTTAWePGcs10GjBqlC9bhpqHq
-   oWqKn3fu9VvK9zI34qUr2l3wDxgzX5H04ubf/MvDuehKpONfNTdH+2+QE
-   xCdvg8X8KWYu/OnLFmmQh+kCdRqI1wYl+EficcAtKDBd9xwDh2ISTrxQR
-   EyRMGiGfG34a592L+1x2gl7h9vUy6d77xJowlW0zCO3wKzSO/hGT5VEMf
-   Q==;
-X-CSE-ConnectionGUID: ajG/gNPdTT64e6lpYil1mQ==
-X-CSE-MsgGUID: cNubKg2ISlyvMjaiVSGCNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="992123"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="992123"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:14:36 -0700
-X-CSE-ConnectionGUID: fMGnTY3hS0iQdJ3EoYwDkw==
-X-CSE-MsgGUID: pdPHpR76Q/+JLFYQNK5E1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2636134"
-Received: from jf5300-15a101203tc.jf.intel.com (HELO meta-crater2c.jf.intel.com) ([10.54.113.49])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 08:14:35 -0700
-From: Daniel Byrne <daniel1.byrne@intel.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>,
-	Frank Li <Frank.Li@kernel.org>,
-	Vinicius Costa Gomes <vinicius.gomes@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] [PATCH 0/3] dmaengine: polled completion status for out-of-order providers
-Date: Mon, 19 Oct 2026 08:06:29 -0700
-Message-ID: <20261019150632.4026424-1-daniel1.byrne@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NPWj82nq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792423471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IFwSeD1ovfD41NQTL9oOWjnQ3ijZeEdakcY9lvs54e4=;
+	b=NPWj82nqow3sShzTGPJIvKmZgXB4NtWzFg5qCclmZCPrRAT7Ea2Ec5lyd5g4Qk/8ontI5K
+	UKaRIsOWBmDjx6y/G5bZyuAN/T0s7OS6I78DNnCpatyF0z6rDVvyMI+JG/WmU+cB9JkggM
+	6a/Ld+EqrWE16X9+QgxKa9TfLN2yf1k=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-621-3yll3N4DOfW4SbejawhYgw-1; Mon,
+ 19 Oct 2026 15:24:30 +0000
+X-MC-Unique: 3yll3N4DOfW4SbejawhYgw-1
+X-Mimecast-MFC-AGG-ID: 3yll3N4DOfW4SbejawhYgw_1792423468
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B0FA51955DAE;
+	Mon, 19 Oct 2026 15:24:27 +0000 (UTC)
+Received: from [100.91.18.181] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 377C1180057F;
+	Mon, 19 Oct 2026 15:24:25 +0000 (UTC)
+Message-ID: <75fe5ee5-035e-486c-af00-ed4ba3bf0f25@redhat.com>
+Date: Mon, 19 Oct 2026 11:24:24 -0400
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,63 +71,256 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-next v3 3/9] cgroup/cpuset: Consider all the exclusive
+ CPUs when doing housekeeping check
+To: Guopeng Zhang <guopeng.zhang@linux.dev>,
+ Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Hui Peng <benquike@gmail.com>
+References: <20261014140548.575122-1-longman@redhat.com>
+ <20261014140548.575122-4-longman@redhat.com>
+ <6bf0bfec-1726-41a4-b9ee-aac23da18d19@linux.dev>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <6bf0bfec-1726-41a4-b9ee-aac23da18d19@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-A client that polls transaction status on a device whose work queues
-complete out of order, as DSA's do when several engines serve one
-queue, cannot use the cookie-ordered dma_async_is_tx_complete(): the
-completed-cookie watermark moves past descriptors still in flight.
-These three patches add dmaengine_async_is_tx_complete() as the polling
-API, routing the query to device_tx_status() without the cookie-window
-outputs, implement it in idxd from a generation-numbered cookie that
-reads the descriptor's own completion record, and drop
-DMA_COMPLETION_NO_ORDER and DMA_OUT_OF_ORDER, whose only setter was
-idxd. dmatest's polled mode is the in-tree user; the io_uring DMA copy
-offload, to be posted separately, is the one that needs the exact answers.
+On 10/15/26 10:18 PM, Guopeng Zhang wrote:
+>
+> 在 2026/10/14 22:05, Waiman Long 写道:
+>> When prstate_housekeeping_conflict() is called to perform housekeeping
+>> check with cpumask changes, the cpumask changes are passed in via addmask
+>> and delmask. With this arrangement, the exclusive CPUs owned by the child
+>> partitions and not affected by the cpumask change, if any, are excluded
+>> in the analysis. If the current cpuset is an isolated partition with
+>> root partition children, it is possible the cpumask change will still
+>> leave active housekeeping CPUs but then no housekeeping CPUs will be
+>> left when the child partitions are disabled or invalidated.
+>>
+>> As a first step to protect against this possibility, all the exclusive
+>> CPUs of the cpuset should be considered to be owned by the current cpuset
+>> when doing housekeeping check. As a result, there is no need to pass in
+>> separate add_mask and del_mask parameters. They are combined into a single
+>> new_cpus parameter. The parent_prs parameter can be removed as well.
+>>
+>> With this change, the prstate_housekeeping_conflict() call in
+>> update_parent_effective_cpumask() with partcmd_update and newmask
+>> is now duplicative and can be removed. The housekeeping check in
+>> remote_cpus_update(), however, will still be useful as this function can
+>> be called directly from update_cpumasks_hier() without going through
+>> partition_cpus_change(). The update_parent_effective_cpumask() call
+>> from update_cpumasks_hier() is partcmd_update with no cpumask which
+>> still have the housekeeping check and so is covered.
+>>
+>> Fixes: 103b08709e8a ("cgroup/cpuset: Fail if isolated and nohz_full don't leave any housekeeping")
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   kernel/cgroup/cpuset.c | 77 ++++++++++++++++--------------------------
+>>   1 file changed, 30 insertions(+), 47 deletions(-)
+>>
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index 2b9aefc0edb8..b2684c98d8c0 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -1355,26 +1355,20 @@ static void partition_xcpus_del(int old_prs, struct cpuset *parent,
+>>   /*
+>>    * prstate_housekeeping_conflict - check for partition & housekeeping conflicts
+>>    * @new_prs: new partition root state to be checked
+>> - * @parent_prs: Parent partition root state
+>> - * @add_cpus: additional CPUs to be added to current cpuset
+>> - * @del_cpus: CPUs to be removed from current cpuset, can be NULL
+>> + * @new_cpus: cpu mask to be checked
+>>    * Return: true if there is conflict, false otherwise
+>>    *
+>>    * There are two different housekeeping conflicts to be checked:
+>> - * 1) If new_prs is PRS_ROOT, none of the @add_cpus can be a boot-time isolated
+>> - *    CPU. IOW, the whole @add_cpus must be a subset of HK_TYPE_DOMAIN_BOOT.
+>> + * 1) If new_prs is PRS_ROOT, none of the @new_cpus can be a boot-time isolated
+>> + *    CPU. IOW, the whole @new_cpus must be a subset of HK_TYPE_DOMAIN_BOOT.
+>>    * 2) If nohz_full is enabled and we have isolated CPUs, their combination must
+>> - *    still leave housekeeping CPUs. This check is only needed if new_prs
+>> - *    differs from parent_prs and one of them is PRS_ISOLATED.
+>> + *    still leave housekeeping CPUs.
+>>    */
+>> -static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
+>> -					  struct cpumask *add_cpus,
+>> -					  struct cpumask *del_cpus)
+>> +static bool prstate_housekeeping_conflict(int new_prs, struct cpumask *new_cpus)
+>>   {
+>>   	cpumask_var_t full_hk_cpus;
+>>   	int res;
+>>   
+>> -	WARN_ON_ONCE(parent_prs <= 0);
+>>   	if (!new_prs)
+>>   		return false;
+>>   
+>> @@ -1393,30 +1387,18 @@ static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
+>>   		new_prs = -new_prs;
+>>   
+>>   	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT) && (new_prs == PRS_ROOT) &&
+>> -	    !cpumask_subset(add_cpus, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)))
+>> +	    !cpumask_subset(new_cpus, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT)))
+>>   		return true;
+>>   
+>>   	/*
+>>   	 * Exit 2nd check early and return false if
+>>   	 * 1) there is no boot time isolated nohz_full CPU
+>> -	 * 2) new_prs is PRS_ROOT, parent_prs is PRS_ISOLATED and no CPU will
+>> -	 *    be returned back to the parent.
+>> +	 * 2) @new_prs is not PRS_ISOLATED
+>> +	 * 3) @new_cpus is a subset of isolated_cpus
+>>   	 */
+>>   	if (!housekeeping_enabled(HK_TYPE_KERNEL_NOISE) ||
+>> -	    (!del_cpus && (new_prs == PRS_ROOT) && (parent_prs == PRS_ISOLATED)))
+>> -		return false;
+>> -
+>> -	/*
+>> -	 * Now make sure that @add_cpus contains new CPUs to be isolated and
+>> -	 * @del_cpus contains isolated CPUs to be un-isolated.
+>> -	 * With the guards above, @add_cpus can't be NULL after the swap.
+>> -	 */
+>> -	if (parent_prs == PRS_ISOLATED)
+>> -		swap(add_cpus, del_cpus);
+>> -
+>> -	if (del_cpus &&
+>> -	   (cpumask_first_and_and(del_cpus, housekeeping_cpumask(HK_TYPE_KERNEL_NOISE),
+>> -				   cpu_active_mask) < nr_cpu_ids))
+>> +	    (new_prs != PRS_ISOLATED) ||
+>> +	    cpumask_subset(new_cpus, isolated_cpus))
+>>   		return false;
+>>   
+>>   	if (!alloc_cpumask_var(&full_hk_cpus, GFP_KERNEL))
+>> @@ -1426,7 +1408,7 @@ static bool prstate_housekeeping_conflict(int new_prs, int parent_prs,
+>>   		    housekeeping_cpumask(HK_TYPE_DOMAIN));
+>>   	cpumask_andnot(full_hk_cpus, full_hk_cpus, isolated_cpus);
+>>   	cpumask_and(full_hk_cpus, full_hk_cpus, cpu_active_mask);
+>> -	res = !cpumask_weight_andnot(full_hk_cpus, add_cpus);
+>> +	res = !cpumask_weight_andnot(full_hk_cpus, new_cpus);
+>>   
+> One of my test cases regressed in v3 compared to v2. CPUs 0-15 are online,
+> with nohz_full=2-15 and no isolcpus:
+>
+>      # cd /sys/fs/cgroup
+>      # echo +cpuset > cgroup.subtree_control
+>      # mkdir A
+>      # echo 0 > A/cpuset.cpus
+>      # echo isolated > A/cpuset.cpus.partition
+>      # cat cpuset.cpus.isolated
+>      0
+>      # echo 1 > A/cpuset.cpus
+>      # cat A/cpuset.cpus.partition
+>      isolated invalid (partition config conflicts with housekeeping setup)
+>
+> The last write should release CPU 0 for housekeeping, leaving A as a valid
+> isolated partition on CPU 1. It looks like the check uses the state before
+> the update, sees only CPU 1 available for housekeeping, and incorrectly
+> invalidates A.
+>
+> thanks,
+> Guopeng
 
-This applies on top of "dmaengine: idxd: fixes found by an in-kernel
-polling client", posted alongside, which the status implementation's
-reset-epoch handling depends on.
+Yes, it is a known issue and will be fixed in the next version.
 
-Daniel Byrne (3):
-  dmaengine: add dmaengine_async_is_tx_complete() for channel status
-    queries
-  dmaengine: idxd: generation-number transaction status
-  dmaengine: drop DMA_COMPLETION_NO_ORDER and DMA_OUT_OF_ORDER
+Cheers,
+Longman
 
- Documentation/driver-api/dmaengine/client.rst |  24 +--
- .../driver-api/dmaengine/provider.rst         |  64 ++++---
- drivers/dma/amba-pl08x.c                      |   2 +-
- drivers/dma/at_hdmac.c                        |   5 +-
- drivers/dma/dmaengine.c                       |   2 +-
- drivers/dma/dmaengine.h                       |  21 ++-
- drivers/dma/dmatest.c                         |  14 +-
- drivers/dma/idxd/device.c                     |   1 +
- drivers/dma/idxd/dma.c                        | 159 +++++++++++++++++-
- drivers/dma/idxd/idxd.h                       |   3 +
- drivers/dma/idxd/irq.c                        |   8 +
- include/linux/dmaengine.h                     |  55 +++---
- 12 files changed, 268 insertions(+), 90 deletions(-)
-
-
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-prerequisite-patch-id: b50615a6696ce4ffa7e20911f77b9f7f0481f14f
-prerequisite-patch-id: 36d833fd556bce04054a7e373ee46575186bb58c
-prerequisite-patch-id: 3aeecac097eafb6812e10b9896a242c61c4ca5da
-prerequisite-patch-id: 99e0468cdabf56a287c6a7f2d7ef06aa6d5a573e
-prerequisite-patch-id: b1dd90551e6b671e751aae8d2a688d9db8f300f5
-prerequisite-patch-id: c99a06be81e6a56d84a14bf9e00d2b48455c3a89
-prerequisite-patch-id: 3e39b306130b75fedae70a328072dc9577818b9f
-prerequisite-patch-id: b1d8fb5b5f7f478adca95f4c8b632480164d18b4
-prerequisite-patch-id: b6d48ab83002f113833ba874be299c241788dd30
-prerequisite-patch-id: 53bb73bdfd98cd78ca5d86b00ad7e96fcebf7ee6
-prerequisite-patch-id: de44e2d44df13e8e07ae00df842d67c9d5c874d2
-prerequisite-patch-id: 8191bc0ef2c849d2d9d55f73fc2169f695ea8594
-prerequisite-patch-id: bfc55b104522278ca1fba36d3f4adb3a306267bc
-prerequisite-patch-id: 12c1f4cba95509b8e7e87ce5c2f9c4265ec0c2df
-prerequisite-patch-id: 6e859bfd95e53386bce02ac6585f09a067d0bb8e
-prerequisite-patch-id: 2874936c0a5b3863db0309e06ee93008890a714e
-prerequisite-patch-id: 85ef17aa68aecd398d3b47ad8df435ce715572e8
--- 
-2.43.0
+>>   	free_cpumask_var(full_hk_cpus);
+>>   	return res;
+>> @@ -1613,7 +1595,7 @@ static int remote_partition_enable(struct cpuset *cs, int new_prs,
+>>   		return PERR_INVCPUS;
+>>   	if (cpumask_intersects(tmp->new_cpus, subpartitions_cpus))
+>>   		return PERR_NOCPUS;
+>> -	if (prstate_housekeeping_conflict(new_prs, PRS_ROOT, tmp->new_cpus, NULL))
+>> +	if (prstate_housekeeping_conflict(new_prs, tmp->new_cpus))
+>>   		return PERR_HKEEPING;
+>>   
+>>   	spin_lock_irq(&callback_lock);
+>> @@ -1715,8 +1697,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
+>>   		else if (cpumask_intersects(tmp->addmask, subpartitions_cpus) ||
+>>   			 cpumask_subset(top_cpuset.effective_cpus, tmp->addmask))
+>>   			WRITE_ONCE(cs->prs_err, PERR_NOCPUS);
+>> -		else if (prstate_housekeeping_conflict(prs, PRS_ROOT,
+>> -						       tmp->addmask, tmp->delmask))
+>> +		else if (prstate_housekeeping_conflict(prs, excpus))
+>>   			WRITE_ONCE(cs->prs_err, PERR_HKEEPING);
+>>   		if (cs->prs_err)
+>>   			goto invalidate;
+>> @@ -1796,7 +1777,6 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+>>   	int old_prs, new_prs;
+>>   	int part_error = PERR_NONE;	/* Partition error? */
+>>   	struct cpumask *xcpus = user_xcpus(cs);
+>> -	int parent_prs = parent->partition_root_state;
+>>   	bool nocpu;
+>>   
+>>   	lockdep_assert_cpuset_lock_held();
+>> @@ -1858,7 +1838,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+>>   		if (cpumask_empty(xcpus))
+>>   			return PERR_INVCPUS;
+>>   
+>> -		if (prstate_housekeeping_conflict(new_prs, parent_prs, xcpus, NULL))
+>> +		if (prstate_housekeeping_conflict(new_prs, xcpus))
+>>   			return PERR_HKEEPING;
+>>   
+>>   		if (tasks_nocpu_error(parent, cs, xcpus))
+>> @@ -1930,14 +1910,6 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+>>   					       parent->effective_xcpus);
+>>   		}
+>>   
+>> -		/*
+>> -		 * Check for housekeeping conflicts
+>> -		 */
+>> -		if (is_partition_valid(cs) &&
+>> -		    prstate_housekeeping_conflict(old_prs, parent_prs,
+>> -						  tmp->delmask, tmp->addmask))
+>> -			part_error = PERR_HKEEPING;
+>> -
+>>   		/*
+>>   		 * The new CPUs to be removed from parent's effective CPUs
+>>   		 * must be present.
+>> @@ -2430,6 +2402,21 @@ static void partition_cpus_change(struct cpuset *cs, struct cpuset *trialcs,
+>>   		return;
+>>   
+>>   	prs_err = validate_partition(cs, trialcs);
+>> +	if (!prs_err && !cpumask_empty(trialcs->effective_xcpus)) {
+>> +		int parent_prs = is_remote_partition(cs)
+>> +			       ? PRS_ROOT : parent_cs(cs)->partition_root_state;
+>> +		/*
+>> +		 * Check for housekeeping CPUs conflict assuming that all
+>> +		 * the exclusive CPUs belong to the current cpuset. We rely
+>> +		 * on the fact that effective_xcpus has been set up by
+>> +		 * compute_trial_excpus() which is called previously in
+>> +		 * update_cpumask() and update_exclusive_cpumask().
+>> +		 */
+>> +		if (parent_prs > 0 &&
+>> +		    prstate_housekeeping_conflict(trialcs->partition_root_state,
+>> +						  trialcs->effective_xcpus))
+>> +			prs_err = PERR_HKEEPING;
+>> +	}
+>>   	if (prs_err) {
+>>   		WRITE_ONCE(cs->prs_err, prs_err);
+>>   		trialcs->prs_err = prs_err;
+>> @@ -2922,15 +2909,11 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+>>   			err = remote_partition_enable(cs, new_prs, &tmpmask);
+>>   		}
+>>   	} else if (old_prs && new_prs) {
+>> -		int parent_prs = is_remote_partition(cs)
+>> -				 ? PRS_ROOT : parent->partition_root_state;
+>> -
+>>   		/*
+>>   		 * A change in load balance state only, no change in cpumasks.
+>>   		 * Need to update isolated_cpus.
+>>   		 */
+>> -		if (prstate_housekeeping_conflict(new_prs, parent_prs,
+>> -						  cs->effective_xcpus, NULL))
+>> +		if (prstate_housekeeping_conflict(new_prs, cs->effective_xcpus))
+>>   			err = PERR_HKEEPING;
+>>   		else
+>>   			isolcpus_updated = true;
 
