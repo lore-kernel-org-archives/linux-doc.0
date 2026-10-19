@@ -1,197 +1,77 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F484530DF0
-	for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 14:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A56A52F83E;
+	Mon, 19 Oct 2026 14:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792419832; cv=none; b=H5HgURhDARmBtrilYKGIcIkDErvaNVASsmBiJszyXVcn73X/8a2t+xTFCwDT5IOD8RZgQ2mKhUI8n+bhnHm+YiklvC8yoWGxDC6Df6rnlaf5WCzRSk8s1/8a4PHuBTJNiDXAsMLZHp/pi6yW6zRrhScNZ68csPoyDqo9BM9rmBM=
+	t=1792420324; cv=none; b=WwijRUdUZA719d4oQtnUks0dEkqfo+V93D/yZdnPD5yJvio4HJ6dUF9ppeYYqDu6Hn4jork2ILlHkPrhab+ZqtBkKBy0Cngcg3HH+o5M7QSllw9cL1oZmjFMZuwxOdUWGt4ksuY5aFOLlTzjEmrVY68L5Q5KmcQgmlg05FGeg78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792419832; c=relaxed/simple;
-	bh=oZw5WkstFSQ0MjMjvXdwItfizGF9O/zHM7f3xT+7fVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DrQaLInWP/ugVXI/CmQrvDNp8EzVcxMtfVZ8vYOODn7BCU/MA+7I+rrz9zTLbWagespOtjk0JrF79LCqqpmfnqqhWpQK6MAHVg88g/AotndGDk7AvcBcYBN5dM8JQkmxMU/DOrqfwI2I5X9ObAeF+KyJG6cjqmq2vJW4MDz/g1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ml511SBs; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1792420324; c=relaxed/simple;
+	bh=oVvx29ExwvBxWY3UPlYbenI/K+3fI7fjhLDn8OWXWIE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=aMjbbioYceOeneF6/KSisBJsAwIwC8u4G5MboK7QTrYDeeG+mECH8CxG0b0YvNxqIDFDUnlyKgDy7+jwE+7mKPnVAXdR6znuKN6D5bvOL4+nQS+sV6lTP5163CIHv90vB/GXMd0tFM0bAAqGjpMFJWT5fweBqQcidZyKImspgbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NbQxnj3/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ml511SBs"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5ead32bc7d8so413484e0c.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 07:23:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NbQxnj3/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CCD1F000C4;
+	Mon, 19 Oct 2026 14:32:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792419829; x=1793024629; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ynTwWaih3UWb7VmKOqAZKdwwEp9nTZ8YKOhE35tWuk0=;
-        b=Ml511SBs121ed0qKXWQ2MchBZJYue2tK8+rpZEDVGyLeI+P8eAucjVcFkNCGV1G9yN
-         ssUGANQ0E86JcTrDSBuD5cL8VFG3TwFZY1C8dyiJOVeJ6EsnQVejL0aN8Smmg6TH3tgk
-         jJPy1Sxk2Dpz9UwL9oe6ijj96402F770va9RLb597/GxYFKtHkYVPABsrELT3NKAwtQC
-         JbzsVX7vZveFhMCKPQKoKNmAkpLuv4/6NjbsidhjOproMYHto6WQeevU60INFuyTK3Gv
-         0A46XWt3aqojTZ0SzC30Gvowy/+ZeSrIpMjBSreViRmtjbY6XpGvRtt3ux17FUvXRhgp
-         2okg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792419829; x=1793024629;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ynTwWaih3UWb7VmKOqAZKdwwEp9nTZ8YKOhE35tWuk0=;
-        b=Fjh6jiZdPeFjK5/e+ADRJb0DY0xtUzY4VRN8Z8M4ekgQDTFtAQ1fzVf7IM0kv/rL6S
-         tjuXlA1ivQPJTCUnqkrHmQezJ+42vsahLMhLx+5y3NvH/4wOjsiocW+sTz/CjA421Ng/
-         3igwuJmRYFjeik4GT0Bl8ghYU/LGe4Mh8ybfE7Zc8ZsgHQ0uEF4qdCWHpAolF0goMUhs
-         qbYcbsBWSTm++o0RIDjrXiD87D/2vVsinxsHW9e63ES7fP0PLYp/f1LHHZglrC4emYEI
-         4bCuYon9yN5Nzi2hzPPuwV8UasM6GS1+ejmtn/Dbj4xHnAN0PfIgPGj0kIDDf9gzy1RD
-         ENtQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxh6CrTBrANTkj+YFo6pMHPfykPO7OHdXynMCKLnMiZzr7teauKhG4ZfcCYdUIrWZ55yIc0sXlwdaE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJoxrWpWzuhSgAV+zRWW7DrJSx2KEP8YoFab5SppFbZH4luBX/a
-	7wjtKLe7mRjLG7XENU1p2g3aZwF1mx6elyETfsrOFk11IRt2ZxVh7fgoyDBYOmuw3nE=
-X-Gm-Gg: AYBFou2nwr94pG/5pNKzTqyNbr3foIkzwW59wmUUea5/cvhajRBToKprbx3wcnQBgYc
-	ssPH8EyVKwYwLZc9i6jnYV3YCrQGRuZE180J20smpb9v0V6dorHgSXW6quAFFWxNqd29kxQJqOV
-	Up0vXzrSeaw1j0CfuvHo9M8oWe7yvh/2RYP9FYYNp0Qk8fU8lbQQjRsldaBxKtWfPeVLNYNDCFy
-	B3TfF+woM5bXynbyk2WYLnfjYHZfVvo6nTFVvqK7ToBcCXDcO0sB9716XwtA4TixoSPBT7D0LrU
-	A6rBB9au479h7SBKhn9/Q6ghnzgPdvE9Or2RFfKCdKpBEN/wEXz6ciP7bHKoNa4X3uPKBCBAs9l
-	n0pULXYBKUqij/fs+G77cAXI84MBaC4Is/7X8uKLjYbVJir3tFI90wIffZDNZLyojtvI1fr1PBV
-	ENJf1mJIGM0t+EyKfcCT6xqOCmRbtdRB8XBD9MQvno3RgaZPB+fs1wd3omhcfyF8tUIMuvncOi6
-	VkWSuvxHADF8Q/spBYV6qdBICL0qmUBFgctm2WudaO/YqRFK9mOFkeZ3JzmbHnRYe8/w0JrYdQ=
-X-Received: by 2002:a05:6122:6d10:b0:5c9:c60e:3a48 with SMTP id 71dfb90a1353d-5eaaa941aebmr2358171e0c.20.1792419829096;
-        Mon, 19 Oct 2026 07:23:49 -0700 (PDT)
-Received: from google.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eabf0f70ffsm4885498e0c.16.2026.10.19.07.23.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 07:23:48 -0700 (PDT)
-Date: Mon, 19 Oct 2026 10:23:47 -0400
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,
-	linux-kselftest@vger.kernel.org, kuba@kernel.org,
-	enelsonmoore@gmail.com, bp@alien8.de, shuah@kernel.org,
-	david@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org,
-	ljs@kernel.org, mhocko@suse.com, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, vbabka@kernel.org,
-	dapeng1.mi@linux.intel.com, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, surenb@google.com, kexec@lists.infradead.org,
-	pratyush@kernel.org, rdunlap@infradead.org, elver@google.com,
-	graf@amazon.com, lirongqing@baidu.com, liam@infradead.org,
-	jlayton@kernel.org
-Subject: Re: [PATCH v1 0/8] kho: add read-only Kexec Handover mode
-Message-ID: <atYn87kYpuIhRxLP@google.com>
-References: <20261019021111.990394-1-pasha.tatashin@soleen.com>
- <atXYMK5tmW8f23gs@kernel.org>
+	d=linux-foundation.org; s=korg; t=1792420322;
+	bh=ZJgfKZnh+KyHBRkUlFc9hON0UASMOT/JjSHODOYQjQY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=NbQxnj3/eQBeNqoeo73Qu4NP8xi/B4Sf3/zzgGqRCrR9TtTqb1srXCyjVPzsptdCq
+	 Mdj9cF7/chwDMEvqqytfujGNn2YpdV0wFy+VT6pZ4tX6PTL6SPHBMSSZqmaYp5VNAl
+	 Dc6Qc/hmR9nZxdlYLk2bIYE3z9nJba7LfNf8e0ps=
+Date: Mon, 19 Oct 2026 07:32:01 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan
+ <surenb@google.com>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil
+ Babka <vbabka@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, David
+ Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal
+ Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
+ <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, Daehyeon Ko
+ <4ncienth@gmail.com>
+Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
+ mm->mm_lock_seq overflows
+Message-Id: <20261019073201.aee381fbbdf2edfdd0a68754@linux-foundation.org>
+In-Reply-To: <atYJA7nIu_RwpoCC@gremlin>
+References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
+	<atXjbsDn7DJybsHU@pedro-suse.tail5790ac.ts.net>
+	<atYJA7nIu_RwpoCC@gremlin>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atXYMK5tmW8f23gs@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 10-19 11:43, Mike Rapoport wrote:
-> Hi Pasha,
+On Mon, 19 Oct 2026 13:19:45 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+
+> On Mon, Oct 19, 2026 at 10:53:27AM +0100, Pedro Falcato wrote:
+> > On Fri, Oct 16, 2026 at 12:34:33PM +0100, Lorenzo Stoakes (ARM) wrote:
 > 
-> Some brief comments before digging in.
+> > > So I think it's fine to just send it (early :) in the merge window.
+> > > ---
+> > > v2:
+> > > * Updated comment in vma_seqcount_is_write_locked() to mention the VMA
+> > >   being attached.
+> > > * Renamed reset_vma_seqcounts() to __mm_reset_vma_seqcounts().
+> > > * Used acquire semantics in vma_start_reads() to avoid race with reset -
+> > >   there is another acquire immediately after this one so it should just be
+> > >   noise perf-wise.
+> > > * Removed stable tag, will do the backports manually (just make the value
+> > >   64 bits...)
+> >
+> > I guess you're fitting this where __vm_anon_pgoff_lo now sits? If so, then
+> > this patch probably wants backporting to 7.3.
 > 
-> On Sun, Oct 18, 2026 at 10:11:03PM -0400, Pasha Tatashin wrote:
-> > This series introduces a read-only Kexec Handover mode, enabled at boot
-> > via 'kho_ro=<pa>' pointing to the physical address of the KHO FDT.
-> > 
-> > In standard KHO, the target kernel takes ownership of preserved memory
-> > during early boot, initializes struct pages for preserved folios, and
-> > reclaims KHO metadata and preserved pages back into the page allocator
-> > as they are restored.
-> > 
-> > In some scenarios (such as a caretaker, inspection kernel, firmware), a
-> > kernel needs to inspect and consume preserved KHO subtrees, radix trees,
-> > and serialized metadata without taking ownership of or modifying the KHO
-> > state, leaving the preserved KHO tree intact for a subsequent kernel.
-> > In this mode, the KHO physical memory lies outside the kernel's direct
-> > map.
-> > 
-> > To support this cleanly without duplicating KHO traversal logic:
-> > - Patch 1 exposes the physical address of the outgoing KHO FDT via
-> >   /sys/kernel/debug/kho/out/fdt_phys so userspace tooling can pass it
-> >   to a 'kho_ro=<pa>' kernel.
-> 
-> We already pass the physical address, why adding a boolean kho_ro is not
-> enough?
+> Ack.
 
-In standard KHO, we pass the physical address as part of the normal 
-kexec_file_load() reboot path. In that flow, the outgoing kernel shuts 
-down or serializes all devices into LUO state, releases machine control, 
-and hands over all machine resources to the next kernel, which becomes the 
-sole "Machine Owner" (MO) and owns all machine resources.
-
-Here, we are using a model where a minimal "Linux Caretaker" (LC) kernel 
-runs concurrently while the MO is still active. We spin off LC on 
-dedicated CPUs that have been offlined from the MO scheduler, giving LC 
-read-only access to KHO so it can temporarily take care of VM while MO 
-undergoes a standard KHO-preserved kexec reboot (i.e. Live Update). Once 
-the new MO kernel boots up, it takes back the resources from LC and 
-retrieves everything normally from LUO/KHO.
-
-LC is never the machine owner: it has no PCI support compiled in, does 
-not handle device interrupts, cannot handle page faults, etc. It only 
-exists as a temporary caretaker. LC is booted entirely inside a small 
-LUO-preserved memfd area (in our use case, LC's RAM is only ~128MB, 
-while the host machine has terabytes of memory). Because LC's direct map 
-only covers its own tiny memory footprint (for isolation reasons, and to 
-save on struct pages), the KHO FDT, radix tree, and preserved VM memory 
-all reside outside of LC's direct map.
-
-LC is configured and launched directly from userspace while MO is still 
-running. Therefore, LC does not receive bootloader handoff data from an 
-outgoing kernel, as MO is not even shutting down yet. Userspace 
-therefore reads needs PA address of KHO FDT and explicitly passes 
-'kho_ro=<pa>' on LC's kernel command line.
-
-> 
-> > - Patch 2 moves the shared radix-tree key encoding and indexing,
-> >   vmalloc flag conversion, and FDT validation and subtree lookup helpers
-> >   to kernel/liveupdate/kexec_handover_internal.h so they can be shared
-> >   between standard and read-only KHO.
-> > - Patch 3 hardens kho_restore_vmalloc() by introducing
-> >   kho_vmalloc_validate() in kernel/liveupdate/kexec_handover_internal.h
-> >   to validate the preservation metadata header and flags before
-> >   restoring the vmalloc area.
-> 
-> The diff for kexec_handover_internal.h 
-> 
-> >  kernel/liveupdate/kexec_handover_internal.h   | 171 +++++++-
-> 
-> seems a wee too large. Maybe some of this should move to a .c file?
-
-Agreed. I originally kept them in the header as static inlines because 
-they are mostly small bit manipulations and helper routines without loops, 
-but moving them into a dedicated kernel/liveupdate/kho_core.c is OK.
-
-Also, for v2, I am planning to allow CONFIG_KEXEC_HANDOVER and 
-CONFIG_KEXEC_HANDOVER_READONLY to co-exist in the same build instead of 
-being mutually exclusive. That way we won't need two different kernels 
-for vmtests. In that model, common KHO API will use function vectors 
-dynamiclly decided at early boot depending on which mode is activated 
-('kho=on' vs 'kho_ro=<pa>').
-
-> > - Patch 4 avoids modifying ser->next and bs->head_pa in kho_block_add()
-> >   and kho_block_set_shrink_one() when operating on an incoming block
-> >   set, as the chain is already linked and incoming blocks must not be
-> >   modified in KHO read-only mode.
-> > - Patch 5 adds CONFIG_KEXEC_HANDOVER_READONLY and
-> >   kernel/liveupdate/kexec_handover_ro.c. When booted with
-> >   'kho_ro=<pa>', preserved KHO metadata is mapped read-only
-> >   (PAGE_KERNEL_RO), with the FDT and radix-tree nodes mapped lazily on
-> >   first visit and kept cached, providing read-only implementations of
-> >   kho_retrieve_subtree(), kho_restore_vmalloc(),
-> >   kho_ro_lookup_folio_order(), kho_ro_map_folio(), and kho_ro_unmap().
-> 
-> What are the expected users of these APIs?
-
-The primary use case is achieving ultra-low disruption Live Update 
-(<30ms VM blackout time) while running a minimal VMM inside the caretaker 
-kernel. This VMM keeps VMs responsive by servicing software-only, fully 
-virtualized devices that do not require host hardware interrupts or global 
-machine state (such as virtio-console, pvpanic, virtio-rng, etc.).
-
-Thanks,
-Pasha
+I added cc:stable to the mm.git copy of this.
