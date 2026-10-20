@@ -1,50 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792534052;
-	b=DFyUbdDL1G+vorHGUP/GQjHcdaBwezXXWapz0VKrgBvjCmlwcIH7kqmGPGxV+L4+XUou
-	 etfAy0oTrhINui3Gj0gsZR4nG5ddfWZPHpURR0lvfUIaOL6AdVTOZeMBL/Bf2UNyDe8ia
-	 ENNScWXnjHD2Sub4L+4BhHB3ElCu0OgseL0KWRIcZHa9yaUV6rQpQbqUl6bQWzqQHPRm5
-	 hrkBu3jlA7m+IMhh7equyBD8fbcg9zsxK4A6t5EGc6CTNpsYiv/zzF7SMCgqyGcV8ufZ1
-	 lbNjB8YWG1D/k+R7MXHMbLXFeiZZU1wwH4v+tQ8tfSQXvuJqGE2ukQwAQukSSPLK8qA==
+	t=1792534766;
+	b=A9YdCsE0tJhU3kDggY3+x1j22qy7F4ZjP6LJmD9r/Hrh9Bgv3jP+Dp2sBp/bIZiKUxxj
+	 xXQjbZG58eEYeb2m6lq/4G4a/nUyIHZA9vBRF+vLx387uUAVvDaMpF32iuPiignG3gxfX
+	 TJM+FgYfuAfM8BR+oK7fsqbmfjJKkCrzKiXM+0GdK2Ep64XTclM/8PiJkuQ/dsm7ELGIo
+	 NG2J2erJG3LiXEFR6PE05ne2kYGNgVI4kt9iTpuvzEq11ZmaszkJjBQPSLNTSOWZGwGV8
+	 DUvSDQ54s3qla8PrL92LPZ+jzuN92bbhtC6zdgdRqz7ugGNpc4+X2FM50RykS2sYCOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792534052;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792534766;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=pWdjr/d/hf7wlxe3EUx/jojVqEBvoFrMCPGjGaxAxZQ=;
-	b=yvGyrQKqq68iNG4WZOKEBut6eJfCdBaNeZ5UCjFR3HsaVTpo1Lu4gvIV3188jaZrx03M
-	 iipGtYKQksgwVzXwuEchg9AU1XdkKHM25Tif8K+O8rEYFJg3sX1pl/jtJ6BRfeegqZz4o
-	 t422J18Wuen6wuDaXwLSRwqKqyPJrKT5Hz51yLiMSFg+Ow0JO0rGXqKMn99eczU9HnHWC
-	 aJVIQHHXK2x0zV2bZf6WyS5/IqHsZB4nXgphx2yZhe6sE9rltr7wKEVlzQs5Wmh4stgdi
-	 NFTyClAJgAULF5eOHg2pNKsKYSeOeuH/7Avp7gn0lCjAnTJ+PshXXZuzvoN7xgQZ13A==
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=txnx7PIhC3EgAqV7GUHYMv76bzFYtKuAOGW3BbDl5Gs=;
+	b=G2ZWJcWmYFLqeCYI5hIY5hTcWJyMnwCi4Tn35LM4PvkDZmI/0KKmlfM2VOZmPovxGCkI
+	 m8hFORrwPD25xCLXaWXxFhGKTUbdjU+mLrOdrwzg/LTcldI2gbk212GXKccdBDFsnr8Yd
+	 FZiiGI5F06BZ0goPhnCg9IV09+o8mgqqMQmPSoybbmfVn6Z/uLhkke72qmRPWRZGosfhn
+	 yaFDXQdsYnApMt5cdNZaPvpzR/tvGocGu8rBXeAEIJ3ALIjZ3gmS973q3R0CI+U7svvXO
+	 dURTT9Pf03byM1rTEu0bZKcDjZLhoe8ZT0PjBPyVN01UtdUI17o1Q3ZKSlJI1gk+nSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=RYNjetCH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TrkxBC7r;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD0C606A31E;
-	Tue, 20 Oct 2026 22:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D062A606A319;
+	Tue, 20 Oct 2026 22:19:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=RYNjetCH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C2E1F000C9;
-	Tue, 20 Oct 2026 22:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792534051;
-	bh=pWdjr/d/hf7wlxe3EUx/jojVqEBvoFrMCPGjGaxAxZQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RYNjetCHcRRPhydHWUGAHk2nDz4REzEneMHTySufPG6jbxTNTxwfkRxiou8LWIKZ7
-	 VVjPQ4prwD+LYVP8bNE4oIWRPPC5ZdSdyl5DuUwblg/xPS/U7DyrpAQZxyshhnYPU5
-	 M1jNvI9IIHLRBediFSzmztmdYUF8hjER5nlazc4M=
-Date: Tue, 20 Oct 2026 18:07:30 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TrkxBC7r
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 229E61F000C9;
+	Tue, 20 Oct 2026 22:19:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792534765;
+	bh=txnx7PIhC3EgAqV7GUHYMv76bzFYtKuAOGW3BbDl5Gs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=TrkxBC7rsozS8XAQDw8v+k9+czCVSWF2em4vHgIO8WOkV6LIMQ/T+QHKQdrkKqvS9
+	 efIyh3z9GghObw+fSNzpRkjIKWBJ5KR/CM4834V30SzhrSCvfnDDr6fObhCXkTVsAG
+	 qScn8M5h7T0W7SKeVY+3e0XujWg1s16qfC9j1wOR7V03lYiDexnGPswLbpWlDzRn75
+	 rdr8F3K38zeNGhHMTXDLGRKJ68U4arnVbpK7PRLe6j4st2M5yjBWKIZ6YhcEa8Somx
+	 s0wlJlS6xjstfDcJKbJmZl9tjKyNabTz3/FsrY6kszU4ZVVhiV5tpvkbvhAihpGwaS
+	 zqs7pxB2eMQYQ==
+Date: Tue, 20 Oct 2026 15:19:24 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Rishikesh Jethwani <rjethwani@everpuredata.com>
+Cc: netdev@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>,
+ Sabrina Dubroca <sd@queasysnail.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] tls: keep TX and RX hardware offload on the same device
+Message-ID: <20261020151924.41e22eac@kernel.org>
+In-Reply-To: <CAKaoeS2WHQ6QH5XJ+T0RLuxVDJAOtzdfVz0V6gSoZ7n5GJkFdA@mail.gmail.com>
+References: <20261013202647.2206263-1-rjethwani@purestorage.com>
+	<20261020133601.2081ab1f@kernel.org>
+	<CAKaoeS2WHQ6QH5XJ+T0RLuxVDJAOtzdfVz0V6gSoZ7n5GJkFdA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,32 +62,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261020212235.1143086-1-ebiggers@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2026 at 09:22:35PM +0000, Eric Biggers wrote:
-> Many patches still don't include base tree information and can't be
-> applied.  Such patches can't be properly reviewed or tested, nor can
-> they be accepted.  submitting-patches.rst already describes how to
-> include base tree information, but it's characterized as optional,
-> appears only towards the end of the document, and is missing details.
+On Tue, 20 Oct 2026 14:01:23 -0700 Rishikesh Jethwani wrote:
+> On Tue, Oct 20, 2026 at 1:36=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
+wrote:
+> >
+> > On Tue, 13 Oct 2026 14:26:47 -0600 Rishikesh Jethwani wrote: =20
+> > > +            rcu_dereference_protected(ctx->netdev,
+> > > +                                      lockdep_is_held(&device_offloa=
+d_lock)) =3D=3D netdev; =20
+> >
+> > Too ugly, add temp variable, pls =20
+>=20
+> Thanks, I'll use a ctx_netdev temporary and send v2.
 
-I'm happy with this change, but I'd disambiguate the title a bit. With b4, we
-started providing both a base-commit and base-tree footer, specifically
-because often times the "base-commit:" line by itself is not sufficient.
-
-Imagine this scenario: a developer is working on some code in a feature branch
-and come across a pre-existing bug. They create a fork off of their feature
-branch to fix the bug and send it in. In this situation, the "base-commit"
-footer would be meaningless, because it references some transient commit-id in
-their feature branch. In an ideal scenario, the developer would rebase that
-bugfix branch on a known tag, but that doesn't always happen.
-
-This observation doesn't really preclude this patch from being accepted, I'm
-just recording my own experience that, by itself, base-commit is often
-insufficient.
-
-Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-
--K
+Is that a name you've seen anywhere else in this file? :/
