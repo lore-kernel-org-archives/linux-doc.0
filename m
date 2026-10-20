@@ -1,49 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792492924;
-	b=V6T6MpXyWFTh3EzZMl9X/zfJVoEa0fUED70F0DPobLDT96jDnGVQ+EZFg3xqfP9OyrC+
-	 FGYaIUCM+53huvIZcfA5SE8yWioO9GZEef2++vt1AGfNthxSdpaRwLIjkp0WsomxyoILm
-	 p4AOdFUGL0TcWO44GGdvRh+4e+roPFoBHwbpNJ44o06PhEdCVi8jm6WHXBNTDRaZWxoik
-	 2SA9clMGhGeWFsfRDL7Uv31NGIiOoLY/QecGWdZkjWCsBwd8iN71xxVN+3iP48Z4jmF49
-	 bumYxRsURdvfzB0Cpo7Nv8WDPvairL0y/5On8S+RJs4Si+B0Hbtg2yJiECmTdnwqThw==
+	t=1792494267;
+	b=RcwKhQZLq9762sOAdZTpUDtcjTa7HMkUTNH6mbMVdvBZZmDYxJGUMrjBi5B0nfITgA/Z
+	 5tFQP0Z6NUXseNy0l+EPKYooR4HLIdHUp3gfsRS5Dmf8Aup84Vp90SIgLcLMGJ7fQxiZp
+	 H9fTh007CNo/u6kALXegaC0/uGAvBmwO0T38zIacnnfpbjxijJXSjtDRbXel0438y8m+f
+	 kbx/JEOsSrh1HveUn4v8FlxcYvMBieaWm7Wyd04pfdPXi6YQfjDqAexvT6OHuL7FeiL+v
+	 RyKP6ccIy7gN+NfLznMX4cJ8BLRqqOESOCLRr2RpAswckuygXHgWS/mCrM1U9MX9skQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792492924;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=HOfrP9Gwhe+jGo5BWEDgZkkf4alGpvk7OGOLWLYgIaA=;
-	b=nVJFrgZTeDqLMd402G1lpDcCCeKcpKcHWYDbYug5Lo85XsDAnO9dbMpZYCSP5hyXQohM
-	 Avz01R6EkuqGvDvlEMWxn4dOpcb2E5FoAvwCrYEytUYUfinFX7F1GKx6w7msh7HdVEXCK
-	 hwlMpsBXZaNsIpWNryXY2iPA8G/Ckfl5Lwx22kiqmrXi5NZ1L8uEUYj54QFP0/FCrHr8X
-	 +k1uf4hhCGXbl8OyhnsYfUgSHRdYmwP+zxW4wwNKUBs7RBknghiCVJdXvUcIU4mBqLLL1
-	 Msi2nk8S5jzl81iJc3PgSVIybOiWq/MXb7UEWmx4sJGWs5h3sw6JkS9FT1URcRVJS1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792494267;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
+	b=TeCxwAkR3I/z9Dy8rNWu522oSmiMrL7ay9ZXnCK5xmfp3uS3g12cUEgKQ+o7TeWIOOAF
+	 xLsFKl2/T0W+MmqETaLCYVeaDp1R7N4EJDVzV1IiFRaCOHbXiiPekY66oKm7KIxs7s1ae
+	 7SnyIxfatHfYBW3//rBVeME7dJpJMs66jyraz3Y54NtJvyAfm46pI9YdJLSmzGwkYX5Hs
+	 HTgsWBl9ImaX6wAJOOncR+pkcfzS+VrGVGI8saCYiDkLe34rsgV6665pKLdDpEHeor+Ih
+	 YKuwkz1ADwAeJ469AQzFyFeTex2ADyQ5qls+L+4QoqD8D07YIzckaPx3WH/c6lWDg0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R0X9Nmpp;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40861606A31A;
-	Tue, 20 Oct 2026 10:42:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40861606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA8A606A31A;
+	Tue, 20 Oct 2026 11:04:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EA8A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R0X9Nmpp
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EA711596;
-	Tue, 20 Oct 2026 03:41:59 -0700 (PDT)
-Received: from [10.0.137.15] (XHFQ2J9959-5.cambridge.arm.com [10.0.137.15])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2958D3F7D8;
-	Tue, 20 Oct 2026 03:41:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792492922; bh=OaSet948UMPKW/bEq7Gy7KB2ZNmZwB2hGOuIicxjXI8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R0X9NmppaPctZe25oyvdRyxTPp7TrT33QgSmgyWht1QNwxUfP4JqEzNxdmziK123R
-	 XueQS3xiz/bfL8vBZ1yVww8k6Q6T25wedDXhj06BS3d1+I/XnwCjNfnm9GNFLMWDfn
-	 vC7cxViW1dKg0DcKnWi5Bhdwq1g6zBBbBiqLMygQ=
-Message-ID: <375868af-d0bd-4278-83e6-f8429df130e9@arm.com>
-Date: Tue, 20 Oct 2026 11:41:57 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 49FEC21C99;
+	Tue, 20 Oct 2026 11:04:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792494264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
+	b=LZCVchYPxngjyrTdwP7dDyGwjGeRlfwz6xzaWNSZtF8y3Qgf12SIhyh9Y6Nd0wcT7He1aK
+	YWofyhmxglbBVNhGLztczgk2ut0LSAYokiSZEVTLZunTZ4Jh8IVD6VEwHTFDIw5kayF9gZ
+	vwrWwtjorhJFX/VTys9hwrEgQyblgzQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792494264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
+	b=UbP7T0A54+niJcsOuJ4B/+AeErov5GjTeJBZVnwBx1FlP4R5goEFKis3ur6UZEwIpgqvEs
+	JSlX8AaT2FdapVAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792494264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
+	b=LZCVchYPxngjyrTdwP7dDyGwjGeRlfwz6xzaWNSZtF8y3Qgf12SIhyh9Y6Nd0wcT7He1aK
+	YWofyhmxglbBVNhGLztczgk2ut0LSAYokiSZEVTLZunTZ4Jh8IVD6VEwHTFDIw5kayF9gZ
+	vwrWwtjorhJFX/VTys9hwrEgQyblgzQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792494264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
+	b=UbP7T0A54+niJcsOuJ4B/+AeErov5GjTeJBZVnwBx1FlP4R5goEFKis3ur6UZEwIpgqvEs
+	JSlX8AaT2FdapVAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90833136CC;
+	Tue, 20 Oct 2026 11:04:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dCK0ErdK12o2ZQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 11:04:23 +0000
+Message-ID: <9834b569-935c-484b-befb-b913acead9c1@suse.de>
+Date: Tue, 20 Oct 2026 13:04:22 +0200
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,80 +107,382 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 15/15] misc/arm-cla: Add vfio-mdev user interface
-To: Jason Gunthorpe <jgg@nvidia.com>, Jean-Philippe Brucker <jpb@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Alex Williamson <alex@shazbot.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v5 07/13] drm/client: splash: add a device tree image
+ source
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- kvm@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20261015142552.4128028-1-ryan.roberts@arm.com>
- <20261015142552.4128028-16-ryan.roberts@arm.com>
- <20261015164102.GC13920@nvidia.com>
- <CABCqBse_aZL-EH0us2uA5X10q6E4WP02MoHTYf+M9ezRZr26WQ@mail.gmail.com>
- <20261016144202.GG13920@nvidia.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20261016144202.GG13920@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Francesco Valla <francesco@valla.it>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261013093243.505776-1-maximpedraza@gmail.com>
+ <20261013093243.505776-8-maximpedraza@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20261013093243.505776-8-maximpedraza@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Score: -2.79
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 16/10/2026 15:42, Jason Gunthorpe wrote:
-> On Fri, Oct 16, 2026 at 03:22:00PM +0100, Jean-Philippe Brucker wrote:
->> On Thu, 15 Oct 2026 at 17:41, Jason Gunthorpe <jgg@nvidia.com> wrote:
->>> I think I said this last time, please don't use vfio mdev for
->>> anything. There is nothing mediated about this.
->>
->> We don't multiplex a device between guests, but the host driver must
->> control part of the device registers while the remainder is assigned to
->> a guest. The host configures accelerator access, stage-2 translation,
->> handles CPUHP and context save/restore. So we can't bind the device to
->> vfio-platform.
-> 
-> That's fine, you can make a proper vfio-cla driver.
+Hi
 
-Hi Jason,
+Am 13.10.26 um 11:32 schrieb Màxim Pedraza Padilla:
+> Embedded products often share one kernel image and one board support
+> package across several models that differ in branding. The splash
+> client can show the firmware's BGRT image or a BMP loaded as firmware,
+> but a device tree system has no BGRT, and a BMP loaded as firmware is
+> either built into the kernel, which means one kernel per logo, or read
+> from a filesystem that is not there yet when the display comes up. With
+> U-Boot's Falcon mode the SPL starts the kernel directly, and the device
+> tree is the only thing that reaches it.
+>
+> Add a source that takes the image from a "boot-logo" node under /chosen.
+> The BMP either sits in the node itself, in an "image" property that dtc
+> fills in with /incbin/, or in a reserved memory region the bootloader
+> loaded it into, named by "memory-region". Exactly one of the two must be
+> present; a node with both or neither is ignored with a warning.
+>
+> The image in the node is used where it is: the device tree stays in
+> memory, so there is nothing to copy or release. The region is mapped
+> like the BGRT image, and the BMP header is checked against its size.
+>
+> A node is only there if someone put it there for that board, so the
+> device tree goes first, then the BGRT, then the BMP loaded as firmware.
+> The boolean that chose between the latter two becomes an enum naming
+> the one source in use.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
+> ---
+>   drivers/gpu/drm/clients/Kconfig      |  15 +++
+>   drivers/gpu/drm/clients/drm_splash.c | 166 ++++++++++++++++++++++++---
+>   2 files changed, 165 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
+> index cbe271c3a23f..aef3781cc110 100644
+> --- a/drivers/gpu/drm/clients/Kconfig
+> +++ b/drivers/gpu/drm/clients/Kconfig
+> @@ -108,6 +108,21 @@ config DRM_CLIENT_SPLASH_BACKGROUND_COLOR
+>   	  The color can be overridden through the drm_client_lib.splash_color
+>   	  kernel command line parameter.
+>   
+> +config DRM_CLIENT_SPLASH_SRC_DT
+> +	bool "Device tree as splash source"
+> +	depends on DRM_CLIENT_SPLASH
+> +	depends on OF
+> +	select DRM_CLIENT_SPLASH_BMP_SUPPORT
+> +	help
+> +	  Use a BMP image described by a "boot-logo" node under /chosen in
+> +	  the device tree, either carried in the node itself or placed by the
+> +	  bootloader in a reserved memory region. This lets one kernel image
+> +	  show a different logo on each board or product, chosen by the
+> +	  device tree it boots with.
+> +
+> +	  When present, the device tree image is preferred over the other
+> +	  sources.
+> +
+>   config DRM_CLIENT_SPLASH_SRC_BGRT
+>   	bool "EFI BGRT as splash source"
+>   	depends on DRM_CLIENT_SPLASH
+> diff --git a/drivers/gpu/drm/clients/drm_splash.c b/drivers/gpu/drm/clients/drm_splash.c
+> index a7d627954158..50842922a7f8 100644
+> --- a/drivers/gpu/drm/clients/drm_splash.c
+> +++ b/drivers/gpu/drm/clients/drm_splash.c
+> @@ -9,9 +9,12 @@
+>   #include <linux/efi-bgrt.h>
+>   #include <linux/firmware.h>
+>   #include <linux/init.h>
+> +#include <linux/io.h>
+>   #include <linux/iosys-map.h>
+>   #include <linux/kthread.h>
+>   #include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_reserved_mem.h>
+>   #include <linux/overflow.h>
+>   #include <linux/types.h>
+>   #include <linux/unaligned.h>
+> @@ -71,6 +74,14 @@ struct bmp_dib_header {
+>   	__le32 colors_important;
+>   } __packed;
+>   
+> +/* Where the image comes from, in order of preference */
+> +enum drm_splash_source {
+> +	DRM_SPLASH_SRC_NONE,
+> +	DRM_SPLASH_SRC_DT,
+> +	DRM_SPLASH_SRC_BGRT,
+> +	DRM_SPLASH_SRC_BMP,
+> +};
 
-Thanks for taking a look at this! I've been chewing on this comment and trying
-to educate myself deeper on the subject. I have a proposal...
+The logic behind this enum deserves a separate patch, I think.
 
-Currently we create a struct device per CLA device instance. But multiple CLA
-device instances cooperate within a domain and the domain is the "unit of
-isolation"; we can't have some CLAs from a domain assigned to a VM, while others
-from the same domain are used by the host. Therefore it didn't feel like the
-correct model to unbind one of these devices from the native driver and rebind
-it to a cla-vfio driver. mdev seemed to solve this problem nicely for us.
+Best regards
+Thomas
 
-But looking into it in more detail, I guess something like this might be a bit
-more standard:
+> +
+>   struct drm_splash_scanout {
+>   	int id;
+>   	/* Modesets scanning this buffer out, by position in the list */
+> @@ -110,7 +121,7 @@ struct drm_splash {
+>   	bool render_done;
+>   	void *map_data;
+>   
+> -	bool use_bgrt;
+> +	enum drm_splash_source src;
+>   };
+>   
+>   static struct drm_splash *client_to_drm_splash(struct drm_client_dev *client)
+> @@ -212,6 +223,114 @@ static int drm_splash_fw_request_bmp(struct drm_splash *splash)
+>   }
+>   #endif // CONFIG_DRM_CLIENT_SPLASH_SRC_BMP
+>   
+> +#if IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_DT)
+> +#define DRM_SPLASH_DT_COMPATIBLE "boot-logo"
+> +
+> +/*
+> + * The boot logo node, if the device tree has a usable one. Only a child of
+> + * /chosen is considered, not anything compatible anywhere in the tree: the
+> + * image is configuration handed over by the firmware, not a device.
+> + */
+> +static struct device_node *drm_splash_dt_node(struct drm_splash *splash)
+> +{
+> +	struct drm_client_dev *client = &splash->client;
+> +	struct device_node *np;
+> +	bool image, region;
+> +
+> +	np = of_get_compatible_child(of_chosen, DRM_SPLASH_DT_COMPATIBLE);
+> +	if (!np)
+> +		return NULL;
+> +
+> +	if (!of_device_is_available(np))
+> +		goto out_put;
+> +
+> +	image = of_property_present(np, "image");
+> +	region = of_property_present(np, "memory-region");
+> +	if (image == region) {
+> +		drm_warn(client->dev,
+> +			 "splash: %pOF needs exactly one of image or memory-region",
+> +			 np);
+> +		goto out_put;
+> +	}
+> +
+> +	return np;
+> +
+> +out_put:
+> +	of_node_put(np);
+> +	return NULL;
+> +}
+> +
+> +static bool drm_splash_dt_available(struct drm_splash *splash)
+> +{
+> +	struct device_node *np = drm_splash_dt_node(splash);
+> +
+> +	of_node_put(np);
+> +
+> +	return np;
+> +}
+> +
+> +static int drm_splash_dt_load(struct drm_splash *splash, const u8 **data,
+> +			      size_t *size)
+> +{
+> +	struct drm_client_dev *client = &splash->client;
+> +	struct device_node *np;
+> +	struct resource res;
+> +	const void *prop;
+> +	int len, ret = 0;
+> +
+> +	np = drm_splash_dt_node(splash);
+> +	if (!np)
+> +		return -ENOENT;
+> +
+> +	/*
+> +	 * An image in the node is used in place: the device tree stays in
+> +	 * memory for as long as the system runs, so there is nothing to copy
+> +	 * and nothing to release.
+> +	 */
+> +	prop = of_get_property(np, "image", &len);
+> +	if (prop) {
+> +		*data = prop;
+> +		*size = len;
+> +		goto out_put;
+> +	}
+> +
+> +	/* Otherwise the bootloader loaded it into a reserved region */
+> +	ret = of_reserved_mem_region_to_resource(np, 0, &res);
+> +	if (ret) {
+> +		drm_warn(client->dev, "splash: %pOF: no usable memory-region: %d",
+> +			 np, ret);
+> +		goto out_put;
+> +	}
+> +
+> +	splash->map_data = memremap(res.start, resource_size(&res),
+> +				    MEMREMAP_WB);
+> +	if (!splash->map_data) {
+> +		drm_warn(client->dev, "splash: failed to map %pR", &res);
+> +		ret = -ENOMEM;
+> +		goto out_put;
+> +	}
+> +
+> +	/* The BMP header, checked against this size, says how much is image */
+> +	*data = splash->map_data;
+> +	*size = resource_size(&res);
+> +
+> +out_put:
+> +	of_node_put(np);
+> +	return ret;
+> +}
+> +#else
+> +static bool drm_splash_dt_available(struct drm_splash *splash)
+> +{
+> +	return false;
+> +}
+> +
+> +static int drm_splash_dt_load(struct drm_splash *splash,
+> +			      const u8 **data, size_t *size)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif // CONFIG_DRM_CLIENT_SPLASH_SRC_DT
+> +
+>   static bool drm_splash_bgrt_available(struct drm_splash *splash)
+>   {
+>   	struct drm_client_dev *client = &splash->client;
+> @@ -489,7 +608,7 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   		return -EINVAL;
+>   	}
+>   
+> -	if (splash->use_bgrt) {
+> +	if (splash->src == DRM_SPLASH_SRC_BGRT) {
+>   		x_pad = efi_bgrt_image_offset_x();
+>   		y_pad = efi_bgrt_image_offset_y();
+>   
+> @@ -582,19 +701,34 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   static int drm_splash_image_load(struct drm_splash *splash, const u8 **img_data,
+>   				 size_t *img_data_len)
+>   {
+> -	int ret = 0;
+> -
+> -	if (splash->use_bgrt) {
+> -		ret = drm_splash_bgrt_load(splash, img_data, img_data_len);
+> -		if (ret)
+> -			splash->use_bgrt = false;
+> +	switch (splash->src) {
+> +	case DRM_SPLASH_SRC_DT:
+> +		return drm_splash_dt_load(splash, img_data, img_data_len);
+> +	case DRM_SPLASH_SRC_BGRT:
+> +		return drm_splash_bgrt_load(splash, img_data, img_data_len);
+> +	case DRM_SPLASH_SRC_BMP:
+> +		return drm_splash_fw_load(splash, img_data, img_data_len);
+> +	default:
+> +		return -ENOENT;
+>   	}
+> +}
+>   
+> -	/* BGRT failed to load */
+> -	if (!splash->use_bgrt)
+> -		ret = drm_splash_fw_load(splash, img_data, img_data_len);
+> -
+> -	return ret;
+> +/*
+> + * Pick the one source the image will come from. A device tree node is only
+> + * there if someone put it there for this board, so it goes first; the BGRT
+> + * is whatever the firmware shows, and the BMP loaded as firmware is the
+> + * fallback. With none of them, only the background colour is drawn.
+> + */
+> +static enum drm_splash_source drm_splash_pick_source(struct drm_splash *splash)
+> +{
+> +	if (drm_splash_dt_available(splash))
+> +		return DRM_SPLASH_SRC_DT;
+> +	if (drm_splash_bgrt_available(splash))
+> +		return DRM_SPLASH_SRC_BGRT;
+> +	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP))
+> +		return DRM_SPLASH_SRC_BMP;
+> +
+> +	return DRM_SPLASH_SRC_NONE;
+>   }
+>   
+>   static void drm_splash_image_cleanup(struct drm_splash *splash)
+> @@ -909,10 +1043,10 @@ static int drm_splash_client_hotplug(struct drm_client_dev *client)
+>   	get_task_struct(thread);
+>   	splash->thread = thread;
+>   
+> -	splash->use_bgrt = drm_splash_bgrt_available(splash);
+> +	splash->src = drm_splash_pick_source(splash);
+>   
+> -	/* If no other image has been loaded, try to load a BMP as firmware */
+> -	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP) && !splash->use_bgrt) {
+> +	/* The BMP loaded as firmware is the only source that arrives later */
+> +	if (splash->src == DRM_SPLASH_SRC_BMP) {
+>   		WRITE_ONCE(splash->fw_pending, true);
+>   		ret = drm_splash_fw_request_bmp(splash);
+>   		splash->fw_requested = !ret;
 
- - Split the existing CLA driver into three components:
-    - cla-core: Hardware discovery, domain configuration, struct device
-      registration and CPU hotplug
-    - cla-native driver: Provides the user space accelerator interfaces
-    - cla-vfio driver: Enables domains to be assigned to virtual machines
- - Each domain has a struct device (created by the core)
-    - An individual CLA is not represented by a struct device
- - Either cla-native or cla-vfio can then bind to a domain device
-    - cla-native exposes a char device per domain, per accelerator class
-    - cla-vfio
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
 
-For VFIO, I guess we could use one VFIO region per CLA, which would allow the
-VMM to construct a device tree. But it would need to additionally determine
-which CPU each CLA is bound to; perhaps that's a sysfs interface that cla-core
-could expose?
-
-Does this feel like it's going in the right direction?
-
-Thanks,
-Ryan
-
-> 
-> Jason
 
