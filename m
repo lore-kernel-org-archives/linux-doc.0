@@ -1,168 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.74.75
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792499922;
-	b=t/wclEYfwRtHS8Z1JmkkOT4ODBbRyywNC2QA0AJiRWoyhKJ8bAphq4RkRowUSDJERsbF
-	 GlJFnL7ySVCrWg91oFeA+cRXQKjIrvNfCtQuPx7IItCCdqRO6EeLdZEgPwPcYynty4qk7
-	 sgsN/reA0YNGE1ePfk9kOw5z560Hje7qlsZveUe9FRWV9yX+sC+S+yRIwxiBw8BSEYjVh
-	 dslcH8rOOTQk0Rf55LmZws64ZPiQZEFjs2AfcnkRgH0GLUtrgeJLbD+cybjc2KuyhaurS
-	 Zh4A1YIpwRH9ldkshyo2ZpwlANDgR/Wd4yS1a7JTHKQPtFOr2s2vcsx12Y9tWRNkK8g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792499922;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 msip_labels:x-ms-exchange-messagesentrepresentingtype:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=akACAvijgLhBP2eeze8El/6gwOGre636Dl5rPf9ee94=;
-	b=dRc7farmP9VN6J0190klITwO/eXH2GrRWlbQfV8aabwgoD1KV0qN0r2UYOvIApq8n2cv
-	 h9vTvO3czHNKLmb6/li0L//VnWjnJQjnV52rHL1ZvCrthzy9apDIKjaov1oComTMFzWb0
-	 8tdpEJhMO+CKlOBRa1Q2OIICUePCZVAo0LrF/K5G7hHRGpNn57kLEGzpowAn0HlHOQi0K
-	 ozaRMxfxyHjtaEPivvQOFTbGlou6u2WVkHZ79lba3lW+74nnAEElgfNVg4c1JAU6K2x6J
-	 vIUBefq8zrDPZzsKt95js5C2ChfrEr6C8JzvWxWVxiVoSsZB40/exV7Lo/big2il9Ow==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b="CHN/h1IV";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.74.75
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazolkn19013075.outbound.protection.outlook.com [52.103.74.75])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792499961;
+	b=T29vDlRPbaEkqOjSNTvuqAnR6GZ2ZUxXbD3ZGNBIMYVa4/ic6K/uVyQNqhwqrzbRHDut
+	 UiV65l6bHPPRd3TENGqkXEWYjkXYM/6wXD16q1o5N8RJvzNWi1iorTSUr0/qT43LKZAZi
+	 gcgP+wsS+iKubMn4GvkWrxy4yyhsyU/RzFezVw3xUpkz3tEniLRW29OHf9PvSYJRjoOtN
+	 yyTWYTwzpGGw6ULyJI2+/g/SdSt7l73NEO4LUWblhCPG1luskC4nE/uvh/V5Hh16y2JgE
+	 oxau8B62ekePaaLckWgx76s3VxsCE1Zvb7rN9y+r+BkGMlGibiRWE0+LUz5l6smejFg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792499961;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=fPyspVFbPKIDQ4LqkzeoiuA1iNZYYjJnNTZsI6hWXKY=;
+	b=Xpl6TIDNMy4XZlyBfD4KTFs7EbT4uFi+RMenV8GPdUH/mFnkAJfyr4Y5qJz21aON9hWx
+	 DZxADrqMDM/hzYcgWM2dMdvEebiJb5tyoOQyVBx8gn+aVXQCPGUHg8O1RF1YFAqul8C4U
+	 2guGU2KsvXvchqd+XX53WHU67oqsBp25WuEkxGA3xDJa21G4zXpVTAaWBs5XCEsr+pHwb
+	 Zt1j6EMnfidsEJ0mOa2Yep0cBkpc6ZBTFyLHA2bwNG7B0tEv/0+V9hyupO4QvkkXFcTMu
+	 IJ9Wf1Q8QoEtq/Yi+zR3fyPBZiFtcpu3eCs61XHzH1OxEyTO3Kbi6599xthTvs0l8EA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=amzA5L5b;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03A5606A326
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 12:38:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A03A5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 748F4606A319;
+	Tue, 20 Oct 2026 12:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=CHN/h1IV
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uHOrIXtb9FwN+WnJo9jGh7NAyxM53JYUt/2Ymn4RZoVqrfQLHyQ21PX0vK3vkFvH+JJG8pZU/K1Jtt9uG2gjDPjtsGode19sZrfRZQ8LGiBYQxrlqCmqmJMNhx3lAxMtUNKjqEy2SNQ7DadrboE92zlVvg61NPdjGzr1mWasTrdGwSIqpC3i7k2utBJyk1DZPPH/cKXKHDvUGRkK2205y8NJ8hlRBNDIgVPo/iuUPOYe8JyQkpTXt1Q512DtZ7PcpMYSykYxJYrUOVvdTPyg0KpcoT8UFSKq+8DGJovhCC+XwkhKSDDPGFXxCeIyli4BD0PsONXkoQM12NSO3vqgVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=akACAvijgLhBP2eeze8El/6gwOGre636Dl5rPf9ee94=;
- b=joNYlgq9GSnIP0DnDfshA4KilFGhugDmuptwaTnLcR4Df4olzve2jUzj+9tpAwswWVZ4lQvI+IAltYs62ga97Lr+2ZjPsI5r9b5UJZTrWgJxFmpYUl8Q80V+Lthqa7QhPb/bngis1fw48xDAIK7FUG4L1mqZZ97qEuywxLV5AnE75ayYRmVzChVxnmc1CtyCO8SrbUvC+TPKU92edzm/ub96QwqHxpBC0Zq6eTCAMb3NLhj5OC2fsfk9PM15/LhreB1LyYJZA/rMycVz9bBwScx6VVurhE/bdBTze5zn1T5OimyzsFrbAeNsr7LSJS9X2M+2vdyX0b62mRaf4JrsYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=akACAvijgLhBP2eeze8El/6gwOGre636Dl5rPf9ee94=;
- b=CHN/h1IVahub1jqQUPXGmF8XvRKQeyquCKNd4ryuBRrkltiTldQz6fxz7QJnwrx4/TdL1wb++niKL1qbwBRJmOS9/K+EuQz7KAuelmi/IySi6W/XnjBM/qIwEc0DAAjyF2V9sgzOSIbZnYO7dbqJhFsS+dCUleZy44JFQ38L2gLKv8cMly73BWPorpXVKsRou74rjywX1+LNoLiB6Ipz4vGuqJ55isjcLl28t5omgiaYRWATX+eE7uJvlxmPa3en18AzRPqNUw+iIo+RFge2FfTl5W5nzBH1aJlZmvuvrRCoQ6+PUrrn8aqtwtnA5hiPoAhFoyR20Qiy2NsEVUEo3Q==
-Received: from SI2PPFCA6543649.apcprd04.prod.outlook.com
- (2603:1096:f:fff6::7e7) by JH0PR04MB8066.apcprd04.prod.outlook.com
- (2603:1096:990:9e::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Tue, 20 Oct
- 2026 12:38:38 +0000
-Received: from SI2PPFCA6543649.apcprd04.prod.outlook.com
- ([fe80::de08:ebad:529:5b18]) by SI2PPFCA6543649.apcprd04.prod.outlook.com
- ([fe80::de08:ebad:529:5b18%5]) with mapi id 15.21.0522.017; Tue, 20 Oct 2026
- 12:38:37 +0000
-From: "wpeterYY@outlook.com" <wpeterYY@outlook.com>
-To: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC: "alexs@kernel.org" <alexs@kernel.org>, "si.yanteng@linux.dev"
-	<si.yanteng@linux.dev>, "dzm91@hust.edu.cn" <dzm91@hust.edu.cn>
-Subject: [PATCH v3 1/5] docs/zh_CN: add fault-injection index Chinese
-  translation
-Thread-Topic: [PATCH v3 1/5] docs/zh_CN: add fault-injection index Chinese
-  translation
-Thread-Index: AQHdYI/thsoaWFtLIUqG3XLRbOsRGA==
-Date: Tue, 20 Oct 2026 12:38:37 +0000
-Message-ID:
- <SI2PPFCA6543649F0FF8DBE446FB0A784F6DD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
-References:
- <SI2PPFCA6543649A166AABA54D11A931F7DDD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
-In-Reply-To:
- <SI2PPFCA6543649A166AABA54D11A931F7DDD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PPFCA6543649:EE_|JH0PR04MB8066:EE_
-x-ms-office365-filtering-correlation-id: 1bcaa7b9-ce9d-4a99-1fd5-08df2ea7100e
-x-microsoft-antispam:
- BCL:0;ARA:14566002|2604031031799003|31061999003|5040399003|36102599003|51005399006|22091999003|24121999003|15080799012|15030799006|19110799012|8060799015|8062599012|20061999003|40105399003|30101999006|26121999007|3430499035|102099032|440099028|3412199025;
-x-microsoft-antispam-message-info:
- =?gb2312?B?Tkg2UmdyNVV2WUdiNkNoL2VsNGlZWW5LYXZuMzlDYW4yR3QyTE1nR3B5M09Z?=
- =?gb2312?B?cWJkNHl1ZlFWZkZMZm1vTjV6SkR3bWpldy9ZbUdueGJhL0VUZEpBelRiejU1?=
- =?gb2312?B?QlVucnBJaVpYTG5sVDJkREJDV0t6ZTdoeERIUytqTG1qV0tsSVNvTXEzakFR?=
- =?gb2312?B?TEpvM0Fza283TlZWNGVZMld1YlJJRzArUGM4VXI4VXJTaHB5YkdxRlNDWWc1?=
- =?gb2312?B?L2lHSVh3bVJQQXR6K1N6Y3JoMytITEFoZkdOUUpzSHB0OGZMLytuOG0wWFIz?=
- =?gb2312?B?K3NWaVFWZTVxTE5wbndpeWlxWUllNWNSVGN0Uk5pN0oyditTWnhQckVKZWR6?=
- =?gb2312?B?S3pDTlUrWldOQkVlWWVLSE0rZ2J3M3F4d1VTYy9CbGdJc01vb203T3ZHUWNy?=
- =?gb2312?B?L2JwbWZWNzA1TXR6aVhjSlVsSWswT1NteExKaHJkMHloYnVrWGVyMW9sRERy?=
- =?gb2312?B?QVdwTDlOUERmY29iM0haeldrWWtUbjJiNFZDTktLcFBDWWErRzY1aUc5Mlhk?=
- =?gb2312?B?b21PU2lsc01QU0pkN1pKQTdVckZDek1FeklHNW1CK1o1RndjRFpVY2lXTG9Z?=
- =?gb2312?B?NTNwbkh3RXZSWkVsSlpBY28xcHBUT0FWdERyNGp6NS9UNWNZRFdCbXhTbkI4?=
- =?gb2312?B?ZVY1N1lWeEhLc012MGRpWEwvQzBmLzEzYjRpYmp0UHlEYzBFd2lTc2wwVlJm?=
- =?gb2312?B?c0JOeWJoUlRBV29rdXF1S1JuWG0yU0ZlejVsZ2NyOXZjeVo1b3lhWWdCbnRy?=
- =?gb2312?B?Q3lqc04xNVlpRzBzR3JMUHVyeTFRR082Z092d2RCT1lJN3RkYURXemFhRVZy?=
- =?gb2312?B?RVVISm9ZYzZxVEdPbks0OXd0MXVtZG0wZlkvM3RVRXpreGlacEpxSjNydXhP?=
- =?gb2312?B?S3VWdWpKR3Fod0Q1YnNjVGpST0o0aUZGZlEvVXRyODhWZFIrZDhpSjhleFNz?=
- =?gb2312?B?TUVLY2NtNXJJcDF5YmpWSlI3NkNUNjkzU2hGUTl3czBZc2RHaTF3cVdyaFQ0?=
- =?gb2312?B?Q2pvbXRkeUtkeS9NUlZnYkpwOGptUU11VXk2QllvUkRUTE04NVRLNmFEamtO?=
- =?gb2312?B?VWtMM0t4NVlDVm5nakY0Mjh5aElYK29MUXlCNmFLdEhlOW9POG1GTTJRM1kx?=
- =?gb2312?B?Q0kzNldXWTB3TGpZeHY4Vk4rdlRYMk1MOWh5OHljbGNvWDZXSWF1S2RxOCtY?=
- =?gb2312?B?OXVub2lnSzRLVVNDZThObWZkZmcyQkxoSGdtc1hLMDFnOXphcHRZalRraURo?=
- =?gb2312?B?cDJVdzBNRi92RVpwUTkvb2dPK2xNeUNubVNqNmptdjdOZFNadFJhcDZtSVdj?=
- =?gb2312?B?TEgvS3VHbU5HUlloSVA1cW9Ybk5STHBXdXhjVWdvYStWazZaa1lGV21CL2FO?=
- =?gb2312?B?djY1cXRjWjJMTTdhTmIwYmRNeS84ODI0dWU4Kzg1MU5CN2hCNks1QVJJT1Fp?=
- =?gb2312?B?TS96bVQ4dEd5SWpIQ1ZtYzJFUkJRVDJReXpGWEVEaXJNZ0M2UXRHZENPUCtQ?=
- =?gb2312?B?R0VRVURNOW1aTU1MaUNTWDU2RlQzb2NuQmRFNmY4d29zSUwvdzk2MXRVb2ZM?=
- =?gb2312?Q?L6Na6xBRD+tPY/Ysul4U/ax6o=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?Q0tDSFpCTWZ1WGN1L1pwQlp0TUVTWmt4czhPbVozWFhXVXZ3TnJRZzhQeHJa?=
- =?gb2312?B?NG93TlJ6MlVyVDFXVUNRcXRNcllUaWZySFhiVjQ2NTlMblA3c1c0aXdNNjBE?=
- =?gb2312?B?cEpxbVVuWjl4MlFTTjhINnNSNXhReUozdDBkaC9OZSt6ejRsZXRNVWRsaVJo?=
- =?gb2312?B?ODRGWCtoT3JwMmpoT3AwOWU1VjRmZzBqWTcwd1NIeHp3NzRTbU8zTkRqNVRx?=
- =?gb2312?B?RjlOdStBVGZTdFBJSkRLdWNRTFF0SXFSYWhFOE50bkFFRXphWWJXeTl4MXBn?=
- =?gb2312?B?NDBWTHNKRjBUNkQ2TXpGNnBQMmJlZ2hVK1RzK2lHZG84dGxnSEsvUEhuMllF?=
- =?gb2312?B?Smk0VlNXNXlQRS9LZDJuVE9TZFROcTM4bEVqVVJRSmJ1azE0N1h5UTlJMGJU?=
- =?gb2312?B?VHJtNE9sYTJtVEFHcXNpUDU5Nm1WakovQ3pVWUtjNElMY2JQMzIvSzVsWEc4?=
- =?gb2312?B?cGFKKzZQb0xmRjVrOWNzVTFyZFNsNXI0Qjd1RHNhbU9qSFZQMDUyZ0U3N1Ji?=
- =?gb2312?B?TW55Q1R5Z3VsMkJhRDByRTRUb1VyQlN1Q2lQREFaa2VWVGZXYnBYcVdqQTlY?=
- =?gb2312?B?aDVvZkFRTVdiZ1NjTk4yV3pkZHdYRnNYdDZVR2tYRU5sK2FwaUJsSGRDU3dn?=
- =?gb2312?B?MFYwQ0FUSkFudThxTFdqZ1R3STF5c3FNMXVzYVlPRXlqWVNLdzFsWjBoWnFC?=
- =?gb2312?B?Z3RwbzZyU0VHa3pQV1FxSDNKa08wd3NrMCttZ09XTnN6dXpnaUx6OVZ2SkFn?=
- =?gb2312?B?MVJLQVVzZE5pVEtEcHlBQ2JvbVBNUTFKNlV6MXphV3BUU2g1RFVSNTkyVlRa?=
- =?gb2312?B?aVpzeHM3UFZNek5kMVlRdjRpblhLcmJqTEQwY2NVazZNVFVEOVFrRnJmNlNr?=
- =?gb2312?B?aGZ0SDNieXo3THg3c3BmcnFLTlM4eDFFZGQyUkloU244NDl2ZzZZVnp1eEVL?=
- =?gb2312?B?eG81WUppVkFFaGUwVkxFZG4yVHdabk9OTWpWM2ZvSENkYnM4MWZhV3A2elY5?=
- =?gb2312?B?ekpZRWJGNmVRUndObTRuZlk0Uy93NnNuNTY2ZW1FaHhTcnBsRTAyeDdGMFJH?=
- =?gb2312?B?Qk1RS0hXS2hpRWlTL2dFU2lzaHNRbTdjdmtZOHV2T2VVSVZzTmM5d1k4VHgx?=
- =?gb2312?B?dHZmc1Bld01YTVRTVk52UjRwNUZPdng3c3dxVEpUVFhWVE82WG1FbEFtS1Zk?=
- =?gb2312?B?OHZtRmNQM3B6MFFwNVM3VjY0SU5jR3RBRncra3paZUV0N2UzMWNFWTdCMlQ3?=
- =?gb2312?B?enlnMmR2Nms1RjFiQkc5Q3p0eW9ra2xBZXNJa2kyQlQ0dmlzMDFQSi9MSXcy?=
- =?gb2312?B?WHFSa1RGYjh3c2R2VDZ2UGJkSmlFc2NSaTVadXhCemtxcUJyRWh0OUc0bi9G?=
- =?gb2312?B?d1hPSnlieitDRGFTaEhUNVloenFSMlpBVVBGMkJsM2laY3JwOFRobkE0Rnhp?=
- =?gb2312?B?QkRsMk56c3MxZERGS0F5MW9Ra3hXRm9zeUwyY1VtWENUc1Q3c2hYRUxicWtX?=
- =?gb2312?B?Z3JjZTRpNCthenJYcVRGek9kelVpQW1EaGZnbXRPd1ZTQWFzcnVRWEF0d3ll?=
- =?gb2312?B?VXVYaHlFV0VvUklmNXhFODRydGVncWNCYWJNV1R4WG9PVW1jSHVhVHZ4WVFo?=
- =?gb2312?B?MEsrV1Q0R0tlWExXcDIzTXdGZzgvYWtMZGNFVHZuMTNvTHVTREdwTWt3RlIw?=
- =?gb2312?B?ZVNjaXVqQ1RnejZjQTQzZlRXVGpxalBMcllJNi9hZHo0L1RmUCtkc1pQODcv?=
- =?gb2312?B?UVJ3REUvNmZzYlJHcVkrcFdIaVI4QytiZkRZblpjN2FRYjMyVUppVVIvc1ls?=
- =?gb2312?B?K3BWNXZkZGpEc25RQWRZV3hKcWVUUTRBNTEyRG5KbDR2STVXdFh0ZlF1SFJN?=
- =?gb2312?B?anVkZDI4R3pJdVdTeWZFaVc0MFBJSWxURHJKZXZZdVhyYWo3aWhYU1BTWUdx?=
- =?gb2312?Q?7HydIkq1cKM=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=amzA5L5b
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 842ED1F000C7;
+	Tue, 20 Oct 2026 12:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792499961;
+	bh=fPyspVFbPKIDQ4LqkzeoiuA1iNZYYjJnNTZsI6hWXKY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=amzA5L5bHG9DIriq3h2b/Os91GZsZpLn91eYSpfkQFR/nuyPRfhB5bvbe7uirA8wO
+	 6nELKuRj3I5YIGVsNJmNeCRy6nzvOnZzaPPhlU6O0ySEfqQqBnJki0cY6UL84G9+Bm
+	 yUOIutEKrklpRWrwmx4KO8LWEEUeN5JPuas8BQaRC10oBysGHcpDc4zn1QrqSHVqsr
+	 4y1pBb75Hwpegkl5gGBipGGBtTwWl3r920zMGwUlxNWTsvO8grapN7oTzeN9jQWdr6
+	 F54ozaeXyHlEyKA1vOR5jborJ2CXdjHKTIYqZsVSOqhrl7eAUD+Mxn1Yjy7uBeCRKu
+	 2RD27EsLe4rfw==
+Date: Tue, 20 Oct 2026 14:39:18 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux@analog.com, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 06/10] iio: frequency: ad9910: add axi backend driver
+Message-ID: <atddZ9KZkXwgv2IA@monoceros>
+References: <20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com>
+ <20261015-ad9910-backend-support-v1-6-3c21648c8e26@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -172,46 +64,164 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PPFCA6543649.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bcaa7b9-ce9d-4a99-1fd5-08df2ea7100e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2026 12:38:37.3067
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR04MB8066
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hepozkqd53cm62gy"
+Content-Disposition: inline
+In-Reply-To: <20261015-ad9910-backend-support-v1-6-3c21648c8e26@analog.com>
 
-RnJvbTogWWlrdW4gV2VpIDx3cGV0ZXJZWUBvdXRsb29rLmNvbT4KRGF0ZTogU2F0LCAxNyBPY3Qg
-MjAyNiAxOTo1MDoyNyArMDgwMApTdWJqZWN0OiBbUEFUQ0ggdjMgMS81XSBkb2NzL3poX0NOOiBh
-ZGQgZmF1bHQtaW5qZWN0aW9uIGluZGV4IENoaW5lc2UKIHRyYW5zbGF0aW9uCgpUcmFuc2xhdGUg
-RG9jdW1lbnRhdGlvbi9mYXVsdC1pbmplY3Rpb24vaW5kZXgucnN0IGludG8gQ2hpbmVzZS4KClVw
-ZGF0ZSB0aGUgdHJhbnNsYXRpb24gdGhyb3VnaCBjb21taXQgYTU5MmEzNmU0OTM3CigiRG9jdW1l
-bnRhdGlvbjogdXNlIGEgc291cmNlLXJlYWQgZXh0ZW5zaW9uIGZvciB0aGUgaW5kZXggbGluayBi
-b2lsZXJwbGF0ZSIpCgpTaWduZWQtb2ZmLWJ5OiBZaWt1biBXZWkgPHdwZXRlcllZQG91dGxvb2su
-Y29tPgotLS0KIC4uLi96aF9DTi9mYXVsdC1pbmplY3Rpb24vaW5kZXgucnN0ICAgICAgICAgICB8
-IDIwICsrKysrKysrKysrKysrKysrKysKIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L2luZGV4LnJzdCAgICB8ICAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyks
-IDEgZGVsZXRpb24oLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9mYXVsdC1pbmplY3Rpb24vaW5kZXgucnN0CgpkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZmF1bHQtaW5qZWN0aW9uL2luZGV4LnJzdCBiL0Rv
-Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2ZhdWx0LWluamVjdGlvbi9pbmRleC5yc3QK
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi4xYjNjMGM4ZTVlYmIKLS0t
-IC9kZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9mYXVsdC1p
-bmplY3Rpb24vaW5kZXgucnN0CkBAIC0wLDAgKzEsMjAgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVu
-dGlmaWVyOiBHUEwtMi4wCisuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QKKwor
-Ok9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL2ZhdWx0LWluamVjdGlvbi9pbmRleC5yc3QKKworOret
-0us6CisKKyBZaWt1biBXZWkgPHdwZXRlcllZQG91dGxvb2suY29tPgorCis9PT09PT09PQorucrV
-z9eiyOsKKz09PT09PT09CisKKy4uIHRvY3RyZWU6OgorICAgIDptYXhkZXB0aDogMQorCisgICAg
-ZmF1bHQtaW5qZWN0aW9uCisgICAgbm90aWZpZXItZXJyb3ItaW5qZWN0CisgICAgbnZtZS1mYXVs
-dC1pbmplY3Rpb24KKyAgICBwcm92b2tlLWNyYXNoZXMKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL2luZGV4LnJzdAppbmRleCBiMDhjMDlkOGU5NmUuLjA3NWZlMTVmMDZmYiAxMDA2
-NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaW5kZXgucnN0CisrKyBi
-L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJzdApAQCAtNzQsMTIgKzc0
-LDEyIEBACiAgICBkZXYtdG9vbHMvaW5kZXgKICAgIGRldi10b29scy90ZXN0aW5nLW92ZXJ2aWV3
-CiAgICBrZXJuZWwtaGFja2luZy9pbmRleAorICAgZmF1bHQtaW5qZWN0aW9uL2luZGV4CiAgICBy
-dXN0L2luZGV4CiAKIFRPRE9MaXN0OgogCiAqIHRyYWNlL2luZGV4Ci0qIGZhdWx0LWluamVjdGlv
-bi9pbmRleAogKiBsaXZlcGF0Y2gvaW5kZXgKIAogw+bP8tPDu6e1xM7EtbUKLS0gCjIuNDMuMA==
+
+--hepozkqd53cm62gy
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 06/10] iio: frequency: ad9910: add axi backend driver
+MIME-Version: 1.0
+
+Hello,
+
+On Thu, Oct 15, 2026 at 01:49:46PM -0300, Rodrigo Alencar via B4 Relay wrote:
+> +static int ad9910_axi_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +				const struct pwm_state *state)
+> +{
+> +	struct ad9910_axi_state *st = pwmchip_get_drvdata(chip);
+> +	u64 period, duty;
+> +	int ret;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	period = mul_u64_u64_div_u64(state->period, st->pd_clk_freq_uhz,
+> +				     1ULL * NANO * MICROHZ_PER_HZ);
+
+Does st->lock protect st->pd_clk_freq_uhz? If not, the lock can be taken
+later.
+
+> +	period = min(period, U32_MAX);
+> +	duty = mul_u64_u64_div_u64(state->duty_cycle, st->pd_clk_freq_uhz,
+> +				   1ULL * NANO * MICROHZ_PER_HZ);
+> +	duty = min(duty, period);
+> +
+> +	if (state->polarity == PWM_POLARITY_INVERSED)
+> +		duty = period - duty;
+> +
+> +	ret = regmap_write(st->regmap, AD9910_AXI_REG_DRCTL_PERIOD, period);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, AD9910_AXI_REG_DRCTL_WIDTH, duty);
+> +	if (ret)
+> +		return ret;
+> +
+> +	st->pwm_polarity = state->polarity;
+
+An inversed polarity waveform isn't the same as just inverting the
+duty length. So this is cheating. The right thing to implement here
+might be inconvenient, but you shouldn't implement .apply() anyhow and
+the waveform stuff has saner semantics.
+
+> +	if (state->enabled)
+> +		return regmap_set_bits(st->regmap, AD9910_AXI_REG_DRG,
+> +				       AD9910_AXI_REG_DRG_TOGGLE_EN_MSK);
+> +
+> +	return regmap_clear_bits(st->regmap, AD9910_AXI_REG_DRG,
+> +				 AD9910_AXI_REG_DRG_TOGGLE_EN_MSK);
+> +}
+> +
+> [...]
+> +static const struct pwm_ops ad9910_axi_pwm_ops = {
+> +	.apply = ad9910_axi_pwm_apply,
+> +	.get_state = ad9910_axi_pwm_get_state,
+
+Please use the waveform callbacks instead of .apply() and .get_state().
+
+> +};
+> +
+> +static int ad9910_axi_setup(struct ad9910_axi_state *st)
+> +{
+> +	int ret;
+> +
+> +	st->pd_clk_freq_uhz = AD9910_AXI_PD_CLK_MAX_FREQ_HZ * MICROHZ_PER_HZ;
+> +
+> +	ret = regmap_set_bits(st->regmap, AD9910_AXI_REG_RESET,
+> +			      AD9910_AXI_REG_RESET_CORE_MSK);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return regmap_clear_bits(st->regmap, AD9910_AXI_REG_RESET,
+> +				 AD9910_AXI_REG_RESET_CORE_MSK);
+> +}
+> +
+> +static int ad9910_axi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct ad9910_axi_state *st;
+> +	struct pwm_chip *pwm;
+
+the name `pwm` is usually only used for variables of type struct
+pwm_chip *. Please call this `chip` as it is done in the rest of the
+driver.
+
+> +	void __iomem *base;
+> +	struct clk *clk;
+> +	int ret;
+> +
+> +	pwm = devm_pwmchip_alloc(&pdev->dev, 1, sizeof(*st));
+> +	if (IS_ERR(pwm))
+> +		return PTR_ERR(pwm);
+> +
+> +	st = pwmchip_get_drvdata(pwm);
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	clk = devm_clk_get_enabled(dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return dev_err_probe(dev, PTR_ERR(clk), "failed to get clock\n");
+> +
+> +	st->dev = dev;
+> +	st->regmap = devm_regmap_init_mmio(dev, base,
+> +					   &ad9910_axi_regmap_config);
+> +	if (IS_ERR(st->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
+> +				     "failed to init register map\n");
+> +
+> +	ret = devm_mutex_init(dev, &st->lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad9910_axi_setup(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to setup device\n");
+> +
+> +	pwm->ops = &ad9910_axi_pwm_ops;
+> +
+> +	ret = devm_pwmchip_add(dev, pwm);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Could not register PWM chip\n");
+> +
+> +	return devm_iio_backend_register(dev, &ad9910_axi_back_info, st);
+
+It's unclear to me what is the relation between that iio backend and the
+PWM. If .set_sample_rate() is called for the iio device, does that
+change the output of the PWM? If yes, that's bad and needs fixing.
+
+> +}
+
+Best regards
+Uwe
+
+--hepozkqd53cm62gy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrXYPIACgkQj4D7WH0S
+/k6k2wgAuvlnAI/8NOCk6w1mONb4/gMLWFBN4F+WgeB5WFVR3x8A3lRZV6iReu8D
+iCcoiU3RCCXjd4Onz+dKx2R7RmAaOCpf2dRz5iDpAvmJvMh0zC0s55VfUZrLcyUF
+JM28ZnzWgt1gMMjoTdUZ0DcsCMTmhXqqXcUNpF4vmq2mzNB4yx70sCBSc/H1jQQe
+ajzKNjCLVpS9FkF/KsEpp7Lx9m/fUrr4TF5oZCxoc/FH9FNRgNCSErDoNkN5oR08
+mA71Eots59CAPLd8w5PXmYoahVmKKAkxUyowR9AbcS0fDJWiJOPXc/mI8zxE7OKL
+3eE8Yj21x7Rx+jeZMlfdcPBSRDjHKQ==
+=VZx8
+-----END PGP SIGNATURE-----
+
+--hepozkqd53cm62gy--
