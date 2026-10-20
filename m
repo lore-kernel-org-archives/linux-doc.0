@@ -1,163 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792457858;
-	b=w4ff4vH9Ya5RECt0I8QdcmFqDsEpMM2wWPubE9dMEirnDbPT+YSl/O69q80hyyf91Vbf
-	 J+VriwQ2CIXnnqHW5HAefVMiatrxx7dU5QhgVIKcJP1Yh9htC36Kajr4ttacM/W1ctNE9
-	 6DTHrFxIJeeOIJwEKZctNag7r1Z1WBVhc++2Satf1kQl2GuEehOXF/JGR//9eDc+ri/CQ
-	 HiGjZn8kZzQ5K2IxaZUfR6ZCVymwa9WQ6VIpy14PeE8sPGXDPnn3ePaJpSKzDlgS2crTO
-	 /eLEKkJafS5ffd6CvIB5bpLoLjsvuH2DyUj/Y6ku2kXVRD/S21QuAdlaN9ewSv0jrNQ==
+	t=1792458303;
+	b=FFVTii7ccDN0ScH4pZq7d1J+cOZOfbhKUkHRO4DNXVDg++26axXk2kytST5htRFMrG/k
+	 AgxdT5Vu2R+1cW9G0cUM4K+WZVWcKOq0VME/d0ZevbY8qp/7fC3FWWav5rxvM0aDq/mhD
+	 1CsCzahIZyCKebd9k9ECm3rKE0FdTxGZG1aAl1XIvWKhtX6yMPaLKjnpTKYdGiOJGN9FV
+	 ptZvQHdVr97uRhVu3oe2e4MP0toK9VGeSJL+mzXRgwh4s0vd3MNEbkfIHUXBDEthLIreD
+	 cJGUUKCewSKr8bwukw73TeJUZB74wDkxPuJ1cCOCC10giKZ52pfp3qXg1QR4JGinIBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792457858;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Language:Content-Type:Content-Transfer-Encoding;
-	bh=lOiqlet3uOrrmuMZMapWRpOu7lB/oI8g3M6fWrK4XN8=;
-	b=F+CTL0ZxdAnmPMxGl9dKWHRC+EJNspnfG+6AX0GHfOdtzWbyq7xah9E8z7pYwFpCFBRq
-	 bQ2bkiQ4KQ+zGYDmm+OoJwM4nLg2Xr1dTaiS1g+woHDNmqzw8VJOpg09ZMybc7/TyaXpf
-	 lnn3v9iKYnIHUrVrslGMi5HUT1dXtURLJd3pwe59w3mbrIyahZvld91qAscDufzSQj+Nw
-	 ppQqTOeJFJ/5i5+l8nI/6CbsH2i4l2BKQkxfCg/4DaUQdVIsaHGkOjUplz2iyzLYiswTW
-	 hNHI25/CXOMNrvgkJhBGGEpG+0IUwv+qyjNg8TfpCN8L4bfMjjxU1TVrW3OkhfINyfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792458303;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=beCaAIm6KjPKoU5CC5+6VKfEwLLAjcMEq/Osa7f8wq0=;
+	b=BnQnuw2UlKm87dDLN9vrzMa4b4aadSEYjvevJWcueH4iIbbYMveqLM4wHFn7/qPcaUJ1
+	 AFYo2pru0MCiGNFh3/iIt51/SiLb2vJ6CJIGacuCC7USkad18uRDrNTHX0qpVFQqoxXxT
+	 F01wYrqPf3OQU8M1y+bdv+cj51ALbzz5t69giJhB8GQp5J8s1GHH5IpiimKHe6kTjcRfZ
+	 a33ODSl5dass7c0Mve/gFoc/dGV4EqjUunMLHrs+t3XQGyYenucMBMhEeIVcbRQs/B+5b
+	 O9qFUHt1vBYFrXVKeC8eKH2y0ZnBVrgcfprjTbAhHtc4MEHiJPNsUBv/bDrCCh3Z08w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=onsemi.com;
-	spf=pass smtp.mailfrom=onsemi.com;
-	arc=none smtp.remote-ip=170.10.151.120
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MJIhDwyC;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2635C606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 00:57:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2635C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1792457846;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOiqlet3uOrrmuMZMapWRpOu7lB/oI8g3M6fWrK4XN8=;
-	b=Zhop33ilGTHmg2KLUQRPp3VIVdpwmQ1qJ/G3nbiKQa84u0pIsZXFWD7Wg5qRfxzvCJ1b6m
-	DENbv5Kd9zQIcc0fw+gypuOicfrNOygR9TN1w86IUXlrrPYce8/EdNRl39RHIwnc/RSqc1
-	6f1kQCua/dX1Uax6oNq8vtbjkalUG2HymSmd35iaFddMVzOiT1FhBzrEN9jDWDmch8wwzI
-	gF0tk1Ni9Kd6vwuRNMTrez3mA8CPejdAeeNOkI6LmMwUg+sX1Skgpd1FvvnzT41WO6DU7r
-	mqK5yMgcJ37oGQ+8mLrRA246a6tC3x+E9IvyqZgYi5zW5DvtIQyRnaFLAXHc1A==
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010043.outbound.protection.outlook.com [52.101.46.43])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-43-vHasIbGQO6qBONeh9IcV6A-1; Tue,
- 20 Oct 2026 00:57:22 +0000
-X-MC-Unique: vHasIbGQO6qBONeh9IcV6A-1
-X-Mimecast-MFC-AGG-ID: vHasIbGQO6qBONeh9IcV6A_1792457840
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com (2603:10b6:610:110::22)
- by DS2PR02MB11236.namprd02.prod.outlook.com (2603:10b6:8:32c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Tue, 20 Oct
- 2026 00:57:17 +0000
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e]) by CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e%6]) with mapi id 15.21.0522.017; Tue, 20 Oct 2026
- 00:57:17 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>
-CC: "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
-	<davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "robh@kernel.org" <robh@kernel.org>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "parthiban.veerasooran@microchip.com"
-	<parthiban.veerasooran@microchip.com>, "horms@kernel.org" <horms@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org"
-	<skhan@linuxfoundation.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"richardcochran@gmail.com" <richardcochran@gmail.com>, "andrew@lunn.ch"
-	<andrew@lunn.ch>, "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, "edumazet@kernel.org"
-	<edumazet@kernel.org>, "piergiorgio.beruto@gmail.com"
-	<piergiorgio.beruto@gmail.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "jerry.ray@microchip.com"
-	<jerry.ray@microchip.com>, "ciprian.regus@analog.com"
-	<ciprian.regus@analog.com>
-Subject: RE: [PATCH net-next v9 09/11] onsemi: s2500: Added selftest support
- to onsemi's S2500 driver
-Thread-Topic: [PATCH net-next v9 09/11] onsemi: s2500: Added selftest support
- to onsemi's S2500 driver
-Thread-Index: AQHdWBFgo04S+021LU2ZsjCwNg2z/Lb3LkAAgA58LHA=
-Date: Tue, 20 Oct 2026 00:57:17 +0000
-Message-ID: <CH0PR02MB786716FA81598835B5F7681783672@CH0PR02MB7867.namprd02.prod.outlook.com>
-References: <20261009-s2500-mac-phy-support-v9-9-dcefe1d0bf0d@onsemi.com>
- <179166122477.434549.499211157337170569@kernel.org>
-In-Reply-To: <179166122477.434549.499211157337170569@kernel.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR02MB7867:EE_|DS2PR02MB11236:EE_
-x-ms-office365-filtering-correlation-id: 0d06f70a-c664-4a81-4c3f-08df2e451644
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|38070700021|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003|6133799003
-x-microsoft-antispam-message-info: vrxN1sl2YKnaIgfzvQJFRrGi5t0+sN4/VlQjgHz7fFjXUUe26UO/KhiDz68rte2yx6oIF4ON+4vhmcb0rnDzz7Sz9v7wgQNTCARZobOlXl0XZYxOMaiE5pPmT+ByF/HsXyyAp1wd/4uw54Nsnqs1MWOjyBjlcZHKz0x1+I/llhm/YZ3Bip87CLihZS6SO74fTJOao2jQBZjvllIAi8zMc1qHa15KKZdT5ga+0BzXJmmw1nwr53iTCEZBqQjoJq/8KCl6hSu4U+uqu8aXmWoIUHQLy5ZAiq5IiQAeQ/fX8iKpbLxaboRkSBjYYXpO8Y7nXEpmn33tP4rOMvNd/IV9ojvx5oA4Ce6rgozYqjFnV4y1tw3e00QIZ4Fj2w+37Xb7vdFJgZq9TMW5rOIT/63i+gh6CqpvgE+MEBYZihDCkr0tG7ib58VxN5JAiG02RsLfivJJRsaIF6EnkeMdjnjxn9xckgUDH0VI/Ug+WWMfC4UBdJ7WY+WNJZpx29/QdKDJGtvLBYbTqkhom/oUypYFi9lm51y8uinw1z/GYaVjehW413H4UkuFu2J0fBRousDqVDnVxjIPeKdSi6A63t4cyM7M4uKqipkHAB/xpqF2DNNd9QaLM3zrxGvss/PSoq2G4yaESQhmYEIhbQh0Oc0M2AOqJlfqG1oCMjZVUrYf+VAzpKG0Aq4oF7IAxt4gOFutB0o9sC6jS6kG1ZcdFNthLxxvdQgg3kn8wyLlI64W+p4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR02MB7867.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(38070700021)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Sm5wVTNuSE1uQTNmekZiTTBVaEN6YWEyL25hZEdPbEZYTmF3N01TU1RJWlI0?=
- =?utf-8?B?THZ5bkJUZ3dUb1FRQkxQc3ZSRU0xa0tmQ2g2YXV5L01wdHl1R3dNYkNIdGxa?=
- =?utf-8?B?ajVmRmczUGZPdWx5NWpjM2pwalRXY2x1OGp1NG1MeDhCWjFyVzNYTlFGMVhF?=
- =?utf-8?B?aWNKZzVWN240VmZkQTJBcEpjVVdaOU1uOWQyRjhvZUR3d1Y5ZU1KQy9yeWRY?=
- =?utf-8?B?TXZFZW1PSXRyYnMweVB6MVhsdnVONG5CeVNDMWphN0h5YzZua2prS1VLU2lo?=
- =?utf-8?B?aXZFYVpGMklFQzZ1UVQxZ0NYYXE4Zmszb2FTUVBGRlNUbmRJa0tLQVhVWUFL?=
- =?utf-8?B?d3RsZ1JWSTNTNzQ3SjQvV1UvRXN0empFYTQvWHZEbFBWMm9KUkE1QnVKZGRI?=
- =?utf-8?B?b0ZMU0RoVEdqWERzMS81eUZEejZJRmdDT2RvUERrOHVPM25tVFJCdmc0Z1hU?=
- =?utf-8?B?RDJFR1h3azlMdFJDTWF0ZGtxcmVNZTYwcUFTR1VYRzMwWEV0WFpJaHVSUTdR?=
- =?utf-8?B?VXBLWXlrUXg1ZmZBRGZFS2hla2FPMnJRVlI3bFBJN0RZcU9MODJzT1pWSzdU?=
- =?utf-8?B?M3MyNWVrMGNVaStnd1MxWUMvYlRaUUVUelZ3QmxvQTJrMThaTVl4OVZWRDYy?=
- =?utf-8?B?VVl1MmNJNisvVTBBUHVJZkpGaDhWaThWKzV2U0FRanNKV2NHYjMwVlJCYnpz?=
- =?utf-8?B?THB4a3gyelpxMVZDblcxREtTc1VxNms3MEphZU5PUlZreDZTb2U4dTdDNTFp?=
- =?utf-8?B?VWNLNTQ4Q0ZoRVF1NFRCZy8wUUV3elA2SHhpOEFBZ211SGxXR1hZcElXODJU?=
- =?utf-8?B?ZkdQNGxTQ2x4cHY4VzlpMFR6TkU0eW9EOTZEY09ZWVVHVXV5ZGFNWjZsL1NV?=
- =?utf-8?B?N3Z6bjduNFg0akVLcnlvVnAyeFRQY3dNOGdGZlJYUkVEWGJKUXh5eVo3bm5U?=
- =?utf-8?B?c0d3bGxnRkxPWkhNb3FObmw4WG5sZFo5ZFdRZ3E3VmNpRUk1bWlJOFFaRWlK?=
- =?utf-8?B?VW05MWZ4bkx1dGY4OXJiM0hvTnRLdEF2Ry9aTnNIb0gvdml4aC9qSVgxc0tx?=
- =?utf-8?B?QXR3aHkwVVk3T3ZuUGxUSWFvQ2dyRmZHLzBMSmY1ZTVlLzJLR1NocjdjaVVR?=
- =?utf-8?B?akV3MnhUbExtWkVZTVBkNGpqYnRUMzlyMUlMQkhoQlFTOUdNOXRrYVZCMU5l?=
- =?utf-8?B?aEttTmhDOVRrZjk5VHNNN0pCVUtURTVpdHN6RVAraGJjRlRXUG9LbmZhS0tu?=
- =?utf-8?B?bG0xblYrQmtHU05NdExoTVJrRHZGT1J1M01YWG1BbnBKNGhvL1B4bmFEOTlD?=
- =?utf-8?B?TVNPVXdqSHg2MTZWR0ZxRjYyNzl5WE5lRXhsUkNac2R5b1NRNVlLN0Ezck1z?=
- =?utf-8?B?VDVzT3dCWjQwcG00eEw4RmNlME56Tm52bml5R2VxYUNYTmJwRnVMOTZFYyta?=
- =?utf-8?B?L3B5aUQwMnBDNXZITHlRQ3ptUWQrMktQREVjVjdSOXk3Q05tejAzcmJaN3NG?=
- =?utf-8?B?KzlFVCtKVzZLNGdoNGdONndEVEg2Sm1Gbnc4NU9SSUpnM2VQVkdreWtDM05B?=
- =?utf-8?B?S09COTNpRURBYm4xN0FaN3NzelRuK1hOaytPZnJJRkNaSzZHd0lhVURiVWtM?=
- =?utf-8?B?cUNMMmxsZkhvaWdXaERIY0l2cGphdTYyaGRLclM0c3FwaUo2QWl0QnRSNFhH?=
- =?utf-8?B?Q0Q0WmUwR2VBU0J5S3dQTXBCSVBod05GTjhpMlVkdTI1Q0VaVXp5L0NKcWpS?=
- =?utf-8?B?M0tRbkYzLzNlSDIreWJCWElCNTdaUWJMWmZZYlhPdUNBWDZHbFpmaFk2SGor?=
- =?utf-8?B?Vm53NlZhREVhRng3eE5vZFJqMkdVTmdPMGlBZVZnRnF1eVRhdTYwNE4reHJk?=
- =?utf-8?B?ZnZ3TCtzUWhOUCtBVmFQcEIwRTJLZ0N5ZHBZc2J1L3EyTjNiWnlMZ0tNWDdU?=
- =?utf-8?B?R3hXWWtsamlsbm5pcjQ4Yk5yMUMyeEdwR01IRU11Z0pNaU5LQnVTRDJSRWhU?=
- =?utf-8?B?Q1p0elcyekcvaFdrL0kzeFhmMGtmTHlGQVZlRC83b0dsRkF2R1N5VmdibjZo?=
- =?utf-8?B?akMrOTlpRDBaWUcwbFZIVmd1dHN0dDB2UTNMaXBMNTdhWHdkZ2cyOW93Y3dD?=
- =?utf-8?B?SXBMWTNqOExMMFBPdlNXWkozYitTbWptLy9ONEhYL3NqQzZNcGs1dDFEZ3BT?=
- =?utf-8?B?dHRnckJ4N0FtWXB2MlRpR3lCMTllbzlvQ25HVWl4SFpmRWNNS3d5b2xpNjR5?=
- =?utf-8?B?eWJBT05NRDQyWnNtdFROUVg2LzNvajlFdDd6TTZIVnEwVFBuU1FXTlAxdmVI?=
- =?utf-8?B?ck4vekNlK3B4Undsc1M4a3N6UUVveDRHRFRBNzZndGM1MTVUckJVMXpBbmRP?=
- =?utf-8?Q?2+sVpfXUFP/WN61M=3D?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E492B606A31A
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 01:05:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E492B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MJIhDwyC
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-353804b591eso5151681eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 18:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792458302; x=1793063102; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=beCaAIm6KjPKoU5CC5+6VKfEwLLAjcMEq/Osa7f8wq0=;
+        b=MJIhDwyCSQh41J8pvvcRKgILookWmNiX5K7SCR9IjEhVSAWdg8vSA9bYu6IBtXy5u1
+         uRwXhAYLk8u8TPMzGljZnXOiY3RcDNmWZ1+8IKAjUA3bL5DsHZfiaSwlCDlXaQzOtQ/Y
+         yCyTMZGDhcJsTfJa2cYsfGqRqtIr3noKyN7CQ8ksoQwtTXz9sBQ/MqNohAWxheYoXFsI
+         kc1xQAQt7LLCP5MF2GOuY2KI2Q4+rdb0maIomxuxR+/3a1Fp6/3O7j1ErhbAUVTl3s5Z
+         mjvW3TIlMyyjlUJjxdfgQF3906P/DRW9lsbjyG/NNqVxsTEMrWQ2Xjssehj8u1MPFvEn
+         /e/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792458302; x=1793063102;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=beCaAIm6KjPKoU5CC5+6VKfEwLLAjcMEq/Osa7f8wq0=;
+        b=qM3xBvdZRJvS0S/ShT0kYeHZr1c31NUlKBoRUi9ayVFkdHUZNpe+3ZqZF8gMfmLd3i
+         PMUnEQEmpeZKCYo5XLllPM51G0bLtUBowlTbPkzRcRdDq1oPqvL4bH9y7i1NTJyssL18
+         xOo0EZlVQtF+JoClfmg/v3zecVQWjOZJIt1WAtgHWcNx2Q1vYLuR8AFVJ57kzuc1nwo/
+         oeTn0vSGfr+rHracmQoeIoASTLfevRUrWQjyHIWcnr6eisvq9PxdOUSfJ1hkC0QZ3T7J
+         YqhbTl85iC3laW0rWQDyGGDl/Re+gstu1cLAKcc31tKObenrKYt1rwpfFWzyNBgm2uAc
+         xkzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy7f4K0UMceiY4R4TfYNNFnkYpsL+oWTi8/ktavLiFY54WUi7326mOhnCn9VXVwS7A7yJFwkwUH12A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKHRV8RaWlNMFKoofZgNnNC5Ir6GLUaTJYdajTEGKt4zPgciVxi
+	gW0l8LUr36pB2fkLAgAPOOqSgeqGunke32nK/3GHyb6XlQfvWO9/s0ByOtsaTYCp
+X-Gm-Gg: AYBFou08Pzhj5sp8MuiDNE0XfHaQNDv8J75Nu+bsDYUat271T3bamwlqvGBMUE7in+H
+	5CiglFXWHmz9+8AaJoX/r7qRtoTLEHTjWqvM/FNiNEVKN2UNHmzEPAeItCOMblOgNwtFZ7OhYZ0
+	jAsg5hoBEfH79Z09OQgH94YqBEYx2LnXUEx4J1SvUUiHBf2FN0zjlhM0NQLBPoFoiNx4oatYobO
+	idVowWucQ80cvUkptM/cfaErFDdbusYHIx/TLtg42qaGYzzNRC3XvOs2zT4+dg5YhduDsQfYZxw
+	b1k7L+az5NSIhAuqDzRERHTCXiqXCwuyV4+nfUowfmFx42ct90/uc78ueLWIE4I/7OjdvxY7hUK
+	+fDrdmXb6VjahkjCJw81k1T8SzXViUMuEpvQeCxlzH8SLk6UH3D1doZl5HC3gkJcazdfjyDixTH
+	B11uw+Esv3lCQHUDMmN/N6Vmy4Ip4aurIolAoDPVL3Fk+AfKhLSvihS1f8FTOJn1ksPbhfKgvvZ
+	WlzThK1fW7amfbZ7TRS3TIUxqscUHZeyLLRC77W
+X-Received: by 2002:a05:701b:4510:10b0:144:fb87:5b91 with SMTP id a92af1059eb24-18513e80de6mr12766319c88.44.1792458301614;
+        Mon, 19 Oct 2026 18:05:01 -0700 (PDT)
+Received: from dell-pro-plus ([200.9.24.236])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831b859142sm31766147c88.18.2026.10.19.18.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 18:05:01 -0700 (PDT)
+From: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+To: danielmaraboo@gmail.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	randy@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+Subject: [PATCH] docs: translations: pt_BR: translate programming-language.rst
+Date: Mon, 19 Oct 2026 22:04:21 -0300
+Message-ID: <20261020010421.77388-1-ic.gabrielribeiro@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -167,52 +98,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: syZzfcHfHPpC7SN7RISckvMJ0PmpyYFnfyQnHIHzK5LPvW3MAB9LH42ur1t3EYWu9aDDeyLl6TxfF5Q041azu/XpyilaymbMk0h80vSTWqAOQQJc4VhnDLy9C4n/KTXLkz3kmaJxh7Ehw6iaYfpqbpph9hLqPJOXei6y34pbn1zN+mg2IK2MC1qLvwgisrUl3KoIij98lrzDUnp9hLgVGUHfl9FvYtf9UtWCibT+k5hQ0RdcsorRSJZtYyvZihcNCr1svRbsQuWGW4EfWlFsQMqKKGVcRsQ1IEiWTXz9E77L9nWupveVOVbuXjXfJpxPh9CyUJX23MbBwlGNOLLuag==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7867.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d06f70a-c664-4a81-4c3f-08df2e451644
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2026 00:57:17.0620
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0ux4qYPJkvO86TGu+roNTfbF7DrJH6HooD9qTuVGGoQmRbzR303BGvCekv4rCpluUPeXGDuXhmfZ5mz/S2GnK2+0qVUKlN63ccIrNSjwRUk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR02MB11236
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: e72OBV0WkKxJ5BnS-I8sgU4WCI8nGQicpYG8X050LGA_1792457840
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogbmV0ZGV2LWJvdCtzYXNo
-aWtvQGtlcm5lbC5vcmcgPG5ldGRldi1ib3Qrc2FzaGlrb0BrZXJuZWwub3JnPg0KPiBTZW50OiBT
-YXR1cmRheSwgT2N0b2JlciAxMCwgMjAyNiAxMjo0MCBQTQ0KPiBUbzogU2VsdmFtYW5pIFJhamFn
-b3BhbCA8U2VsdmFtYW5pLlJhamFnb3BhbEBvbnNlbWkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BB
-VENIIG5ldC1uZXh0IHY5IDA5LzExXSBvbnNlbWk6IHMyNTAwOiBBZGRlZCBzZWxmdGVzdCBzdXBw
-b3J0IHRvIG9uc2VtaSdzIFMyNTAwIGRyaXZlcg0KPiANCj4gDQo+IENyaXRpY2FsOiAwIMK3IEhp
-Z2g6IDAgwrcgTWVkaXVtOiAxIMK3IExvdzogMA0KPiANCj4gLSBbTWVkaXVtXSBXaGVuIENPTkZJ
-R19ORVRfU0VMRlRFU1RTPW4sIHMyNTAwX2dldF9zc2V0X2NvdW50KCkgcmV0dXJucyAwDQo+IGZv
-ciBFVEhfU1NfVEVTVCwgYmVjYXVzZSB0aGUgaW5jbHVkZS9uZXQvc2VsZnRlc3RzLmggc3R1YuKA
-pg0KPiANCj4gDQo+IENhbiB0aGlzIGNvbmZpZ3VyYXRpb24gYWN0dWFsbHkgYmUgYnVpbHQ/IE5F
-VF9TRUxGVEVTVFMgZGVwZW5kcyBvbg0KPiBQSFlMSUIgJiYgSU5FVC4gUzI1MDBfTUFDUEhZIG9u
-bHkgdXNlcyBpbXBseSBmb3IgaXQgYW5kIGhhcyBubyBJTkVUDQo+IGRlcGVuZGVuY3k6DQo+IA0K
-PiBjb25maWcgUzI1MDBfTUFDUEhZDQo+IHRyaXN0YXRlICJTMjUwMCBzdXBwb3J0Ig0KPiBkZXBl
-bmRzIG9uIFNQSQ0KPiBkZXBlbmRzIG9uIFBUUF8xNTg4X0NMT0NLX09QVElPTkFMDQo+IGltcGx5
-IE5FVF9TRUxGVEVTVFMNCj4gDQo+IFdpdGggQ09ORklHX0lORVQ9biwgdGhlIGRyaXZlciBjYW4g
-YmUgYnVpbHQgd2hpbGUgTkVUX1NFTEZURVNUUz1uLg0KPiANCj4gQSBmZXcgZXhpc3RpbmcgZHJp
-dmVycyAoZmVjLCBhZzcxeHgsIGFzaXgsIGxhbjc4eHgsIHNtc2M5NXh4KSBmb2xsb3cNCj4gdGhl
-IHNhbWUgcGF0dGVybi4NCj4gDQo+IFdvdWxkIGFueSBvZiB0aGVzZSBmaXhlcyB3b3JrIGhlcmU/
-DQoNCg0KVGhvdWdoIHRoaXMgc291bmQgbGlrZSBjb252aW5jaW5nIGFyZ3VtZW50LCBJIGxvb2tl
-ZCBhdCBvdGhlciBjb2RlIHRoYXQgdXNlZCAiaW1wbHkgTkVUX1NFTEZURVNUUyINCkl0IGhhcyBu
-ZWl0aGVyIElORVQgZGVwZW5kZW5jeSBub3QgaW5pdGlhbGl6aW5nIG5ldF9zZWxmdGVzdCBjYWxs
-YmFjayBjb25kaXRpb25hbGx5LiBFdmVuIElmIHdlIHdhbnQgdG8gZml4LA0KSXQgc2hvdWxkIGJl
-IGZpeGVkIGluIG90aGVyIHBsYWNlcywgd2hpY2ggd291bGQgZXhwYW5kIHRoZSBzY29wZSBvZiB0
-aGlzLiBJIHdvdWxkIHJhdGhlciBub3QgdG8gaW5jb3Jwb3JhdGUNCnRoZSBzdWdnZXN0ZWQgY2hh
-bmdlLg0KDQoNCj4gDQo+IC0gcmV0dXJuIC1FT1BOT1RTVVBQIGZvciBFVEhfU1NfVEVTVCB3aGVu
-IG5ldF9zZWxmdGVzdF9nZXRfY291bnQoKQ0KPiBpcyAwDQo+IC0gc2V0IC5zZWxmX3Rlc3Qgb25s
-eSB1bmRlciBJU19FTkFCTEVEKENPTkZJR19ORVRfU0VMRlRFU1RTKQ0KPiAtIGFkZCBhIGRlcGVu
-ZGVuY3kgb24gTkVUX1NFTEZURVNUUywgYW5kIHRoZXJlZm9yZSBvbiBJTkVUDQo+IA0KPiBbIC4u
-LiBdDQo+IA0K
+Translate the programming language guide and link it from the pt_BR
+process index.
+
+Assisted-by: LLM
+Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+---
+ .../translations/pt_BR/process/index.rst      |  1 +
+ .../pt_BR/process/programming-language.rst    | 64 +++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/programming-language.rst
+
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index d072f7e46..ccfe86de2 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -39,6 +39,7 @@ devem estar familiarizados.
+    :maxdepth: 1
+ 
+    Requisitos mínimos <changes>
++   Linguagem de programação <programming-language>
+    Estilo de codificação do kernel Linux <coding-style>
+    Informações sobre clientes de email para Linux <email-clients>
+    Como aplicar patches <applying-patches>
+diff --git a/Documentation/translations/pt_BR/process/programming-language.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+new file mode 100644
+index 000000000..28a58b780
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/programming-language.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _programming_language:
++
++Linguagem de programação
++========================
++
++O kernel Linux é escrito na linguagem de programação C [c-language]_.
++Mais precisamente, o kernel costuma ser compilado com ``gcc`` [gcc]_
++usando ``-std=gnu11`` [gcc-c-dialect-options]_, que seleciona o dialeto
++GNU do padrão ISO C11. ``clang`` [clang]_ também é suportado; consulte
++a documentação sobre
++:ref:`Compilando o Linux com Clang/LLVM <kbuild_llvm>`.
++
++Esse dialeto contém muitas extensões à linguagem [gnu-extensions]_,
++muitas das quais são usadas rotineiramente no kernel.
++
++Atributos
++----------
++
++Os atributos [gcc-attribute-syntax]_ estão entre as extensões mais
++comuns usadas em todo o kernel. Eles permitem introduzir semântica
++definida pela implementação em entidades da linguagem (como variáveis,
++funções ou tipos), sem exigir mudanças sintáticas significativas
++na linguagem (por exemplo, a adição de uma nova palavra-chave) [n2049]_.
++
++Em alguns casos, os atributos são opcionais (isto é, um compilador que
++não os suporte ainda deve gerar código correto, mesmo que o programa
++resultante seja mais lento ou o compilador realize menos verificações e
++diagnósticos em tempo de compilação).
++
++O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de
++usar diretamente a sintaxe de atributos do GNU (por exemplo,
++``__attribute__((__pure__))``), para detectar quais atributos são
++suportados e/ou encurtar o código.
++
++Consulte ``include/linux/compiler_attributes.h`` para mais informações.
++
++Rust
++----
++
++O kernel oferece suporte à linguagem de programação Rust [rust-language]_
++quando a opção ``CONFIG_RUST`` está habilitada. O código Rust é compilado
++com ``rustc`` [rustc]_ usando ``--edition=2021`` [rust-editions]_. As
++edições permitem introduzir pequenas mudanças na linguagem que não são
++compatíveis com versões anteriores.
++
++Além disso, alguns recursos instáveis [rust-unstable-features]_ são usados
++no kernel. Esses recursos podem mudar no futuro; portanto, é importante
++chegar a um ponto em que apenas recursos estáveis sejam usados.
++
++Consulte Documentation/rust/index.rst para mais informações.
++
++.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [gcc] https://gcc.gnu.org
++.. [clang] https://clang.llvm.org
++.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++.. [rust-language] https://www.rust-lang.org
++.. [rustc] https://doc.rust-lang.org/rustc/
++.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
++.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
+-- 
+2.56.0
 
