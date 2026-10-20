@@ -1,90 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792526643;
-	b=YAOxlm0ik5RRmKkoY7QdXFF/ErY4YsuE2nesRiMvSyWcUQoVc+gncoMaForHObe8KFhc
-	 Cmvy32ZKZ/k2nGl6zGMQdC62I2YOyBk5r67x2otnkbwIsjY0eNJgTE/MoC6LHGnHSJRRk
-	 XmQ8MKsc8qYv2HIr9oTu2Th4y1Co0EdTNhMTKzSLox2bPyhrI5dAqsJje7xHoC1j5DiX+
-	 WAz/qF/hsGxos9ykppqP5GpjzT8cbGpfczHaujsBzoORyysjAmUYB8srsyJ1pkm6sqD9L
-	 XHJ6EI5X559Xj1tG+RPxgxzPhkGB4XHFNQ/08tfCruUxIZvqWLaCw6eqhcIClOqC2/Q==
+	t=1792526857;
+	b=P6zd2g9Y6DTzqKhKg6H3JYgw2mU5NGdl64USlB6lBJ3fxYopl7mZbZhjeZlWosQiK385
+	 cmNIGtwnZmMerzVRfjVfN3B61adyA6O9Zq8bqvezGchez2i2P1d0dm78PDeSXviWUFf2k
+	 WiNmLibM7AejCSTqM+v4dXlXv7GRDnw59D9hzD1EiE3fFfdHM1o3GocVthtyjLYawvR25
+	 v8gVPg1z+czBFtkrW2+kxUs7pT1xAS7KG6+DX9lfO7IIBT4IGZfmCxuK29Er4m5ytulxL
+	 J9vg8HLtBJOLLfizBy/LYIOHzpPbLia/yxJwleIJDkflGCczAWiaEuFQgqHXK9Das9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792526643;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
-	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
-	bh=wd2FJGlu+0fbyoXhw6VVc5IYaBCU7QVw7dLO30BJWrY=;
-	b=mwmSb5ZStWjbjV42EOQgdBXn5+kw/kvjYiDoGN56pSpeYMzdd4EqnHyhBx4uhGy5Pjfz
-	 VYGVxC+6iJlQie87qys4Wy2JCdGSWnSF24FqLmCkk2JT40XXVeYLBao3aWTp458FHA9fG
-	 KVq1dQqY8BEix07ISTtdhXEGlkvt9SvLM6rxFQhgevv9FPE3Lp6wGS7xdjsAG4eGsFUsz
-	 CgwSxNjCVmFO8QGAV+MecJCJtbjX70P5EWAnL7rPP/DlhH1IZWvV3KTEUQSOTxt7IL9KD
-	 rCSKqz0RHWeGLLwveYKZ7sUQ6RralKA5/JJ92f4JAvJ/+Y2fUp5DnPhgeti8otgeSuw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792526857;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=E2BGEbDmLFbyDFnjpJoQXmoXVufyoU6uu+OtS+on9zk=;
+	b=hqex136JhiVNsROnywsqNl+LLJmV8Cc14F97aH/C1wtb9icl6M5PDeCm95yPWROmikub
+	 W4vaqIufLil5ZchTjAvUtckknETcz9TmxVtMXxHy4UqLAsiIXHtbLRYuzoDr7leE3zdgW
+	 fhEPJGsCBIEnoKULFUhVx0xjk3O8Xys+OU63p7u2JN2iJt81ZX5+hbYogY5KICYngsUNu
+	 x0uDUitXw4IHItde66BKte8WUmoA3YLh0jIlO4rfP0fn9fCCG4AM2TCWArQwvg6QRVLBs
+	 NAZPIggFu+Xn9YkBFqdViRsxxbojfzXmfeBgJmsbV/jLWOZpEbNQ05zFiDVnzy4TfFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SfqUfK1s;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9uaiLSu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA58D606A31A;
-	Tue, 20 Oct 2026 20:04:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA58D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5748D606A319;
+	Tue, 20 Oct 2026 20:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SfqUfK1s
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792526643; x=1824062643;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=SA/hGjNUEOFfDC21kHQf5YbRyqwOcCA3aPR4u9P5bQc=;
-  b=SfqUfK1srfp90VoWQfacm6oMsMmSd90fVuiG6z3F9xgp+C6pM7lR86zL
-   u5hZ3EABjKVcpx7H3MmSlcDCsLWdaRetwoqOBVtIzT3K7UA9OwoHlfyKn
-   7TUPXtxXd/UeiHwcOSLpTeaxjvdJo2CPOMy1t5jFEA8rzGlu6U863UqMs
-   m4DficKfQATeSbHYqn6ckU/W2rBoVrEkqrCErMWV5l1le2ogjhtWg6zrD
-   WU+q6du6QRXjnDgPdd6SWrQ6UxzNEiS8ag3qXfLFafs3t7zVBhJPLJtwA
-   hNW1jnH5NYIg0KUXwRzo7nAknbeAPsfElYSUvf7WGQcmppj4B0UW4xXgX
-   g==;
-X-CSE-ConnectionGUID: d5vjzSvBSv+kUC1DrvdTag==
-X-CSE-MsgGUID: xOTjTFn0Q4uWuVGCtksx5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1252888"
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1252888"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 13:04:02 -0700
-X-CSE-ConnectionGUID: 7k7fX0lLSnS4lEhGF2ANkg==
-X-CSE-MsgGUID: RlLF34yrT1unWcayhp536Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="2850742"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.181])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 13:03:55 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 20 Oct 2026 23:03:51 +0300 (EEST)
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-    Viresh Kumar <viresh.kumar@linaro.org>, Hans de Goede <hansg@kernel.org>, 
-    Maximilian Luz <luzmaximilian@gmail.com>, 
-    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-    Daniel Lezcano <daniel.lezcano@kernel.org>, 
-    Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-    Armin Wolf <W_Armin@gmx.de>, Jai Luthra <jai.luthra@ideasonboard.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Mario Limonciello (AMD)" <superm1@kernel.org>, 
-    Jack Wu <jackbb_wu@compal.com>, 
-    Mario Limonciello <mario.limonciello@amd.com>, 
-    Zhang DM <jixianqiang1540@gmail.com>, linux-acpi@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-    linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3] platform profile: Separate handler locking from sysfs
- lifetime
-In-Reply-To: <20261020144525.3265851-1-daniel.lezcano@oss.qualcomm.com>
-Message-ID: <97da66c6-a71a-e72a-579f-47dc813b346b@linux.intel.com>
-References: <20261020144525.3265851-1-daniel.lezcano@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H9uaiLSu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427201F000C9;
+	Tue, 20 Oct 2026 20:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792526856;
+	bh=E2BGEbDmLFbyDFnjpJoQXmoXVufyoU6uu+OtS+on9zk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H9uaiLSu6EN8ZMZq3/0JMSJPE29d2PjlBFMnCo4seWtCTz0f2ARFbSmnvnjmrbNbr
+	 r22afbzsogdoWoQFtLND62nuBZ5boJ5Kq94KNgfb63qfNSi3Un1J8MO2aChHSJsMjZ
+	 LyhNJL0TYaW/zhN/AcrBvXO/ahu6lOZpiOr3fAdXUD4sY2K4cYc/KAU8XklZJMtzu5
+	 3tL7eaI8RBuZ8pUC/Pvf2+LSADAZDP8oJNwyWTdoqk1Zww7hynaKaD1pvJOQ5utyzL
+	 2bP6TvWec1JC0u3mPd9wwV3QP3f3qqPGw5KGhj2x5vE5aPdAlN7qXa5mJQ/aAi5DNL
+	 QBbisxdPEIJ9w==
+Date: Tue, 20 Oct 2026 13:07:35 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 2/5] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <atfKB-aHUdQAlmho@thelio>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
+ <20261003-dfustini-atl-sc-cbqri-dt-v9-2-52fd8be98dcf@kernel.org>
+ <49444078-0777-4318-9f8b-0d582d8a29ad@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,325 +88,213 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1338216543-1792526631=:1177"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49444078-0777-4318-9f8b-0d582d8a29ad@intel.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Oct 20, 2026 at 11:37:52AM -0700, Reinette Chatre wrote:
+> Hi Drew,
 
---8323328-1338216543-1792526631=:1177
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Hi, thanks for your comments and Ack.
 
-On Tue, 20 Oct 2026, Daniel Lezcano wrote:
+> On 10/3/26 12:12 AM, Drew Fustini wrote:
+> 
+> ...
+> 
+> > diff --git a/arch/riscv/include/asm/resctrl.h b/arch/riscv/include/asm/resctrl.h
+> > new file mode 100644
+> > index 000000000000..867db663d958
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/resctrl.h
+> 
+> ...
+> 
+> > +/**
+> > + * resctrl_arch_mon_ctx_alloc() - allocate per-monitor-event arch context
+> > + * @r:     resctrl resource being monitored
+> > + * @evtid: which monitor event needs context
+> > + *
+> > + * The CBQRI driver implements no monitoring events, so there is no per-event
+> > + * context to allocate and the stub returns NULL. fs/resctrl references it
+> > + * unconditionally before checking resctrl_arch_mon_capable().
+> 
+> The last sentence is unexpected. fs/resctrl only calls resctrl_arch_mon_ctx_alloc()
+> from mon_event_read(), __check_limbo() and mbm_update_one_event(), and none of these
+> can run on a system that does not support monitoring.
 
-> Registration and removal currently hold profile_lock across
-> device_unregister() and sysfs_update_group(). These operations can remove
-> sysfs attributes and wait for their active callbacks to finish. The
-> profile read and write callbacks acquire profile_lock themselves, so a
-> concurrent access can deadlock:
->=20
->   Removal/update path             Active sysfs callback
->   -------------------             ---------------------
->   acquire profile_lock            hold kernfs active reference
->   remove a sysfs attribute         wait for profile_lock
->   wait for its active references
->=20
-> The removal path cannot finish until the callback returns, and the
-> callback cannot return until the removal path releases profile_lock.
-> This applies both to per-provider device teardown and to updates of the
-> legacy aggregate attribute group.
->=20
-> Commit 041142d7d252 ("ACPI: platform-profile: Fix possible deadlock in
-> platform_profile_remove()") previously fixed this lock ordering by moving
-> sysfs_remove_group() outside profile_lock. Commit 55b1e68134bf ("ACPI:
-> platform_profile: Use guard(mutex) for register/unregister") reintroduced
-> the issue by extending the mutex guard over sysfs_remove_group(). Later,
-> commit 77be5cacb2c2 ("ACPI: platform_profile: Create class for ACPI
-> platform profile") replaced that teardown with device_unregister() and
-> sysfs_update_group(), still under the same mutex, extending the problem
-> to class-device teardown and aggregate attribute updates.
->=20
-> Simply dropping profile_lock around these operations is insufficient.
-> Aggregate operations currently discover providers through the class
-> device list. A provider being unregistered could therefore still be
-> selected for an aggregate read, write or cycle while its sysfs files are
-> being torn down. Concurrent registrations and removals would also race
-> when updating aggregate attribute visibility.
->=20
-> Introduce profile_registration_lock to serialize registration, removal
-> and aggregate sysfs updates. Sysfs callbacks never acquire this mutex.
-> Retain profile_lock for profile operations and use it to protect an
-> explicit list of handlers participating in the aggregate interface.
->=20
-> Add a handler to that list only after device_register() succeeds. On
-> removal, unlink it under profile_lock before calling device_unregister().
-> Acquiring profile_lock first waits for any aggregate operation already
-> using the handler to complete; unlinking prevents later aggregate
-> operations from finding it. Release profile_lock before draining sysfs
-> callbacks, allowing active per-provider callbacks to complete before the
-> device is released. Apply the same unlink-before-unregister ordering to
-> registration error cleanup.
->=20
-> Walk this list for aggregate reads, writes and profile cycling, and use
-> its emptiness to determine aggregate attribute visibility. The class
-> devices remain the per-provider userspace interface.
->=20
-> There can now be an interval between removing the last handler from the
-> list and removing the aggregate attributes. Explicitly reject choices
-> reads and writes during that interval: the intersection bitmap starts
-> with every bit set, so an empty traversal must not advertise all profiles
-> or report a successful write without updating a provider.
->=20
-> This separates aggregate membership from class device teardown while
-> preserving the existing class and ACPI sysfs interfaces.
->=20
-> Fixes: 55b1e68134bf ("ACPI: platform_profile: Use guard(mutex) for regist=
-er/unregister")
-> Assisted-by: OpenCode:gpt-6.1-sol
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Good point, I will remove that final sentence.
 
-Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+> > + */
+> > +void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
+> > +
+> > +/**
+> 
+> ...
+> 
+> > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
+> > new file mode 100644
+> > index 000000000000..f10a24761b25
+> > --- /dev/null
+> > +++ b/drivers/resctrl/cbqri_resctrl.c
+> 
+> ...
+> 
+> > +void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
+> > +{
+> > +	u32 num_closid = resctrl_arch_get_num_closid(r);
+> > +	struct rdt_ctrl_domain *d;
+> > +	enum resctrl_conf_type t;
+> > +	u32 default_ctrl;
+> > +	u32 i;
+> > +
+> > +	lockdep_assert_cpus_held();
+> > +
+> > +	if (!num_closid)
+> > +		return;
+> > +
+> > +	default_ctrl = resctrl_get_default_ctrl(r);
+> > +
+> > +	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
+> > +		for (i = 0; i < num_closid; i++) {
+> > +			for (t = 0; t < CDP_NUM_TYPES; t++) {
+> > +				int rerr;
+> > +
+> > +				rerr = resctrl_arch_update_one(r, d, i, t, default_ctrl);
+> > +				if (rerr)
+> > +					pr_err_ratelimited("rid=%d reset RCID %u type %u failed (%d)\n",
+> > +							   r->rid, i, t, rerr);
+> > +			}
+> > +		}
+> 
+> 
+> Above looks to be an open-code of cbqri_init_domain_ctrlval(). The loop
+> is unexpected here due to the duplicate writes impacting types not used by current
+> CDP mode that the comment within cbqri_init_domain_ctrlval() justifies.
 
---=20
- i.
+Thanks for pointing this out. I'll simplify it by calling
+cbqri_init_domain_ctrlval() for each domain.
 
+> 
+> > +	}
+> > +}
+> > +
+> 
+> ...
+> 
+> > +
+> > +static int cbqri_init_domain_ctrlval(struct rdt_resource *r, struct rdt_ctrl_domain *d)
+> > +{
+> > +	u32 num_closid = resctrl_arch_get_num_closid(r);
+> > +	enum resctrl_conf_type t;
+> > +	int err = 0;
+> > +	u32 i;
+> > +
+> > +	for (i = 0; i < num_closid; i++) {
+> > +		/*
+> > +		 * Seed both DATA and CODE staged slots so a later mount
+> 
+> nit: This seems to refer to d->staged_config[] that is only populated by resctrl fs.
 
-> ---
-> Changes in v3:
->   - Send the locking fix as a standalone patch, independently of the
->     firmware-agnostic extraction and legacy-interface deprecation series.
->   - Document that profile_lock protects handler-list membership and
->     serializes profile operations against each other and handler removal.
->     Explain why it must not be held across sysfs teardown.
->=20
-> Changes in v2:
->   - Expand the deadlock and handler-lifetime explanation.
->   - Add the Fixes tag and describe the earlier fix, regression and later
->     extension to class-device teardown and sysfs group updates.
->=20
->  drivers/acpi/platform_profile.c | 80 ++++++++++++++++++++++++-----------=
-------
->  1 file changed, 47 insertions(+), 33 deletions(-)
->=20
-> diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_prof=
-ile.c
-> index 79d2e92e5c28..d79080a20e21 100644
-> --- a/drivers/acpi/platform_profile.c
-> +++ b/drivers/acpi/platform_profile.c
-> @@ -8,15 +8,25 @@
->  #include <linux/bits.h>
->  #include <linux/cleanup.h>
->  #include <linux/init.h>
-> +#include <linux/list.h>
->  #include <linux/mutex.h>
->  #include <linux/platform_profile.h>
->  #include <linux/sysfs.h>
-> =20
->  #define to_pprof_handler(d)=09(container_of(d, struct platform_profile_h=
-andler, dev))
-> =20
-> +/*
-> + * Protects profile_handlers membership and serializes profile operation=
-s
-> + * against each other and handler removal. Never held across sysfs teard=
-own,
-> + * which can wait for callbacks that acquire this lock.
-> + */
->  static DEFINE_MUTEX(profile_lock);
-> +/* Serialize registration and sysfs updates without blocking sysfs callb=
-acks. */
-> +static DEFINE_MUTEX(profile_registration_lock);
-> +static LIST_HEAD(profile_handlers);
-> =20
->  struct platform_profile_handler {
-> +=09struct list_head node;
->  =09const char *name;
->  =09struct device dev;
->  =09int minor;
-> @@ -44,6 +54,22 @@ static_assert(ARRAY_SIZE(profile_names) =3D=3D PLATFOR=
-M_PROFILE_LAST);
-> =20
->  static DEFINE_IDA(platform_profile_ida);
-> =20
-> +static int profile_walk_handlers(void *data,
-> +=09=09=09=09 int (*fn)(struct device *dev, void *data))
-> +{
-> +=09struct platform_profile_handler *handler;
-> +=09int ret;
-> +
-> +=09lockdep_assert_held(&profile_lock);
-> +=09list_for_each_entry(handler, &profile_handlers, node) {
-> +=09=09ret =3D fn(&handler->dev, data);
-> +=09=09if (ret)
-> +=09=09=09return ret;
-> +=09}
-> +
-> +=09return 0;
-> +}
-> +
->  /**
->   * _commmon_choices_show - Show the available profile choices
->   * @choices: The available profile choices
-> @@ -306,20 +332,18 @@ static ssize_t platform_profile_choices_show(struct=
- kobject *kobj,
->  =09int err;
-> =20
->  =09scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-> -=09=09err =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09    &data, _aggregate_choices);
-> +=09=09err =3D profile_walk_handlers(&data, _aggregate_choices);
->  =09=09if (err)
->  =09=09=09return err;
->  =09=09if (data.count =3D=3D 1) {
-> -=09=09=09err =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09=09    &data, _remove_hidden_choices);
-> +=09=09=09err =3D profile_walk_handlers(&data, _remove_hidden_choices);
->  =09=09=09if (err)
->  =09=09=09=09return err;
->  =09=09}
->  =09}
-> =20
->  =09/* no profile handler registered any more */
-> -=09if (bitmap_empty(data.aggregate, PLATFORM_PROFILE_LAST))
-> +=09if (!data.count || bitmap_empty(data.aggregate, PLATFORM_PROFILE_LAST=
-))
->  =09=09return -EINVAL;
-> =20
->  =09return _commmon_choices_show(data.aggregate, buf);
-> @@ -384,8 +408,7 @@ static ssize_t platform_profile_show(struct kobject *=
-kobj,
->  =09int err;
-> =20
->  =09scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-> -=09=09err =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09    &profile, _aggregate_profiles);
-> +=09=09err =3D profile_walk_handlers(&profile, _aggregate_profiles);
->  =09=09if (err)
->  =09=09=09return err;
->  =09}
-> @@ -423,15 +446,13 @@ static ssize_t platform_profile_store(struct kobjec=
-t *kobj,
->  =09=09return -EINVAL;
-> =20
->  =09scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-> -=09=09ret =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09    &data, _aggregate_choices);
-> +=09=09ret =3D profile_walk_handlers(&data, _aggregate_choices);
->  =09=09if (ret)
->  =09=09=09return ret;
-> -=09=09if (!test_bit(i, data.aggregate))
-> +=09=09if (!data.count || !test_bit(i, data.aggregate))
->  =09=09=09return -EOPNOTSUPP;
-> =20
-> -=09=09ret =3D class_for_each_device(&platform_profile_class, NULL, &i,
-> -=09=09=09=09=09    _store_and_notify);
-> +=09=09ret =3D profile_walk_handlers(&i, _store_and_notify);
->  =09=09if (ret)
->  =09=09=09return ret;
->  =09}
-> @@ -450,22 +471,11 @@ static struct attribute *platform_profile_attrs[] =
-=3D {
->  =09NULL
->  };
-> =20
-> -static int profile_class_registered(struct device *dev, const void *data=
-)
-> -{
-> -=09return 1;
-> -}
-> -
->  static umode_t profile_class_is_visible(struct kobject *kobj, struct att=
-ribute *attr, int idx)
->  {
-> -=09struct device *dev;
-> -
-> -=09dev =3D class_find_device(&platform_profile_class, NULL, NULL, profil=
-e_class_registered);
-> -=09if (!dev)
-> -=09=09return 0;
-> -
-> -=09put_device(dev);
-> +=09guard(mutex)(&profile_lock);
->
-> -=09return attr->mode;
-> +=09return list_empty(&profile_handlers) ? 0 : attr->mode;
->  }
-> =20
->  static const struct attribute_group platform_profile_group =3D {
-> @@ -502,8 +512,7 @@ int platform_profile_cycle(void)
->  =09int err;
-> =20
->  =09scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-> -=09=09err =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09    &profile, _aggregate_profiles);
-> +=09=09err =3D profile_walk_handlers(&profile, _aggregate_profiles);
->  =09=09if (err)
->  =09=09=09return err;
-> =20
-> @@ -512,8 +521,7 @@ int platform_profile_cycle(void)
->  =09=09    profile =3D=3D PLATFORM_PROFILE_LAST)
->  =09=09=09return -EINVAL;
-> =20
-> -=09=09err =3D class_for_each_device(&platform_profile_class, NULL,
-> -=09=09=09=09=09    &data, _aggregate_choices);
-> +=09=09err =3D profile_walk_handlers(&data, _aggregate_choices);
->  =09=09if (err)
->  =09=09=09return err;
-> =20
-> @@ -525,8 +533,7 @@ int platform_profile_cycle(void)
->  =09=09=09=09=09  PLATFORM_PROFILE_LAST,
->  =09=09=09=09=09  profile + 1);
-> =20
-> -=09=09err =3D class_for_each_device(&platform_profile_class, NULL, &next=
-,
-> -=09=09=09=09=09    _store_and_notify);
-> +=09=09err =3D profile_walk_handlers(&next, _store_and_notify);
-> =20
->  =09=09if (err)
->  =09=09=09return err;
-> @@ -583,7 +590,7 @@ struct device *platform_profile_register(struct devic=
-e *dev, const char *name,
->  =09=09}
->  =09}
-> =20
-> -=09guard(mutex)(&profile_lock);
-> +=09guard(mutex)(&profile_registration_lock);
-> =20
->  =09/* create class interface for individual handler */
->  =09minor =3D ida_alloc(&platform_profile_ida, GFP_KERNEL);
-> @@ -604,6 +611,8 @@ struct device *platform_profile_register(struct devic=
-e *dev, const char *name,
->  =09=09put_device(ppdev);
->  =09=09goto cleanup_ida;
->  =09}
-> +=09scoped_guard(mutex, &profile_lock)
-> +=09=09list_add_tail(&to_pprof_handler(ppdev)->node, &profile_handlers);
-> =20
->  =09sysfs_notify(acpi_kobj, NULL, "platform_profile");
-> =20
-> @@ -614,6 +623,8 @@ struct device *platform_profile_register(struct devic=
-e *dev, const char *name,
->  =09return ppdev;
-> =20
->  cleanup_cur:
-> +=09scoped_guard(mutex, &profile_lock)
-> +=09=09list_del(&to_pprof_handler(ppdev)->node);
->  =09device_unregister(ppdev);
-> =20
->  cleanup_ida:
-> @@ -636,7 +647,10 @@ void platform_profile_remove(struct device *dev)
-> =20
->  =09pprof =3D to_pprof_handler(dev);
-> =20
-> -=09guard(mutex)(&profile_lock);
-> +=09guard(mutex)(&profile_registration_lock);
-> +
-> +=09scoped_guard(mutex, &profile_lock)
-> +=09=09list_del(&pprof->node);
-> =20
->  =09ida_free(&platform_profile_ida, pprof->minor);
->  =09device_unregister(&pprof->dev);
->=20
-> base-commit: d0cd1e850e1602729dd60dc3c5fd96f80e0cdc5d
->=20
---8323328-1338216543-1792526631=:1177--
+I'll change the wording to refer to the hardware configuration for each
+type and not the staged config.
+
+> 
+> > +		 * with -o cdp does not see stale CODE values.
+> > +		 * On non-AT controllers cbqri_cc_alloc_op() masks AT to 0
+> > +		 * so all three iterations land on the same hardware state.
+> > +		 * The redundant writes are harmless.
+> > +		 */
+> > +		for (t = 0; t < CDP_NUM_TYPES; t++) {
+> > +			err = resctrl_arch_update_one(r, d, i, t,
+> > +						      resctrl_get_default_ctrl(r));
+> > +			if (err)
+> > +				return err;
+> > +		}
+> > +	}
+> > +	return 0;
+> > +}
+> > +
+> 
+> ...
+> 
+> > +/*
+> > + * Attach a CPU to the picked capacity controller at each cache level whose
+> > + * cache the CPU shares. On failure, detach the CPU from everything attached
+> > + * so far: the cpuhp core does not run this state's offline teardown when
+> > + * its startup fails, so a partial attach would otherwise leak into the
+> > + * domain cpu_masks. Caller holds cbqri_domain_list_lock.
+> > + */
+> > +static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
+> > +{
+> > +	static const u32 levels[] = { 2, 3 };
+> > +	struct cbqri_resctrl_res *hw_res;
+> > +	struct cbqri_controller *ctrl;
+> > +	struct rdt_ctrl_domain *d;
+> > +	struct list_head *pos;
+> > +	struct cacheinfo *ci;
+> > +	int i, rid;
+> > +
+> > +	lockdep_assert_held(&cbqri_domain_list_lock);
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(levels); i++) {
+> > +		ci = get_cpu_cacheinfo_level(cpu, levels[i]);
+> > +		if (!ci)
+> > +			continue;
+> > +
+> > +		rid = cbqri_cache_level_to_rid(levels[i]);
+> > +		hw_res = &cbqri_resctrl_resources[rid];
+> > +		if (!hw_res->nr_ctrls)
+> > +			continue;
+> > +
+> > +		ctrl = cbqri_resctrl_find_ctrl(hw_res, ci->id);
+> > +		if (!ctrl) {
+> > +			pr_warn_once("no L%u controller for cache id %u, CPU %u is not controlled at this level\n",
+> > +				     levels[i], ci->id, cpu);
+> > +			continue;
+> > +		}
+> > +
+> > +		d = cbqri_find_ctrl_domain(&hw_res->resctrl_res.ctrl_domains,
+> > +					   ci->id, &pos);
+> > +		if (d) {
+> > +			cpumask_set_cpu(cpu, &d->hdr.cpu_mask);
+> > +			continue;
+> > +		}
+> > +
+> > +		d = cbqri_create_ctrl_domain(ctrl, &hw_res->resctrl_res, cpu,
+> > +					     ci->id, pos);
+> > +		if (IS_ERR(d)) {
+> > +			cbqri_detach_cpu_from_all_ctrls(cpu);
+> > +			return PTR_ERR(d);
+> > +		}
+> 
+> Should a failure to set up one domain prevent the CPU from coming online?
+> 
+> As I understand the driver already brings a CPU online without a domain (albeit
+> with a pr_warn_once()) at a level when its cache has no controller (the earlier
+> cbqri_resctrl_find_ctrl()), so I wonder if here (on domain creation failure) the
+> CPU could just be left without a domain at this level without failing the CPU
+> online entirely? It looks like cbqri_detach_cpu_from_all_ctrls() keeps the domains
+> consistent.
+
+Good question. It does seem like an additional cpu would be beneficial
+to a system, even if the qos functionality is not working as expected.
+I will change the driver to warn but not fail the cpu online.
+
+> 
+> In the end this is a driver design question, so up to you.
+> 
+> I just have a few nits and a check-in on the design but all the resctrl filesystem 
+> interactions look good to me.
+> 
+> The one open is the coordination with Tony's series that moves the
+> resctrl_arch_alloc_capable() and resctrl_arch_mon_capable() work into
+> resctrl filesystem. Thanks for making the switch to use alloc_capable, that will
+> simplify the accompanying RISC-V changes.
+
+I'll remove the hooks if Tony's series lands first.
+
+> Acked-by: Reinette Chatre <reinette.chatre@intel.com>
+
+Thanks for your attention on this series!
+
+Drew
