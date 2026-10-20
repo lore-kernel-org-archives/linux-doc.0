@@ -1,129 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792505071;
-	b=Hj7agf8gKB6NW57MCyF5ZvjbtZpUDhwjZ6TwECbV3Lz7tLR0N8ddEFsScxaqkFAXem/n
-	 fV4QVwvbOKbr8LCrzFL57Lwg/mMQBMICGYV7djl04NqKXP5MOxKp68l/AMW767/TIwppx
-	 K/MFMpTEjNpk4sNgnrT8tsR2loCEBRkgB6/thWL5W73KcnQKDfEzUZ04QbcOxqdAAn7jK
-	 K//6CegESFsaa4fU5c1mexp5WAntU2HCqV3+VMBQeOdikVkwAmSCLsGkHisILCa17TvP8
-	 bmAAWDOLW+NJkb+kb8yOivzImgtB/TZFiwnCH5WGgJ1YWmI88Q5Aw7fEwh8Jpj7njTA==
+	t=1792505230;
+	b=l8D0pcfObwg4CJ4nFKtIw37Zxx5zLTNPkYcRNsh/vxdnU5TkgWDJnryHUjJKrlZVQk0A
+	 AIfpC36XW7vn5TGaw0xa7lsPvNJsi1RshB+BOJPEjg4i3CskSVuBd9MQGich1lpNYM7SX
+	 ibwOyMu+SGhp8AR2VueH0pMv3h0DtHAIWMbzwu+vPpsEmC1vLi9fBrBntIQXpjQyqN84f
+	 c1ahmuG+jZE6CAY2XtwEMtaoXT619ZrJxyv2sOHkQlPo/oFOU9iOnmYPLPy/tgJpM/5hv
+	 7GLi+t5qzEwF00cB4c7/omWgdkvtVcBckUfcn36drPUtYVWPVByZOYwySMOn/6tVSNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792505071;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=VTSXONY++MHAhLW+7kA48dz0Wy/1YW5a9nSo3Jvds/4=;
-	b=ugLjSKrKtEYMHucTuNeAYK8FR3d7W2cO2m/hSEHxSO5oUzRdHeKdq5h7ALIGNr9VnuzX
-	 tXrkrR5BSBXio3ccjxVqVJjEDjRUXAeD6UQFtfYUEq+4kLNM5GePCZjfsR+DiPllQWmTJ
-	 e0Jgr8nwupldCANNc2Ausc46xfxzAYlq2JTiXR9GGrSfU5JvtadR9NazyL5hzhu+TnaWW
-	 GLTvhs6E8S5o4AbkQTWbDLhHx8g/2c3pol3VCRcHnrkEWMEAijIOKZ8JIWcC6XW+BXT+7
-	 MXmnpG2jm+qVS/B0cEOEZHYn3FX8RpEhSydi5c6wKfHch0fkFzQvaWkkgBrAF9IgD6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792505230;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=4gjHPXmCn70UaULysoVyHSyhywjis8FMubgn3n0iN+w=;
+	b=PRM645zgI/a6EZQcLC545oWjF6V7HehJphtTuVqFMpVVUnJr0kbMhLW/yP6bKe/y7RQX
+	 WatWVsVmyLaYFSmJEKgjKYTkDwjWGlGYnWtZxySgsZEpCwg9usIg707OQ0aCG9RVfcaki
+	 YkWhacnE6wEpfTg1N3rTcE5CJHwWWjewsCB4qnk2hL5YHCjYJtyxFsKnPV9CRVuix77X0
+	 7qIUi0jkFqcMgKf3zEHQnC/LASmITey8Rt+D7pvCnjFpZ3IWBZZnFZ82Jk/NoRG8oAfEv
+	 ty40bg8fgiZTuIfdCYvi6i33Hkdoz3kdLQ8lGhGPHuAUdymCyIoufdCB03EHaPgUIIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=G6xK5Drr;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=jD3Ku7t5;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=resnulli.us;
+	spf=none smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=tsIqjQmj;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB50606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:04:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEB50606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01026606A31B
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:07:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01026606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=G6xK5Drr;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=jD3Ku7t5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792505069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VTSXONY++MHAhLW+7kA48dz0Wy/1YW5a9nSo3Jvds/4=;
-	b=G6xK5DrrUX6N/kMIJfeUOWgJU2rrBSqjSPpsrzRQmnfBy4iyxoEMYMXvo+T8/8oeMLgfAM
-	+YnZ1PH7GHDS21GeTTF7eQJQ59oJXMI+WnQP7KVKtupByj6lzAEZskgj1LvFCFagKMl6O2
-	/tq9sCDEsjkqb2ccrhw+S4Rz60eVAsk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-103-n1rJQ5dQMNWVZC4BPVH5NA-1; Tue, 20 Oct 2026 10:04:22 -0400
-X-MC-Unique: n1rJQ5dQMNWVZC4BPVH5NA-1
-X-Mimecast-MFC-AGG-ID: n1rJQ5dQMNWVZC4BPVH5NA_1792505061
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48df5b058ddso2202963f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:04:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=tsIqjQmj
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48c4d870d54so2203658f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792505061; x=1793109861; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VTSXONY++MHAhLW+7kA48dz0Wy/1YW5a9nSo3Jvds/4=;
-        b=jD3Ku7t53da2jDbwWAd3mnSS/fhq2YOw/BNvuENil4PTdqhIaC6xkmeQHh8XWV6ush
-         SEEM4hj/niIDEaUFc2gJIBzf9/IU72mM9htxfduVH6owTsXNxi6u3/qlJi5vdpjwWBna
-         OQgVbN/PQYIeJvAz5r03IlGB/OMHgf/QjprM3HDOWO+3tYVfdGzXU2cCiF+Ixl+xIMxS
-         eIMjODXMkWJDu6vgF8R8BPfVu2lddbbDz9F1m2Pg5hY4Qx3bjqI27PhaGv9f/f1IK5rF
-         gVICSTUt0DoLAqkM7Ym0GzMx4N7P7Eg+6qo2teQQHIp7uXmFp/AiEyWS30AdHbIWIkgT
-         IuGg==
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1792505225; x=1793110025; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4gjHPXmCn70UaULysoVyHSyhywjis8FMubgn3n0iN+w=;
+        b=tsIqjQmj1fU1tfpLvcrgyrBRhrj7LtlUxquUdDe7xmr6xxyjiTGmd6/do0ipGIfJIj
+         KZEiiI25qWShs00fvGYv4dQzT/YJ3X3avR+7M3iNfhxBJoWz8hmtNK1m95U/+sZByvrL
+         UZpGUcxw4YUtIvSpYVfcBapqP7NR1pvfI4pcVpODNcUKGLu1Lv1uBW3Tnlyt6WqcMGxg
+         ivA+yVXSBOhp6FwXKVZc01FNd/vcYoW9/6V8HhzmKY5H8rvoeDImvAfK3qSANFu0i8vV
+         ByEautfEfwZci1CQDD2aIKmNCVjDw/7+6Fi8qgQldf8RkV4ZWowoSmfemPsWzpGZn8nD
+         1VOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792505061; x=1793109861;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VTSXONY++MHAhLW+7kA48dz0Wy/1YW5a9nSo3Jvds/4=;
-        b=I2ZVy1M9foTQrKaHimgakfCAwGKT5iTatMkcTcZmZWDnUi+JzRtAXzyxvQv55/s/lO
-         DHnv9aljdS9xBALafl4go5LO0rkrKLOXh0jB4ZJjjGJtCOy7ZXTCoANjh2nOFrOarO0y
-         OqG4f4voBWDbZNzdy0/9j6oQbaLGU79Lds4YQRViivfaG2dd+9RYBFV8zWoPvU/TX5eJ
-         s18itqv+AyNsO2svDyZ/VGo0QRIKAnJPiAr9soCePq41NDUCm7fVHPUieas98/CiexxS
-         iczAy5o/3wTYBlEEN9YkdvRnLNul5oJOeQVayG2QMCvUNZ3Rq3DKdKo19QtiqjNavoCO
-         irZA==
-X-Forwarded-Encrypted: i=1; AKwUvBxLh7b3oGkxrT9rfk1Bnt32fvo/1Qno4nU9vOlOyC1KkRgD6fiFA5QZuKCPya+oCUUr/CDoiIReki4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKVY6kfo4/I62zD68x7/crqOSPu4vsnFNuVvc8JrRMtllEnHTR5
-	SO3j18u2JA1WV+onZSFLXLYoh5nJjWC/I/Q8rfgkbMNX5ClqaMzQ+cWMDgUzFTWFYmJ+3sNXHLP
-	FOCsVsKoxD3RJXWOaj8wLu0FqjOdzaqXTJCMBP65n7ztWBAeqfgJSHgFFXyo87w==
-X-Gm-Gg: AYBFou0jeS9+XHwmFMaSpEzZNKNVyLn7FQ8mTKUHYPkJe6O6ldbZZamNkyHnhj3A5Me
-	7SMq3s+cCY752QROwlMT7tnxh++mqpFPusf2C3idJJd5MLt8FdbBvhFbXYNaIKN4WwXBKNRNCwr
-	1wxAblyNPtaz7FG7u93nCpAIqJp14S1+6W5XpdJhG5stB6pPoVK6ldsn/YTjP82o22jxuUNPTeK
-	xq24uwjq7rPmMqbC8QQpg/c+ttkAAPUjQC1azYQAOU+oUOf1DfSxShXfDOy586hrTFrQ/idlAUv
-	sZG+YA7mLz0ZKfAKVFbWDU786Y6xa59nIRlW28jn2oXSyKTG0fJuOEQx1u6T3QA+PkXjVA==
-X-Received: by 2002:a05:600c:859a:b0:4a1:d8c5:b23f with SMTP id 5b1f17b1804b1-4a1d8c5bb82mr193418605e9.24.1792505060895;
-        Tue, 20 Oct 2026 07:04:20 -0700 (PDT)
-X-Received: by 2002:a05:600c:859a:b0:4a1:d8c5:b23f with SMTP id 5b1f17b1804b1-4a1d8c5bb82mr193417665e9.24.1792505060268;
-        Tue, 20 Oct 2026 07:04:20 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:3fd7:5300:3d6b:52a4:a23f:9d0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2cc0708sm68065075e9.7.2026.10.20.07.04.17
+        d=1e100.net; s=20260707; t=1792505225; x=1793110025;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4gjHPXmCn70UaULysoVyHSyhywjis8FMubgn3n0iN+w=;
+        b=EyMzFuyI5o5D9xbeqE0bKdcCgmumL5aIkEAAmnwJAz9Awh53/hjmgsxWZYzD6YmrGm
+         og5O7jCLwc7SeD/DMgzT9k5WNgMLa3LcTYM64UiSsHdiAz1Jc29URyHE8rLOfqMIhvzA
+         553f5vUGAeadQMMQWm86jmCnPR+mEaxNHB1AUpB7GABcWDrnz0Y/dZWTBAfkZepOkWJA
+         nLfKee6OUY+RP3EGylylw2njZFSKgzYuSkEaHCgJP7fNdY3qrtiICdTz5+mQ8M6sAqkk
+         JtbqjI4zN78kkUk7w+/77blk1LYVpSTXst9E8uNIBcXTutsZsrUSmeBHahPTLTCke1qb
+         nkYA==
+X-Forwarded-Encrypted: i=1; AKwUvBydkqgu8s7PT1Lpdz2+kfd/xeQiQmhOiStJJJsn8Mj2hpN6+8+l71A29RUJOtCdra+8b1TeulInDgk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKLE1UJkVQKzaPgxfRWITEy61gT8PfuU9xlz2I2UjF9rIzMtXKB
+	9vnBq34Rwrs5py+n/jJP+2+HFC6KoHgqnAJSq7w5IP/+skCEHZg7RhbVudaM12zNmUY=
+X-Gm-Gg: AYBFou1lnu5WfinedWt6tsyjl3EMZz3e1BSHqd2+3lpmZkEt8EljIyKfwqRQ8vQ9na+
+	L/6W5nQFM3ETiEaZ6J8tNv1Fx/zj2cjT5qVEs8nPWAuLpHfvp/MYk98A8k5ubHwpvg+JWPaYa6c
+	6/M/jvI1bpk4eJFBpJSJIaN8IaNjkxGt7aht/ikwcCyN4MbMlvL039ho0XUtiLB4r19uB3WgPdv
+	Jy1Yu7CUIBrypWrkEPZeUbmjy0tBm0+QMC7IwvY4U4zvnx7tEzrcdwX9nzTuy2le1Z2pkyUrgfa
+	kYPliaIS6K9bHY/0ppwtircGrOBkjSZkJ29NlhKu8GcTYZqGM6uNRTRl3GFh5Rk4melx9Nroijg
+	qWJY1z5rYy8tTUAFFaxybc4YTkQJ/jNUr1L+s4WxIRX54uxicbr1weQI/lgVM6NpU37p667DP6B
+	lf0KmvWyLme5n72jNzJsP/uDom0LUceeoyLAu2f2YtX46ybexBZPiCVqqThSY9W1ifVQ9G2rIcX
+	88ntI4fvspCjjE=
+X-Received: by 2002:a05:6000:490f:b0:48b:9d80:53a5 with SMTP id ffacd0b85a97d-48e07bbe5d5mr22481939f8f.10.1792505222787;
+        Tue, 20 Oct 2026 07:07:02 -0700 (PDT)
+Received: from localhost ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8214b5sm6798703f8f.41.2026.10.20.07.07.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 07:04:19 -0700 (PDT)
-Date: Tue, 20 Oct 2026 10:04:15 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Chris Arges <carges@cloudflare.com>, Phil Sutter <phil@nwl.cc>,
-	Jason Wang <jasowangio@gmail.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, virtualization@lists.linux.dev,
-	Max Krasnyansky <maxk@qualcomm.com>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Simon Horman <horms@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v3 6/8] net: add a sysctl to opt out of virtio net
- hdr checksum validation
-Message-ID: <20261020100349-mutt-send-email-mst@kernel.org>
-References: <cover.1792411304.git.mst@redhat.com>
- <6f23c55c6eba3e3ec6b2c7e3a80728a326ed58af.1792411304.git.mst@redhat.com>
- <87fqy13h97.fsf@all.your.base.are.belong.to.us>
+        Tue, 20 Oct 2026 07:07:02 -0700 (PDT)
+Date: Tue, 20 Oct 2026 16:06:58 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 04/20] Documentation: ctlv: Add userspace ABI
+Message-ID: <atdjqGI1GvONVJuK@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-5-jiri@resnulli.us>
+ <179245258505.58760.6612247594755628055.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -133,246 +104,304 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87fqy13h97.fsf@all.your.base.are.belong.to.us>
+In-Reply-To: <179245258505.58760.6612247594755628055.b4-review@b4>
 
-On Mon, Oct 19, 2026 at 04:19:16PM +0200, Björn Töpel wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > The ingress validation as implemented by the previous
-> > patch is stricter than what it replaced: GSO
-> > packets whose checksum metadata matches no transport header are
-> > dropped, and non-GSO ones get their checksum completed in place.
-> > Such packets used to pass with the metadata unvalidated,
-> > and with no overhead.
-> >
-> > I judge that this should not affect any deployments, but there is still
-> > some risk that it does.  In case a deployment depends on them anyway,
-> > provide a per-netns switch to get the old behavior back:
-> >
-> > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
-> >
-> > The default is validating.
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/net.rst | 19 ++++++++
-> >  include/linux/virtio_net.h               | 23 +++++++++
-> >  include/net/netns/core.h                 |  1 +
-> >  net/core/dev.c                           |  6 +++
-> >  net/core/net_namespace.c                 |  1 +
-> >  net/core/sysctl_net_core.c               | 60 ++++++++++++++++++++++++
-> >  6 files changed, 110 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index e586e17fc7a5..b1a1c4714b22 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -246,6 +246,25 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
-> >  Default: 1 (on)
-> >  
-> >  
-> > +virtio_net_hdr_csum_check
-> > +-------------------------
-> > +
-> > +When processing packets with a virtio net header (through tun, tap, a
-> > +packet socket or a virtio network device) that request checksum offload
-> > +(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
-> > +in software, or drop the packet where the header does not match it.
-> > +
-> > +When disabled, the header is trusted not to corrupt the packet, and the
-> > +checksum is offloaded to hardware (or not verified if it never reaches
-> > +hardware). This is only safe if no protocol is processing the packets.
-> > +
-> > +The setting is per network namespace, but only writable by the host
-> > +root: root inside a network namespace created by an unprivileged user
-> > +cannot disable the validation.
-> > +
-> > +Default: 1 (on)
-> > +
-> > +
-> >  wmem_default
-> >  ------------
-> >  
-> > diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-> > index 97b554ef7123..25aa95c11e31 100644
-> > --- a/include/linux/virtio_net.h
-> > +++ b/include/linux/virtio_net.h
-> > @@ -5,6 +5,7 @@
-> >  #include <linux/if_vlan.h>
-> >  #include <linux/ip.h>
-> >  #include <linux/ipv6.h>
-> > +#include <linux/jump_label.h>
-> >  #include <linux/netdevice.h>
-> >  #include <linux/udp.h>
-> >  #include <net/gso.h>
-> > @@ -78,6 +79,19 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
-> >  	*thoff = nhoff + iph->ihl * sizeof(u32);
-> >  	return iph;
-> >  }
-> > +/* Defined in net/core/dev.c, enabled while any network namespace
-> > + * has net.core.virtio_net_hdr_csum_check set to 0.
-> > + */
-> > +DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
-> > +
-> > +/* Failsafe: a namespace can disable the check with
-> > + * net.core.virtio_net_hdr_csum_check.
-> > + */
-> > +static inline bool virtio_net_hdr_csum_check_disabled(struct sk_buff *skb)
-> > +{
-> > +	return static_branch_unlikely(&virtio_net_hdr_csum_check_disabled_key) &&
-> > +	       !READ_ONCE(dev_net(skb->dev)->core.sysctl_virtio_net_hdr_csum_check);
-> > +}
-> >  
-> >  /* Where does the L3 header start, and what protocol is it?
-> >   * Handles Ethernet and VLAN headers; other devices use the
-> > @@ -179,6 +193,12 @@ virtio_net_csum_partial_ok_at_offset(struct sk_buff *skb, u8 hdr_gso_type,
-> >  	unsigned int thoff;
-> >  	int ip_proto;
-> >  
-> > +	/* Failsafe: a namespace opted out of the validation,
-> > +	 * trust the checksum metadata as before.
-> > +	 */
-> > +	if (virtio_net_hdr_csum_check_disabled(skb))
-> > +		return true;
-> > +
-> >  	if (!virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
-> >  		return false;
-> >  
-> > @@ -516,6 +536,9 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool outer_isv6,
-> >  	unsigned int thoff;
-> >  	int ip_proto;
-> >  
-> > +	if (virtio_net_hdr_csum_check_disabled(skb))
-> > +		return true;
-> > +
-> >  	if (!virtio_net_l3_start(skb, &nhoff, &proto))
-> >  		return false;
-> >  	if (outer_isv6 != (proto == htons(ETH_P_IPV6)))
-> > diff --git a/include/net/netns/core.h b/include/net/netns/core.h
-> > index 9ef3d70e5e9c..ae8110772c97 100644
-> > --- a/include/net/netns/core.h
-> > +++ b/include/net/netns/core.h
-> > @@ -18,6 +18,7 @@ struct netns_core {
-> >  	u8	sysctl_txrehash;
-> >  	u8	sysctl_tstamp_allow_data;
-> >  	u8	sysctl_bypass_prot_mem;
-> > +	u8	sysctl_virtio_net_hdr_csum_check;
-> >  
-> >  #ifdef CONFIG_PROC_FS
-> >  	struct prot_inuse __percpu *prot_inuse;
-> > diff --git a/net/core/dev.c b/net/core/dev.c
-> > index e76762e29360..d14950b1af3a 100644
-> > --- a/net/core/dev.c
-> > +++ b/net/core/dev.c
-> > @@ -2389,6 +2389,12 @@ EXPORT_SYMBOL(tcf_sw_enabled_key);
-> >  
-> >  DEFINE_STATIC_KEY_FALSE(netstamp_needed_key);
-> >  EXPORT_SYMBOL(netstamp_needed_key);
-> > +
-> > +/* Enabled while any network namespace has net.core.virtio_net_hdr_csum_check
-> > + * set to 0.
-> > + */
-> > +DEFINE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
-> > +EXPORT_SYMBOL(virtio_net_hdr_csum_check_disabled_key);
-> >  #ifdef CONFIG_JUMP_LABEL
-> >  static atomic_t netstamp_needed_deferred;
-> >  static atomic_t netstamp_wanted;
-> > diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-> > index da5f881fbd3b..2d340fafba85 100644
-> > --- a/net/core/net_namespace.c
-> > +++ b/net/core/net_namespace.c
-> > @@ -396,6 +396,7 @@ static __net_init void preinit_net_sysctl(struct net *net)
-> >  	net->core.sysctl_optmem_max = 128 * 1024;
-> >  	net->core.sysctl_txrehash = SOCK_TXREHASH_ENABLED;
-> >  	net->core.sysctl_tstamp_allow_data = 1;
-> > +	net->core.sysctl_virtio_net_hdr_csum_check = 1;
-> >  	net->core.sysctl_txq_reselection = msecs_to_jiffies(1000);
-> >  }
-> >  
-> > diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> > index eb35da3556f4..c65ff86cc5f9 100644
-> > --- a/net/core/sysctl_net_core.c
-> > +++ b/net/core/sysctl_net_core.c
-> > @@ -18,6 +18,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/sched/isolation.h>
-> >  #include <linux/hex.h>
-> > +#include <linux/jump_label.h>
-> >  
-> >  #include <net/ip.h>
-> >  #include <net/sock.h>
-> > @@ -678,6 +679,54 @@ static struct ctl_table net_core_table[] = {
-> >  	},
-> >  };
-> >  
-> > +/* Defined in net/core/dev.c, declared for the gate in
-> > + * include/linux/virtio_net.h.
-> > + */
-> > +DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_csum_check_disabled_key);
-> > +
-> > +/*
-> > + * Protects changes to virtio_net_hdr_csum_check_disabled_key and each
-> > + * net->core.sysctl_virtio_net_hdr_csum_check. Readers don't use a lock.
-> > + */
-> 
-> nit: OCD doesn't like mixing old netdev comments with vanilla style...
-> one VVV as well.
-> 
-> > +static DEFINE_MUTEX(virtio_net_hdr_csum_check_mutex);
-> > +
-> > +static int virtio_net_hdr_csum_check_sysctl(const struct ctl_table *table,
-> > +					    int write, void *buffer,
-> > +					    size_t *lenp, loff_t *ppos)
-> > +{
-> > +	struct net *net = (struct net *)table->data;
-> > +	/* checkpatch warns but this can't be const: tmp.data is set
-> > below */
-> 
-> nit: Redundant comment...
-> 
-> > +	struct ctl_table tmp = *table;
-> 
-> ...and here, can't we instead get rid of tmp, and do something like:
->     | u8 *value = table->data;
->     | u8 old, new;
-> 
-> > +	u8 old;
-> > +	int ret;
-> > +
-> > +	/* Root in a user namespace must not be able to weaken the
-> > +	 * validation for the network namespace it controls.
-> > +	 */
-> > +	if (write && !capable(CAP_NET_ADMIN))
-> > +		return -EPERM;
-> > +
-> > +	/*
-> > +	 * Make sure virtio_net_hdr_csum_check_disabled_key counts zero values of
-> > +	 * net->core.sysctl_virtio_net_hdr_csum_check.
-> > +	 */
-> > +	mutex_lock(&virtio_net_hdr_csum_check_mutex);
-> > +
-> > +	old = net->core.sysctl_virtio_net_hdr_csum_check;
-> > +	tmp.data = &net->core.sysctl_virtio_net_hdr_csum_check;
-> > +	ret = proc_dou8vec_minmax(&tmp, write, buffer, lenp, ppos);
-> > +	if (write && !ret && old != net->core.sysctl_virtio_net_hdr_csum_check) {
-> 
-> and then:
->     | old = READ_ONCE(*value);
->     | ret = proc_dou8vec_minmax(table, write, buffer, lenp, ppos);
->     | new = READ_ONCE(*value);
->     | 
->     | if (write && !ret && old != new) {
-> 
-> at least that's easier to read for me. (No blocker!)
-> 
-> 
-> Reviewed-by: Björn Töpel <bjorn@kernel.org>
+Tue, Oct 20, 2026 at 01:29:45AM +0200, jgg@nvidia.com wrote:
+>> Describe the CTLV transport, discovery, wire format and userspace
+>> compatibility rules.
+>> 
+>> Assisted-by: Cursor: GPT-5.6 Sol
+>> Assisted-by: Cursor: Claude Opus 5.5
+>> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+>> ---
+>>  Documentation/userspace-api/ctlv.rst  | 507 ++++++++++++++++++++++++++
+>>  Documentation/userspace-api/index.rst |   1 +
+>>  MAINTAINERS                           |   1 +
+>>  3 files changed, 509 insertions(+)
+>>  create mode 100644 Documentation/userspace-api/ctlv.rst
+>>
+>> diff --git a/Documentation/userspace-api/ctlv.rst b/Documentation/userspace-api/ctlv.rst
+>> new file mode 100644
+>> index 00000000000000..5ebca3d4d94af8
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/ctlv.rst
+>> @@ -0,0 +1,507 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +==================
+>> +CTLV userspace ABI
+>> +==================
+>> +
+>> +:Author: Jiri Pirko
+>> +
+>
+>This could use an introduction:
+>
+>Char-Device Tag Length Value (CTLV) is a flexible way to describe system calls
+>delivered over ioctl for a kernel subsystem. It provides a 64 bit operation
+>number with variable length input/output arguments described in a YAML schema.
+>The arguments are serialized using a TLV scheme. Strong support for
+>forwards/backward compatability is baked into the schema design.
+>
+>CTLV excels for uAPIs that are too unconstrained to fit in simple structs.
+>Things that have arrays of arrays, variable size structs, variable sized data,
+>strings and similar which are challenging to represent.
+>
+>As a transport CTLV uses a global number space. Inspection tools like
+>strace/seccomp can always decode a CTLV ioctl without having to know what
+>subsystem is using it. The global number space is organized into families, which
+>roughly corresponds to a subsystem.
+>
+>A family describes what its devices accept in YAML, a generator turns that into
+>kernel metadata and UAPI headers, and CTLV validates every message before a
+>family callback sees it. Userspace sees one character device per instance, one
+>ioctl, and ``read()`` for events.
+
+okay, looks great.
 
 
-Thanks, I'm addressing sashiko review points, will address this
-in v4.
+>
+>> +CTLV is a transport for device control interfaces. A family describes what its
+>> +devices accept in YAML, a generator turns that into kernel metadata and UAPI
+>> +headers, and CTLV validates every message before a family callback sees it.
+>> +Userspace sees one character device per instance, one ioctl, and ``read()`` for
+>> +events.
+>> +
+>> +This document is the ABI. What each family accepts is specified under
+>> +``Documentation/ctlv/specs``; writing a family is :doc:`/driver-api/ctlv`.
+>> +
+>> +Why a TLV transport
+>> +===================
+>> +
+>> +CTLV puts the rules of every operation in one description and validates them
+>> +once:
+>> +
+>> +- One ioctl carries every operation of every family, so a new operation is a
+>> +  new specification entry, not a new ioctl number.
+>> +- Attributes are optional or required by declaration, so a message can grow
+>> +  without breaking a caller that does not know the new attribute.
+>> +- An unknown attribute is refused on a request and tolerated on a reply, so a
+>> +  new kernel can say more to an old program. A request may mark an attribute an
+>> +  old kernel is welcome to skip, so a new program can say more too.
+>> +- Bounds, lengths, occurrence counts and nesting depth are checked before a
+>> +  family callback runs.
+>> +
+>> +Devices
+>> +=======
+>> +
+>> +Each registered instance appears as a character device in the ``ctlv`` class
+>> +with a dynamic minor::
+>> +
+>> +    /dev/ctlv0
+>> +    /sys/class/ctlv/ctlv0
+>> +
+>> +Sysfs shows class membership, the ``dev`` number and the device-model link to
+>> +the parent device. There is no family sysfs attribute; ``families-dump`` on an
+>> +open descriptor is the authoritative answer to what a device is.
+>
+>I've tried to like this but, I really am not a fan. I think it
+>reflects too much of a netlink influence.
 
+Well, yes and no. In contrast with Generic Netlink, CTLV builds on
+inheritance. So *every* CTLV family is child of "root" CTLV family. So
+if user opens any /dev/ctlvX, the "root" CTLV family ops work. Then the
+families-dump op reveals the inheritance chain from root to the leaf.
+The idea is to allow generic tool to work on upper family level and
+allowing some driver-specific tool to work on the leaf.
+Think of it as a part of introspection of a device.
+
+
+>
+>My two biggest problems:
+>
+>1) This prevents us from incrementally using CTLV as a more robust
+>   uAPI. Like if I wanted to start using it in vfio for new uAPI I
+>   cannot
+
+I don't think that the existance of family-dump prevents you that. I
+have idea of a split that would allow you to attach CTVL ioctl on
+existing fd. Will try to sketch it and implement it.
+
+
+>
+>2) It destroys the kernel concept of a cdev subsystem, where we have a
+>   distinct class, /dev/ directory and cdev nodes.
+>
+>   Lots of tooling and userspace is geared toward working this way. A
+>   completely unstable /dev/ctlvX that could be *anything* will need a
+>   meaningful new methodology in userspace. For instance anyone doing
+>   containers that wants to pass these is going to need special
+>   tooling.
+
+The node is not opaque before open, though. It is a device-model child
+of the device that registered it, so /sys/class/ctlv/ctlv0/device
+points at that parent, and its uevents carry the family and its
+ancestry (CTLV_FAMILY, CTLV_COMPATIBLE_*).
+
+udev can name it from the same properties. ctlv0 is no more stable
+than sda or event3, and it gets a stable name the same way: a rule
+matches the family or the parent and adds a symlink, as /dev/disk/by-id
+does for disks, e.g.:
+
+    SUBSYSTEM=="ctlv", ENV{CTLV_FAMILY}=="ctlv-attestation-tdx", \
+        SYMLINK+="attestation/tdx"
+
+A container is then given /dev/attestation/tdx rather than whichever
+ctlvN it happened to get; no special tooling is involved. The Discovery
+section later in the doc has the details.
+
+
+>
+>> [ ... 143 lines skipped ... ]
+>> +An attribute ID names the family that declared it, a group within that family
+>> +and an attribute within that group::
+>> +
+>> +    63           48 47           32 31                             0
+>> +    +--------------+--------------+--------------------------------+
+>> +    |    family    |    group     |             attr               |
+>> +    +--------------+--------------+--------------------------------+
+>> +
+>> +    CTLV_ATTR(family, group, attr)
+>> +    CTLV_ATTR_FAMILY(attr) / CTLV_ATTR_GROUP(attr) / CTLV_ATTR_NUMBER(attr)
+>> +
+>> +An operation ID is the same shape with the group bits zero::
+>> +
+>> +    CTLV_OP(family, op)
+>> +    CTLV_OP_FAMILY(op) / CTLV_OP_NUMBER(op)
+>> +
+>> +Use generated complete IDs. A family's header defines every ID it declares
+>> +and includes its parent's.
+>
+>I'm OK with this, it seems like a fine design, very netlink inspired.
+
+Netlink actually does not have it. Attr id is not global as it is here.
+
+
+>
+>One of the nice properties is an external tool, like strace or a
+>seccomp does have enough information to capture the entire operation,
+>including all parameters.
+>
+>Though I wonder how much trouble it will be for userspace to form
+>these things.. It has to pre-determine how much memory it needs then
+>fill in this structure. That's not so easy to use.
+>
+>How hard would it be to accept a linked list, or array, of buffer
+>frags? With some strict rule that a leaf attribute cannot span frags?
+>
+>My thinking is userspace could allocate frag by frag as it builds the
+>message instead of being forced to do a size, allocate, fill sequence?
+
+There are no frags on the request side (reply has them).
+The entire message is a single buf. For request, all arrays are bounded
+and this is enforced for every family attribute. The introspection
+provides kernel-computed max size of buffer for ever op request.
+Then during processing, kernel copies the whole request buffer before it
+parses it.
+
+I deliberatelly made this limitation to keeps things simple. Makes
+sense?
+
+
+>
+>> +
+>> +Request occurrence order
+>> +------------------------
+>> +
+>> +Occurrences of one attribute ID must be contiguous within each request root or
+>> +nest. ``A A B`` is valid, while ``A B A`` is not. An ignored unknown attribute
+>> +is not an occurrence of any known attribute, but it ends the preceding run, so
+>> +``A ignored-unknown A`` is also invalid. Different IDs otherwise have no
+>> +required numeric or schema order.
+>
+>I'm not entirely sure what this is trying to say. Is it just a single
+>ID must be contiguous if it is repeated?
+
+Yes it is a limitation of ordering of attributes that occur multiple
+times in message/nest (arrays). Will reword.
+
+
+>
+>> +
+>> +Attributes a kernel may skip
+>> +----------------------------
+>> +
+>> +A request attribute, the root aside, may carry
+>> +``CTLV_ATTR_F_IGNORE_IF_UNKNOWN``. If no family the device answers declares
+>> +that complete ID, the kernel steps over the whole attribute without looking
+>> +inside it; without the bit, an attribute the schema does not place where it
+>> +appears fails the request as it always has.
+>> +
+>> +The bit forgives an ID this kernel has never heard of and nothing else. An ID
+>> +the device's schema declares somewhere is held to that schema, so an attribute
+>> +sent where it does not belong fails whether the bit is set or not, and one sent
+>> +where it does belong is checked as usual. Every other rule applies too: the
+>> +length has to fit its nest and the header may carry no bit the format does not
+>> +define. Replies and events never carry it.
+>
+>This is pretty hard to read. AI?
+
+Okay, will reword.
+
+
+>
+>> +
+>> +This is how a program built against a newer version of a family talks to an
+>> +older kernel. What that kernel knows is validated, what it does not is
+>> +ignored, and a caller that has to know which is which asks ``op-schema-get``
+>> +first.
+>> +
+>> +Executing an operation
+>> +======================
+>> +
+>> +One ioctl executes every operation::
+>> +
+>> +    struct ctlv_op_exec {
+>> +            __aligned_u64 op_id;
+>> +            __aligned_u64 request;      /* struct ctlv_attr __user * */
+>> +            __aligned_u64 reply;        /* struct ctlv_attr __user * */
+>> +            __u32 request_len;
+>> +            __u32 reply_len;
+>> +            __aligned_u64 generation;   /* queries only */
+>> +            __aligned_u64 cursor;       /* queries only */
+>> +            __aligned_u64 reserved[2];  /* must be zero */
+>> +    };
+>> +
+>> +    #define CTLV_IOC_OP_EXEC _IOWR(0xBB, 0x00, struct ctlv_op_exec)
+>
+>Generally I've ben frowning on using the size arugment for ioctl. This
+>means you can never make that struct bigger, and that's historically
+>been a bad choice...
+>
+>I've mostly been using this:
+>
+>  #define IOMMU_DESTROY _IO(IOMMUFD_TYPE, IOMMUFD_CMD_DESTROY)
+>
+>And then put a length at the top of the struct and do the
+>
+>        ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+>                                    ucmd.user_size);
+>
+>Kind of thing so there is a solid compatability story.
+
+Okay, makes sense.
+
+
+>
+>> [ ... 81 lines skipped ... ]
+>> +``ENOMEM``
+>> +    The kernel could not allocate what the operation needed.
+>> +
+>
+>EOVERFLOW for check_overflow failures
+
+Okay.
+
+
+Thanks!
+
+>
+>-- 
+>Jason
