@@ -1,70 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792504473;
-	b=HlZ5vxylP3B/LtcCQCf2X65E7cDZKWz+hN8Tf6u0R3LceufcUpc9a/RjPdHPm6GBZM1w
-	 qxOEMPt3a+WCGmS/FTLOE3M91V3qNonnQP8dqyl4hbo3DfwOQ2DVQt6wYdKEGzcWWc9Bt
-	 k6x5CVZPdbSGZ6YtWvpdV75+ol/UPRbQqi5CJqXxOi53F08TgRtv3kFnnICgWJ2arFLLc
-	 kul65X8inbSdIT/3rXCFpt6tS0t6HweVMzQ3gBTkT3JH3ixO9lkrksL8cSjWhMt9Hmd1Y
-	 VJgO8E+235F80XXiFTbnRuC6rX+7UgVLR1ax3AHu9BHP0uDkLMyiqRkntZiM8rkrs0Q==
+	t=1792504710;
+	b=gzAl4xOdyzfTcW2BO5qkVQQYtcXwh3/Riu8qXqmugwsY3Ofn/1ral6iMRAzQzWMkXnOu
+	 eEwFgKzsXowKzv4IxXsAJi7hwgL8u0mqPcba5gyp/ENIU7Epx160VroSOCS+VZloAgdyL
+	 jsjNxwUcDMGEpmR0HdgSm8Lj2XD+tiYQAz+0iQwX8RtYtfTKDBjqgRyHAHhKrjM1bJRds
+	 dtNvtLude+SGrnRDC7E7Pg7t/iMV0RbUdCk3x28G8/FQtu7f++mtpchtPwpExNvgQEYPL
+	 Uluts/3GtdkUfFcM7oYGDuKj+eS3AP5Yt3GOk37N4oW7H8Fh0R972pXBCzO1Qm5lR8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792504473;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792504710;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=9NiJBWOVUY/UQOLimlz5QAPWwsmY3B5JWfVlvXL3BvE=;
-	b=JlNZjRQnlQWS5MegldLEcIVTBUrCccJDA1vwP18/IMUH2KBkmfsZ0UN9+OYkKMaaE3i4
-	 bNCsBbtpEdmQQlSYVUwwEEyZteOWUddO2eFonIJMhPoScos4tmC7PeQeONsRWz/eeNRiO
-	 vDWizInUwRllJUSzlecYVbrzcwNbOUfDbiFrBkTEHOv8wFWWJas/rf2mQq7feU42YA/qd
-	 q7PtREukFp8u0jx3ToAGQKsZXZQpAE3k6N0FKpfh+DSzXmanxt+JJ7JUS/NfF4XDWntEZ
-	 kcV1w/9SIlVjOkMTio//g3CNeu2l6jEMhgzhFgB2Pv/NTzbkdgRj9DdD6tdRoZCluBQ==
+	bh=IBGuiP0nGAo3Z3FpbYxcVYUnONq26JoesatN6Nk3lmc=;
+	b=FB3CMpG6KyDHXZd3JTPN09dMLMljXvZdNzAwmiJCpuh/n0rrPAB+a9k4aBCIgQyzsBWA
+	 eH6DFPXUprWxfcOvmJONoNiTbKkcwOT6wGbCL79kNkOCMPTy4qtDf3/zJUj5XBSZxWccA
+	 +cQ7f00o9IlSrBMBNJiEL5YGpvwkGfHifrFC5guM2La5xX6329Lf8LOaaofyHWG3lk/ib
+	 60ThuPF3pQ0o/N2kpTVt+WStjI2hL5p02E9LUdCmcH2UBW0eGHIZV+9MRHnlvK60icf0Q
+	 2QMTuHJ+EW+09l66E4o/m4YYjB/06xoxQdmvysPNxAVxZKUKETep2AMtG/cgJBFN/HQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nB7h357t;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lFTWJhfX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7D9606B651;
-	Tue, 20 Oct 2026 13:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8773C606A319;
+	Tue, 20 Oct 2026 13:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nB7h357t
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0542F1F000C4;
-	Tue, 20 Oct 2026 13:54:30 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lFTWJhfX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C82D1F000C4;
+	Tue, 20 Oct 2026 13:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792504472;
-	bh=9NiJBWOVUY/UQOLimlz5QAPWwsmY3B5JWfVlvXL3BvE=;
+	s=k20260515; t=1792504710;
+	bh=IBGuiP0nGAo3Z3FpbYxcVYUnONq26JoesatN6Nk3lmc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nB7h357tTG/rkHYHKsaYIWHcDdBw3QJj1x7Gwo2qoEgclLJvV1WHBh8vRj/2v1Blg
-	 dJrX6DhvN0IQu1Ic8hhqhNbsQccSwMXMP6C5bGEpidcoLB3LPG5XEWpVIUpg4yfL6i
-	 3ncMSUxUMOeXhqK6LqvdNOOJ+IW4dYKR+cfUExzI28/m0XE6xzYKOuh/B9XBWhqST4
-	 lqj/TcQeqj9gHIhnvH2A9iySHuoN/4seaECx8Bswq2l/TDcBaaEGJItvKeSG+ilghU
-	 e27uk7FJ3+WEVDrSJHKEpmIgBIu70Xl0u7zXvN+ilBewE0Zz/lRxd0D29A9yzuPrZg
-	 CND3spyhoBkVw==
-From: Sasha Levin <sashal@kernel.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org,
-	ksummit@lists.linux.dev,
+	b=lFTWJhfXpNhqkTYblYQE3A8qbRavY5KXYaF1+xBzq1BuHNn44ClyG7RVJNYgH5s1K
+	 2nG3zF7BQykI5QG858eRRKzmhyerFraTYWkZ81LI38ORlg5Y9dCRRdSKWlKix2TyZa
+	 Pi2qKnM/QraAXsrmK34Dvq5Tj6yZMluzp8gAydyP3F0L02aVQxNEmFXWUSW7DqCiEd
+	 S+3jj2tUirDxTyehFOpEIG4AfYrrZMGbyw0HEtTs8WoAnAwzfDKcCVY8/F+IpxFAOj
+	 9RNiI7hBGls5SxXUxRqnLOAgkh0/3stphXA3E+n5tzBUotz/SSK+s9dPdUcRTDzMZP
+	 atu4Lz6Azjbkg==
+From: SJ Park <sj@kernel.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: SJ Park <sj@kernel.org>,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH v3 2/7] docs: submitting-patches: say which commit a Fixes tag names
-Date: Tue, 20 Oct 2026 09:54:29 -0400
-Message-ID: <20261020135429.3340755-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <bcef59f8-33fe-4bbe-8429-307630dc6bb5@leemhuis.info>
-References: <20261016152828.3765695-1-sashal@kernel.org> <20261016152828.3765695-3-sashal@kernel.org> <bcef59f8-33fe-4bbe-8429-307630dc6bb5@leemhuis.info>
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] mm/damon/reclaim: allow disabling watermarks to force reclaim of cold pages
+Date: Tue, 20 Oct 2026 06:58:21 -0700
+Message-ID: <20261020135822.85334-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261020133233.3920818-1-ruanjinjie@huawei.com>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,40 +74,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 17, 2026 at 10:07:36AM +0200, Thorsten Leemhuis wrote:
->How about this instead:
->
->"""
->Name the commit that introduced the bug in the first place; hence, when
->using ``git blame`` to find it, ensure to not settle on changes that
->just moved the code. If the bug was introduced by more than one commit,
->add Fixes: tags for each. If some change according to ``git bisect``
->exposed a formerly hidden bug, add a Fixes: tag for that change, too. Do
->not add tags for commits that are only suspected.
->"""
-[...]
->* After thinking about our recent discussion some more, I think the
->Fixes: tag for a change that exposed a bug should be mandatory.
+Hello Jinjie,
 
-Agreed. It also matches handling-regressions.rst, which already asks for
-a Fixes: tag on the commit causing a regression.
+On Tue, 20 Oct 2026 21:32:33 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
 
-I'd keep one word from v3: "separately". "Introduced by more than one
-commit" also reads as a bug that only appeared once several commits came
-together, where the tag belongs on the one that completed it. Tagging
-all of them would send the fix to trees that have only some of them.
+> DAMON_RECLAIM runs its scheme only while the free memory rate is in
+> [wmarks_low, wmarks_mid].  Reclaiming cold pages raises the rate, so the
+> scheme self-stops as soon as memory looks plentiful again, which is wrong
+> for a VMM parking an idle sandbox that wants cold anonymous pages
+> reclaimed immediately.
+> 
+> So add an ignore_wmarks module parameter. When set, the scheme uses
+> DAMOS_WMARK_NONE, so damos_wmark_wait_us() always returns zero and the
+> scheme stays active, bounded only by min_age and the quota.
 
-So v4 will have:
+I agree there could be use cases that doesn't want the watermarks at all.  I'd
+like to avoid adding new DAMON_RECLAIM parameters if possible, though.  That's
+becasuse DAMON_RECLAIM is introduced to let people use it without complicated
+setups.  We will of course add new parameters if really needed, but I want to
+see if there is a good alternative.
 
-  Name the commit that introduced the bug. When using ``git blame`` to
-  find it, do not settle on a commit that only moved the code. If a later
-  commit exposed an older bug, add a Fixes: tag for that commit too. If
-  the same bug was introduced separately by more than one commit, add a
-  Fixes: tag for each. Do not add tags for commits that are only
-  suspected. The Fixes: tags tell the stable team which trees need the
-  fix: those that contain one of the tagged commits. Trees that contain
-  none of them do not need it.
+Have you considered some other alternatives?  For example, could respectively
+setting wmarks_high, wmarks_mid and wmarks_low to 100%, 100% and 0% effectively
+disable watermarks?  Have you tried that?  If that works, how about updating
+document to clearly explain the usage?  Also, have you considered using DAMON
+sysfs interface instead of DAMON_RECLAIM?
 
--- 
+
 Thanks,
-Sasha
+SJ
+
+[...]
