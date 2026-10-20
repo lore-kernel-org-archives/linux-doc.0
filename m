@@ -1,46 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792511605;
-	b=FbEcScqIioRJwQST4P5U7LzIyVnrQRI0IBlGr0odqfOZaGViEErug2ShBhLR/k1Fzv0l
-	 t+o3JQQIbo+lX+tqIoyPpE3Kyf2nq7WlIz+rElkhJ4lQZ0IVzzYXWPn3J+rkNyhf1r1uC
-	 qLaUQHBk5S/g6zt0no8r+ABRBEyedMLpY7GFVhB2tNFzC3tNYlQ8XlXy8lv7d2spH4l8O
-	 785wpE70MBh/u6oyMWFhpiVv7hCqEgXJvPYqdEA+xB12LTHYKo/tZePiyEBpp33rpSfeS
-	 gQt2SilG/rnoDqIdC6Ig9PfYglPvOcRWAQpG1pANLojo9mOGcQUSbHpHX14p4lJtxGg==
+	t=1792511756;
+	b=iLc/IazDyI6X3u6LZ4do1cAA3F8ekWQt8x0MOOl3+Hu58hJS1NLyIOTI7yJX5z8RicPq
+	 OoTEfO7KuPssfs35m72On+3vqxRCpaZ/6HRPsLYXBNbjOje1E2ETh6TIN+4HdH4y/rhJX
+	 u2EgIAjsLF7UnXSmJtcaLgmeiQyxKhGv2m8RrjoxgcZXEsD7TmrNri25pSBA2ZNB2wg1k
+	 QDA8D7rnH3Hukd1YS1VrqDaWIcTaaY88he9cAaiOCjN/xk6Q+CohSBhuy51ghoVuv7Fku
+	 4gM3xVRJ1QAGoFkk/rknS70UggK3+gRGh0D4/VFbwx6EWAOkG2ZpwWLZ45GZQaR0eiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792511605;
-	h=Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=BzgQNQSaPtQ/zQPgk48qsuxuxyCm4I4iIwepuAvnRZ0=;
-	b=NlDm1Ce65POZV6CVB6VKVDK8CbiA1Yz2x16xox6n8jBhEn36DX0BMc+aoSV4RrMm4SnZ
-	 oeO8pqSuM0ikpW7hhWlPnNbaV15RO56TyrtQP3DVfkliayHJ0qRRUiDlUwyHZRTMJwDva
-	 uV0c0BjDnFPjBwo6HiAoDmwdW0CLXlkBaRIZ+p/Xpm2PXG6a7H+Zb0Bla7qae1v2H0rP/
-	 8Y5n21GyDaA39lMFpGHS6JrXdttUyDMxIC/OvCrSRCDgvl/mgGZOZTfTEfi2tmkEb4LZK
-	 CMw4pxpiaJjfxx9bMYZlcyXeLf7ZFO/+FhR/GuaCcBQxpqHxmJUJ7QxGTrlYS7CPSJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792511756;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Sm8fHDamcBdzMl5gH1h8FKaHDH8UrW+Ey8qPWPBjzGw=;
+	b=Jfe5NwBqGmpsrcObH00yRfS3wqpz52vO4T1240pteyMcWoYsaBCw91io4zjbxHREpGSG
+	 +8JBoP0TggF/cjjb9yAVPExiHt5H4jvb8ANOSacBJBbXC/7RmFQnf5aXoCo3GjdOsG3Jm
+	 h31mjVQZyiAu38p9GS34+B93NImWck0iBR3MqA+xj5mny/visUIw5K+Gb4EZ99ImuAaJN
+	 eHvwpw/MalajTv/WVSqgCzL/rbDv76yaXW22HTEukEXReGeUCWmCLdvZPBhb0yIouH1Ze
+	 NFhk48JtC7tIqpjkhbH9hfpACj0gyILPOMku9arUM17x1Ds8r/cqW18oRId87plXS6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8C6606A321;
-	Tue, 20 Oct 2026 15:53:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC6FA1F000C4;
-	Tue, 20 Oct 2026 15:53:24 +0000 (UTC)
-Date: Tue, 20 Oct 2026 11:52:53 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, 
-	Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, 
-	Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] get_maintainer: only use THE REST as a fallback
-Message-ID: <20261020-witty-proud-coot-89ecd3@lemur>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261020-get-maintainer-the-rest-fallback-v2-1-162aea473488@linuxfoundation.org>
- <88c5be32a371b5d73561a82a63426485@perches.com>
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=X4lGo9CE;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A1A6606A324;
+	Tue, 20 Oct 2026 15:55:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A1A6606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=X4lGo9CE
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB36916F8;
+	Tue, 20 Oct 2026 08:55:50 -0700 (PDT)
+Received: from [10.0.137.15] (XHFQ2J9959-5.cambridge.arm.com [10.0.137.15])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16E3D3F7B4;
+	Tue, 20 Oct 2026 08:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792511754; bh=RA7wOkYKzBDqak619Rsj+v/XerrUB1e1xwduoqIgrN8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=X4lGo9CEziSLBpzJ/wESFC5gv5b77FuUDrR0qNwD8V1L1mSKpYmzGUiAukpnL80d8
+	 P11iPoiXfYQuXADVOOxE6uyuYgs13RlDvy1BObGmrYbA1li5ZIbGLrEXmg2JIdJMIw
+	 rykl0k838v9Jemvp9bv+0a2Q8qDWplu00g6B3roE=
+Message-ID: <3f49b39e-139f-45da-b646-dbb240b31776@arm.com>
+Date: Tue, 20 Oct 2026 16:55:49 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,32 +53,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <88c5be32a371b5d73561a82a63426485@perches.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 12/15] vfio: Support VFIO devices that access the
+ CPU MMU
+To: Alex Williamson <alex@shazbot.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean-Philippe Brucker <jpb@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+ <20261015142552.4128028-13-ryan.roberts@arm.com>
+ <20261015164421.GD13920@nvidia.com>
+ <95e0f9bd-0203-4c7a-9d09-622593bb3d4c@arm.com>
+ <20261020140944.GA3008132@nvidia.com>
+ <c367caf3-d462-42ea-b482-bf9c51c47a63@arm.com>
+ <20261020091323.3c51258e@shazbot.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261020091323.3c51258e@shazbot.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 20, 2026 at 08:47:01AM -0700, Joe Perches wrote:
-> > Only add THE REST for a file when no other matching section provides a
-> > mailing list that get_maintainer.pl would actually output. Lists marked
-> > "subscribers-only" are omitted unless --s is given, and lists marked
-> > "moderated" are omitted with --no-moderated, so such lists don't count
-> > as a destination in those cases. Files that match no section, or only
-> > sections without such a list, still fall back to THE REST, so every
-> > patch keeps reaching at least one known-public mailing list.
-> > 
-> > Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> > ---
+On 20/10/2026 16:13, Alex Williamson wrote:
+> On Tue, 20 Oct 2026 16:06:37 +0100
+> Ryan Roberts <ryan.roberts@arm.com> wrote:
 > 
-> I don't disagree that this is useful but v2: no changelog
+>> On 20/10/2026 15:09, Jason Gunthorpe wrote:
+>>> On Tue, Oct 20, 2026 at 12:51:26PM +0100, Ryan Roberts wrote:  
+>>>>> However.. you still have to affirm which single mm is the mm that the
+>>>>> device is going to be doing DMA against. The process the opens the fd
+>>>>> should not be forced to be the mm that it gets linked to.  
+>>>>
+>>>> What is the mm representing here? Ultimately we want to install the KVM
+>>>> instance's stage2 pgtables and (pinned) VMID. We currently get that via the
+>>>> bound KVM instance (which looks like it still works using the cdev interface?)
+>>>>
+>>>> The guest will then install the stage1 pgtables and (pinned) ASID associated
+>>>> with the relevant (guest) mm_struct.
+>>>>
+>>>> Do we _need_ an mm association in the host?  
+>>>
+>>> Ah.. I see, I didn't quite follow that. OK.. Ah everyone else doing
+>>> this is using iommufd with a viommu to establish their connection
+>>> between device an KVM. eg Jacob Pan's series. That's a probably a
+>>> better idea to stay aligned with the common path. Though your reasons
+>>> are a little different..  
+>>
+>> Just to check, you're referring to [1]?
+>>
+>> I was under the impression that I could open the VFIO device through the cdev
+>> interface, then bind it to the KVM instance via KVM_DEV_VFIO_FILE_ADD... Why do
+>> I need an iommufd at all?
 > 
-> Perhaps there's a simpler and more generic mechanism.  I'll play with it for
-> a couple days.
+> The cdev is not unlocked to actually access the device until it's bound
+> to iommufd.  Thanks,
 
-It's like to convey the sense of urgency -- with the amount of patches,
-automated reviews, and follow-ups being sent daily, having all of them land on
-LKML and delivered to 2000+ subscribers... is not sustainable. At this point,
-I'm very close to outright banning subscriptions from gmail, outlook and yahoo
-addresses. Not sending every single patch to the LKML is a better way to deal
-with this.
+Ahh - got it! Thanks!
 
--K
+> 
+> Alex
+
