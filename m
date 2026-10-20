@@ -1,53 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792460433;
-	b=eWWB1ZMZVrgWDZyUidPo1rLCT16QyWf63UC5pDU4Gg/peiv/QiJcs+iOfFGch3r8GJVN
-	 8urd2iGCjLcj6tfkD6R3YyHxDISgJcebf9+l/pTLiK16Xk2wV0EUTQsNZUlfdxk6zPnRA
-	 CkpyFPv5ETwvvbKJtZrsIKVuYSlS7n/rhcuSzCuJFEukISHeyTkqYrkjXarDhKfUXsHk5
-	 P/5G7xPS1UzSbS215v+najYP7wcN3CRlfjjpHFBMzik9xp+FPxgaSduBeAAfwID+oZnsw
-	 gr4g6d/jMN66RZ+Q3GkH2hMDw1A9PG/6eiDcQZiLJYSlgDCYAg1dSxMhDmm7C7o5AZw==
+	t=1792462481;
+	b=CqO/azgEZtlTewYAGu7iejDbXFh+Y6a4OgB1G884wnPO4schoC71MDHPS4zpO4zfGFmj
+	 sigBTKzUYVlbE8ca0topaCQk6k/LpA+lPiO61AoH+QAN+G9Vqc31V6y215p8s4Mf0XRjx
+	 uI8Qf0CnaPJsgVcnSficifAt+zmaLnME+7YL20q3Kx3o5ej+fardA11/1ZLc365047pae
+	 vm/Y+NCfDz3wL/X9aDPr+uLJsSaW6T30JlkJDEgZyqndlvi6ClXU2Nr8IcZ4/HNdTNr0F
+	 2Oljqgj31WzF/O4Dv3rX5J7NwWR/LVIN4mMzgBW6VpuerUiNOGX5BZDxBO4g85QztVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792460433;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Y/v52Nt7wua3/Hqh2/eSRWr2zKr9agsfw3+QaI3Wh7o=;
-	b=d3MjsxEpDDcey3Xex7lc8FbBc7snLY8byNod9Lrx3++P4a5bs2jO8ZCuE5xEo0+j03s5
-	 eRbV85gpQbvmE14jus4s/J+bxuM0mESmxJGfpLsNi3bTE0vulpG6GkYqS9Xbdls+1bD/S
-	 2vw5lWC+JOK3P4fx1SsCH4atqEWcK76z/6xA1nlw3G7LlRrm+ExqEDm3scm5kBBfeBV67
-	 0A0W4RRP6WB7UpcvBLVZyNOOBPdxqjtvxI5gYslS4atWZqDmMsUYGtRqU+ff34GYh1Ug6
-	 4w7fHZT8+DzRC4xnrj7zCm10oBQCfqJAmRHjE6bCdYYJHXSIrckwedoNnNVW6T3yahw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792462481;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
+	b=Ye3z3JH51EACwgULzMXbDZe8s5sV1FSm5bEWNKKaWPVU+3+WHjZSYKGI3dnzS5emvBVP
+	 YWf2kzsAmXgsmhb/JcXC87zov6Zm6U3JOfGtEfgur6uU1CqJ2D3gMwEh5OXZxLteXfjZw
+	 ovitGTudZ4+ZtgB3gYZg5OrrBh+KjOiyUXQi0rw8/jjmniWqBdV+V9JIL4QlFKWPesfVV
+	 kQc4RrY26EVSj56L7/aTCLTVodact/OaxsmZn7RZjka0P1XfC6+mcbzoN3T3eq65oL/yR
+	 2SOHkwvXOv3oqfwe0o4v2xNrlz8XdHBhwYQvKdNYahjRlNoAlNXiZVwfkRnzb3osvbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=gz3Y0cld;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oBihJ65C;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED9D606A31A;
-	Tue, 20 Oct 2026 01:40:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DED9D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8E7606A31A
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 02:14:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA8E7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=gz3Y0cld
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:From:Reply-To;
-	bh=Y/v52Nt7wua3/Hqh2/eSRWr2zKr9agsfw3+QaI3Wh7o=; b=gz3Y0cldVWyCo401TUdb94v8wa
-	YoSB0h8baJhpIXaCi9PlSKT+G0Ap571CVXBDOFWQnrW1IXDQY2olHhBiDqAs8u0baPqzVYPzsAcDc
-	FzGtkjvYOjmHF6SUB8pFSNuwMObtBQOQd7Flb8gBocyw1DyA5fjgKE0qBfhyclWFTfwxTxjHTKv5p
-	zXjPNqwA+XUlZCu50sJcr3fyf0qN9IjtiBlZ8hU69wnf2hTYoaVQn9aQe4fd8X2miull6Un5xUhQq
-	QO9/s4noupNuak9u8vOqWLS3ze7ZAmWHZZCzpL9QYM5ooDl36WVwy2Ovx/qhD/4YMPnyiu6x62FFF
-	2EcCKf8g==;
-Received: from [177.189.74.83] (helo=[192.168.15.93])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1xIypa-0044FE-6B; Tue, 20 Oct 2026 03:39:58 +0200
-Message-ID: <83dffabb-c702-eec9-a992-ba5b9530a8cc@igalia.com>
-Date: Mon, 19 Oct 2026 22:39:49 -0300
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oBihJ65C
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1348755f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 19:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792462479; x=1793067279; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
+        b=oBihJ65CMLYBqYHD9hPzlwUnnU21Djjlk+0ywA8lRRGdNyRHqBkmkB2lVi7j7VuJ1l
+         MPwAaFfom20siTmykpM4ACL2ty3lpQ6vyWJJmpPI8ZNX5UWUMWNCT76IcffFNMOUGFTk
+         ORdK+O3A4W904mNRG0BhTfAQ3NjS8YqXkkKvnV12Bxd9kRss/cY1Tv6b9jyxrJCeHjml
+         1UVPVfEtj0r/j8yx2gjVcG3pxob+11ZYhiUZjgUj33HkXufAXfebmxat2Oeiaf2Mav0z
+         Vvwv6t7UGKyBpY9zHG+AYKsyBiV69wdVVX/+3Y2olVz6L5eDY0ngAgoqozcmxhtarnNO
+         JaXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792462479; x=1793067279;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
+        b=r3FsrKtl9LE31B9LbQQ/riKDA8N3+j8/cfEbFxzlI2gjx/dKS82HV9C5Bb8ddNm2gL
+         7KVbd+PCJOI/UCYO+1vTCr4B2jXIk4BGhjpbqb9KGn27pCLwpgAKoyYNU3qon1yO9QHW
+         4obBXuBnySdNLFiiKKOP/Ou+c4KkRDOv3XZmdvhCbY/lwvinfPgcV601CslZktv64wqW
+         +fmRtWkLe6Hf6kAS/u50ZSf6Nx47Aycugms8tjXzBotxO51FHaXV9r7jX12DESL8bLvw
+         Vro0BaGW/EgnflKL/3KdNOek3j3wblQTttADWX9aFEcYlTPbzDZe1FE/2IsidFt9O53K
+         +/5A==
+X-Forwarded-Encrypted: i=1; AKwUvBzv3Oho5ZpFWzRwyXoUWaD6LrFbprkBoj1I+f7RCIYpI2TTrjUnawRC4SuJ4qx4qz3JsRrzpvpK4ic=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKjXI9u/+Z3G2oeO/s9FLbG7zN6gdVAStuUsSoo5A3B70DrcOb7
+	F7Anp61G4EzhRie0uS1F4jGIEiTO0aTLIHR6aA1w4thVRddiCKS33725
+X-Gm-Gg: AYBFou2ycx+jnTK0dN26v76SjRVd1MqBHFL9W//XdhmxlK4SoXxSvr/tf5qaShXSUOn
+	o8ziF0x4fXUYQOSBqFW3Eqthj1wnO0DAwVpugdy5aAtjiURtW3+A/7gRmJ6ryDcu41Ss2dJG8sO
+	LGuWrXWyB4pwQ8cFesEnTP6qP9n1HaE13UCGhst2GUtfk9Ae2KZI+UG72LgWpiKLj8jJKKo8wNH
+	8EQyB7xTHYUTLBnQYRoMYOGpzE6r+ork1fSTnuxnk56j796YyODrjCThJjk2ql86QAfCnfF3hjy
+	EvLOYY4beyrP4UQIH92EZ+qZ1VOquyWBcrTNQV2DxyYlGoVEczba2lcVdKEBp11f//6nJwuGPGj
+	7lF3qdSW+b8kTqpFNQzHdQUBbdFwc6nhrmv0V+vn60+pWweVuMf8flHkuGEE+IFV2EUpI6upivx
+	GTKwJGrGdC837GVGapVteZAk1MSyGHryOnDVKBrz4NZHTsvW9m8cDe+R5g76TiISMqdStcA1MOW
+	PcypmvsvBj7x4fxisqr/0GaICs7D10FmrbUzAq1hZotYh6EuIM6cz6DyB4Au2cybG0sqY+KVc/9
+	BuOoH2onQ/PFgrvbZsr5pll0MVtMjJ9gk0rsW3qxf+etY/D1ha2t1+hyPzUwFh0Tj59acDFM6ka
+	HIYQ5+IeKoQ==
+X-Received: by 2002:a05:6000:491d:b0:488:5852:6ee3 with SMTP id ffacd0b85a97d-48e07bc2f43mr19882172f8f.34.1792462478968;
+        Mon, 19 Oct 2026 19:14:38 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9c92-6501-cda9-90cd-4e49-75d9.310.pool.telefonica.de. [2a02:3100:9c92:6501:cda9:90cd:4e49:75d9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8208b1sm2879816f8f.33.2026.10.19.19.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 19:14:38 -0700 (PDT)
+Date: Tue, 20 Oct 2026 04:14:36 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Harry Yoo <harry@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	David Stevens <stevensd@google.com>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on
+ RT
+Message-ID: <atbOS2rs94fB2red@gmail.com>
+References: <20261005070625.8871-1-kmehltretter@gmail.com>
+ <asZ8jmWNoGk5tYce@thinkpad>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,100 +111,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by
- default
-Content-Language: en-US
-To: Stephen Brennan <stephen.s.brennan@oracle.com>,
- Petr Mladek <pmladek@suse.com>, Zack Rusin <zack.rusin@broadcom.com>
-Cc: Borislav Petkov <bp@alien8.de>, Ajay Kaher <ajay.kaher@broadcom.com>,
- Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
- Joel Granados <joel.granados@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, virtualization@lists.linux.dev,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
- John Ogness <john.ogness@linutronix.de>, Steven Rostedt
- <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
- Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
- kexec@lists.infradead.org, linux-doc@vger.kernel.org
-References: <cover.1788414671.git.zack.rusin@broadcom.com>
- <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
- <aquttpMVKX8e6zGB@pathway.suse.cz>
- <CABQX2QPJVg-dZB9f4ydRU_5W7nyWwVCQtDoRGoe1+9cA7wyUDw@mail.gmail.com>
- <bc0bdd14-5e6a-0676-cd04-14fb0bb93cd5@igalia.com> <87v77p9t4h.fsf@oracle.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <87v77p9t4h.fsf@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asZ8jmWNoGk5tYce@thinkpad>
 
-On 28/09/2026 14:35, Stephen Brennan wrote:
-> [...]
-> Hi Guilherme, thanks for CCing me! You're right, I'm interested too :D
-> Your email arrived on the first day of my vacation, so I'm sorry for the
-> delayed response.
-
-Hi Stephen! Nice talking to you =)
-No worries at all, this is also conference season heh
-
-> [...] 
-> I do think we're going to have trouble articulating exactly what are the
-> criteria for a "pre_kdump" notifier vs a "panic" notifier? Anyone
-> submitting a patch believes their notifier is important, so of course
-> they believe it belongs on the pre_kdump list! How will we draw the line
-> in the future?
+On Wed, Oct 07, 2026 at 07:15:29PM +0100, Harry Yoo wrote:
+> On Mon, Oct 05, 2026 at 09:06:22AM +0200, Karl Mehltretter wrote:
+> > On PREEMPT_RT, a BPF task-storage program attached to sched_waking
+> > can deadlock when kmalloc_nolock() obtains an rtmutex-backed allocator
+> > spinlock while try_to_wake_up() holds p->pi_lock. Releasing the allocator
+> > lock can enter priority-inheritance or wakeup code and re-enter scheduler
+> > locking.
+> > 
+> > The first RFC [1] rejected every non-preemptible caller. That prevents the
+> > deadlock, but it also rejects BPF arena allocation and faults under the
+> > arena's ordinary raw lock.
+> > 
+> > This RFC instead adds an atomic owner state for bounded PREEMPT_RT spinlock
+> > trylocks. Atomic acquisition succeeds only from the completely free state.
 > 
-> - Is it safety? As in "the notifier doesn't take any locks"? I feel
->   this should be part of the criteria. (Though I have never been
->   successful in predicting what code would cause a kdump/panic failure)
-> - Is it urgency? As in "without this, the expected behavior of the
->   system during a panic will not occur".
-> - Is it the fact that the notifier is communicating with the hypervisor?
+> Please don't skip discussion stage and jump into submitting a very
+> intrusive change across locking and mm, assisted by LLM? :/
 > 
-> From my perspective: informing the hypervisor of a panic is both safe
-> and urgent. If the hypervisor is configured to immediately halt and do
-> its own panic handling, great.
+> I don't think attempts to tackle this problem will make progress without
+> discussing and getting buy-in from (PREEMPT_RT) locking folks.
 > 
 
-This is a very good point. What is the criteria? I honestly don't
-know...I think hypervisor-related things, that are safe (as you put)
-makes sense. Anything that might also make kdump work more reliably, and
-is safe as well...but everyone will judge their notifier important, in
-the end heh
+Sebastian, Peter, Thomas, did you have a chance to look at the locking
+direction here?
 
-
-> Providing the last 4KB of logs seems less safe and less urgent (though
-> obviously still immensely helpful). The kernel provides a huge variety
-> of consoles through which the hypervisor could have already received
-> these logs. If the system is configured not to use them... it seems the
-> tradeoff to not be debuggable has already been made :P
-> To me, that logic belongs in a standard panic notifier.
-> 
-> Plenty of people will likely disagree with me on that, but that's why it
-> would be helpful to have clarity on what separates pre_kdump from
-> standard panic notifiers.
-> 
-
-But at the same time ... there's something else, the "self-contained"
-nature of hypervisor-related notifiers. This one is restricted for
-vmware only, so personally, I think it's not a super biggie to run it
-early. It is, in the end, a decision of vmware stakeholders. If that
-would be an arch notifier, something that all arm64 users would
-necessarily run, for example, I'd be way more skeptic on putting it early.
-
-Anyway, not sure if I helped or if I contributed nothing to the criteria
-discussion heheh
-
-But I hope to see this discussion happening, maybe should also gets
-documented as part of future Zach's patch iteration as well.
-Cheers,
-
-
-Guilherme
-
-
+Thanks,
+Karl
