@@ -1,106 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.100
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792532704;
-	b=bW+5YZuCOlEoXthVWTZdRA8ZOPER6YchGupClZd2tCZPrg8ONVTOaC5nCN26//l7z/GM
-	 dtYbZF/HQYit3aeufpJTiqdfSsRJ3n4g6l4RhgZMSRuS+dabXVRTdANV1aanxHExswISu
-	 7KtWyei7NbA0+JS3M27Ca1t4PdGgXiZ33H34lTGKKTwPS0a/pg4ayoWmcAPVHYNilF5Y+
-	 6Tb2Ohvzb3hv4Mjj9iBIs1WHoTNxI7gAmPCnoBh0J/OdtsAmOR9lcPHlfX2GO02nXIwTB
-	 z+cdfpG53gaxcRLVl7lydtkMcI1ZUC2NeZRt1aU8WJSYYTWr2hioq5mkr8GIdDKAQRQ==
+	t=1792532837;
+	b=buxCk6yQxYWax5ix8jMsrU5Uq7VisXY3B51/ivxNHOjwUzKVp5qKmuYfbl085gUE9KNn
+	 HE62GdCMt7IQWUmxQ/UhhJMCqzvOs7bObsWzl9PXkBX5zytvC0Y5MEFfoM8nCrWBWz2uR
+	 NfggS2ldupdWfqqntYtX9bYMEq+/n2U4Lks5cJKvJpeSzS/w8Slg6BFLavjipyif8xga5
+	 ZcBxV7dWg3FwFAXWFJnUhRZ++UcYOd2waleVdllC1acD0XuHxg8XkXIihK/qavypDmjuh
+	 c+HhSGPTqJtCF8vJGmC7PIkpcBOrkd9bS0WM9mLjxMFBnY8PHUxWeGDFpcbVZXLu48w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792532704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792532837;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 X-Relaying-Domain:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=cfAvdLwXfWjd40UoEy069YQpliwsafovGfmnhOmQbDc=;
-	b=vqfP0x8GnHft/nKjqhTvtCVu0fP/N/czK9zw4QJaCENPDRrWDi8hyPYJ7ElU+G5UQj83
-	 xSxAZwwQwiy6Fx/HBOSwL8mqkeRZwsgOVyD+g7N8Hebh9wVogPzOtbLik5+ALa9QNzhhT
-	 mxwcboW+SfGF2UreC7/A00ZfCgebxinU91O+en5LmytxPtMdl+H91pcxAHMt42QG3T6SF
-	 +HGjPa8omFE2IybQk+ai64GraNG4pm4gTlRHV4LyH7/l0j645Mk907WxbODrwBe9qeYu0
-	 u+DTZnknu805XSBae0azItDGdpKPHOyst0OdDyjrmpP0Ww+omZNrFMsGJyLpsjZM/qw==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=PvIPEfkdtZUqofHUAuuyqlxSRMhwpGZiFkVH0+y5Y1c=;
+	b=l/Hjks0GksLikwg+VU1m+02Fkly7ntT2L4N5TXrNtp4wEwqM8xEkjcA/nFC2fNzhdkFc
+	 FlVnvvTgJghBJz7jGtF2nOzMKqLpRW/W5ePr/VmKT4U6tjg5QD8NN/kMVrHyF9XHf4rZW
+	 2IGpbIaf8aLi0sFLYbjv1BDDEfyyAwOXeXulim3Dq2Y/nl7m7YT8XuTwsfb2BTIl0PH51
+	 yBplHP2ESzDhXS+7rCeOzC0QpjTAxAJUPQGC76Vp1BBtEIsdSfAiOxylf86NcLqvQP4AC
+	 4vWNJetntplQ2MJtfUsoTT+pqwslfe3lsXLN1SFz0s9Rin/tAbvJF58Oipzyj1M6MGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=purestorage.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b="M9/nW9xi";
-	arc=none smtp.remote-ip=209.85.216.100
-Received: from mail-pj1-f100.google.com (mail-pj1-f100.google.com [209.85.216.100])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	arc=none smtp.remote-ip=209.85.222.173
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB30606A320
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 21:45:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CB30606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=M9/nW9xi
-Received: by mail-pj1-f100.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so694883a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:45:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EF5606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 21:47:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0EF5606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93ece7a73b9so12340285a.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:47:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1792532703; x=1793137503; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cfAvdLwXfWjd40UoEy069YQpliwsafovGfmnhOmQbDc=;
-        b=M9/nW9xiXHNH5cAM4l4UytRW3tUYuKEg38HW4bOk5CXDt6X70hNM1dCysYV7xAmWNa
-         o+FyFEEMvTXkHQyrzsFn9G3vGnhtH3WR2BOl3yBsu848b+SQkDnNGlauQD5iM/gceBZ9
-         w3Y2cpV6ap6ddfacMymj2E3FSZmNwCDUEydfcnPffsa4W1ZcXfwcQQnhqSD/WfQgbAzG
-         1yL0AHndXWwuhGsUQuDE3ZlmdH1gSMXuzss1HODYBZ7RwNFJtF6VfRbYj+fzgMBxBJQR
-         GQ2VOqlKlOkgTydZika1x0DHKA/IPZHOPzcZBiOhAmvaIB/FXXkEp4A13etbEuYSHBq5
-         +iHQ==
+        d=gourry.net; s=google; t=1792532830; x=1793137630; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PvIPEfkdtZUqofHUAuuyqlxSRMhwpGZiFkVH0+y5Y1c=;
+        b=bzGQBu/XirkovwO4btF+4VRDEbukUzB2MyeqAryrgq6z0Ot9GRluHKAdWmd5fgqg9t
+         ZDu1Ktz+4UNXtHT8IC+siP6Ocf6rz6GRd7VEDVjyYhhc80gWFNNErqfCtS122HNP5Gc8
+         Yal0So4C7N3M1J8V/qhZvVZ7b5BLxhon839NHBSmWkHKQIyfact/MXyN/ZAEema4adzb
+         SUU7/h8oZ0u1JgSGeXJ16nYCwQszRCgzO90AGkiTqyvJUiA3mP2bmXCGhJM9w9d1CxQS
+         8sB/rsSzNPtvRBIrbTgNFANrxD88h9a5euiEsg+ea243W67K/SX1bgUo9i0UjEZc4A10
+         XlGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792532703; x=1793137503;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cfAvdLwXfWjd40UoEy069YQpliwsafovGfmnhOmQbDc=;
-        b=BXqnRLSPkrRAXHwr1bcTYX/L4ZdI+SX24hyG83JPBNaZQrE+k/jbXmuWivXrvVzPgF
-         bjD5FfWPGoGgESacsZdVEbDLfHdOg5nvNih/tK2cQ5d/f/BD79WydyNO+mrrVbNBXkvL
-         lPckbWBFx0gx77Qt1x1pX4764G7gu1P/HjDmmLYRrxEAqo97URz02TE9kWZIqYiibpID
-         hDHK/wXGlDvV4eJSsaL5eN9yPCw6mC9F/bnBtjkVlN7biswHX4kdGf8KDab3dsVzxXCl
-         ZePpaGGghExDGy878PhRGX7A8lypKmIuQvQnN7XNX1Tzrg8Aq3+QIvBICwc+IX3CLFWJ
-         9ZXg==
-X-Forwarded-Encrypted: i=1; AKwUvBx12GwZTnedmKVLhFm7Bhd05cwmHzKr9ARDYs6bYFo/WPOK7lgwMoHo1xilKs3MhhzkIjot/vClaC0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4tQEGqFn89YyB52Z8h3spi6dm9vaQUqJAt+ZW7hgwUfUSCWr2
-	UVeFCmQUWj0X3/8ZMx5SzQwM50ksAzEM0agP3C2IO9/YR+0YbEt0tTY3hx9dQ5oBSDfqI/k8yfc
-	/KpNRy+nJAUhRnFa7/hEjL93neLOEV6lJpoGnV24L6WUm4STAO517
-X-Gm-Gg: AYBFou2cmwUSlsVFVF+MHv4YsFxcBzKkWXws6ol8nyTlfHksCm9/SYaWcnXdd0r7/ak
-	qyLK95ioBHKZADCjqlJAQvJdfRccYbwpz97K6ZvlF/WQK/1+IoRY2tqgDXGOWgBW3wS7gDVrnjS
-	Gr6R0O6A+ahwMD2enuZo1tz85zpntAEvAaJuxSMd238SMFIWrj/BWT13My00LbbKP/RJIbDtR+Y
-	+J+E+TTflLo3kRiOQNJLN5mo6fljaKFtA5dMVdazRXUHGm4WcY6neSpkZsfn/HLzwS3Fr3Z6qpK
-	u4JiEUydmK5KeXsVBRmc553RDYQHd2eamTdUM/xnLYoEhiwejft1QbB1Oz+mJj+xUPSVxhlGHx3
-	O/4PPJ7dWPHqOPVmOhpk=
-X-Received: by 2002:a17:90a:fc48:b0:3ab:d26b:c2df with SMTP id 98e67ed59e1d1-3ad86f1ad53mr123540a91.27.1792532702744;
-        Tue, 20 Oct 2026 14:45:02 -0700 (PDT)
-Received: from c7-smtp-2026.dev.purestorage.com ([2620:125:9017:12:36:3:6:0])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3ad816f490csm559018a91.2.2026.10.20.14.45.02
+        d=1e100.net; s=20260707; t=1792532830; x=1793137630;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PvIPEfkdtZUqofHUAuuyqlxSRMhwpGZiFkVH0+y5Y1c=;
+        b=RGAkAJ3XQgvD2qRx1R5L2kGu7zHjj1vkcrF3wFyaN8AyqkWzOvFWakdUzYR1h3q59N
+         9IDT5B0u6mA6mEV8I1zJ7nH3A3yIOai9nMAXpXJxr4sumoMWHI6MHRu6CLYqemNSQciz
+         XonH4xwQG4iQjx81wl6yZ5lmylBFZtTF+mb4v54A9WUqk9CAEJzAq0c8E+dA+AElACwC
+         0xij6PGSyILSPfllXB/7L+DZmlqeSnJDxpKhytt6yMFh4maOaNz0zP3X5xU9G2J0DrfA
+         QMKuOOFGQs8GYiM4t6XHiUeWXcVxSYxfBEis4Outv/Avm2wGBm/gNYXXEyDQ0oc9SxzC
+         3u9w==
+X-Forwarded-Encrypted: i=1; AKwUvBy6DQJ+nxtnTfSx6Ss3M7Q00+NApBuSqyp+Fr+Cm3jSynnr/P9Gb62iDNiHw5YGuneTw/75F3PSD5M=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKidQKXkufyz5zItacdc48AnsByIdTK08OtzsJiye7q1lEVNQhu
+	+pCZEYpnr0tObfpTcsxq5Nvi0BQrSgCWIvKjLDn5SR9Cz+DQ6nDm3t5KtocoIafL0qw=
+X-Gm-Gg: AYBFou3JlriB7/ig1BqWAzpP+ncZnJPC/SthK1C/B/ucbXLhEG9vacxBaj5dU5MPL/c
+	leZ4/NRvHBiXsXm7Pf6EG//ZakQuU3BPuPhhcfnCEJchUux/rCo3iCNxENDedtjFf7mr85fbx+p
+	5LCJA70T0LRiTPi1JoVScnN3iiH4q3tSs2Lp29vKc4zEI9QAaoQuDrJ4LzmyIqGU9Efga+bd+7y
+	gv4+niFQ/0Zpbbzh/ZWRFMpghf6wFKKvjB2qJ6Kpf6bYuHXQXQjrAvLPwaoc+1xbwWaFhozOWPn
+	zE2K3KZBZSM6Fbk79XF7Mcy2v/TLft48FB9+UpXvGH5c4fHQmvO6gZnhszX5//S5Z9XS5tdQQQ8
+	efymVQy87PO1SODl50hW4yNsDt14ghT1biNSToDON4i56G9g5hAmQn4hHAUg+YG5B2avI/4idCh
+	z2ZTCazJSTQrYPqCuEoActrN0H98YYBZMIyo5vN1p2saUD55bGan1BhWEViI3xC56BrZpY+BCIg
+	+dIC3t47svwaibUABkLNjSQB1rFezoGute0xCU38dq9tq61hK9xtZPx5p7nqKnoZfG0SNzrvcOp
+	6aKVCpsS7FXokV8H4WeYJL2+ZzI=
+X-Received: by 2002:a05:620a:198a:b0:93f:3391:d5a1 with SMTP id af79cd13be357-93f57f65930mr93498685a.75.1792532830268;
+        Tue, 20 Oct 2026 14:47:10 -0700 (PDT)
+Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56d98978sm86912785a.10.2026.10.20.14.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 14:45:02 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-rjethwani.dev.purestorage.com (dev-rjethwani.dev.purestorage.com [IPv6:2620:125:9025:23::2ea])
-	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 212A9402B5;
-	Tue, 20 Oct 2026 15:45:02 -0600 (MDT)
-Received: by dev-rjethwani.dev.purestorage.com (Postfix, from userid 1557719937)
-	id 1BF17DC0D46; Tue, 20 Oct 2026 15:45:02 -0600 (MDT)
-From: Rishikesh Jethwani <rjethwani@purestorage.com>
-To: netdev@vger.kernel.org
-Cc: Rishikesh Jethwani <rjethwani@purestorage.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Boris Pismenny <borisp@mellanox.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net v2] tls: keep TX and RX hardware offload on the same device
-Date: Tue, 20 Oct 2026 15:44:59 -0600
-Message-ID: <20261020214500.972308-1-rjethwani@purestorage.com>
-X-Mailer: git-send-email 2.50.1
+        Tue, 20 Oct 2026 14:47:09 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,111 +85,128 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 01/39] mm/vma: fix mmap_prepare file handling,
+ remove file_doesnt_need_get
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Janosch Frank <frankja@linux.ibm.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+ fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+ Bert Karwatzki <spasswolf@web.de>
+In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-1-1aa3c9b139f9@kernel.org>
+References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-1-1aa3c9b139f9@kernel.org>
+Date: Tue, 20 Oct 2026 17:47:04 -0400
+Message-Id: <179253282492.1207257.6426479952081115792.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-After TX is offloaded on device A, a route change, or a change in the
-usable-slave set of an 802.3ad or balance-xor (layer3+4) bond, can make
-RX setup program device B. tls_device_attach() sees the existing TLS
-destructor and keeps ctx->netdev pointing at A. The RX driver state on B
-is then untracked: tls_dev_resync() and tls_dev_del() are invoked on A
-for a context it never created, and neither socket close nor
-NETDEV_DOWN on B calls tls_dev_del() for B, so the driver context leaks.
-The reverse setup order has the same problem.
+On 2026-10-13 16:04 +0100, Lorenzo Stoakes (ARM) wrote:
+> The map->file_doesnt_need_get flag is confusing and the existing
+> implementation has holes.
+> 
+> Drivers are permitted to change the owning file of a mapping. If they do
+> so, they are required to take a reference on that file.
+> 
+> The mmap() operation which ultimately invokes __mmap_region() is guaranteed
+> to drop the refcount for the original file the mapping was made under, but
+> this is not true for the replaced file.
+> 
+...
+> 
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Check the shared device binding under device_offload_lock before each
-tls_dev_add(). Permit the first attachment and a second direction on the
-same device. Reject a different device, including when the old binding
-was cleared by NETDEV_DOWN: the TLS destructor remains installed and
-tls_device_attach() cannot establish a new binding. Setup then falls
-back to software for the requested direction.
+Have a nit below, but otherwise
 
-The RX check precedes allocation and software setup. TX uses its existing
-resource unwind path without calling the driver. Document the shared
-binding and clarify that fallback is per direction.
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Fixes: 4799ac81e52a ("tls: Add rx inline crypto offload")
-Signed-off-by: Rishikesh Jethwani <rjethwani@purestorage.com>
----
- Documentation/networking/tls-offload.rst | 16 ++++++++++------
- net/tls/tls_device.c                     | 24 ++++++++++++++++++++++++
- 2 files changed, 34 insertions(+), 6 deletions(-)
+> +static bool map_same_file(struct mmap_state *map)
+> +{
+> +	return map->vm_file == map->file;
+> +}
+>  
 
-diff --git a/Documentation/networking/tls-offload.rst b/Documentation/networking/tls-offload.rst
-index e5802bcd4d22..cf0e599c06a1 100644
---- a/Documentation/networking/tls-offload.rst
-+++ b/Documentation/networking/tls-offload.rst
-@@ -71,12 +71,16 @@ During driver initialization device sets the ``NETIF_F_HW_TLS_RX`` and
- pointer in the :c:member:`tlsdev_ops` member of the
- :c:type:`struct net_device <net_device>`.
- 
--When TLS cryptographic connection state is installed on a ``ktls`` socket
--(note that it is done twice, once for RX and once for TX direction,
--and the two are completely independent), the kernel checks if the underlying
--network device is offload-capable and attempts the offload. In case offload
--fails the connection is handled entirely in software using the same mechanism
--as if the offload was never tried.
-+TLS cryptographic connection state is installed separately for RX and TX
-+on a ``ktls`` socket. For each direction, the kernel checks if the underlying
-+network device is offload-capable and attempts the offload. If offload fails,
-+that direction is handled in software as if offload had never been tried.
-+
-+Both hardware directions share one device binding. Once one direction is
-+offloaded, the other direction must use the same device. If a route change
-+selects a different device, or ``NETDEV_DOWN`` has cleared the binding,
-+hardware offload of the other direction is declined and it uses software
-+instead.
- 
- Offload request is performed via the :c:member:`tls_dev_add` callback of
- :c:type:`struct tlsdev_ops <tlsdev_ops>`:
-diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-index f11d0528fc43..9df183d0dd97 100644
---- a/net/tls/tls_device.c
-+++ b/net/tls/tls_device.c
-@@ -1022,6 +1022,20 @@ int tls_device_decrypted(struct sock *sk, struct tls_context *tls_ctx)
- 	return tls_device_reencrypt(sk, tls_ctx);
- }
- 
-+/* Both directions share ctx->netdev. A second direction must use that
-+ * device; after NETDEV_DOWN clears it, no new direction can be offloaded.
-+ */
-+static bool tls_device_can_attach(struct tls_context *ctx, struct sock *sk,
-+				  struct net_device *netdev)
-+{
-+	struct net_device *ctx_netdev;
-+
-+	ctx_netdev = rcu_dereference_protected(ctx->netdev,
-+					       lockdep_is_held(&device_offload_lock));
-+	return sk->sk_destruct != tls_device_sk_destruct ||
-+	       ctx_netdev == netdev;
-+}
-+
- static void tls_device_attach(struct tls_context *ctx, struct sock *sk,
- 			      struct net_device *netdev)
- {
-@@ -1157,6 +1171,11 @@ int tls_set_device_offload(struct sock *sk)
- 		goto release_lock;
- 	}
- 
-+	if (!tls_device_can_attach(ctx, sk, netdev)) {
-+		rc = -EOPNOTSUPP;
-+		goto release_lock;
-+	}
-+
- 	ctx->priv_ctx_tx = offload_ctx;
- 	rc = netdev->tlsdev_ops->tls_dev_add(netdev, sk, TLS_OFFLOAD_CTX_DIR_TX,
- 					     &ctx->crypto_send.info,
-@@ -1227,6 +1246,11 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
- 		goto release_lock;
- 	}
- 
-+	if (!tls_device_can_attach(ctx, sk, netdev)) {
-+		rc = -EOPNOTSUPP;
-+		goto release_lock;
-+	}
-+
- 	context = kzalloc_obj(*context);
- 	if (!context) {
- 		rc = -ENOMEM;
+Terrible function name :]
+
+~Gregory
+
 -- 
-2.50.1
-
+Gregory Price (Meta) <gourry@gourry.net>
