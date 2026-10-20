@@ -1,106 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.31
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792502026;
-	b=d19LRe5n8AsVwMX2O9DM2YDnUpAXw9pwN4Mr+4fctvd0WORzmV4Nu5gpPEupbL+8AH5c
-	 o9TGbTT678dRNrknO8TETvlybBFkxcUi/+wwYm+yCQTYa08bp+66oH1WGPJWPQ05GiH9X
-	 VmTIZf6LgaRR2NTK0yEhgdvGhl0H060nOZzP8wadRdaJTouUkj+xY16JF0q3FH6t00L7m
-	 1GVHmk4txhEMi0Rst/5N63MGaaTAZrAvJ9ipWOPffa3gaioNNP6kQ8IQrIINxOxwLOgG3
-	 /bFL6uMNEvpAc+iw46aL9qHandCO8CNBpRL9fV1dM/tsPUuEbqfxzJDOlCRVzKUK1gw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792502026;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=zpy89fI7mC6mQcy51CcevvqCtHDlhVmZd27QaJ9aCBo=;
-	b=n2J6ZTD1LYacGlvfWXNZ9KMAY0D8GxD6c/gkF/5IFd1nj5d3O5U1j7tfl960hQ5Mnuau
-	 H7uBTqRRxnPUCXlJmxn6ddV9UPSoWqREwnZ9/DvXuGgkvFzNVmj/2PJ+Rhzx1zVU3qEXT
-	 r5+cUC8SHu6E2PBdQQcq6ON3T4go6fhpSGmWd8IIeIwfLTTDRIs876oEGQwPKqEnXewHn
-	 hxPlZagCkt9MY/Gcd3CS3UkYVR880g1JbcFNU3RnlMsxYp955D2bd0ccWbjPE6Cjqlwyq
-	 GExV2jMK+g5igpY9MCFZyJstXwvccLPXcOfsXdJyFR+dNuijlPS5C6Xmi/R+ytTSrCQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qcVw62Q6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.31
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012031.outbound.protection.outlook.com [52.101.48.31])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792502218;
+	b=ATIRNPc7tjJ//MJzYMu3X3PO3HpICnHZUsimeNxBKCCdBtRpTFEHNNK5Oj3rOnc2bjZ9
+	 y8o0Gd26zpiaPkdsRmCH72obL9wLqGTmP0N0HM9zwAAkvNIowQ1F4UslqXYoUXn9vAj/a
+	 CkQwhSCnoi9xZxfjXIizU0EC9+b71QldvOVZhhvUCKTwfl4BhPfCg81FLySlmx36HEUsK
+	 u8eVRZEArrcBUm4JX9LZWM6DR+KqTIMw9Nt2g/ybwuagmuM98CptGUrFCvEJibDWghZPo
+	 ncXgErZdDw+hjfqwtIAuJGsc/PQn9D4BBX1LbW4lEPceljND/G4ECMq7Oq317a1H5GQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502218;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Etd6ucBFRv+2kOi2yYshLpQy3u0L6/x6e/cAweVbOSw=;
+	b=na6kiicE6BP+1791Y985clzc3iJtvKPvXSPSr8FxTk/UHnZWEZ7rEMYPVDKN2L1Ahn3b
+	 qg0bvnpLk/KmXRSayyih/rmKpGwRf/b+83w7O/5P+tulDu74xS9dYrkthAb39fEHLVA1q
+	 ayKyR2rN1FPhOxd4ajEqcglv/eH0Fgca2DhSgMp3fS9zKgSt+ZpHtuGerU0hrRGwRReIO
+	 d7k/4ccGvhzrwOMc4uwIcR31XvBvQrwjZAHR/LKjANA4tvNGv7CsOWX1I0yt7bwn/LA6g
+	 h2hcfDdeBtv3ip1vxL9zmC1jqJ2CMjpuK46Pa2q4tLJ2/h/KkxsTWg92pqb5UY5futg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lSo3U/Dg";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8EF606A319;
-	Tue, 20 Oct 2026 13:13:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF8EF606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F05606A325;
+	Tue, 20 Oct 2026 13:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qcVw62Q6
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DD/XshHy/yMxaMDPRhK3ZRZGTpY/vHkfQBnUWkZmBhr1lrcaHTmhNF+as15ksR7rUol43jYdm9/XMl0sxOlPWX4odcG9uHd8ooA6aEd9x4KREqWDAbY5oJXkONikSfypkQhqXAgRxpBZi2KXjYvkxGkwHsxzNjTyKihLz7Rr0UmFzkI3TM+VoyEy52Qegq0jaET6f9034i/rvMVXMAV+eQLylVreOofF8F6Xc2M2rlJVOFHrDpvhqYKjN5kUrvTkGvTge3XoqO67cbvLRFQtlL6gBohjlIHBMyIUW4+45rljF78MlTwciiiRcJVvzCvnO6zgm8cC8BFWoR3H/5TNbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zpy89fI7mC6mQcy51CcevvqCtHDlhVmZd27QaJ9aCBo=;
- b=RF57OQWK3AVYgEP7ZXQSl2HdU1HAc+GsdgDTx+76XOCju8sOLuLMCOMi3NL5Q0e0ARgp3vjhubtfV7ovzLlvSUr6OzNZC5WUFnBBv3DZTbzM92U7vY17xPN5XPU4f4JDZS+/6BsryVPsRagjtDICaWmmauVUBT9pDSCl4t4LBSj3t2QlNYSP9JKsyIyXnFDqoTukhSmzXpAtP3Bb4qGF1jMfLgCDtgMlju3UMNp9DgWeu27KKUwxA6Qqy6IYybogxzpeJsWOhBtCuF22S04SpqACYaOkRCyF2RVVAkqTlDB4KY389LYwrYAY8gFb4tr5T+eBCqjkLhdaJQ1ZyK6akA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zpy89fI7mC6mQcy51CcevvqCtHDlhVmZd27QaJ9aCBo=;
- b=qcVw62Q6Qy3GjY4WEFF3KEX32CgRID1zL4Xa3SB51NJIZSRSnkDCG/AlCuy35jV87snE71NQKryTE72qkgVV5r0jdcss/C7WR4LZw4j4mNIsBU5DhWQnW9wBy/U+9ZketBH/XYhj/zAOD6Uj5NcSuUHEhzvVl+49l9x0n2MIs9PK4sGfMpTs37N5XTrhdnrmCftdPwJoJ/XsLqR7SD+gfV4RepuNmUzj2J0DZRfX1b4hm85FUnomeP6yL8ELIXIlL64uw9/FWPOXvKMoY/3+DOSCwxsfpy1QxUrveIG271j+Yx1xn/OR1CWOG/DUlj+HPs9Gqdbw5zNH79We1slBSQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by DM3PR12MB9415.namprd12.prod.outlook.com
- (2603:10b6:8:1ac::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Tue, 20 Oct
- 2026 13:13:38 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
- 13:13:38 +0000
-Date: Tue, 20 Oct 2026 10:13:37 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Dionna Glaze <drdeeglaze@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
-	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
-	sameo@meta.com, aik@amd.com, jpiotrowski@nvidia.com,
-	qinkun@google.com, pgonda@google.com, jic23@kernel.org,
-	alistair.francis@wdc.com, ankita@nvidia.com, suzuki.poulose@arm.com,
-	kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
-	jarkko@kernel.org
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <20261020131337.GU13920@nvidia.com>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261016234354.GA664420@nvidia.com>
- <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
- <20261017203407.GM13920@nvidia.com>
- <31f7f221d7b63732d057abe064e5b23869103600.camel@HansenPartnership.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <31f7f221d7b63732d057abe064e5b23869103600.camel@HansenPartnership.com>
-X-ClientProxiedBy: MN2PR20CA0055.namprd20.prod.outlook.com
- (2603:10b6:208:235::24) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lSo3U/Dg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B3471F000C9;
+	Tue, 20 Oct 2026 13:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792502218;
+	bh=Etd6ucBFRv+2kOi2yYshLpQy3u0L6/x6e/cAweVbOSw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lSo3U/DgvqTSwlraWwSAgPECmRJEUs5KxGqJeCP0RLzL0OcBhj+6q3yvZlAwTeGN9
+	 yvt5l0NY62BVsjT7s9GPrNquu4sIswA3VglkICr9Q8tqs0aljuKTEXLj5Z2yK+cBZ/
+	 AB9jJv/nmcYJRcAf6fJqDvfozzWW9RGYPfrulUpiTfl8dsaDukSSgDh74pfswNUq6G
+	 //4tVbfNHuwgiDlB/JjqZ1oFsZd5mpISMAxB+rOW+mp71Yt+JpxoSappWPjbnm07Jf
+	 Xj67C29HMVAuW36W7S1PkCJyU+PECJO5Jpw8OR9idY9MnGNKDFOGpDqRrqCz2L89/R
+	 /AQUqDDP550Lg==
+Date: Tue, 20 Oct 2026 14:16:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
+	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
+	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v21 02/15] KVM: arm64: Refuse to start a guest with S1PIE
+ or S1POE but not TCR2
+Message-ID: <atdebC62zPS1sQeR@gremlin>
+References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
+ <20260930-arm64-gcs-v21-2-3556644cd927@kernel.org>
+ <86fqyn2che.wl-maz@kernel.org>
+ <as-f1JfUy38Xt9QA@gremlin>
+ <ae24e80c-1b34-4827-9c93-e80b987e9cd7@sirena.org.uk>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,119 +66,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|DM3PR12MB9415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7776efc6-a8cd-4b5c-edc0-08df2eabf45a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|6133799003|10067099003|18002099003|22082099003|11063799006|5023799004|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	DJFn4vud4f1IdokZgINtNZq4slLxHSqkcFOy18ccMHIDUBcYVGsieczxRoOe7TWSopRl3dwLLk0ODkvnjGv/1ejduwv7cW7Vb9q/PovjV5AO75lgkvsuuCmA5jl8tXqMrRpTSBvEWhDkthiDTVNsV8mbcq08AyvfWNi8BpHAZh1op+WbQzPqq27xYVUD/2NlWXkfnxoh/Fcr3nXVvfeghrLfSv91vBcnD+cQPzVvdRwsFeKkULHA+Pa58WiIagdzKvKES9ljhb/IXJVzdRevRefTCUw9zIWjncInW08aXGuzjbH1SbvajBLSkS0fOg/sR/bThd0yp4C68WMBP4oYR3RyqQ9OkXpL1v8YrgGF1/hZlPFdWN1r1pkGbLdVqGY/yxaFuD6N5sEyGqxvZY4l4OKFEGvi7kOxLMW+VY4kgsknDupfXX1AEVFNTf9y1R1pTkCdPHDstrNvgaRWG8aDr5KV5sfSB0rqmJ76AnW3bPPOXblxUlGT8iwCBEeh6LOAt70GrAzy5GJb10sPW64M9BCHK+Qm3n2oU76sEznv3fPoBDdA+Wn1bXzZzct9lYoDWxuYoRXIsqJhh6FrrXFsjOc7PUYJ/WYCEUUfsdGGotZd3xVnkLy/PfeOXblKyjd5ywCBqhi7dxcIxuq8OIFFlqA1Vl4BfoGNcdIfJFylHc8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(6133799003)(10067099003)(18002099003)(22082099003)(11063799006)(5023799004)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YvvyJ8fkT2tV/YiwqubZNlILBJvHlV4ESEOB0a8DRWjFoqPB3vCxJweeme78?=
- =?us-ascii?Q?DRy1sWExF3KaYqKurEfK+Fg9vcxxJkriCMYY5+bgDokP63YhrYmsKYccimqN?=
- =?us-ascii?Q?GIXbuqZJRs4/Q8GMjtGBIKPuTtN4utuNY6higR9Dtrp7Cyzxufxl6ycDryvw?=
- =?us-ascii?Q?YubTmUzvzi2sT7Jwl7ZYMKZf9Z0Z3qNe1+I33hgX61E0A3KX4jcemvsmYvzT?=
- =?us-ascii?Q?lO1wkQKiWoS6EXnuEECQEhQ6ri4hc7Hvp8ZQIFlYiB1llp+IRNxf3KKiFkin?=
- =?us-ascii?Q?fBwmg6FK5tfyka/01gEYrSZvqyhHbhP/reIzqZOq0CmWQevdEGXSYYY1tK2Z?=
- =?us-ascii?Q?zBDyfW/OmDr6+8wK0F2PuIrV6i1Fzd5CAkCefDB7pxDSlvBDdXAPLtq8ScO8?=
- =?us-ascii?Q?DLmQXFdOUAh4pGr8qnQ94ag/qs/FeTn8Jv+S3miVAg30jGuOYo6F4H1jgFeb?=
- =?us-ascii?Q?ULBUJB2L0nnlnpKcyxPQyr/9AgHIgv0KEtDTPX5wR1wd5pY4xNfTyn/h9NAW?=
- =?us-ascii?Q?/jtHn7Z6KZcB2IsD18aPpQEMsagC4ln+io9PKNqzKMLPFT0JoLCbacjgywS/?=
- =?us-ascii?Q?VLchVCk1NucitiNIXGbROk4xD2V0gmNTOjKKugGMagdZmRSFLbuEZRMXXH6f?=
- =?us-ascii?Q?6giFGxqAU3NOS2zgtVL4UiJgAngXoKPN+QKdThDGw+yPsou7eNDd1LZOCSTS?=
- =?us-ascii?Q?nA179J5puFxHZ0DOIi97Raonb3b90APs4rtSeuN/vGQwHI1BKdr0BOLMutJC?=
- =?us-ascii?Q?KZlUw3CAcGFkOdLPmYEM7hoKEOffiyJfKAqcsriQhIjQM2h9qi6+STbGeuBE?=
- =?us-ascii?Q?zRLImJO3Vglc3761IeCArTZKx3+Y1bgfOZ3ZjeIXJampmyJgF0RXQDLcsNjo?=
- =?us-ascii?Q?+H+GikGAuut9mAeNc63jfAHHKUW6gtV4e4fVKLtxu+gZMYT4ghuJZsqr+q2m?=
- =?us-ascii?Q?NFkYX4wXptFFr1bvCafIUcFlpNOYqqj0fJ6def0dq5GAifM15Z6f8yGX5B4L?=
- =?us-ascii?Q?7Nm/iZkSTGMHHDwgtnpyqdpBkdZ3xKXekHFkCYfLewBV/zTPAjkHW6N3yMH0?=
- =?us-ascii?Q?BTupspdyEhgdeYbG2A4KnoGR8hP61bW5aXm6s5b4NDBO16aTld4liKA1Luu7?=
- =?us-ascii?Q?tfqAH2mCxO7L3LCMMA+QMXDc09WOtnL7BAN9Pxx+3IpoE3rxMUl0ln6loqy5?=
- =?us-ascii?Q?sO/eNgH0CT/HhOMbxYaFglwVvnJV2TS1fPl2Rp8tOANPE6rsdOrW8gUqiMqy?=
- =?us-ascii?Q?5wo4OeB2tyi/JO78m6QKDjb5NWkm2O0kHZmptDmWSw3Xfx2S3/NIRHL5p48M?=
- =?us-ascii?Q?4qFGPWSeYTH9gthXnYkAx/1CduU+rU5KVIyZa5WYoNwi8ibyk9obL7gi1VK0?=
- =?us-ascii?Q?PRNFG4B/NA0aYPYAsPkjm8dKuVo6/YEP99pYwGZ06MxdXRtbG+DBV7nlrknm?=
- =?us-ascii?Q?R/FIRIVgQ+QAPRJJRLzSctY5biTkDTp/U4V4PNPd+RXY6Optlk1h/Wmn2di5?=
- =?us-ascii?Q?yAx9HfuTM8m+YllWMTWZuTHXgoG4K9mmK8JMVnsoDw/fj9VyzPl9uRTOm5WB?=
- =?us-ascii?Q?w6wEwKqBn559YU8dDdugFpshQ2rTnIMSjoBgDd7+d79675fkL67bPFqGg6kf?=
- =?us-ascii?Q?qTBuvNaag+4VvCG3Tan5VHo4RLZ9R67ryt5PR7fv+vUEvhUj7JZkpq4b7fPd?=
- =?us-ascii?Q?W1XPHGn9OFllR2cUSgkBEh6HKbIZAt46g/FDxT68sMsHDuRE?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7776efc6-a8cd-4b5c-edc0-08df2eabf45a
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 13:13:38.5121
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZVJXuGfSFUR+rmMsIZnaP3im9jhvf5tYtGcN3VMVmUIYhBJUW6YMoLZgn1o4lCSE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9415
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae24e80c-1b34-4827-9c93-e80b987e9cd7@sirena.org.uk>
 
-On Tue, Oct 20, 2026 at 08:49:43AM -0400, James Bottomley wrote:
-> On Sat, 2026-10-17 at 17:34 -0300, Jason Gunthorpe wrote:
-> > On Sat, Oct 17, 2026 at 11:16:07AM -0700, Dionna Glaze wrote:
-> > 
-> > > > About 3 months ago we started looking simultaneously how to
-> > > > support roots of trust (ROT) HW in place of TPM and how to
-> > > > respond to the feedback on the netlink proposal for the TSM SPDM.
-> > > 
-> > > Given that I was tagged on this thread and not that one, I'd
-> > > appreciate a pointer to which you mean.
-> > 
-> > https://lore.kernel.org/all/20260705220819.2472765-2-djbw@kernel.org/
-> > 
-> > And then later this:
-> > 
-> > https://lore.kernel.org/all/20260921131911.532d81f4@kernel.org/
-> > 
-> > Basically: No netlink.
-> 
-> That may be the local driver for this particular patch set, but the
-> conversation about how general a system for tracking attestations
-> should be is much older.
-
-Yeah, we went through the same thought process as below with Dan some
-months ago. We went a bit further to include SPDM too..
-
-> When this all first started as coco TSM, it
-> was very much an Intel only RTMR tracker for TDX.  The arguments for
-> adding TPM2 are simple: SEV-SNP doesn't have RTMRs, so if the system
-> were to cover non-Intel confidential computing then it would have to
-> include TPM because the way SEV-SNP was going with the SVSM was to
-> include an enclave protected TPM to do the post launch measurements.
-> 
-> However, the next observation is that there's really nothing
-> Confidential Computing specific about this (it's just exposing
-> measurements and log entries) so if it were to be provably general, it
-> should also work for the existing TPM logging and attestations of
-> measured boot, so it seemed reasonable to add that from the beginning
-> to make sure of the generality.
+On Wed, Oct 14, 2026 at 06:48:37PM +0100, Mark Brown wrote:
+> On Wed, Oct 14, 2026 at 04:47:22PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > On Sat, Oct 03, 2026 at 01:30:05PM +0100, Marc Zyngier wrote:
 >
-> Finally, there are uses for non-repudiable logging even from user space
-> (attested build systems for instance, or the use case we had when I was
-> at IBM: attested firewall changes) so if the kernel exposed a generic
-> system for doing this regardless of underlying technology that would be
-> great.
-> 
-> I get that there are some things that can't be generalised, like the
-> form of the signed quote which is highly technology specific, but it
-> does look like the logging and extension piece is similar enough to
-> admit a unified interface.
+> > > This *absolutely* needs to be data driven, and we're not going back to
+> > > over two years ago. We already have most of what is needed in
+> > > config.c, and it is only a matter of making sure that S1PxE is only
+> > > enabled for the guest if TCR2 and ATS1A are also present. If that
+> > > means additional sanitisation of the idregs when finalised, so be it.
+>
+> I do agree that's what we should have, I started down that route but as
+> I noted in the commit log it felt like I was pulling in disproportionate
+> refactoring given the existing gap.
+>
+> > > If userspace decides to expose crap in the ID registers, that's its
+> > > own problem, and we're not in the business of enforcing idiotic
+> > > configurations. The only thing that matters is that the state that KVM
+> > > deals with is consistent.
+>
+> > As I understand it: don't return an error for a configuration that doesn't
+> > make sense, enforce RES0 instead.
+>
+> I went with erroring out there to make sure that we didn't make any
+> mistakes with the ordering of our checks - I didn't want to accidentally
+> end up with a situation where we look at the dependencies for feature A,
+> decide that it's OK, then later check feature B which it depends on and
+> turn it off due to it missing it's own prerequisite.
+>
+> We can resolve that like you've done here by having the full dependency
+> stack in every check but I worried that this would be error prone due to
+> all the duplication, however looking at your code I think we can resolve
+> that anyway, see blow.
+>
+> Userspace really shouldn't be setting up guests where we need to make
+> adjustments in the first place, and setting up guests isn't that hot a
+> path so like Marc says so long as KVM protects itself we're fine.
+>
+> >  #define kvm_has_s1pie(k)				\
+> > -	(kvm_has_feat((k), ID_AA64MMFR3_EL1, S1PIE, IMP))
+> > +	(kvm_has_tcr2(k) &&				\
+> > +	 kvm_has_feat((k), ID_AA64ISAR2_EL1, ATS1A, IMP) &&	\
+> > +	 kvm_has_feat((k), ID_AA64MMFR3_EL1, S1PIE, IMP))
+>
+> This will mean that every time we check for an individual feature
+> throughout KVM we check for all the dependencies as well.  A lot of the
+> time that's not really going to matter but we have these checks in hot
+> paths like context switches.
+>
+> > +static bool feat_s1pie(struct kvm *kvm)
+> > +{
+> > +	return kvm_has_s1pie(kvm);
+> > +}
+>
+> We should put the dependencies in here where they're only checked during
+> initialisation instead, that way the hot paths only need to look at the
+> leaf features.  We could also deal with the duplication concern by
+> having the functions call each other rather than duplicating their
+> contents:
+>
+> 	static bool feat_gcs(struct kvm *kvm)
+> 	{
+> 		if (!feat_s1pie(kvm))
+> 			return false;
+>
+> 		return kvm_has_gcs(kvm);
+> 	}
+>
+> (or whatever stylistic variation of that.)
+>
+> This approach also needs the code for updating the ID registers since
+> config.c doesn't do that at the moment.  Some of the existing visibility
+> limiting stuff (like for 32 bit ID registers without AArch32 or
+> ID_AA64ZFR0_EL1 without SVE) could be moved over too.
 
-Yeah, exactly, I hope for a general API for, eg signed quote, that can
-carry an indication what format the quote is in, but otherwise the
-quote can be shuttled through systemd-report without really having to
-enlighten it about any particular technology.
+Hopefully Fuad + Marc's efforts [0] make all of this fairly easy :) as we
+now have a specific dependency mechanism, and with GCS added on respin
+should enforce all this correctly.
 
-Like ARM just posted their FIRME token for non-CoCo case. In an ideal
-world it should just slot in and be transparently picked up by
-systemd.
+>
+> TBH when I said in the commit log I was thinking of something more data
+> driven I was thinking more of having the dependencies expressed as pure
+> data, more like the way the test in set_id_regs is written.  This also
+> seems fine to me, the checks are similar.  It's just much more invasive.
 
-Thanks,
-Jason
+Indeed. Perhaps the config.c approach will make it easier to convert JSON
+-> code also?
+
+--
+Cheers, Lorenzo
+
+[0]:https://lore.kernel.org/r/20261020064306.1542865-1-fuad.tabba@linux.dev
