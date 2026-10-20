@@ -1,104 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792487640;
-	b=0m1/9hn/6spoyUXu+avBcp1pajLSrNW9dv4HHQyylO1EVqI/V8pWo8ICCVIySHtNZg+7
-	 B64Yq9KYbrSXs5XRPKGYfzjDjXtiYFlKSQlopZF4YtLNnNmaOY9hIe40smcg459p9rnh7
-	 yUZcKiC9Cp5EaPdKZt5O2jaxCLxYwJegIzOT0i72v/36r1sqptddEW+OGd8S2tXQ6y6Qj
-	 9EdYRuM4vf0W0H4fN7g5+raweWvb7p0rIt6DAuAqkp2UllXbfBOkOm0saSSWv/hHMkM4/
-	 jXgLoNKNY33FtHf0EHSjb/BgdTTvPIPeKXjKoT2LH850OIGyM0L6fAAcSNYZl13fcxQ==
+	t=1792488095;
+	b=JJ3aPV/U9g8OWB7DlGeSRD/fVVWLKhBNK2K38mW1AIDkVCKLoGQdKPwIHEabPRo4Ox+j
+	 Qxb0Rmdcc3u8oKJj3H+HKsYeB5mK87MfXsEEOWnQaYZletJGGDcrJl4H5CADKOoQQptRV
+	 HuZLkiDCCojTG/8E+SrPYmtImDtNbFxbj7dfwxFRrSDz9dAV6vSgSPNTUnUoUNQ/F34Xr
+	 AispeZw52PpFD9YrFI0/QU6aBCgcKRLExajIpjLwkPsyuZYChMNd8Rl6KhGXC0/wI77SR
+	 +Qmr+iC4NZwkoDuiHFS1NMY4KdfH8mC7Gzzsv8kEi68nvEsHjaa0HEgaPldrkHqjeSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792487640;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-Rspamd-Action:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Flag:X-Spam-Score;
-	bh=RQmY0M9tjegDMEezsQ5hlFkCwb+QHN9rMXnNEMTbaII=;
-	b=OUsqGMvPtnUz0OZ3BonglLrSsk/SPe8g3tJ0+U45DmBw9a7MS9YQS9Rig7tv+WdXFDyF
-	 yqNtytwIXbC7bG0gSaQlklellzCyqB7BB3jWX1RXMtrJtB/ncYr5QqS9j7No0A4dbu/c3
-	 Dy58sayIZ/Zbkr7xNkQ2PQZFEln30f7BMAFnMCScz6QS+nBjH/DW2xKxRofd7tJmRmCF/
-	 3Cc9qw1GvnNhoaEFDD7i69ecIxQqVjogA8gzxPoVmAG/c6LG5UQE6JWCW1bJz08nE9uiS
-	 9eD/CTfjBnkNDN0LSXlToQtmEDQt5wnL9NRYKY75pr6KRNBq2n81gH80j59wWQt4d8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792488095;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=5e+oqors5ngXUuG02qSoQoio2oIJEIQO9xg33zEm4II=;
+	b=DLCI8hr1OIacee9kQTdizEtWmglHQdol5JGwqeOIRHgbFWvHEAuKe1UR+uXGtX897kS/
+	 jbMwyZSOgR0HMh7laqNN7yU/N2C79MVS22KVYZl44ta1V8JIRLZRGDfcvG8iIvshWYUW7
+	 VOw9sw2FvPORNxDQGGE0+5DEU7hiZXpBNaK610XVJvCD2wn0KfK8jd2gRyVFXeUloRl+W
+	 P3Ltvgh2dEa+m9H2DauN+dy+03vZqR/m+bDUAxVGtT5GR8lIttpFrE/PRH3gnnuXfUnPv
+	 4/dwK518cyNW3j8tNiGcaOanjC0dQ/XIM9STTdN3fp0POR/SA+0G3td0xR16cUbPR8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FabIPXEb;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qz5T1yBj;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FabIPXEb;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qz5T1yBj;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03473606A31E;
-	Tue, 20 Oct 2026 09:13:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03473606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rbclCkjH;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBF1606A331;
+	Tue, 20 Oct 2026 09:21:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CBF1606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FabIPXEb;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qz5T1yBj;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FabIPXEb;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qz5T1yBj
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B8EE91F44E;
-	Tue, 20 Oct 2026 09:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792487637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RQmY0M9tjegDMEezsQ5hlFkCwb+QHN9rMXnNEMTbaII=;
-	b=FabIPXEbdQj8PnsJLgzWdOf0WlEkKJ31RrCT4zjm8/5VkwE1fDv9WOtYbaxqB1TqxZ3vry
-	RjRYv+jx0Zo6P6GqGNjq/Kj1H/GNol08e6Wl/FbloYUJayPGz3HC9Z+EOQ3EHBZc33F2CI
-	IDqAktxOkzYlACENhzTuztADxpMNaOA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792487637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RQmY0M9tjegDMEezsQ5hlFkCwb+QHN9rMXnNEMTbaII=;
-	b=qz5T1yBjGy5qGXamBQRVTNpt+TV9+BJ51Dqbcj8/GhO2kTgQNcw6X8xHiwAn0iLcc7lbld
-	W5qJSMBDztjCC6DA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FabIPXEb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qz5T1yBj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792487637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RQmY0M9tjegDMEezsQ5hlFkCwb+QHN9rMXnNEMTbaII=;
-	b=FabIPXEbdQj8PnsJLgzWdOf0WlEkKJ31RrCT4zjm8/5VkwE1fDv9WOtYbaxqB1TqxZ3vry
-	RjRYv+jx0Zo6P6GqGNjq/Kj1H/GNol08e6Wl/FbloYUJayPGz3HC9Z+EOQ3EHBZc33F2CI
-	IDqAktxOkzYlACENhzTuztADxpMNaOA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792487637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=RQmY0M9tjegDMEezsQ5hlFkCwb+QHN9rMXnNEMTbaII=;
-	b=qz5T1yBjGy5qGXamBQRVTNpt+TV9+BJ51Dqbcj8/GhO2kTgQNcw6X8xHiwAn0iLcc7lbld
-	W5qJSMBDztjCC6DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12F0D136C6;
-	Tue, 20 Oct 2026 09:13:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +OANMNQw12rebAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 09:13:56 +0000
-Message-ID: <1d3aecdb-2537-4f08-a4d2-22c81ebaca03@suse.de>
-Date: Tue, 20 Oct 2026 11:13:56 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rbclCkjH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=rbclCkjH+HCO6sAi7dtdiLTD6JORM7W7xg5FTdEuflHkpSm/cWeleXuNAwp/bauAxJ5hcHpUUaMjQ
+	 kiILRk5ZAQiVJfHLMOtka/m6QN3a4da8MMvI96DMRa+98D10kb6VcRQZ5p1t2ZY3QsnVLcei7KEv+w
+	 AfpR23Xz49AALz/Q=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16ad7329b0ac-f75f0;
+	Tue, 20 Oct 2026 17:21:31 +0800 (CST)
+X-RM-TRANSID:2ee16ad7329b0ac-f75f0
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from localhost.localdomain (unknown[223.108.79.99])
+	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96ad73299558-c826e;
+	Tue, 20 Oct 2026 17:21:31 +0800 (CST)
+X-RM-TRANSID:2ee96ad73299558-c826e
+From: yanxia <yanxia@cmss.chinamobile.com>
+To: bot+bpf-ci@kernel.org,
+	daniel@iogearbox.net,
+	bpf@vger.kernel.org
+Cc: yana06070@163.com,
+	ast@kernel.org,
+	andrii@kernel.org,
+	eddyz87@gmail.com,
+	memxor@gmail.com,
+	martin.lau@linux.dev,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	jolsa@kernel.org,
+	emil@etsalapatis.com,
+	ihor.solodrai@linux.dev,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	richardcochran@gmail.com,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	martin.lau@kernel.org,
+	mason@kernel.org
+Subject: Re: [PATCH bpf-next v2] tools/bpf: Remove legacy BPF tools
+Date: Tue, 20 Oct 2026 17:21:19 +0800
+Message-ID: <20261020092119.918464-1-yanxia@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <a02301c0ff8593349602f81cdf0c21f1b38db0b60118f8eed3199a6a38330234@mail.kernel.org>
+References: <20261020083713.905006-1-yanxia@cmss.chinamobile.com> <a02301c0ff8593349602f81cdf0c21f1b38db0b60118f8eed3199a6a38330234@mail.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,276 +95,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/13] efi: bgrt: add accessors for the boot graphics
-To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Francesco Valla <francesco@valla.it>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261013093243.505776-1-maximpedraza@gmail.com>
- <20261013093243.505776-3-maximpedraza@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20261013093243.505776-3-maximpedraza@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B8EE91F44E
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.00 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.com:url,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Score: -3.00
 
+Thanks for the review. Agreed: the table lists mnemonics, addressing
+modes and descriptions. I'll fix the wording in the next revision:
 
+  The instruction set consists of load, store, branch, alu, miscellaneous
+  and return instructions. This table lists the assembly notation and what
+  the corresponding opcodes defined in linux/filter.h do:
 
-Am 13.10.26 um 11:32 schrieb Màxim Pedraza Padilla:
-> The DRM splash client shows the boot graphics the firmware left behind,
-> and needs the image address and size, its offsets and the status bits.
-> Reading them from bgrt_tab and bgrt_image_size works with drm_client_lib
-> built in, but it can be a module, and neither is exported:
->
->    ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol 'bgrt_tab' undefined!
->    ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol 'bgrt_image_size' undefined!
->
-> Rather than export the data, add an accessor for each of them, exported
-> GPL only, with stubs in efi-bgrt.h for CONFIG_ACPI_BGRT=n so that users
-> need no #ifdef of their own. The variables stay global for
-> drivers/acpi/bgrt.c, and are only written by efi_bgrt_init(): mark them
-> __ro_after_init.
->
-> Reported-by: Mario Limonciello <mario.limonciello@amd.com>
-> Closes: https://lore.kernel.org/dri-devel/5d7067de-97b7-4232-9cf6-e4b978696482@amd.com/
-> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/firmware/efi/efi-bgrt.c | 74 ++++++++++++++++++++++++++++++++-
->   include/linux/efi-bgrt.h        | 39 ++++++++++++++++-
->   2 files changed, 110 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/firmware/efi/efi-bgrt.c b/drivers/firmware/efi/efi-bgrt.c
-> index 1da451582812..01425c4d2e70 100644
-> --- a/drivers/firmware/efi/efi-bgrt.c
-> +++ b/drivers/firmware/efi/efi-bgrt.c
-> @@ -16,8 +16,8 @@
->   #include <linux/efi.h>
->   #include <linux/efi-bgrt.h>
->   
-> -struct acpi_table_bgrt bgrt_tab;
-> -size_t bgrt_image_size;
-> +struct acpi_table_bgrt bgrt_tab __ro_after_init;
-> +size_t bgrt_image_size __ro_after_init;
->   
->   struct bmp_header {
->   	u16 id;
-> @@ -89,3 +89,73 @@ void __init efi_bgrt_init(struct acpi_table_header *table)
->   out:
->   	memset(bgrt, 0, sizeof(bgrt_tab));
->   }
-> +
-> +/**
-> + * efi_bgrt_has_image() - Whether the firmware left a boot graphic
-> + *
-> + * Return: true if the BGRT points at a BMP image, which efi_bgrt_init()
-> + * checked and reserved.
-> + */
-> +bool efi_bgrt_has_image(void)
-> +{
-> +	return bgrt_tab.image_address != 0;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_has_image);
-> +
-> +/**
-> + * efi_bgrt_image_address() - Physical address of the boot graphic
-> + *
-> + * Return: the address of the BMP image, or 0 if there is none.
-> + */
-> +phys_addr_t efi_bgrt_image_address(void)
-> +{
-> +	return bgrt_tab.image_address;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_image_address);
-> +
-> +/**
-> + * efi_bgrt_image_size() - Size of the boot graphic
-> + *
-> + * Return: the size of the BMP image, as its header gives it, or 0 if there
-> + * is none.
-> + */
-> +size_t efi_bgrt_image_size(void)
-> +{
-> +	return bgrt_image_size;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_image_size);
-> +
-> +/**
-> + * efi_bgrt_status() - Status field of the BGRT
-> + *
-> + * Return: the status byte. Bit 0 tells whether the image is still on
-> + * screen and, since ACPI 6.2, bits 1-2 how far it has to be turned to show
-> + * upright (ACPI_BGRT_ORIENTATION_OFFSET).
-> + */
-> +u8 efi_bgrt_status(void)
-> +{
-> +	return bgrt_tab.status;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_status);
-> +
-> +/**
-> + * efi_bgrt_image_offset_x() - Horizontal position of the boot graphic
-> + *
-> + * Return: the X offset, in pixels, at which the firmware drew the image.
-> + */
-> +u32 efi_bgrt_image_offset_x(void)
-> +{
-> +	return bgrt_tab.image_offset_x;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_image_offset_x);
-> +
-> +/**
-> + * efi_bgrt_image_offset_y() - Vertical position of the boot graphic
-> + *
-> + * Return: the Y offset, in pixels, at which the firmware drew the image.
-> + */
-> +u32 efi_bgrt_image_offset_y(void)
-> +{
-> +	return bgrt_tab.image_offset_y;
-> +}
-> +EXPORT_SYMBOL_GPL(efi_bgrt_image_offset_y);
-> diff --git a/include/linux/efi-bgrt.h b/include/linux/efi-bgrt.h
-> index e6cd51005633..1c287e5fd388 100644
-> --- a/include/linux/efi-bgrt.h
-> +++ b/include/linux/efi-bgrt.h
-> @@ -9,7 +9,14 @@
->   void efi_bgrt_init(struct acpi_table_header *table);
->   int __init acpi_parse_bgrt(struct acpi_table_header *table);
->   
-> -/* The BGRT data itself; only valid if bgrt_image != NULL. */
-> +bool efi_bgrt_has_image(void);
-> +phys_addr_t efi_bgrt_image_address(void);
-> +size_t efi_bgrt_image_size(void);
-> +u8 efi_bgrt_status(void);
-> +u32 efi_bgrt_image_offset_x(void);
-> +u32 efi_bgrt_image_offset_y(void);
-> +
-> +/* The BGRT data itself; only valid if efi_bgrt_has_image(). */
->   extern size_t bgrt_image_size;
->   extern struct acpi_table_bgrt bgrt_tab;
->   
-> @@ -21,6 +28,36 @@ static inline int __init acpi_parse_bgrt(struct acpi_table_header *table)
->   	return 0;
->   }
->   
-> +static inline bool efi_bgrt_has_image(void)
-> +{
-> +	return false;
-> +}
-> +
-> +static inline phys_addr_t efi_bgrt_image_address(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline size_t efi_bgrt_image_size(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline u8 efi_bgrt_status(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline u32 efi_bgrt_image_offset_x(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline u32 efi_bgrt_image_offset_y(void)
-> +{
-> +	return 0;
-> +}
-> +
->   #endif /* !CONFIG_ACPI_BGRT */
->   
->   #endif /* _LINUX_EFI_BGRT_H */
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+Best regards,
+yanxia
 
 
