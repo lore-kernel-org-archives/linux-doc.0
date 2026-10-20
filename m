@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792509244;
-	b=OonBzO7k9ZXK2foF6K+SwgQo0+vwomOyz4Y6kO5AEyTEjmGrVdQCYdVu0ePR7GYPpPUj
-	 icV35HlKuHWbefjBqyAA0caPTZ7CAuOFeGFVSrqmItPo18gOvOQWJuDZ5KwqIqc/XnMcJ
-	 aXs1D5+E9krilPGo/BcoANNK17n6B7Sl1tf6rtTvsxvBOKG/uQnzouz6FG9o5fxNdsDTO
-	 n4Voa8eWyfVVd5h5hFmQBcuf3RzYj3IyqppJyOv5U46+WSuStm1Dvt/3kWqgDD89ZjkG3
-	 o0amPQDAX8UdwyZrcxiho8fnNd6HwUd70moCm5yVl/4M+du7GbdKH81MiPh6q7B0Caw==
+	t=1792509295;
+	b=x6RCxXGbtr21+YO32Cr2UQICBVGBc/GTffE/Y1fjbAY8G0v0Rx6aG/ov7omoldBM+Tpw
+	 wEOZGWInf/pOrjhK9CfblIzwKWi5Iqid0Eaw/xqQkwIgaurqEprJAtfq18KKdQW+xnzFq
+	 xnDaQ4UiThKMhZ2v7SlGUN8Ds6ykQcCofNalaqFvfAftymYQlWonAkuttiVni8YWhzYcf
+	 B6mdCMjVYvz2L+roURkqQjZAJ2M1rCTMdjcktrMbXkKLcAZ0BHzpSrqMkmSS0gR36v3Er
+	 97KykLwIVB/8ykjjUX0zDaCxyIglm90Nh/qDd1y+6YRHiQ7oyl4jLSZ653zTAfAtsng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792509244;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792509295;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Sender:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
 	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=4zrIfO2j5f1V0AGayWITQAFNyhl7js8bpZF+l1m8f4U=;
-	b=QEIe0NeNXpZfwlGL9Ni5iKitAqFchmU/N5A/NHX58yJRgC8aBBV7ok6mmsi5HHH30Vq/
-	 UZiUqYjwy9smjI5A09ToosV17vYI/sr7m1PSf9vG5s0yMVNu8jvSzBEYzlBkQRSFB5T3D
-	 9HF6NDA5/y7alJ1X5E/W2hSK7mTuWcKP318BPKx5ZTP9rRBhiygUeoss3ZDqnKnNUxiPG
-	 uvvGiJpVfvyeRR0X/tRdChiUwYNVHCK8QDyBMfQ5uONZDEILjAkEG4a+Sh62cmvNcD+0C
-	 B8mVMUE0y/yWEk0MibQlZAADR9764ND3EIFOLb8MFN7P8O7/PMUe0W56b5tnaSO4AWQ==
+	bh=Lydv4Hqlv1bxTLvka70pfIXWjsq6o1mYniyvpSrIaG0=;
+	b=oI7GffecyGwVpwbEKPGy34QeQLVCc8xrr/P4DRqLqsomgA5yUgoMmI/oEjv4Z8BBYaaw
+	 GJvlLzRFtimzi4JA8VkEBmo0yBymaLi6djRWELf3QvxqLOldlM37J5JYtO9ner8EyPezQ
+	 rfREFS6gAKx9zqdLh0B7A78Q9FJSeVBsok74cTDnit4CmdHqpkyeswaDDUQAtLuUDyO95
+	 SV4svwn/K9cfOMtFP2aVqIwpoCw78Iu7yjOUkm88Eq89VoM+FfhKgk26ssencFAGvYVkS
+	 HxmQFUpy3CIc7YwYcRW+enKDJRtnzJ/Y1qnOKYl+7YhSf9nH4gm3Tc2FErGvO5JWR+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=roeck-us.net;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Mep1HLEV;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=GiEPqnFp;
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EBB606A337
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 15:14:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56EBB606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F67606A32E
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 15:14:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0F67606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Mep1HLEV
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3a4b3ac8fb7so1844779a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 08:14:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=GiEPqnFp
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ccca948203aso1270617a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 08:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792509243; x=1793114043; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792509294; x=1793114094; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4zrIfO2j5f1V0AGayWITQAFNyhl7js8bpZF+l1m8f4U=;
-        b=Mep1HLEVIl9xVF2HMLTgkvOHjnBmwfBms7wzWTijsyCiiVnpuam6zgeyJ+xSGYSkJH
-         N9arguJbSH/sF6o06PLe7WxfdSiROvJf9pvaG0/b7YuTM0c82wMr+LZLxbcOTebMnIOL
-         SPMRXXLuX9Wlxgek+7y9i1bX+Mz2CgHTrP9gDjh5CdzseLXP2Oor5rPaUIcZcGzkBOgg
-         6xExXc9ilXTeYijd3NMNxbIUrvf5KmiI4r8ieIC7KhHx3pXNjoz4sXWu05QD6N6eEGa8
-         sbf8M72rtBSN0aOSaK1NwZZ3D1nxRmdMI2RNJHTbWf1KqtpQfChY+8j+58Jrf0u9PQrt
-         QG7g==
+        bh=Lydv4Hqlv1bxTLvka70pfIXWjsq6o1mYniyvpSrIaG0=;
+        b=GiEPqnFpR9AXzcShDpIumadb1Sbnmyrn9eX7hUEcMyzZbTAmk4mAFyODa2xZvYCFzE
+         HkEEXg6o4c+Z46ZV16Ds+7/VzTRuAgPm2z7yeZfUWoyrFphox9kxGEZlP39Z+5G1P9aH
+         0jh0Tcx43Te0Sfc+g2MnBIild26beuolhyS19eJokthhsgzO2AnO+5h3fdaHzNmNEOx9
+         sbkZRy0ugD9Jn3JCh+PGUJVwKdKqsB2+NTInuUZKlHRDaGEr1nsKd0Dre8M89Dz0tRnM
+         VlduIfRzAJnTxXFMMDpY/C3PBlNLTnT+v7+f4WYOBx2zETWyptUx+gPwzFy/klaEoDtP
+         idFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792509243; x=1793114043;
+        d=1e100.net; s=20260707; t=1792509294; x=1793114094;
         h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=4zrIfO2j5f1V0AGayWITQAFNyhl7js8bpZF+l1m8f4U=;
-        b=LPpy1jew62L7+MBIaJDe4yrZ9npBpP3GTjDd9sG51OxKdz8mWdyUheYgFe5ghH5EXC
-         3iO7hHspS6s5SMikg531v3Kgp3h6n9tVwSG3+YU1REmluDUXZA2I+pbvLJFFBLGK681r
-         JuKV8tr1LaYkZgpNUTSM/F2k2PITkKLUsj/LMD2oLk4qhXCwPxx3vLQC4JtkmqcQG6gb
-         gd4Lg+KQtO7uwQOwWldUsGhr7bEtbjlldkpplkM1yTFdkTEV8DkpD2aETb1xBtkWlV37
-         X3Dy53Ex/xKHlJVuJOXrqpAaew6LJlk8XcZGV11amzDLJt/99gsh9CoTyI3nA+/eZxS4
-         UkEg==
-X-Forwarded-Encrypted: i=1; AKwUvByw6wGt2FyWJSPSJNaXMYKmyBX8FXJh11vuMyhnekFmuf+9d9Is7vxYyQbL89oeDzir5pExSjwWpYA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLpHzZzCEqOH5JdLvdcU4ysSlzSKXOoi59O8/+x24E2kUowRNVG
-	DQjwyOPNx/4BSQNzVkfAOypsTOM70L0nzxTpUZ86jlN+JxTNrn5LZl3z
-X-Gm-Gg: AYBFou2c/gD7HfzJdmIZC+4wxLr/z5HKQ/5kVFcEoas8RfhsiVbjNBmrJO2daoW/XAQ
-	gXfUgnIGDxTk2gga9zUHloIoAhS3bhQg/5Hprj/ZBxXFJyfTffgSkVsEPyBTPycbsD9aKc6a8xJ
-	qj3qxdRgODQDAM0/iTbU/Jj3REzbX96lfJB8NzxvRfhnXTgRerv/MetbJgOZeOnYpNI9lO4EfDN
-	6FBxz/+uiqvrht5DQFQ6rCvfmtG8zFiw8XH8tnWw2/HUAmI5Q6WCGPffmAAir16/5581TMsjrS6
-	WEH+ht40aLfSwkflgDBHfbJZ61X5wPXL/YKYV6eCeQSLGh2SFzH7Pi8FKa4fh1/TLJGAHj3EfVl
-	yT++ix7G03UeXq+bhBzuv8VBQdsmlPYnJQKb1kvaiUoG1ktt2B6eJOhYXKZBFSS90y97J9j+XSF
-	zNbvF0KcnyDPy5d/EYZBgBFr0pWxStICxmogcIB2TYEu6IIacO/+rLxNA1iyL5SyJhBdfTJkSs2
-	ayV8kxrPgS+Uc3bNTr60R4XsuJ94bcIZbqVPP/cpJ+2LJmS
-X-Received: by 2002:a17:90b:1dc3:b0:3ac:9e76:aa76 with SMTP id 98e67ed59e1d1-3aceefb0116mr10395555a91.13.1792509242546;
-        Tue, 20 Oct 2026 08:14:02 -0700 (PDT)
+        bh=Lydv4Hqlv1bxTLvka70pfIXWjsq6o1mYniyvpSrIaG0=;
+        b=ikx4u9/R/clI8G67OHEAoA4JdkieUD/HYhnV6Wp4fcVGwz0N4nUfyGSfcI2D76bf3C
+         nUgcxSPfeZF6roopWvLK2A5EY2yfrYc9QLlOTf6SHm6lTvUjAyEV738Tv2A4ow+As6+g
+         OCaFFtczI6qZfixbaI/hYvDNud3jqEEeQcD0E43EJU41dy9hbeTJ1rpulzqzDyuSYMFx
+         LvOG/Jy4PjJ0jzFVRQ6TgylaQfLXnJrQvRsEHQhgCEAnxKx4wnMkckPgc4QbO+bJvCcD
+         xbO60Y2+3tdjJ1Y2sfdxDg7xtufYOm+uXI3d3yBmHupH03DGTqZIVyNb8w7B6iee/73G
+         NF/g==
+X-Forwarded-Encrypted: i=1; AKwUvBxN65im/W2klNr5ryLZdSq/YQzrF4E6dTk9EOcrfCj031ypdqEn39XKmlka/zc/jDU4HBRbgyu8ztA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYINmQHdtzUfLA6bUNcH/RMHks/NebJi4J4s/ULeG/X79L4maNCO
+	4XkJ1K4NPzWXWDloUbscDD6rTAYVWsAeTKaRM/xiW5ucEUsXOC18H2c2
+X-Gm-Gg: AYBFou1DT2X78tjoa5OK5tsy9sLnOLUahSZTAQ4UXOJW/pRBtL3JfyXVZ/tIUa+/UAe
+	qJkGbTW9boyhZL8p3+Ofy4+kIiYbXBd5APzIH+cMLDXlZxt7c0nIYf+F91JBFJ0EDBrmDpKpEDA
+	DC883k8Tz6rlf8HeAbwcreEMn0UUGzaZlX5uu7p0q+LeI5DR+S1zl3CkQNdunPo/5NJiXphlxfw
+	4F/SM/OuwXUYRrf/BA5IhRANQ5t/4shVlNvlKBuc9bd3L00sFxeQ5RBePItPPsMQ4AKgc4NPHVT
+	PhLElbsB2e/+MZuiZt47z2PkpMHcrnca+61URM/4196o52AIb0kMakRK0IR1F1nC59Lu0oAmiGn
+	RItZmtcDnA6P5Ig/amSKdFk/3joRwxxUdKjUpaKHjPkfyaL1WxhDuvSJu/zgMw5Ff/Ig3WCv1iY
+	5aNk8AE4pSL44etqyoIIeaoDCkh+/2fiVQO8a+PzfJyvik05MJQVz4qHJA/BoVrb72f7e2qEpkW
+	ObVKvRc4Qs4/TJtplS1t/K8FYFB7RaJD4nDbJ+q66Un8Qww
+X-Received: by 2002:a17:90b:2c90:b0:3ac:b7b9:6484 with SMTP id 98e67ed59e1d1-3acef0fe32cmr9268033a91.45.1792509293876;
+        Tue, 20 Oct 2026 08:14:53 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad80214aefsm54820a91.3.2026.10.20.08.14.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad801373eesm63002a91.9.2026.10.20.08.14.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2026 08:14:01 -0700 (PDT)
+        Tue, 20 Oct 2026 08:14:53 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <62872394-e64e-4ed1-9d73-ccae1336d7bd@roeck-us.net>
-Date: Tue, 20 Oct 2026 08:13:59 -0700
+Message-ID: <c84edffe-6e09-480a-8986-9b72f9d055e8@roeck-us.net>
+Date: Tue, 20 Oct 2026 08:14:51 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,8 +93,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] hwmon: (pmbus/ltc2978) Add support for LT7175 and
- LT7176P
+Subject: Re: [PATCH 1/3] dt-bindings: hwmon: ltc2978: Add support for LT7175
+ and LT7176P
 To: Christopher de Guzman <christopher.deguzman@analog.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
@@ -103,7 +103,7 @@ To: Christopher de Guzman <christopher.deguzman@analog.com>,
 Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20261020-upstream-lt7175-lt7176p-v1-0-86b9b728b95d@analog.com>
- <20261020-upstream-lt7175-lt7176p-v1-2-86b9b728b95d@analog.com>
+ <20261020-upstream-lt7175-lt7176p-v1-1-86b9b728b95d@analog.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -149,131 +149,48 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261020-upstream-lt7175-lt7176p-v1-2-86b9b728b95d@analog.com>
+In-Reply-To: <20261020-upstream-lt7175-lt7176p-v1-1-86b9b728b95d@analog.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/20/26 04:45, Christopher de Guzman wrote:
-> Add support for LT7175/LT7175-1 and LT7176P/LT7176P-1 PMBus buck
-> regulators. These parts share the LT7170 family MFR_SPECIAL_ID
-> (0x1C1D masked to 0x1C10) and use the same PMBus register layout,
-> so they reuse the existing lt7170/lt7171 probe path. Variants are
-> distinguished by reading the PMBUS_IC_DEVICE_ID ASCII string.
+> Document the compatible strings for the LT7175/LT7175-1 and
+> LT7176P/LT7176P-1 PMBus buck regulators newly supported by the
+> ltc2978 driver.
 > 
 > Signed-off-by: Christopher de Guzman <christopher.deguzman@analog.com>
 > ---
->   drivers/hwmon/pmbus/Kconfig   |  6 +++---
->   drivers/hwmon/pmbus/ltc2978.c | 28 +++++++++++++++++++++++++++-
->   2 files changed, 30 insertions(+), 4 deletions(-)
+>   Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index fd6641316454..63fb4d5dd87d 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -306,9 +306,9 @@ config SENSORS_LTC2978_REGULATOR
->   	depends on SENSORS_LTC2978 && REGULATOR
->   	help
->   	  If you say yes here you get regulator support for Linear Technology
-> -	  LT7170, LT7171, LTC3880, LTC3883, LTC3884, LTC3886, LTC3887, LTC3889,
-> -	  LTC7841, LTC7880, LTM4644, LTM4673, LTM4675, LTM4676, LTM4677,
-> -	  LTM4678, LTM4680, LTM4686, and LTM4700.
-> +	  LT7170, LT7171, LT7175, LT7176P, LTC3880, LTC3883, LTC3884, LTC3886,
-> +	  LTC3887, LTC3889, LTC7841, LTC7880, LTM4644, LTM4673, LTM4675, LTM4676,
-> +	  LTM4677, LTM4678, LTM4680, LTM4686, and LTM4700.
->   
->   config SENSORS_LTC3815
->   	tristate "Linear Technologies LTC3815"
-> diff --git a/drivers/hwmon/pmbus/ltc2978.c b/drivers/hwmon/pmbus/ltc2978.c
-> index aea7b6c93e74..a42cdc1fe124 100644
-> --- a/drivers/hwmon/pmbus/ltc2978.c
-> +++ b/drivers/hwmon/pmbus/ltc2978.c
-> @@ -23,7 +23,7 @@ enum chips {
->   	/* Managers */
->   	ltc2972, ltc2974, ltc2975, ltc2977, ltc2978, ltc2979, ltc2980,
->   	/* Controllers */
-> -	lt7170, lt7171, ltc3880, ltc3882, ltc3883, ltc3884, ltc3886, ltc3887,
-> +	lt7170, lt7171, lt7175, lt7176p, ltc3880, ltc3882, ltc3883, ltc3884, ltc3886, ltc3887,
->   	ltc3889, ltc7132, ltc7841, ltc7880,
->   	/* Modules */
->   	ltm2987, ltm4664, ltm4673, ltm4675, ltm4676, ltm4677, ltm4678, ltm4680,
-> @@ -540,6 +540,10 @@ static int ltc2978_write_word_data(struct i2c_client *client, int page,
->   static const struct i2c_device_id ltc2978_id[] = {
->   	{ .name = "lt7170", .driver_data = lt7170 },
->   	{ .name = "lt7171", .driver_data = lt7171 },
-> +	{ .name = "lt7175", .driver_data = lt7175 },
-> +	{ .name = "lt7175-1", .driver_data = lt7175 },
-> +	{ .name = "lt7176p", .driver_data = lt7176p },
-> +	{ .name = "lt7176p-1", .driver_data = lt7176p },
+> diff --git a/Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml b/Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml
+> index ea8b1553a3e9..467c6ab4a29f 100644
+> --- a/Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml
+> @@ -14,6 +14,10 @@ properties:
+>       enum:
+>         - lltc,lt7170
+>         - lltc,lt7171
+> +      - lltc,lt7175
+> +      - lltc,lt7175-1
+> +      - lltc,lt7176p
+> +      - lltc,lt7176p-1
 
-We don't usually add -x variants unless really needed.
-Let's not start this here.
+The -1 variants are not needed and/or useful.
 
->   	{ .name = "ltc2972", .driver_data = ltc2972 },
->   	{ .name = "ltc2974", .driver_data = ltc2974 },
->   	{ .name = "ltc2975", .driver_data = ltc2975 },
-> @@ -645,6 +649,10 @@ static int ltc2978_get_id(struct i2c_client *client)
->   			return lt7170;
->   		if (!strncmp(buf, "LT7171", 6))
->   			return lt7171;
-> +		if (!strncmp(buf, "LT7175", 6))
-> +			return lt7175;
-> +		if (!strncmp(buf, "LT7176P", 7))
-> +			return lt7176p;
-
-Sashiko has a point. It may be better to start using
-the same approach used for chips with no chip ID, which would
-be something like
-
-		for (id = &ltc2978_id[0]; strlen(id->name); id++) {
-                         if (ret >= strlen(id->name) &&
-			    !strncasecmp(id->name, buf, strlen(id->name)))
-                                 return (int)id->driver_data;
-                 }
-
->   
->   		return -ENODEV;
->   	}
-> @@ -774,6 +782,20 @@ static int ltc2978_probe(struct i2c_client *client)
->   		  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
->   		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
->   		break;
-> +	case lt7175:
-> +	case lt7176p:
-> +		data->features |= FEAT_CLEAR_PEAKS | FEAT_NEEDS_POLLING;
-> +		info->read_word_data = ltc3883_read_word_data;
-> +		info->pages = LTC3883_NUM_PAGES;
-> +		info->format[PSC_VOLTAGE_IN] = ieee754;
-> +		info->format[PSC_VOLTAGE_OUT] = ieee754;
-> +		info->format[PSC_CURRENT_OUT] = ieee754;
-> +		info->format[PSC_TEMPERATURE] = ieee754;
-> +		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-> +		  | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-> +		  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-> +		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
-
-Unless I am missing something, this is identical to lt7170 / lt71751.
-No need to duplicate the code, just add the case statements.
-
-> +		break;
->   	case ltc2972:
->   		info->read_word_data = ltc2975_read_word_data;
->   		info->pages = LTC2972_NUM_PAGES;
-> @@ -962,6 +984,10 @@ static int ltc2978_probe(struct i2c_client *client)
->   static const struct of_device_id ltc2978_of_match[] = {
->   	{ .compatible = "lltc,lt7170" },
->   	{ .compatible = "lltc,lt7171" },
-> +	{ .compatible = "lltc,lt7175" },
-> +	{ .compatible = "lltc,lt7175-1" },
-> +	{ .compatible = "lltc,lt7176p" },
-> +	{ .compatible = "lltc,lt7176p-1" },
-
-Same as above. Please do not add -1 variants.
-
-Thanks,
 Guenter
 
->   	{ .compatible = "lltc,ltc2972" },
->   	{ .compatible = "lltc,ltc2974" },
->   	{ .compatible = "lltc,ltc2975" },
+>         - lltc,ltc2972
+>         - lltc,ltc2974
+>         - lltc,ltc2975
+> @@ -50,7 +54,7 @@ properties:
+>       description: |
+>         list of regulators provided by this controller.
+>         Valid names of regulators depend on number of supplies supported per device:
+> -      * lt7170, lt7171 : vout0
+> +      * lt7170, lt7171, lt7175, lt7175-1, lt7176p, lt7176p-1 : vout0
+>         * ltc2972 vout0 - vout1
+>         * ltc2974, ltc2975 : vout0 - vout3
+>         * ltc2977, ltc2979, ltc2980, ltm2987 : vout0 - vout7
 > 
 
