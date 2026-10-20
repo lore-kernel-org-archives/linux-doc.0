@@ -1,83 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792494753;
-	b=p5kGhVTCd5FvidvRzSOhPKHd+c9EmCYeBGnmPlJPpv8qXgUus81+l1F6t3mcmf+gxV5S
-	 xOjGrfObc01t2OFwu+hXeCchFBpYuqZmL7h5Km0smSFIfPM6zVmxLCo42mWnrZ9sJD4J9
-	 b2sLY1em9HigFC3yc6P++m4rCFfjSaIJszr97Ov9p9eqa2YXaAibKBm0cdQIupCHeGL/o
-	 FppOwEViJCTs42jCWesTcFNouyMTbk3c90A5I+8d8JQalMdkJE2ufQXRuc8HQhUloGCfM
-	 NywgEPOq2n5/pV21zCAlGNlFSD4jaYaadRl8XpfBHuaPwKyTp72eNKnEKmhIEI5SGlg==
+	t=1792494968;
+	b=T1bpdYCgVIMDBZNkOnSCUutacHRDDAur1DZJxhYXkngJEkW1S1j1XTmh7PNisIAp/qCZ
+	 4yvVARMxmqgmZZ++8s2urEPK0hsm5ipC4kew/S3NIzS9fa/TGgtsG6T90jFLGFPdpMZhc
+	 RZETikw0WmmOxA06NkxKqx9RRLFqizJWCWI7bBak+yUGZ6eb024sp0dP6azlFc5+Q5PZu
+	 6bDB4XUf2E5rI/5ILb7OKRo8h4eaQ2GK0AsDJG8ttYqrPdi6DAeXSxxrbZuDcYWao+Ppo
+	 uBmjl55CikT4BtBVqfFEFV9KZODQUIve+OL7EOVfs4krz91627ZLwNLm/CzhME1An0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792494753;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
-	b=qrCt/edoc5mPhVPCC4z0CrFLDIosorOKdWOKS5R0mdEBk7xfWjJ/99YFmcRJ87YOygh6
-	 o7Lx9rVpbs/y7RwOsvmnVegzsV84oTmH07xi/U7TwI3gGNRnds55ZJapextkQRn+7YYwN
-	 MO5Y6ZPjH4BEv+LOxfZhVq+MwnEsqRZ0obTNyOMe7sWNKiBIv1f/82JsXnLyF/n+Odt4c
-	 mGVBW4x4RmwXpy778PDlspT9kBo/0+FxyE+wA5Sc6WbNTphhKhF8PTr1CTdBVaxEeaSK0
-	 KTGthcTeJWDHgh9pOg57fEMLdXtf2IwxAQUGgwoac7DKAsJU01gihqvkNb+Zgbm1m8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792494968;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=bxw/EhE4FNjfEBFr+SgmSBcERnLEt+GnFpVvWXnolUs=;
+	b=HTJX9jKIrt5zQdfojXntPyi/fgqYR2gWe7Fyey3a9DOXQWphvw7Os/pN6umihlwr2NYC
+	 aRkyh1iNU/shs/2jWgEib03MnIjAA0/BsGT62aD7TIAch8YHTRy63lj5GzYYd78ln/Vp1
+	 7HWm/QY8TyqvVIPbT1syRgocjjPEVTA21n3n64OXXokm8dI3/iw5fNu/XyjfpC3OWWH2s
+	 pHEcyuTTHwbvLIlduApR7p84LamrqeK1jusT0mZCSq0ybpJJRDHL3B+5M5y+sZy45wKOF
+	 70h1zxBmWg1bziO8e5VclkmIi3NEjio0NRhjDulU/fMvbjTT5Um7kWJ4FA6e3gppIFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h0jHoV43;
-	arc=none smtp.remote-ip=209.85.160.182
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="FJc/wkba";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=E8ivwJid;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="FJc/wkba";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=E8ivwJid;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52002606A31B
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 11:12:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52002606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8575B606A31B;
+	Tue, 20 Oct 2026 11:16:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8575B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h0jHoV43
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-53669f7b518so18784761cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 04:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792494752; x=1793099552; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
-        b=h0jHoV433gWa9Ypca1L4cXFH3c34IMnZgWaPNS7X+TIV6h4+W+S12MAgF6Tvk0SYlP
-         n1kmEV4sCp+xT73ZfzJrgGeT73M4A5MaqybKiZ+u+HqwlUZ7QX2zumqRNDExqObyj07H
-         17ieLwtb6rk7j4UdSHfHIAB/ROJQqCUZF3Bxw90LZ5umHxZuPn+R487gL3e2nL3SgpbC
-         zRHB+Yu8JFZiKxo+vO/GTgQV/DF4OTJ1oXwy2AZlwuphnc7dZiHAB80C1qFTsqJtvlMB
-         3/ff9aIIR7LayaXO4Tbt4+jR4fnUmgbo6vn0Rf1yIXGdKNz4AUACtQ0bEeGimbUnUnol
-         pAxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792494752; x=1793099552;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
-        b=BtMYKNMYQPDVnnhoEe4/tWuaA7Tk7/bqcH6jKlnL0kPMIgslKa+u+b3M2AcMq9Lb3z
-         4m9p6CAcrdClxiflTk/7MDm9Hi+ZEcbhZW9dq1eNQ/kvB4zrY9n8jxv1l3O1wcKE5DZ8
-         KLdu+VcycNTqLbtKwG4v4dN0Bb9RyNXWXcQCI4lDkBLDoYrBN0zGIWcTBaRfjxZHRyOj
-         4K8FSCyQ3E5Juow13DINJUS7kEWdxel6mvxmf6SEDCM/B6UCy3OrsuHS1c6lERvg8lgu
-         3GFGkGMieC4odx0bzrQgpJBDagfdbtSFN/oiHx+hVFk0mQvHZZbNNp2SkYZtfE7GJM2O
-         Vy2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwLZyMqANH+OJaOuCpy+7bdelpzIahnVzvaqjmtk9QhipamudbzE4mdeQAuism0FBx1krMNvN+gUU4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJgECpql/0D8kanvPle/bD2y9b+Ax+pwvluGONqrN5ru/tV4BNJ
-	tT0G2UaSWqfTiftbc7pe1JLdmwFOsxBSA0PEQBwAWHKUFyv1MfWzNyek
-X-Gm-Gg: AYBFou0UvQQtwKPGT5yQx2FIAYApYp3Ph2qGmP8XrSOhx/jpfoqnzHEMYPbA+1WUcba
-	VRvXJ2x9DC/ZQ6nFm9aNAI5tTeZsJjCWUG2iHmfZAdy2JFJ0p404EfIJqUUuwaLPnOg0MDf4erE
-	AC5hjONEUnJTMqvdQSKm69zqE5EXH05fG+C+s6675zHfLXdLiW0ArKLEEx+CkRUtFh+hok72luJ
-	lsgwGkpyd0e+xksqvL4+CfISF0MgsShdE2vZi7szNxBZE7iCgDlsMJ0rTq2gBUhv5NmPSmwR0f/
-	AnkspardcGeVM/Z04JdpAzsA+COdMn0o6JuS3p/LMP1rHF+qGM753mw+i/NiwUWvm8mf0OcFxrL
-	/g8Sv2oynzDnXqbYKnjbT4YT54+gG1I4SaOffGp3l8vJtg3Pm9i4eQmEWdO35e3/FxGvDMP8xMH
-	htcjbk5kK1gADiXrX+3BN8XVpUr7GdcSAsSvl4BN1hi+UHIweQ3bcjRvq1gGgvTIKBcABu+N5qC
-	bw=
-X-Received: by 2002:a05:622a:5514:b0:536:52ae:d92f with SMTP id d75a77b69052e-53652aee3e4mr127981451cf.32.1792494752169;
-        Tue, 20 Oct 2026 04:12:32 -0700 (PDT)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536448b6ce6sm96882821cf.28.2026.10.20.04.12.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2026 04:12:31 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FJc/wkba;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=E8ivwJid;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FJc/wkba;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=E8ivwJid
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9ED601F79A;
+	Tue, 20 Oct 2026 11:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792494965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=bxw/EhE4FNjfEBFr+SgmSBcERnLEt+GnFpVvWXnolUs=;
+	b=FJc/wkbaMpKB25TLPlT6kazIvDNZJdxK39tVGCmtzSwaeVGOv/QxjTke/0I2XreI9ZvNr5
+	PVKe6ZWxSFxUI99fjekfAdmv5Um1ywqm6Qc7BbwjEgCC71WDmapi2lPvCEZULng295HipB
+	2voZo+sGnbC8nEhDVZF+KdJK+4vqRSY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792494965;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=bxw/EhE4FNjfEBFr+SgmSBcERnLEt+GnFpVvWXnolUs=;
+	b=E8ivwJids2MHCFrTYPFJZCqqJoT+NgFq1hdnL1TE4Zbe4MDxeZFGi8p7u7vlR2bqlRQEJn
+	G49uMm9PAxTycjBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792494965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=bxw/EhE4FNjfEBFr+SgmSBcERnLEt+GnFpVvWXnolUs=;
+	b=FJc/wkbaMpKB25TLPlT6kazIvDNZJdxK39tVGCmtzSwaeVGOv/QxjTke/0I2XreI9ZvNr5
+	PVKe6ZWxSFxUI99fjekfAdmv5Um1ywqm6Qc7BbwjEgCC71WDmapi2lPvCEZULng295HipB
+	2voZo+sGnbC8nEhDVZF+KdJK+4vqRSY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792494965;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=bxw/EhE4FNjfEBFr+SgmSBcERnLEt+GnFpVvWXnolUs=;
+	b=E8ivwJids2MHCFrTYPFJZCqqJoT+NgFq1hdnL1TE4Zbe4MDxeZFGi8p7u7vlR2bqlRQEJn
+	G49uMm9PAxTycjBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5954136C6;
+	Tue, 20 Oct 2026 11:16:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dv8oJHRN12qhcQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 11:16:04 +0000
+Message-ID: <350adc03-dd7f-4120-ac9c-b6d04ff44faf@suse.de>
+Date: Tue, 20 Oct 2026 13:16:04 +0200
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,77 +105,420 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 20 Oct 2026 07:12:30 -0400
-Message-Id: <DM9MCWCY2RUR.25Q5JSF758J51@gmail.com>
-Cc: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 0/7] psp: support rekeying psp protected tcp
- connections
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: "Daniel Zahka" <daniel.zahka@gmail.com>, "Jakub Kicinski"
- <kuba@kernel.org>, "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
- <edumazet@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman"
- <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Donald Hunter" <donald.hunter@gmail.com>, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "Shuah Khan" <shuah@kernel.org>
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261009-psp-v2-0-5596ab50f677@gmail.com>
-In-Reply-To: <20261009-psp-v2-0-5596ab50f677@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/13] drm/client: splash: turn the device tree image
+ as it asks
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Francesco Valla <francesco@valla.it>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261013093243.505776-1-maximpedraza@gmail.com>
+ <20261013093243.505776-10-maximpedraza@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20261013093243.505776-10-maximpedraza@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.79
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri Oct 9, 2026 at 4:46 PM EDT, Daniel Zahka wrote:
-> The PSP architecture spec states the need for rekeying connections in
-> the event of a device key rotation. After a device key rotation has
-> occurred, a new rx derived key needs to be generated and sent out to the
-> other end of the connection sometime before the next device key rotation
-> occurs.
->
-> Because PSP connections involve two different keys at each endpoint,
-> one for decrypting ingress traffic, and one for encrypting egress
-> traffic, there are two types of rekeying events that need to be
-> supported. From the perspective of one endpoint of the connection:
->
-> 1. rx rekey: we need to allocate a new spi + decryption key pair to
->    provide to our peer.
->
-> 2. tx rekey: our peer has provided us with a new spi + encryption key
->    pair which we should use for encrypting traffic immediately.
->
-> In the case of rx rekeying, there is a period where it makes sense to
-> accept packets authenticated from either the previous or current spi. To
-> deal with that, we allow a psp_assoc to remember the last spi that was
-> valid on a socket due to a rekey. If authentication state does not match
-> the most recent assoc, the stored state from the previous assoc will be
-> tried.
->
-> In the case of tx rekeying, as soon as we install the new tx key, we
-> have no use for the previous one, and it can be disposed of immediately.
-> The only catch is in the case where hw uses a key handle in tx
-> descriptor state, as opposed to inlining the key directly. In this
-> case, psp core needs to be sure that any of these unaccounted for
-> references to key state are gone by the time it tries to sync a deleted
-> key to hw.
->
-> To deal with this race condition, we introduce a different path to key
-> deletion for psp_assocs removed from the socket during a tx rekey. psp
-> core will use bql byte counters filled out by the driver to determine a
-> conservative grace period where key handles can be disposed of.
->
-> Lastly, some test cases for rekeying are included that go through key
-> rotations and rekeying.
->
-> There are some packetdrill tests that are queued for upstreaming [1].
->
-> [1]: https://github.com/danieldzahka/packetdrill/commits/psp-rekey/
->
-> Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
+Hi
 
-pw-bot: cr
+Am 13.10.26 um 11:32 schrieb Màxim Pedraza Padilla:
+> The same board is often fitted with the same panel mounted in more than
+> one orientation. Let the device tree node ask for the image to be turned,
+> with a "rotation" property counting degrees counter clockwise, as panels
+> already do and as DRM_MODE_ROTATE_* count, which is what it is kept as.
+>
+> The rotation turns the image and not the screen: "logo-position" and
+> "logo-offset" stay in screen pixels, and a quarter turn only swaps how
+> much room the image takes up. Placing it in a frame that turned with it
+> would make the same pair of coordinates mean different places on the
+> same panel, decided by a property that describes the image.
 
-Sorry, I should have tagged this myself for clarity. I'm planning to
-send a v3 when net-next reopens to address some of the low level
-complaints, as well as a CI issue introduced by the rekey drain test.
+> The three blitters, one per destination pixel size, become one that
+
+Reading the code below, may I suggest to do this in two steps: first 
+read the image data into a temporary buffer, invert height and rotate as 
+needed.  Second, copy the temporary image into the graphics buffer and 
+adjust the color format.
+
+Eventually we want to have a useful and flexible drawing/blitting API 
+for the DRM clients. Keeping drawing steps separate will help a lot in 
+the long run.
+
+Best regards
+Thomas
+
+> reads the source pixel through the rotation and writes it according to
+> the pixel size. Each source pixel is read as three bytes rather than as
+> an unaligned u32: a BMP row is only padded as a whole, so with 3 * width
+> already a multiple of four the last pixel of the image was read one byte
+> past its end. An upright image going to an RGB888 buffer is still copied
+> a row at a time.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
+> ---
+>   drivers/gpu/drm/clients/drm_splash.c | 206 ++++++++++++++-------------
+>   1 file changed, 110 insertions(+), 96 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/clients/drm_splash.c b/drivers/gpu/drm/clients/drm_splash.c
+> index 8561d00a5b96..fdf398987007 100644
+> --- a/drivers/gpu/drm/clients/drm_splash.c
+> +++ b/drivers/gpu/drm/clients/drm_splash.c
+> @@ -25,6 +25,7 @@
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fourcc.h>
+>   #include <drm/drm_framebuffer.h>
+> +#include <drm/drm_mode.h>
+>   #include <drm/drm_plane.h>
+>   #include <drm/drm_print.h>
+>   
+> @@ -130,6 +131,8 @@ struct drm_splash {
+>   	 */
+>   	s32 pos_x, pos_y;
+>   	s32 off_x, off_y;
+> +	/* One of DRM_MODE_ROTATE_*: turns the image, not the screen */
+> +	unsigned int rotation;
+>   };
+>   
+>   static struct drm_splash *client_to_drm_splash(struct drm_client_dev *client)
+> @@ -283,6 +286,28 @@ static void drm_splash_dt_placement(struct drm_splash *splash,
+>   		splash->off_x = (s32)val[0];
+>   		splash->off_y = (s32)val[1];
+>   	}
+> +
+> +	/* Degrees counter clockwise, as for panels, and as DRM counts them */
+> +	if (!of_property_read_u32(np, "rotation", &val[0])) {
+> +		switch (val[0]) {
+> +		case 0:
+> +			splash->rotation = DRM_MODE_ROTATE_0;
+> +			break;
+> +		case 90:
+> +			splash->rotation = DRM_MODE_ROTATE_90;
+> +			break;
+> +		case 180:
+> +			splash->rotation = DRM_MODE_ROTATE_180;
+> +			break;
+> +		case 270:
+> +			splash->rotation = DRM_MODE_ROTATE_270;
+> +			break;
+> +		default:
+> +			drm_warn(splash->client.dev,
+> +				 "splash: %pOF: unsupported rotation %u",
+> +				 np, val[0]);
+> +		}
+> +	}
+>   }
+>   
+>   static int drm_splash_dt_load(struct drm_splash *splash, const u8 **data,
+> @@ -479,73 +504,68 @@ static unsigned int drm_splash_place_axis(s32 pos, s32 off, unsigned int span,
+>   	return clamp_t(s64, coord + off, 0, last);
+>   }
+>   
+> -static void drm_splash_blit_pix16(struct iosys_map *map, unsigned int dpitch,
+> -				  unsigned int x_pad, unsigned int y_pad,
+> -				  const u8 *sbuf8, unsigned int spitch,
+> -				  unsigned int width, unsigned int height,
+> -				  bool invert_y, u32 format)
+> -{
+> -	unsigned int x, y, src_offset, dst_offset;
+> -	u32 scolor, dcolor, wr_off;
+> -
+> -	for (y = 0; y < height; y++) {
+> -		src_offset = (invert_y ? (height - y - 1) : y) * spitch;
+> -		dst_offset = (y_pad + y) * dpitch;
+> -
+> -		for (x = 0; x < width; x++) {
+> -			scolor = *(const u32 *)(&sbuf8[src_offset + 3 * x]);
+> -			dcolor = drm_draw_color_from_xrgb8888(scolor, format);
+> -			wr_off = dst_offset + (x_pad + x) * sizeof(u16);
+> -
+> -			iosys_map_wr(map, wr_off, u16, dcolor);
+> -		}
+> -	}
+> -}
+> -
+> -static void drm_splash_blit_pix24(struct iosys_map *map, unsigned int dpitch,
+> -				  unsigned int x_pad, unsigned int y_pad,
+> -				  const u8 *sbuf8, unsigned int spitch,
+> -				  unsigned int width, unsigned int height,
+> -				  bool invert_y, u32 format)
+> -{
+> -	unsigned int x, y, src_offset, dst_offset;
+> -	u32 scolor, dcolor, wr_off;
+> -
+> -	for (y = 0; y < height; y++) {
+> -		src_offset = (invert_y ? (height - y - 1) : y) * spitch;
+> -		dst_offset = (y_pad + y) * dpitch;
+> -
+> -		for (x = 0; x < width; x++) {
+> -			scolor = *(const u32 *)(&sbuf8[src_offset + 3 * x]);
+> -			dcolor = drm_draw_color_from_xrgb8888(scolor, format);
+> -			wr_off = dst_offset + (x_pad + x) * 3;
+> -
+> -			iosys_map_wr(map, wr_off, u8, (dcolor & 0x000000FF) >> 0);
+> -			iosys_map_wr(map, wr_off + 1, u8, (dcolor & 0x0000FF00) >> 8);
+> -			iosys_map_wr(map, wr_off + 2, u8, (dcolor & 0x00FF0000) >> 16);
+> -		}
+> -	}
+> -}
+> -
+> -static void drm_splash_blit_pix32(struct iosys_map *map, unsigned int dpitch,
+> -				  unsigned int x_pad, unsigned int y_pad,
+> -				  const u8 *sbuf8, unsigned int spitch,
+> -				  unsigned int width, unsigned int height,
+> -				  bool invert_y, u32 format)
+> +/*
+> + * Copy the BMP pixels into the buffer, converted to its format and turned by
+> + * @rotation, one of DRM_MODE_ROTATE_*, which count counter clockwise. The
+> + * rotation turns the image, not the screen: a quarter turn swaps how much
+> + * room the image takes up, and @x_pad and @y_pad place that room on screen.
+> + *
+> + * Each source pixel is three bytes read on their own, since a BMP row is
+> + * only padded to four bytes as a whole and the image need not be aligned.
+> + */
+> +static void drm_splash_blit(struct iosys_map *map, unsigned int dpitch,
+> +			    u32 format, unsigned int cpp,
+> +			    unsigned int x_pad, unsigned int y_pad,
+> +			    const u8 *sbuf8, unsigned int spitch,
+> +			    unsigned int width, unsigned int height,
+> +			    bool invert_y, unsigned int rotation)
+>   {
+> -	unsigned int x, y, src_offset, dst_offset;
+> -	u32 scolor, dcolor, wr_off;
+> -
+> -	for (y = 0; y < height; y++) {
+> -		src_offset = (invert_y ? (height - y - 1) : y) * spitch;
+> -		dst_offset = (y_pad + y) * dpitch;
+> +	bool quarter = rotation & (DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270);
+> +	unsigned int dw = quarter ? height : width;
+> +	unsigned int dh = quarter ? width : height;
+> +	unsigned int x, y, sx, sy, row, off;
+> +	u32 scolor, dcolor;
+> +
+> +	for (y = 0; y < dh; y++) {
+> +		for (x = 0; x < dw; x++) {
+> +			switch (rotation) {
+> +			case DRM_MODE_ROTATE_90:
+> +				sx = width - 1 - y;
+> +				sy = x;
+> +				break;
+> +			case DRM_MODE_ROTATE_180:
+> +				sx = width - 1 - x;
+> +				sy = height - 1 - y;
+> +				break;
+> +			case DRM_MODE_ROTATE_270:
+> +				sx = y;
+> +				sy = height - 1 - x;
+> +				break;
+> +			default:
+> +				sx = x;
+> +				sy = y;
+> +				break;
+> +			}
+>   
+> -		for (x = 0; x < width; x++) {
+> -			scolor = *(const u32 *)(&sbuf8[src_offset + 3 * x]);
+> +			/* A positive BMP height stores the rows bottom up */
+> +			row = invert_y ? height - 1 - sy : sy;
+> +			scolor = get_unaligned_le24(&sbuf8[row * spitch + 3 * sx]);
+>   			dcolor = drm_draw_color_from_xrgb8888(scolor, format);
+> -			wr_off = dst_offset + (x_pad + x) * sizeof(u32);
+> +			off = (y_pad + y) * dpitch + (x_pad + x) * cpp;
+>   
+> -			iosys_map_wr(map, wr_off, u32, dcolor);
+> +			switch (cpp) {
+> +			case 2:
+> +				iosys_map_wr(map, off, u16, dcolor);
+> +				break;
+> +			case 3:
+> +				iosys_map_wr(map, off, u8, dcolor & 0xff);
+> +				iosys_map_wr(map, off + 1, u8, (dcolor >> 8) & 0xff);
+> +				iosys_map_wr(map, off + 2, u8, (dcolor >> 16) & 0xff);
+> +				break;
+> +			case 4:
+> +				iosys_map_wr(map, off, u32, dcolor);
+> +				break;
+> +			}
+>   		}
+>   	}
+>   }
+> @@ -584,7 +604,7 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   	bool bmp_invert_y;
+>   	u32 bitmap_offset;
+>   	size_t row_len, pixels_len, end;
+> -	unsigned int x_pad, y_pad;
+> +	unsigned int x_pad, y_pad, img_w, img_h;
+>   	const u8 *image_data;
+>   	struct iosys_map map;
+>   	struct drm_rect r;
+> @@ -644,7 +664,16 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   	}
+>   	bmp_pitch = row_len & ~(size_t)3;
+>   
+> -	if (bmp_width > scanout->width || bmp_height > scanout->height) {
+> +	/* The room the image takes up on screen, once turned */
+> +	if (splash->rotation & (DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270)) {
+> +		img_w = bmp_height;
+> +		img_h = bmp_width;
+> +	} else {
+> +		img_w = bmp_width;
+> +		img_h = bmp_height;
+> +	}
+> +
+> +	if (img_w > scanout->width || img_h > scanout->height) {
+>   		drm_err(client->dev, "splash: BMP image is too big for the screen");
+>   		return -EINVAL;
+>   	}
+> @@ -678,9 +707,9 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   #endif
+>   	} else {
+>   		x_pad = drm_splash_place_axis(splash->pos_x, splash->off_x,
+> -					      scanout->width, bmp_width);
+> +					      scanout->width, img_w);
+>   		y_pad = drm_splash_place_axis(splash->pos_y, splash->off_y,
+> -					      scanout->height, bmp_height);
+> +					      scanout->height, img_h);
+>   	}
+>   
+>   	image_data = data + bitmap_offset;
+> @@ -691,40 +720,24 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
+>   		return ret;
+>   	}
+>   
+> -	r = DRM_RECT_INIT(x_pad, y_pad, bmp_width, bmp_height);
+> +	r = DRM_RECT_INIT(x_pad, y_pad, img_w, img_h);
+>   
+> -	/* In case the target format is RGB888, source data can be copied to
+> -	 * the video buffer line by line, avoiding some overhead.
+> +	/*
+> +	 * An unturned image going to an RGB888 buffer has the same byte order
+> +	 * as the BMP, so it is copied a row at a time.
+>   	 */
+> -	if (scanout->format == DRM_FORMAT_RGB888) {
+> +	if (scanout->format == DRM_FORMAT_RGB888 &&
+> +	    splash->rotation == DRM_MODE_ROTATE_0) {
+>   		drm_splash_blit_rgb888(&map, fb->pitches[0], x_pad, y_pad,
+>   				       image_data, bmp_pitch, bmp_width,
+>   				       bmp_height, bmp_invert_y);
+> +	} else if (px_width >= 2 && px_width <= 4) {
+> +		drm_splash_blit(&map, fb->pitches[0], scanout->format, px_width,
+> +				x_pad, y_pad, image_data, bmp_pitch, bmp_width,
+> +				bmp_height, bmp_invert_y, splash->rotation);
+>   	} else {
+> -		switch (px_width) {
+> -		case 2:
+> -			drm_splash_blit_pix16(&map, fb->pitches[0], x_pad,
+> -					      y_pad, image_data, bmp_pitch,
+> -					      bmp_width, bmp_height,
+> -					      bmp_invert_y, scanout->format);
+> -			break;
+> -		case 3:
+> -			drm_splash_blit_pix24(&map, fb->pitches[0], x_pad,
+> -					      y_pad, image_data, bmp_pitch,
+> -					      bmp_width, bmp_height,
+> -					      bmp_invert_y, scanout->format);
+> -			break;
+> -		case 4:
+> -			drm_splash_blit_pix32(&map, fb->pitches[0], x_pad,
+> -					      y_pad, image_data, bmp_pitch,
+> -					      bmp_width, bmp_height,
+> -					      bmp_invert_y, scanout->format);
+> -			break;
+> -		default:
+> -			drm_warn_once(client->dev,
+> -				      "splash: can't blit with pixel width %d",
+> -				      px_width);
+> -		}
+> +		drm_warn_once(client->dev, "splash: can't blit with pixel width %d",
+> +			      px_width);
+>   	}
+>   
+>   	drm_client_buffer_vunmap_local(buffer);
+> @@ -1193,9 +1206,10 @@ void drm_splash_register(struct drm_device *dev,
+>   	spin_lock_init(&splash->fw_lock);
+>   	init_completion(&splash->fw_done);
+>   
+> -	/* Centred unless the image source asks otherwise */
+> +	/* Centred and upright unless the image source asks otherwise */
+>   	splash->pos_x = -1;
+>   	splash->pos_y = -1;
+> +	splash->rotation = DRM_MODE_ROTATE_0;
+>   
+>   	if (format && format->num_planes == 1)
+>   		splash->preferred_format = format->format;
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+
+
