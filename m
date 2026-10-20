@@ -1,116 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792499340;
-	b=EibS3eVThrS/0ptPWzUStGKWeLMjKaFX8WVY/qKJ0W5fJRY0KVdEzC3fdZTrPLC4sQN/
-	 Y0jfsY4NVQXQohJovMy+oUdUjzrpf/ocHzRXrHgsJwljP9yJOzXFQgq2tTxhmReL0Kf7T
-	 78U87iCjOD3MAm6YehF7cPi8bcu+mK1Uxo3IXPShR1QV6xKDeZCxcEUPur2z1rwSpXZ0E
-	 94463zeFLa1s5nj4y5ss9I0FZrLh9NjjyVLAzeD+eA2x1a09WnShdOB+pej0DiC4YLZ6S
-	 q/NyIfm3Zjddc0usRh8kPiIwq5jQvM3hcvIjnizNniXhweckLVthTW5D+YrU/60qYJg==
+	b=a9mgXo6Cd+vvXDKSco5TpAoGBDEk3SmmF/TRt9HDk2eCSDEHEIktYu5zNG5fv/VgbQ8U
+	 KTch4BZgFEQ27oqHA/6IIXsZqmQ1QSAoQOH9sInAKKhzj+2gcQBT1jAqwp9Td1xU63guA
+	 qsAqGK9rwjUYFjt6zEgp9scA3weTqVhvB1xk+xXiY65/GgCUCavqLdGdodoH6p8reV/D2
+	 QLHAhO+h/M156kKRr0zqagJUDu1L1UABP3FWdwVtEu0RhXsx2KHKLncgnfHtuuEPZ1BIP
+	 Px0o6gxjvLgxxyz5mG+iGqlTIn4J26m6V+mez4a86thjl8H9updTLehEG7h9FOfVFJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792499340;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
-	b=rlv5rgvYyoUWrHCQWgzi3ODr7KlFPUlPzMFzw3vce83Ckr43Ha4h9x6GmDIhUXYIB+iL
-	 2L0Aed9tq2ESrlUlw2k3v+tnjJZf3bDtfDJRmeBNJH35W2vBc7vJNKDvVfPczsNPUPcUF
-	 ORyjmcFs7vI3yhsNUvFy37KqA06XhjIC8mLxH/w3lWHFjdnkNR/hyjAGpnSCdfTfbcgwa
-	 khWjUQQVVj0C2jAKyvLpeCKZWeAF01Hi9gmCr9na2txCsC01oc55IDyzZ3RcMGgjy7FZ4
-	 Rsf8xCSztHFEr1OkYpMi9XTM7iKBvpagdzuKWJOqIijj4CA4XOyE/A+NOWxzmDcNBeg==
+	bh=5bLIqnhjUZD53MQ8mIyoL64maRPRtf//51viUHZYxfw=;
+	b=Dce6LvVU90beR1zWpJMifWi/HBJ23jA4t65ihslx3a+Rw/hgbzcccP71UDKTndh3tbKE
+	 AtUiRYSoSdsZwQePgfkaKLHHZAU9TPxP53+1u+cfxiH4sIscx0T973IBef1BHnMLa2swy
+	 p6B1DmhKPzn6H+r60+16I32kZBJZY0xqm8GMS2UGGqlCrrRXiRx9xpfgoi2iK4hqpwHc8
+	 Fl0qfurYmOsI75KtwCmkKItxZxX9sS5JQzqI8XDH9dacZuLy2hVsS+40nwWFnreAPujrZ
+	 3THHx9dBTxUwLVVcmSc78qf8a5CFUwmsMvk7bXNfLzfQ4JLWIex+9sbQK0JtLqyllzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="N6/XTZC1";
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dmarc=none header.from=resnulli.us;
+	spf=none smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YWQo69lb;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB73606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C59606A31F
 	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 12:28:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BB73606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83C59606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=N6/XTZC1
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48dc202a60eso875668f8f.3
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YWQo69lb
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1665705f8f.3
         for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 05:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792499338; x=1793104138; darn=vger.kernel.org;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1792499338; x=1793104138; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
-        b=N6/XTZC1nghPVLJWcx1jJKYR4/4ERrwB29Br8hBD6S6stsVkyggKbfiq5fzNXL0Ppa
-         CpU5KUKmPjnpFpMbUt+w1NE/dR0xBhSLkoiEJUb8HbxJpF16pLYMJFzX4LZczorpoYDL
-         tpWtXbrLIlLKnn+kut1zfc0Zvxe0vcdJhaSEnPgwC3UywPI7qKVSYwJwDJ1nYraXTk87
-         xH4nt1vtE5uwMdNG/3RcqX25B/npAZxPRJyZXTpZryF+VdoS8Kaw+K+l/tJaKRJOage0
-         UlXTfArrgqnCVZ89FPaeaQ8XanGPj7Wli8RNgRb/39LwAyz4fj5NCWP4ArMwt/WiJD2X
-         8RRw==
+        bh=5bLIqnhjUZD53MQ8mIyoL64maRPRtf//51viUHZYxfw=;
+        b=YWQo69lbuMlzAP5RdqrQrLx77X6LX94CycMTmUoX+vc7zIantga+lXOuVqP8Vgavii
+         aMHjXJgGZcMilKGQVLQxuos2bg5NWmwNeszGgaHWYw6MOq1Wdtg/+QRSrWzrrzhTS+Ra
+         S7bgQNT8g9yNBpi7b8JDzTqCzz4Avn1jbamDZDTY8/tXJ/ZaYpuSKa8eZEDVl+8+Qqmt
+         ZQLt7KhOKj5xVUgPay5ZDn72g06IDDYypT7LTYrrJ5htnGnSgVHzjmkZIusiQQBJcUfS
+         alOl0TJHFJO7AxJejHgBf9DgXpAIcJEmh5xR7NJHWc1kzRyQ7Jm2TxL45dPOy6Lu4mZM
+         2Dhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792499338; x=1793104138;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
-        b=rU22ZKen+Hqqor+lNwcy7rl5Ph46e9kTCaorTXbV/Tj8IOl/s53r/m//NjP/rOoeqb
-         UDHvkiPOgZmXgAThgfbXATE83Esqw+TQO/tsT7dHSHiCieED4WGj1yaophDB/s9OTGQS
-         JcetsI3eXfI8ig6QSGxlYCrr06DThlZmWC0T0hS6npMTSTBBTEdKDY0+BjCrBC11LBuO
-         hvuildTs+MK1baSzPk57c2m2GTF9DKhBqkFVp7PoR5zi4OmuhxrBzUBidL0dAAiMlgUZ
-         JLMOtKFahiTqnUxm1QXaNPtprCSA9WfaZZ19QJflmr/akH9m3Ni3f8cOJQnInxmHnPbb
-         vqow==
-X-Forwarded-Encrypted: i=1; AKwUvBwjBXaeqHsHp+DhbRqQQsoHPiU29+qj1SEqTEN7G20FpPzG632W/dpUrhaJiN649zKZWbwBB8EwEeU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJixjdI7G5wjUBy5dC7NVKITTvKNFOkkkK/ISxNPsZFFkYAxVKt
-	DBrs9lM8wD5w8/R8LEWDtsyzTUhBZT6zmdnD1PClwNuT0f5zvrzPSIMYJV+sGfr2n+s=
-X-Gm-Gg: AYBFou2nzPOiTUS/yya4wgKqS/qa3UnOd/EbDEmMSps8jIUlTi+S9uPBGawv/2nYC1V
-	LbS915mxMT4xCGdPstIFwvLF5AqwiP9ANHNu/HQGrN8KhLepLDcRpKDoi3FutalKN60AJNWguhb
-	t4ieHctcle4to70YAICRDqBe6OxpjTgvFceHaxKC1aC6jUcNPmQDQIknJitgeD6wTzZcF+Hlfyx
-	MTSJGvoDrfYWuK9iMb2/vQ6LkLgd9WDqgNZs08M4GyBIsNvEJdDUaT42UfAYk5cPYilbAXHRdCM
-	kkoxlOoASiN/oHeCblz0Mt0SDin33oj60H20d9OvrAaoytP4dCQucWy12Vz3JM9BH37+sh+yANp
-	hqQrMDm2irOGqlw5b3IDrRxNEHlvS+I6NR7Qgy/D9NP1zCttrK4t1RnE2iV1SVasHeWvwGGQ6FA
-	LjNmLGxIhPvLA4UqqZVxa/YLi5/XUQH9IjcTzl3a5aLJKdHDQ9LUo/Kf+aJScDkxw/FxsWOJHZO
-	djykFawZas=
-X-Received: by 2002:a05:6000:4694:b0:48c:414f:cc12 with SMTP id ffacd0b85a97d-48e07f9c387mr16153415f8f.40.1792499337854;
+        bh=5bLIqnhjUZD53MQ8mIyoL64maRPRtf//51viUHZYxfw=;
+        b=Gk+WpXCOK6perlSZRxAEALOSebI67ynY76jbWdP16RzHbzx/1ONcU+Dn2EQsa/hY15
+         la521T9bivvT57mKs9g1sURZdkFI06tKGfqnF/sDa1eRQZrhBi5JHYzJtjc1XriaJr5A
+         KPy0uJ6ecqCaWpp1XOWlPf+ymBb/fJgMEu7KHZxOZrYkBTu/tda9+TONGP6Kwezkmp7r
+         5oAjUkJ8F5dRASzh5MAl5Bcc3RKB2gt+FcU636azdw/FgLiWKttD0F0vJ94ybjyt+9Em
+         EXn5rHlX2C5AG5sRHglWpdWMfP3NqB1M5MEY0Rka/+Eq/CO39HJVl/B0Bk0cxX9fzPhg
+         3ZuA==
+X-Forwarded-Encrypted: i=1; AKwUvByxNCe0U3tM7kEfyGDj/iPCuobpDcvMkDAaxCpPY5dPHB2fzTsnlVxFtESGeqK7ErmHAqneiq5Lp20=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLirF8EkrqfQKqJcnoREHpsqPyd9X5X22fSSa4d/Anis3phIlM0
+	uAotY+WotSx8VEHnn5J4GK5mKenv1dxLtj0pDooyhuRhsl086B4XDffWtkurkNZaIVY=
+X-Gm-Gg: AYBFou2RgskTbylM2b38YbR3sDgyDjB7069vfnHKAHpjb4k3BSyoJlWV5qgvENYOW+H
+	rGeWcMmpaoOTrbKm/B64LouA1JUvxXcvh/qvwIVy+MULsobSRypg8dyNbUhIOzxay5k+TDFc+pz
+	dja0t/DokM52xvUlfWjdcSKSa2Q84drmXH27y6RWye4dAkjl+SduvJ5aZc11pAbP05QLJaCRR5d
+	zoLf4PWEP5Ouh4NCYaj4trtTm673uQSkWugRNcNgbzE+G8qVOmyM2DWZKuvhA8eFmBBzHe6j3DH
+	3hDXdzDen0H+hfVLYUcCp5TnEa/luX68JbWLAqMDk3Q5T+ZGO839NES5xYItTTO9Dj7jbf4B/yS
+	r5/FX+ooT0prVOkmCj1o5bu5I6eB9y2ngR2grfni9nE94iamOzg+tlkRJAFycJEp8Uv1mINol4C
+	6rLYNOFo/VkfqQr8Ya5MofiOVm+vqhZvmWdFxc351vvOrkoSs7SXU71YuM7Gt64rq+M7C3eKUPi
+	MMz
+X-Received: by 2002:a05:6000:3108:b0:486:f907:ebec with SMTP id ffacd0b85a97d-48e07bc104dmr25850403f8f.31.1792499337690;
         Tue, 20 Oct 2026 05:28:57 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d6dbd33sm5588977f8f.8.2026.10.20.05.28.55
+Received: from localhost ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d80fc6csm5636775f8f.14.2026.10.20.05.28.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 05:28:56 -0700 (PDT)
-Date: Tue, 20 Oct 2026 14:28:43 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>, Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Ian Forbes <ian.forbes@broadcom.com>
-Subject: Re: [PATCH v2 3/6] panic: Allow postponing pre-kdump notifiers
-Message-ID: <atdee9q7DExYLGPE@pathway.suse.cz>
-References: <cover.1790014793.git.zack.rusin@broadcom.com>
- <52183acf25209275a9a57fe5d746f82d3b7efc3c.1790014793.git.zack.rusin@broadcom.com>
+        Tue, 20 Oct 2026 05:28:57 -0700 (PDT)
+Date: Tue, 20 Oct 2026 14:28:55 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 03/20] ctlv: Add the root family specification and
+ generated files
+Message-ID: <atdeH3nA_gkLwPLM@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-4-jiri@resnulli.us>
+ <179245258505.58760.6060356114682279013.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,118 +107,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <52183acf25209275a9a57fe5d746f82d3b7efc3c.1790014793.git.zack.rusin@broadcom.com>
+In-Reply-To: <179245258505.58760.6060356114682279013.b4-review@b4>
 
-On Mon 2026-09-28 13:55:37, Zack Rusin wrote:
-> Provide an escape hatch for debugging kdump failures that may involve
-> pre-kdump callbacks. Add panic_pre_kdump_postpone to skip their early
-> invocation in crash core without consuming the once-only guard.
-> 
-> When enabled, the chain runs before kdump only when
-> crash_kexec_post_notifiers is also enabled. Leave the late panic call
-> unchanged so callbacks remain eligible if that path is reached.
-> Skipping the callbacks may prevent hypervisor crash handling.
-> 
-> Suggested-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> Link: https://lore.kernel.org/r/bc0bdd14-5e6a-0676-cd04-14fb0bb93cd5@igalia.com
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> ---
-> New in v2: optional postponement policy suggested by Guilherme.
-> 
->  Documentation/admin-guide/kernel-parameters.txt | 14 ++++++++++++++
->  include/linux/panic_notifier.h                  |  1 +
->  kernel/crash_core.c                             |  3 ++-
->  kernel/panic.c                                  |  2 ++
->  4 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 33cd30996e47..3d722df30838 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4904,6 +4904,20 @@ Kernel parameters
->  			This option should only be used for systems with the above
->  			constraints as it might cause the panic operation to be less reliable.
->  
-> +	panic_pre_kdump_postpone=
-> +			[KNL] Defer pre-kdump notifiers to the late panic path.
-> +			They run before kdump only when
-> +			crash_kexec_post_notifiers is also enabled. If panic
-> +			reaches the late path without entering kdump, they
-> +			can still run there.
-> +			Intended for debugging kexec/crash-dump failures.
-> +			Skipping these callbacks may prevent correct crash
-> +			handling by the hypervisor.
-> +			Format: <bool>
-> +			Default: 0
-> +			Writable at runtime via
-> +			/sys/module/kernel/parameters/panic_pre_kdump_postpone.
-> +
->  	panic_print=	Bitmask for printing system info when panic happens.
->  			User can chose combination of the following bits:
->  
-> diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
-> index 3ad390764a41..655ee5c77181 100644
-> --- a/include/linux/panic_notifier.h
-> +++ b/include/linux/panic_notifier.h
-> @@ -11,5 +11,6 @@ extern struct atomic_notifier_head panic_pre_kdump_list;
->  void panic_notify_pre_kdump(char *msg);
->  
->  extern bool crash_kexec_post_notifiers;
-> +extern bool panic_pre_kdump_postpone;
->  
->  #endif	/* _LINUX_PANIC_NOTIFIERS_H */
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 5d9fe9e00f39..d6b2293dd0fe 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -140,7 +140,8 @@ void __noclone __crash_kexec(struct pt_regs *regs)
->  			struct pt_regs fixed_regs;
->  
->  			crash_setup_regs(&fixed_regs, regs);
-> -			panic_notify_pre_kdump(NULL);
-> +			if (!READ_ONCE(panic_pre_kdump_postpone))
-> +				panic_notify_pre_kdump(NULL);
+Tue, Oct 20, 2026 at 01:29:45AM +0200, jgg@nvidia.com wrote:
+>> [ ... 238 lines skipped ... ]
+>> --- /dev/null
+>> +++ b/Documentation/ctlv/families.yaml
+>> @@ -0,0 +1,13 @@
+>> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+>> +%YAML 1.2
+>> +---
+>> +# Append-only registry of CTLV family names, indexed by family ID: the entry at
+>> +# index N has family ID N, up to 65535. The root family owns ID 0 and heads the
+>> +# list, and every other entry comes after the entry of the family it inherits.
+>> +# An entry may be marked deprecated, but never reordered, removed, renamed or
+>> +# reused, its position being its wire identity. Every entry must have a
+>> +# specification in specs/<name>.yaml, and is added by the change that adds the
+>> +# implementation. Fixtures under tools/ctlv/tests/ are not registered.
+>> +
+>> +families:
+>> +  - ctlv
+>
+>I see where you are coming from with this, but it is going to be
+>problematic from a global kernel perspective. Given CTLV is imagined
+>as a general tool for any subsystem we cannot control the tree that
+>things merge through. It will not be like netdev where there is one
+>authoritative tree with a linear history.
+>
+>So if Bob and Jane maintainers both add their own subsystems by the
+>time it gets to Linus the IDs will get scrambled, and bisection will
+>be lost. 
+>
+>Either changes to this file must be strictly done in a single tree
+>with shared branches (which is going to be a bit hard process wise)
+>
+>Or we need to put the ID #s here and have some simple process to
+>coordinate them during the development process. Since new families are
+>probably rare it shouldn't be a big deal
 
-Honestly, it looks a bit confusing to me.
-
-The name "postpone" suggests that they will be called later.
-But they likely will never be called because the crash kernel
-will take over the control and eventually reboot the system.
-The panic() path will never run.
-
-Also there is:
-
-void oops_end(unsigned long flags, struct pt_regs *regs, int signr)
-{
-	if (regs && kexec_should_crash(current))
-		crash_kexec(regs);
-
-where
-
-int kexec_should_crash(struct task_struct *p)
-{
-	/*
-	 * If crash_kexec_post_notifiers is enabled, don't run
-	 * crash_kexec() here yet, which must be run after panic
-	 * notifiers in panic().
-	 */
-	if (crash_kexec_post_notifiers)
-		return 0;
-
-So, when: "crash_kexec_post_notifiers == true" then
-kexec_should_crash() returns "0" then
-crash_exec() is not called. The system might still
-call panic() but remember "crash_kexec_post_notifiers == true"
-so the notifiers are called before __crash_kexec().
-So panic_notify_pre_kdump() will still get called
-before __crash_exec().
-
-Is this intended, please?
-What is use case, please?
-
-Maybe, it would make sense to add "panic_pre_kdump_disable"
-which would completely disable the notifiers when they cause
-problems.
-
-Best Regards,
-Petr
+Exactly. Collision is not very likely. Explicit ID or implicit, scramble
+would still happen. And in that case it is resolvable.
