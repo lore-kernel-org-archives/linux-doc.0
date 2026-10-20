@@ -1,66 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.100
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514685;
-	b=2VxoZHGu16K3hFCOai3V7R9GsSdVAz7r+g6QXB9hzJw80eh16Ypv56SqM4Pxuez3vAnU
-	 oS9Yl4LtQ0+7dhDkU6RrR9yWhZ+33xc7ku1jRWY1llCd07Dh+TWrt1bV5gidIHw1d62EC
-	 4owov96Oua8ji1PmpvythmS3N/SzBgYAEc+hK4NP8tf4prfxtNREozx1hSfRX62mbUZj6
-	 z5qHOxOK3bmHhcg7a3TT4As5vKSVcECyvJqo43Js4NiUzqzMZaAeoVuuwGEsISfTe+aTl
-	 mDDEf2Zz2m8oiQ9DP7hnkHNDmX+pXk2jZk8JMY6+FdOh0/YmOhG4AY0DMStioWjhWIg==
+	t=1792514843;
+	b=VssJw9nC5Yoxf6py3jj3ggQ0+3G5jWHzPcvJC+fafZHuP4SZuQf3ZbWKJIbmAIHG0T6k
+	 7ZW+M4RwDdgdHLwY+LZeO5bWFKTQgrB2nAAcmeYau6rlqjut15IvgzmSBB5+f9mX+Cpjy
+	 4AIPJy9rs4af7yCerX/Vb9/zOffWpuFdem+TN3TZrbMjJJnmfE17mQ4zWK0pmXrHxkZ8D
+	 M/xN/R+jK8gGAf4hdCFIUNelnDoUqWJHouijlTlme9MLECFGvzA4AdLh2+Iehfb0D3MTm
+	 MUEifIJj+F0nZWhNbmDjc42jLkfwRaFTa9TszN35C9Z8V0efWua/eeYlFyJeoIXRgTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514685;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=aTmACZ/+QtvgkXkB87/Q1326A2lmn3wrW3YNYzLyp4k=;
-	b=iU6YL3GQl8+m/izhMw23YehABpx4C5HGgvumBSsC5p7HhXdf5O+8Wpg3aTAZFO47l2Gl
-	 7jC+ox5vDk/93WD0/j81AJlt5XKTZAY1TvlApVlMns2iHUq2B7dEOliRL/tHnHBqWEfQK
-	 sbdJmPjDhTOzfzjsp052rD/N5t7D5kEt1ukBpIQzNaeplnbkZhm2Ldk6A46wZnQKkR7qn
-	 N9gsZ51SYEOITx+Y+Yg8Pzs5f+Q5RPatkc22ggTxpbdrmddpMh430ZEw+FMqAAMKZftxh
-	 8WToiPYCMl7kNhHunKI06T+qvMPu/rQbpxvqNFnE9LLWQ93ejnbZ4nrIHpyimwZ55Nw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792514843;
+	h=Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=JRqtFuDuxtmiDxqkWDLmT7asRbopDuvT5Fq2Dr/Rymw=;
+	b=KXL+7pQoB2iR8EMVYXTTb+Dw4XGQWkfrgTjhJ+aLnqfhmQQsi4yIKEnWIcb8h78XKQHB
+	 VKcL2m4UllN8Em66wLutPwabyu1siTz10eTz+PndIAH+NOAnZ3Jn4Wx6U0XfIECAnWL8K
+	 zywMdWZ2bec7r3UWuq2Iv11asWwPAnMKT4RVJQV60OkGvkOiFv6SAPoO++qd5GxRk6aRm
+	 +U6nTw1yOlcbZFdnIVwlTMhZV62xLeZ3FAytrHpHy1RgVe7F9TwhgTjZrPNAhDMY+JuS5
+	 60zc6m7/52BBo7GPxtvAYj3M5VFCmCu39RHsDhtCuiV0DGuxAmlyk4yakEmHnvTcYXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	arc=none smtp.remote-ip=91.218.175.100
-Received: from mta0.migadu.com (out-100.mta0.migadu.com [91.218.175.100])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373FB606A32A
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 16:44:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 373FB606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=XjqcV9ZvR7h/4pI77pPXVunNE25bWrZE4kzLXH0JbYw=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792514682; v=1; x=1793119482;
- b=si/2oLkZmD6SnimNJ+tZuKJtRdyDt48CmadO9NqYzqhwXYQlHTvmiIQ1owzOqCHbt2baDEQC
- qozgwb1UHftuHj50CgzAZijG6ySqffmCQpk+m2MFSrP+5CFUZwHePKfRUgIx9XgxZ979W14SJdX
- 8Fc2BDOoO0GRD0IJuQNlmLtEUWTQ7mAkSVQu5QXazwyTpS/Mdw679p0YQVnnSRosFGRB0Z1sNBb
- nJFaBiF0lXfFNdOimrRfxG1QPPavt+y0LVZ31M6Aa/lr1Fk9Cu+uV2yvb4+WBJ07xT0cm0xIS/e
- YNzqs3y9qAxS1Eb+3g+Xmpm4GPw4F12p8cT3WMMNOH4UQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3e91a7bb92a9dc53;
-	Tue, 20 Oct 2026 16:44:41 +0000
-X-Mizu-Trace-ID: 3e91a7bb92a9dc53
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 21 Oct 2026 00:44:37 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6C60A261A;
+	Tue, 20 Oct 2026 16:47:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE311F000CA;
+	Tue, 20 Oct 2026 16:47:22 +0000 (UTC)
+Date: Tue, 20 Oct 2026 11:46:51 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?iso-8859-1?Q?M=E0xim?= Pedraza Padilla <maximpedraza@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Francesco Valla <francesco@valla.it>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <ateadbflRqzgIVSh@wyuan.org>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	Randy Dunlap <rdunlap@infradead.org>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 06/13] dt-bindings: display: add a boot logo node
+ under /chosen
+Message-ID: <20261020164651.GA4017884-robh@kernel.org>
+References: <20261013093243.505776-1-maximpedraza@gmail.com>
+ <20261013093243.505776-7-maximpedraza@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,42 +63,223 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261013093243.505776-7-maximpedraza@gmail.com>
 
-On 2026-10-20 11:35:24 -0400, Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
+On Tue, Oct 13, 2026 at 11:32:36AM +0200, Màxim Pedraza Padilla wrote:
+> Products built on the same board often differ only in branding. On UEFI
+> systems the firmware hands the operating system its boot logo through
+> the ACPI BGRT; a device tree system has no such table, so today the logo
+> is built into the kernel, and each product needs its own kernel image.
+> With U-Boot's Falcon mode the device tree is the only thing that reaches
+> the kernel, so it is also the only place the logo can come from.
+> 
+> Add a "boot-logo" node under /chosen. The node lives there because a
+> logo is configuration handed over by firmware rather than a description
+> of the hardware, as simple-framebuffer nodes already are.
+> 
+> The image is a BMP with 24 bits per pixel and no compression, the
+> format of the BGRT image, so that one file serves the firmware splash,
+> a BMP loaded as firmware and this node alike. It is carried either in
+> an "image" property, which dtc fills in from the file with /incbin/, or
+> in a reserved memory region the bootloader loaded it into, named by
+> "memory-region". Exactly one of the two must be present.
+> 
+> "logo-position" takes -1 on an axis to mean centre on that axis, which
+> is the only way to say it when the device tree does not know the image
+> size, and "logo-offset" is added afterwards. "rotation" counts degrees
+> counter clockwise, as for panels, and turns the image rather than the
+> screen, so position and offset stay in screen pixels. The optional
+> "background-color" goes with the image, since a logo designed for one
+> background looks wrong on another.
+> 
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
+> ---
+>  .../bindings/display/boot-logo.yaml           | 151 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 152 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/boot-logo.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/boot-logo.yaml b/Documentation/devicetree/bindings/display/boot-logo.yaml
+> new file mode 100644
+> index 000000000000..bf4121f24f1b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/boot-logo.yaml
+> @@ -0,0 +1,151 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/boot-logo.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Boot logo supplied by the device tree
+> +
+> +maintainers:
+> +  - Francesco Valla <francesco@valla.it>
+> +  - Màxim Pedraza Padilla <maximpedraza@gmail.com>
+> +
+> +description: |
+> +  An image for the operating system to show on the display while it boots,
+> +  handed over by the firmware together with where and how to show it.
+> +
+> +  Products built on the same board often differ only in branding. Carrying
+> +  the logo in the device tree lets a single kernel image serve all of them,
+> +  each booting with its own device tree, and it works where the device tree
+> +  is the only thing that reaches the kernel, as with U-Boot's Falcon mode.
+> +  It plays the part the ACPI BGRT plays on UEFI systems.
+> +
+> +  Since a logo is configuration rather than a description of the hardware,
+> +  the node lives under /chosen, next to the other things firmware hands to
+> +  the operating system.
+> +
+> +  The image is a BMP file with a 40 byte BITMAPINFOHEADER, 24 bits per pixel
+> +  and no compression, the format of the BGRT image. It is carried either in
+> +  the node itself or in a reserved memory region the bootloader loaded it
+> +  into, never both.
+> +
+> +properties:
+> +  $nodename:
+> +    const: logo
+> +
+> +  compatible:
+> +    const: boot-logo
+> +
+> +  image:
 
-> LKML has become mostly a firehose of patches that are already going to a
-> subsystem list. The reason is THE REST: it matches every file in the
-> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
-> single patch. During the week of Oct 1-7, 2026:
-> 
->   - LKML carried 13,641 messages (~1,950/day), 90% of which were also
->     sent to at least one other list;
->   - with ~2,100 subscribers, that is about 29 million deliveries per
->     week for LKML alone.
-> 
-> This issue came up during the 2026 Maintainer Summit and the consensus
-> was that "always include linux-kernel for every patch" was never the
-> intent.
-> 
-> This series makes THE REST a fallback as initially intended: it is only
-> added for a file when no other matching MAINTAINERS section provides a
-> mailing list that get_maintainer.pl would actually output for it.
-> Patch 2 updates submitting-patches.rst, which currently tells submitters
-> to send every patch to LKML.
-> 
-> Several v1 reviewers asked for a catch-all list that would keep carrying
-> every patch for those who want to follow all kernel development. That
-> is a worthwhile discussion, but it is separate from this series, which
-> only restores THE REST to its original role.
-> 
-> Translation maintainers are Cc'd because the it_IT, ja_JP, sp_SP, zh_CN
-> and zh_TW versions of submitting-patches.rst carry the same "send every
-> patch to LKML" advice and will need a follow-up update once the English
-> text is settled.
+A bit too generic for me. How about logo-image for consistency.
 
-Thanks. Added to the todo list.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    description:
+> +      The BMP file itself, byte for byte, which dtc can fill in from the file
+> +      with /incbin/. The device tree stays in memory for as long as the
+> +      system runs, so this is meant for small images; larger ones belong in
+> +      a reserved memory region.
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +    description: |
+> +      Reserved memory region the bootloader loaded the BMP file into, starting
+> +      at the beginning of the region. The BMP header says how much of the
+> +      region is image.
+> +
+> +      This keeps the image out of the device tree, so that it can be changed
+> +      without rebuilding the device tree, for instance by loading it from a
+> +      partition of its own that userspace can update.
+> +
+> +      Memory keeps its contents across a reset, and may even across a short
+> +      power cycle, and the operating system cannot tell a stale image from a
+> +      fresh one. A bootloader that loads no image into the region therefore
+> +      disables the node (status = "disabled") or removes it.
+> +
+> +  logo-position:
+> +    $ref: /schemas/types.yaml#/definitions/int32-array
+> +    description:
+> +      X and Y coordinates, in screen pixels, of the top left corner of the
+> +      image once it has been rotated. A value of -1 on an axis centres the
+> +      image on that axis instead, which is the only way to say it when the
+> +      device tree does not know the image size, as with a memory region.
+> +      Defaults to centring on both axes.
+> +    items:
+> +      - description: X coordinate, or -1 to centre horizontally
+> +        minimum: -1
+> +        maximum: 65535
+> +      - description: Y coordinate, or -1 to centre vertically
+> +        minimum: -1
+> +        maximum: 65535
+> +
+> +  logo-offset:
+> +    $ref: /schemas/types.yaml#/definitions/int32-array
+> +    description:
+> +      X and Y displacement, in screen pixels, applied after the image has been
+> +      placed. Mostly useful together with a centred axis, to land the image
+> +      somewhere other than the middle of a panel whose visible area is not
+> +      the middle of the mode.
+> +    items:
+> +      - description: X displacement
+> +        minimum: -65535
+> +        maximum: 65535
+> +      - description: Y displacement
+> +        minimum: -65535
+> +        maximum: 65535
+> +
+> +  rotation:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Rotation applied to the image before it is shown, in degrees counter
+> +      clockwise, as for the rotation property of panels. It turns the image
+> +      and not the screen, so a quarter turn swaps how much room the image
+> +      takes up, but logo-position and logo-offset stay in screen pixels
+> +      either way.
+> +    enum: [0, 90, 180, 270]
+> +    default: 0
 
+This property is already defined in panel-common.yaml, so you need a ref 
+to it. You probably don't want everything from there, so just 'rotation: 
+true' here. Though keeping the description here is probably worthwhile.
+
+> +
+> +  background-color:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Colour of the rest of the screen, as 0xRRGGBB. When absent, the
+> +      operating system uses its own default.
+> +    maximum: 0xffffff
+> +
+> +required:
+> +  - compatible
+> +
+> +# The image lives either in the node or in a reserved memory region,
+> +# never both and never neither.
+> +oneOf:
+> +  - required:
+> +      - image
+> +  - required:
+> +      - memory-region
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    // A 2x1 image, red and blue, centred and 120 pixels below the middle
+> +    / {
+> +        compatible = "foo";
+> +        model = "foo";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        chosen {
+> +            logo {
+> +                compatible = "boot-logo";
+> +                /* Normally: image = /incbin/("logo.bmp"); */
+> +                image = /bits/ 8 <0x42 0x4d 0x3e 0x00 0x00 0x00 0x00 0x00
+> +                                  0x00 0x00 0x36 0x00 0x00 0x00 0x28 0x00
+> +                                  0x00 0x00 0x02 0x00 0x00 0x00 0x01 0x00
+> +                                  0x00 0x00 0x01 0x00 0x18 0x00 0x00 0x00
+> +                                  0x00 0x00 0x08 0x00 0x00 0x00 0x13 0x0b
+> +                                  0x00 0x00 0x13 0x0b 0x00 0x00 0x00 0x00
+> +                                  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+> +                                  0xff 0xff 0x00 0x00 0x00 0x00>;
+> +                logo-position = <(-1) (-1)>;
+> +                logo-offset = <0 120>;
+> +                background-color = <0x1e1e28>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 321ecb9f5b5b..0d1decaedde0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9174,6 +9174,7 @@ M:	Màxim Pedraza Padilla <maximpedraza@gmail.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:	Documentation/devicetree/bindings/display/boot-logo.yaml
+>  F:	drivers/gpu/drm/clients/drm_splash.c
+>  
+>  DRM TTM SUBSYSTEM
+> -- 
+> 2.39.5
+> 
