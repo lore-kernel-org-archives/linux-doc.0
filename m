@@ -1,117 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792506655;
-	b=CGBsmK8661etEOk+sDirwUm6KT8d9gSyMUeydxdHih6nakqfqe8XrHDhmPP9BO7mJHCV
-	 CaYg52oLJqXGCHyRQ091oAh2GAxjvKrLU++UBv6csiCtXVt8VHi9eRpR+v/bmYkWPsni7
-	 U7AYt4FhmGvzVtAPcw2W36jo/yKtSKXj13fBz0YavIwOcD9nNyoH1CiDjQXz7VJi6QIzs
-	 fAMao2q0tBqYP87z16jnOcy2bxxqQ5cFSPJPql0BYvxCUeHJUPsO7pJEd6ZUxH2Dsi17p
-	 KAJ+8XwDVkDSIdQ0J5YISkMSJPBz1TOi0KPtCPlpPY5DudN8nodr2la/aeU9FK6FVNA==
+	t=1792506951;
+	b=sRYwyVmgOoIFfRLraylxxoQjJp7YwW4oC6ENA2W6zot5NDFwgVqd5RVCpMfCjYrXoBbi
+	 G3f+BsJBv13o1ht+pKcKLNLnNcUqDqCFvZlUH++Td3eLTAx3grfx3Gu8OnFOuNNgQCLvK
+	 M7Y3y4RitMEhkfba4JGmTGrFcf0wMCLGtX6wF+BdziXOJr6ZenIReVuLL8QAPxxcypJho
+	 vNhns9CbANBr9x0j6fDuaCLSioe2qVdKCQKEn7BPGq/8ukT3uALBWyhMbygiP9JdYn2Ur
+	 MW4dfPF77p9yv2Xg94VP3YPfuvIh05EeBowkkNPDJ9ykcSap/Tfg6OxSjpjYEARiZTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792506655;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792506951;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=2CniGtgnti6KdC6pQIvauHlETM08FpIVgz45KXnuEH4=;
-	b=Wq6NHJicDjMJLSxL+s1sWFFxp8fd9LYrA6GuWsU8DO2vo9QTvFBkT+K36aCl310lOE9c
-	 Ro/GandCKCZR8x0ueB0ZAHTCDRni3GqgViaxLGcG/1CcoX/1/EHPWM99sz9CrrfRpn+Mq
-	 5RphJSW+MItJp6YUOdAxoy0MyboYfs2Rs1/KWDNUvwjLUV570AwDoTRNW5oyXQbxH+odl
-	 Bkue1JeM64YhaZjUYYFhXH2J7Bln7NXEIYEMfxeNF7dstNpD9hCWm/0piNCspUNSXmqWz
-	 SlDqalaR9PINPHXPNR8pY1LxcG6km+eT4NQci57Rci7w8S2hfqFPpyOG9kTVXgp2Law==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
+	b=fvXwquD94cCFpQdy7jzo+wjMiTUSqEQ252YfDhqbhEyN6RECBsCy5/oN2VpsNXZdS+8Z
+	 qmkXM5QF0QG8Wq70MoNemEbZwcdk/7KXnq1eOG7NLdEnvf9Sz6aDQIljEcpL4Pg4fJGBH
+	 21nD+ijvNq1XGg3MPPbGDwruhe3B5zO6XfikHwp0firn71HU+S6BLFjEDlRZ6nojS3Vhg
+	 gevMApgqB+qb5yILw4Bge7m99qlikq4IO8mEVJHopzd1x7YU6dcTuFcYcQiQhk+DLjj2l
+	 F77wjHPuxbMCswYQSirj8APoZwNOeY4+Y7E/UHFj9Jrtk/6QOyyuKnz1ISEc2s4BdTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=a4ARmL5n;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="Crh/ID8A";
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C282606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:30:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C282606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20DE606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:35:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B20DE606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=a4ARmL5n
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfdd0678dso2241769f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:30:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Crh/ID8A
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso36554215e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792506653; x=1793111453; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2CniGtgnti6KdC6pQIvauHlETM08FpIVgz45KXnuEH4=;
-        b=a4ARmL5ngo/vL5Jligm/2bjzy0KAdWPDNQTcOGyloESAzgfJ0klE3lGOSvGY0UooJr
-         TZIsLO+nY8kte6c1I9JYkEyDZE/sbIy9p4fGUzUO4/kGOrmmRr7wWJz9awhyclUttsEZ
-         LY7G9gLtWn2xZSxXJiDsDNyM9qRbubA33o/atGtQQ7FheUsA65gWQMrdU6ET7wqVHoQz
-         9GtUJ5J7IQ37UUErZ9RxwHsr9dTvNXVHC1LfuwZDPTikaXmaJKjF28VUyov+osrMfMoY
-         0UsvTcKNvYq7sKZTDw0RIm8+K4wSobyIhclFJxlxOcDVGDaYTkAaZbdCgUDYS8O/JsXW
-         BdzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792506653; x=1793111453;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linaro.org; s=google; t=1792506944; x=1793111744; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2CniGtgnti6KdC6pQIvauHlETM08FpIVgz45KXnuEH4=;
-        b=WKj2rekHQBkNuOpr1OBzmAbX/XKILH3N+DMpkqC6VVS3X7Nv1KUFLky8UVp/3pokZ4
-         16AkDmHq85MPpnZhWwG81DByIuV3Grs6G3/IgaDCoHa5v5tNvnp7AeglW+9s5Fu7fPuM
-         TgjZzbW2s/MgmYau2wDq9LSo5e7lzzX4IZyqA97f4s9MlR9NuJj19tziKsAy88gIWdq0
-         UvCXF11r7ZekqcxL8OgxtT4bBbeDlSNUZQCiFfeNJKHuNBZeGDfUixFMfCPvbRwLHSdU
-         D/GWhnlm/2dIj4yRsDfl/C0KTDiCZ00HgSbs6uqtwgXT25P1lFez6ZIfbIP65K8zJMKi
-         04IA==
-X-Forwarded-Encrypted: i=1; AKwUvByN1mWTwMQ9m0t2kgoXzs/CTLCiow+8RvxVvQ0+c92K77LPKBEL8BacGN1LQvhXSi5cOJSK901D0aI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIQ5UK5ETAZTqTEB9sKpZUNc8afuXttRvjBiKjmx1wcxj04Bi7Y
-	FtoNvDc0VWD/10ZOaxfTolMi6c7OawO3T+Lxi+EW97DIhfQbvfzb0oGQ8UNGv1gULRY=
-X-Gm-Gg: AYBFou3UlSHds173MSLHmCUZWMl6nC3cq4XbMoKmAR5HzcLVvRETBL7qglVq7euwkSo
-	pbzxj7SmHrNW3u2e5RvvK7hJgdORflyZ9hQ/6jisk4ifHywnxobHdkz/1Kjtrv00Vg8hHTakLgu
-	6rN0Rvt65aXUjvkfNAfBiaU5E2EEu5OBw7uztxjxMdDMzfGwXd2hKZ3QIQp/ST1AAtgSgr2KyC/
-	J0/iorDKvuzmVmqv1rFthFT3blSdo4WknakNdN/6j4X3KjI3ik7oe2sClPeYtNNI0/T3YMfvstl
-	ITKjT0PFg42VMOVNioDe3vnpilFQ8cixO2qv6Gkwx14ckUK03m7LiOYE4aqcdSLoo8EVx4iGS1/
-	VYZa01QkwgQskVVaqeh0x797YGZqDNecMS1Sjux0hH2DUXAC5oP8Wsg/eJ/qn5mtuWWiPGK43er
-	U6mU64vK8rGPxXKW9hMiTzaLVlHFv7yP+W0HyhxVE+23+R33o0NApMFolFkPDltDkWPhQgbwgl
-X-Received: by 2002:a05:6000:2887:b0:48c:571a:a1aa with SMTP id ffacd0b85a97d-48e07bbc6e6mr23535312f8f.19.1792506653058;
-        Tue, 20 Oct 2026 07:30:53 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8214e1sm6395924f8f.37.2026.10.20.07.30.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 07:30:52 -0700 (PDT)
-Date: Tue, 20 Oct 2026 16:30:48 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, Borislav Petkov <bp@alien8.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	Dave Young <ruirui.yang@linux.dev>,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Pratyush Yadav <pratyush@kernel.org>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Ian Forbes <ian.forbes@broadcom.com>
-Subject: Re: [PATCH v2 1/6] panic: Add a notifier chain for pre-kdump
- callbacks
-Message-ID: <atd7GInNurGWLUha@pathway.suse.cz>
-References: <cover.1790014793.git.zack.rusin@broadcom.com>
- <81cb85568b36273a8e66215b3e6d671b8488d402.1790014793.git.zack.rusin@broadcom.com>
- <bc783856-9480-3944-67fb-675e4c11d8c2@igalia.com>
- <atdYIxwz8ksYNty6@pathway.suse.cz>
+        bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
+        b=Crh/ID8Ae/mzmaKeyac7ZP6EU8IT41BFrMx83893X+9GKQ/4/sNMSub7qoxtpc6PG2
+         6m8nyvMShtOtuG8PglZayW9ZC20K8aBxUW9ZnrETWBjnRAJx054aTSvOMZ9/DquOCe8V
+         //W8RY/1bu7/oJgXw/rzX6osp4vPiZ+/okA5I3PnL7yVoAYddKGJJTK/4A07b7nmcf1N
+         a2raJUfdcCOx97Yc6BVkEoO3hi7nE9yzRpJ/L7gmUTWs7HZIcTprsTULjzmjka22E3AC
+         Bqw+TJf11lg1BUbe/RTeWDkwj1yLorw6KjuY2eXVLPuyCejS4VruRX/k4qHQmT8Wya6J
+         Rg6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792506944; x=1793111744;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
+        b=UhVCjcxEAuOFtwWPdb4Oe8C+ZURlNMQml1L8RZdHRCf+OfAknVQXyVPP+94eoSpmbL
+         DwPfuSdowPfICAjI4xAy5tMX3HRSEkZjK9iJuZYfwkJXnGx0DUqAJuLwGlYFyd8cTJ9x
+         GGMKbRxRrdrs9hB2czFtHtF8l5sMgSriBe76VaYlodO1/b+2bOxuEAo933z6DzoLq0YG
+         l71iDl8Mjwn+K0JB2G/4H0B3bMcOTQJhmlqNHrVfvzUM+/kwjIb2E40RQbw0+sW8M47k
+         oN6dK3vkBrAITqDU5RM7Pi7YN8CW6ctFPIRtFwx5X79MPDo6SNLNEIy8FJSMABBk141/
+         G8Vw==
+X-Forwarded-Encrypted: i=1; AKwUvBxd5oFAiy2D76figpWi2j2jTnYOsaR9uzDrYAWzchU0ierZ9voIvcSdI6mQ8uhh6W89BHoj5guyhrg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJX1CsnbpXgXsAKW5w1OT42LY3jBlX27SnSUfYlr7ZKY+RN61ui
+	GdqvGLCVAlq6DTefoAiiun7KhnQpD8RRTOS7KyaCah8ASRLyg6cd+A0KnVj2cKOzUHo=
+X-Gm-Gg: AYBFou2EYSMXi8M91nrbioiJLWKkTXXZHPIK4Iu4firMS5YfPhudApsfomAeJU5oiWi
+	RiyewRgin7clgFWgdFJMOzlVfT1IWtV2+ifXV7nYCayzdlaEuKsUDjjkytasxHCj/LRpw+qGFet
+	Mu6XByBnt3A4kcux/Ov2BJMhjrtjjeOSfOoHI/RHzlj918yvY5gMZ2d/cBKC9hQbe+l6H0ygxzd
+	Odo7V8K3GpkEizt3J7DnCWuLJD8nuKbm/DOq9TeVlni3vyEH4ITJ/avGe8cCLljTXccr0zg3GmM
+	v0lbO1+Y0ZbOA4Ue0neO5sGRfnjXAW50rAgquYb5ZOxzKqtKhXnMzHRrJwe++GfgWoXCS3B7G+7
+	J88GmKmYjG4wOSpq+qgZSBKKRMOy4Nwr/bNUBDE5yhXaW2wgdR802zGQrQVAB1qfaUmF6LfL2at
+	hjA4E0+WBD4aMZQMiS4XqsRxBSpk8OEAOlDvdUE8nZ4EuAEX0KlDqCG2iZi5A3Y0pHmP3aHmr3u
+	WZG21Gzvt76xA==
+X-Received: by 2002:a05:600c:8709:b0:4a1:7b05:3a6d with SMTP id 5b1f17b1804b1-4a1d75e6fa6mr206342555e9.8.1792506943206;
+        Tue, 20 Oct 2026 07:35:43 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d6e2dbsm82506805e9.13.2026.10.20.07.35.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 07:35:42 -0700 (PDT)
+Message-ID: <0792487e-b6fc-4b9d-8120-83281a15217c@linaro.org>
+Date: Tue, 20 Oct 2026 15:35:41 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -121,230 +91,265 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atdYIxwz8ksYNty6@pathway.suse.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 24/25] perf test: Add CoreSight AUX sample decoding test
+To: Leo Yan <leo.yan@arm.com>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
+References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
+ <20260915-arm_cs_support_aux_sample-v1-24-35cf6f297d20@arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-24-35cf6f297d20@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue 2026-10-20 14:01:43, Petr Mladek wrote:
-> On Mon 2026-10-19 19:05:21, Guilherme G. Piccoli wrote:
-> > On 28/09/2026 14:55, Zack Rusin wrote:
-> > > Selected crash callbacks should not require running every panic notifier
-> > > before kdump. Add a separate atomic chain with an at-most-once dispatch
-> > > helper, and invoke it before panic reaches the kmsg dumpers.
-> > > 
-> > > The helper permits another call from the crash path without repeating
-> > > callbacks or recursing into them. Document that callbacks may run in NMI
-> > > context, with other CPUs running and the kexec lock held.
-> > > 
-> > > Link: https://lore.kernel.org/r/aquttpMVKX8e6zGB@pathway.suse.cz
-> > > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> > > ---
-> > > New in v2: separate pre-kdump chain, with a set-once dispatch guard.
-> > > 
-> > >  include/linux/panic_notifier.h |  3 +++
-> > >  kernel/panic.c                 | 26 ++++++++++++++++++++++++++
-> > >  2 files changed, 29 insertions(+)
-> > > 
-> > > diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
-> > > index 41e32483d7a7..3ad390764a41 100644
-> > > --- a/include/linux/panic_notifier.h
-> > > +++ b/include/linux/panic_notifier.h
-> > > @@ -6,6 +6,9 @@
-> > >  #include <linux/types.h>
-> > >  
-> > >  extern struct atomic_notifier_head panic_notifier_list;
-> > > +extern struct atomic_notifier_head panic_pre_kdump_list;
-> > > +
-> > > +void panic_notify_pre_kdump(char *msg);
-> > >  
-> > >  extern bool crash_kexec_post_notifiers;
-> > >  
-> > > diff --git a/kernel/panic.c b/kernel/panic.c
-> > > index 213725b612aa..d78e90abb192 100644
-> > > --- a/kernel/panic.c
-> > > +++ b/kernel/panic.c
-> > > @@ -82,6 +82,10 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
-> > >  
-> > >  EXPORT_SYMBOL(panic_notifier_list);
-> > >  
-> > > +struct atomic_notifier_head panic_pre_kdump_list =
-> > > +	ATOMIC_NOTIFIER_INIT(panic_pre_kdump_list);
-> > > +EXPORT_SYMBOL_GPL(panic_pre_kdump_list);
-> > > +
-> > >  static void panic_print_deprecated(void)
-> > >  {
-> > >  	pr_info_once("Kernel: The 'panic_print' parameter is now deprecated. Please use 'panic_sys_info' and 'panic_console_replay' instead.\n");
-> > > @@ -567,6 +571,27 @@ static void panic_other_cpus_shutdown(bool crash_kexec)
-> > >  		crash_smp_send_stop();
-> > >  }
-> > >  
-> > > +/**
-> > > + * panic_notify_pre_kdump - invoke selected callbacks before kdump
-> > > + * @msg: Panic message, or NULL for direct crash-kexec entry
-> > > + *
-> > > + * Dispatch at most once per boot, including recursive entry. Callbacks run
-> > > + * with interrupts disabled, possibly in NMI context, before other CPUs have
-> > > + * necessarily stopped. The kexec lock may be held. They must not sleep,
-> > > + * allocate, wait for other CPUs, or call into kexec management operations.
-> > > + * The message is read-only and may only be used during the callback.
-> > > + */
-> > > +void panic_notify_pre_kdump(char *msg)
-> > > +{
-> > > +	static atomic_t started = ATOMIC_INIT(0);
-> > > +	unsigned long flags;
-> > > +
-> > > +	local_irq_save(flags);
-> > > +	if (!atomic_xchg(&started, 1))
+
+
+On 15/09/2026 16:49, Leo Yan wrote:
+> Add a shell test that records the brstack workload with 8 KiB AUX
+> samples attached to cycle events. Pin the workload to a CPU with a TRBE
+> sink and use per-thread recording with trace timestamps and context IDs
+> disabled, exercising decoding with the owning sample's context.
 > 
-> It is far from clear why this is needed. It would deserve a comment in
-> the code and explanation in the commit message.
+> Check branch stacks and callchains with --itrace=L4, L64, G3 and G3L64.
+> Require at least one sample to reach both requested depths, with all
+> callchain frames belonging to the workload, and reject samples exceeding
+> either limit. Use a callchain depth of three to match the nested calls
+> in brstack.
 > 
-> Well, I am not even sure whether this synchronization is enough.
-> If __crash_exec() and vpanic() are running in parallel on two CPUS
-> then one path will skip the notifiers but it will not wait until
-> they are finished.
+> Compare with AUX decoding enabled and disabled to verify that adding
+> history preserves the original PMU samples.
 > 
-> But I think that the problem is the explicitly called __crash_exec()
-> is not synchronized against vpanic() in the first place. IMHO,
-> it is an existing problem which probably should get fixed.
+> Assisted-by: Codex:gpt-6
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>   tools/perf/tests/shell/coresight/aux_sample.sh | 189 +++++++++++++++++++++++++
+>   1 file changed, 189 insertions(+)
 > 
-> > > +		atomic_notifier_call_chain(&panic_pre_kdump_list, 0, msg);
-> > > +	local_irq_restore(flags);
-> > > +}
-> > > +
-> > >  /**
-> > >   * vpanic - halt the system
-> > >   * @fmt: The text string to print
-> > > @@ -682,6 +707,7 @@ void vpanic(const char *fmt, va_list args)
-> > >  
-> > >  	sys_info(panic_print);
-> > >  
-> > > +	panic_notify_pre_kdump(buf);
-> > >  	kmsg_dump_desc(KMSG_DUMP_PANIC, buf);
-> > >  
-> > >  	/*
-> > 
-> > Hi Zack, thanks for trying to improve this conundrum called panic
-> > notifiers heh
-> > 
-> > I confess at first sight I got a bit confused, and only after reading
-> > patch 1 and 2 twice, things made sense to me: you're hooking
-> > __crash_kexec() directly!
-> > 
-> > So, in my head, 2 things that would make sense upfront: merge patches #1
-> > and #2, and comment a bit about it in the code.
+> diff --git a/tools/perf/tests/shell/coresight/aux_sample.sh b/tools/perf/tests/shell/coresight/aux_sample.sh
+> new file mode 100755
+> index 0000000000000000000000000000000000000000..887ad6a085eacdfd192db3863fbb61dae1aa19b5
+> --- /dev/null
+> +++ b/tools/perf/tests/shell/coresight/aux_sample.sh
+> @@ -0,0 +1,189 @@
+> +#!/bin/bash -e
+> +# SPDX-License-Identifier: GPL-2.0
+> +# CoreSight AUX samples with callchains and branch stacks (exclusive)
+> +
+> +export LC_ALL=C
+> +
+> +skip()
+> +{
+> +	echo "[Skip] $1"
+> +	exit 2
+> +}
+> +
+> +perf list pmu | grep -q 'cs_etm//' || skip "cs_etm is not available"
+> +perf check feature -q libopencsd || skip "perf was built without OpenCSD"
+> +[ "$(id -u)" = 0 ] || skip "No root permission"
+> +command -v taskset >/dev/null || skip "taskset is not available"
+> +
+> +# AUX sample now supports per CPU sink (e.g., TRBE). Select a usable CPU
+> +# and name its sink explicitly to avoid a shared sink.
+> +sink=
+> +for dev in /sys/bus/coresight/devices/trbe[0-9]*; do
+> +	[ -d "$dev" ] || continue
+> +	name=${dev##*/}
+> +	cpu=${name#trbe}
+> +	[ -e "/sys/bus/event_source/devices/cs_etm/cpu$cpu" ] || continue
+> +	if taskset -c "$cpu" true 2>/dev/null; then
+> +		sink=$name
+> +		break
+> +	fi
+> +done
+> +[ -n "$sink" ] || skip "No usable TRBE CPU is available"
+> +
+> +tmpdir=$(mktemp -d /tmp/perf-cs-aux-sample.XXXXXX)
+> +
+> +cleanup()
+> +{
+> +	rm -rf "$tmpdir"
+> +}
+> +
+> +trap cleanup EXIT
+> +trap 'exit 1' TERM INT
+> +
+> +fail()
+> +{
+> +	echo "$1" >&2
+> +	cat "$tmpdir/stderr" >&2
+> +	exit 1
+> +}
+> +
+> +cf="$tmpdir/ctl"
+> +af="$tmpdir/ack"
+> +mkfifo "$cf" "$af"
+> +
+> +# Disable trace timestamps and context IDs to use the owning sample's context.
+> +# Use a per-thread mmap so the explicit sink is only used on the pinned CPU.
+> +if ! taskset -c "$cpu" perf record -o "$tmpdir/data" --aux-sample=8192 \
+> +	-e "{cs_etm/@$sink,timestamp=0,contextid=0/u,cycles/period=100003/u}" \
+> +	--per-thread -D -1 --control fifo:"$cf","$af" -- \
+
+Minor nit, but on "[PATCH 00/14] perf cs-etm: Per-thread mode fixes and 
+snapshot wrap support" I just did:
+
++if ! ls /sys/bus/coresight/devices/trbe* > /dev/null 2>&1; then
++	echo "No TRBE sinks, skipping output validation"
++	exit 0
++fi
+
+I know looking up the actual sink, passing it in and also using 
+--per-thread mode is "technically correct", but I think we can assume 
+that any normal record command will work on any system with TRBE.
+
+Otherwise, we should re-write all of the tests to only target CPUs with 
+known loaded ETM instances instead of hard coding CPU 0 etc.
+
+Other than that LGTM:
+
+Reviewed-by: James Clark <james.clark@linaro.org>
+
+> +	perf test --record-ctl fifo:"$cf","$af" -w brstack 1000000 \
+> +	>/dev/null 2>"$tmpdir/stderr"; then
+> +	# Kernels without snapshot_aux reject the sampling event at open time.
+> +	if grep -Eq 'sys_perf_event_open.*event \(.*cycles.*\): Invalid argument' \
+> +		"$tmpdir/stderr"; then
+> +		skip "Kernel does not accept CoreSight AUX sampling"
+> +	fi
+> +	fail "Failed to record CoreSight AUX samples"
+> +fi
+> +
+> +perf evlist -v -i "$tmpdir/data" >"$tmpdir/evlist" 2>"$tmpdir/stderr" ||
+> +	fail "Failed to read AUX sample attributes"
+> +grep -Eq 'sample_type:.*\|AUX(,|\|).*aux_sample_size: 8192(,|$)' \
+> +	"$tmpdir/evlist" || fail "Missing AUX sample attributes"
+> +
+> +check_history()
+> +{
+> +	local options=$1
+> +	local max_branches=$2
+> +	local max_callchains=$3
+> +	local output="$tmpdir/script-$options"
+> +
+> +	perf script -i "$tmpdir/data" --itrace="$options" \
+> +		-F comm,pid,tid,cpu,event,ip,sym,brstack >"$output" \
+> +		2>"$tmpdir/stderr" || fail "Failed to decode AUX samples with $options"
+> +
+> +	# Some windows may contain incomplete trace. Require at least one cycle
+> +	# sample to reach both requested depths, and reject any that exceed them.
+> +	if ! awk -v max_branches="$max_branches" \
+> +		-v max_callchains="$max_callchains" '
+> +		function check_sample() {
+> +			if (in_sample == 0) {
+> +				return
+> +			}
+> +
+> +			if (branch_entries > max_branches || callchain_frames > max_callchains) {
+> +				depth_exceeded = 1
+> +			}
+> +
+> +			# Both depths must be reached in the same sample, with all
+> +			# callchain frames belonging to the brstack workload.
+> +			if (branch_entries == max_branches &&
+> +			    callchain_frames == max_callchains &&
+> +			    workload_frames == max_callchains) {
+> +				found_sample = 1
+> +			}
+> +
+> +			branch_entries = 0
+> +			callchain_frames = 0
+> +			workload_frames = 0
+> +			in_sample = 0
+> +		}
+> +		{
+> +			# A blank line marks the end of a sample.
+> +			if (NF == 0) {
+> +				check_sample()
+> +				next
+> +			}
+> +
+> +			# Sample header: comm pid/tid [cpu] event ...
+> +			# The event may include a PMU prefix and configuration terms.
+> +			if ($4 ~ /(^|\/)cycles([,\/:]|$)/) {
+> +				check_sample()
+> +				in_sample = 1
+> +			}
+> +			if (in_sample == 0) {
+> +				next
+> +			}
+> +
+> +			# Each branch entry is a field in 0xFROM/0xTO/... form.
+> +			for (i = 1; i <= NF; i++) {
+> +				if ($i ~ /^0x[[:xdigit:]]+\/0x[[:xdigit:]]+\//) {
+> +					branch_entries++
+> +				}
+> +			}
+> +
+> +			# Callchain rows start with a hexadecimal IP, then a symbol.
+> +			if ($1 ~ /^[[:xdigit:]]+$/) {
+> +				callchain_frames++
+> +				if ($2 ~ /^brstack(_|$)/) {
+> +					workload_frames++
+> +				}
+> +			}
+> +		}
+> +		END {
+> +			# Account for the last sample even without a trailing blank line.
+> +			check_sample()
+> +
+> +			if (depth_exceeded != 0) {
+> +				print "AUX sample history exceeds the requested depth" > "/dev/stderr"
+> +				exit 1
+> +			}
+> +			if (found_sample == 0) {
+> +				printf "No sample has %d branches and %d workload callchain frames\n", \
+> +					max_branches, max_callchains > "/dev/stderr"
+> +				exit 1
+> +			}
+> +			exit 0
+> +		}
+> +	' "$output"; then
+> +		head -n 80 "$output" >&2
+> +		fail "Missing AUX sample history or incorrect depth with $options"
+> +	fi
+> +}
+> +
+> +check_sample_identity()
+> +{
+> +	local fields=comm,pid,tid,cpu,event,ip
+> +
+> +	# Hiding history must leave exactly the original PMU samples, including
+> +	# their PID/TID, CPU and sampled IP, with no synthesized events. Per-thread
+> +	# recording does not require sample timestamps.
+> +	perf script -i "$tmpdir/data" --no-itrace -F "$fields" \
+> +		>"$tmpdir/original" 2>"$tmpdir/stderr" || fail "Failed to read cycle samples"
+> +	perf script -i "$tmpdir/data" --itrace=L4 -F "$fields" \
+> +		>"$tmpdir/decoded" 2>"$tmpdir/stderr" || fail "Failed to decode cycle samples"
+> +	diff -u "$tmpdir/original" "$tmpdir/decoded" ||
+> +		fail "AUX decoding changed the original cycle samples"
+> +}
+> +
+> +check_history L4 4 0
+> +check_history L64 64 0
+> +
+> +# brstack -> brstack_bench -> brstack_foo -> brstack_bar provides three
+> +# nested calls whose caller frames can be reconstructed from an AUX window.
+> +check_history G3 0 3
+> +check_history G3L64 64 3
+> +
+> +check_sample_identity
+> +
+> +echo "CoreSight AUX sample decoding: PASS"
 > 
-> +1
-> 
-> But honestly, the semantic and ordering of all the variables and
-> functions is very complicated. It is very hard to follow and
-> understand all the rules.
 
-Warning: You might skip the first part about my confusion.
-	Maybe, I am the only one who is a bit lost this way.
-
-	My motivation is to do not repeat the mess which I saw in
-	the printk registration code. People added many features
-	there for over two decades. Each change made sense on its own.
-	But, for me, it was really hard to understand and distinguish
-	what were the wanted and unwanted effects.
-
-
-I trying to understans why I am confused by the panic notifiers code.
-There are several aspects:
-
-1. I was involved in many mail threads where we discussed calling:
-
-	notifiers  before/after  kdump
-
-   but the variable "crash_kexec_post_notifiers" defines calling:
-
-	kdump   before/after  notifiers
-
-   It actually matches the code because __crash_kexec() is called
-   twice in vpanic() before and after the notifiers.
-
-   Sigh, it looks like a trivial mental switch. But it is not
-   that trivial when we though about splitting the notifiers
-   into more lists and discussed where to call them.
-
-   The discussion always was where to call notifiers and not where to
-   call kdump.
-
-   And we are also discussing about disabling notifiers. Not about
-   disabling kdump.
-
-
-2. We call the new list "panic_pre_kdump" and this patchset calls
-   it in both vpanic() and __crash_kexec() code paths.
-
-   The name "pre_kdump" suggests that it is needed only when kdump
-   is called. But we want to call it in panic() even when
-   kdump is not called.
-
-
-3. The new "pre_kdump" notifiers are called before stopping CPUs.
-   While the rest is called in the more safe environment
-   with stopped CPUs.
-
-
-4. I am a bit confused by this patch set because it allows
-   dumping printk log before kdump. It does not fit with
-   my understanding of having "pre_kdump" list only for
-   the strictly needed operations.
-
-
-5. There is the idea of splitting the remainig notifiers into
-   _safe and _unsafe lists, see
-   https://lore.kernel.org/r/atcjhe4329sYHWvZ@pathway.suse.cz
-
-   It would complicate the design even more. But it might help
-   with the endless war whether "crash_kexec_post_notifiers"
-   should be "true" or "false" by a platform-specific default.
-
-   I wonder how all this fits together.
-
-
-Top-level look:
-===============
-
-Sigh, one problem is that the notifiers have different purpose:
-
-   1. Notify hypervisor (platform). This looks like a must-to-have.
-
-   2. Platform specific dump of printk messages. This is
-      nice-to-have. But note that we also have kmsg_dump API
-      for this, see kmsg_dump_desc().
-
-   3. Print extra info. Also this is nice-to-have.
-
-      Some is optional when kdump is created because it might be
-      read from there. Some can't be found in crash dump, e.g.
-      dumping lowlevel HW state.
-
-      In addition, there is sys_info() info API which allows to
-      dump state of various subsystems.
-
-   4. Some notifiers are smp-safe and some just a best effort
-      and more safe after disabling other CPUs.
-
-      In addition, I guess that it is better to call crash_kexec()
-      without stopping other CPUs because stopping is not reliable
-      without NMI. And it would create extra noise in the backtrace.
-      And ???
-
-
-Now, different people have different preferences but mainly:
-
-   + the more safe kdump the better
-   + the more safe reboot the better
-   + the more info the better
-
-
-Now, the question is how to satisfy the various requirements
-and keep the design sane. We need a compromise but where.
-
-Continue thinking...
-
-Best Regards,
-Petr
