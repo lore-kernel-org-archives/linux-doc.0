@@ -1,77 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792538694;
-	b=slnYCsO39VyO9rqxx7tVXu0XTr8nrP8n1Ah5We7XLaGOj0evj6tVbyC1XbjAwIkaIwH5
-	 t8XvkUz1Tjd7++ro+aGsXDSguEc2HTuE2cL6v7y32Gy3Zhmif72ta1ziVcwXAzipn2GXb
-	 SJM5rUFxABBD3nfTOR/bjT7lXjM8YpY3EaFS53OtL+aaKYVD9Cb7jffuxn7RcZGzez7RD
-	 YNgDR3dBdMSig4Vk9Iom4WGHwCgnbgFQIzFRAF0dnMgLP2Ublr8EEeLnWX82nEXz+tJAm
-	 /Q67JsYFK5WxPWAqGieeFkJce0pb3FVs+6hjIW6Cjhr4LCanyfy/bP2XPqUYVBXmSXA==
+	t=1792539068;
+	b=DBvBKbTioDfb4B0phP2NR79kpo+R1Hf6VRKZbLMHqE+ZnQKOOZalKgy2smLG3m5UmXdJ
+	 Js5RGvAzYholjr1ta4l/Bdb+dzI5Rsz7Rv8LMkb5rb8/94riqCpEHHJQ3U2paZBnWhJnm
+	 mvtFK/2Cd1Km4LhIoL1ydBUepM6aYolN57TqPbzFqlC7QDf10XhSccPAj6QtrxCSV6JwH
+	 ncyT2+mFgC1g7U+ui2qppJdfi21bls02loIiopMY9I3ntniahfVzr2yRvbVZM+r9rO2aK
+	 VwH5ztpSissSCVjBiYUReR4qAUE8WTGdsDWP+4c8IBbKUosYMgbz5nx1+WftKxdOthg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792538694;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=N26BUJ1xKAAk40frg4SytOnypgC2HjF2fR/qGKmWfsQ=;
-	b=yd+FruMBWCQiLBSt9h2unRddpPWEnUVz0fsTe9PEqIN/esolkrJkL1oFfgNr4evmMZYt
-	 ybPQ2goWmPWerALuGL9JtInYPtV9l8hB2IvC8WYt+0IH9Cz8DhGbj9Q9UnWZIb0kletRE
-	 nSw5NQCKcBemaeTFi24pAY3aScDH4mqjYns1xY9HX7wIfyklhyXbCeB2TXMu7uaRbs/3y
-	 tpuikE8k5+O5U4wmHuDxNNfjIb1vxZKuS+BM6atAlMXWAqDQ4kaaZDEFVVMpSOYS9pqqq
-	 C6ZxPPLILY/vveMAFSxfK4rKJ0UXSL5i9xIz1tww2WK8hhQ0SUzFoQWHwAayvmS8DKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792539068;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=NQ7Q//r/zh1Th3NpvcNkh5KF9pBS8Ytb4Y1WhggDB7w=;
+	b=00f5XcUDyH46mUo8tR5DDBs8eLWyjWjjVhQn58UbDxkMqrkiR9ud7YcTdbFLghbMqP5f
+	 HRKS7kJoz4/OLqBYhTlebxmDpyYty3R5KVM4UDUbNE+2ByvCsDMkNXDnMbO8lraGDBCkU
+	 F+g7Lm6RqyGOq5U782yu7uC3DXX4yA5DgOeYcIY64IfaAvG+kbCkRd6BQpl8LC3lr0HgB
+	 s6lTyhptw48UwNVS80fKyRP9ltTS7YiKI0jGlMzToMToZMsMr8xlIsZ32AclrqfilVzah
+	 dOdV0ILAtzDstX/J0oMPYYF/ohMxmT4SokQ6gJUQFgBqslgddPSWbLfWb2sI1CrEd5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=nIKAKDdk;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F08606A31A;
-	Tue, 20 Oct 2026 23:24:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4F08606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WAkwyGlt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295F9606A31C;
+	Tue, 20 Oct 2026 23:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=nIKAKDdk
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E147515A1;
-	Tue, 20 Oct 2026 16:24:43 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0D7093F7B4;
-	Tue, 20 Oct 2026 16:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792538687; bh=Ql6r3oDIs3hhRsDlq4e1yE+almBM9gVakuK1N8RoSEg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nIKAKDdkGLv3SjsjIH++aln2p65x1fVAEpimqj0FtKrAONnFvxygBjQsBe08EN18E
-	 J77xf1z1++jZYDabnVuKKBEfqoub2i0BNl1gxM/rjbIh6jZJvU0IU3n54hypD6HnSy
-	 9A1yGObdMhLOQjmDrsAS6zV7cPojHFEZK7YYe/b8=
-Date: Wed, 21 Oct 2026 00:24:40 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Simon Glass <sjg@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	linux-integrity@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>, patches@lists.linux.dev,
-	Piotr =?iso-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
-	Ross Philipson <ross.philipson@gmail.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Song Shuai <songshuaishuai@tinylab.org>
-Subject: Re: [PATCH v2 15/15] efi/arm64: Implement ARM64 DRTM in the stub
-Message-ID: <atf4ONRM3xbs877y@e129823.arm.com>
-References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
- <15-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WAkwyGlt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A805B1F000C9;
+	Tue, 20 Oct 2026 23:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792539068;
+	bh=NQ7Q//r/zh1Th3NpvcNkh5KF9pBS8Ytb4Y1WhggDB7w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=WAkwyGlt+bt1fAKH9pe9wYemnWX/5rJ2wCeF3QVo5GV71Y/6pXM0De/SKP26gyzUt
+	 86WEx3mK1Igv7o8NSefg9Ya8MIUzSa5rqSEiuRHelbVIvbCNfcJkjIZM6KNHQTJSSM
+	 6ESx+/yy0sB5rkPO79zw21fIx54LXZFyaYoRvbPzS3ehTqgd2U/j8FesPKxo93xq6V
+	 t3XNItj1TL1+r8hoQ7AmSxdHey+6FZpKMXFMXncWCsAVfwv9KCiM6VZ1vzVUzyiKsp
+	 Wq61lZDnDI8HLNk0G+Xnb6Zd/jWXzFX4Q7Y+z3+3CpZgEFBYqdNG0N5rzPWxDxDzVX
+	 yqMpaJ+K8A4Ng==
+Date: Wed, 21 Oct 2026 00:30:56 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
+ lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
+ cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
+ James.Bottomley@HansenPartnership.com, aik@amd.com, jpiotrowski@nvidia.com,
+ qinkun@google.com, pgonda@google.com, alistair.francis@wdc.com,
+ ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
+ rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
+ dave.hansen@linux.intel.com, sathyanarayanan.kuppuswamy@linux.intel.com,
+ peter.fang@intel.com
+Subject: Re: [PATCH RFC 03/20] ctlv: Add the root family specification and
+ generated files
+Message-ID: <20261021003056.354a40ad@jic23-hlaptop>
+In-Reply-To: <20261015145053.3664509-4-jiri@resnulli.us>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+	<20261015145053.3664509-4-jiri@resnulli.us>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,39 +70,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-One small question...
 
-[..snipped..]
+> diff --git a/Documentation/ctlv/abi/ctlv.yaml b/Documentation/ctlv/abi/ctlv.yaml
+> new file mode 100644
+> index 000000000000..fa11bce98f46
+> --- /dev/null
+> +++ b/Documentation/ctlv/abi/ctlv.yaml
+> @@ -0,0 +1,186 @@
+> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+> +%YAML 1.2
+> +---
+> +# Checked-in ABI snapshot of the ctlv family, written by
+> +# "make -C tools/ctlv abi-update".
+> +#
+> +# The checker compares this family's declarations and inherited stub fills
+> +# against this file. Updating it is how a UAPI change gets reviewed; an update
 
-> +void efi_drtm_launch(void)
-> +{
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return;
-> +
-> +	/*
-> +	 * No cache maintenance is required before the launch. v1.4B R42130 in
-> +	 * Table 22 "DCE preamble requirements" requires the DRTM_PARAMETERS to
-> +	 * be accessible as Normal Write-Back Cacheable, Inner Shareable memory,
-> +	 * so the DCE reads them coherently with the writes made above.  R45220
-> +	 * in Table 30 "DCE requirements for the DLME" then has the DCE clean
-> +	 * and invalidate the whole DLME region to the Point of Coherency before
-> +	 * it measures the DLME image, which covers both the Image itself and
-> +	 * the handoff struct placed in the DLME region. Thus once we jump into
-> +	 * the kernel with MMU and caches off the CPU will see everything the
-> +	 * stub wrote.
-> +	 */
-> +	arm_drtm_dynamic_launch(drtm_cfg.params_addr);
+Slightly confusing text: 'it' is unclear, checker or this file?
 
-After launching, How to get eventlogs for measurement of DLEM if
-tpm_read_log_efi() is used? Doesn't it need to concatenate those
-event logs from DRTM eventlog in returned DLEM data?
+> +# that removes or renumbers anything, narrows a bound, or makes a placement
+> +# required is an ABI break, whatever this file says afterwards.
 
-[...]
 
--- 
-Sincerely,
-Yeoreum Yun
