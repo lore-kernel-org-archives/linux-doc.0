@@ -1,114 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792484239;
-	b=wNNKBYPQZ171F5JscUXsZoXq30f6b5bt3YKcYtSX9rO83U5Pwq1foufdf5pMdDQ2aJjI
-	 GnBv6Alde0Nd30VTci43Up7FZ/VNbxxwRslAh2bqrfyhczOpNOuaFpCaETrsUpClu92Sw
-	 HkYK3V7DbJhwCQhIgVu92XEdZOcqDKZwKHxdUehvS0ZhF5x/zLvH/YOv/wVlrr9QxXRp1
-	 Y/kvvQnYnhO/uBLQKWJTi1c5aUh2npxLOhzUO5TXFUu1P/ZfEyRW69OwaOAuIBIgw5eOt
-	 ydS2z4MA1Z7J6yeUDkXdP/7YbNb+zTMCi44FE7UROUlM7YYTtGGbJ1xC3qZA/18aEPQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792484239;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=mWAuZEoa06/FId6EaCbOOGJEvcdb/dADU57niR/UVVQ=;
-	b=go71HQUdFm/s6v4hyS7UUg/U8IAZ2G9my9hsFTR/Jaj4k/NFklgw7DqtWjtvUdbvbsjO
-	 qUtNLnxqLz6MsvdCnrbg4WY+RLoi0jcRi7yxpESid1NJz20jDnO8adnPpP0DbPmn2FPXG
-	 5ealaqP0tGewHcbujDjpx5ylEVFXR/YYkDW567tBZPB/x75+Z+E1m7+7xRE5iUqhnF+2E
-	 PHa0L5mnSqG6QQ/zixKG0IhnUlxk9WuVx828eAnpMhFNsQhoB1T5KZVRtUPHRqugbgmKM
-	 hgXUbccMK3/hYUf0qyOe2cafW4qeyDmcN0obytNkPv1tkwyAVMoYEgzlSw4n6i0H4HA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.135.77
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792485003;
+	b=gsjLWhacpimkcoU0f1MBlztJlJUC4LShCVGdwUX3xDe+tMZiUgwiRrbpwUgqSlxn98xE
+	 2ww4PIgSY4zjYTxq153d7eq3YfSDKC89Z8OnbA+sJwAvNE5fL7TQWm/i/yUWdzIaxyzuS
+	 NFHp1oKni9JjGROSLDyOcagKwTh0aJeYtyjxk3qtdncIofP/BcgrQ89h8kvNmoT/L2InJ
+	 vXL4Oxz3IoyufVMHoz+OEBPipOwNAksdEx3UyuRwgGeXvQLo0wGhsj3V4ua0vZ1bnoQNM
+	 P2IHZnUbkaztZJt7pUDHcyhlR2rO7ldeO76lYnCXGN8l92RQTCa74cEUxTmDuv0ReLw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792485003;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=5zeYIg+9nbeBr/uxvntI1xKT26Om7OJc4lujx4D/EoY=;
+	b=iTC6xi6IRUwM/L+GyrSHKfc4ag5C/+kHlKy4QdWH86EpOy3MExUy1q1P+yFgALSHILR9
+	 XJDH79Yng+D7OSCONc2809vwql9hAfgscENRKA6u+oYLD+BO50UwDNs+ptG2GjItkRIma
+	 bVJKyu8OiTcxnpkZmm/vdVNX34phDSp5Av8Vf3YU4n+YePsW7MMUQf5rwCu/Q7BnMmS+C
+	 ncW0fIuoIPsKiAxIGhNkia6+u6EoA7mqef0LoSpcvoZSdDVbdN3a+lDe11+sMcoZhR1mY
+	 VMJC68UhJ6giSU2tLuV4XBnPs5XZ15c130SxMakJLYyNIWMVqexdG6iB+mJ9Ap/QO+Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=analog.com;
+	spf=pass smtp.mailfrom=analog.com;
+	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=WS9eUFEY;
+	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=Wtrc3+oD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.135.77
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160D0606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 08:17:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 160D0606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48c5358fc28so2484778f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 01:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792484232; x=1793089032; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mWAuZEoa06/FId6EaCbOOGJEvcdb/dADU57niR/UVVQ=;
-        b=eqbh+v9rTkN8cPbfFqLadpcRF5O3zsVKhBYKXbqKw8bfyfFG/VxWCVihbRRrcX27wa
-         mvhc6KpaN5L/Ia0xMT55R8PKgMY8pzcfkzJlMmBZvY5KxctYiJ+44qqNM+A7CPV3yBZG
-         A11OxqWdBqvpbvn9CCEYEmlfQICOwWYQ8Toibf1FdoE3vcBKq7RU2whROqNJNVEIiGE6
-         Ia3/BhRJ/V5SNrejO3ayD9N8jMthCUe5EcYZEsaSA8j08+L3usCSvczrVi7gODnYzFUW
-         q3y0guQYogKNB6UuYLh+sxUOqz5DE5p5GyI7UMCbzntIvUs4nge2rPbgyyoQ5zH4RAQ6
-         Ac/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792484232; x=1793089032;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mWAuZEoa06/FId6EaCbOOGJEvcdb/dADU57niR/UVVQ=;
-        b=hjBcIVYmL4eaXQRPwPeUY60DRlWDh71lVYn3pA4u2Q0su3GI9VuRYHOqyuyq8Owx4Y
-         iB8/YRvtSPIkzPEnQO3gVrqxojyfHJU3yek3soM4aGuD/BpjgvCebMCnVYbryHj6Afs1
-         Xx9gVZN8ZAcaNUY2UrGaNwgnOVKwat+bDoCpZEIDIgRA0hYFyBx09ADwMfu+GqveiLIo
-         mV33StPCvPWl9ZmvjH+pZtV5dwEI13PqAyTeT77pO4JoRakIllicn2JUaLbUYbgqE5Da
-         drnyuqsZD5CuE0MdgZc4VjIxWjZs0bsszfox9+r7LxqegHcLS+wzQ1RYhmnC/CXamDnN
-         ZSNA==
-X-Forwarded-Encrypted: i=1; AKwUvByjpZSSRryKPGZg5Mi6q7Iik3qpkwA7Y2et5zFSXQH+WcZzVVIG+WJICGBVcuTV4BxU7oftlnPaGeg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLNcwOFLMiftfiSgC+RkNTpVAcjE9EjK2nhMdr0mBpV9ABBLblS
-	ZUfTStEzmeSXfQwSaFU+gTfLRk+cJxhHhiXp0PJctt8oF5tKXF7kLhTOxDKXZ4cJB20=
-X-Gm-Gg: AYBFou2ry8BIz2dVFCKC43cV1XM/DAgq3Qv8/hTpxm6lIEdP50mLiSiYu49bPrc8LHf
-	REtd794dGgTVzlcoaOOFBV3Vo5wAy7NJ4ft6MigHJw1xEa5cU6b+zbBHOZh8Xe5M/rbn6/BCaLU
-	mZ27wfGtmnd2CfldThJyJno9Ctzpfg2RAzakxEPw2MOU0UAMlhR6hPoa2lZlFqMY/H3rfqUr/Hn
-	E9/H05uiV+NzOQm5pCqNzW4cE/mSSct4eXtMyki7y6XmOs9CfgRm7IHn49J0BH/jthw2ikYPXCr
-	hh2iFH80bJXFeXBf9hXGjSNtrClJhqtBTMNxbpXvca3Igrr+ypy3dr6ZfIiWRPZDMzr9Ikxo57l
-	I9eIvOV4ti+sZ1l2Pb4QT/gsf7sEEfmsh6YlNzOO5ntvouIxMwRlsl46FG7SNsDrROju3k82Slo
-	IqqvdYfDlbMzhrzvHAzh8jpVzFy0K8nnRIkGeellaBMUxbhqbaVSy4m25QjEXBjWjW2Y8xi2iA
-X-Received: by 2002:adf:f806:0:b0:48d:f99d:a0cf with SMTP id ffacd0b85a97d-48e07bbe7b8mr14525572f8f.16.1792484232267;
-        Tue, 20 Oct 2026 01:17:12 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d6dbd43sm3653817f8f.4.2026.10.20.01.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 01:17:11 -0700 (PDT)
-Date: Tue, 20 Oct 2026 10:17:09 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Stephen Brennan <stephen.s.brennan@oracle.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by
- default
-Message-ID: <atcjhe4329sYHWvZ@pathway.suse.cz>
-References: <cover.1788414671.git.zack.rusin@broadcom.com>
- <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
- <aquttpMVKX8e6zGB@pathway.suse.cz>
- <CABQX2QPJVg-dZB9f4ydRU_5W7nyWwVCQtDoRGoe1+9cA7wyUDw@mail.gmail.com>
- <bc0bdd14-5e6a-0676-cd04-14fb0bb93cd5@igalia.com>
- <87v77p9t4h.fsf@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53A606A31D;
+	Tue, 20 Oct 2026 08:30:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C53A606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=WS9eUFEY;
+	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=Wtrc3+oD
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69K6mqBo2341376;
+	Tue, 20 Oct 2026 04:29:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=5zeYIg+9nbeBr/uxvntI1xKT26Om7OJc4lujx4D/EoY=; b=WS9eUFE
+	YyeM83PAc3w3UAMZ70yp3jmAqk2MGc7XNRvElbUsNtoOAZC+E0mDGZDq1cViTbPJ
+	qEMNMSJFnc3ck6sogZ4f3ZdYvYEDX939X0Gulv6/6Ju36LJsOhL7klDa4pkSVwoN
+	BMhBjNNSpTz2yFrwN7g4uEPMWmAfwwNA2mHL/VK89wm72DtmJPJusF+CrCJcx+Df
+	IPFLi/zh9HSfxLH7bMM/sAmAyDW4mcHCi3BsTWUELrZlLgbz1riY8mEwn0QZEhz2
+	/BzXEokRAkDjhYoKVVTytjQHwgL0J6sLsMYcxN6eTJeCMkWQT6D+rRUfkn5BUCxq
+	dRmioycv8PQKOzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=5zeYI
+	g+9nbeBr/uxvntI1xKT26Om7OJc4lujx4D/EoY=; b=Wtrc3+oDFNHfXofrXErQT
+	6Dci3QtC+99LyCCBw9m7iLQwm8sjWj1gHqdjNP9tvb6GwpV/LJsW3oaQBF5Nzkr9
+	jm08lRVtmZiylaM6swYj09Hoy93ZYaDSP/qk9VviZNbbE8Nid+ZL+aJeCbjcXVoe
+	bx0qdaOCbPvczIKIqlJVEUekc9vZsemnlqjzNNFsFNvuCq30h86dB8D63rkmkw28
+	zfQwWozClGfCOcekHlHzwdU9qNvHDT3w+WA6F6fhCihuTtsrYG2s50K7zIOsgt+4
+	BKydiwne/61JeFSmlnthR8BRMx+hlCEnBWAKwc6w6sNDIqzjaXvLRTxYq4GqFOL7
+	Q==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011011.outbound.protection.outlook.com [40.107.208.11])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4hdw68tfj0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 20 Oct 2026 04:29:34 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UP9seZ1OC0VdEYyziYGnHMsqHaMW5eUxIhqcUiIVB9GRFEXKDEtIP8YbWF2uvYanZ0ah7RgMXfj6CI9yws2s2zqC6ucrNshhYvIAUbnu2Slhs077fKuHWGt25xoeqPYXJlhcwS0lFbX1gnSaSDQ2gAg6jezxcSgpq2Ox5PKvuXm75x2LTDCqdw98CFJVeCj2MwqhgPapQiwJTwdazdGKVVfmizgqMN5a9x7L/MEbpCOCJTk7TgtQCRr2NiEnv0Mhw5aWQiVzcOmiehbFGE8WFfnu/DcNCff1+XOOD4N7dVGy8Whi3b5K1dMbLtRX5aIRzhnkl7LBWDcDhqgZ6MTNqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5zeYIg+9nbeBr/uxvntI1xKT26Om7OJc4lujx4D/EoY=;
+ b=SZsrm3jNVXPiXBzp6ZmwA1OPqzXKShT0vgVqO6MEfHZM2HvD0qflre7C5C1mHyIHm5+cKzbQ9+miDblshlihTNOLpU5ONASbv3KSTJM1mhyeie1E6HcdrySg2bDZjMs2RFIq57r9Imx1hQox4pzt6P/gAs5OeqErf5yXDMp0rRDeFmMziVIDPAV2jfqBInqHV3c2531T/fzjVTj0t5t1yxEKIZp6Bi7swQ6Xt2LJfsWdYFDrZUnb8iehNdrt3swFPtuZTRlUzYBaV3g2IAWYSa+634Vd/AX6V1jGwlJyYSXJUKE9fzK9rxY3QMs8HABryJu+eIGsQehT6bW28raYlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analog.com;
+Received: from BN9PR03MB5977.namprd03.prod.outlook.com (2603:10b6:408:132::11)
+ by DS2PR03MB8369.namprd03.prod.outlook.com (2603:10b6:8:331::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.14; Tue, 20 Oct
+ 2026 08:29:32 +0000
+Received: from BN9PR03MB5977.namprd03.prod.outlook.com
+ ([fe80::9687:b756:5de3:28f3]) by BN9PR03MB5977.namprd03.prod.outlook.com
+ ([fe80::9687:b756:5de3:28f3%6]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
+ 08:29:32 +0000
+Date: Tue, 20 Oct 2026 10:29:29 +0200
+From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: shengjiu.wang@oss.nxp.com, p.zabel@pengutronix.de, corbet@lwn.net,
+        skhan@linuxfoundation.org, rdunlap@infradead.org, hansg@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        broonie@kernel.org
+Subject: Re: [PATCH V2] reset: core: Serialize concurrent deassert/reset of
+ shared resets
+Message-ID: <atcf1PFVcn5pdsVO@analog.com>
+References: <20261019055301.3234571-1-shengjiu.wang@oss.nxp.com>
+ <CAA+D8APDSYbzX3S9RuLinoPiuqPHEX+L+-ZcSg-RtxxaWyvrJA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA+D8APDSYbzX3S9RuLinoPiuqPHEX+L+-ZcSg-RtxxaWyvrJA@mail.gmail.com>
+X-ClientProxiedBy: AM0P309CA0011.EURP309.PROD.OUTLOOK.COM
+ (2603:10a6:20b:28f::33) To BN9PR03MB5977.namprd03.prod.outlook.com
+ (2603:10b6:408:132::11)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,158 +128,208 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87v77p9t4h.fsf@oracle.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR03MB5977:EE_|DS2PR03MB8369:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25fba2e3-356b-4e71-95d9-08df2e84439b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|6133799003|10067099003|22082099003|18002099003|5023799004|11063799006|4143699003|261009223027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	tTdTvmzUrfzJ2lX+jBOVC5pXBOyaTIlDgE2U+hnUvyrhI32LdyR2s9SXYrXLQCBPBK0NG1SbI7X/qqwfqE9PjLIz0GLkr9sr4/ivV78aWdBI68rbh3bcvWm5fST8q57d0BwOtfJ2oNjQzN8L7fLpmPNjj4xfzWW15nvRVdg8a2yCdr31pYFKuyk6Vsuffi0j7JO+RNEN9qujnAsFLKgZy6ptqQNXzWcWSSefNFaVbt5l6e1C853URkn7BBqwLlnT5yHoiCoTlgyNB8FfFOIoQUz/qUsK3ai7l7POyKmGhflrNCSx+ZcSmCNqDhLr58vYja7g+KFPkbxfao8txv3gBu/stD2PtSmCYh9s0uVKao8rkHyEd7hvHio0IWrwF41FEsRjS27JYzJBij4E2uluRXhD8FGzbyXThzhNlTAoCbvTJp9Fv90aXqTlpoF1qd0a/vU3Quug14/yQ552/+7KF4SFf7bJ2//05gXbSGOAfAUhTa+y5RAE7gsNcx1/E8P+5kCF8AknCtTeLONwhd4XoGXN9WSbIy7kTQqX+DjqMQo+dGhIgMTmrqq1+9vo25qA6y8S2EoMkChjQrinWLxxxajqxHY7gP5RZSNysBZfVhW3s51GBILs+5FlGV8RWW61
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR03MB5977.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(6133799003)(10067099003)(22082099003)(18002099003)(5023799004)(11063799006)(4143699003)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OTFtMkhZTkczZCs0Qy9RSW82a3k2WG5hOUJheEVENjB1YVdNRUJLQUhaNWxq?=
+ =?utf-8?B?aStQV1VoT01Pc3dLL3IxWFpqamIxS2ltMUxlbTFSSVI1MkJFWmFEUmoxVHpN?=
+ =?utf-8?B?MHhVYlk2RjRnOER1MkRLUHpQSmJLUE4ycEgrNkZMVWhPTzQxbmFhT0w4SmZv?=
+ =?utf-8?B?QU5NUzBDZzh1dVNXclpLSmRiSmNYZXVMaG5pQ05iVHZhMDFjcjE3MEN4QWpk?=
+ =?utf-8?B?RmJ5ZWpjM3crblNGelBkK1UxdXgrK2RJc0dVRHUvbTU1L3U2L3p1RE82ekFI?=
+ =?utf-8?B?SG5YM2xnZnpuK0IyZVZLdGZwQXBoN202bDB0d29UZm1HTXUwN01mWTlLTmNM?=
+ =?utf-8?B?Y2dCMFNNNzNhVGNRbGpLSlFDMkI1M0JwNytZYUE3SFJsaDBLallrVUpCOGJn?=
+ =?utf-8?B?QmJwVFlhWFJsbk5XRGR6RHhIR0h3dzR3Y3F5cVNMbmFzVWt3N092WTYySURX?=
+ =?utf-8?B?dHErUUczc0ZvaVYweVdWd244TitWUklOVDR2NCs3a3o0WFovOVRMa2s2RXFK?=
+ =?utf-8?B?Y2dHNEx4VGtHNTh2THpJN01hcEh6djZPZ2c4U2JxZ1BiZS9GYVJBOHRDejJV?=
+ =?utf-8?B?cHIzRGJnTU1mbGY4aGpER1NoWUpBdnFuNjl4dmZpeTk0clo0OGozUFBvTGNo?=
+ =?utf-8?B?d3l2Y3dKVm1JZkQyazRFLzl2ckIrUFhhTFBxRmMrZ1lyZjdIZjU2L3NvU2dE?=
+ =?utf-8?B?QTdiTlhsMklPOGh2YlpmTUJOTlZIQTdsQmZ3NS8zY1ViU2M0VWRhYzhZeTY5?=
+ =?utf-8?B?TWEyc0QwT0lMMVg1SmxZSEpFcWhxUEpXT0NGTEN4VU52MUZLbmQwcGdwcnRL?=
+ =?utf-8?B?c0dtT1hGMzVNYTV1S0tncmtMSHlCMllSdlVYMXhpNUJUVDV2eXkxUmZvWUxR?=
+ =?utf-8?B?a1NUNGZvbXRiWDE0SFdiR1dzVVJDcVhkQ052TEwzcXdkZUI3VjVWTHJqWS9P?=
+ =?utf-8?B?eG83Vm9yTkpWdi9lL0tjb1dMait2NlhENlF0MmhwZ1M0YlNmbmlLTUhXWHVw?=
+ =?utf-8?B?OHg5RlFhNXk4Q0d1R09ScS9jajlrNjVKQ0dVSXpqSFJiU1Zka0J3eFo0QUZ1?=
+ =?utf-8?B?U1ZDZ0ZyaUNkZS9PVlhGSnh2WGpPK1liSndQcm9YNW0yWDBQODVCbXd1SEp6?=
+ =?utf-8?B?WS8xR2o0aHJ2NCtwWTlCQjhLcTdtcis2RlFSVmlVQTNuRVY1WGFZL01paSt5?=
+ =?utf-8?B?VWJJanIweW40T1dzY2JOZWJicDJOZThaV3IvV3Q0S2hGZFM5WWFER2xBYnRQ?=
+ =?utf-8?B?VVFxQkJjT0Q2cXk4NmwxQlZSVmoxVzV4a3NQQWRFUzFtWGRoTGJNcDRNQmpi?=
+ =?utf-8?B?aGNEbElCOUhSQ3pBemh5Vk8wVUFTeUY3QW1VTEVQNFd2RHJtcUNGd2owTzh0?=
+ =?utf-8?B?MXNMMDNxVmJUNU1zaEVUUGUydGovNStzdVZFWWh4RnU2WGZxUUkzVFFURDU1?=
+ =?utf-8?B?UTIvb3dpOFgwZW1LQVFQSmpSUnpwUmVOT0RaaG4zQjZLNDBkMjNzTkVKK3Vz?=
+ =?utf-8?B?elo0OWRBOGVWajRubUswY0swM0RDdnlzL0d5dHdjVnJ2NzE0ZmdXTldEcDlY?=
+ =?utf-8?B?cU1nREtFc0JlbGhPWmVRYnVTQTRlMHc5RW5wZW9oYmZaNGVJcFhwVjF2N3h0?=
+ =?utf-8?B?bk9NV3ljbHRQaFdVYzdQdGtGR2xoR1NjUWRaQ2VObVEvRnFPNkJ1Q0J6Um5o?=
+ =?utf-8?B?Z2NiZytvemFHMVpMK2pObk5zbjhwQTRpeTNRdmYyMUI5enlGaVkvbmxMZXZI?=
+ =?utf-8?B?NTZacklNYU1vcDZ5cXUvYXNCbXVIQ0U2UXRBSmJ5ZGNsMDh5RWJyY25xTWs5?=
+ =?utf-8?B?YXNja1RpazArTGllQ3MxeWFlWnNKblRhTzdOTlcyZTEwRkxuSSttZ3ZZNjFa?=
+ =?utf-8?B?SW50clBGbU1DTUZ3Z1NZaXFPRmsrVlJ2d1VSQXdadURLZXZCVWFHay83a0Nt?=
+ =?utf-8?B?bUtKVzZIRFlmYm5OazZSVi94bWJPRzZwTkxnMEtVTHppblBrWjhuc0FzaHU4?=
+ =?utf-8?B?SHI5U0VQYUcvQVdsZkEyOHYvdlkwR0JLQjZZZnNNMDhSd0krazhBb2VrT0Uy?=
+ =?utf-8?B?MVlsdkVuY1VCQnczZlgvRytUVTNleUphVWtvV3NCOGxGMFp0aHRNVGFzV00x?=
+ =?utf-8?B?elF3NVpxT3FWRFRQV2w5cW1LbFd2dkY2RHhhQ3d5VExmaityZnAyakdRWk9I?=
+ =?utf-8?B?OVdrbDEveitTbnltZHpEU1lDc0xERGFSNlAzWVVRTUh3ZGk5T3ZUTFdKSElK?=
+ =?utf-8?B?dDNrT1UwblYrUHkrTDNMNG5KWUZHWVRCY3lub3RNVkVCNDFpb29HSVhKN3lF?=
+ =?utf-8?B?RzZiODJJTXZEcjVteEtDVUZYUC9VdndLYlR0aE5QMjJib2kreldCQT09?=
+X-Exchange-RoutingPolicyChecked:
+	QY+17v68rShoSrBVyfi7YTpLbqaQAyrzDPGbA8AunTXr/6pgKr/1baT+bAtInwy8hEHvcBPvdb1oKkjxVrF/CCYAmp2US/LB5AC6BIuJ/Xw8uX2zkLVL5gVNumcM5w6c1WqGUO9mePIRWfWSCoHAQOUzdQ8haJLpcd0Mmsx4SQg99kwibgChsHAAKEbk6Q3wdJ20SY/A4YY6y7+a2CTQum3LiBUELzG3fUOmW3zV4NtHl2xXRyHenA/rIfgkQinrfcnI+DvRGD+6UMq6fgGEfrGNlKPXJ1mHYamEUqrO6O0FziWt0luZ5ebglRUOHqhRrnNiIWaI/+m9E+eTZUA26g==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25fba2e3-356b-4e71-95d9-08df2e84439b
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR03MB5977.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 08:29:32.4697
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nPP1bWiESpzPHQVcQsGuJKmQEWCNai0KMl4Tr91ZrrTpYxaDyEi4cPLJb+w8j/l1HVtcJ69lxzZKTXFpPHSwtKIctqwF8dOb1tKKwnlTigk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR03MB8369
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIwMDAzMyBTYWx0ZWRfX9mwT4ftn/4QK
+ WharUISV/K9Yi/fWFYAZiq6zum0qH85pNklATJKY55xGXxj94lcEOZFMg0KTC9+PAm6iRIZxrTX
+ Ah/q6AGdlT4jSp1SxYXrd1XUW+nICYnjOeJgJ6wgyX8idapvNQcQ
+X-Authority-Analysis: v=2.4 cv=aJ9lOr9m c=1 sm=1 tr=0 ts=6ad7266e cx=c_pps
+ a=cvmpvQQCsZncHh92cDAFKQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
+ a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8 a=8AirrxEcAAAA:8 a=AzWQk9cK94q4mdJfF2cA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-ORIG-GUID: mFXYVOp8pZAcLejA80fI_5Xq8EECdRMz
+X-Proofpoint-GUID: mFXYVOp8pZAcLejA80fI_5Xq8EECdRMz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIwMDAzMyBTYWx0ZWRfX78qG1gTs2qbw
+ i4QcOshKQnZ5C87XaG5NZMIb/zTKrGbjJc70arpAtWr0ClfL+2fkv/c+HcTpvlOdcrVh16ns12j
+ 80oFxkjC7GG2NktkTaX4h8XvPEKd4//h+57JbCWZ/V1ffEoWtLaYf0jkYpwXk567RkSrIuuNWs2
+ cGEZTjgyPPedJM9fjxeomg0Rab17IT+hY0Zo4+ed9uxt+/D6PwJxo7bGtFmBGKPzLUWJ752asZh
+ xxdOkuXsEvJcq7F7WU0hXciSsSv21yhb/Xbv4UVb6vSQ4lI7Kfp6lsF2Ztt6jqVzBRNpSSTlv/F
+ 3nkxIoeima4Y+5HzEzVJwxoa2DTjpJpUAXEOk3YIjT8BgOxox75SHZEYsinSsAkF6yYqpRTcN3S
+ MVKlZbS+iCVyGKaXBkEBvYak3874B21KYWwB/MczwPDZQicw10kr45Lvr+bHLz0rvmU0FQXgUxP
+ SfHwQbh52c0cQLV9Hsw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-20_01,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1011 bulkscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610200033
 
-On Mon 2026-09-28 10:35:10, Stephen Brennan wrote:
-> "Guilherme G. Piccoli" <gpiccoli@igalia.com> writes:
-> > This Message Is From an External Sender 
-> > This message came from outside your organization. 
-> > Report Suspicious 
-> >  
-> > Hi Petr, Zack - thanks for CCing me!
-> > Some comments below:
+On Tue, Oct 20, 2026 at 03:17:40PM +0800, Shengjiu Wang wrote:
+> Hi Philipp
+> 
+> On Mon, Oct 19, 2026 at 1:52 PM <shengjiu.wang@oss.nxp.com> wrote:
 > >
+> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
 > >
-> > On 18/09/2026 00:23, Zack Rusin wrote:
-> >>> [...]
-> >>> Maybe, we should start with something simple, and introduce
-> >>> one more panic notifier as a start. It might be called either:
-> >>>
-> >>>   + "panic_hypervisor_list" because "crash_kexec_post_notifiers = true"
-> >>>     seems to be primary set on hypervisors.
-> >>>
-> >>> But I would rather make it more generic and call it
-> >>>
-> >>>   + panic_pre_crash_kexec or panic_pre_kdump because there might be
-> >>>     more notifiers which are either 100% safe and useful or are worth
-> >>>     the risk before calling crash dump.
-> >>>
-> >>> We could put there x86/vmware notifiers as a start. And we could later
-> >>> move there other important notifiers.
-> >>>
-> >>> How does that sound, please?
-> >> 
+> > reset_control_deassert() and reset_control_reset() guarantee that the
+> > reset line is deasserted / a reset pulse has been issued once they return.
+> > For a shared reset only the first caller runs the hardware op; others just
+> > bump the refcount and return early, so a concurrent caller can return
+> > before the first caller's (possibly sleeping) op has finished.
 > >
-> > It's a good idea, IMO. We could start with this, Zach commented some
-> > implementation details below...and after it gets merged, we could move
-> > other hypervisors that currently set "crash_kexec_post_notifiers" to
-> > this list and eventually, unexport this symbol. We should avoid having
-> > code forcing this parameter, as Petr said, many notifiers are executed
-> > if that is set.
+> > Serialize the shared refcount update and the hardware op under the
+> > existing per-control rstc->lock, taken before the SRCU section to match
+> > reset_control_acquire()'s mutex->srcu order. The lock is taken only on the
+> > shared path and only for may-sleep callers (reset_control_reset() and
+> > reset_control_deassert()); the exclusive path stays lockless. Callers in
+> > atomic context must use the new lockless reset_control_reset_atomic() and
+> > reset_control_deassert_atomic() variants, which skip the mutex and so
+> > carry no completion guarantee.
 > >
-> > (I'm CCing Stephen Brennan here, I recall he had problems with this
-> > being auto-set, we talked about that in the panic notifiers big
-> > discussions in the past heh)
-> 
-> Hi Guilherme, thanks for CCing me! You're right, I'm interested too :D
-> Your email arrived on the first day of my vacation, so I'm sorry for the
-> delayed response.
-> 
-> I like the above idea, starting simple with a second list for the
-> notifiers which are straightforward and have an urgent need to run.
-> 
-> My previous complaints were with code overriding
-> crash_kexec_post_notifiers, because that really interferes with your
-> mental model when debugging panic/kdump issues. Having two notifier
-> lists is a reasonable mental model, or at least more understandable than
-> silently and unconditionally modifying crash_kexec_post_notifiers.
-> 
-> I like the name "panic_pre_kdump" for my own tastes, though n==1 on
-> that.
-> 
-> I do think we're going to have trouble articulating exactly what are the
-> criteria for a "pre_kdump" notifier vs a "panic" notifier? Anyone
-> submitting a patch believes their notifier is important, so of course
-> they believe it belongs on the pre_kdump list! How will we draw the line
-> in the future?
-> 
-> - Is it safety? As in "the notifier doesn't take any locks"? I feel
->   this should be part of the criteria. (Though I have never been
->   successful in predicting what code would cause a kdump/panic failure)
-> - Is it urgency? As in "without this, the expected behavior of the
->   system during a panic will not occur".
-> - Is it the fact that the notifier is communicating with the hypervisor?
-> 
-> >From my perspective: informing the hypervisor of a panic is both safe
-> and urgent. If the hypervisor is configured to immediately halt and do
-> its own panic handling, great.
-> 
-> Providing the last 4KB of logs seems less safe and less urgent (though
-> obviously still immensely helpful). The kernel provides a huge variety
-> of consoles through which the hypervisor could have already received
-> these logs. If the system is configured not to use them... it seems the
-> tradeoff to not be debuggable has already been made :P
-> To me, that logic belongs in a standard panic notifier.
-> 
-> Plenty of people will likely disagree with me on that, but that's why it
-> would be helpful to have clarity on what separates pre_kdump from
-> standard panic notifiers.
-
-The rule of thumb might be. If you think about setting
-
-      "crash_kexec_post_notifiers = true"
-
-because the notifier is required for a successful boot of the
-crash kernel or successful reboot after the crash dump. Then
-put it into "panic_pre_kdump" notifier list and keep
-crash_kexec_post_notifiers disabled by default. Otherwise,
-put the notifier into the normal "panic_notifier_list".
-
-I agree that people might still want to cheat and put their pet
-into the pre_kdump list even when it is not strictly needed.
-This is why my original proposal suggested 4 lists. But
-maybe 3 list might be enough:
-
-  + panic_pre_kdump_notifier_list: for the "must-to-have" stuff.
-	 It ideally should be 100% safe.
-
-  + panic_notifier_list_safe: for dumping extra information where
-	the code is 100% safe (modulo bugs). It means no locks,
-	no waiting, no blocking HW access, ...
-
-  + panic_notifier_list_unsafe: for dumping extra information
-	which is not 100% safe, aka using trylock, potentially
-	dangerous HW manipulation, ...
-
-By default, the first two "safe" lists would run before the kdump,
-and the unsafe one would run after the kdump.
-
-Does it make sense?
-
-> > The only thing I'd like to suggest: I think we should have a parameter
-> > that disables running this list, which would be the opposite of
-> > "crash_kexec_post_notifiers".
+> > The op is now called with rstc->lock held on the shared path, so it must
+> > not re-enter reset_control_reset()/deassert()/acquire() on the same
+> > control; a lockdep_assert_not_held() at each lock site catches that.
 > >
-> > I would implement it as something like: "postpone_pre_kexec_notifiers"
-> > or something like that. The parameter would basically "move" this list
-> > execution to the same time as the current notifiers, gating them to
-> > "crash_kexec_post_notifiers". This way, we'd allow users to debug kexec
-> > failures maybe related to the "early" notifiers. WDYT?
+> > reset_control_assert() is unchanged: a shared assert makes no guarantee
+> > about the line state, so there is nothing to serialize.
+> >
+> > Fixes: 0b52297f2288 ("reset: Add support for shared reset controls")
+> > Link: https://lore.kernel.org/all/aszDZlJ0KahNwgZO@analog.com/
+> > Assisted-by: Anthropic:claude-opus-4-8
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> > Changes in v2:
+> > - Serialize only the shared may-sleep path under rstc->lock (taken before
+> >   SRCU to match reset_control_acquire()'s order); exclusive path stays
+> >   lockless, and reset_control_assert() is left unchanged.
+> > - Add lockless reset_control_reset_atomic()/reset_control_deassert_atomic()
+> >   for atomic callers; gate the mutex on can_sleep so no shared consumer is
+> >   regressed and so it works on all configs.
+> > - Factor the body into __reset_control_*()/__reset_control_*_locked()
+> >   helpers, and lockdep_assert_not_held() at each lock site to catch a
+> >   controller op re-entering the API on the same control.
+> > - Declare the new variants and stubs in reset.h, and document the sleeping
+> >   vs atomic variants in the kerneldoc and reset.rst.
+> >
+> >  Documentation/driver-api/reset.rst |  10 ++
+> >  drivers/reset/core.c               | 204 ++++++++++++++++++++++-------
+> >  include/linux/reset.h              |  12 ++
+> >  3 files changed, 177 insertions(+), 49 deletions(-)
+> >
+> > diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
+> > index 932699c57d1e..0fbc1ba92dd8 100644
+> > --- a/Documentation/driver-api/reset.rst
+> > +++ b/Documentation/driver-api/reset.rst
+> > @@ -185,13 +185,23 @@ Given the reset control, consumers can call reset_control_assert() and
+> >  reset_control_deassert(), trigger a reset pulse using reset_control_reset(), or
+> >  query the reset line status using reset_control_status().
+> >
+> > +For shared reset controls, reset_control_reset() and reset_control_deassert()
+> > +may sleep and must be called from process context. Consumers that need to
+> > +operate a reset line from atomic context can use reset_control_reset_atomic()
+> > +or reset_control_deassert_atomic(); these never sleep, but do not serialize
+> > +concurrent shared callers and so do not provide the completion guarantee of
+> > +their sleeping counterparts. The underlying reset controller's ops must not
+> > +sleep when the atomic variants are used.
 > 
-> Agreed for precisely the reason I said above: it's difficult to predict
-> which notifier is going to cause a problem. Having an escape hatch to
-> change this behavior without rebuilding a production kernel is critical,
-> IMO.
+> On second thought, this change lets reset_control_deassert() sleep, so
+> any driver
+> that currently calls it from atomic context would now block. The new
+> _atomic() variants
+> let those callers opt out, but I can't tell how many drivers would
+> need updating, and any
+> one we miss is a silent risk.
+> 
+> Do you have another idea to fix the concurrent deassert() problem on
+> shared resets
+> without this risk?  Or should we go back to the original proposal?
+> https://lore.kernel.org/all/aszDZlJ0KahNwgZO@analog.com/T/#m66615477929b38f788d6d22a2c0bb9ca62173e89
 
-I agree. People might want to "postpone" the "safe" notifiers
-because they still might be risky.
+The reset core could borrow a trick from the regmap library, where it
+uses either a mutex or spinlock depending on whether the underlying
+reset controller's ops can sleep or not. Check the struct
+regmap_bus::fast_io member and how it's used in __regmap_init().
 
-But I think that they might rather want to "disable" the
-"must-to-have" notifiers when they cause problems.
+It would also allow the problem to be fixed for atomic users. Right now
+you still have the race even if the underlying reset controller's ops
+don't sleep and the _atomic() API is being used. But if you know that
+the reset controller ops don't sleep, you can serialize shared reset
+control operations using a spinlock.
 
-The naming "postpone_*_notifiers" or "disable_*_notifiers"
-sounds reasonable to me.
+With the above design you can leave the consumers alone and drop the
+_atomic() variant of the API functions. (I'll also point out that adding
+sleepy/atomic-awareness to the core would open the door for consumers to
+report their requirements, e.g. that the reset control musn't sleep, and
+for the core to validate this with the properties of the consumer.)
 
-BTW: I am always confused by the "crash_kexec_post_notifiers" name.
-     It seems that my brain focuses on the word "post" and assumes
-     that this delays the notifiers. Aka it makes them
-     "post-notifiers" aka call them later. But it is the other way.
-     I wonder if it is just me ;-)
+But... it requires an audit of all reset controller providers in the
+tree, to see if they are atomic-safe or not, and report some kind of
+.can_sleep property to the core (like regmap's .fast_io). I have a
+feeling this is still more straightforward and less error-prone than
+auditing all the consumers.
 
-Best Regards,
-Petr
+The other downside is that it's not a simple patch which can be
+backported, which might be what you are looking for.
 
-PS: I am sorry for the late reply. There are too many things going
-on...
+Any thoughts? I can also help out if the idea seems good.
+
+Kind regards,
+Alvin
