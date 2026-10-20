@@ -1,107 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792462481;
-	b=CqO/azgEZtlTewYAGu7iejDbXFh+Y6a4OgB1G884wnPO4schoC71MDHPS4zpO4zfGFmj
-	 sigBTKzUYVlbE8ca0topaCQk6k/LpA+lPiO61AoH+QAN+G9Vqc31V6y215p8s4Mf0XRjx
-	 uI8Qf0CnaPJsgVcnSficifAt+zmaLnME+7YL20q3Kx3o5ej+fardA11/1ZLc365047pae
-	 vm/Y+NCfDz3wL/X9aDPr+uLJsSaW6T30JlkJDEgZyqndlvi6ClXU2Nr8IcZ4/HNdTNr0F
-	 2Oljqgj31WzF/O4Dv3rX5J7NwWR/LVIN4mMzgBW6VpuerUiNOGX5BZDxBO4g85QztVg==
+	t=1792469639;
+	b=YRmKtK+8dl5/WbiTBDs7Da239CMWMmtQ3AVVrV4gszRLZ3ZbP8u3IogSWX/h0GZYYeGO
+	 KFx9eHt3mcpCqrzJb/1pyCLB8uwSHPR3N/tCarw16HgZxNRhjvO4Pk+ijJw+LtL2JFAGu
+	 p7hTRY+ZIYsKenFdsiZT4AbjQFVldJSUZW8ATVw9mur6qp7aD3bOZpGoATkimeuUYpE2Z
+	 5Fkxd3vHn7M0G/o+WdKnobfNlX8Q54TPI4TKSwvJ0EmROsm7uaMGve/YjkIALWjxBw2/P
+	 ybTxiOg8ENk7CVFDZPrWgZM27VTqxvK1dNzg+PX5blYuxaaRTqAjWEetvxq+QrmPuHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792462481;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792469639;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
-	b=Ye3z3JH51EACwgULzMXbDZe8s5sV1FSm5bEWNKKaWPVU+3+WHjZSYKGI3dnzS5emvBVP
-	 YWf2kzsAmXgsmhb/JcXC87zov6Zm6U3JOfGtEfgur6uU1CqJ2D3gMwEh5OXZxLteXfjZw
-	 ovitGTudZ4+ZtgB3gYZg5OrrBh+KjOiyUXQi0rw8/jjmniWqBdV+V9JIL4QlFKWPesfVV
-	 kQc4RrY26EVSj56L7/aTCLTVodact/OaxsmZn7RZjka0P1XfC6+mcbzoN3T3eq65oL/yR
-	 2SOHkwvXOv3oqfwe0o4v2xNrlz8XdHBhwYQvKdNYahjRlNoAlNXiZVwfkRnzb3osvbw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=2/utcRZDsDy2R0+lL/l2HBc/qClTQkS/AfS2TFqCYOA=;
+	b=Gvv3IWndjXqJt9AaoZNTFsqCnYOE2Y6j5sK1TDSKLYaS4rGSyusLBWo7u8nO+e4Z+LQv
+	 lFYltqyGgmVwKeSAjwkggUkCI2N12J6DgNrbrWEHhyfq0gtJuUm8GDMTncm/7yRo/K5DW
+	 e0mKq0Krh5zL2R4QHAsj20MK7HbiXwiLZsNzub9DtqSMl+keykrsLw7m0Q2GWNq1dqvms
+	 sUnGtDdchSGM/XEfSICS/iTZtMaPkFhgUMSZK8pPDVtj00jEVJx7t+hemJHyhrAyYNb2j
+	 I15SBdlKRY5s8HmKD46Nba7+ks2/jxgyFWOj7ULcfbGvB3Z5y/wH4o1g2bWjwGGEXmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oBihJ65C;
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Mzmsb0cn;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8E7606A31A
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 02:14:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA8E7606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DC8606A319
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 04:13:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9DC8606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oBihJ65C
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1348755f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 19:14:40 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Mzmsb0cn
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-35f1f76ea84so5143269eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Oct 2026 21:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792462479; x=1793067279; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792469638; x=1793074438; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
-        b=oBihJ65CMLYBqYHD9hPzlwUnnU21Djjlk+0ywA8lRRGdNyRHqBkmkB2lVi7j7VuJ1l
-         MPwAaFfom20siTmykpM4ACL2ty3lpQ6vyWJJmpPI8ZNX5UWUMWNCT76IcffFNMOUGFTk
-         ORdK+O3A4W904mNRG0BhTfAQ3NjS8YqXkkKvnV12Bxd9kRss/cY1Tv6b9jyxrJCeHjml
-         1UVPVfEtj0r/j8yx2gjVcG3pxob+11ZYhiUZjgUj33HkXufAXfebmxat2Oeiaf2Mav0z
-         Vvwv6t7UGKyBpY9zHG+AYKsyBiV69wdVVX/+3Y2olVz6L5eDY0ngAgoqozcmxhtarnNO
-         JaXQ==
+        bh=2/utcRZDsDy2R0+lL/l2HBc/qClTQkS/AfS2TFqCYOA=;
+        b=Mzmsb0cnkw57AFOWQBgOp5U8xPif0dtCa6I6PZLXNeVSR2u2co3ZlTPsJz0pBGKJbu
+         Mp6gA3CtT9Q6EnPl+YmPyJuiOfgYEYdMX85qcuWTu+oRXQgV2V7I459Sfr1T07Bc5iLw
+         rOkFN3y9lpoAGIh+NWj2nRkB9ll4y7UrKH2+MsKwkivPHRbpI2X8FUPYRDV0xmEvQqxQ
+         n0s7StUk0XbeR4gs3NTcMLFQ3Jo+oXNUKeyAbG1E8vuoEZDwbYy9claQmqDpACy8LvMN
+         IYIDNJn7UGl8+zu6vGAMXlIM5LOz4xWkBcuop0JKypNufrIuwjb6NxHg6/1PQI1cdnwS
+         5C1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792462479; x=1793067279;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792469638; x=1793074438;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5Iwx53FddK31aCeF3yTsYcRGG3DAdKI2xVbjXFtQkwA=;
-        b=r3FsrKtl9LE31B9LbQQ/riKDA8N3+j8/cfEbFxzlI2gjx/dKS82HV9C5Bb8ddNm2gL
-         7KVbd+PCJOI/UCYO+1vTCr4B2jXIk4BGhjpbqb9KGn27pCLwpgAKoyYNU3qon1yO9QHW
-         4obBXuBnySdNLFiiKKOP/Ou+c4KkRDOv3XZmdvhCbY/lwvinfPgcV601CslZktv64wqW
-         +fmRtWkLe6Hf6kAS/u50ZSf6Nx47Aycugms8tjXzBotxO51FHaXV9r7jX12DESL8bLvw
-         Vro0BaGW/EgnflKL/3KdNOek3j3wblQTttADWX9aFEcYlTPbzDZe1FE/2IsidFt9O53K
-         +/5A==
-X-Forwarded-Encrypted: i=1; AKwUvBzv3Oho5ZpFWzRwyXoUWaD6LrFbprkBoj1I+f7RCIYpI2TTrjUnawRC4SuJ4qx4qz3JsRrzpvpK4ic=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKjXI9u/+Z3G2oeO/s9FLbG7zN6gdVAStuUsSoo5A3B70DrcOb7
-	F7Anp61G4EzhRie0uS1F4jGIEiTO0aTLIHR6aA1w4thVRddiCKS33725
-X-Gm-Gg: AYBFou2ycx+jnTK0dN26v76SjRVd1MqBHFL9W//XdhmxlK4SoXxSvr/tf5qaShXSUOn
-	o8ziF0x4fXUYQOSBqFW3Eqthj1wnO0DAwVpugdy5aAtjiURtW3+A/7gRmJ6ryDcu41Ss2dJG8sO
-	LGuWrXWyB4pwQ8cFesEnTP6qP9n1HaE13UCGhst2GUtfk9Ae2KZI+UG72LgWpiKLj8jJKKo8wNH
-	8EQyB7xTHYUTLBnQYRoMYOGpzE6r+ork1fSTnuxnk56j796YyODrjCThJjk2ql86QAfCnfF3hjy
-	EvLOYY4beyrP4UQIH92EZ+qZ1VOquyWBcrTNQV2DxyYlGoVEczba2lcVdKEBp11f//6nJwuGPGj
-	7lF3qdSW+b8kTqpFNQzHdQUBbdFwc6nhrmv0V+vn60+pWweVuMf8flHkuGEE+IFV2EUpI6upivx
-	GTKwJGrGdC837GVGapVteZAk1MSyGHryOnDVKBrz4NZHTsvW9m8cDe+R5g76TiISMqdStcA1MOW
-	PcypmvsvBj7x4fxisqr/0GaICs7D10FmrbUzAq1hZotYh6EuIM6cz6DyB4Au2cybG0sqY+KVc/9
-	BuOoH2onQ/PFgrvbZsr5pll0MVtMjJ9gk0rsW3qxf+etY/D1ha2t1+hyPzUwFh0Tj59acDFM6ka
-	HIYQ5+IeKoQ==
-X-Received: by 2002:a05:6000:491d:b0:488:5852:6ee3 with SMTP id ffacd0b85a97d-48e07bc2f43mr19882172f8f.34.1792462478968;
-        Mon, 19 Oct 2026 19:14:38 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9c92-6501-cda9-90cd-4e49-75d9.310.pool.telefonica.de. [2a02:3100:9c92:6501:cda9:90cd:4e49:75d9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8208b1sm2879816f8f.33.2026.10.19.19.14.36
+        bh=2/utcRZDsDy2R0+lL/l2HBc/qClTQkS/AfS2TFqCYOA=;
+        b=FXsa9iRDYLSz9oIMmY+25E7KTQhcG+EDAVyk/BWpRA17YFYihf2fiULtm6q4imjcIS
+         qZyJ4NCkCj69R76sgQqUlzGaenkJQMqeLC7cgAWIkaqv0p2Q3gRhYURUE0Tl220libzW
+         gujtPvxWDipqUkdRypp1p6JFYkCqcYYijV4XvLGojmHjRs+qPUwUq6hK9cpxO7pQ7EYc
+         9RdxgBBdqDnEHEPhYzP7oxysQnvxYK+0PH8vYxkXGpohZfcQ4LVd3eM4/vaVgsFvThgm
+         LfNLMtM8zqwv7iQtSED1dCQsfYELpFQfMYD4EgEICxsb2W21POpM8okeGbjaB1fUH7pN
+         aOPw==
+X-Forwarded-Encrypted: i=1; AKwUvBxQDWBWJo/Rl39aMS8MD+z7fMIko2SJ9aE8jdKEtYU9VRAJA4XSlcozWXENUYixjzDLyTX52SWp8Go=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKqrA3rPKeefxtVVX0qcvC2vCz5gnFChnXRgHcJqY/tpEa2bSfZ
+	YzjRWkN3ABcEEsQmBJZTjzcchc3kxfrUf/1iuzzXg1IlgUlUSHSkcqMc
+X-Gm-Gg: AYBFou23IUvTR8MrSZNBM4nNKLietXv1BRgXZ7dG2D6FWw/3TLVuWm6np03xCpAQx1h
+	Vn/f/fMRwR+EP2dQckKNKw9zydKqQ33ojr7pfm7wc0notEQ+6ihDA/S5DZY+MYbAR1C2ecWi9Pp
+	46TEUrwZ552YY7qP3tHTchcDDRFWaC0ngyDO527Iyp2hvN0jrjq3JLw8eYui/BCvqX6agyG2ztn
+	h/iVAsHZMVN14bIE9xzNvXqRaDEyY9DCEwWU+FUZt4DM/+iX2+dpV2HvBH8KVzeNarxRaiSozqm
+	SOIsIYFWF4H/Q8leC7LHiiMveVTFl9GJw6xqJejmoguJniNXTbvomTSIE3u8e5HPsO+aUe/ToER
+	5iNEnEcV6eB9OYZQtPUuTyrBJA3P5r8MGqMkPQxskdDRTTGoZ1HpemA5/b4SXKGHZxpcZR+ZFC3
+	2/oedFAZ7gskuqc/aUiH+xMB43nRsrOILwE15b1hWJ7iRjfMAz+bZpo9bBRPJsjCaYfmZl0B4bo
+	jDXdqX9f5TNcv4lmcJhQM78+j5+VG0NkZf2Jyjo7AaI9nnsPKGArhIxKsXQ
+X-Received: by 2002:a05:7301:271d:b0:353:5d0a:dba4 with SMTP id 5a478bee46e88-361a2449313mr16329625eec.36.1792469637694;
+        Mon, 19 Oct 2026 21:13:57 -0700 (PDT)
+Received: from fedora ([2804:29b8:508d:af45:a398:9dc5:b37c:dfa8])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360826875b3sm38861428eec.21.2026.10.19.21.13.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 19:14:38 -0700 (PDT)
-Date: Tue, 20 Oct 2026 04:14:36 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Harry Yoo <harry@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	David Stevens <stevensd@google.com>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Shuah Khan <shuah@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on
- RT
-Message-ID: <atbOS2rs94fB2red@gmail.com>
-References: <20261005070625.8871-1-kmehltretter@gmail.com>
- <asZ8jmWNoGk5tYce@thinkpad>
+        Mon, 19 Oct 2026 21:13:57 -0700 (PDT)
+From: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+To: danielmaraboo@gmail.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+Subject: [PATCH v2 0/3] docs: translations: pt_BR: Add process documentation
+Date: Tue, 20 Oct 2026 01:13:35 -0300
+Message-ID: <20261020041340.447727-1-lucasadramalho@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1791933697.git.lucasadramalho@gmail.com>
+References: <cover.1791933697.git.lucasadramalho@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,34 +101,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asZ8jmWNoGk5tYce@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 07, 2026 at 07:15:29PM +0100, Harry Yoo wrote:
-> On Mon, Oct 05, 2026 at 09:06:22AM +0200, Karl Mehltretter wrote:
-> > On PREEMPT_RT, a BPF task-storage program attached to sched_waking
-> > can deadlock when kmalloc_nolock() obtains an rtmutex-backed allocator
-> > spinlock while try_to_wake_up() holds p->pi_lock. Releasing the allocator
-> > lock can enter priority-inheritance or wakeup code and re-enter scheduler
-> > locking.
-> > 
-> > The first RFC [1] rejected every non-preemptible caller. That prevents the
-> > deadlock, but it also rejects BPF arena allocation and faults under the
-> > arena's ordinary raw lock.
-> > 
-> > This RFC instead adds an atomic owner state for bounded PREEMPT_RT spinlock
-> > trylocks. Atomic acquisition succeeds only from the completely free state.
-> 
-> Please don't skip discussion stage and jump into submitting a very
-> intrusive change across locking and mm, assisted by LLM? :/
-> 
-> I don't think attempts to tackle this problem will make progress without
-> discussing and getting buy-in from (PREEMPT_RT) locking folks.
-> 
+Changes in v2:
+- Patch 1: Use "registradores" for hardware registers in the DebugFS
+  section.
+- Patch 3: Use the Portuguese Sphinx labels for submitting patches and
+  security bugs.
 
-Sebastian, Peter, Thomas, did you have a chance to look at the locking
-direction here?
+Link to v1:
+https://lore.kernel.org/r/cover.1791933697.git.lucasadramalho@gmail.com/
 
-Thanks,
-Karl
+Lucas Adryell Ramalho (3):
+  docs: translations: pt_BR: process: add
+    driver_development_debugging_guide
+  docs: translations: pt_BR: process: Translate
+    researcher-guidelines.rst
+  docs: translations: pt_BR: Translate stable-kernel-rules.rst
+
+ .../driver_development_debugging_guide.rst    | 244 +++++++++++++++++
+ .../pt_BR/process/debugging/index.rst         |   6 +-
+ .../translations/pt_BR/process/index.rst      |   2 +
+ .../pt_BR/process/researcher-guidelines.rst   | 188 +++++++++++++
+ .../pt_BR/process/stable-kernel-rules.rst     | 258 ++++++++++++++++++
+ 5 files changed, 697 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/process/debugging/driver_development_debugging_guide.rst
+ create mode 100644 Documentation/translations/pt_BR/process/researcher-guidelines.rst
+ create mode 100644 Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+
+Range-diff against v1:
+1:  3f9bdd755 ! 1:  498f9fa62 docs: translations: pt_BR: process: add driver_development_debugging_guide
+    @@ Metadata
+      ## Commit message ##
+         docs: translations: pt_BR: process: add driver_development_debugging_guide
+     
+    -    Translate driver_development_debugging_guide and add to debugging/index.rst.
+    +    Translate the driver debugging guide and update debugging/index.rst.
+     
+         Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
+     
+    @@ Documentation/translations/pt_BR/process/debugging/driver_development_debugging_
+     +no log do kernel nem adiciona rastros ao código. Em vez disso, permite que o
+     +desenvolvedor gerencie um conjunto de arquivos.
+     +Com esses arquivos, é possível armazenar valores de variáveis ou gerar
+    -+dumps de registros/memória, ou ainda tornar esses arquivos graváveis e modificar
+    ++dumps de registradores/memória, ou ainda tornar esses arquivos graváveis e modificar
+     +valores/configurações no driver.
+     +
+     +Possíveis casos de uso, entre outros:
+     +
+    -+- Armazenar valores de registros
+    ++- Armazenar valores de registradores
+     +- Acompanhar variáveis
+     +- Armazenar erros
+     +- Armazenar configurações
+2:  d262b5c50 = 2:  588e080a3 docs: translations: pt_BR: process: Translate researcher-guidelines.rst
+3:  ee88fc5b7 ! 3:  314ef8529 docs: translations: pt_BR: Translate stable-kernel-rules.rst
+    @@ Documentation/translations/pt_BR/process/stable-kernel-rules.rst (new)
+     +- Não pode ter mais de 100 linhas, incluindo o contexto.
+     +- Deve seguir as regras de
+     +  :ref:`Documentation/translations/pt_BR/process/submitting-patches.rst
+    -+  <submittingpatches>`.
+    ++  <pt_BR_submittingpatches>`.
+     +- Deve corrigir um erro real que afete as pessoas ou apenas adicionar um ID
+     +  de dispositivo. Em mais detalhes, o primeiro caso inclui:
+     +
+    @@ Documentation/translations/pt_BR/process/stable-kernel-rules.rst (new)
+     +   Correções de segurança não devem ser tratadas exclusivamente pelo
+     +   processo de revisão -stable; devem seguir os procedimentos em
+     +   :ref:`Documentation/translations/pt_BR/process/security-bugs.rst
+    -+   <securitybugs>`.
+    ++   <pt_BR_securitybugs>`.
+     +
+     +Há três opções para enviar uma alteração às árvores -stable:
+     +
+-- 
+2.55.0
+
