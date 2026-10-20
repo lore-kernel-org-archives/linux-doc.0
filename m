@@ -1,92 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792508740;
-	b=pBScyeVHueXkx7X+CVNwQrg4JpENGlUYBjbUWUlQlGqIpm5kFuqgjb2bJVjkOcftF5JH
-	 5f1tmJEDXyPsmxkGOwIrok1V+mIEDxoFSlJ25P1bF/PvsVkoGrUqZ0AfS9MWGps0M5Lis
-	 OkcAX/LqkW/IOS6EbuoJ/uJGhl2KeGIekF+1B8wG0cRSJE88f5kz/0Oby/FhsjO2KmStT
-	 xoYZX5tsxcZUJRnMlMzDsRCdeUuf6ROuj7YTCBjZuUuezODYt1AnkxgMJcLNJ5ooUZSzn
-	 j/GyKsi4xTFvTHRN59sWYNJy4ExQMF+AjARBzB97iwa116yhNbRm89FFZCQYm6ImbQQ==
+	t=1792508803;
+	b=w2U/wkeEKHAgNWEEY3Cu5sHDKR5ayZKqZ0uXYYyoq2z2LPuxm1mpdPpQQLkNmRY5tVmJ
+	 rLkfAhc5F0vB5qx3r+87dnINhJHtIv5GrKK4BsoC5zQnxgrahs/WHiDuhXGTP8sX1gx/8
+	 IBdWYqCfPQ/qFZVFNJQwz5zAYBm7rG7Rp8A2q4GBLeEW6L1CDH8hLcK0vlVpoqdQ+Up6W
+	 trAetQjxtwfFFzhEidp53iu6IzjCD/qyMVkTkNEOUEU1/+kogm/VSWvnBc5Rf76q9Zh5q
+	 cMRBpPKPzVFbmcOKmgQFr/gYDwfqUvOsJGlqNvDCdmLxg72AOLUg9wz0bjI8uuRIBBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792508740;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=8znbwtg9HjW2zeICa39b4bJRE7uID6ay9xCAZoXxhNI=;
-	b=YHSMd61qLAOJw174wClXbQ6a7WJziqHnXT3Ftz+tTNpxSwfsOM87RBwDyC0adMCjeoUk
-	 wHvzoCy3M3As08F0GY4TBtumnfPegLGGqlOVfDfWuzrjqvbH8PaIDKa5yltNARJyoihaJ
-	 pVgKPpDJTd6Z07jdW3ubNReY/S4yTr+JKEpMz7vGI83fugCT4RIMyDH0qmFg81K/VP3ZP
-	 TSf0D4Ke5m5gq7cWN2VCeMSLKy1VLSuvI5V5mwk3Kk5kWGlV4WC/OHEkcHMDh3JvjQi3I
-	 5w7bymu2bh8tetaeONi3QykwPVmkM7fTW7Z6gFHr7d8YYnhXuQhnluOsqcvVLbRPrTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792508803;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=0c2WAJ+A3fmtE5JIgmM33C+5uxJtcuzd3UjlEAxXX4c=;
+	b=hdk1QNMouph/DLkzJxnEWoEawFLLrIzm5DfyJ8CM2NOfVMrsPgFbhxFA+wwlXAg6Fw0t
+	 7W4o4yPGFxy76+pstS9XNIw9IpYkcHLpW8+svEUtRbyEhYNLmPPjVrPR8i2V4qRdwZ1vm
+	 pna5V18w4y57uod11xNGlBD4UgdFQp7F/Itf1hhOB9lwlO1HlI/c9ZYq/sRDLvPLB9TVO
+	 /l1dAUqeC4EsBnOJ4kKnoq+uL5aa5adIAbikoHZNNqnYwR0Mct60mvqQAKjvAE3m6z1fs
+	 O2wSOAqNnw5qVv8I5/4JRHtTtlJfv6wa7PKG+P7df9RckJxBp2iy/YF80PfXU8ufmWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=F0rwEhzA;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1B5606A31B
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 15:05:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D1B5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qbsEPwkD;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B907C606A31A;
+	Tue, 20 Oct 2026 15:06:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B907C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=F0rwEhzA
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3584f70a5aaso446466eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 08:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792508739; x=1793113539; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8znbwtg9HjW2zeICa39b4bJRE7uID6ay9xCAZoXxhNI=;
-        b=F0rwEhzA8aaJT/L5J9TVeIChhedlGZyVGRUxPWOtTZKd4lerIsu6xZFdCYEXp3vcfJ
-         71aYU3NO3KcUG5fuA1nX5k1U0rDxgZ8/eS3ASPjhoGGn/Sy2F9mYctdCqsxlFC//o4gl
-         OGacQePBxY0fD3MLoV2hoBptUGc8tlfKu2MjIlg34UQKdYSmuq+cY0i+VmJUBU4BlOYs
-         qUSdZg825gzy9gmr8vYCWBrAP7ZPAVPdpNaZgwUtptntX6Ku8rtWx7IikTqyIeM+fvkO
-         J0shZHiiuLEgDQPXOD5creDbO/ub3dPdnOmMpmnvxOonzBGRbyiKNhrmCEUGF0ZnHgde
-         rL2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792508739; x=1793113539;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8znbwtg9HjW2zeICa39b4bJRE7uID6ay9xCAZoXxhNI=;
-        b=RswB5x+jMHJJpp0zBywFXfYIGj+xaci0x4b++H769thDsQBNKfS35LjsjulD7JcPhM
-         JavOsVRynfFb54nHh7XehwjkPDUkBitfTKv+1UmAcW8ubk47WBJQQUkBmLShJ/71qLY2
-         Of0G5556rktrQZFsjXWOIVJvs4shhQJLhNwOMYzu8qzYLkGisYyq1nqeIRYdnpK7X4AH
-         43K9LirIn7QAzoEE21eacj9rccJEnWIlenQG3hnPi/KPNOBhwa4V6SUw2G2RdpVuVvbY
-         wflExhaBMkacDlkgeYlRwfNeT3L62zQbTgyJVGewUX+mDq8fbsFVmiIhsfJ2xKW3jVXw
-         oDzw==
-X-Forwarded-Encrypted: i=1; AKwUvBy4319wzp4JoswCbh25MEX/26Gu4KEQ/7skvCpUHU2e7MgytC16p+A5smclrA/eWrtbz6lnRDAT160=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK7jP0+nHXwKGoIDWQIaNLQnJqL5/ur+sXGrqHoaSuDS8LGMe3h
-	xhJuAzfT5AdzqUeQt6Hu3o4VXcrpvSMwBBXMkOGkXtoNehJCc8MHj2SS
-X-Gm-Gg: AYBFou0vFJIdgxfbqi3wsFzlZ6MvLinNx6j3boly4teUEFDwmvC1r0E7gQ9nSdGYhas
-	3Pu0sYklOF9tAfBfKuuGY/ztlYKLxkZ9hU+McIvw1egNj1qTJNAPwtthwKaGNfR2gN7KW/f55TR
-	ym3yq69BCJkRyXbUCEb4LkgMCom2VJ+0EFo0OUZo3JoD/Vmsg50Tm3iDX5RuawW3bJPsTaEHbrb
-	s/wX1/grNvQgyZPZl8HbHrbR9mEaUQ9kDvaZvHi+EboC/4ivsmuNrjaxwXhYqw/RDMKUNn3RTXX
-	0Ac8KumEQYjNORa8Z8VVhjHLxddVIHQwuh8SdNiK2RfE/Yy6H0QNHdi0WP85fSw2N2v6x5pGOAS
-	QJu60Bh+SPkWVUu1Dn97usTfv5i74hL/l7MGImiBsIHOXcs/xJV2QmVNgUxfYesXoOBokU3/Vm4
-	nMtpSRGPdHjCHePUnZ243H0Cws+xgxu89JG8zW4WCGLSt6GiVuBtamqbwuWD+W6NWKJ68WTsu/u
-	Vdd2CRHzjY=
-X-Received: by 2002:a05:7301:da84:b0:351:7e15:9c59 with SMTP id 5a478bee46e88-3619b30919emr24107862eec.0.1792508739165;
-        Tue, 20 Oct 2026 08:05:39 -0700 (PDT)
-Received: from subhobhai943.. ([2409:40e1:7:197e:d6f5:c443:63e9:fc37])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3607ee0d391sm42494269eec.4.2026.10.20.08.05.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 08:05:38 -0700 (PDT)
-From: Subhadip Sarkar <sarkarsubhadip604@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Subhadip Sarkar <sarkarsubhadip604@gmail.com>
-Subject: [PATCH v1] docs: admin-guide: Fix typo in kernel-parameters.txt
-Date: Tue, 20 Oct 2026 20:35:30 +0530
-Message-ID: <20261020150530.15291-1-sarkarsubhadip604@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qbsEPwkD
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BACB516F8;
+	Tue, 20 Oct 2026 08:06:38 -0700 (PDT)
+Received: from [10.0.137.15] (XHFQ2J9959-5.cambridge.arm.com [10.0.137.15])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 023503F7B4;
+	Tue, 20 Oct 2026 08:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792508801; bh=B2p95+bauGKjmtB2lfd2lV6Dt4OS4tWv6hQlDp4Cj+Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qbsEPwkDD7Lc4yU5KuGZCTmflk83ca1uakWmyzyB5V+G5xona4bnVrrf8HUO7SfBD
+	 hWcREG5/ibmRlF3zEEC0SajKDIYlVtmTByzKmcih5lFG3FO5cxnsZcCqcNRrejVtTV
+	 ofgzQDwH+CmP1BeWW8uCRXFv9mqJ7hmrpsqrKaQ8=
+Message-ID: <c367caf3-d462-42ea-b482-bf9c51c47a63@arm.com>
+Date: Tue, 20 Oct 2026 16:06:37 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,29 +53,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 12/15] vfio: Support VFIO devices that access the
+ CPU MMU
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Alex Williamson <alex@shazbot.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jean-Philippe Brucker <jpb@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+ <20261015142552.4128028-13-ryan.roberts@arm.com>
+ <20261015164421.GD13920@nvidia.com>
+ <95e0f9bd-0203-4c7a-9d09-622593bb3d4c@arm.com>
+ <20261020140944.GA3008132@nvidia.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261020140944.GA3008132@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix a spelling mistake in the rcutorture.stall_only parameter
-description by changing to "applications".
+On 20/10/2026 15:09, Jason Gunthorpe wrote:
+> On Tue, Oct 20, 2026 at 12:51:26PM +0100, Ryan Roberts wrote:
+>>> However.. you still have to affirm which single mm is the mm that the
+>>> device is going to be doing DMA against. The process the opens the fd
+>>> should not be forced to be the mm that it gets linked to.
+>>
+>> What is the mm representing here? Ultimately we want to install the KVM
+>> instance's stage2 pgtables and (pinned) VMID. We currently get that via the
+>> bound KVM instance (which looks like it still works using the cdev interface?)
+>>
+>> The guest will then install the stage1 pgtables and (pinned) ASID associated
+>> with the relevant (guest) mm_struct.
+>>
+>> Do we _need_ an mm association in the host?
+> 
+> Ah.. I see, I didn't quite follow that. OK.. Ah everyone else doing
+> this is using iommufd with a viommu to establish their connection
+> between device an KVM. eg Jacob Pan's series. That's a probably a
+> better idea to stay aligned with the common path. Though your reasons
+> are a little different..
 
-Signed-off-by: Subhadip Sarkar <sarkarsubhadip604@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just to check, you're referring to [1]?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e75344f4e..f5263eaf8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6249,7 +6249,7 @@ Kernel parameters
- 	rcutorture.stall_only= [KNL]
- 			Shut off all rcutorture kthreads other than the
- 			RCU CPU stall-warning test kthreads.  The purpose
--			of this is to test production applictions'
-+			of this is to test production applications'
- 			reactions to CPU stalls, and with minimal
- 			additional overhead.  Or you can omit the
- 			stall-warning tests as well and get a heavy
--- 
-2.43.0
+I was under the impression that I could open the VFIO device through the cdev
+interface, then bind it to the KVM instance via KVM_DEV_VFIO_FILE_ADD... Why do
+I need an iommufd at all?
+
+[1]
+https://lore.kernel.org/all/20260925190742.1575380-1-jacob.pan@linux.microsoft.com/#t
+
+Thanks,
+Ryan
+
+> 
+> If you manage to get pinned VMID out of KVM then we can implement SMMU
+> BTM as well!
+> 
+> Jason
 
