@@ -1,62 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792502218;
-	b=ATIRNPc7tjJ//MJzYMu3X3PO3HpICnHZUsimeNxBKCCdBtRpTFEHNNK5Oj3rOnc2bjZ9
-	 y8o0Gd26zpiaPkdsRmCH72obL9wLqGTmP0N0HM9zwAAkvNIowQ1F4UslqXYoUXn9vAj/a
-	 CkQwhSCnoi9xZxfjXIizU0EC9+b71QldvOVZhhvUCKTwfl4BhPfCg81FLySlmx36HEUsK
-	 u8eVRZEArrcBUm4JX9LZWM6DR+KqTIMw9Nt2g/ybwuagmuM98CptGUrFCvEJibDWghZPo
-	 ncXgErZdDw+hjfqwtIAuJGsc/PQn9D4BBX1LbW4lEPceljND/G4ECMq7Oq317a1H5GQ==
+	t=1792502410;
+	b=sv9RsiVhEALNPNRvzqX8gUq5bWipg6NCTdcixJDqfONGR8nWraJtcF5m4E7s/6KwrTuS
+	 wpSwvtmNqj26gyeITRyJgtzvinWysCVvRdkqtBGuAx10Vma2iZiTDC7eiDQlJNou6nMCm
+	 uiVuroyLbWQRLiRqt+msb/3z28S3c86bLnu+fPCc1qhlIvVT8K4iXAuVMXo1Hi0F2TXTB
+	 nkYlGXvCeLLh9TfLEW+sTqAGED35lfKVm9GH8ptVVTE4QGHt8qTaVruDeNZ7+sE5kWvml
+	 KyyzUWIVZU3zFnakC1HZSN9EeohwNIX6FPwUm7uiOmGliDOxhXjSL5OoTxU/+2k971Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792502218;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Etd6ucBFRv+2kOi2yYshLpQy3u0L6/x6e/cAweVbOSw=;
-	b=na6kiicE6BP+1791Y985clzc3iJtvKPvXSPSr8FxTk/UHnZWEZ7rEMYPVDKN2L1Ahn3b
-	 qg0bvnpLk/KmXRSayyih/rmKpGwRf/b+83w7O/5P+tulDu74xS9dYrkthAb39fEHLVA1q
-	 ayKyR2rN1FPhOxd4ajEqcglv/eH0Fgca2DhSgMp3fS9zKgSt+ZpHtuGerU0hrRGwRReIO
-	 d7k/4ccGvhzrwOMc4uwIcR31XvBvQrwjZAHR/LKjANA4tvNGv7CsOWX1I0yt7bwn/LA6g
-	 h2hcfDdeBtv3ip1vxL9zmC1jqJ2CMjpuK46Pa2q4tLJ2/h/KkxsTWg92pqb5UY5futg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792502410;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=t4p1f+D4ihXNqpiH1QSa2hiu1MulUajBwYpao7q44aQ=;
+	b=VaH6vAQ1rcIVdp+KtKj09jYbCRRFm1LG5juHx9l9tC6Fz4ZSZh1XM/4bHX0tqABF3kW2
+	 Cjp0Jb40bsCfPTnihQ/Ty00+ZI0ShT2HOfn6LGKbCwziqvnLeZCdjXhttJ0mrQB7M8mbv
+	 FrAjMFHAfEdmuiVwLMEvKtduCnMpR6g0WRCZa2AJ5KAUutq5aInjiWfI+W/YXR+Wsgg1j
+	 Iq4IP12eO+eGtoa8AHeg5FPCmVQHbbijKwDhVVUSJP01IwE0NXyFPyyTDAUaVZzk6wSBH
+	 WMA71TNlL+zkgfSieiw2puMF5kY2Q2v1op0w2sNKpKtV3nORFhYv2PUrdQz+4axkrKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lSo3U/Dg";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fgN9Y+Xl;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F05606A325;
-	Tue, 20 Oct 2026 13:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD46606A33D
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 13:20:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AD46606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lSo3U/Dg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B3471F000C9;
-	Tue, 20 Oct 2026 13:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792502218;
-	bh=Etd6ucBFRv+2kOi2yYshLpQy3u0L6/x6e/cAweVbOSw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lSo3U/DgvqTSwlraWwSAgPECmRJEUs5KxGqJeCP0RLzL0OcBhj+6q3yvZlAwTeGN9
-	 yvt5l0NY62BVsjT7s9GPrNquu4sIswA3VglkICr9Q8tqs0aljuKTEXLj5Z2yK+cBZ/
-	 AB9jJv/nmcYJRcAf6fJqDvfozzWW9RGYPfrulUpiTfl8dsaDukSSgDh74pfswNUq6G
-	 //4tVbfNHuwgiDlB/JjqZ1oFsZd5mpISMAxB+rOW+mp71Yt+JpxoSappWPjbnm07Jf
-	 Xj67C29HMVAuW36W7S1PkCJyU+PECJO5Jpw8OR9idY9MnGNKDFOGpDqRrqCz2L89/R
-	 /AQUqDDP550Lg==
-Date: Tue, 20 Oct 2026 14:16:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
-	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v21 02/15] KVM: arm64: Refuse to start a guest with S1PIE
- or S1POE but not TCR2
-Message-ID: <atdebC62zPS1sQeR@gremlin>
-References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
- <20260930-arm64-gcs-v21-2-3556644cd927@kernel.org>
- <86fqyn2che.wl-maz@kernel.org>
- <as-f1JfUy38Xt9QA@gremlin>
- <ae24e80c-1b34-4827-9c93-e80b987e9cd7@sirena.org.uk>
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fgN9Y+Xl
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48c4be28b82so2507423f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 06:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1792502408; x=1793107208; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t4p1f+D4ihXNqpiH1QSa2hiu1MulUajBwYpao7q44aQ=;
+        b=fgN9Y+Xlbn5x7PAq5kaFOHl35jNjfUkH+VETBklYgYYCJiuTWDxG85CDyX/rkCTRa/
+         qf07NjWobExfHDg1TnaxIRRvelXgvttmfc53Fcq2sP/FfiMagd813Fw7ndebmGcl9bGp
+         DqJatwlXU5wiSgDcDHo8ESCKOsBPQ6LzHmwX05nIpDH3M24kptpvofy8wu0jWRQ63Kr8
+         5lzqYe74DQCl4wYpiG5Po+kWl2MF8TLATgtZn99N5DTIjWFzyf3Hjl0B7Figz/eW+MPF
+         IO+7+FCw2eA+siAzEooWiAvb9WFsFtAzNbKBpxpJ+9uyIbbF7E7qsc78JG5mjFmfNjti
+         IzwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792502408; x=1793107208;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t4p1f+D4ihXNqpiH1QSa2hiu1MulUajBwYpao7q44aQ=;
+        b=upCAu6Qq5ZtkBo6xuHwdK8oe4FN9aFpH6lV3TmCVnZQShnxiwpzseahjB0FlTSNkG/
+         A/5Xs9TYzzR+E29C077IrcBNJSLq6KG5KE7qDyIBNg/7wDTcCvBZjJg2TNDgSEfG0Fy1
+         zSGBACYf8yZwQVUpkSDZv09MxfTYEXRyusjEaTGUdq11Iwp5a9/MTAF1AlHh3fPZsfrC
+         aiZ3qoML6VhlwVKGZcRSj/nYGsU3LrIZOcWKzVZyAtGu72377DCz4FRx66F/Vmo9jPt4
+         TXNXWxnOjVqx6CacToHGk14lANP+N/VTQn/Q1ZC/y9ZQomkfjPd/UMyoU3Jz0hjzHDAy
+         /5tw==
+X-Forwarded-Encrypted: i=1; AKwUvBz38/fx7q9NEhc66BXLTv0xk4E+d1HlpMUxikxH+wgnh9yBzGlL+mEmxnFOkYhh+H/BLqaZ264kpPs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI9uQDKDILJ7bR7Nuw7PYg8fsPDaqXu7W5Cal3abcYLIdfKJkzn
+	7D81PBt7zmKX1Ic9OwG5u85ZN7aUEDc9sTgQ4YoxwTAHLIFHRAbAyAOKOBkqbLdPNtQ=
+X-Gm-Gg: AYBFou0J8WUxDYzGJcsSWbVNWW6PLs2mlcx/Acn092DcGn4trdEPH5FhXbN5MhcV7e5
+	qVVeX0/MJNot66SxJ2j+H2irbVEphZM/XgjRsZQQb325Jr3/+4b/UYu85CLXoFPoZ1ylwN1+Ohr
+	SmlK02HR0etAYcpIpHTKUo3ZYXuDuy+I5V/1kCVkBKvdK93cyyIwpzuZIH80nIooWn2yTUrDDUz
+	V8K6cAC6IaWj9u8bPiEt0DJx4DAc33EiWwAG7cSJBaJpFYIE+P9WQWLaPeltBoyHWFHQvAISaic
+	j7VEObc7WkKs56a6tku2cbbr03cvg/zOKkgCcr+ouQUEpmtevsQgpyEDGorXysJajnVzfo86IKe
+	A7VcvbBC4hxYMOAWa61AFvcV/mIwyHwqLUUxTKV6Hkzb1+DDsmbr7w5HLae1MbhNsBmazLTp/o2
+	iWeYYuKRnc2NWJbfxrQf2tUiHjgxx5ovl9QmQlOGxPKPt/Ol39t695mZ6eDSx4pfg8cYoRERj4e
+	p9raAHcp9RB
+X-Received: by 2002:adf:fcca:0:b0:48d:fbf4:8961 with SMTP id ffacd0b85a97d-48e07bc6c5fmr16247962f8f.23.1792502405199;
+        Tue, 20 Oct 2026 06:20:05 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8208b1sm6409645f8f.33.2026.10.20.06.20.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 06:20:04 -0700 (PDT)
+Date: Tue, 20 Oct 2026 15:20:01 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: Zack Rusin <zack.rusin@broadcom.com>, Borislav Petkov <bp@alien8.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, x86@kernel.org,
+	Joel Granados <joel.granados@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	Dave Young <ruirui.yang@linux.dev>,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	John Ogness <john.ogness@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Pratyush Yadav <pratyush@kernel.org>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Brennan <stephen.s.brennan@oracle.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Ian Forbes <ian.forbes@broadcom.com>
+Subject: Re: [PATCH v2 1/6] panic: Add a notifier chain for pre-kdump
+ callbacks
+Message-ID: <atdqgZQrGbp36_O_@pathway.suse.cz>
+References: <cover.1790014793.git.zack.rusin@broadcom.com>
+ <81cb85568b36273a8e66215b3e6d671b8488d402.1790014793.git.zack.rusin@broadcom.com>
+ <bc783856-9480-3944-67fb-675e4c11d8c2@igalia.com>
+ <atdYIxwz8ksYNty6@pathway.suse.cz>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,96 +124,132 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae24e80c-1b34-4827-9c93-e80b987e9cd7@sirena.org.uk>
+In-Reply-To: <atdYIxwz8ksYNty6@pathway.suse.cz>
 
-On Wed, Oct 14, 2026 at 06:48:37PM +0100, Mark Brown wrote:
-> On Wed, Oct 14, 2026 at 04:47:22PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > On Sat, Oct 03, 2026 at 01:30:05PM +0100, Marc Zyngier wrote:
->
-> > > This *absolutely* needs to be data driven, and we're not going back to
-> > > over two years ago. We already have most of what is needed in
-> > > config.c, and it is only a matter of making sure that S1PxE is only
-> > > enabled for the guest if TCR2 and ATS1A are also present. If that
-> > > means additional sanitisation of the idregs when finalised, so be it.
->
-> I do agree that's what we should have, I started down that route but as
-> I noted in the commit log it felt like I was pulling in disproportionate
-> refactoring given the existing gap.
->
-> > > If userspace decides to expose crap in the ID registers, that's its
-> > > own problem, and we're not in the business of enforcing idiotic
-> > > configurations. The only thing that matters is that the state that KVM
-> > > deals with is consistent.
->
-> > As I understand it: don't return an error for a configuration that doesn't
-> > make sense, enforce RES0 instead.
->
-> I went with erroring out there to make sure that we didn't make any
-> mistakes with the ordering of our checks - I didn't want to accidentally
-> end up with a situation where we look at the dependencies for feature A,
-> decide that it's OK, then later check feature B which it depends on and
-> turn it off due to it missing it's own prerequisite.
->
-> We can resolve that like you've done here by having the full dependency
-> stack in every check but I worried that this would be error prone due to
-> all the duplication, however looking at your code I think we can resolve
-> that anyway, see blow.
->
-> Userspace really shouldn't be setting up guests where we need to make
-> adjustments in the first place, and setting up guests isn't that hot a
-> path so like Marc says so long as KVM protects itself we're fine.
->
-> >  #define kvm_has_s1pie(k)				\
-> > -	(kvm_has_feat((k), ID_AA64MMFR3_EL1, S1PIE, IMP))
-> > +	(kvm_has_tcr2(k) &&				\
-> > +	 kvm_has_feat((k), ID_AA64ISAR2_EL1, ATS1A, IMP) &&	\
-> > +	 kvm_has_feat((k), ID_AA64MMFR3_EL1, S1PIE, IMP))
->
-> This will mean that every time we check for an individual feature
-> throughout KVM we check for all the dependencies as well.  A lot of the
-> time that's not really going to matter but we have these checks in hot
-> paths like context switches.
->
-> > +static bool feat_s1pie(struct kvm *kvm)
-> > +{
-> > +	return kvm_has_s1pie(kvm);
-> > +}
->
-> We should put the dependencies in here where they're only checked during
-> initialisation instead, that way the hot paths only need to look at the
-> leaf features.  We could also deal with the duplication concern by
-> having the functions call each other rather than duplicating their
-> contents:
->
-> 	static bool feat_gcs(struct kvm *kvm)
-> 	{
-> 		if (!feat_s1pie(kvm))
-> 			return false;
->
-> 		return kvm_has_gcs(kvm);
-> 	}
->
-> (or whatever stylistic variation of that.)
->
-> This approach also needs the code for updating the ID registers since
-> config.c doesn't do that at the moment.  Some of the existing visibility
-> limiting stuff (like for 32 bit ID registers without AArch32 or
-> ID_AA64ZFR0_EL1 without SVE) could be moved over too.
+On Tue 2026-10-20 14:01:43, Petr Mladek wrote:
+> On Mon 2026-10-19 19:05:21, Guilherme G. Piccoli wrote:
+> > On 28/09/2026 14:55, Zack Rusin wrote:
+> > > Selected crash callbacks should not require running every panic notifier
+> > > before kdump. Add a separate atomic chain with an at-most-once dispatch
+> > > helper, and invoke it before panic reaches the kmsg dumpers.
+> > > 
+> > > The helper permits another call from the crash path without repeating
+> > > callbacks or recursing into them. Document that callbacks may run in NMI
+> > > context, with other CPUs running and the kexec lock held.
+> > > 
+> > > Link: https://lore.kernel.org/r/aquttpMVKX8e6zGB@pathway.suse.cz
+> > > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> > > ---
+> > > New in v2: separate pre-kdump chain, with a set-once dispatch guard.
+> > > 
+> > >  include/linux/panic_notifier.h |  3 +++
+> > >  kernel/panic.c                 | 26 ++++++++++++++++++++++++++
+> > >  2 files changed, 29 insertions(+)
+> > > 
+> > > diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
+> > > index 41e32483d7a7..3ad390764a41 100644
+> > > --- a/include/linux/panic_notifier.h
+> > > +++ b/include/linux/panic_notifier.h
+> > > @@ -6,6 +6,9 @@
+> > >  #include <linux/types.h>
+> > >  
+> > >  extern struct atomic_notifier_head panic_notifier_list;
+> > > +extern struct atomic_notifier_head panic_pre_kdump_list;
+> > > +
+> > > +void panic_notify_pre_kdump(char *msg);
+> > >  
+> > >  extern bool crash_kexec_post_notifiers;
+> > >  
+> > > diff --git a/kernel/panic.c b/kernel/panic.c
+> > > index 213725b612aa..d78e90abb192 100644
+> > > --- a/kernel/panic.c
+> > > +++ b/kernel/panic.c
+> > > @@ -82,6 +82,10 @@ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+> > >  
+> > >  EXPORT_SYMBOL(panic_notifier_list);
+> > >  
+> > > +struct atomic_notifier_head panic_pre_kdump_list =
+> > > +	ATOMIC_NOTIFIER_INIT(panic_pre_kdump_list);
+> > > +EXPORT_SYMBOL_GPL(panic_pre_kdump_list);
+> > > +
+> > >  static void panic_print_deprecated(void)
+> > >  {
+> > >  	pr_info_once("Kernel: The 'panic_print' parameter is now deprecated. Please use 'panic_sys_info' and 'panic_console_replay' instead.\n");
+> > > @@ -567,6 +571,27 @@ static void panic_other_cpus_shutdown(bool crash_kexec)
+> > >  		crash_smp_send_stop();
+> > >  }
+> > >  
+> > > +/**
+> > > + * panic_notify_pre_kdump - invoke selected callbacks before kdump
+> > > + * @msg: Panic message, or NULL for direct crash-kexec entry
+> > > + *
+> > > + * Dispatch at most once per boot, including recursive entry. Callbacks run
+> > > + * with interrupts disabled, possibly in NMI context, before other CPUs have
+> > > + * necessarily stopped. The kexec lock may be held. They must not sleep,
+> > > + * allocate, wait for other CPUs, or call into kexec management operations.
+> > > + * The message is read-only and may only be used during the callback.
+> > > + */
+> > > +void panic_notify_pre_kdump(char *msg)
+> > > +{
+> > > +	static atomic_t started = ATOMIC_INIT(0);
+> > > +	unsigned long flags;
+> > > +
+> > > +	local_irq_save(flags);
+> > > +	if (!atomic_xchg(&started, 1))
+> 
+> It is far from clear why this is needed. It would deserve a comment in
+> the code and explanation in the commit message.
+> 
+> Well, I am not even sure whether this synchronization is enough.
+> If __crash_exec() and vpanic() are running in parallel on two CPUS
+> then one path will skip the notifiers but it will not wait until
+> they are finished.
+> 
+> But I think that the problem is the explicitly called __crash_exec()
+> is not synchronized against vpanic() in the first place. IMHO,
+> it is an existing problem which probably should get fixed.
 
-Hopefully Fuad + Marc's efforts [0] make all of this fairly easy :) as we
-now have a specific dependency mechanism, and with GCS added on respin
-should enforce all this correctly.
+It seems that __crash_exec() should be called only when panic_cpu
+is set. This is why crash_exec() does:
 
->
-> TBH when I said in the commit log I was thinking of something more data
-> driven I was thinking more of having the dependencies expressed as pure
-> data, more like the way the test in set_id_regs is written.  This also
-> seems fine to me, the checks are similar.  It's just much more invasive.
+__bpf_kfunc void crash_kexec(struct pt_regs *regs)
+{
+	if (panic_try_start()) {
+		/* This is the 1st CPU which comes here, so go ahead. */
+		__crash_kexec(regs);
 
-Indeed. Perhaps the config.c approach will make it easier to convert JSON
--> code also?
+The only exception seems to be (found by gemini) in Hyper-V code:
 
---
-Cheers, Lorenzo
+static void __noreturn hv_crash_handle(void)
+{
+	hv_crash_restore_tss();
+	hv_crash_clear_kernpt();
 
-[0]:https://lore.kernel.org/r/20261020064306.1542865-1-fuad.tabba@linux.dev
+	/* we are now fully in devirtualized normal kernel mode */
+	__crash_kexec(NULL);
+
+	hv_panic_timeout_reboot();
+}
+
+I belive that it is a bug and it should do:
+
+	/* Only one CPU is allowed to process with kdump and panic. */
+	if (!panic_try_start())
+		return;
+
+But it is possible that it is serialized another way. Anyway, even
+Hyper-V must make sure that __crash_kexec() is called only on
+one CPU.
+
+Result: We should not need any extra synchronization for
+	the panic_notify_pre_kdump().
+
+	We might just need to prevent calling them twice if we
+	decide to call this function in __crash_exec() as well.
+	A simple bool variable should be enough. But I am still
+	not sure if it is a good design.
+
+Continue thinking...
+
+Best Regards,
+Petr
