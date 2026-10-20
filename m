@@ -1,42 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792511234;
-	b=hm6nDcpdHvoO3VhIuS8O4cX+qlcZC81vIwlmFccO7Y1Vwgi9wv9Yg09XXHN1FcpyWhjl
-	 EEQ5KDDdPOAXfYJhUCgOWkYolqKxR/ieu/4vCXKQjQVWg8m2gRw+LRzpgI5VLhPMgtjTg
-	 Hug4gNEPM1v7Zf7S942w0qFXJLstA4eLIS05Vi8mJ3Wxf72NPT9TSAeD2lUzZ8q2mdEL9
-	 f1b6z89Ihy+3nWvykqtBfPrMHxaDS+5OfmN6bbdmwJbGSfJxvLHp4jgNXVBUHHGPtbUfa
-	 kaK5MzIaY7naTSa3D5SNxdp3r5zRnN9XOTrieKYjYrUGwHS4l8j73ehzgtfZetLUSbg==
+	t=1792511434;
+	b=0l8KKNggJm5MvGteZZp2vjz58Gsvqdd1K0QzR0I6qgD0LzjLZJJ+SAOYdFgCL7MuoF4p
+	 UCqXZmKPQDI/adN+iYxV5qjCPyIIbvaUOhivL7bhFhQcPV3QzYZgRkXirhIZY0svyUz3/
+	 gRgBad0P+d1DExVrAf9QcemZln0cpSDJy07vN+eTkycl0P6A5k/zCeNv1VRQGejZQADLF
+	 P784CFrQ/ClpwfK0LrPljNxu271hCf72VxyZTKCHsT6bf1p2z1hxJ5fsb24i620E2kvlu
+	 E0BNKDW+YU3ZBUTJbVtFrB90WsoQw8Mv9ic+sGLNoe0tRrifrm+yj6I3jPGlZiyOgjw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792511234;
-	h=DMARC-Filter:Received:Received:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
-	 X-HE-Meta;
-	bh=tsupAq6qhLg8WJSXIbsSaCVk68CgY4BZHyXeD2ZMBNc=;
-	b=E76OoZy9JXJLt7K+nGXsbxmhyStVBkBxPYBDfkXUdv/eSwDgSAtzBMYoqrMPc/Fd8B+Z
-	 TJvPDUj4kjzyLfN6j1zLhrE/FPivHNd9OlNftenq1yxOjIr4O7xWzbsITWX8RaBFjry4n
-	 OpwFEm6Q5/WsbK9C2jzjWXGncJ589EUXDOevscrD/+FAHwMH7bAicw3DIYtjnYEJeApGL
-	 FuLgKTuWiVPN6UR1m7f1qu7PppdoKABWZ31JLuA5QecDIg6UYf0KA/euLjbAidvScm3wh
-	 Ecc5VOUpS/sUDwJWI1pBYYSp/fnP7uvYsKUkXZt6BsNeYJopAgH5IiUWZkIrjlGO1kA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792511434;
+	h=Received:Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=t0bi4tUQr/an9lqfPaXouTWkicH+9GlX4LzyE5eMtI0=;
+	b=yWyB4ikmB3Fi+bqZoOMMlhq2y0nCsZevMvFzIKyBWsSNiC0osu0TvxU1BmuNMRI81rKC
+	 hQqegD6f/3UFiatv70q8mySLph4shJsUtYHtB+7jlBFgDrvyqPt3gTMRUGcKs6J9HsZXP
+	 R4l7ZQFeWuxFAyTcQhwB2A90v7Y7ehpA1scy7kcZM/0XhfZ1TLyA5L/HqKDOpkNlVBpdo
+	 FbVwfvf+5M8lMCgrs3ZTp0PdklbFBqaQU5dj2WygyCmLytnCSbWQIVldp4D0iGwP4TO2T
+	 +aZrvwXrbFF6FBiZT3BDh6IgsYjZxxx15TJmRdLeiZ5HdgbDp0oMzM+feJqMHyK7kAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=perches.com;
-	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.17
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F67606A31E;
-	Tue, 20 Oct 2026 15:47:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F67606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 095DEA7953;
-	Tue, 20 Oct 2026 15:47:04 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 2CFFA20029;
-	Tue, 20 Oct 2026 15:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB9C606A31E;
+	Tue, 20 Oct 2026 15:50:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E55091F000C4;
+	Tue, 20 Oct 2026 15:50:33 +0000 (UTC)
+Date: Tue, 20 Oct 2026 05:50:02 -1000
+Message-ID: <72dfeedcd55b27783c86f1a3ab461865@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Carlos Llamas <cmllamas@google.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] rust: workqueue: replace deprecated system_wq with system_{percpu,dfl}_wq
+In-Reply-To: <20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com>
+References: <20261014-rust-workqueue-system-fix-v2-1-c018b8f870f9@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -46,52 +67,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 08:47:01 -0700
-From: Joe Perches <joe@perches.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga
- <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao
- <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu
- <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan
- <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] get_maintainer: only use THE REST as a fallback
-In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-1-162aea473488@linuxfoundation.org>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261020-get-maintainer-the-rest-fallback-v2-1-162aea473488@linuxfoundation.org>
-Message-ID: <88c5be32a371b5d73561a82a63426485@perches.com>
-X-Sender: joe@perches.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 2CFFA20029
-X-Stat-Signature: bz4xqp5u8abfxisp871g1znyofcfmi9u
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/6wHbnWvehosGk4WnohLoBoJEcwQg6gF4=
-X-HE-Tag: 1792511222-306555
-X-HE-Meta: U2FsdGVkX18z46lUSyMC9X2wSkcGybrf+XXoMvrjgb8sHEHpoPWzP/WnY/jZaiHP4MUYj6ujh8Or8HbklEffRvcOlfVQtxkwnS4kb0KdRvwuGzPwu3eTdEIR+19rjgWPoouLOqoXEVZMUb5CCLA0qXbUGLkI0n7HpmaViAmXAN9somwZvyE2lu55aoXkN7+QPalCNcdLaDGXw5JRkaz++QvFzWReXxIp6IEjL+SB2JYMK8ee2ZWwdcjV6B1xJEfItNuGHpP9Fk4kZcnJq9gxKS3BC6yv2lhsuMNuD1rXkYD8RYuFwv/bIiga85tbzaHbsFuoJLsFXnYtCzLHfk9ul9NsNPfiLF8DwDetcrBuLoA=
 
-On 2026-10-20 08:35, Konstantin Ryabitsev wrote:
-> THE REST matches every file in the tree via "F: *" and "F: */", so
-> get_maintainer.pl currently adds linux-kernel@vger.kernel.org to every
-> patch, regardless of whether the touched files already belong to a
-> subsystem with its own mailing list.
-> 
-> Only add THE REST for a file when no other matching section provides a
-> mailing list that get_maintainer.pl would actually output. Lists marked
-> "subscribers-only" are omitted unless --s is given, and lists marked
-> "moderated" are omitted with --no-moderated, so such lists don't count
-> as a destination in those cases. Files that match no section, or only
-> sections without such a list, still fall back to THE REST, so every
-> patch keeps reaching at least one known-public mailing list.
-> 
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> ---
+On Wed, Oct 14, 2026 at 09:08:35AM +0000, Alice Ryhl wrote:
+> From: Danilo Krummrich <dakr@kernel.org>
+>
+> system_wq is deprecated and triggers a runtime warning:
+>
+> 	[    0.857414] workqueue: work func ...WorkItemPointerKy0_E3runB7_ enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+>
+> Replace system() with system_percpu() and system_dfl(), to match the
+> previous behavior of the deprecated system() and convert doc examples
+> and tests to system_dfl().
+>
+> system_unbound_wq is deprecated in the same way, in favor of
+> system_dfl_wq. Since system_unbound() has no users, just remove it as
+> well.
+>
+> Fixes: 64d8eae3f895 ("workqueue: Add warnings and fallback if system_{unbound}_wq is used")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Reviewed-by: Boqun Feng <boqun@kernel.org>
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-I don't disagree that this is useful but v2: no changelog
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Perhaps there's a simpler and more generic mechanism.  I'll play with it 
-for a couple days.
+Thanks.
+
+--
+tejun
