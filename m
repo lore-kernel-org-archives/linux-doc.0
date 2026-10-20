@@ -1,96 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792535647;
-	b=1EeROzaNfQjnLTtnvcqZSZ6GMQa2uQxkU8uLhPXXfvBBmCRDQez4BEvkS58v3YvUh/sG
-	 Y/BKRBswkfl3MZIcTD8vxR3sizVlASWe7kuTsubqGXLQK7DK7fkRmAZw09ddprCbK1SzS
-	 UiX9M6Dm8Hy7LmHWKkQXH88PQOaj2qmN1Gf9GYveq63OOFkUvsDSfeDRX+I7Kytf2/CMc
-	 GilsBFXu3KN8LF3iyzGpXRQic5k6nSnObwPelqtA4GirRy2F5lZ+SpuyeqpBt8sEtJfHn
-	 lecnB2Wq+uTSBXhKiPO9ZpTAN/tjODoPGm8qenyucCpkYqa56oG7dgB9zkNMMraTg/A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792535647;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ilMa8acf5SBfyXhzvTTwFhD4qHERM2c6bWjfpOKNnKM=;
-	b=itZ8ROO2KXjHIfXoj0p0tD6B7m984FKSIT4OU3Hna2RGK6PBPIskCrHlNGTgRPRb0pB9
-	 cnMBilM+zgu0bGyog8V+mQedTwtYGaP59FWEvF1RyGu0hMFVIZ+L+iYbHhTvPIOSNGjT5
-	 ARtLWF5+UA38lF34SsZTb040EHWYqQgbvIKkhYzi4OUBG9Dx/4tDd7C5GPB+GP6mNsSxi
-	 9p5CLkFdJ42M1nLvGEe4efM5BnMAUksi1F9ktDhB5AtjKfX6ZcUI6scXpht6yg5XEPtMu
-	 nQnTrkYtSnz+0Es8YLiUnPM2o8jzYNkqVSlrQfaMT5TXWdYdwfwi5N8I+ARNtoh+WNA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=purestorage.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=JhwIrbiY;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.33
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792536047;
+	b=fBTXWbwVSLG/MsTcdTf56xq6zAVhg7zYh8ounQuNvH/sqKZConRyrbJzXT3ody8OKrUb
+	 m6GTyIyAGUyToxQf2MYcoyYlpLveHBzi/cs897wV2qsl/kdt8Y+o+nMGnovASonumPzOi
+	 sInVt310AblGJsM8me63KD77I/cSWSw1CHM3rGzIIX0exPdcJQoy3uEmQefR8F2rcQ3oQ
+	 mRCW0aGnt5c3raASQ/Gwi+EG4QSzTKVL5eVSQWXn9I9MlXeOMs9rn6HdCiX8g0hOILNWi
+	 Qu2Y4HmoPIgscuOuLPVYlwC/6MDolya9J4YDETyEz068ram0sdcj9MTincyPwLzgDVQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792536047;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
+	b=MBlEQt1zWmF1YD+4u50mFw+qE3UuJ9uFMIbuFGAaqVjkEOoC6LmYIUo+PrIZQ/n0He0R
+	 fxOc56P07Gnn7gh1ssQ1Y9niVSC196HZEXFqGYf1eUx1kKwjExdE3iVSIfc1k2P0DtM/E
+	 Ux+ykSzANe0CbhDohk/++Zj9ADbLXAEbpOvleMFUFr2crabQEqnaeyg19L6SYVWS8WQ/+
+	 E8RJ6/U6+wMm2yTbns5+kzTZ1AcrN/7PSuJZ6Ii5AA97xJNd9CRy/zety9XHRxMyn9PbO
+	 ZdkWQhoaYAEnKCZrFNkMSmjAhusRifL453+mfUj7Qmor/qBwzRKXj+2L4spd914kM0A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q6rTptpR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.33
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010033.outbound.protection.outlook.com [52.101.85.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE54606A31A
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 22:34:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFE54606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945CE606A319;
+	Tue, 20 Oct 2026 22:40:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 945CE606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=JhwIrbiY
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-35f036b17easo164508eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 15:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1792535645; x=1793140445; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ilMa8acf5SBfyXhzvTTwFhD4qHERM2c6bWjfpOKNnKM=;
-        b=JhwIrbiYKPGN2Ykgg0lcaNWCleSw7MEOkrRv8LgY4lACcpNAlXMkXg4p0rSgr6euDg
-         8gOvbJLePnMweBlan9tyks0vRy0kZdy3yWVn3vJmYebk7fWy4pXllPc1JbjGJaIYoKaW
-         bhMEK3WptB5fjWzu+1u1V9hxCxqW+LIamsfJFeWTfTJEK5+bA9uPeSJGEz1l84DTkdw0
-         I9PO4AW5vycneePGJlhYDaZ9D4azGtaapG2v4HRgUwr0ie1CiQmkXPBrYliEC/58Enob
-         w3bVnxXkNhrKpkNJ48usNwKHjcZrZ7KJk3z9R/2sa+Tu1TobalEAjnaerKJC5rxNuV2P
-         WCTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792535645; x=1793140445;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ilMa8acf5SBfyXhzvTTwFhD4qHERM2c6bWjfpOKNnKM=;
-        b=RoYIJWdna61ibUfBOVlBwTtFO2+XYlKyB+pAgAI2lXG5eTQLjAlhY/aldscjsdDccT
-         LDPWQ15VpDBDhIBu+f1KU2IozD7rZQOiARi69H4/e3Wf9vdwsQJOUtBONI77XokSzUk8
-         AQbpxt1JVHSDUkDgcnQDHeaIaddTi0GUa/t3XbunFVIOJWSjSrxic+0/Ya0lazRayaJH
-         nm5GKMBKhsU/SDBoCfIyAJRczPZyCaaFAD/ROts3/4/VyVp8aQbeO+DTzDL42cV+OiE6
-         bzzxJT+BkyOU7k5iJQqqlEYopF2RW1IDWaW/+SuMfAnfk/i8SMVXB9a+X3w6XQtihpil
-         MQgg==
-X-Forwarded-Encrypted: i=1; AKwUvBxRPL565whzQEnpgyEnPmfcOTjf9UArnrc9HwaefUyDj4oH0un/eIFvha2KY0Z9dn/Y4uhLfpdj2w8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLQoPcuO0Vtg9fE2CYWiIx9v+VL+YsggN7llxj+DqaWWjlyQfuc
-	S7zHO503Y5J8JJBMvaRbsXEw7yZS55xl3smRFxJRxIBjFSIuk03py7XaT6Xpxi7Cm9A=
-X-Gm-Gg: AYBFou3tRhf1pbRoledWVL4VXG+l3dUrFtOE1lPwKUi9+ZliOeFQlHNm1bNlEq7Qowu
-	GoHoMsdpedvPAZ/k4E9lNFz1ZR2IEJej6dLpy1pfRu5NqAqX+juX1WmvInpB5i+ylC6X5bKEPWO
-	PgImMD+904Sr9IKP2an3uRTiZLeu/ZffKwkHp6lUbg0CO6Z772+IayIdwvMwmY2k7teCc9q9Kyw
-	H9gNn7IjCIg3xwixXEgYrzPNMzP6Z+qh2iwGA8Mh088HpGayGXCy1csTHjzG0i95+tKubIb97ZV
-	hKadj313DYfq4BYYq03nshTWKCffDEephP2tfBpKCjXL65JBm8tJ1M31UJ4ZrX5mShOsZ1zUy3u
-	Fgpu7wFaC7eo6kE9dwSk/ejwDHYPLDZlx+GlADbrEw+p395+eWRVmkwnOMIoGcUgKEj+qFycooJ
-	t8VqUI/EyC0lTLmu3LhAPPSr/OyFxFso07wdfbR1lHLuLLX18VzYWKSguc7mhULBXdreGFb6ZjY
-	RWbFw2z1yVhpIhZ0RvZnfocbwsMoA==
-X-Received: by 2002:a05:7300:106:b0:365:f73b:510b with SMTP id 5a478bee46e88-3674e450faemr875743eec.13.1792535644539;
-        Tue, 20 Oct 2026 15:34:04 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3674206d1f1sm1519517eec.28.2026.10.20.15.34.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 15:34:03 -0700 (PDT)
-Date: Tue, 20 Oct 2026 15:34:02 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Md Haris Iqbal <haris.iqbal@linux.dev>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
- injection rules
-Message-ID: <20261020223402.GA1582237-mkhalfella@purestorage.com>
-References: <20260928221634.43239-1-haris.iqbal@linux.dev>
- <20260928221634.43239-2-haris.iqbal@linux.dev>
- <20261005084917.GA9160@lst.de>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q6rTptpR
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uOziGpDIHR+qJzpbB70Jdvgh/4DN/ZJFZlCLZ8cR0kRYYTku3vICEqyF7V9q5EfQseRVwceDJQBRocg9Ole8b4Ag7Z6jpV9ibSbZa3XgsLzOGRTvSSemdASzQa1gOOebzNI34EwqWweq+dJdkK+n6PIe0IqHaMT5vDFFj4RQG9ecgIcFSffh56DS4Ow6ecIJaRTfoxa8P7rJFwod3OMIDCxaZRI4ZJA7cI8RcEjvPtJrDK0GQouha5HUKRyaugEh6/8SNGGv5QO1gu+a8G/SL5FFsbh3uugc7TCZzIXFsCvc85Owj4CnG9v6QmNN0PsKdr4mDenaVs/dZUQTdECKvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
+ b=ROpvYu+s3u+z+zO7I4LB2FcOE8XqRJRO5/ai1ED6l4dSYzZSkyeG6I1fPMKJYzBFAAjAjUo1WcYyi/eNNq/FAcF368xj13mMMQ5mb4kcOyy2ZI2fHfnv6577S9qzymqk05JjsxxZDrbqBW5U+aAUWB/JIxX3LxmN/lv6kz9KONu3CvWL25Z9mGBtL+HEB2QigLoIGJZQjV6L7OQfSOoEYPQ5zmwxawvt5HU352/dQ/U9lCH+pVHMJ/HrN5N09PyLogogKub9P0ZZVerLOrih23axbW1f2e2yTQvvn/6hOPkd6hKm+jaF/YKTC25+3I2YH89BiMeb+fitM8l7GayQGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
+ b=Q6rTptpRn1iyQcxYU6qDdIr0uzH6qSPnpjisHRd5Z/wtvxDgKDfj3ap07Vxyq1M4wsp8kBPiiNbwRYSIhX5m/6lVyC4ULAM01UogGOrg1aghzAEaXYkiLHHenjI181Nh1R7KaIpArflawzMwwMNT7HuMbN3BOIVvAaiCGLaazUY=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by PH7PR12MB5901.namprd12.prod.outlook.com (2603:10b6:510:1d5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Tue, 20 Oct
+ 2026 22:40:39 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
+ 22:40:39 +0000
+Message-ID: <dc9f3713-8041-4b54-98c5-4ff262b948c3@amd.com>
+Date: Tue, 20 Oct 2026 17:40:35 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/18] x86/resctrl: Add PLZA configuration definitions
+ and data structures
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
+ ben.horgan@arm.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+ akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
+ elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
+ kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
+ ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
+ ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
+ prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
+ elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1790867441.git.babu.moger@amd.com>
+ <608876cedf5eece3f8b9297bcf21663a86a6380d.1790867441.git.babu.moger@amd.com>
+ <bf4bd727-eac2-48ba-ad85-539a818524d6@intel.com>
+ <c557ea83-11aa-4747-b305-93d554d3fbc4@amd.com>
+ <dde507b4-6592-4450-80c6-41af64c1796b@intel.com>
+ <ae45849d-8260-4a34-a860-51a309dafa29@amd.com>
+ <7f14a2b1-2d95-4606-9242-eba62afeb856@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <7f14a2b1-2d95-4606-9242-eba62afeb856@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DS1PR07CA0005.namprd07.prod.outlook.com
+ (2603:10b6:8:456::9) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,120 +117,173 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261005084917.GA9160@lst.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|PH7PR12MB5901:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5fc32949-5b80-4ff8-e7dd-08df2efb2a6e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|7416014|6133799003|22082099003|18002099003|4143699003|11063799006|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	X7wCmYecz93wS5xsdDKh4fHktvzdWLR8d5KFF+uo3snIh8U9R1TzUqrngKqg8ye3Y8D2d5Fsi9QVtBmhu4YGrsPbQutFd1bhttCwiePSxvlSZl2GfB+o/0+P8XVytQzjyfQ8jqwgVxouigSuk7DuFxctwfvmRbKNeXpgEf88X05PI5SHfve53Hl7s7uphk6pBaxL0BMz9T5GK7zAi2yjP5BPH52+RwBGCQkzrh62vWUR/wHmJXjHc0tq1mBBUxKCiYBB7HQ2xf3SSu5j6taJSElVIt96rumdOf9XYLtFtCUBl4tduZmtRgpq1s2HxRI1PnOEmwJKb6dl7ZRlcrf/Dlq6zZWTqc0dG4YjsVrBI7foMdRj1kj1qKfzFYnLRuskbYMgOq+BtJj1+LZHQyULDP+4NjVWnvx10YTsDp6KVI7NOxuvzV4A3mWOuLkAvBtMIWTrE8aFsG3KIYrQw0OzfZUc6V16TNjVPW7tzB+/Bt2SlY0WYp2hdGgi2q5fG3Gx9zuOstXu2ssiRYRJ1l6HH0pTFObrh4rJsnBqQGPXzqdM1NGhAyeGT0Tv2dn++s8grnGMkoWqW/UzjDTK7epnZKoRsDHWeozDqw0JsOYZ6eM8c0lxi9gLUxktIzUwQa1+Yhe1K2bto+Ss21hh/3splBi9MGxSb44uToDQKzdLiMc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(7416014)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Si8yQXYzM3FZY25WQW9zTFRSbHRMNUFGUjlneXgvVmJUREpqVDNUSnRaR0Vm?=
+ =?utf-8?B?WUUwRTM3eVdqd2tCdHAvY0NodFlzYVdQVG5HaE8zKy9jTXJzbnlhNit6Nytu?=
+ =?utf-8?B?U05pL3RBaXZ2U3hpd09kOE5Nci9mQWFUc3FWQ0dCa0NZdEVoc29Oc3lvLy9p?=
+ =?utf-8?B?bXlPcnQ5QTFlQ1dVc1VkcExzVDQvY0hqTk1SZnc5SnRuTm0wR25qaVFYeW0x?=
+ =?utf-8?B?ZkQ4SkIrRGZwUWRSaEI2RElaQjFTdzMxZ3QxRUplWE90SURYWjRXSmVRTDZM?=
+ =?utf-8?B?N29SVGEzenZBNGpOU1Y1NTloUTRFQXp3Y1RuV08rMDhJSDZzZXVoL0VzVGk1?=
+ =?utf-8?B?N040ZnIwdkViYlA1eXhaOCtmY1A0NlB4ZVEvV2QvNXp0TGVaYlJNNnNsQkpC?=
+ =?utf-8?B?ZVo5TW9PZlE2TnBiZDcrUVQ3TnZVejB4cUduODJNZVdyZDdZNlE0ODZ4Yjk4?=
+ =?utf-8?B?Z0d1ZHRSeFVGa0ZLaVR1Rk5RSERoMUs2TTJGdEJjYmdQSmMxaDdGTUt4RU9C?=
+ =?utf-8?B?K3gvMDR6bGJsOFBNVVJudnpCZHdpM1Qya1JEMXIrZ2ZXWmZpSllpT2JCOUh4?=
+ =?utf-8?B?U2ZkdFd0d0ZreFRZN3lJb1RVODlWVTRPRnRaL01FdEtWNFZLczNLVVFrWm5m?=
+ =?utf-8?B?ZHV2UXpnVzQrTE02U0JkaytZcWFRczJqN0J0ZTMyNWxpSDBKRlZ3WWNrOE94?=
+ =?utf-8?B?WjBCRW82SXZvaE1FOXVKT2Y4M2FXZGczR1Y2MjU3OVZnSzBYZjZrbWYzVW5Z?=
+ =?utf-8?B?V2lPV3dWaE9OZVdIOGQ3ODMycncxNFhJb25vZmVvSThERVlaTFR3VS91V3Fs?=
+ =?utf-8?B?TEo5b2hLdlJnVXIxeTNaQXZ4ME8wOVEyYXdxVUxreWw5aEdPTVI1WVd5WVRs?=
+ =?utf-8?B?d2NKZHJ0S3hxay9wT3Y1MVhHZkd6ZitiWWpOVkY1WmJoWHcvQ2N4WGtXOGM3?=
+ =?utf-8?B?ZW85bTFzd0pjREh0MklYT3BNeWxnMVVKRGZkWGJYSU01Zm9DT2pMUFNuY1NE?=
+ =?utf-8?B?L1BvZERLWnkwckVSdEd3NFQxNnZycHVGaklucDRna3VTUXBHcXVEWkpzN1dk?=
+ =?utf-8?B?czU0NGdJRDBuY0xhaEtpNWpYRCtZT2hlUUh4VnJiRlhPYVlOaGlCQVNGOWhP?=
+ =?utf-8?B?b2pGcmlZeWQxWFo1MDZiaGllY0VaN1p3Q2JHZ2o3U09DTTkrdHY3QlBjaCtD?=
+ =?utf-8?B?cHo3eUx0TmgzY2IyNTUzY0NMK29pWjFkNnhObnMzNjBwbkZNeUQyWHlMMDB5?=
+ =?utf-8?B?emRkWWozRlVJcnFJQ2hUenR1UmhJUXp0MFh3SFJLY3UyUUhXbnFWOFdNUncz?=
+ =?utf-8?B?cVgrQ3RzVkpZMTBIUWNzcmJETU1oQ1hEYnEvVnlKZnFyeWk5SlZmejI0aWNQ?=
+ =?utf-8?B?UEZnYjZFREZWSjd5UjNVcUdsaVM2OVdBcWhLeVptRUFMUjcrV3NHUVFhUkNO?=
+ =?utf-8?B?STJZQlNOSGs3bXFQN1E1K0R3OGFYbVVUanRqSkZSNFdMd1d4czlUT1Y1blVx?=
+ =?utf-8?B?c2pKelpZUXZ3bDFWOUhBbEdSbVJLL2RxK09lMFY1aFFJeU5hdi8zYmsyeXkz?=
+ =?utf-8?B?bUxsNkJWc1hOSlhRM3BCTTg1VUZlTHJGWmltTEpYWEtmTDh3MElKNjZBWHVE?=
+ =?utf-8?B?cmJjaWVXbFdtNEtGSDNNZ01EYkw1WmhNZXhLdUY5TzZUUk5qZXl0dGNvRnlQ?=
+ =?utf-8?B?ODJCVk9lbCtWbWs2ZitPc215RlN3NUc3ckdrN3Vrb05XWE43M2sxL2ZJU09u?=
+ =?utf-8?B?Rk5ISm85UmMwSXZEVjV3dEIvaW1pMEF5blNpUnR5VlEzeHRRUFZNV1FWZlFv?=
+ =?utf-8?B?Zlg1T0xzWlVLMW5ueGw1NnNuSE9Dbmt3K3k3ZldjVXFmdjJMNE1oay9lMnBH?=
+ =?utf-8?B?ZDdZUWV5ZXZqS2U4UnVsRUkwUDVXQitqc2pCajdtQmpEOURnY1JoYzBRUkto?=
+ =?utf-8?B?SU14YnliZHBzNjNVaGN2VGxvdmJocUowcG9DemZLWFRyT3M1UlVUaFFXZ1hz?=
+ =?utf-8?B?OGMyWjVUbXJqN0FPQkdTV1Z5bUJpOTNYcTJacWMrS0puMjlqUUV6Z1pSUnJ5?=
+ =?utf-8?B?WmJBRm5UMm5vL0JoR1JiWVpNNGRuK1d4UEM3VDQyVTNTNXFSdEp2UTlVcnNn?=
+ =?utf-8?B?cUlJTEgreC9FRTVvZU4wLzBZVTc2dmNoZVllMC9PUjVGaHZEcEZzdFpndkx0?=
+ =?utf-8?B?MmFXSlhHUFMyc0tVZFFDeFdHd0k2c09VMGt0NVE1d29tc3JzUllsTWI2NGdW?=
+ =?utf-8?B?WFhOUjArSE9DaWR5UFd5MGxQMlhKbGF0QUdTN092NTYwRFlTNGtrNTFhTVJG?=
+ =?utf-8?Q?Z8Kkc6MN/OirSpOWPx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc32949-5b80-4ff8-e7dd-08df2efb2a6e
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 22:40:39.6093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m8Ndp0HUSMhs7E9/NAzltjts6ACXgnA+N1Zg558/QoFDa8ui1P5L97jqYaZgVcCV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5901
 
-On Mon 2026-10-05 10:49:17 +0200, Christoph Hellwig wrote:
-> On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
-> > tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
-> > tag it does not recognize, so a caller cannot tell the two apart. The
-> > block error injection code (which is the sole user of this function
-> > currently) relies on error_inject_add() later to reject adding a rule with
-> > status=BLK_STS_OK. This is okay for the current state of error injection.
-> > 
-> > The delay option added in the next commit makes the rule with status=OK
-> > valid, meaning the function tag_to_blk_status() now needs to explicitly
-> > match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
-> > make tag_to_blk_status() take a second param to update the matched status,
-> > and return true in case of a successful match. If a match is not found,
-> > the function tag_to_blk_status() returns false and *status remains
-> > unchanged.
-> > 
-> > A repeated status= where an invalid tag comes first is now rejected
-> > instead of being overridden by the later one.
-> > 
-> > Cc: Christoph Hellwig <hch@lst.de>
-> > Assisted-by: Claude:claude-opus-5
-> > Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
-> > ---
-> >  block/blk-core.c        | 14 ++++++--------
-> >  block/blk.h             |  2 +-
-> >  block/error-injection.c |  7 ++++---
-> >  3 files changed, 11 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/block/blk-core.c b/block/blk-core.c
-> > index 13dc70e8f55d..c45846b9c50d 100644
-> > --- a/block/blk-core.c
-> > +++ b/block/blk-core.c
-> > @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
-> >  	return blk_errors[idx].tag;
-> >  }
-> >  
-> > -blk_status_t tag_to_blk_status(const char *tag)
-> > +bool tag_to_blk_status(const char *tag, blk_status_t *status)
-> >  {
-> >  	int i;
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
-> >  		if (blk_errors[i].tag &&
-> > -		    !strcmp(blk_errors[i].tag, tag))
-> > -			return (__force blk_status_t)i;
-> > +		    !strcmp(blk_errors[i].tag, tag)) {
-> > +			*status = (__force blk_status_t)i;
-> > +			return true;
-> > +		}
-> >  	}
-> >  
-> > -	/*
-> > -	 * Return BLK_STS_OK for mismatches as this function is intended to
-> > -	 * parse error status values.
-> > -	 */
-> > -	return BLK_STS_OK;
-> > +	return false;
-> >  }
-> >  
-> >  /**
-> > diff --git a/block/blk.h b/block/blk.h
-> > index 2cc03aa54c53..5fa54162c686 100644
-> > --- a/block/blk.h
-> > +++ b/block/blk.h
-> > @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
-> >  
-> >  const char *blk_status_to_str(blk_status_t status);
-> >  const char *blk_status_to_tag(blk_status_t status);
-> > -blk_status_t tag_to_blk_status(const char *tag);
-> > +bool tag_to_blk_status(const char *tag, blk_status_t *status);
-> >  enum req_op str_to_blk_op(const char *op);
-> >  
-> >  bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
-> > diff --git a/block/error-injection.c b/block/error-injection.c
-> > index e14bc4b723ef..db543fe27630 100644
-> > --- a/block/error-injection.c
-> > +++ b/block/error-injection.c
-> > @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
-> >  static int match_status(substring_t *args, blk_status_t *status)
-> >  {
-> >  	const char *tag;
-> > +	bool found;
-> >  
-> >  	tag = match_strdup(args);
-> >  	if (!tag)
-> >  		return -ENOMEM;
-> > -	*status = tag_to_blk_status(tag);
-> > -	if (!*status)
-> > +	found = tag_to_blk_status(tag, status);
-> > +	if (!found)
-> >  		pr_warn("invalid status '%s'\n", tag);
-> >  	kfree(tag);
-> > -	return 0;
-> > +	return found ? 0 : -EINVAL;
+Hi Reinette,
+
+On 10/20/2026 4:47 PM, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> 	if (!found) {
->   		pr_warn("invalid status '%s'\n", tag);
-> 		return -EINVAL;
-> 	}
-> 	return 0;
+> On 10/20/26 11:02 AM, Babu Moger wrote:
+>> On 10/19/26 11:16, Reinette Chatre wrote:
+>>> On 10/15/26 4:07 PM, Babu Moger wrote:
+>>>> On 10/15/26 09:22, Reinette Chatre wrote:
+>>>>> On 10/1/26 8:10 AM, Babu Moger wrote:
+>>>>>> Privilege Level Zero Association (PLZA) enables the kernel to switch to
+>>>>>> a different CLOSID and/or RMID than those used in user mode when entering
+>>>>>> kernel mode. CLOSID and RMID selection are independent and can be
+>>>>>> configured separately.
+>>>>>
+>>>>> That CLOSID and RMID are independent on x86 is clear to me. That they can be
+>>>>> configured separately is not clear to me in this context. What does this
+>>>>> "separate configuration" refer to? Looking at the later patches kernel
+>>>>> mode allocation and monitoring associations are always configured together
+>>>>> and written to same MSR at the same time?
+>>>>
+>>>>
+>>>> Good point. Its confusing.  What I meant is that allocation (CLOSID)
+>>>> and monitoring (RMID) associations are independent PLZA features and
+>>>> can be enabled independently in hardware. For example, a platform
+>>>> may enable kernel mode CLOSID association without enabling kernel
+>>>> mode RMID association, or vice versa.
+>>>>
+>>>> Yes. The kernel interface configures both together because they are carried in the same IA32_PQR_ASSOC MSR update.
+>>>>
+>>>> How about?
+>>>>
+>>>> Privilege Level Zero Association (PLZA) enables the kernel to use a
+>>>> different CLOSID and/or RMID in kernel mode than in user mode.
+>>>> Allocation (CLOSID) and monitoring (RMID) associations are
+>>>> independent PLZA features and may be enabled independently by
+>>>> hardware.
+>>>
+>>> Which CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid) and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid)
+>>> is used in kernel mode is different from whether the CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid_en)
+>>> and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid_en) is used in kernel mode.
+>>>
+>>> This series uses the high level "allocation and monitoring association" term
+>>> interchangeably for both of these meanings and doing so causes confusion.
+>>>
+>>> Please pick specific terms to refer to the CLOSID/RMID assigned to kernel mode vs
+>>> whether the CLOSID/RMID assignment is enabled and use it throughout the series.
+>>>
+>>
+>> Another attempt to capture all the details:
+>>
+>> "Privilege Level Zero Association (PLZA) enables the kernel to use a
+>> different CLOSID and/or RMID than those used in user mode when
+>> executing in kernel mode. CLOSID and RMID selection can be
+>> configured independently.
+> 
+> First sentence already contains "and/or" so I think the last sentence can just
+> be dropped.
+> 
 
-Doing it this way will result in use-after-free. "tag" has already been
-freed above.
+ok.
 
-Maybe change tag_to_blk_status() to return an int (0 on success and
--EINVAL on failure) and use its return value without mapping it?
+>>
+>> The kernel mode CLOSID and RMID are specified by
+>> MSR_IA32_PQR_PLZA_ASSOC.closid and MSR_IA32_PQR_PLZA_ASSOC.rmid,
+>> respectively. plza_en activates the PLZA operation, while closid_en
+>> and rmid_en independently control whether the corresponding kernel
+>> mode CLOSID or RMID is used.
+> 
+> Please aim to provide higher level description than what can be seen
+> from the patch.
+> 
+
+Ack.
+
+>>
+>> Make the register and its field layout available so kernel mode
+>> allocation (CLOSID) and monitoring (RMID) selection can be
+>> configured independently."
+> 
+> Apologies but I really do not understand why the "independently"
+> distinction is needed since these values are always programmed together.
+
+No problem. This looks good.
 
 > 
-> to keep the code a bit more readable.
+> Here is an attempt, but it is written without knowing which terms you have
+> picked to stick with:
 > 
-> Otherwise looks good:
+>    x86/resctrl: Add PLZA MSR definition and field layout
 > 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>    Privilege Level Zero Association (PLZA) enables a CPU to use a different
+>    CLOSID and/or RMID when executing in kernel mode than those used in user
+>    mode.
+> 
+>    PLZA is programmed per CPU through MSR_IA32_PQR_PLZA_ASSOC, which contains
+>    the kernel mode CLOSID and RMID, an enable bit for each, and a bit that
+>    enables PLZA on the CPU. All fields except the PLZA enable bit must be
+>    programmed identically on every CPU in a domain.
+> 
+>    Make the register and its field layout available in preparation for resctrl
+>    support of kernel mode allocation and monitoring.
+> 
+
+thanks
+Babu
