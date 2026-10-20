@@ -1,87 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792506951;
-	b=sRYwyVmgOoIFfRLraylxxoQjJp7YwW4oC6ENA2W6zot5NDFwgVqd5RVCpMfCjYrXoBbi
-	 G3f+BsJBv13o1ht+pKcKLNLnNcUqDqCFvZlUH++Td3eLTAx3grfx3Gu8OnFOuNNgQCLvK
-	 M7Y3y4RitMEhkfba4JGmTGrFcf0wMCLGtX6wF+BdziXOJr6ZenIReVuLL8QAPxxcypJho
-	 vNhns9CbANBr9x0j6fDuaCLSioe2qVdKCQKEn7BPGq/8ukT3uALBWyhMbygiP9JdYn2Ur
-	 MW4dfPF77p9yv2Xg94VP3YPfuvIh05EeBowkkNPDJ9ykcSap/Tfg6OxSjpjYEARiZTw==
+	t=1792507545;
+	b=KuirHMTjFHtvmoSv5hN2DE6+U9DIkivDgxoXwrMInwT2j/t3Dd2Q4rggu1TkGl6DBzM1
+	 Rm7l+wsERorTjoOv1ykACOqmNNW3Zpt8MLHO4Psq28gjW3Pd2FeAeg2B0Cg+l4Keox7T7
+	 qWTzkFV+ii3lVDN7eQrA6oDhRUlMYAq6PnY9+91gdmFH+PgHvuBJR01B/3d+0gmgzgVcH
+	 b4cn9OeO+G5+3LnbKOBvQRjyM2wCHbu0gEVXrFV93YdKKBcW/Q+xHn6gbqE1fK0ig2Ehn
+	 8jRezdOgj0TPYF+30+VorPLyXPQRhWegh9y043eLZee48JieNZtubaBQbUFvPeyyCyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792506951;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
-	b=fvXwquD94cCFpQdy7jzo+wjMiTUSqEQ252YfDhqbhEyN6RECBsCy5/oN2VpsNXZdS+8Z
-	 qmkXM5QF0QG8Wq70MoNemEbZwcdk/7KXnq1eOG7NLdEnvf9Sz6aDQIljEcpL4Pg4fJGBH
-	 21nD+ijvNq1XGg3MPPbGDwruhe3B5zO6XfikHwp0firn71HU+S6BLFjEDlRZ6nojS3Vhg
-	 gevMApgqB+qb5yILw4Bge7m99qlikq4IO8mEVJHopzd1x7YU6dcTuFcYcQiQhk+DLjj2l
-	 F77wjHPuxbMCswYQSirj8APoZwNOeY4+Y7E/UHFj9Jrtk/6QOyyuKnz1ISEc2s4BdTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792507545;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=8dbti84VQZnRoyeZV4350aERHO6muqhqQOQJux036u0=;
+	b=aeYxWniD722Qbk9ODuUXt0LFYhlCXDK0NjvEh2GFSdLjsd/jJ9hANp9S+fVwolPYmyHg
+	 ZZAecsuskTbYYVXweQNJR4n+BG4+RU5Ogggf93jcI/DSW6qfuYu03GY6VjwQZCZsZqrbZ
+	 yAKjXaqJ8z7yua4KWvxi40d1IVKGbISbjkbx20whWbaNuZdx+e894rcMGFADaqh4e3Pvy
+	 1J2+SiKPd/9FTCCt2G0lj7O0rndw4CZgHPdN7RXPdayEq/RMotaqbJpZvS6tdsKJSHV+D
+	 iLDH/R4YX/m5i6UBbM6hfJRYDEn6KYG4TBf8CKsAAJWFuhLTSIyrKgMB5ONKzq3CkSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="Crh/ID8A";
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hLMMg0QP;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AiixKM7c;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20DE606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:35:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B20DE606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073FC606A31A
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:45:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 073FC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Crh/ID8A
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso36554215e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:35:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hLMMg0QP;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AiixKM7c
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KDA5Bm2809827
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:45:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=8dbti84VQZnRoyeZV4350aERHO6muqhqQOQ
+	Jux036u0=; b=hLMMg0QPCCSRW1jxQN0pwOX162ofZo2sdj7Uph673jP7aGe2K7a
+	/+rirvtt/Grar/hgd667SoVlXSplzEGDDDZ2NfWUXoDCmVN5b4qUntDRnmbmPLZW
+	TgfzPoiQyXQCf1RoWSLOXotJ0wH6C0ONGfHtpf68OfTxQ9XpSXEmemUvvSEcUhfK
+	xtCT8PjJSns+Z0jTYP0aRN2P5+wRFQUunr59qVRYQeM5LCKy2dIRZR2ECaXM3M7F
+	b5227oqMXtn7yoi7dcJdPnsYWxi+5W/PlyDAdAb7PqjJvuopDwM6yUDomyci9D0t
+	X3Yb9E/vByA3podX9AoPFZUamMaceyvF+2w==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdw5p2yuk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 14:45:44 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-934956beec8so701587085a.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1792506944; x=1793111744; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
-        b=Crh/ID8Ae/mzmaKeyac7ZP6EU8IT41BFrMx83893X+9GKQ/4/sNMSub7qoxtpc6PG2
-         6m8nyvMShtOtuG8PglZayW9ZC20K8aBxUW9ZnrETWBjnRAJx054aTSvOMZ9/DquOCe8V
-         //W8RY/1bu7/oJgXw/rzX6osp4vPiZ+/okA5I3PnL7yVoAYddKGJJTK/4A07b7nmcf1N
-         a2raJUfdcCOx97Yc6BVkEoO3hi7nE9yzRpJ/L7gmUTWs7HZIcTprsTULjzmjka22E3AC
-         Bqw+TJf11lg1BUbe/RTeWDkwj1yLorw6KjuY2eXVLPuyCejS4VruRX/k4qHQmT8Wya6J
-         Rg6w==
+        d=oss.qualcomm.com; s=google; t=1792507543; x=1793112343; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8dbti84VQZnRoyeZV4350aERHO6muqhqQOQJux036u0=;
+        b=AiixKM7c3pezyKQVLd/LBGuIZLym/YwVBCn9cslknsPTk4Xe3rW5o16DpINd83xK7n
+         7dy251gV7On5WREI5Zz5V7cJRsh1Pnp0vdTP/5/9iq7MQBmlGoP3B+OHllIqnyzQV6/8
+         f65Cadulv4P8cVSjtR0XdWhMLBS4ys2GB4uxTSk07czc3yXG5d43ROJFwKnY3URIVHBW
+         whpLFqRFJs3F8P/3xeY/qKvLzmDNjw0L7D7k1Nu7X3MEH22vVYneJ6plDKaSjifZvMFo
+         84Ws5i7zoCDmxUIqZT4PWJb8WT41PpWsRbcZzRvaMqlEZhkmJLICUFDLiIqqQmsFG4e/
+         LygA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792506944; x=1793111744;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792507543; x=1793112343;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=v4Iip/s7oVuzCnYoFEs3DZuJtsQZW95G7/pZOVyPUeg=;
-        b=UhVCjcxEAuOFtwWPdb4Oe8C+ZURlNMQml1L8RZdHRCf+OfAknVQXyVPP+94eoSpmbL
-         DwPfuSdowPfICAjI4xAy5tMX3HRSEkZjK9iJuZYfwkJXnGx0DUqAJuLwGlYFyd8cTJ9x
-         GGMKbRxRrdrs9hB2czFtHtF8l5sMgSriBe76VaYlodO1/b+2bOxuEAo933z6DzoLq0YG
-         l71iDl8Mjwn+K0JB2G/4H0B3bMcOTQJhmlqNHrVfvzUM+/kwjIb2E40RQbw0+sW8M47k
-         oN6dK3vkBrAITqDU5RM7Pi7YN8CW6ctFPIRtFwx5X79MPDo6SNLNEIy8FJSMABBk141/
-         G8Vw==
-X-Forwarded-Encrypted: i=1; AKwUvBxd5oFAiy2D76figpWi2j2jTnYOsaR9uzDrYAWzchU0ierZ9voIvcSdI6mQ8uhh6W89BHoj5guyhrg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJX1CsnbpXgXsAKW5w1OT42LY3jBlX27SnSUfYlr7ZKY+RN61ui
-	GdqvGLCVAlq6DTefoAiiun7KhnQpD8RRTOS7KyaCah8ASRLyg6cd+A0KnVj2cKOzUHo=
-X-Gm-Gg: AYBFou2EYSMXi8M91nrbioiJLWKkTXXZHPIK4Iu4firMS5YfPhudApsfomAeJU5oiWi
-	RiyewRgin7clgFWgdFJMOzlVfT1IWtV2+ifXV7nYCayzdlaEuKsUDjjkytasxHCj/LRpw+qGFet
-	Mu6XByBnt3A4kcux/Ov2BJMhjrtjjeOSfOoHI/RHzlj918yvY5gMZ2d/cBKC9hQbe+l6H0ygxzd
-	Odo7V8K3GpkEizt3J7DnCWuLJD8nuKbm/DOq9TeVlni3vyEH4ITJ/avGe8cCLljTXccr0zg3GmM
-	v0lbO1+Y0ZbOA4Ue0neO5sGRfnjXAW50rAgquYb5ZOxzKqtKhXnMzHRrJwe++GfgWoXCS3B7G+7
-	J88GmKmYjG4wOSpq+qgZSBKKRMOy4Nwr/bNUBDE5yhXaW2wgdR802zGQrQVAB1qfaUmF6LfL2at
-	hjA4E0+WBD4aMZQMiS4XqsRxBSpk8OEAOlDvdUE8nZ4EuAEX0KlDqCG2iZi5A3Y0pHmP3aHmr3u
-	WZG21Gzvt76xA==
-X-Received: by 2002:a05:600c:8709:b0:4a1:7b05:3a6d with SMTP id 5b1f17b1804b1-4a1d75e6fa6mr206342555e9.8.1792506943206;
-        Tue, 20 Oct 2026 07:35:43 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d6e2dbsm82506805e9.13.2026.10.20.07.35.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2026 07:35:42 -0700 (PDT)
-Message-ID: <0792487e-b6fc-4b9d-8120-83281a15217c@linaro.org>
-Date: Tue, 20 Oct 2026 15:35:41 +0100
+        bh=8dbti84VQZnRoyeZV4350aERHO6muqhqQOQJux036u0=;
+        b=s3EUDgVahuFprK79ft3I9JOJG7ius1dLy1gwjx4pZ9m6Po7RZRgeparS6JwWBvC2kP
+         CqtRYcZtcx3VKBdrJGzOcR4FCMprMEsTn8ZwFOClNBSd3ruiiYssHndSIogcid44xpWB
+         72+RxrbyNCaqLl5BlU75ntiYbguHQq/uGiz6d1J1pAYQdtcXVZbJsZFoWedi1VZ+GfBu
+         vSyk46BXLBD6ieExlSQHNJCwVp7z2l9vpZE8q0/UBqRcOdmy/TU/F0Qmna/jjfHOlSR3
+         mXmuzKikn80P8JL0C59J2gAcBbQ+fyAFKvr1VVvz4EEoxKaicRKw4z0N2zXvRw5uHlJt
+         BVgw==
+X-Forwarded-Encrypted: i=1; AKwUvBxWRJEQ5DdPN26WVPwouuo74JO13Y/D+e6rcdNAL+aRfL95xcpXAsVxdpS4v8GcHicoehIwVSOJn1I=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJdRjbdHWjryNjZn80+eulQpZXMnF51rWRdL1svlkuxjQiS+Ajq
+	VnQXTTluDAGG3JUifbeb8vXy7tZ429VEnXObhPqsC4d34iQEyQ8lIxMFu6F5A6JN+M+le1C5owH
+	jD7ssMnFB3qvA9un9esL6lRDgLkkmfzCUWx6tOpNVDIWDb/Vj27zej9m2ulZGn1k=
+X-Gm-Gg: AYBFou10ZsIKr0csUQqsatukn0ESszmDmOrjlI7Z2jmlYQcO8bEUz/YkXUTCZgVNFPZ
+	2Ybnpj6riBAr5XIHYU4A4cJ3VAXuoFYs7vjD1j5YOmWDPXcc3f8FENXEnib/q1EADyEkZha/rnD
+	KIDQCAJUORcN7J4dc2z7I5DNKv17INGzXaP2Q91dwo6BGrzuH8lbOekwPc8YcqgVrCWIpRfljWX
+	8+mpD19NwDrDlAIkdP8NXTMqgP2cOG6xIryqmwT9JAn4zCoFB3SfsQcW+p57HpkEcUafqL31k33
+	Yfu+J5pLHpbxDGHv+iWgpwOa7wSGJGya7i57DspDsvxpoiYrgOTPB+Xb0Bju2IDMVQ7ciKYFhw5
+	xYv9F8pR5yvoLq+X1EUQ4GXrdrb0=
+X-Received: by 2002:a05:620a:7014:b0:912:1206:ddd1 with SMTP id af79cd13be357-93f29b46ad7mr1631406385a.1.1792507543023;
+        Tue, 20 Oct 2026 07:45:43 -0700 (PDT)
+X-Received: by 2002:a05:620a:7014:b0:912:1206:ddd1 with SMTP id af79cd13be357-93f29b46ad7mr1631380385a.1.1792507540863;
+        Tue, 20 Oct 2026 07:45:40 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:4884:6e9a:d9ff:9fa6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1df370381sm179377585e9.1.2026.10.20.07.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 07:45:40 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+To: rafael@kernel.org
+Cc: Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Hans de Goede <hansg@kernel.org>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "Derek J. Clark" <derekjohn.clark@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Armin Wolf <W_Armin@gmx.de>, Jai Luthra <jai.luthra@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mario Limonciello (AMD)" <superm1@kernel.org>,
+        Jack Wu <jackbb_wu@compal.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        Zhang DM <jixianqiang1540@gmail.com>, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH v3] platform profile: Separate handler locking from sysfs lifetime
+Date: Tue, 20 Oct 2026 16:45:25 +0200
+Message-ID: <20261020144525.3265851-1-daniel.lezcano@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,265 +133,314 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/25] perf test: Add CoreSight AUX sample decoding test
-To: Leo Yan <leo.yan@arm.com>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>
-References: <20260915-arm_cs_support_aux_sample-v1-0-35cf6f297d20@arm.com>
- <20260915-arm_cs_support_aux_sample-v1-24-35cf6f297d20@arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260915-arm_cs_support_aux_sample-v1-24-35cf6f297d20@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 9LqbUAWIpqUfggw0PKg2AhzMc4m8m7KB
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIwMDA1OCBTYWx0ZWRfXzAa9WMnJXsAg
+ k1E84rMPJ/fvQcdYLmteaRAeN4vwx+oP4bae5z0AiZ0dw6cJV669nh3K/EYNbIX1BMtOX3D5VCZ
+ mGpFD14WlA8YYUYQJAM0VoHzcWe+dp0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIwMDA1OCBTYWx0ZWRfX9p6uM3wTq5/r
+ QZTeYncYRZpZGP9hIJmimJ7FCYHNvNgdYQeP4lbe9QMfA3jKLY3FdZEjH+QxSiu0VYZXh7+SsjQ
+ 8bP/FggOWit85Wy6Fr+foGFtsrYaP1onyQtNsUUJwq83lYrTTe6/U+ZJZPo/0BMjVqIMkKucboP
+ iTgrpgOW5a+k9c04xrUJ3WCUEgrP2DYMstD3euy7q8TDfhi8bpw6+3qK1VKkSuicsXDPTuyBnl+
+ eMBNe9ZJnR2mhWS0G+dz0gsSra2s+b58p4tqE7fP6mTCu4wo89a4wllpyO7lCuQlWR/9Rv8wbez
+ XTOnyeIJs+GVRNDRP+q8eoA3QCokjLU+6WjF+kO2bPjyePEMo5m1VL7HA2Y6qjXmWWug9S6HPtz
+ d42UYOneayIE4TIOJNfJXUjpnKdJfjn5wbcohIzF6lhqfNM4ZyEXXUT8qqSioF6JhXzuf9wu4t+
+ cIS0LkROwIqI3zfqz2w==
+X-Proofpoint-GUID: 9LqbUAWIpqUfggw0PKg2AhzMc4m8m7KB
+X-Authority-Analysis: v=2.4 cv=crUOAF4i c=1 sm=1 tr=0 ts=6ad77e98 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=4c0kPULnjDDMktAHOzUA:9
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-20_02,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610200058
 
+Registration and removal currently hold profile_lock across
+device_unregister() and sysfs_update_group(). These operations can remove
+sysfs attributes and wait for their active callbacks to finish. The
+profile read and write callbacks acquire profile_lock themselves, so a
+concurrent access can deadlock:
 
+  Removal/update path             Active sysfs callback
+  -------------------             ---------------------
+  acquire profile_lock            hold kernfs active reference
+  remove a sysfs attribute         wait for profile_lock
+  wait for its active references
 
-On 15/09/2026 16:49, Leo Yan wrote:
-> Add a shell test that records the brstack workload with 8 KiB AUX
-> samples attached to cycle events. Pin the workload to a CPU with a TRBE
-> sink and use per-thread recording with trace timestamps and context IDs
-> disabled, exercising decoding with the owning sample's context.
-> 
-> Check branch stacks and callchains with --itrace=L4, L64, G3 and G3L64.
-> Require at least one sample to reach both requested depths, with all
-> callchain frames belonging to the workload, and reject samples exceeding
-> either limit. Use a callchain depth of three to match the nested calls
-> in brstack.
-> 
-> Compare with AUX decoding enabled and disabled to verify that adding
-> history preserves the original PMU samples.
-> 
-> Assisted-by: Codex:gpt-6
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->   tools/perf/tests/shell/coresight/aux_sample.sh | 189 +++++++++++++++++++++++++
->   1 file changed, 189 insertions(+)
-> 
-> diff --git a/tools/perf/tests/shell/coresight/aux_sample.sh b/tools/perf/tests/shell/coresight/aux_sample.sh
-> new file mode 100755
-> index 0000000000000000000000000000000000000000..887ad6a085eacdfd192db3863fbb61dae1aa19b5
-> --- /dev/null
-> +++ b/tools/perf/tests/shell/coresight/aux_sample.sh
-> @@ -0,0 +1,189 @@
-> +#!/bin/bash -e
-> +# SPDX-License-Identifier: GPL-2.0
-> +# CoreSight AUX samples with callchains and branch stacks (exclusive)
-> +
-> +export LC_ALL=C
-> +
-> +skip()
-> +{
-> +	echo "[Skip] $1"
-> +	exit 2
-> +}
-> +
-> +perf list pmu | grep -q 'cs_etm//' || skip "cs_etm is not available"
-> +perf check feature -q libopencsd || skip "perf was built without OpenCSD"
-> +[ "$(id -u)" = 0 ] || skip "No root permission"
-> +command -v taskset >/dev/null || skip "taskset is not available"
-> +
-> +# AUX sample now supports per CPU sink (e.g., TRBE). Select a usable CPU
-> +# and name its sink explicitly to avoid a shared sink.
-> +sink=
-> +for dev in /sys/bus/coresight/devices/trbe[0-9]*; do
-> +	[ -d "$dev" ] || continue
-> +	name=${dev##*/}
-> +	cpu=${name#trbe}
-> +	[ -e "/sys/bus/event_source/devices/cs_etm/cpu$cpu" ] || continue
-> +	if taskset -c "$cpu" true 2>/dev/null; then
-> +		sink=$name
-> +		break
-> +	fi
-> +done
-> +[ -n "$sink" ] || skip "No usable TRBE CPU is available"
-> +
-> +tmpdir=$(mktemp -d /tmp/perf-cs-aux-sample.XXXXXX)
-> +
-> +cleanup()
-> +{
-> +	rm -rf "$tmpdir"
-> +}
-> +
-> +trap cleanup EXIT
-> +trap 'exit 1' TERM INT
-> +
-> +fail()
-> +{
-> +	echo "$1" >&2
-> +	cat "$tmpdir/stderr" >&2
-> +	exit 1
-> +}
-> +
-> +cf="$tmpdir/ctl"
-> +af="$tmpdir/ack"
-> +mkfifo "$cf" "$af"
-> +
-> +# Disable trace timestamps and context IDs to use the owning sample's context.
-> +# Use a per-thread mmap so the explicit sink is only used on the pinned CPU.
-> +if ! taskset -c "$cpu" perf record -o "$tmpdir/data" --aux-sample=8192 \
-> +	-e "{cs_etm/@$sink,timestamp=0,contextid=0/u,cycles/period=100003/u}" \
-> +	--per-thread -D -1 --control fifo:"$cf","$af" -- \
+The removal path cannot finish until the callback returns, and the
+callback cannot return until the removal path releases profile_lock.
+This applies both to per-provider device teardown and to updates of the
+legacy aggregate attribute group.
 
-Minor nit, but on "[PATCH 00/14] perf cs-etm: Per-thread mode fixes and 
-snapshot wrap support" I just did:
+Commit 041142d7d252 ("ACPI: platform-profile: Fix possible deadlock in
+platform_profile_remove()") previously fixed this lock ordering by moving
+sysfs_remove_group() outside profile_lock. Commit 55b1e68134bf ("ACPI:
+platform_profile: Use guard(mutex) for register/unregister") reintroduced
+the issue by extending the mutex guard over sysfs_remove_group(). Later,
+commit 77be5cacb2c2 ("ACPI: platform_profile: Create class for ACPI
+platform profile") replaced that teardown with device_unregister() and
+sysfs_update_group(), still under the same mutex, extending the problem
+to class-device teardown and aggregate attribute updates.
 
-+if ! ls /sys/bus/coresight/devices/trbe* > /dev/null 2>&1; then
-+	echo "No TRBE sinks, skipping output validation"
-+	exit 0
-+fi
+Simply dropping profile_lock around these operations is insufficient.
+Aggregate operations currently discover providers through the class
+device list. A provider being unregistered could therefore still be
+selected for an aggregate read, write or cycle while its sysfs files are
+being torn down. Concurrent registrations and removals would also race
+when updating aggregate attribute visibility.
 
-I know looking up the actual sink, passing it in and also using 
---per-thread mode is "technically correct", but I think we can assume 
-that any normal record command will work on any system with TRBE.
+Introduce profile_registration_lock to serialize registration, removal
+and aggregate sysfs updates. Sysfs callbacks never acquire this mutex.
+Retain profile_lock for profile operations and use it to protect an
+explicit list of handlers participating in the aggregate interface.
 
-Otherwise, we should re-write all of the tests to only target CPUs with 
-known loaded ETM instances instead of hard coding CPU 0 etc.
+Add a handler to that list only after device_register() succeeds. On
+removal, unlink it under profile_lock before calling device_unregister().
+Acquiring profile_lock first waits for any aggregate operation already
+using the handler to complete; unlinking prevents later aggregate
+operations from finding it. Release profile_lock before draining sysfs
+callbacks, allowing active per-provider callbacks to complete before the
+device is released. Apply the same unlink-before-unregister ordering to
+registration error cleanup.
 
-Other than that LGTM:
+Walk this list for aggregate reads, writes and profile cycling, and use
+its emptiness to determine aggregate attribute visibility. The class
+devices remain the per-provider userspace interface.
 
-Reviewed-by: James Clark <james.clark@linaro.org>
+There can now be an interval between removing the last handler from the
+list and removing the aggregate attributes. Explicitly reject choices
+reads and writes during that interval: the intersection bitmap starts
+with every bit set, so an empty traversal must not advertise all profiles
+or report a successful write without updating a provider.
 
-> +	perf test --record-ctl fifo:"$cf","$af" -w brstack 1000000 \
-> +	>/dev/null 2>"$tmpdir/stderr"; then
-> +	# Kernels without snapshot_aux reject the sampling event at open time.
-> +	if grep -Eq 'sys_perf_event_open.*event \(.*cycles.*\): Invalid argument' \
-> +		"$tmpdir/stderr"; then
-> +		skip "Kernel does not accept CoreSight AUX sampling"
-> +	fi
-> +	fail "Failed to record CoreSight AUX samples"
-> +fi
-> +
-> +perf evlist -v -i "$tmpdir/data" >"$tmpdir/evlist" 2>"$tmpdir/stderr" ||
-> +	fail "Failed to read AUX sample attributes"
-> +grep -Eq 'sample_type:.*\|AUX(,|\|).*aux_sample_size: 8192(,|$)' \
-> +	"$tmpdir/evlist" || fail "Missing AUX sample attributes"
-> +
-> +check_history()
-> +{
-> +	local options=$1
-> +	local max_branches=$2
-> +	local max_callchains=$3
-> +	local output="$tmpdir/script-$options"
-> +
-> +	perf script -i "$tmpdir/data" --itrace="$options" \
-> +		-F comm,pid,tid,cpu,event,ip,sym,brstack >"$output" \
-> +		2>"$tmpdir/stderr" || fail "Failed to decode AUX samples with $options"
-> +
-> +	# Some windows may contain incomplete trace. Require at least one cycle
-> +	# sample to reach both requested depths, and reject any that exceed them.
-> +	if ! awk -v max_branches="$max_branches" \
-> +		-v max_callchains="$max_callchains" '
-> +		function check_sample() {
-> +			if (in_sample == 0) {
-> +				return
-> +			}
-> +
-> +			if (branch_entries > max_branches || callchain_frames > max_callchains) {
-> +				depth_exceeded = 1
-> +			}
-> +
-> +			# Both depths must be reached in the same sample, with all
-> +			# callchain frames belonging to the brstack workload.
-> +			if (branch_entries == max_branches &&
-> +			    callchain_frames == max_callchains &&
-> +			    workload_frames == max_callchains) {
-> +				found_sample = 1
-> +			}
-> +
-> +			branch_entries = 0
-> +			callchain_frames = 0
-> +			workload_frames = 0
-> +			in_sample = 0
-> +		}
-> +		{
-> +			# A blank line marks the end of a sample.
-> +			if (NF == 0) {
-> +				check_sample()
-> +				next
-> +			}
-> +
-> +			# Sample header: comm pid/tid [cpu] event ...
-> +			# The event may include a PMU prefix and configuration terms.
-> +			if ($4 ~ /(^|\/)cycles([,\/:]|$)/) {
-> +				check_sample()
-> +				in_sample = 1
-> +			}
-> +			if (in_sample == 0) {
-> +				next
-> +			}
-> +
-> +			# Each branch entry is a field in 0xFROM/0xTO/... form.
-> +			for (i = 1; i <= NF; i++) {
-> +				if ($i ~ /^0x[[:xdigit:]]+\/0x[[:xdigit:]]+\//) {
-> +					branch_entries++
-> +				}
-> +			}
-> +
-> +			# Callchain rows start with a hexadecimal IP, then a symbol.
-> +			if ($1 ~ /^[[:xdigit:]]+$/) {
-> +				callchain_frames++
-> +				if ($2 ~ /^brstack(_|$)/) {
-> +					workload_frames++
-> +				}
-> +			}
-> +		}
-> +		END {
-> +			# Account for the last sample even without a trailing blank line.
-> +			check_sample()
-> +
-> +			if (depth_exceeded != 0) {
-> +				print "AUX sample history exceeds the requested depth" > "/dev/stderr"
-> +				exit 1
-> +			}
-> +			if (found_sample == 0) {
-> +				printf "No sample has %d branches and %d workload callchain frames\n", \
-> +					max_branches, max_callchains > "/dev/stderr"
-> +				exit 1
-> +			}
-> +			exit 0
-> +		}
-> +	' "$output"; then
-> +		head -n 80 "$output" >&2
-> +		fail "Missing AUX sample history or incorrect depth with $options"
-> +	fi
-> +}
-> +
-> +check_sample_identity()
-> +{
-> +	local fields=comm,pid,tid,cpu,event,ip
-> +
-> +	# Hiding history must leave exactly the original PMU samples, including
-> +	# their PID/TID, CPU and sampled IP, with no synthesized events. Per-thread
-> +	# recording does not require sample timestamps.
-> +	perf script -i "$tmpdir/data" --no-itrace -F "$fields" \
-> +		>"$tmpdir/original" 2>"$tmpdir/stderr" || fail "Failed to read cycle samples"
-> +	perf script -i "$tmpdir/data" --itrace=L4 -F "$fields" \
-> +		>"$tmpdir/decoded" 2>"$tmpdir/stderr" || fail "Failed to decode cycle samples"
-> +	diff -u "$tmpdir/original" "$tmpdir/decoded" ||
-> +		fail "AUX decoding changed the original cycle samples"
-> +}
-> +
-> +check_history L4 4 0
-> +check_history L64 64 0
-> +
-> +# brstack -> brstack_bench -> brstack_foo -> brstack_bar provides three
-> +# nested calls whose caller frames can be reconstructed from an AUX window.
-> +check_history G3 0 3
-> +check_history G3L64 64 3
-> +
-> +check_sample_identity
-> +
-> +echo "CoreSight AUX sample decoding: PASS"
-> 
+This separates aggregate membership from class device teardown while
+preserving the existing class and ACPI sysfs interfaces.
 
+Fixes: 55b1e68134bf ("ACPI: platform_profile: Use guard(mutex) for register/unregister")
+Assisted-by: OpenCode:gpt-6.1-sol
+Signed-off-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+---
+Changes in v3:
+  - Send the locking fix as a standalone patch, independently of the
+    firmware-agnostic extraction and legacy-interface deprecation series.
+  - Document that profile_lock protects handler-list membership and
+    serializes profile operations against each other and handler removal.
+    Explain why it must not be held across sysfs teardown.
+
+Changes in v2:
+  - Expand the deadlock and handler-lifetime explanation.
+  - Add the Fixes tag and describe the earlier fix, regression and later
+    extension to class-device teardown and sysfs group updates.
+
+ drivers/acpi/platform_profile.c | 80 ++++++++++++++++++++++++-----------------
+ 1 file changed, 47 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
+index 79d2e92e5c28..d79080a20e21 100644
+--- a/drivers/acpi/platform_profile.c
++++ b/drivers/acpi/platform_profile.c
+@@ -8,15 +8,25 @@
+ #include <linux/bits.h>
+ #include <linux/cleanup.h>
+ #include <linux/init.h>
++#include <linux/list.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_profile.h>
+ #include <linux/sysfs.h>
+ 
+ #define to_pprof_handler(d)	(container_of(d, struct platform_profile_handler, dev))
+ 
++/*
++ * Protects profile_handlers membership and serializes profile operations
++ * against each other and handler removal. Never held across sysfs teardown,
++ * which can wait for callbacks that acquire this lock.
++ */
+ static DEFINE_MUTEX(profile_lock);
++/* Serialize registration and sysfs updates without blocking sysfs callbacks. */
++static DEFINE_MUTEX(profile_registration_lock);
++static LIST_HEAD(profile_handlers);
+ 
+ struct platform_profile_handler {
++	struct list_head node;
+ 	const char *name;
+ 	struct device dev;
+ 	int minor;
+@@ -44,6 +54,22 @@ static_assert(ARRAY_SIZE(profile_names) == PLATFORM_PROFILE_LAST);
+ 
+ static DEFINE_IDA(platform_profile_ida);
+ 
++static int profile_walk_handlers(void *data,
++				 int (*fn)(struct device *dev, void *data))
++{
++	struct platform_profile_handler *handler;
++	int ret;
++
++	lockdep_assert_held(&profile_lock);
++	list_for_each_entry(handler, &profile_handlers, node) {
++		ret = fn(&handler->dev, data);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
+ /**
+  * _commmon_choices_show - Show the available profile choices
+  * @choices: The available profile choices
+@@ -306,20 +332,18 @@ static ssize_t platform_profile_choices_show(struct kobject *kobj,
+ 	int err;
+ 
+ 	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+-		err = class_for_each_device(&platform_profile_class, NULL,
+-					    &data, _aggregate_choices);
++		err = profile_walk_handlers(&data, _aggregate_choices);
+ 		if (err)
+ 			return err;
+ 		if (data.count == 1) {
+-			err = class_for_each_device(&platform_profile_class, NULL,
+-						    &data, _remove_hidden_choices);
++			err = profile_walk_handlers(&data, _remove_hidden_choices);
+ 			if (err)
+ 				return err;
+ 		}
+ 	}
+ 
+ 	/* no profile handler registered any more */
+-	if (bitmap_empty(data.aggregate, PLATFORM_PROFILE_LAST))
++	if (!data.count || bitmap_empty(data.aggregate, PLATFORM_PROFILE_LAST))
+ 		return -EINVAL;
+ 
+ 	return _commmon_choices_show(data.aggregate, buf);
+@@ -384,8 +408,7 @@ static ssize_t platform_profile_show(struct kobject *kobj,
+ 	int err;
+ 
+ 	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+-		err = class_for_each_device(&platform_profile_class, NULL,
+-					    &profile, _aggregate_profiles);
++		err = profile_walk_handlers(&profile, _aggregate_profiles);
+ 		if (err)
+ 			return err;
+ 	}
+@@ -423,15 +446,13 @@ static ssize_t platform_profile_store(struct kobject *kobj,
+ 		return -EINVAL;
+ 
+ 	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+-		ret = class_for_each_device(&platform_profile_class, NULL,
+-					    &data, _aggregate_choices);
++		ret = profile_walk_handlers(&data, _aggregate_choices);
+ 		if (ret)
+ 			return ret;
+-		if (!test_bit(i, data.aggregate))
++		if (!data.count || !test_bit(i, data.aggregate))
+ 			return -EOPNOTSUPP;
+ 
+-		ret = class_for_each_device(&platform_profile_class, NULL, &i,
+-					    _store_and_notify);
++		ret = profile_walk_handlers(&i, _store_and_notify);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -450,22 +471,11 @@ static struct attribute *platform_profile_attrs[] = {
+ 	NULL
+ };
+ 
+-static int profile_class_registered(struct device *dev, const void *data)
+-{
+-	return 1;
+-}
+-
+ static umode_t profile_class_is_visible(struct kobject *kobj, struct attribute *attr, int idx)
+ {
+-	struct device *dev;
+-
+-	dev = class_find_device(&platform_profile_class, NULL, NULL, profile_class_registered);
+-	if (!dev)
+-		return 0;
+-
+-	put_device(dev);
++	guard(mutex)(&profile_lock);
+ 
+-	return attr->mode;
++	return list_empty(&profile_handlers) ? 0 : attr->mode;
+ }
+ 
+ static const struct attribute_group platform_profile_group = {
+@@ -502,8 +512,7 @@ int platform_profile_cycle(void)
+ 	int err;
+ 
+ 	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+-		err = class_for_each_device(&platform_profile_class, NULL,
+-					    &profile, _aggregate_profiles);
++		err = profile_walk_handlers(&profile, _aggregate_profiles);
+ 		if (err)
+ 			return err;
+ 
+@@ -512,8 +521,7 @@ int platform_profile_cycle(void)
+ 		    profile == PLATFORM_PROFILE_LAST)
+ 			return -EINVAL;
+ 
+-		err = class_for_each_device(&platform_profile_class, NULL,
+-					    &data, _aggregate_choices);
++		err = profile_walk_handlers(&data, _aggregate_choices);
+ 		if (err)
+ 			return err;
+ 
+@@ -525,8 +533,7 @@ int platform_profile_cycle(void)
+ 					  PLATFORM_PROFILE_LAST,
+ 					  profile + 1);
+ 
+-		err = class_for_each_device(&platform_profile_class, NULL, &next,
+-					    _store_and_notify);
++		err = profile_walk_handlers(&next, _store_and_notify);
+ 
+ 		if (err)
+ 			return err;
+@@ -583,7 +590,7 @@ struct device *platform_profile_register(struct device *dev, const char *name,
+ 		}
+ 	}
+ 
+-	guard(mutex)(&profile_lock);
++	guard(mutex)(&profile_registration_lock);
+ 
+ 	/* create class interface for individual handler */
+ 	minor = ida_alloc(&platform_profile_ida, GFP_KERNEL);
+@@ -604,6 +611,8 @@ struct device *platform_profile_register(struct device *dev, const char *name,
+ 		put_device(ppdev);
+ 		goto cleanup_ida;
+ 	}
++	scoped_guard(mutex, &profile_lock)
++		list_add_tail(&to_pprof_handler(ppdev)->node, &profile_handlers);
+ 
+ 	sysfs_notify(acpi_kobj, NULL, "platform_profile");
+ 
+@@ -614,6 +623,8 @@ struct device *platform_profile_register(struct device *dev, const char *name,
+ 	return ppdev;
+ 
+ cleanup_cur:
++	scoped_guard(mutex, &profile_lock)
++		list_del(&to_pprof_handler(ppdev)->node);
+ 	device_unregister(ppdev);
+ 
+ cleanup_ida:
+@@ -636,7 +647,10 @@ void platform_profile_remove(struct device *dev)
+ 
+ 	pprof = to_pprof_handler(dev);
+ 
+-	guard(mutex)(&profile_lock);
++	guard(mutex)(&profile_registration_lock);
++
++	scoped_guard(mutex, &profile_lock)
++		list_del(&pprof->node);
+ 
+ 	ida_free(&platform_profile_ida, pprof->minor);
+ 	device_unregister(&pprof->dev);
+
+base-commit: d0cd1e850e1602729dd60dc3c5fd96f80e0cdc5d
