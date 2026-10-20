@@ -1,101 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.177
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792537525;
-	b=abTQWDX7ghD9ujuy3ymMo18F/idwcPCn5rnr5baFQsiGW6gKj9Fsj7Ybjw4OHAJ1gTCc
-	 kAzWzptFZHL2CBESxgZZZ21a8pMhsaKf4XB+AUAkXx1XLmmJH/As5xW0cf4+5tPprOVhO
-	 471YhaF00AqQM7oIvQ2P6jjYTrt8Ds8Dy4ljna8OFiXl/LxdB3GYLBzYv0sPl4SYmU/hm
-	 04XwWGQNAiUtmyOMUzZnmZ20BX0cDCil/Bpv3+APRbjugozdKsdkUg9Kc/I9xWpmS/u6V
-	 MBHFS1BqfWi02MoFdfRRRMDlQZFQZU72hNsyp5c4FWEcMIvHpj9+HhG2a3FwfFSCWCg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792537525;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792537980;
+	b=KPxX8SLCBVTNkD8V0GEIm4yp+7bvJtB+V4gy/DSiYcFcrUs6XfTC3BT2RkxgWKzuGeTP
+	 868H53TnSDU318pdIn9vI64ery6B/54a4g6lqrRMpENQvijiZpanJ3151/9KPF48IzvJb
+	 S0c9ZIkFcr9ArAjhWlfhV2diZOnXBPpHuoa6cIeBuMGCvH/1U5QvMFONy/Uq1OW4661ov
+	 HduZQhACTtuz7S9YtZWdmHvgKRvaUlMwCuAknL6hKB00T17qMKmbs8HgpQZ8/ltbI3Fbk
+	 1At7PmYb6L23PWWnuHJTAlRupCG6750WQ/9oLYZ4A5WUm5gJF7l02EpKXpdTus80gdg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792537980;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=JQ9TD9Qu+QGHMOnlJYIPPYw7mW4frIX5SWRPHWeJBJw=;
-	b=cr0kN4BCSNpOYOFsc0xrHnI1H7qO2QmszamEbNVSjw/hq9ADdW3S/Dif7CHUmbF9jneU
-	 JD2Xsj+1gswLPHeciQBH8PcezDQisU3kmCh1gM1nGwwxT9BG/ecPhve6TOheWLbccMhYk
-	 8N95bMxaTOWasA7aV/d0fBaNorp8csrfpqiHXGJOgsWVtx/uNgreWKPAtWhPKTZztcXOg
-	 N7R0VqAQ9oQ6PKmOBX3G5BhaiNUILDih7PnFgl6HdMAHkteq7UaxLRQlhyeV7s6ahVUHa
-	 qXxzDRIAZDKlBP521gGYWc3f+lYOmz/OQmHFVlIS1RAp9OSZWrik/XJP0xbYlJ7foVQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=everpuredata.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=E8xksGfv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.177
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=V4dEpVJ6+z1cOz8lzxIgY22zi/dH+CU6Y8aHuWhhhWA=;
+	b=b8smObxsc/T4LXm8fTUf3QPj/oXVxnZBoGBGrJoV+thrgsArgoa81SH4xZN0wbtoGMN4
+	 irMfhuXzejOusf9DbnfksVHYV6kzf+godIBRRfgONmAQv6OX93N8pwqr5UoCtJmLtIlCK
+	 pRKEZiAb4GZE+NmFcfy0dHqSSPadXizzmibXvvKxw0LeYVFCNy76Dz7I2h6vmT0B6QRIL
+	 ApZvB8YhVDvMEGQLjjMgsu6z18iEfEO5zNegSeh3SSyGZn0rrfvx7ZiQTEM10wRg7MtUB
+	 +adljrD0QC2HIMgJoh0cZuxjQuKMkrSJF+cJYkPHopgBxUY4ENdF4knTdCE+H+Tj13w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="Bff/zOrQ";
+	arc=none smtp.remote-ip=209.85.217.48
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AC8606A319
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 23:05:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20AC8606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=everpuredata.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578AA606A31B
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 23:12:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 578AA606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=E8xksGfv
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5e7834687easo13901e0c.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 16:05:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792537518; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XF14QJt0pQsShmPvKk3uXd38DXmMq/cCEDN56BPB8xvnH/idm+g6nzbG6YTXV7boGt
-         S6tbzkPXjqq3kT9yNLWfa6csaFi0eRPIXrIjd85ZQp9FmLqwpo1WDTbm6jsvtv+CSI88
-         wtNH2lHMfYl+i3/COf4vpWoQkZWo8Ttwz0jMVD0Nm7gsGU8cy3fvfIxCPgcBnmjF996R
-         T9zD8t+HQpQ/yZAnLQ6dVcI1GQNqhM7EfHfxe3kLIan0H8bYqKhFhVdbdQ2YBy5LPs2x
-         TW0h6PADV8HU/eWfQ+bGnUkhfxdwBay7dCq5NsF/2qkTGmZEOc4BAaVJ3LzQd6oiIoY9
-         1wHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JQ9TD9Qu+QGHMOnlJYIPPYw7mW4frIX5SWRPHWeJBJw=;
-        fh=PPT3QLEfMRzJ3Ae4woJrjJP9H7AQMrUAaVDrBj5Zr2E=;
-        b=bbjUwmJPlQNO30Iz3Ks1cnx8xfNEunR6RHnmKLbcsyg0OH6CPjmMS0AHLWaeJ1+RPD
-         vai1pjGWIBC9m12AHJtRWvHMdJlAjgrbkP+8FPslJAlYJ41W7j+LQdZDN0GteO8o1Jp0
-         HVAi9Tvcaa5Gr+4WEUZsK6Pj3m1I6xphY7WnpSRnQjmSMTBbzS10DrWUiLyWDPFuxMqK
-         DpOLYSkFobqH2WCSrJeR9/+xedOI8LmqmXLCrlqqt/CzOUBXgm3jg2I2W0znlHFNv8VN
-         m/lslWPDMLKsYXYu4IzzAcDEf3D3x8yX296IuI+0iq71P2ZMMRRVbqc3/4DBpJnQ0dth
-         Eybw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Bff/zOrQ
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-745497ac8fcso131848137.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 16:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everpuredata.com; s=google; t=1792537518; x=1793142318; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=JQ9TD9Qu+QGHMOnlJYIPPYw7mW4frIX5SWRPHWeJBJw=;
-        b=E8xksGfvKfvFTRye9elVYecKnDUpUjJAsu4chhAWoigdfkZhiKYBnU3KTE9yUj+3gt
-         K2PaQpnLcbwveCc6jiJnsoAoWjQqlR9vEN1xEIYP+AmjIdOWbGGUM7yjXOvptk+C6yJd
-         WEAe/Xh+Rms5H4D7wdwC9ogykuqLj8FI/gcFXAjcRDDBeFn3tF0JRpp6J/5UTbRFEEgF
-         VE4BTBmDKtv+5nJRxsl1xkVrQiKcAxZSnFSUhfHWa8pMniJJNkUyRydaFKgEKrj6QX7A
-         qgnk7XnjUeqCenaiAyMlnvYir978qQhVztY/yLRMwQdtIM3spB2n78PkFH14VyLYwzks
-         WANQ==
+        d=gmail.com; s=20251104; t=1792537979; x=1793142779; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=V4dEpVJ6+z1cOz8lzxIgY22zi/dH+CU6Y8aHuWhhhWA=;
+        b=Bff/zOrQS58D8lWXqbV5dgpvEkhMpH+A+e56BI4NZxfEzq1YHbf1gpbKVbSvCRUk2u
+         PZ93UxEymZJRDkSwSxJH8vl4sCT44pwR5XyFRCpa6iUm4G60dyJi2m6wJvoutjeYgApC
+         1hMF5ffNK2zBSavYm0J8dFI+9wDpqFWfMhBZLkBePQuHeRC4DlrbNCDvSJnmHSEzV1yz
+         F0hDmgJ7I/Fus9OhFHtI9ItSQueyGrEwc9fydxPQKw3A3z5UzFEEKoFo/h2Z0Yf6ISc+
+         wOCGVPS7mpH3kXX7QGtqwe8IL+5DyZcEXP1DokQPO5Dzty/rqLxL6HwMtbEFm3mxSpav
+         Miww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792537518; x=1793142318;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792537979; x=1793142779;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JQ9TD9Qu+QGHMOnlJYIPPYw7mW4frIX5SWRPHWeJBJw=;
-        b=vd/eCMhPsyFUWbeFWdtZA8RLOFT4fy0zVKe8+FRFABt5F9LG6pjqSeYz5OeWeAXSzF
-         F5+jtPUDpN1g0smTuSh45Anqg+4Tsrkiw3oiwnfIYBvuWaLmNFhG2BENor3rs32ZHw4k
-         aWXB0KzV70phRmSPTBH7jvlVBJpmgXxXQsvGprdkoQi7ImApZiqoM+iV0M9uY1dVUZLP
-         wyfht0av5h+8FFZvG0D0I9FHqnjIyXx22D/MY3krOFHdEKoy6QjDR1blHfnX+4tgwvBk
-         iSODym5oXXNn6bpKGk1Q8t0d6I1c6cEhslIiBg8Nu1S8MsPgBScXkFMwjkUhvh65k/oH
-         Rp1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwt9WB9DOespfyq0c7mGZxQzvfGlfoijTuZCzc4EKgiwnc+/Kt5uOeqGpodLWm8lY27OlMnPsvXHIg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKgbVUg93xuLGkl31C/5ThfcuCjOM9J6AL3xDCNJmriJKY8VIdg
-	fXotjQ0NikAEYW2FwYgZkDynLUWCMSxxKb/evAoyh1hpEGZooMEbExuYMZgbKCb3CfKuWq6jGa6
-	ArxnYBFLe+j0GAs9im6G1ClYP+Cm9VaF6LS8jHFWJ1Q==
-X-Gm-Gg: AYBFou3HNhBh/85iYlnSS6d3oFx8Ht5sVOtanYXiQFvH7ZoSaSzqYRypyuOAHitjm8v
-	XIZzZQ3VgpWjs6jQS+YTEGvTSxfnLfZeZso/pewj0u/opYPaWutM/CN3e9stBaWqUPe95BZJ7mt
-	dYTH5giTA3/mo6GxTtlx4nE8TfnA2CkxlhVBa6taLY7gHrFFluKTZksGPj2Zd5o9jFSeLWOEgZw
-	d5PDdP6ThLK2GGjG1we4s8GClr4tyOToieYIiYVHKs+tqk4Mf2NdbHcbYutUUgB8j+yGcrkabXX
-	qY8wgYa5/OnUbkA+d/U0QJDJ5yVQhjv1Iig+GdNvtSYVz2Bjp7HppmZRl5//G0iMROiSy/7QusL
-	C4F2z9ie/FWFjxn0SU/gdAsI+dm0xzGcV4Tz29UzHfEMjweb1B0TzG2GVWP2Q+SiGSSrGUzWsoA
-	u0UAVppNwkwT5ZKDg+h/7jWU9Wb6ZX3URbZGhf3GpU
-X-Received: by 2002:a05:6102:2c81:b0:7cc:26e4:1943 with SMTP id
- ada2fe7eead31-7cc92764345mr231039137.28.1792537517960; Tue, 20 Oct 2026
- 16:05:17 -0700 (PDT)
+        bh=V4dEpVJ6+z1cOz8lzxIgY22zi/dH+CU6Y8aHuWhhhWA=;
+        b=d8SYWgMwlMhpNCchgZ0Rue+FR8DPYWi0tst1uDgSSqraApaOFR/Dvh5MMDB37Nw0EN
+         p5IOaJ6tHu/iisnieguHSxxxdLo2CujVhemcfsbvMnps3yrASfNuv8VreKIWUAcnSV4Z
+         sXjDf0d4R/qV5Mnlm1pXE7bA7ZNO02Nj1hK+FnVwSkkMy5wphcyUE8R5k9WIdastOhcW
+         yQoKa50uOPp0E0YRg2Aysrx1V4ZlGlWHwtD9sn+ZvjVs8dqwg4bODOj87RvCJdvjBjvd
+         zEQFMTlk0veKOyNYNMCz67fz32t971RLWNA+XuCbaelVdcX32i2xf88bo0Zd9H7DJVnJ
+         7dXg==
+X-Forwarded-Encrypted: i=1; AKwUvByRtNiK6nSVbamkg4UKiEYAtva0KENZBDVjuRf+AdM4WZcNGEK7rt+uzQMPoKeg9p4CQEUhvIycbZg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLe5canedZQBC2Khus7VXicWqpp2wNcgAOxH7zxGsfFZW08YEfY
+	7HkyLV0yl3jlP+2pF2oZ0dmT5HrM6FPm/pePTTKoZ/kULPUKhkWTaf9c
+X-Gm-Gg: AYBFou1s33B0Ch5umwmsifcaW1dctJTEkW+Of5vARvTvnic//dCAz8Q6JAwsVD6IU0N
+	v/kU866ncPvGSKg1c0UoQboC1R6UROsUPM5J8QYXini8OUaxWZJueESWcozftOV+l5Al1zgcEQX
+	zgCJXyZgW8JCfP99F/Bk5OUxtl/rbGThrllWk3jvs1sLQ77x0msJNfI+uDqWMNbMjcI+FGm5+GU
+	pOekCLMXQXz+rAVGLB8QQbRxRFsAdcaBxcvjsqpmMs82A7uDrTZ3Dpkisn2htTW/oaWemdzJBVy
+	oYg+omz4s2U2FD+JKmHfs/HS/Kf5frrCwC+adUN5x0sc2RvCbZ0IHZoE6Wqv7w1D8VsUTErE6a8
+	5kB5fmkXiqwrJ5AXFuQBGCAi6PMsjWfa1CIrsOV9tamBZsapD0PzK7fpzaTE8SaTS7KQ6HCxr1B
+	YEC05fZl+ub2V3gzaVZ8BzvXR/KSIXnVMo/A4ybLMXgC0R5POvCVY2gizulJGjhn2kddo9TRxMD
+	8Xsq9Kn1Uhs20FlLIE85prIILnM+pVLYqD2eFlX3npeZCKFOH/zF/j/HCCLrLwM1/MeASe0nDOU
+	Iz8M5YsRGvqZ4EzYR6Tve0Mr8ax3ueMPkIn+Pg==
+X-Received: by 2002:a05:6102:a145:b0:7cc:95ed:3147 with SMTP id ada2fe7eead31-7cc95edaf07mr37812137.34.1792537978890;
+        Tue, 20 Oct 2026 16:12:58 -0700 (PDT)
+Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990d108ff73sm1235667241.7.2026.10.20.16.12.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 16:12:58 -0700 (PDT)
+Date: Tue, 20 Oct 2026 19:12:57 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: linux-kernel@vger.kernel.org, 
+ Chris Arges <carges@cloudflare.com>, 
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
+ Phil Sutter <phil@nwl.cc>, 
+ Jason Wang <jasowangio@gmail.com>, 
+ =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ netdev@vger.kernel.org, 
+ virtualization@lists.linux.dev, 
+ Max Krasnyansky <maxk@qualcomm.com>, 
+ Rusty Russell <rusty@rustcorp.com.au>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Simon Horman <horms@kernel.org>, 
+ linux-doc@vger.kernel.org
+Message-ID: <willemdebruijn.kernel.2eabbddbe6528@gmail.com>
+In-Reply-To: <20261020162048-mutt-send-email-mst@kernel.org>
+References: <cover.1792411304.git.mst@redhat.com>
+ <6f23c55c6eba3e3ec6b2c7e3a80728a326ed58af.1792411304.git.mst@redhat.com>
+ <willemdebruijn.kernel.187d58ff2bce5@gmail.com>
+ <20261020155917-mutt-send-email-mst@kernel.org>
+ <willemdebruijn.kernel.2c9decc16892@gmail.com>
+ <20261020162048-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH net v3 6/8] net: add a sysctl to opt out of virtio net hdr
+ checksum validation
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,41 +123,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261013202647.2206263-1-rjethwani@purestorage.com>
- <20261020133601.2081ab1f@kernel.org> <CAKaoeS2WHQ6QH5XJ+T0RLuxVDJAOtzdfVz0V6gSoZ7n5GJkFdA@mail.gmail.com>
- <20261020151924.41e22eac@kernel.org>
-In-Reply-To: <20261020151924.41e22eac@kernel.org>
-From: Rishikesh Jethwani <rjethwani@everpuredata.com>
-Date: Tue, 20 Oct 2026 16:05:06 -0700
-X-Gm-Features: AclHuK9A-chmt7AxQxaQlPmX1Htqw5B8m7SDR5AqQA1_FRtzNo_4_q-qDuJ3TEw
-Message-ID: <CAKaoeS1ZYkdJn7ih=RnPYjfYV9MO3k1Lo43+uKrEuLMMN4U21Q@mail.gmail.com>
-Subject: Re: [PATCH] tls: keep TX and RX hardware offload on the same device
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>, 
-	Sabrina Dubroca <sd@queasysnail.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 20, 2026 at 3:19=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Tue, 20 Oct 2026 14:01:23 -0700 Rishikesh Jethwani wrote:
-> > On Tue, Oct 20, 2026 at 1:36=E2=80=AFPM Jakub Kicinski <kuba@kernel.org=
-> wrote:
-> > >
-> > > On Tue, 13 Oct 2026 14:26:47 -0600 Rishikesh Jethwani wrote:
-> > > > +            rcu_dereference_protected(ctx->netdev,
-> > > > +                                      lockdep_is_held(&device_offl=
-oad_lock)) =3D=3D netdev;
-> > >
-> > > Too ugly, add temp variable, pls
-> >
-> > Thanks, I'll use a ctx_netdev temporary and send v2.
->
-> Is that a name you've seen anywhere else in this file? :/
+Michael S. Tsirkin wrote:
+> On Tue, Oct 20, 2026 at 04:19:41PM -0400, Willem de Bruijn wrote:
+> > Michael S. Tsirkin wrote:
+> > > On Tue, Oct 20, 2026 at 03:54:23PM -0400, Willem de Bruijn wrote:
+> > > > Michael S. Tsirkin wrote:
+> > > > > The ingress validation as implemented by the previous
+> > > > > patch is stricter than what it replaced: GSO
+> > > > > packets whose checksum metadata matches no transport header are
+> > > > > dropped, and non-GSO ones get their checksum completed in place.
+> > > > > Such packets used to pass with the metadata unvalidated,
+> > > > > and with no overhead.
+> > > > > 
+> > > > > I judge that this should not affect any deployments, but there is still
+> > > > > some risk that it does.  In case a deployment depends on them anyway,
+> > > > > provide a per-netns switch to get the old behavior back:
+> > > > > 
+> > > > > echo 0 > /proc/sys/net/core/virtio_net_hdr_csum_check
+> > > > > 
+> > > > > The default is validating.
+> > > > > 
+> > > > > Assisted-by: LLM
+> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > ---
+> > > > >  Documentation/admin-guide/sysctl/net.rst | 19 ++++++++
+> > > > >  include/linux/virtio_net.h               | 23 +++++++++
+> > > > >  include/net/netns/core.h                 |  1 +
+> > > > >  net/core/dev.c                           |  6 +++
+> > > > >  net/core/net_namespace.c                 |  1 +
+> > > > >  net/core/sysctl_net_core.c               | 60 ++++++++++++++++++++++++
+> > > > >  6 files changed, 110 insertions(+)
+> > > > > 
+> > > > > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> > > > > index e586e17fc7a5..b1a1c4714b22 100644
+> > > > > --- a/Documentation/admin-guide/sysctl/net.rst
+> > > > > +++ b/Documentation/admin-guide/sysctl/net.rst
+> > > > > @@ -246,6 +246,25 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
+> > > > >  Default: 1 (on)
+> > > > >  
+> > > > >  
+> > > > > +virtio_net_hdr_csum_check
+> > > > > +-------------------------
+> > > > 
+> > > > virtio_net_hdr_validate? In case we do have to add more validation
+> > > > later.
+> > > 
+> > > If you insist. My worry would be what if that validation is again
+> > > user-visible somehow and we need to distinguish users who want
+> > > to disable that future thing and users who want to disable
+> > > just this current thing.
+> > > 
+> > > Hard to predict the future. But I will go with your intuition.
+> > 
+> > Thanks, but definitely feel free to ignore my suggestions.
+> > 
+> > My intuition would be to define as
+> > 
+> > 0: off
+> > 1: everything one
+> > 2+: sadly needed fudge values because we keep having to tighten,
+> >     but some crazy workloads need to opt-out to avoid breakage.
+> 
+> yes you said i just do not get how it will work for userspace,
+> maybe u can explain?
+> 
+> and what specifically is needed right now, while we
+> just have 1.
 
-Yes, tls_device_down() already uses ctx_netdev for the same
-rcu_dereference_protected(ctx->netdev, ...) lookup,
-so the name is consistent with existing code.
+Right now the sysctl is boolean.
+
+If we define it as a narrow, very precisely defined sysctl, then its
+exact behavior is set in stone.
+
+If we then add additional validation later, that can similarly have
+unintended breakage of weird users, we need to add another sysctl.
+
+And if that validation is not entirely independent, i.e., builds on
+this, you get a weird set of interdependent sysctls.
+
+While in general systems will run with all validation enabled, unless
+they do something weird that gets hit by validation.
+
+A single broadly defined sysctl ("validate input at the source") can
+be refined over time, including to expand to validation of other
+virtio_net_hdr fields or protocol combinations.
+
+Even if defining it more broadly we can still leave it a boolean:
+all validation on or off.
+
+Or, optionally, we can also define additional validation levels,
+e.g, 0:off, 1:everything-on, 2:validate-csum-only.
+
+
+
+
