@@ -1,102 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792494267;
-	b=RcwKhQZLq9762sOAdZTpUDtcjTa7HMkUTNH6mbMVdvBZZmDYxJGUMrjBi5B0nfITgA/Z
-	 5tFQP0Z6NUXseNy0l+EPKYooR4HLIdHUp3gfsRS5Dmf8Aup84Vp90SIgLcLMGJ7fQxiZp
-	 H9fTh007CNo/u6kALXegaC0/uGAvBmwO0T38zIacnnfpbjxijJXSjtDRbXel0438y8m+f
-	 kbx/JEOsSrh1HveUn4v8FlxcYvMBieaWm7Wyd04pfdPXi6YQfjDqAexvT6OHuL7FeiL+v
-	 RyKP6ccIy7gN+NfLznMX4cJ8BLRqqOESOCLRr2RpAswckuygXHgWS/mCrM1U9MX9skQ==
+	t=1792494753;
+	b=p5kGhVTCd5FvidvRzSOhPKHd+c9EmCYeBGnmPlJPpv8qXgUus81+l1F6t3mcmf+gxV5S
+	 xOjGrfObc01t2OFwu+hXeCchFBpYuqZmL7h5Km0smSFIfPM6zVmxLCo42mWnrZ9sJD4J9
+	 b2sLY1em9HigFC3yc6P++m4rCFfjSaIJszr97Ov9p9eqa2YXaAibKBm0cdQIupCHeGL/o
+	 FppOwEViJCTs42jCWesTcFNouyMTbk3c90A5I+8d8JQalMdkJE2ufQXRuc8HQhUloGCfM
+	 NywgEPOq2n5/pV21zCAlGNlFSD4jaYaadRl8XpfBHuaPwKyTp72eNKnEKmhIEI5SGlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792494267;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
-	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
-	b=TeCxwAkR3I/z9Dy8rNWu522oSmiMrL7ay9ZXnCK5xmfp3uS3g12cUEgKQ+o7TeWIOOAF
-	 xLsFKl2/T0W+MmqETaLCYVeaDp1R7N4EJDVzV1IiFRaCOHbXiiPekY66oKm7KIxs7s1ae
-	 7SnyIxfatHfYBW3//rBVeME7dJpJMs66jyraz3Y54NtJvyAfm46pI9YdJLSmzGwkYX5Hs
-	 HTgsWBl9ImaX6wAJOOncR+pkcfzS+VrGVGI8saCYiDkLe34rsgV6665pKLdDpEHeor+Ih
-	 YKuwkz1ADwAeJ469AQzFyFeTex2ADyQ5qls+L+4QoqD8D07YIzckaPx3WH/c6lWDg0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792494753;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
+	b=qrCt/edoc5mPhVPCC4z0CrFLDIosorOKdWOKS5R0mdEBk7xfWjJ/99YFmcRJ87YOygh6
+	 o7Lx9rVpbs/y7RwOsvmnVegzsV84oTmH07xi/U7TwI3gGNRnds55ZJapextkQRn+7YYwN
+	 MO5Y6ZPjH4BEv+LOxfZhVq+MwnEsqRZ0obTNyOMe7sWNKiBIv1f/82JsXnLyF/n+Odt4c
+	 mGVBW4x4RmwXpy778PDlspT9kBo/0+FxyE+wA5Sc6WbNTphhKhF8PTr1CTdBVaxEeaSK0
+	 KTGthcTeJWDHgh9pOg57fEMLdXtf2IwxAQUGgwoac7DKAsJU01gihqvkNb+Zgbm1m8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h0jHoV43;
+	arc=none smtp.remote-ip=209.85.160.182
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA8A606A31A;
-	Tue, 20 Oct 2026 11:04:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EA8A606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52002606A31B
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 11:12:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52002606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LZCVchYP;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UbP7T0A5
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 49FEC21C99;
-	Tue, 20 Oct 2026 11:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792494264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
-	b=LZCVchYPxngjyrTdwP7dDyGwjGeRlfwz6xzaWNSZtF8y3Qgf12SIhyh9Y6Nd0wcT7He1aK
-	YWofyhmxglbBVNhGLztczgk2ut0LSAYokiSZEVTLZunTZ4Jh8IVD6VEwHTFDIw5kayF9gZ
-	vwrWwtjorhJFX/VTys9hwrEgQyblgzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792494264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
-	b=UbP7T0A54+niJcsOuJ4B/+AeErov5GjTeJBZVnwBx1FlP4R5goEFKis3ur6UZEwIpgqvEs
-	JSlX8AaT2FdapVAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792494264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
-	b=LZCVchYPxngjyrTdwP7dDyGwjGeRlfwz6xzaWNSZtF8y3Qgf12SIhyh9Y6Nd0wcT7He1aK
-	YWofyhmxglbBVNhGLztczgk2ut0LSAYokiSZEVTLZunTZ4Jh8IVD6VEwHTFDIw5kayF9gZ
-	vwrWwtjorhJFX/VTys9hwrEgQyblgzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792494264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wpVq8HTF6kp3l3+P+HlqkQvEgOT+i0h0AfpydZ4MNoA=;
-	b=UbP7T0A54+niJcsOuJ4B/+AeErov5GjTeJBZVnwBx1FlP4R5goEFKis3ur6UZEwIpgqvEs
-	JSlX8AaT2FdapVAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90833136CC;
-	Tue, 20 Oct 2026 11:04:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dCK0ErdK12o2ZQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 11:04:23 +0000
-Message-ID: <9834b569-935c-484b-befb-b913acead9c1@suse.de>
-Date: Tue, 20 Oct 2026 13:04:22 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h0jHoV43
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-53669f7b518so18784761cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 04:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792494752; x=1793099552; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
+        b=h0jHoV433gWa9Ypca1L4cXFH3c34IMnZgWaPNS7X+TIV6h4+W+S12MAgF6Tvk0SYlP
+         n1kmEV4sCp+xT73ZfzJrgGeT73M4A5MaqybKiZ+u+HqwlUZ7QX2zumqRNDExqObyj07H
+         17ieLwtb6rk7j4UdSHfHIAB/ROJQqCUZF3Bxw90LZ5umHxZuPn+R487gL3e2nL3SgpbC
+         zRHB+Yu8JFZiKxo+vO/GTgQV/DF4OTJ1oXwy2AZlwuphnc7dZiHAB80C1qFTsqJtvlMB
+         3/ff9aIIR7LayaXO4Tbt4+jR4fnUmgbo6vn0Rf1yIXGdKNz4AUACtQ0bEeGimbUnUnol
+         pAxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792494752; x=1793099552;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/wzsxSoyY0dwh32LBIY6rbjwv5tJyRh8dFNaQVlUF5E=;
+        b=BtMYKNMYQPDVnnhoEe4/tWuaA7Tk7/bqcH6jKlnL0kPMIgslKa+u+b3M2AcMq9Lb3z
+         4m9p6CAcrdClxiflTk/7MDm9Hi+ZEcbhZW9dq1eNQ/kvB4zrY9n8jxv1l3O1wcKE5DZ8
+         KLdu+VcycNTqLbtKwG4v4dN0Bb9RyNXWXcQCI4lDkBLDoYrBN0zGIWcTBaRfjxZHRyOj
+         4K8FSCyQ3E5Juow13DINJUS7kEWdxel6mvxmf6SEDCM/B6UCy3OrsuHS1c6lERvg8lgu
+         3GFGkGMieC4odx0bzrQgpJBDagfdbtSFN/oiHx+hVFk0mQvHZZbNNp2SkYZtfE7GJM2O
+         Vy2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwLZyMqANH+OJaOuCpy+7bdelpzIahnVzvaqjmtk9QhipamudbzE4mdeQAuism0FBx1krMNvN+gUU4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJgECpql/0D8kanvPle/bD2y9b+Ax+pwvluGONqrN5ru/tV4BNJ
+	tT0G2UaSWqfTiftbc7pe1JLdmwFOsxBSA0PEQBwAWHKUFyv1MfWzNyek
+X-Gm-Gg: AYBFou0UvQQtwKPGT5yQx2FIAYApYp3Ph2qGmP8XrSOhx/jpfoqnzHEMYPbA+1WUcba
+	VRvXJ2x9DC/ZQ6nFm9aNAI5tTeZsJjCWUG2iHmfZAdy2JFJ0p404EfIJqUUuwaLPnOg0MDf4erE
+	AC5hjONEUnJTMqvdQSKm69zqE5EXH05fG+C+s6675zHfLXdLiW0ArKLEEx+CkRUtFh+hok72luJ
+	lsgwGkpyd0e+xksqvL4+CfISF0MgsShdE2vZi7szNxBZE7iCgDlsMJ0rTq2gBUhv5NmPSmwR0f/
+	AnkspardcGeVM/Z04JdpAzsA+COdMn0o6JuS3p/LMP1rHF+qGM753mw+i/NiwUWvm8mf0OcFxrL
+	/g8Sv2oynzDnXqbYKnjbT4YT54+gG1I4SaOffGp3l8vJtg3Pm9i4eQmEWdO35e3/FxGvDMP8xMH
+	htcjbk5kK1gADiXrX+3BN8XVpUr7GdcSAsSvl4BN1hi+UHIweQ3bcjRvq1gGgvTIKBcABu+N5qC
+	bw=
+X-Received: by 2002:a05:622a:5514:b0:536:52ae:d92f with SMTP id d75a77b69052e-53652aee3e4mr127981451cf.32.1792494752169;
+        Tue, 20 Oct 2026 04:12:32 -0700 (PDT)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536448b6ce6sm96882821cf.28.2026.10.20.04.12.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 04:12:31 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,384 +86,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 07/13] drm/client: splash: add a device tree image
- source
-To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Francesco Valla <francesco@valla.it>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261013093243.505776-1-maximpedraza@gmail.com>
- <20261013093243.505776-8-maximpedraza@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20261013093243.505776-8-maximpedraza@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.79 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_RCPT(0.00)[dt];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
-X-Spam-Score: -2.79
-X-Spam-Level: 
-X-Spam-Flag: NO
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 20 Oct 2026 07:12:30 -0400
+Message-Id: <DM9MCWCY2RUR.25Q5JSF758J51@gmail.com>
+Cc: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 0/7] psp: support rekeying psp protected tcp
+ connections
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: "Daniel Zahka" <daniel.zahka@gmail.com>, "Jakub Kicinski"
+ <kuba@kernel.org>, "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
+ <edumazet@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman"
+ <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Donald Hunter" <donald.hunter@gmail.com>, "Andrew Lunn"
+ <andrew+netdev@lunn.ch>, "Shuah Khan" <shuah@kernel.org>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20261009-psp-v2-0-5596ab50f677@gmail.com>
+In-Reply-To: <20261009-psp-v2-0-5596ab50f677@gmail.com>
 
-Hi
-
-Am 13.10.26 um 11:32 schrieb Màxim Pedraza Padilla:
-> Embedded products often share one kernel image and one board support
-> package across several models that differ in branding. The splash
-> client can show the firmware's BGRT image or a BMP loaded as firmware,
-> but a device tree system has no BGRT, and a BMP loaded as firmware is
-> either built into the kernel, which means one kernel per logo, or read
-> from a filesystem that is not there yet when the display comes up. With
-> U-Boot's Falcon mode the SPL starts the kernel directly, and the device
-> tree is the only thing that reaches it.
+On Fri Oct 9, 2026 at 4:46 PM EDT, Daniel Zahka wrote:
+> The PSP architecture spec states the need for rekeying connections in
+> the event of a device key rotation. After a device key rotation has
+> occurred, a new rx derived key needs to be generated and sent out to the
+> other end of the connection sometime before the next device key rotation
+> occurs.
 >
-> Add a source that takes the image from a "boot-logo" node under /chosen.
-> The BMP either sits in the node itself, in an "image" property that dtc
-> fills in with /incbin/, or in a reserved memory region the bootloader
-> loaded it into, named by "memory-region". Exactly one of the two must be
-> present; a node with both or neither is ignored with a warning.
+> Because PSP connections involve two different keys at each endpoint,
+> one for decrypting ingress traffic, and one for encrypting egress
+> traffic, there are two types of rekeying events that need to be
+> supported. From the perspective of one endpoint of the connection:
 >
-> The image in the node is used where it is: the device tree stays in
-> memory, so there is nothing to copy or release. The region is mapped
-> like the BGRT image, and the BMP header is checked against its size.
+> 1. rx rekey: we need to allocate a new spi + decryption key pair to
+>    provide to our peer.
 >
-> A node is only there if someone put it there for that board, so the
-> device tree goes first, then the BGRT, then the BMP loaded as firmware.
-> The boolean that chose between the latter two becomes an enum naming
-> the one source in use.
+> 2. tx rekey: our peer has provided us with a new spi + encryption key
+>    pair which we should use for encrypting traffic immediately.
 >
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
-> ---
->   drivers/gpu/drm/clients/Kconfig      |  15 +++
->   drivers/gpu/drm/clients/drm_splash.c | 166 ++++++++++++++++++++++++---
->   2 files changed, 165 insertions(+), 16 deletions(-)
+> In the case of rx rekeying, there is a period where it makes sense to
+> accept packets authenticated from either the previous or current spi. To
+> deal with that, we allow a psp_assoc to remember the last spi that was
+> valid on a socket due to a rekey. If authentication state does not match
+> the most recent assoc, the stored state from the previous assoc will be
+> tried.
 >
-> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
-> index cbe271c3a23f..aef3781cc110 100644
-> --- a/drivers/gpu/drm/clients/Kconfig
-> +++ b/drivers/gpu/drm/clients/Kconfig
-> @@ -108,6 +108,21 @@ config DRM_CLIENT_SPLASH_BACKGROUND_COLOR
->   	  The color can be overridden through the drm_client_lib.splash_color
->   	  kernel command line parameter.
->   
-> +config DRM_CLIENT_SPLASH_SRC_DT
-> +	bool "Device tree as splash source"
-> +	depends on DRM_CLIENT_SPLASH
-> +	depends on OF
-> +	select DRM_CLIENT_SPLASH_BMP_SUPPORT
-> +	help
-> +	  Use a BMP image described by a "boot-logo" node under /chosen in
-> +	  the device tree, either carried in the node itself or placed by the
-> +	  bootloader in a reserved memory region. This lets one kernel image
-> +	  show a different logo on each board or product, chosen by the
-> +	  device tree it boots with.
-> +
-> +	  When present, the device tree image is preferred over the other
-> +	  sources.
-> +
->   config DRM_CLIENT_SPLASH_SRC_BGRT
->   	bool "EFI BGRT as splash source"
->   	depends on DRM_CLIENT_SPLASH
-> diff --git a/drivers/gpu/drm/clients/drm_splash.c b/drivers/gpu/drm/clients/drm_splash.c
-> index a7d627954158..50842922a7f8 100644
-> --- a/drivers/gpu/drm/clients/drm_splash.c
-> +++ b/drivers/gpu/drm/clients/drm_splash.c
-> @@ -9,9 +9,12 @@
->   #include <linux/efi-bgrt.h>
->   #include <linux/firmware.h>
->   #include <linux/init.h>
-> +#include <linux/io.h>
->   #include <linux/iosys-map.h>
->   #include <linux/kthread.h>
->   #include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_reserved_mem.h>
->   #include <linux/overflow.h>
->   #include <linux/types.h>
->   #include <linux/unaligned.h>
-> @@ -71,6 +74,14 @@ struct bmp_dib_header {
->   	__le32 colors_important;
->   } __packed;
->   
-> +/* Where the image comes from, in order of preference */
-> +enum drm_splash_source {
-> +	DRM_SPLASH_SRC_NONE,
-> +	DRM_SPLASH_SRC_DT,
-> +	DRM_SPLASH_SRC_BGRT,
-> +	DRM_SPLASH_SRC_BMP,
-> +};
+> In the case of tx rekeying, as soon as we install the new tx key, we
+> have no use for the previous one, and it can be disposed of immediately.
+> The only catch is in the case where hw uses a key handle in tx
+> descriptor state, as opposed to inlining the key directly. In this
+> case, psp core needs to be sure that any of these unaccounted for
+> references to key state are gone by the time it tries to sync a deleted
+> key to hw.
+>
+> To deal with this race condition, we introduce a different path to key
+> deletion for psp_assocs removed from the socket during a tx rekey. psp
+> core will use bql byte counters filled out by the driver to determine a
+> conservative grace period where key handles can be disposed of.
+>
+> Lastly, some test cases for rekeying are included that go through key
+> rotations and rekeying.
+>
+> There are some packetdrill tests that are queued for upstreaming [1].
+>
+> [1]: https://github.com/danieldzahka/packetdrill/commits/psp-rekey/
+>
+> Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 
-The logic behind this enum deserves a separate patch, I think.
+pw-bot: cr
 
-Best regards
-Thomas
-
-> +
->   struct drm_splash_scanout {
->   	int id;
->   	/* Modesets scanning this buffer out, by position in the list */
-> @@ -110,7 +121,7 @@ struct drm_splash {
->   	bool render_done;
->   	void *map_data;
->   
-> -	bool use_bgrt;
-> +	enum drm_splash_source src;
->   };
->   
->   static struct drm_splash *client_to_drm_splash(struct drm_client_dev *client)
-> @@ -212,6 +223,114 @@ static int drm_splash_fw_request_bmp(struct drm_splash *splash)
->   }
->   #endif // CONFIG_DRM_CLIENT_SPLASH_SRC_BMP
->   
-> +#if IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_DT)
-> +#define DRM_SPLASH_DT_COMPATIBLE "boot-logo"
-> +
-> +/*
-> + * The boot logo node, if the device tree has a usable one. Only a child of
-> + * /chosen is considered, not anything compatible anywhere in the tree: the
-> + * image is configuration handed over by the firmware, not a device.
-> + */
-> +static struct device_node *drm_splash_dt_node(struct drm_splash *splash)
-> +{
-> +	struct drm_client_dev *client = &splash->client;
-> +	struct device_node *np;
-> +	bool image, region;
-> +
-> +	np = of_get_compatible_child(of_chosen, DRM_SPLASH_DT_COMPATIBLE);
-> +	if (!np)
-> +		return NULL;
-> +
-> +	if (!of_device_is_available(np))
-> +		goto out_put;
-> +
-> +	image = of_property_present(np, "image");
-> +	region = of_property_present(np, "memory-region");
-> +	if (image == region) {
-> +		drm_warn(client->dev,
-> +			 "splash: %pOF needs exactly one of image or memory-region",
-> +			 np);
-> +		goto out_put;
-> +	}
-> +
-> +	return np;
-> +
-> +out_put:
-> +	of_node_put(np);
-> +	return NULL;
-> +}
-> +
-> +static bool drm_splash_dt_available(struct drm_splash *splash)
-> +{
-> +	struct device_node *np = drm_splash_dt_node(splash);
-> +
-> +	of_node_put(np);
-> +
-> +	return np;
-> +}
-> +
-> +static int drm_splash_dt_load(struct drm_splash *splash, const u8 **data,
-> +			      size_t *size)
-> +{
-> +	struct drm_client_dev *client = &splash->client;
-> +	struct device_node *np;
-> +	struct resource res;
-> +	const void *prop;
-> +	int len, ret = 0;
-> +
-> +	np = drm_splash_dt_node(splash);
-> +	if (!np)
-> +		return -ENOENT;
-> +
-> +	/*
-> +	 * An image in the node is used in place: the device tree stays in
-> +	 * memory for as long as the system runs, so there is nothing to copy
-> +	 * and nothing to release.
-> +	 */
-> +	prop = of_get_property(np, "image", &len);
-> +	if (prop) {
-> +		*data = prop;
-> +		*size = len;
-> +		goto out_put;
-> +	}
-> +
-> +	/* Otherwise the bootloader loaded it into a reserved region */
-> +	ret = of_reserved_mem_region_to_resource(np, 0, &res);
-> +	if (ret) {
-> +		drm_warn(client->dev, "splash: %pOF: no usable memory-region: %d",
-> +			 np, ret);
-> +		goto out_put;
-> +	}
-> +
-> +	splash->map_data = memremap(res.start, resource_size(&res),
-> +				    MEMREMAP_WB);
-> +	if (!splash->map_data) {
-> +		drm_warn(client->dev, "splash: failed to map %pR", &res);
-> +		ret = -ENOMEM;
-> +		goto out_put;
-> +	}
-> +
-> +	/* The BMP header, checked against this size, says how much is image */
-> +	*data = splash->map_data;
-> +	*size = resource_size(&res);
-> +
-> +out_put:
-> +	of_node_put(np);
-> +	return ret;
-> +}
-> +#else
-> +static bool drm_splash_dt_available(struct drm_splash *splash)
-> +{
-> +	return false;
-> +}
-> +
-> +static int drm_splash_dt_load(struct drm_splash *splash,
-> +			      const u8 **data, size_t *size)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif // CONFIG_DRM_CLIENT_SPLASH_SRC_DT
-> +
->   static bool drm_splash_bgrt_available(struct drm_splash *splash)
->   {
->   	struct drm_client_dev *client = &splash->client;
-> @@ -489,7 +608,7 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
->   		return -EINVAL;
->   	}
->   
-> -	if (splash->use_bgrt) {
-> +	if (splash->src == DRM_SPLASH_SRC_BGRT) {
->   		x_pad = efi_bgrt_image_offset_x();
->   		y_pad = efi_bgrt_image_offset_y();
->   
-> @@ -582,19 +701,34 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
->   static int drm_splash_image_load(struct drm_splash *splash, const u8 **img_data,
->   				 size_t *img_data_len)
->   {
-> -	int ret = 0;
-> -
-> -	if (splash->use_bgrt) {
-> -		ret = drm_splash_bgrt_load(splash, img_data, img_data_len);
-> -		if (ret)
-> -			splash->use_bgrt = false;
-> +	switch (splash->src) {
-> +	case DRM_SPLASH_SRC_DT:
-> +		return drm_splash_dt_load(splash, img_data, img_data_len);
-> +	case DRM_SPLASH_SRC_BGRT:
-> +		return drm_splash_bgrt_load(splash, img_data, img_data_len);
-> +	case DRM_SPLASH_SRC_BMP:
-> +		return drm_splash_fw_load(splash, img_data, img_data_len);
-> +	default:
-> +		return -ENOENT;
->   	}
-> +}
->   
-> -	/* BGRT failed to load */
-> -	if (!splash->use_bgrt)
-> -		ret = drm_splash_fw_load(splash, img_data, img_data_len);
-> -
-> -	return ret;
-> +/*
-> + * Pick the one source the image will come from. A device tree node is only
-> + * there if someone put it there for this board, so it goes first; the BGRT
-> + * is whatever the firmware shows, and the BMP loaded as firmware is the
-> + * fallback. With none of them, only the background colour is drawn.
-> + */
-> +static enum drm_splash_source drm_splash_pick_source(struct drm_splash *splash)
-> +{
-> +	if (drm_splash_dt_available(splash))
-> +		return DRM_SPLASH_SRC_DT;
-> +	if (drm_splash_bgrt_available(splash))
-> +		return DRM_SPLASH_SRC_BGRT;
-> +	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP))
-> +		return DRM_SPLASH_SRC_BMP;
-> +
-> +	return DRM_SPLASH_SRC_NONE;
->   }
->   
->   static void drm_splash_image_cleanup(struct drm_splash *splash)
-> @@ -909,10 +1043,10 @@ static int drm_splash_client_hotplug(struct drm_client_dev *client)
->   	get_task_struct(thread);
->   	splash->thread = thread;
->   
-> -	splash->use_bgrt = drm_splash_bgrt_available(splash);
-> +	splash->src = drm_splash_pick_source(splash);
->   
-> -	/* If no other image has been loaded, try to load a BMP as firmware */
-> -	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP) && !splash->use_bgrt) {
-> +	/* The BMP loaded as firmware is the only source that arrives later */
-> +	if (splash->src == DRM_SPLASH_SRC_BMP) {
->   		WRITE_ONCE(splash->fw_pending, true);
->   		ret = drm_splash_fw_request_bmp(splash);
->   		splash->fw_requested = !ret;
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-
-
+Sorry, I should have tagged this myself for clarity. I'm planning to
+send a v3 when net-next reopens to address some of the low level
+complaints, as well as a CI issue introduced by the rekey drain test.
