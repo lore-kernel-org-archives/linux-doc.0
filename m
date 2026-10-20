@@ -1,56 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.114
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792487227;
-	b=jsRGky09cee146KDXcMYEdx6aprT/E/UYRvLX+G3KrM1bh67gjX077FCnRi+CxGPsGO0
-	 CEZwmj+PNy51DbQt3pnWCqpxhCLKZvo8UisgxzxCoM+AHQMTGCFmigg8BhQnnX5/nNqAo
-	 3SW0nnA3WmAyS/ryzPbTJDw9sg6sc6gdhWJ7jnSCQ6Z9TyhZQB1q5Q1FtQaHM3Ndd+Frs
-	 /xYYALCYO+JxfDM4h/S8Xa1sVOHq9qdemo9jIGZIChUvqd5zGZ7zLylEiX8yj6TiG+Mv/
-	 ERYTQ5zxqEdGHu68UVp6owwhj6QcTLhjYzHD35yTcPE6qf/3/IJH2O5xLPq98sEGpDQ==
+	t=1792487517;
+	b=WPIOlQYsFsLYsgecplJXFOvn1wqsJJXhOyEP/+mRMYZ0H23/WwByy3AFzzkcn5LAZcYn
+	 BvECffQYA/BcREBFB/Qgg0qUbpf8/dkAZknuiSs8wsbINJApc80TxCDwGyLOLgUYrd+AA
+	 6KtHM0FcOhIC2r0Pjq+SDuY8KtO45hiQjS+OQ/uDXYGM4uOP2eRNeqYF9yl5rC+KYqBTw
+	 KHDaoVb55l4WWeOej8e7zgpY2TzD639FmeBshntH/VqXQHTUKGZAW2GdDdGGY0lBggnSI
+	 H8rONvSB7z+pH0A9ZO2rA3H9AlxsqrFHPPjCVV3a0FesZARjoqTmOoa3gmycpnt8mMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792487227;
-	h=DMARC-Filter:DKIM-Signature:Message-Id:Content-Transfer-Encoding:
-	 Content-Type:Cc:X-Lms-Return-Path:Mime-Version:From:References:To:
-	 Date:User-Agent:X-Original-From:In-Reply-To:Subject;
-	bh=17hQliTTVycNMjFjUeYlptDj5DXt5fa/p+ydi6udKSU=;
-	b=rv7V7CPIsrLMJoibzL0xtX0Resyre3K6ux8evlrHF2gIsxRzHCvmr1rsEgvjYR9cc4N9
-	 7yecc2fG/6wbJ33CWjl8vfHOOkcLNWkyQxKD6QuJR+8pp0Xwb3lJW1pdP0UVujjFgPg54
-	 G2eXgkdcRTxz6LT+WsL2MDM3q+loByvPgL98OhgFBLL37w+KSac5NZIe22Kvzua6X5i3F
-	 A7ZW1uq7VaqOgOGiV0BbVf/351pz9Od7rQmppE4hCo9QYyAbHCNggM+QxL+v+xsCdGanN
-	 iqHQoLpC5hQpXIyf+tnKTeyzYN/z7B5D/u8Gql26hbDqon8VTVsMap1Kfaois7aDBRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792487517;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Spamd-Result;
+	bh=s94UpzuG42fen3Pnbo+DBcnYWMmwpyHhKPC+MKJzM1w=;
+	b=HRG1f//PP39xuRjYtuJO67m1hM+JX4H8LYdT6865beRcAfbK86QkR3/41L6vx5X7tj1W
+	 /SSZrHEBo3DhO9N6J+nRB7pAzgdwpK/1kVaeUCPaJEhEfQK582AuEao7QyJ+WXgfUDpwN
+	 pZ7YYxdW1NSl1wkVi6NwE2L4f1wlQzAW+6clwA5zmPYiUlSSHRBn3gOKX5Pn6qKMc46q7
+	 01uVZ1kzU/zLUr8UyzV/nYlo28W+I/jGrEUYso0w327LYkd1XdZVkOl81KQc9+GPqOvrJ
+	 r7WY/+WnhkGLUaeUqP/xt2qqURIMLcnvplJcdq8JzRnbdHKDr/39i7Ble8U4Pg9tsjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	arc=none smtp.remote-ip=209.127.230.114
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l8ed6vBT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XXlhkZG6;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0tCZ6tcf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IU8IC7di;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F90606A324
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 09:07:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91F90606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792487215; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=17hQliTTVycNMjFjUeYlptDj5DXt5fa/p+ydi6udKSU=;
- b=CbcdiNbdjdxNlHE2TRUMEGqzC5RJRVr30/A6wobowz6vKXEVnXa4SmsZ8TWT1Wsl3vzZop
- bXko9wLjVyhUlGJlq8uS9of643SAwcApwV/2kUYaSCFAjaVIAK9roqwziVo4VOYDWJbBZv
- tY1Ypng3AsUEYoRzV1GI/Um7ztcVpZ/LmNAyJuLiUaF4GIPKYs+vKXo+KeaQC3UQGP+iXY
- FIIYKUpSeGNL1CSBMSPJ1BWpZoRZCfcwlY2mSLZMjy/J0hvq1BnIXnKnMMd8vUcreHECMT
- OIQKkUXy5DuqQFb45s5m4PjKlvGyW9LAVgtscobAiBAT+1h8Y3Kti+YratReDw==
-Message-Id: <6b0a2dba-6096-432d-bc1a-251343dd1e74@bytedance.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <gourry@gourry.net>, 
-	<ziy@nvidia.com>, <rakie.kim@sk.com>, <ying.huang@linux.alibaba.com>, 
-	<ljs@kernel.org>, <mhocko@suse.com>, <muchun.song@linux.dev>, 
-	<roman.gushchin@linux.dev>, <shakeel.butt@linux.dev>, 
-	<weixugc@google.com>, <cgroups@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-X-Lms-Return-Path: <lba+26ad72f2d+2a4662+vger.kernel.org+lizhe.67@bytedance.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D15606A31A;
+	Tue, 20 Oct 2026 09:11:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10D15606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l8ed6vBT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XXlhkZG6;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0tCZ6tcf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IU8IC7di
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C1C1121C13;
+	Tue, 20 Oct 2026 09:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792487515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=s94UpzuG42fen3Pnbo+DBcnYWMmwpyHhKPC+MKJzM1w=;
+	b=l8ed6vBTWJkSwIBJm0xlksr2hQxAqLCMyiHL7/HKj6TvJjR3DDvwoSoKdg9l2LPcNUkOxQ
+	GdGGq5OmHjqSRzkODYey/YK3p6Nz7JtGYynFVCxbhX4hn2Ky4wY4/iFWNI8QFQpcPHIPXR
+	KLMEf4MdH/hXikw8xB5y+4UrN1+Bmbw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792487515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=s94UpzuG42fen3Pnbo+DBcnYWMmwpyHhKPC+MKJzM1w=;
+	b=XXlhkZG6Y1WV9u4OgYEZcdLzSR50V417kF1BhJY4j8WHmNbh0p6lE1KKLwQKPzS8+OIHhI
+	eFOS6PYAh1n/LvBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792487513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=s94UpzuG42fen3Pnbo+DBcnYWMmwpyHhKPC+MKJzM1w=;
+	b=0tCZ6tcfgGkhUWecp++8LdqxqNPCe5iIgen9Q3bFVrVFfy0lNwoW9b+KxgYSIqkv+zEkl5
+	1tn3Fk26UFw9vQaYxjsvY65JKWhqLPSe9tyrJgT6lhFoEpoH03KGDPmGcT0oSEnZ6+d1z2
+	qxZ8475k7vuCOxc1QGW0nDCu0Ndyx68=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792487513;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=s94UpzuG42fen3Pnbo+DBcnYWMmwpyHhKPC+MKJzM1w=;
+	b=IU8IC7diMrzV17QCp9DQwxcWRibIprYBF0OIxCJaIpCR2a1C/ZQUx0x4anbMVj6l3YUYkV
+	1NRyRKEdUaZJj4BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10E83136CC;
+	Tue, 20 Oct 2026 09:11:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jEGeKVgw12qfagAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 20 Oct 2026 09:11:52 +0000
+Message-ID: <cc19e4a9-9ec1-4b90-b935-24d9ff33bf7a@suse.de>
+Date: Tue, 20 Oct 2026 11:11:52 +0200
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,199 +105,131 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-From: "Li Zhe" <lizhe.67@bytedance.com>
-References: <20261019152148.3330024-1-joshua.hahnjy@gmail.com>
-To: "Joshua Hahn" <joshua.hahnjy@gmail.com>
-Date: Tue, 20 Oct 2026 17:06:28 +0800
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-In-Reply-To: <20261019152148.3330024-1-joshua.hahnjy@gmail.com>
-Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
+Subject: Re: [PATCH v5 01/13] drm/clients: Kconfig: indent DRM_CLIENT_DEFAULT
+ with tabs
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Francesco Valla <francesco@valla.it>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261013093243.505776-1-maximpedraza@gmail.com>
+ <20261013093243.505776-2-maximpedraza@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20261013093243.505776-2-maximpedraza@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.79
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:email]
 
-On 10/19/26 11:21 PM, Joshua Hahn wrote:
-> On Mon, 19 Oct 2026 22:13:59 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrote:
+
+
+Am 13.10.26 um 11:32 schrieb Màxim Pedraza Padilla:
+> The body of DRM_CLIENT_DEFAULT is indented with spaces, unlike every
+> other entry in the file. Use tabs, so that the next client added to the
+> list does not have to pick one or the other.
 >
->> memory.reclaim is a useful proactive reclaim interface for memcgs, but
->> tiered memory makes "reclaim N bytes from this memcg" underspecified for
->> userspace controllers that manage memory placement across tiers. The
->> kernel's reclaim policy is aging-based, and on tiered systems aging may
->> demote folios before they are eventually evicted. Without a way to
->> declare where reclaim pressure should start, userspace can only reclaim
->> from the memcg as a whole and observe one aggregate progress value.
-> Hi Li,
+> No functional change.
 >
-> Thank you for working on this patch. I think it's quite interesting.
-> I have many comments about implementation detials but for now let's
-> discuss the direction of this series first.
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/clients/Kconfig | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 >
->> There is prior history here [1]. The old nodes= proposal tried to let
->> memory.reclaim scan selected NUMA nodes, but the discussion left several
->> ABI questions unresolved:
->>
->> - nodes= did not clearly say whether the mask was a source selector, a
->>    reclaim domain, or a demotion-target constraint.
->> - The implementation did not apply the mask to the whole reclaim path,
->>    so demotion could allocate outside the mask. If userspace interpreted
->>    the mask as a domain or target constraint, the ABI did not provide
->>    that.
->> - Selecting top-tier nodes could become an implicit way to request
->>    demotion without uncharge. That would make userspace depend on a
->>    particular reclaim policy and could make future policy changes hard.
->> - The separate completion-accounting question remained: demotion can
->>    count as reclaim progress even though memory.current is not reduced.
->>
->> This series takes a narrower approach.
-> I think this is the way to go.
-
-
-Thanks for taking a look.
-
->
->> It adds a typed source= key which
->> declares only the source on which the existing memory.reclaim aging
->> pipeline should be applied.
-> Calling it an "aging pipeline" is a big confusing to me. Maybe just call
-> it eviction targets or reclaim targets?
-
-Thanks. By "aging pipeline" I meant the combined reclaim behavior that
-may demote some folios and evict others, depending on the existing
-reclaim policy. But this wording is confusing here. I will use "reclaim
-targets" in v2.
->
->> It is not a demotion target selector, not a
->> demotion-only goal, not an eviction-only goal, and not a change to the
->> existing completion accounting. Leaving source unspecified preserves the
->> existing memory.reclaim behavior.
->>
->> In that sense, this series extends node-scoped reclaim pressure to the
->> memcg memory.reclaim interface. The existing node memory_reclaim
->> interface can apply pressure to a node, but it is not scoped to a
->> particular memcg. This series lets userspace apply the same kind of
->> source-scoped pressure to a cgroup's resident memory on selected nodes
->> or tiers, while still using the normal memcg reclaim path.
->>
->> The main benefit of this series is to give userspace a steering knob
->> for per-node and per-tier memory placement control. A tiering controller
->> can observe the resident memory distribution across nodes or memory
->> tiers, and then apply reclaim pressure to the source that should be
->> relieved. For example, it can apply pressure to top-tier nodes so that,
->> under the existing tiering policy, cold folios can be aged and usually
->> demoted to lower tiers, or reclaim from a terminal tier when it needs
->> actual charge reduction.
-> To me I think the other interesting aspect is being able to evict memory
-> from lower tiers out to swap so that toptier always has room for
-> demotions, preventing swapouts from higher tiers. In fact I think for
-> my interests this is the more important use case.
-
-
-Thanks for pointing this out. This is indeed another important use
-case. I will add this use case to the cover letter in v2.
-
->
->> The existing memory.reclaim interface cannot express this. It applies
->> pressure to the memcg as a whole, so on a multi-tier system the kernel
->> may make progress in a tier different from the one userspace is trying
->> to control. That makes feedback control of tier ratios ineffective: the
->> controller can observe that a specific tier is over its desired resident
->> footprint, but it cannot direct the next reclaim request to that tier.
-> This part is confusing to me. The kernel curently doesn't observe
-> per-tier-memcg memory footprint and try to manage it, does it?
-> ( that is what I'm trying to solve currently in my tiered memcg series ; -)
->    but as it stands right now, I don't think there is any feedback loop )
-
-
-Right, I did not mean that the kernel has such a feedback loop today.
-The feedback loop I had in mind is a userspace controller loop: userspace
-observes the memcg's resident distribution, for example from per-node
-memcg stats, maps nodes to tiers, and then issues memory.reclaim against
-the source it wants to relieve.
-
-The wording is confusing because it can sound like an existing kernel
-policy. I will reword this in v2.
-
-I have also looked at your tiered memcg series. If it is merged, I think
-it will be very useful for tiering use cases. I hope that work can move
-forward as well.
-
->
->> Patch 1 adds source=nodes:<nodelist>, which is the basic source
->> selector.
-> In general I agree with Lorenzo, it took me a second to realize that the
-> bulk of this series is just adding a nodemask to
-> try_to_free_mem_cgroup_pages. It might be helpful to just call it
-> "reclaim" instead of calling it an aging pipeline.
-
-
-Agreed. I will simplify both the cover letter and the documentation in v2.
-
->
->> Patch 2 adds source=tier:<N>, where N is the memory_tierN id
->> exposed by /sys/devices/virtual/memory_tiering/. The tier selector is
->> only a convenience layer over the same source semantics: it resolves the
->> current tier nodelist at write time and then uses the same source-scoped
->> reclaim path as source=nodes:<nodelist>.
-> Personally I think that it makes more sense to just start with a
-> node-based reclaim interface, and then extending it to tiers. It seems
-> like the tier usecase is entirely doable with just a nodemask interface.
-
-
-That is reasonable. source=tier is only a convenience wrapper around the
-same node mask semantics. It is not required for the core ABI.
-
-I can drop patch 2 in v2 and start with source=nodes only.
-
->
-> And in this case, since we're just selecting the sources of reclaim,
-> tiers don't really matter, right? That is, we don't care if the memory
-> gets demoted or swapped out, we just care that the footprint for the
-> tier memcg goes down.
-
-
-Yes, that matches the intended semantics. source= selects the resident
-source to apply reclaim pressure to. It does not choose whether progress
-comes from demotion or eviction.
-
-So for source=tier, the tier only provides a convenient way to resolve a
-set of source nodes. The actual reclaim semantics are still the same as
-source=nodes.
-
->
->> The remaining issues from the old discussion are intentionally left out
->> of this series. If userspace needs to control demotion targets, that
->> should be a separate target/demotion-policy ABI rather than folded into
->> source=. If userspace needs a strict "bytes actually uncharged"
->> completion mode, that should be discussed as a separate accounting or
->> goal extension because it would change the observable meaning of
->> memory.reclaim progress. This series only adds source selection for the
->> existing reclaim policy.
-> 100% agree.
->
-> Thanks Li, I hope you have a great day!
-> Joshua
-
-
-Thanks for taking a look.
-
-Thanks,
-Zhe
-
+> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
+> index 6096c623d9d5..8d8bc37ec9f2 100644
+> --- a/drivers/gpu/drm/clients/Kconfig
+> +++ b/drivers/gpu/drm/clients/Kconfig
+> @@ -114,10 +114,10 @@ config DRM_CLIENT_DEFAULT_LOG
+>   endchoice
 >   
->> References:
->> [1] https://lore.kernel.org/all/Y5bsmpCyeryu3Zz1@dhcp22.suse.cz/
->>
->> Li Zhe (2):
->>    mm: add source selector to memory.reclaim
->>    mm: add tier source selector to memory.reclaim
->>
->>   Documentation/admin-guide/cgroup-v2.rst | 29 +++++++++++
->>   include/linux/memory-tiers.h            |  6 +++
->>   mm/internal.h                           |  3 +-
->>   mm/memcontrol-v1.c                      |  6 ++-
->>   mm/memcontrol.c                         | 11 +++--
->>   mm/memory-tiers.c                       | 24 ++++++++++
->>   mm/vmscan.c                             | 64 +++++++++++++++++++++++--
->>   7 files changed, 133 insertions(+), 10 deletions(-)
->>
->> -- 
->> 2.20.1
+>   config DRM_CLIENT_DEFAULT
+> -       string
+> -       depends on DRM_CLIENT
+> -       default "fbdev" if DRM_CLIENT_DEFAULT_FBDEV
+> -       default "log" if DRM_CLIENT_DEFAULT_LOG
+> -       default ""
+> +	string
+> +	depends on DRM_CLIENT
+> +	default "fbdev" if DRM_CLIENT_DEFAULT_FBDEV
+> +	default "log" if DRM_CLIENT_DEFAULT_LOG
+> +	default ""
+>   
+>   endmenu
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+
+
