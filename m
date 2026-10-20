@@ -1,100 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792492487;
-	b=miHqsfDOHGdMAjNsmgdkz0KdWDMTR9F54jRfSmFF1nEFb0CBcQiKybdDVWQc7qyORaH3
-	 K0puIOJXdgXNjxPz3PTRMImW6OQ/KBn2ePKUe87dk001XPjMrf407NoGQOjWtPp09atlh
-	 vQk+XKM7XFYYWMpnbQuWVzCg07MoSF/JMoLa3y45ZKR/EsF+RRGL6SbK4cqi4fYDwtipa
-	 FRqd13ZTxw1+t40Ujjdj3NoPpzqwoCuDdjxL1nMNPZ538WJrrRnhMznCJcM3VXUmbEUVw
-	 aesmeYIkB2O6MLD//oywfaunt3M8wPXCVbsFjSMG2pnQ6AFiv/qpS98g0BYyUGfmJaQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792492487;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=7yqug8sdWoY+Xi/S1g7k8vlRdY1kPSN8O1HjSFthE/o=;
-	b=VAnmBLwxzD0qSq8KD/gXRht3Lnf1SGCECa6c3HxKrUvrktHSC7ID6MKutzeWRkt8Fuby
-	 m3rpaMxTZBjrcmWIP5feSJ+e90QUcsUohvbts47vIIbbRZ5bHBDcelh+Jdoifm2zI2JOI
-	 Z6ZPjCDrfVD4a58UMOxdQKajUK+Z7nSDkRDRbPYzVAgG8OJpGokJnEAtwD0iCtQMvujfv
-	 iCWqkz8pE5tP5qbBvGtDnv2HqfnXoO6ntBPiptAEc4KXs5iRbRwO/4+ZFmlmfsnG1e3xA
-	 GuH7LMQR+8TKn42tBk9FXaegxX3zrlKFtkF6k7xYZoI8EJe0VWbEYbbNu4+Wu6Y+tUw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=cI4IJybI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.41
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA087606A319
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 10:34:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA087606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792492924;
+	b=V6T6MpXyWFTh3EzZMl9X/zfJVoEa0fUED70F0DPobLDT96jDnGVQ+EZFg3xqfP9OyrC+
+	 FGYaIUCM+53huvIZcfA5SE8yWioO9GZEef2++vt1AGfNthxSdpaRwLIjkp0WsomxyoILm
+	 p4AOdFUGL0TcWO44GGdvRh+4e+roPFoBHwbpNJ44o06PhEdCVi8jm6WHXBNTDRaZWxoik
+	 2SA9clMGhGeWFsfRDL7Uv31NGIiOoLY/QecGWdZkjWCsBwd8iN71xxVN+3iP48Z4jmF49
+	 bumYxRsURdvfzB0Cpo7Nv8WDPvairL0y/5On8S+RJs4Si+B0Hbtg2yJiECmTdnwqThw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792492924;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=HOfrP9Gwhe+jGo5BWEDgZkkf4alGpvk7OGOLWLYgIaA=;
+	b=nVJFrgZTeDqLMd402G1lpDcCCeKcpKcHWYDbYug5Lo85XsDAnO9dbMpZYCSP5hyXQohM
+	 Avz01R6EkuqGvDvlEMWxn4dOpcb2E5FoAvwCrYEytUYUfinFX7F1GKx6w7msh7HdVEXCK
+	 hwlMpsBXZaNsIpWNryXY2iPA8G/Ckfl5Lwx22kiqmrXi5NZ1L8uEUYj54QFP0/FCrHr8X
+	 +k1uf4hhCGXbl8OyhnsYfUgSHRdYmwP+zxW4wwNKUBs7RBknghiCVJdXvUcIU4mBqLLL1
+	 Msi2nk8S5jzl81iJc3PgSVIybOiWq/MXb7UEWmx4sJGWs5h3sw6JkS9FT1URcRVJS1A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R0X9Nmpp;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40861606A31A;
+	Tue, 20 Oct 2026 10:42:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40861606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=cI4IJybI
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-18cdcfc05ffso1811500c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 03:34:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792492486; cv=none;
-        d=google.com; s=arc-20260327;
-        b=N9bXXkd3fxqj7lCbFnl3U2xJV/EyqBMxmr8dJg6K8C2FXAuC6yuNGV/4udXXXnAPCj
-         OoSueSXC5e4r+JDdpFk+FwgvdeS/FDwim7XMMWiYIt8v6rnteV2dXFCJERYtCRxgQ7fT
-         aQ3yy8WDP5k+Uhe0THkAkPJc4U5nT47AYo1/YwInTFmzTidlFpvaVZhX5jBfToeHPp/9
-         h85HrpqP8WwdDLBUFsJjNZxUSO2BNrJyF2esuy/AEU/wRSaoyGCCVXTnlmpsJ/MgQH1Q
-         YSymtR/kkB/mpDjrhlHTh+d6xr3vbounDGC1z+RiqzNLiIGO90b7yFxP1rmQuOn78vJp
-         j/IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7yqug8sdWoY+Xi/S1g7k8vlRdY1kPSN8O1HjSFthE/o=;
-        fh=Er7ceS0LtaaJWjSEwmJgYJb67cj3tRC1DkVkAIKQpTU=;
-        b=bx+B2PqAsnjldURhChadfQ8py8+eiNLkM6btMDwTHhTOJl1ttIuNl+6B+IQfFh07Nr
-         Ti/I/MPxWpj7WU1BAu6a8O9pZSC8obwUv00cc3c0zkRrnR9t594Zy+CISqoGt5yM1+xt
-         As0Bx8uvIwbCyGAQjmlT2fKKJ6xlPydF1nUzdQLrXde/aUENjHwEOP6LNQ94T4Ljcj5K
-         TUlSwAEqXLD3SkdwNWRVZIpsQ0sfkJsxE+tOkLNJMt7X3lkGU14XsxhJsnsbmssN0R8V
-         YuSx86PJeYZu0III2WVHgnYUdw0xYnSaK0MeIkJpRbn2yC4Wj8M9TCRla+h3m+KGnXTP
-         V1Nw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792492486; x=1793097286; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7yqug8sdWoY+Xi/S1g7k8vlRdY1kPSN8O1HjSFthE/o=;
-        b=cI4IJybIWAFbUhFgiqBGwhfqjgpLGre5R3ot79Ke3zI83Rv8hsE7zK5rQQywe4d1ep
-         r23usjXDN6ONg5MR+VjsdgsKNHxDDg0RrsGtvGgLLY7pBHRzQC8h3/H7kxTnExzE6Qmo
-         QpZbMR5D5TDURKfX9iAKFDKoEOuHC/IePb6qiP33yxaGOZL4qmuyU3HaaGQSjnc/0vAN
-         VhzGtkVCEK9aZxDzOsE877SK4MI9vgdKQQaC/5Oj8b/f1ETaawk5swZ6s8fSIdJzKSFn
-         lbaG7dr3LzHW2i+qbB5nZmgclId/Y+2MInJaqBdwT014/GtR7t3ednJvS8omieNK8REW
-         ob7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792492486; x=1793097286;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7yqug8sdWoY+Xi/S1g7k8vlRdY1kPSN8O1HjSFthE/o=;
-        b=sv/uomINA8Fbh3CCKR2gb1xXbJ6sArssYaLQjgxpxClpVOUY+Jm5KCt2839mmXgJj+
-         HmtVlcISPF2aaY0ecTBI41fwS1cWZQWW807Qjw8s2BMWXnANeJTzEWn8pQhjkTz0Fhqe
-         D4kctvoQTxx/wDYZlkb5XAHqjCtKj8mMPFGkfU7g/Y+EWrZvp/S07Xor1v7AoaluvjN8
-         QCOJ8Bhdw1+aLM6r92CjBzy2uq5xNR3oKAlL4eWPpzTngKxcowaVcOzlGBV4CdbVnx9u
-         Ezw3EDJbD2p2jkpDh7BtCEEGIT0yBd6IsXpLBeoB5zpWXUDRN+34GFGD5uh3+Lpy/kCu
-         7ogA==
-X-Forwarded-Encrypted: i=1; AKwUvBwVdSyKIpEh9G/PN9FIIY3Ln1FKRmr7FKgQeLYifGV1LkAcycsxpA0AmQ3mtin70UwoRWlwV+QBptY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI4iX24UAivX4f3oj6yztDZNG5f7mMBgIQJh1PcFkdxMSC42ZyY
-	brL0XEfErwewsRxCM8GBX2eLHpWKjHFPRhHICVplUJ12xP6v0FJQSF0zN7VpBQZc5ovCjSZYPTE
-	bcM0S+lghYt0GccU6gAbRs2/7t2ynAIO0kf8uJCbI
-X-Gm-Gg: AYBFou1++/2TPnVfAMYsydnUcPuL4SNStua+r6desRmtAGta54HKbjYK/H0uGJp2RKe
-	VM2tBpVoKrotPWhaFg9PFSnVGZ/i6UK5Uxp9HaAjoZ5vICS83Wbvx4gRacE2k/6VSzpVr8nYdsH
-	qyF8FzjIbLIBjVAgd01AzaHuG8YurnVaa/1ftUxzA24MikX9d/msut8nZyZIc7PAF1Kn3PzNB4a
-	gs7TAv0derUf6iZoKoWzgP1rGNWusKuiwZHug6+eX/Hm2GgUCIg4YqPe90Ozw6fZxIVZp78LZpU
-	czt1TQSaRUMFwwyzzNvH6uWoGNB6Ge73qIuwz3bPYJldqaAL9bmMEI4F9hfarvOS+hdENbqSBIH
-	0ZLbb/3jpwt+eh2WpzEGaHA==
-X-Received: by 2002:a05:701b:4657:b0:183:bebb:e93b with SMTP id
- a92af1059eb24-1850d3705c0mr13844857c88.6.1792492484834; Tue, 20 Oct 2026
- 03:34:44 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=R0X9Nmpp
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EA711596;
+	Tue, 20 Oct 2026 03:41:59 -0700 (PDT)
+Received: from [10.0.137.15] (XHFQ2J9959-5.cambridge.arm.com [10.0.137.15])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2958D3F7D8;
+	Tue, 20 Oct 2026 03:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792492922; bh=OaSet948UMPKW/bEq7Gy7KB2ZNmZwB2hGOuIicxjXI8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R0X9NmppaPctZe25oyvdRyxTPp7TrT33QgSmgyWht1QNwxUfP4JqEzNxdmziK123R
+	 XueQS3xiz/bfL8vBZ1yVww8k6Q6T25wedDXhj06BS3d1+I/XnwCjNfnm9GNFLMWDfn
+	 vC7cxViW1dKg0DcKnWi5Bhdwq1g6zBBbBiqLMygQ=
+Message-ID: <375868af-d0bd-4278-83e6-f8429df130e9@arm.com>
+Date: Tue, 20 Oct 2026 11:41:57 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,61 +53,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015145714.3327543-1-elver@google.com> <DM8X51YCN6AA.1HV7J3R3PIYY9@garyguo.net>
- <CANpmjNPALPJQDZFfNAqo8v0eu_0uNvj+rJ5xqeC3ZZSvs9zQwA@mail.gmail.com> <CANiq72mCixHhc5tU6ueiJNEfE7yHXHXekhWDcvhFdfd414Q3yw@mail.gmail.com>
-In-Reply-To: <CANiq72mCixHhc5tU6ueiJNEfE7yHXHXekhWDcvhFdfd414Q3yw@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Tue, 20 Oct 2026 12:34:07 +0200
-X-Gm-Features: AclHuK9vxwrK8NaLvu2ec0o5N9md4lXO8zMypsPDxXbgQlLlX57bi1hqfmPPF_I
-Message-ID: <CANpmjNNmnTMqxSJ_R+wYeAkFOxnJcUmwktNuG990GunjxhcvbQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: rust: enable KCSAN support
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Alexander Potapenko <glider@google.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Yury Norov <ynorov@nvidia.com>, David Gow <david@davidgow.net>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Alvin Sun <alvin.sun@linux.dev>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Petr Mladek <pmladek@suse.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 15/15] misc/arm-cla: Add vfio-mdev user interface
+To: Jason Gunthorpe <jgg@nvidia.com>, Jean-Philippe Brucker <jpb@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Alex Williamson <alex@shazbot.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ kvm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+ <20261015142552.4128028-16-ryan.roberts@arm.com>
+ <20261015164102.GC13920@nvidia.com>
+ <CABCqBse_aZL-EH0us2uA5X10q6E4WP02MoHTYf+M9ezRZr26WQ@mail.gmail.com>
+ <20261016144202.GG13920@nvidia.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261016144202.GG13920@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 20 Oct 2026 at 12:27, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Oct 19, 2026 at 11:59=E2=80=AFPM Marco Elver <elver@google.com> w=
-rote:
-> >
-> > Which tree should this go through? The Rust tree? Probably too late
-> > for this cycle.
->
-> I think you send KCSAN PRs, so I thought you would use that, thus the
-> Acked-bys (I suspect others thought the same). But the Rust or Kbuild
-> trees are also a possibility, yeah.
+On 16/10/2026 15:42, Jason Gunthorpe wrote:
+> On Fri, Oct 16, 2026 at 03:22:00PM +0100, Jean-Philippe Brucker wrote:
+>> On Thu, 15 Oct 2026 at 17:41, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>>> I think I said this last time, please don't use vfio mdev for
+>>> anything. There is nothing mediated about this.
+>>
+>> We don't multiplex a device between guests, but the host driver must
+>> control part of the device registers while the remainder is assigned to
+>> a guest. The host configures accelerator access, stage-2 translation,
+>> handles CPUHP and context save/restore. So we can't bind the device to
+>> vfio-platform.
+> 
+> That's fine, you can make a proper vfio-cla driver.
 
-Happy to take it - but in the interest of avoiding conflicts, thought
-it might be better suited for the Rust (or Kbuild trees).
+Hi Jason,
 
-> In any case, at least for Kbuild and Rust, the PRs were already sent
-> (and, generally speaking, I would have expected a patch like this to
-> be in the list for longer anyway).
+Thanks for taking a look at this! I've been chewing on this comment and trying
+to educate myself deeper on the subject. I have a proposal...
 
-Needs some -next time, too.
+Currently we create a struct device per CLA device instance. But multiple CLA
+device instances cooperate within a domain and the domain is the "unit of
+isolation"; we can't have some CLAs from a domain assigned to a VM, while others
+from the same domain are used by the host. Therefore it didn't feel like the
+correct model to unbind one of these devices from the native driver and rebind
+it to a cla-vfio driver. mdev seemed to solve this problem nicely for us.
 
-If I don't hear otherwise, I'll pick it up later this week / next week.
+But looking into it in more detail, I guess something like this might be a bit
+more standard:
+
+ - Split the existing CLA driver into three components:
+    - cla-core: Hardware discovery, domain configuration, struct device
+      registration and CPU hotplug
+    - cla-native driver: Provides the user space accelerator interfaces
+    - cla-vfio driver: Enables domains to be assigned to virtual machines
+ - Each domain has a struct device (created by the core)
+    - An individual CLA is not represented by a struct device
+ - Either cla-native or cla-vfio can then bind to a domain device
+    - cla-native exposes a char device per domain, per accelerator class
+    - cla-vfio
+
+For VFIO, I guess we could use one VFIO region per CLA, which would allow the
+VMM to construct a device tree. But it would need to additionally determine
+which CPU each CLA is bound to; perhaps that's a sysfs interface that cla-core
+could expose?
+
+Does this feel like it's going in the right direction?
 
 Thanks,
--- Marco
+Ryan
+
+> 
+> Jason
+
