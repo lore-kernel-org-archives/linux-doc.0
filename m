@@ -1,113 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.33
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792536047;
-	b=fBTXWbwVSLG/MsTcdTf56xq6zAVhg7zYh8ounQuNvH/sqKZConRyrbJzXT3ody8OKrUb
-	 m6GTyIyAGUyToxQf2MYcoyYlpLveHBzi/cs897wV2qsl/kdt8Y+o+nMGnovASonumPzOi
-	 sInVt310AblGJsM8me63KD77I/cSWSw1CHM3rGzIIX0exPdcJQoy3uEmQefR8F2rcQ3oQ
-	 mRCW0aGnt5c3raASQ/Gwi+EG4QSzTKVL5eVSQWXn9I9MlXeOMs9rn6HdCiX8g0hOILNWi
-	 Qu2Y4HmoPIgscuOuLPVYlwC/6MDolya9J4YDETyEz068ram0sdcj9MTincyPwLzgDVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792536047;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
-	b=MBlEQt1zWmF1YD+4u50mFw+qE3UuJ9uFMIbuFGAaqVjkEOoC6LmYIUo+PrIZQ/n0He0R
-	 fxOc56P07Gnn7gh1ssQ1Y9niVSC196HZEXFqGYf1eUx1kKwjExdE3iVSIfc1k2P0DtM/E
-	 Ux+ykSzANe0CbhDohk/++Zj9ADbLXAEbpOvleMFUFr2crabQEqnaeyg19L6SYVWS8WQ/+
-	 E8RJ6/U6+wMm2yTbns5+kzTZ1AcrN/7PSuJZ6Ii5AA97xJNd9CRy/zety9XHRxMyn9PbO
-	 ZdkWQhoaYAEnKCZrFNkMSmjAhusRifL453+mfUj7Qmor/qBwzRKXj+2L4spd914kM0A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q6rTptpR;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.33
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010033.outbound.protection.outlook.com [52.101.85.33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945CE606A319;
-	Tue, 20 Oct 2026 22:40:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 945CE606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792536595;
+	b=zAlwCGCvl7/Dnxfzidx7M0cziOMiIHek981Y3ziasCB9Nbf//mASh4rsoGU848etM/j9
+	 x3qqDCQtUKwXwN8rk8AnFk+YyepPRkbmDq0A0I3LnsqP9ya132k+0G3riGrPExHP1/pg7
+	 T/HbvgiHzc4KZkFAdo2Fwnx4mDBbwdyvtLDrmY8pM1Rle0pJGSzQ2wmk83Tg69TJM+hmF
+	 gEEeWAZb+9KUJa+nqogXO9YuMC8mrdMFQFXxZVwM+iXgDQ//1O3s7mGJSthoKkNodn3VD
+	 tVlzrdJECsZ79oV6YoiLg7kUi9VFc+y7mt48IeIvZVKHtj/YfbxdKpKUcgT/OBaTtGg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792536595;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=8L3dbJg7n3McKQQtwak49EcNPS+ZUeJOE3KFcCfv8HU=;
+	b=mnEw/TcJyF3l+yjzmScjwzh7ugTCwszDIbBa0FZFT4RWUtfkVpFTHJZ5Iwb8d1rtJvrh
+	 YSMVuZhPOlRJxDJjdfXyzte8FXMECI75xg23NPSA308JU7b3gCTV52Gn3ndPTYJzgX/V4
+	 UxfDBk9t8TecnxWzBpiAPuebSJ8M+1Tv3L2QlkFQCVZJqaZE/juInq769mb3QTjtlOJWF
+	 VCeJqtGlJZgHjtjRFWo6kEt032nKPxsba7uDQnnIP8a/Yb9m0ddhdrcOIVhqbp3fpHM9H
+	 DTs6UW6R/+BQ/YF4S0bs8mwdfBHCi7HAmRIXAm9b/9c3JjIxe5MtMc7LNUph8pk0GOQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Iy65iNq2;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C5A606A32E;
+	Tue, 20 Oct 2026 22:49:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41C5A606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Q6rTptpR
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uOziGpDIHR+qJzpbB70Jdvgh/4DN/ZJFZlCLZ8cR0kRYYTku3vICEqyF7V9q5EfQseRVwceDJQBRocg9Ole8b4Ag7Z6jpV9ibSbZa3XgsLzOGRTvSSemdASzQa1gOOebzNI34EwqWweq+dJdkK+n6PIe0IqHaMT5vDFFj4RQG9ecgIcFSffh56DS4Ow6ecIJaRTfoxa8P7rJFwod3OMIDCxaZRI4ZJA7cI8RcEjvPtJrDK0GQouha5HUKRyaugEh6/8SNGGv5QO1gu+a8G/SL5FFsbh3uugc7TCZzIXFsCvc85Owj4CnG9v6QmNN0PsKdr4mDenaVs/dZUQTdECKvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
- b=ROpvYu+s3u+z+zO7I4LB2FcOE8XqRJRO5/ai1ED6l4dSYzZSkyeG6I1fPMKJYzBFAAjAjUo1WcYyi/eNNq/FAcF368xj13mMMQ5mb4kcOyy2ZI2fHfnv6577S9qzymqk05JjsxxZDrbqBW5U+aAUWB/JIxX3LxmN/lv6kz9KONu3CvWL25Z9mGBtL+HEB2QigLoIGJZQjV6L7OQfSOoEYPQ5zmwxawvt5HU352/dQ/U9lCH+pVHMJ/HrN5N09PyLogogKub9P0ZZVerLOrih23axbW1f2e2yTQvvn/6hOPkd6hKm+jaF/YKTC25+3I2YH89BiMeb+fitM8l7GayQGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8mczsWQvOYQQl4XsxFFWW00i62Jcr04cpalkveEBTlc=;
- b=Q6rTptpRn1iyQcxYU6qDdIr0uzH6qSPnpjisHRd5Z/wtvxDgKDfj3ap07Vxyq1M4wsp8kBPiiNbwRYSIhX5m/6lVyC4ULAM01UogGOrg1aghzAEaXYkiLHHenjI181Nh1R7KaIpArflawzMwwMNT7HuMbN3BOIVvAaiCGLaazUY=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by PH7PR12MB5901.namprd12.prod.outlook.com (2603:10b6:510:1d5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Tue, 20 Oct
- 2026 22:40:39 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0546.012; Tue, 20 Oct 2026
- 22:40:39 +0000
-Message-ID: <dc9f3713-8041-4b54-98c5-4ff262b948c3@amd.com>
-Date: Tue, 20 Oct 2026 17:40:35 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/18] x86/resctrl: Add PLZA configuration definitions
- and data structures
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de,
- ben.horgan@arm.com
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org,
- mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
- fenghuay@nvidia.com, kas@kernel.org, rick.p.edgecombe@intel.com,
- akpm@linux-foundation.org, rppt@kernel.org, dapeng1.mi@linux.intel.com,
- elver@google.com, enelsonmoore@gmail.com, jlayton@kernel.org,
- kuba@kernel.org, ebiggers@kernel.org, seanjc@google.com,
- ewanhai-oc@zhaoxin.com, binbin.wu@linux.intel.com, peterz@infradead.org,
- ashish.kalra@amd.com, superm1@kernel.org, chang.seok.bae@intel.com,
- prathyushi.nangia@amd.com, kim.phillips@amd.com, ackerleytng@google.com,
- elena.reshetova@intel.com, naveen@kernel.org, darwi@linutronix.de,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-coco@lists.linux.dev, kvm@vger.kernel.org, eranian@google.com,
- peternewman@google.com
-References: <cover.1790867441.git.babu.moger@amd.com>
- <608876cedf5eece3f8b9297bcf21663a86a6380d.1790867441.git.babu.moger@amd.com>
- <bf4bd727-eac2-48ba-ad85-539a818524d6@intel.com>
- <c557ea83-11aa-4747-b305-93d554d3fbc4@amd.com>
- <dde507b4-6592-4450-80c6-41af64c1796b@intel.com>
- <ae45849d-8260-4a34-a860-51a309dafa29@amd.com>
- <7f14a2b1-2d95-4606-9242-eba62afeb856@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <7f14a2b1-2d95-4606-9242-eba62afeb856@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS1PR07CA0005.namprd07.prod.outlook.com
- (2603:10b6:8:456::9) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Iy65iNq2
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22FC515A1;
+	Tue, 20 Oct 2026 15:49:50 -0700 (PDT)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92E9E3F673;
+	Tue, 20 Oct 2026 15:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792536593; bh=utolcjwaaJaPzYwJQo9ya2LOeTJaqLosq4TA9Cq4IIo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Iy65iNq278aR/8Qr5ADRvjS5ek17DIwYRx5fL1DcFwSqjuxUK3E/82pYbuRw8AJRv
+	 LW+A9rVlT44ugB3MLub2pWp75rqYgsVz57A99bXDD0t1WBYfyxBKd1q7eFc3vOG4BJ
+	 8mE7Bsb9YISf28302wWCSS0gQPVnGGFFsFBqp1L0=
+Date: Tue, 20 Oct 2026 23:49:45 +0100
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Simon Glass <sjg@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	linux-integrity@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>, patches@lists.linux.dev,
+	Piotr =?iso-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
+	Ross Philipson <ross.philipson@gmail.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Song Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH v2 12/15] arm64: drtm: Update the linker script for
+ EFI_STUB_DRTM
+Message-ID: <atfwCcRfC6rWFywH@e129823.arm.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+ <12-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,173 +82,193 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|PH7PR12MB5901:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fc32949-5b80-4ff8-e7dd-08df2efb2a6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|7416014|6133799003|22082099003|18002099003|4143699003|11063799006|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	X7wCmYecz93wS5xsdDKh4fHktvzdWLR8d5KFF+uo3snIh8U9R1TzUqrngKqg8ye3Y8D2d5Fsi9QVtBmhu4YGrsPbQutFd1bhttCwiePSxvlSZl2GfB+o/0+P8XVytQzjyfQ8jqwgVxouigSuk7DuFxctwfvmRbKNeXpgEf88X05PI5SHfve53Hl7s7uphk6pBaxL0BMz9T5GK7zAi2yjP5BPH52+RwBGCQkzrh62vWUR/wHmJXjHc0tq1mBBUxKCiYBB7HQ2xf3SSu5j6taJSElVIt96rumdOf9XYLtFtCUBl4tduZmtRgpq1s2HxRI1PnOEmwJKb6dl7ZRlcrf/Dlq6zZWTqc0dG4YjsVrBI7foMdRj1kj1qKfzFYnLRuskbYMgOq+BtJj1+LZHQyULDP+4NjVWnvx10YTsDp6KVI7NOxuvzV4A3mWOuLkAvBtMIWTrE8aFsG3KIYrQw0OzfZUc6V16TNjVPW7tzB+/Bt2SlY0WYp2hdGgi2q5fG3Gx9zuOstXu2ssiRYRJ1l6HH0pTFObrh4rJsnBqQGPXzqdM1NGhAyeGT0Tv2dn++s8grnGMkoWqW/UzjDTK7epnZKoRsDHWeozDqw0JsOYZ6eM8c0lxi9gLUxktIzUwQa1+Yhe1K2bto+Ss21hh/3splBi9MGxSb44uToDQKzdLiMc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(7416014)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Si8yQXYzM3FZY25WQW9zTFRSbHRMNUFGUjlneXgvVmJUREpqVDNUSnRaR0Vm?=
- =?utf-8?B?WUUwRTM3eVdqd2tCdHAvY0NodFlzYVdQVG5HaE8zKy9jTXJzbnlhNit6Nytu?=
- =?utf-8?B?U05pL3RBaXZ2U3hpd09kOE5Nci9mQWFUc3FWQ0dCa0NZdEVoc29Oc3lvLy9p?=
- =?utf-8?B?bXlPcnQ5QTFlQ1dVc1VkcExzVDQvY0hqTk1SZnc5SnRuTm0wR25qaVFYeW0x?=
- =?utf-8?B?ZkQ4SkIrRGZwUWRSaEI2RElaQjFTdzMxZ3QxRUplWE90SURYWjRXSmVRTDZM?=
- =?utf-8?B?N29SVGEzenZBNGpOU1Y1NTloUTRFQXp3Y1RuV08rMDhJSDZzZXVoL0VzVGk1?=
- =?utf-8?B?N040ZnIwdkViYlA1eXhaOCtmY1A0NlB4ZVEvV2QvNXp0TGVaYlJNNnNsQkpC?=
- =?utf-8?B?ZVo5TW9PZlE2TnBiZDcrUVQ3TnZVejB4cUduODJNZVdyZDdZNlE0ODZ4Yjk4?=
- =?utf-8?B?Z0d1ZHRSeFVGa0ZLaVR1Rk5RSERoMUs2TTJGdEJjYmdQSmMxaDdGTUt4RU9C?=
- =?utf-8?B?K3gvMDR6bGJsOFBNVVJudnpCZHdpM1Qya1JEMXIrZ2ZXWmZpSllpT2JCOUh4?=
- =?utf-8?B?U2ZkdFd0d0ZreFRZN3lJb1RVODlWVTRPRnRaL01FdEtWNFZLczNLVVFrWm5m?=
- =?utf-8?B?ZHV2UXpnVzQrTE02U0JkaytZcWFRczJqN0J0ZTMyNWxpSDBKRlZ3WWNrOE94?=
- =?utf-8?B?WjBCRW82SXZvaE1FOXVKT2Y4M2FXZGczR1Y2MjU3OVZnSzBYZjZrbWYzVW5Z?=
- =?utf-8?B?V2lPV3dWaE9OZVdIOGQ3ODMycncxNFhJb25vZmVvSThERVlaTFR3VS91V3Fs?=
- =?utf-8?B?TEo5b2hLdlJnVXIxeTNaQXZ4ME8wOVEyYXdxVUxreWw5aEdPTVI1WVd5WVRs?=
- =?utf-8?B?d2NKZHJ0S3hxay9wT3Y1MVhHZkd6ZitiWWpOVkY1WmJoWHcvQ2N4WGtXOGM3?=
- =?utf-8?B?ZW85bTFzd0pjREh0MklYT3BNeWxnMVVKRGZkWGJYSU01Zm9DT2pMUFNuY1NE?=
- =?utf-8?B?L1BvZERLWnkwckVSdEd3NFQxNnZycHVGaklucDRna3VTUXBHcXVEWkpzN1dk?=
- =?utf-8?B?czU0NGdJRDBuY0xhaEtpNWpYRCtZT2hlUUh4VnJiRlhPYVlOaGlCQVNGOWhP?=
- =?utf-8?B?b2pGcmlZeWQxWFo1MDZiaGllY0VaN1p3Q2JHZ2o3U09DTTkrdHY3QlBjaCtD?=
- =?utf-8?B?cHo3eUx0TmgzY2IyNTUzY0NMK29pWjFkNnhObnMzNjBwbkZNeUQyWHlMMDB5?=
- =?utf-8?B?emRkWWozRlVJcnFJQ2hUenR1UmhJUXp0MFh3SFJLY3UyUUhXbnFWOFdNUncz?=
- =?utf-8?B?cVgrQ3RzVkpZMTBIUWNzcmJETU1oQ1hEYnEvVnlKZnFyeWk5SlZmejI0aWNQ?=
- =?utf-8?B?UEZnYjZFREZWSjd5UjNVcUdsaVM2OVdBcWhLeVptRUFMUjcrV3NHUVFhUkNO?=
- =?utf-8?B?STJZQlNOSGs3bXFQN1E1K0R3OGFYbVVUanRqSkZSNFdMd1d4czlUT1Y1blVx?=
- =?utf-8?B?c2pKelpZUXZ3bDFWOUhBbEdSbVJLL2RxK09lMFY1aFFJeU5hdi8zYmsyeXkz?=
- =?utf-8?B?bUxsNkJWc1hOSlhRM3BCTTg1VUZlTHJGWmltTEpYWEtmTDh3MElKNjZBWHVE?=
- =?utf-8?B?cmJjaWVXbFdtNEtGSDNNZ01EYkw1WmhNZXhLdUY5TzZUUk5qZXl0dGNvRnlQ?=
- =?utf-8?B?ODJCVk9lbCtWbWs2ZitPc215RlN3NUc3ckdrN3Vrb05XWE43M2sxL2ZJU09u?=
- =?utf-8?B?Rk5ISm85UmMwSXZEVjV3dEIvaW1pMEF5blNpUnR5VlEzeHRRUFZNV1FWZlFv?=
- =?utf-8?B?Zlg1T0xzWlVLMW5ueGw1NnNuSE9Dbmt3K3k3ZldjVXFmdjJMNE1oay9lMnBH?=
- =?utf-8?B?ZDdZUWV5ZXZqS2U4UnVsRUkwUDVXQitqc2pCajdtQmpEOURnY1JoYzBRUkto?=
- =?utf-8?B?SU14YnliZHBzNjNVaGN2VGxvdmJocUowcG9DemZLWFRyT3M1UlVUaFFXZ1hz?=
- =?utf-8?B?OGMyWjVUbXJqN0FPQkdTV1Z5bUJpOTNYcTJacWMrS0puMjlqUUV6Z1pSUnJ5?=
- =?utf-8?B?WmJBRm5UMm5vL0JoR1JiWVpNNGRuK1d4UEM3VDQyVTNTNXFSdEp2UTlVcnNn?=
- =?utf-8?B?cUlJTEgreC9FRTVvZU4wLzBZVTc2dmNoZVllMC9PUjVGaHZEcEZzdFpndkx0?=
- =?utf-8?B?MmFXSlhHUFMyc0tVZFFDeFdHd0k2c09VMGt0NVE1d29tc3JzUllsTWI2NGdW?=
- =?utf-8?B?WFhOUjArSE9DaWR5UFd5MGxQMlhKbGF0QUdTN092NTYwRFlTNGtrNTFhTVJG?=
- =?utf-8?Q?Z8Kkc6MN/OirSpOWPx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc32949-5b80-4ff8-e7dd-08df2efb2a6e
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 22:40:39.6093
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m8Ndp0HUSMhs7E9/NAzltjts6ACXgnA+N1Zg558/QoFDa8ui1P5L97jqYaZgVcCV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5901
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
 
-Hi Reinette,
+Hi,
 
-On 10/20/2026 4:47 PM, Reinette Chatre wrote:
-> Hi Babu,
+> Implement the link layout that CONFIG_EFI_STUB_DRTM requires. This maps
+> vmlinux into the Dynamic Launch Measured Environment (DLME) defined by the
+> spec.
 > 
-> On 10/20/26 11:02 AM, Babu Moger wrote:
->> On 10/19/26 11:16, Reinette Chatre wrote:
->>> On 10/15/26 4:07 PM, Babu Moger wrote:
->>>> On 10/15/26 09:22, Reinette Chatre wrote:
->>>>> On 10/1/26 8:10 AM, Babu Moger wrote:
->>>>>> Privilege Level Zero Association (PLZA) enables the kernel to switch to
->>>>>> a different CLOSID and/or RMID than those used in user mode when entering
->>>>>> kernel mode. CLOSID and RMID selection are independent and can be
->>>>>> configured separately.
->>>>>
->>>>> That CLOSID and RMID are independent on x86 is clear to me. That they can be
->>>>> configured separately is not clear to me in this context. What does this
->>>>> "separate configuration" refer to? Looking at the later patches kernel
->>>>> mode allocation and monitoring associations are always configured together
->>>>> and written to same MSR at the same time?
->>>>
->>>>
->>>> Good point. Its confusing.  What I meant is that allocation (CLOSID)
->>>> and monitoring (RMID) associations are independent PLZA features and
->>>> can be enabled independently in hardware. For example, a platform
->>>> may enable kernel mode CLOSID association without enabling kernel
->>>> mode RMID association, or vice versa.
->>>>
->>>> Yes. The kernel interface configures both together because they are carried in the same IA32_PQR_ASSOC MSR update.
->>>>
->>>> How about?
->>>>
->>>> Privilege Level Zero Association (PLZA) enables the kernel to use a
->>>> different CLOSID and/or RMID in kernel mode than in user mode.
->>>> Allocation (CLOSID) and monitoring (RMID) associations are
->>>> independent PLZA features and may be enabled independently by
->>>> hardware.
->>>
->>> Which CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid) and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid)
->>> is used in kernel mode is different from whether the CLOSID (MSR_IA32_PQR_PLZA_ASSOC.closid_en)
->>> and/or RMID (MSR_IA32_PQR_PLZA_ASSOC.rmid_en) is used in kernel mode.
->>>
->>> This series uses the high level "allocation and monitoring association" term
->>> interchangeably for both of these meanings and doing so causes confusion.
->>>
->>> Please pick specific terms to refer to the CLOSID/RMID assigned to kernel mode vs
->>> whether the CLOSID/RMID assignment is enabled and use it throughout the series.
->>>
->>
->> Another attempt to capture all the details:
->>
->> "Privilege Level Zero Association (PLZA) enables the kernel to use a
->> different CLOSID and/or RMID than those used in user mode when
->> executing in kernel mode. CLOSID and RMID selection can be
->> configured independently.
+> Broadly, Image fits into the spec defined DLME region memory layout in
+> this order:
+>  - Program headers and padding up to _stext. EFI can write to these while
+>    loading the stub so they do not have a stable measurement.
+>  - All the boot-time immutable data, including .text, .data, .init
+>    and so on (measured)
+>  - Data written by the EFI stub
+>  - .bss, padding and other 0'd data up to _end
+>  - The "DLME Data" written by the launch process. This is a datastructure
+>    the post launch kernel will parse to get trusted information about th
+>    launch.
 > 
-> First sentence already contains "and/or" so I think the last sentence can just
-> be dropped.
+> New linker symbols are added to mark these areas and their offsets are
+> placed into the efi_image_info so both stubs can get them.
+> 
+> The spec's design of the DLME was intended to fit a typical OS image like
+> this, with two areas that are unmeasured and an inner measured region.
+> 
+> Linux zeroes the unmeasured area of .bss/etc after the DRTM launch so it
+> also reaches a known value. The DLME data is written by the launch and is
+> trusted. The EFI stub data is either ignored or will have to be sanitized.
+> 
+> Add a section for the unmeasured data before the PECOFF padding. This is
+> an allocated section so it is zero'd in the image and is only 64 bytes in
+> my builds. There is a high chance it gets absorbed into the padding
+> region.
+> 
+> The post-launch kernel will have to reserve the "DLME Data" before
+> starting the allocator since it falls outside the linker map. This will
+> happen in the first series to consume this data.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  arch/arm64/include/asm/image.h  |  8 +++++
+>  arch/arm64/kernel/vmlinux.lds.S | 64 ++++++++++++++++++++++++++++++++-
+>  2 files changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/image.h b/arch/arm64/include/asm/image.h
+> index b18ce23a2cba7f..36afe95ffa7544 100644
+> --- a/arch/arm64/include/asm/image.h
+> +++ b/arch/arm64/include/asm/image.h
+> @@ -5,7 +5,11 @@
+>  
+>  #define ARM64_IMAGE_MAGIC	"ARM\x64"
+>  
+> +#ifdef CONFIG_ARM64_DRTM
+> +#define EFI_IMAGE_INFO_SIZE	40
+
+Small nit. I know according to #13, This should be 40 with drtm_entry
+and arm64_drtm_handoff. but in this patch, should EFI_IMAGE_INFO_SIZE
+be 24 and be change to 40 at #13?
+
+> +#else
+>  #define EFI_IMAGE_INFO_SIZE	8
+> +#endif
+>  
+>  #define ARM64_IMAGE_FLAG_BE_SHIFT		0
+>  #define ARM64_IMAGE_FLAG_PAGE_SIZE_SHIFT	(ARM64_IMAGE_FLAG_BE_SHIFT + 1)
+> @@ -62,6 +66,10 @@ struct arm64_image_header {
+>   */
+>  struct efi_image_info {
+>  	u64 code_size;
+> +#ifdef CONFIG_ARM64_DRTM
+> +	u64 drtm_measured_start;
+> +	u64 dlme_measured_size;
+> +#endif
+>  };
+>  static_assert(sizeof(struct efi_image_info) == EFI_IMAGE_INFO_SIZE);
+>  
+> diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
+> index 8305b47995954b..5c14decf0dd4d3 100644
+> --- a/arch/arm64/kernel/vmlinux.lds.S
+> +++ b/arch/arm64/kernel/vmlinux.lds.S
+> @@ -190,10 +190,24 @@ SECTIONS
+>  
+>  	.head.text : {
+>  		_text = .;
+> +#ifdef CONFIG_ARM64_DRTM
+> +		/* DEN0113 R314010: The DLME region must start at a 4KB aligned address. */
+> +		ASSERT((_text & (SZ_4K - 1)) == 0,
+> +		       "DLME region is not 4 KiB aligned");
+> +#endif
+>  		HEAD_TEXT
+>  	}
+>  	.text : ALIGN(SEGMENT_ALIGN) {	/* Real text segment		*/
+>  		_stext = .;		/* Text and read-only data	*/
+> +#ifdef CONFIG_ARM64_DRTM
+> +		__drtm_measured_start = _stext;
+> +		/*
+> +		 * DEN0113 R314020: The DLME image must start at a 4KB aligned
+> +		 * address. This happens always because SEGMENT_ALIGN is big.
+> +		 */
+> +		ASSERT((__drtm_measured_start & (SZ_4K - 1)) == 0,
+> +		       "DLME measured start is not 4 KiB aligned");
+> +#endif
+>  			IRQENTRY_TEXT
+>  			SOFTIRQENTRY_TEXT
+>  			ENTRY_TEXT
+> @@ -285,6 +299,11 @@ SECTIONS
+>  		EFI_IMAGE_INFO(
+>  			/* code_size */
+>  			EFI_IMAGE_INFO_OFFSET(__inittext_end);
+> +#ifdef CONFIG_ARM64_DRTM
+> +			EFI_IMAGE_INFO_OFFSET(__drtm_measured_start);
+> +			/* dlme_measured_size */
+> +			EFI_IMAGE_INFO_ENTRY(__drtm_measured_end - __drtm_measured_start);
+> +#endif
+>  		)
+>  	}
+>  	.exit.data : {
+> @@ -348,6 +367,44 @@ SECTIONS
+>  		__mmuoff_data_end = .;
+>  	}
+>  
+> +	/*
+> +	 * DRTM layout for DEN0113 as it relates to the link layout, refer
+> +	 * to Figure 8 in 1.4b. In that language:
+> +	 *  "Free Space 1" is the PE header and padding between _text and
+> +	 *        __drtm_measured_start (_stext)
+> +	 *  "DLME Image" is from __drtm_measured_start to __drtm_measured_end
+> +	 *  "Free Space 2" is kernel efi data/bss/etc till __drtm_dlme_start
+> +	 *  "DLME Data" is a memory sized "Minimum Size of DLME data"
+> +	 *        and is retained after boot for use by the kernel
+> +	 *
+> +	 * Thus, the DRTM_PARAMETERS follow from that:
+> +	 *   DLME Region Address = _text's PA ie the start of Image
+> +	 *   DLME Region Size = DLME Data Offset + "Minimum Size of DLME data"
+> +	 *   DLME Image Start Offset = __drtm_measured_start - _text
+> +	 *   DLME Image Size = __drtm_measured_end - __drtm_measured_start
+> +	 *   DLME Data Offset = __drtm_dlme_start - _text
+> +	 *   Normal World DCE region address = PA of __drtm_dlme_start +
+> +	 *                                  "Minimum Size of DLME data"
+> +	 *
+> +	 * The EFI stub will place any optional "Normal World DCE" region
+> +	 * immediately after the "DLME data". It is only used internally by the
+> +	 * FW during the launch and has no effect on the link layout.
+> +	 */
+> +#ifdef CONFIG_ARM64_DRTM
+> +	__drtm_measured_end = .;
+> +
+> +	/*
+> +	 * Writable EFI stub state. When DRTM is being used the stub's mutable
+> +	 * data cannot reside in the normal .init.data because that section
+> +	 * will be measured.
+> +	 */
+> +	.unmeasured.data : {
+> +		*(.unmeasured.data)
+> +		*(.init.efidata .init.efidata.*)
+> +		*(.init.efibss .init.efibss.*)
+> +	}
+> +#endif
+> +
+>  	PECOFF_EDATA_PADDING
+>  	__pecoff_data_rawsize = ABSOLUTE(. - __initdata_begin);
+>  	_edata = .;
+> @@ -370,10 +427,15 @@ SECTIONS
+>  
+>  	. += SZ_4K;		/* stack for the early C runtime */
+>  	early_init_stack = .;
+> -
+>  	. = ALIGN(SEGMENT_ALIGN);
+>  	__pecoff_data_size = ABSOLUTE(. - __initdata_begin);
+>  	_end = .;
+> +#ifdef CONFIG_ARM64_DRTM
+> +	/* DEN0113 R314030: The DLME data must start at a 4KB aligned address. */
+> +	__drtm_dlme_start = .;
+> +	ASSERT((__drtm_dlme_start & (SZ_4K - 1)) == 0,
+> +	       "DLME data is not 4 KiB aligned")
+> +#endif
+>  	__pi__end = .;
+>  
+>  	STABS_DEBUG
+> -- 
+> 2.43.0
+> 
 > 
 
-ok.
-
->>
->> The kernel mode CLOSID and RMID are specified by
->> MSR_IA32_PQR_PLZA_ASSOC.closid and MSR_IA32_PQR_PLZA_ASSOC.rmid,
->> respectively. plza_en activates the PLZA operation, while closid_en
->> and rmid_en independently control whether the corresponding kernel
->> mode CLOSID or RMID is used.
-> 
-> Please aim to provide higher level description than what can be seen
-> from the patch.
-> 
-
-Ack.
-
->>
->> Make the register and its field layout available so kernel mode
->> allocation (CLOSID) and monitoring (RMID) selection can be
->> configured independently."
-> 
-> Apologies but I really do not understand why the "independently"
-> distinction is needed since these values are always programmed together.
-
-No problem. This looks good.
-
-> 
-> Here is an attempt, but it is written without knowing which terms you have
-> picked to stick with:
-> 
->    x86/resctrl: Add PLZA MSR definition and field layout
-> 
->    Privilege Level Zero Association (PLZA) enables a CPU to use a different
->    CLOSID and/or RMID when executing in kernel mode than those used in user
->    mode.
-> 
->    PLZA is programmed per CPU through MSR_IA32_PQR_PLZA_ASSOC, which contains
->    the kernel mode CLOSID and RMID, an enable bit for each, and a bit that
->    enables PLZA on the CPU. All fields except the PLZA enable bit must be
->    programmed identically on every CPU in a domain.
-> 
->    Make the register and its field layout available in preparation for resctrl
->    support of kernel mode allocation and monitoring.
-> 
-
-thanks
-Babu
+-- 
+Sincerely,
+Yeoreum Yun
