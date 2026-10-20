@@ -1,92 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=68.232.139.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792480830;
-	b=wTPBvlpDkin0WELvvZuduQokCWUjQrcj3gQ1nnf1chWhGC18FnuHv8RN8yA84MdJFQ/d
-	 k+NJzHhFhdK8srO429ugsYKm9NKjlkDsn/TomEk/mxnbu2PQVH9pkv1edkuhMlPrWEwZ7
-	 lWz0xlFGD9SWBug+GbpYX+6izf7csJQLTXw9zUmFfxXuCop+wGDbDZhA66NR28fwsPByD
-	 abwHtwC/R9aUt5qVvLsWVQny8hYD678tIhwdUg+TIU2LH2Z0YPsorBnWoj3n/dxNTnwiS
-	 epNp5MkRn2sPoYnWESFMwrKRrIsOV9VWFl0694W/XMb8VDDmwH/1bEBvctmfHlSaKIA==
+	t=1792481475;
+	b=16tDgef2CgrGcAgB1iyFzsumwhk2kcTz4exj0/o+/ozwK6mOiVjrEUwjhd0SaA8Li4cF
+	 IGezeOXSOQ7Fi+FzCcQSwp3Hb09z+sXYziLXmfzBqRoxt7up1F/KdrTxtlV7R+JD1Xyd3
+	 RVXOAfQoMUyO2Nmlkg+3GX8RxuItqOWc60HWCn/yVnXNTnTT/GoH6j116j6bABhyYx9dX
+	 P8DgHmBIJlCQfdSu3vkeByHne/Pe1TCpmBV58EPNPPwi+znWcBJvOerAk5c/5V5jMVU2Q
+	 PEc+Y1yBuFbStJ65KYi9+NA43WRre/kkA/jP8CwGmkwiAjyT5N3AIFrzz0oCNO9URrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792480830;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:Received:Received:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=gTfcY3KbdiQmLNtrA7EgWSIO5XWoep6EANOAU6klbBo=;
-	b=RuJCzESweX6zJ5RJUNpDeWil8OcxAVZUkk7mljgFmFOGQ4y/EsaJKCix0bP/jznbhNXE
-	 is3eZCBZksZ0JTaPgylCY32YdwM/HyLNvS8UX2SxWTjU8CyhucCPThRaXIYh9rpj7g+et
-	 822gfprKbRPLz6825Pi4fEFna4MaR/pWPqZneDncQXDHv3pxY3h8x346G8wQFueKnxlw0
-	 wnERsF7wtHxJ65IEn1MN05WKKEtgoS59RLsbZi6lBEvNAN8QNMCzsYUqCGs7rUu7vDsDe
-	 /iyje3G0+FHQplfGroPqB6OWTrDYOhcBTbe5fhbZNPtNzmTuHJv5Igz3Q8M9y4y/S7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792481475;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=815SsM77bI103RTpPZ3otFe7kjVWH55eLpLwzR1qzZo=;
+	b=Yt8lBxvwsmBl88Qs3KJfPKe/c7BwtdTkXrDx323d0nANm2z6eJZjagok/Dusa+VANxMa
+	 MSb8lFrItdWN3hBmKzSy7yz+3YKq8x5C02mhy7d852lN4pTOF3Rj3pJQhgXj7L58Jo1FA
+	 mKsorI4CutLYAABzCBPK68Fj6G+yWeM4xwkOmvh36V5FDgYKfgjxVCTZaEZani1fQbZOd
+	 Ff4BEwSaPjNp5KuXhzy/dOCpHIcmniYDvHEerASPBUOzONUIVtkvdMK1QMtWPsb3JRnHU
+	 LIl6v6Fh0Zv1/Z4SdjO2YwKkJs1vgiZTPexWUnqHVhR+snMfUOzOFW3MTJqSpHuT4Dg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fujitsu.com;
-	spf=pass smtp.mailfrom=fujitsu.com;
-	dkim=pass header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=fj2 header.b=PYemcUmX;
-	arc=none smtp.remote-ip=68.232.139.139
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=nexthop.ai;
+	spf=pass smtp.mailfrom=nexthop.ai;
+	dkim=pass header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=fKzmQ+wr;
+	arc=none smtp.remote-ip=74.125.82.43
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11E6606A31C;
-	Tue, 20 Oct 2026 07:20:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F11E6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B580606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 07:31:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B580606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fujitsu.com header.i=@fujitsu.com header.a=rsa-sha256 header.s=fj2 header.b=PYemcUmX
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1792480835; x=1824016835;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=refqq25nv2RRzQpG9iY5BlA9ExyL3HdRLNTWhTg6kFM=;
-  b=PYemcUmXPW0BmI/cgOEC8b9cnv25SyMurrhu+/pIeoUybZGGZBQvGjKR
-   ih6KTyHxlPs3cEuEgIWTz2ViwCx9jYowZcw+U/MLs9Ib8N/ihsdLw+g3E
-   Wbxb5pn1Bf2dXfcp8fcAssOJVNNUBWYfqtNqKaDtKShsPc07bZbAVDERo
-   es2s7NmqPTI0FLdbZaTRXqHNfBT62wA48sEjuBTqgvd27c4CBSzMQkk3R
-   8qz9PX03yyuU1sGSgfm2g/lxZ6D6P215A/AHIaly7IX+r2ZPLOBEjHRzg
-   RUDMV8YrmcqR0wrbr0xK8ttsEB2gKW+nXxI+oCExK+5jLUNNOrVzdgajq
-   g==;
-X-CSE-ConnectionGUID: w3yeoTuBQiii3Ruo/LeNdA==
-X-CSE-MsgGUID: JEFuNt0nR0ahm1t3B5Ftdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="262734108"
-X-IronPort-AV: E=Sophos;i="6.27,168,1786978800"; 
-   d="scan'208";a="262734108"
-Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 16:20:27 +0900
-Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 1C53242A30A;
-	Tue, 20 Oct 2026 07:20:21 +0000 (UTC)
-Received: from az2nlsmom4.fujitsu.com (unknown [10.150.26.201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id C158B18026C6;
-	Tue, 20 Oct 2026 07:20:20 +0000 (UTC)
-Received: from FCCLS0092175.localdomain (unknown [10.8.226.149])
-	by az2nlsmom4.fujitsu.com (Postfix) with SMTP id A09772000281;
-	Tue, 20 Oct 2026 07:20:13 +0000 (UTC)
-Date: Tue, 20 Oct 2026 16:20:12 +0900
-From: Kohei Enju <enju.kohei@fujitsu.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Tomohiro Misono <misono.tomohiro@fujitsu.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] irqchip/gicv3: Add workaround for FUJITSU-MONAKA
- erratum E#030003
-Message-ID: <atcTtojPd1BSS8fr@FCCLS0092175.localdomain>
-References: <20261016-monaka-fix-for-upstream-v2-0-fc7ede7f9f48@fujitsu.com>
- <20261016-monaka-fix-for-upstream-v2-4-fc7ede7f9f48@fujitsu.com>
- <87wlrg8qc7.wl-maz@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=fKzmQ+wr
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-15ea896ddc8so3621331c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 00:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexthop.ai; s=google; t=1792481474; x=1793086274; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=815SsM77bI103RTpPZ3otFe7kjVWH55eLpLwzR1qzZo=;
+        b=fKzmQ+wr0iHs17XveY4mXkajGBGI1YSvWf6kd9PPtzThe5D+aBCdFVWtMShsP3Gqra
+         jKTDqQ9VeI2iwsS6AmcU0C4F7+Dn1v8uywxGAxmq5Ee/3jxeUJsbwUzp1JCIiTNKc7f1
+         hIJXVhEY9efZoYUbxGTkrhE2M4jAx2oaXzOeFedPfGWqoiFoIrXr32nrCTrx8bNYXhV8
+         3ykJHwUuksj4bIX0grzS6rgExvKmZJYMl/eltoSEyJlDdbPBHrF6mjEPAA0tZES3dFEM
+         bRR+/7RzCIpY9Op9GPtst4qj9xvh8LAJbwsEShgGjEpeEwXr7B2vaxyFuSl9Q+rUgmhb
+         UXfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792481474; x=1793086274;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=815SsM77bI103RTpPZ3otFe7kjVWH55eLpLwzR1qzZo=;
+        b=CFd9VAekXuMpVbpsMDYn5Ir2/g9ewrJcp/h6cxU4il7+KodJmxaW2y4Fh0rnxLhJCh
+         uXGJE90P4jd5cPRd04DCXwIBjqKMWb+78x+G28ix+E5uiexIipi0807Lo0tjM/xKl26L
+         SEVA8EEW8kApN51Y7KtCmG/reZzfqQwycdb/rfXV+IqMxtsATWtV6wcmP9i2W9CUayRN
+         GV3vMvRbfnxl1xG4SekVM4ke8bbsA4d3lUZT81epHXmUpqliAKwlOeW5mZAW4KnEtBVG
+         LOhOd1B9+vQs4cRrrldNeU4qy2h0mYBxAYHrIwg7zNRM4gEQPtCU8TN2mVIQ+MGUtXRp
+         IlyA==
+X-Forwarded-Encrypted: i=1; AKwUvBydkRNOvo8WwkxR2LFdfMCcDRuzFY1/vAb0xiXy1RD8NE5Obq39oqFmSWV438g8boxkVsgyOCibfMI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKl9PKDFVXlqxxJyrbyUzo7ds/laN+UtQJJg0JGawa7YcnrTX7v
+	e52HzS1NpW/7mVWI5mAgEIXMfaEu3MkIUw2GNNIPav+HswbczNatA2Z4wR2BF4RDP/8=
+X-Gm-Gg: AYBFou1L4r73tln5anSjqeENCfwYKRadhl85wM5/wBk0zn8B5qF1D2Jc/jwEICCwsx7
+	rk+GMPam5BLwt9emKQh1iWLYdhn8F24itGKrZQx2/2BXtHUi4056Zu/1WS3W1X/Pr7UFMIGFe31
+	+jzHvoI9oxfyTLbyzQldg1g3zadpcr+00gxuQHNph0pK7GyTnI7HywkHaidz/2R4DGP9a5IRduq
+	+jtN5UhoJa1no0mmvDSM/+yCQaIjReuTP2jt5x3jqu5qRbPvpVawG75282mfLNA4Y9xxso/pTg2
+	baDlO8h6uyXPxrCusAsnTZvMw1THtlqaCtGcqqDtOM2kRUQdW/Pe1wLRLArE8rZD7nnT4ROnGa8
+	eLDOV0Kfvw5gbF0D96hMcbLM5ElGBLYnk9dYOkrTlyRva6/UqaQjlV20cNygWpciVhil00VN1ip
+	bJa5hGXskJhIRo2Vfp78+c/c4mCwsmyi202Osxhd3URst02k/h98natcGo9JvFNdHMBX+7zgA=
+X-Received: by 2002:a05:7022:e804:b0:13b:3132:6e99 with SMTP id a92af1059eb24-18512c38164mr15634892c88.20.1792481473844;
+        Tue, 20 Oct 2026 00:31:13 -0700 (PDT)
+Received: from localhost ([50.145.100.174])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831996071csm35059153c88.9.2026.10.20.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 00:31:13 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,106 +85,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87wlrg8qc7.wl-maz@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 20 Oct 2026 00:31:11 -0700
+Message-Id: <DM9HNFZ26I2H.348U7TRUKBLST@nexthop.ai>
+Cc: "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, "Guenter Roeck" <groeck7@gmail.com>
+Subject: Re: [PATCH 3/3] hwmon: (pmbus/fs1412) Add TDK FS1412 driver
+From: "Abdurrahman Hussain" <abdurrahman@nexthop.ai>
+To: "Guenter Roeck" <linux@roeck-us.net>, "Abdurrahman Hussain"
+ <abdurrahman@nexthop.ai>
+X-Mailer: aerc 0.22.0
+References: <20261008-hwmon-pmbus-fs1412-v1-0-0ae7e5ee4e41@nexthop.ai>
+ <20261008-hwmon-pmbus-fs1412-v1-3-0ae7e5ee4e41@nexthop.ai>
+ <a3ccc85b-aab6-44b4-9695-ecd78401102c@roeck-us.net>
+In-Reply-To: <a3ccc85b-aab6-44b4-9695-ecd78401102c@roeck-us.net>
 
-On 10/17 13:27, Marc Zyngier wrote:
-> On Fri, 16 Oct 2026 11:00:48 +0100,
-> Tomohiro Misono <misono.tomohiro@fujitsu.com> wrote:
-> > 
-> > From: Kohei Enju <enju.kohei@fujitsu.com>
-> > 
-> > On affected FUJITSU-MONAKA CPUs, the erratum may occur when an SGI is
-> > generated by writing to ICC_SGI0R_EL1, ICC_SGI1R_EL1, or ICC_ASGI1R_EL1,
-> > if the operation races with CPU interface processing triggered by the
-> > arrival of a higher-priority interrupt, an update to a pending
-> > interrupt, or a transition of the PE to the Sleep state. When the
-> > erratum occurs, the SGI is lost and the system register write does not
-> > complete, causing the issuing core to hang.
-> > 
-> > Guest accesses to these registers are not affected by this erratum, as
-> > they are trapped to EL2 and handled without issuing the affected system
-> > register write.
-> > 
-> > Work around the erratum by writing 1 to the bit corresponding to the
-> > target SGI INTID in GICR_ISPENDR0 of each target PE's GIC Redistributor,
-> > instead of writing to the affected system registers.
-> > 
-> > Accessing a target PE's GICR_ISPENDR0 requires its Redistributor base to
-> > have been discovered. Affected platforms conform to SBBR, which requires
-> > PSCI for secondary CPU boot. They therefore do not use the ACPI Parking
-> > protocol, which sends an IPI before the secondary CPU has initialized
-> > its Redistributor. With PSCI, a secondary CPU discovers its
-> > Redistributor before becoming an IPI target.
-> > 
-> > Signed-off-by: Kohei Enju <enju.kohei@fujitsu.com>
-> 
-> You are posting a patch on behalf of someone else, you need to add
-> your own SoB:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v7.3-rc7#n448
+On Mon Oct 19, 2026 at 1:25 PM PDT, Guenter Roeck wrote:
+> This implementation is wrong. Support for relative mode should instead
+> be added to the PMBus core. Or, rather, this driver should be tested with
+> https://patchwork.kernel.org/project/linux-hwmon/patch/20240315151855.377=
+627-2-lars.petter.mostad@appear.net/
+> in place (with appropriate fixes for that patch if necessary), and the
+> patches should be applied together.
 
-Thanks for pointing this out. I'll let Tomohiro know.
+Thanks! That is exactly what I was looking for, but my search for
+fs1412 on lore didn't turn it up anything.
 
-> 
-> > ---
-> > Changes in v2:
-> > - Clarify the erratum description and document that virtual accesses are
-> >   unaffected.
-> > - Remove the gic_send_sgi_via_rdist() helper.
-> > - Remove the write-count rationale.
-> > - Use the CPU MIDR instead of the SoC ID for filtering.
-> > 
-> > Note that I have left the dsb(st) after the GICR_ISPENDR0 writes
-> > unchanged, pending clarification of the required completion point. If
-> > the writes must be observed by a specific component before
-> > gic_ipi_send_mask() returns, I will use the appropriate mechanism to
-> > provide that guarantee.
-> 
-> See below.
-> 
-> [...]
-> 
-> > @@ -1386,6 +1391,17 @@ static void gic_ipi_send_mask(struct irq_data *d, const struct cpumask *mask)
-> >  	 */
-> >  	dsb(ishst);
-> >  
-> > +	if (static_branch_unlikely(&gic_fujitsu_030003_erratum)) {
-> > +		for_each_cpu(cpu, mask) {
-> > +			void __iomem *base = gic_data_rdist_sgi_base_cpu(cpu);
-> > +
-> > +			writel_relaxed(BIT(d->hwirq), base + GICR_ISPENDR0);
-> > +		}
-> > +
-> > +		dsb(st);
-> 
-> What is this DSB achieving? As far as I can tell, not much. The memory
-> type is nGnRE, so DSB doesn't force writes to reach the end-point, and
-> only guarantee ordering that system register SGI generation doesn't
-> provide.
+v2 will carry Lars' patch (Cc'd), rebased, with the driver reduced to
+the MFR_ID check and hiding OT_WARN_LIMIT. v2 also adds the FS1525, a
+25A part from the same family that is relative-only as well, so the
+core change has two users. Fixes on top of Lars' version:
 
-Yes, you're right.
+ - check VOUT_MODE for 0xff before testing the relative bit; as posted,
+   a chip that does not support VOUT_MODE (reads 0xff) is marked
+   relative and gets a bogus exponent
+ - signed division, and clamp the user value before scaling it
+ - fail probe if VOUT_COMMAND reads 0 rather than divide by it later
+ - only update the cached VOUT_COMMAND after the write succeeded
 
-> 
-> So either
-> 
-> (a) there is a functional requirement on this HW to have a DSB, and
->     needs to be documented,
-> 
-> (b) or there is a need for end-point synchronisation, which needs to
->     be enforced by a read back (knowing that the sysreg doesn't
->     provide this guarantee), and this needs to be documented,
-> 
-> (c) or this is completely superfluous and can be dropped
-> 
-> Which case are we in?
+We have a board with four FS1412 and one FS1525, so I could test both
+parts with these patches on 7.2.10. Since your concerns in the 2024
+thread were about how these parts actually behave, here is what they
+do:
 
-I think this falls under (c). As far as I can tell, there is no
-requirement for ipi_send_mask() to wait for the writes to be observed by
-the hardware. I'm not aware of any hardware-specific requirements for
-this DSB either. I'll drop the DSB and test the change on our hardware.
+VOUT_MODE is read-only and relative-only. Both datasheets mark it
+read-only. FS1412 returns 0x98 (exponent -8), FS1525 returns 0x96
+(exponent -10). Writing 0x18 to VOUT_MODE on all four FS1412 is NACKed,
+STATUS_CML reports invalid data (0x40), and VOUT_MODE stays 0x98.
+
+Which commands are relative. The FS1525 command table marks
+VOUT_MARGIN_HIGH/LOW, VOUT_OV_FAULT_LIMIT, VOUT_OV_WARN_LIMIT,
+VOUT_UV_WARN_LIMIT, VOUT_UV_FAULT_LIMIT and POWER_GOOD_ON as "L16, 1.3
+relative format". VOUT_COMMAND, VOUT_MAX and READ_VOUT are absolute.
+That matches the list in Lars' patch; POWER_GOOD_ON is relative too,
+but the core does not use it. The FS1412 datasheet says the same for
+the limits it describes. Raw defaults, as a fraction of VOUT_COMMAND:
+
+                     FS1412 (0x98)   FS1525 (0x96)
+  VOUT_COMMAND       0x009a  0.602V  0x0266  0.600V
+  VOUT_OV_FAULT      0x0133  1.199   0x04cc  1.199
+  VOUT_OV_WARN       0x0126  1.148   0x1000  4.000
+  VOUT_UV_WARN       0x00d9  0.848   0x0366  0.850
+  VOUT_UV_FAULT      0x00cc  0.797   0x0333  0.800
+  POWER_GOOD_ON      0x00e6  0.898   0x0365  0.849
+  VOUT_MARGIN_HIGH   0x0119  1.098   0x0466  1.100
+  VOUT_MARGIN_LOW    0x00e6  0.898   0x0399  0.899
+
+With the patches the FS1412 reports in2_crit/max/min/lcrit as
+721/690/509/478 mV against an in2_input of ~560-580 mV. Writing
+in2_max and in2_min stores 0x012e / 0x00d0 and reads back within one
+1/256 step. On the FS1525, writing 600 to in2_min stores 0x0402 and
+writing 509 restores the original 0x0366. I did not exercise the
+regulator path; the driver does not register a regulator.
+
+Paging. Neither part implements PAGE. A PAGE read is NACKed and sets
+STATUS_CML INVALID_CMD (0x80), so on these parts relative mode can only
+be per chip. The patch tracks it per page, which also covers a
+multi-page chip that sets the bit on every page.
+
+Vendors getting it wrong. You were right to worry. Some things I ran
+into:
+
+ - The OV fault limit is rounded internally to one of four settings
+   (105-120% in 5% steps on the FS1525), so only some values written
+   to it take effect.
+ - The parts are only partly consistent with their own command tables:
+   OT_WARN_LIMIT and READ_IOUT are not listed for the FS1412, but both
+   answer without a CML error, and OT_WARNING sets at room temperature.
+ - The factory programming varies between parts on the same board: one
+   FS1412 has VOUT_MAX 0xa500 and VOUT_MARGIN_HIGH 0xa400, the others
+   0x0300 and 0x0119; another has VOUT_MARGIN_LOW 0x0000. The core does
+   not touch these for hwmon.
+ - The VOUT domain differs between the two parts. FS1412 reports
+   READ_VOUT at the feedback pin, so it is in the same domain as
+   VOUT_COMMAND and the converted limits. TDK told us that the FS1525
+   reports READ_VOUT as the actual output regardless of an external
+   divider. On our board that is 1.094V against a VOUT_COMMAND of 0.600V
+   (a divider for a 1.1V rail).
+
+   I checked what the FS1525 compares READ_VOUT against. Setting
+   VOUT_OV_WARN_LIMIT to 1.5 sets VOUT_OV_WARNING; setting
+   VOUT_UV_WARN_LIMIT to 1.5 does not. So the part compares the
+   output-domain READ_VOUT against limit * VOUT_COMMAND (0.9V), which
+   is exactly the value the core reports. That is presumably why this
+   board's OV warn limit defaults to 400%.
+
+One question before v2. The FS1525 over-voltage fault is the exception:
+the datasheet says it is an analog comparison at the FB pin, at the
+VOUT_OV_FAULT_LIMIT fraction of VOUT_COMMAND. So on a board with an
+external divider in2_crit is in feedback-pin volts while in2_input is
+the rail. On our board's FS1525 that is in2_crit 718 mV against
+in2_input 1093 mV, with no alarm, and the actual trip point is about
+1.31V on the rail. The chip has no way to report the divider. Which
+would you prefer?
+
+ a) Hide VOUT_OV_FAULT_LIMIT on the FS1525, so there is no in2_crit.
+    Nothing misleading, but boards without a divider lose a correct
+    in2_crit too.
+ b) Scale in2_crit by READ_VOUT / VOUT_COMMAND measured at probe.
+    Right while the rail regulates, wrong if it is off, ramping or
+    margined at probe time.
+ c) Describe the divider in DT and scale in2_crit by it. The FS1525
+    would then need its own binding instead of a trivial-devices entry.
+
+I lean towards a).
+
+For other parts with relative mode I only know of the NCP3286 you
+mentioned.
 
 Thanks,
-Kohei
+Abdurrahman
+
