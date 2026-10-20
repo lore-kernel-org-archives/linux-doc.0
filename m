@@ -1,76 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792512672;
-	b=KsYUX//0wq4oGsu4J2n/toq2AMRFSswHx/9F5ZaHk7QzLYCSVEzAW4z4/mxcvZP3OJ8x
-	 Anpzx2MNgUUiLmmCrSohmO+ceBdXGv487ZF9q4RGrA9ejQ1NWI/2ANNrppmvXa3RCkLzB
-	 eyqbf8bcBrv+ntj6kR13hs8weoLM2hxdmqOpm7UhxUXMd9gTTRWJ1FPO3IDSOnNnVQLPR
-	 xQBtXxQxF06ld0d7sBBW+BwmK4EYn7eDdo0ZFID7q4seitKxKV6psfQlIurxd3X51UdE8
-	 HURl+W38DoXocNykKtYx4PBK0CiYcbmR4cBP7OVqHXJyzV4xydXNcxzyrEP5bfxo7Hg==
+	t=1792513014;
+	b=F5BVe/pr14v7tro68U4ChqyIIEdQ4S4/y4Eq7y9PfBFgg1WHmWC6zUw4BLoLwnEOQxCS
+	 dpvnTkAvkAqCqvKB9qLidjXB61dyKqaCSykmUnZXP8qle/JHcPdeca2QeoqJXeuz/kqGQ
+	 c/GRkjpGldXRBiUXtj18tr8Trfkp4ePluJAS5S+pKxd3X3zR90M9FBQtbq8SaH7wGvsHU
+	 M/CSBEJvLlQkMLV4LyZD3hvTObRZwPlBUKNOBcFurX92AHFwS/jiwi6D/dGkAsyXGwrGs
+	 O8O0gFMn+chCsILFAWMTuKeQjMdhr0eB7DX/Vumhh8XbF5XgE5t09w7hK8Yl4eUyusg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792512672;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=qGagtzPPLeE5JUUJiGkA5WeVK5upm/IW7i7tq6L22jA=;
-	b=gCmdbdRasR/AstaeIolUPfzSSAnYa4KWg5YYM5fMGfkdV4U8nK2CAAZtI+1/3NfvTC3I
-	 rSMKFGrTJ68gZUsKaeGPrQRycMQW/Cq0CuAT2fep+0K3xAnYf7VttA5zUTHU6o24RK76r
-	 EHgk9rung9mOYJkbU55p8Fg3KYatJ1tMEQiZneagGpjw5xEXPPWfnwdxDbq/nkYZBLitS
-	 HLBGE0LU7Y6XnbOfDQES/gQOFRIVVwsYx1SIstEm6Rtv+INmYgswlfIj/I/zo/9iungRu
-	 yW3ipofok7r4pOTxpv08dw+3F7hXX3B8+lwFT/utVOqBdtUlnctfjHVDQEhuzjKF3Fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792513014;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=/2mtLY4vFEovE8W1FOC1bSzXPmT7/yfQXWZD/ct0dlg=;
+	b=fNVufZkdFUrTe+pSCc2mzjwKafQ28z6CGi8GwAzxTcX5TSo/Gcc6bdL/ZFawUfizv+45
+	 zO/cVuSj6sWI2dxkYzf4Y6xF9de02plWWBqLUio9Zbupm5BSjB74fCAWOE424ypyLv2QA
+	 VTHjfmsBlUmqNjM3bco93lQV4tcazMCg9WiYWdkcFb36Ab2tP7WcQF6Oy8wH7ZWvmD1eO
+	 2r1t1tEX9XycD/T38hk0zLSl+tkKMAsG5VCM9AQd9oZbdlG5jnz87bK/cXT9W1Q1dmtWV
+	 eaJDFbO1iZ0OBZq7xHKVNbgl/lcNdFNW8xxDzoTO5e5KBwZoioe+ed/Yj2OSDkfLIgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=DbShED55;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB1A3606A31D;
-	Tue, 20 Oct 2026 16:11:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB1A3606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=numaRKUw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B84606A31A;
+	Tue, 20 Oct 2026 16:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=DbShED55
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A766C152B;
-	Tue, 20 Oct 2026 09:11:07 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 412653F7D8;
-	Tue, 20 Oct 2026 09:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792512670; bh=Onq6jxRqEq1WaTY8fGmgczAqDI9uWyGv9j4N9Vll460=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DbShED55IdZ5GqRBbk415/IcFxQD5ednAiW31MbR9Rn1dtNulHbKnhX4wEJI3XFbs
-	 So+6u7EYH07FhsbRc0NWVaadc13WVhntS6CtJqRJQy7gS9S0cW3VjfLRdokRqWdJnl
-	 7dkTDfkWhwCDWfk/tw8ZbIKAh3fG4SMLUV5JGvtQ=
-Date: Tue, 20 Oct 2026 17:11:03 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Dionna Glaze <drdeeglaze@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>, Jarkko Sakkinen <jarkko@kernel.org>,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
-	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
-	sameo@meta.com, James.Bottomley@hansenpartnership.com, aik@amd.com,
-	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
-	roberto.sassu@huawei.com
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <ateSly15N5mLrM1m@e129823.arm.com>
-References: <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
- <20261017203407.GM13920@nvidia.com>
- <atPgqROZZxnihYfC@kernel.org>
- <20261017231007.GP13920@nvidia.com>
- <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
- <atX9fugGUsI0hGcA@FV6GYCPJ69>
- <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
- <a69c7e7ac4fd07a9c375faadc599e96bb8c8534e.camel@linux.ibm.com>
- <20261020140655.GV13920@nvidia.com>
- <aa00515a0f364fea0150cf1550a09d9400e4632f.camel@linux.ibm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=numaRKUw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D68E1F000C4;
+	Tue, 20 Oct 2026 16:16:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792513013;
+	bh=/2mtLY4vFEovE8W1FOC1bSzXPmT7/yfQXWZD/ct0dlg=;
+	h=From:To:Cc:Subject:Date;
+	b=numaRKUwY2PB+YhjMuQ5QphhJtTKDBtfRsN1paHGiXjTrOIXdl2oQLcpqT1EoapMk
+	 tZcoqK7tF+j3wK2H4jl20jCEDb978VcY0uriuxv2//S3M0RgYi9zVHwioaqvp7T7uN
+	 CHdGpY27oIBRXUcarE0gQ3w5dzv0KbJ6iWv7gJjWPTICxY2XyxUQobaOnWHP2dwBo+
+	 vuAGXUjAv+6Gc9+sApyn/wf2qjRsV7AYmiQhz9c55KPqrsLmX9K1uSLH+umFaPKn3t
+	 AhP1ZkrQ3/ZxPA+c0xNL6zwo7qqAB7RXcHHL4LmxIkMax79bd7Xw4px/kjcdFntXCf
+	 giWSxz+qBm8tw==
+From: Sasha Levin <sashal@kernel.org>
+To: workflows@vger.kernel.org,
+	ksummit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	SJ Park <sj@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>,
+	Sasha Levin <sashal@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v4 0/5] agents: add skills for Fixes tags, stable tags, similar bugs, and commit messages
+Date: Tue, 20 Oct 2026 12:16:37 -0400
+Message-ID: <20261020161642.3713052-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,73 +78,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa00515a0f364fea0150cf1550a09d9400e4632f.camel@linux.ibm.com>
 
-Hi,
+At the Maintainers Summit, Ted asked whether the stable trees have a way
+to deal with incorrect Fixes tags. Hannes estimated that 15-20% of them
+are wrong, often because the author ran git blame and took the first
+commit that touched the line [1]. We use LLM workflows to find the
+commit that actually introduced a bug, and others asked us to share
+them.
 
-> On Tue, 2026-10-20 at 11:06 -0300, Jason Gunthorpe wrote:
-> > On Tue, Oct 20, 2026 at 09:45:13AM -0400, Mimi Zohar wrote:
-> > > On Mon, 2026-10-19 at 09:10 -0700, Dionna Glaze wrote:
-> > > > On Mon, Oct 19, 2026 at 5:08 AM Jiri Pirko <jiri@resnulli.us> wrote:
-> > > > > 
-> > > > > Yeah, I was thinking about this and went back and forth. In the end, the
-> > > > > only reason for leaving it unbounded is to allow multiple independent
-> > > > > users of the same register. For example, IMA and systemd could share a
-> > > > > TDX RTMR. The systemd side would read the journal through the
-> > > > > attestation device and the IMA side through securityfs, but both are
-> > > > > views of the same journal. If one side truncated it, the other could no
-> > > > > longer replay the RTMR. Isn't this the valid usecase? Do you see how to
-> > > > > resolve this?
-> > > > > 
-> > > > 
-> > > > Bright minds have spent a significant amount of time working on this.
-> > > > 
-> > > > +Roberto Sassu, +Mimi Zohar
-> > > 
-> > > Dionna, thank you for including us in this discussion.
-> > > 
-> > > Based on my questioning AI, it sounds like the purpose of this patch set is to
-> > > introduce a vendor-agnostic common attestation subsystem framework that can act
-> > > as an internal kernel multiplexor for any measurement consumer, like IMA or
-> > > DRTM. By providing a direct kernel-to-kernel call path, it allows measurements
-> > > to be routed to different Roots of Trust (ROT)—such as physical motherboard
-> > > TPMs, Intel TDX RTMRs, AMD SEV-SNP registers, and PCIe SPDM devices—without
-> > > hardcoding IMA to specific device drivers.
-> > 
-> > Yeah, I would say that is the eventual goal, this patch series would
-> > be the first small step along those lines
-> > 
-> > > To support this framework, IMA requires a strict, atomic execution sequence to
-> > > maintain the Measure → Extend → Execute (Measure Before Use) guarantee. This
-> > > initializes early during the late_initcall phase within the initramfs (via
-> > > dracut).
-> > > 
-> > > If the new subsystem introduces a direct kernel-to-kernel multiplexing call
-> > > path, how will it ensure the mandatory synchronous wait behavior when extending
-> > > multiple hardware backends?
-> > 
-> > Everything has this 'measure before use' requirement. Why would this
-> > be hard? Just loop over all the configured measurement targets if
-> > thats the plan? Maybe I'm missing something?
-> 
-> As long as the measurements aren't queued, but actually wait for the multiple
-> ROTs to complete, it isn't a problem.
+This series adds them as agent skills under agents/skills/, together
+with a skill for writing commit messages. Each skill is a short SKILL.md
+that points the agent at the process documents for its task and adds
+only the checks agents tend to get wrong:
 
-But, I have a related concern about deferred probing of RoT devices.
+ - find-fixes determines the commit for a Fixes tag, following the
+   history past code moves and refactors.
 
-For example, if TPM probing is deferred until after the attestation
-subsystem has been initialized, how would the subsystem handle the
-TPM becoming available later (This is reason for IMA_INIT_LATE_SYNC).
+ - stable-tag decides whether a fix should go to stable and generates the
+   tag. It finds the first release with the bug and checks that the fix
+   applies there.
 
-In particular, when I see breifly proviers/tdx.c and imange for TPM,
-once if it's failed to get tpm_default_chip() in module_init(),
-There is no way to retry and TPM seems not to be exported as RoT device.
+ - find-siblings looks for the same bug elsewhere in the tree, with a
+   Coccinelle semantic patch when Coccinelle is available, verifies each
+   candidate, and reports whether the interface itself invites the bug.
 
-Am I missing something?
+ - commit-message writes, rewrites, or reviews a commit message or cover
+   letter, and writes the text of a pull request. It follows the P:
+   profiles for the changed files and keeps the text short and in the
+   imperative voice, as Linus asked [2].
 
+Rules that people need as much as agents go into the existing documents
+instead, in two patches sent separately: one says in
+submitting-patches.rst which commit a Fixes tag names [5], and the other
+drops the 100 line limit, the rule against theoretical issues, and the
+requirement that a fix be obviously correct from stable-kernel-rules.rst,
+none of which the stable trees apply [6].
+
+Most of the skills only point at Documentation/. The exception is
+stable-tag, which also lists the kinds of changes the stable trees take
+and leave out. The lists describe how the stable rules are applied, not
+new rules, and they save smaller models from working that out on every
+fix. To keep agents/ consistent with Documentation/, I'll check one
+against the other every release and trim anything in agents/ that
+duplicates or contradicts it, as Kees suggested [4].
+
+The skills only inspect and report. The calling workflow writes the
+commit, creates the tag, and sends the mail. coding-assistants.rst tells
+agents when to use each skill. Tools do not load agents/skills/ on their
+own; to have a tool load them automatically, link the skill directories
+into its skills directory.
+
+Changes since v3:
+ - find-siblings: when the same defect turns up in several places, also
+   report whether the interface invites it, and leave the choice between
+   fixing the interface and fixing each site to the developer (Alexei).
+ - find-siblings returns the semantic patch it used, and commit-message
+   includes it in the commit message, or names it if it is under
+   scripts/coccinelle/ (Julia).
+ - find-fixes also returns a Fixes tag for a later commit that exposed
+   the bug, to match Thorsten's rewording of the Fixes paragraph
+   (Thorsten).
+ - Send the submitting-patches.rst and stable-kernel-rules.rst patches
+   separately [5][6].
+ - Add the Reviewed-by tags given on v3.
+
+Changes since v2:
+ - Keep the skills in agents/. They are now short pointers into
+   Documentation/ rather than documentation of their own; see the
+   discussion on v1 [3].
+ - Cut each skill to a single short SKILL.md that points at the existing
+   documentation, and drop the git how-to (Kees). The skill text went
+   from about 960 lines to 250.
+ - find-siblings: describe how to search with Coccinelle in a separate
+   file that agents read only when Coccinelle is available.
+ - Say in submitting-patches.rst which commit to name when a later commit
+   exposed the bug or more than one commit introduced it, and which trees
+   need the fix (Michael, Thorsten, Dan).
+ - Drop the 100 line limit and the exclusion of theoretical issues from
+   stable-kernel-rules.rst, and require a fix to be correct rather than
+   obviously correct.
+ - State once, in coding-assistants.rst, that skills only inspect and
+   report.
+
+v3: https://lore.kernel.org/r/20261016152828.3765695-1-sashal@kernel.org
+v2: https://lore.kernel.org/r/20261012213452.1863248-1-sashal@kernel.org
+v1: https://lore.kernel.org/r/cover.1791499378.git.sashal@kernel.org
+[1] https://lore.kernel.org/r/askTmFZC6RJKAE_p@mit.edu
+[2] https://lore.kernel.org/r/CAHk-=wgXU50=KgZNZc1JDxsSxg9Z+DjG1_2yU-fNXpZtUe4XDw@mail.gmail.com
+[3] https://lore.kernel.org/r/87y0bzq8oe.fsf@trenco.lwn.net
+[4] https://lore.kernel.org/r/202610150832.58E80C02A@keescook
+[5] https://lore.kernel.org/r/20261020142534.3533478-1-sashal@kernel.org
+[6] https://lore.kernel.org/r/20261020142537.3533510-1-sashal@kernel.org
+
+Sasha Levin (5):
+  agents: add infrastructure for agent resources
+  agents: add a skill to determine Fixes tags
+  agents: add a skill to determine stable tags
+  agents: add a skill to find other instances of a fixed bug
+  agents: add a skill to write commit messages
+
+ Documentation/process/coding-assistants.rst   | 35 +++++++--
+ MAINTAINERS                                   |  6 ++
+ agents/skills/commit-message/SKILL.md         | 45 ++++++++++++
+ agents/skills/find-fixes/SKILL.md             | 39 ++++++++++
+ agents/skills/find-siblings/SKILL.md          | 36 ++++++++++
+ .../find-siblings/references/coccinelle.md    | 66 +++++++++++++++++
+ agents/skills/stable-tag/SKILL.md             | 72 +++++++++++++++++++
+ 7 files changed, 295 insertions(+), 4 deletions(-)
+ create mode 100644 agents/skills/commit-message/SKILL.md
+ create mode 100644 agents/skills/find-fixes/SKILL.md
+ create mode 100644 agents/skills/find-siblings/SKILL.md
+ create mode 100644 agents/skills/find-siblings/references/coccinelle.md
+ create mode 100644 agents/skills/stable-tag/SKILL.md
+
+
+base-commit: 3857c2fe5449541e24afc5efdb0f81a8a8f9a3a0
 -- 
-Sincerely,
-Yeoreum Yun
+2.53.0
+
