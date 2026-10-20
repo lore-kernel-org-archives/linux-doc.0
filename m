@@ -1,97 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792499222;
-	b=M91CcRtx5WJoxAXaTK2IgHQr5HYve47r/b4dyrntNQrbf982bGU9XoJLnmviL/x9JU43
-	 j0CzTISIVaPDR5TmzvGoQGnAxOThHLWskSI+lw4MaGtgzCdgDxEYWt2TRxdT3kn4pf+AJ
-	 knC8qrvW38uGvzV1wQEuRPvwKAYmBwvLTk7hMQRazvzj+l5cmSPSs48UkJp6qszR8SFhQ
-	 9rcv/OQgWDhExGAwN0S6cIsEnK4e+xJJIP6nk+CokqbgN0RdpOsUcEV6G8qajzGPT8g0e
-	 6skvm6jRIHHAB1f23XQ9iTN4pa0Zsp2vWSQz7CIkk4XRHhH+q2f/RmbQZvSoC2DfFYA==
+	t=1792499340;
+	b=EibS3eVThrS/0ptPWzUStGKWeLMjKaFX8WVY/qKJ0W5fJRY0KVdEzC3fdZTrPLC4sQN/
+	 Y0jfsY4NVQXQohJovMy+oUdUjzrpf/ocHzRXrHgsJwljP9yJOzXFQgq2tTxhmReL0Kf7T
+	 78U87iCjOD3MAm6YehF7cPi8bcu+mK1Uxo3IXPShR1QV6xKDeZCxcEUPur2z1rwSpXZ0E
+	 94463zeFLa1s5nj4y5ss9I0FZrLh9NjjyVLAzeD+eA2x1a09WnShdOB+pej0DiC4YLZ6S
+	 q/NyIfm3Zjddc0usRh8kPiIwq5jQvM3hcvIjnizNniXhweckLVthTW5D+YrU/60qYJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792499222;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792499340;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=r+JXJ7/RizMzNWpQZbCi3pXUDD6ZYso7OnyQ+kdiZlM=;
-	b=3s6KZ42W8KVi2tL/rkqRESUYWyowriZ67pclhyJjcldgj8GA47L97POFA71IH3Jr4327
-	 imAu6Tgni9vxX+j430e1fw2zqB+GEFCE2DehC9wg8yIakeh5LT/tbUwGlaAYBfwg+cnQf
-	 3dsIDX4aj60WjY3eQNhuRLCKoDuhkc4gqHY817wNgTcLKzWTTU5JWzGjR5nDzGOkbT74D
-	 JmiFDCtHoh6K3hhFC6j0uVEutpUcQrPpQ9p6TonHmVLO5Tps3OL65pVPQt8BYBUHtbKmw
-	 6aLDzL6RGpKwHmxgWr+q0R0jBYPnrRkn34EbjVXZ+sM0LgWLG7Zx7/0DATtMviv2uyQ==
+	bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
+	b=rlv5rgvYyoUWrHCQWgzi3ODr7KlFPUlPzMFzw3vce83Ckr43Ha4h9x6GmDIhUXYIB+iL
+	 2L0Aed9tq2ESrlUlw2k3v+tnjJZf3bDtfDJRmeBNJH35W2vBc7vJNKDvVfPczsNPUPcUF
+	 ORyjmcFs7vI3yhsNUvFy37KqA06XhjIC8mLxH/w3lWHFjdnkNR/hyjAGpnSCdfTfbcgwa
+	 khWjUQQVVj0C2jAKyvLpeCKZWeAF01Hi9gmCr9na2txCsC01oc55IDyzZ3RcMGgjy7FZ4
+	 Rsf8xCSztHFEr1OkYpMi9XTM7iKBvpagdzuKWJOqIijj4CA4XOyE/A+NOWxzmDcNBeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=resnulli.us;
-	spf=none smtp.mailfrom=resnulli.us;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="N6/XTZC1";
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4B1606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 12:26:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A4B1606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a171b677d2so18774835e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 05:26:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB73606A323
+	for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 12:28:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BB73606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=N6/XTZC1
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48dc202a60eso875668f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Oct 2026 05:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1792499217; x=1793104017; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1792499338; x=1793104138; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=r+JXJ7/RizMzNWpQZbCi3pXUDD6ZYso7OnyQ+kdiZlM=;
-        b=hFWwiKZYM9mL6E9PjvXPJ3WGnS6fCoA5M4DIXCiZ7QxzFi2/LcC4qvf+KiToBx11vf
-         GRItbzTNaPMrrqtIFRswHSZ98neyu90Uq5IfSu4sQ36KzvEhbpjmB1UwNwd7qYf4BWxN
-         bDz3iEsnC7hCleu9A1kqlb5Rzg4kdPeLjcGlV31/IXxUBLh7w3J02q1/tfvUIz81uOS/
-         UEM6+101n2rlxfRua/iUXIXttcSlcn3JJy+8PQ0VU6ITRl8uQjt14rR220smlHCvOj+l
-         C6Q2+TncSYuWzfBvITAgECC4jVu0YXsBeECg75adzeCZE0pz4lYpLhgty1FCkfWqLh1e
-         sotA==
+        bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
+        b=N6/XTZC1nghPVLJWcx1jJKYR4/4ERrwB29Br8hBD6S6stsVkyggKbfiq5fzNXL0Ppa
+         CpU5KUKmPjnpFpMbUt+w1NE/dR0xBhSLkoiEJUb8HbxJpF16pLYMJFzX4LZczorpoYDL
+         tpWtXbrLIlLKnn+kut1zfc0Zvxe0vcdJhaSEnPgwC3UywPI7qKVSYwJwDJ1nYraXTk87
+         xH4nt1vtE5uwMdNG/3RcqX25B/npAZxPRJyZXTpZryF+VdoS8Kaw+K+l/tJaKRJOage0
+         UlXTfArrgqnCVZ89FPaeaQ8XanGPj7Wli8RNgRb/39LwAyz4fj5NCWP4ArMwt/WiJD2X
+         8RRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792499217; x=1793104017;
+        d=1e100.net; s=20260707; t=1792499338; x=1793104138;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r+JXJ7/RizMzNWpQZbCi3pXUDD6ZYso7OnyQ+kdiZlM=;
-        b=X/vsI4E+HbEse8PbIo+t1UNZ7YL9wYnGjP1aMbhVPZPQx1RvSWL+adVuOZDCdb/3nC
-         gkeVioALly8hZEn4xmAPaz45gmMNSvcMRc+vNzTOCLA4lIyXyF3nY5DKqwq1Swfro5Ku
-         AbrwLXikk/e1IeQAl9lwH5Pi7M03zl/K++07uNL41DAHH8UXhz09fQwrKbfcd92cLwIh
-         Wg9lCTWrYWkyrdntgXYgGpFzvrblHf2eCqVrJbiuslRv1D088muTi7pMbuVifawAHy6w
-         +4fWpyWnfEf3VyoleM4GQ6js+3RnE2wdwfDIROQiJ+yDpGHnhl4eSruX27vKKI2Mz3T1
-         zNNw==
-X-Forwarded-Encrypted: i=1; AKwUvBytMKw+f+5Yv37OAtpuxVKrRife0DPQ20mRyhIirrTgJ7hQc0dH1zfk/h4+Q6czzIDsAhH8SldIfaw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKSBRaPfHHAF4qucL+zTJfgC1vlHE1wCV22zIo1sfkJ/NcMmO9v
-	c42E0Ax6a8Bve2cB8ehUpI7vg2eV+ygF1hU+bzEfzOKhuBSor/xYHdXzTajFomnjbz8=
-X-Gm-Gg: AYBFou2QYXdd8RAAGtrBZefzB24/Pj5oQm34tfdQ9JTi5v91heXF0GOtpMsgic1yrwh
-	i/U92Ev6WABrPRdRQ4IyQjsAcnFCoTDdFJrR0oNiREcKhdFhxMVY9oEsgFawocfS7DVFia2dj8B
-	640QSqXu/H16sDoOUoIHSX9Quuta0pZXUmkhnQBtKb4QxDVhRp3N6I/7ED8jCt4OniyBi1POSpS
-	r6TEoGA86NpsV/k7elnjaO32vwa78oCjbbU6XYzlL6D74b+M/EU2z+yD5eFO4nekJCfrKTScdLe
-	BFtcILKeub0J1c4bZc6k6CVq6QW73OOn3WwBuM57f/+KlgR6DUhGNv2gPjMewOY/NIXevRO9hCn
-	joiRupRSCrRDO1p1wOmLiid0gK6Z5ISf7kdSJh2fv/m3lIyLkpX5mkc2fbOdT7jA99jUlx4c+bm
-	hwm/XGpaBigbsf4+gXqJAi0+XAMEEEiSnn6l/YIWRQBz4DBfJ5cDrXl1AiQXp3qoE7Aw9lG5GVl
-	eaO
-X-Received: by 2002:a05:600c:34c5:b0:4a1:dc8e:edc1 with SMTP id 5b1f17b1804b1-4a1dc8eee6dmr208638065e9.0.1792499217319;
-        Tue, 20 Oct 2026 05:26:57 -0700 (PDT)
-Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2ce1479sm69425855e9.14.2026.10.20.05.26.56
+        bh=lfZbqFmLr8Q6MECdNX562ifwqH83lxZBW8nCUfGoGTs=;
+        b=rU22ZKen+Hqqor+lNwcy7rl5Ph46e9kTCaorTXbV/Tj8IOl/s53r/m//NjP/rOoeqb
+         UDHvkiPOgZmXgAThgfbXATE83Esqw+TQO/tsT7dHSHiCieED4WGj1yaophDB/s9OTGQS
+         JcetsI3eXfI8ig6QSGxlYCrr06DThlZmWC0T0hS6npMTSTBBTEdKDY0+BjCrBC11LBuO
+         hvuildTs+MK1baSzPk57c2m2GTF9DKhBqkFVp7PoR5zi4OmuhxrBzUBidL0dAAiMlgUZ
+         JLMOtKFahiTqnUxm1QXaNPtprCSA9WfaZZ19QJflmr/akH9m3Ni3f8cOJQnInxmHnPbb
+         vqow==
+X-Forwarded-Encrypted: i=1; AKwUvBwjBXaeqHsHp+DhbRqQQsoHPiU29+qj1SEqTEN7G20FpPzG632W/dpUrhaJiN649zKZWbwBB8EwEeU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJixjdI7G5wjUBy5dC7NVKITTvKNFOkkkK/ISxNPsZFFkYAxVKt
+	DBrs9lM8wD5w8/R8LEWDtsyzTUhBZT6zmdnD1PClwNuT0f5zvrzPSIMYJV+sGfr2n+s=
+X-Gm-Gg: AYBFou2nzPOiTUS/yya4wgKqS/qa3UnOd/EbDEmMSps8jIUlTi+S9uPBGawv/2nYC1V
+	LbS915mxMT4xCGdPstIFwvLF5AqwiP9ANHNu/HQGrN8KhLepLDcRpKDoi3FutalKN60AJNWguhb
+	t4ieHctcle4to70YAICRDqBe6OxpjTgvFceHaxKC1aC6jUcNPmQDQIknJitgeD6wTzZcF+Hlfyx
+	MTSJGvoDrfYWuK9iMb2/vQ6LkLgd9WDqgNZs08M4GyBIsNvEJdDUaT42UfAYk5cPYilbAXHRdCM
+	kkoxlOoASiN/oHeCblz0Mt0SDin33oj60H20d9OvrAaoytP4dCQucWy12Vz3JM9BH37+sh+yANp
+	hqQrMDm2irOGqlw5b3IDrRxNEHlvS+I6NR7Qgy/D9NP1zCttrK4t1RnE2iV1SVasHeWvwGGQ6FA
+	LjNmLGxIhPvLA4UqqZVxa/YLi5/XUQH9IjcTzl3a5aLJKdHDQ9LUo/Kf+aJScDkxw/FxsWOJHZO
+	djykFawZas=
+X-Received: by 2002:a05:6000:4694:b0:48c:414f:cc12 with SMTP id ffacd0b85a97d-48e07f9c387mr16153415f8f.40.1792499337854;
+        Tue, 20 Oct 2026 05:28:57 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d6dbd33sm5588977f8f.8.2026.10.20.05.28.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 05:26:56 -0700 (PDT)
-Date: Tue, 20 Oct 2026 14:26:54 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 02/20] ctlv: Add the UAPI wire format and family API
-Message-ID: <atddoIx-sA2eheSu@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-3-jiri@resnulli.us>
- <179245258504.58760.15790996354033644110.b4-review@b4>
+        Tue, 20 Oct 2026 05:28:56 -0700 (PDT)
+Date: Tue, 20 Oct 2026 14:28:43 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Dave Young <ruirui.yang@linux.dev>, Borislav Petkov <bp@alien8.de>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
+	Joel Granados <joel.granados@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	John Ogness <john.ogness@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Bo Gan <bo.gan@broadcom.com>,
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Brennan <stephen.s.brennan@oracle.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Ian Forbes <ian.forbes@broadcom.com>
+Subject: Re: [PATCH v2 3/6] panic: Allow postponing pre-kdump notifiers
+Message-ID: <atdee9q7DExYLGPE@pathway.suse.cz>
+References: <cover.1790014793.git.zack.rusin@broadcom.com>
+ <52183acf25209275a9a57fe5d746f82d3b7efc3c.1790014793.git.zack.rusin@broadcom.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,171 +122,118 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <179245258504.58760.15790996354033644110.b4-review@b4>
+In-Reply-To: <52183acf25209275a9a57fe5d746f82d3b7efc3c.1790014793.git.zack.rusin@broadcom.com>
 
-Tue, Oct 20, 2026 at 01:29:45AM +0200, jgg@nvidia.com wrote:
->> [ ... 159 lines skipped ... ]
->> +#define CTLV_NODE_SCHEMA_UNLIMITED 0
->> +
->> +#define __CTLV_NODE_SCHEMA(_attr, _kind, _occurrences, ...)	\
->> +	{ .attr_id = (_attr), .kind = (_kind),			\
->> +	  .max_occurrences = (_occurrences), __VA_ARGS__ }
->
->This reads alot better without the extra macro layer. The point of
->this is to allow the codegen output to be concise it is worth being a
->bit more verbose here so the exact form is easier to see.
->
->> +
->> +#define __CTLV_NODE_SCHEMA_CHILDREN(_first, _count, _required)	\
->> +	.first_child = (_first), .children_count = (_count),	\
->> +	.required_children_count = (_required)
->> +
->> +#define CTLV_NODE_SCHEMA_ROOT(_first, _count, _required)	\
->> +	__CTLV_NODE_SCHEMA(CTLV_ATTR_ROOT, CTLV_SCHEMA_NEST, 1,	\
->> +			   __CTLV_NODE_SCHEMA_CHILDREN(_first, _count, _required))
->
->For instance this is much more directly readable:
->
->#define CTLV_NODE_SCHEMA_ROOT(_first, _count, _required) \
->	((struct ctlv_node_schema){                      \
->		.attr_id = CTLV_ATTR_ROOT,               \
->		.kind = CTLV_SCHEMA_NEST,                \
->		.max_occurrences = 1,                    \
->		.first_child = _first,                   \
->		.children_count = _count,                \
->		.required_children_count = _required,    \
->	})
->
->Even if it is longer, and and clangd can now jump to the struct members
->
->I also think each of these should have a one line comment explaining
->when it is used.
+On Mon 2026-09-28 13:55:37, Zack Rusin wrote:
+> Provide an escape hatch for debugging kdump failures that may involve
+> pre-kdump callbacks. Add panic_pre_kdump_postpone to skip their early
+> invocation in crash core without consuming the once-only guard.
+> 
+> When enabled, the chain runs before kdump only when
+> crash_kexec_post_notifiers is also enabled. Leave the late panic call
+> unchanged so callbacks remain eligible if that path is reached.
+> Skipping the callbacks may prevent hypervisor crash handling.
+> 
+> Suggested-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> Link: https://lore.kernel.org/r/bc0bdd14-5e6a-0676-cd04-14fb0bb93cd5@igalia.com
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> ---
+> New in v2: optional postponement policy suggested by Guilherme.
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 14 ++++++++++++++
+>  include/linux/panic_notifier.h                  |  1 +
+>  kernel/crash_core.c                             |  3 ++-
+>  kernel/panic.c                                  |  2 ++
+>  4 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 33cd30996e47..3d722df30838 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4904,6 +4904,20 @@ Kernel parameters
+>  			This option should only be used for systems with the above
+>  			constraints as it might cause the panic operation to be less reliable.
+>  
+> +	panic_pre_kdump_postpone=
+> +			[KNL] Defer pre-kdump notifiers to the late panic path.
+> +			They run before kdump only when
+> +			crash_kexec_post_notifiers is also enabled. If panic
+> +			reaches the late path without entering kdump, they
+> +			can still run there.
+> +			Intended for debugging kexec/crash-dump failures.
+> +			Skipping these callbacks may prevent correct crash
+> +			handling by the hypervisor.
+> +			Format: <bool>
+> +			Default: 0
+> +			Writable at runtime via
+> +			/sys/module/kernel/parameters/panic_pre_kdump_postpone.
+> +
+>  	panic_print=	Bitmask for printing system info when panic happens.
+>  			User can chose combination of the following bits:
+>  
+> diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
+> index 3ad390764a41..655ee5c77181 100644
+> --- a/include/linux/panic_notifier.h
+> +++ b/include/linux/panic_notifier.h
+> @@ -11,5 +11,6 @@ extern struct atomic_notifier_head panic_pre_kdump_list;
+>  void panic_notify_pre_kdump(char *msg);
+>  
+>  extern bool crash_kexec_post_notifiers;
+> +extern bool panic_pre_kdump_postpone;
+>  
+>  #endif	/* _LINUX_PANIC_NOTIFIERS_H */
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 5d9fe9e00f39..d6b2293dd0fe 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -140,7 +140,8 @@ void __noclone __crash_kexec(struct pt_regs *regs)
+>  			struct pt_regs fixed_regs;
+>  
+>  			crash_setup_regs(&fixed_regs, regs);
+> -			panic_notify_pre_kdump(NULL);
+> +			if (!READ_ONCE(panic_pre_kdump_postpone))
+> +				panic_notify_pre_kdump(NULL);
 
-Okay, makes sense.
+Honestly, it looks a bit confusing to me.
 
+The name "postpone" suggests that they will be called later.
+But they likely will never be called because the crash kernel
+will take over the control and eventually reboot the system.
+The panic() path will never run.
 
->
->> [ ... 61 lines skipped ... ]
->> +#define __CTLV_STUB_SCHEMA(_family, _set, _node, _optional)	\
->> +	{ .family_id = (_family), .set_id = (_set),		\
->> +	  .node = (_node), .optional = (_optional) }
->
->Same here
+Also there is:
 
-Ok.
+void oops_end(unsigned long flags, struct pt_regs *regs, int signr)
+{
+	if (regs && kexec_should_crash(current))
+		crash_kexec(regs);
 
+where
 
->
->> +
->> +#define CTLV_STUB_SCHEMA(_family, _set, _node)			\
->> +	__CTLV_STUB_SCHEMA(_family, _set, _node, false)
->> +
->> +#define CTLV_STUB_SCHEMA_OPTIONAL(_family, _set, _node)		\
->> +	__CTLV_STUB_SCHEMA(_family, _set, _node, true)
->> +
->> +struct ctlv_schema_tree {
->> +	const struct ctlv_node_schema *node_schemas;
->> +	u32 node_schemas_count;
->> +	const struct ctlv_stub_schema *stub_schemas;
->> +	u32 stub_schemas_count;
->> +};
->
->I've been ponding for a while what 'stub' means in this context.
->
->AI suggested "extension_points would be a clearer name here." I guess
->because ctlv.rst calls it "Inheritance and extension points" ?
+int kexec_should_crash(struct task_struct *p)
+{
+	/*
+	 * If crash_kexec_post_notifiers is enabled, don't run
+	 * crash_kexec() here yet, which must be run after panic
+	 * notifiers in panic().
+	 */
+	if (crash_kexec_post_notifiers)
+		return 0;
 
-Will think about rename. Pehaps better documentation&comments would be
-enough, IDK.
+So, when: "crash_kexec_post_notifiers == true" then
+kexec_should_crash() returns "0" then
+crash_exec() is not called. The system might still
+call panic() but remember "crash_kexec_post_notifiers == true"
+so the notifiers are called before __crash_kexec().
+So panic_notify_pre_kdump() will still get called
+before __crash_exec().
 
+Is this intended, please?
+What is use case, please?
 
->
->> +
->> +#define CTLV_SCHEMA_TREE(_name) {				\
->> +	.node_schemas = _name##_node_schemas,			\
->> +	.node_schemas_count = ARRAY_SIZE(_name##_node_schemas),	\
->> +}
->
->It is helpful to put the struct on these macros ((struct X){})
->
->#define CTLV_SCHEMA_TREE(_name)                                         \
->	((struct ctlv_schema_tree){                                     \
->		.node_schemas = _name##_node_schemas,                   \
->		.node_schemas_count = ARRAY_SIZE(_name##_node_schemas), \
->	})
+Maybe, it would make sense to add "panic_pre_kdump_disable"
+which would completely disable the notifiers when they cause
+problems.
 
-okay.
-
-
->
->> [ ... 127 lines skipped ... ]
->> +typedef size_t (*ctlv_family_priv_size_fn)(void);
->> +typedef const void *(*ctlv_family_pre_init_fn)(const void *init_info);
->> +typedef int (*ctlv_family_init_fn)(struct ctlv_device *ctlvdev,
->> +				   const void *init_info, void *priv);
->> +typedef int (*ctlv_family_post_init_fn)(struct ctlv_device *ctlvdev,
->> +					void *priv);
->> +typedef void (*ctlv_family_pre_fini_fn)(struct ctlv_device *ctlvdev,
->> +					void *priv);
->> +typedef void (*ctlv_family_fini_fn)(struct ctlv_device *ctlvdev, void *priv);
->> +
->> +typedef int (*ctlv_stub_fill_fn)(void *priv, struct ctlv_op_ctx *ctx,
->> +				 const struct ctlv_cursor *request,
->> +				 struct ctlv_cursor *nest);
->> +
->> +struct ctlv_stub_ops {
->> +	u16 family_id;
->> +	u32 set_id;
->> +	ctlv_stub_fill_fn fill;
->> +};
->> +
->> +#define CTLV_STUB_OPS(_family, _set, _name) {			\
->> +	.family_id = (_family),					\
->> +	.set_id = (_set),					\
->> +	.fill = _name##_fill,					\
->> +}
->> +
->> +struct ctlv_family {
->> +	const struct ctlv_family_schema *schema;
->> +	const struct ctlv_family *parent;
->> +	const struct ctlv_op *ops;
->> +	u32 ops_count;
->> +	ctlv_op_pre_fn pre;
->> +	ctlv_op_post_fn post;
->> +	ctlv_family_priv_size_fn priv_size;
->> +	ctlv_family_pre_init_fn pre_init;
->> +	ctlv_family_init_fn init;
->> +	ctlv_family_post_init_fn post_init;
->> +	ctlv_family_pre_fini_fn pre_fini;
->> +	ctlv_family_fini_fn fini;
->> +	const struct ctlv_stub_ops *stub_ops;
->> +	u32 stub_ops_count;
->
->Having the function ops in a struct use typedefs instead of just
->coding the signature is unkernelly, I couldn't figure out what this
->was done, it seems there is no user of the typedef
-
-Right, will remove.
-
-
->
->> [ ... 182 lines skipped ... ]
->> +/* Implementation limits, not wire-field maxima: raising them is compatible. */
->> +
->> +/* Request roots, action replies, query reply fragments and event roots. */
->> +#define CTLV_MAX_INLINE_MESSAGE_LEN	0x100000	/* 1 MiB */
->> +/* Includes the error information root. */
->> +#define CTLV_MAX_ERROR_LEN		0x4000		/* 16 KiB */
->> +/* The root attr is at depth zero. */
->> +#define CTLV_MAX_NEST_DEPTH		32
->> +#define CTLV_DEFAULT_QUERY_REPLY_LEN	0x10000		/* 64 KiB */
->> +#define CTLV_MAX_EVENT_QUEUE_LEN	0x1000000	/* 16 MiB */
->
->If they are just random kernel limits I'm not sure they should be in
->this uapi header?
-
-True, will move to internal c/h
-
->
->-- 
->Jason
+Best Regards,
+Petr
