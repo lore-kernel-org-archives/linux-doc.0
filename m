@@ -1,55 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792566921;
-	b=HOfCKrYf9OwTGADEn4KzgvStV5EC4ATvxiv2fSEDBlIpOHeUBuEOoMoJjkA1zHNteLk2
-	 UTjHj2zIJL32K9BzgRY87jDmUEHgPHBjLs3hAtGC3HbLnvfHCQp4I1Sc4FYK2q0Cws0Y6
-	 PCL9wzkGZxorkc1OGfZ7VIO2JyZxlcOQNl31SH4WCy95vnRBGRfiRxdjGrZT40xflZaLC
-	 2hYMxNCUzeF27GzqmaaigA22DRFla9QY/G56yEdPIuaRkOMFqgFLrLJif0e7riWxe6xp9
-	 h+IN+YZv+hMmUTvbjRt8zQLoyf1RjaF00cjI8QmO9Y3k6Mweait9xizeYrTmw2MtgPg==
+	t=1792567230;
+	b=qjS0NtqQgfzoHic5JeUSNE9y6tbfB+tlozf2zK6aBQxpbis2/waiDIyQhqDJWoljb3S1
+	 Brfbj76r9WEsd4zfwb83dxKX+dD+pFPkBHy3923XUE6jb+YZPiddjo3wxPvIT6c9WyvXr
+	 sT6Z2ASSeXF3JQoLJ1rF92V/S5OpIzUXbcRTjZIL2cceJXXuFEmriP7VsCTw0nO3QMhD7
+	 TXzTecF7uGlCDJvcTK+edPckOwaQOijdWM+jfhBgdB8d/XgxJBP/8LQug+UqxwUnOi5gx
+	 KoT2WfCWRaSaHZ8lQBfFTYIsMZsHpvU2W3ewrvgiBN99tl/hfoxNCp0M6AZ2WAagA3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792566921;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GJlhSxM8zOGw4pZlr6oN5qsjXrafvLr/XcRq/mpxBXQ=;
-	b=YWMjyZdKO8wEPNzOxcIyt2cscEQvXRlA2B0oQySsuANN7nJZp3hQHqCbZgouOeyPRvw2
-	 rfCbTXe+/J5nIhHUDf38HIIRCZCiPdRphyFhS0OHbrRhO1JlcJ88/6J7CMeAIIlFHEVqE
-	 /LdXzHxqh6L5eCXU0QBCuYDy/IrAp1tw6NAWHYvLclqHUtEvgWzkTcJIBpyQvXyDmUY7N
-	 xxGunNnAKlyGxJ9CaxmkV98u01Af69UXnNLuvkN9FdJus6REcrqqqenTs6U5ECVzOY5S1
-	 9xg7ld9BCJftyqvOusFMXK5mvwEFDZQ4V6vZqqOdO0hltvWZQ+5GGUU8CtW9TpAU6hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792567230;
+	h=DMARC-Filter:Received:Received:Message-Id:Received:Received:
+	 X-Zmail-TransId:X-Mailer:Date:Mime-Version:From:To:Cc:Subject:
+	 Content-Type:X-MAIL:X-MSS:X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:
+	 X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
+	bh=VIZNzcv10orRo732XycMm56Jobni7WyOSQWYFAk91pY=;
+	b=mk9YdD7vLWBJCq0ymqYVy/HqIaK/mhVR17dfBoQWqAdNsv9v1I3b2EQMegvHHzJlRr9o
+	 VCT2bOBFZLFlA0ejelAEWzAYGvD68Imx3L48kGPO8TEoHOgWyAetaucnIdWKkq2ArUIDy
+	 CpBQNWzB6M1xA5zi/D85YAu8G6vCjdbjFlSQbtBXGVozZpTihAreqOiWkysoEAnQsZcmd
+	 JpvdXwhJbuDPsZs2LpQ4my0oXPDPI/QNcFvF5wiaQ+UL+hOyJ3YWoGTymg4DJakNi3wT4
+	 PmZoru+ClYlfnXzME5LyLH0A9X4i8mQbQV6j2wCbbQ7FcvkAqycqBgZxqRv90qo0MzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IiJSgHIa;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	arc=none smtp.remote-ip=160.30.148.35
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001E4606A31B;
-	Wed, 21 Oct 2026 07:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IiJSgHIa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DEE71F000C9;
-	Wed, 21 Oct 2026 07:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792566920;
-	bh=GJlhSxM8zOGw4pZlr6oN5qsjXrafvLr/XcRq/mpxBXQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IiJSgHIaw0/3Bs/FO7q64CPg6nJYqPyCCwVUAJirU/zuLJ8fPMLAK2STwrBGOprZo
-	 u1UTJzPdWRKSnPeymNgijRfxFNKTp31bu2bvBazJCs7DbG9L+BR8My4BOYNr3HloUt
-	 iD3/fDTIro4qM2AqvJsNyXqN+tTFH74zK8iA3/7/BwVB3R3NB3/73+9/bFdDLdA56N
-	 ouoPLnaarU9tWBJo3U/Bab6Jj7eIwAcPVmB9ebbd3EyHA19bCKjm8ZRJwGgNfbu37J
-	 X7cVkzhD0GKnsdeOCFt0p1kFUgxHsQc4BTPYEvEfsTbj8IP5Bph7tPQsuKXLq/mjjg
-	 a2mSOz2uFjfAw==
-Date: Wed, 21 Oct 2026 00:15:19 -0700
-From: Wei Liu <wei.liu@kernel.org>
-To: mhklinux@outlook.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] Documentation: hyperv: Update documentation for
- sending VMBus packets
-Message-ID: <20261021071519.GD851443@liuwe-devbox-debian-v2.local>
-References: <20261013014354.18023-1-mhklinux@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C0606A319;
+	Wed, 21 Oct 2026 07:20:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 867C0606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4j8gff3HJ5z8Xrrj;
+	Wed, 21 Oct 2026 15:20:26 +0800 (CST)
+Received: (from root@localhost)
+	by mse-fl1.zte.com.cn id 69L7KOCC052507;
+	Wed, 21 Oct 2026 15:20:24 +0800 (+08)
+	(envelope-from ye.zhihao1@zte.com.cn)
+Message-Id: <202610210720.69L7KOCC052507@mse-fl1.zte.com.cn>
+Received: from szxlzmapp03.zte.com.cn ([10.5.231.207])
+	by mse-fl2.zte.com.cn with SMTP id 69L6EsS0078942;
+	Wed, 21 Oct 2026 14:14:54 +0800 (+08)
+	(envelope-from ye.zhihao1@zte.com.cn)
+Received: from mapi (szxlzmapp01[null])
+	by mapi (Zmail) with MAPI id mid12;
+	Wed, 21 Oct 2026 14:14:56 +0800 (CST)
+X-Zmail-TransId: 2b036ad8586016c-6674b
+X-Mailer: Zmail v1.0
+Date: Wed, 21 Oct 2026 14:14:56 +0800 (CST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,19 +60,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013014354.18023-1-mhklinux@outlook.com>
+Mime-Version: 1.0
+From: <ye.zhihao1@zte.com.cn>
+To: <atishp04@gmail.com>
+Cc: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2MiAwOC8xMV0gUklTQy1WOiBLVk06IERpc2FibGUgYWxsIGhwbWNvdW50ZXIgYWNjZXNzIGZvciBWUy9WVSBtb2Rl?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 69L7KOCC052507
+X-MSS: AUDITRELEASE@mse-fl1.zte.com.cn
+X-TLS: YES
+X-ENVELOPE-SENDER: ye.zhihao1@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Wed, 21 Oct 2026 15:20:26 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AD867BA.000/4j8gff3HJ5z8Xrrj
 
-On Mon, Oct 12, 2026 at 06:43:54PM -0700, Michael Kelley wrote:
-> The functions for sending VMBus packets have changed.
-> vmbus_sendpacket_mpb_desc() can target multiple ranges, and
-> vmbus_sendpacket_pagebuffer() has been removed. vmbus_sendpacket_getid()
-> has been added. Update the documentation accordingly.
-> 
-> Fixes: 45a442fe369e ("Drivers: hv: vmbus: Remove vmbus_sendpacket_pagebuffer()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+Questions on KVM PMU Counter Numbering, Hcounteren Setting, and Migration/Conflict Handling
 
-Applied. Thanks.
+Dear Atish Patra,
+
+Hi，
+
+I noticed your relevant patches and comments regarding the KVM module in your virtualization work. During my virtualization validation, I have the following questions:
+
+I found that the hardware counter numbers actually used on the host are inconsistent with the virtualized numbers returned after KVM emulation. Is this because you want to ensure that the VM can work properly in migration scenarios and avoid the conflict scenario where the host and guest count simultaneously on the same CPU and share the same hardware counter? Also, why are all virtualized events disguised as sampling events? Is it because SBI PMU does not support the passing of this flag, so KVM cannot distinguish between stat and record events?
+
+In addition, I noticed that in your main.c, Hcounteren is set to 0x02. Is this also because there is no correlation between the logical hardware counters and the virtual counters? Have you considered enabling Hcounteren to reduce the overhead caused by CSR traps? In KVM, is it mandatory to modify the logical hardware counter numbers and the virtual counter numbers so that they match and are consistent, and would it be necessary to reconsider how to solve the migration and conflict issues encountered in the previous scenarios?
+
+Best regards,
+ZHIHAO YE
