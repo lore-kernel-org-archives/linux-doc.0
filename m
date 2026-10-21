@@ -1,121 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792577685;
-	b=5SDfEPN4gon6DbNx1TQz2DB9fNY8nK/o7efGfAFBt5NfrKQnK2X1onngl4RD8LjonUXu
-	 jbLUbqe8N4Yqf7mtDIa0fKL2hwrhAhB9vWaJnUzBJTXL0idt4WHLqHiNGUDcjZTY0vnDS
-	 1ujd9dgCXlOYccvJVtsT2wvAjxveUcSsz2ilx9fDqWhm8uUpEelWAzaUL/TzrUUSaexJo
-	 Lb5IA00RoykViqSe6WEgArllPikKzSOjcOP4+i3TAQ9GtVS3pHNqPnV0Lcovihd0p6sx2
-	 6odw/Xeh/q+LqWCcHXVUKkFtcDyXMq3FxSR/4O9fWdIiO5biiFWtxOyABZHIyZUD9xA==
+	t=1792578116;
+	b=NL8ZpqZCWWwYYFAZoHYONQvHTrjJ09JyOIcJWYDNMqW4NcqVVRHJtR6mshvcfn6xXTW/
+	 5K7ttWzjWPAbK+2ufHIYXrJjzhaQpeU2tPcQGUjCNfbrwnUjwLO5X861cWLUvJm2f1Ie6
+	 cd0x7u0edN2SpdLWWefE0Mq6hC8uXaHNhpVd3nXSJg1+Xg8eTG0AEnwZBJGS2WDbqS5Qt
+	 KS45fbYnkOkbV5cfHNVjQm/lcg9BBpqSGyfcZUQtrBWqD/bvDpTil5Bhd17yFid/q5Nfl
+	 +fIK2p7KqPRYuNXwDPXKGxoYStzV4f5NAwcF8+e7oUjKE53YXyHuMxluFKkdx4qPODQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792577685;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=LaMrw0UGiuCnM59eNBEdevbmBZ2o/qyOQGg9zp+WMrM=;
-	b=K3ulWQ1GRQqZjrZU58O9Jzh/ioB+BuDoUJ+3ua7x2FFlR/69k+/87rFwhc5HK6OU5a7L
-	 JYzV8OUGtykZQVMC1qraZDYtwWDXND4V8RU+PiQbcx83UN/UiTrrZg1Q3kLCBMjFXJSOD
-	 k5YtGzRkIojMTN3UEy+f+K4In5hAvoBcF4sxnCGJKswO9qkDGILG+p+aLyCkLk1Cytoox
-	 rIoBdFf0Ix6ucIkZgdjOpFzRYDfkm4C0FYioSOnet0sJRx95r3YTraRBSdTAO/EFzvtSS
-	 E/BrV4VMf+NRwBrR/3FTCRnF5YBDIZv/qA+gLh1Kjmk25EkoEETHUyUOrmKsrFWIO6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578116;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	b=Na30fbzbmF9ffbf88MZXidvz/GwP0bvyyaD5DJk/Q175LC/IAkZyAsAw9tbrBeHJXGew
+	 Yj9KBnaxHHKLm4e+o3xU3WHlgccBbjGC/vR5XkxsaDOEw/KiR2OV8Rer6hQiN0T36I6VV
+	 b7GZ1oBOsEmadAlzHtTKZxFP071Vtj1g3VMS/Ez+QR3ez3BVmy4lcQ3G26HCEXxiB+hsw
+	 oQbDef1Xa03LNaoDIQdKyN64ZILCgsOYNCVtf99Zq+QowwesxjDx8vdwrSrSVUaOwlZGz
+	 nsFCXFOEpna5ytlOKlJOg89WjYA1ebqNAN1bCyNDjeyclaf8lFc8+D1q7N2uPX8DcOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TpixcOcI;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ejAaswOC;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1160606A31F
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 10:14:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1160606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812FE606A31A;
+	Wed, 21 Oct 2026 10:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TpixcOcI;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ejAaswOC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792577684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LaMrw0UGiuCnM59eNBEdevbmBZ2o/qyOQGg9zp+WMrM=;
-	b=TpixcOcIc+qEmEDiQ0FLw+S+qtpggT3NqH0RIXuzC8XKV/f9YbgNr3ahFBE7fZ+GDb2aiM
-	MJ8Tu/HXmRNLwBcF7ACuwPEadiowaMAmgZJ/st10hS9I3uA3Zr1aRYCnlG+rN/XIpsvwi5
-	q+58VurQ3uB5vhiS4wynDKnC3HLs7QE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-155-a_Ztnx4sOumIRBzZGvwA6A-1; Wed, 21 Oct 2026 06:14:36 -0400
-X-MC-Unique: a_Ztnx4sOumIRBzZGvwA6A-1
-X-Mimecast-MFC-AGG-ID: a_Ztnx4sOumIRBzZGvwA6A_1792577675
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-48c415561aaso377618f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 03:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792577675; x=1793182475; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LaMrw0UGiuCnM59eNBEdevbmBZ2o/qyOQGg9zp+WMrM=;
-        b=ejAaswOCkEY3H7XHMvAZgqt+YFWmaA2GRwEj+PstMfsG6vKej3aW9Mc3rh9fAEWYEb
-         pg2JMCkAPE82ExN+TJKKaHRxxf+3uJRlOUFuBXopOsn1ymGHjdcQSgg7go7o2YFOI6B4
-         5Be9HrAfZ3MzPuPr3CKBSUBj4Qny302DJ5AAyOadKTYOToXS4tMVBUuwRD052omVT7J0
-         MD1H88CSDfGxOULqFgCsw8YcCa6ZqWGbgLZXdbr5TZ9li9gphxupZM28UZ3UNFe32CXU
-         Z6TO6k+AYwCq6yZ5V00AlM8z7dgnk6dWXWcf/KseDK8hkirdiHm+lEyFTAzhw2dNekkJ
-         r8Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792577675; x=1793182475;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LaMrw0UGiuCnM59eNBEdevbmBZ2o/qyOQGg9zp+WMrM=;
-        b=LrzpEbDnPAgW5SF5LuiSR/DYJy+jvJKtJ/LjiWiWlb0vwadhF1lRCF1wmlG1PWgBsB
-         LCyKZmRofMqH0Ve5W7g/ejrnmGcZ2TbvONhO18odH9w6CS2GAcjUVrr5StJ7bZhSmllY
-         LoJRCl1HGxk6RyevyljTUOng1hW3j2i7gqQ3OtjayuTOEBc7cQ8cYsERWYZRauBYJUAW
-         gpQ7KVRPQXj7OPlZzReCuCWwIF+tZ8emDiuNsMP4rIxzP0CHGmoUS0QL7D3CY4w72Uwz
-         FAeEZ0x7T5TnhI53DcmatmgKMfSJvq2Yfc/dLEkKqZNXaE7u1J/QA5Bkf+Xm4smEaOv6
-         84Ag==
-X-Forwarded-Encrypted: i=1; AKwUvByc6emtPH/HWen23ffdLKxkZqWpVWVwVFl2P0vxPGxHoV+DAwcyw1/6xLgSiOvQfLNZ9yaQRqueF9Q=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIBCK7naWjyO1IuxiXglFC1+oPJakhOAHfnHAairvEgG6bdPNr3
-	BuOvcdCDWXJVHFYPTfFy82th/V4wIV5M60AjNluEtv8mMZxcRGEbMtIVcW8qndFMg2VcuF7ZWI+
-	OdH3cq3nRrlsEzyhNNoJqf+KQ+hXhYXvS8dealXraSFtaZIiF9cF8lKm3kGLYRw==
-X-Gm-Gg: AYBFou0OGRepPcQZjKsIzTPC2hK+SUeQSyHG1/oC+e0PVtGUxcWlwjQMMXl41DcThtY
-	78vSKOhbSWFLKSnPn7a2Eyy7T8GxQn0aCVJgl3I2nPKGf416OIK3fBis29nY/niD35+1ustHy5K
-	5I2wBb+erC7LPJpKal5hKhp6S/kpzSnVmxj9rHxqQ1BIUcm+8NPxAWM+8zuoyOX9VQ2hZuOhfsP
-	w4HloAhO2Ugz5vlpKomvgYLB+KjmxdnNTW23lmeQIDR+V9Pzi5k055VaSXFzjVN1uYizeCNHhoZ
-	DugZKbxhkqTRNmxA1jekEuTDyO48MhzI1b9diEnCVUV+vKy5c/+ixfj/Co9Ve7r1t58WbmBPomN
-	ACGndbw==
-X-Received: by 2002:a05:6000:4213:b0:488:8931:b1b2 with SMTP id ffacd0b85a97d-48e264bd584mr3754093f8f.28.1792577675500;
-        Wed, 21 Oct 2026 03:14:35 -0700 (PDT)
-X-Received: by 2002:a05:6000:4213:b0:488:8931:b1b2 with SMTP id ffacd0b85a97d-48e264bd584mr3754032f8f.28.1792577675060;
-        Wed, 21 Oct 2026 03:14:35 -0700 (PDT)
-Received: from sgarzare-redhat ([193.207.178.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e254f0bc2sm4512724f8f.1.2026.10.21.03.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 03:14:34 -0700 (PDT)
-Date: Wed, 21 Oct 2026 12:14:30 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Eric Dumazet <edumazet@kernel.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	Bobby Eshleman <bobbyeshleman@gmail.com>
-Subject: Re: [PATCH net-next v4 3/7] vsock: pass the netns to
- ->has_remote_cid()
-Message-ID: <atiQfOneKTIyhGHX@sgarzare-redhat>
-References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
- <20261020-vsock-guest-ns-v4-3-047527cfccfc@meta.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A92D1F000C9;
+	Wed, 21 Oct 2026 10:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792578116;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mxIJkEAEUemoHzqFpjGOGsISTWbamBRSUja5/+PShimgeDu5pEKvopKkpU417cjQS
+	 LUqwYcw1SBOPpayMExd/35Gnzu6vWNYtpIRwMBn1YzbAVoItArpZDVk3V/2yxpBUSt
+	 9fzVhM7CM1JzxX/30rMD4LM/SMeQgvPK71uLA9cJ6KKuCcL9byzvEuq3NKJpBNSfkI
+	 hOZZhVe1KN8bfJmLl2/aV98mPzJLBOsp6PiULbCuee+h9exCxuOQwZCmfAA20lj/Y5
+	 rZglUOVWEtzU9bw0QJBCz7xQiasZhWom0scGxlDmBqafUSH/ovyAfRSFdg3IQhiHli
+	 c6Wa6I1EvnH2g==
+Date: Wed, 21 Oct 2026 12:21:35 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
+	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
+	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
+	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+Message-ID: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -125,26 +80,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261020-vsock-guest-ns-v4-3-047527cfccfc@meta.com>
+In-Reply-To: <20261015125425.3246251-2-caixinchen1@huawei.com>
 
-On Tue, Oct 20, 2026 at 06:15:06PM -0700, Bobby Eshleman wrote:
->The transports only use the socket to find its network namespace. Pass
->the namespace instead, so that a later patch can ask whether a CID is
->taken in a namespace without necessarily having a socket on hand. This
->will help with avoiding CID collisions when devices move between
->namespaces.
->
->No functional change.
->
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
-> drivers/vhost/vsock.c            | 4 +---
-> include/net/af_vsock.h           | 2 +-
-> net/vmw_vsock/af_vsock.c         | 6 ++++--
-> net/vmw_vsock/virtio_transport.c | 2 +-
-> 4 files changed, 7 insertions(+), 7 deletions(-)
+On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+> notify_change() takes a struct mnt_idmap and a struct dentry even
+> though all of its callers either already hold a struct path (or a
+> struct file) or have to pass &nop_mnt_idmap because no idmapped
+> mount is involved.  Switch the helper and its declaration to take a
+> struct path instead and derive the idmap and dentry from it.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
+No, the idmap needs to be passed separately. The whole point is that
+during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+of the mount at the time it was checked and passed down to the
+filesystem so that the VFS and the filesystem are guaranteed to see the
+same idmap.
