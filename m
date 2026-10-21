@@ -1,116 +1,149 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792599249;
-	b=raEZhIj/KT5S432stAWNmyCT8MVEhQMNVg5qCbyWH1HsNfJl+Hm0UV5i0xR3WM+5uPLh
-	 LzvD1gW1YyPnM9Pyx2hvRZJhsDuP0F7YJ4eEb8d7IbD0BaXlIohbSDJP3OIZ4SgFDZQ2+
-	 eU43FcBXZ+5rIxzU440v3lPbXduOto2BfUGumJJAL4uQziibteZK8j6b79aGVWCVPcCSx
-	 Uccbshw2Lw8KV66ujfkq2hIeA0PmMsYmvsxcFm3wJc33ouuzzzNVh29Xq19bxoFYXJKBC
-	 LwZ4dVo6ooHCRtFxAyeIQfey+5G1bao2jQ3HywXvtNDJY5zbWYY6VTE/hC74bQ05zDA==
+	t=1792599394;
+	b=jN0sDJR2SSF+3dagCTo7B5dCmj3qKmqpX27EdRxzNB9M3xlJnSR0LbKI8EYhjhfu2WH0
+	 jjKqusOeW8KdceXV7SUY6dS2uvXO5wq4qTFMKc+lyqpPZle6q0gPoYY6zdW4l3ufQkkET
+	 3zk7UMUFAWU4oixZGrfHU8yRV0W4TB/Icw/PzYD5DpfjP9WYamjueqr7ZT9bnmKZr+vVh
+	 M03Ey7SoATo4y4ANfayHt50Pt0RFlRHSDT9bcDekulO6LWMSsXPwaP3IHwaXFHS0sAja8
+	 wUFycpU4yUup5eZ/LA94NXGGe+miPYdtVQurfiowjkFnP94Mvytsbyww+RPd4gEI9Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792599249;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=q0CCx5zBhN0UXD1LzII8NwADZSGCTEpTQppyCBNHFl0=;
-	b=Sqk9NfYd49HypZ817mmaceQ5pUfDJWgzDEmBcAZvUf3kIbQj6KalvyUZ6MKZe8doeRVB
-	 9COKUSWMUuxKT2Q40baRiaMfhJbGViojQi8sHXEMOhwN0O+vV3jMX2KklBRVUaAtStsrz
-	 qqfWPbP519NCAWNxLAfG4PtNC32BjwPDHcfaV4wg8e/EuAKRSPaJkB28LC6aC0t0w01uH
-	 f0qwshDN4Ex4ppcbfhOpjIaYv3vV4KIGmpZthOHCHo64gJxVDsB9lP3OvMYxDS723eFBd
-	 wI70M+vN594t5bP2rDKauWOqlqKT2jRnqcCBopeczS3Hi+K2lOzSXLSrhMmYMcbjhIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792599394;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=9hWqXEuq9iUvICKJmtCYJXRTGUsjg4czRSsoSn+YADM=;
+	b=bjA0DvqVHPbQaEfvKSlBcNnMdUdqXsvwJjPzi4vRfmLnJ0GA2GbLlpv3mjYYqxkpVrcD
+	 FoVT2i1kKhXlufesQ//1uF+A+AGR2G6+hSgDv6jq8AjX4TkK8j6UVYkAkcmhQc6rpNQMm
+	 DmPG7D/K9NACtlXPg65kefoG+Ngm5tcEZlTZmD0JLNWF+3Tzv8RsgQJn8sYTdqE2VFYEg
+	 1UJ0xMTsG7m7lRxlhkixCSJshe0WAUxzTAWnKAAZbvlGYqNxgjO5/0nv0Rw/+PfEuzro/
+	 90+NTcH2rkqdWyqdWSsZFpXflEm3CwAkfqJLFt2UgOr7S3RdAN+4j5M7W0qjSP+E9XQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eF9pnWtd;
-	arc=none smtp.remote-ip=209.85.222.54
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=i9+3PrHW;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HnlJbmWx;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06A3606A577
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:14:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B06A3606A577
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A26606B6CA
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:16:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66A26606B6CA
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eF9pnWtd
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-9903fde8db8so241048241.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:14:08 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=i9+3PrHW;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HnlJbmWx
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LFU2qb2102122
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:16:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9hWqXEuq9iUvICKJmtCYJXRTGUsjg4czRSsoSn+YADM=; b=i9+3PrHWHdY9KcEx
+	Rkizp5TA6LO3x6JHCBfisbZ0xVIII/InNbBxuEouoj5Gl5TOhuvbQWrw8eL06u4X
+	qiHRcvAhNmVYdbjfFVOwPWC3tQY0bR5kWrXLzQ6N++TpSf/0W4Z9TASh0cWZS0a4
+	Xr9AZ/sJJsXeg1+6ffdBlzPEUJbhqfq/9wHvJh7xsRqxJSeMNgDYFH12igwOZIPc
+	9Ae4kXTrb8SAFEmNoQRNByJbkPWjKBdcjRrRz6EVRgeBw92KcZMZBQC+kZVat+X1
+	ZWlx2gub9lucHtn0mdnHsO852q/e0aPYuMDdx068yiGnUphUu4BvJDEy1BXUn9xg
+	8ukbIQ==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4heuhuheba-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:16:33 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd65070d3feso8898a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792599248; x=1793204048; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=q0CCx5zBhN0UXD1LzII8NwADZSGCTEpTQppyCBNHFl0=;
-        b=eF9pnWtdEq3WSD4Ywhg2iwjsDFp5Vh0YqyOff8MBi0QVXDi4dFI46ucw4bYE0op/+c
-         1F/qQIca2RcWZT4iN16zIt1jWr6ZFYOiPx9NN5cIkrrEyw+E/XH0M9oCJYdMW6cmJZcB
-         HapzSaCJ6Opkp8aU4ZEUL2hO9e8FoaEavrrEuUBWKJdraCE/iHTQLPc64bikh1s7kOOi
-         qkO1DWMjcGiIWvUep0Dd4+Ne6jedd6II++fSimRre7snR1dbjRqDlVKEcXELVQAlVMzZ
-         bQZuTLez0kGOo5H4kRJL7y2JPFlYSN1ImhpT7FJeSe53zlqDA7XbhzQw8/s4+WdLqc/T
-         ST9Q==
+        d=oss.qualcomm.com; s=google; t=1792599393; x=1793204193; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=9hWqXEuq9iUvICKJmtCYJXRTGUsjg4czRSsoSn+YADM=;
+        b=HnlJbmWxheT2gXIIjcxthAC/H1+57UtsxmUxyx+vccU9Ep3I9hxpJXeWGHordJbqWu
+         mxrJNr1Qjrz+GPYJhwC543D/FR/xWwBeMhtMNPU2oYRyGY65Ves5ed1yTzwT58zruClh
+         e1biPaX9kRMaKlncicouX1Q3sUh1I8ETUPNMehINjSDX2ofI8gI7Ytc4R0PGEv/DhgxM
+         WDjyeDA6Ox5vIp4TKjrb6Fam6OaEAfF9uPr2wumCyuHYre0Wl1XGa1Y/chTGb1kExVZI
+         yDk664y1iTShBv59Jaz4slCuc/SnbLQDoqcqN9cdsXscy4GHBydOwxDDZTqqQYUu62GO
+         eHJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792599248; x=1793204048;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792599393; x=1793204193;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=q0CCx5zBhN0UXD1LzII8NwADZSGCTEpTQppyCBNHFl0=;
-        b=BkfHE+0YVMBq6jqAjpmENNzzyBpJrvZ4cDhmgvWuYnwkqY76tu9UgiNHf9JmnMUQDD
-         2tSEBHrqhVBUywjXmCIf+74JRHzmIVPV4AvBO+31pmVbTeVih2WTCYsLyiaFiVuqLjWN
-         sMAfOFlFDP1Y9+nY24VIg1kHqNQA6vNENwTEFabpR/Wm+UR5wBcljIkYRv3/04e3h9/Z
-         kkVuQaf17RTGrfGvYuSewt/ipYMYz2Qo0uuQZ2Ih4V5Jho9TE7FwAkfETWJyySEvan2q
-         5pE5GIZTY0s8SB992hUkHCA64iTGCBJoIbUHyXLGyXZNnuXsQldTdR1BCuy/qJcmGMrI
-         0BZA==
-X-Forwarded-Encrypted: i=1; AKwUvByhYH0ZkWIbYTQamy4xoYvjNetX6EQaVAQwxhvD0EeC9faXWeyR5LKSyV03hgh0kQl0PCkw3tpZJHE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKA5pbRjcDbuHmueD9Ngx0fgxYrXCjx7hqaXb/luSKmau3SGb/M
-	yrTKwahoeS8FaYOVzlgbf98Z8ufGtiBARCKjvdYZ7MSAb2aELXKdOVNf
-X-Gm-Gg: AYBFou2oDKwg6fMDjFDn7oTl/cOnLp+z9o/PD2u9jaDtFzP6M1p9A5c2rYDj7wQD2mQ
-	vqMyy7HNWQZvRre8ohSBsnI2RfBwH9TUtkCmCBaqi9vdkvE2v+htG+rPoYgBkw9nHRxLXcH6/S/
-	UkQUtewwh8O/ZBKmeqR7o88nUbKP/v5J0PRxr29yqPT1HjPr/k23Kku+ypka62DsPv8ee3R+oCn
-	hoWB+yazF/GJi1p4D5NdkpRGUJCr00ZvJt1pVYrwTL0jvE4OdMS9h4pMs54R6U6Opl7QboWCmCB
-	NUpudl8WRhg6/xtuEMd2fLlrf6gwKaN75OhJsaWMrDg/ASWs51AYpxCtw72FL4JUza5E105o+lr
-	Y+QlN+BDj10TvhntL33vsb2J3P8WC0fwyzpHYbIz/xQfoGp4jNXXwHTNiZFAbkEX1hblgjS/pmb
-	6A3crIWAXgLy/jCJkO4Gcev6HvNAQ5lrNd3NjUyL9yl/heTSm8hv3Xy625vGUQeHhUSFQzVCtf6
-	fMvloLZnLFCnmxpYvV+zMMjf0U8eyMibL+4qsC33roXj18UMR+x03EEaXvbtguiWdLfFIynrUiw
-	LW0h6rCPawaEUIh+2M5jaEUJ6d8xa1FL8T6jkbYGxeqvebc9TNqhUJxTYFmDxMbxt/pYu3dmYrx
-	lcOcTpxC8+QwDd/2g7dV4
-X-Received: by 2002:a05:6102:3fa8:b0:7c3:9a14:cfdb with SMTP id ada2fe7eead31-7cc926820ccmr912621137.17.1792599247553;
-        Wed, 21 Oct 2026 09:14:07 -0700 (PDT)
-Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cc92327896sm3196621137.4.2026.10.21.09.14.07
+        bh=9hWqXEuq9iUvICKJmtCYJXRTGUsjg4czRSsoSn+YADM=;
+        b=XoghybhZWDoEw7hLQyWvlMD9X3hKmX6xpWjEvPmtB7K6QYQtBpyxlJxi03yKi2jJXl
+         4i98hZwh6uXMBsXCzlPjpanE3Sq21p5byfz41nVTDq214MwyUxSLmPd1yqRpvpUPnp1I
+         9dMnOFETdVOcBqdBlcPvNYGfjaU8rKGPqUfxIEKvjpa16byEL8v50y2jv9We1uzOmf4C
+         Z1boUyZIAbm2s83DkRWsVt/ESfPe6ocJyTFycx5HvIAoHejM6uCKDycsJpUHxSciNo6k
+         0hqeHDaoz5iP2eAuRwD+qWQ5nxYO8ZBJVPvGsVTRoTb/DV0LTVPZhgAoMlu88bFjmZiv
+         6ZjQ==
+X-Forwarded-Encrypted: i=1; AKwUvByqG9xyRiGnba0bVsqnayOHBTU+45glxr8HMV225ysfjfBp3aKBwDJ2t0tRAUwxYsOqswa4qHJrfvQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIW+F2NnEyxfldn4IxfDhM+luxNdyFqNL4dXGIuCw+Ruvv6RPUk
+	ZXTodMmsvQXKw7x90YUSWAletrkhH11aJ6M/j0DBXAz0gRebvMH8GGDRSOv+2Xl7RJzR2n7wsNw
+	L9I6NOIo+X3QrgVDEYoKpgNjkQLN/inYSqHJRk45sPHdKYHad12Y3MethME37VUs=
+X-Gm-Gg: AYBFou04jaALWV1iF4g737ntilxXI2okJX3bNIB1rk8Z5BfxmxIlkEt/0F5b4dP5TF8
+	gBlp2CCVJPfmzZu+E91Ktb+o+epRIdA6mv9YKTJkzDdGfQEn0KGmm9hfo3cGzKINiEFENAxq0gs
+	8sgxlHKbbz8mFPN9RIcZ3aRhOvvl/FOyfPuqPmKYR+ZngHcGdJXmaNvd6lP7xqaGoysh+xQB3HY
+	Vf+buHrK8VkU93/gJ8Hzlz1PGo5GlA6HW5K3wHcBBJ4hZPxMW/G2hqJkYu33Lv4tjwzCTIf/psx
+	fdh98hy3+D5C96LS239JhDJO/65OaoZHlDI2RvB5/9wSepnzgp7BwJ5X5P7KGcQoSuh0TlZ05OV
+	/B0oRtCb+u0vkEf3CZIpD2b8QnaU7hD3nWTiHyMiK6A==
+X-Received: by 2002:a05:6a20:2f98:b0:3e2:6653:149c with SMTP id adf61e73a8af0-3e26fc04d39mr3512949637.10.1792599392806;
+        Wed, 21 Oct 2026 09:16:32 -0700 (PDT)
+X-Received: by 2002:a05:6a20:2f98:b0:3e2:6653:149c with SMTP id adf61e73a8af0-3e26fc04d39mr3512915637.10.1792599392315;
+        Wed, 21 Oct 2026 09:16:32 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd6b84b6b17sm205866a12.13.2026.10.21.09.16.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 09:14:07 -0700 (PDT)
-Date: Wed, 21 Oct 2026 12:14:06 -0400
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, 
- linux-kernel@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Chris Arges <carges@cloudflare.com>, 
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
- Phil Sutter <phil@nwl.cc>, 
- Jason Wang <jasowangio@gmail.com>, 
- =?UTF-8?B?RXVnZW5pbyBQw6lyZXo=?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- netdev@vger.kernel.org, 
- virtualization@lists.linux.dev, 
- Max Krasnyansky <maxk@qualcomm.com>, 
- Rusty Russell <rusty@rustcorp.com.au>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Simon Horman <horms@kernel.org>, 
- linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.311d7bcc5fba0@gmail.com>
-In-Reply-To: <595385b672b5411849d1defc78b68b25a908a77a.1792565282.git.mst@redhat.com>
-References: <be251d104f881a309cfef150455efa128ebb101d.1792565282.git.mst@redhat.com>
- <595385b672b5411849d1defc78b68b25a908a77a.1792565282.git.mst@redhat.com>
-Subject: Re: [PATCH net v4 5/7] net: add a sysctl to opt out of virtio net hdr
- checksum validation
+        Wed, 21 Oct 2026 09:16:31 -0700 (PDT)
+Date: Wed, 21 Oct 2026 09:16:25 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+        Ard
+ Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Catalin
+ Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, David
+ Sterba <dsterba@suse.com>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+        Randy
+ Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
+        Shuah Khan
+ <skhan@linuxfoundation.org>,
+        Nick Terrell <terrelln@fb.com>, Will Deacon
+ <will@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Conor Dooley
+ <conor.dooley@microchip.com>,
+        linux-integrity@vger.kernel.org, Palmer
+ Dabbelt <palmer@rivosinc.com>,
+        patches@lists.linux.dev,
+        Piotr
+ =?ISO-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
+        Ross Philipson
+ <ross.philipson@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Song
+ Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH v2 04/15] efi/libstub: Add a general way to get symbols
+ from the vmlinux into zboot
+Message-ID: <20261021091625.0000515e@oss.qualcomm.com>
+In-Reply-To: <4-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+	<4-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,32 +153,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=d4JgWhjE c=1 sm=1 tr=0 ts=6ad8e561 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=ah4THgOBrJhmsRMU:21 a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=Ikd4Dj_1AAAA:8 a=_GvItbcUg7J-DuPKX2oA:9 a=CjuIK1q_8ugA:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA2NCBTYWx0ZWRfX369TFh6h/R0r
+ MfxEAIgoB/Wo4Ya23w9zgHFil3esqm2tSVjuJuGlqQiA1YKMOEgqZ90XiqhWbUmdlhewUJJfpNY
+ lBmQVdCnwaFjAQziCv3h0xQCCab5rB8=
+X-Proofpoint-GUID: i72A9aCQrKW_JeJBzDYEQeR3EqEXJW02
+X-Proofpoint-ORIG-GUID: i72A9aCQrKW_JeJBzDYEQeR3EqEXJW02
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA2NCBTYWx0ZWRfX9HMQxjoLidza
+ jgy8jfGbzTng7fivHc/JzkGZcF4T4fopMK3kG6m6BhFhjVPrOU6UpmJFz6dqOf5FsvoJTthEDjl
+ JGiojlXD+5/G4MNjbOjl/FqQJPcd3rWIjZQsKZclDiUmdQyKkjAK+X+dJ4DdkV4Vlz+IYwT80pB
+ DaKAAdX7xEiIK87ffoN4+d0kRyWhgvwZOcsaHXjJQM7gJyhBTCpYC8wYxnLEMfWqFliv/pgywGu
+ gPMsp9vXRAe9BxvdaJFqtxernL4ei4rMpITGVyI1mrQPJQDsyqyutyaVujzBVtSHQDvNcbzQmZo
+ nYmfdn4uwvdFYujz4npRU8obyY1odIfMd6cgZ/4QYrqV9Sewp9z+fqab67to+ut+hvSVGsvZRWz
+ g6k3XSCQcb7ADvIngr9CEi1XwiY9BvmFfysR8k2U4gjeVVjiDHGsAXxYiHhYXrnHsS5XPoWVtVh
+ 6H0TG5uVMwsboUKIj1Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-21_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210064
 
-Michael S. Tsirkin wrote:
-> The ingress validation as implemented by the previous
-> patch is stricter than what it replaced: GSO
-> packets whose checksum metadata matches no transport header are
-> dropped, and non-GSO ones get their checksum completed in place.
-> Such packets used to pass with the metadata unvalidated,
-> and with no overhead.
-> =
+On Fri,  2 Oct 2026 20:31:41 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> I judge that this should not affect any deployments, but there is still=
+> Currently the zboot stub has no access to symbols in the vmlinux. In
+> contrast x86 has a voffsets.h header that allows the stub to know whatever
+> symbols it wants for the decompressed image. ARM DRTM needs another 4
+> symbol locations to work, and it also wants to compile the DRTM libstub
+> code once and have it work in both zboot and embedded.
+> 
+> The current solution in arm is "code_size" from commit 45dd403da851
+> ("efi/zboot: arm64: Inject kernel code size symbol into the zboot
+> payload"). This is neat, but it makes the zboot and embedded cases
+> work differently.
 
-> some risk that it does.  In case a deployment depends on them anyway,
-> provide a per-netns switch to get the old behavior back:
-> =
+Not a real review as linker fun is not my forte.  So just some
+trivial formatting comments.
 
-> echo 0 > /proc/sys/net/core/virtio_net_hdr_validate
-> =
 
-> The default is validating.
-> =
+> 
+> The x86 voffsets.h approach is also nice, but it can only work in zboot
+> since it relies on 'nm vmlinux' to extract the locations. That's a
+> circular dependency for the embedded stub.
+> 
+> One idea that meets the requirements is to embed a struct of offsets
+> inside the vmlinux and then have both stubs know its offset from the start
+> of the image.
+> 
+> First, each arch defines what information it wants the stub to have in a
+> struct:
+> 
+>        struct efi_image_info {
+> 	       __le64 code_size;
+>        };
+> 
+> Second, it populates the struct with the linker:
+> 
+>        EFI_IMAGE_INFO(
+> 	       /* code_size */
+> 	       EFI_IMAGE_INFO_OFFSET(__inittext_end)
+>        )
+> 
+> This approach with the linker is guaranteed to emit a value and not a
+> relocation. I looked at writing the struct initializer in C, but that can
+> result in relocations inside the struct. That seemed sketchy so I stuck
+> with a linker script approach.
+> 
+> Finally, any stub code, either in zboot or embedded can access the struct
+> through:
+> 
+>   const struct efi_image_info *efi_get_image_info(unsigned long image_base);
+> 
+> The makefiles arrange that both links have a "u64 __efi_image_info_offset"
+> symbol that contains the value. For vmlinux this links to a symbol created
+> by the EFI_IMAGE_INFO() macro, for zboot it uses the same technique as
+> code_size through the zboot.lds.
+> 
+> Since this needs arch changes, protect it under
+> CONFIG_EFI_STUB_IMAGE_INFO. The arch should define the struct and use the
 
-> Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Odd line wrap as moving the CONFIG up a line is still shorter than some of
+the lines above.
 
-Reviewed-by: Willem de Bruijn <willemb@google.com>
+> linker macro before enabling that config.
+> 
+> Since everything is linked together, and the actual location of the struct
+> is not fixed, this is all private within the kernel build and can't become
+> ABI to any bootloader.
+> 
+> As some follow-up work, it seems interesting to standardize on this
+> mechanism and remove the PROVIDE() and voffset.h alternatives. This would
+> also avoid needing to pass sysfb_primary_display through EFI from zboot,
+> for example.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+
+
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index b2988aa12f6645..4dd52ddb148401 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -83,6 +83,44 @@
+>  #define RO_EXCEPTION_TABLE
+>  #endif
+>  
+> +/*
+> + * Architecture specific information made available to the EFI stub, see
+> + * CONFIG_EFI_STUB_IMAGE_INFO. The architecture describes the data with a
+> + * struct efi_image_info in its asm/image.h and emits the matching bytes here
+> + * through contents, using linker expressions the compiler cannot compute.
+> + *
+> + * Place in the same section as INIT_DATA.
+> + *
+> + * The architecture must also define EFI_IMAGE_INFO_SIZE to sizeof(struct
+> + * efi_image_info), and that definition has to be visible to the linker script
+
+I'd wrap this to have the whole sizeof() on one line line.
+
+> + * before this macro is used. Keeping the two in sync is checked by a
+> + * static_assert() next to the struct and by the ASSERT() below.
+> + *
+> + * The struct's offset from _text is emitted as a u64 at
+> + * __efi_image_info_offset. The architecture aliases this location to
+> + * __efistub_efi_image_info_offset for the embedded stub. The absolute
+> + * _efi_image_info_offset_value contains the offset itself; Makefile.zboot
+> + * extracts it with nm and zboot.lds emits it for the compressed image.
+> + */
+
+>  
+
