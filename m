@@ -1,47 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583742;
-	b=E8qSqrcfZH+IbxkZ0qR3qPEMDQ5RWur5OhKA3hIlJJFPv3gBC5T5GEZTPyz2GTCDH9np
-	 3e6eS4wNtdLXgcAcyUQbg25LwafM7nEcRBzgJ2OK1/YRzTNV6PLRwQScrt32IPxOXWgYA
-	 BYh/pH7beIRqi3Nh3sGlrpDeF+qrm6ZZ7IBe9dPz6MsqCwCA7dDtoYYiyTzcPTXhSb1cc
-	 aqaaCRMDOib6SPhlNh5RLOYikrnBGYtB3uXnh40R7CBE1vpRIxpaDFVqZHAUg9R2OK2FP
-	 P+hnO9kfHNbm9GOqs6aKD5h9Nz4RdcX9wVzWwf2nh+Quo9qgarCHD7v9X+J7qpa2sQA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583742;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=h1gsuh3+QAkcUVGaGgg3bgmqiOfNnhJ4pLjBIjhtJJg=;
-	b=gqDkfvmRcBNncZTurG+/rEUwyTzKL4tZ6RJRks+FkDuZP+TWALFUimKxX4W9ySzsjdAN
-	 LYnSnKUvsvVrmR9B1RNxVwkwpeiQcEOYpm5iWf/HdozxZgrcaU31XYmi+aMmaMsqycYgs
-	 MHEOUKTC+ea8D9d5h5/AMICAXrUPQr0K6nqmnK6r9lGPDitv36OUL98uYLRmaOuRdfi5z
-	 jcM9TxVU9LSVpVa3x9eLoIDlJQDWocGQHlRcHOVVT/I55Wki5F6jD2qFC2qFbQ5MADW9g
-	 wIUj/9rsa5c1716C5AkVt9Ejn+iZnXdWjkxwOfXQj2b6Z+52foKSbIHx+tvTg2CwlHw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Jxi5ovK/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792585225;
+	b=A7MFkuVTa6yJNiKeewBe+i31JOLNkTvstEFrqIJtEd4NCQLR2ARxF2BDSiJpM/XXjbEi
+	 cHUae9kib69HV2LcxjRlEqKLUlsTJsgj8/zRT1/2u9LJycBZDCFrHnuDjyR9CfTB1tjN5
+	 gLaW/DMaNkMivwPW5so9TT+pCYqR3mx9pnRRVVYHWjxmEtu1s/GIhpmBbYnqtSHKsn7Kz
+	 gHP2lsjlpi9Ta+h4TgmrBYc2qBw6P7cAzZENzoOBbo0RP63iCyxt8qpAdko2mwnWIZgZQ
+	 zWDM3chp8aL0iHpbTGZWL7Vb1E8e5K3jaZSvJpfE8Qda6MkgdR8H+mYZfmokXog1Tog==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792585225;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=Xx0dqxkmR3d+WNM225WMIPxE36eYGDVjZAkM1zsnSFM=;
+	b=nK4NEu31Kby9RvYqHwhBhPagLmsZccaOSMfvqapnE5FyZFfRrXR5aD2Y0C450gLLPGI8
+	 JcJpD+imceYkAFKrvYlqVemSHQTQNQUvfqtwH8gdN7/HTu+OG0Wtx6QeII9xlu4wtBz8S
+	 AyWtSXKKdxAatYoAqLOJU3GxGgzg8OcFR0DjweU1NCqPz7zvEsqKCnjZPYVizXTxtM2J7
+	 KctzgW7dAdnO7r68UYI25mbVRuRyFD0UI9PPV3VbPKsfR0FntDbEbhM5CFB0Pt+X0fxV2
+	 55QpNqEJP/V2bDi9gzhjHBG+OH7NOm/RiKoW2n6eisjFaKSJ833w63dhFmcoYuVHJIQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=afoolPA2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010057.outbound.protection.outlook.com [52.101.56.57])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D237606A319;
-	Wed, 21 Oct 2026 11:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852C6606A321;
+	Wed, 21 Oct 2026 12:20:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 852C6606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jxi5ovK/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 334971F000C4;
-	Wed, 21 Oct 2026 11:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583742;
-	bh=h1gsuh3+QAkcUVGaGgg3bgmqiOfNnhJ4pLjBIjhtJJg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Jxi5ovK/02eNuyahEQCdyHOorsIkN3Nkq4W1RJkhFr5pWWqySKlIT7N50i8sjdTUK
-	 ea7RD+iOIKev49zaWaeztsplr5oNgRn4LofYLCHlzGP/8goIrd3CpZnIJGONCp6z0Y
-	 jWZMGkmFoUXCAggGktB15Z7u39953rtQlv3LMrxuB1amXlxp3lwlUqLRVZFCOoo2nl
-	 f0HXILOmVgCO9EFyT+29RRwBNoDr6QbfRHdI1OO3au4Mz9RvNa7sIOGSA8AJVLCkQJ
-	 7tC9BOZV7LQD6pP4pOJa2EqeeV4/x3LkAlny3NUfU2xHcqv6phoiAAn6/RpZ5qCNxX
-	 tgr96NhY6Fyig==
-Message-ID: <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
-Date: Wed, 21 Oct 2026 13:55:37 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=afoolPA2
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oLBJOy1uxIOsn6VF7dRLbDP+VbPCLsGFlk8Gf4olPVgPbR27tg3Ge4T92jhsHONNbFCY8vz6MTsB5J4Tkqhgbx/DqRHc1VTuMxelHgC2XSHtRH1BfvfqOKiBq3HSWsZ4jLWA69rRppCAqZoJHZE6PvzGQ7NVnWKyKKHnNeXk0kqbZbFI+t32lCGxLc37NhIruOhDV0pnHx5n3cNiiY0aufXa0SJhIXOdu7I0DwZq/iokB9orItF3llm9/C9qJUWA0HXBfYxt97lLdMFZY/xJGT5qlYw6ceyGW4NpUxFRJSH4knZM2NYNsYW2uqcAfiaEOIt+b0RZLICJ1kBcs0PY2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xx0dqxkmR3d+WNM225WMIPxE36eYGDVjZAkM1zsnSFM=;
+ b=EvW3K0KMyme6tZ1WPIpep+uKstXFCOL1o8giZ38uEF4XvT5QNaiTR7FUHLLaAJX6QgS58OimJZy7cpjB24VBwuERNKIMGHTGWxBhn/jgcgc+962uzDoWAkS4Pnu6MWTc63IkiyduQC2bCVz/nR65y25NKD3PmKm/o9N0QmPjzy/Wbje6AfpMPZuXCQ13u1nIBkmmbh2wTNJC5fIyAlvQT43GkwV3GfmWAKYH13C5K2X9GlXTMmCmSppZTC3bNJBCzhN7iian7do556jcvFNodOs4jt1e2srlNkebbtwMnpSwfupBwTFwcCcsdh86CYyvE7TDEqeN6zgzP7WL1dfrBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xx0dqxkmR3d+WNM225WMIPxE36eYGDVjZAkM1zsnSFM=;
+ b=afoolPA2jmkwduGAlPJRT9uPUOZhiv7n/CxmbdEWfslBCohxZKD4yHf0y0V+p77wqy0At0eyy8GHf49CI8rkAFxyMtYCFJO6P7q3IMlMliZRGi6tlHknS0oqMr2w7PsAxEQ1QrW6UQvfO1Rg0hxTzc8zIKLcRPYlr6DbKkdBLtzc0v0ZnnpybiqnhKUk3ggMtxZ4plKTo7nW8p0nmWrG0zOOCP2X3+JI5RO5GzR5rTZ8trGfAP3mxG07WvVD3crPMEQn3TAZ4Piq+//pHdonqSYt6pNjBkwVHueZkHodgVeq40Efhcjp8MZZ8v4YRjyBP2CwNF8NBgD2Ss0nlwr3ig==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12) by MW4PR12MB6875.namprd12.prod.outlook.com
+ (2603:10b6:303:209::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
+ 2026 12:20:19 +0000
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
+ 12:20:18 +0000
+Date: Wed, 21 Oct 2026 09:20:16 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Simon Glass <sjg@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	linux-integrity@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>, patches@lists.linux.dev,
+	Piotr =?utf-8?B?S3LDs2w=?= <piotr.krol@3mdeb.com>,
+	Ross Philipson <ross.philipson@gmail.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Song Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH v2 12/15] arm64: drtm: Update the linker script for
+ EFI_STUB_DRTM
+Message-ID: <20261021122016.GK3008132@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+ <12-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+ <atfwCcRfC6rWFywH@e129823.arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <atfwCcRfC6rWFywH@e129823.arm.com>
+X-ClientProxiedBy: MN2PR20CA0065.namprd20.prod.outlook.com
+ (2603:10b6:208:235::34) To CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,134 +119,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261021064940.GC31908@sol>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|MW4PR12MB6875:EE_
+X-MS-Office365-Filtering-Correlation-Id: 361466de-fb67-476f-4ce2-08df2f6dab18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|56012099006|4143699003|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	j1QFWT7eyuy3DgOQdSIwQO753jsY+zgeEAEajIQyxE6OkoB1bkro/90GiEkR2bCQrimfdjuAkOrIZ/wlf5wi61w04icEf7xtFVQo+p3qhSSLfcsSmW3g2V33etMbKi/U8I0zIVNSvz+HStPvYc2DQASFska3JSvmy7HUMik6o/Y8mcuxWPrdnB0vAvYOQQalthDDng7zZHTTeBCCfQZneqEl1v3SpM4ARQ7aMSMr8skjjtmKLFGojOnv96u8uTxXfzh6zAviursGfe+FPCY7lDHLOWUAUPPfH4yJ2u76jb/OYPAYJheXJrLZ9BpSxTrHrqJ4FKCjAanLn6rpM08wDY86GPnQBEFlbcJ0s60GsMMyIp7nJWO73wDna/N0MVQpoIhev9Sg4FhZRksKlV0TQyf9/FYbzXpChS7WJDr6iBCsT+3IvTkHyxgt1QZEwaTuiWVtgG9mwB5UmKeLuGdxDzymW7rZxtPZ5v9qILkJwtUYYCo4dEX9YNHOlw2NNZHFcQRMsnVi1RhLMFyWugG54sSSuLm/zCBf+gdMiXxGhT0thETfavABZWfngSFjeEmOcUJUXuVcPPF8VzjUnI1L+V1jyTlzpGsMVJVP3nukMHB4IwI2MXsbATLrb9JNOEQIm0oV+YGf6PbEJFhGeMI66qQb91s1PZ8HDgpBP8T15cQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gJxyTXFhY3f74NmkMNMLIJcIvIOD6X8z6NJiNqzu1ZiRh9YKV1or35PB/wih?=
+ =?us-ascii?Q?g/69Z6eSgUnv6t/6IU58idXko3vwqclk+RnxTkpXtqzDD+XW2RBe9cfYMlwr?=
+ =?us-ascii?Q?lvzhX6HcHi3Y06FnBUWozCePsJhETNNXnlB1hb4ob1E8edwzEnackF3TnymJ?=
+ =?us-ascii?Q?Pmieo/PNqq/KAMswbHWdjD5cuOuQr/GGPeYMqOkjDWjAkl1xanObgLTLpVBW?=
+ =?us-ascii?Q?lqkBXQsoNBMzF4lvJpd/Bu6Se67fY5CECuvkjRoCbE+elWD02/DTH+Hfefw/?=
+ =?us-ascii?Q?v1VKs/Ag6VnmcVocPNQE0JcFwKH3DbAY+hpvee7GegLnSxChtMMLdEB0S74d?=
+ =?us-ascii?Q?gUWYHJZYqSRM1fpbCyUS7J6sU4SdN4XzfH8u2GaA8ag6UVqH3fMT9UpA3NwP?=
+ =?us-ascii?Q?OrXgJgUL6WPA+TSALEwr+lLAZIbppSm+xKyKGEr0VWf5Bnaf+EalV0ycphbn?=
+ =?us-ascii?Q?Du8vebybLaILljVuarWrw4upxyBPiP98FYXHQFMc84Xv9iUk1UzwvAqI1XdD?=
+ =?us-ascii?Q?xlBS933uBg2sj5riz9DsgS2gUsVtQ3/hqXR+Eao0aL0mudOGXM53vRYlNil1?=
+ =?us-ascii?Q?fuE3ZMnidSfaChT5ayLu41uk56/kkDs3xMEh1B5H3QI4cztxYC8aG2Sl7dxE?=
+ =?us-ascii?Q?PEVTCIb6ibz2ONtwpcfOO+R8WRuKPPjiPeRjtDemEjp/HdvTUyv8zNPAFknG?=
+ =?us-ascii?Q?0hjqO/h0ntoAI1zQl18bgBcW/DQOyLeIPOjG3K2tMbxT+/C9tmuH6D4QFBGu?=
+ =?us-ascii?Q?fLDoQ7fzd1Zmf4PKW9hniIDY5WyPgKJtVGEsGWyo23uvUYIVy+3TlHpDvQOm?=
+ =?us-ascii?Q?N9JvCK3hkETq5wTs8SKIpbzI5lV2Y8TCLH1WCpmRhZPh5Lm9MryLAX5ok2AY?=
+ =?us-ascii?Q?u/OpTyPGAw0DSkkSwkDbrAKShy+BGycht0m1VZWprqi0SFcbTqmpFpZDJkEU?=
+ =?us-ascii?Q?3gTfNK9ymzusmhdYjnN+0neFH2Q20KTuxDUmw7Wo8IC5KnCK29t0CEJ7ywW9?=
+ =?us-ascii?Q?FPlOsRuzrMwihaU3Kq0o+R6k7iN7hypS/reNPalIdDakSfYVP/3hWizpQc99?=
+ =?us-ascii?Q?LH1UR6h6lDaumPFvHoHoR85LBNfzYCtjBkH+o/uVM7vnQfPAvBKi0wTN6dcW?=
+ =?us-ascii?Q?x6D2WvyIc77lpq3cokkwgBbUtWx2emr9VqYtlqYkGUN08VLma8sPRDJCd8dZ?=
+ =?us-ascii?Q?HSVK6a22Tr1oX6RiFVPZVukPokdIw7YD6H6xTYQgV4AuzgzgIQs2B4bW2eXM?=
+ =?us-ascii?Q?EmD9LuvbqiTdw2RcjMau5Js+aUbudbG6q4Imuq4p8ooNTAkmrhXCMRdf20Fy?=
+ =?us-ascii?Q?EDn00ESng8R5DSaI9PvasQ+DRMYagNytnx1byhfK0IhwANI5Abyj5XR3v7gT?=
+ =?us-ascii?Q?17uf43MWnzKXizbu/denU3jdYuirKP9vL+mghVPk8HIhf5yZLMZkUudcYE+R?=
+ =?us-ascii?Q?6dimMOiEbcPAbix07V7RBJVK2XNuw5RnU/PBFA3dlpNSiFw0jIOzKSnKj8+H?=
+ =?us-ascii?Q?+/wPqBds4E3rIcMQOLvY3wyNwQ+9aecNvzDc7UIdnTOxlWJiOwjVCna6KDFl?=
+ =?us-ascii?Q?A20qXmd4Z0LlgH/RKNzLExh2phLA3vUNNo5LT2y00hyW4zne3s5jumx1lD3z?=
+ =?us-ascii?Q?GcyYAh2zb4ZV04L4sa8NXx/UbkhX90GkVnHjoYg++IzeCnGpQf8B07idlimJ?=
+ =?us-ascii?Q?kSoS2k3BTTCKBmxOaqAKTtcA9Z/XAPIvuNL9U+c6hjxNUfxw?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 361466de-fb67-476f-4ce2-08df2f6dab18
+X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 12:20:17.9271
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: q8xCbfMEOr05JRcJOGsNypaMIEgs7DQnwc7qc/mfu+tEw7/xQZGk3w6BKR85Pppj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6875
 
-On 21/10/2026 08:49, Eric Biggers wrote:
-> On Wed, Oct 21, 2026 at 08:41:47AM +0200, Krzysztof Kozlowski wrote:
->> On 21/10/2026 08:39, Eric Biggers wrote:
->>> On Wed, Oct 21, 2026 at 08:26:28AM +0200, Krzysztof Kozlowski wrote:
->>>> On 20/10/2026 23:22, Eric Biggers wrote:
->>>>> -Make sure that base commit is in an official maintainer/mainline tree
->>>>> -and not in some internal, accessible only to you tree - otherwise it
->>>>> -would be worthless.
->>>>> +    If ``git format-patch`` with ``--base=auto`` (or
->>>>> +    ``format.useAutoBase=true``) can't detect a base commit, e.g. due to
->>>>> +    the current branch having no upstream tracking branch, it exits with
->>>>> +    an error. In such cases, pass an explicit base commit to ``--base``
->>>>> +    instead. This is also needed if git detects the wrong base commit,
->>>>> +    such as when the upstream branch has local, unpublished commits.
->>>>> +
->>>>> +The base commit must be in a well-known public tree, such as the
->>>>> +subsystem development branch the patch is targeting. See
->>>>> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-next
->>>>> +can also be acceptable bases, depending on the subsystem.
->>>>
->>>> I disagree, that's pointlessly too hard requirement.
->>>>
->>>> For many of my contributions base is obvious and not needed to be
->>>> explicitly defined. For all the patches I accept, answer is the same -
->>>> base is either obvious or if not and patch does not apply, then the base
->>>> does not matter.
->>>>
->>>> Requiring it is just bureaucracy without actual benefit.
->>>>
->>>> The only benefit would be if maintainer COULD change its base to apply
->>>> some patch with odd base... but this cannot happen. Maintainer base is
->>>> fixed - it's the HEAD of his development branch for given category of
->>>> commits (e.g. DTS branch for SoC maintainers).
->>>
->>> There are many use cases for applying patches besides the final patch
->>> acceptance, such as review (by anyone, not just a maintainer), testing,
->>> CI systems, etc.
->>>
->>> HEAD of a branch is of course not fixed, and changes every time a patch
->>> gets applied.  That's especially relevant when wanting to check out an
->>> old patch for any reason.  Trying to guess a base commit based on the
->>> date and patch subject is a waste of time.
->>
->> All these tools should just work on top of linux-next. Requiring people
->> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" is
->> pointless. I understand that base is helping, but helping and requiring
->> an obvious information just do not go together.
->>
->> So again: base has ZERO meaning to the maintainer process. It has
->> meaning to tools, so fix the tools to work on known and obvious trees.
+On Tue, Oct 20, 2026 at 11:49:45PM +0100, Yeoreum Yun wrote:
+> >  #define ARM64_IMAGE_MAGIC	"ARM\x64"
+> >  
+> > +#ifdef CONFIG_ARM64_DRTM
+> > +#define EFI_IMAGE_INFO_SIZE	40
 > 
-> So what is your proposed algorithm to apply an arbitrary patch when
+> Small nit. I know according to #13, This should be 40 with drtm_entry
+> and arm64_drtm_handoff. but in this patch, should EFI_IMAGE_INFO_SIZE
+> be 24 and be change to 40 at #13?
 
-Already provided that, so to recap:
+Yep, I fixed up the hunks so this flows right, CONFIG_ARM64_DRTM can't
+be selected at this point in the series so there is no way to tell it
+was wrong..
 
-> there's no base-commit?  Including any historical patch (from
-> months/years ago), patches with dependencies, etc.
-
-Dependency is something else, but for every other patch:
-1. For testing/CI: you apply on top of next
-2. Every other case the maintainer knows where to apply it, because it
-is his HEAD of next-branch.
-
-I am repeating myself, but I really had no single problem of lack of
-knowledge where to apply a patch as a maintainer or reviewer of some
-subsystem, thus maybe I do not understand the actual problem you are
-experiencing.
-
-Best regards,
-Krzysztof
+Thanks,
+Jason
