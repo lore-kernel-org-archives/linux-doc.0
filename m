@@ -1,65 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792545140;
-	b=jsCB9jlTTGZE8cQVHG7JMZPgJskA9489d1DJ1tyRk+XHjAwTh37wqhTp7pxpYK+02A27
-	 DBB93wvn5IzWkLbGyfZcjesQMqnrJqc5zI/8pFAe1ywSvtHkdWOQTaurIaFi9h8LN1PQw
-	 xwpha4zF+AyJifb6YyP8YuyeO2KaaomkirHtTY6tptCf5ZHvZZ7yF9lTElHXVUQOYp843
-	 Qwmv0sCjIgjIW44sl+J8YFYN9mhNvddYVpiD0ztdPEucwVyTY7fMNfRRCb2Cskv3o980E
-	 GhYPQS5bGfbmLZAshe92LG37QAj70XkZPUW/nNGxDIgYq+KPvm1X9zjQEKvNC94tE0w==
+	t=1792545340;
+	b=SciGAuCHdAhrFqYRd4MesOeRM7YZGM0/gv7LafaIxd3hPVXLOzwEMSKCrgi7CM+twmRf
+	 RO/HChQ2e3jDI4jH0iLeFDZ4Tk6qI2i6j2Ns5v6QA4qfKezDLi0VF4v5Vv5vv3hc79SBk
+	 h5qRBxOPCbY2mTQQbuA2Jn8z9vTLcvrkeWVHw0479YXqj+/nUgBacyzJw0cbd10TwDYvZ
+	 q5iruZlSG4hEtqLk0Tq1Nls7qrLJuq7iTmrLNfflIwx+lKF8iNnHQOG9NLxbusZvUOiNo
+	 3NotBanTBmr+VYapY9ORvmNfOxMhdSJW0X3QGcaGC097P9/CrJJQEUYpXNDA4yrWtHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792545140;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xhRR7nZ0krlDfz4UjHLuhwtedGeJ5dw0/R97qGxnioo=;
-	b=omt6mnjKmYySWiAxzsshhMaYy9pYu+RioyTt2tiAM9z1Tjc2NTLb6gomIt581+UEXA7T
-	 jkff1R4GZGuW1kE00dFlbeKTet3fdMwl8RmLVvoyudOKQa/l/aKEL3JEw6wEHbsBG3FZc
-	 R0Ou+pM/fO2HB11xM7HPD/NjUiprJhvI2MVaHm4NTKQQ5rn2WkqU5Axujdv2Z7k6LBydb
-	 hqXwkCiBNnpq9rpnmpBKHQEK/3h7btT3zztr95aZaMUlco5GKa/H/NWoMQPQwQXM+10Fu
-	 l7K2caSyyU9wypuCE1bJ6YHR6zCBbjZ2wJiqCWc4ATROuZK/r4O3ZktyEbnxryuLq3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792545340;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-ID:References:In-Reply-To:To:CC:X-Mailer:X-Originating-IP:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version;
+	bh=wDZRIWFI1TDGA8t9yuhX4qEhSBIT/Hos700N+Mxpthk=;
+	b=Y1m2pHSnRcjTsAFHpc8Yl9ZYlS8Q6qbKUP7hia9Y7hPbw8tNKo3VKSc7a05fdRzMC/JB
+	 BxaFK/YwruDxJq3ieffDwmEAq+/jvz1QLoopEN8K+sin1M/LXz5w0dGXZBLWAZrPNUCS3
+	 Veu1pUQzVftS8qFBwxNjtQRWNp6gYFgiuH9AlMR8U+gOyqQAP80QEcKo4VS4TuKrWFzti
+	 NfvEv5m7QRieigrZYzYN6st+RN2Nbvz5SYE9W2J0FLeF12lklI6Uz2dCyWr4GV/reXlG5
+	 evzVGRPJ03rN+rgCesPTwyGKiqA/5Cux5O3JjzF/NYIBmXW3EKutsfDZKLvQoCLxBfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MTkOcOBu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=lAE3k9b6;
+	arc=none smtp.remote-ip=67.231.145.42
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3CE606A31A;
-	Wed, 21 Oct 2026 01:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD05A606A31D;
+	Wed, 21 Oct 2026 01:15:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD05A606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MTkOcOBu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEBE01F000C9;
-	Wed, 21 Oct 2026 01:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792545139;
-	bh=xhRR7nZ0krlDfz4UjHLuhwtedGeJ5dw0/R97qGxnioo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MTkOcOBueSNtnaznDqIjuqEbFcK8ewmcBwwB1W/IoRNg/sCZ2nrd0cxP9khexpgla
-	 tZcbaO7x6d7N9zbVXAof77yJkAvQPRoNBVnx3pFZcFe/cDVoPe6C2+22mX7mu9nwnn
-	 YT/J8C7yjw/SOp5kGu/jpsBoIiF8qMQXRu3tbhOy0PJOKTJ+EiO19T9BvOBrkTH7Ys
-	 qCx2X+BzXZnjrZ3bMa+F5W2QXe3CknS5fRwnznwSV4Fu5WweXxBJiwQ7vUkxpdcc0y
-	 ielHYa/0UM/1mEVOqSRQqcxKMSsv88EahtNr5Ijj8tdq4wb1wGeLYheRCgcI5WQpHS
-	 dSlH2KkR2Z3nw==
-Date: Wed, 21 Oct 2026 02:12:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
- lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
- cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
- James.Bottomley@HansenPartnership.com, aik@amd.com, jpiotrowski@nvidia.com,
- qinkun@google.com, pgonda@google.com, alistair.francis@wdc.com,
- ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
- rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
- dave.hansen@linux.intel.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- peter.fang@intel.com
-Subject: Re: [PATCH RFC 10/20] ctlv: Prepare event queue support
-Message-ID: <20261021021208.6909d4e3@jic23-hlaptop>
-In-Reply-To: <20261015145053.3664509-11-jiri@resnulli.us>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
-	<20261015145053.3664509-11-jiri@resnulli.us>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=lAE3k9b6
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KNFO8h937341;
+	Tue, 20 Oct 2026 18:15:20 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=wDZRIWFI1TDGA8t9yuhX4qEhSBIT/Hos700N+
+	Mxpthk=; b=lAE3k9b6L0Paznfa120wl5aELSyfzXv54DMvgOOfVnrrxMRNfTvwP
+	tpK4sQdV9RcYkgnNFhW/7+kGEqxkL9ulRX/rA8iudVXX1SbVN5Q/HZUPByoGny+M
+	qB+wk3Cc+vuceQ7ErBZlJcypTR2c6J1P6nPQp3f3G9ZgMt+VLBGFQ9dJVYUerO4Q
+	TstKW4WgIr9EgjE3icS7/gXorCtxClhfpQ0SoeYO7O3xo1LBCdJl5ZpYWrnEvtek
+	rB4IcuFFaY+M486wsKUKqN027thCmINRH2aH5kM/xQq40bFuH8Li3AWIx5r3rJ3D
+	ZXyEWLFDkcQkznG/cD86fTeKVzq2xTDZA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hdw50r1hv-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 20 Oct 2026 18:15:19 -0700 (PDT)
+Received: from localhost (2620:10d:c0a8:1b::30) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.49; Wed, 21 Oct
+ 2026 01:15:18 +0000
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+Date: Tue, 20 Oct 2026 18:15:06 -0700
+Subject: [PATCH net-next v4 3/7] vsock: pass the netns to
+ ->has_remote_cid()
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,230 +70,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20261020-vsock-guest-ns-v4-3-047527cfccfc@meta.com>
+References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+In-Reply-To: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+To: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Stefan Hajnoczi
+	<stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang
+	<jasowangio@gmail.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+        Shuah Khan
+	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Donald Hunter
+	<donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>,
+        Eric Dumazet
+	<edumazet@kernel.org>
+CC: <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>,
+        Bobby Eshleman <bobbyeshleman@gmail.com>,
+        Bobby Eshleman
+	<bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
+X-Authority-Analysis: v=2.4 cv=XYwcX455 c=1 sm=1 tr=0 ts=6ad81227 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=crHB47gyY4rKiduisYu9:22 a=VabnemYjAAAA:8
+ a=WAnpC6A4wG5u40D751YA:9 a=QEXdDO2ut3YA:10 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAwNCBTYWx0ZWRfX+mxKX/An8Msg
+ pJCk3KR8Aa8NQKNoj8/5hPL0Ht5dhkC/CGY8daGT4c3Z/z6ZsVonBf+cj7JRZOAPktlrefEH6Jk
+ 9ccFdQ49SZzSUAwAZqYo/E/NHSzDwsY=
+X-Proofpoint-GUID: L034eqcS3dW_02XTV43Eh_xrHT3qx5I-
+X-Proofpoint-ORIG-GUID: L034eqcS3dW_02XTV43Eh_xrHT3qx5I-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAwNCBTYWx0ZWRfX5E5isj7TtNVr
+ i1bYx5dfomTnbKOS3qor3WyM6h1p8KnqSN2MBCwoGhr1vaPlSlSau1RIYfIuCynt0jjzpsp2//L
+ 6yvzdFRKjLkMXcoWM2do2v8NbAd5gmcJ6hGsduVDJ3fPh1oE+rkgrak64lFtsF8iQ7AzyqBw7ol
+ guvyRuSx4Apm3SKb42/8HBwvXy5+tTIBtWSvghPstUG7IxbzYRBeazIrlSrKXOCDlPn3FMU1NOh
+ AC4CSBzRc+J/12JE0W3qKYg7XWfXEk+3zatlpRfWMxX5VrpqPAVMolVvkIUfSvWiK7RCcZAqFWl
+ WPnWly1m4C3Z6zlqVhMK3+/xaeAdhXNDJiPdQDZjaqG7JNWfVWzFWkgUX6zvdlCp4BxrzTlV9C8
+ X+u1l0TXPSX3ptqE1Y6Cc/FptkB4jisGS3DRZP6f5+C2Yhz1aFgqErLTz4vZffjcLmxToB7yLXz
+ a20KVDA4anhOt4uDxPA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-20_04,2026-10-19_02,2025-10-01_01
 
-On Thu, 15 Oct 2026 16:50:43 +0200
-Jiri Pirko <jiri@resnulli.us> wrote:
+The transports only use the socket to find its network namespace. Pass
+the namespace instead, so that a later patch can ask whether a CID is
+taken in a namespace without necessarily having a socket on hand. This
+will help with avoiding CID collisions when devices move between
+namespaces.
 
-> From: Jiri Pirko <jiri@nvidia.com>
-> 
-> Add per-open subscriptions, bounded event queues and event creation for
-> CTLV families. Add the generated root family kernel bindings now that their
-> message and event helpers are available.
-> 
-> The event and generated root objects can be compile-checked here.
-> CONFIG_CTLV remains unwired until device dispatch completes the module.
-> 
-> Assisted-by: Cursor: GPT-5.6 Sol
-> Assisted-by: Cursor: Claude Opus 5.5
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-Nothing fundamental - just a few passing comments.
+No functional change.
 
-I'm running low on time, so will take a closer look at
-this in a future revision.
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+---
+ drivers/vhost/vsock.c            | 4 +---
+ include/net/af_vsock.h           | 2 +-
+ net/vmw_vsock/af_vsock.c         | 6 ++++--
+ net/vmw_vsock/virtio_transport.c | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-> diff --git a/drivers/ctlv/event.c b/drivers/ctlv/event.c
-> new file mode 100644
-> index 000000000000..0f68d33e031c
-> --- /dev/null
-> +++ b/drivers/ctlv/event.c
-> @@ -0,0 +1,713 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2026, NVIDIA CORPORATION & AFFILIATES
-> + *
-> + * Per-open event queues and loss reporting.
-> + */
-> +
-> +#include <linux/bitmap.h>
-> +#include <linux/build_bug.h>
+diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+index abed1fbcf66c..01f8930ca51f 100644
+--- a/drivers/vhost/vsock.c
++++ b/drivers/vhost/vsock.c
+@@ -91,10 +91,8 @@ static struct vhost_vsock *vhost_vsock_get(u32 guest_cid, struct net *net)
+ 	return NULL;
+ }
+ 
+-static bool vhost_transport_has_remote_cid(struct vsock_sock *vsk, u32 cid)
++static bool vhost_transport_has_remote_cid(struct net *net, u32 cid)
+ {
+-	struct sock *sk = sk_vsock(vsk);
+-	struct net *net = sock_net(sk);
+ 	bool found;
+ 
+ 	rcu_read_lock();
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index 370fcd3ddabc..1c38a27fadf2 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -183,7 +183,7 @@ struct vsock_transport {
+ 	 * CIDs via the hypervisor (i.e. supports the fallback overlay). VMCI
+ 	 * does not implement this as it only serves CIDs 0 and 2.
+ 	 */
+-	bool (*has_remote_cid)(struct vsock_sock *vsk, u32 remote_cid);
++	bool (*has_remote_cid)(struct net *net, u32 remote_cid);
+ 
+ 	/* Read a single skb */
+ 	int (*read_skb)(struct vsock_sock *, skb_read_actor_t);
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index aa4732c3599f..c9b28e34b1b3 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -633,11 +633,13 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
+ 			new_transport = transport_g2h;
+ 		else if (transport_h2g &&
+ 			 (!transport_h2g->has_remote_cid ||
+-			  transport_h2g->has_remote_cid(vsk, remote_cid)))
++			  transport_h2g->has_remote_cid(sock_net(sk),
++							remote_cid)))
+ 			new_transport = transport_h2g;
+ 		else if (sock_net(sk)->vsock.g2h_fallback &&
+ 			 transport_g2h && transport_g2h->has_remote_cid &&
+-			 transport_g2h->has_remote_cid(vsk, remote_cid)) {
++			 transport_g2h->has_remote_cid(sock_net(sk),
++						       remote_cid)) {
+ 			vsk->remote_addr.svm_flags |= VMADDR_FLAG_TO_HOST;
+ 			new_transport = transport_g2h;
+ 		} else {
+diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
+index 4f9aa9c4c3aa..eced6929405d 100644
+--- a/net/vmw_vsock/virtio_transport.c
++++ b/net/vmw_vsock/virtio_transport.c
+@@ -548,7 +548,7 @@ bool virtio_transport_stream_allow(struct vsock_sock *vsk, u32 cid, u32 port)
+ static bool virtio_transport_seqpacket_allow(struct vsock_sock *vsk,
+ 					     u32 remote_cid);
+ 
+-static bool virtio_transport_has_remote_cid(struct vsock_sock *vsk, u32 cid)
++static bool virtio_transport_has_remote_cid(struct net *net, u32 cid)
+ {
+ 	/* The CID could be implemented by the host. Always assume it is. */
+ 	return true;
 
-cleanup.h given you are making quite a bit of use
-of guard() in here.
-
-> +#include <linux/ctlv.h>
-> +#include <linux/ctlv_gen.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/list.h>
-> +#include <linux/minmax.h>
-> +#include <linux/overflow.h>
-> +#include <linux/poll.h>
-> +#include <linux/sizes.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/wait.h>
-> +
-> +#include "builder.h"
-> +#include "device.h"
-> +#include "event.h"
-> +#include "internal.h"
-> +#include "message.h"
-> +#include "schema.h"
-
-> +
-> +struct ctlv_op_ctx *ctlv_event_create(struct ctlv_device *ctlvdev, u64 op_id,
-> +				      struct ctlv_cursor **reply, gfp_t gfp)
-> +{
-> +	const struct ctlv_op_entry *op;
-> +	struct ctlv_op_ctx *ctx;
-> +	void *out;
-> +	u32 room;
-> +	int ret;
-> +
-> +	ctx = kzalloc_obj(*ctx, gfp);
-> +	if (!ctx)
-> +		return ERR_PTR(-ENOMEM);
-> +	scoped_guard(spinlock, &ctlvdev->events_lock) {
-
-Generally mixing anything cleanup.h with gotos is
-a bad idea. Tends to get Linus saying your code needs
-restructuring even if it isn't an actual bug.
-
-> +		const struct ctlv_family *family;
-> +
-> +		if (!ctlvdev->events_live) {
-> +			ret = -ENODEV;
-> +			goto err_free_ctx;
-> +		}
-> +		if (WARN_ON_ONCE(ctlvdev->active_event_contexts == U32_MAX)) {
-> +			ret = -EOVERFLOW;
-> +			goto err_free_ctx;
-> +		}
-> +		/* Admission pins the op until emit or abort. */
-> +		family = READ_ONCE(ctlvdev->family);
-> +		if (!family) {
-> +			ret = -ENODEV;
-> +			goto err_free_ctx;
-> +		}
-> +		get_device(&ctlvdev->dev);
-> +		ctlvdev->active_event_contexts++;
-> +		ctx->ctlvdev = ctlvdev;
-> +		ctx->family = family;
-> +	}
-> +
-> +	op = ctlv_op_find(ctlvdev, op_id);
-> +	if (WARN_ON_ONCE(!op) || WARN_ON_ONCE(op->schema->type != CTLV_OP_TYPE_EVENT)) {
-> +		ret = -EINVAL;
-> +		goto err_put_ctx;
-> +	}
-> +	room = ctlv_event_len(op) - sizeof(struct ctlv_event_hdr);
-> +	out = kmalloc(room, gfp);
-> +	if (!out) {
-> +		ret = -ENOMEM;
-> +		goto err_put_ctx;
-> +	}
-> +
-> +	ctx->gfp = gfp;
-> +	ctx->op = op;
-> +	ctlv_message_output_init(&ctx->output, ctx, out, room, &op->schema->reply);
-> +	ctlv_message_root(&ctx->output_root, &ctx->output);
-> +	ctx->deepest = &ctx->output_root;
-> +	*reply = &ctx->output_root;
-> +	return ctx;
-> +
-> +err_put_ctx:
-> +	ctlv_event_free(ctx);
-> +	return ERR_PTR(ret);
-> +err_free_ctx:
-> +	kfree(ctx);
-> +	return ERR_PTR(ret);
-
-Two different error paths also tend to indicate code needs
-a rethink and maybe splitting into a couple of functions for the
-different stages.
-
-> +}
-> +EXPORT_SYMBOL_NS_GPL(ctlv_event_create, "CTLV");
-
-
-
-> +
-> +ssize_t ctlv_event_file_read(struct ctlv_file *cfile, char __user *buf, size_t len, bool blocking)
-> +{
-> +	struct ctlv_device *ctlvdev = cfile->ctlvdev;
-> +	struct ctlv_event_record *rec;
-> +	ssize_t ret;
-> +
-> +	/* dup() and SCM_RIGHTS share one serialized queue. */
-> +	if (mutex_lock_interruptible(&cfile->reading))
-> +		return -ERESTARTSYS;
-
-	ACQUIRE() magic should work here and let you do direct returns on error.
-
-> +
-> +	while (!(rec = ctlv_event_queue_take(cfile))) {
-> +		/* Drained, and the device is gone. */
-> +		if (READ_ONCE(ctlvdev->dead_announced)) {
-> +			ret = -ENODEV;
-> +			goto out_unlock;
-> +		}
-> +		if (!blocking) {
-> +			ret = -EAGAIN;
-> +			goto out_unlock;
-> +		}
-> +		ret = wait_event_interruptible(cfile->readers, ctlv_event_waiting(cfile));
-> +		if (ret) {
-> +			ret = -ERESTARTSYS;
-> +			goto out_unlock;
-> +		}
-> +	}
-> +
-> +	if (rec->len > len) {
-> +		ctlv_event_queue_untake(cfile, rec);
-> +		ret = -EMSGSIZE;
-> +		goto out_unlock;
-> +	}
-> +	if (copy_to_user(buf, &rec->hdr, rec->len)) {
-> +		ctlv_event_queue_untake(cfile, rec);
-> +		ret = -EFAULT;
-> +		goto out_unlock;
-> +	}
-> +	ret = rec->len;
-> +	ctlv_event_queue_consumed(cfile, rec);
-> +
-> +out_unlock:
-> +	mutex_unlock(&cfile->reading);
-> +	return ret;
-> +}
-
-> +static int ctlv_event_subscriptions_set(struct ctlv_op_ctx *ctx, const struct ctlv_cursor *request,
-> +					struct ctlv_input_ref ref, bool subscribe)
-> +{
-> +	struct ctlv_device *ctlvdev = ctx->ctlvdev;
-> +	struct ctlv_cursor attr;
-> +
-> +	for (ctlv_input_attr(&attr, request, ref); ctlv_attr_ok(&attr); ctlv_attr_next(&attr)) {
-> +		u64 op_id = ctlv_attr_u64(&attr);
-> +
-> +		if (!ctlv_event_subscription_find(ctlvdev, op_id))
-> +			return ctlv_op_errorf(ctx, -EOPNOTSUPP,
-> +					      "op %#llx is not an event this device emits",
-> +					      (unsigned long long)op_id);
-> +	}
-> +
-> +	guard(spinlock)
-> +		(&ctlvdev->events_lock);
-
-That looks odd. 
-	guard(spinlock)(&ctlvdev->events_lock);
-is more familiar form to me anyway.
-
-> +	for (ctlv_input_attr(&attr, request, ref); ctlv_attr_ok(&attr); ctlv_attr_next(&attr)) {
-> +		u64 op_id = ctlv_attr_u64(&attr);
-> +		const struct ctlv_op_entry *op = ctlv_event_subscription_find(ctlvdev, op_id);
-> +
-> +		if (subscribe)
-> +			set_bit(op->event_index, ctx->file->subscribed);
-> +		else
-> +			clear_bit(op->event_index, ctx->file->subscribed);
-
-		assign_bit()
-
-> +	}
-> +	return 0;
-> +}
+-- 
+2.53.0-Meta
 
