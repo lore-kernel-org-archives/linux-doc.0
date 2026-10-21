@@ -1,54 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792562829;
-	b=kjoPS1Ab/xgtcuX0KeyLmyYlY41nqr3wUP5WED9Flmj5q2cEQ3DjH79o3nxtfK9Z8Nnw
-	 rXObJPTNnpJqrsXOZTwE4eRHgpAYDNA5yLDx5zq/HiGBMVE0YwoO2xnF2VjrFcVTmOjnZ
-	 buB/cvhiXCgYFs1x1f9z96t2DyaNp7Mz6g1EsbQyewAaFD3t2KuMd3gMxZX84cNZ6XzHD
-	 M6sg3mTiGa77ljegoSqxytNF9FwaUwxwphEO4krDOWUR7ik1Uin7b3t5Oqaxess30bh9R
-	 IPu8CZiZy/U2oIyskjaJn1sPGowou1YEDLz1B1P/l7tqxz7yBFzUaB5MTwga5oAY7GQ==
+	t=1792562888;
+	b=4lWbhXOMDGFr2KgRK0Y1ssm48feo4GffK37vSE9hXE0seQhtddketupOqwSgf+SR/thD
+	 bwp78ef9MQTi8lOM0zZDHPTmBdAKujEzV1itO3a+YKevZCpGXTrayiOHCVKeMJPBNcc8m
+	 CAf+Y8cB0o2ikPaY/r2k811ju9sqShUwN7BaDlBNt6cKfKFJmkz+IlkcIBmUuxGvXZe9e
+	 ss7saCZ4Vpv/SfIcNw7Tcnn2eYXxKqJ+nbbmpWn64YWil4ixE8HK6Sz0OsFjbY0cNcvAh
+	 V2yT5cPobq9/wJe2/93mlogpPgebz+54ihOPI41FQSg5Y3C/WO/B/5VG3q0tN3x+PmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792562829;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=RWXu4jpq1GrCvUDpKd/ed8T68hCMT6wRiDitfxefxoY=;
-	b=g8e/XiR8G+XfzpZtNK0MS+rcHMfty3GY/+4c2xobOwMo7FhZnipFUf4D9L5Rexxmh5JV
-	 o88Z78YFPJvJOrjasSn5ErW3HZKqLagzcdAO9Sd2/0Ow35P427Yeez/MGFttgYWJCPM7+
-	 ftaLJHEISt56XpUcc0h7lE9FajI9ElD9MnfMGWtcZanoHUkvTCZjxN6ccg1GWnJzcULAa
-	 K4d3aeFdGWvP7sA9vT0mmv2cWB4QHR1fclsAgQZR2atUlh4ZtFjbXmAYUi1TsCXyUlysC
-	 5f4/wAb2s+LOtEAbdMM2bPoRvm5zJxJZ8bDMDmWla62IA76C6lS0j0DoF58Z0nCoq6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792562888;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ZYe3wOkYMWAT9nEkJmHND9GUlXX8tkyrEnTbfn+hGAE=;
+	b=pYkmVaku9OPO2UlVKNox8YUBeVVbJXsBYMkdV1Lw8g4cKqTLlwUcZ82Ae3/26N27WvT+
+	 tduwEn2w3XBk/VFiiYH5v5NbqTI+eGRPmCxFUfjbaMIjSz8votEtT8uWoXXoNEKZJBs0h
+	 GYkkBM68U7zQadFkESVDdnd3qZRKkCEf1BrPJCDNYGTXVBd2TcsQA0A734mIRxi7yZw2f
+	 aH+od3n6QI4VgJavibq0ew9v79QjFxxJsoFAwpW6RRyExUOeQcfQxuDeydYjPAbmYgA1p
+	 /xWdb6PXK6et8WUnSe90IRT25O7HwKWvb0DutCaaMGmE/ATDz86qPCtY7ScGMplhZ3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UFtZhN0F;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=p02NDSmT;
+	arc=none smtp.remote-ip=95.215.58.115
+Received: from mta1.migadu.com (out-115.mta1.migadu.com [95.215.58.115])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD58606A32E;
-	Wed, 21 Oct 2026 06:07:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAD58606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8344C60A262B
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 06:08:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8344C60A262B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=UFtZhN0F
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=RWXu4jpq1GrCvUDpKd/ed8T68hCMT6wRiDitfxefxoY=; b=UFtZhN0FIOqU8GkqMum6PS8cia
-	29pzu+E8MdtpMRhmvTkW+y/+wnbCl3gvk+Ti9uP2mgnAy6fFYhgOPcKceYudFmmaovR/r0ohoeCbH
-	+WWQEA6+mh8DS40Ol/MwsXAicv9u+wCTOd9QhV7GEFPXCy9SLAIOFx71IzvsG0zh84we/tJocRtMU
-	mh+x3J6OFOVsxWUzLizi4QwnObOvNXB6C4xJGij9buyYY8Oq9Hz1NKtCE+96NoP9ojqUW3AmmFa1h
-	GbuI3Onm7hnbTnjhwjmZhAuRvF6XzCuEuM0STnJAf5F60yTcjE4f3PmiqrsuFMq/uvoQqFI66Ay4c
-	Za1Bmn0A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJPTd-0000000B8H8-2CWa;
-	Wed, 21 Oct 2026 06:07:05 +0000
-Message-ID: <f6d6d8d2-03ca-498d-b5d2-578aece560d9@infradead.org>
-Date: Tue, 20 Oct 2026 23:07:05 -0700
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=p02NDSmT
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=4KIURn7WEb1ayotO22ZrkJ9wcqdsX7N260OoXXlEYTw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792562884; v=1; x=1793167684;
+ b=p02NDSmTaSCB8KSHun2b3TBjbf1NxzTB/b6rDos/XyDiLhiG+2lxVTaZ4aTR24rWJ9/gY/mw
+ cOxsxKQ8l4CCJ668HxHAkwzAjhfXpzA02MknKMDcP6EqNdBo6cYSi0IeK3sur8sTHobIbATp94K
+ 8nj/4oIDDrwoxMYcccNwBXQE=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id da1eddc643cb8bda;
+	Wed, 21 Oct 2026 06:08:03 +0000
+X-Mizu-Trace-ID: da1eddc643cb8bda
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: songmuchun@bytedance.com
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	osalvador@suse.de,
+	maddy@linux.ibm.com,
+	corbet@lwn.net,
+	muchun.song@linux.dev,
+	lance.yang@linux.dev,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	chleroy@kernel.org,
+	ritesh.list@gmail.com,
+	sshegde@linux.ibm.com,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	qi.zheng@linux.dev,
+	linux-mm@kvack.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] mm/hugetlb_vmemmap: remove vmemmap_wrprotect_hvo()
+Date: Wed, 21 Oct 2026 14:07:56 +0800
+Message-ID: <20261021060756.4599-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261019090830.1917657-4-songmuchun@bytedance.com>
+References: <20261019090830.1917657-4-songmuchun@bytedance.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,61 +89,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261020-brown-potoo-of-relaxation-3e9a72@lemur>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
+On Mon, Oct 19, 2026 at 05:08:29PM +0800, Muchun Song wrote:
+>Shared vmemmap tail pages are now mapped read-only during initial
+>population, so already optimized HugeTLB bootmem folios no longer need a
+>separate write-protection pass.
+>
+>Remove vmemmap_wrprotect_hvo() and skip these folios during boot-time
+>optimization.
+>
+>Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>---
 
-On 10/20/26 3:07 PM, Konstantin Ryabitsev wrote:
-> On Tue, Oct 20, 2026 at 09:22:35PM +0000, Eric Biggers wrote:
->> Many patches still don't include base tree information and can't be
->> applied.  Such patches can't be properly reviewed or tested, nor can
->> they be accepted.  submitting-patches.rst already describes how to
->> include base tree information, but it's characterized as optional,
->> appears only towards the end of the document, and is missing details.
-> 
-> I'm happy with this change, but I'd disambiguate the title a bit. With b4, we
-> started providing both a base-commit and base-tree footer, specifically
-> because often times the "base-commit:" line by itself is not sufficient.
-> 
-> Imagine this scenario: a developer is working on some code in a feature branch
-> and come across a pre-existing bug. They create a fork off of their feature
-> branch to fix the bug and send it in. In this situation, the "base-commit"
-> footer would be meaningless, because it references some transient commit-id in
-> their feature branch. In an ideal scenario, the developer would rebase that
-> bugfix branch on a known tag, but that doesn't always happen.
-> 
-> This observation doesn't really preclude this patch from being accepted, I'm
-> just recording my own experience that, by itself, base-commit is often
-> insufficient.
+Yep, already read-only, so there's no need to write-protect them again.
 
-Yeah, I was wondering about specifying tree as well as commit, so thanks
-answering before I even asked the question.
+LGTM, so 
 
-Most of my patches are made against linux-next.  So: is this going to be
-acceptable?
-
-(for linux-next-20261020:)
-base-commit: 053966c344dbd346e71305f530e91ea77916189f
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-
-linux-next how has over 400 trees in it. That's a tad prohibitive AFA cloning is
-concerned.
-
-
-thanks.
--- 
-~Randy
-
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
