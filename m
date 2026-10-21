@@ -1,138 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792612951;
-	b=gkH031HdwY+xbEPWUDjyALC75TMFfLkp8bQtX8etfZvpf9shokVJtTo2esTbygf7AK87
-	 8PsM49ijaUZcC8oHSz6v3gj3Y5OenWXZWghfxJjqBtsHJ87IfOL9mIHzjvpW8/ouNE1FW
-	 7zDrey9ZDppyPkEirWCxq4yIKyYqHUZ1HtGHKDIB3cygs369+1CI9BMX4TVom2JEUqai0
-	 SbAIPu9SzngIV+GwtOJZxFm7yRGslMvetUnxpVsWMwJTJFx6FGKHpEV9HKoBQjfgZ0/rh
-	 kogLJv/5b6ZVxMITAp7pWdZgD7nwH1yMkmzZMCEA9dm9KrEanj73mq9LQ1oo2zy4RmA==
+	t=1792613832;
+	b=Jfh+UUFdvhVKEeglOUXhn6iMKFU/QQAgC47XiahK+d4cK9oJM+sv7A6s6So74zPpp7Q/
+	 Lw51GgGpwxDL9EuKGKiXOtlqRaeigOs/6VGsfGlr++sXFQS7IFm5Aw5DqK3BuPEdlXXTn
+	 2ZTBRbikLIl9NsPB2fv95orj/Qm02kXpR65zLTgOLLrPgb2OTguPPz1TRcEH4wJsVwAVw
+	 pt+jvvhz+xhCzxCrzVCFCw8RYs0BAIcP8eEKUclmbFE67b2ssHh0XtKh0Q8Si/SsKTVSM
+	 kkjpeiAKXCzMg1po6H4VrfqlcqitLN9T5JEKOOJGKhF3rqIV1RMSqlRpMtEz1ZE6eCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792612951;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=ZPDN9BexYqJgQl45SdfU9meWuyazsqHXMxCiEWebsmU=;
-	b=dr0k5KaX2gK5FItBHFTPLomWo6B5eWTgWN1HKmPrWel6/lkKlXSxxfLDNnh/mZb5ggwH
-	 009ah+Q0qf82zPepQZAh860Dj+luauH/9YVUny0N5UwfHnxI7qKbkDn7NfFu3wZTD6HLf
-	 t31mWk4dY3mnIJP87TSduVST8bxZV90iJmiZ9tSYKf+pqMDyBobs5n+ISI37VLmsT85gg
-	 iWuH/Qu37F6s7ym0yx/B+GGW802Ae0PIJx61sI1QZFWWXKeidXYtAriOlya1h8+RwFsEQ
-	 0X494P7dembh4zoTvPzmWiedutiVWx9KJZb2wrXM+hmsNmg7qhzRg/d5SOPbPd3INag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792613832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+	b=OwTjsqW8u+R6twcbmf3NPnanwkdnRW1+0KMG10BtM36cbVsXZimyBlDJPshXfrAMtW61
+	 vjJwnkf1yK1VlQc0LKC0D6/rfFM3TxkGsqHrILy0qiVntHfEsdMrh/uebC5pNpnpwYPCF
+	 QNS0zok1r6aQqT36PLEyqvuD5Xn2yl3HMqE3lS7bjzd7D3dCW0DT6i17vG8JQb5+uf9/L
+	 rpbh4u6zz8Or/P/6GdwDjzr8ZNvbhO36eUrcMZhgtoXy77PXElEh6KSZmPfufq170PHSC
+	 UhD51xxRcxUdWN2fEoI0I8MkbWf5TzKlTQThQAlxzPn2tQaJBON0OqKTkbrARoaaWMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=e29+mULU;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=UjJox1PV;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz;
+	arc=none smtp.remote-ip=209.85.214.180
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F8C606A319
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 20:02:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86F8C606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D0F606A324
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 20:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1D0F606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=e29+mULU;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=UjJox1PV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792612949;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZPDN9BexYqJgQl45SdfU9meWuyazsqHXMxCiEWebsmU=;
-	b=e29+mULUFeLobQo+uKn8gQNftlS5OaKjvXTj0kV0Os9YPMNIAvf5zxN9RtW08fP1Qwrkhi
-	OJDtJ6pchd9LhnG9+2lhAETKM2TmygTBq5lb8sxIophiuSehSUv7u509D6wuo6hwlwcmWu
-	TI95R9sD9s6LQMYB3gnH/TRUdMXWk64=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-q0eYEp1iNwCIlLyeZL3d_g-1; Wed, 21 Oct 2026 16:02:28 -0400
-X-MC-Unique: q0eYEp1iNwCIlLyeZL3d_g-1
-X-Mimecast-MFC-AGG-ID: q0eYEp1iNwCIlLyeZL3d_g_1792612947
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48b02d63407so702794f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 13:02:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oyFHm1Hz
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so3595ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 13:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792612947; x=1793217747; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZPDN9BexYqJgQl45SdfU9meWuyazsqHXMxCiEWebsmU=;
-        b=UjJox1PV3vRCck/ghKbgtwmVLGA1Q+GcnLL03CwW+0LDXjxRO490mF887lIG0gI3hh
-         xPOCF4ugAtCv2VAmJDVTfUx5JY6IB7n51WUhStnzTyFlYj8f8nCZxSUz0/dj+/+j+9Bi
-         D6U1P54Fi/25f/ECZBtRgIlPB8YcB5eMTlhL3SSzr04BhDovwZrwiqhTkzJTEWZljp3F
-         fOU3AJq/xDwjth2LRZ/AlkGZDv93gEIYBYXvJRVrrnS5bLnm3ApPeytsCB8I1O1dqwua
-         L77s99sCt+kGHExOg7QXPgm2I35s0uVwDp1mC1nSqNhsHqdHgrw3kbJlfThtWuK1F5DE
-         ZjEA==
+        d=google.com; s=20251104; t=1792613831; x=1793218631; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+        b=oyFHm1Hz0h2Qlknv1vsiheGJvlBp/hMgh02PzQTmYUIg+yqjimNbrLTG6YVDmdzSj7
+         2h924ZyPg/b7FshKCBPU8Wf34MK3PzDVh+JJCflUO1RAYaHXuXv6wBxYmUiPzwczzC6w
+         bGq67afFW30YUC+3zqYUjsX+7MoFVd5shYJCWSFseb2owxnYIjTAwTaK0aitNp4y5CHx
+         5ok324KMIwDUZkyogu3Gc+7rODb6jTgVHOgl4UjYKgFk3g+pst9EPpMXc/FwibEyyGkO
+         qbqM8aNdfBuih4c2QUv78AaB1MBNwVz+BUwlbiexmEA7RaPQMZ/69mzqr76MJIUIK66u
+         ks6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792612947; x=1793217747;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZPDN9BexYqJgQl45SdfU9meWuyazsqHXMxCiEWebsmU=;
-        b=kfjTMZYt6gTw1FuXW6PozaGpLW+ffd5XLOZIT+m+7crbqduibyMmWRVRtZWoHvxdrf
-         I1BFk5AsFMR4L47pbjnRgs6bWvhBsDJRPQ/XDTPpI4SRPvxQf/+2U2Cxv92W5r9/cZUR
-         2NMZNGbvuD7lxHcZmD3YKYDARBn8FLwYIpWKMBojoQvsfuCCXlCiud3LeW7g9uCRskkx
-         BItgdStdL0MXy+CVwOsK4wCt8fhDbrzytk/GiEi5jlFEkoszwhQC/5DqQ8Uj2NROSwQP
-         X8voZHUs+acTnxFJGZIEDcmZ5PG4BD0rfZUxazkemUFyYAsvrq0nG72LraMGnbyxJNm9
-         ZuJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDK2A6qQvHN6kF7TdwAJJqAdeECroVxPolOZasPXysp/941+ZCvPCROQ2U30ohNKx1GQPocVqHzIU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL4tYqPlODB/7HqQcHEqEPecS1/Iu0sWk+YfwCy9vgmqHh5hGHR
-	qd2YmKM6cbe5hv8i2grpLwcNrEhQCNz81PBSeyk0naVU9xZrC9/9+sDHfzA2wRN58e2yl9Fuixv
-	plJI8fvj2UuAyGf3SWX3UCGAwqdyY2oggsUkGjqXI34QTcVQl1iraDSUfcEdJpw==
-X-Gm-Gg: AYBFou3Yz9aJegtPHwEuo04nJnzhdIDbuKvsAkBOXvBH8aEN/K8sIdD1ba9IkurtPZJ
-	tOi8C1RAa/YQ2aIoLwZb8CkoqWH9V6FdXNwW4jKJYBfOPul2JSmCH8A/7kXDIy6mG8dDrrY7N3W
-	Muoj4mGNjn29HBeV3RNyBi17bsDSbnNiPDUxBlAcvMxgpWmTuK0E3FSK8DtxhFdqVZ4EYtsu4Yc
-	jqXy7C3bx+CzGwH7lgauOw02v0fEYTN5BCwCq9AOrvTGYHOcYvCYF/P94nT975e8IcnrO/GPAoY
-	RF9we4a/0Q0OMsqsGgr/UrEvrcXkjOWeqg8D7aZmkFTACy4AKqM70GCziCrUwIF9J8g=
-X-Received: by 2002:a05:6000:2901:b0:48e:25e1:5eb8 with SMTP id ffacd0b85a97d-48e2642e9aemr6954053f8f.3.1792612946243;
-        Wed, 21 Oct 2026 13:02:26 -0700 (PDT)
-X-Received: by 2002:a05:6000:2901:b0:48e:25e1:5eb8 with SMTP id ffacd0b85a97d-48e2642e9aemr6953990f8f.3.1792612945553;
-        Wed, 21 Oct 2026 13:02:25 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:1536:fc00:b838:383:1c7:6e81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2581f15esm8122007f8f.20.2026.10.21.13.02.22
+        d=1e100.net; s=20260707; t=1792613831; x=1793218631;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=At2A/wrqaAUfI4SKCwlEtMqC27pXN2/myITaZPv60nw=;
+        b=OfbvdCcpPkwC1P/m8MKh1ZbDaPDK2qLpcjCgwf6noHO6XcAwB0akyhB2d4nrm0b4sB
+         FLJAx1Rny/VbNlsIZQDXc7mrM/9UeosGd9YP+10YYRlEPhoTPp35R1B6wNe3436e1eyZ
+         NbuTJbtIWuvFcdVVrOVPSrOg07eDg6Bdjbcsxz/LYAzaDQBgumTp2qOkVBXvH4lTFFbT
+         jARBgTilsKCdeuJc8YRI8OgxFP9MZxrsSFVBaHGDqZTcBe1hIpl4seyKT7cCycQeUaDO
+         h1iweiiUTKZv/MFNpiXHzqAS4mOKcQ6it6RDkQt4RZ8r4xigCzQbpirTB7fUbGxROjkl
+         EhgA==
+X-Forwarded-Encrypted: i=1; AKwUvBxa5SQVMVSfqNBtwGk1XJsZ4CpyjFfqnzLzFSceVH6muxzVXyzylrmgOgScLD8ZF95cLKbGEImBmKo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIIV6TdBRC52e2iUqb4atEOYzG7Xw6VxeRsE+e5hpgSk/HUj0Jk
+	HS6qaBMgyzExKAHrY3jKDMIjSI8TEi4kPR048HDj27c9He377/53tFpE80vyOpIUmQ==
+X-Gm-Gg: AYBFou1kWUgDan4oY1zQbxjFuJW6Ltz4tkYPml5s5PS8AAxMwAvFOhzM+2zdCzLVdSr
+	DHDAQ8tl1KQUrmnfCXAkTj4wGK0sCf/1d3ZsMrMZO5YFUwLrgjL9JSyYWeqtNjoHOSs8KfkoZLU
+	Qyx2Kd6tIwovgjbavfDqKmth5hssqsVxH0aMbds8psyr9XyMJXjKnvT4MyZwDvinmKnw14I26kr
+	pArk7hEMq6eccTIXtH/oFgsnvmHIMjd+UPS0dpjrbZ3k6O9M/UWR7H4q+qaMQPglrwnk8Vlp21x
+	+bkNZhrB1zbPMc6pB7DfV1kimS84jdPFJ3q9jGvGGdA+V6+48OwPiWb5e5O+C567cX7sYiZJCwq
+	Y4u2uu+Wop1NNsSBI1XkqIuBhHidfyEsDs7aPwdlBw9b1PtsRcEvrKRwY2yx5QzJ+p4uQ5vLSkH
+	eG4+u50q0RBremy2HgUumoz5V86fGXsr/T+qyF0ovADGpkNegPWQF0N0Ie+tqIKNcn3gmygKEOm
+	DXQgZGKomqDVVDG/6a0eAkB+PUEJ2qwTTgT1NyzwbqvOHOQKH8lHN2P4sdeQu9Z/IilvUAANt0t
+	3PfuY/hjFvTK/RXQTbWN3ppEa4I6fPWYa+GGfiQwoexfxSd0
+X-Received: by 2002:a17:903:24b:b0:2e6:d25:d874 with SMTP id d9443c01a7336-2ea6313172cmr689965ad.10.1792613830593;
+        Wed, 21 Oct 2026 13:17:10 -0700 (PDT)
+Received: from google.com (163.1.145.34.bc.googleusercontent.com. [34.145.1.163])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4896c71sm927197a91.6.2026.10.21.13.17.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 13:02:24 -0700 (PDT)
-Date: Wed, 21 Oct 2026 16:02:20 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Dumazet <edumazet@kernel.org>
-Cc: Nick Simpson <nick.simo@gmail.com>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Song Yoong Siang <yoong.siang.song@intel.com>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Max Krasnyansky <maxk@qualcomm.com>,
-	Sridhar Samudrala <sri@us.ibm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net 3/3] ipv6: validate checksum_start before fragmenting
-Message-ID: <20261021155431-mutt-send-email-mst@kernel.org>
-References: <20261021180329.26358-1-nick.simo@gmail.com>
- <20261021180329.26358-4-nick.simo@gmail.com>
- <CAL4Wiiq6Jy1XPtkrA-Ge2N+voJrE86DWPJp_jXwHJG3ZgMvPaQ@mail.gmail.com>
- <CAL4WiirCmk_rZBhaXmmgHSHiUjeBSt5hPoRn6Q+AXUGYVNXRaA@mail.gmail.com>
+        Wed, 21 Oct 2026 13:17:09 -0700 (PDT)
+Date: Wed, 21 Oct 2026 20:17:05 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: Fred Griffoul <griffoul@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Woodhouse <dwmw2@infradead.org>, 
+	Ackerley Tng <ackerleytng@google.com>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 06/11] iommufd: Map memory provider files
+Message-ID: <atkO08eCJzLX6R58@google.com>
+References: <20261014093733.90312-1-griffoul@gmail.com>
+ <20261014093733.90312-7-griffoul@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -142,100 +115,218 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL4WiirCmk_rZBhaXmmgHSHiUjeBSt5hPoRn6Q+AXUGYVNXRaA@mail.gmail.com>
+In-Reply-To: <20261014093733.90312-7-griffoul@gmail.com>
 
-On Wed, Oct 21, 2026 at 08:47:40PM +0200, Eric Dumazet wrote:
-> Le mer. 21 oct. 2026 à 20:20, Eric Dumazet <edumazet@kernel.org> a écrit :
-> >
-> > Le mer. 21 oct. 2026 à 20:05, Nick Simpson <nick.simo@gmail.com> a écrit :
-> > >
-> > > ip6_fragment() and br_ip6_fragment() complete CHECKSUM_PARTIAL skbs with
-> > > skb_checksum_help() without checking where csum_start points. After
-> > > reassembly by nf_defrag_ipv6, the IPv6 header has moved forward by the
-> > > 8 bytes of the fragment header while csum_start has not, so a
-> > > CHECKSUM_PARTIAL skb from an untrusted source (tun/tap or packet sockets
-> > > with a virtio_net_hdr, or AF_XDP TX metadata) can have csum_start inside
-> > > the IPv6 header, and the checksum is then written into a header that the
-> > > forward hook has already accepted. When csum_start lies before the
-> > > network header, skb_checksum_help() warns.
-> > >
-> > > Add the IPv6 counterpart of ip_check_csum_start() from
-> > > commit 6785011f8b16 ("ipv4: validate checksum_start before completing
-> > > checksum") to the two IPv6 fragmentation paths: refuse to complete a
-> > > checksum that starts inside the unfragmentable part of the packet (the
-> > > IPv6 header and the extension headers before the fragment header) and
-> > > drop the packet instead.
-> > >
-> > > For IPv4, ip_check_csum_start() is also called from nfnetlink_queue,
-> > > xt_CHECKSUM and xfrm_output; their IPv6 counterparts are not changed
-> > > here. A reassembled packet that is not fragmented again, such as an
-> > > atomic fragment, and an unfragmented packet whose checksum is completed
-> > > at egress are not covered either; those have to be handled where the
-> > > CHECKSUM_PARTIAL skb is created, or by a check at reassembly time.
-> >
-> > Then let's do that, instead of adding checks to every consumer.
-> >
-> > A CHECKSUM_PARTIAL fragment is meaningless: the L4 checksum covers the
-> > whole datagram, and our own stack completes it before fragmenting
-> > (ip_do_fragment(), ip6_fragment()). Only untrusted injectors produce
-> > them. Yet inet_frag_reasm_finish() keeps the reassembled skb
-> > CHECKSUM_PARTIAL when all fragments are.
-> >
-> > Downgrading CHECKSUM_PARTIAL to CHECKSUM_NONE in inet_frag_reasm_finish()
-> > covers IPv4, IPv6, nf_defrag_ipv6 (and the bridge path) in one place;
-> > the bogus L4 checksum is then verified and the packet dropped.
-> >
-> >
-> 
-> Scratch that suggestion, it would be one more consumer-side check.
-> 
-> The fix belongs where CHECKSUM_PARTIAL skbs are created, and Michael
-> is already doing this for virtio_net_hdr sources (tun, tap, packet
-> sockets, virtio_net):
-> 
-> https://lore.kernel.org/netdev/cover.1792411304.git.mst@redhat.com/
-> 
-> In particular "net: resolve uncommon partial checksums at ingress":
-> https://lore.kernel.org/netdev/9c08d12b3a7819ae03ded6a154e4f908276e93d4.1792411304.git.mst@redhat.com/
-> CHECKSUM_PARTIAL is only kept when csum_start/csum_offset match a
-> parsed TCP or UDP header, and fragments are explicitly refused
-> (ip_is_fragment(), IP6_FH_F_FRAG): their checksum is completed at
-> ingress, before any protocol processing.
-> 
-> Your patch 1/3 applies the same rule to AF_XDP copy mode, and already
-> links to Michael's patch.
+On Wed, Oct 14, 2026 at 09:37:28AM +0000, Fred Griffoul wrote:
+>From: Fred Griffoul <fgriffo@amazon.co.uk>
+>
+>IOMMU_IOAS_MAP_FILE pins the pages it maps, which cannot work for a
+>memory provider file: the frames may have no struct page, and the
+>provider can take any of them back at any time.
+>
+>Accept a provider file. iommufd neither pins nor accounts its pages.
+>It asks the provider for each frame when it fills a domain, and on a
+>revoke it unmaps the range in every domain and maps what the provider
+>backs now. A device that accesses the range in between faults. A
+>revoke charges the page tables it allocates to the memory cgroup that
+>mapped the file, not to the task that revoked.
+>
+>Each frame gets a PAGE_SIZE entry, so a partial revoke never splits a
+>large IOMMU page. The next patch maps larger blocks. Holes stay
+>unmapped, read-only pages are mapped without IOMMU_WRITE, and MMIO
+>pages with IOMMU_MMIO. Frame 0 is refused with -EINVAL: iova_to_phys()
+>returns 0 for an IOVA that is not mapped, so a revoke would take that
+>page for a hole and leave it mapped.
+>
+>A revoke would race a dirty bitmap read and lose the dirty bits of the
+>range, so provider pages and a dirty tracking domain cannot share an
+>IOAS: whichever comes second fails with -EOPNOTSUPP. A provider
+>mapping cannot be split by a partial unmap, and in-kernel accesses to
+>it are refused.
+>
+>Assisted-by: Claude:claude-opus-5-5
+>Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
+>---
+> drivers/iommu/iommufd/Kconfig        |   1 +
+> drivers/iommu/iommufd/io_pagetable.c |  13 +-
+> drivers/iommu/iommufd/io_pagetable.h |  27 ++-
+> drivers/iommu/iommufd/pages.c        | 288 ++++++++++++++++++++++++++-
+> include/uapi/linux/iommufd.h         |  11 +-
+> 5 files changed, 334 insertions(+), 6 deletions(-)
+>
 
-Oh great, AF_XDP. Another one no one noticed.
+[snip]
 
-> With both, no untrusted source can feed a CHECKSUM_PARTIAL fragment
-> to reassembly, nor an unfragmented packet with a bogus csum_start, so
-> neither this patch nor a reassembly change is needed.
-> 
-> Once the ingress validation is merged, the ip_check_csum_start() calls
-> added by commit 6785011f8b16 can be removed as well.
+>+
+> /* The pages are not pinned, so their domains are tracked in pages->tracker. */
+> static inline bool iopt_pages_tracked(struct iopt_pages *pages)
+> {
+>-	return iopt_is_dmabuf(pages);
+>+	return iopt_is_dmabuf(pages) || iopt_is_provider(pages);
+> }
+>
+> static inline bool iopt_dmabuf_revoked(struct iopt_pages *pages)
+>@@ -285,6 +306,10 @@ struct iopt_pages *iopt_alloc_dmabuf_pages(struct iommufd_ctx *ictx,
+> 					   unsigned long start_byte,
+> 					   unsigned long start,
+> 					   unsigned long length, bool writable);
+>+struct iopt_pages *iopt_alloc_provider_pages(struct file *file,
+>+					     unsigned long start,
+>+					     unsigned long length,
+>+					     bool writable);
+> void iopt_release_pages(struct kref *kref);
+> static inline void iopt_put_pages(struct iopt_pages *pages)
+> {
+>diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+>index 660af3d46f5e..aa7740326ad6 100644
+>--- a/drivers/iommu/iommufd/pages.c
+>+++ b/drivers/iommu/iommufd/pages.c
+>@@ -52,6 +52,8 @@
+> #include <linux/iommu.h>
+> #include <linux/iommufd.h>
+> #include <linux/kthread.h>
+>+#include <linux/mem_provider.h>
+>+#include <linux/memcontrol.h>
+> #include <linux/overflow.h>
+> #include <linux/slab.h>
+> #include <linux/sched/mm.h>
+>@@ -238,6 +240,35 @@ static void iommu_unmap_nofail(struct iommu_domain *domain, unsigned long iova,
+> 	WARN_ON(ret != size);
+> }
+>
+>+/*
+>+ * Provider pages are mapped with PAGE_SIZE entries, and may have holes.  Some
+>+ * IOMMU drivers warn when asked to unmap an IOVA that is not mapped, so find
+>+ * the runs that are mapped and unmap each one, without touching the holes.
+>+ * iopt_provider_map() refuses frame 0, which iova_to_phys() reports for
+>+ * an IOVA that is not mapped.
+>+ */
+>+static void iopt_provider_unmap(struct iopt_area *area,
+>+				struct iommu_domain *domain,
+>+				unsigned long start_index,
+>+				unsigned long last_index)
+>+{
+>+	unsigned long iova = iopt_area_index_to_iova(area, start_index);
+>+	size_t left = (last_index - start_index + 1) * PAGE_SIZE;
+>+
+>+	while (left) {
+>+		size_t len = 0;
+>+
+>+		while (len < left && iommu_iova_to_phys(domain, iova + len))
+>+			len += PAGE_SIZE;
+>+		if (len)
+>+			iommu_unmap_nofail(domain, iova, len);
+>+		/* Step over the run and the hole page that ended it. */
+>+		len = min(len + PAGE_SIZE, left);
+>+		iova += len;
+>+		left -= len;
+>+	}
+>+}
+>+
+> static void iopt_area_unmap_domain_range(struct iopt_area *area,
+> 					 struct iommu_domain *domain,
+> 					 unsigned long start_index,
+>@@ -245,6 +276,11 @@ static void iopt_area_unmap_domain_range(struct iopt_area *area,
+> {
+> 	unsigned long start_iova = iopt_area_index_to_iova(area, start_index);
+>
+>+	if (area->provider) {
+>+		iopt_provider_unmap(area, domain, start_index, last_index);
+>+		return;
+>+	}
+>+
+> 	iommu_unmap_nofail(domain, start_iova,
+> 			   iopt_area_index_to_iova_last(area, last_index) -
+> 				   start_iova + 1);
+>@@ -1349,6 +1385,10 @@ static int pfn_reader_first(struct pfn_reader *pfns, struct iopt_pages *pages,
+> 	    WARN_ON(last_index < start_index))
+> 		return -EINVAL;
+>
+>+	/* Provider pages are read from the provider, see iopt_provider_map() */
+>+	if (WARN_ON(iopt_is_provider(pages)))
+>+		return -EINVAL;
+>+
+> 	rc = pfn_reader_init(pfns, pages, start_index, last_index);
+> 	if (rc)
+> 		return rc;
+>@@ -1647,6 +1687,228 @@ void iopt_pages_untrack_all_domains(struct iopt_area *area,
+> 	}
+> }
+>
+>+static int iopt_provider_prot(struct iopt_area *area, u32 attrs)
+>+{
+>+	int prot = area->iommu_prot;
+>+
+>+	if (attrs & MEM_PROVIDER_ATTR_READONLY)
+>+		prot &= ~IOMMU_WRITE;
+>+	if (mem_provider_type(attrs) != MEM_PROVIDER_TYPE_RAM) {
+>+		prot &= ~IOMMU_CACHE;
+>+		prot |= IOMMU_MMIO;
+>+	}
+>+	return prot;
+>+}
+>+
+>+/*
+>+ * Map what the provider backs in [start_index, last_index] of the area into
+>+ * @domain, and leave the holes unmapped.  Each frame is mapped with a
+>+ * PAGE_SIZE entry, so that a revoke of part of a large block never has to
+>+ * split a larger IOMMU page.  On failure nothing in the range is mapped.
+>+ */
+>+static int iopt_provider_map(struct iopt_area *area, struct iopt_pages *pages,
+>+			     struct iommu_domain *domain,
+>+			     unsigned long start_index,
+>+			     unsigned long last_index)
+>+{
+>+	unsigned long base = pages->provider.start >> PAGE_SHIFT;
+>+	unsigned long index = start_index;
+>+	int rc;
+>+
+>+	lockdep_assert_held(&pages->mutex);
+>+
+>+	if ((1UL << __ffs(domain->pgsize_bitmap)) > PAGE_SIZE)
+>+		return -EOPNOTSUPP;
+>+
+>+	/*
+>+	 * A revoke unmaps under pages->mutex only, so it would race with a
+>+	 * dirty bitmap read, and lose the dirty bits of what it unmaps.
+>+	 * Provider pages are not mapped in a domain with dirty tracking.
+>+	 */
+>+	if (domain->dirty_ops)
+>+		return -EOPNOTSUPP;
+>+
+>+	while (index <= last_index) {
+>+		unsigned long pfn, iova, block_end, nr, i;
+>+		int order = PUD_ORDER;
+>+		u32 attrs;
+>+		int prot;
+>+
+>+		rc = mem_provider_get_page(&pages->provider.att, base + index,
+>+					   &pfn, &order, &attrs);
+>+		if (rc == -EFAULT) {
+>+			index++;
+>+			continue;
 
-I think this would be a mistake. While plugging all places where some
-packet change can confuse the stack is hard, making at least sure
-there's no slab oob if we missed one is a no brainer imho: this is the
-extent of the overhead:
+Hi Fred,
 
+Thanks for this.
 
-        if (unlikely(skb->csum_start < skb->network_header + ip_hdrlen(skb)))
-                return -EINVAL;
-        return 0;
+With this approach, silently skipping holes during IOAS_MAP_FILE means
+iommufd has no tracking of which IOVA ranges in the area are actually
+mapped, which complicates unmap and could also hide a bug if a hole in
+the range was not expected?
 
-I will be frank, messing up one of the subtle checks we are adding in
-virtio_net_hdr_from_skb is *trivially easy*. It is getting them right
-that is hard. Can we pretty please get help in not turning every such
-mistake into a publicity stunt with most major cloud vendors affected by
-guest driven host code execution?
+I am wondering whether the areas can track the holes, or whether we
+should have areas for the mapped/unmapped ranges? This should allow
+proper sanity checks when doing revoke. I am also thinking about this
+from the live update point of view, where we might need to sanity check
+that the backing memory of mapped regions is preserved.
 
-I know, we should write less bugs (
-Still, you guys are the net maintainers.
+Could you please CC me on v3? I'd like to follow this from the live
+update IOMMU and iommufd preservation side.
 
--- 
-MST
+https://lore.kernel.org/all/20260921004834.2601285-1-skhawaja@google.com/
 
+Thanks,
+Sami
