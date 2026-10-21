@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543415;
-	b=MPRO+cB8KD1sWqJbmzvl6jDjZpinfd5g0FbYqX3mH5NpzMPmFWHpt6v0w5GrM9+T7KKg
-	 TshsbdTIC8t5offr2FHa0Riol6ZJFp8dUoWBqs5zYTBZkeQoKWgEfouha4JKpdgjvopUy
-	 ZqHRgWSzqGSIqqurMsgw1e7QeXT8s6tgH8Dpmm2G3Q8gQUgCd/Qbe7kALafLij2+OZ6Ha
-	 52JXgCVcocehRRWUUQjDg6tHpfjKPM2oiRp9Powgxs/eeGyfkZypRA4ovkoXERBd2zpQ+
-	 zrRaSZs6vIDdnZ2XgvZs+D+utyLuiULL2fLVgHmPU3w7egO+neBZ6JqjLG9/VSBBnOg==
+	t=1792543721;
+	b=ncoB4aL/TkE0axuOJMxTLnsIvg6oSOPGDcnLskY/PxnPWPDmjfq0abY9ozRFYZ+X/pTp
+	 vA85Yw8HcX/IBwGD35e4KDFxoWHp/1hIpgGj1rDfIg8nw3v+EhNR8RuStI8SpXtRiMNxn
+	 NgvVlM4cC1ULKGuZmE4QjCUgp4nF4zidOmhKlrqEQY21Tko0AfzXZQL8Enb3Cw+iCVxqV
+	 A6G2SJm+wSfSm8zMXhDg867rogTeiGgS0dxqcizTf41zJI3Lk9jQouD+jB2aTJPLvJN2k
+	 IzTF7YFmK8ah52Dktm9XFQzYA2iZiaFlsC+A9nqYO4vN7Mzb+QdRtX8bkGYUufuCD0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543415;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543721;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=+nsFjOW7BqpbTIqHalWaePbKIO7ywrm1YspyvTTDJtI=;
-	b=X25bysreya8fYQLdf+2yLtNuWSZDgCCgaeZsV8CT1MBpX8Pl5HUGQLxrcKF4C+6u71mD
-	 hQFxKhNp+2FppUF0Dlb+QxARSTc87TidZv4YMWFeEyekQVgS6FvK3FL/MDrZzn0w4MAoD
-	 U+TH5xMaq/r4m9cOqdGR4a9m5XQE33V7YYbnH2EaNRm/TahRXhIj2iV0zPpHPht9MBuhB
-	 DmbJL96v7ZDaEG0QWfCF1SUOmwTZDFUFA9Gslgz2ISHu66K+g9/ttt8jHPtPdj/VJhi9S
-	 tEV2YmQWsaF0ldHoKP9TbLHhppGe4V0uiIahPm8R3WfGGXdDa1vzllzu2KampoIK5XA==
+	bh=ryzqLtmTIYfeNRsCKA09cpqX71cPmMQWJEIQIlGWlaU=;
+	b=nm5SGBnVrZQhf5ml9Uw+0EedebT0U430aYztzFYPzJcj8MazYXCCJHyO3TyDItvPtgmu
+	 W29BDwJhFVdP9s85Kir+rmOCdtB/Ke5n/1P4L6ScXsVg6BYCVd34TzNB71bDtvu3EK2Pt
+	 zoAAEyxBh3oUCPkWVCZUoWTD5XrMU06GilLJNrBGzy/cVZgeh2xdm3bQMcly5H++7ptnd
+	 CgPSycHhTEPad8m2NBcBk+qvPMfua75ifGHrSIiIF4rPqRuDlcWJF2xWu4MseVkoJIghQ
+	 FRje1wvJbSzYSSBampNulV+LVJDPEDck3z9xRy5znDNGos1u13HYswRNKZUDqO0wGAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DxcF7P9Z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWU80DNt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC11606A319;
-	Wed, 21 Oct 2026 00:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B394A606A319;
+	Wed, 21 Oct 2026 00:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DxcF7P9Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F321F000CB;
-	Wed, 21 Oct 2026 00:43:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWU80DNt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2F11F000C9;
+	Wed, 21 Oct 2026 00:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543415;
-	bh=+nsFjOW7BqpbTIqHalWaePbKIO7ywrm1YspyvTTDJtI=;
+	s=k20260515; t=1792543720;
+	bh=ryzqLtmTIYfeNRsCKA09cpqX71cPmMQWJEIQIlGWlaU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DxcF7P9Z8g9YonBWeXdP7GBGjT2smZ0f5bgEtvl7J2t4zP4ETROvhigfV8h151wzc
-	 LIfDwx4M/0LBeRjp33bTltFl023pkl94jXkiwX0i25JhHsbeCeKHVXH/oIbW0+9bxA
-	 HYYEmnbflmRQ3yza6Xba4HjF/k3Nf6UNv8WMYYqTwy2dwAc/hL5BCVTS/CY3oZzbqe
-	 YDbK6eRvAU3STAbb2jBawAmCzDD86hXg5xitwqBq3UkMFwHIYOQd7FYr8oHkHnG4ue
-	 whDknX3N7JSVkNgvSjnWi/1p0aw4ykAmdez+cN+5EdinjhAtZrHasyW4lRf1gniW1T
-	 MJXqzY0ZyMzgA==
-Date: Wed, 21 Oct 2026 01:43:24 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
- lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
- cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
- James.Bottomley@HansenPartnership.com, aik@amd.com, jpiotrowski@nvidia.com,
- qinkun@google.com, pgonda@google.com, alistair.francis@wdc.com,
- ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
- rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
- dave.hansen@linux.intel.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- peter.fang@intel.com
-Subject: Re: [PATCH RFC 05/20] ctlv: Prepare message input handling
-Message-ID: <20261021014324.58376589@jic23-hlaptop>
-In-Reply-To: <20261015145053.3664509-6-jiri@resnulli.us>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
-	<20261015145053.3664509-6-jiri@resnulli.us>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	b=IWU80DNtUYS51kXrh/PJmIGJKVypUwxeIhOXFLFPJJt43DiHpSVFF7mXIP7nChQBc
+	 mPFyl6C9lpG7e7VG3TX9h7tjwf2lVxry+hIB+2+AfGNvNa0SC4T9XmLUCSoAnHFmku
+	 b9HD/q6uR9Fp18wdeYyUovrX+VEbdsUGxLmqRJbVuescIFzHHFiPcnp11Vp3khsdJq
+	 3t3JjSJvUwK0pa1xoFktwkQGZbzTLUf0Y+fkP8/ausf15tMvI2UrA6O2LueqQOFnUM
+	 rocDvVnM9HBJo8gUvziIweJODGmIK/vpRLLHTK2RTn3gG/t7uTW0WTTkMpm3M5Q84r
+	 LGBcHTHmat7Eg==
+Date: Tue, 20 Oct 2026 17:48:39 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>,
+ <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana
+ Ciornei <ioana.ciornei@nxp.com>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Mohsin Bashir <mohsin.bashr@gmail.com>,
+ Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
+ <hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, Vadim
+ Fedorenko <vadim.fedorenko@linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+ <wulike1@huawei.com>
+Subject: Re: [PATCH net-next v15 1/2] hinic3: Add ethtool statistic ops
+ part1
+Message-ID: <20261020174839.1589a2af@kernel.org>
+In-Reply-To: <2b4a6fad842e0a2ea6c5ab7555916f970b78b599.1792053295.git.gongfan1@huawei.com>
+References: <cover.1792053295.git.gongfan1@huawei.com>
+	<2b4a6fad842e0a2ea6c5ab7555916f970b78b599.1792053295.git.gongfan1@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,139 +72,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 15 Oct 2026 16:50:38 +0200
-Jiri Pirko <jiri@resnulli.us> wrote:
+On Thu, 15 Oct 2026 17:55:43 +0800 Fan Gong wrote:
+> +	HINIC3_RXQ_STAT(alloc_skb_err),
+> +	HINIC3_RXQ_STAT(alloc_rx_buf_err),
 
-> From: Jiri Pirko <jiri@nvidia.com>
-> 
-> Add wire walking, request indexing and validated input accessors for
-> generated family readers.
-> 
-> Keep CONFIG_CTLV unwired until dispatch completes the module.
-> 
-> Assisted-by: Cursor: GPT-5.6 Sol
-> Assisted-by: Cursor: Claude Opus 5.5
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-
-Trivial stuff only. I didn't attempt (yet) to check
-all the walking code, just get a feeling for what was here. 
-
-
-> diff --git a/drivers/ctlv/Kconfig b/drivers/ctlv/Kconfig
-> new file mode 100644
-> index 000000000000..aed3243c55fd
-> --- /dev/null
-> +++ b/drivers/ctlv/Kconfig
-> @@ -0,0 +1,12 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +menuconfig CTLV
-> +	tristate "CTLV character device TLV UAPI"
-> +	help
-> +	  CTLV provides character device UAPIs described by a checked-in YAML
-> +	  specification. It owns the character device lifetime, the strict TLV
-> +	  message format, request validation, reply serialization, the large
-> +	  payloads a request describes rather than carries, per-open event
-> +	  queues and runtime schema introspection, so families only implement
-> +	  semantics.
-> +
-> +	  If you don't know what to do here, say N.
-
-I'd not say that.  Overly cautious for something we expect
-to get fairly extensive use.
-
-
-> diff --git a/drivers/ctlv/message.c b/drivers/ctlv/message.c
-> new file mode 100644
-> index 000000000000..7e5742ba8f70
-> --- /dev/null
-> +++ b/drivers/ctlv/message.c
-
-> +
-> +bool ctlv_message_input_rebind(struct ctlv_cursor *nest, const struct ctlv_schema_tree *tree,
-> +			       u32 node)
-> +{
-> +	const struct ctlv_message_input_scope *bound_scope;
-> +	const struct ctlv_message_input_nest *indexed;
-> +	u32 i;
-> +
-> +	if (WARN_ON_ONCE(!nest->attr || !nest->msg || !nest->msg->index))
-> +		return false;
-> +	if (!ctlv_message_nest_index_ok(nest))
-> +		return false;
-> +	bound_scope = &nest->msg->index->scopes[nest->index_nest_scope];
-> +	indexed = &nest->msg->index->nests[bound_scope->nest];
-> +	for (i = 0; i < indexed->scopes_count; i++) {
-
-	for (u32 i = 0; ...
-
-> +		u32 scope_index = indexed->first_scope + i;
-> +		const struct ctlv_message_input_scope *scope =
-> +			&nest->msg->index->scopes[scope_index];
-> +
-> +		if (scope->tree != tree || scope->node != node)
-> +			continue;
-> +		nest->tree = tree;
-> +		nest->node = node;
-> +		nest->index_nest_scope = scope_index;
-> +		return true;
-> +	}
-> +	return false;
-> +}
-
-> +
-> +void ctlv_attr_next(struct ctlv_cursor *cursor)
-> +{
-> +	const struct ctlv_message_input_slot *slot;
-> +	const struct ctlv_message_input_scope *scope;
-> +	const struct ctlv_node_schema *node;
-> +	const struct ctlv_attr *next;
-> +	u32 next_nest;
-> +	u32 next_offset;
-> +
-> +	slot = ctlv_message_cursor_index(cursor);
-> +	if (!slot || WARN_ON_ONCE(!cursor->attr))
-> +		return;
-> +	next = (const void *)((const u8 *)cursor->attr +
-> +			      ALIGN((size_t)cursor->attr->len, CTLV_ALIGNTO));
-
-kernel code is allowed to rely on void * arithmetic, so this can be
-	next = (const void *)cursor->attr +
-	       ALIGN((size_t)cursor->attr->len, CTLV_ALIGNTO);
-
-container_of() for instance makes use of sizeof(void) == 1.
- 
-
-
-> +const void *ctlv_attr_binary(const struct ctlv_cursor *cursor, u32 *len)
-> +{
-> +	const void *value;
-> +
-> +	*len = 0;
-> +	value = ctlv_message_cursor_payload(cursor, BIT(CTLV_SCHEMA_BINARY), len);
-> +	if (!value)
-> +		*len = 0;
-
-I'd kind of have assumed that ctlv_message_cursor_payload() would not
-set len to anything if it returns NULL.  Thus the default *len = 0 would
-be intact.  From a quick look that seems to be the case making this
-code a little odd. 
-
-Perhaps overly defensive or keeping an LLM happy?
-Same applies on some other functions.
-
-
-
-> +	return value;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(ctlv_attr_binary, "CTLV");
-> +
-> +/*
-> + * The room is measured before anything is written, which is what leaves a
-> + * refused attr's message exactly as it was, padding included.
-> + */
-
-Having a trailing comment in a file rarely adds much or indeed
-even more rarely gets read.
-
-
-> diff --git a/drivers/ctlv/message.h b/drivers/ctlv/message.h
+Why bother separating these two? Rx packet was lost due to memory
+pressure, doesn't matter which part failed to alloc.
