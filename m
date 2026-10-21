@@ -1,149 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792602392;
-	b=oW+FRfIUVQMbUikoqr1xMorrXlzTRY3+KEbbNUmsoxe2svy5gAYBK/Nl2brqFASBjGdM
-	 E+DHxQUyTxMSvwaFrfC6Dr9ta0cUIuCrHDo/zshxi02ufUy7hjBVJ1Ty8l+FNL7t49eWV
-	 6TXZttZqOG+d4BPI2/gQqoffzVAnWf1ldayp5uTA27pwFw69hy8fCQHMQADX6m6a4+Ncf
-	 ecOIIWa/Y47SZALQQgZaQS9gqSI5iGX2xzBmMMa5QqidAZEiHZAd50ppDjodX++Oz52H9
-	 e6DizLPndH3UoVw1tpsQP6fCRs45wJY15tjfj8sJxaADRaR1fwHgWGdDrYCXRpkCutQ==
+	t=1792602705;
+	b=37y6hEMe8hfjkQVH/gC1qcUzvp1/qXexTwfFM7qK9L5hPemg1dpmhKbAYV2t6mGDYoOA
+	 8TB0DdAJvYSKCHoWeSuoMvpAc3NJ2nKya49rTbnr12dPnnImJiedsBQnydOJikPg/8yUi
+	 p4Q6UUYG37wvpZEzkj5p7NWcU/Ra3jnypB3LyET2VJ+z1DCkBcC3ejLx7l9xVkA2bebT7
+	 DUgRtuYfBXEOj4a+mLgXGJmJEUx5bDCdyW/Y6khw2twrKIWzoFk945KIOpVMz7ju9L7mA
+	 ZxOYNGX/DrKr5uSt2YFtXSM3Rg8dAOUiiAMbO5DVqTh0bIINPNHXaNfUdWz26TxaPWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792602392;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=4KgtddslSOEOaN73E6Xh0kX0j9JGBALLWlHj4vZIcu8=;
-	b=Y7efZasxydaozDaJ0xGxIoUrm9I0rB3eCXMTeX5XOBPEvVdDncSuJjHCwlNY4omZKwoD
-	 CYkYHBWao81jWEaorEO1MR6XHdcydKhJTwv81LEiKHKvNLzfk9CfUWnwrFDYitzfinNMc
-	 WtKluz0OtxlgynBvVmGcV4vgG7vKcZPv3y1gh/BMX2HwsaM/RUSxiS03jENCkIWjaKhDQ
-	 EkNT630W1MPVtYOglFLdM+zhGNvr5sJUD2cRk+4HT3QMlr6NDKYaODhzmrqHx6xOxmNoq
-	 ugEy+qZh0YQMTOZgYNwvnnhCxMu0gVDz9e0fy3wQY7iIlgYsNMCzIW6UXjm6oRfpiQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792602705;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:X-Mailer:Content-Transfer-Encoding:MIME-Version;
+	bh=kWSErL8M0Zrcc9bNez1sKQXL8Q35fI7UYN2RBWREyKs=;
+	b=E66Kzcrt5u8FxVvuUovle5G6frTO3j9KzZkwed+DHA2xkdAuqxj9SEUlYf1iKopSpXr2
+	 AQ++0ixY3xobAXImP7UPD5EAdnVwUnn2EybIjucMX6mzJpjDnZfE8410OAm7t+GW0WS/k
+	 pNTY09bsEzvi91OiUrANLJc8n4RgBFscBGpJMQdQLjByU2xX9Hr8bctLRK/aBForv5wS/
+	 K0YLCbz9hsnyuQSHqU8xrZI5+/B6SlmH2cC05+I5IbOo3bQiOdQblqmgJF3x6dc7jT8TI
+	 lURhNbLYsKVxx/k+mH4/huuxNcFlcW7G0GVV3K1im6EYx3qICDnZEaUHYdOpZrO5amg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OSlcL8cO;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=S0lM1fWI;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AaMus1hV;
+	arc=none smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAAD606A334
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 17:06:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAAAD606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CEB606A31D
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 17:11:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30CEB606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OSlcL8cO;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=S0lM1fWI
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LFTuKW1045409
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 17:06:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4KgtddslSOEOaN73E6Xh0kX0j9JGBALLWlHj4vZIcu8=; b=OSlcL8cOU5zXbryB
-	8fphfV9zo1XreQA4OpWxV/h7tO89Sx+6X2Zl5p6+0ULsUn90taN9eGxYH16jm+qk
-	L0XZJ7Dn3v8XGxu9eL4AUwpW89Q08hqaGYjoQLd+s7IfocWo3yT9caDh8KNWlz5H
-	s2wvu8IN32qEW3e4b+swbEmyIx4Sb7Bfs53jhsZpFAhMxFVFGH/lhgrGUhOIl9na
-	ZHCzsoC6k5dyzggh321+7NzEQC0sx6z0Q589PxqQBdkJCqG9N/vTM/t84N6WLpwZ
-	XNzQ4yeKMJxtggMzRJOTsDyC0PwIrehi/AU/krpfAg39mwEvzewP39PNMVc/Bg+a
-	pxwNPQ==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hetj49wys-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 17:06:31 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-35a04491c56so58100eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 10:06:30 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AaMus1hV
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2e8b20a899fso5634295ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 10:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792602390; x=1793207190; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=4KgtddslSOEOaN73E6Xh0kX0j9JGBALLWlHj4vZIcu8=;
-        b=S0lM1fWIw6Y5hJNpLN3G50Ucns5COX1CrBE5hbyjPvJoSWfaUU74zEBfK5Y9LOfw2o
-         3qJuezojUa7Gwuxzpuy/sRiQzyLvOc9/wbbwX7fNFq1fLWNTYoqZf2H0HrpG76BxzJkd
-         j4NEOGLlwqNWTzlkJzpYzISQUweCoK4ctrM0+yYr/nhRkxxHwelCf8Yr47GhsPdS/Gh/
-         VebX6ND7e/SueIFT8iifQkT50U24TtcvbyCvGuKBnDq3FtCLV80e+kGT9AWueohj3ns1
-         ZLNryXgd9nc5t4EbUsKv7TiPfGLjKNrhfFHKWolwtgbwMqQR6ThArwPN1LlmwKKUPgZc
-         Ru6Q==
+        d=gmail.com; s=20251104; t=1792602704; x=1793207504; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kWSErL8M0Zrcc9bNez1sKQXL8Q35fI7UYN2RBWREyKs=;
+        b=AaMus1hVio6zg/9LoarIIBEkDnFMQdnQoGlqR0h/7EEarLlw794dPT5byofFFeCznU
+         aFOeoFbIBXEWYPlqa9PKU/ss5RIKGIpjKiVwkALyTQmh6g+ehnGjcVskUgvi20N9nxjA
+         ie5bN5DsO3RjDzjjW4WSDezD+249TU3rMb7+Pg3GXUO/NmXiJiBCiUZIKVFf5cn2Dp3N
+         ySBH0E2hckaGBBaHCKAw7hMOBSSQhIvSMWJQQ68CNoHpnVB8I1MwlvIKRM2swZxQf4hL
+         4RX+rTXJImXC5AwGt/asVYdYqu9mn1+kEXAmr8ruJU7WNU55+SgesHMMv9RUEqpG33zd
+         4PNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792602390; x=1793207190;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792602704; x=1793207504;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4KgtddslSOEOaN73E6Xh0kX0j9JGBALLWlHj4vZIcu8=;
-        b=20O42htO46wgDrXUs4egGlvbQYjHlqIwVhu4uELluSms7BW18TVDgcstr9kVoM4J/7
-         8scst8MY8zoX3eSe9PvOH7SQ6uXfbmk3lJXAAEiWMMjIG/6xnRmasyBAsZuA2Uy+JKeg
-         zt0VjTZpu8Ln38Nz1ExPkDlz8da0P5JmfL+u9tCyekeY565I3gkYmOoSM9Icq/yokQKI
-         5BjwQiiqgJiOIz2Jxb3sS8Rb/6VQTnsgsVhfPxwumkZxxWbS8ZRbMP2b/BzbTGEKeOz3
-         xaPQ9/w++LzZG3XLk5iltD/0b6HYVWcWwE5BDiBrbDxR/1kk+UhDGP24FkJdGt8q6xE9
-         KwfQ==
-X-Forwarded-Encrypted: i=1; AKwUvByexYz18bxYxfGUTpe6Tqz7GfYkKfq3WIMQyPb73vTTdQkSNgbteu3vprtDVN6Pcq//Ho3rWWVwvnU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLTAS2jgI0Io1582klBdeJLw49pA3LviPHGhrQb3GsbBEitcHCz
-	xAcfVGuvyzfKKIeLWUq4fPQ8i0lho2FWCP5k8MexSRtCl/BaUVrfVCzAtR9EuGzxTxESVsGH8vb
-	zHG0WDRUK/PRBl16D7rvfKvm6sI6SR5vhTI0gwueuIePPUAIbOXr+FCI8NL643M0=
-X-Gm-Gg: AYBFou1Mtd8oaxWeORItq8+F0Ex2qYnmhK+KTEuPlYMPvbUF38n5qtyElb+AqpU0qWq
-	DMPmo3balQBCV7t4WTfC4/GfKsCbFcPlJBYjRDNi6PvcYKV7uL6VafluRzM5hPYT8PHkamHsWwh
-	pNn0q2vdUrPtH5jV40tDOLkQ4pJhbq6y53kcaRpf+grDkG2vCh2c8wdtyGx3UXSo/xaDBQOtgkw
-	Hp1RpLp2QgjlFYfG23KxTgCWcet5ywkkwkgnw7M1D8J9ubBfQP99suG/tV2SzqP9u49TDccu/bZ
-	B0LyCP7HmLHPULctmcmXnOVzKInRSl1rK1P3l0+eTFTZcIct9Hssa0v0aMUyYUolWdhRT9zlfJs
-	z3utF8F7QXYj04aiPJYAi7Y8qNXz7EowEVz6phjE5Nw==
-X-Received: by 2002:a05:693c:20cf:20b0:363:a45d:10b1 with SMTP id 5a478bee46e88-365fa49061dmr6847163eec.5.1792602390142;
-        Wed, 21 Oct 2026 10:06:30 -0700 (PDT)
-X-Received: by 2002:a05:693c:20cf:20b0:363:a45d:10b1 with SMTP id 5a478bee46e88-365fa49061dmr6847104eec.5.1792602389510;
-        Wed, 21 Oct 2026 10:06:29 -0700 (PDT)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367f52ce166sm5334511eec.29.2026.10.21.10.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 10:06:29 -0700 (PDT)
-Date: Wed, 21 Oct 2026 10:06:22 -0700
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-        Ard
- Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Catalin
- Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, David
- Sterba <dsterba@suse.com>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-        Randy
- Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
-        Shuah Khan
- <skhan@linuxfoundation.org>,
-        Nick Terrell <terrelln@fb.com>, Will Deacon
- <will@kernel.org>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Conor Dooley
- <conor.dooley@microchip.com>,
-        linux-integrity@vger.kernel.org, Palmer
- Dabbelt <palmer@rivosinc.com>,
-        patches@lists.linux.dev,
-        Piotr
- =?ISO-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
-        Ross Philipson
- <ross.philipson@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Song
- Shuai <songshuaishuai@tinylab.org>
-Subject: Re: [PATCH v2 08/15] efi/libstub: Have efi_kaslr_relocate_kernel()
- handle extra_size
-Message-ID: <20261021100622.00007ae5@oss.qualcomm.com>
-In-Reply-To: <8-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
-References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
-	<8-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        bh=kWSErL8M0Zrcc9bNez1sKQXL8Q35fI7UYN2RBWREyKs=;
+        b=rQUuY9COmSmui4Y6g+R2LLzjibDhaHdpHJi+/Ahx606UcNHnlUjkFPeidHvApGJtMx
+         3ngi65lY1hmZyAQjsyUWxYQl3i7CtF4y6XTWsCG/ysyERHVHk29Y2FmwpbahrO6Vy0vR
+         /hJk6DPGQ7khuoMwiQscNLMlYWBXGaDeU94Ol9laZuv2MgCwh2B96yb72TVh605T5KDe
+         mV2ZOsmTCHwC2QKGmwi2D4VJEOhzy0Z6Azz4/7lsFM7jmj/Qi/FILQmuI4sd7eWllAoQ
+         JOy3CuxcLuTqa2lzq8MD/iZ/0pTIPJd/XJspM5X8WHcPQxa9Go9sS095Mju0j0G0r5jm
+         7+ow==
+X-Forwarded-Encrypted: i=1; AKwUvByLSdY5OAzJSlHHEgda0IoNL1SAiY4B7RY68biThH5yfST2x74bR7qSrLnzDP9q9VY5AbtWAc7oYm4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLlQs61iex/z5F2lnKMK0ulDMBmXQ3puegCLtpOa+b66Lo1lbXc
+	CYdF23WIcr8THRZCUXm7jNHCEnxGLvEvQ0yi+NWxDhDdLybf+rKdw3cd
+X-Gm-Gg: AYBFou32bvXskdHG/W7t9/CT5Wj6XOlZ0KjyXXKv0kLoytmXrqMCT3BRsgRrt4jdmf2
+	4w5ys+JwiDYfjzAiDI0IM6AQhcBJHYpGMd04ql06QmMOh136J7oBQY8qI7X+NLUJoAm42h8EP/Z
+	03hc0y4QRLNjtsn/kLC4e7kdsRjtXkllKlAIk3fSH6ZYFtm8frBCGLgonlVFBfQnVowrvUQ4S+d
+	YvjTO6CJn/5CIQiqc8WJXyo9O13Jahss/NFxXBWUxditXPijZmp/yrjpWUfgUOzVgZIq6NaDfhg
+	ufC2+F/or5b2aNjXIRv9PaLkXQLU7RLVyNY9NFKp5NyvqoFgR94Q86IQY4B9ITj5vNszEorkj5f
+	KVvzT/KZXv4jEoTc39VAaxgLIc+rVWCIPxuKZg1dhehmaUdpAkAqAOYHd+n+HtP2iO1pB7Tht81
+	5BAfQrvhKhA6eqmQL+kJVRFhDuZNpzEQIU6V9o8G7NgfjWjwpV6SHV2FStKbvgQoOOig6NSSJ/a
+	/LejBh8x97bFUtucOjd7SZbGkSqZ372evrUtRASFbhBzI/a2IuIugt0PThItyCNCoOAo+hoaI06
+	LSMIlRkZIT7cON4VLm+7F5eW91dAshd+UBYikKSmIxqs1k92wrKFteu2kJKOZw==
+X-Received: by 2002:a17:902:fd8f:b0:2e3:1776:278f with SMTP id d9443c01a7336-2ea43f52371mr22587935ad.42.1792602704368;
+        Wed, 21 Oct 2026 10:11:44 -0700 (PDT)
+Received: from localhost ([153.61.198.241])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea3b43478csm14601635ad.28.2026.10.21.10.11.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Oct 2026 10:11:43 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 21 Oct 2026 17:11:42 +0000
+Message-Id: <DMAOMH0CLDLX.127F7BRYUOQEG@gmail.com>
+Cc: "John Fastabend" <john.fastabend@gmail.com>, "Martin KaFai Lau"
+ <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>, "Yonghong Song"
+ <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>, "Emil
+ Tsalapatis" <emil@etsalapatis.com>, "Ihor Solodrai"
+ <ihor.solodrai@linux.dev>, "Quentin Monnet" <qmo@kernel.org>, "Puranjay
+ Mohan" <puranjay@kernel.org>, "Xu Kuohai" <xukuohai@huaweicloud.com>,
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, "Pu Lehui"
+ <pulehui@huawei.com>, "Catalin Marinas" <catalin.marinas@arm.com>, "Will
+ Deacon" <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
+ "Shahab Vahedi" <list+bpf@vahedi.org>, "Russell King"
+ <linux@armlinux.org.uk>, "Tiezhu Yang" <yangtiezhu@loongson.cn>, "Hengqi
+ Chen" <hengqi.chen@gmail.com>, "Johan Almbladh"
+ <johan.almbladh@anyfinetworks.com>, "Paul Burton" <paulburton@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, "Helge
+ Deller" <deller@gmx.de>, "Hari Bathini" <hbathini@linux.ibm.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Naveen N Rao"
+ <naveen@kernel.org>, "Luke Nelson" <luke.r.nels@gmail.com>, "Xi Wang"
+ <xi.wang@gmail.com>, "Ilya Leoshkevich" <iii@linux.ibm.com>, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "David
+ S. Miller" <davem@davemloft.net>, "Wang YanQing" <udknight@gmail.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-doc@vger.kernel.org>, "Tianci Cao" <ziye@zju.edu.cn>, "Yazhou Tang"
+ <tangyazhou518@outlook.com>, "Shenghao Yuan" <shenghaoyuan0928@163.com>
+Subject: Re: [PATCH bpf-next v2 1/8] bpf: Add UHMUL and SHMUL instructions
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: <tangyazhou@zju.edu.cn>, <bpf@vger.kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Eduard
+ Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
+ <memxor@gmail.com>, "David Vernet" <void@manifault.com>, <bpf@ietf.org>
+In-Reply-To: <20261021-bpf-hmul-v2-1-88e260099f7d@outlook.com>
+References: <20261021-bpf-hmul-v2-0-88e260099f7d@outlook.com> <20261021-bpf-hmul-v2-1-88e260099f7d@outlook.com>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -153,116 +125,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: O9dGQ657EvYUvopu8MCcJfosbsC4eWgA
-X-Proofpoint-GUID: O9dGQ657EvYUvopu8MCcJfosbsC4eWgA
-X-Authority-Analysis: v=2.4 cv=N768hG9B c=1 sm=1 tr=0 ts=6ad8f117 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=Ikd4Dj_1AAAA:8 a=EUspDBNiAAAA:8 a=z1Vexnt6jiiBlSUV7TIA:9 a=CjuIK1q_8ugA:10
- a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA2OCBTYWx0ZWRfX1b5BQuYnUDgo
- e1LEYFWZ9TSHRuyekT5NTOiuSyG2y+SY7poBQc87ENYHgggXEyWkX3tHFVbiL/dPezTLyb4cCJl
- M0zjcxjSgVQxXmIO3JbuTSd+f9l4Sd+oa6mYXLcx4ofMFOrqC1ZTZcC9lMtM8ILOD0PImi2ghvq
- 0le81d8bs4u1OauT8VjqNdL0OujG3XGJ6C0hTZ6Xv7v+B7LyxcOnd7eixTkgIVPV32yRPcJIdGF
- ZHMGJvXgULVVcCNsyxsMwR0FjLhoGm/eik3+y+jFjdfLu6M3rpKz5c8c1oD6m3/i4hzoPHUfCBj
- Ckg998adCK2RxN/rKReZu2skpQxtMJtzfeqprDAXXNZTz6xR+5NN5Fd1ay+rq8WCrB36KKYa1yA
- uFTc2KoC8AhZDvgyLNcs+egrWo9MzK3ime9fpaXzyo6fZPJar0lJaR7Du8K4RKe6rbLZJjKAF/E
- VQBv07ZrZ00e7XqpgHw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA2OCBTYWx0ZWRfX70tO3nvw0CU6
- lz8MNpnG+Gqij2IdrOC6rd73H6EUoc6+Al5JwR0d0WLnERutRBwYR94dZ2JH9n3BUCA+592mWwj
- OqQO/DiCV5CYRYX9EB/FwLza4hstMOo=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-21_04,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 malwarescore=0 suspectscore=0 phishscore=0
- bulkscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210068
 
-On Fri,  2 Oct 2026 20:31:45 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Tue, Oct 20, 2026 at 10:40 PM tangyazhou@zju.edu.cn <tangyazhou@zju.edu.cn> wrote:
 
-> There are three possibilities here, each a little different:
-> - relocating for kaslr, just request extra_size like the zboot flow does
->   when allocating from EFI
-> - in place, attempt to allocate from EFI precisely after Image to
->   confirm nothing weird is there, failing that
-> - like any other error with the in place EFI location allocate
->   non-randomly with extra_size included
-> 
-> Remove the callers' assignments of reserve_size since
-> efi_kaslr_relocate_kernel() now does it.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-A couple of trivial comments.  Otherwise looks good to me.
+> +static inline bool bpf_insn_is_hmul(const struct bpf_insn *insn)
+> +{
+> +	return BPF_CLASS(insn->code) == BPF_ALU64 &&
+> +	       BPF_OP(insn->code) == BPF_MUL &&
+> +	       bpf_is_hmul_variant(insn->off);
+> +}
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Patch 5 adds this check to 13 JITs and nfp to opt them out.
+Lets make JITs opt in instead, like bpf_jit_supports_callx().
+The verifier checks it once. x86, arm64 and riscv patches add
+bpf_jit_supports_hmul() that returns true. bpf_prog_is_offloaded()
+covers nfp.
+When JIT is on and it doesn't support them the prog is rejected with
+a message in the log instead of silent fallback to the interpreter.
+Then patch 5 goes away and only arm64 and riscv acks are needed.
 
-> diff --git a/drivers/firmware/efi/libstub/kaslr.c b/drivers/firmware/efi/libstub/kaslr.c
-> index 4bc963e999eb97..e419f3800af517 100644
-> --- a/drivers/firmware/efi/libstub/kaslr.c
-> +++ b/drivers/firmware/efi/libstub/kaslr.c
+Like:
 
-> @@ -125,16 +164,29 @@ efi_status_t efi_kaslr_relocate_kernel(unsigned long *image_addr,
->  	}
->  
->  	if (status != EFI_SUCCESS) {
-> -		if (!check_image_region(*image_addr, kernel_memsize)) {
-> +		bool image_region_ok =
-> +			check_image_region(*image_addr, kernel_memsize);
-> +
-> +		if (!image_region_ok) {
+diff --git a/include/linux/filter.h b/include/linux/filter.h
+index e0218e6..6ee8d1a 100644
+--- a/include/linux/filter.h
++++ b/include/linux/filter.h
+@@ -152,6 +152,13 @@ struct ctl_table_header;
+ #define BPF_ALU32_IMM(OP, DST, IMM)				\
+ 	BPF_ALU32_IMM_OFF(OP, DST, IMM, 0)
 
-Why this change?  I don't particularly mind but seems to be churn that isn't
-necessarily needed.
++static inline bool bpf_insn_is_hmul(const struct bpf_insn *insn)
++{
++	return BPF_CLASS(insn->code) == BPF_ALU64 &&
++	       BPF_OP(insn->code) == BPF_MUL &&
++	       (insn->off == BPF_UHMUL || insn->off == BPF_SHMUL);
++}
++
+ /* Endianess conversion, cpu_to_{l,b}e(), {l,b}e_to_cpu() */
 
->  			efi_err("FIRMWARE BUG: Image BSS overlaps adjacent EFI memory region\n");
->  		} else if (IS_ALIGNED(*image_addr, min_kimg_align) &&
-> -			   (unsigned long)_end < EFI_ALLOC_LIMIT) {
-> -			/*
-> -			 * Just execute from wherever we were loaded by the
-> -			 * UEFI PE/COFF loader if the placement is suitable.
-> -			 */
-> -			*reserve_size = 0;
-> -			return EFI_SUCCESS;
-> +			   (unsigned long)_end + extra_size < EFI_ALLOC_LIMIT) {
-> +			if (!extra_size) {
-> +				/*
-> +				 * Just execute from wherever we were loaded by
-> +				 * the UEFI PE/COFF loader if the placement is
-> +				 * suitable.
-> +				 */
-> +				*reserve_size = 0;
-> +				return EFI_SUCCESS;
-> +			}
-> +
-> +			status = allocate_image_tail(*image_addr,
-> +						     kernel_memsize, extra_size,
-> +						     reserve_addr,
-> +						     reserve_size);
+ #define BPF_ENDIAN(TYPE, DST, LEN)				\
+@@ -1281,6 +1288,7 @@ bool bpf_jit_supports_kfunc_call(void);
+ bool bpf_jit_supports_callx(void);
+ bool bpf_jit_supports_kfunc_ret_reg_pair(void);
+ bool bpf_jit_supports_unwind(void);
++bool bpf_jit_supports_hmul(void);
+ bool bpf_jit_supports_stack_args(void);
+ bool bpf_jit_supports_arena_args(void);
+ bool bpf_jit_supports_far_kfunc_call(void);
+diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+index f29b0aa..90c30e5 100644
+--- a/include/uapi/linux/bpf.h
++++ b/include/uapi/linux/bpf.h
+@@ -34,6 +34,12 @@
+ #define BPF_FROM_LE	BPF_TO_LE
+ #define BPF_FROM_BE	BPF_TO_BE
 
-I'd move reserve_size up a line to group it with reserve_addr.
++/* BPF_MUL off values for high-half multiplication; BPF_ALU64 only. */
++enum bpf_mul_variant {
++	BPF_UHMUL = 1,
++	BPF_SHMUL = 2,
++};
++
+ /* jmp encodings */
+ #define BPF_JNE		0x50	/* jump != */
+ #define BPF_JLT		0xa0	/* LT is unsigned, '<' */
+diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
+index 3030beb..e17704a 100644
+--- a/kernel/bpf/core.c
++++ b/kernel/bpf/core.c
+@@ -3405,6 +3405,12 @@ bool __weak bpf_jit_supports_unwind(void)
+ 	return false;
+ }
 
++/* uhmul and shmul */
++bool __weak bpf_jit_supports_hmul(void)
++{
++	return false;
++}
++
+ /*
+  * How this arch places a by-value kfunc argument, or NULL for one that has
+  * not opted in and so only takes an argument of a single eightbyte, which
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 5601d20..9a3c97d 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -21194,6 +21194,17 @@ static int fd_array_get_map_idx(struct bpf_verifier_env *env, u32 idx)
+ 	return -EPROTO;
+ }
 
-> +			if (status == EFI_SUCCESS)
-> +				return EFI_SUCCESS;
->  		}
->  
->  		status = efi_allocate_pages_aligned(*reserve_size, reserve_addr,
-> diff --git a/drivers/firmware/efi/libstub/riscv-stub.c b/drivers/firmware/efi/libstub/riscv-stub.c
-> index 725b634c517919..a88b2d275e5bb0 100644
-> --- a/drivers/firmware/efi/libstub/riscv-stub.c
-> +++ b/drivers/firmware/efi/libstub/riscv-stub.c
-> @@ -37,7 +37,6 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
->  	kernel_codesize = __init_text_end - _start;
->  	kernel_memsize = kernel_size + (_end - _edata);
->  	*image_addr = (unsigned long)_start;
-> -	*reserve_size = kernel_memsize;
->  
->  	status = efi_kaslr_relocate_kernel(image_addr,
->  					   reserve_addr, reserve_size,
++/* The interpreter supports uhmul and shmul. JITs opt in. */
++static int check_hmul_jit(struct bpf_verifier_env *env)
++{
++	if (bpf_prog_is_offloaded(env->prog->aux) ||
++	    (env->prog->jit_requested && !bpf_jit_supports_hmul())) {
++		verbose(env, "JIT doesn't support uhmul and shmul\n");
++		return -EOPNOTSUPP;
++	}
++	return 0;
++}
++
+ static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+ {
+ 	u8 class = BPF_CLASS(insn->code);
+@@ -21249,6 +21260,13 @@ static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+ 	case BPF_MUL:
+ 	case BPF_DIV:
+ 	case BPF_MOD:
++		if (bpf_insn_is_hmul(insn)) {
++			if (BPF_SRC(insn->code) == BPF_X ? insn->imm : insn->src_reg) {
++				verbose(env, "BPF_ALU uses reserved fields\n");
++				return -EINVAL;
++			}
++			return check_hmul_jit(env);
++		}
+ 		if (BPF_SRC(insn->code) == BPF_X) {
+ 			if (insn->imm != 0 || (insn->off != 0 && insn->off != 1) ||
+ 			    (insn->off == 1 && opcode != BPF_MOD && opcode != BPF_DIV)) {
 
+pw-bot: cr
