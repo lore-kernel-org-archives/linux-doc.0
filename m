@@ -1,107 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792609247;
-	b=ar4t1xrl/YMEEs759W7XuJbWMFddyO1/zjQypZWsWMczvEV8JSOjOLLDc+OGH3TOIcpn
-	 yYAIlKDXryKTt/Xk0rTnCMz3d/QsYQ1tueqkqXh+TUeZbJ8fS3X2UW+Uly3CDZASDUTri
-	 54OirwH8twmSQEbDFah9ZbC1Iovny3JOYw/z7pF/Yef83e8+sIpPXQ8WqSfTp/zEapr1U
-	 AHOu4KvddVDvUA1gtGA+prvfUMgEspWGObrvYbn7zN6CjNbkkvGC6refgihflM3fDzKKh
-	 S6TzQiNAoBCRXJxRXCsX6sT3aQmxCveu23cnAmcq8THyJCHxwlGUMdFIqgq/oAI1ScQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792609247;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=d6w8vdPkRx35FtPzRG9cWEaawAfaro5SQFJcZIIFWOY=;
-	b=UOvvdJf+0Tz7HiZIibAMIQRCLcUV3E2UlzEKFidl23j+5ZYC8sFzVZBtMchXJkdzwNkk
-	 PWFwSrKWfALxxJbHQEVegw3YoeNvCkWCKscZPS99i907MMLgDEi/dP9wEvLtflbP4nQ1R
-	 SMD/Lk8zOr+uISV+uEUxH4ywVnkcYTr2kq5QPQD6aytY5CMM6uRdlGs6mQxndwGPc56a7
-	 XrZFBQErPSqVNRFZ2LTrqzuWRK2UzQ/I2bwX3iujbrt86Fd2d5mmVnEHdLolUDOJOjVVh
-	 T0xQ5HCQclIgiUG2soS5d5/boYJ3A57CCfw/32+/lcpwaWOCaJhlO9owa1wBubG9M6w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=BEyvEi6N;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.43
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010043.outbound.protection.outlook.com [52.101.84.43])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792609534;
+	b=mPZ1/8Dmr7iITxmyljg+F78C2BI8wYx4DR5b+UO8BbfSjAjaD4I540lFZlSCm8mcQElT
+	 0GXRvmGzBILqTzyRQBgAgg7mA2VyE+IuSyhGmThbohjySoQ3XGuuiCQhKPwBZXCSN2soe
+	 MjsF+tYVdNrwicNVR8+tKtEdHVuctJDcXAeN+rK1px9P9cQ/4NbHiZacgcS/ZPikr4LmD
+	 iKbkKawVb6m8yPJ2WlG7CUr7Rl8lJ0HxDJqsQ/i8Q4vOLqIFpo7PcABr//q3PfkNccY3M
+	 G15k3CnxhART/CQ+otn2DVkoFcfB8tZXXDspvbPwsOS/MFSQ6giSx6Id8IzQnp9U8rg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792609534;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
+	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=xQ2SqnwVDG5xMzvzDIXO6M7gDqTy1UNMqzDsHAfACMk=;
+	b=jo/PwyEj4v7cvdYjgLzxFYLs8VuVfGBoGKdHcYKo4jIP6LwJQdvoI23/lXL0QeqpPdDP
+	 4dxKAJeTrZx5AuQvVaPtqFZsPDzY2jNJ8YXwRJTZHUXCGbB4CtZjS4/ndKSvFqVpnG5Q6
+	 j2gtn1P4+xDJTFWM3RLGy5F5MK7btI5nBAnoXyCZQCWyEsMq8bMyIst+smm9iZKyp2q32
+	 vs6PtDVpARkv/0+biJdY89WUHjTbpwIztMvz78rFHFUcjXJrAcivoOHFzw05MSyqe/Bi+
+	 zuFueATjrx8AkZrAE8llBuOP0alUhQjMXnoJsO++KtMICX2OUSlSsKYERBJk2g3IOig==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=coL7n6oI;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB04C606A325;
-	Wed, 21 Oct 2026 19:00:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB04C606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011F8606A31A;
+	Wed, 21 Oct 2026 19:05:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 011F8606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=BEyvEi6N
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m6KILQhqHNVvBcUlDNZhKm/uzViQ6MBz9R8WVBquKZjalpuCzMVkAw+9DcrJu0DuuSdbRqkOdC5dyL1BgCWpr4cIvHdZBxRZfDmY/kAgMI0e2/VmoWsSElv3I4ml6srCTYLDira7HU9pMoIAUGui5Z4VET8UcG+53eooNhPry2bfIrK4BVueJVzSD/WqSbXfqAcO1Qrj7CobFufRyTcvrNYcz1PeGoHttkzKtqm2cmI5seNmBjh2FZuoKMnbROyycdpCwamUP5tGWvZuoaWX2PCiiuoWw1jI0B4rOgvPRWkAvgzTZBBf9SrGuW+iePCZvNMrxmZVJ12vNgtuz9p9hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d6w8vdPkRx35FtPzRG9cWEaawAfaro5SQFJcZIIFWOY=;
- b=d9F+Vp3JwElGi6/JyAfgjQV1YWAYVZsASXdXq84OlKwp+u7P6s8e++SDy/aww74orGjcFsD2q3rFojpy4QOQtiHVXnAvG2lHrs85nqsYnu0KbNp/nma5qtgnJpJzsTiKbfsiQ1T8Gc9NiJU8MmwFW9c6rooBUxl12CeDv9F0QHuXfhX1Gsif0YsHudKBl514X6wBp/Y+luJ08sMNxzjjQt3p+jzgJIIfdAygMj+yI/k7mSIaVXD5k1UxnnoypXGcgt5CF/fq0jjqD8rIJ1NhILst1lPnXGDZaYScibVr5CIznBObdpaMLRZ+ERO60YVPFXN4lMfPpZN04o6vVgtpwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d6w8vdPkRx35FtPzRG9cWEaawAfaro5SQFJcZIIFWOY=;
- b=BEyvEi6NaL5Yfm4TPNo9igAhvB9wyTAr/FGVOP6t14hdYAMFVak65YBqGlo2raxjMa8rF42CVSNQ6888eprRKpoz7DKSmYZmmQCgaDPrCvHhDNufxmyAGTERpiJ9CboC4AF0rt5bAtsDguCNMvXXa8WniE3xSjICF5VEakHkEoCGydcKh/mVDKUjKZN9ixo0H32qsVudy4edH/ZiPDftrTXmyeL+kcMS775PWNowbsEiBQatN4dJ0D00HakXtq4xUmJCxGgfq8IXKHV46ff1c0PbErkekGdt/TEjBq+d20rwn1jqsw8VriU1F+HI4YXaXqdfOn4vZQj8RoQwBsvKmA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
- by PAXPR04MB9153.eurprd04.prod.outlook.com (2603:10a6:102:22b::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 19:00:29 +0000
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
- 19:00:29 +0000
-Date: Wed, 21 Oct 2026 14:00:17 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Frank Li <Frank.Li@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>, Niklas Cassel <cassel@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ntb@lists.linux.dev
-Subject: Re: [PATCH v7 06/10] PCI: endpoint: pci-epf-vntb: Allow DMA and MW
- to share a BAR
-Message-ID: <atkLwWs1uufsGkRV@SMW015318>
-References: <20261021042229.2280937-1-den@valinux.co.jp>
- <20261021042229.2280937-7-den@valinux.co.jp>
- <atjfwC1LTX3L6ncV@SMW015318>
- <fmnltbvuo6nm2sddmoqmpb6ema345rdqgavhf6xhrggnj7twpa@nlwyqy7zjppk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fmnltbvuo6nm2sddmoqmpb6ema345rdqgavhf6xhrggnj7twpa@nlwyqy7zjppk>
-X-ClientProxiedBy: PH8P221CA0037.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:346::8) To MI3PR04MB12438.eurprd04.prod.outlook.com
- (2603:10a6:290:76::14)
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=coL7n6oI
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LIE1B6208261;
+	Wed, 21 Oct 2026 19:05:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=xQ2Sqn
+	wVDG5xMzvzDIXO6M7gDqTy1UNMqzDsHAfACMk=; b=coL7n6oIAQolMtk9jv3xCD
+	IdOjROBbuS8cjUl20s1RZTJh4mekwegdSgpa4i2L1qYmOasx8S0/v0cu3MUxqjuQ
+	3VCnBeeJzA3TxPZX64Yhiy6b3At4DYvKAZ4+ZwN5vy0w1M0OJKdZ0JYsIYe7AZSK
+	FcmvztvzKFbdc7QtK++cBEEUbsdfAXXd3f0rxO9MsW7n05QxY581f8hdEonceQOA
+	CACZZBE/sHGxQqrT8NCDVgcpdYYdqRPbAo+1CipenFAZt+OEUzJYDXmysvjdywCs
+	x8QNQv2W64rPX/In2OSqbV+9nWruPsQOwizQozakHKOyzJCgY+3lRzlEsKYSyJQw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hdw5bk3jk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 19:05:14 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69LHopV93498329;
+	Wed, 21 Oct 2026 19:05:13 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hcmuh8gr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 19:05:13 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69LJ5CNV61080034
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 Oct 2026 19:05:12 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 909FD58056;
+	Wed, 21 Oct 2026 19:05:12 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 370605805A;
+	Wed, 21 Oct 2026 19:05:10 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.77.162.217])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 21 Oct 2026 19:05:10 +0000 (GMT)
+Message-ID: <8d8833fac61558a94af415143530884349584a2f.camel@linux.ibm.com>
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, Dionna Glaze <drdeeglaze@gmail.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-coco@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+        rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+        James.Bottomley@hansenpartnership.com, aik@amd.com,
+        jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+        jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+        suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+        roberto.sassu@huawei.com
+In-Reply-To: <20261021143529.GP3008132@nvidia.com>
+References: 
+	<CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
+	 <20261017203407.GM13920@nvidia.com> <atPgqROZZxnihYfC@kernel.org>
+	 <20261017231007.GP13920@nvidia.com>
+	 <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
+	 <atX9fugGUsI0hGcA@FV6GYCPJ69>
+	 <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
+	 <20261019225658.GS13920@nvidia.com> <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
+	 <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
+	 <20261021143529.GP3008132@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 15:05:09 -0400
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,277 +115,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|PAXPR04MB9153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18368393-92f1-4ddc-1163-08df2fa592ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|19092799006|23010399003|1800799024|261009223027099003|56012099006|10067099003|261021121427099003|6133799003|261021135927099003|18002099003|22082099003|261021123027099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	lgjdCT0EREUzFwwIROGne0n9h/CnLvkamOi0mDtGgQ+pM0dWp7ZYWztr8lacR1Ip7eU4P+1UTAuar7AQN5jyjka5H1Pzc/H6EYdmvs2sVJRr/ooI2/Lu/rvhR/hp4G1++V47dwezg8UhDON6340mKhIwZXFsKVUB4+UMTDyfYLMzIHUU7AqjHubVduEz+MURM+wMb17Bq61oOVqzI6MGob4WZWyyPclzwwBkVlnF6AHZM/gN6EnsTCN54EnSUMlsWuiSClPTmNK33CeknFJRx++FVlVr+qGqveWfoR6Dgk/zxB2SRlkSLWTWY8d+ksCwIUHg03Zo1nysr8f/qXeHkbNzck/pKXtGKTXFOOePoib76dWydjeLp6PedNiRNawAxurpN9NJgCgpC5p7w1h1H/iiSKKAzdNo5YTtZvex8J036GeY16frfphnUbrg/4fm6JIDye4Xd2gdeVGE8ewHufFtnP39CT4Z5HCBYjGH7jenIwnkCOq/1NCaVbK2e6UaYY0YrQDe4F0l7DwrAdoLvAjHab+I9lVnyigLbO0b1lzjv4keOm09r76DbANZ0SCP9d1A8wwCINn7jSjsFCbLLFRFtz4l9D8+zw5nVR1Z+nxfKz0goqhOKLk9E/VTa0M7U2ba9z+CQTmcYKRB5HQJE0HzFGd3REvPpqdisWwoiBo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(19092799006)(23010399003)(1800799024)(261009223027099003)(56012099006)(10067099003)(261021121427099003)(6133799003)(261021135927099003)(18002099003)(22082099003)(261021123027099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?34og3SwNDTDrmI5YqIenQIhHVbsCB27qA02Mr9lh4bDRgW3Lv3jv6jwpf2Ox?=
- =?us-ascii?Q?WjKTw43AIszZGqiSvts4t/Bizc0a01RJRnxirjOaKLFcRQrXTsp8MnYFrhpe?=
- =?us-ascii?Q?gbg20iWLb//ub6PLBGHkISyuzWKMszAvguJq7mf/g98nAOXt+r0tDTotViel?=
- =?us-ascii?Q?pdfdyaJ4Zu+SJMxX88uFrwX6nSG2Nb7u7jo6akxRrl8vYqHouEdug7B2A5vV?=
- =?us-ascii?Q?Phyw3F/5ikQRKz3pdbcNAkHuVMoyr+O69BNzmrgTYEneI6roCF83Rmy4vqlx?=
- =?us-ascii?Q?piq7UrZwwxdDlI5isnWEtiLem4WPsGj2cB/faOQrIC7koZtp8KkUecXSPR2H?=
- =?us-ascii?Q?ET0t93ALmr+WTxvbTnSpSUocGLyovP5owsv54co7TXfp41zXVjxhk0Kh66MI?=
- =?us-ascii?Q?5m9ooO53EFu6i/GmGpm/3vLKuBWL8u6Nj6TSdz48lbhanVfBLxHqHbrfbF0r?=
- =?us-ascii?Q?Hp3OW17cTxAep6DGqs/Ed3EcRTR1hdYHcJVGTPtKLLbq6Yn6S/rgP6Y+pY1X?=
- =?us-ascii?Q?a1Mv722XRAGMkzteee0IYdrPfYEd/gTMqxHt5g++m3ukx4tuFExutksWsA35?=
- =?us-ascii?Q?NMrudJyk3UPzhVnuYS0QM2OkHBGwDDJE0OpoqdLuc55xgcjRooMuWGzodVrv?=
- =?us-ascii?Q?90Ye/E0qjEAx9tjkNsgp2YGX/CUCGOydyfBGT8RRpvuujA2IqkrjJ+NUJ5Nh?=
- =?us-ascii?Q?FIrzTJrCR51qoLZDGnV674X9vW1a/f2fQLo3M/MaALapsVeb9Fy+Yh4dEt1I?=
- =?us-ascii?Q?iDEbpPugka4GtLyY1Z561gjZJ+bmZVJt61BxyRAgh5JnOM7MQjnAXS/6qJZ+?=
- =?us-ascii?Q?DO6xYojjIPYY/JSQr/78GRnR9/1yqTReKBHFGN/8GvfUOATZh+0jxf+ewWNA?=
- =?us-ascii?Q?5gYIPpVBTPXhtpFqxZXaCLkgFnEi+JmfcOtXA9TKEjDLCrjl7LrDvQpWDOtc?=
- =?us-ascii?Q?4rtzIWWfVkRfjDzsDKJgsRoC9ce1W6jeU763ZVp+ycmnulWgULUKRuCvZeup?=
- =?us-ascii?Q?YQXmUSLo0K4xsdyoq08yGCfV0i/9ECHl4F70wK/7yU412vw88SAtBiaoesvv?=
- =?us-ascii?Q?yLgTiZaExl2EKrqMCq0CaEfgfekgPDlKC1FCdUTSf7Uv3XPwvnEwhqXeAcE/?=
- =?us-ascii?Q?MO0DtJg944XykBUvcad2vy737olW3tFNUcESmV16HHmssrhEXRCDhU43bdnz?=
- =?us-ascii?Q?qcuRZpaQQX22Uz9iu6LUowusYbIq0zj9JUf+l9MdgMVsQUIYlCIoViPT4n6v?=
- =?us-ascii?Q?WxNhtfowiuJjOcszbNQ0EykP5MAPM7SjOBexcZCWxMVUUrGtuKEbTCxeE7oo?=
- =?us-ascii?Q?nKChCvprRRH7eIpVQnkk//gwN8xGQujDwk+xV4aTp03rJXnurJhScmqMkBss?=
- =?us-ascii?Q?Mi6+Sk8VXeiq68sKK2o+rAiANoISFnsp2Rux7ceUefxJyOwPRjPxrLzko9h3?=
- =?us-ascii?Q?dLuwzstI5E3hGMG1aF9t/Bh2MbLTtGU6M6j1SMKcRR1Yw6/5aPbc9P3Ahalx?=
- =?us-ascii?Q?xdGJPEjb9LopAClH4wODZ0MDe8186uUYaurmRzd6XxZlZ5sn8JnIR7heNon6?=
- =?us-ascii?Q?rfQjGRjAytTQTDu9DqHvNipYGLZoDynILhQ6uGW8yjdUVV77/HKxTRq9lgXw?=
- =?us-ascii?Q?UPKe8inIDMB6rSVdL4W6MCuBwgAbUjnK8rhtKycEnz8oLAhfgd2XPLBi8Dps?=
- =?us-ascii?Q?limnDukGrUy2UuuTFz1Pasixr96H4mTiA8qxFcMFi6isdy+NTacj0EJ7pncC?=
- =?us-ascii?Q?Jj4DkGiHBAvBX5/HiSqQrlz56xUM7HoSEYPmycCN/4i88jESFGvt?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18368393-92f1-4ddc-1163-08df2fa592ec
-X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 19:00:29.3173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LlyxGnPIN6ry0E71y4eo4eKzmLI0b+tJKdwR6zfMCx7gmGdQmCIELJtztxUAP7+MObXZBbR5IgFHB1rAaDN9jl7BhrAntyMja7d6CfKapEETk+eQ8DgaAo/LfSXZZM9+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9153
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: ydaOzlwPIUk9SIhOIcCkK3SVXfS2DDcg
+X-Proofpoint-ORIG-GUID: GzBYn879Oa5NzXnY4sgOMq8X1dbUx1fB
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfXwyVoKuAud310
+ A3MMgRuO3P9BfDlryZr7ihLhpK+1PPfP0xO1xgsoY0qD3mT++OvGba+8UA0zkcoD+iWg/elNtcH
+ Z8gPzXT/JWDMgUcPZBCKi26sOkrkUsY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfX1hmDKI4a0lIN
+ oCbznsJRgcS0JN6foELRHP6ISHyPt+L/UW64K16gcO4VrYiohYmtKf0oW63pkMniBR5FA572QN5
+ ieNRoOqQ5C+MUuzixWaCYc9xzLcGBWUGx03ndwS3NTq8ewrjFeaaF25ZgavBj0gzJcdgbUGxSh1
+ z/ImEgbAtQpFnbxfpY5IGBnzAOUVBhPlq7kbzT4jo+YS8enEUnhx0XveFs7pUFwmfqtIhy7rfMr
+ /eNM5pZnlbLbm0Swwddnnl31pEYsNFSv3Bp6+k2s2ORgrk1ke5QlzwIRPi80LBWPLiKzQs+u8rS
+ SF8vdtLnNGB//AB0FOdXciN8gmxl2uGcWMN78g8nK/9aLNTmGVGxuGAPsMu90zKkHsZHcndSc2b
+ gg2i2oceWWm/HafsY/e03vEgK0dQEZfnGympFncPnRryoEodcVL2DFBslRUkKJieyf7rN1+dJEg
+ a9Wr0QwuxTURorMH4dw==
+X-Authority-Analysis: v=2.4 cv=Gb2CDgXL c=1 sm=1 tr=0 ts=6ad90ceb cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=yVQDdmlqToHGFoNqkO4A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-21_05,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 malwarescore=0 spamscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610210074
 
-On Thu, Oct 22, 2026 at 01:35:18AM +0900, Koichiro Den wrote:
-> On Wed, Oct 21, 2026 at 10:52:32AM -0500, Frank Li wrote:
-> > On Wed, Oct 21, 2026 at 01:22:25PM +0900, Koichiro Den wrote:
-> > > Some endpoint configurations have no spare BAR for DMA resources. Allow
-> > > dma_bar to select an MW BAR and place the DMA ranges after that MW.
-> > >
-> > > DMA submaps have fixed BAR offsets, so a shared MW translation must
-> > > cover its configured size. Report that size as the translation alignment
-> > > and require it to be a power of two.
-> > >
-> > > Older hosts treat the whole BAR as an MW. Require the host to advertise
-> > > MW/DMA boundary support in LINK_UP before enabling a shared-BAR link.
-> > >
-> > > Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> > > ---
-> > > Changes since v6:
-> > >   - Split out the host-side changes. (Frank)
-> > >   - Require MW/DMA BAR boundary support in LINK_UP for shared BARs.
-> > >
-> > >  drivers/pci/endpoint/functions/pci-epf-vntb.c | 154 ++++++++++++++----
-> > >  include/linux/pci-epf-ntb.h                   |   3 +
-> > >  2 files changed, 122 insertions(+), 35 deletions(-)
-> > >
-> > > diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> > > index ac83af54122f..721cd841a1dd 100644
-> > > --- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> > > +++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-> > > @@ -84,12 +84,13 @@ enum epf_irq_slot {
-> > >  #define MIN_DB_COUNT			(EPF_IRQ_DB_START + 1)
-> > >
-> > >  struct epf_ntb_dma {
-> > > +	struct mutex lock; /* Serialize DMA submap and MW updates */
-> > >  	struct epf_ntb_dma_ctrl ctrl;
-> > >  	struct dma_chan *dchan[EDMA_MAX_RD_CH];
-> > >  	void *bar_scratch;
-> > >  	dma_addr_t bar_scratch_phys;
-> > >  	size_t bar_scratch_size;
-> > > -	struct pci_epf_bar_submap submap[EDMA_MAX_RD_CH + 2];
-> > > +	struct pci_epf_bar_submap submap[EDMA_MAX_RD_CH + 3];
-> > >  	struct pci_epf_bar_submap *reg_submap;
-> > >  	unsigned int num_submap;
-> > >  	u16 rd_ch_cnt;
-> > > @@ -229,6 +230,22 @@ static bool epf_ntb_is_bar_used(struct epf_ntb *ntb,
-> > >  	return false;
-> > >  }
-> > >
-> > > +static u64 epf_ntb_dma_bar_offset(struct epf_ntb *ntb, enum pci_barno barno)
-> > > +{
-> > > +	unsigned int i;
-> > > +
-> > > +	for (i = 0; i < ntb->num_mws; i++)
-> > > +		if (ntb->epf_ntb_bar[BAR_MW1 + i] == barno)
-> > > +			return ntb->mws_size[i];
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static bool epf_ntb_dma_shares_bar(struct epf_ntb *ntb, enum pci_barno barno)
-> > > +{
-> > > +	return ntb->dma && ntb->epf_ntb_bar[BAR_DMA] == barno;
-> > > +}
-> > > +
-> > >  struct epf_ntb_dma_filter {
-> > >  	struct device *dev;
-> > >  	int chan_id;
-> > > @@ -353,6 +370,7 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
-> > >  	unsigned int i;
-> > >  	size_t align;
-> > >  	u32 next = 0;
-> > > +	u64 offset;
-> > >  	int ret;
-> > >
-> > >  	if (ctrl->u.dma_ctrl.reg_layout_data != EDMA_MF_EDMA_UNROLL)
-> > > @@ -371,9 +389,30 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
-> > >  	if (!is_power_of_2(align))
-> > >  		return -EINVAL;
-> > >
-> > > -	if (epf_ntb_is_bar_used(ntb, barno) ||
-> > > -	    pci_epc_get_next_free_bar(features, barno) != barno)
-> > > +	if (barno == ntb->epf_ntb_bar[BAR_CONFIG] ||
-> > > +	    barno == ntb->epf_ntb_bar[BAR_DB])
-> > > +		return -EINVAL;
-> > > +
-> > > +	offset = epf_ntb_dma_bar_offset(ntb, barno);
-> > > +	if (!offset &&
-> > > +	    (epf_ntb_is_bar_used(ntb, barno) ||
-> > > +	     pci_epc_get_next_free_bar(features, barno) != barno))
-> > > +		return -EINVAL;
-> > > +	if (offset > U32_MAX)
-> > > +		return -EOVERFLOW;
-> > > +	if (offset && !is_power_of_2(offset))
-> > >  		return -EINVAL;
-> > > +	dma->ctrl.submap.offset = offset;
-> > > +	next = offset;
-> > > +	if (next) {
-> > > +		/*
-> > > +		 * submap[0] covers the MW prefix. Keep its temporary
-> > > +		 * target at address 0 until the MW translation is
-> > > +		 * installed.
-> > > +		 */
-> > > +		dma->submap[0].size = next;
-> > > +		dma->num_submap = 1;
-> > > +	}
-> > >
-> > >  	dma->ctrl.magic = EPF_NTB_DMA_MAGIC;
-> > >  	dma->ctrl.revision = EPF_NTB_DMA_REVISION;
-> > > @@ -408,7 +447,7 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
-> > >  		chan->desc_addr_lo = lower_32_bits(dma_addr);
-> > >  		chan->desc_addr_hi = upper_32_bits(dma_addr);
-> > >  	}
-> > > -	dma->ctrl.submap.size = next;
-> > > +	dma->ctrl.submap.size = next - dma->ctrl.submap.offset;
-> > >
-> > >  	dma_dev = ntb->epf->epc->dev.parent;
-> > >  	for (i = 0; i < dma->rd_ch_cnt; i++) {
-> > > @@ -481,6 +520,8 @@ static int epf_ntb_dma_collect(struct epf_ntb *ntb)
-> > >  	if (!dma)
-> > >  		return -ENOMEM;
-> > >
-> > > +	mutex_init(&dma->lock);
-> > > +
-> > >  	switch (ctrl->u.dma_ctrl.reg_layout) {
-> > >  	case PCI_EPC_AUX_DMA_REG_LAYOUT_DW_EDMA:
-> > >  		ret = epf_ntb_dw_edma_collect(ntb, dma, ctrl, resources, count);
-> > > @@ -551,7 +592,7 @@ static int epf_ntb_dma_bar_init(struct epf_ntb *ntb)
-> > >  		return -EOPNOTSUPP;
-> > >
-> > >  	barno = ntb->epf_ntb_bar[BAR_DMA];
-> > > -	mapped_size = dma->ctrl.submap.size;
-> > > +	mapped_size = dma->ctrl.submap.offset + dma->ctrl.submap.size;
-> > >  	/*
-> > >  	 * Submaps cannot be installed until the host assigns the BAR address.
-> > >  	 * Use address 0 for the temporary BAR Match Mode mapping, as is done
-> > > @@ -607,21 +648,25 @@ static void epf_ntb_dma_bar_clear(struct epf_ntb *ntb)
-> > >  	memset(bar, 0, sizeof(*bar));
-> > >  }
-> > >
-> > > -static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
-> > > +static int epf_ntb_dma_set_bar_locked(struct epf_ntb *ntb,
-> > > +				      const dma_addr_t *mw_addr)
-> > >  {
-> > >  	struct pci_epf_bar_submap *old_submap;
-> > >  	struct epf_ntb_dma *dma = ntb->dma;
-> > >  	unsigned int old_num_submap;
-> > >  	struct pci_epf_bar *bar;
-> > > +	dma_addr_t old_mw_addr;
-> > >  	int restore, ret;
-> > > -
-> > > -	if (!dma)
-> > > -		return 0;
-> > > +	lockdep_assert_held(&dma->lock);
-> > >
-> > >  	bar = &ntb->epf->bar[ntb->epf_ntb_bar[BAR_DMA]];
-> > >
-> > >  	old_submap = bar->submap;
-> > >  	old_num_submap = bar->num_submap;
-> > > +	if (mw_addr) {
-> > > +		old_mw_addr = dma->submap[0].phys_addr;
-> > > +		dma->submap[0].phys_addr = *mw_addr;
-> > > +	}
-> > >  	bar->submap = dma->submap;
-> > >  	bar->num_submap = dma->num_submap;
-> > >
-> > > @@ -631,6 +676,8 @@ static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
-> > >  		return 0;
-> > >
-> > >  	/* A failed dynamic update may have already removed the old mapping. */
-> > > +	if (mw_addr)
-> > > +		dma->submap[0].phys_addr = old_mw_addr;
-> > >  	bar->submap = old_submap;
-> > >  	bar->num_submap = old_num_submap;
-> > >  	restore = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no,
-> > > @@ -642,6 +689,18 @@ static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
-> > >  	return ret;
-> > >  }
-> > >
-> > > +static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
-> > > +{
-> > > +	struct epf_ntb_dma *dma = ntb->dma;
-> > > +
-> > > +	if (!dma)
-> > > +		return 0;
-> > > +
-> > > +	guard(mutex)(&dma->lock);
-> > > +
-> > > +	return epf_ntb_dma_set_bar_locked(ntb, NULL);
-> > > +}
-> > > +
-> > >  /**
-> > >   * epf_ntb_configure_mw() - Configure the Outbound Address Space for VHOST
-> > >   *   to access the memory window of HOST
-> > > @@ -780,6 +839,13 @@ static void epf_ntb_cmd_handler(struct work_struct *work)
-> > >  					     EPF_NTB_COMMAND_STATUS_OK;
-> > >  		break;
-> > >  	case EPF_NTB_COMMAND_LINK_UP:
-> > > +		if (ntb->dma && ntb->dma->ctrl.submap.offset &&
-> > > +		    !(argument & EPF_NTB_LINK_UP_DMA_MW_SUPPORTED)) {
-> > > +			epf_ntb_set_link_enabled(ntb, false);
-> > > +			dev_err(dev, "Host does not support MW/DMA BAR sharing\n");
-> > > +			ctrl->command_status = EPF_NTB_COMMAND_STATUS_ERROR;
-> >
-> > suppose it should be fallback to old method?
-> > EPF_NTB_LINK_UP_DMA_MW_SUPPORTED is new feature.
->
-> It's possible (by using the whole BAR as an MW), but I personally think the
-> extra complexity would not really be worthwhile for this case.
->
-> If a "New" endpoint is paired with an "Old" host whose kernel cannot be
-> upgraded, the DMA feature cannot be used anyway. For that setup, I think
-> disabling DMA export with dma_bar = -1 (the default) and rebinding the endpoint
-> would be sufficient, with host re-enumeration as needed.
+On Wed, 2026-10-21 at 11:35 -0300, Jason Gunthorpe wrote:
+> On Wed, Oct 21, 2026 at 10:12:34AM -0400, Mimi Zohar wrote:
+> > > > I think for now we should not include a new dynamic log here, the u=
+API
+> > > > around this Jiri drafted can remain a future step. I don't want to
+> > > > open complicated discussions about new functionality at this
+> > > > stage. The whole CTLV idea in general is a big enough thing to bite
+> > > > off for this series.
+> > >=20
+> > > Okay, dropping the log from this set.
+> >=20
+> > Thank you.  Please keep in mind going forward, that the scarce hardware=
+ register
+> > limitation (like the 4 TDX RTMRs) should be resolved (e.g. by multiplex=
+ing the
+> > extension path), not by combining distinct measurement lists.
+>=20
+> I'm not sure what you mean?
+>=20
+> Since the HW doesn't support sealing the only *technical* requirement
+> is the verifier can reproduce the measurement register hash. So long
+> as we can get there we can do whatever.
+>=20
+> Multiplexing extension alone isn't enough. We need some scheme to
+> reconstruct interleaved logs too.
+>=20
+> For example we could add an atomic sequence number for each
+> extend. Every log sharing a register can report the sequence
+> number. The verifier would have to globally sort all logs to confirm
+> the hash.
+>=20
+> Hopefully we don't have to tackle this problem. I hope that 4
+> registers is enough for Linux. One for IMA, one for systemd, one for
+> user? Plus a spare!
 
-At least it should work without using DMA as previous version. Assume build
-as PCIE card, which have already prebuild image, which may plug into any
-host machine. You can't require user to rebinding endpoint software.
+Agreed, I hope you don't have to tackle it either.
 
-Many PCI card have not provided any console after production.
+>=20
+> Maybe we can build a multiplexed scheme on the spare? I don't know.
 
-Frank
+To avoid interleaving the logs, AI had suggested multiplexing or virtualiza=
+tion
+of the RTMRs.  Whether is has any merit, I'll leave to you.  Here's the ver=
+y
+short AI explanation:
+
+"Instead of allowing external drivers or subsystems to execute a direct, ra=
+w
+extend command to a specific hardware register index, the new attestation
+subsystem should act as a Hypervisor for Registers."
+
+>=20
+> But we almost certainly need to have logs sequentially created in time
+> occupying the same register. Ie IMA may take over the register from
+> UEFI logging. Here we'd want to report the start/end hash values of
+> the logs back to userspace so the verifier can stitch the order back
+> together.
+>=20
+> It would also be nice to think about a way to restrict the registers
+> to help avoid multi-user conflicts from misconfiguration.
+
+That would definitely be a plus.
+
+Mimi
