@@ -1,55 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792575744;
-	b=NGceT6FNJSLrmamOJdmMkac/cxqRkOmI+tsPhMT9FyIfxQvMhYG48c3l/HGxlUZFCZhk
-	 A652LP7j7yA13kztMEYa/WssxWmDsjGWrsnsb84iOUWnZveNH30UkdrX97EYQNBJVdEPg
-	 a+rQnx0BGGcs4vfq1Uxw7C0ETYDXUf4RsXG2ceR/zeqg0nmStpUkO3bj42IeXPqZ607WD
-	 eUNRmd3+S9CXVHPbGGtVGlQFX4O3Qqj3W6xF3ExiUVtvX6gFXp/QGm741ogvH5D6AtZgv
-	 Wa5TqMfwDUjDwypHxifeq4u88gW04DthbDJF28Pmw6aMhAih6KXl2esJ7vBZSX1vvYA==
+	t=1792576124;
+	b=upvGOoLjN399wlxXNG47wwgZukmEqKchhU2Fsd5lP1NvIoWY/CuqPhwOKdUevw0reNp5
+	 a1xNSEYafcVKvqZ4qGecTjJI7duFyD+fjWv7ki3xm4wOn/sBe0S1qkQmueDb0R9JcAIev
+	 yzO/+wceg3KFgyS18dXDRN3Fft1hURYSQE689iSCUafky7uMegwvq1cawhFV+0npU06Yt
+	 vW0mJv9ok4cKr5V4JMFNlSfGTVbX7pntPK6HoOlEi7UQ/a+ZjStHXQo7HU0wM3+AEW1uD
+	 n4Eie/XXa4DVN4LBZA/q0H9QNYDH3IhfdwUTyf1lJjnCWhR1YQRVZf6TlRiYySQurAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792575744;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=8G57XmwynB3mR6uqi8qOOjUgqBbEb9SN5unyoR6cdBc=;
-	b=3vbl/yRxG0oN+RTDkHaeE/pA2YBzDaMLvop59kAVSUOP//OJJe1P4APpvqvVccq/AYT1
-	 jHjk2O0VCP+ZNFx2ekp+FMAwvZKhlK58T0LRUoJqd8/l7/5/RfWUalG2COP4QtL4M494f
-	 ElyVf0h0yM/xoF10siYEfElzayXGlfnxZqYXsBR6KA9tOd7KqObc7j320X+Nl4wOFVUv+
-	 HvINjvigbx+BX6IW9oCt62e2E+Y0zDdWOO8VkUSB+m4C1rtmGM7d573lLC6VO3o2hEd7O
-	 t4PkbMg9kP7QqUpcCOdcceYGqbBag2Zcz0eRMm38Qs80AwbIfkfUJkth6LRxQyAbU9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792576124;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
+	b=DbJ/9mxDjrVVCfy8jLhLoV0gFObAIxJG7sbvxDqEchMY8b6T0TWIsJc/Db2UXJTEI1u7
+	 pRgyOCppDhWioOhq67szLWhx71YNCbjFchWTVd9K9kFUzErUVcK7oHjaXveIxSF+gN9JY
+	 CdsDQqFZy3NgmZq7YSwarOHwYYaVdSeii/6CX1KGFXVRLe7XN7uxgW/hA6lfWYhLNbgWu
+	 AzONh0wXwj73cHCau9uERILI1m2zFe7cr6g7o2/4dfoLcTlQ0OuTY0y9rP1uT9Vi9ZMAp
+	 ggs2rMhQ/kLmVkldJwqoSDNPcz2RqZYsICGG1QGUO5el+127XmKMMwN3AMNVRMyr/Tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jilo8k6Z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iAyP185u;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=fOIDGL33;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008B7606A320
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A146606A326
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:48:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A146606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jilo8k6Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D62E1F000C9
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792575743;
-	bh=8G57XmwynB3mR6uqi8qOOjUgqBbEb9SN5unyoR6cdBc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Jilo8k6Z5wiwnrH4plvBWdxS8RtonTg/JgZofxZHOOXxDzU8nFF6LsmfOjOgIikTC
-	 ddSVsbXALA+BsGCsSOppLQ1BdnD88owUzKlN5rY/DiDqEDmwS/VDJwB72CUkL/fyMQ
-	 PJrxg8ms6x11WCb1ryTiPltSt+QYeAJinNHVpecKVCgqjy0sLMiGx0k83cJp4orDEp
-	 hK0DW/3Outxkn2sdWPm1l2a78M+rTs1KFy5r09Ww5R2lbukzefQyRt1v5+2EpLBSWR
-	 vBTcsrTQCio72mFDkCi47TM96QapYh9ntgmQ1KL20OFcxyFdJB/xT2e2cNsvt9h+gq
-	 vofQPTxDvMP2A==
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f20b304c0so60390785a.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 02:42:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwnZKwqAjisUM/aaIaJJKzsrHkRG8OQv3Hi4GX0zb24Uyfr8R3inyXOTea1SjRo8A/ZLpt4qKaKAQ4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJxiueUwvGcoLrH0rfNIzI0dpBmZPWDqbTDzjoqGdtVbS44mZZQ
-	eWEso9y4CU0NsjM95zHKho9TWPYTPiZaYqX/zukwTBykn9pJ0ucf4MxJR9itpriNnhGpNfsqpd/
-	4sAHFs1gJibcuMp+LFbcuzhVgEwCkdpk=
-X-Received: by 2002:a05:620a:40c1:b0:93e:6283:eba6 with SMTP id
- af79cd13be357-93f57f1cf03mr308028285a.38.1792575742833; Wed, 21 Oct 2026
- 02:42:22 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iAyP185u;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=fOIDGL33
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792576122;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
+	b=iAyP185u9WCtzmuB8Ga4yrARIPQVN7dKL8XtML1yGN+8qXVmsTraOqIDXcwem8ihrFkYoG
+	iIUyEFy2XXpoXNT2BCTzcuhDTEFBTrtLcuJS0slTVJolgVae53OSzvK1ZSON2zR7BDGAre
+	kS8k+OU/t2Ux1AFF43dYFz7wyb0kp6Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-623-S_CpoTKSPZy17BICNuuTuQ-1; Wed, 21 Oct 2026 09:48:41 +0000
+X-MC-Unique: S_CpoTKSPZy17BICNuuTuQ-1
+X-Mimecast-MFC-AGG-ID: S_CpoTKSPZy17BICNuuTuQ_1792576120
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a01d1fb07bso6570915e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 02:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792576120; x=1793180920; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
+        b=fOIDGL33NTrxPKx+BfsSsDVnXGS4e8t1HJJGUsc3zBeYFcQ3ytvC0qEBRWjlfcyZrr
+         ZCckOHMhq0gDAviC7f++/hBeFg2lT7fA0dttpTW7BGm1HhGK9eEMaPmE7TDHycXFjXHk
+         h7isdhUMxs7yCNSiurFJE3JaxJ7pN3pn9BsYs9SHANIIphkdRwNpO4FR9itNunWMSxhy
+         771t03Cx22KDx1i08QAh+IExKyggLErVRHkGmOFSmSqteiSE5s2VW/g06SXItYaSgVJN
+         K4stLeA5BBNcDnmNyRisJHaTIbAhf60v4At2UHbhm/fT0XdPXzWoegysEI2GbNcnjv+Q
+         j4HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792576120; x=1793180920;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
+        b=VlfpXPbrrnvdXbnXPVhMuPm7seZnAuDCV8t/dzn5/hG8o6yEbnt1xnVssQmwBMpVRh
+         MJG/cQZxZ/U+n9Uv91Nsn8r31JgC4kGxs8QtClQFLoDzFFQbE71sc9a+O1cSgqXw9ElN
+         2/dakkl3sF19Z61985JeoMP1XF6JT6CX9uQ74TwAmbp9gFx+A7ZSW+Nqyctz3qlK/bCR
+         nK2Y4R+8VjImZOyU0DAP31B//hqcdljb9FdoH6Gs9HL2rRRvgerPOJ5bPMFbt74ZMRmh
+         m6WelOt1MPUfFGEOMJKfNTBHtUP1hiNEt+Ax3jyFkJvMo8P+tWVYybQmE1AWTy7/tCFR
+         aPog==
+X-Forwarded-Encrypted: i=1; AKwUvBy0eBaL4cG5YwKB3LQEMqNlRAXNaJoHmKfVdATFu5FVLVHnpd72BhtfbuCu8NzK/6r/J4VW7FXBjGw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLL7h3BYQR6aKMUZHb29c9RJTtmHQSB+NK6t8R3v90x8fabyMqR
+	ZRMYRbYD73oGroqCSfMkqJl7EpShknVq2egSM04md0ry3RPYV/b7CTr3ksYRFUG/s1Eaw1RuesA
+	g4gFo5DuAVvRN1eIL4XcH250tEsntoS5WLTMEPPVqxacV28Ddc8Bdl8GNyv8OZA==
+X-Gm-Gg: AYBFou2hvDTV5SMSmdlPDdcqHgM6b0kB59YcZ/k0PuOChHsrRouiXG0iyUngSSTQ3rO
+	l92gluUqMIaGeotVH0ASuHyEBRpDV6vW6pwOUNLLyE/egXTs52b7NARPXqnmq88sFcl62/lFDvz
+	FHMgWVDHQv8o4Gmblrw1EV7MSWo0AZcR4Uv8EyPzwO9iiYwnVYnsxnRMJmy0zVQDxQm4jOA6N/G
+	vuBBG8bYipWiVRW/tywzb3v88lGbA15Tk6KxcIOJFsrNf7lv1HXLXKeZRU12+ALT2szWMcM89Am
+	TWUYBp9o4i2oltpJMt8MQCl0u1qx+huFffqdXOKIRAfthHsWTsu1tLuZdNIdwLkI5/gE476nIMZ
+	rVb/FZA==
+X-Received: by 2002:a05:600c:6085:b0:4a1:d0e4:2bc7 with SMTP id 5b1f17b1804b1-4a1fdafd610mr29312575e9.15.1792576120202;
+        Wed, 21 Oct 2026 02:48:40 -0700 (PDT)
+X-Received: by 2002:a05:600c:6085:b0:4a1:d0e4:2bc7 with SMTP id 5b1f17b1804b1-4a1fdafd610mr29311875e9.15.1792576119740;
+        Wed, 21 Oct 2026 02:48:39 -0700 (PDT)
+Received: from sgarzare-redhat ([193.207.178.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fc1b227dsm52096435e9.6.2026.10.21.02.48.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 02:48:37 -0700 (PDT)
+Date: Wed, 21 Oct 2026 11:48:30 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@meta.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Eric Dumazet <edumazet@kernel.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
+	Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: Re: [PATCH net-next v4 0/7] vsock: assign the guest vsock device to
+ a network namespace
+Message-ID: <atiKKS3piuBLEiSd@sgarzare-redhat>
+References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,91 +124,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
- <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <20261014195354.GA371161@cmpxchg.org>
- <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
- <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org> <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
- <CACePvbVbMPZTrD5y=--XgBS+sa4CHb7e4RFTYCbWfzHzVc3vXA@mail.gmail.com>
-In-Reply-To: <CACePvbVbMPZTrD5y=--XgBS+sa4CHb7e4RFTYCbWfzHzVc3vXA@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Wed, 21 Oct 2026 17:42:11 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4w0A_xwGZrhZWqUB1Csj1QsMx3VzjwKuSSrP0ajymCw=A@mail.gmail.com>
-X-Gm-Features: AclHuK-Lnt40pgtt6cgtli_2uN4Jy8RyL6YrVOTjl81POv4J0v-Ixt1q8_SZhk8
-Message-ID: <CAGsJ_4w0A_xwGZrhZWqUB1Csj1QsMx3VzjwKuSSrP0ajymCw=A@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Chris Li <chrisl@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Kairui Song <ryncsn@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
 
-On Wed, Oct 21, 2026 at 3:41=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+On Tue, Oct 20, 2026 at 06:15:03PM -0700, Bobby Eshleman wrote:
+>vsock network namespaces let a host put each VM in a namespace of its
+>own. A guest has no equivalent yet. It has a single G2H device that
+>cannot be assigned to a network namespace.
 >
-> On Mon, Oct 19, 2026 at 5:35=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >
-> > On Mon, Oct 19, 2026 at 5:28=E2=80=AFAM David Hildenbrand (Arm)
-> > <david@kernel.org> wrote:
-> > >
-> > > On 10/19/26 14:24, Nhat Pham wrote:
-> > >
-> > > I'm traveling this week, so it's a bit tricky. I cannot make Thursday=
- morning.
-> > >
-> > > On Thursday I'll be traveling back from Cambridge. But hang on.
-> > >
-> > > My plan lands on Oct 22, 11:10 PM. I should be home around Friday 1.3=
-0am - 2am.
-> > >
-> > > I could just naturally join that day.
-> > >
-> > > So one day later would work for me.
-> >
-> > Would that be too rushed for you? :)
-> >
-> > For everyone's convenience, this would be the time slot:
-> >
-> > PDT: Thu Oct 22, 5:00 PM
+>This series lets a guest move that device into a network namespace. A
+>new generic netlink family, "vsock", supports the command
+>VSOCK_CMD_DEV_NETNS_SET which assigns the device to the namespace the
+>request was sent from. The namespace's existing ns_mode then decides who
+>may use it: a "global" namespace shares the device with every other
+>global namespace, and a "local" namespace keeps the host connection to
+>itself. The device starts out in the initial namespace, so until the
+>command is issued nothing has moved and no mode has changed. There is no
+>explicit unassign as assigning the device back to the initial namespace
+>is equivalent.
 >
-> Works for me :-)
+>The command requires CAP_NET_ADMIN in the initial user namespace, so
+>that an unprivileged user namespace cannot claim the device.
 >
-> > EDT: Thu Oct 22, 8:00 PM
-> > Europe: Fri Oct 23, 2:00 AM
+>Connections that can no longer reach the device after a move are reset,
+>so that a namespace which has lost access cannot keep using a socket it
+>opened while it still had access. The assignment holds a reference on
+>the namespace, so deleting that namespace does not move the device; only
+>another assignment does.
 >
-> Ouch, David. If you commit to that, I understand it is very
-> challenging. Thank you for taking one for the team.
+>Transports opt in through a new netns_assign_allow flag. Only
+>virtio-vsock sets it here, because it is the only guest transport
+>that I am able to test against.
 >
-> > China: Fri Oct 23, 8:00 AM
+>Based off of Stefano's original series:
+>https://lore.kernel.org/all/20200116172428.311437-1-sgarzare@redhat.com/
 >
-> Other swap developers: Kairui, Baoquan, YoungJun and Barry, when you
-> have time, please comment on whether you can make the meeting as well.
+>Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+>Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
+>Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+>---
+>Changes in v4:
+>- All Sashiko fixes (see individual patch change lists)
+>- Link to v3: https://lore.kernel.org/r/20261012-vsock-guest-ns-v3-0-b32447c66b23@meta.com
 >
 
-I will be glad to join.
+Sorry, yesterday I started to review v3, but didn't post comments :-(
+I'll send on this series.
 
-Best Regards
-Barry
+Thanks,
+Stefano
+
