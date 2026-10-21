@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543823;
-	b=HazysiWkY0FZimhRq9y9emk41Sf3irnMXFAercsCiui6K8+OvN6C9Z0z/iKjzrMvDeU7
-	 3QgCBc31qQ888sjb+IDpfzG8AhGvotZ6ukwP3BlvP0hfWxTuhduabBWcMCIbK7WY3QajN
-	 RIC5EuaJzR1rr7U52zwIcTZcUOcLF/MinwcFd/3qS+MFLZDS+ZKakGWlGbLf2uk1dJ63c
-	 ud6MTYhMqsNon9l09qSKav+iGnp3fWlIajtBaKHvlrL98wF/69L5FL6SRUxfL6ScLLGVl
-	 KRLWfceQ6leaWIoBymPYpX6qEJh8ENe1OhSzsBqxQoVB2zMYRUw2OlLvWH/NLpq+92A==
+	t=1792543875;
+	b=y/eCju1wZ+QAoG6w3biJTjnX81TlVH7WTnnJZFOOaIABExWymJf8MKEfqbIcDiBaoUvW
+	 YOxJe0Z3B1kvBp1vaB7AIKdUALaeFyklAJGSJTb59EuwP+gyAbxIO8f2QMAyTbyNiV1ed
+	 D7/hsBuSnjkIfRH/d8nEtRIjpOS+w+SZeiBvsahzWSbktlVUbwHBnN3ihqkb/3uxkgCQj
+	 sMB2KEqdISwnorlQXAZ21WnfNuo7en1uEVe+sLxHPZQcBuHZ5CHorGCOeKfkdQ6wYl+MA
+	 eMaIhSsn6Gys9Wxgo2k3GBTme6e3oWrv3AqUitxCKTBwiqsjGIqdOVK6X6h9iSwofIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543823;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543875;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=yMHE95pUPP/EOIjcXoAF0R036TFogng0aJVMQGZcU1E=;
-	b=qIV9/PHXDmkRn+Fa42WU4V3c5YG1o55nb2ZcbgVXWxTmUz2A7ae3Lo8j9ax4FKiDxN+A
-	 Ww9UBuHHc8EKLWZ2Ielo9G71lJ5qvXncEqfNB9yW/2iIgQ1J20YqnQaDk1E08ohcHckZK
-	 43lNkGqGBZ302EWQLkB5oDBRV89QuRO4ipc5LC1FQohvtiA5Jzww3Mxj+puvoBkd5Xokb
-	 QQjIkEetImW92sbGi2lkDTDW6WeGb7uXLwT2F7VP4eip3YWvkXkIJUIhEMR+cAH9gOSLs
-	 zLFFe+jteDnoc8/84V8z88DaFBknKgOiKvsrKs1WiWfxUaNnSzC1crJf8zGT+fdc+PA==
+	bh=BnbQRXf/yuRTZ/Xyc2wpVRtZXvrt7uElwpDWRhPjGpA=;
+	b=5TUeOQaKsEqnyQBpw8HU2MHAq4q28j5up7MpdUHrO3VFvLBHJEWeuj0wp9S60DgqABek
+	 IiSC5eoY/aDbTUxV3CqpjH2MpPDpWMK6F3sG3oGxfn7RBT+kOQHlCDcCM0nmJJ/LYd81h
+	 GAX8MR9Mz/0Sxf87W9Ql5ieG1Rvd/c90VTURu9qBNppCYE40bCcGl7UlYo4uB9va8o5wP
+	 /mwamVACRW46cKrKpgdrJ0+8SLSRZ2AIruRuR5yOwR1tzmyiCtXHlK7OEkb4ZaMadBxx1
+	 ezL4e9TUiUW35tVkWp/39k+8rw6XFbEEaVnStK/O8RUCpP45Vl6NtApnJntySXhgVHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VybohiVC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+IoWrCI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373F1606A319;
-	Wed, 21 Oct 2026 00:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBE0606A319;
+	Wed, 21 Oct 2026 00:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VybohiVC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FCAE1F000C9;
-	Wed, 21 Oct 2026 00:50:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+IoWrCI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DA21F000C9;
+	Wed, 21 Oct 2026 00:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543822;
-	bh=yMHE95pUPP/EOIjcXoAF0R036TFogng0aJVMQGZcU1E=;
+	s=k20260515; t=1792543874;
+	bh=BnbQRXf/yuRTZ/Xyc2wpVRtZXvrt7uElwpDWRhPjGpA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VybohiVCeC/7XX4TL7VajDp/bJcxARoyWxLyFQtX1/8ZB8MDoi0mQ/xwXIgksjJfs
-	 hMC/tLwP2mtLS9WeDrIWUKU8PPcZUexX1gR2HNRI6Uh9/MXEM0oPOf0jcGN8PmmkLj
-	 bNwcut7IH4IwuchlmQx4GSPfgJC2ThlZMczeysP92NUAoslWENJO2UBB/H4Jf6ZuXz
-	 R9WFNWbwShm33OpdCzBS9p22ItnBOXCRsOlkSEgHcaGdMpQjJX+G5vXmSJd13wg98D
-	 y81OKxsZy7n6FaMjf0rSXZ+EL3zCmZWGLtvWcRhNAbRyd3U06PN+yH8NoyQdT6g/i/
-	 bcXQAjBMkaxeQ==
-Date: Tue, 20 Oct 2026 17:50:21 -0700
+	b=G+IoWrCId6I3cul8W/1ldsyCmrZ2roZxDp56BPtb3ROqCCW6bpiTaipOobCAEKwXA
+	 tFNk3u1uFpHC+mg2190fV+HImAh2cPZrMF5oS92H64CPEDH+KOzIAFcHKmYFOQUk0m
+	 1edn7XoWBLWtonGw/njuebCtuxpKBOmkUm3auMno227Xnu+k11wghe++LCq/CtZpW4
+	 YXacW/2qZMgf9/TChjjRvDJDEX4G3R9ip9umhwFCWb3TCPOim1pSEzzNql9iigaONv
+	 zShzLh7qtatdfXL25GbihVjvU01i+ODjz6P9AxkxywIu6q+oN9xXkula0VgPCbgNy7
+	 fLsz2rkifxbyQ==
+Date: Tue, 20 Oct 2026 17:51:13 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Fan Gong <gongfan1@huawei.com>
 Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>,
@@ -54,12 +54,12 @@ Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>,
  Fedorenko <vadim.fedorenko@linux.dev>, <linux-kernel@vger.kernel.org>,
  <linux-doc@vger.kernel.org>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
  <wulike1@huawei.com>
-Subject: Re: [PATCH net-next v15 1/2] hinic3: Add ethtool statistic ops
+Subject: Re: [PATCH net-next v17 1/2] hinic3: Add ethtool statistic ops
  part1
-Message-ID: <20261020175021.4989ee8d@kernel.org>
-In-Reply-To: <2b4a6fad842e0a2ea6c5ab7555916f970b78b599.1792053295.git.gongfan1@huawei.com>
-References: <cover.1792053295.git.gongfan1@huawei.com>
-	<2b4a6fad842e0a2ea6c5ab7555916f970b78b599.1792053295.git.gongfan1@huawei.com>
+Message-ID: <20261020175113.182b3b92@kernel.org>
+In-Reply-To: <0d19828afdc0cec629c8b342cc3f7a0c11ecb1f3.1792378301.git.gongfan1@huawei.com>
+References: <cover.1792378301.git.gongfan1@huawei.com>
+	<0d19828afdc0cec629c8b342cc3f7a0c11ecb1f3.1792378301.git.gongfan1@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,13 +72,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 15 Oct 2026 17:55:43 +0800 Fan Gong wrote:
-> +	HINIC3_PORT_STAT(mac_rx_1519_max_bad_pkt_num),
-> +	HINIC3_PORT_STAT(mac_rx_1519_max_good_pkt_num),
+On Mon, 19 Oct 2026 11:45:37 +0800 Fan Gong wrote:
+> This commit adds per-queue TX/RX software counters and firmware-backed
+> vport and physical port statistics to the hinic3 driver. It implements
+> the .get_strings, .get_sset_count and .get_ethtool_stats callbacks so
+> these can be read with ethtool -S, and adds packet/byte accounting to
+> the RX and TX hot paths.
 
-Isn't the 1519_max_good just the last RMON histogram bucket?
-
-> +static struct hinic3_stats hinic3_tx_queue_stats[] = {
-> +	HINIC3_TXQ_STAT(gso_packets),
-
-Isn't this the standard lso/tso counter from queue stats?
+Sorry I replied to v15, but I think my comments stand.
