@@ -1,57 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792567230;
-	b=qjS0NtqQgfzoHic5JeUSNE9y6tbfB+tlozf2zK6aBQxpbis2/waiDIyQhqDJWoljb3S1
-	 Brfbj76r9WEsd4zfwb83dxKX+dD+pFPkBHy3923XUE6jb+YZPiddjo3wxPvIT6c9WyvXr
-	 sT6Z2ASSeXF3JQoLJ1rF92V/S5OpIzUXbcRTjZIL2cceJXXuFEmriP7VsCTw0nO3QMhD7
-	 TXzTecF7uGlCDJvcTK+edPckOwaQOijdWM+jfhBgdB8d/XgxJBP/8LQug+UqxwUnOi5gx
-	 KoT2WfCWRaSaHZ8lQBfFTYIsMZsHpvU2W3ewrvgiBN99tl/hfoxNCp0M6AZ2WAagA3w==
+	t=1792567535;
+	b=DLVlJEBBPb8WZQLOBL7uS3oc1ISmshvDwYWxd4itgsN8cfCgXTOGlbiskS2BcckVJC+D
+	 bzaD2NYdizBNi5DpycXikPbk+c3xe8c0bf2oWdkgWRU0uUDso4qPw4Xm3vVaNvDT+H8uG
+	 R0H9cjdAL326gXGlZDiGcTpj9990DP1ZhvPABY7wsXHfNwijZZocLdr8oloJKftPykmeT
+	 bQLhuYe2Opr4Hni9OfCrH0r9lIliuyUFA0fm88iJH57Cn8euc2p9dHYCEZcq7APR18hqy
+	 c/+ZkLDk72WLw0wnghjHvTPTG8xQm+dK9sL/ZZk6dMEco8MM0b30i3qw9ugY7xCR4RA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792567230;
-	h=DMARC-Filter:Received:Received:Message-Id:Received:Received:
-	 X-Zmail-TransId:X-Mailer:Date:Mime-Version:From:To:Cc:Subject:
-	 Content-Type:X-MAIL:X-MSS:X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:
-	 X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
-	bh=VIZNzcv10orRo732XycMm56Jobni7WyOSQWYFAk91pY=;
-	b=mk9YdD7vLWBJCq0ymqYVy/HqIaK/mhVR17dfBoQWqAdNsv9v1I3b2EQMegvHHzJlRr9o
-	 VCT2bOBFZLFlA0ejelAEWzAYGvD68Imx3L48kGPO8TEoHOgWyAetaucnIdWKkq2ArUIDy
-	 CpBQNWzB6M1xA5zi/D85YAu8G6vCjdbjFlSQbtBXGVozZpTihAreqOiWkysoEAnQsZcmd
-	 JpvdXwhJbuDPsZs2LpQ4my0oXPDPI/QNcFvF5wiaQ+UL+hOyJ3YWoGTymg4DJakNi3wT4
-	 PmZoru+ClYlfnXzME5LyLH0A9X4i8mQbQV6j2wCbbQ7FcvkAqycqBgZxqRv90qo0MzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792567535;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BqNlK5oUyB6wKQ8IfAXz0SrJ30GxNkRirmJEJkun1PI=;
+	b=imemGo2vo/m8twPwnOVdb0cwujedhvyPRl+TOdT/n+Qr07tfWzVrG0cFOXIVMH79RRnK
+	 R6ykiaIDPRfFXf0xQoMaVnEq3FWjLwQ3LG12tgqyNIYKb2xNJOu4WOJCSBAlPUOE+kGek
+	 gHTFrqVRUQg/m6JO4pgnm4w6nGqaDk8SNxBPa590Ab5OQh8Bgsem0+zUG6DNxaZdXyXZi
+	 gPYcML72csf5y/QXZPP2RjlUcJKmwbCOEuUcUEjr87guSEI9DmVaf9TVG9Y9ZggZS16sv
+	 j9EfzUorc22YgbeRAXTWNoGKq/1QrdogkTXFvJxQhIB05SC3IVym9YhOPIffu2gwGFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zte.com.cn;
-	spf=pass smtp.mailfrom=zte.com.cn;
-	arc=none smtp.remote-ip=160.30.148.35
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AIo3J4VH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C0606A319;
-	Wed, 21 Oct 2026 07:20:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 867C0606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4j8gff3HJ5z8Xrrj;
-	Wed, 21 Oct 2026 15:20:26 +0800 (CST)
-Received: (from root@localhost)
-	by mse-fl1.zte.com.cn id 69L7KOCC052507;
-	Wed, 21 Oct 2026 15:20:24 +0800 (+08)
-	(envelope-from ye.zhihao1@zte.com.cn)
-Message-Id: <202610210720.69L7KOCC052507@mse-fl1.zte.com.cn>
-Received: from szxlzmapp03.zte.com.cn ([10.5.231.207])
-	by mse-fl2.zte.com.cn with SMTP id 69L6EsS0078942;
-	Wed, 21 Oct 2026 14:14:54 +0800 (+08)
-	(envelope-from ye.zhihao1@zte.com.cn)
-Received: from mapi (szxlzmapp01[null])
-	by mapi (Zmail) with MAPI id mid12;
-	Wed, 21 Oct 2026 14:14:56 +0800 (CST)
-X-Zmail-TransId: 2b036ad8586016c-6674b
-X-Mailer: Zmail v1.0
-Date: Wed, 21 Oct 2026 14:14:56 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F30606A31A;
+	Wed, 21 Oct 2026 07:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AIo3J4VH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E691F000CA;
+	Wed, 21 Oct 2026 07:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792567534;
+	bh=BqNlK5oUyB6wKQ8IfAXz0SrJ30GxNkRirmJEJkun1PI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AIo3J4VH+6ukWxcRId4tC/Y15Fr+i02NbF776bKoC7mOcXE2hwvXCp3w/L7g9kKtr
+	 ph72GduZmIspAI4g34Vx1RVr2zmbPsdhv9HLdU/l035RWeXSlYZTSTJ1fjbW6tsmo5
+	 NK06lzsi2NpWg8EH+Oay4KvFFzx4fXs/i3jk9U56xTHvIbu/OwkuxyQ0f4GtohZSU0
+	 kJ8XY3xxBdih9TND6ib/+G08XOw4DM07v8DQwelav5+c19ZLAzJVGUgBuHU5qwluzm
+	 q6TN+g3HqG5BmUbjv3rRMxZ9jamOrPrzPaYlQxH9OmJ2TU+B4oH2W1NsWNqZxtbrVW
+	 qmeD9OO72GRDg==
+Date: Wed, 21 Oct 2026 00:25:33 -0700
+From: Wei Liu <wei.liu@kernel.org>
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	rdunlap@infradead.org, davem@davemloft.net, edumazet@kernel.org,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Documentation: hyperv: Remove support for guests
+ on Hyper-V 2012/2012R2
+Message-ID: <20261021072533.GG851443@liuwe-devbox-debian-v2.local>
+References: <20261009174007.6745-1-mhklinux@outlook.com>
+ <12b726c0-46c6-4f3e-9119-24f6c877e3fb@linux.microsoft.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,36 +61,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-From: <ye.zhihao1@zte.com.cn>
-To: <atishp04@gmail.com>
-Cc: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2MiAwOC8xMV0gUklTQy1WOiBLVk06IERpc2FibGUgYWxsIGhwbWNvdW50ZXIgYWNjZXNzIGZvciBWUy9WVSBtb2Rl?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 69L7KOCC052507
-X-MSS: AUDITRELEASE@mse-fl1.zte.com.cn
-X-TLS: YES
-X-ENVELOPE-SENDER: ye.zhihao1@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 21 Oct 2026 15:20:26 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AD867BA.000/4j8gff3HJ5z8Xrrj
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12b726c0-46c6-4f3e-9119-24f6c877e3fb@linux.microsoft.com>
 
-Questions on KVM PMU Counter Numbering, Hcounteren Setting, and Migration/Conflict Handling
+On Mon, Oct 12, 2026 at 11:10:08AM +0530, Naman Jain wrote:
+> 
+> 
+> On 10/9/2026 11:10 PM, Michael Kelley wrote:
+> > Support for running Linux guests on Windows Server 2012/2012 R2 Hyper-V
+> > hosts and Windows 8/8.1 hosts has been removed, which includes removing
+> > support for operating Hyper-V synthetic timers in other than Direct Mode.
+> > Update the documentation to reflect these removals.
+> > 
+> > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> > ---
+> > Changes since v1:
+> > * Updated the netvsc.rst network driver documentation [Naman Jain]
+> > * My "below the line" comment in v1 wrong. It said that removal of WS2012
+> >    support was going into 7.4. But it is actually already in 7.3. So
+> >    ideally these doc changes would go into 7.3 as well.
+> > 
+> >   .../device_drivers/ethernet/microsoft/netvsc.rst   | 14 +++++++-------
+> >   Documentation/virt/hyperv/clocks.rst               |  8 ++------
+> >   Documentation/virt/hyperv/overview.rst             |  6 +++---
+> >   3 files changed, 12 insertions(+), 16 deletions(-)
+> > 
+> 
+> Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
 
-Dear Atish Patra,
+Applied.
 
-Hi，
-
-I noticed your relevant patches and comments regarding the KVM module in your virtualization work. During my virtualization validation, I have the following questions:
-
-I found that the hardware counter numbers actually used on the host are inconsistent with the virtualized numbers returned after KVM emulation. Is this because you want to ensure that the VM can work properly in migration scenarios and avoid the conflict scenario where the host and guest count simultaneously on the same CPU and share the same hardware counter? Also, why are all virtualized events disguised as sampling events? Is it because SBI PMU does not support the passing of this flag, so KVM cannot distinguish between stat and record events?
-
-In addition, I noticed that in your main.c, Hcounteren is set to 0x02. Is this also because there is no correlation between the logical hardware counters and the virtual counters? Have you considered enabling Hcounteren to reduce the overhead caused by CSR traps? In KVM, is it mandatory to modify the logical hardware counter numbers and the virtual counter numbers so that they match and are consistent, and would it be necessary to reconsider how to solve the migration and conflict issues encountered in the previous scenarios?
-
-Best regards,
-ZHIHAO YE
+Wei
