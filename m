@@ -1,124 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792605940;
-	b=eGaQZ2dRen+GBeiv+S/qxtaa/xV0WWuGiLdYPCuaraPLJ5+06D1oTbyRz4+dAxUzqLb+
-	 MkFW3PRIWcY6EOZG1M88of0SiYUxTjAHk01lX+NrEVkmnG8DGLYI1HBFIl+Ri9Bwv5cRG
-	 fG0rJdYhpYeEey/mOMD2uU+Iy6xeByqe4NmVPxDcAp3ytGvQLC5TU+OVVrN0wUkkPUa35
-	 xIoA0otMQ/dEGb+ZyRK/5BUlNB/JnSu+0sLQWuymWHJixgjWTPrlixHT+KXBaij4ZzpY2
-	 sLvmOu8SgpJK0AUiogUNXbcEc32kaj3Yb8ffwE9utJwG3AziUdEGxEfeCkFtBlY0M/A==
+	t=1792606303;
+	b=mza0tHjEgw7KhQLfB8obkQbIjDtnWzYmmiNykJRh0H7rXSfRwkgiFiOzT6hYSaPvx0OB
+	 vfgkRnwv2Tfb5wnJhupxb2jqEbfftuuypt+gr15waQqC5VX9ISx3jvREin/1kDtYIDUN0
+	 d054jY8HaaS+gfoshiQyOjukKE4T1XIJ/jY90/Oo2461s6S6prb64ebLvz6KszcBafS3J
+	 DKDqDA1ZsWwc8qgUj8HlNs1VfLD22wwCcBpIz+0TAp7HZXr6K5JXRBoivjKTmbBp4B+ma
+	 0p+u1ZN+5jUOaQLDgsynb0+QlNJtfAjxMf+u1Jnm9ByB/BB1EN8F4Ig4x7BK8k7NwNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792605940;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=36CIvPZFqSR3d1bRp5FOUkDzIh2a6VXH38LqlQMMHgo=;
-	b=Bd1eOiZmjnSu+rGYTNc4/gfYADOKpTSf2IzpuSuyUfUQtsyFW3m3iw85eVXOsiZZ8cWb
-	 xNqxUVDoIAsSL/56WuuHmqs05E2ft3FOsws/l1LsJJxi2m2jsabv8O4mzqDmDFIdT53dw
-	 ZZRC1DWvTX3f28KtRf28MwCd5/infssRm1AmHP221o4oOTQlFwZSzU7pO9V3D7wlNDfZ/
-	 gYJ6vfs8myZCj5GuhNgfFrvho1vANcKxb45WFj2vdIithRcjZ/6wt1r7IXCVHNkBtbwH3
-	 y2XSlSytqlbT9tfRaHNb3LPmg/qRqrH8e+Sc6gw4Xa4yw290IsU4haXZ/CHC+1F+l4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792606303;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=zajgpZEWlkO9hnDwMwdkleexKLADl3q/zhIDBDjaWRQ=;
+	b=UPLBzI2jAUOKM22Rme+9uiaO+yXccYtnsmOAgn3Jb0rbxsX6IG99zrzfLQ3Ff5XUo0eK
+	 E0znFiM5vYeBIdaAl9DviS5JKsXJCt7j6LTMlTidBinrKoU15looTa693pDJm1ktsT077
+	 xp/+JOsIRYmEdzvIcclamJmgTkJAVnBjD0ScynE7Ew0s6GHVrDI8A3ynvNHdi0sNkbfFT
+	 ezCPzzagciCpPL4ZeOMFPx6G+6TA4pFmWTm/Z2Y7a2otdxTpNJkNykaooZVdvjO/snMO8
+	 CNBjOj/8lPCu4fozJCrjYaA4FZYDs5LvTTtWicGzOnoPox6Ho/xSotGi47qTfscflkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qc4ZTUYU;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KBq8By91;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YaGqCK7R;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6C2606A335
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 18:05:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D6C2606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D92606A31F
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 18:11:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29D92606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qc4ZTUYU
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1682bff3cso5735205e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 11:05:34 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KBq8By91;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YaGqCK7R
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LHpEgQ1795039
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 18:11:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zajgpZEWlkO9hnDwMwdkleexKLADl3q/zhIDBDjaWRQ=; b=KBq8By919CR0Wk6J
+	i6AHGYv1uzl0plIu0g/ZjSagDkXy5EsbBsmzhImhAELaJ/l3SfReAUQpWiSHeVNf
+	BufY1pa+JPkBGkez43hmPC7dSe/wTdocSPdgRHEIkjXg+77SAdYjTQAo3aTC702v
+	wIJaXklJi5pC3EQlxvgOlS9JUMDPzA8ux1CypnFa/HaSbozJtLx5c4F1YuTj12X7
+	fPuROybpD306YEcuArWKV69DugzhWLf5aBj0QG/MFJEbJRpq1GRrz3FGnTg4Sr+J
+	HgvYZbYSilPrBWCFEs8avj6fFE58i34cFDbduqKYWVEMlX2iQVhEPuzZodKWCD3h
+	tK/n4A==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf1u3g57k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 18:11:40 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36803927a49so1619873eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 11:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792605933; x=1793210733; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=36CIvPZFqSR3d1bRp5FOUkDzIh2a6VXH38LqlQMMHgo=;
-        b=qc4ZTUYUtGBB48YloE+K0yBo9J5Ll7KjPH93H7mZt7pvpD0QD4DqCJEB+kKxPfziZA
-         xlN0wB+iMjfxQvbswipWTCR3WZ7SCRmmc1D3tHgPnikQtaHeDP44PML6bUmtBLTbA6U3
-         UdTun/vxjIpnqBvAS1kpG6RmAEeRDNSx/knlx1t+N8SH4oPWEB8jW2V4t06LBprss9nA
-         b5eRhKau1OqtphqKj9cS+O+hhE2tYWCeQH9ZUbz46Vk73rldwslq12AwYEn6SkZGN7/f
-         LxjEPlpGYL4713pUWpZ+JPhuPWAjpVwpScOCEhkYnSId84tcd2vaJgQInXzvbNL8Td7f
-         HwKg==
+        d=oss.qualcomm.com; s=google; t=1792606300; x=1793211100; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=zajgpZEWlkO9hnDwMwdkleexKLADl3q/zhIDBDjaWRQ=;
+        b=YaGqCK7Rzl2stBiPjB2XmkxdVkbLq0gkYJ9dR/bWa3JZRJBurr9bJnuotCMi03y9Cq
+         U7ZpsiBsl/bNdXEmBnovl8NsnMdrTHkBUuf6znyK+NvOdjqXH3ot+htk4K6DGwWEMkAq
+         h2yX2eyn4loxTooaCw8uib2vTBjOxQCbQF/aLK/v6eHmPfqHwSv7LJvYfAhnCYeS5z5K
+         2KxAyoZt7nbx3vZ/Og3QKQCmwFmz1BqHao11D64WPL1hhGNh1bqGI2utYOy/lDXyUunr
+         kXnvirkudF3PNCnMhYh3KVkSw5GWdyIn0AA8DOxfFCpCCN55cxpU1bRvDab2OjSfZqq3
+         Mm6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792605933; x=1793210733;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=36CIvPZFqSR3d1bRp5FOUkDzIh2a6VXH38LqlQMMHgo=;
-        b=jDuJUiwDIowIxcQA052X7N706RutE2DboskKMflJaAv16X1x9IaWQI6ga929zxyyrD
-         tOJn3kMXhmUqgCi+T4mRT+H7I9Z8bLwybs2BZdRZx7AUojI6kqOlBsD/w+TDrTGwhfwf
-         SGwbicyvdzGmXDIM33XaIQMpM/L46h9A3Xc11iPnVE+vWuqFqIEof6OYyQ/6Gfv+9ZjW
-         5eRFSZ6TSNMN4ju2IliKX6wItDiFrHN+/lAWQEUsoQ+hN37UirPE2GgU/TXFRBUgQrsN
-         mIjBgZLHYKzvebFnv8DOt6+oSdCBVxvZaiCDBL00H+G+OOBKB01IIAE1uMhr1SFoDBog
-         H/qQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw/6aqS/5M+i+CI2TbubZp9/BdP//ni9CSDUpv2AsMOnO7exRxyNjrS4k5WGJvlupySoXXQD12OPKA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKl49aospA3fhUPFX370Lj7YmVzHQtcYPniW5zb6Dzu8KyVst6D
-	nmV5zSKQoRyIxHcqy1I7bHfJIi/oYWtkf53/J5gy+Xf+fZCGwSogp3KF
-X-Gm-Gg: AYBFou1PhgXrcYh3LbMCAvOTlxbqEP2a9GFQH9uv8+KRDtz740rcPWLGsjQq9kkxpOs
-	FNuTICCI7xe+5jTJfVDZRMboxF07HW+ygwa2rDWpFUms6WTUL6YnGwgvK/JS16icG4uCkhPvl5v
-	E479/Z5RfEu8NfmxrZ3VTJ8Eoq8FDuEqERGlrNgGQrjCXw10mfcHH00C+yaxeLXD8z1gHhF7lSE
-	kWWU0U9CRJZerpmEVfy02oi+lh2CMtXlH+X2Hnuw3TFfXkK475WkAD5h48KPKyjh946PbJXU52r
-	JbE5VQYHTl4Z2APYuiUEbxOlggn3iwWyGG6tv+JUOdvbGFUmzyzRXWRz8x4d8L3fAPMeF9eIQVN
-	SiCnm7ZvmhzW4qoMFM21Jms3MAGNRkvCEm6/YNxKUYsApeddBD3PkjJF81d8KD6tBjftmja+EdM
-	PMjU0K5GDeYzzjfDwkpPRKoJu8YCz8oVf+f7OtblPwlvoZLrhu+sHopTFIpX+J0CR398peu2qFt
-	VMeRU5KnZ7N72Pc17Woj6GDzRNEcicgb8CLyjc1b4fZDQ038aBrvJ/8dzOIrHQMXW2k4jNJbJ0O
-	RzNGJbCVP4DpfAtwS3QUhRX0vpEDWgh3vAo/sWPf0Rmz+4L0+qjffRCO4nmoOB3TVUyMLuiOOC4
-	EadrpTE5V8dCrpvwJrqiOqvrdGXTVd071
-X-Received: by 2002:a05:600d:864b:20b0:4a2:1e1:d55 with SMTP id 5b1f17b1804b1-4a201e10debmr28279805e9.28.1792605932936;
-        Wed, 21 Oct 2026 11:05:32 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c6:e6ea:6401:f04a:ac6f:988e:f33d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fcd13891sm47007775e9.2.2026.10.21.11.05.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 11:05:32 -0700 (PDT)
-From: Nick Simpson <nick.simo@gmail.com>
-To: Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
-	Phil Sutter <phil@nwl.cc>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Jason Xing <kerneljasonxing@gmail.com>,
-	Song Yoong Siang <yoong.siang.song@intel.com>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Max Krasnyansky <maxk@qualcomm.com>,
-	Sridhar Samudrala <sri@us.ibm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net 3/3] ipv6: validate checksum_start before fragmenting
-Date: Wed, 21 Oct 2026 19:03:29 +0100
-Message-ID: <20261021180329.26358-4-nick.simo@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261021180329.26358-1-nick.simo@gmail.com>
-References: <20261021180329.26358-1-nick.simo@gmail.com>
+        d=1e100.net; s=20260707; t=1792606300; x=1793211100;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zajgpZEWlkO9hnDwMwdkleexKLADl3q/zhIDBDjaWRQ=;
+        b=F87IKO8OKJNH9T5JMrfQGupAR3ViR7ISTnWQlXqUech+gfFlIhVqO1j4hcot8y64Q2
+         06JQ9n7rCCWxgiklUZs0rd5iu6NXnBl9Wv07zv/3R/3H88Njbz3c3vErpn654eHgNYxe
+         AFmABuBVyJ416w8xX7v4F322+X7kj03NiGTtHP5mALG2o2rLHrb0RxYxAZTyDGc31QO6
+         UR03Of5xMe/PMA/zoPgDMPqstqauz4BA95Cmwo17E+lDTlBuYBBQr69NxuU1f6OmR2HD
+         TFB42aI531RrX2dtWn5YMP6s6KPDWivSjZfSVk4j/BTMAhsyUzhigx5L7Gex/DI9c7R+
+         GwcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzpqfzNLfiisOIzB/mADoRTj8NpKrfu2DHNli/Kg67S+73yI4FPqVO9RcWTnclrQrdDyXvSTsph2+M=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLfISYGgHqCxaZYzH3eLHZeQ3YC/AM/mcWUpxJCcZZOCsDd6eH/
+	njUHB+PEDX+/OAFVTYXVWCEzEuMP83sqU+VlDEAKx6Y58is0E2qm0hy9c/DaQdjLhyzPWhNUWaR
+	sTmV7/bsCGyMoCpRgO2EDtntZritsd4I16/Ebq7vdl7ex36vhPzXHpPdnXT4yRkk=
+X-Gm-Gg: AYBFou3qGYc6mQP1oWFwNKxGxykG7f4XR9NaEnlgRTvRnXoIKkuVAZBtEneZiKXt8yH
+	ZMIJuIeQTbHBlM/PKXbA6d7DO1LtonSvzZf6ABKiw0SO/9GRWIhk2ySrl+KlWHFadpdUaeekDTI
+	lQ4LPg9EGhCdeyxCoVV8n46blK+J690DDhhGUdQeM7VKs93c9EcZKFU3cCTHMJt7YYLA0KOyxwk
+	1l2OU/Ig9boZLTzp/ic0/p+oY39EKihE4xsknPLjBA90Cq/ZMdYSRnMV56V9fKyFcgoH/WOKORj
+	BCTOCLcokUwwgUBe80hVt+AFxh4BKE3XYFx0eQvH9u7hm4+pOJsTCtxNVtxRypYQ7LBkSUn8FwD
+	55I+xvVrgaazcd8RYYm6/r/XRt+fjEXyqxa22tXQ6O/E=
+X-Received: by 2002:a05:693c:41cf:20b0:358:1f59:48c9 with SMTP id 5a478bee46e88-3674f21a97dmr3790642eec.24.1792606299627;
+        Wed, 21 Oct 2026 11:11:39 -0700 (PDT)
+X-Received: by 2002:a05:693c:41cf:20b0:358:1f59:48c9 with SMTP id 5a478bee46e88-3674f21a97dmr3790596eec.24.1792606298974;
+        Wed, 21 Oct 2026 11:11:38 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3674206d1f1sm9116156eec.28.2026.10.21.11.11.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 11:11:38 -0700 (PDT)
+Date: Wed, 21 Oct 2026 11:11:15 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+        Ard
+ Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Catalin
+ Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, David
+ Sterba <dsterba@suse.com>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+        Randy
+ Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
+        Shuah Khan
+ <skhan@linuxfoundation.org>,
+        Nick Terrell <terrelln@fb.com>, Will Deacon
+ <will@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Conor Dooley
+ <conor.dooley@microchip.com>,
+        linux-integrity@vger.kernel.org, Palmer
+ Dabbelt <palmer@rivosinc.com>,
+        patches@lists.linux.dev,
+        Piotr
+ =?ISO-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
+        Ross Philipson
+ <ross.philipson@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Song
+ Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH v2 15/15] efi/arm64: Implement ARM64 DRTM in the stub
+Message-ID: <20261021111115.00004c5c@oss.qualcomm.com>
+In-Reply-To: <15-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+	<15-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,110 +152,139 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=S8ZMU4sP c=1 sm=1 tr=0 ts=6ad9005c cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=Ikd4Dj_1AAAA:8 a=Sk9Lk7371zlc0StAK_oA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-ORIG-GUID: lL1AAAZspq9eM659iYVzqAw3DPPn4dFr
+X-Proofpoint-GUID: lL1AAAZspq9eM659iYVzqAw3DPPn4dFr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA3MiBTYWx0ZWRfX8lvbw65OYcge
+ fqC2Dw60pXdiLQtH0Ng3zBu2EuytHSSWlqRzBZNfoQGZutu0KaNF+PbidzBv1DwpjoBPD3V200l
+ QHDIHHqKx8PyN5ad+cgwsa/9Cxn+m5+yVADei7owfgR4pnE6HkAqZWOKRuvoduCU2334J3gt6Sw
+ Z97apYaLKqqdHF/ImeG2SDd3XQSSiQzp+ft62KewO2JcVx4SRqrZTwp4O7QDB+ZHYR3tjQD6ZTI
+ vjpQ8yYApHX33u/ink0M6DjughzHmXJm2146KPusfZ/4E2rCh0vyBcHm7Ke19kH5jjrPwOvSOE0
+ /YGGQTvMASetJ69BZeCDbLLq7peZHDy+OC9BFzkInAalHS+Vx/TgWNzF98R6BqpSUUTn6Is/ElB
+ nlsEvcG88HcxwZH4Bigf2m5ttQFeF1hLdFWswWrQjvSSXKGthMBpHFTyFoGsm3rD/VG/0/9d4hS
+ m7YM7wbtkMsfX8LbikQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA3MiBTYWx0ZWRfX82bPWNdBS8FE
+ lA56j67Kp3NqYHNj6WGyDkULNkukVsd75Og4UgUjMY+lTo3cOxVGhfQwEM5d8hhMLDmbAbtJt3K
+ FtcPmoWdtO/REsB8zE89ORcs7wSQ5Ww=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-21_05,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610210072
 
-ip6_fragment() and br_ip6_fragment() complete CHECKSUM_PARTIAL skbs with
-skb_checksum_help() without checking where csum_start points. After
-reassembly by nf_defrag_ipv6, the IPv6 header has moved forward by the
-8 bytes of the fragment header while csum_start has not, so a
-CHECKSUM_PARTIAL skb from an untrusted source (tun/tap or packet sockets
-with a virtio_net_hdr, or AF_XDP TX metadata) can have csum_start inside
-the IPv6 header, and the checksum is then written into a header that the
-forward hook has already accepted. When csum_start lies before the
-network header, skb_checksum_help() warns.
+On Fri,  2 Oct 2026 20:31:52 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Add the IPv6 counterpart of ip_check_csum_start() from
-commit 6785011f8b16 ("ipv4: validate checksum_start before completing
-checksum") to the two IPv6 fragmentation paths: refuse to complete a
-checksum that starts inside the unfragmentable part of the packet (the
-IPv6 header and the extension headers before the fragment header) and
-drop the packet instead.
+> Provide an implementation of the CONFIG_EFI_STUB_DRTM protocol for ARM64
+> DEN0113 >= v1.1.
+> 
+> First, it queries the FW for support and collects all the
+> information. This is needed to compute the extra_size, which comes
+> from FW reporting how much memory it needs during the launch for the
+> DLME Data and DCE-owned data. The generic stub ensures there is
+> trailing memory after Image for this.
+> 
+> Then the DRTM_PARAMETERS launch structure is computed using the
+> offsets in the efi_info.
+> 
+> Finally, the stub does ExitBootServices and calls the actual launch.
+> 
+> The feature discovery process is deliberately fairly verbose to help
+> debug any FW weirdness in the field. Enable it with efi=debug
+> 
+> It looks something like:
+> 
+>  EFI stub: DRTM: interface version 1.4
+>  EFI stub: DEBUG: DRTM: TPM algorithm 0xc, TPM hashing unavailable, PCR schemas 0x1
+>  EFI stub: DEBUG: DRTM: minimum DLME data 73728 bytes, Normal-world DCE 0 bytes
+>  EFI stub: Decompressing Linux Kernel...
+>  EFI stub: Generating empty DTB
+>  EFI stub: Exiting boot services...
+>  EFI stub: DEBUG: DRTM: will launch, selected launch features 0x0
+>  [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x000f0510]
+> 
+> Eventually the launch'd kernel is going to require built in crypto
+> libraries that match what the FW is using so it can validate some of the
+> information left behind during early boot. Refuse to launch if these are
+> not built in and build in the most common ones from the ARM64_DRTM
+> kconfig.
+> 
+> One nit, if the platform does not support SMC then using drtm=auto may
+> crash on the SMC op. As far as I can tell there is no way to discover SMC
+> support through EFI. Learning it from the ACPI FADT is doable and costs
+> about 250 lines of code.
 
-For IPv4, ip_check_csum_start() is also called from nfnetlink_queue,
-xt_CHECKSUM and xfrm_output; their IPv6 counterparts are not changed
-here. A reassembled packet that is not fragmented again, such as an
-atomic fragment, and an unfragmented packet whose checksum is completed
-at egress are not covered either; those have to be handled where the
-CHECKSUM_PARTIAL skb is created, or by a check at reassembly time.
+Ouch. Sounds like a must have if there is no easier way.
 
-The problem was found with LLM-assisted code review.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Fixes: f43798c27684 ("tun: Allow GSO using virtio_net_hdr")
-Fixes: bfd5f4a3d605 ("packet: Add GSO/csum offload support.")
-Fixes: 48eb03dd2630 ("xsk: Add TX timestamp and TX checksum offload support")
-Assisted-by: LLM
-Signed-off-by: Nick Simpson <nick.simo@gmail.com>
----
- include/net/ipv6.h    | 12 ++++++++++++
- net/ipv6/ip6_output.c | 10 +++++++---
- net/ipv6/netfilter.c  | 10 +++++++---
- 3 files changed, 26 insertions(+), 6 deletions(-)
+One thing inline that confused me.
 
-diff --git a/include/net/ipv6.h b/include/net/ipv6.h
-index 3de07e738538..949695cb6764 100644
---- a/include/net/ipv6.h
-+++ b/include/net/ipv6.h
-@@ -1029,6 +1029,18 @@ int ip6_xmit(const struct sock *sk, struct sk_buff *skb, struct flowi6 *fl6,
- 
- int ip6_find_1stfragopt(struct sk_buff *skb, u8 **nexthdr);
- 
-+/* Refuse to complete a checksum that starts inside the unfragmentable
-+ * part of the packet, i.e. the IPv6 header and the extension headers
-+ * that precede the fragment header.
-+ */
-+static inline int ip6_check_csum_start(const struct sk_buff *skb,
-+				       unsigned int hlen)
-+{
-+	if (unlikely(skb->csum_start < skb->network_header + hlen))
-+		return -EINVAL;
-+	return 0;
-+}
-+
- int ip6_append_data(struct sock *sk,
- 		    int getfrag(void *from, char *to, int offset, int len,
- 				int odd, struct sk_buff *skb),
-diff --git a/net/ipv6/ip6_output.c b/net/ipv6/ip6_output.c
-index 550965058991..55d7af9084d5 100644
---- a/net/ipv6/ip6_output.c
-+++ b/net/ipv6/ip6_output.c
-@@ -942,9 +942,13 @@ int ip6_fragment(struct net *net, struct sock *sk, struct sk_buff *skb,
- 	frag_id = ipv6_select_ident(net, &ipv6_hdr(skb)->daddr,
- 				    &ipv6_hdr(skb)->saddr);
- 
--	if (skb->ip_summed == CHECKSUM_PARTIAL &&
--	    (err = skb_checksum_help(skb)))
--		goto fail;
-+	if (skb->ip_summed == CHECKSUM_PARTIAL) {
-+		err = ip6_check_csum_start(skb, hlen);
-+		if (!err)
-+			err = skb_checksum_help(skb);
-+		if (err)
-+			goto fail;
-+	}
- 
- 	prevhdr = skb_network_header(skb) + nexthdr_offset;
- 	hroom = LL_RESERVED_SPACE(rt->dst.dev);
-diff --git a/net/ipv6/netfilter.c b/net/ipv6/netfilter.c
-index a7025ec87035..8476e4ba399c 100644
---- a/net/ipv6/netfilter.c
-+++ b/net/ipv6/netfilter.c
-@@ -144,9 +144,13 @@ int br_ip6_fragment(struct net *net, struct sock *sk, struct sk_buff *skb,
- 	frag_id = ipv6_select_ident(net, &ipv6_hdr(skb)->daddr,
- 				    &ipv6_hdr(skb)->saddr);
- 
--	if (skb->ip_summed == CHECKSUM_PARTIAL &&
--	    (err = skb_checksum_help(skb)))
--		goto blackhole;
-+	if (skb->ip_summed == CHECKSUM_PARTIAL) {
-+		err = ip6_check_csum_start(skb, hlen);
-+		if (!err)
-+			err = skb_checksum_help(skb);
-+		if (err)
-+			goto blackhole;
-+	}
- 
- 	prevhdr = skb_network_header(skb) + nexthdr_offset;
- 	hroom = LL_RESERVED_SPACE(skb->dev);
--- 
-2.53.0
+Otherwise seems fine to me
+
+> diff --git a/drivers/firmware/efi/libstub/arm64-drtm.c b/drivers/firmware/efi/libstub/arm64-drtm.c
+> new file mode 100644
+> index 00000000000000..2fc58babc3e7cb
+> --- /dev/null
+> +++ b/drivers/firmware/efi/libstub/arm64-drtm.c
+> @@ -0,0 +1,426 @@
+
+> +
+> +/* True if SMCCC 1.0 or later is available. */
+> +static bool efi_arm64_psci_smccc_compatible(void)
+> +{
+> +	struct arm_smccc_res res;
+> +	s32 status;
+> +
+> +	arm_smccc_1_1_smc(PSCI_0_2_FN_PSCI_VERSION, &res);
+
+A function that is meant to check for smccc 1.0 is using the
+smccc_1_1 namespaced calls?  Maybe add a comment on why that
+is ok to do.  Is anyone actually using SMCCC 1.0 on systems like this?
+
+I a bit surprised we don't have a common helper for this -
+I guess the version checks are often explicit in a particular
+driver being bound.
+
+> +	if ((s32)res.a0 < 0)
+> +		return false;
+> +
+> +	if (PSCI_VERSION_MAJOR(res.a0) < 1)
+> +		return false;
+> +
+> +	arm_smccc_1_1_smc(PSCI_1_0_FN_PSCI_FEATURES, ARM_SMCCC_VERSION_FUNC_ID,
+> +			  &res);
+> +	status = (s32)res.a0;
+> +	if (status == PSCI_RET_NOT_SUPPORTED) {
+> +		/*
+> +		 * SMCCC_VERSION was introduced by SMCCC 1.1, so firmware that
+> +		 * does not advertise that function through PSCI_FEATURES is
+> +		 * using the valid SMCCC 1.0 baseline.
+> +		 */
+> +		return true;
+> +	} else if (status < 0) {
+> +		return false;
+> +	} else {
+> +		u32 version;
+> +
+> +		arm_smccc_1_1_smc(ARM_SMCCC_VERSION_FUNC_ID, &res);
+> +		version = res.a0;
+> +		if ((version >> 16) != 1 || version < ARM_SMCCC_VERSION_1_1)
+> +			return false;
+> +	}
+> +	return true;
+> +}
+
 
