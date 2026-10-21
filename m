@@ -1,66 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.175.24.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792592391;
-	b=zLZWPMPA1Gvt9/JuZQvAzpYTTyN/T+UZdTgxC0PuHQlrwedONNbZIp5czyBdKtfHGYJv
-	 vZewfNRCzaqnTFu5TXlsc9C+kZYTiUb62G0t3vcPnrv2v3vtGbramO64wWr38guKzprFf
-	 1cZgoppoAoDItKPToEiX8VcHjp8rVT2nJtSsvBvaPd4m0Iv4MJ55vxm2mII6LfhMCvNHY
-	 eqfpQxHcvRdrjaC+Thu546eBLwo7DwCY9rkZXFms5HbJ5RstImnQHG/Ha15PhfC6RxJMi
-	 LCvyaO855JTyMgKuaDqET+bkLHh66BDa9Ue8odd8yRn362wXeOkrN9HZQYq5OY/fS0w==
+	t=1792592572;
+	b=NUr/5oZGzBShFSEhMkQIS23ZoE3xaKHvPAF+Q+IgKqMl6FY24QQfwvDRNT26tYjRd0ZU
+	 8PWszukfc1rEqskwU8giH1ux8/xTm81iV/vgB4biE24sVDTbE8qmzowiI+ENu+TCxQ1Bn
+	 JADUuaLT2RHFYYWgCqXYzTEjFDuF0/3Czqn8Q1UabmaaxvQbPMaUJ+iXzbDTbaXoW5W+W
+	 V0Jr+vHvumqrmJ+1MbdruJHwMeay6i2mMvNSgCSTiql1t6YFK2Xs1gwv/Om3AR2j1Af1a
+	 Kbk4opM1eWk1bJO1OyWIRM9EjXNxfYLJnZ35Sj9hVJenPEYrk45Ejvd/jGcxVkiSYZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792592391;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=rEX5V43c4D3SEE8/QjnF2l3+QYXk5M1z/X/WgzWok2s=;
-	b=Y/qgg7KTkHEF/ffjd8uqv9q7wPPFwqA7PIPMvpR6ZtznB7DBVr5utnTtFwHebMjT71Kn
-	 3jNXpnaWLq+TzokDO9OCkuZAvFOHNnkV61Xczr07LrTntd/pFi718AXuiFss31wIdouzS
-	 X4NQcSOye9IB0UcPiloJ4Z1++7WH9Etp6MFlmNpW+IUBrqm9GJcLVTdLlupWDZwO4LmDn
-	 XfIubTnehWD4OHWFXDRWAPeCw2yCqjradCvcbByWXq5M6HhkI3pxjZ3xmE+Sjvz9AbEgg
-	 3f7123jOaWbTqURlC4MyLTpwRCrEm8+vjS0reFW5QNq+7C4IEgdukljbfgZ2RmkLNPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792592572;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=SgnsI9xvRVm2E2Nsl7k7rIHbcV39kvLE5MaE6MErPqI=;
+	b=a39g50i9VGIyBds1BRqd6lfdzE1YUGS9i4Of0DF3+aIDeuumLEa8CQWrKofZvxzt/Xt8
+	 /MsQ2nKqFx28+5iXG/9KZjGrnkIUMcA4oGm0MyDoPSigBCU576xIbUbuRLRvV0NYuXEAi
+	 oCMm5AW2A9qFhX5oTdUFS7rZ0mk/0zvDNbz3LoUV04roG6/W/mTbIbYl3jwLc3gleipJ6
+	 47UHxn3PrwdPPfI8SMxK1sAt6hTX3S1UJMq4Si/OUwAAMdtrJjb8qWXUL6aCnNaZcFrfX
+	 0YxuCuVu92YU1GeSjVsroaZopLgIZpYMiVdgpboMIpUCEoFk/ZKupX2OSB+C7Th13dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OVFF+11s;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEC060A2625;
-	Wed, 21 Oct 2026 14:19:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AEC060A2625
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OVFF+11s
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9C12440904
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1792592389; bh=rEX5V43c4D3SEE8/QjnF2l3+QYXk5M1z/X/WgzWok2s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OVFF+11s0uCeT/ElNSlUuPoj3uVq7dUx2pYO6gBCOMeuXR/m2U6cdGcZ6tkAE4y9W
-	 SUeC9MmM9Rnu5q+dwo3gg/UUwBnSlKf8nl9qAbZnWbolM2fL0iM7BVKZZjuYKRxR62
-	 jwlU3Ry2EI3UUQAlA2Rl2PT2lm0tcSjBL7hNkHfX0VZ805zux0D+77f8XU2xrzVGpB
-	 JNP7f9PhSDd51iRzzsANa6gxykcLhqM0qbJxXxlWLEVxkZjKuT5Mz01U4c2SII0GDE
-	 TZ7AE5Y0zR3cT174anBGu8WfVyq6atJyUo0Bb5d+efgGQ3YoeUNX3Cdbs7GwiwupkL
-	 BcPNbrhGizS0A==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9C12440904;
-	Wed, 21 Oct 2026 14:19:49 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Eric Biggers
- <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-In-Reply-To: <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
-Date: Wed, 21 Oct 2026 08:19:48 -0600
-Message-ID: <87y0br3zln.fsf@trenco.lwn.net>
+	dmarc=none header.from=alpha.franken.de;
+	spf=pass smtp.mailfrom=alpha.franken.de;
+	arc=none smtp.remote-ip=193.175.24.41
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32A3A606A319;
+	Wed, 21 Oct 2026 14:22:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32A3A606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
+Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
+	id 1xJXD0-0008O8-00; Wed, 21 Oct 2026 16:22:26 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id A39ACC0423; Wed, 21 Oct 2026 15:44:18 +0200 (CEST)
+Date: Wed, 21 Oct 2026 15:44:18 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bradford Love <brad@nextdimension.cc>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Russell King <linux@armlinux.org.uk>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 0/7] gpiolib: kill gpio_request_one()
+Message-ID: <atjBsoY8mjGw9fQ8@alpha.franken.de>
+References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
+ <CAD++jL=prd1KDZQawqsRmW3qp1-cJ=18-yhp861CQirOOjE5Ag@mail.gmail.com>
+ <as4tep73cAI57Yk7@ashevche-desk.local>
+ <CAMRc=Mcc2b2Z0zrkNQ80NpV-H1MsihgeNtPD5dD5g9xcbiLg4w@mail.gmail.com>
+ <as44ROCHy-WeMdIZ@ashevche-desk.local>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,27 +64,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <as44ROCHy-WeMdIZ@ashevche-desk.local>
 
-Krzysztof Kozlowski <krzk@kernel.org> writes:
+On Tue, Oct 13, 2026 at 04:55:16PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 13, 2026 at 09:35:43AM -0400, Bartosz Golaszewski wrote:
+> > On Tue, 13 Oct 2026 15:09:14 +0200, Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> said:
+> > > On Fri, Jul 24, 2026 at 11:40:59PM +0200, Linus Walleij wrote:
+> > >> On Wed, Jul 15, 2026 at 8:51 PM Andy Shevchenko
+> > >> <andriy.shevchenko@linux.intel.com> wrote:
+> > >>
+> > >> > This is the finilazation of the work announced in the commit 61e1fd2abca4
+> > >> > ("gpiolib: legacy: Make sure we kill gpio_request_one() first"). With this
+> > >> > small series we kill gpio_request_one() and leave only two legacy calls
+> > >> > devm_gpio_request_one() and gpio_request(), where the managed one has only
+> > >> > a few users and high chances to be killed soon as well.
+> > >> >
+> > >> > The series is supposed to go via GPIO tree (due to nature of the last patch)
+> > >> > with possible immutable branch for others. Please, ack.
+> > >>
+> > >> The kernel is clearly a better place after these patches than before it, so:
+> > >> Reviewed-by: Linus Walleij <linusw@kernel.org>
+> > >
+> > > Thanks!
+> > > Bart, anything needs to be done for this series to go in?
+> > 
+> > We don't have Acks from MIPS maintainers. :(
+> 
+> Hmm... Usually Thomas is quick. Thomas, can you give your Ack if you agree with
+> the changes, please?
 
-> For many of my contributions base is obvious and not needed to be
-> explicitly defined. For all the patches I accept, answer is the same -
-> base is either obvious or if not and patch does not apply, then the base
-> does not matter.
->
-> Requiring it is just bureaucracy without actual benefit.
->
-> The only benefit would be if maintainer COULD change its base to apply
-> some patch with odd base... but this cannot happen. Maintainer base is
-> fixed - it's the HEAD of his development branch for given category of
-> commits (e.g. DTS branch for SoC maintainers).
+sorry, I was on vacation.
 
-I fairly routinely get docs patches that don't apply to docs-next; when
-I'm in the mood, I'll try to figure what they *do* apply to, then
-cherry-pick them over.  Base information would make that process easier,
-and even automatable.
+I'm fine with the changes, but I'm not, if they still apply cleanly...
 
-Thanks,
+Thomas.
 
-jon
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
