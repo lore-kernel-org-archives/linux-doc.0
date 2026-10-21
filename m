@@ -1,64 +1,149 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792600372;
-	b=w3i/mOOzDWH9M2fBY26+lkQBfu44fwBmF0FWAkV0Zk02gF1nGYDf+y+HNxiJuI5QdulC
-	 EbNdfHKduVo71KMICaShHFmzZklUciI9UTP7Oxow8R6aqTlrwJrMm2uX5YRuYhRocMJal
-	 yC2e9VufqSxuNOf3n0FWvDo8TsVmpsGHqN0XtHAqlmvoPsgW54x3VI8vCOUzkVYAAoUlz
-	 UgeeefEYZgn9cI986Z7lp2Ll6kIFJueQ8oAh72eMkuvMEj0xddvEXdO5+F/dUGNCjejPq
-	 nhp8D+8XwieWCM/YB5/bceBuDJdyHoU14yoHxRLch3aMMdL22/nFZXxQB7iua3Stcgw==
+	t=1792600406;
+	b=rK1d8j2HGHNpKegiJqKQsb+B8XeWac6nuyvV0bmea7EoIpPphVBIoc4dviwd6WySICdj
+	 hJw852/oNUY1fO0AS3WHMMATxbPaEJyCEP1FdyzSpIAtcidiWdl8XyrqkCaEYiZeE3Flw
+	 mw23WxpdgRg2erXB7G0plnEaqRY/kOy1jQM1eY1YXL+tMIeWOsOtmxFI0qyyW4MfJoh5m
+	 HT2G4+MZZYLkGH+K2PogVHcwtOcoKjqfP2OvfJkoa2PpCIARGLay7hzsedo/++XHAIsWo
+	 GcrGd3R2/xJaFqkSDKokYBut3b1r6aBqOaRlvG23/i/P58wlqTKY6SKnSlCiTXWBfqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792600372;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=/4fDPFQq8kEv5tYMLq0Kn317wl6GBDnlbl/tyaxklaQ=;
-	b=o8G9fGmQnUJMSJu+6bUJDeYA2zd7O2J41cGTpU2xY5VoUg0dDfK3MgD/PPdd7jyHl2JF
-	 mDoMI0JJA92iXyJ4nFwxt3oGGq/MF4o01l9n/noS3GFZUrTeFnIiKA9SI8OUvH0ioSs84
-	 Z3N3/rIAlUWPGFcZKbLVdZiCc/UootiqTMulnarYSn4jbWPeOTQYzrWCsf3fqHG1Vsv4C
-	 ym6sQt3s+7Rf9xuFSgcXpJlILWFEflrfhS3m2S60VMrwNC2y2FGtzFAkHwDwDrOSr8Onv
-	 1+7fb6elRDVzNZR4C95grsXwUkdijCXXF+y5STJpZUtzZx9HMA9Qe2pm9R2gzuQezEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792600406;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=5S0gFGL7jUhkinHTL4yVeHOzYpusQ3d8V09xofjMzsw=;
+	b=WV0Wi0R8n/P4LEe5qmKCZLbgmQZKLJQ4fG883uNkebyyPFEs0Yf+Mu3WmspuBzu8AkrF
+	 KHdyuI7em8vYW4IzOxTjqArGmthmyJ9hVAmUMJINob55AklyDJoGWqL5RyrV8SWp6FQTC
+	 XeN/zKKhOENHueERwAQUcZzMHsxQiDaJljb+NP0JLeYxKVVDxIYlQ7CSrpIfq3H8hJEKG
+	 ED3vK2EzTy/knVNYqna6/dfRSNbxu5WkzeesWX5aolRAYDl3hsjIL2UWKNBUbA1ZNaAks
+	 5Gb6oM74YWbQZAmHva6yCvluLDk/6AsTosDFxzMz1vsOVAq/6LNvLcrlC9uP2aGN2Sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NNY0Go1p;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GUi+svDU;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NUmJEvst;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99888606A32D;
-	Wed, 21 Oct 2026 16:32:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99888606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C39606A322
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:33:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33C39606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NNY0Go1p
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7DC251F8;
-	Wed, 21 Oct 2026 18:30:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1792600236;
-	bh=CEaI4acfak2EQ+4Yx8UeRxPKVO6MW1c1FcRLi3pNih0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NNY0Go1phCuFQVGH+GmwW501sbdSJAcZc7mbDXoxBDQ60Tmz9EyhGEwD6kdDUsPIH
-	 ejifUPPiSq4SpyNxpFrBWBFCMyjBzzIZyXMj1MGyT7+479zwKpMM4I7d9TsOMFOxy4
-	 /Np0BFJG55n6YEuG5xa8W/0tV5JZJM9dJkX8BweQ=
-Date: Wed, 21 Oct 2026 19:32:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261021163242.GB325924@killaraus.ideasonboard.com>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GUi+svDU;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NUmJEvst
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LFU5rK2102390
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:33:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5S0gFGL7jUhkinHTL4yVeHOzYpusQ3d8V09xofjMzsw=; b=GUi+svDU/yyymhsl
+	VrHOtB1d73sBGwG7COM52idcWEEDctYMa+eF6Pt4VtlzcUUOeQtAh2n1Vsh/2WQu
+	0u2tDuR/jArqfSZjo5WeZDkmKKnq5Cyx8LpPJLaBgJ14HSsFT34pk/oMJnE/QjZP
+	wyw5Luv8WVqQT2T3xAGbmx03QPVfE3A+2OotuyjaMF4DqeoByKTYNGCQZF08de+c
+	iWVSRHM+0Mr8/oSDoL8AAiVZP7kj7Tx91KaLcsM4HRQSlR0x5UCwgmmD9m+hLCQj
+	/j5oJYm/JjLQzfXhoQU6IC244z8l/Pqlkc+kupWm84Z9ZYCfxIBs8ju/HIUwivyK
+	DroMWg==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4heuhuhhuy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 16:33:24 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3ad436a9d00so924365a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792600404; x=1793205204; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=5S0gFGL7jUhkinHTL4yVeHOzYpusQ3d8V09xofjMzsw=;
+        b=NUmJEvstuVXE/tFZM2esXmuv3658YshInDdySPbrRF3yWviKEdk0fOMWFJAkCexFb1
+         /zokv5p0CPry3SeWu3Prxvcmv2qZgDT4IK3A2By04GvL6SdhHDW2H2UBzMWbUMVVF9z0
+         k53jxv6Qwt/j+0PrPmrxMtlEmqNG9UCMJBM8X9+esboLh6Xs8PRYprzgsS2w67CGcGjS
+         oX+f13kUk+taAl/Klgo+b5SDplOcLjj5kOEK6tONmQ+oLIcUrikm30dMmA+Wt1xcPw8I
+         AG6LILRXd4RgRW4JLbJN0sddoSipHTJ/bfNJubKWZfcfcfnyUxQCWLuCLb6wYoCJi8R+
+         9rqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792600404; x=1793205204;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5S0gFGL7jUhkinHTL4yVeHOzYpusQ3d8V09xofjMzsw=;
+        b=dxJdmZNw0egU5VMqzF51jLXLtdendA/VZw93R/idgq6BdSRAL6e8rUE3c+hL9gsSvo
+         Y8QOViYDK0LBqcT3lKVAq4EAzT/LY4oB5t77Nf3i/CPeJ5CP5dAeD0DfCXCq+gRdX9ny
+         KkfPnqGes1PI2ojc3Lcam5ShHNH7Sl/cYpfrT1DFtKPevhS48Ed6RTAD3qGFQE2a/DU2
+         O4i1/sE3pCWFNuZTnvEU2pyGutjIi+zxfLUtWDcaO1j1O1THx7ZhjAhT1ytvyrkhR40Y
+         2AsaWZfCE3KE6gn35SOZVPshBiif5auFctxWYBC4swtnJfkzCgcIXWzC+KhQMSdWFTHY
+         rmww==
+X-Forwarded-Encrypted: i=1; AKwUvBxQLgV3ZeZgTgQlBlUQ7tFVMU8Z+IyuzTzahKQFm3uuitSK3UvZTF3eFY92vT4p3Y0INpGs7qQEf5A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLWRUKJdBVYQjAgCTezo0bpRxjBd1Hg4auNupSDLufXz1ITQFQe
+	EFUyft5aqkMU6FMvzXveaxJgCToDP/XRacPuJU8MHjl0flICDlWQUt8Mo5x36a1w0qC3e/Vxf+S
+	IYSVvBgr46nuY3VjtbqasJDG0/fhzCWOxHw+o4HNzoXJsoBhrDCNhx7/0tMGcBL4=
+X-Gm-Gg: AYBFou3w/mZrZHQw5A0iknscwQhzySu3Y3JjkzQs+F8+81ZSnFDXJ6+Nm0762FQxxzZ
+	QAbj6AXAAjdcxt0L1XhTkG7/NG8NIr/i/YKzppf2GgYHq4LV3y6Sv9olmty1NjtSwXP9dN7Cgoy
+	EfQlCU3gJStx72fS19GEfXpcH1WLFua3WNtpCN1JkmonoEkyhIcxA2nKA+PUGTfK71PBjwobDdm
+	InL7BNIT2aLvRK/0VldA2AFkt5q6rqeYz4tPVxjxpepQlJ623fgC3SoRE5CiaBZWLTA7NaBw0Gb
+	+M+cajH3Xj+ktNy1GfSjbbMP9UnZ8ccwJDQtEE2XMD4nVKPAF9DLMtsd68M6Vg+D/DYR3rInM4c
+	KRNmRFJY2GQi/pLZUrN0+JMkEoviax6ByqodznBKVCQ==
+X-Received: by 2002:a17:90b:5688:b0:3ac:b185:fa16 with SMTP id 98e67ed59e1d1-3ad86ef57d3mr2257163a91.43.1792600403606;
+        Wed, 21 Oct 2026 09:33:23 -0700 (PDT)
+X-Received: by 2002:a17:90b:5688:b0:3ac:b185:fa16 with SMTP id 98e67ed59e1d1-3ad86ef57d3mr2257139a91.43.1792600403107;
+        Wed, 21 Oct 2026 09:33:23 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea4005a7c1sm11891595ad.71.2026.10.21.09.33.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 09:33:22 -0700 (PDT)
+Date: Wed, 21 Oct 2026 09:33:16 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+        Ard
+ Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Catalin
+ Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, David
+ Sterba <dsterba@suse.com>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+        Randy
+ Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
+        Shuah Khan
+ <skhan@linuxfoundation.org>,
+        Nick Terrell <terrelln@fb.com>, Will Deacon
+ <will@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Conor Dooley
+ <conor.dooley@microchip.com>,
+        linux-integrity@vger.kernel.org, Palmer
+ Dabbelt <palmer@rivosinc.com>,
+        patches@lists.linux.dev,
+        Piotr
+ =?ISO-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
+        Ross Philipson
+ <ross.philipson@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Song
+ Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH v2 06/15] efi/zboot: Lift efi_cache_sync_image() from
+ efi_zboot_decompress()
+Message-ID: <20261021093316.0000594b@oss.qualcomm.com>
+In-Reply-To: <6-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+	<6-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,96 +153,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=d4JgWhjE c=1 sm=1 tr=0 ts=6ad8e954 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=Ikd4Dj_1AAAA:8 a=EUspDBNiAAAA:8 a=w7afb6Jpyl5axNu8_tQA:9 a=CjuIK1q_8ugA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA2NSBTYWx0ZWRfX62U9Y54BHgYC
+ guCsiW20hDNxsYs7e6q3IKJ0Zrv3EmsRWnFBP6VRwsLTr+xNlsFbDbXDzieE60rjG7SnieppKtJ
+ ywDT8jrBI+QO8gllnqJ+QyJmdQGWKpE=
+X-Proofpoint-GUID: VbvV_1-ZbIOaWsBaljDIWgenRjdCANCX
+X-Proofpoint-ORIG-GUID: VbvV_1-ZbIOaWsBaljDIWgenRjdCANCX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA2NSBTYWx0ZWRfX44eMcsv4W+Oi
+ tli4rUljOC47IeCvcS77GL4Kq8wiVX/PekWE0HxlFXGdcQ/RrAgC6WyoHRVxPBjmfypAzN3az0H
+ vAAEyaodkhyxhTWIZKLvbo3P7t0UMhkpsgdvkkq0BGwOKCWUAaB47HRGk6NuQc64+P//N7w5daF
+ uP06iHddrs+N/KMPWYrkf4wkB36y04mCVPe+2YY28hb5wSWDQeolfLcGIIZe0qSabguwO2g3+ef
+ kIviBST/IW0XtL3L2jjk2XBBYdVKWp5T7ggBx7WETxveOiQcA/FrJZzINhKrerd7i1x5ldmLoP9
+ 9Xexlv+N5+LRuPvRji5QYLm/otbYjaUySOO0CJFdgui709XczwAxHMPDPmXS1QyQlx36Evxv29u
+ kJwErmLLJUkvsllBvOK54qW6ejjKIzyAW124Tb85yCK/bJTRaLvn+CR1p/QJv5VsndjP2xFcnob
+ Tclxupv04QU+frcQGWg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-21_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210065
 
-On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
-> On 21/10/2026 08:49, Eric Biggers wrote:
-> > On Wed, Oct 21, 2026 at 08:41:47AM +0200, Krzysztof Kozlowski wrote:
-> >> On 21/10/2026 08:39, Eric Biggers wrote:
-> >>> On Wed, Oct 21, 2026 at 08:26:28AM +0200, Krzysztof Kozlowski wrote:
-> >>>> On 20/10/2026 23:22, Eric Biggers wrote:
-> >>>>> -Make sure that base commit is in an official maintainer/mainline tree
-> >>>>> -and not in some internal, accessible only to you tree - otherwise it
-> >>>>> -would be worthless.
-> >>>>> +    If ``git format-patch`` with ``--base=auto`` (or
-> >>>>> +    ``format.useAutoBase=true``) can't detect a base commit, e.g. due to
-> >>>>> +    the current branch having no upstream tracking branch, it exits with
-> >>>>> +    an error. In such cases, pass an explicit base commit to ``--base``
-> >>>>> +    instead. This is also needed if git detects the wrong base commit,
-> >>>>> +    such as when the upstream branch has local, unpublished commits.
-> >>>>> +
-> >>>>> +The base commit must be in a well-known public tree, such as the
-> >>>>> +subsystem development branch the patch is targeting. See
-> >>>>> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-next
-> >>>>> +can also be acceptable bases, depending on the subsystem.
-> >>>>
-> >>>> I disagree, that's pointlessly too hard requirement.
-> >>>>
-> >>>> For many of my contributions base is obvious and not needed to be
-> >>>> explicitly defined. For all the patches I accept, answer is the same -
-> >>>> base is either obvious or if not and patch does not apply, then the base
-> >>>> does not matter.
-> >>>>
-> >>>> Requiring it is just bureaucracy without actual benefit.
-> >>>>
-> >>>> The only benefit would be if maintainer COULD change its base to apply
-> >>>> some patch with odd base... but this cannot happen. Maintainer base is
-> >>>> fixed - it's the HEAD of his development branch for given category of
-> >>>> commits (e.g. DTS branch for SoC maintainers).
-> >>>
-> >>> There are many use cases for applying patches besides the final patch
-> >>> acceptance, such as review (by anyone, not just a maintainer), testing,
-> >>> CI systems, etc.
-> >>>
-> >>> HEAD of a branch is of course not fixed, and changes every time a patch
-> >>> gets applied.  That's especially relevant when wanting to check out an
-> >>> old patch for any reason.  Trying to guess a base commit based on the
-> >>> date and patch subject is a waste of time.
-> >>
-> >> All these tools should just work on top of linux-next. Requiring people
-> >> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" is
-> >> pointless. I understand that base is helping, but helping and requiring
-> >> an obvious information just do not go together.
-> >>
-> >> So again: base has ZERO meaning to the maintainer process. It has
-> >> meaning to tools, so fix the tools to work on known and obvious trees.
-> > 
-> > So what is your proposed algorithm to apply an arbitrary patch when
+On Fri,  2 Oct 2026 20:31:43 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> The two decompressors duplicate this call and the next patch needs to
+> change the argument. Hoist it up to remove the duplication.
 > 
-> Already provided that, so to recap:
-> 
-> > there's no base-commit?  Including any historical patch (from
-> > months/years ago), patches with dependencies, etc.
-> 
-> Dependency is something else, but for every other patch:
-> 1. For testing/CI: you apply on top of next
-> 2. Every other case the maintainer knows where to apply it, because it
-> is his HEAD of next-branch.
-> 
-> I am repeating myself, but I really had no single problem of lack of
-> knowledge where to apply a patch as a maintainer or reviewer of some
-> subsystem, thus maybe I do not understand the actual problem you are
-> experiencing.
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-When I review patches, I often need to apply them to a tree, mainly to
-see the context, but sometimes also to test them. I have encountered
-many cases where the patch wouldn't apply on the current for-next branch
-of the relevant subsystem. That's often because the patch had
-dependencies. When I'm lucky they are listed manually in the cover
-letter with a link to a branch, but that's far from being the common
-case. I then have to ask the submitter to provide a branch, or enough
-information to recreate a branch. Having base information (base-commit,
-prerequisite-patch-id, and possibly base-tree) would save me quite some
-time.
+Some mutterings below, but I couldn't come up with a better code
+style, so
 
-I understand your concern about maintainers cherry-picking and sometimes
-introducing issues as a result. In that case I also prefer asking the
-submitter to rebase, retest, and resubmit. That's not what I want to use
-base information for, in my case it helps with the review process.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
--- 
-Regards,
+> diff --git a/drivers/firmware/efi/libstub/zboot.c b/drivers/firmware/efi/libstub/zboot.c
+> index 4b76f74c56dae0..e3abaa05fc4183 100644
+> --- a/drivers/firmware/efi/libstub/zboot.c
+> +++ b/drivers/firmware/efi/libstub/zboot.c
+> @@ -92,9 +92,11 @@ efi_zboot_entry(efi_handle_t handle, efi_system_table_t *systab)
+>  	}
+>  
+>  	// Decompress the payload into the newly allocated buffer
+> -	status = efi_zboot_decompress((void *)image_base, alloc_size) ?:
+> -	         efi_stub_common(handle, image, image_base, cmdline_ptr);
+> -
+> +	status = efi_zboot_decompress((void *)image_base, alloc_size);
+> +	if (status == EFI_SUCCESS) {
+> +		efi_cache_sync_image(image_base, alloc_size);
+> +		status = efi_stub_common(handle, image, image_base, cmdline_ptr);
 
-Laurent Pinchart
+A little ugly though less so than original code with that implicit assumption
+of EFI_SUCCCESS == 0 that is avoided in most the rest of this code.
+__free magic would be complex given the need to provide the size and hence
+we are down to a helper.  Ok. Maybe just not worth the effort given how small
+the code is.
+
+> +	}
+>  	efi_free(alloc_size, image_base);
+>  	return status;
+>  }
+
