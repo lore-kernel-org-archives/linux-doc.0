@@ -1,111 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792609534;
-	b=mPZ1/8Dmr7iITxmyljg+F78C2BI8wYx4DR5b+UO8BbfSjAjaD4I540lFZlSCm8mcQElT
-	 0GXRvmGzBILqTzyRQBgAgg7mA2VyE+IuSyhGmThbohjySoQ3XGuuiCQhKPwBZXCSN2soe
-	 MjsF+tYVdNrwicNVR8+tKtEdHVuctJDcXAeN+rK1px9P9cQ/4NbHiZacgcS/ZPikr4LmD
-	 iKbkKawVb6m8yPJ2WlG7CUr7Rl8lJ0HxDJqsQ/i8Q4vOLqIFpo7PcABr//q3PfkNccY3M
-	 G15k3CnxhART/CQ+otn2DVkoFcfB8tZXXDspvbPwsOS/MFSQ6giSx6Id8IzQnp9U8rg==
+	t=1792610538;
+	b=qrnxr+Ub8rlahsNlyyJa0h5Z9im/FqcmOk9UVATRc5ssvqWgzAOV2CbNOPWsi6FtG8+N
+	 kpob0DEN9Ddr72YYXW7ux1ETJT8P6OznOEOf/lnFuHL1jhBo6XOWtObzbmHpd9QRxc3+d
+	 g6xU1h+0TmlsQd0MQBqIlc0Oq8qFPLk8q3d06EeI5Wgu4jHK4o74JeOXCoAlQ2VbU8zdl
+	 Wrd8Xd7BOxy7h60OU+z5vc7bkNoyHTRhAmIJjFoDFIbYyIq2Mv7r/1iicY9+o3Iwd3Oyf
+	 XaOYL91ZIZRs+hRGscKoO422REzNcbmgZe8xGTYOjCpkhqnAZBfTccNKgdDsPu4Al9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792609534;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=xQ2SqnwVDG5xMzvzDIXO6M7gDqTy1UNMqzDsHAfACMk=;
-	b=jo/PwyEj4v7cvdYjgLzxFYLs8VuVfGBoGKdHcYKo4jIP6LwJQdvoI23/lXL0QeqpPdDP
-	 4dxKAJeTrZx5AuQvVaPtqFZsPDzY2jNJ8YXwRJTZHUXCGbB4CtZjS4/ndKSvFqVpnG5Q6
-	 j2gtn1P4+xDJTFWM3RLGy5F5MK7btI5nBAnoXyCZQCWyEsMq8bMyIst+smm9iZKyp2q32
-	 vs6PtDVpARkv/0+biJdY89WUHjTbpwIztMvz78rFHFUcjXJrAcivoOHFzw05MSyqe/Bi+
-	 zuFueATjrx8AkZrAE8llBuOP0alUhQjMXnoJsO++KtMICX2OUSlSsKYERBJk2g3IOig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792610538;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=q8aWe+ym/B+qVtPpDaCvqQXqyZeVsHrlmAXXw0ZAdow=;
+	b=GNZuK1U5cfHhSrawCtZc/R3OoEdYyQ+yWSfsrw83CfahMriORRS9u7iRP++HZrpppRyw
+	 agGANYJtJg4tQtmVBLe7JywR2AVklrEWgNyn0eOCKV0dC68lOU0pH5MHZJOJ61Eq7wpo+
+	 Rd1jZlYrI8Up9LXJxpfiCrbZzwUw61HqZqg6j6MVSWBmnyPegTjfO/OGJNs/uZtNravzL
+	 QhKqvRl/9xQZNlDgBN0nCPjPNFGn+ALo62tNiQJNea+mmzBO8PonbMaw+JMhZwvRJDQUb
+	 T6zyWDx76d+i6pVjQn4S9m2cjPP67CI70LhMJlE6D8VTdKee5VYV1DpQZ/c1+diX2aw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=coL7n6oI;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ci5+dYs1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011F8606A31A;
-	Wed, 21 Oct 2026 19:05:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 011F8606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FFC606A319;
+	Wed, 21 Oct 2026 19:22:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=coL7n6oI
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LIE1B6208261;
-	Wed, 21 Oct 2026 19:05:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=xQ2Sqn
-	wVDG5xMzvzDIXO6M7gDqTy1UNMqzDsHAfACMk=; b=coL7n6oIAQolMtk9jv3xCD
-	IdOjROBbuS8cjUl20s1RZTJh4mekwegdSgpa4i2L1qYmOasx8S0/v0cu3MUxqjuQ
-	3VCnBeeJzA3TxPZX64Yhiy6b3At4DYvKAZ4+ZwN5vy0w1M0OJKdZ0JYsIYe7AZSK
-	FcmvztvzKFbdc7QtK++cBEEUbsdfAXXd3f0rxO9MsW7n05QxY581f8hdEonceQOA
-	CACZZBE/sHGxQqrT8NCDVgcpdYYdqRPbAo+1CipenFAZt+OEUzJYDXmysvjdywCs
-	x8QNQv2W64rPX/In2OSqbV+9nWruPsQOwizQozakHKOyzJCgY+3lRzlEsKYSyJQw
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hdw5bk3jk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 21 Oct 2026 19:05:14 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69LHopV93498329;
-	Wed, 21 Oct 2026 19:05:13 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hcmuh8gr3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Oct 2026 19:05:13 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69LJ5CNV61080034
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 21 Oct 2026 19:05:12 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 909FD58056;
-	Wed, 21 Oct 2026 19:05:12 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 370605805A;
-	Wed, 21 Oct 2026 19:05:10 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.77.162.217])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 21 Oct 2026 19:05:10 +0000 (GMT)
-Message-ID: <8d8833fac61558a94af415143530884349584a2f.camel@linux.ibm.com>
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, Dionna Glaze <drdeeglaze@gmail.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-coco@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
-        rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
-        James.Bottomley@hansenpartnership.com, aik@amd.com,
-        jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-        jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-        suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
-        roberto.sassu@huawei.com
-In-Reply-To: <20261021143529.GP3008132@nvidia.com>
-References: 
-	<CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
-	 <20261017203407.GM13920@nvidia.com> <atPgqROZZxnihYfC@kernel.org>
-	 <20261017231007.GP13920@nvidia.com>
-	 <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
-	 <atX9fugGUsI0hGcA@FV6GYCPJ69>
-	 <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
-	 <20261019225658.GS13920@nvidia.com> <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
-	 <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
-	 <20261021143529.GP3008132@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 15:05:09 -0400
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ci5+dYs1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF6C1F000C1;
+	Wed, 21 Oct 2026 19:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792610537;
+	bh=q8aWe+ym/B+qVtPpDaCvqQXqyZeVsHrlmAXXw0ZAdow=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ci5+dYs1BpJJyoRmYQ8k1K3/KlTeRgwCpFcBnsHb2WGabzhzN6vfM2ZzUaCYXQoDw
+	 jSRO4Ey4d+UvHc2D3u4LCndTbHzTVpiBrBkH4Oe6MIG6moVADqlPW8PHvSPnP5RVfp
+	 55/emvZCC852WjgDT3GzgGtQ0zy0i/4+sz89G88IyZhQs8ufV6TeIQmV3k9QIwjBxb
+	 Zs9ENU7/SLUkfJOKuQ2GVaGN3WVE2y0LJqvtY1HhUzBbJSKva8NIn8eHUFJ3509G+Q
+	 180M9qf4B2XsM8zufFeP4qpRYpV2CvwtHJxZ0uKFtZGkVU2d5Pxi4SGDkTuZ26SxXb
+	 4qSlKihUEmzOA==
+Date: Wed, 21 Oct 2026 20:22:10 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Flaviu Nistor <flaviu.nistor@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: iio: add documentation for ti-ads1015 driver
+Message-ID: <20261021202210.7d70429b@jic23-hlaptop>
+In-Reply-To: <20261021063350.7984-1-flaviu.nistor@gmail.com>
+References: <20261021063350.7984-1-flaviu.nistor@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,98 +61,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: ydaOzlwPIUk9SIhOIcCkK3SVXfS2DDcg
-X-Proofpoint-ORIG-GUID: GzBYn879Oa5NzXnY4sgOMq8X1dbUx1fB
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfXwyVoKuAud310
- A3MMgRuO3P9BfDlryZr7ihLhpK+1PPfP0xO1xgsoY0qD3mT++OvGba+8UA0zkcoD+iWg/elNtcH
- Z8gPzXT/JWDMgUcPZBCKi26sOkrkUsY=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA3NCBTYWx0ZWRfX1hmDKI4a0lIN
- oCbznsJRgcS0JN6foELRHP6ISHyPt+L/UW64K16gcO4VrYiohYmtKf0oW63pkMniBR5FA572QN5
- ieNRoOqQ5C+MUuzixWaCYc9xzLcGBWUGx03ndwS3NTq8ewrjFeaaF25ZgavBj0gzJcdgbUGxSh1
- z/ImEgbAtQpFnbxfpY5IGBnzAOUVBhPlq7kbzT4jo+YS8enEUnhx0XveFs7pUFwmfqtIhy7rfMr
- /eNM5pZnlbLbm0Swwddnnl31pEYsNFSv3Bp6+k2s2ORgrk1ke5QlzwIRPi80LBWPLiKzQs+u8rS
- SF8vdtLnNGB//AB0FOdXciN8gmxl2uGcWMN78g8nK/9aLNTmGVGxuGAPsMu90zKkHsZHcndSc2b
- gg2i2oceWWm/HafsY/e03vEgK0dQEZfnGympFncPnRryoEodcVL2DFBslRUkKJieyf7rN1+dJEg
- a9Wr0QwuxTURorMH4dw==
-X-Authority-Analysis: v=2.4 cv=Gb2CDgXL c=1 sm=1 tr=0 ts=6ad90ceb cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=yVQDdmlqToHGFoNqkO4A:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-21_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 malwarescore=0 spamscore=0 phishscore=0
- clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610210074
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2026-10-21 at 11:35 -0300, Jason Gunthorpe wrote:
-> On Wed, Oct 21, 2026 at 10:12:34AM -0400, Mimi Zohar wrote:
-> > > > I think for now we should not include a new dynamic log here, the u=
-API
-> > > > around this Jiri drafted can remain a future step. I don't want to
-> > > > open complicated discussions about new functionality at this
-> > > > stage. The whole CTLV idea in general is a big enough thing to bite
-> > > > off for this series.
-> > >=20
-> > > Okay, dropping the log from this set.
-> >=20
-> > Thank you.  Please keep in mind going forward, that the scarce hardware=
- register
-> > limitation (like the 4 TDX RTMRs) should be resolved (e.g. by multiplex=
-ing the
-> > extension path), not by combining distinct measurement lists.
->=20
-> I'm not sure what you mean?
->=20
-> Since the HW doesn't support sealing the only *technical* requirement
-> is the verifier can reproduce the measurement register hash. So long
-> as we can get there we can do whatever.
->=20
-> Multiplexing extension alone isn't enough. We need some scheme to
-> reconstruct interleaved logs too.
->=20
-> For example we could add an atomic sequence number for each
-> extend. Every log sharing a register can report the sequence
-> number. The verifier would have to globally sort all logs to confirm
-> the hash.
->=20
-> Hopefully we don't have to tackle this problem. I hope that 4
-> registers is enough for Linux. One for IMA, one for systemd, one for
-> user? Plus a spare!
+On Wed, 21 Oct 2026 09:33:50 +0300
+Flaviu Nistor <flaviu.nistor@gmail.com> wrote:
 
-Agreed, I hope you don't have to tackle it either.
+> Add documentation for the ADS1015 ADC IIO driver, which describes channels,
+> IIO attributes, threshold events and ABI usage examples.
+> 
+Hi Flaviu
+This is missing the 'why'?
 
->=20
-> Maybe we can build a multiplexed scheme on the spare? I don't know.
+We don't tend to add per driver documentation unless there are some
+oddities or unique aspects that aren't described by more generic
+documentation.  The actual features are all discoverable so documenting
+those rarely makes sense.
 
-To avoid interleaving the logs, AI had suggested multiplexing or virtualiza=
-tion
-of the RTMRs.  Whether is has any merit, I'll leave to you.  Here's the ver=
-y
-short AI explanation:
+If you have a reason that it makes sense to document this specific
+driver then state that clearly in this patch description.
 
-"Instead of allowing external drivers or subsystems to execute a direct, ra=
-w
-extend command to a specific hardware register index, the new attestation
-subsystem should act as a Hypervisor for Registers."
+Thanks,
+Jonathan
 
->=20
-> But we almost certainly need to have logs sequentially created in time
-> occupying the same register. Ie IMA may take over the register from
-> UEFI logging. Here we'd want to report the start/end hash values of
-> the logs back to userspace so the verifier can stitch the order back
-> together.
->=20
-> It would also be nice to think about a way to restrict the registers
-> to help avoid multi-user conflicts from misconfiguration.
 
-That would definitely be a plus.
+> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
 
-Mimi
+
