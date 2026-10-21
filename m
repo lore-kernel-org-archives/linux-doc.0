@@ -1,80 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792592284;
-	b=gNq/OF6vyi5mNwemciGN0yg23wa4HMtSb0D7Dl2uZqVems3q6gJVyP/eqTMy1gTAU1m4
-	 MKLjJTpydF+90z6rsFMml6O98/jJS8mYgU2SVpSkFME8Gfz/lWkK1VFnKrQqDkuYbQu/M
-	 66x73zc+XDLBY1dRGuhKs/p6ERsWYao9aLMZ86CWVloPd31ZKXR1vlaNSF4Lw1kY2oQoA
-	 RDFUViTtZvbJJWPD0awfAJp+uQlc0mMqG1u7JvGlqypr9ALdyqEC73ar2TwqnURQhzHcp
-	 KaTz+7VN6g4T6l7Q7k/7cokR3NtfdYj4m3d02+YZtAawFZ9NlUE/8DZLzhrlmtuFgYQ==
+	t=1792592290;
+	b=hvd8r73OtiWAzG8kKiSj+vIuPdpL5cuD5InU34qxzv8H55zq/S2CgizlE2Naycopjb3V
+	 c0dBlwNdrPvB/VlatNVDi+vWbsofJRzsk79+36taXDXOXwjHld3Rk7tlh/6P3Lg9XmzsV
+	 0SEDuyZ2Xbeszl69nJUhvBuASvAEIYW9VeQQo+POAfJ0NUypDDgzW0lBGnC8rgE/VUpjA
+	 dswpBRwinWrX+zhzcsr6x1+yUOfv3isxHCRvLjuwqC2GmUOyrSx1ahYo048oTG4cwO/Rl
+	 bjSEGc/0hZ30vM4Mjr1bHZn02UWdE2WLsaAbYqMKLk5ff0HqlFC7XCE/88QYrNw2H/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792592284;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=viVPNiO1h9d6x4944NBVmE7eQfOCbzUS1zFJo8DFT18=;
-	b=rPm6PI+bwK866T/vSpm48o4wK93CmFqHc0RMZzsvJOIE/0pW9daW0hIN3rJjv81f6Z0f
-	 TTuoKSJv2Tvj8TycNtLLBljnx7CcKN5Lm2DshO2TbM5pJ1EgkqCuy1iv6jWU7Tk6N0xkE
-	 EfDW2TKr0D84t4d5sAmhfHvVLvT3S//ZJiAcSYDxQTOjhjS3O4E3DezSiNnDVeprgAre9
-	 L4TehuxsABkt1v19xDhTdX3c9DG983HwzaRweNLjhR+QlyL4mD12ewADFcWQJJeM/bOou
-	 9mAWcIiEPhibuY6jzmdZyiO543N7dK/Er/mly45lyXWvdgXcust65+vC14iUrEUK0Gw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792592290;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
+	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=cnH4/UglkdApjtk0d5fzERvfXq1GFWAaonQ1KuOAbdo=;
+	b=Z2ljRmdHtKijgpsznYB9aRtlaQNxs354bw0rpEK3cHNGiqtmVuWSLWRkJ4w0HATTL50S
+	 qoSxwo+0MMbhAMf3ZXIT43Iil/PkbVi2zeJto990N2/+hHKu68vj0M0v9LE1rNGrUIHS7
+	 3w5tyLZJN2zUCamW+uUpZrykH8rarjvp/LUbQHY2Hl+1vdXZNmJYqg+eegLYQU/CprMOn
+	 C1YKruhFRygX2mfI9HDEApbJ/grk6UpNg9SRig3ExLKeHsYMeAWBw8R/5WYf0nnUbAWNV
+	 eWtehlSsn55RpHj/xCEFXRV854g1cJTw+5FFibr/G3r3dLbIhJG1k5VB4DpSMLUnngw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=GSL4SX2q;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F7B4606A31B;
-	Wed, 21 Oct 2026 14:18:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F7B4606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qhW5x91i;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBEB606A31B;
+	Wed, 21 Oct 2026 14:18:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CBEB606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=GSL4SX2q
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D04116F8;
-	Wed, 21 Oct 2026 07:17:59 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A87AC3F7D8;
-	Wed, 21 Oct 2026 07:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792592282; bh=35GT5enIgjR3G0mGLGcskElDVX2rz4mcaIAbm4cF2TQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GSL4SX2qf4CN5QXvB+wvj8b0xDfdgXdSaWJenkWv2OXP6uHcg2mMSaUEenfCanmqw
-	 waL3JQZHkksN2EplpGp9cTP9K2BYk/qHOT/mNylNJEhugn51c9sqozipMSVMbXJNVU
-	 WD/XpwXx8b5tuTFXHOJje2t23dUHt2NZNquBmofc=
-Date: Wed, 21 Oct 2026 15:17:56 +0100
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, Alexandre Ghiti <alex@ghiti.fr>,
-	Albert Ou <aou@eecs.berkeley.edu>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, David Sterba <dsterba@suse.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Simon Glass <sjg@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	linux-integrity@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>, patches@lists.linux.dev,
-	Piotr =?iso-8859-1?Q?Kr=F3l?= <piotr.krol@3mdeb.com>,
-	Ross Philipson <ross.philipson@gmail.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Song Shuai <songshuaishuai@tinylab.org>
-Subject: Re: [PATCH v2 15/15] efi/arm64: Implement ARM64 DRTM in the stub
-Message-ID: <atjJlBqysQmVVwI2@e129823.arm.com>
-References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
- <15-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
- <athzBHFwyp0bFEu9@e129823.arm.com>
- <20261021140649.GO3008132@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qhW5x91i
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LBihF51092707;
+	Wed, 21 Oct 2026 14:12:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=cnH4/U
+	glkdApjtk0d5fzERvfXq1GFWAaonQ1KuOAbdo=; b=qhW5x91iY0WcrC4VhMH7wY
+	UiUJeTBnhY7wQuXzCwK3l/Nb0EUt+eo2c6uDEViJEoGJ8rPEXUZCGHIQHOYR836J
+	HPwKAkPYHsicNmDvQtGIWu2j7lrHBPJVJjpDUN8easUY+UJqZ4k5TwRC9vnJ6emA
+	LxA1CNB3DYbImERT54Mgbp3S/N9tXhwDEpTRQX9S+LAiXMO0yzfNP6yfjmlswbMl
+	202j9tcdwffOt13m8EhpqPji19G0tS5+RoRuU7oi9bwgZDPHPIZIp5OM7LobsDOo
+	kGSdDpJUBI+qKZMkt8wLyIpirLhE6dIKtuLu9kVstJoqAV94CCuyGykbU/nZMIYA
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hdw5a17ge-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 14:12:41 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69LBntBV3044442;
+	Wed, 21 Oct 2026 14:12:38 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4he6gqdqyt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 14:12:38 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69LECbLm13238930
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 Oct 2026 14:12:38 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CB3CE58043;
+	Wed, 21 Oct 2026 14:12:37 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F23B25805F;
+	Wed, 21 Oct 2026 14:12:34 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.75.7])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 21 Oct 2026 14:12:34 +0000 (GMT)
+Message-ID: <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jiri Pirko <jiri@resnulli.us>, Jason Gunthorpe <jgg@nvidia.com>
+Cc: Dionna Glaze <drdeeglaze@gmail.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>,
+        linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+        ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+        sameo@meta.com, James.Bottomley@hansenpartnership.com, aik@amd.com,
+        jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+        jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+        suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+        roberto.sassu@huawei.com
+In-Reply-To: <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+	 <20261016234354.GA664420@nvidia.com>
+	 <CANwfdvXFLJpC4Bc1PwRoUUP20fu2K8b+FHZ1JLLFXAikC-cBaw@mail.gmail.com>
+	 <20261017203407.GM13920@nvidia.com> <atPgqROZZxnihYfC@kernel.org>
+	 <20261017231007.GP13920@nvidia.com>
+	 <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
+	 <atX9fugGUsI0hGcA@FV6GYCPJ69>
+	 <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
+	 <20261019225658.GS13920@nvidia.com> <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 10:12:34 -0400
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,45 +114,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021140649.GO3008132@nvidia.com>
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA1NCBTYWx0ZWRfXyoLKXsE16f7S
+ WYqfJ5PPmkKwK9Vp0gZYpl8AEBTvuMatXtkRV9GrEFuYrsGP2dbsrqQLfZoyUOCYnAvXTO6g8tZ
+ XiXjPY0ULc8v2b12cfx15jLrjpPPBzw1OBlFPb5i8uWnFSEjYQqwd8UypGmj3bDg8vPrl3VMXE8
+ FbLm14si0ey/ey0lf86nNmWZ9SeKtN2PvwSiGjBTM1g0KoO6UAnIhqWnqhpikmnKpf87yGisb3F
+ WkywgdoX3nqwBDkqY5j+7gnGGV9Ccnsvo/ryAGSebnKzRsTd3MHCqOBE15bxUPmWrQk5+NuhAd4
+ peORg1G4FsDwI/90QBCeoPYdeFIBCeKuWCDot/hZ0r85Lmyn9fbSUWn+vZQuINyBLFyYE3A/Xfc
+ k3j1TE2zGo0bsTdXSBWzxbxuroigkQWNfV/TKZu3BqooROEvm8ixUVX9Qy9+pT54PFA93c/LDfA
+ MG68XircKXjLCjGxIzA==
+X-Proofpoint-ORIG-GUID: r5LW5he_5nLfSlQ9QHxHuRJZxO92cH8M
+X-Proofpoint-GUID: 431ewJp-P3UlLZkP6gfIqHy4gP_dwtnw
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA1NCBTYWx0ZWRfX+03hT/IpVZaZ
+ KtoVklMkmjj8YwN4PnHYPkhsdgkKzy8mo1yW8tMK5tAQAeCa0cq+ogQcrWui4trYkoGRNqHCICE
+ RtyRBtSxb+UOHPbZpykQuv/OmHA5mD8=
+X-Authority-Analysis: v=2.4 cv=ZfSIpcVA c=1 sm=1 tr=0 ts=6ad8c859 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=vnREMb7VAAAA:8
+ a=Ikd4Dj_1AAAA:8 a=wp3Z-KoLcTzOWeoiLfgA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-21_03,2026-10-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210054
 
-On Wed, Oct 21, 2026 at 11:06:49AM -0300, Jason Gunthorpe wrote:
-> On Wed, Oct 21, 2026 at 09:08:36AM +0100, Yeoreum Yun wrote:
-> > > +	image_size = le64_to_cpu(header->image_size);
-> > > +	measured_offset = info->drtm_measured_start;
-> > > +	measured_size = info->dlme_measured_size;
-> > > +	entry = info->drtm_entry;
-> > > +	dlme_start = image_base + image_size;
-> > > +	dlme_end = dlme_start + drtm_cfg.dlme_data_size;
-> > > +	dce_end = dlme_end + drtm_cfg.nw_dce_size;
-> > 
-> > Suppose user boot the kernel via decompressed Image which is the
-> > part of artifact of compressed image and use the drtm option (e.g.
-> > booting via UEFI shell with decompressed Image).
-> 
-> Yep, it works fine:
-> 
-> EFI stub: DRTM: interface version 1.4
-> EFI stub: DEBUG: DRTM: TPM algorithm 0xc, TPM hashing unavailable, PCR schemas 0x1
-> EFI stub: DEBUG: DRTM: minimum DLME data 73728 bytes, Normal-world DCE 0 bytes
-> EFI stub: Booting Linux Kernel...
-> EFI stub: Generating empty DTB
-> EFI stub: Exiting boot services...
-> EFI stub: DEBUG: DRTM: will launch, selected launch features 0x0
-> 
-> Notice there is no "Decompressing Linux Kernel"
-> 
-> > Since the drtm extra memory is allocated only in efi_zboot_entry(),
-> > I think the drtm extra memory wouldn't be allocated so it would corrupt
-> > memory while setting the laucn parameter or by DRTM...
-> 
-> Patch "efi/libstub: Have efi_kaslr_relocate_kernel() handle
-> extra_size" handles the Image case.
+On Wed, 2026-10-21 at 10:33 +0200, Jiri Pirko wrote:
+> Tue, Oct 20, 2026 at 12:56:58AM +0200, jgg@nvidia.com wrote:
+> > On Mon, Oct 19, 2026 at 09:10:31AM -0700, Dionna Glaze wrote:
+> > > On Mon, Oct 19, 2026 at 5:08=E2=80=AFAM Jiri Pirko <jiri@resnulli.us>=
+ wrote:
+> > > >=20
+> > > > Yeah, I was thinking about this and went back and forth. In the end=
+, the
+> > > > only reason for leaving it unbounded is to allow multiple independe=
+nt
+> > > > users of the same register. For example, IMA and systemd could shar=
+e a
+> > > > TDX RTMR. The systemd side would read the journal through the
+> > > > attestation device and the IMA side through securityfs, but both ar=
+e
+> > > > views of the same journal. If one side truncated it, the other coul=
+d no
+> > > > longer replay the RTMR. Isn't this the valid usecase? Do you see ho=
+w to
+> > > > resolve this?
+> > > >=20
+> > >=20
+> > > Bright minds have spent a significant amount of time working on this.
+> > >=20
+> > > +Roberto Sassu, +Mimi Zohar
+> > > IMA logs and systemd logs are both system level concerns that are
+> > > relevant to the OS construction, not individual users,
+> > > so I would just say to reroute IMA to use ctlv using a kernel config
+> > > setting, then make systemd the new system manager of the holistic log=
+.
+> > > The securityfs log contents can simply say, "log managed by ctlv" in
+> > > this setting, in the form of the template identifier.
+> > > For policy violations, only the 0... extend needs to go to ctlv.
+> > > IMA can still keep its violation log as a ring buffer when it's not a
+> > > 1-to-1 violation to extension
+> > > https://www.youtube.com/watch?v=3DgyYUYbdiN_4
+> >=20
+> > I think for now we should not include a new dynamic log here, the uAPI
+> > around this Jiri drafted can remain a future step. I don't want to
+> > open complicated discussions about new functionality at this
+> > stage. The whole CTLV idea in general is a big enough thing to bite
+> > off for this series.
+>=20
+> Okay, dropping the log from this set.
 
-Thanks. I think i misread that patch. :)
+Thank you.  Please keep in mind going forward, that the scarce hardware reg=
+ister
+limitation (like the 4 TDX RTMRs) should be resolved (e.g. by multiplexing =
+the
+extension path), not by combining distinct measurement lists.
 
--- 
-Sincerely,
-Yeoreum Yun
+Mimi
