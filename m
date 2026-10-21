@@ -1,120 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792576124;
-	b=upvGOoLjN399wlxXNG47wwgZukmEqKchhU2Fsd5lP1NvIoWY/CuqPhwOKdUevw0reNp5
-	 a1xNSEYafcVKvqZ4qGecTjJI7duFyD+fjWv7ki3xm4wOn/sBe0S1qkQmueDb0R9JcAIev
-	 yzO/+wceg3KFgyS18dXDRN3Fft1hURYSQE689iSCUafky7uMegwvq1cawhFV+0npU06Yt
-	 vW0mJv9ok4cKr5V4JMFNlSfGTVbX7pntPK6HoOlEi7UQ/a+ZjStHXQo7HU0wM3+AEW1uD
-	 n4Eie/XXa4DVN4LBZA/q0H9QNYDH3IhfdwUTyf1lJjnCWhR1YQRVZf6TlRiYySQurAw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792576124;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
-	b=DbJ/9mxDjrVVCfy8jLhLoV0gFObAIxJG7sbvxDqEchMY8b6T0TWIsJc/Db2UXJTEI1u7
-	 pRgyOCppDhWioOhq67szLWhx71YNCbjFchWTVd9K9kFUzErUVcK7oHjaXveIxSF+gN9JY
-	 CdsDQqFZy3NgmZq7YSwarOHwYYaVdSeii/6CX1KGFXVRLe7XN7uxgW/hA6lfWYhLNbgWu
-	 AzONh0wXwj73cHCau9uERILI1m2zFe7cr6g7o2/4dfoLcTlQ0OuTY0y9rP1uT9Vi9ZMAp
-	 ggs2rMhQ/kLmVkldJwqoSDNPcz2RqZYsICGG1QGUO5el+127XmKMMwN3AMNVRMyr/Tg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iAyP185u;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=fOIDGL33;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792576149;
+	b=v97WHmvw2h2uVSZTU0okn9YAezmSltHNN6vDQmd+N5x6aRDU1pdhs0609ju0lSHMMsId
+	 /a0EVgtzNB03ev/Fv8h1NPhlWaqVHjkpWRnL70zuxtKAUwGmVdFR6tFDr/I9N2JXwzcve
+	 Su9EOHcBakgxWJmX23myoRIeEFieNH4lCjIVKjjQtnhbGgBnVkulKEwfc2Ty0DkRYxL3X
+	 QAspfK4LCQsro8FzNDzPVKIkYk+LMXv1NJQ8/xGXMpgwDCj9M+UQYo8Bm09jbH2HIN8yR
+	 8uQUrHTOI86TWsPocgXFvA78IHZkLxIWp2olrnq//nNMU63TnzD0FrGXpqrewr2FjoQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792576149;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type:X-Originating-IP:X-ClientProxiedBy:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=PbB7TYQeWcJnJ8ssulaBNyIhbps3F5bTqDEBZSs5888=;
+	b=4khBXfbPvqJnLLMWwM/H/PBjOz64gA83ZxbEBSSdcz0IreFv9kbP6Ku/ZbeMTNYrxG0s
+	 RMXIBv5skvxCJmO339dMIo6GoLHYoXjesuhPUKE3N+MHMn7uIbGEcLCg9jFdFobGew+mq
+	 qX6DkCzbEGiPbKXBYDp7IrR8vQ+PoI5VsaI/U3GRORkJXq7KR3BHBhSAsCthYval7gvQg
+	 YtDQPxF5BnLI37aE1DTYBkceLmOb3cGzNmXP9L+urMZe18uyudc2l+FNvljHwlyQJS9Cz
+	 s1HDmWgd3W2fHgw2J9UrRHcBYdx8HfNFuS1KNebuzZsy82Fj8dPEPWoaROW5DtWaJmg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=axis.com;
+	spf=pass smtp.mailfrom=axis.com;
+	dkim=pass header.d=axis.com header.i=@axis.com header.a=rsa-sha256 header.s=selector1 header.b=pxLeoSr1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.54
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010054.outbound.protection.outlook.com [52.101.84.54])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A146606A326
-	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:48:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A146606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925B5606A31D
+	for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 09:49:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 925B5606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iAyP185u;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=fOIDGL33
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792576122;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
-	b=iAyP185u9WCtzmuB8Ga4yrARIPQVN7dKL8XtML1yGN+8qXVmsTraOqIDXcwem8ihrFkYoG
-	iIUyEFy2XXpoXNT2BCTzcuhDTEFBTrtLcuJS0slTVJolgVae53OSzvK1ZSON2zR7BDGAre
-	kS8k+OU/t2Ux1AFF43dYFz7wyb0kp6Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-S_CpoTKSPZy17BICNuuTuQ-1; Wed, 21 Oct 2026 09:48:41 +0000
-X-MC-Unique: S_CpoTKSPZy17BICNuuTuQ-1
-X-Mimecast-MFC-AGG-ID: S_CpoTKSPZy17BICNuuTuQ_1792576120
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a01d1fb07bso6570915e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 02:48:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792576120; x=1793180920; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
-        b=fOIDGL33NTrxPKx+BfsSsDVnXGS4e8t1HJJGUsc3zBeYFcQ3ytvC0qEBRWjlfcyZrr
-         ZCckOHMhq0gDAviC7f++/hBeFg2lT7fA0dttpTW7BGm1HhGK9eEMaPmE7TDHycXFjXHk
-         h7isdhUMxs7yCNSiurFJE3JaxJ7pN3pn9BsYs9SHANIIphkdRwNpO4FR9itNunWMSxhy
-         771t03Cx22KDx1i08QAh+IExKyggLErVRHkGmOFSmSqteiSE5s2VW/g06SXItYaSgVJN
-         K4stLeA5BBNcDnmNyRisJHaTIbAhf60v4At2UHbhm/fT0XdPXzWoegysEI2GbNcnjv+Q
-         j4HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792576120; x=1793180920;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3oOP1y+9aN6aMBiBqwXHlYcfXTBVxTTDMi2tTB6X1Pw=;
-        b=VlfpXPbrrnvdXbnXPVhMuPm7seZnAuDCV8t/dzn5/hG8o6yEbnt1xnVssQmwBMpVRh
-         MJG/cQZxZ/U+n9Uv91Nsn8r31JgC4kGxs8QtClQFLoDzFFQbE71sc9a+O1cSgqXw9ElN
-         2/dakkl3sF19Z61985JeoMP1XF6JT6CX9uQ74TwAmbp9gFx+A7ZSW+Nqyctz3qlK/bCR
-         nK2Y4R+8VjImZOyU0DAP31B//hqcdljb9FdoH6Gs9HL2rRRvgerPOJ5bPMFbt74ZMRmh
-         m6WelOt1MPUfFGEOMJKfNTBHtUP1hiNEt+Ax3jyFkJvMo8P+tWVYybQmE1AWTy7/tCFR
-         aPog==
-X-Forwarded-Encrypted: i=1; AKwUvBy0eBaL4cG5YwKB3LQEMqNlRAXNaJoHmKfVdATFu5FVLVHnpd72BhtfbuCu8NzK/6r/J4VW7FXBjGw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLL7h3BYQR6aKMUZHb29c9RJTtmHQSB+NK6t8R3v90x8fabyMqR
-	ZRMYRbYD73oGroqCSfMkqJl7EpShknVq2egSM04md0ry3RPYV/b7CTr3ksYRFUG/s1Eaw1RuesA
-	g4gFo5DuAVvRN1eIL4XcH250tEsntoS5WLTMEPPVqxacV28Ddc8Bdl8GNyv8OZA==
-X-Gm-Gg: AYBFou2hvDTV5SMSmdlPDdcqHgM6b0kB59YcZ/k0PuOChHsrRouiXG0iyUngSSTQ3rO
-	l92gluUqMIaGeotVH0ASuHyEBRpDV6vW6pwOUNLLyE/egXTs52b7NARPXqnmq88sFcl62/lFDvz
-	FHMgWVDHQv8o4Gmblrw1EV7MSWo0AZcR4Uv8EyPzwO9iiYwnVYnsxnRMJmy0zVQDxQm4jOA6N/G
-	vuBBG8bYipWiVRW/tywzb3v88lGbA15Tk6KxcIOJFsrNf7lv1HXLXKeZRU12+ALT2szWMcM89Am
-	TWUYBp9o4i2oltpJMt8MQCl0u1qx+huFffqdXOKIRAfthHsWTsu1tLuZdNIdwLkI5/gE476nIMZ
-	rVb/FZA==
-X-Received: by 2002:a05:600c:6085:b0:4a1:d0e4:2bc7 with SMTP id 5b1f17b1804b1-4a1fdafd610mr29312575e9.15.1792576120202;
-        Wed, 21 Oct 2026 02:48:40 -0700 (PDT)
-X-Received: by 2002:a05:600c:6085:b0:4a1:d0e4:2bc7 with SMTP id 5b1f17b1804b1-4a1fdafd610mr29311875e9.15.1792576119740;
-        Wed, 21 Oct 2026 02:48:39 -0700 (PDT)
-Received: from sgarzare-redhat ([193.207.178.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fc1b227dsm52096435e9.6.2026.10.21.02.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 02:48:37 -0700 (PDT)
-Date: Wed, 21 Oct 2026 11:48:30 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Eric Dumazet <edumazet@kernel.org>, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	Bobby Eshleman <bobbyeshleman@gmail.com>
-Subject: Re: [PATCH net-next v4 0/7] vsock: assign the guest vsock device to
- a network namespace
-Message-ID: <atiKKS3piuBLEiSd@sgarzare-redhat>
-References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+	dkim=pass (1024-bit key, unprotected) header.d=axis.com header.i=@axis.com header.a=rsa-sha256 header.s=selector1 header.b=pxLeoSr1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dazlKa7cnu7Uf+T8l/SabOI7EFSOXLdcYzeDQGH4rtrG0Xwrx+z4DjtwoeYFyMbvQ08z+GPS7hxqUT4jLBkiFVaVRG7pvGAmXjMxLNqy0kTQHecPpQfTNQOq/hfDA76mRN2SRHvfScuS27yMATzMbZCg87bFJCqMIuJIvgQZW9zbRTRkw0zihWgSW1wHGSdo3wg78jWmSc51RxgiJzfP0vVEHhOfzvlzJSCKUS2MBgaRXZgZBcB0zNd5qXA5EjM8d8Zk7ZuBdDqhc4SJhlPV88oRCIRO+0T3ApqTSJ+2z4itNJnfYmLQCemuz7PzjcQf+GT+zl/QiM73Iy304vLOnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PbB7TYQeWcJnJ8ssulaBNyIhbps3F5bTqDEBZSs5888=;
+ b=gC2Hc53OqdIP6wkBcjHZiCbEIL0FArR38RqDnZhziCb4VsexLzwHT6q1J4loCuRfQzorSXnvPi3jFpFZ2iFGmMNxX42IbmvR7/ph7XsbXC+DmW6T1B9owZ7ozp7oJjzNa311AxgNuT3fo4TpbAoXKJCckFl9/8/4zz1X1bD0J7SAVgIbkc7DJFSkYyztLDJ04C1kf6PYsmvhq47bNblU8jKP72vYAOIemVLOZlJVOovy9OWWf5YwgpRdUAGVTetqe2RQYin+04q+c56d5C/3VqAd2tkNAA0udNK7EuCSWelZlxEapgorIibgl0fwGWrzWIJ99n9lnrjRlFJk4mxrKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=axis.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=axis.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PbB7TYQeWcJnJ8ssulaBNyIhbps3F5bTqDEBZSs5888=;
+ b=pxLeoSr1lK57z/5PJwjYM2aUAuP0t0Cp7nFjEU8dhLCfje/NBvu9JhazDAx3gSY1e1aTGR+JX1Z+lSCWC70MKbAw4mzSn6GMvajMo5ZB27hifA2cYFOg4amJZIDo29s+EvNBKadsQwUcKc20Zo1FdlMtmhrXxm1IY1oTUL0ISNg=
+Received: from PAYP264CA0021.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:11f::8)
+ by PA4PR02MB7055.eurprd02.prod.outlook.com (2603:10a6:102:107::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
+ 2026 09:49:02 +0000
+Received: from MI3PEPF00008556.eurprd05.prod.outlook.com
+ (2603:10a6:102:11f:cafe::a4) by PAYP264CA0021.outlook.office365.com
+ (2603:10a6:102:11f::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.20 via Frontend Transport; Wed,
+ 21 Oct 2026 09:49:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ MI3PEPF00008556.mail.protection.outlook.com (10.167.240.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.546.15 via Frontend Transport; Wed, 21 Oct 2026 09:49:01 +0000
+Received: from pc67007-2609 (10.4.0.13) by se-mail10w.axis.com (10.20.40.10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 21 Oct
+ 2026 11:49:00 +0200
+From: Waqar Hameed <waqar.hameed@axis.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-doc@vger.kernel.org>
+Subject: Re: [linux-next:master 5111/5916] htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+In-Reply-To: <853fd4a2-e3c3-46cb-844e-57f0002f86c8@infradead.org>
+References: <202609110722.GAZVme6v-lkp@intel.com> <pndse3cp5s6.a.out@axis.com>
+	<853fd4a2-e3c3-46cb-844e-57f0002f86c8@infradead.org>
+Date: Wed, 21 Oct 2026 11:49:00 +0200
+Message-ID: <pnd8q3rjsdv.a.out@axis.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -124,54 +108,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+Content-Type: text/plain
+X-ClientProxiedBy: se-mail10w.axis.com (10.20.40.10) To se-mail10w.axis.com
+ (10.20.40.10)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PEPF00008556:EE_|PA4PR02MB7055:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e0bf765-6d9d-4276-c765-08df2f588910
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|82310400026|376014|1800799024|10067099003|22082099003|18002099003|261009223027099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	WLjSKUvzI6Vfz5bi24YeAyqtm8/u/SeMrnieuVXkpwujW4ceMbTJxZH9eGz+6eNdJXCMpnxWPlq9lchJsV/CfHS1Xu7CIP2GnegOEwAAxHmKNJ3XofQyrABhdZgG17hnOzEyLdCsBBe7QdgU1RdnO9SYudFhf0Md53VRalNCuF+3RhfbMTkfKfh6xtMFw3jk9ADUrYLT5IXomFjF6WsxYcD8fQ7HyEmOlvtCD05CIO37vwVBuTTaZIIbLVPHRavvtjqggwsjksITU/IG2s2e1semh7IAfVr+BlnwwqQWiNTXvXlXM8ol7ExfJkJvTr1f6ZMDAOeneKffUqyOh1zEtcavMtbdg4m5IWkyVHhj3MyRtY0sLp0p9YfZvz1/NgUyS3NugOoT3wUD9J0CTHS9uPeuXoOKNpDthPvGXGdKJJ1lTKxTzvTaN0t/QLJjR5P2NnWhB1IIDa+OSgObauJcx8IqJDIub2I4ifmXM+AVW9Dq7bA08mWdUJbwxezTKXDOkgh7RWNHWGXzPSPRUq7zuLDC+GCvxmUUt1P2VBJT4d1Yy0DpwXCSI54AFwJlqoUJlOnuRzacF06uu6P2se0Tm88tol5gkPCIWV64rdy1lIH/AqhKezUIvOzAaGkKAfKVEj8TLa01v6rf677Sx32JboAg+7ccPnjWrHZ94f2ocmAKLv1ZhPAYaXFfIbMGQVKoROxh62gYukjN7BfZeND9GA==
+X-Forefront-Antispam-Report:
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(82310400026)(376014)(1800799024)(10067099003)(22082099003)(18002099003)(261009223027099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	mxaEw8BhKlL6wwdt/gcEreqLt+Ms3iquk+qVPzLczGnc+zCWr1ojeQYSjtOOy7BO5pD20KdZrvvmbLdum5XFIc+Y5AfmZyvCpT8IMCnh65H1N1OrrGULoe+zQPXYELBbm16O7zVqVOyAjNCnNnij3dKbX99X9m2SVjT1DNVplIo096wJEfN8xOdUrBG/QMiYCNNewbdQLl0TmeLoB8tYYGhJdITaQ/ji3BeB6Hk7QHRCs40TI7kPffxDs0KCRT2+8/s4wltEqHbIj6Ym1whe2acDdGxswkW0/utFFrd8YYbWLoSOBlKL0Wra9bX/bzN/u8GzZkO+Bx7ByBSjWdIN93kbLHFgpm+8HB/dYdBGU3kwy+CRkbtO5ySugxWPlt7hO/Spx+5zPYon5/HFLY4z0OL8863jA7G5rRuLuzdDzDmU4OgZlukJ0VuBjhz9axzi
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 09:49:01.2482
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e0bf765-6d9d-4276-c765-08df2f588910
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MI3PEPF00008556.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB7055
 
-On Tue, Oct 20, 2026 at 06:15:03PM -0700, Bobby Eshleman wrote:
->vsock network namespaces let a host put each VM in a namespace of its
->own. A guest has no equivalent yet. It has a single G2H device that
->cannot be assigned to a network namespace.
->
->This series lets a guest move that device into a network namespace. A
->new generic netlink family, "vsock", supports the command
->VSOCK_CMD_DEV_NETNS_SET which assigns the device to the namespace the
->request was sent from. The namespace's existing ns_mode then decides who
->may use it: a "global" namespace shares the device with every other
->global namespace, and a "local" namespace keeps the host connection to
->itself. The device starts out in the initial namespace, so until the
->command is issued nothing has moved and no mode has changed. There is no
->explicit unassign as assigning the device back to the initial namespace
->is equivalent.
->
->The command requires CAP_NET_ADMIN in the initial user namespace, so
->that an unprivileged user namespace cannot claim the device.
->
->Connections that can no longer reach the device after a move are reset,
->so that a namespace which has lost access cannot keep using a socket it
->opened while it still had access. The assignment holds a reference on
->the namespace, so deleting that namespace does not move the device; only
->another assignment does.
->
->Transports opt in through a new netns_assign_allow flag. Only
->virtio-vsock sets it here, because it is the only guest transport
->that I am able to test against.
->
->Based off of Stefano's original series:
->https://lore.kernel.org/all/20200116172428.311437-1-sgarzare@redhat.com/
->
->Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
->Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
->Changes in v4:
->- All Sashiko fixes (see individual patch change lists)
->- Link to v3: https://lore.kernel.org/r/20261012-vsock-guest-ns-v3-0-b32447c66b23@meta.com
->
+On Thu, Sep 24, 2026 at 11:31 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Sorry, yesterday I started to review v3, but didn't post comments :-(
-I'll send on this series.
+[...]
 
-Thanks,
-Stefano
+> Please fix it (the warning in sysfs-class-power-rt9471).
+> I don't see warnings from any other sysfs-class-power* files.
 
+I was waiting for Sebastian's response before doing anything. But I'll
+just send the patch instead. I can't see that Sebastian would actually
+oppose this :)
