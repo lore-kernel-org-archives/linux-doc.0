@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792709451;
-	b=fPFRCItMVI/8Im/VuuaPZbpTI1IrbwocZWHHPc/TwQOafenGckN2ilCpBBfaoI+3lrX4
-	 QxGGRwDBgvR4gh+rLP0tNGL3E5kydJiDuxIhSca9BWJ8h0jIbymG5XWOfdaHtvCdz83zD
-	 n+eqrb1unv3bDIfPghh2uDTCw21Zktn7aTgb1JFLfxkZKRHF6FBVpv9xtxIGprg2et0lS
-	 tmdQem931OAVjI2LZKv9iTszREoizGvoU1L32RfCqSDjIsBQvbNypf63PoUipPzU02dfQ
-	 9cYyVZwbnEdUlQMX3bMXK8ZscOuTie6KQpbABy7IY/hxaHCCFQtNzfs3gxKBewmarHA==
+	t=1792709458;
+	b=JqirY75vKSwKhBXgwLSvVsr4yJf7a2Up9BzCyEpw0vcBK/uJyVQFr7qD1MiVsQbXw1Ii
+	 eU6VZAagipTO6L4LIoKivFqTns3Drr3YUxc2+VtWRQgE8eiMBZ73s8hEHh0AKHPk1DKmg
+	 ZAKc5P+OAVhzN5ufAiqxjbrRYVpjbc7xF0fgAnEspWLBDN/oFKfWw9Dxu6sjtznlDapEz
+	 uBFbn6m2Ctt9iXcn8s21BQJUFoYcgMHTWWnZx02FSUb4zZKRzs20Lf6z47vf7/1DcReDt
+	 zICKjAhBA6qaQ6QSdlyKocZS7lox57PECVcxU1//JgMkdtmgRg/+MeIGTavSIZhr4zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792709451;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792709458;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=QRGmnu+5Eb3jc4pybJnePwOeBfzJdgL5DEYasCwAfpw=;
-	b=lIC6EUGVqhvtcfpFj6Z8xNl4Pv6FxLQ8TcYkjXWXar9v5MfugSPwtMQDhpqkHitKVjsA
-	 3vkJyv0TnFvYkhu7lpRIqeIH+7W39iCZGVrDH9vbH5lp5KKmXaGsZTbshPNICXliztOLC
-	 QN3PY6GgJvvzMCa9JfcGIPoDN38sYCrwxE2oUnB+R96yEx+pLn6NaxxVV+lyKWZUquERp
-	 cCpm+J+ElSBLIdCSdlwqOWWM7cXA1WyqYf1SeavO8Pao6BcPgVjDkECeYZhwwmQ5syOn1
-	 PKpXzD6K++xWels9vtBxtlNdz782toSvNfMcjZMYioVTiIkJmxKrItYskqdwvGuqjKA==
+	bh=M8wkRoJDHKCl2H3ues/+67+xXGDD9mtv8dtHSiakNgQ=;
+	b=W1pkTIKAJWoLILye8wgI9HW5wy1ShznMaGALIOD9NZAI7raMnGqmahz9Mzevq+5AhVOj
+	 WWI5h70dyzS9tDrQa94hKbihfIMyxOAbDJRdap/00geIqDZZ2IheKDkj0r24+LADT014Z
+	 g772T0mzKPR4Lz82jGZdNfjdL5tPZVM87kWeNqFTqZq2qCh30ohjAC4zq6hYCEW2yQUjI
+	 EEL3vshkfvgem72o71TaU+5V16U0M7GfTfVwiDysrWww+SxihG1fnpwzwvBb0q9JqM78q
+	 uSI5n2+JI4oaEh2qTwXxYUih0XexNwM9XZ2C9lg6yqPMjBfhBXq6sgw6MZ9b5kO+lQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="Z+/XXPUF";
-	arc=none smtp.remote-ip=209.85.214.200
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=JSGwrRyA;
+	arc=none smtp.remote-ip=209.85.215.200
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BADA606A33F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 22:50:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BADA606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59068606A32E
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 22:50:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59068606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Z+/XXPUF
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e601800e58so3328725ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:50:43 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=JSGwrRyA
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd65070d3feso113873a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792709442; x=1793314242; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1792709458; x=1793314258; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QRGmnu+5Eb3jc4pybJnePwOeBfzJdgL5DEYasCwAfpw=;
-        b=Z+/XXPUFmVmC5mVsEOw9RDTDxL7sGpoEDkjYTwWRUb1pHFVL8eT0mJh0RDtmFeNwoO
-         sb4IOO4ushBGVZOf/szyEenft9lCTcLloC8YgzjP6QWzPo1Rp9qadN8Xf5fD69CQiwe5
-         FE+N9rOVj0v0uO/jHXNQg7d9ojYrcpDOZm/+iv20BD7mHFs90bE/Y1C5LfWBMuBB2Ngv
-         5dJvmcGUBfCOHUA2wpo8pQJzOj620CmKEHOsI/4SgZmsVZ71af9tU5qUi4m8otR5r89O
-         AE13JYaWG2cd53YL3fFxhPF2yEKO0Xq4+3SElXDXNIlJ46iFsQVek+1VsOgq4HGLQSv/
-         atmA==
+        bh=M8wkRoJDHKCl2H3ues/+67+xXGDD9mtv8dtHSiakNgQ=;
+        b=JSGwrRyAkEs5nLY0TI/rFOOQA7leL5Heko62iD6uNJwQpUemrInQKvcrfKXhRYE8kp
+         Fu7QCVVM+pAUJUMVjIvVQhWXGlGz7mkUdg6TEd7aRYsPAzOawRlrhql2unxygupRQEN7
+         uXbo3qO5zxmMdPNMGzVzocKFN4+yRhG+Ny3JHtq1tkOIfUFxM/kUOAvQWKgTu5e5pdJX
+         1WT6FcNwkFErCzQ7gRQ85QghI8Px64bMJZOSIBJk5yg/2VfhNFkrVO3yG0v4Ndk4wC9r
+         O68CgQTd+aUh1N2SSFbXFjrrbgcvJ4eFEgRe0HSygJHnIDbLImt9i+ZBC1HZriG3YW0Z
+         l6aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792709442; x=1793314242;
+        d=1e100.net; s=20260707; t=1792709458; x=1793314258;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QRGmnu+5Eb3jc4pybJnePwOeBfzJdgL5DEYasCwAfpw=;
-        b=H08RD4Qh/Rd4CTnIbWE70inIBLQYWafHE2XBxO6KvF2LKZ53CBVQD5cf10aN8tSyZG
-         4mD0pwbl3LkiJhCnWMsqmGEn5dsuZsLQGJ2xY8fnt0pJNYLtlVat4o3LyqO1R08ejTfl
-         VoSEvmhkiWUavhdoabQdwoQjKEi+tyLHFbqjlbHbuj+qc+4X/7B4tN9XKdQMr0VgpwUf
-         BsTMYAH0TRzWvMY3JeRH5gFdDWrrTBYhI4mmP+zjSOyW05Qkf/lRIofzc00mP+9LzB4s
-         dcOjT0xDs0Z8A91iYvS9NrmsIk2rTecOeYJ19BcHwtaQ3TOxfTzTxVCHx3dv09xufhcn
-         WahQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy2HHIuJAJhGzyZ3YPSDwhHg08JJyosHfT4MfoMEEv5DkW1MU3J0aUklkYP4wzi73o3XiXuMA7ffiY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ4LyCqoBfIiCiSrCz8fu742yt7/uGmMzX50jAYa/fKJPo1RIwo
-	Xr+vCQwI8hD4hnM93rXX8RoSEjsA7ZIXhHJlwWEyhym27i+3fczlb6oSQNJ8NAW2kJe+J0PM/I+
-	JoaZDEyJQcZ40rg==
-X-Received: from plpa12.prod.google.com ([2002:a17:902:900c:b0:2e4:8c0e:97db])
+        bh=M8wkRoJDHKCl2H3ues/+67+xXGDD9mtv8dtHSiakNgQ=;
+        b=Tzzh1+yrV7BKEQMSgnfk2z+KqcDXAQZKHKhaquSKdU8TnXE6SM4HWJaUsyxoPTq4l3
+         EvCpwT9oKi4e6dBDTC44FHYEmr6eVMn6gbdq1TLVtad3eKYAMfHvfNndDIdw60di/WS9
+         qTGACZXDobm9/qEHmafZLbmLrZUrelO7AaLP0YI6kyWMqUB/JB9TKAvEGIuKBIVBzsxL
+         W7WFpk/dFg4d23+pD8187fed4we/0MkMSWsIEZadFKj5k/SbaripFIF0Ctvp2n0tZI9t
+         NHKfbyotppxSgRbDN313aQkgISvQZqZGilX8NW3V+Vq+39nc1VYHzK1C7k1rNz861Xpq
+         0Hxw==
+X-Forwarded-Encrypted: i=1; AKwUvBwub95SEeNPwBOEYNf7z4t0YpCmJJz49Tn4hvhcs0h005QogkRq5LjXLmmTjJGGu2ZQp7+kHOOumtg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK/WKhTRUeBiwjkHLS9d0AfjRAmalOF8zpk1GuDUHacVXCPs4IC
+	PrhHs7ajzsD5Vr3tC1wOvcYTzoBOTDBQiNLSO/7HTSuH4xtqyEDqs+PRv3xGmHQHj3oKcS1IKP8
+	sTdjyi144+wZYvw==
+X-Received: from pgbm22-n2.prod.google.com ([2002:a05:6a02:6196:20b0:cd6:a6ae:1ba0])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:e5c8:b0:2ea:192a:13b8 with SMTP id d9443c01a7336-2ea7d09b8ebmr5151125ad.20.1792709442296;
- Thu, 22 Oct 2026 15:50:42 -0700 (PDT)
-Date: Thu, 22 Oct 2026 22:50:30 +0000
+ 2002:a05:6300:8001:b0:3e2:78bf:63d6 with SMTP id adf61e73a8af0-3e2a0c4a3a0mr1802376637.46.1792709457482;
+ Thu, 22 Oct 2026 15:50:57 -0700 (PDT)
+Date: Thu, 22 Oct 2026 22:50:33 +0000
 In-Reply-To: <20261022225035.377445-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261022225035.377445-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.257.gf7497c7d27-goog
-Message-ID: <20261022225035.377445-6-dmatlack@google.com>
-Subject: [PATCH v2 05/10] liveupdate: Don't WARN if tracking a retrieved file fails
+Message-ID: <20261022225035.377445-9-dmatlack@google.com>
+Subject: [PATCH v2 08/10] mm/shmem_luo: Allow preserving tmpfs files that are
+ still linked
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
@@ -98,58 +99,136 @@ Cc: Alexander Graf <graf@amazon.com>, Andrew Morton <akpm@linux-foundation.org>,
 	David Matlack <dmatlack@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Handle a failure to add a retrieved file to luo_preserved_files instead
-of triggering a WARN_ON(). xa_insert() can fail with -ENOMEM, and
-userspace can trigger that with LIVEUPDATE_SESSION_RETRIEVE_FD, so
-warning about it lets userspace crash systems with panic_on_warn.
+shmem_luo already accepts any shmem file without links, which includes
+unlinked tmpfs files and files created with O_TMPFILE. Also accept tmpfs
+files that are still linked, so that userspace doesn't have to unlink
+files to preserve them and can keep using them by path until the live
+update.
 
-The handler has already consumed the preserved state when this happens,
-so make the failure permanent. Keep the file until the file set is
-finished, like any other retrieved file, so that its resources are not
-released before then. Finishing the file set then erases the file from
-luo_preserved_files, which does nothing for a file that was never added.
+The path of the file isn't preserved. Like other files from tmpfs
+mounts, a linked file is retrieved onto a tmpfs mount chosen by
+userspace, which can then link it at the path it wants.
 
-Fixes: 00d0b372374f ("liveupdate: prevent double management of files")
+While a file is preserved, its size is frozen, so truncating it,
+fallocate() and writes past its end fail with -EPERM. For a linked file,
+this affects everyone who opens the file by its path, so a caller that
+can only read the file, e.g. a world-readable file in /dev/shm, could
+use it to break the owner of the file. So require permission to write to
+the file to preserve it, for all files. Like FS_IOC_ENABLE_VERITY, don't
+require a file opened for writing, so that binaries that are being
+executed can still be preserved through read-only fds, nor a writable
+mount. If the size of the file can't change anyway, because it is
+immutable or on a read-only superblock, also let its owner preserve it.
+Don't let others do that, since the size could change again once the
+file is made writable.
+
+Preserving a file also fills its holes, but don't require any permission
+for that. Anyone who can read a tmpfs file can already fill its holes by
+faulting them in through a read-only mapping, also on read-only mounts
+and for immutable files.
+
+Document the frozen size and the permission requirement.
+
 Assisted-by: LLM
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- kernel/liveupdate/luo_file.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ mm/shmem_luo.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-index 908ae124ea5e..5a82e45b9062 100644
---- a/kernel/liveupdate/luo_file.c
-+++ b/kernel/liveupdate/luo_file.c
-@@ -684,14 +684,25 @@ int luo_retrieve_file(struct luo_file_set *file_set, u64 token, u64 arg,
- 		return err;
- 	}
+diff --git a/mm/shmem_luo.c b/mm/shmem_luo.c
+index ecbeb37d33a8..aba2bc1f18c5 100644
+--- a/mm/shmem_luo.c
++++ b/mm/shmem_luo.c
+@@ -28,6 +28,23 @@
+  * the file are preserved. All others are reset to default. The preserved
+  * properties are described below.
+  *
++ * A tmpfs file can be preserved even if it is linked, but its path is not
++ * preserved. Userspace chooses where to put the file when retrieving it, as
++ * described in "Retrieving Tmpfs Files" below.
++ *
++ * Preserving a file requires permission to write to it, since preserving it
++ * affects all of its users, as described below. But the file doesn't need to
++ * be opened for writing. For example, a binary that is being executed can be
++ * preserved through a read-only file descriptor. The owner of a file whose
++ * size can't change anyway, because it is immutable or on a read-only
++ * superblock, may also preserve it. The file can be preserved through a
++ * read-only mount.
++ *
++ * While a file is preserved, its size can't change and no holes can be punched
++ * into it. Truncating the file, ``fallocate()`` and writes past the end of the
++ * file fail with ``-EPERM``. This applies to all users of the file, including
++ * users that open it by its path.
++ *
+  * .. note::
+  *    The LUO API is not stabilized yet, so the preserved properties of a memfd
+  *    or tmpfs file are also not stable and are subject to backwards
+@@ -298,6 +315,34 @@ static void shmem_luo_unpreserve_folios(struct kho_vmalloc *kho_vmalloc,
+ 	vfree(folios_ser);
+ }
  
-+	err = xa_insert(&luo_preserved_files,
-+			luo_get_id(luo_file->fh, args.file), args.file,
-+			GFP_KERNEL);
-+	if (err) {
-+		/*
-+		 * The handler has consumed the preserved state, so the retrieve
-+		 * can't be retried. Keep the file until the file set is
-+		 * finished, so that its resources are released at the same
-+		 * time as those of other retrieved files.
-+		 */
-+		luo_file->file = args.file;
-+		luo_file->retrieve_status = err;
-+		return err;
-+	}
++/*
++ * Check whether the caller may preserve @file. Preserving the file freezes its
++ * size until it is unpreserved, for all users of the file, so require
++ * permission to write to the file. Like FS_IOC_ENABLE_VERITY, don't require a
++ * file opened for writing, so that e.g. a binary that is being executed can be
++ * preserved, nor a writable mount. If the size of the file can't change
++ * anyway, because it is on a read-only superblock or immutable, its owner may
++ * also preserve it. The size could only change again after the file is made
++ * writable, which is up to the owner or root.
++ *
++ * Preserving the file also fills its holes, but that doesn't need any
++ * permission: Anyone who can read the file can fill its holes by faulting
++ * them in through a read-only mapping.
++ */
++static int shmem_luo_may_preserve(struct file *file)
++{
++	struct mnt_idmap *idmap = file_mnt_idmap(file);
++	struct inode *inode = file_inode(file);
++	int err;
 +
- 	luo_file->file = args.file;
- 	/* Get reference so we can keep this file in LUO until finish */
- 	get_file(luo_file->file);
++	err = inode_permission(idmap, inode, MAY_WRITE);
++	if (err && (sb_rdonly(inode->i_sb) || IS_IMMUTABLE(inode)) &&
++	    inode_owner_or_capable(idmap, inode))
++		return 0;
++
++	return err;
++}
++
+ static int shmem_luo_preserve(struct liveupdate_file_op_args *args)
+ {
+ 	struct inode *inode = file_inode(args->file);
+@@ -307,6 +352,11 @@ static int shmem_luo_preserve(struct liveupdate_file_op_args *args)
+ 	int err = 0, seals;
  
--	WARN_ON(xa_insert(&luo_preserved_files,
--			  luo_get_id(luo_file->fh, luo_file->file),
--			  luo_file->file, GFP_KERNEL));
+ 	inode_lock(inode);
++
++	err = shmem_luo_may_preserve(args->file);
++	if (err)
++		goto err_unlock_inode;
++
+ 	shmem_freeze(inode, true);
+ 
+ 	/* Allocate the main serialization structure in preserved memory */
+@@ -362,6 +412,7 @@ static int shmem_luo_preserve(struct liveupdate_file_op_args *args)
+ 	kho_unpreserve_free(ser);
+ err_unlock:
+ 	shmem_freeze(inode, false);
++err_unlock_inode:
+ 	inode_unlock(inode);
+ 	return err;
+ }
+@@ -710,9 +761,7 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
+ static bool shmem_luo_can_preserve(struct liveupdate_file_handler *handler,
+ 				   struct file *file)
+ {
+-	struct inode *inode = file_inode(file);
 -
- 	*filep = luo_file->file;
- 	luo_file->retrieve_status = 1;
+-	return shmem_file(file) && !inode->i_nlink;
++	return shmem_file(file);
+ }
  
+ static unsigned long shmem_luo_get_id(struct file *file)
 -- 
 2.56.0.257.gf7497c7d27-goog
 
