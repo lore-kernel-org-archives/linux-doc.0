@@ -1,128 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792699952;
-	b=lSPly7QJzraUMmsBmrDlFpYPNqZR9SlmrulS3vUMXSpJ27sS2V/4j49rO7fBbrrZfhsV
-	 J1mmtV7Mo+7JbJIJe+iaq94uQtnx2D+sb1ha4EkbqcJWhFeDUTOR/sFeDO+1HyaotNd82
-	 azbMJ+CxH6fiSkfwJuiKT7MXOQi8tsDNo2DyHkqTMOyoZ75eIM5CRYknw4vKvcLKbb7pF
-	 NHw3Mfj432gfx5trq5YMbeFw5q8KEzMG2aS+GB3yKaZ1eEDxtEfpSagBR0ci4/YcIGv7c
-	 wA8gLQsIOBJ96sdBPNQhFD1LaTec+quhpTN5SF5L9YglzH10jLOvyz/1fYAHKGjDFwg==
+	t=1792700612;
+	b=oOPPiEdp3kbAjrJJnAmcaVaBnECffG71f7nGT1aRTdMMwZ4YZZ94FoaSXeEiLuHsKNg0
+	 wYm2/btwuQLsmOcDJSVmWIRnfwe9bgSWIW844ZzMq/ivrA8v3aJzrP977ldLfLkNMQxTg
+	 PHksZEHg49NRprvu1d810c/0ZZb0uSHyqntfx9xIEJWHIezNMl4H/gJrCtC+DmOPMgkZE
+	 9XVetIFwdqWF5E70en6S75PJPRQF9hjZ3FwaghQbgfFW1WTnnwAw4X05U2plxQNY0Z83q
+	 /zLIG5yXxJ3YjSJp9a4E+NmVUmmZqM7y3K9ocQ+aPkGcx+RHHm5VMhaQMmrqjjk4emg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792699952;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792700612;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=I8JrjL/Toni0rgHeKLxMi210agLPfR373jhOEmm9NDM=;
-	b=f7Q1EdL77dUMppNbtejaYA+eEcnlYr/rAJTtsSV9NL96SiiTR8O1OvF/zqBpcz2oRDuu
-	 SGFTXxAjkXZXlrZPRoloUZYN+TaFf4ZlgPV76/UkuOl/+ooIu01t83PvneizdfXWsH9zs
-	 9wU/DSMIEsc2p5Zjl9DsWZTCy5lnq+hOg2BBAQDqKVh2sNJzPTPcAmuePuVoa8otx/IyX
-	 MZ/oFz3QAX3Gx3zyURPSG9d47xd7iiyU2UjvkrLbCR46fzBEYcwpOsMyNggr5s4WWbbvz
-	 d7USuRbIXTc3z0wq01rdsCdwNpBHh5A2TemyjnPprM1DcbMEnf+pEoOJzmgq3OriKHQ==
+	bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
+	b=oQ0QSK8MOGwsMf98fzko/IRt6pxhZCUYYQwwRpNcrXNMi6DKKazhQ2WlAXYdRykSCz5h
+	 ckdl1ZccrbADkEFBRLE+RvR9gitAx1iHOGJmJslVi2SXlGSchXdOs19wp/1EJH+sCL59k
+	 Ufz69Ta5h9OiJhPgNgaYE7wiggLEuz5+zLU/Jk7Nkx+u24F2+/zSCyDeT6m06wrhHffZL
+	 TEm8YlhTdQXT0EzvFcnfh4uxI3X4iXHnDC7XyFAEey/BT/pDDZ9NPZdS2YpaNCO3FUNN9
+	 vzMIlfnpsan+h4Tgxql/2TuTHaO4ko07vlHjxS7eyCkXf8oym7TBx4u2CRzhaNInPqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=bEf24BE7;
-	arc=none smtp.remote-ip=209.85.160.177
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	dmarc=pass header.from=purestorage.com;
+	spf=pass smtp.mailfrom=purestorage.com;
+	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=RZvMrKPb;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA68606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 20:12:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EA68606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E137606A319
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 20:23:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E137606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=bEf24BE7
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-5361e313e63so1136031cf.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 13:12:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=RZvMrKPb
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso327677eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 13:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792699950; x=1793304750; darn=vger.kernel.org;
+        d=purestorage.com; s=google2022; t=1792700608; x=1793305408; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=I8JrjL/Toni0rgHeKLxMi210agLPfR373jhOEmm9NDM=;
-        b=bEf24BE77jeSVrye/0K8bqAhBtq3l4ipVokvy1WTo9I171dh1cPnLebWZP98ZbHc1p
-         AY82b/V/Z8Ber8ZWp8VUWvVQdVKVcws1+qTT8I1nIkiiUcBGdUJt2If+NgtXZWXT8aBs
-         uKfYqDijGgrn/rN6GkRbg/nS7tyReOXZC1wz27PGG3UX69KRZ1voQbKcO/EJ7VCH+ev3
-         9w3+gkzOCiUWskxpeRuVsDRp3YDSWCkTFq4QinNxLt/YPbd0DW10RzKL39WEfK6b51Xg
-         gE0pjKAlKmDwW9sqvGKBvCi87C9mbwgaQyyqQUYs4WaTKD+zF6NXq0IhdXGPVmv9ZqYX
-         i7oA==
+        bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
+        b=RZvMrKPbBFnx2yyTosWZ04aFqIkL8Ce/WGIYyuZqTADisEr63CdZ37DebuMQCINTfO
+         csg6+7j4vMkjRDPV6N4jaBU4NUssCs7RBPlM+ionoNfAG9CiBcWOKRa032cV+jil6Bvl
+         AHBRFarAcS76VSGbf+L6p88zW4JoQA3R5NuOW5eBDln5EyVYa1x8pAF+/8f94GIyYzlh
+         HlRIOI5pfHDJs+y8opigZZsI2FcoTByBzNjAIXd/+V1di4APMvgpIMUcKESWvMseCbGB
+         P2q+6uRzDgBdJ1QhN1elEt7YyHAnCpEPqx5bt+wmHhUOY0D0/4iiR8Erl/fqWu4bSv4c
+         b9wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792699950; x=1793304750;
+        d=1e100.net; s=20260707; t=1792700608; x=1793305408;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I8JrjL/Toni0rgHeKLxMi210agLPfR373jhOEmm9NDM=;
-        b=F/zqHAIo+bMgKxlUYQkSi73rsVTPN60ePIIOgp2WXTK2NwG+5zEIcjXv7o36Ihky04
-         +zsBhxtRDxHKjbtf8933AadlCiKYjz5E6Y/VpUSEZZTxP1fzQqDq4J3tEv8P/hvc1G6g
-         pQS+vcUfAsKFsx4MuoINbfLRxUReh2qkZ+8ci06XsPECMwjsYCHnpdScj6QiHuyWIhnz
-         wnblhCaInYjbadY9RaGbWGKYTwynDhvGMncwlVhybqlxzYcOgVDMTwcDR+8h/E0C6PjC
-         k0hZTIt3d57Zg9ZTAZU8k5dI5du65YMbKf7m76z8jVx+hH7zsnGT1lblWONAJ8w6vO9C
-         kiUA==
-X-Forwarded-Encrypted: i=1; AKwUvBzK8O2FjuDmhfEYGsz0fi4vvOsG7UHiT46sb1qYOAYWtQTHMBU8ibhK8XaLNJ67Dwg3cwMYtqTfpvQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK1aIW6fkcjo4ElgIbv+Iwpf9fNr3j+MhWyny7/Iv+VZqxKuc/E
-	tdK+Dbre0m7WWl2E1TuHdF34M37w+uFry1wF17KuNtPfaPAMMEtoRWl3JYjYPmnpneY=
-X-Gm-Gg: AYBFou00Bcl2qHVv7OsKnj1PyNmPCbnl8jvfypgD2uYHVlAW7uz7jSxhMoI2UPLhRJg
-	S85HrGgW1Tx5fsnBl9/4Iqt9jhWYp6bs8eMHcw4t4hASgrSPPbPgljjM4bcCKcgu7zrGSSnCQ9I
-	5VTybPsdAMz6UXulNNrBf3dSAETBH4nNUbglIUjjyxGJkzZLcf2Oaqr5Hr1g9kr+hdKO5eupNcp
-	1PU89ahUKiAwvZPUBlRAO0M7rd9MuX5+92ahPgIeNJR+HtVV59j1nUSwMXDL3+TizZctcw2sWkn
-	yGWQ5r+XQN64JQVFkLCkzZ7nLXaZDyvIVW7Vvx4+4I0mVtgIEAW3KhZOLb+AOVmN4hevJBKY7mD
-	4lLrgsDZP67YJS2OmZkgyUrUvltACk7UHDcCo/Sfcm94Er1c2FTfbORPHiDk+AqK6oOFd479gU+
-	To03KVpaE6LnThuh9V/KIgznB93ZlixyRP3HR2cu8wIstzDaoRJ6c9F5BSaTaGFyJB7vXzS4w3/
-	VyWTA3DygjY98ojcmrhRzWXl9ahgg1WAyNxuBCzYC2Be0zaSziW/88Y28ZveEjIEK+sfFYxxer5
-	zkuc2zuYxB5j2Xbn+ItgqsYJPcp+Vv7/uvuZXw==
-X-Received: by 2002:ac8:5a85:0:b0:536:6378:c7fe with SMTP id d75a77b69052e-5369b8204d9mr99553871cf.47.1792699950468;
-        Thu, 22 Oct 2026 13:12:30 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536c14da10csm1768631cf.0.2026.10.22.13.12.29
+        bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
+        b=wV9p339LPNB9FmpEWNZHj6IfdLw3VWmmycTQn+uJGreVYyQ66dw8wkyfY/fzRvSwb9
+         bvQ1vXJgC8zaLi3jYWbGOpU+AlNFu1MQOMXOoDL1u5IFs4lehdIVdLm2hqsarON7JQZN
+         LU9Se2WLgRuLvwmtKRb/rOYInO4FY8SQDgkzF5lY+uh7nA9d+QZ8l0n0MNrrauAoiSla
+         uN0b2iFfeudzDp0kEfnw22d5eLnus2gpLnoeRUUverf6c04NzAIGVib4IH+dt9rJX01f
+         ENqvrBBa7577q0Xofv7ZbtNG2AWya/nVsQyizbbchNd9iFm/QRaQrytS5h5SKbyXVh9R
+         /8CQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxTxhP44IGf43PqPmXxRTxaYszb4wv+MTrK8yhWHjXHBcpznqFMiewaOxeiu0ovlNsoTJfaF7j+mk4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK0gA6SeHE3hRCK0wBTpcQcjjjNWp9mfYWQz2VPjIPRQLCqg04C
+	BhKiNLM9fiZ/kaCLcPPSqHR52q0uJ6CXKhYfvvmbd+HdQvCH4m1l4kg89sA6em/j+gE=
+X-Gm-Gg: AYBFou2vHtGleop5SfvGXH2ih5LWdJAjOVkgflPTpNhqP7GOl1x7I34lj4pTRr0Sj70
+	qizJGGLsWu9GgGVwRJKrIrYXOfFMMYtpinxzC/0XGlOnfNcUFdXMwP0XRjNOgBojPMOqO5MIuaS
+	7hnn5CfmfbadCIy8tUby/Y7M0fqzD9ldyMIOxBHeYLm0/DAardcgDo7qzwOcqbW525H9pd+gM93
+	0I0k38U9S6y+t565nSkw5XVAiLWCyB5/eZua8Q8QoQMTbG0p+hx4xOESByMMHGcBNN7Y8AnxM6h
+	W9bCYjBfEXgA05gMRrVK1nOkG9uadApCKSpdOTlrNdNHEzocoeQpWxVq9hx7g5Un0TxpW50m5EB
+	5QqUt3/tg+pB+lSipFKAVwfZJJdNYFrDE0MNJwG6alaGzt1R31Ez7OTjszCXjMKglOGDioduKDt
+	dk9tw0KEqtfUlqN9Z5DDObGaONSeFBTgZXEdo5+SBVev8CzuaLz3sg7QXD2ZLJPQO+lXqtpo0kK
+	nmW8BP+/v0gFF8WZ66RWiCf4leJixCnx1sHNrI//FFGi3izhLhvHGZzwsJBh4t/kft6ECrOprOR
+X-Received: by 2002:a05:7300:2a9c:b0:365:b147:b458 with SMTP id 5a478bee46e88-369d90c7547mr323249eec.3.1792700608112;
+        Thu, 22 Oct 2026 13:23:28 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-369d9d8978csm426450eec.13.2026.10.22.13.23.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 13:12:29 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xJz9J-0000000FoSN-1XEC;
-	Thu, 22 Oct 2026 17:12:29 -0300
-Date: Thu, 22 Oct 2026 17:12:29 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261022201229.GH3381610@ziepe.ca>
-References: <20261003212241.3432303-1-lrizzo@google.com>
- <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
- <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+        Thu, 22 Oct 2026 13:23:27 -0700 (PDT)
+Date: Thu, 22 Oct 2026 13:23:26 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Md Haris Iqbal <haris.iqbal@linux.dev>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [v3 for-next 0/3] block: delay support for error injection
+Message-ID: <20261022202326.GB2931-mkhalfella@purestorage.com>
+References: <20260928221634.43239-1-haris.iqbal@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -134,29 +100,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+In-Reply-To: <20260928221634.43239-1-haris.iqbal@linux.dev>
 
-On Sat, Oct 17, 2026 at 07:11:28PM +0200, Luigi Rizzo wrote:
-> > We should probably just find a way to describe that this is a POOL that focuses
-> > on physical contiguity in some configured granularity.
+Hello,
+
+I wanted to use the delay injection for a test case that I am currently
+working on [1]. Are you still working on these changes?
+
+1- https://lore.kernel.org/all/20261022185920.GA2931-mkhalfella@purestorage.com/
+
+
+On Tue 2026-09-29 00:16:31 +0200, Md Haris Iqbal wrote:
+> Error injection can only fail a bio today.  This adds a delay_us option so
+> that a rule can hold a bio back first, to model a slow device.  The delay
+> happens above the driver, so it tests the code waiting above the block
+> layer, not the blk-mq timeout handler.
 > 
-> Before embarking in a global renaming, I would like to get opinions on
-> acceptable alternative names (possibly with a short prefix usable for
-> identifiers in the code). I could think of the following
+> A delayed bio is marked with a new BIO_ERROR_INJECTED flag so the rules
+> are not applied to it again, even after a split.  Christoph asked on v2
+> to avoid the flag by allowing a delay only together with an error.  I kept
+> delay-only rules, as a slow device that succeeds is the more useful case,
+> so the flag question is still open.
 > 
-> DMA_PMAP (for PreMapped or Persistent Mapped)
-> or, ahemm...
-> DMA_PISA (Pooled IOMMU Superpage Allocator)
-> both using dmap_ for internal name prefixes
-
-Can someone explain what outside netdev would use this? And why you
-couldn't do this in the netdev page pool?
-
-It is not a common workload to have the DMA allocator be the one that
-allocates the memory. Usually we are DMA'ing from memory that was
-allocated someplace else.
-
-I think Robin is right, this is just a special case of the dma pool,
-and it certainly shouldn't be something as grandiose as a subsystem..
-
-Jason
+> Holding a bio back reorders it against bios submitted later, which breaks
+> sequential write ordering on zoned devices.
+> 
+> Patch 1 is a prep cleanup.  It moves the rejection of an unknown status
+> tag into the parser, because patch 2 makes a rule without a status valid.
+> 
+> Tested in a VM.
+> 
+> v1: https://lore.kernel.org/linux-block/20260827000115.128093-1-haris.iqbal@linux.dev/
+> v2: https://lore.kernel.org/linux-block/20260830012002.80275-1-haris.iqbal@linux.dev/
+> 
+> Changes since v2:
+> 
+>  - Patch 1: return bool, rewrite the commit message.
+> 
+>  - Patch 2: drop __submit_bio_noacct_nocheck(); the flag alone stops the
+>    rules being applied again.  Log the error when a delayed bio is failed.
+> 
+>  - Patch 3: trim the documentation.
+> 
+> Changes since v1:
+> 
+>  - Add the BIO_ERROR_INJECTED bio flag.  v1 only resubmitted a delayed bio
+>    below the injection hook, which left the remainder of a split going
+>    through the hook and matching the same rule again, so a bio was held
+>    once per split instead of once.
+> 
+>  - Patch 1: tag_to_blk_status() returns an error and passes the status back
+>    through a pointer, instead of returning BLK_STS_OK for both the "OK" tag
+>    and an unknown one.  A delay-only rule has no status, so the two have to
+>    be told apart.
+> 
+>  - Documentation: a delayed bio is held once rather than once per split.
+> 
+> Md Haris Iqbal (3):
+>   block: Reject unknown status tags in error injection rules
+>   block: allow error injection rules to delay bios
+>   Documentation: block: document error injection delay feature
+> 
+>  Documentation/block/error-injection.rst |  39 +++++-
+>  block/blk-core.c                        |  14 +-
+>  block/blk.h                             |   2 +-
+>  block/error-injection.c                 | 167 +++++++++++++++++++++---
+>  block/error-injection.h                 |   1 +
+>  include/linux/blk_types.h               |   1 +
+>  6 files changed, 192 insertions(+), 32 deletions(-)
+> 
+> -- 
+> 2.53.0
+> 
