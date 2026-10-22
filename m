@@ -1,56 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.175.24.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792695277;
-	b=qdWvQmxti90NQ9qxgzWb6xZaAGby60sAiyY/wgZiJZzkh9FTv7iZ7I+3XuojW1TAiaX3
-	 oNVSx7G7P0IqwqHomYVb/YChHk9rV+Z5gXQvEaYwkmymuEyLpZeDgEUMWV62eMDKKiRVU
-	 VpXVJc94uLbpRhjYT06QDqRb+Sxsa+6naQjGHYwbndVI/0NosHd8xwzF7x+mChwDPL1Tm
-	 zczVzH+9mCF6fTQqWjaymkTr1rtrpx3X+W1YoMAiLYVDO05jqTe2p1UpHewB7DlV+esI8
-	 d1DBrFsYBghv+ZZQjvVQJhcspgnuiemmDfybIsAYge+icxzTIl7xfoogCg6Hl2q5yKg==
+	t=1792695754;
+	b=rarlbaDStOKr0IM0yX24eMMpukyUoN3jWO8xjF5z6kWTJ6kuEaID0YU+T0msOhFN8msh
+	 nHAcyK9SBPTHqJliw58qCUAQVAKurVWlaJ1tw5ujw9MfBBr6UN4bkzgADnjL9S/gSSaPr
+	 QmwrlEmdpZz1mVGJz+a7Glye1Wit/1BKlUFFGT1O09M9Nsvgd5uugPVhQV7Hn755ssjv3
+	 HpzsmvDPv3uil3urr6OVYJM8anN010IagRCGsY3bIQl9HPklnpoj8udFBM/A9jw3AvOKr
+	 yf8A7K16LRsch9qnDIOOG461CYQONP+IFTu0mTb6s9bTLIa/JhD7ZRGcrQ0wOuoSKiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792695277;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=nKpgdfCWqF+9Q5MR5EBAQAUQb+BD1snzTotJ0iQU74U=;
-	b=AjMNGUVMBMLx0uFrhI4w1Ke9o43PzQw2erqCDBpQWBaKwCu4TFj8nkjIAAFWkRevUwHR
-	 n47reFI/EDYSQUbbOr7JjHn7BhqNS3pc92gxjWXulWLYDQkYWMGT38T2ZjsXzQM4I9uzG
-	 gyfB3sHg4T4/2wLSkU8jWA65tXQ2lCxrOMv7Wpos6JHo1mN5DtX5lVAGlZEHqgRrXlFXb
-	 QASCY0KIWALrBLQJoj6fWdsOlbuSIioj1EiRmI18SaIrIWv6Y7/XbU1HSCQ/leEQ+Wn+k
-	 N+R4rYLI7+IHokeEBqU/VO9KCAIkM1qFELYFWcggwL+etodyEwYWt17IL3E/syHd02A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792695754;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=AR3kez5fnRcYpN+/byP3CD5s15NltwUsUCBVli/ZHO0=;
+	b=FBldAtEMVtUcaOXxb8PEzSfW1X2PtS+qFLnBiee56IFzu1kHz3yqOD9EIgnMmJYPD0NY
+	 zWlTvd7W6OkhDx/x8qUyjUS1bJIKHQKVv0i4Zw/dVMMePfWldXLLD+XTMRpdgu7XV/Qse
+	 Unc956GEH1LNgKIOAYhNqOkSi33neOvZRNZi8ctMsbp16l8ehmh1HwviT/FbvCR03BEj3
+	 0nG7cNDFsLmGWdG2XpPNKWhrfaDmbfwFfczks9KYN0JxjVhhF6dxPg8C0u2oRu8kZRHLN
+	 CUIFLa/D2rO1kTQwXmY5EbnDq5j3GJXYLY0QTtXy1AUfYsPhNLHTipjzYyaqO2J3gpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=alpha.franken.de;
-	spf=pass smtp.mailfrom=alpha.franken.de;
-	arc=none smtp.remote-ip=193.175.24.41
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54539606A319;
-	Thu, 22 Oct 2026 18:54:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54539606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
-Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
-	id 1xJxva-00029V-00; Thu, 22 Oct 2026 20:54:14 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id E4FE9C0423; Thu, 22 Oct 2026 20:50:40 +0200 (CEST)
-Date: Thu, 22 Oct 2026 20:50:40 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bradford Love <brad@nextdimension.cc>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-media@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 4/7] MIPS: BCM47XX: Open code gpio_request_one()
-Message-ID: <atpbABKiC2KlCxeU@alpha.franken.de>
-References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
- <20260715185112.1323510-5-andriy.shevchenko@linux.intel.com>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bITk5t4E;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64293606A31B
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 19:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bITk5t4E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0979A1F031E2
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 19:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792695754;
+	bh=AR3kez5fnRcYpN+/byP3CD5s15NltwUsUCBVli/ZHO0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=bITk5t4E9yFcpq0jVJ4g2E70ul661bUgelLIhksn9Of5ionUc5nfqnSTQpZHnBIIi
+	 cRO96qWUPWIf51iQfS12/9+XVFeJxSeMxAjjqsfe3sLyfCWsJdR9zFJVu2HVvkIK/J
+	 aSdBcIpyQzK45UdTyqL/mtNQ9bBBbGHSE7hwz0ocuXcbSu9LxW1cFrbL3mdmAAgX2i
+	 K8zWXeD4W4q4Hp+D4bfM8rUMLbtKEO5xAWQ/bF9X74Q+gDbZw3ohuN39OMrfXcuX9/
+	 5eL+SsRkhnSvwoZX4hWaUyFpHdpLhaE2557M0i2aOBn9WtdjsHam8090HHf8wXlKRg
+	 VcShPBKYy39Ig==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3a75f960be3so196501fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 12:02:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBy41JncO2NObxIz+spgcI58ZTP0OvQPS6vKRq/Ir9QM9yBWUCqUSW6TR0xuPeOLgMwEJEinAPFecJQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK7oon8sOzj42R4Lt3KLURPr6RCERULOJiXxRoTTxouUpy/Qwus
+	dNTrQ4Yy8PPd2N/CweLhvXfB5jrkhh+CUrw8tGfdGIZp982EUKVFEWVmd+WZ7yFi/VYLMv0IFMF
+	RCOJdBR2bUdF3CUPHlDE6GIK/7mlEuOc=
+X-Received: by 2002:a05:6512:690:b0:5bf:a4e4:c329 with SMTP id
+ 2adb3069b0e04-5bfa4e4c387mr1694066e87.64.1792695752379; Thu, 22 Oct 2026
+ 12:02:32 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,45 +59,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260715185112.1323510-5-andriy.shevchenko@linux.intel.com>
+References: <20261001155118.1750028-1-briannorris@chromium.org>
+ <20261001085009.v4.2.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+ <CAJZ5v0hMHutu69acgSR7KsmcLs0McZK+-3OFoiqFrU5GnJzTNQ@mail.gmail.com>
+ <as_i5MEz3WfnDQmf@google.com> <CAJZ5v0i+77gt-KmMYdxxzS4uGzxFArrYGpoDnjrfknpPOkAuHg@mail.gmail.com>
+ <atE9urIHXAJZXu6k@google.com> <CAJZ5v0g56J9e9qdiR8W+BfmEbbedvpD8hop4+n9=rkFEsDG_Jw@mail.gmail.com>
+ <CAJZ5v0gNQqffxcdzWff=z3hi0BXzJBOV6WKgf6RXuOydzQJQMw@mail.gmail.com> <atLCom0YznHV8U6D@google.com>
+In-Reply-To: <atLCom0YznHV8U6D@google.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 22 Oct 2026 21:00:12 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iTDPTh3kv2m5CGacTrry_xLwq0bfcvY0-G4Q1NAu=+zw@mail.gmail.com>
+X-Gm-Features: AclHuK-CVVgYyLiB08-dnp4UgzpRfSgpwermatB4ehAge9qZKKsOFBzOok-H10c
+Message-ID: <CAJZ5v0iTDPTh3kv2m5CGacTrry_xLwq0bfcvY0-G4Q1NAu=+zw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] PM: runtime: Add Example Driver Patterns section
+To: Brian Norris <briannorris@chromium.org>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Doug Anderson <dianders@chromium.org>, 
+	Ulf Hansson <ulfh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 15, 2026 at 08:46:44PM +0200, Andy Shevchenko wrote:
-> Open code the gpio_request_one() call to be able to kill that API
-> in the follow changes.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  arch/mips/bcm47xx/workarounds.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/mips/bcm47xx/workarounds.c b/arch/mips/bcm47xx/workarounds.c
-> index 745c6228eb2c..9148d2c219d1 100644
-> --- a/arch/mips/bcm47xx/workarounds.c
-> +++ b/arch/mips/bcm47xx/workarounds.c
-> @@ -9,11 +9,13 @@ static void __init bcm47xx_workarounds_enable_usb_power(int usb_power)
->  {
->  	int err;
->  
-> -	err = gpio_request_one(usb_power, GPIOF_OUT_INIT_HIGH, "usb_power");
-> -	if (err)
-> +	err = gpio_request(usb_power, "usb_power");
-> +	if (err) {
->  		pr_err("Failed to request USB power gpio: %d\n", err);
-> -	else
-> +	} else {
-> +		gpio_direction_output(usb_power, 1);
->  		gpio_free(usb_power);
-> +	}
->  }
->  
->  void __init bcm47xx_workarounds(void)
-> -- 
-> 2.50.1
+On Sat, Oct 17, 2026 at 2:34=E2=80=AFAM Brian Norris <briannorris@chromium.=
+org> wrote:
+>
+> Hi Rafael,
+>
+> On Fri, Oct 16, 2026 at 08:05:12PM +0200, Rafael J. Wysocki (Intel) wrote=
+:
+> > On Fri, Oct 16, 2026 at 7:42=E2=80=AFPM Rafael J. Wysocki (Intel)
+> > <rafael@kernel.org> wrote:
+> > > On Thu, Oct 15, 2026 at 10:55=E2=80=AFPM Brian Norris <briannorris@ch=
+romium.org> wrote:
+> > > > On Thu, Oct 15, 2026 at 10:11:04PM +0200, Rafael J. Wysocki (Intel)=
+ wrote:
+> > > > > On Wed, Oct 14, 2026 at 10:15=E2=80=AFPM Brian Norris <briannorri=
+s@chromium.org> wrote:
+> > > > > > On Wed, Oct 14, 2026 at 09:07:54PM +0200, Rafael J. Wysocki (In=
+tel) wrote:
+> > > > > > > On Thu, Oct 1, 2026 at 5:51=E2=80=AFPM Brian Norris <briannor=
+ris@chromium.org> wrote:
+> > > > > > > >
+> >
+> > [cut]
+>
+> [ Thanks for the earlier clarification about PM domain. It helps me
+>   understand where you're coming from. ]
+>
+> > > > I kinda think the point of most of this power domain architecture i=
+s
+> > > > that a typical driver just doesn't have to worry about it at all (i=
+n
+> > > > probe(), and if you use runtime PM properly), so I'd prefer not
+> > > > mentioning it in the Basic example. But sure.
+> > >
+> > > Well, your basic example needs to be put in a certain context because
+> > > it may not be generally applicable everywhere.
+> > >
+> > > I think that you should make it clear what the driver's expectations
+> > > regarding the physical state of the device at the probe time are and
+> > > the general rule is that it is better to leave the device in the same
+> > > state in which it is expected to be found next time.
+>
+> Ack, will do to the best of my ability.
 
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+So please send a v5 of this one when you are ready.
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Thanks!
