@@ -1,123 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792642370;
-	b=CEyiTO3rkw5T3wGvGZxdvqS9IUGZtUMJ48f/kC3q0Awph2jTWTpA8wrSsrfWd7IUV0iu
-	 O+XSm30RynyzLlIy0/xCROqi6+hz6uq4Ei6aMXv4kqBWJnD7MZLzwOklXf3IZTw5gNNy6
-	 7C61Fkj6Gqf3QdN+UTdRnCG2dFo8aUPrhVuiSzLiobFmmYMpmhL03s02xrApn2Plvl6um
-	 B+EUtoW8+aaa3cqi7I5KX1zlv5oM9P6HEjbuDfkT0ypXMGvcOQnB8nxSYpWXsDr0SwT9q
-	 dDkDnDsVJtJl/eXyt8qtWOjLZ7UaYgUaVIemwKnDUuRCsyMN9SQTYZk1/LeqcNdx3uA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792642370;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
-	 References:In-Reply-To:Reply-To:From:Date:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=RFvh/3Uw91jbtXCdw8cETloCk2Qba5GfK3RNi0MxwyY=;
-	b=Z+dLzFOQZOmtKH2sIRWfApdFOYYB4Kjlw7POe5drL8xJgsVGYbJBh6h53+/4Mmm+dn3s
-	 smugrQSHhWGu7IXbf5SytL1boVedmKSTOrrFGeG4iEPRz4g81OWwhRNgeF48/fZQ9o/tO
-	 fYytMcLIIumoZy2BJNERnQwD91Qvcg7Cpz/qNZ7qzporLTjRvqQLOrG6dumJZUzsZ30Qx
-	 avv27lJZFeEItwykw9eGgkk5yNtVxUugD5RArDZXJJcVC6ztpmEO+RcUCDx7EAVDh+rcI
-	 kuz45zGO8fHretCprftRZtYCMkao1ma5IbukAQRsUI0FMu3aFSjax7P+cQ8mgVgc7Ug==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kp3I4RPG;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Vmx/aWcS";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792642649;
+	b=iI00WKpZfeEGluDabNUTkOJcf+6j5uScXdmqIMVLZS5mY/FqD60APU84A694vGpxfq3e
+	 z1zxEsWCp3N0S9uL47yLZ64MLJ6i6zza7JDEuxHW3U5SA/EBA5tYDM0KRdNVaK8GeMtGk
+	 nBwRjIqf/nMO+dRLoVSk+dixipsj110va6Ish9IBLNLeQ/Pd57ZGtzhxultE297QfLy6I
+	 OVk/OP/6L8UK+SimKfDAsuCVFPsPdUV5VpZyOilIgcJq1LiTFYlDIiO2AmCgHyJJIM7yQ
+	 +tF9uO4XAFayNBmRI6ZAGAtt5UaGBcbstW4RE/8FSmepmkDLrnroR7fP2OYa/Xv2OCg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792642649;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
+	b=W5AmepSReAm/dfIeYf/aG3j1TXGUdF2M09HgWP6CAXJBuoT18/yLm119g3FybxEO49qF
+	 PRVvzig5Qm97qhlXgnIa1wYXsnwk3yTLFzKuWAUQKT6W8S/K4ATguee0jp+JYtJlRX9Ha
+	 Fp3+pOeFF7dRaNiiBG4JMbIYCbH2vYBlo04Zxo64wNyDuUSMnu56mkMnT3LvF/9noZ9xC
+	 YAPHQUAF77kWDqstX7SSho8HRUDsdyoYZMyTgPSsqEIOs68poHRwV3lHtiDdhU5R2fOgx
+	 CiySS+tmHOrP110rURL7Ebz+BN5i0PFPhf0oXYdsUh1fj4DgTzQOcI3ta4swMUhpm2w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RVN046VD;
+	arc=none smtp.remote-ip=74.125.224.133
+Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA61606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 04:12:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BA61606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B05A606A319
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 04:17:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B05A606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kp3I4RPG;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Vmx/aWcS
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M3jTsi2476985
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 04:12:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:to; s=
-	qcppdkim1; bh=RFvh/3Uw91jbtXCdw8cETloCk2Qba5GfK3RNi0MxwyY=; b=kp
-	3I4RPGst1xBcpDpOejvDpwFc90UDpg/3VqfDe3C7cVxEJGZyCP9uP3FMgVMCJloy
-	rcJJ9LyxLzNbey5T5ScvLurlEQvD6f9tYaGyEcxGoPkDLjoJMlQIDz/XtiDvKRIB
-	djn9MFbd7owI6BYVETwxlQzyw6c+dzM67HcwIZFch/xPw2kWs0xFAd83hX6E2GE7
-	yotQ9smROW6iN0tue04HmyDnMQaDNFJca/ANOeAVm8Rja3J8/9+A7rIZJNIn7fJT
-	gbfwVY1wiKaT2UEA7FSIBNDxCWGulzxAeqt9DOs3LqaNt4di+uyTlpUMgpvKL6cg
-	fgf+C1KINGYLMm7cXrMQ==
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com [74.125.224.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf0k2kkgd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 04:12:47 +0000 (GMT)
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-66cbfb7ec42so2291288d50.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 21:12:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792642367; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ul4XQ0zfKSBKcgzzHmMppqBS7JmvsWS4RGKnFTOXfY/6syX1PTFrKX7Ni6x7Yn4aJ5
-         krSE1d5wIGfcJaJDgr/NoWzVL0ymkou4jGUHQNKatOiDZWAg40JqdrWyMU0/bOEFUch/
-         vB/OYErl4C2JzQeG0qXEapwmuyibeRyfqwi/ci4dp4ih8F9qN6VMIcdtIp/NkfPowUK2
-         SzuxoXbnbTDB+o9owKZXcSnyipwc4LRHJwDjwRmbVwv/6x6HSvY6vBrbqeEhuvsZi9df
-         NsgQDPLAHoUSYrMQPMxCRW1nlJ0Y5WDdnHDiSI8qfxNLGegoPxQcMvUEzL1n4opGUP43
-         kIlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:dkim-signature;
-        bh=RFvh/3Uw91jbtXCdw8cETloCk2Qba5GfK3RNi0MxwyY=;
-        fh=tDAgABi65jee4ne9YUYNEiJL5kGtxkNqSt9Mv6D6ncc=;
-        b=T3aYjEYtOn8GXB1kUCE4wwLhvfCuFan5ZWbwC2THBhiGdzrrpzSY0o662IeoyNma0/
-         CDEZlMV8Mu/7J000t3nrlVZOUcwUV3cS/qom+9b+UDM4/a7vr0CxHKXxXVz2t230R9r2
-         xxIpmbU5LHdwoiQTLHJP4mJQmy978C65eyFDDTp4BwKnsv7pDJSjsz/QikGBvngSpB28
-         KJMuJYRJ8HFUJeSAcpsbky1s+todV7+IjjLnBtNYyPM30vRCgeoZF6LzcjbvuJkrXGgB
-         9kg7vLDCjnVJlAFGRDNz1bf/h32lqi5VV58AK50gShmHH0Z0vAmsiZyhD114wnXblG51
-         n6tQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RVN046VD
+Received: by mail-yx2-f5.google.com with SMTP id 956f58d0204a3-672d92bbfd3so618484d50.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 21:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792642367; x=1793247167; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:reply-to:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=RFvh/3Uw91jbtXCdw8cETloCk2Qba5GfK3RNi0MxwyY=;
-        b=Vmx/aWcS5MVM2uKjypxdnBC8t4h5kKOU83Nf1hqqRZeo/Op4zBCcfLnpIClFp6/P8Q
-         1FSJoIQpJIgNAHMrfhw0gSXEMXjmNLDGegDSQ88YDhvjgPYdtDSjWG/UsDus4Ri6coFW
-         KPFImLwwbkH1ibDYOPF27cLmAGZOzdNvnlJLi76VSigRc1LSW60N10Aoh9/UZiSBMKx2
-         p6R7qiBaxnN+KmEfatSkl/hh5+veYAaB4QoN6sBlOQAbc54g5Eo8NQFxDzpRSNAH8Hmr
-         NNtgtnq02B3+XJYfXSBNC3ZDdQKPesCI7lxXk/kfkdcqd4SBamE5vVJomW6KR5A2HRRi
-         GtdA==
+        d=gmail.com; s=20251104; t=1792642648; x=1793247448; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
+        b=RVN046VDtJ3q6MNHFY3ejm34ZcVZ4QnSdcWrlFg3KFiuRotj9CdFekrN739lkNvM37
+         dH0iH9lacTlK8S9y3h6bscABkdqwjZwsp6qIv0C0vpsK8pxgxS4GtlxNzLVFeYO7rd0N
+         SfUnIQe5YjxNwGaTwaHxCv7HiRQe+LNrUAltAPYlp7AfbvGCNz0E6huLEHb5qt8VS2NC
+         gEUEerWdA48f0yMh7LTWTwIHq5N5N+QOfz5YRRhDDR265qwItRvIyOxjf3xB97Y8YDI6
+         VBwkPyQ8kxDLnvSGZBxA/7RealaQZDMLuAm6D0T1cIQScGjM/Y/ZG/r0EqGAZPDu4wJp
+         GXvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792642367; x=1793247167;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:reply-to:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RFvh/3Uw91jbtXCdw8cETloCk2Qba5GfK3RNi0MxwyY=;
-        b=OKTDYLY0wrGnUrDiVjJcN0vEjE2ajPYHpVxYEiFfrsa0fHW6rtTBnSF6kWQU6vW522
-         /FxpNAbT0rnb/dlgz5HRVgU5RllsxBngYI/G9tja40+zN9KK9C8lLJxIX8VnkU3tQj5f
-         mGb+QUJtBk6uEe/YbPsYsgf7DSi2pgkoKY1nYNpUoon2tq9j3PLRPMFBbSXr70oGbKzU
-         tdVHnDFvk9aKN0xU1kAkhKoybb28TIzFKZ9OWykDFms4/uPLXrgPZUpNAydyo8ylwBWR
-         PJakEA6RTccxTQk1ypQ/bfHUolV8oHB47xhwRGuD0OF8U3iDfHA+f/qX0baAd64q5wdM
-         tS/A==
-X-Forwarded-Encrypted: i=1; AKwUvBzAXRpSd/JMa8S8Z0CpES28VCr9KM1lHKKxbI5/9WjwU2lPMEl8eewGMlkfKrZqcGcWoopUwiQo9X4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKcKor/dhzWTz2SPQh9TGH+6K80j3Nd+U3eCm/BD7W8LxQdWguV
-	UydA6BjQ8WDqdE4nI5XbcBGVciXSQNA8x+HjwqTtuVPg82x1kzdcF7ftopB+Jq/2217HgpWGuDT
-	BYM5XgHLMy9CNNadWqNyG0VNwRCdnwknturQXXO652f4wbmStlLpOjbP3XEJEeTAxphW847lmOH
-	OB5cRlpli8rx+Ej4rGaEOHYRSLKKnC67cpWRrkhg==
-X-Gm-Gg: AYBFou1aoKgUSquhdztx6maURC/IOtoGXwsg0IkH+w3sGxroBVj8QbddYRokGlBiyLv
-	FDZwctFY0iZJBlZ5gdW9n1jzOvOA7EFQIKOHvA8jQmO/2/pxDvOk/ytOjV5CBcglAU0mPpNhuX9
-	GaHbd9lMbfggCguB0Bz9ZcCnynVB0zGRnx5m/56EuJswp3XUceeGDycX0Aw3c=
-X-Received: by 2002:a05:690e:488d:10b0:679:a898:7d8b with SMTP id 956f58d0204a3-67a0e4bbf6emr1062067d50.35.1792642367548;
-        Wed, 21 Oct 2026 21:12:47 -0700 (PDT)
-X-Received: by 2002:a05:690e:488d:10b0:679:a898:7d8b with SMTP id
- 956f58d0204a3-67a0e4bbf6emr1062061d50.35.1792642367081; Wed, 21 Oct 2026
- 21:12:47 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792642648; x=1793247448;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
+        b=ZPvbPC07J5ICLAx7h4doxHl8GYKokZifWZ5YoZ/RXDPatQkESA67/aYpsugORzMEZc
+         BAjJu1w8yTo63NYv6f3j3TM7e3ZKMpBK8WFkuGl2PSqYw46Cg95m4NNSR2Q47n92OZSk
+         CBOw2U/78IGlsTmyw8Y/7ND0R7izEKyNMB+LMoE3iVAqVQpYU0VNW+p2Kq1Icl1ndnWS
+         TrlcEXDat61yBEloPSNjR+68+fscchnXIO03W0haVQHsOvZYBWhynqbnJcdPnJGxc85q
+         pknshsIjtECT+wbPxcW9bg2LQpg+xGjc7YWSpgMyoGfQj983zAeLt3YivqAbUUGTO2Hq
+         SXYw==
+X-Forwarded-Encrypted: i=1; AKwUvBxmdEFKOZ/fsRUrik+JhyvGCAYVORW7sJFOG7rypMDX//LW2QNmEBqeg/t+g7RhiirR5wWf6WTlARk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3MetsO4ypXWBEJc3D7pe1UfOEAOm2LDQHXwgiWsdDEA7o4yIx
+	mQEzspk+NF50GiyAOBxxIgG8PXN9u5T8+b8DDJyUbxD67wWTbMjG/WI3VBB5Hv6XuhDS
+X-Gm-Gg: AYBFou1tchmmifYa/vAgl1EfsmbXpH06tXB8vEWcdGH0Kk6owS77QlFcMkVVspM6oHw
+	NW3OdMfs41FHwYIkk40D49EFfywHJw5CITQFDQC6Xdalb0qg34ZmZISXG3BjX9OBPJP5KTM86xV
+	1Gtt8ovf9DOB/p85qTXRFxTbu7k2f0uTLWFxn+hz46YZhpQ4fmAyhOOMgjTER8GOphVf7bAxev7
+	YxSW6h2OwOnOu3JS4L1HXiPkXJmeLE3R5tOYCi+OeYvkBgbBcCTZxSaiEy7AMtbcjhiQosT2DO4
+	KfugV8R1DJPcpjMXLVo5GDWPYO/FJpU/XyGfU1CGb7HA+5TyPt0YdZAT2SjPNQqeWN1urpYYnQ5
+	uwPJn5amDezmUpbkZ98TK6QC9LNZuuih1204mdPB4qrVbAd2Yi25DRP/o6RAlhkc1JJWkGdCWmb
+	0/Bm1xHxXhcwOpxIj9+bHOKGCCxmPw8WBKfWG2KXSMyT1NBqC5jMs5pe88OrsWGRI2idgAXTfFy
+	dfCjL3bRzC2bpnWqkzwOTQ9T64Djl8dwIGvVPR/LG5d/N/gxbJkRMaLqk4nsJHZb5Sx+ijWKKQs
+	z61fyQoJcl5KRzfUt/kAjKA=
+X-Received: by 2002:a05:690e:c4f:b0:679:5d6b:a3d0 with SMTP id 956f58d0204a3-67a0e5cd260mr1515313d50.162.1792642648484;
+        Wed, 21 Oct 2026 21:17:28 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:4577:1050:cde2:63f1:eb1b:b344])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b142cf9708sm10230967b3.4.2026.10.21.21.17.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 21 Oct 2026 21:17:27 -0700 (PDT)
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+To: sj@kernel.org
+Cc: corbet@lwn.net,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes report infra design (beyond page table accessed-bit milestone 2)
+Date: Wed, 21 Oct 2026 21:17:24 -0700
+Message-ID: <20261022041724.2712-1-ravis.opensrc@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261017195747.89961-1-sj@kernel.org>
+References: <20261017195747.89961-1-sj@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,157 +103,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-2-52fd8be98dcf@kernel.org>
- <CAB19ukEkAOMnPpi2jVFz68GZ_7cwYmNtrBkxnfEJtFcPb7PJ5Q@mail.gmail.com> <atPhE6rF0Uz93qF2@thelio>
-In-Reply-To: <atPhE6rF0Uz93qF2@thelio>
-Reply-To: sunilvl@oss.qualcomm.com
-From: Sunil V L <sunilvl@oss.qualcomm.com>
-Date: Thu, 22 Oct 2026 09:42:35 +0530
-X-Gm-Features: AclHuK_KjNarSdeGtOiebAPfz9T-Tt_QOkpNIpxbMPcQ9dxWkRZQBbqOt91xNeM
-Message-ID: <CAB19ukGGcDgbewvdMf-TBCYSpN3ksvbU_tJSJdRx0-EKb4Ze_A@mail.gmail.com>
-Subject: Re: [PATCH v9 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-To: Drew Fustini <fustini@kernel.org>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-        Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>,
-        Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>,
-        Chen Pei <cp0613@linux.alibaba.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-        Gong Shuai <gong.shuai@sanechips.com.cn>,
-        Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-        James Morse <james.morse@arm.com>,
-        =?UTF-8?Q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-        Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-        Peter Newman <peternewman@google.com>,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Holland <samuel.holland@sifive.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, Tony Luck <tony.luck@intel.com>,
-        Vasudevan Srinivasan <vasu@rivosinc.com>,
-        Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-        yunhui cui <cuiyunhui@bytedance.com>,
-        Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        x86@kernel.org, devicetree@vger.kernel.org,
-        linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDAxNiBTYWx0ZWRfX/eQTFhL6GqnH
- G69gTtOCiOxDaps8paDsZ17RBueoa+VbXuf497fCKb2ZArRHJIJJiYKYwFepXIPnx5XBQg7UGmE
- qTH8fl6C855Q9nTW0T5/pHbZMUbpbU4=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDAxNiBTYWx0ZWRfXwB3lkIMI2cqX
- wurMmV9DmYVySPrZe1IAET4+reV4GyrVV2LpQLzYYNU8apkSEMQp1xE5Yr/66UBZGBz3DPBwI5J
- D359O4j3Zg+XEq+M8qqIg1myjNJJWMAxLSHTpp+eNhSGPAuVku95ghpPX7QAOr5oUBFvrAcH1MH
- TttsoEJo9GADl6c5+d8vlHBk7M8yCl3cPi34xy3x3MjWALJ73AXr9iL5l84xIzGyGTvs86XaCot
- Qly1My2oFTzE+oljMh6EvBS42ix75F8pNDtK2NWjEk05aPhlghlZ9IK2KullycmyHg3x/0CmTtn
- JAxlJriBgYgWFvcpy0k37w6L91tGTtV4nV6RuzyJTqPDFnYO42QB5w4Bk151WHbHdY6Xnb/H8kK
- /HZYF90PUi+Ju5xd3eVZbuEER/EnBKg4yp2a7SLOefIWstpC9t88re6CGtFUEjY23rc1Q5YL7E1
- pafbprb9PgVzOBRGZ8g==
-X-Proofpoint-ORIG-GUID: njQVPL84tu6_dz_MfDOp7RIwWaT8YO9j
-X-Proofpoint-GUID: njQVPL84tu6_dz_MfDOp7RIwWaT8YO9j
-X-Authority-Analysis: v=2.4 cv=K/+3jCWI c=1 sm=1 tr=0 ts=6ad98d40 cx=c_pps
- a=ngMg22mHWrP7m7pwYf9JkA==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=VwQbUJbxAAAA:8 a=SRrdq9N9AAAA:8 a=IpJZQVW2AAAA:8
- a=jDNYHvWEAysQCaIWslsA:9 a=QEXdDO2ut3YA:10 a=yHXA93iunegOHmWoMUFd:22
- a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610220016
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 18, 2026 at 2:26=E2=80=AFAM Drew Fustini <fustini@kernel.org> w=
-rote:
->
-> On Mon, Oct 12, 2026 at 10:23:57PM +0530, Sunil V L wrote:
-> > On Sat, Oct 3, 2026 at 12:45=E2=80=AFPM Drew Fustini <fustini@kernel.or=
-g> wrote:
-> > >
-> > > Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
-> > > RDT_RESOURCE_L3 schemata.
-> > >
-> > > resctrl exposes a single capacity mask per resource, so when more tha=
-n
-> > > one capacity controller backs a cache level they must report the same
-> > > number of capacity blocks. The same holds for the other capabilities
-> > > resctrl exposes once per resource. A level whose controllers disagree
-> > > is left unexposed. Other levels are unaffected.
-> > >
-> > > The set of controllers backing each level is fixed when resctrl is se=
-t
-> > > up at late_initcall. Control domains are created in the cpuhp online
-> > > callback and keyed on the onlining CPU's cache id from cacheinfo, so =
-a
-> > > CPU that is offline at probe time still joins its domain once it come=
-s
-> > > online, provided a controller for its cache is in that set. A CPU who=
-se
-> > > cache has no controller is left out of that level and a warning is
-> > > logged once. A domain is published on the ctrl_domains RCU list only
-> > > after it is fully initialized and brought online, and removed from th=
-e
-> > > list before it is taken offline, following the documented safe
-> > > traversal rules.
-> > >
-> > > Assisted-by: LLM
-> > > Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> > > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > > ---
-> > >  MAINTAINERS                      |   2 +
-> > >  arch/riscv/include/asm/resctrl.h | 147 +++++++
-> > >  drivers/resctrl/Kconfig          |   4 +
-> > >  drivers/resctrl/Makefile         |   1 +
-> > >  drivers/resctrl/cbqri_resctrl.c  | 831 +++++++++++++++++++++++++++++=
-++++++++++
-> > >  5 files changed, 985 insertions(+)
-> [..]
-> > > diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_=
-resctrl.c
-> > > new file mode 100644
-> > > index 000000000000..f10a24761b25
-> > > --- /dev/null
-> > > +++ b/drivers/resctrl/cbqri_resctrl.c
-> [..]
-> > > +static int cbqri_resctrl_setup(void)
-> > > +{
-> > > +       int rid;
-> > > +       int err;
-> > > +
-> > > +       for (rid =3D 0; rid < RDT_NUM_RESOURCES; rid++)
-> > > +               cbqri_resctrl_resources[rid].resctrl_res.rid =3D rid;
-> > > +
-> > Why can't cbqri_resctrl_control_init directly use
-> > cbqri_resctrl_resources? I feel this initialization is redundant.
->
-> This is similar to what x86 and arm mpam also do since it is important
-> before any resctrl code is called. for_each_rdt_resource() will get
-> stuck in a loop if the rid values are not initialized. In contrast,
-> cbqri_resctrl_control_init() only handles the resources for which
-> cbqri_resctrl_pick_caches() found a controller.
->
-> The initialization could be moved into cbqri_resctrl_control_init()
-> before any early return paths but it does introduce the possibility that
-> rid initialization could be missed if cbqri_resctrl_control_init() is
-> ever refactored. Given that, I'm inclined to keep the current structure.
->
-Sure. Thanks for the explanation.
+Hi SJ,
+
+Thank you for sharing the design early.  Short version: the design makes
+sense to me, with one main suggestion.  The first report type should use
+the data address the PMU captures at sample time, rather than decode the
+instruction later in kdamond.  The measurements behind it are in my
+reply to your answer to sashiko.
+
+On Sat, 17 Oct 2026 12:57:45 -0700 SJ Park <sj@kernel.org> wrote:
+
+> Does the idea for perf CPU cycle sampling based access monitoring makes
+> sense?
+
+On AMD, yes, with precise_ip (cpu-cycles:p routes to IBS Op): its
+memory-op samples carry a data address and load/store type.  On Intel,
+even precise cycles samples (cycles:pp) carry no data address; PEBS
+memory events do.  Decode from saved registers worked for one of two
+test loops on Intel and for neither on AMD (details in the other reply),
+hence the suggestion above.
+
+> Does the design provides clear idea about how it can be extended for the
+> future extensions that already scoped for milestone 3 (AMD IBS, Intel
+> PEBS, Arm SPE)?
+
+Yes, if the report has an address field with a validity bit and carries
+the producing report-type (attr) id.  Then IBS, PEBS, Arm SPE (through
+an adapter, since SPE uses the perf AUX buffer) and device-side
+monitors all produce the same report, into the same queues and probes.
+
+> For the foreseeable extensions (AMD IBS, Intel PEBS, Arm SPE), would the
+> required change minimum and maintainable?
+
+Yes, if staged.  The sample-filter matcher and its sysfs already exist
+per context; attaching them per probe is the main change.  For example:
+
+  M2.1  in-kernel only: damon_report_attrs(), the queue, region
+        lookup, the perf producer; kunit, no new sysfs
+  M2.2  your per-CPU write-only example, set up from user space:
+        attr_reports files, per-filter report_queue,
+        write/cpumask/threads probe filters
+  M2.3  counters, a silence check (tracepoint/debugfs first), tuning
+  M3    more producers: Arm SPE, device monitors
+
+Implementation notes:
+
+1. One sampler per CPU per attr, owned by attr_reports (as in your
+   damon/next usage doc) and shared by all contexts.  IBS has one unit
+   per CPU, so perf time-slices multiple events: on EPYC 9555P one
+   ibs_op event got 67,140 samples; two on the same CPU got
+   33,547 + 33,535.  On Intel the event also needs wakeup_events = 1,
+   or an in-kernel handler sees only the last record of each
+   large-PEBS batch.
+
+2. A lockless queue, as your NOTE in damon_report_access() anticipates.
+   Today's buffer is documented "May sleep" and uses mutex_trylock(),
+   which interrupt context cannot use; its inclusive jiffy staleness
+   check can also count one report in up to three intervals (HZ=250,
+   5 ms interval).  A simple design: a per-CPU circular array with a
+   write counter and a per-slot seqcount_t (using
+   raw_write_seqcount_begin/end() for NMI safety), overwriting the
+   oldest slot.  Readers never consume; each context keeps its
+   last-seen write counter per CPU.  A nested writer (e.g. an NMI over
+   a task-context write) drops its report and counts it.
+
+3. Report fields: paddr, vaddr, size, time, cpu, tid, tgid, the
+   producer's attr id, and flags (is_write, plus a validity bit per
+   address, since 0 is a valid paddr).  Store global ids; translate
+   namespaces at the filter.
+
+4. Binary search over a sorted region snapshot (your todo in
+   kdamond_apply_access_report()) beats a linear walk from about 2
+   reports per interval for 1,000 regions (a model, to be measured).
+
+5. Samplers can stop silently: in a report on the v4 thread [1], IBS
+   Op samples stopped after about 10 minutes on a Ryzen 5 5600H, but
+   not with the NMI watchdog enabled.  So count dropped reports and
+   check for silence against an independent reference.  For tuning,
+   step sample_period rather than use frequency mode, and do not raise
+   perf_event_max_sample_rate: on an early DAMON PEBS prototype (Xeon
+   6960P), perf cut it from 100000 to 10000 in about 20 seconds.
+
+Three decisions would unblock M2.1:
+
+  - The first report type: the PMU-captured address (suggested), or
+    decode from saved registers in kdamond (your current plan).
+  - Whether the report carries the producer's attr id (suggested: yes).
+  - The queue: the per-CPU seqcount design in note 2 (suggested), or
+    ftrace's ring buffer with one iterator per reader.
+
+One question on the ABI: the usage document in your damon/next tree adds
+a report_queue file under each probe filter.  Is it meant as "this
+filter tests reports in queue N"?
+
+Happy to write, review or test any piece: the queue with kunit, the
+AMD/Intel perf producer, a decode-accuracy study on real workloads, or
+runs on Xeon 6960P and EPYC 9555P.  Several exist in RFC v4 [2].
 
 Thanks,
-Sunil
+Ravi
+
+[1] https://lore.kernel.org/r/20261017211613.16456-2-aethernet65535@gmail.com
+[2] https://lore.kernel.org/r/20261005-damon-perf-rfc-v3-send-2026-10-03-v4-0-b03452e137f3@gmail.com
