@@ -1,94 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=121.127.44.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792631511;
-	b=y675uOdNcf/o86k4VTwJ8EViYfTvRU7B9wHlUQQ0/RL018TJ1tBzU1kdFgwkQja+qU4Z
-	 7388aTZ4r0Z4zh4SVaQEvNLLEdCtiNf81/kjZOJn0teiusFq/1Y7d+tAAy1lpxRJ11tCd
-	 LKdspqxedZPkeLm1nLOOlBEZR87lVCfj72/wsBpfjaZVe5J3Xiy8OS0Baw6TdK7NSEZhN
-	 wqGBvg5dDJevKS7A/s5Eynl6Fq63PLbZC8IpQlN3nkrgBdKSMs3Ii/Lyaf+Kvab5Zi4Y0
-	 ZiOmtjlEusHZlTs4Qwl/Dp3H33M3Z/ZgdW/OyLOdTRbiTKYOFCwIZTxtlcH/Kty94FQ==
+	t=1792632906;
+	b=fc6+lKXeAfQihtpefH/1qU4FARSygRAHQLsdo5o/ztjXg35fPbGDVNp2ndcg4ioKozZl
+	 e/uukmuIUrvyZNbadS6Uee8l8vIA3vCPfZwUpizfk6zOTkBlGMdO806jOOT37WiOHkrgW
+	 AWxEe0dfu/bcwp8A6D+2X7EDMSuwhvzVZXKBt12yTC7DLxlp1SMQLQqmvtkIBlBxVjCQo
+	 dt3IjidsFO8mhUEr2Iao03l9AGyFLjrgQQuQflZUqVSSA8e0NwteyHhiD89tQQF72jr8u
+	 d2bOPEunybBC5StU+4lUfA7riJUV8YxwY0wKwpfuElxdThMls6FLJdWL6GIDKcGLb3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792631511;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=3Y36cJrGfm0nAc8Wmqdrcv/voRViXSaKg8Lp3TDSNEQ=;
-	b=HG2xqJBCux9RqQDelhKUO9H6AhHGcAk9ar0FViETX5JOA8nh8uQt2tus3bC2Cbxk1qvf
-	 oSQsZuodAScLRdldllsHHsfYiiFx8CHJIu6JZwvplHIdHsNpUpFOATMqTbSR1f+fRjh6B
-	 p6uqiJBfCjsjy2sBV9brTAUlBMu/hRLgDPyIR2mAybhmwsOn84Dd+IHFC1adhSAsDodvk
-	 FbYPcvTzi+TIXzqpDyCBGGywR/qGOy9d5DTWZtKv/HFMLeGhMWDu9gkbYoV8tu0XJkyZI
-	 s1doK6TAbDcNGs6UUCKlEP3xDv0zvGISYWwbLhtrrPeYt/ZAb1x+zBgbPLon/UusXvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792632906;
+	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
+	 X-Forward-Email-Sender:X-Forward-Email-Version:
+	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
+	 X-Report-Abuse-To:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=l6gT621i0UWoUJpKXQafhWyEypuwooQXgCBqVfVlgR8=;
+	b=llYekzMhDxchTXz8ykjvnT8ygh+EtnbgRRM3gDH3rhuc2cV22DpmD5fzIn0EkG2vp5bs
+	 9etxlFlxKUJA0qhf7tETfu8Ml1TiG2W50NfWbm2JSMCMG9/FdC5JOLyORFFH6pgeAVvpj
+	 jLgncq1O6V3ezQcgUI91hnJpiOXvaEzaJIMOmWSS7YoyKzMW/vQwIwOeT+SqCAD1O1Fvt
+	 9C0Grd4WQBCKnG7Il8tTEm7bo//5fihENkpiGAV3BymjBo8M11az3KTCf7WE7STokfP1b
+	 0lRzdy2uQ/9dhfT1SBMQfwgXrCNJWIjPHofgfx5dWddNFtdUIRddllOkuaTOkbtQnvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Zl6kbnlb;
-	arc=none smtp.remote-ip=95.215.58.20
-Received: from mta1.migadu.com (out-20.mta1.migadu.com [95.215.58.20])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=skyn3tlab.com;
+	spf=pass smtp.mailfrom=fe-bounces.skyn3tlab.com;
+	dkim=pass header.d=skyn3tlab.com header.i=@skyn3tlab.com header.a=rsa-sha256 header.s=fe-ef0e585ad0 header.b=33VvVVXH;
+	arc=none smtp.remote-ip=121.127.44.66
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8D4606A324
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 01:11:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D8D4606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F36606A31D
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 01:35:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05F36606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=skyn3tlab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.skyn3tlab.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Zl6kbnlb
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=MZEjInp2ddcRxgm7ccCZwPxHcYRwDLMGllQTsvOicec=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792631508; v=1; x=1793236308;
- b=Zl6kbnlbrg74N/9P86yMpt7QPIZbsUt3z3XFOmlwc9tm5UDaxWa4xJoUAJ9T7RPO4sxTGFy1
- stb4J1nxH/rhSlQsPjPauA0oEUbi8Ps9xR9vx0m4mJLTDuFxLUcEStVQJIMo+A/b3dU6AkUZoR3
- 66r5Pztit7rolv2Op73ap7VQ=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id defcd29a0076fd96;
-	Thu, 22 Oct 2026 01:11:48 +0000
-X-Mizu-Trace-ID: defcd29a0076fd96
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 22 Oct 2026 09:11:40 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Petr Mladek <pmladek@suse.com>, Zack Rusin <zack.rusin@broadcom.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	Dave Young <ruirui.yang@linux.dev>,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Pratyush Yadav <pratyush@kernel.org>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	Maaz Mombasawala <maaz.mombasawala@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	dkim=pass (1024-bit key, unprotected) header.d=skyn3tlab.com header.i=@skyn3tlab.com header.a=rsa-sha256 header.s=fe-ef0e585ad0 header.b=33VvVVXH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyn3tlab.com;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-ef0e585ad0; t=1792632898;
+ bh=l6gT621i0UWoUJpKXQafhWyEypuwooQXgCBqVfVlgR8=;
+ b=33VvVVXHhEMcos1Q598XioV/W5r0t0hlfRgVdrtgq/HS6ecsWxS+kf8RZU/EUKOJqsUaVVP+7
+ 54Rm9NbRk2qC0zlG23qbtSUY2iadtI2gd0CNGOKAsnMnjm8dYL8R7aCyswvePUKUTNb1oU2lSTk
+ TtXWXewP0R08Qz9252ME1Fs=
+X-Forward-Email-ID: 6ad9682a68c864fa427ee3d8
+X-Forward-Email-Sender: rfc822; gr3yf0x87@skyn3tlab.com,
+ smtp.forwardemail.net, 121.127.44.66
+X-Forward-Email-Version: 2.18.9
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Mark Severson <gr3yf0x87@skyn3tlab.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Ian Forbes <ian.forbes@broadcom.com>
-Subject: Re: [PATCH v2 1/6] panic: Add a notifier chain for pre-kdump
- callbacks
-Message-ID: <atlizIy3lb0sjVEJ@MiWiFi-R3L-srv>
-References: <cover.1790014793.git.zack.rusin@broadcom.com>
- <81cb85568b36273a8e66215b3e6d671b8488d402.1790014793.git.zack.rusin@broadcom.com>
- <bc783856-9480-3944-67fb-675e4c11d8c2@igalia.com>
- <atdYIxwz8ksYNty6@pathway.suse.cz>
- <atd7GInNurGWLUha@pathway.suse.cz>
- <ateYxCu63pRY9EGq@pathway.suse.cz>
- <CABQX2QOKCpoUY_ObhFif7xN7OF-NzcxEM0JABAXo9n9KaacO7A@mail.gmail.com>
- <atgdwrSbsZD5iWsX@fedora>
- <CABQX2QO6fwvKZwG34uOYDU_ae4M4_n2SMsYmqoLgOPnWkao02w@mail.gmail.com>
- <atiDsmnUM7v2UJkY@pathway.suse.cz>
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: changes.rst: set the pahole minimum back to 1.22
+Date: Wed, 21 Oct 2026 21:34:32 -0400
+Message-ID: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,142 +74,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <atiDsmnUM7v2UJkY@pathway.suse.cz>
 
-On 10/21/26 at 11:19am, Petr Mladek wrote:
-> On Wed 2026-10-21 01:10:25, Zack Rusin wrote:
-> > On Tue, Oct 20, 2026 at 10:04 PM Baoquan He <baoquan.he@linux.dev> wrote:
-> > >
-> > > On 10/20/26 at 03:23pm, Zack Rusin wrote:
-...snip...
-> > > > I'd keep the second call in __crash_kexec() rather than crash_kexec(),
-> > > > because afaict crash_kexec() can return without a crash image, e.g.
-> > > > from the BPF kfunc, or from oops_end() before it panics. Calling the
-> > > > list there would use up the guard even when no kdump follows.
-> > > >
-> > > > crash_kexec_post_notifiers, the existing list and the kmsg dumpers
-> > > > stay as they are, and moving other platforms over can come later.
-> > > >
-> > > > The VMware log copy would be the only user, and it's still best-effort
-> > > > diagnostics: kdump and the reboot don't depend on it. It copies the
-> > > > log tail into an 8 KiB buffer. On panic() that happens after the panic
-> > > > message and any local backtrace; on direct entry from an oops, after
-> > > > the exception output. With the list enabled throughout, the copy
-> > > > precedes the later panic notifiers, sys_info() and the all-CPU
-> > > > backtrace step. The guest-crash report stays a late kmsg dumper that's
-> > > > skipped while a crash kernel is loaded, because the host can power off
-> > > > the VM inside that call.
-> > > >
-> > > > If that matches what you had in mind, I'll do it that way in v3.
-> > > >
-> > > > Guilherme, Stephen, Baoquan, does that work for you too?
-> > >
-> > > Hi Zack,
-> > >
-> > > Sorry I didn't check this series before, just trying to catch up.
-> > >
-> > > I like the Approach B direction: one panic_notifiers_platform_list for
-> > > platform callbacks that must run before kdump. While I have one concern
-> > > about the long term.
-> > >
-> > > Today the list has only the VMware log sender. Later, more handlers may join
-> > > (for example pvpanic, Hyper-V, Xen, gsmi, SNP). When the list grows, someone
-> > > will want to run only their handler, or to skip some handlers. The easy
-> > > answer is "add a new list for my handler". I think this will be a problem too
-> > > in the future. Every new list adds a new global ordering rule and a new disable
-> > > switch. Petr already said we should keep the number of lists small.
-> 
-> My hope is most of the potential users won't be registered at the same
-> time or will be a NOP in the real life. Because each particular system
-> will actively used only some technology.
-> 
-> But maybe I am naive and there will be selection and ordering problems.
+Commit fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF
+annotation emission") removed the paragraph saying that kfuncs annotated
+with KF_IMPLICIT_ARGS need pahole v1.26, because resolve_btfids now
+emits the kfunc BTF annotations that pahole used to produce. That
+paragraph was the reason the requirements table lists pahole 1.26, and
+the table was left unchanged. The text below the table and
+lib/Kconfig.debug (DEBUG_INFO_BTF depends on PAHOLE_VERSION >= 122)
+both still say 1.22.
 
-When I revisited this thread, I suddenly realize I may made mistake on
-comments. You folks seem to discussing the platform relatd handlers and
-list, but not generic handlers and list. If so, I am not sure if my
-suggestion is suitable because I didn't know these platforms well, esp
-the various virt platforms and their correspondent handlers.
+Set the table back to 1.22, in the English document and in the Italian
+translation, which carries the same table.
 
-If the next steps also involve the generic handler part, my suggestions
-may be relevant and could be of some reference value.
+Checked by building linux-next 20261021 with pahole v1.25 and
+CONFIG_DEBUG_INFO_BTF=y: in the vmlinux BTF,
+bpf_task_work_schedule_signal has four arguments and the bpf_kfunc decl
+tag, and bpf_task_work_schedule_signal_impl keeps the
+struct bpf_prog_aux * argument, as Documentation/bpf/kfuncs.rst
+describes for KF_IMPLICIT_ARGS.
 
-Thanks
-Baoquan
+Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation emission")
+Assisted-by: Claude
+Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
+---
+checkpatch reports the Assisted-by tag as non-standard; it follows the
+Attribution section of Documentation/process/coding-assistants.rst as
+published on docs.kernel.org. Not run: make htmldocs; the change keeps
+the table's column widths.
 
-> 
-> > > Currently, atomic_notifier_call_chain() runs all registered callbacks. There
-> > > is no per-handler enable/disable and no filter. NOTIFY_STOP_MASK can stop the
-> > > chain, but we must not use it here, because one handler could hide all the
-> > > later handlers. The list-level disable_panic_notifiers_platform_list can
-> > > only disable the whole list.
-> > >
-> > > I have some rough though, just for reference:
-> > >
-> > > 1. Keep one panic_notifiers_platform_list.
-> > >
-> > > 2. Give each handler a small wrapper with a name and an enabled flag:
-> > >
-> > >    struct panic_pre_kdump_notifier {
-> > >            struct notifier_block nb;
-> > >            const char *name;
-> > >            bool enabled;
-> > >    };
-> 
-> This looks good to me.
-> 
-> > > 3. In the dispatch, skip a handler when enabled is false. Print the name
-> > >    before calling it. This also helps when a handler hangs and we want to
-> > >    know which one it was.
-> > >
-> > > 4. Add a boot parameter to disable handlers by name, for example:
-> > >
-> > >            panic_pre_kdump.disable=vmware_log,hyperv_crash
-> 
-> I like this. I think that we just would want to do s/_pre_dump/_notifiers_platform/.
-> 
-> > >    Parse it early. At panic time we only read the flag. We do not parse
-> > >    strings in the panic path.
-> > >
-> > > 5. Keep the list-level disable_panic_notifiers_platform_list. It is still
-> > >    useful to disable the whole list for debugging.
-> > >
-> > > 6. If the list is still too broad later, we can add a reason/class argument
-> > >    (for example PANIC, OOPS_DIRECT). A handler can then decide if it cares.
-> > >    This is better than adding a new list.
-> > 
-> > Thanks for looking at it. I agree we shouldn't add a separate list for
-> > each handler, and named handlers with their own switch on the one list
-> > sound like the right way to grow it.
-> > 
-> > For v3 I'd like to keep the series to the list itself. With VMware as
-> > the only callback, the list-wide boot switch already lets us disable
-> > platform logging. The sender also has its own sysctl,
-> > kernel.vmware_record_panic_msg. We can add per-handler selection with
-> > the next user, when there's an actual choice between handlers. I'm
-> > happy to help with that when it comes up.
-> 
-> Sound good to me. I would like to start simple. We could add the selection
-> later when it is needed in the real life.
-> 
-> > Two of your points do fit in v3 as documentation. I'll change the
-> > panic_notify_platform() kernel-doc to also say that:
-> > - callbacks must return NOTIFY_DONE, because NOTIFY_STOP would skip
-> > the callbacks after them
-> > - the notifier value is 0.
-> 
-> Great catch!
-> 
-> > The VMware callback ignores that value, which leaves room to add
-> > reason information later.
-> > 
-> > Petr, does keeping v3 to that sound right to you?
-> 
-> Sounds good to me. But you might want to wait few more days for
-> more potential feedback.
-> 
-> Best Regards,
-> Petr
+ Documentation/process/changes.rst                    | 2 +-
+ Documentation/translations/it_IT/process/changes.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 28f2ca633..13093c5c2 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -53,7 +53,7 @@ mcelog                 0.6              mcelog --version
+ mkimage (optional)     2017.01          mkimage --version
+ nfs-utils              1.0.5            showmount --version
+ openssl & libcrypto    1.0.0            openssl version
+-pahole                 1.26             pahole --version
++pahole                 1.22             pahole --version
+ pcmciautils            004              pccardctl -V
+ pigz (optional)        2.4              pigz --version
+ PPP                    2.4.0            pppd --version
+diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+index 0be1292a8..5adeee24c 100644
+--- a/Documentation/translations/it_IT/process/changes.rst
++++ b/Documentation/translations/it_IT/process/changes.rst
+@@ -57,7 +57,7 @@ mcelog                 0.6              mcelog --version
+ mkimage (opzionale)    2017.01          mkimage --version
+ nfs-utils              1.0.5            showmount --version
+ openssl & libcrypto    1.0.0            openssl version
+-pahole                 1.26             pahole --version
++pahole                 1.22             pahole --version
+ pcmciautils            004              pccardctl -V
+ PPP                    2.4.0            pppd --version
+ procps                 3.2.0            ps --version
+-- 
+2.43.0
+
