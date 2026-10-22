@@ -1,43 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.32.2.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792685718;
-	b=1kXOKwzgDtSUfGzpLqlwXsAkP4RrQVw3b275AdrGU59NtuUzqLwZ6raJ3yDMYsMASETz
-	 AXLtbqyXmVzCVataPhLrWLkZ9uPq2qP4FH3RzqpzzXsT3Zpk2X+bCXVohMRJKwEwE2wzV
-	 /eO2duoWSTQBxPVVJgkHwJeSzbG+JUfcpJ3xee5SyhVWd1nKWBlyBUEvwC6KGDNuKVRIm
-	 NBHVvJFX4cYoDOGGFtQ9kgo83Hk2pjcsjlePjyBiR2OaxL4pF9gnH+vfuJUxRZQI6Tnvt
-	 3ap5TaFDDHib19OelUQf/uU0p6k0HnAS5B0AQucinMRVVvLquQTA5Dg544gkpFwdLBg==
+	t=1792686554;
+	b=U9m1+xDwugMc4qqgqXLKHJ6mo2tIyIxG9w+xQEZ6V0BuQEH12enOSdop9mHmtKf7vHt4
+	 a1cRMq2c19uxjrdxPNUM+b7Q7u6jejXku8GZpNlkb5KBERUVM+TadyslY8DvGyanc3F8L
+	 WvuhK6EyeNLsy53L5VGk4YuplZouW/ajfzV5dXqV/iiFs5UeDAM9dL7hF8gNCW+0qKyMQ
+	 rv35fmYfAhgx4CB8xDxxuzgDEQUK4VSu3GUvYJy/qQMvQt3Ap0VDyoFu9H1Rw3Hpi6eEr
+	 Fs0QhmdLg/R+yg4tJNMEQq1UPHygB8S0lA6h84WFfqtQL4m9FSbxlG1VIA2n1cpw7ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792685718;
-	h=DMARC-Filter:Received:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-CM-TRANSID:X-CM-SenderInfo:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792686554;
+	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-CM-SenderInfo:
 	 X-CM-DELIVERINFO:X-Coremail-Antispam;
-	bh=obDlDbdY2/BWJKzFMODIKLSvK6uu3G1Rbvoh6xXqbCk=;
-	b=fEC0ww7G0q8eJn8BTBpMNTyyLUyKXBAWIcn0shOx1sP2GeqfXxdJSjmGToF4Xk86E02x
-	 Zf2+uxORyeiJ4/7JtaJn3jHxUJ+ZvleFAUjpN44Xzvtv5DtDu+f8ZhVCi8j0s2immY02z
-	 7EVGK6PwBZJjuTE+6VeKB8orZtNU4NuZ8yrb5+/KtOeZDw1kePz67ilwQwcUZ7lAb+D1K
-	 i/7Ka69IU6PqsbUYcRwtMoVXvegels2bTx4sJ615jm2oBufpG5Ly1iS38vuZcKKZPKHbR
-	 9PTbM2sDFysPSE4zmg1g6d9J7FIhW1LHG4Qu66z9QV6PQ3WMntIfhucPFzYPQDbHQAw==
+	bh=NtSrsaakkEAIGEB2gQvOG9jbvdtBfnK9dR6g8YEjzZ0=;
+	b=CTU8qGjTzX2SB1q/830oi9EGE0DxGDWsSGbTk2EX0oazGJjw0wYylus/Kd7XCcxYMTI8
+	 z4hx3Z4H6VIoYQIV0XRgFdAOYSvSscAYfBhyMTWy9gq0a15MY8gJg8C04j96NFj14jLQR
+	 ua9zggc2xpLy6+3FhWi8yB0pB/i1KAy7Vs16lMYvRgQYNKz8q08ZiIz/R3WiP8oDPYSO7
+	 bCq6JlG87NDfyi5EIVz+/KJOquyZB6630//Q91aN7nBtZXu/Bj2nvF6zeS29LwdsXcFGp
+	 DPrGU5T9mxN5KNH2Os0FjOKB2cqVxdruX68bLzr8LxLuwajVdgVD7/BtUBNXt6IDbpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=zju.edu.cn;
 	spf=pass smtp.mailfrom=zju.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3A8606A322;
-	Thu, 22 Oct 2026 16:15:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E3A8606A322
+	arc=none smtp.remote-ip=210.32.2.4
+Received: from zju.edu.cn (gw.zju.edu.cn [210.32.2.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CBC606A31A;
+	Thu, 22 Oct 2026 16:29:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44CBC606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
 Received: from zju.edu.cn (unknown [10.192.73.73])
-	by mtasvr (Coremail) with SMTP id _____wB3JOZ+NtpqSki0AQ--.13536S3;
-	Fri, 23 Oct 2026 00:14:55 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.192.73.73])
-	by mail-app2 (Coremail) with UTF8SMTPA id zC_KCgDHHXx8Ntpqp5N8AA--.36932S2;
-	Fri, 23 Oct 2026 00:14:52 +0800 (CST)
+	by mtasvr (Coremail) with SMTP id _____wCHIzzQOdpqWlK0AQ--.3597S3;
+	Fri, 23 Oct 2026 00:29:04 +0800 (CST)
+Received: from wolframium.tail477849.ts.net (unknown [10.192.73.73])
+	by mail-app1 (Coremail) with UTF8SMTPA id yy_KCgAnOIXPOdpqKKOJAA--.46245S2;
+	Fri, 23 Oct 2026 00:29:03 +0800 (CST)
 From: Yazhou Tang <tangyazhou@zju.edu.cn>
-Subject: [PATCH bpf-next v3 0/7] bpf: Add UHMUL and SHMUL instructions
-Date: Fri, 23 Oct 2026 00:14:36 +0800
-Message-Id: <20261023-bpf-hmul-v3-0-b99e808cb28b@outlook.com>
+To: bpf@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	David Vernet <void@manifault.com>,
+	bpf@ietf.org
+Cc: John Fastabend <john.fastabend@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Quentin Monnet <qmo@kernel.org>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Xu Kuohai <xukuohai@huaweicloud.com>,
+	=?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>,
+	Pu Lehui <pulehui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Luke Nelson <luke.r.nels@gmail.com>,
+	Xi Wang <xi.wang@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Yazhou Tang <tangyazhou518@outlook.com>,
+	Tianci Cao <ziye@zju.edu.cn>,
+	Shenghao Yuan <shenghaoyuan0928@163.com>
+Subject: [PATCH bpf-next v3 5/7] bpf: Refactor ALU instruction variant validation
+Date: Fri, 23 Oct 2026 00:28:45 +0800
+Message-ID: <20261023-bpf-hmul-v3-5-b99e808cb28b@outlook.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261023-bpf-hmul-v3-0-b99e808cb28b@outlook.com>
+References: <20261023-bpf-hmul-v3-0-b99e808cb28b@outlook.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -48,168 +81,98 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/1WOzQ6CMBCEX8Xs2ZLtivx44j2MB34WKQoltCUo4
- d0tmJh4nMzMN7OA4VGxgcthgZEnZZTuvTgdD1A2eX9noSqvgZAiiSRFMdSi6dxThFhxERGezmE
- CPj6MXKt5R11hS/U8W7h9HeOKlku7kbZso4zV42tfneTe2AYwlTGGMpYUyCTCmEhIYf2LV/5ut
- MverQu4ckHZ79yJfs3/axMJFEnCnohpWsdVpp19av0ISt3BbV3XD8sIvfj4AAAA
-X-Change-ID: 20261021-bpf-hmul-40deb6203548
-To: bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- David Vernet <void@manifault.com>, bpf@ietf.org
-Cc: John Fastabend <john.fastabend@gmail.com>, 
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
- Emil Tsalapatis <emil@etsalapatis.com>, 
- Ihor Solodrai <ihor.solodrai@linux.dev>, Quentin Monnet <qmo@kernel.org>, 
- Puranjay Mohan <puranjay@kernel.org>, Xu Kuohai <xukuohai@huaweicloud.com>, 
- =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
- Pu Lehui <pulehui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Luke Nelson <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
- Tianci Cao <ziye@zju.edu.cn>, Yazhou Tang <tangyazhou518@outlook.com>, 
- Shenghao Yuan <shenghaoyuan0928@163.com>, 
- Alexei Starovoitov <ast@kernel.org>
 X-Mailer: b4 0.15.2
-X-CM-TRANSID:zC_KCgDHHXx8Ntpqp5N8AA--.36932S2
-X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiAgMMCmrZFZ1PGwAAso
-X-CM-DELIVERINFO: =?B?m1C4XwXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
-	9q9Oa3CVJL3/JTjWRYkCOtDw9n8WrOW4hsJjfayCOUkuD2xiGrZ8t1LzQ4GYNN2j7ijD2y
-	+UYAa8tO1tZGO/9TSUZHlfcxsfLxYWtvTcNJVJbCOW91GDA26I+2YDirVBl7Hw==
-X-Coremail-Antispam: 1Uk129KBj93XoWxZw48Aw4UJw1xZFykZFyruFX_yoW7Jw1fpF
-	4kGr13GFZ2gFy0kws7ua9ruFy5Xa1Fkr13Crs3J3yUJF1aqr1kXF4S9F1Yvwn8JF12g3WY
-	vry29ryv9348ZagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:yy_KCgAnOIXPOdpqKKOJAA--.46245S2
+X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiBgQMCmrZFZ1POgAAsK
+X-CM-DELIVERINFO: =?B?HKTo7wXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
+	9q9JatvK8BSGkLsRrdyfcL+iMVmyRBbrrmpgCsj79+fO3C1cG3+bOFAsJgQLz4MC2XN1Ge
+	lw9XxDD7uwItX54c+IULcodS3tl8R0Tf7cgD8mPfUoGDd+5pL2wUSDNI1vp7eg==
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFW3trWkWr4xtr13CF18tFc_yoW5GrW3pr
+	1kKryrKF1kGr4Uur9rJrWxZFn8GF4xXa17Wr95Aay2qF47J3s8Gry5tFyIqrWak34Ikw1x
+	tr4qva409w15CFgCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Kb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2
+	0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2
 	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7xvr2IYc2Ij64
-	vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I
-	3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
-	WUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
-	wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcI
-	k0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j
-	6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7a0PDUUUU
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
+	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjcxG0xvY0x
+	0EwIxGrVCF72vEw4AK0wACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCF
+	x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+	v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+	67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1vPfPUUUUU==
 
-This patchset adds unsigned and signed high-half multiplication to the BPF
-ISA. UHMUL returns the high 64 bits of an unsigned 64-by-64-bit product,
-while SHMUL does the same for a signed product.
+From: Yazhou Tang <tangyazhou518@outlook.com>
 
-Both operations are BPF_ALU64 BPF_MUL variants selected by insn->off.
-off == 0 remains the existing low-half multiplication, while off == 1
-and off == 2 select UHMUL and SHMUL, respectively. The immediate forms
-use the usual sign-extended 32-bit BPF immediate.
+check_alu_fields() currently validates insn->off together with the
+source-specific reserved fields. This duplicates the DIV and MOD
+variant rules between register and immediate forms and makes the valid
+instruction variants difficult to identify.
 
-The patchset adds interpreter, disassembler, verifier, and documentation
-support, along with JIT support for x86-64, arm64 and riscv64. JITs opt
-in through bpf_jit_supports_hmul(). The verifier rejects HMUL when the
-program is offloaded to hardware or JIT compilation is requested but
-the JIT does not support HMUL. UHMUL and SHMUL remain available through
-the interpreter when JIT compilation is disabled. For now, the verifier
-computes exact results for constant operands and otherwise
-conservatively marks the destination unknown.
+Move the opcode-specific insn->off validation into is_valid_alu_variant().
+The helper permits off == 1 for DIV and MOD and requires off == 0 for all
+other ALU operations. Validate the variant once, then separately check the
+reserved immediate field for register sources and src_reg for immediate sources.
 
-Patch 7/7 uses raw bytecode for UHMUL and SHMUL because LLVM support has
-not been merged yet. Once it is available, the raw encodings can be
-replaced with the uh*= and sh*= mnemonics. The corresponding LLVM patch
-is available for review at:
+This is a pure refactoring and does not change which instruction encodings
+the verifier accepts.
 
-  https://github.com/llvm/llvm-project/pull/234076
-
-The instruction design is inspired by the UHMUL and SHMUL operations in
-sBPF (Solana's BPF variant). Patch 1/7 describes the encoding and
-immediate-semantics differences.
-
+Signed-off-by: Yazhou Tang <tangyazhou518@outlook.com>
+Co-developed-by: Tianci Cao <ziye@zju.edu.cn>
+Signed-off-by: Tianci Cao <ziye@zju.edu.cn>
+Co-developed-by: Shenghao Yuan <shenghaoyuan0928@163.com>
+Signed-off-by: Shenghao Yuan <shenghaoyuan0928@163.com>
 ---
-Changes in v3:
-- Make HMUL JIT support opt-in and check it in the verifier, replacing
-  the per-backend rejection patch. (Alexei)
-- Move bpf_insn_is_hmul() into the x86 JIT patch and simplify it.
-- Link to v2: https://patch.msgid.link/20261021-bpf-hmul-v2-0-88e260099f7d@outlook.com
+ kernel/bpf/verifier.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-Changes in v2:
-- Introduce a new conformance group "divmul64v2" for UHMUL/SHMUL. (bot+bpf-ci)
-- Shorten the name of bpf_mul_variant. (Alexei)
-- Remove redundant validation for off field in interpreter. (Alexei)
-- Split arena test to two separate files.
-- Link to v1: https://patch.msgid.link/20260917041712.1860722-1-tangyazhou@zju.edu.cn
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 5601d2056218..4f9d7b3de442 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -21194,6 +21194,18 @@ static int fd_array_get_map_idx(struct bpf_verifier_env *env, u32 idx)
+ 	return -EPROTO;
+ }
+ 
++static bool is_valid_alu_variant(const struct bpf_insn *insn)
++{
++	switch (BPF_OP(insn->code)) {
++	case BPF_DIV:
++	case BPF_MOD:
++		/* off == 1 selects SDIV/SMOD. */
++		return insn->off == 0 || insn->off == 1;
++	default:
++		return insn->off == 0;
++	}
++}
++
+ static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+ {
+ 	u8 class = BPF_CLASS(insn->code);
+@@ -21249,15 +21261,9 @@ static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+ 	case BPF_MUL:
+ 	case BPF_DIV:
+ 	case BPF_MOD:
+-		if (BPF_SRC(insn->code) == BPF_X) {
+-			if (insn->imm != 0 || (insn->off != 0 && insn->off != 1) ||
+-			    (insn->off == 1 && opcode != BPF_MOD && opcode != BPF_DIV)) {
+-				verbose(env, "BPF_ALU uses reserved fields\n");
+-				return -EINVAL;
+-			}
+-		} else if (insn->src_reg != BPF_REG_0 ||
+-			   (insn->off != 0 && insn->off != 1) ||
+-			   (insn->off == 1 && opcode != BPF_MOD && opcode != BPF_DIV)) {
++		if (!is_valid_alu_variant(insn) ||
++		    (BPF_SRC(insn->code) == BPF_X && insn->imm != 0) ||
++		    (BPF_SRC(insn->code) == BPF_K && insn->src_reg != BPF_REG_0)) {
+ 			verbose(env, "BPF_ALU uses reserved fields\n");
+ 			return -EINVAL;
+ 		}
 
-Changes in v1:
-- Add JIT support on arm64 and riscv64. (Alexei)
-- Fix the HMUL check on PowerPC JIT backend. (Sashiko AI reviewer)
-- Link to RFC: https://lore.kernel.org/bpf/20260902070534.2141812-1-tangyazhou@zju.edu.cn/
-
-To: bpf@vger.kernel.org
-To: Alexei Starovoitov <ast@kernel.org>
-To: Daniel Borkmann <daniel@iogearbox.net>
-To: Andrii Nakryiko <andrii@kernel.org>
-To: Eduard Zingerman <eddyz87@gmail.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-To: David Vernet <void@manifault.com>
-To: bpf@ietf.org
-Cc: John Fastabend <john.fastabend@gmail.com>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>
-Cc: Song Liu <song@kernel.org>
-Cc: Yonghong Song <yonghong.song@linux.dev>
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: Emil Tsalapatis <emil@etsalapatis.com>
-Cc: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Quentin Monnet <qmo@kernel.org>
-Cc: Puranjay Mohan <puranjay@kernel.org>
-Cc: Xu Kuohai <xukuohai@huaweicloud.com>
-Cc: Björn Töpel <bjorn@kernel.org>
-Cc: Pu Lehui <pulehui@huawei.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Luke Nelson <luke.r.nels@gmail.com>
-Cc: Xi Wang <xi.wang@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-
----
-Tianci Cao (3):
-      bpf: Add UHMUL and SHMUL instructions
-      bpf, x86: JIT UHMUL and SHMUL on x86-64
-      bpf: Add verifier support for UHMUL and SHMUL
-
-Yazhou Tang (4):
-      bpf, arm64: JIT UHMUL and SHMUL
-      bpf, riscv: JIT UHMUL and SHMUL on RV64
-      bpf: Refactor ALU instruction variant validation
-      selftests/bpf: Add bytecode tests for UHMUL and SHMUL
-
- .../bpf/standardization/instruction-set.rst        |  37 +++-
- arch/arm64/include/asm/insn.h                      |   4 +
- arch/arm64/lib/insn.c                              |   6 +
- arch/arm64/net/bpf_jit.h                           |   6 +
- arch/arm64/net/bpf_jit_comp.c                      |  20 +-
- arch/riscv/net/bpf_jit.h                           |   5 +
- arch/riscv/net/bpf_jit_comp64.c                    |  23 +-
- arch/x86/net/bpf_jit_comp.c                        |  53 +++++
- include/linux/filter.h                             |  34 +++
- include/uapi/linux/bpf.h                           |   6 +
- kernel/bpf/core.c                                  |  47 ++++-
- kernel/bpf/disasm.c                                |  18 ++
- kernel/bpf/verifier.c                              |  81 ++++++-
- tools/include/uapi/linux/bpf.h                     |   6 +
- tools/testing/selftests/bpf/prog_tests/verifier.c  |   2 +
- .../selftests/bpf/prog_tests/verifier_hmul_arena.c |  19 ++
- tools/testing/selftests/bpf/progs/verifier_hmul.c  | 235 +++++++++++++++++++++
- .../selftests/bpf/progs/verifier_hmul_arena.c      |  74 +++++++
- .../bpf/progs/verifier_value_illegal_alu.c         |   7 +-
- 19 files changed, 660 insertions(+), 23 deletions(-)
----
-base-commit: b116ac6087541d3d98031e786adbe9c733cd6df3
-change-id: 20261021-bpf-hmul-40deb6203548
-
-Best regards,
---  
-Yazhou Tang <tangyazhou518@outlook.com>
+-- 
+2.56.0
 
