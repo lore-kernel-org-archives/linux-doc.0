@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792684441;
-	b=Fwq1qJQJu5XHddQxvjaNHG6IPQjcfMMZlzsNGXEuJP3xkEoRgTcHsM9JSWk36whnN2In
-	 LbLCySzNWLubjxgUsNYtAq2dTAr6DwoONE+Fg/lDov+ujYuQ2Rw/HeGvqns3P8c72j3xK
-	 CSYu+XjTwpFV+fMdUr+g+c5fW5d5I+OFJ/riQqfbGxUq23pY3ei0RGHvynv5Q+5YNE6Wr
-	 m/4a8ym+/c0jCJkqrZZV2TLUzQLz2JQMOz/q51Xy4Wvhm4cGfuJTmsoZWsgS8VxgOzlOn
-	 PNZA7KSosOwu5cfMAJuEIvHuSM89mN1XCJ3isFXUZxiF7+bf31H8Owh0oKPSGZLyHCQ==
+	t=1792684442;
+	b=iCwAJh/M2zBtlA1itil8xdC7AZ2AzT49Ur6gvx5s8s8TO9vXMjdO+U54KxJ6CDGTQtWx
+	 GEFsisF8d9FqHcrhvhRJCEi6ulr9Ubg+VFZPWLCjvnTgjCJkGbFF+L7BesJC6F/HwzETU
+	 l4G+3jSKugCsCJoY/9iurdzAxJkfTot4qTWSEaGUvDmIjlQE+Xir4WgWpbOITyujG1V6Y
+	 GzsMFJM6SWF6PdDLoYGuQr/l78smlxJFY4pllCU2mccaa2t1Zq6KolMcfpohZcRQTbkWs
+	 xhecwHNzhchBg51QeJQowXEpBEMuLUGzdLpMprQSORuN8HIIQ5hlPM6nI76ft/rsRKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792684441;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792684442;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=KI910im9LTbTVP0mkZ5a0lfmv5lwSA07KjHuia0I/3A=;
-	b=wHbvVe6eEFqWIiXco7QU/92j+YUUrDRCZX1sGlQHEvdH2A2c3FWCkIUACnh+JGxUKZHt
-	 /iXkUHzdBqHJNAZ5uoPNLQnYTpIEJ1ppoygvnzMu6Al2Ygj8FOeav+OlN/I3MVLNhTTrh
-	 Se5vu09j9VDyNu2JuTy959PQ/0qOGN9kSx4ukW+3eOLRyWzDQSnge9GMmL0voB5Vu2l1Y
-	 IGyQa/Cp0ASOCiP83GccpxZD9cRdFJsETd0RgDHf6nTKklxIw9ww11BtbrTFQMbBU4wrU
-	 ddKWPuDcZ/BYw6xM/ckWxasqUgrl5lQQTIVWIezcvSI7fyFV9E43NvzjJV2ZMJ6iekw==
+	bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
+	b=FUfgI3UmoDpaWWp/rbAFFt6+sPr3KN5vpiP8MChsbADjbvhWHyqADbjQ1qtbdcH+mP/o
+	 IctTxodQNazRcPwiWdD5LQcHtBNal/n+KJiWvzAfeNqhCv+9/AXHJS08pRN5eYS82PLiO
+	 qdvMVt70Idn28t8GceNmKkE94REmE6xCWToYgrrm6NjPSiFWt/Ja0nyQ8y5LH8vFDu5p/
+	 LKI/tA9cPtvtiKN2UEXR7t61CbywmTOomM5SOme78CcgoCKjA/mK4/3veiqm+SZwyi70o
+	 oT3cLCHfz8tK90nHemLafIMynCbuhOlIOj99IY6JCMDONvdtpi4HVxqwo84VLILwmew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--wfelipe.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b="KaQPx/n9";
-	arc=none smtp.remote-ip=209.85.214.199
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Yj14Lzka;
+	arc=none smtp.remote-ip=209.85.216.69
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1099606A323
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:54:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1099606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B137E606A325
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:54:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B137E606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wfelipe.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=KaQPx/n9
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2dfb24dfedfso19522495ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:54:00 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Yj14Lzka
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3aaf955db5fso4083a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792684440; x=1793289240; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1792684441; x=1793289241; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KI910im9LTbTVP0mkZ5a0lfmv5lwSA07KjHuia0I/3A=;
-        b=KaQPx/n9OKgBo7g58ndZ9L8mghRWuJopTgkml+I/OhRf/9AmhitUCJGPqCK/Ql2oH9
-         iY7RWgXQtK5gUUs4qTgDVpfnSYMqpZkCd1Pnj96D/OU7mAZI5WoW9usU4H9P3BtbTawl
-         Ay5arszfDhhIbsYBMD6gpRVQWn+eg4N3VgarXO0J1Mk9D+8smbUPXnbpp/6J2jIcoUuq
-         2GFgs88pFkNw7Keg+v6CM3E71x6xOiF2lpIhSarbDCziimt5ckVwwnTd6Qdno/H7xMld
-         OQnp2oNVW0HKiDWANcB6W0OArMVHHxgUbgHVVyJ0a/Hogff6z9o3/1mYw4cyd0diAhMI
-         QwZQ==
+        bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
+        b=Yj14LzkaZvL1Tx8Vnnqx3s5rek4uEk7lAv5Yy8I0B/ebgxg/VluUBqyWRZQ0GWL8hF
+         oyZD4tETC17GAecwk2aBUOOEZRhBLI1bWPpY9LZOTWn5VtNtxjBTdw51qOB2zQe+YQP7
+         wSv6+qlkU+7baju97Rnfqkh7VY1801EvYFpX2xNzxFJTobHKy0VpkTAfoajK1GGGq8RB
+         bqx+8BjAKWe3f8bbGVZO7DpPXyZ5tEAgCEDohPKiyxvLAQLd9H6Qfh9xXYNePV3HC5Hg
+         bSR+Pe5mGnKkw9XeFfEcRGLBhEQ4f4Kpo1TD1+660JEClzRmnUFp0lD6cSgoSNNj5Zlz
+         Vrkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792684440; x=1793289240;
+        d=1e100.net; s=20260707; t=1792684441; x=1793289241;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KI910im9LTbTVP0mkZ5a0lfmv5lwSA07KjHuia0I/3A=;
-        b=snTHuqdyHO5Gcwl2iuYbA/x86Nd74AwTU8BF3tdXIWSUZvREyMoUFegvRCXS7Jf/Dx
-         bLv/6hgs7CHD/3ZLa6eaYvkAmJvT80s0UZfpQC5OxrivCABTXp17TTieDIVkeqgqMXhs
-         UaQSCNRkoScXfPWM1Vbcp+nBb6s9gizYm7fMp9In3i29abepTY00sDcMFhBNcf+sf5Xe
-         hoQT69efZqBSQDCYkI2fVxyll/a2jWbDB4pXH+/bvz1zIB1WFySqBsDSr8Lj0uvCxPUB
-         l7gqtJy3wgR+HMZcYSrL4DDfakIAiJM9kqA6yL3nbhkwSunQZq5hmY3IdgK0b5VlymaD
-         EcoA==
-X-Forwarded-Encrypted: i=1; AKwUvBzkCtNWOYfNTEUGDUbgGken/mxjWeco/yuoLbVcr6CgsbTcwrOl+Dnd4trqRifZMPHJkQuunTZYMW0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL55lkPOz0DIbCTf9Fb4TW5sP1TSFYEXto7J3O6WNKDWq7gihZp
-	E3MT1PscYy2pkw9w56JvqQR1Z+0k+6lcPQfV9qKWBGDO1u1u6H1YMlKaREtZERZVRm/PWBnUHRM
-	q0AwPNpDvAA==
-X-Received: from pldc14.prod.google.com ([2002:a17:902:d98e:b0:2e1:2a71:d15b])
- (user=wfelipe job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ffce:b0:2e9:61bf:6587
- with SMTP id d9443c01a7336-2ea43cccc07mr43696895ad.49.1792684440077; Thu, 22
+        bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
+        b=rcbIDkd2UQCSFtMxa/SHSj6LWXW7a8ghMrVOJYuLj+WndV6fUGgGqGaw1qA5rslcMq
+         0qtTus55SSv54K7VsIPRbQ682b0xgf9SfGjn0EpBZfffKCy9iS1iXZ4699cErNrr69U1
+         4RHUjcBux03sZxtPUIS4UnOwmqtaudEStERfEcYw39uO90DPZt1UzMAot2cK2XpVkAWR
+         8IIcv1nbXrcxhWi6hs4PDrW8GzbqGdL296RIHxVhRCAOrEncO8u5MtZ/gGUAcP9hddd6
+         JFAp5iE474vug9o/fHUM4eb+0cSKhwr2iXpovLCmF1Dx3ygE7M4j0fNCE587komt62yw
+         P43w==
+X-Forwarded-Encrypted: i=1; AKwUvBzAcLb1qAQRiDVeifJRC3DWIJEZhcnYJavFvL/90+nOlgQmnQ+R4TqxHxdGiQ4AjF2e7l6/J7N/jLk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJeFtrGfFOJohSLurquKi86sBqA73F2O/CJiTYFhxnTuH24+mUw
+	osipn7ho86IV42bqv8R0e7dV5/Eumw0AVkPmiPMBNlHR7PSlX3GUeiCI1sam94fz9MbF+eOA8La
+	lZ7NCvBgp7Q==
+X-Received: from pglk24-n2.prod.google.com ([2002:a05:6a02:6b98:20b0:cca:d82:9104])
+ (user=wfelipe job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:9e4a:b0:3dd:a196:69e4
+ with SMTP id adf61e73a8af0-3e287f3a472mr5611553637.63.1792684440865; Thu, 22
  Oct 2026 08:54:00 -0700 (PDT)
-Date: Thu, 22 Oct 2026 15:53:34 +0000
+Date: Thu, 22 Oct 2026 15:53:35 +0000
 In-Reply-To: <20261022155352.1293020-1-wfelipe@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261022155352.1293020-1-wfelipe@google.com>
 X-Mailer: git-send-email 2.56.0.218.g1ec904b173-goog
-Message-ID: <20261022155352.1293020-2-wfelipe@google.com>
-Subject: [PATCH 1/3] workqueue: preserve pwq->stats[] when unbound pwqs are released
+Message-ID: <20261022155352.1293020-3-wfelipe@google.com>
+Subject: [PATCH 2/3] workqueue: expose per-workqueue stats in debugfs
 From: Wilson Felipe Pereira <wfelipe@google.com>
 To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
@@ -91,45 +91,140 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
 	Shuhao Tan <tanshuhao@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When an unbound pool_workqueue is replaced (e.g. during CPU hotplug or
-apply_workqueue_attrs()), pwq_release_workfn() unlinks and frees the old
-pwq along with its pwq->stats[]. This causes cumulative per-workqueue
-counters to go backwards.
+struct pool_workqueue tracks runtime counters in pwq->stats[],
+pwq->total_in_flight, and pwq->nr_active, but reading them currently
+requires tools/workqueue/wq_monitor.py with drgn and kernel DWARF
+debuginfo. This makes it impractical to inspect workqueue stats on
+systems without drgn or debug symbols.
 
-Add retired_stats[] to struct workqueue_struct and accumulate a released
-pwq's stats into wq->retired_stats[] under wq->mutex before freeing it.
+Add /sys/kernel/debug/workqueue/stats to expose per-workqueue stats
+directly from the kernel. Iterate over the workqueues list under RCU and
+sum wq->retired_stats[] with each pwq's stats[], total_in_flight, and
+nr_active to report queued, active, and running work items alongside the
+cumulative pwq->stats[] counters.
 
 Signed-off-by: Wilson Felipe Pereira <wfelipe@google.com>
 ---
- kernel/workqueue.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ kernel/workqueue.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
 
 diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index f2e8071a6f4e..88c8cc2b38d8 100644
+index 88c8cc2b38d8..ed0f0be6494a 100644
 --- a/kernel/workqueue.c
 +++ b/kernel/workqueue.c
-@@ -397,6 +397,8 @@ struct workqueue_struct {
- 	struct workqueue_attrs	*attrs;	/* PW: workqueue attributes */
- 	struct pool_workqueue __rcu *dfl_pwq;   /* PW: only for unbound wqs */
+@@ -57,6 +57,8 @@
+ #include <linux/delay.h>
+ #include <linux/irq_work.h>
+ #include <linux/math64.h>
++#include <linux/debugfs.h>
++#include <linux/seq_file.h>
  
-+	u64			retired_stats[PWQ_NR_STATS]; /* WQ: stats from released pwqs */
+ #include "workqueue_internal.h"
+ 
+@@ -7990,6 +7992,103 @@ static void workqueue_sysfs_unregister(struct workqueue_struct *wq)
+ static void workqueue_sysfs_unregister(struct workqueue_struct *wq)	{ }
+ #endif	/* CONFIG_SYSFS */
+ 
++#ifdef CONFIG_DEBUG_FS
 +
- #ifdef CONFIG_SYSFS
- 	struct wq_device	*wq_dev;	/* I: for sysfs interface */
- #endif
-@@ -5475,8 +5477,12 @@ static void pwq_release_workfn(struct kthread_work *work)
- 	 * @wq, and @wq is invalid to access.
- 	 */
- 	if (!list_empty(&pwq->pwqs_node)) {
-+		int i;
++static const char *wq_type_str(struct workqueue_struct *wq)
++{
++	if (wq->flags & WQ_BH)
++		return "bh";
++	if (wq->flags & WQ_UNBOUND) {
++		if (wq->flags & __WQ_ORDERED)
++			return "ordered";
++		return "unbound";
++	}
++	return "percpu";
++}
 +
- 		mutex_lock(&wq->mutex);
- 		list_del_rcu(&pwq->pwqs_node);
++static void *wq_stats_start(struct seq_file *m, loff_t *pos)
++	__acquires(rcu)
++{
++	rcu_read_lock();
++	return seq_list_start_head_rcu(&workqueues, *pos);
++}
++
++static void *wq_stats_next(struct seq_file *m, void *v, loff_t *pos)
++{
++	return seq_list_next_rcu(v, &workqueues, pos);
++}
++
++static void wq_stats_stop(struct seq_file *m, void *v)
++	__releases(rcu)
++{
++	rcu_read_unlock();
++}
++
++static int wq_stats_show(struct seq_file *m, void *v)
++{
++	struct workqueue_struct *wq;
++	struct pool_workqueue *pwq;
++	u64 stats[PWQ_NR_STATS];
++	long in_flight = 0, active = 0;
++	long running, queued;
++	int i;
++
++	if (v == &workqueues) {
++		seq_printf(m, "%-24s %-8s %6s %6s %7s %10s %10s %12s %8s %8s %8s %8s %8s\n",
++			   "workqueue", "type", "queued", "active", "running",
++			   "started", "completed", "cpu_time_us",
++			   "cpu_itsv", "cm_wkup", "repat", "mayday", "rescued");
++		return 0;
++	}
++
++	wq = list_entry(v, struct workqueue_struct, list);
++
++	/* Advisory stats read without wq->mutex or pool->lock. */
++	for (i = 0; i < PWQ_NR_STATS; i++)
++		stats[i] = data_race(wq->retired_stats[i]);
++
++	for_each_pwq(pwq, wq) {
 +		for (i = 0; i < PWQ_NR_STATS; i++)
-+			wq->retired_stats[i] += pwq->stats[i];
- 		is_last = list_empty(&wq->pwqs);
- 
- 		/*
++			stats[i] += data_race(pwq->stats[i]);
++		in_flight += data_race(pwq->total_in_flight);
++		active += data_race(pwq->nr_active);
++	}
++
++	running = max_t(long, stats[PWQ_STAT_STARTED] -
++			      stats[PWQ_STAT_COMPLETED], 0);
++	queued = max_t(long, in_flight - running, 0);
++	active = max_t(long, active, 0);
++
++	seq_printf(m, "%-24s %-8s %6ld %6ld %7ld %10llu %10llu %12llu %8llu %8llu %8llu %8llu %8llu\n",
++		   wq->name, wq_type_str(wq), queued, active, running,
++		   stats[PWQ_STAT_STARTED], stats[PWQ_STAT_COMPLETED],
++		   stats[PWQ_STAT_CPU_TIME], stats[PWQ_STAT_CPU_INTENSIVE],
++		   stats[PWQ_STAT_CM_WAKEUP], stats[PWQ_STAT_REPATRIATED],
++		   stats[PWQ_STAT_MAYDAY], stats[PWQ_STAT_RESCUED]);
++
++	return 0;
++}
++
++static const struct seq_operations wq_stats_sops = {
++	.start	= wq_stats_start,
++	.next	= wq_stats_next,
++	.stop	= wq_stats_stop,
++	.show	= wq_stats_show,
++};
++DEFINE_SEQ_ATTRIBUTE(wq_stats);
++
++static int __init wq_debugfs_init(void)
++{
++	struct dentry *dir;
++
++	dir = debugfs_create_dir("workqueue", NULL);
++	debugfs_create_file("stats", 0444, dir, NULL, &wq_stats_fops);
++	return 0;
++}
++late_initcall(wq_debugfs_init);
++
++#endif	/* CONFIG_DEBUG_FS */
++
+ /*
+  * Workqueue watchdog.
+  *
 -- 
 2.56.0.218.g1ec904b173-goog
 
