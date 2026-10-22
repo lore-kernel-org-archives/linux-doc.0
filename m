@@ -1,99 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792642649;
-	b=iI00WKpZfeEGluDabNUTkOJcf+6j5uScXdmqIMVLZS5mY/FqD60APU84A694vGpxfq3e
-	 z1zxEsWCp3N0S9uL47yLZ64MLJ6i6zza7JDEuxHW3U5SA/EBA5tYDM0KRdNVaK8GeMtGk
-	 nBwRjIqf/nMO+dRLoVSk+dixipsj110va6Ish9IBLNLeQ/Pd57ZGtzhxultE297QfLy6I
-	 OVk/OP/6L8UK+SimKfDAsuCVFPsPdUV5VpZyOilIgcJq1LiTFYlDIiO2AmCgHyJJIM7yQ
-	 +tF9uO4XAFayNBmRI6ZAGAtt5UaGBcbstW4RE/8FSmepmkDLrnroR7fP2OYa/Xv2OCg==
+	t=1792645649;
+	b=c8stSxwOdHNMyV1iN7L/Dj4ZNXQZsnpAH7uFb1Eqw3mGjz2mPKZCOOLy34k+a4h9Jibk
+	 73a0RjoinFNG/uSs2uaDPpuvfA3IAKQkaQyN511+M8753TbL8qZyGTcyBVi3lI6yAk+0n
+	 wY2PlphyIWfVzd6swr88CfhkVOYxFiJFvRhCVGAnWOUMRDibfO/C06H2btZmNtfXQJw+S
+	 nfRuliEG085ZlPqizc+O6vlhAncOz+21NoLRDhgUtByX/AAZKNFfPFgnmldTK3fjSlTPw
+	 FbHUv/1DMTR09dE3KDpyxg48lgykCWbWm5NVj4wbgvQxqbfdu1FYti2VPtmuEhYl9Fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792642649;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792645649;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
-	b=W5AmepSReAm/dfIeYf/aG3j1TXGUdF2M09HgWP6CAXJBuoT18/yLm119g3FybxEO49qF
-	 PRVvzig5Qm97qhlXgnIa1wYXsnwk3yTLFzKuWAUQKT6W8S/K4ATguee0jp+JYtJlRX9Ha
-	 Fp3+pOeFF7dRaNiiBG4JMbIYCbH2vYBlo04Zxo64wNyDuUSMnu56mkMnT3LvF/9noZ9xC
-	 YAPHQUAF77kWDqstX7SSho8HRUDsdyoYZMyTgPSsqEIOs68poHRwV3lHtiDdhU5R2fOgx
-	 CiySS+tmHOrP110rURL7Ebz+BN5i0PFPhf0oXYdsUh1fj4DgTzQOcI3ta4swMUhpm2w==
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=KKy+ja1fSybZTSaoVcplsHwk3DZqhgSOeUQYBnw8jvg=;
+	b=r7rQFL+9tmhr/wAaWJkhubNBwbnZNjAp4Wsfi/pszFTUdxQ0IlrUtw/MCSWJeVVpHUwY
+	 Z4tYjNMi8W4swco2v4BIbQIdVuXdS8CoZKzt5AuzgxfiCwvK9ybSb2wnnehjlZcmTXiV3
+	 DwH6cW46L5N3kyEamP02SVTbL8btzi4hL+w8aZdELSwjtySgajD5OwXfkNXmohtD0YCHW
+	 SeQE+dpo3JrwltrppVXbCKDhM/TSNuy3i/yXRvEfYYnspe2zdtVBTGCjHDi7zFO7Iyo26
+	 tlr2UOMHCGQ80/dIh9lgT+TRx3aM8r35UavpCJbqEa9y+42JUTebTveYKZfTkSd8gLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RVN046VD;
-	arc=none smtp.remote-ip=74.125.224.133
-Received: from mail-yx2-f5.google.com (mail-yx2-f5.google.com [74.125.224.133])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VIhnsijj;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B05A606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 04:17:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B05A606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E0B606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:07:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98E0B606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RVN046VD
-Received: by mail-yx2-f5.google.com with SMTP id 956f58d0204a3-672d92bbfd3so618484d50.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 21:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VIhnsijj
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2001dd4e7so13972785e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 22:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792642648; x=1793247448; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
-        b=RVN046VDtJ3q6MNHFY3ejm34ZcVZ4QnSdcWrlFg3KFiuRotj9CdFekrN739lkNvM37
-         dH0iH9lacTlK8S9y3h6bscABkdqwjZwsp6qIv0C0vpsK8pxgxS4GtlxNzLVFeYO7rd0N
-         SfUnIQe5YjxNwGaTwaHxCv7HiRQe+LNrUAltAPYlp7AfbvGCNz0E6huLEHb5qt8VS2NC
-         gEUEerWdA48f0yMh7LTWTwIHq5N5N+QOfz5YRRhDDR265qwItRvIyOxjf3xB97Y8YDI6
-         VBwkPyQ8kxDLnvSGZBxA/7RealaQZDMLuAm6D0T1cIQScGjM/Y/ZG/r0EqGAZPDu4wJp
-         GXvg==
+        d=gmail.com; s=20251104; t=1792645647; x=1793250447; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KKy+ja1fSybZTSaoVcplsHwk3DZqhgSOeUQYBnw8jvg=;
+        b=VIhnsijjA8kg/piHAsO7oMQkkGD0xU6PhxEaV+DmutYzasiXRiQIxH9Q1oadlQzXCA
+         06dz+M9GHd31jpezm8FWReTRQxD6dhvlr2u6svZ9UPxqzPXgf8GjEYQkoVJ7MKX7iSxf
+         8sqzNR8KIEGZ/DKfWpUFU8TTuL2+cF9GNfZmHxBiYQMrjQNXjOTqZJ/i96nmuiKdV0ta
+         Venxdx+pffZpWTXFMado/Liwac6aFEWRr5mydqQ6eRGlmMz9qIPhj383Zin4y4kNuSPK
+         KJ50vPhOT446IQeY42z9EVqUMjLyNFnTFXOYBL+eLp7Zu+IDToku4K7F2FqXMJGZvwq/
+         xa7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792642648; x=1793247448;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D4fgTxnwo+3lhaoW5IJ3HlnUCymtn0k12F/Qm8PcmcU=;
-        b=ZPvbPC07J5ICLAx7h4doxHl8GYKokZifWZ5YoZ/RXDPatQkESA67/aYpsugORzMEZc
-         BAjJu1w8yTo63NYv6f3j3TM7e3ZKMpBK8WFkuGl2PSqYw46Cg95m4NNSR2Q47n92OZSk
-         CBOw2U/78IGlsTmyw8Y/7ND0R7izEKyNMB+LMoE3iVAqVQpYU0VNW+p2Kq1Icl1ndnWS
-         TrlcEXDat61yBEloPSNjR+68+fscchnXIO03W0haVQHsOvZYBWhynqbnJcdPnJGxc85q
-         pknshsIjtECT+wbPxcW9bg2LQpg+xGjc7YWSpgMyoGfQj983zAeLt3YivqAbUUGTO2Hq
-         SXYw==
-X-Forwarded-Encrypted: i=1; AKwUvBxmdEFKOZ/fsRUrik+JhyvGCAYVORW7sJFOG7rypMDX//LW2QNmEBqeg/t+g7RhiirR5wWf6WTlARk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3MetsO4ypXWBEJc3D7pe1UfOEAOm2LDQHXwgiWsdDEA7o4yIx
-	mQEzspk+NF50GiyAOBxxIgG8PXN9u5T8+b8DDJyUbxD67wWTbMjG/WI3VBB5Hv6XuhDS
-X-Gm-Gg: AYBFou1tchmmifYa/vAgl1EfsmbXpH06tXB8vEWcdGH0Kk6owS77QlFcMkVVspM6oHw
-	NW3OdMfs41FHwYIkk40D49EFfywHJw5CITQFDQC6Xdalb0qg34ZmZISXG3BjX9OBPJP5KTM86xV
-	1Gtt8ovf9DOB/p85qTXRFxTbu7k2f0uTLWFxn+hz46YZhpQ4fmAyhOOMgjTER8GOphVf7bAxev7
-	YxSW6h2OwOnOu3JS4L1HXiPkXJmeLE3R5tOYCi+OeYvkBgbBcCTZxSaiEy7AMtbcjhiQosT2DO4
-	KfugV8R1DJPcpjMXLVo5GDWPYO/FJpU/XyGfU1CGb7HA+5TyPt0YdZAT2SjPNQqeWN1urpYYnQ5
-	uwPJn5amDezmUpbkZ98TK6QC9LNZuuih1204mdPB4qrVbAd2Yi25DRP/o6RAlhkc1JJWkGdCWmb
-	0/Bm1xHxXhcwOpxIj9+bHOKGCCxmPw8WBKfWG2KXSMyT1NBqC5jMs5pe88OrsWGRI2idgAXTfFy
-	dfCjL3bRzC2bpnWqkzwOTQ9T64Djl8dwIGvVPR/LG5d/N/gxbJkRMaLqk4nsJHZb5Sx+ijWKKQs
-	z61fyQoJcl5KRzfUt/kAjKA=
-X-Received: by 2002:a05:690e:c4f:b0:679:5d6b:a3d0 with SMTP id 956f58d0204a3-67a0e5cd260mr1515313d50.162.1792642648484;
-        Wed, 21 Oct 2026 21:17:28 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:4577:1050:cde2:63f1:eb1b:b344])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b142cf9708sm10230967b3.4.2026.10.21.21.17.25
+        d=1e100.net; s=20260707; t=1792645647; x=1793250447;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KKy+ja1fSybZTSaoVcplsHwk3DZqhgSOeUQYBnw8jvg=;
+        b=sPdw5ZZ8t5XARgvvgLmW3k2YpUZCBzA4c7TnAbiPAU2frzbW54qMzKL2gqW5hcQ6Hl
+         /6qwjmVsFZv11/12zdOooTvkwkJ9Xd+Dn3Cf/j5T/BlwMbyB4gQ3aj7pRQ2cvL0G4Jom
+         Gl8QRN1ftSbn2UGnmz7x6ZGSGDfq+6FMaexFTrAjWL80PFIi8e0kCo0Bg2SCXxOBV3go
+         zEzNaXVIfdYfnxEcpx7IlOthpEqkFHyqVmvx6Dbf+H7RLIlQt7CUVxY13CfAt8DjLeAr
+         zi4CU0UonVAxFVoTmVj40hLGr62Lt8s6QP6A+gUzu2Q2Dbcu1egEeSLl2xWAUWWp9bEn
+         G+iQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxgxTahst8Edol9pK+kK5+dUPVU+MGw3dJ7YBDqd/BlI2KXXEp6t4G4v5J+MePPMemN6aSUMVoJIgw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJuULGvpzCBAu3sZMK6iC1d5MQ7kZ2XC9384ufbgqXrQxJT9I3n
+	9Offv6rPc2ihZ0z/wzuQMtOOHSReEt/eL8BcOxjObn9QViNXkiVor5m0
+X-Gm-Gg: AYBFou3hEX3b/htEdOrP6PVXBZCYq+ysVl6s4lB6qPLzW5wC8G3vxUluLnWVfJmE8hh
+	ThBDVqlMN0xQEGYkGZrJLb79uDMZJ/ID6xHO4Hv/HA9nXxxX0QuUgTLWEEssi7jTxlysd0IjabG
+	poiwf+E8s+mFP7ctoR0sAcd1eNM4J9a2yp7MECk5y6NluHfjBbGelJzD4J5ytB2HtxG34FnlSWw
+	TLTlYFjYw3CpOiM2avzKm6BXiahMzkFibrfebFFrONMdM0O4xD1qpcm3+1EoE+iXA014HZclmsJ
+	YVSnz/Xjhacg/jtwUyUN/HyuGRIvpihM7NubKL4pQfEV/zoYsLuwBUzmDZ6hJGMJ6r2Y89MeoWn
+	No132PTizKUUSQqwKuc7ZsfE9qbniGnG3VXhBnOYOePNQkHcIX80aLMdnTT6C9Vqngfe3FAv00N
+	JXhUAy6nQKnN8uj9wh5PSP1TJcOejVWFkhY/dmUI75F0c+QDLRVQXvsPRU7P/iQBjpLSliAVg7F
+	kg2CnqBI1Eh0BSHUBmg74JgRppaNa+d9nYla41rCQMVPl3J2GJIjUk786/ZDfQAtyRsA3HwdZY8
+	vNas4ndrqCZWfrDYEXVQUVfHdC22y/W2rjOKsqboWYdeM5Xh7XV1/tgKVWbHhr8XGZ3fGEdOFUo
+	B9/8v8PJUGVrGi57ovzU9WNFQX0lVic1n/vgAB9/T5pPc+YjW0SGxyBaPbHA=
+X-Received: by 2002:a05:600c:4585:b0:4a1:acaa:9d4c with SMTP id 5b1f17b1804b1-4a1fdb20774mr81702295e9.25.1792645646631;
+        Wed, 21 Oct 2026 22:07:26 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-ad43-d501-2c28-bb72-120d-420e.310.pool.telefonica.de. [2a02:3100:ad43:d501:2c28:bb72:120d:420e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e254eeef6sm9994979f8f.8.2026.10.21.22.07.23
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 21:17:27 -0700 (PDT)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: sj@kernel.org
-Cc: corbet@lwn.net,
-	damon@lists.linux.dev,
+        Wed, 21 Oct 2026 22:07:25 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes report infra design (beyond page table accessed-bit milestone 2)
-Date: Wed, 21 Oct 2026 21:17:24 -0700
-Message-ID: <20261022041724.2712-1-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261017195747.89961-1-sj@kernel.org>
-References: <20261017195747.89961-1-sj@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
+Date: Thu, 22 Oct 2026 07:07:03 +0200
+Message-Id: <20261022050712.75035-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,105 +119,122 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi SJ,
+IRQ action tracepoints describe handlers, but not the lifetime of the
+enclosing IRQ context. One context may run several actions, and an action
+may be dispatched outside hardirq context. PREEMPT_RT may also enter
+serving-softirq state without invoking an action. This leaves no generic
+event stream from which an RV monitor can check IRQ-context transitions.
 
-Thank you for sharing the design early.  Short version: the design makes
-sense to me, with one main suggestion.  The first report type should use
-the data address the PMU captures at sample time, rather than decode the
-instruction later in kdamond.  The measurements behind it are in my
-reply to your answer to sashiko.
+This RFC adds events at the generic hardirq and serving-softirq
+boundaries. The irqstate RV monitor checks their order and agreement with
+live kernel state. irqexit follows the owner of a preempt_schedule_irq()
+invocation across task switches and CPU migration.
 
-On Sat, 17 Oct 2026 12:57:45 -0700 SJ Park <sj@kernel.org> wrote:
+The hardirq events cover paths through irq_enter() or irq_enter_rcu() and
+their matching exits. They do not cover direct __irq_enter() and
+__irq_exit() users, raw paths, or architecture-specific entry and return
+intervals. irqexit covers preempt_schedule_irq(), not the complete
+interrupt-return path.
 
-> Does the idea for perf CPU cycle sampling based access monitoring makes
-> sense?
+Boundary callbacks can raise softirq work after the pending-work check.
+The series wakes ksoftirqd or ktimerd for remaining work. KUnit covers
+nesting, monitor synchronization, PREEMPT_RT worker intervals, provenance
+and late-work handoff.
 
-On AMD, yes, with precise_ip (cpu-cycles:p routes to IBS Op): its
-memory-op samples carry a data address and load/store type.  On Intel,
-even precise cycles samples (cycles:pp) carry no data address; PEBS
-memory events do.  Decode from saved registers worked for one of two
-test loops on Intel and for neither on AMD (details in the other reply),
-hence the suggestion above.
+Cross-architecture RV KUnit testing also exposed an Arm-specific opid bug:
 
-> Does the design provides clear idea about how it can be extended for the
-> future extensions that already scoped for milestone 3 (AMD IBS, Intel
-> PEBS, Arm SPE)?
+  https://lore.kernel.org/r/20261020035158.90190-1-kmehltretter@gmail.com
 
-Yes, if the report has an address field with a validity bit and carries
-the producing report-type (attr) id.  Then IBS, PEBS, Arm SPE (through
-an adapter, since SPE uses the perf AUX buffer) and device-side
-monitors all produce the same report, into the same queues and probes.
+I would especially appreciate feedback on:
 
-> For the foreseeable extensions (AMD IBS, Intel PEBS, Arm SPE), would the
-> required change minimum and maintainable?
+  1. Should the context boundaries be trace events or private RV
+     instrumentation?
+  2. Are dedicated scheduler events the right way to follow
+     preempt_schedule_irq() across task switches and migration?
+  3. Should irqstate and irqexit remain separate monitors?
+  4. Is the KUnit-only hook for an empty ksoftirqd invocation acceptable?
+     Outside a KUnit run, its worker checks take a disabled static-key
+     path.
 
-Yes, if staged.  The sample-filter matcher and its sysfs already exist
-per context; attaching them per probe is the main change.  For example:
+Patches 1-5 add the events, monitors, and documentation. Patches 6-9 add
+KUnit coverage.
 
-  M2.1  in-kernel only: damon_report_attrs(), the queue, region
-        lookup, the perf producer; kunit, no new sysfs
-  M2.2  your per-CPU write-only example, set up from user space:
-        attr_reports files, per-filter report_queue,
-        write/cpumask/threads probe filters
-  M2.3  counters, a silence check (tracepoint/debugfs first), tuning
-  M3    more producers: Arm SPE, device monitors
+This series is based on v7.3 (c03c1a14507d) and depends on the following
+accepted change, which is not included:
 
-Implementation notes:
+  softirq: Preserve interrupt context on return from interrupt
+  https://lore.kernel.org/r/20261011060742.30584-1-kmehltretter@gmail.com
 
-1. One sampler per CPU per attr, owned by attr_reports (as in your
-   damon/next usage doc) and shared by all contexts.  IBS has one unit
-   per CPU, so perf time-slices multiple events: on EPYC 9555P one
-   ibs_op event got 67,140 samples; two on the same CPU got
-   33,547 + 33,535.  On Intel the event also needs wakeup_events = 1,
-   or an in-kernel handler sees only the last record of each
-   large-PEBS batch.
+A pre-existing issue can make rv_test_dummy intermittently report a
+false-positive invalid-wait-context warning under lockdep. Wen Yang has
+posted a fix:
 
-2. A lockless queue, as your NOTE in damon_report_access() anticipates.
-   Today's buffer is documented "May sleep" and uses mutex_trylock(),
-   which interrupt context cannot use; its inclusive jiffy staleness
-   check can also count one report in up to three intervals (HZ=250,
-   5 ms interval).  A simple design: a per-CPU circular array with a
-   write counter and a per-slot seqcount_t (using
-   raw_write_seqcount_begin/end() for NMI safety), overwriting the
-   oldest slot.  Readers never consume; each context keeps its
-   last-seen write counter per CPU.  A nested writer (e.g. an NMI over
-   a task-context write) drops its report and counts it.
+  https://lore.kernel.org/lkml/5586dd00789a0f904cc299cd8889744b8c6f8dc9.1789412799.git.wen.yang@linux.dev/
 
-3. Report fields: paddr, vaddr, size, time, cpu, tid, tgid, the
-   producer's attr id, and flags (is_write, plus a validity bit per
-   address, since 0 is a valid paddr).  Store global ids; translate
-   namespaces at the filter.
+This series does not include that fix.
 
-4. Binary search over a sorted region snapshot (your todo in
-   kdamond_apply_access_report()) beats a linear walk from about 2
-   reports per interval for 1,000 regions (a model, to be measured).
+Karl Mehltretter (9):
+  tracing/irq: Add generic IRQ context boundary events
+  tracing/sched: Add IRQ preemption lifecycle events
+  rv: Add a monitor for generic IRQ context transitions
+  rv: Add a monitor for IRQ-exit scheduling ownership
+  docs/rv: Document the IRQ-entry monitors
+  rv: Add KUnit coverage for IRQ context transitions
+  rv: Add KUnit coverage for IRQ-exit scheduling
+  rv: Test empty PREEMPT_RT softirq worker intervals
+  rv: Test IRQ-exit softirq provenance and handoff
 
-5. Samplers can stop silently: in a report on the v4 thread [1], IBS
-   Op samples stopped after about 10 minutes on a Ryzen 5 5600H, but
-   not with the NMI watchdog enabled.  So count dropped reports and
-   check for silence against an independent reference.  For tuning,
-   step sample_period rather than use frequency mode, and do not raise
-   perf_event_max_sample_rate: on an early DAMON PEBS prototype (Xeon
-   6960P), perf cut it from 100000 to 10000 in about 20 seconds.
+ Documentation/trace/rv/index.rst              |    1 +
+ Documentation/trace/rv/monitor_irqentry.rst   |  398 ++++
+ include/linux/interrupt.h                     |    7 +
+ include/rv/kunit.h                            |   34 +-
+ include/trace/events/irq.h                    |   70 +
+ include/trace/events/sched.h                  |   51 +
+ kernel/sched/core.c                           |    6 +
+ kernel/softirq.c                              |  308 ++-
+ kernel/trace/rv/Kconfig                       |    5 +
+ kernel/trace/rv/Makefile                      |    3 +
+ kernel/trace/rv/monitors/irqentry/Kconfig     |   13 +
+ kernel/trace/rv/monitors/irqentry/irqentry.c  |   35 +
+ kernel/trace/rv/monitors/irqentry/irqentry.h  |    3 +
+ kernel/trace/rv/monitors/irqexit/Kconfig      |   14 +
+ kernel/trace/rv/monitors/irqexit/irqexit.c    |  172 ++
+ kernel/trace/rv/monitors/irqexit/irqexit.h    |   85 +
+ .../trace/rv/monitors/irqexit/irqexit_kunit.c |  537 +++++
+ .../trace/rv/monitors/irqexit/irqexit_kunit.h |   21 +
+ .../trace/rv/monitors/irqexit/irqexit_trace.h |   19 +
+ kernel/trace/rv/monitors/irqstate/Kconfig     |   14 +
+ kernel/trace/rv/monitors/irqstate/irqstate.c  |  289 +++
+ kernel/trace/rv/monitors/irqstate/irqstate.h  |  139 ++
+ .../rv/monitors/irqstate/irqstate_kunit.c     | 2062 +++++++++++++++++
+ .../rv/monitors/irqstate/irqstate_kunit.h     |   25 +
+ .../rv/monitors/irqstate/irqstate_trace.h     |   15 +
+ kernel/trace/rv/rv_monitors_test.c            |   29 +
+ kernel/trace/rv/rv_trace.h                    |    2 +
+ .../verification/models/irqentry/irqexit.dot  |   21 +
+ .../verification/models/irqentry/irqstate.dot |   32 +
+ 29 files changed, 4397 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/trace/rv/monitor_irqentry.rst
+ create mode 100644 kernel/trace/rv/monitors/irqentry/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.c
+ create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.c
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.c
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit.c
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace.h
+ create mode 100644 tools/verification/models/irqentry/irqexit.dot
+ create mode 100644 tools/verification/models/irqentry/irqstate.dot
 
-Three decisions would unblock M2.1:
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+prerequisite-patch-id: 6ac7167f0aa7c5319dac78bf5b06a989fd7dfac5
+-- 
+2.39.5 (Apple Git-154)
 
-  - The first report type: the PMU-captured address (suggested), or
-    decode from saved registers in kdamond (your current plan).
-  - Whether the report carries the producer's attr id (suggested: yes).
-  - The queue: the per-CPU seqcount design in note 2 (suggested), or
-    ftrace's ring buffer with one iterator per reader.
-
-One question on the ABI: the usage document in your damon/next tree adds
-a report_queue file under each probe filter.  Is it meant as "this
-filter tests reports in queue N"?
-
-Happy to write, review or test any piece: the queue with kunit, the
-AMD/Intel perf producer, a decode-accuracy study on real workloads, or
-runs on Xeon 6960P and EPYC 9555P.  Several exist in RFC v4 [2].
-
-Thanks,
-Ravi
-
-[1] https://lore.kernel.org/r/20261017211613.16456-2-aethernet65535@gmail.com
-[2] https://lore.kernel.org/r/20261005-damon-perf-rfc-v3-send-2026-10-03-v4-0-b03452e137f3@gmail.com
