@@ -1,74 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792633702;
-	b=JkzMC08lYBKDUHxDgeHuHoyLBN3FgNaIugpbKdrzB41pBySYgN+r5rx6N2WqlkfeyR/r
-	 MoJBMzi2yZBToODbIRHVxn2LGDrvFzENEs82ASkeN+m2vKkx8paqfNrA6FlelZ7xqTRzi
-	 O3OJVYSDmLKJnw8kpQzrwCQkdXhCAGQejmzAkrrySEGRPw42u45xMlcocY6VX5bhXacue
-	 U9c3k9NOMxtC4c5kq3KKU2tbGwLgIf/C84Q4t5d+Y8Ori9X0+Px9vkhdGQclzN043MqeD
-	 Ifv8sIbjtGrMUcl94ZiKg5inrXyhYyc8m+uRbYnBhLh8motx82zGUeGeTkfmDuNpIZA==
+	t=1792636582;
+	b=CGjh1sfGu56A0cX1GfaM1g6GE1EShV0VuJvaW5fnkuTg19y6s6X0oQ2MCt8s9fFW/BnJ
+	 IjY37XmXly+rOFEZiw0kVy1365cjysM3UlYS0M8NqbwymG3MykTqWCiAl50vbKjplZaM9
+	 LNYtvz3LlwI9ZTy4lUsTHjgn8wMcT/bZZJ7byfhaGAhQ2vnMRlL5lh26uUjhnAU58NPKM
+	 7ASFEvPk9vRchzR9Se0T4UsID45+IAWhoQt54Ej1wC41b7J/atmUewes/YNx89V3eg226
+	 wB0mvWK2OFkkIfUE7bv1y2hJiglFNaqVZzN1dvMh7OW9hP1AgmnL4zbu9lyDv6g1KtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792633702;
-	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
-	 X-Forward-Email-Sender:X-Forward-Email-Version:
-	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
-	 X-Report-Abuse-To:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=LW0K1y3Aru8asUab0ZoHmJkJJzy67mmJNwo7if4GdpQ=;
-	b=mHr1Mq/LLZ5CcYydmU4BqI5CIIkt5tKcVTWHyrrMcMGX//R2i9oY2E6Y/Zh853I34Xqh
-	 Tj0P4k5smf+PtD5J0rUILbPnyRO3Q27cmb8yZC2VFPJAGKpqtA7bq/y3reZV7dP9DnNtt
-	 2KZmdkuuNkVmejKZ+K1chXG3ewtJ3pVuMVXi8gFQ0xps3dkFPGwbJIjOMTJu5w0HuPnJe
-	 7JPUtJS4VGtRZt3SdrkvJwohFjh0I7TV0oA6qeex3h7eapJkKfF5AJ6fKAPXwsWX0Fxlg
-	 gv5aS2kIKkkfGiBlph9iHgH4BC25xS0WNYGa/qMrLUxQMLzO55Uh2F4JzHdFSPKzMWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792636582;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
+	b=SyfmLifE94leI5ghUg9xOcNUTJZF4EbgJhGHhzY2qmeB0re0E/WsIFwprv789StDtvFV
+	 wOt5UPyl6CU496ma8zmIBqFrH/f/1g4qOUu85+WK8WSripPVJGUdNc7OjoWjLnIJ5KfmD
+	 jppSYWBfQLyxN8bPxGKC8kwSh36t0yrTAqUJvCgNJjozmP2mv1GM7zq9ev5ROMljdjDif
+	 RYlKvSzs22g6Cii3I8Ol0/63HmBNT7Je0jAMt7O8CxRwrHYJ/X41T8Djkh7Ws0s/Xmobb
+	 7KAuhYnJz8VPiwFt4A3qqLOP2McCmANLt6OtCAwvTLvSAymRspVHL1TKdsbfAIccYtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=skyn3tlab.com;
-	spf=pass smtp.mailfrom=fe-bounces.skyn3tlab.com;
-	dkim=pass header.d=skyn3tlab.com header.i=@skyn3tlab.com header.a=rsa-sha256 header.s=fe-ef0e585ad0 header.b=7qH8gXmA;
-	arc=none smtp.remote-ip=121.127.44.73
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DXfRIZoh;
+	arc=none smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112D9606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 01:48:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 112D9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=skyn3tlab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.skyn3tlab.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0FD606A31B
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 02:36:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D0FD606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=skyn3tlab.com header.i=@skyn3tlab.com header.a=rsa-sha256 header.s=fe-ef0e585ad0 header.b=7qH8gXmA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyn3tlab.com;
- h=Content-Transfer-Encoding: Content-Type: MIME-Version: References:
- In-Reply-To: Message-ID: Date: Subject: Cc: To: From; q=dns/txt;
- s=fe-ef0e585ad0; t=1792633694;
- bh=LW0K1y3Aru8asUab0ZoHmJkJJzy67mmJNwo7if4GdpQ=;
- b=7qH8gXmAz3OVXnfk/hQIziwQDU+o9HmfBYfTmXqY6L+ef47uOrQq/XEQ9JrRxL91OkS1uPPtd
- QkEyqMbUzcaKkOn3qRZnXdJ/e7OEIPMmAtzuAXSI8paKxmGJvgPMawqWTa68LJg3iWbQTiR4I6y
- PwiA5+ylUBTDRqGSI9zooN4=
-X-Forward-Email-ID: 6ad96b5cf76a2e0ef8b0ba48
-X-Forward-Email-Sender: rfc822; gr3yf0x87@skyn3tlab.com,
- smtp.forwardemail.net, 121.127.44.73
-X-Forward-Email-Version: 2.18.9
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: Mark Severson <gr3yf0x87@skyn3tlab.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: changes.rst: set the pahole minimum back to 1.22
-Date: Wed, 21 Oct 2026 21:48:11 -0400
-Message-ID: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com>
-References: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DXfRIZoh
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-536605c4d8fso9233751cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 19:36:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1792636580; x=1793241380; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
+        b=DXfRIZohrO6JOR9N2TQfXwi6cS3IFf0u3AYrwtcV6cAz/rVDD7gYA/cEnUd7wXfC6H
+         sfSTAy7j3LwrJCHxVAhzWFOpiEsgVwT/fRT6BmOjP8g4NxugF58Kv64hPA8hnbMyMMLg
+         Bn4uk+VUNjJYH35He0ZZnX1j8fnuR9z1X+77UXRo20wYlj3BIhM4ayOT/xvxHjPPdiU+
+         FfSYeOstSqlXfhKWllHX+JM7bKGrsEHmlMhl8dWpG2+mPCDE3Y3naPT+E0bU+/a3txYD
+         pdUabMTzTxVpr1fgM8p26nP5aBPgBmL9e1ItEt0i/hYPGLmhUgvgszhgzDYl95JPGZok
+         h0jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792636580; x=1793241380;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
+        b=p5d6w1gsB37+q0vOOnsjylrepnVJAjDkgIir1gbeQJIW8NRU0W18Y6DL7zm2T3guQD
+         FMNsSPi64tDE/1qZuutLjM2QFW6T9PoHPJudfr/lhATEK8MAKElqlyud2M30r4FQlpBQ
+         HcjODbYRDpCwWsRUScXJTDmi+0GNFBDFjq2UaFwOujTuzIwtJytSDAObanOGze4/V91J
+         8tjtFeF8v4EZQyCLy3b7Y3GF+yDSL2TbjnCUblVlG4HckCyxGByrQZM8iHfCndXhCdzM
+         Z//WRChT2DTd11eje/XQaKZsTM9Rxx9wcUN+6JtpIYu4hjV1XPxkWGbkIAmREbHK8JMK
+         wA8A==
+X-Forwarded-Encrypted: i=1; AKwUvByGrFSGKJJ+bPee3287NqxJegwI8YKQc0RS2asgJc5hc5q1654vsX1iB++EMzfvSLWOOv5pY0Gf7XY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJj6TlE03BnMW3Lt21G+CrQt/9uqHoFhCuTNpIsIKm0uaTBSrbk
+	zf4N3rWOZEglR9pjKrVN6SLPwY2+Oo2MwSwO1CxVR58I2MyAAQMjfvcD4oyO0Q3RB3c=
+X-Gm-Gg: AYBFou3FvQOV685N0J4r7V6RIQgndvlB8q++uLwsV/EfuGaE5fDjCurMUaOcpCdZ0uv
+	pAM6ZASFRzbvV3MWE0UBve9NVF9I5uKidhgai8tmZPE6gc6UqfqsPgP5OVINoU4UyKCLM5nq0Oy
+	nD/LO1CwEpEVEObhVdGa27hKz8ytNrfDaX5iyulaxcvGFvDKCNt3WCIK0CthAnD1RP5u3QIcxYA
+	Z2rQ86PJWdmd/16G8q0mGJltTF6Mdja/Xxf7zGheVAF4MHsNAhFriZgN+StHMfbCpXYGonPIo9B
+	0/bWZo1B+qBBmt1DtJHKFsg67lrOalNSBt9eK7hBagCcbo+iydliQ0YPcNpzXBaZI+2RNkOqHoW
+	gYwPmcoUM8mQ393k6/NDg4RKFlbt3lb/k6HYwMMzfgIUCx/cbDWvC7HyMHN0ViuJu7QC7fRSfvO
+	HUaY8ctN1fYmqZmHoObnI6p5zGc7MwnYfqwslOkVs4GM0bWlDLR5RSNLkNF+PrGR0A6cYzr1bR5
+	EVNR2V5XIanXiYQNFl+IbbdaqDpEY9Y8mXmpInyWeQnOmQNSJD1QWkEkXpX541XmjUS7A5J62E4
+	BVO3WPl/Frns4fupMy7WX1px1e4=
+X-Received: by 2002:a05:622a:4cd:b0:533:2bf3:3301 with SMTP id d75a77b69052e-5369b86ae59mr66504611cf.36.1792636580301;
+        Wed, 21 Oct 2026 19:36:20 -0700 (PDT)
+Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536ab73b09dsm16032801cf.17.2026.10.21.19.36.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 19:36:19 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,89 +88,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 00/12] Virtual Swap Space (Swap Table Edition)
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
+ hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
+ shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
+ muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
+ baohua@kernel.org, youngjun.park@lge.com, chengming.zhou@linux.dev, 
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+ surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com, 
+ yuanchu@google.com, weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
+ haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
+ baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
+ skhan@linuxfoundation.org, rdunlap@infradead.org, kunwu.chan@linux.dev, 
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, cgroups@vger.kernel.org
+In-Reply-To: <20261021060323.553433-1-nphamcs@gmail.com>
+References: <20261021060323.553433-1-nphamcs@gmail.com>
+Date: Wed, 21 Oct 2026 22:36:17 -0400
+Message-Id: <179263657717.2549665.11401372071846447074.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-Commit fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF
-annotation emission") removed the paragraph saying that kfuncs annotated
-with KF_IMPLICIT_ARGS need pahole v1.26, because resolve_btfids now
-emits the kfunc BTF annotations that pahole used to produce. That
-paragraph was the reason the requirements table lists pahole 1.26, and
-the table was left unchanged. The text below the table and
-lib/Kconfig.debug (DEBUG_INFO_BTF depends on PAHOLE_VERSION >= 122)
-both still say 1.22.
+On 2026-10-20 23:03 -0700, Nhat Pham wrote:
+> B. Semi-synthetic Workloads (memhog, usemem, kernel build)
+> ==========================================================
+> 
+> All values are mean +/- standard deviation across rounds.
+> 
+> Test system: x86_64, 52 cores, 64 GB swapfile for all 3 benchmarks.
+> Swap backend: zswap (zstd) with the traditional active/inactive LRU. We
+> focus on zswap here because it is the motivating use case for vswap.
+>
 
-Set the table back to 1.22, in the English document and in the Italian
-translation, which carries the same table, and remove the Italian
-translation's copy of the paragraph that the English document no longer
-has.
+I get that the motivation is zswap, but it would be nice to have
+disk-swap performance numbers here as well right in the cover.
 
-Checked by building linux-next 20261021 with pahole v1.25 and
-CONFIG_DEBUG_INFO_BTF=y: in the vmlinux BTF,
-bpf_task_work_schedule_signal has four arguments and the bpf_kfunc decl
-tag, and bpf_task_work_schedule_signal_impl keeps the
-struct bpf_prog_aux * argument, as Documentation/bpf/kfuncs.rst
-describes for KF_IMPLICIT_ARGS.
+If only because...
 
-Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation emission")
-Assisted-by: Claude
-Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
----
-v2:
-- Also remove the Italian translation's copy of the KF_IMPLICIT_ARGS /
-  pahole 1.26 paragraph, which fd5425b67355 removed from the English
-  document only; v1 left the Italian text contradicting its own table.
-  Found by the Sashiko review of v1.
-v1: https://lore.kernel.org/all/20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com/
+> For each benchmark, we test 3 kernels:
+> * Baseline: mm-unstable, no vswap patches.
+> * VSS off: vswap series applied, vswap=off, to verify that there is no
+>   regression to existing swap paths when we disable vswap.
+> * VSS on: vswap series applied, vswap=on.
+> 
 
-checkpatch reports the Assisted-by tag as non-standard; it follows the
-Attribution section of Documentation/process/coding-assistants.rst as
-published on docs.kernel.org. Not run: make htmldocs; the change keeps
-the table's column widths and removes a whole paragraph.
+If the numbers you presented carry through, I'm left wondering why this
+is a boot option and not a build option.  I rather dislike the boot
+option compromise in general - but other reasoning aside, if there's no
+performance impact, then I don't see why it shouldn't be the default.
 
- Documentation/process/changes.rst                    | 2 +-
- Documentation/translations/it_IT/process/changes.rst | 8 +-------
- 2 files changed, 2 insertions(+), 8 deletions(-)
+~Gregory
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 28f2ca633..13093c5c2 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -53,7 +53,7 @@ mcelog                 0.6              mcelog --version
- mkimage (optional)     2017.01          mkimage --version
- nfs-utils              1.0.5            showmount --version
- openssl & libcrypto    1.0.0            openssl version
--pahole                 1.26             pahole --version
-+pahole                 1.22             pahole --version
- pcmciautils            004              pccardctl -V
- pigz (optional)        2.4              pigz --version
- PPP                    2.4.0            pppd --version
-diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
-index 0be1292a8..b4accd428 100644
---- a/Documentation/translations/it_IT/process/changes.rst
-+++ b/Documentation/translations/it_IT/process/changes.rst
-@@ -57,7 +57,7 @@ mcelog                 0.6              mcelog --version
- mkimage (opzionale)    2017.01          mkimage --version
- nfs-utils              1.0.5            showmount --version
- openssl & libcrypto    1.0.0            openssl version
--pahole                 1.26             pahole --version
-+pahole                 1.22             pahole --version
- pcmciautils            004              pccardctl -V
- PPP                    2.4.0            pppd --version
- procps                 3.2.0            ps --version
-@@ -149,12 +149,6 @@ Dalla versione 5.2, quando viene impostato CONFIG_DEBUG_INFO_BTF, il sistema di
- compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux. Più
- tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
- 
--Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pahole
--v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi BTF
--errati in vmlinux, causando il fallimento del caricamento dei programmi BPF con
--l'errore "func_proto incompatible with vmlinux". Molte kfunc in sched_ext sono
--interessate da questo problema.
--
- A seconda della distribuzione, lo si può trovare nei pacchetti 'dwarves' o
- 'pahole'. Oppure lo si può trovare qui: https://fedorapeople.org/~acme/dwarves/.
- 
 -- 
-2.43.0
-
+Gregory Price (Meta) <gourry@gourry.net>
