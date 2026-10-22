@@ -1,128 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792673916;
-	b=kqIWO+AtHsMuoH4rM1HIv07fh2Og63ehLDJcSQFLRD16pa6F9xEElU6BASCG5rvO+IIj
-	 h12rbV84bR3wTd5kpCVMBbULgl/BfnlDhk+lub5NajzUYRAQMcdV7HMcusH4niAdJOeav
-	 UL5Yay0tWfRzTuEx7sf6R/ruw63jfN1s1g8SUNyqethoPp4R8eo0eSyxuFL7QUfAz5D+7
-	 FkhEej+7++un5ZJRvPjV5ZRg+J8PU+jFwpOxf+Zu0OMQw5Nd12fF5Nux9jTEq8QDkSL6h
-	 p5LvEOqsYb60kzGVcj9QoBnNVE7nwg9fo/zkaoO3xgTTnDO2FBL+9lJgGT+rz+wdn3w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792673916;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Mailer:X-Mutt-Fcc;
-	bh=n2146TWUgdwHvS4zjmu5EqVSZcyKohA+l2jbGNsx8S4=;
-	b=BhJkwSUbUpc4B0XmBvmV9PNg5yMUZonUmznYJnvOzqGDeIsUPzaYlYvjWfiyl0ceAxnf
-	 o0LH2W3ojyIBIKhL+W4fUIhCy2P2hsf2A4FTfoK8ARn23D1L0L0CTtaODNlwOrB4s36px
-	 9lhR5oEy/vcRnLossickmRgON0dkFnZze72uc9aTvgwBV+5Xy/JcV200m+utiYwqM42FR
-	 J8P+kzAbmQpII38TMLTgnAPH4GaQXP4jGVlGJTDmEDnERXogqK3n5EJdfNtoxF95tBDn2
-	 Lf6iaiBkUW2Lsjt9YJ3J/f1Hs46kH+ovbBhBTiA1XBpBVLvvGItbmHa/of/ISlbcmKQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=O9or39Vr;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=MpJlP5E9;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792674708;
+	b=sJPzOLxdQgy8CN9MiFVvVwN4NOdJN9a9qsgapjkXNIAyK7pZChL7MQswjh0dtHxksmmZ
+	 oyZhkVMwO1vYITzcRrh9l7mVDEJ05iNniUvub83x7pv+gcuLEyI51jB8V9Vr+Xts871Sm
+	 7dLnR34YaPAeozRoAwjUrWoR4Y2ey3dOaDZ/FzNccl0vX0W5d05X5IYtqptAUDrYcJxF5
+	 WjXABW9D9BY1U7pB4LAfF+e7dyNNGm8eBmwrXkxlscvIRy30wxRmwEvr45VDNBtLgfARJ
+	 kUNJIcIwOmr4VYSbZFm8MUbiLdUo9NoK+uRUTd8MDM/INcaFY+EmjM7JMzzkOO3OWbQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792674708;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
+	b=Zo5ACnly7lKnDfbCPEiOf+OUuUaMLH58basCjevpgeMIBl+PLWRQDNSApmZ/eikNjNlp
+	 wDfaMTslDkD1M5GxyIoVRf0LypNv2wUwU1afhYl47emWmjwOLpE23xB67LYxaVWIlIt4e
+	 BBlrCz6IHv35cMAzMyJdY2rWgicUL6yEdGlT+Rf2WUdzLxVa7xTWOamkYOiyA4oT/2Rf4
+	 sqVxqAeMS2NrnucUJAb4tfbKtsEVy50Z2sznzxpOqv+fzKHLyLmrUTQ2CQGhL1Kx7gsiM
+	 sp2UBVoS4sHJ8S7Nt8pRuzNxGvtPpkutd+LNrQTJ6jirdp3KQF+3DBJIEnaWXd5dJvw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qBfZBOnu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010057.outbound.protection.outlook.com [52.101.56.57])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DF660A3803
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 12:58:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69DF660A3803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF4B606A319;
+	Thu, 22 Oct 2026 13:11:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEF4B606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=O9or39Vr;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=MpJlP5E9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792673914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n2146TWUgdwHvS4zjmu5EqVSZcyKohA+l2jbGNsx8S4=;
-	b=O9or39Vrb3GGgJ2zHzHuonrZjAv10bKSToF5UrlSYxxbsvHB4PoWf4j1dZswiFjsbwZu1S
-	PVPjoF6nWonWZxioyEswxMYaBDEgDF2O09uoD9G8CnGGjC6Kzd61+tn4YAAd3SdhG0dTFN
-	Z7fxwQLrnOBY0F5yan8VMzlz5kQ+T3Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-401-kNqyK45PMui65snA7q_ydA-1; Thu, 22 Oct 2026 12:58:31 +0000
-X-MC-Unique: kNqyK45PMui65snA7q_ydA-1
-X-Mimecast-MFC-AGG-ID: kNqyK45PMui65snA7q_ydA_1792673910
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a01ba12198so6342785e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792673910; x=1793278710; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=n2146TWUgdwHvS4zjmu5EqVSZcyKohA+l2jbGNsx8S4=;
-        b=MpJlP5E9duoQMHTdqOlS484UdpyR2kEAttkD0SJ2jlLZ7g/YptXm3vFUqFw2aI+fMd
-         xvBHPckKcFrZLqMxI0oMysbLMWmRcL8rpZ90okYUayMBWd6OmUMjFINxPlrI48FARXHw
-         L749cnhAlhQF4zbcpYio+jfzCXPrgtLhKoUYiZUYLr/K0Utoxt/sngOzH9dwWnEjCbfT
-         nyMG4TL3GD1+VV7EwupFGsyoBhs8cxlVjXOrOdB85Feq66X8lbtSWsLtFGKcq0FL5o+l
-         FvxjKREfjdvbMZnaQdnUapkynHb/cNCERjUjK6HIA7MaVG/cEy6bfCgwQzPK7sznZi68
-         J/MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792673910; x=1793278710;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=n2146TWUgdwHvS4zjmu5EqVSZcyKohA+l2jbGNsx8S4=;
-        b=T3YzPKWdpGC9Yjfkr6Ds7RGaRySCLqZxXpGWKcJXDCDxQg18CtShSO1yf0PLbb8ZCD
-         7NZZW7/+J5zJtidE217H+D2ZzOS8nt2c7giNPfcq7eUDxMJK6VV7lFBwXwo/Vp+/T/nE
-         880ovyc+nQfcVjO5rtWab0vbdG0BvImZgzI27P1YBLD0ml1gaHFmr1ry6vw3ouOIclso
-         Xo2JZIOapCHwtfB6/PjLmq1lQjKWrEcP/etxcqzAnPt421E+d0b1sIB10U0JQJNvRLUR
-         k7Lodhd61SnhunXj6xDfjJzpAgE3fOutfm3x6mcgnW1qF5sexoOX0+57+pnyO6VFp9fr
-         BQyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx2SacOKhz8jS/64s0Cm6//voyMYDjOlmnQ7lq/vDnL102tnysqEwOXCDLm/Dj1LUnN5ejTm4KbXqk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKLs3EVNvo99VsjxecZsWybVWbx7Qu1k/H3jb8LaDZ+iywMzCR0
-	d9qxXy/jjuC5qGVM5rNZcERGd/etmX80J9Xvk4Rg0YoE3QOLFYEFGryfS3Lc8Ht/msA3g7mzJl5
-	CT4GQcrOVQWKliOkftgZBrVVivOS9ku4sBoIolAbAWJob+1vZGSZh56SefWD3FA==
-X-Gm-Gg: AYBFou0Vh9jbh/iNBghNJ/MNZQfd8Ut8iTfBMqvrJmy90gb8R+WyfbdfEU8/+74GfAv
-	P0DTV9d1SKbBTA1SaHgejcRQ7m6qGWfKclpBQ6I05yj5SkMq3ijcQY6bEqGfYVfBDgQu/zqYIgU
-	B02kPW+8B+S0Nrgc3fkiM7oy/AAy8A2wGon/KPyMTnQsDJ9geX+zx684nw4TlkX8j06A2CsZ9l6
-	2v2U4VYuu/hbJ28DqJOaFwEiR+gaq6fyhOHqmjsah5c7z0lAR67UYIdlL4zOdLxgI7KwDBIR279
-	DdlBFTfHWRKgEFoeu0j9upfR49cQgFGWuzP0PTy6/wQFvbWnEj1m/RCKKgaZHtxot5U=
-X-Received: by 2002:a05:600c:34d6:b0:4a2:bbd:ea3a with SMTP id 5b1f17b1804b1-4a20bbdea84mr19221475e9.6.1792673909687;
-        Thu, 22 Oct 2026 05:58:29 -0700 (PDT)
-X-Received: by 2002:a05:600c:34d6:b0:4a2:bbd:ea3a with SMTP id 5b1f17b1804b1-4a20bbdea84mr19221005e9.6.1792673909044;
-        Thu, 22 Oct 2026 05:58:29 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:1536:fc00:b838:383:1c7:6e81])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203b29907sm65756795e9.3.2026.10.22.05.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 05:58:28 -0700 (PDT)
-Date: Thu, 22 Oct 2026 08:58:24 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Chris Arges <carges@cloudflare.com>,
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-	Phil Sutter <phil@nwl.cc>, Jason Wang <jasowangio@gmail.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, virtualization@lists.linux.dev,
-	Max Krasnyansky <maxk@qualcomm.com>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Willem de Bruijn <willemb@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Simon Horman <horms@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH net v5 5/7] net: add a sysctl to opt out of virtio net hdr
- checksum validation
-Message-ID: <2beba4c8b84c811120b6100bcccd8b90e7458787.1792668082.git.mst@redhat.com>
-References: <cover.v5.git.mst@redhat.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qBfZBOnu
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fb0RoDbxjn0uSSDSznc7j0UUtBAicijk0apw8sICcXsVdXd/tATU10wZ7eB4AJutojfaz5wQ5/YwultBwcUwUW+rDFV7D0SMJnOkZd0MJ/rX6qccwArr1own2pUVYTU48N9Nzkh6/CMpk2R/zxJGinQzJTMLmdB+xt9ZgsC/g5HtcvspKuGTBiGVrWlFeBvOex71I4nH46/vRQpbYx52KaDTXNipDpwzXyiRs/0KDG4Q2jTjgT96Mt3embnAEzeD7xDGsUH87F9SS+SN+SlBGYThcShFR0ymYZGwC1i2DBuEXSpK8BwWsmvUOWgFMsjle7rw3Rx8akrkBqHJvOsgVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
+ b=aesoU7dXygQEUdkQmeZA5cldrObB+4ZGu/tun9iUPc5rOR+PpIEBtobffRozK3a9pkkfcgr8YK7kklv+zEltPkniPa6no/VUzsPJAdJ168Kc89DfaJh2jdq5ymUzF0z7I5KtS8qWWUf3ly11Z+H7SmgKIzmIOfHHonudBQZ5eRPpbocN8yy8JswDHIELBknzK6T/pZ6De15FvsyQtUNvVUCKLWlQ9JJcCWdaS4iCpiD3CZKif3TounMWXxr6GDOnHMsIfdZ9oaZOoUbDkDT1ax+ioYg3VF6Zc4yuUA3FQj5LVtDUd9qtlG2cikqN0OvnSLErtw38MqU692TrCkofQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
+ b=qBfZBOnu4BCZkyhBOLG+yeAbkMZXcIcU/+SsbB92x5J0j7IjuOcMJ/IDkboGG4g3Ao9ZOw0cxBLCzcLvhgsZUy2zXgSKNm6dS5LbUo6DevMGNfky4ghR5T3JNl+y29F7kIxvIPyyZ4qxRO+PylcBXXLTUISMirBse6jTvODBxvRo8QQDi92CedUWLWvSMgWT+p5JguDDAh/OalDS+EZVDsLNz2S42/0nqdV8bX2SzhVw7VR4podVmpUqSqr4z8TpQ6rxlu2iWkXKffRA/qt9t7EM1QOM5i+aWadN0MJMNGlMdzjC4bBidhXf2vdGA/BNov9hTwDz1QacmOB6/ZDssQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12) by SA1PR12MB6848.namprd12.prod.outlook.com
+ (2603:10b6:806:25f::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
+ 2026 13:11:42 +0000
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0546.016; Thu, 22 Oct 2026
+ 13:11:42 +0000
+Date: Thu, 22 Oct 2026 10:11:41 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Mimi Zohar <zohar@linux.ibm.com>, Jiri Pirko <jiri@resnulli.us>,
+	Dionna Glaze <drdeeglaze@gmail.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
+	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
+	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
+	dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	roberto.sassu@huawei.com
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+Message-ID: <20261022131141.GD3008132@nvidia.com>
+References: <atPgqROZZxnihYfC@kernel.org>
+ <20261017231007.GP13920@nvidia.com>
+ <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
+ <atX9fugGUsI0hGcA@FV6GYCPJ69>
+ <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
+ <20261019225658.GS13920@nvidia.com>
+ <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
+ <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
+ <20261021143529.GP3008132@nvidia.com>
+ <95b895522bb314187ac1cdc5d0c143c01f0705a9.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <95b895522bb314187ac1cdc5d0c143c01f0705a9.camel@HansenPartnership.com>
+X-ClientProxiedBy: BL0PR05CA0028.namprd05.prod.outlook.com
+ (2603:10b6:208:91::38) To CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -132,272 +117,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.v5.git.mst@redhat.com>
-X-Mailer: git-send-email 2.51.2.2891.g4157995a80.dirty
-X-Mutt-Fcc: =sent
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|SA1PR12MB6848:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c370204-11d9-4183-bf14-08df303e0411
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|261009223027099003|261021121427099003|10067099003|56012099006|18002099003|22082099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	P+SPDIy+9J0oKAIcT+bFSkBgHyR8HoidDmYlaHP7i487Kb7OOBJZ/ngNIvqsHozY/PFTRmRl9Qq1JlKAI5qyf8tGu3wHrv9vTo9SEtWqRB7JF96WKJKvCiOul2U+2qi73Djr76PueHcweJP8kr4G9wcLUvfVt0+mQKUFkyGrQ3l2vYOzPw9gBHcfcJ0RfjbJuvXPRBZZrxGJQKebAi7DJtDmpmIIHaW1FIbUZ9caDBpcX+xZy4IZPKEQhHD5FXKvRUrnMjSQhz9x84J4jH5nHPMnWpU5TKXhZpAe9dryO78ev6Lbcxy+eLfd022Ac4c+CAwaHLQQtB+iF5QvR1Ksk6aQTYMA9EWqCqxkTW+ywOPIIFgEyd90GqPjEwZrj+fZy9AzXQ8+iz1yJZBnF668at11hMwBN/H66juNEn/otClbQ2fs1qGwElwkAlrMQnCTD5ARJ4SuV+EHuN0Bh04pDQyro8G4dfBs34leu/RqNnkeCehOM6OV7MAboY0FTOQknnvIXfoVzoh2b9VsNBvg0Y5UcHdx3U8NjOgLIEb3ms570N4YfW0kuGGjaxBf0DgkALLcnEANuNnO3NZwM6RunWhTa+Dp4IEDo33RDO99ULSGKb7Qr1DiBbQT/Y/Srf7RmpBw5VYe/l0HEDpPgGY+Ev/b0N9zOq5gArWjdvhKoRU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(261009223027099003)(261021121427099003)(10067099003)(56012099006)(18002099003)(22082099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eFYv58T45ki9j2XpduVPRUIt7LKbxUI30PxwnOhs4MB1OHqXjwCzbgrcriP/?=
+ =?us-ascii?Q?Gf9hLkBpeiKnsq5tL+G6X1r//6ofBBT2q33Nt6xKVmF4o+nHGrdcoPtzM0zW?=
+ =?us-ascii?Q?LJr5KzqazvkkzguRrS9J3/ledJK1tjOwAgSO5peHJPhAqhdX6nrE+PgPkOF1?=
+ =?us-ascii?Q?eDxJeHZOWUzmbk27GUxEsbN4o9ew+MpzA2IuNP5pEgrTs+32vAkxAWTzA77n?=
+ =?us-ascii?Q?8Mc2F8f6YlypbUoYaIF+pNauO8+hUWbbSSh0HPoSiNm4tObb4k0JDFneEMz2?=
+ =?us-ascii?Q?kk39DLxyfyVS8xEOZftkGLdnLq5OjPzsSa5Fi/XMck4xI1SVv3fS6zNzFTa8?=
+ =?us-ascii?Q?tNKB0Sn3kQRQLB6H4JnuMgEAI+q/sYLcDP23MACJC78ONbeyi52mv+5Va4ZE?=
+ =?us-ascii?Q?49K4XTgeST1Ol+neotGjIS09XJWGsapHD5EHTPUqE8jIEmgxCK1jd7WF+5iY?=
+ =?us-ascii?Q?AeCE/1cyimZZTxwlvxMJ4GgpcXZj+oGT1z0eYafEVu7S1N8ph6XuAtp8cdzS?=
+ =?us-ascii?Q?IkpbrvEuiiu5OYcxbG6HhwAbSCv+wkn9hzGBBgUXFV7E/mECgadwcF7bgN/K?=
+ =?us-ascii?Q?ohIEoN10LoiyReU/0MyBHKO8dvbqfDz3l6x6tYN4jjtkmOQ5kTd3Tj+yp1UQ?=
+ =?us-ascii?Q?d9GTMwIsGe6QG+pz5Rls9BZKHRU5oelIa4j2P3ZD5Ff8vRpRcG4nl0YTNcxf?=
+ =?us-ascii?Q?rpY1ZuJqa9BdNFM1ekVH11SFEpyrNdrULydrARjmC+qOCAsPstKoknnpYHj5?=
+ =?us-ascii?Q?+8vP43tVOwfGPOEmsr3kC5ogrvEbOeAeWBnSdaw0oZvmGlIxNNMPfu3tNCyy?=
+ =?us-ascii?Q?1tOe/s0SGDLvzeLTbomqvH/ZSPrmrAoOjUNNtIocr+jyGPU6by1pjSAyPYNf?=
+ =?us-ascii?Q?8AfFVeWvdU2xIBkEVm5HM+BA6/BDGZUvzRNuKeLHLKKvM10vtiw7hHROBSvs?=
+ =?us-ascii?Q?QXKFahDhMbM9i7/1lnTJcpV9OBp+Y2pYFNFhnYdomyYbyfVwiahO7u7wnoze?=
+ =?us-ascii?Q?hEzyaLRzYfTjJPEx0c36WquLQmvk4q8jYAp/JniX10Iure0idg8ZWGRmB3qq?=
+ =?us-ascii?Q?HGA8ibI+Wu8dJ/DWS9UeKdD87BhxACjh9jk7KBRsetgZmUs9o2Zi/auVbAGE?=
+ =?us-ascii?Q?PTELK62N/d+vOjZJkEfDAf6SAlu6es5oPeP0LIUv87w+FsEHprLvWAzKJU4t?=
+ =?us-ascii?Q?IkzkSp7+exGOt8rOZUlCkYZsTLh54hYbalzmwI+eryp8p1owFNkCrG3Aej4w?=
+ =?us-ascii?Q?ymyS+XjrODFUhqFXX9vT0afL3/27ClVzKah8hC6r3hEPlAqk/+VBCgh1miE3?=
+ =?us-ascii?Q?6dH4MJymY5z6uxXEwqRhH//I8/VqaE1EmBZrKVsARjMar4veFDXWnsmeZRZF?=
+ =?us-ascii?Q?m5dD85YDu1pGskkcftLxnI2JG1/cFz0GvYc/67ZGMDNidr/xWjo67YBsnYuL?=
+ =?us-ascii?Q?UD+8YJmDz09mtaSN8z0E2AxFKqmFuUyRCkqPKYo3ed/8OcS4dpcFHwkxmY8g?=
+ =?us-ascii?Q?rmiWwq9b0oA7QaKccMPRYHuKB0YUB1gh/xTUFKwtxH25EMFrSQCIlz12DAlP?=
+ =?us-ascii?Q?+enFQx2QK+BOfUSWM1TF9fn4f/1OEFsneu9Q1v9T9g3YUfM8ErVLAi06tjXD?=
+ =?us-ascii?Q?1bC+BAvybtvMob0acu2e1FviIrTQ74Q4PMaGzL9euRlLVcwzceFWiJ0g2sd1?=
+ =?us-ascii?Q?RYskJIh1Z+Wq51Sbto8UpHtKWfqsKTFgb2BiRc4Kf+1rbPrp?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c370204-11d9-4183-bf14-08df303e0411
+X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 13:11:42.5440
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8q6Nn8tWKUn1EYWJHhw+DHDRR0b5InKaENPE7+Eoc5C4qJodInM87hRlR9nPOftX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6848
 
-The ingress validation as implemented by the previous
-patch is stricter than what it replaced: GSO
-packets whose checksum metadata matches no transport header are
-dropped, and non-GSO ones get their checksum completed in place.
-Such packets used to pass with the metadata unvalidated,
-and with no overhead.
+On Thu, Oct 22, 2026 at 08:26:29AM -0400, James Bottomley wrote:
+> On Wed, 2026-10-21 at 11:35 -0300, Jason Gunthorpe wrote:
+> > Maybe we can build a multiplexed scheme on the spare? I don't know.
+> 
+> Direct sharing of PCRs is certainly possible, but not in all
+> circumstances. To share a log, each logging entity must record entries
+> in such a way that the relying party can disentangle them with absolute
+> certainty.  The problem with the latter is that both the TCG and the
+> IMA log format have unmeasured (or advisory) log entries.  You can fool
+> a relying party trying to disentangle a combined log simply by
+> converting the advisory entry of one logging entity to being the
+> advisory entry of another and bingo, it disappears from the other log.
 
-I judge that this should not affect any deployments, but there is still
-some risk that it does.  In case a deployment depends on them anyway,
-provide a per-netns switch to get the old behavior back:
+My understanding was the unmeasured entries exist only to help the
+verifier understand the log structure, and what data is in the
+log. Like you might record a firmware version so that the verifier can
+locate the reference measurement.
 
-echo 0 > /proc/sys/net/core/virtio_net_hdr_validate
+If they are corrupted somehow then the verifier should fail to
+understand or reconstruct the log and fail the verification. 
 
-The default is validating.
+It seems to me if corrupting them in any way compromises the
+verification then that's a pretty catastrophic bug in the verifier..
 
-Reviewed-by: Björn Töpel <bjorn@kernel.org>
-Reviewed-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
+Though I fully agree with the sentiment, sharing a PCR requires a
+robust scheme for the verifier to recover everything. If we ever build
+sharing we may not end up using TCG log format.
 
-Notes (changelog):
-    v4->v5:
-        document the netns lifetime requirement (sashiko)
+> trust the entity provisioning and running the vTPM.  The closest we
+> come to having an autonomously attested vTPM is the SVSM-vTPM in SEV-
+> SNP which can give an attestation of the ephemeral EK tied to the
+> launch measurement of the enclave.
 
- Documentation/admin-guide/sysctl/net.rst | 19 +++++++++
- include/linux/virtio_net.h               | 27 +++++++++++++
- include/net/netns/core.h                 |  1 +
- net/core/dev.c                           |  7 ++++
- net/core/net_namespace.c                 |  1 +
- net/core/sysctl_net_core.c               | 50 ++++++++++++++++++++++++
- 6 files changed, 105 insertions(+)
+I understood the AMD approach a little differently.. The verifier gets
+a signed token from the CVM's ROT (in ARM terms the realm token) which
+has a hash that includes all the vTPM code (launch measurement), and
+the token's report_data/challange/nonce is a hash of the random EK the
+vTPM code built at boot.
 
-diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-index e586e17fc7a5..3c0223575438 100644
---- a/Documentation/admin-guide/sysctl/net.rst
-+++ b/Documentation/admin-guide/sysctl/net.rst
-@@ -246,6 +246,25 @@ processes are dropped unless socket option SOF_TIMESTAMPING_OPT_TSONLY is set.
- Default: 1 (on)
- 
- 
-+virtio_net_hdr_validate
-+-----------------------
-+
-+When processing packets with a virtio net header (through tun, tap, a
-+packet socket or a virtio network device) that request checksum offload
-+(VIRTIO_NET_HDR_F_NEEDS_CSUM), validate the packet: complete the checksum
-+in software, or drop the packet where the header does not match it.
-+
-+When disabled, the header is trusted not to corrupt the packet, and the
-+checksum is offloaded to hardware (or not verified if it never reaches
-+hardware). This is only safe if no protocol is processing the packets.
-+
-+The setting is per network namespace, but only writable by the host
-+root: root inside a network namespace created by an unprivileged user
-+cannot disable the validation.
-+
-+Default: 1 (on)
-+
-+
- wmem_default
- ------------
- 
-diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-index 52852a33a2db..cea70ccf0ed4 100644
---- a/include/linux/virtio_net.h
-+++ b/include/linux/virtio_net.h
-@@ -5,6 +5,7 @@
- #include <linux/if_vlan.h>
- #include <linux/ip.h>
- #include <linux/ipv6.h>
-+#include <linux/jump_label.h>
- #include <linux/netdevice.h>
- #include <linux/udp.h>
- #include <net/gso.h>
-@@ -78,6 +79,20 @@ static inline struct iphdr *virtio_net_ip4_parse(struct sk_buff *skb,
- 	*thoff = nhoff + iph->ihl * sizeof(u32);
- 	return iph;
- }
-+/* Defined in net/core/dev.c, enabled while any network namespace
-+ * has net.core.virtio_net_hdr_validate set to 0.
-+ */
-+DECLARE_STATIC_KEY_FALSE(virtio_net_hdr_validate_disabled_key);
-+
-+/* Failsafe: a namespace can disable the check with
-+ * net.core.virtio_net_hdr_validate.
-+ * The caller must keep the netns of skb->dev alive.
-+ */
-+static inline bool virtio_net_hdr_validate_disabled(struct sk_buff *skb)
-+{
-+	return static_branch_unlikely(&virtio_net_hdr_validate_disabled_key) &&
-+	       !READ_ONCE(dev_net(skb->dev)->core.sysctl_virtio_net_hdr_validate);
-+}
- 
- /* Where does the L3 header start, and what protocol is it?
-  * Handles Ethernet and VLAN headers; other devices use the
-@@ -189,6 +204,12 @@ virtio_net_csum_partial_ok_at_offset(struct sk_buff *skb, u8 hdr_gso_type,
- 	unsigned int thoff;
- 	int ip_proto;
- 
-+	/* Failsafe: a namespace opted out of the validation,
-+	 * trust the checksum metadata as before.
-+	 */
-+	if (virtio_net_hdr_validate_disabled(skb))
-+		return true;
-+
- 	if (!virtio_net_l4_start(skb, nhoff, proto, &thoff, &ip_proto))
- 		return false;
- 
-@@ -231,6 +252,9 @@ virtio_net_csum_partial_ok(struct sk_buff *skb, u8 hdr_gso_type)
- 	int nhoff;
- 	__be16 proto;
- 
-+	if (virtio_net_hdr_validate_disabled(skb))
-+		return true;
-+
- 	if (!virtio_net_l3_start(skb, &nhoff, &proto))
- 		return false;
- 
-@@ -522,6 +546,9 @@ virtio_net_tnl_offsets_ok(struct sk_buff *skb, bool outer_isv6,
- 	unsigned int thoff;
- 	int ip_proto;
- 
-+	if (virtio_net_hdr_validate_disabled(skb))
-+		return true;
-+
- 	if (!virtio_net_l3_start(skb, &nhoff, &proto))
- 		return false;
- 	if (outer_isv6 != (proto == htons(ETH_P_IPV6)))
-diff --git a/include/net/netns/core.h b/include/net/netns/core.h
-index 9ef3d70e5e9c..02ce232fe9a9 100644
---- a/include/net/netns/core.h
-+++ b/include/net/netns/core.h
-@@ -18,6 +18,7 @@ struct netns_core {
- 	u8	sysctl_txrehash;
- 	u8	sysctl_tstamp_allow_data;
- 	u8	sysctl_bypass_prot_mem;
-+	u8	sysctl_virtio_net_hdr_validate;
- 
- #ifdef CONFIG_PROC_FS
- 	struct prot_inuse __percpu *prot_inuse;
-diff --git a/net/core/dev.c b/net/core/dev.c
-index e76762e29360..43b8823c83f6 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -128,6 +128,7 @@
- #include <linux/if_vlan.h>
- #include <linux/ip.h>
- #include <net/ip.h>
-+#include <linux/virtio_net.h>
- #include <net/mpls.h>
- #include <linux/ipv6.h>
- #include <linux/in.h>
-@@ -2389,6 +2390,12 @@ EXPORT_SYMBOL(tcf_sw_enabled_key);
- 
- DEFINE_STATIC_KEY_FALSE(netstamp_needed_key);
- EXPORT_SYMBOL(netstamp_needed_key);
-+
-+/* Enabled while any network namespace has net.core.virtio_net_hdr_validate
-+ * set to 0.
-+ */
-+DEFINE_STATIC_KEY_FALSE(virtio_net_hdr_validate_disabled_key);
-+EXPORT_SYMBOL(virtio_net_hdr_validate_disabled_key);
- #ifdef CONFIG_JUMP_LABEL
- static atomic_t netstamp_needed_deferred;
- static atomic_t netstamp_wanted;
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index da5f881fbd3b..8a21baaa7e6d 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -396,6 +396,7 @@ static __net_init void preinit_net_sysctl(struct net *net)
- 	net->core.sysctl_optmem_max = 128 * 1024;
- 	net->core.sysctl_txrehash = SOCK_TXREHASH_ENABLED;
- 	net->core.sysctl_tstamp_allow_data = 1;
-+	net->core.sysctl_virtio_net_hdr_validate = 1;
- 	net->core.sysctl_txq_reselection = msecs_to_jiffies(1000);
- }
- 
-diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-index eb35da3556f4..3e4037b82a97 100644
---- a/net/core/sysctl_net_core.c
-+++ b/net/core/sysctl_net_core.c
-@@ -18,6 +18,8 @@
- #include <linux/slab.h>
- #include <linux/sched/isolation.h>
- #include <linux/hex.h>
-+#include <linux/virtio_net.h>
-+#include <linux/jump_label.h>
- 
- #include <net/ip.h>
- #include <net/sock.h>
-@@ -678,6 +680,43 @@ static struct ctl_table net_core_table[] = {
- 	},
- };
- 
-+/* Protects changes to virtio_net_hdr_validate_disabled_key and each
-+ * net->core.sysctl_virtio_net_hdr_validate.  The packet path reads
-+ * the value without a lock.
-+ */
-+static DEFINE_MUTEX(virtio_net_hdr_validate_mutex);
-+
-+static int virtio_net_hdr_validate_sysctl(const struct ctl_table *table,
-+					  int write, void *buffer,
-+					  size_t *lenp, loff_t *ppos)
-+{
-+	u8 *value = table->data;
-+	u8 old, new;
-+	int ret;
-+
-+	/* Root in a user namespace must not be able to weaken the
-+	 * validation for the network namespace it controls.
-+	 */
-+	if (write && !capable(CAP_NET_ADMIN))
-+		return -EPERM;
-+
-+	mutex_lock(&virtio_net_hdr_validate_mutex);
-+
-+	old = READ_ONCE(*value);
-+	ret = proc_dou8vec_minmax(table, write, buffer, lenp, ppos);
-+	new = READ_ONCE(*value);
-+	if (write && !ret && old != new) {
-+		if (new)
-+			static_branch_dec(&virtio_net_hdr_validate_disabled_key);
-+		else
-+			static_branch_inc(&virtio_net_hdr_validate_disabled_key);
-+	}
-+
-+	mutex_unlock(&virtio_net_hdr_validate_mutex);
-+
-+	return ret;
-+}
-+
- static const struct ctl_table netns_core_table[] = {
- #if IS_ENABLED(CONFIG_RPS)
- 	{
-@@ -737,6 +776,15 @@ static const struct ctl_table netns_core_table[] = {
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE
- 	},
-+	{
-+		.procname	= "virtio_net_hdr_validate",
-+		.data		= &init_net.core.sysctl_virtio_net_hdr_validate,
-+		.maxlen		= sizeof(u8),
-+		.mode		= 0644,
-+		.proc_handler	= virtio_net_hdr_validate_sysctl,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE
-+	},
- 	/* sysctl_core_net_init() will set the values after this
- 	 * to readonly in network namespaces
- 	 */
-@@ -841,6 +889,8 @@ static __net_exit void sysctl_core_net_exit(struct net *net)
- 	tbl = net->core.sysctl_hdr->ctl_table_arg;
- 	unregister_net_sysctl_table(net->core.sysctl_hdr);
- 	BUG_ON(tbl == netns_core_table);
-+	if (!net->core.sysctl_virtio_net_hdr_validate)
-+		static_branch_dec(&virtio_net_hdr_validate_disabled_key);
- #if IS_ENABLED(CONFIG_RPS)
- 	kfree(net->core.rps_default_mask);
- #endif
--- 
-MST
+So the verifier can construct a chain from ROT, to the VTPM code, to
+the EK, to the quote from the vTPM, to the PCRs.
 
+One of the things we need to check in this series is how well it
+represents the AMD scheme where we have the ROT signing lots of
+different things depending on the GUID..
+
+Jason
