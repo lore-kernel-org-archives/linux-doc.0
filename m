@@ -1,63 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.101.248.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792653910;
-	b=Pxp/DDyg94Ly1kHH7AZgXDSfhIc7DtlrHNP50SGq5LbG2+7s30UWI6AEGcbDnR4U+CKv
-	 tcQ92yrbJ/QqQ3xRg/3tFpkCSfWcJ6b0LxpAaxHqB/8tzfAMj0oXqp4TaBhaxIrh2P0ZV
-	 Irr71wmwmSPKSQME423DG++W/nO6HEe8p2lLSEJQf8E7/NXUMrPKys2NsVPczB/baLhi+
-	 uWtNJ3Ua3LZN8j+A7KWa8PVMc7QFCPbKK28NTGgTOjK5IaSIgpgCMIyvpRrnAdap/WPNs
-	 Kqx8GSqQjS1c64bX3KWfw88+rxD6Lnsl16599pf1kCCsQAGniBmpl3KOLqkx/IMgGWQ==
+	t=1792653965;
+	b=TVbj2rg9V433sYgNCsc0CcUqSWnYVacVbC5w8RD95DifhUJFSxZiQMxckKRDkKG6OXMI
+	 AawTv8q6B91rgE88b3oEdswru2eWEslGnOnw94+lS0fMR1TRl2QzVVnFMJVTIfb0AR4hO
+	 aLMNHluF0sHLfCMV9/cWpJcgmoCaPpkgU354WWMeDdUYqdnYDA7A5YZTTvvY2r0fN4Vxp
+	 gCara9V0Ahbs7w4xQWV1VIU89KLNSpkrAGkMNl/UbRFv9grZu/CzwyhLMyr7jLIOBo8Rx
+	 EOFDuRB2IKQ7dou1xUnghxUFMLQEo6RZQi2agd0MQq9W7Q30RN+Sn6yYi0G7Uigpwyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792653910;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GzocSWmRnJBjCb2IF2ZXZ1TezmknaQ/uzyUsvuQWgJw=;
-	b=v1BHdE0+zJb9Q7hrj6I1Q7KQ2Xu2umkpFIk9/gjs8kRBepEsJxMWyGdcojoBpa8wGHZU
-	 Iq3IS2iNyd8FEBE77lOE+GD/1qJKyxSQ+Nrrq0En4Sde8jmwQteUvo/p3taKF81Yz4tDv
-	 bPV0snJJm0jBLdDjDjzZb50FRlPLIC1B0iyDpIV1lax11qkteN21ninLKqNn2K3m56qk6
-	 hgFGKnr6lPvqN2GF76vz2QQT5Z6S+eq0GEepGq0QY9buOvc/VQsGTNFj0dwdEq2PXWFqh
-	 rykZ+7tYWREZ7YZ/N8TLtXac+kbLPH11gGzMrk2j9AkFRxDIKczc6X0epCc1wn6YRQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792653965;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:X-CM-SenderInfo:
+	 X-CM-DELIVERINFO:X-Coremail-Antispam;
+	bh=hw+LeerHhGLkLKdlR9vRwcNoEaoRpAz0XKULpmdJ9jU=;
+	b=zBkV601ZnBMNeGdC44khK/uk519gVF68EorJc4LbuUGDMJx4dZWW9H43PiexLoHOlllz
+	 9d+lWpNsNyVjKxtMapiCBKyDrOPmeaez2ML0D6bvmnqFCB1GeIKZchFBIv+JcUQtOsLIq
+	 SqjChZmpn0IX9yCZ8wzz1J0PZdjAEPAp+hSEVCSPagrLSTcH33kSBFrrFAWdAk3KS11ju
+	 oKsVEifecm9iL1k3lQwQjna6dfwhDWwCb0jqSjj4d9KXY85ZRYyyimCIpQ/0GLpQBvhKW
+	 wqNiPHzrosUgGfvPwv2VpDNUkewhl4fr2wpYr7dzfk2OsU/GIrLx7WKteuucmQxWdEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="R/0Q6bHq";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ECA606A319;
-	Thu, 22 Oct 2026 07:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R/0Q6bHq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9BF1F000C1;
-	Thu, 22 Oct 2026 07:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792653910;
-	bh=GzocSWmRnJBjCb2IF2ZXZ1TezmknaQ/uzyUsvuQWgJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R/0Q6bHqEEwQkMFBTpOUh4aAud/xmgWYqMgfLFHpDm11MHPv4m65rIi2mdpJSPAwh
-	 Je0+7/QCnmveYgttqoY3iGFia0GHA2u9x+1SiZH7wJyopn2pXBqBQpoHJmjmKZkFHW
-	 STd3VJKealBIMYLjCyUHiKYFB8bxsibJr9I3fL2kh+gR4pI2NQs7wSZKUrqKCh3+ql
-	 PxGTzA88H+vY6DLs+po4LkexVJ3kKT5bF1Jwuo3KAuELxNJAt4EvBM6z5aJkklf17u
-	 TYgikUf80/489n2MTmF2V6Dcc3lNSS299qZHBLeigEikha+CaNebVdDWJ7PQHV26q4
-	 nMfmSSQ/Wd2JQ==
-Date: Thu, 22 Oct 2026 00:25:08 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-Message-ID: <20261022072508.GB1857@sol>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021163242.GB325924@killaraus.ideasonboard.com>
- <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+	dmarc=none header.from=zju.edu.cn;
+	spf=pass smtp.mailfrom=zju.edu.cn;
+	arc=none smtp.remote-ip=46.101.248.176
+Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net (zg8tndyumtaxlji0oc4xnzya.icoremail.net [46.101.248.176])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0074606A31B;
+	Thu, 22 Oct 2026 07:26:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0074606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.192.73.73])
+	by mtasvr (Coremail) with SMTP id _____wCXcX5hutlqP3CyAQ--.103S3;
+	Thu, 22 Oct 2026 15:25:22 +0800 (CST)
+Received: from [10.192.73.73] (unknown [10.192.73.73])
+	by mail-app1 (Coremail) with UTF8SMTPSA id yy_KCgDX54RXutlqpMKHAA--.4549S3;
+	Thu, 22 Oct 2026 15:25:12 +0800 (CST)
+Message-ID: <3ce962ff-4f86-4505-a297-7c91284b2d7b@zju.edu.cn>
+Date: Thu, 22 Oct 2026 15:25:11 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,51 +45,194 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v2 1/8] bpf: Add UHMUL and SHMUL instructions
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, tangyazhou@zju.edu.cn,
+ bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, David Vernet
+ <void@manifault.com>, bpf@ietf.org
+Cc: John Fastabend <john.fastabend@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Quentin Monnet <qmo@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Xu Kuohai <xukuohai@huaweicloud.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Pu Lehui <pulehui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ Shahab Vahedi <list+bpf@vahedi.org>, Russell King <linux@armlinux.org.uk>,
+ Tiezhu Yang <yangtiezhu@loongson.cn>, Hengqi Chen <hengqi.chen@gmail.com>,
+ Johan Almbladh <johan.almbladh@anyfinetworks.com>,
+ Paul Burton <paulburton@kernel.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Hari Bathini <hbathini@linux.ibm.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Naveen N Rao <naveen@kernel.org>, Luke Nelson <luke.r.nels@gmail.com>,
+ Xi Wang <xi.wang@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>, Wang YanQing <udknight@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Tianci Cao <ziye@zju.edu.cn>,
+ Shenghao Yuan <shenghaoyuan0928@163.com>
+References: <20261021-bpf-hmul-v2-0-88e260099f7d@outlook.com>
+ <20261021-bpf-hmul-v2-1-88e260099f7d@outlook.com>
+ <DMAOMH0CLDLX.127F7BRYUOQEG@gmail.com>
+Content-Language: en-US
+From: Yazhou Tang <tangyazhou@zju.edu.cn>
+In-Reply-To: <DMAOMH0CLDLX.127F7BRYUOQEG@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:yy_KCgDX54RXutlqpMKHAA--.4549S3
+X-CM-SenderInfo: qssvjiasrsq6lmxovvfxof0/1tbiAhILCmrXxB1u-AABsm
+X-CM-DELIVERINFO: =?B?ePmKzQXKKxbFmtjJiESix3B1w3vD7IpoGYuur0o+r46DyAi5OfOO+T4vrW4FyUBIyu
+	9q9Ks5WUqw3Z4rlIZd02nqEtelbHSyIVI30G0gETxgY5zXP40f6NR2sdDBVPYwWjuyAbfe
+	dWi4wsWuWoAc8JhokIfXmYk5DjTqY3XvCxFmIAxXl7bSZvphwXOAs49D3R/y3A==
+X-Coremail-Antispam: 1Uk129KBj93XoWxur1rAw4xury8tr1fGw4kuFX_yoWrZFyfpF
+	WvqFyxCF4vgrWkZr97XwnrCF15JF4xG34UG34UWrWUA3ZFqFn5WrykKayaqrZ5Gr1rKa12
+	yr4qvr9a9398GFgCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8c
+	xan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr
+	1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UA
+	kuxUUUUU=
 
-On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
-> On 21/10/2026 18:32, Laurent Pinchart wrote:
-> > On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
-> >>
-> >>> there's no base-commit?  Including any historical patch (from
-> >>> months/years ago), patches with dependencies, etc.
-> >>
-> >> Dependency is something else, but for every other patch:
-> >> 1. For testing/CI: you apply on top of next
-> >> 2. Every other case the maintainer knows where to apply it, because it
-> >> is his HEAD of next-branch.
-> >>
-> >> I am repeating myself, but I really had no single problem of lack of
-> >> knowledge where to apply a patch as a maintainer or reviewer of some
-> >> subsystem, thus maybe I do not understand the actual problem you are
-> >> experiencing.
-> > 
-> > When I review patches, I often need to apply them to a tree, mainly to
-> > see the context, but sometimes also to test them. I have encountered
-> > many cases where the patch wouldn't apply on the current for-next branch
-> > of the relevant subsystem. That's often because the patch had
-> > dependencies. When I'm lucky they are listed manually in the cover
-> > letter with a link to a branch, but that's far from being the common
-> > case. I then have to ask the submitter to provide a branch, or enough
-> > information to recreate a branch. Having base information (base-commit,
-> > prerequisite-patch-id, and possibly base-tree) would save me quite some
-> > time.
-> > 
-> > I understand your concern about maintainers cherry-picking and sometimes
-> > introducing issues as a result. In that case I also prefer asking the
-> > submitter to rebase, retest, and resubmit. That's not what I want to use
-> > base information for, in my case it helps with the review process.
+
+
+On 10/22/26 01:11, Alexei Starovoitov wrote:
+> On Tue, Oct 20, 2026 at 10:40 PM tangyazhou@zju.edu.cn <tangyazhou@zju.edu.cn> wrote:
 > 
-> That's valid and for 95% (guessing the number...) of cases will be
-> solved by having linux-next as a base, thus requiring the base
-> information is redundant. It's just linux-next.
+>> +static inline bool bpf_insn_is_hmul(const struct bpf_insn *insn)
+>> +{
+>> +	return BPF_CLASS(insn->code) == BPF_ALU64 &&
+>> +	       BPF_OP(insn->code) == BPF_MUL &&
+>> +	       bpf_is_hmul_variant(insn->off);
+>> +}
+> 
+> Patch 5 adds this check to 13 JITs and nfp to opt them out.
+> Lets make JITs opt in instead, like bpf_jit_supports_callx().
+> The verifier checks it once. x86, arm64 and riscv patches add
+> bpf_jit_supports_hmul() that returns true. bpf_prog_is_offloaded()
+> covers nfp.
+> When JIT is on and it doesn't support them the prog is rejected with
+> a message in the log instead of silent fallback to the interpreter.
+> Then patch 5 goes away and only arm64 and riscv acks are needed.
 
-linux-next changes every day, so "It's just linux-next" is ambiguous.
+Thanks, Alexei. This is a cleaner approach. I'll add
+bpf_jit_supports_hmul() as you suggested and remove
+the opt-out checks from unsupported JITs in v3.
 
-Without base-commit, the workaround ends up being to use the date the
-patch was sent and various other information to try to guess a base
-commit.  That's time-consuming and unreliable.
+Apologies for the noise to the other JIT maintainers.
 
-- Eric
+> 
+> Like:
+> 
+> diff --git a/include/linux/filter.h b/include/linux/filter.h
+> index e0218e6..6ee8d1a 100644
+> --- a/include/linux/filter.h
+> +++ b/include/linux/filter.h
+> @@ -152,6 +152,13 @@ struct ctl_table_header;
+>   #define BPF_ALU32_IMM(OP, DST, IMM)				\
+>   	BPF_ALU32_IMM_OFF(OP, DST, IMM, 0)
+> 
+> +static inline bool bpf_insn_is_hmul(const struct bpf_insn *insn)
+> +{
+> +	return BPF_CLASS(insn->code) == BPF_ALU64 &&
+> +	       BPF_OP(insn->code) == BPF_MUL &&
+> +	       (insn->off == BPF_UHMUL || insn->off == BPF_SHMUL);
+> +}
+> +
+>   /* Endianess conversion, cpu_to_{l,b}e(), {l,b}e_to_cpu() */
+> 
+>   #define BPF_ENDIAN(TYPE, DST, LEN)				\
+> @@ -1281,6 +1288,7 @@ bool bpf_jit_supports_kfunc_call(void);
+>   bool bpf_jit_supports_callx(void);
+>   bool bpf_jit_supports_kfunc_ret_reg_pair(void);
+>   bool bpf_jit_supports_unwind(void);
+> +bool bpf_jit_supports_hmul(void);
+>   bool bpf_jit_supports_stack_args(void);
+>   bool bpf_jit_supports_arena_args(void);
+>   bool bpf_jit_supports_far_kfunc_call(void);
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> index f29b0aa..90c30e5 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -34,6 +34,12 @@
+>   #define BPF_FROM_LE	BPF_TO_LE
+>   #define BPF_FROM_BE	BPF_TO_BE
+> 
+> +/* BPF_MUL off values for high-half multiplication; BPF_ALU64 only. */
+> +enum bpf_mul_variant {
+> +	BPF_UHMUL = 1,
+> +	BPF_SHMUL = 2,
+> +};
+> +
+>   /* jmp encodings */
+>   #define BPF_JNE		0x50	/* jump != */
+>   #define BPF_JLT		0xa0	/* LT is unsigned, '<' */
+> diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
+> index 3030beb..e17704a 100644
+> --- a/kernel/bpf/core.c
+> +++ b/kernel/bpf/core.c
+> @@ -3405,6 +3405,12 @@ bool __weak bpf_jit_supports_unwind(void)
+>   	return false;
+>   }
+> 
+> +/* uhmul and shmul */
+> +bool __weak bpf_jit_supports_hmul(void)
+> +{
+> +	return false;
+> +}
+> +
+>   /*
+>    * How this arch places a by-value kfunc argument, or NULL for one that has
+>    * not opted in and so only takes an argument of a single eightbyte, which
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 5601d20..9a3c97d 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -21194,6 +21194,17 @@ static int fd_array_get_map_idx(struct bpf_verifier_env *env, u32 idx)
+>   	return -EPROTO;
+>   }
+> 
+> +/* The interpreter supports uhmul and shmul. JITs opt in. */
+> +static int check_hmul_jit(struct bpf_verifier_env *env)
+> +{
+> +	if (bpf_prog_is_offloaded(env->prog->aux) ||
+> +	    (env->prog->jit_requested && !bpf_jit_supports_hmul())) {
+> +		verbose(env, "JIT doesn't support uhmul and shmul\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +	return 0;
+> +}
+> +
+>   static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+>   {
+>   	u8 class = BPF_CLASS(insn->code);
+> @@ -21249,6 +21260,13 @@ static int check_alu_fields(struct bpf_verifier_env *env, struct bpf_insn *insn)
+>   	case BPF_MUL:
+>   	case BPF_DIV:
+>   	case BPF_MOD:
+> +		if (bpf_insn_is_hmul(insn)) {
+> +			if (BPF_SRC(insn->code) == BPF_X ? insn->imm : insn->src_reg) {
+> +				verbose(env, "BPF_ALU uses reserved fields\n");
+> +				return -EINVAL;
+> +			}
+> +			return check_hmul_jit(env);
+> +		}
+>   		if (BPF_SRC(insn->code) == BPF_X) {
+>   			if (insn->imm != 0 || (insn->off != 0 && insn->off != 1) ||
+>   			    (insn->off == 1 && opcode != BPF_MOD && opcode != BPF_DIV)) {
+> 
+> pw-bot: cr
+
