@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792682350;
-	b=z+czLZu/nt6l/E7U2eN11Rjq0JRHtEL6NFers7jmEkwA9Pwo0q8p5nu10vRYakh5/Pem
-	 SyCaumCfAdrbGQP+XIOpfy1kmnVr4hpRjU1Jk+7zByCTnbh7IfEaYQ4NcHjlk1/kDutQ6
-	 8yU2YFu8VwZfm90iarbvnqx90XVyJU6XqpvSanBSKVvN49cTpi2wKOknMItarneiMYolf
-	 aIYHpJz+zNOr3Z0mDfoKn5x7EBHng445zVdEDFKChhn3BZYQOn41t5dUouoTrM6i7MAff
-	 W052aAKflsT7nMX4fEspVUsT0si+e/7qCtITME5YS6farJtW3wbJYmQRO9LO3jAeSAQ==
+	b=RJODuBTW/OOPoIoaOdCd/qfSQ2RexaDbCiu6uf5+Ygmg0DQSxWgS3ZTThQkPo2hN8C6R
+	 qdfnVWMKWc7shqNHYD0t1YkY0Lil0daUNk7vDz0yuQm6UIw4R4F+ywFHuYYV9rwlh+QEo
+	 hOVFytdMiKpFtBcnPDn/EQPpqP4E37ISpGaBnQbuSDuf9PiUWCgSDPLjM/hPPFTl4UgD8
+	 fg55sz3m1phrtzbXU8anVMmjS2fbWzM4YoOCpcgZMMzBGlyidcrbiEpHtTCnYTzTtEcN6
+	 cKdnEinOOMKAaTmeqQpRrT0AuPNlaXS77B99ZCdpKNOTwCJSg15Iqy4BzLwYgfhcHdQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792682350;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=s8461N4x6bAd9nJahZR75PpHJ9523zVsVCtLDHgioC8=;
-	b=LV7UdNrOVbf6vyQaQZ3Ir6783xXWLKRb4wg66OU8RVwMDkdpVxTGNV5XXNeArU4TF6+n
-	 u8JgCK0G+szOqXVAZgzCLI9vSClOY3ZXUC7pRdafslPDK+wg/63PQT38wByP59LtLYcPa
-	 MV5n/RiySlI6KWKATJ7rxN5Ae5e7yOY7FXHPXV7GIlmjC2EYT3wI/rVaIBNFq7OlwNelm
-	 imjP36VMPJAvIFvIKon/uxwUcNWVHSx+PfXEHnEdyd2ct+wz37fDdn+HZBIizTsWPYspC
-	 h4zvG/2aJKvdog2G3C/aj70K6GNqc82PADmSQoR37Xaj77LEb6PZWkRhyxl7e3zovWA==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=ZgsSRgLhdRJXX0D7l/a2ulYRdMo+CZDmbqVMPRhhICM=;
+	b=caJKiVVnj68qwDJVlFBvxxlKetxyd4xE7Suj9ObtRU3Z3/QVWXcaItl5bVS9gVogqDoM
+	 p6qMQ/TVcOKVnvojKjNa07Y9sWrxxbV9jO9XAvqIalvJncqysNMTPOuRJhIfG4F5IlyRG
+	 H5oPKMSjsYFYXGZmDJARw3NEBEzAL14Ggh/s8cyQsVS+ZH0wAEPXeb2W/q2CE7ctWwWWq
+	 25oYs/RBMpYBjSYXtvRmBVxcIs67kaVAKBgxFGS20K3ytYrqewP7b+jphNvjwVmQ+xLI0
+	 ZKLeL4pWpgqrXNhLulJG82TE4ViTTohNmTgtO1op8P3Knh/MGF0iK/TsPp5MzcGEgCw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Il4+S/7p";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SPbTJyJ/";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5C7606CC42;
-	Thu, 22 Oct 2026 15:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A4A606BE53;
+	Thu, 22 Oct 2026 15:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il4+S/7p
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SPbTJyJ/
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792682349;
-	b=aPuG9em0hhrVsF5iokravzKPyiPC3pPAE+ddDHznvGlu5uAZhNwfoe+xoUnaBdgBtM/m
-	 1A0FgYnb0n6Xyakfqi1xlZ0jD58xpER0oXFolGWMbhUbcOoGWU+cHGRNnMKKaRWIqx+ho
-	 IGMzErWbuifbU6zlYinWx2LP8y6VgKkYj8MigmAeMc/dd3lXzq/Os8zLHi6LDZ2F+dSmH
-	 4SCietQ4j4JW8Z4M/+hEfT0IDw30FZnwyIHPaqFAQpPLpDuwcN7l49GTyA6mwKEu7OILC
-	 sVwtx/k7b5JZGpOn1fRqj+DdFKzjm3MLNLd2cEUcQEb798E3qCoMmfptBUdRiUffnQg==
+	t=1792682350;
+	b=oPC/mkmqL8k6dIkjwPihWQV9mpKOt7kbD/PGPfkbsmWPcGs92ojZDTl9KgZofKw+Snsb
+	 g+c27fbKqFss1NX3eO5UiOggmqFj5TNjE5o33MSOJPNrLo5PPCNQ6/qChGa6Y8BRPxDE0
+	 1iV9JkkYP698giNZJIDa8PJsinnYbLicCx5pWj/lVBdn5HajnXsND4ZZzHxIi3+UToBLD
+	 fu6hEEX2Gvb3bbwj9QqMBVQ7JnHZr8i5LwSyBFA5iJRBr+wQabYq3FqGV7eZyJqyn+IDR
+	 sMXi7BevvScyOxn1jCzAf4879IrKH0DarU5mGIzjhFlPbki4BooceENoaLl0dJ24EvQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792682349;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=s8461N4x6bAd9nJahZR75PpHJ9523zVsVCtLDHgioC8=;
-	b=lcyxS8Jko8Sr/OWVAHSqj++eUr/I7dN+aBiaSgGPQ9A/Yr7Z2AI3teRlhxpAtwlXGCb7
-	 lyn1zmcucMyu4vPpbS8lQKfD2sGMjagNtPEGZzla7Ulfd78wSQJNIEqqMpebWRx5hi1hB
-	 UT745mBjPRI0C5bCoCBPKRFibeX2hFlUNycN01pWRD5ymGrGvoBttCmscUmHlBHoF0+xr
-	 g/2KvpmX3rcpSdgGt0Fow68J2CaC8+9WxQlOH7AR41LfCz/qIx1WQ6RBPiy/xDL/ZjNYp
-	 YuY5qajNxhpLpG4rv3l0AzJnKAvGgPAtQifE1uVplx9KqljHHX6+bMm1pifmtrP+zlQ==
+	c=relaxed/relaxed; t=1792682350;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=ZgsSRgLhdRJXX0D7l/a2ulYRdMo+CZDmbqVMPRhhICM=;
+	b=0RGDpY6S8NmYp5VJkwXRGfJPdYLP2DKQFCsmITiQAfs1cR9oypn51IxYUHDJe9GZSPdB
+	 rHSXKiEzBkxpu59y3lPc83z8z/oHwOloR8tmJ7iTjkT5V7WT7i/T9T9M9BoxVXLSrr76I
+	 vZ3u4LpNXpBpVIG51kUXy4uN4+y6/YPd6hUeXbYVEMvHzlTzpUaFdoE/lk2LdLpLckGtZ
+	 ZO8UHPoNzJFxyddegqcsX+/Po5DZtuVFUAZBhxA/vreEGHHBPY9X1Cmc8AHeb+kcEjSJc
+	 ChC/Iwt2IulmYwHYelZ+EtTzHq3pY7hG9LNkQg+lqO2g4zwLDPO7a3OAMsWA3k/M8XQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 929C51F01825;
+	by smtp.kernel.org (Postfix) with ESMTPS id EDAAF1F01829;
 	Thu, 22 Oct 2026 15:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792682349;
-	bh=s8461N4x6bAd9nJahZR75PpHJ9523zVsVCtLDHgioC8=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=Il4+S/7pKcYheXI/6/z+C3XKEBFcowDQMLZkC3Jtpn/VcdNWMXRhdTY89HahVLYfX
-	 hSpCZGGz3ANlkx0H64/jysXGKE8DtL8gsxg5QKV68h4/T2pEOCuvuvFg6qxFU01T9P
-	 8Z0acnWedIhAgvSu4D0/QCOPvF1OMZXUmW3zHP8H1E2FKlTVKvmcqP+u166x6+r08C
-	 be6lYerdqTlgRefJIOMuGzjjTP7O6cXvF+qRXK9lKURgnlQTjxn04WpYE6t5pK5rIH
-	 t6eagxzSZIFVAWpKsDENWyYmZeG/VbCUxCQOcdCag2RPHvwrs0kAb1vff7UOU/ceG0
-	 9h5cDA4LU21XA==
+	s=k20260515; t=1792682350;
+	bh=ZgsSRgLhdRJXX0D7l/a2ulYRdMo+CZDmbqVMPRhhICM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=SPbTJyJ/DSyInQsNKfFWtSuBgD41b2GlQb9P1KOcVynpHjyMVjwa3WzR34zmwgjO2
+	 xJGLw6cg5HxcVzUFqHkBKH9QAfsXGCoXd2xkd3PGxRzMCXC8rjkgW2CN0diQ0ivMQu
+	 gnuRnj/ondEM3SSw2CmKTzXVhUzNKnhW18pA/DTnYI/uKmDX7kTXWIuliP+bR7CKki
+	 boSShZpNL3xbYyn0bIkPCYTN2cb08VlTqVhWggUlGDu+3fLXE2haRhdc+h3f/2Izjo
+	 3jbCLKe+4QkLshII6r6/hLr5WjNq70jeJEyRO/O2UPIXb3V3QJNZRhnzpLCJlundvM
+	 b8pk9pIse/Kfg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E27B641E49;
-	Thu, 22 Oct 2026 15:19:07 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 770D441E4D;
+	Thu, 22 Oct 2026 15:19:08 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Subject: [PATCH v2 00/10] iio: frequency: ad9910: add IIO backend support
-Date: Thu, 22 Oct 2026 12:18:58 -0300
-Message-Id: <20261022-ad9910-backend-support-v2-0-0ff7f0bff326@analog.com>
+Date: Thu, 22 Oct 2026 12:19:00 -0300
+Subject: [PATCH v2 02/10] iio: backend: add devm_iio_backend_get_optional()
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,12 +83,9 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAGMp2moC/3WNyw6CMBBFf4V0bc1MqTxc+R+GRWlHqI+2aYFoC
- P8u4NrlSe49Z2aJoqXEztnMIk02We9WEIeM6V65jrg1KzMBooA6B65MXSPwVukHOcPTGIKPA8d
- SydJgKWUObD2HSDf73sXX5sdpbO+kh822LXqbBh8/e3nCbbdHEPD0LzIhB55rgYWsdEWiuCinn
- r47av9izbIsX7sMNCjPAAAA
-X-Change-ID: 20260930-ad9910-backend-support-17a47d174430
+Message-Id: <20261022-ad9910-backend-support-v2-2-0ff7f0bff326@analog.com>
+References: <20261022-ad9910-backend-support-v2-0-0ff7f0bff326@analog.com>
+In-Reply-To: <20261022-ad9910-backend-support-v2-0-0ff7f0bff326@analog.com>
 To: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux@analog.com, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
  linux-doc@vger.kernel.org, 
@@ -103,102 +99,126 @@ Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
  Randy Dunlap <rdunlap@infradead.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792682347; l=3858;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792682347; l=4433;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=0eDi3cJlO2Kr5JHOSDc8le20UlTOxTiPawBS9a/r7Yw=;
- b=sxcKxjCN9UmZ2Bs3ih1g5pqsK/jnxHT9HQq5BAZRrooMewHfSK9NAtArw3Q2C1l8AQ9zbUoJk
- P/9zAYqltf6AVzz1rJBJm2VIvzNkTuEaY+ciBXsXoVAxPJFmHcH+Eiy
+ bh=DR+JgLsY7qzSw7iJ/0ySFgwEAMpmPHtv/6q9aBcxSno=;
+ b=3crxF6HvT5YXyw7lQncL7kG6Ddm2Syj8/O1U35ssgsGrGerNwuxlVurVylA8hO61dD0jB5dih
+ vVin55RAwaJCDMT2C+5/HMGDQ7QNjwZAXflztbrTsKBiQ0ei9DvZwhj
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
  with auth_id=561
 X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 Reply-To: rodrigo.alencar@analog.com
+Content-Transfer-Encoding: 8bit
 
-This series extends the AD9910 DDS driver with support for an IIO backend,
-enabling data streaming through the parallel data port, and with control of
-the DRCTL pin, which defines the slope direction of the digital ramp
-generator (DRG).
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-The parallel data port allows modulation of the DDS core parameters
-(amplitude, phase, frequency or polar) at up to the PDCLK rate, which is
-SYSCLK / 4. Such data rates require an FPGA IP core as the data source, so
-an AXI backend driver is added for the AD9910 HDL reference design. Besides
-streaming data from memory via DMA, the IP core also drives the PROFILE[2:0]
-and DRCTL pins. The latter is exposed as a PWM output, so that the frontend
-driver can consume it through the PWM framework without depending on the
-backend being present.
+Frontend devices might not need a backend driver to rely on. An IIO device
+that supports backends can behave differently when they are not available
+and that should be acceptable. Such parts may provide basic functionality
+solely using the control interface (SPI for instance), being able to have
+extended features when a backend is present.
 
-The backend is optional: the AD9910 remains functional through the SPI
-control interface alone, hence the new devm_iio_backend_get_optional()
-helper.
+Add devm_iio_backend_get_optional(), which returns NULL when the backend
+is not described in firmware, i.e., when the io-backends property is not
+present or, for a named lookup, when the name is not listed in the
+io-backend-names property. Other errors, such as probe deferral, are
+still returned.
 
+To make that possible, a named lookup that does not match any entry of
+io-backend-names now fails with -ENOENT, the same error returned when the
+io-backends reference is missing. Also, the missing reference is no longer
+logged as an error, leaving that to the caller.
+
+Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
-Changes in v2:
-- IIO Backend: Use device_property_present() when getting optional backends.
-- AD9910 Backend: Move PWM driver to waveform semantics.
-- AD9910 Backend: sync PWM configs when sysclk updates.
-- Misc changes addressing other feedback (including sashiko's).
-- Link to v1: https://patch.msgid.link/20261015-ad9910-backend-support-v1-0-3c21648c8e26@analog.com
+ drivers/iio/industrialio-backend.c | 38 ++++++++++++++++++++++++++++++++++++++
+ include/linux/iio/backend.h        |  2 ++
+ 2 files changed, 40 insertions(+)
 
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: linux-iio@vger.kernel.org
-To: linux@analog.com
-To: linux-kernel@vger.kernel.org
-To: devicetree@vger.kernel.org
-To: linux-pwm@vger.kernel.org
-To: linux-doc@vger.kernel.org
-Cc: Nuno Sá <nuno.sa@analog.com>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>
-Cc: Andy Shevchenko <andy@kernel.org>
-Cc: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Uwe Kleine-König <ukleinek@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
+diff --git a/drivers/iio/industrialio-backend.c b/drivers/iio/industrialio-backend.c
+index fbf5c39d7655..d12d163f45ca 100644
+--- a/drivers/iio/industrialio-backend.c
++++ b/drivers/iio/industrialio-backend.c
+@@ -1006,6 +1006,9 @@ static struct iio_backend *__devm_iio_backend_fwnode_get_by_index(struct device
+ 
+ 	struct fwnode_handle *fwnode_back __free(fwnode_handle) =
+ 		fwnode_find_reference(fwnode, "io-backends", index);
++	/* not described in firmware, let the caller decide what to do */
++	if (PTR_ERR(fwnode_back) == -ENOENT)
++		return ERR_CAST(fwnode_back);
+ 	if (IS_ERR(fwnode_back))
+ 		return dev_err_cast_probe(dev, fwnode_back,
+ 					  "Cannot get Firmware reference\n");
+@@ -1034,7 +1037,17 @@ static struct iio_backend *__devm_iio_backend_fwnode_get(struct device *dev, con
+ 	int ret;
+ 
+ 	if (name) {
++		if (!device_property_present(dev, "io-backend-names"))
++			return ERR_PTR(-ENOENT);
++
+ 		ret = device_property_match_string(dev, "io-backend-names", name);
++		/*
++		 * device_property_match_string() also returns -ENODATA when
++		 * @name is not listed in the property, which means that this
++		 * backend is not described in firmware.
++		 */
++		if (ret == -ENODATA)
++			return ERR_PTR(-ENOENT);
+ 		if (ret < 0)
+ 			return ERR_PTR(ret);
+ 		index = ret;
+@@ -1061,6 +1074,31 @@ struct iio_backend *devm_iio_backend_get(struct device *dev, const char *name)
+ }
+ EXPORT_SYMBOL_NS_GPL(devm_iio_backend_get, "IIO_BACKEND");
+ 
++/**
++ * devm_iio_backend_get_optional - Optional device managed backend device get
++ * @dev: Consumer device for the backend
++ * @name: Backend name
++ *
++ * Gets the backend associated with @dev. A backend not described in firmware,
++ * i.e., the io-backends property is not present or @name is not listed in
++ * the io-backend-names property, is not treated as an error.
++ *
++ * RETURNS:
++ * A backend pointer, NULL if the backend is not described in firmware,
++ * negative error pointer otherwise.
++ */
++struct iio_backend *devm_iio_backend_get_optional(struct device *dev,
++						  const char *name)
++{
++	struct iio_backend *back = devm_iio_backend_get(dev, name);
++
++	if (IS_ERR(back) && PTR_ERR(back) == -ENOENT)
++		return NULL;
++
++	return back;
++}
++EXPORT_SYMBOL_NS_GPL(devm_iio_backend_get_optional, "IIO_BACKEND");
++
+ /**
+  * devm_iio_backend_get_by_index - Device managed backend device get by index
+  * @dev: Consumer device for the backend
+diff --git a/include/linux/iio/backend.h b/include/linux/iio/backend.h
+index 9c16b695a602..93d5f2073cc3 100644
+--- a/include/linux/iio/backend.h
++++ b/include/linux/iio/backend.h
+@@ -267,6 +267,8 @@ int iio_backend_extend_chan_spec(struct iio_backend *back,
+ bool iio_backend_has_caps(struct iio_backend *back, u32 caps);
+ void *iio_backend_get_priv(const struct iio_backend *conv);
+ struct iio_backend *devm_iio_backend_get(struct device *dev, const char *name);
++struct iio_backend *devm_iio_backend_get_optional(struct device *dev,
++						  const char *name);
+ struct iio_backend *devm_iio_backend_get_by_index(struct device *dev, unsigned int index);
+ struct iio_backend *devm_iio_backend_fwnode_get(struct device *dev,
+ 						const char *name,
 
----
-Rodrigo Alencar (10):
-      iio: frequency: ad9910: powerdown fix
-      iio: backend: add devm_iio_backend_get_optional()
-      dt-bindings: iio: frequency: add adi,ad9910-axi-backend
-      dt-bindings: iio: frequency: ad9910: add io-backends property
-      iio: frequency: ad9910: move channel indexes into a shared header
-      iio: frequency: ad9910: add axi backend driver
-      iio: frequency: ad9910: support drctl control
-      iio: frequency: ad9910: support iio backend
-      iio: ABI: add integration_time for output channels
-      docs: iio: ad9910: document DRCTL pin control
-
- Documentation/ABI/testing/sysfs-bus-iio            |  17 +
- .../iio/frequency/adi,ad9910-axi-backend.yaml      |  74 +++
- .../bindings/iio/frequency/adi,ad9910.yaml         |  38 ++
- Documentation/iio/ad9910.rst                       |  90 +++-
- MAINTAINERS                                        |   3 +
- drivers/iio/frequency/Kconfig                      |  19 +
- drivers/iio/frequency/Makefile                     |   1 +
- drivers/iio/frequency/ad9910-axi-backend.c         | 525 +++++++++++++++++++++
- drivers/iio/frequency/ad9910.c                     | 420 ++++++++++++++---
- drivers/iio/frequency/ad9910.h                     |  44 ++
- drivers/iio/industrialio-backend.c                 |  38 ++
- include/linux/iio/backend.h                        |   2 +
- 12 files changed, 1205 insertions(+), 66 deletions(-)
----
-base-commit: 43ffda3c7f8456bbe641ae8249a077a361b97880
-change-id: 20260930-ad9910-backend-support-17a47d174430
-
-Best regards,
---  
-Rodrigo Alencar <rodrigo.alencar@analog.com>
+-- 
+2.43.0
 
 
