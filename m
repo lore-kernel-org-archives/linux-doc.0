@@ -1,101 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.43
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792688455;
-	b=H8i669Z62h1b0s0ORbi816Ot/n5B3iGL2nusQ+xlkYg2ihYCwttyFYaVhqj8STdFRu84
-	 hBn44kk//XZkJMA1WGDVB/EfXa/BzWLvoqDF5h4R0glYrvTJHFfm/HwIsxImQpP5zl5sc
-	 3QCxgizkZ07S4w7nPMrbI5/KR6+YUbWP74JoV9JGNOpNvZ/qPw2ASN5mxZtYEn3OeepVG
-	 WfXG1KV6ctPv3NVX2GMi3NU8cdj9QriaPmLoRcTyXSw4esG05Dd007j+dAycZetuJ+X5e
-	 T0SAJPeAiJFJmJ36O0V5Hcy2ez5zVonxs/zNX1PAb660T3W/HRdyoZki4chbBVkLa1w==
+	t=1792688495;
+	b=XyeRPtVXBI6ciNgwTR8JPV/rO/bUBuDQz5Wg4908srPfYoVOvDs1W2WD4/tXmBK0AaES
+	 nzO6tLnwHgg2P3OX3Ph3IMpYTTIAUx7qhOK6oOpeqiTZWN2Ar1hfgRqMcOERWB6jx+z3B
+	 LbIA9g4B9jFHzgvwXmxc36ww4iWEgz8Zf9z1eljiXSUGaSAtViGbpNSexGR8clu395vT7
+	 Bvd3IundF3t44JpESyea2CxbKTnyEWkv3i4F/AzhKyBlPNRs74Vcqt9qts9U1f2Ss7DrL
+	 zi61HAKR5EK5+s9x55fYu46UFGLGKH2mzQiN+v3SFkgHbQMGOyRGGIpDqN5XtNIWhfQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792688455;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792688495;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=2BkTeeT4yUW4MDUw4wQWVYeaWzFVBTJbCdo+ClnuZLg=;
-	b=BOA2tnRlJW8RBOwG0GBoXYGOYJ2gd4jqeAWXZkTsQOxmwMCdot5uigYf2iTtFR4olKae
-	 TGp4XpFo8T78nDl0VSpNPKvZlu2SN6L9BCk5f1Zy7WJ6Kc0NJd8HAdFvK3fVwBnPEkxtF
-	 yZntA8057AJpsX/qQttemvkkzyZA8kaHGeYYoeGK0t2MEUILpDaMlokkGR80kUxzRUekm
-	 Xdm1NHNWwfXNmqglGWKmcNbZzz4+ZvupjGdsyG/MQLPt1De0fuMv4Xuy7M2gXRVFZt9Da
-	 1la7zOuDBOG80bZhy43mn8MONIUaX7k0R7a4PezD3+t20r+0ufsYbELDQ6pZt7vXviQ==
+	bh=kiZq0PKWOnH0LxJESVXbvI68VTlQMTGxsLs+qUmpYIc=;
+	b=aPoSjLyPtYYgBfM03GHZbMF8ChF+VAGkrDwpoeqiSnIdEZDxbNEo4geWsdqEQ1ZPtqWV
+	 gz4xIMfM/jBgJA/6Ws+sgDltEYIoG7fvh+VczJkzItTuALOiMUtEuzTHREYoQjVT8nFeV
+	 97fyDqSLPyIt6+EePHHFRtarfmTY4G00jPWRCJmVGoPwO1NrNMQxJZ/sJXPtxDvu0GKtN
+	 Ep21H2OCv5i9t9MInar2dpoOvPRPm3A7D3k+C79sVObylsdb7XFKCIUbPnYIIF8FCQHs2
+	 Ko6Qh6D8UNDi05ijQyiD0QCKbogQcW1yh8wJKRn/HWswBAUo5ZmQ4zpmSnc8a6GXSrA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EqOlfdut;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.172
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=XXLSKwDf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.43
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD6F606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 17:00:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBD6F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6691606A321
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 17:01:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6691606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EqOlfdut
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8ac9d666d4eso534467b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 10:00:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792688454; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=XXLSKwDf
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-917bab38b14so906806d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 10:01:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792688493; cv=none;
         d=google.com; s=arc-20260327;
-        b=AbD4ta9ANZei7p3ff0u3WU2LALRJAJJS5bx/DLtVezWGVjyG9F6WrjMF8x3ZxMW1gE
-         Lc7Z9WZKu+98/ktmXuXuYamZ5JF3bQt5Agjh2ZYf92/uhSfHQkUaCBSRWgGMQok65T7s
-         at98L/9hheDEvoZ+uMGlnmYgFTMVnH026GrpHcvUXQpF51sQ1GC8caRDO/LB5A6lvJy1
-         Bg8rsuK3CJvf5ORKZI3mQQF5+3tI8Tt+pTVjoYvwKyDEnnIVRWCYB9Q4ERr8lYXjzO+5
-         pyGE7pMrHTpNbabEDO20zrzABlA5aqKkOmCkslDWjexEHBiXtle5Q7vYu9g4RC/1dHPV
-         by2w==
+        b=CjbryXsEgn0VYZlRCBTcwViTBXJHUDtdZNzBWRMT2a9RzdXYpteL7Lfo6dXgvJQ7Fs
+         a8wQWMnurr1oGnqTIXYUVqVGWknhk00FtEsPZgfYtfz9T0RfAIvDr4oaY3rolfGcV5qH
+         R+UiGG4q8VCunYBBY9mK3FrG8MgElZQm4rm7XMnz64iHGfRhYxhzyZnjbwOQ1681x+OV
+         emh7AB6A6LJ8tNDU4xGKQKOHSE8BlaoZujQXqGvmPBqpclHaEYJGwh3U5vcxMDqiYy9A
+         aDhAf6wgPZsYauJCyXt5NVoZQ+QXnn5eMYq8umew7WwEgYa2gGHUHiu/gvN80nP5qut5
+         c5ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=2BkTeeT4yUW4MDUw4wQWVYeaWzFVBTJbCdo+ClnuZLg=;
-        fh=GO4ej9uJL+rzL0R5l7LaATCJ81RH0SawIL7yPhlbCcE=;
-        b=B+jpx1+WaoLIVN06VeCDOuc/eCltk51hJwZtEa8Rnvi3L/dYoOlnWL9eSdJo5fir0X
-         XhMHT6kB6Urv+Lu+GFcCPgViFQKKOWeNSz5GU+Qvv2MmioafXLlp/rGj5TxG755RDZPP
-         xrP5msl5+1gi1e3OUU6eJkn4WGB9r84xW6HvW1kB/5scdjsvVy8MsCnPmlz7QqepQh1H
-         UiUzTsFM4yTMqFdXTBhC51yJD2kJTfvlQC+NKg2h+x3mwlWoOgl0wFRnjoaVIfn3fknb
-         lDkGrR8qpKpwEv0PLTjsdCgQcLkNTFgnYNjwQ6oBYdit4CKSgFFv33GdNbQxBNj/9wTo
-         Ewug==;
+        bh=kiZq0PKWOnH0LxJESVXbvI68VTlQMTGxsLs+qUmpYIc=;
+        fh=blZy09OM/BE2zc+7mPAZwhAz5w4hprQuaVUXgRO2Ht8=;
+        b=gI9vdhh+gn1l67/9v0UGDdf8LiY/e0jgAZqHfAPvk6d/jxxER8A/X9U1dbbZPC1ePq
+         FkaF63v2HFxlzIJAoQ7Nc9E/mW4agva2Bhol+V89IjD0U0jioYA/a2A0CmDO3hN2iLqO
+         wnDewM/DrHaiqW1nRX+nZxMFBn/5JwyoKpnobRQyV0bfu62oGyzqSCGASEe50ldtXxtZ
+         PIcAuT8zmINeNVms1ZE2AKfU+RphHtXpTEt94pE2yP1lbHrRikn9/hM0Uu/MZIIS6IT+
+         UsWEBPBmKT3PAz44/Jnzx/Ol/FEIipUd5uhPO5+WcXWjhpLnpKQ1aAY33W62HHYsHwp6
+         8uVQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792688454; x=1793293254; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792688493; x=1793293293; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=2BkTeeT4yUW4MDUw4wQWVYeaWzFVBTJbCdo+ClnuZLg=;
-        b=EqOlfdutj9IAPnsyhfBjWnyDC+8JxcKRctzP45SOSVol+o3J4LsQGxwYISXKtXyCtX
-         yuyEblNscR+r8OEfJ67XSkjzsmprAvmlVccOAt7NRktmeHRKATJ5MoRt6KCPPUStEjNS
-         OatwC4hPXfGttIAzJ66EWWBJKk28UtgauFJ7IqDUXH4vwXVB0oPIvpng8qpq29EMtY95
-         Oq37oPSYrGYbY29ahjIKoGRL/VUb/qcz19SFNZjp0jOZ8VtjPmxdGks4axdKiqOnJmHn
-         uVIIBugxyV8fhvKHtiR6B0u7A6f53QxlocDLII6F/TQpyg11lJ7Gn1PZcz94BCT62RXA
-         zS8A==
+        bh=kiZq0PKWOnH0LxJESVXbvI68VTlQMTGxsLs+qUmpYIc=;
+        b=XXLSKwDfqUzkUuajoUZqXsIWyakY9Ayj3i6Gedf1Oft2PoIyBftSmK32PIj34g/LD2
+         QfI0GOHSZBqppnjkzjnWnqScQfcwtTTBcZIUiS5Ny8TkvHhuQK555QQsGHR0tlP/NnGG
+         1x/EYMdGKo2fLoKFuDlTO+HEbVmfAjm8JUccY3MMaYvo1Q2CWotaGUi3HPiVus8kn6tl
+         19G6fEKblbsVdK3V1Hbz9miuvjag9eNpxHnBTY9qJQPmifEPyhEQ2fgmsxSOhUJo+yAp
+         wArnp0r34kkuVYseykxrit+iKk3MVTsu36zi0K2ZScKue89L60up1loNPy9dqrC6nwST
+         5qKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792688454; x=1793293254;
+        d=1e100.net; s=20260707; t=1792688493; x=1793293293;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2BkTeeT4yUW4MDUw4wQWVYeaWzFVBTJbCdo+ClnuZLg=;
-        b=ZWSjAtEcK6rz4My2dkPk+dCRWBQQVk80uTni4zBLGtYVawz1NriYiYTi99W+8D5ncn
-         7htu1dwwuXV44DzeNZ3Dh2wqjtAi/PZg6j7+AZsurZ6IL/vJEc3knLRgfbxvHqCgBu44
-         FaMVYkqi37naaljRZbsndlLlXwoWxZ0soNn+WmFo0NcPIjF+r2y0sCr7/hBt8iwv0V7J
-         fXIb42PJ3+LOAwdsNw4rCVbIHQgvVCYQMnNNNUeIAnW2qOqMQQLulo+sW/+NmrzVsMv9
-         dPJB8d3q3Qaykro3THzq8BsjrzrjAqhd8eLS6b2mSuOaNh3qD9ClkLO9223TBwpuH68q
-         Vg3A==
-X-Forwarded-Encrypted: i=1; AKwUvByC1pgvek1d0AEtwYpWQzkeU+VMYynS4JBnhmFNSXY32xUTwQRUgVNtx5HfrLwwVqNciYmByNCD/co=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKmbMdkNCUvGwPX3YmE4JKQMXB9/dNETxLAFVtKxw3JSaDVWvAm
-	qSo7ojg0T89W/tVGYkaDHo9gtVQTssp9j45PPsc5IxVVsHfzTc8/Px+NCfMzM6heUQfCCt2VlG2
-	WVvPlboJPKL/zyBTt+Rh57o/R8m2vi5A=
-X-Gm-Gg: AYBFou1m0YapKquTK6vWUrK8lcp32XbE4FxohpW+q2r/xtsYI8M3Zz7lu23Z1M073mg
-	F4ddn4ghW6THszr4qrIFN+xQ/6b6CgqXaipVvanY2J2t33xCRbG8HEjqLB14WUqnmx0GWv5gNWZ
-	U69sOE+Biw00+Ds9lmwoNV8F5JVnsRPJSJnhIua6iY+0G1ptiNDg7QVSx43jdsouNm1A2nq4ZX/
-	SdUSgtFu2WFoRm7GhRMzz/kKgpoGYf4JsxpZbDNEq3sIxopp0t7VSZ2ZiR0tx4g04S0RqHA70qZ
-	Z/y5QI6zw77Ftwaq8csCoaem9BmxYMUKpEnJBnGN30UkQ4Q0Orsp5vsb1I4ZgRmEd9qDc5sn9oo
-	yixGqBJB9dkt/fVBXARpoFsRQtIBIEhtzGsUZFXw/+OosS6tdn4pmetQR+9sQLeDlIOsuOl7HIY
-	j1cmzPOlGqinzI/tkqm1qZ1LlYbYftQebrb67VQ+X+u0Zqldj+
-X-Received: by 2002:a05:690c:e00e:20b0:8b0:e13c:2858 with SMTP id
- 00721157ae682-8b1340b8ffemr25681867b3.92.1792688452096; Thu, 22 Oct 2026
- 10:00:52 -0700 (PDT)
+        bh=kiZq0PKWOnH0LxJESVXbvI68VTlQMTGxsLs+qUmpYIc=;
+        b=mxnNwAkf3EQbAZyOzi1yK0N0j+OJOWF9mne81ndaAKBRY27rt8CsomsFutrzzndqOa
+         JlHnKoWF6osOyfuFPmubrX3KJIJA80iC4FkNQ5BgLI9vBNWojfOBM7nEprW2Qzkl3k+p
+         VtzTvsiWHW1fXhuy6dFV/U901HOy93AYITrLtl5pCI9ZZ0591ExoWDyZqfDctnGkZDSX
+         CUfPKv9s8m9diIQFgFYp4vjJD4+0kc9dDguMtoFzIwdYmZlYOcUYh+C0e7KrZOzGNrlF
+         Z48GgICmEC4R+WzyytONU4Ojn29oQWGPPvFjbSrJwGHaiC1jQfgxW4OhuFyimb34mDGt
+         3/7w==
+X-Forwarded-Encrypted: i=1; AKwUvBy7bSYWSUCCqJVDGpif2PQS35DJTfsZx+3Bf9fhopWTOK0yPrUz5J6dErlC2slbSlMQXSUh58eLHIA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJMnTp9ebMt7jFltJcKu9vNiCC+2SWoE0fIIzYcDSggpGwPah+I
+	ZbtuajTB9TDocH1aMXGBLhRBXLE9nw3xcwwe8EXuwe9kn2D61NmbeEdlM7nyrwq5QXe18izK5de
+	rOhyx4QoOckGrouwQS+mRcw/tck8Y9UM=
+X-Gm-Gg: AYBFou0uZW7o5pErmO3X66EEPQDiUa6bPslGba2vVN4CyA+QeZ1tNoBo0bKmhWtmJ8P
+	4FZ7qpwKANT9h+tkpVwXrNE8VdRlqK3R/4Uw4EJP875oRc67okfr/s9a160H4wXR5wA9ZpD5j0Y
+	auOIOcWonsifRmIhW5BqKYoDkVcgsikr/ib+b91G4JUE0PJ5YzRfbiw5lJMbKodXUuNNMvFQH4J
+	25wzWQi8GvVi4xh5+E2UvEnAa/DsvQjjonxYcnHkbQ0PSvSCApd1oeRQPlnB4x+3y6WPFk2onwX
+	jCxpt+17LgbqsElktvS27Dx3fhOArYNhvNA67scxL4wrVntSDXktks9tJltnsoXjW9aZPanvL8l
+	M8APhapJH0u5zQxnqsjeycoGVkH0oGA3HIkbjXKIo1zuGXVRvqS9yfj7p984QbT/QbulMQhOqBd
+	7hRntkmpUuPXOM8+6oMvEr6vNSS+wOZ+KqQmb9e/sjyYRWqnvRf7sp9YipGXrQVTuHUpsHdw==
+X-Received: by 2002:a05:6214:27e1:b0:915:e85d:8831 with SMTP id
+ 6a1803df08f44-91c12d1026bmr104360926d6.0.1792688493153; Thu, 22 Oct 2026
+ 10:01:33 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,13 +106,13 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 References: <cover.1791933697.git.lucasadramalho@gmail.com>
- <20261020041340.447727-1-lucasadramalho@gmail.com> <20261020041340.447727-4-lucasadramalho@gmail.com>
-In-Reply-To: <20261020041340.447727-4-lucasadramalho@gmail.com>
+ <20261020041340.447727-1-lucasadramalho@gmail.com> <20261020041340.447727-3-lucasadramalho@gmail.com>
+In-Reply-To: <20261020041340.447727-3-lucasadramalho@gmail.com>
 From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 22 Oct 2026 14:00:40 -0300
-X-Gm-Features: AclHuK9mNsktyYQTZRGse5bMK6lowPsYx1tHVuYkI7kw2250T2-nr76kGdpmr2k
-Message-ID: <CAMAsx6e+PmKi06raBbpSdt9=960MhUGTL8K3qFviZRinrPUnAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] docs: translations: pt_BR: Translate stable-kernel-rules.rst
+Date: Thu, 22 Oct 2026 14:01:21 -0300
+X-Gm-Features: AclHuK8VrE0PtmQ35klQo0h6JGLWtTOFEoIlO1Wdyx1SC66q20AidVK6GrWlT5M
+Message-ID: <CAMAsx6f-FyoDtwadLAtrw4wPMAhmu=Da-Hyb_nnKC2Fh2B7XJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] docs: translations: pt_BR: process: Translate researcher-guidelines.rst
 To: lucasadramalho@gmail.com
 Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -124,33 +124,40 @@ On Tue, Oct 20, 2026 at 1:13 AM Lucas Adryell Ramalho
 
 Hi Lucas,
 
-Thanks for switching to the pt_BR_submittingpatches and
-pt_BR_securitybugs labels, both resolve correctly now. I found one
-sentence where the meaning got inverted:
+This one builds cleanly and reads well. Just a few minor nits for the
+next version.
 
-> +uma equivalente seja aplic=C3=A1vel, tenha sido enviada ou j=C3=A1 estej=
-a presente em
-> +todas as =C3=A1rvores stable mais novas que ainda recebem suporte. Isso =
-evita
-> +regress=C3=B5es que os usu=C3=A1rios poderiam encontrar ao atualizar. Po=
-r exemplo,
-> +uma corre=C3=A7=C3=A3o integrada para 5.19-rc1 poderia ser portada para
-> +5.10.y, mas n=C3=A3o para 5.15.y.
 
-The original says:
+> +A comunidade do kernel do Linux acolhe com satisfa=C3=A7=C3=A3o pesquisa=
+s
+> +transparentes sobre o kernel do Linux, as atividades envolvidas em seu
 
-This is meant to prevent regressions that users might later
-encounter on updating, if e.g. a fix merged for 5.19-rc1 would be
-backported to 5.10.y, but not to 5.15.y.
+Nit: the text alternates between "kernel do Linux" and "kernel Linux".
+Please use "kernel Linux" consistently, as in the rest of the pt_BR
+documentation.
 
-In the English text the example describes the situation that causes
-the regression (a fix backported to an older tree but missing from a
-newer one). As translated, it reads as if this were allowed. Something
-like this keeps the original meaning:
 
-Isso evita regress=C3=B5es que os usu=C3=A1rios poderiam encontrar ao
-atualizar caso, por exemplo, uma corre=C3=A7=C3=A3o integrada no 5.19-rc1
-fosse portada para o 5.10.y, mas n=C3=A3o para o 5.15.y.
+> +* Documentation/process/development-process.rst
+> +* Documentation/process/submitting-patches.rst
+> +* Documentation/admin-guide/reporting-issues.rst
+> +* Documentation/process/security-bugs.rst
+
+Optional: development-process, submitting-patches and security-bugs
+(and howto, referenced further below) already have pt_BR translations,
+so you could point to the Documentation/translations/pt_BR/ versions
+instead.
+
+
+> +* Qual commit anterior esta altera=C3=A7=C3=A3o corrige? Isso deve const=
+ar na tag
+> + =E2=80=9CFixes:=E2=80=9D conforme descrito na documenta=C3=A7=C3=A3o.
+> +* Quem mais revisou este patch? Isso deve constar nas tags apropriadas
+> + =E2=80=9CReviewed-by:=E2=80=9D; veja abaixo.
+
+Nit: these use curly quotes (=E2=80=9C =E2=80=9D), while the English origin=
+al and the
+rest of the translation use straight quotes ("). The same happens with
+=E2=80=9CReviewed-by=E2=80=9D further below.
 
 Thanks,
 Daniel
@@ -159,394 +166,302 @@ Daniel
 Em ter., 20 de out. de 2026 =C3=A0s 01:14, Lucas Adryell Ramalho
 <lucasadramalho@gmail.com> escreveu:
 >
-> Translate the stable kernel rules documentation into Brazilian Portuguese=
-.
+> Translate researcher-guidelines.rst into Brazilian Portuguese
+> and add it to the process documentation index.
 >
 > Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
 > ---
 >  .../translations/pt_BR/process/index.rst      |   1 +
->  .../pt_BR/process/stable-kernel-rules.rst     | 258 ++++++++++++++++++
->  2 files changed, 259 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/stable-kerne=
-l-rules.rst
+>  .../pt_BR/process/researcher-guidelines.rst   | 188 ++++++++++++++++++
+>  2 files changed, 189 insertions(+)
+>  create mode 100644 Documentation/translations/pt_BR/process/researcher-g=
+uidelines.rst
 >
 > diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documen=
 tation/translations/pt_BR/process/index.rst
-> index 31704e28d..29f6c7735 100644
+> index d072f7e46..31704e28d 100644
 > --- a/Documentation/translations/pt_BR/process/index.rst
 > +++ b/Documentation/translations/pt_BR/process/index.rst
-> @@ -63,6 +63,7 @@ Estas s=C3=A3o as regras pelas quais tentamos viver na =
+> @@ -64,6 +64,7 @@ Estas s=C3=A3o as regras pelas quais tentamos viver na =
 comunidade do kernel
->     Declara=C3=A7=C3=A3o de Aplica=C3=A7=C3=A3o do Kernel Linux <kernel-e=
-nforcement-statement>
 >     Declara=C3=A7=C3=A3o sobre Drivers do Kernel <kernel-driver-statement=
 >
 >     A interface de drivers do kernel Linux <stable-api-nonsense>
-> +   Tudo o que voc=C3=AA sempre quis saber sobre as vers=C3=B5es est=C3=
-=A1veis do Linux <stable-kernel-rules>
 >     Estilo de gerenciamento do kernel Linux <management-style>
->     Diretrizes para pesquisadores <researcher-guidelines>
+> +   Diretrizes para pesquisadores <researcher-guidelines>
 >     Assistentes de c=C3=B3digo <coding-assistants>
-> diff --git a/Documentation/translations/pt_BR/process/stable-kernel-rules=
-.rst b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
+>     O manual da =C3=A1rvore tip <maintainer-tip>
+>     Conclave (Continuidade do projeto) <conclave>
+> diff --git a/Documentation/translations/pt_BR/process/researcher-guidelin=
+es.rst b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
 > new file mode 100644
-> index 000000000..201c87150
+> index 000000000..8209b0e17
 > --- /dev/null
-> +++ b/Documentation/translations/pt_BR/process/stable-kernel-rules.rst
-> @@ -0,0 +1,258 @@
+> +++ b/Documentation/translations/pt_BR/process/researcher-guidelines.rst
+> @@ -0,0 +1,188 @@
 > +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +.. _pt_BR_stable_kernel_rules:
-> +
-> +Tudo o que voc=C3=AA sempre quis saber sobre as vers=C3=B5es est=C3=A1ve=
-is do Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Regras sobre quais tipos de corre=C3=A7=C3=B5es s=C3=A3o aceitos na =C3=
-=A1rvore "-stable" e
-> +quais n=C3=A3o s=C3=A3o:
-> +
-> +- A corre=C3=A7=C3=A3o, ou uma equivalente, j=C3=A1 deve existir na linh=
-a principal do
-> +  Linux (upstream).
-> +- Deve estar obviamente correta e ter sido testada.
-> +- N=C3=A3o pode ter mais de 100 linhas, incluindo o contexto.
-> +- Deve seguir as regras de
-> +  :ref:`Documentation/translations/pt_BR/process/submitting-patches.rst
-> +  <pt_BR_submittingpatches>`.
-> +- Deve corrigir um erro real que afete as pessoas ou apenas adicionar um=
- ID
-> +  de dispositivo. Em mais detalhes, o primeiro caso inclui:
-> +
-> +  - Corrigir um problema como um oops, travamento, corrup=C3=A7=C3=A3o d=
-e dados,
-> +    problema real de seguran=C3=A7a, peculiaridade de hardware, erro de
-> +    compila=C3=A7=C3=A3o (exceto itens CONFIG_BROKEN) ou algum problema =
-do tipo "isso
-> +    n=C3=A3o =C3=A9 nada bom".
-> +  - Problemas graves relatados por usu=C3=A1rios de um kernel de distrib=
-ui=C3=A7=C3=A3o
-> +    tamb=C3=A9m podem ser considerados se as corre=C3=A7=C3=B5es resolve=
-rem um problema
-> +    not=C3=A1vel de desempenho ou interatividade. Como essas corre=C3=A7=
-=C3=B5es n=C3=A3o s=C3=A3o
-> +    t=C3=A3o =C3=B3bvias e apresentam maior risco de causar uma regress=
-=C3=A3o sutil, elas
-> +    s=C3=B3 devem ser enviadas pelo mantenedor do kernel da distribui=C3=
-=A7=C3=A3o e
-> +    devem incluir um complemento com um link para uma entrada no Bugzill=
-a,
-> +    se houver, e informa=C3=A7=C3=B5es adicionais sobre o impacto perceb=
-ido pelo
-> +    usu=C3=A1rio.
-> +  - N=C3=A3o s=C3=A3o aceitos problemas do tipo "isto pode ser um proble=
-ma...", como
-> +    uma "condi=C3=A7=C3=A3o de corrida te=C3=B3rica", a menos que tamb=
-=C3=A9m seja fornecida
-> +    uma explica=C3=A7=C3=A3o de como o erro pode ser explorado.
-> +  - N=C3=A3o s=C3=A3o aceitas corre=C3=A7=C3=B5es "triviais" sem benef=
-=C3=ADcio para os usu=C3=A1rios
-> +    (altera=C3=A7=C3=B5es ortogr=C3=A1ficas, limpeza de espa=C3=A7os em =
-branco etc.).
-> +
-> +
-> +Procedimento para enviar corre=C3=A7=C3=B5es =C3=A0 =C3=A1rvore -stable
-> +----------------------------------------------------
-> +
-> +.. note::
-> +
-> +   Corre=C3=A7=C3=B5es de seguran=C3=A7a n=C3=A3o devem ser tratadas exc=
-lusivamente pelo
-> +   processo de revis=C3=A3o -stable; devem seguir os procedimentos em
-> +   :ref:`Documentation/translations/pt_BR/process/security-bugs.rst
-> +   <pt_BR_securitybugs>`.
-> +
-> +H=C3=A1 tr=C3=AAs op=C3=A7=C3=B5es para enviar uma altera=C3=A7=C3=A3o =
-=C3=A0s =C3=A1rvores -stable:
-> +
-> +1. Adicionar uma "stable tag" =C3=A0 descri=C3=A7=C3=A3o de uma corre=C3=
-=A7=C3=A3o que ser=C3=A1 enviada
-> +   para inclus=C3=A3o na linha principal.
-> +2. Pedir =C3=A0 equipe stable que inclua uma corre=C3=A7=C3=A3o j=C3=A1 =
-integrada =C3=A0 linha
-> +   principal.
-> +3. Enviar =C3=A0 equipe stable uma corre=C3=A7=C3=A3o equivalente a uma =
-altera=C3=A7=C3=A3o j=C3=A1
-> +   integrada =C3=A0 linha principal.
-> +
-> +As se=C3=A7=C3=B5es abaixo descrevem cada op=C3=A7=C3=A3o em mais detalh=
-es.
-> +
-> +A :ref:`pt_BR_option_1` =C3=A9 **fortemente** preferida; =C3=A9 a op=C3=
-=A7=C3=A3o mais f=C3=A1cil e
-> +mais comum.
-> +A :ref:`pt_BR_option_2` destina-se principalmente a altera=C3=A7=C3=B5es=
- para as
-> +quais o backport n=C3=A3o foi considerado no momento do envio.
-> +A :ref:`pt_BR_option_3` =C3=A9 uma alternativa =C3=A0s op=C3=A7=C3=B5es =
-anteriores quando uma
-> +corre=C3=A7=C3=A3o integrada =C3=A0 linha principal precisa de ajustes p=
-ara ser aplicada
-> +a s=C3=A9ries mais antigas (por exemplo, devido a altera=C3=A7=C3=B5es n=
-a API).
-> +
-> +Ao usar a op=C3=A7=C3=A3o 2 ou 3, voc=C3=AA pode pedir que sua altera=C3=
-=A7=C3=A3o seja inclu=C3=ADda em
-> +s=C3=A9ries stable espec=C3=ADficas. Nesse caso, certifique-se de que a =
-corre=C3=A7=C3=A3o ou
-> +uma equivalente seja aplic=C3=A1vel, tenha sido enviada ou j=C3=A1 estej=
-a presente em
-> +todas as =C3=A1rvores stable mais novas que ainda recebem suporte. Isso =
-evita
-> +regress=C3=B5es que os usu=C3=A1rios poderiam encontrar ao atualizar. Po=
-r exemplo,
-> +uma corre=C3=A7=C3=A3o integrada para 5.19-rc1 poderia ser portada para
-> +5.10.y, mas n=C3=A3o para 5.15.y.
-> +
-> +.. _pt_BR_option_1:
-> +
-> +Op=C3=A7=C3=A3o 1
-> +*******
-> +
-> +Para que uma corre=C3=A7=C3=A3o enviada para inclus=C3=A3o na linha prin=
-cipal seja
-> +selecionada automaticamente depois pelas =C3=A1rvores stable, adicione e=
-sta
-> +etiqueta =C3=A0 se=C3=A7=C3=A3o de assinaturas (sign-off)::
-> +
-> +  Cc: stable@vger.kernel.org
-> +
-> +Use ``Cc: stable@kernel.org`` em vez disso ao corrigir vulnerabilidades
-> +ainda n=C3=A3o divulgadas: isso reduz a chance de expor acidentalmente a
-> +corre=C3=A7=C3=A3o ao p=C3=BAblico por meio do 'git send-email', pois as=
- mensagens
-> +enviadas a esse endere=C3=A7o n=C3=A3o s=C3=A3o entregues.
-> +
-> +Depois que a corre=C3=A7=C3=A3o for integrada =C3=A0 linha principal, el=
-a ser=C3=A1 aplicada =C3=A0
-> +=C3=A1rvore stable sem que o autor ou o mantenedor do subsistema precise=
- fazer
-> +mais nada.
-> +
-> +Para enviar instru=C3=A7=C3=B5es adicionais =C3=A0 equipe stable, use um=
- coment=C3=A1rio em
-> +linha no estilo do shell para passar observa=C3=A7=C3=B5es arbitr=C3=A1r=
-ias ou
-> +predefinidas:
-> +
-> +* Especifique pr=C3=A9-requisitos adicionais para a sele=C3=A7=C3=A3o po=
-r cherry-pick::
-> +
-> +    Cc: <stable@vger.kernel.org> # 3.3.x: a1f84a3: sched: Check for idle
-> +    Cc: <stable@vger.kernel.org> # 3.3.x: 1b9508f: sched: Rate-limit new=
-idle
-> +    Cc: <stable@vger.kernel.org> # 3.3.x: fd21073: sched: Fix affinity l=
-ogic
-> +    Cc: <stable@vger.kernel.org> # 3.3.x
-> +    Signed-off-by: Ingo Molnar <mingo@elte.hu>
-> +
-> +  A sequ=C3=AAncia de etiquetas indica que se deve executar::
-> +
-> +    git cherry-pick a1f84a3
-> +    git cherry-pick 1b9508f
-> +    git cherry-pick fd21073
-> +    git cherry-pick <this commit>
-> +
-> +  Observe que, em uma s=C3=A9rie de corre=C3=A7=C3=B5es, n=C3=A3o =C3=A9=
- necess=C3=A1rio listar como
-> +  pr=C3=A9-requisitos as corre=C3=A7=C3=B5es que fazem parte da pr=C3=B3=
-pria s=C3=A9rie. Por
-> +  exemplo, nesta s=C3=A9rie::
-> +
-> +    patch1
-> +    patch2
-> +
-> +  patch2 depende de patch1, mas n=C3=A3o =C3=A9 necess=C3=A1rio listar p=
-atch1 como
-> +  pr=C3=A9-requisito de patch2 se voc=C3=AA j=C3=A1 tiver marcado patch1=
- para inclus=C3=A3o no
-> +  stable.
-> +
-> +* Indique os pr=C3=A9-requisitos de vers=C3=A3o do kernel::
-> +
-> +    Cc: <stable@vger.kernel.org> # 3.3.x
-> +
-> +  A etiqueta indica que se deve executar::
-> +
-> +    git cherry-pick <this commit>
-> +
-> +  em cada =C3=A1rvore -stable a partir da vers=C3=A3o especificada.
-> +
-> +  Observe que essa etiqueta =C3=A9 desnecess=C3=A1ria se a equipe stable=
- puder
-> +  deduzir as vers=C3=B5es apropriadas a partir das etiquetas Fixes:.
-> +
-> +* Adiar a inclus=C3=A3o de corre=C3=A7=C3=B5es::
-> +
-> +    Cc: <stable@vger.kernel.org> # after -rc3
-> +
-> +* Aponte problemas conhecidos::
-> +
-> +    Cc: <stable@vger.kernel.org> # see patch description, needs adjustme=
-nts for <=3D 6.3
-> +
-> +Tamb=C3=A9m h=C3=A1 uma variante da etiqueta stable que pode ser usada p=
-ara fazer com
-> +que as ferramentas de backport da equipe stable (por exemplo, AUTOSEL ou
-> +scripts que procuram commits com uma etiqueta 'Fixes:') ignorem uma
-> +altera=C3=A7=C3=A3o::
-> +
-> +     Cc: <stable+noautosel@kernel.org> # reason goes here, and must be p=
-resent
-> +
-> +.. _pt_BR_option_2:
-> +
-> +Op=C3=A7=C3=A3o 2
-> +*******
-> +
-> +Se a corre=C3=A7=C3=A3o j=C3=A1 tiver sido integrada =C3=A0 linha princi=
-pal, envie um e-mail
-> +para stable@vger.kernel.org com o assunto da corre=C3=A7=C3=A3o, o ID do=
- commit, o
-> +motivo pelo qual voc=C3=AA acredita que ela deve ser aplicada e as vers=
-=C3=B5es do
-> +kernel =C3=A0s quais deve ser aplicada.
-> +
-> +.. _pt_BR_option_3:
-> +
-> +Op=C3=A7=C3=A3o 3
-> +*******
-> +
-> +Depois de verificar que a corre=C3=A7=C3=A3o segue as regras acima, envi=
-e-a para
-> +stable@vger.kernel.org e indique as vers=C3=B5es do kernel =C3=A0s quais=
- deseja que
-> +ela seja aplicada. Nesse caso, voc=C3=AA deve indicar o ID do commit ups=
-tream no
-> +registro de altera=C3=A7=C3=B5es do envio, em uma linha separada acima d=
-o texto do
-> +commit, assim::
-> +
-> +  commit <sha1> upstream.
-> +
-> +Ou, alternativamente::
-> +
-> +  [ Upstream commit <sha1> ]
-> +
-> +Se a corre=C3=A7=C3=A3o enviada diferir da corre=C3=A7=C3=A3o upstream o=
-riginal (por exemplo,
-> +porque precisou ser adaptada =C3=A0 API mais antiga), isso deve ser docu=
-mentado
-> +e justificado com muita clareza na descri=C3=A7=C3=A3o da corre=C3=A7=C3=
-=A3o.
-> +
-> +
-> +Acompanhamento do envio
-> +-----------------------
-> +
-> +O remetente receber=C3=A1 um ACK quando a corre=C3=A7=C3=A3o for aceita =
-na fila, ou um NAK
-> +se for rejeitada. Essa resposta pode levar alguns dias, dependendo da
-> +disponibilidade dos membros da equipe stable.
-> +
-> +Se for aceita, a corre=C3=A7=C3=A3o ser=C3=A1 adicionada =C3=A0 fila -st=
-able para revis=C3=A3o por
-> +outros desenvolvedores e pelo mantenedor do subsistema relevante.
-> +
-> +
-> +Ciclo de revis=C3=A3o
-> +----------------
-> +
-> +- Quando os mantenedores -stable decidirem iniciar um ciclo de revis=C3=
-=A3o, as
-> +  corre=C3=A7=C3=B5es ser=C3=A3o enviadas ao comit=C3=AA de revis=C3=A3o=
-, ao mantenedor da =C3=A1rea
-> +  afetada pela corre=C3=A7=C3=A3o (a menos que o remetente seja o manten=
-edor dessa
-> +  =C3=A1rea) e em c=C3=B3pia (CC:) para a lista de discuss=C3=A3o linux-=
-kernel.
-> +- O comit=C3=AA de revis=C3=A3o tem 48 horas para aprovar (ACK) ou rejei=
-tar (NAK) a
-> +  corre=C3=A7=C3=A3o.
-> +- Se um membro do comit=C3=AA rejeitar a corre=C3=A7=C3=A3o ou membros d=
-a lista
-> +  linux-kernel apresentarem obje=C3=A7=C3=B5es levantando problemas que =
-os
-> +  mantenedores e os membros n=C3=A3o perceberam, a corre=C3=A7=C3=A3o se=
-r=C3=A1 removida da
-> +  fila.
-> +- As corre=C3=A7=C3=B5es aprovadas ser=C3=A3o publicadas novamente como =
-parte de uma
-> +  vers=C3=A3o candidata (-rc), para serem testadas por desenvolvedores e
-> +  testadores.
-> +- Geralmente =C3=A9 publicada apenas uma vers=C3=A3o -rc. No entanto, se=
- houver
-> +  problemas pendentes, algumas corre=C3=A7=C3=B5es poder=C3=A3o ser modi=
-ficadas ou
-> +  removidas, ou outras poder=C3=A3o ser adicionadas =C3=A0 fila. Nesse c=
-aso, vers=C3=B5es
-> +  -rc adicionais ser=C3=A3o publicadas e testadas at=C3=A9 que nenhum pr=
-oblema seja
-> +  encontrado.
-> +- =C3=89 poss=C3=ADvel responder =C3=A0s vers=C3=B5es -rc na lista de di=
-scuss=C3=A3o enviando um
-> +  e-mail "Tested-by:" com as informa=C3=A7=C3=B5es de teste desejadas. A=
-s etiquetas
-> +  "Tested-by:" ser=C3=A3o reunidas e adicionadas ao commit de lan=C3=A7a=
-mento.
-> +- Ao final do ciclo de revis=C3=A3o, a nova vers=C3=A3o -stable ser=C3=
-=A1 lan=C3=A7ada com
-> +  todas as corre=C3=A7=C3=B5es enfileiradas e testadas.
-> +- Corre=C3=A7=C3=B5es de seguran=C3=A7a ser=C3=A3o aceitas diretamente n=
-a =C3=A1rvore -stable pela
-> +  equipe de seguran=C3=A7a do kernel e n=C3=A3o passar=C3=A3o pelo ciclo=
- normal de
-> +  revis=C3=A3o. Entre em contato com a equipe de seguran=C3=A7a do kerne=
-l para saber
-> +  mais sobre esse procedimento.
-> +
-> +
-> +=C3=81rvores
-> +-------
-> +
-> +- As filas de corre=C3=A7=C3=B5es, tanto das vers=C3=B5es conclu=C3=ADda=
-s quanto das vers=C3=B5es em
-> +  andamento, podem ser encontradas em:
-> +
-> +    https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.=
-git
-> +
-> +- As vers=C3=B5es finalizadas e identificadas por tags de todos os kerne=
-ls
-> +  est=C3=A1veis podem ser encontradas em ramifica=C3=A7=C3=B5es separada=
-s por vers=C3=A3o em:
-> +
-> +    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-> +
-> +- As vers=C3=B5es candidatas de todas as vers=C3=B5es do kernel stable p=
-odem ser
-> +  encontradas em:
-> +
-> +    https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-=
-rc.git/
-> +
-> +  .. warning::
-> +     A =C3=A1rvore -stable-rc =C3=A9 um instant=C3=A2neo da =C3=A1rvore =
-stable-queue e muda com
-> +     frequ=C3=AAncia; por isso, =C3=A9 rebaseada frequentemente. Ela dev=
-e ser usada
-> +     apenas para testes (por exemplo, por sistemas de integra=C3=A7=C3=
-=A3o cont=C3=ADnua).
-> +
-> +
-> +Comit=C3=AA de revis=C3=A3o
-> +-----------------
-> +
-> +- =C3=89 formado por v=C3=A1rios desenvolvedores do kernel que se volunt=
-ariaram para
-> +  essa tarefa e por alguns que n=C3=A3o se voluntariaram.
+> +.. _pt_BR_researcher-guidelines:
+> +
+> +Diretrizes para pesquisadores
+> ++++++++++++++++++++++++++++++
+> +
+> +A comunidade do kernel do Linux acolhe com satisfa=C3=A7=C3=A3o pesquisa=
+s
+> +transparentes sobre o kernel do Linux, as atividades envolvidas em seu
+> +desenvolvimento e quaisquer outros subprodutos de seu desenvolvimento. O
+> +Linux se beneficia enormemente desse tipo de pesquisa, e a maioria dos
+> +aspectos do Linux =C3=A9 impulsionada por pesquisas, de uma forma ou de =
+outra.
+> +
+> +A comunidade agradece imensamente se os pesquisadores puderem compartilh=
+ar
+> +descobertas preliminares antes de tornar seus resultados p=C3=BAblicos,
+> +especialmente se tal pesquisa envolver seguran=C3=A7a. O envolvimento an=
+tecipado
+> +da comunidade ajuda a melhorar tanto a qualidade da pesquisa quanto a
+> +capacidade do Linux de se beneficiar de seus resultados. De qualquer for=
+ma,
+> +recomenda-se compartilhar com a comunidade c=C3=B3pias de acesso aberto =
+das
+> +pesquisas publicadas.
+> +
+> +Este documento tem como objetivo esclarecer o que a comunidade do kernel
+> +Linux considera pr=C3=A1ticas aceit=C3=A1veis e inaceit=C3=A1veis na con=
+du=C3=A7=C3=A3o desse tipo
+> +de pesquisa. No m=C3=ADnimo, tais pesquisas e atividades relacionadas de=
+vem
+> +seguir os princ=C3=ADpios fundamentais da =C3=A9tica em pesquisa. Para o=
+bter mais
+> +informa=C3=A7=C3=B5es sobre =C3=A9tica em pesquisa em geral, =C3=A9tica =
+em tecnologia e
+> +pesquisa sobre comunidades de desenvolvedores em particular, consulte:
+> +
+> +* `Hist=C3=B3ria da =C3=89tica em Pesquisa
+> +  <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
+> +* `=C3=89tica do IEEE <https://www.ieee.org/about/ethics/index.html>`_
+> +* `Opini=C3=B5es de desenvolvedores e pesquisadores sobre a =C3=A9tica d=
+e
+> +  experimentos em projetos de c=C3=B3digo aberto
+> +  <https://arxiv.org/pdf/2112.13217.pdf>`_
+> +
+> +A comunidade do kernel Linux espera que todos os que interagem com o
+> +projeto estejam participando de boa-f=C3=A9 para tornar o Linux melhor.
+> +Pesquisas sobre qualquer material dispon=C3=ADvel publicamente (incluind=
+o, mas
+> +n=C3=A3o se limitando ao c=C3=B3digo-fonte) produzido pela comunidade do=
+ kernel Linux
+> +s=C3=A3o bem-vindas, embora pesquisas envolvendo desenvolvedores exijam
+> +consentimento expl=C3=ADcito dos participantes.
+> +
+> +Pesquisas passivas baseadas inteiramente em fontes publicamente
+> +dispon=C3=ADveis, incluindo postagens em listas de discuss=C3=A3o p=C3=
+=BAblicas e commits
+> +em reposit=C3=B3rios p=C3=BAblicos, s=C3=A3o claramente permitidas. No e=
+ntanto, como em
+> +qualquer pesquisa, os princ=C3=ADpios =C3=A9ticos padr=C3=A3o devem ser =
+seguidos.
+> +
+> +A pesquisa ativa sobre o comportamento dos desenvolvedores, no entanto,
+> +deve ser realizada com o consentimento expl=C3=ADcito e a plena divulga=
+=C3=A7=C3=A3o aos
+> +desenvolvedores individuais envolvidos. N=C3=A3o =C3=A9 permitido intera=
+gir com os
+> +desenvolvedores ou realizar experimentos com eles sem o consentimento; i=
+sso
+> +tamb=C3=A9m faz parte da =C3=A9tica padr=C3=A3o da pesquisa.
+> +
+> +Question=C3=A1rios
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A pesquisa geralmente assume a forma de question=C3=A1rios enviados a
+> +mantenedores ou colaboradores.  Como regra geral, por=C3=A9m, a comunida=
+de do
+> +kernel obt=C3=A9m pouco valor desses question=C3=A1rios.  O processo de
+> +desenvolvimento do kernel funciona porque cada desenvolvedor se benefici=
+a
+> +de sua participa=C3=A7=C3=A3o, mesmo trabalhando com outras pessoas que =
+t=C3=AAm objetivos
+> +diferentes. Responder a um question=C3=A1rio, por=C3=A9m, =C3=A9 uma exi=
+g=C3=AAncia unilateral
+> +imposta a desenvolvedores ocupados, sem nenhum benef=C3=ADcio correspond=
+ente
+> +para eles pr=C3=B3prios ou para a comunidade do kernel como um todo. Por=
+ esse
+> +motivo, esse m=C3=A9todo de pesquisa n=C3=A3o =C3=A9 recomendado.
+> +
+> +Os membros da comunidade do kernel j=C3=A1 recebem e-mails em excesso e
+> +provavelmente perceber=C3=A3o os pedidos de pesquisa como apenas mais um=
+a
+> +exig=C3=AAncia sobre seu tempo.  O envio desses pedidos priva a comunida=
+de do
+> +valioso tempo dos colaboradores e =C3=A9 improv=C3=A1vel que gere uma re=
+sposta
+> +estatisticamente =C3=BAtil.
+> +
+> +Como alternativa, os pesquisadores devem considerar participar de evento=
+s
+> +de desenvolvedores, organizar sess=C3=B5es nas quais o projeto de pesqui=
+sa e
+> +seus benef=C3=ADcios para os participantes possam ser explicados e inter=
+agir
+> +diretamente com a comunidade no local.  As informa=C3=A7=C3=B5es recebid=
+as ser=C3=A3o
+> +muito mais ricas do que as obtidas por meio de uma pesquisa por e-mail, =
+e a
+> +comunidade tamb=C3=A9m se beneficiar=C3=A1 da oportunidade de aprender c=
+om suas
+> +percep=C3=A7=C3=B5es.
+> +
+> +Patches
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Para ajudar a esclarecer: enviar patches aos desenvolvedores *=C3=A9* in=
+teragir
+> +com eles, mas eles j=C3=A1 consentiram em receber *contribui=C3=A7=C3=B5=
+es de boa-f=C3=A9*.
+> +Esse consentimento n=C3=A3o se estende ao envio de patches intencionalme=
+nte
+> +defeituosos ou vulner=C3=A1veis, nem ao fornecimento de informa=C3=A7=C3=
+=B5es enganosas
+> +durante as discuss=C3=B5es. Essas intera=C3=A7=C3=B5es podem prejudicar =
+os desenvolvedores
+> +ao consumir tempo, esfor=C3=A7o e motiva=C3=A7=C3=A3o, al=C3=A9m de prej=
+udicar o projeto ao
+> +minar a confian=C3=A7a de toda a comunidade de desenvolvedores no colabo=
+rador (e
+> +na organiza=C3=A7=C3=A3o do colaborador como um todo), prejudicando os e=
+sfor=C3=A7os para
+> +fornecer feedback construtivo aos colaboradores e colocando os usu=C3=A1=
+rios
+> +finais em risco de falhas de software.
+> +
+> +A participa=C3=A7=C3=A3o de pesquisadores no desenvolvimento do pr=C3=B3=
+prio Linux, assim
+> +como a de qualquer pessoa, =C3=A9 bem-vinda e incentivada. A pesquisa no=
+ c=C3=B3digo
+> +do Linux =C3=A9 uma pr=C3=A1tica comum, especialmente quando se trata de=
+ desenvolver
+> +ou executar ferramentas de an=C3=A1lise que produzam resultados que poss=
+am ser
+> +utilizados na pr=C3=A1tica.
+> +
+> +Ao interagir com a comunidade de desenvolvedores, enviar um patch tem si=
+do,
+> +tradicionalmente, a melhor maneira de causar impacto. O Linux j=C3=A1 po=
+ssui
+> +muitos bugs conhecidos =E2=80=94 o que =C3=A9 muito mais =C3=BAtil =C3=
+=A9 dispor de corre=C3=A7=C3=B5es
+> +revisadas e verificadas. Antes de contribuir, leia atentamente a
+> +documenta=C3=A7=C3=A3o apropriada:
+> +
+> +* Documentation/process/development-process.rst
+> +* Documentation/process/submitting-patches.rst
+> +* Documentation/admin-guide/reporting-issues.rst
+> +* Documentation/process/security-bugs.rst
+> +
+> +Em seguida, envie um patch (incluindo uma mensagem de commit com todos o=
+s
+> +detalhes listados abaixo) e responda aos coment=C3=A1rios dos outros
+> +desenvolvedores.
+> +
+> +Ao enviar patches resultantes de pesquisas, as mensagens de commit devem
+> +conter, no m=C3=ADnimo, os seguintes detalhes, para que os desenvolvedor=
+es
+> +tenham o contexto adequado para compreender a contribui=C3=A7=C3=A3o. Re=
+sponda =C3=A0s
+> +seguintes perguntas:
+> +
+> +* Qual =C3=A9 o problema espec=C3=ADfico que foi identificado?
+> +* Como o problema poderia ser reproduzido em um sistema em execu=C3=A7=
+=C3=A3o?
+> +* Que efeito a ocorr=C3=AAncia do problema teria no sistema?
+> +* Como o problema foi identificado? Inclua, especificamente, detalhes so=
+bre
+> +  quaisquer testes, programas de an=C3=A1lise est=C3=A1tica ou din=C3=A2=
+mica e quaisquer
+> +  outras ferramentas ou m=C3=A9todos utilizados para realizar o trabalho=
+.
+> +* Em qual vers=C3=A3o do Linux o problema foi identificado? =C3=89 altam=
+ente
+> +  recomend=C3=A1vel utilizar a vers=C3=A3o mais recente ou um ramo recen=
+te do
+> +  linux-next (consulte Documentation/process/howto.rst).
+> +* O que foi alterado para corrigir o problema e por que se acredita que =
+a
+> +  corre=C3=A7=C3=A3o esteja correta?
+> +* Como a altera=C3=A7=C3=A3o foi testada na compila=C3=A7=C3=A3o e em te=
+mpo de execu=C3=A7=C3=A3o?
+> +* Qual commit anterior esta altera=C3=A7=C3=A3o corrige? Isso deve const=
+ar na tag
+> +  =E2=80=9CFixes:=E2=80=9D conforme descrito na documenta=C3=A7=C3=A3o.
+> +* Quem mais revisou este patch? Isso deve constar nas tags apropriadas
+> +  =E2=80=9CReviewed-by:=E2=80=9D; veja abaixo.
+> +
+> +Por exemplo::
+> +
+> +  From: Author <author@email>
+> +  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
+> +
+> +  The error path in foo_bar driver does not correctly free the allocated
+> +  struct foo_bar_info. This can happen if the attached foo_bar device
+> +  rejects the initialization packets sent during foo_bar_probe(). This
+> +  would result in a 64 byte slab memory leak once per device attach,
+> +  wasting memory resources over time.
+> +
+> +  This flaw was found using an experimental static analysis tool we are
+> +  developing, LeakMagic[1], which reported the following warning when
+> +  analyzing the v5.15 kernel release:
+> +
+> +   path/to/foo_bar.c:187: missing kfree() call?
+> +
+> +  Add the missing kfree() to the error path. No other references to
+> +  this memory exist outside the probe function, so this is the only
+> +  place it can be freed.
+> +
+> +  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=3Dy using GCC
+> +  11.2 show no new warnings, and LeakMagic no longer warns about this
+> +  code path. As we don't have a FooBar device to test with, no runtime
+> +  testing was able to be performed.
+> +
+> +  [1] https://url/to/leakmagic/details
+> +
+> +  Reported-by: Researcher <researcher@email>
+> +  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
+> +  Signed-off-by: Author <author@email>
+> +  Reviewed-by: Reviewer <reviewer@email>
+> +
+> +Se voc=C3=AA estiver contribuindo pela primeira vez, recomenda-se que o =
+patch
+> +seja avaliado por outras pessoas em particular antes de ser enviado =C3=
+=A0s
+> +listas de discuss=C3=A3o p=C3=BAblicas.
+> +(Isso =C3=A9 obrigat=C3=B3rio caso tenha sido explicitamente informado d=
+e que seus
+> +patches precisam de uma revis=C3=A3o interna mais cuidadosa.) Espera-se =
+que
+> +essas pessoas tenham sua tag =E2=80=9CReviewed-by=E2=80=9D inclu=C3=ADda=
+ no patch resultante.
+> +Encontrar outro desenvolvedor familiarizado com contribui=C3=A7=C3=B5es =
+para o Linux,
+> +especialmente dentro da sua pr=C3=B3pria organiza=C3=A7=C3=A3o, e pedir =
+que ele ajude nas
+> +revis=C3=B5es antes de envi=C3=A1-las para as listas de discuss=C3=A3o p=
+=C3=BAblicas tende a
+> +melhorar significativamente a qualidade dos patches resultantes e, com i=
+sso,
+> +reduz a carga de trabalho sobre outros desenvolvedores.
+> +
+> +Se n=C3=A3o for poss=C3=ADvel encontrar ningu=C3=A9m para revisar os pat=
+ches internamente
+> +e voc=C3=AA precisar de ajuda para encontrar essa pessoa, ou se tiver qu=
+aisquer
+> +outras d=C3=BAvidas relacionadas a este documento e =C3=A0s expectativas=
+ da
+> +comunidade de desenvolvedores, entre em contato com a lista de discuss=
+=C3=A3o
+> +privada do Conselho Consultivo T=C3=A9cnico:
+> +<tech-board@groups.linuxfoundation.org>.
 > --
 > 2.55.0
 >
