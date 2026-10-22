@@ -1,64 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792683796;
-	b=H14L46zf9HRhjNbXgW4i9sVHm8ePQ37oS09BPKv2RVA9589FQOUk78N6yzgVS/Hl4Yy7
-	 UK3bP0X3Fn6muDO1VTubxlKWmAq1NKA/qR62PRzjBhFYUzq8cAmqeBUs3pLVLaUqa4Tp0
-	 mtUfqfQwyLV3/ELPq6DmlZsKN2Y1RglNLv81r/8L/8JxRXzsbtElvz31tt0iHpZAoMTI7
-	 p4B12fFvpmnSjj/e3e+1Cq5JrzAYfdEgLn4WUFXDypO9+Mmg8KUrzuOSzggmN/7yQ0R6T
-	 NS4EH3lvZLedfR50GpMLq/JOn4zBBp6w/tO6f1NNQhm7r8//LFEUyL2ck5VcC5GhkgQ==
+	t=1792683811;
+	b=VTlKyjbr598Z2MoPkkWgj4YmBicoLAw7qla2P/SjrxtOR+OxuAbmji0fhihFwc3IS39z
+	 7RUI7mzn364/D5Y8g6M8GlnSlZ+RG6PHiWzB+veuddVjiqUke+mzp2iHctALZfipBT8M/
+	 pG0FwfHVJU7qmY5CkVeSuU7JiKCDLZwVMrI1HDC0p4GaIkDVgFLfdL8rRN+9NJefFaJfJ
+	 8LKuf5gParJZyTmIHNlWOvvP/Koi/Y7tvYNmjErFQbPm30bEAkT/tFiwpWzbWk78EWMqY
+	 38JyfOZQebPAHd+4ai433lfZ5uYk53KANN9AM3csrmFWwew+GFgHrozoxWiXPlw1/dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792683796;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=MkIh4OrRcgvtwy45zxvwy9lPS36RJHtzznNxINaUDvU=;
-	b=DB2SuatxKNue90cISXPRZnof4YgUoUZDuSx3HH7tj1OJGzS1BktaBu0CYmvu4aB02Uzc
-	 6ZHh/uLlAv8HnaWHydrM+KWv+ryJbcekkeE3lOKZc84CNsJzyspk4r8Ubitdi7gBYDtjP
-	 CZTE1BL4R+qGEw1Okrs4MoZJ2R5s+cajTQZp0lTU8KZPhvn0r5VAbPv8sqJTsMa2XGyZq
-	 G9X/HGhOoVl+hmo66oYt1Hwx4THJjolWb5BDjgke/PtLMNn+btDVW1y96e4wjU+SsVzF2
-	 RaFwLgRKIfRGikUVSJ0MfImf8g4SglBy/iPB0RsQcY9fdGqkvV2JwduTIhvfiKPRvxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792683811;
+	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
+	 X-SA-Exim-Scanned;
+	bh=H/ZQDZbJUUwaDWq/U/yZ4cIarmdBAnG5+fgMRyphtSo=;
+	b=HwIKfp6hhWKxqRjizQRKXRY+LfmJy5OxZJoidpYkRWcWLC1lPfxPZTeQxH+kdb9sOnVA
+	 +8/zztcVYwih6Zhod3yxYbhXlfqIqz6DAfAteI2LCMIl4HsC7fXH8kRZ5moixhrSr/jUb
+	 wJ6RUrFzfYsEicukauAHfglpqOnTkU6OXOsJRiyNkPqRXSVkFKi1Bv+9ePOuvfF7Q9Jgz
+	 e5OKE+QjK/U+yJHxWYjDEpTKiwOUFkfKpyKWyIZhv6uLR5tpmKWHiGB/W5l+iVtbStlji
+	 wTVzy3APKKgeSg85dFzGNr5eH9V9v17p8fM8yAxHxcfcsaAdycHo/9A8try6BbD5gdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QVFQcCvM;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HkIm1xBS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBD2606A319;
-	Thu, 22 Oct 2026 15:43:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BBD2606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67CE606A319;
+	Thu, 22 Oct 2026 15:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QVFQcCvM
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 66F7C408DA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1792683795; bh=MkIh4OrRcgvtwy45zxvwy9lPS36RJHtzznNxINaUDvU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QVFQcCvMMOi9IiEpRiF89YDF4bUDf+YcswyE3TNGNrvIVYZKRut9gLnyiKcnl4MLn
-	 zTzSGGyDTUsmehbwZcH08nOi5Zda2DSRBl/m7xEEunqbeaHHdBT0Atejf/9th1KIaZ
-	 uWnc+7Q9+dVi6shX6RYpqelTXsYeyXbk7MCqeILCWjW5kAkvPCekR/CTZMiHHcs4MF
-	 627+TDfX294Ust2UXTxpX42LCMGkpP3jg1G1W8w5CEg+UxFlzB/lYe5ty/HWhhD/HJ
-	 Z1Xng/ZSAEzHMHSDLTiH0QdANuq33htcwrfgjIY/vZX1uRI31anGueuQXweqXtG3Uj
-	 7x6D9WnB3YSWw==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 66F7C408DA;
-	Thu, 22 Oct 2026 15:43:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 0/4] docs: test_doc_build: Test up to Sphinx 9.1.0
-In-Reply-To: <cover.1792053090.git.mchehab+huawei@kernel.org>
-References: <cover.1792053090.git.mchehab+huawei@kernel.org>
-Date: Thu, 22 Oct 2026 09:43:14 -0600
-Message-ID: <8733tx3fn1.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HkIm1xBS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFAC1F01825;
+	Thu, 22 Oct 2026 15:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792683810;
+	bh=H/ZQDZbJUUwaDWq/U/yZ4cIarmdBAnG5+fgMRyphtSo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HkIm1xBS2oaBequM1IPluWU8b+N//ZtGRp17ZRz9uHD5bKy2xYcEdA4HU0rNyrgDg
+	 YBJuHEJRMeL+tUCGYtbZjpENSBmdmPC0uQqPh2SUb6uSsREXyD0lUSYkOkV1P70koK
+	 OpBxQh+BqzrF3MFP5RXmvSeTtHZO3/bxhr4B2iDcNcLx6Gpmah9lHKIk8JbDsl0h+w
+	 16pnLvPlrRDp3BcIAmQGfyE+57bIfZzWGhQES485JDv6J/MtvdsOxkexEJGoFqAI9n
+	 lbeEZcJoLlj4jO4oACEpTZEstHuP263QEUjvW+OTTqmS/WKngm8TZDxFNEC0gQ78/P
+	 +b4+D2p5AvpGA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xJuwx-000000067Lk-3k9q;
+	Thu, 22 Oct 2026 15:43:27 +0000
+Date: Thu, 22 Oct 2026 16:43:27 +0100
+Message-ID: <86h5idzqow.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Alex Williamson <alex@shazbot.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC PATCH v2 11/15] KVM: arm64: Export stage-2 MMU config
+In-Reply-To: <20261015142552.4128028-12-ryan.roberts@arm.com>
+References: <20261015142552.4128028-1-ryan.roberts@arm.com>
+	<20261015142552.4128028-12-ryan.roberts@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,16 +87,205 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, gregkh@linuxfoundation.org, arnd@arndb.de, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, oupton@kernel.org, alex@shazbot.org, jgg@nvidia.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, jpb@kernel.org, ogabbay@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Thu, 15 Oct 2026 15:25:45 +0100,
+Ryan Roberts <ryan.roberts@arm.com> wrote:
+> 
+> From: Jean-Philippe Brucker <jpb@kernel.org>
+> 
+> Provide an API to drivers that want to share the stage 2 configuration
+> of a VM with their device. At the moment it is rather limited:
+> 
+> * No invalidation notifiers. The TLBs on the device side, if any,
+>   receive CPU TLB invalidations.
+> 
+> * No remote page fault support. All paging still takes the normal data
+>   abort route on the CPU. Options are pinning all guest memory or
+>   device-specific mechanism for reporting pending faults to the guest.
+> 
+> * No nested VMs. Although we could perhaps support assigning devices to
+>   the hyp context of a nested VM, it seems performative.
+> 
+> So for the moment this API works for devices that share the CPU MMU, but
+> the SMMU driver could use it with DVM.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h |  11 ++++
+>  arch/arm64/include/asm/kvm_mmu.h  |   1 +
+>  arch/arm64/kvm/mmu.c              | 102 ++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c         |  14 +---
+>  4 files changed, 117 insertions(+), 11 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 30d0082b15ec..c0932b43f959 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -235,6 +235,14 @@ struct kvm_s2_mmu {
+>  	atomic_t refcnt;
+>  };
+>  
+> +/* stage 2 MMU configuration, for drivers that speak VMSA */
+> +struct kvm_arch_guest_mmu {
+> +	u64 hcr;
+> +	u64 hcrx;
+> +	u64 vtcr;
+> +	u64 vttbr;
+> +};
+> +
+>  struct kvm_arch_memory_slot {
+>  };
+>  
+> @@ -1720,4 +1728,7 @@ static __always_inline enum fgt_group_id __fgt_reg_to_group_id(enum vcpu_sysreg
+>  
+>  long kvm_get_cap_for_kvm_ioctl(unsigned int ioctl, long *ext);
+>  
+> +struct kvm_arch_guest_mmu *kvm_arch_get_guest_mmu(struct kvm *kvm);
+> +void kvm_arch_put_guest_mmu(struct kvm *kvm, struct kvm_arch_guest_mmu *mmu);
+> +
+>  #endif /* __ARM64_KVM_HOST_H__ */
+> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
+> index 6eae7e7e2a68..8a9d385fe14d 100644
+> --- a/arch/arm64/include/asm/kvm_mmu.h
+> +++ b/arch/arm64/include/asm/kvm_mmu.h
+> @@ -185,6 +185,7 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu);
+>  int kvm_handle_guest_abort(struct kvm_vcpu *vcpu);
+>  
+>  phys_addr_t kvm_mmu_get_httbr(void);
+> +u64 kvm_mmu_get_hcr(struct kvm *kvm, u64 hcr);
+>  phys_addr_t kvm_get_idmap_vector(void);
+>  int __init kvm_mmu_init(u32 hyp_va_bits);
+>  
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 2d44cd6a5aed..0bf1dff2a41f 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -2805,3 +2805,105 @@ void kvm_toggle_cache(struct kvm_vcpu *vcpu, bool was_enabled)
+>  
+>  	trace_kvm_toggle_cache(*vcpu_pc(vcpu), was_enabled, now_enabled);
+>  }
+> +
+> +#define HCR_MMU_BITS (HCR_VM | HCR_PTW | HCR_DC | HCR_TGE | HCR_RW |	\
+> +		      HCR_CD | HCR_ID | HCR_E2H | HCR_NV | HCR_NV1 |	\
+> +		      HCR_FWB | HCR_ATA | HCR_DCT)
+> +
+> +/* Update MMU-specific host bits of HCR_EL2 */
+> +u64 kvm_mmu_get_hcr(struct kvm *kvm, u64 hcr)
+> +{
+> +	lockdep_assert_held(&kvm->arch.config_lock);
+> +
+> +	WARN_ON(!test_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED,
+> +			  &kvm->arch.flags));
+> +
+> +	hcr &= ~HCR_MMU_BITS;
+> +	hcr |= HCR_VM | HCR_PTW;
+> +
+> +	if (has_vhe() || has_hvhe())
+> +		hcr |= HCR_E2H;
+> +
+> +	if (cpus_have_final_cap(ARM64_HAS_STAGE2_FWB))
+> +		hcr |= HCR_FWB;
+> +
+> +	if (kvm_has_mte(kvm))
+> +		hcr |= HCR_ATA;
+> +
+> +	if (!test_bit(KVM_ARM_VCPU_EL1_32BIT, kvm->arch.vcpu_features))
+> +		hcr |= HCR_RW;
+> +
+> +	return hcr;
+> +}
+> +
+> +/**
+> + * kvm_arch_get_guest_mmu - Get a reference to the guest MMU config
+> + * @kvm: KVM instance. Caller must hold a reference.
+> + *
+> + * Get the stage 2 MMU config of an EL1 VM. The returned object contains
+> + * settings that do not change until the object is released with
+> + * kvm_arch_put_guest_mmu(). This function does not support nested VMs.
+> + *
+> + * HCR has lots of settings, some of which differ between vCPUs, but most of
+> + * them control traps. For EL1 VMs, the bits relevant to MMU translation are
+> + * common to all vCPUs:
+> + * - VM, PTW, DC, TGE, CD, ID, NV, NV1, DCT have fixed values.
+> + * - E2H, FWB, ATA depend on host CPU features (respectively VHE, FWB and MTE2).
+> + * - RW depends on vCPU features. This function does not support 32-bit VMs.
+> + *
+> + * HCRX: EnSDERR, EnSNERR set to 0. TODO: is GCSEn relevant?
+> + *
+> + * VTCR is set once for the VM, depends on the VM's IPA size.
+> + *
+> + * VTTBR:
+> + * - VMID is pinned, until kvm_arch_put_guest_mmu() is called.
+> + * - PGD is allocated and freed with the vm (the caller must hold their
+> + *   reference to @kvm). KVM may create and remove page table mappings at any
+> + *   moment, and uses normal TLB maintenance operations to synchronize with
+> + *   page table walkers. KVM does not notify the caller about mapping changes.
+> + * - CNP is a property of the host system.
+> + *
+> + * Return: a new kvm_arch_guest_mmu instance, or an error pointer on failure.
+> + */
+> +struct kvm_arch_guest_mmu *kvm_arch_get_guest_mmu(struct kvm *kvm)
+> +{
+> +	int ret;
+> +	struct kvm_arch_guest_mmu *mmu;
+> +
+> +	guard(mutex)(&kvm->arch.config_lock);
+> +
+> +	if (is_protected_kvm_enabled())
+> +		return ERR_PTR(-EOPNOTSUPP);
 
-> Hi Jon,
->
-> This small patch series extend test_doc_build to cover up to
-> Sphinx version 9.1.0.
+How does this compose with CCA? Can it be restricted to exclusively
+running VHE rather than also dealing with the lesser configurations?
 
-I've applied it, thanks.
+> +
+> +	if (!test_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED, &kvm->arch.flags) ||
+> +	    test_bit(KVM_ARM_VCPU_EL1_32BIT, kvm->arch.vcpu_features) ||
+> +	    test_bit(KVM_ARM_VCPU_HAS_EL2, kvm->arch.vcpu_features))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	ret = kvm_arm_pinned_vmid_get(kvm);
+> +	if (ret < 0)
+> +		return ERR_PTR(ret);
+> +
+> +	ret = -ENOMEM;
+> +	mmu = kzalloc_obj(*mmu, GFP_KERNEL_ACCOUNT);
+> +	if (!mmu)
+> +		goto err_unpin_vmid;
+> +
+> +	mmu->vtcr = kvm->arch.mmu.vtcr;
+> +	mmu->vttbr = kvm_get_vttbr(&kvm->arch.mmu);
+> +	mmu->hcr = kvm_mmu_get_hcr(kvm, 0);
 
-jon
+How about the hcrx field in the structure?
+
+> +
+> +	return mmu;
+> +
+> +err_unpin_vmid:
+> +	kvm_arm_pinned_vmid_put(kvm);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL_GPL(kvm_arch_get_guest_mmu);
+
+It really feels like this is a bit upside down. Since you are actively
+pinning the S2 MMU context, it should only be a matter of taking a
+reference on the kvm struct (just like KVM devices do), and handing
+off the kvm_s2_mmu structure, rather than copying things. When you're
+done with it, drop the reference.
+
+If there is a need to deal with a different value for HCR_EL2 (or
+anything else), it can be done in the code that makes use of it,
+rather than being in the KVM code.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
