@@ -1,116 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792645681;
-	b=PYRHvY1mQNx5Car0Nhj5KELmp569LQiXj5/6PTAjrJYvAzXQU/aNbbqSRjCRW/Eyszxx
-	 XFaNc2PZ8Oho8AO9fx5MtS2GS7I2PAlznE4j49kG1/bain5GQUizqEc7AlKkosS2sYZIR
-	 04DPJidExz9ratvh/YKjjcO+qB6of/LT3vj3hxFydECSG4uhNmtu6F0HhGqxyhGMIkarn
-	 Y6fL2uyK2kmAAREfv5z5sYxfGm691qJT0WoKuEZxm4VqwgNrABtEOiMrpd7lvGXZsIy36
-	 VeVbwEWjaHetAt0AQG6mGJIbBm5YdrG55d2Qz4gjvz/kO8c8x781StskXIe/Zppu61w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792645681;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Qrw1ULjt+JjGEdYQsfQr+ebS9fDMiy8zq5/jCMfCY98=;
-	b=qLKvoDuAHw3ZX+aRxWs6WFx5PaRGMDJvWTJuwDT7Ytg+hsBGzAhjQEv22R1kFhZyNauA
-	 LCUEP7DmQ3Ts+kKXXtyqmPAbJW83vnzFIvwX9WtWA1++WqQJCCHqSc/rv2GvgchyNx8RU
-	 ujsKgAeGIpG46q3py5NcmJij+MCttxepCiJfbeR3IvHUbyznnETRXj7duT2psqaMlddRI
-	 34YzHFCYW0H0rPZIuy6vW3xELGNp101V7QrpjVkOIVf2xJx8/qMFxxTYjj2TY4QtQxxNc
-	 VrjHFElKA0j4FbNTDeLJtmwJb60SEjwjAOq1888BmhmvJNGSFpgSgW1V7suP8cHBBSA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oQLVWCB9;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.119
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792645746;
+	b=ktJlqBfOvoDs3hTNDNkurpLFKEEuZms8Y0G+tbbXI4cl1VXFLAcJVywJOR6xPt85PwIR
+	 rbP8rA7BSO3bcxR7fGoqZGnj4drahrLfSKBOW55iPmCN8ri+qT2k7fqgOnbwcphV2bMio
+	 R/fC+H9HRgobS6kFFI5Uk+TqZHW6xLKfmWNwTmAJCjz2ulTdhbUhmH/AQUnnfRxIs72ha
+	 bbGLbi/yID3/fJmtsjBXCyu5nTiHj5BN4GdqqIxvY++vjzjdU/RCHH4SaxPhrFkf4adij
+	 JPeo99z+KG4muTPT8f6L78OwClkOMrkA7TJELX1iGRRVxs0VAKQbCUM/igSkt4JnZiQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792645746;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=1Baohzr6HFZ0onRNndEDcuP4rBz4iqsAu8pmnGCrGnw=;
+	b=D9UIN6XuGm6F5LITN44qabxkJxuhCYUYDe8Xq1Y1Eq2DIO3zHZ4oLseUygWTwyrzFEqR
+	 t59voK7KkH+XQrVwelempLrSrhHwAVXXf8Nxx71ZkL9vx3kK//M3VIQUH2PUgQ7J/R83D
+	 lzPIQeynSFrwDuLryDj3Be+DIJJagInUDENL06TEMAED28U15IwOB+0nhrY0ZW9hPPZzt
+	 X6eeNZBaWu5eW9NL8oCzKseLpdKIoj5LQPzY7y4HJzMokl3ysrHNoEjzZY30lxEC24mEY
+	 UVzDI/32gqkFx0yPYByxKgHVJv04/XhJtboQGQBm3sSvmDCw42Hz1UbPqUJRI7ujcgA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=valinux.co.jp;
+	spf=pass smtp.mailfrom=valinux.co.jp;
+	dkim=pass header.d=valinux.co.jp header.i=@valinux.co.jp header.a=rsa-sha256 header.s=selector1 header.b="fa8ya/SG";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.119
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020119.outbound.protection.outlook.com [52.101.228.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9B3606A31D
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:07:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C9B3606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A33D606A31A;
+	Thu, 22 Oct 2026 05:09:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A33D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oQLVWCB9
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dee593f18so1118340f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 22:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792645678; x=1793250478; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qrw1ULjt+JjGEdYQsfQr+ebS9fDMiy8zq5/jCMfCY98=;
-        b=oQLVWCB9w1aiSsapnFtew3AebgDpmw2NDtn3ZT/1jTGeXP6gB7WhXjLGMmm9NWmiqj
-         K60zlrky5A3zuKmBukH5XRv3m0h6ZD8X7eirW3hewZ7cy3Ev1hFwdgFLVpZg7GgxDKz1
-         ud9HekXYDqE2d4IWpj1hPMJz5YgTWByR7SezsBGLXcIv4E5FXQ91PXtzJThHaFKDBsiw
-         bu6c+g4yD8pyHC66COqF1oZEASy1c0TejYYnhDki7GH4TtKBR6rlknCUH8YHA3FFb01Y
-         SxZMwpk4G5rJgREDb631kKzsT0HWhz/0+zinvd88ETqHjeMumhW90scRLfnrc9r7kvEj
-         Ec0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792645678; x=1793250478;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qrw1ULjt+JjGEdYQsfQr+ebS9fDMiy8zq5/jCMfCY98=;
-        b=UGKPzA7TUz+Bc9zlxLiD9UXkkqXetLeVbGsZ/tZ3KJ0XwMM69BQoqlr/qp/gLOCa8F
-         SPM8RZy4c3Gq5rOEN2jc/qGlVCHw2lc34WcVIpeHMrGK6N69gDzV75sEJ0ropGikGVd+
-         H+TvG8uRG4bxycchFk15T6LhjnE7e+CzBdc4ocvljPqGb5AZnVimmJitmR+n9cPoeqHS
-         IryBQH1Aj6tuDWFGiwqnYqh447LJA8bFwdFqil7r1hQmf6RHLoQUcX9pIrs7XPRWh6Cy
-         jS2ZT3jjnXr5RfWDY9ojP8y657PORfsJ/+hftq+iRb9tkOKUTraZ29eeIaHMJBYwerD2
-         y1sQ==
-X-Forwarded-Encrypted: i=1; AKwUvByswAQgXg4Zn9eCZClU/WNBeTFpvGNB+BLa5HRNEhOGRkzmyZ3rWWFIqmmSPZPsabyh3cQ86g6bVhg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLnGTjazO6ffc7dZs75sayGN7FhLS1iCTExFFJG/FgLiMSrXu8V
-	W9oIcJdAB/XiS41momX2svsJb5oTPuYvD2RexN2QthRaLec4obC/AupE
-X-Gm-Gg: AYBFou3V7ZLNlXxMaqceACoJSDvXnzj2KsjPug1QeZIEjfBA/CjpHSILitOLhxM5Sno
-	bo3Ig+wPKJo4ekn91hL/e2i2Yj/xZp4pRS/I+N+CMAYxX/fEl4GROAKDOS3eMaYfdNeO4hFxdO4
-	8F1EC9jZd4190qJCXxvf8vWR/i9/hbhYz2tWWkKm77EUToog8KIJBNtOIsqtt3GKMeUnmlrIJDg
-	DMUQ0FboMx7jsPhh2M6naq7eZ1tKLxmfTqeuyh+85lrj3O974FdK60APJ9oYhsdRRRmjhCodh8g
-	IJMdEDx/r01wyb5gaQfuBgQpXXkBZVCsoblW59KCf/eszZNkcSb0moGW+ynnbCrToFi+5ROLInN
-	l7CQMlJnKAO5PEIcl9A2NN6nVtPK3NzM29p1iOMOQJiUFkG+K6FMdkn0wcCctSsEUlF8eL0O54f
-	K9UOmQbxWLmzMXUwYi7ac+nEAZ3ADH9/25zsPFyK3fn6gc2vTc+JemnFAEcQaXOCQNP9JMhVd0x
-	6EdaajRI9WCHWjcQnzC7RMAN65ndHNcViRFwTWfe0nNtl376eYLuBjYVn217+U2hRDuNYMxI7GW
-	f4/neyvBb+wN2cWbLoLl1bvaCNzExKThkRb8aI94AXTVwpd90GQuFOiVOLfeDDv/qK0NRj/LMqz
-	Xgb4ihecgppoFAAWaVdZoKTGDcd35jWvsT9sqZUlrJJfqftnhjSo4V5S6SpA=
-X-Received: by 2002:a5d:4f04:0:b0:48d:deaa:4dbb with SMTP id ffacd0b85a97d-48e264cd228mr5976694f8f.40.1792645677744;
-        Wed, 21 Oct 2026 22:07:57 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-ad43-d501-2c28-bb72-120d-420e.310.pool.telefonica.de. [2a02:3100:ad43:d501:2c28:bb72:120d:420e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e254eeef6sm9994979f8f.8.2026.10.21.22.07.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 22:07:56 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 9/9] rv: Test IRQ-exit softirq provenance and handoff
-Date: Thu, 22 Oct 2026 07:07:12 +0200
-Message-Id: <20261022050712.75035-10-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261022050712.75035-1-kmehltretter@gmail.com>
-References: <20261022050712.75035-1-kmehltretter@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=valinux.co.jp header.i=@valinux.co.jp header.a=rsa-sha256 header.s=selector1 header.b=fa8ya/SG
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j2vXQEe3dLDEcIvCWmqzswaTL1a22RAxRtl+hDtDLKhW+brUPO53+vISrE/3VxBYWYEHR6mxz9sEMd4YRQSG1ZXPCttEuE1pxxdGDDcapIhkgF0dL3xf5AwoMFy1JNOznQBsJU+TRcBT4MUfFuXA7paBov00/SJNEWn4AbblrwfVh2rE4hfpA6/EFIdoOoHrpwjXbbNdFccgrEUMxUGFq8X3j6OByl4nuJM1DQGNWkegNnoYTaM23SUJUi6YzzVqvA7pmM0tvc4wcFebu8TR5RD4ZvScmmIDplDtmtHDroHtSps73Pra5gxjkw0Q7iHN98FG1CGsGWAo/XOy/2HQxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Baohzr6HFZ0onRNndEDcuP4rBz4iqsAu8pmnGCrGnw=;
+ b=UPmSi34Z/yw/ZxGLC6+1/HgK2yUZU2b6q40Onict3ztS/fPrZSUd+qLGX2cbYKKBII04WMPXE4NxM+HLqArhceeMniBZ/+bt9RV1kTQ81WxOFFANJqcyyLs5uT+8wokhFSj8uctqjG9jN024wBeeOMqcPhVRzKJLXei2zaHp4AfK1CRbZ62m2mZpsBOJPiEjw5wr+XuVCuccROtSovArZsxbiDCD+25GTPI+3CYrVkky/M0FDvQO3I0racpRae1053IxH7xxSRgP5PI/WKomrtDEDZYYntSYYLEhjyIHcoJfGrn9kn7zyMxYhgvNMaC54zBedR7a8ykSOunEXJ7EYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Baohzr6HFZ0onRNndEDcuP4rBz4iqsAu8pmnGCrGnw=;
+ b=fa8ya/SGM0gZAmS8Nbv6WnzM8oJCULKiNLuoYNTEmWZdxNiDwGs2UPn00JeGWB/jWc7mbg1yI02MVvWFAfzQIAW7Ug8u8TQs3vfyVHTw8ky2th4+FxqaelZE5tp7LZENRrFHOvYx0vuA99M/pHmrEX6YX/DuS1thjaMtKf+uW0Y=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:325::11)
+ by TYRP286MB5399.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:192::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
+ 2026 05:09:02 +0000
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9]) by TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9%5]) with mapi id 15.21.0546.012; Thu, 22 Oct 2026
+ 05:09:01 +0000
+Date: Thu, 22 Oct 2026 14:08:59 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Frank Li <Frank.Li@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
+	Allen Hubbe <allenbh@gmail.com>, Niklas Cassel <cassel@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH v7 06/10] PCI: endpoint: pci-epf-vntb: Allow DMA and MW
+ to share a BAR
+Message-ID: <rjlarph76rs5j73m5fj5oto3mocx7isd5xfel3zodbdqrc47yb@qpk6j2yug2ew>
+References: <20261021042229.2280937-1-den@valinux.co.jp>
+ <20261021042229.2280937-7-den@valinux.co.jp>
+ <atjfwC1LTX3L6ncV@SMW015318>
+ <fmnltbvuo6nm2sddmoqmpb6ema345rdqgavhf6xhrggnj7twpa@nlwyqy7zjppk>
+ <atkLwWs1uufsGkRV@SMW015318>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <atkLwWs1uufsGkRV@SMW015318>
+X-ClientProxiedBy: TYWPR01CA0032.jpnprd01.prod.outlook.com
+ (2603:1096:400:aa::19) To TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:325::11)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -120,747 +107,296 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB6866:EE_|TYRP286MB5399:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5e459d5-c801-4c44-2f3a-08df2ffa961d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|10070799003|1800799024|366016|261021123027099003|56012099006|4143699003|261009223027099003|18002099003|10067099003|22082099003|6133799003|261021135927099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	zsiP1/k9HcqCijLUBEh/6g+5MnsdYRKM/I4KyeC+UJbYUuo7sbOYnyYzemRJOhltBunZrmiQdkhys0nI0x6xIEL99cFcElAf4Mpkj4BK7xCmwUZNeCWCvdGM0dl+LVRAdvDbl1RdvyS6s1q/okVGv8i9iTnvuygE/FgIhiNhR7+SzplBe3EVmh6aenpmsIsMr+3i6+G66TIfeYij56PLisKi+hElu8kPndFPW2WiwwmHLsxwRcwW/9T6UKw3pYcSHBn9uFmYvDPxzBZ19dsIA9sfgP0mMW2RCmus1dLHvsBnuS/q3FKy7KqNAF6Cg6m374aI+0vl0xv4Ahd0qmLclWbemx+SNvJJGuNftSMn+BzcNhFQKiOgK6MrlE/U5vHv2a8kcZjYrnRiukwIp/qxdq3kARuBsZ5vJBF9q3kANH9TYiz0Twc53v0s/gJgERmx5XpqrFk63o0kXni2zsVApPSCYBZPirjwTPCRR9JsMhfEj40p6A6s/u59FR2cQrEPj8rVbed5P0FiLnz/XCPHor29jTruofsN8VRs1bOViO3R/SZMcBkTz2CBhZmwgTUsfw0UtXbmsedItk4NnUU5oeuo4YY8dXnZ3F9w9bWeIgzNsso2xfnqniJaLD+rXpEHLDnYx8d5kArfG8xLhWy/SImJJwWCI906E3O0N2qgmZg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(10070799003)(1800799024)(366016)(261021123027099003)(56012099006)(4143699003)(261009223027099003)(18002099003)(10067099003)(22082099003)(6133799003)(261021135927099003)(261021121427099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dzXtPsfP8DzPBUsfAHAkbXCvv3oaL7CWHMPJvuOyh93l5RaI4KRJZy6TzY7V?=
+ =?us-ascii?Q?J2IfkBYo/ABR/k/g/Q8sXoeI4Skw/IgVdh2WC6SHdi7v/skRGWjVPWFmEPzF?=
+ =?us-ascii?Q?lRfP7lmmKnnx7LKaAJf8N9wFXs/flNQwCXGdqPntrwTLDM3vgb/H2FLzWhKI?=
+ =?us-ascii?Q?4EpWJnAh2Dz/1aLCxLhq2rmH1kHiF8S3p2Iypqs1yA/2F0ze8cTGPRoialds?=
+ =?us-ascii?Q?FULK+a/Gns2AJFcUv8gdC0RWBu1YH5j6S9MmKxO+W7G3YSkCaSF5X3G8PSZa?=
+ =?us-ascii?Q?IcQkiXOAFP9RiX9POIbYcUhvg4lLyBPYvCvm1PV94ULVAeEfFtXLePo+Ocbt?=
+ =?us-ascii?Q?2QMXqiwztD/5O9Z5pgTefe5UoS1iDV/bgjKvFSoaEDmVSoIrpyFTdOAs/Qr3?=
+ =?us-ascii?Q?BKIyf7x0z9vqSRw83Ir7s622kq6PZJZhZLzAavkoV1IRMlcH01zSSbfg5FK3?=
+ =?us-ascii?Q?gOh2Blg8F2XDqkdbJCwRiokBntAIHdnyPbgTrmiD+BfL5w+1nHUGX25LKsyn?=
+ =?us-ascii?Q?fXKdgxRyl59GB0VeCc9ZrH8XKfxiPjpaARQlSTgivO3c75afobp4++sCjgTm?=
+ =?us-ascii?Q?uGP/WIqcIDF8fRhdjCJGtBo/Uptx3jZ5CJqTJJ8YxuKgRNiM9cEbi3ZgPHVj?=
+ =?us-ascii?Q?H4FxFUiSmtwazn2pnoxrx3LBoWomknobACBJdtckfg58WsQ1vW54PHpfbb3T?=
+ =?us-ascii?Q?k3wu7UifUjPV/qWv0fwHuK34Zg/YkkFWCq7rCY+12aXgod1xiMhS2zJAMlR0?=
+ =?us-ascii?Q?Qjz8mR+vYTbRYnbOPwhfju7NZWak9a/1C8NMtWBTP0qgDjjKgCOZiVeXbZC3?=
+ =?us-ascii?Q?WFcxcphNAO8wqhOL/uI9Oq98gUKCAVN3O3xyDWTOE6uZ4Hatk1qQ3TJWxLRc?=
+ =?us-ascii?Q?DxDQLxxa4zVXK+iuhsT9xsXAmDw22rhdrI4Lm3M41U3vh12UxLBR55oCHEgV?=
+ =?us-ascii?Q?JzBMfzAFca0OckMikuXiuxvkOnJyE7s0VANyh7MwKqxIDqU/A75hhLRqBVE7?=
+ =?us-ascii?Q?P+CTLGRCF0KA3MoC9DHp30vs/nVxUub+jJV1wxBvdNTUTESfyrnF/ZN9Zc0A?=
+ =?us-ascii?Q?pkUTBGnTAKGF0xPYQDqbiPFN/lQmWMw4HPHVDuoB0mjCZurY4FhZpeFoW3Mv?=
+ =?us-ascii?Q?i4RTrklQb1OgQzTgE+dA/7XA9CWW7jMFjsp6joV5SUB9e21yr6fOWcuNRV+g?=
+ =?us-ascii?Q?Py4bqz9Igklsjdj+2mPg+UgcptTY/mY6GTNs/xT59O3J4AYJ4r96Tn/LFYeW?=
+ =?us-ascii?Q?CWhn2Bu3i4odJLsYcB98obxLy4+nFmmtc5YML89Z5yw1I9Ttg6ZR1ktrcCVY?=
+ =?us-ascii?Q?+z5ycI2eddpvUQjHCtZ/5DRo+7Kx86i3OOHE6566maBe0UWM48mJvS+SssXw?=
+ =?us-ascii?Q?HDxNw36BOjw7/uPYyY2BAgFB+KPoObQ4wxNOUnNiRw11ylSl6JRcBBdZEZJb?=
+ =?us-ascii?Q?xDmer/XKJisCA1PwzWMi+UYGc4ELNae6GdRmycc+96Aw7ceiclXaiQkp5yNU?=
+ =?us-ascii?Q?3+ytpxCFIdrlB6d/nM52rGAt88/K4fyMUc8S1Wgvqhu9tTdNtMOLtSWfD3HB?=
+ =?us-ascii?Q?TyRegnkjRAgNWgcF7KKT8+N7DqKkTYrVjkC/dCeMYjW/bKA+FoPESFzSZwrP?=
+ =?us-ascii?Q?BRmJCwBEbW4B+h7bv36eD/YflqIpHH3G1lcRhv6AgSvAH0195iRdESE8pcCy?=
+ =?us-ascii?Q?QYkXQgtk5mWawg2JUgdxxLCPG8h0dIt/1yTCFK2p3Pei8qxjPiIvFP0y4y3f?=
+ =?us-ascii?Q?18kpZTfGrCPP3DMyjLt60UVAznjhteozlEFTAn7SU5vAMCEoeIUH?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5e459d5-c801-4c44-2f3a-08df2ffa961d
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 05:09:01.8802
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aYst8rOHgBeZVZFu3qbFHMWS4t0GlBkyEVOZO+6dzz7/QVMxjwiz/EbSLp2EnCe4jCmR2bivwP+gFhW+TVmQ4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRP286MB5399
 
-When IRQ exit processes softirqs inline, it replaces hardirq context with
-serving-softirq context and restores hardirq context afterwards. Extend
-the irqstate KUnit tests to cover this transition, nested hardirqs,
-monitor synchronization and the from_hardirq value.
+On Wed, Oct 21, 2026 at 02:00:17PM -0500, Frank Li wrote:
+> On Thu, Oct 22, 2026 at 01:35:18AM +0900, Koichiro Den wrote:
+> > On Wed, Oct 21, 2026 at 10:52:32AM -0500, Frank Li wrote:
+> > > On Wed, Oct 21, 2026 at 01:22:25PM +0900, Koichiro Den wrote:
+> > > > Some endpoint configurations have no spare BAR for DMA resources. Allow
+> > > > dma_bar to select an MW BAR and place the DMA ranges after that MW.
+> > > >
+> > > > DMA submaps have fixed BAR offsets, so a shared MW translation must
+> > > > cover its configured size. Report that size as the translation alignment
+> > > > and require it to be a power of two.
+> > > >
+> > > > Older hosts treat the whole BAR as an MW. Require the host to advertise
+> > > > MW/DMA boundary support in LINK_UP before enabling a shared-BAR link.
+> > > >
+> > > > Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> > > > ---
+> > > > Changes since v6:
+> > > >   - Split out the host-side changes. (Frank)
+> > > >   - Require MW/DMA BAR boundary support in LINK_UP for shared BARs.
+> > > >
+> > > >  drivers/pci/endpoint/functions/pci-epf-vntb.c | 154 ++++++++++++++----
+> > > >  include/linux/pci-epf-ntb.h                   |   3 +
+> > > >  2 files changed, 122 insertions(+), 35 deletions(-)
+> > > >
+> > > > diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+> > > > index ac83af54122f..721cd841a1dd 100644
+> > > > --- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
+> > > > +++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
+> > > > @@ -84,12 +84,13 @@ enum epf_irq_slot {
+> > > >  #define MIN_DB_COUNT			(EPF_IRQ_DB_START + 1)
+> > > >
+> > > >  struct epf_ntb_dma {
+> > > > +	struct mutex lock; /* Serialize DMA submap and MW updates */
+> > > >  	struct epf_ntb_dma_ctrl ctrl;
+> > > >  	struct dma_chan *dchan[EDMA_MAX_RD_CH];
+> > > >  	void *bar_scratch;
+> > > >  	dma_addr_t bar_scratch_phys;
+> > > >  	size_t bar_scratch_size;
+> > > > -	struct pci_epf_bar_submap submap[EDMA_MAX_RD_CH + 2];
+> > > > +	struct pci_epf_bar_submap submap[EDMA_MAX_RD_CH + 3];
+> > > >  	struct pci_epf_bar_submap *reg_submap;
+> > > >  	unsigned int num_submap;
+> > > >  	u16 rd_ch_cnt;
+> > > > @@ -229,6 +230,22 @@ static bool epf_ntb_is_bar_used(struct epf_ntb *ntb,
+> > > >  	return false;
+> > > >  }
+> > > >
+> > > > +static u64 epf_ntb_dma_bar_offset(struct epf_ntb *ntb, enum pci_barno barno)
+> > > > +{
+> > > > +	unsigned int i;
+> > > > +
+> > > > +	for (i = 0; i < ntb->num_mws; i++)
+> > > > +		if (ntb->epf_ntb_bar[BAR_MW1 + i] == barno)
+> > > > +			return ntb->mws_size[i];
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static bool epf_ntb_dma_shares_bar(struct epf_ntb *ntb, enum pci_barno barno)
+> > > > +{
+> > > > +	return ntb->dma && ntb->epf_ntb_bar[BAR_DMA] == barno;
+> > > > +}
+> > > > +
+> > > >  struct epf_ntb_dma_filter {
+> > > >  	struct device *dev;
+> > > >  	int chan_id;
+> > > > @@ -353,6 +370,7 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
+> > > >  	unsigned int i;
+> > > >  	size_t align;
+> > > >  	u32 next = 0;
+> > > > +	u64 offset;
+> > > >  	int ret;
+> > > >
+> > > >  	if (ctrl->u.dma_ctrl.reg_layout_data != EDMA_MF_EDMA_UNROLL)
+> > > > @@ -371,9 +389,30 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
+> > > >  	if (!is_power_of_2(align))
+> > > >  		return -EINVAL;
+> > > >
+> > > > -	if (epf_ntb_is_bar_used(ntb, barno) ||
+> > > > -	    pci_epc_get_next_free_bar(features, barno) != barno)
+> > > > +	if (barno == ntb->epf_ntb_bar[BAR_CONFIG] ||
+> > > > +	    barno == ntb->epf_ntb_bar[BAR_DB])
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	offset = epf_ntb_dma_bar_offset(ntb, barno);
+> > > > +	if (!offset &&
+> > > > +	    (epf_ntb_is_bar_used(ntb, barno) ||
+> > > > +	     pci_epc_get_next_free_bar(features, barno) != barno))
+> > > > +		return -EINVAL;
+> > > > +	if (offset > U32_MAX)
+> > > > +		return -EOVERFLOW;
+> > > > +	if (offset && !is_power_of_2(offset))
+> > > >  		return -EINVAL;
+> > > > +	dma->ctrl.submap.offset = offset;
+> > > > +	next = offset;
+> > > > +	if (next) {
+> > > > +		/*
+> > > > +		 * submap[0] covers the MW prefix. Keep its temporary
+> > > > +		 * target at address 0 until the MW translation is
+> > > > +		 * installed.
+> > > > +		 */
+> > > > +		dma->submap[0].size = next;
+> > > > +		dma->num_submap = 1;
+> > > > +	}
+> > > >
+> > > >  	dma->ctrl.magic = EPF_NTB_DMA_MAGIC;
+> > > >  	dma->ctrl.revision = EPF_NTB_DMA_REVISION;
+> > > > @@ -408,7 +447,7 @@ static int epf_ntb_dw_edma_collect(struct epf_ntb *ntb,
+> > > >  		chan->desc_addr_lo = lower_32_bits(dma_addr);
+> > > >  		chan->desc_addr_hi = upper_32_bits(dma_addr);
+> > > >  	}
+> > > > -	dma->ctrl.submap.size = next;
+> > > > +	dma->ctrl.submap.size = next - dma->ctrl.submap.offset;
+> > > >
+> > > >  	dma_dev = ntb->epf->epc->dev.parent;
+> > > >  	for (i = 0; i < dma->rd_ch_cnt; i++) {
+> > > > @@ -481,6 +520,8 @@ static int epf_ntb_dma_collect(struct epf_ntb *ntb)
+> > > >  	if (!dma)
+> > > >  		return -ENOMEM;
+> > > >
+> > > > +	mutex_init(&dma->lock);
+> > > > +
+> > > >  	switch (ctrl->u.dma_ctrl.reg_layout) {
+> > > >  	case PCI_EPC_AUX_DMA_REG_LAYOUT_DW_EDMA:
+> > > >  		ret = epf_ntb_dw_edma_collect(ntb, dma, ctrl, resources, count);
+> > > > @@ -551,7 +592,7 @@ static int epf_ntb_dma_bar_init(struct epf_ntb *ntb)
+> > > >  		return -EOPNOTSUPP;
+> > > >
+> > > >  	barno = ntb->epf_ntb_bar[BAR_DMA];
+> > > > -	mapped_size = dma->ctrl.submap.size;
+> > > > +	mapped_size = dma->ctrl.submap.offset + dma->ctrl.submap.size;
+> > > >  	/*
+> > > >  	 * Submaps cannot be installed until the host assigns the BAR address.
+> > > >  	 * Use address 0 for the temporary BAR Match Mode mapping, as is done
+> > > > @@ -607,21 +648,25 @@ static void epf_ntb_dma_bar_clear(struct epf_ntb *ntb)
+> > > >  	memset(bar, 0, sizeof(*bar));
+> > > >  }
+> > > >
+> > > > -static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
+> > > > +static int epf_ntb_dma_set_bar_locked(struct epf_ntb *ntb,
+> > > > +				      const dma_addr_t *mw_addr)
+> > > >  {
+> > > >  	struct pci_epf_bar_submap *old_submap;
+> > > >  	struct epf_ntb_dma *dma = ntb->dma;
+> > > >  	unsigned int old_num_submap;
+> > > >  	struct pci_epf_bar *bar;
+> > > > +	dma_addr_t old_mw_addr;
+> > > >  	int restore, ret;
+> > > > -
+> > > > -	if (!dma)
+> > > > -		return 0;
+> > > > +	lockdep_assert_held(&dma->lock);
+> > > >
+> > > >  	bar = &ntb->epf->bar[ntb->epf_ntb_bar[BAR_DMA]];
+> > > >
+> > > >  	old_submap = bar->submap;
+> > > >  	old_num_submap = bar->num_submap;
+> > > > +	if (mw_addr) {
+> > > > +		old_mw_addr = dma->submap[0].phys_addr;
+> > > > +		dma->submap[0].phys_addr = *mw_addr;
+> > > > +	}
+> > > >  	bar->submap = dma->submap;
+> > > >  	bar->num_submap = dma->num_submap;
+> > > >
+> > > > @@ -631,6 +676,8 @@ static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
+> > > >  		return 0;
+> > > >
+> > > >  	/* A failed dynamic update may have already removed the old mapping. */
+> > > > +	if (mw_addr)
+> > > > +		dma->submap[0].phys_addr = old_mw_addr;
+> > > >  	bar->submap = old_submap;
+> > > >  	bar->num_submap = old_num_submap;
+> > > >  	restore = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no,
+> > > > @@ -642,6 +689,18 @@ static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
+> > > >  	return ret;
+> > > >  }
+> > > >
+> > > > +static int epf_ntb_dma_set_bar(struct epf_ntb *ntb)
+> > > > +{
+> > > > +	struct epf_ntb_dma *dma = ntb->dma;
+> > > > +
+> > > > +	if (!dma)
+> > > > +		return 0;
+> > > > +
+> > > > +	guard(mutex)(&dma->lock);
+> > > > +
+> > > > +	return epf_ntb_dma_set_bar_locked(ntb, NULL);
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * epf_ntb_configure_mw() - Configure the Outbound Address Space for VHOST
+> > > >   *   to access the memory window of HOST
+> > > > @@ -780,6 +839,13 @@ static void epf_ntb_cmd_handler(struct work_struct *work)
+> > > >  					     EPF_NTB_COMMAND_STATUS_OK;
+> > > >  		break;
+> > > >  	case EPF_NTB_COMMAND_LINK_UP:
+> > > > +		if (ntb->dma && ntb->dma->ctrl.submap.offset &&
+> > > > +		    !(argument & EPF_NTB_LINK_UP_DMA_MW_SUPPORTED)) {
+> > > > +			epf_ntb_set_link_enabled(ntb, false);
+> > > > +			dev_err(dev, "Host does not support MW/DMA BAR sharing\n");
+> > > > +			ctrl->command_status = EPF_NTB_COMMAND_STATUS_ERROR;
+> > >
+> > > suppose it should be fallback to old method?
+> > > EPF_NTB_LINK_UP_DMA_MW_SUPPORTED is new feature.
+> >
+> > It's possible (by using the whole BAR as an MW), but I personally think the
+> > extra complexity would not really be worthwhile for this case.
+> >
+> > If a "New" endpoint is paired with an "Old" host whose kernel cannot be
+> > upgraded, the DMA feature cannot be used anyway. For that setup, I think
+> > disabling DMA export with dma_bar = -1 (the default) and rebinding the endpoint
+> > would be sufficient, with host re-enumeration as needed.
+> 
+> At least it should work without using DMA as previous version. Assume build
+> as PCIE card, which have already prebuild image, which may plug into any
+> host machine. You can't require user to rebinding endpoint software.
+> 
+> Many PCI card have not provided any console after production.
 
-Exercise work raised by the softirq-entry, softirq-exit and final
-hardirq-exit callbacks. Verify the ksoftirqd handoff and, with forced IRQ
-threading, the ktimerd-to-ksoftirqd chain.
+Makes sense. I'll send v8 including the fallback implementation shortly.
+"Compatibility matrix" in the cover letter will look like this:
 
-PREEMPT_RT does not process softirqs from IRQ exit. Skip the IRQ-exit
-inline cases and require no hardirq provenance for RT softirq events.
+  EP                              | Old host     | New host
+  --------------------------------+--------------+----------
+  Old                             | OK*          | OK*
+  New (dma_bar = -1)              | OK*          | OK*
+  New (dedicated DMA BAR)         | OK*          | OK
+  New (shared MW/DMA BAR)         | OK*          | OK
 
-Assisted-by: LLM
----
- Documentation/trace/rv/monitor_irqentry.rst   |  40 +-
- .../rv/monitors/irqstate/irqstate_kunit.c     | 443 +++++++++++++++++-
- kernel/trace/rv/rv_monitors_test.c            |   2 +
- 3 files changed, 470 insertions(+), 15 deletions(-)
+  *  NTB works without DMA.
 
-diff --git a/Documentation/trace/rv/monitor_irqentry.rst b/Documentation/trace/rv/monitor_irqentry.rst
-index c2b7739a061f0..5d293207b6491 100644
---- a/Documentation/trace/rv/monitor_irqentry.rst
-+++ b/Documentation/trace/rv/monitor_irqentry.rst
-@@ -269,20 +269,32 @@ overflow.
- ``rv_test_irqstate_sync`` resets and enables the bare adapter inside single
- and nested hardirq contexts, inside a real serving-softirq callback, and
- inside a hardirq interrupting that callback. Valid unwinding must establish
--idle without a reaction. A separate unmatched exit must then react exactly
--once. The softirq cases snapshot reactions before the invalid control, so
--an error on the valid sequence cannot replace the expected later error.
--These are adapter synchronization tests, not concurrent tracefs writes.
-+idle without a reaction. On non-RT, it also enables between hardirq entry
-+and inline softirq processing. The provenance-marked softirq pair must
-+remain unsynchronized until the final hardirq exit establishes idle. A
-+separate unmatched exit must then react exactly once. The softirq cases
-+snapshot reactions before the invalid control, so an error on the valid
-+sequence cannot replace the expected later error. These are adapter
-+synchronization tests, not concurrent tracefs writes.
- 
- ``rv_test_irqstate_irq_exit_inline`` schedules a tasklet inside a real generic
- hardirq boundary and requires non-RT ``irq_exit_rcu()`` to process it before
--returning. Independent boundary probes require exactly one softirq entry
--before the tasklet and one exit afterward. The callback must run in the same
--task and on the same CPU with interrupts enabled and serving-softirq state set,
--but outside hardirq context; the monitor must accept both context pairs and
--the original counts must be restored. If the kernel diverts the tasklet to
--ksoftirqd, for example under forced IRQ threading, the test drains it and
--skips because that configuration does not provide the inline path.
-+returning. Independent probes require hardirq entry, softirq entry, softirq
-+exit, and final hardirq exit in that order. Both softirq events must report
-+hardirq provenance. The entry callback raises a high-priority tasklet and
-+requires it to run in the same interval, so entry-created work cannot be lost
-+by the initial pending-bit clear. The exit callback raises another tasklet and
-+requires the late ksoftirqd handoff. If the kernel diverts the original
-+tasklet to ksoftirqd, for example under forced IRQ threading, the test drains
-+it and skips because that configuration does not provide the inline path.
-+
-+``rv_test_irqstate_hardirq_exit_handoff`` raises a tasklet from the final
-+hardirq-exit event. It requires the pending bit to remain set and ksoftirqd to
-+be runnable before interrupts are restored. The corresponding forced-thread
-+timer test raises timer work at the same event. The ktimerd wakeup callback
-+then raises a tasklet. Both workers must be runnable before interrupts are
-+restored, which checks the finite ksoftirqd, ktimerd, ksoftirqd closure. The
-+test skips when forced IRQ threading is unavailable.
- 
- ``rv_test_irqstate_rt_inline_bh`` forces a pending tasklet through the
- PREEMPT_RT ``local_bh_enable()`` inline-processing path. It requires the
-@@ -290,13 +302,15 @@ tasklet to finish synchronously in the enabling task, on the same CPU, while
- serving-softirq state is set and local interrupts are enabled. Independent
- boundary probes require exactly one entry before the callback and one exit
- afterward, both with local interrupts disabled and live serving state set;
--the monitor must accept the pair and the original counts must be restored.
-+both must report no hardirq provenance. The monitor must accept the pair and
-+the original counts must be restored.
- 
- ``rv_test_irqstate_rt_empty_worker`` uses a KUnit-only seam around the same
- PREEMPT_RT worker entry and exit helpers, without calling
- ``handle_softirqs()``. It requires exactly one accepted context pair and no
- ``softirq_entry`` or ``softirq_exit`` action from the synthetic owner between
--those boundaries. The seam wakes ksoftirqd while interrupts are disabled so
-+those boundaries. Both events must report no hardirq provenance. The seam
-+wakes ksoftirqd while interrupts are disabled so
- pending work which races with the test remains scheduled. This
- deterministically covers the owner's no-handler interval; it does not invoke
- the smpboot predicate or prove that the current task is the real ksoftirqd
-diff --git a/kernel/trace/rv/monitors/irqstate/irqstate_kunit.c b/kernel/trace/rv/monitors/irqstate/irqstate_kunit.c
-index e3928d10b2825..31e827cdba1c6 100644
---- a/kernel/trace/rv/monitors/irqstate/irqstate_kunit.c
-+++ b/kernel/trace/rv/monitors/irqstate/irqstate_kunit.c
-@@ -13,6 +13,7 @@
- #include <rv/kunit.h>
- #include <rv_trace.h>
- #include <trace/events/irq.h>
-+#include <trace/events/sched.h>
- 
- #include "irqstate_kunit.h"
- 
-@@ -510,6 +511,44 @@ static void rv_test_irqstate(struct kunit *test)
- 	local_irq_restore(flags);
- 	RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[0], 0);
- 
-+	/* PREEMPT_RT never serves softirqs from irq_exit(). */
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
-+		/* Softirq processing replaces and then restores hardirq state. */
-+		local_irq_save(flags);
-+		__irq_enter_raw();
-+		rv_irqstate_ops.handle_hardirq_entry(NULL, 1);
-+		__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		rv_irqstate_ops.handle_softirq_entry(NULL, true, true);
-+		__irq_enter_raw();
-+		rv_irqstate_ops.handle_hardirq_entry(NULL, 1);
-+		rv_irqstate_ops.handle_hardirq_exit(NULL, 1);
-+		__irq_exit_raw();
-+		rv_irqstate_ops.handle_softirq_exit(NULL, true, true);
-+		__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		rv_irqstate_ops.handle_hardirq_exit(NULL, 1);
-+		reactions[0] = READ_ONCE(ctx->reactions);
-+		__irq_exit_raw();
-+		local_irq_restore(flags);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[0], 0);
-+
-+		/* Provenance selects the transition which returns to hardirq. */
-+		local_irq_save(flags);
-+		__irq_enter_raw();
-+		rv_irqstate_ops.handle_hardirq_entry(NULL, 1);
-+		__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		reactions[0] = READ_ONCE(ctx->reactions);
-+		rv_irqstate_ops.handle_softirq_entry(NULL, true, false);
-+		reactions[1] = READ_ONCE(ctx->reactions);
-+		__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		rv_irqstate_ops.handle_hardirq_exit(NULL, 1);
-+		reactions[2] = READ_ONCE(ctx->reactions);
-+		__irq_exit_raw();
-+		local_irq_restore(flags);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[0], 0);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[1], 1);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[2], 0);
-+	}
-+
- 	/* A second outer entry is not a nested interrupt. */
- 	local_irq_save(flags);
- 	__irq_enter_raw();
-@@ -811,6 +850,32 @@ static void rv_test_irqstate_sync(struct kunit *test)
- 		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[2], 1);
- 	}
- 
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
-+		/* A mid-hardirq attach ignores softirq and syncs at H-exit. */
-+		local_irq_save(flags);
-+		mon->enabled = 0;
-+		__irq_enter_raw();
-+		rv_irqstate_ops.handle_hardirq_entry(NULL, 1);
-+		mon->reset();
-+		mon->enabled = 1;
-+		__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		rv_irqstate_ops.handle_softirq_entry(NULL, true, true);
-+		rv_irqstate_ops.handle_softirq_exit(NULL, true, true);
-+		__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
-+		rv_irqstate_ops.handle_hardirq_exit(NULL, 1);
-+		__irq_exit_raw();
-+		reactions[0] = READ_ONCE(ctx->reactions);
-+		__irq_enter_raw();
-+		reactions[1] = READ_ONCE(ctx->reactions);
-+		rv_irqstate_ops.handle_hardirq_exit(NULL, 1);
-+		reactions[2] = READ_ONCE(ctx->reactions);
-+		__irq_exit_raw();
-+		local_irq_restore(flags);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[0], 0);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[1], 0);
-+		RV_KUNIT_EXPECT_OBSERVED(test, ctx, reactions[2], 1);
-+	}
-+
- 	expected = ctx->expected;
- 	completed = run_irqstate_softirq_case(IRQSTATE_SOFTIRQ_SYNC, &rx_at_sync);
- 	KUNIT_ASSERT_TRUE(test, completed);
-@@ -838,20 +903,31 @@ struct irqstate_preempt_ctx {
- 
- struct irqstate_inline_bh_ctx {
- 	struct tasklet_struct tasklet;
-+	struct tasklet_struct entry_tasklet;
- 	struct tasklet_struct exit_tasklet;
- 	struct task_struct *owner;
- 	struct task_struct *softirqd;
- 	int owner_cpu;
- 	unsigned int entries;
- 	unsigned int exits;
-+	unsigned int hardirq_entries;
-+	unsigned int hardirq_exits;
-+	unsigned int event_index;
- 	unsigned int tasklet_runs;
-+	unsigned int entry_tasklet_runs;
- 	unsigned int exit_tasklet_runs;
- 	bool armed;
-+	bool raise_on_entry;
- 	bool raise_on_exit;
-+	bool expected_from_hardirq;
-+	bool entry_from_hardirq;
-+	bool exit_from_hardirq;
- 	bool exit_tasklet_pending;
- 	bool softirqd_already_runnable;
- 	bool bad_boundary_context;
- 	bool bad_boundary_cpu;
-+	bool bad_provenance;
-+	bool bad_order;
- 	bool tasklet_serving;
- 	bool tasklet_same_task;
- 	bool tasklet_same_cpu;
-@@ -860,6 +936,8 @@ struct irqstate_inline_bh_ctx {
- 	bool tasklet_bracketed;
- 	bool entry_attached;
- 	bool exit_attached;
-+	bool hardirq_entry_attached;
-+	bool hardirq_exit_attached;
- };
- 
- struct irqstate_empty_worker_ctx {
-@@ -883,6 +961,19 @@ struct irqstate_empty_worker_ctx {
- 	bool action_exit_attached;
- };
- 
-+struct irqstate_hardirq_exit_ctx {
-+	struct tasklet_struct tasklet;
-+	struct task_struct *owner;
-+	struct task_struct *softirqd;
-+	int owner_cpu;
-+	bool armed;
-+	bool callback_seen;
-+	bool tasklet_pending;
-+	bool softirqd_already_runnable;
-+	bool bad_context;
-+	bool attached;
-+};
-+
- static bool irqstate_empty_worker_matches(struct irqstate_empty_worker_ctx *empty_ctx)
- {
- 	/* Pairs with owner publication in both empty-worker test paths. */
-@@ -893,6 +984,39 @@ static bool irqstate_empty_worker_matches(struct irqstate_empty_worker_ctx *empt
- 	return !empty_ctx->real_worker || softirq_kunit_empty_worker_active();
- }
- 
-+static void irqstate_inline_hardirq_entry(void *data, unsigned int depth)
-+{
-+	struct irqstate_inline_bh_ctx *inline_ctx = data;
-+
-+	/* Inline softirq processing enables IRQs; ignore a nested real IRQ. */
-+	if (!READ_ONCE(inline_ctx->armed) || current != inline_ctx->owner ||
-+	    depth != 1)
-+		return;
-+	inline_ctx->hardirq_entries++;
-+	if (inline_ctx->event_index != 0)
-+		inline_ctx->bad_order = true;
-+	inline_ctx->event_index++;
-+	if (hardirq_count() != HARDIRQ_OFFSET || in_serving_softirq() ||
-+	    !irqs_disabled())
-+		inline_ctx->bad_boundary_context = true;
-+}
-+
-+static void irqstate_inline_hardirq_exit(void *data, unsigned int depth)
-+{
-+	struct irqstate_inline_bh_ctx *inline_ctx = data;
-+
-+	if (!READ_ONCE(inline_ctx->armed) || current != inline_ctx->owner ||
-+	    depth != 1)
-+		return;
-+	inline_ctx->hardirq_exits++;
-+	if (inline_ctx->event_index != 3)
-+		inline_ctx->bad_order = true;
-+	inline_ctx->event_index++;
-+	if (hardirq_count() != HARDIRQ_OFFSET || in_serving_softirq() ||
-+	    !irqs_disabled())
-+		inline_ctx->bad_boundary_context = true;
-+}
-+
- static void irqstate_inline_bh_entry(void *data, bool serving,
- 				     bool from_hardirq)
- {
-@@ -901,10 +1025,21 @@ static void irqstate_inline_bh_entry(void *data, bool serving,
- 	if (!READ_ONCE(inline_ctx->armed) || current != inline_ctx->owner)
- 		return;
- 	inline_ctx->entries++;
-+	if (inline_ctx->event_index !=
-+	    (inline_ctx->expected_from_hardirq ? 1 : 0))
-+		inline_ctx->bad_order = true;
-+	inline_ctx->event_index++;
-+	inline_ctx->entry_from_hardirq = from_hardirq;
- 	if (!serving || !in_serving_softirq() || !irqs_disabled())
- 		inline_ctx->bad_boundary_context = true;
-+	if (from_hardirq != inline_ctx->expected_from_hardirq)
-+		inline_ctx->bad_provenance = true;
- 	if (raw_smp_processor_id() != inline_ctx->owner_cpu)
- 		inline_ctx->bad_boundary_cpu = true;
-+	if (READ_ONCE(inline_ctx->raise_on_entry)) {
-+		WRITE_ONCE(inline_ctx->raise_on_entry, false);
-+		tasklet_hi_schedule(&inline_ctx->entry_tasklet);
-+	}
- }
- 
- static void irqstate_inline_bh_exit(void *data, bool serving,
-@@ -915,8 +1050,15 @@ static void irqstate_inline_bh_exit(void *data, bool serving,
- 	if (!READ_ONCE(inline_ctx->armed) || current != inline_ctx->owner)
- 		return;
- 	inline_ctx->exits++;
-+	if (inline_ctx->event_index !=
-+	    (inline_ctx->expected_from_hardirq ? 2 : 1))
-+		inline_ctx->bad_order = true;
-+	inline_ctx->event_index++;
-+	inline_ctx->exit_from_hardirq = from_hardirq;
- 	if (!serving || !in_serving_softirq() || !irqs_disabled())
- 		inline_ctx->bad_boundary_context = true;
-+	if (from_hardirq != inline_ctx->expected_from_hardirq)
-+		inline_ctx->bad_provenance = true;
- 	if (raw_smp_processor_id() != inline_ctx->owner_cpu)
- 		inline_ctx->bad_boundary_cpu = true;
- 	if (READ_ONCE(inline_ctx->raise_on_exit)) {
-@@ -949,6 +1091,14 @@ static void irqstate_inline_bh_exit_tasklet(struct tasklet_struct *tasklet)
- 	inline_ctx->exit_tasklet_runs++;
- }
- 
-+static void irqstate_inline_bh_entry_tasklet(struct tasklet_struct *tasklet)
-+{
-+	struct irqstate_inline_bh_ctx *inline_ctx;
-+
-+	inline_ctx = from_tasklet(inline_ctx, tasklet, entry_tasklet);
-+	inline_ctx->entry_tasklet_runs++;
-+}
-+
- static void irqstate_inline_bh_kill(void *data)
- {
- 	struct irqstate_inline_bh_ctx *inline_ctx = data;
-@@ -961,6 +1111,7 @@ static void irqstate_inline_bh_kill_all(void *data)
- 	struct irqstate_inline_bh_ctx *inline_ctx = data;
- 
- 	tasklet_kill(&inline_ctx->tasklet);
-+	tasklet_kill(&inline_ctx->entry_tasklet);
- 	tasklet_kill(&inline_ctx->exit_tasklet);
- }
- 
-@@ -969,6 +1120,12 @@ static void irqstate_inline_bh_detach(void *data)
- 	struct irqstate_inline_bh_ctx *inline_ctx = data;
- 
- 	WRITE_ONCE(inline_ctx->armed, false);
-+	if (inline_ctx->hardirq_exit_attached)
-+		unregister_trace_hardirq_context_exit(
-+			irqstate_inline_hardirq_exit, inline_ctx);
-+	if (inline_ctx->hardirq_entry_attached)
-+		unregister_trace_hardirq_context_entry(
-+			irqstate_inline_hardirq_entry, inline_ctx);
- 	if (inline_ctx->entry_attached)
- 		unregister_trace_softirq_context_entry(irqstate_inline_bh_entry, inline_ctx);
- 	if (inline_ctx->exit_attached)
-@@ -976,6 +1133,248 @@ static void irqstate_inline_bh_detach(void *data)
- 	tracepoint_synchronize_unregister();
- }
- 
-+static void irqstate_hardirq_exit_tasklet(struct tasklet_struct *tasklet)
-+{
-+	(void)tasklet;
-+}
-+
-+static void irqstate_hardirq_exit_raise(void *data, unsigned int depth)
-+{
-+	struct irqstate_hardirq_exit_ctx *exit_ctx = data;
-+
-+	if (!READ_ONCE(exit_ctx->armed) || current != exit_ctx->owner)
-+		return;
-+	exit_ctx->callback_seen = true;
-+	if (depth != 1 || hardirq_count() != HARDIRQ_OFFSET ||
-+	    in_serving_softirq() || !irqs_disabled() ||
-+	    raw_smp_processor_id() != exit_ctx->owner_cpu)
-+		exit_ctx->bad_context = true;
-+	tasklet_schedule(&exit_ctx->tasklet);
-+}
-+
-+static void irqstate_hardirq_exit_cleanup(void *data)
-+{
-+	struct irqstate_hardirq_exit_ctx *exit_ctx = data;
-+
-+	WRITE_ONCE(exit_ctx->armed, false);
-+	if (exit_ctx->attached)
-+		unregister_trace_hardirq_context_exit(
-+			irqstate_hardirq_exit_raise, exit_ctx);
-+	tracepoint_synchronize_unregister();
-+	tasklet_kill(&exit_ctx->tasklet);
-+}
-+
-+/* Work first raised at the final hardirq boundary must reach ksoftirqd. */
-+static void rv_test_irqstate_hardirq_exit_handoff(struct kunit *test)
-+{
-+	struct irqstate_hardirq_exit_ctx *exit_ctx;
-+	struct rv_kunit_ctx *ctx = test->priv;
-+	unsigned long flags;
-+	int ret;
-+
-+	prepare_test(test, &rv_irqstate_ops.mon);
-+	guard(migrate)();
-+	exit_ctx = kunit_kzalloc(test, sizeof(*exit_ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, exit_ctx);
-+	tasklet_setup(&exit_ctx->tasklet, irqstate_hardirq_exit_tasklet);
-+	exit_ctx->owner = current;
-+	exit_ctx->owner_cpu = raw_smp_processor_id();
-+	exit_ctx->softirqd = this_cpu_ksoftirqd();
-+	KUNIT_ASSERT_NOT_NULL(test, exit_ctx->softirqd);
-+	if (local_softirq_pending() ||
-+	    !wait_task_inactive(exit_ctx->softirqd, TASK_INTERRUPTIBLE)) {
-+		kunit_skip(test, "Requires an idle local ksoftirqd");
-+		return;
-+	}
-+
-+	ret = register_trace_hardirq_context_exit(
-+		irqstate_hardirq_exit_raise, exit_ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	exit_ctx->attached = true;
-+	KUNIT_ASSERT_EQ(test, 0,
-+			kunit_add_action_or_reset(test,
-+						  irqstate_hardirq_exit_cleanup,
-+						  exit_ctx));
-+	attach_irqstate_test_probes();
-+	KUNIT_ASSERT_EQ(test, 0,
-+			kunit_add_action_or_reset(test, detach_irqstate_test_probes,
-+						  NULL));
-+
-+	local_irq_save(flags);
-+	if (local_softirq_pending() || task_is_running(exit_ctx->softirqd)) {
-+		local_irq_restore(flags);
-+		kunit_skip(test, "Local ksoftirqd stopped being idle");
-+		return;
-+	}
-+	WRITE_ONCE(exit_ctx->armed, true);
-+	irq_enter_rcu();
-+	irq_exit_rcu();
-+	exit_ctx->tasklet_pending =
-+		!!(local_softirq_pending() & BIT(TASKLET_SOFTIRQ));
-+	exit_ctx->softirqd_already_runnable =
-+		!wake_up_process(exit_ctx->softirqd);
-+	WRITE_ONCE(exit_ctx->armed, false);
-+	local_irq_restore(flags);
-+
-+	kunit_release_action(test, irqstate_hardirq_exit_cleanup, exit_ctx);
-+	KUNIT_EXPECT_TRUE(test, exit_ctx->callback_seen);
-+	KUNIT_EXPECT_TRUE(test, exit_ctx->tasklet_pending);
-+	KUNIT_EXPECT_TRUE(test, exit_ctx->softirqd_already_runnable);
-+	KUNIT_EXPECT_FALSE(test, exit_ctx->bad_context);
-+	RV_KUNIT_EXPECT_NO_REACTION(test, ctx);
-+}
-+
-+#ifdef CONFIG_IRQ_FORCED_THREADING
-+struct irqstate_timer_exit_ctx {
-+	struct tasklet_struct tasklet;
-+	struct task_struct *owner;
-+	struct task_struct *softirqd;
-+	struct task_struct *timersd;
-+	int owner_cpu;
-+	bool armed;
-+	bool callback_seen;
-+	bool timer_wakeup_seen;
-+	bool timer_pending;
-+	bool tasklet_pending;
-+	bool softirqd_already_runnable;
-+	bool timersd_already_runnable;
-+	bool bad_context;
-+	bool hardirq_exit_attached;
-+	bool sched_waking_attached;
-+};
-+
-+static void irqstate_timer_exit_tasklet(struct tasklet_struct *tasklet)
-+{
-+	(void)tasklet;
-+}
-+
-+static void irqstate_timer_exit_raise(void *data, unsigned int depth)
-+{
-+	struct irqstate_timer_exit_ctx *timer_ctx = data;
-+
-+	if (!READ_ONCE(timer_ctx->armed) || current != timer_ctx->owner)
-+		return;
-+	timer_ctx->callback_seen = true;
-+	if (depth != 1 || hardirq_count() != HARDIRQ_OFFSET ||
-+	    in_serving_softirq() || !irqs_disabled() ||
-+	    raw_smp_processor_id() != timer_ctx->owner_cpu)
-+		timer_ctx->bad_context = true;
-+	raise_ktimers_thread(TIMER_SOFTIRQ);
-+}
-+
-+static void irqstate_timer_sched_waking(void *data, struct task_struct *task)
-+{
-+	struct irqstate_timer_exit_ctx *timer_ctx = data;
-+
-+	if (!READ_ONCE(timer_ctx->armed) || task != timer_ctx->timersd)
-+		return;
-+	timer_ctx->timer_wakeup_seen = true;
-+	if (current != timer_ctx->owner || !irqs_disabled() ||
-+	    raw_smp_processor_id() != timer_ctx->owner_cpu)
-+		timer_ctx->bad_context = true;
-+	tasklet_schedule(&timer_ctx->tasklet);
-+}
-+
-+static void irqstate_timer_exit_detach(void *data)
-+{
-+	struct irqstate_timer_exit_ctx *timer_ctx = data;
-+
-+	WRITE_ONCE(timer_ctx->armed, false);
-+	if (timer_ctx->sched_waking_attached)
-+		unregister_trace_sched_waking(irqstate_timer_sched_waking,
-+					      timer_ctx);
-+	if (timer_ctx->hardirq_exit_attached)
-+		unregister_trace_hardirq_context_exit(
-+			irqstate_timer_exit_raise, timer_ctx);
-+	tracepoint_synchronize_unregister();
-+	tasklet_kill(&timer_ctx->tasklet);
-+}
-+
-+/* Late timer-wakeup work must reach ktimerd and then ksoftirqd. */
-+static void rv_test_irqstate_hardirq_exit_timer_handoff(struct kunit *test)
-+{
-+	struct irqstate_timer_exit_ctx *timer_ctx;
-+	struct rv_kunit_ctx *ctx = test->priv;
-+	unsigned long flags;
-+	int ret;
-+
-+	if (!force_irqthreads()) {
-+		kunit_skip(test, "Requires forced IRQ threading");
-+		return;
-+	}
-+
-+	prepare_test(test, &rv_irqstate_ops.mon);
-+	guard(migrate)();
-+	timer_ctx = kunit_kzalloc(test, sizeof(*timer_ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, timer_ctx);
-+	tasklet_setup(&timer_ctx->tasklet, irqstate_timer_exit_tasklet);
-+	timer_ctx->owner = current;
-+	timer_ctx->owner_cpu = raw_smp_processor_id();
-+	timer_ctx->softirqd = this_cpu_ksoftirqd();
-+	timer_ctx->timersd = this_cpu_read(ktimerd);
-+	KUNIT_ASSERT_NOT_NULL(test, timer_ctx->softirqd);
-+	KUNIT_ASSERT_NOT_NULL(test, timer_ctx->timersd);
-+	if (local_softirq_pending() || local_timers_pending_force_th() ||
-+	    !wait_task_inactive(timer_ctx->softirqd, TASK_INTERRUPTIBLE) ||
-+	    !wait_task_inactive(timer_ctx->timersd, TASK_INTERRUPTIBLE)) {
-+		kunit_skip(test, "Requires idle local softirq workers");
-+		return;
-+	}
-+
-+	ret = register_trace_hardirq_context_exit(
-+		irqstate_timer_exit_raise, timer_ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	timer_ctx->hardirq_exit_attached = true;
-+	KUNIT_ASSERT_EQ(test, 0,
-+			kunit_add_action_or_reset(test, irqstate_timer_exit_detach,
-+						  timer_ctx));
-+	ret = register_trace_sched_waking(irqstate_timer_sched_waking, timer_ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	timer_ctx->sched_waking_attached = true;
-+	attach_irqstate_test_probes();
-+	KUNIT_ASSERT_EQ(test, 0,
-+			kunit_add_action_or_reset(test, detach_irqstate_test_probes,
-+						  NULL));
-+
-+	local_irq_save(flags);
-+	if (local_softirq_pending() || local_timers_pending_force_th() ||
-+	    task_is_running(timer_ctx->softirqd) ||
-+	    task_is_running(timer_ctx->timersd)) {
-+		local_irq_restore(flags);
-+		kunit_skip(test, "Local softirq worker stopped being idle");
-+		return;
-+	}
-+	WRITE_ONCE(timer_ctx->armed, true);
-+	irq_enter_rcu();
-+	irq_exit_rcu();
-+	timer_ctx->timer_pending =
-+		!!(local_timers_pending_force_th() & BIT(TIMER_SOFTIRQ));
-+	timer_ctx->tasklet_pending =
-+		!!(local_softirq_pending() & BIT(TASKLET_SOFTIRQ));
-+	timer_ctx->timersd_already_runnable =
-+		!wake_up_process(timer_ctx->timersd);
-+	timer_ctx->softirqd_already_runnable =
-+		!wake_up_process(timer_ctx->softirqd);
-+	WRITE_ONCE(timer_ctx->armed, false);
-+	local_irq_restore(flags);
-+
-+	kunit_release_action(test, irqstate_timer_exit_detach, timer_ctx);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->callback_seen);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->timer_wakeup_seen);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->timer_pending);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->tasklet_pending);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->timersd_already_runnable);
-+	KUNIT_EXPECT_TRUE(test, timer_ctx->softirqd_already_runnable);
-+	KUNIT_EXPECT_FALSE(test, timer_ctx->bad_context);
-+	RV_KUNIT_EXPECT_NO_REACTION(test, ctx);
-+}
-+#else
-+static void rv_test_irqstate_hardirq_exit_timer_handoff(struct kunit *test)
-+{
-+	kunit_skip(test, "Requires forced IRQ threading");
-+}
-+#endif
-+
- /* Exercise non-RT inline softirq processing from a real hardirq exit. */
- static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- {
-@@ -995,8 +1394,11 @@ static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- 	inline_ctx = kunit_kzalloc(test, sizeof(*inline_ctx), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, inline_ctx);
- 	tasklet_setup(&inline_ctx->tasklet, irqstate_inline_bh_tasklet);
-+	tasklet_setup(&inline_ctx->entry_tasklet,
-+		      irqstate_inline_bh_entry_tasklet);
- 	tasklet_setup(&inline_ctx->exit_tasklet,
- 		      irqstate_inline_bh_exit_tasklet);
-+	inline_ctx->expected_from_hardirq = true;
- 	KUNIT_ASSERT_EQ(test, 0,
- 			kunit_add_action_or_reset(test, irqstate_inline_bh_kill_all,
- 						  inline_ctx));
-@@ -1008,6 +1410,14 @@ static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, 0,
- 			kunit_add_action_or_reset(test, irqstate_inline_bh_detach,
- 						  inline_ctx));
-+	ret = register_trace_hardirq_context_entry(
-+		irqstate_inline_hardirq_entry, inline_ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	inline_ctx->hardirq_entry_attached = true;
-+	ret = register_trace_hardirq_context_exit(
-+		irqstate_inline_hardirq_exit, inline_ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	inline_ctx->hardirq_exit_attached = true;
- 	ret = register_trace_softirq_context_exit(irqstate_inline_bh_exit,
- 						  inline_ctx);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
-@@ -1039,6 +1449,7 @@ static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- 		return;
- 	}
- 	WRITE_ONCE(inline_ctx->armed, true);
-+	WRITE_ONCE(inline_ctx->raise_on_entry, true);
- 	WRITE_ONCE(inline_ctx->raise_on_exit, true);
- 	irq_enter_rcu();
- 	tasklet_schedule(&inline_ctx->tasklet);
-@@ -1063,6 +1474,7 @@ static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- 	}
- 
- 	KUNIT_EXPECT_EQ(test, inline_ctx->tasklet_runs, 1U);
-+	KUNIT_EXPECT_EQ(test, inline_ctx->entry_tasklet_runs, 1U);
- 	KUNIT_EXPECT_TRUE(test, inline_ctx->tasklet_serving);
- 	KUNIT_EXPECT_TRUE(test, inline_ctx->tasklet_same_task);
- 	KUNIT_EXPECT_TRUE(test, inline_ctx->tasklet_same_cpu);
-@@ -1074,8 +1486,15 @@ static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, inline_ctx->exit_tasklet_runs, 1U);
- 	KUNIT_EXPECT_EQ(test, inline_ctx->entries, 1U);
- 	KUNIT_EXPECT_EQ(test, inline_ctx->exits, 1U);
-+	KUNIT_EXPECT_EQ(test, inline_ctx->hardirq_entries, 1U);
-+	KUNIT_EXPECT_EQ(test, inline_ctx->hardirq_exits, 1U);
-+	KUNIT_EXPECT_EQ(test, inline_ctx->event_index, 4U);
-+	KUNIT_EXPECT_TRUE(test, inline_ctx->entry_from_hardirq);
-+	KUNIT_EXPECT_TRUE(test, inline_ctx->exit_from_hardirq);
- 	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_boundary_context);
- 	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_boundary_cpu);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_provenance);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_order);
- 	KUNIT_EXPECT_EQ(test, preempt_count(), saved_count);
- 	KUNIT_EXPECT_EQ(test, softirq_count(), saved_softirq);
- 	RV_KUNIT_EXPECT_NO_REACTION(test, ctx);
-@@ -1105,6 +1524,7 @@ static void rv_test_irqstate_rt_inline_bh(struct kunit *test)
- 	inline_ctx = kunit_kzalloc(test, sizeof(*inline_ctx), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, inline_ctx);
- 	inline_ctx->owner = current;
-+	inline_ctx->expected_from_hardirq = false;
- 	tasklet_setup(&inline_ctx->tasklet, irqstate_inline_bh_tasklet);
- 	KUNIT_ASSERT_EQ(test, 0,
- 			kunit_add_action_or_reset(test, irqstate_inline_bh_kill,
-@@ -1144,8 +1564,13 @@ static void rv_test_irqstate_rt_inline_bh(struct kunit *test)
- 	KUNIT_EXPECT_TRUE(test, inline_ctx->tasklet_bracketed);
- 	KUNIT_EXPECT_EQ(test, inline_ctx->entries, 1U);
- 	KUNIT_EXPECT_EQ(test, inline_ctx->exits, 1U);
-+	KUNIT_EXPECT_EQ(test, inline_ctx->event_index, 2U);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->entry_from_hardirq);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->exit_from_hardirq);
- 	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_boundary_context);
- 	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_boundary_cpu);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_provenance);
-+	KUNIT_EXPECT_FALSE(test, inline_ctx->bad_order);
- 	KUNIT_EXPECT_EQ(test, preempt_count(), saved_count);
- 	KUNIT_EXPECT_EQ(test, softirq_count(), saved_softirq);
- 	RV_KUNIT_EXPECT_NO_REACTION(test, ctx);
-@@ -1170,7 +1595,8 @@ static void irqstate_empty_worker_entry(void *data, bool serving,
- 		empty_ctx->bad_order = true;
- 	empty_ctx->event_index++;
- 	empty_ctx->inside_pair = true;
--	if (!serving || !in_serving_softirq() || !irqs_disabled())
-+	if (!serving || from_hardirq || !in_serving_softirq() ||
-+	    !irqs_disabled())
- 		empty_ctx->bad_boundary_context = true;
- 	if (raw_smp_processor_id() != READ_ONCE(empty_ctx->owner_cpu))
- 		empty_ctx->bad_boundary_cpu = true;
-@@ -1187,7 +1613,8 @@ static void irqstate_empty_worker_exit(void *data, bool serving,
- 	if (empty_ctx->event_index != 1 || !empty_ctx->inside_pair)
- 		empty_ctx->bad_order = true;
- 	empty_ctx->event_index++;
--	if (!serving || !in_serving_softirq() || !irqs_disabled())
-+	if (!serving || from_hardirq || !in_serving_softirq() ||
-+	    !irqs_disabled())
- 		empty_ctx->bad_boundary_context = true;
- 	if (raw_smp_processor_id() != READ_ONCE(empty_ctx->owner_cpu))
- 		empty_ctx->bad_boundary_cpu = true;
-@@ -1570,6 +1997,16 @@ static void rv_test_irqstate_rt_prepare_switch(struct kunit *test)
- }
- 
- #else
-+static void rv_test_irqstate_hardirq_exit_handoff(struct kunit *test)
-+{
-+	kunit_skip(test, "Requires built-in RV tests");
-+}
-+
-+static void rv_test_irqstate_hardirq_exit_timer_handoff(struct kunit *test)
-+{
-+	kunit_skip(test, "Requires built-in RV tests");
-+}
-+
- static void rv_test_irqstate_irq_exit_inline(struct kunit *test)
- {
- 	kunit_skip(test, "Requires built-in RV tests");
-@@ -1613,6 +2050,8 @@ static void rv_test_irqstate_rt_prepare_switch(struct kunit *test)
- #define rv_test_irqstate_depth_overflow rv_test_stub
- #define rv_test_irqstate_sync rv_test_stub
- #define rv_test_irqstate_live_toggle rv_test_stub
-+#define rv_test_irqstate_hardirq_exit_handoff rv_test_stub
-+#define rv_test_irqstate_hardirq_exit_timer_handoff rv_test_stub
- #define rv_test_irqstate_irq_exit_inline rv_test_stub
- #define rv_test_irqstate_rt_inline_bh rv_test_stub
- #define rv_test_irqstate_rt_empty_worker rv_test_stub
-diff --git a/kernel/trace/rv/rv_monitors_test.c b/kernel/trace/rv/rv_monitors_test.c
-index be3aaae2613a8..0e2d693673cc3 100644
---- a/kernel/trace/rv/rv_monitors_test.c
-+++ b/kernel/trace/rv/rv_monitors_test.c
-@@ -167,6 +167,8 @@ static struct kunit_case rv_mon_test_cases[] = {
- 	KUNIT_CASE(rv_test_irqstate_depth_overflow),
- 	KUNIT_CASE(rv_test_irqstate_sync),
- 	KUNIT_CASE(rv_test_irqstate_live_toggle),
-+	KUNIT_CASE(rv_test_irqstate_hardirq_exit_handoff),
-+	KUNIT_CASE(rv_test_irqstate_hardirq_exit_timer_handoff),
- 	KUNIT_CASE(rv_test_irqstate_irq_exit_inline),
- 	KUNIT_CASE(rv_test_irqstate_rt_inline_bh),
- 	KUNIT_CASE(rv_test_irqstate_rt_empty_worker),
--- 
-2.39.5 (Apple Git-154)
+Thanks for the review!
 
+Best regards,
+Koichiro Den
+
+> 
+> Frank
