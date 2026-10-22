@@ -1,91 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.147.23.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792670468;
-	b=f70Jzw1Y4ix99QZoqcgSsNSxt6MtNUoHr2kTbhZvXq7kfS+rQvcptfUNM9w32We+c64Y
-	 SGNEGAVL6vlYafQD9bGExTfSemrpfxdILKkPHCOIHwk/0yzDish09X/4AJGy30gI8TmLN
-	 hifuFHQ+3OZFpx8tuZF++F8iU214oqaxcsU+/MBQZpeU2N3j/k+LINce+2F4vnU175jAk
-	 1Ln/tM/vIQMfXeZosR0vXxyaZF+MPe2fqEm1N2uDXLnZziHZYAdVH4TmaERZ6azW8/twm
-	 b9RFDzjdIh42JGyq583PSrY4X58fT4POAi/D9JsKzKLyQ46wg5DFb2IQk4TcuQ92xbA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792670468;
-	h=DMARC-Filter:Received:X-Original-SENDERIP:X-Original-MAILFROM:
-	 Received:X-Original-SENDERIP:X-Original-MAILFROM:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=s4DjmkflJ85sDaL3EcGa6JYsCik1zYKmblb+K5Ua+5E=;
-	b=Uw7E8zejXJ/kPqe/QYU/sfjoAW8xDghGwf3TWykXbA9IN5OaDNPDXoMuCRxIQggKZnaj
-	 LtfALUZFkEhJyCKBCwZM4tRmg8DefmOwaiO+Cdv2M9C47xxZe8jexAC0uZuYfTblRNQRz
-	 oz7iYYI0ROgJ7cDpISmJ7jqAFDwn+w8LxbXzx3AStwlmnwLJTwITmrMjLKFuEyO0xcdN3
-	 EqLRaeSV7bIyXP8O1x+p5SDWeq4OERHKOHDODO7or6GnqzDl0nonoyfjmiuEwg/UrdyVa
-	 Sc+mX7GEocTsT1o6sEZTKpDiNvq17I7bOsIMjYrVmyUZVFUx8BYJoZEyJPjlzVl90Cg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lge.com;
-	spf=pass smtp.mailfrom=lge.com;
-	arc=none smtp.remote-ip=156.147.23.52
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.52
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792671495;
+	b=jMHVg1uFMj/SCTpVWUoUxW5me5oPCfWTlfFdJPTb29iL1lHMRNnruhEw47uCd3jw8qf2
+	 tiq4/UhRkp7XzryBog/2XNaZwj8ohe+V5s9+FN0fXsEyHGami5KQwxUwRzRqWG2Kc5cKH
+	 T9uveJsNBVkLF6xVAFfc+ikJ4dRO4rgfDvKyeTsXaqWMa2vMZ0Tun9rGe7QiWdoVjvHSF
+	 gleVa8kES1KtjxwPpT50Hw2fQwXQ2rT4K0C+aCgKsOZxKz5+CokYSM1b7asuyvfSUkadM
+	 00cblYTYUPopmA6/fJkyf97uM9V271qXwvp/yppweXLCn9BfgCQnQi4N8d1bj0zF9pg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792671495;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=s9csG9KWZuFtxhPYz4DLhAe4WCwNkF/v5W58eA6JDUc=;
+	b=5ESZ6lRQb0Ls3Qe/JMhiDPysFrD1wU73I0b3b8TlsENtdwXchCDVuLdCPbZtPLh3+1c/
+	 9Lrz1zLfj2o9gc8i9rZs61uY/y4dokkta5SppJkyaFo0kPOV5Bsf+Vfc3tMzNkH9Pod4R
+	 gUvMIo5Fapd/50IvX873TqUYd5QrmP096vaTKyIIIoZjaJOrQi2mSjKHFWTr/rEArH7W+
+	 Mn9g0p+N7FVZFU53RCzC5IV8Ucm+EvRD4lSrsEXwkcmRNZTk0P8h3vCCbfd8cNiNaLWyA
+	 1d53zXIwTJx/VDVOZVE4T7ZlZCuO4IPy+BcKG60svB27IDDbLWDBn31BuN7OcbEyvgQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nfo8KPDj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.52
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEFB606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 12:01:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FEFB606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.52 with ESMTP; 22 Oct 2026 21:00:58 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: youngjun.park@lge.com
-Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
-	by 156.147.1.127 with ESMTP; 22 Oct 2026 21:00:58 +0900
-X-Original-SENDERIP: 10.177.112.156
-X-Original-MAILFROM: youngjun.park@lge.com
-Date: Thu, 22 Oct 2026 21:00:58 +0900
-From: Youngjun Park <youngjun.park@lge.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <atn6+gEwHUxUKhLB@yjaykim-PowerEdge-T330>
-References: <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
- <20261014195354.GA371161@cmpxchg.org>
- <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
- <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
- <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
- <CACePvbVbMPZTrD5y=--XgBS+sa4CHb7e4RFTYCbWfzHzVc3vXA@mail.gmail.com>
- <7e998cd5-57e0-432b-a8e0-676a5b773436@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BCF606A31B
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 12:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64BCF606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=nfo8KPDj
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91b54d1e9cdso14271666d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:18:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792671493; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EzuSTvMCtzvRFNAli1dPbzodf9sV+7LgNHKy8KPYwO9OPNtxwhsYbSuwRXFGnH19sX
+         G903N96ijLMHfWzjkOAvrvbm6OIW7KCAAz7YPIgkdS2a336a2XHOa7jHJ//M+CdXlchl
+         IharZrnSaRxJI6ybKggNi5pjK8JHYMC+cgqPjDrn8tuhPxPIz1Yid7AOWBIWPDPl2rcI
+         FizRxcLs0C17d10HGiHogsbHYulDv/C/gtMQCyogXtYmwfrOEz+Xj3umo5rzfr2S73L4
+         6gKcExZqCDMdKJDbV8OM/RCTDbwOVVi9VGCZAP+4Hy7lyM+4iuKwfWQ/Xd6w3Vbe7rGU
+         dZGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s9csG9KWZuFtxhPYz4DLhAe4WCwNkF/v5W58eA6JDUc=;
+        fh=dmnexhLNa1RQpBvHtgkOJCMu2c3C1EzX9lgnxZHfGBg=;
+        b=ndo75fiDOvt14GDPpI+bxpf70AZsmk+WG3JkWlpY2UpZFMUKFK8IKGTCqQZiMapXZs
+         qRde/1pijnUyo/z8OouJfDoitk2sdgZRR2pmyZHTSG5yuU0xwguJy+b8mwzd8CxxWT/8
+         mgadXRPqDyzkWia8higviz/9tiBbHyn2K4KJ3OHj9WhRLWLR+temHV6kpRKBpZ++nLYU
+         y9NUu/ETXXP9+gscBE5h9pBm5rCvHRtRt2c3r09R2lmFsuBj26c/oUC6YsXpGpaZxuKy
+         i74a0WRNzvXrmo3zE/1vRKHP+0lxPKDyEn0gw7IAE3YzYC8Om/jmco6CsbJQWT5271tT
+         zwuA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792671493; x=1793276293; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s9csG9KWZuFtxhPYz4DLhAe4WCwNkF/v5W58eA6JDUc=;
+        b=nfo8KPDjyKEJpgzULPrceeBYWsK9Ok38Hs4nq02eAW3+P2brsvGKOT1ZuW4AeDiJfI
+         5W/NAiNtHcQKXeKJz8ouhNGxB8ays7SFK03TU1KU3uVamTn8YyHKfpUOJaH5hPpIE5EY
+         dSsRN8jxdow30RgCWkQsGmH/dVXjRufDV1+SUZO8ZA00HDYMZd4Vmuo+dg8uNaOcrHBW
+         OFmr92ZogU1/M+hE9nm6H3jGCHVbfSCTG7nBiDp+TOXEEa748pMeTt5z1I0Q/r9EgvIL
+         cpqLbNcpXp2i9JZe02yeuYGWgBNy6CPJTRf0ZHiDLjdwZyzT1fG5nb2QcpgRBFsuzIM3
+         cSFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792671493; x=1793276293;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s9csG9KWZuFtxhPYz4DLhAe4WCwNkF/v5W58eA6JDUc=;
+        b=ElI8ajbaMwQ7KQeP/+lRUBLZi/GI0PaC/iMq+gGxgc0Ts3nVZBAQMhuv2HFjJqL+Pe
+         uTrfzKpI2Qcgkt7WKpJvVSBxPLJBQvzF+Nx1sJzt0sQd3UhYqnj2IYtVnBb9ia9VkRrR
+         H1qWQbQ+lDhokyUufg7nf+tLxEYYeFE3DJ8zo9sKBKusUw1EKkQx0Vf8XYNWpOKdzXtq
+         kgyRnDROS/xg1Ph3yubqjA2km6pM9DIGtVSHk/xDjcrEAemifuZcHgv+mAE27X10i4fJ
+         BqagBMo+Y/6BdJCFAr20NafRnzedZKBr9vsuEXdJAuu0P/dAxkomjFJAX9AZrW/MUyNc
+         ANbg==
+X-Forwarded-Encrypted: i=1; AKwUvBwCFuJbDf5jhH3R9OMUv9voowpPVHS0tbCVkR/1TKuybzj0UrHEIlU1CLy1i5alCEnqTKznMgdQtnM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLLcCBuCUREwf0JboGDTBz4q2FS788nH01xB6a78fqsSAKa9DVT
+	sTCLuHd0p8t8zvVbyQRvOKGnXX/HhCmE/ArZic+ACRMlILc4oWaVwdxIiwE1713JcjTDRCPwUlJ
+	/zoMd2VnUeiKcbjz/TqtYwt03oMQVcqGQVRqFbA37ljxkkaE=
+X-Gm-Gg: AYBFou0g2ECLOMxw0rrvr6jX6HFz58YhTjiAbmaD0guQ/D8tpwsxQcu/uqaZc9MarW5
+	QxVT1V/2j/G9zz8pWpvDeB2rtAHi6ZFDWJIrLvGZVBqQcWtNlVhdsfZ17xKp6ZiIUPUnqJuWH00
+	/ltiLVZTFuoeDgiNfB6sUQ7uUCSiGew8QXLGkV1P8H7WvYZwKo4KqHx3F+dhUIomT4T8o2LbLpp
+	v2/FeMC4BmrL8uG2ife2Ixj6pcyfKDUFoknya3S7SnKJNuAPE6A+zV+bmgDBirJcV7wnqWDX9fx
+	pLLW3gBm9AA+1oqA5NAwfWb8lZmMWsSraF2rkOQqBAVNLcIriHz1EsnGwuap1toBaPLWuR+HXTw
+	i0vpaO0nhS1CAefJ/QQEM7C2ASXq00zV0efyL6qhSzzg2vwL6OLySHAVvNqSeG2K9Iuc00dPw8P
+	4WkbghqKmSW9TbKsTaAR3KQ+WYyfaaOEKQkjsgphpV+NR2HcQx
+X-Received: by 2002:a05:6214:2506:b0:91b:549c:562c with SMTP id
+ 6a1803df08f44-91c12dfedc8mr84841876d6.6.1792671493137; Thu, 22 Oct 2026
+ 05:18:13 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,66 +105,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7e998cd5-57e0-432b-a8e0-676a5b773436@kernel.org>
+References: <20261020010421.77388-1-ic.gabrielribeiro@gmail.com>
+In-Reply-To: <20261020010421.77388-1-ic.gabrielribeiro@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Thu, 22 Oct 2026 09:18:01 -0300
+X-Gm-Features: AclHuK8uc0Pdi9GgPH6cqCilUnGisH2EujO3679uE1lxCkMR2VbSk610iugPnpo
+Message-ID: <CAMAsx6duwRdErofO+NHGbZ0crCCU+rrc+2BL31eQGRrDZMVsLQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: translations: pt_BR: translate programming-language.rst
+To: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, randy@infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026 at 10:18:35AM +0200, David Hildenbrand (Arm) wrote:
-> On 10/21/26 09:41, Chris Li wrote:
-> > On Mon, Oct 19, 2026 at 5:35 AM Nhat Pham <nphamcs@gmail.com> wrote:
-> >>
-> >> On Mon, Oct 19, 2026 at 5:28 AM David Hildenbrand (Arm)
-> >> <david@kernel.org> wrote:
-> >>>
-> >>>
-> >>> I'm traveling this week, so it's a bit tricky. I cannot make Thursday morning.
-> >>>
-> >>> On Thursday I'll be traveling back from Cambridge. But hang on.
-> >>>
-> >>> My plan lands on Oct 22, 11:10 PM. I should be home around Friday 1.30am - 2am.
-> >>>
-> >>> I could just naturally join that day.
-> >>>
-> >>> So one day later would work for me.
-> >>
-> >> Would that be too rushed for you? :)
-> >>
-> >> For everyone's convenience, this would be the time slot:
-> >>
-> >> PDT: Thu Oct 22, 5:00 PM
-> > 
-> > Works for me :-)
-> > 
-> >> EDT: Thu Oct 22, 8:00 PM
-> >> Europe: Fri Oct 23, 2:00 AM
-> > 
-> > Ouch, David. If you commit to that, I understand it is very
-> > challenging. Thank you for taking one for the team.
-> > 
-> >> China: Fri Oct 23, 8:00 AM
-> > 
-> > Other swap developers: Kairui, Baoquan, YoungJun and Barry, when you
-> > have time, please comment on whether you can make the meeting as well.
-> 
-> I took the liberty to schedule the meeting and send out google calendar
-> invitations to everyone on the CC list (to keep it simple on my end ;) ).
-> 
-> If anybody did not receive an invite but wants to join, please let me know.
-> 
-> If anybody received an invite and does not want to join, just ignore :)
-> 
-> -- 
-> Cheers,
-> 
-> David
+Em seg., 19 de out. de 2026 =C3=A0s 22:05, Gabriel Ribeiro
+<ic.gabrielribeiro@gmail.com> escreveu:
+>
+> Translate the programming language guide and link it from the pt_BR
+> process index.
+>
+> Assisted-by: LLM
+> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
 
-Thanks, David and Chris!
+The "Assisted-by:" tag is no longer necessary, so please drop it
+in the next version.
 
-I'd like to participate in the meeting (This is 9:00 AM KST.)
+I also have two small comments, both about labels that clash with
+the original document and should trigger Sphinx "duplicate label"
+warnings.
 
-However, I have a company meeting and issue around that time.
-If everything is fine, I’ll join and participate in the discussion. 
-And If an issue comes up, I may need to leave early.
+> +
+> +.. _programming_language:
 
-Youngjun
+This label is already defined by
+Documentation/process/programming-language.rst. The other pt_BR
+documents use a "pt_BR_" prefix, so please rename it to:
+
+
+> +O kernel Linux =C3=A9 escrito na linguagem de programa=C3=A7=C3=A3o C [c=
+-language]_.
+> +Mais precisamente, o kernel costuma ser compilado com ``gcc`` [gcc]_
+> +usando ``-std=3Dgnu11`` [gcc-c-dialect-options]_, que seleciona o dialet=
+o
+> +GNU do padr=C3=A3o ISO C11. ``clang`` [clang]_ tamb=C3=A9m =C3=A9 suport=
+ado; consulte
+> +a documenta=C3=A7=C3=A3o sobre
+> +:ref:`Compilando o Linux com Clang/LLVM <kbuild_llvm>`.
+
+> +Consulte Documentation/rust/index.rst para mais informa=C3=A7=C3=B5es.
+> +
+> +.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> +.. [gcc] https://gcc.gnu.org
+> +.. [clang] https://clang.llvm.org
+> +.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-=
+Options.html
+> +.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+> +.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-S=
+yntax.html
+> +.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> +.. [rust-language] https://www.rust-lang.org
+> +.. [rustc] https://doc.rust-lang.org/rustc/
+> +.. [rust-editions] https://doc.rust-lang.org/edition-guide/editions/
+> +.. [rust-unstable-features] https://github.com/Rust-for-Linux/linux/issu=
+es/2
+> --
+
+ Citation labels are global in Sphinx, so these collide with the
+ ones in the English document as well. The other translations of
+ this file prefix them (it_IT uses [it-c-language], sp_SP uses
+ [sp-c-language], zh_TW uses [zh_tw_c-language]). Please do the
+ same for all eleven citations, e.g. [pt-c-language], and update
+ the references in the text accordingly ([pt-c-language]_, etc).
+
+ With those changes fixed, feel free to send a v2 (with a short
+ changelog below the "---" line)
