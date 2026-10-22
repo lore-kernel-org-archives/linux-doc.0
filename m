@@ -1,120 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792667937;
-	b=0vpkbcldBY59HBhSCxpAm3qyrE/SbWJJpXeTDlmTGXHjX1n6Vjx8kaQut9n7oL7XQZhz
-	 RU0/ItZYM4CvMm3Dx3ulMH9EnMIHBwqGPOsLeR6sVHDwAsZaJwFD7vnQJ9vKL1EQWm90R
-	 pV0BtaJdNnqonipmzU4LhqPzYxlMKAePJSer58seiGOzkKYBebmvt6nX2qB+0xixYSKoN
-	 hHiZI2dKC4CAcuh3jPXODEy49LYMdlWALqzKQRdsf4fPJgUjqm/Zji+fB5EY3AqFOUJgh
-	 bmmx9J0D3rg0rORJeD8KxsQd45JgqFFhzpSRJBHyI5XwhMCNeiLhd2SBgvJHpUMhsGw==
+	t=1792668390;
+	b=fFE+JDvXK/Ui+ZDXPwHNEm14Gjuce+PMr9BqjBMNkxZadNWPFz68z0hThOzPuB26wSzu
+	 fOKXO67pAUB46123dkmxubPiSiiTr4R4jWjUEJtVh3NUl5w8bZS+AMRTpuN+C2OwEMGQP
+	 zS3HpzvH+mWtTvDX4OPgSAH5VrjRyLlc94bB2FuACaJoxwTA7m3wHvDMzCutK8uaIyGjr
+	 ZQOzhM+ykzSC330O7pMU/IezZHO9G7le7iIcB3Mw9vSnAE1yM53EhSr+D+HofAV3kFL01
+	 1Gl5YiVJLjyY9qZiAzZIZzzL4W9uUql5gDMi8ZYP0aXMzYjsgvKmiFDr/INL5hcbOYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792667937;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Received:Received:Received:Received:From:To:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-ADIRuleOP-NewSCL:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-GUID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792668390;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
+	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=TEv4jXWyI3Wdq9RxbDS6oL6Z9HZAR4C/XAF2hQfFO3k=;
-	b=0EpnhwbRnDVdhendmqx9QasM9enIcgT0m6FBQxi8BGC7DybLQFcYOSroOwapDPnPD9DP
-	 qmIhlD+CHVbQ+OJV4CVTl5xmt8fbHvx24Dd+/z4YlGspTbscbvP1kcYLxH0aS+qnyzOnB
-	 Zxdqk4qtX7J2ScZKTH7EaF9bu63VaC4GZwiLZKfwN4pR+U6IN832itG7SABNsBf9FhutR
-	 6YKGwEOQrl5ej5Mk/bnssbEDLrbG0F06/dovzTeYEdBW8RZvY2ae3H5muhASr4ZqjUY7F
-	 mEcgEpI/sDkMjFv9uuoLzsa8mc17TdhbIwvSXlb+WFF5XKdMhecq1JW2dSPYq14xpcg==
+	bh=H75v3I9hrZtnPC5oLMkBzDelhJGj3dWwVG0uNk3+Ha0=;
+	b=idH2wP9EQOwbvW57i6vWqaEV2vnQgzSgh+/FyPqyAgC7IG+oKSTMoano0m2sb4xy3bYo
+	 078UP7SAfhEfUOqXJVlTWfygFDxo712uw++RuifoU2rwlefkLK3yHzL3Bl31uLngazhuH
+	 aob9PiLkAkh9HTllZtW/pJowkJEDGZihNt4a1kAl2vbGQy60du8TL7jA547CSRsSRaCqC
+	 pn4mtoRb733mUyIyhlFjFXTMbU8vC11PheIbmheJXRngSirbxf/e9Lt0h01TnYURAPyv0
+	 ryQpake3NlEUab6uC88oZ/CnG1ie9stRi8lhtQhZ3lOaJ5kKIB9NpXjSIuLkLEgwaPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=analog.com;
-	spf=pass smtp.mailfrom=analog.com;
-	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=FecbmGcK;
-	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=iEDYwXos;
-	arc=none smtp.remote-ip=148.163.135.77
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lsLGDmdW;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C66606A319;
-	Thu, 22 Oct 2026 11:18:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6C66606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E78606A31A;
+	Thu, 22 Oct 2026 11:26:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83E78606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=FecbmGcK;
-	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=iEDYwXos
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69MA1hRU2803371;
-	Thu, 22 Oct 2026 07:18:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=TEv4j
-	XWyI3Wdq9RxbDS6oL6Z9HZAR4C/XAF2hQfFO3k=; b=FecbmGcKN0qOtzdXEbU7A
-	f+jmID/N9VFuq+GzY1KLQJBbFvhkov+zBhqk00HMWwWQB0E280L1Rv6Yse35EP2x
-	MoGgZlZlrlZfjEoNMslNSs21TPbiuA6HYGoE2xjUUlODsba61j+ztVbH3/IWFVyS
-	KlKW3vAzl0YYZI/ZuQep5CNZSPfk6x18ZXRolAnTtKfuKUq8H6izvSTQL4YflSqV
-	StXmAjXlYRc54NxBEHZHkftUR/xu0naMZoDCwFE/yGorp2qs3Sc/Wh/mPf9uzXyg
-	wFGKt86zSZ2imur9inkCSUx2ch9fX+ERxXWqS9rGaf77JZj1oc+xEtJekLT5EgoF
-	A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=TEv4j
-	XWyI3Wdq9RxbDS6oL6Z9HZAR4C/XAF2hQfFO3k=; b=iEDYwXosTlJnJSpWIYxdh
-	ERCfR0nbUtfSpzI241xRytx+x8rcTDt+GCMiHtXxGp6cpAP0+2uu58cTte2U1xV6
-	Mp7gvLaGLDFt1VJoIFhehVcWIiVSE3jjnCVGWOXg0iTYbzxtD4bR+lIzJEPY9Ssq
-	7pg39RHVqr57e+ezUBQ/GHWXCMIDKU7eAK/PGF2ngh0uZytJ9dSeLj5G89pHS7Pq
-	oblAW9dAFKOeZvto7O38u6HIyXKHCM6pp04xcK77DNB1m8fIt5HIXWzTEr+eNcUj
-	dwgTZBEOHNViK9xLFaudVbgKrPJvMEHgJ6RnD4IaRsiQWS1Nyycn8pTzoNRMImsf
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4hf927anv3-1
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lsLGDmdW
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69MAEYJv3824238;
+	Thu, 22 Oct 2026 11:25:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=H75v3I
+	9hrZtnPC5oLMkBzDelhJGj3dWwVG0uNk3+Ha0=; b=lsLGDmdWPtn2CX10h+XxDw
+	x5wBg6WHB3+bSoaQUEvwIuQrjoGmajSen9pTPgRxWhV/s/tOjot1Aa03KEpecoCE
+	fmyJCkze8aLBnQ+cLxt2I/ZddydBbBS19+S4GhpPbHf4OJXOmb6Tl87CDuEubcD1
+	b+ERZaLyHwaTVI8IGjasRzMcCUsgwmv8hZen3Gbd8W1TCXe1NTmbIwk9x/M0JJr8
+	z6JDKRgKi5Xf955VJVvnjvr/u5UFmdhqpBD1PQLIJiw1PD0jzdSl1zhYbXGx5NTM
+	zvKpL+aeojQiNR1qaptzAO0/uMZCz5K9FsUdKPMq9bb3LE454xIFGQ4Oq8onCwIw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hdw5a69br-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 22 Oct 2026 11:25:02 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69MA4sQ3337793;
+	Thu, 22 Oct 2026 11:25:01 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4he6gqhwnr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Oct 2026 07:18:45 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 69MBIiuZ055337
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 22 Oct 2026 07:18:44 -0400
-Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 22 Oct 2026 07:18:44 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 22 Oct 2026 07:18:44 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Thu, 22 Oct 2026 07:18:44 -0400
-Received: from HYB-b1tGeUj4GP1.ad.analog.com ([10.32.223.86])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 69MBI6LI005667;
-	Thu, 22 Oct 2026 07:18:35 -0400
-From: Antoniu Miclaus <antoniu.miclaus@analog.com>
-To: =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Antoniu Miclaus <antoniu.miclaus@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Shuah
- Khan" <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Joshua Crofts <joshua.crofts1@gmail.com>,
-        Marcelo Schmitt
-	<marcelo.schmitt@analog.com>,
-        Radu Sabau <radu.sabau@analog.com>,
-        "Janani
- Sunil" <janani.sunil@analog.com>,
-        Salih Erim <salih.erim@amd.com>,
-        "Jishnu
- Prakash" <jishnu.prakash@oss.qualcomm.com>,
-        Jakub Szczudlo
-	<jakubszczudlo40@gmail.com>, <linux@analog.com>,
-        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 4/4] docs: iio: ade9000: document ADE9039 support
-Date: Thu, 22 Oct 2026 14:17:57 +0300
-Message-ID: <20261022111759.6019-5-antoniu.miclaus@analog.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261022111759.6019-1-antoniu.miclaus@analog.com>
-References: <20261022111759.6019-1-antoniu.miclaus@analog.com>
+	Thu, 22 Oct 2026 11:25:01 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69MBP0ja1442606
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Oct 2026 11:25:00 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B46D58056;
+	Thu, 22 Oct 2026 11:25:00 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4D83D58052;
+	Thu, 22 Oct 2026 11:24:58 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.112.79])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 22 Oct 2026 11:24:58 +0000 (GMT)
+Message-ID: <2342b42699292d4e5fc85e5dd4d351a3f29ae336.camel@linux.ibm.com>
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Dionna Glaze <drdeeglaze@gmail.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-coco@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+        rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+        James.Bottomley@hansenpartnership.com, aik@amd.com,
+        jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+        jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+        suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+        elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+        roberto.sassu@huawei.com
+In-Reply-To: <atnqmDhgaJycTf_Q@FV6GYCPJ69>
+References: <atPgqROZZxnihYfC@kernel.org>
+	 <20261017231007.GP13920@nvidia.com>
+	 <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
+	 <atX9fugGUsI0hGcA@FV6GYCPJ69>
+	 <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
+	 <20261019225658.GS13920@nvidia.com> <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
+	 <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
+	 <20261021143529.GP3008132@nvidia.com>
+	 <8d8833fac61558a94af415143530884349584a2f.camel@linux.ibm.com>
+	 <atnqmDhgaJycTf_Q@FV6GYCPJ69>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 07:24:57 -0400
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -124,108 +115,106 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA0NCBTYWx0ZWRfXxcKyHM5904Ya
- vxgdZdr/9f/mvr3sXXfLjUrr5uFu/P5doXSCmFLfzibWfJ6xgI0YtybvYMwD1pQvqR4Xa+dCkBv
- PaPTZYWNQrYeJKjW++TmkGdgbZpLJLbxlLv7Q+1gOyvotY9TChZs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA0NCBTYWx0ZWRfX4cXoevfMT3OM
- rAw2RdSDl18f3nQZMFGkW3GXpwWj8hw/mmMWTOyzwAd+tc9RLE6Njl+cQCLJc+ibc3QHf7YPF1X
- QXo2fQuJN2/8Y0hzv8ZnUBU6zLMiHrHU6oB5N3qhxCcEidT9/WFhAaQ5Zg8wsNlCaxNjES1NGly
- 8FUHERnGeCvGOixyxbX5c72WTm2v1lfZeJ+FTwMiLR1N9SgQn8K9jsezXsJnY5XK0Uu7tAnUmYv
- vRzTIcJNb4mg4+K1qv32OVaARyMqtOPU+8JB/Nmkp6io+TPggyib/3/5SEFGRFJ3+BLj8d9Ls16
- jR32SCQzKgriwP9Fd4J4islwcpOtjNTYRhOroAQGoUUcqtRjDcEXxZ6pt50CYcN3SCYspAu9+RN
- fYqSwpcYo0bwR3pE7XcOw8A/jjk6gaIpN4frRiTFfKi2zehQ206xCbq8AmssHQFVERUlVzAdAtP
- gQqbKTk4v51pOhBSV7A==
-X-Proofpoint-ORIG-GUID: EcZipgHUiH9Cz3eH3OevlyKmroFI3lcJ
-X-Authority-Analysis: v=2.4 cv=WYKZ+EhX c=1 sm=1 tr=0 ts=6ad9f115 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8 a=pGLkceISAAAA:8
- a=POg-ucaDcjGRvUgx-3oA:9
-X-Proofpoint-GUID: EcZipgHUiH9Cz3eH3OevlyKmroFI3lcJ
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA0NCBTYWx0ZWRfXxwiqvDMronE4
+ FQK3t3Ka+UBmU9zzP6ecQ8euUkLzhX4FWUA5V6YeEa4nH5caVDHgElYPouOKaWY3eO8sxSm1dQq
+ H9/MmeIBwxmSOkAbNRJNbqEIv2r1PEY9b1MnCLPNEX55kJslBV5xEVWyyOyg9O0b9gQeRA+uSgu
+ CHr64hZ9+eFCMu4Eg31bmjUZAedOL5lT0MHSsG3X9uxk9kuBE0aN07NN90hsjqZGukFlvNi+kbN
+ qv0hKlFArX4L+q+8xOiOrZfCGEnyMBxfUuw+usWF8t2Xgp5pDm5omURfcg6/QKbMdBXe7lF7m35
+ 0m9fwfHY2VP0GfW6qd8iWkBOJ3LOOtvHhZ5+qfxq7bKjK7mEf3MJAAs87PHyTjNgR1mM/wIovh7
+ 9hTns2c/rsKR85/hvetAL40zf8fx8w==
+X-Proofpoint-ORIG-GUID: -IIoPKCgjZ0iA8b4LLnSoxnm_Zenbl1V
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA0NCBTYWx0ZWRfX7uaAEEsIiURA
+ ne+UmovPSY99pNXg6qSZquGDhuWRRe4QPG5ipgQoLtIN4s8DvmHYGAUjbPLNQTDpe8oGqQEQCGh
+ DzJvSX212klGw9ZeBsDgcoe8AzXgIYU=
+X-Proofpoint-GUID: Dmhzh_FOqH-X5ktGgnB0OO9LGedtpqZL
+X-Authority-Analysis: v=2.4 cv=ZfSIpcVA c=1 sm=1 tr=0 ts=6ad9f28e cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=cpN7-hlQ1AlEGHSOM8EA:9 a=QEXdDO2ut3YA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-22_04,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 suspectscore=0 bulkscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610220044
+ malwarescore=0 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 classifier=typeunknown authscore=0 authtc=
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2610190000 definitions=main-2610220044
 
-Add the ADE9039 to the list of supported devices and note that, unlike the
-ADE9078 and ADE9430, it does provide the on-chip dip/swell events. Also
-document that it exposes no total reactive power attributes, since the part
-computes only fundamental reactive power.
+On Thu, 2026-10-22 at 12:54 +0200, Jiri Pirko wrote:
+> Wed, Oct 21, 2026 at 09:05:09PM +0200, zohar@linux.ibm.com wrote:
+> > On Wed, 2026-10-21 at 11:35 -0300, Jason Gunthorpe wrote:
+> > > On Wed, Oct 21, 2026 at 10:12:34AM -0400, Mimi Zohar wrote:
+> > > > > > I think for now we should not include a new dynamic log here, t=
+he uAPI
+> > > > > > around this Jiri drafted can remain a future step. I don't want=
+ to
+> > > > > > open complicated discussions about new functionality at this
+> > > > > > stage. The whole CTLV idea in general is a big enough thing to =
+bite
+> > > > > > off for this series.
+> > > > >=20
+> > > > > Okay, dropping the log from this set.
+> > > >=20
+> > > > Thank you.  Please keep in mind going forward, that the scarce hard=
+ware register
+> > > > limitation (like the 4 TDX RTMRs) should be resolved (e.g. by multi=
+plexing the
+> > > > extension path), not by combining distinct measurement lists.
+> > >=20
+> > > I'm not sure what you mean?
+> > >=20
+> > > Since the HW doesn't support sealing the only *technical* requirement
+> > > is the verifier can reproduce the measurement register hash. So long
+> > > as we can get there we can do whatever.
+> > >=20
+> > > Multiplexing extension alone isn't enough. We need some scheme to
+> > > reconstruct interleaved logs too.
+> > >=20
+> > > For example we could add an atomic sequence number for each
+> > > extend. Every log sharing a register can report the sequence
+> > > number. The verifier would have to globally sort all logs to confirm
+> > > the hash.
+> > >=20
+> > > Hopefully we don't have to tackle this problem. I hope that 4
+> > > registers is enough for Linux. One for IMA, one for systemd, one for
+> > > user? Plus a spare!
+> >=20
+> > Agreed, I hope you don't have to tackle it either.
+> >=20
+> > >=20
+> > > Maybe we can build a multiplexed scheme on the spare? I don't know.
+> >=20
+> > To avoid interleaving the logs, AI had suggested multiplexing or virtua=
+lization
+> > of the RTMRs.  Whether is has any merit, I'll leave to you.  Here's the=
+ very
+> > short AI explanation:
+> >=20
+> > "Instead of allowing external drivers or subsystems to execute a direct=
+, raw
+> > extend command to a specific hardware register index, the new attestati=
+on
+> > subsystem should act as a Hypervisor for Registers."
+>=20
+> Isn't the hypervisor what we are doing now? I mean multiple extension
+> originators share the same register and eventually the same log. Or do
+> you suggest to go even further having a "generic_registerX" exposed for
+> every hw implementation allowing the user to have full abstraction?
+> The "generic_registerX" would be always alias to something hw specific,
+> like RTMR2 for example of TDX.
 
-Turn the intro enumeration into a bullet list so that adding the next part
-to the family does not reflow the paragraph.
+I definitely prefer the latter, as everything continues to work as is with
+minimal, if any, change.
 
-Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
----
-Changes in v2:
- - List the ADE9039 in numeric part order in the title and the datasheet
-   links.
- - Turn the introduction into a bullet list so that adding the next part
-   to the family does not reflow the paragraph.
+AI's wording:
+=E2=80=A2 The Virtual Mapping: The [attestation] subsystem exposes "Virtual=
+ RTMRs"
+(vRTMRs) internally to the kernel.
 
- Documentation/iio/ade9000.rst | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+=E2=80=A2 IMA's Dedicated Lane: The kernel config routes IMA to vRTMR_IMA.
 
-diff --git a/Documentation/iio/ade9000.rst b/Documentation/iio/ade9000.rst
-index 0c0a8ea8213b..893166f5fc32 100644
---- a/Documentation/iio/ade9000.rst
-+++ b/Documentation/iio/ade9000.rst
-@@ -1,17 +1,22 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--==============================
--ADE9000/ADE9078/ADE9430 driver
--==============================
-+======================================
-+ADE9000/ADE9039/ADE9078/ADE9430 driver
-+======================================
- 
--+This driver supports Analog Devices' ADE9000, ADE9078 and ADE9430 energy
--+measurement ICs on SPI bus.
--ICs on SPI bus.
-+This driver supports the following Analog Devices energy measurement ICs on
-+SPI bus:
-+
-+* ADE9000
-+* ADE9039
-+* ADE9078
-+* ADE9430
- 
- 1. Supported devices
- ====================
- 
- * `ADE9000 <https://www.analog.com/media/en/technical-documentation/data-sheets/ADE9000.pdf>`_
-+* `ADE9039 <https://www.analog.com/media/en/technical-documentation/data-sheets/ADE9039.pdf>`_
- * `ADE9078 <https://www.analog.com/media/en/technical-documentation/data-sheets/ADE9078.pdf>`_
- * `ADE9430 <https://www.analog.com/media/en/technical-documentation/data-sheets/ADE9430.pdf>`_
- 
-@@ -24,9 +29,15 @@ for the entire channel including a programmable gain amplifier (PGA) and an
- analog-to-digital converter (ADC).
- 
- The ADE9078 and ADE9430 do not provide the on-chip dip/swell (sag) detection
--available on the ADE9000, so the RMS voltage swell/dip events described below are
--only available on the ADE9000. The ADE9430 additionally has no on-chip digital
--integrator and instead uses an external analog integrator for Rogowski coils.
-+available on the ADE9000 and the ADE9039, so the RMS voltage swell/dip events
-+described below are only available on those two parts. The ADE9430 additionally
-+has no on-chip digital integrator and instead uses an external analog integrator
-+for Rogowski coils.
-+
-+The ADE9039 computes only fundamental reactive power and has no total reactive
-+power register, so the ``in_power[0-2]_reactive_*`` files described below are
-+not present on that part. The reactive energy files are unaffected, as every
-+supported part accumulates fundamental reactive energy.
- 
- 2. Device attributes
- ====================
--- 
-2.43.0
-
+Mimi
