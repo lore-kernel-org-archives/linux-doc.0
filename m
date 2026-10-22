@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792659848;
-	b=Ofpc5EXmYwvVLDFKv8YRkSZz942RlZ8juKJFmHEDmFDQxS0vxJy9XtAt3NHIXNPfaqlD
-	 AcNpgcx0ks+724A27OB38NDK1CQOGkjc9JK2xL1wlMf6NKjP+KX0IRFlMPiFeYyUcDoqw
-	 owp2tWij5vN8TQylOZcL53cURe42I50b8m33sag3CZz0h9K2OGXVD8gbxUGT3l1Vptkkn
-	 gYd2cR8h5PbQnZSL3t/zyBYLwhOI8evg0NuERBsoiLTu5XnZ980yIi+pImgZNvnOfb2AB
-	 FJ0rPM9+FKEnw4T7Z1f49fe+75Ae1lGiI3mMamEC7GivUcU4YQX7eOIUqiD3wuDeMcg==
+	t=1792659950;
+	b=CmC7Zyn1CkQZhlNs3u9U9rJ7O70uH+ImmavhCva5+cSPczOu+Ws1Js/qY6xhzkGwdOgB
+	 teiS3c4/or6Kfb5pdJCoMy+0WFg5XCqYvg2HHYxZ2i579cCWvL29jOVSjnJHVZnJF0kH4
+	 ICWHCOlI1ZQY4RtxoGYNnyaEdMZHHmM+TI7AbGVvoFYoHY/pcDspFpfxU27NY99XBL1Lt
+	 oSlopYf76B1Li+Y+mt8kTG9G3yPjLilAKqhHF+/E54FqzKBpMnVGUFUEMYs0wWlWPhah9
+	 zfwcRFX/2GWfCouIQCANwfzUDYtDiQbMwK0PfB4yUYJdp6SV1rGMNxElKc5PnceJb3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792659848;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792659950;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ywQR7I909P3DB3xy2MhLfJ7Uj6kbu1uDVGYoaUPJ8FQ=;
-	b=bdiHynTDA+Bv1I7VxGqQCjuTYFCD5+iyPuAtZrc5hN7EmeT4OdQnA5Xp5w+5AYWRBL+o
-	 xHrByRj1AC8HqlwLMOf5LpFCKINqaBcFxdyDBOuq9AAlstPAuW9FCQGn/7phfbHmHAKpg
-	 AsEUtXNIQcF8wgZb+kzlhg7M//IJ6pZO+WFf9/rNKgSpw2dYVvFmM5hWCoMWc9y5XVzA0
-	 JYdRG5BFooIVLosNu01hXa4rw/rQUgAEOS8ulHK/o4aA7QwpVrkl2xJ//QjenCLJ84yH9
-	 tmyGGlBQnQvqUBw53EETCNVEWKsZklrBAOMKrLlOwQug7eAMOL9bhbyZx3M5EdrUHtg==
+	bh=VCtPLF1g5YCJnqvDxXjL/9SGDpcHIvBwNuJeTWJPyWo=;
+	b=HefkXcg5w5zFwYxzsznWBzg+qdDaPojeXz8qAnxleh/o57BlfXM8u367qXoYIkPKJquu
+	 P7Vb93bOExbjvJewXCsFhc3QW3pqjirUlMrxvcdCOJ03za/T0IpHuAAZFbxYa2vmO25Mg
+	 hQiGmCYfqq9kk9ttDe7TQxqrMFBHqRWhddYhWJFIMogeEk1PaDkBHcOWB8kUQ7IuCl+ER
+	 Nu+3kCJtiyjmkxotr46VksjDJH3KvGz++i26qtZK0YksVKS1TYd9vRFQNHD4R+ge0Z5Wj
+	 NwiBbKUrc7hpqCF2uHSS/z3hCV0XlmWaXso/f2h02B+zgv9ps2Gp5PgTjPg3XQQhPlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=resnulli.us;
 	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=szZbgIim;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=CG4pwxKj;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED6D606A31D
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:04:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EED6D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95301606A321
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:05:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95301606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=szZbgIim
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48c4d870d54so1155676f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 02:04:06 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=CG4pwxKj
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso1578069f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 02:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1792659845; x=1793264645; darn=vger.kernel.org;
+        d=resnulli.us; s=google; t=1792659947; x=1793264747; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ywQR7I909P3DB3xy2MhLfJ7Uj6kbu1uDVGYoaUPJ8FQ=;
-        b=szZbgIimY4VfP2msuRmNHXQOrJ/oJn+pAGeueFnH8YBVSaGbdeIgcX6nKDckSPlnk2
-         99svFjyJhjQ5FaGEfxNmgNRoCK6ha2HpuFWphTZx6nRyMb8L3sFRFX3tt1hSmRJbA4Zs
-         jSB19PjcUEZj25AqcyHerhGLHnqDiSzeUOENrBEoJkvEYzTV1M2G1PNUgLlDKZpGZrgy
-         ydrwVI6xYeg6aM2vyzPDKx2SxytoMVt08WwmtACcvEGV6Yn/cwYSO2ra6xlyvimBA6tD
-         mNm9hKiceEMVV7bvUYL3geJgehge8VlwzBPSfy1xM0u1XsWpsf2dDLX9rvLlP4CWS1IN
-         zexQ==
+        bh=VCtPLF1g5YCJnqvDxXjL/9SGDpcHIvBwNuJeTWJPyWo=;
+        b=CG4pwxKjkPq41V9lUY1xPtyLM7VGkWfj0wIo2355s6BuBYcgsuRPWfhiVq6CnU5EUK
+         U6ISRUDw6LP3pxCtWf53VXIfVLLFARjt5/A5RTFt+Wj5BQOl97jTWy5uCVl0uJZWZjdx
+         5QJOnQ67tU8DZeBGkIBPmyGxUBNX8t40T1FxTQcWlxN/XSMqIzeI5/KwqhLXE/nZYg/2
+         l652BLCNN5Kg7dZMEBleKvf3x4lpyF2+1ohF3/UOY/Bo5ex0KS/FI4UCDM6fFbSf2m7g
+         Jwj6H3TFMAkXXh6cmYl2j5nTS3Z5Ixi/a1aX0e55EA1spziMAnLVlnozBP/BV3o2LlvG
+         bjuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792659845; x=1793264645;
+        d=1e100.net; s=20260707; t=1792659947; x=1793264747;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ywQR7I909P3DB3xy2MhLfJ7Uj6kbu1uDVGYoaUPJ8FQ=;
-        b=zhJdY4HNxK5RTP1qe7j9whsrV/BLxw+aSYwytg8LVrxH/r6SPavuLlw9OfjmN4gi5+
-         ukgf7fvtDo1RXpgMNKnEjp2WDzDSfuFbSJWj/MjobR1gMM/ztm2gdjD9C2al7M4VOz/j
-         M1XyJNaEp7IGSVUFKfUV7htuxMV+pxA7eV+9dr+B0Yng8qjaI661j3cfVubcSA/ftWdn
-         mIicW9FHnfQS6fsQ5bWx6Qf9yONV2t8ellSiXUeBZAAWEMvxzPPuqf27K4zCH53WcE7n
-         Dj5tOnz8YS0x2wuZVwS1UxEWO7Z8/AfzUK9x5xTEqcAEF0/3biYlLikdjT89fWHkt+Z1
-         GrOw==
-X-Forwarded-Encrypted: i=1; AKwUvBykapL4QJVut80V8w4URKuG9tVvOFyejpFWAJui0wRNDK4ctFEvJ29BByyIgqML+GmHgmUp+1ry3X4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLqRRV9oLj4bZbjWNsDu+VrB4FJviPOPFO/M0LfJ2smczwiAOSr
-	pc8FHvQxDKlo2D2BjPIZbDFyv/E42ObhhxFXr84v7DSkksr1DdMEXRyVNsXsd53vDcg=
-X-Gm-Gg: AYBFou16FmGJOcSPBSniHypUD6aC5HUKSBlhQdDjtkNliig452tqdebsh5xkMiQb5DS
-	5JbSBA2LWWE6X+SahfPZbsrGqDzbzgQVfW7V/zc7nZyG8IdubejHzq5xEudZos8lnzRGq7aHo9L
-	nnh7iDSTw/PQcpT4iPFE5wrq6rEOIlk+Jnz0g0/JfeUQXbnCDQm+38Y3nUCgBz1OqTqhFd5bXvJ
-	kBb525EKk8l2lQxl7t/Ei8Xf8PuDKfOuAwHO0os91/5gK7AtK5wFqfKAesIcS3AuPH3TH/xA9w4
-	CqH6kjOR5bBqz4tXTEx6HNvQCBW2Y7BGmdzZ4JOfbbhpUhvwiVGW/OiRCC6qL+g9qy+q1DUGVCf
-	zLg6eW67pLqGRUxFnC1D90WDFa5d57iuT0m49drFE6gevWZft+yaZgv7dCR5jroGfkZrZPvobak
-	ToozTj8k3gtvdd5ohN+hi244T/l+QP18FQgccuaHvXKodr6+BF1Zjhz9cgmesbmSNcEFNHqGxYA
-	30tBut3iUMYuc3TTjuByc9UUPlVUq8UUSy+hnpJwfUnflN15Xvmamm6dPmQ6XFPVUn8bTXVJxkt
-	9U94XRyV8w==
-X-Received: by 2002:a5d:6f11:0:b0:48b:9d80:53a5 with SMTP id ffacd0b85a97d-48e2649399cmr9647538f8f.10.1792659845013;
-        Thu, 22 Oct 2026 02:04:05 -0700 (PDT)
+        bh=VCtPLF1g5YCJnqvDxXjL/9SGDpcHIvBwNuJeTWJPyWo=;
+        b=S0Jc0hJB6wEFO6uvHztCnzhEsrFD3Y2oZ7rL2FjA7Bb7eRfS8fzye+PQ47VY6kGZIv
+         KXi00Sp1v60wVxIxewWp/FZN2OhkLItSB5BFNTXPLRsm5ptmtX0KsepezJbbBeSrC4Xt
+         X7bPf63u8eJ575wBDZjeFfytzY3lLT2uV9sKDo7fsbDcAZOJ0jAZTYD8CN6MrTR8IUV4
+         22aDN8jfV+olqamo5RwNcfwz8I/grmAyNEtnhJRBL5CL/Zbw0zYwYTS3cMMRaTxI1izr
+         rrzrUqwGMucva/yfTTx4Buca45TqJx77coK1Z+2wLHOs2+jVBPsiVtcR5ETRJN3LsnxF
+         sPUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxkE+ybGTyX23PN749hw5VbyBUBwBJKAVpDmBAQSlzEjVEjBWhsHW7Q73I4I5/gVtoeqZyVmFNsEUk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK3KSkt7fQs9LCIiug9NMfmsyloBpDCuCJkRtl8FR1/D65cqCkQ
+	O30dXT3G4eiH69UhLNF9lNPbrFRU35JOOS6MgPYCdWs2xRP7tqvWqeS6u0Yw7dlf+CQ=
+X-Gm-Gg: AYBFou35qg2wRWi5BPScy1CeZ4KogDiRZW0RXwFAW2YwW15FshrP/mJQzlAk/JwJnnR
+	3eCyBPBbZ6q6hMVf24+/z4R2wWo+9mJnrX84Z5WriyTMDP97F7+mgrxYjhnbiAqVRPPkCoq9n/m
+	mXOo4x1Z5DMfAPTO/KeoxSo69Yr0fILZ3Y2GO3eBWLNYuSiJXC2I0T9nkBVuRHaiSn31guTBCRn
+	rE92lEZ2VQ5+mXyKFAdA4wQfZiRNhWDYebHWgkW42vG47zPGU0fxuq/kkdxLZmytP8zzpUjRx/m
+	/SNHI8p2BapOz6X6XLy3SBEo+NiNG5eZeuha8HU/Z33ZyOTK8QaIDopmg9bOi4eI1Uyu1A4Hfpb
+	jEIiwMlK8k+2jWVeDAUsxMkZIpnQkKX/OQExiWW/eQ+/WuLtKBAb3CAxyRCshRj+LAWGdwxoRHa
+	UcqSvZ8Zk8VZB3hDDvc9rQLSp4udHt1/5YTcZp9rGX4tLGsZi9CJaHA81OjLCmsmOBGJ6jk4A3a
+	+OsybulixVGg9MH+z73ggeHVTz4U2QDfTk+IEF+57Al1f6+QqU6r6sSxl4B95Nz
+X-Received: by 2002:a05:600c:3b1d:b0:4a1:d41b:5060 with SMTP id 5b1f17b1804b1-4a1fdb1358bmr98096365e9.22.1792659946257;
+        Thu, 22 Oct 2026 02:05:46 -0700 (PDT)
 Received: from localhost ([128.77.52.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2a034fc2sm7010484f8f.5.2026.10.22.02.04.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203b28f70sm62056445e9.4.2026.10.22.02.05.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 02:04:04 -0700 (PDT)
-Date: Thu, 22 Oct 2026 11:04:00 +0200
+        Thu, 22 Oct 2026 02:05:45 -0700 (PDT)
+Date: Thu, 22 Oct 2026 11:05:41 +0200
 From: Jiri Pirko <jiri@resnulli.us>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -91,11 +90,11 @@ Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
 	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
 	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
 	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 10/20] ctlv: Prepare event queue support
-Message-ID: <atnRAOJFuw8WqQ4Y@FV6GYCPJ69>
+Subject: Re: [PATCH RFC 12/20] ctlv: Add device and operation dispatch
+Message-ID: <atnRsQHieSNzE51D@FV6GYCPJ69>
 References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-11-jiri@resnulli.us>
- <20261021021208.6909d4e3@jic23-hlaptop>
+ <20261015145053.3664509-13-jiri@resnulli.us>
+ <20261021022505.6fe1b1bb@jic23-hlaptop>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,250 +106,212 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261021021208.6909d4e3@jic23-hlaptop>
+In-Reply-To: <20261021022505.6fe1b1bb@jic23-hlaptop>
 
-Wed, Oct 21, 2026 at 03:12:08AM +0200, jic23@kernel.org wrote:
->On Thu, 15 Oct 2026 16:50:43 +0200
+Wed, Oct 21, 2026 at 03:25:05AM +0200, jic23@kernel.org wrote:
+>On Thu, 15 Oct 2026 16:50:45 +0200
 >Jiri Pirko <jiri@resnulli.us> wrote:
 >
 >> From: Jiri Pirko <jiri@nvidia.com>
 >> 
->> Add per-open subscriptions, bounded event queues and event creation for
->> CTLV families. Add the generated root family kernel bindings now that their
->> message and event helpers are available.
->> 
->> The event and generated root objects can be compile-checked here.
->> CONFIG_CTLV remains unwired until device dispatch completes the module.
+>> Register CTLV devices, resolve family chains and dispatch operations
+>> through validated messages. Wire CONFIG_CTLV and the generated root family
+>> after all module objects are present.
 >> 
 >> Assisted-by: Cursor: GPT-5.6 Sol
 >> Assisted-by: Cursor: Claude Opus 5.5
 >> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
->Nothing fundamental - just a few passing comments.
+>> ---
+>>  drivers/Kconfig             |    2 +
+>>  drivers/Makefile            |    1 +
+>>  drivers/ctlv/Makefile       |    4 +-
+>>  drivers/ctlv/core.c         | 1517 +++++++++++++++++++++++++++++++++++
+>Normally I'd push back hard on too big to read, but it is an rfc
+>and other patches in the series are much large.
 >
->I'm running low on time, so will take a closer look at
->this in a future revision.
+>I'm out of time for today and not sure when I'll get back to this,
+>so just a few quick comments inline on the bit I did look at.
 >
->> diff --git a/drivers/ctlv/event.c b/drivers/ctlv/event.c
+>>  drivers/ctlv/device.h       |   17 +
+>>  include/linux/ctlv.h        |   55 ++
+>>  include/linux/ctlv_family.h |   22 +
+>>  7 files changed, 1616 insertions(+), 2 deletions(-)
+>>  create mode 100644 drivers/ctlv/core.c
+>
+>> diff --git a/drivers/ctlv/core.c b/drivers/ctlv/core.c
 >> new file mode 100644
->> index 000000000000..0f68d33e031c
+>> index 000000000000..aeab29fe2fdd
 >> --- /dev/null
->> +++ b/drivers/ctlv/event.c
->> @@ -0,0 +1,713 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2026, NVIDIA CORPORATION & AFFILIATES
->> + *
->> + * Per-open event queues and loss reporting.
->> + */
->> +
->> +#include <linux/bitmap.h>
->> +#include <linux/build_bug.h>
+>> +++ b/drivers/ctlv/core.c
 >
->cleanup.h given you are making quite a bit of use
->of guard() in here.
-
-Okay.
-
-
+>...
 >
->> +#include <linux/ctlv.h>
->> +#include <linux/ctlv_gen.h>
->> +#include <linux/err.h>
->> +#include <linux/errno.h>
->> +#include <linux/list.h>
->> +#include <linux/minmax.h>
->> +#include <linux/overflow.h>
->> +#include <linux/poll.h>
->> +#include <linux/sizes.h>
->> +#include <linux/slab.h>
->> +#include <linux/spinlock.h>
->> +#include <linux/string.h>
->> +#include <linux/uaccess.h>
->> +#include <linux/wait.h>
->> +
->> +#include "builder.h"
->> +#include "device.h"
->> +#include "event.h"
->> +#include "internal.h"
->> +#include "message.h"
->> +#include "schema.h"
->
->> +
->> +struct ctlv_op_ctx *ctlv_event_create(struct ctlv_device *ctlvdev, u64 op_id,
->> +				      struct ctlv_cursor **reply, gfp_t gfp)
+>> +static int ctlv_file_open(struct inode *inode, struct file *filp)
 >> +{
->> +	const struct ctlv_op_entry *op;
->> +	struct ctlv_op_ctx *ctx;
->> +	void *out;
->> +	u32 room;
+>> +	struct ctlv_device *ctlvdev = container_of(inode->i_cdev, struct ctlv_device, cdev);
+>> +	struct ctlv_file *cfile;
 >> +	int ret;
 >> +
->> +	ctx = kzalloc_obj(*ctx, gfp);
->> +	if (!ctx)
->> +		return ERR_PTR(-ENOMEM);
->> +	scoped_guard(spinlock, &ctlvdev->events_lock) {
->
->Generally mixing anything cleanup.h with gotos is
->a bad idea. Tends to get Linus saying your code needs
->restructuring even if it isn't an actual bug.
-
-Okay. Will rework.
-
-
->
->> +		const struct ctlv_family *family;
->> +
->> +		if (!ctlvdev->events_live) {
+>> +	/*
+>> +	 * A failed create can withdraw the cdev while an open is waiting for
+>> +	 * the lifecycle lock, so admission itself first pins core storage.
+>> +	 */
+>> +	get_device(&ctlvdev->dev);
+>> +	ctlv_file_open_pinned(ctlvdev);
+>> +	scoped_guard(rwsem_read, &ctlvdev->registration_lock) {
+>> +		if (!ctlv_file_open_allowed(ctlvdev)) {
 >> +			ret = -ENODEV;
->> +			goto err_free_ctx;
+>> +			break;
+>Personally I still dislike the hidden for loop in scoped_guard()
+>and using break with that enough I'd do a 
+>	do {
+>		guard(rwsem_read)(&ctlvdev->registration_lock);
+>
+>	
+>	} while (0);
+>
+>Just so it is obvious what those breaks are from.
+
+Agreed, easier to read. Will fix.
+
+
+>
+>Maybe I just need to get this one into my code review head...
 >> +		}
->> +		if (WARN_ON_ONCE(ctlvdev->active_event_contexts == U32_MAX)) {
->> +			ret = -EOVERFLOW;
->> +			goto err_free_ctx;
+>> +		if (!(filp->f_mode & FMODE_READ)) {
+>> +			ret = -EACCES;
+>> +			break;
 >> +		}
->> +		/* Admission pins the op until emit or abort. */
->> +		family = READ_ONCE(ctlvdev->family);
->> +		if (!family) {
->> +			ret = -ENODEV;
->> +			goto err_free_ctx;
+>> +
+>> +		cfile = kzalloc_obj(*cfile, GFP_KERNEL_ACCOUNT);
+>> +		if (!cfile) {
+>> +			ret = -ENOMEM;
+>> +			break;
 >> +		}
->> +		get_device(&ctlvdev->dev);
->> +		ctlvdev->active_event_contexts++;
->> +		ctx->ctlvdev = ctlvdev;
->> +		ctx->family = family;
->> +	}
->> +
->> +	op = ctlv_op_find(ctlvdev, op_id);
->> +	if (WARN_ON_ONCE(!op) || WARN_ON_ONCE(op->schema->type != CTLV_OP_TYPE_EVENT)) {
->> +		ret = -EINVAL;
->> +		goto err_put_ctx;
->> +	}
->> +	room = ctlv_event_len(op) - sizeof(struct ctlv_event_hdr);
->> +	out = kmalloc(room, gfp);
->> +	if (!out) {
->> +		ret = -ENOMEM;
->> +		goto err_put_ctx;
->> +	}
->> +
->> +	ctx->gfp = gfp;
->> +	ctx->op = op;
->> +	ctlv_message_output_init(&ctx->output, ctx, out, room, &op->schema->reply);
->> +	ctlv_message_root(&ctx->output_root, &ctx->output);
->> +	ctx->deepest = &ctx->output_root;
->> +	*reply = &ctx->output_root;
->> +	return ctx;
->> +
->> +err_put_ctx:
->> +	ctlv_event_free(ctx);
->> +	return ERR_PTR(ret);
->> +err_free_ctx:
->> +	kfree(ctx);
->> +	return ERR_PTR(ret);
->
->Two different error paths also tend to indicate code needs
->a rethink and maybe splitting into a couple of functions for the
->different stages.
-
-Okay, will do.
-
-
->
->> +}
->> +EXPORT_SYMBOL_NS_GPL(ctlv_event_create, "CTLV");
->
->
->
->> +
->> +ssize_t ctlv_event_file_read(struct ctlv_file *cfile, char __user *buf, size_t len, bool blocking)
->> +{
->> +	struct ctlv_device *ctlvdev = cfile->ctlvdev;
->> +	struct ctlv_event_record *rec;
->> +	ssize_t ret;
->> +
->> +	/* dup() and SCM_RIGHTS share one serialized queue. */
->> +	if (mutex_lock_interruptible(&cfile->reading))
->> +		return -ERESTARTSYS;
->
->	ACQUIRE() magic should work here and let you do direct returns on error.
-
-Okay.
-
-
->
->> +
->> +	while (!(rec = ctlv_event_queue_take(cfile))) {
->> +		/* Drained, and the device is gone. */
->> +		if (READ_ONCE(ctlvdev->dead_announced)) {
->> +			ret = -ENODEV;
->> +			goto out_unlock;
->> +		}
->> +		if (!blocking) {
->> +			ret = -EAGAIN;
->> +			goto out_unlock;
->> +		}
->> +		ret = wait_event_interruptible(cfile->readers, ctlv_event_waiting(cfile));
+>> +		cfile->ctlvdev = ctlvdev;
+>> +		/*
+>> +		 * Commits this description to the device. An open that failed
+>> +		 * after this would have to take it back.
+>> +		 */
+>> +		ret = ctlv_event_file_init(cfile);
 >> +		if (ret) {
->> +			ret = -ERESTARTSYS;
->> +			goto out_unlock;
+>> +			kfree(cfile);
+>> +			break;
 >> +		}
+>> +		/* This description keeps the reference taken on entry. */
+>> +		filp->private_data = cfile;
+>> +		return 0;
 >> +	}
 >> +
->> +	if (rec->len > len) {
->> +		ctlv_event_queue_untake(cfile, rec);
->> +		ret = -EMSGSIZE;
->> +		goto out_unlock;
->> +	}
->> +	if (copy_to_user(buf, &rec->hdr, rec->len)) {
->> +		ctlv_event_queue_untake(cfile, rec);
->> +		ret = -EFAULT;
->> +		goto out_unlock;
->> +	}
->> +	ret = rec->len;
->> +	ctlv_event_queue_consumed(cfile, rec);
->> +
->> +out_unlock:
->> +	mutex_unlock(&cfile->reading);
+>> +	put_device(&ctlvdev->dev);
 >> +	return ret;
 >> +}
 >
->> +static int ctlv_event_subscriptions_set(struct ctlv_op_ctx *ctx, const struct ctlv_cursor *request,
->> +					struct ctlv_input_ref ref, bool subscribe)
+>> +struct ctlv_device *ctlv_create(struct device *parent_dev, const struct ctlv_family *family,
+>> +				const void *init_info)
 >> +{
->> +	struct ctlv_device *ctlvdev = ctx->ctlvdev;
->> +	struct ctlv_cursor attr;
+>> +	struct ctlv_device *ctlvdev;
+>> +	int devnum, ret;
 >> +
->> +	for (ctlv_input_attr(&attr, request, ref); ctlv_attr_ok(&attr); ctlv_attr_next(&attr)) {
->> +		u64 op_id = ctlv_attr_u64(&attr);
+>> +	if (!parent_dev || !family)
+>> +		return ERR_PTR(-EINVAL);
 >> +
->> +		if (!ctlv_event_subscription_find(ctlvdev, op_id))
->> +			return ctlv_op_errorf(ctx, -EOPNOTSUPP,
->> +					      "op %#llx is not an event this device emits",
->> +					      (unsigned long long)op_id);
+>> +	ctlvdev = kzalloc_obj(*ctlvdev, GFP_KERNEL);
+>> +	if (!ctlvdev)
+>> +		return ERR_PTR(-ENOMEM);
+>> +	ctlvdev->family = family;
+>> +	init_rwsem(&ctlvdev->registration_lock);
+>> +	spin_lock_init(&ctlvdev->transition_lock);
+>> +	ctlv_event_device_init(ctlvdev);
+>> +
+>> +	/* Before anything reads the schema through this device. */
+>> +	ret = ctlv_op_resolution_init(ctlvdev, family);
+>> +	if (ret)
+>> +		goto err_free;
+>> +	/* What this family's events need of every queue opened on it. */
+>> +	ret = ctlv_event_sizes(ctlvdev);
+>> +	if (ret)
+>> +		goto err_free;
+>> +	/* Before a minor is spent on a device that could not be announced. */
+>> +	ret = ctlv_device_uevent_check(family);
+>> +	if (ret)
+>> +		goto err_free;
+>> +	if (ctlvdev->dynamic_ops_count) {
+>> +		ctlvdev->disabled = bitmap_zalloc(ctlvdev->dynamic_ops_count, GFP_KERNEL);
+>> +		if (!ctlvdev->disabled) {
+>> +			ret = -ENOMEM;
+>> +			goto err_free;
+>> +		}
+>> +	}
+>> +	devnum = ida_alloc_max(&ctlv_device_ids, CTLV_MAX_DEVICES - 1, GFP_KERNEL);
+>> +	if (devnum < 0) {
+>> +		ret = devnum;
+>> +		goto err_free;
 >> +	}
 >> +
->> +	guard(spinlock)
->> +		(&ctlvdev->events_lock);
->
->That looks odd. 
->	guard(spinlock)(&ctlvdev->events_lock);
->is more familiar form to me anyway.
-
-True. Will fix.
-
-
->
->> +	for (ctlv_input_attr(&attr, request, ref); ctlv_attr_ok(&attr); ctlv_attr_next(&attr)) {
->> +		u64 op_id = ctlv_attr_u64(&attr);
->> +		const struct ctlv_op_entry *op = ctlv_event_subscription_find(ctlvdev, op_id);
+>> +	ctlvdev->dev.devt = ctlv_device_number + devnum;
+>> +	ctlvdev->dev.class = &ctlv_device_class;
+>> +	ctlvdev->dev.parent = parent_dev;
+>> +	device_initialize(&ctlvdev->dev);
+>> +	/*
+>> +	 * The core owns the file operations, so an open holds the core module
+>> +	 * and not the family's, which may unload while readers remain.
+>> +	 */
+>> +	cdev_init(&ctlvdev->cdev, &ctlv_file_operations);
+>> +	ctlvdev->cdev.owner = THIS_MODULE;
 >> +
->> +		if (subscribe)
->> +			set_bit(op->event_index, ctx->file->subscribed);
->> +		else
->> +			clear_bit(op->event_index, ctx->file->subscribed);
->
->		assign_bit()
->
+>> +	ret = dev_set_name(&ctlvdev->dev, "ctlv%d", devnum);
+>> +	if (ret)
+>> +		goto err_put;
+>> +	ret = ctlv_family_claim_add(family->schema);
+>> +	if (ret)
+>> +		goto err_put;
+>> +	ret = ctlv_family_privs_pre_init(ctlvdev, init_info);
+>> +	if (ret)
+>> +		goto err_put;
+>> +	ret = ctlv_family_privs_init(ctlvdev);
+>> +	if (ret)
+>> +		goto err_put;
+>> +	ctlv_op_publish_all(ctlvdev);
+>> +	ctlv_event_contexts_start(ctlvdev);
+>> +	ret = ctlv_family_privs_post_init(ctlvdev);
+>> +	if (ret)
+>> +		goto err_fini;
+>> +	scoped_guard(rwsem_write, &ctlvdev->registration_lock) {
+>> +		ret = ctlv_device_add(ctlvdev);
+>> +		if (!ret)
+>> +			ctlvdev->registered = true;
 >> +	}
->> +	return 0;
+>> +	if (ret)
+>> +		goto err_fini;
+>> +	return ctlvdev;
+>> +
+>> +err_fini:
+>> +	ctlv_device_fini(ctlvdev);
+>> +err_put:
+>> +	put_device(&ctlvdev->dev);
+>> +	return ERR_PTR(ret);
+>
+>Jason did some nice handling in the fwctl stuff for
+>device alloc and hand over after device_initialize()
+>(I've copied it into a few places recently :)
+>
+>I'd like to see something similar here as it made
+>it easier to follow lifetimes etc.
+
+Will do.
+
+
+>
+>> +err_free:
+>> +	bitmap_free(ctlvdev->disabled);
+>> +	ctlv_family_privs_free(ctlvdev);
+>> +	kfree(ctlvdev->ops);
+>> +	kfree(ctlvdev);
+>> +	return ERR_PTR(ret);
 >> +}
+>> +EXPORT_SYMBOL_NS_GPL(ctlv_create, "CTLV");
 >
+
+Thanks!
+
