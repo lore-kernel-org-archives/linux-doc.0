@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792688339;
-	b=OJHlMf3zLBzwWL0UhTyKVihKjO+G0sXPMTYy0CPPOwb4TnXPEScaQuusp5MN2dS+Bifs
-	 W5GOwfiuM1n8OcKtffxn6hAF/Uj5EaRNsRBAnz9HKijAp9kN1cfmGDClqAf9ZssASUWy3
-	 8GPODRgDhiAVPZyKauyGSR4K6Dcis1M0lhVu7bBOTIvRZnNhVe5cxoeKdVw0gomk2J8cp
-	 CeDTxyo2fkh/6Gj7ygorVkKDPoHECynr0PhgxMAqilvhNmNs7lq1HL7awXxKRDmnHhPo/
-	 67wMqsuua1Ixii2E3ylSuKBXi+niphlAfedio7AD1f8mFVwzcIdlfgnB8v48goU/H9g==
+	t=1792688341;
+	b=V5UL5DHx61vKztGEpnqM66OBqJ/O+8AJcWqhx9hd0X/yzwXc7jSUaqAmkjbqDR/7BxvB
+	 JSfNoL8KzTalWnXA48UhqPczzGEClZMT/QKKpSTH3hHbQ0kpnTpYeqXbZBfEynMlZqMy3
+	 6uzQCr7yC76yLZYZBCc92s325+sKGmooyxa9JqOouJIiXrMY8QOqe9tp1P0aiTlM90Esw
+	 I84gvj0zMOjJEL6lwN9YoHigAmG0u9g7uComRLUwoFv6GZEx3tQQeO+c6SZ/2inakCA44
+	 6QeqA2Odw5apuYxl/9SMC73dL/tneXnVWL1njRkcMWxQA2i/hNuKBbkvKwH5YacadcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792688339;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792688341;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=wszrh6R2g8rAfmRyvD0Q1PJ/LXwFW3iH+CJpBKb1e0Y=;
-	b=3XMj8ZNTiP7Ref8L1lBN50NgYtc+9vKqqjuuN32LD6p1X4ahrsZUH+5rMKFIpjeSAnxD
-	 v1ld+nmqLqehMtKr7jVt0MGwsuGVbg+Iy3Ny77PFxf97l0rXUO9a5Z9GNX3WcVimU7kOR
-	 kecbxQ+8qzsfv/dWdSOatQs9ldYoOHDLFsVLuIlzyUOu2JvZEsIro886YlQTzWFEUrM8o
-	 QujKPtv91HM+HVVapsdp5lJ5LLLhHSHCR74+TbERadb0ODFZbv7tYiLzLHbLyvx4haFap
-	 Pgl3pRrdKlzCYeW5OVp0RgMhBHAltxIJYuW7LHSm/HqhTT3iG6VdQnxP0ohmRyHbLPA==
+	bh=W7YeOGCoo/KQR6RPp5t3iOKduMWVKWg0EO1FIafOrtU=;
+	b=kBDRzsMk1jbp94GfDBkk7JKw4HVSd57bi7pE/RxTEbzzxQm3UB6Be1fbwFX7hlttzLyU
+	 oSJ7k6ERtYQBtiHUc9SdU5FjyzM/Oo/CpNSa07omSBo0V8r+AtYI0b3RSEN5vx+VlSKtT
+	 Nl7fdlcDFq1IPz+71dOXX6yMmVkuEhhF8CTPnvtidQV4/g+R6FRWTYMV9uMj0OEvwks+Y
+	 3cctklRofWw1pCtNjtenIF/ioo+6bayEuIW0ryvZh1EzPWw34OBeQ3G5DiWU0qMcZ0/yV
+	 H3M4SY4gAcQNl0M6c7RTCphpVJ4Aof/fQGNWsj6xqEjTNcWHg+TImYobG0c1iyB0q7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arista.com;
 	spf=pass smtp.mailfrom=arista.com;
-	dkim=pass header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=FL1ZaMku;
-	arc=none smtp.remote-ip=74.125.82.51
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	dkim=pass header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=dpn9gq5h;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39750606A31F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 16:58:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39750606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394D660A2603
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 16:59:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 394D660A2603
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=FL1ZaMku
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1846bc43c28so1479756c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:58:57 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=dpn9gq5h
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1517bda04a0so2408336c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1792688336; x=1793293136; darn=vger.kernel.org;
+        d=arista.com; s=google; t=1792688339; x=1793293139; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wszrh6R2g8rAfmRyvD0Q1PJ/LXwFW3iH+CJpBKb1e0Y=;
-        b=FL1ZaMkuY3485iIc3ZQCn3sG+fTJWBdV09VwotBgZrc/rZo7Cho79baKAkZAUlJ2JY
-         uu/5e9rj05pf3lj3sBw7UBZfpuBp8V08rw+qABCc+IFc7QxBq/C0X9x5iGEsZzPT4YiO
-         zrSz/MpcrWnCNgS//YZKHTrYOOfNuhtDXhgdg/TaBAHletiw4lGLDbU0nTmcvzGDYMW7
-         q4GnWSZmABXUt9yGZmbyTuUhddJQndmGdbu7IegHeKuwwHH18YRtaACBapikc2uLQlOh
-         UjvxsWAClH91Qkx1lCxQCtYyCv+wCXzSGfdY/1596lds0RqodFwXVYChF6kpT9hTg4eG
-         iOZQ==
+        bh=W7YeOGCoo/KQR6RPp5t3iOKduMWVKWg0EO1FIafOrtU=;
+        b=dpn9gq5htbaMk/l/KS6BiZ1h0XAxEXikL/PJf8H8bLVRQq20aX1P6P2u0RClTS2QpU
+         9J3xWf3nveXQosolCjfJgnuzv22ou0AdIoE7EgcWx6rNYAi+FARCEvXCWJ93z2a8Q/MK
+         U3F0AITZ+7lcN0Eit87LhztoLMx/1CkTmkAy+q6uExJWESNnLZ25H/xhKwoE+8eP3U4B
+         MtlR/cvyHcDxSmxl1eZ7SNSdkBCnHZKAxV9BIxZ94O9txDA/ahsIesTEAXJ5QL0m/3xZ
+         5Ni9PxEmqtjdWCInC4hfz0qi/TPkXzkwjsvOr/yZ7zwSCe/XO35FRp5+lrCwOEJQcpzv
+         GAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792688336; x=1793293136;
+        d=1e100.net; s=20260707; t=1792688339; x=1793293139;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wszrh6R2g8rAfmRyvD0Q1PJ/LXwFW3iH+CJpBKb1e0Y=;
-        b=0Z9T7dYa4st3WAL2Od+INX6p/IwrM0dcILcOfzFsCE1pqR7/saZKsFpKNxwBz/80Eg
-         kCHYfrJdUlhDlSyUiIGcqjjIdHCC6kfo/yNkQVBezsOa1imFvHMEX4DIAyHACU2vTdLn
-         rn4oWIEeS8Gm5TVec5+8DVqEuD8VnaYg9ImPXOnA9u94VDi4ZDnVayEJZVtHztmq81Wr
-         yWcnLNbFxuZA3GjGfVQojKn7pg/7eK76ZY+10+9bpukLZAMJJ6MGVYwC/3CyrSjfxNP/
-         RbdjdwqjpXadyvsjH+iM6YqVNNijMj0swzelVIaPLU0NC7rig+dFR1EiRbCZKm5fdNfH
-         LTug==
-X-Forwarded-Encrypted: i=1; AKwUvBxW0iteWUZgsSY0l5wMalUGgw+wZDwfUi6YACVZm7Yb8vaPJHEuCn6nn1Wwp4fNvhzlEigd6z0ESi4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJIvWaiR8TGuPkMp+G/p7GCOFETybR6cXrXbiOb4nubOCaKBRI8
-	QhRqi5J17Ff4ODaZx2EfZSqbuABPcFWxEaUixkHGXvSGLd4Q3hLICR0OgMJY9BhEYQ==
-X-Gm-Gg: AYBFou1RC4OT9g5Qr7uZ0CtXgqScOi/ANaJTjPbCo/A99Oip5TcRoFsu7rqba52LO3v
-	qqeRcN94O9gZq2ZkfwNez/WuA944EQysTmAP0ztmxBs4HxpkU6THxjdBcVJu/4XG5TK3mxZgLzT
-	UcJLAMbS6KbOIQ8d+eHYaXevo4iZ6mbRGVcWfOGcO9LlsaD9KDp1OnTxnH5frqQfxfBTDv0Uafl
-	iadaj2pbrxE5H1a4DQIx/0wzjr34D8GDJf6dhJ/L0zCsIqa4pn7Uj21iMeU0HWdwFRi6OZQwhop
-	8k6iFLTwmrSV+joz/QQ4BLvuPepYbK+FxVcjhS5xBI8QsFpthIdYHxAOqhEsaEE9FImnHfgXCNN
-	lN4WOdKcOpBu87cQzIv8KcKCCJJI2mcq5FgTsan1cmahRDnIavGGu60vQ+b3DD50u+IudaPpy09
-	yVfOxObUHBV3hDP9i93vh1QIdh63HrBZNcFhnUB6NqUVApaH1gBavsTE2hn9SbJB2OFAlHUcyFl
-	mTRUeYgIvwMejbzlfedjaSK0dL+j32z1h75SIw8Bv3j70D+w8qTZ574/7+64QcKo+ZzLzz3syt0
-	fs3JA+GEjBcFI3/RYSVlP1+GcPLCOwIR2/I=
-X-Received: by 2002:a05:701b:204f:20b0:184:329d:eced with SMTP id a92af1059eb24-190a52de3edmr7715048c88.25.1792688336131;
-        Thu, 22 Oct 2026 09:58:56 -0700 (PDT)
+        bh=W7YeOGCoo/KQR6RPp5t3iOKduMWVKWg0EO1FIafOrtU=;
+        b=rzTAd4CYgqlCN3b2RTnKI3p7/YF7wXfy+qcHNpNzUOxS2oy+bqLCdem3DoYNOCFjdr
+         wMKz4n6VZJjKbQkZXuXMI9Dyun6fITE+vihBrWg3SRWuX14X+EkOmrFvM4gF7rrLu8cJ
+         o6UdJ4VTMvxGFDuDvpXdxSu8CR6PxuhSPwNOXAutuUNTOE+xDPFxAhHPYcV1oTkp9PZ8
+         KRCM8guA3+1WqFMxxvuuELpZMHjECBWBXJzlY5Pt7knlFfIAW245rA3JSAAu/10/bKzO
+         kIAwgFy62Ux7Bwi2r19O30LHC1/PfObBlEzUslvTNkk4JCNJDB0lcAtf42KoUYPca1p2
+         VfgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz71ZyM4di1GVwljemTcDstqOIGekJZ+OC3+rlutFkDhfiivLpay+xBS6QJkjMl7KWQ98kfzoOZ5sg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIzGiD9kjhVfSGcRXHe4JrQnu28ZoDzxFYZcu4tXZRpa1GazElk
+	C2dEHWAbQ17pTm4q6QSdgymXNXYkpjhaWqLvjTtDlWD6ahhK+2OLVY3Mw3nbB6BTUg==
+X-Gm-Gg: AYBFou2WVJ3bnGu1EO+EKIddwgNey1FaQEbqXoS1XW9897S+WwMbV0IO1qaLP4SYlS5
+	tPhTh1cvKYPN63fdo43QnYLhHFObJ/oXn821A3rZll2PIsMIsQvDV0u+qm8g7fTZnVGOE+wLgMT
+	FaddJJr2lPVISDifPTsrVxTODwKncxukocHZjoQibqvP3SUyyiq2a5Y48bfWRDLuCgYyALES/XA
+	CTn5WDUtUgxaESPaFSErx80CbGKNbVK4y6s8AgbvrpYL+GftH1iHtJQzXBgjr7ckY14+ji2pLS3
+	Gzg2lytR+HMz90D9mx9LquK9pXSWihQ/oXyLEEcMeEHdfS/gWY+Ni9N6bSuyJoXQDvr3k+ofY+i
+	k50jaRNo8iSKiZLIERXUDRtjsy83NavStlQOfiUowmJy94xjUs4Yr+hyLrSgll7SWEjIXPBNLgE
+	jVSLQLnRVCqnVAAulc/c2AyOod4xZNjXxarLyW6szrZNwRTveF85vt4isZM70iB8G83QKAP0nm0
+	yCl6uOup5SXHg24cLVUR29PYRPa+hpILpliQOl+W+l6/AUx153zPUYaRCBC9KmyB6oEfyLAbn0D
+	8qf5gT3Cl/Wf0wbYyWt+DKXBScUBQOPMWIE=
+X-Received: by 2002:a05:7022:618:b0:14c:1f57:3e86 with SMTP id a92af1059eb24-190a7e0c437mr10112891c88.47.1792688338953;
+        Thu, 22 Oct 2026 09:58:58 -0700 (PDT)
 Received: from yurypm-home-4hjc6.sjc.aristanetworks.com ([74.123.28.13])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1903d3ae06fsm15951151c88.19.2026.10.22.09.58.55
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1903d3ae06fsm15951151c88.19.2026.10.22.09.58.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:58:55 -0700 (PDT)
+        Thu, 22 Oct 2026 09:58:58 -0700 (PDT)
 From: Yury Murashka <yurypm@arista.com>
 To: bhelgaas@google.com
 Cc: rafael@kernel.org,
@@ -92,9 +92,9 @@ Cc: rafael@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v3 1/2] PCI: Add pci=noaer_recovery kernel boot option
-Date: Thu, 22 Oct 2026 16:58:41 +0000
-Message-ID: <20261022165842.1463451-2-yurypm@arista.com>
+Subject: [PATCH v3 2/2] PCI: Add pci=nodpc kernel boot option
+Date: Thu, 22 Oct 2026 16:58:42 +0000
+Message-ID: <20261022165842.1463451-3-yurypm@arista.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20261022165842.1463451-1-yurypm@arista.com>
 References: <20261022165842.1463451-1-yurypm@arista.com>
@@ -109,138 +109,248 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On large modular systems with a complex PCIe topology, allow userspace to
-inspect uncorrectable AER errors before Linux attempts recovery.
+Add pci=nodpc to let Linux opt out of Downstream Port Containment (DPC)
+and Error Disconnect Recover (EDR) support on systems where userspace
+manages PCIe errors.
 
-Add pci=noaer_recovery to retain AER logging while skipping recovery for
-uncorrectable errors. Check the option before dispatching either CXL RCH
-internal errors or ordinary PCIe errors so CXL driver error callbacks
-cannot bypass it. Also skip recovery for errors reported through GHES,
-while retaining error logging and releasing error buffers and device
-references.
+Skip DPC initialization, state operations, hotplug recovery checks, and
+port service registration when disabled. Expose pci_dpc_available() so
+ACPI negotiation and PCIe port service discovery honor the same policy.
+Do not advertise EDR support or request DPC control through _OSC, and
+prevent native-port overrides from reintroducing DPC ownership.
 
-Correctable errors continue to be handled normally. Skipping recovery
-avoids its clearing of uncorrectable error status, but does not suppress
-Root Port interrupt acknowledgment or change firmware error handling.
-The option is AER-specific and does not disable DPC recovery.
+Skip EDR notifier installation before the DPC-enabling _DSM call. Merely
+skipping the native DPC driver would allow EDR to enable hardware DPC
+while the handler lacks the capability information needed to recover.
+
+The option disables Linux participation in DPC and EDR; it does not turn
+off firmware-owned DPC hardware. AER reporting and recovery remain
+independent and can be controlled with their own boot options.
 
 Signed-off-by: Yury Murashka <yurypm@arista.com>
 ---
 Changes in v3:
-- Check the option before both CXL RCH and ordinary PCIe error dispatch.
-- Preserve logging, correctable handling, and current GHES cleanup.
-- Clarify the AER-only scope and rebase onto PCI next.
+- Add pci_dpc_available() and use it for ACPI DPC/EDR negotiation.
+- Skip EDR notifier registration and its DPC-enabling _DSM call.
+- Gate DPC service discovery and prevent forced native DPC ownership.
+- Clarify the firmware boundary and rebase onto PCI next.
 
-v2: https://lore.kernel.org/linux-pci/20260709185429.627968-2-yurypm@arista.com/
-Review: https://lore.kernel.org/linux-pci/20260709190616.DF0CF1F000E9@smtp.kernel.org/
+v2: https://lore.kernel.org/linux-pci/20260709185429.627968-3-yurypm@arista.com/
+Review: https://lore.kernel.org/linux-pci/20260709190730.E19A11F000E9@smtp.kernel.org/
 
- Documentation/admin-guide/kernel-parameters.txt |  5 +++++
- drivers/pci/pci.c                               |  2 ++
- drivers/pci/pci.h                               |  2 ++
- drivers/pci/pcie/aer.c                          | 13 +++++++++++--
- 4 files changed, 20 insertions(+), 2 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  4 ++++
+ drivers/acpi/pci_root.c                       |  9 +++++--
+ drivers/pci/pci.c                             |  2 ++
+ drivers/pci/pci.h                             |  2 ++
+ drivers/pci/pcie/dpc.c                        | 24 ++++++++++++++++---
+ drivers/pci/pcie/edr.c                        |  5 +++-
+ drivers/pci/pcie/portdrv.c                    |  3 ++-
+ include/linux/pci.h                           |  6 +++++
+ 8 files changed, 48 insertions(+), 7 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4b..6047efd3c 100644
+index 6047efd3c..f98486d4d 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5118,6 +5118,11 @@ Kernel parameters
+@@ -5115,6 +5115,10 @@ Kernel parameters
+ 				through ports 0xC000-0xCFFF).
+ 				See http://wiki.osdev.org/PCI for more info
+ 				on the configuration access mechanisms.
++		nodpc		[PCIE] Disable Linux DPC and EDR support. Linux
++				neither requests DPC control from firmware nor
++				enables DPC through EDR. Firmware-owned DPC
++				settings are not changed. Requires CONFIG_PCIE_DPC.
  		noaer		[PCIE] If the PCIEAER kernel config parameter is
  				enabled, this kernel boot option can be used to
  				disable the use of PCIE advanced error reporting.
-+		noaer_recovery	[PCIE] Disable Linux AER recovery for
-+				uncorrectable errors, including CXL RCH errors,
-+				while retaining AER logging. Correctable errors
-+				are handled normally. Requires CONFIG_PCIEAER.
-+				Does not disable DPC or firmware error recovery.
- 		nodomains	[PCI] Disable support for multiple PCI
- 				root domains (aka PCI segments, in ACPI-speak).
- 		nommconf	[X86] Disable use of MMCONFIG for PCI
+diff --git a/drivers/acpi/pci_root.c b/drivers/acpi/pci_root.c
+index a1a9c0601..6bca8206c 100644
+--- a/drivers/acpi/pci_root.c
++++ b/drivers/acpi/pci_root.c
+@@ -438,7 +438,7 @@ static u32 calculate_support(void)
+ 		support |= OSC_PCI_ASPM_SUPPORT | OSC_PCI_CLOCK_PM_SUPPORT;
+ 	if (pci_msi_enabled())
+ 		support |= OSC_PCI_MSI_SUPPORT;
+-	if (IS_ENABLED(CONFIG_PCIE_EDR))
++	if (IS_ENABLED(CONFIG_PCIE_EDR) && pci_dpc_available())
+ 		support |= OSC_PCI_EDR_SUPPORT;
+ 
+ 	return support;
+@@ -517,7 +517,7 @@ static u32 calculate_control(void)
+ 	 * OSC_PCI_EXPRESS_DPC_CONTROL indicates the OS supports both DPC
+ 	 * and EDR.
+ 	 */
+-	if (IS_ENABLED(CONFIG_PCIE_DPC) && IS_ENABLED(CONFIG_PCIE_EDR))
++	if (pci_dpc_available() && IS_ENABLED(CONFIG_PCIE_EDR))
+ 		control |= OSC_PCI_EXPRESS_DPC_CONTROL;
+ 
+ 	return control;
+@@ -1064,6 +1064,11 @@ struct pci_bus *acpi_pci_root_create(struct acpi_pci_root *root,
+ 	else if (pcie_ports_dpc_native)
+ 		override = OSC_PCI_EXPRESS_DPC_CONTROL & ~ctrl;
+ 
++	if (!pci_dpc_available()) {
++		ctrl &= ~OSC_PCI_EXPRESS_DPC_CONTROL;
++		override &= ~OSC_PCI_EXPRESS_DPC_CONTROL;
++	}
++
+ 	if (override) {
+ 		decode_osc_control(root, pcie_ports_native ?
+ 				   "OS forcing control (\"pcie_ports=native\") of" :
 diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index a62af7320..9ca8d3fbb 100644
+index 9ca8d3fbb..c2a6aacc5 100644
 --- a/drivers/pci/pci.c
 +++ b/drivers/pci/pci.c
-@@ -6840,6 +6840,8 @@ static int __init pci_setup(char *str)
+@@ -6838,6 +6838,8 @@ static int __init pci_setup(char *str)
+ 			} else if (!strncmp(str, "noats", 5)) {
+ 				pr_info("PCIe: ATS is disabled\n");
  				pcie_ats_disabled = true;
++			} else if (!strcmp(str, "nodpc")) {
++				pci_no_dpc();
  			} else if (!strcmp(str, "noaer")) {
  				pci_no_aer();
-+			} else if (!strcmp(str, "noaer_recovery")) {
-+				pci_no_aer_recovery();
- 			} else if (!strcmp(str, "earlydump")) {
- 				pci_early_dump = true;
- 			} else if (!strncmp(str, "realloc=", 8)) {
+ 			} else if (!strcmp(str, "noaer_recovery")) {
 diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 77efa4c5c..ccc6a678c 100644
+index ccc6a678c..ae8fc06e5 100644
 --- a/drivers/pci/pci.h
 +++ b/drivers/pci/pci.h
-@@ -1337,6 +1337,7 @@ static inline void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge
+@@ -934,6 +934,7 @@ struct rcec_ea {
+ #endif
  
- #ifdef CONFIG_PCIEAER
- void pci_no_aer(void);
-+void pci_no_aer_recovery(void);
- void pci_aer_init(struct pci_dev *dev);
- void pci_aer_exit(struct pci_dev *dev);
- extern const struct attribute_group aer_stats_attr_group;
-@@ -1348,6 +1349,7 @@ void pci_save_aer_state(struct pci_dev *dev);
- void pci_restore_aer_state(struct pci_dev *dev);
+ #ifdef CONFIG_PCIE_DPC
++void pci_no_dpc(void);
+ void pci_save_dpc_state(struct pci_dev *dev);
+ void pci_restore_dpc_state(struct pci_dev *dev);
+ void pci_dpc_init(struct pci_dev *pdev);
+@@ -942,6 +943,7 @@ pci_ers_result_t dpc_reset_link(struct pci_dev *pdev);
+ bool pci_dpc_recovered(struct pci_dev *pdev);
+ unsigned int dpc_tlp_log_len(struct pci_dev *dev);
  #else
- static inline void pci_no_aer(void) { }
-+static inline void pci_no_aer_recovery(void) { }
- static inline void pci_aer_init(struct pci_dev *d) { }
- static inline void pci_aer_exit(struct pci_dev *d) { }
- static inline void pci_aer_clear_fatal_status(struct pci_dev *dev) { }
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index c376c3adb..c41e5e13f 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -142,6 +142,7 @@ struct aer_info {
- 					PCI_ERR_ROOT_MULTI_UNCOR_RCV)
++static inline void pci_no_dpc(void) { }
+ static inline void pci_save_dpc_state(struct pci_dev *dev) { }
+ static inline void pci_restore_dpc_state(struct pci_dev *dev) { }
+ static inline void pci_dpc_init(struct pci_dev *pdev) { }
+diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
+index 2b779bd1d..fbafc3ca0 100644
+--- a/drivers/pci/pcie/dpc.c
++++ b/drivers/pci/pcie/dpc.c
+@@ -43,12 +43,24 @@ static const char * const rp_pio_error_string[] = {
+ 	"Memory Request Completion Timeout",		 /* Bit Position 18 */
+ };
  
- static bool pcie_aer_disable;
-+static bool pcie_aer_recovery_disable;
- static pci_ers_result_t aer_root_reset(struct pci_dev *dev);
- 
- void pci_no_aer(void)
-@@ -149,6 +150,11 @@ void pci_no_aer(void)
- 	pcie_aer_disable = true;
- }
- 
-+void pci_no_aer_recovery(void)
++static bool pcie_dpc_disable;
++
++void pci_no_dpc(void)
 +{
-+	pcie_aer_recovery_disable = true;
++	pcie_dpc_disable = true;
 +}
 +
- bool pci_aer_available(void)
++bool pci_dpc_available(void)
++{
++	return !pcie_dpc_disable;
++}
++
+ void pci_save_dpc_state(struct pci_dev *dev)
  {
- 	return !pcie_aer_disable && pci_msi_enabled();
-@@ -1338,6 +1344,9 @@ static void pci_aer_handle_error(struct pci_dev *dev, struct aer_err_info *info)
+ 	struct pci_cap_saved_state *save_state;
+ 	u16 *cap;
  
- static void handle_error_source(struct pci_dev *dev, struct aer_err_info *info)
+-	if (!pci_is_pcie(dev))
++	if (!pci_dpc_available() || !pci_is_pcie(dev))
+ 		return;
+ 
+ 	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
+@@ -64,7 +76,7 @@ void pci_restore_dpc_state(struct pci_dev *dev)
+ 	struct pci_cap_saved_state *save_state;
+ 	u16 *cap;
+ 
+-	if (!pci_is_pcie(dev))
++	if (!pci_dpc_available() || !pci_is_pcie(dev))
+ 		return;
+ 
+ 	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
+@@ -104,7 +116,7 @@ bool pci_dpc_recovered(struct pci_dev *pdev)
  {
-+	if (pcie_aer_recovery_disable && info->severity != AER_CORRECTABLE)
+ 	struct pci_host_bridge *host;
+ 
+-	if (!pdev->dpc_cap)
++	if (!pci_dpc_available() || !pdev->dpc_cap)
+ 		return false;
+ 
+ 	/*
+@@ -404,6 +416,9 @@ void pci_dpc_init(struct pci_dev *pdev)
+ {
+ 	u16 cap;
+ 
++	if (!pci_dpc_available())
 +		return;
 +
- 	cxl_rch_handle_error(dev, info);
- 	pci_aer_handle_error(dev, info);
- }
-@@ -1383,15 +1392,15 @@ static void aer_recover_work_func(struct work_struct *work)
- 		ghes_estatus_pool_region_free((unsigned long)entry.regs,
- 					    sizeof(struct aer_capability_regs));
+ 	pdev->dpc_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_DPC);
+ 	if (!pdev->dpc_cap)
+ 		return;
+@@ -532,5 +547,8 @@ static struct pcie_port_service_driver dpcdriver = {
  
--		if (pdev) {
-+		if (pdev && !pcie_aer_recovery_disable) {
- 			if (entry.severity == AER_NONFATAL)
- 				pcie_do_recovery(pdev, pci_channel_io_normal,
- 						 aer_root_reset);
- 			else if (entry.severity == AER_FATAL)
- 				pcie_do_recovery(pdev, pci_channel_io_frozen,
- 						 aer_root_reset);
--			pci_dev_put(pdev);
- 		}
-+		pci_dev_put(pdev);
- 	}
+ int __init pcie_dpc_init(void)
+ {
++	if (!pci_dpc_available())
++		return 0;
++
+ 	return pcie_port_service_register(&dpcdriver);
  }
+diff --git a/drivers/pci/pcie/edr.c b/drivers/pci/pcie/edr.c
+index e86298dbb..8567dd1d5 100644
+--- a/drivers/pci/pcie/edr.c
++++ b/drivers/pci/pcie/edr.c
+@@ -223,6 +223,9 @@ void pci_acpi_add_edr_notifier(struct pci_dev *pdev)
+ 	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
+ 	acpi_status status;
  
++	if (!pci_dpc_available())
++		return;
++
+ 	if (!adev) {
+ 		pci_dbg(pdev, "No valid ACPI node, skipping EDR init\n");
+ 		return;
+@@ -246,7 +249,7 @@ void pci_acpi_remove_edr_notifier(struct pci_dev *pdev)
+ {
+ 	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
+ 
+-	if (!adev)
++	if (!pci_dpc_available() || !adev)
+ 		return;
+ 
+ 	acpi_remove_notify_handler(adev->handle, ACPI_SYSTEM_NOTIFY,
+diff --git a/drivers/pci/pcie/portdrv.c b/drivers/pci/pcie/portdrv.c
+index 32fc623dd..aa1c57e33 100644
+--- a/drivers/pci/pcie/portdrv.c
++++ b/drivers/pci/pcie/portdrv.c
+@@ -262,7 +262,8 @@ static int get_port_device_capability(struct pci_dev *dev)
+ 	 * With dpc-native, allow Linux to use DPC even if it doesn't have
+ 	 * permission to use AER.
+ 	 */
+-	if (pci_find_ext_capability(dev, PCI_EXT_CAP_ID_DPC) &&
++	if (pci_dpc_available() &&
++	    pci_find_ext_capability(dev, PCI_EXT_CAP_ID_DPC) &&
+ 	    pci_aer_available() &&
+ 	    (pcie_ports_dpc_native || host->native_aer))
+ 		services |= PCIE_PORT_SERVICE_DPC;
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index f3e9c6c9c..dd667223b 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1984,6 +1984,12 @@ bool pci_aer_available(void);
+ static inline bool pci_aer_available(void) { return false; }
+ #endif
+ 
++#ifdef CONFIG_PCIE_DPC
++bool pci_dpc_available(void);
++#else
++static inline bool pci_dpc_available(void) { return false; }
++#endif
++
+ bool pci_ats_disabled(void);
+ 
+ #define PCIE_PTM_CONTEXT_UPDATE_AUTO 0
 -- 
 2.51.0
 
