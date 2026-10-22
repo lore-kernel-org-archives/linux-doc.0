@@ -1,111 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792660200;
-	b=OCiK8y/mXil6KKsDHQeXCOmzOXlSESJ7ZBHAKxU15fnk17NCkt3QotqlLwqFn/ENs2Sa
-	 l7BFHbLbfd0rlTRGEuj57FvevVfhu80M4UxvQw2s4yvL2sq2/wjcCSrm+wT9LMUMSNRmk
-	 9Jq5muBfaLuEbA6RkxKrRavrSDMtqeCymUqHGuL9J7EKjkPiGzsS8XomY4V3zjKgU0ke8
-	 uQlWn8aQUYFGRyRYmu2qEgT2f0czb80ThKYF9yf+VMb0ijFIAn8ogRvXKZSw0gSnbz4rn
-	 AkZzQoKL6jszH6bNPivniB977iOOnz0+c11vG0PJxeSRXFpAFMJ80FUtw+4S3dR0eiQ==
+	t=1792661270;
+	b=HmFo6cfKT80/KXuQEZtGcDa66DrMKiSaAxFzLcs4RfgdFCcpI5TXHksbXtMLFZo5/Wnm
+	 DJ1Q523BNo+PFnF7ezWvQMDaKbELjD/j/K0bK/GHzAQY1wxTAf1/4KM5nb0PSRW+q+SlA
+	 7ScVg4B/JJcNry9qAgFt9iu82oPIPtzicDHiSX+AvXdobJPyREU8nqVkE2/ZKBjP3lLe8
+	 3nNS6u0UQOprEjsuOSPJdbYo+2vXhP/TT2TCdg1c9OOe9avDD0d3kOp0iNpScSccH5sDe
+	 OsJqLYxEtOYeV4HoLa7uapra2te6SYa1joo0LSxyrh6zslUuciRnkG9doDdc+c1kaIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792660200;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=MuprgGBEIk8/OmsFZVmehe89ddAzvU7HKkgdbnCsQyI=;
-	b=SNaN4x4GvRbNo35sBqOR2H4vUVKqWbDbSW6e5r+tLVGxiC44lnEkowh2/Sdti/Vhtfyt
-	 Bvu3iFWCSacFtXF9ujQwxDNrVAwIjxNfppMiLHxgERt++bijl/4nWIzKIOQFugiwmLU2l
-	 qXQEX7DEYTPaAz53w3KasMmH41jMV1S/D0gg13I4oL6HAxS28W/1cNaDhPBZ86/zZTYyY
-	 YWPcT50rXfQifJXk1p6vay4zbxDiWoWvecDkV7hGfdLNaRTlXjFpcPV0IqmwvWCcZcycU
-	 mKkZ8M51AO6lxFKsE78MkH4NRyy+TwK8Oo7hDQKK1Tl844+n6gwTqQA6Q8UJecknT9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792661270;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=+ONt4F1TGuj2D4gQ5Y9zhiAKxe2DyLjInWzcKZuuWlA=;
+	b=q7H0ca0hOtuim8A7KHRrY3FCwhVs/NS42eyv+HaFdfg6JvWV8jIy9kW38zY/CilBoA5t
+	 cf3PDAZqf0UzWsT4b14qoDko8Kh2EhJ95Y2C2QPou7tEGIrvM20swyEoXurTYxU/IrEFh
+	 b/BndfCk/YE9sz39gfSwIrG4ZcyDkYZBH5n7ymNaN6vKpDhaizrQhV9gRMltvMDYWrE65
+	 VfdZS8CEu4/2nVwzB72UvW7HzPezxmYIXOu2TDCBBUu9qHlW7K5sT50+t2aAUDoqc+Z6L
+	 TJEu8os4mITgIyMAtsNqkzRKHVPIVsPpQX4zTpbL5fGRtLgwFev3X8/NMe+R+wRH8hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cokJDPuq;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="RJCm/ytu";
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ShdJO+V6;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DE5606A331
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:09:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8DE5606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE6C606A32F;
+	Thu, 22 Oct 2026 09:27:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6CE6C606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cokJDPuq;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RJCm/ytu
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M70HTO2516328
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:09:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MuprgGBEIk8/OmsFZVmehe89ddAzvU7HKkgdbnCsQyI=; b=cokJDPuqF+Vy0B54
-	oofPLXV1SNCp2af/gPNdNs16tsHZSPlzLzk5vR7WPz6H9IFjTpTID3B+LBfPvt01
-	YB+iCNeeQYoywYV1hO08RgGendxYh698aDt3sXVqlOZhfcKx+TclNwxLk4GRY38L
-	4bOvopEKuswG00Gm3ayQ8MIp8/si5626dbbV+dASRCQrPzPegiyKymUXKeiYb9wI
-	hiN0SPAoojQo8BZk0tAsl3YVsMWMxxIRIxbHiC8vJci80SYPC9g7UKQ5N79gz73b
-	qQdR3SIOS0oL4W7zbueaR9ArbM06lBh5dMEerFjQlyWMHzJQNwtcAVLa82L29A0I
-	/jc80Q==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93a9mmy-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:09:59 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92eebb130dcso28886185a.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 02:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792660198; x=1793264998; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MuprgGBEIk8/OmsFZVmehe89ddAzvU7HKkgdbnCsQyI=;
-        b=RJCm/ytuCwgsjLgToibkZVvgT5eseFiQ9DtpCotzXIWhu0av5GyvP9yTE+ggQ7XL0D
-         cX4pLiABHInNMJ3s1g/clL8ZfttxKURkTVoobzFieCeG9n9jNGd3tkweWSJ15ozCpcrV
-         EaVZ/e+a8Zl+UWtg+ZXquAbNAHv+mF06f/x2LclgHHtIircb2oraiy2B2QTRjjkf0VNu
-         KDgV2/Mdo5eVkMpa8fZuQLfImv0EeD/SWS6H8RxqApDR5EJIGgvLaGKy/EjA+dN8/oXx
-         T3dGOZJyDHHJKdlznnaYn0YrxO9HCQrtt0rkdVJ4u538ulwVMs9WQ/xnel4EUOuOkI61
-         7yqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792660198; x=1793264998;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MuprgGBEIk8/OmsFZVmehe89ddAzvU7HKkgdbnCsQyI=;
-        b=gTET3snv2qVCXS1KssNNy6ypcb/H8QnLfHuRgt2E+mfX7AOrA1+hWOt4ybvxWWt6Tl
-         KeD1/wWPzPdC9WpnxVL6q5uL7bt7fQUaVN16PEVLJI20nx2ngi4jRpmbZHWvo7oURf9x
-         r8C1c67bdEHPXhvyLKJBYYDjfxJhLuX+ywUOTjh7mh3bhomz4mhYEEqCh9kWUh0CWqbc
-         XDZ2z0MNcgRTzRZ8lqDp/k+7xSh0ZgW5t1SBrq6YDs6VBrQezP/QLEX850PtxaNtI+bm
-         ze1iTFwW1iTBgeEm1/1rNVwrFqZooRoPzfxaIKpcrIHG7ZZmzLo8NqO74kaQlZB5Y1qw
-         3lDQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwPZYnbBml4POiukNj2ZeVQi9WL3jM4VfSrOX66Y8QmVHSATJYawVw9UW7zD/v55W0pfHc3I4m4i2A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJa10Q/t00F5y6D3IjmYa+jauclxbc3JTN1Dt04adRhlomQ9a/0
-	sFQr5b8SMsQaKrf/aWnRGPAfaoIUs48v6av4DDLwbCSblphkPM6Z2XaUpv+4sVHuHaUx/D/eV2H
-	6HmPrWjie7aHulMOd3i94onL+SW/esRV32TRTnyaHI3xG8wSZmeftFW8gf3z59zg=
-X-Gm-Gg: AYBFou2BkAeXeja7uUoQ+f6bSvakk/IuPeQixHt3Xa4ferCykqCtgEGdyll3bZpbf3N
-	DO6d46cITDChaKk+364ljal4npvDOw8y8P16TZScWccGInV2dW7/lNF4IriOPf13bQzCmH6aYOw
-	gG+M/nz1gAr97dsHXuD7dX1xyjxEvbMLmPQjRn+Iicy8JExsNQO+MVkOq8Nx6IudfVJSBjOHNQr
-	1PEs/D6jP3WZpGdst2pw6AMP4rP2JPmjGrlREdxlDUdTYQMZGqqTULMpzUjYux9su6P6OASxQca
-	XffKcj4qEN3+Cn2CjKd6LN0L62NJwL96zi5kmoaljpsmrX3T/l1Tt/fS2p8brpvxVZ7zvzCvlGB
-	srY5bj7nE1jrbTx9w59tLWA==
-X-Received: by 2002:a05:620a:4511:b0:93e:6d87:4f69 with SMTP id af79cd13be357-93f57f3bf10mr985405885a.3.1792660197985;
-        Thu, 22 Oct 2026 02:09:57 -0700 (PDT)
-X-Received: by 2002:a05:620a:4511:b0:93e:6d87:4f69 with SMTP id af79cd13be357-93f57f3bf10mr985403385a.3.1792660197581;
-        Thu, 22 Oct 2026 02:09:57 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c468a55ccabsm82839466b.33.2026.10.22.02.09.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2026 02:09:56 -0700 (PDT)
-Message-ID: <9800eb77-0188-4b16-a672-adb7ee1a603c@oss.qualcomm.com>
-Date: Thu, 22 Oct 2026 11:09:53 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ShdJO+V6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792661270; x=1824197270;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rK5sIX1DXwk1tF+cbYqZC1RpKRClNvCK9hC7fUt7PpE=;
+  b=ShdJO+V6REirnz1pz6uKRgBhNLE2fBibKr4TlyEV5lx141c6edaxYWES
+   qqyDSbe8TW5iKbMvgkgt7p00k145nQ3v7Dc58ECoE/FNcFAcNU+05vroR
+   wJYS4+QmQupYjVglEMxTcixAiSkVVW6vCv/gcPzW8n+8tqgHIhuwAorqh
+   PG60OtWWwxNoNLYo1PXeyBJcHADh3ZpsVav/dFRpJknKyeZ5jmTfkBs9g
+   zc+PxP3dGsrQbzAtKw+a/cXqRfkuNgNrXwnrXLAElKE4wSkKS+3+/AGJc
+   S9T+8lRyqU8+MsvS4UO8vLj51z8LcMXEYSVwBp9dsy9wEL17b/nl1WIdO
+   Q==;
+X-CSE-ConnectionGUID: 8cTjpWbdSbaHD1DVkZSYOg==
+X-CSE-MsgGUID: rtR1K3WARySoa2eAExVktQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1276480"
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="1276480"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 02:27:49 -0700
+X-CSE-ConnectionGUID: 5ZcempBrR2CHCHyjA59+2w==
+X-CSE-MsgGUID: eEQlHikqQoqFh/RjbTax3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="3675540"
+Received: from unknown (HELO [10.238.0.148]) ([10.238.0.148])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 02:27:43 -0700
+Message-ID: <1e219be9-e7c8-455c-a3ff-10f80515d4dc@linux.intel.com>
+Date: Thu, 22 Oct 2026 17:27:40 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,111 +73,64 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] arm64: dts: qcom: kodiak: use thermal hw-bin trips
-To: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Amit Kucheria <amit.kucheria@oss.qualcomm.com>
-References: <20261002-thermal_bin-v1-0-5a29be7e8ec5@oss.qualcomm.com>
- <20261002-thermal_bin-v1-5-5a29be7e8ec5@oss.qualcomm.com>
+Subject: Re: [PATCH v10 01/28] KVM: VMX: Enable support for secondary VM exit
+ controls
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-2-sohil.mehta@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261002-thermal_bin-v1-5-5a29be7e8ec5@oss.qualcomm.com>
+In-Reply-To: <20260911213659.2025974-2-sohil.mehta@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=JudkP84C c=1 sm=1 tr=0 ts=6ad9d2e7 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=pjWewQ9WiOT9jlYbxO0A:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: j9X-CXVcd2MvNjxLYRp1DZ6tE61qHL5-
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDAzNiBTYWx0ZWRfX68IOc0fDw2Lb
- GQB8OMGRb+Uv0fmfNymdaNe96zBZHHgZPJO8x1yQBjsHgI27mi4nZStuXPlDSwj6BlFF82LC1E4
- zQO9lJ8RpTrKqxHGq4nm/qIifPvLuuw=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDAzNiBTYWx0ZWRfX9u5bQzzEE2Q3
- t/wKAIk1RIrdVMsQffwCeJpXX1qE/V6VafzNn36lrZxUCoz2EBvTx79hI/a/8QDzfL/pHyT/C6y
- OpnTmOtmY5rCU7XpwY/mpIHlwsBOHhcmkPdj/VsCVVl9Wx5YVT8SRNJyR3fSwgH5rkLlKM/2UUn
- OA5yyL5sUrKrhG+Vcs94r5Tyr7NWbtWDqOBwlg7uLaEN1EZ7YsFqdv93NZjxLZIOP3FUZLOnHbC
- YuP2H8hkCdJYgQ9dp5ESlU+oPSUfPDxuRi2NZUUK3RpW+zi8EFgw2nFrKSukEXhrrbMvW4M+/6l
- pERYrLxvUhJGJINBztJGIGNqCyiX2DDaurO4O4hU3vMhN/YIThZ0tsHM1Dg8eUMUUdsdDR4DWKE
- NJqYiCSreTBzZZ/NlWi6O6ebag+Lkali0Gpihl/2TVu2+mFnv9fka+3t3fuyr2CJT+qTECAHN1H
- xXnlKV49m/ksoEbH9Eg==
-X-Proofpoint-GUID: j9X-CXVcd2MvNjxLYRp1DZ6tE61qHL5-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
- suspectscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610220036
 
-On 10/2/26 12:47 PM, Gaurav Kohli wrote:
-> From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+> From: "Xin Li (Intel)" <xin@zytor.com>
 > 
-> kodiak-based SoCs are binned at manufacturing time, with the bin
-> computed from the jtag-id and feat-id qfprom fuses.  The tsens driver
-> now reads these and feeds the resulting bin to the thermal core, which
-> selects per-bin trip temperatures.
+> Introduce infrastructure to support secondary VM exit controls.
 > 
-> Add the jtag-id and feat-id nvmem cells to the tsens nodes and convert
-> the passive mitigation trip points from a fixed 95C to per-bin values
-> (95C for bin 0x1, 105C for bin 0x2) using the new
-> temperature-bin/thermal-hw-bin properties.
+> Always load the controls when supported by hardware, though all control
+> bits remain clear in this patch.
 > 
-> Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
-> Co-developed-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-> Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/kodiak.dtsi | 56 +++++++++++++++++++++++++++---------
->  1 file changed, 42 insertions(+), 14 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/kodiak.dtsi b/arch/arm64/boot/dts/qcom/kodiak.dtsi
-> index 347815e5983e..f3bb9cd8f393 100644
-> --- a/arch/arm64/boot/dts/qcom/kodiak.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/kodiak.dtsi
-> @@ -1019,6 +1019,16 @@ gpu_speed_bin: gpu-speed-bin@1e9 {
->  				reg = <0x1e9 0x2>;
->  				bits = <5 8>;
->  			};
-> +			jtag_id: jtag-id@180 {
-> +				reg = <0x180 0x4>;
-> +				/* bits = <offset width>: 20 bits at offset 0 */
-> +				bits = <0 20>;
-> +			};
-> +			feat_id: feat-id@180 {
-> +				reg = <0x180 0x4>;
-> +				/* bits = <offset width>: 8 bits at offset 20 */
-> +				bits = <20 8>;
-> +			};
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
 
-Couple nits: please keep a \n between each subnode
-
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
 [...]
 
->  				cpu0_alert1: trip-point1 {
-> -					temperature = <95000>;
-> +					temperature-bin = <95000 105000>;
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index 504630f0eb40..b4aec4218b7d 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -2751,8 +2751,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+>  	u32 _cpu_based_exec_control = 0;
+>  	u32 _cpu_based_2nd_exec_control = 0;
+>  	u64 _cpu_based_3rd_exec_control = 0;
+> -	u32 _vmexit_control = 0;
+>  	u32 _vmentry_control = 0;
+> +	u32 _vmexit_control = 0;
+> +	u64 _vmexit2_control = 0;
 
-Please do <foo>, <bar> instead of <foo bar>
 
-Konrad
+Nit:
+Could be _vmexit_2nd_control to be consistent with _cpu_based_2nd_exec_control
+above, as well as vmexit_2nd_control in struct vmcs_config.
+
+>  	u64 basic_msr;
+>  	u64 misc_msr;
+>  
