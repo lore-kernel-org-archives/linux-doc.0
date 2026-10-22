@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792684442;
-	b=iCwAJh/M2zBtlA1itil8xdC7AZ2AzT49Ur6gvx5s8s8TO9vXMjdO+U54KxJ6CDGTQtWx
-	 GEFsisF8d9FqHcrhvhRJCEi6ulr9Ubg+VFZPWLCjvnTgjCJkGbFF+L7BesJC6F/HwzETU
-	 l4G+3jSKugCsCJoY/9iurdzAxJkfTot4qTWSEaGUvDmIjlQE+Xir4WgWpbOITyujG1V6Y
-	 GzsMFJM6SWF6PdDLoYGuQr/l78smlxJFY4pllCU2mccaa2t1Zq6KolMcfpohZcRQTbkWs
-	 xhecwHNzhchBg51QeJQowXEpBEMuLUGzdLpMprQSORuN8HIIQ5hlPM6nI76ft/rsRKw==
+	t=1792684443;
+	b=pvQS56BGcbMmAml6zgOkhZREYkbM0Eznl7yuD3V+JgXYDh1SEk/vCdgsvg2tHyr02tVm
+	 bi5sMnENXAnWa4cTpJJl6XTvP3Zj/p00H7o64ItitTbHN8kUgIHfpmhnY8VG+Kyf8XqDo
+	 qZ/cCZ1Ehe8RhRdm286bBj3FpppEeN+N0fL8rGsFNnz0t0junFiXN2fXWSoHpbSjAKG+k
+	 ZMx5shBmWhu+Jyla4fr+6bTjSe/rvZtoutQvKgiEvq6zl1DZOSleL+M9vkyefegN/mQHC
+	 f0/1KeeHxsWa2HtrUCHzko5lpL4X9C8+ngyBJjkIbUaKvt3kR5ilJZ44X+ybssOy48Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792684442;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792684443;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
-	b=FUfgI3UmoDpaWWp/rbAFFt6+sPr3KN5vpiP8MChsbADjbvhWHyqADbjQ1qtbdcH+mP/o
-	 IctTxodQNazRcPwiWdD5LQcHtBNal/n+KJiWvzAfeNqhCv+9/AXHJS08pRN5eYS82PLiO
-	 qdvMVt70Idn28t8GceNmKkE94REmE6xCWToYgrrm6NjPSiFWt/Ja0nyQ8y5LH8vFDu5p/
-	 LKI/tA9cPtvtiKN2UEXR7t61CbywmTOomM5SOme78CcgoCKjA/mK4/3veiqm+SZwyi70o
-	 oT3cLCHfz8tK90nHemLafIMynCbuhOlIOj99IY6JCMDONvdtpi4HVxqwo84VLILwmew==
+	bh=bhzXyoxDbbkvUX4fUf4elAX1quvgndNZVw3F+zs7Wq8=;
+	b=N6Kpv2bq8a2wVU6dIqCpGe/y16og075U01b03Kzo0+QdDkwQ+NFnOP/C9RIyRFHimKor
+	 3EFP/myqb5ncCP6tXttJzFYknwgabA2giFPhgChBSr1EyLhOwM4DupWZYLY/HQLPgB/EM
+	 sjR+nL822OP0nS1BbQgxd32MqZXvTZaVGN7MzOr008bViV0K+D0qrRBLtcaO3YoGStX0O
+	 qRNSapCW4ztA8BwC0REC0LaJRZSH6oJSB2VMIIQUY7U5emA1o5YF1SNB/QrBHtW0kND28
+	 HHHoAqijCJ98RgOjR1Ep1UCGsiTd5bpTxnCzbg7fwksPpAWO6xj+6XgztdIemwl94uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--wfelipe.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Yj14Lzka;
-	arc=none smtp.remote-ip=209.85.216.69
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ba1R8H5x;
+	arc=none smtp.remote-ip=209.85.214.199
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B137E606A325
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:54:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B137E606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC65E606A335
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:54:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC65E606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wfelipe.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Yj14Lzka
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3aaf955db5fso4083a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:54:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=ba1R8H5x
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2df8484f12cso18277335ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:54:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792684441; x=1793289241; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1792684442; x=1793289242; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
-        b=Yj14LzkaZvL1Tx8Vnnqx3s5rek4uEk7lAv5Yy8I0B/ebgxg/VluUBqyWRZQ0GWL8hF
-         oyZD4tETC17GAecwk2aBUOOEZRhBLI1bWPpY9LZOTWn5VtNtxjBTdw51qOB2zQe+YQP7
-         wSv6+qlkU+7baju97Rnfqkh7VY1801EvYFpX2xNzxFJTobHKy0VpkTAfoajK1GGGq8RB
-         bqx+8BjAKWe3f8bbGVZO7DpPXyZ5tEAgCEDohPKiyxvLAQLd9H6Qfh9xXYNePV3HC5Hg
-         bSR+Pe5mGnKkw9XeFfEcRGLBhEQ4f4Kpo1TD1+660JEClzRmnUFp0lD6cSgoSNNj5Zlz
-         Vrkw==
+        bh=bhzXyoxDbbkvUX4fUf4elAX1quvgndNZVw3F+zs7Wq8=;
+        b=ba1R8H5xLCpQdMpHQKNQKnlGebz7EZ848jC7sjMO6dOkHudfCbranhVy9E0ZKBc/sv
+         czMf1CVMS6LJm8axDzBmwunC/ciZJEgZXYeQJl9g9S9cB6dr9cmtrHjaausFSP75SjjR
+         2fXKvPtxvjj14l1DflcwRxrfHn9OBNoQegSeQmnd8x7J4YSGz7eatTCZs4o0PlLRuiWO
+         z6yHn3NrqqYm5hM8/ScyS/0cMS12YK778aO2OJUZjtmjz+ax169Ke+2Y7IaY8cYAtJus
+         vokk9k+V9EQv2HCayrnzLC3PIB5fZ3fIy5CjfXvSFbGekKkPuYIpQplQelydcQlLJ5OW
+         Jr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792684441; x=1793289241;
+        d=1e100.net; s=20260707; t=1792684442; x=1793289242;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NOVFqRoJVl+99BXQP29VcDH+8XuP2HNelyqlJcXESXA=;
-        b=rcbIDkd2UQCSFtMxa/SHSj6LWXW7a8ghMrVOJYuLj+WndV6fUGgGqGaw1qA5rslcMq
-         0qtTus55SSv54K7VsIPRbQ682b0xgf9SfGjn0EpBZfffKCy9iS1iXZ4699cErNrr69U1
-         4RHUjcBux03sZxtPUIS4UnOwmqtaudEStERfEcYw39uO90DPZt1UzMAot2cK2XpVkAWR
-         8IIcv1nbXrcxhWi6hs4PDrW8GzbqGdL296RIHxVhRCAOrEncO8u5MtZ/gGUAcP9hddd6
-         JFAp5iE474vug9o/fHUM4eb+0cSKhwr2iXpovLCmF1Dx3ygE7M4j0fNCE587komt62yw
-         P43w==
-X-Forwarded-Encrypted: i=1; AKwUvBzAcLb1qAQRiDVeifJRC3DWIJEZhcnYJavFvL/90+nOlgQmnQ+R4TqxHxdGiQ4AjF2e7l6/J7N/jLk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJeFtrGfFOJohSLurquKi86sBqA73F2O/CJiTYFhxnTuH24+mUw
-	osipn7ho86IV42bqv8R0e7dV5/Eumw0AVkPmiPMBNlHR7PSlX3GUeiCI1sam94fz9MbF+eOA8La
-	lZ7NCvBgp7Q==
-X-Received: from pglk24-n2.prod.google.com ([2002:a05:6a02:6b98:20b0:cca:d82:9104])
- (user=wfelipe job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:9e4a:b0:3dd:a196:69e4
- with SMTP id adf61e73a8af0-3e287f3a472mr5611553637.63.1792684440865; Thu, 22
- Oct 2026 08:54:00 -0700 (PDT)
-Date: Thu, 22 Oct 2026 15:53:35 +0000
+        bh=bhzXyoxDbbkvUX4fUf4elAX1quvgndNZVw3F+zs7Wq8=;
+        b=zd4TqImV13nRC9XQQbtxeGIb+CXREcV/henDtYnzAGUnGejKnYcyNddtkwgUme63lL
+         ubb3s/Ml7VqL1LGS2A1DVvirvY7VWarexaBv4QMolRGs0F/Yk64IcrjLsT5d7CVvjOw1
+         M8eshk6yGA//WCbX9aXdsqr+2M+AhcHBuEn2h+E7S1eEYjkTNKRghxVEnWpPLFaH7Bw4
+         EapVztZvKLwKP7PqSB21zJkZX/KpyF9B/EOoQVcmHU3EOgUzAuIarHVXsDr9/NG6Zb9U
+         t4dla1+ayZb1kP1zEAspwwRG8yalfZSkkbaGj2wv73oZ38AqpDZ3tQFbcsR2QjA5ibyh
+         bcYw==
+X-Forwarded-Encrypted: i=1; AKwUvByXrW22LYtgDx0aA27ZRHxC2EwpmNkH3JV2SZhpJ76k1TfyAtRz280UzPhmZ7BFHk+kFl/3AFgf5fQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYITx0N9WqD75fHsLQKOuooRRZhgQzrpUBju8U5lB195ZqGw4KHy
+	lfJtYEJkfoNYEDaD+o/XxVXPDu9ulPpaBdbtYseZucznK9jpWM0y3bDJj4dzYkjQ5pQvGPDtz8r
+	fzyjhZB7m5Q==
+X-Received: from plic14.prod.google.com ([2002:a17:903:370e:b0:2e9:3aa0:9be9])
+ (user=wfelipe job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f543:b0:2e2:d834:a40f
+ with SMTP id d9443c01a7336-2ea439a1af3mr42816765ad.9.1792684441651; Thu, 22
+ Oct 2026 08:54:01 -0700 (PDT)
+Date: Thu, 22 Oct 2026 15:53:36 +0000
 In-Reply-To: <20261022155352.1293020-1-wfelipe@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261022155352.1293020-1-wfelipe@google.com>
 X-Mailer: git-send-email 2.56.0.218.g1ec904b173-goog
-Message-ID: <20261022155352.1293020-3-wfelipe@google.com>
-Subject: [PATCH 2/3] workqueue: expose per-workqueue stats in debugfs
+Message-ID: <20261022155352.1293020-4-wfelipe@google.com>
+Subject: [PATCH 3/3] tools/workqueue: report queued items and retired stats in wq_monitor.py
 From: Wilson Felipe Pereira <wfelipe@google.com>
 To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
@@ -91,140 +91,156 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
 	Shuhao Tan <tanshuhao@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-struct pool_workqueue tracks runtime counters in pwq->stats[],
-pwq->total_in_flight, and pwq->nr_active, but reading them currently
-requires tools/workqueue/wq_monitor.py with drgn and kernel DWARF
-debuginfo. This makes it impractical to inspect workqueue stats on
-systems without drgn or debug symbols.
+Update wq_monitor.py to include wq->retired_stats[] when available so
+cumulative counters do not drop when unbound pwqs are released. Also sum
+pwq->total_in_flight (falling back to pwq->nr_in_flight[] on older
+kernels) and add a 'queued' column next to 'infl' to show work items
+waiting to execute.
 
-Add /sys/kernel/debug/workqueue/stats to expose per-workqueue stats
-directly from the kernel. Iterate over the workqueues list under RCU and
-sum wq->retired_stats[] with each pwq's stats[], total_in_flight, and
-nr_active to report queued, active, and running work items alongside the
-cumulative pwq->stats[] counters.
+Update Documentation/core-api/workqueue.rst to cover
+/sys/kernel/debug/workqueue/stats and the new 'queued' column in
+wq_monitor.py.
 
 Signed-off-by: Wilson Felipe Pereira <wfelipe@google.com>
 ---
- kernel/workqueue.c | 99 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
+ Documentation/core-api/workqueue.rst | 47 +++++++++++++++++-----------
+ tools/workqueue/wq_monitor.py        | 24 ++++++++++++--
+ 2 files changed, 50 insertions(+), 21 deletions(-)
 
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 88c8cc2b38d8..ed0f0be6494a 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -57,6 +57,8 @@
- #include <linux/delay.h>
- #include <linux/irq_work.h>
- #include <linux/math64.h>
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
+diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
+index bb770f556568..a4e08231580c 100644
+--- a/Documentation/core-api/workqueue.rst
++++ b/Documentation/core-api/workqueue.rst
+@@ -701,28 +701,39 @@ See the command's help message for more info.
+ Monitoring
+ ==========
  
- #include "workqueue_internal.h"
+-Use tools/workqueue/wq_monitor.py to monitor workqueue operations: ::
++When ``CONFIG_DEBUG_FS`` is enabled, per-workqueue stats can be read
++directly from ``/sys/kernel/debug/workqueue/stats``: ::
++
++  $ cat /sys/kernel/debug/workqueue/stats
++  workqueue                type     queued active running    started  completed  cpu_time_us cpu_itsv  cm_wkup    repat   mayday  rescued
++  events                   percpu        0      0       0      18545      18545      6100000        0        5        0        0        0
++  events_highpri           percpu        0      0       0          8          8            0        0        0        0        0        0
++  events_long              percpu        0      0       0          3          3            0        0        0        0        0        0
++  events_unbound           unbound       0      0       0      38306      38306       100000        0        0        7        0        0
++
++Alternatively, use tools/workqueue/wq_monitor.py to continuously monitor
++workqueue operations via ``drgn``: ::
  
-@@ -7990,6 +7992,103 @@ static void workqueue_sysfs_unregister(struct workqueue_struct *wq)
- static void workqueue_sysfs_unregister(struct workqueue_struct *wq)	{ }
- #endif	/* CONFIG_SYSFS */
+   $ tools/workqueue/wq_monitor.py events
+-                              total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
+-  events                      18545     0      6.1       0       5       -       -
+-  events_highpri                  8     0      0.0       0       0       -       -
+-  events_long                     3     0      0.0       0       0       -       -
+-  events_unbound              38306     0      0.1       -       7       -       -
+-  events_freezable                0     0      0.0       0       0       -       -
+-  events_power_efficient      29598     0      0.2       0       0       -       -
+-  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
++                               total queued  infl  CPUtime CPUitsv CMW/RPR  mayday rescued
++  events                      18545      0     0      6.1       0       5       -       -
++  events_highpri                  8      0     0      0.0       0       0       -       -
++  events_long                     3      0     0      0.0       0       0       -       -
++  events_unbound              38306      0     0      0.1       -       7       -       -
++  events_freezable                0      0     0      0.0       0       0       -       -
++  events_power_efficient      29598      0     0      0.2       0       0       -       -
++  events_freezable_pwr_ef        10      0     0      0.0       0       0       -       -
+   sock_diag_events                0     0      0.0       0       0       -       -
  
-+#ifdef CONFIG_DEBUG_FS
+-                              total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
+-  events                      18548     0      6.1       0       5       -       -
+-  events_highpri                  8     0      0.0       0       0       -       -
+-  events_long                     3     0      0.0       0       0       -       -
+-  events_unbound              38322     0      0.1       -       7       -       -
+-  events_freezable                0     0      0.0       0       0       -       -
+-  events_power_efficient      29603     0      0.2       0       0       -       -
+-  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
+-  sock_diag_events                0     0      0.0       0       0       -       -
++                               total queued  infl  CPUtime CPUitsv CMW/RPR  mayday rescued
++  events                      18548      0     0      6.1       0       5       -       -
++  events_highpri                  8      0     0      0.0       0       0       -       -
++  events_long                     3      0     0      0.0       0       0       -       -
++  events_unbound              38322      0     0      0.1       -       7       -       -
++  events_freezable                0      0     0      0.0       0       0       -       -
++  events_power_efficient      29603      0     0      0.2       0       0       -       -
++  events_freezable_pwr_ef        10      0     0      0.0       0       0       -       -
++  sock_diag_events                0      0     0      0.0       0       0       -       -
+ 
+   ...
+ 
+diff --git a/tools/workqueue/wq_monitor.py b/tools/workqueue/wq_monitor.py
+index 7f47fa398e3c..2f4176df2a36 100644
+--- a/tools/workqueue/wq_monitor.py
++++ b/tools/workqueue/wq_monitor.py
+@@ -9,7 +9,9 @@ https://github.com/osandov/drgn.
+ 
+   total    Total number of work items executed by the workqueue.
+ 
+-  infl     The number of currently in-flight work items.
++  queued   The number of work items currently queued and waiting to execute.
 +
-+static const char *wq_type_str(struct workqueue_struct *wq)
-+{
-+	if (wq->flags & WQ_BH)
-+		return "bh";
-+	if (wq->flags & WQ_UNBOUND) {
-+		if (wq->flags & __WQ_ORDERED)
-+			return "ordered";
-+		return "unbound";
-+	}
-+	return "percpu";
-+}
-+
-+static void *wq_stats_start(struct seq_file *m, loff_t *pos)
-+	__acquires(rcu)
-+{
-+	rcu_read_lock();
-+	return seq_list_start_head_rcu(&workqueues, *pos);
-+}
-+
-+static void *wq_stats_next(struct seq_file *m, void *v, loff_t *pos)
-+{
-+	return seq_list_next_rcu(v, &workqueues, pos);
-+}
-+
-+static void wq_stats_stop(struct seq_file *m, void *v)
-+	__releases(rcu)
-+{
-+	rcu_read_unlock();
-+}
-+
-+static int wq_stats_show(struct seq_file *m, void *v)
-+{
-+	struct workqueue_struct *wq;
-+	struct pool_workqueue *pwq;
-+	u64 stats[PWQ_NR_STATS];
-+	long in_flight = 0, active = 0;
-+	long running, queued;
-+	int i;
-+
-+	if (v == &workqueues) {
-+		seq_printf(m, "%-24s %-8s %6s %6s %7s %10s %10s %12s %8s %8s %8s %8s %8s\n",
-+			   "workqueue", "type", "queued", "active", "running",
-+			   "started", "completed", "cpu_time_us",
-+			   "cpu_itsv", "cm_wkup", "repat", "mayday", "rescued");
-+		return 0;
-+	}
-+
-+	wq = list_entry(v, struct workqueue_struct, list);
-+
-+	/* Advisory stats read without wq->mutex or pool->lock. */
-+	for (i = 0; i < PWQ_NR_STATS; i++)
-+		stats[i] = data_race(wq->retired_stats[i]);
-+
-+	for_each_pwq(pwq, wq) {
-+		for (i = 0; i < PWQ_NR_STATS; i++)
-+			stats[i] += data_race(pwq->stats[i]);
-+		in_flight += data_race(pwq->total_in_flight);
-+		active += data_race(pwq->nr_active);
-+	}
-+
-+	running = max_t(long, stats[PWQ_STAT_STARTED] -
-+			      stats[PWQ_STAT_COMPLETED], 0);
-+	queued = max_t(long, in_flight - running, 0);
-+	active = max_t(long, active, 0);
-+
-+	seq_printf(m, "%-24s %-8s %6ld %6ld %7ld %10llu %10llu %12llu %8llu %8llu %8llu %8llu %8llu\n",
-+		   wq->name, wq_type_str(wq), queued, active, running,
-+		   stats[PWQ_STAT_STARTED], stats[PWQ_STAT_COMPLETED],
-+		   stats[PWQ_STAT_CPU_TIME], stats[PWQ_STAT_CPU_INTENSIVE],
-+		   stats[PWQ_STAT_CM_WAKEUP], stats[PWQ_STAT_REPATRIATED],
-+		   stats[PWQ_STAT_MAYDAY], stats[PWQ_STAT_RESCUED]);
-+
-+	return 0;
-+}
-+
-+static const struct seq_operations wq_stats_sops = {
-+	.start	= wq_stats_start,
-+	.next	= wq_stats_next,
-+	.stop	= wq_stats_stop,
-+	.show	= wq_stats_show,
-+};
-+DEFINE_SEQ_ATTRIBUTE(wq_stats);
-+
-+static int __init wq_debugfs_init(void)
-+{
-+	struct dentry *dir;
-+
-+	dir = debugfs_create_dir("workqueue", NULL);
-+	debugfs_create_file("stats", 0444, dir, NULL, &wq_stats_fops);
-+	return 0;
-+}
-+late_initcall(wq_debugfs_init);
-+
-+#endif	/* CONFIG_DEBUG_FS */
-+
- /*
-  * Workqueue watchdog.
-  *
++  infl     The number of currently executing (in-flight) work items.
+ 
+   CPUtime  Total CPU time consumed by the workqueue in seconds. This is
+            sampled from scheduler ticks and only provides ballpark
+@@ -55,6 +57,7 @@ workqueues              = prog['workqueues']
+ 
+ WQ_UNBOUND              = prog['WQ_UNBOUND']
+ WQ_MEM_RECLAIM          = prog['WQ_MEM_RECLAIM']
++WORK_NR_COLORS          = prog['WORK_NR_COLORS']
+ 
+ PWQ_STAT_STARTED        = prog['PWQ_STAT_STARTED']      # work items started execution
+ PWQ_STAT_COMPLETED      = prog['PWQ_STAT_COMPLETED']	# work items completed execution
+@@ -72,15 +75,29 @@ class WqStats:
+         self.unbound = wq.flags & WQ_UNBOUND != 0
+         self.mem_reclaim = wq.flags & WQ_MEM_RECLAIM != 0
+         self.stats = [0] * PWQ_NR_STATS
++        self.in_flight = 0
++        try:
++            for i in range(PWQ_NR_STATS):
++                self.stats[i] += int(wq.retired_stats[i])
++        except AttributeError:
++            pass
+         for pwq in list_for_each_entry('struct pool_workqueue', wq.pwqs.address_of_(), 'pwqs_node'):
+             for i in range(PWQ_NR_STATS):
+                 self.stats[i] += int(pwq.stats[i])
++            try:
++                self.in_flight += int(pwq.total_in_flight)
++            except AttributeError:
++                for c in range(WORK_NR_COLORS):
++                    self.in_flight += int(pwq.nr_in_flight[c])
++        self.running = max(self.stats[PWQ_STAT_STARTED] - self.stats[PWQ_STAT_COMPLETED], 0)
++        self.queued = max(self.in_flight - self.running, 0)
+ 
+     def dict(self, now):
+         return { 'timestamp'            : now,
+                  'name'                 : self.name,
+                  'unbound'              : self.unbound,
+                  'mem_reclaim'          : self.mem_reclaim,
++                 'queued'               : self.queued,
+                  'started'              : self.stats[PWQ_STAT_STARTED],
+                  'completed'            : self.stats[PWQ_STAT_COMPLETED],
+                  'cpu_time'             : self.stats[PWQ_STAT_CPU_TIME],
+@@ -91,7 +108,7 @@ class WqStats:
+                  'rescued'              : self.stats[PWQ_STAT_RESCUED], }
+ 
+     def table_header_str():
+-        return f'{"":>24} {"total":>8} {"infl":>5} {"CPUtime":>8} '\
++        return f'{"":>24} {"total":>8} {"queued":>6} {"infl":>5} {"CPUtime":>8} '\
+             f'{"CPUitsv":>7} {"CMW/RPR":>7} {"mayday":>7} {"rescued":>7}'
+ 
+     def table_row_str(self):
+@@ -112,7 +129,8 @@ class WqStats:
+ 
+         out = f'{self.name[-24:]:24} ' \
+               f'{self.stats[PWQ_STAT_STARTED]:8} ' \
+-              f'{max(self.stats[PWQ_STAT_STARTED] - self.stats[PWQ_STAT_COMPLETED], 0):5} ' \
++              f'{self.queued:6} ' \
++              f'{self.running:5} ' \
+               f'{self.stats[PWQ_STAT_CPU_TIME] / 1000000:8.1f} ' \
+               f'{cpu_intensive:>7} ' \
+               f'{cmw_rpr:>7} ' \
 -- 
 2.56.0.218.g1ec904b173-goog
 
