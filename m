@@ -1,63 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792682658;
-	b=IDjPLdUOmoC4uDQnifpFWEgevv4wAbDlCTaqLUvLy5zsoU90cLlFB2JqL0hVgpa28T9H
-	 U/NgPIurfEC6Njq6xfCgzo/2gF/SDL9exZmKaJdl0DThVv3Olv68avu4ea89KM+Eam/SA
-	 r3zVc9NeyxL3Ckara+fZoTDY1J+MAq6OT8T84/dmlSZyWl21haneTTeZ9E946i9xQ356o
-	 zSyjGWHmmaq/kyUrORXrkB08ogA9kVXHaerTmxII5+Zowx0eebaipF+uabUu5/EuLi3B/
-	 KnN0XfMpSyGVis8X6PdBCrH7arGr9rVmv1bpV4WKxJZg7wb1IatANguNjRHpM8yUWrw==
+	t=1792683358;
+	b=KEjic850lTJY/FyeLCTyHQglDx5eDxcXxsPZR82PEcN32Q9mQ3x30uMxI7YXykdQFayl
+	 dWfJCqk6AYpD3gL/iLVM4zCmZq9pCPmJP77PkTKptYS1kYtF0DxHSBcUOQp+CbVgyb04N
+	 +/hi11piVe4kosRnLvrZd2MGd1notfizjns1G0d8o8/VkAyubvSI5jjxdkJ+68dwYVsmb
+	 B0MLcn8+ycLnoTpel2MorFynrWqvbdtcGKMSMrDQa2EXQrREGGYffhGD6jggg3DBtzJf3
+	 0/RTZr+3m7G7s/4qIO+uqsKY05A/osfLW4a12/mwVVFqxTWyIV/A0KB5NsvRI4tOMEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792682658;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=dFvDESgUnUZGXYa5MrlgOZOa2bvfpkpdDye2dUm6l2U=;
-	b=oM81fVhRFYsMqMyvM4Ie7aY3V4P5R3Dt3Gwuq4oNQeETmm6b4xd0KNhjfxh7HXY5OMCv
-	 KJxY1BS1XQDBMAPDOpHcJpVus0WT389BZMRzWroqcp/FUWEBJqUUY83jYNrphvB2i343n
-	 Zu9An89ne2XbgKdSMWuQWsbjj/yyweV12ipAjAmvshf4Tz6aQQie7Pho1g70H23wte1bK
-	 wrF8q1a+4HH+gdpKnz0tq6LfjgGMTqxFckwvD4QFX1rpy566DRJwMPXN1Wu/ztAFG9kLQ
-	 4UtIsL82q7Xc8YfE4U1ijehxP5+84LW0i3cKB42WfxY4fsvomKJFX4uNaG/mouXuwsQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792683358;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=kBR8z+6OMFs7ROLQsh3LHG9M4ZcuQJree8NCBsQTSrk=;
+	b=dUEAKERCy2te8rw1OluglaV6LnLz98jCfwXouBhWNEqmfh29TXsrHC9O2KtGZ9yJXAEE
+	 Ombj4J5bda/nSfkwryW8YTBi/OM3fGWDZtZDmkF2Gorcp+637ooQf9DeiRHHD0Q+l7+xS
+	 XiWxUMeuCOpQzjcEwvbjnLV2bHnN259lTIfTPLMZmqoz25c76A/4+WHlL+/GgOl0iLSOu
+	 dOqY704WrlvpgX64g/wZsewX666wG8SydZkoN59xd+fW5Iz5F/KUDH4i9qkjjAPWY3Hil
+	 H/aHPMLl5Hqn7WxPlDiUrgC02TIIMuUu8cVWikvv09AVkmFDQdMMzECdIuZwzn+VDuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=byX6AK+C;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=U1GLbi0e;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA50606A33E;
-	Thu, 22 Oct 2026 15:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E1D606A319;
+	Thu, 22 Oct 2026 15:35:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71E1D606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=byX6AK+C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047611F01825;
-	Thu, 22 Oct 2026 15:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792682657;
-	bh=dFvDESgUnUZGXYa5MrlgOZOa2bvfpkpdDye2dUm6l2U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=byX6AK+Ct3sYTEA1YOuiH+8rOA5U738BZz/m7Fa0HZwrJGjgEaYS9QoPDM7nYH1ve
-	 GrOS5BUst05Wey2CSXKLQV+71Rt+DdRLa580en6gjrwfTrSzJWSGtk185nAvzecREe
-	 N79L3VyKjRbCxOv/keA/CHf/lBatVYDsw8I/om3xPlTTQaJxPQYrGV0miAO1xR7z/T
-	 yz8bTJ9soCMwhDD58RFru5OYqF1KYoL0vgu0/25URvG15QM9EmZE+PZcLDc+auNoV6
-	 I5zX4YNjkpQcs26Pq7RRJeWKXA9lizvFrofZ+LKGsrHfloGykMKp7HELT0/xuvOcNJ
-	 TwSNBc7nSQdGA==
-Date: Thu, 22 Oct 2026 08:24:16 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>,
- <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana
- Ciornei <ioana.ciornei@nxp.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Mohsin Bashir <mohsin.bashr@gmail.com>,
- Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
- <hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, Vadim
- Fedorenko <vadim.fedorenko@linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
- <wulike1@huawei.com>
-Subject: Re: [PATCH net-next v18 0/4] net: hinic3: Support ethtool ops
-Message-ID: <20261022082416.2653fa27@kernel.org>
-In-Reply-To: <cover.1792671176.git.gongfan1@huawei.com>
-References: <cover.1792671176.git.gongfan1@huawei.com>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=U1GLbi0e
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 462DD408DA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1792683357; bh=kBR8z+6OMFs7ROLQsh3LHG9M4ZcuQJree8NCBsQTSrk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=U1GLbi0ewB1XdpMUK6U31OJC86cMj4+6eZwFeQx1UTTkBWYqe187ZhtpNxaHI6stp
+	 ELwSyX12b1+6gXZkpk/PA9wzzLc2mF0wg0bfvtt5zH8ghJ9V6MgrT5pfTi3Xhggia7
+	 p3LXw5bntGmHIPM7q+k38Ti0AuGO+Qpb9dBF74XCMeMcFGoidTupp9c92qhpo6UJaf
+	 VbWqYkU5GrruVa5exC/1lYWzcLkwkSQGCp43fhGsACYl27FfkZTe8GFj54HTr6FxNU
+	 NFISTC0CBO4FDCca1rkwhv6fO9Hqq0oQV+myS9a2U7W8iNtPnSsEozmqVdCsBwl/n4
+	 EKZD1Jqyj8V1g==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 462DD408DA;
+	Thu, 22 Oct 2026 15:35:57 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Subhadip Sarkar <sarkarsubhadip604@gmail.com>
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Subhadip Sarkar
+ <sarkarsubhadip604@gmail.com>
+Subject: Re: [PATCH v1] docs: admin-guide: Fix typo in kernel-parameters.txt
+In-Reply-To: <20261020150530.15291-1-sarkarsubhadip604@gmail.com>
+References: <20261020150530.15291-1-sarkarsubhadip604@gmail.com>
+Date: Thu, 22 Oct 2026 09:35:56 -0600
+Message-ID: <877bj93fz7.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,26 +67,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Thu, 22 Oct 2026 20:25:14 +0800 Fan Gong wrote:
-> This is [3/3] part of hinic3 Ethernet driver second submission.
-> With this patch hinic3 becomes a complete Ethernet driver.
+Subhadip Sarkar <sarkarsubhadip604@gmail.com> writes:
 
-## Form letter - net-next-closed
+> Fix a spelling mistake in the rcutorture.stall_only parameter
+> description by changing to "applications".
+>
+> Signed-off-by: Subhadip Sarkar <sarkarsubhadip604@gmail.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e75344f4e..f5263eaf8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6249,7 +6249,7 @@ Kernel parameters
+>  	rcutorture.stall_only= [KNL]
+>  			Shut off all rcutorture kthreads other than the
+>  			RCU CPU stall-warning test kthreads.  The purpose
+> -			of this is to test production applictions'
+> +			of this is to test production applications'
+>  			reactions to CPU stalls, and with minimal
 
-The merge window for Linux v7.4 has begun, and the net-next
-tree is now closed for new drivers, features, code refactoring
-and optimizations. We are currently accepting bug fixes only.
+Applied, thanks.
 
-Please repost when net-next reopens. There is some uncertainty
-about how long this merge window will last, so please check
-https://netdev.bots.linux.dev/net-next.html
-before reposting. net-next _may_ reopen on Nov 2nd.
-
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
--- 
-pw-bot: defer
-pv-bot: closed
-
+jon
