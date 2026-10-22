@@ -1,84 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792683811;
-	b=VTlKyjbr598Z2MoPkkWgj4YmBicoLAw7qla2P/SjrxtOR+OxuAbmji0fhihFwc3IS39z
-	 7RUI7mzn364/D5Y8g6M8GlnSlZ+RG6PHiWzB+veuddVjiqUke+mzp2iHctALZfipBT8M/
-	 pG0FwfHVJU7qmY5CkVeSuU7JiKCDLZwVMrI1HDC0p4GaIkDVgFLfdL8rRN+9NJefFaJfJ
-	 8LKuf5gParJZyTmIHNlWOvvP/Koi/Y7tvYNmjErFQbPm30bEAkT/tFiwpWzbWk78EWMqY
-	 38JyfOZQebPAHd+4ai433lfZ5uYk53KANN9AM3csrmFWwew+GFgHrozoxWiXPlw1/dw==
+	t=1792684155;
+	b=piMbYQo/GUCLRfMKpvd7j0Wz74UFMdFQcIR+6BZ4BbuyI1vRopulnxBDcIvZxYbNvVkY
+	 f1FQM1O2j8hFjp8HBMEuPsNRYDOCOJw0FV306+9ELzM5GU7qapUd1CJJTZudp4uLbw1x7
+	 ZD36C4A2aWpf3DRMVBzo6nMGY5pu1tD9jNidWCDNYnYjYIiB1cdqBLrA4uOLSu5Rc9yqu
+	 uRHpy+FRzMTg/pSZ4thstY2Zk1AB7Q4stLBpqt4egY+i7ngiqbP64a7jMC6zZD/r9cfBH
+	 sd8e8TEm7xJdmcJk6jGSERhO7Evrtj3gXJcuv95ddpjAkkOnBZVomc1vxcfRKtUkQcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792683811;
-	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=H/ZQDZbJUUwaDWq/U/yZ4cIarmdBAnG5+fgMRyphtSo=;
-	b=HwIKfp6hhWKxqRjizQRKXRY+LfmJy5OxZJoidpYkRWcWLC1lPfxPZTeQxH+kdb9sOnVA
-	 +8/zztcVYwih6Zhod3yxYbhXlfqIqz6DAfAteI2LCMIl4HsC7fXH8kRZ5moixhrSr/jUb
-	 wJ6RUrFzfYsEicukauAHfglpqOnTkU6OXOsJRiyNkPqRXSVkFKi1Bv+9ePOuvfF7Q9Jgz
-	 e5OKE+QjK/U+yJHxWYjDEpTKiwOUFkfKpyKWyIZhv6uLR5tpmKWHiGB/W5l+iVtbStlji
-	 wTVzy3APKKgeSg85dFzGNr5eH9V9v17p8fM8yAxHxcfcsaAdycHo/9A8try6BbD5gdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792684155;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Z799PBwungCQk38WE1W1PhL2le/uFNC4uKYWvL5bioM=;
+	b=QTiyQlDsv0fyk/W8W+lsS3s59vOxSNXogIRqmSoAfld+UTU6zoGx9EXTGgemHhQFSRU8
+	 HMnxn3nN1dntiOJA4UktMF34XDlfROHbTgBXUKIkq4pERDPlJ8a1HkypTMfkC59AmXF5I
+	 7wk4hyqlqcjYyXnXEnCsEOSevJkbE2uAvgI6C90L3PqtAaCtnm1lCTlQ0Ur5nlhQZTp0q
+	 3jeGHAh6N56ju9XBljY2cn5rO47v5crG3ycuHnrEqCHxWSSLwOSOVZwVSIwbc1d8vcykt
+	 o1Wg9MQ2Igos9huy1PZH08TZWPa9r2ul9vnKkCPrvaDN6YojnkXBR00vkCQGDprcXOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HkIm1xBS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q0Tt3szP;
+	arc=none smtp.remote-ip=209.85.217.50
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67CE606A319;
-	Thu, 22 Oct 2026 15:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9596606A31D
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:49:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9596606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HkIm1xBS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BFAC1F01825;
-	Thu, 22 Oct 2026 15:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792683810;
-	bh=H/ZQDZbJUUwaDWq/U/yZ4cIarmdBAnG5+fgMRyphtSo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=HkIm1xBS2oaBequM1IPluWU8b+N//ZtGRp17ZRz9uHD5bKy2xYcEdA4HU0rNyrgDg
-	 YBJuHEJRMeL+tUCGYtbZjpENSBmdmPC0uQqPh2SUb6uSsREXyD0lUSYkOkV1P70koK
-	 OpBxQh+BqzrF3MFP5RXmvSeTtHZO3/bxhr4B2iDcNcLx6Gpmah9lHKIk8JbDsl0h+w
-	 16pnLvPlrRDp3BcIAmQGfyE+57bIfZzWGhQES485JDv6J/MtvdsOxkexEJGoFqAI9n
-	 lbeEZcJoLlj4jO4oACEpTZEstHuP263QEUjvW+OTTqmS/WKngm8TZDxFNEC0gQ78/P
-	 +b4+D2p5AvpGA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xJuwx-000000067Lk-3k9q;
-	Thu, 22 Oct 2026 15:43:27 +0000
-Date: Thu, 22 Oct 2026 16:43:27 +0100
-Message-ID: <86h5idzqow.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Alex Williamson <alex@shazbot.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean-Philippe Brucker <jpb@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q0Tt3szP
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-78fb1fb9508so851005137.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792684154; x=1793288954; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Z799PBwungCQk38WE1W1PhL2le/uFNC4uKYWvL5bioM=;
+        b=q0Tt3szPux3DPgEwJgq01tYB/z8hz5Z5comc5z2elERV9q0dif4r4otQOjmB8FxX4Q
+         C/0RwLD9bL02aVie4BHo/7QA7IzAm5qP451LvM2HE1M2c+RuQqpjz/3CuAjREQcXlE78
+         6EUNrWv/tC11fJwE0CMLxLFCMbjo9OZ6y4D0+7+dUkYLcaCvhF3JnulPQcUNib6CHjsh
+         jBhJThUO9nHzSZEIfZ/a7GdEi7etW8YNnK3jQTq2iZBq8Z81rPh5NS53om8CnvCBCGe4
+         TxwkdK3gtWJKBNclLwuRBYJsVTpi5RVzkyfGY1PRrRG+fFnB05KjBX2BeWFyMuuFzVBu
+         XM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792684154; x=1793288954;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Z799PBwungCQk38WE1W1PhL2le/uFNC4uKYWvL5bioM=;
+        b=rAy0HpCgmsYppQZJza+eow00AYdhIgf4TTre2P/+xCFIS2PfvhtqC35q+6qv/BpS5y
+         67PRPKnj3pa2H59cbh+ybCaCrdCfmqxxIXZ+/lGLuUQMr08bjXbpPK/Xx/7IVfkbSnnB
+         02XaTKcPR2LFtVcq3y6LOog1620gT6p35YCH1G53WkUrrh3rYXQXsof8OKJa932/5TS4
+         j3mlnqnhGffINWxzUPb+wGEL4CNrl4IL0aU9hoI23Y+f6XTNU94PicK05uSuQbAjIkqR
+         Rw4PbamaooIW/qakl6ekXJyW4gfLmIvBf4hd8i2Jshl0PCP5m5agsqZ7i02DPgJAHExi
+         zJxw==
+X-Forwarded-Encrypted: i=1; AKwUvBwQVsIk1YOpzA3PCx/EI22WMqQnap6AiljUPhbcxkahWjUYLx+LHQW2MWFZT9idFbQh058GFvkybQw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKKxmwkJy7AnUttRJGD46L2oob/G7EJ3smN0WCICnV5C6wkcyJL
+	KUqr9vgE4NOBSB97QmbYNCEM4KQoQgFABN7HFzqEC/JAORE99dP680zX
+X-Gm-Gg: AYBFou0npXAKP4lTlhoxB4U/rOM/Skvgzg7zwZ4cuFVr9EsGDtWJiS36cgV2Ui8BhMS
+	XWBnxp9ZLvTv+HvMsYlKyQREIImBTuSwVbvzBec/W4CVseQLjaykMNhF3dlRt7gISQYtue6isP8
+	kLwTTcKWiernq3eABRQLC6p7g4O5k8ztEpYdUmmIe4o+0QvwAxpRSd3a6w5H9Sbt1QwDAcxoedE
+	OVJviM8QHdoom0m2aTnoVektxdVjJiDqC3HEOUxOuahmrECQjypqFeTv1G4U3263zuYF0BK5uo3
+	LO7CLZ49DuZS/q27OoTZWpM9L7O6YRD+B18vhIKzlZXcwGETCRnmlOfg9+JTZ9IphJ41s3TIbBX
+	vOEPH4TY1CXwDiknltugSn5n113HUx4sc1cLLRTv87M0Z1gQcojzxRTvgU5Z+I1YyIJWZpdWiKe
+	P9MCZzFWH2iEKISVSuDTCpo9689ZLXiB16BmZ1MIURzHMXm1bhWQtyeH3guk2w1frLGmPSE6Bn3
+	wjnDWo17lCpXi9gPBscMbi/EXsHV/3Wup7E40vMAr6nubIw4bRe4V9xYzIWtliWUWqzpPr/T4xD
+	e/YIOZ6q2UZkB/WuK0KYadKpjWpzqFkalPFKV3gMUM7JCCvivw==
+X-Received: by 2002:a05:6102:1a1a:b0:7ba:95f3:8a07 with SMTP id ada2fe7eead31-7cca98139c9mr569745137.13.1792684153876;
+        Thu, 22 Oct 2026 08:49:13 -0700 (PDT)
+Received: from dell-pro-plus ([2804:29b8:5080:dd51:d55c:b555:e096:bdc4])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7ccc2187b03sm21781137.10.2026.10.22.08.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 08:49:13 -0700 (PDT)
+From: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+To: danielmaraboo@gmail.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH v2 11/15] KVM: arm64: Export stage-2 MMU config
-In-Reply-To: <20261015142552.4128028-12-ryan.roberts@arm.com>
-References: <20261015142552.4128028-1-ryan.roberts@arm.com>
-	<20261015142552.4128028-12-ryan.roberts@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+Subject: [PATCH v2] docs: translations: pt_BR: translate programming-language.rst
+Date: Thu, 22 Oct 2026 12:48:40 -0300
+Message-ID: <20261022154840.119951-1-ic.gabrielribeiro@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,205 +98,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, gregkh@linuxfoundation.org, arnd@arndb.de, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, oupton@kernel.org, alex@shazbot.org, jgg@nvidia.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, jpb@kernel.org, ogabbay@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 15 Oct 2026 15:25:45 +0100,
-Ryan Roberts <ryan.roberts@arm.com> wrote:
-> 
-> From: Jean-Philippe Brucker <jpb@kernel.org>
-> 
-> Provide an API to drivers that want to share the stage 2 configuration
-> of a VM with their device. At the moment it is rather limited:
-> 
-> * No invalidation notifiers. The TLBs on the device side, if any,
->   receive CPU TLB invalidations.
-> 
-> * No remote page fault support. All paging still takes the normal data
->   abort route on the CPU. Options are pinning all guest memory or
->   device-specific mechanism for reporting pending faults to the guest.
-> 
-> * No nested VMs. Although we could perhaps support assigning devices to
->   the hyp context of a nested VM, it seems performative.
-> 
-> So for the moment this API works for devices that share the CPU MMU, but
-> the SMMU driver could use it with DVM.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jpb@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_host.h |  11 ++++
->  arch/arm64/include/asm/kvm_mmu.h  |   1 +
->  arch/arm64/kvm/mmu.c              | 102 ++++++++++++++++++++++++++++++
->  arch/arm64/kvm/sys_regs.c         |  14 +---
->  4 files changed, 117 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 30d0082b15ec..c0932b43f959 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -235,6 +235,14 @@ struct kvm_s2_mmu {
->  	atomic_t refcnt;
->  };
->  
-> +/* stage 2 MMU configuration, for drivers that speak VMSA */
-> +struct kvm_arch_guest_mmu {
-> +	u64 hcr;
-> +	u64 hcrx;
-> +	u64 vtcr;
-> +	u64 vttbr;
-> +};
-> +
->  struct kvm_arch_memory_slot {
->  };
->  
-> @@ -1720,4 +1728,7 @@ static __always_inline enum fgt_group_id __fgt_reg_to_group_id(enum vcpu_sysreg
->  
->  long kvm_get_cap_for_kvm_ioctl(unsigned int ioctl, long *ext);
->  
-> +struct kvm_arch_guest_mmu *kvm_arch_get_guest_mmu(struct kvm *kvm);
-> +void kvm_arch_put_guest_mmu(struct kvm *kvm, struct kvm_arch_guest_mmu *mmu);
-> +
->  #endif /* __ARM64_KVM_HOST_H__ */
-> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
-> index 6eae7e7e2a68..8a9d385fe14d 100644
-> --- a/arch/arm64/include/asm/kvm_mmu.h
-> +++ b/arch/arm64/include/asm/kvm_mmu.h
-> @@ -185,6 +185,7 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu);
->  int kvm_handle_guest_abort(struct kvm_vcpu *vcpu);
->  
->  phys_addr_t kvm_mmu_get_httbr(void);
-> +u64 kvm_mmu_get_hcr(struct kvm *kvm, u64 hcr);
->  phys_addr_t kvm_get_idmap_vector(void);
->  int __init kvm_mmu_init(u32 hyp_va_bits);
->  
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 2d44cd6a5aed..0bf1dff2a41f 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -2805,3 +2805,105 @@ void kvm_toggle_cache(struct kvm_vcpu *vcpu, bool was_enabled)
->  
->  	trace_kvm_toggle_cache(*vcpu_pc(vcpu), was_enabled, now_enabled);
->  }
-> +
-> +#define HCR_MMU_BITS (HCR_VM | HCR_PTW | HCR_DC | HCR_TGE | HCR_RW |	\
-> +		      HCR_CD | HCR_ID | HCR_E2H | HCR_NV | HCR_NV1 |	\
-> +		      HCR_FWB | HCR_ATA | HCR_DCT)
-> +
-> +/* Update MMU-specific host bits of HCR_EL2 */
-> +u64 kvm_mmu_get_hcr(struct kvm *kvm, u64 hcr)
-> +{
-> +	lockdep_assert_held(&kvm->arch.config_lock);
-> +
-> +	WARN_ON(!test_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED,
-> +			  &kvm->arch.flags));
-> +
-> +	hcr &= ~HCR_MMU_BITS;
-> +	hcr |= HCR_VM | HCR_PTW;
-> +
-> +	if (has_vhe() || has_hvhe())
-> +		hcr |= HCR_E2H;
-> +
-> +	if (cpus_have_final_cap(ARM64_HAS_STAGE2_FWB))
-> +		hcr |= HCR_FWB;
-> +
-> +	if (kvm_has_mte(kvm))
-> +		hcr |= HCR_ATA;
-> +
-> +	if (!test_bit(KVM_ARM_VCPU_EL1_32BIT, kvm->arch.vcpu_features))
-> +		hcr |= HCR_RW;
-> +
-> +	return hcr;
-> +}
-> +
-> +/**
-> + * kvm_arch_get_guest_mmu - Get a reference to the guest MMU config
-> + * @kvm: KVM instance. Caller must hold a reference.
-> + *
-> + * Get the stage 2 MMU config of an EL1 VM. The returned object contains
-> + * settings that do not change until the object is released with
-> + * kvm_arch_put_guest_mmu(). This function does not support nested VMs.
-> + *
-> + * HCR has lots of settings, some of which differ between vCPUs, but most of
-> + * them control traps. For EL1 VMs, the bits relevant to MMU translation are
-> + * common to all vCPUs:
-> + * - VM, PTW, DC, TGE, CD, ID, NV, NV1, DCT have fixed values.
-> + * - E2H, FWB, ATA depend on host CPU features (respectively VHE, FWB and MTE2).
-> + * - RW depends on vCPU features. This function does not support 32-bit VMs.
-> + *
-> + * HCRX: EnSDERR, EnSNERR set to 0. TODO: is GCSEn relevant?
-> + *
-> + * VTCR is set once for the VM, depends on the VM's IPA size.
-> + *
-> + * VTTBR:
-> + * - VMID is pinned, until kvm_arch_put_guest_mmu() is called.
-> + * - PGD is allocated and freed with the vm (the caller must hold their
-> + *   reference to @kvm). KVM may create and remove page table mappings at any
-> + *   moment, and uses normal TLB maintenance operations to synchronize with
-> + *   page table walkers. KVM does not notify the caller about mapping changes.
-> + * - CNP is a property of the host system.
-> + *
-> + * Return: a new kvm_arch_guest_mmu instance, or an error pointer on failure.
-> + */
-> +struct kvm_arch_guest_mmu *kvm_arch_get_guest_mmu(struct kvm *kvm)
-> +{
-> +	int ret;
-> +	struct kvm_arch_guest_mmu *mmu;
-> +
-> +	guard(mutex)(&kvm->arch.config_lock);
-> +
-> +	if (is_protected_kvm_enabled())
-> +		return ERR_PTR(-EOPNOTSUPP);
+Translate the programming language guide and link it from the pt_BR
+process index.
 
-How does this compose with CCA? Can it be restricted to exclusively
-running VHE rather than also dealing with the lesser configurations?
+Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+---
+Changes in v2:
+- Use translation-specific labels for the page and all citations.
+- Drop the obsolete Assisted-by trailer.
 
-> +
-> +	if (!test_bit(KVM_ARCH_FLAG_VCPU_FEATURES_CONFIGURED, &kvm->arch.flags) ||
-> +	    test_bit(KVM_ARM_VCPU_EL1_32BIT, kvm->arch.vcpu_features) ||
-> +	    test_bit(KVM_ARM_VCPU_HAS_EL2, kvm->arch.vcpu_features))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	ret = kvm_arm_pinned_vmid_get(kvm);
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
-> +
-> +	ret = -ENOMEM;
-> +	mmu = kzalloc_obj(*mmu, GFP_KERNEL_ACCOUNT);
-> +	if (!mmu)
-> +		goto err_unpin_vmid;
-> +
-> +	mmu->vtcr = kvm->arch.mmu.vtcr;
-> +	mmu->vttbr = kvm_get_vttbr(&kvm->arch.mmu);
-> +	mmu->hcr = kvm_mmu_get_hcr(kvm, 0);
+ .../translations/pt_BR/process/index.rst      |  1 +
+ .../pt_BR/process/programming-language.rst    | 64 +++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/programming-language.rst
 
-How about the hcrx field in the structure?
-
-> +
-> +	return mmu;
-> +
-> +err_unpin_vmid:
-> +	kvm_arm_pinned_vmid_put(kvm);
-> +	return ERR_PTR(ret);
-> +}
-> +EXPORT_SYMBOL_GPL(kvm_arch_get_guest_mmu);
-
-It really feels like this is a bit upside down. Since you are actively
-pinning the S2 MMU context, it should only be a matter of taking a
-reference on the kvm struct (just like KVM devices do), and handing
-off the kvm_s2_mmu structure, rather than copying things. When you're
-done with it, drop the reference.
-
-If there is a need to deal with a different value for HCR_EL2 (or
-anything else), it can be done in the code that makes use of it,
-rather than being in the KVM code.
-
-Thanks,
-
-	M.
-
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index d072f7e46..ccfe86de2 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -39,6 +39,7 @@ devem estar familiarizados.
+    :maxdepth: 1
+ 
+    Requisitos mínimos <changes>
++   Linguagem de programação <programming-language>
+    Estilo de codificação do kernel Linux <coding-style>
+    Informações sobre clientes de email para Linux <email-clients>
+    Como aplicar patches <applying-patches>
+diff --git a/Documentation/translations/pt_BR/process/programming-language.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+new file mode 100644
+index 000000000..91fc1a553
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/programming-language.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_BR_programming_language:
++
++Linguagem de programação
++========================
++
++O kernel Linux é escrito na linguagem de programação C [pt-c-language]_.
++Mais precisamente, o kernel costuma ser compilado com ``gcc`` [pt-gcc]_
++usando ``-std=gnu11`` [pt-gcc-c-dialect-options]_, que seleciona o dialeto
++GNU do padrão ISO C11. ``clang`` [pt-clang]_ também é suportado; consulte
++a documentação sobre
++:ref:`Compilando o Linux com Clang/LLVM <kbuild_llvm>`.
++
++Esse dialeto contém muitas extensões à linguagem [pt-gnu-extensions]_,
++muitas das quais são usadas rotineiramente no kernel.
++
++Atributos
++----------
++
++Os atributos [pt-gcc-attribute-syntax]_ estão entre as extensões mais
++comuns usadas em todo o kernel. Eles permitem introduzir semântica
++definida pela implementação em entidades da linguagem (como variáveis,
++funções ou tipos), sem exigir mudanças sintáticas significativas
++na linguagem (por exemplo, a adição de uma nova palavra-chave) [pt-n2049]_.
++
++Em alguns casos, os atributos são opcionais (isto é, um compilador que
++não os suporte ainda deve gerar código correto, mesmo que o programa
++resultante seja mais lento ou o compilador realize menos verificações e
++diagnósticos em tempo de compilação).
++
++O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de
++usar diretamente a sintaxe de atributos do GNU (por exemplo,
++``__attribute__((__pure__))``), para detectar quais atributos são
++suportados e/ou encurtar o código.
++
++Consulte ``include/linux/compiler_attributes.h`` para mais informações.
++
++Rust
++----
++
++O kernel oferece suporte à linguagem de programação Rust [pt-rust-language]_
++quando a opção ``CONFIG_RUST`` está habilitada. O código Rust é compilado
++com ``rustc`` [pt-rustc]_ usando ``--edition=2021`` [pt-rust-editions]_. As
++edições permitem introduzir pequenas mudanças na linguagem que não são
++compatíveis com versões anteriores.
++
++Além disso, alguns recursos instáveis [pt-rust-unstable-features]_ são usados
++no kernel. Esses recursos podem mudar no futuro; portanto, é importante
++chegar a um ponto em que apenas recursos estáveis sejam usados.
++
++Consulte Documentation/rust/index.rst para mais informações.
++
++.. [pt-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
++.. [pt-gcc] https://gcc.gnu.org
++.. [pt-clang] https://clang.llvm.org
++.. [pt-gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
++.. [pt-gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
++.. [pt-gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
++.. [pt-n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
++.. [pt-rust-language] https://www.rust-lang.org
++.. [pt-rustc] https://doc.rust-lang.org/rustc/
++.. [pt-rust-editions] https://doc.rust-lang.org/edition-guide/editions/
++.. [pt-rust-unstable-features] https://github.com/Rust-for-Linux/linux/issues/2
 -- 
-Without deviation from the norm, progress is not possible.
+2.56.0
+
