@@ -1,113 +1,139 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792674708;
-	b=sJPzOLxdQgy8CN9MiFVvVwN4NOdJN9a9qsgapjkXNIAyK7pZChL7MQswjh0dtHxksmmZ
-	 oyZhkVMwO1vYITzcRrh9l7mVDEJ05iNniUvub83x7pv+gcuLEyI51jB8V9Vr+Xts871Sm
-	 7dLnR34YaPAeozRoAwjUrWoR4Y2ey3dOaDZ/FzNccl0vX0W5d05X5IYtqptAUDrYcJxF5
-	 WjXABW9D9BY1U7pB4LAfF+e7dyNNGm8eBmwrXkxlscvIRy30wxRmwEvr45VDNBtLgfARJ
-	 kUNJIcIwOmr4VYSbZFm8MUbiLdUo9NoK+uRUTd8MDM/INcaFY+EmjM7JMzzkOO3OWbQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792674708;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
-	b=Zo5ACnly7lKnDfbCPEiOf+OUuUaMLH58basCjevpgeMIBl+PLWRQDNSApmZ/eikNjNlp
-	 wDfaMTslDkD1M5GxyIoVRf0LypNv2wUwU1afhYl47emWmjwOLpE23xB67LYxaVWIlIt4e
-	 BBlrCz6IHv35cMAzMyJdY2rWgicUL6yEdGlT+Rf2WUdzLxVa7xTWOamkYOiyA4oT/2Rf4
-	 sqVxqAeMS2NrnucUJAb4tfbKtsEVy50Z2sznzxpOqv+fzKHLyLmrUTQ2CQGhL1Kx7gsiM
-	 sp2UBVoS4sHJ8S7Nt8pRuzNxGvtPpkutd+LNrQTJ6jirdp3KQF+3DBJIEnaWXd5dJvw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qBfZBOnu;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.57
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010057.outbound.protection.outlook.com [52.101.56.57])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792674951;
+	b=KFfrfMtuY5CzSjlx52L3OTwHgt26nL8leN5lzP1FSTJ69kwpZRpKzMK280kxV4nibVfu
+	 d09NzxnhcGuxUVm4NX7auSQpxzhP9tBpRSQeR5o5ECE/lpu4GS5t7VuwvyMu8eq/Ky0hk
+	 LCYZYQPquXcZg/3HuMFtBzGG7ALI/upL8ZUNdeUQxYRYz03uklkwqe5SfWKVPesBFFfpN
+	 Xy/u9Pvt3pkQwfXgURlz/qRAJ6RHcrWzJGx5lHfQFOVPW/4DSgJY5ZLkqYkmxYh2xr/QE
+	 Qd9gGCmMyFN6e5+9hSQtuSykOlqxJWJn26aeYNMJPV0txWoc61HPG9c3cJVdgCc1Pdw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792674951;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=TJhxwzQVV2Bitil/P+RgNQfU0rtSwWSbTvYT//HoKb8=;
+	b=1jLnrvW4rNDlHEmfzsqYTJe/maYKQDofVEjRuvZ+M4NApqx3vIHBPmwcTuf+CdlSr29j
+	 8GPtZOMDcfBVCHg0s3pedGqHMVQfkitKqVUJHULvqMJU8tTA7Fdb0+IC0L3awOdUdzeE1
+	 g86dB9Iz4+4ICJdyvU4aSmRietiZzXg1KDjTqxws86lCpX+shGSCuvwI4a8vU0m6TI0nK
+	 ztd5YiojsFQLfaDPMdycAbKqUnSHs5hvH7SLP7fkKvDMo9TKqPr9MnM4fO9mGgQ+vIrav
+	 mNadFlckDojcs7IspFkCWPZMTXBOjc4ZfTeDMmD0pC0hQA7R6JsQnyqR9INbi5TSEdg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Z5RdGSKi;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Nx2Qe0Od;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF4B606A319;
-	Thu, 22 Oct 2026 13:11:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEF4B606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506FA606A319
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 13:15:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 506FA606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qBfZBOnu
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fb0RoDbxjn0uSSDSznc7j0UUtBAicijk0apw8sICcXsVdXd/tATU10wZ7eB4AJutojfaz5wQ5/YwultBwcUwUW+rDFV7D0SMJnOkZd0MJ/rX6qccwArr1own2pUVYTU48N9Nzkh6/CMpk2R/zxJGinQzJTMLmdB+xt9ZgsC/g5HtcvspKuGTBiGVrWlFeBvOex71I4nH46/vRQpbYx52KaDTXNipDpwzXyiRs/0KDG4Q2jTjgT96Mt3embnAEzeD7xDGsUH87F9SS+SN+SlBGYThcShFR0ymYZGwC1i2DBuEXSpK8BwWsmvUOWgFMsjle7rw3Rx8akrkBqHJvOsgVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
- b=aesoU7dXygQEUdkQmeZA5cldrObB+4ZGu/tun9iUPc5rOR+PpIEBtobffRozK3a9pkkfcgr8YK7kklv+zEltPkniPa6no/VUzsPJAdJ168Kc89DfaJh2jdq5ymUzF0z7I5KtS8qWWUf3ly11Z+H7SmgKIzmIOfHHonudBQZ5eRPpbocN8yy8JswDHIELBknzK6T/pZ6De15FvsyQtUNvVUCKLWlQ9JJcCWdaS4iCpiD3CZKif3TounMWXxr6GDOnHMsIfdZ9oaZOoUbDkDT1ax+ioYg3VF6Zc4yuUA3FQj5LVtDUd9qtlG2cikqN0OvnSLErtw38MqU692TrCkofQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ndoRAQDqEwXsZH8UzjlDh9Wj7CkiAkwv+RCHrWtXTIQ=;
- b=qBfZBOnu4BCZkyhBOLG+yeAbkMZXcIcU/+SsbB92x5J0j7IjuOcMJ/IDkboGG4g3Ao9ZOw0cxBLCzcLvhgsZUy2zXgSKNm6dS5LbUo6DevMGNfky4ghR5T3JNl+y29F7kIxvIPyyZ4qxRO+PylcBXXLTUISMirBse6jTvODBxvRo8QQDi92CedUWLWvSMgWT+p5JguDDAh/OalDS+EZVDsLNz2S42/0nqdV8bX2SzhVw7VR4podVmpUqSqr4z8TpQ6rxlu2iWkXKffRA/qt9t7EM1QOM5i+aWadN0MJMNGlMdzjC4bBidhXf2vdGA/BNov9hTwDz1QacmOB6/ZDssQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by SA1PR12MB6848.namprd12.prod.outlook.com
- (2603:10b6:806:25f::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 13:11:42 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0546.016; Thu, 22 Oct 2026
- 13:11:42 +0000
-Date: Thu, 22 Oct 2026 10:11:41 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Mimi Zohar <zohar@linux.ibm.com>, Jiri Pirko <jiri@resnulli.us>,
-	Dionna Glaze <drdeeglaze@gmail.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
-	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
-	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
-	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
-	dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
-	roberto.sassu@huawei.com
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <20261022131141.GD3008132@nvidia.com>
-References: <atPgqROZZxnihYfC@kernel.org>
- <20261017231007.GP13920@nvidia.com>
- <CANwfdvVJRv6++MJ8OCUnHSR_5nVD8Yv6eTmYxxqfzxEk0sNfpA@mail.gmail.com>
- <atX9fugGUsI0hGcA@FV6GYCPJ69>
- <CANwfdvUhuQ6L+w+91iDZD=diMmaJ6_2ZsFKkcoiKWOmPMC1oKg@mail.gmail.com>
- <20261019225658.GS13920@nvidia.com>
- <ath4vwt7KGyDXKVJ@FV6GYCPJ69>
- <103486a4a29ecc7b72940dd051c00ae59266bd05.camel@linux.ibm.com>
- <20261021143529.GP3008132@nvidia.com>
- <95b895522bb314187ac1cdc5d0c143c01f0705a9.camel@HansenPartnership.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95b895522bb314187ac1cdc5d0c143c01f0705a9.camel@HansenPartnership.com>
-X-ClientProxiedBy: BL0PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:208:91::38) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Z5RdGSKi;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=Nx2Qe0Od
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792674949;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TJhxwzQVV2Bitil/P+RgNQfU0rtSwWSbTvYT//HoKb8=;
+	b=Z5RdGSKiyiuC1XDCk1uyyz0woKg7Y335MAsG6PMcjSWYoM0vedj6Q6j7eyh8INRsGD7fiS
+	88v9TMSPvL4kg5Y4jsmwfksLZx+GRRzvR5cBzZeIBnRS7D4NKZjJ6kbc2OcIu+02/QxwUi
+	KeGUEsWSaawEahDEi/zcrlT3v2WRKq8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-563-piq99229O4KjVlHIGYRvig-1; Thu, 22 Oct 2026 13:15:42 +0000
+X-MC-Unique: piq99229O4KjVlHIGYRvig-1
+X-Mimecast-MFC-AGG-ID: piq99229O4KjVlHIGYRvig_1792674941
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a1e295b702so18043215e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 06:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1792674941; x=1793279741; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TJhxwzQVV2Bitil/P+RgNQfU0rtSwWSbTvYT//HoKb8=;
+        b=Nx2Qe0OdCKTwUZNGToxKUf3/hJLkQv5fRTuI27dc0P/fTuHoDUeZdpW3W8MZHkyozu
+         7+kfj1XeVDMm6WKlniCdnhAWSHYeLp8GvpphZqxrzaHTxUAuTyRaeyg1NLpohCaLA+cs
+         Qw8RnRBMkB423wG9P63SDN87xBc5NuSUA1CUWbgCFr2TcECvjPIIjr0VAzkUqJXCa7af
+         r2N/KOwg8/Z6T5LB0RNMwTGXxrKL339fAvrIvk14CTwiJhr+fYCDsY64pRuCwhnSghuC
+         jQLC5zl7HTNCPLZdSt7SGFHvqXj2dYVkfFHxLSo6e2N8aDPIkhFcFp4IbzLUU+a7ko4B
+         WL4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792674941; x=1793279741;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TJhxwzQVV2Bitil/P+RgNQfU0rtSwWSbTvYT//HoKb8=;
+        b=07KHrvePQRvGBhOjhi2O+Ra974Q2JEtHgltWzSUx8gQI73Q6v602D6jCnSPGStLE5v
+         wSEBwT8fGPHPUgSgKxC9MPSNbKjpQs+Bso17K1q90DGQ65HiTDdu9kIYwUKdR0h3+gP6
+         C46Ba8+lq3MQAurgA9jbNAzjqTM8pDbULjauyehdcXpT2LUd4f7ObpB0SKgXv/Wl/kAb
+         CTMW3oILmf4FjEguH/vvEbthIyIS2IBpafMTcsBL83jaToEjxu3vFEkQYFYPgQG47XZy
+         TgOytFQWL9ONj11Arm87n6/IWbln6blDxtg8HY9/jTzC9O85+lMgIRBiUHMzG2Vc5M8O
+         Wkqg==
+X-Forwarded-Encrypted: i=1; AKwUvBzskXEPtCTL4HyCexF7qEzfydEGlaHC9pN4cpp/sUue0ICpQO2GChdSXxF1pSYEVlH3TwU7ZJP4HCA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL1zuU3BE60aBR2B+B/hY0Qa5X5iMROeWsTSQ1AiPsntnGpfGCD
+	fhoCTHGJ3K2/edTPaEj8Lnwxeyz0w7OxnB3UvarBn5PP67+7qm6YcjSjqxx6Y5cr7A8vchmRUOU
+	FSMSZgRRePf1kTmdQiMeq+FoYs1OZwG8sRmWmzjs7RDR5BpXw7ghffmCLmsQ/7Q==
+X-Gm-Gg: AYBFou3dSHpiDGrHdRTItnMbpnf6hkGLaixeU0CPLfn/TMjgRvhLkRER2eecULicwWU
+	iDALKAaEVgr/jijEHy+FcSaDNV8aKi6+Qf5xm7LJf5KKvDXYbop21zexJTzFQvO+YEewmZ3K2cH
+	3bimoGbtGb/ScMAfrRTmXgKycpE8lAhKPJ7X6JYGuc3x/Bmmgb8BfZ4AShPC5+zfFCuuwUVP9KT
+	T0alC+WwuON/WwJHZuXLUzG6eADkRyWv/8ZB0CwrkWw2kDFeaNNkkGuAk9WeOnSzo1mEKboHET2
+	nL6lKUUwNDLZC5J3jvO6hP/0JbAP+3ay08AA4bQpId6B7TiHq2o/LPZkP7/tnyIga/4=
+X-Received: by 2002:a05:600c:34c4:b0:4a2:1a:a10a with SMTP id 5b1f17b1804b1-4a2001aa275mr98638045e9.29.1792674940685;
+        Thu, 22 Oct 2026 06:15:40 -0700 (PDT)
+X-Received: by 2002:a05:600c:34c4:b0:4a2:1a:a10a with SMTP id 5b1f17b1804b1-4a2001aa275mr98636665e9.29.1792674939765;
+        Thu, 22 Oct 2026 06:15:39 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:1536:fc00:b838:383:1c7:6e81])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203963f3fsm81299735e9.2.2026.10.22.06.15.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 06:15:38 -0700 (PDT)
+Date: Thu, 22 Oct 2026 09:15:34 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
+Cc: Nick Simpson <nick.simo@gmail.com>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	Song Yoong Siang <yoong.siang.song@intel.com>,
+	Rusty Russell <rusty@rustcorp.com.au>,
+	Max Krasnyansky <maxk@qualcomm.com>,
+	Sridhar Samudrala <sri@us.ibm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 1/3] xsk: validate checksum offload requests in copy
+ mode
+Message-ID: <20261022091241-mutt-send-email-mst@kernel.org>
+References: <20261021180329.26358-1-nick.simo@gmail.com>
+ <20261021180329.26358-2-nick.simo@gmail.com>
+ <87a4o66lio.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,104 +143,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|SA1PR12MB6848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c370204-11d9-4183-bf14-08df303e0411
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|261009223027099003|261021121427099003|10067099003|56012099006|18002099003|22082099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	P+SPDIy+9J0oKAIcT+bFSkBgHyR8HoidDmYlaHP7i487Kb7OOBJZ/ngNIvqsHozY/PFTRmRl9Qq1JlKAI5qyf8tGu3wHrv9vTo9SEtWqRB7JF96WKJKvCiOul2U+2qi73Djr76PueHcweJP8kr4G9wcLUvfVt0+mQKUFkyGrQ3l2vYOzPw9gBHcfcJ0RfjbJuvXPRBZZrxGJQKebAi7DJtDmpmIIHaW1FIbUZ9caDBpcX+xZy4IZPKEQhHD5FXKvRUrnMjSQhz9x84J4jH5nHPMnWpU5TKXhZpAe9dryO78ev6Lbcxy+eLfd022Ac4c+CAwaHLQQtB+iF5QvR1Ksk6aQTYMA9EWqCqxkTW+ywOPIIFgEyd90GqPjEwZrj+fZy9AzXQ8+iz1yJZBnF668at11hMwBN/H66juNEn/otClbQ2fs1qGwElwkAlrMQnCTD5ARJ4SuV+EHuN0Bh04pDQyro8G4dfBs34leu/RqNnkeCehOM6OV7MAboY0FTOQknnvIXfoVzoh2b9VsNBvg0Y5UcHdx3U8NjOgLIEb3ms570N4YfW0kuGGjaxBf0DgkALLcnEANuNnO3NZwM6RunWhTa+Dp4IEDo33RDO99ULSGKb7Qr1DiBbQT/Y/Srf7RmpBw5VYe/l0HEDpPgGY+Ev/b0N9zOq5gArWjdvhKoRU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(261009223027099003)(261021121427099003)(10067099003)(56012099006)(18002099003)(22082099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eFYv58T45ki9j2XpduVPRUIt7LKbxUI30PxwnOhs4MB1OHqXjwCzbgrcriP/?=
- =?us-ascii?Q?Gf9hLkBpeiKnsq5tL+G6X1r//6ofBBT2q33Nt6xKVmF4o+nHGrdcoPtzM0zW?=
- =?us-ascii?Q?LJr5KzqazvkkzguRrS9J3/ledJK1tjOwAgSO5peHJPhAqhdX6nrE+PgPkOF1?=
- =?us-ascii?Q?eDxJeHZOWUzmbk27GUxEsbN4o9ew+MpzA2IuNP5pEgrTs+32vAkxAWTzA77n?=
- =?us-ascii?Q?8Mc2F8f6YlypbUoYaIF+pNauO8+hUWbbSSh0HPoSiNm4tObb4k0JDFneEMz2?=
- =?us-ascii?Q?kk39DLxyfyVS8xEOZftkGLdnLq5OjPzsSa5Fi/XMck4xI1SVv3fS6zNzFTa8?=
- =?us-ascii?Q?tNKB0Sn3kQRQLB6H4JnuMgEAI+q/sYLcDP23MACJC78ONbeyi52mv+5Va4ZE?=
- =?us-ascii?Q?49K4XTgeST1Ol+neotGjIS09XJWGsapHD5EHTPUqE8jIEmgxCK1jd7WF+5iY?=
- =?us-ascii?Q?AeCE/1cyimZZTxwlvxMJ4GgpcXZj+oGT1z0eYafEVu7S1N8ph6XuAtp8cdzS?=
- =?us-ascii?Q?IkpbrvEuiiu5OYcxbG6HhwAbSCv+wkn9hzGBBgUXFV7E/mECgadwcF7bgN/K?=
- =?us-ascii?Q?ohIEoN10LoiyReU/0MyBHKO8dvbqfDz3l6x6tYN4jjtkmOQ5kTd3Tj+yp1UQ?=
- =?us-ascii?Q?d9GTMwIsGe6QG+pz5Rls9BZKHRU5oelIa4j2P3ZD5Ff8vRpRcG4nl0YTNcxf?=
- =?us-ascii?Q?rpY1ZuJqa9BdNFM1ekVH11SFEpyrNdrULydrARjmC+qOCAsPstKoknnpYHj5?=
- =?us-ascii?Q?+8vP43tVOwfGPOEmsr3kC5ogrvEbOeAeWBnSdaw0oZvmGlIxNNMPfu3tNCyy?=
- =?us-ascii?Q?1tOe/s0SGDLvzeLTbomqvH/ZSPrmrAoOjUNNtIocr+jyGPU6by1pjSAyPYNf?=
- =?us-ascii?Q?8AfFVeWvdU2xIBkEVm5HM+BA6/BDGZUvzRNuKeLHLKKvM10vtiw7hHROBSvs?=
- =?us-ascii?Q?QXKFahDhMbM9i7/1lnTJcpV9OBp+Y2pYFNFhnYdomyYbyfVwiahO7u7wnoze?=
- =?us-ascii?Q?hEzyaLRzYfTjJPEx0c36WquLQmvk4q8jYAp/JniX10Iure0idg8ZWGRmB3qq?=
- =?us-ascii?Q?HGA8ibI+Wu8dJ/DWS9UeKdD87BhxACjh9jk7KBRsetgZmUs9o2Zi/auVbAGE?=
- =?us-ascii?Q?PTELK62N/d+vOjZJkEfDAf6SAlu6es5oPeP0LIUv87w+FsEHprLvWAzKJU4t?=
- =?us-ascii?Q?IkzkSp7+exGOt8rOZUlCkYZsTLh54hYbalzmwI+eryp8p1owFNkCrG3Aej4w?=
- =?us-ascii?Q?ymyS+XjrODFUhqFXX9vT0afL3/27ClVzKah8hC6r3hEPlAqk/+VBCgh1miE3?=
- =?us-ascii?Q?6dH4MJymY5z6uxXEwqRhH//I8/VqaE1EmBZrKVsARjMar4veFDXWnsmeZRZF?=
- =?us-ascii?Q?m5dD85YDu1pGskkcftLxnI2JG1/cFz0GvYc/67ZGMDNidr/xWjo67YBsnYuL?=
- =?us-ascii?Q?UD+8YJmDz09mtaSN8z0E2AxFKqmFuUyRCkqPKYo3ed/8OcS4dpcFHwkxmY8g?=
- =?us-ascii?Q?rmiWwq9b0oA7QaKccMPRYHuKB0YUB1gh/xTUFKwtxH25EMFrSQCIlz12DAlP?=
- =?us-ascii?Q?+enFQx2QK+BOfUSWM1TF9fn4f/1OEFsneu9Q1v9T9g3YUfM8ErVLAi06tjXD?=
- =?us-ascii?Q?1bC+BAvybtvMob0acu2e1FviIrTQ74Q4PMaGzL9euRlLVcwzceFWiJ0g2sd1?=
- =?us-ascii?Q?RYskJIh1Z+Wq51Sbto8UpHtKWfqsKTFgb2BiRc4Kf+1rbPrp?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c370204-11d9-4183-bf14-08df303e0411
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 13:11:42.5440
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8q6Nn8tWKUn1EYWJHhw+DHDRR0b5InKaENPE7+Eoc5C4qJodInM87hRlR9nPOftX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6848
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a4o66lio.fsf@all.your.base.are.belong.to.us>
 
-On Thu, Oct 22, 2026 at 08:26:29AM -0400, James Bottomley wrote:
-> On Wed, 2026-10-21 at 11:35 -0300, Jason Gunthorpe wrote:
-> > Maybe we can build a multiplexed scheme on the spare? I don't know.
+On Thu, Oct 22, 2026 at 01:07:59PM +0200, Björn Töpel wrote:
+> Nick Simpson <nick.simo@gmail.com> writes:
 > 
-> Direct sharing of PCRs is certainly possible, but not in all
-> circumstances. To share a log, each logging entity must record entries
-> in such a way that the relying party can disentangle them with absolute
-> certainty.  The problem with the latter is that both the TCG and the
-> IMA log format have unmeasured (or advisory) log entries.  You can fool
-> a relying party trying to disentangle a combined log simply by
-> converting the advisory entry of one logging entity to being the
-> advisory entry of another and bingo, it disappears from the other log.
+> > In copy mode, XDP_TXMD_FLAGS_CHECKSUM turns the csum_start and
+> > csum_offset from the TX metadata into a CHECKSUM_PARTIAL skb.
+> > xsk_skb_metadata() only checks that the checksum fits in the frame, so
+> > csum_start can point into the Ethernet or IP header.
+> >
+> > On a veth, the skb reaches the peer namespace still CHECKSUM_PARTIAL.
+> > When that namespace forwards IPv6 with nf_defrag_ipv6 loaded,
+> > nf_ct_frag6_reasm() moves the IPv6 header forward by the 8 bytes of the
+> > fragment header without adjusting csum_start, the forward hook accepts
+> > the reassembled packet, and ip6_fragment() then completes the checksum
+> > with skb_checksum_help(), writing two bytes into the accepted header.
+> > With csum_start = 22 and csum_offset = 22 on a fragmented IPv6/UDP
+> > datagram from fd00:1::100, the write lands on source address bytes
+> > 14-15: an nftables forward rule matching "ip6 saddr fd00:1::100"
+> > accepted the packet and the fragments sent out carried saddr
+> > fd00:1::e87. For an unfragmented packet the same write happens at
+> > egress when the output device does not offload the checksum; with
+> > csum_start = 14 and csum_offset = 22 the packet left as fd00:1::ebf. A
+> > csum_start that ends up before the network header (14 to 21 on the
+> > fragmented path) makes skb_checksum_help() warn instead:
+> >
+> >   offset (-2) >= skb_headlen() (640)
+> >   WARNING: net/core/dev.c:3647 at skb_checksum_help+0x4c8/0x850
+> >   Call trace:
+> >    skb_checksum_help
+> >    ip6_fragment
+> >    ip6_finish_output
+> >    ip6_output
+> >    ip6_forward
+> >    ipv6_rcv
+> >    ...
+> >    __dev_direct_xmit
+> >    __xsk_generic_xmit
+> >    xsk_sendmsg
+> >
+> > socket(AF_XDP) only requires CAP_NET_RAW in the user namespace that owns
+> > the network namespace, so the sender can be a container that owns one
+> > end of the veth. With panic_on_warn, the warning panics the forwarding
+> > host.
+> >
+> > The interface is documented for L4 checksums. Leave CHECKSUM_PARTIAL in
+> > place only when the request designates the TCP or UDP checksum field of
+> > an unfragmented IPv4 or IPv6 packet, not IP-in-IP or GRE encapsulated,
+> > on an Ethernet device, and complete any other request in software, as
+> > XDP_UMEM_TX_SW_CSUM would, before the frame is handed to the device.
+> > The frame is dissected from its Ethernet type, as skb->protocol is not
+> > set for xsk skbs. The pending "net: resolve uncommon partial checksums
+> > at ingress" applies the same rule to virtio_net_hdr sources.
+> >
+> > A request on a frame that is itself an IP fragment is therefore
+> > completed over that fragment alone, which is also all a device could
+> > compute, so the reassembled datagram does not carry a valid transport
+> > checksum. Before, if every fragment carried such a request, the
+> > reassembled datagram stayed CHECKSUM_PARTIAL and was completed on
+> > refragmentation; now conntrack marks it invalid.
+> >
+> > Skbs without a linear part (IFF_TX_SKB_NO_LINEAR, i.e. virtio_net) are
+> > left unchanged: their data stays in the umem, where user space can
+> > still modify it after any check, and they go to the device rather than
+> > to the local stack.
+> >
+> > The problem was found with LLM-assisted code review.
+> 
+> AI;DR. Ask you agent to be terse, please.
 
-My understanding was the unmeasured entries exist only to help the
-verifier understand the log structure, and what data is in the
-log. Like you might record a firmware version so that the verifier can
-locate the reference measurement.
+Or better read it please.
 
-If they are corrupted somehow then the verifier should fail to
-understand or reconstruct the log and fail the verification. 
+> Also, please do a proper write
+> down of how to test/reproduce. The slop in the cover is no fun to read.
+> :-(
+> 
+> > @@ -1277,6 +1330,11 @@ static int __xsk_generic_xmit(struct sock *sk)
+> >  			continue;
+> >  		}
+> >  
+> > +		if (unlikely(xsk_skb_resolve_csum(skb))) {
+> > +			xsk_drop_skb(skb);
+> > +			continue;
+> > +		}
+> > +
+> 
+> Yes, we need to validate the csum offsets, similar to the virtio-net
+> work MST is doing. Look what MST is doing in [1]. When that lands, move
+> the helpers to ip.h as the TODO says, and use for XSK.
 
-It seems to me if corrupting them in any way compromises the
-verification then that's a pretty catastrophic bug in the verifier..
+Yea now this is useful maybe I should add it directly there?
+Or a patch on top is better after all?
 
-Though I fully agree with the sentiment, sharing a PCR requires a
-robust scheme for the verifier to recover everything. If we ever build
-sharing we may not end up using TCG log format.
+The idea of a self-consistent small single patch died on the vine
+at this point anyway...
 
-> trust the entity provisioning and running the vTPM.  The closest we
-> come to having an autonomously attested vTPM is the SVSM-vTPM in SEV-
-> SNP which can give an attestation of the ephemeral EK tied to the
-> launch measurement of the enclave.
+Willem?
 
-I understood the AMD approach a little differently.. The verifier gets
-a signed token from the CVM's ROT (in ARM terms the realm token) which
-has a hash that includes all the vTPM code (launch measurement), and
-the token's report_data/challange/nonce is a hash of the random EK the
-vTPM code built at boot.
 
-So the verifier can construct a chain from ROT, to the VTPM code, to
-the EK, to the quote from the vTPM, to the PCRs.
+Anyway, pls post a patch on top of my series. I sent v5...
 
-One of the things we need to check in this series is how well it
-represents the AMD scheme where we have the ROT signing lots of
-different things depending on the GUID..
+> 
+> I *think* the IFF_TX_SKB_NO_LINEAR csum_partial scenario is OK, since
+> we'll end up at a virtio device, but TBH I'm a bit skeptic about the
+> whole reference to UMEM via an skb case...
+> 
+> 
+> Björn
+> 
+> [1] 5de86f1afe1165a1a13ac4ef0615b19f4a10cb7a.1792565282.git.mst@redhat.com
 
-Jason
