@@ -1,47 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792664031;
-	b=f7PTi78v1NTAJZRRHD6wL232YjJ8zCAgagl+8U00bLWIY/yEejPVrLIgKTAnKk/9pOZx
-	 OWko3Xio5MoPCm7xPJaAPJ+g/KF0amh3e4ubYOdcZbxApM8TsX61zE0WO65emZ7gkpq1w
-	 vB1o+wTimTCjL7YYJ1TdK8a70IXrV90IE3Fm4yNbQpy/uAb9edQPwsqXEcAkX/PaauVnj
-	 5B6ieWwQRVW9TLTeS0bjZNz7CB62FGLdnmu+mb6GGwb3nwPPL7EBfYqxvCLNmltJvYYxC
-	 X7ouWYPm5KytSxUXuHv5cdg+yR51Z+/UkalVV+u2wqskyZzP3bTKJf+c6u+ChI2lbZg==
+	t=1792664343;
+	b=jxaY4NZt4a7lD1LJixt3SipbaIWuomiItm9XUzIvMyt1FxqII1Dbv8ga8YD7r8K7+IlP
+	 33nWJqRSIfPLL05FhU0eLkweLdsCE3pK/14euWGXdTOlI9afAbKEeTAyGK9/dswItBW+u
+	 negxNIdav4PNXq2vMXQZDeyx26aqtN+Srl/+pwcPr41MCbKlwlAmnMYAlP7Z42DBkWGE4
+	 Ky+HOn3onD9EFoDZxiziHtuwvFULdP1ZzJ6EGjgxqUqvkJCt7doIC7aTJCqZZTDTLbZZ6
+	 GUzcwD8sBX/v58QuKt8Q23jIi/7A8+b9Uv+k3qUF4BZrx6PCyLbf3f5pueRrIxSpfeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792664031;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=HNqJmCyShDCVTxc3ETqjVTExQyidIL/udlP02+wEjXY=;
-	b=xd1GXFbDbZWEO0ynGvn0AcLz4an3zbE/+zFI2ENposJNleizwEu4ouYCOj/k+Vuii0dz
-	 nk8RkY7hPczL3apZOdkrWKDujsAMGV6CL29/UIghJU6AjBcJvCIsgbxZqE4badOzbLOkd
-	 ovcqHUvV8lWbEyJ/eqjB/Q3X1fq/wXXWJv7CyqxuqLgP9qA9nW5xQR/4wnCQXTc0spIYR
-	 V6wZz6RYayZk8hL9ZBna8Dz496dyoZSnh3+yGRmkK2r5ZA2aodo0XTiccXmQVb86ItMEn
-	 Odd+jnGb51qjsRvnscCwn0UeKvOueCIrZ+rkpF/hkc/lfnQIkpWzlvn/I5l/XtiRiWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792664343;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 X-Developer-Signature:X-Developer-Key:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Z7CjTsmoRi+0w+ZhFFRXXTz8JLrTIF6dRBCGuBaLV2M=;
+	b=bmZ+YAlzORec4yf5UFA16az2GRrc8yhnlc1OiFdQjD0uiA+8TTcej10zYjNS2rpNO/SM
+	 AtfGAq/fsa3t34GBNf5w1CRzYs/TMtlQt+npsSeD2mXlG/0I9gHvQ9MkLi8IvS0K0u6UV
+	 csnh+34Zg9djjfGsRS2IJfEFLqU5dIGzT6QK9/2k53N3icbu8YG1S+13I5ebP6UUqg//D
+	 7kkzmWoPiM04uGIlZTcqNwKoMfNG/dbiAVMgSbVzol0v59OY3/lUiuyRYDxzb2YKDBENO
+	 Z5/3QBpViK+n0buqX5mPR3faaQ/YfyZCHFp5e9WW/devSyJuZ4cPeWSOAYNAiq+3WPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe7RlR1i;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJ8QgVKJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EB5606A319;
-	Thu, 22 Oct 2026 10:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0463606A319;
+	Thu, 22 Oct 2026 10:19:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe7RlR1i
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7D81F000C1;
-	Thu, 22 Oct 2026 10:13:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJ8QgVKJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD461F000C6;
+	Thu, 22 Oct 2026 10:18:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792664030;
-	bh=HNqJmCyShDCVTxc3ETqjVTExQyidIL/udlP02+wEjXY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Pe7RlR1icts9Rk1OXpXCTrXq1y+wTCGxzaBgxXglxChD/USanzVnLGA1lZ+92LQb9
-	 0m9Ouc/7KJwgEpd2TZp9+lcV/xuT4lltHTHVHA0HHkDnOa2j5QE7LKGpKu8YW1Nrq9
-	 Bs+4lIbiPg3+/jG7v1qgeJQDseqD7yzHczMJLajujrTWe2tPrbMhmwxKHqGj/Q8xaS
-	 9TOQ85yOUehbBIi+J/muq1+L/3+EqoIRb79jn4G0Wqpzifp1I7nXDEfL7qtRuvetF4
-	 WC8u4jq6QZd2+PZVrj1cQe6JXtm23CRJBQymZiNUFbMdEjnG0miMOh97xeWWPii6bf
-	 B4iiEcG494xDw==
-Message-ID: <1e3ad9e8-cf97-4553-87ae-98c22aa974fc@kernel.org>
-Date: Thu, 22 Oct 2026 12:13:46 +0200
+	s=k20260515; t=1792664343;
+	bh=Z7CjTsmoRi+0w+ZhFFRXXTz8JLrTIF6dRBCGuBaLV2M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PJ8QgVKJZLMn1J0ApZiCJ5Tz/bA/4eJpuTqvjc+kfrI3kSPJCRNLwNBWFUD61FXT4
+	 rKvp/VXRfO6gQk5hL+Efc5LHGOFWXM7RSd/nq7CWkynoSKrcIUbY15rNQX/C/dSNTG
+	 LTNlXlnL9E505zYjLJKrr2MU3iVebUKmoNdH+zxcojkrmBWjNCpAx9FK2wUGinCowb
+	 qZzMpJgec4hhSHXurkaKqhQFauAvHacXh+4HkdQ921rnQUsck2wCOQ60yN7y/bOkyu
+	 Zct/BNdh5sNExojRmzQO8PYFpCAwQUElk6cla29I5RzU11SzU8pdo6ExOgTRDkABj2
+	 N+zk51yg79kPQ==
+Date: Thu, 22 Oct 2026 12:18:56 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Fan Wu <wufan@kernel.org>, Manuel Huber <manuelh@nvidia.com>, 
+	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Andrew Halaney <andrew@amutable.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] ipe: add the .ipe policy keyring
+Message-ID: <20261022-hausbank-dozent-hurtig-9443f3777475@brauner>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6420; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=Gz2q9noNMRTVpIenqHmgVL/IPY7t7BAHJ6uIbpyczwI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTdfKDtd2F1yYYNN6SUVj4LiYsPtuiujX+RO2cLQ/mZA
+ wZcWUvKOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZicIvhfyxLpY/ue92q7Zvk
+ LlXfSci/eEvy5FS/htmTfqyQTrv29Qsjw+ac534R/dOCGdzCbqUW57/kDlVpdOyY9e3chPjjajr
+ tnAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20261019-b4-ipe-keyring-rfc-v1-0-156f0b93e843@nvidia.com>
+ <20261019-b4-ipe-keyring-rfc-v1-1-156f0b93e843@nvidia.com>
+ <702ade20-a2f3-4919-97e6-c72faa89399a@kernel.org>
+ <20261021-groll-donnerstag-erfuhren-ce34a0ed4e97@brauner>
+ <CAHC9VhTHUU0h9k74CMT6wYhMwyY3YhbSSFwJoDTvoFRyTFVZwg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,101 +76,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Eric Biggers <ebiggers@kernel.org>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <87y0br3zln.fsf@trenco.lwn.net>
- <9704f11c-4c2e-426b-87df-13ea2ffdca3c@kernel.org>
- <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CAMuHMdW6fLN66GzWt1C+zpCwW99UCaN=C2xCrxL9k1P7K7VKHg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHC9VhTHUU0h9k74CMT6wYhMwyY3YhbSSFwJoDTvoFRyTFVZwg@mail.gmail.com>
 
-On 22/10/2026 12:04, Geert Uytterhoeven wrote:
->>
->> This is a real issue because it is very difficult to spot - your commit
->> is applied, but you never verify whether is applied THE SAME way and
->> maintainer thinks everything was applied cleanly.
->>
->> If (1) happens and patch does not apply, the solution is to ask the
->> contributor to rebase.
-> 
-> This happens a lot in DTS-enablement patches: multiple people are
-> working on different devices for the same SoC/board, so half of their
-> patches insert new device nodes at the same conflicting location.
-> Perhaps we can teach to git how to handle DTS addition conflicts?
-> 
-> So your solution is that I apply one new patch every day and publish
+On Wed, Oct 21, 2026 at 12:51:35PM -0400, Paul Moore wrote:
+> Just a quick point of clarification, you're using the pattern you
+> described for other keyrings, not necessarily a dedicated IPE keyring
+> described in this patchset, correct?
 
-We speak about special cases, where there is a conflict thus the patch
-does not apply and base information could the maintainer rebase the
-patch. Only this case.
+Correct. The .dm-verity keyring and the .bpf keyring both work like
+this: sealed empty by default, opened for a single boot via a kernel
+parameter, and only ever consulted once the keyring is non-empty and
+restricted. Manuel modeled the .ipe keyring on them after talking to
+Fan.
 
-> the result, and ask all other N-1 series to be rebased? Obviously this
-> not only applies to queuing patches, but also to applying patches for
-> build/run testing during review?
+> I know you/Lennart/systemd made the decision to implement your own
+> version of IPE instead of working with Fan to augment the existing
+> implementation to meet your needs, so I'm not sure if you've also done
+> something with an out-of-tree patch, BPF, etc. to implement your own
+> keyring.
 
-Unfortunately yes, because every other option I know, so maintainer
-doing rebases, is error-prone as I see every two months. If you assume
-that maintainer can be trusted in a way that they will do the rebase
-correctly, then well, welcome to burnout world were we barely have time
-to go through inbox, not even thinking about doing this diligently.
+There is no out-of-tree anything and there is no keyring of our own.
 
-If we had git-forge workflow, then this (contributor need to rebase till
-there is no conflict) would be even an obvious requirement enforced by
-the forge.
+RestrictFileSystemAccess= is a BPF LSM program that PID 1 loads. It
+denies exec, executable mappings and W^X transitions for anything that
+isn't on a signed dm-verity device or the initramfs. That's it. It
+uses the hooks BPF LSM exposes.
 
-Best regards,
-Krzysztof
+> As far as I'm concerned the decision of how IPE uses an IPE keyring is
+> up to Fan.
+
+This is really not an argument. Manuel posted an RFC that follows two
+existing in-tree keyrings to the letter. Fan asked to deviate from them.
+I explained what that costs.
+
+> Of course, fitting in with existing norms is important,
+> but if it causes IPE or existing IPE uses a lot of pain, that can a
+> good reason to diverge from those solutions.
+
+Which pain? The keyring is dead unless the kernel command line opens
+it, and it is only consulted after the system keyrings have already
+rejected the signature. Existing IPE users see no change whatsoever.
+
+Fan's reasons were that it "looks kind of awkward" and that fs-verity
+does it differently. I haven't yet heard a single technical reason to
+deviate. The properties we get and the other model loses are:
+
+(1) Fail closed by default. Without the boot parameter the keyring is
+    sealed empty for the whole boot and can never be provisioned. With
+    the fs-verity model the keyring is open on every kernel that has
+    it and stays open until someone remembers to restrict it. If
+    nobody does, root in the "untrusted" phase enrolls its own cert
+    and loads its own policy.
+
+(2) The opt-in is per boot and lives on the kernel command line, i.e.
+    in the measured/signed boot chain. A Kconfig knob can't express
+    "this boot", only "this kernel", and a distro kernel with the
+    option on is simply open everywhere.
+
+(3) Activation is tied to restriction. The keyring is only consulted
+    once it can't be extended anymore, so there is never a window
+    where a half-provisioned keyring is a trust anchor. With the
+    fs-verity model it is a trust anchor from the first key on and
+    extensible until sealed.
+
+(4) That's what gives Manuel's Kata case the throwaway key: generate
+    an ephemeral key pair, enroll the cert, restrict, sign the policy,
+    load it, destroy the private key. After that nothing can be added
+    to the keyring and nothing new can be signed. With the fs-verity
+    model the same sequence leaves the keyring extensible unless the
+    agent also seals, and the kernel doesn't care whether it did.
+
+Note that IPE's own CI already does padd followed by restrict_keyring
+on .fs-verity in the initrd (anchor-fsverity.service). So IPE relies
+on exactly this sequence today. The pattern just has the kernel
+enforce it instead of hoping that userspace gets it right.
+
+So what does IPE gain from a keyring that is open by default and
+consulted before it's sealed?
+
+> These days everyone is
+> going to implement whatever they please, but if you have
+> needs/requirements about how you want things to behave in LSM land, I
+> think it would be helpful to engage with us before you make a decision
+> and then start pleading with the LSM folks to adopt your approach.
+
+I'm not pleading with anyone. And the engagement you're asking for
+happened. You just didn't engage:
+
+- You read Daniel's bpf keyring series yourself in August, Cc'd the
+  keyring folks "for obvious reasons", and had nothing to say about
+  the model. The cover letter spelled out in detail that systemd would
+  provision that keyring the same way as .dm-verity.
+
+- On 2026-10-11 Manuel announced in the KEY_SPEC thread that he'd
+  propose a .ipe keyring "modeled after the .dm-verity keyring" after
+  "initial discussions with Fan Wu". You and linux-security-module
+  were on Cc.
+
+As for "everyone is going to implement whatever they please"... In May
+you told the bpf folks that "we just need to be willing to accept that
+we have different needs and show a willingness to accept different
+solutions as a result" [1]. I don't see why that shouldn't apply to
+systemd using BPF LSM.
+
+Frankly, I couldn't care less whether IPE chooses to model the keyring
+the same way. It just means it can't give equivalent security
+guarantees. I'm confused why you have to speak for Fu and why you're so
+defensive about this.
+
+[1]: https://lore.kernel.org/all/CAHC9VhQ-cq-nD7uq3kv=SFSJyzO_CEgwzFeMcdbznTmPWJoy6g@mail.gmail.com
