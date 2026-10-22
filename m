@@ -1,68 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792684609;
-	b=IActGW4GS4O/kE6fikTcS8DavdY8OpRrikaQkOvgb0xRJh7oMWq6oLPGJqscoevnIuGi
-	 hHS34k/M+e1duGmKow7TvldYTx9A+ktdM9V4avn6blu/wsJ0e0yfEzxSG0zBeNXVvzBuE
-	 qUhhY4YV3zroq5pEsbQnKaFNcwiXp2hjMQdyACFHnWNJm8MIMhW7cKNgqc8d2owfO/mG+
-	 hUZ1kWK2rey9g6YqcXF3wVy7qmqpdFTBRVR1sKOPH4Hlx7Ydtq0gGLW39KO7uYhBuqKa8
-	 bVK/FNaxX9EHcK7KZIj5j6mTBrmEUWXEUgdvY/bTKt754+tPHx++ZMwzCTzkvoX45RQ==
+	t=1792684715;
+	b=yZZO+IZ6hgYuPqPRJ+4cYxZnid2wjjW2YIqU8fpgx73y5eqHD6dX6ksTysJIbgfI8P4Z
+	 Y8eErx6mPaYHFNdiBz8X10z5rAtHKUScPLPxfiBhjG7P9CXo5txVOrERs+p4f7dMHvq59
+	 4lyDONkOeAuH9cvPyaJXQdRcLyZC6NIyowQFMNVllzLb51S12BNG/KB711hb72m69LRHP
+	 KtdXo8IM4Xr8ydom2T1RgAVrgUcZks2fd6Htm30FXqCp4PkgdXhKnbZau6BIaNHDykR4Y
+	 PIhZKfFrDRHp5uHK+6ByWaYBKUodTP+4E0mpLn9VVjK55U5jY3rE8bssNm1hNaOImSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792684609;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792684715;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=kQqslYQbtEJ7eXqkg2/pGAuY39Uz8kMMiIdDfjUmGqk=;
-	b=3AgR8hDiPCQeK6cxeW8cZMuWDthBUyGHKUvdiKgwp285LeQxmKBmH5n9hR7jasndwAdg
-	 nIag667q2QaERO9H3NrhDEjvh1i5DvffO83QNA6nDfoYbJof7FDsK6OusO+gHdCtv0U2f
-	 AVlNPPB+5fWjIYDrq/mRokBLHnfuJfjBD/OIeaIDu/tSwF6o4Vx1CzFxhdDE23PBS1wqn
-	 peoJSgBIOtlgkyk/LN1PoyjW8/ZkhdoM2lBfU3MWU62szVuAf869GVOoIwE1+CPrpx1sc
-	 j/yez3RXilEwmnPaS97AXrUnd0KtZza0s+HMcqSX3GcBEz4wSDSgHWUuBz7FTpH77Og==
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=DhuHRoaFagNIuKab+I9vUYVVFdYPBWr3sA6wQnPjcy0=;
+	b=K1ySCUoTWrzZQm5/JclYXTZbxk8tM3A/rIvV3oTHhYzQR6scApIxlw0gIJEsRbARYXZt
+	 WmE0s1SKm9ifGoQVXUqOl3Q+U45rWEyusI9kt1gUZtWKZ1kiAbERImn7DzhR0vmx5sxlJ
+	 /guW4OIUOJfyG3NWZLqsDR5LYdBaBiy5v9asMH+CE5k51+FhxjVUhzYBnrhYuQVukmloJ
+	 Pn/v7po25SIY+XJNL85fnz6cbX0TJgulCUZ25x/S5wKFTE1xtkuFIUACYVnD4LgEI5rQq
+	 wwME70+vwy0z6qJn+FFSDfaIlbW8wn9wfyNfZOJ/u1rfv3DP+BURA+ynqBNe4CF7APQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=RzD1Ug0w;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=iEeTr8z0;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4057A606A319;
-	Thu, 22 Oct 2026 15:56:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4057A606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF03606A32F
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 15:58:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BF03606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=RzD1Ug0w
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 62CD4415BF
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=iEeTr8z0
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BEEE1415BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1792684608; bh=kQqslYQbtEJ7eXqkg2/pGAuY39Uz8kMMiIdDfjUmGqk=;
+	t=1792684713; bh=DhuHRoaFagNIuKab+I9vUYVVFdYPBWr3sA6wQnPjcy0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RzD1Ug0wHP1MkJ4jEutNUGT6NBSqA0C8NXFj7nPhfObZXJtjVJWjkdj64b5QQLvTi
-	 WW46xJpyVmk3T6jzNSoib0WDfHEXQV75W/7COVwURxLXyi/i4DXoU8WCHeJ84BynLM
-	 tVVv37ZlO/JI0BiiZs/K0PYeT+p+zLv0Wj0nQaMYPWqrWc4E4qp/dc4pe9OuSz9GSN
-	 6NyJ36IPPsIsoUEGOjdzdnweeilgJnkryPOczha1EHJ5cTW+O6TVyDwEdGRQSdxRZe
-	 LMBysae9e7k/wlWOn8EwdaWTUj5MvSvMWOpMO9GjovTjTYJ+ekaI1UbsUFHwQFI0/S
-	 K0GeaYR3gGotg==
+	b=iEeTr8z0uW0JBi9NyQlDR8Uayfs9jqTgf0mMBbCheIWh4cdPSUtUg6449nYJJFzba
+	 xMhbMxhHeVK3Nm4Nad8KBjrSnUKVrbYSrZHFN9B5xNGmDrywkg1TWdzgA69sCT3ZcL
+	 KxkT3Nt9NqVry+ePGgo5WFeaJt8adcEmxMnMQ3LhRQEzSh3rBwRwAG2Nu+ihLmSWXZ
+	 FDt0mSOTdBkVcNy/GKzIz8qsF0bIBjzuR9HD5yuzlh+d6jGBbwmg+051cWH4LbF5yM
+	 XexzWVxduFJWW3Do7XWYtXM5XyCYKIxbjEZQxXZlKlpWxcxEUoO1RxdhCe3D6kY6wo
+	 NSKPipDDefFDw==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 62CD4415BF;
-	Thu, 22 Oct 2026 15:56:48 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BEEE1415BF;
+	Thu, 22 Oct 2026 15:58:33 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Jakub
- Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: kerneldoc.py: preserve headings in kernel-doc
- output
-In-Reply-To: <87bj8toh7w.fsf@trenco.lwn.net>
-References: <20261002230114.39651-1-kmehltretter@gmail.com>
- <8733u8w6p4.fsf@trenco.lwn.net> <20261014233956.605e0960@foz.lan>
- <atIw3EWamd4KN4VP@gmail.com> <87bj8toh7w.fsf@trenco.lwn.net>
-Date: Thu, 22 Oct 2026 09:56:47 -0600
-Message-ID: <87qzhh20g0.fsf@trenco.lwn.net>
+To: Igor Giamoniano <igorgphotoarte@gmail.com>, danielmaraboo@gmail.com
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, Igor Giamoniano <igorgphotoarte@gmail.com>
+Subject: Re: [PATCH v4] docs: pt_BR: process: translate userspace debugging
+ guide
+In-Reply-To: <20261014173814.103903-1-igorgphotoarte@gmail.com>
+References: <20261014173814.103903-1-igorgphotoarte@gmail.com>
+Date: Thu, 22 Oct 2026 09:58:32 -0600
+Message-ID: <87mrs520d3.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,55 +68,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Igor Giamoniano <igorgphotoarte@gmail.com> writes:
 
-> Karl Mehltretter <kmehltretter@gmail.com> writes:
+> Translate the userspace debugging guide into Brazilian Portuguese, so
+> that pt_BR readers have access to the overview of the tools available
+> for debugging the kernel from userspace: dynamic debug, ftrace, the
+> perf family and the kernel panic analysis tools.
 >
->> On Wed, Oct 14, 2026 at 11:46:13PM +0100, Mauro Carvalho Chehab wrote:
->>> On Wed, 14 Oct 2026 11:08:39 -0600
->>> Jonathan Corbet <corbet@lwn.net> wrote:
->>> 
->>> > Which versions of Sphinx and docutils have you tested this with?  I
->>> > needs to work across the full range of supported versions...
->>> 
->>> The minimal docutils supported is 0.16, and the minimal Sphinx
->>> supported version is 3.4.4.
->>> 
->>> You can use /tools/docs/test_doc_build.py to double check if your change
->>> is compatible with the minimal supported Sphinx/docutils versions.
->>> 
->>
->> I completed the A/B matrix using tools/docs/test_doc_build.py -f. The
->> full matrix shows the improvement without a regression. 
->>
->> I also tested Sphinx 9.0.0, 9.0.4, and 9.1.0, plus the previously
->> discussed Sphinx 9.1.0 / Docutils 0.21.2 pair.
->>
->> In total, this covered 32 combinations and 64 full htmldocs builds: A
->> unpatched and B patched.
->>
->> Successful, with identical A/B output and normalized diagnostics (26):
->>
->>   Docutils  Sphinx
->>   --------  --------------------------------------------------------
->>   0.16      3.4.3, 3.5.0, 4.0.0
->>   0.17      4.1.0, 4.3.0, 4.4.0
->>   0.17.1    4.5.0, 5.0.0, 5.1.0
->>   0.18      5.2.0
->>   0.18.1    5.3.0, 6.0.0, 6.1.0, 6.1.1, 6.2.0, 7.0.0, 7.1.0
->>   0.20      7.2.6, 7.3.0
->>   0.20.1    7.4.0, 7.4.7
->>   0.21      8.0.0
->>   0.21.1    8.1.0, 8.1.3
->>   0.21.2    8.2.0, 9.1.0
+> Add the new document to the toctree of the pt_BR debugging index and
+> make the index point to the translated file. Cross-references to
+> documents that have no pt_BR translation yet still point to their
+> English originals, so that no dangling references are created.
 >
-> That seems exhaustive, thanks :)
+> Signed-off-by: Igor Giamoniano <igorgphotoarte@gmail.com>
+> ---
+> Changes in v4:
+> - Add an actual commit message body (Jonathan Corbet)
 >
-> I have buttoned things up for the first 7.4 pull, but will consider this
-> for later in the merge window.
+> Changes in v3:
+> - Point the "conselhos gerais" :doc: reference to the translated index
+>   (relative <index>) instead of the English /process/debugging/index
+>   (Daniel Pereira)
+>
+> Changes in v2:
+> - Fix the title: "espa=C3=A7o usu=C3=A1rio" -> "espa=C3=A7o de usu=C3=A1r=
+io" (Daniel Pereira)
+> - Reword the ftrace bullet to read more naturally in Brazilian Portuguese
+> - Keep "crash dump" untranslated as a technical term (2 occurrences)
+> - Reword the Perfetto description
+>
+> The v2 rewording changes come from a review by Lucas Ramalho.
+>
+>  .../pt_BR/process/debugging/index.rst         |  10 +-
+>  .../debugging/userspace_debugging_guide.rst   | 297 ++++++++++++++++++
+>  2 files changed, 304 insertions(+), 3 deletions(-)
 
-Now applied, thanks.
+Applied, thanks.
 
 jon
