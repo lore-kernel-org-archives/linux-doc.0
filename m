@@ -1,101 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792671545;
-	b=1kYBzXNAtVBVJizSv0i8W8sgqFNPCuRtyfRAEksuCkb7WI9QbR68CgDcTC9rRkQ8+QAI
-	 Dmi5eKlExxllVIQpvxu1v4N1K2SWZwI8m8zM9u9oZUaSIsKzdJkU60dq0dMVSKUquqgtx
-	 fzYCvy8vbGVP2cweIdR3PW1R+10Szjz8zQ1smEB44z+KkdKDzf4klSpHY1TO9kb52/Osg
-	 U6Q7ltf5ZMi41OlfVE3XPWcVgIOwT/xoNs2cK7ZaKhcglN9Yk79T3VcYWsewG4jx7DQKN
-	 84Ab2+8+5ex73FkCCqpfQXTIgyU1OXtSCdbeON7glWgj34QgA43x39D9NgxwKjVtRsg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792671545;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=O7MzFnbIsObJkz1l1H1RrtjwBzWrndW2u4bvc7jCYf8=;
-	b=HJhkOtmqlj3WITzgGtxVNcjhI1+Qd8mqiT7Eflf0mJS7KZZPjI+t25ffM7Nuq/7nYZJ9
-	 NeMzpUCWzHQIBgnpGvVr3EOiiCZ+L8wYE6pxgjFffWjWwdLbo8KXOlAZEvffSSPE8KV1L
-	 3/MA+AYu/rX9KZiC3XumzShWf1QFTUZcRldIBe0v2ew0C6MfdB3TkclTYtAvCh+owI1+N
-	 QgJYauiEBIPbXJ5YPLz7B2S4F/5N0dlrDPDgzarqTn+aN5WwTMKDI6w5CpxxNoz9z8Qud
-	 dTZah6qBrD1s5xrcyoN8u1jumxi9fQY5xBEb/O+eWTq0UK8/EaGK52oUM3R5RgqNstA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=armoriq.io;
-	spf=pass smtp.mailfrom=armoriq.io;
-	dkim=pass header.d=armoriq-io.20251104.gappssmtp.com header.i=@armoriq-io.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YLUPMQVJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.52
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792671935;
+	b=cDpH6Z9giHiAb+etD3WByskk9csdHiGta4eYlHf8mq4/cfFO8MB5HkivQygDI0erRcxF
+	 YCiD0gb3TP8WCB0Ii+PRfdNji4Mlzg7se+waK7ifwgIs8Ekz72dqhPGYcQ0klC+RnBLsV
+	 NT395EDGYIxIEnoBt4cyeo1N33OfQJmNDmdEuLLUMnnh/PqONR7ApjnUUfMd9YascUBx2
+	 zd4hUiELQjB3ijpWnEYzOYt8FUnwzEmLcpuAwqQzt5W2Hxq2dja5Fva4o4brWLrlkFfig
+	 fKIN6Bwng6S57rwqyx5RmTyVSsMI2K4BTAYucYK/hqc2+/HAkGBjGhRV820IJcYPgQw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792671935;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=mBUxsbLApWLhRF3wrcUSoNAje6LUvQFE4Pk/81IZDAM=;
+	b=GM8hnUpz2ni60rwsjDQtPmiywTzUnt20WegXWWJTein6pC1buQcYkI1tLfrAIDfVan1a
+	 ZYRsgAN69EOhHebga1oER0xq476IfMmX2dDazd7wpxhiGAdnveJeR72lAz5jDXH+FSGcr
+	 Mqlt+GOEbjbtMLgDmP38ROmuoAt6HuDkYOlaqK3LFna0krtlqhGAamGM4g3wFNFgPw26h
+	 y6i/Gps3tx7ZxyqktuKsxtKblfZ+U/le7k8cC90tiu6rnUn8BVV/A12pMe2LanElqvNhL
+	 GwQmAWZkOl9gDaYZT/UlHj0CR4Rgdgow9S/1fHgw/1+5plyA5mpFmLqClIS7udJ/UwA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KrDeH4GX;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BB5606A31B
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 12:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00BB5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armoriq.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=armoriq.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6016A606A321;
+	Thu, 22 Oct 2026 12:25:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6016A606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=armoriq-io.20251104.gappssmtp.com header.i=@armoriq-io.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=YLUPMQVJ
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-825b40f8a26so980799a34.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:18:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792671539; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nm1GMzwwXmqTofsNddTgy+6fkOF5aEmdkifp8UKugjKp53JvVqE4Hkp+PqLZHqm07O
-         L3Xqe1rmtV/ZPaQxQvi+tLP81OK3jVV66GDFQ08I+2RSWu4dEQTSjJh4g/g+Aq3LUbSR
-         TSJ4kVI+vdKMlNEqPsVgSJIPb01ZKUjkmeC9KoILM2Mn2iSYTjYXJ0JeQtNSAg/42MKr
-         qw6GajMAK9H+nABkC/nb4YLrlbclQbnN/xOjy/MGm19Qnjj2u7NHyOfypfu+zZ3Y8VAh
-         JDri2dBb4/HXgsu2MxCPaiYHvR7s4eDuIQWX+YYhag2OutmZvJ+GxMOUNmpuUVfwDxAL
-         ThCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=O7MzFnbIsObJkz1l1H1RrtjwBzWrndW2u4bvc7jCYf8=;
-        fh=J64SOqCo7n1EQFvyGBm3F/w1O877nmaVgzMhguZFWDg=;
-        b=DwM0+qiS/f0ix8xkB43XTS1gqvDcA34fPt38Dg7KrtWeKaRNsQbK3VynHcls8+ARTO
-         fwnpQ4uUrYxhgLnZfeeZp+MEFOGeTmsrc0So8NdH1gaRXUC/QjTTDVXfN+6wzGznAPff
-         K6jcyH7O05QfC72x3MNtwvkPt0VrgcFXtkRBH09k6cUuq+nBVl1uHssd3FkrVvZo5039
-         WIlpfmw5k9CjUHTFpYB+q9fTXC9sgzf+YfpXFFkvCmuflHkZjeH1FjiDhvmVE/8eHrJ7
-         qf122pNFpmPIF+ndC+b7bFcPQVIUwDHRfY8rXAklRNVfw0yZw7/VwYMUKjsUQJVmQCXu
-         b7hQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=armoriq-io.20251104.gappssmtp.com; s=20251104; t=1792671539; x=1793276339; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=O7MzFnbIsObJkz1l1H1RrtjwBzWrndW2u4bvc7jCYf8=;
-        b=YLUPMQVJF8HRVC8z0/+XrEs6ev066K/XYVa52+Bkail+lf49nY6jJTtmqI88eqqqsS
-         JyqLtxXkZBgpqap7OKLLgfKTDdkw7sXaj2F0wki4fj815GI8j0FU3WPvBZrpoPt010jG
-         a2eKGzf31l4WZyISy7N2Q9j+tM9WRaZCyHibHUXQ7x2AV10lfY5j4oXlH6Lm0KDXNPTg
-         u4ey+rSbQxYeOt+0Z8HBA+BXKpNpfApwmejs/QWWkARyoKd/k0ifAy3jIR5OPv85JDDu
-         3sVPwOid7UjGYaFQBECFXSA4rQLg1L8OKtRadkaLUwkT+FuuEXmEPh3CQJ3uW1kN25Et
-         daYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792671539; x=1793276339;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=O7MzFnbIsObJkz1l1H1RrtjwBzWrndW2u4bvc7jCYf8=;
-        b=v/MslTnlo2Dmoyontt60MOP3g1uS5okWrnl7h8DgnInY2giwVm/wSdPTnv5UnnOiQJ
-         xWUg3mE4Lb7g8mi1Clq9G2PfM4vAIY++Vpy+FjpvO3bHNy9UcL97ER+AiTGEQjIkqENN
-         N4owNZovmBvSzYCH3OKPs/+ISDJ+Xeg1kXs7Fciz/dTf7f3CV35UW2nRp4uzceV1p6D+
-         OyG5OWWvHNubS0HIKD+qZ9a8FYDu5oJJSQzY/bZy+09b5vmZEKMSUvpjIF5spUoDzJwY
-         8d6PLbKvRPTF7Ddwx01dWwF+LmtFuEwgNKpHdXE5mnxi6nypru2ROz3UUA/YRF8GiT2p
-         0e+g==
-X-Forwarded-Encrypted: i=1; AKwUvBx1vXlCqA5p2ztCcH2FP7DfTBbke+/YhNBfwdlZ/ZsqI/72HcO96xDojeD3pbCNWONzWF8DYAs0fy0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJi0fIOGat2kxQRxh5kNo860YS8huYgevmFqFN3J4enLXDuMiqk
-	JU5ZlkpIFMPAV3mdXUdj8g9eCRQq4oCXl2O2Ab5pkmc0imJUkazu6GSEF9b3xg9fofIvwFfMXCT
-	tfrgijr6K5tzAgp+I087BL7oRPDf2Rz6Q5LbK8qth+P0=
-X-Gm-Gg: AYBFou2KY1hjVUG4z+UXV9UoTcbzSoGlYPjZspjAPc/F9H7HHZHJ1B564ooIY8Ux2XU
-	PpGF292fDN7UF7xT67WgjY7i/jYHlZdHrp4BalDas6yao+PgpMvGDvWy0dRHileDf9Kx3G6UQg7
-	TRzlOjiTyGlGLvrPUNVsnRUgVmTy0jpzVUyEAwh37ZJh/y5rxtx2CxIeg/CKiamXPYBN0ijhPtv
-	L53N3/Aav/iOXVa259VKibBB1PI/VAH+uXfJcKBDoBmFFJyUdtc8CNyYZ1B6ub8P3LgBP6Ojo2f
-	9Kre919iWE0I0VePCv4KdeivJyzZU7IIZI9vyC9/UuXzX83tF/TXQNSXVYc3bAG19lCIr9sq+PQ
-	UmIyH/ZMTm6gbzkdIOBAIe8yxVlYWSprFCjcEZSuCkmTt3W5WC+SOa4k5tiSqV0XWQW/je18HOn
-	+kiQt1669mrX3GCSX8cPfooiGoRa6L8Kl0jHaYaEWyJtiTdAZ42w7mYl4=
-X-Received: by 2002:a05:6830:6f85:b0:81c:ebf4:9ff8 with SMTP id
- 46e09a7af769-84d09218548mr4176798a34.30.1792671538755; Thu, 22 Oct 2026
- 05:18:58 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=KrDeH4GX
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=mBUxsbLApWLhRF3wrcUSoNAje6LUvQFE4Pk/81IZDAM=;
+	b=KrDeH4GXmOMYxrg3tHroyMbs2BxunwsR+sbrnRDeeOcLu22+ANaigPBJkaEP0YmP9ofgZeZ+M
+	UfjNE8jA+9mQBElyGUpfvLdSHMydYxmWdRKNSNgCWAOYvMGaA47qAms806uTyuH109nWdq6JR8r
+	qkX3XzoHVRUESFGJIwgKhsY=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j9QN76bvFzLlxj;
+	Thu, 22 Oct 2026 20:25:27 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id AFC5A40565;
+	Thu, 22 Oct 2026 20:25:30 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.38) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 22 Oct 2026 20:25:29 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
+	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
+	<ioana.ciornei@nxp.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri Daskalakis
+	<dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
+	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, Vadim
+ Fedorenko <vadim.fedorenko@linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>
+Subject: [PATCH net-next v18 3/4] hinic3: Add Add per queue netdev-genl stats
+Date: Thu, 22 Oct 2026 20:25:17 +0800
+Message-ID: <b241adb884df2f371ff5399e3be86199eed35250.1792671176.git.gongfan1@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
+In-Reply-To: <cover.1792671176.git.gongfan1@huawei.com>
+References: <cover.1792671176.git.gongfan1@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,33 +79,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261021165748.19304-1-ketan@armoriq.io> <db4e46a6-1788-44a3-a3ab-4fded03591d7@infradead.org>
-In-Reply-To: <db4e46a6-1788-44a3-a3ab-4fded03591d7@infradead.org>
-From: Harihara Sudhan <harisudhan@armoriq.io>
-Date: Thu, 22 Oct 2026 17:48:48 +0530
-X-Gm-Features: AclHuK9VMJQ9vVvn-lB4Iuv5LF_25cVG0XxJiOkPXcZoQJDfSKiJzf7VWJduKT4
-Message-ID: <CAGhg=-NJjXPqeAFMnYVRnbZWQwoGiPqhyhxH_c7zhL-=Jc+qzw@mail.gmail.com>
-Subject: Re: [RFC PATCH] docs: security: Describe the Kernel Assurance Plane design
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Ketan Bhardwaj <ketan@armoriq.io>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	linux-security-module@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Thu, Oct 22, 2026 at 5:11=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
-> I wondered what this index entry was for and then running
-> 'make htmldocs' complained:
->
-> Documentation/admin-guide/LSM/index.rst:48: WARNING: toctree contains ref=
-erence to nonexisting document 'admin-guide/LSM/kap' [toc.not_readable]
+Co-developed-by: Wu Di <wudi234@huawei.com>
+Signed-off-by: Wu Di <wudi234@huawei.com>
+Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
+Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
-Thanks Randy. That entry should not be there: the document lives only
-under Documentation/security and there is no admin-guide page for KAP.
-We'll drop the admin-guide/LSM/index.rst hunk in v2.
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+index c71bb3dff39c..10364c4dc11f 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+@@ -5,6 +5,7 @@
+ #include <linux/if_vlan.h>
+ #include <linux/netdevice.h>
+ #include <net/vxlan.h>
++#include <net/netdev_queues.h>
+ 
+ #include "hinic3_hwif.h"
+ #include "hinic3_nic_cfg.h"
+@@ -866,7 +867,80 @@ static const struct net_device_ops hinic3_netdev_ops = {
+ 	.ndo_start_xmit       = hinic3_xmit_frame,
+ };
+ 
++static void hinic3_get_queue_stats_rx(struct net_device *netdev, int i,
++				      struct netdev_queue_stats_rx *stats_rx)
++{
++	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
++	struct hinic3_rxq_stats *rxq_stats;
++	struct hinic3_rxq *rxq;
++	unsigned int start;
++
++	rxq = &nic_dev->rxqs[i];
++	rxq_stats = &rxq->rxq_stats;
++	do {
++		start = u64_stats_fetch_begin(&rxq_stats->syncp);
++		stats_rx->bytes = rxq_stats->bytes;
++		stats_rx->packets = rxq_stats->packets;
++		stats_rx->csum_bad = rxq_stats->csum_errors;
++		stats_rx->alloc_fail = rxq_stats->alloc_fail;
++	} while (u64_stats_fetch_retry(&rxq_stats->syncp, start));
++}
++
++static void hinic3_get_queue_stats_tx(struct net_device *netdev, int i,
++				      struct netdev_queue_stats_tx *stats_tx)
++{
++	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
++	struct hinic3_txq_stats *txq_stats;
++	struct hinic3_txq *txq;
++	unsigned int start;
++
++	txq = &nic_dev->txqs[i];
++	txq_stats = &txq->txq_stats;
++	do {
++		start = u64_stats_fetch_begin(&txq_stats->syncp);
++		stats_tx->bytes = txq_stats->bytes;
++		stats_tx->packets = txq_stats->packets;
++		stats_tx->stop = txq_stats->busy;
++	} while (u64_stats_fetch_retry(&txq_stats->syncp, start));
++}
++
++static void hinic3_get_base_stats(struct net_device *netdev,
++				  struct netdev_queue_stats_rx *stats_rx,
++				  struct netdev_queue_stats_tx *stats_tx)
++{
++	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
++	int i;
++
++	memset(stats_rx, 0, sizeof(*stats_rx));
++	memset(stats_tx, 0, sizeof(*stats_tx));
++
++	for (i = nic_dev->q_params.num_qps; i < nic_dev->max_qps; i++) {
++		struct netdev_queue_stats_rx rx = {0};
++
++		hinic3_get_queue_stats_rx(netdev, i, &rx);
++		stats_rx->bytes += rx.bytes;
++		stats_rx->packets += rx.packets;
++		stats_rx->csum_bad += rx.csum_bad;
++	}
++
++	for (i = nic_dev->q_params.num_qps; i < nic_dev->max_qps; i++) {
++		struct netdev_queue_stats_tx tx = {0};
++
++		hinic3_get_queue_stats_tx(netdev, i, &tx);
++		stats_tx->bytes += tx.bytes;
++		stats_tx->packets += tx.packets;
++		stats_tx->stop += tx.stop;
++	}
++}
++
++static const struct netdev_stat_ops hinic3_stat_ops = {
++	.get_queue_stats_rx  = hinic3_get_queue_stats_rx,
++	.get_queue_stats_tx  = hinic3_get_queue_stats_tx,
++	.get_base_stats      = hinic3_get_base_stats,
++};
++
+ void hinic3_set_netdev_ops(struct net_device *netdev)
+ {
+ 	netdev->netdev_ops = &hinic3_netdev_ops;
++	netdev->stat_ops = &hinic3_stat_ops;
+ }
+-- 
+2.43.0
 
-Thanks,
-Hari
