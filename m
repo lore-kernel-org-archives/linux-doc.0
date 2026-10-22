@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792711705;
-	b=S+PKTY0h3206Hr2eOB3ha7xLsQnXwAK2PePW30FQoyE77LAUGfcGJt91SgUn5BTANzV4
-	 DZWesvN5R8vkc0R5KwVWH6x40vyex97CBr9frrRo0aC6+tqsMmpA6fQJZ06wNEo7ASG7v
-	 CZBa6Xx462vq7U4ZKqONyjP9TpPdzqaXyzVRHpyo0+VQ6JzVZGNSobtGd5t9IjJi0JwGb
-	 saTrHRXg1kZSAT0OCYU+mNm4FEQVZRzafH85T/NlV2VJgCgUML2SYFl4qEnCsfkO2Wj64
-	 R3z0W1hqVGVIa9AZj/qWyoKyly1soBZrXm0KrB6t3Aah5gpn0zrrd+7q2ZDij8vgdiw==
+	t=1792711697;
+	b=l3DPKWTB6NgQ9/uBQUsEz0crgwwcv1+lgaiANyZ9rqStN14DI5sqlS+Le2PNFdnT3ccX
+	 C1W+TvmMyHNjFAuQVAFv5ijp2pLaAfsEsNxE3syQm6Pi3RkwB/oEnxitkH2jN+L6WsGA7
+	 XnY75Dc69fagcwFgG748hRa14hYTDIP6lDytr3M2qgP+v/nWKiEyvz+mycx8yx5TG2bd3
+	 ypNoKpse32PXI+ibFLs/wLWhLpjyIHB4oww5MwFyhgEresShAvn1RrHIkQ9Vl3fbjfIJR
+	 +muVBvGW+HjeAiRC1oRqKWNCItY8CFuQTcBrBDUn6rxFdk82DK9sVCu62G0rgFM5/VQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792711705;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792711697;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
-	b=ANAB5patTfKntdzS9K9NERvcS93jqQ82MpabsI4PVICqvms/wQhBneVoGRF29+d71S53
-	 M7Pa0nRmdfctblgdTHFJCCpXA8wDV0wsi0IHwLB+EzjzQrCb3ipn85vMgczBruGDSVhJZ
-	 dH/K268GHfPWHfcYY+PNPY51uMoz73IOPYopJbviCQKq13xv6JeDHO51RlTuOS6ailz/8
-	 nmZ+H88BIcUM8gI3yIhwVIrwbJv8j1oQGdYMDD8VQuDPH2QqwdunEyaCcSe6pHA2tHJAs
-	 yl2T9rqqKMI4wkO1Sdc3pUS8N3WiMEcDY3zxAS6eGoeEN8XlZ8Ig/6PRR4cavIuZvxQ==
+	bh=IcqB1uG+Z9Yr4Mtabjmy4a0pEzhWKCVSsbVsmsM/71c=;
+	b=R3DlIemPFSr58uz6vdj9Y4oFNYOomyCEKkS7NQvkfrx6r0sfYkayUkyOJU0L974b53Bp
+	 jKcjAeATBWGJWd9Fum/YEbIZYmDwYU0xr7/Ik1JmZYw28JKNtIWicAIkPl6mhOZ9Are1F
+	 3yr2gh0qJxgoSSStWVghlz/5ErWACt8K3TQSPE21fErdKeyf5hPRfOpUl5K3XpYw+EAkW
+	 rumlxiIQ4Y69Nb7d4rrt6/uYDme5Rxg/hoaA09s1VuS7VEdlfd4/EM8tTYgvAM3BlFE8a
+	 JYPHH4faHEabtu+3MISv1Lp6U7dDkB/f/nI5PTU5Zckgp4LrkfRruLoOUq+4oIymKug==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gFJYFEm9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i5y4cXdR;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326F16073FD7;
-	Thu, 22 Oct 2026 23:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356B7606FF02;
+	Thu, 22 Oct 2026 23:28:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gFJYFEm9
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i5y4cXdR
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792711705;
-	b=X9ixk91bXKFYRmardpY49+nfd4BKvfg2Pd/G+kBE5kqIEvUgPlk13M/UsoEl5gI2A0jo
-	 yIAz1zbDFZE25o2dvC95O9ns7EPbS/CZhUWgjly2TVniFZrnpFhd23dgBBjlnKOmPmiUE
-	 paagw2b19eab3EEDreUaA4yd3clW2WOgAHLKmdrcvTHyvCM87lehF8JJuCxcnAk//9+rM
-	 2YOt8R9/rhjlsKOB0qi4emN7VB+OEARHVjOp2/KtVKcXGG+QTJz01UuYQBum8i1kD95Er
-	 RddLGHed74sOjLF829mfbBG4bj+pw/Qks0hxQSO1dyk2UntS5xRfOhKrgDeZ0uejkgA==
+	t=1792711697;
+	b=IfyNIvZEkGg+0DUW92nSXt7Czzjsq1V7HDCWOh08D7jlmt7WXGopeW10/soRcbYlPChs
+	 en2soezFnO5yj78fko+CEcNfTA0nq0nZa+EipBzN3NR8ucoTM3PqupNE+muWD1kTh5lI5
+	 Z4ZIuGlF3DuspuRSvij6q/Iepqg/qvlYtg3lsw/8teSVbey3Z9gFajfzb3Wiq0nyx0fU/
+	 89DL3gj4s2hbz52bDVSYoS60DCFcRCAztLucVEZuGzguTsIQfuvFd3U5yjAQVWot/sv+l
+	 fyhgtaX0u83alOj4Lag7Bu/rT4MGKrgUFfH0tnhrUnP2wc/9Gt8pMSr7xQrOPedsjnw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792711705;
+	c=relaxed/relaxed; t=1792711697;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
-	b=0y5u8C6lAc1ovphGEpOzYStrbT+SFL7KVRZadS8myc+pxvUrLiKtHHAu66figpIlZZq2
-	 PO8qBmTf4wguC7/ScNiyPtJ9VS3VbPmkXo0PeGXSSry2H+zL62c741wQcM3dk/61bp/j7
-	 hMncaBDQQnpcaKWnxZSCDoJTeOvFnYbUskAQHSRiZVvhEv+lVIn2vtcEsHWF1CWOlMChU
-	 MocuX/3XaFx/D0FuL87/w92Gs0fYKN6O0MfTPacoD6i8Pob13FI5lGMoKylCqn56TaBHC
-	 tZ67U4poQUzZaUmg3pPAb3akK+gi+XKA8ahI/67n8H2EIkKcAHo3FHYQtjD6bCwffSQ==
+	bh=IcqB1uG+Z9Yr4Mtabjmy4a0pEzhWKCVSsbVsmsM/71c=;
+	b=A/zn0n3yH/MNqTpbbQzYsWN8uoeAoLdV0pAOaVk8u2p5gZusDaPnQYhJK4w144+HbzMJ
+	 uk7zNKn+nLOvbcgZTo7MHLySjFS5HdRtiAy3V3WEpt4BtV7+2VFiqsTrFLRuluCxWVugE
+	 UlZYbzE+Bx3CuHGLiEK5vqx0e34VputEDhKBSc+VEeAGOvDHpi66+9GYtrEbqAbjQmvrU
+	 K7wH5mmUjod0FUI8cRx7+kGmDXLGxWuEmOObrcmGw9dNXm+ubErIOcf13txiiNiZkhuZH
+	 dPiXyfFJgLStaRV3RBm4A9xp8/at4+W8GI3Svckywh3OxMVHk6M922+MPBoyGw63ORQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 853E31F011BF;
-	Thu, 22 Oct 2026 23:28:18 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 707061F0119B;
+	Thu, 22 Oct 2026 23:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792711705;
-	bh=GSyw6Ljics0B0SjVoVtEY0jzr9tQ8ltn7Ym8k/iOA0U=;
+	s=k20260515; t=1792711697;
+	bh=IcqB1uG+Z9Yr4Mtabjmy4a0pEzhWKCVSsbVsmsM/71c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gFJYFEm94cycUDvhjQs84BUNbfD12od55Y9D9SwbKwwrcJONMi/Et+yVvxxbwYWNf
-	 nl+1iDhlPGLpD3YbiF3rpCV+KjJU1YFOZxMC31fR3LzlUHbKz/8hK1S18s2BF3vlVf
-	 XubnMuC5E3T5MbZdJxR9TNFTgUPHuWpPQnvJdHXl/i/FBaWKiXy6y8KytAwkYsN/Ht
-	 anQuVCixaHdCS5ujPhRcRrKG5lQ2Ztbt4Xn2lVC+rvrYy3RoSWoIhDNufjrs4IrsfW
-	 t8hNPnL0iAjxhZBBlsGveZaC86+YhHaPDhum+CRxmkfmHnayLsPRhewq0VmJg8WZdO
-	 MJ9s2pfctyZiw==
+	b=i5y4cXdRPEimj4JZcNEZXV/J2NhvGbkV/mrhisM97y2Zf8drjVPs/eSeqgYj48hZP
+	 BtXWTqo/R7CdbBSQajef4KiTe2i8hHqiUlSXmC/0hG2rHxNtvIca7B4gytg3yy4f7l
+	 h1ZfEbHqnRxSMQctsF2p6TsZl5H+0UUAG8XnHcyiO4NWF/U6i8I/Pct9TSF7KXkmu9
+	 MziwZWkeQxnITLxalnlfQhOr6bolNNdJuGkrFI3Ywi3mSqczbfyr4jSAXO+UumoR28
+	 HSo79XbZw7BfzcuI7HjzLs085MIUyRX0J9yt1IZNSaePBY6DkH+kZOqa7jwxys7Xyy
+	 uOJanmIV0RoLg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6D494420F7;
-	Thu, 22 Oct 2026 23:27:50 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id E3BE3420CC;
+	Thu, 22 Oct 2026 23:27:49 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Thu, 22 Oct 2026 16:28:17 -0700
-Subject: [PATCH RFC v2 45/50] samples/kvm: Implement attach and release
- provider ops in sample provider
+Date: Thu, 22 Oct 2026 16:28:06 -0700
+Subject: [PATCH RFC v2 34/50] KVM: guest_memfd: Skip checking outstanding
+ references in PFN mode
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-gmem-alternative-providers-v2-45-5dd1dc6c660a@google.com>
+Message-Id: <20261022-gmem-alternative-providers-v2-34-5dd1dc6c660a@google.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 In-Reply-To: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
 To: Alex Williamson <alex@shazbot.org>, Alexander Graf <graf@amazon.de>, 
@@ -135,11 +135,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=1898;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792711665; l=1241;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=KGuPGvRWcbKGcEsNC27FbqmF987N6l1g/xr1+ZAzxc4=;
- b=Z8JHLu6Ste4p8ZrYRqK06GDhAVo48QV4XZ+VWzhKHyf7aaqsyXhbrwWLtjaRHzGTMt3dr8qvY
- 4A+I9EpN32UAecHoaXDspE+Lg0dT9WcHVIl7AcXBRh4n+ovXjEly61w
+ bh=Dxs3RjFnzau2HBrxLaEPNXK3fpyUMAcuvPGogtfNcwM=;
+ b=vVJnY7c8iTESjki2sqSSxtlQSZaRRNqdryI2wF8O3+c1q5JAPRkYJnGldQQ7yd6gwYOoJkvvX
+ xJ/9Fgt59ysB0Hc7tY0257x9kOgE2MfKosIzomqD9kJCTYEzlVgDH9+
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -150,65 +150,35 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Implement the guest_memfd provider operations in the sample memory
-provider module, providing .attach and .release callbacks.
+When converting memory attributes to private, guest_memfd verifies that
+there are no outstanding references to folios in the page cache.
 
-In .attach, take a reference to the provider file (get_file) to keep the
-provider context alive while attached. In .release, release the file
-reference via fput.
+For PFN mode, retain the part where memory is unmapped from userspace,
+since userspace should not be able to map private memory.
 
-Attach the provider operations to mps_file_fops.gmem_provider_ops so that
-provider file descriptors created by the sample module can be passed as
-resource_fd to guest_memfd.
+Since memory was not mapped into userspace using pages, there will not be
+any other users that had GUP-ed the memory and there is no need to check
+for outstanding references (that indicate other users of the memory).
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- samples/kvm/mem_provider_sample.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ virt/kvm/guest_memfd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/samples/kvm/mem_provider_sample.c b/samples/kvm/mem_provider_sample.c
-index 397ebb3773f39..d9e57484c3933 100644
---- a/samples/kvm/mem_provider_sample.c
-+++ b/samples/kvm/mem_provider_sample.c
-@@ -17,6 +17,7 @@
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/gfp.h>
-+#include <linux/guest_memfd.h>
- #include <linux/io.h>
- #include <linux/miscdevice.h>
- #include <linux/mm.h>
-@@ -118,11 +119,30 @@ static long mps_file_ioctl(struct file *file, unsigned int cmd,
- 	}
- }
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 50031e191968b..daf4541c3dec6 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -854,7 +854,8 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+ 		 */
+ 		unmap_mapping_pages(mapping, start, nr_pages, false);
  
-+static void *mps_gmem_attach(struct inode *gmem_inode,
-+			     struct file *resource_file)
-+{
-+	return get_file(resource_file);
-+}
-+
-+static void mps_gmem_release(void *provider)
-+{
-+	struct file *resource_file = provider;
-+
-+	fput(resource_file);
-+}
-+
-+static const struct guest_memfd_provider_operations mps_gmem_provider_ops = {
-+	.attach		= mps_gmem_attach,
-+	.release	= mps_gmem_release,
-+};
-+
- static const struct file_operations mps_file_fops = {
- 	.owner		= THIS_MODULE,
- 	.release	= mps_file_release,
- 	.unlocked_ioctl	= mps_file_ioctl,
- 	.compat_ioctl	= compat_ptr_ioctl,
-+	.gmem_provider_ops = &mps_gmem_provider_ops,
- };
- 
- static long mps_ctl_new_file(void __user *uarg)
+-		if (kvm_gmem_has_outstanding_references(inode, start, nr_pages,
++		if (!kvm_gmem_is_pfn_mode(gi) &&
++		    kvm_gmem_has_outstanding_references(inode, start, nr_pages,
+ 							err_index)) {
+ 			mas_destroy(&mas);
+ 			r = -EAGAIN;
 
 -- 
 2.56.0.257.gf7497c7d27-goog
