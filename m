@@ -1,94 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792700612;
-	b=oOPPiEdp3kbAjrJJnAmcaVaBnECffG71f7nGT1aRTdMMwZ4YZZ94FoaSXeEiLuHsKNg0
-	 wYm2/btwuQLsmOcDJSVmWIRnfwe9bgSWIW844ZzMq/ivrA8v3aJzrP977ldLfLkNMQxTg
-	 PHksZEHg49NRprvu1d810c/0ZZb0uSHyqntfx9xIEJWHIezNMl4H/gJrCtC+DmOPMgkZE
-	 9XVetIFwdqWF5E70en6S75PJPRQF9hjZ3FwaghQbgfFW1WTnnwAw4X05U2plxQNY0Z83q
-	 /zLIG5yXxJ3YjSJp9a4E+NmVUmmZqM7y3K9ocQ+aPkGcx+RHHm5VMhaQMmrqjjk4emg==
+	t=1792700750;
+	b=Zij9VH3cndg+E5UFW/7DSr2d75hHjByJREceztvn0eHtGLTMWJjMKHQbAjWeioHy/A9D
+	 rCEssHADI9ZaEQVbJtoEU4KDU5iXqndCVh1TepJQixqROLWZcOYxzcoZHG83L1EmFKRvL
+	 sS4xF4T6FioUIemXcVi3Yi1Uo3zRuBPuTdxfYexvHdW+0/Pt0eSp83d98/ya94z8bwR4R
+	 A8UwmxiuRcCf5B/VhQuRDysFWl8Bt8PmVbV2cCy0UvKPqQucxkHqV41f7u1Jt8/BRFwFt
+	 J0Rc5SPysaMc7QRnT/6d+CVX9dYg0Ue4frQrAHEByNPe8KZaZHxeZlyL0CBjskbnP3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792700612;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
-	b=oQ0QSK8MOGwsMf98fzko/IRt6pxhZCUYYQwwRpNcrXNMi6DKKazhQ2WlAXYdRykSCz5h
-	 ckdl1ZccrbADkEFBRLE+RvR9gitAx1iHOGJmJslVi2SXlGSchXdOs19wp/1EJH+sCL59k
-	 Ufz69Ta5h9OiJhPgNgaYE7wiggLEuz5+zLU/Jk7Nkx+u24F2+/zSCyDeT6m06wrhHffZL
-	 TEm8YlhTdQXT0EzvFcnfh4uxI3X4iXHnDC7XyFAEey/BT/pDDZ9NPZdS2YpaNCO3FUNN9
-	 vzMIlfnpsan+h4Tgxql/2TuTHaO4ko07vlHjxS7eyCkXf8oym7TBx4u2CRzhaNInPqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792700750;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ux1UTnRjOyGqJzOYM5Hv6XVTNeyYxnuotg3pXhf5HHs=;
+	b=UBzDfDqOcl3gwaE3hzIBypPgH+l5E978ypeF00B7jErPboRpZgjVi2j9wVLvHBaDXkX4
+	 xzYe8yFICuy9wddiDQCSXolEIzQH52oDkwahyF/iVr8+nw2iQfabzyVUQWKAmedY48v+Z
+	 6JHk7yqWZyfbXdCqrXhxpUZwYHxCJplMMKVzWc4pwSMqQIwgthN3BMfwiObbJKn9LQFG/
+	 ByPxAGTzAOCPW56WaTRKrxqi0ERwqW8kzxqtK9r/n4COXxgl+hStVJYuKctuv/zHnlPBK
+	 T/0TvjQDcSMOzVJTTsJQhY+Mr0xmTIuyk/HFpvUiy5LRV+up7Urc2ncTmx3wYcXh6SQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=purestorage.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=RZvMrKPb;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLMS0l8S;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E137606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 20:23:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E137606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C590E606A321
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 20:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=RZvMrKPb
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso327677eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 13:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1792700608; x=1793305408; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
-        b=RZvMrKPbBFnx2yyTosWZ04aFqIkL8Ce/WGIYyuZqTADisEr63CdZ37DebuMQCINTfO
-         csg6+7j4vMkjRDPV6N4jaBU4NUssCs7RBPlM+ionoNfAG9CiBcWOKRa032cV+jil6Bvl
-         AHBRFarAcS76VSGbf+L6p88zW4JoQA3R5NuOW5eBDln5EyVYa1x8pAF+/8f94GIyYzlh
-         HlRIOI5pfHDJs+y8opigZZsI2FcoTByBzNjAIXd/+V1di4APMvgpIMUcKESWvMseCbGB
-         P2q+6uRzDgBdJ1QhN1elEt7YyHAnCpEPqx5bt+wmHhUOY0D0/4iiR8Erl/fqWu4bSv4c
-         b9wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792700608; x=1793305408;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bZ+dC6noXl55QlVCt5BZLTKiK5g6wFPqaNKr4aU2duo=;
-        b=wV9p339LPNB9FmpEWNZHj6IfdLw3VWmmycTQn+uJGreVYyQ66dw8wkyfY/fzRvSwb9
-         bvQ1vXJgC8zaLi3jYWbGOpU+AlNFu1MQOMXOoDL1u5IFs4lehdIVdLm2hqsarON7JQZN
-         LU9Se2WLgRuLvwmtKRb/rOYInO4FY8SQDgkzF5lY+uh7nA9d+QZ8l0n0MNrrauAoiSla
-         uN0b2iFfeudzDp0kEfnw22d5eLnus2gpLnoeRUUverf6c04NzAIGVib4IH+dt9rJX01f
-         ENqvrBBa7577q0Xofv7ZbtNG2AWya/nVsQyizbbchNd9iFm/QRaQrytS5h5SKbyXVh9R
-         /8CQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxTxhP44IGf43PqPmXxRTxaYszb4wv+MTrK8yhWHjXHBcpznqFMiewaOxeiu0ovlNsoTJfaF7j+mk4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK0gA6SeHE3hRCK0wBTpcQcjjjNWp9mfYWQz2VPjIPRQLCqg04C
-	BhKiNLM9fiZ/kaCLcPPSqHR52q0uJ6CXKhYfvvmbd+HdQvCH4m1l4kg89sA6em/j+gE=
-X-Gm-Gg: AYBFou2vHtGleop5SfvGXH2ih5LWdJAjOVkgflPTpNhqP7GOl1x7I34lj4pTRr0Sj70
-	qizJGGLsWu9GgGVwRJKrIrYXOfFMMYtpinxzC/0XGlOnfNcUFdXMwP0XRjNOgBojPMOqO5MIuaS
-	7hnn5CfmfbadCIy8tUby/Y7M0fqzD9ldyMIOxBHeYLm0/DAardcgDo7qzwOcqbW525H9pd+gM93
-	0I0k38U9S6y+t565nSkw5XVAiLWCyB5/eZua8Q8QoQMTbG0p+hx4xOESByMMHGcBNN7Y8AnxM6h
-	W9bCYjBfEXgA05gMRrVK1nOkG9uadApCKSpdOTlrNdNHEzocoeQpWxVq9hx7g5Un0TxpW50m5EB
-	5QqUt3/tg+pB+lSipFKAVwfZJJdNYFrDE0MNJwG6alaGzt1R31Ez7OTjszCXjMKglOGDioduKDt
-	dk9tw0KEqtfUlqN9Z5DDObGaONSeFBTgZXEdo5+SBVev8CzuaLz3sg7QXD2ZLJPQO+lXqtpo0kK
-	nmW8BP+/v0gFF8WZ66RWiCf4leJixCnx1sHNrI//FFGi3izhLhvHGZzwsJBh4t/kft6ECrOprOR
-X-Received: by 2002:a05:7300:2a9c:b0:365:b147:b458 with SMTP id 5a478bee46e88-369d90c7547mr323249eec.3.1792700608112;
-        Thu, 22 Oct 2026 13:23:28 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-369d9d8978csm426450eec.13.2026.10.22.13.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 13:23:27 -0700 (PDT)
-Date: Thu, 22 Oct 2026 13:23:26 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Md Haris Iqbal <haris.iqbal@linux.dev>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [v3 for-next 0/3] block: delay support for error injection
-Message-ID: <20261022202326.GB2931-mkhalfella@purestorage.com>
-References: <20260928221634.43239-1-haris.iqbal@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLMS0l8S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D44A1F031E0
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 20:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792700749;
+	bh=ux1UTnRjOyGqJzOYM5Hv6XVTNeyYxnuotg3pXhf5HHs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RLMS0l8SrlVSlB+xSKm6w6FYJ1BVIP2OUvpbyz9MikbM20bH8i83IdqYLHnzS4qj9
+	 vo6B8FxfAsRueY9WSJTqmuWYCQSQkIN60PxS1EOjtlPkF8g30tel+vLlAPnohHXmRv
+	 /Vbi1+UaOcDgUZ0i0fi6x/na8nusRwiADaFX9FXU32HXstuRnUFimv6wlTGqn34WfD
+	 QMfTzkYILeeei8YsWI50/UKTnIXVBnU/aSI39gffsIi6/ScqbVu8/ubBXYIWQU9gCd
+	 GSwDnvTkIbRy4NYjw2TbXlJoApzGgMFRPZgGDgCAPArwrn6dScfyWS8TCD77ysDeE5
+	 19uIGvmDPyrRA==
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-14394530ec6so221908c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 13:25:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByJoX6wC07z5Ao5lrabmk3QS/S2OS0JIYZx3KJt74bXWZFEjDCluGjZIae6xy1yvkbmxn5ADW3t+/U=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJeSsjdO0yn6kQKIJMfGWDeyzJCtnKKy6ufJ6EIxVCl66wJQ92S
+	raCYyCq7lAooK6xgOzLrG4Zn8OxtIx04UiIgC/ZyhByCS/OYBlT1clygCG7EIViw8XbJPxMPh3p
+	9TfxJrqQM+b361sMD/50bAViRlPMkLrQ=
+X-Received: by 2002:a05:7022:1707:b0:166:9e0d:3b56 with SMTP id
+ a92af1059eb24-1959a382fb4mr475195c88.38.1792700748990; Thu, 22 Oct 2026
+ 13:25:48 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,77 +59,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928221634.43239-1-haris.iqbal@linux.dev>
+References: <20261019-b4-ipe-keyring-rfc-v1-0-156f0b93e843@nvidia.com>
+ <20261019-b4-ipe-keyring-rfc-v1-1-156f0b93e843@nvidia.com>
+ <702ade20-a2f3-4919-97e6-c72faa89399a@kernel.org> <DM4PR12MB61369D00ED2FCFEDAE0E4597DE652@DM4PR12MB6136.namprd12.prod.outlook.com>
+In-Reply-To: <DM4PR12MB61369D00ED2FCFEDAE0E4597DE652@DM4PR12MB6136.namprd12.prod.outlook.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Thu, 22 Oct 2026 13:25:36 -0700
+X-Gmail-Original-Message-ID: <CAKtyLkF3mVu8AXWybMGr3+=0F4OMndcV=M-2m-PGz5afE4H1cw@mail.gmail.com>
+X-Gm-Features: AclHuK-w0c1onI8im_hxrE8Vj8Tb7-7Hy-SNC8hLk4Qv6iomWwee3Oh6ZTdAJrg
+Message-ID: <CAKtyLkF3mVu8AXWybMGr3+=0F4OMndcV=M-2m-PGz5afE4H1cw@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/4] ipe: add the .ipe policy keyring
+To: Manuel Huber <manuelh@nvidia.com>
+Cc: Fan Wu <wufan@kernel.org>, David Howells <dhowells@redhat.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Andrew Halaney <andrew@amutable.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, 
+	"keyrings@vger.kernel.org" <keyrings@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Oct 22, 2026 at 11:02=E2=80=AFAM Manuel Huber <manuelh@nvidia.com> =
+wrote:
+>
+> On Mon, Oct 19, 2026 at 04:15:57PM -0700, Fan Wu wrote:
+> > You might need to explain why the existing keyrings, i.e.
+> > builtin/secondary/platform cannot be used in your scenario. Like the
+> > firmware is not trusted?
+>
+> As touched upon in [1], the scenario uses an ephemeral VM whose
+> IEP policy would be assembled after boot. There is a mix of explicitly
+> trusted dm-verity root hashes and possibly signed dm-verity layers
+> which can vary per VM, so the final IPE policy would not necessarily
+> be known ahead of time.
+>
+> This specific scenario is Kata Containers on Kubernetes. Each
+> Kubernetes pod runs in a headless Kata VM with a static dm-verity
+> protected rootfs, while its container image layers are delivered
+> dynamically as dm-verity protected block devices. The kata-agent acts
+> as trusted bootstrap userspace and would author the IPE policy for that
+> particular guest before starting its workload containers.
+>
+> The firmware is trusted in this scenario. A public policy-signing
+> certificate could be compiled into the builtin keyring or provisioned
+> through the platform or secondary keyrings. Because the policy would be
+> authored inside the guest, however, the corresponding private key would
+> also have to be shipped as a static artifact in the guest rootfs and
+> shared by every guest using that build.
+>
+> Instead, the kata-agent would generate an ephemeral, per-guest
+> policy-signing key pair, provision its public certificate, sign the
+> policy, destroy the private key, and restrict the keyring before
+> allowing untrusted code to execute.
+>
+> A dedicated .ipe keyring thus provides a purpose-specific runtime
+> provisioning path for this scenario. Once the certificate has been
+> added, the keyring can be restricted against further enrollment.
+>
+> I envision other scenarios with similar characteristics may benefit from
+> a dedicated .ipe keyring as well.
+>
+> I could elaborate more on this, e.g., on the how users' deployed
+> container images translate to dm-verity protected image layers etc.
+> (the erofs snapshotter is used and there is no filesystem sharing
+> between host and guest, image layer transport is realized via block
+> device attachment), but I am trying to keep this response brief. Some
+> more breadcrumbs on the combination of containerd, IPE, Kata can be
+> found in [2] and [3].
+>
+> [1] https://lore.kernel.org/r/SJ1PR12MB61246B0BF58BC2B6F0A79D30DE9F2@SJ1P=
+R12MB6124.namprd12.prod.outlook.com
+> [2] https://github.com/containerd/containerd/issues/12081
+> [3] https://github.com/kata-containers/kata-containers/issues/10943
 
-I wanted to use the delay injection for a test case that I am currently
-working on [1]. Are you still working on these changes?
+Thanks for the explanation. This clarifies a lot. Please include this
+context in the commit message and doc for v2.
 
-1- https://lore.kernel.org/all/20261022185920.GA2931-mkhalfella@purestorage.com/
+Also, one thing I missed earlier: before the policy verification call,
+please also check:
 
+ipe_keyring->restrict_link->check =3D=3D restrict_link_reject
 
-On Tue 2026-09-29 00:16:31 +0200, Md Haris Iqbal wrote:
-> Error injection can only fail a bio today.  This adds a delay_us option so
-> that a rule can hold a bio back first, to model a slow device.  The delay
-> happens above the driver, so it tests the code waiting above the block
-> layer, not the blk-mq timeout handler.
-> 
-> A delayed bio is marked with a new BIO_ERROR_INJECTED flag so the rules
-> are not applied to it again, even after a split.  Christoph asked on v2
-> to avoid the flag by allowing a delay only together with an error.  I kept
-> delay-only rules, as a slow device that succeeds is the more useful case,
-> so the flag question is still open.
-> 
-> Holding a bio back reorders it against bios submitted later, which breaks
-> sequential write ordering on zoned devices.
-> 
-> Patch 1 is a prep cleanup.  It moves the rejection of an unknown status
-> tag into the parser, because patch 2 makes a rule without a status valid.
-> 
-> Tested in a VM.
-> 
-> v1: https://lore.kernel.org/linux-block/20260827000115.128093-1-haris.iqbal@linux.dev/
-> v2: https://lore.kernel.org/linux-block/20260830012002.80275-1-haris.iqbal@linux.dev/
-> 
-> Changes since v2:
-> 
->  - Patch 1: return bool, rewrite the commit message.
-> 
->  - Patch 2: drop __submit_bio_noacct_nocheck(); the flag alone stops the
->    rules being applied again.  Log the error when a delayed bio is failed.
-> 
->  - Patch 3: trim the documentation.
-> 
-> Changes since v1:
-> 
->  - Add the BIO_ERROR_INJECTED bio flag.  v1 only resubmitted a delayed bio
->    below the injection hook, which left the remainder of a split going
->    through the hook and matching the same rule again, so a bio was held
->    once per split instead of once.
-> 
->  - Patch 1: tag_to_blk_status() returns an error and passes the status back
->    through a pointer, instead of returning BLK_STS_OK for both the "OK" tag
->    and an unknown one.  A delay-only rule has no status, so the two have to
->    be told apart.
-> 
->  - Documentation: a delayed bio is held once rather than once per split.
-> 
-> Md Haris Iqbal (3):
->   block: Reject unknown status tags in error injection rules
->   block: allow error injection rules to delay bios
->   Documentation: block: document error injection delay feature
-> 
->  Documentation/block/error-injection.rst |  39 +++++-
->  block/blk-core.c                        |  14 +-
->  block/blk.h                             |   2 +-
->  block/error-injection.c                 | 167 +++++++++++++++++++++---
->  block/error-injection.h                 |   1 +
->  include/linux/blk_types.h               |   1 +
->  6 files changed, 192 insertions(+), 32 deletions(-)
-> 
-> -- 
-> 2.53.0
-> 
+so we make sure the restriction function is the right one.
+
+Fan
