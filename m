@@ -1,74 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.113
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792661797;
-	b=nCzDVPMhlJbrBAv6gBZ3Or0LsbJanme0AHlJBPTc4PBt2uBq35DPYrBsoWj2YzQMNQF5
-	 75v3mi8/6d5t3nhLgqFj07E1Ov5jzW8cVSyteoSpkI17fR2RwoGWOaJbiIrgBwJe8ysUQ
-	 7/C3qIpOhiOtHbes3YwCoEZRchReIEhPH+gfNBxt5npKdGsC/uhuxr38JafnJNnfYX6EO
-	 DHa5u2Rw5Wn8enRLBFpLMZ3cBrBQDCl9cSzSOAzFyjUhO2OVBJoXzPUDoY7p1WWB+FeB8
-	 qBAWh/INAi2/BTal29DGNMRecHpRtabm0bgxuAqW/OFwpa9AKszvHwH7cxsoTOXujfA==
+	t=1792662264;
+	b=GCFPDdCrMJzeZv5N59iPbUkGyJ/3dSClaUGRgVLCGmSVSJWOWhWhEY6NhHVkPfiRTdx5
+	 PIsKUkN1BopDXZvuBIQdL5rRX9pzYTX56RWetzdllKKLAJMI8+02GYRC+4++PlL3XcEXR
+	 akVsv5QeddUEN7xpoFwjbzGstCY88oFtiN7JB9JG6C/0wl3tTFN0hXFZWr1IZ8HJjA8l6
+	 CCr5J6OaOjjI15ZTvvqX5s6T5nUAJ+hYPAlkhMcIVbY/6tZXEsPd6H11XCxWJ6aX22kxz
+	 c4SmRiXlGC6XWp8RhJYmfNMIgr60bfJhJ30vGLDpVfY6HjBKsqW9z7Gn/RBxbm8IEGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792661797;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
-	bh=Fc2YFueeB/SK2J9VCO7SMxkejhsFNGh0Gg5Mxu6KtE0=;
-	b=m1m1oWT70OF6L0fTe1idiGZQva2ueGdlclaRKgiwAmRMDWKA588EtEqfj6LGuRY6Sc1i
-	 w7+IKBItzWyWb0ap2Jm35BTGaYhq+S2EgzD5SvWcykEq4yrUIADxdQ14Jq1QNsP0EQ/y4
-	 kWJFx6rw9pjOwi22HLLa1+bT5bmnIsqXNuEk6IYPcQ/cZjwCad+iqgk6Xbg0tuQqTm1JR
-	 gC4VXXasXF9lru5ORTzPFMNio3NWebqAi8YdZjCi4DXbUYPKefWV0RpAZZfFEWFmNRCq9
-	 tUmCnAJpSUxH8XvrzCeNHMbX2gERwiWYsCs+3BH2aYx+XFPtAZYS8Yx3LEr6EDFFXFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792662264;
+	h=DMARC-Filter:DKIM-Signature:Message-Id:Cc:From:X-Original-From:
+	 X-Lms-Return-Path:To:Mime-Version:Content-Type:User-Agent:
+	 Content-Transfer-Encoding:References:Subject:In-Reply-To:Date;
+	bh=OUGHKG75J/Ha1UT9SfogPm3T2YK7q5WmnJNj8nl5ncM=;
+	b=XOCeEWsgR1akeCHJF1hvEbdf8iITdKb5M1jVi/XmtjzlB0lwmGedqUJAQiQRWNWjkNKN
+	 UB3J+9jJlUywDaJLFUTTjYik0+7yqiEwn2+IuloMGiVneDOqLBA/wdSLlpRMohxGhfh5w
+	 1jKd5hG/lGPZWXo+Zbe9WRFTNV6rWzEm07X6MB+rWsuGRBojC3eBErhZUzOttaald9pDZ
+	 VyALA2zC0i32VutQPid8U6VP9xwH7zgANUjCj3t/dEgU09gPWH89C9yp3s/vPlv7a/Uv0
+	 fWnjj8cwmDLBISA41jhJhmEYoG61bAG00//BYOkrPPCWpjz97BBmN1YsjX5YY0b8IvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=SY11R6Lj;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=QgXszFg8;
+	arc=none smtp.remote-ip=209.127.231.113
+Received: from va-2-113.ptr.blmpb.com (va-2-113.ptr.blmpb.com [209.127.231.113])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4789960A2611;
-	Thu, 22 Oct 2026 09:36:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4789960A2611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47F606A322
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 09:44:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D47F606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=SY11R6Lj
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4j9LdD58sszKnDb;
-	Thu, 22 Oct 2026 11:36:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1792661792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc2YFueeB/SK2J9VCO7SMxkejhsFNGh0Gg5Mxu6KtE0=;
-	b=SY11R6Ljv51h5vDJMn+ZNFZpONum7lk5bqfmYYeGDCsAKuOzh8grQsKtJMQu2lduEHaUfP
-	kUFiRsa5odkckATsX5qwuEfPuHiwKYKvpeExHwu96lTKnbCG6nNK7xRpv5BOm2rmR8Gcx8
-	dSwOHGrQiVQoqB6+/PgatT9o3ftS+zqiImr+NTJbcnpUft1ylqcQS3i/YGBDDxYABWYEK7
-	6JwLqsJTDErlrgJJmZYhRFBtZUZsUolUk8tqwfU9ZOEDFaah0d5AHjYqHsOZpqSDUB3/qG
-	DfDioV2W1Azz8sJWWoT4fgNFKFELfXcwO1iuYx+VURwFqvszXAy88E2I8yVN/w==
-Message-ID: <6cfc3d91f725146c6d8c6c21b869b1d21a08044e.camel@mailbox.org>
-Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, 	linux-debuggers@vger.kernel.org,
- tools@linux.kernel.org, "open list:DOCUMENTATION PROCESS"	
- <workflows@vger.kernel.org>, "open list:DOCUMENTATION"	
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Nicolas Schier
-	 <n.schier@fritz.com>
-Date: Thu, 22 Oct 2026 11:36:29 +0200
-In-Reply-To: <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
-	 <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=QgXszFg8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1792662252; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=OUGHKG75J/Ha1UT9SfogPm3T2YK7q5WmnJNj8nl5ncM=;
+ b=QgXszFg8BQyFzMHr+mS9D6ndBB9hF1GzlRV9C+V1WtRI0Da2uvUB2pOW7NBZM91KwRp8ge
+ ECBtD77JopJSEPqWADA2RGCbdf7HlvhOPgm5jeY0WEM0y2v4dR6+vFliA+LfOGIzagobu0
+ ZXhAArMow6hYHmdIIsTdsSMcBSXl6TQNvhAJ4GADIBJmpXqZtc2LqaHnDuLrIxhZfzj0hc
+ rnV2MJmkp9PmZx5bceIzAUPApsI/MhQ+YmpZcp5zCIHi5wY/EcEzbAbpdAdtmYbiR/D8Q4
+ ozameHasAU8fGA7RTuzeaxBP4GVu2EYi9bL4yR0O8WyC/EPfdjdbMh0cRkGcVQ==
+Message-Id: <9b715272-3ed9-42da-a6ae-467e8ae00c0b@bytedance.com>
+Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ziy@nvidia.com>, 
+	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, 
+	<ying.huang@linux.alibaba.com>, <ljs@kernel.org>, <mhocko@suse.com>, 
+	<muchun.song@linux.dev>, <roman.gushchin@linux.dev>, 
+	<shakeel.butt@linux.dev>, <weixugc@google.com>, 
+	<cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+X-Lms-Return-Path: <lba+26ad9daea+d8d221+vger.kernel.org+lizhe.67@bytedance.com>
+To: "Gregory Price (Meta)" <gourry@gourry.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,114 +63,131 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MBO-RS-META: bh77bp6gb6p4ih3jwhqda78yz39uuz3y
-X-MBO-RS-ID: 11341410093911fc079
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Content-Transfer-Encoding: 7bit
+References: <20261019141401.11927-1-lizhe.67@bytedance.com> <atY-LD2AzCYATRii@gourry-fedora-PF4VCD3F> <30457046-a662-4ff7-a6a8-100398d7a806@bytedance.com> <179264138036.2549665.17429111144570830454.b4-reply@b4>
+Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
+In-Reply-To: <179264138036.2549665.17429111144570830454.b4-reply@b4>
+Date: Thu, 22 Oct 2026 17:43:49 +0800
 
-SGkgUmFuZHkswqAKCk9uIFdlZCwgMjAyNi0xMC0yMSBhdCAyMjo0MSAtMDcwMCwgUmFuZHkgRHVu
-bGFwIHdyb3RlOgo+IEhpLAo+IAo+IE9uIDEwLzcvMjYgOTozNyBBTSwgTWFudWVsIEVibmVyIHdy
-b3RlOgo+ID4gVGhlIG9wdGlvbmFsIHRhZyBpc24ndCBvYnZpb3VzIG5vciBkZWZpbmVkLiBUaGVy
-ZWZvcmUgcmVtb3ZlIHRoZSB0YWcgYW5kCj4gPiBhZGQgY29sdW1uICdSZXF1aXJlZCBmb3InIHRv
-IG1ha2UgaXQgZWFzaWVyIHRvIGRlZmluZSB0aGUgbmVlZCBmb3IgdGhlIHRvb2xzLgo+ID4gCj4g
-PiBDQzogTWlndWVsIE9qZWRhIDxtaWd1ZWwub2plZGEuc2FuZG9uaXNAZ21haWwuY29tPgo+ID4g
-Q0M6IE5pY29sYXMgU2NoaWVyIDxuLnNjaGllckBmcml0ei5jb20+Cj4gPiAtLS0KPiA+IElmIGFu
-eWJvZHkgaGFzIGluZm8gdG8gYWRkIHRvIG9yIHJlZmluZSB0aGUgbmV3IGNvbHVtbiBJIHdvdWxk
-IGFwcHJlY2lhdGUgaXQgYSBsb3QuCj4gPiBQbGVhc2UgZm9yd2FyZCB0aGlzIHRvIGxpc3Qgb3Ig
-cGVvcGxlIHdoaWNoIGNhbiBjb250cmlidXRlIHRvIHRoaXMgcGF0Y2guCj4gPiAKPiA+IFRoZXJl
-J3MgYWxzbyB0aGUgb3B0aW9uIHRvIHJlbW92ZSB0aGUgJ0NvbW1hbmQgdG8gY2hlY2sgdGhlIHZl
-cnNpb24nLWNvbHVtbgo+ID4gYW5kIHJlZmVyIHRvIHNjcmlwdHMvdmVyX2xpbnV4IC0gYW5kIHdp
-dGggdGhpcyBhbHNvIHJlbW92aW5nIHRoZSBkdXBsaWNhdGVkCj4gPiBpbmZvcm1hdGlvbi1pc3N1
-ZS4KPiA+IAo+ID4gW3YzXQo+ID4gwqBSZWFyYW5nZSBjb2x1bW4gc3BhY2Ugb2YgdGhlIHRhYmxl
-IGluIG9yZGVyIHRvIGFkZCBjb2x1bW4gaW5zdGVhZCBvZiByZXBsYWNpbmcgY29sdW1uCj4gPiDC
-oGFkZCBzb21lIHJlcXVpcmVtZW50cyB0byB0aGUgdGFibGUKPiA+IAo+ID4gW3YyXQo+ID4gwqBE
-aXRjaCBmb290bm90ZXMgaW4gZmF2b3Igb2YgYSBjb2x1bW4KPiA+IMKgUmVwbGFjZSAnQ2hlY2sg
-VmVyc2lvbiBDb21tYW5kJy1jb2x1bW4gd2l0aCBvcHRpb25hbC1jb2x1bW4KPiA+IMKgaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjYwODMxMTUyNTIzLjYzODg4MS0xLW1hbnVlbGVibmVy
-bGlAbWFpbGJveC5vcmcvCj4gPiAKPiA+IFt2MV0KPiA+IMKgaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
-cmcvYWxsLzIwMjYwODEyMTIyNDI2LjE2MzYyMjctMi1tYW51ZWxlYm5lcmxpQG1haWxib3gub3Jn
-Lwo+ID4gLS0tCj4gPiDCoERvY3VtZW50YXRpb24vcHJvY2Vzcy9jaGFuZ2VzLnJzdCB8IDk3ICsr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDUxIGlu
-c2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0IGIvRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5n
-ZXMucnN0Cj4gPiBpbmRleCAyOGYyY2E2MzMuLmRhZmUwNTMwZiAxMDA2NDQKPiA+IC0tLSBhL0Rv
-Y3VtZW50YXRpb24vcHJvY2Vzcy9jaGFuZ2VzLnJzdAo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9w
-cm9jZXNzL2NoYW5nZXMucnN0Cj4gPiAKPiA+IMKgCj4gPiDCoC4uLgo+ID4gCj4gPiDCoAo+ID4g
-Kz09PT09PT09PT09PT09wqAgPT09PT09PT3CoCA9PT09PT09PT09PT09PT09PT09PT09PcKgID09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiA+ICvCoMKgwqAgUHJvZ3Jh
-bcKgwqDCoMKgIE1pbmltYWzCoMKgwqDCoMKgIENvbW1hbmQgdG8gY2hlY2vCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFJlcXVpcmVkIGZvcgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB2ZXJzaW9uwqDCoMKgwqDCoMKgwqDCoCB0aGUgdmVyc2lvbgo+ID4gKz09
-PT09PT09PT09PT09wqAgPT09PT09PT3CoCA9PT09PT09PT09PT09PT09PT09PT09PcKgID09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiA+ICtiYXNowqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCA0LjLCoMKgwqDCoMKgwqAgYmFzaCAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKg
-wqDCoCBnZW5lcmFsIHJlcXVpcmVtZW50Cj4gPiArYmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAxLjA2Ljk1wqDCoCBiYyAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgS2J1aWxk
-ICgKPiAKPiBTb21ldGhpbmcgbWlzc2luZyBhZnRlciB0aGUgJygnPwoKVGhlcmUncyBzb21ldGhp
-bmcgbWlzc2luZyBiZWNhdXNlIEkgZGlkbid0IGtub3cgd2hhdCB0byBwdXQgdGhlcmUuIEkga25v
-dyBiYyBpcyBjYWxjdWxhdGluZwpzb21ldGhpbmcgZHVyaW5nIHRoZSBidWlsZCwgYnV0IG5vdyBo
-b3cgdG8gcHV0IGl0LgoKPiA+ICtiaW5kZ2VuwqDCoMKgwqDCoMKgwqDCoCAwLjcxLjHCoMKgwqAg
-YmluZGdlbiAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoCBDT05GSUdfUlVTVD15Cj4gPiArYmludXRp
-bHPCoMKgwqDCoMKgwqDCoCAyLjMwwqDCoMKgwqDCoCBsZCAtdgo+ID4gK2Jpc29uwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMi4wwqDCoMKgwqDCoMKgIGJpc29uIC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKg
-wqDCoCBLYnVpbGQgKC5jb25maWcpCj4gPiArYnRyZnMtcHJvZ3PCoMKgwqDCoCAwLjE4wqDCoMKg
-wqDCoCBidHJmcyAtLXZlcnNpb24KPiA+ICtDbGFuZy9MTFZNwqDCoMKgwqDCoCAxNy4wLjHCoMKg
-wqAgY2xhbmcgLS12ZXJzaW9uwqDCoMKgwqDCoMKgwqDCoMKgIGFsdGVybmF0aXZlIHRvIEdOVSBD
-IChnY2MpCj4gPiArZTJmc3Byb2dzwqDCoMKgwqDCoMKgIDEuNDEuNMKgwqDCoCBlMmZzY2sgLVbC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXh0NAo+ID4gK2ZsZXjCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIDIuNS4zNcKgwqDCoCBmbGV4IC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEtidWlsZCAoLmNvbmZpZykKPiA+ICtnZGLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNy4ywqDC
-oMKgwqDCoMKgIGdkYiAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERlYnVnZ2luZwo+
-ID4gK0dOVSBhd2vCoMKgwqDCoMKgwqDCoMKgIDUuMS4wwqDCoMKgwqAgZ2F3ayAtLXZlcnNpb27C
-oMKgwqDCoMKgwqDCoMKgwqDCoCBvYmp0b29sLCBDT05GSUdfU1lTVEVNX0JMQUNLTElTVF9IQVNI
-X0xJU1Q9eQo+ID4gK0dOVSBDwqDCoMKgwqDCoMKgwqDCoMKgwqAgOC4xwqDCoMKgwqDCoMKgIGdj
-YyAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFsdGVybmF0aXZlIHRvIENsYW5nL0xM
-Vk0gKGNsYW5nKQo+ID4gK0dOVSBtYWtlwqDCoMKgwqDCoMKgwqAgNC4wwqDCoMKgwqDCoMKgIG1h
-a2UgLS12ZXJzaW9uCj4gPiArR05VIHRhcsKgwqDCoMKgwqDCoMKgwqAgMS4yOMKgwqDCoMKgwqAg
-dGFyIC0tdmVyc2lvbgo+ID4gK0dSVULCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDAuOTPCoMKgwqDC
-oMKgIGdydWIgLS12ZXJzaW9uIHx8Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3J1Yi1pbnN0YWxsIC0tdmVyc2lvbgo+ID4gK2d0YWdzwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgNi42LjXCoMKgwqDCoCBndGFncyAtLXZlcnNpb27CoMKgwqDCoMKg
-wqDCoMKgwqAgdG8gZ2VuZXJhdGUgdGFnIGZpbGVzIHRocm91Z2ggYGBtYWtlIGd0YWdzYGAKPiA+
-ICtpcHRhYmxlc8KgwqDCoMKgwqDCoMKgIDEuNC4ywqDCoMKgwqAgaXB0YWJsZXMgLVYKPiA+ICtq
-ZnN1dGlsc8KgwqDCoMKgwqDCoMKgIDEuMS4zwqDCoMKgwqAgZnNjay5qZnMgLVYKPiA+ICtrbW9k
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAxM8KgwqDCoMKgwqDCoMKgIGttb2QgLVYKPiA+ICttY2Vs
-b2fCoMKgwqDCoMKgwqDCoMKgwqAgMC42wqDCoMKgwqDCoMKgIG1jZWxvZyAtLXZlcnNpb24KPiA+
-ICtta2ltYWdlwqDCoMKgwqDCoMKgwqDCoCAyMDE3LjAxwqDCoCBta2ltYWdlIC0tdmVyc2lvbsKg
-wqDCoMKgwqDCoMKgIEZsYXQgSW1hZ2UgVHJlZSAoRklUKSBvciBBUkNIPWFyYywgYXJtIG9yIHBv
-d2VycGMKPiA+ICtuZnMtdXRpbHPCoMKgwqDCoMKgwqAgMS4wLjXCoMKgwqDCoCBzaG93bW91bnQg
-LS12ZXJzaW9uCj4gPiArb3BlbnNzbMKgwqDCoMKgwqDCoMKgwqAgMS4wLjDCoMKgwqDCoCBvcGVu
-c3NsIHZlcnNpb24KPiA+ICtwYWhvbGXCoMKgwqDCoMKgwqDCoMKgwqAgMS4yNsKgwqDCoMKgwqAg
-cGFob2xlIC0tdmVyc2lvbgo+ID4gK3BjbWNpYXV0aWxzwqDCoMKgwqAgMDA0wqDCoMKgwqDCoMKg
-IHBjY2FyZGN0bCAtVgo+ID4gK3BpZ3rCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDIuNMKgwqDCoMKg
-wqDCoCBwaWd6IC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoMKgIENvbXBpbGUgYW5kIGJvb3Qg
-d2l0aCBLUEdaSVA9eQo+ID4gK1BQUMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyLjQuMMKgwqDC
-oMKgIHBwcGQgLS12ZXJzaW9uCj4gPiArcHJvY3BzwqDCoMKgwqDCoMKgwqDCoMKgIDMuMi4wwqDC
-oMKgwqAgcHMgLS12ZXJzaW9uCj4gPiArUHl0aG9uwqDCoMKgwqDCoMKgwqDCoMKgIDMuOS54wqDC
-oMKgwqAgcHl0aG9uMyAtLXZlcnNpb24KPiA+ICtxdW90YS10b29sc8KgwqDCoMKgIDMuMDnCoMKg
-wqDCoMKgIHF1b3RhIC1WCj4gPiArUnVzdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMS44NS4wwqDC
-oMKgIHJ1c3RjIC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoCBDT05GSUdfUlVTVD15Cj4gPiAr
-U3BoaW54wqDCoMKgwqDCoMKgwqDCoMKgIDMuNC4zwqDCoMKgwqAgc3BoaW54LWJ1aWxkIC0tdmVy
-c2lvbsKgwqAgYnVpbGQga2VybmVsIGRvY3VtZW50YXRpb24KPiA+ICtzcXVhc2hmcy10b29sc8Kg
-IDQuMMKgwqDCoMKgwqDCoCBta3NxdWFzaGZzIC12ZXJzaW9uCj4gPiArdWRldsKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMDgxwqDCoMKgwqDCoMKgIHVkZXZhZG0gLS12ZXJzaW9uCj4gPiArdXRpbC1s
-aW51eMKgwqDCoMKgwqAgMi4xMG/CoMKgwqDCoCBtb3VudCAtLXZlcnNpb24KPiA+ICt4ZnNwcm9n
-c8KgwqDCoMKgwqDCoMKgIDIuNi4wwqDCoMKgwqAgeGZzX2RiIC1WCj4gPiArPT09PT09PT09PT09
-PT3CoCA9PT09PT09PcKgID09PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQo+ID4gK8KgwqDCoCBQcm9ncmFtwqDCoMKgwqAgTWlu
-aW1hbMKgwqDCoMKgwqAgQ29tbWFuZCB0byBjaGVja8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgUmVxdWlyZWQgZm9yCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHZlcnNpb27CoMKgwqDCoMKgIGNoZWNrIHRoZSB2ZXJzaW9uCj4gPiArPT09PT09PT09PT09PT3C
-oCA9PT09PT09PcKgID09PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PQo+IAo+IE9uIG15IGJ1aWxkIG9mICdtYWtlIGh0bWxkb2Nz
-JywgdGhlIHRhYmxlIGVuZGluZyBjb25mdXNlcyBkb2N1dGlscy4KPiBEaWQgeW91IGJ1aWxkIHRo
-aXMgd2l0aCAnbWFrZSBodG1sZG9jcyc/Cj4gCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5n
-ZXMucnN0OjczOiBXQVJOSU5HOiBCbGFuayBsaW5lIHJlcXVpcmVkIGFmdGVyIHRhYmxlLiBbZG9j
-dXRpbHNdCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0Ojc1OiBXQVJOSU5HOiBC
-bG9jayBxdW90ZSBlbmRzIHdpdGhvdXQgYSBibGFuayBsaW5lOyB1bmV4cGVjdGVkIHVuaW5kZW50
-LiBbZG9jdXRpbHNdCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0OjQxOTogRVJS
-T1I6IE1hbGZvcm1lZCB0YWJsZS4KPiBCb3R0b20gYm9yZGVyIG9yIGhlYWRlciBydWxlIGRvZXMg
-bm90IG1hdGNoIHRvcCBib3JkZXIuCj4gCj4gPT09PT09PT09PT09PT3CoCA9PT09PT09PcKgID09
-PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PQoKSSdsbCByZW1vdmUgdGhlIGJvdHRvbSAnaGVhZC1yb3cnLgoKPiAKPiAuLi4KClRo
-YW5rcwogTWFudWVsIAo=
+On 10/22/26 11:56 AM, Gregory Price (Meta) wrote:
+> On 2026-10-20 21:01 +0800, Li Zhe wrote:
+>> On 10/20/26 12:10 AM, Gregory Price wrote:
+>>
+>> I agree that the kernel reclaim and demotion behavior still has room for
+>> improvement, and the watermark changes and the bottom-up proactive/async
+>> reclaim idea you mentioned may be useful to explore for some tiering
+>> scenarios. But I think there is also an unavoidable userspace policy
+>> component here. The kernel can improve whole-cgroup reclaim, but it
+>> cannot know every controller's placement goal.
+>>
+>> For example, one controller may want to keep a specific per-tier
+>> resident ratio for a cgroup. Another use case, as Joshua pointed out in
+>> another reply, is reclaiming from a lower tier first so that later
+>> top-tier reclaim has room for demotion. A single default memory.reclaim
+>> algorithm cannot express these per-cgroup policy choices.
+>>
+> The latter of these should probably be some level of the system default,
+> that's why I brought it up as well.  (proactive reclaim should prefer to
+> make progress from the coldest tier first, then work its way up).
+>
+> I'm not convinced a reclaim interface is the right way to affect a
+> per-tier resident ratio policy.  That feels like a hack to get around
+> solving the harder problem of something like tiered memcg counters
+> (which would otherwise drive reclaim to work exactly the way you
+> describe for resident ratios).
 
+
+Thanks for the detailed comments.
+
+I agree that improving the default proactive/async reclaim behavior can
+be useful, and I also agree that tiered memcg counters/limits would be
+useful. I do not see source=nodes as a replacement for those directions.
+They solve different parts of the problem: tiered counters/limits provide
+accounting and policy targets, while source=nodes is only an actuator for
+proactive reclaim.
+
+So I think these directions are compatible. A better default reclaim
+policy or tiered memcg limits can improve kernel-driven behavior, while
+source=nodes gives userspace an explicit way to apply reclaim pressure
+to a selected resident source.
+
+>
+>> I am not sure whether changing the default whole-cgroup reclaim behavior
+>> in this direction could affect existing userspace dependencies. In the
+>> old nodes= discussion, Mina mentioned that Meta's reclaim stack relied on
+>> memory.reclaim triggering demotion [1].
+>>
+> Yes and on its surface this is something I could see Meta using, however
+> I question whether we're simply trying to find a convenient way around
+> fixing reclaim to do the right thing (not invert the LRU, apply per-tier
+> memcg limits, etc).
+
+
+That is fair, and I do not intend this to avoid improving reclaim or
+adding better tier-aware memcg accounting. A better memory.reclaim
+algorithm would also make source=nodes more useful, because source=nodes
+still uses the existing reclaim path after selecting the resident source.
+The goal here is narrower: expose a source-scoped proactive reclaim
+actuator while keeping the kernel's reclaim policy in control. The old
+nodes= discussion had ABI problems, but it also showed that a
+nodemask-like source selector is a useful primitive for finer-grained
+proactive reclaim control [1].
+
+>
+>> I also do not intend source= to lock in current reclaim implementation
+>> details. It should stay consistent with the current design: source= only
+>> selects the resident source to which reclaim pressure is applied, while
+>> the kernel remains free to change the reclaim policy.
+>>
+> Well, sort of, you get exposed to the implementation details by having
+> to negotiate what is considered progress under different scenarios.
+>
+> Lets take one example - what should happen when:
+>   - 2 node system, node0=DRAM, node1=CXL
+>   - zswap is configured
+>   - echo 1G source=nodelist:1 > memory.reclaim
+>   - node 1 is pressured, zsmalloc falls back to node0 to allocate
+>
+> Should that be considered progress? We reclaimed from node1, but
+> increased pressure on node0 - which might have kicked kswapd or memcg
+> accounting to demote memory from node0 to node1.
+>
+> Should zswap also take that nodelist as a constraint?
+
+
+This is a good example of why source=nodes should not be described as a
+one-shot net footprint guarantee. Assuming source=nodes:1, the request
+applies reclaim pressure to memcg memory resident on node1. That may
+free some space on node1 in the short term, which can provide room for a
+later node0-to-node1 demotion step. If zswap allocation, kswapd, or memcg
+reclaim later moves pressure back across tiers and node1 usage rises
+again, that is part of the dynamic reclaim/tiering behavior.
+
+So userspace cannot rely on one write to memory.reclaim to produce a
+final per-node distribution. The intended usage is a feedback loop: the
+controller observes the memcg's resident distribution, chooses the source
+nodes it wants to relieve, applies source-scoped reclaim pressure,
+observes the new distribution, and iterates.
+
+I do not think this patch should make source=nodes constrain zswap pool
+allocations. That would be a different and much stronger semantic. The
+current intent is only to constrain the resident source from which memcg
+reclaim applies pressure, while completion accounting remains the
+existing memory.reclaim accounting.
+
+>
+> At the very least i think you need to add details in your cover that
+> demonstrates the process of doing something like per-node resident
+> ratios, and show that it works as you intend.
+Agreed. I will update the cover letter to make this model clearer. I
+will also make clear that source=nodes is not a final net per-node
+footprint guarantee and does not change memory.reclaim completion
+accounting.
+
+[1] https://lkml.org/lkml/2022/12/14/194
+
+Thanks,
+Zhe
