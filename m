@@ -1,84 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792636582;
-	b=CGjh1sfGu56A0cX1GfaM1g6GE1EShV0VuJvaW5fnkuTg19y6s6X0oQ2MCt8s9fFW/BnJ
-	 IjY37XmXly+rOFEZiw0kVy1365cjysM3UlYS0M8NqbwymG3MykTqWCiAl50vbKjplZaM9
-	 LNYtvz3LlwI9ZTy4lUsTHjgn8wMcT/bZZJ7byfhaGAhQ2vnMRlL5lh26uUjhnAU58NPKM
-	 7ASFEvPk9vRchzR9Se0T4UsID45+IAWhoQt54Ej1wC41b7J/atmUewes/YNx89V3eg226
-	 wB0mvWK2OFkkIfUE7bv1y2hJiglFNaqVZzN1dvMh7OW9hP1AgmnL4zbu9lyDv6g1KtA==
+	t=1792640806;
+	b=Vp0Hvnv8ocmFdrDvUbXZMqa8sP0IogxRHjzMDT5Lm4M8R+xDolPj9jODbZP8ioX1NTVM
+	 v0+iixDbuHOra8qXfGmGQtBnKJV7VkArLQ0nluyJN3Ce6cFW87JK8z+mNjJBiVfh67D2d
+	 EdOW+YK7s6bKM3+nAP8CuiiBrZM4aitNGhpD0URsKLdrLTfDEfydiQNe3NqwWk7P2zRpJ
+	 l2rVtnPgyuyje0A9jj+EWouB7Ptkn+DQPy9Y/yg76kk/KPQT672sNHZCkfJSMDhc3+AXO
+	 d2rd4il5E2VLgMtRyM/05XXOqqaqzKU3C5oCw/+jWnHF984ZrjjZ0ZlkcgqHgVbKykg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792636582;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
-	b=SyfmLifE94leI5ghUg9xOcNUTJZF4EbgJhGHhzY2qmeB0re0E/WsIFwprv789StDtvFV
-	 wOt5UPyl6CU496ma8zmIBqFrH/f/1g4qOUu85+WK8WSripPVJGUdNc7OjoWjLnIJ5KfmD
-	 jppSYWBfQLyxN8bPxGKC8kwSh36t0yrTAqUJvCgNJjozmP2mv1GM7zq9ev5ROMljdjDif
-	 RYlKvSzs22g6Cii3I8Ol0/63HmBNT7Je0jAMt7O8CxRwrHYJ/X41T8Djkh7Ws0s/Xmobb
-	 7KAuhYnJz8VPiwFt4A3qqLOP2McCmANLt6OtCAwvTLvSAymRspVHL1TKdsbfAIccYtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792640806;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=4fcTMVzHIhmN5IoyyVLlVIfM3MPNNXbJtiu5nB9jYtM=;
+	b=XEkxw1lIcry9NiTsGtCTwxNHqf5vmsul2Hgj1828mXByMn1WlNMl5T3vE/pExAuau5fb
+	 PFVIHijfGPvv+MXXQRP3ZbfwJAmLSGZMotZI52WX0BmB2WUXBf7UwsdilsqhDlVFEtESi
+	 7uTu9eu/CHM6ZG3X36s2AH+QGOiWaOp+Dhi1zKgcaMxBBmOSatzBJDCN+B9tfNADWL61o
+	 OnW//q7L8x3ObOWQeOm09IDFe/flEjxoUcNTJeZQXN1omPIxjHX4Ndv0/wlpvHHa3L5Pb
+	 q4bCCbCCXUd2BevkyjV2RILCPiBZQWtLXiZpN7KI01AjupvYf3HDyA4MmXVfhJoMP5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DXfRIZoh;
-	arc=none smtp.remote-ip=209.85.160.175
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ghz0bZcF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0FD606A31B
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 02:36:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D0FD606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FB0606A332;
+	Thu, 22 Oct 2026 03:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=DXfRIZoh
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-536605c4d8fso9233751cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 19:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1792636580; x=1793241380; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
-        b=DXfRIZohrO6JOR9N2TQfXwi6cS3IFf0u3AYrwtcV6cAz/rVDD7gYA/cEnUd7wXfC6H
-         sfSTAy7j3LwrJCHxVAhzWFOpiEsgVwT/fRT6BmOjP8g4NxugF58Kv64hPA8hnbMyMMLg
-         Bn4uk+VUNjJYH35He0ZZnX1j8fnuR9z1X+77UXRo20wYlj3BIhM4ayOT/xvxHjPPdiU+
-         FfSYeOstSqlXfhKWllHX+JM7bKGrsEHmlMhl8dWpG2+mPCDE3Y3naPT+E0bU+/a3txYD
-         pdUabMTzTxVpr1fgM8p26nP5aBPgBmL9e1ItEt0i/hYPGLmhUgvgszhgzDYl95JPGZok
-         h0jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792636580; x=1793241380;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OnfyzMLO0P5DWvV355CXnkmHdcF8VekAj3yYMzW5EvM=;
-        b=p5d6w1gsB37+q0vOOnsjylrepnVJAjDkgIir1gbeQJIW8NRU0W18Y6DL7zm2T3guQD
-         FMNsSPi64tDE/1qZuutLjM2QFW6T9PoHPJudfr/lhATEK8MAKElqlyud2M30r4FQlpBQ
-         HcjODbYRDpCwWsRUScXJTDmi+0GNFBDFjq2UaFwOujTuzIwtJytSDAObanOGze4/V91J
-         8tjtFeF8v4EZQyCLy3b7Y3GF+yDSL2TbjnCUblVlG4HckCyxGByrQZM8iHfCndXhCdzM
-         Z//WRChT2DTd11eje/XQaKZsTM9Rxx9wcUN+6JtpIYu4hjV1XPxkWGbkIAmREbHK8JMK
-         wA8A==
-X-Forwarded-Encrypted: i=1; AKwUvByGrFSGKJJ+bPee3287NqxJegwI8YKQc0RS2asgJc5hc5q1654vsX1iB++EMzfvSLWOOv5pY0Gf7XY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJj6TlE03BnMW3Lt21G+CrQt/9uqHoFhCuTNpIsIKm0uaTBSrbk
-	zf4N3rWOZEglR9pjKrVN6SLPwY2+Oo2MwSwO1CxVR58I2MyAAQMjfvcD4oyO0Q3RB3c=
-X-Gm-Gg: AYBFou3FvQOV685N0J4r7V6RIQgndvlB8q++uLwsV/EfuGaE5fDjCurMUaOcpCdZ0uv
-	pAM6ZASFRzbvV3MWE0UBve9NVF9I5uKidhgai8tmZPE6gc6UqfqsPgP5OVINoU4UyKCLM5nq0Oy
-	nD/LO1CwEpEVEObhVdGa27hKz8ytNrfDaX5iyulaxcvGFvDKCNt3WCIK0CthAnD1RP5u3QIcxYA
-	Z2rQ86PJWdmd/16G8q0mGJltTF6Mdja/Xxf7zGheVAF4MHsNAhFriZgN+StHMfbCpXYGonPIo9B
-	0/bWZo1B+qBBmt1DtJHKFsg67lrOalNSBt9eK7hBagCcbo+iydliQ0YPcNpzXBaZI+2RNkOqHoW
-	gYwPmcoUM8mQ393k6/NDg4RKFlbt3lb/k6HYwMMzfgIUCx/cbDWvC7HyMHN0ViuJu7QC7fRSfvO
-	HUaY8ctN1fYmqZmHoObnI6p5zGc7MwnYfqwslOkVs4GM0bWlDLR5RSNLkNF+PrGR0A6cYzr1bR5
-	EVNR2V5XIanXiYQNFl+IbbdaqDpEY9Y8mXmpInyWeQnOmQNSJD1QWkEkXpX541XmjUS7A5J62E4
-	BVO3WPl/Frns4fupMy7WX1px1e4=
-X-Received: by 2002:a05:622a:4cd:b0:533:2bf3:3301 with SMTP id d75a77b69052e-5369b86ae59mr66504611cf.36.1792636580301;
-        Wed, 21 Oct 2026 19:36:20 -0700 (PDT)
-Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536ab73b09dsm16032801cf.17.2026.10.21.19.36.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 19:36:19 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ghz0bZcF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D3601F000C1;
+	Thu, 22 Oct 2026 03:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792640805;
+	bh=4fcTMVzHIhmN5IoyyVLlVIfM3MPNNXbJtiu5nB9jYtM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ghz0bZcFO2ICLR9nS07ZUgDU767zCaPKEsyCKqsacmuuH8982hXAxsATTzSaaW0ZN
+	 JTw7DZP834wt0E4BgbJr4MP1UZ7tpbfuhHw0h1FhHdBt9HAiQepHpzmA5OX5TKVf9f
+	 v27UtsWzvdJTfAEyEglRy40Aabu/0KU5Wgafn3CVNEc3D1TZV3kRILqZ7MeZS/D7UW
+	 0GUyCCR6dQArj7wv0HB9vs4JUW38vt7wNKrZpFpPKDUcJ1WO5g7jY6ustHCwrgK8OB
+	 oV3XE93uK8DpGpj4L6o4s2iQHscSob73JCNciJv3ixdmHVIr+UOkdi7+fjGUyG0MX8
+	 WS2a8fZjKmtUA==
+Subject: Re: [PATCH net-next v17 2/2] hinic3: Add ethtool statistic ops part2
+From: netdev-bot+sashiko@kernel.org
+To: gongfan1@huawei.com
+Cc: wudi234@huawei.com, tengpeisen@huawei.com, netdev@vger.kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, andrew+netdev@lunn.ch, ioana.ciornei@nxp.com,
+ maxime.chevallier@bootlin.com, mohsin.bashr@gmail.com,
+ dimitri.daskalakis1@gmail.com, hramamurthy@google.com,
+ larysa.zaremba@intel.com, vadim.fedorenko@linux.dev,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ zhoushuai28@huawei.com, wulike1@huawei.com
+Date: Thu, 22 Oct 2026 03:46:43 +0000
+Message-ID: <179264080395.3135.834074310009074435@kernel.org>
+In-Reply-To:
+ <abc78c964dec55e440f8023db505632186d53d89.1792378301.git.gongfan1@huawei.com>
+References:
+ <abc78c964dec55e440f8023db505632186d53d89.1792378301.git.gongfan1@huawei.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,59 +69,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 00/12] Virtual Swap Space (Swap Table Edition)
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, chrisl@kernel.org, kasong@tencent.com, 
- hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
- shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
- muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
- baohua@kernel.org, youngjun.park@lge.com, chengming.zhou@linux.dev, 
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
- surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com, 
- yuanchu@google.com, weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
- haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
- baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
- skhan@linuxfoundation.org, rdunlap@infradead.org, kunwu.chan@linux.dev, 
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, cgroups@vger.kernel.org
-In-Reply-To: <20261021060323.553433-1-nphamcs@gmail.com>
-References: <20261021060323.553433-1-nphamcs@gmail.com>
-Date: Wed, 21 Oct 2026 22:36:17 -0400
-Message-Id: <179263657717.2549665.11401372071846447074.b4-reply@b4>
-X-Mailer: b4 0.17-dev
 
-On 2026-10-20 23:03 -0700, Nhat Pham wrote:
-> B. Semi-synthetic Workloads (memhog, usemem, kernel build)
-> ==========================================================
-> 
-> All values are mean +/- standard deviation across rounds.
-> 
-> Test system: x86_64, 52 cores, 64 GB swapfile for all 3 benchmarks.
-> Swap backend: zswap (zstd) with the traditional active/inactive LRU. We
-> focus on zswap here because it is the motivating use case for vswap.
->
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-I get that the motivation is zswap, but it would be nice to have
-disk-swap performance numbers here as well right in the cover.
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-If only because...
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-> For each benchmark, we test 3 kernels:
-> * Baseline: mm-unstable, no vswap patches.
-> * VSS off: vswap series applied, vswap=off, to verify that there is no
->   regression to existing swap paths when we disable vswap.
-> * VSS on: vswap series applied, vswap=on.
-> 
+- [Medium] hinic3_get_pause_stats() can never be called.
 
-If the numbers you presented carry through, I'm left wondering why this
-is a boot option and not a build option.  I rather dislike the boot
-option compromise in general - but other reasoning aside, if there's no
-performance impact, then I don't see why it shouldn't be the default.
+--
 
-~Gregory
+hinic3: Add ethtool statistic ops part2
+
+This commit adds five standard ethtool statistics callbacks to the hinic3
+driver: get_eth_phy_stats, get_eth_mac_stats, get_eth_ctrl_stats,
+get_rmon_stats and get_pause_stats. Each callback reads the physical port
+counters from firmware and copies them into the standard ethtool
+structures.
+
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> index 64c862052f1e8..2ae4d5afe90df 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+
+[ ... ]
+
+> +static void hinic3_get_pause_stats(struct net_device *netdev,
+> +				   struct ethtool_pause_stats *pause_stats)
+> +{
+
+[ ... ]
+
+> +	pause_stats->tx_pause_frames = le64_to_cpu(ps->mac_tx_pause_pkts);
+> +	pause_stats->rx_pause_frames = le64_to_cpu(ps->mac_rx_pause_pkts);
+> +
+> +	kfree(ps);
+> +}
+
+[ ... ]
+
+> @@ -707,6 +904,11 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
+>  	.get_strings                    = hinic3_get_strings,
+>  	.get_sset_count                 = hinic3_get_sset_count,
+>  	.get_ethtool_stats              = hinic3_get_ethtool_stats,
+> +	.get_eth_phy_stats              = hinic3_get_eth_phy_stats,
+> +	.get_eth_mac_stats              = hinic3_get_eth_mac_stats,
+> +	.get_eth_ctrl_stats             = hinic3_get_eth_ctrl_stats,
+> +	.get_rmon_stats                 = hinic3_get_rmon_stats,
+> +	.get_pause_stats                = hinic3_get_pause_stats,
+
+[Severity: Medium]
+Can hinic3_get_pause_stats() actually be reached by the ethtool core?
+
+hinic3_ethtool_ops sets .get_pause_stats but has no .get_pauseparam, and
+nothing under drivers/net/ethernet/huawei/hinic3/ implements one. The
+generic caller of get_pause_stats, pause_prepare_data() in
+net/ethtool/pause.c, bails out before it gets to the stats callback:
+
+net/ethtool/pause.c:pause_prepare_data() {
+    ...
+	if (!dev->ethtool_ops->get_pauseparam)
+		return -EOPNOTSUPP;
+    ...
+	dev->ethtool_ops->get_pauseparam(dev, &data->pauseparam);
+	if (req_base->flags & ETHTOOL_FLAG_STATS &&
+	    dev->ethtool_ops->get_pause_stats)
+		dev->ethtool_ops->get_pause_stats(dev, &data->pausestat);
+    ...
+}
+
+The only other user, ethtool_aggregate_pause_stats(), is a helper that
+MAC-merge-capable drivers call themselves, and hinic3 doesn't call it.
+Pause stats also aren't one of the ETHTOOL_MSG_STATS_GET groups.
+
+So "ethtool -I -a <dev>" would fail with -EOPNOTSUPP. That means
+mac_tx_pause_pkts and mac_rx_pause_pkts never reach userspace, even though
+the commit message lists get_pause_stats as one of the five added
+callbacks.
+
+The driver already has hinic3_get_pause_info() in hinic3_nic_cfg.c, which
+hinic3_ethtool.c already calls elsewhere. Could that be used to add a
+get_pauseparam implementation? Otherwise, could get_pause_stats wait until
+one exists?
+
+>  };
+>  
+>  void hinic3_set_ethtool_ops(struct net_device *netdev)
 
 -- 
-Gregory Price (Meta) <gourry@gourry.net>
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1792378301.git.gongfan1%40huawei.com
