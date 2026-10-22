@@ -1,100 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792657680;
-	b=vcdIPaYNJ59hMGEmO5TX/rkZxJPHQtDzWusfmPSc90IFjor3RavIDFj2BkAPnb0PP6tE
-	 r1PK1KxtO/RT5LH/jgKbXU8Krki8cx67ZWX2ApFrGfw5CI6q0nG0TawcnfGFtOJOGElQr
-	 5HXzA2p7zSunYIpPOvTntMEyPRlWO8U/4NLjkH2nQ0G3ck/yv/aJvbNce4K+RqVT4hes9
-	 ghmYISZ3Djw4Bca6UXbgUKgNPrTrGUaPyRPJjlDwyyu3BMOqzbimmZQggi065ar1N5MaC
-	 HXlyj51TLnzQlUUKLw8iY1iQw3rjkxFwgVggbXNVKxz9goP7HL/gkav/QR+XPz/Icsw==
+	t=1792657800;
+	b=m7M8GRdvduW3Oczu8qwwDYTNgbIg+fI52nElJ342r6M21u4yXPXydfWz854ETsNr3vQy
+	 mETuElpvC5nyYXbxnKBTwbSx41zGuLZjfLNQswrYwkbyBEGN2oTQh+dH2hArVQy07sv+d
+	 pWr8PrWl1bkz2taTEj6j8OYrnN1Qm/6RcSLS78na14hzaeMdH9tBx+lnkJwJnZ0EkjSoC
+	 eahEkt50l3kuTu2YL8Ug4SmgXsWuZtDL+gempdi1j3fWdyFJR8PW2lNqYvg+Di/UQS2Kn
+	 TvmOSbcuoGnkp5tCLr6jiTkvnyEbivNoh4bqLCQy4YUxQUA7gVhaVsfJUn4penc8LMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792657680;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=asTQwS3Q/pIZmKtVtb/ZZcYojtRdxCAchkNTDOljnRg=;
-	b=dALnulp+570ATAAVB/Ei/iv5zIRPU04Mpa5Shiq6SyOt6t/rsf4UNXKQ/ZmxexwEGYG6
-	 TeSC+wNtEJJx8eFBeUhRy/NfFkbx54XvaKGzQh0QiVSxPKxq0LuaqB1tKsG62xU2tWSq5
-	 Np2sBYAR4Qll66YU/qTsdasqwlImc5C7eim6X59HPQThh8KvDDsrR7rNc+LpAMI0gFEY6
-	 r5e4Qavx+OBhq0EuUJ1f4y6DtaFMuIRmZEFVhhWRSS/i8YTKIRdhrHJD8ocNHyKE9qoke
-	 W4YN0DnqwvphJxWmEhHSehd2mggWcNV8rUW/HVmkRyc7f6nSd3FikEIw2SSDCuCFcWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792657800;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=HS8s5tS82JZp8M/M5RUUnontJnuH89paZzRJuQwV6YU=;
+	b=StNleT5CMG20rRRSyBVSuIwSRlf6jG9pT1k5Xi6WWUjpudC4CoiG5pBnumLXa6e4fdfn
+	 MqLtCFgBclkEbhmtoS8qwUTaeJcNtxne7+YsV2ch7fzUb9dZhqrcSROMh8QnSfw2CU8BZ
+	 pNQFSG5aLTY7gugCmFpn2mvbwrwk0z+dGZ+LRK+siSyaD5PzpxaSD1JPSxWwVGG3jFbcz
+	 NBGwnR+qW6tQwD2ssCip6o31e4FENdBZxU2vyurwtMn5Op2eFSIwJCTBDLIcja+dMKQWK
+	 BMD3eL1GPTYSDRvqfXWw0SL7am5AezLE4StSVfXiofE3AW0M28AhsdECIXo1a6qNj7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b="Xqn/2yUi";
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZ7PRCg6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D55606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 08:27:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2D55606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA174606A319;
+	Thu, 22 Oct 2026 08:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=Xqn/2yUi
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a208d93758so3485495e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 01:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1792657677; x=1793262477; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=asTQwS3Q/pIZmKtVtb/ZZcYojtRdxCAchkNTDOljnRg=;
-        b=Xqn/2yUifSYwd1lLkvjTelhwbh1/fDxIkgCiTBzt6jpzF2b6Jtj1W+vx0Bue+MUy58
-         9u42cvxmjlsJRbnQR2g3CWbj4u0rkL/k1ULnZYHkA6SYgBSLjiaJLKo7XUYZtC7tNenJ
-         rsFukD01VvOvzDd3SE4W8Oqv/En+hGSOb1IleVA+BPtjYtldui+qaj/eFrGXDbDTs6Zh
-         HQUgjRlg+/mxJFoLyy6ZYJH45n5kbvVwK0xr1YtKjqBE0q6RxnBXsMTT0TqpvW3YuGgS
-         6xjeAh+dj5PSGSU8D18ZjCN3TeNPZns36H6lwwUccK2iJaoVhrAUeKBlAglwvy3XGzs4
-         TAFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792657677; x=1793262477;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=asTQwS3Q/pIZmKtVtb/ZZcYojtRdxCAchkNTDOljnRg=;
-        b=scyvLvcH/aC0oCciM+8InHtLvG5GIVyiYbl40f9iot1lZIAa5YWTj4WDjMswNN3BwC
-         jeFsUCxSQfNdAjhfWiXCfpyI0+U7orhiuVVRxRP0pc22iAXCL8PbDt3y40N/fia2pxA7
-         84YeZ6y1oB4qN91EAdlFEMrAqxEy/PGv2b9epWYeJXd1YP6N6iO/grzC+oVYcMPlBHYh
-         9/USt1+oPNM5X491LkjRYVFSLc6+izCZ3x9FS3OWE0OpxvV1U7S2V5a6OQ14vl0ylXSv
-         15pgUzy0b0LeZfVfU9XjH1n95wt1L9BvD6KXKaAibJ9MfxrAGU8+ylNMqlrfpss6kqwj
-         Qwxg==
-X-Forwarded-Encrypted: i=1; AKwUvBxR800bODNOwHS/pAWf5TgMNG/Pu0LDb7EeQNRHJ/6Ue2+uU5EJ2H+iHZGWvKKMqnxR35qaRXVvtbA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI31JoLXBsfDxDhJR9juLMy/3N2r52jKaF2KbOdYNVyoPbRlo9m
-	mos88zT60Z0Y4V+36ZfTSF4Amrw8JDpMiC22tSxci3Zf2M5gN+nUPtR7GtoIBiNPSNI=
-X-Gm-Gg: AYBFou3FF7+YfrRu0ViQMHj4/mp0UsBuoSkEPL429xVbEBY5h/Y1WOoLOetW6knM2H6
-	1cQSzHJEC77JZ+5vqihkruQ6ZcFSXLhvy/Q2w+O1xE1tWDG/y0F1fDgLC1YCNQK/6Mm+KQ4N9Ru
-	RPzIN8oMKl2Wlc0lPQQWlB8LPbMYrzFS8ILE7SJPZAP2KXg+k/nwfuxL5QmaMw55dmhu3I7gvqF
-	m+9Ifn1jooGMrIFpc5DajwpuZo6WcWmuQEJArefgx6iwludqEK/j7l78soF5OYS4yjzWl7q53Nl
-	ndAfplDVVipkptBENfmpkKxJ9dywUL2my4eRkiG+TuOcSP2BHFK3tNcDgcWaTgKILG5lMS9ihjn
-	mq7b9bJ6vDMOFTEb1SHt7fh3q9cIr1KKapE685yNY1WySPZODhbniT245nRX9Q72k8mQHso/u7C
-	P/wQlTfJQkaftpmZqoGkDETMAocibceWA1w5TjMc6WHdEq7LmTGqqutr0N0v8pnhiH+eumKJhSQ
-	Z+xcBHahUWgwTjuBQmunrHh9tFspqxmGGNupvBx3bmfuRkS5CINf1fvOOWvNMRy
-X-Received: by 2002:a05:600c:524a:b0:4a2:994:5750 with SMTP id 5b1f17b1804b1-4a209945818mr14069445e9.32.1792657677030;
-        Thu, 22 Oct 2026 01:27:57 -0700 (PDT)
-Received: from localhost ([128.77.52.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e258426f4sm10865456f8f.54.2026.10.22.01.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 01:27:56 -0700 (PDT)
-Date: Thu, 22 Oct 2026 10:27:52 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 05/20] ctlv: Prepare message input handling
-Message-ID: <atnIDx6qmLe-geb4@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-6-jiri@resnulli.us>
- <20261021014324.58376589@jic23-hlaptop>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZ7PRCg6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1041F000C1;
+	Thu, 22 Oct 2026 08:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792657799;
+	bh=HS8s5tS82JZp8M/M5RUUnontJnuH89paZzRJuQwV6YU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SZ7PRCg6El4HIQ85zvruBKLWr2uPWjMioyhAk0EYUyDqYdQs1BZF/tCdE/HHos7Nu
+	 F1X91QP43Y8QkfJ9FJAB87pEIkte7wJq3YYDogCzxzM1FYiziQ+xdKqv2cO/vIq9/G
+	 fM4KhzMayn/8usCObDyIYPUMG9rb7AgQTCr7cm93eOGOwOmlQGwRVejrWcgxDei4gk
+	 2IdeTlC/GnZF22+dFbv3MRjTeph4D1IGOLJ1q6+FFHpYi53SEdKyOGurKvKf/+u/ZR
+	 x6svmChqQrMRxlSDZYvpMwj4VE/CirOT8+K+solVbo5dg1Wd6aL3jQjjglGZloA8ZW
+	 onMD0t/QjKknQ==
+Message-ID: <88eae369-49ba-4581-beb7-a4ff22f43555@kernel.org>
+Date: Thu, 22 Oct 2026 10:29:55 +0200
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,166 +51,119 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021014324.58376589@jic23-hlaptop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com>
+ <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org> <20261022072508.GB1857@sol>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261022072508.GB1857@sol>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Wed, Oct 21, 2026 at 02:43:24AM +0200, jic23@kernel.org wrote:
->On Thu, 15 Oct 2026 16:50:38 +0200
->Jiri Pirko <jiri@resnulli.us> wrote:
->
->> From: Jiri Pirko <jiri@nvidia.com>
->> 
->> Add wire walking, request indexing and validated input accessors for
->> generated family readers.
->> 
->> Keep CONFIG_CTLV unwired until dispatch completes the module.
->> 
->> Assisted-by: Cursor: GPT-5.6 Sol
->> Assisted-by: Cursor: Claude Opus 5.5
->> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
->
->Trivial stuff only. I didn't attempt (yet) to check
->all the walking code, just get a feeling for what was here. 
->
->
->> diff --git a/drivers/ctlv/Kconfig b/drivers/ctlv/Kconfig
->> new file mode 100644
->> index 000000000000..aed3243c55fd
->> --- /dev/null
->> +++ b/drivers/ctlv/Kconfig
->> @@ -0,0 +1,12 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +menuconfig CTLV
->> +	tristate "CTLV character device TLV UAPI"
->> +	help
->> +	  CTLV provides character device UAPIs described by a checked-in YAML
->> +	  specification. It owns the character device lifetime, the strict TLV
->> +	  message format, request validation, reply serialization, the large
->> +	  payloads a request describes rather than carries, per-open event
->> +	  queues and runtime schema introspection, so families only implement
->> +	  semantics.
->> +
->> +	  If you don't know what to do here, say N.
->
->I'd not say that.  Overly cautious for something we expect
->to get fairly extensive use.
-
-Okay.
-
-
->
->
->> diff --git a/drivers/ctlv/message.c b/drivers/ctlv/message.c
->> new file mode 100644
->> index 000000000000..7e5742ba8f70
->> --- /dev/null
->> +++ b/drivers/ctlv/message.c
->
->> +
->> +bool ctlv_message_input_rebind(struct ctlv_cursor *nest, const struct ctlv_schema_tree *tree,
->> +			       u32 node)
->> +{
->> +	const struct ctlv_message_input_scope *bound_scope;
->> +	const struct ctlv_message_input_nest *indexed;
->> +	u32 i;
->> +
->> +	if (WARN_ON_ONCE(!nest->attr || !nest->msg || !nest->msg->index))
->> +		return false;
->> +	if (!ctlv_message_nest_index_ok(nest))
->> +		return false;
->> +	bound_scope = &nest->msg->index->scopes[nest->index_nest_scope];
->> +	indexed = &nest->msg->index->nests[bound_scope->nest];
->> +	for (i = 0; i < indexed->scopes_count; i++) {
->
->	for (u32 i = 0; ...
-
-Okay.
-
-
->
->> +		u32 scope_index = indexed->first_scope + i;
->> +		const struct ctlv_message_input_scope *scope =
->> +			&nest->msg->index->scopes[scope_index];
->> +
->> +		if (scope->tree != tree || scope->node != node)
->> +			continue;
->> +		nest->tree = tree;
->> +		nest->node = node;
->> +		nest->index_nest_scope = scope_index;
->> +		return true;
->> +	}
->> +	return false;
->> +}
->
->> +
->> +void ctlv_attr_next(struct ctlv_cursor *cursor)
->> +{
->> +	const struct ctlv_message_input_slot *slot;
->> +	const struct ctlv_message_input_scope *scope;
->> +	const struct ctlv_node_schema *node;
->> +	const struct ctlv_attr *next;
->> +	u32 next_nest;
->> +	u32 next_offset;
->> +
->> +	slot = ctlv_message_cursor_index(cursor);
->> +	if (!slot || WARN_ON_ONCE(!cursor->attr))
->> +		return;
->> +	next = (const void *)((const u8 *)cursor->attr +
->> +			      ALIGN((size_t)cursor->attr->len, CTLV_ALIGNTO));
->
->kernel code is allowed to rely on void * arithmetic, so this can be
->	next = (const void *)cursor->attr +
->	       ALIGN((size_t)cursor->attr->len, CTLV_ALIGNTO);
->
->container_of() for instance makes use of sizeof(void) == 1.
-
-Okay.
-
-
+On 22/10/2026 09:25, Eric Biggers wrote:
+> On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
+>> On 21/10/2026 18:32, Laurent Pinchart wrote:
+>>> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
+>>>>
+>>>>> there's no base-commit?  Including any historical patch (from
+>>>>> months/years ago), patches with dependencies, etc.
+>>>>
+>>>> Dependency is something else, but for every other patch:
+>>>> 1. For testing/CI: you apply on top of next
+>>>> 2. Every other case the maintainer knows where to apply it, because it
+>>>> is his HEAD of next-branch.
+>>>>
+>>>> I am repeating myself, but I really had no single problem of lack of
+>>>> knowledge where to apply a patch as a maintainer or reviewer of some
+>>>> subsystem, thus maybe I do not understand the actual problem you are
+>>>> experiencing.
+>>>
+>>> When I review patches, I often need to apply them to a tree, mainly to
+>>> see the context, but sometimes also to test them. I have encountered
+>>> many cases where the patch wouldn't apply on the current for-next branch
+>>> of the relevant subsystem. That's often because the patch had
+>>> dependencies. When I'm lucky they are listed manually in the cover
+>>> letter with a link to a branch, but that's far from being the common
+>>> case. I then have to ask the submitter to provide a branch, or enough
+>>> information to recreate a branch. Having base information (base-commit,
+>>> prerequisite-patch-id, and possibly base-tree) would save me quite some
+>>> time.
+>>>
+>>> I understand your concern about maintainers cherry-picking and sometimes
+>>> introducing issues as a result. In that case I also prefer asking the
+>>> submitter to rebase, retest, and resubmit. That's not what I want to use
+>>> base information for, in my case it helps with the review process.
+>>
+>> That's valid and for 95% (guessing the number...) of cases will be
+>> solved by having linux-next as a base, thus requiring the base
+>> information is redundant. It's just linux-next.
 > 
->
->
->> +const void *ctlv_attr_binary(const struct ctlv_cursor *cursor, u32 *len)
->> +{
->> +	const void *value;
->> +
->> +	*len = 0;
->> +	value = ctlv_message_cursor_payload(cursor, BIT(CTLV_SCHEMA_BINARY), len);
->> +	if (!value)
->> +		*len = 0;
->
->I'd kind of have assumed that ctlv_message_cursor_payload() would not
->set len to anything if it returns NULL.  Thus the default *len = 0 would
->be intact.  From a quick look that seems to be the case making this
->code a little odd. 
->
->Perhaps overly defensive or keeping an LLM happy?
->Same applies on some other functions.
+> linux-next changes every day, so "It's just linux-next" is ambiguous.
+> 
+> Without base-commit, the workaround ends up being to use the date the
+> patch was sent and various other information to try to guess a base
+> commit.  That's time-consuming and unreliable.
 
-You are right. Will remove these.
+No, you just apply to the latest next. You don't guess. We speak about
+the case of reviewer, so person working with the kernel, thus probably
+having not-so-old linux-next available. If the next use as base is old
+it won't help you at all, because you might not even have it in your tree.
 
-
->
->
->
->> +	return value;
->> +}
->> +EXPORT_SYMBOL_NS_GPL(ctlv_attr_binary, "CTLV");
->> +
->> +/*
->> + * The room is measured before anything is written, which is what leaves a
->> + * refused attr's message exactly as it was, padding included.
->> + */
->
->Having a trailing comment in a file rarely adds much or indeed
->even more rarely gets read.
-
-True, will remove.
-
-
-Thanks!
-
->
->
->> diff --git a/drivers/ctlv/message.h b/drivers/ctlv/message.h
+Best regards,
+Krzysztof
