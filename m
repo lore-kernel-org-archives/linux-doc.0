@@ -1,47 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792657800;
-	b=m7M8GRdvduW3Oczu8qwwDYTNgbIg+fI52nElJ342r6M21u4yXPXydfWz854ETsNr3vQy
-	 mETuElpvC5nyYXbxnKBTwbSx41zGuLZjfLNQswrYwkbyBEGN2oTQh+dH2hArVQy07sv+d
-	 pWr8PrWl1bkz2taTEj6j8OYrnN1Qm/6RcSLS78na14hzaeMdH9tBx+lnkJwJnZ0EkjSoC
-	 eahEkt50l3kuTu2YL8Ug4SmgXsWuZtDL+gempdi1j3fWdyFJR8PW2lNqYvg+Di/UQS2Kn
-	 TvmOSbcuoGnkp5tCLr6jiTkvnyEbivNoh4bqLCQy4YUxQUA7gVhaVsfJUn4penc8LMQ==
+	t=1792658936;
+	b=PTDmXwBpWjAi5bbCqrW8lCgpUEBuzGvDT/7mV4IHryb/svgFAlqsMr65HTz96c9Rt9hS
+	 lItXQ5qVNCgPdyiZNxz4J/i2LvnQpWf7UJMk3PNg1J3uz5DL7uSW65fqh8Ucxfx6YgnPI
+	 3kxHJpjt37PolhjXZ6zAfBlBMbTpOeiOJJzvlcfj/Uh94SmcOCpInuKAzSlYX2alqj54+
+	 U9Y+5F30fVTEz1KGS3WOsjWZzhzwmwz1/VnxIL+J32g6SDdW04gwLQdVydeuIoDyQS1yO
+	 83fKU4EN0d31NdWuu4AClrL/QWVvLSgkfHxZ65cwSBbDzpumKGpioiE1+QUcd+ydTxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792657800;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=HS8s5tS82JZp8M/M5RUUnontJnuH89paZzRJuQwV6YU=;
-	b=StNleT5CMG20rRRSyBVSuIwSRlf6jG9pT1k5Xi6WWUjpudC4CoiG5pBnumLXa6e4fdfn
-	 MqLtCFgBclkEbhmtoS8qwUTaeJcNtxne7+YsV2ch7fzUb9dZhqrcSROMh8QnSfw2CU8BZ
-	 pNQFSG5aLTY7gugCmFpn2mvbwrwk0z+dGZ+LRK+siSyaD5PzpxaSD1JPSxWwVGG3jFbcz
-	 NBGwnR+qW6tQwD2ssCip6o31e4FENdBZxU2vyurwtMn5Op2eFSIwJCTBDLIcja+dMKQWK
-	 BMD3eL1GPTYSDRvqfXWw0SL7am5AezLE4StSVfXiofE3AW0M28AhsdECIXo1a6qNj7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792658936;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=zwnkwYmhLzhEKJg+U7p50UnqjYbQ/FzJRIwMkHplZOY=;
+	b=J+/mjKXND1G5Yk8AwskZQN6rHHwCjfxCazZLsg0H5s71N7FQjx3tEEVneMMuUKzwjs9p
+	 8a/lg1X0vStwtw/zrjQOB/jrMTRiNHhMZ/JZWUZzSvckGtItvcgHVT5M0E1KX7aXqgk9w
+	 OFac9c/dSnrUFdURf4ytSDHICnG4dXWrA/hwS2xnKfSPk+dAs6FmOtaudgOoRcgA0MK/+
+	 xkXTOekqy+XPPwGDcboCOYMezBqyETt8nNNBRYr4sVbKls41R0oe/m3WmVoAlXQZNkBza
+	 QNQEJTvW1LU+ipYg5wl0LhKWQlKw2+yatELsmscrx8uiuxnBl6yqVKHvtkUv6nCMU9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZ7PRCg6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=rubo54JP;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA174606A319;
-	Thu, 22 Oct 2026 08:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD32C606A336;
+	Thu, 22 Oct 2026 08:48:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD32C606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZ7PRCg6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F1041F000C1;
-	Thu, 22 Oct 2026 08:29:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792657799;
-	bh=HS8s5tS82JZp8M/M5RUUnontJnuH89paZzRJuQwV6YU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SZ7PRCg6El4HIQ85zvruBKLWr2uPWjMioyhAk0EYUyDqYdQs1BZF/tCdE/HHos7Nu
-	 F1X91QP43Y8QkfJ9FJAB87pEIkte7wJq3YYDogCzxzM1FYiziQ+xdKqv2cO/vIq9/G
-	 fM4KhzMayn/8usCObDyIYPUMG9rb7AgQTCr7cm93eOGOwOmlQGwRVejrWcgxDei4gk
-	 2IdeTlC/GnZF22+dFbv3MRjTeph4D1IGOLJ1q6+FFHpYi53SEdKyOGurKvKf/+u/ZR
-	 x6svmChqQrMRxlSDZYvpMwj4VE/CirOT8+K+solVbo5dg1Wd6aL3jQjjglGZloA8ZW
-	 onMD0t/QjKknQ==
-Message-ID: <88eae369-49ba-4581-beb7-a4ff22f43555@kernel.org>
-Date: Thu, 22 Oct 2026 10:29:55 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=rubo54JP
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=zwnkwYmhLzhEKJg+U7p50UnqjYbQ/FzJRIwMkHplZOY=;
+	b=rubo54JPTGrIBz4b1PiDbWS16Xkx7CuU84EBhVhdvDGVyBFQOyHT1PNlvUi/RZCd2hd5ES5eD
+	g0wkPRBp1tSNixcPk8GD0MxrGxtqCB6UmAY3pd7M587lQO/scb9ZsSBabtTtycrtkQPPMbzd/BX
+	tV7iviiipHFuaAOxADqrJqI=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4j9KZ73Xb6zcb3K;
+	Thu, 22 Oct 2026 16:48:47 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2FA1F40537;
+	Thu, 22 Oct 2026 16:48:50 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 22 Oct
+ 2026 16:48:49 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<james.morse@arm.com>, <ben.horgan@arm.com>, <reinette.chatre@intel.com>,
+	<fenghuay@nvidia.com>, <tony.luck@intel.com>, <Dave.Martin@arm.com>,
+	<babu.moger@amd.com>, <x86@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [RFC PATCH 2/7] fs/resctrl: Add the L2 monitor events
+Date: Thu, 22 Oct 2026 16:48:16 +0800
+Message-ID: <20261022084821.4014873-3-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261022084821.4014873-1-ruanjinjie@huawei.com>
+References: <20261022084821.4014873-1-ruanjinjie@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,119 +75,137 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20261020212235.1143086-1-ebiggers@kernel.org>
- <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
- <20261021063927.GA31908@sol>
- <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
- <20261021064940.GC31908@sol>
- <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
- <20261021163242.GB325924@killaraus.ideasonboard.com>
- <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org> <20261022072508.GB1857@sol>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261022072508.GB1857@sol>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On 22/10/2026 09:25, Eric Biggers wrote:
-> On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
->> On 21/10/2026 18:32, Laurent Pinchart wrote:
->>> On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
->>>>
->>>>> there's no base-commit?  Including any historical patch (from
->>>>> months/years ago), patches with dependencies, etc.
->>>>
->>>> Dependency is something else, but for every other patch:
->>>> 1. For testing/CI: you apply on top of next
->>>> 2. Every other case the maintainer knows where to apply it, because it
->>>> is his HEAD of next-branch.
->>>>
->>>> I am repeating myself, but I really had no single problem of lack of
->>>> knowledge where to apply a patch as a maintainer or reviewer of some
->>>> subsystem, thus maybe I do not understand the actual problem you are
->>>> experiencing.
->>>
->>> When I review patches, I often need to apply them to a tree, mainly to
->>> see the context, but sometimes also to test them. I have encountered
->>> many cases where the patch wouldn't apply on the current for-next branch
->>> of the relevant subsystem. That's often because the patch had
->>> dependencies. When I'm lucky they are listed manually in the cover
->>> letter with a link to a branch, but that's far from being the common
->>> case. I then have to ask the submitter to provide a branch, or enough
->>> information to recreate a branch. Having base information (base-commit,
->>> prerequisite-patch-id, and possibly base-tree) would save me quite some
->>> time.
->>>
->>> I understand your concern about maintainers cherry-picking and sometimes
->>> introducing issues as a result. In that case I also prefer asking the
->>> submitter to rebase, retest, and resubmit. That's not what I want to use
->>> base information for, in my case it helps with the review process.
->>
->> That's valid and for 95% (guessing the number...) of cases will be
->> solved by having linux-next as a base, thus requiring the base
->> information is redundant. It's just linux-next.
-> 
-> linux-next changes every day, so "It's just linux-next" is ambiguous.
-> 
-> Without base-commit, the workaround ends up being to use the date the
-> patch was sent and various other information to try to guess a base
-> commit.  That's time-consuming and unreliable.
+Add the L2 cache occupancy (l2c_occupancy) and L2 bandwidth
+(mbm_core_bytes) monitor events, and route RDT_RESOURCE_L2 through the
+same per-domain read path as the L3.
 
-No, you just apply to the latest next. You don't guess. We speak about
-the case of reviewer, so person working with the kernel, thus probably
-having not-so-old linux-next available. If the next use as base is old
-it won't help you at all, because you might not even have it in your tree.
+As ARM MPAM Specification said, MPAM resource monitors are associated
+with a shared partitionable resource in an MSC, not with a particular
+cache level: the level comes from firmware's description of the MSC.
+L2 monitors were only missing a resctrl scope. The events are
+exposed once an architecture reports the L2 resource
+mon_capable; x86 never does.
 
-Best regards,
-Krzysztof
+Update Documentation/arch/arm64/mpam.rst to mention L2.
+
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ Documentation/arch/arm64/mpam.rst | 23 ++++++++++++++---------
+ fs/resctrl/monitor.c              |  9 +++++++++
+ include/linux/resctrl_types.h     | 13 ++++++++++++-
+ 3 files changed, 35 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/arch/arm64/mpam.rst b/Documentation/arch/arm64/mpam.rst
+index 67fe515ed501..f0697dedde03 100644
+--- a/Documentation/arch/arm64/mpam.rst
++++ b/Documentation/arch/arm64/mpam.rst
+@@ -32,8 +32,9 @@ Because the user interface to MPAM is via resctrl, only MPAM features that are
+ compatible with resctrl can be exposed to user-space.
+ 
+ MSC are considered as a group based on the topology. MSC that correspond with
+-the L3 cache are considered together, it is not possible to mix MSC between L2
+-and L3 to 'cover' a resctrl schema.
++the L3 cache are considered together, as are MSC that correspond with the L2
++cache; it is not possible to mix MSC between L2 and L3 to 'cover' a resctrl
++schema.
+ 
+ The supported features are:
+ 
+@@ -61,9 +62,11 @@ The supported features are:
+   When the MPAM driver finds multiple groups of MSC it can use for the 'MB'
+   schema, it prefers the group closest to the L3 cache.
+ 
+-* Cache Storage Usage (CSU) counters can expose the 'llc_occupancy' provided
+-  there is at least one CSU monitor on each MSC that makes up the L3 group.
+-  Exposing CSU counters from other caches or devices is not supported.
++* Cache Storage Usage (CSU) counters expose the occupancy of the cache they
++  monitor: 'llc_occupancy' for the L3 group and 'l2c_occupancy' for the L2
++  group, provided there is at least one CSU monitor on each MSC that makes up
++  the group. Exposing CSU counters from other caches or devices is not
++  supported.
+ 
+ * Memory Bandwidth Usage (MBWU) on or after the L3 cache.  resctrl uses the
+   L3 cache-id to identify where the memory bandwidth is measured. For this
+@@ -82,10 +85,12 @@ The supported features are:
+   have a corresponding L3 cache. 'mbm_local_bytes' is not exposed as MPAM
+   cannot distinguish local traffic from global traffic.
+ 
+-  All these restrictions based on L3 cache are due to resctrl, currently, only
+-  supporting monitoring at the L3 scope. It is expected that going forward more
+-  MBWU monitors can be exposed to the user after support for more monitoring
+-  scopes is added to resctrl.
++  MBWU monitors on an L2 MSC expose the bandwidth the cache sees as the
++  'mbm_core_bytes' event on the L2 resource.
++
++  These restrictions are due to resctrl only supporting monitoring at the L2
++  and L3 cache scopes. MBWU monitors on caches at other levels, or on devices,
++  are not exposed.
+ 
+ Reporting Bugs
+ ==============
+diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
+index f9f4d4486c1b..ee296c27c6e8 100644
+--- a/fs/resctrl/monitor.c
++++ b/fs/resctrl/monitor.c
+@@ -543,6 +543,13 @@ static int __mon_event_count(struct rdtgroup *rdtgrp, struct rmid_read *rr)
+ 			return __mon_event_count_one_domain(rdtgrp, rr);
+ 		else
+ 			return __l3_mon_event_count_sum(rdtgrp, rr);
++	case RDT_RESOURCE_L2:
++		WARN_ON_ONCE(rr->evt->any_cpu);
++		if (WARN_ON_ONCE(!rr->hdr)) {
++			rr->err = -EINVAL;
++			return -EINVAL;
++		}
++		return __mon_event_count_one_domain(rdtgrp, rr);
+ 	case RDT_RESOURCE_PERF_PKG: {
+ 		u64 tval = 0;
+ 
+@@ -1032,6 +1039,8 @@ struct mon_evt mon_event_all[QOS_NUM_EVENTS] = {
+ 	MON_EVENT(QOS_L3_OCCUP_EVENT_ID,		"llc_occupancy",	RDT_RESOURCE_L3,	false),
+ 	MON_EVENT(QOS_L3_MBM_TOTAL_EVENT_ID,		"mbm_total_bytes",	RDT_RESOURCE_L3,	false),
+ 	MON_EVENT(QOS_L3_MBM_LOCAL_EVENT_ID,		"mbm_local_bytes",	RDT_RESOURCE_L3,	false),
++	MON_EVENT(QOS_L2_OCCUP_EVENT_ID,		"l2c_occupancy",	RDT_RESOURCE_L2,	false),
++	MON_EVENT(QOS_L2_MBM_CORE_EVENT_ID,		"mbm_core_bytes",	RDT_RESOURCE_L2,	false),
+ 	MON_EVENT(PMT_EVENT_ENERGY,			"core_energy",		RDT_RESOURCE_PERF_PKG,	true),
+ 	MON_EVENT(PMT_EVENT_ACTIVITY,			"activity",		RDT_RESOURCE_PERF_PKG,	true),
+ 	MON_EVENT(PMT_EVENT_STALLS_LLC_HIT,		"stalls_llc_hit",	RDT_RESOURCE_PERF_PKG,	false),
+diff --git a/include/linux/resctrl_types.h b/include/linux/resctrl_types.h
+index a5f56faa18d2..f31b8f2ccb8b 100644
+--- a/include/linux/resctrl_types.h
++++ b/include/linux/resctrl_types.h
+@@ -37,7 +37,14 @@
+ /* Number of memory transactions that an MBM event can be configured with */
+ #define NUM_MBM_TRANSACTIONS		7
+ 
+-/* Event IDs */
++/*
++ * Monitor Event IDs, representative a variety of monitoring events:
++ * QOS_L3_OCCUP_EVENT_ID:     L3 Cache Occupancy statistics event
++ * QOS_L3_MBM_TOTAL_EVENT_ID: Global Memory Bandwidth statistics event
++ * QOS_L3_MBM_LOCAL_EVENT_ID: L3 Cache Bandwidth statistics event
++ * QOS_L2_OCCUP_EVENT_ID:     L2 Cache Occupancy statistics event
++ * QOS_L2_MBM_CORE_EVENT_ID:  L2 Cache Bandwidth statistics event
++ */
+ enum resctrl_event_id {
+ 	/* Must match value of first event below */
+ 	QOS_FIRST_EVENT			= 0x01,
+@@ -50,6 +57,10 @@ enum resctrl_event_id {
+ 	QOS_L3_MBM_TOTAL_EVENT_ID	= 0x02,
+ 	QOS_L3_MBM_LOCAL_EVENT_ID	= 0x03,
+ 
++	/* ARM MPAM L2 Events */
++	QOS_L2_OCCUP_EVENT_ID,
++	QOS_L2_MBM_CORE_EVENT_ID,
++
+ 	/* Intel Telemetry Events */
+ 	PMT_EVENT_ENERGY,
+ 	PMT_EVENT_ACTIVITY,
+-- 
+2.43.0
+
