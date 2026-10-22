@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792646236;
-	b=FDAiNqIEI2N+d2YkngYtnVLpm4NcViuHUqmCht13HDP6M6MY/NCsb76LTAld/g5C2ImR
-	 nixRIlVegjcwIytLpYZ6btnJ0jn4PBxeo5ighyjS8kFsKVyyF9CMth5W9e5GtIkyWUMAR
-	 pmwn7ylzNr7sCNRgFHTedtwPUcluET3vxKCdr6u5Or+VLxbry7EoUCP7xITF4f3opr+fx
-	 5whHYL0TYY7PHH2it9Oki1+QkJTlCOx82z1xy/7GJd+vvJqPzwGBFztZ7V+eCmds5zP1S
-	 2zilh+GEsLEITHpkDPT8yrpz+Kxre3wUjbbvWzb+noJbaxJTfHpmltMD1SzxlR6D6tg==
+	t=1792646241;
+	b=RVuPH3st54K7nfyUw03o/4CdtubIX255OwLamJoxNWs7SGzAGred4hTrm5j6c3d/unp9
+	 YM6wU9hJMZRo6W0hLx/5DYCzrqNFmzRXOLs+r0MpPIX6GwvQYVNQE9B7ar74MpJrw5yuP
+	 /RzW1kg3Em0iSAh+hyLE1qIKR4CluAiNlZCXw9yvAOSV28lAU08PeXoxQrRaaR99nMawl
+	 t2yYiVuSN6XeRU7366PPb+H1Y9Y+FtJWQ+Gqo0MWjYhfOn0dEeEdGAtwYEFgLIOB5VWgF
+	 yuHBF8SQyhb3zPqEZb2CUsm/YWH37AAme0RnkRQYpCEfwE2/AZxLBb3NtTy6FaUogeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792646236;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792646241;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=H/SXDgdhEaQ9Leps7ngp4tdnFYLEJykx5g1h92ea+nY=;
-	b=jWvNekQ/aj8VX12s9AvhciC+/mcP+HRP96SfJHMnfoRD4qnAAZ2OS7E8C5+gH0C3oSaC
-	 fkJqqIwNAxclnqgAOH2u4YSYZWvan3kwcp2wG9XY78NZextPVy9HeMCGhjhWJjASo8uzU
-	 UfscxXkfILvYJYOyBD6aSHk6JN0sO6uKz5i+uvg36hPMbw1RhegIJOTPOd06u5iVm1MbA
-	 AORjIeAZpPRT1TfenmCsk1Xd9nw11jEeR/TBzjBvFTNDSCT24HBawJWzdUrvtWBC7aZVF
-	 6wtk22oySqkw4tKIqqQJ//bYvTw3yZSbEVWYJ1Vwv0+16lG2Vs/JWZmuU3ihrKFqkaQ==
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=FHADbTy4zikl0HljBSmGkN/GzMWvpwiot6dr8kUaUas=;
+	b=zkKdJsT/uW3vQCl/vhdE0OEpxZwv1Ve5AUZH5uCYxKG339w816hHJa9igmthZnf3ymYM
+	 eQ+Ho1xKp0G2lPsiuijUIM4dyvteet+A/UQCydMHPuKrJ6o4GclOosgeqFqycZ1t2ZvAW
+	 C9KIoco4c7PB24BmKFX9VFdrEgG5TR/WDACCyvR7++C8nPVqOCCJxVo7lYMCRtoEnRv+0
+	 FIVkMfkR8VSOpo6ZaXSbjfwqut1YrtYRRDApvfJeDTsXVDEeFQlnnKEHb58jXfhs/ugJ2
+	 2u03Y+h9X5hXhtKZwepOciNjgfhqq3XkeJsCuQtKZo+qVyD2O3OWQlHWn81xOBUfpqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PwoDzxWk;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=GJ8MVNqh;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF3C606A319
-	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:17:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBF3C606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C298660A2602
+	for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 05:17:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C298660A2602
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PwoDzxWk
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2084d62cdso1393155e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 22:17:15 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=GJ8MVNqh
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so2693715e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Oct 2026 22:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792646234; x=1793251034; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H/SXDgdhEaQ9Leps7ngp4tdnFYLEJykx5g1h92ea+nY=;
-        b=PwoDzxWkA70Wmef14Vvpr9c4fHpU4ChmSg7Dc5eGutsiHbtTrYWNl05zc02Gtlv72r
-         4Zq5Cp5q/leY/52RfvlkHWYrZVWtP80pZpjpJU07hEV0rT/E53N3KO4IWShg7/l5ZzfB
-         poj2nHlLy8FnxKAmRNLKQsThjETb6zYQCRZnWh+D2hQsraNpceIfbDQoN1EdtuazyWtG
-         Xz239Xqggu0HrKDQNYqGFznDgrbku+UIu/jVnKeOMCTNYn8ak5Bg9ETNi333RYgws0vD
-         8vT7cU2/CuH54hAwzM/b+N0RwJToGTeuGLcM3zg4fHgXkQRw2e7ZuoNShYA6nVFSLNH8
-         xmQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792646234; x=1793251034;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792646239; x=1793251039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H/SXDgdhEaQ9Leps7ngp4tdnFYLEJykx5g1h92ea+nY=;
-        b=DZB/kHwerILSEqPwl941/HGNxQUi/NLcQKn+xh/hVeQ0/jrc9qiyoTDD6TiFBA+dm0
-         kkVWu1V26AVVRfVcgbo2yiizJrdl1Zkx80o6XUdddQbK+3DIeT0KNYyVMRhqPV6+8GB0
-         QgJ5aGmZt94lcDHIwB0TCrGnYp6zC0kumuAyIIQII6BdFzxi8AWNZpOLUI7IxvKbFGgE
-         gLGSQjiYGkMhPONAfFEcm5FoEIovDyV3Hxc3QohXSSxgUUqR90hSsJbIbtm/MK8dEsnE
-         7HqEw3PcNErKPHPAIgmGmK/gozdg3TPODwu0KWuejJlzHJoynYocFHEf/hWvXOAHSrAn
-         OLsg==
-X-Forwarded-Encrypted: i=1; AKwUvBxVXt+/iWO+YkWJRBQwaGtQOVFcbIylxkEDdctGc6VPg8c9hq2L+dxV1Rk34dL3AxlPB5nRdvH6ZqA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIufeEErofkX5G+JlnxkEX/elUO1AgYsN40STHI9mu+EDunsjxx
-	P2eqFlCXG59mNInHhPyO9eobK74JHxPuWZNOUjT6bb+C4oN4CBoUuLiB
-X-Gm-Gg: AYBFou03x9JOdZqtTikwsVyjsrA3s4XAu7pwX/df1z16AOe6f1YxBOlmNFvi87DHulr
-	xWgEAHYDvSs1+tRuCHnb6XwL5Kd4pR3lMZqC6UzJ9WKwxeHweBy7qC+4ZrHbUfVW/i6pINXNSDD
-	p8VccQPFNwxl29XySvKLBjjqra7uIvVqd+J5sy81RQuIzX0Jja+jQ8fiJtYHOpOLRCU1T5aSGaw
-	phfOTOML05eW7LXeuMDdtH1EzVIaBlXai1diBISdOMX4HPsM+QXwrlzjWSL7LBUAEPrzD5YaEM0
-	Az6JrQ2i/rzLXhy2WqxEr8fMOnN7ZFmnaiD1rfld6fMUVnVnCkAvbRWNN3MVr63XCB54gja3gjD
-	HAiZYGmLgHtSy8/ef496tz1m9nWaMHPywLf+GTmwsdmjv6yuZwQLyNxOhxXvRN6El1VW2pOUXIZ
-	Y17yGh8tFra0b7GWFhf5Wu3rnT+BedP+1s4nKQAP3NBP1lOYkyU5ScNSIoNhNf0Fiwq7TjHY3rL
-	L6JkYb1dAixIg+m8ajrR4yPVkU2XFCYvIisIbdnYyMfmi2wKM82XS4CaNlFYkmzr9Lmo9y7tfaM
-	sAFBPARqpkVTUwWs1f8gRkQuUiG/8RjoBpn4yNCm4zvjaj68pz3fClwo6iQb9tzOpPjqhI+xllC
-	JlS5x3MsQx2cKPfuGBMVcBl5DaleNN44A41YVDA9cMnJgQ9znLatGyBJha4U=
-X-Received: by 2002:a05:600c:3513:b0:4a1:cedc:ab49 with SMTP id 5b1f17b1804b1-4a1fdd1e97emr87433205e9.31.1792646233938;
-        Wed, 21 Oct 2026 22:17:13 -0700 (PDT)
+        bh=FHADbTy4zikl0HljBSmGkN/GzMWvpwiot6dr8kUaUas=;
+        b=GJ8MVNqhnRrntr8SgM6UXidafF9eU+ZQd0Vc/ExGUloc15ICieAVftx4JAH7vssIeT
+         gpv1uP2i99q9zJ7GxU1h5yYfKyuzVcFR7Pf5JBSLyLK829+VLlQ12Z7kIXurKA4HG4ss
+         osOi8laCeLfIQtlnhFnufp/2cCQIsFivtIAPydAIib6/CYQSsgoilMYGcNVyRFWISaqG
+         dzpiVJwT8C8qKYJuoSEyx5NflmKu369uj7BXTlEhpeqeV/LD+TqcsWtCVBIxlPNVIajX
+         19LhZq/cRLgIIj8i7ZTD3NJvMpJClkpLPaeViTVwH6vouvhThL2rGV3cGBO7lTEyIHKV
+         K6jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792646239; x=1793251039;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FHADbTy4zikl0HljBSmGkN/GzMWvpwiot6dr8kUaUas=;
+        b=aDSnAk4HKguSBToKivgxrmiQAqVlcKMufefMyv+HdOj5KselzBrVDybheoYP7F4rQv
+         LNsZVh5+yYGL3dJsgpaNJ+wZIhB8yBxFhQ7aVQY2/z/JWR48Cuk4UOdTIcGAfBYkISnu
+         JXq5zo2dqmVCDyB4Zhfqy27Okzy0vRCo+ozU5zpb75/tbwI0Jo0EbrO+aNqetd18pDIc
+         D+uaW8RcmUch8F5Yeg0/3hXbWj3hxi6OzRt16oIr7fmGHAkcoDJjXOkiLLPUPAkvwp+1
+         Pp4bjmldtbjlwjttsqFUEAq1c3qXPj06ZeF1xaehewH/1zkhK58VcGtuYM561DTQBlUX
+         +7gg==
+X-Forwarded-Encrypted: i=1; AKwUvBw9B+Qv8m4Iq1QAove0zuGDw2bYs+EMLCUC3h1i7hWCtYBtrqPaj5z0NH4vQq6A1WsNzt1ASccrrEM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKZLQhoE1D8EZoBNREm8HcScdLvz2/zVR4wjGM1jtRnrE0ohi4H
+	Fcl8UwjCijPAEk620VTZtRfpaPKx4ZFLbpE1xcPpgLlhSopWhAQWNPy0
+X-Gm-Gg: AYBFou3RnOjl2yc3mo4TKVqX8QA5CMa8liazNKq/neZU/Ff2H3oB92eW0fkXGZuQqAz
+	gjE3u4wSJR2nJAYZ/6wTJ3niWk0hfvSoGnnpEgJzmZN7mptTAWAHJBUXM1KgqkutomOtNycdL7O
+	Wnql/5sCgVC7F0sV8eTqAHPaucrGfW/8auARamo7WPgQNFOxFrIPJN59eKMFw/X9MN4MYC13AyI
+	mbs2RhJ8h6fKfYd8jUUT3cvqznV1YvGs94SsBxP2eg2lhRclMXIAICRUKwjhmj6mEZWVnBxVx+a
+	RDbbGHM4Ruqb1Hp7PU2AbX3Bs1BI52uM1DkX4C6V4+9LNKdxE5FqDIPpY5rZi2gXAeGzqU9/Wqf
+	tVe2EybqOyWqrMaBuEmNNgKRe0vAkH+rPZvNsPN1gaAnXUjlKBrGI+kn9giPL+ZXMzXNyIHeIJQ
+	R+bCQrHDrKwhE6EMyjV7mMyV48aP532Yhu4L2ahcg9NnO0YhKJ3KMgAvI/lbnmLlQTWbaIhkl1X
+	/T+6YNk/85DNQbRiMgMXeGqVbYm9U1MLCWkvhkwSslUsbi94WxFQ9QhZqbUglmPPcNjO6yBTKBO
+	WW1eJ5+ArXseNmsu75+mM5dGnc2VMTHcixb9JpjH3FIpYrDzgjKvtWQkqno6F7S7rcqhTi6nj1h
+	A1Dg21Qcr3d0gyfxn5ekseecoGfM3e6SU3gUkiz248dUtKkyXsyxMQ1G3nvc=
+X-Received: by 2002:a05:600c:4fc9:b0:4a1:efbe:529c with SMTP id 5b1f17b1804b1-4a204b2032cmr26718835e9.12.1792646239093;
+        Wed, 21 Oct 2026 22:17:19 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-ad43-d501-2c28-bb72-120d-420e.310.pool.telefonica.de. [2a02:3100:ad43:d501:2c28:bb72:120d:420e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fd0f4427sm90362275e9.3.2026.10.21.22.17.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fd0f4427sm90362275e9.3.2026.10.21.22.17.16
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 21 Oct 2026 22:17:12 -0700 (PDT)
+        Wed, 21 Oct 2026 22:17:18 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -115,10 +116,12 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-doc@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 00/12] entry, tracing: Classify early hardirq entry and return tails
-Date: Thu, 22 Oct 2026 07:16:42 +0200
-Message-Id: <20261022051654.79224-1-kmehltretter@gmail.com>
+Subject: [RFC PATCH 02/12] lockdep: Use raw access for pinned hardirq state
+Date: Thu, 22 Oct 2026 07:16:44 +0200
+Message-Id: <20261022051654.79224-3-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261022051654.79224-1-kmehltretter@gmail.com>
+References: <20261022051654.79224-1-kmehltretter@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -130,96 +133,96 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tracing's transition recursion slot exists because a callback can run after
-architectural hardirq entry but before generic entry increments
-preempt_count(). Steve asked whether the count could be updated soon enough
-to remove that slot. This RFC establishes that entry contract on arm64 and
-closes a separate recursion window exposed by the same tests.
+irqentry_nmi_enter() reads lockdep's hardirq state before __nmi_enter()
+establishes NMI context. Arm64 does the same for its NMI-like EL1 debug
+entry. Both paths run with interrupts disabled and cannot migrate.
 
-This is a design RFC, not a merge-ready proposal. I am looking for
-feedback on the entry contract before extending it to other architectures
-or removing TRACE_CTX_TRANSITION.
+lockdep_hardirqs_enabled() uses this_cpu_read(), whose preemption checks
+are unnecessary for these callers. Add a raw accessor and use it in the
+two entry paths and in lockdep_hardirqs_off(). Keep the existing accessor
+for callers which are not already pinned.
 
-Clang can outline raw preempt-count updates and
-__kern_my_cpu_offset() from noinstr entry code. This series applies to a
-tree with the following two patches added:
+Check the interrupt state before accessing per-CPU state in
+lockdep_hardirqs_off(), independently of warning suppression.
 
-  - Hongyan Xia, "arm64: Always inline raw preempt count updates"
-    https://lore.kernel.org/all/c3a90368dd6c096af9d918e036a27728696fb8a4.1786603168.git.hongyan.xia@transsion.com/
-  - Will Deacon, "arm64: percpu: Annotate __kern_my_cpu_offset() as
-    '__always_inline'"
-    https://lore.kernel.org/r/20260918161407.2300-12-will@kernel.org
+On arm64, this change does not by itself make the call chain noinstr-safe:
+__kern_my_cpu_offset() must also be forced inline. That prerequisite is
+listed in the cover letter.
 
-Those patches are external prerequisites and are not included in this
-RFC.
+Assisted-by: LLM
+---
+ arch/arm64/kernel/entry-common.c | 2 +-
+ include/linux/irqflags.h         | 3 +++
+ kernel/entry/common.c            | 2 +-
+ kernel/locking/lockdep.c         | 6 ++++--
+ 4 files changed, 9 insertions(+), 4 deletions(-)
 
-Patches 1 through 11 split raw preempt-count updates from generic IRQ
-bookkeeping. On arm64, ordinary interrupts add HARDIRQ_OFFSET after the
-pseudo-NMI decision but before instrumentable generic entry work. The
-remaining accounting still happens in irq_enter_rcu().
-
-The exit side has a similar gap. Function-graph and MTE callbacks can run
-after the real hardirq state has been removed, and kernel return may
-schedule before them. The series records ordinary-hardirq provenance and
-restores a synthetic hardirq classification after the preemption decision.
-That tail changes only preempt-count and lockdep state. It does not repeat
-interrupt accounting, RCU, or tick entry.
-
-Patch 12 keeps tracing's recursion state inside one preemption-disabled
-interval. It closes the transition collision reproduced at the IRQ-exit
-reschedule boundary. TRACE_CTX_TRANSITION remains unchanged because
-unconverted architecture entry intervals can still run before
-preempt_count() reflects hardirq context. An x86-64 no-transition control
-still recorded recursion at system-vector entry and exit and in the
-deferred hrtimer return tail.
-
-The base includes "entry: Account the deferred hrtimer rearm as hardirq
-context for lockdep" and "softirq: Preserve interrupt context on return
-from interrupt".
-
-The main questions are:
-
-  - Should generic entry expose separate raw-update and bookkeeping phases?
-  - Are preempt count and lockdep state sufficient for the return tail?
-  - Is arm64 a suitable first user of this contract?
-  - Should the recursion-lifetime fix travel with the entry conversion?
-
-Karl Mehltretter (12):
-  sched: Split preempt-count bookkeeping from raw updates
-  lockdep: Use raw access for pinned hardirq state
-  entry: Add the pre-counted ordinary-hardirq entry/exit contract
-  entry: Skip inactive IRQ-return reschedule calls
-  context_tracking: Split IRQ-exit preparation from the EQS transition
-  lockdep: Prepare IRQ-on state from a hardirq return tail
-  entry: Carry ordinary-hardirq provenance through kernel return
-  entry: Classify ordinary hardirq return-tail work as hardirq context
-  arm64: Use the pre-counted hardirq lifecycle
-  docs: entry: Describe the pre-counted hardirq lifecycle
-  locking/selftest: Exercise hardirq return-tail preparation
-  tracing: Pin recursion state for its complete lifetime
-
- Documentation/core-api/entry.rst     |  75 ++++++++++--
- arch/arm64/include/asm/preempt.h     |   2 +-
- arch/arm64/kernel/entry-common.c     |  25 ++--
- include/linux/context_tracking_irq.h |  32 +++++-
- include/linux/hardirq.h              |  29 +++++
- include/linux/interrupt.h            |   2 +-
- include/linux/irq-entry-common.h     |  96 ++++++++++++++--
- include/linux/irqflags.h             |  14 ++-
- include/linux/preempt.h              |   9 ++
- include/linux/trace_recursion.h      |  14 ++-
- kernel/context_tracking.c            |  78 ++++++++++---
- kernel/entry/common.c                |  38 +++++-
- kernel/locking/lockdep.c             |  48 +++++---
- kernel/sched/core.c                  |  68 +++++++++--
- kernel/softirq.c                     | 166 +++++++++++++++++++++++----
- lib/locking-selftest.c               |  53 +++++++++
- 16 files changed, 648 insertions(+), 101 deletions(-)
-
-
-base-commit: 779ab5d73a22c798d1273b4aaf50cf5b8d750be9
-prerequisite-patch-id: 9c009809614854fbff979d65aad6732757d006d5
-prerequisite-patch-id: 764fd197db36a3889548bbc41890dd5b3d902f99
+diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
+index 72c03ccea59fe..93056a766fb20 100644
+--- a/arch/arm64/kernel/entry-common.c
++++ b/arch/arm64/kernel/entry-common.c
+@@ -141,7 +141,7 @@ static noinstr irqentry_state_t arm64_enter_el1_dbg(struct pt_regs *regs)
+ {
+ 	irqentry_state_t state;
+ 
+-	state.lockdep = lockdep_hardirqs_enabled();
++	state.lockdep = lockdep_hardirqs_enabled_raw();
+ 
+ 	lockdep_hardirqs_off(CALLER_ADDR0);
+ 	ct_nmi_enter();
+diff --git a/include/linux/irqflags.h b/include/linux/irqflags.h
+index 57b074e0cfbbb..5bc179a88e513 100644
+--- a/include/linux/irqflags.h
++++ b/include/linux/irqflags.h
+@@ -52,6 +52,8 @@ extern void trace_hardirqs_off(void);
+ # define lockdep_hardirq_context()	(raw_cpu_read(hardirq_context))
+ # define lockdep_softirq_context(p)	((p)->softirq_context)
+ # define lockdep_hardirqs_enabled()	(this_cpu_read(hardirqs_enabled))
++/* The caller must already be pinned to the current CPU. */
++# define lockdep_hardirqs_enabled_raw()	(raw_cpu_read(hardirqs_enabled))
+ # define lockdep_softirqs_enabled(p)	((p)->softirqs_enabled)
+ # define lockdep_hardirq_enter()			\
+ do {							\
+@@ -113,6 +115,7 @@ do {						\
+ # define lockdep_hardirq_context()		0
+ # define lockdep_softirq_context(p)		0
+ # define lockdep_hardirqs_enabled()		0
++# define lockdep_hardirqs_enabled_raw()		0
+ # define lockdep_softirqs_enabled(p)		0
+ # define lockdep_hardirq_enter()		do { } while (0)
+ # define lockdep_hardirq_threaded()		do { } while (0)
+diff --git a/kernel/entry/common.c b/kernel/entry/common.c
+index e3d381fd3d251..28399c41ebfb1 100644
+--- a/kernel/entry/common.c
++++ b/kernel/entry/common.c
+@@ -171,7 +171,7 @@ irqentry_state_t noinstr irqentry_nmi_enter(struct pt_regs *regs)
+ {
+ 	irqentry_state_t irq_state;
+ 
+-	irq_state.lockdep = lockdep_hardirqs_enabled();
++	irq_state.lockdep = lockdep_hardirqs_enabled_raw();
+ 
+ 	__nmi_enter();
+ 	lockdep_hardirqs_off(CALLER_ADDR0);
+diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
+index c3dc84a7cef26..01dba8fb32a90 100644
+--- a/kernel/locking/lockdep.c
++++ b/kernel/locking/lockdep.c
+@@ -4543,10 +4543,12 @@ void noinstr lockdep_hardirqs_off(unsigned long ip)
+ 	 * So we're supposed to get called after you mask local IRQs, but for
+ 	 * some reason the hardware doesn't quite think you did a proper job.
+ 	 */
+-	if (DEBUG_LOCKS_WARN_ON(!irqs_disabled()))
++	if (unlikely(!irqs_disabled())) {
++		DEBUG_LOCKS_WARN_ON(1);
+ 		return;
++	}
+ 
+-	if (lockdep_hardirqs_enabled()) {
++	if (lockdep_hardirqs_enabled_raw()) {
+ 		struct irqtrace_events *trace = &current->irqtrace;
+ 
+ 		/*
 -- 
 2.39.5 (Apple Git-154)
 
