@@ -1,133 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792767026;
-	b=p0viaiLQRlE4UWPXP3wW28kLVHFspz5XnCt30ZFKZc3lwQ0H52I/Nv4hYMAdi2hZN2Ii
-	 tWv2vhaql4uEqFdBnsSGzw5pIC71OulGBCoa8u5Lg7j5a6R6yZzAwxe6bKi+Zb8LA/znP
-	 er7S2YulYrs5ScEXdEbforbFV2HLtg92rq5mfp+DFYTdTV6+iJfgIgtRJnci/8aurIdla
-	 LDhMX8QzcDxzq8THSujM7v4y+C5NS4iZbu5DZOndhsZEbHudWx2mQOnAF1WbXgqe56Njz
-	 /OsD48t8LxzQuAxqkzv9lCbTSWm1LSD7NGLYa95G7QJ5/YYeRxRExK+8rrYShBek0Rw==
+	t=1792767051;
+	b=pEe5Wo+ZzghZuxU/ZabgfTuFzFA6SRCCYl3+FESi7r6jzO6C46wM/BRjAImEVJaMtSK1
+	 oDmmGotawr0fgRn3CnpJ7emUPOd9z1y/APLWJiSDcg0T9cCsgU6EXTghyLLODY7LRgtvD
+	 RqrbLW0LuNVCPwlCaZ8mzl0rynP7VtQ2Ecy7rPjxSnkNx7uAcueFF+fh7ay/To6vYnhGI
+	 JQd7rSxQO8vNzq6hFbizXJhGcMSfW2yxP/21hy1QnRGaWPp4zCHbGlDRTIb+zM77jW5y9
+	 EF3sd2iMWw6yHDTrzRPj/wFLvRRuj6m+qK2VE0pol9odfVTbFripbKy/JPzeIHEQVYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792767026;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-	b=fDo2WS61LXhBU9wbQ1gyXRMYXIJ8vc8iPiyiCcAG/lHgMIEHOBLLHOfsCrlQN6A8av2/
-	 6SFBBNMyy4y7DyCtG0Nfk4GPN+DNdCVAvn1nJbDXwA28n7xhPozyzYR7FWBjMuvGxJRbw
-	 yOAgzeot2rEh9BmiD0Kf9VoPXNYDj+Nuaoys8VHJV/odC7GvzpHmFcl2y0cp6fGyJ52J2
-	 hX7dB1FhPsQODHLVtBQFYuAQF7CewtnoN+GrUwCOb8UOFSl8wUWy2AZCR/Msu0Z9OMT/g
-	 5eXfiX6EoCh30DDJLRpSizMq6vccqEQltKYdiNSxxsYVEo9AuiAbcletIaYywokUR8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792767051;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=cx7sW0XE3e3GkkuXCIa8aE7dwlRl3GBZAuCQy670DI4=;
+	b=0iplD4VWndC+UdbvN4Sp8HsEx7WxeLhYTVe3Ey1ssSjOsU967YbbSX3sWl4YGP75+BAJ
+	 wAQ1G+QqMH/f2lN/iYjThompfDuzHzxt0s3Yvs7QqsYjn6oQzd730yLn2ykv5jk+elZsY
+	 7odgLO9AyW87PcBWNqfz0g+it+Nv+1WtG18gIw+flnHGb/V4RaImgbXrSW0ndZoh2TxIU
+	 3Q/a99VD0fhdDPy4OvMyNnkJaTLq172z/0vj0mjzP+gqa54uAtm0pRYcaR/9nRF2cCEN9
+	 bEM+q7n7q+Z+2hykBXMQ0Uy5nn1UXUUvpQ3FszZh4AD2wJyLW1Yaq14wQ3HRnF3EGuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="oht/bhlu";
-	arc=none smtp.remote-ip=209.85.160.173
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=clvz8avz;
+	arc=none smtp.remote-ip=95.215.58.145
+Received: from mta1.migadu.com (out-145.mta1.migadu.com [95.215.58.145])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E09606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:50:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02E09606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71171606A31D
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:50:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71171606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=oht/bhlu
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5361e313e63so8648431cf.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 07:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792767025; x=1793371825; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-        b=oht/bhlulsrkJH3crMHISX3U7PHHsEhtuyjDgWfSd18U0DP0sVk8NcMTIoBvpNMfER
-         C7uxqiGABaA9kaTZBiWszh5jGZtv1K67LFb7/cCZCHq4FOUTnTNzrcQA0XFVmhPypYDF
-         5he7F82pc58PFhOIG3jWTez5dq+ixpLAhtBzApqq33aLJ3KtWO68wLS45Nn0zBM0TSXv
-         Yuup5RR8HlPtQsz7Jgcm8vAcacE2MuqH6M8tO47rS9sWbKYKD3ALGAu2q8NFN3WkjI7t
-         VfenpXo8Hahb3ZlgEGMttPlUHGC6/yOYealp6KtSs0uI55banFUx+PBuUexPAAYI2ZZF
-         HR1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792767025; x=1793371825;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-        b=HcZXCkys6J+PdEsYg+gQjOxhCbQujGGhUk6nXJYyALAyE+e1MWSUE9tt6VeusKVoKe
-         XvM6GxT4gccuafeEC2/vdn22gN/7jnAnNhlpnw4sDT7gMSfbr+nbbkgMQnf8PqWdv2cW
-         z7Cavgxi/lzPoZe6lp70o08z6wpDawx48A/sLdin3gQBxZkSdajy9egAWXRuacmNl698
-         NJ3GdyyQZuVGolZDRRQ9bWCbnEfL1Q6KhAQZyRpXMAT1wcIpAoHX3y8nh6dZaTLFeMlK
-         sRNCAoj3Yhn1XocwHVn2njNoJ7SFu5yW0ieD0/WN5vKA6vlLMHcs59tLdyRcmzcMsZ5A
-         VKKw==
-X-Forwarded-Encrypted: i=1; AKwUvBzY5ERDSxhqNnXIgHFpy04T1rXMFi4t012WFuOQ27wGArF2YB1v4fFVTnVrpXex0lJ7tSX+AqvCTnY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL7Nn9sOah/xEK0IsFXxaLaSwTJwTlS5XDf6ETAGUONfNNDj0EX
-	rK2r0aCkhbAWwstaLSaUsMPf+Vr+tJ3/HNrwngVU+Vj6t/5eFetIRM4WCOBBuOwOi2c=
-X-Gm-Gg: AYBFou32a3zeDB8iFSEwRnU7z/uE6o22YyQ95diiJyfTKhqCQXePqC+MaB60MsVAMIX
-	pjJXSPYhOUeyCa/UVlnSTXoGaKPJ0rBRWUKgm/euBa2djkgute29cJakGsm5WhMhVWljtzu8IEI
-	H7hlBuka8HI1qst660KIDTEptbzsPcadeecbXTRW3dLrXTZhoNIENKjOXJdZUwJu8OU8P5OPJAx
-	Ozzx+9P5AOMOKkkLfXdRp3vHhBulDSGKkR/ZZqlSbPGubw3Is6QxTKJTAq1tPIGsh+0YOSzpbZA
-	GSVRb1yzh2pa3TPWZDfu6NzwmAHKjI+qg1uWft8uVJgXtTHBVS5x4ObypoI+CoaSrzzFmY7stm3
-	ZhaV3pmYx2yO09ureqiTgHSfCqhj5bfArIyzHRfynXNgb17pVYrT1tszxzFyv8pxeEw4tcUUP7O
-	0Y4mAKIzvQ+1XENA9MJQ3FYSkvXcNuIYVZzXkBsajcg7YMKFiwPXqFEBqNRbzVn91zTerOLurfG
-	KsgT146F0YZIH+2WwYLCxDgfozfV3xHvLJN703F4Yo7s4GLVDSacDdQDb7DI9LmVABawZ/QOC8z
-	PJn8HJ0tQkz0c+N/1DKGqG/u+PLhBGqkclfMvw==
-X-Received: by 2002:a05:622a:3cc:b0:536:7669:7eed with SMTP id d75a77b69052e-536c2837232mr34025651cf.21.1792767024875;
-        Fri, 23 Oct 2026 07:50:24 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536c1846ff0sm18130901cf.19.2026.10.23.07.50.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 07:50:24 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xKGb9-0000000GkTD-2sYP;
-	Fri, 23 Oct 2026 11:50:23 -0300
-Date: Fri, 23 Oct 2026 11:50:23 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261023145023.GH3977851@ziepe.ca>
-References: <20261003212241.3432303-1-lrizzo@google.com>
- <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
- <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca>
- <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca>
- <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=clvz8avz
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rM7gfWKY4WpRqwq90Mbl1M08Z1DYoWLMUw09JRN7Yrc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792767043; v=1; x=1793371843;
+ b=clvz8avzEWPzhYA3pwKHhDcMrxkxId2j2bHp2crrKXGx0zDx3OBIdME6vlCDDoZRBhX2kN1Y
+ 5YsW9OgeHQfMWBAdnMuXCoqWvBqooOmTLMREir63Cr6dG7LRqUY7VKupq+CUNrAhS/s9udg5Ozw
+ 1iDIFL9L+njxKN/0PwccaJ+I=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 17396e17f5dd6b28;
+	Fri, 23 Oct 2026 14:50:43 +0000
+X-Mizu-Trace-ID: 17396e17f5dd6b28
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <af2ec5b0-7c62-4c6e-a28d-33ed401020af@linux.dev>
+Date: Fri, 23 Oct 2026 22:50:28 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -137,86 +58,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] tcp: limit tcp_tso_rtt_log to a valid shift count
+To: Yingjie Wang <1075151112@qq.com>, netdev@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, ncardwell@google.com,
+ kuniyu@google.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 23, 2026 at 04:30:25PM +0200, Luigi Rizzo wrote:
-> On Fri, Oct 23, 2026 at 4:01 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Thu, Oct 22, 2026 at 11:51:40PM +0200, Luigi Rizzo wrote:
-> > > On Thu, Oct 22, 2026 at 10:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> ...
-> > > > Can someone explain what outside netdev would use this? And why you
-> > > > couldn't do this in the netdev page pool?
-> > >
-> > > I can try.
-> > >
-> > > Regarding users, the next target is disks (not included in this series)
-> >
-> > Disks don't use a memory pool, they do IO to folios allocated by the
-> > page cache.
-> 
-> I know. As I said I have a separate patch to cover those IO buffers
-> 
->  block/bio.c                  |  21 +++++
->  block/blk-mq-dma.c           |   4 +-
->  drivers/iommu/dma-pmd-node.c |   3 +-
->  drivers/iommu/dma-pmd-pool.c |  14 ++-
->  drivers/iommu/dma-pmd-priv.h |   7 +-
->  drivers/iommu/dma-pmd-user.c | 390
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
->  include/linux/dma-pmd.h      |  53 +++++++++++
->  mm/filemap.c                 |  27 +++++-
->  mm/page-writeback.c          |  13 +++
->  mm/readahead.c               |   9 +-
-> 
-> 
-> Disk I/O is still potentially affected by the same problems
-> (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
-> in confidential computing...)
 
-The disk folks already have a proposal to address all of this using
-io_uring and preallocated buffers. I really doubt yet another version
-is going to be interesting there.
+On 10/23/26 10:40 PM, Yingjie Wang wrote:
+> tcp_tso_autosize() right-shifts the u32 returned by tcp_min_rtt() by
+> sysctl_tcp_tso_rtt_log. The sysctl uses proc_dou8vec_minmax() without
+> an upper bound, so it accepts values through 255. Values above 31 make
+> the shift undefined.
+>
+> A process with CAP_NET_ADMIN in the target network namespace can set the
+> per-netns sysctl. With CONFIG_UBSAN_SHIFT=y, setting it to 32 and sending
+> TCP data over loopback triggers:
+>
+>    UBSAN: shift-out-of-bounds in net/ipv4/tcp_output.c:2264:30
+>    shift exponent 32 is too large for 32-bit type 'unsigned int'
+>    Call Trace:
+>     __ubsan_handle_shift_out_of_bounds
+>     tcp_tso_segs
+>     tcp_write_xmit
+>     __tcp_push_pending_frames
+>     tcp_push
+>     tcp_sendmsg_locked
+>
+> Limit the sysctl to 31, the largest valid shift count for a u32, and
+> document the accepted range. Writes of larger values now fail with
+> -EINVAL.
+>
+> On a UBSAN/KASAN build of the net tree, values 0 and 31 remained
+> accepted, values 32 and 255 returned -EINVAL, and TCP traffic with the
+> valid boundary values produced no sanitizer diagnostics.
+>
+> Fixes: 65466904b015 ("tcp: adjust TSO packet sizes based on min_rtt")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yingjie Wang <1075151112@qq.com>
 
-> Anyways, reading your next comments, are you suggesting that all
-> these functionalities should be implemented as pagepool extensions?
-> (2MB mappings and iommu backing, proper allocator of fragments out of larger
-> pages, device-less pagepools, multi-domain mappings, pagepool
-> as memory provider for skb heads, pagepool as memory provider for descriptor
-> rings ?)
 
-netdev shouldn't be touching iommu, it can get a 2M page and map it
-using the normal DMA API. AFAIK there is not such a big reason to need
-any of these layering violations. They just make it easier on page
-pool..
+Reviewed-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-"multi-domain mappings" is that just for page pool because it can't
-easially keep track of IOVAs for all the devices mapping the same PMD?
-I admit hacking in a special IOVA range so every netdev has the same
-IOVA is certainly a creative way to ignore all layering and solve
-it. :\
 
-But you could just figure out a way to keep track of the per-device
-per-PMD iova mapping..
+Thanks !
 
-That said, if you came with some much narrower series to request some
-kind of 'globally shared iova' during dma allocation that might be
-something dma-api folks could agree with.. It seems like the only
-actual DMA API request here anyhow?
-
-That's a bit tricky since it is impossible as a general concept, but
-maybe you can come up with some way to narrow it..
-
-I'm still not convinced this is even right for netdev, especially
-compared to what Dragos has been working on. The CC stuff seems
-actively dangerous. Unconditionally always using CC shared memory for
-skbs is completely security wrong. What I have traffic flowing inside
-my VM between containers or something? Does this end up putting those
-skbs in shared memory even if they never hit a physical NIC?  Same
-with a TDISP capable NIC, does this unconditionally degrade its
-security?
-
-Jason
+> ---
+> v2:
+> - Attach the upper bound to tcp_tso_rtt_log instead of ip_dynaddr, as
+>    pointed out by Jiayuan Chen and Neal Cardwell.
+> - Re-run checkpatch and boundary tests on the corrected patch.
+> - Do not carry Eric Dumazet's Reviewed-by tag because the code changed.
+>
+> v1: https://lore.kernel.org/netdev/tencent_53CDCF8AA0022B75CF72A294CB9993D2FF07@qq.com/
+>
+>   Documentation/networking/ip-sysctl.rst | 2 ++
+>   net/ipv4/sysctl_net_ipv4.c             | 2 ++
+>   2 files changed, 4 insertions(+)
+>
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 8edd2eb2a..66a54c510 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -1128,6 +1128,8 @@ tcp_tso_rtt_log - INTEGER
+>   
+>   	If you want to use the old autosizing, set this sysctl to 0.
+>   
+> +	Possible values are [0, 31], inclusive.
+> +
+>   	Default: 9  (2^9 = 512 usec)
+>   
+>   tcp_pacing_ss_ratio - INTEGER
+> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+> index e3760daa3..bf193e7ec 100644
+> --- a/net/ipv4/sysctl_net_ipv4.c
+> +++ b/net/ipv4/sysctl_net_ipv4.c
+> @@ -26,6 +26,7 @@ static int ip_local_port_range_max[] = { 65535, 65535 };
+>   static int tcp_adv_win_scale_min = -31;
+>   static int tcp_adv_win_scale_max = 31;
+>   static int tcp_app_win_max = 31;
+> +static int tcp_tso_rtt_log_max = 31;
+>   static int tcp_min_snd_mss_min = TCP_MIN_SND_MSS;
+>   static int tcp_min_snd_mss_max = 65535;
+>   static int tcp_rto_max_max = TCP_RTO_MAX_SEC * MSEC_PER_SEC;
+> @@ -1406,6 +1407,7 @@ static const struct ctl_table ipv4_net_table[] = {
+>   		.maxlen		= sizeof(u8),
+>   		.mode		= 0644,
+>   		.proc_handler	= proc_dou8vec_minmax,
+> +		.extra2		= &tcp_tso_rtt_log_max,
+>   	},
+>   	{
+>   		.procname	= "tcp_min_rtt_wlen",
+>
+> base-commit: f4377bf85887f57b59abb5479f7660a81ffe4449
