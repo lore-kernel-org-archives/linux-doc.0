@@ -1,105 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792760772;
-	b=yhonS5wfbsn1gjQjKLi1GxRmtjrPPapYBO2naN4Y44c0/gBLs4us1cqbL3TUtfBeDSTH
-	 x8vBUSR899LAJh9G0Z28QItlpTAa0ECi8QaU5a+iEK20lmAoLYTpQ4Xaewa4t5Nhu/aTE
-	 k9Joio7GqaB9X/7jvhC1nYgNStw1t1+2Nhq6NT938Le0leQsZJUoc9zSoxWvuO1T6y526
-	 K35XUuvmnOAR3d45bZtWlJ8zfEFkG+MSCwyp507+pP6x8srO6+Oxk3jey0WsM/ardT5qU
-	 jRwDjtLXCks1J2r8Or0cMw/UW4l9t7y9o8NCLhEcMlXr3vMuKmst2zOzmS61GKTU1SQ==
+	t=1792760951;
+	b=KZfH0gx3msl/Bn7qRvB8RQW2seTqh9Bp0QLnqi787oj/4YukKaH9vS3g7ut4P7IBNdpQ
+	 EhgudNDSXZEHJA5wzPbZDGXyH9tpxx9SjPV93qk1fDFCs3oIX5iStaRADLv0jZUeLXukR
+	 zxZEb4ftIFOjGeEbDp98O/+Qf8fLqG2Mph8tkKRC1BVIhH+BSAuafvTFHJdGFtw02P970
+	 cXMSjn1CQdvF91A67TIFQUJY6wKOjeVuQyzWuza7LT++gZUWVtue5UI3gpqsW/OETOAZ0
+	 yfKn2qnzarNyQvoTcW/iITKbHKcYbrrIvBqXioTim+AMtNTGCx7ci68FUW3TH+LVV1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792760772;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=jBIekiO+tRXvuI9quCRBdtVxapNGOTwl1bJb5qI3FRc=;
-	b=nexHqQiUUTyFLvMa4gTcJ1Kiug6BUHFNj16kNoXP8laOw17GiytkZXT54VAnf3l8+z6+
-	 k7oGobHN8tk+CSfTaxetVAy6QE/PTqApgUoXiMJ8DRl1x/7B8RW3WSqYfvijz3t/oqFDi
-	 bRqyVvRtjzW4r0g10eyjRr7t0AMo2SlH7hUU2nZpm7Lwd+GJhO1X/sU6+4U/G42EJxukJ
-	 hvMMfXMHGOUd0uWb7jZhKvtA1rAkQZ18+zNJBplDxKv5GSKUhvVb7zBcbAYuR2ru6oXKx
-	 MB/mqFIz8ijoAHzrZHPNQXWURmeH698jyG4fAAOaJIzNC5ZmjTxNLz+vxDu5JXdfYiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792760951;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=nlznPFw9V2Gc6GAfgQKy3QilQuYPxjyao4Hf2pcvcDM=;
+	b=s6KSrQF+WQc8RKQaqEzaenXXv1VNp+aIixnzryolWCvOntYBEc1JptESt3LXaid6bzct
+	 FCy745YM/+cn84xvdvdH5lHdkJIu8ENJOUqjMNIHhFSPbGAurB/kCT/+bld9rjOJWyuuZ
+	 b02aMjHAPyFKn2zhmLADYeAdPon1a7VyMf6Sw5jX4dn80fqdzt4GNNwGkcnZRh4T094Au
+	 vvkWubCv9dftr3BvCmjeNUQILsQXGbeyShElsKRZuxCTHC4PzYaQliX2JGczQxSs8e3x2
+	 QStNpcTxmip+WrFxhzvhSwRFYoE0w3/Ob/YD8p+sOB/CVzy0gtPa3e4wqTq6jtM41ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YTRniXkA;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m7RG/5lG";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93F2606A31B
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 13:06:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E93F2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24012606A31A;
+	Fri, 23 Oct 2026 13:09:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YTRniXkA
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48df4f7ccf4so130994f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792760770; x=1793365570; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jBIekiO+tRXvuI9quCRBdtVxapNGOTwl1bJb5qI3FRc=;
-        b=YTRniXkADXfMdkHZ0t4J21gfS7qiltWNiRl5xQHGEZooeGSF8Q4S6fnn/oAbhulpMF
-         JcFH2LFZXQWsrisj9r570SCWsZeIWHaGH3OwaT1dvL454JjFDulqd5U+Qn2lJfxy6zuG
-         PdTcyH/zZKVKqvNnK9lALNRYa756/5rzdvS8w4EXEoAkApgwo6VGCihfl4mV9tAAQ1HC
-         EyKU5dwLzLaMJhmt8UDo2ZJObPJVvdPvbWNfSMKoVf/6rYgN/qfRbD9bKXUP/rAG/1ZA
-         oWEdtw5RZ/y7jCw7nZj9Ng0CAErYpL2Co2dWJXqEAv/UtnyScQJ4VAj9pc8pazIGnY6o
-         Q00g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792760770; x=1793365570;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jBIekiO+tRXvuI9quCRBdtVxapNGOTwl1bJb5qI3FRc=;
-        b=FZn8mVRlNaeL+TeZrjImpcDkzAP0OaG58vv8q3ukoPQzQaNyipC8MJB1NIIsj1tTsB
-         7MiYkyAfrEJIRbSJ1FU+Up0+S4lRmTCOFXX1qLRzgXA5paanbm6I3P1RJYZXTTkyuPLp
-         PleSBVN22RMsTLe8Db6RkTtgZyaiiL8UM6PR/Wme54u1zazNZLbaPU5xxROMXUX3KhoH
-         kHFpB7bmJE32Adf2ELNSCZFuppWKTZWw3qoLKa+MtmNmcv14Qo4KXNhVkMkGMgZqDBUh
-         bR0vW0ue8hMpQIQUlSjCY3krqTEz9kO2B5iupId1T9/l386NHNOZ04cX8qPlUPpIAOVE
-         XDVw==
-X-Forwarded-Encrypted: i=1; AKwUvBy6K0kLVWwvUbVDCAGr4VO4sikBBksGExSQ3ro6cDDVAgbrgIYX8bB32K1fus+uuHFwHZ76cj2E4zM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL99Jr4rSMfsXbYSL64B3Sb0M/H+8rHo1TKKrZhg/GZTgICcX1F
-	N3/iNYUiBYR1PoaqsZfi/3d9vYDx/BpdZS5SRfZc2VFXbVaCgYzauTNV
-X-Gm-Gg: AYBFou28By4pMHGi9AVSVOkSwEwiW7iEo2p4rbZwbFdfomX7bx77zvtP3nu7QE17jK/
-	FKZPW+NsV3p2FL78DjdbETjL1QW8MFODHWsJdc6BIhSqZ4nWRM59q3zPIIUcdPLUwE49ib4qgTW
-	w1A1Uds9AnAB+mGEvhxqLTLjNTalvDspnT5Y24zKqvKi2/3ap6jsQtrHNfCo1S8XHpDH3uT3iQI
-	oZfkEsSKitj2rHNH0yjlOpC/4V6dWlHk1EjfDnhGwQqBrY6vKApUM1spOqbu+lrcnQrIpYNTfrv
-	2ijxVsM6LEl9C3tCPyAnt0jwE2uHRCoIdX9k1pB24p1u7i3VRh8euDTmJx+Sr6m48bKzYFuGQKX
-	V18J6wPwMbWwj+zwfiFpqpIC6lCgwb4ylr6jgFhyVYzKbWVwjfT99Xqgl4b8E2gpCAv6724zCLq
-	YW3bBhNA7qXluVBodN0i+x4B8003nQV3TmzYvmpfKEBbPe+PexVIVuWaul2GAUpjxKk/LFe7AYs
-	/m2uya/IC1Rrlx2JXDEBO4GVtWD2d0es3I6YKrJQkAdtQj0X/gDjlckhr6or6nQtktas8mEsg1X
-	vetX
-X-Received: by 2002:a05:6000:2903:b0:48a:f5c5:d077 with SMTP id ffacd0b85a97d-48e38557d49mr3407667f8f.2.1792760770071;
-        Fri, 23 Oct 2026 06:06:10 -0700 (PDT)
-Received: from Nuel20.localdomain ([105.112.97.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38061c7dsm4658755f8f.54.2026.10.23.06.06.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 06:06:09 -0700 (PDT)
-From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: mchehab+huawei@kernel.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	mchehab@kernel.org,
-	paulmck@kernel.org,
-	linusw@kernel.org,
-	Julia.Lawall@inria.fr,
-	gary@garyguo.net,
-	rmk+kernel@armlinux.org.uk,
-	hemanth.selam@gmail.com,
-	Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-Subject: [PATCH v2 2/2] docs: kdoc: handle TRACE_EVENT_FN() with CMatch
-Date: Fri, 23 Oct 2026 14:04:15 +0100
-Message-ID: <20261023130444.26270-3-emmaonana18@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261023130444.26270-1-emmaonana18@gmail.com>
-References: <20261016231148.7b5a88ef@foz.lan>
- <20261023130444.26270-1-emmaonana18@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7RG/5lG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFE51F01825;
+	Fri, 23 Oct 2026 13:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792760950;
+	bh=nlznPFw9V2Gc6GAfgQKy3QilQuYPxjyao4Hf2pcvcDM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=m7RG/5lGWSbIc838b0jmvSS290uWfurhu3YNfo5bVNzSTvTPTC7ghSWC8leVP3nQ+
+	 b1I3jDHg/InxLf552w5eGHsTrs/J6pcIRU/3j2o4lXMu8kdY2pE31lXQZ6mDuOD9a9
+	 /bZSvE9+INNA1eyAemAPUHtpahZxa52CO1uiN/pTg/xq6n5EpQE55LyKwMgvscOovl
+	 vpke1gUvPTZai31N3aWvQD3q3fnksvGf8uxqyvKnNdAccPdM5DjsmOgJhH0dNQrOqX
+	 DgjQebBUKnbd01GrrL7MPL69Sel1P4/LLNB/kJOWZzm+JYUNtbLukoPTq27kTGyxJT
+	 /kgHrVGsqnwng==
+From: Thomas Gleixner <tglx@kernel.org>
+To: "H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
+ Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
+ <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
+ <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
+ Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org, Michal =?utf-8?Q?Such=C3=A1nek?=
+ <msuchanek@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [patch 16/18] x86/entry: Get rid of the sys_ni_syscall()
+ indirection
+In-Reply-To: <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190254.493733289@kernel.org>
+ <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13>
+ <87cxt11ktr.ffs@fw13> <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
+Date: Fri, 23 Oct 2026 15:09:07 +0200
+Message-ID: <871p9g1s3w.ffs@fw13>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -109,308 +88,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-kernel-doc fails to parse tracepoint declarations that use TRACE_EVENT_FN(), e.g. gpu_power_status:
+On Thu, Oct 22 2026 at 17:22, H. Peter Anvin wrote:
+> On October 22, 2026 2:34:08 PM PDT, Thomas Gleixner <tglx@kernel.org> wrote:
+>>-static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigned long nr)
+>>+static __always_inline bool do_syscall_x32(struct pt_regs *regs, unsigned long nr)
+>> {
+>>+	if (!IS_ENABLED(CONFIG_X86_X32_ABI))
+>>+		return false;
+>>+
+>>+	/* Preserve the historic insanity of treating -1 special on x32 */
+>>+	if (nr == ULONG_MAX)
+>>+		return true;
+>
+> It was never limited to x32...
 
-  ... Unrecognized tracepoint format ...
+Tired brain misread the test output:
 
-  ... expecting prototype for gpu_power_status(). Prototype was for TRACE_EVENT_FN() instead
+[RUN]   Running tests under ptrace: modifying the default return
+[RUN]       Checking system calls with msb = 0 (0x0)
+[OK]                x32 syscalls 0:-64..-2 returned -ENOSYS as expected
+[OK]                x32 syscall 0:-1 returned MODIFIED_BY_PTRACE as expected
+[OK]                x64 syscalls 0:-64..-1 returned -ENOSYS as expected
 
-Convert SYSCALL_DEFINE0() through SYSCALL_DEFINE6(), the TRACE_EVENT() and DEFINE_EVENT() families,
-DEFINE_SINGLE_EVENT(), and TP_PROTO() to CMatch transformations.
-Add a CMatch back-reference form that trims whitespace around selected macro arguments,
-and retain nested commas within arguments.
+But that's because the "-1" on x32 is actually 0xFFFFFFFF while on x64
+it's 0x7FFFFFFF.
 
-Add regression tests for TRACE_EVENT_FN() and SYSCALL_DEFINE0/3().
+The whole mess comes from using -1 as indicator for syscall abort which
+is undistinguishable from a syscall(nr=-1).
 
-Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
----
- tools/lib/python/kdoc/c_lex.py        | 19 ++++++
- tools/lib/python/kdoc/kdoc_parser.py  | 94 ++-------------------------
- tools/lib/python/kdoc/xforms_lists.py | 39 +++++++++++
- tools/unittests/test_kdoc_parser.py   | 56 ++++++++++++++++
- 4 files changed, 120 insertions(+), 88 deletions(-)
+Bah. Let me restore this nonsense.
 
-diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
-index 532e2c5a815e..4adc1b211b54 100644
---- a/tools/lib/python/kdoc/c_lex.py
-+++ b/tools/lib/python/kdoc/c_lex.py
-@@ -338,6 +338,11 @@ class CTokenArgs:
- 
-             sub_str = KernRe(r'(\\\d+)[+]').sub(r"\1", sub_str)
- 
-+        self.trim_groups = set()
-+        for match in KernRe(r'\\(\d+)-').finditer(sub_str):
-+            self.trim_groups.add(int(match.group(1)))
-+        sub_str = KernRe(r'(\\\d+)-').sub(r"\1", sub_str)
-+
-         self.sub_str = sub_str
-         self.sub_tokeninzer = CTokenizer(sub_str)
- 
-@@ -448,8 +453,22 @@ class CTokenArgs:
-         if pos < self.max_group:
-             log.error(fr"{self.sub_str} groups are up to {pos} instead of {self.max_group}")
- 
-+        groups_list = [self._trim_group(group) if i in self.trim_groups else group
-+                       for i, group in enumerate(groups_list)]
-+
-         return level, groups_list
- 
-+    @staticmethod
-+    def _trim_group(tokens):
-+        """Return macro argument tokens without surrounding whitespace."""
-+        start = 0
-+        end = len(tokens)
-+        while start < end and tokens[start].kind == CToken.SPACE:
-+            start += 1
-+        while end > start and tokens[end - 1].kind == CToken.SPACE:
-+            end -= 1
-+        return tokens[start:end]
-+
-     def tokens(self, new_tokenizer):
-         level, groups = self.groups(new_tokenizer)
- 
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 80d4245acd17..5057a131117b 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -1493,82 +1493,6 @@ class KernelDoc:
-             self.entry.add_text(doc_content.group(1))
-         # else ... ??
- 
--    def syscall_munge(self, ln, proto):         # pylint: disable=W0613
--        """
--        Handle syscall definitions.
--        """
--
--        is_void = False
--
--        # Strip newlines/CR's
--        proto = re.sub(r'[\r\n]+', ' ', proto)
--
--        # Check if it's a SYSCALL_DEFINE0
--        if 'SYSCALL_DEFINE0' in proto:
--            is_void = True
--
--        # Replace SYSCALL_DEFINE with correct return type & function name
--        proto = KernRe(r'SYSCALL_DEFINE.*\(').sub('long sys_', proto)
--
--        r = KernRe(r'long\s+(sys_.*?),')
--        if r.search(proto):
--            proto = KernRe(',').sub('(', proto, count=1)
--        elif is_void:
--            proto = KernRe(r'\)').sub('(void)', proto, count=1)
--
--        # Now delete all of the odd-numbered commas in the proto
--        # so that argument types & names don't have a comma between them
--        count = 0
--        length = len(proto)
--
--        if is_void:
--            length = 0  # skip the loop if is_void
--
--        for ix in range(length):
--            if proto[ix] == ',':
--                count += 1
--                if count % 2 == 1:
--                    proto = proto[:ix] + ' ' + proto[ix + 1:]
--
--        return proto
--
--    def tracepoint_munge(self, ln, proto):
--        """
--        Handle tracepoint definitions.
--        """
--
--        tracepointname = None
--        tracepointargs = None
--
--        # Match tracepoint name based on different patterns
--        r = KernRe(r'TRACE_EVENT\((.*?),')
--        if r.search(proto):
--            tracepointname = r.group(1)
--
--        r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
--        if r.search(proto):
--            tracepointname = r.group(1)
--
--        r = KernRe(r'DEFINE_EVENT\((.*?),(.*?),')
--        if r.search(proto):
--            tracepointname = r.group(2)
--
--        if tracepointname:
--            tracepointname = tracepointname.lstrip()
--
--        r = KernRe(r'TP_PROTO\((.*?)\)')
--        if r.search(proto):
--            tracepointargs = r.group(1)
--
--        if not tracepointname or not tracepointargs:
--            self.emit_msg(ln,
--                          f"Unrecognized tracepoint format:\n{proto}\n")
--        else:
--            proto = f"static inline void trace_{tracepointname}({tracepointargs})"
--            self.entry.identifier = f"trace_{self.entry.identifier}"
--
--        return proto
--
-     def process_proto_function(self, ln, line, source):
-         """Ancillary routine to process a function prototype."""
- 
-@@ -1597,18 +1521,12 @@ class KernelDoc:
-             #
-             r = KernRe(r'^(\S+\s+)\(\s*\*(\S+)\)')
-             self.entry.prototype = r.sub(r'\1\2', self.entry.prototype)
--            #
--            # Handle special declaration syntaxes
--            #
--            if 'SYSCALL_DEFINE' in self.entry.prototype:
--                self.entry.prototype = self.syscall_munge(ln,
--                                                          self.entry.prototype)
--            else:
--                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
--                if r.search(self.entry.prototype):
--                    self.entry.prototype = self.tracepoint_munge(ln,
--                                                                 self.entry.prototype)
--            #
-+            # Tracepoint documentation uses the short event name, while its
-+            # generated function has the trace_ prefix. The declaration itself
-+            # is normalized by CTransforms in dump_function().
-+            if self.xforms.is_tracepoint(self.entry.prototype):
-+                self.entry.identifier = f"trace_{self.entry.identifier}"
-+
-             # ... and we're done
-             #
-             self.dump_function(ln, self.entry.prototype, source)
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index 15f6f21c7a9e..315b54feff33 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -17,6 +17,13 @@ class CTransforms:
-     into something we can parse and generate kdoc for.
-     """
- 
-+    tracepoint_pattern = (
-+        r"(?:TRACE_EVENT(?:_FN(?:_COND)?|_CONDITION|_SYSCALL)?|"
-+        r"DEFINE_EVENT(?:_FN|_PRINT|_CONDITION|_NOP|_WRITABLE)?|"
-+        r"DEFINE_SINGLE_EVENT)"
-+    )
-+    tracepoint_match = CMatch(tracepoint_pattern)
-+
-     #
-     # NOTE:
-     #      Due to performance reasons, place CMatch rules before KernRe,
-@@ -108,6 +115,32 @@ class CTransforms:
-         (CMatch("STATIC_IFN_KUNIT"), ""),
-         (CMatch("INLINE_IFN_KUNIT"), ""),
- 
-+        # Turn syscall declaration macros into ordinary function prototypes.
-+        (CMatch("SYSCALL_DEFINE0"), r"long sys_\1( void )"),
-+        (CMatch("SYSCALL_DEFINE1"), r"long sys_\1(\2- \3-)"),
-+        (CMatch("SYSCALL_DEFINE2"), r"long sys_\1(\2- \3-, \4- \5-)"),
-+        (CMatch("SYSCALL_DEFINE3"),
-+         r"long sys_\1(\2- \3-, \4- \5-, \6- \7-)"),
-+        (CMatch("SYSCALL_DEFINE4"),
-+         r"long sys_\1(\2- \3-, \4- \5-, \6- \7-, \8- \9-)"),
-+        (CMatch("SYSCALL_DEFINE5"),
-+         r"long sys_\1(\2- \3-, \4- \5-, \6- \7-, \8- \9-, "
-+         r"\10- \11-)"),
-+        (CMatch("SYSCALL_DEFINE6"),
-+         r"long sys_\1(\2- \3-, \4- \5-, \6- \7-, \8- \9-, "
-+         r"\10- \11-, \12- \13-)"),
-+
-+        # Tracepoint documentation uses the event name, while the generated
-+        # function has the trace_ prefix. The proto argument is unwrapped
-+        # separately below.
-+        (CMatch(r"TRACE_EVENT(?:_FN(?:_COND)?|_CONDITION|_SYSCALL)?"),
-+         r"static inline void trace_\1-(\2-)"),
-+        (CMatch(r"DEFINE_EVENT(?:_FN|_PRINT|_CONDITION|_NOP|_WRITABLE)?"),
-+         r"static inline void trace_\2-(\3-)"),
-+        (CMatch("DEFINE_SINGLE_EVENT"),
-+         r"static inline void trace_\1-(\2-)"),
-+        (CMatch("TP_PROTO"), r"\0"),
-+
-         #
-         # HACK: this is similar to process_export() hack. It is meant to
-         # drop _noproof from function name. See for instance:
-@@ -159,3 +192,9 @@ class CTransforms:
- 
-             source = search.sub(subst, source)
-         return str(source)
-+
-+    @classmethod
-+    def is_tracepoint(cls, source):
-+        """Return whether source starts with a supported tracepoint macro."""
-+
-+        return any(cls.tracepoint_match.search(source))
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index 4baa78ca02b3..1702f912c897 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -444,6 +444,62 @@ class TestContextLockStruct(GenerateKdocItem):
-         self.assertEqual(entries[0].name, "debugfs_cancellation")
-         self.assertEqual(entries[0].warnings, [])
- 
-+
-+class TestSpecialFunctionMacros(GenerateKdocItem):
-+    def _parse(self, source):
-+        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-+        patcher = patch('builtins.open', new_callable=mock_open,
-+                        read_data=dedent(source))
-+        with patcher:
-+            return kernel_doc.parse_kdoc()[1]
-+
-+    def test_trace_event_fn(self):
-+        entries = self._parse("""
-+            /**
-+             * gpu_power_status - called when hardware turns on or off
-+             * @dev: pointer to device
-+             * @shader_bitmap: bitmap
-+             *
-+             * Description of the tracepoint.
-+             */
-+            TRACE_EVENT_FN(gpu_power_status, TP_PROTO(const struct device *dev, u64 shader_bitmap), TP_ARGS(dev, shader_bitmap), TP_STRUCT__entry(__field(u64, shader_bitmap)), TP_fast_assign(__entry->shader_bitmap = shader_bitmap;), TP_printk("%s", __get_str(dev_name)), my_register, my_unregister);
-+        """)
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "trace_gpu_power_status")
-+        self.assertEqual(entries[0].warnings, [])
-+
-+    def test_syscall_define_zero(self):
-+        entries = self._parse("""
-+            /**
-+             * sys_demo - demo syscall
-+             *
-+             * Return: zero
-+             */
-+            SYSCALL_DEFINE0(demo);
-+        """)
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "sys_demo")
-+        self.assertEqual(entries[0].warnings, [])
-+
-+    def test_syscall_define_three(self):
-+        entries = self._parse("""
-+            /**
-+             * sys_demo - demo syscall
-+             * @one: first value
-+             * @two: second value
-+             * @three: third value
-+             *
-+             * Return: zero
-+             */
-+            SYSCALL_DEFINE3(demo, int, one, long, two, unsigned int, three);
-+        """)
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "sys_demo")
-+        self.assertEqual(entries[0].warnings, [])
-+
- #
- # Class and logic to create dynamic tests from YAML
- #
--- 
-2.43.0
+Thanks,
+
+        tglx
+
+
 
