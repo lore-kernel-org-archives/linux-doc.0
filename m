@@ -1,94 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737985;
-	b=rhFTsp3YRj5monaO/85B59lK8I60Iw0f/o9YzYVCKUbIX1HxNo90bSJUWISBF0VGaqjz
-	 tcu6Afjggla3rrb2L3LEe7zcZtcnDyDoV2C7GtQN9rgGF7Ome2wQ9XV/QPsH8A471zh2U
-	 2fElhF4oeJicMw16On3EEg3eLxVqCuM6ALoOprPNyaGhLiz1L84s3m+xWz+l73guEOvgp
-	 NSnv3NUc04AACFrWCOBT7a1CFAx6vm5qjaWrUSWX+6XySxuLqp8ZbQt5FVFT/ET3ByDJE
-	 36+PtaW+E3MxS8PaG8NNbjOTGKF4y87qa1mvbpTJeko0qFI7JVkiTgc2OsmPqSUfGbA==
+	t=1792738160;
+	b=on5JhwaBqyrbO7oGsUsWu+mFozOmqT/75gDlG2+f8Joba8aOTNhrke6w7A0KeJSg0jQz
+	 Esb2kVQIZ3KcXASR4vsTRWq7xGTfsgCtWYKXxb3IZNLaZC46C2iJMLX9DdVNGPpYRvGTP
+	 mXH4afLnmFqDqpZHU4N2VwJrpRn5hkAvsNVaid89JH3000rkEgkw417M4OWI5fCkMSeZt
+	 n+B10uHggWk89dOphAvAsQtm+hbKf0UThpusVSLMKihkseEj6HoZ1tSjWkjGAJAaNnK4j
+	 EvcrmFdbZM5xncx+hHcGIgIGTq4LTj3JFbxB1NeBSxoHiMa2gvXpMIkmENdzgfxE88Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737985;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792738160;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=A5hfuGLL9U51nvhID9oUu3453+srUYM+t5Xwxht3AIo=;
-	b=VzVvxsptTn3fJdA5kgyTxzeUCRtmtbRASifpUGr+KujVyymgGSyoMT80tRSmzLH34trz
-	 JUQv7Ryy9LCSnARSZtLiS0Tt4McvErZX5eeCS1hakx79R5DzAci7/s4+ar/JxM1Gut3TR
-	 3IRK+jb3r00Ro5xqokJtRrN61rgiHrGnkAP9kyB0RiIsYVzRnAMJgep4FQDdeAF2TN9IO
-	 6OpftBhVHM4GTNM0Ep+vE5RZgZ/x/Ug/4Hm8qfKqtPxjk5jsFva4Oi8gWCgJyw4NwA4YY
-	 ZDlPdh122ZP7p4uwJ1Aw6UqSrnX+tHtiIQauOFUZdxSZVrswN79fCeA9MQdWpqd3OGg==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=BwLp3QfU2sOxvBZM8DouICo+apOt//WLVr04keFV3KA=;
+	b=KFNyEy7nlXQwX5cXEABtx/6rWnQLzVjNbLeV8Pc/BuDa+OHRouKC4GcAVooaSeLCo5cY
+	 fdyHj6q5mjG0FY3UGhVHBXgWQbXqNm9+6rrdqNFudpa6bAn+LCCu+T69OGYwiaJewBrWf
+	 n1gvIqJh9UVj2gqOOOLiHTzbEmxV3pZvdHu6yexHnfQQvwXHJxhul4NUdFSJDYy8fC4Jo
+	 k6yHYUR9DHhK1LztonabvsL037UhmfP8gN0rHKIymkL+VQimUL4z3FIw2cW4J7U6093n5
+	 G4O8aCqO5d1FtpK4w8L/KtrigTjVtGtzRuXHnkH3lbUxXst6WEdnu+IY5fCu+5P0bbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1F2Iw3z;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZMd9mc3M;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F351606A31F;
-	Fri, 23 Oct 2026 06:46:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F351606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF0B606A31D;
+	Fri, 23 Oct 2026 06:49:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BF0B606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1F2Iw3z
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZMd9mc3M
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792737984; x=1824273984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IK7GHeF/iSOkxUaWEWahXG0mGoC8RmG0GWUii1LygYQ=;
-  b=l1F2Iw3zsYau6/q83/zylwOg7n6lmvMefpzklnAUfK90JU99oBlgFA4I
-   BSeYS3IEqkw4dwHUzqVruXRk0PdtsstC95ZdRqA72BdrkzpM5SrwB8pNx
-   y3sTlVL6Koi9TCNtmtFzkNao8bsAbwJg1X4eh5Achcpe91Cin404p2piV
-   8uT5GEEUbfbVopEQvLrTFqWVF3YPFd/qWynJELn6zL+JIXbssIeK9bhOj
-   XZpsY3vsYDRBTuQz5JIvRZfbLb2kyJ0/dyz50d/xvqlmqrmd2Yk87EcmO
-   XGTDsCZwh5GS1nKi6jFlYJNobiEfHUb9xJLwHh0A/gbDyAt+nNMnYH/H6
+  t=1792738159; x=1824274159;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=boXZwJMU/3Bv1Xe3K7Nqjbqy3UaF2PKOM3J7JBumcJM=;
+  b=ZMd9mc3MOMmJXntdZOJfSp0keU+I8maH/K4jUbG7wQUky6Cv5nyT+oPN
+   2vi891BmKssjyZIEovjFw80/evC5kWwXexqE+xqKuHSCGiA1Lkr5sGkax
+   eGlO1dcauPDQuJzuwaKlqffaFQw98PHCQLdgMHQ4yfKlpjA1vJ4dNtMu+
+   qZf9i7HrakEeLJmH+KVm8SPikyWyABb4y4tHkHO9ErmTHhYMp8q471HnF
+   JgA4XBpXfRQwppIouzRJVUJ8CfCv+Kyni/Ymq5wOS7d+pBsfvoqS+wLpe
+   hTwewOmb3E4Vh2jCeEopa1uBiBLKHsbz0psdWABwm62g4DFiLKwnMnwpA
    A==;
-X-CSE-ConnectionGUID: cIFAypSWTR+b7q9uY+noYQ==
-X-CSE-MsgGUID: A5pwx3p7RvyqFnanDDn47Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1377331"
+X-CSE-ConnectionGUID: VAbShD2ZT025p+sXznVhzg==
+X-CSE-MsgGUID: upGeNo/aTmW3YBgQnSix/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1498003"
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1377331"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:46:23 -0700
-X-CSE-ConnectionGUID: ymazaAbZTm26TqRgwuVb1g==
-X-CSE-MsgGUID: lcL7yanMTpCwy4PyBDK5Hw==
+   d="scan'208";a="1498003"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:49:19 -0700
+X-CSE-ConnectionGUID: 6IigzIhqSvKN3h/YLYaUmA==
+X-CSE-MsgGUID: 1pPxJ9cpQ96AIShE8W0lFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3505972"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:46:19 -0700
-Date: Fri, 23 Oct 2026 09:46:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bradford Love <brad@nextdimension.cc>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 0/7] gpiolib: kill gpio_request_one()
-Message-ID: <atsCuEYYPokdQn_m@ashevche-desk.local>
-References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
- <CAD++jL=prd1KDZQawqsRmW3qp1-cJ=18-yhp861CQirOOjE5Ag@mail.gmail.com>
- <as4tep73cAI57Yk7@ashevche-desk.local>
- <CAMRc=Mcc2b2Z0zrkNQ80NpV-H1MsihgeNtPD5dD5g9xcbiLg4w@mail.gmail.com>
- <as44ROCHy-WeMdIZ@ashevche-desk.local>
- <atjBsoY8mjGw9fQ8@alpha.franken.de>
- <atjbpKxrW7x7Ohpq@ashevche-desk.local>
- <atjfOrjsxnKe80zh@ashevche-desk.local>
- <atpbQV_qEoLyAG2J@alpha.franken.de>
+   d="scan'208";a="3465966"
+Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.124.245.162]) ([10.124.245.162])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:49:12 -0700
+Message-ID: <85872794-1868-406e-8ac0-5d9de522a8cb@linux.intel.com>
+Date: Fri, 23 Oct 2026 14:49:10 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,50 +72,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atpbQV_qEoLyAG2J@alpha.franken.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 06/28] x86/fred: Export this_cpu_fred_rsp() for KVM
+ usage
+To: Sohil Mehta <sohil.mehta@intel.com>, kvm@vger.kernel.org, x86@kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-7-sohil.mehta@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20260911213659.2025974-7-sohil.mehta@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 22, 2026 at 08:51:45PM +0200, Thomas Bogendoerfer wrote:
-> On Wed, Oct 21, 2026 at 06:50:18PM +0300, Andy Shevchenko wrote:
-> > On Wed, Oct 21, 2026 at 06:35:06PM +0300, Andy Shevchenko wrote:
-> > > On Wed, Oct 21, 2026 at 03:44:18PM +0200, Thomas Bogendoerfer wrote:
-> > > > On Tue, Oct 13, 2026 at 04:55:16PM +0300, Andy Shevchenko wrote:
-> > > > > On Tue, Oct 13, 2026 at 09:35:43AM -0400, Bartosz Golaszewski wrote:
-> > > > > > On Tue, 13 Oct 2026 15:09:14 +0200, Andy Shevchenko
-> > > > > > <andriy.shevchenko@linux.intel.com> said:
-> > > > > > > On Fri, Jul 24, 2026 at 11:40:59PM +0200, Linus Walleij wrote:
-
-...
-
-> > > > > > > Bart, anything needs to be done for this series to go in?
-> > > > > > 
-> > > > > > We don't have Acks from MIPS maintainers. :(
-> > > > > 
-> > > > > Hmm... Usually Thomas is quick. Thomas, can you give your Ack if you agree with
-> > > > > the changes, please?
-> > > > 
-> > > > sorry, I was on vacation.
-> > > 
-> > > No problem, we now have more time :-)
-> > > 
-> > > > I'm fine with the changes, but I'm not, if they still apply cleanly...
-> > > 
-> > > Can you provide your formal Acked-by?
-> > 
-> > Maybe I misunderstood you, but FWIW I have applied it on top of today's Linux
-> > Next and there is no conflicts.
+On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+> From: "Xin Li (Intel)" <xin@zytor.com>
 > 
-> ok good, I probably mixed things up :-/
+> Introduce and export this_cpu_fred_rsp() to provide KVM with a self-
+> explanatory interface for retrieving per-CPU FRED regular stacks for
+> stack levels 1->3.
+> 
+> FRED introduced new fields in the VMCS host-state area for stack levels
+> 1–>3 (HOST_IA32_FRED_RSP[123]), which correspond to the per-CPU FRED
+> regular stacks for stack levels 1->3.  KVM must populate these fields
+> each time a vCPU is loaded onto a CPU to ensure a complete valid FRED
+> event delivery context immediately after any VM-Exits.
+> 
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
 
-Thanks for tagging the relevant changes!
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
-Bart, I guess now we all set for this series to go in.
+Two nits below.
 
--- 
-With Best Regards,
-Andy Shevchenko
+[...]
 
+>  
+> +enum fred_stack_level {
+> +	FRED_STACK_LEVEL_0,
+> +	FRED_STACK_LEVEL_1,
+> +	FRED_STACK_LEVEL_2,
+> +	FRED_STACK_LEVEL_3
+> +};
+> +
+
+[...]
+
+>  
+> +unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl)
+> +{
+> +	switch (lvl) {
+> +	case FRED_STACK_LEVEL_0:
+> +		return __this_cpu_read(fred_rsp0);
+> +	case FRED_STACK_LEVEL_1:
+> +		return __this_cpu_ist_top_va(ESTACK_DB);
+> +	case FRED_STACK_LEVEL_2:
+> +		return __this_cpu_ist_top_va(ESTACK_NMI);
+
+Nit:
+How about adding a comment to state NMI and MC share this one? 
+
+
+Also, currently, FRED_{DB,NMI,MC,DF}_STACK_LEVEL are defined as
+number, may be it can be defined using the new added 
+FRED_STACK_LEVEL_{1,2,3}
+
+> +	case FRED_STACK_LEVEL_3:
+> +		return __this_cpu_ist_top_va(ESTACK_DF);
+> +	default:
+> +		BUG();
+> +	}
+> +}
+> +EXPORT_SYMBOL_FOR_KVM(this_cpu_fred_rsp);
+> +
+>  /* Must be called after setup_cpu_entry_areas() */
+>  void cpu_init_fred_rsps(void)
+>  {
+> @@ -84,7 +102,7 @@ void cpu_init_fred_rsps(void)
+>  	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
+>  
+>  	/* The FRED equivalents to IST stacks... */
+> -	wrmsrq(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
+> -	wrmsrq(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
+> -	wrmsrq(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
+> +	wrmsrq(MSR_IA32_FRED_RSP1, this_cpu_fred_rsp(FRED_STACK_LEVEL_1));
+> +	wrmsrq(MSR_IA32_FRED_RSP2, this_cpu_fred_rsp(FRED_STACK_LEVEL_2));
+> +	wrmsrq(MSR_IA32_FRED_RSP3, this_cpu_fred_rsp(FRED_STACK_LEVEL_3));
+>  }
 
