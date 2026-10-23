@@ -1,84 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792760951;
-	b=KZfH0gx3msl/Bn7qRvB8RQW2seTqh9Bp0QLnqi787oj/4YukKaH9vS3g7ut4P7IBNdpQ
-	 EhgudNDSXZEHJA5wzPbZDGXyH9tpxx9SjPV93qk1fDFCs3oIX5iStaRADLv0jZUeLXukR
-	 zxZEb4ftIFOjGeEbDp98O/+Qf8fLqG2Mph8tkKRC1BVIhH+BSAuafvTFHJdGFtw02P970
-	 cXMSjn1CQdvF91A67TIFQUJY6wKOjeVuQyzWuza7LT++gZUWVtue5UI3gpqsW/OETOAZ0
-	 yfKn2qnzarNyQvoTcW/iITKbHKcYbrrIvBqXioTim+AMtNTGCx7ci68FUW3TH+LVV1A==
+	t=1792764017;
+	b=DcanKzEu+4bmAGm0poXGcXnwmFk+eAy0Gyl8EOopwV+nBcQ5DiZihzP+kt3PxrZhWKTT
+	 nw+AwTk3HAVHxqsJf7id6xLe4UVyP9k5b54r0eOI7m2xD/AiGgdHWgqCCWEAuZJ4lbjK5
+	 cz92JjGRRzYjceRbtvC7zk55Q3iQhoJ1/X7ZGdtqG6uLlIUNhTXhziNCUM5R9/mlCrdRY
+	 CvMv1fkTMuj/QgMKP3UJ9c8QkasflRpDPo/mSfCmICIQTK6TNh7lPR2eT1xD70InKGdGj
+	 NAhji5rBoB7w/OOsW193KTRFblidQ1/PphvqkCa83GUXLZ+mzBE5vToC8uP2PidHNxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792760951;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type;
-	bh=nlznPFw9V2Gc6GAfgQKy3QilQuYPxjyao4Hf2pcvcDM=;
-	b=s6KSrQF+WQc8RKQaqEzaenXXv1VNp+aIixnzryolWCvOntYBEc1JptESt3LXaid6bzct
-	 FCy745YM/+cn84xvdvdH5lHdkJIu8ENJOUqjMNIHhFSPbGAurB/kCT/+bld9rjOJWyuuZ
-	 b02aMjHAPyFKn2zhmLADYeAdPon1a7VyMf6Sw5jX4dn80fqdzt4GNNwGkcnZRh4T094Au
-	 vvkWubCv9dftr3BvCmjeNUQILsQXGbeyShElsKRZuxCTHC4PzYaQliX2JGczQxSs8e3x2
-	 QStNpcTxmip+WrFxhzvhSwRFYoE0w3/Ob/YD8p+sOB/CVzy0gtPa3e4wqTq6jtM41ew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764017;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=7T7kd87x0lCdwlmdk5J8PfZrtJwoJ5GFmRHEwdyDdq0=;
+	b=Kavvg00nWHiOxVRoMn7f8eZEhyDst/RVMnk+ojt5EtiwCucEb8twss27zGH0t3o34KDM
+	 GpjUBM0pLj3XpeOyWJ4JIZpj83440j7FisQ7Ls1nZV8JQtefeqLfjX6uVi1uSd7pSVygg
+	 9TI76F70sdTK6/MW73D0StMIi5sC9fmENtctOzYeuUOXQqu2ONr8fHbI+Z57r4SIuf2RK
+	 WnnNzy3NXPtvP6PyvayRHTkm7b9lUKSWQXQmul6/3y512AF81iK/vVFPlkEHUcPNLwJMd
+	 XjaS+Dw5w6IR0Tmj04nxbJ14KEo22j6xaj54QGfrBmBnVfxmxMxDuYWBny6EP2SKo/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m7RG/5lG";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24012606A31A;
-	Fri, 23 Oct 2026 13:09:10 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=q3Hcq4sV;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7E55606A31B;
+	Fri, 23 Oct 2026 14:00:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7E55606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7RG/5lG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFE51F01825;
-	Fri, 23 Oct 2026 13:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792760950;
-	bh=nlznPFw9V2Gc6GAfgQKy3QilQuYPxjyao4Hf2pcvcDM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=m7RG/5lGWSbIc838b0jmvSS290uWfurhu3YNfo5bVNzSTvTPTC7ghSWC8leVP3nQ+
-	 b1I3jDHg/InxLf552w5eGHsTrs/J6pcIRU/3j2o4lXMu8kdY2pE31lXQZ6mDuOD9a9
-	 /bZSvE9+INNA1eyAemAPUHtpahZxa52CO1uiN/pTg/xq6n5EpQE55LyKwMgvscOovl
-	 vpke1gUvPTZai31N3aWvQD3q3fnksvGf8uxqyvKnNdAccPdM5DjsmOgJhH0dNQrOqX
-	 DgjQebBUKnbd01GrrL7MPL69Sel1P4/LLNB/kJOWZzm+JYUNtbLukoPTq27kTGyxJT
-	 /kgHrVGsqnwng==
-From: Thomas Gleixner <tglx@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
- Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
- <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
- <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
- Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
- Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
- <richard@nod.at>, Chris Zankel <chris@zankel.net>,
- linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
- <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
- <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
- <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
- linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
- linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-arch@vger.kernel.org, Michal =?utf-8?Q?Such=C3=A1nek?=
- <msuchanek@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 16/18] x86/entry: Get rid of the sys_ni_syscall()
- indirection
-In-Reply-To: <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
-References: <20260707181957.433213175@kernel.org>
- <20260707190254.493733289@kernel.org>
- <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13>
- <87cxt11ktr.ffs@fw13> <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
-Date: Fri, 23 Oct 2026 15:09:07 +0200
-Message-ID: <871p9g1s3w.ffs@fw13>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=q3Hcq4sV
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3CAD1C00;
+	Fri, 23 Oct 2026 07:00:12 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7B91B3F673;
+	Fri, 23 Oct 2026 07:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792764015; bh=jDuuA52OKdaceJrZOXhYdj0GY5RdsDJoWvfCSCKFrG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q3Hcq4sVEcSdBz0n1dXGKQ0Rle/LBvWVdcAXAyMkZLP2LXqlL7dem96mWVmTAOkqH
+	 akm/4/OKq79UikWvGY1FIlXhImj4Pifi8h1EHNQKhwqfggzjJa5mQ8jemw2YedCzPF
+	 KQJDL6pYu6e/1QC5GpwYDwNOsT5NkN5uFTa/dM+0=
+Date: Fri, 23 Oct 2026 15:00:13 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Amir Ayupov <aaupov@fb.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
+ PMU counts
+Message-ID: <20261023140013.GK26205@e132581.arm.com>
+References: <20261012230527.750567-1-aaupov@fb.com>
+ <20261012230527.750567-4-aaupov@fb.com>
+ <20261021164332.GI26205@e132581.arm.com>
+ <024bc6f1-eb73-4f01-84f3-738bf68bdc93@linaro.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,41 +69,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <024bc6f1-eb73-4f01-84f3-738bf68bdc93@linaro.org>
 
-On Thu, Oct 22 2026 at 17:22, H. Peter Anvin wrote:
-> On October 22, 2026 2:34:08 PM PDT, Thomas Gleixner <tglx@kernel.org> wrote:
->>-static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigned long nr)
->>+static __always_inline bool do_syscall_x32(struct pt_regs *regs, unsigned long nr)
->> {
->>+	if (!IS_ENABLED(CONFIG_X86_X32_ABI))
->>+		return false;
->>+
->>+	/* Preserve the historic insanity of treating -1 special on x32 */
->>+	if (nr == ULONG_MAX)
->>+		return true;
->
-> It was never limited to x32...
+On Fri, Oct 23, 2026 at 10:49:40AM +0100, James Clark wrote:
 
-Tired brain misread the test output:
+[...]
 
-[RUN]   Running tests under ptrace: modifying the default return
-[RUN]       Checking system calls with msb = 0 (0x0)
-[OK]                x32 syscalls 0:-64..-2 returned -ENOSYS as expected
-[OK]                x32 syscall 0:-1 returned MODIFIED_BY_PTRACE as expected
-[OK]                x64 syscalls 0:-64..-1 returned -ENOSYS as expected
+> > >    * a device that matches one of its classes and has all of its capabilities.
+> > >    */
+> > >   #define CS_CFG_MATCH_CAP_MASK		0x0000ff00
+> > > +/* trace unit external output n is countable by the PMU as TRCEXTOUTn */
+> > > +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT	8
+> > > +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_NR	4	/* TRCEXTOUT0-3 */
+> > > +#define CS_CFG_MATCH_CAP_PMU_EXTOUT(n)	BIT(CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT + (n))
+> 
+> Isn't this recreating what GENMASK() and FIELD_PREP() does? Can we use that
+> instead?
 
-But that's because the "-1" on x32 is actually 0xFFFFFFFF while on x64
-it's 0x7FFFFFFF.
-
-The whole mess comes from using -1 as indicator for syscall abort which
-is undistinguishable from a syscall(nr=-1).
-
-Bah. Let me restore this nonsense.
-
-Thanks,
-
-        tglx
-
-
-
+TBC, are you suggesting using separate capability bits to represent
+TRCEXTOUT0-3? Why can't we use a single capability bit to indicate
+whether the feature is supported and caps->num_event to indicate
+the number of external output signals?
