@@ -1,96 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792769958;
-	b=EuDv/ohzLT8Pz7NwsgoeIS0eIATtjWcXbU+WceowZ6mmIM+O05H9CVRQEizNx1YxAWGj
-	 foI2qPkwg/6oS1JnAf4PfNbUiUlGoMJ0gPILoNDf6Jt7MWiIdIrxmq11+ryw4OFgRw/K9
-	 m6GCaLFUyiaByFTBv9sq6iWfDUmtIcjZnWI1RUNIoyze19BIsHAS544dqBpH08PXYlo0g
-	 5bbJ81HwXJZ9K1NrFFZok9FqKIqaNjd+nX0NTLPShNH+//Ou2jHKdpvkcVpdazYI93Cny
-	 aP836XzkwaQVeFH40sYbSOPlMa0RZnfiMjNIewVVWmXMsG6rUWg0kpC1kkjbTL6UPTg==
+	t=1792770135;
+	b=Qa/+v8jr4044YHQ6nLTRYnZhV6qvUCYvGqweRPcsMhecsQPOCWnjM3kiVMGySdA2BFKr
+	 XV7Xe6VGi+D/vZxXjQtiwBRMteQIUL+JoYjxV4u2u9ns1hxEQmLCGcUSEZX8xErj7E7PE
+	 GxLFYalf7EVrB167MkHQTKh/QpH9++F+jI7t7RIFj+a48fiSdsETp4/58Q2XBYhskSSC5
+	 zdqxTCOf68MwMSo9PCg5NLYialoUZinKswBX00mHwvhwV/4TkMrIjcVg8mDp2JLsmV+dh
+	 BAy6c3mwDW380iN7EIuIO/lyR0LwadW1sGKv7F2DftsGB9wW4UMsd29m8vjNRyvZNeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792769958;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:CC:
-	 Subject:User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=z2qBUDb/HEVpnZ0AdLrT9xxIZXcyNTPm5i0euSKeI8A=;
-	b=v8/9qYGJfLc+1UDRIPPW11ZVrGMQ71hPIWDnbFgo80h+mr4e9ocMCLSQt1SkxUTJNg8C
-	 qura5xUCq62SbBt8eqBbRhgHr4EQ9Gtb6K31+VsuB/c0GUa1yHXZbIXHkwPAlpSHwNLpt
-	 /Zs1QJl2MDmgBy++KMW7YNcdJlmXQFuy4lm57M65lOfiqnz/6vtBmSMDezuAhyIdLMbmh
-	 KR0A4gRyk7ucfNBuu7Cm5vu6Ff7CIHhy+0vk/kTKQrFe+PnLL54cOP+9kPRjSa0aPs4jn
-	 uh5915+9SxcGrDAOVrp8L3qWA3LVRpHskiHx18K5sBtDgnzBLRqA/3UnTiSkGJ3ElkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792770135;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
+	b=M+SyZAcZiiidcZArTrNFXKrMhwNm6adTxpl1qSIhsxwMnfC81ACA0w9wPHWkgdj3SROf
+	 TWQHCB6MsoWZyU2dsnXPPShNWmgJ/yZjF/T4AdTQHM4vtTZjNYks2jlj8u8+ZYjSYHWOc
+	 KsWFc8W07q8UdKVM6EjsnY34q/8kUn1kD70hdmZXddEgd4UjeKUJuyIfaRuKn4h02Uon9
+	 nx7oN4AeAWaNJPXHTIuZRdXJ/1mKFRErkKJgUBHs7jRtatCddoilqO0fBenGnSvaCOcWl
+	 79HREOvlWdv/cOWs21+6k4Ebw/GM6RdXuq7Q1m29mc/iLiQ70afu88+QXLHH9abGuPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zytor.com;
-	spf=pass smtp.mailfrom=zytor.com;
-	dkim=pass header.d=zytor.com header.i=@zytor.com header.a=rsa-sha256 header.s=2026092801 header.b=O8Iixtg2;
-	arc=none smtp.remote-ip=198.137.202.136
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c27WBFJ2;
+	arc=none smtp.remote-ip=209.85.222.178
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4970A606A31A;
-	Fri, 23 Oct 2026 15:39:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4970A606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB01606A335
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:42:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DB01606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=zytor.com header.i=@zytor.com header.a=rsa-sha256 header.s=2026092801 header.b=O8Iixtg2
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 69NFc9VP3102952
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 23 Oct 2026 08:38:09 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 69NFc9VP3102952
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026092801; t=1792769891;
-	bh=z2qBUDb/HEVpnZ0AdLrT9xxIZXcyNTPm5i0euSKeI8A=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=O8Iixtg27nerxz4pv3MPQ79Qbkly3Qzdhjb7iI4+o56x6i8BSeIR1xQGCwnY7KKaQ
-	 QA0Qg7pDBg5vVmC4UggSsNd6S8W3qav0zjBwEGselkJ0VJy5I7ZrNewKIutUb7AfVm
-	 MdkVett81Uf9k7w/9M6Vs9Qyoxeec92PLSHDc6Cl9fwDnysLHD8N+1Ef2Jj1dB1Bez
-	 Q/DmdOARJu1F614hVTT4HTy48AJ8iHcZSQvZDYXV0Cb5RUaF6zX8Iqu24NZ3rB/QHw
-	 a/FnYpSSLXQYPrCSxXHH5/8CUI5QKVmOH3JXCGBKbQtNNmTk/ivswwNpvRE42ECOtx
-	 l5XmL1xVvuk2g==
-Date: Fri, 23 Oct 2026 08:38:03 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
-        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        =?ISO-8859-1?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5Bpatch_16/18=5D_x86/entry=3A_Get_rid?=
- =?US-ASCII?Q?_of_the_sys=5Fni=5Fsyscall=28=29_indirection?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <87y0boze95.ffs@fw13>
-References: <20260707181957.433213175@kernel.org> <20260707190254.493733289@kernel.org> <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13> <87cxt11ktr.ffs@fw13> <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com> <871p9g1s3w.ffs@fw13> <87y0boze95.ffs@fw13>
-Message-ID: <C6D7BF04-4CF7-48D1-93B5-E80D52C2617D@zytor.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c27WBFJ2
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93e635220b4so88128485a.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 08:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1792770134; x=1793374934; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
+        b=c27WBFJ20LlEkXwtFWR0pToqFQOALwL+bcaaVuyVwXUk924Vl3bY2TE+HzwUkjjWpt
+         QaaeAPi6z5Ti+PWEFO4B/P+zy2aL4YiNfo4wU22IWJR8UJl5UsOSPZsuUwdq+P5P5bI9
+         72boUzrYkytCjS3Ko/P0xykJ3PbDwA2rQfd47sTgSJkaHkjkNaWVyqh7Xfj2zU9voNek
+         oHWce6+kRLUM7XPX8O2BXEN48XjkeD/eVwT16b3bS4zufHv2bthZ5aNwPUaW3+/wB8mR
+         3LSVs3lqw0vf+xIhH8LUjQVpYyx9cBXBWmBXwJ0sj/UDAKDRx/Nl2/3V8k+ZJ60Qkgg3
+         R0XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792770134; x=1793374934;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
+        b=Nlb5PvFNM35CjxA2eUFR4ByCUBVHvaxL0CDXQ1ATvuyv71y8J6H4pIqddMjFdUzUIa
+         5pOZV1IMMH7/Ip8ZFIC7jLn7AXOjoL9L6++gxXknGVZdBI/0YspLryc6a5sJfJUzDC4d
+         84B0llfxOUIIl7uzGhab7zqNNVKy86mbu0IijqwAffB8XO+7A78DeHkMvaApaDyAKRZZ
+         W6BAqtXGXAwPcFanmn0G9VQ/0lJFTA5K+l7vKWUG9Kc19HqjXdjrQt+C565QzzXYcSIM
+         iCuSS+ni3s9SjLHBJ3UsxFUgrs4o1w98PpI6YBoJS9w+ccRr38rO1HG5RCQ9K1S5GVbM
+         1BlQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwq3RGPUajW7kc5cljK25il7B8Jl/v8TRVDSnCLO9WxfeKIF44t4Rhkf1ULKScM5zjD2ZSgk6YT7a0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLcDUeZ0jEqJzOV3n58LEaJIzRdMF/5KfoqokauSSR8mm6UQfBt
+	Lqr0OgExuZdsYwnJWGt5SFYdqaH5kJMj6BPjTiSN35GUcLZOc1D+NDaSa4fIgBgZQSk=
+X-Gm-Gg: AYBFou2z+JmA/icUmVhuTL+CV+FwADvtVqEwczqlyf1glFCVTafURomW+ahaIv9MIvW
+	Mjr3B+pS5BbWr1bQ+N+z3WZorCVOWSr3s5N1tcHJ2T5oxYVBg2AiVEmCakqDyMrmqmQxtaJYMWp
+	X8lWcYZ+ja+ywHPqKDY9IQATGALmW3GfEM678W2/qUX+fkswAHEm7zAkidQjyMkUuOoRuoIw5se
+	QMpU5aLNmTAxm847qwNY8pwheZTBQcPR5B3wXquR4tB56URJzSWvXiHX1fqkUPWME7ULBDoUVoX
+	T+9JqOk0SKOi5zVx0JyEJL7MJ/so6X1v84TwcUsS3sh6Ye+VFgDIVkolQ5/ED7YLNqcRN556nDd
+	1OBaPov9NGq6QhzYPVTzLu4rOEcL5uAR4GQl6jg/nDqo32jE3EAo8X25arh4ZE6OW1z67BivJcg
+	W/nq0ShKZrykG6wtUH5y+ezr0KqvEcG4KA6aqesD/PPw0TXSu6xaHDPPg7Pho5rR5qOgmuCVDj9
+	zp0rpS8TPwj9jVY5DXHJBM7Jzk3RX13dVj4siB1Oyy9lgwiYqnym9lBEvMxtT3PL93ZauSRwwCL
+	iLaX8/OsYvCU31hL3UsfoNLDwuoza9lA2eQ8aA==
+X-Received: by 2002:a05:620a:1a11:b0:93e:5ef8:c794 with SMTP id af79cd13be357-93f6f9648bbmr497429285a.38.1792770134059;
+        Fri, 23 Oct 2026 08:42:14 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94047b362a5sm45129985a.33.2026.10.23.08.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 08:42:13 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xKHPI-0000000Gn79-3Zzp;
+	Fri, 23 Oct 2026 12:42:12 -0300
+Date: Fri, 23 Oct 2026 12:42:12 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
+	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
+	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
+	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
+	dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+Message-ID: <20261023154212.GJ3977851@ziepe.ca>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <yq5a7bjajaco.fsf@kernel.org>
+ <atooh7uO2RauUTfY@FV6GYCPJ69>
+ <yq5av76sj10a.fsf@kernel.org>
+ <20261023142038.GE3977851@ziepe.ca>
+ <yq5ase1wiggs.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,68 +116,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq5ase1wiggs.fsf@kernel.org>
 
-On October 23, 2026 7:24:22 AM PDT, Thomas Gleixner <tglx@kernel=2Eorg> wro=
-te:
->On Fri, Oct 23 2026 at 15:09, Thomas Gleixner wrote:
->> On Thu, Oct 22 2026 at 17:22, H=2E Peter Anvin wrote:
->> Tired brain misread the test output:
->>
->> [RUN]   Running tests under ptrace: modifying the default return
->> [RUN]       Checking system calls with msb =3D 0 (0x0)
->> [OK]                x32 syscalls 0:-64=2E=2E-2 returned -ENOSYS as expe=
-cted
->> [OK]                x32 syscall 0:-1 returned MODIFIED_BY_PTRACE as exp=
-ected
->> [OK]                x64 syscalls 0:-64=2E=2E-1 returned -ENOSYS as expe=
-cted
->>
->> But that's because the "-1" on x32 is actually 0xFFFFFFFF while on x64
->> it's 0x7FFFFFFF=2E
->>
->> The whole mess comes from using -1 as indicator for syscall abort which
->> is undistinguishable from a syscall(nr=3D-1)=2E
->>
->> Bah=2E Let me restore this nonsense=2E
->
->The real question is how we ended up there=2E By design or as an
->implementation detail which got later set in stone and the selftest was
->written to test the implementation instead of testing against a
->specification=2E
->
->I went back in history and in 2=2E6=2E12 the behavior was for both i386 a=
-nd
->x86_64:
->
->  regs->ax =3D -ENOSYS;
->  syscall_trace_enter();
->  if (syscall_nr < MAX)
->  	do_syscall();
->  =2E=2E=2E=2E
->
->IOW, a tracer modification of regs->ax is not overwritten when the
->syscall number is out of range=2E
->
->Between 2=2E6=2E19-rc2 and -rc3 x86_64 was changed to _always_ overwrite
->regs->ax when the syscall number is out of range=2E
->
->In the 3=2E8 merge window seccomp introduced the -1 =3D=3D skip bogosity =
-which
->got fixed up and made "consistent" in several changes afterwards=2E Just
->that it never reached a state of consistency due to the overloading=2E
->
->So are we stuck with this behavior or do we sit down and define what the
->correct behavior should be?
->
->Thanks,
->
->        tglx
->
->
+On Fri, Oct 23, 2026 at 08:58:35PM +0530, Aneesh Kumar K.V wrote:
+> Jason Gunthorpe <jgg@ziepe.ca> writes:
+> 
+> > On Fri, Oct 23, 2026 at 01:34:53PM +0530, Aneesh Kumar K.V wrote:
+> >
+> >> CCA currently takes the device identity index during pdev_create. I am
+> >> investigating how to retrieve the certificate chains for all slots. For
+> >> now, I have implemented the sequence below.
+> >
+> > Yeah, I think the consensus at LPC was this may be a gap in CCA.
+> 
+> I checked with Alexey, and if I understand him correctly, TIO also needs
+> to establish eight separate connections to retrieve the certificate
+> chains.
 
-Going back on something from 3=2E8 that is actively used seems unwise=2E I=
- fear that that ship sailed a long time ago, even though I hate it just as =
-much as you do=2E
+Lovely!
+
+> For now, I am trying Jiri's suggestion: use Rust SPDM to fetch the
+> certificate chain and return it via evidence-get. evidence-accept then
+> does pdev-create with the specified slot number and compares the
+> evidence data returned by the RMM with the value cached by Rust SPDM. If
+> they match, it uses the cached value for set_pub_key. This seems to be
+> working. (FVP only supports slot 0, hence only one blob-instance)
+
+That's a pretty good idea, and works for every arch! Maybe that is
+the best long term direction.
+
+IDK about all this "Caching" stuff, I'm not sure I love the name
+"Cache" to refer to the security important reference certificate
+bundles. It should have a stronger name to reflect how critical it is
+in the entire security design of SPDM. You select the certificates
+once and everything following must match that or something bad has
+happened. It is effectively a key part of the channel binding.
+
+But yes, RMM is sort of backwards here, the slot number should come
+with information about the certificates, but I think this is fine to
+have RMM fetch them again and then we just confirm everything matches
+the kernel's target. If we don't do a get prior to connecting then the
+kernel would just adopt the RMM's result as the target certificate
+chain for the slot?
+
+It certainly seems like it should be all sketched out and the uAPI
+confirmed. Given the state of things I don't see an issue with a slot
+0 only initial configuration (ie EOPNOTSUPP the certificate gets) so
+long as the long term resolution is clear.
+
+Which is an interesting question for Jiri on CTLV, one of the things
+we have in RDMA is runtime schema pruning. Based on runtime device
+capabilities parts of the schema can be disabled. Can we get there
+with CTLV too? Then introspection could return if the underlying
+implementation supports some of this stuff..
+
+Jason
