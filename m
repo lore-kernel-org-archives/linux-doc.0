@@ -1,100 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792768361;
-	b=NFiFSfXNPL+eA7xhbNkgO0hPPm7D7Q3JHctyOhLLWd1lRfVwN7xysU+m6dZoSb1WYfZo
-	 YpCjdBnFM6urQwu3/eJb09E40+zsj6e9sthmpfZppAeumGdu9mJtk3ZQ7JisjAJCmhpC3
-	 gK52PDp9J3t0n1cZhWMJp5gWh4BhwRVSUKMhFXtWZwL99xWH9+k9aspupmkqGJQss5BYn
-	 hwu7ei4WWnKl/llE1bnoE/+qTWSc/fKRNiMioadnFJRssuTK4Ttbn6501Zhctf5ix6UrT
-	 WSYSpBPCUPTrR8eT2L8viEP6WeExBF3bdwT2jC/bHsHL3JgvbjlSEb72OC169jwOSVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792768361;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=GTBZU2NYoxY52zS87kN5cvRsx8+DZYRk/wDlQGdD9fA=;
-	b=njiCBvEwHg4Hrx2+4sqXwRrwRmIRkKt4keU9aE7IQ3j+HXS7ZCU18ez+v448LEA+TSNS
-	 jZcRoIWQBc4LhgAWlyBIfmrKO2hr36F3AVcQK8s238j/HfPydAGBgp4BE9FcEsDwQf/Zr
-	 toC4mDW12bHjJEOD8rBNSWNnQroBFiX47hS3PF8DyZ0DKVjutkW00LzNb10iQy4VA15Lr
-	 LKH01Rgy/+sK0nKloJ0T4RU21mv5QYKWedkS1DYqNbhOixkwe680lWNXWAJTMdLmrATw0
-	 CgLY3KBKDKgLwJ8j6apUBVcynSMMvaaTQAULUVL4+/fdepFngJtcYuJXjZGBVn77qTA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=FA1ALNrS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792769327;
+	b=0+LV6aQnnLMfn7K5rk8LjL0Cm+8hcb9X0i+y5f2vgj0JJ0Dd3WFlgfN9B8tOtICZM4gw
+	 5CO5fVUh2zJI3cwuHTdmzuSDLQDUzzn8QANsbhwX0GnxQOjc9w3a2CBVKqXFNPq0o4AMU
+	 /oP2POLMB2yW8+jZQAbiBIX8jEmiGrhG2K75Ufem+Cf4Ed4lMS4lSO1u81gnOuhVMIlcW
+	 3yZD/B9LjN7Z5I3WWEECBxbVA9lSg20nP2I7ne/C+TauvwK40UFa+yWg49UdBP1chm2gj
+	 3RhlyyWGdyhMi9iHR4PxOmpto10RoMTZyPWchUeOEW+wV4JGUWczjWTMf64FJ9YTXcg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792769327;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=6o9HAqgOadPvz3dZ4Qp6eGkpw5FrOU+edcMSRgYKgB0=;
+	b=3r0d27n5/l/KRVn04ZtwH8+9olKI6NFB3b1LlfriifrH/36QndBT2EOSTfeOAN8rwCk8
+	 N9QgOkwGX9+gRcVCTZ4gIQ5tj0ur+wiP+mfWVI7KtZIVbgXYHGrBXwO3xS1f223j5le6D
+	 ecIkOf0Xc+XGuBmYHA3s3VhsSZGpmRFxwv94TEscWumG+9Rr5YGUOidN+uUdo0mpABAFk
+	 mC9pO7RBaIlLbCmCQ9SDgIf2dCIDT9sQPggKa+KF15duiDz5jOUl74pPREw//UKMaFnFZ
+	 klpM59mjZDcHa1QjafDwFdNZWVhPJq6ab2eTLXSrywFtxAJn3WvV+QjndyK5I21dCEQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=auQgonpq;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB061606A322
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:12:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB061606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EDF606A31A;
+	Fri, 23 Oct 2026 15:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=FA1ALNrS
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so60925ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 08:12:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792768360; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Iw/HRoofi7yNbgpcX5oad1w7soJ/QcBydiQjo3BhF4B0QegdJVogyVArl6sR25XK/h
-         DGXaPxVI+YV+g3OD3nxP2W+U67nY0mnxWJd3dBmP5jPprnE6wa5c+uibQBxYwFWNJw5/
-         +3cwXwnXvNmnu0eZB9OtHutgRQYVduVd98rjb0wDKx1pK8xefm/yCpI1JZ3PSK4qSmYP
-         KyBBJpRipLjrZhp7piv3B2f0WiOLbFahz3JpOK1rWOZVfwARGXl+dJ08xJpfCJflRKV7
-         yrNmNmny44DHimc0sDZnntSEbb87RM3yPN9jKW/DXAB2/9f90wu1NY4HphK3udN7nUod
-         oayg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GTBZU2NYoxY52zS87kN5cvRsx8+DZYRk/wDlQGdD9fA=;
-        fh=FVAvPGo9KwavGtZWb08nDvI1p0f9S0ky7I3e1TH48gA=;
-        b=iP8PmM+IUU7cfOR8+BsdZ85csnWQOEfswn/1TpkV+RUe/5FO4APxdx+UKb8uhhij/c
-         0AsCiyS3/SY0KlcbViu/83wp+pNJj48CN5Hd9ZOg1mYkptqRJOoP16kLXmonljXq/ou/
-         6ZsNNruKsUKdXjN+k7W928AYerV4mf1QmBy2COpB4HkeE7Ahusv3gXmMi6Nx+XJX8/EK
-         oCr4JxY9tQWIkJ1/rXFDuPtAU1AAGBWcsVj1yMJ+7g/Otimhoh0Gtjg4KsFdfkGlpddE
-         U03lU/l4pQHf+yu7vjEcHVp/TODSTxn7/UqdZaLwuVF1tM5T4v6CbXPnFnOmo0DqQxxV
-         osJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792768360; x=1793373160; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GTBZU2NYoxY52zS87kN5cvRsx8+DZYRk/wDlQGdD9fA=;
-        b=FA1ALNrSzo+aczkKotmLBVK24drLA8Xv+LZIoCG/tghiGEPsOcpLrHsGB4NxDwOPNO
-         v9btTMfj2TUT2ME7MHLyGcYZn00t5NhDWmYs8B/upCPVYfVMZCuS3SM4lAK64iUiPH9j
-         ncWVdRv9xYCrFdeHYtkXgXq5HdENMASP6P1cLAahsijYt1MlEcBzXVnewQSVcXj75jXo
-         oX+4LvaWMfy1ZHuV+IEdyo+NsjZb9bgThh3R64BMx42FVa43uBb3ClvG48WDeW+ENXjq
-         NJIKXPNKSy/+t3bLequ3La0Aw0+wNUS4fubMk8xHGpDCHB5FH3o0bNKJfcZoFPPsP48j
-         7FsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792768360; x=1793373160;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GTBZU2NYoxY52zS87kN5cvRsx8+DZYRk/wDlQGdD9fA=;
-        b=vmvGkfo+89CNVxn5hTHJeRFfioo4NlnWQMDr3lH6DXna4UhrKHHx7Syjfp5XJ8QTR+
-         /phuMtRZg8OR/PmmKvoM8KkkGnjsWSRLFhlLIxjEdR25g+I0uGdRTdnILZnOUB+k9rJb
-         wmn4Iq87dEfUw4nHxmXLCBlX+1LA254mrMLu56iQcMTcTWCee/c94b18y+Gq4aVmGCNf
-         M51ynNlGy4EJVyOKIw73DcEKLlA10gH2wJl0U4u5OZ+rdNYzIKbOH++Y6XY/1Br0LqiG
-         CuM0muhg8Aanq7+USAXhMy++9JQUg840GZw+KrnxE/iP24jNpuLwM8zm2gpoDxuEA944
-         Tg1Q==
-X-Forwarded-Encrypted: i=1; AKwUvByiEdNw0YP0KIdj58ElWY/TsG43G+6IH1UIAf2rnzuAdmbTt6rrkk+8K3sT3ZAuSyZhzyMg1zXHxG8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLG5Mxi5P6LK8m5U0Da/N+eSvt9UBNHDRZ0fDXTh9nZ6d0wMWXT
-	hiF1OdzH9PyVhCRvPBcGwegGJWVmQycTUSeH6eq/Ui4x8EYwQWBq7jeQniXOHwDiNC5KlsMCxIt
-	g9Y01h9xzCbwleyR6c2vU8kNi+jdXpwXVTMukGOO9
-X-Gm-Gg: AYBFou1t3APKHLF/+FJpbalnQupgnuoZwGJ6HRxRaY0zvz7z0fI3KZFK5BHyj0MPU+f
-	L4wP3Td5LM+x2UDjCwmbJ+84URgDNFfodOFGWcJRZZ3uuYxP52Tcs6d14N2WDj0odtd07lWDGij
-	RdL7N0hW1Vgpk0v0V1tzsRCeP1mS5keTFqZi19kUlfodI/0D5bRwY9T5rAjdEZjPvE41FAcfx8y
-	K8LoLcYD415h2u5T3rzQYriqvbay4oyYeWbpKFWvQh2HCnmkAFDxlq4LWfVEA0RNBIqeVP7OJML
-	TUcQHAdnFBBH+dTlpLN5COSQH+A2yqTRPw/kNlSrUKCQG9F7p5T+5vOvz7W3WRAshK17Cr9uvR5
-	HeJ66OXB6Yh1DFrBnS4P6f9qoQF6/3fOd4UGeXA==
-X-Received: by 2002:a17:902:e84f:b0:2d0:1aaf:daec with SMTP id
- d9443c01a7336-2ea7f4e1cbemr4092325ad.9.1792768358959; Fri, 23 Oct 2026
- 08:12:38 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=auQgonpq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6AF1F01825;
+	Fri, 23 Oct 2026 15:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792769327;
+	bh=6o9HAqgOadPvz3dZ4Qp6eGkpw5FrOU+edcMSRgYKgB0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=auQgonpqQDl9Z8udPze90FdbsunEl16YaGHPQJYG/CvZXomZUoVtSLk2zzgglC23O
+	 iaPBmqewIVN5G+RX8bvFpapm2zjSGlhjNrhT1OSPjol6vuDVKz4PYrc8wsrSxu7PrH
+	 XO2+hLOo2a1a5DQwP+JGoNIjiizQ0hURb2FR0RyB/ptOA/tPgjd8NL5J8xXW3GwlrG
+	 6pznEyMdnYI4+M7wEQhmDzaiOEZ8ogX7GQtF+gQeJWEiW8v6dPJlCczLgy9JiNxOXx
+	 VU9H7sdXhFZ+SAaSX4PfaIQ0bn970AX2WU9tjK9MKYnBew75GKmWTR5Q58aLfyR56M
+	 3PgTV3iWASKUQ==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
+	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
+	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
+	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
+	dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+In-Reply-To: <20261023142038.GE3977851@ziepe.ca>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <yq5a7bjajaco.fsf@kernel.org> <atooh7uO2RauUTfY@FV6GYCPJ69>
+ <yq5av76sj10a.fsf@kernel.org> <20261023142038.GE3977851@ziepe.ca>
+Date: Fri, 23 Oct 2026 20:58:35 +0530
+Message-ID: <yq5ase1wiggs.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,63 +71,97 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
- <20261023145023.GH3977851@ziepe.ca>
-In-Reply-To: <20261023145023.GH3977851@ziepe.ca>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Fri, 23 Oct 2026 17:12:02 +0200
-X-Gm-Features: AclHuK9W5A7aXTPFZUdD2jRhpUmEtp7k-vVQ254ZWcJE4ItfG1TCZYdvtBT8nSc
-Message-ID: <CAMOZA0JfsviAkojjEewehxMq0r0AboS=L6AWafMj4_Azaeg-ww@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Oct 23, 2026 at 4:50=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
+Jason Gunthorpe <jgg@ziepe.ca> writes:
+
+> On Fri, Oct 23, 2026 at 01:34:53PM +0530, Aneesh Kumar K.V wrote:
 >
-> On Fri, Oct 23, 2026 at 04:30:25PM +0200, Luigi Rizzo wrote:
+>> CCA currently takes the device identity index during pdev_create. I am
+>> investigating how to retrieve the certificate chains for all slots. For
+>> now, I have implemented the sequence below.
+>
+> Yeah, I think the consensus at LPC was this may be a gap in CCA.
+>
 
-Just addressing the last part:
+I checked with Alexey, and if I understand him correctly, TIO also needs
+to establish eight separate connections to retrieve the certificate
+chains.
 
-> ...The CC stuff seems
-> actively dangerous. Unconditionally always using CC shared memory for
-> skbs is completely security wrong. What I have traffic flowing inside
-> my VM between containers or something? Does this end up putting those
-> skbs in shared memory even if they never hit a physical NIC?  Same
-> with a TDISP capable NIC, does this unconditionally degrade its
-> security?
+>
+> For now I can imainge CCA just doesn't let you query the certificates,
+> and we'd need an ECN to correct it someday once all the kernel parts
+> are settled.
+>
+> I broadly hope we can use the software SPDM implementation to really
+> flesh out the uapi and make sure that everyone is happy with it. Then
+> we get what subset we get from the first generation of products.
+>
+> Something like if userspace can't get the slot information early it
+> just hardwires slot 0 and goes forward.
+>
 
-the current series was RFC and "unconditional"  just to show the concept.
 
-My next version (a trivial change, really) is fully opt-in on a
-per-device and per direction basis.
+For now, I am trying Jiri's suggestion: use Rust SPDM to fetch the
+certificate chain and return it via evidence-get. evidence-accept then
+does pdev-create with the specified slot number and compares the
+evidence data returned by the RMM with the value cached by Rust SPDM. If
+they match, it uses the cached value for set_pub_key. This seems to be
+working. (FVP only supports slot 0, hence only one blob-instance)
 
-The unencrypted (or pre-mapped) buffers will only be used for traffic
-that hits a device that opted in, and only for the directions that were
-opted in. So we can finely tune the configuration based on hw capabilities,
-threat model and performance requirements.
+# echo tsm0 > /sys/bus/pci/devices/$DEVICE/tsm/connect
+[ 2325.581999] PCI/TSM 0000:02:00.0: connect via tsm0, SPDM discovery enabled=1
+[ 2325.582080] PCI/TSM 0000:02:00.0: starting preliminary Rust SPDM discovery over DOE
+[ 2325.594379] PCI/TSM 0000:02:00.0: Rust SPDM version=0x12 supported slots=0xff populated slots=0x1
+[ 2325.594459] PCI/TSM 0000:02:00.0: fetching certificate chain for slot 0 via Rust SPDM
+[ 2325.623625] PCI/TSM 0000:02:00.0: cached certificate chain for slot 0, 1668 bytes
+[ 2325.623699] PCI/TSM 0000:02:00.0: preliminary Rust SPDM discovery complete
+# cd ../tools/ctlv/
+# sh -x cert.sh
++ ./ctlvctl/ctlvctl --spec-dir=./specs/ exec ctlv0 device-get
+# device-get, 1 fragment, generation 0
+  device.generation 0
+  device.caps
+    cap.evidence
+      cap.min-challenge-length 0
+      cap.max-challenge-length 0
+      cap.max-total-output-length 369098752
+      cap.evidence-flags evidence-accept,object-selection
+      cap.object
+        cap.blob-class cert-chain
+        cap.blob-instance 0
+        cap.format spdm-cert-chain
+        cap.representation raw
+        cap.representation tcb-digest
+        cap.hash-algo 4
+        cap.hash-algo 5
+        cap.hash-algo 6
+        cap.max-length 16777216
+  device.info
+    pci.name 0000:02:00.0
++ ./ctlvctl/ctlvctl --spec-dir=./specs/ exec ctlv0 state-get
+# state-get, 1 fragment, generation 0
+  pci.generation 0
+  pci.connected 1
+  pci.locked 0
+  pci.accepted 0
+  pci.tsm-id 0
+  pci.dsm 0000:02:00.0
++ ./ctlvctl/ctlvctl --spec-dir=./specs/ exec ctlv0 evidence-get --json '{ "evidence.challenge": "hex:", "evidence.object": [{ "evidence.blob-class": "cert-chain", "evidence.format": "spdm-cert-chain", "evidence.blob-instance": 0, "evidence.representation": "raw", "evidence.data": { "file": "/tmp/cert0.bin", "data-buf-size": 16777216 } }] }'
+# evidence-get, 1 fragment, generation 0
+  device.generation 0
+  evidence.generation 1
+  evidence.object-length 1668
++ ./ctlvctl/ctlvctl --spec-dir=./specs/ exec ctlv0 evidence-accept --json '{ "device.generation": 0, "evidence.generation": 1, "evidence.accept-object": { "evidence.blob-class": "cert-chain", "evidence.format": "spdm-cert-chain", "evidence.blob-instance": 0 } }'
+# acknowledged
++ ./ctlvctl/ctlvctl --spec-dir=./specs/ exec ctlv0 state-get
+# state-get, 1 fragment, generation 0
+  pci.generation 0
+  pci.connected 1
+  pci.locked 0
+  pci.accepted 1
+  pci.tsm-id 0
+  pci.dsm 0000:02:00.0
+#
 
-cheers
-luigi
+-aneesh
