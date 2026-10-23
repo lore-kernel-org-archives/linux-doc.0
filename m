@@ -1,109 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792791838;
-	b=r32Jrd/M9lZcaK7lN03w6UTjBoDPL/J4KEH6CrTLxLFayDXMI5ro5PKKxQo0EmOHo0RV
-	 dVUFCULBggzSmpRjHmXHYJKBoDIDB9oAe1j7xAkTGbVWzaSUsy59Fn2bnutF1Ffijamk6
-	 rQmoElbok/YWTpbHaCaUfawnTOLMbVET/H6As/hgP/HKDTtVc98WN/Bx/8XKHBTCEh7fg
-	 QdZhohTHHA5iTG2be696BLONWbKG42L47xXo1bXDObwbn9EcaDffeztFnU4GPgc7TwB1S
-	 h2QL3rTLh+HSn5CUjEMtdeYFy6CtNPOuYqOZi4p+kAFfDTglfIkmE1+JMWVd078/Rmg==
+	t=1792792334;
+	b=OLLHKcVeZn3Y32idYVXUA1W0y/wd2jC6VWI4wn6RvF+/hxiCpBedTFjbOms5z9f51QqH
+	 mbf9iCx0QpPpU7xTIEbT6JetTumcn846/IZ1b9HkJq7NPkD3blP0zvk2rsmGNaB+87i9p
+	 Uz/IbNa3sQBS//94BrZpOhd7u3W8x4BRMmD5QwHWUktUg15Sty3GO28IkpgLSoSiL1Bpq
+	 zKfA68qfWpM5eCzvdMFiOZ0kFvKHZFfJXNu+ECEjAC8CTmdZ6pgiB/IQ8FoJPrO0dnQdg
+	 aq7jnCtgT/NcURWqETK+B6s9cCGHK4CTIY6ThTWDxs6Su68sk20KhS6ywIlHq3kzqfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792791838;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=rBYqzhjRmnws8Rm/5IL7e+PRpdOctdJtXb4xboAMWSA=;
-	b=pS5RM2Ww289PLDgyM4bM+aq3w+A5rk/vYgG8CTP6Y3iMu7mjuTBwarVfU7R1Q7z1+IMf
-	 hL3GuFMkxMSZGOdxxJx8v5fOlcpWvthwDCCD/fW3iX7ezXWuOIU8IL0xba8EzrM8at9D6
-	 buuorBb+9rkg/Z536Rv1nMPlA4lyGJW8Ok7VhsmKMI2PeKqd7OEtS4sTpgWVogmG4XLOp
-	 12h4UdRXljPlm5czQ4btcmz7HGlHZWgLphOWWq0JqUro/0dzsQ5mXKN2NOoRoAoQmbOf2
-	 wot4EOUErBhmaGJAznWjRxkSLe8TYEV+zmdgQQsq/Enq/E+QYUYD81GwzCb8kCFw39w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792792334;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=jU1IZAOHq9r8Ir5hIP1rjGnLwS+weWaNtdurABD6X5g=;
+	b=TWyZs7q6nUKCwhqNCf7RKgYT3fibblMQGIluzXWDDwQCUQ+l79AGs25jJMlF4lKcaKcb
+	 zSS8SBvClaYzafRaQ8kb1ea/9SjwcDhUMxZ0E4A0ZEPFQx/b4gw2Ydqn7KJM+hnl9DN6+
+	 BiHZFW7GA0djIhQ5xwnnp93C7TxbOVvUGBUcG94mBQcZzzbu5xwrx55hrSRV2NkFSJ7TM
+	 I8q1Lt+tiMAe+nwMBoDIPfeYgenuwQwBhLilCXjTypljAaw/agmGUVlOw7/zEMTdSZ0iE
+	 6lZfXrz0EVHFyjjEK7GWcAtvZTVpyStQDpzjdCJd9umqbRaUNqGSRTMx7qYjGJw9gqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="hwASE/IL";
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z943ERBm;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=HGqGxOqE;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0854F606A31A;
-	Fri, 23 Oct 2026 21:43:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0854F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CEA606A31E
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 21:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29CEA606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=hwASE/IL;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=z943ERBm
-Date: Fri, 23 Oct 2026 23:43:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1792791835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBYqzhjRmnws8Rm/5IL7e+PRpdOctdJtXb4xboAMWSA=;
-	b=hwASE/ILIfvsagU4ja9zJyp6NCW7nhDXBrLgESHYvZc9OlC/GQdmV72Hfw8lCHeCcJDiIT
-	xFBb+eSpeLzJx+wG16eGrTDnCizzsAb6w+YXHutGNF3HFzHQkD8tsZ70QSbXCrE553aTtc
-	FyBITEp8ynQwIVKmsTH4edb2ELcKOcjRqPKGeu5zad/jr9HszyeKdSGpYIGAdGmjIg04RH
-	fcQJvL7izNOg661T28mb7TFw7IIiiiTlruIEDWxOW6votoei6lPtMgLjCAwFAfW1s9CXqg
-	i8k5N81Ek/SnmSCRgWHVGbIsWAsCZb3iRBPHtLu5gtarfP+kYufKyE0FptRrgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1792791835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBYqzhjRmnws8Rm/5IL7e+PRpdOctdJtXb4xboAMWSA=;
-	b=z943ERBmz9863Xr+14sVUMFBonUecgHEkMzxOZxtguvVf4IgWnapYNfN7FD67wKQCXc4NS
-	csUXXgLT71khc6BQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, LKML <linux-kernel@vger.kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, Kees Cook <kees@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	linux-riscv@lists.infradead.org,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-	x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Guo Ren <guoren@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Richard Weinberger <richard@nod.at>,
-	Chris Zankel <chris@zankel.net>,
-	linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-	Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-	Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [patch 16/18] x86/entry: Get rid of the sys_ni_syscall()
- indirection
-Message-ID: <20261023214353.Q3pZID23@linutronix.de>
-References: <20260707181957.433213175@kernel.org>
- <20260707190254.493733289@kernel.org>
- <20261022142425.3Wx-RrU5@linutronix.de>
- <87fqxx1r80.ffs@fw13>
- <87cxt11ktr.ffs@fw13>
- <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
- <871p9g1s3w.ffs@fw13>
- <87y0boze95.ffs@fw13>
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=HGqGxOqE
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-917997ab0d9so15468746d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1792792333; x=1793397133; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jU1IZAOHq9r8Ir5hIP1rjGnLwS+weWaNtdurABD6X5g=;
+        b=HGqGxOqExzIyB7hPavSyBDvkHprEJhOVaBIV5g5URIZNOHs9N4YRyG5vMPVAgS/q/e
+         I+cQ4l3HPXviBlFxpvlTlRpxuOp49ndv7fAU21ovgA65rnX2guDwXIma4qyoNi5MLYEW
+         XdDuwvuS3z1gB5IYmho6szpf4Tiu4hoTuEnvYWQ0aVg16z3kioAJj7b6bMtlkyHxzpaf
+         x7JCS2bPNpM2zG0eH4t9jDuct8F8iPqapD4rp8QHG+PT867T5gcDXwMdI93RmUcWGrEb
+         R5C73gEQs8Vwj6CV7Ik+oQgE3G211F4vOsU82Rad62zdb4R3D4yQIrQarhQRnytIwAHO
+         BB/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792792333; x=1793397133;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jU1IZAOHq9r8Ir5hIP1rjGnLwS+weWaNtdurABD6X5g=;
+        b=u61LT4L+j3FJgDHP8a7PDrKu7aCqnZiHbnpPUW8bJwegGP0izQb6ldAi7lKBfT+K9h
+         b4ZiQN1iTJQ+uBhzYvghsnNOl+sGMZJveRmTkMMB1kYW0K84cNui3QNc6y6EIb7nkw4R
+         FWPqV2qWHcpB2VvSObdWv5GxCOfPvGTFkjk6V8dfq7EW7cEioCWIj6ZnxPPQEXHCiyGM
+         HASjRj8bp7Kdv+ubmtYCqz8VKpzu6Dy3SuRtFMK0s7Q+7bf1AheVnkweSw+cfCOrg4cD
+         WC14TMSwgCjeytSgDRcwvi/y8LREjMevBz7XwM663HBds9GXloWW/yYt5UdeRHp+8oTI
+         +V0A==
+X-Forwarded-Encrypted: i=1; AKwUvBz86EeprqUH0jFAeQ/h/Nl8yTLKTlvehp6XzX9he8lRXVyrozhmAxkwcAtPWUYuhf8MNpGcIQZ4D5I=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLIarrBQR096KQekmbb6MXnqsyKQk8RK9wsmDukvzNwJguR/I3P
+	NFSRcnejKGdPXJznlP0E17H5yCB7WWgXgH//vocJ0nuSVFoFfoSroi1SEL1/Z15Gwgw=
+X-Gm-Gg: AYBFou3V9CvSo+RJOJ/YgX0XkCQq7IkjaF5IdGdBVGKiCtmL5Tb/bzmP/g5sgjq+5ae
+	tk1zll/K8kWz6kVH7kcWdZ7FeeMLNqKZfnzc4yQYTfot2Zy6HZg/fZciP68jR7CfOCLXcEuIkQ5
+	PM9hX1p5myOPJ3BuyZag4JoyQOD6dzK8UFBDqqmgMM8RfJ4NOytTKnvGyCtMpQAIPEdf4YXEDKJ
+	fPxeKZ2/cJ+o804ErZa5gMvfE+f43mJ568F+wZEqkjn3UWMGyoFaSfWwVFSJe8e8sgoLX1lOkIB
+	cdG5W2eYZIkEpA63kpZCvK2KWAShjBHxmiYPHj8OlQ/8ZInW9nglf5791dPQdnoscnEYMhr4vZ7
+	ECUktSptFZtcw9HgrNjESL46ioDerbstoepj0/mOHcornZofQmZLluVtXNKV5KsdcghUKznjvWn
+	Fv4B3orrj1BL01cWhx0ZlPG38EtAL7FJ2BLuJ+9KevXlYm7nV7dnBtma6IE3ou99ZkYKXKiLW7r
+	P9ib8Q+Np11bGt1ViggskvW9scfgxc9pU4WKQK711JXYQLRz9vnhkhBPZcfbCPp62WDJtBQX/m2
+	q4n9nSnqG7Ng8uOppYC6oPJi38A=
+X-Received: by 2002:a05:6214:5c45:b0:91b:8870:3930 with SMTP id 6a1803df08f44-91c48e76cf4mr5685596d6.45.1792792333037;
+        Fri, 23 Oct 2026 14:52:13 -0700 (PDT)
+Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47c6f3bcsm5375386d6.29.2026.10.23.14.52.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 14:52:12 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,32 +88,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87y0boze95.ffs@fw13>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: Path forward for Virtualized Swap?
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Rik van Riel <riel@surriel.com>, Wei Xu <weixugc@google.com>, 
+ Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
+ Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+ YoungJun Park <youngjun.park@lge.com>, 
+ Chengming Zhou <chengming.zhou@linux.dev>, 
+ "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, 
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, 
+ =?utf-8?q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+ Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Gregory Price <gourry@gourry.net>, 
+ Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+ Meta kernel team <kernel-team@meta.com>, 
+ Linux Memory Management List <linux-mm@kvack.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>
+In-Reply-To: <CAO9r8zOtK7YYdBNS+h5bNW-miKED7p4G0igy=D-=HRnGqA-38A@mail.gmail.com>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora>
+ <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+ <20261014195354.GA371161@cmpxchg.org>
+ <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+ <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
+ <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+ <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+ <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+ <CAO9r8zOtK7YYdBNS+h5bNW-miKED7p4G0igy=D-=HRnGqA-38A@mail.gmail.com>
+Date: Fri, 23 Oct 2026 17:52:11 -0400
+Message-Id: <179279233116.3784731.9576593182600250610.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On 2026-10-23 16:24:22 [+0200], Thomas Gleixner wrote:
-> IOW, a tracer modification of regs->ax is not overwritten when the
-> syscall number is out of range.
+On 2026-10-23 13:25 -0700, Yosry Ahmed wrote:
+> On Fri, Oct 23, 2026 at 1:03 PM Rik van Riel <riel@surriel.com> wrote:
+> >
+> > +-------+     +------------+
+> > | vswap |-----| swap cache |
+> > +---+---+     +------------+
+> >     |
+> >     +----------+-----------+
+> >     |          |           |
+> > +---+---+  +---+---+   +---+---+
+> > | swap  |  | zswap |   | zram  |
+> > | file  |  |       |   |       |
+> > +-------+  +-------+   +-------+
+> >
+> > What exactly do people want to accomplish here?
 > 
-> Between 2.6.19-rc2 and -rc3 x86_64 was changed to _always_ overwrite
-> regs->ax when the syscall number is out of range.
+> Today if you swapoff a swapfile, every is swapped in into the
+> swapcache, whether it's in zswap or on disk. With vswap, you have no
+> way to trigger swapin of compressed memory in zswap.
 > 
-> In the 3.8 merge window seccomp introduced the -1 == skip bogosity which
-> got fixed up and made "consistent" in several changes afterwards. Just
-> that it never reached a state of consistency due to the overloading.
-> 
-> So are we stuck with this behavior or do we sit down and define what the
-> correct behavior should be?
 
-I wouldn't say we are stuck. The test did reassemble the status we had
-at the moment. As you wrote yourself the behaviour changed a few times
-and not on purpose.
-I would say we define what correct behaviour should be and make sure it
-is consistent across all the architectures.
+This seems like a missing interface in zswap, rather than something
+vswap needs.  But you could just write this as
 
-> Thanks,
-> 
->         tglx
+vswap swapoff {
+  disable new backend writeback (swapcache fault-in only)
 
-Sebastian
+  for each backend {
+    backend swapoff
+  }
+}
+
+so rather than vswap.swapoff() you'd actually just want a stop-bit that
+says to disable the swap subsystem writeback behavior to all backends.
+
+Otherwise the user can just disable each backend individually.
+
+-- 
+~Gregory
+
