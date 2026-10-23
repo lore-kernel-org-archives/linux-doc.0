@@ -1,68 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792780038;
-	b=T73JsWBBworZsJUmYYedeFAs0sglLzveWJx3oqnAThWqk6+psa7dlzjba/tuJXotKtMB
-	 0DJIGX6r/D3T6J6GcElTVxAZag7fG3Py7VO8gMDJGcViv/k32uzy+CdrM4RosiN4FBO/C
-	 TseWRN9vpLp5KSjhNRrzZOCwpxG2ohnnm7D8Tdte6jx/Ai+VJSWehw/x+Kch/6th49lK+
-	 H+obtyKD6RkiNGeJHxZOyLUGDzgak1jJ+LdJiFNeR4snKTHiS2B/oYtd9LN+zA8z5HwUP
-	 /fBJbPIn4E0wv2HymhdajjK90CzkZ61nXaG9FYqyQVBpXjfph6c09sIqO+0FTGUyuOw==
+	t=1792781320;
+	b=4WKD0Hn0DYa5aWOCgVvRBFvJq/b7AbAr6vlaJrxlQ3rEbeO1V45SnLVDNee69VdDry7k
+	 cfxFQPhqE9K66azIh3TgUu8Uft+hDYqJrCTIu0K/lDmFqYinhnPnYHtmK+IRfCZ04yt+g
+	 5qHCz0igv/eaA6gAeXmFJ8Q76LTCQP5ypjqG4aN/OLtyOy0qyol2uvP+BeIKUIO/ShS4X
+	 4LGdLb2w7O2f+vR6LTvvTy5ag6X7KiZquZDZ1JftwjuMudaDsPUZF7R0e1PQjo1jloNJB
+	 dZdl+ClI4xypHbw9xmS4bIz/M3HxzqE3DyyARq2Wbs2e2wKXksAv29pA2xzO2qOVLiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792780038;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=OMMk0FY0QXXjJrMUkrwply/6bMqx0VFwmW8asWdCFJQ=;
-	b=hu+CmCRu417F/A+MgHYm/53hG9mFg2MTiyN9qsU847u3UArwcNv5y5mGPN+oTICQ1CRi
-	 W5kuQvO+pgA/1stP8SUXkYPULiKhkpC/BL9EeoNSRMtBtrs9nSaJChvL/ZVoQV/Yjo0Fz
-	 UVztMh/SK7ui5q9JQr2qEZ1iaFvp1bLkS1HHMDSPFkHpBdCmQwOWA/YPRlA057fTsTRlg
-	 q+5NaXQLuAXLxaVPjyk5cVWcQTpJCigG3hMlarM6293X4W7hI0uKdwkIJme7Rv2yU4VcO
-	 uYpybp1ZmQaH3Y0qG24LbcbVTZo1uQlfotrLJRdWsm2TtyOl4RnaHdK8oHpbHeEk09Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792781320;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=E2FdSZgW1ETVNdAfDb/5mKk/9Ymglr13dfhYqNbiU0s=;
+	b=oG7sFFTTu46yBi6ZpBYyKW6T6y6XwPdmt1UiQJLmzP6azSLEvxeuNDBviBsh+6d9aaAI
+	 wxwC1l51TGitXzPSNyHOC1CzaQXLTCbWPZUynYfXAXXcOrNjginU/mNFxQsi3KaSs6o2v
+	 FcCdLYR84lqCLTSsRfeBEJrCCdcqhMjcJ69OZCswCFWjZnTCfOxsRLZ1p132j0PYf4UgS
+	 LOM47Pg3P+ARqASGFbmdohPE5tVGuHbmiydoM46hr+RhTqmpB0lJTRt+VDF7Tl9miVXO8
+	 p4/dYmDglyssc0O7DMqinJV5t7pJtE1DdPQm6x6M+wwJywO10a3iLR0U4lPNR0ZQRPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G9n9PYHm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ62D+sH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12E7606A31A;
-	Fri, 23 Oct 2026 18:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE681606A31F
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 18:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G9n9PYHm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259B01F01825;
-	Fri, 23 Oct 2026 18:27:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mJ62D+sH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC18B1F031E3
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 18:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792780037;
-	bh=OMMk0FY0QXXjJrMUkrwply/6bMqx0VFwmW8asWdCFJQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=G9n9PYHmDL6cgVGQNgXtNMCyVym07kIyyjM2nGMF3bsN0888XQNZ4UlZQ5VXpvrwH
-	 jSs376aScTw45oN1ocyIVZKX/rCW4ZO5vpA7KQKBkWB39rIEmJYmQcsPSwwAT2QsdX
-	 QlpB3wcDy7WH2w8//1hJ4V+fstquvb8vfORjJrtI6GR3ls85ONhfDpEaffIfXk8Jwi
-	 oNQ5WeXNpwNKMCS4ISCn2rDsxme+3kpE+h1SicZs+5Cs95krMsAUUNZZKkmPNCAOPi
-	 KCuzxbEt2ogrM7EFOAVrSYEN/4rsnKGSM8ZaL9iYZ86rJ+FagondpXmymu1fiSUUbk
-	 RXgCab24TbNrw==
-Date: Fri, 23 Oct 2026 13:27:15 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 02/18] PCI/P2PDMA: Derive routing from directional ACS
- controls
-Message-ID: <20261023182715.GA2798722@bhelgaas>
+	s=k20260515; t=1792781319;
+	bh=E2FdSZgW1ETVNdAfDb/5mKk/9Ymglr13dfhYqNbiU0s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=mJ62D+sH0WW6xEP+v8vbFt48woN5lul0pgNr07iTBBAgUoh+wbpKB7TwGb/SrOhfV
+	 cSnm0pCHFZSN/YYlqTy+159i5VENlSenT7ywmZnkFbWsyzLJ8iHuaGrM6Pn9g+2DdS
+	 zmrTKvHzqsBa9w3adygfvKcksiAt+4R2TayGY6JWxGLY/46eweV8QUlESTKL4T1JV3
+	 L74m1a677qqTjvHEH7vAGWlr46ZZibA5Q3kUuEHgG24N+I6wgBRsLC7yzXLMPkPVag
+	 msxfoztMcaxY1gOPzps6rdMdmd+VY2X1a40sMNLRenovvHxd8i/KRhw4Op3jwIa5XI
+	 6kHceWodhIQoA==
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c43373ae89aso192066366b.3
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 11:48:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxfEQGhMvDoGJu81oixXgUH+M5qZC+fZZQ7sAnMzjJJdovYW02QvK0BUR76vLlQWmsQGUNCJVDASfA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJrxQIL1//UOo88CXUkbF6/cmC8oFSQRoW4TjmOlnwyHljZe4zy
+	dhfaQ8ek1o980Pix/ZZQkrXUpLwspgnGbe6SXB9SQnEIJhrEr+ZeVS6SmCAnhN6UkJrzivpCA5t
+	1Wx7MFh9GHse/ZlgiOc7q1ULeppJ6JCI=
+X-Received: by 2002:a17:906:c10c:b0:c40:38b5:d784 with SMTP id
+ a640c23a62f3a-c46a91fa71emr509539566b.22.1792781318187; Fri, 23 Oct 2026
+ 11:48:38 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,61 +59,118 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023155914.GK3977851@ziepe.ca>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <20261014195354.GA371161@cmpxchg.org>
+ <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+ <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org> <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+ <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+In-Reply-To: <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Fri, 23 Oct 2026 11:48:26 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOWW8+ARqvjtYYZbBCH26s0YhwrqHTaoXeW9DcFR=3BXw@mail.gmail.com>
+X-Gm-Features: AclHuK8Vn1TWyOOSO3vLHubmDo3arJfqe6mLfCmYzhDd5kWYgbQ2Cbog3YjV-tU
+Message-ID: <CAO9r8zOWW8+ARqvjtYYZbBCH26s0YhwrqHTaoXeW9DcFR=3BXw@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2026 at 12:59:14PM -0300, Jason Gunthorpe wrote:
-> On Fri, Oct 09, 2026 at 08:43:01PM +0300, Leon Romanovsky wrote:
-> > On Wed, Oct 07, 2026 at 03:40:45PM -0500, Bjorn Helgaas wrote:
-> > > On Wed, Oct 07, 2026 at 09:32:27AM +0300, Leon Romanovsky wrote:
-> > > > On Tue, Oct 06, 2026 at 03:49:47PM -0500, Bjorn Helgaas wrote:
-> > > > > On Thu, Oct 01, 2026 at 02:55:10PM +0300, Leon Romanovsky wrote:
-> > > > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > > > 
-> > > > > > pci_bridge_has_acs_redir() treats Request and Completion Redirect as
-> > > > > > interchangeable. On asymmetric fabrics, a control for only the reverse TLP
-> > > > > > direction can unnecessarily force P2PDMA through the host bridge.
-> > > > > 
-> > > > > Does "the reverse TLP direction" refer to Completions?
-> > > > 
-> > > > In general, the P2P code treats TLPs flowing from device A to device B the
-> > > > same as TLPs flowing from device B to device A.
-> > > > 
-> > > > However, in the context of this commit message, yes: completions flow in the
-> > > > opposite direction from the device's perspective.
-> > > 
-> > > And I guess asymmetric fabrics must mean fabrics where Request
-> > > Redirect and Completion Redirect are not set the same way?
-> > 
-> > Yes, in some of our systems, deviceA to deviceB is going through
-> > different route than deviceB to deviceA.
-> 
-> It is a little more subtle, I think practical systems try very hard to
-> avoid that since many host bridges do not like seeing only half of an
-> exchange.
-> 
-> What we end up with is Relaxed Ordering and Strict Ordering take
-> different flows in the fabric.
-> 
-> > > But I asked about ordering because it sounds like this patch expects
-> > > to encounter asymmetric fabrics where Request Redirect and Completion
-> > > Redirect may not be set the same way, and the spec implies that
-> > > asymmetry may result in ordering violations.
-> > 
-> > My guess is that the hardware and system architects have ensured this
-> > doesn't happen. At least, I haven't received any complaints about this
-> > series during internal testing.
-> 
-> Yes, the ACS combination is selected to avoid ordering issues
+On Fri, Oct 23, 2026 at 10:24=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+>
+> On Mon, Oct 19, 2026 at 5:35=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+> >
+> > On Mon, Oct 19, 2026 at 5:28=E2=80=AFAM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> > >
+> > > On 10/19/26 14:24, Nhat Pham wrote:
+> > >
+> > > I'm traveling this week, so it's a bit tricky. I cannot make Thursday=
+ morning.
+> > >
+> > > On Thursday I'll be traveling back from Cambridge. But hang on.
+> > >
+> > > My plan lands on Oct 22, 11:10 PM. I should be home around Friday 1.3=
+0am - 2am.
+> > >
+> > > I could just naturally join that day.
+> > >
+> > > So one day later would work for me.
+> >
+> > Would that be too rushed for you? :)
+> >
+> > For everyone's convenience, this would be the time slot:
+> >
+> > PDT: Thu Oct 22, 5:00 PM
+> > EDT: Thu Oct 22, 8:00 PM
+> > Europe: Fri Oct 23, 2:00 AM
+> > China: Fri Oct 23, 8:00 AM
+>
+> Hi folks,
+>
+> Thanks everyone for attending - I didn=E2=80=99t realize swap was so well=
+ loved :)
+>
+> I took the liberty to summarize the points being discussed - please let
+> me know if I missed anything or misunderstood any points:
+>
+> * Swapfile sizing: Kernel kept swap slots after read faults to save IOs
+> if these pages are swapped out again, and thus needed swap occupancy
+> (and hence static size) for a heuristics to trigger reclaim of these
+> swap-cache-only swap slots. However, this is not useful for fast
+> compressed backend, and zswap invalidates its compressed copy on page
+> fault anyway. Vswap does not need this heuristics because it just
+> frees up the swap slots eagerly on page fault for in-memory backends,
+> and rely on the existing slot reclaimer for physical swap backends.
+>
+> * Logical footprint limits and charging: cgroupv1 allows logical memory
+> footprint limits (unique page tables). Cgroupv2 controls physical
+> memory and swap resources separately instead. While virtual swap
+> entries continue to count towards memsw, cgroupv2 counts only the
+> actual resources they consumed - post-compression size in
+> memory.current, and nothing in memory.swap.current. While cgroupv1
+> continues to be supported in its current state, a cgroupv2 transition
+> will present a problem for memsw users that still needs to be worked
+> out in some form of overcommit control.
+>
+> * Swapoff: this was brought up as a request, but we ran out of time
+> before we could discuss the motivations and use cases behind them.
+> Folks interested, could you explain as a follow-up?
 
-Does a user have any way to know whether the configuration is safe?
+Adding @Wei Xu for this.
 
-I'm wondering whether users might use "pci=config_acs=" to configure
-ACS so things appear to work as they prefer but may not provide the
-ordering guarantees drivers depend on.
-
-If that's a possibility, do we have any notes in dmesg that we are
-depending on fabric behavior that the OS can't discover and verify?
-
-Bjorn
+>
+> * VM_SPARSE v.s xarray: no performance difference between vswap v.s
+> part 1 of the xswap=E2=80=99s patch series. With all 3 parts, there is a =
+win
+> for xswap, according to Baoquan=E2=80=99s testing.
+>
+> Let us keep the communication line open and coordinate on the next
+> steps.
