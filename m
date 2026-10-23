@@ -1,91 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737617;
-	b=YP+QCTq636LHQFiov/Uj1FdiTvB5ASQfTpawQIoByI0FAnq+2YDYqz872qzDy6fLedHU
-	 E2a/ulBVFHwnl73hcC7o8NqXqy+UN2POY7OJ4z5eAeg3JBSu+ImVymjM6qc52J3hPN7kP
-	 cfsIWYrpW4Nc77o4qSO6aj4mQ9vNHhx+sKL68Q9yyx7OssOu4N+xiuKzh2Y1hLsjo8FWE
-	 esboTSDF3bYvgU7parqzyKt3lpffkUUYnhDoNI0mVH8AIVZXhcz16hDhehj4fFG9ecv5P
-	 GfLm88v94IFuwYtfPPASGAhSQXC2+zZRvqNm6BFDTd6nUtey5d4gTAJdlHC1Ts2jZUQ==
+	t=1792737620;
+	b=G4kWjcOwv4NQqhyC8vNTwsOocS6j3uxvjFaq09MVoqEQ1ZN71wjNQ9c+nWkyXyynEI2M
+	 AX9BLXsuN028YrJSLXwlIGKK0PzJ/99AspvYHooXS90qeCHRlaRgZ3iWZsZ9cTPyMNT/p
+	 UTt8vTsiIiQ0BBjCrz71syr1olkEsdWC+qCNmPWLlfH3tPv3B9sBVwisHGka1y+uWIDrI
+	 +WbSqV74dXrunF+ErEBPC4bCKTthzOJfpWkbbVrWzxFPvKjYpTl0qXCMmB0ugu/1zBM/9
+	 JRMfBK6G0sZD+Rkt+N2mcLl6E5Y7tRAGiaYSmHFpPx65TmaButMfZvl6vrnhHgV+aow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737617;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737620;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:X-Google-Original-From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=7r0UNu5wEL8POkOSz3+rOlJOKvPQ5Qd38WxY0JoWHCY=;
-	b=CI60I69suSi7WLsmP8nKLJ0J3Tm4vTa4t43RFWvu3KmoILYYQGcg+p3y91089v4AfLW5
-	 yDeFoYZh7Stoz0QL69zw+lSAttSjoWFE+ZBK+qLejkxEhZ4pc3Lf8xyCl1nOWZKfcmwS0
-	 VFayutoWB30xGopxvS2xtAJxFdmaZvAgAcDG8k2SL/tyT/jUOgXWVYSRYwflepVsu48/I
-	 7R/0XDMlmKDSAgY5uhLHoAze5Zj4FVG1E281ju25KR3H7y1YJygIBmwR9y7qxXN8t9DRn
-	 TYVImCpktMuFeeP9id1qiLWBQG1uKAMKdGu3uhRyutwI/tWLKxIz7pFC5v7G2ixhPyA==
+	bh=nI3N8MrEeubTFBg+n+hiFqxjlTWdSSoRNoSmz7N6G04=;
+	b=WKtYcSkXGejLBG1AUeYpCCIsKSsTjWpAEyp3O1YzhmGJGC2gehqcOBVY3z05+fp4ymDz
+	 b1r84etVLpgPfvdHARELWEHLoVBrHVHReFVZrTU3Yu5rXDQcW1wubv4AGouUkqv1zHubO
+	 3T3TiwU0/KI+QCakb/Lj0O0Qh5YLevlm19/tiM6rROElDPuOQvnUfI2OVh3vMzWqxCnSc
+	 64xQN2rqzZrmO8dz7gjCNpV8sNB0UtLNP2K09PLI3/qxZI1rj0XS04U2u7kSB/kcgx7AD
+	 8ZEYFPn6gq62wp9jFdVkzN94TwnspnGLdWHP8Xt3fmHqIx4ngPyQdLbZBLKLdhL1Zgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SqiI834I;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SqmkXSH8;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEC160A261F
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:40:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EEC160A261F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B9360A2609
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:40:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19B9360A2609
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SqiI834I
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so2378435e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=SqmkXSH8
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4be28b82so396121f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792737616; x=1793342416; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792737618; x=1793342418; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7r0UNu5wEL8POkOSz3+rOlJOKvPQ5Qd38WxY0JoWHCY=;
-        b=SqiI834I39va7l3yboJlN/zD/L9WM25KLneG14hpeRk7rVJY0zl7N9XJbly8pj/uXL
-         4VfXV57g1LOJemivqZPnATrIZUhRmyu3BdUl2GAzM9FYvUhxek7LWaO+tXL2+FLZI1WS
-         fmn6roPNONFMKksLuKgHR6dhPzlbcK09XiUPIUwmyW98H6SbSWg6KSPiQJBqVn+mhex9
-         Ey1euNmwJFduuSP3QOsITXWoZcs+Fr6IwVH02YHBvk0zbV9oVXaueclBgj5kzeQloRmd
-         NbwQb7Ut1g6mbM5v1CMBQbWaAlBf6CHN+AiAJHmB4hBQURHL1LpzlXn7Jmfb6KCj2iZd
-         gRDA==
+        bh=nI3N8MrEeubTFBg+n+hiFqxjlTWdSSoRNoSmz7N6G04=;
+        b=SqmkXSH8V0CB7ATc9I8tjUfkkCmOXF6C/WDLEmPmui2vK93TYLJUor4xUni2xt8+h7
+         9KGtee5fntj/3j97ygSJ8Cla/Tf2sOjXTnjSqT9ZKgzBk4ir8Sf+cFka2TPOd0y9JA23
+         mkfbnoBd3Zg56D1HdGiUbAxpCwiRpp4Z/RNWWn/txCoCwDvJIeQjmJiCpmzGyEp4UcGX
+         1gm/zvm/ERPgwugV5P0pwVB9e/i2JBkP2FCi8QXvhOVnE1W1owPe2iBPJauG1jks0/IT
+         /xYvs+rQfruj2Z0BXBQiiJ3dNNH1DAdRRoD4zl/dkftaQcFmnuMagmd0QcOBLgbfrUgh
+         5QZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792737616; x=1793342416;
+        d=1e100.net; s=20260707; t=1792737618; x=1793342418;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7r0UNu5wEL8POkOSz3+rOlJOKvPQ5Qd38WxY0JoWHCY=;
-        b=ndq1Tgg3r53OR12mJn6Dw8LmcUCMvHcgkuxSAQW5erM4MXnfPUlWinYPPwMGvZ7TUu
-         OtGn1Z4pNDpapz4m2xO2VL1CwqJjsga0XIeTyC93AzE0C9vIL3Wip9sBkhmdvCtF3GK0
-         WKGTevfFBpJZDPCBGoROL3mj1ur4egvQguXUmp9KAYuUQZVwgZy3kIJNPXur0VGzmdXF
-         ipAYDcCl8FTb/5XybU+AIXxnINgbMh8zhP2aGHZejy3+dBnr0INjEZDCk/zUhnb65n/e
-         MVI/cGSIFdZKCF4UudMxTMKFKVRZcpnZAy4BcAGKTh5wxfifIXhcu4WYKafU2lEnT5bA
-         /RPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzfu4MThC5L6Qj3AvV5yiK9t7aX8fEB4I0CmvuC+FJXjOrcFX/e5Ss2pBMrQ/OU7VDK3q+SszxoIGk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAugHHV+U6gpX/s/9T/Wz6JeoSIL5Waq7diBbpffIhkD8Bi203
-	uAxA+MydshTCyH3lgGjUZ3MVgiBVpp8Ny8YCLwp8eF9FwybV8nGNxrWu
-X-Gm-Gg: AYBFou0OBEzlsWPo2+TcStTCvTc01sUP/dH48WeD//WuGjQLSN3S2F/ELKvlZjPjEFq
-	yBQ4rvFuZaF+77MgjZWUfkLGdoM4yyNM10H1TTadPMbSi589gg1B5VdK1PpBI+Ni8YMUO71YvqB
-	FgmB9klGCHINNEd2xpEk1sinlxdk5GZN4P/HtvNWQjK8JO1dnWWnxw6QMuyAeTfsA2l0uW28SkE
-	j0K0Yeb+zS3d2Fby/EzafiaQ/2icujNuVNlWmDCJR/CVziW/jtOztplBX59eOp75t/kZDKwYAOs
-	VN9aAryhUigcznMmwtn/qHs/mBcE2ZRAUIWC5AM7vECLlqm5vq5LvgoWiMavjqsbuwSK8ZdFjEn
-	12HTgXkieWwIitsfd9bu+kbj8oTz1OTlXa74UrsmFngOTHtzWefEPuWAbRGtBiB+4eYk1rK079g
-	+bMmNjXpXVA6VW2D3rbvVOQERjBMwCHTpCr8Evd8FNGIDvCMBLoCmN0HAwczNNVWeBegM9HO1oO
-	etLm2InTT3uRSh69VKuKDIJOwvcKTNefrBNm8YEwR9ET9wFChXoKZbwGR2b5M9p4huQ6RdXCoxH
-	Z2prX/L2IIa5vHDboQUm1Hb/C7HCn1doonaEeFdDqktWH2gjjzvy+sTKmIub8VS9dj+c/APpUZC
-	lquk=
-X-Received: by 2002:a05:600c:6387:b0:4a2:bbd:ea3a with SMTP id 5b1f17b1804b1-4a211c51aa9mr18565345e9.6.1792737615806;
-        Thu, 22 Oct 2026 23:40:15 -0700 (PDT)
+        bh=nI3N8MrEeubTFBg+n+hiFqxjlTWdSSoRNoSmz7N6G04=;
+        b=eFyeM46MQJFqn6MSSItCszfFS8kV/aI6jusT2no1wbQVQusuFXWOa7eNA7i4PH+1AM
+         fNjzZHrQGP+Q0Ajlvg0SNb+D+98UZizDO9pTUjMh4CpWWHbYr0+5yeP5cHO2Sa35UNy1
+         oOAtSIpVw+b1imbazXmrYiXxN2E9Um39hc3cAYGd61Pil6FxOjr1dlmZdjR3htI2zzow
+         X+xYGKL0eGeNKSjnlS+t8uGL938zYwRyCcRxg7LIDvAOiqbgXFNychale4VyTSg06SEl
+         D7w5jPTkC2Z6OB1U8QzsPuXaeLv74zjeFd51qdz8E3g4amSRW+ghdNLhXBCJ9vutgDa0
+         Vybg==
+X-Forwarded-Encrypted: i=1; AKwUvBzgM2WJbpqCeWBgOKjCPYN5yS+EL45ztpkgmvjZ7B8CjKMUiWcy8TFG51fNB0oI3ipx4C8UP7pbtz8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLNj/vXu55HOvaN0nHF0p825dpSHiYR1kyH502+LKjDUCJUQpqw
+	RcUTgWahpp+N4vTucSEsFO9HFx1KX+NE+mZIkoFGHUb9wkLo/6Wr5Q/4
+X-Gm-Gg: AYBFou3SXrMfr+J522FlCKFSpYREPkCZyFDSmtl4dTVCPV4uD7fU9KSrbcfBG4uZG5l
+	V8UFb0iWIvfrpphKX5GoZ6xiw7v1LcKmdq8V07YMgWdYvmWIMfKRTvo7iiy9r3LzKKSpvJhhIJR
+	endSCBNNZRuJsg1NOVTdiMfJKjjN1FiVquyuQSKwxnIwuZ3CKIEFoWrw1kxvGMQXzXN+naVk+NF
+	OyhQvOsoyZcta9FbbT9MIPQYOsipNVHPFTHQbGbKPjvLbCqUPabsBeAlM28mnX0RXRwRRIt3GKw
+	JyKzoY41ltyp7fyxXxQIANKlfRvYRBHe3ePtnfC56VbWY/q8dNsVq2zU5QtKTPBzQiwmIamOabr
+	qwb6khRovo/DHaduUSem1BMRON91d6IozzLD2NpsjmzM8GJQ8yIQYPqXuQ2Z9b8/QB9bxV5/lWJ
+	3A3661SQ+BFov3aU28fWjRGBI66C7rfl/D9QeqkY9UBv1b4yX6OIgx29RuC7gVBwiKYWoScG1dI
+	MjuPptTub/peIUULSejKBiuXBox6g1ZyZeAyxNOcaMi4q+x6VKAZeOnK2SsgxP+igk31IEMvKUw
+	0oF+iRzfYJkjzqdH+SRHOTEC4gntXthfR5s//CcoZR8R5bK3Tlq6tlX7eYlQ7v99mfnD+JfWb2V
+	h+oE=
+X-Received: by 2002:a05:6000:258a:b0:48d:fdc0:7086 with SMTP id ffacd0b85a97d-48e3859a817mr1823119f8f.22.1792737618388;
+        Thu, 22 Oct 2026 23:40:18 -0700 (PDT)
 Received: from [192.168.1.22] (cst-prg-49-173.cust.vodafone.cz. [46.135.49.173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.40.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.40.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 23:40:15 -0700 (PDT)
+        Thu, 22 Oct 2026 23:40:17 -0700 (PDT)
 From: Tomeu Vizoso <tomeu.vizoso@gmail.com>
 X-Google-Original-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 23 Oct 2026 08:39:37 +0200
-Subject: [PATCH v3 12/16] accel/thames: Install memory mappings populated
- and dirty
+Date: Fri, 23 Oct 2026 08:39:38 +0200
+Subject: [PATCH v3 13/16] Documentation: accel/thames: Add initial docs
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -97,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-thames-v3-12-3ab40aa17157@tomeuvizoso.net>
+Message-Id: <20261023-thames-v3-13-3ab40aa17157@tomeuvizoso.net>
 References: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 In-Reply-To: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
@@ -128,123 +127,90 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, linux-hardening@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-The GEM DMA mmap helper maps the whole buffer up front, but with pages
-that fault on their first write, since the A53 in the J722S has no
-hardware dirty-bit management. The GEM shmem helper maps by page fault,
-one at each page's first touch and another at its first write, which
-its write-notify needs. Neither helper can install the pages writable
-and dirty, so the driver sets the protection itself: for contiguous
-buffers it calls dma_mmap_pages() with it, and for the others it
-installs the pages with remap_pfn_range().
-
-This saves 20% of the total time in the first invoke of a model on the
-J722S.
+With pointers to the other components and how users can make use of it.
 
 Assisted-by: LLM
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- drivers/accel/thames/thames_gem.c | 76 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 73 insertions(+), 3 deletions(-)
+ Documentation/accel/index.rst        |  1 +
+ Documentation/accel/thames/index.rst | 47 ++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                          |  1 +
+ 3 files changed, 49 insertions(+)
 
-diff --git a/drivers/accel/thames/thames_gem.c b/drivers/accel/thames/thames_gem.c
-index 5a4dc497768f..9f55169c6370 100644
---- a/drivers/accel/thames/thames_gem.c
-+++ b/drivers/accel/thames/thames_gem.c
-@@ -808,12 +808,82 @@ static void thames_gem_shmem_bo_free(struct drm_gem_object *obj)
- 	drm_gem_shmem_free(&bo->shmem);
- }
+diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
+index cbc7d4c3876a..eb115413db07 100644
+--- a/Documentation/accel/index.rst
++++ b/Documentation/accel/index.rst
+@@ -11,3 +11,4 @@ Compute Accelerators
+    amdxdna/index
+    qaic/index
+    rocket/index
++   thames/index
+diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/thames/index.rst
+new file mode 100644
+index 000000000000..6382ff2369be
+--- /dev/null
++++ b/Documentation/accel/thames/index.rst
+@@ -0,0 +1,47 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++============================================================
++ accel/thames Driver for the C7x DSPs from Texas Instruments
++============================================================
++
++The accel/thames driver supports the C7x DSP cores of the Texas Instruments
++J722S as compute accelerators, for workloads such as machine learning
++inference.
++
++Each core runs a firmware that remoteproc (Documentation/staging/remoteproc.rst)
++loads;
++the driver attaches to a core remoteproc has booted, boots one left offline, and
++resets a core through it after a fault or a timeout.  The firmware's source is
++at https://gitlab.freedesktop.org/tomeu/thames-firmware/.
++
++The driver and the firmware of a core share a block of memory reserved in the
++device tree.  It holds the core's Ring, the queue of submitted Jobs in the
++order the core runs them, and its Fence, the sequence number the firmware
++writes as each Job completes.  The driver adds an entry to the Ring and rings a
++mailbox doorbell; the firmware rings one back when the Fence moves.
++
++Each file that opens the device gets a Context: a page table the core switches
++to while it runs the Context's Jobs, so the buffers of one client are isolated
++from the others'.  A buffer is created without a mapping and bound into the
++Context at a DSP address the client chooses.
++
++A Job is created once from a program, its parameters and the transfers the
++core's DMA unit performs around it, and is checked then.  It can then be
++submitted any number of times, in arrays of Jobs that run in order and signal
++sync objects when they finish; the call waits on no sync object, the fences of
++the listed buffers order the work.  The drm-gpu-scheduler spreads the
++submissions over the cores.  A Job that faults leaves a fault record, which
++userspace reads with a query; the capability query returns the sizes and
++addresses userspace compiles against.
++
++Everything else is done in userspace, as a Gallium driver (also called thames)
++that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
++
++The interface is described in ``include/uapi/drm/thames_accel.h``.
++
++.. kernel-doc:: include/uapi/drm/thames_accel.h
++   :doc: Terms
++
++Hardware currently supported:
++
++* J722S
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c63ab2d77b01..dce817531184 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8024,6 +8024,7 @@ M:	Tomeu Vizoso <tomeu@tomeuvizoso.net>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/accel/thames/
+ F:	drivers/accel/thames/
+ F:	include/uapi/drm/thames_accel.h
  
-+/*
-+ * Installed dirty and writable: the A53s have no hardware dirty-bit management,
-+ * so every first write would fault.
-+ */
-+static int thames_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct drm_gem_dma_object *dma_obj = to_drm_gem_dma_obj(obj);
-+	pgprot_t prot;
-+	int ret;
-+
-+	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
-+	vm_flags_mod(vma, VM_DONTDUMP | VM_DONTEXPAND, VM_PFNMAP);
-+
-+	prot = vm_get_page_prot(vma->vm_flags);
-+	if (vma->vm_flags & VM_WRITE)
-+		prot = pte_pgprot(pte_mkdirty(pte_mkwrite_novma(pfn_pte(0, prot))));
-+	vma->vm_page_prot = prot;
-+
-+	ret = dma_mmap_pages(drm_dev_dma_dev(obj->dev), vma, vma->vm_end - vma->vm_start,
-+			     virt_to_page(dma_obj->vaddr));
-+	if (ret)
-+		drm_gem_vm_close(vma);
-+
-+	return ret;
-+}
-+
-+/*
-+ * Every page installed now, dirty and writable: they are pinned for the
-+ * object's life, and the helper would take two faults on each.
-+ */
-+static int thames_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct thames_gem_object *bo = to_thames_bo(obj);
-+	unsigned long addr = vma->vm_start;
-+	struct scatterlist *sg;
-+	pgprot_t prot;
-+	unsigned int i;
-+	int ret;
-+
-+	if (vma_is_cow_mapping(vma))
-+		return -EINVAL;
-+
-+	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-+
-+	prot = vm_get_page_prot(vma->vm_flags);
-+	if (vma->vm_flags & VM_WRITE)
-+		prot = pte_pgprot(pte_mkdirty(pte_mkwrite_novma(pfn_pte(0, prot))));
-+	vma->vm_page_prot = prot;
-+
-+	for_each_sgtable_sg(bo->shmem.sgt, sg, i) {
-+		unsigned long len = min_t(unsigned long, sg->length, vma->vm_end - addr);
-+
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(sg_page(sg)), len, prot);
-+		if (ret)
-+			return ret;
-+
-+		addr += len;
-+		if (addr == vma->vm_end)
-+			break;
-+	}
-+
-+	return 0;
-+}
-+
-+/* Only the GEM reference: the pages are pinned for the object's life. */
-+static const struct vm_operations_struct thames_gem_shmem_vm_ops = {
-+	.open = drm_gem_vm_open,
-+	.close = drm_gem_vm_close,
-+};
-+
- static const struct drm_gem_object_funcs thames_gem_funcs = {
- 	.free = thames_gem_bo_free,
- 	.print_info = drm_gem_dma_object_print_info,
- 	.get_sg_table = drm_gem_dma_object_get_sg_table,
- 	.vmap = drm_gem_dma_object_vmap,
--	.mmap = drm_gem_dma_object_mmap,
-+	.mmap = thames_gem_mmap,
- 	.vm_ops = &drm_gem_dma_vm_ops,
- };
- 
-@@ -825,8 +895,8 @@ static const struct drm_gem_object_funcs thames_gem_shmem_funcs = {
- 	.get_sg_table = drm_gem_shmem_object_get_sg_table,
- 	.vmap = drm_gem_shmem_object_vmap,
- 	.vunmap = drm_gem_shmem_object_vunmap,
--	.mmap = drm_gem_shmem_object_mmap,
--	.vm_ops = &drm_gem_shmem_vm_ops,
-+	.mmap = thames_gem_shmem_mmap,
-+	.vm_ops = &thames_gem_shmem_vm_ops,
- };
- 
- int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file *file)
 
 -- 
 2.54.0
