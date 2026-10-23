@@ -1,96 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792715050;
-	b=JehGnMocDtR5ZiqnyHoEwd2SymW2otp4JrkITmQuJmcTFUpV5SNStMnkpqtqr9RRBD0x
-	 Y7hzGWqr3ndX9Jbxj2Q5KLLFl+5gzDheaYzKHkMOqw73AKnsTnaBunvxIfFJ2EsYxSTUY
-	 WFfoVvCQtaUQF0HioUNVSkw7QFl7HZZjAdKDIvqb97zIvnBiPSvT5H8Ksau93meG70Zyj
-	 leuw/EZrKFjtB1ZusQ+/2jbVU+LTFCqh9p/92irJ3csZM4DdI8mYs9yKJMNIuOX69YGUl
-	 rJxscecZmLw091td6D0PB7o2IRfhP44LS8LM75KUrKif8Lx64aQuxLAff8bJ/CBf4jA==
+	t=1792716673;
+	b=kx/RDaDHMkh0zcII4jwQIAVrP2fKJDke3yqlMN2HdbUggpyNPUwBW29V1WJimrxkLota
+	 gzYt7HQcLKsSYr8XDk7dRfnyd3S1eipwkzbpVGX0dl3kZ8NbHOTYWkjKWpCaWjcEM5rXW
+	 l1JrS6MENx2aT9erdLKM68ut76mRcI2YO/FjRLFsfK4JI0Hdsub+ARvEFUNVEFPlSZaCW
+	 TSg6BU1+rbBPJG5jfWVh8ehKkbrYaUOpZ1hXx8lSKi59vP4sIBwSdamM1dS0ts/f7H/WC
+	 KhlxgJPIu5zD3A5s+6bOCiWAodsNKzIDy1L2Yeooh/T8ABv2Q1yxWPk74EnS8KAsamQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792715050;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:CC:
-	 Subject:User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=sewWTjP+M6E94TwmQI+LvxiP3Dgk+UiInUJ1sYqPvjE=;
-	b=kR2CrW7/hkAfxZW3cHeIT4RoXyK7nQWiqdFq13pZhWIcIfxUr/T5/oAMjrAhRkFaTRwC
-	 M//jmNwbhkwd87XRtxr9KAd6zQcuJ7nbsAA7YJ2XjR8CQn7i8rAWpVtJcZESSThiTOPhI
-	 GqUKBye1vGqUjRhwQqx7KiN5ooRXPfvdi4c2cOWIDxah/gDIGcHF/FiNXFX3clAubYPM9
-	 viBh7Iv08T62//sz0D8ep/1E6LAvuzOC6shVJ+21DlKbdu1Xng5bCEuCMvWdLUdgRm11G
-	 lNMxRMzZjok3rCVZPYW/S1HjIzIQ2SPA2d21Pz8VARQ6MG/Ur2p2WDPEdPGMthJHHIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792716673;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=kyCno0YF2wqPIAAdsCxncdDRe1RSuPSRu0+FBtFLEGY=;
+	b=A24VUiBr5WkJj8wkH1GCOAxLe6m/lxHqy630+M8gJ4EOmMzpxaqha2+AGYx3WW+slhB7
+	 jYbVM75U735GnRervhCkMfNsqEsifSV8NVJ6z4lnghICHVVuGikiih7Q0U7goaTwfSHzO
+	 9rm5Az9Vn83Q/7eDQ2swgWTavDUMtg4NhDjJTS6z67xdPI1WmGFHQlNWLoxX+8x7s6ELM
+	 qnc+9jQmklQfks5QeTfk4Ggz/3YCf91nvfbK9ct3H1dfda/84J5M4XpaB3sYP0KnoMzQJ
+	 APTaAwWjfexlk6vxG8pVe16dIucqE/z28qZHFvARQj3Lq6ei7pUjZjoiQ/ZA7imElLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zytor.com;
-	spf=pass smtp.mailfrom=zytor.com;
-	dkim=pass header.d=zytor.com header.i=@zytor.com header.a=rsa-sha256 header.s=2026092801 header.b=B0iR0guj;
-	arc=none smtp.remote-ip=198.137.202.136
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfr+NFYS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B2E606A31D;
-	Fri, 23 Oct 2026 00:24:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71B2E606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AD5606A319;
+	Fri, 23 Oct 2026 00:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=zytor.com header.i=@zytor.com header.a=rsa-sha256 header.s=2026092801 header.b=B0iR0guj
-Received: from ehlo.thunderbird.net (ENVISION-AE.edge1.SanJose1.Level3.net [4.79.220.182])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 69N0MTYe1497671
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 22 Oct 2026 17:22:30 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 69N0MTYe1497671
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026092801; t=1792714955;
-	bh=sewWTjP+M6E94TwmQI+LvxiP3Dgk+UiInUJ1sYqPvjE=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=B0iR0gujNC7PBahAQGPELPfOvA7wFnm4aVgauSDh6Mr2eGjg9f2sjLSQ7t78E+yy1
-	 f8bIVvq6KYitlu1MNVZc3rKXjku7b5th05mhKR3968auNM3tY5s5Ser+GgoQNITSum
-	 ZADmFoGGs0IzvcRHHbEEE6rPcUpxXrq+3jB2dvktUZRlLHRQfdXJNzBfWoR9LWTL/0
-	 Vfr9nrAF6Af+MSU3LPirKQDCQPLvyBm4AXAwcmc36BGcccEuO+/ctQAGEZb2pFmtOB
-	 9hRTTHAao28lytaVTDSTMgSi2sQxwQH+82H9bDetNn7xdIGgwxNjxXV+Ny1OiYpDe8
-	 //k9lsYxpZvPw==
-Date: Thu, 22 Oct 2026 17:22:24 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Kees Cook <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-        loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-        x86@kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jinjie Ruan <ruanjinjie@huawei.com>, Andy Lutomirski <luto@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>, Guo Ren <guoren@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Helge Deller <deller@gmx.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Richard Weinberger <richard@nod.at>, Chris Zankel <chris@zankel.net>,
-        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
-        Will Deacon <will@kernel.org>, Brian Cain <bcain@kernel.org>,
-        Michal Simek <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andreas Larsson <andreas@gaisler.com>,
-        linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
-        linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org,
-        =?ISO-8859-1?Q?Michal_Such=E1nek?= <msuchanek@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5Bpatch_16/18=5D_x86/entry=3A_Get_rid?=
- =?US-ASCII?Q?_of_the_sys=5Fni=5Fsyscall=28=29_indirection?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <87cxt11ktr.ffs@fw13>
-References: <20260707181957.433213175@kernel.org> <20260707190254.493733289@kernel.org> <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13> <87cxt11ktr.ffs@fw13>
-Message-ID: <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfr+NFYS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABA9A1F01825;
+	Fri, 23 Oct 2026 00:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792716672;
+	bh=kyCno0YF2wqPIAAdsCxncdDRe1RSuPSRu0+FBtFLEGY=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=Bfr+NFYSSVTbTN85zYznM5T9GO58XFRdN3RX73ZriInUEN3YUL4z/fV204y1WsVve
+	 TU0CDIB7YmyU69/VrC4bHlfxn7AbM1ZyB88WBBgMl3tReLxckSa7mpg7/TFcr1qZ7h
+	 2qhQMKtmEbDK+qOOf6lFz140zdjYYpQjj57sVr9wn8iyAw949oT6yOA7nYCq/6Uv3p
+	 vWc1erP/dTmXjFGnM4K8p5QcGzMtvqEvnlgRAO8CWiRV+Q/JkNr8FydvnXamf79eF8
+	 1AwEN/PfRmAD2HYiE9mMn+TGRD2FWLns5R7nQGuzCipyowmhmnnKrlqSsRdb3JGghu
+	 8D5QzM1Eis/ww==
+Content-Type: multipart/mixed; boundary="===============8304986485767963012=="
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,178 +49,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <a925a7a8362e8e9aa0270c2b252aedcc10694857db29c31f66d6f7c5ba89ac08@mail.kernel.org>
+In-Reply-To: <20261023001603.560210-9-wusamuel@google.com>
+References: <20261023001603.560210-9-wusamuel@google.com>
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+From: bot+bpf-ci@kernel.org
+To: wusamuel@google.com,corbet@lwn.net,skhan@linuxfoundation.org,rdunlap@infradead.org,viro@zeniv.linux.org.uk,brauner@kernel.org,jack@suse.cz,andrii@kernel.org,eddyz87@gmail.com,ihor.solodrai@linux.dev,ast@kernel.org,daniel@iogearbox.net,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,nathan@kernel.org,ndesaulniers@google.com,morbo@google.com,justinstitt@google.com
+Cc: wusamuel@google.com,kernel-team@android.com,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,linux-doc@vger.kernel.org,bpf@vger.kernel.org,linux-kselftest@vger.kernel.org,llvm@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Fri, 23 Oct 2026 00:51:11 +0000 (UTC)
 
-On October 22, 2026 2:34:08 PM PDT, Thomas Gleixner <tglx@kernel=2Eorg> wro=
-te:
->On Thu, Oct 22 2026 at 21:15, Thomas Gleixner wrote:
->> On Thu, Oct 22 2026 at 16:24, Sebastian Andrzej Siewior wrote:
->>> On 2026-07-07 21:07:01 [+0200], Thomas Gleixner wrote:
->>> |[RUN]           Checking out of range system calls
->>> |[FAIL]                  x32 syscall 1:-64 returned -9999, but it shou=
-ld have returned -ENOSYS
->>> |[FAIL]              x32 syscalls 1:-64=2E=2E-2 had 63 failure
->>> |[OK]                x32 syscall 1:-1 returned MODIFIED_BY_PTRACE as e=
-xpected
->>> |[FAIL]                  x64 syscall 1:1073741760 returned -9999, but =
-it should have returned -ENOSYS
->>> =E2=80=A6
->>>
->>> and so on=E2=80=A6 The test has
->>>
->>> | #define MODIFIED_BY_PTRACE      -9999
->>>
->>> and the ptracer modifies the return code=2E However not always=2E Not =
-sure
->>> if this was indeed a pointless exercise or not=2E
->>
->> Hrmm=2E That's weird=2E Let me have a look=2E
->
->So I clearly failed to decode the overloading of the -1L return value
->correctly and then failed to run the stupid test=2E
->
->TBH, this whole thing was a horrid and inconsistent mess=2E
->
->The logic in the original code was:
->
->    When the entry work code returned an invalid syscall number then the
->    return value in regs->ax was set to -ENOSYS, except when the
->    returned syscall number was -1=2E Syscall number "-1" indicated that
->    the syscall has to be aborted=2E
->
->     regs->ax =3D -ENOSYS;
->     syscall =3D enter_work(regs, syscall);
->     if (syscall_in_range(syscall))
->        regs->ax =3D do_syscall(syscall);
->     else if (syscall !=3D -1)
->        regs->ax =3D -ENOSYS;
->
->So if the ptrace check in enter_work() overwrote regs->ax and the
->syscall number (either as supplied by user space or rewritten) was out
->of range and not -1 then the x86 entry code overwrote regs->ax to
->-ENOSYS again=2E IOW, there is no distinction between a check induced
->abort and a syscall with syscall number -1=2E
->
->The rework changed the return value to boolean, which is true when the
->syscall should be invoked and false when one of the checks requests to
->abort the syscall=2E In that case the return code does not touch the
->return value in regs->ax=2E
->
->If the eventually modified syscall number is out of range then the code
->relies on the fact that regs->ax was preset with -ENOSYS, i=2Ee=2E:
->
->     regs->ax =3D -ENOSYS;
->     // True indicates to proceed
->     if (enter_work(regs, &syscall)) {
->         if (syscall_in_range(syscall))
->            regs->ax =3D do_syscall(syscall);
->     }
->
->That seems to be equivalent, but it is not when ptrace() modifies
->the return value in regs->ax and also rewrites the syscall number to an
->invalid value or leaves the user supplied invalid value intact and does
->_NOT_ abort the syscall=2E
->
->So the reworked code does not overwrite the tracer modified return value
->with -ENOSYS in that case and returns whatever the tracer decided to put
->into it=2E
->
->TBH, that makes a lot more sense than the original behavior=2E If the
->tracer decides to fiddle with the default return value then that's what
->the tracer intended=2E
->
->That makes the behavior consistent vs=2E other abort scenarios:
->
->    ptrace()
->      regs->ax =3D MAGIC;
->      return true;            // Allow syscall
->
->    seccomp()
->      return false;          // Abort syscall
->
->So when the tracer modified the return value and seccomp aborts the
->syscall then the tracer induced value is preserved=2E That was the case i=
-n
->the original code as well because seccomp() indicated the abort by
->returning -1 as the modified syscall number=2E Similar effects when ftrac=
-e
->(BPF, kprobe) decided to overwrite the syscall number)=2E
->
->Bringing the original behaviour back is trivial enough, but I'm not
->convinced that it makes any sense and is worth it=2E At least this
->confines the x32 specific insanity of treating -1 special to x32=2E=2E=2E
->
->Thanks,
->
->        tglx
->---
->--- a/arch/x86/entry/syscall_32=2Ec
->+++ b/arch/x86/entry/syscall_32=2Ec
->@@ -77,6 +77,8 @@ static __always_inline void do_syscall_3
-> 	if (likely(nr < IA32_NR_syscalls)) {
-> 		nr =3D array_index_nospec(nr, IA32_NR_syscalls);
-> 		regs->ax =3D ia32_sys_call(regs, (unsigned int)nr);
->+	} else {
->+		regs->ax =3D -ENOSYS;
-> 	}
-> }
->=20
->--- a/arch/x86/entry/syscall_64=2Ec
->+++ b/arch/x86/entry/syscall_64=2Ec
->@@ -64,15 +64,24 @@ static __always_inline bool do_syscall_x
-> 	return false;
-> }
->=20
->-static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigne=
-d long nr)
->+static __always_inline bool do_syscall_x32(struct pt_regs *regs, unsigne=
-d long nr)
-> {
->+	if (!IS_ENABLED(CONFIG_X86_X32_ABI))
->+		return false;
->+
->+	/* Preserve the historic insanity of treating -1 special on x32 */
->+	if (nr =3D=3D ULONG_MAX)
->+		return true;
->+
-> 	/* Adjust the starting offset of the table */
-> 	nr -=3D __X32_SYSCALL_BIT;
->=20
->-	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(nr < X32_NR_syscalls)) {
->+	if (likely(nr < X32_NR_syscalls)) {
-> 		nr =3D array_index_nospec(nr, X32_NR_syscalls);
-> 		regs->ax =3D x32_sys_call(regs, (unsigned int)nr);
->+		return true;
-> 	}
->+	return false;
-> }
->=20
-> /* Returns true to return using SYSRET, or false to use IRET */
->@@ -81,8 +90,10 @@ static __always_inline void do_syscall_x
-> 	if (likely(syscall_enter_from_user_mode_randomize_stack(regs, &nr))) {
-> 		instrumentation_begin();
->=20
->-		if (!do_syscall_x64(regs, nr))
->-			do_syscall_x32(regs, nr);
->+		if (unlikely(!do_syscall_x64(regs, nr))) {
->+			if (!do_syscall_x32(regs, nr))
->+				regs->ax =3D -ENOSYS;
->+		}
->=20
-> 		instrumentation_end();
-> 	}
->
->
->
->
->
->
->
->
->
->
->
+--===============8304986485767963012==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-It was never limited to x32=2E=2E=2E
+> kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+
+TL;DR: KALLSYMS_QUERY_BY_ADDR may return BPF JIT symbol names that
+bpf_jit_kallsyms=0 or bpf_jit_harden hide in /proc/kallsyms, possibly leaking
+JIT image locations to openers with show_value.
+
+> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> index aec2f06858af..7caaf3e421c7 100644
+> --- a/kernel/kallsyms.c
+> +++ b/kernel/kallsyms.c
+
+[ ... ]
+
+> @@ -922,11 +923,142 @@ const char *kdb_walk_kallsyms(loff_t *pos)
+
+[ ... ]
+
+> +static int do_kallsyms_query(struct kallsym_iter *iter, void __user *uarg)
+> +{
+
+[ ... ]
+
+> +
+> +	/*
+> +	 * The text interface shows zero addresses to openers without permission.
+> +	 * A zeroed point query result is useless (and an address-to-symbol query
+> +	 * would leak KASLR), so fail instead.
+> +	 */
+> +	if (!iter->show_value)
+
+[ ... ]
+
+> +	case KALLSYMS_QUERY_BY_ADDR:
+> +		if (!karg.sym_name_size)
+> +			return -EINVAL;
+> +		addr = karg.sym_addr;
+> +		/* Reject addresses that do not fit in unsigned long (32-bit). */
+> +		if (addr != karg.sym_addr)
+> +			return -ENOENT;
+> +		if (!kallsyms_lookup(addr, NULL, NULL, NULL, namebuf))
+> +			return -ENOENT;
+
+Can KALLSYMS_QUERY_BY_ADDR hand out BPF JIT symbol names that /proc/kallsyms
+is configured to hide?
+
+kallsyms_lookup() reaches kallsyms_lookup_buildid() and falls through to
+bpf_address_lookup() -> bpf_ksym_find(), which searches bpf_tree without any
+policy check.  bpf_ksym_add() always inserts into bpf_tree
+(bpf_prog_kallsyms_add() only requires bpf_prog_kallsyms_candidate() and
+CAP_BPF).
+
+The text listing of the same file goes through get_ksymbol_bpf() ->
+bpf_get_kallsym(), which starts with:
+
+    if (!bpf_jit_kallsyms_enabled())
+        return ret;
+
+bpf_jit_kallsyms_enabled() returns false when net.core.bpf_jit_harden is
+non-zero or net.core.bpf_jit_kallsyms is 0.  bpf_get_kallsym() is the only
+caller of bpf_jit_kallsyms_enabled() in the tree, so hiding the names in
+/proc/kallsyms is now the only thing these sysctls do.  Commit af91acbc6299
+("bpf: Fix bpf jit kallsym access") says so directly:
+
+    It should only skip addr->name resolution for 'cat /proc/kallsyms'.
+    That's what bpf_jit_kallsyms and bpf_jit_harden protect.
+
+With this patch, a process whose open of /proc/kallsyms has show_value set
+can call ioctl(KALLSYMS_QUERY) with query_flags=KALLSYMS_QUERY_BY_ADDR and
+get back names like bpf_prog_<tag>_<name> (plus trampolines, dispatchers and
+__cfi_ prefixes) for addresses inside JIT images.  That gives it an
+address->name oracle for finding JIT image locations, which these sysctls
+are meant to withhold from /proc/kallsyms.
+
+The comment above the show_value check argues for matching the text
+interface ("The text interface shows zero addresses to openers without
+permission ... an address-to-symbol query would leak KASLR, so fail
+instead"), but the code applies only the show_value gate and skips the
+BPF-specific gate.  The uapi comment and the commit message both say
+BY_ADDR covers "BPF JIT images", but neither mentions bpf_jit_kallsyms or
+bpf_jit_harden.
+
+This is reachable whenever CONFIG_KALLSYMS and CONFIG_BPF_JIT are enabled, a
+JITed program loaded with CAP_BPF exists, and either sysctl hides BPF
+symbols.  No later commit in the series changes kernel/ code to address
+this.
+
+Should the BY_ADDR path return -ENOENT when kallsyms_lookup() resolves to a
+BPF address (for example, is_bpf_text_address(addr) is true and the address
+is not in vmlinux or a module) unless bpf_jit_kallsyms_enabled() is true?
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/39878338337
+--===============8304986485767963012==--
