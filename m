@@ -1,67 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.242
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792775739;
-	b=fDnGYu0jbJwgXlHGpumR4UH0mZ36ePRhsVc4vv6UjKBUjSiYn21DhYb2s2Hn54zAgvcF
-	 2v0zP0nt1dugLPP6dVl9zUA0ldNPTmlxAj+pYp+1ea0wCWR70swdUfz9xSyV/WR97jCgo
-	 fHwovVty3iW+/tzWt4smIcTO5dc/TUSa8xsL3979mQHOP/4sP+ch0Ao8heG4aFIKKHm7Y
-	 ZUQG2dpf1zclGk6VT/vi6pKxA3LEBILXK62MJlimm7la1Sb55EUMcmet44aXcAvs3lrVY
-	 BbCZ1OtJ3KGc1YVSrYn2JBJu5gMOiYTbWJbGE7LqulTcbTXwYZ61FaMqnGMzBoVjRXQ==
+	t=1792775870;
+	b=MRj90htASc1wMf+NggqXHmbfsPUVgprlUvX22pMimXZuDoI53Q1BfwKeGr+B2d/EsDR3
+	 dsdMip1q2qznCvcGyvBLDQqOq2YqLOwMnLTXMKQK2t/H+AIz4dCJm/T1KIS9FmartNygX
+	 A20juY4cOqsYqqJjDc0/gSfj5gLV0ugfYTplYezcdoUSQ2Xzv/NYYweeogvm9PPxTgzxw
+	 syo+XL8DJrPb1E4uDo0Zo748Wvmz/GSEyVzF9dHSijNqDJQIu3ycsEEnnQ//9sMeh0J15
+	 HsxfkIjjUY1ICFbp/rTlLDl5TGTILw8uIUpgE621DT3BZhqYMs6GCqwOhqjPjdsTVQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792775739;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=uOTjqmyRNUWkFdydZyKOHkZPBvFbPtsWEgtGBpk+JSg=;
-	b=S1p1NFgwUzXrSER9hC4bQM2666peZufCTAshgvzgmu1muTi6PX57VOehDEOuNxJ9sOeA
-	 vhrbdXhmCxlA8s4QBe6dgd9934/+xKjXX/ADiXJICP95G6oT9imqEdlF6HV04cgNy3rki
-	 g1SAqA+3UTn+jGpwsJS+DvDA+bO/Yu3HIaB/VK7iyqjNDNq7yoPBRLZCSi8fZPtpTmd5M
-	 K0Ozjml/lJ8A1cauSHu3X8EdJFiIE8JWu/7Q4ywCbc3NPWdOQuktnw6opRUoDqEWoZwe5
-	 OlaxYD8vt2hyt3vzk9SzOa8R5m9TzzHw2UN9BrMDMvV2EXsNp683qzuq4W3sFYanVaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792775870;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=bY5AIFa9gIOGPAM6kQqMS0dSkQ+H027w/kwbGPSI7Ws=;
+	b=p7UK9SHF4ZjUqmzCNR6XH4uoKTqmO0dCcxTKkJUMSIWs2PK3udaYg0CeC7dkY8EsOb89
+	 CLWqZcgtMhs0FdyGeY+O1FilEOPyZAyerARnS3UsmrRBUiyOiJkg//agtGtLhrEiNXDxI
+	 /R/IDlWHo6uCUPBFAwrNy9x15mRJkDWD1YYU2QO1N1lYRFsEfXTGjwVAHFvyM8UgfUV7R
+	 doaNjIqsTbubx7DaT6usaOAqCx+iKkRlVPPfHG/aSglrFSSJkIKKN0vS0FXXAMItPm6PC
+	 jI+FJL9G4NUMB/9LHS8bXDDW73ImOfYuMeMiqGGHgzUDrdivr/FCEPagVUFDqE2771w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=waldn.net;
-	spf=pass smtp.mailfrom=waldn.net;
-	dkim=pass header.d=waldn.net header.i=@waldn.net header.a=rsa-sha256 header.s=key1 header.b=hXUsRcAY;
-	arc=none smtp.remote-ip=91.218.175.242
-Received: from mta0.migadu.com (out-242.mta0.migadu.com [91.218.175.242])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lvJAH84b;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=j653Zk7v;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47091606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:15:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47091606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=waldn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=waldn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AE606A320
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:17:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 803AE606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=waldn.net header.i=@waldn.net header.a=rsa-sha256 header.s=key1 header.b=hXUsRcAY
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=bK4TXPNXctxarcSsHlGeHHSHsHKJGqcOVwvu8B7oRYA=;
- c=simple/simple; d=waldn.net;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792775736; v=1; x=1793380536;
- b=hXUsRcAYPMTmuSnqXSpWvv1LYNBQ97VYJ4hbo8V5DL03aT8VHsW2fLV769m4UQrOr6TauIPz
- 5rEi2uFrnvZqE/NJ8KGbAYFprrNbZKj18NkWIH+6YcTf8twfssHQFU3UZTqlQj+3ibMad3jfsJ6
- eWZOprP7bI3bkI566EVrfFBJM0GokVhVVQZQNIUXBLnF3BrCmwmV8zxpdALS2QH78zEeMRQpaPT
- dj3B89xfu0Hmam3sGnZ0ibjuPeQKKQqB3T9RDol4R71JG8k6u8GPDWEZh0r8RN/SMbdfadYe1QA
- H+zVBlqYWlK22gfLEWq856eoco/+8icp2Hsl8OiW9N88w==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 118033012f27832e;
-	Fri, 23 Oct 2026 17:15:17 +0000
-X-Mizu-Trace-ID: 118033012f27832e
-X-Migadu-Flow: FLOW_OUT
-From: Amelia Crate <acrate@waldn.net>
-To: Kees Cook <kees@kernel.org>,
-	linux-security-module@vger.kernel.org
-Cc: Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Amelia Crate <acrate@waldn.net>
-Subject: [RFC PATCH] loadpin: allow untoggleable enforcement on filesystems which don't appear to be read-only
-Date: Fri, 23 Oct 2026 12:15:08 -0500
-Message-ID: <20261023171508.3460300-1-acrate@waldn.net>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lvJAH84b;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=j653Zk7v
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NE5wTn2109216
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:17:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=bY5AIFa9gIOGPAM6kQqMS0dSkQ+H027w/kw
+	bGPSI7Ws=; b=lvJAH84bzvk6TH1WAdoptcY5tPVhNqy6J98PbTXljNp9sURkNYo
+	S8dP/m92eY7q7R1+Elldwx08oKA6Ta6CJH+4CQBhm79t22llnVayJnZpAW368tYe
+	7bZQsUusNWdKjC7QpwP0K0Idtzs8OsMD6UuFkRJkw4NQJCbC2uDf+SP746NQ/k2J
+	op9ulbAASZH+06o8tqNcIap5afQ3ZXvxmn7mwcctx2yO4tbx4y6ICUOfpVb1Nnrw
+	zU0QWq6lDctc2fvUyAgSSRqbs3Ap/T/f1nmKS2BWTI1rH71X1fiT8WbepIIKaxlA
+	TYYcM8oWlGQ1U+kuKsFrqTx5MFz3TJQWCaw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqms4quc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:17:48 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93ce7a85f04so222314785a.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 10:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792775868; x=1793380668; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bY5AIFa9gIOGPAM6kQqMS0dSkQ+H027w/kwbGPSI7Ws=;
+        b=j653Zk7vvTXsMAmJHrQNiSlIcU2WffnPD0qfW/5iS4+c6Sgdpes/Hl5CmcO6tyJNDF
+         snK2phLvRXKLCrkOrgHGz8icnf+v9NoCgb8pCRZlQ2eZDMKncco4O6Zs9x+Ox/ZKZpSy
+         DTQNr7RojNb7KuPs+Lfw/VKsAwGuJ8YKP4Rro398tuUKtaNQTX4ecwlhr0bX66sfN0GB
+         9L6rrWR3fbFfut+XDQl2YTumbl/7InD6GWaL0XXDv5dqcuY/eug8852qv4aAG2YF/2o7
+         AqLJjbbEUtBW7E6GUQTBJORfUfy0mx09d6XlF+Bvq/dti0XAXg/ySBjYu6w3Z/fg82YS
+         DpuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792775868; x=1793380668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bY5AIFa9gIOGPAM6kQqMS0dSkQ+H027w/kwbGPSI7Ws=;
+        b=SbNZIOIHQhFbRWtGqe7G7+Oa4Y+3njMtj8AeVj8BaBJbT8shEnSjPZrINSpxxSfMSh
+         sdf2Ce5pFjjV2OAh4Q6545+tAhYoMFg9yjUUoJESFELIOQ+1n1oN7VCyXTvysGvoYVZT
+         gyy4vf+h+V+51Ven7lhM6xaxXxUbF6PHa0/jleAcOGZElFa5MIWxFrvQv4t3zACH2/V0
+         6R6lvwO2E/X6jSDhdqGSbwrMMi286w1fhHzTv4f9+S3MAwtxXatN6YeBREpjGwlf0C22
+         bGRZiBXaU404kTIfiWe3uU3w6/eUEtFkPWekCgj2dNgX9T3kRIfEcwO84lD0vcb29Pra
+         x0dQ==
+X-Forwarded-Encrypted: i=1; AKwUvByd9JGbX5mQzTAS/6KIrLCMBxp4yk5dcFcGkSpKiKuighWB1ivMZ8RLt2K4aCAnZmaZMCGElZMcx5w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIpbp7SitGQL4hUFxJ84w0mwbr/nG1u5UsoC0MTtX8cJ/21VL6v
+	2T5XsEBSH2DICr1MMosyY8CSz3/obqHjUafgTx5pmGt3f2xt6qjOJsk5j1X5NN+ZpFOAYohzbgz
+	LWXVvBtZ8eS1ScGgu1iVxbeYL+IazhSHPdYrf3wwKhj8Ci8nEccTRqaUIWw/7BQU=
+X-Gm-Gg: AYBFou1lVWyWoTuAIBjEEmK6ElzbVj12YfTK7ZbpSuP76o8fWRiZByY7XMDOeOnDT/g
+	RHwtZPiMJhiamHlxN9j+4qKAEZs40JQ9e63GkmmuRETPLI3Mk8XVQVSVl2TDgzLzK9l+Qtb7PgU
+	+bgonZm7lm6BmdX5G9KBYWla06D6v8Lg1PwWqxKCdvQi2Ywml66P6JZyQnIq+kWPuHRFHVD1uhS
+	Or2gXJNyew0yPfGib+AWWB0cpHrXHdpqfP2SnTJoVJYkF/YJ0e7CJINbgTxrVoDKtaRvexOgDBi
+	cI1ho3bdJMvcFdUqCV0rOrc4ew7Vk0CePpKLzs0X4j2+njrQrAnPvlnAxBbEi9MkSLF4r8kLRsR
+	oBP6Vh/oQe2Gx
+X-Received: by 2002:a05:620a:44c2:b0:93e:618e:a2d0 with SMTP id af79cd13be357-93f6f7e01e2mr537195085a.60.1792775867546;
+        Fri, 23 Oct 2026 10:17:47 -0700 (PDT)
+X-Received: by 2002:a05:620a:44c2:b0:93e:618e:a2d0 with SMTP id af79cd13be357-93f6f7e01e2mr537189485a.60.1792775866871;
+        Fri, 23 Oct 2026 10:17:46 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d41e0fesm937475f8f.46.2026.10.23.10.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 10:17:46 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [RFC PATCH 00/23] ASoC: qcom: AudioReach Active speaker protection for WSA884x
+Date: Fri, 23 Oct 2026 18:14:10 +0100
+Message-ID: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,121 +127,179 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX8N0M6KtJbMPm
+ UxQFjIivQcOe+QGK9PY0ql30YYOngZKQAHTwSFOguO72yLahQtp0vsQdSpBwnr6LxMKJMeEzk0l
+ pBb5SGVXvnH1MKQiwUGOaFEpX/lHeSxqZ+Jn8+FYcAtkI1KIZNBRi63KgAsGhDFmlaLf29oJp0A
+ WGV/XxIZA+aGkQcpS6ea8x87fWP4e03VnXeT9AmnqS5vHKKnlpRufHnHcj8J26+xG1L5luo3cHK
+ KehLUcyOXYgGUO17r3UlGKOKgxdal2uPeCOPrlqZaXRR8dXRk8EwLvIhjvX1uRSLXXf8BhapPmq
+ IggMW8yTDJeYpdXAvW2u2X7DZZElIxr/nw9snnmbs6L1vEX9LwoIacSWTnnkz2HhOi7t8YIr/QR
+ L9D5WKZo39PLyho8Pkw49RFuG3B9mgwm4kL3KD4g9g3F4sXE1iZpM266UsdxsOMDdbAcB3iEdiX
+ 5ARpmZLs3+BLkYWrhtg==
+X-Proofpoint-GUID: FMzmi7RJrZaPmwLGo7clqN5Ga5pudWEU
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX5+WQzWWGtIJu
+ SQ4C5sI+3d969m8kP6iQlmhU0Hz9H3ezFl58k8J/5b+cDg4FiUxI8xEVCkJMDvIu7G4iCaGYDXu
+ bMKSiUEzJyebQdDm9VsMkkbkT33FXsU=
+X-Authority-Analysis: v=2.4 cv=UdbE26SN c=1 sm=1 tr=0 ts=6adb96bc cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
+ a=SpZKVrqkZbRJdBaj5PEA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: FMzmi7RJrZaPmwLGo7clqN5Ga5pudWEU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-23_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610230067
 
-Some filesystems, such as composefs created from layers which are entirely
-read-only, can't be easily detected as a read-only file system. In addition to
-filesystems which are read-only without having a backing read-only block device
-I believe this is also useful for cases where immutability of the filesystem is
-enforced by the hypervisor or the host, such as 9p shares or virtiofs.
+This series adds DSP Active speaker protection (SP) for WSA884x speakers on
+Qualcomm AudioReach platforms. It was tested on the Lenovo ThinkPad T14s
+Gen 7 (2x WSA8845) and the Glymur CRD (4x WSA8845).
 
-It is still desirable to enforce LoadPin and disallow toggling enforcement in these cases.
-This patch gives system administrators a way to disallow toggling LoadPin enforcement even
-when the immutability of a filesystem is unclear.
+Speaker protection needs the amplifiers' V/I sense capture running
+whenever the speakers play. Rather than a separate capture link that
+userspace has to keep open, the VI codec DAIs sit on the WSA Playback BE
+link, using a new multi_direction codec-codec link flag that makes the core
+run .hw_params/.hw_free and stream events for codec DAIs of the other
+direction. This core change is the main reason for sending it as RFC,
+and feedback on the approach is very welcome.
 
-Signed-off-by: Amelia Crate <acrate@waldn.net>
-Assisted-by: Codex:gpt-6
----
- Documentation/admin-guide/LSM/LoadPin.rst     |  8 +++++++-
- .../admin-guide/kernel-parameters.txt         |  7 +++++++
- security/loadpin/loadpin.c                    | 20 ++++++++++++++++++-
- 3 files changed, 33 insertions(+), 2 deletions(-)
+ - ASoC core: default ch_maps for links with more than 8 DAIs, and the
+   multi_direction_codecs link flag (documented).
+ - qcom sdw: per-direction stream runtimes on such links.
+ - wsa884x: VI sense capture DAI, die temperature as a thermal zone.
+ - AudioReach: control links, VI calibration mode with per-speaker
+   events, R0/T0 cache and restore in normal mode, static cfg blobs,
+   and mixer controls for mode, R0/T0, live T0 and calibration state.
+ - x1e80100: VI feedback on the WSA Playback link, speaker thermal zones.
+ - DT: VI feedback for glymur-crd and the T14s Gen 7.
 
-diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-index a90fd9dac960..f1e8825d0fe8 100644
---- a/Documentation/admin-guide/LSM/LoadPin.rst
-+++ b/Documentation/admin-guide/LSM/LoadPin.rst
-@@ -16,10 +16,16 @@ boot ("``loadpin.enforce=0``").
- 
- LoadPin starts pinning when it sees the first file loaded. If the
- block device backing the filesystem is not read-only, a sysctl is
--created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
-+created to toggle pinning: ``/proc/sys/kernel/loadpin/enforce``. (Having
- a mutable filesystem means pinning is mutable too, but having the
- sysctl allows for easy testing on systems with a mutable filesystem.)
- 
-+Some filesystems may appear to be mutable, but are in fact read-only.
-+In this case, ``loadpin.force_enforce=1`` can be set to require enforcement
-+of LoadPin on all filesystems. When LoadPin is enabled,
-+``/proc/sys/kernel/loadpin/force_enforce`` reports the state of this option.
-+This option is independent of whether LoadPin is enabled.
-+
- It's also possible to exclude specific file types from LoadPin using kernel
- command line option "``loadpin.exclude``". By default, all files are
- included, but they can be excluded using kernel command line option such
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1b2ae71def21..df8c145cc63d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3540,6 +3540,13 @@ Kernel parameters
- 			Enable Live Update Orchestrator (LUO).
- 			Default: off.
- 
-+	loadpin.force_enforce= [SECURITY]
-+			Format: <bool>
-+			Force LoadPin enforcement until reboot, even when the
-+			pinned filesystem is not backed by a read-only block
-+			device. Requires LoadPin to be enabled in the active LSM list.
-+			Default: off.
-+
- 	lockd.nlm_grace_period=P  [NFS] Assign grace period.
- 			Format: <integer>
- 
-diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
-index f71861f98e1a..b260ad299a2c 100644
---- a/security/loadpin/loadpin.c
-+++ b/security/loadpin/loadpin.c
-@@ -45,6 +45,7 @@ static void report_load(const char *origin, struct file *file, char *operation)
- }
- 
- static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
-+static bool force_enforce __ro_after_init;
- static char *exclude_read_files[READING_MAX_ID];
- static int ignore_read_file_id[READING_MAX_ID] __ro_after_init;
- static struct super_block *pinned_root;
-@@ -60,11 +61,19 @@ static bool loadpin_root_writable;
- static int proc_handler_loadpin(const struct ctl_table *table, int dir,
- 				void *buffer, size_t *lenp, loff_t *ppos)
- {
--	if (!loadpin_root_writable && SYSCTL_USER_TO_KERN(dir))
-+	if ((force_enforce || !loadpin_root_writable) && SYSCTL_USER_TO_KERN(dir))
- 		return -EINVAL;
- 	return proc_dointvec_minmax(table, dir, buffer, lenp, ppos);
- }
- 
-+static int proc_handler_force_enforce(const struct ctl_table *table, int dir,
-+				      void *buffer, size_t *lenp, loff_t *ppos)
-+{
-+	if (SYSCTL_USER_TO_KERN(dir))
-+		return -EPERM;
-+	return proc_dobool(table, dir, buffer, lenp, ppos);
-+}
-+
- static const struct ctl_table loadpin_sysctl_table[] = {
- 	{
- 		.procname       = "enforce",
-@@ -75,6 +84,13 @@ static const struct ctl_table loadpin_sysctl_table[] = {
- 		.extra1         = SYSCTL_ZERO,
- 		.extra2         = SYSCTL_ONE,
- 	},
-+	{
-+		.procname       = "force_enforce",
-+		.data           = &force_enforce,
-+		.maxlen         = sizeof(force_enforce),
-+		.mode           = 0444,
-+		.proc_handler   = proc_handler_force_enforce,
-+	},
- };
- #endif
- 
-@@ -436,6 +452,8 @@ DEFINE_LSM(loadpin) = {
- };
- 
- /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
-+module_param(force_enforce, bool, 0);
-+MODULE_PARM_DESC(force_enforce, "Always enforce module/firmware pinning");
- module_param(enforce, int, 0);
- MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
- module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
--- 
-2.54.0
+A topology with the SP and SP_VI modules is needed to use it.
 
+How it works:
+1. The topology puts the speaker protection (SP) module in the playback
+   graph and the SP_VI module in a VI feedback graph fed by the WSA VI
+   sense ports, joined by a control link.
+2. Starting playback on the WSA Playback link also starts the VI sense
+   capture (8 kHz, 32-bit, one V/I pair per speaker), so the DSP always
+   gets feedback while the speakers play.
+3. Calibration, once per device with the speakers cold: userspace sets
+   "Speaker Protection Operation Mode" to Calibration and plays silence;
+   the DSP makes its own stimulus. The VI module measures each speaker's
+   resistance (R0), the driver records the amplifier die temperature
+   (T0) with it, and "Speaker Protection Calibration State" reports the
+   result.
+4. Userspace reads R0/T0 from "Speaker Protection R0T0", switches back
+   to Normal mode and saves them, e.g. with alsactl store.
+5. At boot the saved values are written back (alsactl restore). In
+   Normal mode the driver sends R0/T0 to the VI module, and the SP
+   module uses the live V/I feedback to keep each speaker within its
+   temperature and excursion limits.
+
+How to test (card 0, two speakers; for four, use aplay -c 4):
+1. Boot with this series and a topology that has the SP and SP_VI
+   modules, and select the speakers as the output so the WSA path and
+   the "VISENSE Switch" controls are on. Stop all playback.
+2. Play one second of silence so the amplifiers have been on once and
+   "Speaker Protection T0" reads a valid temperature, then wait for
+   DAPM to power them down (about 5 seconds):
+     aplay -D plughw:0,0 -f S32_LE -c 2 -r 8000 -t raw -d 1 /dev/zero
+     amixer -c 0 cget name='Speaker Protection T0'
+3. With the speakers cold, in a quiet room, start a calibration and
+   keep the graph running with silence; the DSP makes its own stimulus:
+     amixer -c 0 cset name='Speaker Protection Operation Mode' Calibration
+     aplay -D plughw:0,0 -f S32_LE -c 2 -r 8000 -t raw -d 15 /dev/zero &
+4. Poll the state until every speaker reports 4 (success); 5 (failed)
+   or 7 (timed out waiting for V/I) means retry:
+     amixer -c 0 cget name='Speaker Protection Calibration State'
+5. Stop playback, go back to Normal mode, then read and save the
+   result. R0T0 holds R0 in Q24 ohms and T0 in Q6 degC per speaker:
+     amixer -c 0 cset name='Speaker Protection Operation Mode' Normal
+     amixer -c 0 cget name='Speaker Protection R0T0'
+     alsactl store 0
+6. Reboot. alsa-restore writes R0/T0 back and every playback runs with
+   protection in Normal mode. The kernel log shows the values, e.g.
+     SP ch0: R0 3.102 ohms, T0 45.000 degC
+I have script to do these, I can share it if anyone wants to try it.
+
+Tool use: an LLM coding assistant (Claude Code with Claude Opus) was
+used for some of the patches in this series, to debug the bring-up and
+to draft the code and commit messages.
+
+Why RFC:
+- get some consensus on codec-to-codec which are in different directions
+- To avoid duplicate efforts.
+- Still 1 or 2 patches cooking to force dsp to program default safe value
+- test it on X1E platforms.
+
+Based on next-20261022 with the "ASoC: qcom: AudioReach and WSA88xx
+fixes" series applied.
+
+here is my wip kernel tree along with tplg and ucm:
+
+https://github.com/Srinivas-Kandagatla/linux/tree/glymur
+https://github.com/Srinivas-Kandagatla/audioreach-topology/tree/glymur
+https://github.com/Srinivas-Kandagatla/alsa-ucm-conf/tree/glymur
+
+Ravi Hothi (11):
+  ASoC: dt-bindings: qcom,wsa8840: allow one sound DAI cell
+  ASoC: codecs: wsa884x: add VI sense capture DAI
+  ASoC: qcom: audioreach: run VI module in calibration mode with
+    per-speaker events
+  ASoC: qcom: q6apm-dai: add S32_LE format support
+  ASoC: qcom: audioreach: support up to four speakers in VI feedback
+  ASoC: qcom: audioreach: cache VI calibration results per speaker
+  ASoC: qcom: audioreach: make the speaker protection operation mode
+    configurable
+  ASoC: qcom: audioreach: send cached R0/T0 to the VI module in normal
+    mode
+  ASoC: qcom: audioreach: send static cfg blobs to speaker protection
+    modules
+  ASoC: qcom: audioreach: add speaker protection mixer controls
+  arm64: dts: qcom: glymur-crd: add WSA speaker protection VI feedback
+
+:wSrinivas Kandagatla (12):
+  ASoC: soc-core: allow default ch_maps on links with more than 8 DAIs
+  ASoC: soc-pcm: add multi_direction_codecs link flag
+  ASoC: qcom: sdw: add per-direction stream runtimes for multi_direction
+    links
+  ASoC: codecs: wsa884x: register the die temperature as a thermal zone
+  ASoC: qcom: audioreach: add control link support to graphs
+  ASoC: qcom: audioreach: pin SPEAKER_PROTECTION_VI media format
+  ASoC: qcom: audioreach: add live speaker temperature (T0) readback
+  ASoC: qcom: audioreach: add speaker protection calibration state
+    control
+  ASoC: qcom: audioreach: keep the last VI calibration result until the
+    DSP reports
+  ASoC: qcom: x1e80100: carry WSA VI feedback on the WSA Playback BE
+    link
+  ASoC: qcom: x1e80100: register WSA speaker thermal zones for speaker
+    protection
+  arm64: dts: qcom: mahua-t14s: add WSA speaker protection VI feedback
+
+ .../bindings/sound/qcom,wsa8840.yaml          |   5 +-
+ Documentation/sound/soc/index.rst             |   1 +
+ .../sound/soc/multi-direction-codecs.rst      | 135 +++
+ arch/arm64/boot/dts/qcom/glymur-crd.dtsi      |  29 +-
+ .../mahua-lenovo-thinkpad-t14s-gen7-lcd.dts   |  19 +-
+ include/sound/soc.h                           |   7 +
+ include/uapi/sound/snd_ar_tokens.h            |  13 +
+ sound/soc/codecs/wsa884x.c                    | 160 +++-
+ sound/soc/qcom/qdsp6/audioreach.c             | 779 +++++++++++++++++-
+ sound/soc/qcom/qdsp6/audioreach.h             | 105 +++
+ sound/soc/qcom/qdsp6/q6apm-dai.c              |  16 +-
+ sound/soc/qcom/qdsp6/q6apm.c                  |  42 +-
+ sound/soc/qcom/qdsp6/q6apm.h                  |   1 +
+ sound/soc/qcom/qdsp6/topology.c               | 273 ++++++
+ sound/soc/qcom/sdw.c                          | 236 ++++--
+ sound/soc/qcom/x1e80100.c                     |  81 ++
+ sound/soc/soc-core.c                          |  46 +-
+ sound/soc/soc-pcm.c                           | 122 ++-
+ 18 files changed, 1924 insertions(+), 146 deletions(-)
+ create mode 100644 Documentation/sound/soc/multi-direction-codecs.rst
+
+
+base-commit: bd1ecbb61afefc6a8b876ccbc31e9228b44e9eab
