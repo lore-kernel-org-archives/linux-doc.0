@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792750336;
-	b=bPULAxKZrxNz5HklYZ+X+cOm6PzzfZs/LEr7dAQ62xRPlRGhYvJNbm8NhNmsBxg8fg8F
-	 iOwn4Qi7CL9jloGlFan7l5FKFupg7Vl1s+Bmvn8zyL1iS3GIX0ae0g1vXLMu9l//UK4FS
-	 Bj1RuTOrFMaLe2wYAY6kjpcvzrVuAC9UkmGOMSZhpS76BZXonM4YQ5McJl/cnsDCZNFX9
-	 aSOrDEBuM7OkieaYTHwfajqQBl478ei90W7MA4qbOQmozfRUqpdr3sp4tb7A0l5VQBoxJ
-	 T7LDn3aNMKKN/vQ4MsU6JwdcDvHxKkS66H6Wj/JGs0VSJweEpEiNMX9pbJGXPJBKlcw==
+	b=QAEOPoxmZCZ2CtcTX3rQR8FO4VANtYTtnAiHzINzo+fcFPV2ete106sjb2Fe3geueLVT
+	 XvE3ZrOjzFQ7n5POXMLfGbYLkafJQcxtPxdwRQZ/BpurIKRLLFxbW5+ZOIRK/8QaWezr2
+	 vsz9DrLbSI9V+vpLcwCQ3F+CswcqbOHQ8ij9gffJb6wSGfSY6JIWclBfRvKCUc1RQVjLL
+	 xKdSPy3VhQXNdl9O9e9DGAYnSHibJK5nwcjMEa8ecnc7VT2wMDRywDvmlAeBLUoypePcy
+	 Q2Ksz1VZhe95PA8FI2J0kZbM/Ck6iDSCbRIo9LIKr3kSiTHYR8SMMfwVM9/QiqFqWnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792750336;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=FbypPKsKITOQ/jk6XjCK9FIhBZBfHxhE6jSa8LQnUcU=;
-	b=5FM1i6eXmEdmISaT77DNIi0dwIjXskzdvcVkM7fTrl3jtPQz+5VvnQPNc1fTcMR1Okgm
-	 /2rNPDwjOZEr6x01EpaaTbPXMzqhPLry+CeMs/DCdVAIe6d5DoAImKfvQt4j+lsWJwT8D
-	 h+6D1UKVbCpgCqMgCrgLshbv7wAMopm6P2aG6xZhsMLaS5oONdqhXmMcnInpL6qB6IqAm
-	 5NxXX7pfgeXaDFDfCqfk+mO3Gjs16Y7efyTdsOJbjMp9zk2hNlGsZ+eC8h1NG+1aEDhe3
-	 /i4QnsnivnKiBbxP0Cf4tpabQfnVEMgNJBxs5iDcUesEuXQB9FAz1zo31GttAI29neA==
+	bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
+	b=xdOlUmrRKEtkK6sf/z75iIfYsShm5KSSpRcr2igILpwXk6PYPZnUaIsL4qNqMgunVKBx
+	 nxN2PJWQIwiwtCxWARWCv++5Vndtp6Qg4kF3ucN5CtgO6jhOVfCuNlcjBalxyoMj+eJN2
+	 17kmK78lKyoB8NGmQfoEB1FhOW2PX8COvEqgOazfwxbqgtgJG5Vhp6fkYBXdT8AQXkjo5
+	 HUPY9gY/4gsDh3P2wRDBNn8QLKdfbLbU5c3cSTYWJvOCXZ/zsJzVtyab7OCPhYbTFCh36
+	 nq7MZs+Ibdtf+J71NOzyrFOU1cjLEAm1X7AfJjT0w7jfZ2JcbemdvVvZkf3MW6mMW9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.com;
 	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IEj+4LUp;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IWpQ4mhj;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3658760A2602
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E94A606A32A
 	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 10:12:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3658760A2602
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E94A606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IEj+4LUp
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1ec92f655so6800735e9.0
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IWpQ4mhj
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1e3098ee2so8060045e9.3
         for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 03:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=suse.com; s=google; t=1792750335; x=1793355135; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=FbypPKsKITOQ/jk6XjCK9FIhBZBfHxhE6jSa8LQnUcU=;
-        b=IEj+4LUp0lhaROP24PtdeaYws2/e9/yHOlf1zKdVj7ASydfFO+eMApm3KGJMA5KuDV
-         7PGG1w/yuaBKXkPFuf0VRtoBsvBCR+MJeO6TmPOqLKigZUGAfZ4cXqfoErI3gdVkv3PP
-         TFYHtxn7n218s7CUIUtPNHGVZKXWiGvlabE8DjmN84RfXvK29WpvaNL+0LcmTMrsg7C9
-         Kto81LOGs03LLeZzIKEy6k6qSLlzjoV1FylHQTH/cA36obnaS8Cih2F5z3E5XFhF16Ey
-         Heji8LubqPX6v8JGjgM2mAH+MbTX3fkN1NlkcIBtxQhyPFhAW9wZFXLTXoaG7kfOgHbx
-         1jVw==
+        bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
+        b=IWpQ4mhj/pj4bJh7MP/vuwmzTylNCkSm5qEGtWhOQtmmvPT5IVx9weMxPItekIw2dE
+         UIuPuYiLLCs+z2+QbEPtwC739zCnY0WJBZ+1kn++bUAIqd/ljke5fS8Y9y9JS65pAUlR
+         U+y3VP2jNC4yavrsbZNGYxuAZc81aXSZRRfUaj147D/RORJhI+T/G1Nz3lGvWO76/xaH
+         cSUQZNVtXSQmq6ru9hXj4O3FyfGAnuTKlYWZ8IIXaFBlrVMfGUSHqGJOSkUUa2KkGS4/
+         Q2DcRr90fnljjn+r1qN/pyNqmhEQ76pH1fLTCKe7Tes2yWkPX/J0Kd3prY9jBSOLwEjq
+         8XDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792750335; x=1793355135;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=FbypPKsKITOQ/jk6XjCK9FIhBZBfHxhE6jSa8LQnUcU=;
-        b=eXeGcWKHjdoy2BSgioJikURE4Ws+fOTEPh+ISP+rF0o32e/T1at65KMsjRv2Nc61Jf
-         D+bRZNRrzvv+vo2ds+m/KW1mcqk19V3YbkMibucZr17vs0mbhqpTAjSIDnx/Q5GFSgpH
-         UkRhWELFDy8Yb8eyCr/dhfRaR4GGgiTJTwZ5QX9y2RvH+ct5go9Pg5bupP4LD4aNiX1t
-         +qPO+WRGp5Q3F9w9isMm8JbPrROrOSh2cueuhD+1CkUDXod0asZ1jw9xSeaw49IMTNlk
-         aXtxUuYY26X5/h57GIZLymiPzwl1OPqMDhqgXQPrSg3y7XrPliZJEbMgq81LnucYRHD6
-         TDyw==
-X-Forwarded-Encrypted: i=1; AKwUvBykz8gO/tAuuVBbJExS1G+Ls5X3ow77yQfibHr2nnEFF8zlccU3aiEf6Pa1yQJdC1aicR2xZITA+t4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4SzcI7WMZsRD0hHzvvA6lGNeuwqPPmLZP++51DqvclbNplnY+
-	AXknvftN+7YxpqYv9n1r6jcyWbL862kzbhxsHKdr0Gc8syLVfwp+GRFsgywFyt2rX/E=
-X-Gm-Gg: AYBFou3dBem5snRJTCbb7i1QzSmqZX7YyD0Oo/cvJcK3WEM41Fk0g6m8d/WBTBBbamq
-	W1awee9aseEg3mQgz3HUoNWxpZS2Cws3iT0GLteUFTWCusx5Cz1qMSfTINDambCzw5JmeN5YOIW
-	F6ceTmXbfYf3H8v0rrilqzcjRlFDH55q7qPNyZfxPgbXfLICghiAjSFLrIyIvVlvWrUDJhxMMqS
-	sWLJcGR40tJRaF88ywxCEv+gjTdH2GjuxR/HtyHgGeRw3IhXzlVz8BK6V51YK7KPKdWYmZG/KeK
-	iTlQh36wKlaMpiO3m8uEWeR5IhEZAP78VmGDIL0yCN3DkcbZCNzT64oe9p55YizDDsbfzGKNsXK
-	S3HEXPjSaR9r2qj6wo1ySkYth6Fl/zUllfAL3qElHMVgP514OZa2IUQ1A5cng+aY7p2lvGXIyf3
-	plL6Afbw5YSlKHdr3WZJsBAExwFq+b2whMeSltp5g511tWMLJttvp9NHRRnN5KfGezvq/RXEmzc
-	dWE6T5wgWtd/lJa8WpTTL4P9jMoDFSwyLtgrxi02N4zCjF2dmaB1W8=
-X-Received: by 2002:a05:600c:1389:b0:4a1:c6f5:2450 with SMTP id 5b1f17b1804b1-4a211cac456mr27965575e9.17.1792750334572;
-        Fri, 23 Oct 2026 03:12:14 -0700 (PDT)
+        bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
+        b=cZopE2/TVlfp6+Ezy49FMzJE0xIpoJ2amD9pwctR1PU7HKimUb3LCMIKMVO0SzuU17
+         DcY07QTzKtrnZpUJ/5STUEix/qM/Iwbg3UrUNRV4SerGKyk2XFdA2tseYQm7xQ/3M6/U
+         H7Yxxa39E9sV9keZg4Z6IaNSMGNy3UMnRSYv4KLAndOIzIybx/cz398egSTm+7MHVcSO
+         Y5UIi4kN+qYc4nZ/G9RuuDMAioEszVu2hFikr4g1VlBXMGvzurny8Q9kX6LLYjCC44xD
+         U6ly8/DnsLtXzqbg6aNsXFLzA+kT6u4hMjHtdo8oxu/XMxbv7D4n2rlLCj0TKfp+iY01
+         8wAA==
+X-Forwarded-Encrypted: i=1; AKwUvBxpEF9BItfD8cfQkva3oxNojTAX8ZPpw7M3PPLsYm5pwtEtbe2LZ6x5tuLbxrjjdP1U3ex8/S7g58U=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIJ9eRjHzqsYgGqjC71SmjbRX1cqv/shv09DbZ7OILqRHPS0Peq
+	KATU0tJTI3gCb9S/oRC8ZDiaiUTEXMrprpADwb1mSNbZM8p5fgfxZn4EqH3ty9+n588=
+X-Gm-Gg: AYBFou2N8W06ifMuY87e5H9b2SeQeJeDc0LlPN39mqrEK61PURvAtmBFpQhLmpVTe1p
+	mf5oW+JLOMq1sYcXtjy9XJAfQtPIQLs8ytRKWY32rbbt1vKLU5DLVfG+fBxVADma6tT2OXUSnLz
+	Y3Lhu1qmigOqdFwvwDPkfVQhi/x3kaNZrXn0I8/jH6KIKdOymfo8eTDGtUzeEkvJpzsePo16LlH
+	1DDukbOq5U+eD/CdqWLBaqynTPXfeunj2DSIP7jjG/0M+mrb9Yq0ZkhAEtHhkxsqzZMuMPu7Knm
+	jzNvVi0X8mq/L5TgOxA7LquTNCikymhjpKcNNa+hqxUmw2rnUknRyc1KxYdStn3s7mCMzSEJsyL
+	avGDP4zBQjy8w4xCW/BLUBoCu2L83Vi/DRbeDDIBAe6FDa5ZtlTJDNrzQX/rgGczEx1Bggo70nr
+	4jpTawQkayYR1Wid7IucFWc3WnEapIMI25J9m350ThgYLosBjXctCKMcDcpEaTLv2UsQBR7U7KL
+	cly2kTiCsyJ33wNjxcJV81bGDnrn0nAH1qcoBhMBLq6HKKO0YWvZrc=
+X-Received: by 2002:a05:600c:4fd4:b0:4a2:1cc:6551 with SMTP id 5b1f17b1804b1-4a211f3a5f5mr23914985e9.35.1792750333373;
+        Fri, 23 Oct 2026 03:12:13 -0700 (PDT)
 Received: from localhost ([82.192.120.214])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a211ba35d3sm43628645e9.6.2026.10.23.03.12.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a211b898d2sm50139165e9.4.2026.10.23.03.12.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:12:14 -0700 (PDT)
+        Fri, 23 Oct 2026 03:12:13 -0700 (PDT)
 From: Andrea della Porta <andrea.porta@suse.com>
 To: Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
@@ -103,9 +103,9 @@ To: Guenter Roeck <linux@roeck-us.net>,
 	linux-pwm@vger.kernel.org,
 	Gary Guo <gary@garyguo.net>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan tachometer
-Date: Fri, 23 Oct 2026 12:15:56 +0200
-Message-ID: <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
+Subject: [PATCH RFC 2/4] dt-bindings: hwmon: Add Raspberry Pi RP1 fan binding
+Date: Fri, 23 Oct 2026 12:15:55 +0200
+Message-ID: <0a9a27c58336449e5a2e243b987a8bc85b05aaf8.1792748690.git.andrea.porta@suse.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1792748690.git.andrea.porta@suse.com>
 References: <cover.1792748690.git.andrea.porta@suse.com>
@@ -120,281 +120,72 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a hardware monitoring driver to support the fan tachometer on the
-Raspberry Pi RP1 southbridge, found on the Raspberry Pi 5.
+The Raspberry Pi RP1 is a multi-function southbridge used on the
+Raspberry Pi 5. Its internal PWM controller block includes a built-in
+hardware tachometer logic, which calculates the fan RPM by measuring the
+tachometer pulses. The computed RPM is updated by the internal Cortex-M
+firmware into specific MMIO registers within the PWM block.
 
-The RP1 PWM controller block contains specific MMIO registers that hold
-the current fan speed in RPM. These registers are periodically updated by
-the RP1 internal firmware based on the tachometer pulses.
-
-Since the Linux PWM subsystem does not currently offer a framework for
-exposing integrated hardware tachometer readings, this driver is
-implemented as a standalone hwmon device. It parses the
-'raspberrypi,pwm-tachometer' DT property to find the supplier PWM device,
-establishes a device link to ensure proper lifecycle management, and uses
-RP1-specific PWM functions to retrieve the RPM values.
-
-Provides the standard hwmon sysfs attribute 'fan1_input'.
+Currently, the Linux PWM subsystem lacks a standard API to report
+hardware-calculated tachometer values back to consumer drivers.
+To avoid abusing the standard 'pwms' property, this binding introduces
+a custom property, 'raspberrypi,pwm-tachometer', to link the standalone
+hwmon fan driver to the RP1 PWM controller node. This enables reading
+the tachometer MMIO registers and exposing the RPM via sysfs.
 
 Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
 ---
- Documentation/hwmon/index.rst   |   1 +
- Documentation/hwmon/rp1-fan.rst |  41 ++++++++++
- MAINTAINERS                     |   1 +
- drivers/hwmon/Kconfig           |  11 +++
- drivers/hwmon/Makefile          |   1 +
- drivers/hwmon/rp1-hwmon.c       | 136 ++++++++++++++++++++++++++++++++
- 6 files changed, 191 insertions(+)
- create mode 100644 Documentation/hwmon/rp1-fan.rst
- create mode 100644 drivers/hwmon/rp1-hwmon.c
+For the rationale behind this design, please see the cover letter
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9955a525436ae..e078404a0e08d 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -235,6 +235,7 @@ Hardware Monitoring Kernel Drivers
-    q54sj108a2
-    qnap-mcu-hwmon
-    raspberrypi-hwmon
-+   rp1-fan
-    sbrmi
-    sbtsi_temp
-    sch5627
-diff --git a/Documentation/hwmon/rp1-fan.rst b/Documentation/hwmon/rp1-fan.rst
+ .../bindings/hwmon/raspberrypi,rp1-fan.yaml   | 39 +++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
+
+diff --git a/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml b/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
 new file mode 100644
-index 0000000000000..4497b61c0a394
+index 0000000000000..53e5b67fa856b
 --- /dev/null
-+++ b/Documentation/hwmon/rp1-fan.rst
-@@ -0,0 +1,41 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
++++ b/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
+@@ -0,0 +1,39 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/raspberrypi,rp1-fan.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+Raspberry Pi RP1 fan tachometer
-+=======================================
++title: Raspberry Pi RP1 fan tachometer
 +
-+Supported chips:
++maintainers:
++  - Andrea della Porta <andrea.porta@suse.com>
 +
-+ * Raspberry Pi RP1
++description: |
++  Hardware monitoring driver for the fan connected to the Raspberry Pi RP1
++  southbridge. The RP1 PWM controller hardware contains a built-in tachometer
++  logic that calculates the fan RPM. This binding links the fan to the PWM
++  controller to read the tachometer values.
 +
-+   Prefix: 'rp1_fan'
++properties:
++  compatible:
++    const: raspberrypi,rp1-fan
 +
-+   Addresses scanned: -
++  raspberrypi,pwm-tachometer:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Phandle to the RP1 PWM controller node that contains the tachometer
++      registers for this fan.
 +
-+   Datasheet: not public
++required:
++  - compatible
++  - raspberrypi,pwm-tachometer
 +
-+Author: Andrea della Porta <andrea.porta@suse.com>
++additionalProperties: false
 +
-+Description
-+-----------
-+
-+The Raspberry Pi RP1 is a multi-function I/O controller (southbridge) used
-+on boards such as the Raspberry Pi 5. Among its peripherals, the RP1 includes
-+a PWM controller responsible for fan control.
-+
-+In addition to standard PWM output, the RP1 provides fan speed monitoring
-+(tachometer). The tachometer pulse measurement is performed internally by
-+firmware running on the RP1 Cortex-M microcontroller core. The computed fan
-+speed (RPM) is periodically updated by the firmware directly into dedicated
-+MMIO registers located within the RP1 PWM block.
-+
-+This driver interfaces with the RP1 PWM controller to read these firmware-updated
-+registers and exposes the fan speed as standard hwmon sysfs attributes.
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported.
-+
-+======================= ========================================================
-+fan1_input              fan tachometer speed in RPM (RO)
-+======================= ========================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3a19da74d00c9..f66c52e640342 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22819,6 +22819,7 @@ M:	Andrea della Porta <andrea.porta@suse.com>
- S:	Maintained
- F:	arch/arm64/boot/dts/broadcom/rp1*.dts*
- F:	drivers/clk/clk-rp1.c
-+F:	drivers/hwmon/rp1-hwmon.c
- F:	drivers/misc/rp1/
- F:	drivers/pinctrl/pinctrl-rp1.c
- 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index fecff8610ea8b..c23dfd5f5055a 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1981,6 +1981,17 @@ config SENSORS_RASPBERRYPI_HWMON
- 	  This driver can also be built as a module. If so, the module
- 	  will be called raspberrypi-hwmon.
- 
-+config SENSORS_RP1_FAN
-+	tristate "Raspberry Pi RP1 PWM Fan Support"
-+	depends on OF
-+	depends on PWM_RASPBERRYPI_RP1 || COMPILE_TEST
-+	help
-+	  If you say yes here you get support for reading the fan tachometer
-+	  from Raspberry Pi RP1.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called rp1-hwmon.
-+
- config SENSORS_SL28CPLD
- 	tristate "Kontron sl28cpld hardware monitoring driver"
- 	depends on MFD_SL28CPLD || COMPILE_TEST
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 1229b6b3996d7..54f2bd057a2d8 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -207,6 +207,7 @@ obj-$(CONFIG_SENSORS_PT5161L)	+= pt5161l.o
- obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
- obj-$(CONFIG_SENSORS_QNAP_MCU_HWMON)	+= qnap-mcu-hwmon.o
- obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
-+obj-$(CONFIG_SENSORS_RP1_FAN)	+= rp1-hwmon.o
- obj-$(CONFIG_SENSORS_SBTSI)	+= sbtsi_temp.o
- obj-$(CONFIG_SENSORS_SCH56XX_COMMON)+= sch56xx-common.o
- obj-$(CONFIG_SENSORS_SCH5627)	+= sch5627.o
-diff --git a/drivers/hwmon/rp1-hwmon.c b/drivers/hwmon/rp1-hwmon.c
-new file mode 100644
-index 0000000000000..7943eda905dbc
---- /dev/null
-+++ b/drivers/hwmon/rp1-hwmon.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Hardware monitoring fan driver for Raspberry Pi RP1
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/device.h>
-+#include <linux/platform_device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/hwmon.h>
-+#include <linux/err.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <soc/bcm2835/raspberrypi-pwm-rp1.h>
-+
-+struct rp1_fan_data {
-+	struct device *pwm_dev;
-+};
-+
-+static int rp1_fan_read(struct device *dev, enum hwmon_sensor_types type,
-+			u32 attr, int channel, long *val)
-+{
-+	struct rp1_fan_data *data = dev_get_drvdata(dev);
-+	int rpm;
-+
-+	if (type == hwmon_fan && attr == hwmon_fan_input) {
-+		rpm = rp1_pwm_read_tachometer(data->pwm_dev);
-+		if (rpm < 0)
-+			return rpm;
-+
-+		*val = rpm;
-+		return 0;
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+
-+static const struct hwmon_channel_info * const rp1_fan_info[] = {
-+	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops rp1_fan_hwmon_ops = {
-+	.visible = 0444,
-+	.read = rp1_fan_read,
-+};
-+
-+static const struct hwmon_chip_info rp1_fan_chip_info = {
-+	.ops = &rp1_fan_hwmon_ops,
-+	.info = rp1_fan_info,
-+};
-+
-+static void rp1_fan_put_device(void *data)
-+{
-+	put_device(data);
-+}
-+
-+static int rp1_fan_probe(struct platform_device *pdev)
-+{
-+	struct platform_device *pwm_pdev;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *pwm_node;
-+	struct rp1_fan_data *data;
-+	struct device_link *link;
-+	struct device *hwmon_dev;
-+	int ret;
-+
-+	pwm_node = of_parse_phandle(dev->of_node, "raspberrypi,pwm-tachometer", 0);
-+	if (!pwm_node)
-+		return dev_err_probe(dev, -ENODEV,
-+				     "RP1 PWM node not specified in Device Tree (requires 'raspberrypi,pwm-tachometer')\n");
-+
-+	if (!of_device_is_available(pwm_node)) {
-+		of_node_put(pwm_node);
-+		return dev_err_probe(dev, -ENODEV,
-+				     "RP1 PWM node is disabled\n");
-+	}
-+
-+	pwm_pdev = of_find_device_by_node(pwm_node);
-+	of_node_put(pwm_node);
-+	if (!pwm_pdev)
-+		return dev_err_probe(dev, -EPROBE_DEFER,
-+				     "RP1 PWM platform device not populated yet\n");
-+
-+	scoped_guard(device, &pwm_pdev->dev) {
-+		if (!device_is_bound(&pwm_pdev->dev)) {
-+			put_device(&pwm_pdev->dev);
-+			return dev_err_probe(dev, -EPROBE_DEFER,
-+					     "RP1 PWM driver is not bound yet\n");
-+		}
-+	}
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data) {
-+		put_device(&pwm_pdev->dev);
-+		return -ENOMEM;
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, rp1_fan_put_device, &pwm_pdev->dev);
-+	if (ret)
-+		return ret;
-+
-+	data->pwm_dev = &pwm_pdev->dev;
-+
-+	link = device_link_add(dev, &pwm_pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER);
-+	if (!link)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Cannot create the device_link to PWM controller\n");
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(dev, "rp1_fan",
-+							 data,
-+							 &rp1_fan_chip_info,
-+							 NULL);
-+
-+	return PTR_ERR_OR_ZERO(hwmon_dev);
-+}
-+
-+static const struct of_device_id rp1_fan_of_match[] = {
-+	{ .compatible = "raspberrypi,rp1-fan" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, rp1_fan_of_match);
-+
-+static struct platform_driver rp1_fan_driver = {
-+	.probe = rp1_fan_probe,
-+	.driver = {
-+		.name = "rp1-fan",
-+		.of_match_table = rp1_fan_of_match,
-+	},
-+};
-+module_platform_driver(rp1_fan_driver);
-+
-+MODULE_AUTHOR("Andrea della Porta <andrea.porta@suse.com>");
-+MODULE_DESCRIPTION("Raspberry Pi RP1 HWMon Fan Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("RP1_PWM");
++examples:
++  - |
++    fan {
++        compatible = "raspberrypi,rp1-fan";
++        raspberrypi,pwm-tachometer = <&rp1_pwm1>;
++    };
 -- 
 2.35.3
 
