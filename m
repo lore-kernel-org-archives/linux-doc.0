@@ -1,100 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792765864;
-	b=ew1iTFwKXFQvQuYA5utqC4LZo3hxcNXHxXSFG05rL9frjsSVXYzrIHFBB6WSVLzKChdq
-	 6xTL6H5gEmusXlxLae2RyGITlM/2cHPhmMAEHpPKsDDfiiuVkqEO8k6QtR9/k5CBRGmXF
-	 VnFHKVUbdha0K3guOxfF3ds4hXtDSaosKdfUSyw+DTjorXcFvMVwwt2V4Hp7ZZK8SzIDH
-	 gziGRpmx0zjPuPm7mo7Mr+wswapxHmg8v5p69lhukwgeJjqyhNyCY5CDBHUPvrKZY0T4B
-	 4hLCcntr2daN2vNdFKh6u9jhQUZngEhueHz1oLOdyvQEwOE3Lrbv1R8j3WP3XFYNPNw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792765864;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
-	b=N2C9Nb7pdL2qkN8m3SZhCL2QKpBldVdlaGLUYyajq8NFSvCYzuld2BDyj9hK7omNcwX5
-	 0Eh2kGQ/2s9odFBixdGjpczGs31J4vq+QwIM3XP4MWS+h+6pSDbPmBEsnueOO2cGxD0Bw
-	 CgI8xtSTpLuak67Vyi5POZ+oue3A1ZbwfyLjCY0CjwQQR4Q6JiLmd6fnyk+tnTcJKjTrm
-	 JxVT6uU+x36HoQP24NK04PfJ0gLG6ZSu3kwuVNszAc4lHNNoGCtegoesT+5586pxAA4SQ
-	 2AGnwqpi24s1FsJ5P2i8xC/HkIHj0CHWEcs3mcondgWtSDOQSZ4aqLmXCoK5H6U6nzw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=VVIFg6tb;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792766450;
+	b=5pb+mn9127+VmGg1TGAEoMm/XkEoGGXH187juc6UpXk3wE4eJDLa9vzHAP94/Zil7hcv
+	 /47/z1eJ/OYXQQF2aaDTGcYJLmOjTQC2ROuiLVAL0Gq9T9LDQy9UQZ9teAjgyLCVdzrYQ
+	 5BmEDwyF7kCiD2PT5V3A7oV6Nt6a/YOhnxknTsgXLAJTa7bQZXrwFI/M92/KICs++Glir
+	 KQgp8BxArSQH6nJPGtKmPp1GMmMdUFgDAX18tPh9pPV3RUcOWQXwmK5pn6HeKDxiVTdtA
+	 EUtCWE55dp4T4iFYI2KauhUQMZNLhMbZKsL2LLTrlSlXnDViUnZxj+a0Jat2F9O6Y1g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792766450;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=rQHeBum8IoN4wUsblO3htR9RGFV6GnquaIlN8uIvfcU=;
+	b=SJpI0Ro6r6KmTmGyDRGdoa05c+6jTMKni1qlSTpWZz7WHieuwcxOV0PJA7WeG+z/tJXJ
+	 TZxE4fPyzfdnRTrcYcyHBwUOYOx4HArfLl3a86bgA1I1DWK7/5kvODyDrOjmSiQ7p2JPb
+	 pIlavaOplJv8Y+UhiTHSSIk/gHpcyP/gLY9BJHiqvwlZJvrtz6LLZz2ipjY0kf+f9uEqG
+	 CNgcZ3935cH7ViIq3jKoKaM/gNSDki/8PgV5H+OMEplxbjl7pqib4C5OWAqE8YtJBvd/z
+	 LKh5ZBVf6T7MPQ18POzs/Zgg7ew5gzdJeKC7Z94/iRbVuvFnuJmBJglrvq6ABR2zEnw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=etkh3MJ0;
+	arc=none smtp.remote-ip=43.163.128.54
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99660606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:31:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99660606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEAD5606A328;
+	Fri, 23 Oct 2026 14:40:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEAD5606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=VVIFg6tb
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so55315ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 07:31:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792765863; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hpSan1oXSRVkMQmhMldtj//+6uqydUukiUrBoeeV5iORiollHhFP4o+t3xN8XksglT
-         J5u9TTapN/NX4hnjqs6wUX3T91h8NaPAjpWoWRaCP8JRH1qR1HfbXP/3JJydIJdp3UvX
-         cxc4JzhjE92cTH7809IxpcEPL0d7MHqNZnELVeRT8UhEXeKgYDjF1+tY942Ebr+WA7YY
-         SUc1nfxCIJjpIeFpZ8FN4vMwkbaanbmtCgyLl51czI7vafyYxzi1d4MJTnCS3U0zoyzA
-         ljwWFy63aADV3jmKCRbVLIzHtwW3Jw/wkmiJFqL5K7B/He6im8d1sJmjk9MXcHeKooyM
-         ziCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
-        fh=u+/B4LeldIL96WaecK0zR2H0+BBOQh9wFWGCDC5o4VI=;
-        b=Hj+qWmrFTA39fnGa2pYsClM5dJze4wl52hOWe6wystfG4bLYi4NS5hPIRpd8VKIB8N
-         BNZ2foc0amUJ7gKPEYqHzOwQh+1cDvyFrzXDWnsuNXrm+Em9TCUKRVRMAyquRXPSi3DD
-         1Yr8AfVWPHHpgFDOMDosb7El61RCpHOjbpLb3gPY8K8l8zWanucP2ODZDyS51lOvD7hK
-         hrg3P1gZgMnl++HIsDgLnyhRGrkO134i4n3tHRIEdlx+qQUv2wG5P2jb7Cl7xxHqjKF+
-         7DdRFNuC820fhPZYf5uVY14ucwkzxhSfLD2m2uIGMPVF6gp2ze28adQtYlWAEZr3L67N
-         vheA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792765863; x=1793370663; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
-        b=VVIFg6tb7WK4WNH/I3L6DFNDUrzYJ8o1O9kJJIOL0mZjbDHHGac5RMiQ5AsP/FqpYv
-         1Dt4Jc4CBdbhHms0jG3oJH6xf8Tj+LzES5uC5C5CYoNAXzPld4yvlCtqXp3+F9mf0spz
-         +3BusVjz7rkrm0ohoVloTAShTDbfxn+Rcr2g/VyGdDdplOcHciqKZgZmgBE4eYfT0qJl
-         qhFR3JTcIYt343vm3g8Uh8JKEgZBCoIcY/Fn5sFRoo7c8899zyI0Y2kjALu+M9xDlJeA
-         7upuI8KJB6SYRwqoRToLV67mbyXPbUJP4w9MoEyNB9cq5p8Kfjr85sCMlI79SsK78Rsf
-         UeKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792765863; x=1793370663;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
-        b=EYXJuCG9EXniqyeU/kfi6HAnPDWM80/Rz5HrP91BiM/jQdCRCx4rouXbNgqcN4MZ9N
-         t9P7jR5Wns1HIu7vOQtQmQTFukhrAaM0qwBIgM3vAA82pXAywo4tOvqtXWtG/PgTayQV
-         AOkxYUVPJz/gg55lNhtpsjWeiQrFdYrMEsvt7zzf5oeSV+HpV2d4bsQHRa3fkjpCIX6I
-         vX/ihSq6nSJtgFTCvfLbj/++kOsLnfOyHzzQgTjkg9O+0DuxZ+1DJTokHLR/D7tM6DeN
-         ZVj/f+vXI2B5hA/x4/EAS+0VKxFISkg9V21Bhv03+oZwkow/+FzLX+kQtrv4aLc3wQRA
-         a44g==
-X-Forwarded-Encrypted: i=1; AKwUvBz3JjInQUDMgi/piA6IpJSMwQVGPZYTnbauXFKnjU35gFB58s/xZGwYXs7CqGfLqgPwdFvu24ngS3Y=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIHC3Oedq6mLaSnDcJKjaiCSyNua6eOk4eJoibUuNYSVkc7RiN0
-	Enrp/z7S8wRzqg/P2zQMNJGx6VFSRZZ7eZvn5WB4VV47JFqHl7KAisiU6VM5mm+FY2P/6lwDRD1
-	J0kdso+ihfdewZPDdEdXamIPOSe8k7hBwaXHmBzGx
-X-Gm-Gg: AYBFou2nRn5ffRf+89gIcO0oAP6p5UAaPgZfmFHOh1FckwcNFtzyt8HXQxVkSeMtpWa
-	unOfhqW3g5EOBLsdwbvJS5N71GHkIixJb3A1mcmBOu697miA9pGeNjypRSpwxNLCsJDGlx1ulnR
-	geGO363Ob8Dhvv/QeYIJ2+zK6U60aNb5+x6YG64DFaNIUd4p0VbjrBNbkHk6AKsURfFLpECbAuO
-	KUgHU0kJtiDnOT3JH3QOoUrTeEVYbbCYcqigfWF3vkVuG6DkCGXe2sY69JASWHaleYHRFfOq+jU
-	rhuA3cqlj39VNJL1bqKux6NmFefMXvQ29LrQjItkjvTrFxPs+qu9zwx0umbmLmrWwU3xgcA6kDW
-	AQKQ9rRl3HhNaPjNaPDRxHPOOrG79zvy+qnJDrrk/zw3lGJRIeakzXg5xScY=
-X-Received: by 2002:a17:902:f683:b0:2ea:7180:3abf with SMTP id
- d9443c01a7336-2ea7f512f16mr4025665ad.15.1792765862249; Fri, 23 Oct 2026
- 07:31:02 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=etkh3MJ0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1792766440; bh=rQHeBum8IoN4wUsblO3htR9RGFV6GnquaIlN8uIvfcU=;
+	h=From:To:Cc:Subject:Date;
+	b=etkh3MJ0ulISNEqx/5EHahVSTu6vENFqPUVWiUOBYLvbdK8BIHC3kxqZ0YjnBPxMJ
+	 oDXmuq8TekjFX2tprrprjK0/P93d1WG3eXvJzmdr3vedATfsedQ37CS/6aogGgxeui
+	 X++Fx4GxaO/HkoSn/VPsuCJOwlrDYkpUrfBXbBiE=
+Received: from kernel-lab.tail5e91bb.ts.net ([39.144.194.158])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id A2487023; Fri, 23 Oct 2026 22:40:36 +0800
+X-QQ-mid: xmsmtpt1792766436t479bfrd7
+Message-ID: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+X-QQ-XMAILINFO: Nnw8JvMpFyP7mjlvYHkB+MnWu/UQWl4GoX2OQ7W/kKANeSpnw+q/kadNSXEbLU
+	 n5d7+Xj8NDB+nfACkz5+CuPuYM/ke+CNPMbp1LjKZd7O/tWXC/x3A6yUOMixoB9AEqEwE1yfH9T/
+	 2sc3L655y/vMRjmvEDBeeacjyN23wLm25sfQzaTu5yrS9DwwMfi1NgtZvJuJlb2eZEwdlV4DBh9h
+	 78RL56t9+ptuldPDCWaBRj9EYqVPdJi1GYgsHXeBWYibPrKYHYcu4pY5B91i1meEG3xMkNn6sTAC
+	 0TnqvY5oSdO49c58FbHjEyZ4RmcSX0t+wvSzVOcrItxG396sTzAXZV0U+4IZe25qZOBlDWWYIPy4
+	 HJ6b/E+VMm4uxRi+UhSNleLBUMj209AUQ7sq7bVZADCnXFlXFjygB1B7pn32wvupR/Qd6bnhM/pv
+	 JmqhiUGsSvUqzxpRi/BXPpR97Hcd2PNJ5v/UGzz2PW2gd/3LPGoAsADFPLvPdAtUBjQ6Utg8Bh9I
+	 xrh5DFrcPWOS1m/+IaJihkbJXyc+d7sy7EfsxgX50eIOIVxjkNJsHqzdH4AGkX2jq+EFrRU4rF1t
+	 /RHTGoNPeefrD7Ux8BfL/RavAX2x0zfXNKG0yqyx8jMUuFD+uI/HMx4kTzBeY8/UK1xdDTYP2nCt
+	 wNer4Jc4IGYtSioSKracLZDppVGDHYdZHP2/vuW9wNyle/XSG34oOVCf8PZX7Z+4IpJWCEXE66F/
+	 rZE588ZAE7zCGbO2Nua1wd40tgW9D6YZSsdAV+C4KnKmALIJmZlhAjdpjfzpFOiXTZBvNWMpfsFy
+	 1A10o7Mm8u/gNxaTqVcAM9IK9Lcf9RK1I++1rvb/wXvd0HLQvlsnulEKxx25ZtEfDxusndiYeZK3
+	 ZF/9z3HzHs07AzGKU/Gt/GEHlQzJaAF1D4xde7W+jG6aBBO7ifypRbzt/6YOHsCoskVU8ZdlbhTo
+	 UkWteVlcgtbvp8LMUeYbTPRyeEyDwhaTLB4t3p+pnk0exA+KH+RQdON+qiB2Ykcu/AxWcnN7noqH
+	 /jpnWzQBW13bSlJFh7wwdXcj2B2T09vMaPUYitoKKSGgpoB9mo4Mu6SMqiRx087CEWW9S7cB4j3B
+	 dWNcJdiai3mMBXZrTNLLoXizQOiHbJRUwtPMpvpTwrKYu4ZiTpOcXyLs6lB2Jp0Poqk/H9q+ZU/q
+	 PvxXc=
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+From: Yingjie Wang <1075151112@qq.com>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	jiayuan.chen@linux.dev,
+	ncardwell@google.com,
+	kuniyu@google.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH net v2] tcp: limit tcp_tso_rtt_log to a valid shift count
+Date: Fri, 23 Oct 2026 22:40:36 +0800
+X-OQ-MSGID: <20261023144036.152675-1-1075151112@qq.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,127 +90,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca>
-In-Reply-To: <20261023140107.GC3977851@ziepe.ca>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Fri, 23 Oct 2026 16:30:25 +0200
-X-Gm-Features: AclHuK9d7tFq_s1fhJmYPVN1-JncgZCOvwLUHaeunw-YOxbh9iZtFoxmVAkcY88
-Message-ID: <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 23, 2026 at 4:01=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
->
-> On Thu, Oct 22, 2026 at 11:51:40PM +0200, Luigi Rizzo wrote:
-> > On Thu, Oct 22, 2026 at 10:12=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca>=
- wrote:
-...
-> > > Can someone explain what outside netdev would use this? And why you
-> > > couldn't do this in the netdev page pool?
-> >
-> > I can try.
-> >
-> > Regarding users, the next target is disks (not included in this series)
->
-> Disks don't use a memory pool, they do IO to folios allocated by the
-> page cache.
+tcp_tso_autosize() right-shifts the u32 returned by tcp_min_rtt() by
+sysctl_tcp_tso_rtt_log. The sysctl uses proc_dou8vec_minmax() without
+an upper bound, so it accepts values through 255. Values above 31 make
+the shift undefined.
 
-I know. As I said I have a separate patch to cover those IO buffers
+A process with CAP_NET_ADMIN in the target network namespace can set the
+per-netns sysctl. With CONFIG_UBSAN_SHIFT=y, setting it to 32 and sending
+TCP data over loopback triggers:
 
- block/bio.c                  |  21 +++++
- block/blk-mq-dma.c           |   4 +-
- drivers/iommu/dma-pmd-node.c |   3 +-
- drivers/iommu/dma-pmd-pool.c |  14 ++-
- drivers/iommu/dma-pmd-priv.h |   7 +-
- drivers/iommu/dma-pmd-user.c | 390
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----=
+  UBSAN: shift-out-of-bounds in net/ipv4/tcp_output.c:2264:30
+  shift exponent 32 is too large for 32-bit type 'unsigned int'
+  Call Trace:
+   __ubsan_handle_shift_out_of_bounds
+   tcp_tso_segs
+   tcp_write_xmit
+   __tcp_push_pending_frames
+   tcp_push
+   tcp_sendmsg_locked
+
+Limit the sysctl to 31, the largest valid shift count for a u32, and
+document the accepted range. Writes of larger values now fail with
+-EINVAL.
+
+On a UBSAN/KASAN build of the net tree, values 0 and 31 remained
+accepted, values 32 and 255 returned -EINVAL, and TCP traffic with the
+valid boundary values produced no sanitizer diagnostics.
+
+Fixes: 65466904b015 ("tcp: adjust TSO packet sizes based on min_rtt")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yingjie Wang <1075151112@qq.com>
 ---
- include/linux/dma-pmd.h      |  53 +++++++++++
- mm/filemap.c                 |  27 +++++-
- mm/page-writeback.c          |  13 +++
- mm/readahead.c               |   9 +-
+v2:
+- Attach the upper bound to tcp_tso_rtt_log instead of ip_dynaddr, as
+  pointed out by Jiayuan Chen and Neal Cardwell.
+- Re-run checkpatch and boundary tests on the corrected patch.
+- Do not carry Eric Dumazet's Reviewed-by tag because the code changed.
 
+v1: https://lore.kernel.org/netdev/tencent_53CDCF8AA0022B75CF72A294CB9993D2FF07@qq.com/
 
-Disk I/O is still potentially affected by the same problems
-(cost if io mapping/unmapping, iotlb thrashing, bounce buffers
-in confidential computing...)
+ Documentation/networking/ip-sysctl.rst | 2 ++
+ net/ipv4/sysctl_net_ipv4.c             | 2 ++
+ 2 files changed, 4 insertions(+)
 
->
-> The only other candiates I know of besides page pool would be the
-> existing dma pool users. I don't think they are so performance
-> sensitive as netdev.
->
-> IOW I think this entire series is only useful to netdev.
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 8edd2eb2a..66a54c510 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1128,6 +1128,8 @@ tcp_tso_rtt_log - INTEGER
+ 
+ 	If you want to use the old autosizing, set this sysctl to 0.
+ 
++	Possible values are [0, 31], inclusive.
++
+ 	Default: 9  (2^9 = 512 usec)
+ 
+ tcp_pacing_ss_ratio - INTEGER
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index e3760daa3..bf193e7ec 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -26,6 +26,7 @@ static int ip_local_port_range_max[] = { 65535, 65535 };
+ static int tcp_adv_win_scale_min = -31;
+ static int tcp_adv_win_scale_max = 31;
+ static int tcp_app_win_max = 31;
++static int tcp_tso_rtt_log_max = 31;
+ static int tcp_min_snd_mss_min = TCP_MIN_SND_MSS;
+ static int tcp_min_snd_mss_max = 65535;
+ static int tcp_rto_max_max = TCP_RTO_MAX_SEC * MSEC_PER_SEC;
+@@ -1406,6 +1407,7 @@ static const struct ctl_table ipv4_net_table[] = {
+ 		.maxlen		= sizeof(u8),
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dou8vec_minmax,
++		.extra2		= &tcp_tso_rtt_log_max,
+ 	},
+ 	{
+ 		.procname	= "tcp_min_rtt_wlen",
 
-Well, the series provide mechanisms to address disk I/O as well.
+base-commit: f4377bf85887f57b59abb5479f7660a81ffe4449
+-- 
+2.43.0
 
-
->
-> > > It is not a common workload to have the DMA allocator be the one that
-> > > allocates the memory. Usually we are DMA'ing from memory that was
-> > > allocated someplace else.
-> >
-> > Aside from the fact that dma_alloc_attr()/dma_alloc_coherent()
-> > does memory allocation + iova allocation/mapping,
-> > this is not what happens here.
-> > Maybe the confusion comes from one function name
-> > (dma_map_alloc_pages()), but it doesn't map any thing.
->
-> > My code (in this version, and more in the upcoming release)
-> > mainly implements a specialized memory allocator with an
-> > API equivalent to alloc_pages() and variants, but ensures that
-> > the order-N blocks come from contiguous 2MB blocks reserved on the fly.
-> >
-> > The physical addresses of these blocks are recognized by the
-> > "dma allocator" (I suppose you meant the entity that allocates the IOVA=
- range)
-> > so that it can apply specialized IOMMU mappings backed by 2MB IOMMU lea=
-ves.
->
-> Why? This seems completely divergent from how anything else works in
-> DMA mapping, and I don't see a reason for it to be anything like
-> this. Other than it makes page pool work a bit easier
->
-> Frankly this looks like you had AI to transpose a bunch netdev page
-> pool into iommu.
-
-(yes, AI assisted, heavily human-guided).
-Frankly, it's very orthogonal to pagepool, given that it uses pagepool
-for what it does well, and it provides functionality that pagepool
-does not have.
-
-Anyways, reading your next comments, are you suggesting that all
-these functionalities should be implemented as pagepool extensions?
-(2MB mappings and iommu backing, proper allocator of fragments out of large=
-r
-pages, device-less pagepools, multi-domain mappings, pagepool
-as memory provider for skb heads, pagepool as memory provider for descripto=
-r
-rings ?)
-
-cheers
-luigi
