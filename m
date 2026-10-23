@@ -1,105 +1,105 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792775893;
-	b=zgqYwww5goZPpF3KVc2M2jlgjpsVIEitDzoB5oKRIH4b28Y/8aizTXmcmPonZly/3S0D
-	 1bbM8U7IeGx8+Eb1uQxFkMzW8YEepCCuVuZWjTqCH5QAdDu3aR2iPDMqKxHV8kDk5hW1P
-	 ItW406IxMdb6XLJRX+Ic2JIZ5EQX84zpTMPgwjeBZrEFFxXI/VA7xAsOTwxXRBN+b1b2N
-	 0Kf6BsQqj+5r0dpTmRqggeOwQvpZW6JX+FkIIMuDckJMH+7EUvmstfFKT/4Q3VQxYrLDf
-	 VEy5+gPjj4owMXT/kQ5g9P/RDXZPdcZCTuOxcj/oi+zGHAoW1H/G2GYJ236RCbsRpJg==
+	t=1792775894;
+	b=KO6ajHPkC4SZ7uXb5078b0Y+y+7NBxn3z0n6KAWKsIkhRuPS/xvVDWc9D+uyNOogqpsv
+	 ZIvW/yBtFZCtLVSGDONJjpKeTCqWzbAUeXiTWDJ3erx9LNvDEaZCbWFAz0TbxLp6fCVMe
+	 hgSdlyJ+lQVAjE9O4Lj+ZVn0WbzXySsMogIxkIjDiJYgdGDloios2efU+O9agz7Fgm6Lw
+	 vDI84144UpvYiXqY9MXYyyiEKiAh/0wZRkg50tJKlnUMgQCOtHIxGv9hZkVIIXdJtzkiZ
+	 XuPDHDEIEdEUDfzn54V5RiamohB9lPNHeysFVLv5gNWhNcPrqoYQILQfW2weMmnoaxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792775893;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792775894;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=1ZUhJ3mPI+qqMp/uxXmGVfm4VBqcoFVidfP/mpyC9/g=;
-	b=wivxI/3ZroYdDXCCSdMF3atw7k+WyI5ij/brsyxTeit26dL6N7zkz+Pp7BOEAIFkcM0R
-	 WOayIRjWrPVY9Fq3msWpLqj0DRMlVQTNqqpqgikGf6AoTXb3/jtO7VDvRmzPHIvtrC1vL
-	 Be6fOboQNi33a0cf9w0Ese3ATKhzfNbB/dug8PCSAy9ingFPNV/JOjhoxQrH6yWtQok0O
-	 /M1cYsYJ/a95p0BiEElsYlzozg2RgdtN5/YPeB/bDsGWaJ8qQpGt5gpIsZkI/OkTVwYyS
-	 aqZYdf2rs3VD2sqpBxdrzKxnH+gBm9gzFHFLfv0JVQpOKtfmjbdl+IsOCZiYx9nlnkw==
+	bh=wofpT4CczCNyH2fvQLF0TWdYqSGLaecFE0NtEVzTZiQ=;
+	b=dK7v4wIq1BN7wk2BeXeoyLxmS0lHwhPk+E7dGMTRMXuRLFIqJDem4vU+LP5odvJ7cj2+
+	 bPnTwBGds/uYJPTkY8ajSYezmcUp8TdQLcGNjdLZ8CxMkULLFzEQWRYbcqstN5efavaSd
+	 /5DzDx3cIazeHfjJISsUM+zCmZ+ixDImjWcmXT8CVq3e3hYVDGjxcJMnVvnc9bytL3JYi
+	 CS8S8YPBHcXe6jxjMJxJTVZx7b/uxj4DnukzUEK6OU1D49qLza8Wvlctun52UaLj4+JAJ
+	 RG3NsC517R+xLZl1dKXnsJoBmHt7xB4MfMqLm7EW1em+g0uJJ23tignCR23VQXJpuCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=c62CTsUs;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=e1SYOPFi;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CUgGo8QM;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Y1/9ijR6";
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DEF606CA35
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:18:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23DEF606CA35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB6E60A262F
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:18:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BB6E60A262F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=c62CTsUs;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=e1SYOPFi
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NG3r2T3812359
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:18:12 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CUgGo8QM;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Y1/9ijR6
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NG34403734767
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:18:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=1ZUhJ3mPI+q
-	qMp/uxXmGVfm4VBqcoFVidfP/mpyC9/g=; b=c62CTsUssSa8Fp/j33dU0ED2La/
-	mTsyVSuCrnrnEFbwhccDvSBmF/oNOHeWUcLPuRfJZQ2c+jX4DxeOWAGUOIJgLy7U
-	4aqgF7rTQjfmtRV05QahlTGlUjvR8TsJdUroLsOkG+RV+fHMfLHEQr+HE5o1hakh
-	Our75TiEMREZtuvB4ChTqvsu5GhoVLpWx/pmzdxEOsktw4ztBVBMzwOVpHYph2wc
-	fedH6MNvUxAzls15k3bh6uClWSCFh6QEiKKn8wkZD8mwQTQ6GbprkRore9hOlMii
-	kWODllbjgJsV+W4fGRDJY1wr3+ucf2wb7T7ovO9dT+gwh/R5ku7O11p25hw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hgas8896h-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=wofpT4CczCN
+	yH2fvQLF0TWdYqSGLaecFE0NtEVzTZiQ=; b=CUgGo8QMFzjpa59f3gbK9cyCO2n
+	SE1B1Tf5ELAfOfvfXS+hUQse5taUYzbmGQDevsQWeS8prtGHxMfSAaoml76vOUMT
+	lpBzOZ5//PQoHURAAhUgJ2ZiJyKgZnZpne6LP8XwfHY0T5O8vnl//YNXaUyvyjNB
+	m3+306eNEpdHwYFpw5HFDKZoT2voO4CmhST1XZsR3u3UdCKWWxTBSMNG8bNxTHkG
+	KaTp+ZBKT1VvPm/aNqtsRlKyekK0ZE6SZAXY/rpA2ItQGA0Vbm9gsVnqUg8Vw8ha
+	2ZYsiVp03i4s7psXEWicxZ5iejVunNGRyzdsf34+J2DfpcSA6kJQMMdZwJg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hgarug9e1-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:18:12 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f3969a2a7so188017085a.2
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f2373e9b4so119854885a.1
         for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 10:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792775891; x=1793380691; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1792775892; x=1793380692; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1ZUhJ3mPI+qqMp/uxXmGVfm4VBqcoFVidfP/mpyC9/g=;
-        b=e1SYOPFi1oGI4vwFpHKEWs6SloRtaouhwSOmkxOOqJKfGSl5/O9WlPpbh/3+gEPIdQ
-         m2K/PjMTqyJVe5q3y+tmHTa1fNvCzfivzab2YggRg6HQX+8vD1RjLc+BKI1fTGxsrL2s
-         ul2vHu5Yo0XftWjn803PrTcGxcecLiB7i4G7HBQE3J1CsnBmuhnQy3Ypebsj41mUm2yL
-         5ATx9ZgJ/MUiKHEuEHlRorlyoLMWpCXubpI2LGDRR+XZZAn3iDFOBKf7VklbhDlo1Lfp
-         AWc4Vkjh+9wcBVyaQbM1rIYf7BvpMKoYuDaXmlqt0YsIdKGIGAlkZ5jtARAvXDj+8AQb
-         AQCg==
+        bh=wofpT4CczCNyH2fvQLF0TWdYqSGLaecFE0NtEVzTZiQ=;
+        b=Y1/9ijR6dMYQSaRr/EKqqE0jqudH3XvVWnO0ruQ1NCdmBUqSpU9hpm1zCdAS/IRcmg
+         r5+b7KMcG2yvOcegzBlOmWofQsg0G81AUOiK6M5AH/vEbpFrQmWjit++4PiC5e/uGEIQ
+         I+8HETv7bsC8KSdhb8URPIQp1UYKLbFe8Y9lvEzonPWoK/NJRvKddd7Kfb+JxPtLZqns
+         YHwR3cTWoygvyGmmzhtDMUWML5gpgC1Z8+bJ6iogUqjUB/zcgUM8AO9TdAnOGt49hx7w
+         nHpy82KRpE+V/HSouHiTjABG8uY4n7zvAh5ic6JwkVu4TBW+3NRGsyIYCZmOHk135baL
+         r5eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792775891; x=1793380691;
+        d=1e100.net; s=20260707; t=1792775892; x=1793380692;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1ZUhJ3mPI+qqMp/uxXmGVfm4VBqcoFVidfP/mpyC9/g=;
-        b=qdLF6K2iYbUDC/ai9gYog20UdZo1D8yUysDEGdhtejmhwIepTWRVjD2cBnqX5Ax8Y7
-         Pypdg4Yq26jDbhQT/VVRcBqd6DuU+JlKgizC8i5EtHTVwebHyozGPxWLByY2olpPHE13
-         w0HHF5YED534h/4L08R4I6sN9qAp+m8vajJYcQpQc3OqqKfz3v4RqwYaLYQxrr0v0v/u
-         nsDRotxMw+aXheSzo/5iKfMhws1YEPBW9da6h8ql8QsifASdPI8kjf6ZvN0i+B+Lrwsj
-         +dwL+xvzVlSRNjiqCpo1k1Iy18+ONEXBfNBKbWutH2hsBaNqECNCQt8nJgyDsm7vi3t4
-         jCog==
-X-Forwarded-Encrypted: i=1; AKwUvBzsC1Gwl9Oc+WiV961IM5Tt5NKQG10kMJDho1EfR9Zn/7wh7m4PSoasYoXh+W5AJCBNirKWPTvGZSE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJMV/Z0Rg+/7I1I3zvLDe4DCtuQkINl9FvXrkYLB2WLGYnUO6+Q
-	SWFM6zW0vxIq16CaIMKUHWm6xH2WKGwwRnCdVraz58awJzVrP3u6JiNRLDQbpNA1fnIVaJM8q/D
-	m0Lfl/xNRzEbz3k29NRqR4iNweRTxF+xbIS87XVp9L+E/yaX0w8ZwFalNGs+Bghw=
-X-Gm-Gg: AYBFou2ZurtGh9I1t/jMlR3EQsL4/uYvvAiISAir0R0AwKrCMwEQi8CycPD8giY3pgB
-	3SJVKwyWQlhgEN355eLg10c2DnGhYWgFAeT7S+FqOWWYXphcFRG8Ilb4n3pSoDsJut3twn4/bxK
-	axF2s17Y45Qp/MsSCCTB0S/tmMK11icNletJD0w6fWZEfFx+FBlJ2lotfzBKjI9ResIgrorl2fZ
-	4jnMD7TtXQEVaK+jI90jgokGulWboxUJmxFQJej2d/xBRFRpq/+eo2Ntw9YfczDZACuw2TakArY
-	j2bmGyF7iEdhkgLG0agip8gTnSW8ejzFDFerp/8uagCz/NKuKeh/OK96XVYlBO2FRsJminXKndS
-	hOGAXKOtDc3NQ
-X-Received: by 2002:a05:620a:2b46:b0:93f:34c9:925f with SMTP id af79cd13be357-93f6f79bcaemr486439285a.17.1792775891297;
+        bh=wofpT4CczCNyH2fvQLF0TWdYqSGLaecFE0NtEVzTZiQ=;
+        b=IVQEhRNc17jLAI/z3rwWemw8AVzvTu8ZTHoqgjccwucEeqUMgXDoN43j2MX6Jvq4DV
+         PAeVR1neCetjkeZJi9WXGnj75HsDzdVRXPDnTxU0WYxvhQ/0L8XYT76G0QjJj1l5cqYv
+         N7ndD1FEomzqJKjqCE5+0RyCDu3eRuDXWlF3oWHkHymg0T3aRB51BIuuS7XxAr0rWVlq
+         jkQ9GOD7vJliRlKLxSnsegLftRlZVYTK9CuVmFl5B3h9CDVSah6+3pUnZ+se5ukIQ9WQ
+         KZOLjdcFGn0W9uvIVgpDp9gPlAsHbUdnnf4rqrE98wvqPoOQYHXS0KNYDDyNR5ob8SEr
+         HqRw==
+X-Forwarded-Encrypted: i=1; AKwUvBz4TfJH/4Cj+S6+2LTyBnQ+wzXHaF2x3ZYY3BZ+7rk86dbooqL7XFqrU3ibXBFUsUm1snE5AlCJLaY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIGitmBYNOkf1rJxcph+U25T8VBBAG+4u9xYwEMWgXDK6soJXRJ
+	FueyyjyowrCnOss2vcnmYHKHU7grQe5k7p1hd6ihfg+LKDpmETI6tbwzLg4iR6vu5hZCIVjQB4I
+	iz1Bu1yF4+Jr7fnyfeOGtlDx6aFBzKOsHMReH/ydsnxxnR6miVpPwNYV98rntSFI=
+X-Gm-Gg: AYBFou1MdsBpQt9s0WGwLjtw6q5Gt/7MF+zSxRzOPXlL4Or3bmZP0zDsgnzvLTuh1Ey
+	Cc+SnYnvLYz3NSZbWnIhuc0YnAeQkM+Ki2qqJFgJvwcEqSymay4AgG6jN0Eliul36spNQThgoNG
+	8gBCFWMUJr7k+rAoJWKlz+quhWZyfXJYgIy28mmyY1suHHEFRxBfp3ANJ6HCWmPGwEQh735Odm7
+	yAT77vDMTcJvB+hBXlOjaSTFgNjJlA6J9hl4xM4U7O1pcPVzpkzjEoHYH8xoECCu3BbCbMITxLd
+	hKL+800RGMVzIZeSS7u4bMgGojR8LoInW/RSw10bHnkXznw6R/NJ+cLf8a8NfrSyoqhXK0bW6Dm
+	p5Ftw7bIoX0hw
+X-Received: by 2002:a05:620a:bd3:b0:93f:34c9:9252 with SMTP id af79cd13be357-93f6f9a2bbfmr527733585a.55.1792775892280;
+        Fri, 23 Oct 2026 10:18:12 -0700 (PDT)
+X-Received: by 2002:a05:620a:bd3:b0:93f:34c9:9252 with SMTP id af79cd13be357-93f6f9a2bbfmr527726685a.55.1792775891704;
         Fri, 23 Oct 2026 10:18:11 -0700 (PDT)
-X-Received: by 2002:a05:620a:2b46:b0:93f:34c9:925f with SMTP id af79cd13be357-93f6f79bcaemr486346185a.17.1792775880931;
-        Fri, 23 Oct 2026 10:18:00 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d41e0fesm937475f8f.46.2026.10.23.10.17.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d41e0fesm937475f8f.46.2026.10.23.10.18.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:18:00 -0700 (PDT)
+        Fri, 23 Oct 2026 10:18:10 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -114,9 +114,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [RFC PATCH 08/23] ASoC: qcom: audioreach: run VI module in calibration mode with per-speaker events
-Date: Fri, 23 Oct 2026 18:14:18 +0100
-Message-ID: <20261023171433.820092-9-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [RFC PATCH 14/23] ASoC: qcom: audioreach: send static cfg blobs to speaker protection modules
+Date: Fri, 23 Oct 2026 18:14:24 +0100
+Message-ID: <20261023171433.820092-15-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -130,300 +130,213 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX9FvgPiSQcl3a
- TJ1JvI1IQsTsClvXzGXfgcM1XtbAKulWwQY9/nBrpvLpwofJFwYnE/8SDAXMawMlpyBWUDvXn+S
- Y57sx5kxXNNIKNUPAWIvqFWl/aXmgmg=
-X-Authority-Analysis: v=2.4 cv=OPqyTiaB c=1 sm=1 tr=0 ts=6adb96d4 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfXz6DVSnHVnXN+
+ aiYD2DZj1i8GiMht1vFthHeGdD+QIVfQqLHfgiWYyyZFjCjOgYkLQXEd5xvAiPKPBquULtjuDV6
+ 0kIe6KYvplmYaDjzMBJRY4WwXHaaK0M=
+X-Proofpoint-GUID: EPvnZWPrpFk-lBhMVFnSuxwf2YbL2fjI
+X-Authority-Analysis: v=2.4 cv=SK7Xx+vH c=1 sm=1 tr=0 ts=6adb96d5 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8
- a=G-aZ52fNQZuqIlxTME0A:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfXzzj1A42BhOQp
- d/cN9T2mvr3DOd9310e7mr4802gt8U/m5ibdMYgQuKrUtLiwsTdYu49/cD4L/vwe7ZxgdknX2pt
- nABwh8u9mBjnPdcHYkMEbNFrEQsBgKtR/GaHQeBkqweRLGuFBkdqXGctyDR4+HuP7XiY+z2PwDu
- rOg+OimKn+lwEjkClAOaqj5asO9PpIodrc/i/eBz/aljMaVoSCz5oNY8FUBWCHSbOAh2VjAqxT0
- tTC/RyswDgfhUK+KrL5yzbIrVZRTQPFG5HsKIUSlkBYY7eTVFxk7tJ7F+WCqJ1I8TerxWl02nHW
- 9Ej6lO5tJ2J1SKmLUfJUbeW2oeB11V1bjL4XnmihOAOnQwDmDLz2pdb1c3wOw0HCdCYRMRkHFh8
- wOrnndWNdOsiO1BFZ/Wk9obiUso7XRo4TJQ1S96ZY2RdFIzlUWEKG/BisgUaw/eejfAgA7mZHfp
- OtxhFN80XAwztPBXdTA==
-X-Proofpoint-GUID: QsrEALgKPh9NwJwcVi1ZATtR_RfsFGes
-X-Proofpoint-ORIG-GUID: QsrEALgKPh9NwJwcVi1ZATtR_RfsFGes
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=OAJap1ZGhMVArrtS6vMA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: EPvnZWPrpFk-lBhMVFnSuxwf2YbL2fjI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX9WoSwS8bZpp+
+ BVzSFyS9BNGPxfpgA3QNTHQ19BAS53HDUIfIBl2ajNArMp3SDL9E8R76w2TGAtyhhVPs8tCH8Bs
+ SobnF0Qf/F1AhP2bAVkeYBqEY4f08P7CpKi81AcRV81aH+R/RqmtUKOoNVwgT67CYJl27z0OHEA
+ fvBNeixhqRG8hglF4eu4lwPf3BYF9h2JwzHGfejvp1EzmSQW6ayZmPEGI4nYgGnSk5F6BZV4fuz
+ 15jQxgcQMcg3zCQcNOJJRUX2KKbz+cFCa7eUEOpjgwtxfx5Q2KknPfAQ2GveX/NBnihEGXhRQRg
+ ZwwbmftKXwVc5sylcLmiURyD4XMOwfcK/leyPim2YCWHVN0tssseM1GExUlH8gGwPRcAylAivyc
+ r9O1gcDnZ8XSnAMQ2xYDEe7zFabrsNgFLj+f0f9gP9MSUgjnLvR8rUGcOPA6RDpawGG51BhOJcH
+ s5fhXw12JpDRubm6iDw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-23_04,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
- phishscore=0 impostorscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610230067
 
 From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-Put the speaker protection and VI modules in calibration mode and
-register for EVENT_ID_VI_PER_SPKR_CALIBRATION, so each speaker's state
-and measured resistance are reported on their own.
+The speaker protection modules need tuning parameters from the topology
+cfg blob, which is never sent to the DSP.
 
-Number the V/I channel pairs consecutively, as the VI capture packs one
-pair per speaker without gaps.
+Send it once the module is configured, in small SET_CFG commands split
+on parameter boundaries, with each payload padded to 8 bytes as the DSP
+expects. Every record is checked against the end of the blob, and a
+malformed blob is rejected. A blob not laid out as parameter records is
+sent whole.
 
 Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.c | 72 +++++++++++++++++++++++--------
- sound/soc/qcom/qdsp6/audioreach.h | 36 ++++++++++++++++
- sound/soc/qcom/qdsp6/q6apm.c      | 55 +++++++++++++++++++++++
- 3 files changed, 146 insertions(+), 17 deletions(-)
+ sound/soc/qcom/qdsp6/audioreach.c | 139 ++++++++++++++++++++++++++++++
+ 1 file changed, 139 insertions(+)
 
 diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index 9e45634cafbc..75995426b9f6 100644
+index 8706471e2a43..089cc9dd76fc 100644
 --- a/sound/soc/qcom/qdsp6/audioreach.c
 +++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -1464,6 +1464,35 @@ static int audioreach_speaker_protection(struct q6apm_graph *graph,
- 					 operation_mode);
+@@ -1898,6 +1898,141 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
+ 	return rc;
  }
  
-+static int audioreach_register_events(struct q6apm_graph *graph,
-+				      const struct audioreach_module *module)
-+{
-+	struct apm_module_register_events *payload;
-+	struct gpr_pkt *pkt;
-+	int rc, payload_size;
-+	void *p;
++/* Keep each SET_CFG small; a larger single parameter is sent on its own */
++#define AR_SP_CFG_MAX_CHUNK_BYTES	512
 +
-+	/* No event config payload, the packet is zeroed on allocation */
-+	payload_size = ALIGN(sizeof(struct apm_module_register_events), 8);
-+	pkt = audioreach_alloc_cmd_pkt(payload_size, APM_CMD_REGISTER_MODULE_EVENTS,
-+				       0, graph->port->id, module->instance_id);
++static int audioreach_speaker_protection_send_chunk(struct q6apm_graph *graph,
++						    const char *tag,
++						    const void *data, int size,
++						    int chunk_idx)
++{
++	int rc;
++
++	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
 +	if (IS_ERR(pkt))
 +		return PTR_ERR(pkt);
 +
-+	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
++	memcpy((void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE, data, size);
 +
-+	payload = p;
-+	payload->module_instance_id = module->instance_id;
-+	payload->event_id = EVENT_ID_VI_PER_SPKR_CALIBRATION;
-+	payload->is_register = 1;
-+
-+	rc = audioreach_graph_send_cmd_sync(graph, pkt, 0);
-+
-+	kfree(pkt);
++	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
++	if (rc)
++		dev_err(graph->dev, "%s cfg blob: chunk %d (%d bytes) failed: %d\n",
++			tag, chunk_idx, size, rc);
++	else
++		dev_dbg(graph->dev, "%s cfg blob: chunk %d (%d bytes) sent\n",
++			tag, chunk_idx, size);
 +
 +	return rc;
 +}
 +
- static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 					    const struct audioreach_module *module,
- 					    const struct audioreach_module_config *mcfg)
-@@ -1474,8 +1503,9 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 	struct apm_module_sp_vi_ex_mode_cfg *ex_cfg;
- 	int op_sz, cm_sz, ex_sz;
- 	struct apm_module_param_data *param_data;
--	int rc, i, payload_size, j;
-+	int rc, i, j, payload_size;
- 	struct gpr_pkt *pkt;
-+	u32 num_speakers;
- 	void *p;
- 
- 	if (num_channels > 2) {
-@@ -1483,9 +1513,20 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 		return -EINVAL;
- 	}
- 
--	op_sz = APM_SP_VI_OP_MODE_CFG_PSIZE(num_channels);
-+	/* One 32-bit V/I word per speaker, so channels == speakers */
-+	num_speakers = num_channels;
-+	if (!num_speakers) {
-+		dev_err(graph->dev, "Error: VI needs at least one channel\n");
-+		return -EINVAL;
-+	}
-+
-+	rc = audioreach_register_events(graph, module);
-+	if (rc)
-+		return rc;
-+
-+	op_sz = APM_SP_VI_OP_MODE_CFG_PSIZE(num_speakers);
- 	/* Channel mapping for Isense and Vsense, thus twice number of speakers. */
--	cm_sz = APM_SP_VI_CH_MAP_CFG_PSIZE(num_channels * 2);
-+	cm_sz = APM_SP_VI_CH_MAP_CFG_PSIZE(num_speakers * 2);
- 	ex_sz = APM_SP_VI_EX_MODE_CFG_PSIZE;
- 
- 	payload_size = op_sz + cm_sz + ex_sz;
-@@ -1503,8 +1544,9 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 	param_data->param_id = PARAM_ID_SP_VI_OP_MODE_CFG;
- 	param_data->param_size = op_sz - APM_MODULE_PARAM_DATA_SIZE;
- 
--	op_cfg->cfg.num_channels = num_channels;
--	op_cfg->cfg.operation_mode = PARAM_ID_SP_VI_OP_MODE_NORMAL;
-+	/* The DSP calls this field num_speakers for the VI module */
-+	op_cfg->cfg.num_channels = num_speakers;
-+	op_cfg->cfg.operation_mode = PARAM_ID_SP_VI_OP_MODE_CALIBRATION;
- 	p += op_sz;
- 
- 	cm_cfg = p;
-@@ -1514,20 +1556,15 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 	param_data->param_id = PARAM_ID_SP_VI_CHANNEL_MAP_CFG;
- 	param_data->param_size = cm_sz - APM_MODULE_PARAM_DATA_SIZE;
- 
--	cm_cfg->cfg.num_channels = num_channels * 2;
--	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
-+	cm_cfg->cfg.num_channels = num_speakers * 2;
-+	/* Number the V/I pairs consecutively, the capture has no gaps */
-+	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_speakers; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
--		/*
--		 * Map speakers into Vsense and then Isense of each channel.
--		 * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
--		 * [1, 2, 3, 4]
--		 */
--		cm_cfg->cfg.channel_mapping[2 * j] = (mcfg->channel_map[i] - 1) * 2 + 1;
--		cm_cfg->cfg.channel_mapping[2 * j + 1] = (mcfg->channel_map[i] - 1) * 2 + 2;
- 
--		++j;
-+		cm_cfg->cfg.channel_mapping[2 * j] = 2 * j + 1;
-+		cm_cfg->cfg.channel_mapping[2 * j + 1] = 2 * j + 2;
-+		j++;
- 	}
- 
- 	p += cm_sz;
-@@ -1601,7 +1638,7 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
- 		break;
- 	case MODULE_ID_SPEAKER_PROTECTION:
- 		rc = audioreach_speaker_protection(graph, module,
--						   PARAM_ID_SP_OP_MODE_NORMAL);
-+						   PARAM_ID_SP_OP_MODE_CALIBRATION);
- 		if (!rc)
- 			rc = audioreach_module_enable(graph, module, true);
- 
-@@ -1610,6 +1647,7 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
- 		rc = audioreach_speaker_protection_vi(graph, module, cfg);
- 		if (!rc)
- 			rc = audioreach_module_enable(graph, module, true);
-+
- 		break;
- 	case MODULE_ID_AUDIO_IF_SOURCE:
- 	case MODULE_ID_AUDIO_IF_SINK:
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 38b71aefd845..4744d3117010 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -720,6 +720,42 @@ struct param_id_sp_vi_channel_map_cfg {
- 	uint32_t channel_mapping[];
- } __packed;
- 
-+/* VI per-speaker calibration event, raised every frame in calibration mode */
-+#define EVENT_ID_VI_PER_SPKR_CALIBRATION	0x08001511
-+
-+/* Calibration state, as reported by struct vi_per_spkr_calib_param.state */
-+#define VI_CALIBRATION_STATE_NORMAL_MODE	0 /* Not in calibration mode */
-+#define VI_CALIBRATION_STATE_INACTIVE		1 /* Port not started */
-+#define VI_CALIBRATION_STATE_WARM_UP		2 /* Warming up */
-+#define VI_CALIBRATION_STATE_IN_PROGRESS	3 /* Calibration running */
-+#define VI_CALIBRATION_STATE_SUCCESS		4 /* R0/T0 within range */
-+#define VI_CALIBRATION_STATE_FAILED		5 /* R0/T0 out of range */
-+#define VI_CALIBRATION_STATE_WAIT_FOR_VI	6 /* Waiting for V/I data */
-+#define VI_CALIBRATION_STATE_VI_WAIT_TIMEOUT	7 /* Timed out waiting for V/I */
-+#define VI_CALIBRATION_STATE_LOW_VI		8 /* V/I signal level too low */
-+
-+/**
-+ * struct vi_per_spkr_calib_param - Per-speaker calibration result
-+ * @state: Calibration state of this speaker.
-+ * @r0_cali_q24: Measured DC resistance in ohms, Q24. Filled in regardless of
-+ *		 @state, so it is meaningful for both VI_CALIBRATION_STATE_SUCCESS
-+ *		 and VI_CALIBRATION_STATE_FAILED.
-+ */
-+struct vi_per_spkr_calib_param {
-+	uint32_t state;
-+	int32_t r0_cali_q24;
-+} __packed;
-+
-+/**
-+ * struct event_id_vi_per_spkr_calibration - Per-speaker VI calibration result
-+ * @num_ch: Number of speakers the result covers.
-+ * @cali_param: Per-speaker calibration state and measured resistance.
-+ */
-+struct event_id_vi_per_spkr_calibration {
-+	uint32_t num_ch;
-+	struct vi_per_spkr_calib_param cali_param[];
-+} __packed;
-+
- #define PARAM_ID_SAL_OUTPUT_CFG			0x08001016
- struct param_id_sal_output_config {
- 	uint32_t bits_per_sample;
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index bb2f18a64644..0e02cadbc14b 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -560,6 +560,58 @@ int q6apm_get_hw_pointer(struct q6apm_graph *graph, int dir)
- }
- EXPORT_SYMBOL_GPL(q6apm_get_hw_pointer);
- 
 +/*
-+ * Convert a Q24 fixed-point value to its integer part, and to the first three
-+ * decimal places of its fractional part.
++ * Walk the parameter records of a cfg blob. Each starts with the module's
++ * instance id and a param_size, followed by its payload and optional zero
++ * padding; a parameter smaller than a word may come without a payload word.
++ * Each record is checked against the end of the blob. With @dst, the records
++ * are copied there with their payload padded to 8 bytes, as the DSP expects.
++ * Returns the packed size, or -EINVAL if the blob is malformed.
 + */
-+static int q6apm_q24_to_int_frac(int32_t val, int *frac)
++static int audioreach_sp_cfg_walk(const u32 *word, u32 num_words, u32 iid,
++				  u32 first, u32 *next, u8 *dst, u32 max_bytes)
 +{
-+	*frac = (int)(((s64)(val & 0xffffff) * 1000) >> 24);
++	u32 pos = first, bytes = 0;
 +
-+	return val >> 24;
-+}
++	while (pos < num_words) {
++		u32 param_size, payload_words, avail, rec_bytes;
 +
-+static void q6apm_vi_calibration_event(struct device *dev,
-+				       const struct apm_module_event *event,
-+				       int payload_size)
-+{
-+	const struct event_id_vi_per_spkr_calibration *cali;
-+	unsigned int num_ch, i;
-+	int r0_int, r0_frac;
++		if (word[pos] != iid || num_words - pos < 4)
++			return -EINVAL;
 +
-+	if (payload_size < 0 || payload_size < (int)(sizeof(*event) + sizeof(*cali))) {
-+		dev_err(dev, "VI calibration event truncated (%d bytes)\n",
-+			payload_size);
-+		return;
-+	}
-+
-+	cali = (const struct event_id_vi_per_spkr_calibration *)(event + 1);
-+
-+	/* Bound the array by the received payload, not by num_ch alone */
-+	num_ch = (payload_size - sizeof(*event) - sizeof(*cali)) / sizeof(cali->cali_param[0]);
-+	num_ch = min_t(unsigned int, cali->num_ch, num_ch);
-+
-+	for (i = 0; i < num_ch; i++) {
-+		/* Only SUCCESS and FAILED carry a measured R0; both are worth reporting */
-+		switch (cali->cali_param[i].state) {
-+		case VI_CALIBRATION_STATE_SUCCESS:
-+			break;
-+		case VI_CALIBRATION_STATE_FAILED:
-+			dev_dbg(dev, "VI calibration channel %u failed, R0/T0 out of range\n", i);
-+			break;
-+		default:
-+			dev_dbg(dev, "VI calibration channel %u in state %u\n",
-+				i, cali->cali_param[i].state);
-+			continue;
++		param_size = word[pos + 2];
++		avail = (num_words - pos - 4) * sizeof(u32);
++		if (param_size < sizeof(u32) && avail && word[pos + 4] == iid) {
++			payload_words = 0;
++		} else {
++			if (param_size > avail)
++				return -EINVAL;
++			payload_words = DIV_ROUND_UP(param_size, sizeof(u32));
 +		}
 +
-+		r0_int = q6apm_q24_to_int_frac(cali->cali_param[i].r0_cali_q24, &r0_frac);
-+		/* Raised every frame, so keep it at debug level */
-+		dev_dbg(dev, "VI calibration channel %u: R0 %d.%03d ohms\n",
-+			i, r0_int, r0_frac);
++		rec_bytes = APM_MODULE_PARAM_DATA_SIZE + ALIGN(param_size, 8);
++		if (bytes && bytes + rec_bytes > max_bytes)
++			break;
++
++		if (dst) {
++			memcpy(dst + bytes, &word[pos], APM_MODULE_PARAM_DATA_SIZE);
++			memset(dst + bytes + APM_MODULE_PARAM_DATA_SIZE, 0,
++			       rec_bytes - APM_MODULE_PARAM_DATA_SIZE);
++			memcpy(dst + bytes + APM_MODULE_PARAM_DATA_SIZE, &word[pos + 4],
++			       min(param_size, payload_words * (u32)sizeof(u32)));
++		}
++		bytes += rec_bytes;
++
++		pos += 4 + payload_words;
++		while (pos < num_words && !word[pos])
++			pos++;
 +	}
++
++	if (next)
++		*next = pos;
++	return bytes;
 +}
 +
- static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- {
- 	struct data_cmd_rsp_rd_sh_mem_ep_data_buffer_done_v2 *rd_done;
-@@ -583,6 +635,9 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 			client_event = APM_CLIENT_EVENT_WATERMARK_EVENT;
- 			graph->cb(client_event, hdr->token, data->payload, graph->priv);
- 			break;
-+		case EVENT_ID_VI_PER_SPKR_CALIBRATION:
-+			q6apm_vi_calibration_event(dev, event, data->payload_size);
-+			break;
- 		}
++static int audioreach_speaker_protection_send_static_cfg(struct q6apm_graph *graph,
++							 const struct audioreach_module *module,
++							 const char *tag)
++{
++	u32 size, num_words, pos = 0;
++	const u32 *word;
++	int total, rc = 0, chunk = 0;
++
++	if (!module->data || !module->data->size)
++		return 0;
++
++	size = le32_to_cpu(module->data->size);
++	word = (const u32 *)module->data->data;
++	num_words = size / sizeof(u32);
++
++	/* Not laid out as parameter records, so send it as the topology built it */
++	if (size % sizeof(u32) || !num_words || word[0] != module->instance_id)
++		return audioreach_speaker_protection_send_chunk(graph, tag, word, size, 0);
++
++	total = audioreach_sp_cfg_walk(word, num_words, module->instance_id, 0,
++				       NULL, NULL, U32_MAX);
++	if (total < 0) {
++		dev_err(graph->dev, "%s cfg blob is malformed\n", tag);
++		return total;
++	}
++
++	u8 *packed __free(kfree) = kmalloc(total, GFP_KERNEL);
++	if (!packed)
++		return -ENOMEM;
++
++	while (pos < num_words && !rc) {
++		int bytes = audioreach_sp_cfg_walk(word, num_words, module->instance_id,
++						   pos, &pos, packed,
++						   AR_SP_CFG_MAX_CHUNK_BYTES);
++		if (bytes <= 0)
++			return bytes ? bytes : -EINVAL;
++
++		rc = audioreach_speaker_protection_send_chunk(graph, tag, packed, bytes,
++							      chunk++);
++	}
++
++	return rc;
++}
++
++static int audioreach_speaker_protection_static_cfg(struct q6apm_graph *graph,
++						    const struct audioreach_module *module)
++{
++	return audioreach_speaker_protection_send_static_cfg(graph, module, "SP");
++}
++
++static int audioreach_speaker_protection_vi_static_cfg(struct q6apm_graph *graph,
++						       const struct audioreach_module *module)
++{
++	return audioreach_speaker_protection_send_static_cfg(graph, module, "VI");
++}
++
+ int audioreach_set_media_format(struct q6apm_graph *graph,
+ 				const struct audioreach_module *module,
+ 				const struct audioreach_module_config *cfg)
+@@ -1951,12 +2086,16 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
+ 		break;
+ 	case MODULE_ID_SPEAKER_PROTECTION:
+ 		rc = audioreach_speaker_protection(graph, module);
++		if (!rc)
++			rc = audioreach_speaker_protection_static_cfg(graph, module);
+ 		if (!rc)
+ 			rc = audioreach_module_enable(graph, module, true);
  
  		break;
+ 	case MODULE_ID_SPEAKER_PROTECTION_VI:
+ 		rc = audioreach_speaker_protection_vi(graph, module, cfg);
++		if (!rc)
++			rc = audioreach_speaker_protection_vi_static_cfg(graph, module);
+ 		if (!rc)
+ 			rc = audioreach_module_enable(graph, module, true);
+ 
 -- 
 2.47.3
 
