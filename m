@@ -1,144 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.9
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792721400;
-	b=5gMI2Jj53ctPsjPvR0CMczp+hDfIVYgUntZr7d9FLNZ5C9toR16zL1KlzGlHCwQl2EPV
-	 tATpbU2zBUwPAwnyf1KCWNxeJLTV73k72xvQ9LTI0FDtm0yDKpa2ShKx5EAqI/HhUJrJp
-	 VG68wLpgHHRUgduavVWmcVa7swJl1Gh+J9XIlC7vXt2U+G3HMhDGHFYVcaZdYJ1wMF1x3
-	 +pEjzPkoopWeaobR4rbnPZzwk0qwm6OIMeHOSXAK1yYSKuSRaVEfdXl9siOLttzHpW1ib
-	 bV3yQQ1DPnV99W4wF4vUCmpk09RCBUnQV7FYKHF78ToOGr1a74RXKwc8sPInTcYr1/g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792721400;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:
-	 Content-Language:To:CC:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=7zNlwiH1N/9qDYL1EzcQR2rRs94gGBl5nWSn08VFg3k=;
-	b=1VJzjqBYJpc0bJRB8rFM2Vy8UsRm18UaSipB2r0WnNruw94KRpdtjdRcFdxZIB6wNehv
-	 KfULykptDftx2/QyXtnFco3PEkVbd8nToRbm13tw/b9R+x+YEUxPN+jff5PHT42c6zalb
-	 qQ26zoPeL5v314m5UTraMbNxfgNr3Il8K9TaGr0mgfg5t7bkEQXJ6XNrVdDDlsYyiX7mi
-	 kVTQcmGknTNOSScExbpq0BLTY6OJNNW5lzCCiAxRfTSq5gPZjFKTWTui9LehB3POP44cl
-	 1zxzDnJhxfEkmMyj3rviIf6hZtJrZw6BuE7WGXXKgenfOdYGOJg+ViHf1NVm1zNt4/w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ESJNASYd;
-	arc=fail smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E92606A319;
-	Fri, 23 Oct 2026 02:09:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7E92606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ESJNASYd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792721399; x=1824257399;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Gq5Ji+FkS5apj7QREEaqwbe9yn5OkzKnrmVRrxquEMU=;
-  b=ESJNASYdPkIIKvkcP8XuRjOF4h9UKueGpi7+zTuBEwJ5brEqH1IEad6V
-   20y7kRsoPvobGEos59tYDbFfS1ZlD0G2Ribcu7L0MbF2v7binFRUYLSf1
-   D1aXMRgSu2qN3EBuH7fzOSr3CxOmy3fJGW6PMXOePwNJKTqfphBHMysnx
-   WHRA/VjQue24E43Ew1UbVKksWpwhanLQXL+ie2+F/NNIL/2JsJABA+K9a
-   7l6EIS0LBqTQMp54K//MjMUX797deqVmv2ynlQ+TbMqOPAQvG+cd4CYjW
-   qFVICy3P6AMu3o0Xh8d/i4sTLwDS9dqBvplK3wkOBnpQh0wjRO4VMrEQL
-   g==;
-X-CSE-ConnectionGUID: VO1MeqCeQq+JDv1itDWCAQ==
-X-CSE-MsgGUID: ND/qRMSjQ5+Y02/5BZ3yow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1361340"
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1361340"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 19:09:58 -0700
-X-CSE-ConnectionGUID: dWC6gdoaT/WNWYvy0qT5FQ==
-X-CSE-MsgGUID: LYlOF7/IQSyzd/t256ao0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3835475"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 19:09:57 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 22 Oct 2026 19:09:56 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Thu, 22 Oct 2026 19:09:56 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.51) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 22 Oct 2026 19:09:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uTWj4Kd2mTNPVTbJOZd//O75h5UNPSzjhIcJqS9DmnHZPsBg9ekfoYmskF1m+LtlP5kb+3GuvLH+vLcm0vj8Qiib75t34g3a0G3+L5BW84/GNYLO5s5au6b8fmCRTfGxjbLS6sT+N6ez90/eimMWrzbwrx0qQUYnYph6+xoEVfNyDKevx7gFyfwlyZajVWgKkflsMayC86/bcz5PcdE5jyk1djUoRkTq1kgnKoHFsrBu1NG3W9YzkxcfcILDyMfzFvn/309xnUxauy/I7cE452giJA8TkMqfaPl0QlTz/jtxS5BsZL9abGHBCHToAkSv6Fn3sQRwxic9ARQvBkuTpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7zNlwiH1N/9qDYL1EzcQR2rRs94gGBl5nWSn08VFg3k=;
- b=ATuttq8XWbgHwG0NnI4hAgFkxNZPvApriYMIEjhLAPCQ6BFRrdMGnqHlncsJcL3K8tTxUio0Abwl/BefIuZPdh34XFX9sdp3DPCaUp2Gn2UfG8ncs+S1ghHfQ1Qgyo5UDzjaAaH8KXxMwoOBJTuAjMIJkUrtFikJaGMT+fhIVxljrAu1WLhFFluFtxOc4tbS73GqWLeUMfVxFfHq1FJR7W4afQ4jLal1DKLLFVtP6yPe3YjvZI+W+Y/TLN5nKCGC7GRxVU8Ttjyx95EElFI5so8hFLkTe1YG/hH0Kq9tcySdaiUTTy87r1WNsA7zJBRDbp6+7DoRL5ZOGg57naEECg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
- by PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.18; Fri, 23 Oct
- 2026 02:09:51 +0000
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395]) by CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395%5]) with mapi id 15.21.0546.017; Fri, 23 Oct 2026
- 02:09:50 +0000
-Message-ID: <91c1426d-b479-4e24-b1e4-2ce8b27701a5@intel.com>
-Date: Thu, 22 Oct 2026 19:09:46 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 01/28] KVM: VMX: Enable support for secondary VM exit
- controls
-Content-Language: en-US
-To: Binbin Wu <binbin.wu@linux.intel.com>
-CC: <kvm@vger.kernel.org>, <x86@kernel.org>, Paolo Bonzini
-	<pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Thomas
- Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
-	<hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Andrew Cooper
-	<andrew.cooper3@citrix.com>, Tom Lendacky <thomas.lendacky@amd.com>, "Nikunj
- A Dadhania" <nikunj@amd.com>, Shivansh Dhiman <shivansh.dhiman@amd.com>,
-	"David Woodhouse" <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>, Zhao
- Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>, David Matlack
-	<dmatlack@google.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-2-sohil.mehta@intel.com>
- <1e219be9-e7c8-455c-a3ff-10f80515d4dc@linux.intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <1e219be9-e7c8-455c-a3ff-10f80515d4dc@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR10CA0012.namprd10.prod.outlook.com
- (2603:10b6:a03:255::17) To CY8PR11MB7846.namprd11.prod.outlook.com
- (2603:10b6:930:79::14)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792721445;
+	b=x8mrdXXtCWE/LPoFX3Q3jeax/ZyJFs+m0tU96bPdxET6TuVAkPr9kbVOsrt0uvI50xg3
+	 Mxl2yzh/jtFB8sirhCrzmWuiT6BBuKPoDALrdM+3B0eqL1UwsJqvDVhDL1HxaALTheSYt
+	 j46uS/sr3Co1YkBzEooxfNEwsn0JhDrikKnQZExtHEPeqHB7mZ8qU+jZhLL+VLSdb9Kqr
+	 DYp+VbmfpFOcMSCUvPrbFJ2gtsjmKI72TW+ss74G51E9IYVm62C4VXgLJVEjzEx+GixPf
+	 3HSBz3LAjZOqClCg7utCAYoHySa/a9qwN0QguQ4atr5ab3s2F3NAMpQCB6NzLsWZo3g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792721445;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=PD4mBjmKOpR/Hm3u9iYV0SeR1imA2fdlEf0EChvTEws=;
+	b=iZ8UhE3dJ8dpFhXxxDCKV9olIpBaQylDrjZHyJpEfW0M5ezuYiKhgR4Y6iNQVb2D/LpA
+	 K/eRE0KtU5BIgNZlBzu4JuoR4pRxL883O9aNAETmqtErmTbg6vtfkDgnYApigtoeOl+tf
+	 76M7bntFFOh4XpVh57fZLzongYu3SsAEfRcib0uMgKLghOVrsCysy9+N47hrIgLUtwcVk
+	 TyDPQREh+xK5FLa411uIwWCmfCwLcDbENxrnf+p3b/0QI1RwI4M2gMFayTMDDx1eze1az
+	 81/+3zeU2F1kwL5wsOk+PLKhE1DH/Pv8Jx13D13EopRX5jPRSNUBRNG3KfAqV7/0rNQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=13.76.78.106
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C2B606A319;
+	Fri, 23 Oct 2026 02:10:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71C2B606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMDmLKMewtpqpYkcAQ--.50438S2;
+	Fri, 23 Oct 2026 10:10:38 +0800 (CST)
+Received: from [100.81.40.43] (unknown [222.20.126.216])
+	by gateway (Coremail) with SMTP id _____wDnKw4TwtpqWgyzAA--.37569S2;
+	Fri, 23 Oct 2026 10:10:31 +0800 (CST)
+Message-ID: <40aeaf0a-6e04-461c-a507-52f791b45541@hust.edu.cn>
+Date: Fri, 23 Oct 2026 10:10:27 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -148,101 +45,206 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR11MB7846:EE_|PH7PR11MB7004:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc4dd0b4-8bcf-40d5-5047-08df30aab7fd
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024|23010399003|56012099006|4143699003|11063799006|10067099003|18002099003|261009223027099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 1ZphGhNFNnU9y4UAIk+JAnolozGXi/J/XjzA+m68LO5PU2bHznn3H/q/EhY3bbxt2uiphcunZVIrUmwcVC8/Yq1IvKUd9PBMvpUUxN2S2A/yHFxE8byY3OtD3DXBGYKq7drpGTfEyne8Jc7b5GVVIr+3z9bnbYUO3pLMO1sToVyD7iVeqW0FmLe85L/C05ITJI5dQqvTPIB9lQRGdOZIG5qbedHsqD6/0/01XVZ//y7Z/64PtdzS6+Hi/zXgrcYMN8UVBOVT1vFohKkQqTVv/3MzzMMMpRKuYvU3tL8C3Ntz0kO54I8IXQ7gTsAnRc2D4v/hbhvaq0x7uK1866fINvEeiglRz3thxw/x7ZmU1IgOvlo4Il100TNwwkHpmQduQzpAoqd+XTIbLJc0gyljtboghZuNMds7ngGj3QPMIwJ9y32DuvFkOGpQKWxKkzpYvn+9xNBLwpJl9ji3c0iAQRJUpq0NHZUuKoyda9+h9I47QBhXp8EUcTVrTWxGTyPNo5YT5trX/k5F8U51jgHG9lMqV6J+2/XPrQK+zzIPbeidYLHwl1BKVV9vkzvN6ZP5UkCxck4Wvd65mvLCnh9nOVYUivK9H8irP+GTVQqwI4qMYBtgGf1nT+swpR9L1Kz8nyifpREkwRN8HVIIwow++SYi1p2T+ZEOQo+7vMYOoH8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7846.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(23010399003)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(261009223027099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUVQUE1HSUZ5MUdJSlJsd2ppVUlpOHQyM3FLbUJ2MUkzeDFXVTFLNG9zRmhU?=
- =?utf-8?B?UW05UzA1T0svd2JKQWlHNks3QUd1Q1dLeHhWREF3SGVBUmtLTkwzcWpCRmkx?=
- =?utf-8?B?eWN0WkxQZTJNR0xGYmlFN25VNjZhUTVKVitac2xzVlVzalp1TTZvc2RHcGtj?=
- =?utf-8?B?OVFTbUppTHFzNldsaGk4OGlEQytkeDdOVVhuSXV6dllFWi9UOUVOQXNxY0o0?=
- =?utf-8?B?S0d6eHBVTmZ0WG5vRDMydVgyYjJyUzBrWWt6THNzNXZiZkVMNk5XdjBUbHRn?=
- =?utf-8?B?T2pRdUptRWkxTE42dEVaQ29sTXpRcldUeGdQUVZ6RG41bmRMcmFibmRBTmNT?=
- =?utf-8?B?ZW8rWmpIUkV3ZzNGczhFekxKb004ek9wdjJLT3FxR3VCTk9PNHE0SVh4NkpY?=
- =?utf-8?B?dnhVMFJqU0xuYzVZMnc0TDJJaXIra3oyQXZtanpOUkViK3d3MTNwdU5uSURu?=
- =?utf-8?B?Y2ZTQmN2VXY4TkJ1aElnTnE5U3JQeFl5OHlsUHczcVhTNmpsa0Q0ejJLVjdl?=
- =?utf-8?B?RVB5bURaYzFqZjdYZndlanNwVUxUNnhoRTIyU2E3R3pSallGRkhOSVZVbjVQ?=
- =?utf-8?B?OUJHTS91L0EyNStGOFlXdEFYN1BRZ2pTM3p4aVRWcEZXaENCTUZGVHVnanFD?=
- =?utf-8?B?UDJwZ1V3TGVLa2dBQitwK1pZcE5pQnl1LzZZQW1hT1NUSGorZ2pBU0hKODJn?=
- =?utf-8?B?K1lZN1IxdC9vWVZjVEp6dHJ1WmpWSnY0V3d1cmhYUjQwMlFJcDBMVWF5TG8v?=
- =?utf-8?B?TGIwVi9uZzFtMlgycWJXYVptOFdrbnNYS0NQYVBVaEZHbngyVkZaK2UxNjRa?=
- =?utf-8?B?czU2cU9nRlo2eTdac1R3Zy9RL0N6eXlpOFhNUWJmd1BId0YyRVQ3eFRPdUp0?=
- =?utf-8?B?MVQ5alBSYUh3RWNnQXRqb1R5S2JsblZ3ZmMvaWExQlFVVlIwamx1eFdZWDc1?=
- =?utf-8?B?cnBqS216YWlERVZYdzNUaGJhRDBNMGJSRG5FWWk0YWIyM0lNeXRWc1BTOGdW?=
- =?utf-8?B?V0g1QkJwcGtyU0hTZE1HRFpGQkNZWExHWmFYZXlYeXJwakx0dWtuODR6QkZ6?=
- =?utf-8?B?ZFptMlR5TlBTREhNTkJ3UFZDbnY0cUVUQUcwVzcvR0h5MGxETTk4blBmMDND?=
- =?utf-8?B?YUhJNXFTbDZiS0tQcjV6L295MENSZDdHQkNkQ0pXQjlVZVJ5SldpQndtejA3?=
- =?utf-8?B?bXFoYnI3bllzQVIwK2pLYitrN1JCZEZXamFCSG1JcWk4VnlleUFEQkp0SXZU?=
- =?utf-8?B?UUthV1cySEMyd1pUZjRvSjRYSlBwWnMxTEdRWWVHUmZKdGlhRUdaeW4xeEMr?=
- =?utf-8?B?V2VPVzJtbm4xMm9PVG9RSTRKRGc3UkQ2RXZOMkY0ODNxNldNTmpGWkw4UUEw?=
- =?utf-8?B?TE9RaGJrdHlTU1E2eEF6M3V5OEFKUlFDL0ZLYU4yOUlaWUV6WmcyNmJhTWdP?=
- =?utf-8?B?ZW1OY1RPN2VFNnRYcEFxM1NYYnBVVXJUbmVGMWNqMVFKeUQ0bjRmMm5MUUJ2?=
- =?utf-8?B?UWRsN1ZHKzBqSmhNcGo5dDJSR1lDL1J2andxaTY5VFhNWGdNVzQybDBWZTlS?=
- =?utf-8?B?WWkwamVpV1lKRzhMbkowQ01SK0plOGlzT2xFc1RFWGprdktPbTFDNEY3cFN4?=
- =?utf-8?B?WXVBWE5adzJuQm5QMnFrUEdjVU5ZL09ldExxWEFJM2kxeVNjZmxiamQ3K2dV?=
- =?utf-8?B?ZHl5cE92ZE5QaHZiUkpNS3BYbnByM0gzcnB2ekZmV2tlQWNJV3VHbzM1NHRs?=
- =?utf-8?B?ZUF6RVNqUXBIMC92OUNLeEdYVTluSVovc0tTaU9IUlpndVNwV2xoOHA3d0hu?=
- =?utf-8?B?bzVKb3paOTNub3VqRERReVUwSW9sNGsrUllQcnlWYllqVEZzdThKaHYyeHlU?=
- =?utf-8?B?eGc4VkpRLzU4dDhaVnI5MGtqRnRkU3N5aVpWeXdkbTdMU3ZHWmVWamdqbURP?=
- =?utf-8?B?T0RlbzZpMklRcnNxY3J2c0hsKzBZTzQ2Zkw3WnRTWmNYYVR2anVMTzdYR2xF?=
- =?utf-8?B?RHlLbGtaZ0NLWDR4TnBLOXA0MndzcmZPaFJrNW1ObW5jcHNOU2IydHJQS3p5?=
- =?utf-8?B?ZXdObUE0KytQVUVMSGhrUVdod2Fyd3A1Y1FnR0cyRGtPZkhnZVJFSTlmc2hx?=
- =?utf-8?B?Q2ZkMmFHSXdDTVRCUnlBTUM2cjFVU2xvYUplZHdUK2d4eDNqNzFsNm56RERQ?=
- =?utf-8?B?NGo0UW9HdElkMVo4WXJKZnJDZlE2K0N5aFlRczYwVDNSb0gxNUNZVjJGNHIw?=
- =?utf-8?B?MDA1UmM5OEkwRVJRQzY1dUZoNXhoalFDVTcwMFo4MDViZm1sT09vQjNuUC9m?=
- =?utf-8?B?ZFVqbTgxeThxZHhQUDdvSFcxYngwNS9kTmZRUVRvM0lGNk9SaG5DQT09?=
-X-Exchange-RoutingPolicyChecked: hl2MidBbB9z9umO2HOmjSNCaYrMAlCS/J/cbIwXB49bFnymmLDc/kMF83yV0fmm86kPPWhashAbhBCMCU7m2XBKhJFEwr/AlkQUm3qin+zNN8dYaa6p2U+TJzh81Z5q2pkMZbJ49zqC9URVfBFPejRHqEA53pkPRVJTKSECmnQtZ5w21wCI4jjjRaDKUARPXdNf/xGv4lybvStnLZ3U7IOZm8V2jdnG1360M58hcWnHCG+UgW1pdkexKomJR7ZSkyvHe+w1IOVWrqUMkMmiTbzvd/vzlW/6V/08QOruuL/T2dLHDH33iv0WhWrV9f1MTbB/c/rcL1kqu5USBc0O3Kg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc4dd0b4-8bcf-40d5-5047-08df30aab7fd
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7846.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 02:09:50.0920
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: On71KCp+M7996+dnyBN++CAr99uh9rToEGsiXYtwzUFdAeek0BahGvi0HbioQOpD9KEzR8bgoiYbcEMylBCLwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7004
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs: doc-guide: add a guide for translators
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: wy@wyuan.org, jani.nikula@linux.intel.com, alexs@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ si.yanteng@linux.dev, chenyou910331@gmail.com, federico.vaga@vaga.pv.it,
+ akiyks@gmail.com, carlos.bilbao@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261015125644.12908-1-danielmaraboo@gmail.com>
+ <20261015125644.12908-2-danielmaraboo@gmail.com> <atQ_mXYNqs4tnDpW@wyuan.org>
+ <79dd90f0.11f3f.1a15272eff3.Coremail.dzm91@hust.edu.cn>
+ <CAMAsx6eb3X7GLheOaVoumORnvKftFYkU0VHynZYyx9m74+CTTw@mail.gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <CAMAsx6eb3X7GLheOaVoumORnvKftFYkU0VHynZYyx9m74+CTTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IAEQrMDmLKMewtpqpYkcAQ--.50438S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww1DZFykWF48CrW7Xr4xZwb_yoW3AryDpF
+	W3GFyxK3ZxJ347Ar1Igw4UAF1Sya1xGw4UXr9rt3s3Arn0yr92qF43tr9YgF97WrWkua4j
+	qF4jgry3WrW5AFJanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQGb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	WxJr0_GcWlYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r1q6r43MxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+	87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07Uq4E_UUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On 10/22/2026 2:27 AM, Binbin Wu wrote:
 
+On 10/23/26 1:09 AM, Daniel Pereira wrote:
+> On Mon, Oct 19, 2026 at 12:37 +0800, Dongliang Mu wrote:
+>> So my suggestion is that, after confirming all the translated
+>> docuementation follows this style, we can delete this field and write
+>> this relocation style in the translation guidance.
+> Hi Weijie, Dongliang, Alex, Jani,
+>
+> I checked docs-next. it_IT, pt_BR, ja_JP and ko_KR already mirror the
+> original path for every file. There are 14 files in sp_SP, zh_CN and
+> zh_TW that do not, for two reasons:
+>
+> - the original has moved and the translation was not moved with it:
+> magic-number (now in staging/), gdb-kernel-debugging (now in
+> process/debugging/), security-bugs (now in process/), xfrm_proc
+> (now in networking/xfrm/), memory-barriers (now in
+> core-api/wrappers/), and the three gfs2 documents in zh_CN;
+> - the document exists only in the translation: glossary.rst in zh_CN
+> and zh_TW, and how-to.rst in zh_CN.
+>
+> So I agree with Dongliang's order. For v3 of the guide I propose:
+>
+> - state the path mirroring as a rule, since the language switcher and
+> checktransupdate.py both depend on it;
+> - describe ":Original:" as optional and not needed when the path
+> mirrors the original, instead of showing it in the header example.
+>
+> Moving the files above and removing the existing ":Original:" fields
+> can then be done per language, as separate series, by people who know
+> each translation. I can send the moves for the files whose originals
+> were relocated, if the maintainers of those translations agree.
+
+
+I agree with this proposal. Ask maintainers of each translation to 
+solves these issues first.
+
+Daniel, can you list all 14 files in sp_SP, zh_CN and zh_TW?
+
+Dongliang Mu
+
+
+>
+> Thanks,
+> Daniel
+>
+>
+> Em seg., 19 de out. de 2026 às 01:37, 慕冬亮 <dzm91@hust.edu.cn> escreveu:
 >>
->> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
->> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> 
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> 
-
-Thank you for reviewing the patches.
-
-> [...]
-> 
->> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->> index 504630f0eb40..b4aec4218b7d 100644
->> --- a/arch/x86/kvm/vmx/vmx.c
->> +++ b/arch/x86/kvm/vmx/vmx.c
->> @@ -2751,8 +2751,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->>  	u32 _cpu_based_exec_control = 0;
->>  	u32 _cpu_based_2nd_exec_control = 0;
->>  	u64 _cpu_based_3rd_exec_control = 0;
->> -	u32 _vmexit_control = 0;
->>  	u32 _vmentry_control = 0;
->> +	u32 _vmexit_control = 0;
->> +	u64 _vmexit2_control = 0;
-> 
-> 
-> Nit:
-> Could be _vmexit_2nd_control to be consistent with _cpu_based_2nd_exec_control
-> above, as well as vmexit_2nd_control in struct vmcs_config.
-> 
-
-Sure, will update it.
-
-
+>>> 发件人: "Weijie Yuan" <wy@wyuan.org>
+>>> 发送时间:2026-10-18 11:40:09 (星期日)
+>>> 收件人: "Daniel Pereira" <danielmaraboo@gmail.com>
+>>> 抄送: "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Alex Shi" <alexs@kernel.org>, "Yanteng Si" <si.yanteng@linux.dev>, "Dongliang Mu" <dzm91@hust.edu.cn>, "Chen-Yu Yeh" <chenyou910331@gmail.com>, "Federico Vaga" <federico.vaga@vaga.pv.it>, "Akira Yokosawa" <akiyks@gmail.com>, "Carlos Bilbao" <carlos.bilbao@kernel.org>, "Avadhut Naik" <avadhut.naik@amd.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Jani Nikula" <jani.nikula@linux.intel.com>
+>>> 主题: Re: [PATCH v2 1/2] docs: doc-guide: add a guide for translators
+>>>
+>>> +cc Jani Nikula
+>>>
+>>> On 2026-10-15 09:56:42 -0300, Daniel Pereira <danielmaraboo@gmail.com> wrote:
+>>>
+>>>> The documentation has seven translations, but nothing in the English
+>>>> documentation explains how to contribute to them.  The only guide that
+>>>> exists, Documentation/translations/zh_CN/how-to.rst, is written in
+>>>> Chinese and covers the zh_CN translation only.
+>>>>
+>>>> As a result, the same problems come up over and over in the review of
+>>>> translation patches: labels and citations copied from the original,
+>>>> which are global in Sphinx and collide with the English ones; partial
+>>>> builds with SPHINXDIRS that hide those collisions; lines over 80
+>>>> columns; translations not added to any toctree; missing commit
+>>>> descriptions, tags separated by blank lines, HTML email rejected by the
+>>>> lists, and the documentation maintainer left out of the recipients.
+>>>>
+>>>> Add Documentation/doc-guide/translations.rst, a guide that covers the
+>>>> whole workflow of a translation: choosing what to translate, the layout
+>>>> of a translated document (path, header, labels, citations,
+>>>> cross-references, what must not be translated), translation quality and
+>>>> terminology, adding the document to the build, checking it with a full
+>>>> htmldocs build, checkpatch and checktransupdate.py, preparing and
+>>>> sending the patch, the review process, keeping translations up to date
+>>>> and starting a new translation.  The commit message format it suggests
+>>>> is the one already recognized by tools/docs/checktransupdate.py.
+>>>>
+>>>> Link the guide from the doc-guide index and from the translations
+>>>> index.
+>>>>
+>>>> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Drop the Assisted-by references from the AI tools section, the tags
+>>>>    example and the checklist (Weijie Yuan).
+>>>> - Use a plain path in the ":Original:" example and drop ":Translator:"
+>>>>    from it (Weijie Yuan).
+>>>>
+>>>> v1: https://lore.kernel.org/linux-doc/20261013003702.5824-2-danielmaraboo@gmail.com/
+>>>>
+>>>>   Documentation/doc-guide/index.rst        |   1 +
+>>>>   Documentation/doc-guide/translations.rst | 694 +++++++++++++++++++++++
+>>>>   Documentation/translations/index.rst     |   3 +
+>>>>   3 files changed, 698 insertions(+)
+>>>>   create mode 100644 Documentation/doc-guide/translations.rst
+>>> [...]
+>>>
+>>>> +Anatomy of a translated document
+>>>> +================================
+>>>> +
+>>>> +Location and file name
+>>>> +----------------------
+>>>> +
+>>>> +A translation mirrors the path of its original under the language
+>>>> +directory, and keeps the same file name::
+>>>> +
+>>>> +  Documentation/process/howto.rst
+>>>> +  Documentation/translations/<lang>/process/howto.rst
+>>>> +
+>>>> +Do not translate file or directory names.  The documentation build uses
+>>>> +this mapping to add, at the top of every page, links to the same page in
+>>>> +the other languages; it only works if the paths match.
+>>>> +
+>>>> +The file header
+>>>> +---------------
+>>>> +
+>>>> +Start the file with the same SPDX license identifier as the original.
+>>>> +Most translations then indicate, in some form, which document was
+>>>> +translated and include the language's disclaimer.  For example, the
+>>>> +Italian translation uses::
+>>>> +
+>>>> +  .. include:: ../disclaimer-ita.rst
+>>>> +
+>>>> +  :Original: Documentation/core-api/symbol-namespaces.rst
+>>>> +
+>>>> +A plain path is enough in the ``:Original:`` field: the documentation
+>>>> +build turns ``Documentation/...`` paths into links automatically.
+>>> Oh, btw. There's a comment about ":Original:" from Jani [1]:
+>>>
+>>> | I'm wondering, are these :Original: fields useful anymore since the
+>>> | translations extension adds the button to switch between languages?
+>>> |
+>>> | The pretty much hard-coded expectation is that the English version at
+>>> | path/to/foo.rst is the original, and its translations are at
+>>> | translations/xx_YY/path/to/foo.rst.
+>>> |
+>>> | I.e. neither the HTML nor the RST benefit from it, and it's just
+>>> | repetition.
+>>>
+>>> Perhaps we could have a bit of discussion here?
+>> Hi Jani and Weijie,
+>>
+>> if all the translation documentation follows the relocation style -
+>>
+>> Documentation/XXX/XXX.rst to Documentation/translations/XXX/XXX.rst,
+>>
+>> the ":Original:" has no meaning, but actually this convention does not work sometimes.
+>>
+>> BTW, tools/docs/checktransupdate.py uses this relocation style in the zh_CN translation. When I try to test this script in other translations, this issue occurs.
+>>
+>> So my suggestion is that, after confirming all the translated docuementation follows this style, we can delete this field and write this relocation style in the translation guidance.
+>>
+>> Dongliang Mu
+>>
+>>> Thanks.
+>>>
+>>> [1] https://lore.kernel.org/linux-doc/c719c6756f345c6c39db483654578ef09de1948f@intel.com/
+>>
+>> ------------------------------
+>> Best regards,
+>> Dongliang Mu
 
