@@ -1,100 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.214.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792786997;
-	b=w+S8lWpx/TtnTmBiDkv4IEZvhjy5HbbF9fK8kG76aQV1HcRD4Gd0JvZgWzHvnz+qN/TD
-	 mIg+IkYlXaNqOv2HL9WocIUCvk2SwHx/fu1DLnubrHj34F4ldovqLh5DeYQv2HNf7yDjd
-	 wbQVUR0wOpZYPvRICbPb2ad06jNTWWRMhQSnnlxfoFaDGnaYgYHuvzSEpDoRl5ZzchMCR
-	 niOBdIha6vlzxWeTW4KI/iXewwI+c1xjabzYuM+kJ0qUmCMXMRT5qL8fA7ExB/3ANul6Y
-	 t07WCoXwsOGO/Rlmx6qAUZKLDwBhUnwfpqk0nCCDK/bB23iZdV8T5KUHxm9GNfN1lmw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792786997;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
-	b=VAG8n+ilDouBsO5oDeOH2oCh7Em03Zhme8rgNl0zIFtENRTFU2w+A0At6D4KjzFGzOFT
-	 0ec1Tj7ElbgOLwXUQhGlQg4W3j14k+HHP/sFg4TPCCok/VHiRPUwc+1rd/ILL80G4qn6p
-	 zy/gSCrqU7zKqc/KJ9OSQBdxITBj+v2YmPEqk2RcPJ4eNpeIy7bb1SmEc62gIHhc+ayV4
-	 kE11ESg/aRueH6ErE33Ktd8gDdsldZXYSSWxMYwbM6IBWSQiNRuHLHYEOBrHSESwREYmv
-	 7F8igaVMX7Otgc8zXBToWBEehMFti1kf+zP8Swin/xgpXZ7Oa47y1+aurtkITZlkPUA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=eHsEekrz;
-	arc=fail smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792787163;
+	b=m3hfg9pPvEa3Fsvz/dVXm7WsXnSNVxZVVfwW3NSQJzVa15icpqjnS1njv5Ngk57Sp/i1
+	 QANysWVHjWz5JvUx47ITV79GoFdp6I5iKUV/O6FXbC7AHzmw/7mzM+Wp6IikUi45OtDAA
+	 nhLToIIKxDyLmIpxVZ1rItQyKaG3pvtN7nm6awK049ufHfn9VTOsHX7qPR1/Ox94iTBiE
+	 Kqx7G4g1KPnyzECCY2zHrUj65Oh9W2b1YSyrklmkBQ8ZAatlW9iFHoXMmrbcwTT5ANt8p
+	 XWcwCCah7MF56LqtD3kMPX/W9fUwbS+R8I4mJhndjAn1jI8Spsu9ov1UdEJlNcCdQdQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792787163;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=cBpuKNMULYb65Wu/rSVhgxM/BAFCtGUZFo7lMN0HRYI=;
+	b=Nuj9bqCZt1u57qf3qP6stIpDIZbeq8V+eJYxRoha3u8l256zbltb6J88MSKLX+uuEoVs
+	 heQ1mPk/1kMZdhFv/wDHP1ts0evOg2tqMIeNtiZF54fTE2Fk4cwtHcMrzMxAQPCLHy+f3
+	 cxW0ruzWmCakJvQPYVMDOI7GY7dilxTu5YpVCKDfKPZswHkJBxAOEUFoDBFli/C3NdkOc
+	 ysHRPGuUEYBWYxS6fk0ktUl9vefUQ779uH4x0WQgun7xL4MhiT7rB4MeFWCWaEN6D+k6P
+	 tnknMNyrgPT/yRf97ElLBGLIKznlgq0I+UCFeMs3o6rNykZvBGkKPsWaVNH2RaSvURA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kUOaND7i;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E05606A31A
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 20:23:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81E05606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A7E606A320
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 20:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=eHsEekrz
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2db33db4de9so14485ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 13:23:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792786996; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SK41aiAqCxMnQeFoBfvBxpPJ5gujTjmvo+Xi4HZY1wWW8rhhVzwWNyfy/Y9SSVUku/
-         zcLEyD0F5itWjKZhZofWqei4MZhAXeeYkKIqaXqVVB4BOY5VPQWBvPXfAB2ohW0pwFe0
-         bdGPm8FvIVuXONd8P9PGQC0BsdSlxji2Ijq+s2lNoi/tpSdTqs1XdtBbz3OPnkb+pa9Q
-         GQWcR07lycQfzyscEDLcuncfRKBZLrmGYVKVklRr+cbinETEW5+L9bI5XbQyTwl+ErhA
-         RgDaMnAZKw7xiJrD6LysCewnaCCcjcRhCTbAtjBpppx6GFM5FwKFkn56SDiZiY1Iw29c
-         EodA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
-        fh=uuZptvZ/FntI536Ac2NQETXD/XHu4Ody7lP3KnY19ko=;
-        b=HeaMUpRstfbfSgNNEuHK20VdAmi9p3OpRo79UfgcIAXXlXHaRaVlZ1sr/1F7Glfns6
-         jBaSIiNJLM+QoM+Tqo5MMPPaGLzEs5ZQ22wh2LQD+Qex6B39ZHnpP9ey/c3AoiLY5aTk
-         Q64BKPQcpxuiw69GDU5ZKsLdF4Sa7rNt0N55b/rXsGqi2LdfpmoLnTYiL2bA7oGPmMTi
-         5HFT+jAqHZZ7ZNEbjCy08OvG6FEztGKOd87Jg/+AbwIE584vzazImwE2FOaqNURxt7cy
-         ehjTMEAi1WzswRwp9Famu0hR7ZOe9Pn8/2ymDOLlBRuxgyb433ck8uUbbwW/ScYG7FOU
-         8Tbw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792786996; x=1793391796; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
-        b=eHsEekrzH+WNvOVjVTKwBC09LBMfF8W64lcj+llyrf0t9Ik2ourunpLhQbKexVNbyR
-         8Ucx7wNPOkO4Eh5RblGLupEv/ctI+T6wqj07oW8dYvDHLtvODPLjRnSpVTaIXI8hqco6
-         96iW15hHb/6TakyOBRivdCbVKZyhSEh0KdidrLUGHm+oVkwe1j/ms7JkVSBAgHta+C8O
-         9nsIELnEwV4UDTUUL2fqly/kGcUz4zA5xWRU06wNmY9N8knVcrTOlui4Czl9HDMGh9E6
-         BMxRTQyEIEksBH7zMxG1oHeRFOekmyykS6/V4Nk71zuPjRBu5MhgH1JL6BpwAeuRezUm
-         7Rjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792786996; x=1793391796;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
-        b=VLgFFpW7tXgJTi+NKyWQgPoYgHKnwA2lqY/L54TZyuqEYd532a9tFde6FgafyM25iS
-         CV7Aha1pzFbH2OCOlx9W16g5q+ZnHqH8NtjeIywYweAOAu8vE7R3CKavVCwLTW/z9KRe
-         lpVdsCiO9gvDtTJ+FGnXLIhQH0dMiVoH6na4ElwYn7QPfG/sgSsn7BjJ5csRoWTBtZMw
-         smZFygQsB4Be+9Naxh9WQZK8B9bdpZvLTKgb1/3yefwLdjGYLuX4XwgqEc5NuGwNwmfG
-         a7kLi/YuCA5Qh8cq09tb+5J6n+OLbE+BxET9bWvzJvGo3aE52TYDJwflY7ZIfwCQ783k
-         hFgg==
-X-Forwarded-Encrypted: i=1; AKwUvByuQ74Qy0n+U6dWfsevwuSbdjrWNCh0RfyclGTbvBJ6/I/ReACIvw01eC4Fds57Kfe2pBA9V/SFxA0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIUImLRW1TGHiLyEtz0hdSJjIUmgUZ0V9iSYawC4OHabo5LUTcJ
-	alEXNJ8si5+T9tNmcV2jMAQtW+/7E4yb/nIMYLswS+K/3Lp+05iILEqC8Kb7Jc7a5txx6/vZAZL
-	206AgSeYm+J2842Mrn7TlHsvbd2xMqh4V7yBJd9sr
-X-Gm-Gg: AYBFou3LzSAMDU9/WyHfILkOcckjlKjjlE2gsGh01YIYadY4QUTjCxIqJS4EfdBMk8F
-	+mBZiTsVy/C1jQQylfCYjjWs0WgN3LbVE2CFbn4Mqx4YuMl6c6t9ITJQg+HAcqVpM7n8H5k9Cy4
-	VScFRLKmGWu08+3j5nzMwuvF5JSxvwcI7svx8BrmIxyA6C32SyJyMOUUOVd6bz0Zt2Xjw40X+f0
-	OqHM65LZBoeOBT7k6lVyNWFXRKFKP8JhTW5pod9wqoiHWkXxfXlza46xeSWU0y2WIh8FBd4gG8F
-	/rsWWUuZxxCbppI/qUN4JqnS2bhe2G1ZohMQPYdJt57Kqxf8qHbqGWV4OSumqmpSj65aOvjewr1
-	AFW0ziSBpD9ELvpZvJTeMn9IPGd8jEZXAXxAwZw==
-X-Received: by 2002:a17:903:3c6f:b0:2e5:4604:c37a with SMTP id
- d9443c01a7336-2ea9c34d519mr322665ad.18.1792786995276; Fri, 23 Oct 2026
- 13:23:15 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kUOaND7i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D721A1F031E7
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 20:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792787157;
+	bh=cBpuKNMULYb65Wu/rSVhgxM/BAFCtGUZFo7lMN0HRYI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=kUOaND7i9bo+LfQTlYCeMSIMDINnKcKAqzuMs6mTaPqaxiTdUM7Cuhgwkyc4rUV+L
+	 asihWuH/R5+ji5wOTBIsOO3tYn6oPdD3FWHhPFndTOA9kKA6rHw8if0NbUunXJe+0l
+	 m1t7feyGN5GBgprlHNBPEdIE0kO6FexlMjMALpVVyqJGMkl9aS0eniBHZKhisVafG0
+	 K2f11eEFl4rCCpHNij+cIYKY9caWSDaI1dHvhPNnxcgjMTUCnyGP32QIzcHxoFZkWp
+	 11jRgeKbR13eGBAEMoV7uX2iZ/ZwOYW9rYwiivm5PV9BQqJ1Iv0iQQofxpPq9o5BBe
+	 BUNdm1MazjOgA==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso193696166b.2
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 13:25:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBw3Icld88+TIRD1O36TYFGJRewPNvkjHBXmnbiBdcyC5Y1PDj8E+wE7xm6qSxPEjSIHx13Q1d2e5+A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK0nU0su6qqTRtotKUKjAS8vbNCK5ZCfejV5+MqFtRPJgpJ1XR8
+	ZNPGqeaBO1SCrcfHXfvojbcrZifwxisQCn82PvKBdF48RgmaJFQSS3eHKA743Q/oo4wS50neO01
+	XPorkVUY7hd7aab8HN22IsMBhMmCOE9U=
+X-Received: by 2002:a17:907:b041:10b0:c46:7ec3:fdfd with SMTP id
+ a640c23a62f3a-c46bddb5527mr644266b.14.1792787156537; Fri, 23 Oct 2026
+ 13:25:56 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,92 +59,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
- <20261023145023.GH3977851@ziepe.ca> <20261023102756.201315d7@kernel.org>
-In-Reply-To: <20261023102756.201315d7@kernel.org>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Fri, 23 Oct 2026 22:22:38 +0200
-X-Gm-Features: AclHuK8d6JZsEGtM0KlZDv9ie7EsPXi4sNCVttMkACFig7Laogxgi1nYEIBjAsw
-Message-ID: <CAMOZA0KZi1EkJaAFKfwOm8jo1ydyGh=W1RE0iMfte-ZQkOx9AA@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, "David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <20261014195354.GA371161@cmpxchg.org>
+ <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+ <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org> <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+ <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com> <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+In-Reply-To: <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Fri, 23 Oct 2026 13:25:44 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOtK7YYdBNS+h5bNW-miKED7p4G0igy=D-=HRnGqA-38A@mail.gmail.com>
+X-Gm-Features: AclHuK_uvs0DAK96R1pRTbfdiLY8KlmEoFiUjwQOc3DD1U1FsjbL17wAqwkQa-c
+Message-ID: <CAO9r8zOtK7YYdBNS+h5bNW-miKED7p4G0igy=D-=HRnGqA-38A@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>, Wei Xu <weixugc@google.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Gregory Price <gourry@gourry.net>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2026 at 7:27=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+On Fri, Oct 23, 2026 at 1:03=E2=80=AFPM Rik van Riel <riel@surriel.com> wro=
+te:
 >
-> On Fri, 23 Oct 2026 11:50:23 -0300 Jason Gunthorpe wrote:
-> > > Anyways, reading your next comments, are you suggesting that all
-> > > these functionalities should be implemented as pagepool extensions?
-> > > (2MB mappings and iommu backing, proper allocator of fragments out of=
- larger
-> > > pages, device-less pagepools, multi-domain mappings, pagepool
-> > > as memory provider for skb heads, pagepool as memory provider for des=
-criptor
-> > > rings ?)
+> On Fri, 2026-10-23 at 10:24 -0700, Nhat Pham wrote:
 > >
-> > netdev shouldn't be touching iommu, it can get a 2M page and map it
-> > using the normal DMA API. AFAIK there is not such a big reason to need
-> > any of these layering violations. They just make it easier on page
-> > pool..
+> > * Swapoff: this was brought up as a request, but we ran out of time
+> > before we could discuss the motivations and use cases behind them.
+> > Folks interested, could you explain as a follow-up?
 >
-> FWIW we're entirely happy on the netdev side to add this to page pool.
-> In fact the initial RFC I posted for "page pool memory providers"
-> was addressing this exact use case. I didn't push it forward due
-> to low time and suspicion that IOMMU folks would prefer a more generic
-> solution. Since then memory providers were pushed forward and merged
-> for dmabuf, and we have netlink APIs to configure things. So adding
-> large mappings should be SMOC.
+> This is one that I really don't understand.
+>
+> In my mind, we have vswap sitting as kind
+> of a swap VFS between the rest of the system
+> and the swap devices:
+>
+> +-------+     +------------+
+> | vswap |-----| swap cache |
+> +---+---+     +------------+
+>     |
+>     +----------+-----------+
+>     |          |           |
+> +---+---+  +---+---+   +---+---+
+> | swap  |  | zswap |   | zram  |
+> | file  |  |       |   |       |
+> +-------+  +-------+   +-------+
+>
+> When a page is unmapped from userspace by the
+> reclaim code, it goes into the swap cache.
+>
+> The vswap layer then decides where to store it
+> at eviction time. This is configurable by userspace.
+>
+> If the zswap pool is shrunk, the vswap layer knows
+> where to put the data next. There is no need to
+> change page table entries to indicate that the
+> data was moved from zswap to a swap file.
+>
+> If we decide to disable one of the backing swap
+> devices, the vswap layer can just move the data
+> into the swap cache, and the page reclaim code
+> can evict it into a different backing store, if
+> needed.
+>
+> Using vswap as a swap VFS would also allow us to
+> get rid of the page table and tmpfs scanning
+> code we have in swapoff today.
+>
+> In that model, I really do not understand what
+> "swapoff vswap" means.
+>
+> We cannot umount the VFS.
+>
+> What exactly do people want to accomplish here?
 
-Maybe technicalities, maybe not...
+Today if you swapoff a swapfile, every is swapped in into the
+swapcache, whether it's in zswap or on disk. With vswap, you have no
+way to trigger swapin of compressed memory in zswap.
 
-Getting a 2MB contiguous and aligned page is only the first step, and
-the easy one.
-
-Next we need to split it into 4K fragments that can be recycled
-without waiting for the entire 512 of them to be returned.
-This is not rocket science, but requires much more state
-that what fits in the struct page, so that's another layer that needs
-to be added to quickly access the state from the pfn.
-Essentially my dma_pmd_meta (because I could not/did not want to/ use
-fields in struct page to access ).
-Doing it in pagepool could reuse some fields in
-struct page to point to the metadata and simplify the implementation,
-but maybe leave people unhappy because now something may
-require an extra indirection.
-
-Then there is a question of resource management: when 512 fragments
-come out of a much larger page, deciding which one to recycle matters a lot=
-.
-Without a strategy, there is a significant risk of stranding a
-lot of lightly used 2M pages that cannot be returned because some
-fragments are in use.
-Again no rocket science but that takes some compromises (sorting
-based on usage ? periodically drain old pages ? etc) between
-effectiveness, code complexity and runtime cost.
-
-And then of course adapting to zero or many devices...
-
-cheers
-luigi
+Wei, is this what you had in mind? Can you please share more details
+about the use case?
