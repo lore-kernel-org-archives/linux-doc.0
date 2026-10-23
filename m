@@ -1,131 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764070;
-	b=sSAF+6Zzq7xO2bOH3Mxn+zmVNi4aN7QY3wDbhkfldPjFsgK9methZrGE1Axl9RsYE+qR
-	 4L+jRwpQXRrZfJQd4gq9KMmNNhoMUKsCGM6L5hZjz4HkYC0Nlmidxe7M4FeNGPAYAOJeY
-	 WZBND8hFBpfev/4H+2UM9ioBNJ8+Kdby1Zp/GR592WG+wmuts6vmLQ/zOw+QSOx88wMOy
-	 7Ej1bR6Aj2AnaIee2oAYPcIuQrsFAAEDN78qzzphBZ9HnR44kLUFJF+aXor2JLNmzoWcA
-	 wMTh5002TWNWt+ARKkTDL2mPKG7aJ/AptNTfNqY44Iv5geX96ZbalAkAw6eoy5gmSNA==
+	t=1792764742;
+	b=D534/30HNxiQG1MSOW5MeNO6OxQjI/k+f4mISa+moLovi1oaPGN3+gPF1JI9W0nnIFU/
+	 sDs41KbMfBO8bMzR1G1K4mOgkkrodVM7bywRLG39SDu5sn09r2zhpes981P2dM40R+0j4
+	 tuOeOOYwJtG4tXoazEjkUgT/cGdHb0HUse/xsHywPhuTS5x3YQ81D1kN1K0Jo5/uk/20E
+	 lUACSQeFzbQrRALufYe3LrHs9IjwnLFvDLleUGBxlkUA1PowdQYO327YFkeG4EoETAE1F
+	 98f02BK+v0EJIubdOIJwqvFtUA0FkAq66erPU2TDaIgSkTTrh86UxjD2s7333WZgeCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764742;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=EtyMFPm1AoXY1rEO0WfbSM6JxPHkULRdHaFEkgfjDaI=;
-	b=sonE6wxKQAIFauBUJQvOq6lQdQ4pZVKrLQlt0JH+yColzAOjlzUec17ijqHTFVun+8Us
-	 NiB5NKO4X7teuFMa8j2Z7g0Cso+kmYSmU4PUSuDBJ2Xrac9wayBeY9Kj+eDDdIx1nm8ic
-	 Lz7ptqSZynSn0xG6xo8tOQh03XVfii5QlsXupfONs8hTi0bVEqz0IvjJVsoZ79aPJOPG2
-	 Vdy5a0CrKMvcGOVB1u56r+/AwXwPk4yGVld9L3TRMKf0nLWjuV/z7BEdms9yfmsUOdu/R
-	 UBQVsKmw5HabI/mz7jVQiEugUVDvZhGtkeF1w/RXXVDVtAIufuFru56C4F1eddG3vBQ==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=oJA2TtslEJ+KdyUtrabQXqX04jIwVEOHlYhkzmtq54M=;
+	b=AwpcpSiLKDfnlL/7Y4KyWcXmLTLmqbOxHU4yAbGbx6qOfSBmjUKK5fjauOXiWxYyoHa6
+	 KSuZtUyElxeIDgfmoy048K5OD1I5TJQdeZrit2ZfVQWFxzp5LtFXq8agpJeNsFwG/KG+5
+	 9szzgpvSv6YeKnCX9wDBj7Z2N2h9HIcXOULx6qZb4QCn77QUGTe1LwmLYYlrnkuiAP8Fo
+	 cFnzrxaMxKkzLipo/NaJaCR5j8Ac9BrK/DbBzi76NdLBRB8Dh7fS0rSHSsPaKKrkeDPhi
+	 odavQgpoZF3SASu4IoktdNSKT4E8Ld8MOXRVLmuCGDREiAg+JB2ZpfgMrmiqyXdpy5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=ziepe.ca;
 	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=mzYjbkFo;
-	arc=none smtp.remote-ip=209.85.160.179
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=XJJ6FvlZ;
+	arc=none smtp.remote-ip=209.85.222.181
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EF2606A31D
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:01:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2EF2606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15846606A31F
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 14:12:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15846606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=mzYjbkFo
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-53669f7b518so8415111cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 07:01:09 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=XJJ6FvlZ
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-93e503815adso98283285a.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 07:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792764069; x=1793368869; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EtyMFPm1AoXY1rEO0WfbSM6JxPHkULRdHaFEkgfjDaI=;
-        b=mzYjbkFoH6r724WPm/kXQ6ge9X2YwG+qpFuc3lHImh22xtkYstDlgLGCF6igOVXyVH
-         igWBmzjfAxtgNqw7ITiDKdBPm9Zxia+0AYM1O3ZhFJmYUwndaMHSXQmNlRdF7FOVl428
-         N1nli7/p93pndNCjRa5x/azr5xBOWCZN8cCLpO/JC4aybvA9bDWRpITOSpyfU7QlPmOE
-         SW1f7jhj+6LdNxEekfmdyjtM3NvHFQ3PQJ+/uvufZVJaHBqRj6+IgEPV8rJKj6fBE1mC
-         MTT2PunYI9fAUEUg6ljDDMNi8/AOycgUwdW5mdjtisMa2XstIjgSEtZajFKxMFDHZ5vc
-         VtBw==
+        d=ziepe.ca; s=google; t=1792764741; x=1793369541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oJA2TtslEJ+KdyUtrabQXqX04jIwVEOHlYhkzmtq54M=;
+        b=XJJ6FvlZqxo85XzvMv3kvaZAtfiHwhOx8sBMHh97IiPVXdiYFm54L4CeUcxoOzzNvt
+         gW+kVZ5P6SiTD6i3qbbWqaK7N3DN+3iChx5c+N5ynHcYMSMfW3HvhvT9ZIl7yY4FD0Ix
+         OcxHouZP40lKVsKApA5S3figCXfZVQ5fGlQRJfyQnR1vO9veiYbbk+xedFHTt6HtsYeG
+         7tA0YHNoXFR4ZshrmdNr6q3G2SLk9NVJZ09vuF5/ocFe5M8xR/jCGR3A7lq5V/cGI/X3
+         1M54/n3yKnC/wLHUP/du9/EMWrxSUFPTjcDMvQYzNxQaB0/Cg4NMgodVwBAx3xXhzQjm
+         XA6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792764069; x=1793368869;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=EtyMFPm1AoXY1rEO0WfbSM6JxPHkULRdHaFEkgfjDaI=;
-        b=iZC1X2lglSRbGZfCQLR9MNS1PnmyoqYZyd6c6Fn0+HTTPuML5fTohhk4Zw2QGvZdCC
-         aRpruQVxjepnUT+prN3shj1ndsJtwyT1l+HgwQLNH9OpkklsQm7xZssri3Bc5jYCPo6y
-         c/lE6VVGBkdFtzLzyhtdbMMZk2ZKc+icBsfOH/XHVV0lUasmwMO3Qh7cw8JMye8OpCNB
-         eb+MT4k0aKy2k6nNuJ3W40XGYPMh0KY7mGe1WrIVucInBBk5yE2Trpaqo9d+hGYTSL21
-         eN4AFNSVpRPUv60LBCBAwTQ9+M3W8nkFmL8mHGCk3gWxbv4Kbh0/XLsBC/DNxBeTWvSL
-         jm1w==
-X-Forwarded-Encrypted: i=1; AKwUvBxnB7gPYlnY74YfdZ+SUoJ6QCFx1pzOG5K3ZOtaIjztspbqd2Sj8gmXClAqmET1KT+e6+h419fMfsc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIzO+uK5en4HT+f+/kpSWeOtBKwWflCde2yZeHtOUEcEqG15Bpx
-	mAJuE1PQOAQOTs4xi2wg+XlTiHPuI9hgfM9SqFJzNW+dv7JmjvsKa8uneYld0knsCS4=
-X-Gm-Gg: AYBFou3rqQ7lOM7C+M3F0DJudIpfVZPN4j5Kdowp+9Q32pMH/DbkY5rA/gACgJUyGyY
-	VdlEDAWCZttuczsu+cElD4+6oa4HZM3mu9eRRmyVQQ+ex4o7Gn50TgmOAd7NdiDkLHLAB4UOjPS
-	V0YheiwRPkY3hVRbL4ym5iS2YYmBD6k1xiIZ82Cohw/uY9JR+lM8COxFnZu6V7/awiLifQVJWKq
-	sFXE9dwFBQ6dEBClYVsyxXN4GE8obvXGMRDXqeVVMyerjmSWlR+iaUXhM4uD6wK5QRhZvZSwURD
-	pVwaP5ZKfddKnJqY9tjhnsPF9QeAJt+3+lTLZrkfgUF4cE9899PEPr+B2NVp6oh2GXlayhn6M6/
-	jQusZscFqQF7sflA8vMNqu1dEJGWS2pBn29Wu+UD/0lBaZRc+D+SnoLS0xJmZybyNgK9/Ncz89l
-	mxRqbUQlTlZokObgEYDju92xKrDCNVl7CCrfnsf6yzbbplYVAbq890IvqEmAMWmTKgSz46tXk6I
-	BgWFmEiLlqo3c8lDXiZhTuTmx/KU3HKbt9iMK6s1M/uHbNIX3F+eI87m4V5JjjWgYKNydUcmBjJ
-	EcRRgbgQjfzikRfPc4rrfzmcixmFOUrQFogppQ==
-X-Received: by 2002:a05:622a:4d88:b0:535:92a6:22ec with SMTP id d75a77b69052e-536c263076fmr30716841cf.29.1792764068500;
-        Fri, 23 Oct 2026 07:01:08 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792764741; x=1793369541;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oJA2TtslEJ+KdyUtrabQXqX04jIwVEOHlYhkzmtq54M=;
+        b=qMx6w+3ZjjjDWNOYI5akjtXtLOnpCvHr/rNdut1ywsi5eRlQPbBgcONDQsDx1F3FSW
+         7VpUYha3OAEcgC0JpwXUzfS6YfVmbAKOGAuFkhjzNNP/FZE9dtVW4GAdcFohI8wvgwmY
+         Ut2AVuzVmlk6aTWIGWpmq4Aqaijrlc6eTP6Sep1ioHceX0jIQW6Zmq/KFbh00kknnXu3
+         QU1a6UAriHuXWYMoA4kXczPROuUfJTuSZ34vGKjcTRzORL+aT7Cq7c3GglPVW2xILeTl
+         lBJEtMlbLGTAX/zeNRyKcDnbmawjtfCLPTUH98+YoF1UtvO9M0mBIVFQIFNMgHukUaac
+         DI0w==
+X-Forwarded-Encrypted: i=1; AKwUvBxSJiiSOtrhjELSvVy1dKZ3RjtZLHdS5KHg7uD2K+ACiF3UocTctNKen+V/KlzX8J2BPqkHddHFSl8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJhfBJ0UX/l2HR9bswGifzmTcAYyOmZJRchz1Q//5xrIVNRYc93
+	JuLSfuGdCHWcsCa3jCee6E3kaHiGLDTB2KKBJ9USycVXK1RfRh4IXvDdkVR82L7F8X8=
+X-Gm-Gg: AYBFou3bc6MubZpt9SFRqLhDrvuylaBIxQNMMFQgZYssqDi8Lk8A0xEw5KWrSgTdZnr
+	F7rzS8DZfIi4S06NKCaSdKApVNS8eB6fPvXj9/RVZnz9j8s/R+Ln6tnJrUOybL4OEUCtCQexVmA
+	jguLLCVlbLZJ5YM6eo2pjh81c1Qt9gO/GISWeAOnG0Wp9RCWXbmuUZ+Bi+Bwl9uqAKdPn/BJP5L
+	JciqcxeB4lhD9Ycne+Ty6Wd5+7602JW9oPTXCnp6bI5HsAjKQjfjzboPybFO3J7K85Bef3h6wfY
+	vhKyHz0UA0sQWLxx71NX7vIAQnfeHrixJh9wWQ8Fi42al0GvgXjpQY4Z2Ij398QuGsw1BDEOjVK
+	SPTO6IrpXbLDH/pJ/JefxxnuO1oAWDc+YP7hdtsBOQlyxakTqnhI8l0Vy56grlBno27ud4eSUxr
+	WT4gRnJ0w6/WnbGG9gOVnzLIkGXf8yjfKwEscM26D0wFuOMZSDapgOzOGLt1RcHJHXKm226pNIG
+	/JSYpk7KxR3RsGsMyBmhtxzoiPzOLG7CjNcQ2JRz8fGhQO7uOXa2nR+WX5/mk5dxr4m9kuwTeeQ
+	hWGpYecUo28jPGAD1LtquLRzqCOWVIZ5XpGxhA==
+X-Received: by 2002:a05:620a:280d:b0:93f:53d1:54c7 with SMTP id af79cd13be357-93f6f8249ddmr448815485a.70.1792764740975;
+        Fri, 23 Oct 2026 07:12:20 -0700 (PDT)
 Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-940479fc830sm24750685a.21.2026.10.23.07.01.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94047b32ed6sm25764985a.34.2026.10.23.07.12.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 07:01:07 -0700 (PDT)
+        Fri, 23 Oct 2026 07:12:19 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1xKFpT-0000000Ghww-1SWZ;
-	Fri, 23 Oct 2026 11:01:07 -0300
-Date: Fri, 23 Oct 2026 11:01:07 -0300
+	id 1xKG0I-0000000Gigv-2y8C;
+	Fri, 23 Oct 2026 11:12:18 -0300
+Date: Fri, 23 Oct 2026 11:12:18 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261023140107.GC3977851@ziepe.ca>
-References: <20261003212241.3432303-1-lrizzo@google.com>
- <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
- <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca>
- <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "Jiang, Dave" <dave.jiang@intel.com>,
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
+	"jiri@resnulli.us" <jiri@resnulli.us>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
+	"James.Bottomley@HansenPartnership.com" <James.Bottomley@hansenpartnership.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"Xing, Cedric" <cedric.xing@intel.com>,
+	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"Reshetova, Elena" <elena.reshetova@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"ankita@nvidia.com" <ankita@nvidia.com>,
+	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"Quigley, David" <david.quigley@intel.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"sathyanarayanan.kuppuswamy@linux.intel.com" <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	"Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+	"lukas@wunner.de" <lukas@wunner.de>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"ksinyuk@kernel.org" <ksinyuk@kernel.org>,
+	"Fang, Peter" <peter.fang@intel.com>,
+	"sameo@meta.com" <sameo@meta.com>, "aik@amd.com" <aik@amd.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"qinkun@google.com" <qinkun@google.com>
+Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
+Message-ID: <20261023141218.GD3977851@ziepe.ca>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-21-jiri@resnulli.us>
+ <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -135,111 +128,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+In-Reply-To: <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
 
-On Thu, Oct 22, 2026 at 11:51:40PM +0200, Luigi Rizzo wrote:
-> On Thu, Oct 22, 2026 at 10:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Sat, Oct 17, 2026 at 07:11:28PM +0200, Luigi Rizzo wrote:
-> > > > We should probably just find a way to describe that this is a POOL that focuses
-> > > > on physical contiguity in some configured granularity.
-> > >
-> > > Before embarking in a global renaming, I would like to get opinions on
-> > > acceptable alternative names (possibly with a short prefix usable for
-> > > identifiers in the code). I could think of the following
-> > >
-> > > DMA_PMAP (for PreMapped or Persistent Mapped)
-> > > or, ahemm...
-> > > DMA_PISA (Pooled IOMMU Superpage Allocator)
-> > > both using dmap_ for internal name prefixes
-> >
-> > Can someone explain what outside netdev would use this? And why you
-> > couldn't do this in the netdev page pool?
+On Thu, Oct 22, 2026 at 10:07:28PM +0000, Edgecombe, Rick P wrote:
+> On Thu, 2026-10-15 at 16:50 +0200, Jiri Pirko wrote:
+> > Connect the attestation family to the native TDX service. Expose
+> > TDREPORT, Quote, MRTD and RTMR operations while preserving the existing
+> > native interfaces.
 > 
-> I can try.
+> Along the lines of some of the other commenters I'm not clear on the benefits of
+> the unified TD/VM attestation part of this.
 > 
-> Regarding users, the next target is disks (not included in this series)
+> Especially when you talk about a TD report, it is pretty specific to TDX. So
+> calling user code is going to need to know about TDX anyway. In fact the report
+> won't have all the details of the TD either. Going forward it's main function is
+> to serve as a nonce transport blob and it only has TD details because of legacy
+> constraints about SGX based attestation. So just a quirky TDX specific part of
+> the flow on the way to get a quote.
 
-Disks don't use a memory pool, they do IO to folios allocated by the
-page cache.
+I think in the way this stuff ended up being used the userspace isn't
+actually aware. It just wants the VM's ROT to sign a challenge and
+forward the resulting blobs to a remote verifier. The verifier needs
+to be aware of the format, but the collection agent should not need
+special knowledge.
 
-The only other candiates I know of besides page pool would be the
-existing dma pool users. I don't think they are so performance
-sensitive as netdev.
+ie from the perspective of systemd-report it doesn't make alot of
+sense to have it know every single special configfs path and protocol
+for each CC vendor just to get a 'sign my challenge' operation.
 
-IOW I think this entire series is only useful to netdev.
+That's the general north star here. We'd like all the vendors to be
+able to do collection without having to change systemd for every new
+innovation. Again I'm looking at 5-10 ROTs in our platforms, it is not
+desirable to go and teach systemd about each of them.
 
-> > It is not a common workload to have the DMA allocator be the one that
-> > allocates the memory. Usually we are DMA'ing from memory that was
-> > allocated someplace else.
-> 
-> Aside from the fact that dma_alloc_attr()/dma_alloc_coherent()
-> does memory allocation + iova allocation/mapping,
-> this is not what happens here.
-> Maybe the confusion comes from one function name
-> (dma_map_alloc_pages()), but it doesn't map any thing.
+So broadly, this requires a challenge to go in, a signed blob to come
+out, possibly some suppelmentary blob[s] (like certificates), and then
+labels for what is inside each.
 
-> My code (in this version, and more in the upcoming release)
-> mainly implements a specialized memory allocator with an
-> API equivalent to alloc_pages() and variants, but ensures that
-> the order-N blocks come from contiguous 2MB blocks reserved on the fly.
-> 
-> The physical addresses of these blocks are recognized by the
-> "dma allocator" (I suppose you meant the entity that allocates the IOVA range)
-> so that it can apply specialized IOMMU mappings backed by 2MB IOMMU leaves.
+Userspace would collect all the blobs and the labels then ship them to
+the verifier which has to understand how the data described by the
+label is organized.
 
-Why? This seems completely divergent from how anything else works in
-DMA mapping, and I don't see a reason for it to be anything like
-this. Other than it makes page pool work a bit easier
+I don't know what "nonce transport blob" means in the future, nonce
+without signature sounds like a strange thing.
 
-Frankly this looks like you had AI to transpose a bunch netdev page
-pool into iommu.
+> One idea... Not sure on it. We are currently working on support for DICE based
+> attestation for TDX. This is an industry standard and AFAIU other vendors will
+> (want to?) support it too. Perhaps if we could have a single way to ask for for
+> DICE based quote, it could make a cross vendor interface more useful? Callers
+> could just call and get some standard format they can understand. It might take
+> some work on the TDX side to ensure the DICE format quote.
 
-> Note that just feeding the pagepool with 2MB pages is not efficient because
-> the fragmentation in pagepool is done with a bump
-> allocator, so recycling blocks from a 2MB page is difficult
-> (it has to wait until all 512 blocks to become idle). My code
-> has a bitmap to track usage, so it naturally recycles at the block level.
+Yes other people have asked about DICE interfaces for other ROT
+devices. AFAICT DICE is more about having a standard data format, and
+you are right about everything..
 
-It doesn't seem like this little issue should motivate all this
- 
-> Then there is the transmit path.
-> 
-> For skb heads, one simple solution is to use tx head bounce buffers
-> some of the patches in the series show that option (the next version
-> implements a proper tx-copybreak).
+Like SPDM I imagine a set of interfaces defined by the DICE specs, but
+we'd probably still want to have the basic 'sign a nonce' interface
+for opaque transport.
 
-> Otherwise we need to populate skb heads with pre-mapped
-> memory. In the next version I have a simple modification to
-> the slub code to accept an opt-in alternative to alloc_pages().
-> I considered using the pagepool, but the changes would be
-> similar and the layering seemed really odd, with a cache on top
-> of a cache.
-
-With AI there is no limit to the layering violations one can make :(
-
-> For transmit, there is a bit of impedance mismatch as well:
-> skb_page_frag_refill() does not know which device
-> we want to use (in fact, it is a per-task so there may be
-> many netdevs used by a task). We could tweak the pagepool
-> to be device-agnostic, but that would be a bit more
-> intrusive (more architecturally than in terms of code);
-> also we need to make sure dma_map() on those pages does the right thing
-> without trying to map/unmap the individual 4K fragments,
-> and we need to make sure the skb_free() etc does
-> not leak those pages into free_pages().
-
-This is all a page pool problem, has nothing to do with iommu or the
-common dma layer.
-
-You can already get optimally mapped 2M IOVA and memory out of the
-APIs we have. I can see no justification for the intrustive mess under
-this beyond it makes netdev page pool easier to hack on top.
-
-Every thing you listed boils down to 'netdev page pool work the way I
-want'
+So from a TDX perspective, what would you want to have as labeled
+blobs for this kind of operation, now and later and maybe someday with
+DICE?
 
 Jason
