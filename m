@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792750336;
-	b=QAEOPoxmZCZ2CtcTX3rQR8FO4VANtYTtnAiHzINzo+fcFPV2ete106sjb2Fe3geueLVT
-	 XvE3ZrOjzFQ7n5POXMLfGbYLkafJQcxtPxdwRQZ/BpurIKRLLFxbW5+ZOIRK/8QaWezr2
-	 vsz9DrLbSI9V+vpLcwCQ3F+CswcqbOHQ8ij9gffJb6wSGfSY6JIWclBfRvKCUc1RQVjLL
-	 xKdSPy3VhQXNdl9O9e9DGAYnSHibJK5nwcjMEa8ecnc7VT2wMDRywDvmlAeBLUoypePcy
-	 Q2Ksz1VZhe95PA8FI2J0kZbM/Ck6iDSCbRIo9LIKr3kSiTHYR8SMMfwVM9/QiqFqWnw==
+	t=1792750342;
+	b=WzzPYQbXEaPtZ/uxG0W1EdjbcPnLhG/ze/OYIpXLAprXGz8CNXLYRo+7UIM+fDI6IGzV
+	 CH7EQYOLWiw8fmpUF7lJwHqKMeAw4cwHBK73JwAGY9UFP/Fot4ME9Oh/LubI6wlM2KJXT
+	 EjeCVkVqJxBhxpiEiGRgoUHqd1skk2itAEk0FHKzNKkaQMv+3Pujx/d3DjKaXW7ck4Pa8
+	 yt+7AgspPU2Ivtf4KG7rR/FpLIWDgga5mEstFVzzE9IjCAwXy5uIkFe/koJJumzeAUTDX
+	 CEgflLniJwAR0j2Q+g2zHVKx+h6zvZIfSiwLCDjQS9OqvaNF3NnwBlXKJ8lCfUdye2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792750336;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792750342;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
-	b=xdOlUmrRKEtkK6sf/z75iIfYsShm5KSSpRcr2igILpwXk6PYPZnUaIsL4qNqMgunVKBx
-	 nxN2PJWQIwiwtCxWARWCv++5Vndtp6Qg4kF3ucN5CtgO6jhOVfCuNlcjBalxyoMj+eJN2
-	 17kmK78lKyoB8NGmQfoEB1FhOW2PX8COvEqgOazfwxbqgtgJG5Vhp6fkYBXdT8AQXkjo5
-	 HUPY9gY/4gsDh3P2wRDBNn8QLKdfbLbU5c3cSTYWJvOCXZ/zsJzVtyab7OCPhYbTFCh36
-	 nq7MZs+Ibdtf+J71NOzyrFOU1cjLEAm1X7AfJjT0w7jfZ2JcbemdvVvZkf3MW6mMW9w==
+	bh=is7L+B2RN443PYwwoWeq+UVhGmTjVPpzuTGcDZVXmgU=;
+	b=UFdqfMZhmRUQOu4VbK+eIiRgwxydwAIym7axuTGw2fIW2IMcnEEx31bQxGl6IDkE2kRm
+	 yO1SumAzmnqaoDM/vaD6Bb4BehQnmFC98G/us0mZeaQYaxN1wDOTkdUGaYttSZUIsN5Ig
+	 O45l+b2KcPWviotIkVrmtjTa+083NC22bj6fNbGHG6fHViNkCTNJ2ll5iwiv4k2gGQ18c
+	 PRNI99Gv3hQEUui+uB/JNPBOssg/Pue4TXSgZUqjJwqa3h7FVP4v1Zvi2J9J37jOyO1R1
+	 HYjwB8iSs6TK/2X1LMLfd68CjuuYfdWjN0EvMnaFAX//Mlx8iJTvSYHxoWsxbjKYX8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.com;
 	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IWpQ4mhj;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=TXZQvtD7;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E94A606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 10:12:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E94A606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F58F606A327
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 10:12:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F58F606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IWpQ4mhj
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1e3098ee2so8060045e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 03:12:16 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=TXZQvtD7
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso7721695e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 03:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792750335; x=1793355135; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1792750336; x=1793355136; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
-        b=IWpQ4mhj/pj4bJh7MP/vuwmzTylNCkSm5qEGtWhOQtmmvPT5IVx9weMxPItekIw2dE
-         UIuPuYiLLCs+z2+QbEPtwC739zCnY0WJBZ+1kn++bUAIqd/ljke5fS8Y9y9JS65pAUlR
-         U+y3VP2jNC4yavrsbZNGYxuAZc81aXSZRRfUaj147D/RORJhI+T/G1Nz3lGvWO76/xaH
-         cSUQZNVtXSQmq6ru9hXj4O3FyfGAnuTKlYWZ8IIXaFBlrVMfGUSHqGJOSkUUa2KkGS4/
-         Q2DcRr90fnljjn+r1qN/pyNqmhEQ76pH1fLTCKe7Tes2yWkPX/J0Kd3prY9jBSOLwEjq
-         8XDg==
+        bh=is7L+B2RN443PYwwoWeq+UVhGmTjVPpzuTGcDZVXmgU=;
+        b=TXZQvtD7jcqOHabVOR/WQ+U/XG+v8vjWM/Qmsl/q6MzNZD7uqig8eGptjZOesICJ+P
+         ScR9lJVpLDAQrN6bNGDoIzP2zfnTu0iNIW4E5ihRHRNcomwDgzhBfltCJErnLQgizFnP
+         S00llh1bjJPqLGcEzS6ZFocGV5WDpL85Le2xfNFTfrCNSstwYtpe0mbeJ7qhc2DHuvOL
+         Bcjx2MtcWUMSzpiVgxQRtlhn14/FrOMDJtRIiMOO9EZURIdpIZTJR+t7d2Y9KJAc7J6f
+         3cj1tMnVc+viMiKK80xqhvsvmQcodKjtbWVwwE2w7iHG+6KbtBrtw84P6UpgGVAD0/Er
+         MGqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792750335; x=1793355135;
+        d=1e100.net; s=20260707; t=1792750336; x=1793355136;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Dq6GJJsBaSDY1IzgGawT/TFz8VL5osKrrjfnYgKJzYM=;
-        b=cZopE2/TVlfp6+Ezy49FMzJE0xIpoJ2amD9pwctR1PU7HKimUb3LCMIKMVO0SzuU17
-         DcY07QTzKtrnZpUJ/5STUEix/qM/Iwbg3UrUNRV4SerGKyk2XFdA2tseYQm7xQ/3M6/U
-         H7Yxxa39E9sV9keZg4Z6IaNSMGNy3UMnRSYv4KLAndOIzIybx/cz398egSTm+7MHVcSO
-         Y5UIi4kN+qYc4nZ/G9RuuDMAioEszVu2hFikr4g1VlBXMGvzurny8Q9kX6LLYjCC44xD
-         U6ly8/DnsLtXzqbg6aNsXFLzA+kT6u4hMjHtdo8oxu/XMxbv7D4n2rlLCj0TKfp+iY01
-         8wAA==
-X-Forwarded-Encrypted: i=1; AKwUvBxpEF9BItfD8cfQkva3oxNojTAX8ZPpw7M3PPLsYm5pwtEtbe2LZ6x5tuLbxrjjdP1U3ex8/S7g58U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIJ9eRjHzqsYgGqjC71SmjbRX1cqv/shv09DbZ7OILqRHPS0Peq
-	KATU0tJTI3gCb9S/oRC8ZDiaiUTEXMrprpADwb1mSNbZM8p5fgfxZn4EqH3ty9+n588=
-X-Gm-Gg: AYBFou2N8W06ifMuY87e5H9b2SeQeJeDc0LlPN39mqrEK61PURvAtmBFpQhLmpVTe1p
-	mf5oW+JLOMq1sYcXtjy9XJAfQtPIQLs8ytRKWY32rbbt1vKLU5DLVfG+fBxVADma6tT2OXUSnLz
-	Y3Lhu1qmigOqdFwvwDPkfVQhi/x3kaNZrXn0I8/jH6KIKdOymfo8eTDGtUzeEkvJpzsePo16LlH
-	1DDukbOq5U+eD/CdqWLBaqynTPXfeunj2DSIP7jjG/0M+mrb9Yq0ZkhAEtHhkxsqzZMuMPu7Knm
-	jzNvVi0X8mq/L5TgOxA7LquTNCikymhjpKcNNa+hqxUmw2rnUknRyc1KxYdStn3s7mCMzSEJsyL
-	avGDP4zBQjy8w4xCW/BLUBoCu2L83Vi/DRbeDDIBAe6FDa5ZtlTJDNrzQX/rgGczEx1Bggo70nr
-	4jpTawQkayYR1Wid7IucFWc3WnEapIMI25J9m350ThgYLosBjXctCKMcDcpEaTLv2UsQBR7U7KL
-	cly2kTiCsyJ33wNjxcJV81bGDnrn0nAH1qcoBhMBLq6HKKO0YWvZrc=
-X-Received: by 2002:a05:600c:4fd4:b0:4a2:1cc:6551 with SMTP id 5b1f17b1804b1-4a211f3a5f5mr23914985e9.35.1792750333373;
-        Fri, 23 Oct 2026 03:12:13 -0700 (PDT)
+        bh=is7L+B2RN443PYwwoWeq+UVhGmTjVPpzuTGcDZVXmgU=;
+        b=c+DKy5v9MiUSzbGHxbhdkML6W7YvYTFqd+rip4iZFjF8hxKUBKo2jUQmptQHGOgbgM
+         6SpmB1LZrUnLx6gkTPg+AU9AfGubhtt161m2V1glAGk4fSWC5FWQlfaIMWoV807Lt/0b
+         mgrehY2DpAp0zjwSwbn6KXzDFyTpn8Qul+CWVGXLvwh4xvnZdhzA4eJvW732fWevH3YC
+         t+hem44Ikp982DeWjLb1QDczaewBLNbgx+q78MJwcY5OfU3G6Ciz+GyD6baGlVQIW5A5
+         CvMYEQwNkQQBOII4t0CKf8EbgqesdfE6OiGki9xiHkAujqEzwD50sv/RGGpf9dCZINvR
+         vUaA==
+X-Forwarded-Encrypted: i=1; AKwUvBxoHeOo6ng+q2/V0XClHsyHcUJC5ISyLf1HKFRjOPahywKMqHu/eknVPbj68hLYNxKXHqUK02R15x0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKKvYk+6upYVv2VhNozNkmzHsFGjLjWNi8Xyo4PFkBo7QoTcFhk
+	x0jAWpZkFAHD7C/WySJZTzwlSRpaTOqXL/v8blH9/q5jPRmG9AlHd++MFCRWx/vG7cY=
+X-Gm-Gg: AYBFou2nMc2INg24PAQ+0XhHnWWqRAeN066i/8l0EyFRyZWkyjgiEAELfNUEgf2Iu1/
+	kDk+9zsN/pLFCLqrS6AaPxZW6iAzaucVTXPRb21mE3hsthRLP1XplpMqVixwSH9Dl5U5kvC3zFB
+	qZcxvyDeOXwyvJ2jWaScmZoY0evYzy4r8gN+hDfrKmNf4fFon4qq6OP35lAX1+8dHob6ftYKRz5
+	YhZ+gFfHrWdP+zhONxngtxulyz7u6319cONCPY57tFmJx4msKFGjGPK2TFjnoXoVJMYIXmol84v
+	LKQDtV7HWyuAqiNxbn86SEmUkGuUsYOl85L90nLsjwBPdlLpiGFD5uxkelMYcCyjHtGvRye3FBf
+	NoG0mrqc8EJAbRAalBLKw2bBRF8s9k5zr3CL49SG0ZHRSy797NbNUg5ljiKygqdNQuFoi4zYLLw
+	jBBqC2yOhgSP8h1eID5Eov/xjXMx4bBla2K8twwipvhSrH4jtugMkXX1EyzD1DHc2HQvff+0D3o
+	ByIHehHpHrSqZEqzGgvm9HqeBb5bW5nhr9I2t1qDQmyHSxJHPCcpuT0OXz/qxvtpyR6R2Aax2w/
+X-Received: by 2002:a05:600c:3514:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a211ed7602mr26707515e9.26.1792750335754;
+        Fri, 23 Oct 2026 03:12:15 -0700 (PDT)
 Received: from localhost ([82.192.120.214])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a211b898d2sm50139165e9.4.2026.10.23.03.12.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a211b89beasm57982975e9.5.2026.10.23.03.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:12:13 -0700 (PDT)
+        Fri, 23 Oct 2026 03:12:15 -0700 (PDT)
 From: Andrea della Porta <andrea.porta@suse.com>
 To: Guenter Roeck <linux@roeck-us.net>,
 	Rob Herring <robh@kernel.org>,
@@ -103,9 +103,9 @@ To: Guenter Roeck <linux@roeck-us.net>,
 	linux-pwm@vger.kernel.org,
 	Gary Guo <gary@garyguo.net>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH RFC 2/4] dt-bindings: hwmon: Add Raspberry Pi RP1 fan binding
-Date: Fri, 23 Oct 2026 12:15:55 +0200
-Message-ID: <0a9a27c58336449e5a2e243b987a8bc85b05aaf8.1792748690.git.andrea.porta@suse.com>
+Subject: [PATCH RFC 4/4] arm64: dts: broadcom: bcm2712-rpi-5-b: Add RP1 fan tachometer node
+Date: Fri, 23 Oct 2026 12:15:57 +0200
+Message-ID: <f00b7ccef721c7120ac10a9507ab211773787aeb.1792748691.git.andrea.porta@suse.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1792748690.git.andrea.porta@suse.com>
 References: <cover.1792748690.git.andrea.porta@suse.com>
@@ -120,72 +120,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Raspberry Pi RP1 is a multi-function southbridge used on the
-Raspberry Pi 5. Its internal PWM controller block includes a built-in
-hardware tachometer logic, which calculates the fan RPM by measuring the
-tachometer pulses. The computed RPM is updated by the internal Cortex-M
-firmware into specific MMIO registers within the PWM block.
+Add the hwmon fan node for the Raspberry Pi 5 to expose the cooling fan
+speed (RPM) to userspace.
 
-Currently, the Linux PWM subsystem lacks a standard API to report
-hardware-calculated tachometer values back to consumer drivers.
-To avoid abusing the standard 'pwms' property, this binding introduces
-a custom property, 'raspberrypi,pwm-tachometer', to link the standalone
-hwmon fan driver to the RP1 PWM controller node. This enables reading
-the tachometer MMIO registers and exposing the RPM via sysfs.
+The fan tachometer is managed internally by the RP1 PWM controller.
+This node uses the 'raspberrypi,pwm-tachometer' property to link the
+rp1-fan hwmon driver to the existing RP1 PWM controller, enabling
+RPM reporting via sysfs.
 
 Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
 ---
-For the rationale behind this design, please see the cover letter
+ arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- .../bindings/hwmon/raspberrypi,rp1-fan.yaml   | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
-
-diff --git a/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml b/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
-new file mode 100644
-index 0000000000000..53e5b67fa856b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/raspberrypi,rp1-fan.yaml
-@@ -0,0 +1,39 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/raspberrypi,rp1-fan.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+index 748be8f1ee9e2..9bc6d0e9da1b5 100644
+--- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
++++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dts
+@@ -16,6 +16,11 @@ / {
+ 	aliases {
+ 		ethernet0 = &rp1_eth;
+ 	};
 +
-+title: Raspberry Pi RP1 fan tachometer
-+
-+maintainers:
-+  - Andrea della Porta <andrea.porta@suse.com>
-+
-+description: |
-+  Hardware monitoring driver for the fan connected to the Raspberry Pi RP1
-+  southbridge. The RP1 PWM controller hardware contains a built-in tachometer
-+  logic that calculates the fan RPM. This binding links the fan to the PWM
-+  controller to read the tachometer values.
-+
-+properties:
-+  compatible:
-+    const: raspberrypi,rp1-fan
-+
-+  raspberrypi,pwm-tachometer:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Phandle to the RP1 PWM controller node that contains the tachometer
-+      registers for this fan.
-+
-+required:
-+  - compatible
-+  - raspberrypi,pwm-tachometer
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    fan {
-+        compatible = "raspberrypi,rp1-fan";
-+        raspberrypi,pwm-tachometer = <&rp1_pwm1>;
-+    };
++	fan-tach {
++		compatible = "raspberrypi,rp1-fan";
++		raspberrypi,pwm-tachometer = <&rp1_pwm1>;
++	};
+ };
+ 
+ &pcie2 {
 -- 
 2.35.3
 
