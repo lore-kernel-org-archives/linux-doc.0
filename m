@@ -1,41 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.241.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792728982;
-	b=sF2ykzwnfgkbX0n73OqtB76/+vdQbmnHYfRymuE6qMCA9YXdv5rznrQcxL9bLQt4mxJV
-	 bYcdU6f6YYLsnOnn61+p1D2tN2iS/DLVAdc1c/2Ny3A2CUbg1J3jPFnbe9gtee94L+pRg
-	 K03nALf97aNwmiJH90QHAdY8KadDoTKPMb7oKNUcq++JHLFgZuC8bA2/Dmyf+hEy+FwL6
-	 CrzIlXBf18hzZ1YuWvldMKxojhw/lsH3ekrQvgumYiZcBz/UHbggYMgvdtg5OKeDg51o+
-	 Rfc2N69RvPkQt+CY0KX8SzJ5sWEKVDzrH0F2mtb0nVKmRo6jJD0cThJgDc9EzewFSFw==
+	t=1792733414;
+	b=CkzAtljY45Dwfj+DOSwv9xxiTYMlOaCUgcO8mBRUz4tucogIS8kG3+3JXDgXS8WQuv+x
+	 g2VgZmivo7M8nVFIABU3hLUrwrVg31wh6H+zNSSOyOvfFf6HJ+1u0351mEMO5In7krm7U
+	 G9wBS6/0GRALbcRqPlWxxE488FFqtMLY3ZX2IglwEnwynd6o6rnnnRMV1Mdv901KISlQv
+	 wTNzL82L+cSk8oI6FPxbpKNBM1+4jcTyTpoLSZecMB3kYqmug+HCM5AcWIREzVuCyLjP7
+	 yZ1+fgy9ch0t/nUfNcqkRyJvHgyk/c2G27WcqrVoT4WhVkdKmhkVThvAVQUdA4EPPRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792728982;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=REW8cSqOrGTueJ45/KR0c6ERYyEVm++bRRjGP5k8CHI=;
-	b=QU96PX8iCaroDKsd5bBSYmvximJENZWYSAVIjGe+0XQi7OirBnv6PCvstnNF83HdW7vU
-	 Z0ELmyHD39qWHXdqvq1XNIVqDnFZDfGfHXJrE8DiZ0Stl1bSk4elHy7Q/0QWMn255563p
-	 40I7lmZW1AG8q6+zCJDLmKG/CKEpFvf8B9b0kSIOkFWmCTvBmRZaz31sFS8gILXh0A7xr
-	 Ms2YsOtea6u4kpHxWbm0M3UqojUiOmDnTWMrU1FAnFFT9OgLx76n/z+9HOl9GEc6bD8e/
-	 8C5/43y/WEJkhLp8XzqFFMF1VP978t4OJ3yr0i/O/0cI5aQ4RuOSipwCT++Bl+0zAzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792733414;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=TQDIQpzHb58nAG54hsnGaeLsZebKKo1ep1+3YouILiY=;
+	b=mBAMspHyFxhN5Y669Dv3SYIPaAXzp4GQTAO0VslHsfYydX6jK4IjzeJ9OuSw2IoKvbz2
+	 c8GQT/PszaP4k/S4IKRyjFDEzeYn8LUrwml2uGic1dPMLqXWA5lgQTcHLV6CPcOD1E7Zw
+	 I1VIy9FlYqTq6E5PCSVFgzYCadP2BJBm1rpizaKHjYssuCKn1o+uUeXSRal4bdzap+MpB
+	 vftToryehxNyD6F52fNy76uYn64r1d5O3YuY26D70CSDOhpAkESuVk0Ca+u0RIQoQAyvl
+	 nTaBdpwS1IdsLuffDo+Dtubmvae7EP2P0JzCBalSgsl7WM0JW+R89ZHREf5cA/1R7mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.76.78.106
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B3A606A319;
-	Fri, 23 Oct 2026 04:16:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3B3A606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMAWW6GR39pqwjIdAQ--.51358S2;
-	Fri, 23 Oct 2026 12:16:17 +0800 (CST)
-Received: from [100.81.40.43] (unknown [222.20.126.216])
-	by gateway (Coremail) with SMTP id _____wAXAeeP39pq4HmzAA--.57740S2;
-	Fri, 23 Oct 2026 12:16:16 +0800 (CST)
-Message-ID: <b22a7b9f-c80c-485c-8691-ef25fa7546ca@hust.edu.cn>
-Date: Fri, 23 Oct 2026 12:16:14 +0800
+	dmarc=pass header.from=codeconstruct.com.au;
+	spf=pass smtp.mailfrom=codeconstruct.com.au;
+	dkim=pass header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RbFy2B73;
+	arc=none smtp.remote-ip=203.29.241.158
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453C0606A31D;
+	Fri, 23 Oct 2026 05:30:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 453C0606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RbFy2B73
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1792733404;
+	bh=TQDIQpzHb58nAG54hsnGaeLsZebKKo1ep1+3YouILiY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=RbFy2B73JbdoEwfaZWhw72GGEJ3S18LQVSnu9FB2tp1F62GzNCSAOofV6+ci8j/Qr
+	 NTYVIp1W/oSlHcqIpvTGpB3P/t0t0A09IlS1viMM4Mm6czL5gHH9bx4m1QqVQ8wC7F
+	 IzPS02S41/QbiwcDyvOPp6AvSa2KUzSIbE9pOo9bG2AsdWi2lakCY1Ys73g5AND+XT
+	 yGPPp0XOqjHlK89VohWNdpL155tzNh4xKK69MIdZo6GxV7XGp2AbbxhnYxsrUGuDXO
+	 3I1q7aT8mkBYV5hED70/dnKARVm3ekeqWzmRG4UJQJITTHNMQApkJ1lowql7kF/44L
+	 i8ZDdGnYoSVnw==
+Received: from [192.168.68.117] (unknown [180.150.112.139])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 4DFF76C53B;
+	Fri, 23 Oct 2026 13:29:56 +0800 (AWST)
+Message-ID: <b4bb2f36bde9df1e052a70076fb70118cf3c607c.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v4 2/4] soc: aspeed: Move UART routing driver to
+ drivers/uart-routing
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Joel Stanley
+	 <joel@jms.id.au>, Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Oskar Senft
+	 <osk@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jani Nikula
+ <jani.nikula@intel.com>,  Vitaly Lubart <lubvital@gmail.com>, Hanjun Guo
+ <guohanjun@huawei.com>, Andrew Morton <akpm@linux-foundation.org>, 
+ Alexander Usyskin <alexander.usyskin@intel.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Breno Leitao <leitao@debian.org>,  Philipp Zabel
+ <p.zabel@pengutronix.de>, James Morse <james.morse@arm.com>, Paolo Abeni
+ <pabeni@redhat.com>,  Stephen Hemminger <stephen@networkplumber.org>, Dave
+ Penkler <dpenkler@gmail.com>, Jakub Kicinski <kuba@kernel.org>,  Jonathan
+ Cameron	 <jic23@kernel.org>, Dan Williams <djbw@kernel.org>, Mukesh Rathor	
+ <mrathor@linux.microsoft.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>, Julian Braha
+ <julianbraha@gmail.com>, Karthikeyan KS	 <karthiproffesional@gmail.com>,
+ Pengpeng Hou <pengpeng@iscas.ac.cn>, 	openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
+Date: Fri, 23 Oct 2026 15:59:55 +1030
+In-Reply-To: <20261019100643.49099-3-changhuang.liang@starfivetech.com>
+References: <20261019100643.49099-1-changhuang.liang@starfivetech.com>
+	 <20261019100643.49099-3-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,73 +87,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs/zh_CN: remove Translator field in header
- template
-To: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1792569583.git.wy@wyuan.org>
- <89d676d79f25e12c1dcf19529f695117c7983263.1792569583.git.wy@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <89d676d79f25e12c1dcf19529f695117c7983263.1792569583.git.wy@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMAWW6GR39pqwjIdAQ--.51358S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw1Dtw4kur13GrykAFW5Jrb_yoWktrb_Za
-	1kAF4vy3W7Jry8AFs5GF1qyF45ZF40kF1kJ34Dt3yUJ3sFv39rWFyDXrZY9ay3Xrs3ury3
-	CFZxu340gasIgjkaLaAFLSUrUUUUnb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbHkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
-	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
-	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
-	MIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMI
-	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E
-	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-
-On 10/21/26 4:15 PM, Weijie Yuan wrote:
-> The credits of the contributors are saved in the commit logs, thus we
-> don't need to repeat these names in the main text.
->
-> Remove the Translator template so that we will not sprinkle our names
-> throughout the source for every change we make later.
->
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Weijie Yuan <wy@wyuan.org>
-> Link: https://lore.kernel.org/linux-doc/87o6cvrs27.fsf@trenco.lwn.net/
-
-
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-
-
+On Mon, 2026-10-19 at 03:06 -0700, Changhuang Liang wrote:
+> The Aspeed UART routing driver is not really a SoC driver: it only
+> exposes a serial crossbar through sysfs, and the same hardware block
+> exists on SoCs from other vendors. Move it to drivers/uart-routing/ and
+> convert it to the common framework living there.
+>=20
+> The register layout description, that is the list of selectors with
+> their register offset, bit position, field mask and routing targets, is
+> kept as it is; only the surrounding sysfs plumbing is dropped in favour
+> of the framework. The per selector option lists become separate arrays
+> because the framework refers to them by pointer instead of embedding
+> them in the selector.
+>=20
+> The Kconfig symbol and the platform driver name are unchanged, so the
+> sysfs paths documented in
+> Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing stay valid
+> and existing configurations keep working.
+>=20
+> Also update MAINTAINERS to add entries for aspeed-uart-routing.c
+> based on the file authors, as the file currently lacks maintainers.
+>=20
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 > ---
->   Documentation/translations/zh_CN/how-to.rst | 4 ----
->   1 file changed, 4 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-> index 9ec2384e1e76..d448ae69e48c 100644
-> --- a/Documentation/translations/zh_CN/how-to.rst
-> +++ b/Documentation/translations/zh_CN/how-to.rst
-> @@ -203,10 +203,6 @@ Git 和邮箱配置
->   
->   	:Original: Documentation/xxx/xxx.rst  #替换为您翻译的英文文档路径
->   
-> -	:翻译:
-> -
-> -	 司延腾 Yanteng Si <si.yanteng@linux.dev> #替换为您自己的联系方式
-> -
->   翻译技巧
->   --------
->   
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +
+> =C2=A0drivers/soc/aspeed/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 -
+> =C2=A0drivers/soc/aspeed/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 -
+> =C2=A0drivers/soc/aspeed/aspeed-uart-routing.c=C2=A0=C2=A0 | 601 --------=
+-------------
+> =C2=A0drivers/uart-routing/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 +
+> =C2=A0drivers/uart-routing/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0drivers/uart-routing/aspeed-uart-routing.c | 415 ++++++++++++++
+> =C2=A07 files changed, 443 insertions(+), 612 deletions(-)
+> =C2=A0delete mode 100644 drivers/soc/aspeed/aspeed-uart-routing.c
+> =C2=A0create mode 100644 drivers/uart-routing/aspeed-uart-routing.c
+>=20
 
+I'm certainly in favour of moving code out of drivers/soc/aspeed, and
+having a small subsystem to handle this is fine, but it's not clear
+what happened to the direction of doing this by designing a user ABI
+for pinctrl?
+
+https://lore.kernel.org/all/CAD++jLm7hQnCHACsZH0LVnXuCJm0dZ6Bq0hAyOTvVomy6W=
+VRug@mail.gmail.com/
+
+Existing code would need to be converted, but motivating that with the
+JHB100 support would seem sensible?
+
+Andrew
