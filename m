@@ -1,59 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792786881;
-	b=DBwSJrUDy8nb5gHOQDmjg/UfPDRjJHCRoLFU3pxLjYbBtBwP6KT7++5+81bhRvQphdG1
-	 ZgvqsnTk+rJJC7MEG5nt/E1jTpbcI0v2LkOobJ00jIRkGCC1LO1hJpDgGRznSxLo5GAhq
-	 oEMLgUI7d1ullCjR7YuR5byNNoS7zqcDGtOY08/VeIJOzYLLTMGqZqHw0/BESIpnwgDOO
-	 OeiKtxkFPWN1qggzlG/vtUwOqRVGRlzvXXOsq9vwE8YkNiheo3po5QuyRgxM1KxgiRkhv
-	 fU2V2ZBRh3r/fviFy0U9EExmcRn0iovNAsKAuQUKzryLAW7QeCUI7OIkk+vvoJw1OLw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792786881;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 Date:Message-ID:MIME-Version:Content-Type;
-	bh=KiicLmvcEJTvj4IUoFShe1zCkXcPbAaG1PST3Sy3hOY=;
-	b=RV9gtMAaGsJmEGdTIefmy80R82b7GNw+UYcBWCmQNcuP2KWE2taKYNYpnnpnffTpjtLQ
-	 rnvX7/vZFJ13UJ4EgqTp+Xwf6LJRQ2WQ5Q0z0z4AG/dv8YvhIWDzMiLQ3iodT7At1M3cB
-	 4oiqnVODiYw373OTmhvWVLhVb74CUcN2KvbJHGGq3V6JyNSMzK6s7+cuQAuBfGbRY/Aq6
-	 DfG18BTdx4UmfOEXPymcuQFYO6/D3X00oAz4UAnbcVnxcsgqHlJzugpBDgoBED8evOi1O
-	 wx7RYAp7d7onbXuZ56vaxqX2gdPKROaPnQGHUP6vGeEvoZvQ3SMPPdM8sWY6RwsEtng==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=VWy0WdGa;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.214.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1792786997;
+	b=w+S8lWpx/TtnTmBiDkv4IEZvhjy5HbbF9fK8kG76aQV1HcRD4Gd0JvZgWzHvnz+qN/TD
+	 mIg+IkYlXaNqOv2HL9WocIUCvk2SwHx/fu1DLnubrHj34F4ldovqLh5DeYQv2HNf7yDjd
+	 wbQVUR0wOpZYPvRICbPb2ad06jNTWWRMhQSnnlxfoFaDGnaYgYHuvzSEpDoRl5ZzchMCR
+	 niOBdIha6vlzxWeTW4KI/iXewwI+c1xjabzYuM+kJ0qUmCMXMRT5qL8fA7ExB/3ANul6Y
+	 t07WCoXwsOGO/Rlmx6qAUZKLDwBhUnwfpqk0nCCDK/bB23iZdV8T5KUHxm9GNfN1lmw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792786997;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
+	b=VAG8n+ilDouBsO5oDeOH2oCh7Em03Zhme8rgNl0zIFtENRTFU2w+A0At6D4KjzFGzOFT
+	 0ec1Tj7ElbgOLwXUQhGlQg4W3j14k+HHP/sFg4TPCCok/VHiRPUwc+1rd/ILL80G4qn6p
+	 zy/gSCrqU7zKqc/KJ9OSQBdxITBj+v2YmPEqk2RcPJ4eNpeIy7bb1SmEc62gIHhc+ayV4
+	 kE11ESg/aRueH6ErE33Ktd8gDdsldZXYSSWxMYwbM6IBWSQiNRuHLHYEOBrHSESwREYmv
+	 7F8igaVMX7Otgc8zXBToWBEehMFti1kf+zP8Swin/xgpXZ7Oa47y1+aurtkITZlkPUA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=eHsEekrz;
+	arc=fail smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6628F606A31A;
-	Fri, 23 Oct 2026 20:21:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6628F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E05606A31A
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 20:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81E05606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=VWy0WdGa
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A6E5F40915
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1792786879; bh=KiicLmvcEJTvj4IUoFShe1zCkXcPbAaG1PST3Sy3hOY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VWy0WdGaMI6K/kRrPLKn78UmBR8zOSjJwB8vv9MWdZGXjlfLNvRlrf7SD7dU7XBLN
-	 RCTWtUjoMokps474J2EvS+ElcKfubghxKiKPjE+hqlUco1ptsyAo4E/9YHa2KTzWNK
-	 DXK/m2NCS3L3BTfhXvJ7orczYvGPiaRua9S22FoNNcfMSfqvPUikx5quvHIxXom9un
-	 52dfk1OJySJyvqUMBb/EZXOD3vYdZCnnSEyFEsetmwKe4i5RnRiIbTO4J51KZ13i87
-	 XC8Unn58azGD2CAmBAoj/nPpgkHeCl4ar4tdv+H7uz2LQCJo3jH9Raeck50/oFAm8P
-	 0wuhMjQG8NigQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A6E5F40915;
-	Fri, 23 Oct 2026 20:21:19 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] uaccess: fix some erroneous kerneldoc comments
-Date: Fri, 23 Oct 2026 14:21:18 -0600
-Message-ID: <87se1ww4ld.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=eHsEekrz
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2db33db4de9so14485ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 13:23:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792786996; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SK41aiAqCxMnQeFoBfvBxpPJ5gujTjmvo+Xi4HZY1wWW8rhhVzwWNyfy/Y9SSVUku/
+         zcLEyD0F5itWjKZhZofWqei4MZhAXeeYkKIqaXqVVB4BOY5VPQWBvPXfAB2ohW0pwFe0
+         bdGPm8FvIVuXONd8P9PGQC0BsdSlxji2Ijq+s2lNoi/tpSdTqs1XdtBbz3OPnkb+pa9Q
+         GQWcR07lycQfzyscEDLcuncfRKBZLrmGYVKVklRr+cbinETEW5+L9bI5XbQyTwl+ErhA
+         RgDaMnAZKw7xiJrD6LysCewnaCCcjcRhCTbAtjBpppx6GFM5FwKFkn56SDiZiY1Iw29c
+         EodA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
+        fh=uuZptvZ/FntI536Ac2NQETXD/XHu4Ody7lP3KnY19ko=;
+        b=HeaMUpRstfbfSgNNEuHK20VdAmi9p3OpRo79UfgcIAXXlXHaRaVlZ1sr/1F7Glfns6
+         jBaSIiNJLM+QoM+Tqo5MMPPaGLzEs5ZQ22wh2LQD+Qex6B39ZHnpP9ey/c3AoiLY5aTk
+         Q64BKPQcpxuiw69GDU5ZKsLdF4Sa7rNt0N55b/rXsGqi2LdfpmoLnTYiL2bA7oGPmMTi
+         5HFT+jAqHZZ7ZNEbjCy08OvG6FEztGKOd87Jg/+AbwIE584vzazImwE2FOaqNURxt7cy
+         ehjTMEAi1WzswRwp9Famu0hR7ZOe9Pn8/2ymDOLlBRuxgyb433ck8uUbbwW/ScYG7FOU
+         8Tbw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792786996; x=1793391796; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
+        b=eHsEekrzH+WNvOVjVTKwBC09LBMfF8W64lcj+llyrf0t9Ik2ourunpLhQbKexVNbyR
+         8Ucx7wNPOkO4Eh5RblGLupEv/ctI+T6wqj07oW8dYvDHLtvODPLjRnSpVTaIXI8hqco6
+         96iW15hHb/6TakyOBRivdCbVKZyhSEh0KdidrLUGHm+oVkwe1j/ms7JkVSBAgHta+C8O
+         9nsIELnEwV4UDTUUL2fqly/kGcUz4zA5xWRU06wNmY9N8knVcrTOlui4Czl9HDMGh9E6
+         BMxRTQyEIEksBH7zMxG1oHeRFOekmyykS6/V4Nk71zuPjRBu5MhgH1JL6BpwAeuRezUm
+         7Rjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792786996; x=1793391796;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eVhNp0GGNRD3+5V43/lt1UQnV2SdTxNQyX5GFb3QiFw=;
+        b=VLgFFpW7tXgJTi+NKyWQgPoYgHKnwA2lqY/L54TZyuqEYd532a9tFde6FgafyM25iS
+         CV7Aha1pzFbH2OCOlx9W16g5q+ZnHqH8NtjeIywYweAOAu8vE7R3CKavVCwLTW/z9KRe
+         lpVdsCiO9gvDtTJ+FGnXLIhQH0dMiVoH6na4ElwYn7QPfG/sgSsn7BjJ5csRoWTBtZMw
+         smZFygQsB4Be+9Naxh9WQZK8B9bdpZvLTKgb1/3yefwLdjGYLuX4XwgqEc5NuGwNwmfG
+         a7kLi/YuCA5Qh8cq09tb+5J6n+OLbE+BxET9bWvzJvGo3aE52TYDJwflY7ZIfwCQ783k
+         hFgg==
+X-Forwarded-Encrypted: i=1; AKwUvByuQ74Qy0n+U6dWfsevwuSbdjrWNCh0RfyclGTbvBJ6/I/ReACIvw01eC4Fds57Kfe2pBA9V/SFxA0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIUImLRW1TGHiLyEtz0hdSJjIUmgUZ0V9iSYawC4OHabo5LUTcJ
+	alEXNJ8si5+T9tNmcV2jMAQtW+/7E4yb/nIMYLswS+K/3Lp+05iILEqC8Kb7Jc7a5txx6/vZAZL
+	206AgSeYm+J2842Mrn7TlHsvbd2xMqh4V7yBJd9sr
+X-Gm-Gg: AYBFou3LzSAMDU9/WyHfILkOcckjlKjjlE2gsGh01YIYadY4QUTjCxIqJS4EfdBMk8F
+	+mBZiTsVy/C1jQQylfCYjjWs0WgN3LbVE2CFbn4Mqx4YuMl6c6t9ITJQg+HAcqVpM7n8H5k9Cy4
+	VScFRLKmGWu08+3j5nzMwuvF5JSxvwcI7svx8BrmIxyA6C32SyJyMOUUOVd6bz0Zt2Xjw40X+f0
+	OqHM65LZBoeOBT7k6lVyNWFXRKFKP8JhTW5pod9wqoiHWkXxfXlza46xeSWU0y2WIh8FBd4gG8F
+	/rsWWUuZxxCbppI/qUN4JqnS2bhe2G1ZohMQPYdJt57Kqxf8qHbqGWV4OSumqmpSj65aOvjewr1
+	AFW0ziSBpD9ELvpZvJTeMn9IPGd8jEZXAXxAwZw==
+X-Received: by 2002:a17:903:3c6f:b0:2e5:4604:c37a with SMTP id
+ d9443c01a7336-2ea9c34d519mr322665ad.18.1792786995276; Fri, 23 Oct 2026
+ 13:23:15 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,72 +104,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
+ <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
+ <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+ <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+ <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+ <20261023145023.GH3977851@ziepe.ca> <20261023102756.201315d7@kernel.org>
+In-Reply-To: <20261023102756.201315d7@kernel.org>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Fri, 23 Oct 2026 22:22:38 +0200
+X-Gm-Features: AclHuK8d6JZsEGtM0KlZDv9ie7EsPXi4sNCVttMkACFig7Laogxgi1nYEIBjAsw
+Message-ID: <CAMOZA0KZi1EkJaAFKfwOm8jo1ydyGh=W1RE0iMfte-ZQkOx9AA@mail.gmail.com>
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, "David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Several of the comments in include/linux/uaccess.h generate kerneldoc
-warnings due to the use of "/**" markers on non-kerneldoc comments and
-unmarked literal blocks.  Bring these digressions into form and eliminate a
-number of docs-build warnings.  No changes to code or documentation
-content.
+On Fri, Oct 23, 2026 at 7:27=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Fri, 23 Oct 2026 11:50:23 -0300 Jason Gunthorpe wrote:
+> > > Anyways, reading your next comments, are you suggesting that all
+> > > these functionalities should be implemented as pagepool extensions?
+> > > (2MB mappings and iommu backing, proper allocator of fragments out of=
+ larger
+> > > pages, device-less pagepools, multi-domain mappings, pagepool
+> > > as memory provider for skb heads, pagepool as memory provider for des=
+criptor
+> > > rings ?)
+> >
+> > netdev shouldn't be touching iommu, it can get a 2M page and map it
+> > using the normal DMA API. AFAIK there is not such a big reason to need
+> > any of these layering violations. They just make it easier on page
+> > pool..
+>
+> FWIW we're entirely happy on the netdev side to add this to page pool.
+> In fact the initial RFC I posted for "page pool memory providers"
+> was addressing this exact use case. I didn't push it forward due
+> to low time and suspicion that IOMMU folks would prefer a more generic
+> solution. Since then memory providers were pushed forward and merged
+> for dmabuf, and we have netlink APIs to configure things. So adding
+> large mappings should be SMOC.
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
-Naturally bringing this file into the docs build turned up some
-warnings; this fixes them.  Happy to ship it with my other patch or let
-it go through -mm, whatever works.
+Maybe technicalities, maybe not...
 
- include/linux/uaccess.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Getting a 2MB contiguous and aligned page is only the first step, and
+the easy one.
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index eddbbb65ccc4..67cdb0a4f583 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -357,7 +357,7 @@ extern __must_check int check_zeroed_user(const void __user *from, size_t size);
-  * struct).
-  *
-  * @ksize is just sizeof(*dst), and @usize should've been passed by userspace.
-- * The recommended usage is something like the following:
-+ * The recommended usage is something like the following::
-  *
-  *   SYSCALL_DEFINE2(foobar, const struct foo __user *, uarg, size_t, usize)
-  *   {
-@@ -447,7 +447,7 @@ copy_struct_from_user(void *dst, size_t ksize, const void __user *src,
-  * about data it does not.
-  *
-  * @ksize is just sizeof(*src), and @usize should've been passed by userspace.
-- * The recommended usage is something like the following:
-+ * The recommended usage is something like the following::
-  *
-  *   SYSCALL_DEFINE2(foobar, struct foo __user *, uarg, size_t, usize)
-  *   {
-@@ -529,7 +529,7 @@ __copy_struct_generic_bounce_buffer(void *dst, size_t dstsize,
- 	memcpy(dst, src, size);
- }
- 
--/**
-+/*
-  * This is like copy_struct_from_user(), but the
-  * src buffer was already copied into a kernel
-  * bounce buffer, so it will never return -EFAULT.
-@@ -553,7 +553,7 @@ copy_struct_from_bounce_buffer(void *dst, size_t dstsize,
- 	return 0;
- }
- 
--/**
-+/*
-  * This is like copy_struct_to_user(), but the
-  * dst buffer is a kernel bounce buffer instead
-  * of a direct userspace buffer, so it will never return -EFAULT.
-@@ -770,7 +770,7 @@ static __always_inline void __scoped_user_rw_access_end(const void *p)
-  * If the user access function inside the scope requires a fault label, it
-  * can use @elbl or a different label outside the scope, which requires
-  * that user access which is implemented with ASM GOTO has been properly
-- * wrapped. See unsafe_get_user() for reference.
-+ * wrapped. See unsafe_get_user() for reference::
-  *
-  *	scoped_user_rw_access(ptr, efault) {
-  *		unsafe_get_user(rval, &ptr->rval, efault);
--- 
-2.55.0
+Next we need to split it into 4K fragments that can be recycled
+without waiting for the entire 512 of them to be returned.
+This is not rocket science, but requires much more state
+that what fits in the struct page, so that's another layer that needs
+to be added to quickly access the state from the pfn.
+Essentially my dma_pmd_meta (because I could not/did not want to/ use
+fields in struct page to access ).
+Doing it in pagepool could reuse some fields in
+struct page to point to the metadata and simplify the implementation,
+but maybe leave people unhappy because now something may
+require an extra indirection.
 
+Then there is a question of resource management: when 512 fragments
+come out of a much larger page, deciding which one to recycle matters a lot=
+.
+Without a strategy, there is a significant risk of stranding a
+lot of lightly used 2M pages that cannot be returned because some
+fragments are in use.
+Again no rocket science but that takes some compromises (sorting
+based on usage ? periodically drain old pages ? etc) between
+effectiveness, code complexity and runtime cost.
+
+And then of course adapting to zero or many devices...
+
+cheers
+luigi
