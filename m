@@ -1,63 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.114
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737867;
-	b=Q+yCpLKIU/F4HKPsmRHP5loQhIGgKOPS+/HVZ3SOYERXu/7o+FVCtaLIDUqpX7RA/guf
-	 fZPCvWTCOAng33CG3YwZQoPWgG3UWLPgxc5Z4yILvFCN1bmz8kTbvW3wcgFPUQXmDyvOt
-	 e93RLa2QGqC/nF7mA3n3+Foq62hAb5dHcaLb4HSkUfLQTp4Fbac0uB0vI0mmltUZBOatC
-	 gQ+5Df6bsaMM+ZF0+m4ytHbYF4EEl9GSJcP+PiRh1Ww/hWaiMcPUfJB12LsX7N9/301/+
-	 j7tTHdgMzvfgbiFf1Twj5pEBsgQ1r5Xsz/8XuIOqSCDZZdIWWEB6i0Lt4dYQpPa2BzQ==
+	t=1792737985;
+	b=rhFTsp3YRj5monaO/85B59lK8I60Iw0f/o9YzYVCKUbIX1HxNo90bSJUWISBF0VGaqjz
+	 tcu6Afjggla3rrb2L3LEe7zcZtcnDyDoV2C7GtQN9rgGF7Ome2wQ9XV/QPsH8A471zh2U
+	 2fElhF4oeJicMw16On3EEg3eLxVqCuM6ALoOprPNyaGhLiz1L84s3m+xWz+l73guEOvgp
+	 NSnv3NUc04AACFrWCOBT7a1CFAx6vm5qjaWrUSWX+6XySxuLqp8ZbQt5FVFT/ET3ByDJE
+	 36+PtaW+E3MxS8PaG8NNbjOTGKF4y87qa1mvbpTJeko0qFI7JVkiTgc2OsmPqSUfGbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737867;
-	h=DMARC-Filter:DKIM-Signature:From:Content-Type:In-Reply-To:Subject:
-	 Date:Message-Id:X-Original-From:User-Agent:Cc:Mime-Version:To:
-	 References:Content-Transfer-Encoding:X-Lms-Return-Path;
-	bh=RRG6U99EKeZDnYNuky91yYiF/y3AS7tMgJRzNytuW38=;
-	b=eQa6QJOoPspBkb1ZQIRiC3nHH0Wp/P+6gEDi7XSdwT6lUIz3qWzEzsvxOOAkw8vxscJ9
-	 /rxxrnB1H6lOPUZNn0W+upna34YraOZa/9fUJ9MDpH/61npfo/bowLpb7v6g15Lj4+F/7
-	 KjqAWwEUSus8cuqiNywBeXusdjBYk/v4KlfuH04RwL44Rjr6OG/ssHY9dNfQ4mDHiPm6J
-	 zvJwrACk+4uzpXs/mSSOHvh5X4PznAef31p5XR33Durn9VCwFm8mDPXRGoH9K3nLNWgGZ
-	 kat9UxJ8YmsNKXKf/SPSIGDdaZ3z07jIcfKyutxN8K+Nef9N04YrdOI2n6Cf1AuvJOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737985;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=A5hfuGLL9U51nvhID9oUu3453+srUYM+t5Xwxht3AIo=;
+	b=VzVvxsptTn3fJdA5kgyTxzeUCRtmtbRASifpUGr+KujVyymgGSyoMT80tRSmzLH34trz
+	 JUQv7Ryy9LCSnARSZtLiS0Tt4McvErZX5eeCS1hakx79R5DzAci7/s4+ar/JxM1Gut3TR
+	 3IRK+jb3r00Ro5xqokJtRrN61rgiHrGnkAP9kyB0RiIsYVzRnAMJgep4FQDdeAF2TN9IO
+	 6OpftBhVHM4GTNM0Ep+vE5RZgZ/x/Ug/4Hm8qfKqtPxjk5jsFva4Oi8gWCgJyw4NwA4YY
+	 ZDlPdh122ZP7p4uwJ1Aw6UqSrnX+tHtiIQauOFUZdxSZVrswN79fCeA9MQdWpqd3OGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b="cpys32/L";
-	arc=none smtp.remote-ip=209.127.230.114
-Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1F2Iw3z;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0891606A31D
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:44:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0891606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F351606A31F;
+	Fri, 23 Oct 2026 06:46:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F351606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=cpys32/L
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1792737860; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=RRG6U99EKeZDnYNuky91yYiF/y3AS7tMgJRzNytuW38=;
- b=cpys32/LRolwEFjjMEMw/5ElImdKxW3aek0sC7tkC1CNPLkRKMJvICJUrECWh/hB0z30gw
- O2MP7SyffSrZ+log0mKJ8xHHnjE7ajfrF8OUXcg08jUoiNFS+ZBOVIzgir2eZ3QVBuLAwS
- Du83PYH0Bn1iHjxPqYpSOG1+8vnBVJmr08xntzi89e3Vd7dhZxBdkMQI7XwynjBqvxw/41
- 62EhywzBgDtmsC6/YixqjbCOBGfR7DMX3zLMeUXX4V/SL6jFS6iWgT+g/sMtVuHugXjR7V
- 4yLlBgQsZIKhr4Fi+HIGJ4tpRrUFlLtHI8NtZVASvZK4v9caO8Vq75AvaYG4uw==
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <atoZpXaCRc7etPW8@gourry-fedora-PF4VCD3F>
-Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
-Date: Fri, 23 Oct 2026 14:43:57 +0800
-Message-Id: <ab7aa28c-ccf7-4bad-a871-4b05f7e9bfca@bytedance.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-User-Agent: Mozilla Thunderbird
-Cc: <akpm@linux-foundation.org>, <david@kernel.org>, <ziy@nvidia.com>, 
-	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, 
-	<ying.huang@linux.alibaba.com>, <ljs@kernel.org>, <mhocko@suse.com>, 
-	<muchun.song@linux.dev>, <roman.gushchin@linux.dev>, 
-	<shakeel.butt@linux.dev>, <weixugc@google.com>, 
-	<cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1F2Iw3z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792737984; x=1824273984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IK7GHeF/iSOkxUaWEWahXG0mGoC8RmG0GWUii1LygYQ=;
+  b=l1F2Iw3zsYau6/q83/zylwOg7n6lmvMefpzklnAUfK90JU99oBlgFA4I
+   BSeYS3IEqkw4dwHUzqVruXRk0PdtsstC95ZdRqA72BdrkzpM5SrwB8pNx
+   y3sTlVL6Koi9TCNtmtFzkNao8bsAbwJg1X4eh5Achcpe91Cin404p2piV
+   8uT5GEEUbfbVopEQvLrTFqWVF3YPFd/qWynJELn6zL+JIXbssIeK9bhOj
+   XZpsY3vsYDRBTuQz5JIvRZfbLb2kyJ0/dyz50d/xvqlmqrmd2Yk87EcmO
+   XGTDsCZwh5GS1nKi6jFlYJNobiEfHUb9xJLwHh0A/gbDyAt+nNMnYH/H6
+   A==;
+X-CSE-ConnectionGUID: cIFAypSWTR+b7q9uY+noYQ==
+X-CSE-MsgGUID: A5pwx3p7RvyqFnanDDn47Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1377331"
+X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
+   d="scan'208";a="1377331"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:46:23 -0700
+X-CSE-ConnectionGUID: ymazaAbZTm26TqRgwuVb1g==
+X-CSE-MsgGUID: lcL7yanMTpCwy4PyBDK5Hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
+   d="scan'208";a="3505972"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:46:19 -0700
+Date: Fri, 23 Oct 2026 09:46:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bradford Love <brad@nextdimension.cc>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Russell King <linux@armlinux.org.uk>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 0/7] gpiolib: kill gpio_request_one()
+Message-ID: <atsCuEYYPokdQn_m@ashevche-desk.local>
+References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
+ <CAD++jL=prd1KDZQawqsRmW3qp1-cJ=18-yhp861CQirOOjE5Ag@mail.gmail.com>
+ <as4tep73cAI57Yk7@ashevche-desk.local>
+ <CAMRc=Mcc2b2Z0zrkNQ80NpV-H1MsihgeNtPD5dD5g9xcbiLg4w@mail.gmail.com>
+ <as44ROCHy-WeMdIZ@ashevche-desk.local>
+ <atjBsoY8mjGw9fQ8@alpha.franken.de>
+ <atjbpKxrW7x7Ohpq@ashevche-desk.local>
+ <atjfOrjsxnKe80zh@ashevche-desk.local>
+ <atpbQV_qEoLyAG2J@alpha.franken.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,55 +97,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-To: "Gregory Price" <gourry@gourry.net>
-References: <20261019141401.11927-1-lizhe.67@bytedance.com> <atY-LD2AzCYATRii@gourry-fedora-PF4VCD3F> <30457046-a662-4ff7-a6a8-100398d7a806@bytedance.com> <179264138036.2549665.17429111144570830454.b4-reply@b4> <9b715272-3ed9-42da-a6ae-467e8ae00c0b@bytedance.com> <atoZpXaCRc7etPW8@gourry-fedora-PF4VCD3F>
-Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+26adb0242+06f775+vger.kernel.org+lizhe.67@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <atpbQV_qEoLyAG2J@alpha.franken.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 10/22/26 10:11 PM, Gregory Price wrote:
-> On Thu, Oct 22, 2026 at 05:43:49PM +0800, Li Zhe wrote:
->> On 10/22/26 11:56 AM, Gregory Price (Meta) wrote:
->>
->> So userspace cannot rely on one write to memory.reclaim to produce a
->> final per-node distribution. The intended usage is a feedback loop: the
->> controller observes the memcg's resident distribution, chooses the source
->> nodes it wants to relieve, applies source-scoped reclaim pressure,
->> observes the new distribution, and iterates.
->>
-> I think the critical question is what CAN userspace rely on?
->
-> We can make a bunch of feedback loop interfaces, but there's no
-> guarantee they'll actually be useful.
+On Thu, Oct 22, 2026 at 08:51:45PM +0200, Thomas Bogendoerfer wrote:
+> On Wed, Oct 21, 2026 at 06:50:18PM +0300, Andy Shevchenko wrote:
+> > On Wed, Oct 21, 2026 at 06:35:06PM +0300, Andy Shevchenko wrote:
+> > > On Wed, Oct 21, 2026 at 03:44:18PM +0200, Thomas Bogendoerfer wrote:
+> > > > On Tue, Oct 13, 2026 at 04:55:16PM +0300, Andy Shevchenko wrote:
+> > > > > On Tue, Oct 13, 2026 at 09:35:43AM -0400, Bartosz Golaszewski wrote:
+> > > > > > On Tue, 13 Oct 2026 15:09:14 +0200, Andy Shevchenko
+> > > > > > <andriy.shevchenko@linux.intel.com> said:
+> > > > > > > On Fri, Jul 24, 2026 at 11:40:59PM +0200, Linus Walleij wrote:
 
-The reliable part I currently want to claim is narrow: userspace can ask
-memory.reclaim to apply reclaim pressure to memcg memory resident on the
-selected source nodes. It should not rely on a single write to produce a
-final net per-node footprint. The existing memory.reclaim interface is
-also a best-effort reclaim request rather than a deterministic placement
-primitive; this patch only adds a way to select where that reclaim
-pressure is applied.
+...
+
+> > > > > > > Bart, anything needs to be done for this series to go in?
+> > > > > > 
+> > > > > > We don't have Acks from MIPS maintainers. :(
+> > > > > 
+> > > > > Hmm... Usually Thomas is quick. Thomas, can you give your Ack if you agree with
+> > > > > the changes, please?
+> > > > 
+> > > > sorry, I was on vacation.
+> > > 
+> > > No problem, we now have more time :-)
+> > > 
+> > > > I'm fine with the changes, but I'm not, if they still apply cleanly...
+> > > 
+> > > Can you provide your formal Acked-by?
+> > 
+> > Maybe I misunderstood you, but FWIW I have applied it on top of today's Linux
+> > Next and there is no conflicts.
+> 
+> ok good, I probably mixed things up :-/
+
+Thanks for tagging the relevant changes!
+
+Bart, I guess now we all set for this series to go in.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
->
->>> At the very least i think you need to add details in your cover that
->>> demonstrates the process of doing something like per-node resident
->>> ratios, and show that it works as you intend.
->> Agreed. I will update the cover letter to make this model clearer. I
->> will also make clear that source=nodes is not a final net per-node
->> footprint guarantee and does not change memory.reclaim completion
->> accounting.
->>
-> To be clear, I think not just making it clearer, but if you can show
-> some tests that demonstrate the reliable behavior of the interface
-> extension under different scenarios - that would be compelling.
-
-
-That makes sense. I will run more detailed tests across different
-scenarios and include the results in v2.
-
-Thanks,
-Zhe
-
->
-> ~Gregory
