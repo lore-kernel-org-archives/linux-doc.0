@@ -1,74 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792738184;
-	b=xByQKxYAizE7511I7eUnyjvJwvbSPMNm9Ri8Z+zgG6xFq/HYTrAe5zN7e+gvyLXRv1Ya
-	 dYyuPLni61lxTtopJjmkaNvHNAfTr/KUYj8mA3GAZEOWxpFvgy2DT5ziIJO6SmnM95zYw
-	 OwDKyAYjcn/UT4YXDWsavJiSXQVA3EnxWDNciaeaBP5ZnlLBYTuWdw8ofUzSbKBGh4Mjl
-	 RCfWzvVxe7EjuVuN0SbiCQXyR1ow17jlpRZe0GJ8WtSk5YVXqzlvLf06cWGgaQLVnQvfN
-	 VLozvOB9zeV9ihKQctMEfNTNLyKeL12pNAP9TfHv86D/fW8O4t5FqSnpJvfIyjf8jPw==
+	t=1792738219;
+	b=R5KLgIpRRVxNmnjDD1qPjBt7gVEPWhja3sFGXfdZP0iCliJMOMiMzc6LoBXzRyyly7Qk
+	 MS1chqtjO6gC7sOYNfJkM1mVDKIyq8BEYwZ2V/rZ93qCvSqwAt2iZf4dP/phs204/OdV/
+	 gUvikbSrT3tnIsstHRMHzqPtHysSLUzWnmxdHDn/rN54DejanEaNgkf08cVJrJJnHOaTj
+	 8uHUG+bkzoK26D4fwCyvLSqX8os3/VYakvr0P8d+YH9T1VGa27PVfYkqAoQ7KS9Dd3wPF
+	 DZaML5k+i3WpYhFKad7Z07ARZLmexOi3A+Vd5QVIcZPDzFbJI5c2kWOi9v0cdmKq22w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792738184;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=F1jkepJV6D4IYWzKMRYLwEfXjsMVqYiT+GqybV1cN0A=;
-	b=gpMU4llUEu7XfCfOiZq37ndL0rDTzHN7cdh5C35Jt0DnqXH7W6Lzxal345GKZ+0pQ8AD
-	 5m1pkYpuVnk3A19V3r3miGBE14gglhwIV0mmeExZB912+dqgCde41Dc8jQViy39WqRKwu
-	 EpkXRUPioqoRyvlyzvDoO5B5n5srCmSUdAC3bD1iMBzRc+gWuny8tLEViDPDubXJdonBB
-	 R7PVwIsRmsjGegjlZH92mOx28Sy5sHjdhqsD7QdpUflLnZg7jM4mY9dijWs+oHIHiOQRR
-	 iXbATbMMMNANc8hnTom6Fvb83Wyy4hehdcOfw0VjVM2c/d9N7WAVdNQ5aM7+ApNz5MQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792738219;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Scanned-By;
+	bh=g+zDfkV7W3mK9yy6qtJ/PyGkiFHI5UxGEdxpEKnA6Jo=;
+	b=SxYWG+N/Z/duwAWTpkbWSMn11LwDpemNdmjgeP/MCtSipCynV5SjADclVGQ41CW/uBWH
+	 4LTYR9nARirZKIE51NguI9nwMd8N47UwUtGjxwvnIcMjvJQZ5uPM8SAts2MveEcBt3aFQ
+	 p01RYjT6txOW2Z0iGYrieEL9zr8Z9iXj7XCV/eC7aXcDVhxZEL9X0k62fGfeJ3A/4yyY7
+	 8yfRpbwQXq1vVZM9CGzV3VJUJeA4rBIDKvGkxb8lr0pjFPO8cBNTSWJhGzbDBUeIQ7p7v
+	 sZTvqCXfDZ6oIO4iBnRhmEtv7fNw0/7HEvvf7hdPVit4dCJIZe5TVacjmTVLh71aQDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=A43wxlSO;
-	arc=none smtp.remote-ip=95.215.58.128
-Received: from mta1.migadu.com (out-128.mta1.migadu.com [95.215.58.128])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Hbs+eeEb;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F045606A31A
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:49:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F045606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81F5606A325
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:50:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C81F5606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=A43wxlSO
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=VAjNykZjTT6gqwES7Mcu47qQNEpm4JBfERhNe76LP/k=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792738181; v=1; x=1793342981;
- b=A43wxlSOSUWm8lOPLk/AepmkQCGS98GJ5w+cygYDWqU7pgR3ojILjHpNB8cpO8i9Au+f7yZt
- jOsqoVtviI9xTjA0jcBy/Z54jg+HV5jOVJU769pAkohrG2GRNQt170o+jPMHpm/6CtfRiugvyUv
- tWt+R7Mucm41b0XKYCOTBYic=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0961cd37f23c6ab0;
-	Fri, 23 Oct 2026 06:49:41 +0000
-X-Mizu-Trace-ID: 0961cd37f23c6ab0
-X-Migadu-Flow: FLOW_OUT
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: netdev@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	stable@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Hbs+eeEb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792738218;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g+zDfkV7W3mK9yy6qtJ/PyGkiFHI5UxGEdxpEKnA6Jo=;
+	b=Hbs+eeEb/5Qt7cbEjROqtUQuo23kQ2wlWBLLjtln2au50ZCNWWdXqIiwLNaKpbTWuRcycr
+	LBxL5hOIHTIfaHahhmu5f33RNpTSBtvToC+oaBlDGR9PAeV9OWFnwcf1Xt/B7+TmIoFz/A
+	lkZIzbhemZb5GHEpHZN8EFitdZSmlKQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-315-r-jURbIBMXG8ve_GmI9YAQ-1; Fri,
+ 23 Oct 2026 02:50:13 -0400
+X-MC-Unique: r-jURbIBMXG8ve_GmI9YAQ-1
+X-Mimecast-MFC-AGG-ID: r-jURbIBMXG8ve_GmI9YAQ_1792738212
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BAB1D1955BC4;
+	Fri, 23 Oct 2026 06:50:11 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.44.48.42])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B7A41956095;
+	Fri, 23 Oct 2026 06:50:07 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: soc@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
-Date: Fri, 23 Oct 2026 14:49:11 +0800
-Message-ID: <20261023064915.401112-2-jiayuan.chen@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261023064915.401112-1-jiayuan.chen@linux.dev>
-References: <20261023064915.401112-1-jiayuan.chen@linux.dev>
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v5 10/13] uapi: Replace __ASSEMBLY__ with __ASSEMBLER__ in uapi headers
+Date: Fri, 23 Oct 2026 08:48:47 +0200
+Message-ID: <20261023064908.66707-11-thuth@redhat.com>
+In-Reply-To: <20261023064908.66707-1-thuth@redhat.com>
+References: <20261023064908.66707-1-thuth@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,76 +88,163 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-icsk_backoff is bumped on every RTO and zero window probe, and the only
-thing bounding it is tcp_retries2 (a u8 sysctl, 0..255).
-inet_csk_rto_backoff() then uses it as a shift amount:
+__ASSEMBLY__ is only defined by the Makefile of the kernel, so
+this is not really useful for uapi headers (unless the userspace
+Makefile defines it, too). Let's switch to __ASSEMBLER__ which
+gets set automatically by the compiler when compiling assembly
+code.
 
-	u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
-
-Set tcp_retries2 to 64 or more and keep the peer silent, icsk_backoff
-climbs past 63 and the shift is UB. For example an ICMP host unreachable
-arriving on such a socket goes through tcp_ld_RTO_revert():
-
-  UBSAN: shift-out-of-bounds in ./include/net/inet_connection_sock.h:258:40
-  shift exponent 73 is too large for 64-bit type 'long long unsigned int'
-  Call Trace:
-   <IRQ>
-   dump_stack_lvl+0xc1/0xf0
-   dump_stack+0x10/0x20
-   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
-   tcp_ld_RTO_revert.cold+0x16/0x92
-   tcp_v4_err+0xdb3/0x13e0
-   icmp_socket_deliver+0x1a7/0x390
-   icmp_unreach+0x2dd/0xe50
-   icmp_rcv+0x93e/0xe30
-   ip_protocol_deliver_rcu+0x36b/0x3e0
-   ip_local_deliver_finish+0x37d/0x620
-   ip_local_deliver+0x165/0x1d0
-   ip_rcv+0x284/0x320
-   __netif_receive_skb_one_core+0x16b/0x1c0
-   __netif_receive_skb+0x21/0x150
-   process_backlog+0x37e/0x1200
-   __napi_poll.constprop.0+0xa5/0x5e0
-   net_rx_action+0x4c0/0xf70
-   handle_softirqs+0x204/0x9b0
-   __irq_exit_rcu+0x13c/0x220
-   irq_exit_rcu+0xe/0x20
-   sysvec_apic_timer_interrupt+0x92/0xd0
-   </IRQ>
-
-The orphan check in tcp_probe_timer() calls the same helper.
-
-tcp_probe0_when() got a similar clamp in 2020, but this helper was left
-as is. Cap the shift at 32 like it was suggested back then: icsk_rto is
-at least 1 jiffy, so 1 << 32 jiffies is already far above any max_when,
-and the min_t() result is unchanged. Unlike an ilog2(RTO_MAX/RTO_MIN)
-bound, 32 still holds when tcp_rto_min_us is lowered.
-
-Fixes: fcdd1cf4dd63 ("tcp: avoid possible arithmetic overflows")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/net/inet_connection_sock.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/dev-tools/checkuapi.rst | 2 +-
+ include/uapi/linux/a.out.h            | 4 ++--
+ include/uapi/linux/const.h            | 4 ++--
+ include/uapi/linux/edd.h              | 4 ++--
+ include/uapi/linux/hdlc/ioctl.h       | 4 ++--
+ include/uapi/linux/types.h            | 4 ++--
+ tools/include/uapi/linux/const.h      | 4 ++--
+ 7 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index 903499581db7..562e12033a5d 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -255,9 +255,10 @@ static inline unsigned long
- inet_csk_rto_backoff(const struct inet_connection_sock *icsk,
- 		     unsigned long max_when)
- {
--        u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
-+	u8 backoff = min_t(u8, 32U, icsk->icsk_backoff);
-+	u64 when = (u64)icsk->icsk_rto << backoff;
+diff --git a/Documentation/dev-tools/checkuapi.rst b/Documentation/dev-tools/checkuapi.rst
+index 9072f21b50b0c..3c9a3a58c24da 100644
+--- a/Documentation/dev-tools/checkuapi.rst
++++ b/Documentation/dev-tools/checkuapi.rst
+@@ -273,7 +273,7 @@ Consider this change::
+     -typedef unsigned __bitwise __poll_t;
+     +typedef unsigned short __bitwise __poll_t;
  
--        return (unsigned long)min_t(u64, when, max_when);
-+	return (unsigned long)min_t(u64, when, max_when);
- }
+-     #endif /*  __ASSEMBLY__ */
++     #endif /*  __ASSEMBLER__ */
+      #endif /* _UAPI_LINUX_TYPES_H */
+     EOF
  
- struct sock *inet_csk_accept(struct sock *sk, struct proto_accept_arg *arg);
+diff --git a/include/uapi/linux/a.out.h b/include/uapi/linux/a.out.h
+index 5fafde3798e57..cbcc37674e64c 100644
+--- a/include/uapi/linux/a.out.h
++++ b/include/uapi/linux/a.out.h
+@@ -10,7 +10,7 @@
+ 
+ #endif /* __STRUCT_EXEC_OVERRIDE__ */
+ 
+-#ifndef __ASSEMBLY__
++#ifndef __ASSEMBLER__
+ 
+ /* these go in the N_MACHTYPE field */
+ enum machine_type {
+@@ -247,5 +247,5 @@ struct relocation_info
+ };
+ #endif /* no N_RELOCATION_INFO_DECLARED.  */
+ 
+-#endif /*__ASSEMBLY__ */
++#endif /*__ASSEMBLER__ */
+ #endif /* _UAPI__A_OUT_GNU_H__ */
+diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
+index 565f309b9df8b..6d89e477fc79c 100644
+--- a/include/uapi/linux/const.h
++++ b/include/uapi/linux/const.h
+@@ -13,7 +13,7 @@
+  * leave it unchanged in asm.
+  */
+ 
+-#ifdef __ASSEMBLY__
++#ifdef __ASSEMBLER__
+ #define _AC(X,Y)	X
+ #define _AT(T,X)	X
+ #else
+@@ -28,7 +28,7 @@
+ #define _BITUL(x)	(_UL(1) << (x))
+ #define _BITULL(x)	(_ULL(1) << (x))
+ 
+-#if !defined(__ASSEMBLY__)
++#if !defined(__ASSEMBLER__)
+ /*
+  * Missing asm support
+  *
+diff --git a/include/uapi/linux/edd.h b/include/uapi/linux/edd.h
+index 0fe3e02aec653..566f206964862 100644
+--- a/include/uapi/linux/edd.h
++++ b/include/uapi/linux/edd.h
+@@ -53,7 +53,7 @@
+ #define EDD_MBR_SIG_NR_BUF 0x1ea  /* addr of number of MBR signtaures at EDD_MBR_SIG_BUF
+ 				     in boot_params - treat this as 1 byte  */
+ 
+-#ifndef __ASSEMBLY__
++#ifndef __ASSEMBLER__
+ 
+ #define EDD_EXT_FIXED_DISK_ACCESS           (1 << 0)
+ #define EDD_EXT_DEVICE_LOCKING_AND_EJECTING (1 << 1)
+@@ -187,6 +187,6 @@ struct edd {
+ 	unsigned char edd_info_nr;
+ };
+ 
+-#endif				/*!__ASSEMBLY__ */
++#endif				/*!__ASSEMBLER__ */
+ 
+ #endif /* _UAPI_LINUX_EDD_H */
+diff --git a/include/uapi/linux/hdlc/ioctl.h b/include/uapi/linux/hdlc/ioctl.h
+index b06341acab5ec..0905383d72aa5 100644
+--- a/include/uapi/linux/hdlc/ioctl.h
++++ b/include/uapi/linux/hdlc/ioctl.h
+@@ -35,7 +35,7 @@
+ #define LMI_CCITT		3 /* ITU-T Annex A */
+ #define LMI_CISCO		4 /* The "original" LMI, aka Gang of Four */
+ 
+-#ifndef __ASSEMBLY__
++#ifndef __ASSEMBLER__
+ 
+ typedef struct {
+ 	unsigned int clock_rate; /* bits per second */
+@@ -90,5 +90,5 @@ typedef struct {
+ 
+ /* PPP doesn't need any info now - supply length = 0 to ioctl */
+ 
+-#endif /* __ASSEMBLY__ */
++#endif /* __ASSEMBLER__ */
+ #endif /* __HDLC_IOCTL_H__ */
+diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
+index 48b933938877d..00743f894e7e3 100644
+--- a/include/uapi/linux/types.h
++++ b/include/uapi/linux/types.h
+@@ -4,7 +4,7 @@
+ 
+ #include <asm/types.h>
+ 
+-#ifndef __ASSEMBLY__
++#ifndef __ASSEMBLER__
+ #ifndef	__KERNEL__
+ #ifndef __EXPORTED_HEADERS__
+ #warning "Attempt to use kernel headers from user space, see https://kernelnewbies.org/KernelHeaders"
+@@ -59,5 +59,5 @@ typedef __u32 __bitwise __wsum;
+ 
+ typedef unsigned __bitwise __poll_t;
+ 
+-#endif /*  __ASSEMBLY__ */
++#endif /*  __ASSEMBLER__ */
+ #endif /* _UAPI_LINUX_TYPES_H */
+diff --git a/tools/include/uapi/linux/const.h b/tools/include/uapi/linux/const.h
+index 565f309b9df8b..6d89e477fc79c 100644
+--- a/tools/include/uapi/linux/const.h
++++ b/tools/include/uapi/linux/const.h
+@@ -13,7 +13,7 @@
+  * leave it unchanged in asm.
+  */
+ 
+-#ifdef __ASSEMBLY__
++#ifdef __ASSEMBLER__
+ #define _AC(X,Y)	X
+ #define _AT(T,X)	X
+ #else
+@@ -28,7 +28,7 @@
+ #define _BITUL(x)	(_UL(1) << (x))
+ #define _BITULL(x)	(_ULL(1) << (x))
+ 
+-#if !defined(__ASSEMBLY__)
++#if !defined(__ASSEMBLER__)
+ /*
+  * Missing asm support
+  *
 -- 
-2.43.0
+2.56.0
 
