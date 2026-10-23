@@ -1,114 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792792912;
-	b=C6uXKJXoA+VGd50rj/tcEwiixD+QBO2H4NeD0MmVo+bKzih6ElznfLLoGxj4UV/t9dSw
-	 Np1Z6yBYJb3EB5eXXKLRvFEiKLb2POUWANukotH51t5zGDiSHdpyXXweUPMHAk7HvneH9
-	 nx4X8DYWVSWr5+tNR87YABvIBZWwdNtzjWA4SvfDw+VgSSh/Q14LoHjJnSi+PzmQnmdIi
-	 5HTvPKzG3cK2LEJTtPc7cFM3hfF+yIuCYzMp+dxiNepWsaMEDBb/+F0eeD16J5H4EOupM
-	 VJn99iZRoqaWimlf+cuD7in/LJ57oabQjksPn4lweEdIOiDLK0WXyz6e/RzVCwxhuhA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792792912;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792795142;
+	b=xmTzdlwhFuQTFasuNmbfquaW80/V1BEPLs4i7gSf6JoYgHvFXaorn9K9LSOpWwXogosh
+	 CqSTfdqp2VLDMw88O2/Kyjm6C2VjOf8R4VuJRta88ET7ZBMjfjnJvKg3ziunwQWIHVorN
+	 hxdb1eTXGvZOPtSt+qoI0Fe3s+18/2ieb7sak8naD5UE4cJv7tclB/eaMkaGVmH4LdOTY
+	 LgSZPMOAXtE/QSQ968bm51K1xko1l+eL0HVbpdxb1iB4OQltGl1S3H9Ni/lLnOEoAC3Jy
+	 O4IXUCg5A2h/SlpRRSUC+7hSQ0fDuxJKPoAN0XrjF1dFEx4qZE9ol0icPyw+U9/w/CQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792795142;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=7bRloCtYRc/1CN8Q7Hs9aasGSanwrF1DkhN4CIO4rT0=;
-	b=y+Hxq8ieZ66pyjGUcTYtiKQavHhS0WTiQ1S1JwnaBOtkVRL2S+5eegopFXTJsfusSqAs
-	 dX8Ki0GIicPpLyvgbpfW89Y1/aJ4od2WaXpyTz/2/9OTcKZOqukSHayEatlM7otWcrEDc
-	 SvyVyB7vmFP2DjD1UEn4AVCY7InuXPoElSJYR3w4M14Fy9iw0ui+4oNiTOZehZvsbFc5N
-	 eKqwhDCaufD828F4DxUdHqeg/Eh52lJuvW1Qxx1F3E0ita2fC2kq5yPJdyvWmX2+vw0a+
-	 4Rad6lH5WmQC1IUvBdPcaMkHtEmYFXQ3IgoS+J/tMFCZ+Co0hHD017ou3EZSrVw/EBA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H2Nk80SC;
-	arc=none smtp.remote-ip=209.85.222.176
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=DQb9soIuy2IWf1LrfZEp4aNcssN1ddSrfFmGCMehWsg=;
+	b=bplj9anbAZE0KSPN19PTqtUZ2nMlbo08D/CbLXdhn6euM4WnBIswA8Ylgqmk7abJDbpm
+	 uzfN90old8eW4EID9LTeelMWf77Y+Yg0VAoqNPBbm84wpWluf6nv74MFceBDjPPjL2Gui
+	 LyY83EO4KJHcyzLuEMO/U1EzNXqivt0yUvzqKRPoRszvJNrfxQUCRjRiflW4vRj3Vw+G+
+	 lTJ7YgHxM6H6cw5VgcZ+1/bm6Y5pLSPaBEK0rTehmg/Fa3wt/EMqkKYVpybbZFlPfX204
+	 tqVxIzcZH+0i43bm7/66OQyECFyjdQs1ATrBR5t8dHphya4OeguBFD1lJU/wtNq5DAg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h2JEsMGR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA401606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 22:01:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA401606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DDC606A31D
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 22:39:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33DDC606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H2Nk80SC
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93e4c00d71aso123549585a.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:01:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=h2JEsMGR
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48df8fe8513so1191348f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:39:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792795140; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e4uL+xivq92rFpXS3rlc5U5JBAmCAIlBqjNMDs+lzCB7dvvexEbuPbGyIUaC7j8C3X
+         LOvT0yvQRtvz5voPLXnNi9tIVHTupomyaBkvN6H3K3RRX/TsI4gR9ske6FSRl655aNBz
+         N5KFXf/J7MZhEJw01b2x3SKjTYan/GT+NU/DVpfhf9VIB9YkeGrBdWju6TJ+lTYDropD
+         kFn8DGdh8ekyvSSLx3a7Gt4yUQX4ThOBlN6SsBEHcGe1E41ciBSNPUFxVkXjvGX3VAhI
+         DSGzj88D6SiONRDk53M2SOw+Qdt3m+K3YPg6g6+0qZInSJhcytSsH1/g0du72FtyfDao
+         VjeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DQb9soIuy2IWf1LrfZEp4aNcssN1ddSrfFmGCMehWsg=;
+        fh=SkXLJYjHZCCqaY+F66MjK55wkvdHDbVe4Ttudst10os=;
+        b=ZBtw+eWcq2g1+f+gDUue8kULzFLPXGLWXU7Ka0u4hpLYmQRR4M0aWGXs/jpd4K8tNO
+         hlSqeo2qqhwKXKQjqY1aqbj2WB/tQTpMvRVmPzsNIAwEEtb4klqGQGocdB7tNllZpPRR
+         i/Ja0IPv8ACuWcERmH2wEedzvi2luXx9sECsBSHDXg+NgjJfyjjEFRqbNId9ZLlygt2t
+         OcfsXVpckkm1psC5ULR4uTvenBnj4rqJBfQuqIsy+RMU0NthoOX90zeGCFS9FtsC6I63
+         FQwRs/wqqSQwct9Q2AvZFw1JT+pD07zxki65ncePzab7JvGSZfb/NwlhsQfkKxkdZgZI
+         j0pw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792792911; x=1793397711; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792795140; x=1793399940; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=7bRloCtYRc/1CN8Q7Hs9aasGSanwrF1DkhN4CIO4rT0=;
-        b=H2Nk80SC0IE0suPURnYr9e6hZbC4LBCNbP2UbticIu/vM5Zx8lZxl1WF9oIVeOGweJ
-         W19x63RIXk3jCkb/8AZ9w0/6q6ZaY29bsZqX8VJh3ACjKIAi6gixXOH39qqPhJV0UGZD
-         h9hrX7AQMBlOV6X6RgQiCpuKPLs0LqoIe0SH9hdfWiIr6eNHUZFFbT0I/kCisS92xxMY
-         Ucn1ZlEpvxoCWlvTmp2e0dWk4YFXYfROdABgbIgP0F4SF8jcDI2aMT5TzMY19oaj7RhQ
-         ktu/3+o+78VzxnRBhNe+IMPeqMjRjTTMOSsOLuA26L6BAOJT0HaC4+T4MRB1PHDXmGMo
-         Ignw==
+        bh=DQb9soIuy2IWf1LrfZEp4aNcssN1ddSrfFmGCMehWsg=;
+        b=h2JEsMGRrVURSB0j47TGc5GJasxIhVL/JHhnfpggkvfbknB7iXYx4eM3fv179YZizS
+         UDP0PvSpu3n/sqjgLr1SrF3YXEfIYj+wNtrMzD4T2trvVG1avenYj5g3ZI+meZwGPRK9
+         opn7VSPA5ZI7wDpF+91pO+99cubxigV7u0ifnJvgrwnqjxpMGyoOflnN2rJ4GbjRUn3+
+         UaYcfeSvsBOUXLlS3Itld7VGw0rSpsygpl6Kkm8EnqjFSllNzdz/+Afc6yuZBmetCJHF
+         b5ayg8KUcHpQIuOh3oxQ67ZOL86P+WJV6NHR/yZMHzjfHGdS/VoAQ/Ssp4lKbf3Qm6nI
+         x5nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792792911; x=1793397711;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792795140; x=1793399940;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7bRloCtYRc/1CN8Q7Hs9aasGSanwrF1DkhN4CIO4rT0=;
-        b=OovSKsh9d9suw7znbk/Qia4vSrFODggIytsaM+Y4CIK0QnnDWbmLTAZr8CebA7fQ6s
-         TyWtaBQFB1fb79PfyLe13H5N7NHEHIxmuWRCSRZDSKKiVBlIpKEESZua6Nq/OUNsUG1A
-         UuQFdEtk3su4UNt+7OncAEzUPygIHNfXh6suE8v80DMvBxmCz7YmD1cn3lgb+f2RM9xa
-         vm6PKCCmo4eD/S/3MIsYUKAyFe1AKBq8ZuIXnI6h/4DU0HhF8WHbu5l7Him5srf/GDDh
-         q2S/flJgmAM1YWyj1r93Ai1yg5h8JVdbbPRU9RazgCRbl/9abMVOn2RD5abCBh4otM/s
-         skwQ==
-X-Forwarded-Encrypted: i=1; AKwUvBydTjaSlI0Xv8KSgIsOUGPZbnt8uB2TQj96xqSIFdSMg61yENgG/kz8GqPsbr4YG/aRo8b8riJ6p7A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKEjUeHkBSWMqpvrs8oQXk6TE08ENt/s8+7VWh2U3Gqa4Wwvvi0
-	RKdvdWEREIkQQHcs/9xS0+3g17FQ7oJpndGuweM9H8ou1obse25PlrhkKAzum4rfUdE=
-X-Gm-Gg: AYBFou3OOwbAd9T0g9hQqtAD0jdcD0barp4x8lhQjsKdXVrRALjVk620UWV0aA+wMxE
-	FkRX+3j/ppBDLUbHrb3s0/zGkPCG8CLfVwkuZOSZP0FWwhBxrO7R6n65cl/GKodgkQQhmxNl6uk
-	tx5c8Zx4korbcxstK6Xrr3WYEiquBiuHyveV2vDpL4rjLgG+c8emTeFukw7pr5bwqvZpn5yfNm5
-	QCsd1Pv1XA5VB96h+Ay/NFbFph7LxnDVzvRIVfXlWijXyjvxN3Yz7Iw01361+uKUDd2wrn7JPZt
-	9dhKG0OrQ8DO8JqpJ4GPVXZYHE6MP0l8m+E0/zT2Meuz1VKjpEE6ux1pVdiZxDZqS49oESQOa6t
-	9xFZI5NGYW6l52htJvaNAWMHkYrPqLbszlNQZHWdNO6xsp6WV0V6zHWgQ236DlyPNLX9XSrzO4d
-	DQh+dxs0R6dtWPf18KDMxqUbwd+b7jnYjs6qqM5lwe3p1HKRUPhYOrOb/biyJ9o9GGG2T2CsX3h
-	wKsEoYi5tVxN8tVh78V3KvPYXcq9DrmaeKRI6B1PdQz4K1lTh7tB3LHXgNH47pJnS9YMHmZ9HEN
-	Jq33zMZLTju/fb+wtuH2Hx/T2H4syo4tHyNZYg==
-X-Received: by 2002:a05:620a:4441:b0:93e:c12c:f137 with SMTP id af79cd13be357-940ef9c87e0mr54142985a.82.1792792910841;
-        Fri, 23 Oct 2026 15:01:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f078a762sm18520585a.30.2026.10.23.15.01.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 15:01:49 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xKNKe-0000000H7Vk-3jIV;
-	Fri, 23 Oct 2026 19:01:48 -0300
-Date: Fri, 23 Oct 2026 19:01:48 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 02/18] PCI/P2PDMA: Derive routing from directional ACS
- controls
-Message-ID: <20261023220148.GN3977851@ziepe.ca>
-References: <20261023190036.GL3977851@ziepe.ca>
- <20261023201531.GA2805244@bhelgaas>
+        bh=DQb9soIuy2IWf1LrfZEp4aNcssN1ddSrfFmGCMehWsg=;
+        b=S5R+E9chm9RT8V7FrZkocS6EAaHY4rhNPbVajLwGpc7oQN2i7wD/Tb3HXprom/oZ2Q
+         0hEtu/I2jQzx2lpiWRZ3EvSv/Qr1I9qY69SFBfdDJcDwIaw+nyV+hOh56jLVBHnlgP3L
+         5m1JWgQ2R6+MLk7V38uXCyMUTB81sgJT6myTBFbz2TRRzVcD0i/Zof67kzT0SDJOkfi9
+         1YdpqaBa+mImhTzp3wgCI5Th2fymGnZ3feLAJaNNedN93hd3UTERMX85zGan+34ZuDOk
+         4NCr5Wv0+0Faqlv4gKXMJGge1a5MZkzwtLWW/SB/s6fi0OGYEigNUr9RnucZlC+jYkQM
+         aj6Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxW1VG+DZx4XbMuv/u+T6M3a++7pGtiAPFFtoxGfiu1qhdXFfCH9EPyhxAwSSfcfcG51rsruj82PiM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIjhCSD7MxBoDqdYrymxnLRLzTtDghzD+hcT8Gv+yFYFdH8hreu
+	hkFpaeYST7Hr5uB5t4NhJBE4EOwAweqtHkbFjtcdQo2DpN/D9Kr/UJHg9U8elNAb9J8isKt/ZBa
+	/7g36vlg4rDG+wtCgzkuPhkU6T4DRcrs=
+X-Gm-Gg: AYBFou3w40raTYKAFjYT0IYa6Kbr/RFJM3nuCSGch7nUoM1/aJdls0jSGtFCxxN5sBT
+	0pgi2me4mWO4Sb2fzJBk0886w1i4GjcnQAuy87qX8ueevhcGO7qJsf5MoZfqy7GiB0IRP5nAxZ0
+	nk0BmWpRQiy1c5DGfZHIcvr0N0Uv0m/Lrmm45lujMcm2m69K+2ff3PL+oyleaiwty33iFK8+Btl
+	FmgdHiSSQm6ojvwLy/haV3xDg0L4K4TFTZFZz+psOVXHy975ReICH1fHZcYucXVWtWmoe3RRcim
+	AFrNiCt2imN08rdDWM/VicSEMm/QE2qsc6yp7QaMvGgykw7NxIrRx2dtD6dqPj2GHBGS2tErnzZ
+	WrUYDTXu01UL8932hqdgbZPBLosViageMFny1NdW/NU9iqM6EErWDOShIm+e7HsYsHjRZDWgiw7
+	zAtR7WLlAIq1WZkuGS9RuexCZdB3J/evhQNhuhAv1yrl9fXh8dlZl7
+X-Received: by 2002:a05:6000:40cc:b0:48d:f069:570c with SMTP id
+ ffacd0b85a97d-48e3eb93429mr575083f8f.41.1792795140106; Fri, 23 Oct 2026
+ 15:39:00 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,44 +105,106 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023201531.GA2805244@bhelgaas>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <20261014195354.GA371161@cmpxchg.org>
+ <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+ <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org> <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+ <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+ <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+ <CAO9r8zOtK7YYdBNS+h5bNW-miKED7p4G0igy=D-=HRnGqA-38A@mail.gmail.com> <179279233116.3784731.9576593182600250610.b4-reply@b4>
+In-Reply-To: <179279233116.3784731.9576593182600250610.b4-reply@b4>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 23 Oct 2026 15:38:48 -0700
+X-Gm-Features: AclHuK_IYUAj5HLbnP3AeCgr3emPoTaAjXpZJxAWWXcpmGT_QzEhtpufA_J3jmE
+Message-ID: <CAKEwX=Nf57X+Bb7C+0L1L6bkVDw2rjTMSfn=xuMRsXY_qrB_ZA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: "Gregory Price (Meta)" <gourry@gourry.net>
+Cc: Yosry Ahmed <yosry@kernel.org>, Rik van Riel <riel@surriel.com>, Wei Xu <weixugc@google.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2026 at 03:15:31PM -0500, Bjorn Helgaas wrote:
-> On Fri, Oct 23, 2026 at 04:00:36PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Oct 23, 2026 at 01:27:15PM -0500, Bjorn Helgaas wrote:
-> > 
-> > > > Yes, the ACS combination is selected to avoid ordering issues
-> > > 
-> > > Does a user have any way to know whether the configuration is safe?
-> > 
-> > No, unfortunately in PCIe so much is really difficult when it comes to
-> > deployment :(
-> > 
-> > > I'm wondering whether users might use "pci=config_acs=" to configure
-> > > ACS so things appear to work as they prefer but may not provide the
-> > > ordering guarantees drivers depend on.
-> > 
-> > I imagine that could happen, but on most practical systems the root
-> > complex will blow up if you do asymmetric routing so there is an early
-> > indication.
-> > 
-> > I know this because I've help debug such configurations at
-> > customers. Some servers helpfully MCE if you do this. Lovely.
-> 
-> I'm still confused about this because earlier in this thread, I
-> thought Leon said you do asymmetric routing:
-> 
->   Bjorn> And I guess asymmetric fabrics must mean fabrics where
->   Bjorn> Request Redirect and Completion Redirect are not set the same
->   Bjorn> way?
-> 
->   Leon> Yes, in some of our systems, deviceA to deviceB is going
->   Leon> through different route than deviceB to deviceA.
+On Fri, Oct 23, 2026 at 2:52=E2=80=AFPM Gregory Price (Meta) <gourry@gourry=
+.net> wrote:
+>
+> On 2026-10-23 13:25 -0700, Yosry Ahmed wrote:
+> > On Fri, Oct 23, 2026 at 1:03=E2=80=AFPM Rik van Riel <riel@surriel.com>=
+ wrote:
+> > >
+> > > +-------+     +------------+
+> > > | vswap |-----| swap cache |
+> > > +---+---+     +------------+
+> > >     |
+> > >     +----------+-----------+
+> > >     |          |           |
+> > > +---+---+  +---+---+   +---+---+
+> > > | swap  |  | zswap |   | zram  |
+> > > | file  |  |       |   |       |
+> > > +-------+  +-------+   +-------+
+> > >
+> > > What exactly do people want to accomplish here?
+> >
+> > Today if you swapoff a swapfile, every is swapped in into the
+> > swapcache, whether it's in zswap or on disk. With vswap, you have no
+> > way to trigger swapin of compressed memory in zswap.
+> >
+>
+> This seems like a missing interface in zswap, rather than something
 
-Yeah, that's what I clarifed, it isn't quite accurate. The asymetric
-routing is between Strict Order and Relaxed Order TLPs, not
-request/response.
+Yeah, and I don't think implementing "draining" for zswap is terribly hard.
 
-Jason
+Zswap already has the reverse mapping (from zswap entry ->
+virtual/physical swap slot). You can loop through zswap lrus, then for
+each zswap entry, basically invoke the first half of
+zswap_writeback_entry(), which loads the content into memory (i.e swap
+cache).
+
+But you're right - this is something that belongs to the backend
+layer, not the virtual layer!
+
+> vswap needs.  But you could just write this as
+>
+> vswap swapoff {
+>   disable new backend writeback (swapcache fault-in only)
+>
+>   for each backend {
+>     backend swapoff
+>   }
+> }
+>
+> so rather than vswap.swapoff() you'd actually just want a stop-bit that
+> says to disable the swap subsystem writeback behavior to all backends.
+
+Yeah if we can "swapoff"/"drain" each backend then that brings all the
+content into memory!
+
+>
+> Otherwise the user can just disable each backend individually.
+>
+> --
+> ~Gregory
+>
