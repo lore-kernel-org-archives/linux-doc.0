@@ -1,68 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792735687;
-	b=R+C3/hjhdG+cwIIza/kw/H0T9q1xr9h6MO8guJTo0WBytkVwYlSRJNzMa3pFSVf+Eslv
-	 8Hb4ASVAvcRuJjht384MLhNLLkqFulM9Gu4akPF3AxpITpPJllgJDn5Zn07PugFmqFwPC
-	 JepLFrE8flHtyOw3wKYJ/yHWoa/VvbUh93oP5cF0gy0UqU1yizm9A7F2GEvSYfvkEhK43
-	 1oXYdOE0DAyEDPcy8l1yNynwCmsYczEsqTO8NqXn8b/659V7KkSDs9c5NjbQC7jeONYx7
-	 gFWPUs4225YzoK8wKL17XJ5RmypPTNY4bNfqzt2JU0LV21U9wfwtfOiG3yGMIyk+bvQ==
+	t=1792737102;
+	b=TS5548k+iAHufYgIiUYXNqKtGMyUZMoZTRO1guZIi/hgpZjcOx86YjNPP5dv6SQZ+GaH
+	 Gsy0D+V7+SJ2kyDKSpTg8/cAYO6TK5/dQuBPBxEPW2tAeZ5Hsn6PzazkKmjWI7kFDM0XO
+	 NV7kRDn0183vM6V+VgIdSmA0XHDyb/8VGRm3vc/LKshW0fJ8fpUsshTjIYmNiIB0nBy9+
+	 ntmL9VJs9sNtB67REuvR7XL7piv1S+1iUDKDs6oOqTvZuuUhVmDJWqn1SZ7gkceeh2ssU
+	 Gtx9WGMPWbQyf/UpgSP4YVsWgInhp7NI4GgX7MOrRwX1bnuDSjvOTKfTDGTL6jw/jzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792735687;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=PtMbD2L/4lUTkQw591ynv8uNvYteldWADj8nmIYhx9w=;
-	b=WqpCeIoIaXTiz0nRu39rGegTHvw/QTruL12TgBvzzJt6fkPnka0YcO5BI83Unqqex2s4
-	 kT7m7dCsVgF4MSVB8qCjEJiMi+RRNKZjBzn2qrK+LNin3QpUYJAwQ2kZXTkurV5UnX3n9
-	 4FvAawNhKvYx6ZyfkQPiUiNI84/gVVTLZcLRXVoOSFDxGbr9ZkhJWaqiWAWAQXVlVZMZv
-	 N19YN1o/adbpFYIhxNbIkJ+9e8aB9EpTr7Yg75EHQyw1L0n+aC3PPnDTsC3wQxo7aog4L
-	 hoc8G8gHDgiH6LJqZuyi9R1gjyW1FZ5IB9jPZjfYwMJvkA/ziTDwgKGjcjuQhl8R0rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737102;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=xn1+RmYFdw7qrRYR9dl4JePRPxfSHmmoUuaMKbgZZPOQAU8LUTVS6MbyGc47mZGqmVMA
+	 9hTK5GHmkortqh/zmUl090slU7WW19KEOc/khfyQt8XE7JZiE8qgBaiDJ/eO1Kti9f0PI
+	 qzcEO95xoZzoJor2hANil8Yo/0sqFeiN0KWxzcn3SFcHtjmeHStqPTepLi10yjPOZ3IWO
+	 evsgaKf9GmrBjAUeMMfcNX8c+IgzgehralFgEcmf/hjRqa7AKO7RQhQKOBzZPP8OdZdl2
+	 ei84XwgD2c79KBKlc4HQnYg9BlEbzOf+pFLcu4BNZQKHr6kX0qNZr0u6HsvLcXsVqiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SEaClo2N;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0381E606A31A;
-	Fri, 23 Oct 2026 06:08:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0381E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2176606A31B;
+	Fri, 23 Oct 2026 06:31:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2176606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SEaClo2N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792735687; x=1824271687;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=C81i/82DeDeE1JH62JhWsNHM4gE4jeuRndx5t5ttChs=;
-  b=SEaClo2NQIaW06zL7l6Ya5IrE7Ai8AZpeFMVRq0rjHIT1S6X2OcfpBPd
-   ZtdBbR77y2CKjeIYDoCYfneZfHlNHqFXktnYsIFNiwHBRHZdeBBjEMfCG
-   Z4UctXPEFHu0OOQGlbiniJOvrzP2RLrqn4IKMNh1ynQYdK0zEkdwh7dh4
-   8EZJUQU2Oe1NZTrCKnOlrdQ6OYalJNmrEadieNq0KazHMTto5vFPmyrVY
-   l7PcWlfLA0YG/v6Pt2eBGByEDDYuiymX7ujlJUTlBbpC1xxJUNT9orWDD
-   kizjXrI7MK+UsVKFdrW/4dEQyTFCYu/GNWc/fTo1hX6ZEUB2z8SbX1Lt9
-   Q==;
-X-CSE-ConnectionGUID: 5ki/el3GTWujjChBfZlZPQ==
-X-CSE-MsgGUID: p52PFYlJTeeBE4OLLNMrpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1599103"
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1599103"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:08:06 -0700
-X-CSE-ConnectionGUID: jbxrQI+LQeyEO93z/LGx9g==
-X-CSE-MsgGUID: oty+PjFtR7aIMb5gzI1E2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3592890"
-Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.124.245.162]) ([10.124.245.162])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 23:08:00 -0700
-Message-ID: <64e27c4c-23e1-4539-a812-e81d5f322003@linux.intel.com>
-Date: Fri, 23 Oct 2026 14:07:57 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=fjsQ8MHyFLg2DKpb+rChWOhrQ6Agx+aJ4B3WloBfzhk5I42lfFR8N28XAuSRbTqFZgHgChm3O
+	4OwNSVOJK87cDrNiMupTVhF9pAM7IdBGhA0OswOr1fHmf/8LmJiA8sNJ5JxoASQ+9LC7G7GDo6P
+	DlcW4ZEJB+N+XLWejTOA2kU=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j9tTJ5rsczLlWr;
+	Fri, 23 Oct 2026 14:31:32 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 10C6B40594;
+	Fri, 23 Oct 2026 14:31:36 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 23 Oct 2026 14:31:29 +0800
+Message-ID: <a2832263-3e3b-4d05-98bd-dc006d5be689@huawei.com>
+Date: Fri, 23 Oct 2026 14:31:28 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,94 +63,65 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 05/28] x86/cea: Use array indexing to simplify
- exception stack access
-To: Sohil Mehta <sohil.mehta@intel.com>, kvm@vger.kernel.org, x86@kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Shivansh Dhiman <shivansh.dhiman@amd.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
- David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-6-sohil.mehta@intel.com>
-From: Binbin Wu <binbin.wu@linux.intel.com>
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+To: Christian Brauner <brauner@kernel.org>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
+	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
+	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
+	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
+	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
+	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
+	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
+	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
+	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
+	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
+	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
+ <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
 Content-Language: en-US
-In-Reply-To: <20260911213659.2025974-6-sohil.mehta@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-On 9/12/2026 5:36 AM, Sohil Mehta wrote:
-> From: "Xin Li (Intel)" <xin@zytor.com>
-> 
-> Refactor struct cea_exception_stacks to leverage array indexing for
-> exception stack access, improving code clarity and eliminating the
-> need for the ESTACKS_MEMBERS() macro.
-> 
-> Convert __this_cpu_ist_{bottom,top}_va() from macros to functions,
-> allowing removal of the now-obsolete CEA_ESTACK_BOT and CEA_ESTACK_TOP
-> macros.
-> 
-> Also drop CEA_ESTACK_SIZE, which just duplicated EXCEPTION_STKSZ.
-> 
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Thanks for the explanation, you are right.  I will restore the idmap as 
+a separate argument
 
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-
-One nit below.
-
-[...]>  
-> +/*
-> + * The exception stack ordering in [cea_]exception_stacks
-> + */
-> +enum exception_stack_ordering {
-> +	ESTACK_DF,
-> +	ESTACK_NMI,
-> +	ESTACK_DB,
-> +	ESTACK_MCE,
-> +	ESTACK_VC,
-> +	ESTACK_VC2,
-> +	N_EXCEPTION_STACKS
-> +};
-> +
->  /* Macro to enforce the same ordering and stack sizes */
-
-Nit:
-Is this still hold ? ...
-
->  #define ESTACKS_MEMBERS(guardsize, optional_stack_size)		\
->  	char	ESTACK_DF_stack_guard[guardsize];		\
-> @@ -39,37 +52,22 @@ struct exception_stacks {
->  
->  /* The effective cpu entry area mapping with guard pages. */
->  struct cea_exception_stacks {
-> -	ESTACKS_MEMBERS(PAGE_SIZE, EXCEPTION_STKSZ)
-> +	struct {
-> +		char stack_guard[PAGE_SIZE];
-> +		char stack[EXCEPTION_STKSZ];
-> +	} event_stacks[N_EXCEPTION_STACKS];
-> +	char IST_top_guard[PAGE_SIZE];
-
-... Before this change, ESTACKS_MEMBERS() is used both in exception_stacks and
-cea_exception_stacks, so ESTACKS_MEMBERS() can enforce the order and stack
-sizes.
-
-After the change, ESTACKS_MEMBERS() only used in one place, so it doesn't have
-the capability to enforce them.
-
-The order consistency depends on the consistency b/t ESTACKS_MEMBERS and
-enum exception_stack_ordering now.
-
->  };
-
-[...]
+On 10/21/2026 6:21 PM, Christian Brauner wrote:
+> On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+>> notify_change() takes a struct mnt_idmap and a struct dentry even
+>> though all of its callers either already hold a struct path (or a
+>> struct file) or have to pass &nop_mnt_idmap because no idmapped
+>> mount is involved.  Switch the helper and its declaration to take a
+>> struct path instead and derive the idmap and dentry from it.
+> No, the idmap needs to be passed separately. The whole point is that
+> during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+> of the mount at the time it was checked and passed down to the
+> filesystem so that the VFS and the filesystem are guaranteed to see the
+> same idmap.
