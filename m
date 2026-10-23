@@ -1,58 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737102;
-	b=TS5548k+iAHufYgIiUYXNqKtGMyUZMoZTRO1guZIi/hgpZjcOx86YjNPP5dv6SQZ+GaH
-	 Gsy0D+V7+SJ2kyDKSpTg8/cAYO6TK5/dQuBPBxEPW2tAeZ5Hsn6PzazkKmjWI7kFDM0XO
-	 NV7kRDn0183vM6V+VgIdSmA0XHDyb/8VGRm3vc/LKshW0fJ8fpUsshTjIYmNiIB0nBy9+
-	 ntmL9VJs9sNtB67REuvR7XL7piv1S+1iUDKDs6oOqTvZuuUhVmDJWqn1SZ7gkceeh2ssU
-	 Gtx9WGMPWbQyf/UpgSP4YVsWgInhp7NI4GgX7MOrRwX1bnuDSjvOTKfTDGTL6jw/jzw==
+	t=1792737579;
+	b=VJgV+F+RqqniV3BSmwxsASglrHPjwSv2Hd87Suc5d7V0gOFiPR8VT4Zd+6p8IgC5MlDZ
+	 k7fw5z4OpqLrSzDwK/HnMI0RcgGtCFTBZfQyzO+kPDsRwKDOj5ZzMjjNQQEWm+NNuRJyV
+	 w+svIwjAQf1ml9b+qZFZ86BahxX4CwW+osOD22EIoZTkZZrJwCm2nU3VlE6S/XCIGb0Wf
+	 ienF7SANYs3Csx5lmSymmB8OdNNOGRSJZdsmsCFenOBYPwZXg/fzRzyVCojMi1in0k2BY
+	 zy0+3QIMaf6Gi3ZKzl2L/ucGGQUbCaYXdkFRXyK8y+nbmlSI2zyHsCkDX/Kl7yeC4FQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737102;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
-	b=xn1+RmYFdw7qrRYR9dl4JePRPxfSHmmoUuaMKbgZZPOQAU8LUTVS6MbyGc47mZGqmVMA
-	 9hTK5GHmkortqh/zmUl090slU7WW19KEOc/khfyQt8XE7JZiE8qgBaiDJ/eO1Kti9f0PI
-	 qzcEO95xoZzoJor2hANil8Yo/0sqFeiN0KWxzcn3SFcHtjmeHStqPTepLi10yjPOZ3IWO
-	 evsgaKf9GmrBjAUeMMfcNX8c+IgzgehralFgEcmf/hjRqa7AKO7RQhQKOBzZPP8OdZdl2
-	 ei84XwgD2c79KBKlc4HQnYg9BlEbzOf+pFLcu4BNZQKHr6kX0qNZr0u6HsvLcXsVqiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737579;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer;
+	bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
+	b=NBWsgqSBnGnXbxrf3MvRfO75vzAgnmOZZ9Bu4YgB5Ip7GNlB2ZcJl+AXfHTLE0woSf8H
+	 O1+9J6EVQ92cWV79a3+YLpeWyTUFpRWk9ESu8ourhxSPMaDbQvFaBzRFn4/4VcHvoJ4G2
+	 eq+PldKkDOvHQiAStMKVITAFsH0DNCeiKwWQlF/udurpU8lq5kWeJ70QNjVUDrjgXfX0P
+	 Fj5N895n/Vxj2jo3gMSvWCUa4tiJiZx6HLhuAJ9CO/1aAl1BRZIWe1t4nOjU8QsHiWgPX
+	 MAi7nWOQh/95/45KetGP1AAqG4hzfa4G9IVp7KHzRSrBjWgngvqeK2oz9z4nJ6YMIhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy;
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fE4ppVfH;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2176606A31B;
-	Fri, 23 Oct 2026 06:31:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2176606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F636606A31A
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:39:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F636606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
-	b=fjsQ8MHyFLg2DKpb+rChWOhrQ6Agx+aJ4B3WloBfzhk5I42lfFR8N28XAuSRbTqFZgHgChm3O
-	4OwNSVOJK87cDrNiMupTVhF9pAM7IdBGhA0OswOr1fHmf/8LmJiA8sNJ5JxoASQ+9LC7G7GDo6P
-	DlcW4ZEJB+N+XLWejTOA2kU=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j9tTJ5rsczLlWr;
-	Fri, 23 Oct 2026 14:31:32 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id 10C6B40594;
-	Fri, 23 Oct 2026 14:31:36 +0800 (CST)
-Received: from [10.67.110.140] (10.67.110.140) by
- whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 23 Oct 2026 14:31:29 +0800
-Message-ID: <a2832263-3e3b-4d05-98bd-dc006d5be689@huawei.com>
-Date: Fri, 23 Oct 2026 14:31:28 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fE4ppVfH
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4be28b82so395655f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792737578; x=1793342378; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
+        b=fE4ppVfHoNB+tK/mqGsUIPIh5aoPUqkEgxSn5Cj0FGM6quF2/uIzJwCvKtU8WG0mA0
+         L136++YEFUA20TrKOmLvLaZaj0ijNsm/68oJFMCLZ2CHmV3e6eEeowGJ92nFJ8PaIkEj
+         XWpX535koWVdyGgFkzx4GOWmijDVt6xKotlPNi5EM2IUJcAuelwuZkclNyNBfh3hsICi
+         +gY9vo0jJLA0wLRR1PxXK6+TYqbqBtBlVDIw2r+i5h1CRSatAwgzJFEacYctpAKlKZQk
+         ctMuNg1Y/wJvHQRMdpMmJusE1FAITXAGuf1TFMpQk33y34iWeuc9P7zaKuKz6SDDn8tr
+         223A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792737578; x=1793342378;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
+        b=h00M2GUHJPkiIh5XrYi401WWjCKntZ4EuhWu9AQCHMcVLVO2W2mTHrL6sbDDt07I+q
+         q0y/ir782YP/KYbGOR9NL8xlp7cWcWDdFHfyx2JlqzorMpb9uU0bFAajOv2Pd9EJ/bJN
+         P4ZdYySoSfy3ZuonxfAedDrFOAWsINnlgazSNCw8P4LQzYfnV23HtVKxQvlZY6xBY8LW
+         0zQR7/B0rghy/CIFJQuDk5sM3H5pCQF2CxARU8LjQD6IhPX59kcsml1BGkLiwx8OUywY
+         1GfE/yEA/CXz0X91OYvrBGiCUtTolwMI7JFgtuHI7gdjj7yV3Dp8qboE99tguUha6O2m
+         eEKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx2oNnz9rXULVSGfavvN9w66p1LR4dvxyZ/4WE0ZxiN0gktzkFlDOcidd4b+4P+7UNvVZxGRBOj9YY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYILdzrDkfZ/U0twYcTRJc58DtAs0mdOTbkVkxEwAcM79HCCYgbD
+	O2OWrXcDJ1AH38V2OQZdzue993Xfu9F2N4biwwluzuqQ4am69r2anyOY
+X-Gm-Gg: AYBFou2UF/WLapU+GpFXVELhjxFTY9qW1U/dqZAzRZIZI24x58bkyH7Q4bKxfGJd2VQ
+	zZwD1SpEwrk/RS2tR/VM8yA3nlGGVhQLmr0g85oUWRoe6tyZLQe0BLImnK1su0Sue3LKw6ZxM9N
+	Mt6hGGTp8LgVG2h83UzC+QldFW5+zD5keElNfA+RcKjqy7+0onkWhhpIdhYMJz+Uawfi5/xhATF
+	yyI9lSDOFeFL2gmbaBoMdsyRkb0Zs6Ftmdyz2Gz4m9A9fEtObU6++3PMipOKY5kTJTgBqedFL4S
+	vx+ywpgEMkIyQVleU4K2MsXhpMPTfUkCei6XzObnNLdA1QEwhT0BFQpsmG+hQNSbyWM8yy2m8jk
+	h8bE+O9vQPycvpncX8Or/GLeUo1Bul2KAKXv28y42c+4uAQQWi7CwmD5npmaO0vARQ6XfCTMS+4
+	XnIWyKnQje01TRElt1zNIFe5xrX/bu7Q+oivMP2FGlkZ//BWDgglM9MpHnT3iD++/vTIuGIOUSl
+	cCKQ4dMJpo99rPLb79tB38QW58mJN5yZhNnxPfRIL2aF0eCXe2cRl7AFe3KdoGpjXefN6OOehyZ
+	qkKqE5hRLedvsH3VYWfHBbGcXt87HjQwX/idK9wG9iqle21goRmTrlkW8kqbtD+3HVtt2EItKVu
+	bri8=
+X-Received: by 2002:a5d:5f41:0:b0:48e:c84:5be6 with SMTP id ffacd0b85a97d-48e3859498fmr1687114f8f.14.1792737577617;
+        Thu, 22 Oct 2026 23:39:37 -0700 (PDT)
+Received: from [192.168.1.22] (cst-prg-49-173.cust.vodafone.cz. [46.135.49.173])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 23:39:34 -0700 (PDT)
+From: Tomeu Vizoso <tomeu.vizoso@gmail.com>
+X-Google-Original-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH v3 00/16] New DRM accel driver for Texas Instruments' C7x
+ DSPs
+Date: Fri, 23 Oct 2026 08:39:25 +0200
+Message-Id: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,66 +95,209 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
-To: Christian Brauner <brauner@kernel.org>
-CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
-	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
-	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
-	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
-	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
-	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
-	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
-	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
-	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
-	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
-	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
-	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
-	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
-	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
-	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
-	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
-	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
-	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
-	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
-	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
-	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
-	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
-	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
-	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
-	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
-	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-References: <20261015125425.3246251-1-caixinchen1@huawei.com>
- <20261015125425.3246251-2-caixinchen1@huawei.com>
- <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
-Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- whupemk100010.china.huawei.com (7.152.184.41)
+X-B4-Tracking: v=1; b=H4sIAB0B22oC/2WMQQ6CMBBFr0JmbU3bwZK64h7GRQOjzAJq2tqoh
+ LtbWBgTlm/mvzdDpMAU4VzNEChzZD8VwEMF3eCmOwnuC4OW2kilUKTBjRQFYq1043RvVQ9l/Ah
+ 049cWulwLDxyTD++tm9V63SWyElJYi1aWh8Wma5Mf6Zn546M/TpRgDWX9L9c/WReZbO2MQUPyJ
+ Pfysixfz8MqRN8AAAA=
+X-Change-ID: 20260113-thames-334127a2d91d
+To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
+ Randolph Sapp <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, 
+ Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Beleswar Padhi <b-padhi@ti.com>, 
+ Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Markus Elfring <Markus.Elfring@web.de>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Suman Anna <s-anna@ti.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ linux-remoteproc@vger.kernel.org, linux-hardening@vger.kernel.org
+X-Mailer: b4 0.15.2
 
-Thanks for the explanation, you are right.  I will restore the idmap as 
-a separate argument
+This series adds a new DRM accel driver that supports the C7x DSPs
+inside some Texas Instruments SoCs such as the J722S (the only SoC
+currently supported). These can be used as accelerators for various
+workloads, including machine learning inference.
 
-On 10/21/2026 6:21 PM, Christian Brauner wrote:
-> On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
->> notify_change() takes a struct mnt_idmap and a struct dentry even
->> though all of its callers either already hold a struct path (or a
->> struct file) or have to pass &nop_mnt_idmap because no idmapped
->> mount is involved.  Switch the helper and its declaration to take a
->> struct path instead and derive the idmap and dentry from it.
-> No, the idmap needs to be passed separately. The whole point is that
-> during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
-> of the mount at the time it was checked and passed down to the
-> filesystem so that the VFS and the filesystem are guaranteed to see the
-> same idmap.
+This driver attaches to the DSPs through remoteproc and talks to the
+firmware running on them through shared memory and a mailbox. The
+firmware is the accelerator's command processor: the driver pushes Jobs
+onto a per-core Ring in shared memory and rings a mailbox doorbell; the
+firmware runs each Job's Kernel in the DSP's user mode on the client's
+own page table, moves a Fence when the Job is done and rings back.
+
+The kernel driver itself allocates buffers, manages contexts and submits
+jobs to the DSP firmware. It also populates the per-client page tables
+with io-pgtable-arm.
+
+No carveout holds buffers any more: every buffer is the kernel driver's,
+page-backed and mapped through the DSP's MMU in the client's own page
+table, which answers Andrew F. Davis's question on v2. The one reserved
+region the driver uses is the first 256 KiB of the IPC pool, where the
+handshake, the Ring and the Context table live. A buffer that a DMA
+transfer names must be physically contiguous, since the DRU does not
+go through the MMU; the client asks for that at creation.
+
+If there is more than one C7x DSP core, the driver will load balance
+jobs between them with drm-gpu-scheduler.
+
+The firmware isolates clients by using its MMU to protect their memory
+and by running their kernels at a lower privilege level.
+
+Besides executing user-generated DSP kernels, the firmware can also
+execute DMA transfers at the request of userspace. These don't go via
+the MMU, so are validated by the kernel driver.
+
+The source code for the firmware running on the DSP is available at:
+https://gitlab.freedesktop.org/tomeu/thames-firmware/ mostly under the MIT
+license. The ABI with the firmware is defined in a shared header with
+versioning.
+
+Known limitations of this version:
+
+- Runtime power management is not implemented (system suspend and
+  resume are).
+- The J722S EVM does not resume from s2idle with TI's shipped
+  system-controller firmware, so the resume path ran only in the
+  driver's own tests; the suspend path ran on the board.
+- The submit IOCTL waits on no sync object, which a Vulkan driver will
+  need.
+- The 4D block move is the only DMA transfer type accepted.
+- One firmware image serves both cores; a core found running another
+  firmware is left out after the handshake's five seconds.
+- The DRU channel stride is stated for the J722S instead of queried.
+- The J722S is the only SoC this version runs on.
+
+Three additions were needed in the device tree bindings:
+
+- power domain references for the two SoC timers the DSP firmware
+  drives, which the remoteproc driver does not hold;
+- a second mailbox doorbell, since remoteproc's own serves rpmsg and
+  this firmware rings the Ring's; and
+- reg entries for the AUX SRAM and the DMA engine's registers, which
+  the driver maps into every client's page table.
+
+Everything else is done in userspace, as a Gallium driver (also called
+thames) that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+
+Userspace portion of the driver: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39298
+
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+---
+Changes in v3:
+- Shared-memory ring and mailbox doorbell replace rpmsg
+- The kernel driver writes the client page tables
+- Buffers are bound at userspace-chosen DSP addresses
+- Kernels run in the DSP's user mode; faults reported per job
+- DRU transfers submitted by userspace, checked and translated by the kernel driver
+- System suspend and resume
+- Versioned firmware ABI; hardware ID reported and checked against the SoC
+- Firmware rewritten bare-metal, MIT
+- Link to v2: https://lore.kernel.org/r/20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net
+
+Changes in v2:
+- Add thames_accel.h UAPI header (Robert Nelson).
+- Link to v1: https://lore.kernel.org/r/20260113-thames-v1-0-99390026937c@tomeuvizoso.net
+
+To: Bjorn Andersson <andersson@kernel.org>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Suman Anna <s-anna@ti.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+To: Oded Gabbay <ogabbay@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Kees Cook <kees@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+To: Christian König <christian.koenig@amd.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Nishanth Menon <nm@ti.com>
+To: Vignesh Raghavendra <vigneshr@ti.com>
+To: Tero Kristo <kristo@kernel.org>
+Cc: linux-remoteproc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-hardening@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+
+---
+Tomeu Vizoso (16):
+      dt-bindings: remoteproc: k3-dsp: Add the L2 auxiliary and DRU regions
+      dt-bindings: remoteproc: k3-dsp: Allow a second sub-mailbox
+      dt-bindings: remoteproc: k3-dsp: Allow referencing the timers' power domains
+      accel/thames: Add header with IPC definitions
+      accel/thames: Add driver for the C7x DSPs in TI SoCs
+      accel/thames: Create a context per client on device open
+      accel/thames: Add IOCTLs for BO creation and mapping
+      accel/thames: Add support for submitting DMA operations
+      accel/thames: Add IOCTLs for job creation and submission
+      accel/thames: Recover from faults and timeouts
+      accel/thames: Add IOCTL for memory synchronization
+      accel/thames: Install memory mappings populated and dirty
+      Documentation: accel/thames: Add initial docs
+      arm64: dts: ti: k3-j722s: Add the AUX L2 SRAM and DRU regions
+      arm64: dts: ti: k3-j722s: Add second submailbox to the C7x cores
+      arm64: dts: ti: k3-j722s: Reference the power domains of the C7x timers
+
+ Documentation/accel/index.rst                      |    1 +
+ Documentation/accel/thames/index.rst               |   47 +
+ .../bindings/remoteproc/ti,k3-dsp-rproc.yaml       |   33 +-
+ MAINTAINERS                                        |    9 +
+ arch/arm64/boot/dts/ti/k3-j722s-main.dtsi          |   16 +-
+ .../boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi      |   27 +-
+ arch/arm64/boot/dts/ti/k3-j722s.dtsi               |    4 +
+ drivers/accel/Kconfig                              |    1 +
+ drivers/accel/Makefile                             |    3 +-
+ drivers/accel/thames/Kconfig                       |   27 +
+ drivers/accel/thames/Makefile                      |   12 +
+ drivers/accel/thames/thames_abi.h                  |  238 ++++
+ drivers/accel/thames/thames_core.c                 |  867 +++++++++++++
+ drivers/accel/thames/thames_core.h                 |  120 ++
+ drivers/accel/thames/thames_device.h               |   97 ++
+ drivers/accel/thames/thames_drv.c                  |  554 ++++++++
+ drivers/accel/thames/thames_drv.h                  |   67 +
+ drivers/accel/thames/thames_gem.c                  | 1077 ++++++++++++++++
+ drivers/accel/thames/thames_gem.h                  |   77 ++
+ drivers/accel/thames/thames_job.c                  | 1319 ++++++++++++++++++++
+ drivers/accel/thames/thames_job.h                  |   81 ++
+ drivers/accel/thames/thames_trace.h                |   77 ++
+ drivers/accel/thames/thames_transfers.c            |  405 ++++++
+ drivers/accel/thames/thames_transfers.h            |   52 +
+ include/uapi/drm/thames_accel.h                    |  843 +++++++++++++
+ 25 files changed, 6043 insertions(+), 11 deletions(-)
+---
+base-commit: 1ecab8b0bad393750c60cc3819ce9c256595463c
+change-id: 20260113-thames-334127a2d91d
+
+Best regards,
+--  
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
+
