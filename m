@@ -1,90 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737592;
-	b=E7lFpzTyc9XcKqkk4c94K7wgfJdNFR/JhcMLTQoNg/eIrhT08Ob7pTrmucRG4FqiGzPC
-	 rFI13ZFnXHUjz8sXjeftOVCMJnZLr6JabC7OWSR3BXd7QamQyHGtgCoc6xgQmQAuUTKF/
-	 uimCeJgCG+c68rxCk7eMSUi901JY7XKZ2KE+8saDXtgLdSGN96LLMTH4Drn+vLRK9lIRM
-	 rl4mGNimC3Ftx5ugQwmdEl0x7bX6LcLK1iy8mzxLiRED1DDTL4N1HZx32Q34ORzE9mOYl
-	 n7/pZtw1+TSx8EO+XFgKebjTID2BhlKvwaqn3CI52yB/P+x0Y8XGRUCwkQynzC3tfqg==
+	t=1792737603;
+	b=n6NXBM9p/kjrL0ZyRR5b6mz35P/jT53q+/qJi/WnrpQ5B2+u+OX16zII0Bj8k9K3TiZt
+	 sPoP1xiidzoOQIpRIj49PVdwNtibQzbCnGgYgQibP+q4xSPQ2PhtEulpRwOlKRctfisK8
+	 j5VFH+j8gxEOGKclmy66c8sjsds0ZysM5DbHflGmo/NLYR0BYNjZS/dVYNkX5RcBl6cKC
+	 sBlr9cnGbF11UfZhiC/kG7R9uI04V5TmmgZRZPLzVQv4ToCd4wDguwE5RVijo9cWEM567
+	 wfVufK6p58RLuJRF0Hp7G5jw+7hbC14MSmWMJz9ZO3n4uGBds6NZ4JlCvzaQdYUF2og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737592;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737603;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:X-Google-Original-From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=+kWBOdNA2CLKnF7HvCdhEAOcKVb/1PjdN+3pUhazcPM=;
-	b=dzOz/Ry7mdrd/Y+zj8P+xKeMwXqnEF9lq7NRiWCNRZmt1QMN/GckGBu9r0qiTafsVn0U
-	 8YRefbJfY3d6aEypfcTTgGQ/XgHWDAxAZ/079h71WlhPQM/J8QKnWfFJHi0pW6D/VrxYI
-	 J6UYNmTst46/KpjyS1h1OXWLHZ9m8NLRJ0iWEcS0E7a4QLpD9xCCSlVkyat7ZnQoawN2X
-	 1GiGQcDTDzSceZdN2IWaO5g/d3B3aQMx/bzrk+Q+UdtKqZa6zjrzC2tdGfFy5qiq1qndE
-	 oCg/VOnv7/+jvNbRRN9dhbdQr5FE8mUPr4LbcAy8VGNbmNpLnUuGZr1s5fdgeMktwWQ==
+	bh=JjhEm+Zzj8+ZQICx4K5pWitdAhWNMVvCik8KE2MS864=;
+	b=nMdp2KRonNoUVwDe1hGlk5ruTUmErlaWory8SG64EaKwKCYRDmdPzDnGfFnpwC3SfG/n
+	 rM4lGf4q5FToAAyf5R+glBu5315O/NdUJiiaBcweBMJhSuy+NzEwEb/zE3v1RClqOXlG+
+	 d1IaCZvkUCB3ktOylkPzBFZIOCHnSgNrKXVAloqMbvAFuyLrzi1lDotzE3jL4brXlnPmp
+	 gL3uP1MKzVPl2OlY0ecHpMPfZJBSYAcrPWDXt2qv83U2u5K0j9hAYbKjRPnBaq4R57ngM
+	 mH5XlGa+oimvzTD6/z+PdETyVlMoa+RC7xG652UmSkdFAp5P14ewkeWyhQYgq3FVSUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FMd9z65R;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=g+nvDFQY;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78018606A32C
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:39:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78018606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E403606A337
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:40:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E403606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FMd9z65R
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so388172f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:39:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=g+nvDFQY
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e0d1da913so334434f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:40:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792737590; x=1793342390; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792737600; x=1793342400; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+kWBOdNA2CLKnF7HvCdhEAOcKVb/1PjdN+3pUhazcPM=;
-        b=FMd9z65RUUHdjWakeOsijZeOImEUCgbnmOCqjd2u+NxgLR64dJfW1HN6kCLtlObDaZ
-         3gtCQX8lRUBhtNzTUvy9XaEkuUNDyyLrKMG1GWoljw/M8HI4TfrM15wIEHyfOx4k4vaf
-         s1y5qTL8XTGeh9cZ2uz2lyjn/dOcoHM+LU9X5qIjG9b+39sLBRC6kKmMR9aqc0AFu0es
-         ysyGNh6iy3PnWaR8YfVTNUsTiwjs3qeOHS6+qR+Vs2xT6qJ4vsLRLqlkjHa55mhi0/4K
-         Tv+Bz3wiphVv8fvw8QKRAXlaphr8i67XRzLB/L8mvviQBlbY3CuBIxy9+JxZQUu9rRPG
-         rC7Q==
+        bh=JjhEm+Zzj8+ZQICx4K5pWitdAhWNMVvCik8KE2MS864=;
+        b=g+nvDFQY3hXMORoyDlcCVq7c+ZYLHaEEtYzBxDT36CHV3MjTNBRot0/1UhsyjhynUM
+         gIKq4N5ARNamKGH2hsOqHegoHjyBWA2ZpWl/+TTo5rAwJ3dvMfaTCowxFe70S7dJwMSH
+         ARax0fuevHzmyGu34KpFtjMuO5KyyaS1MtKP3sn67f/nJSd0G5uLXEU117LcwYLeugRA
+         wH7WCVbaCwU34kPtTb9qY1vgxo3zCaMLT6nPV2SqFHKZU/mGdhAW4cHG4QMe400xw17J
+         b9K2X28s8MFk9KSHu+zzcyP8z3mxf1ts5qx7IAGQrn8ApfU+9A318OsXA/lqFxukw2MT
+         xIMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792737590; x=1793342390;
+        d=1e100.net; s=20260707; t=1792737600; x=1793342400;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+kWBOdNA2CLKnF7HvCdhEAOcKVb/1PjdN+3pUhazcPM=;
-        b=Xdd+9elM22ofU/Og3+htJJgLWd9+LoIT89vnpnxBQGQ9XhHZlhjR6M6b2upUqzyMjM
-         hyrDAMKxRpsMsyDCFuw3+dqJIMEE4HgNjeXJfjwbVINsP3a2FScsRUV1YhQe7Se+VY3r
-         AwAdp34ifQIpUeGxmwC26cmHzWC7WUtiBoabi1KSWgCImG5gFaZjZEunCa3tsisqbTeY
-         2iQwv4RcopZ59gO5c2bSy/hkJ2UY6y6Exf3Ox+tXU7fc4L60RMFbArq2d6pP6rpu+F+j
-         FKu6vbdmW8GhQAtqw8ZqyI8GsdE9z2BsDDxr4M1nJlMPixGjiiQzHtCEz8aEHqDVKeBr
-         C2OQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxmmAT7pAXivrg30/XA8TkXMNBd0SJE5cwNcakH0Y5912d/FFRMPbkociLTH3r8yPFXGYzvLso1AtE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLfh9PsxJfb8rb5PJmnFvEUAUluyzpZ+p/bLJUM83mWutmnj9zR
-	QmwpXfATW2L5sxNuDS6HYsgF182o1A2n5bWJApm7oGZJVwPkXo0Cx9AS
-X-Gm-Gg: AYBFou1MiLvPfwCfG2waAEcCTGBnGDn0T9FrnGZ99MXuv5Uf5hTx8r619n0otir7Fv7
-	31T/u282kK6MAvbzrOXK25UfWqtGpcf6b9KbGl5LCm9gG9opwdhvu1jwdO8wgll9qwkfrtZr65b
-	+kENBpSwkRv6fkg0PbuFLez7Ki347B1rsvf7r0oeq7CKcq41gw0jGd3NQHbNHouhUgtvECqHxY9
-	e5GcET2esxK5feaQMmZFfXT82E2Nte7p5hiXnVMdh7GeGMcJ9Un7LNBeEiIvjhWiVUTlNoxZ0dz
-	B1XC2w9gXGpTzkrHuVZwnUfWE9SKVGocUmY6/1FnluSax5m5x02IwK2mKZYSaK84I9uXS1UpMgK
-	DV/VkTaFrhfdwTe9fKP0uAZEDxglR1DcDlWdWSntQty+6vVvwZUZF3prEKUG4TVkMtqwJCGBSBY
-	DcPOrLcWf4s4V3DHFetlkNJVX3G3DaywV6IURiTZ2ABTEt1Qn6gjTbw0JfKfNnaf3J+kG/7K54g
-	QALunzER/hkPEQa9V6xS1MC0YUqc5HO0FzIpjre1eWo4/s3tOXRAL74AEdCZU+6zJqe8cAmmzKS
-	fS7JZ/rJ8PciL46vOAkQriC9Ype0O/zGD15AkjIS952tNOXG3sEWHoaYY1kpWj9MIh/rZ/w2Zmz
-	cSIU=
-X-Received: by 2002:a5d:5f45:0:b0:48e:37dc:7ff8 with SMTP id ffacd0b85a97d-48e385a74dcmr1543864f8f.22.1792737589779;
-        Thu, 22 Oct 2026 23:39:49 -0700 (PDT)
+        bh=JjhEm+Zzj8+ZQICx4K5pWitdAhWNMVvCik8KE2MS864=;
+        b=Z0MMkD+sPKCpeM5aVQ2p9PT+B+Y4Z2Fuuok3qcbMH6tcgG7YB8/VbNPeNm7SRijAoS
+         1DcMOA014d8zimqOVbjEpa37/uUOxDU3iMFautG3YZvoq3w6aEWBETePLLhIXaV6m9Z2
+         U/tA4OpqPvg590to1FQuXcycLnWEh9zJzyjMbXS/i1pj886cydpxXDjD+p6Dz3JSto6v
+         XB3Xxa82y8np3PsuJP4EfNtjbv2A0sN/aNqN269GcWask2+DyO4keV8mAeUV8Z5TR67m
+         zmZyLZYv8fjnujXIIj5vzszM3iPMDZTtHwTJtWqGdxiWS6/YM9/L3Amu/e1+Z+mSuGgO
+         lFeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzPDM9w9LZICHrVnIjhQmDFtgY7Wmu+ihcsLvje7pM0p9ppzo0P/ayuk0XsUOfB+mAXAoF0y9ArSV4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLUE8A9b55/RSs1vJ4sfsN+4K7YltXtY4kB5wyWGtFOUyISZfRe
+	SWnv76dDQgn0wMhqThoQZN4YrG3pbuj3+KDRKhQ5ENUD16WDpUBb8Uwq
+X-Gm-Gg: AYBFou2CLFpqpZt8BSUb5t+Z31xtC7pXaGv+doa9arMyeq0BVdoJa92NpaWB7uOUQxW
+	cIlbijkK2R3rHlUQmSXdoYcicIH0ufwwTzcb+oqTOJteElA8Par8SZmBy3F0kRNdUDutGXMtrqB
+	QHZ2GZWLOME9Jzl6YznEXEoDnV3XTGOD+57FpLMG1IgiepelfLK4SrlpzIz/N+C8MYtMnTk5T/B
+	Ta6ZBv4UNRyoyg8CdSjZ9KoxULkx5kMC03xhEEJeQm28zZEtpTrarnbPOU53EgQQqeHT4aSE69s
+	l0B3t8y93+0ai96Sg0eSB6VVSHq21zWLORL/J+f7kyIGqDBtvQDLCY3Cufoip6VQK47F/VCgiXV
+	E5LvNpBWaAJUMPcPBmGEBLrEygcu2hb2w62tXdkxbJGGF74EPccLTHQB/kNg7cicTd0lwGs6gmg
+	gh0HELMCMdpmNZLmB2Elx3yBaTQk9uKu2sI8yOjynYEWX4sxxKDefUjRExNhIZU314mbWjp0tGb
+	E+0rc3gLBlu9Ks+BBXOGAfqTLh4a6gHA/OK+nGn5xmFYR/A1TFnZ8W93E50DetIO2wT6UWzGX/z
+	fbpxZlw+hHmQbRVPWCcShNoGLPZv+81tZIwbvYEgaxd+4fHpXnCNoZH6eAsfVSWWsYzDkRlRA6U
+	umyE=
+X-Received: by 2002:a05:6000:186b:b0:48e:1b11:7ee6 with SMTP id ffacd0b85a97d-48e3854e373mr1738767f8f.2.1792737599792;
+        Thu, 22 Oct 2026 23:39:59 -0700 (PDT)
 Received: from [192.168.1.22] (cst-prg-49-173.cust.vodafone.cz. [46.135.49.173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.39.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.39.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 23:39:48 -0700 (PDT)
+        Thu, 22 Oct 2026 23:39:58 -0700 (PDT)
 From: Tomeu Vizoso <tomeu.vizoso@gmail.com>
 X-Google-Original-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Fri, 23 Oct 2026 08:39:29 +0200
-Subject: [PATCH v3 04/16] accel/thames: Add header with IPC definitions
+Date: Fri, 23 Oct 2026 08:39:32 +0200
+Subject: [PATCH v3 07/16] accel/thames: Add IOCTLs for BO creation and
+ mapping
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,7 +97,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-thames-v3-4-3ab40aa17157@tomeuvizoso.net>
+Message-Id: <20261023-thames-v3-7-3ab40aa17157@tomeuvizoso.net>
 References: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 In-Reply-To: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
@@ -127,23 +128,29 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, linux-hardening@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-This header defines constants and structs used by both the kernel driver
-and the firmware for communication.
+Creation returns a handle and maps nothing. The client maps a buffer
+with DRM_IOCTL_THAMES_BO_BIND at a DSP address of its choice, as a
+Vulkan driver would; the kernel enters the mapping in the page table
+of every core, because we cannot know upfront which core will run a
+given job.
 
-It is versioned following Sound Open Firmware's conventions with some
-measures to avoid having to increase the major (incompatible) version.
+We use the SHMEM helpers for non-contiguous memory. Contiguous memory
+comes from the driver's own allocator, which aligns a buffer of 2 MiB or
+more to 2 MiB so it can be mapped as blocks; only the GEM DMA object
+and its mmap and vmap helpers are used for it.
 
-An identical copy is in the firmware's code.
+Contiguous memory is needed for buffers that are going to be read from
+or written into by the DRU, as it doesn't resolve addresses via the MMU.
 
-Every structure is laid out on 128-byte lines, the coherence line of
-the C7x, with the words the host writes and the words the firmware
-writes on different lines. The Ring has 64 entries and a fault record
-per entry; the Context table has 64 entries, the ASID width the
-firmware reports permitting. The Kernels' stack and save area sit at a
-fixed address in every Context, above 1 TiB, so the firmware's user-mode
-entry needs no per-Context setup. The host writes a random challenge
-into the Ring and the firmware echoes it in the handshake, which tells
-this boot's handshake from one an earlier firmware left in the memory.
+Binding at an address the client chooses lets a program be compiled,
+with its addresses fixed, on a machine without the hardware, and is what
+a Vulkan driver needs.
+
+A buffer is bound anywhere from 4 GiB up to the user region at 1 TiB; a
+buffer shared through a dma-buf may be bound in several Contexts, so
+the bindings are kept under one device-wide lock. The IOCTLs take their
+arrays as versioned objects whose stride is the size userspace was
+built against, so a structure can grow under a minor bump.
 
 Assisted-by: LLM
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
@@ -151,255 +158,930 @@ Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
 
 v3:
-- Initial version.
----
- drivers/accel/thames/thames_abi.h | 238 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 238 insertions(+)
+- Added read-only, executable and contiguous flags.
+- Added BO_BIND IOCTL.
+- Copy the IOCTLs' arrays with vmemdup_array_user(), through one helper
+  for versioned arrays (Tvrtko Ursulin).
 
-diff --git a/drivers/accel/thames/thames_abi.h b/drivers/accel/thames/thames_abi.h
-new file mode 100644
-index 000000000000..8f8b8323f747
---- /dev/null
-+++ b/drivers/accel/thames/thames_abi.h
-@@ -0,0 +1,238 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/* Copyright (C) 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-+#ifndef __THAMES_ABI_H__
-+#define __THAMES_ABI_H__
+v2:
+- Add thames_accel.h UAPI header (Robert Nelson).
+---
+ drivers/accel/thames/Kconfig         |   2 +
+ drivers/accel/thames/thames_device.h |   6 +
+ drivers/accel/thames/thames_drv.c    |  47 +++++
+ drivers/accel/thames/thames_drv.h    |   5 +
+ drivers/accel/thames/thames_gem.c    | 398 +++++++++++++++++++++++++++++++++++
+ drivers/accel/thames/thames_gem.h    |  21 ++
+ include/uapi/drm/thames_accel.h      | 183 +++++++++++++++-
+ 7 files changed, 661 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/accel/thames/Kconfig b/drivers/accel/thames/Kconfig
+index 9362b9274075..47a2986fcabd 100644
+--- a/drivers/accel/thames/Kconfig
++++ b/drivers/accel/thames/Kconfig
+@@ -6,6 +6,8 @@ config DRM_ACCEL_THAMES
+ 	depends on TI_K3_DSP_REMOTEPROC
+ 	depends on REMOTEPROC
+ 	depends on MAILBOX
++	select DRM_GEM_DMA_HELPER
++	select DRM_GEM_SHMEM_HELPER
+ 	select IOMMU_IO_PGTABLE_LPAE
+ 	help
+ 	  Choose this option if you have a Texas Instruments J722S and want to
+diff --git a/drivers/accel/thames/thames_device.h b/drivers/accel/thames/thames_device.h
+index e89e0dfd89b8..a1a54d974359 100644
+--- a/drivers/accel/thames/thames_device.h
++++ b/drivers/accel/thames/thames_device.h
+@@ -58,6 +58,12 @@ struct thames_device {
+ 	struct list_head contexts;
+ 	struct mutex contexts_lock;
+ 
++	/*
++	 * One lock for the device: a dma-buf shared buffer is bound from
++	 * several files.
++	 */
++	struct mutex bindings_lock;
 +
-+/* Shared with the firmware, whose copy is byte-equal. */
-+#ifdef __KERNEL__
-+#include <linux/types.h>
-+#include <linux/stddef.h>
-+#include <linux/build_bug.h>
-+#else
-+#include <stdint.h>
-+#include <stddef.h>
-+typedef uint8_t __u8;
-+typedef uint16_t __u16;
-+typedef uint32_t __u32;
-+typedef uint64_t __u64;
-+#endif
+ };
+ 
+ #define to_thames_device(drm_dev) \
+diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
+index cb0287430d25..a17e7a90f7c1 100644
+--- a/drivers/accel/thames/thames_drv.c
++++ b/drivers/accel/thames/thames_drv.c
+@@ -93,6 +93,41 @@ static void thames_postclose(struct drm_device *dev, struct drm_file *file)
+ 	thames_file_priv_put(thames_priv);
+ }
+ 
++void *thames_get_uobj_array(const struct drm_thames_obj_array *in, u32 min_stride, u32 obj_size)
++{
++	void __user *in_ptr = u64_to_user_ptr(in->array);
++	void *out, *out_ptr;
++	int ret;
++	u32 i;
 +
-+#ifndef THAMES_ABI_ASSERT
-+#ifdef __KERNEL__
-+#define THAMES_ABI_ASSERT(expr, msg) static_assert(expr, msg)
-+#else
-+#define THAMES_ABI_ASSERT(expr, msg) _Static_assert(expr, msg)
-+#endif
-+#endif
++	if (!in->count)
++		return NULL;
 +
++	if (in->stride < min_stride)
++		return ERR_PTR(-EINVAL);
++
++	if (in->stride == obj_size)
++		return vmemdup_array_user(in_ptr, in->count, obj_size);
++
++	out = kvmalloc_array(in->count, obj_size, GFP_KERNEL);
++	if (!out)
++		return ERR_PTR(-ENOMEM);
++
++	out_ptr = out;
++	for (i = 0; i < in->count; i++) {
++		ret = copy_struct_from_user(out_ptr, obj_size, in_ptr, in->stride);
++		if (ret) {
++			kvfree(out);
++			return ERR_PTR(ret);
++		}
++
++		out_ptr += obj_size;
++		in_ptr += in->stride;
++	}
++
++	return out;
++}
++
+ #define THAMES_DRIVER_MAJOR 1
+ #define THAMES_DRIVER_MINOR 0
+ 
+@@ -121,6 +156,8 @@ static int thames_query_caps(struct drm_device *dev, struct drm_thames_dev_query
+ 		.l2_aux.dsp_va = thames_window_va(tdev, THAMES_WINDOW_L2AUX),
+ 		.l2_aux.size = reported->window_sizes[THAMES_WINDOW_L2AUX],
+ 		.dru_realtime_dsp_va = thames_window_va(tdev, THAMES_WINDOW_DRU),
++		.dsp_va_range.dsp_va = THAMES_BIND_VA_START,
++		.dsp_va_range.size = THAMES_BIND_VA_END - THAMES_BIND_VA_START,
+ 		.user_region.dsp_va = THAMES_USER_REGION_BASE,
+ 		.user_region.size = THAMES_USER_REGION_SIZE,
+ 		.hardware_id = reported->hardware_id,
+@@ -165,11 +202,17 @@ static int thames_ioctl_##func##_entered(struct drm_device *dev, void *data,	\
+ 	return ret;								\
+ }
+ 
++THAMES_IOCTL_ENTERED(bo_create)
++THAMES_IOCTL_ENTERED(bo_mmap_offset)
+ THAMES_IOCTL_ENTERED(dev_query)
++THAMES_IOCTL_ENTERED(bo_bind)
+ 
+ static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
+ #define THAMES_IOCTL(n, func) DRM_IOCTL_DEF_DRV(THAMES_##n, thames_ioctl_##func, 0)
++	THAMES_IOCTL(BO_CREATE, bo_create_entered),
++	THAMES_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset_entered),
+ 	THAMES_IOCTL(DEV_QUERY, dev_query_entered),
++	THAMES_IOCTL(BO_BIND, bo_bind_entered),
+ };
+ 
+ DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
+@@ -234,6 +277,10 @@ static struct thames_device *thames_device_init(struct platform_device *pdev,
+ 	if (err)
+ 		return ERR_PTR(err);
+ 
++	err = drmm_mutex_init(&tdev->ddev, &tdev->bindings_lock);
++	if (err)
++		return ERR_PTR(err);
++
+ 	INIT_LIST_HEAD(&tdev->contexts);
+ 
+ 	tdev->asid_next = 1;
+diff --git a/drivers/accel/thames/thames_drv.h b/drivers/accel/thames/thames_drv.h
+index f4536078e02f..7f9031b63780 100644
+--- a/drivers/accel/thames/thames_drv.h
++++ b/drivers/accel/thames/thames_drv.h
+@@ -15,6 +15,7 @@
+ #include "thames_device.h"
+ 
+ struct drm_gem_dma_object;
++struct drm_thames_obj_array;
+ 
+ struct thames_file_priv {
+ 	struct thames_device *tdev;
+@@ -37,6 +38,8 @@ struct thames_file_priv {
+ 	struct drm_mm_node user_region;
+ 	struct drm_mm_node window_nodes[THAMES_NUM_WINDOWS];
+ 
++	struct list_head bindings;
++
+ 	u32 context_id;
+ 
+ 	u64 context_serial;
+@@ -47,4 +50,6 @@ struct thames_file_priv {
+ 
+ void thames_file_priv_put(struct thames_file_priv *priv);
+ 
++void *thames_get_uobj_array(const struct drm_thames_obj_array *in, u32 min_stride, u32 obj_size);
++
+ #endif
+diff --git a/drivers/accel/thames/thames_gem.c b/drivers/accel/thames/thames_gem.c
+index b98e0fe203b0..c9fd08c7aaf4 100644
+--- a/drivers/accel/thames/thames_gem.c
++++ b/drivers/accel/thames/thames_gem.c
+@@ -14,6 +14,7 @@
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_timeout.h>
+ #include <drm/thames_accel.h>
+@@ -23,6 +24,30 @@
+ #include "thames_drv.h"
+ #include "thames_gem.h"
+ 
 +/*
-+ * The kernel driver refuses a firmware whose major differs; a newer minor on
-+ * either side is accepted.  A field appended under a minor reads zero from an
-+ * older firmware, which means "not reported".
++ * References neither the buffer nor the Context: whichever goes first removes
++ * it.
 + */
-+#define THAMES_ABI_MAJOR	1
-+#define THAMES_ABI_MINOR	0
-+#define THAMES_ABI_PATCH	0
++struct thames_binding {
++	struct thames_gem_object *bo;
++	struct thames_file_priv *priv;
++	struct drm_mm_node mm;
++	struct list_head bo_link;
++	struct list_head context_link;
++};
 +
-+#define THAMES_ABI_VERSION \
-+	((THAMES_ABI_MAJOR << 24) | (THAMES_ABI_MINOR << 12) | THAMES_ABI_PATCH)
++static int thames_bo_flags_to_prot(u32 flags)
++{
++	int prot = IOMMU_READ | IOMMU_CACHE;
 +
-+#define THAMES_ABI_VERSION_MAJOR(version)	(((version) >> 24) & 0xff)
-+#define THAMES_ABI_VERSION_MINOR(version)	(((version) >> 12) & 0xfff)
-+#define THAMES_ABI_VERSION_PATCH(version)	((version) & 0xfff)
++	if (!(flags & DRM_THAMES_BO_EXECUTABLE))
++		prot |= IOMMU_NOEXEC;
++	if (!(flags & (DRM_THAMES_BO_READ_ONLY | DRM_THAMES_BO_EXECUTABLE)))
++		prot |= IOMMU_WRITE;
 +
++	return prot;
++}
++
+ static size_t thames_pgsize(u64 addr, size_t size, size_t *count)
+ {
+ 	size_t blk_offset = -addr % SZ_2M;
+@@ -95,6 +120,72 @@ static int thames_context_map(struct thames_file_priv *priv, u64 dsp_va, int pro
+ 	return 0;
+ }
+ 
++static void thames_context_unmap(struct thames_file_priv *priv, u64 dsp_va, u64 size)
++{
++	unsigned int c;
++
++	for (c = 0; c < priv->tdev->num_cores; c++)
++		thames_pgtable_unmap(priv->pgtbl_ops[c], dsp_va, size);
++}
++
++struct thames_gem_object *thames_context_find_bo(struct thames_file_priv *priv, u64 start,
++						 u64 end, u64 *offset)
++{
++	struct thames_binding *binding;
++	struct thames_gem_object *bo;
++	struct drm_mm_node *node;
++	unsigned int i;
++
++	guard(mutex)(&priv->mm_lock);
++
++	node = __drm_mm_interval_first(&priv->mm, start, start);
++	if (node == &priv->mm.head_node || node == &priv->first_page ||
++	    node == &priv->user_region)
++		return NULL;
++
++	for (i = 0; i < THAMES_NUM_WINDOWS; i++) {
++		if (node == &priv->window_nodes[i])
++			return NULL;
++	}
++
++	binding = container_of(node, struct thames_binding, mm);
++	bo = binding->bo;
++	if (end > node->start + bo->base.base.size)
++		return NULL;
++
++	if (!kref_get_unless_zero(&bo->base.base.refcount))
++		return NULL;
++
++	*offset = start - node->start;
++
++	return bo;
++}
++
++static struct thames_binding *thames_bo_find_binding(struct thames_gem_object *bo,
++						     struct thames_file_priv *priv)
++{
++	struct thames_binding *binding;
++
++	lockdep_assert_held(&priv->tdev->bindings_lock);
++
++	list_for_each_entry(binding, &bo->bindings, bo_link) {
++		if (binding->priv == priv)
++			return binding;
++	}
++
++	return NULL;
++}
++
++u64 thames_bo_dsp_va(struct thames_gem_object *bo, struct thames_file_priv *priv)
++{
++	struct thames_binding *binding;
++
++	guard(mutex)(&priv->tdev->bindings_lock);
++	binding = thames_bo_find_binding(bo, priv);
++
++	return binding ? binding->mm.start : 0;
++}
++
+ /* Cyclic, so a freed ASID is not handed out again at once. */
+ static int thames_asid_alloc(struct thames_device *tdev)
+ {
+@@ -215,6 +306,7 @@ static int thames_context_map_core_regions(struct thames_file_priv *priv)
+ }
+ 
+ static const struct drm_gem_object_funcs thames_gem_funcs;
++static const struct drm_gem_object_funcs thames_gem_shmem_funcs;
+ 
+ /*
+  * The allocator zeroes through the cache: clean it before the DSP can reach the
+@@ -234,6 +326,7 @@ static struct drm_gem_dma_object *thames_gem_create(struct drm_device *ddev, siz
+ 	if (!bo)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	INIT_LIST_HEAD(&bo->bindings);
+ 	obj = &bo->base.base;
+ 	obj->funcs = &thames_gem_funcs;
+ 	bo->base.map_noncoherent = true;
+@@ -271,6 +364,38 @@ static struct drm_gem_dma_object *thames_gem_create(struct drm_device *ddev, siz
+ 	return ERR_PTR(ret);
+ }
+ 
 +/*
-+ * No coherence line holds both a field the kernel driver writes and one the
-+ * firmware writes.
++ * The DSP reaches these pages only through the page tables, never by a DRU
++ * transfer.
 + */
-+#define THAMES_ABI_LINE_SIZE	128
++static struct thames_gem_object *thames_gem_create_shmem(struct drm_device *ddev, size_t size)
++{
++	struct thames_gem_object *bo;
++	struct sg_table *sgt;
++	int ret;
 +
-+#define THAMES_RING_DEPTH	64
-+#define THAMES_MAX_CONTEXTS	64
++	bo = kzalloc_obj(*bo, GFP_KERNEL);
++	if (!bo)
++		return ERR_PTR(-ENOMEM);
 +
++	INIT_LIST_HEAD(&bo->bindings);
++	bo->shmem.base.funcs = &thames_gem_shmem_funcs;
++
++	ret = drm_gem_shmem_init(ddev, &bo->shmem, PAGE_ALIGN(size));
++	if (ret) {
++		kfree(bo);
++		return ERR_PTR(ret);
++	}
++
++	sgt = drm_gem_shmem_get_pages_sgt(&bo->shmem);
++	if (IS_ERR(sgt)) {
++		drm_gem_object_put(&bo->shmem.base);
++		return ERR_CAST(sgt);
++	}
++
++	return bo;
++}
++
+ static struct drm_gem_dma_object *thames_context_alloc_user_pages(struct thames_file_priv *priv,
+ 								  u64 dsp_va, size_t size)
+ {
+@@ -459,6 +584,7 @@ int thames_context_create(struct thames_file_priv *priv)
+ 
+ 	priv->context_id = ret;
+ 	priv->context_serial = atomic64_inc_return(&tdev->last_context_serial);
++	INIT_LIST_HEAD(&priv->bindings);
+ 
+ 	ret = thames_context_va_init(priv);
+ 	if (ret)
+@@ -500,14 +626,37 @@ int thames_context_create(struct thames_file_priv *priv)
+ 	return ret;
+ }
+ 
++static void thames_binding_remove(struct thames_binding *binding)
++{
++	struct thames_file_priv *priv = binding->priv;
++
++	lockdep_assert_held(&priv->tdev->bindings_lock);
++
++	thames_context_unmap(priv, binding->mm.start, binding->mm.size);
++	thames_context_bump_generation(priv);
++
++	scoped_guard(mutex, &priv->mm_lock)
++		drm_mm_remove_node(&binding->mm);
++
++	list_del(&binding->bo_link);
++	list_del(&binding->context_link);
++	kfree(binding);
++}
++
+ void thames_context_destroy(struct thames_file_priv *priv)
+ {
+ 	struct thames_device *tdev = priv->tdev;
++	struct thames_binding *binding, *tmp;
+ 
+ 	/*
+ 	 * The Context goes after its last pushed Job completed, so no Job runs
+ 	 * on mappings removed here.
+ 	 */
++	scoped_guard(mutex, &tdev->bindings_lock) {
++		list_for_each_entry_safe(binding, tmp, &priv->bindings, context_link)
++			thames_binding_remove(binding);
++	}
++
+ 	scoped_guard(mutex, &tdev->contexts_lock)
+ 		list_del(&priv->context_node);
+ 
+@@ -522,10 +671,124 @@ void thames_context_destroy(struct thames_file_priv *priv)
+ 		priv->context_id, priv->asid);
+ }
+ 
++static int thames_context_map_sgt(struct thames_file_priv *priv, u64 dsp_va, int prot,
++				  struct sg_table *sgt)
++{
++	struct scatterlist *sg;
++	u64 offset = 0;
++	unsigned int i;
++	int ret;
++
++	for_each_sgtable_dma_sg(sgt, sg, i) {
++		ret = thames_context_map(priv, dsp_va + offset, prot, sg_dma_address(sg),
++					 sg_dma_len(sg));
++		if (ret) {
++			thames_context_unmap(priv, dsp_va, offset);
++			return ret;
++		}
++
++		offset += sg_dma_len(sg);
++	}
++
++	return 0;
++}
++
++static int thames_bo_bind(struct thames_file_priv *priv, struct thames_gem_object *bo,
++			  u64 dsp_va)
++{
++	size_t size = bo->base.base.size;
++	int prot = thames_bo_flags_to_prot(bo->flags);
++	struct thames_binding *binding;
++	int ret;
++
++	if (!IS_ALIGNED(dsp_va, PAGE_SIZE))
++		return -EINVAL;
++
++	if (dsp_va < THAMES_BIND_VA_START || dsp_va > THAMES_BIND_VA_END ||
++	    size > THAMES_BIND_VA_END - dsp_va)
++		return -EINVAL;
++
++	binding = kzalloc_obj(*binding);
++	if (!binding)
++		return -ENOMEM;
++
++	binding->bo = bo;
++	binding->priv = priv;
++	binding->mm.start = dsp_va;
++	binding->mm.size = size;
++
++	ret = mutex_lock_interruptible(&priv->tdev->bindings_lock);
++	if (ret)
++		goto err_free;
++
++	if (thames_bo_find_binding(bo, priv)) {
++		ret = -EBUSY;
++		goto err_unlock;
++	}
++
++	scoped_guard(mutex, &priv->mm_lock)
++		ret = drm_mm_reserve_node(&priv->mm, &binding->mm);
++	if (ret)
++		goto err_unlock;
++
++	if (bo->flags & DRM_THAMES_BO_CONTIGUOUS)
++		ret = thames_context_map(priv, dsp_va, prot, bo->base.dma_addr, size);
++	else
++		ret = thames_context_map_sgt(priv, dsp_va, prot, bo->shmem.sgt);
++	if (ret) {
++		scoped_guard(mutex, &priv->mm_lock)
++			drm_mm_remove_node(&binding->mm);
++		goto err_unlock;
++	}
++
++	list_add_tail(&binding->bo_link, &bo->bindings);
++	list_add_tail(&binding->context_link, &priv->bindings);
++	mutex_unlock(&priv->tdev->bindings_lock);
++
++	return 0;
++
++err_unlock:
++	mutex_unlock(&priv->tdev->bindings_lock);
++err_free:
++	kfree(binding);
++	return ret;
++}
++
++static int thames_bo_unbind(struct thames_file_priv *priv, struct thames_gem_object *bo)
++{
++	struct thames_binding *binding;
++	int ret;
++
++	ret = mutex_lock_interruptible(&priv->tdev->bindings_lock);
++	if (ret)
++		return ret;
++
++	binding = thames_bo_find_binding(bo, priv);
++	if (binding)
++		thames_binding_remove(binding);
++	else
++		ret = -EINVAL;
++
++	mutex_unlock(&priv->tdev->bindings_lock);
++	return ret;
++}
++
++static void thames_bo_unmap_from_device(struct thames_gem_object *bo)
++{
++	struct thames_device *tdev = to_thames_device(bo->base.base.dev);
++	struct thames_binding *binding, *tmp;
++
++	guard(mutex)(&tdev->bindings_lock);
++	list_for_each_entry_safe(binding, tmp, &bo->bindings, bo_link)
++		thames_binding_remove(binding);
++}
++
+ static void thames_gem_bo_free(struct drm_gem_object *obj)
+ {
+ 	struct thames_gem_object *bo = to_thames_bo(obj);
+ 
++	thames_bo_unmap_from_device(bo);
++
+ 	if (bo->alloc_vaddr)
+ 		dma_free_noncoherent(drm_dev_dma_dev(obj->dev), bo->alloc_size, bo->alloc_vaddr,
+ 				     bo->alloc_dma, DMA_TO_DEVICE);
+@@ -535,6 +798,16 @@ static void thames_gem_bo_free(struct drm_gem_object *obj)
+ 	kfree(bo);
+ }
+ 
++static void thames_gem_shmem_bo_free(struct drm_gem_object *obj)
++{
++	struct thames_gem_object *bo = to_thames_bo(obj);
++
++	thames_bo_unmap_from_device(bo);
++
++	drm_gem_free_mmap_offset(obj);
++	drm_gem_shmem_free(&bo->shmem);
++}
++
+ static const struct drm_gem_object_funcs thames_gem_funcs = {
+ 	.free = thames_gem_bo_free,
+ 	.print_info = drm_gem_dma_object_print_info,
+@@ -544,3 +817,128 @@ static const struct drm_gem_object_funcs thames_gem_funcs = {
+ 	.vm_ops = &drm_gem_dma_vm_ops,
+ };
+ 
++static const struct drm_gem_object_funcs thames_gem_shmem_funcs = {
++	.free = thames_gem_shmem_bo_free,
++	.print_info = drm_gem_shmem_object_print_info,
++	.pin = drm_gem_shmem_object_pin,
++	.unpin = drm_gem_shmem_object_unpin,
++	.get_sg_table = drm_gem_shmem_object_get_sg_table,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
++	.mmap = drm_gem_shmem_object_mmap,
++	.vm_ops = &drm_gem_shmem_vm_ops,
++};
++
++int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_create *args = data;
++	struct thames_gem_object *bo;
++	struct drm_gem_dma_object *mem;
++	int ret;
++
++	if (args->handle)
++		return -EINVAL;
++
++	if (!args->size)
++		return -EINVAL;
++
++	if (args->flags & ~(DRM_THAMES_BO_READ_ONLY | DRM_THAMES_BO_EXECUTABLE |
++			    DRM_THAMES_BO_CONTIGUOUS))
++		return -EINVAL;
++
++	if (args->flags & DRM_THAMES_BO_CONTIGUOUS) {
++		mem = thames_gem_create(ddev, args->size);
++		if (IS_ERR(mem))
++			return PTR_ERR(mem);
++		bo = to_thames_bo(&mem->base);
++	} else {
++		bo = thames_gem_create_shmem(ddev, args->size);
++		if (IS_ERR(bo))
++			return PTR_ERR(bo);
++	}
++
++	bo->flags = args->flags;
++
++	ret = drm_gem_handle_create(file, &bo->base.base, &args->handle);
++	drm_gem_object_put(&bo->base.base);
++	if (ret) {
++		dev_err(ddev->dev, "Failed to create gem handle: %d", ret);
++		return ret;
++	}
++
++	args->size = bo->base.base.size;
++
++	return 0;
++}
++
++static int thames_bind_exec_op(struct drm_file *file, const struct drm_thames_bind_op *op)
++{
++	struct thames_file_priv *priv = file->driver_priv;
++	struct drm_gem_object *obj;
++	int ret;
++
++	if (op->flags & ~DRM_THAMES_BIND_OP_UNBIND)
++		return -EINVAL;
++
++	if ((op->flags & DRM_THAMES_BIND_OP_UNBIND) && op->dsp_va)
++		return -EINVAL;
++
++	obj = drm_gem_object_lookup(file, op->handle);
++	if (!obj)
++		return -ENOENT;
++
++	if (op->flags & DRM_THAMES_BIND_OP_UNBIND)
++		ret = thames_bo_unbind(priv, to_thames_bo(obj));
++	else
++		ret = thames_bo_bind(priv, to_thames_bo(obj), op->dsp_va);
++
++	drm_gem_object_put(obj);
++
++	return ret;
++}
++
++int thames_ioctl_bo_bind(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_bind *args = data;
++	struct drm_thames_bind_op *ops;
++	int ret = 0;
++	u32 i;
++
++	if (args->flags || args->pad)
++		return -EINVAL;
++
++	ops = thames_get_uobj_array(&args->ops, sizeof(*ops), sizeof(*ops));
++	if (IS_ERR(ops))
++		return PTR_ERR(ops);
++
++	for (i = 0; i < args->ops.count; i++) {
++		ret = thames_bind_exec_op(file, &ops[i]);
++		if (ret) {
++			args->ops.count = i;
++			break;
++		}
++	}
++
++	kvfree(ops);
++
++	return ret;
++}
++
++int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_mmap_offset *args = data;
++	struct drm_gem_object *obj;
++
++	if (args->pad)
++		return -EINVAL;
++
++	obj = drm_gem_object_lookup(file, args->handle);
++	if (!obj)
++		return -ENOENT;
++
++	args->offset = drm_vma_node_offset_addr(&obj->vma_node);
++	drm_gem_object_put(obj);
++
++	return 0;
++}
++
+diff --git a/drivers/accel/thames/thames_gem.h b/drivers/accel/thames/thames_gem.h
+index 09ac1b50d21a..c9d0e170dad3 100644
+--- a/drivers/accel/thames/thames_gem.h
++++ b/drivers/accel/thames/thames_gem.h
+@@ -12,6 +12,13 @@
+ 
+ #include "thames_abi.h"
+ 
 +/*
-+ * The save page sits on an 8 KiB boundary: TCSP keeps a nesting count in bits
-+ * 16:13 and reserves bits 12:0 (SPRUIP0 3.7.49.2, Table 3-76).
++ * The windows sit below 4 GiB because Kernels load their addresses with 32-bit
++ * moves.
 + */
-+#define THAMES_USER_REGION_BASE		0x10000000000ull
-+#define THAMES_USER_REGION_SIZE		0x200000ull
-+#define THAMES_USER_SAVE_AREA_BASE	(THAMES_USER_REGION_BASE + 0x2000ull)
-+#define THAMES_USER_SAVE_AREA_SIZE	0x2000ull
-+#define THAMES_USER_STACK_BASE		(THAMES_USER_REGION_BASE + 0x5000ull)
-+#define THAMES_USER_STACK_SIZE		0x1000ull
++#define THAMES_BIND_VA_START	SZ_4G
++#define THAMES_BIND_VA_END	THAMES_USER_REGION_BASE
 +
-+/*
-+ * The uAPI's fault kinds, register indexes and hardware IDs, for the firmware,
-+ * which cannot include the uAPI header.
-+ */
-+#define THAMES_FAULT_KIND_KERNEL	1u
-+#define THAMES_FAULT_KIND_FIRMWARE	2u
-+#define THAMES_FAULT_KIND_TIMEOUT	3u
+ struct thames_core;
+ struct thames_device;
+ struct thames_file_priv;
+@@ -34,9 +41,18 @@ struct thames_gem_object {
+ 	dma_addr_t alloc_dma;
+ 	size_t alloc_size;
+ 
++	struct list_head bindings;
 +
-+#define THAMES_FAULT_REG_IERR		0
-+#define THAMES_FAULT_REG_IEAR		1
-+#define THAMES_FAULT_REG_IESR		2
-+#define THAMES_FAULT_REG_NRP		3
-+#define THAMES_FAULT_REG_NTSR		4
-+#define THAMES_FAULT_REG_SE0_FAR	5
-+#define THAMES_FAULT_REG_SE0_FSR	6
-+#define THAMES_FAULT_REG_SE1_FAR	7
-+#define THAMES_FAULT_REG_SE1_FSR	8
-+#define THAMES_FAULT_REGISTERS		9
++	u32 flags;
+ };
+ 
+ 
++int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file *file);
 +
-+#define THAMES_HW_J722S_C7524		1u
++int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file);
 +
-+/*
-+ * Written by the firmware at boot.  Its loop then copies the Ring's challenge
-+ * into challenge_echo, which tells this boot's handshake from one an earlier
-+ * firmware left in the IPC memory.
++int thames_ioctl_bo_bind(struct drm_device *ddev, void *data, struct drm_file *file);
++
+ int thames_context_create(struct thames_file_priv *priv);
+ 
+ void thames_context_destroy(struct thames_file_priv *priv);
+@@ -44,6 +60,11 @@ void thames_context_rewrite_entries(struct thames_core *core);
+ 
+ void thames_context_va_fini(struct thames_file_priv *priv);
+ 
++struct thames_gem_object *thames_context_find_bo(struct thames_file_priv *priv, u64 start,
++						 u64 end, u64 *offset);
++
++u64 thames_bo_dsp_va(struct thames_gem_object *bo, struct thames_file_priv *priv);
++
+ static inline struct thames_gem_object *to_thames_bo(struct drm_gem_object *obj)
+ {
+ 	return container_of(obj, struct thames_gem_object, base.base);
+diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
+index af427a29b585..ea556b48f1d7 100644
+--- a/include/uapi/drm/thames_accel.h
++++ b/include/uapi/drm/thames_accel.h
+@@ -45,15 +45,116 @@ extern "C" {
+  * definitions instead.
+  */
+ enum drm_thames_ioctl_id {
++	/** @DRM_THAMES_BO_CREATE: Create a buffer object. */
++	DRM_THAMES_BO_CREATE,
++
++	/**
++	 * @DRM_THAMES_BO_MMAP_OFFSET: Get the file offset to pass to
++	 * mmap to map a GEM object.
++	 */
++	DRM_THAMES_BO_MMAP_OFFSET,
++
+ 	/** @DRM_THAMES_DEV_QUERY: Query the device's capabilities. */
+ 	DRM_THAMES_DEV_QUERY,
+ 
++	/**
++	 * @DRM_THAMES_BO_BIND: Bind buffers into the file's Context at the
++	 * addresses the client chooses, or unbind them.
++	 */
++	DRM_THAMES_BO_BIND,
+ };
+ 
+ /**
+  * DOC: IOCTL arguments
+  */
+ 
++/**
++ * enum drm_thames_bo_flags - Buffer object flags, passed at creation time.
 + *
-+ * @ipc_address: the address the firmware was linked for.
-+ * @dru_kernel_channel_first: the first of the dru_channel_count channels a
-+ *	Job's transfers name, all on one page of the DRU's real-time registers;
-+ *	the firmware's own channels are on another.
++ * A buffer with neither permission flag is user read-write and execute-never;
++ * DRM_THAMES_BO_CONTIGUOUS chooses the backing, not the permissions.
 + */
-+struct thames_handshake {
-+	__u32 abi_version;
-+	__u32 l2_size;
-+	__u64 ipc_address;
-+	__u32 dru_channel_count;
-+	__u32 dru_queue_depth;
-+	__u32 asid_bits;
-+	__u32 hardware_id;
-+	__u32 dru_channel_stride;
-+	__u32 dru_kernel_channel_first;
-+	__u32 timestamp_hz;
++enum drm_thames_bo_flags {
++	/**
++	 * @DRM_THAMES_BO_READ_ONLY: Mapped user read-only in the Context.  For
++	 * the params, the coefficients and the constants, so that a Kernel
++	 * cannot alter the inputs of a Job's next run.
++	 */
++	DRM_THAMES_BO_READ_ONLY = 1 << 0,
++
++	/**
++	 * @DRM_THAMES_BO_EXECUTABLE: Mapped user read-execute and not
++	 * writable.  Required of a Job's program.
++	 */
++	DRM_THAMES_BO_EXECUTABLE = 1 << 1,
++
++	/**
++	 * @DRM_THAMES_BO_CONTIGUOUS: Backed by one physically contiguous
++	 * allocation, so that a transfer of a Job can name it.  For the buffers
++	 * a DRU transfer reads or writes; any other buffer is backed page by
++	 * page.
++	 */
++	DRM_THAMES_BO_CONTIGUOUS = 1 << 2,
++};
++
++/**
++ * struct drm_thames_bo_create - Arguments passed to DRM_IOCTL_THAMES_BO_CREATE.
++ *
++ * Returns a handle and no address; the buffer is bound in no Context until
++ * DRM_IOCTL_THAMES_BO_BIND.
++ */
++struct drm_thames_bo_create {
++	/**
++	 * @size: Requested size for the object
++	 *
++	 * The (page-aligned) allocated size for the object will be returned.
++	 */
++	__u64 size;
++
++	/**
++	 * @handle: MBZ on input; returns the object's handle, which is nonzero.
++	 */
++	__u32 handle;
++
++	/** @flags: Combination of &enum drm_thames_bo_flags. */
++	__u32 flags;
++};
++
++/**
++ * struct drm_thames_bo_mmap_offset - Arguments passed to DRM_IOCTL_THAMES_BO_MMAP_OFFSET.
++ */
++struct drm_thames_bo_mmap_offset {
++	/** @handle: Handle of the object we want an mmap offset for. */
++	__u32 handle;
++
++	/** @pad: MBZ. */
 +	__u32 pad;
-+	__u64 challenge_echo;
-+	__u64 dru_capabilities;
-+	__u32 transfer_table_pool_size;
-+	__u8 reserved[2 * THAMES_ABI_LINE_SIZE - 68];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_handshake) == 2 * THAMES_ABI_LINE_SIZE,
-+		  "handshake must be two coherence lines");
 +
-+/*
-+ * The firmware invalidates the core's TLB before a Job whose entry's
-+ * mapping_generation differs from the one it last honoured.  The page tables
-+ * take io-pgtable-arm's attribute indexes for ARM_64_LPAE_S1: 0 non-cacheable,
-+ * 1 cacheable, 2 device.
++	/** @offset: The fake offset to use for subsequent mmap calls. */
++	__u64 offset;
++};
++
++/**
++ * struct drm_thames_obj_array - An array of versioned objects passed by pointer.
++ *
++ * The stride is the size of the object userspace was built against, so a
++ * structure can grow at its end under a minor bump.
++ * The kernel reads each element with copy_struct_from_user(): a stride smaller
++ * than its own size has the rest read as zero, down to the size the structure
++ * had when it entered the uAPI and no smaller; a larger stride is accepted only
++ * if the bytes the kernel does not know are zero.
 + */
-+struct thames_context_entry {
-+	__u64 page_table_base;
-+	__u64 mapping_generation;
-+	__u32 asid;
-+	__u8 reserved[THAMES_ABI_LINE_SIZE - 20];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_context_entry) == THAMES_ABI_LINE_SIZE,
-+		  "context entry must be one coherence line");
++struct drm_thames_obj_array {
++	/** @stride: Size of one element in bytes. */
++	__u32 stride;
 +
-+/*
-+ * SPRUIL1D 10.4.3.3; physical addresses: the DRU does not translate through
-+ * the core's MMU.
++	/** @count: Number of elements. */
++	__u32 count;
++
++	/** @array: User pointer to the first element. */
++	__u64 array;
++};
++
+ /**
+  * struct drm_thames_range - A range of the Context's address space.
+  */
+@@ -65,6 +166,73 @@ struct drm_thames_range {
+ 	__u64 size;
+ };
+ 
++/**
++ * DOC: Bind operation flags
++ *
++ * - %DRM_THAMES_BIND_OP_UNBIND: Unbind the buffer from the Context instead
++ *   of binding it; &drm_thames_bind_op.dsp_va must be 0.
 + */
-+struct thames_dru_record {
-+	__u32 words[16];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_dru_record) == 64, "a DRU record is 64 bytes");
++#define DRM_THAMES_BIND_OP_UNBIND	(1 << 0)
 +
-+/*
-+ * The groups are an array of __u16, each entry the number of transfers in its
-+ * group, the groups consecutive in the table's order.
++/**
++ * struct drm_thames_bind_op - One operation of DRM_IOCTL_THAMES_BO_BIND
++ *
++ * A bind maps the whole buffer at @dsp_va in every page table of the file's
++ * Context, with the permissions of its creation flags; an unbind removes the
++ * mapping.  A buffer is bound at most once in a Context, at one address, over
++ * no range another buffer is bound in.  A buffer shared through a dma-buf may
++ * be bound in each importing file's Context, each at its own address.  The
++ * kernel maps 2 MiB blocks where both the address and the buffer's pages are
++ * 2 MiB aligned, so a client aligns a buffer of 2 MiB or more to 2 MiB.
++ *
++ * Unbinding a buffer a submitted Job still reaches through the MMU is the
++ * client's error: the mapping goes at once, and the Job faults in the client's
++ * own Context as on any other fault.  A Job's transfers keep the buffers they
++ * reach, whether bound or not, until the Job is destroyed.  Freeing a bound
++ * buffer unbinds it.
 + */
-+#define THAMES_TRANSFER_TABLE_CHANNELS_OFFSET(transfer_count)	((transfer_count) * 64u)
-+#define THAMES_TRANSFER_TABLE_GROUPS_OFFSET(transfer_count) \
-+	((transfer_count) * 64u + (((transfer_count) + 7u) & ~7u))
-+#define THAMES_TRANSFER_TABLE_SIZE(transfer_count, group_count) \
-+	((THAMES_TRANSFER_TABLE_GROUPS_OFFSET(transfer_count) + (group_count) * 2u + \
-+	  THAMES_ABI_LINE_SIZE - 1u) & ~(THAMES_ABI_LINE_SIZE - 1u))
++struct drm_thames_bind_op {
++	/** @handle: The buffer. */
++	__u32 handle;
 +
-+/*
-+ * @context_serial: a change makes the firmware clear what the last Context left
-+ *	in the core.
-+ * @timeout_ms: 0 is no device timeout.
++	/**
++	 * @flags: 0 to bind the buffer at @dsp_va,
++	 * %DRM_THAMES_BIND_OP_UNBIND to unbind it.
++	 */
++	__u32 flags;
++
++	/**
++	 * @dsp_va: Where the buffer is bound in the DSP's address space,
++	 * page-aligned, the buffer wholly inside
++	 * &drm_thames_caps.dsp_va_range; 0 for an unbind.
++	 *
++	 * The address the core's MMU translates through the Context's page
++	 * table, the same on every core.  It is the number userspace embeds
++	 * in params and Kernel code.  It is neither the bus address the page
++	 * table entries hold nor the CPU address mmap returns.
++	 */
++	__u64 dsp_va;
++};
++
++/**
++ * struct drm_thames_bo_bind - Arguments passed to DRM_IOCTL_THAMES_BO_BIND
++ *
++ * The operations are applied in order and each is done when the call
++ * returns.  The call stops at the first operation that fails and returns its
++ * error; the operations before it hold, and @ops.count is set to their
++ * number.
 + */
-+struct thames_ring_host {
-+	__u32 context_id;
-+	__u32 transfer_count;
-+	__u64 seqno;
-+	__u64 program_dsp_va;
-+	__u64 params_dsp_va;
-+	__u64 context_serial;
-+	__u32 transfer_table_offset;
-+	__u32 transfer_group_count;
-+	__u32 timeout_ms;
-+	__u8 reserved[THAMES_ABI_LINE_SIZE - 52];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_ring_host) == THAMES_ABI_LINE_SIZE,
-+		  "ring host half must be one coherence line");
++struct drm_thames_bo_bind {
++	/** @flags: MBZ. */
++	__u32 flags;
 +
-+/*
-+ * Stamps in ticks of the handshake's timestamp_hz; zero when no Kernel ran, and
-+ * the Kernel's end stamp also when it faulted or timed out.
-+ */
-+struct thames_ring_fw {
-+	__u64 doorbell_seen_stamp;
-+	__u64 run_start_stamp;
-+	__u64 run_end_stamp;
-+	__u64 fence_value;
-+	__u64 kernel_entry_stamp;
-+	__u64 kernel_exit_stamp;
-+	__u8 reserved[THAMES_ABI_LINE_SIZE - 48];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_ring_fw) == THAMES_ABI_LINE_SIZE,
-+		  "ring firmware half must be one coherence line");
-+
-+struct thames_ring_entry {
-+	struct thames_ring_host host;
-+	struct thames_ring_fw fw;
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_ring_entry) ==
-+		  sizeof(struct thames_ring_host) + THAMES_ABI_LINE_SIZE, "");
-+
-+struct thames_ring {
-+	__u32 tail;
++	/** @pad: MBZ. */
 +	__u32 pad;
-+	__u64 challenge;
-+	__u8 tail_pad[THAMES_ABI_LINE_SIZE - 16];
-+	__u32 head;
-+	__u8 head_pad[THAMES_ABI_LINE_SIZE - sizeof(__u32)];
-+	struct thames_ring_entry entries[THAMES_RING_DEPTH];
++
++	/** @ops: Array of &struct drm_thames_bind_op, applied in order. */
++	struct drm_thames_obj_array ops;
 +};
 +
-+struct thames_fence {
-+	__u64 seqno;
-+	__u8 reserved[THAMES_ABI_LINE_SIZE - 8];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_fence) == THAMES_ABI_LINE_SIZE,
-+		  "fence must be one coherence line");
+ /**
+  * enum drm_thames_dev_query_type - Query type
+  *
+@@ -126,9 +294,16 @@ struct drm_thames_caps {
+ 	 */
+ 	__u64 dru_realtime_dsp_va;
+ 
++	/**
++	 * @dsp_va_range: The span of the Context's address space the client
++	 * binds its buffers in with DRM_IOCTL_THAMES_BO_BIND.  The windows
++	 * above sit below it and @user_region above it.
++	 */
++	struct drm_thames_range dsp_va_range;
 +
-+/* The fence_value of a failed or refused Job; the Fence still advances past it. */
-+#define THAMES_FENCE_ERROR	(~(__u64)0)
-+
-+/* @seqno tells a record from one an earlier Job left in the same Ring slot. */
-+struct thames_fault_record {
-+	__u32 kind;
-+	__u32 pad;
-+	__u64 seqno;
-+	__u64 registers[THAMES_FAULT_REGISTERS];
-+	__u8 reserved[THAMES_ABI_LINE_SIZE - 88];
-+};
-+THAMES_ABI_ASSERT(sizeof(struct thames_fault_record) == THAMES_ABI_LINE_SIZE,
-+		  "fault record must be one coherence line");
-+
-+/*
-+ * The handshake's transfer_table_pool_size bytes follow the fixed part.  The
-+ * IPC memory is mapped in no Context, so a Kernel cannot change a transfer
-+ * record after the kernel driver checked it.
-+ */
-+struct thames_ipc {
-+	struct thames_handshake handshake;
-+	struct thames_context_entry context_table[THAMES_MAX_CONTEXTS];
-+	struct thames_ring ring;
-+	struct thames_fence fence;
-+	struct thames_fault_record fault_records[THAMES_RING_DEPTH];
-+	__u8 transfer_table_pool[];
-+};
-+
-+#endif /* __THAMES_ABI_H__ */
+ 	/**
+ 	 * @user_region: Where the kernel driver maps the Context's user stack
+-	 * and save page.
++	 * and save page, outside @dsp_va_range.
+ 	 */
+ 	struct drm_thames_range user_region;
+ 
+@@ -189,8 +364,14 @@ struct drm_thames_dev_query {
+ 			   struct drm_thames_ ## __type)
+ 
+ enum {
++	DRM_IOCTL_THAMES_BO_CREATE =
++		DRM_IOCTL_THAMES(WR, BO_CREATE, bo_create),
++	DRM_IOCTL_THAMES_BO_MMAP_OFFSET =
++		DRM_IOCTL_THAMES(WR, BO_MMAP_OFFSET, bo_mmap_offset),
+ 	DRM_IOCTL_THAMES_DEV_QUERY =
+ 		DRM_IOCTL_THAMES(WR, DEV_QUERY, dev_query),
++	DRM_IOCTL_THAMES_BO_BIND =
++		DRM_IOCTL_THAMES(WR, BO_BIND, bo_bind),
+ };
+ 
+ #if defined(__cplusplus)
 
 -- 
 2.54.0
