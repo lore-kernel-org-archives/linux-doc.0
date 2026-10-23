@@ -1,112 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792770135;
-	b=Qa/+v8jr4044YHQ6nLTRYnZhV6qvUCYvGqweRPcsMhecsQPOCWnjM3kiVMGySdA2BFKr
-	 XV7Xe6VGi+D/vZxXjQtiwBRMteQIUL+JoYjxV4u2u9ns1hxEQmLCGcUSEZX8xErj7E7PE
-	 GxLFYalf7EVrB167MkHQTKh/QpH9++F+jI7t7RIFj+a48fiSdsETp4/58Q2XBYhskSSC5
-	 zdqxTCOf68MwMSo9PCg5NLYialoUZinKswBX00mHwvhwV/4TkMrIjcVg8mDp2JLsmV+dh
-	 BAy6c3mwDW380iN7EIuIO/lyR0LwadW1sGKv7F2DftsGB9wW4UMsd29m8vjNRyvZNeA==
+	t=1792770928;
+	b=rsSKrVycoKIa2NUaoWgPizz9uNlrdaspQu4+BhVd0kgfIJFwhxZAULEXC8kJL9/OS3EH
+	 /KtLC8/NhU4D7DxOUGX/gqrMXqcAt8GSmM4OqIfepC7ZLot1ABIcbC5awu188OcdaILax
+	 sccwdfHFlqHccaTXiYyIQO3xa413EBZT1W8bQIJnCK9/Jvy8nYIw1bognY/Yzr5oqEAEI
+	 LK9Fixoo/1BklP2GCyl76ifJ0bkKAvvoO+IGvUdxgfvjBwt7bK+D3m39MzzbQOJDpHydK
+	 YmauI5r2P6fuUvVnV2yeaWuBXseLNd4rfKwR6r6xaYKSz5SeptQjLbNQZXsMi/NgoOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792770135;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
-	b=M+SyZAcZiiidcZArTrNFXKrMhwNm6adTxpl1qSIhsxwMnfC81ACA0w9wPHWkgdj3SROf
-	 TWQHCB6MsoWZyU2dsnXPPShNWmgJ/yZjF/T4AdTQHM4vtTZjNYks2jlj8u8+ZYjSYHWOc
-	 KsWFc8W07q8UdKVM6EjsnY34q/8kUn1kD70hdmZXddEgd4UjeKUJuyIfaRuKn4h02Uon9
-	 nx7oN4AeAWaNJPXHTIuZRdXJ/1mKFRErkKJgUBHs7jRtatCddoilqO0fBenGnSvaCOcWl
-	 79HREOvlWdv/cOWs21+6k4Ebw/GM6RdXuq7Q1m29mc/iLiQ70afu88+QXLHH9abGuPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792770928;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=obYDQLkkHXiggm2S/jFGDF/Bvg5EgjJRLjpcUkuTCJI=;
+	b=QrBaN+hcemxZ+I9tGYUHbYTMZshgKwahCebKuT2VeNMKqjGOLp46yJf1iQE58h4RkHyK
+	 se/dZ96n4+vfNlD7fsVGL4XYX5EC6MEmF8oHKfoHBj/VhnvaNMC1TzTJ4FtiB8T/3562e
+	 RlYiR9uPbGYtFOlcmjT8muQ8Fdr1c+lZQhPqIzFKg94hq0qZStDqldvJB2O5NWq+E8R58
+	 hYQXQcPBXu7d0yQUN6fWfQsbDpVIVhZybdC3wRl0n54IlLh7FDw72FMQiI9865W6Hcn/T
+	 47aFzsLl+NVkOdE8Yk5k0MDi0noWx2VpRNpluJPecmuUBiEnneY9kDYcjwbD6wvmpVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c27WBFJ2;
-	arc=none smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AU76ctpS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB01606A335
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:42:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DB01606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE11606A31F
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=c27WBFJ2
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93e635220b4so88128485a.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 08:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792770134; x=1793374934; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
-        b=c27WBFJ20LlEkXwtFWR0pToqFQOALwL+bcaaVuyVwXUk924Vl3bY2TE+HzwUkjjWpt
-         QaaeAPi6z5Ti+PWEFO4B/P+zy2aL4YiNfo4wU22IWJR8UJl5UsOSPZsuUwdq+P5P5bI9
-         72boUzrYkytCjS3Ko/P0xykJ3PbDwA2rQfd47sTgSJkaHkjkNaWVyqh7Xfj2zU9voNek
-         oHWce6+kRLUM7XPX8O2BXEN48XjkeD/eVwT16b3bS4zufHv2bthZ5aNwPUaW3+/wB8mR
-         3LSVs3lqw0vf+xIhH8LUjQVpYyx9cBXBWmBXwJ0sj/UDAKDRx/Nl2/3V8k+ZJ60Qkgg3
-         R0XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792770134; x=1793374934;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rug7Neq15IHiij489G0zvk8NhY0SVtgpPgzc6r/gkrk=;
-        b=Nlb5PvFNM35CjxA2eUFR4ByCUBVHvaxL0CDXQ1ATvuyv71y8J6H4pIqddMjFdUzUIa
-         5pOZV1IMMH7/Ip8ZFIC7jLn7AXOjoL9L6++gxXknGVZdBI/0YspLryc6a5sJfJUzDC4d
-         84B0llfxOUIIl7uzGhab7zqNNVKy86mbu0IijqwAffB8XO+7A78DeHkMvaApaDyAKRZZ
-         W6BAqtXGXAwPcFanmn0G9VQ/0lJFTA5K+l7vKWUG9Kc19HqjXdjrQt+C565QzzXYcSIM
-         iCuSS+ni3s9SjLHBJ3UsxFUgrs4o1w98PpI6YBoJS9w+ccRr38rO1HG5RCQ9K1S5GVbM
-         1BlQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwq3RGPUajW7kc5cljK25il7B8Jl/v8TRVDSnCLO9WxfeKIF44t4Rhkf1ULKScM5zjD2ZSgk6YT7a0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLcDUeZ0jEqJzOV3n58LEaJIzRdMF/5KfoqokauSSR8mm6UQfBt
-	Lqr0OgExuZdsYwnJWGt5SFYdqaH5kJMj6BPjTiSN35GUcLZOc1D+NDaSa4fIgBgZQSk=
-X-Gm-Gg: AYBFou2z+JmA/icUmVhuTL+CV+FwADvtVqEwczqlyf1glFCVTafURomW+ahaIv9MIvW
-	Mjr3B+pS5BbWr1bQ+N+z3WZorCVOWSr3s5N1tcHJ2T5oxYVBg2AiVEmCakqDyMrmqmQxtaJYMWp
-	X8lWcYZ+ja+ywHPqKDY9IQATGALmW3GfEM678W2/qUX+fkswAHEm7zAkidQjyMkUuOoRuoIw5se
-	QMpU5aLNmTAxm847qwNY8pwheZTBQcPR5B3wXquR4tB56URJzSWvXiHX1fqkUPWME7ULBDoUVoX
-	T+9JqOk0SKOi5zVx0JyEJL7MJ/so6X1v84TwcUsS3sh6Ye+VFgDIVkolQ5/ED7YLNqcRN556nDd
-	1OBaPov9NGq6QhzYPVTzLu4rOEcL5uAR4GQl6jg/nDqo32jE3EAo8X25arh4ZE6OW1z67BivJcg
-	W/nq0ShKZrykG6wtUH5y+ezr0KqvEcG4KA6aqesD/PPw0TXSu6xaHDPPg7Pho5rR5qOgmuCVDj9
-	zp0rpS8TPwj9jVY5DXHJBM7Jzk3RX13dVj4siB1Oyy9lgwiYqnym9lBEvMxtT3PL93ZauSRwwCL
-	iLaX8/OsYvCU31hL3UsfoNLDwuoza9lA2eQ8aA==
-X-Received: by 2002:a05:620a:1a11:b0:93e:5ef8:c794 with SMTP id af79cd13be357-93f6f9648bbmr497429285a.38.1792770134059;
-        Fri, 23 Oct 2026 08:42:14 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-94047b362a5sm45129985a.33.2026.10.23.08.42.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 08:42:13 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xKHPI-0000000Gn79-3Zzp;
-	Fri, 23 Oct 2026 12:42:12 -0300
-Date: Fri, 23 Oct 2026 12:42:12 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
-	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
-	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
-	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
-	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
-	dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <20261023154212.GJ3977851@ziepe.ca>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <yq5a7bjajaco.fsf@kernel.org>
- <atooh7uO2RauUTfY@FV6GYCPJ69>
- <yq5av76sj10a.fsf@kernel.org>
- <20261023142038.GE3977851@ziepe.ca>
- <yq5ase1wiggs.fsf@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AU76ctpS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE181F031E5
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 15:55:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792770927;
+	bh=obYDQLkkHXiggm2S/jFGDF/Bvg5EgjJRLjpcUkuTCJI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=AU76ctpS+cWgn4fHG70gLMmrsKI5n07WctHHaxtbOgD3IveSc4cpmGOUCyZkf5l3T
+	 MNOT9tMBRaxpFSAEgX04bdQxmCjbrbrmf7AApk4iZe+PmMxyT+rOB1/zVPdf/XxD+e
+	 sJz9jxZAa+mAORrzsEbyoOlNzGp3CCr5QJFgb8i7pJw7hZvMXzCJFzxq8+vC4KYMFn
+	 1S4CmJz7SMCR8X/DquHqLcaUHDHVu0YhY5AcxxtZZm/Cnkbu2bCy0q2uJCMny0Enom
+	 MvBHjJ2DV6PcEFzWXBMiAdQ2o4aureDuOyFdI2s1o3B6O9trxJZW3LQyV8VzKvg/8a
+	 CD9UQWPHx6rZQ==
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6fbf1ba31fbso352928eaf.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 08:55:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxRbJVOEPB9B6aDc0cKCCCbnTz3vSfVxlKnCar3v1wFZjXGi7wr2/aTX93Se9nZZbPGe1uioJ/BUpE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI6S/vYvaQq6fF1hBNNL8Vbv4weNFVC9Qdpb4Ic7mUb93rWzjep
+	llT76nYRd4yDG6sTWkaKIRjC7RaeI0tpO24pICK0bmwlGOyjY36KhaBi0oMwnD6VjUmC7wZB0/K
+	q6FRMzGFH6gF4dTx/2+Rn6lNJbmxckMI=
+X-Received: by 2002:a05:6820:f025:b0:70a:4973:e475 with SMTP id
+ 006d021491bc7-70b887ef9femr1819515eaf.9.1792770926558; Fri, 23 Oct 2026
+ 08:55:26 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,60 +59,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5ase1wiggs.fsf@kernel.org>
+References: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+ <af2ec5b0-7c62-4c6e-a28d-33ed401020af@linux.dev> <CADVnQynhY17Romr6VvzAyq-9h1zQ8gd-+pfC+1qFtz8xRaqCYg@mail.gmail.com>
+In-Reply-To: <CADVnQynhY17Romr6VvzAyq-9h1zQ8gd-+pfC+1qFtz8xRaqCYg@mail.gmail.com>
+From: Eric Dumazet <edumazet@kernel.org>
+Date: Fri, 23 Oct 2026 17:55:14 +0200
+X-Gmail-Original-Message-ID: <CAL4WiipvuqdDerVR9AZ6H4kaPvoSEoe-2s1P4RWeB6FwCfbBxA@mail.gmail.com>
+X-Gm-Features: AclHuK_AOyMxLdHlROqLvyZU8YQki78OcLExqwM0QO9VP0-Jx78XGF_CcLHcZd4
+Message-ID: <CAL4WiipvuqdDerVR9AZ6H4kaPvoSEoe-2s1P4RWeB6FwCfbBxA@mail.gmail.com>
+Subject: Re: [PATCH net v2] tcp: limit tcp_tso_rtt_log to a valid shift count
+To: Neal Cardwell <ncardwell@google.com>
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, Yingjie Wang <1075151112@qq.com>, netdev@vger.kernel.org, 
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, 
+	kuniyu@google.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2026 at 08:58:35PM +0530, Aneesh Kumar K.V wrote:
-> Jason Gunthorpe <jgg@ziepe.ca> writes:
-> 
-> > On Fri, Oct 23, 2026 at 01:34:53PM +0530, Aneesh Kumar K.V wrote:
+Le ven. 23 oct. 2026 =C3=A0 17:06, Neal Cardwell <ncardwell@google.com> a =
+=C3=A9crit :
+>
+> On Fri, Oct 23, 2026 at 10:50=E2=80=AFAM Jiayuan Chen <jiayuan.chen@linux=
+.dev> wrote:
 > >
-> >> CCA currently takes the device identity index during pdev_create. I am
-> >> investigating how to retrieve the certificate chains for all slots. For
-> >> now, I have implemented the sequence below.
 > >
-> > Yeah, I think the consensus at LPC was this may be a gap in CCA.
-> 
-> I checked with Alexey, and if I understand him correctly, TIO also needs
-> to establish eight separate connections to retrieve the certificate
-> chains.
+> > On 10/23/26 10:40 PM, Yingjie Wang wrote:
+> > > tcp_tso_autosize() right-shifts the u32 returned by tcp_min_rtt() by
+> > > sysctl_tcp_tso_rtt_log. The sysctl uses proc_dou8vec_minmax() without
+> > > an upper bound, so it accepts values through 255. Values above 31 mak=
+e
+> > > the shift undefined.
+> > >
+> > > A process with CAP_NET_ADMIN in the target network namespace can set =
+the
+> > > per-netns sysctl. With CONFIG_UBSAN_SHIFT=3Dy, setting it to 32 and s=
+ending
+> > > TCP data over loopback triggers:
+> > >
+> > >    UBSAN: shift-out-of-bounds in net/ipv4/tcp_output.c:2264:30
+> > >    shift exponent 32 is too large for 32-bit type 'unsigned int'
+> > >    Call Trace:
+> > >     __ubsan_handle_shift_out_of_bounds
+> > >     tcp_tso_segs
+> > >     tcp_write_xmit
+> > >     __tcp_push_pending_frames
+> > >     tcp_push
+> > >     tcp_sendmsg_locked
+> > >
+> > > Limit the sysctl to 31, the largest valid shift count for a u32, and
+> > > document the accepted range. Writes of larger values now fail with
+> > > -EINVAL.
+> > >
+> > > On a UBSAN/KASAN build of the net tree, values 0 and 31 remained
+> > > accepted, values 32 and 255 returned -EINVAL, and TCP traffic with th=
+e
+> > > valid boundary values produced no sanitizer diagnostics.
+> > >
+> > > Fixes: 65466904b015 ("tcp: adjust TSO packet sizes based on min_rtt")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Yingjie Wang <1075151112@qq.com>
+> >
+> >
+> > Reviewed-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+>
+> Reviewed-by: Neal Cardwell <ncardwell@google.com>
 
-Lovely!
-
-> For now, I am trying Jiri's suggestion: use Rust SPDM to fetch the
-> certificate chain and return it via evidence-get. evidence-accept then
-> does pdev-create with the specified slot number and compares the
-> evidence data returned by the RMM with the value cached by Rust SPDM. If
-> they match, it uses the cached value for set_pub_key. This seems to be
-> working. (FVP only supports slot 0, hence only one blob-instance)
-
-That's a pretty good idea, and works for every arch! Maybe that is
-the best long term direction.
-
-IDK about all this "Caching" stuff, I'm not sure I love the name
-"Cache" to refer to the security important reference certificate
-bundles. It should have a stronger name to reflect how critical it is
-in the entire security design of SPDM. You select the certificates
-once and everything following must match that or something bad has
-happened. It is effectively a key part of the channel binding.
-
-But yes, RMM is sort of backwards here, the slot number should come
-with information about the certificates, but I think this is fine to
-have RMM fetch them again and then we just confirm everything matches
-the kernel's target. If we don't do a get prior to connecting then the
-kernel would just adopt the RMM's result as the target certificate
-chain for the slot?
-
-It certainly seems like it should be all sketched out and the uAPI
-confirmed. Given the state of things I don't see an issue with a slot
-0 only initial configuration (ie EOPNOTSUPP the certificate gets) so
-long as the long term resolution is clear.
-
-Which is an interesting question for Jiri on CTLV, one of the things
-we have in RDMA is runtime schema pruning. Based on runtime device
-capabilities parts of the schema can be disabled. Can we get there
-with CTLV too? Then introspection could return if the underlying
-implementation supports some of this stuff..
-
-Jason
+Reviewed-by: Eric Dumazet <edumazet@kernel.org>
