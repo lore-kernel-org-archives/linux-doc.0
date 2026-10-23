@@ -1,91 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792737579;
-	b=VJgV+F+RqqniV3BSmwxsASglrHPjwSv2Hd87Suc5d7V0gOFiPR8VT4Zd+6p8IgC5MlDZ
-	 k7fw5z4OpqLrSzDwK/HnMI0RcgGtCFTBZfQyzO+kPDsRwKDOj5ZzMjjNQQEWm+NNuRJyV
-	 w+svIwjAQf1ml9b+qZFZ86BahxX4CwW+osOD22EIoZTkZZrJwCm2nU3VlE6S/XCIGb0Wf
-	 ienF7SANYs3Csx5lmSymmB8OdNNOGRSJZdsmsCFenOBYPwZXg/fzRzyVCojMi1in0k2BY
-	 zy0+3QIMaf6Gi3ZKzl2L/ucGGQUbCaYXdkFRXyK8y+nbmlSI2zyHsCkDX/Kl7yeC4FQ==
+	t=1792737585;
+	b=05cjsl4+hlu7pljvGY/q+NGqDX81ezfOyfbUoB18dCmtuuTBr8Ru57yuiqATWmbBemAB
+	 lDayq4XPBOLKqxomXXTHDZ1gN5rNNUOtXU3Ag93YnlJiVLR5b0Gvd8KI9ldKI3L02EwiZ
+	 7A28vkxYAwNRCeNaw9w8fRVzIcV7Sp6XQbwtnO0MuV4BI3bgfnl/LtYtTSPp2HClM384b
+	 Qzjnzr3+povPPEu+zrytQ1xuQfKA4QINM6o0ullFS9M3ILbCZOl/4prXrpuDe5QAyz77I
+	 3KoakIWtyisxkDDyxn5aX3e8yKeYsHksTWnvMQ7DJ3jKgQAhD/5IYcKxaXsoi1DxBHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792737579;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737585;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer;
-	bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
-	b=NBWsgqSBnGnXbxrf3MvRfO75vzAgnmOZZ9Bu4YgB5Ip7GNlB2ZcJl+AXfHTLE0woSf8H
-	 O1+9J6EVQ92cWV79a3+YLpeWyTUFpRWk9ESu8ourhxSPMaDbQvFaBzRFn4/4VcHvoJ4G2
-	 eq+PldKkDOvHQiAStMKVITAFsH0DNCeiKwWQlF/udurpU8lq5kWeJ70QNjVUDrjgXfX0P
-	 Fj5N895n/Vxj2jo3gMSvWCUa4tiJiZx6HLhuAJ9CO/1aAl1BRZIWe1t4nOjU8QsHiWgPX
-	 MAi7nWOQh/95/45KetGP1AAqG4hzfa4G9IVp7KHzRSrBjWgngvqeK2oz9z4nJ6YMIhA==
+	 From:X-Google-Original-From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer;
+	bh=zCs0TMoU/xtdfW2o//Qc3w2kO9KE9uGMF0SrdJknZZc=;
+	b=CV3uAZYZVg3r9nDe9SHF4p3ncdzaR7M+uC+4hqJBzVP477sG9NtgP2hpPaO9FgLzKyxK
+	 Uk4FmDgvln2ohDqDtqj7RSUSsd+qkbfTo1WNbXPFF0bECUPYCuIrn64w2QagBPqiuq6zZ
+	 AzK/n9CfBWudm49HqxgJ4oOZ0FYcaZFA2Tb/jalx+ROtMGQhRe5lKjyyskFFbhgwxryOf
+	 7DDvQ+jPL8NwmOim/95SiGjtjRQiLMdB60GE8Q2VVGKxN+1zidZKOy2HiHq7VR3DrlLRX
+	 omWTsLNILAoLq3u5pdjOhKCNJU5COFhz5Q+Hgz4V9llZdTVppCmIVJDqeLBxIRfkgyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fE4ppVfH;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K5gmrOYj;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F636606A31A
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:39:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F636606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A31606A31D
+	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:39:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37A31606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fE4ppVfH
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4be28b82so395655f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:39:39 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K5gmrOYj
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48e00eee27dso280736f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Oct 2026 23:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792737578; x=1793342378; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
-        b=fE4ppVfHoNB+tK/mqGsUIPIh5aoPUqkEgxSn5Cj0FGM6quF2/uIzJwCvKtU8WG0mA0
-         L136++YEFUA20TrKOmLvLaZaj0ijNsm/68oJFMCLZ2CHmV3e6eEeowGJ92nFJ8PaIkEj
-         XWpX535koWVdyGgFkzx4GOWmijDVt6xKotlPNi5EM2IUJcAuelwuZkclNyNBfh3hsICi
-         +gY9vo0jJLA0wLRR1PxXK6+TYqbqBtBlVDIw2r+i5h1CRSatAwgzJFEacYctpAKlKZQk
-         ctMuNg1Y/wJvHQRMdpMmJusE1FAITXAGuf1TFMpQk33y34iWeuc9P7zaKuKz6SDDn8tr
-         223A==
+        d=gmail.com; s=20251104; t=1792737584; x=1793342384; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zCs0TMoU/xtdfW2o//Qc3w2kO9KE9uGMF0SrdJknZZc=;
+        b=K5gmrOYj3tl5gpqCrSw9ozcnETPEC4k8tihxf6zDQDJzO6W1ugLAFbGbsv9Cz/MxUB
+         quIUfAE6oCPFSLcX8P+JtzAwqC/EvVQVqVldkQtMgEtTOx+hyvg8NvWOS4XYCf7ud8/o
+         Gzc0esoT6mvjMChNOgbAm9m7/Zm3rnihd7W0X1kADDuHzZZYih0caal6tQPHJOejfhVK
+         K2BbjC/G+1p6cfFAnupiIBsCBTQOgMBNzgIf/8rwbqnvo+qua43tmcZ9lsB9uE0vJbXz
+         TBLYu0YNtvQan1lTxqxqkmOEetHMR1uVhpgkfELL7ASKGJziVeEfwDGBOoqAdY7h9Fsl
+         950g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792737578; x=1793342378;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=w4cL4G9eHUbqDzKnbCFLNqMjngYxYEBxYMlVjjbvdqE=;
-        b=h00M2GUHJPkiIh5XrYi401WWjCKntZ4EuhWu9AQCHMcVLVO2W2mTHrL6sbDDt07I+q
-         q0y/ir782YP/KYbGOR9NL8xlp7cWcWDdFHfyx2JlqzorMpb9uU0bFAajOv2Pd9EJ/bJN
-         P4ZdYySoSfy3ZuonxfAedDrFOAWsINnlgazSNCw8P4LQzYfnV23HtVKxQvlZY6xBY8LW
-         0zQR7/B0rghy/CIFJQuDk5sM3H5pCQF2CxARU8LjQD6IhPX59kcsml1BGkLiwx8OUywY
-         1GfE/yEA/CXz0X91OYvrBGiCUtTolwMI7JFgtuHI7gdjj7yV3Dp8qboE99tguUha6O2m
-         eEKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx2oNnz9rXULVSGfavvN9w66p1LR4dvxyZ/4WE0ZxiN0gktzkFlDOcidd4b+4P+7UNvVZxGRBOj9YY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYILdzrDkfZ/U0twYcTRJc58DtAs0mdOTbkVkxEwAcM79HCCYgbD
-	O2OWrXcDJ1AH38V2OQZdzue993Xfu9F2N4biwwluzuqQ4am69r2anyOY
-X-Gm-Gg: AYBFou2UF/WLapU+GpFXVELhjxFTY9qW1U/dqZAzRZIZI24x58bkyH7Q4bKxfGJd2VQ
-	zZwD1SpEwrk/RS2tR/VM8yA3nlGGVhQLmr0g85oUWRoe6tyZLQe0BLImnK1su0Sue3LKw6ZxM9N
-	Mt6hGGTp8LgVG2h83UzC+QldFW5+zD5keElNfA+RcKjqy7+0onkWhhpIdhYMJz+Uawfi5/xhATF
-	yyI9lSDOFeFL2gmbaBoMdsyRkb0Zs6Ftmdyz2Gz4m9A9fEtObU6++3PMipOKY5kTJTgBqedFL4S
-	vx+ywpgEMkIyQVleU4K2MsXhpMPTfUkCei6XzObnNLdA1QEwhT0BFQpsmG+hQNSbyWM8yy2m8jk
-	h8bE+O9vQPycvpncX8Or/GLeUo1Bul2KAKXv28y42c+4uAQQWi7CwmD5npmaO0vARQ6XfCTMS+4
-	XnIWyKnQje01TRElt1zNIFe5xrX/bu7Q+oivMP2FGlkZ//BWDgglM9MpHnT3iD++/vTIuGIOUSl
-	cCKQ4dMJpo99rPLb79tB38QW58mJN5yZhNnxPfRIL2aF0eCXe2cRl7AFe3KdoGpjXefN6OOehyZ
-	qkKqE5hRLedvsH3VYWfHBbGcXt87HjQwX/idK9wG9iqle21goRmTrlkW8kqbtD+3HVtt2EItKVu
-	bri8=
-X-Received: by 2002:a5d:5f41:0:b0:48e:c84:5be6 with SMTP id ffacd0b85a97d-48e3859498fmr1687114f8f.14.1792737577617;
-        Thu, 22 Oct 2026 23:39:37 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792737584; x=1793342384;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zCs0TMoU/xtdfW2o//Qc3w2kO9KE9uGMF0SrdJknZZc=;
+        b=joXN+x1zqPQQyKSAinXWy8KZYdkDqdNtj8rJIDqH56cGCddASgeTOZ31UH7mPHWyhw
+         wHMA4PsyvctpfLyzwDSk3q7PGpGkRjazYmlQzgtZuXVOnet7id1FRpnmC1THM60qGLLY
+         UnOqGRzri00A7TQYAvy81HEhTjbtr3+sMxfaJwbSaLeWo0x69L4o4COGm28QyD035rAo
+         qYlN5Ghl51GfZ3Vhyg7456Wm8if3EXexxyxHm8Kq71yA349ZBkNs2HAx2IEgGtpEK49U
+         iI89HSNXPu2PA4XODFewIILsasKLI11g/cItr9nX8G9SmbTaay9gVMhKfvbF6iHAlQ8y
+         TgZw==
+X-Forwarded-Encrypted: i=1; AKwUvBxGz4mjbCjjRvDh5snnNAPtNitKBqX1a7k0HhPEot9Ay3PgPdfXsocHJMg7LsSsS9v1HLpHTrps52U=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKCG5VwF0PN9UXXyEDf16BX5A5b7qimXLS3h6mmOlOh6cOKLDj+
+	cfd0lppdKcVsZ04yYuH7ybXE+G9bRmvU/TrUukqbd3TuWlmQw0sT4r5G
+X-Gm-Gg: AYBFou1QNujL4i+EWnNH6K1jGhsKfDqU3vVwEJJZ5q4nqCywhTXwLDkPaOIclwMa3U6
+	q/S/EzpOxAMqyyPwIMBbdy8jITFSFIcnN63H2q/jVPT7cgQhZEKhx7dtftaZ9NpyrnUZG6m0MME
+	xFzC3ubD5SmEZKXScSQqDqOF91CvfaF3JWUnNOseQ0nrUHdwmS9bQoJ42qPv/G1pGi81ujMGida
+	eS2w5Vssr0ZFl7NYojBV/TTFP0chUlIWsDJYq7BGL63KLq4gwHUEVdL+8qB2nH6J22uYDY6EBOd
+	3D7XhRNCsdILiPyhbvas9xEx3Sl3JuH0UVsOz9G7sILlHPx4I/PzE0upCZkH5yn1W8JYdTYmdD0
+	8j/Dt8Wd/rQj8HMuw7vfbfI/q7llE/fzV/Nb/9yr2ykigiQbRPAiNOKXOqTs/+pdyLYTDaYp57P
+	rZjvh8RjpsaDgGZC+iPKiLzW9+6n5jo7HBdDUL7G29VM9ANfIYAn/l5tmomZQroS0smVEF3s6Wy
+	vVS+JrkR10PksK+XsLfiY3bY9pwyKMXl8I/eb6K/VHvCVnchQkGFS516TL/4Od3mR09B1Q6Akz1
+	47f4QNU0NUY7y+Td+954pMpaU0p+19bFp/hEycbtdH2FVY30miKIx9d4FwCfLCqspCxlSi7/e8X
+	ApYU=
+X-Received: by 2002:a05:6000:15d9:b0:48d:ff0d:cfa5 with SMTP id ffacd0b85a97d-48e385b9322mr977703f8f.47.1792737583628;
+        Thu, 22 Oct 2026 23:39:43 -0700 (PDT)
 Received: from [192.168.1.22] (cst-prg-49-173.cust.vodafone.cz. [46.135.49.173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.39.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38030c47sm3104782f8f.21.2026.10.22.23.39.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 23:39:34 -0700 (PDT)
+        Thu, 22 Oct 2026 23:39:42 -0700 (PDT)
 From: Tomeu Vizoso <tomeu.vizoso@gmail.com>
 X-Google-Original-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: [PATCH v3 00/16] New DRM accel driver for Texas Instruments' C7x
- DSPs
-Date: Fri, 23 Oct 2026 08:39:25 +0200
-Message-Id: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
+Date: Fri, 23 Oct 2026 08:39:27 +0200
+Subject: [PATCH v3 02/16] dt-bindings: remoteproc: k3-dsp: Allow a second
+ sub-mailbox
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,12 +96,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAB0B22oC/2WMQQ6CMBBFr0JmbU3bwZK64h7GRQOjzAJq2tqoh
- LtbWBgTlm/mvzdDpMAU4VzNEChzZD8VwEMF3eCmOwnuC4OW2kilUKTBjRQFYq1043RvVQ9l/Ah
- 049cWulwLDxyTD++tm9V63SWyElJYi1aWh8Wma5Mf6Zn546M/TpRgDWX9L9c/WReZbO2MQUPyJ
- Pfysixfz8MqRN8AAAA=
-X-Change-ID: 20260113-thames-334127a2d91d
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261023-thames-v3-2-3ab40aa17157@tomeuvizoso.net>
+References: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
+In-Reply-To: <20261023-thames-v3-0-3ab40aa17157@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
  Randolph Sapp <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, 
  Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
@@ -130,174 +128,45 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, linux-hardening@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-This series adds a new DRM accel driver that supports the C7x DSPs
-inside some Texas Instruments SoCs such as the J722S (the only SoC
-currently supported). These can be used as accelerators for various
-workloads, including machine learning inference.
+Allow specifying a second sub-mailbox that could be used by the firmware
+in addition to the first one, which is taken by remoteproc.
 
-This driver attaches to the DSPs through remoteproc and talks to the
-firmware running on them through shared memory and a mailbox. The
-firmware is the accelerator's command processor: the driver pushes Jobs
-onto a per-core Ring in shared memory and rings a mailbox doorbell; the
-firmware runs each Job's Kernel in the DSP's user mode on the client's
-own page table, moves a Fence when the Job is done and rings back.
+This is required by firmware that doesn't use rpmsg for their
+communication with the Linux kernel.
 
-The kernel driver itself allocates buffers, manages contexts and submits
-jobs to the DSP firmware. It also populates the per-client page tables
-with io-pgtable-arm.
-
-No carveout holds buffers any more: every buffer is the kernel driver's,
-page-backed and mapped through the DSP's MMU in the client's own page
-table, which answers Andrew F. Davis's question on v2. The one reserved
-region the driver uses is the first 256 KiB of the IPC pool, where the
-handshake, the Ring and the Context table live. A buffer that a DMA
-transfer names must be physically contiguous, since the DRU does not
-go through the MMU; the client asks for that at creation.
-
-If there is more than one C7x DSP core, the driver will load balance
-jobs between them with drm-gpu-scheduler.
-
-The firmware isolates clients by using its MMU to protect their memory
-and by running their kernels at a lower privilege level.
-
-Besides executing user-generated DSP kernels, the firmware can also
-execute DMA transfers at the request of userspace. These don't go via
-the MMU, so are validated by the kernel driver.
-
-The source code for the firmware running on the DSP is available at:
-https://gitlab.freedesktop.org/tomeu/thames-firmware/ mostly under the MIT
-license. The ABI with the firmware is defined in a shared header with
-versioning.
-
-Known limitations of this version:
-
-- Runtime power management is not implemented (system suspend and
-  resume are).
-- The J722S EVM does not resume from s2idle with TI's shipped
-  system-controller firmware, so the resume path ran only in the
-  driver's own tests; the suspend path ran on the board.
-- The submit IOCTL waits on no sync object, which a Vulkan driver will
-  need.
-- The 4D block move is the only DMA transfer type accepted.
-- One firmware image serves both cores; a core found running another
-  firmware is left out after the handshake's five seconds.
-- The DRU channel stride is stated for the J722S instead of queried.
-- The J722S is the only SoC this version runs on.
-
-Three additions were needed in the device tree bindings:
-
-- power domain references for the two SoC timers the DSP firmware
-  drives, which the remoteproc driver does not hold;
-- a second mailbox doorbell, since remoteproc's own serves rpmsg and
-  this firmware rings the Ring's; and
-- reg entries for the AUX SRAM and the DMA engine's registers, which
-  the driver maps into every client's page table.
-
-Everything else is done in userspace, as a Gallium driver (also called
-thames) that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
-
-Userspace portion of the driver: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39298
-
+Assisted-by: LLM
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
----
-Changes in v3:
-- Shared-memory ring and mailbox doorbell replace rpmsg
-- The kernel driver writes the client page tables
-- Buffers are bound at userspace-chosen DSP addresses
-- Kernels run in the DSP's user mode; faults reported per job
-- DRU transfers submitted by userspace, checked and translated by the kernel driver
-- System suspend and resume
-- Versioned firmware ABI; hardware ID reported and checked against the SoC
-- Firmware rewritten bare-metal, MIT
-- Link to v2: https://lore.kernel.org/r/20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net
-
-Changes in v2:
-- Add thames_accel.h UAPI header (Robert Nelson).
-- Link to v1: https://lore.kernel.org/r/20260113-thames-v1-0-99390026937c@tomeuvizoso.net
-
-To: Bjorn Andersson <andersson@kernel.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Suman Anna <s-anna@ti.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-To: Oded Gabbay <ogabbay@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Airlie <airlied@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>
-To: Kees Cook <kees@kernel.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-To: Christian König <christian.koenig@amd.com>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-To: Nishanth Menon <nm@ti.com>
-To: Vignesh Raghavendra <vigneshr@ti.com>
-To: Tero Kristo <kristo@kernel.org>
-Cc: linux-remoteproc@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-hardening@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
 
 ---
-Tomeu Vizoso (16):
-      dt-bindings: remoteproc: k3-dsp: Add the L2 auxiliary and DRU regions
-      dt-bindings: remoteproc: k3-dsp: Allow a second sub-mailbox
-      dt-bindings: remoteproc: k3-dsp: Allow referencing the timers' power domains
-      accel/thames: Add header with IPC definitions
-      accel/thames: Add driver for the C7x DSPs in TI SoCs
-      accel/thames: Create a context per client on device open
-      accel/thames: Add IOCTLs for BO creation and mapping
-      accel/thames: Add support for submitting DMA operations
-      accel/thames: Add IOCTLs for job creation and submission
-      accel/thames: Recover from faults and timeouts
-      accel/thames: Add IOCTL for memory synchronization
-      accel/thames: Install memory mappings populated and dirty
-      Documentation: accel/thames: Add initial docs
-      arm64: dts: ti: k3-j722s: Add the AUX L2 SRAM and DRU regions
-      arm64: dts: ti: k3-j722s: Add second submailbox to the C7x cores
-      arm64: dts: ti: k3-j722s: Reference the power domains of the C7x timers
 
- Documentation/accel/index.rst                      |    1 +
- Documentation/accel/thames/index.rst               |   47 +
- .../bindings/remoteproc/ti,k3-dsp-rproc.yaml       |   33 +-
- MAINTAINERS                                        |    9 +
- arch/arm64/boot/dts/ti/k3-j722s-main.dtsi          |   16 +-
- .../boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi      |   27 +-
- arch/arm64/boot/dts/ti/k3-j722s.dtsi               |    4 +
- drivers/accel/Kconfig                              |    1 +
- drivers/accel/Makefile                             |    3 +-
- drivers/accel/thames/Kconfig                       |   27 +
- drivers/accel/thames/Makefile                      |   12 +
- drivers/accel/thames/thames_abi.h                  |  238 ++++
- drivers/accel/thames/thames_core.c                 |  867 +++++++++++++
- drivers/accel/thames/thames_core.h                 |  120 ++
- drivers/accel/thames/thames_device.h               |   97 ++
- drivers/accel/thames/thames_drv.c                  |  554 ++++++++
- drivers/accel/thames/thames_drv.h                  |   67 +
- drivers/accel/thames/thames_gem.c                  | 1077 ++++++++++++++++
- drivers/accel/thames/thames_gem.h                  |   77 ++
- drivers/accel/thames/thames_job.c                  | 1319 ++++++++++++++++++++
- drivers/accel/thames/thames_job.h                  |   81 ++
- drivers/accel/thames/thames_trace.h                |   77 ++
- drivers/accel/thames/thames_transfers.c            |  405 ++++++
- drivers/accel/thames/thames_transfers.h            |   52 +
- include/uapi/drm/thames_accel.h                    |  843 +++++++++++++
- 25 files changed, 6043 insertions(+), 11 deletions(-)
+v3:
+- Initial version
 ---
-base-commit: 1ecab8b0bad393750c60cc3819ce9c256595463c
-change-id: 20260113-thames-334127a2d91d
+ .../devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml        | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Best regards,
---  
-Tomeu Vizoso <tomeu@tomeuvizoso.net>
+diff --git a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
+index 278b88b7f906..d6319c8e96f8 100644
+--- a/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/ti,k3-dsp-rproc.yaml
+@@ -51,10 +51,12 @@ properties:
+ 
+   mboxes:
+     description: |
+-      OMAP Mailbox specifier denoting the sub-mailbox, to be used for
+-      communication with the remote processor. This property should match
+-      with the sub-mailbox node used in the firmware image.
+-    maxItems: 1
++      OMAP Mailbox specifiers denoting the sub-mailboxes allotted to
++      communication with the remote processor. The first is the one the
++      remoteproc core uses and should match the sub-mailbox node used in the
++      firmware image. The second is optional.
++    minItems: 1
++    maxItems: 2
+ 
+   memory-region:
+     minItems: 2
+
+-- 
+2.54.0
 
