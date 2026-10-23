@@ -1,83 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792738219;
-	b=R5KLgIpRRVxNmnjDD1qPjBt7gVEPWhja3sFGXfdZP0iCliJMOMiMzc6LoBXzRyyly7Qk
-	 MS1chqtjO6gC7sOYNfJkM1mVDKIyq8BEYwZ2V/rZ93qCvSqwAt2iZf4dP/phs204/OdV/
-	 gUvikbSrT3tnIsstHRMHzqPtHysSLUzWnmxdHDn/rN54DejanEaNgkf08cVJrJJnHOaTj
-	 8uHUG+bkzoK26D4fwCyvLSqX8os3/VYakvr0P8d+YH9T1VGa27PVfYkqAoQ7KS9Dd3wPF
-	 DZaML5k+i3WpYhFKad7Z07ARZLmexOi3A+Vd5QVIcZPDzFbJI5c2kWOi9v0cdmKq22w==
+	t=1792740008;
+	b=2gmXX57jcZ+MoBdH9PisqgWk7ljZszPUJBpAVSnRZ+NF09HyRb1gjbU5IVbZhmG0jf+N
+	 LwfiBBLtbXncoMu8//6Y3gY9NvQuuLhgc3WuV3ma08iDubMJwy3+jXodO8TaICBl758BE
+	 m3QHCr4ga3puyXnjcQUvGaWp/T1g7ei/Acg+eBMcOxw+NIYz+KckxWr4EONdmgGMD0UAn
+	 l/ghfHtvZdB3m4oRRKqLcQUR5fY0haOyH+2x8SOmTfQRaR6MAXeqWFqYAZKagfKCsUFNG
+	 niVLTHqJ5+AfAmyodOyiUzdxFtYAztZg2uoMiQ847G6izzTTKLGwf+weiINjzMHxFig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792738219;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=g+zDfkV7W3mK9yy6qtJ/PyGkiFHI5UxGEdxpEKnA6Jo=;
-	b=SxYWG+N/Z/duwAWTpkbWSMn11LwDpemNdmjgeP/MCtSipCynV5SjADclVGQ41CW/uBWH
-	 4LTYR9nARirZKIE51NguI9nwMd8N47UwUtGjxwvnIcMjvJQZ5uPM8SAts2MveEcBt3aFQ
-	 p01RYjT6txOW2Z0iGYrieEL9zr8Z9iXj7XCV/eC7aXcDVhxZEL9X0k62fGfeJ3A/4yyY7
-	 8yfRpbwQXq1vVZM9CGzV3VJUJeA4rBIDKvGkxb8lr0pjFPO8cBNTSWJhGzbDBUeIQ7p7v
-	 sZTvqCXfDZ6oIO4iBnRhmEtv7fNw0/7HEvvf7hdPVit4dCJIZe5TVacjmTVLh71aQDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792740008;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=DBIigRwOmB3mzDWu/BG0DQ3cCq9erW6+W+oz6DRhxbQ=;
+	b=T9aKQitNFwaSdmZ76fCddElU0YpXVFv7XpZ1KEFfyU2KNrrdowtxkHI7kvkq9McXkfGH
+	 Boqy52CjMU5K2u8v43sK8WuajXUb1AWA9icROiHzQL/8whD7kZoaHIa5GtHvu9YuwpFwV
+	 YHfq9+Oya9AjdrWEeZtwSQ8PKGTwm9R3o5APz9964+ulXniSJ4vGmLi1C3rT4EI55DIeU
+	 MZ9NipnHw2OmFvfMfQzAt8ckT+w9ClUKnu5QGpXPsz16Qc7k0ZGRGpjmzoFsYGNU+gS3g
+	 i7ssEEhQeGmNrEc5C5xjqYt/NJ07x6Md0/85Lo+EZ8e80YLKctDI4GCknB0BpFbIoAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Hbs+eeEb;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ii5evdw4;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81F5606A325
-	for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 06:50:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C81F5606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F4E606A31A;
+	Fri, 23 Oct 2026 07:20:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1F4E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Hbs+eeEb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792738218;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g+zDfkV7W3mK9yy6qtJ/PyGkiFHI5UxGEdxpEKnA6Jo=;
-	b=Hbs+eeEb/5Qt7cbEjROqtUQuo23kQ2wlWBLLjtln2au50ZCNWWdXqIiwLNaKpbTWuRcycr
-	LBxL5hOIHTIfaHahhmu5f33RNpTSBtvToC+oaBlDGR9PAeV9OWFnwcf1Xt/B7+TmIoFz/A
-	lkZIzbhemZb5GHEpHZN8EFitdZSmlKQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-315-r-jURbIBMXG8ve_GmI9YAQ-1; Fri,
- 23 Oct 2026 02:50:13 -0400
-X-MC-Unique: r-jURbIBMXG8ve_GmI9YAQ-1
-X-Mimecast-MFC-AGG-ID: r-jURbIBMXG8ve_GmI9YAQ_1792738212
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BAB1D1955BC4;
-	Fri, 23 Oct 2026 06:50:11 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.44.48.42])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B7A41956095;
-	Fri, 23 Oct 2026 06:50:07 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: soc@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v5 10/13] uapi: Replace __ASSEMBLY__ with __ASSEMBLER__ in uapi headers
-Date: Fri, 23 Oct 2026 08:48:47 +0200
-Message-ID: <20261023064908.66707-11-thuth@redhat.com>
-In-Reply-To: <20261023064908.66707-1-thuth@redhat.com>
-References: <20261023064908.66707-1-thuth@redhat.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ii5evdw4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792740007; x=1824276007;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rRh9ZEz2g8+VK7Li/T7iOfryrSAg1VQ9stT0b/ftOU8=;
+  b=ii5evdw4AT95YEQREfVzy/9GUeUTLbKT6oT5VsjK7rN1k67H1tCdWwDv
+   fy3SxvqFcLnuvz/Fw4GoUR3fpRwBPoqhhtbpOWFwExTENKDjTwgjRkrb9
+   CZVOz7BJ/HHeRcurxLcrL4V8zGJwCWTbsIn8SVPqGonhO+Y2qj9WwfWH5
+   +lZkWXup5p4WG7NON05g0AFpZqnmCnanzHBdoaHdKfpOlrq5zNesZNnW8
+   9ICQ7FSZgrpn5zGk26BL6sa25wsKN4mOZ7Y6u1iIOofAgFl0v0Qrf3VbL
+   /zLo0OYlzHW33TO3tPWUxD7JUNN2kDjFi7vXq0gJ/veMbeI11zBhWDkcP
+   g==;
+X-CSE-ConnectionGUID: BSF8oZ4UT1KAHO+cPTrQgg==
+X-CSE-MsgGUID: bo8n8MHcTw6v7w3mjWFOLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1372831"
+X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
+   d="scan'208";a="1372831"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 00:20:07 -0700
+X-CSE-ConnectionGUID: VTopvUN2QhyUpAaTN2kSFg==
+X-CSE-MsgGUID: 1lnYNjwSSN2J1gdWxYXDxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
+   d="scan'208";a="3516182"
+Received: from binbinwu-mobl.ccr.corp.intel.com (HELO [10.124.245.162]) ([10.124.245.162])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 00:19:59 -0700
+Message-ID: <d742f446-4632-4d15-a6ca-9d0ba144b223@linux.intel.com>
+Date: Fri, 23 Oct 2026 15:19:57 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,164 +72,148 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 07/28] KVM: VMX: Initialize VMCS FRED fields
+To: Sohil Mehta <sohil.mehta@intel.com>, kvm@vger.kernel.org, x86@kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-8-sohil.mehta@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20260911213659.2025974-8-sohil.mehta@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-__ASSEMBLY__ is only defined by the Makefile of the kernel, so
-this is not really useful for uapi headers (unless the userspace
-Makefile defines it, too). Let's switch to __ASSEMBLER__ which
-gets set automatically by the compiler when compiling assembly
-code.
+On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+> From: "Xin Li (Intel)" <xin@zytor.com>
+> 
+> Initialize host VMCS FRED fields with host FRED MSRs' value and
+> guest VMCS FRED fields to 0.
+> 
+> FRED CPU state is managed in 9 new FRED MSRs:
+>         IA32_FRED_CONFIG,
+>         IA32_FRED_STKLVLS,
+>         IA32_FRED_RSP0,
+>         IA32_FRED_RSP1,
+>         IA32_FRED_RSP2,
+>         IA32_FRED_RSP3,
+>         IA32_FRED_SSP1,
+>         IA32_FRED_SSP2,
+>         IA32_FRED_SSP3,
+> as well as a few existing CPU registers and MSRs:
+>         CR4.FRED,
+>         IA32_STAR,
+>         IA32_KERNEL_GS_BASE,
+>         IA32_PL0_SSP (also known as IA32_FRED_SSP0).
+> 
+> CR4, IA32_KERNEL_GS_BASE and IA32_STAR are already well managed.
+> Except IA32_FRED_RSP0 and IA32_FRED_SSP0, all other FRED CPU state
+> MSRs have corresponding VMCS fields in both the host-state and
+> guest-state areas.  So KVM just needs to initialize them, and with
+> proper VM entry/exit FRED controls, a FRED CPU will keep tracking
+> host and guest FRED CPU state in VMCS automatically.
+> 
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> ---
+> v10:
+>  - s/rdmsrl/rdmsrq (Chao)
+>  - Remove a terse comment which doesn't help at all (Sean).
+>  - Replace direct, raw use of __this_cpu_ist_top_va() with a self-
+>    explanatory this_cpu_fred_rsp() helper for better readability (Sean).
+>  - Add cpu_feature_enabled(X86_FEATURE_FRED) to patch out accesses to
+>    VMCS FRED fields (Sean).
+>  - Remove "#ifdef CONFIG_X86_64" after switching to this_cpu_fred_rsp()
+>    (Sean).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Documentation/dev-tools/checkuapi.rst | 2 +-
- include/uapi/linux/a.out.h            | 4 ++--
- include/uapi/linux/const.h            | 4 ++--
- include/uapi/linux/edd.h              | 4 ++--
- include/uapi/linux/hdlc/ioctl.h       | 4 ++--
- include/uapi/linux/types.h            | 4 ++--
- tools/include/uapi/linux/const.h      | 4 ++--
- 7 files changed, 13 insertions(+), 13 deletions(-)
+[...]
 
-diff --git a/Documentation/dev-tools/checkuapi.rst b/Documentation/dev-tools/checkuapi.rst
-index 9072f21b50b0c..3c9a3a58c24da 100644
---- a/Documentation/dev-tools/checkuapi.rst
-+++ b/Documentation/dev-tools/checkuapi.rst
-@@ -273,7 +273,7 @@ Consider this change::
-     -typedef unsigned __bitwise __poll_t;
-     +typedef unsigned short __bitwise __poll_t;
- 
--     #endif /*  __ASSEMBLY__ */
-+     #endif /*  __ASSEMBLER__ */
-      #endif /* _UAPI_LINUX_TYPES_H */
-     EOF
- 
-diff --git a/include/uapi/linux/a.out.h b/include/uapi/linux/a.out.h
-index 5fafde3798e57..cbcc37674e64c 100644
---- a/include/uapi/linux/a.out.h
-+++ b/include/uapi/linux/a.out.h
-@@ -10,7 +10,7 @@
- 
- #endif /* __STRUCT_EXEC_OVERRIDE__ */
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- /* these go in the N_MACHTYPE field */
- enum machine_type {
-@@ -247,5 +247,5 @@ struct relocation_info
- };
- #endif /* no N_RELOCATION_INFO_DECLARED.  */
- 
--#endif /*__ASSEMBLY__ */
-+#endif /*__ASSEMBLER__ */
- #endif /* _UAPI__A_OUT_GNU_H__ */
-diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
-index 565f309b9df8b..6d89e477fc79c 100644
---- a/include/uapi/linux/const.h
-+++ b/include/uapi/linux/const.h
-@@ -13,7 +13,7 @@
-  * leave it unchanged in asm.
-  */
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- #define _AC(X,Y)	X
- #define _AT(T,X)	X
- #else
-@@ -28,7 +28,7 @@
- #define _BITUL(x)	(_UL(1) << (x))
- #define _BITULL(x)	(_ULL(1) << (x))
- 
--#if !defined(__ASSEMBLY__)
-+#if !defined(__ASSEMBLER__)
- /*
-  * Missing asm support
-  *
-diff --git a/include/uapi/linux/edd.h b/include/uapi/linux/edd.h
-index 0fe3e02aec653..566f206964862 100644
---- a/include/uapi/linux/edd.h
-+++ b/include/uapi/linux/edd.h
-@@ -53,7 +53,7 @@
- #define EDD_MBR_SIG_NR_BUF 0x1ea  /* addr of number of MBR signtaures at EDD_MBR_SIG_BUF
- 				     in boot_params - treat this as 1 byte  */
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- #define EDD_EXT_FIXED_DISK_ACCESS           (1 << 0)
- #define EDD_EXT_DEVICE_LOCKING_AND_EJECTING (1 << 1)
-@@ -187,6 +187,6 @@ struct edd {
- 	unsigned char edd_info_nr;
- };
- 
--#endif				/*!__ASSEMBLY__ */
-+#endif				/*!__ASSEMBLER__ */
- 
- #endif /* _UAPI_LINUX_EDD_H */
-diff --git a/include/uapi/linux/hdlc/ioctl.h b/include/uapi/linux/hdlc/ioctl.h
-index b06341acab5ec..0905383d72aa5 100644
---- a/include/uapi/linux/hdlc/ioctl.h
-+++ b/include/uapi/linux/hdlc/ioctl.h
-@@ -35,7 +35,7 @@
- #define LMI_CCITT		3 /* ITU-T Annex A */
- #define LMI_CISCO		4 /* The "original" LMI, aka Gang of Four */
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- 
- typedef struct {
- 	unsigned int clock_rate; /* bits per second */
-@@ -90,5 +90,5 @@ typedef struct {
- 
- /* PPP doesn't need any info now - supply length = 0 to ioctl */
- 
--#endif /* __ASSEMBLY__ */
-+#endif /* __ASSEMBLER__ */
- #endif /* __HDLC_IOCTL_H__ */
-diff --git a/include/uapi/linux/types.h b/include/uapi/linux/types.h
-index 48b933938877d..00743f894e7e3 100644
---- a/include/uapi/linux/types.h
-+++ b/include/uapi/linux/types.h
-@@ -4,7 +4,7 @@
- 
- #include <asm/types.h>
- 
--#ifndef __ASSEMBLY__
-+#ifndef __ASSEMBLER__
- #ifndef	__KERNEL__
- #ifndef __EXPORTED_HEADERS__
- #warning "Attempt to use kernel headers from user space, see https://kernelnewbies.org/KernelHeaders"
-@@ -59,5 +59,5 @@ typedef __u32 __bitwise __wsum;
- 
- typedef unsigned __bitwise __poll_t;
- 
--#endif /*  __ASSEMBLY__ */
-+#endif /*  __ASSEMBLER__ */
- #endif /* _UAPI_LINUX_TYPES_H */
-diff --git a/tools/include/uapi/linux/const.h b/tools/include/uapi/linux/const.h
-index 565f309b9df8b..6d89e477fc79c 100644
---- a/tools/include/uapi/linux/const.h
-+++ b/tools/include/uapi/linux/const.h
-@@ -13,7 +13,7 @@
-  * leave it unchanged in asm.
-  */
- 
--#ifdef __ASSEMBLY__
-+#ifdef __ASSEMBLER__
- #define _AC(X,Y)	X
- #define _AT(T,X)	X
- #else
-@@ -28,7 +28,7 @@
- #define _BITUL(x)	(_UL(1) << (x))
- #define _BITULL(x)	(_ULL(1) << (x))
- 
--#if !defined(__ASSEMBLY__)
-+#if !defined(__ASSEMBLER__)
- /*
-  * Missing asm support
-  *
--- 
-2.56.0
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index 2a2218e0983b..dc80ca5f804d 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -1562,6 +1562,12 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu, int cpu)
+>  				    (unsigned long)(cpu_entry_stack(cpu) + 1));
+>  		}
+>  
+> +		if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+
+Nit:
+I was wondering why cpu_feature_enabled(X86_FEATURE_FRED) was needed for a while.
+Sorry I missed the version history :(
+
+This seems to be the first time this cpu_feature_enabled() && kvm_cpu_cap_has() combination is used,
+maybe have a mention in the changelog?
+
+> +			vmcs_write64(HOST_IA32_FRED_RSP1, this_cpu_fred_rsp(FRED_STACK_LEVEL_1));
+> +			vmcs_write64(HOST_IA32_FRED_RSP2, this_cpu_fred_rsp(FRED_STACK_LEVEL_2));
+> +			vmcs_write64(HOST_IA32_FRED_RSP3, this_cpu_fred_rsp(FRED_STACK_LEVEL_3));
+> +		}
+> +
+>  		vmx->loaded_vmcs->cpu = cpu;
+>  	}
+>  }
+> @@ -4500,6 +4506,17 @@ void vmx_set_constant_host_state(struct vcpu_vmx *vmx)
+>  	 */
+>  	vmcs_write16(HOST_DS_SELECTOR, 0);
+>  	vmcs_write16(HOST_ES_SELECTOR, 0);
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		/* FRED CONFIG and STKLVLS are the same on all CPUs */
+> +		vmcs_write64(HOST_IA32_FRED_CONFIG, kvm_host.fred_config);
+> +		vmcs_write64(HOST_IA32_FRED_STKLVLS, kvm_host.fred_stklvls);
+> +
+> +		/* Linux doesn't support kernel shadow stacks, thus SSPs are 0s */
+> +		vmcs_write64(HOST_IA32_FRED_SSP1, 0);
+> +		vmcs_write64(HOST_IA32_FRED_SSP2, 0);
+> +		vmcs_write64(HOST_IA32_FRED_SSP3, 0);
+> +	}
+>  #else
+>  	vmcs_write16(HOST_DS_SELECTOR, __KERNEL_DS);  /* 22.2.4 */
+>  	vmcs_write16(HOST_ES_SELECTOR, __KERNEL_DS);  /* 22.2.4 */
+> @@ -5030,6 +5047,17 @@ static void init_vmcs(struct vcpu_vmx *vmx)
+>  	}
+>  
+>  	vmx_setup_uret_msrs(vmx);
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		vmcs_write64(GUEST_IA32_FRED_CONFIG, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP1, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP2, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP3, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_STKLVLS, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP1, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP2, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP3, 0);
+> +	}
+>  }
+>  
+>  static void __vmx_vcpu_reset(struct kvm_vcpu *vcpu)
+> @@ -8883,6 +8911,11 @@ __init int vmx_hardware_setup(void)
+>  
+>  	kvm_caps.inapplicable_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
+>  
+> +	if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		rdmsrq(MSR_IA32_FRED_CONFIG, kvm_host.fred_config);
+> +		rdmsrq(MSR_IA32_FRED_STKLVLS, kvm_host.fred_stklvls);
+> +	}
+> +
+>  	return 0;
+>  }
+>  
 
