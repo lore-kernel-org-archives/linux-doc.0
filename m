@@ -1,103 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792837685;
-	b=ndkClq6XgUcdlWLuFKr4mvuINPqgaq6lM+8nbT1oGgi0VuGxLOHGxHAn141G2pkr1+1C
-	 6mDjUxSzqh19A5M8K2TJMNarngKiWY+QHMv5KCHVMhXw7q4u1KnoT016rLQ/sa6xHn+r0
-	 62glvHqQZHgwcsUSKFMjzPos5fs8J35gcATTm3U6khEmf3OY0NWumexvRDzfN9qaQlhVr
-	 9DQ7FAU0cAyTE01WMZYV1J8hUnVfWRxYg0GZzb5PYZbIBPrueJEkpwMjoUcfgMVFRbUGc
-	 TdNbVKUgOCgwC9UpL0Km2mB8Nlu8rM7vKT6X5rPsRWawUkAKhocn4uHaF6vEbTKVOlw==
+	t=1792838767;
+	b=MR28LSL0GGIEDd/PTf5Tkbgtc5tveeq0w7J4jiQItaReAjhGjEiTm5PjhkII2n3pEuyk
+	 bTBfbjyCy47FnEG4OE39APde4EhGF+CcBpx6yThoKcajwbusxlSqJb7MMB55/t9q0bRD4
+	 tew1SdJnMQg0wCz4YJodnN2Jg4auEtpCNo/pMNYhFK3baqxFgIqFyWN51VKeBohJotz8f
+	 LiA9+bDJKwyN1Xid+81UE6iI0bjCLi9nDG953LgiSwgHTjW2i8neTwSw2bNdTvru8u/2K
+	 IWguYkes7E0k5T8X40CqF9UvXQkdEWpS7GYxFgPQe6oKkXFf2sMmBLqbYncThpcnlVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792837685;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792838767;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
-	b=C8wD6JHuJ1R3sc4a8J9pqeBcwy7kNJgFma7KjUQJEg+U+/mVJV0ppFdVC161gGlzQWyW
-	 0KiZFcdcJL0LAJfzPqo+Ekp+JcWRrBE+Wm4bsneqtNiOCanINzvdYUhWoRthTTcyCx87x
-	 Kcbm/32gqe2gPDJVXSQI9v9W3vQEeVdG+5Wmj5bhu4RO+qzEn8ixvj4EM/qFAhzOKpKvg
-	 GzXeB5EjcCLtQzMZ401DZfuFF9eiZGGjcQpgH99cf2S3/cZSUxV/sKwfit0ZeA9efJjsT
-	 RhdcoirrKLDyKvlLGi6+3S9rkPSVG3HuouY8tBRbTGwHA+lde33h+roqaK8NW2m4WNw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
+	b=Ege2WIHC1NyNIIdjkZozzmP1sHl0DFN2L2RUjKAzApgVK5mPDhPHn+/x5vgHLxW+n8Sv
+	 J5ksINptuqBtIbZ+P2rS09QxqeIlDkFLmJj5I2f7ct6gLD7W07CUTQ2t6aAnaDnxTf6Zj
+	 iZXfLNsQ5ZLYwpoIG1uFWagbXke30RocfH13q/VX5pb6R1iz1osc1dol6Xd7xmd21x4rM
+	 smw6qJn9KxOlBHILyP8OrAw89jg3wZVLMl1xqNIm7lhUIx4952tGvW8WpyR7W/mjKi3fn
+	 nn6+Ai90uaP/lRoC9D/d7fe3hA8vNlzQSGibCCpRGgk3xX+c6XodShJTLU2HxQo9SaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V6qybNv7;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=OK8BbQHz;
+	arc=none smtp.remote-ip=209.85.221.179
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752E3606A31B
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 10:28:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 752E3606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F22606A31B
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 10:46:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0F22606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V6qybNv7
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c5358fc28so1379659f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 03:28:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=OK8BbQHz
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5eaf169fe3dso502844e0c.3
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 03:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792837684; x=1793442484; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
-        b=V6qybNv7xo0fC7ai3ZiY835zdKjAQDhIU7NdoTyXea2t7zlKgfDV4x2XB7n0pnam3F
-         Ni7k89DraHY3DpkpWSecWSop9BPvuPLTGKdHb1+SfRqbrSeOngxyZP90iaq96bou6V+8
-         MIoD1H7gvTvBiS/I+eAZwFLiZwzWV0yRUxrHGxqdxOv+e5zWpldyIW1jRUw05Cjv6qe1
-         6IyEy7FkFuHnKtHb+5nYhR1t1hkssKbbMpWur1VObrDOtKVGhVSI+IrT2IcSX5UQQLOj
-         USczm0QIvEKKCisyCIbIvNeR26YWY5JO8H4CoIfSIkrOsZcRecDBKUE1ZeEK/tUL1QVu
-         g9jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792837684; x=1793442484;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792838766; x=1793443566; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
-        b=1Gf3+3Lb6k0iW/ODAdRQz9shfC5xpbyraszZYz0+vRCdVkAtq5pd7TM4ITphTu4Bed
-         qHhAsLbyX1TqBD/0EjzCvp6S85NJ9sixnM2VtQt1Z2y1zYA4imkHuw4EVf+KmMd+v3Dw
-         Qze+Z+h75JMERbLI/XqHlh1veb5ovS3g0KBAKO2PSvqwJAGi4c/H/zzU1r4of8L1WjR0
-         JuJRI8GGnzWZCPloSWalU/XUWW3PjQGwnBm/l4kDkBvMCy6QcsEEBhxB+vS/yWEc2IrU
-         ZKX59GCwSszYJ3U2NP/TQz7M2iR5kOcYqCPTPmLfy+L7Ci5YXTc0ZTIiBjYuaQyMpnEf
-         wH8Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzEBmkpKxlfjaS6JZxOdPbjYC6dybpZS8cGSNpbi2TaOYi5DkfJO9dI+0QT1/GTsxh9PwUBbjLtJ2s=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLst7f20T5z2e1d29dpZ/o2jL6v/tXoSsmiQ3NTrFdiePC/GB/W
-	pO8yHfweiKBf0YFdiyo4A7DQ7stpWwzHraqtauzb6co07R1EzuZ2hVqB
-X-Gm-Gg: AYBFou3R7ZIXtpfxLPSd/w6my+WxXOV9ly6VoUiKfVofSeGQUBDdI9xRhYmOzPqkbCd
-	420yKvId/Qzu1q6C6+IvUAih15B+3Mu2PhcOKNztRNKlaQR5YKdthG5684gPcBw0w270zI73A8Z
-	V5K9saxa4J7vp0vGTuBBQsjMafVUDvg3O7jtnLSCag6OGOifnT6n102RA/wXr4/HtItuBTRPLYl
-	6vm8sqPNJDo6vejjIi83yK91UAhIm+8q9NHJbSmfXqQbI3VbVzpQSmZealUUXPCqT/o4LLURuXd
-	iLDPV12hSX3MEeab679OFiUg9NOUOTsM4g95AhfdIQ+4TkymHt/sK0ygRtMHukbeCibfXIejFaA
-	4sL/ZCU9mB0FoVmbMI3jkLA6cVg44z7FHODCyoL6veI3eFj8Ocnow6X6MEvlliszV4McwgOi/Hd
-	09u4/vSwc8kIV9xM4S/+025odT+8CiQ5MHsr25JiPPKQa7rcskfJq1q+vDtDiyTd179X+Ra53VM
-	5lDvNn1fdJh9PMDTAyZfLCdk2ZrYVBo4sfV+Xotv9D9cm/Bc3Vu8zxpf87w9sMPAMFZDkj5WQIn
-	EIxChdQK2eu4Y4xK8l44OHskhh99jgvwTXhorBFjdwc/kWuFp9W4WzPKHyZQCFXKnI0TUZdQ5up
-	SpiiPF0HEs6IFPwlixs3dUZdj9f687Z1RRL8pde6oBToXivF05tR38U4h
-X-Received: by 2002:a5d:5d10:0:b0:48d:e62f:db70 with SMTP id ffacd0b85a97d-48e3eb9c239mr2514461f8f.48.1792837683543;
-        Sat, 24 Oct 2026 03:28:03 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9da9-5f01-d5f0-7ecf-afa4-4bc6.310.pool.telefonica.de. [2a02:3100:9da9:5f01:d5f0:7ecf:afa4:4bc6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3a1csm3506285f8f.16.2026.10.24.03.28.00
+        bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
+        b=OK8BbQHzM5RrUJpfUHsP4lq0v+SDD46VuMG3gD5VYaC7zVUeUa+YcFqJ3XSLiHcAxt
+         n87sdQrxC3Tj7TlmVFUlvzesxzGIBVqPgbqqWWtk5czOqwxq5XulxWPaJtZ2BBVfs/Hy
+         0u6L8zFG6cNDF9joD50Q2KYm1RQU++XufJ0xmx686wf0AQ60/sWITPQr8wUK7p3x9GnZ
+         fKjhiNsnS2LiqTENN5P/aqOCfC4iEmqHftQXd1ytPtdxBeIRHugzwufakaPsbl5O/Fkd
+         dUuw8x+6mG17RKEcovjy42qHNySUucxLkCp88wm0hgxKzyWigiNCQepRYhaocDaK55j9
+         BLrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792838766; x=1793443566;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
+        b=DRQrg4L8vwUBXLeVXGCHus/XFn6dpJ3ZoIN6piuamOx9Qnn5MnPKT9sw5fK/cGFYN/
+         93NBoJZGdB9Ah4Fg9LfAUlleljXDyOP/w0P2bIDHCoK4LJnJdHswx6nBDYjug6DI0VsW
+         RHhYfS7pcVxznj3jlXxPwYMbTBqdViNFYbNCuAEFZukfwZWDWm01VzMF8zl5XQi619f2
+         2yONBtGjrTiL9zs9tLwT1Kylx0wCUL21rACTExGxbyRJaXV7s/TfZKowxnSabfD733pK
+         bADDITHXLAI9IAtFlrknWn5jTgsoDhDW/ABYR9wyS2RFtdbgHEEZguqC90P7ftlNttXI
+         sEgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBykTtX58y1/Ggqf7IvAky9YV6C29+nJGgPdUoviT1nr7TrdYnaUotbOowIPlYna9yPwFrtOCDeNyrU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKnDsYIdpduJeICqhgxZy03477319lgRf93VydcHZThqBVhibqj
+	j1TqR6HXlLr+2sEywiEb5KuHHHqEYOoN444RAvbPkyDe+v9Yi92KSXoT
+X-Gm-Gg: AYBFou2V6MROIfbBTPQTF3rLxD7sFQr6LPHAqeRYf7opmYRBbNeU+iSe5ZNXxd9t6Su
+	2eBD2JZPdHZKk2NwlqHLfBcz3Cc3/23ZXvqmGF5HKD+VupWvS3XFRE7+/78xfQIbLFoss93+BcM
+	hitxhdYdZK0DItWO0YmnEi5LqHqY9J8J29nGDsqGLLBkhJRbxN+V+A/36ihL9zF7/In0cUP1/UR
+	rOSUsnMaAVKLDS0UUy3Ahbf6WPIduKSVWFu1E/IBamay4KtskDNVPSzodgiqBPFvsDdsg0e5VPO
+	cfJXUEps9XM06Dkm2e2aT/rRrYRSdrZNBXz6Bx2AP44cmwJIlL+9YAY+6fLWUleIkTwJraKxYyp
+	d54IU5Lr2WEWWU+DWUIGro736yU5GxeXVrDZc42CDFWOijeTITx9JoinmGuf2rwMAlBnmNEJ93B
+	NtdORP/kOAUsIhP+4hSCZLBU7g6gwCxV57jnFrskCnupr1ltBxJpVFvrrysyiT9t6k+164+Qr2m
+	fThXbhSkuHVqTD9+arCd93TxaGDNAp38eOo5VxaZjgZzsYbIx5JZu7frx98SJaF/wEeDvcWXeT0
+	pK15
+X-Received: by 2002:a05:6102:1492:b0:7cc:32da:56e with SMTP id ada2fe7eead31-7ce5cd41446mr429300137.19.1792838765631;
+        Sat, 24 Oct 2026 03:46:05 -0700 (PDT)
+Received: from DESKTOP-7QP7L26 ([45.190.211.148])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910e7b7069sm2191025241.3.2026.10.24.03.46.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 03:28:02 -0700 (PDT)
-Date: Sat, 24 Oct 2026 12:27:59 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-trace-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
-Message-ID: <atyGqz5lcvYQvCYp@gmail.com>
-References: <20261022050712.75035-1-kmehltretter@gmail.com>
- <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
+        Sat, 24 Oct 2026 03:46:05 -0700 (PDT)
+From: dev12124 <joaoanandalima@gmail.com>
+To: linux-mm@kvack.org
+Cc: linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	ardb@kernel.org,
+	keescook@chromium.org,
+	dev12124 <joaoanandalima@gmail.com>
+Subject: [PATCH] mm: ppm: add PPM (Page-Plugger Under Memory) to Page Fault and Overcommit elimination
+Date: Sat, 24 Oct 2026 07:45:42 -0300
+Message-ID: <20261024104552.394-1-joaoanandalima@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,44 +99,339 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 23, 2026 at 06:05:30PM +0100, Gabriele Monaco wrote:
-> On Thu, 2026-10-22 at 07:07 +0200, Karl Mehltretter wrote:
-> > This RFC adds events at the generic hardirq and serving-softirq
-> > boundaries. The irqstate RV monitor checks their order and agreement with
-> > live kernel state. irqexit follows the owner of a preempt_schedule_irq()
-> > invocation across task switches and CPU migration.
-> > 
+Hi mm subsystem,
 
-> 
-> Hi Karl,
-> 
-> thanks for your contribution!
-> I'm probably not going to have much time to look at this soon as I have a few
-> holidays planned and other series to review first. But it looks interesting.
-> 
-> What points my eyes is that you didn't include any schematic graph in the
-> documentation.
-> Some folks don't like RST, but I find having a textual representation of the
-> model there easy to understand what you're trying to do without having to build
-> the models.
-> We use graph-easy for that (and adapt things if the model is too complex).
-> 
-> Do not send a V2 just for this, but please keep that in mind for next time.
-> 
+This patch implements the Memory Tatic called PPM, Page-Plugger Under Memory.
+The Main Objective is: Page Faults and Overcommit Elimination.
 
-Hi Gabriele,
+A few points under additionate:
 
-thanks for the encouragment! Yes I continue working on this RFC and use
-it to check for my related early irq cleanup series. I will use your doc
-suggestion.
+1. Allocation Handshake (ppm_kalloc):
+Using the GFP_PLUG_MEMORY mask, the allocator completely bypasses
+passive overcommit verification. It instantly isolates physical frames
+on the RAM, maps the page table entries síncronamente, and forces the
+Present Bit and Writable Bit to 1 before returning the address block
+register to the CPU.
 
-I will wait for further input and liekly post a v2 in a week or two.
+2. Desallocation Cleanup (ppm_kfree):
+Triggered via the GFP_FREE_T parameter, the release phase executes an
+immediate length truncation to 0. It forces a synchronous TLB
+invalidation (via invlpg execution) and flushes the data out of the L3
+cache lines using clflushopt instructions before moving the hot clean
+pages into a dedicated priority recycling pool.
 
-Any broad strategic direction for me and my LLM are always welcome.
+I additionate a Buffer/Cache with store important objects.
 
-Regards,
-Karl
+
+
+
+
+
+---
+ include/linux/ppm/gfp_types.h |  74 ++++++++++++++++
+ include/linux/slab.h          |  11 +++
+ mm/memory.c                   | 158 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 243 insertions(+)
+ create mode 100644 include/linux/ppm/gfp_types.h
+
+diff --git a/include/linux/ppm/gfp_types.h b/include/linux/ppm/gfp_types.h
+new file mode 100644
+index 000000000..741122b2d
+--- /dev/null
++++ b/include/linux/ppm/gfp_types.h
+@@ -0,0 +1,74 @@
++/* 
++  Memory Tatic: PPM (Page-Plugger Under Memory).
++  This File is for PPM Flags/Macros/Functions/Types.
++  Engineer (brazilian): João Guilherme da Silva Freitas Lima <joanandalima@gmail.com>
++ */
++
++/* Types Include Guards */
++#ifndef __PPM_TYPES_MEMORY 
++#define __PPM_TYPES_MEMORY 
++
++typedef unsigned char uint8_t;
++typedef unsigned short uint16_t;
++typedef unsigned int uint32_t;
++typedef unsigned long long uint64_t;
++typedef uint64_t gfp_t;
++/* For errors in Allocation */
++#define __PPM_ALLOC_ERROR -102
++/* For errors in Desallocation */
++#define __PPM_FREE_ERROR 0x04 
++/* For success */
++#define __PPM_SUCCESS 0
++#endif
++
++/* Functions Include Guards */
++#ifndef __PPM_FUNCTIONS_MEMORY
++#define __PPM_FUNCTIONS_MEMORY 
++
++/* Initializer */
++void __init_ppm_memory();
++
++/* Allocator Optimized */
++int ppm_kalloc(unsigned long address, uint64_t size, gfp_t flags);
++
++/* Desallocator Optimized */
++int ppm_kfree(uint64_t size);
++
++#endif
++
++/* Flags Include Guards */
++#ifndef __PPM_FLAGS_MEMORY 
++#define __PPM_FLAGS_MEMORY
++
++/* PPM inits/starts in Bit 54 of a 
++   64-bit variable 
++ */
++gfp_t GFP_PLUG_MEMORY = (1ULL << 54); 
++
++/* For free memory, the Bit 55 is 
++   used 
++ */
++gfp_t GFP_FREE_T = (1ULL << 55);
++
++#endif 
++
++/* Macros Include Guards */
++#ifndef __PPM_MACROS_MEMORY
++#define __PPM_MACROS_MEMORY
++
++/* For Kernel Kernel tests 2 Bits (54 and 55) in 
++  1 Clock Cycle (or in small clocks, example: 5 Clocks), 
++  is used a mask using | 
++ */
++gfp_t GFP_MASK = GFP_PLUG_MEMORY | GFP_FREE_T;
++
++#endif
++
++/* 
++  Notes:
++    E-Mail of RFC:
++        [RFC] mm: page-fault: overcommit: PPM (Page-Plugger Under Memory)
++    
++    
++    Assigned-Off-by: João <joanandalima@gmail.com>
++ */
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index cda126def..c76243128 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -22,6 +22,17 @@
+ #include <linux/percpu-refcount.h>
+ #include <linux/cleanup.h>
+ #include <linux/hash.h>
++#include <linux/ppm/gfp_types.h>
++
++/* A Structure enum with objects and codes
++  for PPM Tatic Memory 
++ */
++enum __PPM_OBJ_CDE_BITS {
++	_PPM_OBJECT_CACHE, /* A Simple Cache to store objects */
++	_PPM_OBTAIN_CODE, /* 0x04, -102 or 0 */
++    _PPM_FLAGS__ /* The Special Flags to PPM (Page-Plugger Under Memory) */
++};
++
+ 
+ enum _slab_flag_bits {
+ 	_SLAB_CONSISTENCY_CHECKS,
+diff --git a/mm/memory.c b/mm/memory.c
+index 8b0c2c735..5e1ca12c4 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -78,6 +78,8 @@
+ #include <linux/sched/sysctl.h>
+ #include <linux/pgalloc.h>
+ #include <linux/uaccess.h>
++#include <linux/ppm/gfp_types.h>
++#include <linux/slab.h>
+ 
+ #include <trace/events/kmem.h>
+ 
+@@ -94,6 +96,137 @@
+ #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
+ #endif
+ 
++/* Small Variables for 
++  PPM uses 
++ */
++int ppm_free_error;
++int ppm_alloc_error;
++int ppm_success;
++unsigned int order;
++unsigned int nr_pages = 1 << order;
++unsigned int i;
++struct vm_area_struct *vma;
++spinlock_t *ptl;
++
++/* Initializer of PPM */
++void __init_ppm_memory() 
++{
++	
++	/* 1. Define the variables for 
++	 the rest of System uses 
++	 */
++	ppm_free_error = __PPM_FREE_ERROR;
++	ppm_alloc_error = __PPM_ALLOC_ERROR;
++	ppm_success = __PPM_SUCCESS;
++
++	/* 2. Connect __PPM_OBJ_CDE_BITS to 
++	   flags under gfp_types.h 
++	 */
++	__PPM_OBJ_CDE_BITS.__PPM_OBJECT_CACHE = 4 * 1024 * 1024; /* 4MB for alloc, used to store important objects */
++	__PPM_OBJ_CDE_BITS.__PPM_OBTAIN_CODE = 0; /* Is modifyed in ppm_kalloc() and ppm_kfree() */
++	__PPM_OBJ_CDE_BITS.__PPM_FLAGS__ = GFP_MASK; /* The Kernel uses this for test */
++
++	/* 3. Alloc the Cache of Objects */
++	char *ppm_identifier = "PPM Cache";
++	int *result_ptr = kmem_cache_create(ppm_identifier, 
++		8, 
++		_slab_flag_bits._SLAB_HWCACHE_ALIGN,
++		_slab_flag_bits._SLAB_PANIC 
++	); /* Number 8 for a 64-bit Pointer */
++	__PPM_OBJ_CDE_BITS.__PPM_OBJECT_CACHE = result_ptr;
++
++	/* 4. Return success */
++	ppm_success = __PPM_SUCCESS; /* The Kernel Optional-Action is verify if ppm_success is __PPM_SUCCESS */
++}
++
++/* Allocator to PPM */
++int ppm_kalloc(unsigned long address, uint64_t size, gfp_t flags) 
++{
++	if (unlikely(!size)) 
++		return __PPM_ALLOC_ERROR;
++
++	/* 1. Alloc the size */
++	order = get_order(size);
++	struct page *pages_ppm = alloc_pages(
++		flags | GFP_PLUG_MEMORY,
++		order
++	);
++
++	/* 2. Navigation in PTE (Page Table Walk) */
++	/* 2.1. Obtain PGD */
++	pgd_t *pgd = pgd_offset(current->mm, address);
++	/* 2.2. Obtain P4D */
++	p4d_t *p4d = p4d_alloc(current->mm, pgd, address);
++	/* 2.3. Obtain PUD */
++	pud_t *pud = pud_alloc(current->mm, p4d, address);
++	/* 2.4. Obtain PMD */
++	pmd_t *pmd = pmd_alloc(current->mm, pud, address);
++	
++	/* 3. Plugging */
++	/* Entry in PTE */
++	pte_t *pte = pte_offset_map_lock(current->mm, pmd, address, &ptl);
++	for (int i = 0; i < nr_pages; i++)
++	{
++		/* Calcle the memory allocated in 1 step */
++		pte_t entry = pfn_pte(page_to_pfn(pages_ppm) + i, vma->vma_page_prot);
++		entry = pte_mkdirty(entry); /* Active bit dirty */
++		entry = pte_mkyoung(entry); /* Active bit young/present */
++	}
++
++	/* 4. Finalize setting in the RAM the page */
++	pte_t *new_pte;
++	set_pte_at(current->mm, address, pte, new_pte);
++
++	/* 5. Unlock */
++	pte_unmap_unlock(pte, ptl);
++
++	/* 6. Return */
++	ppm_success = __PPM_SUCCESS; /* If value returned == __PPM_SUCCESS? */
++	return ppm_success;
++}
++
++/* Desallocator to PPM */
++int ppm_kfree(uint64_t size) 
++{
++	if (unlikely(!size)) 
++		return __PPM_FREE_ERROR;
++	
++	/* 1. Entry in MMU Directories */
++	pgd_t pgd = pgd_offset(current->mm, address);
++	p4d_t p4d = p4d_alloc(current->mm, pgd, address);
++	pud_t pud = pud_alloc(current->mm, p4d, address);
++	pmd_t pmd = pmd_alloc(current->mm, pud, address);
++
++	/* 2. Entry in PTE */
++	pte_t pte = pte_offset_map_lock(current->mm, pmd, address, &ptl);
++	/* Verify if the PPM plugged the page */
++	pte_t result_for_check = ptep_get(pte);
++	pte_val(result_for_check) & GFP_PLUG_MEMORY;
++	if (result_for_check > 1) 
++	{
++		pte_clear(current->mm, address, pte);
++	} else `{
++		/* No executes/call, is ignored */
++		
++	}
++
++	/* 3. Flush for clear the TLB */
++	flush_tlb_page();
++
++	/* 4. Unlock PTE */
++	pte_unmap_unlock(pte, ptl);
++
++	/* 6. Extract the Pointer to free */
++	int identifier_numeric = pte_pfn(result_for_check);
++	struct page *ptr_result = pfn_to_page(identifier_numeric);
++	free_pages(ptr_result, order);
++
++	/* 7. Return success */
++	ppm_success = __PPM_SUCCESS;
++	return ppm_success;
++}
++
++
+ static vm_fault_t do_fault(struct vm_fault *vmf);
+ static vm_fault_t do_anonymous_page(struct vm_fault *vmf);
+ static bool vmf_pte_changed(struct vm_fault *vmf);
+@@ -6848,6 +6981,31 @@ vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
+ 
+ 	__set_current_state(TASK_RUNNING);
+ 
++	/* If PPM returns no is == __PPM_SUCCESS, ignore the PPM Mode and 
++	   sign the default flow 
++	 */
++	int code_error = __init_ppm_memory();
++	if (code_error == 0) 
++	{
++		/* Verify flags */
++		unsigned int ppm_check = flags & GFP_MASK;
++		if (ppm_check == GFP_PLUG_MEMORY)
++		{
++			ppm_kalloc(address, size, flags);
++			return VM_FAULT_NOPAGE;
++		} else if (ppm_check == GFP_FREE_T) {
++			ppm_kfree(size);
++			return VM_FAULT_NOPAGE;
++		} else {
++			/* Executes none */
++		}
++
++	} else {
++		/* Executes none, is jump to the instruction of 
++		   'ret = sanitize_fault_flags(vma, &flags)' and next 
++		 */		
++	}
++
+ 	ret = sanitize_fault_flags(vma, &flags);
+ 	if (ret)
+ 		goto out;
+--
+
+
+Signed-Off-by: João Guilherme da Silva Freitas Lima <joaoanandalima@gmail.com>
+
+
+
+
+
+
+
+2.55.0.windows.3
+
