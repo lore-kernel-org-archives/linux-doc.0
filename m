@@ -1,86 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792874379;
-	b=eYFF0pV6h/iNfIiHr1jY20oIQ1XmzRpub2kShO+toyOxh6h0m4BYbXwWqGTD2vKSCYZF
-	 C/Dk9cMAwnUFonCO0kFINtd5Q1lKsQMX05O5efiZAEkC5S3gDFekmc2fHdApaqkW9PT7e
-	 wzCPABshSvlwIJDltnp1dmStyrTDOpbIpSkCOOJ5uNFH6mw4zEyI4MT9dWGB1AO1BHZ6G
-	 pGloD4opdXBclZlhe1m/vPfeFIyesGUG6Up5owJaWNbUZ/1iiDz54Ea55N5gCfJ1x2Y6t
-	 Dq8G780Mb4qYUhPBJCHAUbERJf4V6hmwgN49ICpqW7GhO5TMrFqWyTAx1E5muuQ3+VQ==
+	t=1792874906;
+	b=VTvZE33B0FsTL5OYNAFCswLupg7vEYsOLJdm+1BjxudS0BAR49Taevf33Oguu/EoxSLY
+	 RqzZlm9k73gWZvKJDrdqFMTaUZhQJYcv6WfKp6XZMCxVwXljdYrz6nMlpjZPETd8bOVb3
+	 iGPjUvK5ouzdinOLzK2D6Phur6eXqO6YvCh/QxdNsv6zSkaEndmD1FSbg10s27gF7Z4zh
+	 bcYYRC5W+1ZVFz/VZOLezt8KnQ9SQkei+x4srZBAJMLmh0Yz4feybPrioE0oSmS7AAWfJ
+	 OPHLTDQVvyk5BRFadwPqJS6go2OQU2x6pPIw5U9/RjXQ9VtGj9AyMeDxJKuvgcLbKFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792874379;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792874906;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=7sCcp9GVaRxjsnZJno3GxOc2KDrFHpoSBIpls8ghdgQ=;
-	b=dWnDMZsAySWjYZwJNSdycNVe7MSbSDtCtPdIqKLXIWHMi5BpYfPhIoviZHTu6kg8xZUu
-	 yUOC3w8QoKlr9JLBZ8Hx+Bbjefvk83k5lI4U/D6sCxWZSz78DlZEJ3niaB37CeRwREqYd
-	 zyMPtIYb/+autME8mW9z2EVNvUabU+Ff6ECbcC3psxMNVrz4pNv5Pfob/N9MlXKd+XgJG
-	 579V57tvpnWh7MZ/Q8iYKyfideR3VY+pH2VuvIgglZAKvl9fvqPB+MKx10jKxlFtiHZbg
-	 KbcNxz26o08npyttWviFiWrRFFKMQtgFA6wPrvVYhlbTul9y49KvfO/Zbdepm9JREpA==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
+	b=UgSDU3UlxkDukWuCywCb8jDUS+Y0rOu6n5ECtCcLBiKQxZwSPMje/kq6OXJjlwjp6gQG
+	 XKhXz3hz2bzmrFcEwuu3e01LBioNLQfZD1CXcdewAPFib10op8vh/iMmgiFX2JYqaObKI
+	 LyImCi3zdueXD7WeHBEINH9WDKhKhlh4oN3xZgPxBevYunvUie+A03lAYe6WzGwh2aE8x
+	 nM/t/g0f2KZ6u8DLKsy+WINxBBOAjVVhS1THpjw37xw9cGxYRfAVhtNYe0MOFvibnAcVJ
+	 AIsQ/nJzIXxiNfFuKsQFabRk16wJUQhQDwh/28M0GPOoLW8IvVrMrMx1JiC+spmz3TQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PMy7oqnb;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=N8V6EIzF;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A41606A325
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 20:39:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51A41606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78A5606A31D
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 20:48:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D78A5606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PMy7oqnb
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36661f953e4so3468509eec.1
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 13:39:39 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=N8V6EIzF
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917a707f37eso19929416d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 13:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792874378; x=1793479178; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7sCcp9GVaRxjsnZJno3GxOc2KDrFHpoSBIpls8ghdgQ=;
-        b=PMy7oqnbMqRkj+wlnM5ZI1BakhZ+3ZaFxEmgkOIziba4zAuFu8XH0mG5P5Yyai1H/x
-         +QH+oK5OGdRNCa7sQFJV0r3uwyCNlybfzetfkXQCdSXhtWwMIYN4XSsw2/ehCbjHMx61
-         /lUzF/kdZF8nGIwY8qI4yJ7YkI0kEqIe9gJBG9mvSHmV4lh34Kx9egnyECo+L/XAkAKs
-         fcUAX3Fxrmtl7mnFyiR/AZrquRq8Om+TudZByRYZm5QWNl88CNw4UQ6U78BcJTtSRwcr
-         b6Y3DoAYYNwhyJ69Q63fCQlrJaywk1UXgeILfti365/f0Sm1qzpquWykLni/Hq8wBnL7
-         /oVw==
+        d=gourry.net; s=google; t=1792874905; x=1793479705; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
+        b=N8V6EIzFsfngUUiSHlqZ1m2daMfL/rg419LomABkwSxzbcs1D5/Nsk7zhezLDULqs7
+         EeeKmor8mjzpP+jF2Eq/Jgt7819VQMOwx+L/G7Me6G56+yMPSJXwkOn4VGVjpC7pmkmx
+         hFqtptPuu6KpkC51AQyW+SMj9+cBfEf851ShXi6nxSlUV63+3Fh16wIyDL34MIBbOldz
+         zjqOMTH/kWaclXaKGBhsjrq5f4NAv4jnvfQcLveu4r/CsejNa7ZovPHwrEEjexmAWzjW
+         KYthvDIXysA4LgN8Y2UdB/nq8B2n51cSlOuVcsXCfrtZLx+NU5rmigp9vcRxx1sAC7jl
+         aqqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792874378; x=1793479178;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792874905; x=1793479705;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7sCcp9GVaRxjsnZJno3GxOc2KDrFHpoSBIpls8ghdgQ=;
-        b=CNv27r8M/vFbAIvf1Qo4iXefIR6WalFRFFAjhHRQ3C2VzZ2ipcl9Y6mPgU7P9pEbKC
-         5S8hoSQ4epv6Tmrqfx0rBy92/yph1e4fqA3xZKCob9rEIWdHlBviseiREX4X4ES/tE+S
-         /2aW7nyFU9NT6uRh0StkUFjkFctqQv62Hz4iu1MTWSJcpYVvLeO+ezfbn4yEGlxcQ1VY
-         FrSvluf9YapOdxVvn75xJ1wcd8enLTHSIwHn6B18Bd4HuIPbPDQl4/CEc8zGtcUVN4SQ
-         yt9R9W6XX4VJnrGfUVJzVRyiveH1JOR/8rZrUUH2m2Kq5Xkto2QdmAxn+Rd94WaYLmoS
-         kljQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwmv6JhiDM3KpvJKoQUleE7voTK3uLq5br78sOrTiV0wlUNpAJ4l3rOVvFxQZmQbtS+3FnBHcM6MjQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI925kMSJiBIv6TZ8/IM8wIMyEiN3nf0yirQ6zXlgvD9PTCe0/Z
-	oAhmmItq75I6qLj+TCZ3VJXuwyfFYk8USW7oeX6PcOQlFxyEif3A4+pC
-X-Gm-Gg: AYBFou1WilxjepfdUPIyxxFtbB4vSluftZqilyB32FLUvL/UknC2SoIL8KJJUQHD5ZZ
-	ktCw1mDTuFXK1EnB5SBma4nIDNMHNHVlrZqPnE5S+eJM2zQ97Wi5dhoKJEZhUOuL5+JHNgDtHyM
-	TJKvs/j3maLASGlf9kgh4LMWXJEk/HhfoVWYwTD3BRTmmphu5FZ/gcazm/UGQqivWCCkeeho7gH
-	yC6Bp1pcMR6tfFkgcsaij9Ms/ipCB0/TxfALf3euoqy6lXAjyl5XZ0ZhCV4jlQlR34J2+ZLAc7C
-	0LxtdZRsWW36rhJMdbEjuwkI+0/P/fmjSfZls5usIQSP0T6YMZZ65o/Fzoqr+tH37aUFtD0qS4V
-	D9X+93+z/58zhJ2Upa6lLU0MmkolyHoqH4a9Gm22GqAQFUAUt+LudaZMn18BCRVgimuvD5KjvQj
-	RMkNdk1NO2Euy2mX8u3dgfTe465ZT9XomXStPvyubzzf6ld5fs14BLsOhG1wAkjrU4uvSVbu0DD
-	lW8G6MT14oEEiNc+uyBgw/FdulGKORPA3fB7E8l576wrgXZL7msJs3CC3yz0g==
-X-Received: by 2002:a05:7022:204:b0:188:ecb4:489 with SMTP id a92af1059eb24-19937307a0bmr5814234c88.34.1792874378320;
-        Sat, 24 Oct 2026 13:39:38 -0700 (PDT)
-Received: from [127.0.0.2] ([73.222.46.22])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a1bfaf25sm9764737c88.14.2026.10.24.13.39.37
+        bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
+        b=fzXC6ScQQI1H/xtjy1pUhF0kYt6qHlKRvmWOBhyPfLqCA1Rqh+HKBCIc8yS+zODKXb
+         NZLYXwVRDbEpKUKOPK47EMsaIxWdXCDghkDqKp5tWc4eCKt66AixIzm+TR29gVzxefNI
+         09mSk2dKnYed8Wojl7tB21vY5gEVuxyKzPG8M4Uwac66puwtegTGqR5JlvsqXWUERdhi
+         sadrh9vWh1eLL8hrgqMeJp1X49arMaQSxFnbdviOgiHah169uQDq/bR5gpyIFUtJUirq
+         6WzBYMfG/JC6S6gfiHINDIZSnhkJuIDIzSiAHHU0fFuKBeiYQnsxsrkRnXWVWe1K1x+7
+         Um9Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxNhslqzRGg2asSu5+Q3kQmFZE8qFuJiGKRqJWNrqChlQHMYatG/srcORXholPGacSUxjrRmFh+/co=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKj/RsyaIXqx+x2cdLCEovrqaVj94zuP46Aac2zrJoTpROSPkiB
+	JJA0iSWnqhBMzw141GIdJRXDQN8udfRC5SKizkE8Ulusp16B2UiePwNy1l12FhD1t/Q=
+X-Gm-Gg: AYBFou3tql8KAY/r3xGudwj+YCyJYPG0Duif3duXwzTAxqCoo2rGXQiLna3jNluzRvD
+	b8MgGJg4zYdUChVe5ZsbXJX8WA66LKensgCMpKbH4bHCNBq6sHptofQhj5pSVnTA6jEVVQwfIGR
+	wjKFbodGhpQ/gaIgJ84LwEnAiKbaiJWhqe19gbESt2prH99u/Ii7iAkkKiyk1GS6RDuAEmMjWgz
+	pA24viclBsM4tKj8thVtSPCPfEa+5Ncfzx4CXf8pzH/28pCamwHtKZ2ex31dPn2PAQqKeswidUJ
+	5QpYPK5uiXDJSgJdw/ecdHO64IkHkafFBE+hN7B65Itx1KPYF7HBCYetXOa8CgWOBRhqHVfuzwA
+	6N4O8NII4iIsSGDscHSF8fU4elJg8HmWrF4HmIN+shl7SOta/s8Gf3/71u0vkiXFbD05acE9SC5
+	fW6tgArR/lc+jIeUbADEQMq+BMGN/ZRuVqJp1EVnVD6PErTyaJp3mSQkkbIA+CKR7AGMCpgF1+V
+	qS5JQXxpX5F99Gwev655OiQy6Fi/DZqi8Zf6TSuhQQEeaJrF+ZgAZfV2Y+vlCzY9r1EWX6+ZEm/
+	9r/5CznvwPC4q6/YhQRDlY2zAAc=
+X-Received: by 2002:a05:620a:4001:b0:93e:9292:1b9e with SMTP id af79cd13be357-940ef7ad8b6mr372744585a.1.1792874904799;
+        Sat, 24 Oct 2026 13:48:24 -0700 (PDT)
+Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0a94a5csm258574885a.41.2026.10.24.13.48.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 13:39:37 -0700 (PDT)
-From: Farid Zakaria <farid.m.zakaria@gmail.com>
-Date: Sat, 24 Oct 2026 13:39:17 -0700
-Subject: [PATCH RFC 1/3] lsm: Call inode_init_security hooks without xattrs
+        Sat, 24 Oct 2026 13:48:24 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,58 +89,92 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261024-landlock-created-rights-v1-1-77c8db3f6bd2@gmail.com>
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
-In-Reply-To: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
-To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>
-Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, John Ericson <mail@johnericson.me>, 
- linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Farid Zakaria <farid.m.zakaria@gmail.com>
-X-Mailer: b4 0.15.2
+Content-Transfer-Encoding: 8bit
+Subject: Re: Path forward for Virtualized Swap?
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Rik van Riel <riel@surriel.com>
+Cc: Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
+ Baoquan He <baoquan.he@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+ Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+ Chengming Zhou <chengming.zhou@linux.dev>, 
+ "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, 
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, 
+ =?utf-8?q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+ Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+ Meta kernel team <kernel-team@meta.com>, 
+ Linux Memory Management List <linux-mm@kvack.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>
+In-Reply-To: <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+ <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora>
+ <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+ <20261014195354.GA371161@cmpxchg.org>
+ <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+ <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
+ <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+ <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+ <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+ <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
+ <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
+Date: Sat, 24 Oct 2026 16:48:22 -0400
+Message-Id: <179287490291.4123581.5790613647977714588.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-security_inode_init_security() returns early when no LSM reserves an
-xattr slot, so the inode_init_security hooks never run on a kernel
-whose LSMs provide no xattr. An LSM can then not use the hook to
-observe inode creation unless some other LSM happens to label inodes.
+On 2026-10-24 14:16 -0400, Rik van Riel wrote:
+> On Sat, 2026-10-24 at 23:50 +0800, Kairui Song wrote:
+> > On Sat, Oct 24, 2026 at 4:03 AM Rik van Riel <riel@surriel.com>
+> > I also hope there is a way to release swap metadata completely too.
+> > e.g. for fs, you at least have umount, and can rmmod the fs itself
+> > afterwards. We also have many ways to bypass the page cache. In cases
+> > where a virtual layer is just a burden, we want raw physical swap,
+> > and
+> > the ability to swap off that too.
+> 
+> The VM cannot operate without the swap cache, though.
+> 
+> That is very much built into core parts of the VM.
+> 
+> However, having swapoff remove all data from the swap
+> cache, after mapping the memory back into userspace
+> page tables, seems like it would be fairly easy to do.
+> 
+> Does that meet the needs of your use case?
+> 
 
-Call the hooks regardless of the reserved xattr count, and only skip
-allocating the xattr array when no slot is reserved. LSMs that write
-xattrs still need a reserved slot, so they are unaffected. Landlock
-uses the hook in the next patch to track the files a sandboxed task
-creates.
+It may be good to talk about this in terms of discrete workflows and
+interfaces, rather than in the abstract.  Just describing effects
+creates a confusing situation without including the cause.
 
-Assisted-by: LLM
-Signed-off-by: Farid Zakaria <farid.m.zakaria@gmail.com>
----
- security/security.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Isn't this as simple as having something like:
 
-diff --git a/security/security.c b/security/security.c
-index b284e24e3771..bb94c94d97a5 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -1353,10 +1353,11 @@ int security_inode_init_security(struct inode *inode, struct inode *dir,
- 	if (unlikely(IS_PRIVATE(inode)))
- 		return 0;
- 
--	if (!blob_sizes.lbs_xattr_count)
--		return 0;
--
--	if (initxattrs) {
-+	/*
-+	 * Even without any xattr to provide, LSMs (e.g. Landlock) may need to
-+	 * track inode creations.
-+	 */
-+	if (initxattrs && blob_sizes.lbs_xattr_count) {
- 		/* Allocate +1 as terminator. */
- 		new_xattrs = kcalloc(blob_sizes.lbs_xattr_count + 1,
- 				     sizeof(*new_xattrs), GFP_NOFS);
+echo 1 > /sys/kernel/mm/swap/drop_cache
+
+('simple' is doing a lot of work here)
 
 -- 
-2.55.0
+~Gregory
 
