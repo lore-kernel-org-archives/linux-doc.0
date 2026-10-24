@@ -1,84 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792874906;
-	b=VTvZE33B0FsTL5OYNAFCswLupg7vEYsOLJdm+1BjxudS0BAR49Taevf33Oguu/EoxSLY
-	 RqzZlm9k73gWZvKJDrdqFMTaUZhQJYcv6WfKp6XZMCxVwXljdYrz6nMlpjZPETd8bOVb3
-	 iGPjUvK5ouzdinOLzK2D6Phur6eXqO6YvCh/QxdNsv6zSkaEndmD1FSbg10s27gF7Z4zh
-	 bcYYRC5W+1ZVFz/VZOLezt8KnQ9SQkei+x4srZBAJMLmh0Yz4feybPrioE0oSmS7AAWfJ
-	 OPHLTDQVvyk5BRFadwPqJS6go2OQU2x6pPIw5U9/RjXQ9VtGj9AyMeDxJKuvgcLbKFg==
+	t=1792878210;
+	b=Ab6rJJ39ppvXw081Nli6jY5BfLdwBAcwVPmEooUljOxOd0y15LOQdy3feO0VtCRZZxwz
+	 Ujsyj2ohcGgdl2pnjyJkiB/qSze2OdzuC8EqxPcJtePZPCHpAiE03/mP1f6xnLugFy0Ax
+	 ZEEogQfWF9Ln5nuKa3gvL9sMnfu394v8AEFFTAA1POdzPB/CpTKKreiVaGcL/b47OLnBw
+	 gGS2L83QTw0SYe4jRLbiFrmnzia0Qw1xTl7QBKWJ+4XHI9vn/XCFqTTpRt0myQZbH+jrd
+	 B+seqqlXN+EzkDPYP1kSl0o0Y569r+K2muIMVzuOTz13YL2PyHL5do8dk/2rilL7R7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792874906;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792878210;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
-	b=UgSDU3UlxkDukWuCywCb8jDUS+Y0rOu6n5ECtCcLBiKQxZwSPMje/kq6OXJjlwjp6gQG
-	 XKhXz3hz2bzmrFcEwuu3e01LBioNLQfZD1CXcdewAPFib10op8vh/iMmgiFX2JYqaObKI
-	 LyImCi3zdueXD7WeHBEINH9WDKhKhlh4oN3xZgPxBevYunvUie+A03lAYe6WzGwh2aE8x
-	 nM/t/g0f2KZ6u8DLKsy+WINxBBOAjVVhS1THpjw37xw9cGxYRfAVhtNYe0MOFvibnAcVJ
-	 AIsQ/nJzIXxiNfFuKsQFabRk16wJUQhQDwh/28M0GPOoLW8IvVrMrMx1JiC+spmz3TQ==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
+	b=zszCCnxB0ShZvtOYyI8XhZLH4qCGm9ZAnPePKisw505n/7JmL2J4dsVuAKz4U2VFiNDm
+	 3CO+cgFWhSxnfWQGz4gWZtYuaSGGL+U0nqYKilqaI/A3DqhTe1sIR14barT4RGuYgiPYP
+	 p3EZReXuRTZOg5ImEsKn7w+mQ36bA4vlEi8hKi9uvewq+8qKjbi6trFDy3vy7Kj+OXjWp
+	 mKyyU90UOsRPN9RksrTRoxxzFsygn+FtV5nt98nrFYeO33b6qEUMsUpdHM7jsFBgukrDh
+	 WatYef+40axBGFnF/5PBeehzRJg5NjTm4no/9fg2jaPrEo3UqSFI2Fk85+ELS3a28AA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=N8V6EIzF;
-	arc=none smtp.remote-ip=209.85.219.41
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q7nBjGrY;
+	arc=none smtp.remote-ip=209.85.128.170
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78A5606A31D
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 20:48:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D78A5606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AF5606A31B
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 21:43:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66AF5606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=N8V6EIzF
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917a707f37eso19929416d6.0
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 13:48:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q7nBjGrY
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b0f59a5fdeso15275237b3.1
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 14:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1792874905; x=1793479705; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
-        b=N8V6EIzFsfngUUiSHlqZ1m2daMfL/rg419LomABkwSxzbcs1D5/Nsk7zhezLDULqs7
-         EeeKmor8mjzpP+jF2Eq/Jgt7819VQMOwx+L/G7Me6G56+yMPSJXwkOn4VGVjpC7pmkmx
-         hFqtptPuu6KpkC51AQyW+SMj9+cBfEf851ShXi6nxSlUV63+3Fh16wIyDL34MIBbOldz
-         zjqOMTH/kWaclXaKGBhsjrq5f4NAv4jnvfQcLveu4r/CsejNa7ZovPHwrEEjexmAWzjW
-         KYthvDIXysA4LgN8Y2UdB/nq8B2n51cSlOuVcsXCfrtZLx+NU5rmigp9vcRxx1sAC7jl
-         aqqQ==
+        d=gmail.com; s=20251104; t=1792878208; x=1793483008; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
+        b=q7nBjGrY9g7kt/F4pBV+TbcxWh3uw6vi0Nxk5mssyr9PIfi9EmZ5hFh3gYmXREwPWd
+         qsN0PD224j77dsc6FX9Alpbr71uTHDlLWpSCKNPT2WfR0hnnT1TdzzDgysccM6zhGKz5
+         dVTbCIHMGnqVsXsejSecTiGiA7WGpWwayKl5LqR4NTrFtAPTHdoz88Da0QoZuYxqOMPl
+         fju5eZ3/tIUuWWFdWBPitEWHdEaglsQevXV6TookxF9uU6GYw+1ZGERp8e8nSV9O5JHT
+         XrRcuSMsdcp8bF/ixaXe67qNn/x6IjqDF9UAi38eGzxCy0M8S3M6/fLloMoa/OrywNf4
+         HPUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792874905; x=1793479705;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792878208; x=1793483008;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BuPJgnsG0Ng1Dae+yMYUghn3Dz0uN6VmqtORQTrWN9o=;
-        b=fzXC6ScQQI1H/xtjy1pUhF0kYt6qHlKRvmWOBhyPfLqCA1Rqh+HKBCIc8yS+zODKXb
-         NZLYXwVRDbEpKUKOPK47EMsaIxWdXCDghkDqKp5tWc4eCKt66AixIzm+TR29gVzxefNI
-         09mSk2dKnYed8Wojl7tB21vY5gEVuxyKzPG8M4Uwac66puwtegTGqR5JlvsqXWUERdhi
-         sadrh9vWh1eLL8hrgqMeJp1X49arMaQSxFnbdviOgiHah169uQDq/bR5gpyIFUtJUirq
-         6WzBYMfG/JC6S6gfiHINDIZSnhkJuIDIzSiAHHU0fFuKBeiYQnsxsrkRnXWVWe1K1x+7
-         Um9Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxNhslqzRGg2asSu5+Q3kQmFZE8qFuJiGKRqJWNrqChlQHMYatG/srcORXholPGacSUxjrRmFh+/co=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKj/RsyaIXqx+x2cdLCEovrqaVj94zuP46Aac2zrJoTpROSPkiB
-	JJA0iSWnqhBMzw141GIdJRXDQN8udfRC5SKizkE8Ulusp16B2UiePwNy1l12FhD1t/Q=
-X-Gm-Gg: AYBFou3tql8KAY/r3xGudwj+YCyJYPG0Duif3duXwzTAxqCoo2rGXQiLna3jNluzRvD
-	b8MgGJg4zYdUChVe5ZsbXJX8WA66LKensgCMpKbH4bHCNBq6sHptofQhj5pSVnTA6jEVVQwfIGR
-	wjKFbodGhpQ/gaIgJ84LwEnAiKbaiJWhqe19gbESt2prH99u/Ii7iAkkKiyk1GS6RDuAEmMjWgz
-	pA24viclBsM4tKj8thVtSPCPfEa+5Ncfzx4CXf8pzH/28pCamwHtKZ2ex31dPn2PAQqKeswidUJ
-	5QpYPK5uiXDJSgJdw/ecdHO64IkHkafFBE+hN7B65Itx1KPYF7HBCYetXOa8CgWOBRhqHVfuzwA
-	6N4O8NII4iIsSGDscHSF8fU4elJg8HmWrF4HmIN+shl7SOta/s8Gf3/71u0vkiXFbD05acE9SC5
-	fW6tgArR/lc+jIeUbADEQMq+BMGN/ZRuVqJp1EVnVD6PErTyaJp3mSQkkbIA+CKR7AGMCpgF1+V
-	qS5JQXxpX5F99Gwev655OiQy6Fi/DZqi8Zf6TSuhQQEeaJrF+ZgAZfV2Y+vlCzY9r1EWX6+ZEm/
-	9r/5CznvwPC4q6/YhQRDlY2zAAc=
-X-Received: by 2002:a05:620a:4001:b0:93e:9292:1b9e with SMTP id af79cd13be357-940ef7ad8b6mr372744585a.1.1792874904799;
-        Sat, 24 Oct 2026 13:48:24 -0700 (PDT)
-Received: from [192.168.86.58] (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0a94a5csm258574885a.41.2026.10.24.13.48.23
+        bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
+        b=s20kH5VIjwP8hrOQQjaiYbQd0TYCz+tsDqDzSwAZwyThRZo53fwHwZNApgpzh7Q/OO
+         vuZlxtjNxMMG5/o9S9pEB6pMyZ3X/24xn9TSgkyuqCI6tm1C+uN9brJLi5PCDPoZuvzo
+         wpoQ6uFbIrmyJbxw+iBsq+FxERYMvMJYePnTAZ2znUcZY4owJElgy9W9CUSIV7iLBFmx
+         lOLaV/TJCAVHLVnmL/vb+uTeEXhhS6qcql+1cWfOdn/E2zlaINpq3aHO09tu9zN1PSIE
+         FTqRYNvTCmfk4jzkPNbvEkbSv8EfiG0CYFc4VTbdEdCksrpCEgxLhl8znuBFlxv5Xosq
+         bppA==
+X-Forwarded-Encrypted: i=1; AKwUvBwlgnHT0leUfhawTpnhPr9oMNFgnQV2y/UTHEj3cXgCLp3ghuuv5d/RxzENzEB3T7f/dPeEl7rdEIA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI/GdOCQzl2s1bz2IumOp8M+Mw1VJxAkWtayMSK9T1S3bsRLLpQ
+	CQMun2sUJTpOKTHLAcrOQRCLsvWCeXicNx/lkiWPIXkFSfObcaiL3Inmb0ZE1Q==
+X-Gm-Gg: AYBFou1sl0mKW1EhJywHzPgm1dBkY+S7CWeqal8VjYUcase507G1hfPQp/apaSjulVB
+	4Lm/B6PDpCJqQKWEfXAB4dwY+YbdcO5cmIiiwgdXKabbo6ZSuoLSqEBuniDgIBLOxxGQEK3LkQC
+	WeSUT4+BcmgRwJLb87TLnzPmgBoAAoyYA6BwkHcylNG90oa8hceKCcesJccnOak7/DHRz124xtV
+	6mdU2uP0BW6ebCmBRrmBo7WE4HeOdHXmuJVGwCir8A2wkBJiYaVWLYYxxc3zCKGZ5FKJbRpBcWE
+	zjgSRtNqxP/tvuDktMYBiDxqCif6latjmkySoUF8afi8qKUR6W0lW4Lq5GzocRAxf0m044FKJmM
+	TGjrHuI4Uh17qs/IXQfJA0W77KVwkeKBIQtVEsdrEz9CX1eHmmiEeMCkDks1yWyX0c9aPdjyF9A
+	KI+Z0+Dh+imZMseD/vlI2QuY9fllMgqil0NzlPWU6ya3Mf7zo5Kxt76bsSF8EhmKYFbdtECB8f4
+	8Jg4FOARsaN/m/phS4vR1HLaP2jq8YqAyFSi2fVdzzoo6v+KHg5OAzwCkLmLWaZEAL7zfpo0H4b
+	X3E=
+X-Received: by 2002:a05:690c:fd5:b0:8b0:a8cf:f46a with SMTP id 00721157ae682-8b166cd9439mr22677767b3.69.1792878208273;
+        Sat, 24 Oct 2026 14:43:28 -0700 (PDT)
+Received: from zenbox ([2600:1700:18fb:6011:f15a:4eed:c4ba:3585])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b166dcf529sm13199467b3.12.2026.10.24.14.43.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 13:48:24 -0700 (PDT)
+        Sat, 24 Oct 2026 14:43:27 -0700 (PDT)
+Date: Sat, 24 Oct 2026 17:43:26 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Farid Zakaria <farid.m.zakaria@gmail.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	John Ericson <mail@johnericson.me>, linux-security-module@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
+Message-ID: <at0agiPbtxz5zD41@zenbox>
+References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,93 +100,192 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: Path forward for Virtualized Swap?
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: Rik van Riel <riel@surriel.com>
-Cc: Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
- "David Hildenbrand (Arm)" <david@kernel.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
- Baoquan He <baoquan.he@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
- Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
- Chengming Zhou <chengming.zhou@linux.dev>, 
- "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, 
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, 
- =?utf-8?q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
- Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
- Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
- Meta kernel team <kernel-team@meta.com>, 
- Linux Memory Management List <linux-mm@kvack.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- linux-doc@vger.kernel.org, 
- "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>
-In-Reply-To: <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
-References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
- <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
- <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora>
- <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
- <20261014195354.GA371161@cmpxchg.org>
- <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
- <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
- <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
- <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
- <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
- <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
- <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
-Date: Sat, 24 Oct 2026 16:48:22 -0400
-Message-Id: <179287490291.4123581.5790613647977714588.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
 
-On 2026-10-24 14:16 -0400, Rik van Riel wrote:
-> On Sat, 2026-10-24 at 23:50 +0800, Kairui Song wrote:
-> > On Sat, Oct 24, 2026 at 4:03 AM Rik van Riel <riel@surriel.com>
-> > I also hope there is a way to release swap metadata completely too.
-> > e.g. for fs, you at least have umount, and can rmmod the fs itself
-> > afterwards. We also have many ways to bypass the page cache. In cases
-> > where a virtual layer is just a burden, we want raw physical swap,
-> > and
-> > the ability to swap off that too.
+On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
+> This is a proposal for an idea to add support for landlock to work
+> better with build systems such as Nix where they want to apply
+> restrictions but the paths may not yet exist.
 > 
-> The VM cannot operate without the swap cache, though.
+> TL;DR;
+> ========
 > 
-> That is very much built into core parts of the VM.
+> Landlock rules attach to inodes that exist when a ruleset is built.
+> That makes a directory shared between trusted and sandboxed tasks hard
+> to confine: the sandbox may create entries there with
+> LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
+> time, and granting read access on the directory to cover them exposes
+> every other entry as well. This series adds a rule flag that grants
+> access rights on the entries a domain creates in a directory, instead
+> of on the directory.
+Hi,
+
+I'll chime in since I run nix and have a little bit of familiarity.
+
+Looking at my (admittedly bloated) nix store.
+
+[justin@zenbox ~]$ ls /nix/store | wc -l
+259356
+
+That's a lot of inodes. And a nix derivation creates hundreds if not
+thousands potentially throughout it's build.
+
+My main concern is that rulesets are generally considered
+immutable after enforcement. This allows for well-defined semantics on
+inheritence. This from my understanding would mutate the ruleset after
+it's already enforced, so changes wouldn't be copied to inherited
+domains automatically.
+
+My other concern is with the overhead of automatically generating an inserting
+a rule for every new inode that gets created. It seems like a complex
+way to tackle this problem.
+
+But beyond that, let's go back to your usecase.
+
+....
+
+Basically from what I'm seeing you want to grant some access to certain
+subdirectories (including newly created ones) but exclude others.
+
+Presumably in the nix case, you want to grant /nix/store/{abc,efg,hij} and NOT
+/nix/store/{xyz}, but still allow /nix/store/{foo} (the derivation
+output) to be created and written to. This would allow the nix build to only
+have access to certain inputs, while being able to write to the /nix/store
+and produce an output. This is a valid usecase that Landlock cannot today
+accomplish.
+
+There was this NO_INHERIT series I proposed a little while back.
+[1] It's sort of the inverse of this (removes accesses inherited from
+parents rather than granting new access) but would accomplish this
+goal.
+
+With NO_INHERIT, you could grant whatever access rights you want by default on
+the parent directory, and place NO_INHERIT on any specific entries you
+don't want to have inherit those rights. 
+
+So for nix use case, you could grant no_inherit on everything except the
+inputs you need, then add READ/WRITE/MKDIR etc on /nix/store. The new
+directories would inherit this by default, while the ones you added
+NO_INHERIT on would be restricted.
+
+Additionally, you should also examine the mutable domains proposal by
+Tingmao Wang, which could also facilitate this usecase as well [2] (i.e by
+dynamically adding and removing rules with some fanotify/inotify glue).
+
+That being said, neither of these two patchsets / proposals are merged,
+and the playing field is still open on this.
+
+So the problem you are pointing to is legitamate, but the solution still
+needs to be considered carefully to avoid complexity.
+
+Justin
+
+[1] https://lore.kernel.org/linux-security-module/20260621035223.2651547-1-utilityemal77@gmail.com/
+[2] https://lore.kernel.org/linux-security-module/cover.1741047969.git.m@maowtm.org/
+> Motivation
+> ==========
 > 
-> However, having swapoff remove all data from the swap
-> cache, after mapping the memory back into userspace
-> page tables, seems like it would be fairly easy to do.
+> The motivating user is the Nix build sandbox. Every Nix build runs in
+> its own sandbox, and a build may only read its declared inputs in
+> /nix/store and must be able to write and read back the outputs it
+> creates there. Nix enforces this with a private mount namespace: it
+> creates an empty store directory and bind-mounts each input path into
+> it, one mount per input. Nix has paid this per-input cost since the
+> sandbox was introduced [1].
+>
+> The cost is paid per build and grows with the size of the input
+> closure. Nix is moving towards much finer-grained builds (many small
+> derivations instead of a few large ones), so the number of sandboxes
+> grows while each build's own work shrinks, and the sandbox setup is
+> becoming the bottleneck. A typical build has hundreds of inputs; large
+> ones have thousands.
 > 
-> Does that meet the needs of your use case?
+> A microbenchmark sets up and tears down a Nix-like sandbox (user,
+> mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
+> removing the chroot afterwards). It compares one bind mount per input
+> with a single bind mount of the whole store plus one Landlock rule per
+> input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
+> ext4, 16 cores:
 > 
-
-It may be good to talk about this in terms of discrete workflows and
-interfaces, rather than in the abstract.  Just describing effects
-creates a confusing situation without including the cause.
-
-Isn't this as simple as having something like:
-
-echo 1 > /sys/kernel/mm/swap/drop_cache
-
-('simple' is doing a lot of work here)
-
--- 
-~Gregory
-
+>   inputs   bind mount per input   one bind mount + Landlock   speedup
+>       10         3.2 ms                    2.3 ms               1.4x
+>      100        11.6 ms                    2.8 ms               4.1x
+>     1000        79.3 ms                    6.4 ms              12.4x
+>     5000       400.1 ms                   24.4 ms              16.4x
+> 
+> With Landlock, an input costs an O_PATH open and a landlock_add_rule()
+> call: there is a single mount, and no mountpoint directory to create
+> before the build and remove after it (removing the 1000 empty
+> mountpoints alone took 17 ms).
+> 
+> The single bind mount is only sound if the store listing and the
+> undeclared store paths stay unreadable while the build can still use
+> its outputs. Without this series, covering the outputs requires a rule
+> on /nix/store itself, which makes every store path readable again.
+> 
+> [1] https://github.com/NixOS/nix/issues/179
+> 
+> Series
+> ======
+> 
+> Patch 1 lets an LSM observe inode creation through the
+> inode_init_security hook when no LSM provides an xattr. Patch 2 adds
+> the LANDLOCK_ADD_RULE_CREATED flag for path-beneath rules and bumps the
+> ABI to 13. Patch 3 adds selftests.
+> 
+> Testing
+> =======
+> 
+> The series applies to the Landlock next branch (3e271a27c46f) and was
+> tested on Linux 7.3 with that branch applied.
+> 
+> Without patch 2, the five new tests and the ABI version check fail.
+> 
+> Open questions
+> ==============
+> 
+> - A created inode stays pinned until the layer's hierarchy is freed, so a
+>   sandbox that creates many entries in such a directory keeps them all in
+>   memory. Should this be bounded?
+> 
+> - Creation is detected in inode_init_security, so on filesystems that do
+>   not call security_inode_init_security() created entries get no rights.
+>   Is there a better hook?
+> 
+> - Through overlayfs, created entries get no rights either, because the
+>   upper inode is created with the mounter's credentials. Should overlayfs
+>   be handled, e.g. via security_dentry_create_files_as()?
+> 
+> - A file renamed or linked in keeps only the rights it had at its source.
+>   Should it get none instead?
+> 
+> ---
+> Farid Zakaria (3):
+>       lsm: Call inode_init_security hooks without xattrs
+>       landlock: Add access rights on created files
+>       selftests/landlock: Test LANDLOCK_ADD_RULE_CREATED
+> 
+>  Documentation/userspace-api/landlock.rst     |  42 +++++
+>  include/uapi/linux/landlock.h                |  18 +++
+>  security/landlock/domain.c                   | 182 ++++++++++++++++++++-
+>  security/landlock/domain.h                   |  28 ++++
+>  security/landlock/fs.c                       | 176 +++++++++++++++++++--
+>  security/landlock/object.h                   |   6 +
+>  security/landlock/ruleset.c                  |   6 +
+>  security/landlock/ruleset.h                  |  14 ++
+>  security/landlock/syscalls.c                 |  20 ++-
+>  security/security.c                          |   9 +-
+>  tools/testing/selftests/landlock/base_test.c |   2 +-
+>  tools/testing/selftests/landlock/fs_test.c   | 227 +++++++++++++++++++++++++++
+>  12 files changed, 703 insertions(+), 27 deletions(-)
+> ---
+> base-commit: 3e271a27c46fd591d1011c7de5a644a41e2010f1
+> change-id: 20261024-landlock-created-rights-9340b00a8c4d
+> 
+> Best regards,
+> --  
+> Farid Zakaria <farid.m.zakaria@gmail.com>
+> 
+> 
