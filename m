@@ -1,95 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792838767;
-	b=MR28LSL0GGIEDd/PTf5Tkbgtc5tveeq0w7J4jiQItaReAjhGjEiTm5PjhkII2n3pEuyk
-	 bTBfbjyCy47FnEG4OE39APde4EhGF+CcBpx6yThoKcajwbusxlSqJb7MMB55/t9q0bRD4
-	 tew1SdJnMQg0wCz4YJodnN2Jg4auEtpCNo/pMNYhFK3baqxFgIqFyWN51VKeBohJotz8f
-	 LiA9+bDJKwyN1Xid+81UE6iI0bjCLi9nDG953LgiSwgHTjW2i8neTwSw2bNdTvru8u/2K
-	 IWguYkes7E0k5T8X40CqF9UvXQkdEWpS7GYxFgPQe6oKkXFf2sMmBLqbYncThpcnlVQ==
+	t=1792844015;
+	b=Q4nhQ8BJBmbZit4I50rABVvPFZiXxKftzNksfUs1GyxM0ipGKtkQXpVwQQdPJtUQ30NV
+	 EUAQHnFhwRK+GTgV0ZZzmoCEJiiB00hQU3VFn0M2pLYBNVr26Yl1yJAyO2DjlYVMC6PBd
+	 EA0APvtX8IRljiI8xirBBbqwBV5VcCRDGTns1HV0vCp25DuguZhTCYWPaLGTtZOONQ+me
+	 ru15IDU/foFBzuxhmJ3X6aolx/MnUM96NaygtYmvY1dJmZG+jvFFK97563CkeK7B/JSJf
+	 H5pmpI+gMDyhfKSTqwTsvZJoQQUPXH2Ps4Dan9+8eLEdgaiXXc6IrlRq/3XEE5tu64A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792838767;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
-	b=Ege2WIHC1NyNIIdjkZozzmP1sHl0DFN2L2RUjKAzApgVK5mPDhPHn+/x5vgHLxW+n8Sv
-	 J5ksINptuqBtIbZ+P2rS09QxqeIlDkFLmJj5I2f7ct6gLD7W07CUTQ2t6aAnaDnxTf6Zj
-	 iZXfLNsQ5ZLYwpoIG1uFWagbXke30RocfH13q/VX5pb6R1iz1osc1dol6Xd7xmd21x4rM
-	 smw6qJn9KxOlBHILyP8OrAw89jg3wZVLMl1xqNIm7lhUIx4952tGvW8WpyR7W/mjKi3fn
-	 nn6+Ai90uaP/lRoC9D/d7fe3hA8vNlzQSGibCCpRGgk3xX+c6XodShJTLU2HxQo9SaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792844015;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:CC:Subject:In-Reply-To:References:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
+	b=fDuhjB3A1ukpx7VYKV0Qwr9mHfmd1ncCyHFQV6LDECFV01tLwYZQ2HEmXb7/11wmTyfA
+	 NX7Y1WCMbkQdp67YtqqSseCcTRWKcx+9xaTDJofZC+5reusiwKFPRXJqIarFSHbaj8sXf
+	 H42r+i7zuypt9ejLpRrUJlMuC3FlLwq2wOBlqZdL2J8/WWG4m6ZXfJuXhelnzGQ5ulZXg
+	 PhJ6QXkYxc44FJ4sRj44pAfPRasehLNdRucbL5NMDmuK+TJ96+xLjwjXvZDK8tthcWtRu
+	 bTG/EFLXdOUBprFG1qxEhM5qiPDBMPYNMBKVAKF1BpUpmdr5HS/RYZfgUlHd98QkSsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=OK8BbQHz;
-	arc=none smtp.remote-ip=209.85.221.179
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f3utQIMW;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WBWKD0AE;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F22606A31B
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 10:46:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0F22606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FB3606A31A
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:13:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04FB3606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=OK8BbQHz
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5eaf169fe3dso502844e0c.3
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 03:46:06 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f3utQIMW;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WBWKD0AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792844013;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
+	b=f3utQIMWLHLjpbX5nOjgWSn+cXimlbHwlaWomtX1SoudbPm5IuJ1NvAKWqaaSVRN1yR2gD
+	hHebrZzyzdWZD4Vzqyz7uP+8tRrI7blsSkcF4JcAaBa7z1osPRFKlPAmbCCf2SjrEFePG9
+	HtEvoEQe7//mDLG5hCunmlJWrvAj+r8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-91-tOyOR9oxP5mFYCDjXkgJ9w-1; Sat, 24 Oct 2026 08:13:32 -0400
+X-MC-Unique: tOyOR9oxP5mFYCDjXkgJ9w-1
+X-Mimecast-MFC-AGG-ID: tOyOR9oxP5mFYCDjXkgJ9w_1792844011
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c4108bfb63dso89444066b.0
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 05:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792838766; x=1793443566; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
-        b=OK8BbQHzM5RrUJpfUHsP4lq0v+SDD46VuMG3gD5VYaC7zVUeUa+YcFqJ3XSLiHcAxt
-         n87sdQrxC3Tj7TlmVFUlvzesxzGIBVqPgbqqWWtk5czOqwxq5XulxWPaJtZ2BBVfs/Hy
-         0u6L8zFG6cNDF9joD50Q2KYm1RQU++XufJ0xmx686wf0AQ60/sWITPQr8wUK7p3x9GnZ
-         fKjhiNsnS2LiqTENN5P/aqOCfC4iEmqHftQXd1ytPtdxBeIRHugzwufakaPsbl5O/Fkd
-         dUuw8x+6mG17RKEcovjy42qHNySUucxLkCp88wm0hgxKzyWigiNCQepRYhaocDaK55j9
-         BLrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792838766; x=1793443566;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=redhat.com; s=google; t=1792844011; x=1793448811; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yI6gnpr3iD8MepU4vdxCrnHeeo0inroAoiiaaC1yzbs=;
-        b=DRQrg4L8vwUBXLeVXGCHus/XFn6dpJ3ZoIN6piuamOx9Qnn5MnPKT9sw5fK/cGFYN/
-         93NBoJZGdB9Ah4Fg9LfAUlleljXDyOP/w0P2bIDHCoK4LJnJdHswx6nBDYjug6DI0VsW
-         RHhYfS7pcVxznj3jlXxPwYMbTBqdViNFYbNCuAEFZukfwZWDWm01VzMF8zl5XQi619f2
-         2yONBtGjrTiL9zs9tLwT1Kylx0wCUL21rACTExGxbyRJaXV7s/TfZKowxnSabfD733pK
-         bADDITHXLAI9IAtFlrknWn5jTgsoDhDW/ABYR9wyS2RFtdbgHEEZguqC90P7ftlNttXI
-         sEgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBykTtX58y1/Ggqf7IvAky9YV6C29+nJGgPdUoviT1nr7TrdYnaUotbOowIPlYna9yPwFrtOCDeNyrU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKnDsYIdpduJeICqhgxZy03477319lgRf93VydcHZThqBVhibqj
-	j1TqR6HXlLr+2sEywiEb5KuHHHqEYOoN444RAvbPkyDe+v9Yi92KSXoT
-X-Gm-Gg: AYBFou2V6MROIfbBTPQTF3rLxD7sFQr6LPHAqeRYf7opmYRBbNeU+iSe5ZNXxd9t6Su
-	2eBD2JZPdHZKk2NwlqHLfBcz3Cc3/23ZXvqmGF5HKD+VupWvS3XFRE7+/78xfQIbLFoss93+BcM
-	hitxhdYdZK0DItWO0YmnEi5LqHqY9J8J29nGDsqGLLBkhJRbxN+V+A/36ihL9zF7/In0cUP1/UR
-	rOSUsnMaAVKLDS0UUy3Ahbf6WPIduKSVWFu1E/IBamay4KtskDNVPSzodgiqBPFvsDdsg0e5VPO
-	cfJXUEps9XM06Dkm2e2aT/rRrYRSdrZNBXz6Bx2AP44cmwJIlL+9YAY+6fLWUleIkTwJraKxYyp
-	d54IU5Lr2WEWWU+DWUIGro736yU5GxeXVrDZc42CDFWOijeTITx9JoinmGuf2rwMAlBnmNEJ93B
-	NtdORP/kOAUsIhP+4hSCZLBU7g6gwCxV57jnFrskCnupr1ltBxJpVFvrrysyiT9t6k+164+Qr2m
-	fThXbhSkuHVqTD9+arCd93TxaGDNAp38eOo5VxaZjgZzsYbIx5JZu7frx98SJaF/wEeDvcWXeT0
-	pK15
-X-Received: by 2002:a05:6102:1492:b0:7cc:32da:56e with SMTP id ada2fe7eead31-7ce5cd41446mr429300137.19.1792838765631;
-        Sat, 24 Oct 2026 03:46:05 -0700 (PDT)
-Received: from DESKTOP-7QP7L26 ([45.190.211.148])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9910e7b7069sm2191025241.3.2026.10.24.03.46.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 03:46:05 -0700 (PDT)
-From: dev12124 <joaoanandalima@gmail.com>
-To: linux-mm@kvack.org
-Cc: linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	ardb@kernel.org,
-	keescook@chromium.org,
-	dev12124 <joaoanandalima@gmail.com>
-Subject: [PATCH] mm: ppm: add PPM (Page-Plugger Under Memory) to Page Fault and Overcommit elimination
-Date: Sat, 24 Oct 2026 07:45:42 -0300
-Message-ID: <20261024104552.394-1-joaoanandalima@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.3
+        bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
+        b=WBWKD0AEX6gwKYvAKNlxLEnY6kVWbT74w/LRvMAKqPc9GNfSf0Qsfr8UAWMVqFPBJW
+         iDRNPnZwRS5/JfJhetAr/Fb1So4pDmHLbwHp8OGipCzBYuU/R+RMWyKWIHRmwd1aIaeN
+         5u3ki/VjRJ06aJCi/y+RLrId2bYldaLU+EV7vdPwdoRSdNwAZy1h5Js1Hy8AQ4T44y5L
+         wDfyUpHTps6rsiiHb7isRdvmuIlSvOFTZC94M8SfrzF5v/KuxNY+eGG/Ttjm3Cf1MJMA
+         rhhdDPmVd+QJELkX/1BqpqUUNsjklaWi9TlbpdYpaq7OmBcYt0+3rNd/h3/C1P2zLrcG
+         FIXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792844011; x=1793448811;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
+        b=Xoxunm5Mlj2LG4KfV054XPOkwedYlmlzIyqo0618Ur8hHuhXXtsSQPGRVVVp2P+VbT
+         iCA+fR1VnolylML3DcIAIevwNf2pU79i43xV4oXMJJ4JYM3nuXHnZKeAzhn8eBOzUoPk
+         uTU1ci0V/watxFE3Vmx7okEPQfz5uP66C/s/g1r2hixOuxUrJznT1h2LD9fnjVnf01/w
+         Fa5SrWXKCPUgXFFnkzec8Ws+rLpAfuBEiksWzNA8BZ2rOkoYsHY5jnT46HuiUmqToMeJ
+         lC095k5K/bzMQjPxVx53o57QMk+cD0pbDXEXNtJrHVLmPaNm75qi9gKg5LgZfDxWr1tH
+         rMpg==
+X-Forwarded-Encrypted: i=1; AKwUvBxUaSZjuuQ8vPMY+7NktPQ5AloVbAzkViHbNYZ0UxJC13tPPeNxPSsKZZHC0WKforw4muhnm0NbFEY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ9LYRYpPRH4XFydQ1HXQ6bfNi1SHspDGtc2+ugUfWnic/CYwlQ
+	xY/vqrkElfH+9at1wpFD89HT94mXhmksuvPZwmmlZRwN67orfLOkdlP6nP173QF33q+9eHxrapT
+	MMD68zvZa6SEVmbrs/H0PeAAOqtD/7N2BetgKWbGKS9aGcyalu66yaHI0KpP8sA==
+X-Gm-Gg: AYBFou2k2bbfWZlfvVijcOew6IbXzgWeYzZm5v2urUNiumc6THEt4VP36O+K5XzaixQ
+	Rw9/7m+NRJsJo8p1Qm3xOxPwfLBaeK2cbOp2fFhlG/f+MYBDjRwUjHoqc+Z5gLk8YBI0ZBrjgDo
+	giGdKGK1Kxh5JTQQ7hWCS2p8kaykug8t6bIzxvON2aJoWdzEfJgnHzouXPwGfIey3McR9EFP4bF
+	T8vWnegafckT67F+1c6f+vgtaUuJATp1Jgavu4zgPQ80pb6IcfOuwVIek6NEpcl7EZGW72RcSOt
+	7D5USwA/O5gGzBSLBkVzk6Td3L91Lntl/ugBZqxyYoY+YuyznqeGsllIPKM4xzg=
+X-Received: by 2002:a17:907:803:b0:c45:60ec:32c8 with SMTP id a640c23a62f3a-c46bde93f0amr177897266b.38.1792844010991;
+        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
+X-Received: by 2002:a17:907:803:b0:c45:60ec:32c8 with SMTP id a640c23a62f3a-c46bde93f0amr177894266b.38.1792844010612;
+        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
+Received: from ehlo.thunderbird.net ([2a00:7c80:0:3a4::13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4ea39fsm83877966b.29.2026.10.24.05.13.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
+Date: Sat, 24 Oct 2026 12:13:26 +0000
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>
+CC: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
+In-Reply-To: <20261022050712.75035-1-kmehltretter@gmail.com>
+References: <20261022050712.75035-1-kmehltretter@gmail.com>
+Message-ID: <FACA54EC-F846-4051-9ADD-DB46E7665FAD@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,339 +128,132 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Hi mm subsystem,
-
-This patch implements the Memory Tatic called PPM, Page-Plugger Under Memory.
-The Main Objective is: Page Faults and Overcommit Elimination.
-
-A few points under additionate:
-
-1. Allocation Handshake (ppm_kalloc):
-Using the GFP_PLUG_MEMORY mask, the allocator completely bypasses
-passive overcommit verification. It instantly isolates physical frames
-on the RAM, maps the page table entries síncronamente, and forces the
-Present Bit and Writable Bit to 1 before returning the address block
-register to the CPU.
-
-2. Desallocation Cleanup (ppm_kfree):
-Triggered via the GFP_FREE_T parameter, the release phase executes an
-immediate length truncation to 0. It forces a synchronous TLB
-invalidation (via invlpg execution) and flushes the data out of the L3
-cache lines using clflushopt instructions before moving the hot clean
-pages into a dedicated priority recycling pool.
-
-I additionate a Buffer/Cache with store important objects.
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
 
+Il 22 ottobre 2026 05:07:03 UTC, Karl Mehltretter <kmehltretter@gmail=2Eco=
+m> ha scritto:
+>I would especially appreciate feedback on:
+>
+>  1=2E Should the context boundaries be trace events or private RV
+>     instrumentation?
+
+There aren't any RV-specific instrumentation sites=2E Now you used trace e=
+vents, for these you usually need a broad acceptance because they are visib=
+le to user space=2E Have a look at tracepoints (the last ones added to even=
+ts/sched=2Eh are good examples)=2E
+
+Otherwise you may have a look at my BPF series and use other BPF-specific =
+probes (fentry/fexit), these won't need any kernel addition=2E Just mind th=
+at the series in an early stage=2E [1]
+
+>  2=2E Are dedicated scheduler events the right way to follow
+>     preempt_schedule_irq() across task switches and migration?
+>  3=2E Should irqstate and irqexit remain separate monitors?
+
+Feel free to merge them unless you see a use case where one would launch t=
+hem separately and allow violations from one but not the other=2E
+
+Also the irqentry collection with an irqexit monitor is mildly confusing n=
+ame-wise=2E
+
+Gabriele
+
+[1] - https://lore=2Ekernel=2Eorg/lkml/20261001152042=2E124445-1-gmonaco@r=
+edhat=2Ecom
 
 
 
----
- include/linux/ppm/gfp_types.h |  74 ++++++++++++++++
- include/linux/slab.h          |  11 +++
- mm/memory.c                   | 158 ++++++++++++++++++++++++++++++++++
- 3 files changed, 243 insertions(+)
- create mode 100644 include/linux/ppm/gfp_types.h
-
-diff --git a/include/linux/ppm/gfp_types.h b/include/linux/ppm/gfp_types.h
-new file mode 100644
-index 000000000..741122b2d
---- /dev/null
-+++ b/include/linux/ppm/gfp_types.h
-@@ -0,0 +1,74 @@
-+/* 
-+  Memory Tatic: PPM (Page-Plugger Under Memory).
-+  This File is for PPM Flags/Macros/Functions/Types.
-+  Engineer (brazilian): João Guilherme da Silva Freitas Lima <joanandalima@gmail.com>
-+ */
-+
-+/* Types Include Guards */
-+#ifndef __PPM_TYPES_MEMORY 
-+#define __PPM_TYPES_MEMORY 
-+
-+typedef unsigned char uint8_t;
-+typedef unsigned short uint16_t;
-+typedef unsigned int uint32_t;
-+typedef unsigned long long uint64_t;
-+typedef uint64_t gfp_t;
-+/* For errors in Allocation */
-+#define __PPM_ALLOC_ERROR -102
-+/* For errors in Desallocation */
-+#define __PPM_FREE_ERROR 0x04 
-+/* For success */
-+#define __PPM_SUCCESS 0
-+#endif
-+
-+/* Functions Include Guards */
-+#ifndef __PPM_FUNCTIONS_MEMORY
-+#define __PPM_FUNCTIONS_MEMORY 
-+
-+/* Initializer */
-+void __init_ppm_memory();
-+
-+/* Allocator Optimized */
-+int ppm_kalloc(unsigned long address, uint64_t size, gfp_t flags);
-+
-+/* Desallocator Optimized */
-+int ppm_kfree(uint64_t size);
-+
-+#endif
-+
-+/* Flags Include Guards */
-+#ifndef __PPM_FLAGS_MEMORY 
-+#define __PPM_FLAGS_MEMORY
-+
-+/* PPM inits/starts in Bit 54 of a 
-+   64-bit variable 
-+ */
-+gfp_t GFP_PLUG_MEMORY = (1ULL << 54); 
-+
-+/* For free memory, the Bit 55 is 
-+   used 
-+ */
-+gfp_t GFP_FREE_T = (1ULL << 55);
-+
-+#endif 
-+
-+/* Macros Include Guards */
-+#ifndef __PPM_MACROS_MEMORY
-+#define __PPM_MACROS_MEMORY
-+
-+/* For Kernel Kernel tests 2 Bits (54 and 55) in 
-+  1 Clock Cycle (or in small clocks, example: 5 Clocks), 
-+  is used a mask using | 
-+ */
-+gfp_t GFP_MASK = GFP_PLUG_MEMORY | GFP_FREE_T;
-+
-+#endif
-+
-+/* 
-+  Notes:
-+    E-Mail of RFC:
-+        [RFC] mm: page-fault: overcommit: PPM (Page-Plugger Under Memory)
-+    
-+    
-+    Assigned-Off-by: João <joanandalima@gmail.com>
-+ */
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index cda126def..c76243128 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -22,6 +22,17 @@
- #include <linux/percpu-refcount.h>
- #include <linux/cleanup.h>
- #include <linux/hash.h>
-+#include <linux/ppm/gfp_types.h>
-+
-+/* A Structure enum with objects and codes
-+  for PPM Tatic Memory 
-+ */
-+enum __PPM_OBJ_CDE_BITS {
-+	_PPM_OBJECT_CACHE, /* A Simple Cache to store objects */
-+	_PPM_OBTAIN_CODE, /* 0x04, -102 or 0 */
-+    _PPM_FLAGS__ /* The Special Flags to PPM (Page-Plugger Under Memory) */
-+};
-+
- 
- enum _slab_flag_bits {
- 	_SLAB_CONSISTENCY_CHECKS,
-diff --git a/mm/memory.c b/mm/memory.c
-index 8b0c2c735..5e1ca12c4 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -78,6 +78,8 @@
- #include <linux/sched/sysctl.h>
- #include <linux/pgalloc.h>
- #include <linux/uaccess.h>
-+#include <linux/ppm/gfp_types.h>
-+#include <linux/slab.h>
- 
- #include <trace/events/kmem.h>
- 
-@@ -94,6 +96,137 @@
- #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
- #endif
- 
-+/* Small Variables for 
-+  PPM uses 
-+ */
-+int ppm_free_error;
-+int ppm_alloc_error;
-+int ppm_success;
-+unsigned int order;
-+unsigned int nr_pages = 1 << order;
-+unsigned int i;
-+struct vm_area_struct *vma;
-+spinlock_t *ptl;
-+
-+/* Initializer of PPM */
-+void __init_ppm_memory() 
-+{
-+	
-+	/* 1. Define the variables for 
-+	 the rest of System uses 
-+	 */
-+	ppm_free_error = __PPM_FREE_ERROR;
-+	ppm_alloc_error = __PPM_ALLOC_ERROR;
-+	ppm_success = __PPM_SUCCESS;
-+
-+	/* 2. Connect __PPM_OBJ_CDE_BITS to 
-+	   flags under gfp_types.h 
-+	 */
-+	__PPM_OBJ_CDE_BITS.__PPM_OBJECT_CACHE = 4 * 1024 * 1024; /* 4MB for alloc, used to store important objects */
-+	__PPM_OBJ_CDE_BITS.__PPM_OBTAIN_CODE = 0; /* Is modifyed in ppm_kalloc() and ppm_kfree() */
-+	__PPM_OBJ_CDE_BITS.__PPM_FLAGS__ = GFP_MASK; /* The Kernel uses this for test */
-+
-+	/* 3. Alloc the Cache of Objects */
-+	char *ppm_identifier = "PPM Cache";
-+	int *result_ptr = kmem_cache_create(ppm_identifier, 
-+		8, 
-+		_slab_flag_bits._SLAB_HWCACHE_ALIGN,
-+		_slab_flag_bits._SLAB_PANIC 
-+	); /* Number 8 for a 64-bit Pointer */
-+	__PPM_OBJ_CDE_BITS.__PPM_OBJECT_CACHE = result_ptr;
-+
-+	/* 4. Return success */
-+	ppm_success = __PPM_SUCCESS; /* The Kernel Optional-Action is verify if ppm_success is __PPM_SUCCESS */
-+}
-+
-+/* Allocator to PPM */
-+int ppm_kalloc(unsigned long address, uint64_t size, gfp_t flags) 
-+{
-+	if (unlikely(!size)) 
-+		return __PPM_ALLOC_ERROR;
-+
-+	/* 1. Alloc the size */
-+	order = get_order(size);
-+	struct page *pages_ppm = alloc_pages(
-+		flags | GFP_PLUG_MEMORY,
-+		order
-+	);
-+
-+	/* 2. Navigation in PTE (Page Table Walk) */
-+	/* 2.1. Obtain PGD */
-+	pgd_t *pgd = pgd_offset(current->mm, address);
-+	/* 2.2. Obtain P4D */
-+	p4d_t *p4d = p4d_alloc(current->mm, pgd, address);
-+	/* 2.3. Obtain PUD */
-+	pud_t *pud = pud_alloc(current->mm, p4d, address);
-+	/* 2.4. Obtain PMD */
-+	pmd_t *pmd = pmd_alloc(current->mm, pud, address);
-+	
-+	/* 3. Plugging */
-+	/* Entry in PTE */
-+	pte_t *pte = pte_offset_map_lock(current->mm, pmd, address, &ptl);
-+	for (int i = 0; i < nr_pages; i++)
-+	{
-+		/* Calcle the memory allocated in 1 step */
-+		pte_t entry = pfn_pte(page_to_pfn(pages_ppm) + i, vma->vma_page_prot);
-+		entry = pte_mkdirty(entry); /* Active bit dirty */
-+		entry = pte_mkyoung(entry); /* Active bit young/present */
-+	}
-+
-+	/* 4. Finalize setting in the RAM the page */
-+	pte_t *new_pte;
-+	set_pte_at(current->mm, address, pte, new_pte);
-+
-+	/* 5. Unlock */
-+	pte_unmap_unlock(pte, ptl);
-+
-+	/* 6. Return */
-+	ppm_success = __PPM_SUCCESS; /* If value returned == __PPM_SUCCESS? */
-+	return ppm_success;
-+}
-+
-+/* Desallocator to PPM */
-+int ppm_kfree(uint64_t size) 
-+{
-+	if (unlikely(!size)) 
-+		return __PPM_FREE_ERROR;
-+	
-+	/* 1. Entry in MMU Directories */
-+	pgd_t pgd = pgd_offset(current->mm, address);
-+	p4d_t p4d = p4d_alloc(current->mm, pgd, address);
-+	pud_t pud = pud_alloc(current->mm, p4d, address);
-+	pmd_t pmd = pmd_alloc(current->mm, pud, address);
-+
-+	/* 2. Entry in PTE */
-+	pte_t pte = pte_offset_map_lock(current->mm, pmd, address, &ptl);
-+	/* Verify if the PPM plugged the page */
-+	pte_t result_for_check = ptep_get(pte);
-+	pte_val(result_for_check) & GFP_PLUG_MEMORY;
-+	if (result_for_check > 1) 
-+	{
-+		pte_clear(current->mm, address, pte);
-+	} else `{
-+		/* No executes/call, is ignored */
-+		
-+	}
-+
-+	/* 3. Flush for clear the TLB */
-+	flush_tlb_page();
-+
-+	/* 4. Unlock PTE */
-+	pte_unmap_unlock(pte, ptl);
-+
-+	/* 6. Extract the Pointer to free */
-+	int identifier_numeric = pte_pfn(result_for_check);
-+	struct page *ptr_result = pfn_to_page(identifier_numeric);
-+	free_pages(ptr_result, order);
-+
-+	/* 7. Return success */
-+	ppm_success = __PPM_SUCCESS;
-+	return ppm_success;
-+}
-+
-+
- static vm_fault_t do_fault(struct vm_fault *vmf);
- static vm_fault_t do_anonymous_page(struct vm_fault *vmf);
- static bool vmf_pte_changed(struct vm_fault *vmf);
-@@ -6848,6 +6981,31 @@ vm_fault_t handle_mm_fault(struct vm_area_struct *vma, unsigned long address,
- 
- 	__set_current_state(TASK_RUNNING);
- 
-+	/* If PPM returns no is == __PPM_SUCCESS, ignore the PPM Mode and 
-+	   sign the default flow 
-+	 */
-+	int code_error = __init_ppm_memory();
-+	if (code_error == 0) 
-+	{
-+		/* Verify flags */
-+		unsigned int ppm_check = flags & GFP_MASK;
-+		if (ppm_check == GFP_PLUG_MEMORY)
-+		{
-+			ppm_kalloc(address, size, flags);
-+			return VM_FAULT_NOPAGE;
-+		} else if (ppm_check == GFP_FREE_T) {
-+			ppm_kfree(size);
-+			return VM_FAULT_NOPAGE;
-+		} else {
-+			/* Executes none */
-+		}
-+
-+	} else {
-+		/* Executes none, is jump to the instruction of 
-+		   'ret = sanitize_fault_flags(vma, &flags)' and next 
-+		 */		
-+	}
-+
- 	ret = sanitize_fault_flags(vma, &flags);
- 	if (ret)
- 		goto out;
---
-
-
-Signed-Off-by: João Guilherme da Silva Freitas Lima <joaoanandalima@gmail.com>
-
-
-
-
-
-
-
-2.55.0.windows.3
+>  4=2E Is the KUnit-only hook for an empty ksoftirqd invocation acceptabl=
+e?
+>     Outside a KUnit run, its worker checks take a disabled static-key
+>     path=2E
+>
+>Patches 1-5 add the events, monitors, and documentation=2E Patches 6-9 ad=
+d
+>KUnit coverage=2E
+>
+>This series is based on v7=2E3 (c03c1a14507d) and depends on the followin=
+g
+>accepted change, which is not included:
+>
+>  softirq: Preserve interrupt context on return from interrupt
+>  https://lore=2Ekernel=2Eorg/r/20261011060742=2E30584-1-kmehltretter@gma=
+il=2Ecom
+>
+>A pre-existing issue can make rv_test_dummy intermittently report a
+>false-positive invalid-wait-context warning under lockdep=2E Wen Yang has
+>posted a fix:
+>
+>  https://lore=2Ekernel=2Eorg/lkml/5586dd00789a0f904cc299cd8889744b8c6f8d=
+c9=2E1789412799=2Egit=2Ewen=2Eyang@linux=2Edev/
+>
+>This series does not include that fix=2E
+>
+>Karl Mehltretter (9):
+>  tracing/irq: Add generic IRQ context boundary events
+>  tracing/sched: Add IRQ preemption lifecycle events
+>  rv: Add a monitor for generic IRQ context transitions
+>  rv: Add a monitor for IRQ-exit scheduling ownership
+>  docs/rv: Document the IRQ-entry monitors
+>  rv: Add KUnit coverage for IRQ context transitions
+>  rv: Add KUnit coverage for IRQ-exit scheduling
+>  rv: Test empty PREEMPT_RT softirq worker intervals
+>  rv: Test IRQ-exit softirq provenance and handoff
+>
+> Documentation/trace/rv/index=2Erst              |    1 +
+> Documentation/trace/rv/monitor_irqentry=2Erst   |  398 ++++
+> include/linux/interrupt=2Eh                     |    7 +
+> include/rv/kunit=2Eh                            |   34 +-
+> include/trace/events/irq=2Eh                    |   70 +
+> include/trace/events/sched=2Eh                  |   51 +
+> kernel/sched/core=2Ec                           |    6 +
+> kernel/softirq=2Ec                              |  308 ++-
+> kernel/trace/rv/Kconfig                       |    5 +
+> kernel/trace/rv/Makefile                      |    3 +
+> kernel/trace/rv/monitors/irqentry/Kconfig     |   13 +
+> kernel/trace/rv/monitors/irqentry/irqentry=2Ec  |   35 +
+> kernel/trace/rv/monitors/irqentry/irqentry=2Eh  |    3 +
+> kernel/trace/rv/monitors/irqexit/Kconfig      |   14 +
+> kernel/trace/rv/monitors/irqexit/irqexit=2Ec    |  172 ++
+> kernel/trace/rv/monitors/irqexit/irqexit=2Eh    |   85 +
+> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_kunit=2Ec |  537 +++++
+> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_kunit=2Eh |   21 +
+> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_trace=2Eh |   19 +
+> kernel/trace/rv/monitors/irqstate/Kconfig     |   14 +
+> kernel/trace/rv/monitors/irqstate/irqstate=2Ec  |  289 +++
+> kernel/trace/rv/monitors/irqstate/irqstate=2Eh  |  139 ++
+> =2E=2E=2E/rv/monitors/irqstate/irqstate_kunit=2Ec     | 2062 +++++++++++=
+++++++
+> =2E=2E=2E/rv/monitors/irqstate/irqstate_kunit=2Eh     |   25 +
+> =2E=2E=2E/rv/monitors/irqstate/irqstate_trace=2Eh     |   15 +
+> kernel/trace/rv/rv_monitors_test=2Ec            |   29 +
+> kernel/trace/rv/rv_trace=2Eh                    |    2 +
+> =2E=2E=2E/verification/models/irqentry/irqexit=2Edot  |   21 +
+> =2E=2E=2E/verification/models/irqentry/irqstate=2Edot |   32 +
+> 29 files changed, 4397 insertions(+), 13 deletions(-)
+> create mode 100644 Documentation/trace/rv/monitor_irqentry=2Erst
+> create mode 100644 kernel/trace/rv/monitors/irqentry/Kconfig
+> create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry=2Ec
+> create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
+> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit=2Ec
+> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit=2Ec
+> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
+> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate=2Ec
+> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=2Ec
+> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=2Eh
+> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace=2Eh
+> create mode 100644 tools/verification/models/irqentry/irqexit=2Edot
+> create mode 100644 tools/verification/models/irqentry/irqstate=2Edot
+>
+>base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+>prerequisite-patch-id: 6ac7167f0aa7c5319dac78bf5b06a989fd7dfac5
 
