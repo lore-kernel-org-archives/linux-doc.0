@@ -1,96 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792878210;
-	b=Ab6rJJ39ppvXw081Nli6jY5BfLdwBAcwVPmEooUljOxOd0y15LOQdy3feO0VtCRZZxwz
-	 Ujsyj2ohcGgdl2pnjyJkiB/qSze2OdzuC8EqxPcJtePZPCHpAiE03/mP1f6xnLugFy0Ax
-	 ZEEogQfWF9Ln5nuKa3gvL9sMnfu394v8AEFFTAA1POdzPB/CpTKKreiVaGcL/b47OLnBw
-	 gGS2L83QTw0SYe4jRLbiFrmnzia0Qw1xTl7QBKWJ+4XHI9vn/XCFqTTpRt0myQZbH+jrd
-	 B+seqqlXN+EzkDPYP1kSl0o0Y569r+K2muIMVzuOTz13YL2PyHL5do8dk/2rilL7R7w==
+	t=1792879339;
+	b=NEdo0ccrUEHPB3Zxqov3TIoxlOMEobUOKanfY+vkGPvyoCx+izbWSinkztpHH0mu+jNj
+	 +mNSn5NN7cI2kR+j6v18sB44DCURwaXapew4J95ppgKp2+Edjg9ZAzikwbvzZOYUxEU/y
+	 /H1uXbRHH9qzxWzBHvqbG72OWKB6//rHcKrJhA8P8dvaINIlkjANwJa4WscytQQ96nYnk
+	 HB17yTznfdnxxakNSocMkVS7ZQL7v8eknndLnnLHfOpuUXWf8QTJZCun8ISOWygblWFK4
+	 iBqm7XttMsOpZs5jBHirFjY9s+6FYtUmAYSWOIduci/QlZwGMArUr/HQDLadz2d64fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792878210;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
-	b=zszCCnxB0ShZvtOYyI8XhZLH4qCGm9ZAnPePKisw505n/7JmL2J4dsVuAKz4U2VFiNDm
-	 3CO+cgFWhSxnfWQGz4gWZtYuaSGGL+U0nqYKilqaI/A3DqhTe1sIR14barT4RGuYgiPYP
-	 p3EZReXuRTZOg5ImEsKn7w+mQ36bA4vlEi8hKi9uvewq+8qKjbi6trFDy3vy7Kj+OXjWp
-	 mKyyU90UOsRPN9RksrTRoxxzFsygn+FtV5nt98nrFYeO33b6qEUMsUpdHM7jsFBgukrDh
-	 WatYef+40axBGFnF/5PBeehzRJg5NjTm4no/9fg2jaPrEo3UqSFI2Fk85+ELS3a28AA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792879339;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=sia3q9+4NG/D0pyHeAoqQkOv62xgWS+3D097ZDTA1Nw=;
+	b=oC4x9I0TMPaR19EjT5eJiCX/8PfbnX1d+X4DgFyqOCCys1143T4M95g36RS/ij7qlGc/
+	 JhIu0MTDtjYa2p4enFMywOBlllLre0aeULuK0d2On38M0o05wJcHmZqTWrbuNFo3MOcRD
+	 KaqZwVive5Lq7bwC/htxm+ziVfUppiMRgTVcPLPmc8UqUOjBgCf/2Tlu01Quobqt8u4XH
+	 WuMbSOZW5uCdJzb3pbYzNZP2sWW6v84FwoxhC/Uvxn3EKabRJhZikuaqzObr953oYlHcM
+	 JkVH8nzE8epVe+5jgqvEUdPr6u+r6sm80RHNBOusBAeF2/OCnk2pYOKGk03UHIs//UQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q7nBjGrY;
-	arc=none smtp.remote-ip=209.85.128.170
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JiZrToBU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AF5606A31B
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 21:43:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66AF5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FFB606A31A;
+	Sat, 24 Oct 2026 22:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q7nBjGrY
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b0f59a5fdeso15275237b3.1
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 14:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792878208; x=1793483008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
-        b=q7nBjGrY9g7kt/F4pBV+TbcxWh3uw6vi0Nxk5mssyr9PIfi9EmZ5hFh3gYmXREwPWd
-         qsN0PD224j77dsc6FX9Alpbr71uTHDlLWpSCKNPT2WfR0hnnT1TdzzDgysccM6zhGKz5
-         dVTbCIHMGnqVsXsejSecTiGiA7WGpWwayKl5LqR4NTrFtAPTHdoz88Da0QoZuYxqOMPl
-         fju5eZ3/tIUuWWFdWBPitEWHdEaglsQevXV6TookxF9uU6GYw+1ZGERp8e8nSV9O5JHT
-         XrRcuSMsdcp8bF/ixaXe67qNn/x6IjqDF9UAi38eGzxCy0M8S3M6/fLloMoa/OrywNf4
-         HPUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792878208; x=1793483008;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3UXVe85EdeFNcxpcFxDAp5kR4bnXLI0O4+ZpE8jB/ao=;
-        b=s20kH5VIjwP8hrOQQjaiYbQd0TYCz+tsDqDzSwAZwyThRZo53fwHwZNApgpzh7Q/OO
-         vuZlxtjNxMMG5/o9S9pEB6pMyZ3X/24xn9TSgkyuqCI6tm1C+uN9brJLi5PCDPoZuvzo
-         wpoQ6uFbIrmyJbxw+iBsq+FxERYMvMJYePnTAZ2znUcZY4owJElgy9W9CUSIV7iLBFmx
-         lOLaV/TJCAVHLVnmL/vb+uTeEXhhS6qcql+1cWfOdn/E2zlaINpq3aHO09tu9zN1PSIE
-         FTqRYNvTCmfk4jzkPNbvEkbSv8EfiG0CYFc4VTbdEdCksrpCEgxLhl8znuBFlxv5Xosq
-         bppA==
-X-Forwarded-Encrypted: i=1; AKwUvBwlgnHT0leUfhawTpnhPr9oMNFgnQV2y/UTHEj3cXgCLp3ghuuv5d/RxzENzEB3T7f/dPeEl7rdEIA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI/GdOCQzl2s1bz2IumOp8M+Mw1VJxAkWtayMSK9T1S3bsRLLpQ
-	CQMun2sUJTpOKTHLAcrOQRCLsvWCeXicNx/lkiWPIXkFSfObcaiL3Inmb0ZE1Q==
-X-Gm-Gg: AYBFou1sl0mKW1EhJywHzPgm1dBkY+S7CWeqal8VjYUcase507G1hfPQp/apaSjulVB
-	4Lm/B6PDpCJqQKWEfXAB4dwY+YbdcO5cmIiiwgdXKabbo6ZSuoLSqEBuniDgIBLOxxGQEK3LkQC
-	WeSUT4+BcmgRwJLb87TLnzPmgBoAAoyYA6BwkHcylNG90oa8hceKCcesJccnOak7/DHRz124xtV
-	6mdU2uP0BW6ebCmBRrmBo7WE4HeOdHXmuJVGwCir8A2wkBJiYaVWLYYxxc3zCKGZ5FKJbRpBcWE
-	zjgSRtNqxP/tvuDktMYBiDxqCif6latjmkySoUF8afi8qKUR6W0lW4Lq5GzocRAxf0m044FKJmM
-	TGjrHuI4Uh17qs/IXQfJA0W77KVwkeKBIQtVEsdrEz9CX1eHmmiEeMCkDks1yWyX0c9aPdjyF9A
-	KI+Z0+Dh+imZMseD/vlI2QuY9fllMgqil0NzlPWU6ya3Mf7zo5Kxt76bsSF8EhmKYFbdtECB8f4
-	8Jg4FOARsaN/m/phS4vR1HLaP2jq8YqAyFSi2fVdzzoo6v+KHg5OAzwCkLmLWaZEAL7zfpo0H4b
-	X3E=
-X-Received: by 2002:a05:690c:fd5:b0:8b0:a8cf:f46a with SMTP id 00721157ae682-8b166cd9439mr22677767b3.69.1792878208273;
-        Sat, 24 Oct 2026 14:43:28 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:f15a:4eed:c4ba:3585])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b166dcf529sm13199467b3.12.2026.10.24.14.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 14:43:27 -0700 (PDT)
-Date: Sat, 24 Oct 2026 17:43:26 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	John Ericson <mail@johnericson.me>, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
-Message-ID: <at0agiPbtxz5zD41@zenbox>
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JiZrToBU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE1F1F01825;
+	Sat, 24 Oct 2026 22:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792879338;
+	bh=sia3q9+4NG/D0pyHeAoqQkOv62xgWS+3D097ZDTA1Nw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=JiZrToBUh3fiC7FHds/yQFmv7oc93QouaS0PSPV3QCZscBgmOdGzTVv7Qc0Qw3mpL
+	 dPiBcKOlW5hu6jWpuGiopXnmwmytjiPXkxc5Jpwrq7Fjd+PLsx9rMcQ3WE1jzz0OIm
+	 9cLusgU8aP0tOeCTM+Q5VEIJsuclVJLmqvqlb+UDGTnMpfmJNQj6KC9QSYiudqaLj1
+	 eir5uOugtanszTwYQ6lJY4hmpGer6cbsuzgvvHn9Fw66mXufFFEVVRSm78Ss8yjFwE
+	 WTQYpnoJjGYYWwujGXrCQ8MmIy1unXlvsMQdrG3sI4u2sOldhOuq7imF/o2LqxtkfC
+	 KfyGGAP5GC0JQ==
+Subject:
+ Re: [PATCH net v2] tls: keep TX and RX hardware offload on the same device
+From: netdev-bot+sashiko@kernel.org
+To: rjethwani@purestorage.com
+Cc: netdev@vger.kernel.org, john.fastabend@gmail.com, kuba@kernel.org,
+ sd@queasysnail.net, davem@davemloft.net, edumazet@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, borisp@mellanox.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Sat, 24 Oct 2026 22:02:17 +0000
+Message-ID: <179287933702.3134.9880453017789029456@kernel.org>
+In-Reply-To: <20261020214500.972308-1-rjethwani@purestorage.com>
+References: <20261020214500.972308-1-rjethwani@purestorage.com>
+X-sashiko-severity: Critical
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,192 +65,153 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
 
-On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
-> This is a proposal for an idea to add support for landlock to work
-> better with build systems such as Nix where they want to apply
-> restrictions but the paths may not yet exist.
-> 
-> TL;DR;
-> ========
-> 
-> Landlock rules attach to inodes that exist when a ruleset is built.
-> That makes a directory shared between trusted and sandboxed tasks hard
-> to confine: the sandbox may create entries there with
-> LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
-> time, and granting read access on the directory to cover them exposes
-> every other entry as well. This series adds a rule flag that grants
-> access rights on the entries a domain creates in a directory, instead
-> of on the directory.
-Hi,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-I'll chime in since I run nix and have a little bit of familiarity.
+Critical: 1 · High: 0 (1) · Medium: 0 · Low: 0
 
-Looking at my (admittedly bloated) nix store.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-[justin@zenbox ~]$ ls /nix/store | wc -l
-259356
+- [Critical] tls: type confusion and UAF in tls_device_down() when TX is
+  not TLS_HW
 
-That's a lot of inodes. And a nix derivation creates hundreds if not
-thousands potentially throughout it's build.
+Pre-existing issues:
+- [High] tls_set_sw_offload() (net/tls/tls_sw.c:2594) sets the shared
+  ctx->push_pending_record = tls_sw_push_pending_record unconditionally,…
 
-My main concern is that rulesets are generally considered
-immutable after enforcement. This allows for well-defined semantics on
-inheritence. This from my understanding would mutate the ruleset after
-it's already enforced, so changes wouldn't be copied to inherited
-domains automatically.
+--
 
-My other concern is with the overhead of automatically generating an inserting
-a rule for every new inode that gets created. It seems like a complex
-way to tackle this problem.
+tls: keep TX and RX hardware offload on the same device
 
-But beyond that, let's go back to your usecase.
+This patch adds tls_device_can_attach(), which is checked under
+device_offload_lock before each tls_dev_add() in tls_set_device_offload()
+and tls_set_device_offload_rx(). A second direction is only offloaded if
+it resolves to the netdev already bound to the context; otherwise setup
+falls back to software for that direction.
 
-....
+> diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+> index f11d0528fc431..9df183d0dd972 100644
+> --- a/net/tls/tls_device.c
+> +++ b/net/tls/tls_device.c
 
-Basically from what I'm seeing you want to grant some access to certain
-subdirectories (including newly created ones) but exclude others.
+[ ... ]
 
-Presumably in the nix case, you want to grant /nix/store/{abc,efg,hij} and NOT
-/nix/store/{xyz}, but still allow /nix/store/{foo} (the derivation
-output) to be created and written to. This would allow the nix build to only
-have access to certain inputs, while being able to write to the /nix/store
-and produce an output. This is a valid usecase that Landlock cannot today
-accomplish.
+> @@ -1227,6 +1246,11 @@ int tls_set_device_offload_rx(struct sock *sk, struct tls_context *ctx)
+>  		goto release_lock;
+>  	}
+>  
+> +	if (!tls_device_can_attach(ctx, sk, netdev)) {
+> +		rc = -EOPNOTSUPP;
+> +		goto release_lock;
+> +	}
+> +
 
-There was this NO_INHERIT series I proposed a little while back.
-[1] It's sort of the inverse of this (removes accesses inherited from
-parents rather than granting new access) but would accomplish this
-goal.
+[Severity: Critical]
+This isn't introduced by this patch, but the patch now deliberately
+steers sockets into the state that hits it, so it seems worth raising
+here.
 
-With NO_INHERIT, you could grant whatever access rights you want by default on
-the parent directory, and place NO_INHERIT on any specific entries you
-don't want to have inherit those rights. 
+When RX is on hardware and TX is declined by tls_device_can_attach(),
+do_tls_setsockopt_conf() falls back to TLS_SW for TX (or TX is simply
+never configured and stays TLS_BASE), while ctx stays on
+tls_device_list bound to the RX device. If that device later goes down,
+tls_device_down() does this for every matching ctx:
 
-So for nix use case, you could grant no_inherit on everything except the
-inputs you need, then add READ/WRITE/MKDIR etc on /nix/store. The new
-directories would inherit this by default, while the ones you added
-NO_INHERIT on would be restricted.
+	WRITE_ONCE(ctx->sk->sk_validate_xmit_skb,
+		   tls_validate_xmit_skb_sw);
 
-Additionally, you should also examine the mutable domains proposal by
-Tingmao Wang, which could also facilitate this usecase as well [2] (i.e by
-dynamically adding and removing rules with some fanotify/inotify glue).
+without looking at ctx->tx_conf. The tls_dev_del() calls further down
+are guarded by tx_conf == TLS_HW and rx_conf == TLS_HW, but this store
+is not.
 
-That being said, neither of these two patchsets / proposals are merged,
-and the playing field is still open on this.
+>From then on every skb with TCP payload on the socket goes through
+validate_xmit_skb() -> tls_validate_xmit_skb_sw() -> tls_sw_fallback(),
+which casts tls_ctx->priv_ctx_tx with tls_offload_ctx_tx() and passes
+the result to fill_sg_in(), which takes ctx->lock and walks
+ctx->records_list through tls_get_record().
 
-So the problem you are pointing to is legitamate, but the solution still
-needs to be considered carefully to avoid complexity.
+With tx_conf == TLS_BASE, priv_ctx_tx is NULL. Isn't this a NULL
+pointer dereference on the first data segment sent after the device
+goes down? With tx_conf == TLS_SW, priv_ctx_tx is the struct
+tls_sw_context_tx from init_ctx_tx(), so fill_sg_in() would take a
+spinlock and walk a list that are really unrelated fields of that
+structure.
 
-Justin
+Close looks worse still. tls_sk_proto_close() frees priv_ctx_tx via
+tls_sw_free_ctx_tx() before calling ctx->sk_proto->close(), but with
+rx_conf == TLS_HW the tls_context and the sk_validate_xmit_skb hook stay
+around until tls_device_sk_destruct(). Data pushed out by tcp_close()
+or retransmitted afterwards would run tls_sw_fallback() on freed
+memory.
 
-[1] https://lore.kernel.org/linux-security-module/20260621035223.2651547-1-utilityemal77@gmail.com/
-[2] https://lore.kernel.org/linux-security-module/cover.1741047969.git.m@maowtm.org/
-> Motivation
-> ==========
-> 
-> The motivating user is the Nix build sandbox. Every Nix build runs in
-> its own sandbox, and a build may only read its declared inputs in
-> /nix/store and must be able to write and read back the outputs it
-> creates there. Nix enforces this with a private mount namespace: it
-> creates an empty store directory and bind-mounts each input path into
-> it, one mount per input. Nix has paid this per-input cost since the
-> sandbox was introduced [1].
->
-> The cost is paid per build and grows with the size of the input
-> closure. Nix is moving towards much finer-grained builds (many small
-> derivations instead of a few large ones), so the number of sandboxes
-> grows while each build's own work shrinks, and the sandbox setup is
-> becoming the bottleneck. A typical build has hundreds of inputs; large
-> ones have thousands.
-> 
-> A microbenchmark sets up and tears down a Nix-like sandbox (user,
-> mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
-> removing the chroot afterwards). It compares one bind mount per input
-> with a single bind mount of the whole store plus one Landlock rule per
-> input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
-> ext4, 16 cores:
-> 
->   inputs   bind mount per input   one bind mount + Landlock   speedup
->       10         3.2 ms                    2.3 ms               1.4x
->      100        11.6 ms                    2.8 ms               4.1x
->     1000        79.3 ms                    6.4 ms              12.4x
->     5000       400.1 ms                   24.4 ms              16.4x
-> 
-> With Landlock, an input costs an O_PATH open and a landlock_add_rule()
-> call: there is a single mount, and no mountpoint directory to create
-> before the build and remove after it (removing the 1000 empty
-> mountpoints alone took 17 ms).
-> 
-> The single bind mount is only sound if the store listing and the
-> undeclared store paths stay unreadable while the build can still use
-> its outputs. Without this series, covering the outputs requires a rule
-> on /nix/store itself, which makes every store path readable again.
-> 
-> [1] https://github.com/NixOS/nix/issues/179
-> 
-> Series
-> ======
-> 
-> Patch 1 lets an LSM observe inode creation through the
-> inode_init_security hook when no LSM provides an xattr. Patch 2 adds
-> the LANDLOCK_ADD_RULE_CREATED flag for path-beneath rules and bumps the
-> ABI to 13. Patch 3 adds selftests.
-> 
-> Testing
-> =======
-> 
-> The series applies to the Landlock next branch (3e271a27c46f) and was
-> tested on Linux 7.3 with that branch applied.
-> 
-> Without patch 2, the five new tests and the ABI version check fail.
-> 
-> Open questions
-> ==============
-> 
-> - A created inode stays pinned until the layer's hierarchy is freed, so a
->   sandbox that creates many entries in such a directory keeps them all in
->   memory. Should this be bounded?
-> 
-> - Creation is detected in inode_init_security, so on filesystems that do
->   not call security_inode_init_security() created entries get no rights.
->   Is there a better hook?
-> 
-> - Through overlayfs, created entries get no rights either, because the
->   upper inode is created with the mounter's credentials. Should overlayfs
->   be handled, e.g. via security_dentry_create_files_as()?
-> 
-> - A file renamed or linked in keeps only the rights it had at its source.
->   Should it get none instead?
-> 
-> ---
-> Farid Zakaria (3):
->       lsm: Call inode_init_security hooks without xattrs
->       landlock: Add access rights on created files
->       selftests/landlock: Test LANDLOCK_ADD_RULE_CREATED
-> 
->  Documentation/userspace-api/landlock.rst     |  42 +++++
->  include/uapi/linux/landlock.h                |  18 +++
->  security/landlock/domain.c                   | 182 ++++++++++++++++++++-
->  security/landlock/domain.h                   |  28 ++++
->  security/landlock/fs.c                       | 176 +++++++++++++++++++--
->  security/landlock/object.h                   |   6 +
->  security/landlock/ruleset.c                  |   6 +
->  security/landlock/ruleset.h                  |  14 ++
->  security/landlock/syscalls.c                 |  20 ++-
->  security/security.c                          |   9 +-
->  tools/testing/selftests/landlock/base_test.c |   2 +-
->  tools/testing/selftests/landlock/fs_test.c   | 227 +++++++++++++++++++++++++++
->  12 files changed, 703 insertions(+), 27 deletions(-)
-> ---
-> base-commit: 3e271a27c46fd591d1011c7de5a644a41e2010f1
-> change-id: 20261024-landlock-created-rights-9340b00a8c4d
-> 
-> Best regards,
-> --  
-> Farid Zakaria <farid.m.zakaria@gmail.com>
-> 
-> 
+The updated tls-offload.rst says a declined direction "uses software
+instead", and NETDEV_DOWN clearing the binding is now an explicit
+reason to decline TX, so the patch relies on this combination working.
+
+Should tls_device_down() only switch sk_validate_xmit_skb when TX is
+really device offloaded? ctx->tx_conf is only set by
+do_tls_setsockopt_conf() after tls_set_device_offload() has dropped
+device_offload_lock, so I'm not sure tx_conf alone is a reliable test
+there. Would comparing against tls_validate_xmit_skb, or having
+tls_validate_xmit_skb_sw() bail out when TX is not TLS_HW, work better?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but it is related to the new
+tls-offload.rst wording that a declined direction "is handled in software
+as if offload had never been tried".
+
+Suppose TX is already on hardware and RX is rejected here. Then
+do_tls_setsockopt_conf() falls back to tls_set_sw_offload(sk, 0, ...),
+and that function sets the shared TX callback whatever the direction:
+
+net/tls/tls_sw.c:tls_set_sw_offload() {
+    ...
+	ctx->push_pending_record = tls_sw_push_pending_record;
+    ...
+}
+
+This replaces the callback that tls_set_device_offload() installed:
+
+	ctx->push_pending_record = tls_device_push_pending_record;
+
+The hardware RX success path also calls tls_set_sw_offload(sk, 0, NULL),
+so this could already happen before this patch.
+
+Now suppose device TX leaves an open record, for example because
+sendmsg() with MSG_MORE set pending_open_record_frags. A later sendmsg()
+with a TLS_SET_RECORD_TYPE cmsg then takes this path:
+
+tls_device_sendmsg()
+  tls_process_cmsg()
+    tls_handle_open_record()
+      ctx->push_pending_record() -> tls_sw_push_pending_record()
+
+tls_sk_proto_cleanup() reaches the same callback on close when
+sk_write_pending is set. tls_sw_push_pending_record() does:
+
+	struct tls_sw_context_tx *ctx = tls_sw_ctx_tx(tls_ctx);
+	struct tls_rec *rec = ctx->open_rec;
+
+but priv_ctx_tx is really a struct tls_offload_context_tx here.
+
+Doesn't this read an unrelated field of tls_offload_context_tx as a
+struct tls_rec pointer?
+
+If that field is NULL, the open device record is not flushed before the
+record type changes. Data that is already buffered then goes out under
+the new record type. If the field is non-NULL, rec->msg_plaintext is
+read through a garbage pointer.
+
+This seems to go back to 3c4d7559159b (2017). Could tls_set_sw_offload()
+set push_pending_record only when tx is set? Then RX setup, hardware or
+software fallback, would leave the device TX callback in place.
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261020214500.972308-1-rjethwani%40purestorage.com
