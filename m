@@ -1,99 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792836596;
-	b=tqTrXSrF4tNR5esGr3ambl6gqB3BvZnYqf+nnrfdejIzkXqo0L8bj08w9yCF/35ehOdd
-	 hOnoU6xQKqN2qda8WyqTN5WwfVdlEUoXCQEnNseA4D+3Nwn9rdYv7iZRydHdP18uS2Afo
-	 OgtCPp5zaLlALmD2tKne/3pp1HDVZlHP8vZcD7bIbzKeEhzEsNMZwEXqJA5mh06w3Qytj
-	 eEBhnDW1vXGeUAE2vSoFIW80IuOEdRELBECq4buexY1DVLEoCx8aiMeqGoXs5T7m47qO9
-	 8tqZNpcDgZpltqo1Xk8iVyxfOpC8zz3W9Q0BrQ6Hh8NZskWPUwfP+llrHEEt5uTlpng==
+	t=1792837685;
+	b=ndkClq6XgUcdlWLuFKr4mvuINPqgaq6lM+8nbT1oGgi0VuGxLOHGxHAn141G2pkr1+1C
+	 6mDjUxSzqh19A5M8K2TJMNarngKiWY+QHMv5KCHVMhXw7q4u1KnoT016rLQ/sa6xHn+r0
+	 62glvHqQZHgwcsUSKFMjzPos5fs8J35gcATTm3U6khEmf3OY0NWumexvRDzfN9qaQlhVr
+	 9DQ7FAU0cAyTE01WMZYV1J8hUnVfWRxYg0GZzb5PYZbIBPrueJEkpwMjoUcfgMVFRbUGc
+	 TdNbVKUgOCgwC9UpL0Km2mB8Nlu8rM7vKT6X5rPsRWawUkAKhocn4uHaF6vEbTKVOlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792836596;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792837685;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=gBmeT5JJ7GeeblMXaEFca81tlnSg9rFzTcGutmMmxPA=;
-	b=jjB04dxnrB+euq2MQDj9N22M1wgmMbVYS49iJoj18Y4kWg7iVFu72MwiHGSPL8eLqI98
-	 7HV/+pOyBkz/ojQOmq3tNBg4sEwJLVDtH9bYUNUY4pBbxeS4jiWEFLTHfXE/OQ98h5w/Q
-	 8C84PNwFX9Q4WpXe9hVepumYvyr9yk2HwDW8r6zQYwzdQ6/usUN4N2A5vgOuzAjJtced9
-	 DSfkD07FBIdTM16NtBRqn8NhoOGQWU0TNCfZIOBAxIGgSx4XnTDOMHEAHdJ5Tf8kHxyHG
-	 8aW1LYL6ApT/6rzTHKue0f2ob89c+mW0RuMVX3Iq8+Gk07WzEvF85IUXylBjZAI6Hjg==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+	b=C8wD6JHuJ1R3sc4a8J9pqeBcwy7kNJgFma7KjUQJEg+U+/mVJV0ppFdVC161gGlzQWyW
+	 0KiZFcdcJL0LAJfzPqo+Ekp+JcWRrBE+Wm4bsneqtNiOCanINzvdYUhWoRthTTcyCx87x
+	 Kcbm/32gqe2gPDJVXSQI9v9W3vQEeVdG+5Wmj5bhu4RO+qzEn8ixvj4EM/qFAhzOKpKvg
+	 GzXeB5EjcCLtQzMZ401DZfuFF9eiZGGjcQpgH99cf2S3/cZSUxV/sKwfit0ZeA9efJjsT
+	 RhdcoirrKLDyKvlLGi6+3S9rkPSVG3HuouY8tBRbTGwHA+lde33h+roqaK8NW2m4WNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TqAKNBFG;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V6qybNv7;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAB8606A31D
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 10:09:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FAB8606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752E3606A31B
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 10:28:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 752E3606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TqAKNBFG
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2dd76b1361dso8919625ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 03:09:55 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V6qybNv7
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c5358fc28so1379659f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 03:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792836594; x=1793441394; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gBmeT5JJ7GeeblMXaEFca81tlnSg9rFzTcGutmMmxPA=;
-        b=TqAKNBFGu7Oay7kVjz7Sb1PxLYaXAZZlnGcKtDpMpW1Kkd/7x/OSpK9LruS07mebPB
-         tKE1MRySUZvQYWM4iaaWg5mPC5JYbvK9zx8R50JsXjQCmWlk9va8JwWhVL/HqjZrFab4
-         5F/HurqY1cuGtt5otkp9ge6GQ69QnVgkvSfIOh4eeuhNTwmPzbWuxQL88EPBGWvx2y7J
-         J1oDcjYxDhRYkk1VETe0ofRev+SMfWEBuxl+qdIkIoN/26fgAPAO0ruvxdhUSsWj6ImW
-         8KqUlV6s2/2rKJE0BlmvWgMbPJBeO/yFq74Z97y4/3qLCHrOL9crycND2eD5xdaVZbw5
-         DsyQ==
+        d=gmail.com; s=20251104; t=1792837684; x=1793442484; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+        b=V6qybNv7xo0fC7ai3ZiY835zdKjAQDhIU7NdoTyXea2t7zlKgfDV4x2XB7n0pnam3F
+         Ni7k89DraHY3DpkpWSecWSop9BPvuPLTGKdHb1+SfRqbrSeOngxyZP90iaq96bou6V+8
+         MIoD1H7gvTvBiS/I+eAZwFLiZwzWV0yRUxrHGxqdxOv+e5zWpldyIW1jRUw05Cjv6qe1
+         6IyEy7FkFuHnKtHb+5nYhR1t1hkssKbbMpWur1VObrDOtKVGhVSI+IrT2IcSX5UQQLOj
+         USczm0QIvEKKCisyCIbIvNeR26YWY5JO8H4CoIfSIkrOsZcRecDBKUE1ZeEK/tUL1QVu
+         g9jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792836594; x=1793441394;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gBmeT5JJ7GeeblMXaEFca81tlnSg9rFzTcGutmMmxPA=;
-        b=VsUV/hg2LWp9TYHTzUdrzkcAkndYiquXzEJvZb+FNQAxbXxTlhTESApqtcMHM+HX36
-         cQcPXMnoBq612DGOHKY5R6rk+00lVyWnpv3OwMSn4mxqd88zGXD/oys+5DR4TATgOwzd
-         iwPaWtVd3fVOFARtQVaAUSQ+jT/Pf8h68CyaASn1EGfJ4dwdHqmdL4V2rqIEJfvEzc2x
-         Xfwg05k21djgQ+whWVwEhWfePjkZSYU097bCrHpkH0WJzZchNYq/ppYzIqchrhAPJvf0
-         6qsLBRrkhDbVbgUQgp5bKg4FyOFawRiyhlDVmwwOSxV54UeNTrAT8FRmWkXUWCXNZ0O9
-         zxxA==
-X-Forwarded-Encrypted: i=1; AKwUvBzNy1KSlTMFvl7iHwvYOrngs/u46u6RI3lJ9bIIuMqUny0po7tFx0F04+rIqAo2jbVYxJwFxpPz9IY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKHFkKmU5CNE2KjaAN9nYP7M9cwN1NubBmKudbqZM02ASpjZK8K
-	sN9M0beIocv1Orl/PhXdYWhFLD8+PWJ6dr6L6553tB6pfeGvEhlWNA96
-X-Gm-Gg: AYBFou3TJll7ruR7vzviRd0e/4/N1SIEbf4k2K57Jsdw52zncS5ROQsf18a8QMHcJxF
-	r5YfAVp7TS3Du3NAqRU/ZiC3sKnH1xrpGoq1OYi3TPXd4GE/kgC9mPB3C1W7MrkCZjb4YNrisnU
-	YhR6E+h47dY6eEwRAhGwyB1vqSqvtY6Gr1EDqWDlF/MYHCR7Y/RBfp9w5zODWuQFCvtnShU3ot6
-	l9CaNcJbLWgKkAW3AwEPArR/op1V56z8dkvZdhE0zhJHq340mBeXeqAiFTphfH1jYpWZa6/xiaC
-	Q8WHg8p4bFLFO2McHhGmlkv9nNXpri1uuEEwzERWfjpODiutyL5QDIYSWKSJf9mTQ5OT131Ls42
-	zP6GwnAvV9OksNNAk1RZEf0tuCwky2TnTbPZtnMtcoSJNWMIMss/3BWFWym1yZ6kl0l3IIkvePs
-	TRf3ZYWU4Qv4cpBK0aFuUNMyWFo+JEIH+ZX32iXxcj95Y7aV5Vg59vVGB2fF81xcrMcCuen7MZV
-	B1/eCe23BzWQ4SADco2tPNlJ8aRNCRjHVyO16qqh29TEO9bUBU8zAwMJghvOJCMRGW5b0k4qvsv
-	/lGzU3w=
-X-Received: by 2002:a17:902:d50a:b0:2e5:54b9:6b5c with SMTP id d9443c01a7336-2ea9c66bb6emr12267095ad.20.1792836594441;
-        Sat, 24 Oct 2026 03:09:54 -0700 (PDT)
-Received: from localhost.localdomain ([14.187.77.45])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b1982d2sm4635355ad.41.2026.10.24.03.09.51
+        d=1e100.net; s=20260707; t=1792837684; x=1793442484;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Zw9evio7WIEnyHMe5y/JwH40NK3MTc6qnKbAntWHX5w=;
+        b=1Gf3+3Lb6k0iW/ODAdRQz9shfC5xpbyraszZYz0+vRCdVkAtq5pd7TM4ITphTu4Bed
+         qHhAsLbyX1TqBD/0EjzCvp6S85NJ9sixnM2VtQt1Z2y1zYA4imkHuw4EVf+KmMd+v3Dw
+         Qze+Z+h75JMERbLI/XqHlh1veb5ovS3g0KBAKO2PSvqwJAGi4c/H/zzU1r4of8L1WjR0
+         JuJRI8GGnzWZCPloSWalU/XUWW3PjQGwnBm/l4kDkBvMCy6QcsEEBhxB+vS/yWEc2IrU
+         ZKX59GCwSszYJ3U2NP/TQz7M2iR5kOcYqCPTPmLfy+L7Ci5YXTc0ZTIiBjYuaQyMpnEf
+         wH8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzEBmkpKxlfjaS6JZxOdPbjYC6dybpZS8cGSNpbi2TaOYi5DkfJO9dI+0QT1/GTsxh9PwUBbjLtJ2s=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLst7f20T5z2e1d29dpZ/o2jL6v/tXoSsmiQ3NTrFdiePC/GB/W
+	pO8yHfweiKBf0YFdiyo4A7DQ7stpWwzHraqtauzb6co07R1EzuZ2hVqB
+X-Gm-Gg: AYBFou3R7ZIXtpfxLPSd/w6my+WxXOV9ly6VoUiKfVofSeGQUBDdI9xRhYmOzPqkbCd
+	420yKvId/Qzu1q6C6+IvUAih15B+3Mu2PhcOKNztRNKlaQR5YKdthG5684gPcBw0w270zI73A8Z
+	V5K9saxa4J7vp0vGTuBBQsjMafVUDvg3O7jtnLSCag6OGOifnT6n102RA/wXr4/HtItuBTRPLYl
+	6vm8sqPNJDo6vejjIi83yK91UAhIm+8q9NHJbSmfXqQbI3VbVzpQSmZealUUXPCqT/o4LLURuXd
+	iLDPV12hSX3MEeab679OFiUg9NOUOTsM4g95AhfdIQ+4TkymHt/sK0ygRtMHukbeCibfXIejFaA
+	4sL/ZCU9mB0FoVmbMI3jkLA6cVg44z7FHODCyoL6veI3eFj8Ocnow6X6MEvlliszV4McwgOi/Hd
+	09u4/vSwc8kIV9xM4S/+025odT+8CiQ5MHsr25JiPPKQa7rcskfJq1q+vDtDiyTd179X+Ra53VM
+	5lDvNn1fdJh9PMDTAyZfLCdk2ZrYVBo4sfV+Xotv9D9cm/Bc3Vu8zxpf87w9sMPAMFZDkj5WQIn
+	EIxChdQK2eu4Y4xK8l44OHskhh99jgvwTXhorBFjdwc/kWuFp9W4WzPKHyZQCFXKnI0TUZdQ5up
+	SpiiPF0HEs6IFPwlixs3dUZdj9f687Z1RRL8pde6oBToXivF05tR38U4h
+X-Received: by 2002:a5d:5d10:0:b0:48d:e62f:db70 with SMTP id ffacd0b85a97d-48e3eb9c239mr2514461f8f.48.1792837683543;
+        Sat, 24 Oct 2026 03:28:03 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-9da9-5f01-d5f0-7ecf-afa4-4bc6.310.pool.telefonica.de. [2a02:3100:9da9:5f01:d5f0:7ecf:afa4:4bc6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3a1csm3506285f8f.16.2026.10.24.03.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 03:09:54 -0700 (PDT)
-From: Nguyen Duc Thinh <ducthinh100812@gmail.com>
-To: Mark Severson <gr3yf0x87@skyn3tlab.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Duc Thinh <ducthinh100812@gmail.com>
-Subject: Re: [PATCH v2] docs: changes.rst: set the pahole minimum back to 1.22
-Date: Sat, 24 Oct 2026 17:09:45 +0700
-Message-ID: <20261024100945.34029-1-ducthinh100812@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
-References: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+        Sat, 24 Oct 2026 03:28:02 -0700 (PDT)
+Date: Sat, 24 Oct 2026 12:27:59 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-trace-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
+Message-ID: <atyGqz5lcvYQvCYp@gmail.com>
+References: <20261022050712.75035-1-kmehltretter@gmail.com>
+ <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,21 +107,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b3ff014bf2f571b935f9519f422966a1c665c32.camel@redhat.com>
 
-On Wed, Oct 21, 2026 at 21:48:11 -0400, Mark Severson wrote:
-> Set the table back to 1.22, in the English document and in the Italian
-> translation, which carries the same table, and remove the Italian
-> translation's copy of the paragraph that the English document no longer
-> has.
+On Fri, Oct 23, 2026 at 06:05:30PM +0100, Gabriele Monaco wrote:
+> On Thu, 2026-10-22 at 07:07 +0200, Karl Mehltretter wrote:
+> > This RFC adds events at the generic hardirq and serving-softirq
+> > boundaries. The irqstate RV monitor checks their order and agreement with
+> > live kernel state. irqexit follows the owner of a preempt_schedule_irq()
+> > invocation across task switches and CPU migration.
+> > 
+
 > 
-> Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation emission")
-> Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
+> Hi Karl,
+> 
+> thanks for your contribution!
+> I'm probably not going to have much time to look at this soon as I have a few
+> holidays planned and other series to review first. But it looks interesting.
+> 
+> What points my eyes is that you didn't include any schematic graph in the
+> documentation.
+> Some folks don't like RST, but I find having a textual representation of the
+> model there easy to understand what you're trying to do without having to build
+> the models.
+> We use graph-easy for that (and adapt things if the model is too complex).
+> 
+> Do not send a V2 just for this, but please keep that in mind for next time.
+> 
 
-Hi Mark,
+Hi Gabriele,
 
-Thank you for catching the mismatching requirements (pahole)
-alongside the Italian documentation update. The patch makes 
-complete sense and resolves the contradiction cleanly.
+thanks for the encouragment! Yes I continue working on this RFC and use
+it to check for my related early irq cleanup series. I will use your doc
+suggestion.
 
-Reviewed-by: Nguyen Duc Thinh <ducthinh100812@gmail.com>
+I will wait for further input and liekly post a v2 in a week or two.
+
+Any broad strategic direction for me and my LLM are always welcome.
+
+Regards,
+Karl
