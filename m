@@ -1,124 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792844015;
-	b=Q4nhQ8BJBmbZit4I50rABVvPFZiXxKftzNksfUs1GyxM0ipGKtkQXpVwQQdPJtUQ30NV
-	 EUAQHnFhwRK+GTgV0ZZzmoCEJiiB00hQU3VFn0M2pLYBNVr26Yl1yJAyO2DjlYVMC6PBd
-	 EA0APvtX8IRljiI8xirBBbqwBV5VcCRDGTns1HV0vCp25DuguZhTCYWPaLGTtZOONQ+me
-	 ru15IDU/foFBzuxhmJ3X6aolx/MnUM96NaygtYmvY1dJmZG+jvFFK97563CkeK7B/JSJf
-	 H5pmpI+gMDyhfKSTqwTsvZJoQQUPXH2Ps4Dan9+8eLEdgaiXXc6IrlRq/3XEE5tu64A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792844015;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792847672;
+	b=3AHPXXBsYjhxixh/tbKZDCyyiZ8o70nx6TYeWQ77r/rEFvFKXppGLyqXljKsMP60ecuN
+	 5D5r+akov/guEkF1nZXGDURRmV0s8wml0Vv+k0yp0vfxPkSqhPATtN514IfH7Rl9ZYKbs
+	 IpcMYBsX66J/M+wpEYp5hAjKMLowR5zxLuRkmaD5rUojHXNxQaT3ZT7I0WngsFBrOwAn0
+	 GL4vecTM0wjGhmFzEaIhEyRExpcJTXT/OxQJZXU6vDrogZwmgmKcjYTniCtTL0S+G368D
+	 OIrgXOJ9Wab2c2Y2ERothdaJ2QuPA/CCz3kI0mUoIxRORZQOf0dgEyNbkb+ZQI3vA9w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792847672;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:CC:Subject:In-Reply-To:References:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
-	b=fDuhjB3A1ukpx7VYKV0Qwr9mHfmd1ncCyHFQV6LDECFV01tLwYZQ2HEmXb7/11wmTyfA
-	 NX7Y1WCMbkQdp67YtqqSseCcTRWKcx+9xaTDJofZC+5reusiwKFPRXJqIarFSHbaj8sXf
-	 H42r+i7zuypt9ejLpRrUJlMuC3FlLwq2wOBlqZdL2J8/WWG4m6ZXfJuXhelnzGQ5ulZXg
-	 PhJ6QXkYxc44FJ4sRj44pAfPRasehLNdRucbL5NMDmuK+TJ96+xLjwjXvZDK8tthcWtRu
-	 bTG/EFLXdOUBprFG1qxEhM5qiPDBMPYNMBKVAKF1BpUpmdr5HS/RYZfgUlHd98QkSsQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f3utQIMW;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WBWKD0AE;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=CMqMc3sz71Og6LxWQWCEwXYQNGi1cYjnt3qdjDLrC/k=;
+	b=QZgJ5SyKEoxEiMGXCKRDKEOnv4k04k1SjqM6J5l7O5tMdUIxBy9FlIBrg7rBVMzdgYCf
+	 kanF/Wh1Nb5YSDrQIKlIztuzjWHBxoQ3xIv+rSoSYy/76aU0TkmvLHTPyv+GJYwzxBgFX
+	 8lAw0uv/uuMHRF5jlvtIVLHpVzRDFUk1XyVti3ZNJRVbUz7fQQ343crB665xClYu4DXOz
+	 tvs2iweXw3Z1yaWNRNwW4UruUPW/4CMH5Ek4GodJl8EZGJq+frz8TQYBgfHEyfDBoLh+P
+	 vCjFecyEJuhbT/efvg2a7AX8X7YxN9S/UEt/rSL8I/w4kDZMSa6f/tjuVjp32UTt5Xg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aVgx4w0D;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FB3606A31A
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:13:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04FB3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC265606A31A
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 13:14:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC265606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f3utQIMW;
-	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WBWKD0AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792844013;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
-	b=f3utQIMWLHLjpbX5nOjgWSn+cXimlbHwlaWomtX1SoudbPm5IuJ1NvAKWqaaSVRN1yR2gD
-	hHebrZzyzdWZD4Vzqyz7uP+8tRrI7blsSkcF4JcAaBa7z1osPRFKlPAmbCCf2SjrEFePG9
-	HtEvoEQe7//mDLG5hCunmlJWrvAj+r8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-91-tOyOR9oxP5mFYCDjXkgJ9w-1; Sat, 24 Oct 2026 08:13:32 -0400
-X-MC-Unique: tOyOR9oxP5mFYCDjXkgJ9w-1
-X-Mimecast-MFC-AGG-ID: tOyOR9oxP5mFYCDjXkgJ9w_1792844011
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c4108bfb63dso89444066b.0
-        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 05:13:32 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aVgx4w0D
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917a707f37eso18172816d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 06:14:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792847670; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rKSDmWwj37oLY+ULD6XtIePIuRRFagdCoF4FtE4hLgUXzn8UV29LzS12Vb8A/zz32x
+         FN0CYBNWPk3TjCsAmWRXjYzt+0CIYnfTUCICw8ND08kI2eM0Xgs1FuO517oRw2jMBxo3
+         GlyB+SJ5/AUk3ueGYoG3vorZCgbMFPo6t5wkLdLS44TYMlZ62AfKTZavutr+fgTTHHyo
+         kOz1EIIUUZ/IaIRn2n/Vf3NlUavYlXjrLx5URCfn9r4r+VScZsCxPO84dk0585j33kJU
+         oir/JOxqXmyYtZ+Hz8XzITt/V27NwEXCpgTVwFNmOid5+usJbkRFBWGw7FY46eyHIOvl
+         FYBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CMqMc3sz71Og6LxWQWCEwXYQNGi1cYjnt3qdjDLrC/k=;
+        fh=t9LOS3kHR9Cxbwlk/SSjv8NRWfpJaSLz41caHw5jar8=;
+        b=nJ8pRJBzD9AJS+LkMh0UwRYHjmCzjLpG+v4V6TI9iorCm3HjbFuh36ipa08GfiCTTt
+         dY/C/kqLOwcQ6a2Q8lJMlDDP6C6rZrl7G856AIMlF/DIqw1MxzwHiZSZ9pLmZ8Qh1vOW
+         A3tpIVy5uQQWbwE/J/wZcslCc+W5nU7+enEWqBjopno/yDiFyeSiss46Sh4VWgIf61Fk
+         pBwhrfpgoqmQKSGZqEYXuv/zKqxU0McZgupJovvLeGw3pYsAGUYuS2lEyEm4iuKzu19R
+         Rofko6MLk/W/MnCnnsBBFlD9nKcZRRnZle48wclxbgiAywg7l6n2xKHyU9AxpL9WjDMD
+         RieQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1792844011; x=1793448811; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792847670; x=1793452470; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
-        b=WBWKD0AEX6gwKYvAKNlxLEnY6kVWbT74w/LRvMAKqPc9GNfSf0Qsfr8UAWMVqFPBJW
-         iDRNPnZwRS5/JfJhetAr/Fb1So4pDmHLbwHp8OGipCzBYuU/R+RMWyKWIHRmwd1aIaeN
-         5u3ki/VjRJ06aJCi/y+RLrId2bYldaLU+EV7vdPwdoRSdNwAZy1h5Js1Hy8AQ4T44y5L
-         wDfyUpHTps6rsiiHb7isRdvmuIlSvOFTZC94M8SfrzF5v/KuxNY+eGG/Ttjm3Cf1MJMA
-         rhhdDPmVd+QJELkX/1BqpqUUNsjklaWi9TlbpdYpaq7OmBcYt0+3rNd/h3/C1P2zLrcG
-         FIXg==
+        bh=CMqMc3sz71Og6LxWQWCEwXYQNGi1cYjnt3qdjDLrC/k=;
+        b=aVgx4w0Dj968h5veWnRWkqClr120VgdjGw4ApqRW/rHX3gtUgqx+mczuyLZxOMB6ek
+         PHWZdaQwWRKSQOCvCGFQDcKmA5TCT4TqCQxhIVnldowJN/LxaLP0EoyyXv3FjHtCnNcV
+         DULIecl/rGFsem0HnH9H1yRm6VhaG2ldNyG4PWewN9hjcsWMfFNlDPPew1srQjDDqBMZ
+         qnn3L2gvPWLCaQ50jO9vBU5R3jZKuwUoI9iP5iCLi1Wa7T5ymqUdtWX5zroEgDPjDDBC
+         zltk+/h6pHOLEKfrChCop1Yz+zzjBBE7NkRC4e5T652YlYoWIK86mWh9T/CDJgt1XQmo
+         rNzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792844011; x=1793448811;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792847670; x=1793452470;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=c4C00/XzUMl81Cb9nPtDyYxb7VozrfQ6cNr56bWwPUU=;
-        b=Xoxunm5Mlj2LG4KfV054XPOkwedYlmlzIyqo0618Ur8hHuhXXtsSQPGRVVVp2P+VbT
-         iCA+fR1VnolylML3DcIAIevwNf2pU79i43xV4oXMJJ4JYM3nuXHnZKeAzhn8eBOzUoPk
-         uTU1ci0V/watxFE3Vmx7okEPQfz5uP66C/s/g1r2hixOuxUrJznT1h2LD9fnjVnf01/w
-         Fa5SrWXKCPUgXFFnkzec8Ws+rLpAfuBEiksWzNA8BZ2rOkoYsHY5jnT46HuiUmqToMeJ
-         lC095k5K/bzMQjPxVx53o57QMk+cD0pbDXEXNtJrHVLmPaNm75qi9gKg5LgZfDxWr1tH
-         rMpg==
-X-Forwarded-Encrypted: i=1; AKwUvBxUaSZjuuQ8vPMY+7NktPQ5AloVbAzkViHbNYZ0UxJC13tPPeNxPSsKZZHC0WKforw4muhnm0NbFEY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ9LYRYpPRH4XFydQ1HXQ6bfNi1SHspDGtc2+ugUfWnic/CYwlQ
-	xY/vqrkElfH+9at1wpFD89HT94mXhmksuvPZwmmlZRwN67orfLOkdlP6nP173QF33q+9eHxrapT
-	MMD68zvZa6SEVmbrs/H0PeAAOqtD/7N2BetgKWbGKS9aGcyalu66yaHI0KpP8sA==
-X-Gm-Gg: AYBFou2k2bbfWZlfvVijcOew6IbXzgWeYzZm5v2urUNiumc6THEt4VP36O+K5XzaixQ
-	Rw9/7m+NRJsJo8p1Qm3xOxPwfLBaeK2cbOp2fFhlG/f+MYBDjRwUjHoqc+Z5gLk8YBI0ZBrjgDo
-	giGdKGK1Kxh5JTQQ7hWCS2p8kaykug8t6bIzxvON2aJoWdzEfJgnHzouXPwGfIey3McR9EFP4bF
-	T8vWnegafckT67F+1c6f+vgtaUuJATp1Jgavu4zgPQ80pb6IcfOuwVIek6NEpcl7EZGW72RcSOt
-	7D5USwA/O5gGzBSLBkVzk6Td3L91Lntl/ugBZqxyYoY+YuyznqeGsllIPKM4xzg=
-X-Received: by 2002:a17:907:803:b0:c45:60ec:32c8 with SMTP id a640c23a62f3a-c46bde93f0amr177897266b.38.1792844010991;
-        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
-X-Received: by 2002:a17:907:803:b0:c45:60ec:32c8 with SMTP id a640c23a62f3a-c46bde93f0amr177894266b.38.1792844010612;
-        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2a00:7c80:0:3a4::13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4ea39fsm83877966b.29.2026.10.24.05.13.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Oct 2026 05:13:30 -0700 (PDT)
-Date: Sat, 24 Oct 2026 12:13:26 +0000
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>
-CC: Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Thomas Gleixner <tglx@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/9] rv: Verify generic IRQ context transitions
-In-Reply-To: <20261022050712.75035-1-kmehltretter@gmail.com>
-References: <20261022050712.75035-1-kmehltretter@gmail.com>
-Message-ID: <FACA54EC-F846-4051-9ADD-DB46E7665FAD@redhat.com>
+        bh=CMqMc3sz71Og6LxWQWCEwXYQNGi1cYjnt3qdjDLrC/k=;
+        b=VgPCd9U6tCD1yMJuZobvjXIwnNdmKLN+7N4WFNl6o0eSHiEPhzBDbv00+7fkG99fD1
+         nYJM4THzW22IxaggV+g72Sbx62xbfEy1qZ80uY4NMKo2Yev/ThuFiTGIYOYTBpJFsPQZ
+         zso88AClwT5p7sLtXpOCxyAbQLCWaykITpMEzOSrodnnDCl5OxLb1lM14GAsYjr3sLbJ
+         jljMJQZBPfJHJ4eFlIGp1v9gV7/CHGqQ2KYbkzv5OL5BdPCDuAMA8IsZOjvr7qdM54I5
+         SAI+xnyarS7M0XEnGXBHdn/scaSKbxov04fYY0Bkhd6uq54J5C7odTnBbJKjbErCLRVk
+         WXcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzJea9IBMiyGUNhsDnJ2BOi0d7pjJxteOrzhvlo+n6oA8FzzFRkIcvTdqJDnH5KomsBvfldW1fcADY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI0cd1IEcR25vLxm41sUP5Xn7UixK0ZYUIcWuPiEsUtdYRfHxqY
+	NzTKO2t3ST7uw7RTL03Qryt3NM2DY7ATuO78fkU4T2rFT2mW4r/Gdeexe8QAItCExBCGk3zg0Y9
+	kaqHjsQQ4NFM2i9jzNnCJ4IO/DVztSbg=
+X-Gm-Gg: AYBFou0lUIUinjP2NrHZQhbnYgvjeQVpZj9WDUXgwxuv930dWIJwUhC1crW7t4CC6J9
+	mJ4CzpA4l4cjNLrnfmiVMLJopVSgDCIjh9f0UXWHuffyOhqHGyw1FSYEPgbK5os0BH3luP3cVwJ
+	E96WE+7Wacw97bnPIuIKD9ZtdHgCobvB4nFswQsv4F9txCuuTRtPO6UGRmdm8eBMTYY1exm1FeC
+	2RjvoyGO6neHtu30iTLwazNK7UxBYtD8i6DCCyB/RZWcNqeAg8FEw8UEEOpLx3SAIOVknp7F37J
+	KVpe7bFeKHu77GTdEmJmoe2nnu49wV/DSpRA/xYURGJGpzT2loR7tqKdU1DnxathLX5jB7vIqwi
+	Z/T8wxeBf1Ox93zbT9v03fNZT51UQHXuC0S17fWFI7ryulKn7GqEtEGNvR/aH9SZjnM7T6QZ/P/
+	c2uZHfXw5P3saa/MZs2ZSBIiqsYFtCJ5DYULgKI8fBvpnF+r8FWw==
+X-Received: by 2002:a05:6214:5001:b0:912:61e2:8817 with SMTP id
+ 6a1803df08f44-91c48e5ad6emr28352346d6.28.1792847670316; Sat, 24 Oct 2026
+ 06:14:30 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,132 +105,160 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20261022154840.119951-1-ic.gabrielribeiro@gmail.com>
+In-Reply-To: <20261022154840.119951-1-ic.gabrielribeiro@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Sat, 24 Oct 2026 10:14:18 -0300
+X-Gm-Features: AclHuK92MH7B0UMxhmSiWAciED7CjQbrPDzGUWd708h6k_j-i4lp2CNODivijc0
+Message-ID: <CAMAsx6f7qita5jZDdT7EXR8UOGxbUB8z8w-q7dNuZc2QN7vAvQ@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: translations: pt_BR: translate programming-language.rst
+To: ic.gabrielribeiro@gmail.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-
-
-Il 22 ottobre 2026 05:07:03 UTC, Karl Mehltretter <kmehltretter@gmail=2Eco=
-m> ha scritto:
->I would especially appreciate feedback on:
+On Thu, Oct 22, 2026 at 12:48 -0300, Gabriel Ribeiro wrote:
+> Translate the programming language guide and link it from the pt_BR
+> process index.
 >
->  1=2E Should the context boundaries be trace events or private RV
->     instrumentation?
+> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+> ---
+> Changes in v2:
+> - Use translation-specific labels for the page and all citations.
+> - Drop the obsolete Assisted-by trailer.
 
-There aren't any RV-specific instrumentation sites=2E Now you used trace e=
-vents, for these you usually need a broad acceptance because they are visib=
-le to user space=2E Have a look at tracepoints (the last ones added to even=
-ts/sched=2Eh are good examples)=2E
+Thanks for the v2, Gabriel. Both comments from v1 are addressed, and
+it builds without new warnings.
 
-Otherwise you may have a look at my BPF series and use other BPF-specific =
-probes (fentry/fexit), these won't need any kernel addition=2E Just mind th=
-at the series in an early stage=2E [1]
-
->  2=2E Are dedicated scheduler events the right way to follow
->     preempt_schedule_irq() across task switches and migration?
->  3=2E Should irqstate and irqexit remain separate monitors?
-
-Feel free to merge them unless you see a use case where one would launch t=
-hem separately and allow violations from one but not the other=2E
-
-Also the irqentry collection with an irqexit monitor is mildly confusing n=
-ame-wise=2E
-
-Gabriele
-
-[1] - https://lore=2Ekernel=2Eorg/lkml/20261001152042=2E124445-1-gmonaco@r=
-edhat=2Ecom
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
 
 
-
->  4=2E Is the KUnit-only hook for an empty ksoftirqd invocation acceptabl=
-e?
->     Outside a KUnit run, its worker checks take a disabled static-key
->     path=2E
+Em qui., 22 de out. de 2026 =C3=A0s 12:49, Gabriel Ribeiro
+<ic.gabrielribeiro@gmail.com> escreveu:
 >
->Patches 1-5 add the events, monitors, and documentation=2E Patches 6-9 ad=
-d
->KUnit coverage=2E
+> Translate the programming language guide and link it from the pt_BR
+> process index.
 >
->This series is based on v7=2E3 (c03c1a14507d) and depends on the followin=
-g
->accepted change, which is not included:
+> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+> ---
+> Changes in v2:
+> - Use translation-specific labels for the page and all citations.
+> - Drop the obsolete Assisted-by trailer.
 >
->  softirq: Preserve interrupt context on return from interrupt
->  https://lore=2Ekernel=2Eorg/r/20261011060742=2E30584-1-kmehltretter@gma=
-il=2Ecom
+>  .../translations/pt_BR/process/index.rst      |  1 +
+>  .../pt_BR/process/programming-language.rst    | 64 +++++++++++++++++++
+>  2 files changed, 65 insertions(+)
+>  create mode 100644 Documentation/translations/pt_BR/process/programming-=
+language.rst
 >
->A pre-existing issue can make rv_test_dummy intermittently report a
->false-positive invalid-wait-context warning under lockdep=2E Wen Yang has
->posted a fix:
+> diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documen=
+tation/translations/pt_BR/process/index.rst
+> index d072f7e46..ccfe86de2 100644
+> --- a/Documentation/translations/pt_BR/process/index.rst
+> +++ b/Documentation/translations/pt_BR/process/index.rst
+> @@ -39,6 +39,7 @@ devem estar familiarizados.
+>     :maxdepth: 1
 >
->  https://lore=2Ekernel=2Eorg/lkml/5586dd00789a0f904cc299cd8889744b8c6f8d=
-c9=2E1789412799=2Egit=2Ewen=2Eyang@linux=2Edev/
+>     Requisitos m=C3=ADnimos <changes>
+> +   Linguagem de programa=C3=A7=C3=A3o <programming-language>
+>     Estilo de codifica=C3=A7=C3=A3o do kernel Linux <coding-style>
+>     Informa=C3=A7=C3=B5es sobre clientes de email para Linux <email-clien=
+ts>
+>     Como aplicar patches <applying-patches>
+> diff --git a/Documentation/translations/pt_BR/process/programming-languag=
+e.rst b/Documentation/translations/pt_BR/process/programming-language.rst
+> new file mode 100644
+> index 000000000..91fc1a553
+> --- /dev/null
+> +++ b/Documentation/translations/pt_BR/process/programming-language.rst
+> @@ -0,0 +1,64 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _pt_BR_programming_language:
+> +
+> +Linguagem de programa=C3=A7=C3=A3o
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +O kernel Linux =C3=A9 escrito na linguagem de programa=C3=A7=C3=A3o C [p=
+t-c-language]_.
+> +Mais precisamente, o kernel costuma ser compilado com ``gcc`` [pt-gcc]_
+> +usando ``-std=3Dgnu11`` [pt-gcc-c-dialect-options]_, que seleciona o dia=
+leto
+> +GNU do padr=C3=A3o ISO C11. ``clang`` [pt-clang]_ tamb=C3=A9m =C3=A9 sup=
+ortado; consulte
+> +a documenta=C3=A7=C3=A3o sobre
+> +:ref:`Compilando o Linux com Clang/LLVM <kbuild_llvm>`.
+> +
+> +Esse dialeto cont=C3=A9m muitas extens=C3=B5es =C3=A0 linguagem [pt-gnu-=
+extensions]_,
+> +muitas das quais s=C3=A3o usadas rotineiramente no kernel.
+> +
+> +Atributos
+> +----------
+> +
+> +Os atributos [pt-gcc-attribute-syntax]_ est=C3=A3o entre as extens=C3=B5=
+es mais
+> +comuns usadas em todo o kernel. Eles permitem introduzir sem=C3=A2ntica
+> +definida pela implementa=C3=A7=C3=A3o em entidades da linguagem (como va=
+ri=C3=A1veis,
+> +fun=C3=A7=C3=B5es ou tipos), sem exigir mudan=C3=A7as sint=C3=A1ticas si=
+gnificativas
+> +na linguagem (por exemplo, a adi=C3=A7=C3=A3o de uma nova palavra-chave)=
+ [pt-n2049]_.
+> +
+> +Em alguns casos, os atributos s=C3=A3o opcionais (isto =C3=A9, um compil=
+ador que
+> +n=C3=A3o os suporte ainda deve gerar c=C3=B3digo correto, mesmo que o pr=
+ograma
+> +resultante seja mais lento ou o compilador realize menos verifica=C3=A7=
+=C3=B5es e
+> +diagn=C3=B3sticos em tempo de compila=C3=A7=C3=A3o).
+> +
+> +O kernel define pseudopalavras-chave (por exemplo, ``__pure``) em vez de
+> +usar diretamente a sintaxe de atributos do GNU (por exemplo,
+> +``__attribute__((__pure__))``), para detectar quais atributos s=C3=A3o
+> +suportados e/ou encurtar o c=C3=B3digo.
+> +
+> +Consulte ``include/linux/compiler_attributes.h`` para mais informa=C3=A7=
+=C3=B5es.
+> +
+> +Rust
+> +----
+> +
+> +O kernel oferece suporte =C3=A0 linguagem de programa=C3=A7=C3=A3o Rust =
+[pt-rust-language]_
+> +quando a op=C3=A7=C3=A3o ``CONFIG_RUST`` est=C3=A1 habilitada. O c=C3=B3=
+digo Rust =C3=A9 compilado
+> +com ``rustc`` [pt-rustc]_ usando ``--edition=3D2021`` [pt-rust-editions]=
+_. As
+> +edi=C3=A7=C3=B5es permitem introduzir pequenas mudan=C3=A7as na linguage=
+m que n=C3=A3o s=C3=A3o
+> +compat=C3=ADveis com vers=C3=B5es anteriores.
+> +
+> +Al=C3=A9m disso, alguns recursos inst=C3=A1veis [pt-rust-unstable-featur=
+es]_ s=C3=A3o usados
+> +no kernel. Esses recursos podem mudar no futuro; portanto, =C3=A9 import=
+ante
+> +chegar a um ponto em que apenas recursos est=C3=A1veis sejam usados.
+> +
+> +Consulte Documentation/rust/index.rst para mais informa=C3=A7=C3=B5es.
+> +
+> +.. [pt-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
+> +.. [pt-gcc] https://gcc.gnu.org
+> +.. [pt-clang] https://clang.llvm.org
+> +.. [pt-gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Diale=
+ct-Options.html
+> +.. [pt-gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.h=
+tml
+> +.. [pt-gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribut=
+e-Syntax.html
+> +.. [pt-n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+> +.. [pt-rust-language] https://www.rust-lang.org
+> +.. [pt-rustc] https://doc.rust-lang.org/rustc/
+> +.. [pt-rust-editions] https://doc.rust-lang.org/edition-guide/editions/
+> +.. [pt-rust-unstable-features] https://github.com/Rust-for-Linux/linux/i=
+ssues/2
+> --
+> 2.56.0
 >
->This series does not include that fix=2E
->
->Karl Mehltretter (9):
->  tracing/irq: Add generic IRQ context boundary events
->  tracing/sched: Add IRQ preemption lifecycle events
->  rv: Add a monitor for generic IRQ context transitions
->  rv: Add a monitor for IRQ-exit scheduling ownership
->  docs/rv: Document the IRQ-entry monitors
->  rv: Add KUnit coverage for IRQ context transitions
->  rv: Add KUnit coverage for IRQ-exit scheduling
->  rv: Test empty PREEMPT_RT softirq worker intervals
->  rv: Test IRQ-exit softirq provenance and handoff
->
-> Documentation/trace/rv/index=2Erst              |    1 +
-> Documentation/trace/rv/monitor_irqentry=2Erst   |  398 ++++
-> include/linux/interrupt=2Eh                     |    7 +
-> include/rv/kunit=2Eh                            |   34 +-
-> include/trace/events/irq=2Eh                    |   70 +
-> include/trace/events/sched=2Eh                  |   51 +
-> kernel/sched/core=2Ec                           |    6 +
-> kernel/softirq=2Ec                              |  308 ++-
-> kernel/trace/rv/Kconfig                       |    5 +
-> kernel/trace/rv/Makefile                      |    3 +
-> kernel/trace/rv/monitors/irqentry/Kconfig     |   13 +
-> kernel/trace/rv/monitors/irqentry/irqentry=2Ec  |   35 +
-> kernel/trace/rv/monitors/irqentry/irqentry=2Eh  |    3 +
-> kernel/trace/rv/monitors/irqexit/Kconfig      |   14 +
-> kernel/trace/rv/monitors/irqexit/irqexit=2Ec    |  172 ++
-> kernel/trace/rv/monitors/irqexit/irqexit=2Eh    |   85 +
-> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_kunit=2Ec |  537 +++++
-> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_kunit=2Eh |   21 +
-> =2E=2E=2E/trace/rv/monitors/irqexit/irqexit_trace=2Eh |   19 +
-> kernel/trace/rv/monitors/irqstate/Kconfig     |   14 +
-> kernel/trace/rv/monitors/irqstate/irqstate=2Ec  |  289 +++
-> kernel/trace/rv/monitors/irqstate/irqstate=2Eh  |  139 ++
-> =2E=2E=2E/rv/monitors/irqstate/irqstate_kunit=2Ec     | 2062 +++++++++++=
-++++++
-> =2E=2E=2E/rv/monitors/irqstate/irqstate_kunit=2Eh     |   25 +
-> =2E=2E=2E/rv/monitors/irqstate/irqstate_trace=2Eh     |   15 +
-> kernel/trace/rv/rv_monitors_test=2Ec            |   29 +
-> kernel/trace/rv/rv_trace=2Eh                    |    2 +
-> =2E=2E=2E/verification/models/irqentry/irqexit=2Edot  |   21 +
-> =2E=2E=2E/verification/models/irqentry/irqstate=2Edot |   32 +
-> 29 files changed, 4397 insertions(+), 13 deletions(-)
-> create mode 100644 Documentation/trace/rv/monitor_irqentry=2Erst
-> create mode 100644 kernel/trace/rv/monitors/irqentry/Kconfig
-> create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry=2Ec
-> create mode 100644 kernel/trace/rv/monitors/irqentry/irqentry=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
-> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit=2Ec
-> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit=2Ec
-> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
-> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate=2Ec
-> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=2Ec
-> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit=2Eh
-> create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace=2Eh
-> create mode 100644 tools/verification/models/irqentry/irqexit=2Edot
-> create mode 100644 tools/verification/models/irqentry/irqstate=2Edot
->
->base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
->prerequisite-patch-id: 6ac7167f0aa7c5319dac78bf5b06a989fd7dfac5
-
