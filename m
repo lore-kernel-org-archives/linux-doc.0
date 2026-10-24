@@ -1,68 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.87
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792854230;
-	b=zwTRYG32nRBXi+Pr66O9QPqypjsv9TZDWPBaPGzW2Aa18ylvQbhQV8o/gHY1pNtnGkyI
-	 CD0MRXCp1uhx1dcX2ab6qbOSVVuxPIZUIzlSAPa9yFPo7I2LWXLzWoahUyW2hWsavVMGL
-	 JiFkjSvZnTdBI8lrN//pD9DoMCX6l716gdarnDP4EbtdsDH/P/qV15E60tY+YQw1lQTeU
-	 DrFuQlq6Dry5Dug5m3Rxq4tJM1LTLc7sK6tenWwJ/sMTpOgWowd2MI/S2V1MYY9WhnkXO
-	 9lfXxzpwzy4/DW5QWVzqa7f3jQ9LQP5fN9Tje6AsrotuAQ2FaDUPkEVa4LARyzY0YqQ==
+	t=1792854748;
+	b=qCnLpe1Tk93UK0oht83MC7R4Kia7OdOrZtYoQLoR+ldYow94WZeOSfEaFRY4T2S81aqw
+	 P52+jG98fS339VGkxnL4ShRRXek1fcuKY0obGxodT6hy9YeGrSekUtFSxJOXYnvA4tXDg
+	 qE/1AaRSH5VYSxTpYW8bAGLI2IkyXdxjyjjry0FLkhq4ogagnOH6h2TsLeg6ycd7Akswb
+	 rvMyd3jhUWCp9qjQbmac1TuRwf2B9Z7h3M0YJrWR9RjJhJDAGrxLlzfGQYAo9KGP60H6p
+	 cfKxhER97kny3hQyOmcb8NyPAOV72mRFiCEf5ECVp7M1CG/phi3lykZylw2FIfJwoqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792854230;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:X-OQ-MSGID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792854748;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=xk9airSWM+YEyVXP8MNP1OJgA0vrH2iz/FkgQwAQ6qE=;
-	b=4fLgiCuBNXaSS+UmDRXkpJO/nPayBSTXMwJI6h5RK8yA53wQT912kpDvu+AptyPWU8jI
-	 OGwni1to4wQN3LRxQ9aQ+6wOPw1/gRvjoA6V5fY4TwnQVKs46RDavg8x4IZ6qdVtIznda
-	 cWFIEnPZ9LQEbkC2fdo8vf9VtfOMez+nLvf6D5HDGMYipq0yv6ofrZriW0fyMg6oRISC0
-	 p2K1xm6fSF2r7IzA/3cJ1qp+e8IqI0LWfxpSPZPjuC5Nzolg72zeSkB5wnsrZefhOFhCM
-	 ld0nAGWUVgp4foc/oJgkcHemgm4AN3+8UeSCI+1Enk7ruBIKBvwfp/4kHW9pvqccTRA==
+	bh=MyY2jy4KUwx/K3rgfa29m+xcrAnt+SzmlWOsNDROzng=;
+	b=LcXEb+/kizFTBYuDBw4ejjM5pWaShx3/LaN1SC0GkPZ1o16tQWAVCk1OhAieZg8jcIvQ
+	 gSrKzaXtfGv7dXgCAQX20XXtMY2AQFQqm5uMsw+8XJAPt7R27rXmVm96Op7m1X0f1wJ4g
+	 iJ3hwy1am5NeTwlxDMcaK9+vuDwq24qQtJO6BJWHp18ESb25qnDYT6plHuJLod4qP8ABj
+	 MikNGvWGbMcHinXFyOYcmVo0Tdm2nyjpRtn3Kg6xThPjJTk7MBbsyETQSTYSO0W/Jzz/D
+	 hOdko+uLDpTsVRdKNoc+MlaobOSBjM9dImYa4i9/sAHBpCdLn76BTfrCj0kn2aaGkaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fqenK3xx;
-	arc=none smtp.remote-ip=162.62.57.87
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=hackers.camp;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FB3606A31E;
-	Sat, 24 Oct 2026 15:03:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65FB3606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fqenK3xx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792854223; bh=xk9airSWM+YEyVXP8MNP1OJgA0vrH2iz/FkgQwAQ6qE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fqenK3xxW/DxVzJvVMAbKxpRVLAsL4KU/0YPWGQVZ3mpfX7Blf5fVTWYj8luSccRa
-	 RdkA4jPrHC1+oqM1ZrDfek/SOfyJxCyRLDw67NqWAlwIaRmnux9E0B2S2SJuxc+xYw
-	 gwtkXPEk3dazxUr4/sYeHpW1kyJj+ss/xMs2gITo=
-Received: from [192.168.1.9] ([163.125.219.209])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id E88A017; Sat, 24 Oct 2026 23:03:40 +0800
-X-QQ-mid: xmsmtpt1792854220tgi7wo48f
-Message-ID: <tencent_7F10C2E7BB9C4B842554D6E95DE5D1DBD806@qq.com>
-X-QQ-XMAILINFO: N6IfSeM/PG+tBeimLU8RM+bXo26YOiITtRSkyB/D5VVVyRqCiKcT7NyI6qSsg6
-	 Lhnrpui0+7TScq/R7AFJj/z1JwJHXbuA/E6tSpagC14fa2LqfiVGqQtIQatkjM4bUX8YTWy+azLA
-	 uO8bb8EmpvaHJTk7rrXVI8kfyhA0bjwFvvwesQCKmxtUtOEtmvN0dau2Sg+vb/pRErbP+fMzlfaC
-	 hq5PO+40Wbms0xSMpwIeoBPdqHYEspgF+XGKJetCl76ODiH/ee+oNbIT4ZEWneq25QrLCAlL0J7B
-	 uAVzwzPPxLoxC1rvKhF2NfkjsuCw4GAcisN1cDErTPjKKSiIdbKSh0fnpETJPGY9QwcbP8oid17c
-	 3lIGN5OsTW9KTDLQ7fezl+hT1PQXAKOJaKyOqBPsf9A+Ot2F88huW2NOOxQB3F5MgqFVEDwKLLmx
-	 p29tv8xhqlKUAHQNBLU+ApDFnOh9v9mh010jzFq3kL6kZr9BhGr1CtnlnjyhM38/O7306FqAJwCc
-	 9rdelYUvzuh02GBjnkglqyJMh89oNMSgvro6NWBU02B05SkRWIydoRcnJxTjLRY4V3N5JkuLkx43
-	 RyVKxVsA8T1vxO+M6x+pPaGFOvxr+7DaIAcpwRCjvydi8bDf/qxrN30L0n1LdWGURD+h30otTqBS
-	 PKkflHc4hnjCtx5lueQOzQf975jymoQTkppDg5G3MMDSm7CeF0wrJ0iedfCSb24NjemeeY9W0CUn
-	 bLXUc9nTxa2Bx1jqJoKzm7O9V0TF6N7t/QC0fVWz3l7CNiw8mZpzyxo7rACZj6x8ajp/8pWIKlXl
-	 2JF+8I/sX+mkZkS+5NfXw+VICjIsU5+QWULhokS7EX7FtH2S3g9jJIkZbkFIH/mbvy7kciOMwqUd
-	 qp/nyNuK8J2GOjcGQ6KsBx8EoqZKA8rh4cvBXpzPEfDTuU+5W1v6oVpIDRlUZbWMY6X06X6lPhFx
-	 HrRHjUEyoAjv1aKVDy5fpQ0TJ/sgkjq0G5FiYU0XEsCyt6CX7+zFGc5i3K4qLobZjSDoppvPIFMq
-	 Q5710+nT7DLH/BDSSgAn1p5Vm5T7BUGZD1irjgcw0RMxWSJvgVwUTxN/YDt+CcFl0Ye51aCeZFZf
-	 zcIfc7pt9OAC6IFilfahtctDPFX0ZiwjdR+6FA9hJektU4gLmeMJpnBP9izA==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-OQ-MSGID: <b3a2a829-c0d7-4ed2-9409-7086fb65909f@qq.com>
-Date: Sat, 24 Oct 2026 23:07:11 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3A2606A31E
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 15:12:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D3A2606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hackers.camp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48c5b7d5865so254578f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 08:12:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792854746; x=1793459546;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MyY2jy4KUwx/K3rgfa29m+xcrAnt+SzmlWOsNDROzng=;
+        b=KpGWJ9qI6bhjwAlZEsFzkCcAAWHmMxSFpjIhWHOb2+CgAF+Pd7tx6QmOCUD59rrv6S
+         uJLcT0IR3d1Jh3outKKUBayg02xVE1b+j/GEtfro73BmlCfurl1FTRfTf14rOG42G1n9
+         nJUUUWmUm/cIP3iMIjXeEjZULlaLT/Jj7HrOUHuuPIik6Vtrfek2Se9SicrqnParFNL8
+         bKT4Vw4nxAeFX1MpFhH33ITK9sMnrucJj8MqAuQgKWOTmSix+eLn8f9bKQgNDg1Zq3YF
+         wIjM92inMr80JlC7tGc/LKg112l7+6S+XIXlS5Cdh/eCXML55f7w3BDB2Be7liHML3gy
+         YOwA==
+X-Forwarded-Encrypted: i=1; AKwUvBwuP5jqfWVa3/j/ZB0a+YwV2VPb0fZ9ptk8UxpA6cmVUZNlhy10HpaQfgf1jX7Sj9ByXr7GAClthJw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLFc7fgw7EVp8/0PkG4saGavjpq4V3Z+Uv+GMTSk6C96R5J+ybA
+	Xfz9SKO2UxxIDXQHSV55T4jIphnJi0aOW82g7ABClogASP6/5Sqo/rLb
+X-Gm-Gg: AYBFou2o+Y6d4IH1UZmoAnCjER/0Ds7sXUPJEpPNEnNpMHsdqXSTd2SWl9jxKpZeXzy
+	6yDG6E3UTcNLrwcl+BinUrjamOlm2uf3+MswefUh/HPLlLCCK0SQUDFhthnuxiNSCYSKdxjqIHk
+	6wuk47AzN2eSfH9QF7BAWWY+S4GPf+nL2cXXMGZ5SirABYtDhBz1Ab4oBheCaNNtXvDMNnWg++O
+	1vpmC1RWztM9tDwUG5Kk52HxLvXymB30kGtL/zzmVaVLudfHQfdXl0/jtdsw0kaPp5rnU+Ieml8
+	CIh4aZj9/gpJ15vPPbODvarPM2+N8RtD3vDoqG6amvEvv3rF9DZGogBS5517XOx9/hH2vZazO8X
+	EoT7cjBrWCU9P73ZxFfvnW4myFGw+RuQiS5yPnGLWwx+WMJcMQOUIpVhokYw43Td66VDBCmaMwQ
+	rQHk7OCKzcQlcnwJhzv4m2+4B19vAr5NmwpG4VDV5DVwsrAFB1UXdqAdPXkFpmXY18QhB2Cg5My
+	BnynHDT/Il0Dp5wfxVBNmvNuK+HA0O4Ay1vY7TeLsJQt5zwV4z9Soi5mphzcG6O1FdfOia2biZ8
+	CTd3NgrhV05O3fWJYBbOGUoK9fawKKwcvQZaLdY=
+X-Received: by 2002:a5d:4245:0:b0:48d:f4e6:7b2 with SMTP id ffacd0b85a97d-48e3eb8705bmr2186375f8f.3.1792854746356;
+        Sat, 24 Oct 2026 08:12:26 -0700 (PDT)
+Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8ddasm5353538f8f.48.2026.10.24.08.12.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 08:12:25 -0700 (PDT)
+From: Aurelien DESBRIERES <aurelien@hackers.camp>
+To: rdunlap@infradead.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	aurelien.desbrieres@gmail.com
+Subject: Re: [RFC PATCH 18/18] MAINTAINERS: add beamfs
+Date: Sat, 24 Oct 2026 17:12:24 +0200
+Message-ID: <20261024151224.47953-1-aurelien@hackers.camp>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <4ebbbb17-7833-4a2c-9e7e-b3c731873caf@infradead.org>
+References: <4ebbbb17-7833-4a2c-9e7e-b3c731873caf@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,73 +90,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
-To: zhuyan2015@qq.com
-Cc: dzm91@hust.edu.cn, skhan@linuxfoundation.org, gnoack@google.com,
- linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net, mic@digikod.net
-References: <tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com>
-From: Yan Zhu <zhuyan2015@qq.com>
-In-Reply-To: <tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Ping
+On 10/19/26 11:38 PM, Randy Dunlap wrote:
+> Entries in the MAINTAINERS file should be in alphabetical order,
+> so between these 2 entries, please:
+>
+> BDISP ST MEDIA DRIVER
+>
+> BECKHOFF CX5020 ETHERCAT MASTER DRIVER
 
-On 6/12/2026 11:58 PM, Yan Zhu wrote:
-> This patch series adds the Chinese translation for the Linux Security Module
-> (LSM) admin-guide documentation, including the main index and all ten
-> sub-pages: apparmor, LoadPin, SELinux, Smack, tomoyo, Yama, SafeSetID,
-> ipe, and landlock.  The admin-guide toctree is also updated to list the
-> newly translated LSM/index.
-> 
-> The original English documentation was restructured into reStructuredText
-> by Kees Cook in commit 504f231cda56 ("doc: ReSTify and split LSM.txt"),
-> and each sub-page has been kept up-to-date with subsequent mainline changes.
-> 
-> 
-> base: https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git docs-next
-> 
-> 
-> 
-> Yan Zhu (10):
->    docs/zh_CN: add LSM/index Chinese translation
->    docs/zh_CN: add LSM/apparmor Chinese translation
->    docs/zh_CN: add LSM/LoadPin Chinese translation
->    docs/zh_CN: add LSM/SELinux Chinese translation
->    docs/zh_CN: add LSM/Smack Chinese translation
->    docs/zh_CN: add LSM/tomoyo Chinese translation
->    docs/zh_CN: add LSM/Yama Chinese translation
->    docs/zh_CN: add LSM/SafeSetID Chinese translation
->    docs/zh_CN: add LSM/ipe Chinese translation
->    docs/zh_CN: add LSM/landlock Chinese translation
-> 
->   .../zh_CN/admin-guide/LSM/LoadPin.rst         |  33 +
->   .../zh_CN/admin-guide/LSM/SELinux.rst         |  45 ++
->   .../zh_CN/admin-guide/LSM/SafeSetID.rst       |  82 ++
->   .../zh_CN/admin-guide/LSM/Smack.rst           | 722 +++++++++++++++++
->   .../zh_CN/admin-guide/LSM/Yama.rst            |  71 ++
->   .../zh_CN/admin-guide/LSM/apparmor.rst        |  59 ++
->   .../zh_CN/admin-guide/LSM/index.rst           |  46 ++
->   .../zh_CN/admin-guide/LSM/ipe.rst             | 723 ++++++++++++++++++
->   .../zh_CN/admin-guide/LSM/landlock.rst        | 169 ++++
->   .../zh_CN/admin-guide/LSM/tomoyo.rst          |  63 ++
->   .../translations/zh_CN/admin-guide/index.rst  |   3 +-
->   11 files changed, 2015 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/SELinux.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/Smack.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/Yama.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/apparmor.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/index.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/ipe.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/landlock.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/tomoyo.rst
-> 
+Will do, thanks. The tool that places the block stopped at the first
+title sorting after BEAMFS, and in this tree that is LPC32XX DMAMUX
+SUPPORT, which sits among the ARM/ entries; it now wants two ordered
+neighbours. v2 will have the entry between BDISP and BECKHOFF.
 
--- 
-Thanks
-Yan Zhu
-
+Aurelien
