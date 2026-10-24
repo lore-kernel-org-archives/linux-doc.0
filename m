@@ -1,85 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792803133;
-	b=FTPNMv9gx75SVXA9BrINe15RqCHB2a4y+dpIU9dvZopUlk8aBy0+uzwsJ87NGxL5A6lj
-	 nwAE5wEWNwxCK9DGTuzS1aWIX1hCWfa/vB/fXquRY55bkRpPvl5kKbZ8KNY2DwRUv6IzT
-	 eEQRfbAgbIvpxtKA87FnXNB1YO27h2ILbEWf9r2Kg2g/EnOzyfCWbqP6n4VQ8wDa03QE6
-	 5WwHQlXyZr5y/XIZqsl2vDfHThNeuxboOnA7iPx7ANN2rbplzTCTtGTjkizt0GrWN6hmW
-	 6oi3G5iFYGdm++VNczDHdpTXQV4u7E2WR/SMak776vzOPLb83e+c6xpZFiAst6ZmBRw==
+	t=1792805904;
+	b=SwbXCw1BJH4Un2URRcomgD/wfVxGZSz0Jed2FKZmI47eepiffq+goUUMc3TDWQOhgVPm
+	 1pdoaKbmzb8a/bv0YOxBpkloW3+sdO5yQXks2OZOO/OnAtU7k4dcpkIQOwEb8csui5Hew
+	 fd7k+Rf7ZAvK91NSi97iyOoH7EdgGcQZXRr2G+jHkAs4VET/ccTp1EmeODG0J5De33tOM
+	 nNHzNw++jMrDVpX4O2L/vY28Oj0SkDgU1g4SA405Lk3qQUUrZQIgBadr93/xgicP9BBMP
+	 avwhE6pURVrLsbPunfuf64LmodATHIbl+Qn55O+BpCF2rg7GB8Ho8iM2FwR+u1jfDVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792803133;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=7cmNzQ+venBCfOkt5tm233/lURYnvNZW+Gno7dqxU5o=;
-	b=b4jpZD2sXIJh7Fe76qOwh04tQC5XUEQJ4JEHnrgOl5KmrYQfkb3JB1y0eVIqVZSsoPM2
-	 EU3mW0mFDj+nYJObNkC9sZdktT+XB9fEDb45AxFD8kA9y2mdb7Lex5AQexaM9nWpXp0GY
-	 Mm2KQ0GXf64EFgsg4KD4jz6KOqYz84cvtTl2CtC1ZxvT4tlp991JpYDAl7ljAn/VjpfRo
-	 Q0qcJtwRxTNPyem/PKaC45pDnGDKZcfy0p4K8avQviqa/DSTWf0Im2CRho+vd0OUICqVM
-	 plH2MCCwRJkmmKYFA2aXmiDO1yLqhiK1AEdHza0Jc1OztLRDeUOL1iH2FyJ+E25U3wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792805904;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=GE6+U0BYl/gxLk+WhH0myEBpK899UvVfGxeXSmRPFeE=;
+	b=DsWcVNRYsZ3dnsqJ3nXpSgYOp+Ir8XSy4tpEO1bceOay557gG9Pfeo9GDpG3xVUKzITz
+	 kZt00KHiCLue6bdVRLC4XhEK83OiPN7PsXiBs21M/ARvvKgau02ES5bOCeH2qk9sdjGIG
+	 95VAThqE8RacUK5Xqa0E+ogW0k466I3vrZdPNFrKLwZ1BLZxoAQLPkTJrOMomxWjDUd3H
+	 3jx1xWl5liuRIh1G+Qw73DB5cTsRcsISvYHv73jNTHSR/nqUdJJizhn1rGHbEOqbsTWWT
+	 do/ho5KH4N4Y4XJGJ+g20aGfe47lMY5BVrLP0nsRgSozif7nTV0nBliG3hFpJOhB4Vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=nfe5Kjw3;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AIKpU5dv;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3807C606A31A
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 00:52:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3807C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2B1606A31A;
+	Sat, 24 Oct 2026 01:38:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E2B1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=nfe5Kjw3
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ac677668a9so1688848a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:52:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1792803121; x=1793407921; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7cmNzQ+venBCfOkt5tm233/lURYnvNZW+Gno7dqxU5o=;
-        b=nfe5Kjw3eILSzv8cd5cKXvdPxvpWozlWPP7mNDO06wTVO6UX8oVRpfsi+aHtLKVv4I
-         5fMPj6xozjtafXdRHQxGyKbR9qNVXXYR9Fh0hPYsGeKqUFHfO31QGshPQ19LM1N9vqIM
-         2tqotcDxzYNVjS58kbqci/2fekeLXxJM++dnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792803121; x=1793407921;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7cmNzQ+venBCfOkt5tm233/lURYnvNZW+Gno7dqxU5o=;
-        b=Sr1TtX7Ysm+EU2CaB0MGSGM4JPw5GtME5OjRS2an1zrUx8q8CANfyXl9aWN1Rvg8KU
-         0rPpbmJ7Xk1YfX7IDNggA5jr/6X0OTMcTN1s41wticwyq6VLb9Ty4hfL5OdSsIzARaiy
-         phnSuINPT91Om/0WJYyn2v20kiLmempripfqla32ZOYA/dVlM006MfwFDFqO6tgPGoFk
-         8hkUrfKhrHbr2GX0R9isXu7HWGiP8zcFIJohIEbbHtiXgkAbrJea2z44nnSO/4VlaFG+
-         mtC4SiyVKSmh+AEVf0hWJBZvtX5l1ybatn7ZiwcsH9De1O2LF1prAjELGQL3S6sFg/PO
-         NXiA==
-X-Forwarded-Encrypted: i=1; AKwUvByIUguX6QNRURqWoYmdODmqqp5e2wooe1tnszpTWTxomAZExAu6lymRxRJgHfSwHbCxr6c9e8/F3OM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL+Fk2aRHpervvLb7jOWSJ7OA+CVhV34iERwmZ3ofuFCwiYJ/rs
-	VaddPZEwboBXqgr3AKpQFahX429T2mdGLzGneiY8QXlmS53yusLc4XMsqN6qjaPctQ==
-X-Gm-Gg: AYBFou2LtnEaORV/TjXsZiAhieLbREeodmJptEpdq2N/fSnmSxXWXlq+UCksf5nTVsB
-	L1E4ubVSxGMEAuWozQpyC7Ag1uQ+78xFsYR1+A0778Z7idF1RzpHj/HNPbJsrjD3oeJHlhTz5Os
-	/edY7+MQG2Cp888Bc5XBBJfVQX+0RlqTViEHpZ2LYCt4Yum3dH1UXpdnxXUgm/yl+qVbYQP6mx2
-	vDROFyGFuu5L+LU4+1AEptVj4Eg7OqMkSCpfZidXbZ2JbLK2qdvAUkeG+UowU2JJC0q1+Nr89JJ
-	mDz0DKgJeuOxV1293j5vWc3bz4PUAWBxAViP/+SuEzrBTTv6Uf+QtDrp3Pl54Ys3IihHpCo3vwy
-	xK4aj1ArLLpXXyihoLReY/N5aYCbKAXDVErv85gdBmrY2vLb9XeKHNZ+6fc8tbN1w+nbM0jencN
-	yn7VkA9WTNmHmX/L8HfvewBZzirqSpvrF47fjlWI4ylDtcb7/hhXlP6BJIKKF1AsAEWxKz1Qst0
-	F2/+pEOeHpckVyKvTG70QeCvaqWz92dW6o/kxuTLjIeZPBWGiLfPPZ8d7wsZYEwDjR/Wwnjz9r7
-	wPhMDSX/MDJ5BRtHudHVe/hvSD5Dfe4u9GuWay6Do3JILuL689Q/m2Jen2QIl2E=
-X-Received: by 2002:a17:90a:e7ce:b0:3ac:17c:6e74 with SMTP id 98e67ed59e1d1-3adeafaa551mr723948a91.53.1792803120570;
-        Fri, 23 Oct 2026 17:52:00 -0700 (PDT)
-Received: from jingyliang-input-linux.c.googlers.com (218.117.230.35.bc.googleusercontent.com. [35.230.117.218])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfeb1sm843763a91.9.2026.10.23.17.51.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 17:51:59 -0700 (PDT)
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Sat, 24 Oct 2026 00:51:45 +0000
-Subject: [PATCH v7 11/11] HID: spi-hid: add panel follower support
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=AIKpU5dv
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=GE6+U0BYl/gxLk+WhH0myEBpK899UvVfGxeXSmRPFeE=; b=AIKpU5dvniKr+gypfihPgMduE6
+	Om1oE2fGwFAIpMss8ydzwLlHqa71TuDNbq18vehkMcX2FDxOhkpY5AfhtsHWOgLGBDlsAWOWxK82x
+	9FQ38pI8Z1I93H1Pk+tMqe+4gMHQWuxQuLRxH4alFABrDUe+HTCIm952EEtFuU9VrY+kwDIHc6Hh7
+	GQDtWWKz6tAi6YTlbxjT4OD/bplhN8niHtIo8pb41QfMS6WORtMNLbtV4sVJ8h6qs96erCPsqB2sX
+	t///ifBCNG29TDhwjgmEF4UhSw55bKOx3eJNCCV3gxjz7/7yOxIfdUJkuKWqHCTop6+1E+sNjXjuq
+	DmOapaJg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xKQi9-0000000HJtS-0EiF;
+	Sat, 24 Oct 2026 01:38:17 +0000
+Message-ID: <40c69814-f9eb-40d6-b735-98eec67898a0@infradead.org>
+Date: Fri, 23 Oct 2026 18:38:15 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,410 +58,148 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] loadpin: allow untoggleable enforcement on
+ filesystems which don't appear to be read-only
+To: Amelia Crate <acrate@waldn.net>, Kees Cook <kees@kernel.org>,
+ linux-security-module@vger.kernel.org
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E . Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171508.3460300-1-acrate@waldn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261023171508.3460300-1-acrate@waldn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261024-send-upstream-v7-11-abad13174b43@chromium.org>
-References: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
-In-Reply-To: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- hbarnor@chromium.org, tfiga@chromium.org, fqwqf@fqwqf.xyz, daleyo@gmail.com, 
- Jingyuan Liang <jingyliang@chromium.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792803111; l=11772;
- i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=e3ij+066MTVfQoi7WLCpfy4R9eesAGgsO8Poar1vtdg=;
- b=edM0iqMbeuZ/1pWFai3gqlgq3lhvJ/2O3I5IFIG/S9cQhbm4VS1V1iMzazJtxSlO88JaGlx+A
- lDWcT5c9ETWBEboow5IKOKdyhD/N49bKBG8b+F6Doc3SHpQpfOFZ6Qe
-X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
- pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
 
-Add support to spi-hid to be a panel follower.
+Hi,
 
-Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
----
- drivers/hid/spi-hid/Kconfig        |   4 +
- drivers/hid/spi-hid/spi-hid-core.c | 221 ++++++++++++++++++++++++++++---------
- drivers/hid/spi-hid/spi-hid-core.h |   7 ++
- 3 files changed, 177 insertions(+), 55 deletions(-)
+On 10/23/26 10:15 AM, Amelia Crate wrote:
+> Some filesystems, such as composefs created from layers which are entirely
+> read-only, can't be easily detected as a read-only file system. In addition to
+> filesystems which are read-only without having a backing read-only block device
+> I believe this is also useful for cases where immutability of the filesystem is
+> enforced by the hypervisor or the host, such as 9p shares or virtiofs.
+> 
+> It is still desirable to enforce LoadPin and disallow toggling enforcement in these cases.
+> This patch gives system administrators a way to disallow toggling LoadPin enforcement even
+> when the immutability of a filesystem is unclear.
+> 
+> Signed-off-by: Amelia Crate <acrate@waldn.net>
+> Assisted-by: Codex:gpt-6
+> ---
+>  Documentation/admin-guide/LSM/LoadPin.rst     |  8 +++++++-
+>  .../admin-guide/kernel-parameters.txt         |  7 +++++++
+>  security/loadpin/loadpin.c                    | 20 ++++++++++++++++++-
+>  3 files changed, 33 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
+> index a90fd9dac960..f1e8825d0fe8 100644
+> --- a/Documentation/admin-guide/LSM/LoadPin.rst
+> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
+> @@ -16,10 +16,16 @@ boot ("``loadpin.enforce=0``").
+>  
+>  LoadPin starts pinning when it sees the first file loaded. If the
+>  block device backing the filesystem is not read-only, a sysctl is
+> -created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
+> +created to toggle pinning: ``/proc/sys/kernel/loadpin/enforce``. (Having
 
-diff --git a/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
-index 63f202975ac3..656dbda1c5d8 100644
---- a/drivers/hid/spi-hid/Kconfig
-+++ b/drivers/hid/spi-hid/Kconfig
-@@ -13,6 +13,7 @@ if SPI_HID
- config SPI_HID_ACPI
- 	tristate "HID over SPI transport layer ACPI driver"
- 	depends on ACPI
-+	depends on DRM || !DRM
- 	select RESET_CONTROLLER
- 	select SPI_HID_CORE
- 	help
-@@ -29,6 +30,7 @@ config SPI_HID_ACPI
- config SPI_HID_OF
- 	tristate "HID over SPI transport layer Open Firmware driver"
- 	depends on OF
-+	depends on DRM || !DRM
- 	select SPI_HID_CORE
- 	help
- 	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
-@@ -43,4 +45,6 @@ config SPI_HID_OF
- 
- config SPI_HID_CORE
- 	tristate
-+	# We need to call into panel code so if DRM=m, this can't be 'y'
-+	depends on DRM || !DRM
- endif
-diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
-index 3b8874ca0e1c..496b33cdf3d4 100644
---- a/drivers/hid/spi-hid/spi-hid-core.c
-+++ b/drivers/hid/spi-hid/spi-hid-core.c
-@@ -277,10 +277,13 @@ static int spi_hid_suspend(struct spi_hid *shid)
- 			if (error) {
- 				dev_err(dev, "%s failed to suspend hid driver: %d\n",
- 					__func__, error);
--				enable_work(&shid->reset_work);
--				/* Redo a schedule_work() dropped while disabled. */
--				schedule_work(&shid->reset_work);
--				return error;
-+				/* A follower powers off with the panel anyway. */
-+				if (!shid->is_panel_follower) {
-+					enable_work(&shid->reset_work);
-+					/* Redo a schedule_work() dropped while disabled. */
-+					schedule_work(&shid->reset_work);
-+					return error;
-+				}
- 			}
- 		}
- 	}
-@@ -325,28 +328,30 @@ static int spi_hid_resume(struct spi_hid *shid)
- 		return 0;
- 	}
- 
--	if (!device_may_wakeup(dev)) {
--		if (shid->power_state == HIDSPI_OFF) {
--			shid->ops->assert_reset(shid->ops);
-+	/*
-+	 * Check power_state, not device_may_wakeup(): power/wakeup can change
-+	 * while the device is off.
-+	 */
-+	if (shid->power_state == HIDSPI_OFF) {
-+		shid->ops->assert_reset(shid->ops);
- 
--			shid->ops->sleep_minimal_reset_delay(shid->ops);
-+		shid->ops->sleep_minimal_reset_delay(shid->ops);
- 
--			error = shid->ops->power_up(shid->ops);
--			if (error) {
--				dev_err(dev, "%s: could not power up: %d\n", __func__, error);
--				/* Suspend runs next even if resume fails. */
--				enable_irq(shid->spi->irq);
--				return error;
--			}
--			shid->power_state = HIDSPI_ON;
--			reinit_completion(&shid->reset_done);
--			error = shid->ops->deassert_reset(shid->ops);
--			if (error)
--				dev_err(dev, "%s: failed to deassert reset: %d\n",
--					__func__, error);
--			else
--				was_reset = true;
-+		error = shid->ops->power_up(shid->ops);
-+		if (error) {
-+			dev_err(dev, "%s: could not power up: %d\n", __func__, error);
-+			/* Suspend runs next even if resume fails. */
-+			enable_irq(shid->spi->irq);
-+			return error;
- 		}
-+		shid->power_state = HIDSPI_ON;
-+		reinit_completion(&shid->reset_done);
-+		error = shid->ops->deassert_reset(shid->ops);
-+		if (error)
-+			dev_err(dev, "%s: failed to deassert reset: %d\n",
-+				__func__, error);
-+		else
-+			was_reset = true;
- 	}
- 
- 	enable_irq(shid->spi->irq);
-@@ -1447,6 +1452,108 @@ static struct hid_ll_driver spi_hid_ll_driver = {
- 	.raw_request = spi_hid_ll_raw_request,
- };
- 
-+/*
-+ * At the end of probe we initialize the device:
-+ *   0) assert reset, bias the interrupt line
-+ *   1) sleep minimal reset delay
-+ *   2) power up the device
-+ *   3) deassert reset (high)
-+ * After this we expect an IRQ with a reset response.
-+ */
-+static int spi_hid_dev_init(struct spi_hid *shid)
-+{
-+	struct spi_device *spi = shid->spi;
-+	struct device *dev = &spi->dev;
-+	int error;
-+
-+	guard(mutex)(&shid->power_lock);
-+
-+	shid->ops->assert_reset(shid->ops);
-+
-+	shid->ops->sleep_minimal_reset_delay(shid->ops);
-+
-+	error = shid->ops->power_up(shid->ops);
-+	if (error) {
-+		dev_err(dev, "%s: could not power up: %d\n", __func__, error);
-+		return error;
-+	}
-+
-+	shid->power_state = HIDSPI_ON;
-+	error = shid->ops->deassert_reset(shid->ops);
-+	if (error) {
-+		dev_err(dev, "%s: failed to deassert reset: %d\n", __func__, error);
-+		shid->ops->power_down(shid->ops);
-+		shid->power_state = HIDSPI_OFF;
-+		return error;
-+	}
-+
-+	enable_irq(spi->irq);
-+
-+	return 0;
-+}
-+
-+static void spi_hid_panel_follower_work(struct work_struct *work)
-+{
-+	struct spi_hid *shid = container_of(work, struct spi_hid,
-+					    panel_follower_work);
-+	int error;
-+
-+	/* Also does the first power up: probe leaves the device off. */
-+	error = spi_hid_resume(shid);
-+	if (error)
-+		dev_warn(&shid->spi->dev, "Power on failed: %d\n", error);
-+	/* Even a failed resume enables the IRQ; let suspend undo it. */
-+	WRITE_ONCE(shid->panel_follower_work_finished, true);
-+}
-+
-+static int spi_hid_panel_follower_resume(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	/* Powering on can be slow; don't block the panel's power up. */
-+	WRITE_ONCE(shid->panel_follower_work_finished, false);
-+	schedule_work(&shid->panel_follower_work);
-+
-+	return 0;
-+}
-+
-+static int spi_hid_panel_follower_suspend(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	cancel_work_sync(&shid->panel_follower_work);
-+
-+	if (!READ_ONCE(shid->panel_follower_work_finished))
-+		return 0;
-+
-+	return spi_hid_suspend(shid);
-+}
-+
-+static const struct drm_panel_follower_funcs
-+				spi_hid_panel_follower_prepare_funcs = {
-+	.panel_prepared = spi_hid_panel_follower_resume,
-+	.panel_unpreparing = spi_hid_panel_follower_suspend,
-+};
-+
-+static int spi_hid_register_panel_follower(struct spi_hid *shid)
-+{
-+	struct device *dev = &shid->spi->dev;
-+
-+	shid->panel_follower.funcs = &spi_hid_panel_follower_prepare_funcs;
-+
-+	/*
-+	 * If we're not in control of our own power up/power down then we can't
-+	 * do the logic to manage wakeups. Give a warning if a user thought
-+	 * that was possible then force the capability off.
-+	 */
-+	if (device_can_wakeup(dev)) {
-+		dev_warn(dev, "Can't wakeup if following panel\n");
-+		device_set_wakeup_capable(dev, false);
-+	}
-+
-+	return drm_panel_add_follower(dev, &shid->panel_follower);
-+}
-+
- int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		       struct spi_hid_conf *conf)
- {
-@@ -1462,10 +1569,11 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		return -ENOMEM;
- 
- 	shid->spi = spi;
--	shid->power_state = HIDSPI_ON;
-+	shid->power_state = HIDSPI_OFF;
- 	shid->ops = ops;
- 	shid->conf = conf;
- 	set_bit(SPI_HID_RESET_PENDING, &shid->flags);
-+	shid->is_panel_follower = drm_is_panel_follower(&spi->dev);
- 
- 	spi_set_drvdata(spi, shid);
- 
-@@ -1480,6 +1588,7 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	init_completion(&shid->reset_done);
- 
- 	INIT_WORK(&shid->reset_work, spi_hid_reset_work);
-+	INIT_WORK(&shid->panel_follower_work, spi_hid_panel_follower_work);
- 
- 	/*
- 	 * we need to allocate the buffer without knowing the maximum
-@@ -1490,20 +1599,6 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	if (error)
- 		return error;
- 
--	/*
--	 * At the end of probe we initialize the device:
--	 *   0) assert reset, bias the interrupt line
--	 *   1) sleep minimal reset delay
--	 *   2) request IRQ
--	 *   3) power up the device
--	 *   4) deassert reset (high)
--	 * After this we expect an IRQ with a reset response.
--	 */
--
--	shid->ops->assert_reset(shid->ops);
--
--	shid->ops->sleep_minimal_reset_delay(shid->ops);
--
- 	error = devm_request_threaded_irq(dev, spi->irq, NULL, spi_hid_dev_irq,
- 					  IRQF_ONESHOT | IRQF_NO_AUTOEN, dev_name(&spi->dev), shid);
- 	if (error) {
-@@ -1523,21 +1618,19 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		}
- 	}
- 
--	error = shid->ops->power_up(shid->ops);
--	if (error) {
--		dev_err(dev, "%s: could not power up: %d\n", __func__, error);
--		return error;
--	}
--
--	error = shid->ops->deassert_reset(shid->ops);
--	if (error) {
--		dev_err(dev, "%s: failed to deassert reset: %d\n", __func__, error);
--		shid->ops->power_down(shid->ops);
--		return error;
-+	if (shid->is_panel_follower) {
-+		/* Like the IRQ: the first panel_prepared resume enables it. */
-+		disable_work(&shid->reset_work);
-+		error = spi_hid_register_panel_follower(shid);
-+		if (error)
-+			return dev_err_probe(dev, error,
-+					     "Failed to register panel follower\n");
-+	} else {
-+		error = spi_hid_dev_init(shid);
-+		if (error)
-+			return error;
- 	}
- 
--	enable_irq(spi->irq);
--
- 	dev_dbg(dev, "%s: d3 -> %s\n", __func__,
- 		spi_hid_power_mode_string(shid->power_state));
- 
-@@ -1551,15 +1644,27 @@ void spi_hid_core_remove(struct spi_device *spi)
- 	struct device *dev = &spi->dev;
- 	int error;
- 
-+	if (shid->is_panel_follower) {
-+		drm_panel_remove_follower(&shid->panel_follower);
-+		/* Already cancelled by panel_unpreparing; be explicit. */
-+		cancel_work_sync(&shid->panel_follower_work);
-+	}
-+
-+	/*
-+	 * Follower suspend above can be skipped. Disabling again is
-+	 * fine: nothing re-enables the IRQ before devres frees it.
-+	 */
- 	disable_irq(spi->irq);
- 	disable_work_sync(&shid->reset_work);
- 
- 	spi_hid_stop_hid(shid);
- 
--	shid->ops->assert_reset(shid->ops);
--	error = shid->ops->power_down(shid->ops);
--	if (error)
--		dev_err(dev, "failed to disable regulator: %d\n", error);
-+	if (shid->power_state != HIDSPI_OFF) {
-+		shid->ops->assert_reset(shid->ops);
-+		error = shid->ops->power_down(shid->ops);
-+		if (error)
-+			dev_err(dev, "failed to disable regulator: %d\n", error);
-+	}
- }
- EXPORT_SYMBOL_GPL(spi_hid_core_remove);
- 
-@@ -1567,6 +1672,9 @@ static int spi_hid_core_pm_suspend(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
-+	if (shid->is_panel_follower)
-+		return 0;
-+
- 	return spi_hid_suspend(shid);
- }
- 
-@@ -1574,6 +1682,9 @@ static int spi_hid_core_pm_resume(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
-+	if (shid->is_panel_follower)
-+		return 0;
-+
- 	return spi_hid_resume(shid);
- }
- 
-diff --git a/drivers/hid/spi-hid/spi-hid-core.h b/drivers/hid/spi-hid/spi-hid-core.h
-index 060272353216..28e9880ad464 100644
---- a/drivers/hid/spi-hid/spi-hid-core.h
-+++ b/drivers/hid/spi-hid/spi-hid-core.h
-@@ -10,6 +10,8 @@
- #include <linux/hid-over-spi.h>
- #include <linux/spi/spi.h>
- 
-+#include <drm/drm_panel.h>
-+
- /* Protocol message size constants */
- #define SPI_HID_READ_APPROVAL_LEN		5
- #define SPI_HID_OUTPUT_HEADER_LEN		8
-@@ -56,6 +58,10 @@ struct spi_hid {
- 	struct spi_hid_input_buf *input;	/* Input buffer. */
- 	struct spi_hid_input_buf *response;	/* Response buffer. */
- 
-+	struct drm_panel_follower panel_follower;
-+	bool	is_panel_follower;
-+	bool	panel_follower_work_finished;
-+
- 	u16 response_length;
- 	u16 bufsize;
- 	/* Response type awaited by a sync request, 0 if none. Protected by io_lock. */
-@@ -70,6 +76,7 @@ struct spi_hid {
- 	unsigned long flags;	/* device flags. */
- 
- 	struct work_struct reset_work;
-+	struct work_struct panel_follower_work;
- 
- 	/*
- 	 * Serializes request/response transactions: held from sending a
+Ah. The sysctl documentation had the incorrect name there.
+
+Would it be possible to put all of these command line parameters / sysctls
+in the same place instead of having one of them in LoadPin.rst and
+another one in kernel-parameters.txt ?
+
+Thanks.
+
+>  a mutable filesystem means pinning is mutable too, but having the
+>  sysctl allows for easy testing on systems with a mutable filesystem.)
+>  
+> +Some filesystems may appear to be mutable, but are in fact read-only.
+> +In this case, ``loadpin.force_enforce=1`` can be set to require enforcement
+> +of LoadPin on all filesystems. When LoadPin is enabled,
+> +``/proc/sys/kernel/loadpin/force_enforce`` reports the state of this option.
+> +This option is independent of whether LoadPin is enabled.
+> +
+>  It's also possible to exclude specific file types from LoadPin using kernel
+>  command line option "``loadpin.exclude``". By default, all files are
+>  included, but they can be excluded using kernel command line option such
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1b2ae71def21..df8c145cc63d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3540,6 +3540,13 @@ Kernel parameters
+>  			Enable Live Update Orchestrator (LUO).
+>  			Default: off.
+>  
+> +	loadpin.force_enforce= [SECURITY]
+> +			Format: <bool>
+> +			Force LoadPin enforcement until reboot, even when the
+> +			pinned filesystem is not backed by a read-only block
+> +			device. Requires LoadPin to be enabled in the active LSM list.
+> +			Default: off.
+> +
+>  	lockd.nlm_grace_period=P  [NFS] Assign grace period.
+>  			Format: <integer>
+>  
+> diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
+> index f71861f98e1a..b260ad299a2c 100644
+> --- a/security/loadpin/loadpin.c
+> +++ b/security/loadpin/loadpin.c
+> @@ -45,6 +45,7 @@ static void report_load(const char *origin, struct file *file, char *operation)
+>  }
+>  
+>  static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
+> +static bool force_enforce __ro_after_init;
+>  static char *exclude_read_files[READING_MAX_ID];
+>  static int ignore_read_file_id[READING_MAX_ID] __ro_after_init;
+>  static struct super_block *pinned_root;
+> @@ -60,11 +61,19 @@ static bool loadpin_root_writable;
+>  static int proc_handler_loadpin(const struct ctl_table *table, int dir,
+>  				void *buffer, size_t *lenp, loff_t *ppos)
+>  {
+> -	if (!loadpin_root_writable && SYSCTL_USER_TO_KERN(dir))
+> +	if ((force_enforce || !loadpin_root_writable) && SYSCTL_USER_TO_KERN(dir))
+>  		return -EINVAL;
+>  	return proc_dointvec_minmax(table, dir, buffer, lenp, ppos);
+>  }
+>  
+> +static int proc_handler_force_enforce(const struct ctl_table *table, int dir,
+> +				      void *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	if (SYSCTL_USER_TO_KERN(dir))
+> +		return -EPERM;
+> +	return proc_dobool(table, dir, buffer, lenp, ppos);
+> +}
+> +
+>  static const struct ctl_table loadpin_sysctl_table[] = {
+>  	{
+>  		.procname       = "enforce",
+> @@ -75,6 +84,13 @@ static const struct ctl_table loadpin_sysctl_table[] = {
+>  		.extra1         = SYSCTL_ZERO,
+>  		.extra2         = SYSCTL_ONE,
+>  	},
+> +	{
+> +		.procname       = "force_enforce",
+> +		.data           = &force_enforce,
+> +		.maxlen         = sizeof(force_enforce),
+> +		.mode           = 0444,
+> +		.proc_handler   = proc_handler_force_enforce,
+> +	},
+>  };
+>  #endif
+>  
+> @@ -436,6 +452,8 @@ DEFINE_LSM(loadpin) = {
+>  };
+>  
+>  /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
+> +module_param(force_enforce, bool, 0);
+> +MODULE_PARM_DESC(force_enforce, "Always enforce module/firmware pinning");
+>  module_param(enforce, int, 0);
+>  MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
+>  module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
 
 -- 
-2.56.0.257.gf7497c7d27-goog
+~Randy
 
