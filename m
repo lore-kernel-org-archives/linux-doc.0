@@ -1,45 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.156.171.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792828999;
-	b=f6PNGbJdT6tPkJEGpEDGBTsuj7VXaA87jDBBsnTeFFKs7hjJ8DtDs6jzwnIqHpa2UE6G
-	 QmaYsX7yq+idawHf88MhHF69mKFJVxfG7r8yxcqk220XnT+um+3PHgqlb7+XSJXDCM8po
-	 dtW5kiamyWo17avxmpoqWvshaHyDKvnOKyb0uycKcJPXFCJplSsy5LaeUFAXfOxrMp5k3
-	 fatph/YXIS6jPhG/x8YsfAwGmDlpWkMZO4QcV51mQniEN9Fvq8LmY0jtl1h2U/XGSQd34
-	 G5LWVliohxbiPulQ6HnWeqN9fo3TTLLzQ/sIEjlYPk21VvcNv2baXi0xsUCfAJPWmCQ==
+	t=1792833889;
+	b=OtBaEcfp4L3YnOislaqPFIioN3GJB2rxp8iEK6egGKVz/kmCDpy1HyCg96kuDo8eCuGG
+	 txT1M+NIR05T0yLZkloUzviythF29Yu+dQc3/6sqlIWpT9tsUqdQjvT1RiBlzcIW/RKmC
+	 n2wVuY1ioFouPpzcITK4uE4EXRYKOMhtnNvc1Q2ZLli8e1mvl8kPcQ46VRunZYlF6x9or
+	 /HpJ0mGbx9k37BKsjfonE78ioTyLH09HcVeDB8Dk/h1Q4tamv14qjutOkjUF+PUTZNndq
+	 N+hJUlmel7Rmt20QyLfi0fovCNmA79xAsXkd+TQviduFgTVAWrRHdK1VFHAQL/lyNEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792828999;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To;
-	bh=8I7PHHye8JpA6spuSf6FF+Dzt4KdS5nxOce7osDTdv4=;
-	b=YkXi4RPAapSrjUmnPUD/tg3gxqBWyTeXtLE51ZzkTRt2+Bu4DzMfM9bEc6GAkay4e7e2
-	 C+4i49mYLonCPYt4UAAZIjjIY3fSfo+bXSVbMuYU98nJTFHHzXGAE/y1U3BLEzyaRvu10
-	 uzFYo8r/M0dhnMCwgGVQS2sk0DWERskDvxowaBcv0l482pWiHVt8/m2xrSU8S1f27VUB3
-	 3/P/rLXU1EZ/oNBjH41yOBuP7T/Q0y6XLBC+gQTDsCNGmJxYz1zjEpCi5DZ4FrPqhl3Fm
-	 TOuzvrC3oCm+7D8Yahx3d10qvaNhkoKXa4GpvBOpmkgX6oifHuA9pvlAlSF8ZuxXUwg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792833889;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Received-SPF:
+	 Received:X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:
+	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding:X-PPP-Message-ID:X-PPP-Vhost:
+	 X-Virus-Scanned:X-Virus-Status;
+	bh=UlFh2m38NvlbmdwBn9Ovqim+aU2KYkaeGxqpK8ckbcY=;
+	b=kDllDpJ+QqjVeedVoEll/lk4iMw7pnFCrO8dUmOLwkT4TKtJ7zaEKSB4dVoJ70I7GgVZ
+	 0GUnEjMSnKnB6982o71WVmH8jukJXhVWz9Est+tO64QimC5X7laj1BwN5/LgAh5u6Muuo
+	 6xpchL491e8H/g0drwZjBGdsHNjjckQlyRhz4EuYRknVqc6U3h0gr3HD58zWwymmrFvhx
+	 /t0Djc8PzqwePSvHY+vAUibYI18lJ2aU53u0y+gpu2C3p2ajf2EZicJLDGNQLk4h6OFce
+	 EvPYXMZJrxztIplpM4rDSg0HWBz+Cotvy7irUuUXX6utfttTE0zRX94PdfnYemyZxEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=as9NhG5o;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=antheas.dev;
+	spf=pass smtp.mailfrom=antheas.dev;
+	dkim=pass header.d=antheas.dev header.i=@antheas.dev header.a=rsa-sha256 header.s=default header.b=UYoUyALS;
+	arc=none smtp.remote-ip=178.156.171.147
+Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846E6606A31A;
-	Sat, 24 Oct 2026 08:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB13606A31D
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 09:24:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEB13606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=as9NhG5o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC5AC1F01825;
-	Sat, 24 Oct 2026 08:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792828999;
-	bh=8I7PHHye8JpA6spuSf6FF+Dzt4KdS5nxOce7osDTdv4=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=as9NhG5oQHTobK2/mtbYfX081L8TiGN+7Nke+BYiyax0jCpaUVAdlv4rxiI/MsO/J
-	 N8SyqbaUfDpXNj01HeWdCCQXVLR8Zv3Kv/lCTVi8nZ9GsHXf9juNHK8qc4GyXDYcq7
-	 hTJ0QGdsJ5f7MkBUTBgnp5ohe3tIQPxOPvg8MCJv/1So9b85nP+mWMiSzCmDWeFhJf
-	 t1GDmUJ0ktNZatQbgYNWY+flxNFjHzCHL8M/LxpYkBauFIb2ZMJRQ15NKgOrjkrFR9
-	 H76M8b0+h/axA2ikfcA1ukWKHarV5+sApPluSWXeva5cRO4fpVtT5xL8Bvphf2gcK4
-	 VVYHwX8inR9cQ==
+	dkim=pass (2048-bit key, unprotected) header.d=antheas.dev header.i=@antheas.dev header.a=rsa-sha256 header.s=default header.b=UYoUyALS
+Received: from relay13 (localhost [127.0.0.1])
+	by relay13.grserver.gr (Proxmox) with ESMTP id 7C1005E533
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:24:40 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay13.grserver.gr (Proxmox) with ESMTPS id 701E85E62C
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:24:39 +0300 (EEST)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 4C1371FEF48
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:24:37 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1792833878;
+	bh=UlFh2m38NvlbmdwBn9Ovqim+aU2KYkaeGxqpK8ckbcY=;
+	h=Received:From:Subject:To;
+	b=UYoUyALSH1T3jiOdOa6GNnSNKJTLVCI8GY6c2dbEi1QGA6hAn4My+xZM1ZmPqVVhC
+	 VFiz1E4WgLStvuND2I01GXoHUN7YxhtmkaOJCoAthyfNR608mHonYAsP/F8oPgqjRp
+	 Sgo0RxSjlUvqyBLcWtrQNFb4ZAXmUdUqIDW4WKr2WkQyry3Ib72rqM+IKuErNNkEu1
+	 s43E3+IA9oKlccoSTDC4V0abiDDKiWE4Rbm8kOODJQc5qmQSPdAwVGbZLQPjEQ2D/Y
+	 V22pW8+2JtvGcdVLI1ldohQ+oWYh2W9m/GMuM+3bM/+pmlZFUm8D6rVVqbwZSpM2z3
+	 dP4G3e8K++dAg==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.215.174) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pg1-f174.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-cc4aa18f9afso701482a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 02:24:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AKwUvBxaIxjEGXSn8oZ4NWHeO08d428RjRVtmadMcAsgYmjejqaA6FivhXDpQdL++lAmCYmcJ9YlsMH4Kp0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKt61C/VQSJh1FymclN/69ywcUx5fbhRfeTzuP5MXbAdedO2Dbd
+	NvG6SMQiwp2bo3KWZaLF1SjQXfag4dxpWfMhiRf3R6ejgXhy7PI5n9MLZkqEeM2vslZGJpwk8w0
+	93l05YSVJW+ZC/98TrqCN6edifBtvL50=
+X-Received: by 2002:a05:6a21:e587:b0:3e2:117a:62ff with SMTP id
+ adf61e73a8af0-3e7cd5242b8mr1238652637.61.1792833873675; Sat, 24 Oct 2026
+ 02:24:33 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -48,80 +80,183 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250511204427.327558-1-lkml@antheas.dev>
+ <20260803221614.59324-1-derekjohn.clark@gmail.com>
+ <20260803221614.59324-2-derekjohn.clark@gmail.com>
+ <f8b2c85a-2800-c9a3-4e56-7af4c53823e5@linux.intel.com>
+ <58a9c644-98c2-47ee-b083-0d5b19fa5053@roeck-us.net>
+ <CAGwozwGdwhE6Sm6oa2uxx_sHfFNQ6fHYnAhYHkEPQcp_Yb=Z6w@mail.gmail.com>
+ <CAGwozwFUTagam+dr0SXyziAMz1MJKcYMYUgrogFcmvEaE1X0UQ@mail.gmail.com>
+ <CAFqHKTmQ2R-UAP9rAZzoxe=p-T1_JKPU1NaQ2ijrVg0RXZEHUA@mail.gmail.com>
+In-Reply-To: 
+ <CAFqHKTmQ2R-UAP9rAZzoxe=p-T1_JKPU1NaQ2ijrVg0RXZEHUA@mail.gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sat, 24 Oct 2026 11:24:21 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwGUAEb4Q9pfd_+aXMw2P3qY376F+usPHdUFO5Q6mV_ATQ@mail.gmail.com>
+X-Gm-Features: AclHuK_o5mK-ACNcsN3U3drXfMaNHe5y3JLkY05P_22D7Mibo_FAmTuZvNSEA6Q
+Message-ID: 
+ <CAGwozwGUAEb4Q9pfd_+aXMw2P3qY376F+usPHdUFO5Q6mV_ATQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] platform/x86: msi-wmi-platform: Move guard out of
+ switch in platform_write()
+To: Derek John Clark <derekjohn.clark@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	W_Armin@gmx.de, corbet@lwn.net, jdelvare@suse.com, kuurtb@gmail.com,
+	linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org,
+	"Limonciello, Mario" <Mario.Limonciello@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 24 Oct 2026 10:03:11 +0200
-Message-Id: <DMCWU4HYYXQ8.3W3UIPO3K16QA@kernel.org>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Alex Williamson"
- <alex@shazbot.org>, "Armin Wolf" <W_Armin@gmx.de>, "David Lechner"
- <dlechner@baylibre.com>, "Luis Chamberlain" <mcgrof@kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez" <da.gomez@kernel.org>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Aaron Tomlin" <atomlin@atomlin.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Steven Rostedt"
- <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Mathieu
- Desnoyers" <mathieu.desnoyers@efficios.com>, "Bradley Morgan"
- <brads@mainlining.org>, "Aleksandr Nogikh" <nogikh@google.com>,
- <linux-modules@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-trace-kernel@vger.kernel.org>, "Johan
- Hovold" <johan@kernel.org>, "Richard Weinberger" <richard@nod.at>, "Thierry
- Reding" <thierry.reding@kernel.org>, "Jason Gunthorpe" <jgg@ziepe.ca>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh> <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <2026102437-vista-unsoiled-b089@gregkh> <atxdQ4vfh-b6GD0B@monoceros>
-In-Reply-To: <atxdQ4vfh-b6GD0B@monoceros>
+X-PPP-Message-ID: 
+ <179283387801.2255932.6444048198367635449@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Sat Oct 24, 2026 at 9:32 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
-> Why is it false positive?  IMHO unless it involves a driver_override it i=
-s a
-> bug to fix.
-
-In an earlier reply I mentioned that we can leave it as a follow-up to limi=
-t
-this to buses that do not support hotplug (will send a series soon), as we =
-have
-quite some drivers - for devices on buses where it is not expected that the=
+On Wed, 21 Oct 2026 at 05:26, Derek John Clark
+<derekjohn.clark@gmail.com> wrote:
+>
+> On Tue, Oct 20, 2026 at 2:53=E2=80=AFPM Antheas Kapenekakis <lkml@antheas=
+.dev> wrote:
+> >
+> > On Tue, 18 Aug 2026 at 17:26, Antheas Kapenekakis <lkml@antheas.dev> wr=
+ote:
+> > >
+> > > On Tue, 18 Aug 2026 at 16:42, Guenter Roeck <linux@roeck-us.net> wrot=
+e:
+> > > >
+> > > > On 8/18/26 07:12, Ilpo J=C3=A4rvinen wrote:
+> > > > > On Mon, 3 Aug 2026, Derek J. Clark wrote:
+> > > > >
+> > > > >> The ML patch set uses a guard within a switch case that violates=
+ cleanup
+> > > > >> rules. Move the guard outside the switch so all return paths are=
+ covered.
+> > > > >>
+> > > > >> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > > > >> ---
+> > > > >>   drivers/platform/x86/msi-wmi-platform.c | 2 +-
+> > > > >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >>
+> > > > >> diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/p=
+latform/x86/msi-wmi-platform.c
+> > > > >> index dfb65ac8fbf6..33acd448f674 100644
+> > > > >> --- a/drivers/platform/x86/msi-wmi-platform.c
+> > > > >> +++ b/drivers/platform/x86/msi-wmi-platform.c
+> > > > >> @@ -675,11 +675,11 @@ static int msi_wmi_platform_write(struct d=
+evice *dev, enum hwmon_sensor_types ty
+> > > > >>      u8 buffer[32] =3D { };
+> > > > >>      int ret;
+> > > > >>
+> > > > >> +    guard(mutex)(&data->wmi_lock);
+> > > > >>      switch (type) {
+> > > > >>      case hwmon_pwm:
+> > > > >>              switch (attr) {
+> > > > >>              case hwmon_pwm_enable:
+> > > > >> -                    guard(mutex)(&data->wmi_lock);
+> > > > >
+> > > > > While I cannot see the code easily, one could also add braces to =
+inside
+> > > > > the case to avoid this problem.
+> > > > >
+> > > >
+> > > > I don't see the code either, but wouldn't this be a use case for
+> > > > scoped_guard() ?
+> > >
+> > > Hi, not explicitly stated in the cover letter, but this is essentiall=
 y
-ever go away - where those drivers don't implement a proper teardown sequen=
-ce;
-for buses that support hotplug we should only taint on driver_override.
+> > > a series on top of the series I sent last year but I did not clean up
+> > > due to a variety of issues with MSI firmware that would have made the
+> > > driver unsuitable for upstreaming (to my standards at least). These
+> > > issues span Intel driver problems, HID controller instability, and
+> > > varying WMI implementations esp. in regards to PLx setting between AM=
+D
+> > > / Intel variants, shift mode behavior not acting correctly, and fan
+> > > curve application / resetting being weird (the fan curve on off bit
+> > > does not seem to change whether an automatic curve is used but how
+> > > close the device alings to the set curve? requiring us to back up and
+> > > restore the original curve? half of the devices keep the curve during
+> > > sleep and half don't? but if the fan curve is so finicky do we really
+> > > want a resume handler for it? Perhaps we can kick the timing quirks t=
+o
+> > > userspace)
+> > >
+> > > For this reason, I focused on other manufacturers such as Ayaneo and
+> > > OneXPlayer. I will revisit this series per request from Derek as he
+> > > seems to want this for steamos and hid-msi is already queued for 7.3?
+> > > Although, to be honest, compared to the controller firmware issues,
+> > > the WMI implementation is pristine.
+> > >
+> > > So I will need to go through these issues 1 by 1 and see which can be
+> > > fixed and either drop certain features in the beginning.
+> > >
+> > > Particularly for the fan curves, if we say that resume handlers are
+> > > required to be in the kernel moving forward, I do not know how
+> > > realistic it is to make those reliable for this WMI device family.
+> >
+> > This driver still needs work. I am getting bug reports about
+> > inconsistent TDP application on the EX. A8 is broken as well. Even
+> > with your patches Derek. I need to grab a new version of center M and
+> > see what they are doing.
+> >
+> > Does this driver work in your experience? What is that SMT toggle you a=
+dded
+>
+> I've got a few reports of some issues, but nothing with much detail. I
+> have the 8 AI+, 8 EX AI+, and A8 in hand and all three had effective
+> TDP changes in SteamOS with these patches applied and SteamOS Manager.
+> I haven't done extensive testing over multiple suspends or longer
+> sessions myself. I'm also not aware if there have been BIOS updates
+> since my testing.
+>
+> By SMT toggle i think you mean the STAPM toggle for the A8? It was
+> referenced in API_UserScenario.dll (setPowerLimit_AMDSTAMP) which I
+> reviewed using ILSpy. After toggling that TDP started reporting
+> correctly and being settable.
+>
+> Hope this helps. LMK if you need anything tested or additional info.
 
-One can argue that they should be fixed then, and I would certainly love to=
- have
-all drivers to properly implement the full driver lifecycle, but it would a=
-lso
-mean to write a bunch of code that in practice is just dead code.
+Ok, I asked for more feedback. Yes, TDP changes do work, but they are
+not correct. Users AB testing with a Decky plugin called
+SimpleDeckyTDP report major divergence.
 
-bind/unbind sysfs attributes (as well as module unload) can break such driv=
-ers,
-which, under the premise that those drivers don't have to write this "dead =
-code"
-in the first place, is a false positive.
+SimpleDeckyTDP uses a combination of RyzenAdj for AMD and RAPL for
+Intel. When set to 7W, users report 25W power consumption when using
+the kernel driver and 15W when using simpledeckytdp on A8. 15W is the
+correct value for a 7W envelope on an X840u APU.
 
-But again, I'd still always recommend to properly implement the driver life=
-cycle
-for new drivers for various reasons (portability to other buses, general dr=
-iver
-design, etc.), and I'd love to see existing drivers be "fixed", but I don't=
- see
-how it is reasonable to expect this to happen.
+STAPM should not be required to use or deviate from STT. Both of them
+should have equivalent behavior and match ryzenadj as the underlying
+DPTC hooks are the same, ryzenadj just accesses the mailbox directly.
+Using STAPM is a workaround for buggy vendor firmware that does not
+control boost values correctly (SPPT/FPPT) and is what the first
+generation Lenovo Legion Go did as well before they fixed it.
 
-(Luckily, in Rust that's at least partially never going to be an issue, as =
-the
-core APIs can fully enforce a proper driver lifecycle statically without dr=
-ivers
-having to write extra code for it. It obviously can't enfoce to leave the d=
-evice
-in a defined state though.)
+STAPM as a workaround works because it uses timers to control boost
+values, so they decay after 2-3 minutes to the steady state TDP set by
+the firmware. STT boosts for as long as the device thermal envelope
+allows. STAPM is deprecated by AMD, only STT should be used going
+forward. +CC Mario
+
+This points to a BIOS firmware issue. You should consider getting in
+touch with your MSI contact for feedback and to plan a fix. I do not
+have an MSI contact. And yes, I am not happy my users have to rely on
+third party unvetted plugins for basic power controls.
+
+But we cannot revisit this driver while basic behavior. does not work.
+If MSI does not fix this or there isn't a bug in this driver we can
+fix, the only viable way forward from our side is to move power
+controls to the DPTC RFC driver/RAPL for affected models and only
+retain fan curves on this driver. I do not want to do this, I have
+userspace integration for this driver already, but it is not
+functional to the standard expected by users.
+
+I checked the ACPI firmware and unlike other manufacturers, there is
+no EC independent control of the power envelope. We would still need
+to check a low battery hook in firmware but other than that it is a
+straight translation.
+
+Antheas
+
