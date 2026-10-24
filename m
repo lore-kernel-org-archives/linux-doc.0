@@ -1,60 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792802580;
-	b=CHA3JxroNSW//DK3ujLtND9zjw9mSHNnkJRT9OeSIcv2I0q9Id1n6wy2VmeLC/XgWh0E
-	 6viw7pm82zDcRxDwm1Zn+mJrDmfAQMJklu2UpszLpwk1aRxl3Zv2VzGNNNMMXjLKCscSZ
-	 Z/vNLkUCa7ZmOe0raK2ReBAQhwDKQZZ2CHEN8nzqo7yvaCOyAgwM9/zK4XHsMAPevfkhC
-	 IeE0kDB801hIUtMrSJbUnYuWmqGDcTaG2fxaQd3emPzqYAG91zzeoxdygmwoZsXDkq6jT
-	 4DkbdyeW6JPI4gBXYE3p5DBxozNcbAD3JFqbV7TjDkzaI+3RKRG/mqyUdw9qJGHkhAw==
+	t=1792803113;
+	b=quu1Rx4107w6aE9w4+ev3fYRNjBa0eXXMJsRdiB98d5iM/hLFnTlJphDosu12S7ShfYo
+	 1jk2obhkL9GChlSfAkXp033hTfEh/7LGMcMN6sNUMzP+yqRJdXAvaQPNCsHL8X55cr9Wj
+	 CAoAh6V8+dqNcwf75qTyrg61nlhrJPTXppDcjUdIFBP1YWebGKb3M9nkHtn12qjhlrNZB
+	 GFW+mpY4SErG1zmbnzh5ZyE1NeLYWX15w4OhN4YldvW6isYakYTVpEZAswhTtmLL+fzmJ
+	 vXOqFvEcC8T1z2TIHpU9o1VNK+ufzLLtusc5I/XhHxKBJa8TnPdGXLbNtYB1wpIQfLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792802580;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=80H2lZ/+xPdhTPazfU9LTQ5TA67GAupaXXZBnmrhJik=;
-	b=5B05u6DaBUxdtL6DbpEBIxtriSCG6jBsNz/yemJ4Isa0qetbdkUllyvd7eZwVWWvqIYb
-	 G0TktoUU/vTtdWLNimmmqgRWyAQXOrOERRPp97RTSuqA11WbK6wHiIUuiK4xW9lrPM+aS
-	 b/ZaqAH4PNjLG5R7TD13/FsqAWmxikbb9aKc5gij1VTZ6VFC8/k76/jdlu3DZoYHlH9B+
-	 E1jvwL1+jDqwsAzpgCCVduqbmejIcjJ7+ujB4I2OzPUwFa4/eGgA+1CK5soOkWpMhhZDA
-	 CjRY4jAMUTnEMx/RQOeU4DAKMqRuLgzavAM5xDX8kDmB5BO150HLlKVXqI010RmnLLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792803113;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=5PqPEXwYn+4RHFltKHPK65Z0DEkdjhotFWC8JsbNnjM=;
+	b=o5L/BcvKVU4iYA0xnIdC/LDOGTF6NJsP7Xzzl+M+GwSW5qV1lcfFQdWvWmUqm3McP6Zo
+	 x6D4oTLSA8kJiEN8/ZtZy0Mt03EcJjnmDCERTa+0gwVMH9X6YOVKKLdrHT3RnLG1lzqWY
+	 v6whq8Unb8PDSASquAE7N8DHZOYmVBAzjF0Gc6XWSwv3wzMvc8x89kxUpYfzxdW63wjGs
+	 VFsuFxkIw56Ep4/mS20AEQ3RzqEJ0CoSR3e7mxJZAVPRZICGOxbpyF0Y88CEutBMy4Qw8
+	 k21yI5ZSQ+61UNp81XQ94easxgGS0q8mDEL/9Zac7AKGTT/+ifgXR5CXWDEvVt55esg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CLNCM00C;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=WCEhii4W;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB45606A31A;
-	Sat, 24 Oct 2026 00:42:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC6F606A31F
+	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 00:51:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DC6F606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CLNCM00C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8E31F01825;
-	Sat, 24 Oct 2026 00:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792802579;
-	bh=80H2lZ/+xPdhTPazfU9LTQ5TA67GAupaXXZBnmrhJik=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CLNCM00Cgw3YHxikMpZ2wacAXPGQowY94cvy7BRdu1M5I1GGPmhVpvy+FkBA/VWJ2
-	 Qq9hXIMXkNmmDr80GccmDklzMalTR2UTrVHZcqpi38PlXQEoFZtK8AEtmt0IgvkB8D
-	 Oy5ahhndGyQbSy3OOcQjRgmZt/z1BypSPvpu4hEy5CHmjyFM1bwXLJdjk7Gd9wTDOi
-	 FyMnfBDGLgzRxHPhrSPwh0+Ajuuj7cXyeD47NkOGFeLeMyoYZsLOLwH8gzjsfn7Hs0
-	 A7vOD8d/6zLSxDl+fM3AoufwoVAXRoMvY1kIVZgPQ3cOchRv48ZhINyAMDLzZdtAUm
-	 dKbVN3IFCTMhA==
-From: SJ Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org
-Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes report infra design (beyond page table accessed-bit milestone 2)
-Date: Fri, 23 Oct 2026 17:42:51 -0700
-Message-ID: <20261024004252.87352-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261023195122.2481-1-ravis.opensrc@gmail.com>
-References: 
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=WCEhii4W
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so804845a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Oct 2026 17:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1792803112; x=1793407912; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5PqPEXwYn+4RHFltKHPK65Z0DEkdjhotFWC8JsbNnjM=;
+        b=WCEhii4W5Td/KXJQwYmHo7GyYGOFEKae+BofkfkaGczeRzWgCLgXnThRM6R+YSf5VU
+         ZHDsa2q3zYSS9FTAyxq4O9Io5IichFvsQ6BKQd/jnrMQnFq9JWG4sfsyc5aqL7QN3guZ
+         pU3YWdXKnZygCAuMdAwlwbUqUOu8hMSg/d9CI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792803112; x=1793407912;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5PqPEXwYn+4RHFltKHPK65Z0DEkdjhotFWC8JsbNnjM=;
+        b=SP4uMiYbnYeUPTDn/Ia5CIvDv1nRhgYypxgaEezBPw2Nmtxx0SsYyEH/HgqTOpUccL
+         8c9V/ZB9CuYX04Bi8SUNLTGRoAb1UHHl0fx2c0CS+w8+CI8Z8u9XFNkfY4VRpM2+c4Z5
+         ERRode5tazgDV/+O+/w4P0a5vBUrDE+IW0hlH7TNWogVOp2BDZTtbMsF35rq/5ivars6
+         R4KS7cqFhL9DEBL1kbeY+pwl1mXf/JEyumxBPsSEbOoUp0SMhRnr0qDhajMlf4m/qTgp
+         oe19XVNc25MV/0yxvgMxnOy+zPIFhEH7hGzfk/jHLoHJs1pDXs+I5G55NhHHvHSX0the
+         5lVw==
+X-Forwarded-Encrypted: i=1; AKwUvByK0rBH4fwrdk+isGUIlFT1ABWWzXND+L7q7RPKVpwY4irCziejmaJ1LihmFK3Uyf104uHbhSrdTAk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLTJW3bR84VRilEfZR4mdHRiKhgNUQBCCyOzO8wZcL/znGDugx2
+	XA3D6cpOJkPDvNF44LtcMTD+p8gVjBn0XQHmKMetS76xvyovMXGFW5qeaFYISVpBUQ==
+X-Gm-Gg: AYBFou3wlYEzhiossfc1apmBEDXdMAo0EY+Kl4zrupzWmr2CfY4pG4AQjKTUOlkC3IL
+	Tv4wQjipeafM3ITLlmBomoK1mQZ0SGg3ys7wBnHufP9apQjNlJvhZrq+Mxh1e7e94LyUBIbuHio
+	BiPbqvt47XjGWFbPd4JRhhE/xxLkdXMZ0vJkIMuCJsnOlqiQvaLpZVrwPaOPEFc6m5JC6cS+vMH
+	MfkhZoH0msa1BMRXoVzaiExvYn7419fSfjomEbEdTJz6E28+zKAEnMp9B7kxTWG+zlguYSO+5Kz
+	02eEfuwuKL28LSVQhTQC7Rqmp2eAfRmD7zV7D6wKZIeoz5GXGUhCd3VE6RsZuZ20g+864eJtsnP
+	UAy5JTEAsoRvpEqfsrOj5bxukrOPTKJzAWmjt5cGWEB/Q+YfZhSsOFd5HhxWweST8+8UWU8bSNn
+	vTxc3wvAbDZ4FP2l3iHx0/6+nJK0YaLJCsROhD2nAzSDHggkCZE7FajI/MlvIzCLhr1yJvH4XcF
+	Vcx9WbBfjG1ZoqMZATy0FDk8FXGR3PuIQYaFYFz9ZVtMORuPTP4aATuhFImRIKAK3zFIdeUU9HO
+	8dCLEsYjauyBdJPWZkiB0U8o5ZJ2fvNCa+fRpYsPa9YTTO1Fk55gpyMOdtJoDiM=
+X-Received: by 2002:a17:90b:1a85:b0:3ac:7c4d:8be6 with SMTP id 98e67ed59e1d1-3adead4f66amr712837a91.40.1792803111828;
+        Fri, 23 Oct 2026 17:51:51 -0700 (PDT)
+Received: from jingyliang-input-linux.c.googlers.com (218.117.230.35.bc.googleusercontent.com. [35.230.117.218])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfeb1sm843763a91.9.2026.10.23.17.51.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 17:51:51 -0700 (PDT)
+From: Jingyuan Liang <jingyliang@chromium.org>
+Subject: [PATCH v7 00/11] Add spi-hid transport driver
+Date: Sat, 24 Oct 2026 00:51:34 +0000
+Message-Id: <20261024-send-upstream-v7-0-abad13174b43@chromium.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,133 +89,182 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABcB3GoC/23PwW7DIAyA4VepOI8JYyCkp73HtAMB03BIUkEbt
+ ary7qOdtFZpjr9lf5JvrFBOVNh+d2OZ5lTSNNZoPnbM9248EE+hNpNCGiFB8kJj4OdjOWVyA29
+ 0NDG0FFpJrN4cM8V0eXjfP7X7VE5Tvj74Ge7TPwkFrqQZuOCgQXdOgo0YvnyfpyGdh88pH9gdm
+ +ULINUakBXQEjxZF2O0ZgPAJ6DE+pcZK2BEC15pG1A3G4B6AnVzDagKdFZh0GQ8BdwA9D8A4h3
+ QFUCrXBQQHBJtAOYFgDfAVMB3bedUh8FEtwKWZfkFlglPH/IBAAA=
+X-Change-ID: 20260212-send-upstream-75f6fd9ed92e
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ hbarnor@chromium.org, tfiga@chromium.org, fqwqf@fqwqf.xyz, daleyo@gmail.com, 
+ Jingyuan Liang <jingyliang@chromium.org>, 
+ Jarrett Schultz <jaschultz@microsoft.com>, 
+ Dmitry Antipov <dmanti@microsoft.com>, Angela Czubak <acz@semihalf.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792803111; l=7277;
+ i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
+ bh=nNYO6idEpLauPqDXQvv90+SC/2ZK0xY5I65cLCsgDHY=;
+ b=p5RQ4OcghzWSWrRKttkp/rtck0c6aXEYG3MzjxpNtHszzhiB27lNZRqYb7PduCFSWkS6eaJPk
+ WBkVelYEZ2RC7aa/7ItikRTwMfMDpu8adtKg0sVxaLB4oFFVcDaGT7c
+X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
+ pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
 
-On Fri, 23 Oct 2026 12:51:22 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+This series picks up the spi-hid driver work originally started by
+Microsoft. The patch breakdown has been modified and the implementation
+has been refactored to address upstream feedback and testing issues. We
+are submitting this as a new series while keeping the original sign-off
+chain to reflect the history.
 
-> Hi SJ,
-> 
-> On Wed, 21 Oct 2026 22:29:12 -0700 SJ Park <sj@kernel.org> wrote:
-> 
-> > Hi Ravi,
-> >
-> > On Wed, 21 Oct 2026 21:17:24 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> >
-> [...]
-> >
-> > Thank you for your detailed review and testing of the first design!  I'd still
-> > like to try decoding idea first, mainly for quick prototyping.
-> 
-> Sounds good.  Starting with decode makes sense, especially for VMs
-> where hardware address-sampling PMUs are often unavailable; some tips
-> for the prototype are in the other reply [1].
+Same as the original series, there is a change to HID documentation, some
+HID core changes to support a SPI device, the SPI HID transport driver,
+and HID over SPI Device Tree binding. We have added the HID over SPI ACPI
+support, power management, panel follower, and quirks for Ilitek touch
+controllers.
 
-Thank you for confirming and the tips!
+Original authors: Jarrett Schultz <jaschultz@microsoft.com>,
+		  Dmitry Antipov <dmanti@microsoft.com>
+Link: https://lore.kernel.org/r/86b63b7b-afda-d7f4-7bfa-175085d5a8ef@gmail.com
 
-> 
-> [...]
-> > > Yes, if the report has an address field with a validity bit and carries
-> > > the producing report-type (attr) id.  Then IBS, PEBS, Arm SPE (through
-> > > an adapter, since SPE uses the perf AUX buffer) and device-side
-> > > monitors all produce the same report, into the same queues and probes.
-> >
-> > Thank you for confirming.  And yes, I think we can add more (union) fields to
-> > the report structure.
-> >
-> > However, could you further clarify what are the validity bit and attr id, and
-> > why those are needed?  I'm still newbie to perf event, please bear in mind with
-> > me.
-> 
-> Neither is perf-specific:
-> 
-> - Validity bit (or union tag): a way to tell whether a report carries a
->   virtual address, a physical address, or both.  For example, a decoded
->   sample has no physical address if the page is not mapped.  If you use
->   a union with a type field, that already covers it.
+Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+---
+Changes in v7:
+- Drop the error counter sysfs attributes.
+- Print error codes in power up/down failure messages.
+- Reject an empty report descriptor.
+- Check the minimum input report body size instead of max_input_length.
+- Clear reset_attempts only after the report descriptor check succeeds.
+- Drop pending work flags when the error handler resets the device.
+- Don't schedule a reset when GET_FEATURE fails with -ENODEV.
+- dt-bindings: drop the address/opcode properties and the "hid-over-spi"
+  fallback; the compatible determines them.
+- dt-bindings: fix authorship to match the Signed-off-by chain.
+- dt-bindings: update maintainer email addresses.
+- dt-bindings: drop Rob's Reviewed-by because the binding changed.
+- of: use per-compatible match data; match only
+  "microsoft,g6-touch-digitizer".
+- pm: disable reset_work across suspend.
+- pm: check deassert_reset(); schedule recovery on reset timeout.
+- pm: skip hid_driver_reset_resume() when the device is not ready.
+- pm: log power_down() failure instead of rolling back suspend.
+- pm: use dev_err() instead of dev_WARN_ONCE() for a failed device
+  descriptor request.
+- panel follower: start with reset_work disabled.
+- Drop Dale's Tested-by from the OF, PM and panel follower patches
+  because they changed since v4.
+- Link to v6: https://lore.kernel.org/r/20261019-send-upstream-v6-0-cb9ba4b3d6fa@chromium.org
 
-Thank you for clarifying.  Yes, it may have a union with a type field.
+Changes in v6:
+- Take output_lock while reallocating buffers in ll_start()
+- Don't drop input reports while a refreshed device probes
+- OF: drop mod_devicetable.h, use named initializers, fix alignment
+- Move the dt-bindings patch before the OF driver patch
+- Drop Tested-by from the documentation and DT binding patches
+- Link to v5: https://lore.kernel.org/r/20261009-send-upstream-v5-0-384af01da3ee@chromium.org
 
-> 
-> - Attr id: an id of the producer (report type) that made the report.  If
->   several producers later feed one queue (e.g. perf sampling and a
->   device-side monitor), a probe can filter on, or weigh, reports by
->   their source.  If each queue only ever has one producer, the queue
->   already identifies it, and the field is not needed.
+Changes in v5:
+- Fix request/response races; match GET_FEATURE responses by report ID
+- Reset the device on response timeout; wait uninterruptibly
+- Validate device descriptor and report lengths; fix buffer sizing
+- Honor rtype in raw_request(); fix GET_REPORT off-by-one
+- Use hid_safe_input_report(); forward input reports only while open
+- Disable IRQ around hid_device teardown; fix a sparse warning
+- Use disable_work_sync() for reset_work in remove()
+- Cap trace copies at 64 bytes; cacheline-align read approval buffers
+- ACPI: select RESET_CONTROLLER, use device_reset_optional()
+- OF & DT: read opcodes as u8, use dev_err_probe(), require reg
+- PM: cancel reset_work on suspend, wait for reset before
+  reset_resume(), fix IRQ imbalance on resume failure
+- Panel follower: fix regulator/IRQ imbalance; depend on DRM || !DRM
+- Link to v4: https://lore.kernel.org/r/20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org
 
-Thank you for clarifying.  I agree this kind of information will be needed, and
-I will make sure it is in the report struct.
+Changes in v4:
+- Extended io_lock scope to protect the shid->hid pointer lifecycle
+  against races with the IRQ handler
+- Cacheline-aligned DMA buffers, enforced 4-byte alignment
+- Added error rollback for failed suspend/resume transitions
+- Moved IRQ request to probe with IRQF_NO_AUTOEN (disabled by default)
+- DT Bindings & OF Driver:
+  - Required a device-specific compatible string in the schema.
+  - Added description to explain why opcodes and addresses properties
+    need to be defined in the schema
+  - Added `spi-peripheral-props.yaml` reference and switched to
+    `unevaluatedProperties: false`.
+  - Added fallback to default timing parameters in OF driver if match
+    data is missing.
+- Link to v3: https://lore.kernel.org/r/20260402-send-upstream-v3-0-6091c458d357@chromium.org
 
-> 
-> [...]
-> > > 4. Binary search over a sorted region snapshot (your todo in
-> > >    kdamond_apply_access_report()) beats a linear walk from about 2
-> > >    reports per interval for 1,000 regions (a model, to be measured).
-> >
-> > Yes, this efficient region-report matching would be important.  We could also
-> > consider starting with linear walk and later optimize, though.
-> 
-> Agreed; starting with a linear walk for the prototype is fine, and once
-> it is out, happy to measure where binary search starts to matter.
+Changes in v3:
+- Add io_lock init
+- Relocate tracepoints to drivers/hid/spi-hid/ and fix tracepoint macros
+- Add tracepoints for sync, error handling, reset, and report processing
+- Clean up internal includes and fix Makefile CFLAGS
+- Add more details in v2 changelog
+- Link to v2: https://lore.kernel.org/r/20260324-send-upstream-v2-0-521ce8afff86@chromium.org
 
-Cool!
+Changes in v2:
+- Clean up DT bindings: fix formatting and remove timing and flags properties
+- Update DT binding example: use a device-specific compatible and drop
+  reset_assert
+- Simplify ACPI/OF match tables by removing ACPI_PTR/of_match_ptr
+- Refactor OF driver to use match data for timing parameters instead
+  of DT properties
+- Switch to fsleep() for delays in ACPI and OF drivers
+- Drop patch 12 as it is vendor specific
+- Add a lock to fix input/output concurrency race
+- Link to v1: https://lore.kernel.org/r/20260303-send-upstream-v1-0-1515ba218f3d@chromium.org
 
-> 
-> [...]
-> > > 5. Samplers can stop silently: in a report on the v4 thread [1], IBS
-> [...]
-> > Unfortunately my understanding of perf event is not yet good enough to
-> > understand this in depth.  I will revisit this after starting implementation.
-> 
-> Sure.  The one part worth keeping in mind from the start: a sampler can
-> stop without any error, so a counter of reports received and dropped
-> helps tell "no accesses" from "no samples".
+---
+Angela Czubak (2):
+      HID: spi-hid: add transport driver skeleton for HID over SPI bus
+      HID: spi-hid: add ACPI support for HID over SPI
 
-Good point.  I will try to make it at least easy to debug.
+Dmitry Antipov (1):
+      dt-bindings: input: Document hid-over-spi DT schema
 
-> 
-> [...]
-> > >   - The queue: the per-CPU seqcount design in note 2 (suggested), or
-> > >     ftrace's ring buffer with one iterator per reader.
-> >
-> > My current plan is to use DAMON's original simple lockless and global queue per
-> > report queue.  Let me know if the report queue design is not clearly explaining
-> > what it would look like, or there is a clear problem.
-> 
-> A global queue is fine to start with, and the design is clear.  One
-> thing to keep in mind: perf writers run in interrupt or NMI context on
-> all CPUs at once, and an NMI can arrive in the middle of another write.
-> So reserving a slot needs to be lock-free, and a reader should not see
-> a half-written report.  If the design already covers that, there is
-> nothing to add.
+Jarrett Schultz (3):
+      Documentation: Correction in HID output_report callback description.
+      HID: Add BUS_SPI support and define HID_SPI_DEVICE macro
+      HID: spi-hid: add device tree support for HID over SPI
 
-Design is still in progress, but definitely this should be covered.  Thank you
-for calling out!
+Jingyuan Liang (5):
+      HID: spi-hid: add spi-hid driver HID layer
+      HID: spi-hid: add HID SPI protocol implementation
+      HID: spi-hid: add spi_hid traces
+      HID: spi-hid: add power management implementation
+      HID: spi-hid: add panel follower support
 
-> 
-> [...]
-> > As soon as this design discussion is completed, I will start prototype
-> > implementation and share it as the next RFC version, as soon as possible.  Your
-> > review and test of the version will be super helpful.  I may also ask you some
-> > questions for perf event and your prototypes.  Thanks in advance for your help.
-> >
-> > There are competing works, though.  It would take time.  I expect about one
-> > month at minimum.  It might take longer; Thanksgiving holidays could be helpful
-> > to give me a time to concentrate.  Please bear in mind.  But once the initial
-> > prototype is implemented, I believe we could quickly iterate and meet the ETA
-> > (LSFMMBPF'27).
-> 
-> No rush on the timeline; that plan sounds good.  Please feel free to
-> ask any time, and I will be happy to share the test programs and review
-> and test the prototype when it is out.
+ .../devicetree/bindings/input/hid-over-spi.yaml    |   75 +
+ Documentation/hid/hid-transport.rst                |    4 +-
+ drivers/hid/Kconfig                                |    2 +
+ drivers/hid/Makefile                               |    2 +
+ drivers/hid/hid-core.c                             |    3 +
+ drivers/hid/spi-hid/Kconfig                        |   50 +
+ drivers/hid/spi-hid/Makefile                       |   12 +
+ drivers/hid/spi-hid/spi-hid-acpi.c                 |  261 +++
+ drivers/hid/spi-hid/spi-hid-core.c                 | 1698 ++++++++++++++++++++
+ drivers/hid/spi-hid/spi-hid-core.h                 |  112 ++
+ drivers/hid/spi-hid/spi-hid-of.c                   |  211 +++
+ drivers/hid/spi-hid/spi-hid-trace.h                |  184 +++
+ drivers/hid/spi-hid/spi-hid.h                      |   45 +
+ include/linux/hid.h                                |    2 +
+ 14 files changed, 2659 insertions(+), 2 deletions(-)
+---
+base-commit: ee9c669f9bf5fd2c24206746ded9382fe810df89
+change-id: 20260212-send-upstream-75f6fd9ed92e
 
-Appreciate your continued support, that will be super helpful!
+Best regards,
+-- 
+Jingyuan Liang <jingyliang@chromium.org>
 
-> 
-> Thanks,
-> Ravi
-> 
-> [1] https://lore.kernel.org/r/20261023194848.2449-1-ravis.opensrc@gmail.com
-
-
-Thanks,
-SJ
