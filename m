@@ -1,146 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=96.67.55.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792859727;
-	b=TewbM2axi6saL3si7y8Q9B97n5iqD+ab5l4j/cF9F/xEcsylGofpZCgFzQ5VZINUk9hI
-	 H9+phGDs9c6iLV3rMFGwl7mBDiqvXPctv0ZNWQF0WzzbokiPaiNLNAR0qVK2iw5wWGzWd
-	 AT+cwb+x7jW55XVM14j2Lk9AYK6aOnBCQkD3Sun5d5DxT1dDBAsvZLkIlsYao2Y6Vdl2F
-	 yJFsyd3UgkTmPWhZCmEkFo7MRDASF2/HzdrZ3vpSVn1YyaVTzu8SGHasKWerqrP0tUZGS
-	 sXsf9NMU3FXf9KG+JirWyMdNAzcn70RxX1WCA8E8bxPaUkBM0Xkb7H6yia9ccb7DGPw==
+	t=1792865870;
+	b=P4BZWA8CdHp/DKdZu4NozP0DmB9Fh0nvbVRa/Yd90xdF6udRATve54qPu8qhueT3bNND
+	 fMJJHIK9CtZ6C6p6SJ+NysqzWtmo1lgTv1dEeILS5sG0zqZPML7EXPo83A9WD8YYvZ/Ba
+	 lsSlSqI3bq5dAHdicexFeybB0/bIyh3kw0ooj0lAVhcZjRJOPEl1SQXaKdl5SAK/55AR0
+	 dUvZrtw5+L0mq1HxmEQMGdSyrAalLeJKH40jtmkUTAgEU5Loieg19Sj1V/vjedzdEdB0P
+	 FiRddKttoRUBN0LvUOCAcGTV0K05SQ9zcLSg7qwQaG/1xN5cqQIjCRNBw0B9qsPW7Cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792859727;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=;
-	b=lGKRA3D+dTsLJN7+woeKhYX99oMH4nonawYyw4kSsKjh6MZ6DMUFcgPlxKDmMMCoR6U2
-	 A19bHkyKcPodSohoW4BWYQ3/Ecn6FjnU6xqSHf6HkL0/juE+F28MvpGTFVEH7jcPONJNu
-	 0xc35zrPUwR9XGtJijeSobRlBIETjXumN8AhoyUOBFRnWW1k9QMUEAHzmTky1oHrrmj/y
-	 plWGFuX4fiXSC2IMIzfFbYsmxP7M8U6bKwqwfM8ckOdO3FeMh709etlOUKhQBaZNAs3xh
-	 yZzcbSchAlsrCOPu1iJZxtKKrPDRa1Hy1X7ijzaycxHkLObDByjMJmzfkE+tLKW8DAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792865870;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=0jMdLT1l8NorjwtJyBZp0a/DpvOIqtUImmcgSCvCgG0=;
+	b=fjsV8MajqCRVQ63Em7UY9q6IuFq4ZD3sVMbkWqDoHEVT+1cwxgVz3PrJVaKHkIs7SVPD
+	 f/8rBkRKXq9xdQGSe+yBk+SawPn2PSQYLJVzFF8TnBfs1tXg6tLitsEzS4IrQgUubMnl/
+	 sf3JAeCeAi5sAaqYuv40YeUd/OJ3idjTGhPXkNdlomELvONkRhagfn0vz7Ci45gvvVlBI
+	 wGn6XgpQomujOdX/j9g9vH27UZUz2WVX96i7fXGzFc1J6JC7MVvu+7xVJJQhP2WI7MJQ9
+	 rNK9EnocSb7Z8qqrmWP5I64xkaSsBDpgT+bc/xoOLRLsP4nxOF2OzX6X2YvPTMiP6zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR;
-	arc=none smtp.remote-ip=202.12.124.146
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	dmarc=pass header.from=surriel.com;
+	spf=pass smtp.mailfrom=surriel.com;
+	dkim=pass header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=VPZqxrFN;
+	arc=none smtp.remote-ip=96.67.55.147
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBF9606A31B
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 16:35:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBBF9606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4B7606A31A;
+	Sat, 24 Oct 2026 18:17:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC4B7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 37D3A1D00169
-	for <linux-doc@vger.kernel.org>; Sat, 24 Oct 2026 12:35:21 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Sat, 24 Oct 2026 12:35:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792859717;
-	 x=1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=
-	E9TTTyuVq5dqLfibvKAUPgIg5tosgfal3gshY7YFVMEvMYBiRtsE/hVOZz+s9E/s
-	Vp2Mw+33W+xC5axSUv6LiW6jYatqKOB5v9I05nc0ybaBcpLWshDYhkElOb63LJQa
-	5mpWbHmgXLqi/jfi5yzFs5tqgdAcKZZ33LufqE1y0ccmAd5Q2UO75ZaoYMrWplpS
-	bz4023BNvDLPHdfxR8em3XXyTd/MJhW0w0KkQGIlAQRC5iVlx9GKHe0E7Fq0NizZ
-	iZMYZ9oVMwNQai85YBxlmJidCy+s/9t0+LGErr2goPyIoRxsbsUbppJam9TWjcLF
-	oebVumhwCwCnko/ixXCeTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792859717; x=
-	1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=H
-	SLmwBuRRP2v647BWrpPT4ump0Bi3DOHEEVDkCvC1Z+khtGlflWopAywI1565MjwV
-	dfRCBs0WVYow5r3uTm+/ImdcNdW0LshiNslhvGKamfXyDXu2wGqF6VjWmSfEnfi/
-	JNfA4N0+/x9qTqCtpiA1OhE2k2y6SKDSKtg477VkRWWVZKjJbH2m6GKQheurdynM
-	dySzra7q/jN+o9xrvg4bexh4ur6/psywQSDB+6zccVPfMb6ihmrBh9sHM1+0I3xn
-	SCm5yidr3P9G14p9kd5/ZLvLiVM8wpyanAwrKXZW2/Gk/QIHnShXe8LT1It9minP
-	abx4p5iwwEwtRMGlPRkNw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792859717; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:eksN3Ico3GAC286O7MgPeEZwWxgCd3i26xcYqJ552343r4N
-	0T0NEfXdVwfq2wpo7OV5RdSD7xgUGaXV9jjLG0pdOySny/V++7xMtaKRRlitipRB
-	rCsxzndA0slUgTPNoTQece8I5Svhb63JC88vGQMwuB6Kks3wcZN5c7GUGNgN1dgs
-	ar6juXEaa4yV3ig9+XeI8y+RvUJ7ClhE4rby8C5vLfgdQa09Tu2uagR25vnmsGJn
-	jmzPammvtswEBycU2+WdkKYa/B1ccPm9R/xH26BbM9BtWudNOc18KVyenKRhAcps
-	83uK3U4mGWrHFl++DTRPjiPlrul5L2l+gpbGBrw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:JnbRzMatNOWh6VYk3BtMyVistKV9n98HRh1lJrMuiyI=:s7RKaOxqLU8WzgWaRyrCiYLjCHz0idVdL2rlY3c6L5w=;
-X-ME-Sender: <xms:Q97carmA3_xGeqSlgVk8faN9acf8fxLirifsX3U9VTRqL8U5BKfszw>
-    <xme:Q97cavkNz9L4po1mV2XOeF5DcVEndKPwyd413O8HaE-Au3TPJY6jd4bkNa7yut72N
-    97rywkUVO3ReW-HI3kJIXje6Q7zWYfLxtcwtvQvJfY9JA3gINcE>
-X-ME-Received: <xmr:Q97caqjYB8YGnVQGqpVwONajta7tJM0SiEkEfbanOZY2GQp6SYfr3KgNGIfRFQ>
-X-ME-Proxy-Cause: dmFkZTF9g0HInb6yy90yfs+ss2zLTr6q9s2zMqnyVsBip2hj18csqpDRvrtfuwSbKKJdKA
-    psdh8APLESm8UW8KW01iTqR/S/iRc1Cr4qo4b5Xvo1no8IwYaEMVHtNNjO+pv3ub7J5k4n
-    szfnLzyxBxdMpJ70bAXPu417N3F0afseT87ZW2VZCtJeqMVXl3L9yeaBEZmUVots99yNm7
-    fErISCP5VUjfv2eP10lfqk0j76TstgnE+aocUeQ5nhqqoe7/7PSyPHEZtYRK9uIa37tQGz
-    daj0FHGFjc2S8vyptHVdBTYLfKS0jbo0wjNsNJchNiZajaKm6mcEi63hGrqETG70q6Q7iY
-    2aDtOSpItAChdWXVXgRsecuefI3YGiNy/5tzR+n94CkkrgWuYrfga0EBN2TZhjMAla6DB7
-    08mXSwJMEpvrbzfNCbuIDYpjIUrJSpfs4YYhH2Zk6LM4fgA0VlbnrxlpUIInldNvCwCwwi
-    nyDGoI5RTkojCyZKpoAKEA5LEZjHAv4esvgzLWW9LUsXv2W1pal6pcX0grJnNh+ICAdr3X
-    1sMnr+bWuARbAQ0lzpoLGz8HL+VysK7EfCg+SQyz8j4CTYwPdLl0USuckBMLT1ONgPXxgI
-    sblheuKLPQHtfON71CR2+i3cC7syWwmzs8IqhBPh/STaXERhx43fa5rVoGGA
-X-ME-Proxy: <xmx:Q97carfFfA4SXJtQiRgFajU4VapE3uPl5gkpqu0fLCYli2F0957kqA>
-    <xmx:RN7cao_bSBYz6_AU4G_ivQhzgNK86Q5bEAi8UShmqhP2zTqObGxUCg>
-    <xmx:RN7caphlL7Mlc8KWfZbl2GPnu19Sl2Vw9qG1uReehdpmDTVj-d9zvg>
-    <xmx:RN7cak-MaVrw-X_KHEiKfZbm9VsstGzvp_XMLnPmZEjeLXaiQ2p0gQ>
-    <xmx:Rd7canhIppUmJGzskxC_Ni_y7PxhQy9T-N5ARTumtHQB2GalI6fGR1z4>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 24 Oct 2026 12:35:13 -0400 (EDT)
-Date: Sat, 24 Oct 2026 10:35:12 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, Danilo
- Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Petr
- Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami
- Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh
- <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Richard Weinberger <richard@nod.at>, Thierry Reding
- <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- alex@shazbot.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20261024103512.4601ee4f@shazbot.org>
-In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-	<DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
-	<arIvG0nx4LXG9nlW@monoceros>
-	<defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
-	<2026092321-province-yearly-44aa@gregkh>
-	<arOfHEsGGglNse7T@monoceros>
-	<2026092348-victory-erased-0e5a@gregkh>
-	<20261023181326.0dc2f7ed@shazbot.org>
-	<2026102437-vista-unsoiled-b089@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=VPZqxrFN
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=0jMdLT1l8NorjwtJyBZp0a/DpvOIqtUImmcgSCvCgG0=; b=VPZqxr
+	FN0MWEdmme3mXeJb8f87B7L94FRIu0VffH3tEQTevshBuQpaapaEIL3YGatd4lApwMK3mcac9DaOD
+	QjuqmEUNHKaP421OfKpkO22PE9jOPjAm/65ODyU1Ce36EsVzXGSuALnymSSYjE/x42BFyT0C8bgpp
+	00pOy69z7gtYpr93/5HxeCd5d3OwF2YjZ8VD+pQAPU20v2bqvNXa3qAGtnxycW5kXAM+Pxfqjburm
+	fIMT/5hb0Eno9/tztvlCrwJ2RoGVWHor74UGI0Us6y1Kfs/hn6MoL0wbAIuHMf+8Z4SEEv3E7ef1Z
+	jDAxujKIRhOHgRcOO/2ONCES4MFQ==;
+Received: from [2601:18c:8100:a0e0:2541:b86e:2586:d219]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1xKgIM-00000008cYE-1icT;
+	Sat, 24 Oct 2026 18:16:42 +0000
+Message-ID: <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
+Subject: Re: Path forward for Virtualized Swap?
+From: Rik van Riel <riel@surriel.com>
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)"
+ <david@kernel.org>,  Johannes Weiner <hannes@cmpxchg.org>, Chris Li
+ <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Michal Hocko	
+ <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel
+ Butt	 <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, Muchun Song
+	 <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, Barry
+ Song	 <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, Chengming
+ Zhou	 <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"
+ <ljs@kernel.org>,  "Liam R. Howlett"	 <liam@infradead.org>, "Vlastimil
+ Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ =?UTF-8?Q?Baghdasaryan=EF=BF=BC?= <surenb@google.com>, Qi Zheng	
+ <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu
+ Xie	 <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Gregory Price	
+ <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet	
+ <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Baolin Wang	
+ <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Michal
+ =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>, Meta
+ kernel team <kernel-team@meta.com>, Linux Memory Management List	
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
+ list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Joshua Hahn	 <joshua.hahnjy@gmail.com>
+Date: Sat, 24 Oct 2026 14:16:41 -0400
+In-Reply-To: <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+	 <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+	 <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+	 <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+	 <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+	 <aqgMCIOFi0dKx_6L@fedora>
+	 <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+	 <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+	 <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+	 <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+	 <20261014195354.GA371161@cmpxchg.org>
+	 <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+	 <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
+	 <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+	 <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+	 <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+	 <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -150,180 +132,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 24 Oct 2026 06:56:34 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
-> > On Wed, 23 Sep 2026 12:29:56 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >  =20
-> > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-K=C3=B6nig wrote=
-: =20
-> > > > > No, drivers should NOT have to do that in their .probe() function,
-> > > > > that's what we moved away from decades ago!  The match function s=
-hould
-> > > > > handle all of that for you, otherwise it's contant duplication
-> > > > > everywhere that is unneeded.   =20
-> > > >=20
-> > > > Well then you have to accept that root can provoke a null pointer
-> > > > exception (e.g. by forcing the pwm-tegra driver on a device) becaus=
-e at
-> > > > least with today's platform bus match function such a match is ok. =
-  =20
-> > >=20
-> > > Agreed, yes, root can cause a crash and can do tons of horrible things
-> > > much worse than this, that's not the issue.
-> > >=20
-> > > That's why this taint is there, to make it obvious that this is not a
-> > > "real" bug at all.
-> > >  =20
-> > > > > Please, learn from our history, don't make the same mistakes.
-> > > > >=20
-> > > > > Now I might be convinced that driver_override is the way to go he=
-re, but
-> > > > > it still feels really odd as again, bind/unbind was created as a =
-driver
-> > > > > debugging option only, it should NOT be a normal operation that a=
-ny user
-> > > > > should rely on.  The driver should "just work" properly instead, =
-without
-> > > > > requiring manual bind work, as that's not a good model at all.   =
-=20
-> > > >=20
-> > > > I agree in principle, but (in my case wifi) drivers are buggy somet=
-imes
-> > > > (due to missing documentation and/or engineering effort) and being =
-able
-> > > > to rebind the driver instead of rebooting to get a working device a=
-gain
-> > > > is very useful.   =20
-> > >=20
-> > > Fine, use it!  Just don't expect that to be "normal".
-> > >  =20
-> > > > So yes, theoretically bind/unbind isn't needed, but theory and prac=
-tise
-> > > > differ in practise.   =20
-> > >=20
-> > > Agreed, but again, don't rely on this as a "real" solution fo ranythi=
-ng. =20
+On Sat, 2026-10-24 at 23:50 +0800, Kairui Song wrote:
+> On Sat, Oct 24, 2026 at 4:03=E2=80=AFAM Rik van Riel <riel@surriel.com>
+> wrote:
 > >=20
-> > Sorry, late to the party, but this isn't a few user scripts that rely
-> > on this behavior.  Effectively every use case of vfio relies on this
-> > behavior.  We rely on unbinding the default driver from the device
-> > before using driver_override and drivers_probe.  That means every
-> > hypervisor with device assignment and every userspace driver use case
-> > now experiences a tainted kernel. That seems like a significant
-> > regression. =20
+> > On Fri, 2026-10-23 at 10:24 -0700, Nhat Pham wrote:
+> > >=20
+> > > * Swapoff: this was brought up as a request, but we ran out of
+> > > time
+> > > before we could discuss the motivations and use cases behind
+> > > them.
+> > > Folks interested, could you explain as a follow-up?
+> >=20
+> > This is one that I really don't understand.
+> >=20
+> > In my mind, we have vswap sitting as kind
+> > of a swap VFS between the rest of the system
+> > and the swap devices:
+> >=20
+> > +-------+=C2=A0=C2=A0=C2=A0=C2=A0 +------------+
+> > > vswap |-----| swap cache |
+> > +---+---+=C2=A0=C2=A0=C2=A0=C2=A0 +------------+
+> > =C2=A0=C2=A0=C2=A0 |
+> > =C2=A0=C2=A0=C2=A0 +----------+-----------+
+> > =C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > +---+---+=C2=A0 +---+---+=C2=A0=C2=A0 +---+---+
+> > > swap=C2=A0 |=C2=A0 | zswap |=C2=A0=C2=A0 | zram=C2=A0 |
+> > > file=C2=A0 |=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=
+=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > +-------+=C2=A0 +-------+=C2=A0=C2=A0 +-------+
+> >=20
+> > When a page is unmapped from userspace by the
+> > reclaim code, it goes into the swap cache.
+> >=20
+> > The vswap layer then decides where to store it
+> > at eviction time. This is configurable by userspace.
+> >=20
+> > If the zswap pool is shrunk, the vswap layer knows
+> > where to put the data next. There is no need to
+> > change page table entries to indicate that the
+> > data was moved from zswap to a swap file.
+> >=20
+> > If we decide to disable one of the backing swap
+> > devices, the vswap layer can just move the data
+> > into the swap cache, and the page reclaim code
+> > can evict it into a different backing store, if
+> > needed.
 >=20
-> Or finally, a real bugfix :)
+> And in this case we want to disable vswap itself.
+
+OK, so you are looking for a way to totally depopulate
+the swap cache, in addition to swap files, zswap, etc?
+
+I think we can accomplish that by simply keeping the
+current swapoff code around, which scans through the
+virtual memory of all processes and brings the memory
+out of swap.
+
 >=20
-> > There is currently no alternative for this process.  It's not a matter
-> > of upgrading to a newer kernel where the drivers claim the device IDs.
-> > We can't claim the device ID, vfio drivers represent a secondary use
-> > case for the device. =20
->=20
-> How can vfio know that it can properly talk to any device like this?
-> Surely you have a list of real device ids that you know will work,
-> otherwise all bets are off.
+> I also hope there is a way to release swap metadata completely too.
+> e.g. for fs, you at least have umount, and can rmmod the fs itself
+> afterwards. We also have many ways to bypass the page cache. In cases
+> where a virtual layer is just a burden, we want raw physical swap,
+> and
+> the ability to swap off that too.
 
-There's not a list of real device IDs.  PCI, in particular, is a
-self-describing bus.  Devices are discovered via bus walk, their
-resources are probed via standard mechanisms, they support interrupts
-and resets as described by capabilities defined in a specification.
-The vfio-pci driver just provides a generic way to represent a device
-as resources mapped to file offsets with ioctls to discover those
-offsets and interact with things like resets and interrupts.  For
-example, PCI config space and BAR regions are just defined indexes into
-the table of file offsets.  This works with any endpoint device, where
-even that distinction is based on the discoverable PCI header type
-rather than a table of device IDs.
+The VM cannot operate without the swap cache, though.
 
-Even if we could come up with a set of device IDs, it's a policy
-decision whether a given device is intended by the admin to be used by
-the default in-kernel driver or a userspace driver.  This policy
-changes over time, within the same host session.  That means that at
-one point we want the default driver bound and at another we want a
-vfio driver bound.  Coordinating this is exactly why we have
-driver_override and, building on that, match IDs that require
-driver_override.  This allows drivers to describe themselves as vfio-pci
-compatible drivers via modules.alias while requiring userspace to
-enable the match via driver_override.
+That is very much built into core parts of the VM.
 
-This is how vfio-pci variant drivers work.  These drivers contain
-device specific knowledge, for instance the ability to serialize and
-expose device state for migration, but they're still a secondary use
-case to the in-kernel drivers.  This is effort and coordination with
-subsystems and driver-core over many years and relied on by every
-hypervisor, now deemed unsupported through a kernel taint before we can
-even bind the driver.
-=20
-> > A production use case of panic_on_taint now results in a hard failure
-> > for a scenario that has been allowed and documented as best practice
-> > for many years. =20
->=20
-> It was never "best practice", you took a debugging option and somehow
-> thought it was a valid use case.  Yes, I'm being harsh but I am sure I
-> complained about this in the past and obviously never followed up on it,
-> so that's on me.
+However, having swapoff remove all data from the swap
+cache, after mapping the memory back into userspace
+page tables, seems like it would be fairly easy to do.
 
-I won't doubt that you know more about the history and intent of these
-interfaces than nearly anyone, but I don't find any documentation or
-comments that specifically declare these as debug interfaces.  In fact,
-Documentation/ABI/testing/sysfs-bus-pci has documented the bind and
-unbind ABI for over 20 years.
+Does that meet the needs of your use case?
 
-You've certainly expressed more than once that users get to keep all
-the broken pieces if they bind devices to drivers that don't support
-the hardware.  This is the first that it's been formalized in a
-taint without warning or an escape hatch for drivers like vfio-pci that
-do in fact intend to work with all hardware.  It affects the industries
-that depend on this usage model.  It's a regression.
-
-> > What's the solution we can pursue for the scenario where devices have
-> > dual use cases between in-kernel drivers and userspace drivers?  Thanks=
-, =20
->=20
-> So what is the real use case here, taking any type of any device and
-> thinking you can bind a random kernel driver to it and it will work ok?
-> You all have specific platform and pci vfio drivers, why not use the
-> proper device ids there instead, or better yet, bake-in this type of
-> functionality into the bus-specific logic so that you can have generic
-> userspace control of a device (like usbfs and uio does today)?
->=20
-> We have real problems with random "bind/unbind" attempts that this taint
-> is here to help resolve as it was creating hundreds of false-positive
-> bug reports on developers all across the tree now that the fuzzers
-> decided to think this was a valid action to take.  Without this taint,
-> people were being forced to add hacks to all drivers for this which is
-> not an acceptable solution.
-
-At its core, vfio is describing the fundamental aspects of a device,
-regions and interrupts, without purporting to know anything about the
-specific programming model of the hardware.  In the case of PCI, the
-vfio-pci driver effectively decomposes the PCI representation of the
-device into a set of ioctls and a file descriptor.  A userspace driver,
-for example QEMU, recomposes that representation back into a virtual
-PCI device to the VM with virtualization, emulation, and direct access
-wired through to the physical device.
-
-There are no devices deemed only for vfio use by default.  Often we're
-unbinding a device from the host, exporting it to a userspace driver
-through vfio, exposing it to a VM, only to bind the same driver to it
-in the guest that it was previously using in the host.  Binding to a
-vfio driver is always a secondary use case governed by the policy of
-the system.  We cannot create scenarios where there are competing
-drivers for a device.  The vfio driver is always brought into the
-picture via driver_override, and except in the rare case where no host
-driver exists, unbind must be used to release the device for
-drivers_probe.
-
-Is there some way instead that we can resolve the string written to
-driver_override and only taint for non-vfio drivers?  It's a much more
-confined problem if vfio drivers filter hardware outside their scope of
-support in their .probe function, and I think we largely do that
-already.  Thanks,
-
-Alex
+--=20
+All Rights Reversed.
