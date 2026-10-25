@@ -1,87 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793007448;
-	b=tlElGCTXE5tT6b7G6+vTEIvWjBSoOlr7zBrKXId4JuQRk2nIxlS7Wrp/ijqBlk22Gq3R
-	 Bld9jed8w6MPWSGoWQJo+hK4VFvklF4qcWXlbaLwSXhH+jwXG5mayx6pz4BPRPEvSTRlk
-	 Ka3naWPacQMk/Kpl6jzZYa4/rOfixDK++ga8q/s+4SQGt+UoWWs9Q/23C6ysGhYHQcUU5
-	 MYM6skRgu+9sQzaKT+jfWSQI5mopK4cj6mXzTKzWgHIn1BDGXr3ucFSMEjVXfnXHmC/Zc
-	 c/xv0npluYvwwXkIhnCigi5HWhOpzacaluPOSSRMmb5ioWVXJ3gzPXzhcxFrsmh/kwg==
+	t=1793007675;
+	b=GXE1SCOOtVkDRmLotGJj8sI9VR8AlRacXgzLul6x/LRzQ9cuEbKnuV1XFbbf3lgQOHu+
+	 ShccIMVgfMb1lMKsFjUGQcyAZzTVAyNSn+s/FL1+ng1Rhdo+3Bx8htdU/sNC3TkNWsntd
+	 t447mJygD1nOLrhbdC+yfAqivltGU+DJKJX6JReULx+rVE6R4YjQ6z6eGpsOwF8ZLUbTd
+	 Sah0qAm2cw3nOb5TiARR04mv4aqrdrUjg+/L+dugOJQX2rVrfmfsPw5dawk4tviPA7jGc
+	 6Lcwe/Vy2IICoQ3pufLO9zCWhFGyKMAcnZpCyntNAvGFvDpa3huFZSOI9gE+UgSH9UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793007448;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
-	b=R5gCNlkW1xmbn0epBrUBy4iGPIcVHDICZaFFUb0dzedtm7T45p347V+QNcKRCeod25JP
-	 ilNJoIDkpKScJVGJsdrB8sytkK8GMJvpgNLI4n0NF8DJvPqZ77r/8cT+3WqduPuE+ULh5
-	 PFqnrve63OxVlS5PfccHtHoJoP5pzMR5zZYyoYIEpquyERXuaC9tn5lzxV9KdzL6MH/qZ
-	 ai+AxIyfhTsKf2EWiNQTAdVvBcvN07wZArHz7B4smk2wOGwkR8+xNqFXCdoZKITlz0FCK
-	 ivXEIOx1tSqEGSs6+AQdEk9ebyRVfRf+I9yDrtyJhof9tjOLorsuZIoYYv9eH091g7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793007675;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=fmErr11J4yiDe+oqOLxrAHXMe+lgqHj/gW1PNNiv0PY=;
+	b=R+RiHAC8GtzZb4e8+UvCbZ7Pa4QpNPXM/tT9OsvYXUbloTqigPDBGEb6e640/O8EwVHL
+	 WxAHy5x1v67Mqj4eO822ValNvhCB61K3JswqUyqL5Tm0Is3hOuH5mSrONNJ2uvQO3DiLE
+	 lejRDQ8Riav8CnImEjtQsWqeDxCC19ulX9EMwDZXUBTXAuk//dE5uZf5MrFB94q5GYTtZ
+	 b0tsp9LYMTetxgGUinbzEeSalalaHAd6KAQH1lMnqDliF5hyS/ygszNh+rQFSSl+/YjyQ
+	 aH/gevGmDEEVKmWtWJoa+3AxOQk3apsF3NApCunseh4c4OCA6yukg3CEv5R8U/NnU0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tLf+eDyC;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hoY+nVJd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56AE606A31D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:37:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D56AE606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43B9606A330;
+	Mon, 26 Oct 2026 09:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tLf+eDyC
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso25036145e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793007446; x=1793612246; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
-        b=tLf+eDyCrqkusRn4LesJuB4DaDDh5/20b7Ue98qaLBaWiRTiOG0IbPjyJjMjTYiwLg
-         dG08uCjck78bfH41rpV2uiyRlUzy2d5tv+1dehSR/g/AXAbVjTMOGtKej5MUjryp6PHO
-         u8598BsZxuD0XuUcH+Gzv3Mc65o3jEZlmaDNhJbnM2vzwtb7cu3mPasSSql4UpYGJB9P
-         hBR69WATa8I9YFSDMTLYtWkj06NsFAMep3lUE30OCPqLyZUc7r/JeCRXZZK7nRa5ypTK
-         CcrNvxxovTAwTyHJqHq0DjWfwPKi+GhZBbnfsagbyd5p69+wW5WCVI5MHae6IxwsgaHj
-         En+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793007446; x=1793612246;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
-        b=yPCNQcwpGJ6sF7ok2fkB1oGAx4+rTe+a+aTKx6p7Rmo4a3ZZJBFomR/a/TUhhxwIln
-         e2eeSqg375rwE6VZMEZm4p90yOWeuxYSMhFSudE/6Z6twnLJsCyvFU+/0mZ9GHhTLJW+
-         onKGrBIi1Ty9kbJ3o1QhjUIgVqM/48nRwnPLKFyU458hMsDjs9QEw9RW6SonA4564+dV
-         1nRZbAhdPXHaXLrBS6O631Jebco08fR1y+xKbQC4kV3hDFcPMXzFlctA397xVoaTIbBI
-         K7YZfMDVmAmt6tkXcFH/CGnMyvFtvq3lxJozbNINQo59UNysof3WycVpoKaFOHUyTm6a
-         KZPw==
-X-Forwarded-Encrypted: i=1; AKwUvBzGWVnupCTRUpfKc+z4BRMXPkWxB3uNS2iiEdtvCrdP2k7hItMbIvZ4ipp1ztvdbuvmaFzA8SqaK34=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLymuhYUcZgVp9e9sG1JkjHEmiMTb2NyhEN4FKJVqsYcG9cAViT
-	6V1y512/8KDluPATmMeWzAMAZogwpbk1qfrLaJsaTKvQidOFOTYXMnHkNupXNwlZRw4=
-X-Gm-Gg: AYBFou3U9hRDGwJNf1S8W4IynpK4YYSIHaCQHxwgWfFMi9t/Lb0r59mlkbGoM4xHufo
-	3hDO/Ea7r8DpXT1fsaTrxfWPAB/wuwHAdsxqZGJcXx+uxMLQfF/ezfjmsaXSSnjHKD0ZFfPUYXz
-	513n9e8H5AKqVkaHEH4CBDlpkNeQOnKZ4jDv7fcNqzEXxSa4p1cGZ5VqkA77/VscHBL6oY4+ZMS
-	lCBhvrX3DDccM0zI7Xw3vb0dkjGT/utrYrNP4H2MSdQQgEEZ8n5eFglRSc5lQZ3V2/sISUA+n72
-	O6mji7IvJpdNyRO6yww47Pfxgw4ags1Ji+eCRZPwylWWj/GZiq/XTuQrqsXp4fR0kNe6tX2uVkB
-	pavGHEG5uQGTR4nNxRAenTrJpK/nEfSxiEzKX3R8a3vXn1NnBrgTFojMEnQ9a/3pPRn4rYMbS4z
-	klPyxnep7Sb75EYAG8ZCqAudUQK31nhOpyWc+qixZ79R3YTT71l6I7DCQcDy7o0gnQaG+F0tKqF
-	HpaOBoZZ1h3OyckQufEuh4i2R+XXsgLSw8IVEGoFouEp11Z9t/n4rUQYIwq
-X-Received: by 2002:a05:600c:4704:b0:4a2:1612:637a with SMTP id 5b1f17b1804b1-4a35acbd575mr121663115e9.16.1793007446278;
-        Mon, 26 Oct 2026 02:37:26 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm15638434f8f.21.2026.10.26.02.37.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 02:37:25 -0700 (PDT)
-Message-ID: <84e1c5ed-cb93-45b6-8cf1-6c6778efe412@linaro.org>
-Date: Mon, 26 Oct 2026 09:37:24 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hoY+nVJd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D56F11F031E2;
+	Mon, 26 Oct 2026 09:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793007674;
+	bh=fmErr11J4yiDe+oqOLxrAHXMe+lgqHj/gW1PNNiv0PY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hoY+nVJdTpF+bOnGRqA60bqEon5wES0uTDgRThXCOwAPT/eYwNotrJ8PurgaBDBH8
+	 6RTUTlsQSoBeGbuLzwDPLxO6Tg9aX0DzEGmjJzZhajmJdWtdQFKWaGv+iqM+2uBKpu
+	 026t64oG7a4GhVyDaiFRtUzs+QhNWsy1qp4OK/oABUnwArhQHMz6REf23JPiDPpyUt
+	 H3PBDpVbqxeuL8lP8i6Dj/GHiIrypsBVaNKkQxsf+1b7KTZ/1TIdboA/vnbPXaRbcE
+	 n8p/qSrc52pFTkI67KgPo+ShAyE6zmyE2/FC0JJN0+EVo+8neJxNDYKWgRVYf+Oiv/
+	 WBm0YdS18Y/Ng==
+Message-ID: <a6cbfb24-efea-41ef-8f1b-dd2bd160cff4@kernel.org>
+Date: Sun, 25 Oct 2026 13:43:55 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,152 +52,182 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/7] coresight: etm4x: Fix event count decoding
-To: Amir Ayupov <aaupov@fb.com>, Leo Yan <leo.yan@arm.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>
-References: <cover.1792907332.git.aaupov@fb.com>
- <cover.1792989860.git.aaupov@fb.com>
- <4d45171946cf41751215e8c1cd9a8b14d38d3159.1792989860.git.aaupov@fb.com>
+Subject: Re: [PATCH] mm: ppm: add PPM (Page-Plugger Under Memory) to Page
+ Fault and Overcommit elimination
+To: dev12124 <joaoanandalima@gmail.com>, linux-mm@kvack.org
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, ardb@kernel.org, keescook@chromium.org
+References: <20261024104552.394-1-joaoanandalima@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <4d45171946cf41751215e8c1cd9a8b14d38d3159.1792989860.git.aaupov@fb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261024104552.394-1-joaoanandalima@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 10/24/26 12:45, dev12124 wrote:
+> Hi mm subsystem,
 
+Hi,
 
-On 26/10/2026 05:48, Amir Ayupov wrote:
-> From: Leo Yan <leo.yan@arm.com>
 > 
-> TRCIDR0.NUMEVENT normally encodes the number of events minus one.
->  From ETMv4.3 onwards, including ETE, a zero TRCIDR4.NUMRSPAIR instead
-> means that no events are implemented and NUMEVENT is zero. The sysfs
-> event controls currently interpret this combination as one event and
-> allow writes to unsupported event fields.
+> This patch implements the Memory Tatic called PPM, Page-Plugger Under Memory.
+> The Main Objective is: Page Faults and Overcommit Elimination.
 > 
-> Decode NUMEVENT after NUMRSPAIR and store the actual number of events
-> in nr_event. Use the decoded resource count so that older ETM versions,
-> where a zero NUMRSPAIR represents one resource pair, still report at
-> least one event. Update both sysfs event controls to use the actual
-> count and clear their event fields when no events are implemented.
+> A few points under additionate:
 > 
-> Also correct the instruction event enable mask for the single-event
-> case to use INSTEN[0]. The existing mask uses INSTEN[1], preventing
-> event 0 from being enabled.
+> 1. Allocation Handshake (ppm_kalloc):
+> Using the GFP_PLUG_MEMORY mask, the allocator completely bypasses
+> passive overcommit verification. It instantly isolates physical frames
+> on the RAM, maps the page table entries síncronamente, and forces the
+> Present Bit and Writable Bit to 1 before returning the address block
+> register to the CPU.
 > 
-> This change depends on the recent driver refactoring. With no reported
-> failures, it is not intended for stable backporting.
+> 2. Desallocation Cleanup (ppm_kfree):
+> Triggered via the GFP_FREE_T parameter, the release phase executes an
+> immediate length truncation to 0. It forces a synchronous TLB
+> invalidation (via invlpg execution) and flushes the data out of the L3
+> cache lines using clflushopt instructions before moving the hot clean
+> pages into a dedicated priority recycling pool.
 > 
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> I additionate a Buffer/Cache with store important objects.
+
+Reading this description I have no idea what this patch does, what it tries to
+solve, and why anybody should spend their time to look into it.
+
 > ---
->   .../coresight/coresight-etm4x-core.c          | 13 +++++++--
->   .../coresight/coresight-etm4x-sysfs.c         | 29 ++++++++++---------
->   2 files changed, 27 insertions(+), 15 deletions(-)
+>  include/linux/ppm/gfp_types.h |  74 ++++++++++++++++
+>  include/linux/slab.h          |  11 +++
+>  mm/memory.c                   | 158 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 243 insertions(+)
+>  create mode 100644 include/linux/ppm/gfp_types.h
 > 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index e21be6468e954..af017bd8a5477 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -1451,8 +1451,6 @@ static void etm4_init_arch_data(void *info)
->   	caps->trccci = !!(etmidr0 & TRCIDR0_TRCCCI);
->   	/* RETSTACK, bit[9] Return stack bit */
->   	caps->retstack = !!(etmidr0 & TRCIDR0_RETSTACK);
-> -	/* NUMEVENT, bits[11:10] Number of events field */
-> -	caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0);
->   	/* QSUPP, bits[16:15] Q element support field */
->   	caps->q_support = FIELD_GET(TRCIDR0_QSUPP_MASK, etmidr0);
->   	if (caps->q_support)
-> @@ -1519,6 +1517,17 @@ static void etm4_init_arch_data(void *info)
->   	caps->nr_resource = FIELD_GET(TRCIDR4_NUMRSPAIR_MASK, etmidr4);
->   	if ((drvdata->arch < ETM_ARCH_V4_3) || (caps->nr_resource > 0))
->   		caps->nr_resource += 1;
+> diff --git a/include/linux/ppm/gfp_types.h b/include/linux/ppm/gfp_types.h
+> new file mode 100644
+> index 000000000..741122b2d
+> --- /dev/null
+> +++ b/include/linux/ppm/gfp_types.h
+> @@ -0,0 +1,74 @@
+> +/* 
+> +  Memory Tatic: PPM (Page-Plugger Under Memory).
+> +  This File is for PPM Flags/Macros/Functions/Types.
+> +  Engineer (brazilian): João Guilherme da Silva Freitas Lima <joanandalima@gmail.com>
+> + */
 > +
-> +	/*
-> +	 * NUMEVENT encodes the number of events minus one. From ETMv4.3,
-> +	 * including ETE, NUMRSPAIR == 0 means no events are implemented.
-> +	 * nr_resource already accounts for the pre-ETMv4.3 encoding.
-> +	 */
-> +	if (caps->nr_resource)
-> +		caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0) + 1;
-> +	else
-> +		caps->nr_event = 0;
+> +/* Types Include Guards */
+> +#ifndef __PPM_TYPES_MEMORY 
+> +#define __PPM_TYPES_MEMORY 
 > +
->   	/*
->   	 * NUMSSCC, bits[23:20] the number of single-shot
->   	 * comparator control for tracing. Read any status regs as these
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index db9e603f97ba8..fb38f0102290a 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -513,19 +513,22 @@ static ssize_t event_store(struct device *dev,
->   
->   	raw_spin_lock(&drvdata->spinlock);
->   	switch (caps->nr_event) {
-> -	case 0x0:
-> +	case 0:
-> +		sysfs_config->eventctrl0 = 0;
-> +		break;
-> +	case 1:
->   		/* EVENT0, bits[7:0] */
->   		sysfs_config->eventctrl0 = val & 0xFF;
->   		break;
-> -	case 0x1:
-> -		 /* EVENT1, bits[15:8] */
-> +	case 2:
-> +		/* EVENT1, bits[15:8] */
->   		sysfs_config->eventctrl0 = val & 0xFFFF;
->   		break;
-> -	case 0x2:
-> +	case 3:
->   		/* EVENT2, bits[23:16] */
->   		sysfs_config->eventctrl0 = val & 0xFFFFFF;
->   		break;
-> -	case 0x3:
-> +	case 4:
->   		/* EVENT3, bits[31:24] */
->   		sysfs_config->eventctrl0 = val;
->   		break;
-> @@ -565,22 +568,22 @@ static ssize_t event_instren_store(struct device *dev,
->   	/* start by clearing all instruction event enable bits */
->   	sysfs_config->eventctrl1 &= ~TRCEVENTCTL1R_INSTEN_MASK;
->   	switch (caps->nr_event) {
-> -	case 0x0:
-> -		/* generate Event element for event 1 */
-> -		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_1;
-> +	case 1:
-> +		/* generate Event element for event 0 */
-> +		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_0;
->   		break;
-> -	case 0x1:
-> -		/* generate Event element for event 1 and 2 */
-> +	case 2:
-> +		/* generate Event element for events 0 and 1 */
->   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
->   						   TRCEVENTCTL1R_INSTEN_1);
->   		break;
-> -	case 0x2:
-> -		/* generate Event element for event 1, 2 and 3 */
-> +	case 3:
-> +		/* generate Event element for events 0, 1 and 2 */
->   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
->   					     TRCEVENTCTL1R_INSTEN_1 |
->   					     TRCEVENTCTL1R_INSTEN_2);
->   		break;
-> -	case 0x3:
-> +	case 4:
->   		/* generate Event element for all 4 events */
->   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
->   					     TRCEVENTCTL1R_INSTEN_1 |
+> +typedef unsigned char uint8_t;
+> +typedef unsigned short uint16_t;
+> +typedef unsigned int uint32_t;
+> +typedef unsigned long long uint64_t;
+> +typedef uint64_t gfp_t;
+> +/* For errors in Allocation */
+> +#define __PPM_ALLOC_ERROR -102
+> +/* For errors in Desallocation */
+> +#define __PPM_FREE_ERROR 0x04 
+> +/* For success */
+> +#define __PPM_SUCCESS 0
+> +#endif
+> +
+> +/* Functions Include Guards */
+> +#ifndef __PPM_FUNCTIONS_MEMORY
+> +#define __PPM_FUNCTIONS_MEMORY 
+> +
+> +/* Initializer */
+> +void __init_ppm_memory();
+> +
+> +/* Allocator Optimized */
+> +int ppm_kalloc(unsigned long address, uint64_t size, gfp_t flags);
+> +
+> +/* Desallocator Optimized */
+> +int ppm_kfree(uint64_t size);
+> +
+> +#endif
+> +
+> +/* Flags Include Guards */
+> +#ifndef __PPM_FLAGS_MEMORY 
+> +#define __PPM_FLAGS_MEMORY
+> +
+> +/* PPM inits/starts in Bit 54 of a 
+> +   64-bit variable 
+> + */
+> +gfp_t GFP_PLUG_MEMORY = (1ULL << 54); 
+> +
+> +/* For free memory, the Bit 55 is 
+> +   used 
+> + */
+> +gfp_t GFP_FREE_T = (1ULL << 55);
+> +
+> +#endif 
+> +
+> +/* Macros Include Guards */
+> +#ifndef __PPM_MACROS_MEMORY
+> +#define __PPM_MACROS_MEMORY
+> +
+> +/* For Kernel Kernel tests 2 Bits (54 and 55) in 
+> +  1 Clock Cycle (or in small clocks, example: 5 Clocks), 
+> +  is used a mask using | 
+> + */
+> +gfp_t GFP_MASK = GFP_PLUG_MEMORY | GFP_FREE_T;
+> +
+> +#endif
+> +
+> +/* 
+> +  Notes:
+> +    E-Mail of RFC:
+> +        [RFC] mm: page-fault: overcommit: PPM (Page-Plugger Under Memory)
+> +    
+> +    
+> +    Assigned-Off-by: João <joanandalima@gmail.com>
 
-Reviewed-by: James Clark <james.clark@linaro.org>
+I don't know if I am supposed to laugh or cry ;)
 
+-- 
+Cheers,
+
+David
