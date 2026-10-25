@@ -1,73 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792944721;
-	b=zcp127ngGOSgq4NClrMA+3Ziq5+UBxzqYKW4zDXS/+1xlAmqEr80MyJEjrQEka599/6b
-	 RJQgP7/mnr8GyN6P41MIWFzWe+K17/+nwJABTzRn1v7jh25vf9EuUxAI6qtl8y1/BWM59
-	 ZsqSNXEMzvQpvhWJFYTilTp1Kwn44OWHlr8Jpc7qBDZiqtG3/4spw7XyxEc27QguOB0i2
-	 uWgkxACwQeOOZI9060eUT/ZCyAxo5YP7sjuJeZcrt8ZsNSk5ImMPuQLgAjszxMsYddQVT
-	 UMYhdS08Kxd6sHlO9BYJuXoKQcY+IH6o2kcPTY5/in8CGCiTljPccJp+mLKDe1J2lyg==
+	t=1792946843;
+	b=M8/KRQnoQaMmT6DGVF/BH1F2SV8XzPR6s+72iWTOBsslPXcAEdFXIqlhKkbjTSVDUFhZ
+	 uWr0J5FoEyywBcSUXqPAX6uWsj8klH54bJY3Luzz9KC1ao7/IOQB0KY5yxhUCg+btCIBo
+	 jPGpoZdqX+HYDxPSlfjefmyAUjzKQTp5xOYyfMyD2EKwN3L2t2BGUfBEBrPqkcN5dxasn
+	 qedz1tNPqd9Q9/IXpBCBreyEjmy7EFZoBhQ2fPVEXVvBE8YMaz88gkGB9aQ1gNhSvysEU
+	 IXnwcDBnbbbQIUk7Pk5qZqdeqBEpELgFpBqfgS3hL/GhM9QGUmVHmSAapiJXtauadlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792944721;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3qHYIACovtvOeJ4K2p7CfI3lM4K/KvTD7BAaFAqsnwI=;
-	b=HRmp7gf+OnZOQGlFoF/gB60E4EZ8BryhtEvLfjhj9hV7PfdOLF4jJBpCzwQIs35bHWx0
-	 GgSB4jvarwu4y+D6hZKKnoywQH6ORDhBYYEz7PoWgwDeG75HzFsTGyl2fYdmsDO80m534
-	 hLmH4Gjcxjaf2rG+h9bbOSS11RGdPtwJN0SpfRiUflaVJA/ZX5PPKKacFlyRZ0wlxPWWi
-	 XIfNjOJlGiuEu7sIXEYMiBtFOhLKiNVhjFWRKI59y98EJUDwaZLf0UvaTtv0mduh2ERzV
-	 Tkj3f3Kp/UbMmRvIqNpDgSHfnhJnw5mhH3gIpTg736CbG4zTnLmLwOKYCZ5BvfMEKRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792946843;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=VKSqiYoNV2dByJKpxVMj7QeloSi8EsWCiTvTbPWvl+0=;
+	b=0H91vtbDxBzB8szVQ5y8NAFN0FWoVS/5JnWwZm3lG6CIBtp+WcXQjwRplTn2Nh8gcKbF
+	 q+u9rZpLzGeiqugJ8jb4VnBT71ElUj7RtfbCS+XENitX0U69LQEkQc9sPL466jadmes/N
+	 SeiocFz5S60hTiHCejEbv3j/x5RYxtZ51atU7NjdZps37shaKDGToYWEQ8gOr0gCln/Ee
+	 2o7UUeQYmFoB3QiAhg0iVzXvfSj4Cpa/U/f++xosovB7x47PXyEnQX8hcZv1rgwSDoFQu
+	 QUbeWHPflfgSrCYJnImJtZ/63QmKmjiJI3bKPEOYu2Ic1syrvkwjNeX2bJ8QOBz135A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=HsHBleXZ;
-	arc=none smtp.remote-ip=91.218.175.199
-Received: from mta0.migadu.com (out-199.mta0.migadu.com [91.218.175.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f5b5Tin9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A410606A31A
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 16:12:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A410606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FFF606A31A;
+	Sun, 25 Oct 2026 16:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=HsHBleXZ
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=xWgLrq+Joj1M41FB4ngSQdiTkdUU+/22Ih161kTj9c8=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792944718; v=1; x=1793549518;
- b=HsHBleXZzLsyus6Bs33DyGWLABBfgnTTcXZQ3dd/rk2qybNYGdFooRyIhcOt023kcEgSjZZB
- yhxUp/+9ivjDTh/ZzzC0shpEoV1e7ZLjfHhARO9Ij3FznWsnSOvNKMZmwywg8D+B++/b84uQ/b+
- CeNK8HDR+UjtX8DLIxAvOMZi+XSjUeRinV8WZFU8nf6kkAjwOmenGukZ1968u8/UBC2TIkVcJZM
- h3umerajuulsw1W64+0/TJyVqm/gfrpE3mNHtxV4h1czYHOM7BnnieCQV/OzFrNcJbxtPW81AVK
- v+7keiK7sSPNJXeIMH5wTVeqAYwn2EUO9c/2uukhPJBiA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ca94744a38bb403f;
-	Sun, 25 Oct 2026 16:11:58 +0000
-X-Mizu-Trace-ID: ca94744a38bb403f
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 26 Oct 2026 00:11:51 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: dzm91@hust.edu.cn, jani.nikula@linux.intel.com, alexs@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	si.yanteng@linux.dev, chenyou910331@gmail.com,
-	federico.vaga@vaga.pv.it, akiyks@gmail.com,
-	carlos.bilbao@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] docs: doc-guide: add a guide for translators
-Message-ID: <at4qR9ZsRJX9l07w@wyuan.org>
-References: <20261015125644.12908-1-danielmaraboo@gmail.com>
- <20261015125644.12908-2-danielmaraboo@gmail.com>
- <atQ_mXYNqs4tnDpW@wyuan.org>
- <79dd90f0.11f3f.1a15272eff3.Coremail.dzm91@hust.edu.cn>
- <CAMAsx6eb3X7GLheOaVoumORnvKftFYkU0VHynZYyx9m74+CTTw@mail.gmail.com>
- <40aeaf0a-6e04-461c-a507-52f791b45541@hust.edu.cn>
- <CAMAsx6fk=k1aXT3gvyZ4k8hG9KN+YCmvEc42LGdmm3Y+p2J1_g@mail.gmail.com>
- <8ff98b43-248e-4568-a5fc-6f84f9cdbe33@hust.edu.cn>
- <CAMAsx6fha-ZKkiph+nG14hbNduGs=G3qRjHNUNxLSktTTQY+gA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f5b5Tin9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4E51F01825;
+	Sun, 25 Oct 2026 16:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792946842;
+	bh=VKSqiYoNV2dByJKpxVMj7QeloSi8EsWCiTvTbPWvl+0=;
+	h=From:To:Cc:Subject:Date;
+	b=f5b5Tin9u2Wpyny2CDyLlZaIlurlFe2XXMxLakNe+IPOrn4Y+19ADTdhEUpoU+LrM
+	 bIfLv+Yob6sndJJJx+MRVaZS1hhH4m3bed/pU161JpQVPldd38sAOPxnNu4MrS1JES
+	 xWRxAqIlNavZlXlmUBaPVq7FDd+A+q/nAW1js5khsevfP0zmUUX1YbP93Z+6PJfhOe
+	 nsIFcrjNt9TkGcd+bwQ54H61xakInzU2jsst8wYritKNi0RE8kmz7xYvYYOIC52zlg
+	 4HS3FX914Z+C5z89uDVOih834gZUeEtX/1I2J7nuPxxk1md7gW9gBlVmZRpd2i/IfL
+	 8cLSosHxbjNVw==
+From: Sasha Levin <sashal@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [GIT PULL] Kernel API specification framework for v7.4
+Date: Sun, 25 Oct 2026 12:47:19 -0400
+Message-ID: <20261025164719.1831477-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,74 +70,168 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMAsx6fha-ZKkiph+nG14hbNduGs=G3qRjHNUNxLSktTTQY+gA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
+Hi Linus,
 
-> (Resending to the list: my previous reply went only to Dongliang.)
-> 
-> On Sun, Oct 25, 2026 at 11:22 +0800, Dongliang Mu wrote:
-> > Good job. I will quickly verify them and send a patch to move them.
-> 
-> Thanks. To avoid overlap, could you confirm which languages your patch
-> covers? I understand zh_CN, and that zh_TW is already handled by
-> Chen-Yu's series. That leaves:
-> 
-> - sp_SP: process/magic-number.rst and wrappers/memory-barriers.rst;
-> - the .txt files in ja_JP and ko_KR (stable_api_nonsense.txt and
-> stable_kernel_rules.txt), which I think are for their maintainers
-> to convert or drop.
-> 
-> > It seems the original English documentation moves fast. I would
-> > write a script or skill to check this relationship maybe daily or
-> > weekly.
-> 
-> A periodic check like that would be useful, especially once the guide
-> states the path mirroring as a rule.
-> 
-> For v3 of the guide, this is what I plan, based on the discussion so
-> far:
-> 
-> - state the path mirroring as a rule for translations of English
-> documents, and exempt documents that exist only in a translation,
-> such as a glossary or a language-specific how-to (Chen-Yu);
-> - describe ":Original:" as optional, and not needed when the path
-> mirrors the original, instead of showing it in the header example
-> (Jani, Weijie, Dongliang);
-> - drop the generic parts of the sections on writing documentation
-> and sending patches, and link to doc-guide/sphinx.rst and
-> process/submitting-patches.rst instead, keeping only the points
-> specific to translations (Federico).
+Please consider pulling the kernel API specification framework. It has
+been discussed on the lists for over a year: five RFC rounds starting in
+June 2025, then v1 through v5 this year, the last on October 8:
 
-Thanks for your effort above, looks good to me in general.
+  https://lore.kernel.org/all/20261008084956.2911790-1-sashal@kernel.org/
 
-> Federico, I did not see an answer to my last message about this last
-> point. Is keeping those short translation-specific notes fine with you?
+The branch has been in linux-next since next-20261009. I held off on
+sending this until the first week of the merge window was over, to let
+things calm down.
 
-Yup, I agree with Federico that for general guidelines, new contributors
-should refer to the more authoritative ones. (unless there are some
-translation-specific parts needs to be stressed) This way, if these
-authoritatice ones change, we don't need to bother to sync them.
+There are two conflicts with what you already merged. linux-next resolved
+both the same way:
 
-However, contrary to this, I would like to know if it is necessary for
-us to promote b4 a little bit more here. (b4 is already mentioned in
-SubmittingPatches.)
+ - Makefile: kbuild added '*.header-check' to the clean rule at the same
+   spot where this adds '*.apispec.h'. Keep both lines.
 
-I'm not sure how many times such situations have occurred: new
-contributors send patches with duplicate title lines and messy threads,
-making it difficult to search through them on lore archive; there was a
-thread breakage due to a problem with their email server..
+ - fs/open.c: vfs added filp_close_sync() just above sys_close(), which is
+   where this adds the sys_close() kerneldoc. Keep filp_close_sync(), then
+   the new kerneldoc, then the existing "Careful here!" comment and
+   SYSCALL_DEFINE1(close).
 
-These are the problems that the new faces on the list are likely to
-encounter, but B4 (b4 prep) can simplify this process for new
-contributors. [example trimmed for brevity]
+The following changes since commit a90ee4305c4a5df72c11b31dacfdc76e00fcf78a:
 
-And yes, once these procedures are familiarized with, everyone can work
-according to their own preferences. However, just like how Konstantin
-said: "if you're just starting out, and you don't already have a
-workflow, hopefully this(b4) gives a good workflow for you to try and
-follow."
+  Linux 7.3-rc6 (2026-10-04 13:45:25 -0700)
 
-Comments are appreciated. Thanks!
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sashal/kapi.git tags/kapi-7.4
+
+for you to fetch changes up to ef777ef05ebcc5ea5393b4bd5af6fc3ad1b3aec9:
+
+  kernel/api: add syscall enter/exit tracepoints (2026-10-07 18:26:44 -0400)
+
+----------------------------------------------------------------
+Kernel API specification framework for v7.4
+
+The contract of a kernel interface (which arguments are valid, which errors
+come back and why, what context it can be called from, what it locks and
+what it changes) only exists as prose in man pages and comments, which
+tools cannot check. This adds a way to write that contract down in a form
+that tools can consume, next to the code it describes.
+
+A spec is structured kerneldoc covering parameter types and constraints,
+return values and error codes, execution context, locking, signals,
+capabilities and side effects. At build time kernel-doc turns it into C
+data in a dedicated section of vmlinux. From there a spec can be:
+
+ - checked against syscall arguments and return values at runtime by
+   CONFIG_KAPI_RUNTIME_CHECKS, a DEBUG_KERNEL option for x86 and arches
+   without syscall wrappers; a call that violates its spec fails with
+   -EINVAL before the handler runs
+ - read as JSON from debugfs
+ - extracted from vmlinux, debugfs or the source with tools/kapi, which
+   emits JSON, RST or plain text
+ - followed with the kapi_syscall_enter/exit tracepoints
+
+The first specs cover open, close, read, write and madvise, with a KUnit
+suite and a selftest in tools/testing/selftests/kapi.
+
+Everything is behind CONFIG_KAPI_SPEC, which defaults to off. With it off
+the syscall definition macros expand as before, kernel-doc output is
+unchanged, and the only change to fs/ and mm/ is the kerneldoc text.
+
+----------------------------------------------------------------
+Sasha Levin (11):
+      kernel/api: introduce kernel API specification framework
+      kernel/api: enable kerneldoc-based API specifications
+      kernel/api: add debugfs interface for kernel API specifications
+      tools/kapi: add kernel API specification extraction tool
+      kernel/api: add API specification for sys_open
+      kernel/api: add API specification for sys_close
+      kernel/api: add API specification for sys_read
+      kernel/api: add API specification for sys_write
+      kernel/api: add runtime verification selftest
+      kernel/api: add API specification for sys_madvise
+      kernel/api: add syscall enter/exit tracepoints
+
+ .gitignore                                       |    1 +
+ Documentation/dev-tools/index.rst                |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst      |  648 +++++
+ MAINTAINERS                                      |   13 +
+ Makefile                                         |    1 +
+ arch/x86/include/asm/syscall_wrapper.h           |    3 +-
+ fs/open.c                                        |  557 ++++
+ fs/read_write.c                                  |  710 +++++
+ include/asm-generic/vmlinux.lds.h                |   14 +
+ include/linux/kapi_syscall.h                     |   35 +
+ include/linux/kernel_api_spec.h                  | 1226 ++++++++
+ include/linux/syscalls.h                         |   42 +-
+ include/trace/events/kapi.h                      |   74 +
+ init/Kconfig                                     |    2 +
+ kernel/Makefile                                  |    1 +
+ kernel/api/Kconfig                               |   74 +
+ kernel/api/Makefile                              |   13 +
+ kernel/api/internal.h                            |   25 +
+ kernel/api/kapi_debugfs.c                        |  553 ++++
+ kernel/api/kapi_kunit.c                          |  720 +++++
+ kernel/api/kernel_api_spec.c                     | 1470 ++++++++++
+ mm/madvise.c                                     |  549 ++++
+ scripts/Makefile.build                           |   26 +
+ tools/docs/kernel-doc                            |   12 +-
+ tools/kapi/.gitignore                            |    3 +
+ tools/kapi/Cargo.lock                            |  679 +++++
+ tools/kapi/Cargo.toml                            |   20 +
+ tools/kapi/Makefile                              |   33 +
+ tools/kapi/README.md                             |   33 +
+ tools/kapi/src/extractor/debugfs.rs              | 1704 +++++++++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs     | 3335 ++++++++++++++++++++++
+ tools/kapi/src/extractor/mod.rs                  |  442 +++
+ tools/kapi/src/extractor/source_parser.rs        |  531 ++++
+ tools/kapi/src/extractor/vmlinux/binary_utils.rs |  461 +++
+ tools/kapi/src/extractor/vmlinux/mod.rs          | 1160 ++++++++
+ tools/kapi/src/formatter/json.rs                 |  659 +++++
+ tools/kapi/src/formatter/mod.rs                  |  220 ++
+ tools/kapi/src/formatter/plain.rs                |  679 +++++
+ tools/kapi/src/formatter/rst.rs                  |  802 ++++++
+ tools/kapi/src/main.rs                           |  123 +
+ tools/lib/python/kdoc/kdoc_apispec.py            | 1391 +++++++++
+ tools/lib/python/kdoc/kdoc_files.py              |   12 +-
+ tools/lib/python/kdoc/kdoc_parser.py             |  101 +-
+ tools/testing/selftests/Makefile                 |    1 +
+ tools/testing/selftests/kapi/.gitignore          |    2 +
+ tools/testing/selftests/kapi/Makefile            |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h    |   31 +
+ tools/testing/selftests/kapi/test_kapi.c         | 1163 ++++++++
+ 48 files changed, 20350 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kapi_syscall.h
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/trace/events/kapi.h
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/internal.h
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.lock
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/Makefile
+ create mode 100644 tools/kapi/README.md
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/.gitignore
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
+
+-- 
+Thanks,
+Sasha
