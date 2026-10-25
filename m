@@ -1,100 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792933849;
-	b=jIO1/tOzVMzKT495uBGKlwTk0CuRpCdZSBMsCGWenEV8H5dL5w9BOkHw/xUXx+SKS+Nf
-	 9EnAIGpTLP98iJhmN15OfnmvGm1EUstSyI8+hRm6mnoM3N+gRMM8lQ2UDYvZCGeQaA2qQ
-	 KnmUFXtICtrdqbMmSpRCePSaSNAoMbv0xIGKGEtYqDYq5sytD7CbStNq5YKZvR146QE5a
-	 /Iq/uPciglNNxLbx+ROGPK3AtLlZpNxHGY/UotJi6iNd9EiEfMO+2RbniixUciqX4GiRj
-	 FCYcnFdxxRDkCWuNVqueuc2sYWlzjuJRnfmwueuEvKrxLBrvYtyRb0s+mxegMJaVLeg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792933849;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=vWsvI+WhZ/eBQ+bJmj0eGRitrJCJTUhFaPA/quTsmaQ=;
-	b=KbdcxmkXldDMUh7z6AZYSaUl6BICbk6qoXaTvfe83pOpPSnqZsooWUVsweqoUSLCel9T
-	 ShCLZfQgEF1KC5ymOMxGdUIB8TJek9n8lRGQjrTmlmgYLlAud48qVfFTE341UqgK2REqj
-	 R2YKDJPpYoj/ltmpi8Ys3NvOd5E6vlE3SfYUaWLTp4iqjlMQDMs3IFDktCDvLcd0RLQlk
-	 ZJW/XWLZ6vIy9UyQrMjtCJc3k71LfS4i41oImD/iF+6s8rSBClPWNrpCLW5cJWuAzQ5uJ
-	 PAOH4tw9yWzdKD0xNuzixP4/icSRNE8aY4niVYklJHy7YHRHNxViadxJSGr+2BGA7Bg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aS0mT9lT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.179
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.167
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792934190;
+	b=r7JBkxkE25ec/lOdfX9u6f2C80GTJwyxUnbrqG8yN+skZf11QU5Y3UVEHb4z/wkmZvYG
+	 4xvz0XUP8oXfdlJHYskldGMPK5k2uLZ/6PjwixaM5Z8qRyAm4viNLR+Rnttxrl9Qndpw/
+	 eGYZT1yMrMI67+qqiko2SMjfqTcE2PgvcH5c1jGsI0yA6Ilt/Ukp3CmTBjS/d5qHoJFpd
+	 DnmqJLnNmyhK4Ttkf5QZc8IWGBNg8XL/jJ7qCiRK/0nDI9Y3HUWohFZhgYICcWizj4WDY
+	 y+hg+7GRUnQYoBR8hYtjcA5LhWQuTSv1bwKrTjoxl7IYJ2KvD3YiSn1i1gpSAS1tsKw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792934190;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=DEGQxXfH7Z3QoNaAAnq2yU/C/JRwT4M+74JxxIBZ28A=;
+	b=AqvCLKYQhiKzs6RRs1TJa2exS5MBV23oyoNtAD3okokQT3AvZx2ZwbMKSleKA1l/BJCg
+	 rfkwv/Z4fKIatTQ3Vf2aXPOB2Uq0rFR9hkUXAUUrohrH/EX9G1TkoSQEir3XRetfjtYU5
+	 /1xkkOdpGU6MbD/HtXXq1Di/JJOPP539UkrqcdSIAYS5SPJ8LZRYHbIvd4EM+unW60Y9F
+	 eV+1V1cjW0kNtRJDH8hoE2FOtJ0TCvycqUdWpi4H9NG9K+rSW7lRFJxuRknlhYyFGAqdM
+	 pqdGTX4ehOlkZHJCKOqhGkhJxQNnCJc+0YXLQ66gyf8mJPCgwtYm2cfiGsFO2DQYyvw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=a9xaXeUD;
+	arc=none smtp.remote-ip=185.70.43.167
+Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3618606A31B
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 13:10:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3618606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B55606A31B
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 13:16:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33B55606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aS0mT9lT
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5363316fa0cso33844011cf.3
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 06:10:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792933848; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KrAAtHOKuuh5Le5e2qMwPSKybV+idPYgP/Xg+rz8Z0f/chTuI61DpvZnA6Y4267xZw
-         DPN9isxElUiaFK4uEQ/1//7TqyLVqVgY1EhKKIkNIviVbvKDahJLzk8Zc3E4mmC4lRE7
-         s1oR+wqecQBM2Qq+8aYGHpMMQroWZyEqIM6CSeRGY3/QzSKzRgCmYY+Mpfun3w2je3jU
-         +7zxdS1wYFWEE8qzcSw7sFHMKi+lKH6634321hcB+4By2oh2pYe31KJdwRdGAhk0/xa4
-         GeRfOuAs1u2A6ieXJMC5LlKdzDoOWLSlaoPMKk8ChKC6XfOcj9kajVu03P8TzFl3GdkF
-         8WYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vWsvI+WhZ/eBQ+bJmj0eGRitrJCJTUhFaPA/quTsmaQ=;
-        fh=YvwRZKVWWJpD9Zc+exwaMMyq96ftN2kTXAWGMfD3eiM=;
-        b=MAu0/w41tPxfHhkR49TYkKxiK4hg7KFkFTNyGC0ri4I8xTswMIGIEfZv4xypGLCNxM
-         fBEz/Ovx3VrGeo5Fa2HRUszwjypyNJ6uJ5AVlJ5UuThOIS/qRW14Nmp68maX+EjEhQYQ
-         vvDGGAU+7p2GCa8wzRFE8tKnf+ZfXQjos8jRTCpL1kOYbCkn5w6/aAyDz15aAcuAaFFd
-         RehGPoFG2kxUKfCxWwHMjS0EWvOvaeADX7ZBG8yDt/wVuIk/eYLiuzfk8bkl8NrMTT+F
-         YvTdld+bod2Glnmd0K1uBJ8Ol8zdn5Y9WOzKwHsIIpcZ6hcMofLhNRKCaHuMNsahHDYF
-         EHFg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792933848; x=1793538648; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vWsvI+WhZ/eBQ+bJmj0eGRitrJCJTUhFaPA/quTsmaQ=;
-        b=aS0mT9lTrQZMpxtqfZBjxGMaks+hTpRYEU6OKbUfSyi8ZWIzKcYOOxBas2QBhmCYzR
-         ++r0YSLdUM/ldxZP1Tgg/7g9RpSe6Bg2p5aLRy50nSs5ZfOlCoPfJ07Q2Cu+tCAutFWe
-         SpIfEYmLYxoHLlu7LmHIs4vnV8bTEVuHLUzuRnTc9ynlDQoaj3L2l+3bGErskjlSZzuF
-         45NzEwCZGKg6HYssHJ1K8A9G52HlVEFWUFL6JcQ2LmrvZS1vC+EJYxq0I4QVodGyBJDM
-         cn3OCTU9n78L/cRaDJSlN/IK8XAb+BtIkzx6jAAGccR50ZrxHamJAasGhPW9IJ2wLTcj
-         vHCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792933848; x=1793538648;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vWsvI+WhZ/eBQ+bJmj0eGRitrJCJTUhFaPA/quTsmaQ=;
-        b=vL9hn4hzbRDNiFAa30KdcNrn6DBGngKluFDug8b1BcCM+XU3gsQo535rhtEGGJFQ7j
-         2T6lQh462HKqZD2Cs7i+dSx4Ifg6mXfR0+27MShEv7AA99G+O3/okQlw6A8C2HJYQxx+
-         AcKukvGoZ6KYRX2xblzvkFTEq1qoF0sNHW0XeZWXSTZeJGA34pSgIjv1KeEVFBigdrAV
-         mTnFjs/vzG6oCrMEaiVCLsdro3CoQc2W1Bug70xx2orBQvFJQelawCuPFVX1YwvEVOeD
-         dUL1BMhdjfuPVam4T2KMak3kNr/DVBM4KCbMSV1w+UDKEmtZ3g7JqrI+ZqI3WAr1EHRj
-         0epg==
-X-Forwarded-Encrypted: i=1; AKwUvBxzf2xHEbDXS+hTZvha8gcLBh4xl3KrUzTilqlZXXP04SDpxxHaxxtMYg6wW9TjjPOzmEXEPtCMn8k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJKDW9iDVuNXCu+nQ+E98+MSOsNgGBFZjmRnj78Q0XIpF4G4jis
-	lUn1q3/6sg6q7k05JmupguBIcaQBnESAqBLorsIXjPDjV9iv7Pq0qAKu2lhMl5oBG0eP2kKaZfB
-	NWPotnKN9MkOOg57NnjHYASZ14aG4Za0=
-X-Gm-Gg: AYBFou2pk5R/Fv2KEbYktQ84nUfSKS+iX1k6HNb1+F7E0PnNZNSYLvKXTGxuA6Ua0s8
-	QsCfO3yy+S2oD4qPJHdMQ2VGJn2XtEPVSdWUUlGF6Y4MPAn1W4fGM3zl9A5QLDFEPl4iFLsVSV7
-	OLRZWqyGgUMnQeei2H27+j9cgwt55Jq6uq+zzzG3lEDG8puASZ1KUeY+NYu1vGNoolB4wbbDH9t
-	bekYGaS+WkrIWguG2sEaPSZgeK/iOnnBNSMRlpFSx3zImmWwGIVzc0nu3Ze2R/YUAF+WEDFBP9K
-	Wjfpn10ng8dvFZ7Pd26uQvUuv3qRIG0K94xw3t/nGfkG+ZkMsI7z0Sez+Hqo8E7U5nUIoNNcEU3
-	GF9OJbkdq5BRkbxJB3Qb9Yx5BJRew5/EYeG57lqcuiCk5V9jqphOXhQ4sV6Y4zVnlmR/8rF6bak
-	l6VzjwcVqvkFVDo8gFjBL88fkKAZUBL5o5okaifdJCwPULDXz317CZLOQkBItWDFjGOcLMUnMD
-X-Received: by 2002:ac8:5fc5:0:b0:535:2447:3d03 with SMTP id
- d75a77b69052e-5383b5a1483mr65514591cf.35.1792933847628; Sun, 25 Oct 2026
- 06:10:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=a9xaXeUD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1792934184; x=1793193384;
+	bh=DEGQxXfH7Z3QoNaAAnq2yU/C/JRwT4M+74JxxIBZ28A=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=a9xaXeUDwZvmgX6JKLLUrp1o0xC+vP7+omEEw6P/Peh8Cybo90BkPPsdez3QK4KUC
+	 50P3OdWAUqVz35FUUbqH8ZSm+9QXltZcLFvX5u76C3V1ZgjLCFr7I/QeZatyHWvMHC
+	 luurvJEYMSSWBMFi8WfYhqoJSfElxwoeQp8P/yfgWQSl5kQJJHQad7zI0UP5geqezC
+	 DulPIA7HtElUEvWcGxV6pk7pCWDwcV3lb926j6SU3Nbx78rdrm4jV3ad08avRuCSkF
+	 SFsvLGVwsVvrA1511qlgrZDMWWApBmseYtf7viNPXyefookp7E2QuaQvGRvlSz//Qh
+	 uch1tONeCwqZA==
+Date: Sun, 25 Oct 2026 13:16:21 +0000
+To: "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>
+From: dardaoe <dardaoe@proton.me>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: [PATCH] Documentation: ext4: fix group descriptor and superblock  placement in meta_bg description
+Message-ID: <cJaripqlNO272O1fNRgrozKg2ocrVAPYS9w-1c-x1ltKdOsoNw9hWVKawqm7CoIhYb1pOwrTf6xxju_RKzajEmy8T1be_FuyQKKQ-GPGvB0=@proton.me>
+Feedback-ID: 203735097:user:proton
+X-Pm-Message-ID: de9a74dfa5ea2d134db3d6f927e48fcc02b60b3b
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,71 +61,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015125644.12908-1-danielmaraboo@gmail.com>
- <20261015125644.12908-2-danielmaraboo@gmail.com> <atQ_mXYNqs4tnDpW@wyuan.org>
- <79dd90f0.11f3f.1a15272eff3.Coremail.dzm91@hust.edu.cn> <CAMAsx6eb3X7GLheOaVoumORnvKftFYkU0VHynZYyx9m74+CTTw@mail.gmail.com>
- <40aeaf0a-6e04-461c-a507-52f791b45541@hust.edu.cn> <CAMAsx6fk=k1aXT3gvyZ4k8hG9KN+YCmvEc42LGdmm3Y+p2J1_g@mail.gmail.com>
- <8ff98b43-248e-4568-a5fc-6f84f9cdbe33@hust.edu.cn>
-In-Reply-To: <8ff98b43-248e-4568-a5fc-6f84f9cdbe33@hust.edu.cn>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 25 Oct 2026 10:10:36 -0300
-X-Gm-Features: AclHuK8bHcc4Z-qSdqWJEwmIBsb6YWn-kuRE8Y87S9rU-feLwPs47WKKAFHvhfc
-Message-ID: <CAMAsx6fha-ZKkiph+nG14hbNduGs=G3qRjHNUNxLSktTTQY+gA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] docs: doc-guide: add a guide for translators
-To: dzm91@hust.edu.cn
-Cc: wy@wyuan.org, jani.nikula@linux.intel.com, alexs@kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	si.yanteng@linux.dev, chenyou910331@gmail.com, federico.vaga@vaga.pv.it, 
-	akiyks@gmail.com, carlos.bilbao@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-(Resending to the list: my previous reply went only to Dongliang.)
+From 98cec88bdaae2fd790adad67f3abb1e11ebb5623 Mon Sep 17 00:00:00 2001From:=
+ dardaoe <dardaoe@proton.me>
+Date: Sun, 25 Oct 2026 13:03:01 +0000
+Subject: [PATCH] Documentation: ext4: fix group descriptor and superblock
+=C2=A0placement in meta_bg description
 
-On Sun, Oct 25, 2026 at 11:22 +0800, Dongliang Mu wrote:
-> Good job. I will quickly verify them and send a patch to move them.
+The Meta Block Groups section is imprecise in two places:
 
-Thanks. To avoid overlap, could you confirm which languages your patch
-covers? I understand zh_CN, and that zh_TW is already handled by
-Chen-Yu's series. That leaves:
+=C2=A0- Without meta_bg, it says all group descriptor copies are kept in
+=C2=A0 =C2=A0the first block group. In fact the primary table lives in grou=
+p 0
+=C2=A0 =C2=A0and a backup of the whole table follows every superblock backu=
+p.
 
-- sp_SP: process/magic-number.rst and wrappers/memory-barriers.rst;
-- the .txt files in ja_JP and ko_KR (stable_api_nonsense.txt and
-stable_kernel_rules.txt), which I think are for their maintainers
-to convert or drop.
+=C2=A0- With meta_bg, it says the superblock and a group descriptor block
+=C2=A0 =C2=A0are placed at the start of the first, second and last groups o=
+f
+=C2=A0 =C2=A0each meta-block group. Only the descriptor block is; superbloc=
+k
+=C2=A0 =C2=A0backups still follow the sparse_super placement rules
+=C2=A0 =C2=A0(ext4_bg_has_super()), independent of meta_bg.
 
-> It seems the original English documentation moves fast. I would
-> write a script or skill to check this relationship maybe daily or
-> weekly.
+Fix the wording and describe the interaction.
 
-A periodic check like that would be useful, especially once the guide
-states the path mirroring as a rule.
+Assisted-by: LLM
+Signed-off-by: dardaoe <dardaoe@proton.me>
+---
+=C2=A0Documentation/filesystems/ext4/blockgroup.rst | 43 ++++++++++++------=
+-
+=C2=A01 file changed, 27 insertions(+), 16 deletions(-)
 
-For v3 of the guide, this is what I plan, based on the discussion so
-far:
+diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/=
+filesystems/ext4/blockgroup.rst
+index 7cbf0b2..d33d1c4 100644
+--- a/Documentation/filesystems/ext4/blockgroup.rst
++++ b/Documentation/filesystems/ext4/blockgroup.rst
+@@ -83,11 +83,13 @@ flex_bg is given by 2 ^ ``sb.s_log_groups_per_flex``.
+=C2=A0Meta Block Groups
+=C2=A0~~~~~~~~~~~~~~~~~
 
-- state the path mirroring as a rule for translations of English
-documents, and exempt documents that exist only in a translation,
-such as a glossary or a language-specific how-to (Chen-Yu);
-- describe ":Original:" as optional, and not needed when the path
-mirrors the original, instead of showing it in the header example
-(Jani, Weijie, Dongliang);
-- drop the generic parts of the sections on writing documentation
-and sending patches, and link to doc-guide/sphinx.rst and
-process/submitting-patches.rst instead, keeping only the points
-specific to translations (Federico).
+-Without the option META_BG, for safety concerns, all block group
+-descriptors copies are kept in the first block group. Given the default
+-128MiB(2^27 bytes) block group size and 64-byte group descriptors, ext4
+-can have at most 2^27/64 =3D 2^21 block groups. This limits the entire
+-filesystem size to 2^21 * 2^27 =3D 2^48bytes or 256TiB.
++Without the option META_BG, the group descriptors for all block groups
++are stored together in a single table that follows the superblock in
++the first block group, with a backup copy of the whole table following
++each superblock backup. Given the default 128MiB(2^27 bytes) block
++group size and 64-byte group descriptors, ext4 can have at most
++2^27/64 =3D 2^21 block groups. This limits the entire filesystem size to
++2^21 * 2^27 =3D 2^48bytes or 256TiB.
 
-Federico, I did not see an answer to my last message about this last
-point. Is keeping those short translation-specific notes fine with you?
+=C2=A0The solution to this problem is to use the metablock group feature
+=C2=A0(META_BG), which is already in ext3 for all 2.6 releases. With the
+@@ -104,17 +106,26 @@ to the hard limit 2^32, allowing support for a 512PiB=
+ filesystem.
 
-Since v3 only states the rule and does not depend on the moves, I
-intend to send it without waiting for them to land. Dongliang, you
-suggested removing ":Original:" only after all translations follow
-the style; v3 only says it is optional, so I believe this is
-compatible. Please tell me if you would rather I wait.
+=C2=A0The change in the filesystem format replaces the current scheme where
+=C2=A0the superblock is followed by a variable-length set of block group
+-descriptors. Instead, the superblock and a single block group descriptor
+-block is placed at the beginning of the first, second, and last block
+-groups in a meta-block group. A meta-block group is a collection of
+-block groups which can be described by a single block group descriptor
+-block. Since the size of the block group descriptor structure is 64
+-bytes, a meta-block group contains 16 block groups for filesystems with
+-a 1KB block size, and 64 block groups for filesystems with a 4KB
+-blocksize. Filesystems can either be created using this new block group
+-descriptor layout, or existing filesystems can be resized on-line, and
+-the field s_first_meta_bg in the superblock will indicate the first
+-block group using this new layout.
++descriptors. Instead, a single block group descriptor block is placed
++at the beginning of the first, second, and last block groups in a
++meta-block group (immediately after the superblock, if that group has
++one), regardless of the sparse_super feature. A meta-block group is a
++collection of block groups which can be described by a single block
++group descriptor block. Since the size of the block group descriptor
++structure is 64 bytes, a meta-block group contains 16 block groups for
++filesystems with a 1KB block size, and 64 block groups for filesystems
++with a 4KB blocksize. Filesystems can either be created using this new
++block group descriptor layout, or existing filesystems can be resized
++on-line, and the field s_first_meta_bg in the superblock will indicate
++the first block group using this new layout.
++
++Superblock backups continue to follow the ordinary sparse_super
++placement rule (block group 0, 1, or a power of 3, 5, or 7)
++independently of meta-block group boundaries; without sparse_super,
++every block group carries one. As a result, a block group at one of the
++three meta-block-group positions above will carry a superblock backup
++only if its group number also satisfies that rule; otherwise it holds
++only the group descriptor block.
 
-If anyone has other comments on v2 that I have not covered, please
-let me know. I will send v3 in a few days.
-
-Thanks,
-Daniel
+=C2=A0Please see an important note about ``BLOCK_UNINIT`` in the section ab=
+out
+=C2=A0block and inode bitmaps.
+--
+2.43.0
+Sent with Proton Mail secure email.
