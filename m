@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792934589;
-	b=b67dZcul3sMniyOe9cSECJroDs8IEPv5v7UmCEZVhrsrRvnsjBGKUv2i70emBucR0fu3
-	 n4XWXv6KXKDZbrr1gPN0plnPt1EhjzJrqetEodrZLA//TvgnagqINDicynckQZDpevHJ/
-	 9abMUIn2YTD/nVuElsQA/Ta1JfPsbsC++I1fZFgPWug7e+J2EPB/srxOfnDvqntyfHYxS
-	 NEo4PrVOpRfpEkJyAHBesvMpeD9b4kleRTfOpy7qyKrIQmcCgBTV1NFp7bIWx7b2MP2xH
-	 /1taSyHXDKQKe/R1+0olOo1gxH1uqGS9lJAoEA/LRvTuKp1RgLsdutPkrMXBLd5cq9w==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.219.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1792934732;
+	b=yjW2T4ujVYc6LXdPkyGacCYjT5MNif9u9baqqQJO8obR7keoi9NQzt3fiyMd/TFi78cz
+	 D6QXeKSPSrd+ROSDxtYcIuv1bypFpIy/iEMyUzlmrmqy0hSo4tNGk90/hQ9NuuyiBR00J
+	 9i6tk9UMSvrcdeRh0VBtXFm1A/MTwasPDhxEskqnrDqZ+GLw+8DBfOfxD/EJM2QPG5U3L
+	 kLThdvS+fma2tr+obDXjru4L6ztnlI9QQTv7RIUqN151d8tIPs54tTC/gUXswfFWov+q8
+	 3yXOOBRSXNf30347zE36c+SqTaNZ31K7IGFksBngzruMOU8urOT5YyERQLQQRO2Wi+w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792934589;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792934732;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
-	b=nNy/1tDxuWz0VAP48nCpr555GstLJi/ODBzEHeMokPqMHilnYvB09fQuEFS7qSs8JSBW
-	 3PfcD+b6J0Rv5nJncMDbZL9F7ylhUHkVP3WNgEmzyGWmn580UFrinRSZHs4BLWWSef+3Y
-	 aOtuCaP8T1B0P+Ijp0JIuutaFoV+JP5XKkTYafy205+HWfT/DSCIYIkM3A1sqP8uhrvsH
-	 hs5OUX4CFE0yioEND8GHOL/Upx08qHuet/PEOtEQi+ADzb3fkbqd+ruAuJeT+PL79SdSD
-	 8d39S7DHNoW6wkWSXUvzLnUShP/Z1iGPsF/GHF4N+RH+hLRnDxy6FZOievX/ug5OmfA==
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=guXEOoyLZuS3syWsAlTfoo1CnrsW8IABAZ2MXop4xeM=;
+	b=4+CC6/ie13RGd/tGsjS6zy0ibUbMYLEP6bnXW1BDsH4C+OgnKdkV0+xv6iSRlk43Hehj
+	 xWdMxqfHmXOI4T5kqVP0nJ+Dx2J9EDgB87wA57gITTLKGSzYC8MPclmOPb8S3NS4sMd2K
+	 Cr1IbQyPaUSiW0vGlZIQJeX/PnoLU599cN5+iYA7t2qTCEcWkXmyLroDqVs9qYuji+uTP
+	 jkS/aZaAzhVnacE4fhnxQiGwUBHKnPr7W5dCNT2eLAHQ4gZ0HLIER/lNjUYOfvhwP77Xw
+	 cl3JnllCGqUcYLikIYK2qjc1gELnBAS6r2ULtdozrOqBLZqXMWw4EmgyZ86TkpC8BKw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jPKsLWh1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.44
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EHrJZaLt;
+	arc=fail smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B111606A31E
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 13:23:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B111606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC31606A31D
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 13:25:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BC31606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jPKsLWh1
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91b55859245so13209176d6.0
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 06:23:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792934587; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EHrJZaLt
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91b8b456dbeso26753626d6.2
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 06:25:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792934731; cv=none;
         d=google.com; s=arc-20260327;
-        b=FUrgvKMKMCC4tbQWHGo7DohSOtRpz3A3ZidkuVD9bGA4Q6eD2h4HybvXmhwkwZxxld
-         Wood1PS1ReMAEWStoThKOphpZoImbjkbQPKCEtH0UxZKomdT1CX+v7KYubYspqTy78Xn
-         81YsnXH+z3bt/qqoiVTDtmmlQiny684Q92V1ztu/y2+YLkNpC1YBEdhc6Qnh8ko8KM7Y
-         NbODZxr2Yp0/VBQeDQTX+B4lMCdEapf1J4sv6+GswYUwaBKg/I7PlJrbymHjC0f9Z9jT
-         SXid++Zn4XJa8mLgtbdurCwMBRrAZq1AW6ixc3rjjBIo8T014q6K4hd+siPjPVIUIBHl
-         zMcA==
+        b=EW+SewXbXzO27XKLqAT6sbv3QOkBbtDa6vxAvIXnUH7oKdgkdIWi665Ll/voxqseub
+         +XKz2iHAVm0SxFcNqLs6lzXVcM+52Z3PnYEaEDDtOEAm+yASOrUpf8TWC370rCzhkXb0
+         MERQ1aoKk8dDxax62U7nZ3XX23gvzOfqWagdRbWv7OkipqOGGMxi8NfhrSBWmKAtY2Zc
+         XqRWxFcp6uKhoufdhOPJOocG4NewoCdVvNeFlb9XXI6nhYcyJri9g9j8GbL2lC0bnBRC
+         7g1IaHrV83iuOwpTDD/h4MU57KNCo+PuaHam0peFpbfQd7+NlWc701fqhgGHGDs+31UT
+         iAiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
-        fh=gEBL4+l6O7TU0LE4Rcgy3VKQLQlqi6rEPHxp86+YdFs=;
-        b=Yviq4zVu4fWWHFVbfxwf7LeEnwhwZTig7R93JdI7uoYeDvAwl5ghHaEiJ3e4hKLFKY
-         0fQ6aF6uIvCp0vISXv5seUuVP5VzvKLzWTTrvhcNIdtlyi/X23lBdPaOThpm2IGZiJ+X
-         Iuboo52SXx2XyZ2Yly+EYt9UPmoIa9xFSBpjQoDP2pXxuaXsb0QvGWu3Y5fJveqqIhMN
-         6zLurLWkst1eMEh4VYhIihzPpet/MKX69Rq7p88dFkr81mX6HGjW3iFcxBNuf25P8NVx
-         GWyP3XE2dwPyOporlGdQ3w+o+NaYcp39DWdqSxLHHQ1CyWEhEoXfbiOm7wygeQqL9gOS
-         O94w==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=guXEOoyLZuS3syWsAlTfoo1CnrsW8IABAZ2MXop4xeM=;
+        fh=Oq2YqGroe+9AyZvzARIaWl6B3SxfZp5KQlLfMZQPuFY=;
+        b=X3lnPGHXxNJE50Lasl1G5iXnZMJtKwKZcyoFZ0XNIxXZFyOn7y9+j00fbjUNb6LDrv
+         yoYTII8BqhdkyAyuPlsJxDBt/oKH9PqLQz2XVBTvRUCuv3C9uFuMsdysYrepAz8C5fjw
+         oxWtDtPHfmHe7ucmsTIJ6gGQr65srJxxWOpwxJhVn23o2u1Q84YrjTWPoxaHEOSqy7+e
+         3JmMuMXyk8IQSo8ccDm/2dSTRbv8eNx0jbgmm/9tk/nteYCllJ8QMckczgyIjSIdSsLz
+         +4bcV++XU37VjPK7RsOZnGjMnwRX+jhQc4zlIUQbplPmPE5Ncu1GvsV+i0pkMasKan2Q
+         eaLA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792934587; x=1793539387; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
-        b=jPKsLWh1wQCx+uFkDMaGoQAlzMDmG0XPhV4wljunZLrs09EJyBKRKiDA58n7EuJ/4V
-         je2zRLXEtjn1PhsqD28scCYrTMNv37rUYlCCKHjmP+gT4bsRCiOOOEyB14bQkkJ+OgdW
-         RADNOn1ivHmCwSQ1sGI/l7e6xuwW/Gpdm2UHqe2TOEQ8on+feWUGlDCprsBXttntqwcv
-         ALq9IW+2izLruIIjjsX2CbLCXSzafBAHmkmV7kAQhcM6h2DfnpxJw5CFdp10njk3vDHb
-         mfxKOsQgrAX3CcjwG/Joa2GQFssuEbcS2WIHTr3cvhdk35eCu7wCsMeMNYb3UiA0FwXa
-         oHEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792934587; x=1793539387;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792934731; x=1793539531; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=X6vbMJkh4xPzuEcl9o4UTbdDi9m9a6y5s+AAwaTb/VE=;
-        b=EHjDpSy5RJ2mPTBReZP0/TA7Vu4CiqTdXOlSN4fOP0Yaqixp1JKGsplsbufnyvWHUR
-         n2tH//dKAfbTXJSpze9MweX9YLE6EEWG+C45Gz/7mS2C2VVRtvXOI/1NkCs8amnnQtZo
-         QAFVRt2SAL+vdqbzCC/lKdnIxYvnDILuLLc1xbWlaTzG/4k1UGu7t/i2+c5VMXOxjdAB
-         f4GJKSIE97V1pPDUaaGnUkbLhZqAzfOf+6R/ep53SACfV6JH7smKnkzhXTYfpYOpxS9w
-         lPyIenyrzpprA4bQp1zpxHnkzIn6PeqokCFt9fOjoacv1xitrx+Dct7LgCKleiuWQtIP
-         urjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwAKfMmF0ZjwI1WFxRrKrCjKpI3MVsfl5ZuVpwV7DVIGDlaCMYu6iKMtRnOogz1DzQKxePmRBoBQB4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJxLAbfymmP0nLOPrqE888eOzHBlsCdlvte59V0xSm0FcwZ8kDq
-	0LPaIgAEZ1WlQlcrr6cFSVf1lXXtX+C9KARoQfwRAqUuWW1Pbptw4XpzTf6RQLyNDJGzpZnaeR/
-	fE82VBl83aLCW9LZYUkuaGE55laOGeAg=
-X-Gm-Gg: AYBFou2mZ5LAVE45E4Xk1NZ6v5pRoYb1vCpizQp3NvGHxSnlRln+2Vv2czmjL9upUfh
-	5IqRPy3w6bYwNMqu1Gm+4Nxw34Xgc/j+1BCq5bXGvW5Q0O1NN4qZYRrppSAQ6KuJm/ED67zPhCO
-	J52/o61XMjG6Di9qb/wIWeqeYFIwt/896dSDUENaUMRiOhNhyfrWM5A314hCyKOPkWBAqoIEdVg
-	MZRPCj+s4oudvXHV+K3zt5n1dzxLURzcqlgyb489wOW18ETkteLVM/5Usvw1sy9cRgpWc7pu+Jl
-	c4dM/kus7EEtIYfoOtlnpO8OeMfyuqrssPERz1YTs63unDlW1hW8DqKlvuzb8jDUhUfrZeqz84F
-	LDk8s8eY71ITK1uVh5Fk3Xm6EIh3OdLWNtTH4accvjx640L+9E/cm1Tnv8ofR310h+lQ1JeT0EU
-	slBN6Py0USXr1oG8ty/fV9nnMqyVTyD6Lx/95e7QgtzEQMCgfvpuuqDAaDdQ8bbkDMyVApuU9x
-X-Received: by 2002:a05:6214:53c3:b0:91b:b26a:9791 with SMTP id
- 6a1803df08f44-91c48f150camr69861666d6.56.1792934587195; Sun, 25 Oct 2026
- 06:23:07 -0700 (PDT)
+        bh=guXEOoyLZuS3syWsAlTfoo1CnrsW8IABAZ2MXop4xeM=;
+        b=EHrJZaLt7VtHx1yPQ10O8lA7efwKTyBBrss4U2TzyzskcZWD/Cl1vDMWLSemzmGcSy
+         05pxNF//4W5lw3GnguMsycI1rXKU+yVLV2WQ0ZOWd48jO4wHr65waWsdjrqxm58RM4NU
+         W9RmPpCzZS4d79Y0NBPb/wChJHF3kDBY1B3/Logmoe4mkOlsV5NES9XQ6WuZwFIVGUwy
+         BCbTn/cPLibvdW3WevChQIYSS+f4WJN7IUoEX+/ZdPO/S+WbIwfoec+Pyz1hOM58DajV
+         lKkztwJvGAo7pd5IXqaLpkxdK+KIuQuZfR7UDO6kZD2ZlpyuGWUAsCw6/siT57GKeir+
+         Rsvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792934731; x=1793539531;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=guXEOoyLZuS3syWsAlTfoo1CnrsW8IABAZ2MXop4xeM=;
+        b=aV/QClg32oJH0ppliiVdmveBKJuifTlNdvTOpAz6c7g5aREwZO8OMXkyO+EOpfQ7af
+         cs6GWHwoM+eYamRvPjcyP/bXOGjXr3CZFU4hdPhtcKpv+q/XzWZXPtZRvoXXRFT+6CWZ
+         IPf/vPjBu0zOtUgczbK/gm383+j6RW4gPGXNYVDTK7/cSret2z7eKmLyDfY3+/1jKYD1
+         +dzk6IFBl6qyYTKetkh+l6T7bPjVu6itORdsgT9cwHdenfRJXTC6FDUN9tQuB3RYb0QW
+         Er4dtwarG9bmxzt1OIcYZ4mCgSelj6lxy/EexVyycplERiVPhUxGT7tgeDZLQqbslS1h
+         vh9g==
+X-Forwarded-Encrypted: i=1; AKwUvByY/hw2jrDFZKgefbzC7j+vnQw/hCxbENK0VOWS84oL3LvzKm+uJIHF7uaO0wtbj3ubVqX90tpnjRc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIdbTvjO/7xFPKrRFm8Fdwba5rIZrMvB3ZnqH/vnZ29vaAqoh8i
+	bRLxlv7XAeSpJ8AU1PCgof1rRh3Pn2TOyY9PwqnfdIA+arq1e4i+bABCEx3LG1gpUmnBaxyB3V3
+	UAGmQmmbAgROTnD/+N4ZpqqG+1ewsCJs=
+X-Gm-Gg: AYBFou2EXGdDI7siO2A1/Y3MfqHxxr1taxrOiysXdQd7MF9zSpCR08c4uAR1c3P99E7
+	POCqD7iE/rLkRQ2TlnywD0sFRUETf4SycgsznXPvsHyPOEkcNudjDn0CNE8y2vO0+zgoa7k+/z9
+	idG0v0Db6/+EuVK1Jd/PRqe/jwMJETboLwZHYrpMqqCWb5IdQomBs/X0sSmlb3StVspVjRbp6Ab
+	6agzZ9/zD+l4qTOBJlhvt0X5D9u/EX/MurNIi5P76SlAEAUn3H9B96Pbime/XSNkM0g3b51YOj1
+	F+bNhiOOJF9YZEs4MOGN9tIFHrOv5ixy5WbGUcfQH+ObNmCLZ3Q8ND88R6s7Fkgmb4E3MqfOHcq
+	ez4DfzngQexiZhOBKv2stlj8s8v/14b/ek2h2vF/5gMvHG/Ugr/UW01QeocEkfakqE5cuZy6O9i
+	P9Mhy/a9OQrDzJtS0ieRkS6RrXeA9Er9scym56XGpnX3LbaEzA/L+DwXdGrkaJobgiNK+Qkq/b
+X-Received: by 2002:a05:6214:76e:b0:914:4376:4ef8 with SMTP id
+ 6a1803df08f44-91c48d17173mr71961046d6.6.1792934730661; Sun, 25 Oct 2026
+ 06:25:30 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,156 +104,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261022013432.2638010-1-gr3yf0x87@skyn3tlab.com> <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
-In-Reply-To: <20261022014811.2803450-1-gr3yf0x87@skyn3tlab.com>
+References: <179250646543.2190262.8632957027583518623@gmail.com>
+In-Reply-To: <179250646543.2190262.8632957027583518623@gmail.com>
 From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 25 Oct 2026 10:22:55 -0300
-X-Gm-Features: AclHuK9yewKN0-UZdNUV7XZr57BksERgCEoIcvborAR-JnzTIy1oVpZl5H1ou6Q
-Message-ID: <CAMAsx6dgDhfNvw+3NWD1pBxyJfHTa7rUD+-9Y4L5K2FpDXJS6A@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: changes.rst: set the pahole minimum back to 1.22
-To: gr3yf0x87@skyn3tlab.com
-Cc: corbet@lwn.net, federico.vaga@vaga.pv.it, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, ihor.solodrai@linux.dev, eddyz87@gmail.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+Date: Sun, 25 Oct 2026 10:25:19 -0300
+X-Gm-Features: AclHuK9kZbLYrL_1P7Nb5PvMxv1l7G9aeHa0aDH5ksgUMzl9ooOaFs_24PQ2VeA
+Message-ID: <CAMAsx6cniehFSgKz0+FRbGV=A=TGvogwx87xcqhiZNQGfeFFYQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: document --summary and --failed options
+To: eugenio.zuccarelli@gmail.com
+Cc: brendan.higgins@linux.dev, david@davidgow.net, corbet@lwn.net, 
+	raemoar63@gmail.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026, Mark Severson wrote:
-> Set the table back to 1.22, in the English document and in the Italian
-> translation, which carries the same table, and remove the Italian
-> translation's copy of the paragraph that the English document no longer
-> has.
+On Tue, Oct 20, 2026, Eugenio Zuccarelli wrote:
+> +- ``--summary``: If set, prints only the summary line for parsed test
+> + results, rather than the result of every individual test. Does nothing
+> + if ``--raw_output`` is set.
+> +
+> +- ``--failed``: If set, prints only the tests that failed or crashed, along
+> + with the summary line, once all tests have run. Does nothing if
+> + ``--raw_output`` is set.
 
-Hi Mark,
+Hi Eugenio,
 
-I went through v2 against the tree (docs-next at f857ff5bf):
+Thanks for documenting these. I compared both entries with kunit.py and
+kunit_parser.py and the descriptions match the code: --summary silences
+the per-test output and only prints the summary line, --failed prints
+only the failed or crashed tests plus the summary once everything has
+been parsed, and both are ignored with --raw_output.
 
-- In Documentation/process/changes.rst the table says pahole 1.26,
-while the text below it and lib/Kconfig.debug (DEBUG_INFO_BTF
-depends on PAHOLE_VERSION >=3D 122) say 1.22, so the table is the odd
-one out.
-- tools/bpf/resolve_btfids/main.c now rewrites the prototype of
-KF_IMPLICIT_ARGS kfuncs itself, which is consistent with the
-explanation in the changelog for dropping the 1.26 requirement.
-- The English document has no KF_IMPLICIT_ARGS paragraph any more, so
-removing the Italian copy brings it_IT back in line with it.
-- You mention that htmldocs was not run, so I built
-SPHINXDIRS=3Dprocess and SPHINXDIRS=3Dtranslations/it_IT with the patch
-applied: no new warnings compared to the unpatched tree. The
-undefined-label warnings that show up in these two files also show
-up without the patch in partial builds.
+I noticed two things while testing the patch, in case they are useful
+to the KUnit maintainers:
 
-One process remark, which I leave to Jon: "Assisted-by:" is not a tag
-that Documentation/process/ describes in docs-next, and checkpatch
-flags it. I could not find the "Attribution" section of
-coding-assistants.rst that the note mentions in this tree; it may be in
-another one.
+1) With the patch applied, "make SPHINXDIRS=dev-tools htmldocs"
+reports two new warnings, and that file had none before:
 
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+run_wrapper.rst:331: WARNING: Bullet list ends without a blank
+line; unexpected unindent. [docutils]
+run_wrapper.rst:335: WARNING: Bullet list ends without a blank
+line; unexpected unindent. [docutils]
+
+The continuation lines of the new items are indented by one space.
+Docutils wants them aligned with the text after "- ", that is two
+spaces, like the --json and --junit items just above. I checked
+that with two spaces both warnings go away, so this may be a simple
+fix for whoever applies the patch.
+
+2) "Assisted-by: LLM" is not a tag that Documentation/process/ describes
+in docs-next, and
+"https://www.google.com/url?q=http://checkpatch.pl&source=gmail&ust=1793021034312000&sa=E
+--strict" reports it ("Unrecognized
+email address: 'LLM'"). Documentation/process/generated-content.rst
+asks for the use of a tool to be described in the changelog instead,
+so maybe the trailer could be dropped, or turned into a sentence in
+the commit message.
+
+These are only suggestions; how to proceed is of course up to you and
+the maintainers.
 
 Thanks,
 Daniel
-
-
-Em qua., 21 de out. de 2026 =C3=A0s 22:48, Mark Severson
-<gr3yf0x87@skyn3tlab.com> escreveu:
->
-> Commit fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF
-> annotation emission") removed the paragraph saying that kfuncs annotated
-> with KF_IMPLICIT_ARGS need pahole v1.26, because resolve_btfids now
-> emits the kfunc BTF annotations that pahole used to produce. That
-> paragraph was the reason the requirements table lists pahole 1.26, and
-> the table was left unchanged. The text below the table and
-> lib/Kconfig.debug (DEBUG_INFO_BTF depends on PAHOLE_VERSION >=3D 122)
-> both still say 1.22.
->
-> Set the table back to 1.22, in the English document and in the Italian
-> translation, which carries the same table, and remove the Italian
-> translation's copy of the paragraph that the English document no longer
-> has.
->
-> Checked by building linux-next 20261021 with pahole v1.25 and
-> CONFIG_DEBUG_INFO_BTF=3Dy: in the vmlinux BTF,
-> bpf_task_work_schedule_signal has four arguments and the bpf_kfunc decl
-> tag, and bpf_task_work_schedule_signal_impl keeps the
-> struct bpf_prog_aux * argument, as Documentation/bpf/kfuncs.rst
-> describes for KF_IMPLICIT_ARGS.
->
-> Fixes: fd5425b67355 ("docs, resolve_btfids: Document kfunc BTF annotation=
- emission")
-> Assisted-by: Claude
-> Signed-off-by: Mark Severson <gr3yf0x87@skyn3tlab.com>
-> ---
-> v2:
-> - Also remove the Italian translation's copy of the KF_IMPLICIT_ARGS /
->   pahole 1.26 paragraph, which fd5425b67355 removed from the English
->   document only; v1 left the Italian text contradicting its own table.
->   Found by the Sashiko review of v1.
-> v1: https://lore.kernel.org/all/20261022013432.2638010-1-gr3yf0x87@skyn3t=
-lab.com/
->
-> checkpatch reports the Assisted-by tag as non-standard; it follows the
-> Attribution section of Documentation/process/coding-assistants.rst as
-> published on docs.kernel.org. Not run: make htmldocs; the change keeps
-> the table's column widths and removes a whole paragraph.
->
->  Documentation/process/changes.rst                    | 2 +-
->  Documentation/translations/it_IT/process/changes.rst | 8 +-------
->  2 files changed, 2 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index 28f2ca633..13093c5c2 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -53,7 +53,7 @@ mcelog                 0.6              mcelog --versio=
-n
->  mkimage (optional)     2017.01          mkimage --version
->  nfs-utils              1.0.5            showmount --version
->  openssl & libcrypto    1.0.0            openssl version
-> -pahole                 1.26             pahole --version
-> +pahole                 1.22             pahole --version
->  pcmciautils            004              pccardctl -V
->  pigz (optional)        2.4              pigz --version
->  PPP                    2.4.0            pppd --version
-> diff --git a/Documentation/translations/it_IT/process/changes.rst b/Docum=
-entation/translations/it_IT/process/changes.rst
-> index 0be1292a8..b4accd428 100644
-> --- a/Documentation/translations/it_IT/process/changes.rst
-> +++ b/Documentation/translations/it_IT/process/changes.rst
-> @@ -57,7 +57,7 @@ mcelog                 0.6              mcelog --versio=
-n
->  mkimage (opzionale)    2017.01          mkimage --version
->  nfs-utils              1.0.5            showmount --version
->  openssl & libcrypto    1.0.0            openssl version
-> -pahole                 1.26             pahole --version
-> +pahole                 1.22             pahole --version
->  pcmciautils            004              pccardctl -V
->  PPP                    2.4.0            pppd --version
->  procps                 3.2.0            ps --version
-> @@ -149,12 +149,6 @@ Dalla versione 5.2, quando viene impostato CONFIG_DE=
-BUG_INFO_BTF, il sistema di
->  compilazione genera BTF (BPF Type Format) a partire da DWARF per vmlinux=
-. Pi=C3=B9
->  tardi anche per i moduli. Questo richiede pahole v1.22 o successivo.
->
-> -Dalla versione 7.0, le kfunc annotate con KF_IMPLICIT_ARGS richiedono pa=
-hole
-> -v1.26 o successivo. Senza questa versione, tali kfunc avranno prototipi =
-BTF
-> -errati in vmlinux, causando il fallimento del caricamento dei programmi =
-BPF con
-> -l'errore "func_proto incompatible with vmlinux". Molte kfunc in sched_ex=
-t sono
-> -interessate da questo problema.
-> -
->  A seconda della distribuzione, lo si pu=C3=B2 trovare nei pacchetti 'dwa=
-rves' o
->  'pahole'. Oppure lo si pu=C3=B2 trovare qui: https://fedorapeople.org/~a=
-cme/dwarves/.
->
-> --
-> 2.43.0
->
->
