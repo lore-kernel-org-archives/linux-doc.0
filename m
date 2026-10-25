@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792950028;
-	b=eOhIeV67PgwrzoaqoSeNRl7Vn7dInoN4N2jVFraGumRELuYcd9fYNYtZcDsEzg33Nuh/
-	 NVom8anBja9fKDLKU3yRu9zcJCfO/Bh2ZcVUI2fre9J920gnEqOx4SRd2QAcqd2js8kmQ
-	 QtYEDlONpKSiL4U4eqHa1gCABqn5nzWrN4McyxGicukAGSaGZ9ljv07Wej34/ZkF6nABu
-	 WYpzlDKyjT9J2MelckvlFOMkjL1xsddQ9TVl7GQ2uzhR20qr03gcXkuWc9yua4vRsiCZI
-	 3uD8KHWvSTR68j9PBSprTxBrHsBBgqCQGa5J+1FxaGehjw84snxmU1R+vmb8LIgc7Sg==
+	t=1792950029;
+	b=zZh8NbcBT8M5Y0rvL47rNrKe+8s75nV1QXBK72V5Zf2cfeA0JYh1zHm5WrK/DCRnsa5z
+	 UT+ROyz2iQtpVU9viuN1PvwE1DgCj4qj1kCFZNTm2plFv7da0T7pWbDdPQ7CpKZZs+kRy
+	 F/BLwplQ/c2xQxGq7ZpFkyDPFGCgpUdZ9xhBXe10BTdEuIfTMHqwESmb31SrqBdsbwrvx
+	 /4CeCTVcDY81htKaX6+MqeiuEIGT7BQnmcwAobZNWZhEVoNTpu8jgsLAqY2gIy5E5GxH+
+	 /+nNMLQvIuN6BQvV3RN/Sy9IyxXGlNX9Qmn0PTgZSAhxODFuzYueuVEyYSGVdaCOC6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792950028;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792950029;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Cd4NBiUaZHjhgQI6f1triFkm5VKVfeLrpjHZ+ms4srE=;
-	b=hIpyHdzX+mnzqAMBySBKoHEKz9wYAbzfGXKaMMSem5DLoFVUQF6T+vyiz4wpc76PTgYr
-	 17XzvH4gawkOftnETsa0ntwszU0rPxtPv/PHjtP3dzjvSb9SeeWYU4LjUtzW/bkjdfmcj
-	 BGjZNARzgQESB9q3HG/JLkcSgOlPjmKZRmOV7/IfePoudnEyrH8HJxOfnzBJ6vXZi/sqm
-	 5uqp5oCkmZOUJu33chgS+lf/tg/R71FeOpsT8+F3OL+zEtwiYzLOZfnbBP94+J5sTw86A
-	 desQy1KU3UoTPkgSVUuK2bKZup+VsRwwcBFDc5uW+k0wiVG/8pEQHO8AfLj59mK0d6g==
+	bh=1V5FDGF/e6SVBVJsOb1x0mGzHREcuT+Gfnqc1J4W+DU=;
+	b=bd1MQHBHjv6hvKBUznHfIOW241Ju6wOGsHv8Exr4Ba+YUpoIiWhL/GQU0CvDmqyzFkpX
+	 EXK8J/Zcwurkn8V+WNVHMeiTbILRartKYy0seCFy1hErDN7/0uShWMRh7jbut39eoUawQ
+	 j3se4fShcRYGCIMk2IfpHkKcPUI1+frsf188n5iMHdUNl0RTwBUnrPf9+QWbJBl7RHzpM
+	 pjzPzABDyHCCyNhktyFpHS00XGVvD/9sQJ3l/RO6KLwD4UqZFIP4wLldzW/BgpcX/eXj4
+	 AtTlGzUmOfT3ojXJLfpB0lwWQFzT4cgWEgjhXlMEFvr+u/mWbJL9us468GezVq1+Czw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=soleen.com;
 	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=K9Dp37PU;
-	arc=none smtp.remote-ip=209.85.221.177
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=kThEKxFU;
+	arc=none smtp.remote-ip=209.85.221.176
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB1D606A339
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:40:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DB1D606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE5E60A2606
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:40:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BE5E60A2606
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=K9Dp37PU
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5eac319a6c2so2592879e0c.0
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 10:40:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=kThEKxFU
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5eafb65e169so1728480e0c.1
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 10:40:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1792950026; x=1793554826; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1792950028; x=1793554828; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Cd4NBiUaZHjhgQI6f1triFkm5VKVfeLrpjHZ+ms4srE=;
-        b=K9Dp37PUNvtj60k75UK5s5RWgisSJMYFf/GzYemg+/6vaKl3N1nGebg6XTF3BLekED
-         VJwOjFF4t1y2l6OMvXwUwY/TqTNd+nFGP/uD9zl/EhSJTDncU2jpp4LKfeToejpVCtwQ
-         mZXoXwPqqJGCH4V/JMsNE2pinEzC+hn0AhFuAe/0JevZYk1XXSkvqVGt3CgoFxkgvODj
-         F8V2IWOSwn2c/fMoLcGp7Q4ci3ODAF/RCUTiZHvegzT/BMd9qoOB1qOg0Fp+FKo1dpcs
-         78bkb44QrgLTgANGShcsttZwF28LvZnN2Np8YoSCTtGu9b/EykbsfpvSmySc6166l4+F
-         uUZw==
+        bh=1V5FDGF/e6SVBVJsOb1x0mGzHREcuT+Gfnqc1J4W+DU=;
+        b=kThEKxFUrqmeaZ5Mk6vciR8rP2LVT4S5jo7RRtIro4YklfgsI06MKzt6CM5C698Gup
+         yaBf7w5cgU7nNd3L0xe4jGsl2RTN8n4bzx+QqO5uqg1MpCFAkeU73/5kisEDGP2CRoSg
+         AViw4qdfFio6tUcGYQXvctYxEvmhiLMVhFA5HulzHBjErF3h5Bt82MXGoJIe1OzBvgIl
+         D38QrZk1dchWoPYT7olZLi5gEg0/RvaNnXeBT6K2mPuD5QBfHf7js/l0jUpSTMDGTC8i
+         mqtX++20uNhM14LdVr5Vpqp+jrAHLVf8Tu5N97E65WrdA9PxQZ9lZgE/salRpmwtPnI2
+         uSZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792950026; x=1793554826;
+        d=1e100.net; s=20260707; t=1792950028; x=1793554828;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Cd4NBiUaZHjhgQI6f1triFkm5VKVfeLrpjHZ+ms4srE=;
-        b=E4i/xAtgD9GqFAjt4gi7RNL1tdyhJQGfjEQsTlcBuCS/6GNxbhU/IsSR5kzbD8hOes
-         7ECTYw3IMlf48OycfLwLC/PKeIj8dUTvEI7m3zuaGvkIuuH1Ifv+BliNX5b0awfUosnF
-         im6p965DySrBhODs7ODpCfuJoi5JqwLb3khsBgnHY4PnZpVwQ7e+tKRwJE/8T/gadCY5
-         /zXNkoKdwrw7+pajejSXz0x6uzBLQTO/9g+n7OZr4ElhaBN0BVXnUB/YnwFslOdbew40
-         eMwQp4LAl/thA61MzXl1EUDQk6bna/19e9fIueyZDAjHLtuet9K4aaAKyQbODMHcGd4t
-         uJkw==
-X-Forwarded-Encrypted: i=1; AKwUvBy201myB6y1wEPcKU7GrEgbgm3vfrRIKRDWnRtUMGChUvmUbNnnMVcxLUPKoAvKAQEMqeLM0PHsVMI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL78hChgh/CAUmp1EsWli/OhnllS771HW9xToJifV+q16Bs00ZU
-	Jmp/StOk6pyhs/JcZdvcCaEVz2YXUyieNK412whp3uDLfsHg7wjqhMxGFEyp3uUbgps=
-X-Gm-Gg: AYBFou0FXBKyEsju3RKjlY4hQLtCSC2dSPWcHOczd40TTd7K/n/cdMzW2faFHJGjTvu
-	CVk0wWTrRja51efAkRbrDy+cQ0tw8ugjyRgNxk3rgUE/dexZL8Z/d85x5AarATzfRJT00wj4UpS
-	Oqj1ZMoxTSKAetMuG7yoqdrK7kl1fkxbaQXZKutOKG0i2d38zUzrAw3OdZKx/dJ1OHVfffUK5nt
-	OD05MBT1frJoMnN9C57Sjigb0a+FmX3U5yHyQ9oVUMblrMSkPInE61ksuNZI02F/8/2dxWvvRhn
-	sZAEBt96Zs3rAvB72hIJv4ZcQetYp+meBtOLBtBpNk5rqxOZrPag+TdHAvCrpiCQ2ZpBpJnZwEY
-	JyGvivZ+M8HCYpOvBemrybnzinLmIU8tCBWdfSa8EAZk5iDd2xB31r/X6H4n7qIP5/KlpgBprai
-	IlvfEjOlc5R+mdJJT8doruA/9zxv9Lnr2hSYtPDk26I6DQoKQm5DAOSz5Haxgh/SJnYJugZ/tqC
-	Bg4t14ApDSv+F+WAB4UkF05M6eW1hcZ7SlDaethyc7KHrjJgygDX3aCwTexKwPSAOuzCzkLzzq6
-	S5QA1MmkNYVzPDeJPRjrg34hFeuIN0b/SV/bk0ZnxXs+h2s8PIxKLGTDmLNZ3bhjfPHkJg+8+Zp
-	Q
-X-Received: by 2002:a05:6122:78b:b0:5ea:c874:6c4 with SMTP id 71dfb90a1353d-5ec232c784dmr1663615e0c.16.1792950026456;
-        Sun, 25 Oct 2026 10:40:26 -0700 (PDT)
+        bh=1V5FDGF/e6SVBVJsOb1x0mGzHREcuT+Gfnqc1J4W+DU=;
+        b=noRPTiX8Sy2RmIoHj071EZSIquaczWhdy9+j0zg7gQb39BKuI/zm3ZOunq+yF07Tf/
+         adyLpFZ4pJM65UORW1FJUqYmP1Qh4jDqjBa3jHGYhtpQEHRK2csRpUfzvG/klsFlr/yC
+         7XLqypUzXkajh3hZxtqlNbpgHwP5RvXKvZFV9d4eqpfyfxLEE+49vXlwkpFI2BMblEj/
+         YhPO5XVAF6AxDWHOB2NB6q0QcNsWv+RWvNDoX4XYvxXWWddZeUHD9wwRPhbKJAqYywrj
+         HMJxHKIQDH8dWcFOfKFKlElLOsMMZq8thQy7WJYzrBPmQyu9i09qtfsWxpSfxnoLudTM
+         W/Yw==
+X-Forwarded-Encrypted: i=1; AKwUvBz7/y5K0QYaC4xNcFXXD+CTAYoKqSV/rrG1i1Lox+SQX/WdrACMCieURZ2S3b7XRpn9Ktr3WKynHsI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLdDJrIZS7c+OSqhGnLgSys8JDXa5T1IwtuCmJVANeBZpiH5NwU
+	pOmA51rXO/gmPEFyBrcG/hWKKO2TzE5B9Qs9C8dUl27ZeEGBC0urRmQd4TZ/aIt5WtE=
+X-Gm-Gg: AYBFou2V9PFu+COapTUkGjujZXoVC/5wxnvj9eFwWuw3irPqUcp1lXQsijujS6KATBO
+	3+rleQjrhsmWqDJdrZ/H+fYGn1j2/m8AtxT/yBxw/Ec8z5jHZ7GidX/w1C9HCVMJ67IG4DrcibH
+	xWI/ON/lZ2nNGea/64VQah4zT6obLIN0ed1pgqbynOqstU1ogyDFHHa3QkpL1iv5uavVS70mio4
+	aFg57V5oDfjlG98eCbThOa7TRLXSxxqWvB2i0/llK//qeA4zFpM8K76R6A/pZNSRQiym0oZEXpq
+	sLdmdOOUc/7lSRdavuzagW6BLj+0WeeCIWZqA+cBJPNckW2HX/JM863zv1ymsLLe1SaG/Q30dV9
+	8HJwRm2T9OkTt2ZeWJXwqaF30A5rCMJnaEzyPKF1C/JW8ZqYucuK7bBQG5yAV6JBik2x03no0yT
+	b3sRar5YljRNX/8SCydIc5nvD0y9EPRq+mTTmM1GId8P62TwB+Ea7famfjCPWVrYW6oNnEcPmMq
+	aTqM+1TfoUYqcjwyBkIQhDleyQhSTzOxwy++3ehPgqrda1rg85aXdf5cY0qpAsAP1PpKtXBoVAX
+	WHhDkAxoDiqfdn8omrC0gEjIUTqMDd4POx0M2MMGDAdRMUfAg9BHSpgv5CBbjKv457a8wWIVNUP
+	Pc1Uh5xpjOhKLKgICVlSPiQ==
+X-Received: by 2002:a05:6122:50a:b0:5ea:be1b:1b66 with SMTP id 71dfb90a1353d-5ec22ecf5f6mr1525623e0c.0.1792950028135;
+        Sun, 25 Oct 2026 10:40:28 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec234673ebsm5783333e0c.13.2026.10.25.10.40.25
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec234673ebsm5783333e0c.13.2026.10.25.10.40.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 10:40:26 -0700 (PDT)
+        Sun, 25 Oct 2026 10:40:27 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -107,9 +107,9 @@ To: linux-kselftest@vger.kernel.org,
 	lirongqing@baidu.com,
 	liam@infradead.org,
 	jlayton@kernel.org
-Subject: [PATCH v2 5/9] kho: add read-only Kexec Handover mode
-Date: Sun, 25 Oct 2026 13:40:12 -0400
-Message-ID: <20261025174017.3870481-6-pasha.tatashin@soleen.com>
+Subject: [PATCH v2 6/9] kho: support read-only KHO mode in KHO core
+Date: Sun, 25 Oct 2026 13:40:13 -0400
+Message-ID: <20261025174017.3870481-7-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
 In-Reply-To: <20261025174017.3870481-1-pasha.tatashin@soleen.com>
 References: <20261025174017.3870481-1-pasha.tatashin@soleen.com>
@@ -124,631 +124,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Kernels that inspect preserved KHO state without taking ownership of
-preserved memory need a way to traverse the KHO FDT, radix tree, and
-vmalloc chains in place while leaving the underlying physical pages and
-metadata unmodified.
-
-Add CONFIG_KEXEC_HANDOVER_READONLY and the 'kho_ro=<pa>' kernel
-command-line parameter so both regular KHO and read-only KHO can be
-compiled into the same kernel image and activated via the command line.
-Map and validate the incoming KHO FDT once in an early_initcall, and
-cache radix-tree node, leaf, folio, and vmalloc mappings in a unified
-RCU-protected hash table (kho_ro_map_ht) for the lifetime of the
-read-only KHO kernel.
-
-Also export kho_is_ro(), kho_ro_lookup_folio_order(),
-kho_ro_map_folio(), and kho_ro_map_vmalloc() so callers can check if
-read-only KHO mode is active and map preserved folios and vmalloc
-regions verified against the KHO radix tree.
+When booted with 'kho_ro=<pa>', skip standard KHO bootmem and FDT
+ingestion in kho_populate() before early_param parsing runs, disable
+standard KHO in kho_memory_init() once early parameters are parsed, and
+use kho_ro_get_fdt() in kho_retrieve_subtree().
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- .../admin-guide/kernel-parameters.txt         |   8 +
- Documentation/core-api/kho/index.rst          |   3 +
- include/linux/kexec_handover.h                |  44 +-
- kernel/liveupdate/Kconfig                     |  10 +
- kernel/liveupdate/Makefile                    |   1 +
- kernel/liveupdate/kexec_handover_internal.h   |  13 +
- kernel/liveupdate/kexec_handover_ro.c         | 429 ++++++++++++++++++
- 7 files changed, 501 insertions(+), 7 deletions(-)
- create mode 100644 kernel/liveupdate/kexec_handover_ro.c
+ kernel/liveupdate/kexec_handover.c        | 8 ++++++++
+ kernel/liveupdate/kexec_handover_common.c | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3b89b54db550..887a4b14cf40 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3051,6 +3051,14 @@ Kernel parameters
- 			bootmem areas.  The form "nn%" defines scale factor
- 			(in percents) of memory that was used during boot.
+diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
+index 67efbdd39439..cc56caeecba7 100644
+--- a/kernel/liveupdate/kexec_handover.c
++++ b/kernel/liveupdate/kexec_handover.c
+@@ -1819,6 +1819,11 @@ void __init kho_memory_init_early(void)
  
-+	kho_ro=		[KEXEC,EARLY]
-+			Format: <phys_addr>
-+			Enables read-only Kexec HandOver mode, pointing to the
-+			page-aligned physical address of a preserved KHO FDT
-+			blob, and disables regular KHO. The FDT and preserved
-+			memory must not be part of this kernel's System RAM.
-+			Requires CONFIG_KEXEC_HANDOVER_READONLY.
-+
- 	kmac=		[MIPS] Korina ethernet MAC address.
- 			Configure the RouterBoard 532 series on-chip
- 			Ethernet adapter MAC address.
-diff --git a/Documentation/core-api/kho/index.rst b/Documentation/core-api/kho/index.rst
-index bce7fe281194..803e5dfc3caf 100644
---- a/Documentation/core-api/kho/index.rst
-+++ b/Documentation/core-api/kho/index.rst
-@@ -86,6 +86,9 @@ Public API
- .. kernel-doc:: kernel/liveupdate/kexec_handover_common.c
-   :export:
- 
-+.. kernel-doc:: kernel/liveupdate/kexec_handover_ro.c
-+  :export:
-+
- KHO Serialization Blocks API
- ============================
- 
-diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.h
-index ef2b188c8ed0..bdb8dc3c3f54 100644
---- a/include/linux/kexec_handover.h
-+++ b/include/linux/kexec_handover.h
-@@ -13,6 +13,43 @@ struct kho_vmalloc;
- struct folio;
- struct page;
- 
-+#if defined(CONFIG_KEXEC_HANDOVER) || defined(CONFIG_KEXEC_HANDOVER_READONLY)
-+int kho_retrieve_subtree(const char *name, phys_addr_t *phys, size_t *size);
-+#else
-+static inline int kho_retrieve_subtree(const char *name, phys_addr_t *phys,
-+				       size_t *size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_KEXEC_HANDOVER || CONFIG_KEXEC_HANDOVER_READONLY */
-+
-+#ifdef CONFIG_KEXEC_HANDOVER_READONLY
-+bool kho_is_ro(void);
-+int kho_ro_lookup_folio_order(phys_addr_t pa);
-+void *kho_ro_map_folio(phys_addr_t pa, pgprot_t prot);
-+const void *kho_ro_map_vmalloc(const struct kho_vmalloc *preservation);
-+#else
-+static inline bool kho_is_ro(void)
-+{
-+	return false;
-+}
-+
-+static inline int kho_ro_lookup_folio_order(phys_addr_t pa)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline void *kho_ro_map_folio(phys_addr_t pa, pgprot_t prot)
-+{
-+	return NULL;
-+}
-+
-+static inline const void *kho_ro_map_vmalloc(const struct kho_vmalloc *preservation)
-+{
-+	return NULL;
-+}
-+#endif /* CONFIG_KEXEC_HANDOVER_READONLY */
-+
- #ifdef CONFIG_KEXEC_HANDOVER
- bool kho_is_enabled(void);
- bool is_kho_boot(void);
-@@ -31,7 +68,6 @@ struct page *kho_restore_pages(phys_addr_t phys, unsigned long nr_pages);
- void *kho_restore_vmalloc(const struct kho_vmalloc *preservation);
- int kho_add_subtree(const char *name, void *blob, size_t size);
- void kho_remove_subtree(void *blob);
--int kho_retrieve_subtree(const char *name, phys_addr_t *phys, size_t *size);
- 
- void kho_memory_init(void);
- void kho_memory_init_early(void);
-@@ -112,12 +148,6 @@ static inline int kho_add_subtree(const char *name, void *blob, size_t size)
- 
- static inline void kho_remove_subtree(void *blob) { }
- 
--static inline int kho_retrieve_subtree(const char *name, phys_addr_t *phys,
--				       size_t *size)
--{
--	return -EOPNOTSUPP;
--}
--
- static inline void kho_memory_init(void) { }
- 
- static inline void kho_memory_init_early(void) { }
-diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-index f50daee8eff0..d633e4c9197d 100644
---- a/kernel/liveupdate/Kconfig
-+++ b/kernel/liveupdate/Kconfig
-@@ -48,6 +48,16 @@ config KEXEC_HANDOVER_ENABLE_DEFAULT
- 	  The default behavior can still be overridden at boot time by
- 	  passing 'kho=off'.
- 
-+config KEXEC_HANDOVER_READONLY
-+	bool "Read-only kexec handover"
-+	depends on ARCH_SUPPORTS_KEXEC_HANDOVER
-+	select LIBFDT
-+	help
-+	  Enable read-only Kexec Handover ('kho_ro=<pa>'). This allows a
-+	  kernel to traverse preserved KHO subtrees, radix trees, and
-+	  metadata by mapping them in place without taking ownership of
-+	  or modifying the preserved KHO state.
-+
- config LIVEUPDATE
- 	bool "Live Update Orchestrator"
- 	depends on KEXEC_HANDOVER
-diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-index f6bed6bcd380..74a584e6bb43 100644
---- a/kernel/liveupdate/Makefile
-+++ b/kernel/liveupdate/Makefile
-@@ -8,6 +8,7 @@ luo-y :=								\
- 		luo_session.o
- 
- obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o kexec_handover_common.o
-+obj-$(CONFIG_KEXEC_HANDOVER_READONLY)	+= kexec_handover_ro.o kexec_handover_common.o
- obj-$(CONFIG_KEXEC_HANDOVER_DEBUGFS)	+= kexec_handover_debugfs.o
- 
- obj-$(CONFIG_LIVEUPDATE)		+= luo.o
-diff --git a/kernel/liveupdate/kexec_handover_internal.h b/kernel/liveupdate/kexec_handover_internal.h
-index dd79e5006562..39e85d0e2c7d 100644
---- a/kernel/liveupdate/kexec_handover_internal.h
-+++ b/kernel/liveupdate/kexec_handover_internal.h
-@@ -18,7 +18,20 @@ struct kho_vmalloc_walk_ops {
- 	int (*entry)(phys_addr_t pa, void *priv);
- };
- 
-+#ifdef CONFIG_KEXEC_HANDOVER
- const void *kho_get_fdt(void);
-+#else
-+static inline const void *kho_get_fdt(void) { return NULL; }
-+#endif
-+
-+#ifdef CONFIG_KEXEC_HANDOVER_READONLY
-+const void *kho_ro_get_fdt(void);
-+bool kho_ro_cmdline_enabled(void);
-+#else
-+static inline const void *kho_ro_get_fdt(void) { return NULL; }
-+static inline bool kho_ro_cmdline_enabled(void) { return false; }
-+#endif
-+
- bool kho_vmalloc_validate(const struct kho_vmalloc *preservation,
- 			  unsigned int *vm_flags);
- int kho_vmalloc_walk(const struct kho_vmalloc *preservation,
-diff --git a/kernel/liveupdate/kexec_handover_ro.c b/kernel/liveupdate/kexec_handover_ro.c
-new file mode 100644
-index 000000000000..fbf6d2ec8395
---- /dev/null
-+++ b/kernel/liveupdate/kexec_handover_ro.c
-@@ -0,0 +1,429 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * kexec_handover_ro.c - Read-Only Kexec Handover backend
-+ *
-+ * Copyright (c) 2026, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Implements the read-only KHO backend (kho_ro=<pa>). In read-only mode, KHO
-+ * is not enabled for outgoing or incoming page ownership transfer and makes no
-+ * changes to boot or struct page initialization. Instead, when subsystems
-+ * retrieve preserved state, this backend traverses the KHO FDT, radix tree,
-+ * and preserved metadata by mapping physical pages read-only (PAGE_KERNEL_RO)
-+ * without modifying or freeing the KHO metadata or reclaiming the preserved
-+ * pages.
-+ *
-+ * The preserved KHO FDT, radix tree, and folio/vmalloc metadata are assumed to
-+ * remain static for the lifetime of the read-only KHO kernel: the FDT is
-+ * mapped at early_initcall time, and radix-tree nodes, leaves, and
-+ * folio/vmalloc mappings are cached on first access. If a caller needs
-+ * read-write access to preserved folio contents outside of KHO metadata, it
-+ * can map them with PAGE_KERNEL via kho_ro_map_folio().
-+ */
-+
-+#define pr_fmt(fmt) "KHO-RO: " fmt
-+
-+#include <linux/bitops.h>
-+#include <linux/cleanup.h>
-+#include <linux/hashtable.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/ioport.h>
-+#include <linux/kexec_handover.h>
-+#include <linux/kho/abi/kexec_handover.h>
-+#include <linux/minmax.h>
-+#include <linux/mm.h>
-+#include <linux/moduleparam.h>
-+#include <linux/mutex.h>
-+#include <linux/rcupdate.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/vmalloc.h>
-+
-+#include <asm/setup.h>
-+
-+#include "kexec_handover_internal.h"
-+
-+#define KHO_RO_MAP_HASH_BITS 10
-+
-+/*
-+ * In read-only KHO mode, the preserved KHO tree and memory must reside outside
-+ * of the kernel's direct map so they do not conflict with the kernel that owns
-+ * the KHO state. Virtual mappings used to access the tree and preserved memory
-+ * are stored in an RCU-protected hash table (kho_ro_map_ht) that remains
-+ * static for the lifetime of the kernel and is never unmapped, allowing fast
-+ * lockless multi-threaded lookups under rcu_read_lock() during traversal while
-+ * serializing insertions on cache misses with kho_ro_lock.
-+ *
-+ * Entries are keyed by (pa, size, prot):
-+ * - Radix-tree nodes/leaves and preserved folios use their physical address,
-+ *   mapped byte size (PAGE_SIZE << order), and pgprot_t.
-+ * - Preserved kho_vmalloc regions use preservation->first.phys with size = 0
-+ *   and PAGE_KERNEL_RO so a discontiguous vmalloc mapping never collides with
-+ *   a direct page/folio mapping (which always has size > 0).
-+ */
-+struct kho_ro_map_entry {
-+	struct hlist_node node;
-+	phys_addr_t pa;
-+	size_t size;
-+	pgprot_t prot;
-+	void *vaddr;
-+};
-+
-+static bool kho_ro __ro_after_init;
-+static phys_addr_t kho_ro_fdt_phys __ro_after_init;
-+static phys_addr_t kho_ro_mem_map_phys __ro_after_init;
-+static const void *kho_ro_fdt __ro_after_init;
-+static DEFINE_MUTEX(kho_ro_lock);
-+static DEFINE_HASHTABLE(kho_ro_map_ht, KHO_RO_MAP_HASH_BITS);
-+
-+/**
-+ * kho_is_ro - Check if KHO is operating in read-only mode.
-+ *
-+ * Return: true if read-only KHO mode is active, false otherwise.
-+ */
-+bool kho_is_ro(void)
-+{
-+	return kho_ro;
-+}
-+EXPORT_SYMBOL_GPL(kho_is_ro);
-+
-+static int __init kho_parse_ro(char *p)
-+{
-+	unsigned long long pa;
-+
-+	if (!p || kstrtoull(p, 0, &pa) || !pa || !PAGE_ALIGNED(pa))
-+		return -EINVAL;
-+
-+	kho_ro_fdt_phys = pa;
-+	kho_ro = true;
-+	pr_info_once("Read-only mode enabled with FDT at %pa\n",
-+		     &kho_ro_fdt_phys);
-+	return 0;
-+}
-+early_param("kho_ro", kho_parse_ro);
-+
-+static int __init kho_ro_early_parse(char *param, char *val,
-+				     const char *unused, void *arg)
-+{
-+	if (parameq(param, "kho_ro"))
-+		kho_parse_ro(val);
-+	return 0;
-+}
-+
-+bool __init kho_ro_cmdline_enabled(void)
-+{
-+	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
-+
-+	if (!kho_ro) {
-+		strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-+		parse_args("kho_ro", tmp_cmdline, NULL, 0, 0, 0, NULL,
-+			   kho_ro_early_parse);
+ void __init kho_memory_init(void)
+ {
++	if (kho_is_ro()) {
++		kho_enable = false;
++		return;
 +	}
 +
-+	return kho_ro;
-+}
+ 	if (is_kdump_kernel()) {
+ 		kho_enable = false;
+ 		pr_info("disabled in the kdump kernel\n");
+@@ -1841,6 +1846,9 @@ void __init kho_populate(phys_addr_t fdt_phys, u64 fdt_len,
+ 	bool populated = false;
+ 	int err;
+ 
++	if (kho_ro_cmdline_enabled())
++		return;
 +
-+static int kho_ro_map_range(unsigned long vaddr, phys_addr_t pa, size_t size,
-+			    pgprot_t prot)
-+{
-+	if (!pa || !size || !PAGE_ALIGNED(pa | size) || pa + size - 1 < pa)
-+		return -EINVAL;
-+
-+	if (region_intersects(pa, size, IORESOURCE_SYSTEM_RAM,
-+			      IORES_DESC_NONE) != REGION_DISJOINT) {
-+		pr_warn_once("Cannot map System RAM at %pa (size 0x%zx)\n",
-+			     &pa, size);
-+		return -EINVAL;
-+	}
-+
-+	return vmap_page_range(vaddr, vaddr + size, pa, prot);
-+}
-+
-+static void *kho_ro_map(phys_addr_t pa, size_t size, pgprot_t prot)
-+{
-+	struct vm_struct *area;
-+
-+	area = get_vm_area_caller(size, VM_IOREMAP, __builtin_return_address(0));
-+	if (!area)
-+		return NULL;
-+
-+	area->phys_addr = pa;
-+	if (kho_ro_map_range((unsigned long)area->addr, pa, size, prot)) {
-+		vunmap(area->addr);
-+		return NULL;
-+	}
-+
-+	return area->addr;
-+}
-+
-+static int __init kho_ro_init(void)
-+{
-+	phys_addr_t mem_map_phys;
-+	const void *fdt;
-+
-+	if (!kho_ro)
-+		return 0;
-+
-+	fdt = kho_ro_map(kho_ro_fdt_phys, PAGE_SIZE, PAGE_KERNEL_RO);
-+	if (!fdt) {
-+		pr_err("Failed to map FDT at %pa\n", &kho_ro_fdt_phys);
-+		goto err_disable;
-+	}
-+
-+	if (kho_check_fdt(fdt, kho_ro_fdt_phys))
-+		goto err_unmap;
-+
-+	mem_map_phys = kho_get_mem_map_phys(fdt);
-+	if (!mem_map_phys)
-+		goto err_unmap;
-+
-+	kho_ro_fdt = fdt;
-+	kho_ro_mem_map_phys = mem_map_phys;
-+	return 0;
-+
-+err_unmap:
-+	vunmap(fdt);
-+err_disable:
-+	pr_warn("Disabling read-only mode\n");
-+	kho_ro = false;
-+	return -EINVAL;
-+}
-+early_initcall(kho_ro_init);
-+
-+const void *kho_ro_get_fdt(void)
-+{
-+	return kho_ro_fdt;
-+}
-+
-+static void *kho_ro_lookup_cached(phys_addr_t pa, size_t size, pgprot_t prot)
-+{
-+	struct kho_ro_map_entry *entry;
-+	void *vaddr = NULL;
-+
-+	rcu_read_lock();
-+	hash_for_each_possible_rcu(kho_ro_map_ht, entry, node, pa) {
-+		if (entry->pa == pa && entry->size == size &&
-+		    pgprot_val(entry->prot) == pgprot_val(prot)) {
-+			vaddr = entry->vaddr;
-+			break;
-+		}
-+	}
-+	rcu_read_unlock();
-+
-+	return vaddr;
-+}
-+
-+static void *kho_ro_insert_cached(phys_addr_t pa, size_t size, pgprot_t prot,
-+				  void *vaddr)
-+{
-+	struct kho_ro_map_entry *entry;
-+	void *existing;
-+
-+	guard(mutex)(&kho_ro_lock);
-+	existing = kho_ro_lookup_cached(pa, size, prot);
-+	if (existing)
-+		return existing;
-+
-+	entry = kzalloc_obj(*entry);
-+	if (!entry)
-+		return NULL;
-+
-+	entry->pa = pa;
-+	entry->size = size;
-+	entry->prot = prot;
-+	entry->vaddr = vaddr;
-+	hash_add_rcu(kho_ro_map_ht, &entry->node, pa);
-+
-+	return vaddr;
-+}
-+
-+static void *kho_ro_map_cached(phys_addr_t pa, size_t size, pgprot_t prot)
-+{
-+	void *vaddr, *cached;
-+
-+	vaddr = kho_ro_lookup_cached(pa, size, prot);
-+	if (vaddr)
-+		return vaddr;
-+
-+	vaddr = kho_ro_map(pa, size, prot);
-+	if (!vaddr)
-+		return NULL;
-+
-+	cached = kho_ro_insert_cached(pa, size, prot, vaddr);
-+	if (cached != vaddr)
-+		vunmap(vaddr);
-+
-+	return cached;
-+}
-+
-+static void *kho_ro_map_radix(phys_addr_t pa)
-+{
-+	return kho_ro_map_cached(pa, PAGE_SIZE, PAGE_KERNEL_RO);
-+}
-+
-+static bool kho_ro_radix_key_exists(unsigned long key)
-+{
-+	const struct kho_radix_leaf *leaf;
-+
-+	leaf = kho_radix_find_leaf(kho_ro_mem_map_phys, key, kho_ro_map_radix);
-+	if (!leaf)
-+		return false;
-+
-+	return test_bit(kho_radix_get_bitmap_index(key), leaf->bitmap);
-+}
-+
-+/**
-+ * kho_ro_lookup_folio_order - Look up the preserved order of a physical page in KHO.
-+ * @pa: Page-aligned physical address of the preserved folio.
-+ *
-+ * Queries the preserved KHO memory radix tree in read-only mode to determine
-+ * the order at which @pa was preserved.
-+ *
-+ * Return: Non-negative page order on success, -ENOENT if @pa is not preserved,
-+ * or -EOPNOTSUPP if read-only KHO is not active.
-+ */
-+int kho_ro_lookup_folio_order(phys_addr_t pa)
-+{
-+	unsigned int order, max_order;
-+
-+	might_sleep();
-+	if (!kho_ro)
-+		return -EOPNOTSUPP;
-+	if (!pa || !PAGE_ALIGNED(pa) || !kho_ro_mem_map_phys)
-+		return -ENOENT;
-+
-+	max_order = min_t(unsigned int, __ffs64(pa >> PAGE_SHIFT),
-+			  KHO_RADIX_KEY_WIDTH - 2);
-+
-+	for (order = 0; order <= max_order; order++) {
-+		if (kho_ro_radix_key_exists(kho_encode_radix_key(pa, order)))
-+			return (int)order;
-+	}
-+
-+	return -ENOENT;
-+}
-+EXPORT_SYMBOL_GPL(kho_ro_lookup_folio_order);
-+
-+/**
-+ * kho_ro_map_folio - Map a preserved KHO folio into kernel virtual address space.
-+ * @pa:   Page-aligned physical address of the preserved folio.
-+ * @prot: Page protection flags for the mapping (e.g. PAGE_KERNEL_RO or PAGE_KERNEL).
-+ *
-+ * Looks up @pa in the preserved KHO radix tree to determine its folio order,
-+ * maps the entire folio (PAGE_SIZE << order) into kernel virtual address
-+ * space with @prot permissions, and caches the mapping (keyed by @pa, size,
-+ * and @prot) for the lifetime of the read-only KHO kernel.
-+ *
-+ * Return: Virtual pointer to the mapped folio on success, or NULL on failure.
-+ */
-+void *kho_ro_map_folio(phys_addr_t pa, pgprot_t prot)
-+{
-+	int order;
-+
-+	might_sleep();
-+	order = kho_ro_lookup_folio_order(pa);
-+	if (order < 0)
-+		return NULL;
-+
-+	return kho_ro_map_cached(pa, PAGE_SIZE << order, prot);
-+}
-+EXPORT_SYMBOL_GPL(kho_ro_map_folio);
-+
-+struct kho_ro_vmalloc_ctx {
-+	unsigned long vaddr;
-+	size_t contig_size;
-+	unsigned int order;
-+};
-+
-+static const struct kho_vmalloc_chunk *kho_ro_vmalloc_get_chunk(phys_addr_t pa)
-+{
-+	if (kho_ro_lookup_folio_order(pa) != 0)
-+		return NULL;
-+
-+	return kho_ro_map(pa, PAGE_SIZE, PAGE_KERNEL_RO);
-+}
-+
-+static void kho_ro_vmalloc_put_chunk(const struct kho_vmalloc_chunk *chunk)
-+{
-+	vunmap(chunk);
-+}
-+
-+static int kho_ro_vmalloc_map_entry(phys_addr_t pa, void *priv)
-+{
-+	struct kho_ro_vmalloc_ctx *ctx = priv;
-+	int err;
-+
-+	if (kho_ro_lookup_folio_order(pa) != ctx->order)
-+		return -EINVAL;
-+
-+	err = kho_ro_map_range(ctx->vaddr, pa, ctx->contig_size,
-+			       PAGE_KERNEL_RO);
-+	if (err)
-+		return err;
-+
-+	ctx->vaddr += ctx->contig_size;
-+	return 0;
-+}
-+
-+static const struct kho_vmalloc_walk_ops kho_ro_vmalloc_ops = {
-+	.get_chunk = kho_ro_vmalloc_get_chunk,
-+	.put_chunk = kho_ro_vmalloc_put_chunk,
-+	.entry = kho_ro_vmalloc_map_entry,
-+};
-+
-+/**
-+ * kho_ro_map_vmalloc - Map a preserved vmalloc region read-only in place.
-+ * @preservation: Pointer to the KHO vmalloc preservation metadata.
-+ *
-+ * Allocates a VM_IOREMAP virtual address range, validates each chunk header and
-+ * preserved page order in the cached KHO radix tree, maps the preserved
-+ * physical pages directly with read-only permissions (PAGE_KERNEL_RO) with
-+ * zero RAM allocation or memcpy overhead, and caches the mapping for the
-+ * lifetime of the read-only KHO kernel.
-+ *
-+ * Return: Read-only virtual pointer on success, or NULL on failure.
-+ */
-+const void *kho_ro_map_vmalloc(const struct kho_vmalloc *preservation)
-+{
-+	struct kho_ro_vmalloc_ctx ctx;
-+	struct vm_struct *area;
-+	unsigned int vm_flags;
-+	size_t total_size;
-+	void *cached;
-+
-+	might_sleep();
-+	if (!kho_ro || !kho_vmalloc_validate(preservation, &vm_flags))
-+		return NULL;
-+
-+	/* Use size 0 in the cache key to distinguish vmalloc from folios. */
-+	cached = kho_ro_lookup_cached(preservation->first.phys, 0,
-+				      PAGE_KERNEL_RO);
-+	if (cached)
-+		return cached;
-+
-+	total_size = (size_t)preservation->total_pages * PAGE_SIZE;
-+	area = get_vm_area_caller(total_size, VM_IOREMAP,
-+				  __builtin_return_address(0));
-+	if (!area)
-+		return NULL;
-+
-+	ctx = (struct kho_ro_vmalloc_ctx){
-+		.vaddr = (unsigned long)area->addr,
-+		.contig_size = PAGE_SIZE << preservation->order,
-+		.order = preservation->order,
-+	};
-+
-+	if (kho_vmalloc_walk(preservation, &kho_ro_vmalloc_ops, &ctx)) {
-+		vunmap(area->addr);
-+		return NULL;
-+	}
-+
-+	cached = kho_ro_insert_cached(preservation->first.phys, 0,
-+				      PAGE_KERNEL_RO, area->addr);
-+	if (cached != area->addr)
-+		vunmap(area->addr);
-+
-+	return cached;
-+}
-+EXPORT_SYMBOL_GPL(kho_ro_map_vmalloc);
+ 	/* Validate the input FDT */
+ 	fdt = early_memremap(fdt_phys, fdt_len);
+ 	if (!fdt) {
+diff --git a/kernel/liveupdate/kexec_handover_common.c b/kernel/liveupdate/kexec_handover_common.c
+index dc25cb4c08af..a9bc8d45d3ba 100644
+--- a/kernel/liveupdate/kexec_handover_common.c
++++ b/kernel/liveupdate/kexec_handover_common.c
+@@ -263,7 +263,7 @@ phys_addr_t __init kho_get_mem_map_phys(const void *fdt)
+  */
+ int kho_retrieve_subtree(const char *name, phys_addr_t *phys, size_t *size)
+ {
+-	const void *fdt = kho_get_fdt();
++	const void *fdt = kho_is_ro() ? kho_ro_get_fdt() : kho_get_fdt();
+ 	const u64 *val;
+ 	int offset, len;
+ 
 -- 
 2.56.0.307.g5fe7bd680c-goog
 
