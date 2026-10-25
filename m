@@ -1,100 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792926438;
-	b=yrWlQQqeoJLtocJS0y9LxtmA/Xi6G7/XfitJuW8Bnwi9H/JEMhESLcSJKcAyiPyC10S3
-	 BWRuB2qtDLjZUZAvwnpgdj7coqmVYIJzXTiPtjNHmbW4VRLqL57VsuNaU77w7cw47P8X/
-	 y6j/tqLoLOYmYK2y6mH7OXNr6VZgIeNGJW2lbIZ4mGFUSL+O9vT2pLkvNWLR3d3xIu452
-	 61nZBGkLEdCeCVTynAQSnYjyVmiiTAdmn6EkV0UeoGJWB8R7Ze1W9/vXCSVURgO4II/M9
-	 aFV4mtNDNtiHXw0G54M8o+AEQIyRTwPNcsUDD3HOW25N0RsTd874tIwy8EhIOMEEELw==
+	t=1792932496;
+	b=aF0rr9DgnU2KDer4TDcrf32XgzjcYPcTf3KCM3lVSffOs7sWvIFEfP8vciTG84MVvf/p
+	 qrw768g7pq9u5JsKTmvVdNc/IG6RjC1CYxsSfs6QoKEL+JTBaj7eq+HZj98tXd2ua/sYA
+	 XuZfxMHhCYAr7wLKmxH0cGOYdPCu26PvP6eE0eRtFXwpo4uT0e3DayzzzfKS3cXojtOe6
+	 5rimTYSLL4VjWQY63kHnJfpjHPB04+gR/uT42U6mrPEgDSi8P9D8f958tKAT2vRqZANEs
+	 BB1m1P86mIDGGNFKUsOu+enuSQwWKoxPh3IG0t8ZoKRyJ0YcDtwcj8kFHx9BlJiYs5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792926438;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792932496;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=HNmWqF1JTLCSQrPqjI1jaX+dUsgvu4DGBpBuWqz6xVM=;
-	b=NDY+EW4ujMSEimJvJMrJTGycxDGH3a/KSi+4j6aUSbk2/XUxN7Ew523OQr4hih+SFkXg
-	 skxDBFSZUlNJzHri+2voSzG6YerrNNihN30EmPBwSD8BNlNrIMIdyv01P/BH+fAXBAP9i
-	 h1GC1Cu5b9bMJ9vBB0hQQxGKH9rXCFCf5myeb2uexao6qd+IhPeq+/nCt/fzNRFyGqeIU
-	 g3moiSQ9bvt7Ee9QgqzNsopLFORhMblDh+8b1M9M3NYilB8Cjys/RxYxQ454CBAI2SPnW
-	 cxAsOlGwZtcng4peuk29HrVy8SjKPZx7N9Zr44kQLwrBfbqNrMYpPXQDs5PxWOJQAeQ==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+	b=L3AlIfPILm9zB08u4AjJmHFUHkeZSBAfQrGr68aqUWnbCBQwCSlTDURC7ESKNmYZcEU9
+	 DGmtFMnLOEXMnStCwrSe3BRyvLB6kPCjpYcgKh2EQiqE30LaXIi33P0DSiqOAKipP4ZKV
+	 BSZLkJGYIX99wSYEdB/z3XriVbjo6g/FPAB8Jy09chCpmmDfIFpWXEUQUjr73sUu0/no6
+	 obkiQSkr5jKrVb3hx2X5PnsrwxvRWiRwvipMCYSmzJy9EglMxWTcE82/gKJf+2o5vGOEN
+	 4iz3qgZevCO/E5QRz8XYKNdzjrLUfymxuBH/crwHcMS4fdj0Fph2X/6U23ed1NZ37tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ODS+EAZs;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65516606A31D
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 11:07:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65516606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ODS+EAZs
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a208d93758so24086385e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 04:07:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CB7606A31A
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 12:48:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29CB7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso22329835e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 05:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792926437; x=1793531237; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HNmWqF1JTLCSQrPqjI1jaX+dUsgvu4DGBpBuWqz6xVM=;
-        b=ODS+EAZsfQsQqYnYDNcBMTL5sH2KJriCY5hM05coRfGpI9gQbLYP6jnTuqcZuWkam9
-         rkHxAwt/KFDkKPF79ZJEdtrgvylh/6UKgEatmQKNDrQIpePLuXEYPmuhKmOoEFMIfSXa
-         EwW9vGXk7rbThpoluUtt1lF4N4iHPMrBk8VE8eojm50tfSnjXsd83vP6F8ljeRTfJmNg
-         jpC1Cs7cCMMNfT4wqf786El5BMOQA2X9R/gAyOib57oQJ6KCVmOzFU956Eo51mJxFxK5
-         IN72E2vX62+X+WRaa4snaXzhtjqf6dE3LTNyfoWYdm5kVc9hnOxfIzBg4p95s9DXsyZq
-         NOBQ==
+        d=baylibre.com; s=google; t=1792932488; x=1793537288; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+        b=pg8FDG9OpzKln8+QRdvhMAtMVp0WQ1NMYaLASyxAEYJWLNST/WK5rNIhMJud+ol1qL
+         fnBQe5FIbncQ9e7Yf2jY5Avm2y32XlQwi8zLdEdscaiuJNlhCMoPO1s4R86eAMZm65+N
+         4wN667A/guovDHJDdgGvxXS+E40NfJnWTsV/VNIYrlv42LuwoD8jhjPqOl8WFcqIB9pB
+         a1e9nczTgOPdUb4RwVqkaM30MzLLvdbX8vRjHV0JGK6vlZjszCVuRfZPWEEEj2bVwOtS
+         Onb1sPkJ2qFK+BNjMAVgcE1OO2VGj/K5/NoSG134pZJDNd8mh6bvz+WE17qQMRc8Utq5
+         4GBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792926437; x=1793531237;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=HNmWqF1JTLCSQrPqjI1jaX+dUsgvu4DGBpBuWqz6xVM=;
-        b=bW32nUS+H47tePoMahetAE+BwFEigFd9MgzWLY1I3Dz53WpYvNTbNz7DLFxslp/0N8
-         poxHJOTtxINldwLp5OsTtUenusPY+053zGcy5ncc3I92hcDWNgSn8gNMWov61pz1MWde
-         HEwAtlcXu3xTlsm7cB4MK9MNArElo6QeUng8AHatotpZANhXAJIDgYhpbutldRImqD0S
-         AeN9br9YA9vyIXXNnog8B/VVN4L0LSbjKnHpys8L6Yxo9K1g10+O5WTo14ezfxDzQNr6
-         PP95Ye3YEHDCggJCNCWllKhmeTMcsSVxlx0yJPrE75lrpRavjPY/t+vT7JkO75qv+puK
-         +OJA==
-X-Forwarded-Encrypted: i=1; AKwUvBxMNzv+W5IPjHDmM1W9Omq5W2Bq1XziwOX2tmM+GFRguri6NMgz6uPrNlwdRBs9g9XK8kJ6Zugc1h4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKJkLVccGDMsTb2+7xquNa8N/5OEJkmF4/Z24DWe2h7Na/FfT5H
-	0mxF28QNsndu9+h34m03y7wZaXBOlHok0A8TtvFiRCuE6jeemzAOrero
-X-Gm-Gg: AYBFou1cb4L1ZPTVowGWbG6eLLF4ZO7gWkojxK5Hqf6raxJCt8FXhY4SFSAYmyhTouK
-	tfT+0TPXnMJSZAYsOJGwMj001ziZi3ybiyMpcyJsyoZjEAFux6YCI744fmo97AopXwCe/doy2Jh
-	SfozW5ZxYYAjXbMg3OWphMu7qiOow9XkQUk12o2Cvr+4bvFXQEy/+rasP10fGgeuJiGt/Ify0b3
-	El7XzbO1n3xygT+LDk0mRhFahYnqAGy/VlWfD7wS8DT7SNjl30rSUAqRYHTz0zAYMHnScGx/eIj
-	59YS89C8jzkYPaxUeoh42lp/f/wDxrseSSVOwUGA3fEtyyxmMlTud13Ojkb/TcgFbeU+0L8lMgS
-	E/sgtWLG1LAmwzTtqcjV0xs1wlKYompnOxEBj4hmzEEV6waTk96C9snaiWm2EpEMdR/R2X8Ztl2
-	1cK3jZOo2YfON67Zxwyui8t5cbFVluAEINLD3MXiQPbeCfelhlz7XzueKtI13XOgjrOmv5tOUBo
-	N2+RA/FmpyGzyz5ARSzCzfaKJgGGSHoawRXDT6PRE0qJCdQH/6+A/2OL/u8iR74EW2+SrH2czeV
-	3tPC1A==
-X-Received: by 2002:a05:600c:870f:b0:4a1:f7f4:7ced with SMTP id 5b1f17b1804b1-4a35ac9d1cdmr64334395e9.17.1792926436490;
-        Sun, 25 Oct 2026 04:07:16 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a029332sm102825965e9.4.2026.10.25.04.07.16
+        d=1e100.net; s=20260707; t=1792932488; x=1793537288;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+        b=HiaaOIJWeug+86Q7N9zVrr4FT+aJAymNZKw1qt0YdCZgEtCypQPCVGzHrsVRJrblbw
+         dX7PhELHX/U6JbTwOi7dtUP4y2KUMdzuMrAT5EbfvpDk1za+MjTJG06BwrtnZtMbJdX3
+         P1pHnei2LSTjHEyVkzxkgBSuDpK3EYv4a2K/xexP1wMb8hBuf5x+ahDcQ1m31c8H5is8
+         nySdHfngdWcpIhOAP1E57Mr2y7BZ5NooHWPTy+DTjl4MUaI0BVWF6D/Q2B0z6nlPVw0k
+         TEElxgyhdVa92sii94mOxxnHkw8AaaGAH2medV1Uywso687AGvZaNXq7GtZuSB6XSWH4
+         +6iw==
+X-Forwarded-Encrypted: i=1; AKwUvByU/dm7aly6/g2Y1HgGP+5HvrOwx5Tf5XXvd2m8N70pd8USAWqn4+/01QtCy+uISu5M1wxlWYe7S0E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLxgVvQ92yvQJFmnZ5DaIqdd8C4umNUa9Fr+1jWq5+zxeQFqZsV
+	KcxGasLXkt/dQCFC8l1ShPYnMiJoCF8KkcKsJjX24aoaecbEMqSlTjqm7pREKK6Bxcc=
+X-Gm-Gg: AYBFou0umvdo4h5VPdJm7JtHw+Va4zzTMBgp+XbafMa/Rr92HwBdnU9/aJOQCAlZlM6
+	+WeJ/s3cNT/K7e8B2/H79wfQLsteCoXWQLKoQ+QtwsmoVdSZRmh3kfgpTQDMbOki4cgqt5FN3eB
+	q3WiCMDAdM8EEM4rdjf+ew+eT6OOHq7WF6FyR+N8yhzXSYXSVXbN9u8iVGomKvkl+TOePC6n5Yo
+	OLlI+dvkX1Zku+RTik9zpMNH+fms0shfw0ZHB22ArWQ6UTtHaOEh2gCLTz9lcjV3bAPmmJivPiq
+	/gugj2Z42fseSPmU9Qgmx5bk45H6bY4NGL1mseVg+foGrYJ3LFzRus3SrZvqc25bzdS+X0DR7Us
+	E9CQPidBv+X32qxK0PD6aud16fa9eT4dE+68JK90ig3A5vXKbXvn9KbNMsVGI9BpvllFrhoU2pB
+	BF2/5t0bCSoO+Apx7qRxMD1GvZffHeNZ/YLK2dv0brk1iIV2b6AfVZEoggeL6anlOOWtZ/Z0DzY
+	ORi862anhzR6VoediQqjLafCk4jQOeVn03Sf/0TqK+s5tpcVevU+vAY685WOhrSPpfOPKb50kMT
+	jlUJsQ==
+X-Received: by 2002:a05:600c:3b19:b0:4a1:d087:f6ab with SMTP id 5b1f17b1804b1-4a35acc7696mr71714575e9.18.1792932488137;
+        Sun, 25 Oct 2026 05:48:08 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a35a04ad39sm326937255e9.1.2026.10.25.05.48.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 04:07:16 -0700 (PDT)
-Date: Sun, 25 Oct 2026 12:07:10 +0100
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ericson <mail@johnericson.me>,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
-Message-ID: <20261025.769b43a39e24@gnoack.org>
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
+        Sun, 25 Oct 2026 05:48:06 -0700 (PDT)
+Date: Sun, 25 Oct 2026 13:48:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alex Williamson <alex@shazbot.org>, Armin Wolf <W_Armin@gmx.de>, 
+	David Lechner <dlechner@baylibre.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <at34UOuYv3NtX36R@monoceros>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <2026102437-vista-unsoiled-b089@gregkh>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,182 +114,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hexcezj4rledtjd3"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
-
-Hello Farid!
-
-On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
-> This is a proposal for an idea to add support for landlock to work
-> better with build systems such as Nix where they want to apply
-> restrictions but the paths may not yet exist.
-> 
-> TL;DR;
-> ========
-> 
-> Landlock rules attach to inodes that exist when a ruleset is built.
-> That makes a directory shared between trusted and sandboxed tasks hard
-> to confine: the sandbox may create entries there with
-> LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
-> time, and granting read access on the directory to cover them exposes
-> every other entry as well. This series adds a rule flag that grants
-> access rights on the entries a domain creates in a directory, instead
-> of on the directory.
-> 
-> Motivation
-> ==========
-> 
-> The motivating user is the Nix build sandbox. Every Nix build runs in
-> its own sandbox, and a build may only read its declared inputs in
-> /nix/store and must be able to write and read back the outputs it
-> creates there. Nix enforces this with a private mount namespace: it
-> creates an empty store directory and bind-mounts each input path into
-> it, one mount per input. Nix has paid this per-input cost since the
-> sandbox was introduced [1].
-> 
-> The cost is paid per build and grows with the size of the input
-> closure. Nix is moving towards much finer-grained builds (many small
-> derivations instead of a few large ones), so the number of sandboxes
-> grows while each build's own work shrinks, and the sandbox setup is
-> becoming the bottleneck. A typical build has hundreds of inputs; large
-> ones have thousands.
-> 
-> A microbenchmark sets up and tears down a Nix-like sandbox (user,
-> mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
-> removing the chroot afterwards). It compares one bind mount per input
-> with a single bind mount of the whole store plus one Landlock rule per
-> input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
-> ext4, 16 cores:
-> 
->   inputs   bind mount per input   one bind mount + Landlock   speedup
->       10         3.2 ms                    2.3 ms               1.4x
->      100        11.6 ms                    2.8 ms               4.1x
->     1000        79.3 ms                    6.4 ms              12.4x
->     5000       400.1 ms                   24.4 ms              16.4x
-> 
-> With Landlock, an input costs an O_PATH open and a landlock_add_rule()
-> call: there is a single mount, and no mountpoint directory to create
-> before the build and remove after it (removing the 1000 empty
-> mountpoints alone took 17 ms).
-> 
-> The single bind mount is only sound if the store listing and the
-> undeclared store paths stay unreadable while the build can still use
-> its outputs. Without this series, covering the outputs requires a rule
-> on /nix/store itself, which makes every store path readable again.
-> 
-> [1] https://github.com/NixOS/nix/issues/179
-
-I have not done a thorough code review yet, and will focus on the
-general approach.
-
-I am generally in favor of this approach where we keep track of the
-directory inode plus the file name.
-
-Other projects that have run into the problem before are:
-
-(1) Justine Tunney's Landlocked Make experiment
-    (https://github.com/jart/landlock-make).  This one shares the same
-    "build system" problem, I believe the topic came up during code
-    review at the time.
-
-    So I think this is a general problem in build systems that use
-    Landlock.
-
-(2) Michael Stapelberg's Go rsync implementation.
-
-    https://github.com/gokrazy/rsync/commit/f85bc9b98cdda705ff8e76ebcd8fba03c6560467
-
-In the rsync case, the issue is not a rule for *creation*, but for
-*reading* files.  But it could still be resolved with the same
-mechanism: When allow-listing the /etc/resolv.conf file, the policy
-works for a while, but eventually a system-level network management
-daemon might exchange the file for a new one with an atomic rename,
-changing the inode number.  It would be desirable to express a policy
-in this case as well, which is tied to the /etc inode plus the
-"resolv.conf" filename, for opening files for reading.
-
-The same problem also exists for allow-listing of Pathname Unix Domain
-Sockets, where the common way to restart these is to unlink the socket
-file and recreate it during bind(2).
-
-In both cases, the best current workaround is to grant the access
-right on the parent directory, which is arguably often granting more
-than necessary.
-
-Do you think your patch would generalize for the non-creation use
-cases as well?
+In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
 
 
-> Series
-> ======
-> 
-> Patch 1 lets an LSM observe inode creation through the
-> inode_init_security hook when no LSM provides an xattr. Patch 2 adds
-> the LANDLOCK_ADD_RULE_CREATED flag for path-beneath rules and bumps the
-> ABI to 13. Patch 3 adds selftests.
+--hexcezj4rledtjd3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
 
-I only had a short look so far, but stumbled across the words "package
-store" / "store" etc.  In other packaging systems, I have not come
-across the term "package store" before.  In the kernel code, please
-let's not assume that readers have a familiarity with Nix, and let's
-please explain features in more general terms.  (Note to self, on
-review, grep for the word "store".)
+Hello,
 
-(FWIW, I suspect that this wording might have been put there by an AI.
-I've observed in the past that AIs sometimes have an unfortunate
-tendency to blur the lines between abstraction layers and
-cross-reference implementation internals across abstraction layers.
-Maybe something to watch out for?)
+On Sat, Oct 24, 2026 at 06:56:34AM +0200, Greg Kroah-Hartman wrote:
+> So what is the real use case here, taking any type of any device and
+> thinking you can bind a random kernel driver to it and it will work ok?
+> You all have specific platform and pci vfio drivers, why not use the
+> proper device ids there instead, or better yet, bake-in this type of
+> functionality into the bus-specific logic so that you can have generic
+> userspace control of a device (like usbfs and uio does today)?
 
+Also note that even if the platform and pci busses implement
+bus-specific code to pass a given device to userspace and/or a VM, you
+need proper unbind support in the driver currently managing the device
+(or cripple the mechanism to only work for devices that were not bound
+to a host driver before).
 
-> Testing
-> =======
-> 
-> The series applies to the Landlock next branch (3e271a27c46f) and was
-> tested on Linux 7.3 with that branch applied.
-> 
-> Without patch 2, the five new tests and the ABI version check fail.
-> 
-> Open questions
-> ==============
-> 
-> - A created inode stays pinned until the layer's hierarchy is freed, so a
->   sandbox that creates many entries in such a directory keeps them all in
->   memory. Should this be bounded?
+The more I think about this taint, the more I believe the commit should
+be reverted and replaced by a some stop gaps for driver_override. (Be it
+a taint or better yet
+https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
+.)
 
-Is that a preexisting problem that predates your patch?
+Best regards
+Uwe
 
+--hexcezj4rledtjd3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> - Creation is detected in inode_init_security, so on filesystems that do
->   not call security_inode_init_security() created entries get no rights.
->   Is there a better hook?
+-----BEGIN PGP SIGNATURE-----
 
-We are already hooking into hook_path_mknod(), hook_path_symlink()
-etc.  Is the feature not possible based on that hook as well?
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrd+oIACgkQj4D7WH0S
+/k6aewf/a1J79AfBUwvrOd6Ba/0Y7Snc6nW1R3bcrJe5+V181tlQ+NubUnz+DJdu
+l8Jqw1xcQaALmyYYZ+CaEenSacHj9TFNREGi92ZjNkN8m6+iH5soIV1vTHPZaevX
+R9oV4vf5RnsRXugZv92lNktCGbzbu2ceTDhJU4IoX5FyuqL95AVajJ4awrTw+nol
+Y+gyqcgb8mzONrS7D52rBINMIjpn9/nmcPs4bVkXCZjAvPg+MFRZTpjwZ7hB3Guo
+GM19dH/Q7rfMakDFZ/TJqgDbxuKHrPdU/EFkrRXiolTo+VEKvUOmiiW/JK6zrFH9
+WNnJHHFnJdcfBwsazk9IIqGimnpBHQ==
+=zFX2
+-----END PGP SIGNATURE-----
 
-In fact, I would have assumed that you would only need to change the
-logic in the path walk so that it can pick up the special rule type?
-Does that not work?
-
-> - Through overlayfs, created entries get no rights either, because the
->   upper inode is created with the mounter's credentials. Should overlayfs
->   be handled, e.g. via security_dentry_create_files_as()?
-
-Landlock does generally provide the normal semantics when you use
-files through an OverlayFS mount.  We have exhaustive tests for it in
-fs_test.c as well.
-
-
-> - A file renamed or linked in keeps only the rights it had at its source.
->   Should it get none instead?
-
-Please see the logic and discussions around the
-LANDLOCK_ACCESS_FS_REFER access right: When linking or renaming a file
-to a new location, we must make sure that a landlocked program can not
-move it to a place where it suddenly has more access rights on the
-file because it is now accessible under different parent directories.
-
-Thanks,
-–Günther
+--hexcezj4rledtjd3--
