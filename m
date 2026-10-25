@@ -1,66 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792946843;
-	b=M8/KRQnoQaMmT6DGVF/BH1F2SV8XzPR6s+72iWTOBsslPXcAEdFXIqlhKkbjTSVDUFhZ
-	 uWr0J5FoEyywBcSUXqPAX6uWsj8klH54bJY3Luzz9KC1ao7/IOQB0KY5yxhUCg+btCIBo
-	 jPGpoZdqX+HYDxPSlfjefmyAUjzKQTp5xOYyfMyD2EKwN3L2t2BGUfBEBrPqkcN5dxasn
-	 qedz1tNPqd9Q9/IXpBCBreyEjmy7EFZoBhQ2fPVEXVvBE8YMaz88gkGB9aQ1gNhSvysEU
-	 IXnwcDBnbbbQIUk7Pk5qZqdeqBEpELgFpBqfgS3hL/GhM9QGUmVHmSAapiJXtauadlA==
+	t=1792947965;
+	b=HP1XIbdlOLOmqAxsg0I5BsinDiof/Qv1HpOjUjCdJknvVQIzRB9wEefTtKVJTIxUdJC5
+	 4xeOCSM2IgLI9tXzt40CAbK2OrvtraXJijoVZTM/wOeduRZnkt8sFjhkd3DwovitSv0VG
+	 P38J3Dyql33162jttommQwqRcxTNIfxm1rFq+4hUkq+2kM3ocL2ZKfzMqQkjJwYn3auXv
+	 gjL+QAJekjE64XYReqa7La0xdHxASzHqtMuisvxWnA0L348H5fYRhsqCOnGVDa3cfTQM3
+	 SUH6pqoz4wO0ZsJKwW0chXpnZ49UwQXQjRinFo28Xqk0zP+7CeJar2OsCGtKBRa6+xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792946843;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=VKSqiYoNV2dByJKpxVMj7QeloSi8EsWCiTvTbPWvl+0=;
-	b=0H91vtbDxBzB8szVQ5y8NAFN0FWoVS/5JnWwZm3lG6CIBtp+WcXQjwRplTn2Nh8gcKbF
-	 q+u9rZpLzGeiqugJ8jb4VnBT71ElUj7RtfbCS+XENitX0U69LQEkQc9sPL466jadmes/N
-	 SeiocFz5S60hTiHCejEbv3j/x5RYxtZ51atU7NjdZps37shaKDGToYWEQ8gOr0gCln/Ee
-	 2o7UUeQYmFoB3QiAhg0iVzXvfSj4Cpa/U/f++xosovB7x47PXyEnQX8hcZv1rgwSDoFQu
-	 QUbeWHPflfgSrCYJnImJtZ/63QmKmjiJI3bKPEOYu2Ic1syrvkwjNeX2bJ8QOBz135A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792947965;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=oUwvHq0P/9gsOPpgAsIiXBykttRf2wfXHYBWY4fgpX4=;
+	b=AhBv58+UiYfwP0XdVv+WfCErXtalkEJMc18Z9ZFHrtm/rK/ZRxWlOeYwU74PsCBSsS90
+	 F2GuGhbl9JIa/fEwle1fwqP/xHnn5DXV8q+UEYavveE9XFChNUWQZAM29KVWNPqXi0JJ+
+	 qOf7tWmmPs5qxQJdIlIKAPDbFjx/QmHcaOr0xQ2LUtzGO37g9D3hy3MkMyQbETFZIyTsQ
+	 ynWm87oT2063kRnDiIPCl4VUa0WIszO9ur2Gq3wjJtP0AeXhikQVZ+aDmIYeAaq+jiLOd
+	 7Gsyt10PWTDj34sFmWx2p5AhqFaj27TpMXFbqJ1cBbPqm0OLDcXADztqIxMRImz3rPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f5b5Tin9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FFF606A31A;
-	Sun, 25 Oct 2026 16:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0EE606A31A;
+	Sun, 25 Oct 2026 17:06:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE0EE606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f5b5Tin9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4E51F01825;
-	Sun, 25 Oct 2026 16:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792946842;
-	bh=VKSqiYoNV2dByJKpxVMj7QeloSi8EsWCiTvTbPWvl+0=;
-	h=From:To:Cc:Subject:Date;
-	b=f5b5Tin9u2Wpyny2CDyLlZaIlurlFe2XXMxLakNe+IPOrn4Y+19ADTdhEUpoU+LrM
-	 bIfLv+Yob6sndJJJx+MRVaZS1hhH4m3bed/pU161JpQVPldd38sAOPxnNu4MrS1JES
-	 xWRxAqIlNavZlXlmUBaPVq7FDd+A+q/nAW1js5khsevfP0zmUUX1YbP93Z+6PJfhOe
-	 nsIFcrjNt9TkGcd+bwQ54H61xakInzU2jsst8wYritKNi0RE8kmz7xYvYYOIC52zlg
-	 4HS3FX914Z+C5z89uDVOih834gZUeEtX/1I2J7nuPxxk1md7gW9gBlVmZRpd2i/IfL
-	 8cLSosHxbjNVw==
-From: Sasha Levin <sashal@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Sasha Levin <sashal@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792947963; x=1824483963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AxOjbFvh/NcIZrioJUJIpPem4ac7BqaQaQFD2sY7xA8=;
+  b=R2sE4R29VIABX3QPzLRl6Z1YY7M7zIGR64PW/rA2dk9afhMKKukVvbL7
+   0k7CFnwNP+cXXqO2QPGQz6gt5pFhBE+5KZQya2Zs2dRRh/m5WHROcNxnT
+   dggBGGoY6hXlrFMn+HDuRtbb9qIQZOBe7FGAiQBknaboIyVUeVC9Ah+pK
+   yoK+W1MMqP/WgUvx278MvgGnNKNyY/+jh0ugQ1mPppf9MIUvOonLzoZwy
+   7STbbizVbcSNgwiWdz3UxI9pMBkKOXP8IY1/+tNY71Mq6w31rKkWuWkDi
+   EHLMAWG0AjxDbDeT6tFbB46QKm71V0fgVh5YgxNCgfqg3bpcWSRR+pHSj
+   Q==;
+X-CSE-ConnectionGUID: qb5x8gk3R66xo5Af9nbtJQ==
+X-CSE-MsgGUID: TtyQkWpDTgy3pRn0CoNzpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1611689"
+X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
+   d="scan'208";a="1611689"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 10:06:02 -0700
+X-CSE-ConnectionGUID: 58RfMdFWTXqNG1oYrD8erg==
+X-CSE-MsgGUID: ITdobinPTCSRoDNVxb84cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
+   d="scan'208";a="4051939"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2026 10:05:58 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xL1fN-00000000UxW-3BwO;
+	Sun, 25 Oct 2026 17:05:53 +0000
+Date: Mon, 26 Oct 2026 01:05:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
+	Leo Yan <leo.yan@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [GIT PULL] Kernel API specification framework for v7.4
-Date: Sun, 25 Oct 2026 12:47:19 -0400
-Message-ID: <20261025164719.1831477-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Pereira <danielmaraboo@gmail.com>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+Message-ID: <202610260043.uPhMX80G-lkp@intel.com>
+References: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,168 +95,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 
-Hi Linus,
+Hi Amir,
 
-Please consider pulling the kernel API specification framework. It has
-been discussed on the lists for over a year: five RFC rounds starting in
-June 2025, then v1 through v5 this year, the last on October 8:
+kernel test robot noticed the following build errors:
 
-  https://lore.kernel.org/all/20261008084956.2911790-1-sashal@kernel.org/
+[auto build test ERROR on 343cfcbb3ecfdb80aa576a428cfa3b65ad783842]
 
-The branch has been in linux-next since next-20261009. I held off on
-sending this until the first week of the merge window was over, to let
-things calm down.
+url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-etm4x-Fix-event-count-decoding/20261024-233901
+base:   343cfcbb3ecfdb80aa576a428cfa3b65ad783842
+patch link:    https://lore.kernel.org/r/cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov%40fb.com
+patch subject: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/reproduce)
 
-There are two conflicts with what you already merged. linux-next resolved
-both the same way:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260043.uPhMX80G-lkp@intel.com/
 
- - Makefile: kbuild added '*.header-check' to the clean rule at the same
-   spot where this adds '*.apispec.h'. Keep both lines.
+All errors (new ones prefixed by >>):
 
- - fs/open.c: vfs added filp_close_sync() just above sys_close(), which is
-   where this adds the sys_close() kerneldoc. Keep filp_close_sync(), then
-   the new kerneldoc, then the existing "Careful here!" comment and
-   SYSCALL_DEFINE1(close).
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h: In function 'pmuv3_event_implemented':
+>> include/linux/perf/arm_pmuv3.h:333:26: error: implicit declaration of function 'pmuv3_implemented'; did you mean 'pmuv3_event_implemented'? [-Wimplicit-function-declaration]
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                          ^~~~~~~~~~~~~~~~~
+         |                          pmuv3_event_implemented
+>> include/linux/perf/arm_pmuv3.h:333:44: error: implicit declaration of function 'read_pmuver' [-Wimplicit-function-declaration]
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                                            ^~~~~~~~~~~
+>> include/linux/perf/arm_pmuv3.h:336:28: error: implicit declaration of function 'read_pmceid0' [-Wimplicit-function-declaration]
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                            ^~~~~~~~~~~~
+>> include/linux/perf/arm_pmuv3.h:336:45: error: implicit declaration of function 'read_pmceid1' [-Wimplicit-function-declaration]
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                                             ^~~~~~~~~~~~
+   arch/arm64/include/asm/arm_pmuv3.h: At top level:
+>> arch/arm64/include/asm/arm_pmuv3.h:49:19: error: conflicting types for 'read_pmuver'; have 'u32(void)' {aka 'unsigned int(void)'}
+      49 | static inline u32 read_pmuver(void)
+         |                   ^~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:333:44: note: previous implicit declaration of 'read_pmuver' with type 'int()'
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                                            ^~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:160:19: error: conflicting types for 'read_pmceid0'; have 'u64(void)' {aka 'long long unsigned int(void)'}
+     160 | static inline u64 read_pmceid0(void)
+         |                   ^~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:336:28: note: previous implicit declaration of 'read_pmceid0' with type 'int()'
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                            ^~~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:165:19: error: conflicting types for 'read_pmceid1'; have 'u64(void)' {aka 'long long unsigned int(void)'}
+     165 | static inline u64 read_pmceid1(void)
+         |                   ^~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:336:45: note: previous implicit declaration of 'read_pmceid1' with type 'int()'
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                                             ^~~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:170:20: error: conflicting types for 'pmuv3_implemented'; have 'bool(int)' {aka '_Bool(int)'}
+     170 | static inline bool pmuv3_implemented(int pmuver)
+         |                    ^~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:333:26: note: previous implicit declaration of 'pmuv3_implemented' with type 'int()'
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                          ^~~~~~~~~~~~~~~~~
 
-The following changes since commit a90ee4305c4a5df72c11b31dacfdc76e00fcf78a:
 
-  Linux 7.3-rc6 (2026-10-04 13:45:25 -0700)
+vim +333 include/linux/perf/arm_pmuv3.h
 
-are available in the Git repository at:
+   320	
+   321	/*
+   322	 * Whether this CPU's PMU implements a common event, as reported by
+   323	 * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
+   324	 * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
+   325	 * Must run on the CPU whose PMU is queried.
+   326	 */
+   327	static inline bool pmuv3_event_implemented(u16 event)
+   328	{
+   329		bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
+   330		u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
+   331		u64 pmceid;
+   332	
+ > 333		if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+   334			return false;
+   335	
+ > 336		pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+   337		return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
+   338	}
+   339	
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sashal/kapi.git tags/kapi-7.4
-
-for you to fetch changes up to ef777ef05ebcc5ea5393b4bd5af6fc3ad1b3aec9:
-
-  kernel/api: add syscall enter/exit tracepoints (2026-10-07 18:26:44 -0400)
-
-----------------------------------------------------------------
-Kernel API specification framework for v7.4
-
-The contract of a kernel interface (which arguments are valid, which errors
-come back and why, what context it can be called from, what it locks and
-what it changes) only exists as prose in man pages and comments, which
-tools cannot check. This adds a way to write that contract down in a form
-that tools can consume, next to the code it describes.
-
-A spec is structured kerneldoc covering parameter types and constraints,
-return values and error codes, execution context, locking, signals,
-capabilities and side effects. At build time kernel-doc turns it into C
-data in a dedicated section of vmlinux. From there a spec can be:
-
- - checked against syscall arguments and return values at runtime by
-   CONFIG_KAPI_RUNTIME_CHECKS, a DEBUG_KERNEL option for x86 and arches
-   without syscall wrappers; a call that violates its spec fails with
-   -EINVAL before the handler runs
- - read as JSON from debugfs
- - extracted from vmlinux, debugfs or the source with tools/kapi, which
-   emits JSON, RST or plain text
- - followed with the kapi_syscall_enter/exit tracepoints
-
-The first specs cover open, close, read, write and madvise, with a KUnit
-suite and a selftest in tools/testing/selftests/kapi.
-
-Everything is behind CONFIG_KAPI_SPEC, which defaults to off. With it off
-the syscall definition macros expand as before, kernel-doc output is
-unchanged, and the only change to fs/ and mm/ is the kerneldoc text.
-
-----------------------------------------------------------------
-Sasha Levin (11):
-      kernel/api: introduce kernel API specification framework
-      kernel/api: enable kerneldoc-based API specifications
-      kernel/api: add debugfs interface for kernel API specifications
-      tools/kapi: add kernel API specification extraction tool
-      kernel/api: add API specification for sys_open
-      kernel/api: add API specification for sys_close
-      kernel/api: add API specification for sys_read
-      kernel/api: add API specification for sys_write
-      kernel/api: add runtime verification selftest
-      kernel/api: add API specification for sys_madvise
-      kernel/api: add syscall enter/exit tracepoints
-
- .gitignore                                       |    1 +
- Documentation/dev-tools/index.rst                |    1 +
- Documentation/dev-tools/kernel-api-spec.rst      |  648 +++++
- MAINTAINERS                                      |   13 +
- Makefile                                         |    1 +
- arch/x86/include/asm/syscall_wrapper.h           |    3 +-
- fs/open.c                                        |  557 ++++
- fs/read_write.c                                  |  710 +++++
- include/asm-generic/vmlinux.lds.h                |   14 +
- include/linux/kapi_syscall.h                     |   35 +
- include/linux/kernel_api_spec.h                  | 1226 ++++++++
- include/linux/syscalls.h                         |   42 +-
- include/trace/events/kapi.h                      |   74 +
- init/Kconfig                                     |    2 +
- kernel/Makefile                                  |    1 +
- kernel/api/Kconfig                               |   74 +
- kernel/api/Makefile                              |   13 +
- kernel/api/internal.h                            |   25 +
- kernel/api/kapi_debugfs.c                        |  553 ++++
- kernel/api/kapi_kunit.c                          |  720 +++++
- kernel/api/kernel_api_spec.c                     | 1470 ++++++++++
- mm/madvise.c                                     |  549 ++++
- scripts/Makefile.build                           |   26 +
- tools/docs/kernel-doc                            |   12 +-
- tools/kapi/.gitignore                            |    3 +
- tools/kapi/Cargo.lock                            |  679 +++++
- tools/kapi/Cargo.toml                            |   20 +
- tools/kapi/Makefile                              |   33 +
- tools/kapi/README.md                             |   33 +
- tools/kapi/src/extractor/debugfs.rs              | 1704 +++++++++++
- tools/kapi/src/extractor/kerneldoc_parser.rs     | 3335 ++++++++++++++++++++++
- tools/kapi/src/extractor/mod.rs                  |  442 +++
- tools/kapi/src/extractor/source_parser.rs        |  531 ++++
- tools/kapi/src/extractor/vmlinux/binary_utils.rs |  461 +++
- tools/kapi/src/extractor/vmlinux/mod.rs          | 1160 ++++++++
- tools/kapi/src/formatter/json.rs                 |  659 +++++
- tools/kapi/src/formatter/mod.rs                  |  220 ++
- tools/kapi/src/formatter/plain.rs                |  679 +++++
- tools/kapi/src/formatter/rst.rs                  |  802 ++++++
- tools/kapi/src/main.rs                           |  123 +
- tools/lib/python/kdoc/kdoc_apispec.py            | 1391 +++++++++
- tools/lib/python/kdoc/kdoc_files.py              |   12 +-
- tools/lib/python/kdoc/kdoc_parser.py             |  101 +-
- tools/testing/selftests/Makefile                 |    1 +
- tools/testing/selftests/kapi/.gitignore          |    2 +
- tools/testing/selftests/kapi/Makefile            |    7 +
- tools/testing/selftests/kapi/kapi_test_util.h    |   31 +
- tools/testing/selftests/kapi/test_kapi.c         | 1163 ++++++++
- 48 files changed, 20350 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
- create mode 100644 include/linux/kapi_syscall.h
- create mode 100644 include/linux/kernel_api_spec.h
- create mode 100644 include/trace/events/kapi.h
- create mode 100644 kernel/api/Kconfig
- create mode 100644 kernel/api/Makefile
- create mode 100644 kernel/api/internal.h
- create mode 100644 kernel/api/kapi_debugfs.c
- create mode 100644 kernel/api/kapi_kunit.c
- create mode 100644 kernel/api/kernel_api_spec.c
- create mode 100644 tools/kapi/.gitignore
- create mode 100644 tools/kapi/Cargo.lock
- create mode 100644 tools/kapi/Cargo.toml
- create mode 100644 tools/kapi/Makefile
- create mode 100644 tools/kapi/README.md
- create mode 100644 tools/kapi/src/extractor/debugfs.rs
- create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
- create mode 100644 tools/kapi/src/extractor/mod.rs
- create mode 100644 tools/kapi/src/extractor/source_parser.rs
- create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
- create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
- create mode 100644 tools/kapi/src/formatter/json.rs
- create mode 100644 tools/kapi/src/formatter/mod.rs
- create mode 100644 tools/kapi/src/formatter/plain.rs
- create mode 100644 tools/kapi/src/formatter/rst.rs
- create mode 100644 tools/kapi/src/main.rs
- create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
- create mode 100644 tools/testing/selftests/kapi/.gitignore
- create mode 100644 tools/testing/selftests/kapi/Makefile
- create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
- create mode 100644 tools/testing/selftests/kapi/test_kapi.c
-
--- 
-Thanks,
-Sasha
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
