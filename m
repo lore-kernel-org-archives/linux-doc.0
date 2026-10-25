@@ -1,97 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792963963;
-	b=jFh5XFc+4ao/Z8zGiqmOjA9dXotd/1ycVqEeEGBGtyyKdYYRgvrOpdIZ45O0QLfkCm+q
-	 CID7pvZy3gQD/i3r4PnrznDETaVdCTcLsuDZmQib+EfraDlp2LlN4DCiL7G9pLX8JaJil
-	 RL/GIQQVTjNMEom9Ojr0HocShDcFI89QoxqCOXk3TeZTS3OKOWIxOiEsX6wT3+Ls+R8Az
-	 CeS8Gku9Mh5v+2BQaOwh8ISH888PH4ha3QRvsPPcsnvWJVIidTeADReEIlJRDEBM2WWga
-	 lF94pNNJROezOaw+BdML7eoJwiI79iHMtFmi5rwQeL9pYCsCRjZZIwAOSBbOvqQHmyg==
+	t=1792970966;
+	b=dLPIiEOw8fy2f7IwgoskqaaXcC+SN/vHe03zPMI+S+SCTFHfKue45mOdY7A9c7R3G4ic
+	 cDZILyX3q9qY4j5X6LCqmbtobIbmEJy+QPCwlKYWJjfvsfLtnW8lr6gxq+fKxfQask7+Z
+	 hJ13cd6tK4Ohr0mUn+V4XKAtd4Eie67eGm7x+zYPy04IGNwP830clGdvTlfOV75upgwAa
+	 UetBUGrTjVNaMhhg+4+TIO9HtU5tmFqy3qwkhAsle3rbNtrfg3zujS9iTXbspGhJg8BW0
+	 3by8znuZWV8cia7KAecRC6u/41ywHID2sQCax/bGwIda/YXYPuCmIzDQCgFWyC+c9ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792963963;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=5vuSnrcKwQeIRn0wbWhYdGvFkzDXojcWcGjlh6QDcMQ=;
-	b=YeIqWc1tyqoW56wzBebCE6Ea9o2486pIF5aIjt0kmNZ7e1HWUzD1KiI9/fq0esLXaGgf
-	 tu4Irv0x9OhnPHs+hSkOiNOSsjxm3NC/2WsndqKYd0BIgHHBQ8zOYKAVspVhkvC5p5NVZ
-	 bHb+GJK4fDvbG6wfxtQj657aQNwk5sTWJanWrg6DVEVcQSFrvFjI03YsAV5W4ia1F7vWz
-	 rYvB5XS/c2BRmq+eWB9EGB4zUrqm4D+QBjmctn454k7F/Yx66Pza4g/ArhpU9jCwLqoOg
-	 0m085uy2OEBkFQDCrD5cdFJd0p+3yscf/aWWauqCj7J8hMw8mssn3bdlq/1fnHeRNnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792970966;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=jYOFBLSGEnNdhnGY76tZesZu7gNZ9rzFYzDOwois3Cg=;
+	b=Y84H3Hoc4cvqS6X2INPxAaI4mEry4SIJ0tOV+9JN3GFFj7nGnreoxjikh9/eYtcl3x7B
+	 w/xhXvnzzpYtx1vYp98dRZ9eYrmS3WQvr9nBsYWqesA9H6iSEV0PaVboX64cbYLVrGKOO
+	 i7vWU9gRhc1fXRG962dNqGbgy1p1hqWvI2fW+vtAr7RezoRipgFQ+PSWU886t24XHHGqt
+	 kgV0G4RwNkc3YjeUx8Ijb7CQTvh2LVvrA0FodqccoxVuIGgDvlCB/LrM775aKB7NqRfXB
+	 ZoHlWStpbJeKa9MXKi2hACdjKgxzXQvI/wY7mClWEfPcV4kZBeqsDIS/msfPn2lSpiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	arc=none smtp.remote-ip=195.121.94.186
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IMTZvbtA;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F503606A31A
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 21:32:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F503606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 957011bd-d0bb-11f1-87e5-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 957011bd-d0bb-11f1-87e5-00505699b430;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 956ec94e-d0bb-11f1-a8ab-0050569977a2;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=5vuSnrcKwQeIRn0wbWhYdGvFkzDXojcWcGjlh6QDcMQ=;
-	b=H3LyxcazLjO3BsnaA/eVkplsL+87/CmawTLYkHaxYk/dFOV0AArOCWWmMM9siWMYX+QVYW4fXMdoz
-	 n+y1CYUr1kLJkx+afjXan79gwEP+f3Bm7qLWvdmwa/QDJr7qtNZPa3C5OF8NkySQjjmSyTr1pkuu60
-	 fJWOZT8Lq4Yi+M90VWLg0k2yj9eZtQoe0R1V6XKXzSwLKHwt5LiEuzrDP3IganmEq4SrfeGHfVHWpn
-	 y07BfxOnHxLL9fTdYZcSjRwa8xmGSuRYdHeTh+IE9423XM8ZY4olu3EHPioZc8kgxs7Zff0hO3BNYE
-	 fn5gf0VyY/TowodKJaUzqb7pBjHgKFA==
-X-KPN-MID: 33|ewbb4jy8pZhqwJOE/4BRNgw3degIzkXnoW8litV1V+IUNVtk2goIwP9dd+dxvN0
- 3wsQCfDGArapfOl4Vp+ZnZEJ/n2ql7zr+sPIY5GEKWPU=
-X-CMASSUN: 33|sa/DoRaLLkvYyhWgxj8o6+RtIBFbDgoUcwEDZcjXQXI5rhTaWxTQKQX6mY0/ihE
- XcmKn7Ys1ssMhmsXjlSQamw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh03 (cpxoxapps-mh03.personalcloud.so.kpn.org [10.128.135.209])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 9562e720-d0bb-11f1-90df-00505699eff2;
-	Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-Date: Sun, 25 Oct 2026 22:32:30 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Message-ID: <345522644.2279143.1792963950889@kpc.webmail.kpnmail.nl>
-In-Reply-To: <atuDosjEibZI9exi@gremlin>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <20261013173240.GK4214@killaraus.ideasonboard.com>
- <atI_TSQXzAQFWBfx@gremlin>
- <20261020211532.GD15441@killaraus.ideasonboard.com>
- <atuDosjEibZI9exi@gremlin>
-Subject: Re: [PATCH] docs: remove Assisted-by references
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FEF606A31A;
+	Sun, 25 Oct 2026 23:29:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1FEF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=IMTZvbtA
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=jYOFBLSGEnNdhnGY76tZesZu7gNZ9rzFYzDOwois3Cg=; b=IMTZvbtAq5pXyO+aBUA877UWDg
+	2eh195KrazJoEWqz+idrnFJeg7qYmOnC81FS2AWuaKFwlxwUpwUgyxE1Ff+t9uWC3DR70JeMJSbV4
+	QdUOUF+BBYD08pSfkr/KkK9wBpcU2tyuRjxzWrxWWEdYfc5+5qOsvIxDBbUDeCsmhVmIPcYz4ECqy
+	XSpJH2J7PMetNL7E5PcwEC0AcFLuDGMh8h7zQ5HL2NcXKGzz4ksUAzU1D/58oH0rMjSKcK9dmFGYi
+	i6Xuo13E1yUWZfJ56oMA/jCIgCES+8pmH/62YIc1NhS6rPBzDza82rggebR2j2Tp36DGe6kKjoMDW
+	5iSta3yA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xL7eL-00000001VBZ-2PkI;
+	Sun, 25 Oct 2026 23:29:13 +0000
+Message-ID: <94b36a91-4fe8-480e-a49a-23a81cdcdc60@infradead.org>
+Date: Sun, 25 Oct 2026 16:29:11 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,69 +58,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to
+ /proc/kallsyms
+To: Samuel Wu <wusamuel@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: kernel-team@android.com, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+References: <20261023001603.560210-8-wusamuel@google.com>
+ <20261023001603.560210-9-wusamuel@google.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261023001603.560210-9-wusamuel@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: 7bit
 
 
-> Op 23-10-2026 12:44 EDT schreef Lorenzo Stoakes (ARM) <ljs@kernel.org>:
->=20
-> Again, to me, it's just a scaling issue - nobody can read hundreds or
-> thousands of mails a day effectively, and maintainers and reviewers are
-> past capacity even now.
->=20
-> And agreed, we need talented young people coming up and it kills me that
-> they might be discouraged both by 'AI will take over so what's the point'
-> and the hordes of 'competing' people sending slop.
->=20
 
-There's a striking parallel with the mathematics community in this regard.
-They are dealing with a similar problem where the old way used to be you
-make a name for yourself by proving a hard theorem (Linux equivalent:
-you make a name for yourself with sweeping patchsets.) That does not
-really work as well anymore as a signal for competency (at least in maths):
+On 10/22/26 5:16 PM, Samuel Wu wrote:
 
-"Among the mathematicians I have spoken with, the prevailing sentiment
-is that this traditional mechanism of recognition has effectively collapsed
-in a matter of weeks. A strong mathematical result, by itself, can no
-longer be taken as convincing evidence of a student=E2=80=99s independent
-mathematical abilities."[1]
+...
+> ---
+>  include/uapi/linux/fs.h |  41 +++++++++++++
+>  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 173 insertions(+)
+> 
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 34c6f219462a..b43f227dad0e 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -674,6 +674,47 @@ struct procmap_query {
+>  	__u64 build_id_addr;		/* in */
+>  };
+>  
+> +/* /proc/kallsyms ioctl */
+> +#define KALLSYMS_QUERY	_IOWR(PROCFS_IOCTL_MAGIC, 18, struct kallsyms_query)
+...
 
-> Perhaps there are ways and means of getting talented new people involved
-> via side-channel, though.
->=20
-> I did the 'eudyptula challenge' many years ago, which was a sort of boot
-> camp for kernel developers (with a lot of 'are you patient enough' bits :=
-)
->=20
-> That can't work in identical form anymore because of AI (sigh), but perha=
-ps
-> we can figure out some AI-proof version of this?
->=20
 
-Would it be worthwhile to organize some sort of informal discussion on what
-such channels might be and how they can be organized in an LLM-resistant
-fashion? It would be interesting and useful to share and collect ideas on
-how the talent pipeline should take shape in the LLM-era, so that the commu=
-nity
-can ensure, also in the future, that talented and motivated people are cont=
-inued
-to be brought in and not drowned out by slop or other unwanted hurdles, suc=
-h as
-having access to very expensive tooling (a concern that I share with Lauren=
-t.)
+Documentation/userspace/ioctl/ioctl-number.rst doesn't seem to know
+about PROCFS_IOCTL_MAGIC and what range of @nr values that it uses.
 
-You and Ted have views on this; Shuah runs the kernel mentorship program; a=
-nd I know
-Greg also helps people get exposed to the kernel through various means. The=
-n
-there's GSoC and Outreachy, etc.
+Please update it.
 
-I guess a lot of these people will be at LSFMMBPF?
+-- 
+~Randy
 
-Best,
-Jori.
-
-[1]: https://terrytao.wordpress.com/2026/10/18/will-it-be-a-golden-age-or-a=
--dark-age-for-mathematics-and-science/#more-18496
