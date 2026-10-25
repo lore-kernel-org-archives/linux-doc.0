@@ -1,110 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792932496;
-	b=aF0rr9DgnU2KDer4TDcrf32XgzjcYPcTf3KCM3lVSffOs7sWvIFEfP8vciTG84MVvf/p
-	 qrw768g7pq9u5JsKTmvVdNc/IG6RjC1CYxsSfs6QoKEL+JTBaj7eq+HZj98tXd2ua/sYA
-	 XuZfxMHhCYAr7wLKmxH0cGOYdPCu26PvP6eE0eRtFXwpo4uT0e3DayzzzfKS3cXojtOe6
-	 5rimTYSLL4VjWQY63kHnJfpjHPB04+gR/uT42U6mrPEgDSi8P9D8f958tKAT2vRqZANEs
-	 BB1m1P86mIDGGNFKUsOu+enuSQwWKoxPh3IG0t8ZoKRyJ0YcDtwcj8kFHx9BlJiYs5w==
+	t=1792933442;
+	b=dGES3ZmtCiARAy6ay50gM9/1J2OpRZxK7lAwTisrqyDaaNzruWfk6OxoMvZcwGfeF+bN
+	 hCdHg5U94h12t2TMEZ3qs5HX9n+3n6L1SPbRSvQWyCtocJN00LNPgJngVZ2MQfm77hRN9
+	 rmYaJKI5E22hSkQqbz49dmY++GNgxcBPdVivTk8dc+My7xjuxDLpSIT8eWGleVePACA17
+	 FvSQ782RM4oXUodNTreugCsL3A6f4KcZ+5FvJ+V6eQ5yRApFWH0LFsh/ZHn4XxXM4rRbZ
+	 iwJaMmwtZVKFVHsW/InLbrjFexv0KR2ep83Hi73appTLS3oZTIOUa0Sv8PlDGLiVClg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792932496;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
-	b=L3AlIfPILm9zB08u4AjJmHFUHkeZSBAfQrGr68aqUWnbCBQwCSlTDURC7ESKNmYZcEU9
-	 DGmtFMnLOEXMnStCwrSe3BRyvLB6kPCjpYcgKh2EQiqE30LaXIi33P0DSiqOAKipP4ZKV
-	 BSZLkJGYIX99wSYEdB/z3XriVbjo6g/FPAB8Jy09chCpmmDfIFpWXEUQUjr73sUu0/no6
-	 obkiQSkr5jKrVb3hx2X5PnsrwxvRWiRwvipMCYSmzJy9EglMxWTcE82/gKJf+2o5vGOEN
-	 4iz3qgZevCO/E5QRz8XYKNdzjrLUfymxuBH/crwHcMS4fdj0Fph2X/6U23ed1NZ37tg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792933442;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=nAkrtA6faTl+77otH7gJTheo2PlzrcNoGoMjrDipjzo=;
+	b=Cnj5gjEhKlO5d8WHB/0oORF38aGoHwEm836ck2e8BxdUYgwVLmLU+Muns1wbp/4a7xev
+	 L4q+Tt35kdmtXLMWwonC95wPz1DyaHtifihepthJAUYLlNaC84Y+4WPZXd3zhzqnkQZ/9
+	 U9jFdTc58Ez/I4BSNNNmDyb8L+jwNqsHnGSglNxUoHbcLy/cbd2dp1SF4QvukRHxzpDXP
+	 Y5Ad2xKfTTLtns558FZ/UwY+xDyzV2F+ObXyVonl+DDjLuIrEILgme20tvOa5peUtCXEX
+	 olwOcZ9G7J/HU4tUCDE1aTqIM51vfzvCfZ0xliNpAeiz8W507D+r183nbXWYS3EvESw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=InYdQ6OT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CB7606A31A
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 12:48:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29CB7606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso22329835e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 05:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1792932488; x=1793537288; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
-        b=pg8FDG9OpzKln8+QRdvhMAtMVp0WQ1NMYaLASyxAEYJWLNST/WK5rNIhMJud+ol1qL
-         fnBQe5FIbncQ9e7Yf2jY5Avm2y32XlQwi8zLdEdscaiuJNlhCMoPO1s4R86eAMZm65+N
-         4wN667A/guovDHJDdgGvxXS+E40NfJnWTsV/VNIYrlv42LuwoD8jhjPqOl8WFcqIB9pB
-         a1e9nczTgOPdUb4RwVqkaM30MzLLvdbX8vRjHV0JGK6vlZjszCVuRfZPWEEEj2bVwOtS
-         Onb1sPkJ2qFK+BNjMAVgcE1OO2VGj/K5/NoSG134pZJDNd8mh6bvz+WE17qQMRc8Utq5
-         4GBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792932488; x=1793537288;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
-        b=HiaaOIJWeug+86Q7N9zVrr4FT+aJAymNZKw1qt0YdCZgEtCypQPCVGzHrsVRJrblbw
-         dX7PhELHX/U6JbTwOi7dtUP4y2KUMdzuMrAT5EbfvpDk1za+MjTJG06BwrtnZtMbJdX3
-         P1pHnei2LSTjHEyVkzxkgBSuDpK3EYv4a2K/xexP1wMb8hBuf5x+ahDcQ1m31c8H5is8
-         nySdHfngdWcpIhOAP1E57Mr2y7BZ5NooHWPTy+DTjl4MUaI0BVWF6D/Q2B0z6nlPVw0k
-         TEElxgyhdVa92sii94mOxxnHkw8AaaGAH2medV1Uywso687AGvZaNXq7GtZuSB6XSWH4
-         +6iw==
-X-Forwarded-Encrypted: i=1; AKwUvByU/dm7aly6/g2Y1HgGP+5HvrOwx5Tf5XXvd2m8N70pd8USAWqn4+/01QtCy+uISu5M1wxlWYe7S0E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLxgVvQ92yvQJFmnZ5DaIqdd8C4umNUa9Fr+1jWq5+zxeQFqZsV
-	KcxGasLXkt/dQCFC8l1ShPYnMiJoCF8KkcKsJjX24aoaecbEMqSlTjqm7pREKK6Bxcc=
-X-Gm-Gg: AYBFou0umvdo4h5VPdJm7JtHw+Va4zzTMBgp+XbafMa/Rr92HwBdnU9/aJOQCAlZlM6
-	+WeJ/s3cNT/K7e8B2/H79wfQLsteCoXWQLKoQ+QtwsmoVdSZRmh3kfgpTQDMbOki4cgqt5FN3eB
-	q3WiCMDAdM8EEM4rdjf+ew+eT6OOHq7WF6FyR+N8yhzXSYXSVXbN9u8iVGomKvkl+TOePC6n5Yo
-	OLlI+dvkX1Zku+RTik9zpMNH+fms0shfw0ZHB22ArWQ6UTtHaOEh2gCLTz9lcjV3bAPmmJivPiq
-	/gugj2Z42fseSPmU9Qgmx5bk45H6bY4NGL1mseVg+foGrYJ3LFzRus3SrZvqc25bzdS+X0DR7Us
-	E9CQPidBv+X32qxK0PD6aud16fa9eT4dE+68JK90ig3A5vXKbXvn9KbNMsVGI9BpvllFrhoU2pB
-	BF2/5t0bCSoO+Apx7qRxMD1GvZffHeNZ/YLK2dv0brk1iIV2b6AfVZEoggeL6anlOOWtZ/Z0DzY
-	ORi862anhzR6VoediQqjLafCk4jQOeVn03Sf/0TqK+s5tpcVevU+vAY685WOhrSPpfOPKb50kMT
-	jlUJsQ==
-X-Received: by 2002:a05:600c:3b19:b0:4a1:d087:f6ab with SMTP id 5b1f17b1804b1-4a35acc7696mr71714575e9.18.1792932488137;
-        Sun, 25 Oct 2026 05:48:08 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a35a04ad39sm326937255e9.1.2026.10.25.05.48.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 05:48:06 -0700 (PDT)
-Date: Sun, 25 Oct 2026 13:48:04 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alex Williamson <alex@shazbot.org>, Armin Wolf <W_Armin@gmx.de>, 
-	David Lechner <dlechner@baylibre.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <at34UOuYv3NtX36R@monoceros>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <2026102437-vista-unsoiled-b089@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C70B606A31A;
+	Sun, 25 Oct 2026 13:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=InYdQ6OT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FC91F01825;
+	Sun, 25 Oct 2026 13:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792933441;
+	bh=nAkrtA6faTl+77otH7gJTheo2PlzrcNoGoMjrDipjzo=;
+	h=From:Subject:Date:To:Cc;
+	b=InYdQ6OTrY1ycFnT2z3WRHWS2U+8oQmAXcC9ZCIPG8zrVR+iXVVM/shM6qhqdxuUi
+	 2DPzZvXN8e6tqHA1g5hrr0KFTaHMt8lXJYh/BeovHYt/amxAtpNIanqN5A7MeTdwXY
+	 zt79d2JFUsuLB92e6e3evbr+VXlXrV1BChS1IQaRd8d7cc7EOFTnQsLnMAPpW1iHC5
+	 6sKdZMWi3t4nHm7d/ULKXz7YGtszFOZJfAY4/LXd0YY8YUGxFEpte32PF/oxPBKqtA
+	 ZFZjHppZq+VC4vqCcrH3teG/NpIt6KnONoXTQVlVPfL9abJF3LS5PBGs77Znu5voyr
+	 VfZmhfHAmRZWA==
+From: Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH v2 0/7] init: discoverable root partitions
+Date: Sun, 25 Oct 2026 14:03:10 +0100
+Message-Id: <20261025-discoverable-root_partitions-v2-0-fb77d0821fab@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,57 +53,191 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hexcezj4rledtjd3"
-Content-Disposition: inline
-In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32PQQ6CMBBFr0K6tgpVUFl5D0PM0A4wEShOK9EQ7
+ m6FuHX5JvnvZSbhkAmdyKNJMI7kyPYB1CYSuoG+RkkmsFCxyuIsSaQhp+2IDGWLkq31twHYkw8
+ 7J0sDugQD6TE2IigGxopei/5aBG7IecvvpTYm3+tPnP4Xj4mM5f6sj6cK9EGhutyRe2y3lmtRz
+ GuK8fEMD/i1J0pwKLXtOvJ5ZJlq6ncdOI8cFvMHbpwu9voAAAA=
+X-Change-ID: 20260611-discoverable-root_partitions-bdacbada570d
+To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Dave Hansen <dave.hansen@intel.com>, 
+ James Bottomley <James.Bottomley@HansenPartnership.com>, 
+ Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>, 
+ Vincent Mailhol <mailhol@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6866; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=dGMb8OmA1Qh/i9fSPAL4WkcqHv77KtSDbe4mIbxDBCs=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDFl3/1nohjflPi67dm3iuXnzvppc1NAtyjzceJfXJrVTR
+ X7uhwdiHRNZGMS4GCzFFFmWlXNyK3QUeocd+msJM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ Ahk6RgxcnAIw1ZMsGf5KqTtwvplpfyt7wew8i7j41IvrL96ZoXnlx6PZrbGGOhfbGX6zLCti+HI
+ pPfP45193jet/211TntwZ8PvHdyuRsnQd4xOcAA==
+X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
+DPS [1] defines GPT partition type UUIDs for OS partitions and
+attributes that control whether such partitions should be
+automatically discovered. The specification states that:
 
---hexcezj4rledtjd3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-MIME-Version: 1.0
+  The OS can discover and mount the necessary file systems with a
+  non-existent or incomplete /etc/fstab file and without the root=
+  kernel command line option.
 
-Hello,
+DPS is already implemented in systemd-gpt-auto-generator [2], which,
+when embedded in an initrd, indeed allows automatic detection of the
+root filesystem through its partition type UUID.
 
-On Sat, Oct 24, 2026 at 06:56:34AM +0200, Greg Kroah-Hartman wrote:
-> So what is the real use case here, taking any type of any device and
-> thinking you can bind a random kernel driver to it and it will work ok?
-> You all have specific platform and pci vfio drivers, why not use the
-> proper device ids there instead, or better yet, bake-in this type of
-> functionality into the bus-specific logic so that you can have generic
-> userspace control of a device (like usbfs and uio does today)?
+This series adds root discovery directly into the kernel so that people
+who are not using an initrd can still benefit from it.
 
-Also note that even if the platform and pci busses implement
-bus-specific code to pass a given device to userspace and/or a VM, you
-need proper unbind support in the driver currently managing the device
-(or cripple the mechanism to only work for devices that were not bound
-to a host driver before).
+The scope is deliberately limited to block devices that the kernel can
+already mount through the root= parameter. Other DPS features, such as
+setting up LUKS-encrypted partitions, mounting partitions other than
+root or container setup, remain userspace responsibilities, with no
+future plan to implement them in the kernel. The intended usage is
+thus a hybrid approach in which the kernel DPS only mounts the root
+partition and leaves the remaining setup to userspace (either with DPS
+or with a classic fstab), just as it does today when root= specifies
+the root device.
 
-The more I think about this taint, the more I believe the commit should
-be reverted and replaced by a some stop gaps for driver_override. (Be it
-a taint or better yet
-https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
-.)
+The benefit is being able to boot a kernel with no accompanying
+bootloader configuration: no root= parameter and no initramfs. The root
+partition is identified from the existing on-disk metadata instead.
 
-Best regards
-Uwe
+This is useful for booting a kernel manually, for example from the edk2
+file browser, or recovering from a lost or corrupted bootloader
+configuration without having to supply the correct root= argument or
+load an initrd from the grub shell. Finally, it allows systems that
+otherwise need no initrd to discover their root partition through DPS
+without introducing an early userspace environment solely for that
+lookup.
 
---hexcezj4rledtjd3
-Content-Type: application/pgp-signature; name="signature.asc"
+The implementation follows these rules:
 
------BEGIN PGP SIGNATURE-----
+  - GPT partition type UUIDs are used for automatic discovery policy
+    only. No root=PARTTYPEUUID=xxx cmdline option or similar syntax is
+    added.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrd+oIACgkQj4D7WH0S
-/k6aewf/a1J79AfBUwvrOd6Ba/0Y7Snc6nW1R3bcrJe5+V181tlQ+NubUnz+DJdu
-l8Jqw1xcQaALmyYYZ+CaEenSacHj9TFNREGi92ZjNkN8m6+iH5soIV1vTHPZaevX
-R9oV4vf5RnsRXugZv92lNktCGbzbu2ceTDhJU4IoX5FyuqL95AVajJ4awrTw+nol
-Y+gyqcgb8mzONrS7D52rBINMIjpn9/nmcPs4bVkXCZjAvPg+MFRZTpjwZ7hB3Guo
-GM19dH/Q7rfMakDFZ/TJqgDbxuKHrPdU/EFkrRXiolTo+VEKvUOmiiW/JK6zrFH9
-WNnJHHFnJdcfBwsazk9IIqGimnpBHQ==
-=zFX2
------END PGP SIGNATURE-----
+  - An initramfs providing an early userspace init, a root= command-line
+    option, or a root device supplied by the boot loader takes
+    precedence. Existing working boot configurations therefore retain
+    their current behaviour. Automatic discovery triggers only when
+    booting without any of these, where the kernel would otherwise panic
+    because no root device was specified.
 
---hexcezj4rledtjd3--
+  - As required by DPS, discovery is restricted to the disk containing
+    the active EFI System Partition, identified through the
+    LoaderDevicePartUUID EFI variable. This avoids selecting a root
+    partition on another disk, such as a potentially malicious USB thumb
+    drive.
+
+  - If several eligible partitions have the selected type, the first
+    match in block-device enumeration order is used.
+
+  - The native architecture's root partition type takes precedence.
+    Where the kernel supports compatible 32-bit userspace, its root
+    partition type is accepted as a fallback.
+
+  - Partitions carrying the DPS no-auto attribute are excluded.
+
+  - The DPS read-only attribute is intentionally not enforced. The
+    kernel already mounts the root filesystem read-only by default and
+    if the command line requests rw, it takes precedence over the DPS
+    attribute. User space remains responsible for deciding whether a
+    discovered root should later be remounted read-write based on DPS
+    metadata and local policy.
+
+Patch 1 retains GPT partition type UUIDs in partition metadata for early
+block lookup.
+
+Patch 2 defines the architecture-specific DPS root partition type UUIDs
+and the derived DPS_ROOT_AUTO_DISCOVERY symbol in Kconfig.
+
+Patch 3 factors out lookup_root_device() so initial root lookup and
+rootwait retries share the same lookup policy.
+
+Patch 4 implements DPS root discovery through early_lookup_dps_root()
+and integrates it into the root mount path.
+
+Patch 5 excludes partitions marked no-auto.
+
+Patch 6 adds the compatible 32-bit root partition type UUID as a
+fallback when no partition with the native type UUID can be found.
+
+Finally, patch 7 documents automatic root discovery.
+
+Tested with the Linux EFI stub [3] and with GRUB [4], which both expose
+the LoaderDevicePartUUID EFI variable.
+
+[1] The Discoverable Partitions Specification (DPS)
+Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+
+[2] systemd-gpt-auto-generator
+Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt-auto-generator.html
+
+[3] commit 0f7d63d9a725 ("efi/libstub: add initial Boot Loader Interface
+    support")
+Link: https://git.kernel.org/torvalds/c/0f7d63d9a725
+
+[4] GRUB -- §16.20 bli
+Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmodule.html
+
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+Changes in v2:
+
+  - Remove all architectures which do not have CONFIG_EFI.
+
+  - Replace the per-architecture UUID headers with Kconfig definitions.
+
+  - Move most of the DPS lookup logic to block/early-lookup.c.
+
+  - Bail out if ROOT_DEV already exists.
+
+  - Hold the disk's open_mutex during lookup so partition scanning
+    finishes before reporting -ENODEV. This is a prerequisite for the
+    next two changes.
+
+  - Do an early abort when early_lookup_dps_root() returns -ENODEV.
+
+  - Add the secondary partition type UUID as a fallback.
+
+  - Small tweaks in log messages.
+
+  - Documentation is updated accordingly.
+
+Link to v1: https://lore.kernel.org/r/20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org
+
+---
+Vincent Mailhol (7):
+      block: store GPT partition type UUID
+      init: add DPS root partition type UUID definitions
+      init: factor out root device lookup into lookup_root_device()
+      init: discover root by DPS partition type UUID
+      block: skip partitions with DPS no-auto GPT attribute
+      init: add secondary DPS root partition type UUID
+      docs: document discoverable root partitions
+
+ Documentation/admin-guide/discoverable-root.rst |  40 ++++++++
+ Documentation/admin-guide/index.rst             |   1 +
+ Documentation/admin-guide/kernel-parameters.txt |   5 +
+ block/early-lookup.c                            | 119 +++++++++++++++++++++++-
+ block/partitions/efi.c                          |   2 +
+ include/linux/blkdev.h                          |  15 +++
+ init/Kconfig                                    |  21 +++++
+ init/do_mounts.c                                |  44 +++++++--
+ 8 files changed, 234 insertions(+), 13 deletions(-)
+---
+base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
+change-id: 20260611-discoverable-root_partitions-bdacbada570d
+
+Best regards,
+--  
+Vincent Mailhol <mailhol@kernel.org>
+
