@@ -1,57 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.167
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792934190;
-	b=r7JBkxkE25ec/lOdfX9u6f2C80GTJwyxUnbrqG8yN+skZf11QU5Y3UVEHb4z/wkmZvYG
-	 4xvz0XUP8oXfdlJHYskldGMPK5k2uLZ/6PjwixaM5Z8qRyAm4viNLR+Rnttxrl9Qndpw/
-	 eGYZT1yMrMI67+qqiko2SMjfqTcE2PgvcH5c1jGsI0yA6Ilt/Ukp3CmTBjS/d5qHoJFpd
-	 DnmqJLnNmyhK4Ttkf5QZc8IWGBNg8XL/jJ7qCiRK/0nDI9Y3HUWohFZhgYICcWizj4WDY
-	 y+hg+7GRUnQYoBR8hYtjcA5LhWQuTSv1bwKrTjoxl7IYJ2KvD3YiSn1i1gpSAS1tsKw==
+	t=1792934236;
+	b=qYA0vHPU6gg0j9hXMgCZjfvZ/x6wS1y0u16PqSAPf9ox/sDrOPmm1EH9acVGWb8slNRA
+	 gHePDxbGYwUWsHGdRMksAIuIt4x6lGWzSvrH/BG4ICAFFMNOYY4z6J4GJciXAs3+IJs6z
+	 ElIMRpkZuDhqjHcFZZomXMlKiT75pO7/UPFKXYUMbslYt1c14Y1UBNiZuREaKN42Fs1DG
+	 rKnaAmpRKsLrCCwtR4QE7fa9xw55jx6RkB/RbC1F1BKhapG3rQqsiF+77PeHML9OIvplh
+	 Z/cCrr2mJYmXGpNrVen+fIXjYrdxqIGRSv10DYiy+Juf6h5lipeQnOb2nXHXecOW/2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792934190;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=DEGQxXfH7Z3QoNaAAnq2yU/C/JRwT4M+74JxxIBZ28A=;
-	b=AqvCLKYQhiKzs6RRs1TJa2exS5MBV23oyoNtAD3okokQT3AvZx2ZwbMKSleKA1l/BJCg
-	 rfkwv/Z4fKIatTQ3Vf2aXPOB2Uq0rFR9hkUXAUUrohrH/EX9G1TkoSQEir3XRetfjtYU5
-	 /1xkkOdpGU6MbD/HtXXq1Di/JJOPP539UkrqcdSIAYS5SPJ8LZRYHbIvd4EM+unW60Y9F
-	 eV+1V1cjW0kNtRJDH8hoE2FOtJ0TCvycqUdWpi4H9NG9K+rSW7lRFJxuRknlhYyFGAqdM
-	 pqdGTX4ehOlkZHJCKOqhGkhJxQNnCJc+0YXLQ66gyf8mJPCgwtYm2cfiGsFO2DQYyvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792934236;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=Xd5Xa+tpHBEadryWLO7SbWjhHmAYGrdSeX3H/U+Ur5U=;
+	b=oNn2iU8JGiEnOq4Pb6JIeqki4dhqqnokekT77bWfVOerAIA42btXEMOuRH7mVkL4Xz6z
+	 deKMJvoX6oRPS5NL769BMqX4GsMiUNUf77z2UnYm9y3HQQN1ULu3Ay7/pz4fFj/Ad2JZv
+	 9J5BL4tyXD7bNEtOWMvoYv/z6KBhE3OObxX5mK58J4JA1E2g9lf0D7xrdPypACN1ALIB3
+	 cYsN26IQcCM8HrI6fjb+raz9nMB41PTzd3xUo+pIVirqi2mUpokgx0eUsoBje01s8kX6f
+	 PXtldJgEL7j3eFC7IQRvu4atlSIpomxSokyhfMWUyJzWD5+gXZh6hrobmVNlEO2szqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=a9xaXeUD;
-	arc=none smtp.remote-ip=185.70.43.167
-Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B55606A31B
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 13:16:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33B55606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=a9xaXeUD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1792934184; x=1793193384;
-	bh=DEGQxXfH7Z3QoNaAAnq2yU/C/JRwT4M+74JxxIBZ28A=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=a9xaXeUDwZvmgX6JKLLUrp1o0xC+vP7+omEEw6P/Peh8Cybo90BkPPsdez3QK4KUC
-	 50P3OdWAUqVz35FUUbqH8ZSm+9QXltZcLFvX5u76C3V1ZgjLCFr7I/QeZatyHWvMHC
-	 luurvJEYMSSWBMFi8WfYhqoJSfElxwoeQp8P/yfgWQSl5kQJJHQad7zI0UP5geqezC
-	 DulPIA7HtElUEvWcGxV6pk7pCWDwcV3lb926j6SU3Nbx78rdrm4jV3ad08avRuCSkF
-	 SFsvLGVwsVvrA1511qlgrZDMWWApBmseYtf7viNPXyefookp7E2QuaQvGRvlSz//Qh
-	 uch1tONeCwqZA==
-Date: Sun, 25 Oct 2026 13:16:21 +0000
-To: "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>
-From: dardaoe <dardaoe@proton.me>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH] Documentation: ext4: fix group descriptor and superblock  placement in meta_bg description
-Message-ID: <cJaripqlNO272O1fNRgrozKg2ocrVAPYS9w-1c-x1ltKdOsoNw9hWVKawqm7CoIhYb1pOwrTf6xxju_RKzajEmy8T1be_FuyQKKQ-GPGvB0=@proton.me>
-Feedback-ID: 203735097:user:proton
-X-Pm-Message-ID: de9a74dfa5ea2d134db3d6f927e48fcc02b60b3b
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=13.76.78.106
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B91606A31B;
+	Sun, 25 Oct 2026 13:17:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5B91606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMC23ndQAd5q+bJaAA--.40675S2;
+	Sun, 25 Oct 2026 21:17:04 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAH4iZMAd5qIoEMAA--.11693S2;
+	Sun, 25 Oct 2026 21:17:00 +0800 (CST)
+Message-ID: <1178407d-fe26-4e29-af8e-00441e544223@hust.edu.cn>
+Date: Sun, 25 Oct 2026 21:17:00 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,104 +45,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v3] docs/zh_CN: add Chinese translation for
+ usb/ohci.rst
+To: jiamingouyang13@gmail.com, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wy@wyuan.org
+References: <20261011150310.51673-1-jiamingouyang13@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20261011150310.51673-1-jiamingouyang13@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMC23ndQAd5q+bJaAA--.40675S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr1rCFyfuFyDCr17AFWrZrb_yoWrGFyDpF
+	s7KrWfKF4fJr10yrn7Cr1UKF18AF1Iga13G3srJwn5ZrZ7Jay0vrnrtFWagrWxWryxuayj
+	vFn09FWrCw12y3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E
+	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-From 98cec88bdaae2fd790adad67f3abb1e11ebb5623 Mon Sep 17 00:00:00 2001From:=
- dardaoe <dardaoe@proton.me>
-Date: Sun, 25 Oct 2026 13:03:01 +0000
-Subject: [PATCH] Documentation: ext4: fix group descriptor and superblock
-=C2=A0placement in meta_bg description
 
-The Meta Block Groups section is imprecise in two places:
+On 10/11/26 11:03 PM, jiamingouyang13@gmail.com wrote:
+> From: Jiaming Ouyang <jiamingouyang13@gmail.com>
+>
+> Translate Documentation/usb/ohci.rst into Chinese Simplified.
+>
+> The translation covers OHCI driver overview, hardware protocol
+> differences (OHCI vs UHCI), improvements since 2.4 kernel,
+> queueable interrupt transfers, and non-PCI support.
 
-=C2=A0- Without meta_bg, it says all group descriptor copies are kept in
-=C2=A0 =C2=A0the first block group. In fact the primary table lives in grou=
-p 0
-=C2=A0 =C2=A0and a backup of the whole table follows every superblock backu=
-p.
+1. Add the translation disclaimer.
 
-=C2=A0- With meta_bg, it says the superblock and a group descriptor block
-=C2=A0 =C2=A0are placed at the start of the first, second and last groups o=
-f
-=C2=A0 =C2=A0each meta-block group. Only the descriptor block is; superbloc=
-k
-=C2=A0 =C2=A0backups still follow the sparse_super placement rules
-=C2=A0 =C2=A0(ext4_bg_has_super()), independent of meta_bg.
+2. As discussed in [1], remove the 翻译 and original field in the beginning.
 
-Fix the wording and describe the interaction.
+[1]https://lore.kernel.org/linux-doc/87o6cvrs27.fsf@trenco.lwn.net/
 
-Assisted-by: LLM
-Signed-off-by: dardaoe <dardaoe@proton.me>
----
-=C2=A0Documentation/filesystems/ext4/blockgroup.rst | 43 ++++++++++++------=
--
-=C2=A01 file changed, 27 insertions(+), 16 deletions(-)
+> Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
+> ---
+>
+> Changes in v3:
+> - Correct the docs list in index.rst
+> ---
+>
+> Sending this resend because last send is broken.
+> ---
+>   .../translations/zh_CN/usb/index.rst          |  2 +-
+>   Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
+>   2 files changed, 39 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+>
+> diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+> index df99814c6497..c96eacf13e11 100644
+> --- a/Documentation/translations/zh_CN/usb/index.rst
+> +++ b/Documentation/translations/zh_CN/usb/index.rst
+> @@ -32,6 +32,7 @@ USB 支持
+>       chipidea
+>       dwc3
+>       ehci
+> +    ohci
+>       usbmon
+>   
+>   待翻译文档：
+> @@ -49,7 +50,6 @@ USB 支持
+>   * mass-storage
+>   * misc_usbsevseg
+>   * mtouchusb
+> -* ohci
+>   * raw-gadget
+>   * usbip_protocol
+>   * usb-serial
+> diff --git a/Documentation/translations/zh_CN/usb/ohci.rst b/Documentation/translations/zh_CN/usb/ohci.rst
+> new file mode 100644
+> index 000000000000..5e36831bf370
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/ohci.rst
+> @@ -0,0 +1,38 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +:Original: Documentation/usb/ohci.rst
+> +
+> +:翻译: 欧阳家铭 Jiaming Ouyang <jiamingouyang13@gmail.com>
+> +
+> +========
+> +OHCI驱动
+> +========
+> +
+> +2002年8月23日
+> +
+> +“OHCI-HCD”驱动程序是一个USB主机控制器程序（HCD），它源自2.4内核系列中的“usb-ohci”
+> +驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber <weissg@vienna.at>编写但也获
+Do not break a word
+> +得了来自David Brownell <dbrownell@users.sourceforge.net>，Linus Torvalds
+> +和Gregory P. Smith的支持。
+> +
+> +它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的
+> +硬件寄存器协议。“与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多只能功能
+只能 -> 智能 ?
+> +注入到硬件中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
+> +
+> +自2.4内核以来的更改包括
+> +
+> +         - 提高了健壮性; 修复了错误; 减少了开销
+> +         - 支持更新和简化的usbcore API
+> +         - 中断传输可以更大，并且可以排队
+> +         - 通过使用上层“hcd”框架，减少代码量
+> +         - 支持一些非PCI的OHCI实现
+> +         - ... 以及更多
+> +
+> +“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”
+> +中也是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢
+Do not break a word
+> +失的风险。当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要
+> +处理，来最大限度的降低这些风险。
+> +
+> +- David Brownell
+> +  <dbrownell@users.sourceforge.net>
+> +
 
-diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/=
-filesystems/ext4/blockgroup.rst
-index 7cbf0b2..d33d1c4 100644
---- a/Documentation/filesystems/ext4/blockgroup.rst
-+++ b/Documentation/filesystems/ext4/blockgroup.rst
-@@ -83,11 +83,13 @@ flex_bg is given by 2 ^ ``sb.s_log_groups_per_flex``.
-=C2=A0Meta Block Groups
-=C2=A0~~~~~~~~~~~~~~~~~
-
--Without the option META_BG, for safety concerns, all block group
--descriptors copies are kept in the first block group. Given the default
--128MiB(2^27 bytes) block group size and 64-byte group descriptors, ext4
--can have at most 2^27/64 =3D 2^21 block groups. This limits the entire
--filesystem size to 2^21 * 2^27 =3D 2^48bytes or 256TiB.
-+Without the option META_BG, the group descriptors for all block groups
-+are stored together in a single table that follows the superblock in
-+the first block group, with a backup copy of the whole table following
-+each superblock backup. Given the default 128MiB(2^27 bytes) block
-+group size and 64-byte group descriptors, ext4 can have at most
-+2^27/64 =3D 2^21 block groups. This limits the entire filesystem size to
-+2^21 * 2^27 =3D 2^48bytes or 256TiB.
-
-=C2=A0The solution to this problem is to use the metablock group feature
-=C2=A0(META_BG), which is already in ext3 for all 2.6 releases. With the
-@@ -104,17 +106,26 @@ to the hard limit 2^32, allowing support for a 512PiB=
- filesystem.
-
-=C2=A0The change in the filesystem format replaces the current scheme where
-=C2=A0the superblock is followed by a variable-length set of block group
--descriptors. Instead, the superblock and a single block group descriptor
--block is placed at the beginning of the first, second, and last block
--groups in a meta-block group. A meta-block group is a collection of
--block groups which can be described by a single block group descriptor
--block. Since the size of the block group descriptor structure is 64
--bytes, a meta-block group contains 16 block groups for filesystems with
--a 1KB block size, and 64 block groups for filesystems with a 4KB
--blocksize. Filesystems can either be created using this new block group
--descriptor layout, or existing filesystems can be resized on-line, and
--the field s_first_meta_bg in the superblock will indicate the first
--block group using this new layout.
-+descriptors. Instead, a single block group descriptor block is placed
-+at the beginning of the first, second, and last block groups in a
-+meta-block group (immediately after the superblock, if that group has
-+one), regardless of the sparse_super feature. A meta-block group is a
-+collection of block groups which can be described by a single block
-+group descriptor block. Since the size of the block group descriptor
-+structure is 64 bytes, a meta-block group contains 16 block groups for
-+filesystems with a 1KB block size, and 64 block groups for filesystems
-+with a 4KB blocksize. Filesystems can either be created using this new
-+block group descriptor layout, or existing filesystems can be resized
-+on-line, and the field s_first_meta_bg in the superblock will indicate
-+the first block group using this new layout.
-+
-+Superblock backups continue to follow the ordinary sparse_super
-+placement rule (block group 0, 1, or a power of 3, 5, or 7)
-+independently of meta-block group boundaries; without sparse_super,
-+every block group carries one. As a result, a block group at one of the
-+three meta-block-group positions above will carry a superblock backup
-+only if its group number also satisfies that rule; otherwise it holds
-+only the group descriptor block.
-
-=C2=A0Please see an important note about ``BLOCK_UNINIT`` in the section ab=
-out
-=C2=A0block and inode bitmaps.
---
-2.43.0
-Sent with Proton Mail secure email.
