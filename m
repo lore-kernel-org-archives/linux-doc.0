@@ -1,91 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792947965;
-	b=HP1XIbdlOLOmqAxsg0I5BsinDiof/Qv1HpOjUjCdJknvVQIzRB9wEefTtKVJTIxUdJC5
-	 4xeOCSM2IgLI9tXzt40CAbK2OrvtraXJijoVZTM/wOeduRZnkt8sFjhkd3DwovitSv0VG
-	 P38J3Dyql33162jttommQwqRcxTNIfxm1rFq+4hUkq+2kM3ocL2ZKfzMqQkjJwYn3auXv
-	 gjL+QAJekjE64XYReqa7La0xdHxASzHqtMuisvxWnA0L348H5fYRhsqCOnGVDa3cfTQM3
-	 SUH6pqoz4wO0ZsJKwW0chXpnZ49UwQXQjRinFo28Xqk0zP+7CeJar2OsCGtKBRa6+xg==
+	t=1792950021;
+	b=4OYCWDWXzHNPzTP3/6ajk4WYje9wQkpsXRAB9p+lKehpHxmQJykrX5x6zbHX5dQEbwv7
+	 l/Z7fByogY0j43sULN0LMhKKoqi65iKL5JUecZvrLyQBTzyUfo0HXEPM306a4Ffo0Jnou
+	 NQtNmV8DYxwN8+F5xk/M6t9U9LkKmC3Y5mZ+8x227Byp1+Q+yJNXytL0NhL1iTL7OFJLp
+	 /zXINYskNTULyb2Nn8Y6tOjZ+iDTVJaDWOhkBuzh1Tijr3Ir3pzBBeJEVWud13U3EJWXS
+	 RWN6onJa6aQ7KHF595m2iS5qLmQYo3MeiJtDQ2CBeMEJyLazS20+Tlr3S3L7ZGrs6Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792947965;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=oUwvHq0P/9gsOPpgAsIiXBykttRf2wfXHYBWY4fgpX4=;
-	b=AhBv58+UiYfwP0XdVv+WfCErXtalkEJMc18Z9ZFHrtm/rK/ZRxWlOeYwU74PsCBSsS90
-	 F2GuGhbl9JIa/fEwle1fwqP/xHnn5DXV8q+UEYavveE9XFChNUWQZAM29KVWNPqXi0JJ+
-	 qOf7tWmmPs5qxQJdIlIKAPDbFjx/QmHcaOr0xQ2LUtzGO37g9D3hy3MkMyQbETFZIyTsQ
-	 ynWm87oT2063kRnDiIPCl4VUa0WIszO9ur2Gq3wjJtP0AeXhikQVZ+aDmIYeAaq+jiLOd
-	 7Gsyt10PWTDj34sFmWx2p5AhqFaj27TpMXFbqJ1cBbPqm0OLDcXADztqIxMRImz3rPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792950021;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=h3QApbBlAYhRMvgt4baVTZSCZ7KrzPHAuh9ddC7G5Kg=;
+	b=hw8nzPFxiivipSug7WOPXktyIQfFdov4qohjIa1H3X/W+HNTk5uGd0iQRi4bQmiPyDMm
+	 L4IAipclPU+nqt1sYhayv5vwX6q9ZZ1jwc4+A43IRpNPBEgucj5TmUm80Xkgo5SSLqIat
+	 B/PuvsyEza59mLYg3uSaHc+g8e2o/etuO9KfdyhYh7habV7WaWG40DWyYFfzT9N8841oV
+	 huudOlzkHhTym7IS7BT1Rxu2SrzpeKpco18da6umfbiuWmHuK97/9ByaftqwPSx/KDNUK
+	 xzELZPOgqaMWWOoy+vN4d8KQZIrtoTEl1HBuxfPzFyfhDJDdlTQJJh8AtlM5pr2UzYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=soleen.com;
+	spf=pass smtp.mailfrom=soleen.com;
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=HJ4fE0hW;
+	arc=none smtp.remote-ip=209.85.221.172
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0EE606A31A;
-	Sun, 25 Oct 2026 17:06:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE0EE606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31404606A31B
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:40:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31404606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792947963; x=1824483963;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AxOjbFvh/NcIZrioJUJIpPem4ac7BqaQaQFD2sY7xA8=;
-  b=R2sE4R29VIABX3QPzLRl6Z1YY7M7zIGR64PW/rA2dk9afhMKKukVvbL7
-   0k7CFnwNP+cXXqO2QPGQz6gt5pFhBE+5KZQya2Zs2dRRh/m5WHROcNxnT
-   dggBGGoY6hXlrFMn+HDuRtbb9qIQZOBe7FGAiQBknaboIyVUeVC9Ah+pK
-   yoK+W1MMqP/WgUvx278MvgGnNKNyY/+jh0ugQ1mPppf9MIUvOonLzoZwy
-   7STbbizVbcSNgwiWdz3UxI9pMBkKOXP8IY1/+tNY71Mq6w31rKkWuWkDi
-   EHLMAWG0AjxDbDeT6tFbB46QKm71V0fgVh5YgxNCgfqg3bpcWSRR+pHSj
-   Q==;
-X-CSE-ConnectionGUID: qb5x8gk3R66xo5Af9nbtJQ==
-X-CSE-MsgGUID: TtyQkWpDTgy3pRn0CoNzpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1611689"
-X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1611689"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 10:06:02 -0700
-X-CSE-ConnectionGUID: 58RfMdFWTXqNG1oYrD8erg==
-X-CSE-MsgGUID: ITdobinPTCSRoDNVxb84cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4051939"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2026 10:05:58 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xL1fN-00000000UxW-3BwO;
-	Sun, 25 Oct 2026 17:05:53 +0000
-Date: Mon, 26 Oct 2026 01:05:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
-	Leo Yan <leo.yan@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Pereira <danielmaraboo@gmail.com>,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
-Message-ID: <202610260043.uPhMX80G-lkp@intel.com>
-References: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=HJ4fE0hW
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5eaaa9b1591so1546523e0c.3
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 10:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1792950020; x=1793554820; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=h3QApbBlAYhRMvgt4baVTZSCZ7KrzPHAuh9ddC7G5Kg=;
+        b=HJ4fE0hWm0GPzGiTRdzgiJWmIZSHIcVLcYLfo94QFpMgVa7XLpQTlZA8sJxUoeLtIZ
+         RVya7NksaNAOC9Jk0CuRFPf0FXq4Ipib2epkgBlnOAWcQAt5yr5vwIUGtp7Liw0nUyNX
+         jlelfpk+IBf0YGaVB33YFSVkKxnw1dWC35D2oLrc+b76Jq3f5NSDQ83KQbjfWaUQeWhX
+         KJftkkmHeVBashFCTu6evCal59cAFA8MHdZOMyegmqy8jgRLe8fNBz6uP1dgtEmOWFo3
+         8aURPUnmjefvPlEaTdB27h1dUYta9gHfKwYyUPd7EyZieSzqsBSGqCplVc387hVin7Wy
+         R65A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792950020; x=1793554820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=h3QApbBlAYhRMvgt4baVTZSCZ7KrzPHAuh9ddC7G5Kg=;
+        b=Xa7DweVkI+FtKKvoMxh6mTGitiyr3xWnwRGfIlFO+uzbXleiKncJqSODdVfh+DT4tv
+         gfESBa6GmTWd53a9ovFldeCz1ORvw/yYS2hwVab5olraZM18zr4+kFut8ONGPKpOBjHr
+         9Qv54AfAVA76VzxmWA2i9L93qem2SsXrNHXsF93jKXeMyZ0sPF5jGAeg7Rp3KWM8CvVh
+         5zGm+be6XzJc2k5oxsunbiPU8n7B8fgtksgUcrC6SNnRNuN/8kAKSKJFGeNacDqB4QeW
+         inE7QK0aLogqJzJuqXkfWDEVz/lYj0Kl/QzCNj4KhCUAqsU0j5X744WvuMbyA8OU71hQ
+         kyvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBycqQiKWAOp7mRK9b2rc6hXocCCKmI5eIH+V/zSNHexdXIMqAoMrkmGG+P4oOdZp3T5q20fOtZU18Q=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLB3DvNr8WXfjrQnjtYPmtC0DZfodjAZRYoZCQCZMjQsQp4IjTt
+	emX7qjiBHPhmfcE/9N/wcDNfd1+K3/4PBj/3R2QIR8b0AGOf8Nz3r/y5YncXFza7M0U=
+X-Gm-Gg: AYBFou2ZX3+kzMIrCzfzmQ6KxctQehA1cZQXIN62MVyyGltFkQ7Ub1CMHUl0jSl5z0D
+	0HGlRd6KND+vp0ToEwKjhUkmT2vDshrBGaLeAQfPYa2BqOfF/FrX885tYIfBbP8Hg59rn88JLrr
+	HZ/G0T6rWf25bsYyOmBSSK1uJdfPTmO5XuGdFV9A7zKNP10WbnTVNRbUhW2x/mhzzg8CcJ1bBFL
+	9skG/A3QMnnY57UVypbYnRVRx7W1ZNSkQhS5uMqHYCc4NAaeEbjzxGZynE2vOTZvTqfGoy65BoB
+	x3sP/n8CCjM7NTMma3dWfIe/mgcUSvHCGnUeGGTdgziarBZAOxi7oeDk7vIY2VhaJs7JJH4gv/V
+	is1zcTQVluN5/hOwcgZVcpcflMV/WJEANPD+ENh4FOJgVmim7w09NimcqBJ4VrCYH/4HuEv+rh3
+	fEdDvHzPzDqiIjzArqoo3Tb6tH3lBKNV071Wvsl4ORwk5dlX87wIKF5pwu1NSsmihNhTotsTciY
+	yamLAwh5+E8wo7dmXCzSJob/pJwiwdq7rmL+JAqyUUa8P5EFZwz8t0kSpcRPmT9wZc5KMBfBROA
+	crHqI7iwwbb4gqnf49vYkFq2T1rMs7z9y0PeQ7oaFJsnYA70dyUW+B410uYYMW566tbv0tMv6sh
+	k
+X-Received: by 2002:a05:6122:4893:b0:5ea:c45f:6c4d with SMTP id 71dfb90a1353d-5ec23326819mr1425104e0c.22.1792950020005;
+        Sun, 25 Oct 2026 10:40:20 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec234673ebsm5783333e0c.13.2026.10.25.10.40.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 10:40:19 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: linux-kselftest@vger.kernel.org,
+	rppt@kernel.org,
+	kuba@kernel.org,
+	enelsonmoore@gmail.com,
+	bp@alien8.de,
+	shuah@kernel.org,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	mhocko@suse.com,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	vbabka@kernel.org,
+	dapeng1.mi@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	surenb@google.com,
+	pasha.tatashin@soleen.com,
+	kexec@lists.infradead.org,
+	pratyush@kernel.org,
+	rdunlap@infradead.org,
+	elver@google.com,
+	graf@amazon.com,
+	lirongqing@baidu.com,
+	liam@infradead.org,
+	jlayton@kernel.org
+Subject: [PATCH v2 0/9] kho: add read-only Kexec Handover mode
+Date: Sun, 25 Oct 2026 13:40:07 -0400
+Message-ID: <20261025174017.3870481-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,99 +119,167 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Amir,
+This series introduces a read-only Kexec Handover mode, enabled at boot
+via 'kho_ro=<pa>' pointing to the physical address of the KHO FDT.
 
-kernel test robot noticed the following build errors:
+In standard KHO, the outgoing kernel shuts down or serializes all
+devices into LUO state, releases machine control, and passes the KHO
+FDT physical address through the kexec_file_load() reboot path to the
+next kernel, which becomes the sole "Machine Owner" (MO), initializes
+struct pages for preserved folios during early boot, and reclaims KHO
+metadata and preserved pages back into the page allocator as they are
+restored.
 
-[auto build test ERROR on 343cfcbb3ecfdb80aa576a428cfa3b65ad783842]
+In the "Linux Caretaker" (LC) model (as well as inspection kernels or
+firmware), a minimal LC kernel runs concurrently on dedicated CPUs
+offlined from the MO scheduler while MO is still active or undergoing a
+standard KHO-preserved kexec reboot (Live Update). LC is given
+read-only access to KHO so a minimal VMM inside LC can keep VMs
+responsive (<30ms VM blackout time) by servicing software-only, fully
+virtualized devices (such as virtio-console, pvpanic, virtio-rng, etc.)
+that do not require host hardware interrupts or global machine state,
+while leaving the preserved KHO tree intact for the incoming MO kernel
+to retrieve normally once it boots.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-etm4x-Fix-event-count-decoding/20261024-233901
-base:   343cfcbb3ecfdb80aa576a428cfa3b65ad783842
-patch link:    https://lore.kernel.org/r/cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov%40fb.com
-patch subject: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/reproduce)
+LC is never MO: it has no PCI support, does not handle device
+interrupts, and is booted inside a small LUO-preserved memfd region
+(e.g., ~128MB of RAM on a host with terabytes of memory). Because LC's
+direct map only covers its own small memory footprint (both for
+isolation and to avoid struct page overhead for host memory), the KHO
+FDT, radix tree, and preserved memory all reside outside of LC's direct
+map. Furthermore, because LC is configured and launched from userspace
+while MO is still running rather than through a kexec reboot handoff
+from a shutting-down kernel, userspace reads the KHO FDT physical
+address from /sys/kernel/debug/kho/out/fdt_phys and explicitly passes
+'kho_ro=<pa>' on LC's kernel command line.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260043.uPhMX80G-lkp@intel.com/
+Both CONFIG_KEXEC_HANDOVER and CONFIG_KEXEC_HANDOVER_READONLY can be
+compiled into the same kernel image, with the active mode selected at
+boot via the kernel command line ('kho=on' vs 'kho_ro=<pa>'; passing
+'kho_ro=<pa>' disables regular KHO).
 
-All errors (new ones prefixed by >>):
+Overview of the series:
+- Patch 1 exposes the physical address of the outgoing KHO FDT via
+  /sys/kernel/debug/kho/out/fdt_phys so userspace tooling can pass it
+  to a 'kho_ro=<pa>' kernel.
+- Patch 2 moves the shared radix-tree key encoding, indexing, leaf
+  lookup (kho_radix_find_leaf()), FDT validation, and
+  kho_retrieve_subtree() helpers into a shared
+  kernel/liveupdate/kexec_handover_common.c compilation unit with
+  declarations in kernel/liveupdate/kexec_handover_internal.h, while
+  also checking that fdt_totalsize(fdt) does not exceed PAGE_SIZE in
+  kho_check_fdt() and using get_unaligned() for 64-bit FDT property
+  reads in kho_retrieve_subtree().
+- Patch 3 hardens kho_restore_vmalloc() and factors out shared vmalloc
+  helpers by introducing kho_vmalloc_validate() and kho_vmalloc_walk()
+  in kernel/liveupdate/kexec_handover_common.c to validate the
+  preservation metadata header and walk the chunk list.
+- Patch 4 avoids modifying ser->next and bs->head_pa in kho_block_add()
+  and kho_block_set_shrink_one() when operating on an incoming block
+  set, as the chain is already linked and incoming blocks must not be
+  modified in KHO read-only mode.
+- Patch 5 adds CONFIG_KEXEC_HANDOVER_READONLY and
+  kernel/liveupdate/kexec_handover_ro.c. When booted with
+  'kho_ro=<pa>', the KHO FDT is mapped and validated once in an
+  early_initcall, and radix-tree nodes, leaves, and folio/vmalloc
+  mappings are cached on first visit in a unified RCU-protected hash
+  table for the lifetime of the read-only KHO kernel, providing
+  kho_is_ro(), kho_ro_lookup_folio_order(), kho_ro_map_folio(), and
+  kho_ro_map_vmalloc().
+- Patch 6 wires read-only KHO mode into KHO core (kho_populate(),
+  kho_memory_init(), and kho_retrieve_subtree()).
+- Patch 7 updates kho_block to map incoming serialized blocks read-only
+  via kho_ro_map_folio() in read-only KHO mode.
+- Patches 8 and 9 extend test_kho and tools/testing/selftests/kho/vmtest.sh
+  to build a single kernel with both CONFIG_KEXEC_HANDOVER=y and
+  CONFIG_KEXEC_HANDOVER_READONLY=y and test both standard KHO and
+  read-only KHO handover when preserved memory lies outside the boot
+  kernel's initial memory range on x86_64 and arm64.
 
-   In file included from include/kvm/arm_pmu.h:11,
-                    from arch/arm64/include/asm/kvm_host.h:38,
-                    from arch/arm64/include/asm/arm_pmuv3.h:9,
-                    from arch/arm64/kernel/cpufeature.c:80:
-   include/linux/perf/arm_pmuv3.h: In function 'pmuv3_event_implemented':
->> include/linux/perf/arm_pmuv3.h:333:26: error: implicit declaration of function 'pmuv3_implemented'; did you mean 'pmuv3_event_implemented'? [-Wimplicit-function-declaration]
-     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-         |                          ^~~~~~~~~~~~~~~~~
-         |                          pmuv3_event_implemented
->> include/linux/perf/arm_pmuv3.h:333:44: error: implicit declaration of function 'read_pmuver' [-Wimplicit-function-declaration]
-     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-         |                                            ^~~~~~~~~~~
->> include/linux/perf/arm_pmuv3.h:336:28: error: implicit declaration of function 'read_pmceid0' [-Wimplicit-function-declaration]
-     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-         |                            ^~~~~~~~~~~~
->> include/linux/perf/arm_pmuv3.h:336:45: error: implicit declaration of function 'read_pmceid1' [-Wimplicit-function-declaration]
-     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-         |                                             ^~~~~~~~~~~~
-   arch/arm64/include/asm/arm_pmuv3.h: At top level:
->> arch/arm64/include/asm/arm_pmuv3.h:49:19: error: conflicting types for 'read_pmuver'; have 'u32(void)' {aka 'unsigned int(void)'}
-      49 | static inline u32 read_pmuver(void)
-         |                   ^~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:333:44: note: previous implicit declaration of 'read_pmuver' with type 'int()'
-     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-         |                                            ^~~~~~~~~~~
->> arch/arm64/include/asm/arm_pmuv3.h:160:19: error: conflicting types for 'read_pmceid0'; have 'u64(void)' {aka 'long long unsigned int(void)'}
-     160 | static inline u64 read_pmceid0(void)
-         |                   ^~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:336:28: note: previous implicit declaration of 'read_pmceid0' with type 'int()'
-     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-         |                            ^~~~~~~~~~~~
->> arch/arm64/include/asm/arm_pmuv3.h:165:19: error: conflicting types for 'read_pmceid1'; have 'u64(void)' {aka 'long long unsigned int(void)'}
-     165 | static inline u64 read_pmceid1(void)
-         |                   ^~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:336:45: note: previous implicit declaration of 'read_pmceid1' with type 'int()'
-     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-         |                                             ^~~~~~~~~~~~
->> arch/arm64/include/asm/arm_pmuv3.h:170:20: error: conflicting types for 'pmuv3_implemented'; have 'bool(int)' {aka '_Bool(int)'}
-     170 | static inline bool pmuv3_implemented(int pmuver)
-         |                    ^~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:333:26: note: previous implicit declaration of 'pmuv3_implemented' with type 'int()'
-     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-         |                          ^~~~~~~~~~~~~~~~~
+This series is based on liveupdate/next commit 27be83a12b24 ("Merge
+branch 'lu-pci-preservation' into next").
+
+Changelog:
+v2:
+- Expand the cover letter with the LC architecture, explaining why
+  'kho_ro=<pa>' takes the FDT physical address on the command line and
+  describing the expected users of the read-only KHO APIs (Suggested by
+  Mike Rapoport).
+- Patch 2 (Suggested by Mike Rapoport):
+  - Move the shared radix-tree, FDT, and subtree retrieval helpers into
+    a dedicated kernel/liveupdate/kexec_handover_common.c file instead
+    of static inline functions in
+    kernel/liveupdate/kexec_handover_internal.h, and factor out
+    kho_radix_find_leaf() for radix leaf lookup.
+  - Check that fdt_totalsize(fdt) does not exceed PAGE_SIZE in
+    kho_check_fdt(), drop the "setup: " log prefix from FDT validation
+    warnings, and use get_unaligned() when reading 64-bit FDT properties
+    in kho_retrieve_subtree().
+- Patch 3:
+  - Move kho_flags_to_vmalloc() to kexec_handover_common.c alongside
+    kho_vmalloc_validate() and add a shared kho_vmalloc_walk() chunk
+    walker used by both kho_restore_vmalloc() and kho_ro_map_vmalloc().
+- Patches 5 and 6:
+  - Allow CONFIG_KEXEC_HANDOVER and CONFIG_KEXEC_HANDOVER_READONLY to be
+    compiled into the same kernel image and select the active mode via
+    the kernel command line ('kho_ro=<pa>' forces regular KHO disabled).
+  - Split the KHO core integration (kho_populate(), kho_memory_init(),
+    and kho_retrieve_subtree()) into a separate patch (Patch 6) so
+    Patch 5 only introduces the read-only KHO backend.
+  - Map and validate the KHO FDT and preserved-memory-map root once in
+    an early_initcall so kho_ro_get_fdt() and kho_retrieve_subtree() do
+    not sleep or map lazily.
+  - Replace kho_ro_restore_vmalloc() (which allocated RAM and copied
+    pages) with kho_ro_map_vmalloc() to map preserved kho_vmalloc
+    regions read-only in place using kho_vmalloc_walk().
+  - Cache radix-tree node, leaf, folio, and vmalloc mappings in a
+    unified RCU-protected hash table (kho_ro_map_ht) keyed by address,
+    size, and protection for the lifetime of the read-only KHO kernel,
+    and drop kho_ro_unmap().
+- Patch 9:
+  - Build the kernel and initrd only once in vmtest.sh with both
+    CONFIG_KEXEC_HANDOVER=y and CONFIG_KEXEC_HANDOVER_READONLY=y
+    enabled, running both the standard KHO test and the read-only KHO
+    test on the same kernel image.
+Link: https://lore.kernel.org/all/20261019021111.990394-1-pasha.tatashin@soleen.com/ # v1
+
+Pasha Tatashin (9):
+  kho: expose physical address of outgoing FDT
+  kho: move radix tree and FDT helpers to common file
+  kho: validate preservation metadata in kho_restore_vmalloc()
+  kho: do not modify incoming serialized blocks
+  kho: add read-only Kexec Handover mode
+  kho: support read-only KHO mode in KHO core
+  kho: support read-only KHO mode in kho_block
+  kho: test: support read-only KHO mode in test_kho
+  selftests: kho: add read-only KHO test to vmtest.sh
+
+ .../admin-guide/kernel-parameters.txt         |   8 +
+ Documentation/admin-guide/mm/kho.rst          |   3 +
+ Documentation/core-api/kho/index.rst          |   6 +
+ include/linux/kexec_handover.h                |  44 +-
+ kernel/liveupdate/Kconfig                     |  10 +
+ kernel/liveupdate/Makefile                    |   3 +-
+ kernel/liveupdate/kexec_handover.c            | 284 +++---------
+ kernel/liveupdate/kexec_handover_common.c     | 298 ++++++++++++
+ kernel/liveupdate/kexec_handover_debugfs.c    |  22 +-
+ kernel/liveupdate/kexec_handover_internal.h   |  47 +-
+ kernel/liveupdate/kexec_handover_ro.c         | 429 ++++++++++++++++++
+ kernel/liveupdate/kho_block.c                 |  78 +++-
+ lib/Kconfig.debug                             |   2 +-
+ lib/test_kho.c                                |  71 ++-
+ tools/testing/selftests/kho/arm64.conf        |   1 +
+ tools/testing/selftests/kho/init.c            |  38 +-
+ tools/testing/selftests/kho/vmtest.sh         |  65 ++-
+ tools/testing/selftests/kho/x86.conf          |   1 +
+ 18 files changed, 1121 insertions(+), 289 deletions(-)
+ create mode 100644 kernel/liveupdate/kexec_handover_common.c
+ create mode 100644 kernel/liveupdate/kexec_handover_ro.c
 
 
-vim +333 include/linux/perf/arm_pmuv3.h
+base-commit: 27be83a12b246b6b3783e7d3ac5c378ff7520f25
+-- 
+2.56.0.307.g5fe7bd680c-goog
 
-   320	
-   321	/*
-   322	 * Whether this CPU's PMU implements a common event, as reported by
-   323	 * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
-   324	 * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
-   325	 * Must run on the CPU whose PMU is queried.
-   326	 */
-   327	static inline bool pmuv3_event_implemented(u16 event)
-   328	{
-   329		bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
-   330		u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
-   331		u64 pmceid;
-   332	
- > 333		if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-   334			return false;
-   335	
- > 336		pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-   337		return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
-   338	}
-   339	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
