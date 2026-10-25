@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792937980;
-	b=mScFlPAwYTyVqDdVl0zN5N7dgi3eM5VHa2dk6iCneyis05KqqlAAmawW8lphq7fg8bh3
-	 CU8FlTb8cYeJYOwF5vNy5xROgeeVi/dohf2NGQecgfFFP+yoZx/Z9hfAeISSPRfeH45qC
-	 x219jvmSlLwmXaJ8y1oJ1T21CFD1DP/72cPG614oXHjId5cifVEI6kfoJdqVz/t0LL0on
-	 JM7KOPIfzlHQGhAKHyjuIXxYnVKwPuBqa+vzgDbnrMgpcT0O0E9PdYBRlcBVW+6OZYngM
-	 l9BJmYLrF2thxChttV5XhXpKFs94g/5TLmpgU+TzAdxJgNYp3c4DFxNKDSY62PyjlYA==
+	t=1792938093;
+	b=kmZU6CFtCyYZFaCWWMJButfi1ELfViGMiN9IBJGA7qpPGPTSgIFvOyWwDqzAPEA0pfuo
+	 SHtZV0HOwFKdLvabYi7c2PIpNY8KU52NjwmHuuzdiPeS+9yd6TRoKyVXdlF37ZQlhN9bK
+	 A+NS8TGWcfrca4epQTENWYUnRyf3e1Rtl9vR2+AB5ktBuaRwlJ369BO2799ThHK0IVBuu
+	 pimuTA0DCVeqFAs7A3qf1Me+ixtaNcGM4pUdBBvNAGSmvz0qB/nuUNXjmuoceJz5miKMa
+	 8xYMhP+I1j4V4ZovvEVBSpNPqe6fEFP+OwxLTB5o0Znbuko/20Br6JuAsjqiXVgVzwg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792937980;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792938093;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=afEw9oZKmLEt3nCw5DyljPgEXMVJGWyX00qdwnVO3iE=;
-	b=0nNxhbO+IIAqizdsd5FwlN2Ka+/5BOUEq0Wex8LKHCNvFiHEvW7fWR74BahSv9Gmov/b
-	 2Isb06jm5dhlBZe7/6fuWRXIYUAkgZnLCfBaudPmq1EhwA24LusyMAgrBVmYIfVE/WVwU
-	 TDYWGTHoJSISZDHCczxxHDwIDPxQGTBKUKyPRHaY6stRxCPV5pfZJbeafU3gv8TOSiS2K
-	 Nnd1b2HOUo+JmuxDZPafRK86oUFtNbhQ9K8YVjTS72SRbhsL7QfKd+kS/g3e6xll7oE52
-	 T5v8b5DvmRNtYmuPjN8SBVmA5Jzkx0HekwMKXofNSJrg6wWFo3sbRYZ41jC9v0e8nwA==
+	bh=SM7Yv/1HjzmGuGQj9J0EPWbZsOFrrCqzpNrPuOL5wcg=;
+	b=TJDZiNw/xfTlUBMEQcp+g7YERhwd+wLG4hSPG95AWdXeCaBWYKK57LAZLjiRjMs5Ezq+
+	 NDEEMb5dKq6QdJgkdSErqi+8GlWNl/Z4RWKSF1G7NWPvNzaC3ZYvBVlVbRKx4A8jMNWuE
+	 Qpcidq6Gqy3e01ScbBOulq5nSkPA/V1kPj640Bu4lxX99MylVNPrr0pGg1B3xclcWkLH/
+	 wrqaFD+8uLiTSC0yLwU8hz4afkiIHmGKw3LlejSTSs9ff84XAPUhPTYvS4rxCJR/+aneN
+	 D4MFw3ULuS7/ofIIui2PRlKKtCtUWqHCuZgGRQzgYCnMLLiirWxIWUK5wv+8Tpz6Qqw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rpwWsubX;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Yeh32Jht;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D72606A31B
-	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 14:19:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51D72606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AD5606A31D
+	for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 14:21:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67AD5606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rpwWsubX
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-53394bffe0fso37455541cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 07:19:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792937979; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Yeh32Jht
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91b834592afso27712646d6.0
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 07:21:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792938092; cv=none;
         d=google.com; s=arc-20260327;
-        b=KhMrBH+5jOD9drv9odmZy/FMihmCUHkCYlHK+RyxPr71TcUf/T+e9M5266HTWh93WO
-         RQYwNfmNrbevo9ITiGF/c3Un4riDuPKz0H7WUgqk5YZ2Sr7jVyrhpZm/KPD4W214vhG3
-         ayMw9OMLIvzDujbxN8y7m64B4Pm01kiX8C3Haz6jBqhsIJstwgPQcmDarlZaX3w2ALPw
-         cwRogO/9ycp6fNvRN3UyBcDkBTUkAps8258Rdzy5cemk1zRj9PA3zRDWm0j5SFUSUVIO
-         M+NGwOAN2mMYZQIOGVgfnyMZ1s0+7Ggl4EndCerBtPAz/lQy7lek1rE9ilrqIgoYFr6O
-         cuDA==
+        b=R944WAiO7SCtj+5jSVLg1zRWXzNgALJV9ccTuyAiJlOhrDjFIShuGW2J5zyZLnzXvQ
+         tVeme1sNxoRtrLkpToGefoXXhrXljzIdy0UbiygbHUjvpCfiIFAjjbZBGIQgdZMLR1Jo
+         cdskkzf6/CuyG32PPSm3TvSYCD5GG35pN6tz3OEhIl8qNH8Q61y5MG9zw29su0Mvk58Q
+         yDyIYzbcOIPDkEMoD17yFxmYYBIz7C/MMXpd06i6x7FkJbJWwpVUE3afOT/xn705/4sm
+         BlwJUEimMA5mpJbdfLdQlSWQ3b+y5WsZ/btgXFSMi+lpi655rx2QerbtkKjyficfZlSL
+         diDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=afEw9oZKmLEt3nCw5DyljPgEXMVJGWyX00qdwnVO3iE=;
-        fh=/2qkVE6O00Kv/1KLyZyuUXV7+BvIHU7h6WgpSdGB3mk=;
-        b=m7H8RChAFEwd0kWuyZzo+moiUIkodXzyGTT+fqDbw9R8V7XTDQyBiL2v3RXwEWk4aR
-         rv/zhELs+ZC72MBo20yLYKW+WUI4jjCymuJW0gFP2hKiLqEn869L8iIbsmUo6CXI5wHX
-         oi9e/hcIjeAu/wxtCQpwqJXaBwpmNaihcskI/t5yWbjYzIZbSkc8wtOmLjsvNIRXUJXB
-         qU/ehInzsdUVzSiCpULNhRF7M1O4SMZh/zfhnSQIc9nVs6ABMzlgKNnPu4CXG+ThDY+a
-         9k2qV4CtS4n59IuPAZJWglPvPl1iXo+l76TlGLecIUSFpsbyfhck3WN1e6sO/af4eZnh
-         ui/g==;
+        bh=SM7Yv/1HjzmGuGQj9J0EPWbZsOFrrCqzpNrPuOL5wcg=;
+        fh=TpUr9XNcjB26JfwG0mHF01V18Cs8TDLT/M0lwBJTd30=;
+        b=hEEAOB8iIUPhAQmxBrAsXqRSl0X+fNGhcj0dfqB1IUz4n8BFfL6P7B8PEaK3Hgjhrw
+         UtWAE1CWlHCBoV5AFjKaKGlYIu8U4WDRlzDiCIlYlfNU/4sDr/DjR1cHVOFFpHDHkJE7
+         lH7Taa/zSmbQiNyb/tiNvBuEwRUe0v1L3xm4hb1huMtwbV7SrhqFgDYUaL+ReVHZKXhI
+         UyCmudQIsIpzqS1h1tB5ok61e6ZKcAu9XK+DeEMoOiG55l0VwhAAQ5uVamoMrCAdUnub
+         oc3r6IO9AFGeoiqWn913viM3PSxxj0IVknO7p0kgTnwVOaqQ02MBTuVKVJS4O7Kpr1i/
+         0wwg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792937979; x=1793542779; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792938092; x=1793542892; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=afEw9oZKmLEt3nCw5DyljPgEXMVJGWyX00qdwnVO3iE=;
-        b=rpwWsubXievo0YLcf+Vs4oyL3gUbEkkg6C/OnQYw2QmkGoL1qKvYRJywg5ShhEZKOy
-         MisnyD6P198DHVaIT3z17H+r3SCXdXNuADpOlnmAUbMHDbljFh7euejz4u+2PeIJGXm2
-         j12GCrd6aQ5Gpp1MoNwrET16wv3oSBf2kipGQ69776/FBPtADAwSfOQDL680cq0s43BK
-         /9uMfVW0W10KZBZjigT/5ww3s+CfO4TlIAn+ErZAbnshbSf8Qc+dABZhxFWn11iXxoSZ
-         AJbi8CHNQkmbDv6KDkZkYhEMKwn9xLgzYHihgLdHZ7Ez9OJZ4z12mPgj9iIJDDLr/bjK
-         d4cQ==
+        bh=SM7Yv/1HjzmGuGQj9J0EPWbZsOFrrCqzpNrPuOL5wcg=;
+        b=Yeh32JhtZmd2iC8QTwS3rSPC+4TSmNn+3v5gKoXld8RdwJJN3cxGhjaNGyXCto/O4P
+         f+0jqrBrGvdQ2aISEC/WD/zgW5r7eSNj777rU0XiNu6UxMDUoRoJbJwRsvdMZwj4mVG+
+         fRjhzGU1uQdgxHWWpYYg98vmTb2p0MK8hPXv80QRvnCu13AO68UzamMdcIiBnok+vEva
+         aJVL++M0Y6f/ATiSXDOghgwOzxw4RiHirD2KgIemhiWiXjM+/P6PA1iES9c26TFg3nRY
+         52ZwfNNhRZfVaFU2TG20+8PUDmVIeP0GLoiNDmaft7QhSttqZbo7dMYsXeBVR7c81S6Q
+         3otA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792937979; x=1793542779;
+        d=1e100.net; s=20260707; t=1792938092; x=1793542892;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=afEw9oZKmLEt3nCw5DyljPgEXMVJGWyX00qdwnVO3iE=;
-        b=2bI6tZ3kLNsB3TcLfKJkNbABsO9xETtu9Q+bLRrpBGNMF435IRLYqTYV3O8YIJxirH
-         lQ5kvChyps5OTQDqVYmDE056VaFa+2w3YfiJZ3NZcidNJyFPzALsEzHIPRvINrGKAJtq
-         BfsufjDGP8WvBiuX3kYVao2dXfB6x78sRpaxTjFk420AZ+rhRARtrqqEGq3gyFk4RPxu
-         RSyubBkTKbTwkUjSH5vPIqlCpcz0+7+PfHbCCMOiOPAjhZEQ7B0Gkqb7CnJlyCsxgpmH
-         qyZXiBGltZqafonwPImBAo/pQstYIhPiUVrATcvvIpPaMv3PVAfHfBtWTErxZAbVHfPp
-         LSkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzO2fGJ8Jh9yUYXe4hhG6Iux4syYf/InGKySZ9ETRN9mntEZDljrX2fEcZpVowNkN69PNukqEj1e3U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIM1NsOGnvF6OvwhL6dMOaEx/dD8ObOK8it74k1M5N2ar5CjB1D
-	Xj0KEtiPJHYZFCyYmN1JOKyw/wG8pYVlCSRRdr4afT74FCPN9Pi6ZXZQxbrVumvRRvraFv/I49T
-	bfFsbOH6PSnRTdiNHIohgfSwiQ9YHMgE=
-X-Gm-Gg: AYBFou3skpw1FD+VnbD7pDlrpjlUOeXXihKJjzEtDnprw6DWjdk7fTjpOwiaqOHNvAc
-	cT6H2bhupjl1Ag6YQuK2WaPnMIeUVCBW3W3Tqs+eBDBbozck9mokyMhS6xE5aH0wfwHJCy7vSbj
-	CSr4idoMNvBANhWu4S1IwMFgh3/RtyL0hWRwtAZlA0wRr9pZK1oZgln33a8btP176TOz8FPR84V
-	qcJXpCng3NAJQnn64q821FyqX3UpfNI36MG2ljQUaPvJGLqrklAbSfOdejxCD429wSRnppJlGTS
-	+a0w3xV8zxFT/daRtGS4qWt8Chk8T874gZjcEc9a8H+hv4JJpFkQSxErhqPz5K5+Yc1ONU6B/GR
-	vdXHrWbnHcC6yfhrlNyw7xCdHVVU7clPY3RhJe5ofPLQU0OGXL/6eubGl0UPMV0NaAMOmNPWKZD
-	qLhBruPuijJ2vjNTPuzhB4kXMZM84tT7/SUIhkMyTMmOrAvLonEVLwMZufirYetRZAH/SorEGS
-X-Received: by 2002:a05:622a:44a:b0:537:548b:77ed with SMTP id
- d75a77b69052e-5383b66676amr59161561cf.30.1792937979282; Sun, 25 Oct 2026
- 07:19:39 -0700 (PDT)
+        bh=SM7Yv/1HjzmGuGQj9J0EPWbZsOFrrCqzpNrPuOL5wcg=;
+        b=JSvstgIqSXxVNwQKHglp6398OWi/1QIcqMzI7mjafmkIxH9cKtRIqbBNKbPSrXlEqt
+         vQIJw4KTIbtX/rLGxWB9zFg6HBRCHhkWypnj4/FgUIDszEnfHmFC8g8zzxs7SZDn7uQn
+         /F5/c5pJO47a5nEPwcWe8qHrEnos13n+pgL0fL+pAy4vqw5u3+3VvmcG18tenKzR2HYD
+         X32haGPOnAMR4tixbCanet6Kzu9wValE+HKaH8EYzAEJGmv3ajs24NzwUFsygZq6CcI3
+         qosOQ0xZbZLiN3EifygtR/oCkkJyefUg+VGPOlKk8KMxpGQoqc6KJ/1gt9vIza6/pcB8
+         3fZA==
+X-Forwarded-Encrypted: i=1; AKwUvBxzkCGqbuQNVb9uaiQ9XoeizkCqnHCiNPP25ZkKLg3lf9bpfGgn/ts/EyIq4iz3Km814gyBYS2lsVQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL6JsZGIEFEUakF2QXN5/ECFhdzInMr4EmQ4bLc/+Tg+y2WuG4n
+	i2Z9ePuojYK7NtdD9/9R39LBpGrxYzb9sZ7FK9UbwfZLsH2Ym9L90JAHMdyPfC/Zf3Hv5FPlvVL
+	SUiByREYB2ZiTgAQc08qHUU5RMmDwPx0=
+X-Gm-Gg: AYBFou1vjJ/Avm0tR5MPiLRHlknKOIwvOWmuN81c9dClVcGazrH5qZKTMNVAnIeDNtB
+	vCreysbjkvsgm9ZMRcwsi3LfZUiMKMoD/Wo7vSSk/ePGq3XvHHRewvPHgJn5ok7X2gkqteuJkNh
+	3VtIculDWZztFYYeGE+TmJr9imihyzW641y2TvAo31UFvsUTWkckAMUuZr2PMYHVn9iuimwveHK
+	EIcWE74lVJEc9USWz2BVnz1YUxXiRXZGRNBfQlPBfkf549yWyUw2Pj9QB78Zg+NTagLWrWVjZwk
+	tvuSnzBJKlPdqICkO5gATB3+Lsqxfiy/gqguIsj1uMYhT4h80gZGb4AfUmqQYnTb44aymqSwqk5
+	pU5DnN7RCrsEJBbs0OGRGTKg9RwEWY3V3+EzWgM1drcBAOkJfCs3C0oTZS9NxsDNOCGax1bF2nG
+	r0Zb2EQwj6kF9Ecy1wA2pIk80A5ATsCSkVhacXuRf+nbJ5dMMvOgRi8eqShLs2FeFzhUs+rONB
+X-Received: by 2002:a05:6214:4601:b0:917:a943:c4c2 with SMTP id
+ 6a1803df08f44-91c48e56a20mr74345036d6.23.1792938092287; Sun, 25 Oct 2026
+ 07:21:32 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,61 +104,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com> <20261012-fix-aer-mask-override-v1-2-49a0d7aeaea0@google.com>
-In-Reply-To: <20261012-fix-aer-mask-override-v1-2-49a0d7aeaea0@google.com>
+References: <20261020142534.3533478-1-sashal@kernel.org>
+In-Reply-To: <20261020142534.3533478-1-sashal@kernel.org>
 From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 25 Oct 2026 11:19:28 -0300
-X-Gm-Features: AclHuK8BBiPLOfqYYGvUYpW8KblsSf6Aue6WOkhnIkNSO4BT_qaP3xQuaMz486g
-Message-ID: <CAMAsx6dLGdqr+ZxG8FrwN-6r=5yVY8hk-c+7CVrAkS0zpKPmGg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: PCI: Document aer_inject's
- aer_mask_override parameter
-To: rathodpriyank@google.com
-Cc: bhelgaas@google.com, lukas@wunner.de, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, ilpo.jarvinen@linux.intel.com, 
-	dave.jiang@intel.com, prarit@redhat.com, ying.huang@linux.alibaba.com, 
-	terry.bowman@amd.com, corbet@lwn.net, jic23@kernel.org, 
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Sun, 25 Oct 2026 11:21:21 -0300
+X-Gm-Features: AclHuK_3A6YoAPopWYDdBpyLpTtDAS3DEQEhpWyYqeQDBqHn86Lo3m1k1XEe8Gk
+Message-ID: <CAMAsx6ch8bztwO2w+gA1xc2H8JEM-7haUd05dmyODN_=VWJ74A@mail.gmail.com>
+Subject: Re: [PATCH v4] docs: submitting-patches: say which commit a Fixes tag names
+To: sashal@kernel.org, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, brads@mainlining.org, 
+	gregkh@linuxfoundation.org, linux@leemhuis.info, mst@redhat.com, 
+	error27@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 12, 2026, Priyank Rathod wrote:
-> To exercise the handling of such errors anyway, e.g., of those that are
-> masked by default like Header Log Overflow or Poisoned TLP Egress
-> Blocked, load the module with::
+On Tue, Oct 20, 2026, Sasha Levin wrote:
+> +Name the commit that introduced the bug. When using ``git blame`` to find it,
+> +do not settle on a commit that only moved the code. If a later commit exposed
+> +an older bug, add a Fixes: tag for that commit too. If the same bug was
+> +introduced separately by more than one commit, add a Fixes: tag for each.
 
-Hi Priyank,
+Hi Sasha,
 
-I read the text against patch 1/2 and the current tree, and it matches
-the implementation:
+I went through v4 against the tree (docs-next at f857ff5bf):
 
-- the -EINVAL refusal for masked errors is the existing check in
-aer_inject() for both the Correctable and the Uncorrectable case;
-- 1/2 drops the writes to the hardware Mask registers, and
-aer_inj_read_config() clears the pending injected bits from the Mask
-values it returns;
-- the hidden bits are kept set in dword writes through
-uncor_mask_hidden/cor_mask_hidden until the module is unloaded;
-- PCIEAER_INJECT is a tristate, so the boot parameter form applies when
-it is built in.
+- the new paragraph sits between the description of the Fixes: tag and
+the existing "Note:" about the stable rules, and reads well there;
+- handling-regressions.rst does ask for this ("Add a "Fixes:" tag to
+specify the commit causing the regression"), so the reference in the
+changelog is accurate;
+- I built the process documentation with the patch applied and it adds
+no new warnings.
 
-The new section is also a proper subsection of "Software error
-injection", and the documentation builds with it without new warnings.
+One thing for information only: checkpatch --strict reports the
+"Assisted-by: LLM" trailer ("Non-standard signature" and "Unrecognized
+email address: 'LLM'"), because Documentation/process/ in docs-next does
+not describe that tag. If it is defined in the agents series or in
+another tree, please ignore this.
 
-There is one thing I could not reconcile, in case it is useful. The
-text gives Poisoned TLP Egress Blocked as an example of an error that
-is masked by default. In the sample session of the cover letter,
-PCI_ERR_UNCOR_MASK of the e1000e reads 02400000 before the test, which
-is PCI_ERR_UNC_INTN (0x00400000) plus PCI_ERR_UNC_TLPPRE (0x02000000),
-while PCI_ERR_UNC_POISON_BLK (0x04000000) is clear. The vendor register
-descriptions I found also list that bit with a reset value of 0. The
-Correctable side does match: 0000c000 has Corrected Internal and Header
-Log Overflow set. Internal errors match too, since
-pci_aer_unmask_internal_errors() is only used for CXL.
-
-Perhaps the example could name only errors whose default is confirmed,
-for instance Header Log Overflow and the Internal Errors, or cite the
-spec section if it does say that Poisoned TLP Egress Blocked is masked
-by default. I may well be missing something in the spec.
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
 
 Thanks,
 Daniel
