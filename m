@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792910375;
-	b=yvota41EUg8tezQxnHtZHWC2B318HmeFCj55VYisI2P067S8JDAF8MEOTsvvxXqMDi0C
-	 JKSkPcyVxkJYZVQVy/kPPg3kL98F5xGu4lmT1HU4MV6+Zdy+b6+9zKQcFQeTMqBgDLL+i
-	 5v2Jrar38+lMKkTVFVWzSyZo+SMT5s3dv/UjN1HgpN+fk4oVjQcCZGCTnyYkOthu2j72I
-	 V/Cbf6CJcoIoGh/X8fowWeWOZ+pduS6E0jVCqeoucqHhZ1xHbo3QusDxRVFbwJPAN2A99
-	 dWoyHy+eywpKuSa4sUNKzQmGx3DbHIzm38eLgumJ4BGMoeeOb8D0sYDvuxRRxu/CuLg==
+	b=gh995WQ8+FpVNl1RQwCkrrw7sSvz3v3NMhLoyuX7/yOfSkgraIddsP5ZkFJtuDzQ3QE1
+	 0r3Xf11N4LJUhSjZcO6HTrRen+3KvjI00fVf6SlkBUKZdm4aOw7nTiFPESNrP1f2Ii8Tw
+	 h4RTZ6h4EHtrACykIjiSLfPeKvYvPiZiM+DRDYUnCqYS7U/9fbM9w6ADBGSQThAsSgZKK
+	 7BmPKF7Q0g06i6/PTg1BsQKQN1pTT2SRsNxGs0hE5BCjgBYELZyXQ5O75gx7JiS+m5J9w
+	 aPnGP9sVj4IYMK6BgmPTqT++LvTOJTYT0Ol25lifcVUiX1aDzb+6+/6H/5eLgVfc+Gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792910375;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
 	 X-Proofpoint-Virus-Version;
-	bh=jw5VuQf1ANvsD9FFFvRp8AlB3r45zUeN3fSTLXP6SlM=;
-	b=GxpnFDhjxCWsvFdsENiZ3c9xifuoabC9Q+2HFZJS06f5UcTlmqV5zs3SEODtQBi2NMES
-	 Gh5+c8S3iJfM7GE6XyKl/PqXJSAPBJyt3S0WxAhQH9VvTF7H4TknbxuLi73jR3d2kFIzZ
-	 YL1f3VAKx7V4RikRz7tA13WlDgFohFG4VQ78LFAy5zBDgnpPsVSyC+s9UL7FxBpAX83Fp
-	 luAvbVEdwlhRlHOQR+0ZGoQUhVlo/y9RgxGcmE+zLRf72IuobSLUakcr2Vjcei010w34e
-	 y/GO9qpBR/P9FN0EJ7du3NwdIr5dnH5D6r88WduPPPgZlNRekUZN3r1nu1O/BGyjP3Q==
+	bh=V+HvE9QnqA10mngcxh5K4uhaL32+pv8FcAiS3KEQuaU=;
+	b=oRgvbwFl/ceBP3S4X8BXH1HXWlrnTKZxJzGVipc7LMhVjgi2SmC6+QSxAVZCsnVKqSfz
+	 JgBZJ9K0UBc6IAdWWl8LJJuiL+Lyj7SiVbR9mqLck8Fw9Jd8PV6Dv93sUaFWj+sMMfL7j
+	 7P7H/bH8Liih0yz15DBxE+2YAsF4Mm9DcewxYfcGrK9zQnN7Sq2kzFONk0xirmfzO4Ezy
+	 bgEn14CrKHM5OHdkQfMYilKmqqNWNvfqMdUXj5UEXngccrAZulVv3AyOoLKgMrEJvjpuJ
+	 RAWs5AViBQj8oyobZdsEhzI3H4hrt8aj+i2m7WMV0btJ6f7A2w+bWDeB7p7sm0mlirg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=fb.com;
 	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=tGc83Fo9;
+	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hf5M66vb;
 	arc=none smtp.remote-ip=67.231.145.42
 Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA37606A32D;
-	Sun, 25 Oct 2026 06:39:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DA37606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454FE606A334;
+	Sun, 25 Oct 2026 06:39:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 454FE606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=tGc83Fo9
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69P4sOTE544352;
-	Sat, 24 Oct 2026 23:39:19 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hf5M66vb
+Received: from pps.filterd (m0528009.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69P4tB1r462968;
+	Sat, 24 Oct 2026 23:39:17 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=jw5VuQf1ANvsD9FFFvRp8AlB3r45zUeN3fSTL
-	XP6SlM=; b=tGc83Fo9azP9Hld1MGo4oT9nIU4PWshaC7wLq6VFFboPQtyqmwGvW
-	CkunPXf3yX9aldKbUUrJ1O+pNjhN19H4ahoZyLCqKOmKAfWQChPFTUcR19Qd+d9o
-	cT6Eq0x7ePKKZ14h5lMFxLc2a5kCdHcVrkrT+SeLBFKAd+1ymYQ+thwn88bgSvyx
-	pa6E2UwRxiFGpOoCDhVwXfxWTkqRaIa7zvsULib/wcWhCo7JY1K8U1gp5Ot3jkci
-	kXLmNcseO4wGFsqhkxw8WOidb297uknJ9gUS11S8JKYOW0kTLpH7wCQ6SMZZ78MT
-	dTgie5XEGdhYWOGE59ANb9WL1mZMFTIMQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hguyh32kw-1
+	pps82601-s2048-2026-q3; bh=V+HvE9QnqA10mngcxh5K4uhaL32+pv8FcAiS3
+	KEQuaU=; b=hf5M66vb9U4zAtd+iHbYZxasfFLJNZNg0antvPNV36/bDS4EukSse
+	AFckWI3Eh0RrE/PadaXPxmHSIoxmp70SXSb/EgdkhQbve0KdH0Nes0hP3sYI61v6
+	qXXZM2wmDg7+mTTol6IIwlNxiE2jIpJkgu4VhYP+DMDAMWtwENf24g0VQI0Q1zLy
+	hpaEqfFAVDOdZsct9Zu0XyihGraYvrBeN0MwZ0xwRI9rRQAgt4UTgMIrjavXzwY3
+	yGpDhWYPTB4UDWAxqyNZRgy0CCaUw69bRsybWCwzx5IIV93EkicAbtnCOnamOTtt
+	u+dK/HjYGcNxdjcHvZ8hOa1GYEOWbdcCQ==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hh8a48qt9-10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 24 Oct 2026 23:39:19 -0700 (PDT)
-Received: from localhost (2620:10d:c0a8:1c::1b) by mail.thefacebook.com
- (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
+	Sat, 24 Oct 2026 23:39:16 -0700 (PDT)
+Received: from localhost (2620:10d:c085:108::150d) by mail.thefacebook.com
+ (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Sun, 25 Oct
- 2026 06:39:17 +0000
+ 2026 06:39:16 +0000
 From: Amir Ayupov <aaupov@fb.com>
 To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
         Suzuki K
@@ -77,9 +77,9 @@ CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
-Date: Sat, 24 Oct 2026 23:39:05 -0700
-Message-ID: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
+Subject: [PATCH v3 3/7] coresight: syscfg: Match feature capabilities separately from device class
+Date: Sat, 24 Oct 2026 23:39:03 -0700
+Message-ID: <6fd94860b3c13c0ddc1a5184d5d9331edc27d9f0.1792907333.git.aaupov@fb.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1792907332.git.aaupov@fb.com>
 References: <20261012230527.750567-1-aaupov@fb.com> <cover.1792907332.git.aaupov@fb.com>
@@ -94,97 +94,144 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI1MDAyNiBTYWx0ZWRfX3HpC6ZmlsThT
- W54cJt5/0v7bB4BoRwEQauwZbrIsCgdYT3B6ceYi3edHzFAE76EMiovNjOsok3q9OxbaIDcBtY3
- d9MFvBkNNKdxYY8Vv/TzGTn9aPekKsJJwICssCQWx/FOmPEhVmBvH1Gvrv+45uKO4PLgJZp+0rF
- MDyHDpamEizJ9nug4so42zctRjHqQ71MVIlNQo6A8Wd9C4hJoQOtbN1FXhtVL5bHJg3Gw/+Pqka
- U2i3DwQEUKa9AkBS/QYQYW6x1ywf7wFb056llmVpEURG94GEsauehr83jzl3VWOmjBL+m5+rYHU
- kjJFpBfpzvqBkWy4XtWYPJVaRZGVHjWcPapns8wqvARmfmD9BvHMP0cXZX5DT9etkypE9bRg/oe
- s6nJ/QFleJHl5gTLNFjXfBNrqasd0vzyrBYb6St0Jd2++lokKP4aK4wEuXiBjQ0/ObdETgVK1ur
- 5DWYyYD6VTuaAIENp8w==
-X-Proofpoint-GUID: K2LKffOrXNyFHYQrvV1nbHrNZ-TI8Yx5
-X-Proofpoint-ORIG-GUID: K2LKffOrXNyFHYQrvV1nbHrNZ-TI8Yx5
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI1MDAyNiBTYWx0ZWRfXwwWf5fIaDzp8
- kfqlN4UavRsctlzP/hrDzA92SDzyBSuzB8pmHwzPMGZ7kYW8wW3CFv69l6LcvMC7f9iRDcrmYma
- H5MyE3nrYNsi68TEEAAtAA5FY+6ml7E=
-X-Authority-Analysis: v=2.4 cv=FY+iV5+6 c=1 sm=1 tr=0 ts=6adda417 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+X-Authority-Analysis: v=2.4 cv=J9A/fwnS c=1 sm=1 tr=0 ts=6adda415 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=crHB47gyY4rKiduisYu9:22 a=KKAkSRfTAAAA:8 a=FOH2dFAWAAAA:8
- a=zNmvvb9I2tHsirClY3sA:9 a=cvBusfyB2V15izCimMoJ:22
+ a=U_y8lYiYyhHBU5rMqhb2:22 a=FOH2dFAWAAAA:8 a=mif2P4nyd6mfzKxTjdEA:9
+ a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI1MDAyNiBTYWx0ZWRfX5D3F9lxodm6n
+ DoXD/f8UMtPpeF0RdIxpcXJ0K9q5h4VxTBTsVaIySJXcKmqkMKJVTJZP3N9674bKE6gaVo21Q5y
+ CMYzoBXdnVpl2ZMvWmGGBE/yygYIiu9w0YvsWbDDkWOp5pkUwFmsjSHMs709ZgY7D1H+p5YALNx
+ /Q/0oZksNLupD/Yws4jl6j0R9LXL4XIUGGwZ53UTTpfH1VfokLLJhxQ52kUz2j/SgA76wO0xsQT
+ nuNULELIgdrAdsrJ2aYTZMBhngAPSygerM1omeErivNrPLfjfYxn4V1j8Xn8DOWEQZqVwZaxSXX
+ 3mKFpKS15dElsolXAkaRh6UvFQPEnVV7VdXiSEIjTVuh5p1JqUF1Zk3lWHCIrStYhOcvPATyVAl
+ vPm7UDK/TN1rFD+x9hnvWt2884RQlSwNmUpWgpGwXU5TytLIjQyRQ2J1a0hVTBcoG7HcoxEUw7e
+ 9016gNDxj6Ucl36bYgw==
+X-Proofpoint-ORIG-GUID: TK5f8ywl0i7V9ZmuzhjJzrT2OcVLtrgZ
+X-Proofpoint-GUID: TK5f8ywl0i7V9ZmuzhjJzrT2OcVLtrgZ
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI1MDAyNiBTYWx0ZWRfX+rSMbB/DPWbR
+ PCdlrBiwSHwl2XgPTiJ6OpXCDJHE4MJweubAuA4jR/B0uwtwdVmDuXWEEzvOKTaL7YE5eBedfLa
+ JhCpXYP+FR6QC533yoGkbGq1PXw7fDI=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-25_02,2026-10-21_02,2025-10-01_01
 
-Drivers outside the PMU driver may need to know whether the local CPU's
-PMU implements a common event before relying on it, for example a trace
-unit driver checking that the PMU counts its external outputs as
-TRCEXTOUTn.
+A feature loads on a device when the two share any match flag. That works
+for device classes, where a feature wants any one of them, but not for
+capabilities a device may or may not have: a feature that sets a class
+and a capability would still load on a device of that class without the
+capability.
 
-Add pmuv3_event_implemented(), which reads PMCEID0/1 on the calling CPU:
-events 0x0000-0x003f are reported in bits [31:0], and the common events
-from ARMV8_PMUV3_EXT_COMMON_EVENT_BASE in bits [63:32] from PMUv3p1. Move
-ARMV8_PMUV3_EXT_COMMON_EVENT_BASE next to the event numbers in
-arm_pmuv3.h so it is available without CONFIG_ARM_PMU.
+Split the match flags into CS_CFG_MATCH_CLASS_MASK for device classes and
+CS_CFG_MATCH_CAP_MASK for capabilities. A feature now loads on a device
+that shares one of its classes and has all of its capabilities. Check
+this once in cscfg_load_feat_csdev(), which both the feature and the
+device registration paths call. No capability flags are defined yet, so
+matching is unchanged.
 
-Suggested-by: James Clark <james.clark@linaro.org>
 Assisted-by: Devmate:Opus-5.5
 Signed-off-by: Amir Ayupov <aaupov@fb.com>
 ---
- include/linux/perf/arm_pmu.h   |  1 -
- include/linux/perf/arm_pmuv3.h | 22 ++++++++++++++++++++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ .../hwtracing/coresight/coresight-config.h    |  8 ++++
+ .../hwtracing/coresight/coresight-syscfg.c    | 37 +++++++++++++------
+ 2 files changed, 34 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
-index 02d2c7f45b527..792283d29d7b5 100644
---- a/include/linux/perf/arm_pmu.h
-+++ b/include/linux/perf/arm_pmu.h
-@@ -124,7 +124,6 @@ struct arm_pmu {
- 	u64		reg_brbidr;
- #define ARMV8_PMUV3_MAX_COMMON_EVENTS		0x40
- 	DECLARE_BITMAP(pmceid_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
--#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE	0x4000
- 	DECLARE_BITMAP(pmceid_ext_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
+diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+index ae6295e308131..f04e73b91d9a6 100644
+--- a/drivers/hwtracing/coresight/coresight-config.h
++++ b/drivers/hwtracing/coresight/coresight-config.h
+@@ -7,6 +7,7 @@
+ #ifndef _CORESIGHT_CORESIGHT_CONFIG_H
+ #define _CORESIGHT_CORESIGHT_CONFIG_H
  
- 	/* Only to be used by ACPI probing code */
-diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-index d698efba28a27..965c40b28dd77 100644
---- a/include/linux/perf/arm_pmuv3.h
-+++ b/include/linux/perf/arm_pmuv3.h
-@@ -78,6 +78,9 @@
- #define ARMV8_PMUV3_PERFCTR_STALL_SLOT_FRONTEND			0x003E
- #define ARMV8_PMUV3_PERFCTR_STALL_SLOT				0x003F
- 
-+/* Base of the common events reported in PMCEID{0,1}[63:32] from PMUv3p1 */
-+#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE			0x4000
++#include <linux/bits.h>
+ #include <linux/cleanup.h>
+ #include <linux/coresight.h>
+ #include <linux/types.h>
+@@ -30,6 +31,13 @@
+  */
+ #define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
+ #define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
++#define CS_CFG_MATCH_CLASS_MASK		GENMASK_U32(7, 0)
 +
- /* Statistical profiling extension microarchitectural events */
- #define ARMV8_SPE_PERFCTR_SAMPLE_POP				0x4000
- #define ARMV8_SPE_PERFCTR_SAMPLE_FEED				0x4001
-@@ -315,4 +318,23 @@
- 
- #include <asm/arm_pmuv3.h>
- 
 +/*
-+ * Whether this CPU's PMU implements a common event, as reported by
-+ * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
-+ * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
-+ * Must run on the CPU whose PMU is queried.
++ * flags defining device capabilities a feature can require. A feature loads on
++ * a device that matches one of its classes and has all of its capabilities.
 + */
-+static inline bool pmuv3_event_implemented(u16 event)
++#define CS_CFG_MATCH_CAP_MASK		GENMASK_U32(15, 8)
+ 
+ /* flags defining device instance matching - used in config match desc data. */
+ #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index a816c22c87bc8..3ee104e94a4cd 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -171,8 +171,22 @@ cscfg_alloc_csdev_feat(struct coresight_device *csdev, struct cscfg_feature_desc
+ 	return feat_csdev;
+ }
+ 
+-/* load one feature into one coresight device */
++static bool cscfg_match_feat_csdev(u32 feat_flags, u32 csdev_flags)
 +{
-+	bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
-+	u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
-+	u64 pmceid;
-+
-+	if (id >= 64 || !pmuv3_implemented(read_pmuver()))
++	/* The device must be in one of the feature's classes */
++	if (!(feat_flags & csdev_flags & CS_CFG_MATCH_CLASS_MASK))
 +		return false;
 +
-+	pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
-+	return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
++	/* The device must have every capability the feature requires */
++	if (feat_flags & ~csdev_flags & CS_CFG_MATCH_CAP_MASK)
++		return false;
++
++	return true;
 +}
 +
- #endif
++/* Load the feature into the device if it matches, otherwise skip it. */
+ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
++				 u32 match_flags,
+ 				 struct cscfg_feature_desc *feat_desc,
+ 				 struct cscfg_csdev_feat_ops *ops)
+ {
+@@ -183,6 +197,9 @@ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
+ 	if (!ops->load_feat)
+ 		return -EINVAL;
+ 
++	if (!cscfg_match_feat_csdev(feat_desc->match_flags, match_flags))
++		return 0;
++
+ 	feat_csdev = cscfg_alloc_csdev_feat(csdev, feat_desc);
+ 	if (!feat_csdev)
+ 		return -ENOMEM;
+@@ -212,11 +229,11 @@ static int cscfg_add_feat_to_csdevs(struct cscfg_feature_desc *feat_desc)
+ 	int err;
+ 
+ 	list_for_each_entry(csdev_item, &cscfg_mgr->csdev_desc_list, item) {
+-		if (csdev_item->match_flags & feat_desc->match_flags) {
+-			err = cscfg_load_feat_csdev(csdev_item->csdev, feat_desc, &csdev_item->ops);
+-			if (err)
+-				return err;
+-		}
++		err = cscfg_load_feat_csdev(csdev_item->csdev,
++					    csdev_item->match_flags, feat_desc,
++					    &csdev_item->ops);
++		if (err)
++			return err;
+ 	}
+ 	return 0;
+ }
+@@ -739,11 +756,9 @@ static int cscfg_add_feats_csdev(struct coresight_device *csdev,
+ 		return -EINVAL;
+ 
+ 	list_for_each_entry(feat_desc, &cscfg_mgr->feat_desc_list, item) {
+-		if (feat_desc->match_flags & match_flags) {
+-			err = cscfg_load_feat_csdev(csdev, feat_desc, ops);
+-			if (err)
+-				break;
+-		}
++		err = cscfg_load_feat_csdev(csdev, match_flags, feat_desc, ops);
++		if (err)
++			break;
+ 	}
+ 	return err;
+ }
 -- 
 2.52.0
 
