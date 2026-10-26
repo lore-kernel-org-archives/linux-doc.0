@@ -1,51 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=63.250.43.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793039729;
-	b=nh25WB5axe4WhqEmnmDCx8IBV0f2b7D+xnPZBeBxqKjBPiOCMbnPVfjKZ4eDagW66MsK
-	 4YYWl7kt/qFsqhDpCklRqg9s+6allVmnMouTuNSAB8N/XrK9uogwkdBe+Gux34441ksEs
-	 huQzdtBXiVWLXbqCYWYZLX0U/OL8zblfy6oW7YPFPfTehfwWNmZdMn+aboTYDdx8saE7G
-	 6sB1LvNls8wvU0VZEmoRU8ig0kXhE6i818UW+0JQUKmrTtQKe1wJpuT86DplfMIGdN6fB
-	 yKnxjEZFkwXAkHJvTDMgmn9FjbeI5SvGS/cWH+qldtaYm4jYTF2eReeSdi5DoR+byDg==
+	t=1793039786;
+	b=S3tSoZc4vZlTUNj1xwEzRkRm4uWRsgjK+2orN/DkBmkXiL/eCWnZq6fwlSaeqtPWI4mW
+	 hDTts6RR5E4/IlPNe12WZn4fzFN1nfqtAkbN+6/3j/D/6t/ym9cRpL8B2/WljsHbcsJGa
+	 3BiflznA2r18LLIYssyyjZaek5QGZtObKx8vgIi1EwqRn+74O42IcYIFYtrlmwBGuebu4
+	 DZuS4+GpXTa3562WTqp/BgeLAI+u4Pw8ie8UA3NaR3ALKKYQQpJYAjTAP7SbbpTDjxROS
+	 ZMsbOk7wTgJf4i1rIN4rUylAgOUeROPy+oH+OHkiRItWuBzHsdJnEdQe2tby6x8Vo7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793039729;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Envelope-From;
-	bh=zHu5FnjSzgjYElaRKiWtsPwyU1mAdTABEQB9pNjOcM4=;
-	b=1EIzguTicLIcceTTAxqm4uYllY48wFF5aHyOCNb8dnwAoBElyrMVcGjzTXvCC++O9QqR
-	 uCi3hBziSP3n80e47g4T/RKdwk8mSxRty1P/tExIjxKPJ3Rg3Pvc7e1SbcnOSVm016CR2
-	 FAL/XwV+E2ebglbGlM8K6HPNC+msGHIL1FYuWn/ALwJyO5EAi+3bTn1xCqMvxCWqfW+vR
-	 H00Ic9X9ijRwlAgF/9qUMGIdnq0VuJM9fYCw1Frv24aahMSVVysUq7ORavF0xqtG0L6wb
-	 OTejUbMQlwnLQG5YPnqshd9V9j9tGvDIKJOF3apvUaBqu+tKOPxFUmAV/c2AlxFe5HQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793039786;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=bP5+Gmdv5dA0v5ZBhT2+2YDOMWtfYNSvLp/3yFK/x8E=;
+	b=5ffmVQPxAXiayrhhtRYM92GfzKPCkc570Z780uAc181ZAGDWLTGWOpYK6Umfksuc7Xbq
+	 vKkynjhDdNSD8IV8eHSydL60ClX20Rfbm+0rKAp+zJKstCWoQfsya0JUwrnaxyWpa6Ycr
+	 kHN9HZv4a/Iy9ePU9XzGwS74k0XEwU7HtoXRDhnNq1MQyx9bOYjkDTb6lYfigg1LvJIq0
+	 ICeOsV97rVL6Zz+mzYqewmG5r60ExFVxWuwg923y9s78Z2NueMvC+wZiWrtISQsxtYvEy
+	 8yiDbb7whgQTajyh0Czi6vSqnDIY7jlvwC2GTTtSTNFp4AIWHrpCS3z4Zkae4rmgKJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=effective-light.com;
-	spf=pass smtp.mailfrom=effective-light.com;
-	arc=none smtp.remote-ip=63.250.43.113
-Received: from out-2uec-a113.jellyfish.systems (out-2uec-a113.jellyfish.systems [63.250.43.113])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SbstPHZ3;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A9D606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 18:35:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2A9D606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=effective-light.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=effective-light.com
-Received: from mail.privateemail.com (unknown [174.89.145.246])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4jD2P01jPvzyNj;
-	Mon, 26 Oct 2026 18:35:15 +0000 (UTC)
-Date: Mon, 26 Oct 2026 14:35:12 -0400
-From: Hamza Mahfooz <someguy@effective-light.com>
-To: linux-hwmon@vger.kernel.org
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] hwmon: (nct6683) Add fan control support for MSI
- boards with NCT6687D-R
-Message-ID: <at-dYL4g1w_qBxe6@hal-station.localdomain>
-References: <20261004153250.516730-1-someguy@effective-light.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86BB606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 18:36:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C86BB606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SbstPHZ3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793039784; x=1824575784;
+  h=date:from:to:cc:subject:message-id;
+  bh=Gvv6WriyEHtwDo5CEaGiWLRWyD7AzvPA4sAMWzjCCW8=;
+  b=SbstPHZ3MeKfwUADGT9Dk60touVEVLzFVg9B1CItfJLwvogJkV6WG/X7
+   65UZZbWpm9YFSY4a7uxWNfhxCj4qxeS6madUCaq0AUCMarce1dZNNIhnv
+   Te3MvjZrxoX1vGKdA8I98EmQpCmKBMNv8Ln3HS0RkeiBrLtlKlpPnqWvX
+   QqAR0I2dq1XojXR4huD/O9+Tb1LHQIv4wDm7TKfvnDmVCLmURtshFiMCe
+   jXN31v2yPSt7KxgRuBalc9zEHPlmsAxQGgJDjTkgu7xNoKOOdNL6r49HU
+   3R+lNZqqfWHinBbydAOrZmlyh+NLTM6Ny3/riwPoAe/hohrnXXCgujfBK
+   A==;
+X-CSE-ConnectionGUID: sKGh33zjRwaaol02d1wp6g==
+X-CSE-MsgGUID: 1foOTkChSfenSt2uFoI4+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1730449"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1730449"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 11:36:23 -0700
+X-CSE-ConnectionGUID: ceomOWnkRr6/fsa2STDz5Q==
+X-CSE-MsgGUID: 1mIsdwh5TUaU/pjMt5V37Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="6157989"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 11:36:22 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xLPYR-000000004C7-41a5;
+	Mon, 26 Oct 2026 18:36:19 +0000
+Date: Mon, 26 Oct 2026 19:36:17 +0100
+From: kernel test robot <lkp@intel.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [pcmoore-lsm:main 1/1] htmldocs: Warning: README.md
+ references a file that doesn't exist: Documentation/API/obsolete
+Message-ID: <202610261926.8tdOxs5r-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,43 +79,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261004153250.516730-1-someguy@effective-light.com>
-X-Envelope-From: someguy@effective-light.com
 
-On Sun, Oct 04, 2026 at 11:32:48AM -0400, Hamza Mahfooz wrote:
-> Recent MSI boards (customer ID 0x20d) use an NCT6687D-R, whose fan
-> control registers differ from the ones used on Mitac boards, the only
-> boards for which the driver supports fan control so far. In addition,
-> the system fans of these boards are connected to channels 10-15, whose
-> duty cycle the driver does not report.
-> 
-> This series adds fan control support for these boards, based on the
-> register map reverse engineered by the LibreHardwareMonitor project [1],
-> which uses it on MSI 800-series boards.
-> 
-> Patch 1 reports the duty cycle of the system fans, and patch 2 adds fan
-> control support for the CPU, pump and system fan headers. 
-> 
-> Tested on an MSI PRO B850-P WIFI (MS-7E56, BIOS 2.A93, NCT6687D EC
-> firmware version 0.0 build 04/18/25), on top of kernel v7.3-rc5. Fan
-> control is available on pwm1, pwm2 and pwm13 to pwm16 on this board.
-> 
-> [1] https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/pull/2294
-> 
-> Hamza Mahfooz (2):
->   hwmon: (nct6683) Report the duty cycle of NCT6687D-R system fans
->   hwmon: (nct6683) Add fan control support for MSI boards with
->     NCT6687D-R
-> 
->  Documentation/hwmon/nct6683.rst |  17 +++
->  drivers/hwmon/nct6683.c         | 233 +++++++++++++++++++++++++++++++-
->  2 files changed, 244 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.56.0
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git main
+head:   e7295d8301c4d643fec9ff2988ac861c4b0e77f0
+commit: e7295d8301c4d643fec9ff2988ac861c4b0e77f0 [1/1] lsm: add a LSM specific README.md and SECURITY.md
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.22.4, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.1.1
+reproduce: (https://download.01.org/0day-ci/archive/20261026/202610261926.8tdOxs5r-lkp@intel.com/reproduce)
 
-Ping?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610261926.8tdOxs5r-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+>> Warning: README.md references a file that doesn't exist: Documentation/API/obsolete
+   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
