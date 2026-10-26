@@ -1,103 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792999357;
-	b=EyVDhdXAttqF8RDTFCf11aAftD5ogTJ3x7OJIKSlfPvXreC1K4gehcGwbTuOSuU+Mt5B
-	 jAWt16xv6RWaqrba+ucRg5DbO5v6LOjz8CMP04C2zqvxDVMuHNBgTRnNLjJACOsqyXw2t
-	 8Bd0+mGfzp/KlowtxciOQqgHINrWO2qROqRFvxD30eQkEgmAwqcG0RSBrIzMpVmVZrWiy
-	 7nGPxhKluFFPcqkaKTkHRITaZQCbYDQ11l5VmTnFW/gdehJllwS2g6N4gavyUbsp+S5dn
-	 1mHwTK60a22JNRfQwwGy1d7UKoYLFfe3rQOYX5jMUhUhYPTEs9e6Yb4i9Xm/acMQ7mQ==
+	t=1792999663;
+	b=uuv/P8mEfPgec7208ulyei+Qq2H3Hqu1nu1TiaeKCQzAWW4GDrfPWJo8OUVu2Rs5S4pg
+	 lt0AlNl6g3Afbq7gh3HRddF2Bb9iSn9p9G4BKjV6tIuvMPfMWHu3St4Yp8DJXh4CTGZS3
+	 Dy/W1ygfyOEDuw+acx6O9TbYl7dkYXETBub6AVzQPlsw+lFysv/SQtXVJeDUNwlHBXxy+
+	 di9aAmxgbBXqAYp+WfXsjbr/OxfqRzyzW8oqklDbpcdHNCfZDHW0vnUmlXxY+xomCwTF+
+	 5upPmZfhlaN6hvk4AmVwBCR4z6/p2ctRd2cAp2lxigxDn5dBNxXoZ8D1q9s0B/PMxEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792999357;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=HJZtmQZPEueeCiwg4sV5mAgkGS8BZr7Xf8cF5fmkfCA=;
-	b=yasrs6/vojpcV1rYgaWGyDfaX2bsc/mTP0zQ69nEXGuA8J306SiRpKkVKIBDxR7QzJLw
-	 L+pP5lJ0qGE5cbPHNlg/6GOEvM6xYJO6ObNVJ5Q5c6+itvRIquODyn2beps3q3QxuCb8a
-	 FhYU7RvfnC4/jsm9Y6bb/ire2v3H/Nc/taPQ/Xn6tVKJQA4X2KkgQyreQXH453jTqQwd8
-	 +jZlcLlQfIOyfISIY6ERGSBea265McVs2ltdRAGOp0NVBAOLwVSj/6zSiJeChw6zvmusM
-	 6ivv20nFxl/0nanvT6jVTWAnpet3M3EUzzwdAOJWNYyC/fkvXzJzo+HgQ1b6L8H3GMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792999663;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=xd+Q2GNr8nIy5+L7Fq89NHZ6U8XPfuMrTobDomthdxI=;
+	b=nw2kiDJWGufyvFzY83WGdYqaSLQHizDIMAjfas0lPspPiZgdRgszBnBfeG56JcXv9nVp
+	 KI/19mHzrXBfK+gIZXs83qAbHoUm5dXdLbo7JzpHUhypuj06UiEWgWkb24tX55ZZWKazI
+	 Q9JsKnZZbWbV7JiTdxuwliDI/4XxdxJ8YZ9HudLAX1hXWYUY+0/JrwHAKZFCtFsS2U5bG
+	 MpWcBs+PEGvpihrFYfckaDwOjq0CnpLfidM3+rnpD+XPeziDF9wnKpQRgO+mpOFiCDgoQ
+	 svH+azqmCuKtvoofiXagcSLJjKalxS7U7eRRND8z05f/p893QbvoioNhfK2LnX8SbPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PHi3VkvJ;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XFmpJEfN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="DhH8VB/E";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="v4Lrp/Vh";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=surgh2wM;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C20E606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:22:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C20E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9842C606A31A;
+	Mon, 26 Oct 2026 07:27:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9842C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PHi3VkvJ
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a2084d62cdso20805615e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792999356; x=1793604156; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HJZtmQZPEueeCiwg4sV5mAgkGS8BZr7Xf8cF5fmkfCA=;
-        b=PHi3VkvJzLMPj8R1/whCS+guMKXQNQ7sbyf7+jCM6ssCp7yNs/alG9/dqGX4U5tT65
-         wpQParAJvvCWuz//hHzfbPXsJsUAVnpk0zNv1XfIzboShrlBl1BPzm5UWfAE9apaxDPa
-         /Bgt0+1z58inytsxoTvxOauRUasdefC8hCtKehHRa4ShYQoFHjfULm1ui6hcE1W+vYfO
-         10v9oNYrrmzypnfRNG413fv+YgZl9TyrZ1vXorxqljIgKzr9ZREqNqOLdfr2YQ2Sup3k
-         6UOiH3JPhP/D/02GBs7YDgxQEDEkOhFbB/zNGQ7Gg0tNB0wIjXBkcLeO6oqHvPv3njjC
-         uHuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792999356; x=1793604156;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=HJZtmQZPEueeCiwg4sV5mAgkGS8BZr7Xf8cF5fmkfCA=;
-        b=EdtJ7ojm+P6hdYBweFhCEl6qo7kMKCqKhVCGmc51SAXNAI7s3Vg6LQYKDmCJshpuA6
-         477QahMlbjPzml3+ZRYZYOK/lKPvxuJ8jk0fXXx8oxssx+f0udT2L8iLFLPY4aJPjmH7
-         q31lacSNVSzESlmn8slcqUr1SrbxkRIueyWAZNiU+k4ixfTT0KO9Q1VANWa0yYRPWNYb
-         G45L+CuH8Rd1Em5Y65mvOC60qy0nmgQSBdssPvdrxNU1mHPXckecy0uQGPABOww2uHiN
-         HRRaG8jMK6sgVhB0SrbXJzEcKyJ9VFj9glmt9U2oJl6MCoHTKWsK1oLmYGYCXcIz+wVd
-         bZrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx5Zn+x3YzGtFPlXl0gBSn9373romdqcdRc+B3CqjIe0ugSqBtGtiV7FhgcOX7LwC9ZUp6AOTDau9U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL23MArlyEWVjTq0SqiSOZdjqFg1y31SxTVlQWDNPLO+yg5oyma
-	7bNif9h729gDZu4xbQiTv+hXnqGkf3YIuxOJsYGxRO+BRjwi2oXAKFRq
-X-Gm-Gg: AYBFou39IgsPzDktDqhorK/id9ANgIEZ1L7JiDqGV2mOpxNASyIH8+w+UTJbKWCLDlO
-	iQnvxN9VGIJEGFOoZQ454tssCmSbgQTRErbzN+Y2qrbTO5qnwUHGYXozbdZiGHEWHIG8VCG61/N
-	R01XXwwI2gX3OljkRZTk1oZCxblrBCOio+n/NYR/Nji7CO1bgi7xZGkpLhdlWidNLsfKvIrQ/3t
-	7MiIGsWplRY8YaEqfkJUZXO0lV9qdByUiMpIwCrvy3oKvW0OpwzAR47fziiYQAriX/uVRtih9BL
-	qFB6eeZEQ8FuJNfF3lkzDxoqbXLV32ayA0Ty48NLJPgqS00Wc9EFT68jsyK2txl5p/l7C6UYXlY
-	paFhM22TmVj5K8Cg9yUjLEGIQJ3PDhx00CjANi9BsDn9PuJNwUp9JWRFaIYqeOOTRYvlglUcDAS
-	vZbPD7PjlYHTSxGsnRFr0Nj9QoRBcSHCAbEi3vrz9I8x91BCNEHfMF/BnaGWakJYLxgrYhK2oZZ
-	FHAhIsQwoX41Frkn+yoE6vCYHZCzjFpKEoF5bSOQaVp5cvdr9K0FwBSm4SL9uHd10qg8rvQy+HK
-	OfSt
-X-Received: by 2002:a05:600c:3d8d:b0:4a2:150f:1601 with SMTP id 5b1f17b1804b1-4a35ac94951mr108366005e9.12.1792999355465;
-        Mon, 26 Oct 2026 00:22:35 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35b4a8bc1sm84113045e9.4.2026.10.26.00.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 00:22:35 -0700 (PDT)
-Date: Mon, 26 Oct 2026 08:22:30 +0100
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ericson <mail@johnericson.me>,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
-Message-ID: <20261026.dd06418f7fd4@gnoack.org>
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
- <20261025.769b43a39e24@gnoack.org>
- <20261025.8e22954c9c47@gnoack.org>
- <DME3ZOI3Z6VE.1XGI920DJV4LE@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XFmpJEfN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DhH8VB/E;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v4Lrp/Vh;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=surgh2wM
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 28DB01F74D;
+	Mon, 26 Oct 2026 07:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792999660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xd+Q2GNr8nIy5+L7Fq89NHZ6U8XPfuMrTobDomthdxI=;
+	b=XFmpJEfN+4BximqlWLj734i2buybpqq7hSBUakhvVdFCDA0ETnerOQobVI9bR092EnW023
+	4O2jHcdJ9hnWOyJbucj25hZcoJWNAJTH9D9C0nYhiJEzlY92tYp5+bE1sajGN02Do1u88/
+	PoA+Jnyp6/hQ2YTJtpyyTO4udiQGAsE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792999660;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xd+Q2GNr8nIy5+L7Fq89NHZ6U8XPfuMrTobDomthdxI=;
+	b=DhH8VB/EEl18g9rmCBEKrLTEazdhGCHMdmfz2cXpV6C0PhFF/MEOWvljPRG3LSE44332zu
+	D1uJF1/0rT8ypEDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="v4Lrp/Vh";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=surgh2wM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792999659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xd+Q2GNr8nIy5+L7Fq89NHZ6U8XPfuMrTobDomthdxI=;
+	b=v4Lrp/Vh4IDINCIDmCuvVBOR7XBMupafNbV/FgT0/bCZPm7Mz1gUzPPN9M/pjXoyQnWFUR
+	0X21T8Ciijm6RHojTKQahKBP2xESGFmpoqqSidBRGTZ/RUPObhkjXzgc92HtI02F5QghhC
+	zQhiMOEqs0yVVNeL0kG0ISnw0XJVEdk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792999659;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xd+Q2GNr8nIy5+L7Fq89NHZ6U8XPfuMrTobDomthdxI=;
+	b=surgh2wMSmw14witl+4e5hq+ISCfaVtVy/CTFbeBFCjXw8XQL41QW9GgiNqpB8amLWwebe
+	2XlSadtOKNm0lJAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 357E213319;
+	Mon, 26 Oct 2026 07:27:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DOCtAOoA32o6dwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 26 Oct 2026 07:27:38 +0000
+Message-ID: <c75aa5d6-5037-4489-99e0-3e38528e10d0@suse.de>
+Date: Mon, 26 Oct 2026 08:27:37 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,170 +108,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next 1/5] tls: add HKDF-Expand-Label for the TLS
+ 1.3 key schedule
+To: martin.nvme.dev@gmail.com, John Fastabend <john.fastabend@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Martin Belanger <martin.belanger@dell.com>
+References: <20261025-keyupdate-rfc-v1-0-60b7756eccbd@gmail.com>
+ <20261025-keyupdate-rfc-v1-1-60b7756eccbd@gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261025-keyupdate-rfc-v1-1-60b7756eccbd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DME3ZOI3Z6VE.1XGI920DJV4LE@gmail.com>
+X-Rspamd-Queue-Id: 28DB01F74D
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.00 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,queasysnail.net,davemloft.net,redhat.com,lwn.net,linuxfoundation.org,infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -12.00
 
-On Sun, Oct 25, 2026 at 10:52:14AM -0700, Farid Zakaria wrote:
-> On Sun Oct 25, 2026 at 7:57 AM PDT, Günther Noack wrote:
-> > On Sun, Oct 25, 2026 at 12:07:10PM +0100, Günther Noack wrote:
-> >> Hello Farid!
-> >> 
-> >> On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
-> >> > This is a proposal for an idea to add support for landlock to work
-> >> > better with build systems such as Nix where they want to apply
-> >> > restrictions but the paths may not yet exist.
-> >> > 
-> >> > TL;DR;
-> >> > ========
-> >> > 
-> >> > Landlock rules attach to inodes that exist when a ruleset is built.
-> >> > That makes a directory shared between trusted and sandboxed tasks hard
-> >> > to confine: the sandbox may create entries there with
-> >> > LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
-> >> > time, and granting read access on the directory to cover them exposes
-> >> > every other entry as well. This series adds a rule flag that grants
-> >> > access rights on the entries a domain creates in a directory, instead
-> >> > of on the directory.
-> >> > 
-> >> > Motivation
-> >> > ==========
-> >> > 
-> >> > The motivating user is the Nix build sandbox. Every Nix build runs in
-> >> > its own sandbox, and a build may only read its declared inputs in
-> >> > /nix/store and must be able to write and read back the outputs it
-> >> > creates there. Nix enforces this with a private mount namespace: it
-> >> > creates an empty store directory and bind-mounts each input path into
-> >> > it, one mount per input. Nix has paid this per-input cost since the
-> >> > sandbox was introduced [1].
-> >> > 
-> >> > The cost is paid per build and grows with the size of the input
-> >> > closure. Nix is moving towards much finer-grained builds (many small
-> >> > derivations instead of a few large ones), so the number of sandboxes
-> >> > grows while each build's own work shrinks, and the sandbox setup is
-> >> > becoming the bottleneck. A typical build has hundreds of inputs; large
-> >> > ones have thousands.
-> >> > 
-> >> > A microbenchmark sets up and tears down a Nix-like sandbox (user,
-> >> > mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
-> >> > removing the chroot afterwards). It compares one bind mount per input
-> >> > with a single bind mount of the whole store plus one Landlock rule per
-> >> > input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
-> >> > ext4, 16 cores:
-> >> > 
-> >> >   inputs   bind mount per input   one bind mount + Landlock   speedup
-> >> >       10         3.2 ms                    2.3 ms               1.4x
-> >> >      100        11.6 ms                    2.8 ms               4.1x
-> >> >     1000        79.3 ms                    6.4 ms              12.4x
-> >> >     5000       400.1 ms                   24.4 ms              16.4x
-> >> > 
-> >> > With Landlock, an input costs an O_PATH open and a landlock_add_rule()
-> >> > call: there is a single mount, and no mountpoint directory to create
-> >> > before the build and remove after it (removing the 1000 empty
-> >> > mountpoints alone took 17 ms).
-> >> > 
-> >> > The single bind mount is only sound if the store listing and the
-> >> > undeclared store paths stay unreadable while the build can still use
-> >> > its outputs. Without this series, covering the outputs requires a rule
-> >> > on /nix/store itself, which makes every store path readable again.
-> >> > 
-> >> > [1] https://github.com/NixOS/nix/issues/179
-> >> 
-> >> I have not done a thorough code review yet, and will focus on the
-> >> general approach.
-> >> 
-> >> I am generally in favor of this approach where we keep track of the
-> >> directory inode plus the file name.
-> >
-> > Apologies, I think I was jumping to conclusions here when I read this
-> > too superficially - I realize that you have implemented something
-> > different;
-> >
-> > If I understand correctly, your proposed patch set is granting the
-> > access rights on every file that you are creating freshly, but not on
-> > files that were created by other processes in the same directory.  The
-> > semantics, from what I can see, seem like a Landlock variant to what
-> > the "sticky bit" does in /tmp -- you have access to what you create
-> > yourself, but not to the files created by other processes.
-> >
-> >
-> > ## Alternative suggestion
-> >
-> > I have been discussing the other approach with Mickaël a while back.
-> > This would also work in use cases where we want to express a rule on a
-> > path whose underlying file inode might change, with examples being
-> > /etc/resolv.conf (recreated by a DHCP client) or Pathname Unix Domain
-> > Sockets (commonly recreated when services restart).
-> >
-> > In that approach, we'd add a rule like
-> >
-> > /* pseudocode; name and exact layout TBD */
-> > struct landlock_path_beneath2_attr {
-> > 	__u64 allowed_access;
-> >         __s32 parent_fd;
-> >         char  *basename;
-> > }
-> >
-> > During the path walk when checking for an access right, it would match
-> > if the parent_fd matches an inode and the name of the next path
-> > component is basename.  For example, to access a (potentially
-> > changing) /etc/resolv.conf:
-> >
-> > struct landlock_path_beneath_attr2 attr = {
-> > 	.allowed_access = READ_ONLY_ACCESSES,
-> >         .parent_fd      = open("/etc", O_PATH|O_CLOEXEC),
-> >         .basename       = "resolv.conf",
-> > }
-> >
-> > Or to allow the creation of an output file:
-> >
-> > struct landlock_path_beneath_attr2 attr = {
-> > 	.allowed_access = READ_WRITE_ACCESSES | LANDLOCK_ACCESS_FS_MAKE_REG,
-> >         .parent_fd      = open("/output/directory", O_PATH|O_CLOEXEC),
-> >         .basename       = "mymodule.o",
-> > }
-> >
-> > Would that be a model that would work for your Nix use case as well?
-> > I'm imagining that you are declaring the exact list of output files,
-> > is that correct?
-> >
-> > –Günther
+On 10/26/26 1:36 AM, Martin Belanger via B4 Relay wrote:
+> From: Martin Belanger <martin.belanger@dell.com>
 > 
-> Gunther,
+> A TLS 1.3 KeyUpdate derives the next traffic secret, key and IV with
+> HKDF-Expand-Label (RFC 9846, section 7.2). Add the helper for the
+> kernel to do this itself.
 > 
-> From my reading of your suggestion and the code, I think that would work
-> for Nix and maybe a little simpler. Nix does know ahead of time the
-> output directory (/nix/store/<hash>-<name>, one per output), so
-> a parent_fd and a basename that we walk uptowards would be sufficient
-> without creating inodes.
+> Only the part of the key schedule after the handshake is needed. The
+> input is a traffic secret, which is already a pseudorandom key, so
+> HKDF-Extract is not needed. Each output is at most Hash.length bytes,
+> so each derivation is a single HMAC with the library SHA-256 or SHA-384
+> functions.
 > 
-> This sounds like a good approach to me and my research upon your
-> suggestion is that it would simplify the proposal as well (drop
-> a patch). Should I try to implement this and send a new patch series?
-> (Disclosure: Will use AI to help me write the code, but will review and
-> test it myself.)
+> Assisted-by: LLM
+> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+> ---
+>   net/tls/Kconfig    |  2 ++
+>   net/tls/Makefile   |  2 +-
+>   net/tls/tls.h      |  2 ++
+>   net/tls/tls_hkdf.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 87 insertions(+), 1 deletion(-)
+> 
+And another HKDF implementation. Maybe it's time to split if off (again).
+But anyway.
 
-I'm on board with this approach, but I'd recommend briefly waiting for
-Mickaël's ack, because he is the one who gives final approval on these
-patches.  (In the interest of everyone's time, might be better to
-first figure out which of these approaches is viable, before we jump
-into more implementation details.)
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Mickaël, can you please double check and confirm that the approach I
-described above is in line with the one you also had in mind when we
-discussed it at LSS?
+Cheers,
 
-
-The use of AI is fine in Landlock, I've used it myself for patches in
-the past.  (The Linux-wide rules apply of course, as documented in [1]
--- Take full responsibility for the contribution and make sure you
-understand it the same as if you had written it by hand.)
-
-–Günther
-
-
-[1] https://docs.kernel.org/process/coding-assistants.html
-
-P.S.: The requirement for the "Assisted-by" tag has been dropped in
-commit 1e035297ffda ("docs: remove Assisted-by references") now.
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
