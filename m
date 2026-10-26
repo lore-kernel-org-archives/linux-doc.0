@@ -1,41 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793006526;
-	b=VXHdMgWGic5vvITVIvd588l7by1/AB3k6UhlmKyBd8byLR8Hm2PGB/ak9NrSv96Uak78
-	 Ryp2zv5kg+Ks/R+R1OBms5XIIV76A9wv/mVEkJLeSN8KcaNGGQ6kSpaZRQTLeFeBhGeHY
-	 YyJEl7ZmOLaJFUfU9rRPGwef3POrYPPKtDWFOh5AjLTam/dkBRpXdT8q9yxGc/1JfwRTO
-	 0vjoBl/0mCZwzJVe/9uo8QzTV+52A/aIng+b02yy5iKkVOxop0H6nie+ka9GiyNrIP/D4
-	 t4rMq93EPDRCdNmQJQjTw6NiCOT7LtMr+KFG/7oC9YzhcIyRgtVQWfSR4To/ovdoWdw==
+	t=1793006551;
+	b=eq6aiVmiUTM2vEzYNXg/+Z6L71f5KlTEVIB9zun+Wr4LefzmdlDBpW+/vMcScmAaXZQd
+	 sTkN5/KwS9ftIvYxmfu/cFrumqes3/tc8vaM/hY76WFiH5JYFrU0ks9cXMi03cMHq2ACj
+	 dPSOW5/FnQXwHLtisVZ8BBSpoui1FKOLeDADpeFY96Yv7ZatrGX5iH5YEE4yOS5WAV/Hb
+	 YwHL+MuBeRgdd1UGQvV8ywGhdrgOhnpVyxLRgumhRgjfz3tkPxg4dKoh2EEw4yLBdZvqD
+	 wFKDllSNygjWG6LdybT8LwCB5DcX34OiNNzz1FGXCPOfbY1BE+qMgLaxYbHi9Q9Rzcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793006526;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=A8D3nIxhr5bal3Mn0kwblN+gP6Dp0HIaeR34R++ab2Q=;
-	b=OTl3pF2+uWsyDitKZR3GtkKhobDzpyJb0dhnuF0So5jkyEd6Iuc9lik17XAtv0JV8pZ3
-	 FnqcmeiSkFyqRGDTjJLYhSQXkpT2n+HFQvpjnRbOu8XJGtiSMYX4FSpjUjfymhylGhYu2
-	 U5a0hSSYhH3hSzMHh+YmEpxO3psQrLhOk2CS7t7kbbovj/B7YmF9WdnYBw7zjgmCFaoiC
-	 srxJ9xCKIeyYwhduYsy7hrg7+S+n+vL76YlshiGT9CwLgcNnYG6q2Nxhwwfv9Cm4dalHu
-	 hwOaPQljRP4U4bu+J0AOqUiRRiR6T2JnZkuNqbOQlHpyrTsCC2zm2v37qmcRN2ziC5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793006551;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
+	b=qQHmKWpbqichvjCnqT80+AJP2nr8TN38Wpqr6ZbKnUw4T0ROE/jlXVsP2Q3Xhhg3rMTk
+	 5BC6A89uEAeUVmFHDWQGRSeJeEX2b3dFk6WLGmU8v9JJ0Wx7m33EZPRmHiBtrUfm/aPXD
+	 RcaLZaNuC9Aj83DJRl9xlh9eZZqnnQIbwNzezxI+PXxT27QFZpZVTfXOqvNGhgGI5umsr
+	 i928Gw76awrNe4E7EBwT1j++DxNkidkwZ6wCkDcrhrCNdS+dM1hzgpYD0hJzmqaETBk1S
+	 xYflqk9gyuTT+/g6PTlaLrmkI8GXQJ+ow5hp6yTq8zH9fEPFMQryESU4rZjmvgn/+tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.161.220
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C83B606A31A;
-	Mon, 26 Oct 2026 09:22:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C83B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMAWPneyG99qrY9cAA--.45505S2;
-	Mon, 26 Oct 2026 17:21:54 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wC3Si2uG99qpnwPAA--.31241S2;
-	Mon, 26 Oct 2026 17:21:51 +0800 (CST)
-Message-ID: <895533d5-99d7-406e-acc2-1f8659075f91@hust.edu.cn>
-Date: Mon, 26 Oct 2026 17:21:50 +0800
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pB7B5UZh;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE2606A321
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:22:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33FE2606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pB7B5UZh
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e20edd106so2384896f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1793006544; x=1793611344; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
+        b=pB7B5UZh92Vl2OCgdj0Ce/SFQiad4yYYyQnKuP0k9WbZAC4/shpL6dpSNnhVHI4mhq
+         vZ6xbo7kWdoZqFcpLDDetrrQxkzs/1rPBD6YF1vmGLGvm1yUxtFWTzSQ/bHkke3iDPyx
+         gtosadZH0zXr1ivEopWQvZu7ezR/CWsOcBsp++w/s3q4BKXAsFwiskZmtnFn0swya1Ml
+         do8j2VrU0zkEc2WQYFWM+BznoCRDpWFjPfaGEXnWioXwbqosGK5miWbgeLJWTaiKYGKA
+         Zy5nD9GDd8AoxdXrr7MVbgw+Yvr5aFW+urZvRjtpub5S2k6gN3jvN2xr9AlbVHCVDHw/
+         eTDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793006544; x=1793611344;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
+        b=aTU3tH8xI29xIlJURa6PTF47XK/BwzF9dI9hYV68kK8asLABgKlRYaINzLteTilK9m
+         0fNeQb2bCjMwL+TdTgXY7D2ZFPzHTX8e7oV8eYu90kzwcl5MMtAOcJ0K+OlzD2s5EU3X
+         YoIHr8b7spupB+IxOSaoa9jeDHsRQKIz8PzRcjpZeG/PPd4KdoL9DiuXNpdgLdn4zW54
+         8CwtoLGev2DMLKe4gMUhaDG61tNpcuCpQSoXzcgBWKJfVgI65JecsnlTwIIxL87mv0g6
+         YaEbXi4+8FkfUpJS1dsOhE2dQvYWnFOzlF9siYeE1y6P36X31J3Fw8QLcZ2oc37gg0Mn
+         UqyQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy3vB1bK9o8bVQtcLNgEAf/HniPFbOEBG5z5H46aK7mL287XNKMENo1rJuHjy6ExV6PsswKN9/EChU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJEidLP1vfVow+1IavoOmiRglhxKmpNlNFyAonhpoGbbsnCMHgu
+	VMdiVQwab8rBMZAln441pUzHTBaG6PG7bvzXmIhBsHXG9CAFrNUDMTtB0kSnPr2ZseU=
+X-Gm-Gg: AYBFou1oBEKOh5pg637loMBRai7Ub3FPtoNo/jqa3cTDteg5C4iaxeAALVS82IIz7l2
+	obK9Kmhy6JJth4uE8SOZEEoa7kaSnt7V2qZs3KRIY3UZH6iu9D608Fmwo3nnwZnhdmPwUliCJdF
+	Lla1yMS01M3ifBlDgIt15M6JUbeiYtQ20sRbrwC/v0Kzpr90mnkAs4LWgZG9M9s1msKMRvLpxG4
+	ANY9tK/6oklW1zVMFDRhVTsdI69MATQ3NU8yZMdri0Tbd57RkxNCBh0NdD6MSAr68IlZprWAL2j
+	WmA1A8/jMtFKnpbrLEgq+EeDaD9rmMG4WQD7yumyx5hglF3BJSFEUEFyp3Ms7K9moawgE1d/P2I
+	jxN+k2pkd1vxfQqHafyQwM5R6TN/WI28MdXIt8xdUflG5M9WFbIIXTBAdU2uUiEkFJ/mmh1+ycA
+	XoxyY7wP8N7GW2vLnBKurudWnmmiE707oIjntdOqvrcg1jbk5XMPs7nmKUhZMJmNrPvf+FcReWw
+	+v0Hl/yh7hQ1GBDhY1c4X2jlvtBM691TBXwieW7ukOBKPaTI4jZ01hP0mdzJg==
+X-Received: by 2002:a05:6000:470d:b0:48d:facb:5937 with SMTP id ffacd0b85a97d-48e3eb3cc6fmr11105736f8f.7.1793006544434;
+        Mon, 26 Oct 2026 02:22:24 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ece5e4asm15042461f8f.59.2026.10.26.02.22.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Oct 2026 02:22:24 -0700 (PDT)
+Message-ID: <1de1884e-11e1-4375-97af-fe3bf924a584@linaro.org>
+Date: Mon, 26 Oct 2026 09:22:23 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -46,101 +92,52 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-To: Yan Zhu <zhuyan2015@qq.com>, alexs@kernel.org, si.yanteng@linux.dev,
- corbet@lwn.net, mic@digikod.net
-Cc: skhan@linuxfoundation.org, gnoack@google.com, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <cover.1781105672.git.zhuyan2015@qq.com>
- <tencent_4D8EDAC71A10FADF8B5C682C57B266EE1A09@qq.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <tencent_4D8EDAC71A10FADF8B5C682C57B266EE1A09@qq.com>
+Subject: Re: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
+ PMU counts
+To: Leo Yan <leo.yan@arm.com>
+Cc: Amir Ayupov <aaupov@fb.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261012230527.750567-1-aaupov@fb.com>
+ <20261012230527.750567-4-aaupov@fb.com>
+ <20261021164332.GI26205@e132581.arm.com>
+ <024bc6f1-eb73-4f01-84f3-738bf68bdc93@linaro.org>
+ <20261023140013.GK26205@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20261023140013.GK26205@e132581.arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IQEQrMAWPneyG99qrY9cAA--.45505S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr4rJF47JF1fCw1DuFykXwb_yoW5ur13pF
-	n7KFWxKw40k343GrZ3GFZxC3W5Aa18uasrCF1xK3Z7Arn8JrZIywsrKry5Jrn7GFyrKayk
-	ZFW3KFWFkryjy3DanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
-	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0P73PUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Transfer-Encoding: 7bit
 
 
-On 6/12/26 11:58 PM, Yan Zhu wrote:
-> Translate Documentation/admin-guide/LSM/LoadPin.rst into Chinese.
->
-> Update the translation through commit 0860b72d535f
-> ("security/loadpin: Update the changing interface in the source code.")
->
-> Assisted-by: Claude:deepseek-4-pro
 
-Assisted-by can be removed in your next version. Apply it to other patches.
+On 23/10/2026 15:00, Leo Yan wrote:
+> On Fri, Oct 23, 2026 at 10:49:40AM +0100, James Clark wrote:
+> 
+> [...]
+> 
+>>>>     * a device that matches one of its classes and has all of its capabilities.
+>>>>     */
+>>>>    #define CS_CFG_MATCH_CAP_MASK		0x0000ff00
+>>>> +/* trace unit external output n is countable by the PMU as TRCEXTOUTn */
+>>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT	8
+>>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_NR	4	/* TRCEXTOUT0-3 */
+>>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT(n)	BIT(CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT + (n))
+>>
+>> Isn't this recreating what GENMASK() and FIELD_PREP() does? Can we use that
+>> instead?
+> 
+> TBC, are you suggesting using separate capability bits to represent
+> TRCEXTOUT0-3? Why can't we use a single capability bit to indicate
+> whether the feature is supported and caps->num_event to indicate
+> the number of external output signals?
 
-> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
-> ---
->   .../zh_CN/admin-guide/LSM/LoadPin.rst         | 33 +++++++++++++++++++
->   1 file changed, 33 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
->
-> diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
-> new file mode 100644
-> index 000000000000..d75a06f515f6
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
-> @@ -0,0 +1,33 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/admin-guide/LSM/LoadPin.rst
-> +:翻译:
-> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
-> +
-> +
-> +=======
-> +LoadPin
-> +=======
-> +
-> +LoadPin 是一种 Linux 安全模块（LSM），保证所有内核加载的文件（模块、固件等）
-> +均来自同一文件系统，并且该文件系统应当以只读设备（如 dm-verity 或 CDROM）为后
-> +端存储。这使得在拥有经过验证和/或不可更改的文件系统的系统上，能够在不对每个文
-> +件单独签名的前提下，强制模块和固件的加载限制。
-> +
-> +该 LSM 在编译时通过 ``CONFIG_SECURITY_LOADPIN`` 进行选择，并且可以在启动时通
-> +过内核命令行参数 ``loadpin.enforce`` 进行控制。默认情况下该功能是启用的，亦可
-> +在启动时通过 ``loadpin.enforce=0`` 将其关闭。
-> +
-> +LoadPin 会在检测到首个文件被加载时开始生效。如果承载该文件系统的块设备不是只
-> +读的，系统会创建一个 sysctl 条目 ``/proc/sys/kernel/loadpin/enabled`` 用于切
-> +换锁定功能。可写的文件系统意味着锁定功能亦可被修改，但通过 sysctl 可以在可
-> +写文件系统上便捷地进行测试。
-> +
-> +也可以使用内核命令行参数 ``loadpin.exclude`` 将特定文件类型从 LoadPin 中排除。
-> +默认情况下所有文件均被包含，但可以通过
-> +``loadpin.exclude=kernel-module,kexec-image`` 等方式排除相应类型。这允许在使
-> +用 ``CONFIG_MODULE_SIG``、``CONFIG_KEXEC_VERIFY_SIG`` 等机制对内核模块和内核
+Just the pattern of *_SHIFT and other stuff to make a bitfield is 
+usually better done with GENMASK(). Or if there are only 4 of them, even 
+defining four BIT()s would be clearer.
 
-Sorry for the late review. This patch is accidentally missed in my todo 
-list.
-
-This translation needs update since commit eb0b0d222a832 removes a  
-kerne config.
-
-Dongliang Mu
-
-> +镜像进行校验的同时，仍然利用 LoadPin 保护其他内核加载文件的完整性。有效文件类
-> +型的完整列表可在 ``include/linux/kernel_read_file.h`` 中的
-> +``kernel_read_file_str`` 找到。
-
+But yes if a single bit and caps->num_event works we should do that instead.
