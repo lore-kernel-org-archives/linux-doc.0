@@ -1,96 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792974733;
-	b=K/ejXvl2t7W+InY5N+kFw5P5Z3yoJ//0MnVd3ggDiqVGYdCKSO1qbvJy+JSfOt3gOuvz
-	 q5vlvmPrvTodQcGw4dYIotBpBWAqtVSry1Ut9WEcyP3A6eQK+nlk1ce3bD0lpBy2NZvp8
-	 dHCrAH31ezfG9tL809ydUAJnRGedRgta3GfG5S3FM/lJquu7M/TLM3rxMlHaIM33Jagec
-	 eTeECRygo/AxBFv/bGX0mQoM3xWv0iyDDm4MnQIXgJhTJ9EYhklFHBswcRTuPwN0rUdhQ
-	 BjrRRrTAvOevNs2lf6A0nrUimQpQgtbumL2LmvFTwBaCIHYrkIGFXsyaFfoN37IAyOw==
+	t=1792974927;
+	b=waTk0bWrCLyZ/MPc/x6qwBCVWUg2H+VJ5SMbHnH0iJbaGPDzjaiBLPgDXHrhlR9ibQBl
+	 vAgLwaTDJX+io6Mv7UiEOQ4esHm7kpZ1Jn4tCr+bO2mJsj6TeYHhlpw2Hg5bbP78Xg3pY
+	 jaymI/OpbIfsIaGpMEM0o5oxiBWJv7JgqwMhieSjDeCGK03nF/mB8lhzrtwD6wWLsobqK
+	 ireYfnNSEUHBE6dGtiJ45VPcrJrnnTcV/tADIcibK2poEZGCsBmYhnMYdcSZKjWUc/E4/
+	 lO9WrFnKSNP002xzBB2EZX5iPc71ZSz1IdM1QXlyHaGsUR1mWl2Vrd11MJ9PJfM2WYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792974733;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792974927;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=/cCFGfv4+RhGeu8mMlHwvLdoS33FbKvKHA2FJNQdGOY=;
-	b=qxwNu9MGnpTMcYUWER+6sknf7M3pZDPB+t234mF5dsMY/IaSI2J1rqvKOmZZQAirE/O1
-	 iL1vMKLEFv4GIaw5c+M1BQ2hmSjXQSyLUb7ykaFiV8LMza9jXR+OQypFSMd0CLbQNBPCG
-	 go0rj71GCgfZYMxynuLHzhS5YIVAQLBn1uFt36xgpbuVmbdBeYPF/rqQmgME2AwP6FiRl
-	 RGoR19ywmF0lmygejPSE/5v9oU35pEdlV1eCkAumEOEf5XF7OdozRweXKbypokfLYA4D1
-	 uXzpd3MJjPJjYTi49ntXxlXE+hjvJK92VmOIsoQUvuzPE7crdHfiRxiDiTf4mVtFXJA==
+	bh=biikjnXgtnu7sMIPqSuPM5THtJpQ0Ac/8rE+B20J8oQ=;
+	b=3RbnmWUlvwwezVBYx5CnZ4q5s5RWJgA2TprhUgRfkCfQIOSa0bjSmTCEY7GQLtJQPMqZ
+	 G5+WLU5wJNEZmTxp27LFcCth1hSzj/pcKCitSUg3Izch+MBjlr892G846++Y7HVAFMxxz
+	 f70sMWX6fCpUl8s9Y/kXNFOGJTyoZgbN+ES4bpWE2YeyTlPLrgFjaBOwluKZ3J85SlaVe
+	 xxHry8Fu2q3p50oVhrE5nAXCH0v5nzI38BrLipbSoYKfyu/8/UnORWHLSr955J14pbVoB
+	 s+oaYINH+4r1KKZC8c8zEDZRh1uADjxiPSiSX/ZGPtWcmPWeM9gXQa5VvkFvb+YiyOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=roeck-us.net;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=I6pWqzPj;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=njplM3md;
+	arc=none smtp.remote-ip=209.85.215.180
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B972D606A31D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:32:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B972D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11078606A31F
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:35:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11078606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=I6pWqzPj
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-398b3c37877so1356840a91.0
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:32:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=njplM3md
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso1252166a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792974732; x=1793579532; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792974926; x=1793579726; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=/cCFGfv4+RhGeu8mMlHwvLdoS33FbKvKHA2FJNQdGOY=;
-        b=I6pWqzPjSgZLdxH34xc2dF+rZUuuIatv+YisOPFKEasZOKbUr/+KWvJu5PTfZceiS4
-         P8d66oqH8rf5x3VqTv1gRyI+725YMimPt7AnUi3kr0znJFAuIqQEWKbYy/NRkjaHjxCv
-         58CnUcXPwIcKrlStfd63Zeaci3ljmfoZmh4LZdhqPidscbUb/KER5RT8TCwDUAEDhe0f
-         BbMXF02iL0OMyWo0iiFsC6WFfFJ2GgYUd7Y4Gi2+vlMJh7EHzvFBVvah+U1X3/PzAPLS
-         4PIcfgmPbH0bpxVTAgqg3sSihMSlGMqHuVg1Txz/3MZ2q3Dff4/AnaLDtHKvyQBhwmMP
-         9UbA==
+        bh=biikjnXgtnu7sMIPqSuPM5THtJpQ0Ac/8rE+B20J8oQ=;
+        b=njplM3mdJURiFtDubYKaOfdLnMma8l3vjNmOEFUeg+E2dIDMxZdZS5gPlHPm7CT2LI
+         xac35vlTXGv7kMrt2tYHiDLx24Bl6NaLQixMgWAjjjxZ2WyKjtcHlyLQZBBFTL+cu67g
+         HWYPLXAxjlJUxwQkeUtVknDJjLmJULxEarhr37O18hYhSaSf3RcaehcOjXX0ovgVFQo1
+         nGXhgTYRz7CBuL29RtbxRaaSUPHynQSGs7KBfnZ/a1K1n9kP9ugkfNb9iphT2mj9G2wH
+         KVr1QTQGiIi2GiYvm/b5+MXp2LJP/gHn+XJoXzzNNyNTfMMB0WMqLOXAISbxmNvFlqEr
+         kEqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792974732; x=1793579532;
+        d=1e100.net; s=20260707; t=1792974926; x=1793579726;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/cCFGfv4+RhGeu8mMlHwvLdoS33FbKvKHA2FJNQdGOY=;
-        b=bKQIhj2gN7ndUO+abJYUgypAjyKG4H0020XP6rfQjusoxpPsubs02fSN46vfZ/slo0
-         kLT0wJNCaQEdLIgehNzeRMn6noVGl3DgX5PJr8wBeZXShotYMuZ7ZlE+omcIq8ZmTovo
-         7BZGkaI1wDv+yR8PdHNDHVda5hrJokiySYVnWrD6U9KfW+npj+rQUhKpDN3GAmIe+JcV
-         GMUv1S3E54eiahfWPOL+O3XdtGZ/UUAYVTbJzJrB7/Vv+KUU05C5wBAdlbFZh9QLq9Xa
-         EdjzMgCuGujLEawpij///0NrHn0hGj6Wy96c8xsAAgFeulL/1rm0ayi9fyiznvc4+8Wt
-         Xr8w==
-X-Forwarded-Encrypted: i=1; AKwUvBx+RfcKOZxy3xFvbGr+98LAx7YP35Iwg8HJQ66ecgS4U80vZLu4BT1Ph/l2fCpKBhfNf/dwZvQOpn4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAFROJAMIMmDcGnqE6DJcVhX9ULvHhu361nB2PHIpeoDsJhxqo
-	3a6j+X6/x/7asMofrYidDYZiOue/N8sZe76YMhhdriGWIaCBIq+wdbVP
-X-Gm-Gg: AYBFou3rhPhCbuEB4E2pvtRVcyaSbwa+CGL9XHrKT6PB7VefKp8/b+qUgDyhuQYPxka
-	oAwjIyDSq1lhwI/XFSnhE6cmWC3UCLDDs/cMyDgn30xRJvuZiIvuS9mngzFnSZl5Z/9ViR30H9W
-	qbEHBYlgjtxEFF1y8kgZaL10YuDM7RbT+j89/pcu23t2toGYJljy1mnQvJo1Bx/aSe/rKLVehIU
-	xvaNGfOvicjPVroV8xJDsFU86WMsV8gU0Qrqtjd2ByFSpxc1UDjs5DjYmt8lSMt6ngWXHe0HbIi
-	E7/YoE4ldCUGlUMHRLzxaVyBv5UdpdG6wF1GANc41fpVHy028xKxbGCvWOpeHMcTwllL0HT5YeG
-	tqngobNVB4iL29zIE+8WCUtA+YXr9TnDuL5JXTyR98J5HbShWLirUR6OfFpo3QzzKH6rinb2eea
-	l0kEKMfS2XLK+ByF8qwhqHJHm7N4CbxBPcv/SjfbxyzJ/TipFD3uBECLrMzo4iOCk3vTGZOYsJD
-	6v7eUzfaDLbdVFJ7ZVke9ieWc/GAQINmli5ckEciHvHLzU0dlWt0a/ulRl3sJ3F9D0gmE4=
-X-Received: by 2002:a17:90b:2745:b0:3ab:c674:cad1 with SMTP id 98e67ed59e1d1-3adeafd682bmr4403381a91.50.1792974732064;
-        Sun, 25 Oct 2026 17:32:12 -0700 (PDT)
+        bh=biikjnXgtnu7sMIPqSuPM5THtJpQ0Ac/8rE+B20J8oQ=;
+        b=Xs6nC+pf1JiSX6nBPrCKIl3ATfBHS67wmOGWjhhrv3J2e4fp8E0kNrRPq5fovUqPSa
+         Grv2KiBrYjNrv9Hz+6It0J56tEuzvP7M3y+y+nERGvj8oowakS/VN+SXhtrN7MSCqzUf
+         8wN+Op/+gXiSWtPoc4OI5ZKTIRDLmKOcAJnkKz/ZwSbXRZ4MZunXiMqbgpQir0+krbGW
+         DmjBqory9CvImUWOrVnb11qZ40X+SUteYIXYvRYU8TDn9Pf1Mk4phxXBAXktLZJh/HCk
+         Ri61j/Vpabg09ACqVG5p+9uM5/MjTKNIpFYv5CdDVAYe0KJyZpZOG1Fa3WCo5PGtlUxu
+         KhGw==
+X-Forwarded-Encrypted: i=1; AKwUvBynLqoILpCPQveM+itH+h4MnLYx6WAC6Ra2Q8ck9BXhm+qCAizfmGpTTpxVip+HpaWEApmy2ep2sYs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK75sIX+wEVufJt95DTJCvWhJw14e9Lhf/FWgiSXK5JoSBzJ59Q
+	ChVZBy3wZ+tth+lDNPU5SyY7sEh5t+hgigbNuPuZbruSHDKN2NgnvxW1
+X-Gm-Gg: AYBFou2X+8Twk2VeADc4cRoWO2mFXmBrH5NuO3Drgaf0V4Lj1K9oPuY6X48cPGGOstx
+	vqaFKdM5m1VpvGTTeE2LBLNUhoe1npILwfbdvSQq2o2wazqQ/Xx0sbm155WvD1MGtuErGqLmr05
+	cS29CHyN3FRdf6wlnIQuzfQcCd6DH1bHNTl9jtXkloZIJ27bAuF35mkwyzg7dqEuJ2LDgbDZY+d
+	Ly9IZ9sW/4YYrahIIe+UTO01n/D2EyUAj+Y/qdz2Q9zxm/iC7Zvz03B7sxbk75bSsKhDFrFQeLy
+	gbRLXfdtprc4cf+RlGfTqhUGj0sh3Wl2Lvb0qnnoc/peQgZD/XT+c7ZFIIinx1p5IpYzaIZXldl
+	sGtwGBlN8XqndTO1a0Lvt5a513jFBIq89HSW8fZJU6mZYsfZmUQv6Pjb1xrVmSS+vp9JEW+e5bP
+	syRoOVxYRnPxsmboq5sA7EFr77GZ9GrCzhns+GG46upI986uNnAyqeXVqm/N4Jw5AU74mN5jrn9
+	FnMnrrZhdr/nrNsjH7pT2AoXubWiYePLL72WGZV8n02Wrc9dqPZG/YbdkA3ZfxtSDyHNMdgvR4w
+	ho4O/SqHC3YUiGo=
+X-Received: by 2002:a17:90a:e18c:b0:3ad:13fe:41ba with SMTP id 98e67ed59e1d1-3adeb11f8f5mr4322887a91.52.1792974926204;
+        Sun, 25 Oct 2026 17:35:26 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebaddd45sm4618312a91.2.2026.10.25.17.32.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebe8f0a7sm6187626a91.9.2026.10.25.17.35.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 17:32:11 -0700 (PDT)
+        Sun, 25 Oct 2026 17:35:25 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 25 Oct 2026 17:32:10 -0700
+Date: Sun, 25 Oct 2026 17:35:24 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Remy Demangeot <remy@demangeot.net>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Eugene Shalygin <eugene.shalygin@gmail.com>,
+	Lars Petter Mostad <lars.petter.mostad@appear.net>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add MAXIMUS IX EXTREME
-Message-ID: <bd8640cb-cc7c-4e52-afe6-635c0dce0ab6@roeck-us.net>
-References: <20261015-b4-m9e-extreme-v1-1-621da921e320@demangeot.net>
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: vendor-prefixes: Add TDK Corporation
+Message-ID: <083d8718-bcda-47d8-83f6-6090b40689b6@roeck-us.net>
+References: <20261020-hwmon-pmbus-fs1412-v4-0-27ece4e43d04@nexthop.ai>
+ <20261020-hwmon-pmbus-fs1412-v4-1-27ece4e43d04@nexthop.ai>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,41 +107,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015-b4-m9e-extreme-v1-1-621da921e320@demangeot.net>
+In-Reply-To: <20261020-hwmon-pmbus-fs1412-v4-1-27ece4e43d04@nexthop.ai>
 
-On Thu, Oct 15, 2026 at 06:09:31PM +0200, Remy Demangeot wrote:
-> From: Remy Demangeot <remy@demangeot.net>
+On Tue, Oct 20, 2026 at 08:02:05PM -0700, Abdurrahman Hussain wrote:
+> Add the vendor prefix for TDK Corporation, the maker of the FS1412
+> point-of-load regulator.
 > 
-> Add support for the ROG MAXIMUS IX EXTREME (Intel Z270). The board
-> uses the same EC layout as the PRIME Z270-A for the chipset and
-> T_Sensor temperatures, and additionally exposes the VRM temperature
-> at the same register as the 300-series boards (bank 0, 0x3e), so add
-> that sensor to the Intel 200-series family.
-> 
-> The hardware access mutex is \_SB_.PCI0.LPCB.SIO1.MUT0, as on the
-> PRIME Z270-A (verified in the board's DSDT).
-> 
-> Readings were checked against HWiNFO 8.54 on the same machine
-> (Chipset 47 C, T_Sensor 25 C, VRM 32 C).
-> 
-> Signed-off-by: Remy Demangeot <remy@demangeot.net>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
 
 Applied.
-
-> ---
-> The board's EC also exposes more sensors that HWiNFO reads, but they
-> need access patterns the driver does not have yet:
->  - three extension card fans (EXT_FAN1-3): write 0x0a/0x0b/0x0c to
->    bank 0 register 0x43 (selector), then read 0x57:0x58 (BE RPM);
->  - EXT_Sensor1-3 temperatures at bank 0, 0x60-0x62;
->  - Water_In/Out and Water_In2/Out2 on a second EC (firmware ID
->    "RGE2-Z270-0109") at I/O ports 0x68/0x6c, bank 1, registers
->    0x0d/0x0b/0x13/0x11 (same offsets as Water_In/Out on AMD boards).
-> 
-> I have a working out-of-tree driver for these and can prepare follow-up
-> patches if this approach would be acceptable.
-
-I am curions - any reason to assume that it would _not_ be acceptable ?
 
 Thanks,
 Guenter
