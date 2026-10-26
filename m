@@ -1,76 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793007260;
-	b=aQiiNs+0G51iKImuYZBsWDrgYCvYrH4Q9GuFWGfTr2wWEEBv3Mr3O2hI7/P0Pv+a/Gis
-	 tBcO4Ji34T5ZCF/7rfuOipO9VkRUxhBZyXvyBzWIWOrL73w2cW1cDrRSBoC/21QQxgC4Z
-	 iiS5drvhPcg5dyU/L2ofkiQ3bWykYMc3Zt/VdDTroHnjLDvakQRYi/ijShmtlisbJ3LY2
-	 1Rdr38R/2QiNq4bIAfVBlVCtFiqnhTy2HLNBUqC6h1T+2Oo/YD8IprvGkAC0xTpbgzbmk
-	 C6WiCLFl9D+k5kxPDo/E6mCKdLdAcKfCtLpQFBx18+oRoSbikYdqd1P9O4Gxp7+A/8Q==
+	t=1793007390;
+	b=mwkm7xWUzVSvNyoFaLGuBTtGSLCG8ITm35Pe/mkof3kpuuHfeuntxYmn6ChhjayOjlFN
+	 LjpkCyMogXd6Vrq3XFT01iiOMwAOJ4/T/W1JmNv8NKKTSlrAwVls6qvM03ntRJXZbttzb
+	 SFjFweT7Dq+QSeAnt7qfgkq81J1XxELK+pZXhs3N4P5kARZfXx6bYngxGx0e23C8qFDLU
+	 v2zSUu6VtyAOJ8hAgCq/wCZ+zrMV34p0rM6E24SNCYzfFAAtG2YPjL82vK+rf2H00zftH
+	 m8O3QZYVPT+qizNxTBzdOTj7ZgtRH33jdXlxtd4GTfo4NY+VNQNRPiPd37KfdFLwxyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793007260;
-	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=L1ymgsTx7zbrSnuGx/+j28LBgSYyFss7BFigmOxmN7E=;
-	b=mkrSTjM4v3pg1o89en5cyDnfCAvnPfwWeKJ9isWGhLU2tyWeuFrVTnTOa29tIBYNCAhv
-	 87X+YHuM+vMSao97bOfFZxTAXJZFOV1rBZ6FfDET4PGfj/BQj8LNQgMnHrGo+KeTpq4Sw
-	 YpYr5ACSLYL2QcSZx/51yDTWbh3lEjrcs4LQB8Lz6hnyRrrxsuKQbpj+REVJnvcK7OKjQ
-	 2xGW8i91wC3J5L6WfYtkXXH5q6dLGXamji3S6flmFuhBbK2DZFTBNvukei3W+oQdmzRUZ
-	 5+cFVGEKJcY3AagVf6SaJ9vyk+OtR4LN+wbO1taGy6yJ3z/q4HXHUIKXg6vZsSwWiFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793007390;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
+	b=FmiINwpU7A4l8HNJmZjCR84JQYHIy1d8VKLl4mT/6/C8qMW5HUlWUB3z4Z7fj3qPKkBT
+	 rdKXuRBYDJjbwPNqSROlDOQOfLeqUU9R9BxU0BM9/iHvkWySSgFUD+FPENDddhzPMQ05U
+	 d+uqvgErX72bv139UvMbEgsV9FUFKS8U2wc5GLBeEXOcaD8khUBHKPx9sFRl9HaFq4EuH
+	 5gSmXpvxIpO/IalRjJAQEM34vH9/vjgi+I38DqTeLKgrexknomxECrKzmLye8oN7bhhUD
+	 H2MwqRlkpOViRuZRYaWCym2JEFA3ZeR4tNs0qdgj6v6OpFZzJev5nixdQ3uVJr/uFbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=MYPRHHnN;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="f488/DKx";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UGuF96BO;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4F9606A31A;
-	Mon, 26 Oct 2026 09:34:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F4F9606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4805606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:36:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4805606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=MYPRHHnN;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=f488/DKx
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793007255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L1ymgsTx7zbrSnuGx/+j28LBgSYyFss7BFigmOxmN7E=;
-	b=MYPRHHnNRJyIyZAafai3OlVck/LBfipmLsFd1uBV05RO43XUV9vlX1L7KaKLbW5y0XI5tD
-	FEqmQwYvrq+JMR+6aSixRpCeyo3Wlda/oOOycEyc2JVaoe7yTZqLzNvbCN1W4y0P8+OKkW
-	fgGXt45ndf4X2h404MVO2Inn+mTWE5VjJRTc6YXmXvp7VeTESYjSNwE+fv2tYh0RbV4uTl
-	OHpt0sKjJG7HGTwJGIiCj2rysliDEEpt+wVUW9SzY+oq1u+c8G6M5jtvAovMC7AKSBxEFB
-	FNTI5Sh43fUN0RvfDcLnXogl6uNCh8WjpDqL5sfmInhMtA/QbwiGbSeMUX+nPw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793007255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=L1ymgsTx7zbrSnuGx/+j28LBgSYyFss7BFigmOxmN7E=;
-	b=f488/DKxBR+0unnvdDl0e1iGAmJYebfOUQ7iCvv3RB9d/iTAJr37dC5hD7a+lzIonlicXl
-	iFRxa/k8nph947DA==
-To: Sam Crossley <samuelcrossley@gmail.com>, Thomas Gleixner
- <tglx@kernel.org>, Breno Leitao <leitao@debian.org>, Petr Mladek
- <pmladek@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Paolo Abeni
- <pabeni@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Sam Crossley <samuelcrossley@gmail.com>
-Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer
- on demand
-In-Reply-To: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
-References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
-Date: Mon, 26 Oct 2026 10:40:14 +0106
-Message-ID: <87fqxskdpl.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UGuF96BO
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so17497985e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1793007388; x=1793612188; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
+        b=UGuF96BO/EuJ908f4AhL0jvn3+rdIHvpEwN2Q1ood6dqwA2CEIRBNTpveBrSaMLP1+
+         +c7++5xsTyMXJtkZs8+G7AuHPvnOKcvQTlT4tx7OboTeQPBvm0Kvy7tEiF1h9kKAQh/S
+         JBDu9bmVMC72RKP/Q8BMszrVhfownxcSR7rjJRU72w8+piehuG7/1WQrZD3eIEkNXUf5
+         p71pgx+MoqRL7QcKRwYrMAha/9qwZasvo6ag6Tmw821LKUtLjQNrVUG4jfVsxrH3sWtY
+         4swGptsu7JweC4UX09rEX335MlDfJcg7r/iJjK70WpPN3GF+Fcxk+V0GIyI13+GSDIwc
+         3G4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793007388; x=1793612188;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
+        b=Jy3CwzOr5uQdMx2bxISGVbewTc3lpWPaW7QVlLlzL0bwJOxHy12hJkKsqZADkseF46
+         5K/0i7IEoMHzJDt3KJaM2k8/XONqjoKa/v2uGn4EvB3tHV5p2/g7lbnNOx7NcaBNmNzL
+         Mt8HKJnTr4/F0psXsw1JcMaKGWPKLT7yd/65CYX0X/fKB25ZY7HJ4ayBTP2RBlWNXbeo
+         0EbIjwSmsF8RXLfs1vAeUruWHDpMg47kN1tbOU5Q7iauWTLWJTv0R0CPRJTS4FfDT0cJ
+         oYECN2jfu6Jod8yGDL6fYnIQiOLLWwGpmtPImxplW2gx2/BgQW7hsDUyW7Ru708MlClb
+         7n3Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwclAD7IYDSDas7RHYbQRMkaSqxBHd4MYlsdo5gt+z7VO2ahG9gNS27OI/+n7y9R69qFWgHkYBgq7E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI5129WdMmozFKF53PTuZrUW6PjLaiFHG3+C6MB3O9w+C+0LgvR
+	ZHh1BEw9dkwrx6+qzfMCUBciav2w8M4k/VNMqetRd5tutdCB+lxcJVhZ9g9YSfVomHM=
+X-Gm-Gg: AYBFou17nfR4JbcESIjV9Orh9PyB2vnLR7TCopqpeZIQKoM6rP5/g9y6aFYMS6sKKZk
+	LxJJYoWNj6lR4u+g9cbmdmIP2yFXCMlEH0FnAMog13GlcYWmWH9DzL6YsR1vHiIld2O5NTvpbII
+	2DgRSa5QKW+q9odhL5AT9E53CLZVicVYMrilnSyNPKI/t2mCLGcCQ3eb22DFdr0ocT1kQlZ6qlP
+	uZOD+r104+2HzOlsr2f3//cP9Ql7ijIFO5DYAJd8o66mGV61zCXmG81aKA9vXSPksgPoYg53QD6
+	u7hdF4HTikS/9OXbgXR0/YYeIc8/LMAP6zkwRS2/OKoxYYCnzRArLZI2EV9ib09vMobmK2mY3pL
+	geJJ9P/Sz6sMNgV9tM/0iqtQCUeV7S1oYFji9oAiyYPFdlhiRTGYqOMKprHAo9ODenUfP0o+8ra
+	DlkDFTT4hmGNknIvyZsiaQ5kk6bl75mDoPPaB7iL6pvHsOT8x+Ta44WkNJNTGZR2g+BORFh4wk5
+	bNV4UqHHq8pNkTC15n7yPtaTqgPPcrMR5dg6NJKtU4f8QzMfE1+4irksG3s
+X-Received: by 2002:a05:600c:6749:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4a35ad01261mr104560415e9.2.1793007388160;
+        Mon, 26 Oct 2026 02:36:28 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a0bdd59sm118131875e9.4.2026.10.26.02.36.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Oct 2026 02:36:27 -0700 (PDT)
+Message-ID: <93c294c5-157f-42bb-9940-79082ac37c74@linaro.org>
+Date: Mon, 26 Oct 2026 09:36:26 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,39 +91,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] coresight: Add pmu_pulse/extout_pulse
+To: Amir Ayupov <aaupov@fb.com>, Daniel Pereira <danielmaraboo@gmail.com>
+Cc: Leo Yan <leo.yan@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261025063846.3112301-1-aaupov@fb.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20261025063846.3112301-1-aaupov@fb.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2026-10-24, Sam Crossley <samuelcrossley@gmail.com> wrote:
-> Netconsole only forwards records while an enabled target and its
-> transport are available. A target enabled after boot, or one that was
-> unreachable during a network outage, leaves a gap in the remote log that
-> cannot currently be recovered.
 
-This situation is no different than connecting a UART sometime after
-boot, or having unplugged a serial cable temporarily during runtime.
 
-> This adds a write-only "replay" attribute to the netconsole configfs
-> subsystem that rewinds the netconsole consoles so the retained ring is
-> re-sent.
+On 25/10/2026 06:38, Amir Ayupov wrote:
+> On Mon, 12 Oct 2026 22:09:35 -0300 Daniel Pereira <danielmaraboo@gmail.com> wrote:
+> 
+>> On Mon, Oct 12, 2026 at 04:05:23PM -0700, Amir Ayupov wrote:
+>> [...]
+>>> +  perf record -T \
+>>> +    -e cs_etm/pmu_pulse,aux-action=start-paused,timestamp/u \
+>>> +    -e armv8_pmuv3_0/cpu_cycles,aux-action=resume,period=1050031/u \
+>>> +    -e armv8_pmuv3_0/trcextout1,aux-action=pause,period=1000,call-graph=fp/u \
+>>> +    -- ./workload
+>>
+>> The CPU PMU name depends on the system: armv8_pmuv3_0 is what ACPI
+>> systems get, while on devicetree systems it comes from the compatible
+>> string, e.g. armv8_pmuv3 or armv8_cortex_a76. Maybe add a sentence
+>> after the example, along the lines of:
+>>
+>>    The CPU PMU name depends on the system; the available PMUs are
+>>    listed under /sys/bus/event_source/devices/.
+> I'd rather drop PMU specifiers as this is not something this patch
+> series focuses on, and examples above avoid them too.
 
-I would prefer that we find a more general interface for this. One that
-can apply to all consoles, not just netconsole.
+I agree. Making the docs overly verbose makes them less useful. And I 
+can't see a use case where a user would get stuck converting this 
+example to their own system.
 
-We have a couple console features planned or in discussion: per-console
-loglevels [0] and per-console unsafe dumping/ordering [1]. Both of these
-are per-console, meaning they also involve the netconsole.
+>>
+>> I applied the documentation hunks and built htmldocs, no new warnings.
+>> With or without the above, for the documentation part:
+>>
+>> Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+>>
+>> Thanks,
+>> Daniel
+> 
+> Sent using hkml (https://github.com/sjp38/hackermail)
 
-I think we need the netconsole to support a general console interface
-rather than introducing netconsole-only knobs (particularly when such
-features could be valid for any console).
-
-In the per-console loglevel series Chris Down introduces [2]
-/sys/class/console/ to sysfs. This is where we would put all the
-upcoming per-console knobs. I would expect a replay trigger would fit
-well there.
-
-John Ogness
-
-[0] https://lore.kernel.org/lkml/cover.1764272407.git.chris@chrisdown.name/
-[1] https://lore.kernel.org/lkml/87bj8kkfwk.fsf@jogness.linutronix.de/
-[2] https://lore.kernel.org/lkml/84b8d91693e56f6026271bc40553bcb6657ab24d.1764272407.git.chris@chrisdown.name/
