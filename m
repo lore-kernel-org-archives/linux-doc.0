@@ -1,74 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793017987;
-	b=ZXeraC3EnqB++AqNHMz4YVggXrK5B6LeyeusC7TC0eUUW4tdGuIeBr+qZlHVB47OP5EX
-	 UAuqYpm4NOSLWL3D+RjVjq0C8HPGDNO/d6YyQ5dWbTSvYhm7lmRr+gA1p9H0kqv/AJS6U
-	 w21ayDuHYU3p1uBR6eO/6UwQoz1d2vwYttxV1Cwuo0+/OTiit57SAhPiwgjJktm9hkgOm
-	 vwthKOfsbVwxz1QUf1oA7Qmy+2Nt+TpNtr93Q7W3ZlSx17HVVwphLW5oBiZOVSBplK4ij
-	 0q24MQgSvtQM6rv0GsecyDk62GRBBUgbE66Y/dikncAXGK4YfSv3+CTj7I78KmwGFIQ==
+	t=1793018499;
+	b=IGhQUs/5V1WzXga+Jz2M9VuC3oEN4TzsGQ81tEljkBGgNdRAduuzVPMphe0YJlvEeNqs
+	 0mFctQB1k2oUmaxyl9r3io0gbbjkkgOR8Vtiib/roamUY04uD4zJsP/FmyXnri+J/37SP
+	 aqJtZK1BGfrLaoNmxTdbO6jd69Rk16rx7r7Ze84d2b3DbUT5+ZHNgNDDtpSKCiOPUK9Dt
+	 gtkc5VpDbOSiwsI86ZjrLSX76+cdGhtJIe9V9oo8QIvty/QL8Y14/dJaKAB4SHxthLZZR
+	 qFY15ucc8wvd+VoG6oq18aWWEP0lyUowuFjhuGXtQEwt7auyq59uI3xLJ+f7/KmbBYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793017987;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7mgiolJC8r3eZzy98FWtx4U1AHXNmN+96u0Ij+bgNDQ=;
-	b=lEXrWl7BBEaE3pa9+l4dDvMcJ6doocRgAYqxvYDjARFlHzHiB0ZlyWtqOc4JE/yQfCmN
-	 dFRfuvJL57r9E9/q+2BFkfggHF8xnNAIt42fnXtgtWebl7MyvD8M/PQ/sYwrzNpuQDg1u
-	 PNC6YrU4ER5yrhOM+Rg1YaVU8CCciXkrJT/AUvlJvhIzZ/LTSe8l8SoHI0qNnJxdTrNbj
-	 66MbhFxxVEsjxtOuEnYh21QZ54BrigYDe1gQVuGwIhRIuwGxUtMtzlS2vAyelN9mzkBTE
-	 ROX7tZfoWMyIRzMJo4K32SXnaFdQ0UPs4i+7j6/osryIRc3Hba4P1w7DwmSg10Rsesw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793018499;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=rSbZwM6ArFWnjmuYAFuqV0i8s7gBfvuVh2SoTZC+x8A=;
+	b=fy1H5/jLIZFOVfu4UK10LYUmp7KbCNY8UU6ueov2PJ3t2YvspMutFipqR1CsFolLf9jz
+	 vqjh5vXi2iSb3bxvcqwTyiwLyroUK0wdy86qxG/pXwTaht+cQol/qfzPbTCWbehKWeY9V
+	 cV5XXRxX1CdDngEFP2DD4rHfMmzQ4pYD1cst0qJyzAgiWynHCJoN9Sfa2pxSE3duJfvq0
+	 DmaRkrOizcavOit++D84JoL7V8lvcxxyhvz7RZY+nHcbECLFgxMsyaCHYLLp5lEZJSS6R
+	 sxTeGSCtrup0vi7qizHkwtfmmC0gpFwphSsg6vdpyQnLwvz3oZ0kFrl76e8Vi9/AUww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DUtAkx9+;
-	arc=none smtp.remote-ip=91.218.175.207
-Received: from mta0.migadu.com (out-207.mta0.migadu.com [91.218.175.207])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=fiQPD5+F;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B49606A32D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 12:33:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6B49606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6501D606A31F;
+	Mon, 26 Oct 2026 12:41:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6501D606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DUtAkx9+
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=9lM8ZmCt5oSDpMBB/mA6pb9f0mkJCYo0DmDEVHVew+A=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793017985; v=1; x=1793622785;
- b=DUtAkx9++mBcElucTCsi0/W7kx9HGyuR01ik4pGVjXpkJEihWqH5tPP1J0jeaymJotMSb+j5
- gvNIYEmFOoZBIYHB3G4TWJtXTN8Rw3BY8KayM6KCJdQGQ0/SdwWz4FwAtpw8HUpPnBXFxi5UZ88
- BAGJpUWg+gFfLN4UaqneQKfg=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ba99167e89fbca0f;
-	Mon, 26 Oct 2026 12:33:04 +0000
-X-Mizu-Trace-ID: ba99167e89fbca0f
-X-Migadu-Flow: FLOW_OUT
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: netdev@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	stable@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=fiQPD5+F
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jCtXt5zckz8tdk;
+	Mon, 26 Oct 2026 13:41:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1793018494;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rSbZwM6ArFWnjmuYAFuqV0i8s7gBfvuVh2SoTZC+x8A=;
+	b=fiQPD5+FuSpQJSMpZyF6nTiKVYDjeyTmcs7Cu5S+MsGVtGAI/MMb1z7ywb8u720v78tsav
+	zb04/v/nC25BBabOPHqTyjvDYtHWyp5U/xpbb3CJq6Zn6csh/9GNbyhnk6FC+For3REk/g
+	GHu5Ses02GQywNtmwY/u+AFbZG1xM6uEQbLTRfXVuqmTF/Oi4MXBDlbkN1HbtIeoXfg8e7
+	362pw7UP/rggRrs2Bfw1Xm97vOrqi/WUtsfcPEwBB3Ck6lZaRgmJkKP2QXS3EsjC+XAqKh
+	KsQFGWn+mdZu/oSVUrXQI5tZzZdaCrvgwclzxpAEwgB0kXXhPBITAd/MtzeJGg==
+Message-ID: <b0d8d0ceda82e303262c0f61324fe8a84fd9f745.camel@mailbox.org>
+Subject: Re: [PATCH 1/8] Docs/admin-guide/mm/damon/start: fix grammar
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Aveline Noir <jm5905938@gmail.com>, SJ Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
+ damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net v2 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
-Date: Mon, 26 Oct 2026 20:32:39 +0800
-Message-ID: <20261026123244.239766-2-jiayuan.chen@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026123244.239766-1-jiayuan.chen@linux.dev>
-References: <20261026123244.239766-1-jiayuan.chen@linux.dev>
+Date: Mon, 26 Oct 2026 13:41:32 +0100
+In-Reply-To: <179301327249.2.1796164575094900927.damon-docs-grammar-1@gmail.com>
+References: 
+	<179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
+	 <179301327249.2.1796164575094900927.damon-docs-grammar-1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,80 +76,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: oduzt75dmocrdjqeru19648ieiwqcoim
+X-MBO-RS-ID: bcd2318e5fcca3399dd
 
-icsk_backoff is incremented by tcp_retransmit_timer() on every backed-off
-RTO with no cap of its own, and by tcp_send_probe0() up to tcp_retries2.
-It is used as a shift amount in inet_csk_rto_backoff():
+On Mon, 2026-10-26 at 22:14 +1100, Aveline Noir wrote:
+> Fix a few grammar slips in the getting-started guide, like "make DAMON
+> monitors" and a region "that has not accessed".
+>=20
+> "The line of the commands" used to be "The first two lines".=C2=A0 With o=
+nly
+> one masim line left, I make it "The first line".=20
+>=20
+> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
+> ---
+> =C2=A0Documentation/admin-guide/mm/damon/start.rst | 10 +++++-----
+> =C2=A01 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation=
+/admin-guide/mm/damon/start.rst
+> index d98b0eb8e771..a83fcc2265bd 100644
+> --- a/Documentation/admin-guide/mm/damon/start.rst
+> +++ b/Documentation/admin-guide/mm/damon/start.rst
+> @@ -63,7 +63,7 @@ the execution. ::
+> =C2=A0
+> =C2=A0The first command of the above example downloads and builds an arti=
+ficial
+> =C2=A0memory access generator program called ``masim``.=C2=A0 The second =
+command asks DAMO
+> -to start the program via the given command and make DAMON monitors the n=
+ewly
+> +to start the program via the given command and make DAMON monitor the ne=
+wly
 
-	u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
+'The second command asks ... and makes ...' Thus:
 
-Once it climbs past 63 the shift is UB. Seen with tcp_retries2=255 and a
-silent peer, when an ICMP host unreachable goes through
-tcp_ld_RTO_revert():
++to start the program via the given command and makes DAMON monitor the new=
+ly
 
-  UBSAN: shift-out-of-bounds in ./include/net/inet_connection_sock.h:258:40
-  shift exponent 73 is too large for 64-bit type 'long long unsigned int'
-  Call Trace:
-   <IRQ>
-   dump_stack_lvl+0xc1/0xf0
-   dump_stack+0x10/0x20
-   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
-   tcp_ld_RTO_revert.cold+0x16/0x92
-   tcp_v4_err+0xdb3/0x13e0
-   icmp_socket_deliver+0x1a7/0x390
-   icmp_unreach+0x2dd/0xe50
-   icmp_rcv+0x93e/0xe30
-   ip_protocol_deliver_rcu+0x36b/0x3e0
-   ip_local_deliver_finish+0x37d/0x620
-   ip_local_deliver+0x165/0x1d0
-   ip_rcv+0x284/0x320
-   __netif_receive_skb_one_core+0x16b/0x1c0
-   __netif_receive_skb+0x21/0x150
-   process_backlog+0x37e/0x1200
-   __napi_poll.constprop.0+0xa5/0x5e0
-   net_rx_action+0x4c0/0xf70
-   handle_softirqs+0x204/0x9b0
-   __irq_exit_rcu+0x13c/0x220
-   irq_exit_rcu+0xe/0x20
-   sysvec_apic_timer_interrupt+0x92/0xd0
-   </IRQ>
+> =C2=A0started process.=C2=A0 The third command retrieves the current snap=
+shot of the
+> =C2=A0monitored access pattern of the process from DAMON and shows the pa=
+ttern in a
+> =C2=A0human readable format.
+> @@ -71,7 +71,7 @@ human readable format.
+> =C2=A0The first line of the output shows the relative access temperature =
+(hotness) of
+> =C2=A0the regions in a single row heatmap format.=C2=A0 Each column on th=
+e heatmap
+> =C2=A0represents regions of same size on the monitored virtual address sp=
+ace.=C2=A0 The
+> -position of the column on the row and the number on the column represent=
+s the
+> +position of the column on the row and the number on the column represent=
+ the
+> =C2=A0relative location and access temperature of the region.=C2=A0 ``[..=
+.]`` means
+> =C2=A0unmapped huge regions on the virtual address spaces.=C2=A0 The seco=
+nd line shows
+> =C2=A0additional information for better understanding the heatmap.
 
-The orphan check in tcp_probe_timer() calls the same helper. On x86-64
-the oversized shift count is taken modulo 64, so an orphan that should
-be dead can be seen as alive, and tcp_ld_RTO_revert() can end up with a
-smaller RTO than intended.
+I have read the damon directory aswell but I didn't find enought to send a =
+patch yet.
+But I found this, could you add it to your patch?
 
-Cap the shift at 32: any non-zero icsk_rto << 32 exceeds TCP_RTO_MAX, so
-the min_t() result is what the unbounded math would give. The
-ilog2(TCP_RTO_MAX / TCP_RTO_MIN) + 1 bound of tcp_probe0_when() does not
-fit here, as icsk_rto has no TCP_RTO_MIN floor the way tcp_probe0_base()
-has.
+@@ -78,8 +78,8 @@ additional information for better understanding the heatm=
+ap.
+=20
+ Each line of the output from the third line shows which virtual address ra=
+nge
+ (``addr XX size XX``) of the process is how frequently (``access XX %``)
+-accessed for how long time (``age XX``).  For example, the eleventh region=
+ of
+-~9.5 MiB size is being most frequently accessed for last 3.7 seconds.  Fin=
+ally,
++accessed for how long (``age XX``).  For example, the eleventh region of
++~9.5 MiB size is being most frequently accessed for the last 3.7 seconds. =
+ Finally,
+ the fourth command stops DAMON.
 
-Fixes: fcdd1cf4dd63 ("tcp: avoid possible arithmetic overflows")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- include/net/inet_connection_sock.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Rest looks good to me:
 
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index 903499581db7..562e12033a5d 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -255,9 +255,10 @@ static inline unsigned long
- inet_csk_rto_backoff(const struct inet_connection_sock *icsk,
- 		     unsigned long max_when)
- {
--        u64 when = (u64)icsk->icsk_rto << icsk->icsk_backoff;
-+	u8 backoff = min_t(u8, 32U, icsk->icsk_backoff);
-+	u64 when = (u64)icsk->icsk_rto << backoff;
- 
--        return (unsigned long)min_t(u64, when, max_when);
-+	return (unsigned long)min_t(u64, when, max_when);
- }
- 
- struct sock *inet_csk_accept(struct sock *sk, struct proto_accept_arg *arg);
--- 
-2.43.0
+Reviewed-by: Manuel Ebner <manuelebnerli@mailbox.org>
 
+Thanks
+
+> ...
