@@ -1,84 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793054026;
-	b=PsV7UryzwWMqxpv+RMbxfSKiCA3SKIIF06OI32PIWEPZM8OnFb541pqm3z8F0eO1C0iL
-	 hE59V9ADLg8TvjTCsHMxiA0b836CP4SgwpXfe/5ZY85tJHtpMXqr+lmoFByCro7RrSy4n
-	 VMFcp3V2Iu48ioeP9nCl0co00jKWPrEcamcO6aKqeMGkpF58+T/e6W6lFwECC/KfPk+NG
-	 n8XzSq40oFEYOs++o6f7V0dZ/yEiOilk+fdmnhKg8uPLDJMYUpFGgaIVl7/gUEoobYcHc
-	 Bb+rf/iuudOJ3bYMzlmGmqIEkuQreiwhaabajngYbOdOUeiO6gu6SofdyHlv/WzX3Gw==
+	t=1793054786;
+	b=kIkAWxeoAEAuHXtuYOFD2E1Fx0zDjtqYD6IEQcbyoHj2mifxrlFXMcx3V/kOqAvEXJ5x
+	 8z6a48WbX+UEch0pJjfgXQUMoza1uPlzZ1umJV5q31lnA4z4lkSupTzE0TdqEVSV8ORPN
+	 uTrkC9eT3LxvPZX1hm13v0I9Xc4kY8qhaNKqV2Urh/u44xHDiknMr3oAYEp9zbByIiH5K
+	 te+un3UvrlZHeqF1YqbUxx6NltwbHXCOx+LqoMT07sjCXshNCYEj7T+LeW53aayuVEY7F
+	 RzeB0ufNVAjDe9vasL8tCt5LJOW88v9mUYGbC5RcKUf5ffbP1HwdzAF9oAKoWtbiHGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793054026;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793054786;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=js99JJ6aXUROCqTAR9VcBF6aoOKTjeNWm0vzygdhblI=;
-	b=lmTwTCBetDjzAzmAkQ6dedXL3bGMK3n8cn8gkGV1BThqS5KShYNsIPTKH2ILcaw16NAD
-	 WmBpOQM7i3ybZeu2+BvCPTVQbRvJSf0Uv+I8sGZsYCXZe885UyTfZjjh1xzBpgzGXrfKx
-	 PCYCbf06inxJF+psWQhMwjfy8yUKuCREQ5WP9ra4ImMpRm2RvxvUsVEZWrgklkV1/Pr2n
-	 1KHw2WZpSHbCLh1PlJppZc6G9EaZ7n1YMzoHhGBvrHij8k8/0RhmRWSRnIvvhwqBG5j8D
-	 j9Hmj4wAfcKTsMacnlw04b98EiSu9NbMaxjHteUO4/P+K62+TxZclD8YATd0LHRmH4w==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+	b=BEnev2DWccsb8Prpw98le0UJv6qKWPDeABFc9wykKzn+U4zsDHQvCC+zOdIp7ygWCLKh
+	 kBROlJEbK5Z6OGkQ25YoOprmmhwhzC/g5dTkDc0H0bBk1RZqCxBINydP3Pt81CGjzrL2L
+	 BDcF9sByRf2wN8EcqcVyjWkvZdNwoW6dohScCzteV0pX0JFiysxdkK6SyY0erXyumeLU9
+	 B6wTIJyc7Mc3aQOjHdeKjubj9SRFTtg078Uyfyocte+PqUYSq6CCQt570hl/Nfqk5ZnAx
+	 N9CWRs9AdAmM1yScXkBD2gl3EssOdrjVh5Ox2k9EC1N7FiNCXAlPoXG/rCTo1jZ/sRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=cvoPlBcL;
-	arc=none smtp.remote-ip=35.89.44.37
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	arc=none smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE76606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 22:33:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EE76606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=cvoPlBcL
-Received: from eig-obgw-6002b.ext.cloudfilter.net ([10.0.30.203])
-	by cmsmtp with ESMTPS
-	id LSwXxutBrv0ndLTGExEcLJ; Mon, 26 Oct 2026 22:33:46 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id LTGDxb4LJWuAqLTGDxKWLl; Mon, 26 Oct 2026 22:33:45 +0000
-X-Authority-Analysis: v=2.4 cv=IpUecK/g c=1 sm=1 tr=0 ts=6adfd549
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10 a=In8RU02eAAAA:8
- a=VwQbUJbxAAAA:8 a=OOPhO3tBZ-RCjzheWRoA:9 a=CjuIK1q_8ugA:10
- a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=js99JJ6aXUROCqTAR9VcBF6aoOKTjeNWm0vzygdhblI=; b=cvoPlBcLKH904k/W+caT+Rc2to
-	9qE8ple65zunHakZ2rDcotTiKS2pyrq3YRWMFk7ukjCtfbQqQH0mO3c3oe7zQPSsuHfbm6L8jAsjX
-	ToUSSpaSDOuIjA1kMxj9satZHEOeQa6BuR1bZsQL9tyQQ9CYg7OJ7GMpncLEKpnKDAXOBkP9Egoxk
-	WWvVb3x9KZjvBVhXuHxlzogGSJ5GwbNKbNGJcKAiO7bw8TgCFGapIPnko3KBg/wpqLseX5XDOW0vP
-	EBfQy1nUAkQptt9JK8zpnbpDbE6UDXDLyACGGLj/8Zk3ODnTpllxSWMPQoA5OZM1hckCi+/+OJ/28
-	P1V5nO3A==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57910 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xLSq4-00000003rFl-3Gjs;
-	Tue, 27 Oct 2026 03:36:44 +0530
-Date: Mon, 26 Oct 2026 15:06:43 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Kevin Jia <kjia@nexthop.ai>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1B5606A320
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 22:46:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E1B5606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93e63ee7b4cso450899985a.2
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 15:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793054775; x=1793659575; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+        b=FkMZwh2xzPGwRXd/6L6YakG28E0XxcbpH4yKhlkVxLiFKRDjnkg0rF4SuQFtOzIsX3
+         f5EydNInmzCSCkyh6zkwX5LrW6pJx+yykjP8eF8zTTd4GpSQj2j9YnRNaZqf70z8RmUZ
+         V0j9HOG4zRyyPYbjGh8fDJ0CD1b0yexVSSPmIWU3JWr5lLooPlsfB7nv06CCSg5v12eV
+         SoxqEP3dz0sh5FDLSqHEK/sK60fYdYH1JO0HlXuGIhkW+uO84PFYtLiQpk8JsiURcZjY
+         uPsNy3n6D4nHtcEj11lG1ob2im6ANFeMkqY+1XCA/fQxPdUxjOQ6lMGPBUzC0mYbVssK
+         Q32w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793054775; x=1793659575;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+        b=XPGVo9BrDsxMNnzVlDGwfaB1olp7ySDDbxYw5e1I+AiRhLKGqODlaPCIwJq8JqfiTJ
+         fiB9cz621/Qpt5rp8ocdyAHTgFlpAxMGgaRhEHs2E6Tfr5QDymQasAFJ1GW/AVjRJEvu
+         qNwtAIn3B4VzFf44qp3XXgWyUkiUwe8PAk1M+tIz7ORccLHmJkPYKLV0/NlQyxplv9aZ
+         CYzP1RuwhvoLLW3hkhHUMYeHpW2BXaPY0628ktahEnnMp19Fx0uIDnIiDQqOK++D5Zq2
+         k+qQWCb0G9pf6qaYoHRb/ZKCkJcnBSsOW2VhQ46awAsipGm5FkhDY836giSWvzFcr00c
+         Xa4g==
+X-Forwarded-Encrypted: i=1; AKwUvBwOzPTzsYHSXdJGHRRxQ/lU2n5/IcFYd4ESrtXMDV/uF9PZleTbhe47PmRvNsmrIpdMkhhP8mBGrCk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIkYbZZHVjbKUvj+YJqSziZelY/p2fF3GjF9C3y5yOK8gMlHorw
+	jfrpnTWGjzR8ED7SBwM+D7+AU2z20WD2x5iosC5ixYh8jfwivRtsbSwgxE4v64/sSCU=
+X-Gm-Gg: AYBFou3UpxjnJlkLST5nRkhKu5DrIYdCqopREC4c1R3uQcyWiyoaVTxiX3wFEQucDxF
+	cO0zrSTR2DCrzICv/oknHRf2wjn0OtpinB9tMWRkCbdOV2+hHfb9mNKJC1LSlC0H2X7/Mq5qqWQ
+	FkOiNXm0+ThUk8c7mKIL4Eyf/wtDUoOb6btUUvyCRu6KQaihm9Bow4/wI6Vp2LDRWN1PTAZRB/G
+	mbd8kcakwbu9+qCA/nGKA5iIupPhlu/vgsHdAxgktPs9SjO3QOV44RMnAjNJBA7ONjYIdxgsryP
+	+py94WZo2ImS/Eazx5JjjyenR1vVgxTr32vGdLJFbIdkMwmwl6qt/Y/kBcAFtpbmOie8mwsXZ/b
+	JR6/fBGTErjWAZa05vNKSQYZz3rjNrv7J+NWo1caIBjj3cv3kcl2bgbgtPTaTXPdwhNEEVDajhL
+	kiOTgQZXNAwjNJTNFC5K4NytmwfY/Jw1rmsURS6mnhcKok7YD58nTCAn6BHBdGbv9NlZyL4Q9cj
+	FhpESNEkcAvc43WhCmu1+IvJnZEVPv9Ry3SItsGLV5a5V9DqucyAu+q+gzTyDMrC2Vyqf8Mqk+A
+	B4SjJnyRgfqKhB8q2vZnozmM9hpVb0uI/d3+8g==
+X-Received: by 2002:a05:620a:4728:b0:93f:2eaf:64cc with SMTP id af79cd13be357-940ef942794mr1259449285a.44.1793054775098;
+        Mon, 26 Oct 2026 15:46:15 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f05b20e0sm810207185a.3.2026.10.26.15.46.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 15:46:12 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xLTSF-000000087nJ-1Z9f;
+	Mon, 26 Oct 2026 19:46:11 -0300
+Date: Mon, 26 Oct 2026 19:46:11 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add TDK
-Message-ID: <5448fb6a-d83e-4178-86b8-c968d4a49bb1@roeck-us.net>
-References: <20261020-fs1603-v2-0-0986107a5cd2@nexthop.ai>
- <20261020-fs1603-v2-1-0986107a5cd2@nexthop.ai>
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261026224611.GB1685504@ziepe.ca>
+References: <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
+ <20261026184312.GA1685504@ziepe.ca>
+ <2026102604-tint-catcall-433e@gregkh>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,38 +131,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261020-fs1603-v2-1-0986107a5cd2@nexthop.ai>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xLSq4-00000003rFl-3Gjs
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: sunilmehra.co.in:/public_html
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:57910
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 69
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfJnXlSEVdeF+38hHpitCZPeNf2Te/hBw+AVJBWr6gIfvGFrOpyj3Rq1eoypnNUqz8Jup/3hhRLNp0MOF/bX7gzLA+wCSo0tDmbvWj4prxJmhBNKNrrQ7
- suOf8tLeCcd7DUoQWklOCCQl4iRNS7PUuEezHOCqARiTxne7udUFSYFzcGB2LCB1C6rtHqUub3AB/hc1Ewne2lYT66ln8ugb1EGfDcEYfjLfwBohO9sV1Mhl
+In-Reply-To: <2026102604-tint-catcall-433e@gregkh>
 
-Hi,
-
-On Tue, Oct 20, 2026 at 04:48:14PM +0000, Kevin Jia wrote:
-> Add a vendor prefix for TDK Corporation.
+On Mon, Oct 26, 2026 at 09:05:06PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Oct 26, 2026 at 03:43:12PM -0300, Jason Gunthorpe wrote:
+> > On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
+> > 
+> > > This is needed for two reasons: to save hardware and software resources
+> > > when creating a large number of VFs, and to allow the PCI config space to
+> > > be configured *before* the driver starts using it.
+> > > 
+> > > There is no in-kernel alternative.
+> > 
+> > Having userspace involved in driver binding has also always been the
+> > plan for confidential computing needs. We cannot have a device driver
+> > bound across some of the HW transitions like TDISP shared/private, so
+> > there has always been an expectation of bind/unbind.
 > 
-> Link: https://www.tdk.com/
-> Signed-off-by: Kevin Jia <kjia@nexthop.ai>
+> What, why?  What forces that decision?  What's wrong with the proper
+> driver for the hardware being bound automatically to the device?
 
-This patch won't be needed - it is already added with
-https://patchwork.kernel.org/project/linux-hwmon/patch/20261020-hwmon-pmbus-fs1412-v4-1-27ece4e43d04@nexthop.ai/
+It would be a proper driver, with a real match. I would expect this to
+be done with sysfs driver_probe, which is like bind, except it doesn't
+override the matches, AFAIK.
 
-Thanks,
-Guenter
+There are two sort of related isues. Userspace is in charge of
+sequencing the new PCI features like link encryption and TDISP. They
+have complex authentication policies tied to them so the kernel can't
+reasonably do it. These features change how the CPU does address
+translation, effectively it adds/removes the iommu - and that can't be
+changed while the DMA API is active or it breaks every translation in
+effect.
+
+So.. We need a gap a system boot when the driver is not bound so the
+PCI stuff can be done prior to driver_probe, and a gap if there is a
+PCIe error of some kind to do error recovery and go back to the start
+to reauthenticate and reload.
+
+> > For this case the existing sysf drivers_probe is good enough for bind,
+> > but we must have taint-free unbind for PCI devices too.
+>
+> Why?
+
+See above. That should be the easiest thing to ask for! PCI is hot
+plug, disabling unbind makes zero sense from any way you look at it.
+
+> > I think this patch should be reverted ASAP, it is a pretty major
+> > regression for a lot of users.
+> 
+> But this use case hasn't even happened yet, so what would regress?
+
+I'm reflecting the other commentators, I care about VFIO too. I think
+tainting every hypervisor is unacceptable.
+
+But for CC I find myself one of the maintainers for that now and many
+people have been diligently working on this bind/unbind direction for
+a long time now. If it goes away I have no idea what could replace it.
+
+Jason
