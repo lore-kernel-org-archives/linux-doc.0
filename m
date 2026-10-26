@@ -1,87 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793007390;
-	b=mwkm7xWUzVSvNyoFaLGuBTtGSLCG8ITm35Pe/mkof3kpuuHfeuntxYmn6ChhjayOjlFN
-	 LjpkCyMogXd6Vrq3XFT01iiOMwAOJ4/T/W1JmNv8NKKTSlrAwVls6qvM03ntRJXZbttzb
-	 SFjFweT7Dq+QSeAnt7qfgkq81J1XxELK+pZXhs3N4P5kARZfXx6bYngxGx0e23C8qFDLU
-	 v2zSUu6VtyAOJ8hAgCq/wCZ+zrMV34p0rM6E24SNCYzfFAAtG2YPjL82vK+rf2H00zftH
-	 m8O3QZYVPT+qizNxTBzdOTj7ZgtRH33jdXlxtd4GTfo4NY+VNQNRPiPd37KfdFLwxyw==
+	t=1793007448;
+	b=tlElGCTXE5tT6b7G6+vTEIvWjBSoOlr7zBrKXId4JuQRk2nIxlS7Wrp/ijqBlk22Gq3R
+	 Bld9jed8w6MPWSGoWQJo+hK4VFvklF4qcWXlbaLwSXhH+jwXG5mayx6pz4BPRPEvSTRlk
+	 Ka3naWPacQMk/Kpl6jzZYa4/rOfixDK++ga8q/s+4SQGt+UoWWs9Q/23C6ysGhYHQcUU5
+	 MYM6skRgu+9sQzaKT+jfWSQI5mopK4cj6mXzTKzWgHIn1BDGXr3ucFSMEjVXfnXHmC/Zc
+	 c/xv0npluYvwwXkIhnCigi5HWhOpzacaluPOSSRMmb5ioWVXJ3gzPXzhcxFrsmh/kwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793007390;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793007448;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
-	b=FmiINwpU7A4l8HNJmZjCR84JQYHIy1d8VKLl4mT/6/C8qMW5HUlWUB3z4Z7fj3qPKkBT
-	 rdKXuRBYDJjbwPNqSROlDOQOfLeqUU9R9BxU0BM9/iHvkWySSgFUD+FPENDddhzPMQ05U
-	 d+uqvgErX72bv139UvMbEgsV9FUFKS8U2wc5GLBeEXOcaD8khUBHKPx9sFRl9HaFq4EuH
-	 5gSmXpvxIpO/IalRjJAQEM34vH9/vjgi+I38DqTeLKgrexknomxECrKzmLye8oN7bhhUD
-	 H2MwqRlkpOViRuZRYaWCym2JEFA3ZeR4tNs0qdgj6v6OpFZzJev5nixdQ3uVJr/uFbw==
+	bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
+	b=R5gCNlkW1xmbn0epBrUBy4iGPIcVHDICZaFFUb0dzedtm7T45p347V+QNcKRCeod25JP
+	 ilNJoIDkpKScJVGJsdrB8sytkK8GMJvpgNLI4n0NF8DJvPqZ77r/8cT+3WqduPuE+ULh5
+	 PFqnrve63OxVlS5PfccHtHoJoP5pzMR5zZYyoYIEpquyERXuaC9tn5lzxV9KdzL6MH/qZ
+	 ai+AxIyfhTsKf2EWiNQTAdVvBcvN07wZArHz7B4smk2wOGwkR8+xNqFXCdoZKITlz0FCK
+	 ivXEIOx1tSqEGSs6+AQdEk9ebyRVfRf+I9yDrtyJhof9tjOLorsuZIoYYv9eH091g7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UGuF96BO;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tLf+eDyC;
 	arc=none smtp.remote-ip=209.85.128.51
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4805606A31D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:36:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4805606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56AE606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:37:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D56AE606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UGuF96BO
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so17497985e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:36:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tLf+eDyC
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso25036145e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793007388; x=1793612188; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1793007446; x=1793612246; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
-        b=UGuF96BO/EuJ908f4AhL0jvn3+rdIHvpEwN2Q1ood6dqwA2CEIRBNTpveBrSaMLP1+
-         +c7++5xsTyMXJtkZs8+G7AuHPvnOKcvQTlT4tx7OboTeQPBvm0Kvy7tEiF1h9kKAQh/S
-         JBDu9bmVMC72RKP/Q8BMszrVhfownxcSR7rjJRU72w8+piehuG7/1WQrZD3eIEkNXUf5
-         p71pgx+MoqRL7QcKRwYrMAha/9qwZasvo6ag6Tmw821LKUtLjQNrVUG4jfVsxrH3sWtY
-         4swGptsu7JweC4UX09rEX335MlDfJcg7r/iJjK70WpPN3GF+Fcxk+V0GIyI13+GSDIwc
-         3G4w==
+        bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
+        b=tLf+eDyCrqkusRn4LesJuB4DaDDh5/20b7Ue98qaLBaWiRTiOG0IbPjyJjMjTYiwLg
+         dG08uCjck78bfH41rpV2uiyRlUzy2d5tv+1dehSR/g/AXAbVjTMOGtKej5MUjryp6PHO
+         u8598BsZxuD0XuUcH+Gzv3Mc65o3jEZlmaDNhJbnM2vzwtb7cu3mPasSSql4UpYGJB9P
+         hBR69WATa8I9YFSDMTLYtWkj06NsFAMep3lUE30OCPqLyZUc7r/JeCRXZZK7nRa5ypTK
+         CcrNvxxovTAwTyHJqHq0DjWfwPKi+GhZBbnfsagbyd5p69+wW5WCVI5MHae6IxwsgaHj
+         En+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793007388; x=1793612188;
+        d=1e100.net; s=20260707; t=1793007446; x=1793612246;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xZEbYJuiqAEmfWzwwBWYGmvrF+bVdL42cX97Jy2+Bwg=;
-        b=Jy3CwzOr5uQdMx2bxISGVbewTc3lpWPaW7QVlLlzL0bwJOxHy12hJkKsqZADkseF46
-         5K/0i7IEoMHzJDt3KJaM2k8/XONqjoKa/v2uGn4EvB3tHV5p2/g7lbnNOx7NcaBNmNzL
-         Mt8HKJnTr4/F0psXsw1JcMaKGWPKLT7yd/65CYX0X/fKB25ZY7HJ4ayBTP2RBlWNXbeo
-         0EbIjwSmsF8RXLfs1vAeUruWHDpMg47kN1tbOU5Q7iauWTLWJTv0R0CPRJTS4FfDT0cJ
-         oYECN2jfu6Jod8yGDL6fYnIQiOLLWwGpmtPImxplW2gx2/BgQW7hsDUyW7Ru708MlClb
-         7n3Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwclAD7IYDSDas7RHYbQRMkaSqxBHd4MYlsdo5gt+z7VO2ahG9gNS27OI/+n7y9R69qFWgHkYBgq7E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI5129WdMmozFKF53PTuZrUW6PjLaiFHG3+C6MB3O9w+C+0LgvR
-	ZHh1BEw9dkwrx6+qzfMCUBciav2w8M4k/VNMqetRd5tutdCB+lxcJVhZ9g9YSfVomHM=
-X-Gm-Gg: AYBFou17nfR4JbcESIjV9Orh9PyB2vnLR7TCopqpeZIQKoM6rP5/g9y6aFYMS6sKKZk
-	LxJJYoWNj6lR4u+g9cbmdmIP2yFXCMlEH0FnAMog13GlcYWmWH9DzL6YsR1vHiIld2O5NTvpbII
-	2DgRSa5QKW+q9odhL5AT9E53CLZVicVYMrilnSyNPKI/t2mCLGcCQ3eb22DFdr0ocT1kQlZ6qlP
-	uZOD+r104+2HzOlsr2f3//cP9Ql7ijIFO5DYAJd8o66mGV61zCXmG81aKA9vXSPksgPoYg53QD6
-	u7hdF4HTikS/9OXbgXR0/YYeIc8/LMAP6zkwRS2/OKoxYYCnzRArLZI2EV9ib09vMobmK2mY3pL
-	geJJ9P/Sz6sMNgV9tM/0iqtQCUeV7S1oYFji9oAiyYPFdlhiRTGYqOMKprHAo9ODenUfP0o+8ra
-	DlkDFTT4hmGNknIvyZsiaQ5kk6bl75mDoPPaB7iL6pvHsOT8x+Ta44WkNJNTGZR2g+BORFh4wk5
-	bNV4UqHHq8pNkTC15n7yPtaTqgPPcrMR5dg6NJKtU4f8QzMfE1+4irksG3s
-X-Received: by 2002:a05:600c:6749:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4a35ad01261mr104560415e9.2.1793007388160;
-        Mon, 26 Oct 2026 02:36:28 -0700 (PDT)
+        bh=V0PxtI+uEAhVBAWQKpyvj24AYTBUji0RB6U5PTo7niU=;
+        b=yPCNQcwpGJ6sF7ok2fkB1oGAx4+rTe+a+aTKx6p7Rmo4a3ZZJBFomR/a/TUhhxwIln
+         e2eeSqg375rwE6VZMEZm4p90yOWeuxYSMhFSudE/6Z6twnLJsCyvFU+/0mZ9GHhTLJW+
+         onKGrBIi1Ty9kbJ3o1QhjUIgVqM/48nRwnPLKFyU458hMsDjs9QEw9RW6SonA4564+dV
+         1nRZbAhdPXHaXLrBS6O631Jebco08fR1y+xKbQC4kV3hDFcPMXzFlctA397xVoaTIbBI
+         K7YZfMDVmAmt6tkXcFH/CGnMyvFtvq3lxJozbNINQo59UNysof3WycVpoKaFOHUyTm6a
+         KZPw==
+X-Forwarded-Encrypted: i=1; AKwUvBzGWVnupCTRUpfKc+z4BRMXPkWxB3uNS2iiEdtvCrdP2k7hItMbIvZ4ipp1ztvdbuvmaFzA8SqaK34=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLymuhYUcZgVp9e9sG1JkjHEmiMTb2NyhEN4FKJVqsYcG9cAViT
+	6V1y512/8KDluPATmMeWzAMAZogwpbk1qfrLaJsaTKvQidOFOTYXMnHkNupXNwlZRw4=
+X-Gm-Gg: AYBFou3U9hRDGwJNf1S8W4IynpK4YYSIHaCQHxwgWfFMi9t/Lb0r59mlkbGoM4xHufo
+	3hDO/Ea7r8DpXT1fsaTrxfWPAB/wuwHAdsxqZGJcXx+uxMLQfF/ezfjmsaXSSnjHKD0ZFfPUYXz
+	513n9e8H5AKqVkaHEH4CBDlpkNeQOnKZ4jDv7fcNqzEXxSa4p1cGZ5VqkA77/VscHBL6oY4+ZMS
+	lCBhvrX3DDccM0zI7Xw3vb0dkjGT/utrYrNP4H2MSdQQgEEZ8n5eFglRSc5lQZ3V2/sISUA+n72
+	O6mji7IvJpdNyRO6yww47Pfxgw4ags1Ji+eCRZPwylWWj/GZiq/XTuQrqsXp4fR0kNe6tX2uVkB
+	pavGHEG5uQGTR4nNxRAenTrJpK/nEfSxiEzKX3R8a3vXn1NnBrgTFojMEnQ9a/3pPRn4rYMbS4z
+	klPyxnep7Sb75EYAG8ZCqAudUQK31nhOpyWc+qixZ79R3YTT71l6I7DCQcDy7o0gnQaG+F0tKqF
+	HpaOBoZZ1h3OyckQufEuh4i2R+XXsgLSw8IVEGoFouEp11Z9t/n4rUQYIwq
+X-Received: by 2002:a05:600c:4704:b0:4a2:1612:637a with SMTP id 5b1f17b1804b1-4a35acbd575mr121663115e9.16.1793007446278;
+        Mon, 26 Oct 2026 02:37:26 -0700 (PDT)
 Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a0bdd59sm118131875e9.4.2026.10.26.02.36.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm15638434f8f.21.2026.10.26.02.37.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 02:36:27 -0700 (PDT)
-Message-ID: <93c294c5-157f-42bb-9940-79082ac37c74@linaro.org>
-Date: Mon, 26 Oct 2026 09:36:26 +0000
+        Mon, 26 Oct 2026 02:37:25 -0700 (PDT)
+Message-ID: <84e1c5ed-cb93-45b6-8cf1-6c6778efe412@linaro.org>
+Date: Mon, 26 Oct 2026 09:37:24 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,57 +92,152 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] coresight: Add pmu_pulse/extout_pulse
-To: Amir Ayupov <aaupov@fb.com>, Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Leo Yan <leo.yan@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+Subject: Re: [PATCH v4 1/7] coresight: etm4x: Fix event count decoding
+To: Amir Ayupov <aaupov@fb.com>, Leo Yan <leo.yan@arm.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Suzuki K Poulose <suzuki.poulose@arm.com>,
  Mike Leach <mike.leach@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261025063846.3112301-1-aaupov@fb.com>
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>
+References: <cover.1792907332.git.aaupov@fb.com>
+ <cover.1792989860.git.aaupov@fb.com>
+ <4d45171946cf41751215e8c1cd9a8b14d38d3159.1792989860.git.aaupov@fb.com>
 Content-Language: en-US
 From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20261025063846.3112301-1-aaupov@fb.com>
+In-Reply-To: <4d45171946cf41751215e8c1cd9a8b14d38d3159.1792989860.git.aaupov@fb.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 25/10/2026 06:38, Amir Ayupov wrote:
-> On Mon, 12 Oct 2026 22:09:35 -0300 Daniel Pereira <danielmaraboo@gmail.com> wrote:
+On 26/10/2026 05:48, Amir Ayupov wrote:
+> From: Leo Yan <leo.yan@arm.com>
 > 
->> On Mon, Oct 12, 2026 at 04:05:23PM -0700, Amir Ayupov wrote:
->> [...]
->>> +  perf record -T \
->>> +    -e cs_etm/pmu_pulse,aux-action=start-paused,timestamp/u \
->>> +    -e armv8_pmuv3_0/cpu_cycles,aux-action=resume,period=1050031/u \
->>> +    -e armv8_pmuv3_0/trcextout1,aux-action=pause,period=1000,call-graph=fp/u \
->>> +    -- ./workload
->>
->> The CPU PMU name depends on the system: armv8_pmuv3_0 is what ACPI
->> systems get, while on devicetree systems it comes from the compatible
->> string, e.g. armv8_pmuv3 or armv8_cortex_a76. Maybe add a sentence
->> after the example, along the lines of:
->>
->>    The CPU PMU name depends on the system; the available PMUs are
->>    listed under /sys/bus/event_source/devices/.
-> I'd rather drop PMU specifiers as this is not something this patch
-> series focuses on, and examples above avoid them too.
-
-I agree. Making the docs overly verbose makes them less useful. And I 
-can't see a use case where a user would get stuck converting this 
-example to their own system.
-
->>
->> I applied the documentation hunks and built htmldocs, no new warnings.
->> With or without the above, for the documentation part:
->>
->> Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
->>
->> Thanks,
->> Daniel
+> TRCIDR0.NUMEVENT normally encodes the number of events minus one.
+>  From ETMv4.3 onwards, including ETE, a zero TRCIDR4.NUMRSPAIR instead
+> means that no events are implemented and NUMEVENT is zero. The sysfs
+> event controls currently interpret this combination as one event and
+> allow writes to unsupported event fields.
 > 
-> Sent using hkml (https://github.com/sjp38/hackermail)
+> Decode NUMEVENT after NUMRSPAIR and store the actual number of events
+> in nr_event. Use the decoded resource count so that older ETM versions,
+> where a zero NUMRSPAIR represents one resource pair, still report at
+> least one event. Update both sysfs event controls to use the actual
+> count and clear their event fields when no events are implemented.
+> 
+> Also correct the instruction event enable mask for the single-event
+> case to use INSTEN[0]. The existing mask uses INSTEN[1], preventing
+> event 0 from being enabled.
+> 
+> This change depends on the recent driver refactoring. With no reported
+> failures, it is not intended for stable backporting.
+> 
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>   .../coresight/coresight-etm4x-core.c          | 13 +++++++--
+>   .../coresight/coresight-etm4x-sysfs.c         | 29 ++++++++++---------
+>   2 files changed, 27 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index e21be6468e954..af017bd8a5477 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -1451,8 +1451,6 @@ static void etm4_init_arch_data(void *info)
+>   	caps->trccci = !!(etmidr0 & TRCIDR0_TRCCCI);
+>   	/* RETSTACK, bit[9] Return stack bit */
+>   	caps->retstack = !!(etmidr0 & TRCIDR0_RETSTACK);
+> -	/* NUMEVENT, bits[11:10] Number of events field */
+> -	caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0);
+>   	/* QSUPP, bits[16:15] Q element support field */
+>   	caps->q_support = FIELD_GET(TRCIDR0_QSUPP_MASK, etmidr0);
+>   	if (caps->q_support)
+> @@ -1519,6 +1517,17 @@ static void etm4_init_arch_data(void *info)
+>   	caps->nr_resource = FIELD_GET(TRCIDR4_NUMRSPAIR_MASK, etmidr4);
+>   	if ((drvdata->arch < ETM_ARCH_V4_3) || (caps->nr_resource > 0))
+>   		caps->nr_resource += 1;
+> +
+> +	/*
+> +	 * NUMEVENT encodes the number of events minus one. From ETMv4.3,
+> +	 * including ETE, NUMRSPAIR == 0 means no events are implemented.
+> +	 * nr_resource already accounts for the pre-ETMv4.3 encoding.
+> +	 */
+> +	if (caps->nr_resource)
+> +		caps->nr_event = FIELD_GET(TRCIDR0_NUMEVENT_MASK, etmidr0) + 1;
+> +	else
+> +		caps->nr_event = 0;
+> +
+>   	/*
+>   	 * NUMSSCC, bits[23:20] the number of single-shot
+>   	 * comparator control for tracing. Read any status regs as these
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> index db9e603f97ba8..fb38f0102290a 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> @@ -513,19 +513,22 @@ static ssize_t event_store(struct device *dev,
+>   
+>   	raw_spin_lock(&drvdata->spinlock);
+>   	switch (caps->nr_event) {
+> -	case 0x0:
+> +	case 0:
+> +		sysfs_config->eventctrl0 = 0;
+> +		break;
+> +	case 1:
+>   		/* EVENT0, bits[7:0] */
+>   		sysfs_config->eventctrl0 = val & 0xFF;
+>   		break;
+> -	case 0x1:
+> -		 /* EVENT1, bits[15:8] */
+> +	case 2:
+> +		/* EVENT1, bits[15:8] */
+>   		sysfs_config->eventctrl0 = val & 0xFFFF;
+>   		break;
+> -	case 0x2:
+> +	case 3:
+>   		/* EVENT2, bits[23:16] */
+>   		sysfs_config->eventctrl0 = val & 0xFFFFFF;
+>   		break;
+> -	case 0x3:
+> +	case 4:
+>   		/* EVENT3, bits[31:24] */
+>   		sysfs_config->eventctrl0 = val;
+>   		break;
+> @@ -565,22 +568,22 @@ static ssize_t event_instren_store(struct device *dev,
+>   	/* start by clearing all instruction event enable bits */
+>   	sysfs_config->eventctrl1 &= ~TRCEVENTCTL1R_INSTEN_MASK;
+>   	switch (caps->nr_event) {
+> -	case 0x0:
+> -		/* generate Event element for event 1 */
+> -		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_1;
+> +	case 1:
+> +		/* generate Event element for event 0 */
+> +		sysfs_config->eventctrl1 |= val & TRCEVENTCTL1R_INSTEN_0;
+>   		break;
+> -	case 0x1:
+> -		/* generate Event element for event 1 and 2 */
+> +	case 2:
+> +		/* generate Event element for events 0 and 1 */
+>   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
+>   						   TRCEVENTCTL1R_INSTEN_1);
+>   		break;
+> -	case 0x2:
+> -		/* generate Event element for event 1, 2 and 3 */
+> +	case 3:
+> +		/* generate Event element for events 0, 1 and 2 */
+>   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
+>   					     TRCEVENTCTL1R_INSTEN_1 |
+>   					     TRCEVENTCTL1R_INSTEN_2);
+>   		break;
+> -	case 0x3:
+> +	case 4:
+>   		/* generate Event element for all 4 events */
+>   		sysfs_config->eventctrl1 |= val & (TRCEVENTCTL1R_INSTEN_0 |
+>   					     TRCEVENTCTL1R_INSTEN_1 |
+
+Reviewed-by: James Clark <james.clark@linaro.org>
 
