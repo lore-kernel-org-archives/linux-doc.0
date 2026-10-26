@@ -1,107 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792991015;
-	b=OsLeI/qkPTFQNHEzrxuMTnnuIHGxHziB/TAzto9zzfVRk8zuGB7C+Q8WjkYuKA3B6bUU
-	 uW3MdPkSuQ8dU/A/diTrGOUtbw3vMP5zdRjoEz32zDwNK6EMhatEBlwwsFnNDY/bXwUaZ
-	 XTcNzdznqQRpuL6dspg0y4l1Bb5VCpt9qP2XIWRWHi2I4GubqGqTfO5bnrgONI3fa0LcA
-	 zdUnT/kQWOYlt2BCACDjkatjDIrKv3Fs0p0+5lbxCjId9VZwrYPLeq2UjPD/517psSoTA
-	 CijXhD3xzQlCMfIqfLLy2yKK8gjCgqYaXOO4d3UmExvpxdNaW0getrtFhK5nOdM5fHA==
+	t=1792993733;
+	b=PysjYonu2iJIVzyt9qnxHKwV8etak6hy4BYvOFDcLbSWze3Mi3YOA+bKxrw3apDAa6NU
+	 mO9JdYHjf719R+nFAqqeU+QJIXUbNwORQxDcEVtfnJjn6QoHwDqXZSxxs7oam4H+hRN7b
+	 S+/4UQ5EavG+2t2LdmmLdlaT9gINwlQqlfBD3ieNg62rzBhTeY1PwODAgeCGg0UxnT11v
+	 exjMpFXnTNLQDiSotwGfLmsDt1fLN7+jNRT1WtUT4WbeMiHn8Gzo54c/Hoi3myyHuwOs/
+	 AuWWtR+ONSEbSBnolmuls2nDMEjv648V2LsLEHegyAdS0VtBXfgO32+aytKoKQpLJ+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792991015;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Received:Received:Received:Received:From:To:CC:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-ADIRuleOP-NewSCL:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=vT0+zXTmG/EmzhQW9D3zRNY20EvRt94/oKoyM4sLpWI=;
-	b=E+f7bcIi8pS7jjHszBkbCls7mkLsuOZUHbHyzCPOwScHmjpA0c/7EQDNR1lZrFyyXg0B
-	 3C0MWzVmr9O4ZQNlUvUUYj+tbdcCVY2Q5EmkkKKabkI9xhJ2AXR1ggqlZnhDmvbchhndG
-	 gCjD2Ph2vzA3maq7Z27baN1DqdMaGfISkVjqgASEMQCqQ3GzcNtby3Ci1WtQae2VQ/hyK
-	 Gywwfl9KTwwW8f909xr5KPYaQdldrO2vkIDa0KXctUrRCMKXLpmwyXrdyEIAQIBd+Cbyh
-	 6wyo0DlitrLLHbt7tTiQmGaPQa0RV/MkTc034hojBhGO+xphKju7BzPIL1tS3Ntf7Bw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792993733;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version;
+	bh=h5CPtsW845wIg8XT+7IjY3h0UyBjrJLt9Tps+aPI7oM=;
+	b=kSIbji+nvD3qHIJ/3jmSdvJ7a1zPOI7B6cWa8fhnP29o23H9ZfgDSyMvxo2pw4XitSJE
+	 HX2xrTTQupMZxh3O0AQM8Pp0vX457anBCceuSCkx7AtMey20XRGPgNsd4CxBzF0MbKDGK
+	 2Jhwuk3JsD0BPoTQk9Ye/xH+PSsahtvAB7Wk5DckFS5tdUQMTzC738C/VBPEwXkEZmenX
+	 dD1hyOZwHxJnFsjc0KLReWWwilDFwCXxgVWMA8jPe9er3BaPUn+oDe1UeVKt17puEhX+O
+	 kihVogjyo6La2jmGCKuSLH5IExsxBrtopjNwbcqO8IyQx2aP4wsgmkKIKDZ0XLrW5pA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=analog.com;
-	spf=pass smtp.mailfrom=analog.com;
-	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=cl0C8Iu5;
-	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=wmILc5c1;
-	arc=none smtp.remote-ip=148.163.135.77
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	dmarc=pass header.from=fb.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=aFBJWMos;
+	arc=none smtp.remote-ip=67.231.145.42
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC409606A31B;
-	Mon, 26 Oct 2026 05:03:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC409606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F15C606A32C;
+	Mon, 26 Oct 2026 05:48:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F15C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=cl0C8Iu5;
-	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=wmILc5c1
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69Q4t2mS4132700;
-	Mon, 26 Oct 2026 01:03:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	DKIM; bh=vT0+zXTmG/EmzhQW9D3zRNY20EvRt94/oKoyM4sLpWI=; b=cl0C8Iu
-	5K1vRp3gC9CMhkDOcinT1J5117EZhGCcVKYxrp6Ps9idUQh71AjCCvf2QfPNglIl
-	ttWFmEqywLA8V5hY4fy/0iy6L+745QGEPivY69vrmpRgNzQmA5VEDVArA7zX4E5j
-	YyFnddWyKkSDlFmOZInY5C/625ipkdwfEEdbvwTfoUTQoNHr10TXeBvIf9vfhq4z
-	15KfFAvtFDsDOGCnbLS+syBz95HKzn5QQOfXug8Hd+GKvS4TrAvLKM31lNCl5KAn
-	cdV5HBHJLNJaoeGkLcF0dOml5lyv4UdCN5NuXEYfPV7MqDP8P6RWPnshGbArrCti
-	9O9VdKoAqgD0HXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=aFBJWMos
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69Q39JjW1063621;
+	Sun, 25 Oct 2026 22:48:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=vT0+z
-	XTmG/EmzhQW9D3zRNY20EvRt94/oKoyM4sLpWI=; b=wmILc5c1IosF0M04ZJHZ8
-	r7FDZHEn8HwvsLMNZtAwKzW4xHRwhk2at+RUq1+AGF3jctfZouqYDIsq+883M7tN
-	ifgrV2vOZg3vhNc3jb3KRgvlXSCR0VlCXKHaN1GW61i8gqMBdYdEtz+WQw3JZi1N
-	mk6WGoWbnE8MC8iXxGGMIKnECxpsA0TC6kyl2q26xitsq/3yvMQpTW19ersqcrNf
-	bD6DK96a+LNRLL6aUI1s9zE0B8J0SgAb4XQCg/TbXaEuRPc4Lvsz4mbVjAI8rvyL
-	kcDzX6DXVWk4V4QTgO8M7dgJoo3l/K7UeJU+uJD3sP5bng61v8XwHC46bo8LBPn2
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4hj08m81mk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Oct 2026 01:03:09 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 69Q538mc000987
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 26 Oct 2026 01:03:08 -0400
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Mon, 26 Oct 2026 01:03:08 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Mon, 26 Oct 2026 01:03:07 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Mon, 26 Oct 2026 01:03:07 -0400
-Received: from CJONES7-T01.ad.analog.com (CJONES7-T01.ad.analog.com [10.117.222.42])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 69Q52g3o018821;
-	Mon, 26 Oct 2026 01:02:59 -0400
-From: Carlos Jones Jr <carlosjr.jones@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-        Alexis Czezar Torreno
-	<alexisczezar.torreno@analog.com>,
-        Rob Herring <robh@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, <linux-hwmon@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=h5CPtsW845wIg8XT+7IjY3h0UyBjrJLt9Tps+
+	aPI7oM=; b=aFBJWMosNrA6X1Fv10uYkYPt8nn62qFrf5mCus4TmQenFDM/8MlTD
+	2U7vMsuEeJMYvpFpqaw3dT/AXAQ+2WozIGuhC9jrFECL1ndQH21V7NX7S8J3+Luw
+	QpjvYyaLaBA1Dc9+kF73HgWduW1/+4r57hhS/jOIbFGNynxJGj75PPdpLLhsen3J
+	aFd5Dh7BqrDL6tjVAgRh1BsVahYEVVU++5+V6NZaejtH5KH5UGIybxhjim4Jk5Db
+	EnNyJ+rcY10LONNINs4zts/MOuquh4uvPZfwmR3Gm44TCuKT1ZsLLahHwCcamvZN
+	2+Gm9xX4LcCsedLA23xROh38SLXjuvoLA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hgtc0y640-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 25 Oct 2026 22:48:33 -0700 (PDT)
+Received: from localhost (2620:10d:c0a8:1b::30) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Mon, 26 Oct
+ 2026 05:48:32 +0000
+From: Amir Ayupov <aaupov@fb.com>
+To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
+        Suzuki K
+ Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@arm.com>,
+        Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Randy Dunlap
+	<rdunlap@infradead.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Daniel
+ Pereira <danielmaraboo@gmail.com>,
+        <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/2] dt-bindings: hwmon: max20830: Add MAX20810, MAX20815, LTM4739, LTM4740
-Date: Mon, 26 Oct 2026 13:02:40 +0800
-Message-ID: <20261026050241.100428-2-carlosjr.jones@analog.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026050241.100428-1-carlosjr.jones@analog.com>
-References: <20261026050241.100428-1-carlosjr.jones@analog.com>
+Subject: [PATCH v4 2/7] coresight: syscfg: Fail to enable a configuration not loaded on the device
+Date: Sun, 25 Oct 2026 22:48:22 -0700
+Message-ID: <cc6b083f1ece4625e5bed0aa13b1eac7e4d1e274.1792989860.git.aaupov@fb.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1792989860.git.aaupov@fb.com>
+References: <cover.1792907332.git.aaupov@fb.com> <cover.1792989860.git.aaupov@fb.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,60 +94,115 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: grFJvO88psFi7ukgE0xDpLVNqbz-b3kV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDAxOSBTYWx0ZWRfX1VPyziGSJ+m3
- f3Mc8S7uXUlIqjNDuPK8yEfaYxl6uKCPVnTueC4Xv9UMDhQgYNrIqC/k3YG01gRU7ofEqqit0lp
- QTQcKyrPRZhExV4OuTDYbBF1rCKZco9XUgHPsFj97N6912hdfkLJ52UMe5SFLOnFg89Mj+O2yoX
- RNJTwONblHGOk7fodQH1h/ar865bFJe/eiZFkWe7o5UYmoX+RNkoYO4Cqvc/D89gWPkSgF/73XY
- CTpHt+3gl8N3gpJUUyqIJ2qn8k+G5fjrSb4D1eEyEw8inODyj1SUC409RW43v4ZAcleObdPUgeg
- W0Eef9XalPNUBwcz+yXyDHLX4a430E/3C03BIJkQ/h8JbIaauxrHZKJfzMuxEOGbLFQglFtEnr7
- 3bcDwuv/YK1S/hMPrTTEn7U8T3vPha11xhz9WbrxKHWJD6qKJJ7Mu2+OeDLP03vmtvZ2KOhJhjb
- 6YeTrxSboZ0OfLlW6cQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDAxOSBTYWx0ZWRfX0ZUYb7sh7eK2
- 62q2zPhDx1eU8FFsIbY8i4MGYXhqlw+U/E8phpdRQ4H1HNZHOBGtc3IBMHWGtd29sFmWl68cEPU
- 3SVlQ81kFo/kLayZHvQvrA4/7m+M91jrcPAp0+n38OGH4hYVzJJK
-X-Authority-Analysis: v=2.4 cv=LJ3z05W9 c=1 sm=1 tr=0 ts=6adedf0d cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=Z0pTeXoby7EwIRygza74:22 a=gAnH3GRIAAAA:8 a=LkTFOP2xGKwYGyyeCikA:9
-X-Proofpoint-ORIG-GUID: grFJvO88psFi7ukgE0xDpLVNqbz-b3kV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfX5L69hV7Xtd87
+ 8H6cf5+ZWHCEGdUHSdsdQ4y099yJdXLVx+isw5g0wJk3OCX43ukSOtgvpX9BupT21CEN05CyJyu
+ w2YVGEsLCclF9KSXNBMH+fGPAjxRvA/GhxKH7UVywuQ6GsII2nWxMcELxnZDhvahEl8U4t6tANB
+ K8AaHX02V/HSXp8+EFrtPFZhWApTUqxows4JKaYNvXZzG2tZsoqVhmI7b74UY0fZJoWcJpZt1Zr
+ YaKD2GL7A+MQLGaU6JYVHufDZSNKn4uSrG0EkmSwOWIrZFCmW5mh+4YJHSpwfuKyNbKx4iVH2kB
+ rem9CKgTFtp0WkO03+iHP3uKwT8BVeFzThv++kkysSBZbV/T5AsMmf7eN0S0YlicvPd3lEZ60l6
+ tKMlaeruAf4bJ2XbrAVhM/zF2sdIyURe0Bkn9bC84R/dyFRhO2vu+ieKC7D4VnTsCl5Lo14S79c
+ XenssXxBaAI4Tn6mWuw==
+X-Proofpoint-GUID: g1Aifh65k7-KI_eGbyqKsF3Ofe2YmTIr
+X-Proofpoint-ORIG-GUID: g1Aifh65k7-KI_eGbyqKsF3Ofe2YmTIr
+X-Authority-Analysis: v=2.4 cv=eIGGH3p1 c=1 sm=1 tr=0 ts=6adee9b1 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=PAz_-FQ8hEVmOPYdF0yf:22 a=FOH2dFAWAAAA:8 a=7CQSdrXTAAAA:8
+ a=HF-2DHWplcuDzBJEMXoA:9 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfX0pjfGOs2QLky
+ UZkKQengl2V/vIdMa0q/GOp5ngq0mztwp52peIA7QYnRhJ86sHg7PrCnjWj6bs5+GEQyJs7G6OU
+ OcPIZTWpdGwsoq4B4KlJGatxANUI4No=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-26_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 adultscore=0 phishscore=0 clxscore=1011
- bulkscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610260019
 
-The MAX20810 (10A) and MAX20815 (15A) are members of the same device
-family as the MAX20830, sharing an identical PMBus command set and
-telemetry (VIN, VOUT, IOUT, TEMP). The LTM4739 and LTM4740 are the
-LTM-series module equivalents of the MAX20810 and MAX20815 respectively.
+cscfg_csdev_enable_active_config() looks up the selected configuration in
+the device's loaded configurations, and returns success when it is not
+there. A configuration is only loaded on devices that match at least one
+of its features, so a perf session or sysfs enable that selects it on any
+other device runs without the configuration, with no error.
 
-All variants use the existing adi,max20830 fallback compatible.
+Return -EINVAL instead, so enabling the source fails on that device. The
+function is only called with a non-zero configuration hash, so sources
+enabled without a configuration are unaffected.
 
-Signed-off-by: Carlos Jones Jr <carlosjr.jones@analog.com>
+Fixes: f8cce2ff3c04 ("coresight: syscfg: Add API to activate and enable configurations")
+Assisted-by: Devmate:Opus-5.5
+Signed-off-by: Amir Ayupov <aaupov@fb.com>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 ---
- .../devicetree/bindings/hwmon/pmbus/adi,max20830.yaml         | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../hwtracing/coresight/coresight-syscfg.c    | 53 ++++++++++---------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-index cc50a4ee44a2..8194108d61e3 100644
---- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-@@ -26,6 +26,10 @@ properties:
-       - const: adi,max20830
-       - items:
-           - enum:
-+              - adi,ltm4739
-+              - adi,ltm4740
-+              - adi,max20810
-+              - adi,max20815
-               - adi,max20830c
-               - adi,max20840c
-           - const: adi,max20830
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index 2bfdd7b45e49c..a816c22c87bc8 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -1088,36 +1088,39 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+ 	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 
+ 	/*
+-	 * If found, attempt to enable
++	 * The configuration is active but not loaded on this device, because
++	 * none of its features match the device. Fail rather than trace
++	 * without it.
+ 	 */
+-	if (config_csdev_active) {
++	if (!config_csdev_active)
++		return -EINVAL;
++
++	/*
++	 * Call the generic routine that will program up the internal
++	 * driver structures prior to programming up the hardware.
++	 * This routine takes the driver spinlock saved in the configs.
++	 */
++	err = cscfg_csdev_enable_config(config_csdev_active, preset);
++	if (!err) {
+ 		/*
+-		 * Call the generic routine that will program up the internal
+-		 * driver structures prior to programming up the hardware.
+-		 * This routine takes the driver spinlock saved in the configs.
++		 * Successful programming. Check the active_cscfg_ctxt
++		 * pointer to ensure no pre-emption disabled it via
++		 * cscfg_csdev_disable_active_config() before
++		 * we could start.
++		 *
++		 * Set enabled if OK, err if not.
+ 		 */
+-		err = cscfg_csdev_enable_config(config_csdev_active, preset);
+-		if (!err) {
+-			/*
+-			 * Successful programming. Check the active_cscfg_ctxt
+-			 * pointer to ensure no pre-emption disabled it via
+-			 * cscfg_csdev_disable_active_config() before
+-			 * we could start.
+-			 *
+-			 * Set enabled if OK, err if not.
+-			 */
+-			raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+-			if (csdev->active_cscfg_ctxt)
+-				config_csdev_active->enabled = true;
+-			else
+-				err = -EBUSY;
+-			raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+-		}
+-
+-		if (err)
+-			cscfg_config_desc_put(config_desc);
++		raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++		if (csdev->active_cscfg_ctxt)
++			config_csdev_active->enabled = true;
++		else
++			err = -EBUSY;
++		raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 	}
+ 
++	if (err)
++		cscfg_config_desc_put(config_desc);
++
+ 	return err;
+ }
+ EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
 -- 
-2.43.0
+2.52.0
 
