@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792993735;
-	b=4hfEOREwWAlwkL9fP8BDIEa4w661bhJ2acJ9w2WYZ9yGUo1PKvT7M1ATPxsH1DC+Xrve
-	 dVIp5R/mHzYfTWTbbmmE3XF8VWKpql2OKmuJExGqndPGptb+FOfHfFp8TBCwG7RGtTCXV
-	 qsbJlDbev0zVWoSuZWEI1vbVY8mA+KFQaL3Kg7EiDe/YGuiF40//AbB04XT3ogT/3gen4
-	 JhySmHnpFroklbT06ZR6Al3t23SbbybErzUgLBtBhHWHl35XKAzmJY4QdcgGtEbpYci/O
-	 85dgx621nRwCV4NMDLdaPVrc4vKz9DlR+4Be8EyMIvqdhWzmMof1YHYtCxZjWyOVOCw==
+	t=1792993733;
+	b=Go1867zz9pXJff+oyQ6ypXu0y0wEjb6alVPUzDiD2TwifgmOpGfxrcFqHsher+3cBd3N
+	 ePeDTt0N7aypxe1i2gP2ZN9So8YEEsSq7/kId3lHxYxb6Q7qck5vJHABw4Zl0jVYrb/bh
+	 aNLdSFnGJ00xmcx8Jmkfq43IE9F0o+GPaRR0iqD8TxaI17P1LMjOBLSkel93r4pu+o75z
+	 mIYCTJ0SWkmCkSBIq+rw1z7pG15Dyx1zCYp4TeaYfTadWT9SJxWDxLyjiOyk9NTVMv/fK
+	 fwQs7+QJXShxmoVVJZY2srqWv0z2unu/QgmjlUpLMTPCPsvyzwjAhMi+N4rAXaOq+8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792993735;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792993733;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:To:CC:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
 	 X-Proofpoint-Virus-Version;
-	bh=eLNIW2q6eZQY3XO2w2wt1tsAR45z7skuJjJhjqBR+08=;
-	b=ZijQaMMFyW8tnco4OMc4/PslKRR9lqTdThme+2JgF1IhI9VPG/TyOYbp8Wwa4zfU7cdN
-	 vF2yOBpqE7nOC8Mzc0Pt4fimv6ocLM9mR3K1WZG5mf/g/oVDlKs9e7kXIS5Gmf5a6aocm
-	 XniVK6liNmZiXcTXIUdoVx1miEpciRd/tG7X5RhwNDqefVqJ0uBy/qCEI5NxygMJhvs2E
-	 W5nfponkgICfL+Ao8f+w8KMj3U7rLEJ4sIR0ct/dNQSA+Sn7DlIK2mZFtgimC3i75BwMV
-	 hAIeIy3/Q8KSFG46qwa5rGax5Nq8/CjoF9X4DI/kXuV+jc+wRPENhn8A1dtTooLQhmg==
+	bh=V+HvE9QnqA10mngcxh5K4uhaL32+pv8FcAiS3KEQuaU=;
+	b=ss+VUMHrA3znhNFF2dzeXLeHJc60P4aOe3GRtXFFgWjaxtuOk7bKVi7OEszsL3vzAp99
+	 ofVtR1dw4QYcZP/v5sREadHtUw26Uyk932Tl3c8XUXFolZDeubpI4lXSnSVdNXGkbtcTe
+	 RXjasthN6uzY5SmVCjiA71BuMiqZkaI57oNWKoYP/Eht/NI0q5yyyRzRIie3gCx+fSZfv
+	 1qlTUt0NHjEhV/rSwOKfGoH65aPqt9wjVcEgKXTrxhgcR+d9R9NxNeYwyE3DPNXfroRxz
+	 Yk4z5dkap9sFXYA2caZy/gVrXZqJynMkCp6wXOJgU6wfROA0Pi99MXIDaQGC9AgkvkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=fb.com;
 	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hYsoL8Cy;
+	dkim=pass header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=JrbiJLBV;
 	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B66D60A2622;
-	Mon, 26 Oct 2026 05:48:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B66D60A2622
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D5D606A325;
+	Mon, 26 Oct 2026 05:48:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72D5D606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=hYsoL8Cy
-Received: from pps.filterd (m0528005.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69Q38q5d2161746;
-	Sun, 25 Oct 2026 22:48:41 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=JrbiJLBV
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69Q38YlM934645;
+	Sun, 25 Oct 2026 22:48:34 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	pps82601-s2048-2026-q3; bh=eLNIW2q6eZQY3XO2w2wt1tsAR45z7skuJjJhj
-	qBR+08=; b=hYsoL8Cy/J1Ql3fgbCHcaW+qM3lbO+k6VFlrCA4tUBvK0lYgdSS5K
-	CYB3I/JTnSvy3KfNnok5lluD/v3hJuJyYeN0rGoXV/1TZVMto21ZIsKfxeCYVUZH
-	lSOXk7kMsKcjE/yaQWm7Q1sNE/SP9zOYlRQF/vKMg8Y6+ugsM30cjm98QQr5ABSk
-	0iUI0ZroaQJlNZqJDzEgXKvt3NlH18kP9FMh5EKGoFHhgWtDPYoyLiIKhLMBWrt0
-	01NVr05AFcvJYJF0FfKc76jDl8mVF0yLHRAXodKuCBUygDoknEpHQH1Pw3P5XPIx
-	c8Ez773vLUG0AlFRZ110czCbKYkXqKurQ==
+	pps82601-s2048-2026-q3; bh=V+HvE9QnqA10mngcxh5K4uhaL32+pv8FcAiS3
+	KEQuaU=; b=JrbiJLBVKJkkQ5Ao9603lTx52demKVp7Ojoo28tarmJ1RYfl4EloO
+	FKDucvUCuHA3la9H/Rqq1HI0BEP6NYNsuMJRok/gDzgDxg/sth8PWReLz3JF17M0
+	y7wJaXAdohbbGVv2qrYaX8SRuTgW29T8D1t3m1I+JNodK0WnYWJbvYsoKexqGTMf
+	CQrPN05BcGBtrP9lvchv8Ky1SkcqGjZqsFepEhPFFcO0yJsqZ8/GDslyaLVSA5o+
+	bed3QzWpuO/3yipNbojIDwjZvb6EFPsTkcz699pKvQ3Rju2N4kogpcZcpdwfSfIa
+	QebYNtukENCzQhQ5Em7RVqXV0QgzydkWw==
 Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hhe8h3bh2-3
+	by m0001303.ppops.net (PPS) with ESMTPS id 4hgrbbya4m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 25 Oct 2026 22:48:40 -0700 (PDT)
+	Sun, 25 Oct 2026 22:48:33 -0700 (PDT)
 Received: from localhost (2620:10d:c085:108::4) by mail.thefacebook.com
- (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Mon, 26 Oct
- 2026 05:48:40 +0000
+ 2026 05:48:32 +0000
 From: Amir Ayupov <aaupov@fb.com>
 To: James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>,
         Suzuki K
@@ -77,9 +77,9 @@ CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 6/7] coresight: etm4x: Report whether the PMU counts the external outputs
-Date: Sun, 25 Oct 2026 22:48:26 -0700
-Message-ID: <a433810b85a9b768489d7b7b3ceb50324a2cd336.1792989860.git.aaupov@fb.com>
+Subject: [PATCH v4 3/7] coresight: syscfg: Match feature capabilities separately from device class
+Date: Sun, 25 Oct 2026 22:48:23 -0700
+Message-ID: <6fd94860b3c13c0ddc1a5184d5d9331edc27d9f0.1792989860.git.aaupov@fb.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1792989860.git.aaupov@fb.com>
 References: <cover.1792907332.git.aaupov@fb.com> <cover.1792989860.git.aaupov@fb.com>
@@ -94,172 +94,143 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: OE0FGOOpzl1a9VmxpuKfIA8nwIIvmeWD
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfX4vlBIjSebLVH
- TXkbglJfyai5Xrc1xSDUxl5PnAl6KwI0uzCPYEWxGHwoKh0tuogCNQm3218sTIvDzG7FfeXjD+3
- yQ7lH8WM9UlOixIZok519uxMME6+YLE=
-X-Authority-Analysis: v=2.4 cv=MbD5KJ/f c=1 sm=1 tr=0 ts=6adee9b8 cx=c_pps
+X-Proofpoint-ORIG-GUID: bQwmj7zWjwGfSQVogxvhW5d_aPvqKpfS
+X-Proofpoint-GUID: bQwmj7zWjwGfSQVogxvhW5d_aPvqKpfS
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfX/whWNXK10H1R
+ 54hQlKlgZBO7Dij0uYZkBGLNpZLJvRFepfkVV5Pca8+ZGEKMwynLyEScRejTn0s3YTxC+1kr/10
+ MD73OPHVC+CUhl884Nxhp4/nbrNFQ6A=
+X-Authority-Analysis: v=2.4 cv=R6GWitRX c=1 sm=1 tr=0 ts=6adee9b1 cx=c_pps
  a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=jCddH8ec0KUNCymVuxII:22 a=FOH2dFAWAAAA:8 a=-Z3dWT6n0Uiql5SQPSEA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfX1IX/suv48Ixu
- ErEriHa9fPCcN+4xic7oS85iiGHUXhYC4ZKjDJE/kvWKTVamzBnl6Vcx0rqcJRXYuMXEX6BeJUM
- aOBtBDqfl2BwmV8I1JmCGdNAl1sZMDzHdZ+prFlDGD+PmjrEmXaL9GrRTRvowKrVaUmMRrDxA0X
- wH1Vdhw7uw7a5q8N4mqcgtn70Wx3AkaBSTdorDAP+3B+JyhThWyzUwE5mfdhy0LYlhWtwIL5lHC
- 6RwtOo84nObcfk0pYod/Xv08SkGK+ILAY6PWYzaUjoqHmSDr0+cvQXo5jczhyiFd039DjbJ1qgJ
- hENRZzCP++jyXmDn48aJkw0oTXASVPk8Opv89s/B2UJukUuwxQdF8NcoBVnLnYM2dqLvZrrsS/1
- t57k4vpA0KHHPixlBp9/VSA7djfY8yKHCy9C4VHEjlPyAS/BGoAtASBz+lPot6Y3S9aw2VzJkah
- Ywr9VCMTORTMmEvX9OA==
-X-Proofpoint-ORIG-GUID: OE0FGOOpzl1a9VmxpuKfIA8nwIIvmeWD
+ a=_78whYxrdx1mplLwxq1U:22 a=FOH2dFAWAAAA:8 a=mif2P4nyd6mfzKxTjdEA:9
+ a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDAyMiBTYWx0ZWRfXxWqezGMmkXje
+ 8ARic7ZAZ4DQejvysrehxs1xkFGDcLzgYp9wXBUUzm2x2G4wtBfVaXLOyjce7EJvaywtmm2d9o2
+ i3S7RYMU+V71Upej/qXOQRn/Eyv+zdELZh76bSNOxBR/NAuhvcai+S31qXA7qp1rW8lSLgj7sRz
+ Rwxavfd7XpAD889zgwy2eIDFIboUV3XS0zkt6/GWAj3QGywaHLCE1ECmkfjC5N3xfTpIvuhuuD0
+ OCsF7PpPY9TkfeA5k2YrEmRpFrg3CXRem5Nvz429wolUT2+tTzKih1QnjqNL+STqPltwD9+pD2x
+ Hi+G47wLgI/RzsLvdtqZOR7HHw7LteHXECABPdIcEFZ5DdICYNMTTfcwyM9mL7WqmPQ/GIorDoN
+ ZY5s7CAGgiTc/JmbIifKqXvFRR29uWz6ulyJwYPTEiBk+hyz5MbiSoiOS73/mVjm2wABP0u9kXq
+ NJkFhL1d3Qekk438M7w==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-26_01,2026-10-21_02,2025-10-01_01
 
-Some CPUs count the trace unit's external outputs as the PMU common
-events TRCEXTOUT0-3 (0x4010-0x4013), which lets a configuration drive a
-PMU event from trace unit events. Other CPUs, Neoverse N1 for example,
-have no such events, and a feature relying on them would silently do
-nothing there.
+A feature loads on a device when the two share any match flag. That works
+for device classes, where a feature wants any one of them, but not for
+capabilities a device may or may not have: a feature that sets a class
+and a capability would still load on a device of that class without the
+capability.
 
-Detect at probe, on the trace unit's CPU, whether the PMU counts every
-external output: the trace unit has an external output for each of its
-events (caps.nr_event), and pmuv3_event_implemented() reports whether
-the PMU implements TRCEXTOUTn. Only check ETE: per its specification, an
-implemented TRCEXTOUTn event counts external output n, while whether that
-output is also an external input is IMPLEMENTATION DEFINED.
-
-Add a CS_CFG_MATCH_CAP_TRCEXTOUT capability match flag, set it on those
-trace units, and show it in the feature's configfs 'matches' attribute.
-With capabilities matched separately from the device class, a feature
-that requires it only loads on those trace units.
+Split the match flags into CS_CFG_MATCH_CLASS_MASK for device classes and
+CS_CFG_MATCH_CAP_MASK for capabilities. A feature now loads on a device
+that shares one of its classes and has all of its capabilities. Check
+this once in cscfg_load_feat_csdev(), which both the feature and the
+device registration paths call. No capability flags are defined yet, so
+matching is unchanged.
 
 Assisted-by: Devmate:Opus-5.5
 Signed-off-by: Amir Ayupov <aaupov@fb.com>
 ---
- .../hwtracing/coresight/coresight-config.h    |  2 ++
- .../hwtracing/coresight/coresight-etm4x-cfg.c |  6 ++++-
- .../coresight/coresight-etm4x-core.c          | 26 +++++++++++++++++++
- drivers/hwtracing/coresight/coresight-etm4x.h |  3 +++
- .../coresight/coresight-syscfg-configfs.c     |  3 +++
- 5 files changed, 39 insertions(+), 1 deletion(-)
+ .../hwtracing/coresight/coresight-config.h    |  8 ++++
+ .../hwtracing/coresight/coresight-syscfg.c    | 37 +++++++++++++------
+ 2 files changed, 34 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-index 220bc54f8e5e1..4cf53230854d0 100644
+index ae6295e308131..f04e73b91d9a6 100644
 --- a/drivers/hwtracing/coresight/coresight-config.h
 +++ b/drivers/hwtracing/coresight/coresight-config.h
-@@ -38,6 +38,8 @@
-  * a device that matches one of its classes and has all of its capabilities.
+@@ -7,6 +7,7 @@
+ #ifndef _CORESIGHT_CORESIGHT_CONFIG_H
+ #define _CORESIGHT_CORESIGHT_CONFIG_H
+ 
++#include <linux/bits.h>
+ #include <linux/cleanup.h>
+ #include <linux/coresight.h>
+ #include <linux/types.h>
+@@ -30,6 +31,13 @@
   */
- #define CS_CFG_MATCH_CAP_MASK		GENMASK_U32(15, 8)
-+/* the PMU counts the trace unit's external outputs as TRCEXTOUTn */
-+#define CS_CFG_MATCH_CAP_TRCEXTOUT	BIT(8)
- 
- /*
-  * Limit number of presets in a configuration
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-index 52cb036bb04b9..9e4dc5950c13d 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-@@ -176,9 +176,13 @@ static int etm4_cfg_load_feature(struct coresight_device *csdev,
- 
- int etm4_cscfg_register(struct coresight_device *csdev)
- {
-+	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
- 	struct cscfg_csdev_feat_ops ops;
-+	u32 match_flags = CS_CFG_ETM4_MATCH_FLAGS;
- 
- 	ops.load_feat = &etm4_cfg_load_feature;
-+	if (drvdata->caps.trcextout)
-+		match_flags |= CS_CFG_MATCH_CAP_TRCEXTOUT;
- 
--	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
-+	return cscfg_register_csdev(csdev, match_flags, &ops);
- }
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index af017bd8a5477..cb5fbb0279b88 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -30,6 +30,7 @@
- #include <linux/uaccess.h>
- #include <linux/perf_event.h>
- #include <linux/perf/arm_pmu.h>
-+#include <linux/perf/arm_pmuv3.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/property.h>
-@@ -1399,6 +1400,29 @@ static void etm4_fixup_wrong_ccitmin(struct etmv4_caps *caps)
- 	}
- }
- 
-+/*
-+ * Whether the PMU counts each external output of this trace unit as
-+ * TRCEXTOUTn. The trace unit has an external output for each of its events.
-+ * Only ETE is checked: per its specification, an implemented TRCEXTOUTn event
-+ * counts external output n.
-+ *
-+ * Must run on the CPU that owns the trace unit.
-+ */
-+static bool etm4_pmu_counts_extout(struct etmv4_drvdata *drvdata)
-+{
-+	int n;
+ #define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
+ #define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
++#define CS_CFG_MATCH_CLASS_MASK		GENMASK_U32(7, 0)
 +
-+	if (!etm4x_is_ete(drvdata) || !drvdata->caps.nr_event)
++/*
++ * flags defining device capabilities a feature can require. A feature loads on
++ * a device that matches one of its classes and has all of its capabilities.
++ */
++#define CS_CFG_MATCH_CAP_MASK		GENMASK_U32(15, 8)
+ 
+ /* flags defining device instance matching - used in config match desc data. */
+ #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index a816c22c87bc8..3ee104e94a4cd 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -171,8 +171,22 @@ cscfg_alloc_csdev_feat(struct coresight_device *csdev, struct cscfg_feature_desc
+ 	return feat_csdev;
+ }
+ 
+-/* load one feature into one coresight device */
++static bool cscfg_match_feat_csdev(u32 feat_flags, u32 csdev_flags)
++{
++	/* The device must be in one of the feature's classes */
++	if (!(feat_flags & csdev_flags & CS_CFG_MATCH_CLASS_MASK))
 +		return false;
 +
-+	for (n = 0; n < drvdata->caps.nr_event; n++) {
-+		if (!pmuv3_event_implemented(ARMV8_PMUV3_PERFCTR_TRCEXTOUT0 + n))
-+			return false;
-+	}
++	/* The device must have every capability the feature requires */
++	if (feat_flags & ~csdev_flags & CS_CFG_MATCH_CAP_MASK)
++		return false;
 +
 +	return true;
 +}
 +
- static void etm4_init_arch_data(void *info)
++/* Load the feature into the device if it matches, otherwise skip it. */
+ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
++				 u32 match_flags,
+ 				 struct cscfg_feature_desc *feat_desc,
+ 				 struct cscfg_csdev_feat_ops *ops)
  {
- 	u32 etmidr0;
-@@ -1562,6 +1586,8 @@ static void etm4_init_arch_data(void *info)
- 	/* NUMCNTR, bits[30:28] number of counters available for tracing */
- 	caps->nr_cntr = FIELD_GET(TRCIDR5_NUMCNTR_MASK, etmidr5);
+@@ -183,6 +197,9 @@ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
+ 	if (!ops->load_feat)
+ 		return -EINVAL;
  
-+	caps->trcextout = etm4_pmu_counts_extout(drvdata);
++	if (!cscfg_match_feat_csdev(feat_desc->match_flags, match_flags))
++		return 0;
 +
- 	coresight_clear_self_claim_tag_unlocked(csa);
- 	etm4_cs_lock(drvdata, csa);
- 	cpu_detect_trace_filtering(drvdata);
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-index 5417280cdb274..33994ad4b2641 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x.h
-+++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-@@ -868,6 +868,8 @@ enum etm_impdef_type {
-  * @lpoverride:	If the implementation can support low-power state over.
-  * @skip_power_up: Indicates if an implementation can skip powering up
-  *		   the trace unit.
-+ * @trcextout:	The trace unit is an ETE whose PMU counts its external
-+ *		outputs as TRCEXTOUTn.
-  */
- struct etmv4_caps {
- 	u8	nr_pe;
-@@ -907,6 +909,7 @@ struct etmv4_caps {
- 	bool	atbtrig : 1;
- 	bool	lpoverride : 1;
- 	bool	skip_power_up : 1;
-+	bool	trcextout : 1;
- };
+ 	feat_csdev = cscfg_alloc_csdev_feat(csdev, feat_desc);
+ 	if (!feat_csdev)
+ 		return -ENOMEM;
+@@ -212,11 +229,11 @@ static int cscfg_add_feat_to_csdevs(struct cscfg_feature_desc *feat_desc)
+ 	int err;
  
- /**
-diff --git a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
-index 2b40e556be872..7b3800138f625 100644
---- a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
-+++ b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
-@@ -250,6 +250,9 @@ static ssize_t cscfg_feat_matches_show(struct config_item *item, char *page)
- 	if (match_flags & CS_CFG_MATCH_CLASS_SRC_ETM4)
- 		used += scnprintf(page + used, PAGE_SIZE - used, "SRC_ETMV4 ");
+ 	list_for_each_entry(csdev_item, &cscfg_mgr->csdev_desc_list, item) {
+-		if (csdev_item->match_flags & feat_desc->match_flags) {
+-			err = cscfg_load_feat_csdev(csdev_item->csdev, feat_desc, &csdev_item->ops);
+-			if (err)
+-				return err;
+-		}
++		err = cscfg_load_feat_csdev(csdev_item->csdev,
++					    csdev_item->match_flags, feat_desc,
++					    &csdev_item->ops);
++		if (err)
++			return err;
+ 	}
+ 	return 0;
+ }
+@@ -739,11 +756,9 @@ static int cscfg_add_feats_csdev(struct coresight_device *csdev,
+ 		return -EINVAL;
  
-+	if (match_flags & CS_CFG_MATCH_CAP_TRCEXTOUT)
-+		used += scnprintf(page + used, PAGE_SIZE - used, "TRCEXTOUT ");
-+
- 	used += scnprintf(page + used, PAGE_SIZE - used, "\n");
- 	return used;
+ 	list_for_each_entry(feat_desc, &cscfg_mgr->feat_desc_list, item) {
+-		if (feat_desc->match_flags & match_flags) {
+-			err = cscfg_load_feat_csdev(csdev, feat_desc, ops);
+-			if (err)
+-				break;
+-		}
++		err = cscfg_load_feat_csdev(csdev, match_flags, feat_desc, ops);
++		if (err)
++			break;
+ 	}
+ 	return err;
  }
 -- 
 2.52.0
