@@ -1,82 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.161.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793002976;
-	b=vEiEfF+YPqRpjkv9YCqpUY2+q22+3YkxBYMh9a5K8Qzn0RZ3oN8+2XnMmVxZwO7UhFg7
-	 sAQ9QWZ57eQmqRjGtyM9IU5RvHn1zViNGmZcdJYLV7Mqg4+beis12aK7yRZjMIQIaI69D
-	 gXHyOiSsJYExlricKx4CV/2bLe9onNZaOIrYFlUUWOfqXDsKawCuwcp3S4PmTBfEjjTbV
-	 ygkQNL746IxNq3fvJunf5/dnmQ8s/WCinqbpvrm4+LwxUF89vg/FteWm0YymiOZChNhYq
-	 OKpIKts9Wz43UrB0EjJFr32miLQeBRcL0nqftI7ctIwlIx8bDO7r7jGVEzeLsnzCI9w==
+	t=1793006526;
+	b=VXHdMgWGic5vvITVIvd588l7by1/AB3k6UhlmKyBd8byLR8Hm2PGB/ak9NrSv96Uak78
+	 Ryp2zv5kg+Ks/R+R1OBms5XIIV76A9wv/mVEkJLeSN8KcaNGGQ6kSpaZRQTLeFeBhGeHY
+	 YyJEl7ZmOLaJFUfU9rRPGwef3POrYPPKtDWFOh5AjLTam/dkBRpXdT8q9yxGc/1JfwRTO
+	 0vjoBl/0mCZwzJVe/9uo8QzTV+52A/aIng+b02yy5iKkVOxop0H6nie+ka9GiyNrIP/D4
+	 t4rMq93EPDRCdNmQJQjTw6NiCOT7LtMr+KFG/7oC9YzhcIyRgtVQWfSR4To/ovdoWdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793002976;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=+WnPlSodIin5wFzancUMh58wfHgI/PO41J4tv6r/S7Q=;
-	b=gLMrmTMT2p0PlRWOlN1bLtYbLBNzjYh9MgEAXr9366fqX2zlUsI6hPCM8QAm2qVFtLRy
-	 Z36qCvLUOnY+r9zhapAjxZWv+7z6Oyjqa0a1j3J6AS/ytP1zkQAsj+VeMeCK0kVgUelwf
-	 NoXCEw3fbFwqeq1B71XYym1RtDojyHI2Ij5nb03Dy3igmvlfpVvtJHux1U92T39TtBu5s
-	 7UpjT5wDC+wQgi89bJRjzymKuchajU0E71g2/dlmrXVp7YkbqvgX2W45bWFAla6zr3L1W
-	 gVm4XQ1wpRCsVky9Py3wvV5Uor+AV0Nh1QroTm/Zy3RqGeoM6giWiEZSlp7WN3sYxUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793006526;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=A8D3nIxhr5bal3Mn0kwblN+gP6Dp0HIaeR34R++ab2Q=;
+	b=OTl3pF2+uWsyDitKZR3GtkKhobDzpyJb0dhnuF0So5jkyEd6Iuc9lik17XAtv0JV8pZ3
+	 FnqcmeiSkFyqRGDTjJLYhSQXkpT2n+HFQvpjnRbOu8XJGtiSMYX4FSpjUjfymhylGhYu2
+	 U5a0hSSYhH3hSzMHh+YmEpxO3psQrLhOk2CS7t7kbbovj/B7YmF9WdnYBw7zjgmCFaoiC
+	 srxJ9xCKIeyYwhduYsy7hrg7+S+n+vL76YlshiGT9CwLgcNnYG6q2Nxhwwfv9Cm4dalHu
+	 hwOaPQljRP4U4bu+J0AOqUiRRiR6T2JnZkuNqbOQlHpyrTsCC2zm2v37qmcRN2ziC5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fHZ75MXt;
-	arc=none smtp.remote-ip=162.62.58.216
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1574606A31B
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 08:22:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1574606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fHZ75MXt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793002970; bh=+WnPlSodIin5wFzancUMh58wfHgI/PO41J4tv6r/S7Q=;
-	h=From:To:Cc:Subject:Date;
-	b=fHZ75MXtqIcDWnPq69NUcgrhblGEVkotIczpht1uvN4IYkydg0/XpSxCWBNhFtUx4
-	 neKkMIB0QNWsXcThKKhQDZahR6g0FDSBoV6wLjUgMrnAkCp3raIWln+nbnc14XQ2cd
-	 EmwxIf5CPSIWX8Z8GVXOzgieYkl6gLZ2MjpBanC8=
-Received: from kernel-lab.tail5e91bb.ts.net ([39.144.194.158])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 5AF074D1; Mon, 26 Oct 2026 16:22:47 +0800
-X-QQ-mid: xmsmtpt1793002967tnik34gyr
-Message-ID: <tencent_F6E8C7CAC6D390C8E912EEE4FD9FE4333505@qq.com>
-X-QQ-XMAILINFO: MOnz+xTS1+9ikKlV4etVMZbykzL6Vcc+7vdYny1BIZ4V5/Tr5YOtHFbtVvdJVm
-	 S8zhBOnHsok0i2eop0txx8nVDT1qvGMyAl3n5vzSG4w+Tp3tXxE7NCF19oFZckIqQaMfc+E0d76O
-	 p8Zw0qDSUoOFR9hTZGIPNXRIgKd7RwOrTHmq6V69whkyXEPgutLM/iEq3ovDp4UhiGkNvInEWsij
-	 siTV3Y/h3hBZq4mcMwMy6Pjwznk4AAxpNx+jzL/cMOYPvw3HcOslKP1OqQBDRtZ1plP2dXTD+z61
-	 +P82PSbQ52aLlzaRlP/2Yw55lChNcXZIsD9KLqcDBSO3gbot9H4sILVyY0pnWqGvHW67r3Amxt5/
-	 4Kk66gjkrN9uQmsC1SS1FtHtTee7tdAW1naaDZ/81fYVRSRO3RelA1JDfcjpsVfAFIXFwpog0qyv
-	 UCMEH5xhCuqaNNz0ndLnZ9xmDYKW6DASGf0uJ+ESxebiCZ07KUeuFrwmrPxb+XpW4xGEtaqDAOXw
-	 6dNetbkBNwM6mwIjS+bXbleSFTBjoTNYURohe22VBSqgM5nTi61bdL6vrreTVzmou+v/Az4mY9wY
-	 rdezOUcmU/QfvQRF/w2QwYK/rATDA/xW2sAxOBPX8Qtx1ijL1+YTaGxK0wgQbDPcDqfeHk1rg+fv
-	 GZKVVolWQW0uNoBWqBRPtjEtmQoMhZNUgjFOSgAgCneCv9y0DckzCKzgIrwE3MKw4sE4g/ff6qvs
-	 4uV2M6PW3ZObLDYjeOguuA/gsbzkHE/OoyZC/gz9m3nvtm5zq/OsY+iPVfDMODNMA5PzPE26G2RA
-	 LYoHvODd6cOUz+A5HRSvssHifOHrVQpeYhPKDCwXIrSsQ1QSdP9lsE3qEaY6qc6+57jA4spHyqUR
-	 LnMHDx8DZBSiAE6wTeA5hUTu6tiB7wwpMM21SEm2zMnTEC53s3TBztFAPACyA488s+JqYx2dLvsA
-	 3grlyTaqMX5rC2Zek1a+RzxH6vfdQ3bk2EmOdDbLZrAIpzW9PHVhpI2MPgK8Ztc+i0PKXkgQ3tqx
-	 79bpRa1deDzbg4/XK+jca8peRUSi0GrSkfnPSdTQ==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Yingjie Wang <1075151112@qq.com>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	dsahern@kernel.org,
-	idosch@nvidia.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	alexhenrie24@gmail.com
-Subject: [PATCH net] ipv6: bound temporary address regeneration advance
-Date: Mon, 26 Oct 2026 16:22:47 +0800
-X-OQ-MSGID: <20261026082247.1571155-1-1075151112@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=162.243.161.220
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C83B606A31A;
+	Mon, 26 Oct 2026 09:22:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C83B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMAWPneyG99qrY9cAA--.45505S2;
+	Mon, 26 Oct 2026 17:21:54 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wC3Si2uG99qpnwPAA--.31241S2;
+	Mon, 26 Oct 2026 17:21:51 +0800 (CST)
+Message-ID: <895533d5-99d7-406e-acc2-1f8659075f91@hust.edu.cn>
+Date: Mon, 26 Oct 2026 17:21:50 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,208 +45,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
+To: Yan Zhu <zhuyan2015@qq.com>, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net, mic@digikod.net
+Cc: skhan@linuxfoundation.org, gnoack@google.com, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <cover.1781105672.git.zhuyan2015@qq.com>
+ <tencent_4D8EDAC71A10FADF8B5C682C57B266EE1A09@qq.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <tencent_4D8EDAC71A10FADF8B5C682C57B266EE1A09@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMAWPneyG99qrY9cAA--.45505S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxXr4rJF47JF1fCw1DuFykXwb_yoW5ur13pF
+	n7KFWxKw40k343GrZ3GFZxC3W5Aa18uasrCF1xK3Z7Arn8JrZIywsrKry5Jrn7GFyrKayk
+	ZFW3KFWFkryjy3DanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0P73PUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-ipv6_get_regen_advance() combines regen_min_advance, regen_max_retry
-and dad_transmits. All three are signed sysctls, and the latter two
-are multiplied as int. Negative values or overflow of large positive
-inputs can make the unsigned long result much larger than intended.
 
-When ipv6_create_tempaddr() clamps the preferred lifetime, it adds age
-and one to this advance and stores it in a u32. The sum can wrap or be
-truncated to a short preferred lifetime. addrconf_verify_rtnl() then
-finds the new address due for regeneration and restarts its scan after
-creating another one. The temporary-address path has had no
-max_addresses check since commit 4b08a8f1bd8c ("ipv6: remove
-max_addresses check from ipv6_create_tempaddr"). In a baseline namespace
-test, setting dad_transmits=-1 and adding a temporary-address template
-with mngtmpaddr produced 2859 loopback addresses in two seconds.
+On 6/12/26 11:58 PM, Yan Zhu wrote:
+> Translate Documentation/admin-guide/LSM/LoadPin.rst into Chinese.
+>
+> Update the translation through commit 0860b72d535f
+> ("security/loadpin: Update the changing interface in the source code.")
+>
+> Assisted-by: Claude:deepseek-4-pro
 
-Non-negative inputs can also overflow the int product, so rejecting
-negative writes alone is not enough.
+Assisted-by can be removed in your next version. Apply it to other patches.
 
-Reject negative values for all three sysctls with -EINVAL. Writes that
-used to succeed now fail validation; negative values have no useful meaning
-(negative regen_max_retry already disables temporary addresses on the
-first attempt). Keep zero valid. Use checked u64 arithmetic and
-div_u64() to calculate the advance, and cap it at U32_MAX. Compare the
-required preferred lifetime in u64 before narrowing it to u32. Calculate
-the desync margin only when the configured lifetime exceeds the advance,
-avoiding an unsigned subtraction wrap on 32-bit builds.
+> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+> ---
+>   .../zh_CN/admin-guide/LSM/LoadPin.rst         | 33 +++++++++++++++++++
+>   1 file changed, 33 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+>
+> diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+> new file mode 100644
+> index 000000000000..d75a06f515f6
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+> @@ -0,0 +1,33 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/admin-guide/LSM/LoadPin.rst
+> +:翻译:
+> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
+> +
+> +
+> +=======
+> +LoadPin
+> +=======
+> +
+> +LoadPin 是一种 Linux 安全模块（LSM），保证所有内核加载的文件（模块、固件等）
+> +均来自同一文件系统，并且该文件系统应当以只读设备（如 dm-verity 或 CDROM）为后
+> +端存储。这使得在拥有经过验证和/或不可更改的文件系统的系统上，能够在不对每个文
+> +件单独签名的前提下，强制模块和固件的加载限制。
+> +
+> +该 LSM 在编译时通过 ``CONFIG_SECURITY_LOADPIN`` 进行选择，并且可以在启动时通
+> +过内核命令行参数 ``loadpin.enforce`` 进行控制。默认情况下该功能是启用的，亦可
+> +在启动时通过 ``loadpin.enforce=0`` 将其关闭。
+> +
+> +LoadPin 会在检测到首个文件被加载时开始生效。如果承载该文件系统的块设备不是只
+> +读的，系统会创建一个 sysctl 条目 ``/proc/sys/kernel/loadpin/enabled`` 用于切
+> +换锁定功能。可写的文件系统意味着锁定功能亦可被修改，但通过 sysctl 可以在可
+> +写文件系统上便捷地进行测试。
+> +
+> +也可以使用内核命令行参数 ``loadpin.exclude`` 将特定文件类型从 LoadPin 中排除。
+> +默认情况下所有文件均被包含，但可以通过
+> +``loadpin.exclude=kernel-module,kexec-image`` 等方式排除相应类型。这允许在使
+> +用 ``CONFIG_MODULE_SIG``、``CONFIG_KEXEC_VERIFY_SIG`` 等机制对内核模块和内核
 
-The issue was found and this fix was prepared with assistance from
-OpenAI Codex.
+Sorry for the late review. This patch is accidentally missed in my todo 
+list.
 
-Tested on x86-64 KASAN:
-- negative writes to the three sysctls were rejected without changing
-  their values, and zero remained valid;
-- normal temporary-address setup produced three IPv6 addresses;
-- with HZ=1000 and a one-second retransmission time,
-  regen_min_advance=0, regen_max_retry=2147483647 and dad_transmits=1
-  caused the baseline kernel to reach 2847 loopback addresses after
-  two seconds; the fixed kernel left two.
+This translation needs update since commit eb0b0d222a832 removes a  
+kerne config.
 
-Kernel selftests were not run.
+Dongliang Mu
 
-An i386 defconfig with CONFIG_IPV6=y and HZ=1000 built addrconf.o with
-W=1; nm -u showed no __udivdi3 reference.
-
-Fixes: f4bcbf360ac8 ("net: ipv6/addrconf: clamp preferred_lft to the minimum required")
-Signed-off-by: Yingjie Wang <1075151112@qq.com>
----
- Documentation/networking/ip-sysctl.rst |  3 ++
- net/ipv6/addrconf.c                    | 50 ++++++++++++++++++--------
- 2 files changed, 38 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 4b19c8d3efda7..e78a59ebc9df2 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -2872,6 +2872,7 @@ dad_transmits - INTEGER
- 	The amount of Duplicate Address Detection probes to send.
- 
- 	Default: 1
-+	Minimum: 0
- 
- forwarding - INTEGER
- 	Configure interface-specific Host/Router behaviour.
-@@ -3023,12 +3024,14 @@ regen_min_advance - INTEGER
- 	does not conform to RFC 8981.
- 
- 	Default: 2
-+	Minimum: 0
- 
- regen_max_retry - INTEGER
- 	Number of attempts before give up attempting to generate
- 	valid temporary addresses.
- 
- 	Default: 5
-+	Minimum: 0
- 
- max_addresses - INTEGER
- 	Maximum number of autoconfigured addresses per interface.  Setting
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index c8c0dd04982d9..39ecb2c25055b 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -60,7 +60,9 @@
- #endif
- #include <linux/capability.h>
- #include <linux/delay.h>
-+#include <linux/math64.h>
- #include <linux/notifier.h>
-+#include <linux/overflow.h>
- #include <linux/string.h>
- #include <linux/hash.h>
- 
-@@ -1376,10 +1378,19 @@ static void ipv6_del_addr(struct inet6_ifaddr *ifp)
- 
- static unsigned long ipv6_get_regen_advance(const struct inet6_dev *idev)
- {
--	return READ_ONCE(idev->cnf.regen_min_advance) +
--		READ_ONCE(idev->cnf.regen_max_retry) *
--		READ_ONCE(idev->cnf.dad_transmits) *
--		max(NEIGH_VAR(idev->nd_parms, RETRANS_TIME), HZ/100) / HZ;
-+	unsigned int retrans_time = max(NEIGH_VAR(idev->nd_parms,
-+						 RETRANS_TIME), HZ / 100);
-+	u32 min_advance = READ_ONCE(idev->cnf.regen_min_advance);
-+	u32 retries = READ_ONCE(idev->cnf.regen_max_retry);
-+	u32 dad = READ_ONCE(idev->cnf.dad_transmits);
-+	u64 duration;
-+
-+	/* Preferred lifetimes are u32, so a larger advance cannot be used. */
-+	if (check_mul_overflow((u64)retries * dad, (u64)retrans_time,
-+			       &duration))
-+		return U32_MAX;
-+
-+	return min_t(u64, (u64)min_advance + div_u64(duration, HZ), U32_MAX);
- }
- 
- static int ipv6_create_tempaddr(struct inet6_ifaddr *ifp, bool block)
-@@ -1394,6 +1405,7 @@ static int ipv6_create_tempaddr(struct inet6_ifaddr *ifp, bool block)
- 	struct ifa6_config cfg;
- 	long max_desync_factor;
- 	struct in6_addr addr;
-+	u64 min_preferred_lft;
- 	int ret = 0;
- 
- 	write_lock_bh(&idev->lock);
-@@ -1430,9 +1442,13 @@ static int ipv6_create_tempaddr(struct inet6_ifaddr *ifp, bool block)
- 	 * idev->desync_factor if it's larger
- 	 */
- 	cnf_temp_preferred_lft = READ_ONCE(idev->cnf.temp_prefered_lft);
--	max_desync_factor = min_t(long,
--				  READ_ONCE(idev->cnf.max_desync_factor),
--				  cnf_temp_preferred_lft - regen_advance);
-+	max_desync_factor = 0;
-+	if (cnf_temp_preferred_lft > 0 &&
-+	    regen_advance < cnf_temp_preferred_lft)
-+		max_desync_factor =
-+			min_t(long,
-+			      READ_ONCE(idev->cnf.max_desync_factor),
-+			      cnf_temp_preferred_lft - regen_advance);
- 
- 	if (unlikely(idev->desync_factor > max_desync_factor)) {
- 		if (max_desync_factor > 0) {
-@@ -1485,15 +1501,16 @@ static int ipv6_create_tempaddr(struct inet6_ifaddr *ifp, bool block)
- 	 * temporary addresses being generated.
- 	 */
- 	age = (now - tmp_tstamp + ADDRCONF_TIMER_FUZZ_MINUS) / HZ;
--	if (cfg.preferred_lft <= regen_advance + age) {
--		cfg.preferred_lft = regen_advance + age + 1;
--		if (cfg.preferred_lft > cfg.valid_lft ||
--		    cfg.preferred_lft > if_public_preferred_lft) {
-+	min_preferred_lft = (u64)regen_advance + age + 1;
-+	if (cfg.preferred_lft < min_preferred_lft) {
-+		if (min_preferred_lft > cfg.valid_lft ||
-+		    min_preferred_lft > if_public_preferred_lft) {
- 			in6_ifa_put(ifp);
- 			in6_dev_put(idev);
- 			ret = -1;
- 			goto out;
- 		}
-+		cfg.preferred_lft = min_preferred_lft;
- 	}
- 
- 	cfg.ifa_flags = IFA_F_TEMPORARY;
-@@ -4705,7 +4722,7 @@ static void addrconf_verify_rtnl(struct net *net)
- 
- 				unsigned long regen_advance = ipv6_get_regen_advance(ifp->idev);
- 
--				if (age + regen_advance >= ifp->prefered_lft) {
-+				if ((u64)age + regen_advance >= ifp->prefered_lft) {
- 					struct inet6_ifaddr *ifpub = ifp->ifpub;
- 					if (time_before(ifp->tstamp + ifp->prefered_lft * HZ, next))
- 						next = ifp->tstamp + ifp->prefered_lft * HZ;
-@@ -6921,7 +6938,8 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.data		= &ipv6_devconf.dad_transmits,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
- 	},
- 	{
- 		.procname	= "router_solicitations",
-@@ -7001,14 +7019,16 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.data           = &ipv6_devconf.regen_min_advance,
- 		.maxlen         = sizeof(int),
- 		.mode           = 0644,
--		.proc_handler   = proc_dointvec,
-+		.proc_handler   = proc_dointvec_minmax,
-+		.extra1         = SYSCTL_ZERO,
- 	},
- 	{
- 		.procname	= "regen_max_retry",
- 		.data		= &ipv6_devconf.regen_max_retry,
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
--		.proc_handler	= proc_dointvec,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
- 	},
- 	{
- 		.procname	= "max_desync_factor",
-
-base-commit: 7076f684d5132e6a6145e1da2fa74771ecd052e5
+> +镜像进行校验的同时，仍然利用 LoadPin 保护其他内核加载文件的完整性。有效文件类
+> +型的完整列表可在 ``include/linux/kernel_read_file.h`` 中的
+> +``kernel_read_file_str`` 找到。
 
