@@ -1,87 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793006551;
-	b=eq6aiVmiUTM2vEzYNXg/+Z6L71f5KlTEVIB9zun+Wr4LefzmdlDBpW+/vMcScmAaXZQd
-	 sTkN5/KwS9ftIvYxmfu/cFrumqes3/tc8vaM/hY76WFiH5JYFrU0ks9cXMi03cMHq2ACj
-	 dPSOW5/FnQXwHLtisVZ8BBSpoui1FKOLeDADpeFY96Yv7ZatrGX5iH5YEE4yOS5WAV/Hb
-	 YwHL+MuBeRgdd1UGQvV8ywGhdrgOhnpVyxLRgumhRgjfz3tkPxg4dKoh2EEw4yLBdZvqD
-	 wFKDllSNygjWG6LdybT8LwCB5DcX34OiNNzz1FGXCPOfbY1BE+qMgLaxYbHi9Q9Rzcg==
+	t=1793006796;
+	b=RPol7OScPaWnRzR+yXU0okDQFImAPdVWpITrmOTt/9OlL3E8mqYFxTvnGA5uX7sa0dJJ
+	 8n/iJCBAXMB2Y1oQvwDDInEYiz1DoNctF+sDOzE/kbgIPFP0hP9ymR1TS54ycBedjdRK2
+	 O1b1IjmI05D+V/CAbXmg79WhoTZB8EVsW2NZf2uciO23ovjDXSHA9ZLL2R8Zy/qF5UBVr
+	 pETDa3gFNJ/Qe95SvJmSKHGnuFF/jFtehHkIuOMLuYiMSIvWVv6oORE5E2sgJdcXXhQQ6
+	 6q0GqCpM/2zSc2if/vxHqHOvUntRP1w6wX8OfIta83E7o3pBgv/DUzgMhI5tzVvAFIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793006551;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
-	b=qQHmKWpbqichvjCnqT80+AJP2nr8TN38Wpqr6ZbKnUw4T0ROE/jlXVsP2Q3Xhhg3rMTk
-	 5BC6A89uEAeUVmFHDWQGRSeJeEX2b3dFk6WLGmU8v9JJ0Wx7m33EZPRmHiBtrUfm/aPXD
-	 RcaLZaNuC9Aj83DJRl9xlh9eZZqnnQIbwNzezxI+PXxT27QFZpZVTfXOqvNGhgGI5umsr
-	 i928Gw76awrNe4E7EBwT1j++DxNkidkwZ6wCkDcrhrCNdS+dM1hzgpYD0hJzmqaETBk1S
-	 xYflqk9gyuTT+/g6PTlaLrmkI8GXQJ+ow5hp6yTq8zH9fEPFMQryESU4rZjmvgn/+tw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793006796;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=bMfgjD0fUY2u4A6RwbN+yTCX4OmWey+xYcDwHWVZBDo=;
+	b=YNag9Zd4pMsH59USjEXSbTQiK7712XYXWlQKbaOASoFXzzNoSCcIMPGzVzqaLCyEd70I
+	 xANnuSZuliBj233pJ+ywEv8dODXs8bLlEGvbFGuQ5HHsrnc1eQFhRHbIwh2aMQ+zzoZLc
+	 Z+jetYodQR8aAi6szKq+J/c2kVlLVf4nQ2P+YbNqGKUH8MpzgMYfuXvStd3QJTr/aLvVn
+	 EwkCtYkpj6w717MWxqUMnL5uNqrxejv7bPKckptUhpq82kyxmeXWQYkO0SRcwEW11s71D
+	 HPWBeh76VdYqbajNit/pr9puutMzQyFT3LIoWSC9WNbetbrl5TQ4LH1okeLOEu+E77g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pB7B5UZh;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE2606A321
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 09:22:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33FE2606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pB7B5UZh
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e20edd106so2384896f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 02:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793006544; x=1793611344; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
-        b=pB7B5UZh92Vl2OCgdj0Ce/SFQiad4yYYyQnKuP0k9WbZAC4/shpL6dpSNnhVHI4mhq
-         vZ6xbo7kWdoZqFcpLDDetrrQxkzs/1rPBD6YF1vmGLGvm1yUxtFWTzSQ/bHkke3iDPyx
-         gtosadZH0zXr1ivEopWQvZu7ezR/CWsOcBsp++w/s3q4BKXAsFwiskZmtnFn0swya1Ml
-         do8j2VrU0zkEc2WQYFWM+BznoCRDpWFjPfaGEXnWioXwbqosGK5miWbgeLJWTaiKYGKA
-         Zy5nD9GDd8AoxdXrr7MVbgw+Yvr5aFW+urZvRjtpub5S2k6gN3jvN2xr9AlbVHCVDHw/
-         eTDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793006544; x=1793611344;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V8YYNHqrt33tQh3j/NNFt0Ir9INku8h3/joaCNcuNYA=;
-        b=aTU3tH8xI29xIlJURa6PTF47XK/BwzF9dI9hYV68kK8asLABgKlRYaINzLteTilK9m
-         0fNeQb2bCjMwL+TdTgXY7D2ZFPzHTX8e7oV8eYu90kzwcl5MMtAOcJ0K+OlzD2s5EU3X
-         YoIHr8b7spupB+IxOSaoa9jeDHsRQKIz8PzRcjpZeG/PPd4KdoL9DiuXNpdgLdn4zW54
-         8CwtoLGev2DMLKe4gMUhaDG61tNpcuCpQSoXzcgBWKJfVgI65JecsnlTwIIxL87mv0g6
-         YaEbXi4+8FkfUpJS1dsOhE2dQvYWnFOzlF9siYeE1y6P36X31J3Fw8QLcZ2oc37gg0Mn
-         UqyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy3vB1bK9o8bVQtcLNgEAf/HniPFbOEBG5z5H46aK7mL287XNKMENo1rJuHjy6ExV6PsswKN9/EChU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJEidLP1vfVow+1IavoOmiRglhxKmpNlNFyAonhpoGbbsnCMHgu
-	VMdiVQwab8rBMZAln441pUzHTBaG6PG7bvzXmIhBsHXG9CAFrNUDMTtB0kSnPr2ZseU=
-X-Gm-Gg: AYBFou1oBEKOh5pg637loMBRai7Ub3FPtoNo/jqa3cTDteg5C4iaxeAALVS82IIz7l2
-	obK9Kmhy6JJth4uE8SOZEEoa7kaSnt7V2qZs3KRIY3UZH6iu9D608Fmwo3nnwZnhdmPwUliCJdF
-	Lla1yMS01M3ifBlDgIt15M6JUbeiYtQ20sRbrwC/v0Kzpr90mnkAs4LWgZG9M9s1msKMRvLpxG4
-	ANY9tK/6oklW1zVMFDRhVTsdI69MATQ3NU8yZMdri0Tbd57RkxNCBh0NdD6MSAr68IlZprWAL2j
-	WmA1A8/jMtFKnpbrLEgq+EeDaD9rmMG4WQD7yumyx5hglF3BJSFEUEFyp3Ms7K9moawgE1d/P2I
-	jxN+k2pkd1vxfQqHafyQwM5R6TN/WI28MdXIt8xdUflG5M9WFbIIXTBAdU2uUiEkFJ/mmh1+ycA
-	XoxyY7wP8N7GW2vLnBKurudWnmmiE707oIjntdOqvrcg1jbk5XMPs7nmKUhZMJmNrPvf+FcReWw
-	+v0Hl/yh7hQ1GBDhY1c4X2jlvtBM691TBXwieW7ukOBKPaTI4jZ01hP0mdzJg==
-X-Received: by 2002:a05:6000:470d:b0:48d:facb:5937 with SMTP id ffacd0b85a97d-48e3eb3cc6fmr11105736f8f.7.1793006544434;
-        Mon, 26 Oct 2026 02:22:24 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ece5e4asm15042461f8f.59.2026.10.26.02.22.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 02:22:24 -0700 (PDT)
-Message-ID: <1de1884e-11e1-4375-97af-fe3bf924a584@linaro.org>
-Date: Mon, 26 Oct 2026 09:22:23 +0000
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777FB606A31B;
+	Mon, 26 Oct 2026 09:26:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 777FB606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMBmj3jBHN9qqZFcAA--.53078S2;
+	Mon, 26 Oct 2026 17:26:25 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAnqyy_HN9q0H8PAA--.30430S2;
+	Mon, 26 Oct 2026 17:26:24 +0800 (CST)
+Message-ID: <440378d6-d72c-4edd-9159-582df02b49e6@hust.edu.cn>
+Date: Mon, 26 Oct 2026 17:26:23 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,52 +46,78 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
- PMU counts
-To: Leo Yan <leo.yan@arm.com>
-Cc: Amir Ayupov <aaupov@fb.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261012230527.750567-1-aaupov@fb.com>
- <20261012230527.750567-4-aaupov@fb.com>
- <20261021164332.GI26205@e132581.arm.com>
- <024bc6f1-eb73-4f01-84f3-738bf68bdc93@linaro.org>
- <20261023140013.GK26205@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20261023140013.GK26205@e132581.arm.com>
+Subject: Re: [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
+To: Yan Zhu <zhuyan2015@qq.com>, Fan Wu <wufan@kernel.org>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net, mic@digikod.net,
+ skhan@linuxfoundation.org, gnoack@google.com, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <cover.1781105672.git.zhuyan2015@qq.com>
+ <tencent_DADDE291CA580302EB7BB40B83A552D6F006@qq.com>
+ <CAKtyLkE3unhxMsH1LpqvjHQoKVgz1tcTsZWUxNHs+R6v2amf6w@mail.gmail.com>
+ <tencent_EF8D392378BF3BBAB8583E67EDDDE51E950A@qq.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <tencent_EF8D392378BF3BBAB8583E67EDDDE51E950A@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMBmj3jBHN9qqZFcAA--.53078S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWrKry5Cr4DuFW8Zw45Gw4DArb_yoW8JrW7pF
+	W5G3W2kan7tr1jyw4Ikr47Aw15KFZ3GrW5AFy7twnxJrZ8t3s5Kr12y3yq9Fyq9r1rWF10
+	yr4jkr9xWrZ8ArJanT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0P73PUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-
-On 23/10/2026 15:00, Leo Yan wrote:
-> On Fri, Oct 23, 2026 at 10:49:40AM +0100, James Clark wrote:
-> 
-> [...]
-> 
->>>>     * a device that matches one of its classes and has all of its capabilities.
->>>>     */
->>>>    #define CS_CFG_MATCH_CAP_MASK		0x0000ff00
->>>> +/* trace unit external output n is countable by the PMU as TRCEXTOUTn */
->>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT	8
->>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_NR	4	/* TRCEXTOUT0-3 */
->>>> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT(n)	BIT(CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT + (n))
+On 6/13/26 11:08 PM, Yan Zhu wrote:
+> On 6/13/2026 10:54 AM, Fan Wu wrote:
+>> On Fri, Jun 12, 2026 at 8:59 AM Yan Zhu <zhuyan2015@qq.com> wrote:
+>>>
+>>> Translate Documentation/admin-guide/LSM/ipe.rst into Chinese.
+>>>
+>>> Update the translation through commit d7ba853c0e47
+>>> ("ipe: Update documentation for script enforcement")
+>>>
+>>> Assisted-by: Claude:deepseek-4-pro
+>>> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+>>> ---
 >>
->> Isn't this recreating what GENMASK() and FIELD_PREP() does? Can we use that
->> instead?
-> 
-> TBC, are you suggesting using separate capability bits to represent
-> TRCEXTOUT0-3? Why can't we use a single capability bit to indicate
-> whether the feature is supported and caps->num_event to indicate
-> the number of external output signals?
+>> Have you tried to refine the AI translation? IMO some are really bad 
+>> translated.
+>
+> I have double-checked it several times and manually corrected the 
+> formatting and the accuracy of the translation.
 
-Just the pattern of *_SHIFT and other stuff to make a bitfield is 
-usually better done with GENMASK(). Or if there are only 4 of them, even 
-defining four BIT()s would be clearer.
 
-But yes if a single bit and caps->num_event works we should do that instead.
+IMO, some translation seems like a draft version generated by AI and 
+without any further refinement.
+
+Dongliang Mu
+
+
+>
+>>
+>> Also how does the doc translation project work? I do notice there is
+>> another IPE design doc translation,
+>> https://docs.kernel.org/next/translations/zh_CN/security/ipe.html
+>> which has a wrong "original link".>
+>> -Fan
+>
+> The documents in the "admin-guide" directory are intended for both 
+> administrators and users, focusing on usage; the documents in the 
+> "security" directory are targeted at developers, emphasizing design 
+> and development.
+>
+
