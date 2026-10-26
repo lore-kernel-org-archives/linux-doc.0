@@ -1,85 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.196
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793017367;
-	b=kkPfD9XWE4KX8J5FF9ZirKPHoE52gORcnt9Ierv9j1L6y845hBsEUAvpyzC/phIqIt7X
-	 mpaoybLSC3jbNAPNwWCG0iO6zU7OacjS+eSMIurhLxF/wlFHuDRW7o6XMozJY5dXZjBgk
-	 2FOze8UP/S74s82lWWxybxPAfTwcUubQMAkaUvIguYUOi75wfzpDXCR3eDK6BP8hHovxg
-	 W/5h++LcdmerbCTSJEtz8oaaZ1I5Lqulc2F/PCMq64Jpv9ffXgvMVAHMVYBdBhoV+YQQt
-	 geQkqW7JdVg3X6YoPPD/mBJUiEjyN+2fxjQh2YNYOPt9h/u4MDL0wT+7GxtKkXztdkg==
+	t=1793017977;
+	b=qLeXQXbNrUofWXODtFHk23lcBXGFKa7IU8ZS5aYkLlvQc0YcBA9n48AwB01M1jTyjVKy
+	 OPw94gZSAWyNTrjKALvm01NxgJKBGUdLBejUKA9QE3pNe6ZxiwyC0GiPyDv5T3iEQ6EzE
+	 UGA2q/E7J3UOxiXFhEHpxIN+YV3aCg036ODZggr88wxhYz2SlAwyZBcHF1TGq9VsfM0eC
+	 gCGG0rK8Euz396a6S0Vd+dy3mxz1hxagjLGffjRbK08Aariu+XR/wNv2fTaJk89ZlnaTt
+	 Na8yIduyzhqaPqwUKW5J1OQE0wQaGdaCPDqU35SfdTLT29zboh67Su7t+YYDJe9Hkfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793017367;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=RRJWtqm2l0xH+h0URe8qzmm/igRf8rcF8bV+QoG3lFA=;
-	b=Evm2a/W1yT+PfN9tKB8CXkxlQMVP9Uxk2wKoIWgT8KmwlY7fJiT8M/1R+6FUgm9GX5MN
-	 depqnf8JEZXgbWhM9disyKvYwlb1L1Z5qyH112OZxdVYtxAPYgMdpwjwULVofiCYFwCuM
-	 oSaB52BJDLXECLz5MDbrKi5slb6cR0v451zQxiWR0HIn74BrFdE/qaKTCXxNIlY6bvyCH
-	 giLGXCILau5DreXXIovlRy7ccFGcVEbcbMTIjiHi6k1sHccaG4Qhrzv9xfUF4k5dVuVRA
-	 A4CU2BUv9tVLqTRhh/IBrVP5yVcBROSF3z2EcLaMMy5OZErjvcA3dy54L08iLt4Bleg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793017977;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=wBWKAJ7Sj6JriSj5p7Z5YlnSwdpQx47a7utMt3KjLrQ=;
+	b=cdo2OduTLjKJ6tp0Lst79ihQWEPI/u/8VGycBtT3JJxBrxZqxyoAL9owbPxUqCC9w/Rd
+	 fHH1GnsxioqiVZvAOJ9GcCpdxECfn0Wt0nwKAnanlKd6dF/7PlDyrTyI1oTtrdGLpCdcs
+	 YP+UtYnh/g61aufhGBT8nHrm7bnRGCNjfww6rdhiNy9tl7dpQXuAwLTVzWXE3EtNylDsR
+	 25DxrasNul6Y8SupxTChnVew9xmF2uSR3D9OKlIf8Cm8b74X2CSc/LADCiJlQAHmOEErg
+	 dUQ3i0lyi37xHhVf9SeSVLxmYdFNY72fm533BNYSq9kCSD0WN2xYXcXHQw3ssousfpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="K3yXPm5/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=RDUm6fJV;
+	arc=none smtp.remote-ip=91.218.175.196
+Received: from mta0.migadu.com (out-196.mta0.migadu.com [91.218.175.196])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6415A606A31A;
-	Mon, 26 Oct 2026 12:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55AF606A320
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 12:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C55AF606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K3yXPm5/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02BC1F01825;
-	Mon, 26 Oct 2026 12:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793017367;
-	bh=RRJWtqm2l0xH+h0URe8qzmm/igRf8rcF8bV+QoG3lFA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K3yXPm5/DJsinKjwvvO6bf0LOL2vawqwdDpyXD5tqG3eAJIITX5pEtXtJbUtP5+WX
-	 xXh1A/TDK4nH/Q1pDQq/DNce6qXrlAYHe4N8nPLlEivekLR6UATMxXpJUbIMa1QpDM
-	 AnyWEMamA94AFT8VZwY+LsGvuoXyH/+6bgmCJGsSXbhGQ5ZTgJx38YYqHOsQ9JwsoQ
-	 cAe1ZZEH2oEsOzVVg/2ci6ifrzU7LcTutv+jvLwgDCQF+vB2yAZf8UbgGsH6Sjd7JW
-	 lhd5QZoYxiEqD5jXgquQMduw2hebHpim4jcIlzmnUatVDKIlLoCLvBTva/RMFt/kbA
-	 qWVEfHxpOmLzQ==
-Date: Mon, 26 Oct 2026 14:22:43 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex@shazbot.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=RDUm6fJV
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=wRMLJQ0LgYvQePRIKO1OVjTSBPiwUDDy98B0yUAI2W8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793017975; v=1; x=1793622775;
+ b=RDUm6fJVt5NU39rMwhur2G1pdoRJXlTbe9dEofdL+7h841GvVW+x7TVUjBNdfLidax48NNex
+ b3fC8ctR8hqbGDRtwjAbrgyHjMsYs+9lsjJDQFlws5ekP4zDKywBLQlvJfKh+CulC3m8/iv+2cL
+ m9zVlwJv9ooLxLebrkv33ji8=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4b9b247da60df294;
+	Mon, 26 Oct 2026 12:32:54 +0000
+X-Mizu-Trace-ID: 4b9b247da60df294
+X-Migadu-Flow: FLOW_OUT
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: netdev@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	stable@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20261026122243.GA28851@unreal>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net v2 1/2] tcp: fix shift-out-of-bounds in SYN-ACK retransmit timers
+Date: Mon, 26 Oct 2026 20:32:38 +0800
+Message-ID: <20261026123244.239766-1-jiayuan.chen@linux.dev>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,68 +75,167 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261023181326.0dc2f7ed@shazbot.org>
 
-On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
-> On Wed, 23 Sep 2026 12:29:56 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:
-> > > > No, drivers should NOT have to do that in their .probe() function,
-> > > > that's what we moved away from decades ago!  The match function should
-> > > > handle all of that for you, otherwise it's contant duplication
-> > > > everywhere that is unneeded.  
-> > > 
-> > > Well then you have to accept that root can provoke a null pointer
-> > > exception (e.g. by forcing the pwm-tegra driver on a device) because at
-> > > least with today's platform bus match function such a match is ok.  
-> > 
-> > Agreed, yes, root can cause a crash and can do tons of horrible things
-> > much worse than this, that's not the issue.
-> > 
-> > That's why this taint is there, to make it obvious that this is not a
-> > "real" bug at all.
-> > 
-> > > > Please, learn from our history, don't make the same mistakes.
-> > > > 
-> > > > Now I might be convinced that driver_override is the way to go here, but
-> > > > it still feels really odd as again, bind/unbind was created as a driver
-> > > > debugging option only, it should NOT be a normal operation that any user
-> > > > should rely on.  The driver should "just work" properly instead, without
-> > > > requiring manual bind work, as that's not a good model at all.  
-> > > 
-> > > I agree in principle, but (in my case wifi) drivers are buggy sometimes
-> > > (due to missing documentation and/or engineering effort) and being able
-> > > to rebind the driver instead of rebooting to get a working device again
-> > > is very useful.  
-> > 
-> > Fine, use it!  Just don't expect that to be "normal".
-> > 
-> > > So yes, theoretically bind/unbind isn't needed, but theory and practise
-> > > differ in practise.  
-> > 
-> > Agreed, but again, don't rely on this as a "real" solution fo ranything.
-> 
-> Sorry, late to the party, but this isn't a few user scripts that rely
-> on this behavior.  Effectively every use case of vfio relies on this
-> behavior.  We rely on unbinding the default driver from the device
-> before using driver_override and drivers_probe.  That means every
-> hypervisor with device assignment and every userspace driver use case
-> now experiences a tainted kernel. That seems like a significant
-> regression.
+req->num_timeout counts the SYN-ACK timeouts of a request and is used as
+a shift amount:
 
-Sorry, I was on vacation and missed this change earlier. This change will
-affect SR-IOV deployments around the world, which *rely* on being able to
-bind a driver manually *after* virtual functions are created but before
-they are used.
+	/* tcp_reqsk_timeout() */
+	u64 timeout = (u64)req->timeout << req->num_timeout;
+	/* tcp_fastopen_synack_timer() */
+	req->timeout << req->num_timeout
 
-This is needed for two reasons: to save hardware and software resources
-when creating a large number of VFs, and to allow the PCI config space to
-be configured *before* the driver starts using it.
+Once it climbs past the width of the shifted type the shift is UB. Seen
+with tcp_synack_retries=255 and a peer that never completes the
+handshake:
 
-There is no in-kernel alternative.
+  UBSAN: shift-out-of-bounds in ./include/net/tcp.h:917:34
+  shift exponent 64 is too large for 64-bit type 'long long unsigned int'
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0xc1/0xf0
+   dump_stack+0x10/0x20
+   __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
+   reqsk_timer_handler.cold+0x1c/0x5d
+   call_timer_fn+0x17d/0x510
+   __run_timers+0x662/0xab0
+   run_timer_softirq+0xdf/0x260
+   handle_softirqs+0x204/0x9b0
+   __irq_exit_rcu+0x13c/0x220
+   irq_exit_rcu+0xe/0x20
+   sysvec_apic_timer_interrupt+0x40/0xd0
+   asm_sysvec_apic_timer_interrupt+0x1b/0x20
 
-Thanks
+num_timeout is a 7-bit field. Once a retransmit limit is above 127 the
+"num_timeout >= limit" check can never be true, the request is never
+expired by that limit, and after the field wraps to 0
+reqsk_timer_handler() decrements queue->young again on the next expiry.
+
+ - split tcp_reqsk_timeout() into tcp_reqsk_timeout_sk() and bound the
+   shift there; a num_timeout well under 30 already saturates the
+   tcp_rto_max() clamp, so nothing reachable changes for the u64 path.
+ - cap max_retries / max_syn_ack_retries at 127, the largest value the
+   field can hold, instead of narrowing the sysctl; 128..255 are still
+   accepted and act as 127.
+ - cap the TCP_DEFER_ACCEPT conversion in secs_to_retrans() at 127 too;
+   larger values kept an acked request from ever expiring. getsockopt()
+   now reports at most 14527 instead of 29887 seconds.
+ - route the TFO path through the same helper; its u32 shift could also
+   wrap to 0 before reaching UB.
+ - document that tcp_synack_retries values above 127 act as 127.
+
+Fixes: e6c022a4fa2d ("tcp: better retrans tracking for defer-accept")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+---
+v1 -> v2: reworded the commit message, no code change.
+v1: https://lore.kernel.org/netdev/20261023064915.401112-1-jiayuan.chen@linux.dev/
+---
+ Documentation/networking/ip-sysctl.rst |  4 +++-
+ include/net/tcp.h                      | 16 ++++++++++++----
+ net/ipv4/inet_connection_sock.c        |  2 ++
+ net/ipv4/tcp.c                         |  2 +-
+ net/ipv4/tcp_timer.c                   |  3 ++-
+ 5 files changed, 20 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 4b19c8d3efda..eac33072be2d 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -956,7 +956,9 @@ tcp_stdurg - BOOLEAN
+ 
+ tcp_synack_retries - INTEGER
+ 	Number of times SYNACKs for a passive TCP connection attempt will
+-	be retransmitted. Should not be higher than 255. Default value
++	be retransmitted. The sysctl accepts 0-255, but values above 127 are
++	silently capped by the SYN-ACK timers to match the 7-bit
++	request_sock::num_timeout field. Default value
+ 	is 5, which corresponds to 31seconds till the last retransmission
+ 	with the current initial RTO of 1second. With this the final timeout
+ 	for a passive TCP connection will happen after 63seconds.
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 0265c27a5fd7..986b7ea05e4a 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -183,6 +183,8 @@ static_assert((1 << ATO_BITS) > TCP_DELACK_MAX);
+ #define MAX_TCP_KEEPINTVL	32767
+ #define MAX_TCP_KEEPCNT		127
+ #define MAX_TCP_SYNCNT		127
++/* request_sock::num_timeout is a 7-bit field. */
++#define MAX_TCP_SYNACK_RETRIES	127
+ 
+ /* Ensure that TCP PAWS checks are relaxed after ~2147 seconds
+  * to avoid overflows. This assumes a clock smaller than 1 Mhz.
+@@ -912,12 +914,18 @@ static inline u32 __tcp_set_rto(const struct tcp_sock *tp)
+ 	return usecs_to_jiffies((tp->srtt_us >> 3) + tp->rttvar_us);
+ }
+ 
+-static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
++static inline unsigned long tcp_reqsk_timeout_sk(const struct sock *sk,
++						 const struct request_sock *req)
+ {
+-	u64 timeout = (u64)req->timeout << req->num_timeout;
++	u64 timeout = (u64)READ_ONCE(req->timeout) <<
++		      min_t(u8, req->num_timeout, 30);
++
++	return (unsigned long)min_t(u64, timeout, tcp_rto_max(sk));
++}
+ 
+-	return (unsigned long)min_t(u64, timeout,
+-				    tcp_rto_max(req->rsk_listener));
++static inline unsigned long tcp_reqsk_timeout(struct request_sock *req)
++{
++	return tcp_reqsk_timeout_sk(req->rsk_listener, req);
+ }
+ 
+ u32 tcp_delack_max(const struct sock *sk);
+diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
+index 8151c638a24c..ee7b64f3141c 100644
+--- a/net/ipv4/inet_connection_sock.c
++++ b/net/ipv4/inet_connection_sock.c
+@@ -1072,6 +1072,8 @@ static void reqsk_timer_handler(struct timer_list *t)
+ 	net = sock_net(sk_listener);
+ 	max_syn_ack_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
+ 		READ_ONCE(net->ipv4.sysctl_tcp_synack_retries);
++	max_syn_ack_retries = min_t(int, max_syn_ack_retries,
++				    MAX_TCP_SYNACK_RETRIES);
+ 	/* Normally all the openreqs are young and become mature
+ 	 * (i.e. converted to established socket) for first timeout.
+ 	 * If synack was not acknowledged for 1 second, it means
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 99d7237a623d..a309fd45ad42 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -358,7 +358,7 @@ static u8 secs_to_retrans(int seconds, int timeout, int rto_max)
+ 		int period = timeout;
+ 
+ 		res = 1;
+-		while (seconds > period && res < 255) {
++		while (seconds > period && res < MAX_TCP_SYNACK_RETRIES) {
+ 			res++;
+ 			timeout <<= 1;
+ 			if (timeout > rto_max)
+diff --git a/net/ipv4/tcp_timer.c b/net/ipv4/tcp_timer.c
+index e56eae4bc341..f7b100334a89 100644
+--- a/net/ipv4/tcp_timer.c
++++ b/net/ipv4/tcp_timer.c
+@@ -469,6 +469,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
+ 	 */
+ 	max_retries = READ_ONCE(icsk->icsk_syn_retries) ? :
+ 		READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_synack_retries) + 1;
++	max_retries = min_t(int, max_retries, MAX_TCP_SYNACK_RETRIES);
+ 
+ 	if (req->num_timeout >= max_retries) {
+ 		tcp_write_err(sk);
+@@ -490,7 +491,7 @@ static void tcp_fastopen_synack_timer(struct sock *sk, struct request_sock *req)
+ 	if (!tp->retrans_stamp)
+ 		tp->retrans_stamp = tcp_time_stamp_ts(tp);
+ 	tcp_reset_xmit_timer(sk, ICSK_TIME_RETRANS,
+-			  req->timeout << req->num_timeout, false);
++			     tcp_reqsk_timeout_sk(sk, req), false);
+ }
+ 
+ static bool tcp_rtx_probe0_timed_out(const struct sock *sk,
+-- 
+2.43.0
+
