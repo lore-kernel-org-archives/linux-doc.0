@@ -1,84 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013440;
-	b=hHH9l6dFAnw5bZKa+RpK39BjNaMl1WG2DdrvkHXBS0hRefMMFbITA1skJzaU0Er/Oma2
-	 BWZ1IQYOEpfH1IF22yLO+UlUUgAEshfbLkKksXs/89bRHG1kRV5Gl3D7R5ya/EGnZABzv
-	 32OIvyG8Avl6oy7Q2/wjeoXvKLuxHsWD0Zwe/h8Y8noG7GWWSx2049v+NNVXy6iiWaxXQ
-	 YrUgkJu3Lij2ewhjW8DqgVbVP4wCChajLTqnBDhgrLxwjQn0mxphTD2OMyN7srJRXNny+
-	 RKCxXy4F49OliFcCXlOSCYvoD1cn6rpUDm+/lsZUvphDo5gKhEygIRhBDfmHEDEoHKg==
+	t=1793013478;
+	b=NgpNKqrNPNtUwfarM/tbW5ChNP59oRGW1ey1vjieJgGOrXV623pYM624CP8KHQqrv9IC
+	 0aDJyzPyKgyAjMAWWf3HFh7qVaxVbIq5ZidwqgfPiCjywPL+tS8CHEnWN+cMqjiXSAmaT
+	 XYMnLGFpki2M6uvDOX7iwfR6ltGYSkZAMxHQF35iv61u5CY27lCmGrwtqKgeJkGHmzCMx
+	 5VBa1DT3EO3WiJCQQMFZZvlRUU0eLdC/jLlR0Z6lER/Q35m+6C6+sFlzIWK+y0bKThEp8
+	 1HAKrGTGl2mQixkhDF1KWvFeTyYeBn29DU5MAAp1NPfmBiRKjqOm2t1EyRjC+/7zulw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013440;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013478;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:References;
-	bh=fmsyrygG81C38l9zQdlGfkeoPAPtMMphWRdYuBnpfhM=;
-	b=4+09CwNeQCP9uO5PgWBuZxoNZVoJkgHpr8Rg3NJ+sraDvD41TFOzh87gs5TC+PNGB6hx
-	 ObPkwlZBT9FjwsQ28lwdynkSKQjmcMWVJOAL+HDPOzSGbEUQbFC7Vviue2ZZsDFASIyB2
-	 kk/bbK/FGlrhUOHnuuGWz2/mZbN4SQ1MYyXkMTWcMCjJszQQ+0Ndw4fSIcZiWG8DhUDWn
-	 TiM+xqLcqF8cUO2mcahcwn11vRDQLzdDElBGeEDfXwRvfCXLy4zOJwbm75BTlhmUgwS79
-	 P52pXS9JnzFu/Tg3UAqEqPXLfakciaucfqbtHPESNY8EHHqD3EGkGuYFtPviEfk/xfQ==
+	bh=NRIkuKUZUAgjI71v50t8xrAuxWFu9ma5GeG76B0scz8=;
+	b=bAOtvJK4foRyQG2nMivUIbDf+IXGqVoBOofXZe7EapSnAYGaqWxutLcvBVttgAJHXLHI
+	 5QgW8cK2ZcOPOduEy5GutM7MLCbaoW6hpALflcz9azNuVLnVE7JCV4vstWViqLAeoIkQi
+	 VMfJKH/Hvolhon1B0K73VTppG4KNxkDEKCuWfjFDcnVOigmA2Rt1VXoxzmpusBXTN+xms
+	 ZEQhXcvgTcGW/x1+ZZAVIvtbGozF/S0Fcy1gw1obkIs4eKzioB3zm7Gy/X1yHSjCgWfJc
+	 dWX1+yw8bkF3LXMspc+BMbuZrqRAswEJKcCOVMZKeOC0DpcbUQ4hRq3Jxv2lkuvNSkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VzrrUTnc;
-	arc=none smtp.remote-ip=74.125.227.130
-Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LXB3Xngy;
+	arc=none smtp.remote-ip=74.125.227.138
+Received: from mail-pj2-f10.google.com (mail-pj2-f10.google.com [74.125.227.138])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356D7606A31D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 11:17:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 356D7606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9495606A338
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 11:17:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9495606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VzrrUTnc
-Received: by mail-pj2-f2.google.com with SMTP id d9443c01a7336-2ea19bc317dso23372605ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 04:17:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LXB3Xngy
+Received: by mail-pj2-f10.google.com with SMTP id d9443c01a7336-2e934c6c1c8so11575325ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 04:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793013439; x=1793618239; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1793013477; x=1793618277; darn=vger.kernel.org;
         h=references:in-reply-to:message-id:date:content-transfer-encoding
          :content-type:mime-version:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fmsyrygG81C38l9zQdlGfkeoPAPtMMphWRdYuBnpfhM=;
-        b=VzrrUTncN/o2GRkTl9FF7gc0lN35ukiRUt9yxbGohobiZTuWuvestC/uHneEx53f3q
-         phOsGNTPDFkwwzTlUy/W4K3NxeLNQkEYXq84S133i64u6ZXuyK795nqQM+Hn5EBfKMWt
-         6N/AH2TsDwCIfKUHtitPYBVrc94WLuJJtvBapqXcFQJVRXD8ih9NMgAtdG4/ixyL0WkR
-         HipByeASH8+F1wD8Opszv/9hhAwn/Kpq1EFKRBuaZ//pg4YwL+8o4oB/bttTE5zr4LPQ
-         QYMvddCXRAIsK5CNx+GL65U9IfVV0emGQ31yx3eR6FJGCUYzPviEzJgKGOjn/HmXqFbc
-         Zzvg==
+        bh=NRIkuKUZUAgjI71v50t8xrAuxWFu9ma5GeG76B0scz8=;
+        b=LXB3XngyrN0kmxx3Y1iT64RUtaddWXLeKcQrMXaBFct1KQ4MMCaalvTiU+Zz4ai4nv
+         kthrr1nNHO95LblZPV3whXJt2IDdi9L6DAuQfP79FNpzEVw30o6xgLB+J5YcfPYdnVHO
+         eFX+eIQ8qgxOmmX4E9vJIEODDTOuuHUi4dVR4p3eoTiNrATc77phrzzMplpWrU3kOY/h
+         Cp5C/c5lb1/FIGbucSYyg+hZalcfeC1v90Ldn1Bf9Ts3D/Y+aJUDjIZfZXABesKPxRxI
+         7u5luoM8G8OPUFZZblF4Rwf9fcHs+lsvXA2vt0m9pHO5MOKJFcsBGJizWMcbQbmfZRhq
+         8bJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793013439; x=1793618239;
+        d=1e100.net; s=20260707; t=1793013477; x=1793618277;
         h=references:in-reply-to:message-id:date:content-transfer-encoding
          :content-type:mime-version:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fmsyrygG81C38l9zQdlGfkeoPAPtMMphWRdYuBnpfhM=;
-        b=jyQEW/NmZgqcGkLDJsVJ1Jceg3ZIMALJv9069EFEHcyrGHUzWfPatcVX9mX3+ItLLH
-         J0yVaiZ/aikgHKJmU7XCd2tVLLgY4KrGIoX0K1d61T6HVtRkqgdFuxWQZJ5xGRKp+oTG
-         sGYOCoOlfnCX5O4yzuUo4e9sfruxwaPGGln9Sr7vYBBy4l71ise4T7u+s+zTOWXnFNiu
-         SEhqaQcYfeDPHJfqJV2vhJgWcBK3R87pO3UqEEVNwGO1T2vf+ePjHuomloc0UeyivlFW
-         ZVV65RjOJ3KSBnFPjPWE55cK4jg6FpvsfeAlN3BmKtpWqmREwbRM8/KcHC4/SaU54dq+
-         38RA==
-X-Forwarded-Encrypted: i=1; AKwUvBw/vAbY4uzl9ecHbe9nyN8CiDPyZ3E9sNYlMbOrgt9HsT5DFYOFfpnB802SE8pExEydk693ZGyxfe8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL08KgHibg6qE7ZVRJ2tSA42SCGGYTmNJJ3uvCRetd4iFQAib77
-	qPw4i8DSHcn28HYTfzkujpJwHmZ4JW7Am2yT+pK4LsqNGWd6jGFZntTwDzDKksuwrCsi4A==
-X-Gm-Gg: AYBFou0qA6U5BeTQlo6qntlw53S/gxqiBeaCuZeYqpvJWjQ4GOLQm2qrtU7jqG7KAOk
-	OZvOKW7LE68ladTvMFYfts4Dik9YHlYcyVEW5utJHiP0kzucQZH8j9uCaU/AvBuxNFjtkrw6PQn
-	+1Yltz4pm3/7RVxhbx0L///HT5OHywHItzbAzoAdVzlcRA842iRIO5OaSmuyJnXhpCAKSWZVzVT
-	OuHcTA9SsP4zzBbKedjcOvdUrfOhd2abCTHBm3Ae6qkTSBqGubZZrPOmcvCtYdSHlKpKlRwDC3b
-	uaS+qBoSsF/IeFb607Z3qpQijzsVwdrLOnt2Lb5h2Vmxwalz1KmKcSqXm5+oKVRFAg4XbCzyHyU
-	YlCTgYh7oXT2JWyUW5yxQXV4iX95q6sWrBtKB/hFwxwPes0QWd+QPB06smZ4EeGdW1G9SXOWdZ9
-	k/HQukLEDd5URULNHkmlIiW6VwqZSHrCvxLhKxnI0YfJ8s+JS58s0GV3NppLlyTEG1KeT+faKwc
-	unrNQjp6WAI1T5GJ5qUD0fLEGuwJWeAMeQ0I3w5Hy0E/z9cQ3t1V6uOBIM2XmScQgbGmAWIGDRY
-	R50/SVqMQTWtMFeT0terkW8DysnkhmNRjQnmiGc5XpKg5fsKFHFubQ==
-X-Received: by 2002:a17:903:3905:b0:2e4:aa09:fa9f with SMTP id d9443c01a7336-2ea9c84b404mr55890135ad.57.1793013439353;
-        Mon, 26 Oct 2026 04:17:19 -0700 (PDT)
+        bh=NRIkuKUZUAgjI71v50t8xrAuxWFu9ma5GeG76B0scz8=;
+        b=NIOoMylH/vtHzduaGp/HyxMkZF39ctucxmQ6xZsA91up4DDkCMbeKdEWun1hxk1vWF
+         BcVFeTiXE0tq82kbYF8nRc7MhDriEelHKvT+bVZxMuUQqkVvhxmXkgF2pjB+54o9/zYL
+         ti0pRaw96cRK4Nb9cukTTc4t2dxT9xo8MU3Hf1vfk2/dDEl06zqqn1s2/B5n50dn553G
+         FackAv24+6cFCylWnJ7hys9wZFOZ5eotpfoTK8NNMN60UPm3gUjfRxeP9a/ppA9QNRNK
+         u815WZOqCJQbdt6UHbJcBMEljQxfdhr8lO6wcf5mgHoee7TiF5HVyhNFhC/bNr5G8zIc
+         D/NQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzRZ3D29cMyx+oHgekHqBa+s1EY5pzeKHeMKz2NEPVd4D1sOmKtKV95+jesJryLOz9hab+AHgWw7fo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKcHuztulBUNjzZTNI3sWpqjj4/fmtVw5R+04qq7nGDV22ckifR
+	qUgVcLWXbdLk/Hb1R+sHK7g03fJROMoenyzI26VaefQLSxTNulvcWQAB
+X-Gm-Gg: AYBFou3NHKoG1A76DSDlOdQcgUjCq/RW0mZeNkUeRspvDMd86LEHfGN0ch4LgvwX0cw
+	YoQSxeIJ+MxQOAY8O+IUIhJOBgewRn2VeKH0jlfxZnEBEIZxkUQvy0n/hZEcra7NIV03z/LDG6O
+	3vk5mluCw73qKia7T3k32/Dp0k6kM9uGyN+WRIQyLPOvhIwuytRPwhtqm6h+BVXwGY2imYSH5ye
+	2u/NtBeDIP4vJQnIHgf2bV3dGpLgeb62FWDJScVBC6RlVLsTaKI1lJEvSIjHnNQLm0GOJu5nr3v
+	Xtx3TirLmhNb/CdrfaMp4frJknWVSq8hVB0Tyfuwdw35KQjkMSKhCY6toDZ/dRerwyUfBSpPOC+
+	nFnamcUYMG4IQz9+0WSHwsxFSrhxIad4OF3GygRGdf3t91b7XVkj4UINquKnL96udEA2RW1yhS8
+	mVs5W3h3EDFJHlNL58KsP6uXEmQhjzwfTJlx/6llC/vqHBzBXx9yHqhnvWHKoftj04sefV3jwxX
+	dr9//wHRTyWNseVgR4h/TL/Xj3xqRfijgKuKUZzlOT1YZQdVCA6eLUw0HtO4VdGb92ILqZWPZui
+	iFAjLCqNoHqFrsSwJHC6cT2D15e4KjzjGo/+qKy+UuwwgilK48oTCcILQxTfqKEKusS9CdhsUyI
+	=
+X-Received: by 2002:a05:6a00:4005:b0:8a0:2914:5d27 with SMTP id d2e1a72fcca58-8a369168952mr5053901b3a.44.1793013477084;
+        Mon, 26 Oct 2026 04:17:57 -0700 (PDT)
 Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b1df35asm14878235ad.60.2026.10.26.04.17.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a36acadefesm1240756b3a.19.2026.10.26.04.17.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 04:17:18 -0700 (PDT)
+        Mon, 26 Oct 2026 04:17:56 -0700 (PDT)
 From: Aveline Noir <jm5905938@gmail.com>
 To: SJ Park <sj@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -89,7 +90,7 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
  linux-mm@kvack.org,
  linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/8] Docs/admin-guide/mm/damon/start: fix grammar
+Subject: [PATCH 2/8] Docs/admin-guide/mm/damon/stat: fix pronoun agreement
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,61 +102,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Date: Mon, 26 Oct 2026 22:14:33 +1100
-Message-ID: <179301327249.2.1796164575094900927.damon-docs-grammar-1@gmail.com>
+Date: Mon, 26 Oct 2026 22:14:34 +1100
+Message-ID: <179301327249.2.17530814278215474568.damon-docs-grammar-2@gmail.com>
 In-Reply-To: <179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
 References: <179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
 
-Fix a few grammar slips in the getting-started guide, like "make DAMON
-monitors" and a region "that has not accessed".
-
-"The line of the commands" used to be "The first two lines".  With only
-one masim line left, I make it "The first line". 
+"converts it" refers to the access events, so I think it should be
+"them".  Rewrap the paragraph while at it.
 
 Signed-off-by: Aveline Noir <jm5905938@gmail.com>
 ---
- Documentation/admin-guide/mm/damon/start.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/mm/damon/stat.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index d98b0eb8e771..a83fcc2265bd 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -63,7 +63,7 @@ the execution. ::
+diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
+index 4a9db755a526..a93609649a5f 100644
+--- a/Documentation/admin-guide/mm/damon/stat.rst
++++ b/Documentation/admin-guide/mm/damon/stat.rst
+@@ -68,10 +68,10 @@ estimated_memory_bandwidth
+ Estimated memory bandwidth consumption (bytes per second) of the system.
  
- The first command of the above example downloads and builds an artificial
- memory access generator program called ``masim``.  The second command asks DAMO
--to start the program via the given command and make DAMON monitors the newly
-+to start the program via the given command and make DAMON monitor the newly
- started process.  The third command retrieves the current snapshot of the
- monitored access pattern of the process from DAMON and shows the pattern in a
- human readable format.
-@@ -71,7 +71,7 @@ human readable format.
- The first line of the output shows the relative access temperature (hotness) of
- the regions in a single row heatmap format.  Each column on the heatmap
- represents regions of same size on the monitored virtual address space.  The
--position of the column on the row and the number on the column represents the
-+position of the column on the row and the number on the column represent the
- relative location and access temperature of the region.  ``[...]`` means
- unmapped huge regions on the virtual address spaces.  The second line shows
- additional information for better understanding the heatmap.
-@@ -95,7 +95,7 @@ monitoring results to a file. ::
-     $ ./masim ./configs/zigzag.cfg &
-     $ sudo damo record -o damon.data $(pidof masim)
+ DAMON_STAT reads observed access events on the current DAMON results snapshot
+-and converts it to memory bandwidth consumption estimation in bytes per second.
+-The resulting metric is exposed to user via this read-only parameter.  Because
+-DAMON uses sampling, this is only an estimation of the access intensity rather
+-than accurate memory bandwidth.
++and converts them to memory bandwidth consumption estimation in bytes per
++second.  The resulting metric is exposed to user via this read-only parameter.
++Because DAMON uses sampling, this is only an estimation of the access intensity
++rather than accurate memory bandwidth.
  
--The line of the commands run the artificial memory access
-+The first line of the commands runs the artificial memory access
- generator program again.  The generator will repeatedly
- access two 100 MiB sized memory regions one by one.  You can substitute this
- with your real workload.  The last line asks ``damo`` to record the access
-@@ -170,8 +170,8 @@ set size has chronologically changed.::
- Data Access Pattern Aware Memory Management
- ===========================================
- 
--Below command makes every memory region of size >=4K that has not accessed for
-->=60 seconds in your workload to be swapped out. ::
-+Below command makes every memory region of size >=4K that has not been accessed
-+for >=60 seconds in your workload to be swapped out. ::
- 
-     $ sudo damo start --damos_access_rate 0 0 --damos_sz_region 4K max \
-                       --damos_age 60s max --damos_action pageout \
+ memory_idle_ms_percentiles
+ --------------------------
