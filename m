@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793025930;
-	b=hrz1irhlUuLwieiObTZQswJr2Z6m+StXIWDdrnO+U8G4NbUhcwJLyN7D1mtA1qYE8YRu
-	 si0tryvMKWTRjhimIJmmGmP/GyiThozvVidyU8DouLlkcn/Vh4JK3Q4/sMTcHb5doVBFU
-	 +LjT1lVyV7hAa7Ip6xt3GJH5mfPO5/KW1fm4mLjvpubZEYSM/FeFX2QrvqQYb1rM2QZho
-	 LDUEW+E9YYuS9PbdwfbdiddvLqX3SYyFkC5B4woLJEQ5zKshdlvvv8/NiuuHBmkoZ8Qca
-	 +99dS1mX1lng1BV4YpeFGHCRqGpimtrE12cPTZWkF8I4tLbDxr5kpOmp6K3XPGpSPfw==
+	t=1793026361;
+	b=aJmMZVz4qNxio6/U0F3/gv/Soz2B2qy+/mWab6UOfAo1yzWu9cy8HzSwqAJgkmaEMoIj
+	 yLzkTOqpZNmuulRrn2SayOGurh9h87OLxGbdqenbAHAf4/5waS4EqEBrq9HoKAX7c6OSe
+	 AJHyfh1ZD0vdUSCnIrTYay6o83847fmW4v8wt5ZivI3tAH+FIovYwb6IMHfg4O3U3PWes
+	 DOJgsxD2zU6u7KJp8np9L3yax8nJq9fXfm3Xfp3nQeZqg0VpbVDhS71/Da19F3rV6LtDo
+	 XSuQ7JqJjoYYgFWNoLkDVxmd7QCm5klQx7yANg5Uimvjhje0CPvpr8Y357bFd+pvp3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793025930;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793026361;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=BTyJwIZ3wmc9oIYfv63SnUqHORvshzUvmQqM3M2r5gM=;
-	b=v1PmjFDpVL24APIXfz9Knvrmvh0QO6ah5whkpdQ0BnsMs8vRVujpUeeQN1pK+4By+Rzb
-	 S0MLch5YLLE8aIzPQHX1ibeC24lWHgC1FP+qK61bRI1g7GjNaa3Zwo6BFvzCtJ9U+y+Jg
-	 l2/vfGz+DmOgYkBAnrYlTd5Qp1VRKdd+63N7Ge0WFDPniplS5e4l6xf0umYg3HTUVYVmn
-	 9RqRVRAvYDJNdyphsQXXx4o19z9BlY3SwfOlcpVmOeN0uBxdTIlyltlyRC+Yl8bnirAix
-	 n7LGa9QMrxMwA0TYdzDPpJPTJpJInlpfgaRUFgMyUgR+znr9BACMpsN8N9JIF25d4oA==
+	bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
+	b=FoUlXdC+V35mMxJp5WT4TDWOrfYQF3nJz9oIW6hFdj8nDbk1SBvEolU7IO2z7e9DpGhe
+	 3RZ9JwWlim3IoGuuk2xy2YwkIQXocjom/uXhA30RM1lfCucghsN2c8sAFVc3Bzy3undaq
+	 hhXR61eL9wLOGDDCrBMcwXVZfDQU3HNlSYWQ6dvgE91kK2d4mt9Z6GVVz2o/JShf+KEUJ
+	 la51WGieJjSY6EtLXXLfqGxlHlHxEz5A1Erp52L1+p6RtjHwTCyk0UvfzcasNxx0TBpee
+	 A1G6Ebj2TBdAIaoMpl7SQerQwBADj+dex7y2Knel+lw/hiui/VtoZxkYT5qBrq2EIRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=resnulli.us;
 	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NaHhzKNA;
-	arc=none smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=mXmlo9KF;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03C4606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 14:45:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C03C4606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C5606A32A
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 14:52:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C30C5606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NaHhzKNA
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c414e5d282eso348603466b.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:45:28 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=mXmlo9KF
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso17849305e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793025927; x=1793630727; darn=vger.kernel.org;
+        d=resnulli.us; s=google; t=1793026354; x=1793631154; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BTyJwIZ3wmc9oIYfv63SnUqHORvshzUvmQqM3M2r5gM=;
-        b=NaHhzKNABkMC6wPd56SklKTLcrQYlfIh5spEFmqO7cf478BMxIsRJr4GJdsQzMnSsI
-         rdTHhnF71aRCmn/ZbWzRcAHNKccrrw4wdLKTXgtF7lVYmL/I0tNSmfXZGnPPcKVl+2Yl
-         x/dU7kIekZQCU2z+mtWPUnGySnvBvr6joKf+sfeGKvdFtmYt9dSLMTJesO7CKx2gOyWj
-         F7XkhsdJkfue1Pp3MdFYVpe8zPO/ElN6+Hl27s2XKWj4Ttuwb4puQdX4nJm5KZchfBO/
-         R8eFcLnpn2qGsfM3RVIy2yrHCfMIG6pg+Q6Fi66PGXs+F6CEx+JXB0tkqciFCTf+D4JX
-         SK8A==
+        bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
+        b=mXmlo9KFfO7C9F1JFA8jDMW1R6BdkfNbBAtAR+uIFFX3PSFcODnFdrXZa1KfFJtQfe
+         1wYn7NZZoJaxDL/t967U1Hs0rKedL8HWe0MeuV+kdfVc3BgbfLpnErhoLHo2A3dwbhUD
+         zuGqlNbTM0JhttmPQXgO33kNqvh+2vXB3bJYAqHbdjWU8UdCdUlN7nPYBUAnXyEWLQdu
+         BSAnyLX/VZB+uFlqnUMpVx8Kl0DqyQ1tQ7+6tZcZoJp5PfXjNV+HXKz1BjRGvXtiACbB
+         bVxAk59302VeDMsvIwuK58TpeDB3KNVK9NVhLsRFkUhIN1VwsdfhXArbGQKmp878hYXv
+         FhNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793025927; x=1793630727;
+        d=1e100.net; s=20260707; t=1793026354; x=1793631154;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BTyJwIZ3wmc9oIYfv63SnUqHORvshzUvmQqM3M2r5gM=;
-        b=IWgyZuHpkYCYaeG6umtOhQKtSOh6IneDLZuMrPR1L4C3Dy94sI3Pd9AiV35j40bCxZ
-         2/4Jqx4f+0STj4Bg4251OB6ONT7cGVOjxGvMjQTuDfRDEWyAQzyHeI/u9sCWVrdjK/eJ
-         XSEx+pjEagsRG7E0Ab63WpkFDBwFwrQAJRZl2fRBEbgTaQjFV4kB9ZmoSCGsjlpXZfBj
-         QQg8aNx9rT/I9sw54r4+7gTfP3hUXeuxbv2caTl9pNYHS2dcGHMNafwyHZskccn3EYmU
-         Q5XvPEYV67rQOgb8CIwjU1n7gLI3YlabCW1rA2CnciUtZzR6nDkegIDDuUJtbc2eTbkC
-         Qm+g==
-X-Forwarded-Encrypted: i=1; AKwUvBzr73ywAL5+EqLtHTNPy1g3n3oN13Y/jZBocFQZ9tCvkGLFb1Xf3Jr0DeBGLVnYAHefWvyJ7Va7sCg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYILygW/SMKjvQPO4u+oFcUyn3fglNbiGr4BYiNFVq/Jb38k1b3n
-	7zFEBwK65+ax0dJep3GeUkgacJ67XADDF8Vk60YhfqDfu0h8XFfA7FVUplyOStauk5U=
-X-Gm-Gg: AYBFou0Yo99aZQ0BufKBxaAvenZkotEFss0sWUDOgBV8SiPDdtNFzjLFwP+O1gMjLJM
-	JdFL2NwdJVlEcFFHOkj2Hahfa/O+NAbtV8H0RrnVVeV/w7qt5mqCpJX4qgf0jfnqkP1sRrLsjsG
-	e0+1daAkd9HTKFlJUJB/l/sYDSIEj5yjH63d6/3BQWeAKx2NZIdnLvFJoL0ATKDV4JebSbdm+Ru
-	pGn4WYd1JllDqdRWgBIGSmX0gbeBlGySDPcVtleW/A4X3Ns8nLZWDMV4Zu99UyJEJKArdINhFkg
-	gg9KAPP4sbpVxHq/TpcPxsHc/gxnqw7Fd8PPJg+O/dzyElhjRgRZJihCxspzzvf2QlB/XyK6PH1
-	hqc/5rL4gP0/wDvvlP/N3mcBs2x7ph92ifU8IhzrmWDZFy9UfzIRIAK9hts5iSopqyF9a77tbQ+
-	xCLHAPa5R81sntZTnvi9i5lCGRpnhWr5Q4IRF9cz5urDlatyG0j08mLQbL5QXWfp8D78pTrEJMo
-	y+N+2sFtMz1rDpIH+pmzjplpTJVUB1M/Vy2MYouLXiNd+MZ+HMPXRXc4MkWg9LC
-X-Received: by 2002:a17:906:c111:b0:c29:f5d5:5a97 with SMTP id a640c23a62f3a-c46bde8850amr767885666b.33.1793025926980;
-        Mon, 26 Oct 2026 07:45:26 -0700 (PDT)
+        bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
+        b=AK+lCflVMQFNrD4T2UR0iCFBCaWoQeTtIvOrpejCmPXHkbLaabIOAvbrtZu6oA1c/D
+         Vcbnp9ooOWjmhIkTf08VoRVUAUU0qoh5XfaaIJYoLr3m/PPyji2KKy2L643HgyANKXZJ
+         q5IeJ+IKhLpH6RBuL72OxWHR4ST0qz7GX0vc6HFZf/AY7vYu+TzzUtPtqMTx2ik/hKKd
+         GBP1BNLClc9r1B/OqvE+9UUUgVCqI3Mtnsx1Yd1jYRF9nr/iZte5J1CwMAH3V/lyrTqv
+         no/VOrAoF6w5d84BemZTOBcBx/O7W6n+avgiHk+lXXlTiW0Pr3Vr4W/yLpgLNLe0E9Ht
+         uuEQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzOp0iPSHBi5DWYGAp1hGHSTC13e5lFkiYHYXvGcHtldISo1yaFQJvGvq341t9FvX4K/axwQolrHcQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJV2sQF10uw5rmGxsxo75xvchA6SAH810oTN7hozKBjjmZDpk0N
+	jJOFfAv6SUUsdjPm684+lbHBLQPwlurgTFmT3BTxgRSjt+4H+v9EwuZd3ZlFyEiRqus=
+X-Gm-Gg: AYBFou2eZNMTR7PiWGa903i6tZKp4IzxSErhIl4oIr8wPXke3Lq2tpbG4m1+Ee+ccEK
+	q8KSBVlBwXhI/geETXpSiCuUuQpeh7EoBftOekv36MNHKTTYq7+QoOuShe9brJpiKviDhGdi0T4
+	gLdcvbrlYW2ESq9yGYzChN1bMLRj9pCKWTW35q4VR6ocnvl5ukgtnS9yZPPP+Phl1DP2Ln+9QIX
+	FYtB+MKpfKQ5gp8mmTlZGve2ymN79OA7KEZH+YdlWt4a9niJhg3avEmf6EKjyQRfFH+SVKzUkqN
+	YvPW0GaT/OVpYoTyuC/TpFZp8ldJU6qiikyv/AmXWG/fNQgPtc0G2nZNEPf1+B1t0LxxiQkWFQL
+	zuENqrS7XIuSTco+yNCidroeHSRjJVOfvJbn4hXUTXNbFBArjFC3G5QFqNPH/7zPmGL+d3kHPNU
+	yj3MIYseGQ/WGLJ7Fhz26cO38ExCeKQ8wzw8muIDWZmKiyIQW+5FINjSvA9P6AB1vWNc0ArnJdX
+	maA39ZBOfF4XNTMyBi5Oul8ZdWjkZrLupWEMzBiiChpxXz9iayHV2MDxI/o151TwA==
+X-Received: by 2002:a05:600c:3493:b0:4a2:a6e:80f5 with SMTP id 5b1f17b1804b1-4a35ac9d0e8mr130236665e9.11.1793026353844;
+        Mon, 26 Oct 2026 07:52:33 -0700 (PDT)
 Received: from localhost ([208.127.45.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd7981a7sm325130766b.72.2026.10.26.07.45.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a04ad39sm528356935e9.1.2026.10.26.07.52.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 07:45:26 -0700 (PDT)
-Date: Mon, 26 Oct 2026 15:45:22 +0100
+        Mon, 26 Oct 2026 07:52:33 -0700 (PDT)
+Date: Mon, 26 Oct 2026 15:52:30 +0100
 From: Jiri Pirko <jiri@resnulli.us>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
@@ -90,11 +90,11 @@ Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
 	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
 	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
 	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 10/20] ctlv: Prepare event queue support
-Message-ID: <at9ncuDFz_vI-0W1@FV6GYCPJ69>
+Subject: Re: [PATCH RFC 11/20] ctlv: Prepare runtime introspection
+Message-ID: <at9nsxtGOl3N5PJR@FV6GYCPJ69>
 References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-11-jiri@resnulli.us>
- <179302367451.58760.3073439917920385955.b4-review@b4>
+ <20261015145053.3664509-12-jiri@resnulli.us>
+ <179302367452.58760.11808905856343064399.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,30 +106,246 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <179302367451.58760.3073439917920385955.b4-review@b4>
+In-Reply-To: <179302367452.58760.11808905856343064399.b4-review@b4>
 
 Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
->> Add per-open subscriptions, bounded event queues and event creation for
->> CTLV families. Add the generated root family kernel bindings now that their
->> message and event helpers are available.
->> 
->> The event and generated root objects can be compile-checked here.
->> CONFIG_CTLV remains unwired until device dispatch completes the module.
->> 
->> Assisted-by: Cursor: GPT-5.6 Sol
->> Assisted-by: Cursor: Claude Opus 5.5
->> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
->> ---
->>  drivers/ctlv/Makefile       |   2 +-
->>  drivers/ctlv/device.h       |  38 ++
->>  drivers/ctlv/event.c        | 713 ++++++++++++++++++++++++++++++++++++
->>  drivers/ctlv/event.h        |  69 ++++
->>  drivers/ctlv/internal.h     |   7 +
->>  include/linux/ctlv.h        |  27 ++
->>  include/linux/ctlv_family.h |  11 +
->>  7 files changed, 866 insertions(+), 1 deletion(-)
+>> [ ... 53 lines skipped ... ]
+>> +/* A cursor packs the record and member where fragmentation resumes. */
+>> +#define CTLV_INTROSPECTION_MEMBER_SHIFT 48
+>> +#define CTLV_INTROSPECTION_RECORD_MASK GENMASK_ULL(CTLV_INTROSPECTION_MEMBER_SHIFT - 1, 0)
 >
->If we are deferring the mr log, then events can be defered too? That
->would save another 1kloc to look at right now.
+>Use genmask for everything:
+>
+> #define CTLV_INTROSPECTION_MEMBER_MASK GENMASK_U64(63, 48)
+> #define CTLV_INTROSPECTION_RECORD_MASK GENMASK_U64(47, 0)
+>
+>	pos->record = FIELD_GET(CTLV_INTROSPECTION_RECORD_MASK, cursor);
+>	pos->member = FIELD_GET(CTLV_INTROSPECTION_MEMBER_MASK, cursor);
+>
+>	return FIELD_PREP(CTLV_INTROSPECTION_RECORD_MASK, pos->record) |
+>	       FIELD_PREP(CTLV_INTROSPECTION_MEMBER_MASK, pos->member);
+>
+>> +
+>> +struct ctlv_introspection_dump_position {
+>> +	u64 record;
+>> +	u32 member;
+>
+>Maybe a comment describing how record and member are encoded for each
+>of the users?
+>
+>> [ ... 13 lines skipped ... ]
+>> +/* The immutable root-first chain always has generation zero. */
+>
+>This comment seems out of place, it should be closer to the 0's it
+>refers to a function below
+>
+>> +static bool ctlv_introspection_family_record(struct ctlv_cursor *reply, struct ctlv_cursor *entry,
+>> +					     const struct ctlv_family *family,
+>> +					     struct ctlv_introspection_dump_position *pos)
+>> +{
+>> +	const struct ctlv_family_schema *schema = family->schema;
+>> +
+>> +	if (!ctlv_family_entry_start(reply, entry))
+>> +		return false;
+>
+>I'm finding it quite hard to go from this statement to the YAML. I get this:
+>
+>CTLV_NEST_START(ctlv_family_entry, CTLV_ATTR_FAMILY_ENTRY, CTLV_SCHEMA_NEST)
+>
+>I asked AI and it said it was this:
+>
+>attr-sets:
+>  - name: family-entry
+>    attrs:
+>      - family.id
+>      - family.name
+>
+>Which is some cyclical reference to this one:
+>
+>attr-groups:
+>  # One record per family of the chain a device answers, as reported by
+>  # families-dump.
+>  - name: family
+>    attrs:
+>      - name: id
+>        type: uint
+>      - name: name
+>        type: string
+>        max-length: 63
+>      - name: entry
+>        attrs: family-entry
+>        max-occurrences: unlimited
+>
+>But having poked it some more I see that AI was wrong, and it is the
+>reverse..
 
-Okay.
+Yep. Already spotted. Will fix.
+
+>
+>But.. Where is the actual op? I finally see it is here:
+>
+>ops:
+>  - name: families-dump
+>    type: query
+>    fd-access: read
+>    reply:
+>      attrs: family.entry
+>
+>So.. The op points to family.entry which points back to family.id and
+>family.name through the attr-sets? I queried AI for a while and came
+>to this:
+>
+>  The confusing part is that the family group contains both the leaf
+>  attributes and the container that holds them. Their grouping
+>  establishes names and attribute IDs; it doesn't imply
+>  nesting. Nesting comes from attrs: family-entry.
+
+True, will fix.
+
+
+>
+>I don't have a constructive idea yet. I've been trying to understand
+>the yaml in this series for a while now, and I think it is just
+>unreadable in this organization. The information is spread about all
+>over the place and it is very hard to construct an idea of what is
+>actually in a particular system call. Maybe the missing html
+>generation would be helpful..
+>
+>Poking at AI some more I understand it is like this because this is
+>how the ABI numbers are generated, things need to be in these lists so
+>they can be automatically numbered.
+>
+>Going the other way isn't much better..
+>
+>ops:
+>  - name: device-get
+>    type: action
+>    fd-access: read
+>    reply:
+>      attrs: device-reply
+>
+>Okay, so then I see:
+>
+>  - name: device-reply
+>    attrs:
+>      - device.caps
+>      - device.info
+>
+>Uh, why do we have this extra layer? but OK..
+>
+>attr-groups:
+>  - name: device
+>    attrs:
+>      - name: caps
+>        attrs: device-caps
+>
+>Er.. 
+>
+>  - name: device-caps
+>    optional-attrs:
+>      - cap.evidence
+>      - cap.mr
+>
+>Getting closer!!
+>
+>  - name: cap
+>    attrs:
+>      - name: evidence
+>        attrs: evidence-cap
+>
+>Oh, apparently not..
+>
+>  - name: evidence-cap
+>    attrs:
+>      - cap.min-challenge-length
+>      - cap.max-challenge-length
+>      - cap.max-total-output-length
+>      - cap.object
+>
+>This time for sure!
+>
+>  - name: cap
+>    attrs:
+>      - name: min-challenge-length
+>        type: uint
+>
+>It is too much, this going back and forth to the sets is very
+>obfuscating. Everything is called attr. There is no editor aid to jump
+>between the sections, by the time you figure out what type a single
+>value is you've lost the trail for the rest of it.
+>
+>This isn't even that complicated, if I ask AI to explain it in a C ish
+>language:
+>
+>struct device_get_reply {
+>	struct {
+>		optional struct {
+>			uint min_challenge_length;
+>			uint max_challenge_length;
+>			uint max_total_output_length;
+>			struct {
+>				enum blob_class;
+>				string format;
+>				enum representation;
+>				uint max_length;
+>			} objects[];
+>		} evidence;
+>
+>		optional struct {
+>			flags mr_flags; /* read, extend */
+>		} mr;
+>	} caps;
+>
+>	struct {
+>		/* device-info: filled by the derived family */
+>	} info;
+>};
+>
+>I think the yaml names are not helping, calling everything attrs
+>everywhere is really confusing. At least the transition into a nest
+>and an attr-set should be more clearly marked in the yaml..
+>
+>The yaml would be significantly better if it was layed out according
+>to the actual semantic flow instead of artificially being twisted into
+>this need to put everything into a linear list. AI invented this:
+>
+>device-get:
+>  request: {}
+>  reply:
+>    caps:
+>      evidence?:
+>        min-challenge-length: uint
+>        max-challenge-length: uint
+>        max-total-output-length: uint
+>        objects[]:
+>          blob-class: evidence-blob-class
+>          format: string
+>          representation: evidence-representation
+>          max-length: uint
+>      mr?:
+>        mr-flags: mr-device-caps
+>    info:
+>      $extend: device-info
+>
+>So.. how about could we drop the sets, use a direct description of the
+>layout and do something else for the ID numbering? Maybe the numbering
+>can be solved directly by only listing the names in:
+
+I didn't want to have a lot of duplications. Netlink show us that the
+same attr, or attr group (or nest) is often used in multiple ops. It is
+not good to repeat them each time (multiple obvious reasons), so I came
+with the sets and groups. But I will think about how to make this
+possible to be formatted in more readable way.
+
+
+>
+>numbering:
+>  - device-get.reply
+>  - device-get.reply.caps
+>  - device-get.caps.evidence
+>  -[..]
+>
+>?
+>
+>-- 
+>Jason
