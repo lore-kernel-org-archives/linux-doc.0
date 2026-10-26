@@ -1,61 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793026772;
-	b=wgP6GrgOq0gEOqM1fV0ggo+krUB4FnI4LVacbH7XG5akp8wTnM0PzBvCepblKJiOTD6y
-	 9+e0oaE/lTHzEYYcDixwwDYcfxm9ymcspd+M0czKIxD2Qqe7qidnJV71qVnvuuScCMj56
-	 cMlGfL92Er6wjM80FeFT1akOoCDHZE9ebYXx08B/+ddldpkkZmjAb525WbNTU7TPu0l6C
-	 nsYo/t5Uu+yIfh8X0E7fsN5/efSNGBWP4w7j6k1oOOKi9jzxHK1uiLNWvG88EEUWzLOli
-	 Qu/pXTSWDopltwHrKYo0c0CqWgQtXpqBntcYUGmUwAX8tDu/WuXw5Al0ZnGPN2J//0Q==
+	t=1793026929;
+	b=ozJCk8Rg64iQCSHO+JFo6urUNs5I6PoNHR+s0ys/xarmAkNydTNU8WY85YEpPwo5y82d
+	 PeZenJUrbWccwL73ZVemf8FM5tnRgRK5UW9XF9hJKDOloQb17gvxmB/b+p9cY67LwfdBI
+	 xbBH2iPcyYWrHryGwVgSqi/7Y1koe16i1SLxV5ouHe5e/0FBvsx6HQBsYZkTqJEzj2vyr
+	 jHgflKyIJ/V3P0WZ70PzA0+Ly71wU9KnCf3ZMAdnKUos2C1Ohg0wNluQeiIuwq/X949kf
+	 89DDPJTZ0DWAFwoDz8FeSuCMnnqROaJOj/VUDaUA6ZZh3rISTdpZD6t5+bcmXSiWVYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793026772;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=5XGT9zayb74NMaQfkHtdMf2rxcAZC1OQzMLQh8262C4=;
-	b=keJ3mDXqY7EiaZHTDdG57WyQmXQtOut2ujXWqfFLNkVxO5mPYSYxN4cOFDaOpKlXlE3m
-	 IQ5aagQOX2B/La8B/7Y8osuDq0RS9J/JYYJIXL3Og2eylu4xthVoEOH5YAoT971kb8ZNr
-	 lwNOlKZi/8Fdw/7MPQf7jj6M1eIEJAfAAUal01KyasLqWOB+isSuNvcFyx/TolNOrmuo/
-	 tqoQtLLkRBSBPbMEBpWijPZ/daO10hbWgYC6FwjbWgoXTL6HFk/EEcnDFC0aOaUpUQG1T
-	 IIsdUsoO0371SUkM7WZqHWVLATOrEpdGqBHVrdSQKohg5K0rUxKeJxq1TLHal4L5TFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793026929;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=m9xXitEiI+hi1F9clvRlUMjS8JnuPFDTdYXDE0kyjzc=;
+	b=KM04mACNdHYQJbt7WIvaJY9I9A3ffDzkcuDcdHpb0tavuVCML6B0RXPTLdewiPBMMx5D
+	 FHefHIA7lsglTfrMAl64uPGuNvpUVlf2mJZGVNAhQCB2yG1CAo5fFrqiFBRfK4eZlRldH
+	 sVBFg2BjGmKkzuzC9opH6WQTbirNO+nU/ZHWCFeProPy8FXX7o11/5yhjOdmIw2/sZMdg
+	 OtkczIXxaCCGuibp7ubHS+C36LDIVpGPUA/kV+YuZ96OXmG46GBg7Pcao3vYKdctO+ytE
+	 4nkCyuxaWOE02zwfZHZiEep5EahxrR/L0xtkqGHJF1EaGcJxMbOJfxPHDKjM61Mpa+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q5+lXO5E;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E1D606A31A;
-	Mon, 26 Oct 2026 14:59:31 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Fq8fBUGG;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 767E1606A31D;
+	Mon, 26 Oct 2026 15:02:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 767E1606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q5+lXO5E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E98A1F01825;
-	Mon, 26 Oct 2026 14:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793026771;
-	bh=5XGT9zayb74NMaQfkHtdMf2rxcAZC1OQzMLQh8262C4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Q5+lXO5EpTR35gK7UDBt9Dr29o4Ac65z6kAbDynbPJdj5oe3/UV8IoH5cEByDCTrj
-	 z8MQbpxrHEdtfP7wfQD2bdG1cppB70hJUeakAyZaKls7m1GYc0oQd9kowzyyXa6gkL
-	 OyL9qwY2NeZiAu2oaD89cJd2RkAlSMN+0IvS6YlIFAhjx8m0Mb/tSMgcJfu4cNDyn0
-	 kjTt2cR90jqwR544omfMrplkKXjARr63p5+556Epuk2l8DLXBII349bxY5QL/ToIkD
-	 YzNqD9y0KUirtbu6yabSHcwAO7Qu2q/2LOt196AGS714jv02m3PqUfdPC7waeVt5fq
-	 ZF4W5YqQZOISQ==
-From: SJ Park <sj@kernel.org>
-To: Aveline Noir <jm5905938@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Manuel Ebner <manuelebnerli@mailbox.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Fq8fBUGG
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEA1B1655;
+	Mon, 26 Oct 2026 08:02:03 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EA793F7B4;
+	Mon, 26 Oct 2026 08:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793026926; bh=v+zgyK0QwsGg1V453RC6kjK16TjZSW8MMUUh5EUtImA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Fq8fBUGGhyKB1XXODIVt6BLwqv4o1xkXZa7X2pGzhE3cWxE1Dx6V2Agz2JruU6v8B
+	 e6+kt1FW/KX9OCoA7zQKe+M/qRq4dDfLlyRJhVUpUX6qmLxdWvCOV5AohG8CCGKOyh
+	 lOSGCTkE5jrlgqOKG5he5sUj7qM29vi1N67m9FTc=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	Oliver Upton <oupton@kernel.org>,
+	maz@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	yangjinqian1@huawei.com,
+	caijian11@h-partners.com,
+	liuyonglong@huawei.com,
+	tangchengchang@huawei.com,
+	yezhenyu2@huawei.com,
+	yubihong@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	seiden@linux.ibm.com,
+	suzuki.poulose@arm.com,
+	fuad.tabba@linux.dev,
+	mark.rutland@arm.com,
+	seanjc@google.com,
+	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] Docs/mm/damon/monitoring_intervals_tuning_example: fix grammar and typos
-Date: Mon, 26 Oct 2026 07:59:23 -0700
-Message-ID: <20261026145924.151190-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <179301327249.2.2968995103662294177.damon-docs-grammar-8@gmail.com>
-References: 
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 01/15] KVM: arm64: pgtables: Change write bit from S2AP_W to DBM
+Date: Mon, 26 Oct 2026 15:02:00 +0000
+Message-ID: <at9raEVrsbb7rj6n@LeoBrasDK>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <8ca88576-651a-4b7f-91ff-2cb2359aa79e@huawei.com>
+References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-2-zhengtian10@huawei.com> <arxW4PUY3qqRkogl@kernel.org> <8ca88576-651a-4b7f-91ff-2cb2359aa79e@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,23 +89,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Mon, 26 Oct 2026 22:14:40 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
-
-> Fix a few typos, including "Moniting" in the title, and some grammar in
-> the interval tuning example.
+On Wed, Sep 30, 2026 at 10:44:26AM +0800, Tian Zheng wrote:
+> On 9/30/2026 8:25 AM, Oliver Upton wrote:
+> > Hmm... I'd actually like to see this structured where the "write" bit
+> > could either be S2AP_W or DBM depending on if the system supports
+> > FEAT_HAFDBS. Look at how HVHE is handled for selecting the right AP
+> > encoding for the hyp stage-1 page tables.
+> > 
 > 
-> "starts looking degrading" should be "start looking degraded for", as I
-> think the sentence means the cold region detection starts to look worse.
-> Rewrap where the lines got too long.
+> Hi Oliver,
 > 
-> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
+> Thanks for the suggestion. I missed the case where FEAT_HAFDBS is not
+> supported. Systems without the feature should keep the original
+> encoding, with S2AP[1] as the write permission bit. I'll follow the HVHE
+> pattern to select between the two encodings in the next version.
+> 
+> Thanks!
+> Tian
+> 
 
-Reviewed-by: SJ Park <sj@kernel.org>
+Hi Oliver, Tian,
 
+After some digging, I think it would be better if we kept using S2AP[1] as 
+a writable bit, while DBM can be treated as "Can promote a non-writable 
+page to writable if HAFDBS=on". 
 
-Thanks,
-SJ
+I know it's not that intuitive, as the Arm ARM even introduced the concept 
+of Writable-clean an Writable-dirty, but I think it will be the best way of 
+referring to what was intended of the bit.
 
-[...]
+I wrote down what I mean by that:
+https://lore.kernel.org/all/20261026144413.441566-1-leo.bras@arm.com/
+
+tl;dr: 
+- DBM + S2AP[1] is set on writable entries (KVM_PGTABLE_PROT_W)
+- Writable detection is made only on S2AP[1], so no changes
+- Wrprotect sets S2AP[1]=0 from the PTE, and also DBM=0 if it's a block
+
+On dirty-tracking:
+- If HAFDBS=0 : no functional change, DBM bit there but unused
+- If HDBSS=1
+  - Pages: writable-clean promoted to writable-dirty on write, HDBSS does 
+    the tracking
+  - Blocks: faults on write, splits in pages, pages get DBM=1. 
+  	(argh, I think we need a PROT_DBM for that) 
+
+Does that make sense?
+
+Thanks!
+Leo
