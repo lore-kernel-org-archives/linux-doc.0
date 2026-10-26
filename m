@@ -1,97 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.138
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=96.67.55.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793030071;
-	b=vkyzD6SwTgRjwC8O++ip42x66hunJ22snTKsYfWWkJEk+yIqrsCycON/Tkq5j8hHx22m
-	 p8tCV/6V8kML2i5rs9pQto003Dns3qdXXbq6eRv0FLIWg2qXblvBfWQX/IyGaBZFMOlgs
-	 pBo4nnljo1TKrlQze+CIlGXbTFfDfpA6eGQj1NCzYAMIfUd6/EHLwzWk3PRzgpkfCIxL1
-	 nZrzG7g4C95tZRhSOQHK8iG1/zan4Jwup2dy6oShrmYTh+TrfyFHLPuztuzJ2krrthfD+
-	 UV5pkEB2znRW5vzgPOquVHHJBXqNVbThFyZO4bd2P0zJTjHiW2rFtKsk8N2gp9NoHLg==
+	t=1793030423;
+	b=jIjMCwfLHj0LKNNnWiPpn4P5FotfbqpFBE/gNMNRFniAcaIUqWYLKl+sii/sHLjZd/QW
+	 cB3T9zq7dOSLfIE+l4Xsxr0IfeiHmcQRmr7/cHUa3Q6VxPFBSB0KzSlNM3l949/EPUZDV
+	 t9rDcnyqe9aP4YHjHnSwk9XqsCjjqJBAnBcixCDuseUlB4ALI3Vh64VMuW1fmktu9ifbF
+	 w43Vq6hl56yRvWQZ+I647KfJY2fVeUO6hEt5y2jX3Ca0yakr3cc4CAtbl2rPVtkYb0+xx
+	 Tt8v9/lPcsarUeaP49bNqeuYZTD031ZtkJ31aN2WmRcYa0o8kOWMOTXoKWKg0OGr2mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793030071;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:Date:Message-ID;
-	bh=B8FTqo2cthF1N8/EPSwd5W+NmZQX4EUuEeAqIs6bJK8=;
-	b=gdxhWpW5ae0CoGbkHvrrwcwjyVufx4eNhEwbcZ7koR6Bd0hVps0GQLI/37nzIStFnX94
-	 9gUA1HE8pzlz3FVw9uSO7HV7F4afLbrM3BRmdKarXIQKk1oT6RFI5knIM2aIq3ylhOEDC
-	 aWxDHjc4Z8J/kM+A8hORiw2LltZsUi5r5Pj2nEysrMBjB+a6UDIpWo/pEZgrAalkBXYjY
-	 xFOZf1tmY8r3BV59lX6FzMsiq0kqsGfU9BVFQ3RDTrraHNo35yxfcwnANemDCRAdsZJTX
-	 6acykGwezx5fIuCmWkP+H3/27Wf8/a2LlFAMIuS/5KyqQ/PRvHoDcX5JJQwKoraUbog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793030423;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=2IYnJWIdmisQFzrKQUkCcuczzZRiHZa2yg/KvW4ePcc=;
+	b=AlUPWtIsH5R7y7XA7/Fj/eZjEa+BWndL0InemMHsDVDzM0vgYMerrG8c5iPjR84vgcWo
+	 LUPFIQbTaYpso09AKAf1NKkjyuestkguHzsy99DWUBW++cWz5hYzQoF3QqsWRmSzVVvyr
+	 IbP4p22g6Up6zU9kNUkZfM4iNmkEc34CnodI76ia3JILtMfyn0fmLV0rGW/aKeKTtep9b
+	 BM1YXUzSSjyTLeKAdtkZPLjs8dFub7aHCsrpsrlToR3aBvzUfcu5hNkNNGT5sa8RH/m7A
+	 fB5yDI+1oUoEdRxiMGsHg05zeAVifW47Zo9tnftgXgL9kLcY1opM1XvEpVSrI2Ld8IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oyaFVDfn;
-	arc=none smtp.remote-ip=74.125.227.138
-Received: from mail-pj2-f10.google.com (mail-pj2-f10.google.com [74.125.227.138])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=surriel.com;
+	spf=pass smtp.mailfrom=surriel.com;
+	dkim=pass header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=JuAIutRo;
+	arc=none smtp.remote-ip=96.67.55.147
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864B606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 15:54:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4864B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CEC606A31F;
+	Mon, 26 Oct 2026 16:00:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35CEC606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oyaFVDfn
-Received: by mail-pj2-f10.google.com with SMTP id d9443c01a7336-2e96be2196bso10571025ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 08:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793030071; x=1793634871; darn=vger.kernel.org;
-        h=message-id:date:mime-version:content-transfer-encoding:content-type
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=B8FTqo2cthF1N8/EPSwd5W+NmZQX4EUuEeAqIs6bJK8=;
-        b=oyaFVDfnJhNi0xtZL8JjXLPR/BF85zCb9JkvG2KlyL6QWoiY73Ez0mkdKjydkDlCmd
-         2t4leyL/054cIB31SHTnLIbCVGAs7RaNU/wVjBwywj2lodtohWE4LxdRORCLEicTSMQP
-         paztEbO/z5tA3aJxCfOEo7C0SwKWn95TcRy8zRWC+01IwZlj9yIQx+8XxBtuuc4juFdY
-         9mTy2b6FfFAkv7BXni43NoF7XhtkU2vBEFg5QsLOTrnFfh5fGNyGb2KJdgEpqroR+8AD
-         2AlxjB05Ap+zoVzVOxHje880MV4cS95L3CmB2TlJrQ/qvjcUzHk4e6ANvyv3ILZBDVmE
-         r3vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793030071; x=1793634871;
-        h=message-id:date:mime-version:content-transfer-encoding:content-type
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=B8FTqo2cthF1N8/EPSwd5W+NmZQX4EUuEeAqIs6bJK8=;
-        b=uy1APzkAJZ/13iuJuvRUOKxpUxlGxhksTU1ZMTK6ipUwFGNZ1KcsBFXRc9XIrM7Q6f
-         WVo7KQqh17D0/koxJCNlEQs7VTgVVHWr4+N7M/ZZg1XsZhuKFaHcP0wZBrtXFR0ChRzf
-         KadCVmPc/6JAHj3Xu0+4+AEb+4CiTFrlGD63No2ePIpCYWUW23614+tjJGHRERKeS1zi
-         6/7JZO3cZ2DdzI8VEDojNUcRhfgY/iGfEdS0azmHlramVhf58iWH/KFD4ZItsiUoqLsY
-         bxxfYjJdt9Dw7LAlzwWUXQ01+wLBogXGFbUVx0lIdpoFye3yt3kyL+qaT+T0kZK+K+P1
-         zNuA==
-X-Forwarded-Encrypted: i=1; AKwUvBzW8C91YXDHxTOcJAaFUMjVVtRFMnQsjY5RMyhMLWvVMNDkPEEgjvY5MfQL+OGY2qlCXgKMRuwqDlE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ9eXvgXIYw2TVieW6wFdNhWzvXxMAaKKPOInGaMhwVDpIEd2uv
-	tZUbWzo9fyx4oPiNXvuoN1b/HHvawA3IUCgxqqqL2u5+iWkv6jATmSEc
-X-Gm-Gg: AYBFou17VjHjS1kmYDE91/peiQLITVtS1awnS/3B+HTZCDZpj79KSpnkQ+v08aNA54A
-	ZoFas1Y86oQzfDzFQ4npMObP+ATXPInGMzUerSL2tZb0AaLFBs8wFnS044o7Kye+ZttqwNPhGfM
-	0Ip4w8mDFIxA78bqoEYzq79LZNVDzHQGflfPOLEMXtl7XkUz9k2jMmAagXUI7gc1z2RSRsX0OZ4
-	TNzR/Ftf9XypUyR+xCYPlfAU2Laf6fOMS2TpzE0BRaOwS77cJWpbUHbq252GD/1hxvw/LpIyl8S
-	otf3nlf8hx54prszZWtF/U3dY+T3e+xC6MLT5ranE09CKEZsdFUieUwWPviKzq4YRajJTzL9fjq
-	bEixhfhGIzDt0Dbon6x7Y8sJ1rXOk+0LMJbxOAy8AeFtvfgBfqsVoAjzdECfzGaw5M5spPJ07da
-	0LLd595P1OQOSC7TE3/4Fptea6N8w0gNNbiAw2nhO3b64J/nOq7ThZvLeh0BjibCFEQho9Q2Wg8
-	grHHN+HOIWr2KILoK85YMupWG9mA87fJSgENgw0m/EBrDrItrnrkv/M3zZodeN2Bvlmrl1qqrfR
-	rpTxZ1avSYCxZhf/2rgVBT1FKEBVg7z/mpViCsXGdbP63xiC5VXv
-X-Received: by 2002:a17:903:988:b0:2e9:5059:4477 with SMTP id d9443c01a7336-2ea9c6c82f1mr52579075ad.23.1793030070524;
-        Mon, 26 Oct 2026 08:54:30 -0700 (PDT)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b221101sm19099555ad.71.2026.10.26.08.54.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 08:54:30 -0700 (PDT)
-From: Aveline Noir <jm5905938@gmail.com>
-To: SJ Park <sj@kernel.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH 4/8] Docs/admin-guide/mm/damon/lru_sort: fix remaining grammar
-In-Reply-To: <20261026144451.150560-1-sj@kernel.org>
-References: <d054b7a2653a2ff3d419b689a50a53290c2cafbb.camel@mailbox.org>
- <20261026144451.150560-1-sj@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=surriel.com header.i=@surriel.com header.a=rsa-sha256 header.s=mail header.b=JuAIutRo
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=2IYnJWIdmisQFzrKQUkCcuczzZRiHZa2yg/KvW4ePcc=; b=JuAIut
+	RoC4Cq2nPGXCBH+jTxgWy49Lbxu4jcgzQofxjI77DLR9MvN30SnoY5HYeRK6Z94ySxpYQrgieDz2/
+	XIU9TzritE2mhW3qByP+jxwpHfp92h8gx3Af+UcJdQHQFmgN5Gobyd6Zh5EzvmfI6t271k/VWkANG
+	hKrMe8WRsR5U5Y6GBfE6KXPmUhrAgC35ccFVR/CYlr/zNESwaI0r2xxVYhrGdhgoB/EmqdbfGnBbR
+	CPjDB4SolTrO9Vqf6+pVjBvxHyBAYuGZ3CQBWIAI7+UCzsytes6hYSmtNsZP+PV5cqal7qzy6Eoh3
+	GOoJyVMS8lYzJZshdOJM5iCpwfYw==;
+Received: from [2601:18c:8100:a0e0:2541:b86e:2586:d219]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1xLN6A-0000000A1Pf-20ZE;
+	Mon, 26 Oct 2026 15:58:58 +0000
+Message-ID: <340025b7e3bdc6d905da2cd052ccbbda63a58ac0.camel@surriel.com>
+Subject: Re: Path forward for Virtualized Swap?
+From: Rik van Riel <riel@surriel.com>
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)"
+ <david@kernel.org>,  Johannes Weiner <hannes@cmpxchg.org>, Chris Li
+ <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Michal Hocko	
+ <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel
+ Butt	 <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, Muchun Song
+	 <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, Barry
+ Song	 <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, Chengming
+ Zhou	 <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"
+ <ljs@kernel.org>,  "Liam R. Howlett"	 <liam@infradead.org>, "Vlastimil
+ Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ =?UTF-8?Q?Baghdasaryan=EF=BF=BC?= <surenb@google.com>, Qi Zheng	
+ <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu
+ Xie	 <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Gregory Price	
+ <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet	
+ <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Baolin Wang	
+ <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Michal
+ =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>, Meta
+ kernel team <kernel-team@meta.com>, Linux Memory Management List	
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
+ list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Joshua Hahn	 <joshua.hahnjy@gmail.com>
+Date: Mon, 26 Oct 2026 11:58:58 -0400
+In-Reply-To: <CAMgjq7Cjt==BxXPNw5HjiA0hjxhfzWn=9gDQ+2x-rdrEQBWTeg@mail.gmail.com>
+References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
+	 <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+	 <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+	 <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+	 <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+	 <aqgMCIOFi0dKx_6L@fedora>
+	 <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+	 <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+	 <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+	 <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+	 <20261014195354.GA371161@cmpxchg.org>
+	 <CAKEwX=Mwc+D+AN-B5T7p=80fqCDijdsiJjd6aN_3YMrEQjyvwQ@mail.gmail.com>
+	 <a24ca7b8-8b42-43f3-ad72-afe62f97f76c@kernel.org>
+	 <CAKEwX=OdbOrFbdihntP3rmcWJUyM1UpYa5n+pYjt_feMQwx8yA@mail.gmail.com>
+	 <CAKEwX=PCSyCEAqxeOH6CkCMu1eB3xUn3iz5XNuTbpDM3EmWYAg@mail.gmail.com>
+	 <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
+	 <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
+	 <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
+	 <CAMgjq7Cjt==BxXPNw5HjiA0hjxhfzWn=9gDQ+2x-rdrEQBWTeg@mail.gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,33 +134,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 27 Oct 2026 02:50:54 +1100
-Message-ID: <179302985414.2.11997096580844017569.damon-docs-reply-04-lru-sort@gmail.com>
 
-Hi SJ and Manuel,
+On Sun, 2026-10-25 at 12:21 +0800, Kairui Song wrote:
+> Rik van Riel <riel@surriel.com> =E4=BA=8E 2026=E5=B9=B410=E6=9C=8825=E6=
+=97=A5=E5=91=A8=E6=97=A5 02:16=E5=86=99=E9=81=93=EF=BC=9A
+> >=20
+> > On Sat, 2026-10-24 at 23:50 +0800, Kairui Song wrote:
+> > > On Sat, Oct 24, 2026 at 4:03=E2=80=AFAM Rik van Riel <riel@surriel.co=
+m>
+> > > wrote:
+> > > >=20
+> > > > In my mind, we have vswap sitting as kind
+> > > > of a swap VFS between the rest of the system
+> > > > and the swap devices:
+> > > >=20
+> > > > +-------+=C2=A0=C2=A0=C2=A0=C2=A0 +------------+
+> > > > > vswap |-----| swap cache |
+> > > > +---+---+=C2=A0=C2=A0=C2=A0=C2=A0 +------------+
+> > > > =C2=A0=C2=A0=C2=A0 |
+> > > > =C2=A0=C2=A0=C2=A0 +----------+-----------+
+> > > > =C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > > > +---+---+=C2=A0 +---+---+=C2=A0=C2=A0 +---+---+
+> > > > > swap=C2=A0 |=C2=A0 | zswap |=C2=A0=C2=A0 | zram=C2=A0 |
+> > > > > file=C2=A0 |=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > > > +-------+=C2=A0 +-------+=C2=A0=C2=A0 +-------+
+> > > >=20
+>=20
+> > However, having swapoff remove all data from the swap
+> > cache, after mapping the memory back into userspace
+> > page tables, seems like it would be fairly easy to do.
+> >=20
+> > Does that meet the needs of your use case?
+>=20
+> Right, it's nothing hard, as long as we don't add mandatory new
+> layers. For very high bandwidth swap devices, a mandatory indirection
+> layer is pure overhead.=20
 
-On Mon, 26 Oct 2026 07:44:50 -0700, SJ Park wrote:
+Don't we need a swap cache lookup regardless, to
+make sure the data we want to swap into the
+process is not already present in memory?
 
-> > Yours isn't wrong but I would make it:
-> > +this scheme should automatically be activated and deactivated with three memory
-> >
-> > Choose as you like.
+At that point, it shouldn't matter whether we
+get the backing swap location from the swap
+cache lookup data structure, or from the
+page tables?
 
-I feel my wording reads a little better here, so I might lean towards
-keeping it.
+We have the page table lookup, and the swap
+cache lookup. That is two lookups, regardless
+of whether there is indirection, or not.
 
-> > My choice :
-> > +Below are the descriptions of each parameter.
+Am I missing something?
 
-Agreed. The plural "descriptions" reads better here.
-
-> > I would go for this, but I'm not sure:
-> > +Number of times that the time quota limit for hot regions have been exceeded.
->
-> I have no strong opinion.  Aveline, let me know if you have some.
-
-I think "has been exceeded" fits here, since the subject is the
-singular "time quota limit". The same applies to cold regions.
-
-Thanks for the reviews :)
-Aveline Noir
+--=20
+All Rights Reversed.
