@@ -1,61 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793025432;
-	b=f27kymoMxJ4AudOyos5w3/yMNI2E83TjkXEM5Gr3ucmi1vPNBMeH1ThbLWTIqHU13jT6
-	 2X9i/8jhlxkFgCM7B8abcze5gM+SyAbKwNskLinqCIdnkTVWl4YiZQ4Y0msjPKRspTn+H
-	 WUIfjO9de6kUOe4sW9birGk01IIPG13RKtd1a5Alo/qkTJqi0ajGPDO9JNQrQNPezk3PG
-	 WFlFVTNMCYtRJZO/HPEfcQTeuyU0FbqvramIXNk6/hgE3O6khee9h/72ENt92uRBTTEpW
-	 WvMvCiYgyDEMpqipMQX1lnIK+EtLwEqfgNHyOr9VF6OXJFiKnnOrJZfqhESNOOFvaVg==
+	t=1793025578;
+	b=V2G/h4mjoW8Good6Q19HC4KQn6Yid7DvNl+bb3aohI1eGU4N3vxQnqBfb6QnXkCLtwpN
+	 +0E6VZsEjA/VKskdOCa/HH0RI8QZz2WHnwzZ9GASNybKdGSBH3sDFwaICI9HHdFM4tWK8
+	 8NztU9UDGTZBvDuDJlCMsvvLXuTdJIW+XcGr7r4JnUxhHfzloGaMGPAtkGKp+xJCERP67
+	 93Zp8F5uwfUBFpMyFLxhQWGWn3Ky7Z50Pim6N6YM2uozuPcD3fxmy24FPO/BJlWgfM4xH
+	 LGYrwbLYE/Wnl7NEcTc4lbQLvz4o3CxJDqU4CYhbtpBIeMOpZe7qhjBoTebTNRWAmTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793025432;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=8PHEbKOgIuYghLeVCFmg8SLPsx9HPWBRfgbGFvrH17c=;
-	b=WhHolpsuE9/YV2ZmZ41Lc7ySrtXd4qiDjy2a1v7JwwtZ4DGAfOn+nFbC7Tm+M4KV1ELx
-	 IVagR07xFI1FkMjLjBHmlpv6l9e7I5Zo05ula91eo54fqazle/mJj5Psiel7WscFZ0Ouv
-	 CI8IQtf2dx31ikgL4Yv0fBr/Z2tIu7/GXiZyuDvztc2iS8ZuQ9h0WKoaJcjO3LIGnCA9z
-	 PlEc/7wNnVZIk+4HpLLaZJmSjqpfLCS+hvSedJfKDhfEC+d3LFFwVar87fCBGbkLxojez
-	 v/TaKiTV2xcjOTHNTOE3XVZCxeLuiZErC2U9MjlG0lzHdRBXmgvZwbk08lQ9m0H9syw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793025578;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=JfZYuXK6UL6ZlLrytd1AoBuuVUDo0kktcpMINSiZtew=;
+	b=EaRd5VS5L92zMTQ+vvvntWK0OxsDm/X1agjS8sP4KUaB2BWrY66KNg39IIpcVTQIwH18
+	 6eKMr6Zoe9fmidbWl4ElJGOO8Y3HewnHZaunEOXlwE5G4zHOjFc6txKHLx+tv6mgVEj6+
+	 ATBfkpGlCxMVd+rPYpLerggV93wzSeav3fwp6bMIeFDBuB15US27kiAtJvQr+8l5rb0Bv
+	 Mi12LjM99VD99JSbR5DvteocbOb/gGEdv75FPZZf/E11/DbI/4Zz7EbLLubmRRnzIyXwj
+	 IBBPUBgNmaRrFT+C1WsyBOieVx3nYPOXcIG4OWxZDoOehaJevNTwLhl3LSjNbQ4n6GQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cevX3BAN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Fbf6RtRK;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867F9606A321;
-	Mon, 26 Oct 2026 14:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CEC606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 14:39:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07CEC606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cevX3BAN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D6D1F01828;
-	Mon, 26 Oct 2026 14:37:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793025432;
-	bh=8PHEbKOgIuYghLeVCFmg8SLPsx9HPWBRfgbGFvrH17c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=cevX3BANmffQu1qgFyv4HRuz8GW0FWfyx9uJqCXhZxAaiRMvlBOfO5dDbdqgN/HfH
-	 XoRQ2EdMkdq9BScuvVuiOCS0DQ4K4Vc72eWHn+QYnoEyRZW1TKqa4szPjOZbGDCqR5
-	 do8uY9SBE+0z0lI0qmghksHnTFh9WOpYEjfXxjxQD09lVNQ2p6kFaQ7cQ8SIrgYLeF
-	 kI1VnfXebszpr3HB55cK4JmN1Al7Lvf4JSqWtbLE9Dht2w1XGmBgrO8/yWK10O4Y2I
-	 8prW0ADDRSdd70UvO8HIhebwL7EExfseHMMMbSPyTHcJNCJ1k0K7DIFjtTb4Ibg2Lg
-	 iZ4b7VA8bHnVw==
-From: SJ Park <sj@kernel.org>
-To: Aveline Noir <jm5905938@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Fbf6RtRK
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3acd21ba21aso2390604a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1793025577; x=1793630377; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=JfZYuXK6UL6ZlLrytd1AoBuuVUDo0kktcpMINSiZtew=;
+        b=Fbf6RtRK7yc7vHavSf8A1PNF12deV+0aD5GUCicKJJVtv1QMcv4Aurlhr3TFhJSKIa
+         aMv+pF4ZTutVj0IbTozngeW7L7cmEhxR/1EAE+xWM5sR/E4hCBa81GLlr6iMsMLgw0e1
+         vIEYLUciv6btYt5lrl4eDIRTq/TLF1YMiUNKU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793025577; x=1793630377;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JfZYuXK6UL6ZlLrytd1AoBuuVUDo0kktcpMINSiZtew=;
+        b=Vz38TxmZud6elWLMc+lu6J44oZ7wDAhgx4t+PJCtSNvDUDLWZ0Otf0TwsWrFMsOnCW
+         b6FjbpKyqreVi7acGGPOTuqcNIXNk7O0RLk4xQQhOpk1+rxKoyutqUNTSAF53W4hMawk
+         kDGjyrKjJk4jFN3qEmUM97i5dn7vtEFlhthYrYRjrGfaezuHgeVoAeg0bQOJHbGsB9I8
+         x8NDMkm4LPBJdPQbVJdM0CLZbLZWZKbjVHUWSKInTUN70+BtOVR9arcmXKsSJqwHXjDk
+         B9jPj2UXO7vCr1U3M/dsQlNQtmLceqgCHdz/zjxt+zqe+4+Jj/5CEFV9TcynVvWYgIgj
+         1HgA==
+X-Forwarded-Encrypted: i=1; AKwUvByL5c3SS3SOcIrGDfFZ7fPxXFFElXG/PRasJ5aSxIONeNEW1DpP52x4wmRHrNVwk5wa4WCQJ5U1HhA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ9BhU+UapT1G8XelFphpsS9qa86Vi2mq/uYyJqW5eAFS0P79dQ
+	MCGLOAP1LXo5Cn82uGeDoYNVRMJyngj3VbpHyeEDkKYsLbz6tBjjLM/QLERrs/kaQek=
+X-Gm-Gg: AYBFou1WpfMA7JukBVdQWYWkgSzkd0ohIqCgKiVY0qJ/MeBEN7CDVFlbxWXTnTMP8kj
+	e91tvG8enAw2mBX0XHu+YeKGwxmxJw8XkRVUd7UCbuiQNV66W00sJJTBY78Uo6PKpYsRKqAg5+P
+	RF2dH1ZVKi4+FZruG5zAfdMO3kPHB3Ic4GZYdaUStJ1By+4KKHv3rR1S48dpBFHjWXiMZPfIrPP
+	dt9Lpky47DeMSsTgxEfgFe/mdUja/nxbHkgAyhc9nZefYn0QqGHTk5JdqriDsYaE0cgJMgatC1s
+	ECMrYKfU/bY0vxjqKIXdCjHFa7nVPFGcsKOfiscYmkZmoIj0TooAEVjCS36fkubH4auMuDTZi92
+	mwUdXoybYWhs1Ax8LEOhSI3/ui4d92z4M6MMzg/KOr+ZN9kzf0+c1REtbfl4vSO+ayrl/5fCzZV
+	uxGqyIdqA1ibDfhxDnOTnhlFn1zl70fIIztuWgQkCQc4nvO9iEKQ0cgmPb9+Htr0b0TiXzbItYM
+	Sk5Of8k/i7XgKPqIkBr8MZW/CtmC+FcGyGqEbhx2RyJ4NrS2u5/Fj4HzpKkrQtD/BssjEaWUUp+
+	1NaTgDTsBnLDxIKJqu6pLD+3f5ZpCMrCtqhc5FCsItUuHhyds6Ek0egcTQCuxvxnIKs7rdzC+UF
+	bzndnURhKvvyxRJFGLON4F6k=
+X-Received: by 2002:a17:90a:e18c:b0:3a7:8c68:6446 with SMTP id 98e67ed59e1d1-3adeafea707mr5604183a91.63.1793025577285;
+        Mon, 26 Oct 2026 07:39:37 -0700 (PDT)
+Received: from localhost ([116.86.153.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebac408asm8726950a91.0.2026.10.26.07.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 07:39:36 -0700 (PDT)
+Date: Mon, 26 Oct 2026 22:39:34 +0800
+From: Chris Down <chris@chrisdown.name>
+To: Breno Leitao <leitao@debian.org>
+Cc: John Ogness <john.ogness@linutronix.de>,
+	Sam Crossley <samuelcrossley@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paolo Abeni <pabeni@redhat.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Manuel Ebner <manuelebnerli@mailbox.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/8] Docs/admin-guide/mm/damon/usage: fix grammar
-Date: Mon, 26 Oct 2026 07:37:04 -0700
-Message-ID: <20261026143705.150221-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <179301327249.2.6830202812762243627.damon-docs-grammar-3@gmail.com>
-References: 
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer on
+ demand
+Message-ID: <at9mJoA8ZQfUCFGw@chrisdown.name>
+References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
+ <87fqxskdpl.fsf@jogness.linutronix.de>
+ <at84qygscue8crQi@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,24 +109,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <at84qygscue8crQi@gmail.com>
+User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-On Mon, 26 Oct 2026 22:14:35 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
+Hi Breno,
 
-> Fix a handful of grammar mistakes in the usage doc, mostly
-> subject-verb agreement and a missing or extra "be".  Also turn "Below
-> commands applies" into "The commands below apply", which I think reads
-> better.  Rewrap where the lines got too long.
+Breno Leitao writes:
+>So the next step would be to add a basic /sys/class/console/, similar to
+>[2], and put a `replay` entry in it.
 
-Looks good and correct to me.
+Feel free to incorporate an abridged version of my patch with my From: in your 
+series if you like and we can take whichever one lands first.
 
-> 
-> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
-
-Reviewed-by: SJ Park <sj@kernel.org>
-
-
-Thanks,
-SJ
-
-[...]
+(That also reminds me, Petr, let me know when it's a good time for a resend. 
+I've been holding off since there's still quite a bit of activity on the other 
+cleanup patchset)
