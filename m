@@ -1,73 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019476;
-	b=dWQFEPbMmrBObZOn5gRU+TJpVbMBDxQWwU+wRZnAyhgjVzKqKpnBlfBQ1W+YfjHB8+UJ
-	 i/Z6Sx9J36utxiU2C3FBqiY2AtEvul4v+wxCf8SC83bqCaZZI80wdz/t3gfhpqEgcSxMv
-	 DyUKKAEP6nJKgbj/lbjuoancQ3SbpvH7DDh+dwNqRa/CswS6NL7SpXBuLeGhDWkHvtyt9
-	 QFw7TYhPU1mI825URJtUx2zE2SMDAzwVdAfurpTR6rr8oR5kyyuGI1hL1atxnjFHbbexw
-	 zHtqxATbyPjAq/1gm6unaVpzOx50GhCL025YOf3GRw4m4V6mk68tYj3fAplNxfpse+A==
+	t=1793020193;
+	b=j5tse2tcR9ykHYPT25GYYP1uunjbjIX76GQenHemBywqqVbJINOrjla6PURb06W2s8b7
+	 0KQERTOUIoB5R4uzUDcl89f29XsO8ksDqPSgMDpBPDrHaj78l2CCbnJZ741aZF8Hz5T+q
+	 LRIECdUGuUQ76Pqu/IFqTV9xWDeXVVRydv5ZmYL1FZJRXk7zvERIgUGs/05qXcZ2rRw1f
+	 bdQ3oUVepxoXh26msFQ4f71+u/UdoUrzDkIwAMqFW0j5+gdYsWFIIEl3MVEZTnIxIsur0
+	 ZX0oGuXrQ5iwsiuiXwt+5JZUfG4ydO284lNxhUBMBJoWiyaJz6O1n5t0IjoEe2ZJ2wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019476;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
-	bh=kZI3MT1fgSFZtZ0NsU7CZ4YdGhUuoHZE2FDP+AhJ0Qk=;
-	b=dw8C9sPvdqsFf35VDz/Wa/q8ofZrPZjxvNbl/+rxwKmQS0s1TNr87V8VBwa7snIuudnN
-	 routcBLaADl+tdf6gmwfshZBUaaBhpllN9hrvfnSyFbh7oi6b5JADE7rnwc9yYrKj6LE7
-	 J934BsnTbvCdijme/riN0r+qBJb+3cVkCQxm4e0uPldIvs/KnnoBNZ+s7MBfKXfDjNnrJ
-	 5bs6aPgsk2NgaR59joSy/Sr7eoUDKti2H9nmNj7GvuNXm4C9P1pJVd0kVA1VGFJOxiY77
-	 4LEcT3+rns64U2RkTic4P7oe3vPQPz/HdfyTssUsgIiVkttzT3wNUPpy6ToAcwDLqlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793020193;
+	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=gp7VP+Sir6E2FHA7V5/S6LXflY3MgarH/fCbeQrsJrQ=;
+	b=MlUoHBx5Oc2+mV6TOYgDWtxDMcNdwfogBHcAM+/ZCw23kVh2J65ZiWPVlJ4ww+UhNaVh
+	 5FAG8mN1AGC6J8HaVDmYZgXcDRmVBewhKwj/sqDlrBUGR/tik15s1d0r99n7aFesw//AE
+	 bXlBkF8910kxFdn2ETx1M/N/LG9ZkDwOHEd/vXWGlefnnZj6ESvJL3rxBKxrViMXu5KmU
+	 o0twt36MVROnCPuULr4yrleCKrLEi0WtOixasnSTE8AvdKHUIGlswvp+S/oWmXQnThxts
+	 fdbaXFwdIRgwc2cr9BCaYXuVELy4v10/QDLVRe0JuZCbzfRtZraKLeSCSxFAmb765KA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=FCJOn1u+;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=lEllKBMD;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=+4U4xjdp;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C01B606A31D;
-	Mon, 26 Oct 2026 12:57:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C01B606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C894606A31A;
+	Mon, 26 Oct 2026 13:09:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C894606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=FCJOn1u+
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jCtvg6Pv6zKnCH;
-	Mon, 26 Oct 2026 13:57:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793019471;
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=lEllKBMD;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=+4U4xjdp
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793020190;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kZI3MT1fgSFZtZ0NsU7CZ4YdGhUuoHZE2FDP+AhJ0Qk=;
-	b=FCJOn1u+/3qCGOcdCmyWy6c3EnJJbMA7p+5O/jZIFJVDNl1nGPzgOOVLBR640V8uM6B4cg
-	zZ/Pd2cWtaHFlZ2pzYBrz6T8KveM3Ja4nPS1wx3z4Wn8ndDqGTKe5L/mql743iB0WWg8lX
-	HHAQLFQCKkrwRu0z/ka2d+4N+34Sh3RcPoZd9cF1GK069gPmtg42dz5bpiLp1RqXhxfrZB
-	FIDbd/IYVmY3xvi/CNqOTra5g/Fn9Sa8sxo8fcx+OvMjmzwY8p7tLWhCZXYIroA5v5p+kn
-	lDyEXt0TiCcLdn8DJdli6UFmFLuwBeO6MNGSyJIOgLiWhB2msBOouLoOYzOUXQ==
-Message-ID: <d054b7a2653a2ff3d419b689a50a53290c2cafbb.camel@mailbox.org>
-Subject: Re: [PATCH 4/8] Docs/admin-guide/mm/damon/lru_sort: fix remaining
- grammar
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Aveline Noir <jm5905938@gmail.com>, SJ Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
- damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 26 Oct 2026 13:57:49 +0100
-In-Reply-To: <179301327249.2.16817896016779044743.damon-docs-grammar-4@gmail.com>
-References: 
-	<179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
-	 <179301327249.2.16817896016779044743.damon-docs-grammar-4@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	bh=gp7VP+Sir6E2FHA7V5/S6LXflY3MgarH/fCbeQrsJrQ=;
+	b=lEllKBMD3j5AQU/ymi7dm7LBf39LKBdUW9xtN8TBEtZvAYnfcvwkqiztMVErHzfYYeuRng
+	H8EV5vmChV19qJkho0qbv1IJo7kNjWDDEsAtJ9O5wY+rmB8KD/sdqc7xd3+Q6QZyAnCbmR
+	ZH16OxpixeOqpqzRlxxJbNJP/xEmgkP2sH/0t356l0msaFNMunG8+NLRAX1jD+L+S1nQtf
+	4pYh3iepK6ROHv/C+LEplHEcwkICKNeXFBlU8i+gLI7sLwKYqCx8iy20hn9cwlGw9g2CCL
+	UAD0+p6GkozsR+0WlC8Iy1mbQINaCVc1nyxnrLfw7Ep6IvnB6+q0t/L74bGQYw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793020190;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gp7VP+Sir6E2FHA7V5/S6LXflY3MgarH/fCbeQrsJrQ=;
+	b=+4U4xjdp9taVuECH0lINOoZa2iar2hBEGD++XtCM9eGKm7CGVdxYLsiGenWM4pnhlh07Sg
+	YrXXmtV8pZ9UBwDg==
+To: Breno Leitao <leitao@debian.org>, chris@chrisdown.name
+Cc: Sam Crossley <samuelcrossley@gmail.com>, Thomas Gleixner
+ <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Paolo Abeni <pabeni@redhat.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer
+ on demand
+In-Reply-To: <at84qygscue8crQi@gmail.com>
+References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
+ <87fqxskdpl.fsf@jogness.linutronix.de> <at84qygscue8crQi@gmail.com>
+Date: Mon, 26 Oct 2026 14:15:49 +0106
+Message-ID: <87a4o0k3qa.fsf@jogness.linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,86 +80,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MBO-RS-META: nzgmngh1z81sf44u537fisxxmnjw44kz
-X-MBO-RS-ID: c5f618f06e0dfd708bf
+Content-Type: text/plain
 
-Hi again,
+On 2026-10-26, Breno Leitao <leitao@debian.org> wrote:
+>> In the per-console loglevel series Chris Down introduces [2]
+>> /sys/class/console/ to sysfs. This is where we would put all the
+>> upcoming per-console knobs. I would expect a replay trigger would fit
+>> well there.
+>
+> That makes sense from a design perspective. Thanks for the direction.
+>
+> So the next step would be to add a basic /sys/class/console/, similar to
+> [2], and put a `replay` entry in it. 
+>
+>
+> That would be about three patches:
+>
+>   1. Create /sys/class/console/, similar to [2] but without any loglevel
+>      handling. cdown can build on it when respinning the loglevel series.
+>   2. Add the per-console replay helper, similar to [3].
+>   3. Add the first entry (/sys/class/console/replay), which triggers the
+>      helper from patch 2.
+>
+> Is that what you have in mind?
 
-On Mon, 2026-10-26 at 22:14 +1100, Aveline Noir wrote:
-> Manuel's recent grammar fix for this file, now in damon/next, covered a
-> good part of it.=C2=A0 This should take care of the few mistakes that are
-> left, like "should automatically activated" and "Make DAMON_LRU_SORT
-> reads".=C2=A0 Rewrap where the lines got too long.
->=20
-> Signed-off-by: Aveline Noir <jm5905938@gmail.com>
-> ---
-> =C2=A0.../admin-guide/mm/damon/lru_sort.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 45 ++++++++++---------
-> =C2=A01 file changed, 23 insertions(+), 22 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentat=
-ion/admin-guide/mm/damon/lru_sort.rst
-> index aa4cc90ca57c..c628e3f6e587 100644
-> --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-> +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-> @@ -35,7 +35,7 @@ deprioritizing cold pages on their LRU-lists.=C2=A0 To =
-avoid it consuming too much
-> =C2=A0CPU for the prioritizations, a CPU time usage limit can be configur=
-ed.=C2=A0 Under
-> =C2=A0the limit, it prioritizes and deprioritizes more hot and cold pages=
- first,
-> =C2=A0respectively.=C2=A0 System administrators can also configure under =
-what situation
-> -this scheme should automatically activated and deactivated with three me=
-mory
-> +this scheme should be automatically activated and deactivated with three=
- memory
+Yes. But perhaps someone else wants to provide some feedback about this?
 
-Yours isn't wrong but I would make it:
-+this scheme should automatically be activated and deactivated with three m=
-emory
+John
 
-Choose as you like.
-
-> =C2=A0pressure watermarks.
-> =C2=A0
-> =C2=A0Its default parameters for hotness/coldness thresholds and CPU quot=
-a limit are
-> @@ -55,7 +55,7 @@ DAMON_LRU_SORT utilizes module parameters.=C2=A0 That i=
-s, you can put
-> =C2=A0``damon_lru_sort.<parameter>=3D<value>`` on the kernel boot command=
- line or write
-> =C2=A0proper values to ``/sys/module/damon_lru_sort/parameters/<parameter=
->`` files.
-> =C2=A0
-> -Below are the description of each parameter.
-> +Below is the description of each parameter.
-
-My choice :=20
-+Below are the descriptions of each parameter.
-
-
-> =C2=A0...
-Looks good to me.
-
->=20
-> =C2=A0--------------------
-> @@ -310,7 +311,7 @@ Total bytes of hot memory regions that were successfu=
-lly LRU-sorted.
-> =C2=A0nr_hot_quota_exceeds
-> =C2=A0--------------------
-> =C2=A0
-> -Number of times that the time quota limit for hot regions have exceeded.
-> +Number of times that the time quota limit for hot regions has been excee=
-ded.
-
-I would go for this, but I'm not sure:
-+Number of times that the time quota limit for hot regions have been exceed=
-ed.
-
-Number of times that ... have been exceeded.
-
-Thanks,
-Reviewed-by: Manuel Ebner <manuelebnerli@mailbox.org>
-
-> =C2=A0...
+>> [2] https://lore.kernel.org/lkml/84b8d91693e56f6026271bc40553bcb6657ab24d.1764272407.git.chris@chrisdown.name/
+>
+> [3] https://lore.kernel.org/all/20261024-netcons-replay-upstream-v1-1-9613f38496e5@gmail.com/
