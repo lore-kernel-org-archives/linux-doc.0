@@ -1,75 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793036991;
-	b=w6FqrQn+2d3lsd6T1iyRQNxU54vMeEb04WOidA00XoUXlk1u7zBlMFr4B7iAg/4iD+il
-	 yUXDMbeIO3rpNOKwbUZzs0M0zI2veDFCavNHXvuJej9TuRdHREUujZznpV6bmzBT45Eds
-	 q9dAcW6qXE6c11t7X4CUKCrnWgnDA76AjviHWON2QkiwQAofUcO4S6ycJA+JOk8sseFwu
-	 VyMfbjCJqURvflRLQef7H8tq8u1wIPX+TZFbrn2uUxLj6rGcu4hvR3zyxo4lNkz6MXmyn
-	 vhpnez4GfZtUtldegM2AfBT+noca3UR7sT3q4ff8GZNV/wxHDF/YNgmvFqvOLrwKnaw==
+	t=1793037107;
+	b=zp58SLp5eZ6bvH4/UpCWWcZ0U7SA1Ghk3K8+e18xtQNd44aR+Zf7MuS7t5DQNnfE59iz
+	 e319ylzzg0AWsUQ081Wdg2FUoomkBe1FjMhXCMDWFmFBOm+DRJA2v+tYIzXtfp0NV5N9T
+	 cTdUVF4n9TUGVArFVkR9k5aW9Na82jxvVZ2ucsYX60POU81EqfU/er5hgvTM0SWFc/Tqo
+	 TJm8uukAerTOKcwuWu8K4ayim9IeVtkr7MUIvSlAhMRGmhpVpQ7VF30lhhGaZzbtgqUG5
+	 Vyj9tsaZZjbH5mpil5GyTbHmzLS3Fah1VFpusWhVj8ZnJ7T5XgMEFzyiBW9Mbc2hdZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793036991;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Debian-User;
-	bh=orD7g6UPcmdsNlJx2cAfXE0bvH+N2Z5uxr3hmHyDm+4=;
-	b=nZ4EaCGN2PGvU+wg+oQD3x2WR4fBpcmVUhQCZbuk7/p4amAaKx3cFgPeAsHDbWoL11Re
-	 SYt07+MXB02OaZedz/Ah1xyMdSH7oBXQVB/QgQ7Q+5HIhnxi7fneXSw3dIjXxCpHLyPGL
-	 yraYaueDGsMAiBOUJ8UT1Gss6/B/VlmqFufkABbs0BjepLTpnv5v4jyRsKerBTyfKPubc
-	 QgtIECRphPjrYLKiDC2q+sdPS8JgGAdgB+cEfuJ0MFuRLNyzuSpwY0b5Tl5u0521kwpVK
-	 4aFVNrlMwiVrA6gP/b9N7a4IZI7nEJrn6w+HNC6MXGxRJ8sB0yfbh7yNkEeUpvXotSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793037107;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=+zE9kVNs5C7sYZHMxAgpjn8fTZT69NqSWFunM32ji+Q=;
+	b=tDAYsABv4ki+ovysujlYjGZYTb0gDrzvP2m5VpZxdtJeFiqW/BzwWpIbJKLRjw/wQWLt
+	 vQYPRPEWKXGs+kGC397LJ6r8ChEF+BpA6yIMKqrW0dreA8q3fmMXjIUtwCPrEHcQhrfzN
+	 pc5YaGmKiIJMr9JKsN63/bpi7XAb6NhvCUMK1aPXf00eekeWBT09iaGXkFbR5uv/rTU0F
+	 t2fPg0JhhyqQip53b4OsA8iqVg4XzRu8N2s9G/wYRF4Xgg1WlaPAD6TWtA0btq8EMJy80
+	 RTWy2PRMajP1YTub+y5dbnnlCwlocr9T5ndMPR2DF+hLCmU9rzouyOLZF0sEPCUj8JA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=EQ3cwj6v;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=vfM+xgkT;
+	arc=none smtp.remote-ip=80.241.56.152
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077BB60A2616;
-	Mon, 26 Oct 2026 17:49:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 077BB60A2616
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2019C606A31D;
+	Mon, 26 Oct 2026 17:51:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2019C606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=EQ3cwj6v
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=orD7g6UPcmdsNlJx2cAfXE0bvH+N2Z5uxr3hmHyDm+4=; b=EQ3cwj6vy6u0oKGJx6dBj5hNcm
-	f2tqIQzKAicQW+pA6YhglvraStNdeG7SbjTBQBTIFj5NjwaYNnT7fe5Yc5P2FLDiv7tlcO/zc7WJL
-	KzVkK1uLWVRjLK0qFh2qwJysSYdlt/zPigDwVqNOK57lzRuFGbv8r/LmkogqXinIS/nCFp1qOaLVH
-	BNi5u3+bnF9Vwj15EcrmlBWYhw3tu2r2LwksKAa/WTZzha3BQKx88fSI0Ww0crnNXQgYl89Wt9p/S
-	AUqOFn5fPjEvtPxRFmse/MaWe4UWbMUVNb+LSRaO7nivRu7w4+U9yajvotLwLkLTDECeaJZQM+U9z
-	RX/SrIbQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xLOpF-000qtM-20;
-	Mon, 26 Oct 2026 17:49:37 +0000
-Date: Mon, 26 Oct 2026 10:49:32 -0700
-From: Breno Leitao <leitao@debian.org>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Petr Mladek <pmladek@suse.com>, chris@chrisdown.name, 
-	Sam Crossley <samuelcrossley@gmail.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Paolo Abeni <pabeni@redhat.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer on
- demand
-Message-ID: <at-Ppa86sBw7mO8W@gmail.com>
-References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
- <87fqxskdpl.fsf@jogness.linutronix.de>
- <at84qygscue8crQi@gmail.com>
- <87a4o0k3qa.fsf@jogness.linutronix.de>
- <at9qgBucVm-QHnye@pathway.suse.cz>
- <87zew0ifpp.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=vfM+xgkT
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jD1Ql1YcdzKp50;
+	Mon, 26 Oct 2026 18:51:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1793037103;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+zE9kVNs5C7sYZHMxAgpjn8fTZT69NqSWFunM32ji+Q=;
+	b=vfM+xgkTeSHFp0dpRFW5mvDxLWynvaYYd1UZ+0M8/RjdK3Y/o+kfyc5kjAwpXTIZsr9Eu6
+	iExYX6fI/vZP81wbfVGzOl1iJoKCqxBJmoBTf7rDmFgc7GkX9+CIvi72yb/ZgfofHKatWm
+	CEhmHoyYhPPpDYIG2BX/PYZg6euQ1DnaSJdvglOUm5V7jnR3pJMr3adsVPyyWfe80IThes
+	PV1MfXTDdgA2dDMotzgnU6/3lFKeT8b0eHT0SY7mfG9tZzTHCgiEdq+PwAAqfMMCzCGB+q
+	5PjQz2AM722OC6zZ3Ral0YnsHFgnv2G3dPDeGPmex+WvUtmaIsXIBJ5iXOlHYg==
+Message-ID: <72437017a038310cad48a5ff488377a9f8eb89f1.camel@mailbox.org>
+Subject: Re: [PATCH] mm/damon/reclaim: improve grammar and style
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: SJ Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>,
+ damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Aveline Noir <jm5905938@gmail.com>
+Date: Mon, 26 Oct 2026 18:51:40 +0100
+In-Reply-To: <20261017162706.103996-1-sj@kernel.org>
+References: <20261017162706.103996-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,69 +74,207 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zew0ifpp.fsf@jogness.linutronix.de>
-X-Debian-User: leitao
+X-MBO-RS-META: 5bdyhnnc1mx585ghi5jiq6o1fnqt5y33
+X-MBO-RS-ID: 6365762b24dbd342937
 
-On Mon, Oct 26, 2026 at 05:39:54PM +0106, John Ogness wrote:
-> On 2026-10-26, Petr Mladek <pmladek@suse.com> wrote:
-> > The "replay" approach looks like a big hammer. Many messages might get
-> > duplicated, especially when the outage was small.
-> >
-> > A better solution might be to do not increment con->nbcon_seq
-> > when the transmission failed. And try it later again.
-> 
-> Note that there was a time during the rework that we used to allow the
-> console to return failure but decided it was too complicated [0].
-> 
-> The kthreads are setup to stay in their printing loop until the backlog
-> is clear. Having a nice=-20 task busy-loop would be bad.
-> 
-> > con->write_thread() currently does not return anything. I believe that
-> > it is partly a historical limit. Two problems come to my mind:
-> >
-> >    1. There used to be a global "console_seq" counter which was common
-> >       for all console drivers. But we have a per-console counter since
-> >       the commit a699449bb13b70b8bd1 ("printk: refactor and rework
-> >       printing logic").
-> >
-> >    2. There has never been a try-later logic. But is should be easier
-> >       to add it now. We have the kthreads. And even the legacy loop
-> >       is able to break when there is not progress.
-> 
-> I suppose for only the write_thread() callback we could implement some
-> sort of throttled retry if the console driver reports failure. But this
-> is assuming console drivers can even detect if it successfully sent or
-> not. The netconsole certainly has no method to _know_ if the UDP packet
-> was received. And UARTs (asside from flow-control) also have no way to
-> confirm that the other side received the data.
-> 
-> Breno and Sam simply want the user to trigger a replay of the full
-> log. Essentially a sysrq-R but per-console. I think that is a reasonable
-> request and certainly much easier than attempting some sort of
-> transmission guarantee.
+Hi,
 
-A bit of context on the use case from our side.
+took me some time to respond because of the procrastinations.
 
-In an ideal world netconsole is enabled from early boot through the
-kernel command line, but in some case this is impossible
-(linux as bootloaders - ipxe/sd-stubs/etc).
+On Sat, 2026-10-17 at 09:27 -0700, SJ Park wrote:
+> On Sat, 17 Oct 2026 11:18:34 +0200 Manuel Ebner <manuelebnerli@mailbox.or=
+g> wrote:
+>=20
+> > Hi SJ,
+> >=20
+> > On Thu, 2026-10-15 at 07:01 -0700, SJ Park wrote:
+> > > On Thu, 15 Oct 2026 10:06:23 +0200 Manuel Ebner <manuelebnerli@mailbo=
+x.org> wrote:
+> > >=20
+> > > > Fix tenses. Replace 'set as' with 'set to'.
+> > > > Rewrite complex sentences.
+> > >=20
+> > > Let's put two sentences in one line, while breaking it for the 75 col=
+umn limit.
+> >=20
+> > Will do.
+> > >=20
+> > > [...]
+> > > > @@ -113,8 +113,8 @@ quota_sz
+> > > > =C2=A0
+> > > > =C2=A0Limit of size of memory for the reclamation in bytes.
+> > > > =C2=A0
+> > > > -DAMON_RECLAIM charges amount of memory which it tried to reclaim w=
+ithin a time
+> > > > -window (quota_reset_interval_ms) and makes no more than this limit=
+ is tried.
+> > > > +DAMON_RECLAIM recordes the amount of memory which it tried to recl=
+aim within a time
+> > >=20
+> > > s/recordes/charges/=C2=A0 or s/recordes/records/ ?
+> >=20
+> > For me charge is such a weird word exepct in 'charge a battery' or 'cha=
+rge a fee'. And
+> > 'recordes' is a typo. Does this work:
+>=20
+> 'charge' in this sentence is somewhat like 'charge a fee'.=C2=A0 I person=
+ally don't
+> feel it is weird.=C2=A0 But 'record' also work for me.
 
-The other way to setup netconsole is to create a new target at runtime
-through configfs. Netconsole then only sends messages from the time the
-target is enabled.
+I will keep 'charge' at the later mention in the file.
 
-For this second case, I would like to replay the whole kernel log on
-netconsole, such as previous messages. Something might have happened
-before the target was enabled, and we want visibility into that.
+>=20
+> > DAMON_RECLAIM records the amount of memory which it tried to reclaim wi=
+thin a time
+>=20
+> So this looks good to me, too.
 
-That said, the "per-console counter" might work as well, since it would
-start as 0, thus, we know that netconsole target would be behind, and
-try to replay? (not sure how yet)
+Will do.
 
-That said, one way or another might work for our purposes ?!
+>=20
+> >=20
+> > I could do this in a second patch aswell.
+> >=20
+> > >=20
+> > > I'd prefer charges, but my English is definitely bad, so looking for =
+your
+> > > suggestion.
+> > >=20
+> > > > +window (quota_reset_interval_ms) and stops when this memory limit =
+is reached.
+> > >=20
+> > > I feel like readers might wonder what is stopped.=C2=A0 How about "st=
+ops trying
+> > > reclaiming memory when ..." ?
+> >=20
+> > window (quota_reset_interval_ms) and stops trying to reclaim memory whe=
+n this limit is reached.
+>=20
+> Looks good.
 
-Thanks for the proposal and discussions,
---breno
+Ack.
 
+>=20
+> >=20
+> > >=20
+> > > > =C2=A0This can be used for limiting consumption of CPU and IO.=C2=
+=A0 If this value is
+> > > > =C2=A0zero, the limit is disabled.
+> > > > =C2=A0
+> > > > @@ -125,19 +125,19 @@ quota_reset_interval_ms
+> > > > =C2=A0
+> > > > =C2=A0The time/size quota charge reset interval in milliseconds.
+> > > > =C2=A0
+> > > > -The charge reset interval for the quota of time (quota_ms) and siz=
+e
+> > > > -(quota_sz).=C2=A0 That is, DAMON_RECLAIM does not try reclamation =
+for more than
+> > > > +The quota reset interval of time is quota_ms and of size is
+> > > > +quota_sz.=C2=A0 That is, DAMON_RECLAIM does not try reclamation fo=
+r more than
+> > >=20
+> > > I think this change is just wrong?=C2=A0 quota_ms is not quota reset =
+interval of
+> > > time.=C2=A0 Which part of the original sentence was difficult to read=
+?
+> >=20
+> > 'charge' again, and I think there is the verb is missing.
+>=20
+> If use of the term 'charge' is really making reading difficult, we could =
+add a
+> short definition of 'charge' as a separate patch.
+
+I think it's not necessary, it's probably me.=20
+>=20
+> E.g.,=20
+>=20
+> '''
+> --- a/Documentation/mm/damon/design.rst
+> +++ b/Documentation/mm/damon/design.rst
+> @@ -695,7 +695,9 @@ dynamic.
+> =C2=A0To mitigate that situation, DAMOS provides an upper-bound overhead =
+control
+> =C2=A0feature called quotas.=C2=A0 It lets users specify an upper limit o=
+f time that DAMOS
+> =C2=A0can use for applying the action, and/or a maximum bytes of memory r=
+egions that
+> -the action can be applied within a user-specified time duration.
+> +the action can be applied within a user-specified time duration.=C2=A0 D=
+AMOS tracks
+> +(charge) the amount of memory that the action is applied, and stops appl=
+ying
+> +the action once the limit is reached.
+>=20
+> =C2=A0To know how user-space can set the basic quotas via :ref:`DAMON sys=
+fs interface
+> =C2=A0<sysfs_interface>`, refer to :ref:`quotas <sysfs_quotas>` part of t=
+he
+> '''
+>=20
+> Please let me know if you'd like to send such a patch.
+
+No need.
+
+>=20
+> >=20
+> > >=20
+> > > > =C2=A0quota_ms milliseconds or quota_sz bytes within quota_reset_in=
+terval_ms
+> > > > =C2=A0milliseconds.
+> > > > =C2=A0
+> > > > -1 second by default.
+> > > > +1000 (1 second) by default.
+> > >=20
+> > > Isn't this (1 second in milliseconds is 1,000) easy enough to infer f=
+or
+> > > readers?
+> >=20
+> > Ok.
+> >=20
+> > > > =C2=A0
+> > > > =C2=A0quota_mem_pressure_us
+> > > > =C2=A0---------------------
+> > > > =C2=A0
+> > > > =C2=A0Desired level of memory pressure-stall time in microseconds.
+> > > > =C2=A0
+> > > > -While keeping the caps that set by other quotas, DAMON_RECLAIM aut=
+omatically
+> > > > +While keeping the caps set by other quotas, DAMON_RECLAIM automati=
+cally
+> > >=20
+> > > How about "caps that are set by ..." ?
+> >=20
+> > Yes, this was my second choice.
+> >=20
+> > >=20
+> > > > =C2=A0increases and decreases the effective level of the quota aimi=
+ng this level of
+> > > > =C2=A0memory pressure is incurred.=C2=A0 System-wide ``some`` memor=
+y PSI in microseconds
+> > > > =C2=A0per quota reset interval (``quota_reset_interval_ms``) is col=
+lected and
+> > >=20
+> > >=20
+> > > Thanks,
+> > > SJ
+> >=20
+> > I messed up the subject line, should be:
+> > Docs/admin-guide/mm/damon/reclaim: improve grammar and style
+> >=20
+> > I'll follow up with a [v2], including Aveline suggestions.
+>=20
+> Sounds good.=C2=A0 But let's finish the discussion about use of the term,=
+ 'charge'
+> before posting v2.
+
+Then I'll head to [v2] and make it a 2 part series.
+
+>=20
+>=20
+> Thanks,
+> SJ
+
+Thanks
+ Manuel=20
+>=20
+> [...]
