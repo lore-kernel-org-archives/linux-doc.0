@@ -1,81 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046899;
-	b=ySeC2o0pUH7eVbzWq+VRgDS9TUr6Bou3Kie87AcR7E9rrERKeMTnZ6t11u2kQ6T+W5kp
-	 uEEwVDPeYdZJ8jjD441mEIaIgQ87lCGOdTQg5Bpzg+mWewWobX8Dt7NwuV3jUQ5bQRsV4
-	 WL9bufoMim83UuEohaNkVHMVourcR+co/rtZKjb/l6Ix8CUfhk/gjiArZBMTkTY2q8iww
-	 29BvvjwtTlKz0TdOIbKORAc+3kQBUZ3A9S9tHBx8ynQBcqrmq6uU7eOw0otYAQ0r3L1T4
-	 0sQYjm7JVCcPC7n6Ej98KMXkODABFBA3Gllj35Y8KfluXVhLKjZuxOtmlazvOBPYHqw==
+	t=1793047678;
+	b=43h+omvhtp6MCeVFR/3wlMB3Yr6pVh14tG/4J4F+sjzCO4W79SudEV/1lvOeeuP/8/Lu
+	 byc5gNsB5LoiIIXkmPg++xB7Mx9uUsw8B1D0+77EOxHRf1cMFQfJ0CtkCKUkd5EqeQemR
+	 BuDOvhSMjBmU56pc5a5Ggn4JxDSOtHkmG/oXGdk1xrZt7F0xDHifDz4iSLKAlMGoGjhaI
+	 EHURxR5gA3Xg5TBYSNYrWL0uhRwjZfsyztVKJRigdjscSfvdpM3SVTQeRU1jp64AKZuGO
+	 bRNmebd+C26/uqbPv2ryL9cpGcma+TTH4PGycjS3vBwSPJ4NXUtjXWfwj/BOYaE5aew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046899;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=X4l+Gy2WdA0ddUhGXKOE2P+Ofd0gYPNJBhhqsMmOdoc=;
-	b=npZCa7legZJDc6TMbbjQDtXJo0cHLSwnQGzpsEIZgPDI40zL0Y5m89kmbhi+aHfUFoqd
-	 PKBzjoGmhhbJL1u/1pHBxbB83rtkHejMBepEqN6ssD1bpLVw8H45+868l3RcLaaIx5sjO
-	 BSNFSHwdg5lVDTD3SuAg2Khloz2P+EpC2f/2vWiOrJC/wVuQNMKHlIJfsv8Hr4D18bapp
-	 pt6W1jOvdeYp9BytIqDykVeYOcF/xdgLYJLA1FTiiLJtfMaphhhPnnQTTYl68vtEawVEw
-	 uLKD0m9SkqcneUCCmY8FfVaagPXzc6fVREH4b3SQ4IRd3tQewvtAP3P7JFKdKQCSFPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793047678;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=SBmctSjaoLLILJHNPpPv1PuNvPvq0whtOyZw1gjKndI=;
+	b=W6+DAsznhwPOW4Vq/rVMJ1qU7cHw9qgc+NOFPnMoz0sIqB7DtCePvjB4xK1yjysvnzy6
+	 Exwro7Dt8xzy5uGQjM3fAGdXeHGR1RB9giXAM+fH6sp6bvwKRh9CkuH7zZT3esKPEz7WX
+	 Bsm9+LadmJRVzpNBY3CxOR3Ytzu1WOPjW0NaFQsLnq9Rg8Ip8QrN1bA4n2o5xpGnIUqZF
+	 76+08ZZkKHT5MaVkHOT83whONTreLiNzkLE3YSGbVZ7vljfqH4uAiCbsNKEwEoVUREpUp
+	 tlx0L7ogxtanBHrMMBZiES0D8WB+hHE91GNgrQKNwlR+my1fJXK5sBTamcX3S8RH7Ww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PhwDA1y8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=roeck-us.net;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=irCKRdav;
+	arc=none smtp.remote-ip=74.125.82.43
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A6606A31B;
-	Mon, 26 Oct 2026 20:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4134B606A31B
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 20:47:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4134B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PhwDA1y8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006B91F01825;
-	Mon, 26 Oct 2026 20:34:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793046898;
-	bh=X4l+Gy2WdA0ddUhGXKOE2P+Ofd0gYPNJBhhqsMmOdoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PhwDA1y8p5GYw/Jz97+tRiTWOB2v/l9UiHdxmXQoxCHZTr5uhmhPJZRofD5cmNMUV
-	 mQAZFZOcZo4rB1u8dXEgBWSRMdpy4s9rP4PaHqTuulnUTUd6AQIr/ga54o6AKO98xW
-	 EwqzitAOT+yloNDHU/FN15n5SLh91EP6Vc34IRK4=
-Date: Mon, 26 Oct 2026 21:34:57 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=irCKRdav
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-19305bcb72cso2564928c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:47:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793047677; x=1793652477; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SBmctSjaoLLILJHNPpPv1PuNvPvq0whtOyZw1gjKndI=;
+        b=irCKRdavJ1ic6tR9vsqNpCYqnE/IzH8mECl28f7EEWDTHhJizVrT9hOcsCXrlL6zhx
+         NSTeoZXboKZF99CJNcnVHZdKUUSk5kEkbSSU5w1xeKbhNKltgulw2WPFtfizm714ls6y
+         aSNJB9P8YNNi8xWqwQiUgEtWrDwZaXsZUHUpfMb0ZY8lDKo230xFmBsilpkMBNegfQP+
+         SexeY5JCZOe+PHxJAJ5H9eePOWUKl5K/iewGcknIEklYTQHUg6UXLnMLfi0fxIqeoLXg
+         f10hQdO7YPYUiHFezZ0LvK3EPCqgGJ1sN8RaFCl8Roj9LVQbseKNdPAK564zXvqY3N6l
+         ftKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793047677; x=1793652477;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SBmctSjaoLLILJHNPpPv1PuNvPvq0whtOyZw1gjKndI=;
+        b=Rp/xJA2PuwrJooNcKCd26FEC9uzRtE+eAmlKcjbTeUf2NaH3IQKJpAQzjT9SaNCfM9
+         8eiveGva2TkKgN+rOvXqP9HcPblHWStQ44mHkNHp1fUiN3eWC2BN8/USenAEPZxfdBTr
+         nC6FNvYVfopSmyQMzWdkKFOD4LsuTD4rF89ofgIdcDsRK8IvrFB/Pwkc6Ta8zKnFEgWy
+         zJVrc2inSybmNaSnJ6qBKqKpDWuye3EvCwIQxOwm4kc89nU0j8aDVSbQxLbZtTW+e75F
+         jdBJHVRfE9mOiieiimG/WoCPbdAhe0/mfp4216p7D3/DY9N/P+UWkBqefne5daEqxkwt
+         /M4A==
+X-Forwarded-Encrypted: i=1; AKwUvBwoky5F2Lors/AWx/GUoWOmmgmnxXtLyJ2AUkx9K95untASNR8n6kPco7+TXYIYhMIR+HDA9FMQtHI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKUk0WATVwbyssA+eCUJhVvD0JdmY22BBfMwfLn9yWPl9R+GCsm
+	MVwIOFZjXG5/rX0qQcJFP6a2NzsiiJ4Plxq8ZZ/Y9PgmQisUK0T3/zqy
+X-Gm-Gg: AYBFou19b3BSvtsrEN5wz6Mequc0qvU5yRq6HNHksyFEj/2qIlg1C8nD17xx5BOU+2Y
+	xgMvpVjaoVwO9vu26nx2T14K0CNegHvdsqzFW6kKELP7AQPVBqiw9KSrhlz7NJg5cxq3YmdrPQM
+	S6yy5XLEgbCE/Fsl7PZp9b+UorhWT+ARY86pYMdjF5tz9Hs7Rr/U/ljajMwHH9A3D2c9YMT2XHB
+	798wqjHlv2vlNGOFlOHhXMFE8dJ3MAd9zXYU1QRll3+tBsnsCtumK3iXSIQrBirA/eV3awneRC+
+	uYXgsJIwyvl4Mfvp/ND9plW16V2QK23/LQgCt01V9WZVdDpHigizTp4DjKLalhVduh6YN3o4OIo
+	OUElB0IOfaa44VJsEWTiA9cuX2tg7+R2uVCufepTXcKpHonk9aQ0e4f9hJU4Ns95Rl5EmhG5lVL
+	IhlGXoug7ZXjFwsdfiIVg1vBo+ulLeNxv1yT7xs9qziMkvLtm1ep9HJsigD21dCgNvJB7LO3Rt5
+	hCdauPbN6CwFZJlydUUL+vt8HuQfG+hhspG8FyDpWk8C5Ayti7Q2MDUvwZZA0e4v2G+/w==
+X-Received: by 2002:a05:7022:5f09:b0:15e:6541:3099 with SMTP id a92af1059eb24-19933e10e21mr12324517c88.7.1793047677064;
+        Mon, 26 Oct 2026 13:47:57 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1989ff2eefbsm27586280c88.7.2026.10.26.13.47.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 13:47:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 26 Oct 2026 13:47:54 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Vas Zayarskiy <contact@vasily.cc>
+Cc: Aleksa Savic <savicaleksa83@gmail.com>, Jack Doan <me@jackdoan.com>,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026102637-buggy-mothball-2a08@gregkh>
-References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <2026102437-vista-unsoiled-b089@gregkh>
- <20261024103512.4601ee4f@shazbot.org>
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 1/5] hwmon: (aquacomputer_d5next) Avoid truncating
+ scaled sensor readings
+Message-ID: <494625fc-168a-42b4-9591-cbf5fb2e981e@roeck-us.net>
+References: <20260927191316.4137752-1-contact@vasily.cc>
+ <20260927191316.4137752-2-contact@vasily.cc>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,164 +101,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261024103512.4601ee4f@shazbot.org>
+In-Reply-To: <20260927191316.4137752-2-contact@vasily.cc>
 
-On Sat, Oct 24, 2026 at 10:35:12AM -0600, Alex Williamson wrote:
-> On Sat, 24 Oct 2026 06:56:34 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Sun, Sep 27, 2026 at 10:13:12PM +0300, Vas Zayarskiy wrote:
+> High Flow Next power is reported in watts. Multiplying the 16-bit value
+> by one million can overflow both the signed intermediate and the u32
+> cache. Store power in long, perform the conversion in u64, and clamp to
+> LONG_MAX. The other existing power conversions fit in a signed 32-bit
+> value. Return -ENODATA for unavailable power instead of exposing the
+> stored error as a reading.
 > 
-> > On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
-> > > On Wed, 23 Sep 2026 12:29:56 +0200
-> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > >   
-> > > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:  
-> > > > > > No, drivers should NOT have to do that in their .probe() function,
-> > > > > > that's what we moved away from decades ago!  The match function should
-> > > > > > handle all of that for you, otherwise it's contant duplication
-> > > > > > everywhere that is unneeded.    
-> > > > > 
-> > > > > Well then you have to accept that root can provoke a null pointer
-> > > > > exception (e.g. by forcing the pwm-tegra driver on a device) because at
-> > > > > least with today's platform bus match function such a match is ok.    
-> > > > 
-> > > > Agreed, yes, root can cause a crash and can do tons of horrible things
-> > > > much worse than this, that's not the issue.
-> > > > 
-> > > > That's why this taint is there, to make it obvious that this is not a
-> > > > "real" bug at all.
-> > > >   
-> > > > > > Please, learn from our history, don't make the same mistakes.
-> > > > > > 
-> > > > > > Now I might be convinced that driver_override is the way to go here, but
-> > > > > > it still feels really odd as again, bind/unbind was created as a driver
-> > > > > > debugging option only, it should NOT be a normal operation that any user
-> > > > > > should rely on.  The driver should "just work" properly instead, without
-> > > > > > requiring manual bind work, as that's not a good model at all.    
-> > > > > 
-> > > > > I agree in principle, but (in my case wifi) drivers are buggy sometimes
-> > > > > (due to missing documentation and/or engineering effort) and being able
-> > > > > to rebind the driver instead of rebooting to get a working device again
-> > > > > is very useful.    
-> > > > 
-> > > > Fine, use it!  Just don't expect that to be "normal".
-> > > >   
-> > > > > So yes, theoretically bind/unbind isn't needed, but theory and practise
-> > > > > differ in practise.    
-> > > > 
-> > > > Agreed, but again, don't rely on this as a "real" solution fo ranything.  
-> > > 
-> > > Sorry, late to the party, but this isn't a few user scripts that rely
-> > > on this behavior.  Effectively every use case of vfio relies on this
-> > > behavior.  We rely on unbinding the default driver from the device
-> > > before using driver_override and drivers_probe.  That means every
-> > > hypervisor with device assignment and every userspace driver use case
-> > > now experiences a tainted kernel. That seems like a significant
-> > > regression.  
-> > 
-> > Or finally, a real bugfix :)
-> > 
-> > > There is currently no alternative for this process.  It's not a matter
-> > > of upgrading to a newer kernel where the drivers claim the device IDs.
-> > > We can't claim the device ID, vfio drivers represent a secondary use
-> > > case for the device.  
-> > 
-> > How can vfio know that it can properly talk to any device like this?
-> > Surely you have a list of real device ids that you know will work,
-> > otherwise all bets are off.
+> The power cache is updated by HID reports without the hwmon read mutex.
+> Read it once with READ_ONCE() and use that snapshot for both the
+> availability check and the returned value. Mark the corresponding
+> updates with WRITE_ONCE() so that the shared accesses are explicit.
 > 
-> There's not a list of real device IDs.  PCI, in particular, is a
-> self-describing bus.  Devices are discovered via bus walk, their
-> resources are probed via standard mechanisms, they support interrupts
-> and resets as described by capabilities defined in a specification.
-
-I know how PCI works, I used to be the PCI maintainer all those years
-ago :)
-
-> The vfio-pci driver just provides a generic way to represent a device
-> as resources mapped to file offsets with ioctls to discover those
-> offsets and interact with things like resets and interrupts.
-
-Great, then just have that driver attach to the specific device you want
-by having it contain the device ids for what it wants to control.  Or
-have it say it wants to control all devices and be "last" on the list to
-bind.
-
-> For
-> example, PCI config space and BAR regions are just defined indexes into
-> the table of file offsets.  This works with any endpoint device, where
-> even that distinction is based on the discoverable PCI header type
-> rather than a table of device IDs.
-
-I don't understand what you are trying to say here, sorry.  Yes I know
-how PCI config space works, again, I was the maintainer and still have
-access to the PCI sig through various means.
-
-> Even if we could come up with a set of device IDs, it's a policy
-> decision whether a given device is intended by the admin to be used by
-> the default in-kernel driver or a userspace driver.
-
-Great, then have the admin never allow the in-kernel driver to be on the
-system, or be loaded (modprobe has deny lists) and all is fine.
-
-> This policy changes over time, within the same host session.
-
-what are you defining as a "session" here?
-
-> That means that at one point we want the default driver bound and at
-> another we want a vfio driver bound.  Coordinating this is exactly why
-> we have driver_override and, building on that, match IDs that require
-> driver_override.  This allows drivers to describe themselves as
-> vfio-pci compatible drivers via modules.alias while requiring
-> userspace to enable the match via driver_override.
-
-And as said before, that's a horrid hack and one that is breaking things
-today in all sorts of ways, which is why the taint was added.
-
-If you wish to override the kernel, then great, a taint flag is added
-and all is fine.  All this means is that now developers know what you
-did and can decide to ignore your bug report or not.  No functionality
-changed at all.
-
-> > > A production use case of panic_on_taint now results in a hard failure
-> > > for a scenario that has been allowed and documented as best practice
-> > > for many years.  
-> > 
-> > It was never "best practice", you took a debugging option and somehow
-> > thought it was a valid use case.  Yes, I'm being harsh but I am sure I
-> > complained about this in the past and obviously never followed up on it,
-> > so that's on me.
+> Widen the shared current cache to u32. The Aquastream XT conversion to
+> milliamperes can exceed 65535 mA; clamp its negative conversion results
+> to zero before assigning to the unsigned cache. This also permits devices
+> with scaled aggregate currents to store milliamperes directly.
 > 
-> I won't doubt that you know more about the history and intent of these
-> interfaces than nearly anyone, but I don't find any documentation or
-> comments that specifically declare these as debug interfaces.  In fact,
-> Documentation/ABI/testing/sysfs-bus-pci has documented the bind and
-> unbind ABI for over 20 years.
-> 
-> You've certainly expressed more than once that users get to keep all
-> the broken pieces if they bind devices to drivers that don't support
-> the hardware.  This is the first that it's been formalized in a
-> taint without warning or an escape hatch for drivers like vfio-pci that
-> do in fact intend to work with all hardware.  It affects the industries
-> that depend on this usage model.  It's a regression.
+> Assisted-by: LLM sparse
+> Signed-off-by: Vas Zayarskiy <contact@vasily.cc>
 
-No functionality changed, just an informational flag is now in the
-system when this happens.  The systems still obviously work just fine,
-otherwise all testing so far of linux-next would have caught this,
-right?
+Applied.
 
-> Is there some way instead that we can resolve the string written to
-> driver_override and only taint for non-vfio drivers?  It's a much more
-> confined problem if vfio drivers filter hardware outside their scope of
-> support in their .probe function, and I think we largely do that
-> already.  Thanks,
-
-Why are you worried about a taint flag?  So many servers run with taint
-flags enabled due to out-of-tree or questionable licenses with no
-problems, what's one more informational bit here?
-
-thanks,
-
-greg k-h
+Thanks,
+Guenter
