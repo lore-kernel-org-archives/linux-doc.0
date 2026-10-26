@@ -1,95 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793042079;
-	b=GenZu6IUhItEUqQzUiumtSo1S6ZGJqCo8GKhUi4C0Ish8Dj4soG9nlLhr8P8AKElisM+
-	 JL0U/iFHpPGwybVYebHXEvlN4WAWahVHtdRMQH7CD4cZ/kgMYb42AB0Z+zapVdehWWeGh
-	 kyAcdr5ZmNj0YOAbfrBrtXDNvZcSflwCmKNEBjwODh09rdd/NutHalXbeDRlbj/ihVoBe
-	 kpYeHDDwCa/sdX6AgwiW4qZjpMiFM17Sogh41s4S3vUI/amGxDyWW0MMLkTwDW5Z4Aasi
-	 sYm/JEGc7mqNbrfoDplmoo98ZVWTLFM23IkVsDOnuz5Ol9QqsCWlDxaehkcZmN6W/tw==
+	t=1793042138;
+	b=gbYT0dg5mjLttWx7hhRYY7rAd5Brnj7KNyO3FNKwmnxGFGaGeocHi98aB2rh6h+f9RuH
+	 E+s2e+RKtwVbaIJ3pf7JQ/6SykjhpEQg8rJ5vq/78xJx3s9wTH8Zq5ZewPAhEV6WZitZo
+	 FTS6EQhKbYSB9P9TT28uLVCIcjQ9FHh8PyXPKB0sszrEplAQREXgTV8zXZkbc+cwu6u5C
+	 /qKSP9y3XyGGQCiwIMdpcuMs3eHvUtU/T77+Uenmy/aZGmd/J9JkMlqYWLfzpGmcLX9dg
+	 uTBCdN74AB5s6fK06JdENQoZikVQe/+Cn6TkooH2sphUTwEM9FW883wMZ/4WyK6UMUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793042079;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xYd1AfKqcl+9tRJkqB8FFaIjzuEdllawIMWqWesHJnA=;
-	b=vXJhEmbhROXbdAaNpYkhUc8qckw5arc23i1ExCguPbKaKbRlQABs8drqBOL1nBWSuksB
-	 iAfxtJIowJ/RSAJWAGj3f6V8M5d03Gygv1IfMcubaFv+2dlryLcJctNGe4ibbyoGh5wc8
-	 SDC46nnEH9IsdMD/QkO7QWFv2DpWKkCE+LeZJ/xNmjG6Djd9YjGxsAyHZe8zX8XwBSkNI
-	 LDmVu6+RmaMqWowqYi0Wer2OA3tya61sir+6nUrko0V/NGEPOWsgLV8MruFrOHb80rXww
-	 TnsYYaohi5IgqGvQdfdGzDM/uLg+riV7mpnA/o+gxkNbgy5xduBJtv8waGZMr+p1Sfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793042138;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=dthud7n8CfSjqHS7DsUzsSN6317CU/LaPA6uNk4Ml7Y=;
+	b=xScEyRNpIATvJRai/IL0NR6Xz/GYOIGbJnNGZkRoPAb5ykZZY8cBomwBqu/5Mz24jmtv
+	 yoa1zu4PeX2CZDySkZwDpXYlgKX4Ypch0Tuluo3ysbXUTut9fVMQbDJwjQp/2h5ik4X15
+	 nuro89YO+5rZoXDeJ1ITeYhypsyMdCTQyojHDorMzj7Eioj3H5rNwMzsqKfpvWxZHB2Rj
+	 /9aKgXoVDi53Rd33RmnfIcDwtCVrsM0A3cuxoo7uj7wTLBo/Rhki/lKIDe0UPC0ZCHr4m
+	 34atS9a7fNlRuTiKqxd1iJmOm5yIl+lQDPEuRVB3AhOzroarXM6nWBPCOMNR+I8Qs2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=roeck-us.net;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=k8IAvO4R;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=fU5dWQ1y;
+	arc=none smtp.remote-ip=44.202.169.37
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C80606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 19:14:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2C80606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99699606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 19:15:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99699606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=k8IAvO4R
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3514b90bb89so7783009eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 12:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793042077; x=1793646877; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=xYd1AfKqcl+9tRJkqB8FFaIjzuEdllawIMWqWesHJnA=;
-        b=k8IAvO4RvXOI4qstAapQi7ZztKLiZvS5iYhzCyqZlUyegpcJPXdEfn3HNC+IByLvLo
-         2QcUsv/9AeemW48Rkcen+gEew6+zLRnsIbBaegLEy9Rxwah1P/GDv79WiHPZVHk5uwyx
-         qtGVsofaF0s+TydBCzoU1UNRIWJ2lpzvJTRjr01tOZvUyylQGRuTcNxRJkLQlitgj942
-         sPBxSxAlG1A4LssCZ+83sn+WhxGBbVc+Rg8+XA5OLbvAkOn9gaYCSMyVAvW1gV5R4/Nq
-         UD0VZzxhPTODb3Fsle4SoH0Q0z+H6H7hpnNjWJiBSQNZkYEedPYZHlCz0P3Mi2ndcGB9
-         K5ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793042077; x=1793646877;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xYd1AfKqcl+9tRJkqB8FFaIjzuEdllawIMWqWesHJnA=;
-        b=l27u3kejdn5ea1Ul5Pl9TH469KJ5Ev76/l7Iw+auB4YLAGDO5UVQZpOvkxkYgJho32
-         1sKo57spo7uUydUN/JY9Wa6wD+z9IfcRi48CpOIiYS2plERHr5NPZaMrWHszHQd2cXfk
-         AH5uV4eHpIRp2jkMvgGQNkuT/vpNZm+U1sQEVBZJobTyDb+8dxy7O7hV+KqrY8gDL+fL
-         jkBo8AQthlAWCl4csqqxUuCnAt/8vgzsfj8lFoOHCCExD8/kAVqT5xAYU6f6pkOaBe5C
-         ER+1MdlNCPIjczr+P7yPNwmGqrDMkIW/Y/1OANhi2DJ348N2MDh4PXuvGOZySnYdYapV
-         SVPg==
-X-Forwarded-Encrypted: i=1; AKwUvBwm/28x8Seh1AJXQ4LaK9pjhUlLSomjvjg8wQjyWvqpvhcK5fdsf45dvUeRrb50sUnr704Ii6g/E4c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLVgOAiZLAMRxIjH0pk3SFcN+YlEmipz+JuvxSBvqhZYIx0aE1W
-	ZsI9fNvmVAWeX+n01dwoJByXO3C1/MSJfgddR9CWzpaSjZeqiS9N1n+p
-X-Gm-Gg: AYBFou1sc/jrT/16g7zbMYLAcvx4vjnEo1oAKCdWeu7sbczIvMIpVsd+BhAcNMmTU9Q
-	km6WUziS07E7NNWcy987RLNWjnzPuMZLZiRNVwpkqxou2eEC8B7Vi4HEmjUrvhwYcclrSr6VAiC
-	8hz2dycgfou5ErtFRXfOuNH8KHr0HPmA7wnPcDmQ7Uou+69ZSEXL9Gt8DJ5yYCPmFY7L6zjgkP3
-	7HLwr4TzKT/pY9gnorkWB4RclnjlkPgldCfHYrNPyU1ITJDQLpaED1OTEuuFw0bnIdsS2dI6XFO
-	urvXMoFnZkZWwYF0EV/fI2p+VRljqYCmd5ePCmjKgdtMoilYFwyzX++DfhpAUHiSKBut94jWEdg
-	bVhxcjuSi0IjXptchhJbQspeoBvhMD2HuWGCG99vmKzBLaFemSeLsqbd6KpJopHhZM/kLjd07dd
-	F2JGik/0i3+Rqtg5CKpgL21r347Y16DfPvwtjU0DjC/q9h++q5v2AgV9AzJE7QCn60rtu1xeu+I
-	dBeNVshpPnWnmiFiPoN1ttAjW5zgCO9ZCnaySulo/32s2cCzFyxzrRg+Ju4gs8+QEGeEg==
-X-Received: by 2002:a05:7300:471a:b0:369:e8b0:af85 with SMTP id 5a478bee46e88-369e8b0b5acmr12248693eec.36.1793042077191;
-        Mon, 26 Oct 2026 12:14:37 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8afd64fsm31480019eec.0.2026.10.26.12.14.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 12:14:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 26 Oct 2026 12:14:36 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hamza Mahfooz <someguy@effective-light.com>
-Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (nct6683) Add fan control support for MSI
- boards with NCT6687D-R
-Message-ID: <c302d22e-6ef4-409c-8f9c-28922afbad59@roeck-us.net>
-References: <20261004153250.516730-1-someguy@effective-light.com>
- <20261004153250.516730-3-someguy@effective-light.com>
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=fU5dWQ1y
+Received: from eig-obgw-6002b.ext.cloudfilter.net ([10.0.30.203])
+	by cmsmtp with ESMTPS
+	id LCoWxSgswJFmFLQANxC5lD; Mon, 26 Oct 2026 19:15:31 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id LQAMxVBmzWuAqLQANxFCY4; Mon, 26 Oct 2026 19:15:31 +0000
+X-Authority-Analysis: v=2.4 cv=IpUecK/g c=1 sm=1 tr=0 ts=6adfa6d3
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10 a=NEAV23lmAAAA:8
+ a=uk_-rdj3JvsFQWsf6W8A:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=dthud7n8CfSjqHS7DsUzsSN6317CU/LaPA6uNk4Ml7Y=; b=fU5dWQ1yEtI5
+	iCBbb4lZG6wtacNr7PcieCJbBxCnaB2p4eUXqUysKHRxReUDdWkEzHUlhc0gK7hgnfFp8LoxgSY5p
+	7IGN8uHmARgK8Ro8QysvvmbO9hxfo4Ujp86DlkOzSf+Wc0hSQWtHv+THLNaJHxwMn03V0M2A73YtP
+	E7JqlSwnTjRWR7+bS/8Ii0380ONMJ3Y7lyBmvtOZnZ6ZLgz0Ju8FgHfDD+pTz1alDTAdSz72nbtzK
+	TbsjdYLgLExHi6RR1qt6I1UmrzIRoN/1aD8ccJXOYCMzH/r67b/FWpE80g3RZZI+X0lkjukyYJ/VO
+	xhKfnFyFXK2sQhxB7z2dKg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54252)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xLQAM-00000002EWK-23LA;
+	Tue, 27 Oct 2026 00:45:30 +0530
+Message-ID: <af46087b-06d1-44b4-a2a6-f737d5ca247c@roeck-us.net>
+Date: Mon, 26 Oct 2026 12:15:29 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,38 +75,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261004153250.516730-3-someguy@effective-light.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] hwmon: (nct6683) Add fan control support for MSI
+ boards with NCT6687D-R
+To: Hamza Mahfooz <someguy@effective-light.com>, linux-hwmon@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261004153250.516730-1-someguy@effective-light.com>
+ <at-dYL4g1w_qBxe6@hal-station.localdomain>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <at-dYL4g1w_qBxe6@hal-station.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xLQAM-00000002EWK-23LA
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54252
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfAHjgBT/a4sRIEdeFjCFJsbJSO/fguQiw2YST/QmiT/MZMC1uHubTlOhTZL/ELEUu0dLGvQSVEAY4/8szvOnQQC2dmbodFMexrSY/nFhsLVx2s02si9H
+ hDGmt3AUksQ+cCpbbRVGHwDUqqrygbw/qnpwqyLqY+5WLkyqSz8kOiRuK/yQiBdm9660L8YEWr6G/19vgy8v9P/VhKw6tEULzuQYzWjL1voLC+Y1OVTY7gtJ
 
-On Sun, Oct 04, 2026 at 11:32:50AM -0400, Hamza Mahfooz wrote:
-> The fan control registers of the NCT6687D-R used on recent MSI boards
-> (customer ID 0x20d) differ from the ones used on Mitac boards, and
-> changes must be made in a configuration phase of its fan engine.
+On 10/26/26 11:35, Hamza Mahfooz wrote:
+> On Sun, Oct 04, 2026 at 11:32:48AM -0400, Hamza Mahfooz wrote:
+>> Recent MSI boards (customer ID 0x20d) use an NCT6687D-R, whose fan
+>> control registers differ from the ones used on Mitac boards, the only
+>> boards for which the driver supports fan control so far. In addition,
+>> the system fans of these boards are connected to channels 10-15, whose
+>> duty cycle the driver does not report.
+>>
+>> This series adds fan control support for these boards, based on the
+>> register map reverse engineered by the LibreHardwareMonitor project [1],
+>> which uses it on MSI 800-series boards.
+>>
+>> Patch 1 reports the duty cycle of the system fans, and patch 2 adds fan
+>> control support for the CPU, pump and system fan headers.
+>>
+>> Tested on an MSI PRO B850-P WIFI (MS-7E56, BIOS 2.A93, NCT6687D EC
+>> firmware version 0.0 build 04/18/25), on top of kernel v7.3-rc5. Fan
+>> control is available on pwm1, pwm2 and pwm13 to pwm16 on this board.
+>>
+>> [1] https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/pull/2294
+>>
+>> Hamza Mahfooz (2):
+>>    hwmon: (nct6683) Report the duty cycle of NCT6687D-R system fans
+>>    hwmon: (nct6683) Add fan control support for MSI boards with
+>>      NCT6687D-R
+>>
+>>   Documentation/hwmon/nct6683.rst |  17 +++
+>>   drivers/hwmon/nct6683.c         | 233 +++++++++++++++++++++++++++++++-
+>>   2 files changed, 244 insertions(+), 6 deletions(-)
+>>
+>> -- 
+>> 2.56.0
+>>
 > 
-> Add fan control support for these boards, based on a reverse engineered
-> register map:
-> 
-> - Manual mode is selected with bit (channel % 8) of register 0xa00
->   (channels 0-7) or 0x80f (channels 8-15). In manual mode, the duty
->   cycle is set with register (0xa28 + channel) (channels 0-7) or
->   (0x260 + channel - 10) (channels 10-15). Otherwise, the fan curve
->   configured by the BIOS is used.
-> - A configuration phase is requested by setting bit 7 of register
->   0xa01, and is entered once register 0xcf8 reports that the fan
->   registers are unlocked. It is completed by setting bit 6 of register
->   0xa01, after which the EC checks the new configuration, locks the
->   registers again and reports whether the configuration was accepted.
-> 
-> Fan control is supported for the CPU (channel 0), pump (channel 1) and
-> system fan (channels 10-15) headers. Add pwmN_enable attributes for
-> them, with 1 selecting manual and 2 automatic mode, and make pwmN
-> writable in manual mode. The behaviour of the driver does not change
-> unless pwmN or pwmN_enable is written.
-> 
-> Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
+> Ping?
 
-Applied.
 
-Thanks,
+Sorry, I was out of commission for a while, and I am still digging
+through patches. Now applied.
+
 Guenter
+
+
