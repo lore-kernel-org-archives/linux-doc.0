@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793021837;
-	b=g0nUE9yKFsDvfo9Frdb5AHBd7x6s/uDBgm00HmHXzECM3y9mf5HnU3VPrxcCMI9XAefu
-	 49SdgVdwSBaBDC5p8lHlSECPpJHFMYMxMXTKKd07XGFLM2JLULeJo28s3CMNC9sg4yb3Q
-	 ksSX+zTR4tuhwougZ8oWKbABxvXgWmFfNIWMZfizQbhAoIzgbWZ96vCMoU897Le0Txf+3
-	 0r9LtjLySgjWNJIb8K2mUk3lLzeqN5/Mrt4REPZbWym+FEzKM/Ckd0O/p9tAiaNZcs7Fj
-	 jZaJnscjhg098jMMmcKTqLgPHozsOPinN34Fpy9GrpmYsCEMHXxyzDQWXhsi0bQsnJw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793021837;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793022501;
+	b=sV/Vr6M2QgtVB/OALfoEmWRCb7lQ2sMoeP7pprfYcIqj7KEX7k3wLikIsiGZYHfH8Oz5
+	 mGuETYc0gLYc0UjP9EhFF353iRx173GTzKievmywnu6DNuJWVbz9JsOVDCtg0wAsKcCMO
+	 5mwk/1aPO5LKyokm7WFVYMHXiIsiRWtIz5ERIvOLa2fLbLW+dCiCkSqg/Wk1MDTVTkzBU
+	 ForjozhEwMi5PQ6nu47DQVkwsTDtStTcQ9SnlQF0RisoF/EGgii5H/1l2IFM5kiCtQvNG
+	 X1SiJTk2Q8j6/X5D8B+Nzydb7DroRlcQToLS4Hz06OZi8FjCvLs0NCRADv5v2Scieyg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793022501;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
-	b=nKbkp6+cWXo8gcVCoKRand99VGvR2Seyde1G/aJGgJgzdviZj+gjShIN3dR+qtq/fsu4
-	 iKmacjgds4L/RB0IN029dtomvoVjSk8zycvTjrSA+Eydq2p8ki+vDZmip4rpvJIkxEhwY
-	 DmG3MeQ9A8pvE4ATV/GtK9TzCLUfxmpWOYexat2TcWXrrncN40VT1lvX4ATeStjQiBBbs
-	 gLuEkFjP6OBBPd+HvlKQ5SupkYnNVYHjff4+5iCA4OHE3FlOkNj8WpHnDrWJsugFv0vTj
-	 /2Nip6DjYEYryJbMy4wSJF2HWGGIDRCwqRJk+CuQbiL0yRrprwyw2HWLoH+CIl8XBzg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=kHWEnru0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
+	b=oY0FIoyJ/f/G27OKioPxwvil/mR53fKtBVWJNkz+AMIECP+nCEDbsuLzCz+/vlWj/E/V
+	 30RuhMm0AKebm8QcxTRfyCRFwtmNsNqhtdDeyFcA0/AH2A6hDpRxGkXYd1v348appjvPX
+	 nY98a7QiDKUfDcfTAXZ4cq/ujvP0VkulGRZnvmYbYmg/7CCcMU52YE9Gs/EhVO86vDhlO
+	 QawUuqUKnwAvWQJtO474ogK70+0h+5tV2YX0HS26tmTAmYFKtP1xS7q7lIVIhKiUbJTyN
+	 v0etsFaPQcgyrxY8GZAeKQNyCloonXus2+gG0ClUNY8Z5Da/SvPntc4RK2b6nAAbj+w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169B6606A326
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:37:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 169B6606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=kHWEnru0
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5383c97c8cfso354581cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 06:37:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793021836; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jgxBnLq0Zn3EuqtKarfFN8uGQ9/S4sp4c514rXHYulaqD8F8slrUhNYyyoBhLJtsi3
-         WzaVPNfzG6mHd6X5nTqHmiVQcQAVcClch+4YXPu/YR+VhfQjies3yw/H4p9li/lPP/S3
-         Ork1VdZgUVfXq5ZM9mx3ny1MG3rd9JmvR8OZXKGDZyg10UTIB6RsotrNvBAx9OpsEdCo
-         R68ChTVEXtM/ScBO/lQpZT1Yoj997BDXQkbohej/xuwOZ/qpSsQKzgmTgZ/rYFA7Pou8
-         JCyL2Qru/IsvgIrDBenh6hHmlgEEpZnD/wUrjTsMKmgcjkRV7CJ3P5rus1dQ4S6S58cP
-         U4OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
-        fh=+a0Yh6F3ksI3XnzIeP4WNFZNYGQ7bHyM5LRseyeysJA=;
-        b=IcbiVqQLPf8pUkcbYCH4b2Zxv2odG1C3JA98lOMqBYHkWfHnD/Trf+0jGZWcHu1+sD
-         gtfKh4LL3ydqn7mVNoCeKetdJoC5iiONee2+2qBmm2+iXx/rQl8/YjRr+YmxjNnCoCCb
-         eir+IL5DyZ5kAcwka0tZ6Qk4dzcRzI+OPlWI4eKC28hYAqWrFWOJIDGm6/lkg9ymZW9R
-         ipLs+26SwklC3CKfjevOTEvLtRyGgJbW7GGlIH0Ql2BvxSL0ERFKGJ/IhoKB8KAeNiUm
-         HcFNoAe2/th0rWC+Ef/optBwR67Utwro0Fv3eMVMqoSoUcMN7vS8/+OXs4MWW+DNnoE7
-         nB1g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2632606A320
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:48:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2632606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so13421445e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 06:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793021836; x=1793626636; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=resnulli.us; s=google; t=1793022494; x=1793627294; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
-        b=kHWEnru0CHmLudr9EcHq1gQt7nBEJ/ssbwXcC+mpIdeqydP1sisZ15xxZd6hymIJ/E
-         C5ML8ayjzxI7VrsDiWtaPHlViiwjg41YBfqrCzZymXV7YThnRYnc4sbTeu9dzvvSKWn6
-         Yi3Z7qw/0ANHdczAokJXCD1mj9LAwgoQXbhwQ5XJSayhz37+lr5R+JptRkR4SKPRIJIp
-         m6i8W6fxEx3dH+0HH2nXyDvChl29fHcyzgWUBi6Oj3vE/cBjWcGoR80FbrKT2WNOcm+W
-         Tj9WIRsGVizMCc42HM6xouGMZXI8hY0bhCbWksSHdsU6S3p4hxv5FCWrGvFIq4fSOCko
-         PakQ==
+        bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
+        b=VM8IYrnCNNqs45DDC5LE9lQowRMEKYE5Y/KZ57bV4yet/aoDBGlAsxJOmTRykOk8dn
+         FshcS/W8j64dt0Mh5C8VdYgUtcsCto+ScQaOEpF+I1g+GJr3PKhwYJY8a9G++KZq2rIk
+         fciASrl2LvGXd8pYXvHkATr9UTdfoqHxMbXc79S2QEtkqqFElfTeqUk4ffn+ZNgaeGe/
+         nm24iy1xia1O5G3DOANrqIMherXJogHmuD48d2u+nc2vCUxcd8XNkN3ljWXSZqr8HlaX
+         Y9o5gWTDf6GO67jT9mY+jbYN5IM9+ZXATUXh+KiGk5uTlXn1ZnpDB+tpDMpOFgjZMwAW
+         Jg2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793021836; x=1793626636;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793022494; x=1793627294;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
-        b=umkiBlUpc+X+oKuLyx0zGXfOVU93ig7U/Ph8n/5kg7gA/1durQ39eJehNsXZlma+W1
-         /vDFi6r5aigP5codDrctHWkbau2KYT6SRaL2h1BIR3B5Wd8dY4J2FT9YmSrjjbGq4Wto
-         iB+flEYZ7xPt/Dl6K16g8b6G8p+stHdJWs2ZBIh2HLeo8mJ09IoXVuJrdOOuU0/GN+bA
-         /T/4jcoQub3Km3/htURpVqOTIAxvoiZFuQ4kZiSAcH6VfgjcvIcn4UbjT9FSXkubnEu4
-         tnX7s8ReWvmiAbOYbcPmRYj2xlZYXqsPvQx7c7B/Q6XFux3tdzK2I5bamWi1A9h0wxoL
-         9GKw==
-X-Forwarded-Encrypted: i=1; AKwUvBzaP894ivI0cDBcxid9qqRF/F+fANGbmIw06o9ANMyZn0Qm8btvlryoDiHfuo2TMjrIxgStgpLOo0k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLXmo/habgDwULi9sh7aNDdmT46NiFd00S0/unAFlGpHlBSjyrP
-	2LeuzGxWQk8LFV7s6UkkF8RrbXurE9Hu5AtkeUg5oKGyX0eaeoJDBwFcfoFRQpap0YWS3FUKFTr
-	n1wI8bl2ZPe1G3PaqK9gEfPU5jGWcdHRNzpF7v1Jz
-X-Gm-Gg: AYBFou19CT8EViqn0b3217mW1eDWBykwIvYT9QX7rwZOdAKRU30u2kL/Yi0kqW8ZMTT
-	oXcblaV/KAzhgjZ9bookWrZ6Xo8JFZuQDWadp2Rq26JU0N+f9N/JL4MpiJtNL4miAqAyVuQVPw7
-	RFJLWwnfuRJriHDlZsrQeo55vImGfR5wun68p70Fh+Jt6Go7d3t6EoNeZOeQh62axG7diblRJKA
-	TmZiOPqBUxWnSEr8oCwjTgtWML3JooYpnoy85Lsgj0dhf+zoNzloWtZUOpFfhdllcxX1SX6xJOw
-	cMakHjjsOWLeAkX2werL56LSLOfg56MKOI+u7KlpBWViRlnYDTBmDSdM8//uVEY1J8vYBsXykuA
-	Obpw3kFTjZqZmVkERvNp5Lpx7zo+xJ+gxejMd2c9rQud63OwIXG+R63f+wQX7abIq3rI+p1OW0f
-	xxNvX2kux4thdp3sJxEbSC3BDArTLj
-X-Received: by 2002:a05:622a:90b:b0:532:9220:a9ae with SMTP id
- d75a77b69052e-5383b540914mr33040301cf.6.1793021835298; Mon, 26 Oct 2026
- 06:37:15 -0700 (PDT)
+        bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
+        b=vI/qhkfrFjw/ctiVEvt+BHpcxkXAbwCvnXa4wIGseeS4FE/6sX70t78sIpL1ObztE9
+         000N3vLNAt7AKWRySBEf8G4OdvNzdeuu95bwzyoWNc1SVpgT07wJE5KkzqWpledNNrHK
+         aP1pUss5+Z2xgrx4S8QCGl/ueFY2ezb1SeD5cZcGbanA47dix1GpDyzyfjYozJVoojLv
+         QSr/+SkNLwSWVmS/mPhe8rgZyenIb8YuFF1GXkTzcqGcz3UUkY19zqHkyxqVCPMKVSIV
+         R8VlLvjJ9AQnD9z9YltLVC4Gs/mXgYIZAIV+CMcsoqqEPwWkDgGk+wMd9FfrdMCSjN8r
+         wEDQ==
+X-Forwarded-Encrypted: i=1; AKwUvByK4knus/rnf97w2UCniCU+ofi9nOahMKtvCrwhPYcJf9AOoK5HcprBZJ2yv6JlTJxKQ2LdTUDzlck=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI8qTamQV1h3Zt0Q59RyDfPDfGx7K2apiuXOg16mNazOgoLINfQ
+	K2spHwgpWnYaEG4FHCpop0436rb7g/43KXowRDz/tN3bhsuURY+sPLboWL53CUADBF0=
+X-Gm-Gg: AYBFou3FNA+jfBiJU9REDf/PLsHU6um/gBxjIphs8xBuIsgWLeeaAzxMZpzEnuqS3E0
+	b3aD+zUWTmdwGa66AQU0Uy4P+B2nkZTnjAj4brN5fDa6NlfcMS5aKzgUrPsX4nfIupaFT4ITdY1
+	Hu9f8jSz5lz2Te/INrA0kgyq9Nd940CzUh+xcvav5HTU0N6/XWaLeItqGT7h6/IriYcJ2jhCDxs
+	Oo03+7TpxB9kPYea+2YhkW/mrz99pEaBIKnGHgdNFQ69OwMBGagzyEarC9F74wO3mzsO4r4OP52
+	KtXasbZtEQ/5I5NDCa6Nz6XQszGks4nieV8k+WVEvPSSkvLcqQGsBgFMwbE/avtmBJCYXdUGAAa
+	4Yq+4eZtT/DAO1L0mb6pzXsERsD2d+mDOYm6h7xgHXzkCpRMIVwe0qVtM1K7PuNhfLaSLJaFLdy
+	gjVabhQd+Eci/YAl5NDG3JOFf1dCDMMWH6ZW2wp/QJyhZrYdl3p1RAUy9Im1g+2j+J4ryoQqSK9
+	hgQj0avjoVUkASk0qxyEiy2soHgbulwlHRB8p6VApV/P9SgYBpAob8E+fAvs79y
+X-Received: by 2002:a05:600c:3d8d:b0:4a1:f377:5c75 with SMTP id 5b1f17b1804b1-4a35acc2edbmr104469535e9.33.1793022493724;
+        Mon, 26 Oct 2026 06:48:13 -0700 (PDT)
+Received: from localhost ([208.127.45.13])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a5ea0df763sm107133535e9.3.2026.10.26.06.48.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 06:48:13 -0700 (PDT)
+Date: Mon, 26 Oct 2026 14:48:09 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jonathan Cameron <jic23@kernel.org>, linux-coco@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 12/20] ctlv: Add device and operation dispatch
+Message-ID: <at9ZEDZl89V0jaJB@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-13-jiri@resnulli.us>
+ <20261021022505.6fe1b1bb@jic23-hlaptop>
+ <20261022184313.GD3381610@ziepe.ca>
+ <attZl_0TNMDLgi4U@FV6GYCPJ69>
+ <20261023142633.GF3977851@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,123 +104,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026123244.239766-1-jiayuan.chen@linux.dev> <20261026123244.239766-2-jiayuan.chen@linux.dev>
-In-Reply-To: <20261026123244.239766-2-jiayuan.chen@linux.dev>
-From: Neal Cardwell <ncardwell@google.com>
-Date: Mon, 26 Oct 2026 09:36:58 -0400
-X-Gm-Features: AclHuK-ZwT-Ffa8PUyxQxfIXZbtYplbPQ0Z6MF6o-MPhrCkkbjJDCm6CcXr5iWA
-Message-ID: <CADVnQyk7wTXsgUKbEijSVd689E96Ps=sbiK8osWSuemKYD8BVg@mail.gmail.com>
-Subject: Re: [PATCH net v2 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, stable@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Kuniyuki Iwashima <kuniyu@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023142633.GF3977851@ziepe.ca>
 
-On Mon, Oct 26, 2026 at 8:33=E2=80=AFAM Jiayuan Chen <jiayuan.chen@linux.de=
-v> wrote:
+Fri, Oct 23, 2026 at 04:26:33PM +0200, jgg@ziepe.ca wrote:
+>On Fri, Oct 23, 2026 at 02:58:33PM +0200, Jiri Pirko wrote:
+>> >> Jason did some nice handling in the fwctl stuff for
+>> >> device alloc and hand over after device_initialize()
+>> >> (I've copied it into a few places recently :)
+>> >> 
+>> >> I'd like to see something similar here as it made
+>> >> it easier to follow lifetimes etc.
+>> >
+>> >This is really at the wrong layer.. Attestation subsystem is the lead
+>> >subsystem, it should be allocating the struct device memory and the
+>> >driver should see the typical
+>> >
+>> >  struct attestation_dev *adev;
+>> >
+>> >  adev = attestation_alloc()
+>> >  [..]
+>> >  attestation_register(adev)
+>> 
+>> Er, the driver would call attestation_create() which will be a wrapper
+>> of ctvl_create. The reason is inheritance chain and each parent being
+>> passed info to and doing its own init()
 >
-> icsk_backoff is incremented by tcp_retransmit_timer() on every backed-off
-> RTO with no cap of its own, and by tcp_send_probe0() up to tcp_retries2.
-> It is used as a shift amount in inet_csk_rto_backoff():
+>We really want it to look like the above so we get proper container_of
+>stuff.
 >
->         u64 when =3D (u64)icsk->icsk_rto << icsk->icsk_backoff;
+>struct driver_attestion_dev {
+>   struct attestaion_dev adev;
+>}
 >
-> Once it climbs past 63 the shift is UB. Seen with tcp_retries2=3D255 and =
-a
-> silent peer, when an ICMP host unreachable goes through
-> tcp_ld_RTO_revert():
+>driver_adev = attestaion_alloc(..)
 >
->   UBSAN: shift-out-of-bounds in ./include/net/inet_connection_sock.h:258:=
-40
->   shift exponent 73 is too large for 64-bit type 'long long unsigned int'
->   Call Trace:
->    <IRQ>
->    dump_stack_lvl+0xc1/0xf0
->    dump_stack+0x10/0x20
->    __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
->    tcp_ld_RTO_revert.cold+0x16/0x92
->    tcp_v4_err+0xdb3/0x13e0
->    icmp_socket_deliver+0x1a7/0x390
->    icmp_unreach+0x2dd/0xe50
->    icmp_rcv+0x93e/0xe30
->    ip_protocol_deliver_rcu+0x36b/0x3e0
->    ip_local_deliver_finish+0x37d/0x620
->    ip_local_deliver+0x165/0x1d0
->    ip_rcv+0x284/0x320
->    __netif_receive_skb_one_core+0x16b/0x1c0
->    __netif_receive_skb+0x21/0x150
->    process_backlog+0x37e/0x1200
->    __napi_poll.constprop.0+0xa5/0x5e0
->    net_rx_action+0x4c0/0xf70
->    handle_softirqs+0x204/0x9b0
->    __irq_exit_rcu+0x13c/0x220
->    irq_exit_rcu+0xe/0x20
->    sysvec_apic_timer_interrupt+0x92/0xd0
->    </IRQ>
+>Don't want "create" to allocate the memory, it is upside down. The
+>fixed memory ctvl needs should be buried in the attestaion_Dev
 >
-> The orphan check in tcp_probe_timer() calls the same helper. On x86-64
-> the oversized shift count is taken modulo 64, so an orphan that should
-> be dead can be seen as alive, and tcp_ld_RTO_revert() can end up with a
-> smaller RTO than intended.
+>struct attestation_dev {
+>   struct device dev;    // sysfs dev inside class attestation
+>   struct ctlv_XX ctlv;  // ctlv instance
+>   struct cdev cdev;
 >
-> Cap the shift at 32: any non-zero icsk_rto << 32 exceeds TCP_RTO_MAX, so
-> the min_t() result is what the unbounded math would give. The
-> ilog2(TCP_RTO_MAX / TCP_RTO_MIN) + 1 bound of tcp_probe0_when() does not
-> fit here, as icsk_rto has no TCP_RTO_MIN floor the way tcp_probe0_base()
-> has.
+>   const struct attestation_ops *ops;
+>}
 >
-> Fixes: fcdd1cf4dd63 ("tcp: avoid possible arithmetic overflows")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-> ---
->  include/net/inet_connection_sock.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>That's the essential skeleton of what a subsystem should look like in
+>linux, ctvl shouldn't co-opt it, it should embed like cdev does.
 >
-> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connec=
-tion_sock.h
-> index 903499581db7..562e12033a5d 100644
-> --- a/include/net/inet_connection_sock.h
-> +++ b/include/net/inet_connection_sock.h
-> @@ -255,9 +255,10 @@ static inline unsigned long
->  inet_csk_rto_backoff(const struct inet_connection_sock *icsk,
->                      unsigned long max_when)
->  {
-> -        u64 when =3D (u64)icsk->icsk_rto << icsk->icsk_backoff;
-> +       u8 backoff =3D min_t(u8, 32U, icsk->icsk_backoff);
-> +       u64 when =3D (u64)icsk->icsk_rto << backoff;
->
-> -        return (unsigned long)min_t(u64, when, max_when);
-> +       return (unsigned long)min_t(u64, when, max_when);
->  }
->
->  struct sock *inet_csk_accept(struct sock *sk, struct proto_accept_arg *a=
-rg);
-> --
-> 2.43.0
+>Look at fwctl for reference
 
-The following review comments are from an LLM, look legitimate, and
-IMHO are worth addressing.
-
-Please either incorporate each piece of feedback or respond to
-indicate why you think it's not appropriate.
-
----
-
-This is exactly the diff Eric suggested in 2020:
-https://lore.kernel.org/netdev/CANn89i+=3DQRibXsm6tw-eVwhB3wjOtgF-MtVu0G--K=
-5=3DoWP97+A@mail.gmail.com/
-Please add "Suggested-by: Eric Dumazet <edumazet@google.com>" and a Link:
-to that message.
-
-As for 1/2, please add the discovery/validation/testing statement
-required by maintainer-netdev.rst.
-
----
-
-Thanks,
-neal
+Yeah, I understand the typical flow. I just wanted to benefit from the
+fact the ctlv has the inheritance chain to reuse it for init/fini flows
+alongside the private structures allocations. It saves a lot of
+boilerplate code and hides it inside CTLV. I admit, it makes things a
+bit obfuscated for end user (driver/subsystem). I'm working on
+conversion to what you suggest.
