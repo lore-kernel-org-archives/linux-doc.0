@@ -1,58 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793044715;
-	b=uI4uwXZfkqddOScwUrqTZf5vji4lL3EjhCW6BCt5lADnpoMC5VRYpA4aw2G7hTNEZCTL
-	 d2RsHzzMG8KUeR9dCDDdbIjGwEQAqNG/8CghQvVYMx3fdj6pn/P+czLEiZLKcoHeD/MfT
-	 88Ee8NiFe5+18PKkGOJlRVKwHZWWOk5AuY8fAPSAxKkq/CWV6nABeFSS4s2wnUSugg2Ol
-	 X3/hpKNt6nEuH6T33Iilai+VVC8EGn3DS6EnytonmVbDpHGCtX1gOGNNCAcuz6dN2Ftcz
-	 qv1XvqogI4U76eZLCFDge3WwS9xXbOPVV0C/XIHGToNc4SOG6wQYBQ9a16fei+fYhDQ==
+	t=1793045108;
+	b=F0Ip3MryqY85Vdq/dOP9DxjlIfS3PAt2YtPUS+i0lrIzAb9IXmnfn5/OXJJK9GBQs2Ft
+	 gYP/h3I35ljYQN8q1di/K0hvv+2zV4O8IP+jB9tQbMybw1srL18PaOaHLZQIXkSR6Todk
+	 ewRvV/DZc9BBErVK0+Ki8VlsmmR/Zc+v9AIn7BgjWPktOTR0Uwar03M1z6fmX3Kac6g4t
+	 X7kTzPOGJPsUjelo0PU3NLsUVRP7WIrrE+ndBtxGKT3dtLun/WH9Y03URlDL7wMaLK9Fk
+	 EPVnhcF3VlbmVQ8L+WMAb3M7pNWbGR1k6FTggD5ks4nKZES3FC3w2cdE8aEXgJdt0iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793044715;
-	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
-	 X-Forward-Email-Sender:X-Forward-Email-Version:
-	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
-	 X-Report-Abuse-To:Mime-Version:Content-Transfer-Encoding:Content-Type:
-	 Date:Message-Id:Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=8oQQEPuk1NTHYZLi+ImL9mMga660e3LtdhEYo097KqI=;
-	b=5NPWEQLggMQd1rEeKESkiFcHo586GOYCI9cx4OyC1WN6VnocF8jcAYO2nP5iXb4oba8k
-	 HNmUC2+15oyvr7esLD+kWuwuIYUi/s7XAyLpzTXwZF1sBMiTgg6to+psVyRFzlDm+QTqZ
-	 Kqj+5/X4kUfNGtGA61jVljehhBQuBIG7nTyXu5IQO0nzsesA1ggxrwtBukwOLbNLeGvGa
-	 LLO9YMGCmkiLuvnCXgBrlyAfS+SpiLMWGUKV6dwcmM9LEX12JfusfIsYh1s6dpsz3IS9c
-	 qHamRbnGjlPMX+EyYd7TFpfbPVlfDYEHKRRBU17zCcUI7R2a7dizTlc+pjMJsmOhdkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793045108;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
+	b=rxd/TfUd8nEkr+Bhk134tT+Avsdhy0ugVOzSOk2nX0w0aX2B0atn/IoIOEr2rwIY26d7
+	 ga1q3AjO5GecHsaWBRcMhyFpR50ROnhOxa9VBnB7huH0LvCshEuMgL0Ab4uGpUocQh8C4
+	 pT2Ht/LTW/f89mqFKXVpOlovhOHXrVwEJoXMSjl6+nquGF0tVu6xBZwV1vMQans8JTRdP
+	 IGUrAVtCDqC8YHsJmxJDzGlPSVybnX2/R9ZsMpwDjPMziIxP0pjxs/kCpFckCMxl62qkJ
+	 bS16L3cvVoho4AEHVyMAgYyMFDz01V5NNfPpPTFQPC2YutztW1LJcoqGrnZl1GyL69A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ubuntu.com;
-	spf=pass smtp.mailfrom=fe-bounces.ubuntu.com;
-	dkim=pass header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b="lx3U22/6";
-	arc=none smtp.remote-ip=121.127.44.66
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02554606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 19:58:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02554606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B8C606A31A;
+	Mon, 26 Oct 2026 20:05:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=lx3U22/6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1793044714;
- bh=8oQQEPuk1NTHYZLi+ImL9mMga660e3LtdhEYo097KqI=;
- b=lx3U22/6KpEcfSfRjoLyKfx2XLDBbXzkPwkNFbtjCH80X1TwXTP2HbRJCmpVGUVYwN5p9J5Cq
- +TjdwKECFeZuRM2g5pjFDUnuSZbS9WIEZSl2DJAenJ5NIFCEX2lx3Z36+jTi1XGk5CGRKk3EGMX
- Mxy7okSEzxsJwChkExHHih0XrXeV4p9lfy2xg35e4aRqeCMIHlbvU1LyknuuAGx9DWkNJaZkmKv
- cWieHvJwnSQEnYBeZgkc8H8lfkoiDizQAlwKX8LEmYu5RpyR9PF5ixCwEpOF8gAJ9kfO9UDHNmZ
- WyUR1nWeHskOdXsCr9j7a31hl71Rp4x1F0oSYDbmI9aw==
-X-Forward-Email-ID: 6adfb0e90cf61007ac583759
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.66
-X-Forward-Email-Version: 2.18.11
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFCD41F01825;
+	Mon, 26 Oct 2026 20:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793045107;
+	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=uqkQoFM52klwzT7RGNaUFA6Qga4FuWuGaYyefzROIzukjBhIFqREK+pqTr4hriVoK
+	 PDd/0ELiJmI8EHpbo0nbvO9gLFbi48BLIx5y9dL4ZVWfdn+SY805AGZXuJumJAO/Tm
+	 19C/ca7D7sF/slrGjQ3K2AJ2vFy+qN+CzA+phAus=
+Date: Mon, 26 Oct 2026 21:05:06 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026102604-tint-catcall-433e@gregkh>
+References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
+ <20261026184312.GA1685504@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,176 +84,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Mon, 26 Oct 2026 15:58:31 -0400
-Message-Id: <DMF1AWYEDTHK.24FYL2IMFUQBX@ubuntu.com>
-Cc: <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
- <federico.vaga@vaga.pv.it>, <apw@canonical.com>, <joe@perches.com>,
- <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sasha Levin" <sashal@kernel.org>, <corbet@lwn.net>
-X-Mailer: aerc 0.21.0
-References: <20261009083137.3-1-sashal@kernel.org>
-In-Reply-To: <20261009083137.3-1-sashal@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026184312.GA1685504@ziepe.ca>
 
-On Fri Oct 9, 2026 at 4:31 AM EDT, Sasha Levin wrote:
-> The Maintainers Summit reached consensus to deprecate the Assisted-by
-> tag. Remove the documentation requiring it.
->
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/process/coding-assistants.rst   | 21 +------------------
->  Documentation/process/submitting-patches.rst  | 10 ---------
->  .../it_IT/process/submitting-patches.rst      | 10 ---------
->  scripts/checkpatch.pl                         | 11 ----------
->  4 files changed, 1 insertion(+), 51 deletions(-)
->
-> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/=
-process/coding-assistants.rst
-> index 051f0d819f68e..509dbf23a099b 100644
-> --- a/Documentation/process/coding-assistants.rst
-> +++ b/Documentation/process/coding-assistants.rst
-> @@ -40,24 +40,6 @@ is responsible for:
->  * Adding their own Signed-off-by tag to certify the DCO
->  * Taking full responsibility for the contribution
-> =20
-> -Attribution
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -
-> -When AI tools contribute to kernel development, proper attribution
-> -helps track the evolving role of AI in the development process.
-> -Contributions should include an Assisted-by tag in the following format:=
-:
-> -
-> -  Assisted-by: LLM [TOOL1] [TOOL2]
-> -
-> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
-> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
-> -
-> -Basic development tools (git, gcc, make, editors) should not be listed.
-> -
-> -Example::
-> -
-> -  Assisted-by: LLM coccinelle sparse
-> -
->  Procedure for finding and fixing bugs
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> @@ -82,8 +64,7 @@ these steps:
->     another one. The fix must not add build warnings and must pass the
->     checkpatch.pl checks (see submitting-patches.rst).
->  6. Commit the working fix with a detailed message describing the problem=
-, the
-> -   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
-> -   Assisted-by tag, as described above.
-> +   solution and a Fixes tag. Do not add a Signed-off-by tag.
->  7. Identify the maintainers and lists using scripts/get_maintainer.pl.
->     Documentation/process/security-bugs.rst shows how to do that.
->  8. Indicate what could not be done. If the fix could not be built or tes=
-ted, or
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
-/process/submitting-patches.rst
-> index 7ae79452e1b46..5f4e0156cca78 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -632,16 +632,6 @@ bugzilla.kernel.org is a public place in this sense,=
- but email addresses
->  used there are private; so do not expose them in tags, unless the person
->  used them in earlier contributions.
-> =20
-> -Using Assisted-by:
-> -------------------
-> -
-> -If you used any sort of advanced coding tool in the creation of your pat=
-ch,
-> -you need to acknowledge that use by adding an Assisted-by tag.  Failure =
-to
-> -do so may impede the acceptance of your work.  Please see
-> -Documentation/process/coding-assistants.rst for details regarding the
-> -acknowledgment of coding assistants.
-> -
-> -
->  .. _the_canonical_patch_format:
-> =20
->  The canonical patch format
-> diff --git a/Documentation/translations/it_IT/process/submitting-patches.=
-rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-> index a742610cb0709..d0e0d6c9ecc2e 100644
-> --- a/Documentation/translations/it_IT/process/submitting-patches.rst
-> +++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-> @@ -691,16 +691,6 @@ un luogo pubblico, ma gli indirizzi email usati l=C3=
-=AC sono privati; quindi non
->  esponeteli nelle etichette, a meno che la persona non li abbia gi=C3=A0 =
-usati in
->  contributi precedenti.
-> =20
-> -Usare Assisted-by:
-> --------------------
-> -
-> -Se avete usato un qualsiasi tipo di strumento di assistenza avanzata all=
-a
-> -scrittura del codice per la creazione della vostra patch, dovete darne a=
-tto
-> -aggiungendo un'etichetta Assisted-by.  Non farlo pu=C3=B2 ostacolare
-> -l'accettazione del vostro lavoro.  Fate riferimento a
-> -Documentation/process/coding-assistants.rst per i dettagli su come dare
-> -atto dell'uso di assistenti alla scrittura del codice.
-> -
->  .. _it_the_canonical_patch_format:
-> =20
->  Il formato canonico delle patch
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 8a7787d228a63..c9840f5219c2a 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -655,7 +655,6 @@ our $signature_tags =3D qr{(?xi:
->  	Reviewed-by:|
->  	Reported-by:|
->  	Suggested-by:|
-> -	Assisted-by:|
->  	To:|
->  	Cc:
->  )};
-> @@ -3124,16 +3123,6 @@ sub process {
->  				}
->  			}
-> =20
-> -			# Assisted-by uses a free-form value (e.g. "LLM"), not an
-> -			# email address, so skip the email format checks below.
-> -			if ($sign_off =3D~ /^Assisted-by:/i) {
-> -				if ($email =3D~ /^\s*$/) {
-> -					WARN("BAD_SIGN_OFF",
-> -					     "Assisted-by requires a value\n" . $herecurr);
-> -				}
-> -				next;
-> -			}
-> -
->  			my ($email_name, $name_comment, $email_address, $comment) =3D parse_e=
-mail($email);
->  			my $suggested_email =3D format_email(($email_name, $name_comment, $em=
-ail_address, $comment));
->  			if ($suggested_email eq "") {
+On Mon, Oct 26, 2026 at 03:43:12PM -0300, Jason Gunthorpe wrote:
+> On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
+> 
+> > This is needed for two reasons: to save hardware and software resources
+> > when creating a large number of VFs, and to allow the PCI config space to
+> > be configured *before* the driver starts using it.
+> > 
+> > There is no in-kernel alternative.
+> 
+> Having userspace involved in driver binding has also always been the
+> plan for confidential computing needs. We cannot have a device driver
+> bound across some of the HW transitions like TDISP shared/private, so
+> there has always been an expectation of bind/unbind.
 
-While everyone has been discussing tags, no tags, etc, I want to bring
-up that this, in a way, just lowered the bar *tremendously* for people
-wanting to contribute to the kernel.
+What, why?  What forces that decision?  What's wrong with the proper
+driver for the hardware being bound automatically to the device?
 
-Because now that there is an AGENTS.md, and you don't have to say
-whether you used AI, you can use it anyway and nobody will know.
+> For this case the existing sysf drivers_probe is good enough for bind,
+> but we must have taint-free unbind for PCI devices too.
 
-And I wonder how the other kernel newbies who have been spending their
-time *avoiding AI* for the purpose of learning how to actually
-contribute to the kernel feel about this.
+Why?
 
-This will ultimately lead to people making their drive-by contributions
-because they think it will buy them fame.
+> I think this patch should be reverted ASAP, it is a pretty major
+> regression for a lot of users.
 
-I have seen this in the video game decompilation scene, the current
-console homebrew scene, and I am expecting it to come here now.
+But this use case hasn't even happened yet, so what would regress?
 
--Josh
+I'm not talking about the vfio thing, that's different here...
+
+thanks,
+
+greg k-h
