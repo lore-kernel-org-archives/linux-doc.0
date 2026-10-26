@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792975053;
-	b=5RYe2gkx+JdngVgfsX4lRzPomofZyXkHxdfYNXpEvRnUTWj4ufub8rJrtbSJQvq2q/77
-	 LNHlZ8Y7VX3jbhlfVQUYLX6TjyhGy0uDo2QWm6Ogk71q4CkEUJHUtHa3VavyPVLf7TFN0
-	 i3vHV2KncCYAlj4U9uYjH+lwxKjTCN4VizQPtZXlduE/aIVyW4A1Ppk8na5ua90dqg2ys
-	 skyq42rJWflzKSa8weX5meclZpf3+KabDKQqfc01k7GdTZCSpbyxSSkyMZHBswqqVJzgU
-	 EVFRIEWSVcsRyfmmQY07iHEy2ixDD7c0txIm5deOaM3NiJEw7fpsgJkM8Pk8PN42AFg==
+	t=1792975171;
+	b=Zde95km229IrAg6tkIwWRJRY964iwKOxkEOwXIu/msQDp54kgKsCl5S0yUNPqByyIfuN
+	 MdkPp6H7s8+xzRaj3Ictb5zUWPkRK9SP5SaJYesQh4NFWQPzxF8smJ1sbCnOsdIgT6otq
+	 nEeHwhdmd+9uuO1BpxmkV44Y+geQupsYFA19V8hclFN5QNJulaRSEIjrvxfyQ6f1EAs72
+	 ZV14vcCRiR7e9EtX0Pcjraua2rhwozK0SlRy1p+A5UHgJJ9EJ/GeYFwUnJBbH7M03/OUQ
+	 irt8pqf+EHOlNR+gVWe7GHyS12Xc2xNZTRKHXZ+3HYjexXZaRN8kvogduM1mn9q4z+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792975053;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792975171;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=/r2wCtdnrDJsEXzwIAQNFz7BfQauVg6nVHFaCnIJdp0=;
-	b=kl2ZXz2wzrwmoC36WWLWQG7cRSOlWLU8cGGzDHKDMzL0kSzIMXT9aO0Qa1xxFI5l95mn
-	 2wnWULgY+A+yzX9Zb+ZQa2yDRBIriKXbLS3RQ9j9JqTZHAMKusKuHDK1xCPPZCaeIA8Gy
-	 TnvzfZtK/P/ACQmVXAzNCKdjwel08lWb7QPB2I5v8FkwoAN3XIFo3TpvufyLaEe+n9PLJ
-	 sGt+Lpc77EKiWbNByRYPvqovnpkLXQaKH9PJtzilN870ogNu5DzCU1W9a41J6CcuA+nSZ
-	 LaDX9e6uRFAUNNwao3ofoghBbW1zMd2hdFHazWbzqtGizaOlun2afFQNrQ0QDfs4FVQ==
+	bh=8SfPrv2RlnRbia3emcvDOga6vE1rIcfI15DHeIm71RE=;
+	b=pHUqyA3nvX/EHpfvyuevPA74TobG3jRsrePxobNqiiMKzYt5WrqpvOWHa/xNowqGi7Tm
+	 4hy8BtkcbFU8YLO8I7hFNaldTzGOwLKjJmZpwWJq/PXEh45G7DNZhHpbdzuxC3GYmMu4x
+	 hl+vjagcRRBzM3nEbLjaWHv9RsuotdHQUOLVg5gy1+AQzGG6q3cDKNmBF35vCP0FsGbMy
+	 ngBjaQyloYL2MBQ+vKegU8BWiL8mq+XWRaoXbO6XxOX3n/oGgr+ML9qn03ZzBCEGjK5oH
+	 gPDaJ3gXhAM9QLQFJxetRrLsmrXrvvzUP7i3X1kcrZVxZv3XMciRYwQma3922d9TOZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=roeck-us.net;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kQ4KO2JE;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aev6FLvq;
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D6E606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:37:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74D6E606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF7606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:39:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41EF7606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kQ4KO2JE
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ab752f6244so2253035a91.2
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:37:33 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aev6FLvq
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3adf5f6833cso605534a91.0
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792975053; x=1793579853; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792975170; x=1793579970; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=/r2wCtdnrDJsEXzwIAQNFz7BfQauVg6nVHFaCnIJdp0=;
-        b=kQ4KO2JEql3oihR/SCtBt1vJKCgrVRl25/fb2gLlEZFJPuafW+8/uX0PuylfUgsOeQ
-         ZBiFgxQamRcLUW/InXMrst3KtjE4PFLNoUmTzwWab9UKnsDnwpjniuqfFR7LRGOSs54E
-         NDBHGmnbJtXdkmD81sndY+WXvXwNHCUvdPBon1Iz5VJlwYL7PLSbJxnoLzmSJY72zX9u
-         VDw+njuTy+YQhTtd3HZqwgQvEO0eQ6c4VExJt78JybsY6X3judkiVcwhlQCUBSLwGfSe
-         jSauTJB8gN2PthrXekPk0v2YN0Trk3OUmhj9F0TzJyV4FcQl9D6vwG21LroJpTEuVOIT
-         +0XQ==
+        bh=8SfPrv2RlnRbia3emcvDOga6vE1rIcfI15DHeIm71RE=;
+        b=aev6FLvqhWFM+boOuyY03GGCoU/Ug5rjw0gLbtxXmNUylCWl3wfkL0WbSaldF+nyfU
+         dfvFllTQm0hL30ZePD2Ddt7E+oAVnPt7EGStphncddpuBymNNzzifiJ/WLUb8DrTIRgG
+         ZXVC/L8JOm4bcf1k4qgbqW4CYmDzr+xkq++Ken+oidKtaNs5J/htPXy/l06AQ1RNQ7Hr
+         xPrXeywuSwCRiP7EIwWcIIf7GN7gxO/pwvyd6dEOpAn14aIv5TlzkyZOg6AZSo4E5TwF
+         3J4DdskYcOlJo7zmRe60MwRo6qiNpgTbJkU1gkhiWxDHzAd4pEqSUHY0mFMbK9fzjCrE
+         hEqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792975053; x=1793579853;
+        d=1e100.net; s=20260707; t=1792975170; x=1793579970;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/r2wCtdnrDJsEXzwIAQNFz7BfQauVg6nVHFaCnIJdp0=;
-        b=MBpir0ZfF8JxfrUrXCrvzBTP7iaauZObMvt9Vzy61E8uhGbbWNG3T0rlz3W8ljpgRr
-         mxsHwu56iV1yUaMa303o3S4jRkuKPNZm15iwNz7OhzVDIBd6xdSxZ7QVHeFmKtnkcWYI
-         vQUEpXwYn9RcAcw6DAdCrDVYstsreT00pb1EGg4tdqGj1tpKuDyjyZn7psF6OfU6PMrN
-         PnX2tWoRj+XakJ4YlXcGD5CEkjt6YwYhajZOhxDQi6WSt9JzirL3rNnXi0JsnqLzEkj9
-         RlWR1NnMwmxRgyMu2yubTs7oChcFax8ckHOb0nxk6hKD1+hdwZBsd+ruTtaLFcrhXNeH
-         WufQ==
-X-Forwarded-Encrypted: i=1; AKwUvBydWkQgcMC/wqtxUn6I4u4sKgJuqFO0BUOSY2rYTBWBECJ8+M+ydf2gHpzeTFbqlFhT2dG1LrbpLtg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYInZgPTnbLUJJiGTcySwk+04zlZr7RdaCoNPjbJRoc9GS6HlJrD
-	jOecyjD76RQbHkz/mvgYo5qdBhy4WJBfap2uAHKO2ELzmQcZqnI3Qaqj
-X-Gm-Gg: AYBFou3KcUbWVrUC28XCxNHyiTCxsWR8r3RU7jcea+ONlUt/P3qrtn4YgYatSbQs9fx
-	AfpkUi95CM0/YXPXKOgz2w6xB18W2Zhq6IlY+sJPopKLv8EPMtqZ/JyyMLdBWQ7O/+Jd7vIT96P
-	Jd8MHsaEc17HK8g4ZYz0HTO7O9zMqi1VGb26RipOQWkcEVnvDFBooioUsGDiblarrkgXBsDqPiZ
-	5Y0JU5bXGqARfrDPARwx5C39k8yB6zQVCXjlQnydHrERkowg3cKKeBGiKqjv971NWmveb39/71D
-	mkfR1bZff5sCG93jjwlzt+CYO9k7S7JjYO/IJdx/5oI5wXfZ4INtEVDHdKpj2BpZlan6ChdpF5m
-	daJox1It4ZIN9MOJfEI5kdP7DOf89Dhjgp6GULiMufIjQlet4dZyvL71t5x/bZlhPoq76dx+iWf
-	Ol/uFGlbDJu0iuZn+Lsf1ycn7nrQs3L0yx1zIXOuaYHpK1gdKJ9DNd4yU5TPjqeBUpZ8cYhs0Xk
-	3APUp8DbV3WCN8WdoqsocpKfTv0P8JK652kf46pD3mmM6MZh7IggFit6PPBdy2gljjocQ==
-X-Received: by 2002:a17:90b:17c9:b0:3ac:a139:1b14 with SMTP id 98e67ed59e1d1-3adeafc4fddmr4768147a91.57.1792975052754;
-        Sun, 25 Oct 2026 17:37:32 -0700 (PDT)
+        bh=8SfPrv2RlnRbia3emcvDOga6vE1rIcfI15DHeIm71RE=;
+        b=CPKEgYdiQ2/xhptOunOcs/6uPVlBCPJVkHEQL0nR1Bs8PJEO/UpqkDqdjta926iEhd
+         3pa1rVG99tXc2fb8c0HY5ru0nXYXW07xWA6FMY4gvOE62we8TRg14xMKVn6lJPhvxKV/
+         /YCZLHpLfrQW9zM8Hv+ewSz3PYm1K8ggzO65nX93xQZ9Ns0ZCFFnTaSCjVCQCIEp74k/
+         LTgTSQqYd3ArG0sw4KdO25Qw+rc9Snsnjnfg+utfoN+dR+TzEArXybuXeL3NQa1xl+4+
+         iRWJKoqketItcoCt+rQRpSSr+aEJc/z/lyJWl5z+dcjszsWxPy0q4pYAQuGUOcWPXlBc
+         NOPA==
+X-Forwarded-Encrypted: i=1; AKwUvBxVvgfqGQVdTd3ZegIRoMkg9wjLPpa+64Lh4z6VBwu6aTuQA5ZIbx6oq9o6jZIcJgHn8nsJFLcuZNg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKv+PteGWsrW3iAQkA2asGdS40w6JIZbwZjqaR48Eg/KCOp0n2l
+	T250UWkVUv4eNlIr6aANthao5tE2qqtp32qJzCCQyMOg/deQGvgCmtuR
+X-Gm-Gg: AYBFou30Wl4sH/lOBJ25TZdahKgvBLz8W51pw8JcUgdVdeQcS2wKXWanMY30G6jow2J
+	HHUUhkov91Q+jnayF4uj549RW0/sBYUkpEoUrH6679Uxxhy/KkziFmtpkBRH9QRUc5BFygppOZj
+	J8FbAz3v7PwEQa5rZOfPXtwglGK505jRDaVE7lEvZ0YTxF8dMtseZrqof0qPNCpWZNwk8iVSN6i
+	s8kKrku0m9B+6hRYcBx4zG59sDWtdhu6lWAXraDUkaCDOrjpaN+b2VfjsQXu/XbqRQsJWEFvuqn
+	/YLXrphD0hrveUuIeW9B5Q0GvGzwQzqRvQqhhu/UoxP1Q8Xmup5GUC90zT0ZIMt2HBBJfHaw40i
+	irTJ5TXJ1bRm4TIBCbWlgdlN9JduEPIL3hiGTVLLBlKfEcRvFja4irUXU31e4cnJJgDhFzxiDSm
+	o4MVAdGHLwdKt9HnV+m+aHYdPzDhYMItfJvXLA8lxoj5plvtw/gC5iCy+tXcamoIfrHL44W/7dC
+	iyVzDT9ZPwT1LHyBedmDC+nN2IZ/b38Ar8lmLBMnUexFWVoBCDpqs/zZcLfXn8EoacMWg==
+X-Received: by 2002:a17:90b:5647:b0:3ab:f38:2b43 with SMTP id 98e67ed59e1d1-3adead4c290mr4014353a91.34.1792975170550;
+        Sun, 25 Oct 2026 17:39:30 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae29c7e756sm600001a91.16.2026.10.25.17.37.31
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfa96sm6135134a91.7.2026.10.25.17.39.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 17:37:32 -0700 (PDT)
+        Sun, 25 Oct 2026 17:39:30 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 25 Oct 2026 17:37:31 -0700
+Date: Sun, 25 Oct 2026 17:39:29 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -90,11 +90,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Lars Petter Mostad <lars.petter.mostad@appear.net>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] hwmon: (pmbus_core) Support relative encoding of
- vout related commands
-Message-ID: <30747603-76ac-4032-b3ce-4e24f1a5f55e@roeck-us.net>
+Subject: Re: [PATCH v4 4/4] hwmon: (pmbus/fs1412) Add TDK FS1412 and FS1525
+ driver
+Message-ID: <87895a38-c819-4193-96ac-69be7f548e8c@roeck-us.net>
 References: <20261020-hwmon-pmbus-fs1412-v4-0-27ece4e43d04@nexthop.ai>
- <20261020-hwmon-pmbus-fs1412-v4-3-27ece4e43d04@nexthop.ai>
+ <20261020-hwmon-pmbus-fs1412-v4-4-27ece4e43d04@nexthop.ai>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,25 +106,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261020-hwmon-pmbus-fs1412-v4-3-27ece4e43d04@nexthop.ai>
+In-Reply-To: <20261020-hwmon-pmbus-fs1412-v4-4-27ece4e43d04@nexthop.ai>
 
-On Tue, Oct 20, 2026 at 08:02:07PM -0700, Abdurrahman Hussain wrote:
-> From: Lars Petter Mostad <lars.petter.mostad@appear.net>
+On Tue, Oct 20, 2026 at 08:02:08PM -0700, Abdurrahman Hussain wrote:
+> The TDK FS1412 and FS1525 are 12A and 25A uPOL regulators with PMBus
+> telemetry for input voltage, output voltage and temperature, plus the
+> matching status registers. The FS1525 also reports output current and
+> has an over-temperature warning limit. The FS1412 has neither:
+> READ_IOUT and OT_WARN_LIMIT are not in its command table. Both read
+> "KDT" from MFR_ID, which the driver checks before binding, and are
+> told apart by IC_DEVICE_ID (0x0c for the FS1412, 0x19 for the FS1525).
 > 
-> PMBus 1.3 allows for relative encoding of voltages in certain output
-> voltage related commands. These commands are encoded relative to
-> VOUT_COMMAND. Support this when encoding/decoding commands.
+> VOUT_MODE is read-only and has bit 7 set on both: 0x98 on the FS1412
+> (exponent -8) and 0x96 on the FS1525 (exponent -10). Their output
+> voltage limits are relative to VOUT_COMMAND, so 0x0133 against a 0.6V
+> command is a 120% over-voltage limit on the FS1412. The PMBus core
+> converts them now that it supports relative VOUT encoding.
 > 
-> Signed-off-by: Lars Petter Mostad <lars.petter.mostad@appear.net>
-> [abdurrahman: rebased; check VOUT_MODE for 0xff before testing the
->  relative bit; use signed division and clamp the user value before
->  scaling; reject a VOUT_COMMAND that decodes to 0 or less, or above
->  INT_MAX mV, at probe and from the regulator, and scale the relative
->  limits by it without overflowing s64; update the cached VOUT_COMMAND
->  only after a successful write; decode the regulator margins with the
->  register they were read from, and in relative mode bound the output
->  voltage only by MFR_VOUT_MIN/MAX, since VOUT_MARGIN_LOW/HIGH move with
->  VOUT_COMMAND]
+> On the FS1412, OT_WARN_LIMIT answers although it is not in the command
+> table, but the part reports OT_WARNING at room temperature, so the
+> driver hides the register from the core and only the OT_FAULT_LIMIT
+> based attributes are provided.
+> 
+> When the output is set with an external divider, the FS1412 reports
+> READ_VOUT at the feedback pin, so in2_input and its limits all scale
+> with the divider in user space. The FS1525 reports READ_VOUT as the
+> output voltage and compares it against its warning and under-voltage
+> limits as they are, relative to VOUT_COMMAND. Its over-voltage fault
+> is an analog comparison at the feedback pin, which would read below
+> in2_input on such boards, so the driver hides VOUT_OV_FAULT_LIMIT on
+> the FS1525.
+> 
 > Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
 
 Applied.
