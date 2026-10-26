@@ -1,81 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793045108;
-	b=F0Ip3MryqY85Vdq/dOP9DxjlIfS3PAt2YtPUS+i0lrIzAb9IXmnfn5/OXJJK9GBQs2Ft
-	 gYP/h3I35ljYQN8q1di/K0hvv+2zV4O8IP+jB9tQbMybw1srL18PaOaHLZQIXkSR6Todk
-	 ewRvV/DZc9BBErVK0+Ki8VlsmmR/Zc+v9AIn7BgjWPktOTR0Uwar03M1z6fmX3Kac6g4t
-	 X7kTzPOGJPsUjelo0PU3NLsUVRP7WIrrE+ndBtxGKT3dtLun/WH9Y03URlDL7wMaLK9Fk
-	 EPVnhcF3VlbmVQ8L+WMAb3M7pNWbGR1k6FTggD5ks4nKZES3FC3w2cdE8aEXgJdt0iw==
+	t=1793045536;
+	b=td8z9AoqLwg0eoUhaT8Qp/fY0113hXV6HhH55+rMOkyCRvry7tyeypfXWVMv8POtWaIV
+	 7wCdKOqLx/YevnjFU2oSIycc5qZ83MISQTo4MMwNhHMjp+qDlvXRo7GBKZsiHaiTzAY/o
+	 Xt5xgMh9Ki/yKKuvoj2LCF4WYZ2T09ykFs3n5Y7NNqEcppH/rhYSLy830ViSZLnxxyX2Z
+	 rtk8BhG2EdodMa+88th2kKkDiNWG1/o0DwLJDPued08OcVIIu1BvwC5GUeW+fjEc/MIDS
+	 EfKTJYa+Z0yRXiqTOvNxZ461TU7qVotgwISUKgMfDetXwk0U9AHCHZNBLoDaEVF+5DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793045108;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
-	b=rxd/TfUd8nEkr+Bhk134tT+Avsdhy0ugVOzSOk2nX0w0aX2B0atn/IoIOEr2rwIY26d7
-	 ga1q3AjO5GecHsaWBRcMhyFpR50ROnhOxa9VBnB7huH0LvCshEuMgL0Ab4uGpUocQh8C4
-	 pT2Ht/LTW/f89mqFKXVpOlovhOHXrVwEJoXMSjl6+nquGF0tVu6xBZwV1vMQans8JTRdP
-	 IGUrAVtCDqC8YHsJmxJDzGlPSVybnX2/R9ZsMpwDjPMziIxP0pjxs/kCpFckCMxl62qkJ
-	 bS16L3cvVoho4AEHVyMAgYyMFDz01V5NNfPpPTFQPC2YutztW1LJcoqGrnZl1GyL69A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793045536;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=WY8zdkd7rZ5cmhFyEZEoT+5FWqoeefwdy0riPJROyps=;
+	b=RxThS7X0nAXdVx+oX3GTlSKOqEsi0EWV4I83s/6I/+SBG50/94XiIK1/I0SDGfCfh4tL
+	 xPNkbFR3ZNacSq4VpCNxizB2rQTDDVkey7KytprNlrJpZhDyFRA9sw6nDWi+qDydKMFeE
+	 02Dz9mCq6g83NL9r5S9XD61cwLjlXChC8vbNNPR/Z41W0DmHBb9t8VEYSr4Is0518zN2T
+	 ar1UbQZFlhopyixwZoe+BwwYDWKuYTYYcquUJa8ovIkoiyfbd+TDOj2gim0fvNc/du+pc
+	 rpboKpxb6VLq8hiD7EIjPDEUKycB868OoiebSuDPgxoyyg5gm5fdIe+dHt7zgK+Xu3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Cc/n71xi";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B8C606A31A;
-	Mon, 26 Oct 2026 20:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87EB606A31D
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 20:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFCD41F01825;
-	Mon, 26 Oct 2026 20:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793045107;
-	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=uqkQoFM52klwzT7RGNaUFA6Qga4FuWuGaYyefzROIzukjBhIFqREK+pqTr4hriVoK
-	 PDd/0ELiJmI8EHpbo0nbvO9gLFbi48BLIx5y9dL4ZVWfdn+SY805AGZXuJumJAO/Tm
-	 19C/ca7D7sF/slrGjQ3K2AJ2vFy+qN+CzA+phAus=
-Date: Mon, 26 Oct 2026 21:05:06 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026102604-tint-catcall-433e@gregkh>
-References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <20261026122243.GA28851@unreal>
- <20261026184312.GA1685504@ziepe.ca>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cc/n71xi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E6A31F031E1
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 20:12:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793045535;
+	bh=WY8zdkd7rZ5cmhFyEZEoT+5FWqoeefwdy0riPJROyps=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Cc/n71xiAX6mMSvHcjXHQI7LVOk1Jcy/mOH5WQxw2aXn6FT2gsn79YTQnoKgY/ahJ
+	 5EhdoPJRaXrOfkvRTPsiSxHLo6LWK4HcF3ZttA1gZqZM0h+gZGmF98bTerrZFGHaly
+	 uHpNsngx148BP6U0wSLmuIlc+AMUzb6bZ/GgZv9DrgcfiqspEHa053BxPwwmcisBBT
+	 y6yg58iGihWnW5siJkHTbH6XczSSRLQBfGi85h9KasMaK9O83hrj3e5lnZEAbBbWUt
+	 zJlERr/+Yoj5H0Y4TzWbaCaY7Lb2F6vfqN0Drz811ZKLDRmICyh7Fvx8RtDmnS/UDa
+	 SDPkjRz6ug0Ww==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c411e139259so267747966b.2
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:12:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByEn7NQYI5tFd2n86rJwwC3Tl9n0Cn/T3RIY+qRgh3ovGCurrJTrlQEDFthZvQX+a6faavOkdCZn2s=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIM1X4dIFOTV1ny4OifYqetmkaWSYP2n9G23DcTeKPKOYVeoCBs
+	Sc1vi7nqwh2/31gaoTxJr/4QT/te1WYbdkPajshqRGiWdSf9lrPcU81alb3dzTmyCCYM+i7FlGX
+	NXfbPUpBfakHQtCBjte76Js7mo+rwBw==
+X-Received: by 2002:a17:906:c14f:b0:c2e:8eb7:53e8 with SMTP id
+ a640c23a62f3a-c46bde6b23cmr858650066b.30.1793045534038; Mon, 26 Oct 2026
+ 13:12:14 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,39 +59,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261026184312.GA1685504@ziepe.ca>
+References: <20261020212235.1143086-1-ebiggers@kernel.org> <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol> <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol> <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+In-Reply-To: <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 26 Oct 2026 15:12:01 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+X-Gm-Features: AclHuK8ctbLSJubqCXzYfxrKgeiEezgD3UGSo0bp_Ip9hFZUOPrInPCSAfIjGnM
+Message-ID: <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-kernel@vger.kernel.org, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 26, 2026 at 03:43:12PM -0300, Jason Gunthorpe wrote:
-> On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
-> 
-> > This is needed for two reasons: to save hardware and software resources
-> > when creating a large number of VFs, and to allow the PCI config space to
-> > be configured *before* the driver starts using it.
-> > 
-> > There is no in-kernel alternative.
-> 
-> Having userspace involved in driver binding has also always been the
-> plan for confidential computing needs. We cannot have a device driver
-> bound across some of the HW transitions like TDISP shared/private, so
-> there has always been an expectation of bind/unbind.
+On Wed, Oct 21, 2026 at 6:55=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 21/10/2026 08:49, Eric Biggers wrote:
+> > On Wed, Oct 21, 2026 at 08:41:47AM +0200, Krzysztof Kozlowski wrote:
+> >> On 21/10/2026 08:39, Eric Biggers wrote:
+> >>> On Wed, Oct 21, 2026 at 08:26:28AM +0200, Krzysztof Kozlowski wrote:
+> >>>> On 20/10/2026 23:22, Eric Biggers wrote:
+> >>>>> -Make sure that base commit is in an official maintainer/mainline t=
+ree
+> >>>>> -and not in some internal, accessible only to you tree - otherwise =
+it
+> >>>>> -would be worthless.
+> >>>>> +    If ``git format-patch`` with ``--base=3Dauto`` (or
+> >>>>> +    ``format.useAutoBase=3Dtrue``) can't detect a base commit, e.g=
+. due to
+> >>>>> +    the current branch having no upstream tracking branch, it exit=
+s with
+> >>>>> +    an error. In such cases, pass an explicit base commit to ``--b=
+ase``
+> >>>>> +    instead. This is also needed if git detects the wrong base com=
+mit,
+> >>>>> +    such as when the upstream branch has local, unpublished commit=
+s.
+> >>>>> +
+> >>>>> +The base commit must be in a well-known public tree, such as the
+> >>>>> +subsystem development branch the patch is targeting. See
+> >>>>> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-=
+next
+> >>>>> +can also be acceptable bases, depending on the subsystem.
+> >>>>
+> >>>> I disagree, that's pointlessly too hard requirement.
+> >>>>
+> >>>> For many of my contributions base is obvious and not needed to be
+> >>>> explicitly defined. For all the patches I accept, answer is the same=
+ -
+> >>>> base is either obvious or if not and patch does not apply, then the =
+base
+> >>>> does not matter.
+> >>>>
+> >>>> Requiring it is just bureaucracy without actual benefit.
+> >>>>
+> >>>> The only benefit would be if maintainer COULD change its base to app=
+ly
+> >>>> some patch with odd base... but this cannot happen. Maintainer base =
+is
+> >>>> fixed - it's the HEAD of his development branch for given category o=
+f
+> >>>> commits (e.g. DTS branch for SoC maintainers).
+> >>>
+> >>> There are many use cases for applying patches besides the final patch
+> >>> acceptance, such as review (by anyone, not just a maintainer), testin=
+g,
+> >>> CI systems, etc.
+> >>>
+> >>> HEAD of a branch is of course not fixed, and changes every time a pat=
+ch
+> >>> gets applied.  That's especially relevant when wanting to check out a=
+n
+> >>> old patch for any reason.  Trying to guess a base commit based on the
+> >>> date and patch subject is a waste of time.
+> >>
+> >> All these tools should just work on top of linux-next. Requiring peopl=
+e
+> >> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" i=
+s
+> >> pointless. I understand that base is helping, but helping and requirin=
+g
+> >> an obvious information just do not go together.
+> >>
+> >> So again: base has ZERO meaning to the maintainer process. It has
+> >> meaning to tools, so fix the tools to work on known and obvious trees.
+> >
+> > So what is your proposed algorithm to apply an arbitrary patch when
+>
+> Already provided that, so to recap:
+>
+> > there's no base-commit?  Including any historical patch (from
+> > months/years ago), patches with dependencies, etc.
+>
+> Dependency is something else, but for every other patch:
+> 1. For testing/CI: you apply on top of next
+> 2. Every other case the maintainer knows where to apply it, because it
+> is his HEAD of next-branch.
+>
+> I am repeating myself, but I really had no single problem of lack of
+> knowledge where to apply a patch as a maintainer or reviewer of some
+> subsystem, thus maybe I do not understand the actual problem you are
+> experiencing.
 
-What, why?  What forces that decision?  What's wrong with the proper
-driver for the hardware being bound automatically to the device?
+Look at our DT PW. There are numerous patches that don't apply and
+then we silently don't test them at all. Here's one example[1] (3
+actually as the whole series doesn't apply). The more base-commit
+tags, the better. If b4 can't apply it, then I do try just linux-next,
+but is that today's, yesterday's or 2 weeks ago? That still doesn't
+work sometimes.
 
-> For this case the existing sysf drivers_probe is good enough for bind,
-> but we must have taint-free unbind for PCI devices too.
+Rob
 
-Why?
-
-> I think this patch should be reverted ASAP, it is a pretty major
-> regression for a lot of users.
-
-But this use case hasn't even happened yet, so what would regress?
-
-I'm not talking about the vfio thing, that's different here...
-
-thanks,
-
-greg k-h
+[1] https://patchwork.kernel.org/project/devicetree/patch/8b2c7719c301a4458=
+91fc6c5309456327ec8a94c.1793026273.git.geert+renesas@glider.be/
