@@ -1,54 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.193
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793021697;
-	b=mGuamyEYUm07jyAUcoc7ZhScpy8aBsagfy+ik9Wcs20c+fSYhhZeQalYlhcaP65Z4Qlm
-	 frYuaWJGHzwYDti5xZc+5+djs5JQcRcWJyFH818OOLjGwhJde5ff3aIpqT7ZHzs+aKPHy
-	 T22t5EgCOy3OUiOY+Zp2MMk1YwAgQ+u1eUHclgQ1kRb+dsH07TeLk9AdcFv9kD5rlC4t0
-	 PmBhAUU8QOLCJiB9iqg9r4YOC01kd3zyasnPZCKwUIFIzL9MHyRIbVaAra4OIs2mf0E0m
-	 HgdyEwLEGN4FmHI6Ypk3+VrCefycZJ2q1Jjg52prx9KAlwP0SS40iDxLUBo9PNeQOfg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793021697;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=xR/zt8Fn8bNjdz5e+SUp/73xZBn1BSzckF/z3HA7yx8=;
-	b=oiZLeDL1O87xgBu1SYwdbtkXhBjLmtTCX7qMdXMZVgoOcHyMINzDx9RQXumTUXAPpbVR
-	 YHqes2NFUMEFYbE7D+BDvVGB+rjLogkUa01Sm8L4HRNKHVLl9wczc8uUSo9+Gxni89bEc
-	 pmHXPli7vkz736UW6hXrhqngq/akjXnEmnqA3SJJFPfDQfZ/GLFVI0IR+Ev3qE63c64pZ
-	 KX1ERr40Viimeb4K0qwGymuWPU6/Tz9a9viIp9UrnEKZObJXT4gnEztEwGupnzvyIUPBK
-	 HwlZ6M7Ul7L6P/XxnL57e7B/PtKsTreHfFTQc0//RgLFjhybUW4QetShAMX353lU6FA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=b95hf2oO;
-	arc=none smtp.remote-ip=95.215.58.193
-Received: from mta1.migadu.com (out-193.mta1.migadu.com [95.215.58.193])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793021837;
+	b=g0nUE9yKFsDvfo9Frdb5AHBd7x6s/uDBgm00HmHXzECM3y9mf5HnU3VPrxcCMI9XAefu
+	 49SdgVdwSBaBDC5p8lHlSECPpJHFMYMxMXTKKd07XGFLM2JLULeJo28s3CMNC9sg4yb3Q
+	 ksSX+zTR4tuhwougZ8oWKbABxvXgWmFfNIWMZfizQbhAoIzgbWZ96vCMoU897Le0Txf+3
+	 0r9LtjLySgjWNJIb8K2mUk3lLzeqN5/Mrt4REPZbWym+FEzKM/Ckd0O/p9tAiaNZcs7Fj
+	 jZaJnscjhg098jMMmcKTqLgPHozsOPinN34Fpy9GrpmYsCEMHXxyzDQWXhsi0bQsnJw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793021837;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
+	b=nKbkp6+cWXo8gcVCoKRand99VGvR2Seyde1G/aJGgJgzdviZj+gjShIN3dR+qtq/fsu4
+	 iKmacjgds4L/RB0IN029dtomvoVjSk8zycvTjrSA+Eydq2p8ki+vDZmip4rpvJIkxEhwY
+	 DmG3MeQ9A8pvE4ATV/GtK9TzCLUfxmpWOYexat2TcWXrrncN40VT1lvX4ATeStjQiBBbs
+	 gLuEkFjP6OBBPd+HvlKQ5SupkYnNVYHjff4+5iCA4OHE3FlOkNj8WpHnDrWJsugFv0vTj
+	 /2Nip6DjYEYryJbMy4wSJF2HWGGIDRCwqRJk+CuQbiL0yRrprwyw2HWLoH+CIl8XBzg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=kHWEnru0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8A8606A31B
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D8A8606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169B6606A326
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:37:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 169B6606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=b95hf2oO
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=B/1QP7GemvzA006XUysBM5X7M8mQ9nDSapjnqLDANwE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793021694; v=1; x=1793626494;
- b=b95hf2oOKU3J1aOvxO5GQ7XBgIFmgP9n5y+cmMnRrCwI8qDXSrZTMZyd9fP76lZ8DHd/AZqi
- 43xt5cBBI1i5NXZZr0oYDbRfY3lfGbGgjSwixxGldISGM3qUwd4+TX9f6sBOzlBNaC/xAX7nzyd
- wYb/BfT6laPrUKnolY8jJZ2U=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id c0df3f82cb5f4210;
-	Mon, 26 Oct 2026 13:34:54 +0000
-X-Mizu-Trace-ID: c0df3f82cb5f4210
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=kHWEnru0
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5383c97c8cfso354581cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 06:37:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793021836; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jgxBnLq0Zn3EuqtKarfFN8uGQ9/S4sp4c514rXHYulaqD8F8slrUhNYyyoBhLJtsi3
+         WzaVPNfzG6mHd6X5nTqHmiVQcQAVcClch+4YXPu/YR+VhfQjies3yw/H4p9li/lPP/S3
+         Ork1VdZgUVfXq5ZM9mx3ny1MG3rd9JmvR8OZXKGDZyg10UTIB6RsotrNvBAx9OpsEdCo
+         R68ChTVEXtM/ScBO/lQpZT1Yoj997BDXQkbohej/xuwOZ/qpSsQKzgmTgZ/rYFA7Pou8
+         JCyL2Qru/IsvgIrDBenh6hHmlgEEpZnD/wUrjTsMKmgcjkRV7CJ3P5rus1dQ4S6S58cP
+         U4OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
+        fh=+a0Yh6F3ksI3XnzIeP4WNFZNYGQ7bHyM5LRseyeysJA=;
+        b=IcbiVqQLPf8pUkcbYCH4b2Zxv2odG1C3JA98lOMqBYHkWfHnD/Trf+0jGZWcHu1+sD
+         gtfKh4LL3ydqn7mVNoCeKetdJoC5iiONee2+2qBmm2+iXx/rQl8/YjRr+YmxjNnCoCCb
+         eir+IL5DyZ5kAcwka0tZ6Qk4dzcRzI+OPlWI4eKC28hYAqWrFWOJIDGm6/lkg9ymZW9R
+         ipLs+26SwklC3CKfjevOTEvLtRyGgJbW7GGlIH0Ql2BvxSL0ERFKGJ/IhoKB8KAeNiUm
+         HcFNoAe2/th0rWC+Ef/optBwR67Utwro0Fv3eMVMqoSoUcMN7vS8/+OXs4MWW+DNnoE7
+         nB1g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1793021836; x=1793626636; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
+        b=kHWEnru0CHmLudr9EcHq1gQt7nBEJ/ssbwXcC+mpIdeqydP1sisZ15xxZd6hymIJ/E
+         C5ML8ayjzxI7VrsDiWtaPHlViiwjg41YBfqrCzZymXV7YThnRYnc4sbTeu9dzvvSKWn6
+         Yi3Z7qw/0ANHdczAokJXCD1mj9LAwgoQXbhwQ5XJSayhz37+lr5R+JptRkR4SKPRIJIp
+         m6i8W6fxEx3dH+0HH2nXyDvChl29fHcyzgWUBi6Oj3vE/cBjWcGoR80FbrKT2WNOcm+W
+         Tj9WIRsGVizMCc42HM6xouGMZXI8hY0bhCbWksSHdsU6S3p4hxv5FCWrGvFIq4fSOCko
+         PakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793021836; x=1793626636;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c4ppOZ7c6FXgFTH2gmSpwM/JgOkQlj5fbz4MqhSpDso=;
+        b=umkiBlUpc+X+oKuLyx0zGXfOVU93ig7U/Ph8n/5kg7gA/1durQ39eJehNsXZlma+W1
+         /vDFi6r5aigP5codDrctHWkbau2KYT6SRaL2h1BIR3B5Wd8dY4J2FT9YmSrjjbGq4Wto
+         iB+flEYZ7xPt/Dl6K16g8b6G8p+stHdJWs2ZBIh2HLeo8mJ09IoXVuJrdOOuU0/GN+bA
+         /T/4jcoQub3Km3/htURpVqOTIAxvoiZFuQ4kZiSAcH6VfgjcvIcn4UbjT9FSXkubnEu4
+         tnX7s8ReWvmiAbOYbcPmRYj2xlZYXqsPvQx7c7B/Q6XFux3tdzK2I5bamWi1A9h0wxoL
+         9GKw==
+X-Forwarded-Encrypted: i=1; AKwUvBzaP894ivI0cDBcxid9qqRF/F+fANGbmIw06o9ANMyZn0Qm8btvlryoDiHfuo2TMjrIxgStgpLOo0k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLXmo/habgDwULi9sh7aNDdmT46NiFd00S0/unAFlGpHlBSjyrP
+	2LeuzGxWQk8LFV7s6UkkF8RrbXurE9Hu5AtkeUg5oKGyX0eaeoJDBwFcfoFRQpap0YWS3FUKFTr
+	n1wI8bl2ZPe1G3PaqK9gEfPU5jGWcdHRNzpF7v1Jz
+X-Gm-Gg: AYBFou19CT8EViqn0b3217mW1eDWBykwIvYT9QX7rwZOdAKRU30u2kL/Yi0kqW8ZMTT
+	oXcblaV/KAzhgjZ9bookWrZ6Xo8JFZuQDWadp2Rq26JU0N+f9N/JL4MpiJtNL4miAqAyVuQVPw7
+	RFJLWwnfuRJriHDlZsrQeo55vImGfR5wun68p70Fh+Jt6Go7d3t6EoNeZOeQh62axG7diblRJKA
+	TmZiOPqBUxWnSEr8oCwjTgtWML3JooYpnoy85Lsgj0dhf+zoNzloWtZUOpFfhdllcxX1SX6xJOw
+	cMakHjjsOWLeAkX2werL56LSLOfg56MKOI+u7KlpBWViRlnYDTBmDSdM8//uVEY1J8vYBsXykuA
+	Obpw3kFTjZqZmVkERvNp5Lpx7zo+xJ+gxejMd2c9rQud63OwIXG+R63f+wQX7abIq3rI+p1OW0f
+	xxNvX2kux4thdp3sJxEbSC3BDArTLj
+X-Received: by 2002:a05:622a:90b:b0:532:9220:a9ae with SMTP id
+ d75a77b69052e-5383b540914mr33040301cf.6.1793021835298; Mon, 26 Oct 2026
+ 06:37:15 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,38 +104,124 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH v2] docs: hugetlbpage.rst: clarify HugePages_Total in
- hugetlbpage.rst
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261026080856.76175-1-lienze@kylinos.cn>
-Date: Mon, 26 Oct 2026 21:34:30 +0800
-Cc: osalvador@suse.de,
- david@kernel.org,
- akpm@linux-foundation.org,
- corbet@lwn.net,
- danielmaraboo@gmail.com,
- linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <7B4E34FA-A8B1-41F4-AB0E-681659F38760@linux.dev>
-References: <20261026080856.76175-1-lienze@kylinos.cn>
-To: Enze Li <lienze@kylinos.cn>
-X-Mailer: Apple Mail (2.3901.100.1.1.12)
+MIME-Version: 1.0
+References: <20261026123244.239766-1-jiayuan.chen@linux.dev> <20261026123244.239766-2-jiayuan.chen@linux.dev>
+In-Reply-To: <20261026123244.239766-2-jiayuan.chen@linux.dev>
+From: Neal Cardwell <ncardwell@google.com>
+Date: Mon, 26 Oct 2026 09:36:58 -0400
+X-Gm-Features: AclHuK-ZwT-Ffa8PUyxQxfIXZbtYplbPQ0Z6MF6o-MPhrCkkbjJDCm6CcXr5iWA
+Message-ID: <CADVnQyk7wTXsgUKbEijSVd689E96Ps=sbiK8osWSuemKYD8BVg@mail.gmail.com>
+Subject: Re: [PATCH net v2 2/2] tcp: fix shift-out-of-bounds in inet_csk_rto_backoff()
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Kuniyuki Iwashima <kuniyu@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 26, 2026 at 8:33=E2=80=AFAM Jiayuan Chen <jiayuan.chen@linux.de=
+v> wrote:
+>
+> icsk_backoff is incremented by tcp_retransmit_timer() on every backed-off
+> RTO with no cap of its own, and by tcp_send_probe0() up to tcp_retries2.
+> It is used as a shift amount in inet_csk_rto_backoff():
+>
+>         u64 when =3D (u64)icsk->icsk_rto << icsk->icsk_backoff;
+>
+> Once it climbs past 63 the shift is UB. Seen with tcp_retries2=3D255 and =
+a
+> silent peer, when an ICMP host unreachable goes through
+> tcp_ld_RTO_revert():
+>
+>   UBSAN: shift-out-of-bounds in ./include/net/inet_connection_sock.h:258:=
+40
+>   shift exponent 73 is too large for 64-bit type 'long long unsigned int'
+>   Call Trace:
+>    <IRQ>
+>    dump_stack_lvl+0xc1/0xf0
+>    dump_stack+0x10/0x20
+>    __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
+>    tcp_ld_RTO_revert.cold+0x16/0x92
+>    tcp_v4_err+0xdb3/0x13e0
+>    icmp_socket_deliver+0x1a7/0x390
+>    icmp_unreach+0x2dd/0xe50
+>    icmp_rcv+0x93e/0xe30
+>    ip_protocol_deliver_rcu+0x36b/0x3e0
+>    ip_local_deliver_finish+0x37d/0x620
+>    ip_local_deliver+0x165/0x1d0
+>    ip_rcv+0x284/0x320
+>    __netif_receive_skb_one_core+0x16b/0x1c0
+>    __netif_receive_skb+0x21/0x150
+>    process_backlog+0x37e/0x1200
+>    __napi_poll.constprop.0+0xa5/0x5e0
+>    net_rx_action+0x4c0/0xf70
+>    handle_softirqs+0x204/0x9b0
+>    __irq_exit_rcu+0x13c/0x220
+>    irq_exit_rcu+0xe/0x20
+>    sysvec_apic_timer_interrupt+0x92/0xd0
+>    </IRQ>
+>
+> The orphan check in tcp_probe_timer() calls the same helper. On x86-64
+> the oversized shift count is taken modulo 64, so an orphan that should
+> be dead can be seen as alive, and tcp_ld_RTO_revert() can end up with a
+> smaller RTO than intended.
+>
+> Cap the shift at 32: any non-zero icsk_rto << 32 exceeds TCP_RTO_MAX, so
+> the min_t() result is what the unbounded math would give. The
+> ilog2(TCP_RTO_MAX / TCP_RTO_MIN) + 1 bound of tcp_probe0_when() does not
+> fit here, as icsk_rto has no TCP_RTO_MIN floor the way tcp_probe0_base()
+> has.
+>
+> Fixes: fcdd1cf4dd63 ("tcp: avoid possible arithmetic overflows")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+>  include/net/inet_connection_sock.h | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connec=
+tion_sock.h
+> index 903499581db7..562e12033a5d 100644
+> --- a/include/net/inet_connection_sock.h
+> +++ b/include/net/inet_connection_sock.h
+> @@ -255,9 +255,10 @@ static inline unsigned long
+>  inet_csk_rto_backoff(const struct inet_connection_sock *icsk,
+>                      unsigned long max_when)
+>  {
+> -        u64 when =3D (u64)icsk->icsk_rto << icsk->icsk_backoff;
+> +       u8 backoff =3D min_t(u8, 32U, icsk->icsk_backoff);
+> +       u64 when =3D (u64)icsk->icsk_rto << backoff;
+>
+> -        return (unsigned long)min_t(u64, when, max_when);
+> +       return (unsigned long)min_t(u64, when, max_when);
+>  }
+>
+>  struct sock *inet_csk_accept(struct sock *sk, struct proto_accept_arg *a=
+rg);
+> --
+> 2.43.0
 
+The following review comments are from an LLM, look legitimate, and
+IMHO are worth addressing.
 
-> On Oct 26, 2026, at 16:08, Enze Li <lienze@kylinos.cn> wrote:
-> 
-> "the size of the pool of huge pages" confused me, since it sounds like
-> a size in bytes.  It's actually the number of huge pages of the default
-> size in the pool, surplus pages included.  Reword it and point to
-> /sys/kernel/mm/hugepages for the other huge page sizes.
-> 
-> Suggested-by: Daniel Pereira <danielmaraboo@gmail.com>
-> Signed-off-by: Enze Li <lienze@kylinos.cn>
+Please either incorporate each piece of feedback or respond to
+indicate why you think it's not appropriate.
 
-Reviewed-by: Muchun Song <muchun.song@linux.dev>
+---
 
-Thanks
+This is exactly the diff Eric suggested in 2020:
+https://lore.kernel.org/netdev/CANn89i+=3DQRibXsm6tw-eVwhB3wjOtgF-MtVu0G--K=
+5=3DoWP97+A@mail.gmail.com/
+Please add "Suggested-by: Eric Dumazet <edumazet@google.com>" and a Link:
+to that message.
 
+As for 1/2, please add the discovery/validation/testing statement
+required by maintainer-netdev.rst.
+
+---
+
+Thanks,
+neal
