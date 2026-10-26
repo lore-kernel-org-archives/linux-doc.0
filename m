@@ -1,96 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792974108;
-	b=0Jiaaa/zSWFitpyDw+N9TWS2NvR1LnJcrulyOkkBtJsKz5g7rcE+6p9n16xUPm7vDoIr
-	 GRurf3zHhe7ekfGx5Mpeh8Nv/0PdXWZuf6+Xodbgz/rfiX1vP7Z3fg1xZikS1sMzUiqFN
-	 fsq15nMCst6BJAnyq7gOVKt3QGo12mtW+fC38byu3kRwugz+63n0VPODvIIVJK0voR4q4
-	 D1rTcZ5Yc+l8CPf6OvTOvVpJ77NKnSX+rEVvF8D3BINp3LQPucbruZVvLsILkfif6wYFR
-	 zBn198pKbsd0gAtEItMzEkzxsXANAhvQxpZfTK5AHVSp8BDzVs0JW7acSnj2lbPNPzw==
+	t=1792974192;
+	b=mN9a3UvU4goBLstldHNOI3aInqBpUXxWPbmI8iQqyY8XQ98gNloOt3HEPUDoFX72menR
+	 XW4rIXOXvL+0U6vFHbk5mONUEc2RzpWBXTfNZhp6paMafxZ34GJHWuIt+S7F4bo3dr395
+	 50drFHerpAUFHJ7GuKAInlsuQpxtd0w0wOZu1vVpgoKZy1l9crVR+YaD1wwYBCLp96mj3
+	 mN7oMVDB9FY36Bpj1wVt1j4ifbH3X2Qeqtp+CP0vicMWw6WSQdw4Y/7Nvg/avaKxdNI2G
+	 GqqcLycC+Y6dGh+t6BNDSb/+VOy5E6eRD4wcyPwQLpHfINeDDnvnm+nwgc0WWSLiUZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792974108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792974192;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=pKcKgfb8CvKyXWoirq734eSIdlRSGIIBpTLfxYawV4M=;
-	b=E2TvUjTk2gpzBezQCznGFntzVKBWOvhEJuGWg2QPWovuMg5bLWjJjpzRERYtTyNdjYb/
-	 ztWojVUZNFR+lnx8uV0mUAWg0aDik6EGjZDAShonI/krW2RWX318S8W7kS/4MXOj7onga
-	 qD8D0WjM0LcuSrKPE9CnIzy5RPfXzr1qpMl+xWWgYfa2u856xm21tfjMnfuUWUFjLSObi
-	 Eby4JHten867DeOlaWoEqxPiIoAN9lI3/E7pVC4RCCTvBSORM1uKgTlghAMjGB2nI2GJI
-	 LfZFJfdW6F/sxRbw3nJ9TJR5LkCcEmasVZ2FNncITTUkWs+I8tx/B3BiM0+XP/FNOvA==
+	bh=epcB0hTiu30Ay9YCdkZT2sgsaeYosE/fH0Ud9BHE6pY=;
+	b=E1ThrVe1EISV7yGchug5zuthpt3jnimCL+ZjUpiY9380r60qbFch8Vj2/oHb8HQJjHxi
+	 saTZr78a4uAMcVLVBwWyioML91b+IbZtqUAR6dJRGLBeRY7RVnjBo6y0ZSyKsD0TWdfw8
+	 XkjwIV5jcv2lR+kRirAuNkS1YHtLNZNuwoKWntcXZ0+YLWZrEcJStCtwCW6M3gWyZjOok
+	 gFK81ge5dUy9NXvc4shNBZo1lGuS/xQJdLZA8O3R5dEQm/3dPRJAVipj5Ky9cih3UY6KO
+	 OpVcimlEhO2JtVjt5Pclfg3KZbRzpvNEc3DvBVC4dgH8IC+utjav+8HRpaXaKuLKNaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=roeck-us.net;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PaWCDMoZ;
-	arc=none smtp.remote-ip=209.85.216.45
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=evuX6trd;
+	arc=none smtp.remote-ip=209.85.210.169
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE1F606A31A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:21:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EE1F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F9B606A31B
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 00:23:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8F9B606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PaWCDMoZ
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so1259705a91.1
-        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:21:48 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=evuX6trd
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8a0880a46e7so967915b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 25 Oct 2026 17:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792974108; x=1793578908; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792974191; x=1793578991; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=pKcKgfb8CvKyXWoirq734eSIdlRSGIIBpTLfxYawV4M=;
-        b=PaWCDMoZw3yyRXDbrZSfczHaQ70JsNzuYgXW5+vKreMrNfKI/R1/pd7t9uJN9wydW1
-         NFhsvXTxkU3uJgQxascjIiJomFOFD7q+nqJ/3/wMUCoYxhQ7E5hnOBut+N1Mio8Q5Rlm
-         7/zajJYrpMuLKsmFUqztordEMNVM6rm+iQyIo4DxEh881mIvq+e3q08DFPYzIUIdJ4C0
-         vDXil6cWPkdSLKlOeNhfKKyyvNbtm63VL4tH4n+JAL7Vgqm1eoQA9SyqG4mtPEhdYnHx
-         wvOoNpdd1Ct3X6Emj1HTHX+FWL0I+IRY4DvA0MhSEV3HRfxJUCkfWIBcbR4D700wMH61
-         yaHw==
+        bh=epcB0hTiu30Ay9YCdkZT2sgsaeYosE/fH0Ud9BHE6pY=;
+        b=evuX6trdavY+rQ9hdPiLIt32D3hJt9DYx00L6w8OmzUs22ucw02BNil0BHuuMxkhe4
+         8fm689/990j230sqwymJwa3YjRqx/kNmw3Li+TMTM+3ABPNfbLRrc9dBJeHRTxQwa9qI
+         jwOH7s7dPgf0yLY4zdCzUv5FSlyj/Y2sRTrHkonfcO3whO7vzcEAOoiMbXiXY5cwSHje
+         gP8UzQ3lo+8wkTqA7o+fgHEamuHpNnctKrVe8MOGUG9qvYryv1kB0HJR8455C8wTtwNU
+         Rodyo+x7mygqkaG4PSajSOABavski4++afbp+dLQT73Bk8EJKP3qegP9DeV8V7swTJLF
+         txpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792974108; x=1793578908;
+        d=1e100.net; s=20260707; t=1792974191; x=1793578991;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pKcKgfb8CvKyXWoirq734eSIdlRSGIIBpTLfxYawV4M=;
-        b=PJAfrowwqWm8F05z8Ojtv2VJ37urxxKiJ31PVeSrIFbQnduXM9OW8iibUNzFh41xpH
-         VxMj+J/g+VPpMfM3OpaLl5PYTNCP16dbs3sr9Ufgpy71aRQ2NSiuU4Pqm3Ql9p9GrtBl
-         qXVpGvSVrHgCYVOrwTuUx7ykk+Y/cjusprUDd02Fjjt4VHXAGdNENs0MxcC3483oKSRM
-         3P80N3yxhpy45fKqIBeqED4mjO75Gq9Bxe0teeLWMAw+8tAu9cRhjvdsLpkaNzLUnJ3Y
-         TdID3olYfCufm82upr2SPvsp0O6X/tTfxpwW2nMm7XeLpwqyhGCKDRcyY1XRv0ESkMcj
-         veRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwfOH253SBwmlIbG4qo/OzixdaT6fZ3vgHDJd/T+7z7V3AT2L7X6kSeULYShssjspFu63m3F8bl3gw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKHK1vK6tV0UI8NXce8yaXJYC5nYwbdViS+CUOckVHTNj0zKtSX
-	R5w8SeX+HacAWpEhzZs4tzSW3vYhUo7yEnQVatfvvUquSUYfFw07MjgV
-X-Gm-Gg: AYBFou0wVMbLyfk/r1jCmNYwdlOe8ru4OWIPA+IZvQBcCov70uMw9ZeIRQ1Zfw0Mslz
-	Gktgvls6G1RYxiUl51wBzCqJFfPQdPxq/52nerwGI1VuIO+8r4JLcIduuXd4lVEw9m7oh5wgl47
-	KqQae6fjv0G58dJFTVJg5ZPlf98vxo7slwI+F2jjCe8wxGKlPQeDiSe/wvICyVY0cwiT/z/1FrQ
-	8C15wpJlIYnmaWNIlxMaXorDaHMjwnNwuqhaI5ZsUqy1Qs8q4uPxv0exgnH1dilwVf7MEWy1/8i
-	93Si69pSZL+W35Avsc5Igjdao5bRUy+dtq2M68MAZneu1+mZB1zQCOPmbBf+Xxx4TuqLGFrXjc7
-	mwDXFNo5UKKp1XDyrotDJB9vGSqjnV2r3I+/QawIXStOBgG8KS3aZhC1bwm1RLLNfWAVCyUpdJN
-	a9h5qkNk62tkzuURjFd36bXqlzgHWfGoZg2mP/6QweyeBCbixah4+9sLLFOVBGws2N9VujW7trN
-	XHDKswxnocooeHnZ35mCSOsSuOzPollZtjL7V9sySEfgibcb8C+coGuvK4/AuIh43FT1JS+u3Bv
-	OBUhrXNLV1+PBm0=
-X-Received: by 2002:a17:90b:1b0e:b0:398:c3ca:1ebc with SMTP id 98e67ed59e1d1-3adea89942bmr4456329a91.18.1792974107750;
-        Sun, 25 Oct 2026 17:21:47 -0700 (PDT)
+        bh=epcB0hTiu30Ay9YCdkZT2sgsaeYosE/fH0Ud9BHE6pY=;
+        b=K6N0nFWREUpbev2sPkyhKILKrHnj+W+ELMFBcArrAnHvvJMcfq+y/Ri8S6WQYA7Xc5
+         y3rd22x0nAVqHauwm4CA6wWsEpFMf5gXRJn26eHGcOUVnmcfXK1/BqILEuVxQ2oIyrsV
+         RZ3Ah3DfxwejXpIcyzg3uHjuZoVH7QI6xFMfLIOroZcCsF7Ugw1IvlPV+RB+bOCLOef1
+         ggDN5g9M4+CUlEnClHVUB4glhs6FtDXbcwDaJ2G7tvvEixhKNVwQhc6f/T3hSKWPWMJ/
+         4HPjh9LZLsdXdUSZt8W4fsJAOE4pRy1Po+/OSMEedS59/JNHrAU0lsjx3r0cVcEjuz67
+         gA6Q==
+X-Forwarded-Encrypted: i=1; AKwUvByRdsGQMASK7jQD2pC+5Q6n+1kfdn4mcateXb1TK/FkPI/7+8JVY5y6onS0wo7RafBJ26j8U5MKv7M=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJBnW+rzoYIde0AHDFy/RS67yrrd36hRodT/QFJunK2Dasr2Z1H
+	5qxk3JqWXCaC7mOvp2dHF+Z7RynnnRRrkSnJ+nImcDzVD9pJnNeWVwk/
+X-Gm-Gg: AYBFou0Nl72SD3dLIs9HgfU558+05qgpsc9Dn+Kg5U82W0iHHh/tkZNw9smeqSvfzlK
+	xyu6LvL0GfaivGtCxkinyqTQ1SXMmdxRGvyrBZlCM6YC11fMl3vTHioNg/UBXbWJv3f0BbhT3hO
+	bPpRVCbEFchRHD6OIO7Y2XNcI3a9XH0cli59dvdvpXoFkpa/d+TGJsmVzXrK7EzcxjCLB683yBG
+	1VqcbXBM9zEjeNYtXJxghv4S9V+gTJFfnGQBiAsEQwkyBEkqSP3FQ+tsjihObSBymLqeN0e/3Iv
+	fFscBMuNwml7tpurpdgIPX6KAsJMaWNAo02KvEigClLeDa+VLOXNvX2eXNP8zrUoAoyfM2Txs21
+	rUqc8g+kmdp/7Sl1reIBxr4W7lRtb5o4/o9Mh0Hqh+frv3fe5m0jlrg29H03ei4cH1qWJi3Z/tn
+	B5vacAf/6AFKuzl5TGlCm5Sy3XBQ4zlnHdR4Xl9fwKSg//wRn1SQQO1lYMJXJMQyZpSUZ01BZUA
+	24Ot11LMgzMTJ3QK0QudfLFFzko5vf5O6hPzW0n/8X8WIpTxsxGRSTiDV2Y8RB9V6JUPIcoaX0s
+	7c+/2AYHJuKf2ow=
+X-Received: by 2002:a05:6a00:1889:b0:899:529e:dc9d with SMTP id d2e1a72fcca58-8a36a6c5c9amr2879726b3a.1.1792974191295;
+        Sun, 25 Oct 2026 17:23:11 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebe6af0dsm6015077a91.5.2026.10.25.17.21.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a368d85e22sm783839b3a.8.2026.10.25.17.23.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 17:21:47 -0700 (PDT)
+        Sun, 25 Oct 2026 17:23:10 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 25 Oct 2026 17:21:46 -0700
+Date: Sun, 25 Oct 2026 17:23:09 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: hsyemail2@gmail.com
-Cc: linux-hwmon@vger.kernel.org, Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] hwmon: (lm75) Add support for Nuvoton NCT7715
-Message-ID: <94bac7e7-9ec2-436e-9612-7e0e62d8e66b@roeck-us.net>
-References: <20260918084042.19541-1-syhuang3@nuvoton.com>
- <20260918084042.19541-3-syhuang3@nuvoton.com>
+To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, jdelvare@suse.com,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: lm75: add MAX31875
+Message-ID: <4c365f2e-8dd7-42f7-b96d-a57daf23bc53@roeck-us.net>
+References: <20261023091550.1494-1-johnerasmusmari.geronimo@analog.com>
+ <20261023091550.1494-2-johnerasmusmari.geronimo@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,16 +103,21 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260918084042.19541-3-syhuang3@nuvoton.com>
+In-Reply-To: <20261023091550.1494-2-johnerasmusmari.geronimo@analog.com>
 
-On Fri, Sep 18, 2026 at 04:40:41PM +0800, hsyemail2@gmail.com wrote:
-> From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+On Fri, Oct 23, 2026 at 05:15:48PM +0800, John Erasmus Mari Geronimo wrote:
+> Add MAX31875 compatible string to lm75 dt-bindings.
 > 
-> The Nuvoton NCT7715 is compatible with the LM75 temperature and
-> limit register layout. Its 16-bit configuration register shares the
-> TMP112 configuration layout.
+> The MAX31875 cannot reuse an existing lm75-family compatible such as
+> adi,adt75: it has a 16-bit configuration register (instead of 8-bit),
+> four independently selectable conversion rates (125 ms, 250 ms, 1 s,
+> 4 s) and four independently selectable resolutions (8, 9, 10, 12
+> bits), and reports its alarm through a different configuration
+> register bit. These differences require dedicated handling in the
+> lm75 driver, so a distinct compatible string is needed to select it.
 > 
-> Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+> Signed-off-by: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Applied.
 
