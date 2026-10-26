@@ -1,56 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793022964;
-	b=vmr7zctSnDr0IF2xFWrYYUMD7QWkKtNSuD1fY9qSbr4aTVeChVvsnt8yGaqJ9ChZxAo+
-	 FqMBJ/n3P11LGc4AVQu8yFBnI65yW5L733hzOpIDWsEUSIMf4vDn1+jAbcJKvanrZ40BF
-	 0jz09ywmLsl+o8TUFS6nV7eAOGGmHbpbIz7HztPeyhc8sB6Vk3Bnf4ftmFpH/I50TTVHk
-	 /NV/5mioFl433ru+wp6vcL6j+CiGQUflnWij0Opl4hHbSRWJ4VzzXnPy+HvSmNacDIlBj
-	 Y6TpYs1RQdDynUhpvMTX6LLtolxCnvhJmxKyBK6ZHhDlY6OmTx8ejB2v+rXqeZ0M5mQ==
+	t=1793023367;
+	b=T+5RlsaKlaaIYzzWbbBVkpx+RzhG+MfYuyjGGYzX3Qv59AqsxSpqK9iSAeFEMGO/ZF+g
+	 KVSlS06WknAHZItaI9gFE9wEKpVX8bg8vt8Htpvm+m2UpgBRKwCynmXVTwAt2c5wCl+5F
+	 Fv6ns8aoHp7/7joS6niUm2vMoroYqBACLLe+Z2kAAkyuk4p4AeeP+zMzNJUUqpkTRL6cN
+	 d0yU+E/3heUK5OnKdRBaI49VuZlUTxS2TyDeSHTDkmhg3vYWExqL/W8hz8rbyMl1MvA7A
+	 o73GKpKKaSrFaAjBiQBuUOmvR+sY8TSsRL32Nm3f3K397k95428ygskBQF9t6xL9DLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793022964;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-GND-Sasl:X-GND-Cause:X-GND-State:
-	 X-GND-Score;
-	bh=no+qXWoVUtPdmyI+zw6GzGkvpR5k42dNrWAHNpp59kg=;
-	b=J+zdy1kPvJP7iBVsw4NuvW/4Ym2crnZy11VcnkZXShCQ+nMytXMUa2BZVSB09tUwoiNQ
-	 r6RqM3GhT0hB7QwRdGRo2NpTk44LyNQk0NWKY6PR1YzYHt7j42FrG9cXopv0okDLTspg8
-	 b2UqOyjkFSmsTl4lSu+TLoEslLmdBGbo32nyHJnVm1PSt5ab49VSMabu1mSOMHoIa88z4
-	 FP62cBcUsQV1dghU3XCIjHLcOgeRdaxNLNAqPLjZRxZiAVJxoyWQ2ywnhN50bZVIHGSSU
-	 oR+0v/yl9l7xK83yJszPUinuG1wfD5ScUd5wt02CWoiEEW3axfzkqI3qnuQ0erBj9Ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793023367;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=DMhcNiE7UFYB2cSErcXu0ACNivDw3qmsy4U7nmgAHio=;
+	b=esZZfb8qbEmHW7FyBNI1vixxTQzE1yW3NODaFIyRaKRAs3nb2OO8yBj9T/N76eswgkso
+	 O4Bx1UWNctV+YWwgtgarLmwLhbwT5y1ToKRNN0cAaBpAM/Jn87e+3h+O2ZaCxmRDyg73H
+	 S3WuKXeGnd9FhaZtpA5uxZKjjTU87Qj4hIIDFR0rne82cGkiOR0rOFgHIld5YMGANX3Hg
+	 fbF7pKSafR1gKWyKHw8r62I9+aqdKPPNTQgcSkF2z4dlgdK9CmGPdtPcmtGy8U2ovhmo5
+	 Q/j+GDwQqXbN+s7jERcGzKehrPoP0S8cHd14Oq4WlZTBpamkSrLUPuaWjPKuJic/qXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=marmottus.net;
-	spf=pass smtp.mailfrom=marmottus.net;
-	dkim=pass header.d=marmottus.net header.i=@marmottus.net header.a=rsa-sha256 header.s=gm1 header.b=SXNzgX+N;
-	arc=none smtp.remote-ip=217.70.183.197
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.208.43
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89A3606A31F;
-	Mon, 26 Oct 2026 13:56:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A89A3606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marmottus.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=marmottus.net header.i=@marmottus.net header.a=rsa-sha256 header.s=gm1 header.b=SXNzgX+N
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0EB363EC86;
-	Mon, 26 Oct 2026 13:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marmottus.net;
-	s=gm1; t=1793022955;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=no+qXWoVUtPdmyI+zw6GzGkvpR5k42dNrWAHNpp59kg=;
-	b=SXNzgX+NVNoj+5hPJWf7wlvppK7MllN4uG3G885AXd0efnEf/gzx7eRutVuyhb77INsEUX
-	w1sILqk+1ZEPXMKMhpEtNE8os8zLLhkv+WTzkDNicG+qcwAdu2oJ/W6K0169U3YVQhs4v0
-	JjJRpUAD5z2OVFHMo1QsBzpJYgXehjo8WdDii9cVgvNd8h3uqy/dK8Ek+e0IVROUA7vacw
-	a0uKN45Twb0Ok8+H9b82pe6TL4ApqmURoThVVnTHBMKxiW10o8i2vcio1V9ESkljEHRded
-	Uv6zl31Y2xMRL9B3H2yPsSvoK31GiTCPmdcb8manO3Muabq0nRDOAejVeIIYxw==
-From: Arthur Crepin Leblond <arthur@marmottus.net>
-Date: Mon, 26 Oct 2026 14:55:41 +0100
-Subject: [PATCH 3/3] Documentation: leds: lp55xx: Add an LP5569 example
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0A2606A31A
+	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 14:02:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B0A2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b203527bceso4273010a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:02:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793023365; x=1793628165;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DMhcNiE7UFYB2cSErcXu0ACNivDw3qmsy4U7nmgAHio=;
+        b=P/V6zh9AqWvYxb22A9O1CqPPaELG4W1O/MxwaEHPKGze4QUD+NNiYxGk0Cj8mV9GFZ
+         G/RqJ7bm6JmpjGSoUD9BA7jvw1jztcCbTP83WenryhxLJ/AOz8DK9XPwvBV14bhUqygE
+         v7/18WSX1KswsFv+a5MGbruGjaKyQZLVuoxfptbzTp6a0dFs97q4XauECOtQxsaXvria
+         u8N5LZi30slhuy+yBpOH+Ydfafx7QbSE+imBT3JI8RV8+2jVE2DD0TEhM8atmJWsRSBH
+         aJhoCtl4SwPySX0+uh2jio082k44CV1YM7Kn3fkeNBCltxcgyR8/nsPSqOZA8rnDdkrZ
+         wbTQ==
+X-Forwarded-Encrypted: i=1; AKwUvByOljKjYv67qIulZ+yW9ni+tZxrQHgZ3gjmW1g3YIwOoOYTBZC87Yw4pB49iHGCEqTAfLNcU9pcp0c=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIsRO3byerNdMOE5ckemMvc3zX7AhW3zwWsj3wAp0rqQJzga4Pm
+	g2fOtVmR1VfMw81qtQVnY/C49fq5XWrHPEp9mnU/MKGHrrkn5Y2Hn55IJ9UhURJPRF8=
+X-Gm-Gg: AYBFou0LAEkW3j2t0KgTcVNK/uZm6HdZrGWXIggFxD4bAO2q4/2hvdl1TgCVSiBYsku
+	iVqCnpA7TE156UVZyTJivkN7JiKSTE8r4n4JMHGNDnUMhSXlmUBYJU/UzoX8weIhe4i88SPZwAA
+	HgYoMIb4nEF42L3YH32IPJT+mDgLofep0rNjgHpjA52HJV2ZQ8CPypDFxsOK3GSTrIL1+/UWVYU
+	FcQFFQB38+6sGgGWV8Dzw7VSH5A/+dx60f65F16EfW3OLjxwDWuYOg8S76ivGw162R2lwoC/JOr
+	Ed7Qos5CCRJOMOM4iq56Qa7VR5ljlbUi8vhIEUPLT1Ca5a7R085pVNSlULUJjaM5PuFQpuwj5u+
+	kzaudsQ1Tpp7QjXhjk+FRhGGABcGrelFFDJ2Dfs/Z+Vti6fqOMMNh4cImkGIhj8+6MqtyluYRLt
+	y0bKP9CcaAOAgkFvyKAEZ5LBqnc1Z9VEKH/G2Yp99v7ewwNDP+ICGPnt3hXNK2QB02mABSUfE0J
+	u0SzVfurjSIvzJt1cO8kh2igOdwD28uSD67CfZaa5iRigrrQ5eBaHKnp1MxN3qTnSyChTtR6rVF
+	lvwsTuN++BP+x6SkaA==
+X-Received: by 2002:a17:907:9619:b0:c26:1649:47ad with SMTP id a640c23a62f3a-c46bde828afmr744915666b.35.1793023365041;
+        Mon, 26 Oct 2026 07:02:45 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c49a53bdcdcsm6411466b.53.2026.10.26.07.02.42
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Oct 2026 07:02:42 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c498fa2f365so127177966b.3
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:02:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBx1Z2y4KOLdJ6nfw4zJQ1h+ylvAiY3MPhpW8RadTu5ZWYzcAMA4ICne3dGyejLb8ZLf5/0Z9+S8SAQ=@vger.kernel.org
+X-Received: by 2002:a17:907:6ea5:b0:c40:5ee3:8698 with SMTP id
+ a640c23a62f3a-c46bde6b2f6mr794454566b.31.1793023362379; Mon, 26 Oct 2026
+ 07:02:42 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,68 +80,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-lp55xx-v1-3-6eaaf530115c@marmottus.net>
-References: <20261026-lp55xx-v1-0-6eaaf530115c@marmottus.net>
-In-Reply-To: <20261026-lp55xx-v1-0-6eaaf530115c@marmottus.net>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Christian Marangi <ansuelsmth@gmail.com>, 
- Griffin Kroah-Hartman <griffin@kroah.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Arthur Crepin Leblond <arthur@marmottus.net>
-X-Mailer: b4 0.15.2
-X-GND-Sasl: arthur@marmottus.net
-X-GND-Cause: dmFkZTF4wHLuNZNT+x8QlpvzKlCxiQ5v2Xy48uyN0XCB/1+FoIXabsjUwdsrOAnEv00sHzZcWK9jzeLdTqDar17yLdhWCO3HeWhe4TTzmwiIXmPcXT0eWYP54N5aPolxv0jmeaXrEgBZagKbus65l09WZAp7xgQR2sj4YVQErQBi/WseZ9qe4i5TORJMs5bSNSCd5UpYmMf7AZmKRDBFngUISwL3+00J0vV5a4IS+g1SCNBiiJfGxFjWMKMcy2WCzgGOltqTsGur/fZKzOuALTbwlCZh1ECtCjtZIlBB2NeQMyIkI5OX/4dkWE6rFvDqQLkifvnLWNLxG4Bd1pN6E6uKkZIyrptoTEyK6YWIPRN5veKd2sk4UW0cD0ao02bqJ8Q97eNqnu+EcwGhlSOQ+yxeN1QDkZLdxyinbnSH33zhbukqq8sGqXbE9ei8IDS4PH1dCaC3I2SWpOxx5wgen1yFMahAtHrbGRhmS6rzDR1Gh0ZqezjjHear11ohwGm0/caTgG8W5VEvPzZDmm5MYPOiRqid7kIHgF2LvTTR04PGHBvxO2miywIqFnkM4Aoo280dQP9YdVUWACJJS+jWiaOWOG6n1/EaIl0knklkaFHX1QJNdxvsNusTb0oTYlaJNhd1ZZTUOtr4pWAxSxdgIGwyqF6SCjH5+3ZI/OfFJT1DF/Khqg
-X-GND-State: clean
-X-GND-Score: -100
+References: <20261020212235.1143086-1-ebiggers@kernel.org> <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol> <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol> <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com> <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+ <20261026104056.GH15441@killaraus.ideasonboard.com>
+In-Reply-To: <20261026104056.GH15441@killaraus.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Oct 2026 15:02:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV7Mz0WgaNP_B8FG6OxLBqqnWwMqWJKNFBDkF2i=55fVQ@mail.gmail.com>
+X-Gm-Features: AclHuK_QORKnSpnPhJrLo9VkZNodz3Epw-au-jT1DhXUiuoeiO-TMI6o_74xEFM
+Message-ID: <CAMuHMdV7Mz0WgaNP_B8FG6OxLBqqnWwMqWJKNFBDkF2i=55fVQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-kernel@vger.kernel.org, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add an example for the LP5569 that drives three LED channels at the
-same time.
+Hi Laurent,
 
-Signed-off-by: Arthur Crepin Leblond <arthur@marmottus.net>
----
- Documentation/leds/leds-lp55xx.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On Mon, 26 Oct 2026 at 11:48, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
+> > On 21/10/2026 18:32, Laurent Pinchart wrote:
+> > > On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
+> > >>
+> > >>> there's no base-commit?  Including any historical patch (from
+> > >>> months/years ago), patches with dependencies, etc.
+> > >>
+> > >> Dependency is something else, but for every other patch:
+> > >> 1. For testing/CI: you apply on top of next
+> > >> 2. Every other case the maintainer knows where to apply it, because it
+> > >> is his HEAD of next-branch.
+> > >>
+> > >> I am repeating myself, but I really had no single problem of lack of
+> > >> knowledge where to apply a patch as a maintainer or reviewer of some
+> > >> subsystem, thus maybe I do not understand the actual problem you are
+> > >> experiencing.
+> > >
+> > > When I review patches, I often need to apply them to a tree, mainly to
+> > > see the context, but sometimes also to test them. I have encountered
+> > > many cases where the patch wouldn't apply on the current for-next branch
+> > > of the relevant subsystem. That's often because the patch had
+> > > dependencies. When I'm lucky they are listed manually in the cover
+> > > letter with a link to a branch, but that's far from being the common
+> > > case. I then have to ask the submitter to provide a branch, or enough
+> > > information to recreate a branch. Having base information (base-commit,
+> > > prerequisite-patch-id, and possibly base-tree) would save me quite some
+> > > time.
+> > >
+> > > I understand your concern about maintainers cherry-picking and sometimes
+> > > introducing issues as a result. In that case I also prefer asking the
+> > > submitter to rebase, retest, and resubmit. That's not what I want to use
+> > > base information for, in my case it helps with the review process.
+> >
+> > That's valid and for 95% (guessing the number...) of cases will be
+> > solved by having linux-next as a base, thus requiring the base
+> > information is redundant. It's just linux-next.
+> >
+> > When patchset does NOT apply on linux-next or maintainer tree is
+> > non-obvious, the base should be provided, but that is only "if ->
+> > should". I think the proposal here is a bit different.
+>
+> What's the downside though ? As git can easily provide the base
+> information once configured to do so, what's the downside of asking
+> contributors to include it ?
 
-diff --git a/Documentation/leds/leds-lp55xx.rst b/Documentation/leds/leds-lp55xx.rst
-index f60c7ec39816..549bdb0c890f 100644
---- a/Documentation/leds/leds-lp55xx.rst
-+++ b/Documentation/leds/leds-lp55xx.rst
-@@ -161,6 +161,30 @@ Ex 2) Engine 2 and 3 are used at the same time::
- 	sleep 1
- 	echo 1 > /sys/class/leds/d1/device/run_engine
- 
-+Here is another example for LP5569.
-+
-+Three engines run at the same time on different channels:
-+
-+  - channel 0 blinking every ~1 second
-+  - channel 4 pulsing from 0 to 255
-+  - channel 8 blinking every ~500ms
-+
-+Load a program and select the LED(s) of each engine, then run them::
-+
-+	cd /sys/bus/i2c/devices/xxxx
-+	echo "load" > engine1_mode
-+	echo "load" > engine2_mode
-+	echo "load" > engine3_mode
-+	echo "100000000" > engine1_leds
-+	echo "000010000" > engine2_leds
-+	echo "000000001" > engine3_leds
-+	echo "9D8040FF7E007E0040007E007E00A001C000" > engine1_load
-+	echo "9D80400010FF11FFA002C000" > engine2_load
-+	echo "9D8040FF7E0040007E00A001C000" > engine3_load
-+	echo "run" > engine1_mode
-+	echo "run" > engine2_mode
-+	echo "run" > engine3_mode
-+
- ( 'run_engine' and 'firmware_cb' )
- 
- The sequence of running the program data is common.
+My base is usually not in your or anyone else's tree...
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-2.56.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
