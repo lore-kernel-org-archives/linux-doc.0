@@ -1,100 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.70.183.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793022501;
-	b=sV/Vr6M2QgtVB/OALfoEmWRCb7lQ2sMoeP7pprfYcIqj7KEX7k3wLikIsiGZYHfH8Oz5
-	 mGuETYc0gLYc0UjP9EhFF353iRx173GTzKievmywnu6DNuJWVbz9JsOVDCtg0wAsKcCMO
-	 5mwk/1aPO5LKyokm7WFVYMHXiIsiRWtIz5ERIvOLa2fLbLW+dCiCkSqg/Wk1MDTVTkzBU
-	 ForjozhEwMi5PQ6nu47DQVkwsTDtStTcQ9SnlQF0RisoF/EGgii5H/1l2IFM5kiCtQvNG
-	 X1SiJTk2Q8j6/X5D8B+Nzydb7DroRlcQToLS4Hz06OZi8FjCvLs0NCRADv5v2Scieyg==
+	t=1793022959;
+	b=Voh5nyBglO1eI29NWwZNkYmCWggJFI14exWdZB/nS9l2zSSXl0ldNPpKccDbGCy894rq
+	 yUwSt5FKChMSsQdTmhJkkd33SuMQ2jcer+u/2D2/cbDzbahcVDQN/EuQlICH/KXu/uglM
+	 YOSNK3sDTFx7MOK8XvvmJjfI8LLiGUudMNulM9fn2bKl2akBE/T8kXyNJwFGUMJw1k3Us
+	 g78VcjbgM6fyvIygL0qeDB7guloCI7Bw5j/PGZaScADpo49FHE420AqlEsOOZHtGVaG1V
+	 +gbk6mIfFvakJwnPA9dcQnJ1qB3taROAX4wbLfzkdbiD6kraJ9nS5Wq9JSJ0xLwmg6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793022501;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
-	b=oY0FIoyJ/f/G27OKioPxwvil/mR53fKtBVWJNkz+AMIECP+nCEDbsuLzCz+/vlWj/E/V
-	 30RuhMm0AKebm8QcxTRfyCRFwtmNsNqhtdDeyFcA0/AH2A6hDpRxGkXYd1v348appjvPX
-	 nY98a7QiDKUfDcfTAXZ4cq/ujvP0VkulGRZnvmYbYmg/7CCcMU52YE9Gs/EhVO86vDhlO
-	 QawUuqUKnwAvWQJtO474ogK70+0h+5tV2YX0HS26tmTAmYFKtP1xS7q7lIVIhKiUbJTyN
-	 v0etsFaPQcgyrxY8GZAeKQNyCloonXus2+gG0ClUNY8Z5Da/SvPntc4RK2b6nAAbj+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793022959;
+	h=DMARC-Filter:Received:DKIM-Signature:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-GND-Sasl:X-GND-Cause:X-GND-State:
+	 X-GND-Score;
+	bh=RzewzaoS8R3h+8E5N8/B+hljWlCwiywqyur7ETFsqgw=;
+	b=I2wqG5dXEM1Yl16mx3PQ6BpkcuEKZUevbiiv25C2Fb6wXfzImEjTSHakAbQWLrlttLaJ
+	 nDMbsbTLgA7cTe2D7SNiU7GXpqZTDcGRG48aQowmk7/jCtk/OacShfOwhRMUWmSUHVvL8
+	 lj1dbPNDzysdk/fhwYHPYWBXzlTv28qtZaqf0Tk5J47XkeyqUpnu6UGn+VQWS1e9gCYix
+	 3USarNPINqVeQEDWQ7VyhTQF1Zoh7GwEtHC05K06wnmbH5/DvVTcooQcj2/RHLgREkXqI
+	 oYfzUdv1UKmIlwk6bE1jaVI7ZhDEpOVAX0YB2Fxb6OXF95ozXD5Xiw2loLBYy0Ta2bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=marmottus.net;
+	spf=pass smtp.mailfrom=marmottus.net;
+	dkim=pass header.d=marmottus.net header.i=@marmottus.net header.a=rsa-sha256 header.s=gm1 header.b="i/h/pdWa";
+	arc=none smtp.remote-ip=217.70.183.197
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2632606A320
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 13:48:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2632606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so13421445e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 06:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793022494; x=1793627294; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
-        b=VM8IYrnCNNqs45DDC5LE9lQowRMEKYE5Y/KZ57bV4yet/aoDBGlAsxJOmTRykOk8dn
-         FshcS/W8j64dt0Mh5C8VdYgUtcsCto+ScQaOEpF+I1g+GJr3PKhwYJY8a9G++KZq2rIk
-         fciASrl2LvGXd8pYXvHkATr9UTdfoqHxMbXc79S2QEtkqqFElfTeqUk4ffn+ZNgaeGe/
-         nm24iy1xia1O5G3DOANrqIMherXJogHmuD48d2u+nc2vCUxcd8XNkN3ljWXSZqr8HlaX
-         Y9o5gWTDf6GO67jT9mY+jbYN5IM9+ZXATUXh+KiGk5uTlXn1ZnpDB+tpDMpOFgjZMwAW
-         Jg2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793022494; x=1793627294;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eeiDIzKBgXHTvIB/FzTge64uqO1p8vq38QKemD1zDpA=;
-        b=vI/qhkfrFjw/ctiVEvt+BHpcxkXAbwCvnXa4wIGseeS4FE/6sX70t78sIpL1ObztE9
-         000N3vLNAt7AKWRySBEf8G4OdvNzdeuu95bwzyoWNc1SVpgT07wJE5KkzqWpledNNrHK
-         aP1pUss5+Z2xgrx4S8QCGl/ueFY2ezb1SeD5cZcGbanA47dix1GpDyzyfjYozJVoojLv
-         QSr/+SkNLwSWVmS/mPhe8rgZyenIb8YuFF1GXkTzcqGcz3UUkY19zqHkyxqVCPMKVSIV
-         R8VlLvjJ9AQnD9z9YltLVC4Gs/mXgYIZAIV+CMcsoqqEPwWkDgGk+wMd9FfrdMCSjN8r
-         wEDQ==
-X-Forwarded-Encrypted: i=1; AKwUvByK4knus/rnf97w2UCniCU+ofi9nOahMKtvCrwhPYcJf9AOoK5HcprBZJ2yv6JlTJxKQ2LdTUDzlck=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI8qTamQV1h3Zt0Q59RyDfPDfGx7K2apiuXOg16mNazOgoLINfQ
-	K2spHwgpWnYaEG4FHCpop0436rb7g/43KXowRDz/tN3bhsuURY+sPLboWL53CUADBF0=
-X-Gm-Gg: AYBFou3FNA+jfBiJU9REDf/PLsHU6um/gBxjIphs8xBuIsgWLeeaAzxMZpzEnuqS3E0
-	b3aD+zUWTmdwGa66AQU0Uy4P+B2nkZTnjAj4brN5fDa6NlfcMS5aKzgUrPsX4nfIupaFT4ITdY1
-	Hu9f8jSz5lz2Te/INrA0kgyq9Nd940CzUh+xcvav5HTU0N6/XWaLeItqGT7h6/IriYcJ2jhCDxs
-	Oo03+7TpxB9kPYea+2YhkW/mrz99pEaBIKnGHgdNFQ69OwMBGagzyEarC9F74wO3mzsO4r4OP52
-	KtXasbZtEQ/5I5NDCa6Nz6XQszGks4nieV8k+WVEvPSSkvLcqQGsBgFMwbE/avtmBJCYXdUGAAa
-	4Yq+4eZtT/DAO1L0mb6pzXsERsD2d+mDOYm6h7xgHXzkCpRMIVwe0qVtM1K7PuNhfLaSLJaFLdy
-	gjVabhQd+Eci/YAl5NDG3JOFf1dCDMMWH6ZW2wp/QJyhZrYdl3p1RAUy9Im1g+2j+J4ryoQqSK9
-	hgQj0avjoVUkASk0qxyEiy2soHgbulwlHRB8p6VApV/P9SgYBpAob8E+fAvs79y
-X-Received: by 2002:a05:600c:3d8d:b0:4a1:f377:5c75 with SMTP id 5b1f17b1804b1-4a35acc2edbmr104469535e9.33.1793022493724;
-        Mon, 26 Oct 2026 06:48:13 -0700 (PDT)
-Received: from localhost ([208.127.45.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a5ea0df763sm107133535e9.3.2026.10.26.06.48.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 06:48:13 -0700 (PDT)
-Date: Mon, 26 Oct 2026 14:48:09 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jonathan Cameron <jic23@kernel.org>, linux-coco@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 12/20] ctlv: Add device and operation dispatch
-Message-ID: <at9ZEDZl89V0jaJB@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-13-jiri@resnulli.us>
- <20261021022505.6fe1b1bb@jic23-hlaptop>
- <20261022184313.GD3381610@ziepe.ca>
- <attZl_0TNMDLgi4U@FV6GYCPJ69>
- <20261023142633.GF3977851@ziepe.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B6C606A31D;
+	Mon, 26 Oct 2026 13:55:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4B6C606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marmottus.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=marmottus.net header.i=@marmottus.net header.a=rsa-sha256 header.s=gm1 header.b=i/h/pdWa
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3B63E3ED0D;
+	Mon, 26 Oct 2026 13:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marmottus.net;
+	s=gm1; t=1793022950;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RzewzaoS8R3h+8E5N8/B+hljWlCwiywqyur7ETFsqgw=;
+	b=i/h/pdWa3wedYsHD3HCheJpjBZoMWkFvNlAcbMmo8eLQwaFww3c0IDAIY0OFp7fv2Ume0O
+	rUYBtITXZcv0rfLEksvDJnm2AE3z+ksI9EueGoCd+M2punLw6Fj5BnVnbDLk7eS+UVjHoT
+	qIylxO+F2ksbM+Muyp4gB5rn4rBCs5W7KaPug3WJ6EV6uxTKnOIiZ3hOAzzmlw8Dmj3WJV
+	4uFsf8XNF/SykMR1R3W0nRzFBDSwSa3BCwC6WmmC4xftc0yHiqhWUAwNQoTJQew7IoZZer
+	w+TToUx684Ad3uEwIBsjMT5iE0P5LtvuXSGlcggax6VX+AmUHxxDHFv+zKRegA==
+From: Arthur Crepin Leblond <arthur@marmottus.net>
+Subject: [PATCH 0/3] leds: lp55xx: Fix the LP5569 LED mapping table
+ placement
+Date: Mon, 26 Oct 2026 14:55:38 +0100
+Message-Id: <20261026-lp55xx-v1-0-6eaaf530115c@marmottus.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,61 +61,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023142633.GF3977851@ziepe.ca>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANpb32oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDINbNKTA1rajQNUxKSTJKtkyxSEs2VAIqLihKTcusABsUHQvhF5cmZaU
+ ml4B0K9XWAgCsV8OCagAAAA==
+X-Change-ID: 20261026-lp55xx-1bdb2c9d8fc1
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Christian Marangi <ansuelsmth@gmail.com>, 
+ Griffin Kroah-Hartman <griffin@kroah.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Arthur Crepin Leblond <arthur@marmottus.net>
+X-Mailer: b4 0.15.2
+X-GND-Sasl: arthur@marmottus.net
+X-GND-Cause: dmFkZTE1nVrkfQSyaayXhMQVPQw67+fDjJSQbYs9I9CSfh1rXKefsadGJK/PWxfHzcAyialiLP7u0aPPimuGkSw+YXAquRqPwAXLPccJEtD4J4M7l+Es04Tlt0myLakbCA8w2r0RgD0FbONAYvCvBq5kM96EOr73m7xZMuhdHsivy3dpurlUpcdSCfBHxKqksxUzyky8rRKxJDPBsGELc9LTZx8MAK3pKQAMYFFuBR4Yy93vvR5d1CuHaYVzoqdVeHA9UjNgKIPrO1sAy/fPr6778u1LdVu8JWaaDwAaYvufu7tH7g2tbz1FqxxYe0+OaZJm7kvhDQYemONTDXufhOSEK7TcKqzxo1kh16KrVntjZFgN5Lr26TZ3KQ45c/2NXvetViGUnUe35hXsPqjlZxZ8xRekyh8WsOqMXFNgplL8DtIOw/7Q+xA4NO+XmPkiG+Urw1fb6nl0GxqhfLF5iUWr0xmPxtbxcr91uFDXGVkYWFOJr6vyf79G1UCQOEHPDByKHEYNb0K4r7WasYvqaE6jgfpvir7r3C5bzu9wcSvOnbh+WTMUrVAEfdU7yPukEny9gwGVX/dht71Y3/xsJimeqBiofJkvL+viEYrBGhQeQFw7z7L5hmG6r1FtgjicJrzeWzqV7oaC4iyNtqQLISXoMJoEoWBsud4nBwpYBdQFcv8BTA
+X-GND-State: clean
+X-GND-Score: -100
 
-Fri, Oct 23, 2026 at 04:26:33PM +0200, jgg@ziepe.ca wrote:
->On Fri, Oct 23, 2026 at 02:58:33PM +0200, Jiri Pirko wrote:
->> >> Jason did some nice handling in the fwctl stuff for
->> >> device alloc and hand over after device_initialize()
->> >> (I've copied it into a few places recently :)
->> >> 
->> >> I'd like to see something similar here as it made
->> >> it easier to follow lifetimes etc.
->> >
->> >This is really at the wrong layer.. Attestation subsystem is the lead
->> >subsystem, it should be allocating the struct device memory and the
->> >driver should see the typical
->> >
->> >  struct attestation_dev *adev;
->> >
->> >  adev = attestation_alloc()
->> >  [..]
->> >  attestation_register(adev)
->> 
->> Er, the driver would call attestation_create() which will be a wrapper
->> of ctvl_create. The reason is inheritance chain and each parent being
->> passed info to and doing its own init()
->
->We really want it to look like the above so we get proper container_of
->stuff.
->
->struct driver_attestion_dev {
->   struct attestaion_dev adev;
->}
->
->driver_adev = attestaion_alloc(..)
->
->Don't want "create" to allocate the memory, it is upside down. The
->fixed memory ctvl needs should be buried in the attestaion_Dev
->
->struct attestation_dev {
->   struct device dev;    // sysfs dev inside class attestation
->   struct ctlv_XX ctlv;  // ctlv instance
->   struct cdev cdev;
->
->   const struct attestation_ops *ops;
->}
->
->That's the essential skeleton of what a subsystem should look like in
->linux, ctvl shouldn't co-opt it, it should embed like cdev does.
->
->Look at fwctl for reference
+The LP5569 and LP5523 keep a per-engine LED mapping table in the SRAM.
+The table is read by the engine's map_* instructions.
 
-Yeah, I understand the typical flow. I just wanted to benefit from the
-fact the ctlv has the inheritance chain to reuse it for init/fini flows
-alongside the private structures allocations. It saves a lot of
-boilerplate code and hides it inside CTLV. I admit, it makes things a
-bit obfuscated for end user (driver/subsystem). I'm working on
-conversion to what you suggest.
+On LP5569, the instruction loads a table from a 7-bits absolute SRAM
+address (0-127), therefore the mapping table address must be in the
+lower-half of the SRAM.
+
+This series makes the layout configurable and fixes the LP5569:
+
+  - lp55xx: Add program and mux base pages to the device config
+    - Add prog_page_base and mux_page_base to struct
+      lp55xx_device_config and use them for the engine program pages
+      and for the mapping tables written by the engineN_leds attribute.
+    - lp5569/lp5523/lp8501: set values matching their current layout,
+      so their behavior is unchanged.
+
+  - lp5569: Place the LED mapping table in the lower half of the SRAM
+    - Place the mapping table at pages 0-2 (address 0x00/0x10/0x20)
+    - Place the engine programs at addresses 0x30/0x70/0xb0 (4 pages
+      per engine)
+
+Tested on a Raspberry Pi Zero 2W.
+
+Arthur Crepin Leblond
+
+Signed-off-by: Arthur Crepin Leblond <arthur@marmottus.net>
+---
+Arthur Crepin Leblond (3):
+      leds: lp55xx: Add program and mux base pages to the device config
+      leds: leds-lp5569: Place the LED mapping table in the lower half of the SRAM
+      Documentation: leds: lp55xx: Add an LP5569 example
+
+ Documentation/leds/leds-lp55xx.rst | 24 +++++++++++++++++
+ drivers/leds/leds-lp5523.c         |  4 +++
+ drivers/leds/leds-lp5569.c         | 53 ++++++++++++++++++++++++++------------
+ drivers/leds/leds-lp55xx-common.c  | 14 +++++-----
+ drivers/leds/leds-lp55xx-common.h  |  6 +++++
+ drivers/leds/leds-lp8501.c         |  2 ++
+ 6 files changed, 80 insertions(+), 23 deletions(-)
+---
+base-commit: c190ff288cb5c09e1b30db9e51a11d979d27f5b9
+change-id: 20261026-lp55xx-1bdb2c9d8fc1
+
