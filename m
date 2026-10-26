@@ -1,75 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793037446;
-	b=FMzOMCCg1DuoLsQj7kdN1htvu0lN4P0+pOjlPvx99dODsLpByEdOABwPJGaCxL9o5CGk
-	 JiBvWHx+NbcDBeSuf3RLvCheFmE5Hhh1zgkErpW39zGkwQ3D5pmz2ot9GIcDFDabZvylo
-	 913UaQHqYBZ+HLK9NzYXv/Bs/AaQgfFIXIQwzTcV4dIyuYLqa+xMAg6Mz3FZM6otB/Gli
-	 7Fg8r0ZFMEOurBqiWfIerlmFto/3dCbFs7k6IGOxJp3TmNcKdmQQykA7SCIv+Cdu4QjTL
-	 v+W198e3TKhQy/TcOOrM3GJyBXiZ83rknDbAKz0wTTZ8ORHVeoAfYb2RMtm1BW3MRuQ==
+	t=1793037953;
+	b=PtnnrmW+mcy2YoYJAyWENL7uZb/h6gUL0UhodSf3iS5YOnv4H1AMwEytSjTbL/7GXyM7
+	 VLXz46IbHDq02LjDQ/1B7QaaX/a5OeJydwaFCLX9t7N2Uwhb9nP5vdxYSOk3IS9FkEy0X
+	 n4Kc/H3T2tTnH2yn5HhKaIe1OqogvoqddL7j/+j4+yjhCRz0uTFZI/DBgbI+waUxbyIoh
+	 Mw9Mx4w500/AD61KMFoJtF3QBPEPT+Aqcq5nu8/MxVdADGQVeP1rTdyYR03ZY9s7/pcpf
+	 gCUdIdsjIgWLp9BTKz7U1p9R5Mm+2wsaNaI6UejTGTfYCZ/MrYok/gGhNEyvmicxs5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793037446;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=FiuSLn7/IP2TjKEmv1diUaRQXZE9EbLamaDyI3mYf7M=;
-	b=0hTTuJYcX3/HLA1k6pHZajJRjS296cFxbiylucxZXTl2mYfkzzhTC17x5r+a0k5ggLQs
-	 kMc3G+1d1U8axhUMwzvBxokpFcEeI8HHK8yIysWI+JLzQo2tX89P1I4o1/Pb8OkDy5ucf
-	 VObh8xCOBITqMEgbhvVkB/Pagu3+iJ2Rha7VT3LsodIcAw4+b2925coy+JTJZ4oGE8vuZ
-	 R7qTsKQrrQaENG2Q0t+qUFu2y+TEFrXw1I66W8A6DOHpci3Kx5Ntw9zJG0eY5zU4CSPPq
-	 Akchh63Oh9vA/U5L4rm39glE1r2Lh8h/FGsbFYFa4upsR5DSwXw70fBxi7zbt5ztzuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793037953;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=Dazdfuswvplzd+nZxkdJ2Trb6gBuPhP20O43N/pReRw=;
+	b=yfW6kNMSSbjV1JIDbakCHJJKdOq/eSYIc0dk0yc98KDF7Fy12IdGq985MV2rag0XYNaF
+	 iNqGUVw+k5s4/3rCkebrdFF7VtlqLWvVOewYBLk9++ydb7kFLZ1vBrIbBk3CPsxTm7KLy
+	 p23XVy3D82phWw+4BDCwBt8DLNqiMGtLf3lQdBs9OWloh99Gi4Il9RWEvWmjoc3K+sJtU
+	 MDK0xsdm7dJ572nRriFunnN7Y9ydiJy5UUeWD/jgGK5z8rZNTV8U3VLC9qd4VHWVrZxuV
+	 mYWwRjDTEeTRLdRjO0xT0kBsFTDdkRtPXIfnrjSSbv7IRugRsu9AZIG3GbQapnPzGYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=XISFKRUA;
-	arc=none smtp.remote-ip=209.85.216.72
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003EB606A31E
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 17:57:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 003EB606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oiB7p4FK;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E30606A31D;
+	Mon, 26 Oct 2026 18:05:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3E30606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=XISFKRUA
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3ac77c3ff6aso4912269a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 10:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1793037445; x=1793642245; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FiuSLn7/IP2TjKEmv1diUaRQXZE9EbLamaDyI3mYf7M=;
-        b=XISFKRUAf1c+RoClOafojfY2G/derUG0ACrGzvBriTeE719kBcJOJqZrhOAqJ38PbL
-         7fsyrNOQUP0akFAcs1K/wL4n+EIojO57I+U27uGBfnYUp51ODNPI8Vms62CtsNyUZ+PK
-         gOQ09aWw8vqTrIBPvbKbdeDJ+PHrDqKBo0eMJXDtX48HDTwK5VxYVYpWqnfaLkFvg0v0
-         DIUAMlhAPBUSpk764z6y/OZ2z07VJmRQojstEOPJwrQc+U8VRDHxlhrnXKIVV85ue9JW
-         K8QPXEh4ZpqinlYkpuUv7vI3lFZj04RVmxPImjpts5Ck12YBBNFIXwf1xQFOLPlcqyda
-         23TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793037445; x=1793642245;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FiuSLn7/IP2TjKEmv1diUaRQXZE9EbLamaDyI3mYf7M=;
-        b=dt1a+Tsei6sGL2xRubDSFrxafg+2MnzZrSthOh06zGfsoXvXt5cUZvM3V5vLRajX/i
-         SuAIQBlk+DSzkIKAtMk6BbujdUPaJUc1ETpmI5AYHtrdeXzGpO/S/wJEdz//QnDwkgGP
-         9k2fjBAaAMA36yBe/C2am0uaVAtnpaWOMriIqry9hy9I+fAXd5iwKaLtG1lCWfvViAwh
-         /eTAJ6v4S768WR+N4Fx5r/NwAxghrpPs+cmOXEUcpckZPgz42vo1+ogqtmgRMJWaYG27
-         dHQbVUul/1erg++LviNYI8mKvrMZdeRo+YM6Jgr+qHOQe1FMbhQdJxADMYoPmzAv0e8r
-         YyjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxMLLYiCZwll4aMNDv1LzcORz3TKUd9aFpqvV2k5tQkt4XCwRog4NZXznJhiQtl9/kEvC1eBM8/QRQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI+Duw2/hTCAsRKlUcaIdG6kIHLFLaqOGzPUMpPvojj5SnKCRsG
-	Qr9XF0fwDbFmbP7JT/2sG8NQTpD/CmdCpNI9vXbBie72bXafelZsSKs4F0uiKVyXtlC5N6RQ+5v
-	j2K3NKjbTuuS42dHusfDwD3NbZHK7nHc/pA==
-X-Received: from pjyd12.prod.google.com ([2002:a17:90a:dfcc:b0:3ab:2cb3:28b2])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:d605:b0:3ab:2236:6b3d with SMTP id 98e67ed59e1d1-3adead57d9cmr6211022a91.27.1793037445023;
- Mon, 26 Oct 2026 10:57:25 -0700 (PDT)
-Date: Mon, 26 Oct 2026 17:57:24 +0000
-In-Reply-To: <CAMAsx6dLGdqr+ZxG8FrwN-6r=5yVY8hk-c+7CVrAkS0zpKPmGg@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oiB7p4FK
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7783D19F6;
+	Mon, 26 Oct 2026 11:05:47 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9D403F7B4;
+	Mon, 26 Oct 2026 11:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793037950; bh=0Fm//jObvS8Sn73p6wEdeeyE1A5W+WdjYk5R853HCAU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oiB7p4FKmQfYPhak2KyREhmAxzj21VR9bO/7IkVcr4vAhuyPU4BxeGZVArbjZCBEd
+	 7nzK9K8tzkV9r//ANLZIfuLWdMzOrAyY3poD5DzLJ8uSGtE5kCj10S9IqZQr1/eDt6
+	 WhdNQVWRU4yJS35XoSMSRo4NhGpvYUfZQjEkElRo=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	yangjinqian1@huawei.com,
+	caijian11@h-partners.com,
+	liuyonglong@huawei.com,
+	tangchengchang@huawei.com,
+	yezhenyu2@huawei.com,
+	yubihong@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	seiden@linux.ibm.com,
+	suzuki.poulose@arm.com,
+	fuad.tabba@linux.dev,
+	mark.rutland@arm.com,
+	seanjc@google.com,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 05/15] KVM: arm64: Harvest stage-2 dirty state into the host folio account
+Date: Mon, 26 Oct 2026 18:05:38 +0000
+Message-ID: <at-WceRKAVM2kEnI@LeoBrasDK>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20260929103655.85107-6-zhengtian10@huawei.com>
+References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-6-zhengtian10@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,67 +88,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
- <20261012-fix-aer-mask-override-v1-2-49a0d7aeaea0@google.com> <CAMAsx6dLGdqr+ZxG8FrwN-6r=5yVY8hk-c+7CVrAkS0zpKPmGg@mail.gmail.com>
-X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
-Message-ID: <20261026175724.1482083-1-rathodpriyank@google.com>
-Subject: Re: [PATCH 2/2] Documentation: PCI: Document aer_inject's
- aer_mask_override parameter
-From: Priyank Rathod <rathodpriyank@google.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: bhelgaas@google.com, lukas@wunner.de, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, ilpo.jarvinen@linux.intel.com, 
-	dave.jiang@intel.com, prarit@redhat.com, ying.huang@linux.alibaba.com, 
-	terry.bowman@amd.com, corbet@lwn.net, jic23@kernel.org, 
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+Hi Tian,
+Sorry for the delay in reviewing...
 
-Thank you for reviewing the series and verifying the documentation build
-against the implementation!
+On Tue, Sep 29, 2026 at 06:36:45PM +0800, Tian Zheng wrote:
+> With VTCR_EL2.HD set, hardware promotes writable-clean descriptors to
+> writable-dirty without any VM exit, and the only record of the write
+> is the S2AP[1] bit in the stage-2 PTE. The write never passed through
+> the host stage-1, and no unmap path reads the bit, so the record dies
+> with the PTE and reclaim may discard written guest data (silent
+> corruption).
 
-On Sun, Oct 25, 2026 at 11:19:28AM -0300, Daniel Pereira wrote:
-> There is one thing I could not reconcile, in case it is useful. The
-> text gives Poisoned TLP Egress Blocked as an example of an error that
-> is masked by default. In the sample session of the cover letter,
-> PCI_ERR_UNCOR_MASK of the e1000e reads 02400000 before the test, which
-> is PCI_ERR_UNC_INTN (0x00400000) plus PCI_ERR_UNC_TLPPRE (0x02000000),
-> while PCI_ERR_UNC_POISON_BLK (0x04000000) is clear. The vendor register
-> descriptions I found also list that bit with a reset value of 0. The
-> Correctable side does match: 0000c000 has Corrected Internal and Header
-> Log Overflow set. Internal errors match too, since
-> pci_aer_unmask_internal_errors() is only used for CXL.
->
-> Perhaps the example could name only errors whose default is confirmed,
-> for instance Header Log Overflow and the Internal Errors, or cite the
-> spec section if it does say that Poisoned TLP Egress Blocked is masked
-> by default. I may well be missing something in the spec.
+Sorry, I didn't get what you are trying to achieve here.
 
-Per PCIe r7.0, sec 7.8.4.3, Table 7-149, "Uncorrectable Error Mask
-Register (Offset 08h)", bit 26 (Poisoned TLP Egress Blocked Mask) has a
-default value of 1b (RWS), alongside bit 22 (Uncorrectable Internal
-Error Mask, default 1b).
+On your patch, I see you marking backing pages dirty at wrprotect and unmap 
+walkers, and it's very confusing to me on why you are doing this.
 
-The reason bit 26 reads 0b on the e1000e Endpoint in the cover letter
-is Note 3 of Table 7-149: a non-VF Function only implements bit 26 when
-Poisoned TLP Egress Blocking Supported is Set in the DPC Capability
-Register (Offset 04h, bit 6; PCIe r7.0, sec 7.9.14.2, Table 7-280).
-Per PCIe r7.0, sec 7.9.14, the DPC Extended Capability (001Dh) is only
-applicable to Root Ports and Switch Downstream Ports, not to Endpoints
-like e1000e (and in QEMU, pcie_aer_init() initializes PCI_ERR_UNCOR_MASK
-to PCI_ERR_UNC_INTN | PCI_ERR_UNC_TLPPRE = 0x02400000). Per sec 7.8.4.3,
-"Register fields for bits not implemented by the Function are hardwired
-to 0b."
+IIUC, what you are trying to do is make sure a page does not lose it's 
+contents in case it is reclaimed by the OS.
 
-That said, your suggestion to use "Header Log Overflow or Internal
-Errors" (PCIe r7.0, sec 7.8.4.6, Table 7-152, bits 14-15, and
-sec 7.8.4.3, Table 7-149, bit 22) as the example is much clearer
-because those bits apply to Endpoints as well and match the sample
-output directly. If you or anyone else suggests the same, I will gladly
-change it.
+IIUC, when a page is reclaimed, it will unmap the S2 PTE, and save it's 
+contents to swap, so when the guest read or write to that page will cause 
+it to fault. 
 
-Thanks,
-Priyank
+The page can never be just unmaped, as if there was a single write to it, 
+the backing pages should be writable, and the contents need to be saved 
+somewhere. 
+
+So, if I was able to understand your suggestion, we don't need to worry 
+about this, and this patch wouldn't be necessary. 
+
+Did you hit this issue? 
+Can you please expand on your issue, if I could not describe it above?
+
+Thanks!
+Leo
