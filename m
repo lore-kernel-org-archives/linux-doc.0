@@ -1,100 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793026361;
-	b=aJmMZVz4qNxio6/U0F3/gv/Soz2B2qy+/mWab6UOfAo1yzWu9cy8HzSwqAJgkmaEMoIj
-	 yLzkTOqpZNmuulRrn2SayOGurh9h87OLxGbdqenbAHAf4/5waS4EqEBrq9HoKAX7c6OSe
-	 AJHyfh1ZD0vdUSCnIrTYay6o83847fmW4v8wt5ZivI3tAH+FIovYwb6IMHfg4O3U3PWes
-	 DOJgsxD2zU6u7KJp8np9L3yax8nJq9fXfm3Xfp3nQeZqg0VpbVDhS71/Da19F3rV6LtDo
-	 XSuQ7JqJjoYYgFWNoLkDVxmd7QCm5klQx7yANg5Uimvjhje0CPvpr8Y357bFd+pvp3w==
+	t=1793026427;
+	b=Ut1nN8SV1n/pdjT4M9Qj7N5kJG/RbGOPzJW6TlmfDp3abYN1A1BrqXvby6O2E+tMIkTJ
+	 7dwLEb8zkhGJIQmZ7LDQMsg8a3m1RBxtP5+mPBVjDi+xXCEExOMvKv4omoUCxgpjbeJ3P
+	 2KWKN9KxX3QCwQOhpAkk/WvNUlUuu/7Uc8ha4QivKSPQyAHX7Ye4GkknFmPW7vlSw4LlK
+	 Y6bR7BYPAO8w1PejWkOUhIecqzre0xscKBHlY3AqW9LFcRpqv7nDdRIb11fxpK0a3v6nk
+	 HxTvulSILqPgxwfWEKabUOZ5JEpV00JjHVpbImVNySoagxKgDJ3dkZFheB5n1D7fGvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793026361;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
-	b=FoUlXdC+V35mMxJp5WT4TDWOrfYQF3nJz9oIW6hFdj8nDbk1SBvEolU7IO2z7e9DpGhe
-	 3RZ9JwWlim3IoGuuk2xy2YwkIQXocjom/uXhA30RM1lfCucghsN2c8sAFVc3Bzy3undaq
-	 hhXR61eL9wLOGDDCrBMcwXVZfDQU3HNlSYWQ6dvgE91kK2d4mt9Z6GVVz2o/JShf+KEUJ
-	 la51WGieJjSY6EtLXXLfqGxlHlHxEz5A1Erp52L1+p6RtjHwTCyk0UvfzcasNxx0TBpee
-	 A1G6Ebj2TBdAIaoMpl7SQerQwBADj+dex7y2Knel+lw/hiui/VtoZxkYT5qBrq2EIRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793026427;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=PovOlb+ViPnZVAmFT0VrCtXgV130f8z4As9X4XzcH+o=;
+	b=ST63AGf8EB5eJK0z0tWAul/0ThpXK33Axm0qtq4blQWbZChGdi56w8kX6GlQC73yvWvR
+	 7y7qOusXvOMA5LYPwrvNneXhR65CzSf+AL+jrLbZSbvaViPIl7dvH8VcTGMRIw68eeMy9
+	 9zdYv+u7a0uKM9X142SyKoOZ4DrZKJZeHzVjHjn+xBVG2s9yqbzmENFlDJoKGk2VYPq7o
+	 wlmCIZrjq3V8iyxW+xFgCxx7M8AKkHiJ749LzVgr5ziVVSRRJzqDELib6mnxmnuU5lZ40
+	 BXiDdM2cSRyDcU7+9H0uwEv9cUri14xqfhxYDvRvlSBSMRhWJCmUesJGVfFAEpxw8/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=mXmlo9KF;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=CH4ifcOu;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C5606A32A
-	for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 14:52:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C30C5606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D424B606A31A;
+	Mon, 26 Oct 2026 14:53:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D424B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=mXmlo9KF
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso17849305e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 07:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793026354; x=1793631154; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
-        b=mXmlo9KFfO7C9F1JFA8jDMW1R6BdkfNbBAtAR+uIFFX3PSFcODnFdrXZa1KfFJtQfe
-         1wYn7NZZoJaxDL/t967U1Hs0rKedL8HWe0MeuV+kdfVc3BgbfLpnErhoLHo2A3dwbhUD
-         zuGqlNbTM0JhttmPQXgO33kNqvh+2vXB3bJYAqHbdjWU8UdCdUlN7nPYBUAnXyEWLQdu
-         BSAnyLX/VZB+uFlqnUMpVx8Kl0DqyQ1tQ7+6tZcZoJp5PfXjNV+HXKz1BjRGvXtiACbB
-         bVxAk59302VeDMsvIwuK58TpeDB3KNVK9NVhLsRFkUhIN1VwsdfhXArbGQKmp878hYXv
-         FhNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793026354; x=1793631154;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VdhjTRpZkzPz14e+11oPuZMjIuI1bMnZdjQ9c48oYKg=;
-        b=AK+lCflVMQFNrD4T2UR0iCFBCaWoQeTtIvOrpejCmPXHkbLaabIOAvbrtZu6oA1c/D
-         Vcbnp9ooOWjmhIkTf08VoRVUAUU0qoh5XfaaIJYoLr3m/PPyji2KKy2L643HgyANKXZJ
-         q5IeJ+IKhLpH6RBuL72OxWHR4ST0qz7GX0vc6HFZf/AY7vYu+TzzUtPtqMTx2ik/hKKd
-         GBP1BNLClc9r1B/OqvE+9UUUgVCqI3Mtnsx1Yd1jYRF9nr/iZte5J1CwMAH3V/lyrTqv
-         no/VOrAoF6w5d84BemZTOBcBx/O7W6n+avgiHk+lXXlTiW0Pr3Vr4W/yLpgLNLe0E9Ht
-         uuEQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzOp0iPSHBi5DWYGAp1hGHSTC13e5lFkiYHYXvGcHtldISo1yaFQJvGvq341t9FvX4K/axwQolrHcQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJV2sQF10uw5rmGxsxo75xvchA6SAH810oTN7hozKBjjmZDpk0N
-	jJOFfAv6SUUsdjPm684+lbHBLQPwlurgTFmT3BTxgRSjt+4H+v9EwuZd3ZlFyEiRqus=
-X-Gm-Gg: AYBFou2eZNMTR7PiWGa903i6tZKp4IzxSErhIl4oIr8wPXke3Lq2tpbG4m1+Ee+ccEK
-	q8KSBVlBwXhI/geETXpSiCuUuQpeh7EoBftOekv36MNHKTTYq7+QoOuShe9brJpiKviDhGdi0T4
-	gLdcvbrlYW2ESq9yGYzChN1bMLRj9pCKWTW35q4VR6ocnvl5ukgtnS9yZPPP+Phl1DP2Ln+9QIX
-	FYtB+MKpfKQ5gp8mmTlZGve2ymN79OA7KEZH+YdlWt4a9niJhg3avEmf6EKjyQRfFH+SVKzUkqN
-	YvPW0GaT/OVpYoTyuC/TpFZp8ldJU6qiikyv/AmXWG/fNQgPtc0G2nZNEPf1+B1t0LxxiQkWFQL
-	zuENqrS7XIuSTco+yNCidroeHSRjJVOfvJbn4hXUTXNbFBArjFC3G5QFqNPH/7zPmGL+d3kHPNU
-	yj3MIYseGQ/WGLJ7Fhz26cO38ExCeKQ8wzw8muIDWZmKiyIQW+5FINjSvA9P6AB1vWNc0ArnJdX
-	maA39ZBOfF4XNTMyBi5Oul8ZdWjkZrLupWEMzBiiChpxXz9iayHV2MDxI/o151TwA==
-X-Received: by 2002:a05:600c:3493:b0:4a2:a6e:80f5 with SMTP id 5b1f17b1804b1-4a35ac9d0e8mr130236665e9.11.1793026353844;
-        Mon, 26 Oct 2026 07:52:33 -0700 (PDT)
-Received: from localhost ([208.127.45.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a04ad39sm528356935e9.1.2026.10.26.07.52.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 07:52:33 -0700 (PDT)
-Date: Mon, 26 Oct 2026 15:52:30 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 11/20] ctlv: Prepare runtime introspection
-Message-ID: <at9nsxtGOl3N5PJR@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-12-jiri@resnulli.us>
- <179302367452.58760.11808905856343064399.b4-review@b4>
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=CH4ifcOu
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04477268;
+	Mon, 26 Oct 2026 15:51:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1793026294;
+	bh=EkcGHCcelF+tAJbM5ZBC1oXZxEZ0XvlGOAAkeXNcQ+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CH4ifcOuKZwLrh7P+8/dzLP6VYLWt9qKbGy7pTJDN/pBnvAomxKrbIZCpmpc6/xhb
+	 D2H9fj4dVpfHchYEOPi1u5RAH6dKeYExYrJFfF2VYQlr9e+jwwetxOoRD3vE7RkFw1
+	 1YwZGHFKYc9Njg8ehipFKOgtgr9G40z7kuOqs9SQ=
+Date: Mon, 26 Oct 2026 16:53:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+Message-ID: <20261026145343.GC1001933@killaraus.ideasonboard.com>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com>
+ <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+ <20261026104056.GH15441@killaraus.ideasonboard.com>
+ <CAMuHMdV7Mz0WgaNP_B8FG6OxLBqqnWwMqWJKNFBDkF2i=55fVQ@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,248 +73,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <179302367452.58760.11808905856343064399.b4-review@b4>
+In-Reply-To: <CAMuHMdV7Mz0WgaNP_B8FG6OxLBqqnWwMqWJKNFBDkF2i=55fVQ@mail.gmail.com>
 
-Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
->> [ ... 53 lines skipped ... ]
->> +/* A cursor packs the record and member where fragmentation resumes. */
->> +#define CTLV_INTROSPECTION_MEMBER_SHIFT 48
->> +#define CTLV_INTROSPECTION_RECORD_MASK GENMASK_ULL(CTLV_INTROSPECTION_MEMBER_SHIFT - 1, 0)
->
->Use genmask for everything:
->
-> #define CTLV_INTROSPECTION_MEMBER_MASK GENMASK_U64(63, 48)
-> #define CTLV_INTROSPECTION_RECORD_MASK GENMASK_U64(47, 0)
->
->	pos->record = FIELD_GET(CTLV_INTROSPECTION_RECORD_MASK, cursor);
->	pos->member = FIELD_GET(CTLV_INTROSPECTION_MEMBER_MASK, cursor);
->
->	return FIELD_PREP(CTLV_INTROSPECTION_RECORD_MASK, pos->record) |
->	       FIELD_PREP(CTLV_INTROSPECTION_MEMBER_MASK, pos->member);
->
->> +
->> +struct ctlv_introspection_dump_position {
->> +	u64 record;
->> +	u32 member;
->
->Maybe a comment describing how record and member are encoded for each
->of the users?
->
->> [ ... 13 lines skipped ... ]
->> +/* The immutable root-first chain always has generation zero. */
->
->This comment seems out of place, it should be closer to the 0's it
->refers to a function below
->
->> +static bool ctlv_introspection_family_record(struct ctlv_cursor *reply, struct ctlv_cursor *entry,
->> +					     const struct ctlv_family *family,
->> +					     struct ctlv_introspection_dump_position *pos)
->> +{
->> +	const struct ctlv_family_schema *schema = family->schema;
->> +
->> +	if (!ctlv_family_entry_start(reply, entry))
->> +		return false;
->
->I'm finding it quite hard to go from this statement to the YAML. I get this:
->
->CTLV_NEST_START(ctlv_family_entry, CTLV_ATTR_FAMILY_ENTRY, CTLV_SCHEMA_NEST)
->
->I asked AI and it said it was this:
->
->attr-sets:
->  - name: family-entry
->    attrs:
->      - family.id
->      - family.name
->
->Which is some cyclical reference to this one:
->
->attr-groups:
->  # One record per family of the chain a device answers, as reported by
->  # families-dump.
->  - name: family
->    attrs:
->      - name: id
->        type: uint
->      - name: name
->        type: string
->        max-length: 63
->      - name: entry
->        attrs: family-entry
->        max-occurrences: unlimited
->
->But having poked it some more I see that AI was wrong, and it is the
->reverse..
+On Mon, Oct 26, 2026 at 03:02:27PM +0100, Geert Uytterhoeven wrote:
+> On Mon, 26 Oct 2026 at 11:48, Laurent Pinchart wrote:
+> > On Thu, Oct 22, 2026 at 08:57:55AM +0200, Krzysztof Kozlowski wrote:
+> > > On 21/10/2026 18:32, Laurent Pinchart wrote:
+> > > > On Wed, Oct 21, 2026 at 01:55:37PM +0200, Krzysztof Kozlowski wrote:
+> > > >>
+> > > >>> there's no base-commit?  Including any historical patch (from
+> > > >>> months/years ago), patches with dependencies, etc.
+> > > >>
+> > > >> Dependency is something else, but for every other patch:
+> > > >> 1. For testing/CI: you apply on top of next
+> > > >> 2. Every other case the maintainer knows where to apply it, because it
+> > > >> is his HEAD of next-branch.
+> > > >>
+> > > >> I am repeating myself, but I really had no single problem of lack of
+> > > >> knowledge where to apply a patch as a maintainer or reviewer of some
+> > > >> subsystem, thus maybe I do not understand the actual problem you are
+> > > >> experiencing.
+> > > >
+> > > > When I review patches, I often need to apply them to a tree, mainly to
+> > > > see the context, but sometimes also to test them. I have encountered
+> > > > many cases where the patch wouldn't apply on the current for-next branch
+> > > > of the relevant subsystem. That's often because the patch had
+> > > > dependencies. When I'm lucky they are listed manually in the cover
+> > > > letter with a link to a branch, but that's far from being the common
+> > > > case. I then have to ask the submitter to provide a branch, or enough
+> > > > information to recreate a branch. Having base information (base-commit,
+> > > > prerequisite-patch-id, and possibly base-tree) would save me quite some
+> > > > time.
+> > > >
+> > > > I understand your concern about maintainers cherry-picking and sometimes
+> > > > introducing issues as a result. In that case I also prefer asking the
+> > > > submitter to rebase, retest, and resubmit. That's not what I want to use
+> > > > base information for, in my case it helps with the review process.
+> > >
+> > > That's valid and for 95% (guessing the number...) of cases will be
+> > > solved by having linux-next as a base, thus requiring the base
+> > > information is redundant. It's just linux-next.
+> > >
+> > > When patchset does NOT apply on linux-next or maintainer tree is
+> > > non-obvious, the base should be provided, but that is only "if ->
+> > > should". I think the proposal here is a bit different.
+> >
+> > What's the downside though ? As git can easily provide the base
+> > information once configured to do so, what's the downside of asking
+> > contributors to include it ?
+> 
+> My base is usually not in your or anyone else's tree...
 
-Yep. Already spotted. Will fix.
+Hence the prerequisite-patch-id and base tree information. Or do you
+mean your base is not public at all, neither in the form of a branch
+pushed to a public tree, nor as prerequisite patches sent to a public
+list ?
 
->
->But.. Where is the actual op? I finally see it is here:
->
->ops:
->  - name: families-dump
->    type: query
->    fd-access: read
->    reply:
->      attrs: family.entry
->
->So.. The op points to family.entry which points back to family.id and
->family.name through the attr-sets? I queried AI for a while and came
->to this:
->
->  The confusing part is that the family group contains both the leaf
->  attributes and the container that holds them. Their grouping
->  establishes names and attribute IDs; it doesn't imply
->  nesting. Nesting comes from attrs: family-entry.
+-- 
+Regards,
 
-True, will fix.
-
-
->
->I don't have a constructive idea yet. I've been trying to understand
->the yaml in this series for a while now, and I think it is just
->unreadable in this organization. The information is spread about all
->over the place and it is very hard to construct an idea of what is
->actually in a particular system call. Maybe the missing html
->generation would be helpful..
->
->Poking at AI some more I understand it is like this because this is
->how the ABI numbers are generated, things need to be in these lists so
->they can be automatically numbered.
->
->Going the other way isn't much better..
->
->ops:
->  - name: device-get
->    type: action
->    fd-access: read
->    reply:
->      attrs: device-reply
->
->Okay, so then I see:
->
->  - name: device-reply
->    attrs:
->      - device.caps
->      - device.info
->
->Uh, why do we have this extra layer? but OK..
->
->attr-groups:
->  - name: device
->    attrs:
->      - name: caps
->        attrs: device-caps
->
->Er.. 
->
->  - name: device-caps
->    optional-attrs:
->      - cap.evidence
->      - cap.mr
->
->Getting closer!!
->
->  - name: cap
->    attrs:
->      - name: evidence
->        attrs: evidence-cap
->
->Oh, apparently not..
->
->  - name: evidence-cap
->    attrs:
->      - cap.min-challenge-length
->      - cap.max-challenge-length
->      - cap.max-total-output-length
->      - cap.object
->
->This time for sure!
->
->  - name: cap
->    attrs:
->      - name: min-challenge-length
->        type: uint
->
->It is too much, this going back and forth to the sets is very
->obfuscating. Everything is called attr. There is no editor aid to jump
->between the sections, by the time you figure out what type a single
->value is you've lost the trail for the rest of it.
->
->This isn't even that complicated, if I ask AI to explain it in a C ish
->language:
->
->struct device_get_reply {
->	struct {
->		optional struct {
->			uint min_challenge_length;
->			uint max_challenge_length;
->			uint max_total_output_length;
->			struct {
->				enum blob_class;
->				string format;
->				enum representation;
->				uint max_length;
->			} objects[];
->		} evidence;
->
->		optional struct {
->			flags mr_flags; /* read, extend */
->		} mr;
->	} caps;
->
->	struct {
->		/* device-info: filled by the derived family */
->	} info;
->};
->
->I think the yaml names are not helping, calling everything attrs
->everywhere is really confusing. At least the transition into a nest
->and an attr-set should be more clearly marked in the yaml..
->
->The yaml would be significantly better if it was layed out according
->to the actual semantic flow instead of artificially being twisted into
->this need to put everything into a linear list. AI invented this:
->
->device-get:
->  request: {}
->  reply:
->    caps:
->      evidence?:
->        min-challenge-length: uint
->        max-challenge-length: uint
->        max-total-output-length: uint
->        objects[]:
->          blob-class: evidence-blob-class
->          format: string
->          representation: evidence-representation
->          max-length: uint
->      mr?:
->        mr-flags: mr-device-caps
->    info:
->      $extend: device-info
->
->So.. how about could we drop the sets, use a direct description of the
->layout and do something else for the ID numbering? Maybe the numbering
->can be solved directly by only listing the names in:
-
-I didn't want to have a lot of duplications. Netlink show us that the
-same attr, or attr group (or nest) is often used in multiple ops. It is
-not good to repeat them each time (multiple obvious reasons), so I came
-with the sets and groups. But I will think about how to make this
-possible to be formatted in more readable way.
-
-
->
->numbering:
->  - device-get.reply
->  - device-get.reply.caps
->  - device-get.caps.evidence
->  -[..]
->
->?
->
->-- 
->Jason
+Laurent Pinchart
