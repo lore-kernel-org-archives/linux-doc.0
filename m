@@ -1,109 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.46.229.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793110528;
-	b=j7rqlIyhoQOuBNl/V8X3s7BXpU1wBV8RTBFnC5PgTb/eF8oKrhQd/LlCJJe1ArBN6w23
-	 v4q70mprZ5QvihgUwvaHGIgqu9A7yzhEEijaQsqHrYbt0fGZF7BrrnvrxDLh3Wded52M2
-	 CSnSSa9SFZEpEz2V828vaWgekNF63hB4fSK4BTnCfg0xLSGim63wHvYudt62gN2rkMGkS
-	 dpHyYxGs7kcZKDrx3oDXpswchGegnacNQd8lfENl4hN6v44ub1nUq9Rggpzint5HYxu7W
-	 HF9yy+eZni0ZV6PZ1mFlUOvS8iF40+n01OjLGuiy89mYRrXH0r1dHG+XaSkrM9dKBtg==
+	t=1793111387;
+	b=wyz388jcnx53lHHZGAODAlA45ydyLZzCdUJRY8zjBRH8MrRV0FA+g0lybRpti4OyHOmn
+	 NPJd6o5GMin7yFOhHK/EL8qVTEPEKWN97+yZrocBSYwNXD4f+fx+LhxmtlTObtJj2SwXa
+	 wI0KFDQqPTjaEw1BTcT+tRW0HOil5uVRT7HckoZidxiKHdyBtOPq2ErGZYZvhO82NJ+qV
+	 PwT96x5b43HIORvimQSsVQSVOZ1IPKcevKNILYo5OHsIxBdTXZdqSqlaSdBooFztHWg82
+	 ixIyUUck8ol2EPn+TfT82UzMXEIDnZBzgtjQVFP1rd6UIvbsRw7SvK5PTbtVF+G3zIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793110528;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=zUsMbjO3gCQtUvLruyRuDb07/mulBS+KPR/B4sl8JQg=;
-	b=wfIriLpmLEzOOisgyEOdvqYUUuCa5yPliQZHI/0NC3e4bUpWErQoC1M3wtSy0NpwTxuk
-	 7TQ+C1zPjH16CcuElf6gjHC8qBuf3LW2DQODu6Nt4z4CMIuLa+Kqmvb7gAEBfJNya7yqv
-	 VVl6l8O5vG2/7/CrdzdRv5RzxIyMu4EyzdD1gRCC5R0wJKOjZRLNyl8a8ahgLZmBqYmVF
-	 3l/MXqXXSM7R88mB4f02aj+Fn+S8OuaHA+jTq9sguqZCjyIH8u/3u2HeBa0uJd9eochDo
-	 qWvipUuLxFOkCurRngkAq0sQu0porLbG1d52nT79YfGhmbcyU3Eb+ph59aM4v0awl5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793111387;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=RRSNq1zxoA231BThBII9TjSTdWRTSwesELUafvlkFhE=;
+	b=EoY5Ck2p77SnK/GurMJFrOJZlPMfj2TMfAQk1I3KIpJmuXvDHOXgUHZK5fIDcZkZV79h
+	 QbcQrvbVcvMFWs+hHlbhD0W9LY3pwBPIgtmnZItk4RwZ9H1NQADu61Zq2RHNOOXXFdvMe
+	 yl8dUpt7o3swwejofwdX5eT82CIefi5gN15di+6n3YlGtvCq+TeW+MTQfXxlqHezTQKc/
+	 VyNpPcL4t1XjMoY8lQ0QcGWLSxKI2R3+Jq9qi74EgaLfVvcXx4PVH5vw432NRm26kkooD
+	 6a+MXregOu3mVzBL2tWUJdUrRjZJBgerZRRe96yZbarhsojwhnhFHkLhLWK5K14qWxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Be4xWtvF;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC3D606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:15:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAC3D606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Be4xWtvF
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f3c89594cso280686885a.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793110526; x=1793715326; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zUsMbjO3gCQtUvLruyRuDb07/mulBS+KPR/B4sl8JQg=;
-        b=Be4xWtvF6zD3vHFfarAJm9xvRSujoQ4ZcjWYGMVUL72IZdQIrglRXya7nu1BUbTDL4
-         JU5H5uRGbpfBgIl70sNPb7M5LjoH0JVWDiWYrd5p4dA1OYCaMa+eIU/FSQPzPq322pXW
-         3BIOxxgck38BNY71yNhw4SSAeSgx6JinXx3Zn9yaso3wr//ChfahhDpgNLVyEjzAUE4O
-         dAZ29PJibsBSyXgYh9LfzzRTLPKUcXDHhi6ZnUGansAH2HGrRy8Pnu4yfMUh815lcwdA
-         ly/eGdf5n5xPlK639WdhZJDZBQmI4py6CAaKCrpKXNlKtynHB1yPt8pqrUeP1VSUuNAQ
-         Z3bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793110526; x=1793715326;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zUsMbjO3gCQtUvLruyRuDb07/mulBS+KPR/B4sl8JQg=;
-        b=EZRreV6bItJ2nN1k2KByMx0idYs6NueTIvvvDRec+s2FSjJPuXIRrJBG3IGQPlCYSf
-         +RttUKagiAWlhu6BcUeRn1t06/gfJs0zWdTa8UXURjGqEXB1DznzIULbSJtSlZo8c+b2
-         XaiHhyb5oq7b7mNWbIr40IEBfEZq+3MDKxuBCbEZ6bPVAs13JLjuBqTitvEU84D7s41H
-         VnQwcIqICKzGHK4iSiX3DlcTEkPG1cMrHG9U7BQ1XUBJpag7ORQKttptmYQvu3y1hXUp
-         jky/7Wd4JLnY2nGQjk438Vm9YVVsXTUZZ04HrcBShIegIOUumht3a/wr2hXQ/pW0WS99
-         iVOg==
-X-Forwarded-Encrypted: i=1; AKwUvBwVjYeuOUTTdOa5MKbWkHSkey+UYtwPVgbhc15yKyfew2BviKr1anHbjRqPsKglcMGlg9yHudv3WLA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJbyylO50pry6EwnixEDvMsvzTuPOxryOHEZTz8Dr3E7rDsnDpB
-	nr6IBsQcgrjsbXUdKrtSHz6U7yIrhxbH9UtW4SJ4TU1h8Ow8W2AieoJylJ2Rlur4FQE=
-X-Gm-Gg: AYBFou3jzjBdz4oSQd6WjhWXpbdMm8R5mY6ATkLvcIkt7WDg+Kw2P3253zx/+FhRt8t
-	YN60qXBhWt4IZkR3VTMlzrz+tLI0///gvIr03MUpfR9IrEbEuYmvQ53IAcYUwXeabM26BhJde3e
-	ppgLFlUEOQj1nYDdjJFPApyzFiMec5JRGgPaXr5JF7Ankk6T5AKMGu9SS4liHpn42g2eclNXyYu
-	scD9K5fLweLBpSz+uOpgMuqQVTjXh0E8EIOVY9XVws1EID3GgFYfSKGO1Sw2glfRsEMpji8BxU4
-	qKL12dR66uJI+JwccWFwFmfAq2kj14eQjd+eMo/coV6tUKS+XAlTuIgPQTzEKp/nUia1rSijwGa
-	zienjA4j5iJpH04qcPmj6SJKDrf9/kG2a6xcRvE+8Mylhh+b46HElLUTtVebnOnAsbT672uxd6G
-	FaqQ3RiIRY5fbJDetCnzbdjHGlvBUAAXzpeQFZENiI3d9RhWiwiHLRGgJMdLNgU1Ica6M8xqzJ+
-	55SdD68rvtEEfaqZ7hHi/dG+TpZ1qVPt+/6rEfb3Pn+nrshgBw4PyqqVrSrJYj6a0cHe9hDzjCd
-	Tldjlc21qTIQOCW7MNs05yXqSjj7xEcNunGnqA==
-X-Received: by 2002:a05:620a:261e:b0:93f:d27:c89e with SMTP id af79cd13be357-940ef9d6997mr1602321285a.75.1793110526435;
-        Tue, 27 Oct 2026 07:15:26 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0787d96sm982932985a.28.2026.10.27.07.15.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 07:15:25 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xLhxU-00000009zYJ-422J;
-	Tue, 27 Oct 2026 11:15:24 -0300
-Date: Tue, 27 Oct 2026 11:15:24 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
-	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
-	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
-	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
-	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
-	dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 02/20] ctlv: Add the UAPI wire format and family API
-Message-ID: <20261027141524.GF1685504@ziepe.ca>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-3-jiri@resnulli.us>
- <at-iEMxN98nie1Qr@e129823.arm.com>
- <auBaROC0XdWpILEI@FV6GYCPJ69>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=207.46.229.174
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F413C606A31A;
+	Tue, 27 Oct 2026 14:29:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F413C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMAWW6FVteBqkKk7AQ--.34984S2;
+	Tue, 27 Oct 2026 22:29:41 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAHjC1SteBqhTwUAA--.39766S2;
+	Tue, 27 Oct 2026 22:29:40 +0800 (CST)
+Message-ID: <8f495858-3877-4807-ac62-5320d8d6696b@hust.edu.cn>
+Date: Tue, 27 Oct 2026 22:29:38 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,35 +45,80 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auBaROC0XdWpILEI@FV6GYCPJ69>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] docs/zh_CN: update translation of
+ doc-guide/sphinx.rst
+To: Jiandong Qiu <qiujiandong1998@gmail.com>, alexs@kernel.org,
+ si.yanteng@linux.dev
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260706151358.2103703-1-qiujiandong1998@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260706151358.2103703-1-qiujiandong1998@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:IAEQrMAWW6FVteBqkKk7AQ--.34984S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7uF15Gw4kJw4ftry8Cw1xKrg_yoW8Xw4xpF
+	Wjgr95Ga1kJw13tFW7G3yxWF18JF4fAF4Utay2qw15Zrn5Ar18XrWUtryDK39rWFyI9a98
+	ZFsIvaykury2yrJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Tue, Oct 27, 2026 at 09:02:14AM +0100, Jiri Pirko wrote:
-> Mon, Oct 26, 2026 at 07:55:12PM +0100, yeoreum.yun@arm.com wrote:
-> >[    3.856919]  ctlv_schema_check_attr+0x3dc/0x538
-> >[    3.857105]  ctlv_schema_check_indexed_nest+0x788/0x958
-> >[    3.857301]  ctlv_schema_validate+0x88/0x180
-> >[    3.857482]  ctlv_msg_test_as_deep_as_the_core_allows+0x11c/0x1e8
-> >[    3.857698]  kunit_try_run_case+0x64/0x188
-> >[    3.857878]  kunit_generic_run_threadfn_adapter+0x30/0x68
-> >[    3.858086]  kthread+0x10c/0x140
-> >[    3.858245]  ret_from_fork+0x10/0x20
-> >[    3.858398] SMP: stopping secondary CPUs
-> >[    3.858630] Kernel Offset: disabled
-> >[    3.858720] CPU features: 0x0,00000000,00b0802e,9f190bc3,2affe72f
-> >[    3.858872] Memory Limit: none
-> >[    3.858976] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
-> >
-> >[...]
-> >
-> >I think it might be good to configurable according to architecture
-> >unless it's not good to reduce the CTLV_MAX_NEST_DEPTH number
-> >otherwise, increasing stack size when CTLV is enabled seems unresonable...
-> 
-> Agreed, will lower it down. I think we should be okay with 8 for start.
 
-I'm surprised this ran out of stack though with even as few as
-32 levels.. Is there accidently something large on the stack?
+On 7/6/26 11:13 PM, Jiandong Qiu wrote:
+> Hi all,
+>
+> This series refreshes the translation of doc-guide/sphinx.rst.
+> Since the updated version refers to process/changes.rst, I also add
+> the missing zh_CN translation for that file to ensure a consistent
+> reading experience.
+>
+> Changes in v2 -> v3:
+> - sync changes.rst with the latest commit.
+> Changes in v1 -> v2:
+> - drop the separate llvm.rst anchor patch
+> - remove the `_sphinxdoc_zh` anchor from .../zh_CN/doc-guide/sphinx.rst
+> - add Assisted-by tags
 
-Jason
+
+1. Add the new page to the Chinese process index. The series creates 
+process/changes.rst, but process/index.rst 
+(Documentation/translations/zh_CN/process/index.rst:72) still lists 
+changes as plain text under Todoolist.
+
+2. Commit 2c1ccd9a1d78 is not the lastest commit of changes.rst. Would 
+you like to catch up the latest commit?
+
+3. Assisted-by tag can be removed in the next version.
+
+Dongliang Mu
+
+
+>
+> Link: https://lore.kernel.org/linux-doc/20260619140245.1982921-1-qiujiandong1998@gmail.com/ # v1
+> Link: https://lore.kernel.org/linux-doc/20260621131215.1303439-1-qiujiandong1998@gmail.com/ # v2
+>
+> Jiandong Qiu (2):
+>    docs/zh_CN: add process/changes.rst translation
+>    docs/zh_CN: update sphinx.rst translation
+>
+>   .../translations/zh_CN/doc-guide/sphinx.rst   | 167 ++++--
+>   .../translations/zh_CN/process/changes.rst    | 533 ++++++++++++++++++
+>   2 files changed, 666 insertions(+), 34 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/process/changes.rst
+>
+
