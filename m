@@ -1,49 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793059208;
-	b=4eO8Y+lSQ/CE+V+fW7SpWXauYEJHDUV5i2Yw+CkxdgcXBaQr3yXdTK9MKe8sr5cxXd1Q
-	 OKdrM25jm8jiKvPjiL6Th4Stvh9kcaU1syTj00zzbDKug4sZ8EQ/RPinHCe66rcBv3A0l
-	 DwRpcqZBTOY0qZQ5EHvt23TxXlY4QI+B8gvEKh78GiGAFGGs5WLMN+n2PZhwr+0Bi9daK
-	 J8pNrwiKiHLAWKKMkeRJSjeS1+6AJKbG+D1Zow42lbk8BRa+kbWC6x2w61hMsXlL78EmU
-	 yIR5Vj0kINXPF1tQIF26IYT11XrVpwZPuzbuza7nU+trWnulCXZ9IOWnwDXuztWPi4w==
+	t=1793059908;
+	b=RIieyEqrYCIs1E/RuHx7QCqFr/JBP2yIguyqbx9AThbzI53GRXnlN7wRzYvE025P74/t
+	 kH2e0B4UzJVEQ9kC9+YQ6O2+4Z4zFpD1W2mG/Ot/R+781TmzteCz+YfYLwpQrccXQk/GS
+	 1nii1Sua4nnsQhsVmgmpwkdBCyMUcj5KQPePqOi6/CPQEO+fb3JR/Z/xUcT4YsX3G+fF5
+	 BZXPpAMZE/gWDKZL0Ss+ZfIwzZCXU5pcv5Rd4yZbkISaBOZHjkTSnjt2hQrC706i8zU81
+	 omNuuMtqmBt3UHyeWfmApApHx6jhyGAbfJt3c5ghoBaCJr0GheFuiu/R6tPUhkr1KRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793059208;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=sRBxls+fDXcYabNmDkORIlMaTl0ADNtGzRxkQN+pXR0=;
-	b=ua8+b6b2lqaZyQdi/8sxXz8+ttAcp6PNMQv5rmLM/hWZrRdeJh6VukyqgEllbY+W8Qxl
-	 M6cIJzk40wsHYmokxQwLSTYFF19TQRlRivFdxSo4EjIPVDgnxZy6CZRdmejkemIcqxRVL
-	 Wp4ceCy6ogcSeN/9wMPxnMmwBbcdDS/E50emoPkN4JejnIq3TOnVvnddBksl5dixQGZ1/
-	 s4dL3sEtj59Vz2pMaAHIluC7aVJysFcfx5Yip7sVvUuxHMKo+JnarGTty4c6CRa/VBeT7
-	 uSJuqjj4UFWZ8NfCE0BVRiE97ygwxJQFL587c1qWV0/opfdHKDRAxtbyp2hgAXEm00g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793059908;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=U1SFQNo+l1KuH2xYEh9agzXyBaFApHyliTW2I3WAcVs=;
+	b=uWyRepCpFEE9V8nx1xHbR1lUHvxy0G/asURJtwnU+rQj494ItLvdxZgzxtk3iq8sklA4
+	 FXacnFWppy88uYiTMeTDOZSYsBKt9reYlULhNcIeECfY21DOlbaZaRqVyv9D/hfnB9Pvr
+	 YgKTPqeL4BSZuxUkjQOjN+rtNlUdy5OcUastRYFbgVLbs1tT7gWPj8ZdbN3Jq2qBqUj8b
+	 GPNib/dDic0gEiqad5rC+TOJ6tzRnEUlQblysnHMXiothoQu7ur21+OwcS4TEzQ4HR08c
+	 uqaAzgfr7wnAjkIWt7w2hHlfsuvYU/ZtYyW2JIr99cgV+BktptQcXcS+vpPOQNKazHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lVfFljSR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bc71X7f4;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6E606A320;
-	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2841606A31A;
+	Tue, 27 Oct 2026 00:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lVfFljSR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 133171F01825;
-	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bc71X7f4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 834D31F01825;
+	Tue, 27 Oct 2026 00:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793059208;
-	bh=sRBxls+fDXcYabNmDkORIlMaTl0ADNtGzRxkQN+pXR0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=lVfFljSRPcMn+FDAEFbvFCyrsfvBlZtNff4+EsYFi6Ovb/1CgJ9S761Es5oQhtzKV
-	 5tWh1gpLEXYa6Ut0c5gEkPs4GHCJtVNRH58UMN7yP7jsNuA3C66kFWvN4OyEAQUKtG
-	 jCpnmAxQg8Gsl7196nd9QHIHKqkeDci3e7U20RuH9qf7W2mD3lReN1+QZwHUACtKe6
-	 x584byggWLdcO6sINU5U7umgr6FD0mTwwTUctG3TmoYRIctWqLPw6V2q9KPjWoG6l5
-	 TH7Y6ILlPg2fME7y4VyxD2m9Wfetj1pX86ozKxdrtga7hAYIJiGqQOBjkMJPiAxUDR
-	 AVHY4xgdquP+w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 073753AA80F1;
-	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1793059907;
+	bh=U1SFQNo+l1KuH2xYEh9agzXyBaFApHyliTW2I3WAcVs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Bc71X7f4rfISVUR0Q+mRib4UDa8SXxUWoc6UT2xY2SO2fApAG1z/OSEaUSnyeo4Br
+	 8peydQWyrzSfkCwNYMC0wjL41Y0vFPFhG49//dKT9C7skO2pobu6cL9sgI2IRWlu4o
+	 LCLFeRqX9snStGV5ZPsMzuFhV2a4vDFLpw3qQjRgROrukMZhWJk9bl+Vj1m8QapCMg
+	 5/imp6wcDRWsxCKqGsmloSl4mypLGVsPfloszOFnwWua1Q0pkxYFo81a0AtaiBXuNo
+	 o9q0MVyWgdBSoReJUwKntEURHZH5IqJKa6yRn11hDHMtu4D9d3rlafywHeTkxwFaHR
+	 smupkFF+1f5lg==
+From: SJ Park <sj@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aveline Noir <jm5905938@gmail.com>
+Subject: Re: [PATCH] mm/damon/reclaim: improve grammar and style
+Date: Mon, 26 Oct 2026 17:11:39 -0700
+Message-ID: <20261027001140.156967-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <72437017a038310cad48a5ff488377a9f8eb89f1.camel@mailbox.org>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,45 +66,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] tcp: limit tcp_tso_rtt_log to a valid shift count
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179305920681.3470272.11485380440248270643.git-patchwork-notify@kernel.org>
-Date: Tue, 27 Oct 2026 00:00:06 +0000
-References: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
-In-Reply-To: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
-To: Yingjie Wang <1075151112@qq.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, jiayuan.chen@linux.dev,
- ncardwell@google.com, kuniyu@google.com, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
 
-Hello:
+On Mon, 26 Oct 2026 18:51:40 +0100 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Fri, 23 Oct 2026 22:40:36 +0800 you wrote:
-> tcp_tso_autosize() right-shifts the u32 returned by tcp_min_rtt() by
-> sysctl_tcp_tso_rtt_log. The sysctl uses proc_dou8vec_minmax() without
-> an upper bound, so it accepts values through 255. Values above 31 make
-> the shift undefined.
+> Hi,
 > 
-> A process with CAP_NET_ADMIN in the target network namespace can set the
-> per-netns sysctl. With CONFIG_UBSAN_SHIFT=y, setting it to 32 and sending
-> TCP data over loopback triggers:
+> took me some time to respond because of the procrastinations.
+
+No worry!
+
 > 
-> [...]
+> On Sat, 2026-10-17 at 09:27 -0700, SJ Park wrote:
+> > On Sat, 17 Oct 2026 11:18:34 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+> > 
+> > > Hi SJ,
+> > > 
+> > > On Thu, 2026-10-15 at 07:01 -0700, SJ Park wrote:
+> > > > On Thu, 15 Oct 2026 10:06:23 +0200 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+> > > > 
+> > > > > Fix tenses. Replace 'set as' with 'set to'.
+> > > > > Rewrite complex sentences.
+> > > > 
+> > > > Let's put two sentences in one line, while breaking it for the 75 column limit.
+> > > 
+> > > Will do.
+> > > > 
+> > > > [...]
+> > > > > @@ -113,8 +113,8 @@ quota_sz
+> > > > >  
+> > > > >  Limit of size of memory for the reclamation in bytes.
+> > > > >  
+> > > > > -DAMON_RECLAIM charges amount of memory which it tried to reclaim within a time
+> > > > > -window (quota_reset_interval_ms) and makes no more than this limit is tried.
+> > > > > +DAMON_RECLAIM recordes the amount of memory which it tried to reclaim within a time
+> > > > 
+> > > > s/recordes/charges/  or s/recordes/records/ ?
+> > > 
+> > > For me charge is such a weird word exepct in 'charge a battery' or 'charge a fee'. And
+> > > 'recordes' is a typo. Does this work:
+> > 
+> > 'charge' in this sentence is somewhat like 'charge a fee'.  I personally don't
+> > feel it is weird.  But 'record' also work for me.
+> 
+> I will keep 'charge' at the later mention in the file.
 
-Here is the summary with links:
-  - [net,v2] tcp: limit tcp_tso_rtt_log to a valid shift count
-    https://git.kernel.org/netdev/net/c/850a7225bc61
+Thank you for accepting my humble suggestion.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+[...]
+> > Sounds good.  But let's finish the discussion about use of the term, 'charge'
+> > before posting v2.
+> 
+> Then I'll head to [v2] and make it a 2 part series.
+
+Looking forward to v2!
 
 
+Thanks,
+SJ
+
+[...]
