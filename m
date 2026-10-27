@@ -1,41 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793121020;
-	b=gfHHC9zVRW82Y+7J34C0E5yKRpF6t6saUruYxKBh1ken0jvralNreReknTlNUQgJycuR
-	 EjKTm8NlAtbsks97oX2ttdpQww39EfDPlHU+HADItD1I61Ot3oU7Nfv4SsTEAj2JUcIJX
-	 xSMqeavuxZsg4EBd5dQIFGzHkp9R1xE6Br5YgsPENyOo8mU9Z0ctOn+tsCOBz4Csvwyws
-	 HQ0OodazyQfe7i8BBTFg0MFtZBmEV/lYfHF8oCC0znNeTcOgbtsd0dtMMtNwitsbLI2dG
-	 /4pIEcJEin3H9EqDuuIMSi80VhWacUdx7kINLYYApzYFoo5ZqlOSzCiVGAyz43uoZfA==
+	t=1793122368;
+	b=tUWWgJEKdNdXTxJpx0cwgNPdn9iwr8btaVqFOX180ZTPkfeiLAeevIKJ8IhnxJ1qCUhu
+	 +a/P3EKCYJYKfIdTXo7PJhf3JIlZc4jbvqJ/jXrHxJ3R96aw7azjeOlcVy0/mpiwM1CNs
+	 /nHXh9dWYI6YjnxQmo+tgzDW2Kj/L4MyiXUXxkQDTDBxBxkH5wGtlYmtsfa1RlcepdozR
+	 +bRY/y0jDZlh+Ph35yw4BffiFbQoE2WmDT/Yr5k20KizKS1a4KcCU9nGiOKAcFnBfuzWs
+	 k9lxbCki5Q1pvWps1tX5DPcIpHSveWRcycZCZOHw5yJ+kXHV1up6G4twDyGMZ7hlTFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793121020;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=EmA9gMUaVRmvqQ9jvKbGlvlpatHa+cnO4+ELOrg+Jl0=;
-	b=kOJe0SVD/Be6wzzCm+Xn/sloCc66x5A1ke8UPQDnbvP4xsVMQlibIS22FAuq5sF4tO90
-	 iWmF1zBz42qE/Ah/WMoH4iEGO/n3iqylYbyZWtRwO5WMw8YgiNsF9o/rjBRq7hcyrBAJs
-	 +seU0lPnHNfrZ7Rnl+DE2MFPPw461qFw6N97QrQjVOoEhklvGr8H30dduLauJyRtg6xxA
-	 3oqNqPxsEStFemK7ruJ4RuiqeAzGh8VmCERrMc74SCjYPVChqjOgmsm2wpqmzAzds8SQB
-	 Onid98bMBRw3luPbJ+WBk+03gXvzEqscMMZpmrCPbRpCfCosuCzwjppCqe9Xc6jLCIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793122368;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=T7vpIX2c6I0fdln2Veyf9JYdJ3RICzbnThdpI2zJVAY=;
+	b=UELCs7KotUiLsjqAy/KhB4K0OYeMZfq6kt92tbROONJVJQtwl7sMt0e4MRxNlcOm4xKL
+	 Jq0zFiZCIn1rMlBPM6sH2axjyb5GiVEAxLdHMtu619q5cQzWPfgO86OW6XJ1oufpBkKqv
+	 utm225KQ3SJHCsCO0VqKlWeCxSvZ1dnDYQrgkCPSwfyb5A22yfDxYqOoRt0wlrMwAOft3
+	 sZQLF+Zwv6kjCOBPdKI/lzr0jXJMXfpvXYgx8YdGXaWU1pBI8ypahCno+mcLSl5M0lAFP
+	 N7iNli1O7c/D4isXG9n5P0lNSNpcvfDF3+mSu+bgbelx+SGHzR9sqh0DP3usYtNMGSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C6A606A321;
-	Tue, 27 Oct 2026 17:10:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81C6A606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMBWnqTz2uBqeEQ8AQ--.18192S2;
-	Wed, 28 Oct 2026 01:10:11 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wCX8Azy2uBqB3LEAA--.20435S2;
-	Wed, 28 Oct 2026 01:10:10 +0800 (CST)
-Message-ID: <7a3f8c77-9854-441b-846b-5e58463a776d@hust.edu.cn>
-Date: Wed, 28 Oct 2026 01:10:09 +0800
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IERQJ8SK;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B5B606A31E
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 17:32:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28B5B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IERQJ8SK
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so881945e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 10:32:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793122366; x=1793727166; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=T7vpIX2c6I0fdln2Veyf9JYdJ3RICzbnThdpI2zJVAY=;
+        b=IERQJ8SKVi7acDhRQssNKz1tac/IbKaQ1f3zM2O6OFxp7pR62BajqEQCEG9JaHuJ0M
+         nQcwhrNTXW9RxyhteLIPA9LNKH3J8QG6lRhv0OL4TUC+apZBNfnCpD+BF0HWr/VmHLKj
+         QLLQFq36t5Dn2Lbi3bALdp6V6iWGR0HV+f1uumVypHlLGv2yedaXHJ1JnI/oj9ZLGnjq
+         QVjST8/BTNTCaXMtA8cSAV1xFORYJbiv1UzZNmsysoTn46/NG8HHUwfmp1BBp1TrWO6S
+         RsL0VSK+XetFWxWIQrF+txjov/HPcyrMrdiw0sWqufM1K3ER+n4eY4ikpmfRoDWv53YC
+         TSLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793122366; x=1793727166;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:date
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=T7vpIX2c6I0fdln2Veyf9JYdJ3RICzbnThdpI2zJVAY=;
+        b=ce17UZTq/WWxIUfjJMx9T7Gy1SPggPTPfc4kDlWJhPCFt+u2XF9U2S2KVgGsa2eWhJ
+         ZBWcYDW3iHkZruqdavWHNdTyPCYN44gAUX7MzV60GiAbFArJpCTQEZ9cZl/yi2vggLGp
+         LO75vyxnwlPIyulfngJvhr/Y9v9SVk/fhiudeLKv2BJJtjvsN1n5dHNeAg6BqrVYbKbS
+         zVVaXG+QcPv6UfWz3hvxbf5TPyqYmHhXB8qHVg1Nso00TykNwDiFZuxKw6YtaIXUY88c
+         dowAFwslsLPTMWymiJHXpKZjgt0IAlwkb7GaCnzyR5kyhrW1cVP0I5b7u3f68etWcWFw
+         /LBA==
+X-Forwarded-Encrypted: i=1; AKwUvBzczVu5I3iW69CMMDEQmx9JAbOS5QRvfcsJrriz+SfTkcQcr5w9RsMDw1MJOi3Qgfwyoy2k1e5QDYk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ+5h4afyK3RG1RsUuUS8QS/2IXkVvcyTA8XoXndKAxrDQTmicH
+	034Zr0WVgPRmtwLoTVgRLkxYYf4fUZnS/I9/N6YbKnXs+iiiCmI3Hzj1Ix4xNW8gOzc=
+X-Gm-Gg: AYBFou0e9yG61Y4k6nXZgFANlyrRMJj0LMV3KF4FflahdgbkaxH6uVVRhZpQ7gJ6DBs
+	WVdJqGlhbYlAj7c6T9PJdQ/q2meS3Dv2hp8jvBGGZowSOBAKAAz8zdNDKeGuTmHwRNuBhoXYXR8
+	EVcwEbkuHLjD7GzWMOUL7wmsn7iJPe9Nzi7Wmy7X6+5rLLrF7pD6xSSzi0Dwndq77tGRyPlZy8l
+	/mOBYFH3rVNdDi6Hjb+nIlH2ByjE/kn/25IepqWl5/kyT432zn1FVmAQEJqSRMaMgKjzuttM0hd
+	9vp7McDUAdZ71/OMKNSNW08CuIR6IG5GoNHt0xsJQ3AS4FtgfeopncaYSwhlixg9y2w9KHYWv/C
+	u85zxf5/iftobw3roEXEnxwO39PX4IOVotkEGMUcbCFi6y7BQcQD69nYaBPcQPK89Gre45FevRK
+	ks5bVKdFsbK4+CmTp4V5WKsCNppL8FAko+MKK3LimeYauTvoONfK8YwrojJuT5AYvJqsncTzGmU
+	jMz2aeQXaU+rmdnO7t59tEZHyndXocybkAkiC444RGptC9ivobOJiQ=
+X-Received: by 2002:a05:600c:4ece:b0:4a1:fbd2:f689 with SMTP id 5b1f17b1804b1-4a35ac9d100mr198532065e9.7.1793122366508;
+        Tue, 27 Oct 2026 10:32:46 -0700 (PDT)
+Received: from localhost ([82.192.120.214])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a92b881f90sm5173585e9.11.2026.10.27.10.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 10:32:45 -0700 (PDT)
+From: Andrea della Porta <andrea.porta@suse.com>
+X-Google-Original-From: Andrea della Porta <aporta@suse.de>
+Date: Tue, 27 Oct 2026 18:36:37 +0100
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: Andrea della Porta <andrea.porta@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Gregor Herburger <gregor.herburger@linutronix.de>,
+	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Gary Guo <gary@garyguo.net>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
+ tachometer
+Message-ID: <auDhJbMOQ-qAeBBs@apocalypse>
+References: <cover.1792748690.git.andrea.porta@suse.com>
+ <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
+ <auDRHk8eaYife2zH@monoceros>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,84 +115,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: Recognize Deepin for dependency hints
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1793119566.git.dzm91@hust.edu.cn>
- <b3e985f11140daa28718087723957e2fbfa4a538.1793119566.git.dzm91@hust.edu.cn>
- <20261027180558.3c975c90@foz.lan>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20261027180558.3c975c90@foz.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:IAEQrMBWnqTz2uBqeEQ8AQ--.18192S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF4xtry8GF1DJr43Jw4fXwb_yoW8Gr47pr
-	4rWayIvF45X34FvFWxW39YvF4Uurs7Kryagw1xtasrZryfJrn2qryIgayaganrJa1DAr1F
-	vF17uFyUtFW8ZaDanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHjb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-	z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI
-	0_JF0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCE
-	c2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14
-	v26r4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWx
-	Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMx
-	kIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I
-	3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <auDRHk8eaYife2zH@monoceros>
 
+Hi Uwe,
 
-On 10/28/26 1:06 AM, Mauro Carvalho Chehab wrote:
-> On Wed, 28 Oct 2026 00:56:50 +0800
-> Dongliang Mu <dzm91@hust.edu.cn> wrote:
->
->> Deepin uses apt, but the checker falls back to generic hints because its
->> distribution name is missing from the OS mapping. Route Deepin to the
->> Debian hint handler so it suggests apt-get installation commands.
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> LGTM, but where is patch 2 of this series if any?
+On 17:32 Tue 27 Oct     , Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Fri, Oct 23, 2026 at 12:15:56PM +0200, Andrea della Porta wrote:
+> > Add a hardware monitoring driver to support the fan tachometer on the
+> > Raspberry Pi RP1 southbridge, found on the Raspberry Pi 5.
+> > 
+> > The RP1 PWM controller block contains specific MMIO registers that hold
+> > the current fan speed in RPM. These registers are periodically updated by
+> > the RP1 internal firmware based on the tachometer pulses.
+> > 
+> > Since the Linux PWM subsystem does not currently offer a framework for
+> > exposing integrated hardware tachometer readings, this driver is
+> > implemented as a standalone hwmon device. It parses the
+> > 'raspberrypi,pwm-tachometer' DT property to find the supplier PWM device,
+> > establishes a device link to ensure proper lifecycle management, and uses
+> > RP1-specific PWM functions to retrieve the RPM values.
+> 
+> I wonder if the tachometer readout should be a counter driver? That
+> would allow this driver to not be specific to the RP1 hardware.
 
+I suspect the counter driver won't work with userspace daemons (e.g.
+fancontrol) which use hwmon as an interface.
+OTOH this driver is indeed specific to the RP1 driver: the fan rpm are
+read from the same registers range and hw of teh PWM controller.
 
-Thanks. My network connection is not very stable. I resended the PATCH 2/2.
+Regards,
+Andrea 
 
-Dongliang Mu
+> 
+> Best regards
+> Uwe
 
-
-> https://lore.kernel.org/linux-doc/cover.1793119566.git.dzm91@hust.edu.cn/
->
-> Regards,
-> Mauro
->
->
->> ---
->>   tools/docs/sphinx-pre-install | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
->> index 965c9b093a41..d1af82e1466d 100755
->> --- a/tools/docs/sphinx-pre-install
->> +++ b/tools/docs/sphinx-pre-install
->> @@ -1137,6 +1137,7 @@ class SphinxDependencyChecker(MissingCheckers):
->>               re.compile("Devuan"):                     self.give_debian_hints,
->>               re.compile("Kali"):                       self.give_debian_hints,
->>               re.compile("Mint"):                       self.give_debian_hints,
->> +            re.compile("Deepin"):                     self.give_debian_hints,
->>   
->>               re.compile("openSUSE"):                   self.give_opensuse_hints,
->>   
->
->
-> Thanks,
-> Mauro
 
