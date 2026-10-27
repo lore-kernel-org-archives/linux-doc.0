@@ -1,100 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793111696;
-	b=c/eqdtm8teymaF0GZ1HcBE6kR9ZrMT0vPob3pVQSyG5xUKftpOEIbYqCOQQqzuSgOr2B
-	 0FfwgZL3WJbWQPhJ8mhumnkw3mzS06VceL+7BKV9Mr/WBNAXKPKCQ4F7HLkgDQ78hBYOx
-	 oIuzwOM9hZjaqR344z8BYusau7IRVNBW0tcrltJA4S9Ng3YAJhrobl0ZZJkhY8Yx2pA7H
-	 qDD8ro9I/GyYcgQXcw9gVXt0S96fZrMlBkf/3zhsZKGp4ZkpI8gmOP4cwxzAuX3GkTmY5
-	 USIwuBSjetJjmwLjv/wkXObbX1INjA53f5Vt46ZVmyCjiJmQRLQVTUmYTWYgdBp/krQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793111696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=kpMVzTEsyq+10ygaZmcWH4opP1T6BP5uZJEA0uY70vE=;
-	b=QAV/4o95JShxU5IkOcRSngNnMskK8lWFcaBHOYUxqaE0GiH3BOCYgRoJf3Tls39LoHbI
-	 W3+YjA3etSbGR9+JtSDkxpIWGCd0RYfzQbn+4EaVoDyydbW3Gvrx6W4DGgVJDRnHqHmwa
-	 avYGl9Pm4Any8UCHgDrBi9kDrAimX4miZ3w0Wg/+uL/UwG8X7ys9JeegtWSrFp5hK0fzP
-	 PO5+9HtPTsCN950CWnJovgSWX7pmSy2RkFulkKQ5zoqHHDRidObh5Lj4/yDQd47YbsMX0
-	 Hf7xOQp0KtYGzeuhTV6anLe/Usu1ZECxPzdSF7lmgJfSvaiYTssB4zsis9ipPuBt79A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gNL1x+Xv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426E9606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 426E9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793112507;
+	b=ymtA7zWGO1gGCRIxwehpLN3a5SoDR4u35RPLSnjS9cIcJsNRtpWFAyA06jVrrxOcAART
+	 QQwX4MpqdesWymWC6Zzydb56iwfIcHTz2/nqkQ91s3lgwl0vrwSTrU5WOTVlrcvfD1L71
+	 FkRaGycNFf5crxEEYdXLD3H8TQttTsX08hR0yr6/Zs6HWAdQHiKrNfm90cHLs8qaJ2y7x
+	 niu+IXwx4fXUX0sL1QkX/yPcD1yMJAjvpVibjgTU9TUfJAba2uiblzL22sP6wIBnXSiV3
+	 JRvkB6sqE3YwGjMfBAnq16m9+pwnC457u430x+QqUNq5520Cz6qt6G+/pv/hTF2wJww==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112507;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=nNSn1iDCXS83Lm/PKK4oFjsXwcuIQQO4gEr+otSMQQw=;
+	b=q813VRqllkbNxyOGNykcZdpVtkA7LdgvCexYUu/NYqnDFaATqgklKZGqPVwfUwLK4VcQ
+	 9MFRg+zCWo7TdGs+3BEw5Ev7Owg1Phm+5yEa7hg+MYKRaCOj/2L45W55AAhcCPygSjIfK
+	 SE0gocmfHIPR7NSmPyOBlGxVq1km2W5KCeqYWfetlRBVGQon7pJcRgcX0YZFZXEWH3btg
+	 HzhS1e+JXM6252gZCWS9VDhIBjdFXtLXqr9XBXsru1b9gKjCjwkdG/lgq1ikIONe/KezA
+	 5UHAenxttoFhgRPpfpX1wy02+83Kbum5uYGGlFmYq2gXmG1zWh+pfiDGK6dBhbC2Rnw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=E6pJ45fE;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80BAC606A31A;
+	Tue, 27 Oct 2026 14:48:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80BAC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gNL1x+Xv
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53669f7b518so44261141cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:34:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793111695; cv=none;
-        d=google.com; s=arc-20260327;
-        b=H6zAUBL8OGahZ3qnK3yMjsmzBwCIkHvhMBXavAru7e643aW0FrKyasiAd6zZRDlkEV
-         Lb9CKtX36/hb/ivKWoc0J3Uw1m9qq8tEFKwiIb7rSymbTeZpdKgyYWpe/XVeKElLETSw
-         EA5wWjuMoLHjE7DhQKkGEJMUcDI6TPrD1y9BWTVLreDgxbEFZfUD2n+1dgkx6iJYODhZ
-         +U+77oVvbxQlBAWynBqwv2hqxwUqHowQHwx3S2iqxIgVN0t7ivKvUUDz4XhltwTkCUza
-         vHOGCxl9/FxjMh6TGK6/YT9OvYYdmES36uHXEb83A4oPd9FuS6+X2lAFk8Jbvmla1RkA
-         Zlug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kpMVzTEsyq+10ygaZmcWH4opP1T6BP5uZJEA0uY70vE=;
-        fh=oeWNojjJiYUU2PD1SgWT29Egy9OgLMCZIE1T2cTtEUY=;
-        b=S4Sxy0kc4LO/V+jDEhZoUfNCL4TumeQ0oJXoHrIT+JaAPRUaYHhg8O/rmx1MLY0GG0
-         lCMAv75YscGEdhbsJg8pl5F7Qm4YpcssaggVX4JxAUquI2wS4nOrO3/IlYpGrSjGFJFH
-         M4SN0q+ieaHPPBxCdCKZM2c7Egpex/5hxSOZexrnX1xJNMQWpmDEqrfTcVphAEPGL8NC
-         RjWGTrK8zpoVV6VJ7VJCZ9vjTZmmKz9FVnrdSa7fvw+cK/1tvKdECt+vNgQtR7qYFw2U
-         tSyzyLfL6yYxSO8iXl+/03uzWzgi/BUwyscwEiM6ToXmhB4/0CtMfpmkHWzD1vwsyx2X
-         0WIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793111695; x=1793716495; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kpMVzTEsyq+10ygaZmcWH4opP1T6BP5uZJEA0uY70vE=;
-        b=gNL1x+Xv1DnXFPpzgePiAQuuZuxGQYp4vZ1KZEbsXr6VBegt4pJtXNzLeNxrCpoSCI
-         vyOi7v6/0+IApmMQXYD6AGe5EUrYKJPHhrDm8nm3kiAEl/doeYsPq0sQTlTGWyGIHSax
-         8uUnTg6CWkRGKsQ5Qzhc3YiWHw/HIdwgW7WIjIl/n587BwpsChYbbMrR1t33toZDX5pu
-         cO31gnJ7HsIsGJijHvaWYd7DrEnivbFfmTpnn+VmfvsLebMcgPHXqdxCtjs4hOFv+opL
-         /7mt9QweVw3fEG1JnW37At3rsmCLkOf1b6RdlUc9/i//g2ff+EPN3LK9o7hPShF19pzU
-         QRsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793111695; x=1793716495;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=kpMVzTEsyq+10ygaZmcWH4opP1T6BP5uZJEA0uY70vE=;
-        b=fqfSkunfltkICQPNbKXfFJiuSnePTOgvVHDL7t7SKxT3r8Tol2GwIsRTNpLWCKMkv8
-         wXfUyZqZpw0ei7rLp3PlgqdCnbWdh/ZWyyRundKcYeixn7kFDeQ21R3AuyAyYZQuCMXc
-         8TIvzZJ3rf/5ickAGtqmdLf5nxu2N5v0slhiAL1Km6/zEFevVUF6sR5obPr0bwpFDg4r
-         tHsi5MugqGAlgqjyQlE9ZcRjxhA87sFgPko1nUIxxRgUFFu6vhAuerO/IyidakA6jqtT
-         mNdi/Y2RbiPkSaxgFJncPfa78N5TOA2J/jYCMyaJunonO1WPoDN8Ag8lgEo7bwRg3e66
-         U0QQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwGnS4V+o2J+QCACfWQ4s1aTlyZmLA4aE5YN8C2brsmu0aEeXpMnSQa6yUxxqbotfLX8GlQHMO6r2I=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJqBzFKQ2/7oOuMM2h+CW7LKjd0uTXCVJdobhWDN6sNqapxm6hk
-	5mRDAeOa+BLUkpNg7lz6MiDm6oeItcmQU2DX2K1dDnV80sTTILnxZu0NOjUWZ/8ZjQx5AGQGcAv
-	JQ+vVImC3yGmjW2tLOgnZmaIS0C83Ufs=
-X-Gm-Gg: AYBFou1/VqKqlEN9XSrjYT7LnkZqnwArYUZL8uXJ79KVGrKr3shQhepdkhvMVdjQ1Kc
-	INkJw7uru38Of9CzPpQhEBceVQZQ2BEjfDVfCBjSNSYQfSaxzyavFpZnGXKwqOoEhcjeVCZu/1b
-	oRErDV9CBgVP3gXFj1KlQ90pD7sy2qRfncjuya2ER32T53pWCEH6nQCZ0RoP/y5T5DQqvXXSryY
-	016CzWc4OE0k41FWdm8+vfyXQRjBcIJjfeTZrgybPJ+KH+ZstJ4mIkckiKdxuATXbHviTdFprxy
-	79ueU+rcldnKFVvPy8zwhUCoHS5l5kh7r75XPVdmdvEcLXdYSNDXgU4m8SdDsID/2Uq52Yh27up
-	eLiEiXH46cbE1mG1nJ0GkyM+BdM3mIi99x67SXUn3AZgmUQOv7Hi3VlaF+JyV32iU3cuSs7cWZo
-	P21e6hVQGBmOQyyyL9qsiJaKx5aGM3cL6vs+IKt3H99DjNaCQh
-X-Received: by 2002:a05:622a:90b:b0:536:6bc5:2fb9 with SMTP id
- d75a77b69052e-5383b4a928amr176076021cf.14.1793111694872; Tue, 27 Oct 2026
- 07:34:54 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=E6pJ45fE
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9733115A1;
+	Tue, 27 Oct 2026 07:48:22 -0700 (PDT)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 265773F7B4;
+	Tue, 27 Oct 2026 07:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793112505; bh=l2aOqIdWdEHxnfTEyx8tR1cJeGMoe3DiGN3Vu5hXhdw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E6pJ45fEUnYL+9iKScTKSIPvvanwb68q1wHbMVPZKn0aulFKGtBhYDhb7yBEWJ1Ci
+	 QQak2KgSS71pttpO/Yy7gbSl6zM/DUr7SlQ7V5tEGhZlrvbfkk7ORAngaeYIZAcEVV
+	 zE7iqXTeSnArSbchgZYfP3zvQDTHyn49jDWEy24Y=
+Date: Tue, 27 Oct 2026 14:48:19 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jiri Pirko <jiri@resnulli.us>, Yeoreum Yun <yeoreum.yun@arm.com>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 02/20] ctlv: Add the UAPI wire format and family API
+Message-ID: <auC5sw9YMC9NO4wl@e129823.arm.com>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-3-jiri@resnulli.us>
+ <at-iEMxN98nie1Qr@e129823.arm.com>
+ <auBaROC0XdWpILEI@FV6GYCPJ69>
+ <20261027141524.GF1685504@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,54 +73,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
- <20261012-fix-aer-mask-override-v1-2-49a0d7aeaea0@google.com>
- <CAMAsx6dLGdqr+ZxG8FrwN-6r=5yVY8hk-c+7CVrAkS0zpKPmGg@mail.gmail.com> <20261026175724.1482083-1-rathodpriyank@google.com>
-In-Reply-To: <20261026175724.1482083-1-rathodpriyank@google.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 27 Oct 2026 11:34:43 -0300
-X-Gm-Features: AclHuK_njZlT_A6caNrXNbbG7gBGxHmrzYc6IWZzccr4qUxgXvxpemc8dDRNGgY
-Message-ID: <CAMAsx6fdOmV4DH4WCi6u_EadZxdEg10FFnAKSe=g7duTW+eDdg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: PCI: Document aer_inject's
- aer_mask_override parameter
-To: rathodpriyank@google.com
-Cc: bhelgaas@google.com, lukas@wunner.de, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, ilpo.jarvinen@linux.intel.com, 
-	dave.jiang@intel.com, prarit@redhat.com, ying.huang@linux.alibaba.com, 
-	terry.bowman@amd.com, corbet@lwn.net, jic23@kernel.org, 
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027141524.GF1685504@ziepe.ca>
 
-On Mon, Oct 26, 2026, Priyank Rathod wrote:
-> The reason bit 26 reads 0b on the e1000e Endpoint in the cover letter
-> is Note 3 of Table 7-149: a non-VF Function only implements bit 26 when
-> Poisoned TLP Egress Blocking Supported is Set in the DPC Capability
-> Register (Offset 04h, bit 6; PCIe r7.0, sec 7.9.14.2, Table 7-280).
-> Per PCIe r7.0, sec 7.9.14, the DPC Extended Capability (001Dh) is only
-> applicable to Root Ports and Switch Downstream Ports, not to Endpoints
-> like e1000e (and in QEMU, pcie_aer_init() initializes PCI_ERR_UNCOR_MASK
-> to PCI_ERR_UNC_INTN | PCI_ERR_UNC_TLPPRE = 0x02400000).
+> On Tue, Oct 27, 2026 at 09:02:14AM +0100, Jiri Pirko wrote:
+> > Mon, Oct 26, 2026 at 07:55:12PM +0100, yeoreum.yun@arm.com wrote:
+> > >[    3.856919]  ctlv_schema_check_attr+0x3dc/0x538
+> > >[    3.857105]  ctlv_schema_check_indexed_nest+0x788/0x958
+> > >[    3.857301]  ctlv_schema_validate+0x88/0x180
+> > >[    3.857482]  ctlv_msg_test_as_deep_as_the_core_allows+0x11c/0x1e8
+> > >[    3.857698]  kunit_try_run_case+0x64/0x188
+> > >[    3.857878]  kunit_generic_run_threadfn_adapter+0x30/0x68
+> > >[    3.858086]  kthread+0x10c/0x140
+> > >[    3.858245]  ret_from_fork+0x10/0x20
+> > >[    3.858398] SMP: stopping secondary CPUs
+> > >[    3.858630] Kernel Offset: disabled
+> > >[    3.858720] CPU features: 0x0,00000000,00b0802e,9f190bc3,2affe72f
+> > >[    3.858872] Memory Limit: none
+> > >[    3.858976] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
+> > >
+> > >[...]
+> > >
+> > >I think it might be good to configurable according to architecture
+> > >unless it's not good to reduce the CTLV_MAX_NEST_DEPTH number
+> > >otherwise, increasing stack size when CTLV is enabled seems unresonable...
+> > 
+> > Agreed, will lower it down. I think we should be okay with 8 for start.
+> 
+> I'm surprised this ran out of stack though with even as few as
+> 32 levels.. Is there accidently something large on the stack?
+>
 
-Hi Priyank,
+Nope.
 
-Thank you for the detailed explanation, and for pointing me to Note 3 of
-Table 7-149. That clears up why PCI_ERR_UNCOR_MASK reads 02400000 on the
-e1000e in the sample session of the cover letter: bit 26 is only
-implemented when the DPC capability reports Poisoned TLP Egress Blocking
-support, which does not apply to an Endpoint.
+When I see the each functions stack allocation:
+- ctlv_schema_check_indexed_nest():
+	sub	sp, sp, #0xf0 // 240 bytes
 
-> That said, your suggestion to use "Header Log Overflow or Internal
-> Errors" (PCIe r7.0, sec 7.8.4.6, Table 7-152, bits 14-15, and
-> sec 7.8.4.3, Table 7-149, bit 22) as the example is much clearer
-> because those bits apply to Endpoints as well and match the sample
-> output directly. If you or anyone else suggests the same, I will gladly
-> change it.
+- ctlv_schema_check_attr():
+	sub	sp, sp, #0xb0 // 176 bytes
 
-Yes, I would suggest using those two in the example, since they are
-masked by default on Endpoints too and match the sample output directly.
-This is only a suggestion, of course; how to proceed is up to you and the
-maintainers :)
+Roughly (240 + 176) * CTLV_MAX_NEST_DEPTH = 13,952 (around 14KB)
+consumed.
 
-Thanks,
-Daniel
+So, I think we need to reduce the depth...
+
+-- 
+Sincerely,
+Yeoreum Yun
