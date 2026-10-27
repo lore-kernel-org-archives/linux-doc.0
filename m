@@ -1,81 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793088350;
-	b=R+TDp80aukaH5/1VpSPfzzCqIXQKCPaZtz1ew3WsW2lA2V/HEuDKKLGR8iQIIwajNhW9
-	 NcLi/DcqfcJEje4jhS3Q1cK58BIJxlc+A9/Lp0Kof4IIWqPEqXdMbSrwv/oqHvGFKKmXu
-	 WjTiScPV5V41q7x87OAjzs9dKP1kKT+tDUYsKuzcf1+jPvtuQj14WggCSIPA9Q2rTO7Cs
-	 JyZxezm4bpOpvQ7bQnh2P8DifnJu9caMpVDIUu1cav9cTWRv7dcfU0cSwA2U1+2icodbG
-	 uB+z/kY/nfALPQTLwDuGKCRxG3XoFeEhIv9dwDmj+WnU5JBHeSI5ipnwSqtY24yhaAQ==
+	t=1793088646;
+	b=Zi9sxeDP0X2BcYxmUsOefkWMqv4iBrZh857VvBke3cOQihGFnXcGvmCErNOnuVDei0oT
+	 onJlTURfaqxV9CZOvr41lNv/dtOfhwFghELL2nvj9Z39dG+7n3b2HicGvSUHEnsgIgLbp
+	 UbLBoOJShUbZNfx7cmHZ1OfpJweo+h1QVgJLd+N3yrh0bnD242HgOl0CVa617UbsV064+
+	 IG8qJcl8SByc/aMXS6qhOprTVWpeTxUf9AD3DCPGE/DoWCV1vpDBMdZBR8iEuvma3pOKU
+	 NmkBdV1jJGugV3EMNqoAg4e9MJ29Y1U1Nu6qYTuhdy2IoA2eMevIaymUT6W4vjBOaiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793088350;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BPrJ7zSdgkFlPfR666dcGKV7qJo/SNuXml2HNin/vAo=;
-	b=X+7ui+paETDSIiv2knxsefGwAyqZpA8PQEXU+xMgCDqcuFknDY1xH0KDwPXBRHHEjrcu
-	 fdzmbLu6C0aSFw3Go/C+gm75msBZDn+QPtYv17b+OkjyT3bJXFdHqfl5Fw0Mcp3dBuy5z
-	 4bsO2fdPdCZHUSeKGCnmvnbYtRJaucNw7vIaiIZ7U7U5+A7ulUBjkwqsQpqOA0EdJxutR
-	 kur14Tsr8snHdEZsJa2NubKydJW2hKFGQg2EAufVaG+ntGjhVzIlSNl25RMn9h6S9Uk41
-	 jF9mL5urqOO5beV48WQpJAsvHWC2MCJUuN4Ri6261fC+erC0eRRcahoEJfXt91PY5Zg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793088646;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=DnTyS8CiLp9kXhmJQ0XYx6IOZxT93PhaPAXeNnfkOEs=;
+	b=zA9rEX9ZLVUc8R8Aq9HcCvHNBX4keP8lEl6ATiQdYFT7SNm/ziqYDp0huqPziyr3IOCr
+	 LkT5fGEGMBoxbgh1ChIJy4uw7kixETPzx5LGAvlCa2rjFRxrDg9IKw8RQfSQPqookuAb0
+	 nh88U2k+uDrM2lHJrjU0xxFGTyujacEPFhsT4txkA2ph2ywuzq9ewYNDbIiXxwLijrr4A
+	 VszCd9Oaq/q5PgLdoKvXVBnP2/0azC7Jhx5Xjamow2j0X6VrjrjYC6dxHiK2fDIGs6NcP
+	 TrXtRQoyQEtkQWzHQBmg3VefvznPSy/MEysrRadzrVn4hOBytiXwD/hrlicQ/SauJLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=E9Rt7+fy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.217.44
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAB2606A31B;
-	Tue, 27 Oct 2026 08:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=E9Rt7+fy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BAF71F01825;
-	Tue, 27 Oct 2026 08:05:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793088348;
-	bh=BPrJ7zSdgkFlPfR666dcGKV7qJo/SNuXml2HNin/vAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=E9Rt7+fybzwSR2JXSEMbcSS2YSEXxhtSq/QjU3jgLpkUV+fklU2NxK+HrJcEoXOUu
-	 dllpoob+VAQlCfum2hsbbvZhGAN5hsXW3v33jsFtpHlGyzisj8rZcalg6TGHAXmfRo
-	 UQE7gkIncVP0CkPNUOXzbTknZZOlhrvtULldMSDI=
-Date: Tue, 27 Oct 2026 09:05:47 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026102711-spectator-courier-13d5@gregkh>
-References: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <2026102437-vista-unsoiled-b089@gregkh>
- <20261024103512.4601ee4f@shazbot.org>
- <2026102637-buggy-mothball-2a08@gregkh>
- <20261027070300.4c45616a.michal.pecio@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8A8606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:10:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD8A8606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7cc1cf48a39so894667137.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 01:10:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793088645; x=1793693445;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DnTyS8CiLp9kXhmJQ0XYx6IOZxT93PhaPAXeNnfkOEs=;
+        b=HZLr3F5fnxjfGhC6APuzJcftqjtC8CWBTcryhU4gKehrx2pYBDORtFhj8LHnW64xNv
+         JwLhq51+0zueRknwT8RHBUWHQ51MZ2xlDgnpw+V3cx23rmbHHEwvp/l56WyV6xL4LIP6
+         Nzzfk7cuvTLr5/QYEIwHG8lyDCUuf+x8nb6JM/x2ixYfjkfrG7el/rOs1gV2thCvOqAK
+         TT4Pv2o2R9cJKNu6uQTmtd7OD+C5zUYO16Zc63xFTrixwAxWVKzokcz2wg6jYPQg6LVA
+         ZRsmiciYKVcbA4ICkXxa10B0zVNcSkYbkH3TjxOJ7nW+O55NevZwGrI1l8gj2M1JN97P
+         vfUQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxZWnwT+aPn1+h0vVIdgku//XQYVg1+Ig0BVrBJmwF1yOKlR+Tv78eq/yjYkJ6ZloG4hX7Sz9Pz/kw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLbb1hncx92L2Cs2pU5whGegeDov5oY8+K3Y/4zuBpcZLq5syGG
+	7pybN+Ono4Z/NG70fOt0rWmg4YQ7fytW28qfqNBpjjebOaAwN/wgOsBleTuZuupGZq8=
+X-Gm-Gg: AYBFou1J0d5SXjpHztEFp+S04Vsyo8FTXCBZz7rECnYhedxO+RdYNEkdIMXBCyjGAs3
+	NOM7gRVDsXeBGpPBUWO9QGbDDn4JF84go8ehVFoMcpGyUEy2Bj4lWi8CRNBXWQel3mK4LhYAolZ
+	+K7xLse4ZkBzdUImBKFjYIglTACOYCdMdOFEIjXGVSmvlJ8w8DNtLPzGcjCrU+ZdBlR8Gku00lF
+	fsFPIq/fbhOw+urRixfEvZI0kNnr+ejSngpRnBHaRhOKcBePXSGs133R5A5l0Niygx9eHRy9yi4
+	vOZbspW9wTqqbDWQfhJnfSHuWG4VWFuqcwYHTvU0zgRIbnJbpXubBjDsnjWvcYG99MCgY2ZxLuO
+	XYdUyy55dIQGu0cNyM33AnaSaJHhT0BnAujzRID2sXluDk5EsSnHLonS5JKtOH/eD9XTjb+R2lf
+	xMIUczfO07QT4JKxggebe4ffx0JwL/r5MpvTYb/uaW22iNdq/ElhKgvezCuMUihF8sgl44rUGRm
+	/k/pHpBSiOjbvfPAoA922RKjWd8wfJRiOjkceoepRFuNPyMeR1vOTu5oXmrqycay8cnYoY0HE9A
+	n1GmAM1v5xEoDtSZyg==
+X-Received: by 2002:a05:6102:f0f:b0:7cc:2bb7:1321 with SMTP id ada2fe7eead31-7ce5ce46140mr2712654137.31.1793088644689;
+        Tue, 27 Oct 2026 01:10:44 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cea3c44ee7sm1692962137.6.2026.10.27.01.10.44
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 01:10:44 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7cccb2c96d0so778946137.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 01:10:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz6N4Bt9nCfxQSGrQO3TczkYr2nGKCi0Db0HJABCsedhOhoDmF9ok1cBo4yniRQL+z/2WclV42nCVo=@vger.kernel.org
+X-Received: by 2002:a05:6102:6a85:b0:7cb:288a:b68b with SMTP id
+ ada2fe7eead31-7ce5ceb4cddmr2598661137.37.1793088644228; Tue, 27 Oct 2026
+ 01:10:44 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,53 +81,152 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027070300.4c45616a.michal.pecio@gmail.com>
+References: <20261020212235.1143086-1-ebiggers@kernel.org> <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol> <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol> <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+In-Reply-To: <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Oct 2026 09:10:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX22CEnzQr8MuVftdVK23=ZpGoomGQuM-H8pw=x-Fsi-A@mail.gmail.com>
+X-Gm-Features: AclHuK_1hOMOvqhIVfJ47rUg7hn4eoGYJnc5iIPXkduWeAV9hHcxdetyXE5uQ4g
+Message-ID: <CAMuHMdX22CEnzQr8MuVftdVK23=ZpGoomGQuM-H8pw=x-Fsi-A@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-kernel@vger.kernel.org, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 07:03:00AM +0100, Michal Pecio wrote:
-> > And as said before, that's a horrid hack and one that is breaking
-> > things today in all sorts of ways, which is why the taint was added.
-> 
-> Are you aware of bind/unbind breaking things for PCI specifically?
+Hi Rob,
 
-Yes, we had reports of this happening for many PCI drivers where unbind
-would be triggered and a random pci device would then be "bound" to the
-driver and the kernel would crash.  See the zillion syzbot reports of a
-few months ago, which caused all of this to happen.
+On Mon, 26 Oct 2026 at 21:12, Rob Herring <robh@kernel.org> wrote:
+> On Wed, Oct 21, 2026 at 6:55=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.=
+org> wrote:
+> > On 21/10/2026 08:49, Eric Biggers wrote:
+> > > On Wed, Oct 21, 2026 at 08:41:47AM +0200, Krzysztof Kozlowski wrote:
+> > >> On 21/10/2026 08:39, Eric Biggers wrote:
+> > >>> On Wed, Oct 21, 2026 at 08:26:28AM +0200, Krzysztof Kozlowski wrote=
+:
+> > >>>> On 20/10/2026 23:22, Eric Biggers wrote:
+> > >>>>> -Make sure that base commit is in an official maintainer/mainline=
+ tree
+> > >>>>> -and not in some internal, accessible only to you tree - otherwis=
+e it
+> > >>>>> -would be worthless.
+> > >>>>> +    If ``git format-patch`` with ``--base=3Dauto`` (or
+> > >>>>> +    ``format.useAutoBase=3Dtrue``) can't detect a base commit, e=
+.g. due to
+> > >>>>> +    the current branch having no upstream tracking branch, it ex=
+its with
+> > >>>>> +    an error. In such cases, pass an explicit base commit to ``-=
+-base``
+> > >>>>> +    instead. This is also needed if git detects the wrong base c=
+ommit,
+> > >>>>> +    such as when the upstream branch has local, unpublished comm=
+its.
+> > >>>>> +
+> > >>>>> +The base commit must be in a well-known public tree, such as the
+> > >>>>> +subsystem development branch the patch is targeting. See
+> > >>>>> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linu=
+x-next
+> > >>>>> +can also be acceptable bases, depending on the subsystem.
+> > >>>>
+> > >>>> I disagree, that's pointlessly too hard requirement.
+> > >>>>
+> > >>>> For many of my contributions base is obvious and not needed to be
+> > >>>> explicitly defined. For all the patches I accept, answer is the sa=
+me -
+> > >>>> base is either obvious or if not and patch does not apply, then th=
+e base
+> > >>>> does not matter.
+> > >>>>
+> > >>>> Requiring it is just bureaucracy without actual benefit.
+> > >>>>
+> > >>>> The only benefit would be if maintainer COULD change its base to a=
+pply
+> > >>>> some patch with odd base... but this cannot happen. Maintainer bas=
+e is
+> > >>>> fixed - it's the HEAD of his development branch for given category=
+ of
+> > >>>> commits (e.g. DTS branch for SoC maintainers).
+> > >>>
+> > >>> There are many use cases for applying patches besides the final pat=
+ch
+> > >>> acceptance, such as review (by anyone, not just a maintainer), test=
+ing,
+> > >>> CI systems, etc.
+> > >>>
+> > >>> HEAD of a branch is of course not fixed, and changes every time a p=
+atch
+> > >>> gets applied.  That's especially relevant when wanting to check out=
+ an
+> > >>> old patch for any reason.  Trying to guess a base commit based on t=
+he
+> > >>> date and patch subject is a waste of time.
+> > >>
+> > >> All these tools should just work on top of linux-next. Requiring peo=
+ple
+> > >> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree"=
+ is
+> > >> pointless. I understand that base is helping, but helping and requir=
+ing
+> > >> an obvious information just do not go together.
+> > >>
+> > >> So again: base has ZERO meaning to the maintainer process. It has
+> > >> meaning to tools, so fix the tools to work on known and obvious tree=
+s.
+> > >
+> > > So what is your proposed algorithm to apply an arbitrary patch when
+> >
+> > Already provided that, so to recap:
+> >
+> > > there's no base-commit?  Including any historical patch (from
+> > > months/years ago), patches with dependencies, etc.
+> >
+> > Dependency is something else, but for every other patch:
+> > 1. For testing/CI: you apply on top of next
+> > 2. Every other case the maintainer knows where to apply it, because it
+> > is his HEAD of next-branch.
+> >
+> > I am repeating myself, but I really had no single problem of lack of
+> > knowledge where to apply a patch as a maintainer or reviewer of some
+> > subsystem, thus maybe I do not understand the actual problem you are
+> > experiencing.
+>
+> Look at our DT PW. There are numerous patches that don't apply and
+> then we silently don't test them at all. Here's one example[1] (3
 
-> Without also involving 'driver_override' or 'new_id'? Everyone agrees
-> that these APIs used for anything other than pci-stub or vfio are foot
-> guns. But your patch targets something different.
+That's a false positive, as the first two patches (the ones that really
+matter for you as DT maintainer) do apply to yesterday's linux-next ;-)
 
-Yes, driver_override and/or new_id was being used for most of these, BUT
-unbind for other busses was also causing problems (specifically many
-platform drivers.)
+> actually as the whole series doesn't apply). The more base-commit
 
-> We can even bind PCI drivers to wrong devices *without* using bind and
-> hence, I presume but don't care to test, without tripping this taint.
-> 
-> > If you wish to override the kernel, then great, a taint flag is added
-> > and all is fine.  All this means is that now developers know what you
-> > did and can decide to ignore your bug report or not.  No functionality
-> > changed at all.
-> 
-> I believe people pointed out that it's a functional change for users of
-> panic_on_taint who also use bind without being idiots.
-> 
-> Does this taint even solve a "real" problem? Those bug reports weren't
-> coming from users, they were coming from "abusers" like syzbot looking
-> for trouble. They were quite obvious even without a taint message.
+There are indeed patches in that series that cannot be applied, which
+is explained in the cover letter.
 
-They were not obvious at all, see the patches that many maintainers
-"accidentally" took to fix a bug that really wasn't a bug at all.  This
-was forcing additional code into all drivers for no good reason, hence
-the taint flag.
+The problem boils down to how to present work that touches multiple
+target trees, and where some parts depend on other work that is
+not yet finished. Do you post it as single series, so people get an
+overview? Do you split it in multiple small series (which may still
+have interdependencies), so everybody looses context?
 
-Let me reconsider this and think about just doing it for the additional
-id and allowing busses to trip it when their unbind is hit for busses
-that should not be normally handling unbind (i.e. platform devices.)
+> [1] https://patchwork.kernel.org/project/devicetree/patch/8b2c7719c301a44=
+5891fc6c5309456327ec8a94c.1793026273.git.geert+renesas@glider.be/
 
-thanks,
+Gr{oetje,eeting}s,
 
-greg k-h
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
