@@ -1,110 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.110
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793112702;
-	b=E2GDXeS2/XJl8LJxPNNGZUWpf4/AKnRjf4JO9bkEZSgu9PrJmdcGn6FAigrMYSvgipAe
-	 WnLBlsekzAcf+aMJJsKQTVUkRHGFADsBAj7d0nbNGNpU3v8FMBNRWo1Y8uei4ez8lac79
-	 NkeC3nt623K4NGSpwJEUYNRFpFnFZwxtSWLlkN18EEfytpq6ArX9YU8Z7dtZcGi6uOZWn
-	 GgFNsCUdjhej2aaEG4foGXE39I4Zyc4dXvNdayqv9j2K5bNQo2mL37b8kn4rWgnTloArq
-	 +3Kz3+uCW+HC7bbNNISfASIwQR3J/RcQTyxogqayFh8ZI+kNrI3jJdgdwlZUGItellw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112702;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:From:To:Cc:
-	 Subject:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=W0tAYPaDOA4f756PfZHjoOunZ++lQmvM3dsZP3bK4pQ=;
-	b=mcf5e7zP4W+bJKbMBYa99hGjR+F0+QkaRr3VvJxnkuZku+yRXDoPe6rP+UBbqJJOVLg7
-	 lbC29NxBd9LHWn32DILsuveOcZFK8VkWFHyl/rtFWt3oFE41mnj/+jNwN/mfzzefrKHiu
-	 PQtKKs8WjaJToKjBlmE6gH/qtKcT/tHDDqvtI3n5gALH4bapWBu0S8RpXo060HsJzTl52
-	 eq66nN/vSa+CC2ESEghJan+7+It1dRTkt+wbrYUsaFj+oBIruV0VC8YPcWelSAF0Rk1/9
-	 PUvcrGfolL29K3cglEmpFtFUIMP8in04Q8g2cJPpMnCyYRwpZYAYrBcj663cL7fXDXA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=garyguo.net;
-	spf=pass smtp.mailfrom=garyguo.net;
-	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=iWv9x1NB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.196.110
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020110.outbound.protection.outlook.com [52.101.196.110])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793112840;
+	b=PEHDITwIcz7YM/eFwUT2QUsAhKfG4FowxcqYhscMKgIOt40e1YzlS+QkV10ZcZYZ6TvK
+	 xTzLiNH0s+vbEgwEJkPfKOPBurk13RVdUW/xQnM/rApAd1u4OODWHOe+NSQiTlgAwIDg3
+	 Wju2+Ta2VvEGY3IBWMPe6eIoeNgn3GCnic0tEcjvjnXG4dyPZuj9jzmh0g3ZtU5o52iqw
+	 GJY90ihzyrWQkZdFVkYZvOWTDYc5tFMei0gAs9/yas7Sf2hEfvTJT8oyjCvLY/0n041iV
+	 e8x1NPpBlymG4aCHBGydBRMfSJi7diDGb/jVBjRMjMG1CODsCm+KOoRNTyqSP5+rAng==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112840;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=aCG2e9yyNs6h3rkDXnjBqmb1knCApUuqekvjibfwuKE=;
+	b=PQ+Y6yGJv2Wet01nvl6hJjPf7RKD3HHmNYEo0WseibF62qsq9O8UvNyNL339prUpKc5d
+	 X17yE00MGEjSEBo1gvc4kkD8T6z8OE0bsvAMEEjSRiyCyys0HYwxAjldBY5SRSNnyyESA
+	 EjcakpMpc8lQ4CpcHCx7Ly+toHKHbgS9Fwr3JpDnwlYLrSqDOymtDEZi5QQPBdEyvdrIZ
+	 nYBYW2ob5B6Ab773oMH4c31iA1HjfKcZ1q3mzljjFvkt9E/qyzVaa7CL58a20V6G0lk/5
+	 ibGvmYF295JC/dEAuDUmtzedpI8z8E/k/idGBdHWh/+BGEc8MhhVLKTIFA0fRXRe4kg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dW3YpsGA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA606606A31A;
-	Tue, 27 Oct 2026 14:51:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA606606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC86D606A31A;
+	Tue, 27 Oct 2026 14:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=iWv9x1NB
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lKDhRteJa7sXN1uXZ/fwYB3wxLEOznMWnvLKavl6ugWisX7nBD5jTj6M+sR7sMaUF+kZ215jLM23WGCNKvX4XyQXIRLwYXa3+Q89Uq9jKinWXyEb/6Xf4lOlCxWOJhDLchPQ/hoin9sRm0mUKZOMcVk+VgtcCfB43ymgqPbnj0DUrnWo5vQvCBH/ryQtHOViwE8WwY5/7ZQehVmkCWCS5qZxbRDInro21T1pxoCyCXqz19ARyiG4DGhxTk+0Z70qBcCuk/qp1JbVnYrxYbBaWHVk+/jEKLNKLGd5c0hz/RdRO4F7mQjQA0PBXJyWByZpRHTh+C3eEdk+NboKGbWzvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W0tAYPaDOA4f756PfZHjoOunZ++lQmvM3dsZP3bK4pQ=;
- b=KLUA+rGJjZZ9yHPrSZy8pT+lsarOotfbQAF/Rfj5gdcrVMssEBDtmMTiOD6q2u+tfkCsD9XeRq+Xgg6JgIwDB7ihpgGOy3zEZWy+lrxifuCWZdKB8WLocBFYXd7kzOV8CplMvhnF9U5HwG3MDAkDDwQU/Yp8sC07c1dv9A8+97zo+2hqrRi2sjh1pr7MPuL1XOzWd1e3Y9wFLXtHGT66F2LkohCBJg3182hXOedr0Gzw+/Iq56MUOvCmI/RT+mBKjdrONiZH4Dhm63yHM1aTUOyiRTljyT54+oC8OudDhkK8mjhIuk5ICaDoqtcFXYytYgvzOjOd4/yw1zwcG+LNNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W0tAYPaDOA4f756PfZHjoOunZ++lQmvM3dsZP3bK4pQ=;
- b=iWv9x1NB2cqjb7vKnPd2exvfbKN1Xdu33WhnvQwDcXEYXpjskwXTi1+rj5z75yzNMrhOh8plX25hhyQ27cNUIqerpOJjssdbIaQN2U8LTiBrd3xtjKdCpa5DWFtXhSWEWdg7A5CScMGqCigXcrA8yu2dOco7Pc77m0/tgvQ2bzU=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cb::9)
- by LO3P265MB1961.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:bc::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
- 2026 14:51:35 +0000
-Received: from CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3]) by CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- ([fe80::55f6:f98b:7fad:c6e3%2]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
- 14:51:35 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 Oct 2026 22:51:15 +0800
-Message-Id: <DMFPE71J8205.3FZKD5BKW3U7C@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Guenter Roeck" <linux@roeck-us.net>, "Andrea della Porta"
- <andrea.porta@suse.com>
-Cc: "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Florian
- Fainelli" <florian.fainelli@broadcom.com>, "Broadcom internal kernel review
- list" <bcm-kernel-feedback-list@broadcom.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Ray Jui" <rjui@broadcom.com>, "Scott Branden"
- <sbranden@broadcom.com>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Gregor Herburger"
- <gregor.herburger@linutronix.de>, "Stanimir Varbanov" <svarbanov@suse.de>,
- <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-rpi-kernel@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>, "Gary Guo"
- <gary@garyguo.net>, "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH RFC 0/4] hwmon: Add fan tachometer support for Raspberry
- Pi RP1
-X-Mailer: aerc 0.22.0
-References: <cover.1792748690.git.andrea.porta@suse.com>
- <7df58d42-517c-4936-88b0-9d044d30882c@roeck-us.net>
- <auBzvB8TsvIK8Hik@apocalypse>
- <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
-In-Reply-To: <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
-X-ClientProxiedBy: TY6P301CA0007.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:3be::17) To CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:1cb::9)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dW3YpsGA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7256D1F01825;
+	Tue, 27 Oct 2026 14:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793112839;
+	bh=aCG2e9yyNs6h3rkDXnjBqmb1knCApUuqekvjibfwuKE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dW3YpsGACz/EAPjYgqSNBpOyxnbaJ0HrDTFxMIIQrr9uq1i63jB1zsxRbOCar8YcO
+	 Xya8AAQGE8TFqPsXoao75xAE/lyj7zDN8lJECuzuP6L+UJTHs00lgeMYqW9gv2Xmrx
+	 b7RZeMDOe/79t09LjREq2TfiASpKRw9t23qmMtsLStJXwOlpa7Vjwu0hUQfRoJPzMT
+	 u11Vef2g8ZAqihaKn8NzCm2e4FgqcCnu9bucnoin6pdJn0JmXI+pIbDgeiLfNJCoCR
+	 /zpn34aSUMbhgjOr3cjRQluY78/ov2+fnbo+1wVhVGm7UQ4jsNEYcsgeog7r9Fo3U9
+	 hbGxzcD5eOfzQ==
+Date: Tue, 27 Oct 2026 14:53:51 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Chris Down <chris@chrisdown.name>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Kees Cook <kees@kernel.org>, Jeff Xu <jeffxu@chromium.org>, 
+	Andrey Vagin <avagin@gmail.com>, Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 1/3] mseal sysmap: Add mseal_system_mappings= boot
+ parameter
+Message-ID: <auCxjbvY3qPv1sV6@gremlin>
+References: <cover.1793094611.git.chris@chrisdown.name>
+ <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,152 +66,385 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB6051:EE_|LO3P265MB1961:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54fb2695-c3d5-4e74-dcf7-08df3439cbfc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|23010399003|10070799003|376014|1800799024|18002099003|22082099003|261026140227099003|261021121427099003|56012099006|4143699003|10067099003|261021123027099003|261009223027099003|261022105027099003|261026121527099003|260925021911599003|260925022911599003|260925021311599003;
-X-Microsoft-Antispam-Message-Info:
-	maYIBDOfQfFGMxIM5Irf4+rEPPxj7BXTbLUoyn+css2gqcvevKbYZPhbd/RzPbno567Y/Rl3Mu1WQG/6h1bhb+Jn8el2mhgigBUQXpXcRBw5YLZ4aBR5XFSMF8/oZL4W38ovSOgMGyGwtgBy5usNgesZeBzJJPODUZjBGfpM3xIf6czXfz861a8udpzjouMLy/q9wQYYIJ7CpJ0Ldf6K1QV7CWnoJmEV/3rIeFQFaXpdGCsiTICLNQuoPn+i2vpO8gqiOgWh21YVIljCDPdDLv+nPzJP8omqjN5fGrN9QpmHYsjkhNaqEED3smvTj+kQ8KugCANu612EQxokPSF9Fm41q8kwjOTpTJyub1XBWG9HxAXZjbb32SJmCCGiUbxx1aGvV7gk6ATuNe3SgO6J/tBORaA8jqHjOGKs1fe9AYHdDq7yeDK3rBQk3IpNrG0mkHbD2Yy57FPQuYQx1mEwvb10HhP0c9LIMwYG25/8AAzIStdh75BkAYsSM01dekrScm61rj/7mkWjEmVsrBdz2YCPbx9X5wENK7YxeYKkSRAWINwpCvZUlT6Lj7CVx55qrt4LfEp4FxARpdlc8t5/jP2FrJdyD/XfxWUlGBQ11mNrDICj8Ot6D0DTY8QiA63A
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(23010399003)(10070799003)(376014)(1800799024)(18002099003)(22082099003)(261026140227099003)(261021121427099003)(56012099006)(4143699003)(10067099003)(261021123027099003)(261009223027099003)(261022105027099003)(261026121527099003)(260925021911599003)(260925022911599003)(260925021311599003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T0JVWUx2RlJGY251djdNckY2b1M1ZUk0SjlSSWVyVzBRRUlwdDJaYzBIZFJU?=
- =?utf-8?B?RllDZ3d0a3Y3ZE9rUnJROTFKUGVJczFoRHk2N1F3L1ltZ0w3OWQ1d00vbk12?=
- =?utf-8?B?T0RmVUU3aHJBRFhpWlBVU1dtMTdBbElJVHpkWHMvd0I0L3RmVXp6eUV1L2V0?=
- =?utf-8?B?M0RBZTlRcTlkb1dTVkhuajFuUloveWZublNxZGs5K09MbVBGTVhPZTdkTVhk?=
- =?utf-8?B?dGxwK0lTek50cFZqZVA1dHA5VzFTNG85TmswSjl5bEdsM3pRT3puR3UxRDZz?=
- =?utf-8?B?NnFKaDNJN0RYQW4wSEVwdDVWQy9NY1I2Qk1ZUHI1QUdJWU5nMi8yRXVBNE54?=
- =?utf-8?B?ZzdLd3I3ZTI0dm94dWRuUTJVdGtZWWN1QTBaZjZJSWxMZ0hEbGdoSkhnQVZI?=
- =?utf-8?B?RTJFRzFtdCtaSHVVeFdPS0dwbzFFM0YyZHoybTVwV3ZLQWxNb3RWSElqY2lZ?=
- =?utf-8?B?ZjJ5Vy9QWFNvejBCbnZia1FhZkgzZEttVnphSnhZekFmVkQvRGt3YzhrZUIz?=
- =?utf-8?B?NVEzbEpJcG0zcTIyYUdjSjFyUGNpTzlBeTlXZnRuaE0zK2RObEI1bnFVN2da?=
- =?utf-8?B?Z3UySEtpQjlCZW5xU0tpNE04bDdvSmkyTXdod25TUGlwSFpEUTZ5aU1IQTRR?=
- =?utf-8?B?RjRxcFJyWjJiSUtVdEEzYSsyalliMGllRGYrUVVmUXNNVWN6OWpnUlNyQmVy?=
- =?utf-8?B?MkVXaDRUemVtN2MrTUhxRDZrNXgvc0pqamREQk1YQVh0RlVlemVGbllJaVZL?=
- =?utf-8?B?blA0KzNZNzliNTFyZUxpd3J2RnMzTFV0bXQxZHEvYzVrekhPV1JOM0NxS3Fy?=
- =?utf-8?B?T0lhcFZydUFrOHA3Yk5neExlak5zdzd4NG5KSU9sS0N2WWttcEpLeUwzN05F?=
- =?utf-8?B?RS85N0lDclZkRDBaMWJRZTR1QVE2NzNpWDR0ZEYvT3FFaC9lYjRPekw4S1Va?=
- =?utf-8?B?UjlzZUtPaFArZVVqZnlvSEF1UTg3M1JXUnFVM3YwRTM2VlBjRWZVTnM0QThm?=
- =?utf-8?B?R1VDTWd6YnptQmNWQzJjWXZTYnN5NmpqMCsyampBYXRCZ3RzZzMwa0EyYnpT?=
- =?utf-8?B?aUVrV01ZdEcxbE05aWVzSlZDd21GRVpCc3A3d000TERneHByVlJJdllGcnBL?=
- =?utf-8?B?Ry8xTStZTTQrWEp2MUhjU1Z2MUtsaGJwcWlRUlFBRG92Qy9mY0NLeEVXeVlK?=
- =?utf-8?B?K0dJTU82TWttcyt0ZTdEaElkOGxhV1RreVI3NGtHRG9RNHZ3MUJRYTdUU0dB?=
- =?utf-8?B?Sjh4cWZNT0I1Q2FmRjlUa3dTZ0ZEQmlZRTQwZVJ3ZmFBTzI0dGVXODZSbTlE?=
- =?utf-8?B?RmxUZVR5WmxGaFozYmRNUEJZejluZjFKNFZvbzM5MWdFdkY3TEkwRThuR1VC?=
- =?utf-8?B?bjJKc3JiZmxiQ1NVSlVnTzdKZmR2ZVNrclNuOVpvTUF3V2pJQ1Nyelc1Z0NB?=
- =?utf-8?B?RklLSnVmYXhtTks1WlNaUUl0T3JKT3FDVmd4a1ZoZ29ibFZ4Qm44bkF3cmdQ?=
- =?utf-8?B?OHorbXl6Nm9NaDV5ZDJUbUhsMlE3eitnVldHQzUzejNwU29YUXBlTENzeUcw?=
- =?utf-8?B?endVeVlsRStyN2MwSU1PTTkvUzBueXgyaWFwTk9BdU5YUUNLSmFpNXV0Qy9h?=
- =?utf-8?B?bXBBeW9SN05ZOFZaWHJMR2RXRkhJcXpxYjFoT0JlRXlXM2xnbFJBWmhyMlFG?=
- =?utf-8?B?bUoyRmNMRlFLNFZuUzE5c1B6SGNOWUxMbTVkVGljelJ5THgvK0JLRHpsblZC?=
- =?utf-8?B?TDdFTFRTRFVNU1R2Y3FtWlc0RFZmcmdaS3NTYjcyOTRNbTJWL1RKci9VbTJO?=
- =?utf-8?B?bUZXS010QXlOYi8wd3F1UVhOcE1TVVZWMUZYajhZOVVlckhDcXB6L2djTmhX?=
- =?utf-8?B?bHR3K2JLWWV1L2Q0VW1TekNlZk14MUFNaUhNMnd0cHU3d0FuUndLQ3BlN3U3?=
- =?utf-8?B?UGhpVHc4TVpkaTBVRlNlbkcxNjN2d3VFMmwwSkhXcXFEdFNFN3UzNHhNY2xE?=
- =?utf-8?B?and3blZvSEUrc0pqejlKcWJldG05L0NQRE1QTTRzQ2Z3MTRvNnNJWklDdXlh?=
- =?utf-8?B?TW80LzZQdXNlZ09OMTllS0xtNEpyRVNMOU9wN2JpWnZRS1dmektSbk9UQjE2?=
- =?utf-8?B?QklIalo3c0tkczNPWHFzK2VDZU90Q1RSQ0JmUlpRNTV2T0NPTFBTbkxxbnV2?=
- =?utf-8?B?VVJVYlhWVjNtSDhqeGhWVExrOG9pdFlRUUpQalc2MFFLRkExd1NhdjJienJN?=
- =?utf-8?B?aG1ISDNlTDZ2OVg1UXk5RkkzMUM2eGNIS3RZZXFMMFNuQzNRVld5dTg1aUR2?=
- =?utf-8?B?UGZkQkpLS3g4eTlkWWl0Nzg2ZXBKaDVjb3ZUYVVnRzlRdjhMS0pIa3k5SzB3?=
- =?utf-8?Q?+qpSlrfEfBnvQH2gRWSaMMWkXoR6VoBoRFcqv?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54fb2695-c3d5-4e74-dcf7-08df3439cbfc
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB6051.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 14:51:35.3511
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6yc9wjNsAOubu3nRK7HzqJLoNdm2s3mjDDJ43sxPofnXPx6rHZXb0zWLBCxgh53wz8ecN4DD4JI7iuBXXFfxtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB1961
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
 
-On Tue Oct 27, 2026 at 9:48 PM CST, Guenter Roeck wrote:
-> On Tue, Oct 27, 2026 at 10:49:48AM +0100, Andrea della Porta wrote:
->> Hi Guenter,
->>=20
->> Yes, I also proposed that in the cover letter because auxbus seems also =
-a viable
->> solution.
->>=20
->> The current implementation is a consequence to the discussion about the =
-companion
->> PWM driver, from here (and the revisions that followed):
->>=20
->> https://lore.kernel.org/all/cover.1775223441.git.andrea.porta@suse.com/
->>=20
->> To give a short and hopefully coherent view of the decisions, here's a b=
-reakdown:
->>=20
->> - first proposal: PWM driver + fan hwmon (to read the RPM), all in the s=
-ame driver
->>=20
->> - V2: Uwe preferred to split the PWM driver from the hwmon one, so the h=
-wmon was
->>   dropped from teh PWM driver in favor of a future (fan) driver. To acco=
-mplish this,
->>   I moved from readl/writel to regmap + syscon.
->>=20
->> - V8: Gary proposed to export a function to read the fan RPM as a viable
->>   solution. As a result, the regmap/syscon was dropped as it was no long=
-er needed
->>   and the function has been exported from the PWM driver
->>=20
->> - new patchset for fan driver: the now independent hwmon moodle just cal=
-l the
->>   exported function from thw PWM driver.
->>=20
->> If the auxiliary bus is indeed the preferred approach, I'd like to ensur=
-e we are
->> all aligned, as this would also require refactoring the PWM driver.
->>=20
+The existing implementation is a bit of a mess, so any work that extends it
+has to put in the work to improve things first.
+
+I _hate_ VM_SEALED_SYSMAP. It's a hack. A tasteful way of doing this is
+really required for a series touching this to be taken, honestly.
+
+See below for implementation ideas.
+
+(Also it's the merge window, so no more revisions until -rc1, when you need
+to resend, thanks.)
+
+On Tue, Oct 27, 2026 at 07:43:04PM +0800, Chris Down wrote:
+> CONFIG_MSEAL_SYSTEM_MAPPINGS seals each process' system mappings when
+> they are created. As it is today this can only be toggled at build time,
+> so hosts that need sealing and hosts running software which moves or
+> unmaps these mappings end up with separate kernels. This is not ideal
+> since it adds more complexity of deployment, it would be great to be
+> able to have one kernel which can configurably do both.
+
+Could we have some actual justification for the use of the feature please?
+So far I've seen arm-waving.
+
 >
-> Let's say it that way: If you don't want to implement the auxiliary drive=
-r,
-> and you insist using the exported function, I would prefer for you to go =
-back
-> to the first solution. The one thing I really dislike is conceptually bro=
-ken
-> code, and I consider the current approach broken. Your call, but the one =
-thing
-> I won't accept is the code with the exported function.
+> So, to improve this, let's add mseal_system_mappings= so that this can
+> be chosen at boot.
+>
+> Signed-off-by: Chris Down <chris@chrisdown.name>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |   7 ++
+>  Documentation/userspace-api/mseal.rst         |   3 +-
+>  include/linux/mm.h                            |   3 +-
+>  mm/mseal.c                                    |  12 ++
+>  security/Kconfig                              |   2 +
+>  .../mseal_system_mappings/sysmap_is_sealed.c  | 104 +++++++++++++++---
+>  6 files changed, 115 insertions(+), 16 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e75344f4e0cd..b1ec9a8a979e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4270,6 +4270,13 @@ Kernel parameters
+>  	MTD_Region=	[MTD] Format:
+>  			<name>,<region-number>[,<base>,<size>,<buswidth>,<altbuswidth>]
+>
+> +	mseal_system_mappings=
+> +			[KNL,EARLY] Under CONFIG_MSEAL_SYSTEM_MAPPINGS,
+> +			whether system mappings are sealed for this boot.
+> +			See Documentation/userspace-api/mseal.rst.
+> +			Format: <bool>
+> +			Default: 1 (enabled).
 
-I agree on the auxiliary driver part. However, I don't think EXPORT_SYMBOL_=
-NS is
-an issue, and regmap is not the right fit here:
+You _have_ to duplicate the list of things this breaks here please.
 
-- Previous version of the PWM1 patch series publish regmap using
-  of_syscon_register_regmap, but this cannot be undone -- which needs to ha=
-ppen
-  on PWM device unbind (the RP1 PWM device is itself platform device, but R=
-P1
-  chip itself is PCIe device which must be removable).
+> +
+>  	mtdparts=	[MTD]
+>  			See drivers/mtd/parsers/cmdlinepart.c
+>
+> diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
+> index c039d782f9f5..4e50215e4762 100644
+> --- a/Documentation/userspace-api/mseal.rst
+> +++ b/Documentation/userspace-api/mseal.rst
+> @@ -142,7 +142,8 @@ Use cases
+>
+>    If supported by an architecture (CONFIG_ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS),
+>    the CONFIG_MSEAL_SYSTEM_MAPPINGS seals all system mappings of this
+> -  architecture.
+> +  architecture. The kernel command line parameter
+> +  ``mseal_system_mappings=0`` turns this off at boot.
 
-- The tachometer register is not its own separate register, but rather (re)=
-using
-  the phase control register. The phase control is not implemented in the R=
-P1
-  PWM driver on the list yet, so this is currently a simple register read -=
-- I
-  can see that RP1 PWM driver need to take special care to about the tachom=
-eter
-  reading if the phase control is implemented.
+This is just really confusing.
 
-  For the two reasons above, I think the way that tachometer is read should
-  really be an implementation detail of the PWM driver and not for the hwmo=
-n
-  driver to worry about, so I suggested using EXPORT_SYMBOL_NS.
+Adding a flag that defaults to on but only defaults to on if the config
+option is enabled...
 
-- EXPORT_SYMBOL_NS is the documented way for exposing functionality from pa=
-rent
-  device to auxiliary drivers: https://docs.kernel.org/driver-api/auxiliary=
-_bus.html
+Let's just refactor this properly to stop abusing a 'VMA flag' (which is
+really not a VMA flag, but an alias).
 
-Best,
-Gary
+Let's negate things first. Make the boot flag 'no_mseal_sys_mappings'
+rather than confusingly implying mseal_system_mappings=1 could enable it
+even with a config option not provided.
 
+Then add something like:
+
+static inline bool mseal_system_mappings(void)
+{
+        return IS_ENABLED(CONFIG_MSEAL_SYSTEM_MAPPINGS) &&
+               !mseal_system_mappings_disabled;
+}
+
+And call that in _install_special_mapping().
+
+The LLM overlords tell me that only uprobe trampolines would see a delta
+from this given the ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS restriction.
+
+This would improve things a lot.
+
+>
+>    WARNING: This feature breaks programs which rely on relocating
+>    or unmapping system mappings. Known broken software at the time
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 5f82be0fcde5..2329d81b7d46 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -568,7 +568,8 @@ enum {
+>  #define VM_STACK_FLAGS vma_flags_to_legacy(VMA_STACK_FLAGS)
+>
+>  #ifdef CONFIG_MSEAL_SYSTEM_MAPPINGS
+> -#define VM_SEALED_SYSMAP	VM_SEALED
+> +extern bool mseal_sysmap_enabled;
+> +#define VM_SEALED_SYSMAP	(mseal_sysmap_enabled ? VM_SEALED : VM_NONE)
+
+No, you don't use the legacy VMA flags API for new work. Sorry.
+
+See above as to a pointer as to how this should look.
+
+>  #else
+>  #define VM_SEALED_SYSMAP	VM_NONE
+>  #endif
+> diff --git a/mm/mseal.c b/mm/mseal.c
+> index 7a8ac66dc215..e0563796cfa3 100644
+> --- a/mm/mseal.c
+> +++ b/mm/mseal.c
+> @@ -7,6 +7,8 @@
+>   *  Author: Jeff Xu <jeffxu@chromium.org>
+>   */
+>
+> +#include <linux/init.h>
+> +#include <linux/kstrtox.h>
+>  #include <linux/mempolicy.h>
+>  #include <linux/minmax.h>
+>  #include <linux/mman.h>
+> @@ -16,6 +18,16 @@
+>  #include <linux/sched.h>
+>  #include "internal.h"
+>
+> +#ifdef CONFIG_MSEAL_SYSTEM_MAPPINGS
+> +bool mseal_sysmap_enabled __ro_after_init = true;
+
+See above re: rework of this.
+
+> +
+> +static int __init early_mseal_sysmap(char *buf)
+> +{
+> +	return kstrtobool(buf, &mseal_sysmap_enabled);
+> +}
+> +early_param("mseal_system_mappings", early_mseal_sysmap);
+> +#endif
+> +
+>  static bool range_contains_unmapped(unsigned long start, unsigned long end)
+>  {
+>  	VMA_ITERATOR(vmi, current->mm, start);
+> diff --git a/security/Kconfig b/security/Kconfig
+> index f7bf6cdc6229..d5e83af1bfc6 100644
+> --- a/security/Kconfig
+> +++ b/security/Kconfig
+> @@ -67,6 +67,8 @@ config MSEAL_SYSTEM_MAPPINGS
+>  	  of writing includes CHECKPOINT_RESTORE, UML, gVisor, rr. Therefore
+>  	  this config can't be enabled universally.
+>
+> +	  Sealing can be turned off at boot with "mseal_system_mappings=0".
+> +
+
+'With this configuration option set, sealing can...' right now this reads a
+little like it's defaulted on.
+
+Also can we move this Kconfig option out of security and into mm please?
+This is explicitly an mm feature, and it should never have been added there
+(mm needs to know if somebody sets this default=y or something for
+instance).
+
+In any case, as above, no_mseal_sys_mappings is probably a better way, then
+this becomes something like:
+
+"With this configuration option set, the feature can be disabled
+with the no_mseal_sys_mappings boot parameter.'
+
+>  	  For complete descriptions of memory sealing, please see
+>  	  Documentation/userspace-api/mseal.rst
+>
+> diff --git a/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c b/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
+> index cb0ca6ed7ebe..97348c2a0689 100644
+> --- a/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
+> +++ b/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
+
+Tests as separate commits please.
+
+> @@ -1,12 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * test system mappings are sealed when
+> - * KCONFIG_MSEAL_SYSTEM_MAPPINGS=y
+> + * Test system mapping sealing and the mseal_system_mappings= boot parameter.
+>   */
+
+Can we have test changes as separate commits please.
+
+>
+>  #define _GNU_SOURCE
+>  #include <stdio.h>
+>  #include <errno.h>
+> +#include <ctype.h>
+>  #include <unistd.h>
+>  #include <string.h>
+>  #include <stdbool.h>
+> @@ -17,6 +17,73 @@
+>  #define VMFLAGS "VmFlags:"
+>  #define MSEAL_FLAGS "sl"
+>  #define MAX_LINE_LEN 512
+> +#define SYSMAP_PARAM "mseal_system_mappings="
+> +
+> +static int parse_bool(const char *s, bool *res)
+> +{
+> +	if (!s)
+> +		return -EINVAL;
+> +
+> +	switch (tolower((unsigned char)s[0])) {
+> +	case 'e':
+> +	case 'y':
+> +	case 't':
+> +	case '1':
+> +		*res = true;
+> +		return 0;
+> +	case 'd':
+> +	case 'n':
+> +	case 'f':
+> +	case '0':
+> +		*res = false;
+> +		return 0;
+> +	case 'o':
+> +		switch (tolower((unsigned char)s[1])) {
+> +		case 'n':
+> +			*res = true;
+> +			return 0;
+> +		case 'f':
+> +			*res = false;
+> +			return 0;
+> +		}
+> +		break;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int sysmap_sealed_expected(void)
+> +{
+> +	char cmdline[4096], *tok, *save;
+> +	int sealed = 1;
+> +	bool value;
+> +	size_t len;
+> +	FILE *f;
+> +
+> +	f = fopen("/proc/cmdline", "r");
+> +	if (!f)
+> +		return -1;
+> +	len = fread(cmdline, 1, sizeof(cmdline) - 1, f);
+> +	if (ferror(f) || !feof(f)) {
+> +		fclose(f);
+> +		return -1;
+> +	}
+> +	fclose(f);
+> +	cmdline[len] = '\0';
+> +
+> +	for (tok = strtok_r(cmdline, " \t\n", &save); tok;
+> +	     tok = strtok_r(NULL, " \t\n", &save)) {
+> +		if (!strcmp(tok, "--"))
+> +			break;
+> +		if (strncmp(tok, SYSMAP_PARAM, strlen(SYSMAP_PARAM)))
+> +			continue;
+> +
+> +		if (!parse_bool(tok + strlen(SYSMAP_PARAM), &value))
+> +			sealed = value;
+> +	}
+> +
+> +	return sealed;
+> +}
+
+This seems total overkill, you're checking whether a boot parameter works?
+
+>
+>  bool has_mapping(char *name, FILE *maps)
+>  {
+> @@ -30,7 +97,7 @@ bool has_mapping(char *name, FILE *maps)
+>  	return false;
+>  }
+>
+> -bool mapping_is_sealed(char *name, FILE *maps)
+> +int mapping_is_sealed(FILE *maps)
+>  {
+>  	char line[MAX_LINE_LEN];
+>
+> @@ -43,7 +110,7 @@ bool mapping_is_sealed(char *name, FILE *maps)
+>  		}
+>  	}
+>
+> -	return false;
+> +	return -1;
+>  }
+>
+>  FIXTURE(basic) {
+> @@ -67,53 +134,62 @@ FIXTURE_TEARDOWN(basic)
+>  FIXTURE_VARIANT(basic)
+>  {
+>  	char *name;
+> -	bool sealed;
+> +	bool sysmap;
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, vdso) {
+>  	.name = "[vdso]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, vvar) {
+>  	.name = "[vvar]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, vvar_vclock) {
+>  	.name = "[vvar_vclock]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, sigpage) {
+>  	.name = "[sigpage]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, vectors) {
+>  	.name = "[vectors]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, uprobes) {
+>  	.name = "[uprobes]",
+> -	.sealed = true,
+> +	.sysmap = true,
+>  };
+>
+>  FIXTURE_VARIANT_ADD(basic, stack) {
+>  	.name = "[stack]",
+> -	.sealed = false,
+> +	.sysmap = false,
+>  };
+>
+>  TEST_F(basic, check_sealed)
+>  {
+> +	int expected = 0, sealed;
+> +
+>  	if (!has_mapping(variant->name, self->maps)) {
+>  		SKIP(return, "could not find the mapping, %s",
+>  			variant->name);
+>  	}
+>
+> -	EXPECT_EQ(variant->sealed,
+> -		mapping_is_sealed(variant->name, self->maps));
+> +	sealed = mapping_is_sealed(self->maps);
+> +	if (sealed < 0)
+> +		SKIP(return, "could not read the mapping's sealing state");
+> +	if (variant->sysmap) {
+> +		expected = sysmap_sealed_expected();
+> +		if (expected < 0)
+> +			SKIP(return, "could not determine the expected sealing state");
+> +	}
+> +	EXPECT_EQ(expected, sealed);
+>  };
+>
+>  TEST_HARNESS_MAIN
+> --
+> 2.54.0
+>
+
+--
+Cheers, Lorenzo
