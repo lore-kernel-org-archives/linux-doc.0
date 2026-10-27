@@ -1,111 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793108848;
-	b=uMOsVdWTKGvlRnfgi3ep3FurXQ1zbVoxYAjDYcsYv8rPcKwbcL072GiiuOkVp50sOyfJ
-	 +ZyVQDZDx86IRAEtDMcH6vcxn1487XRBECWkfCh1wDUoYccIG0r/dsEZnsRsxKCKJRHVS
-	 1Zr98c4kgMvRMuwbh6C5LMrnRGgcfsCuKI7/sezDvT2Jy2ZJCwnJfBn/6kT4D4b1L9jmI
-	 ABuwJh+8b7hPPDQSqYTmFo2M6FFs+v/86LXXfKk28BanpAH8kv5NUETCkHCMSwsEzDoSK
-	 Oan9tf97AqUDtSGYsn81htQ53a2VsJlVm1N55sD+0uyTtTLOcpr52XQ4ZFOW9ou5FdA==
+	t=1793108928;
+	b=Wk553GGTjcBoDMGVg4JoADGZTfFHxtdaEU5vizF8VCntpmub23C5+ClI1PsmptYhGymM
+	 4pI6rza2G3PEqRnEl2NJdtu6Uwo394DKP6EAiLD6JxtjSB2eMzoHLawjXBQGmcNuAkYn+
+	 sbVMDktOk657dWQ67JD8Np2tzr1bWnKGzZ6hTQYzc4aBWD3fGq/Qpvys/s8V+cxImGWWz
+	 T9NwrIIrOUb4dC4k2JmKcqFqdOkXcj4D9xAcqPbzuTXxwVwlPkXACAurJlvYedg2Gp+qO
+	 Xh7fUlfsZIDQIjRdVsGLNkR4FPwrLY09gBgA5EAWb6YKqR2TXkC5JYjGWLBBXS6DAIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793108848;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Vi2VyxWb8hUzIvesy3TGk19mK9cZ4B2w+p8Em2DTRI4=;
-	b=QNdZSRRMBihDuDbaiwBmjiC1IKesAHhaGJzOQqM2/kAQvEWJKIrgLv+T1LDWHFA3J55T
-	 pKRH7OnZ7/0mye0q466SLI2yb8QUD369GsSCzecZ0FZPRzuBiw6gzgO93F0patjytMVox
-	 tytNzL++KaxUwzOMA/gxo9WRsyR0YhI5ClzKlATBYVwnVaiWazaP3TDSAXRkHLz5Z24pO
-	 JNJpfgsdIB8miEJZCbAqpj2mjN6VJGQft01upxWk1hYbZfrZVEB9LJ75uUMYqqPWd3WYq
-	 20P1Cf9g+aqK9di/0VR6GJdOyjbEFUpuYIT5T0jxealisOWTK+cE1BMwje2/6Ts/HwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793108928;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:X-Source:
+	 X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=xnmTt7xAHrUILK2F5tw9jpxyescs2qacR8TokbmgBtk=;
+	b=E8z6Qx5UKUOmCp7pwMQXfAC9OWO/PsEnNZwFWrktasJ4AIivFBWBhHIl10y+FI8+A2DF
+	 D+yvvv40shEkVXq3YmU4/nKXWLBmccEMNAot2D6ejYik4QDVzIYe6yc7FdIdmJ86XZNSv
+	 eKipWbVP3vCf4ejTTKrv+pH9/LlndwSHM8mL1n0iBU3vMSCUylGWmjEM76CcZio5nNYzt
+	 rAt1brQp+MYPviEbxd5QmS0MJHhihCurwj3KMtvs8aQtnpBcEIDaR08JYRIaKftecshM7
+	 i9ma2LIRwM7gI50PWS5RWeDpXBf5kn9dejkqKTScWBBznAyB/P+eedPkkxqh95AQVFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=B52Xihmr;
-	arc=none smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=SpXCwzbR;
+	arc=none smtp.remote-ip=35.89.44.39
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ACC606A31B
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 13:47:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0ACC606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21AD606A31B
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 13:48:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D21AD606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=B52Xihmr
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c498fa2f365so297183666b.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 06:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793108846; x=1793713646; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vi2VyxWb8hUzIvesy3TGk19mK9cZ4B2w+p8Em2DTRI4=;
-        b=B52Xihmri68zEQvOwl0tik89nRtTdSvySUKtMLXC2dQa/2PIgZ+TqYVkwSGWfj6CLl
-         fmUxnQLmnJTCCasfhumf/8XYsj1jH9CNWubsIqmQo37PVxYt/Lfl0aDxbI+Gvl0wgZTV
-         vHjLMOphw3xRMpdsdwPxgavAmAb8/neFssd1A1L8ci+yspEuWJtchXTVqEmlLO8XgcQx
-         xoCVYSNUqrJMnbEhrgdfdGpf7Y4xJVvf7RX1KVEBrmtM06CSZud3KU4Cq6mJA/aJFF+O
-         H/O2V7URqxLCi73ulwpwCjk3aXhqOib2v/f2/2yB8tuRo8IYv9MCuxgh+SrcAofSghCa
-         d/jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793108846; x=1793713646;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Vi2VyxWb8hUzIvesy3TGk19mK9cZ4B2w+p8Em2DTRI4=;
-        b=nZKW8C3A1cNBxEFXV6Q+LDN6vE0RgNqTNHNgE4wu1HyICvomrOeyZdFyZVuLyKWQ98
-         MehnmJcvuTv5lzIwTF2dqTT6d5DKgrfkGpNqrJw9nTl3/EWE3hmzuKBMlubGILNN3Yzh
-         dGjfk799WPol+x3XeHWMSL116FfRWOwb72AIhlZl7GnLg3fsPfW//BI3+g26YX9ESlLv
-         wTq4Ajba2Yh1RUfChJbM5qLFKqapkNPqtZbWaIwOruSnDrSDKzaiIFdtZxQmRJdGa8AL
-         Lamfx8IjAPxY+Z312sB6kBvhx1BXLXmBZZ6m9skQUG3PoeC+G+UV83u2Uk34FT0jTE6M
-         v05A==
-X-Forwarded-Encrypted: i=1; AKwUvBwZq7A3QgZkMJlBRZOWKeAyxRvHY4w1lDXzGZ6BXZDM5aS+5lhOPrK3Byd953p1+Ys6oYLHoHL8BEo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIYjlpbsBqxJV5nYf6V35prThlzQnwSUC6eYsIIzP49U5jlRINL
-	clK7aL2/L0at0QhMkWK0rCn3zwShB5TGdHqrLx5aRL/JHHtVjxMCEqwL8ntA1IybqCE=
-X-Gm-Gg: AYBFou23bZYxx9XsV2tkh0Rl4wrF/NFU3RSo5pZU4f7OD+CMlwKS2mVIvkAcvHcRYC7
-	pJab92aPumB8BEt34cebeJjauFzHw5oj/vkYscjXNXW8k/F/jd8LfI40yALbDmkIqIS5TVBPQKw
-	HVH1iK1j0LMArU0G6VEmjX/8vIvLj7M0+KDfefQ61gUMu8Oxshdk2GdQrBk8Slhk7/3Fy6bYDrS
-	Z/qcIadq/ml5kUQP5J7URvbtkJHCCjFlp6PSsnGXmhbbFRd8caZv4/Prd+DjH8p2pOKqY8EUtR8
-	+lQxnzYa36pzTPqnyL9uU/9wP9KOzoMEWUevQTDjMwKagOW+p4kDF2O7xwq9m+885Xxqevj2e3m
-	e+4oJdpgR1/BT73FXMqg2TQK04pUr3aaanfvQawks3AI2LicYGOZCzLKC0WeoDFp0Z2651MsN8e
-	i3eI7kIjQ9FUMuRiuavMvd/NVSI9uHxdl4XBfAD4TngoKzht2/6+DqeiakGvP9fVd3DOhsApcD4
-	VySF8dSI111aR9H8cYhB4HI2nu2OuumtMUrpevfaKC+ab4t5fSciYF6H21g+mpcvc10yXKvszj0
-	416BuslJiwgyyZLO7rAJC9upKVOr6GZOFKLo0LrqegrB1CIqBaWT
-X-Received: by 2002:a17:907:d649:b0:c36:7579:fe6d with SMTP id a640c23a62f3a-c46bddce8edmr1009655366b.11.1793108845951;
-        Tue, 27 Oct 2026 06:47:25 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd5206dasm460325266b.33.2026.10.27.06.47.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 06:47:25 -0700 (PDT)
-Date: Tue, 27 Oct 2026 14:47:22 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: John Ogness <john.ogness@linutronix.de>, chris@chrisdown.name,
-	Sam Crossley <samuelcrossley@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=SpXCwzbR
+Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
+	by cmsmtp with ESMTPS
+	id LVFtxDlNpc3XsLhXjxgJbj; Tue, 27 Oct 2026 13:48:47 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id LhXix7TwybS96LhXixOe3t; Tue, 27 Oct 2026 13:48:47 +0000
+X-Authority-Analysis: v=2.4 cv=IZ+HWXqa c=1 sm=1 tr=0 ts=6ae0abbf
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=8nJEP1OIZ-IA:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10 a=VwQbUJbxAAAA:8
+ a=iox4zFpeAAAA:8 a=SGJkWrW82lNR26rtH8EA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=WzC6qhA0u3u7Ye7llzcV:22 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=xnmTt7xAHrUILK2F5tw9jpxyescs2qacR8TokbmgBtk=; b=SpXCwzbRcHVw
+	N2YxxPeLLeWmEdPesF9F/Tvwg3/Ur+cwc0BNs5PkwRihIB8ZMpHxkfenhxHZpiilczHaa4BtNtJ1l
+	MQnh1TC5aAZMz+jcAA5b/5ruWpsHOZrFPKBcqgrpVB3caHvWBe1ZNul0by2cPjbo+g7bcc2QVh+57
+	V6+/SqH5BLHSkzcWPPnOglmu2ivP6fkSwwKLoaDhSDx727CnyZj1Tp4091tI/+Uj6SFEuba4GhaTl
+	igg3Fb3jjUNUqPtxHIgSUTYnREXjUpO4E5Wjps/Jf4KT2tqED6oeLR6WZpxmMaRsTbbMxiLK7yK0h
+	Q6z0bqsN0q8zSZQDFgNCgQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:34878 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xLhXf-00000003hnK-28cN;
+	Tue, 27 Oct 2026 19:18:43 +0530
+Date: Tue, 27 Oct 2026 06:48:42 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Andrea della Porta <andrea.porta@suse.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer on
- demand
-Message-ID: <auCraiuMZApQHiNA@pathway.suse.cz>
-References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
- <87fqxskdpl.fsf@jogness.linutronix.de>
- <at84qygscue8crQi@gmail.com>
- <87a4o0k3qa.fsf@jogness.linutronix.de>
- <at9qgBucVm-QHnye@pathway.suse.cz>
- <87zew0ifpp.fsf@jogness.linutronix.de>
- <at-Ppa86sBw7mO8W@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Gregor Herburger <gregor.herburger@linutronix.de>,
+	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Gary Guo <gary@garyguo.net>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH RFC 0/4] hwmon: Add fan tachometer support for Raspberry
+ Pi RP1
+Message-ID: <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
+References: <cover.1792748690.git.andrea.porta@suse.com>
+ <7df58d42-517c-4936-88b0-9d044d30882c@roeck-us.net>
+ <auBzvB8TsvIK8Hik@apocalypse>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,54 +100,126 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <at-Ppa86sBw7mO8W@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <auBzvB8TsvIK8Hik@apocalypse>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xLhXf-00000003hnK-28cN
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:34878
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 5
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfPeKqJoVbjsOHwgnjcK9xH3NdvoCKAaeq9Hz4J4+autKfaKP/L6CidrsBSgxcFjcKYQ9xzdwAqfgKfiJq7gvdykMWsM/kjs/i72Dmzfv3gZcwMrjnEYJ
+ g0XhiZJcHD4HkWRJjRlMsi0GWAcmR+ip/jMuyn19oGQ1c1hHceYfg9cQsT4ub/yotbCQ2t6yAk3HLbKgiD/xbUXkbOourCkYyN3jGdniIdJ1bwxfVkU5pUDU
 
-On Mon 2026-10-26 10:49:32, Breno Leitao wrote:
-> A bit of context on the use case from our side.
+On Tue, Oct 27, 2026 at 10:49:48AM +0100, Andrea della Porta wrote:
+> Hi Guenter,
 > 
-> In an ideal world netconsole is enabled from early boot through the
-> kernel command line, but in some case this is impossible
-> (linux as bootloaders - ipxe/sd-stubs/etc).
+> On 09:24 Mon 26 Oct     , Guenter Roeck wrote:
+> > On 10/23/26 03:15, Andrea della Porta wrote:
+> > > Hi,
+> > > 
+> > > This patch series adds fan tachometer / RPM monitoring support for the
+> > > Raspberry Pi RP1 southbridge found on the Raspberry Pi 5.
+> > > Please note that the patchset in [1] is a prerequisite for this one.
+> > > 
+> > > On the Raspberry Pi RP1, the active cooling fan speed is controlled via
+> > > the RP1 PWM controller. In addition to generating PWM signals, the RP1
+> > > monitors fan tachometer pulses. The pulse measurement and RPM calculation
+> > > are performed autonomously by the RP1's onboard Cortex-M microcontroller
+> > > core, which periodically writes the computed RPM value directly into
+> > > dedicated MMIO registers located within the RP1 PWM hardware block.
+> > > 
+> > > During earlier discussions, Uwe Kleine-König explicitly indicated a
+> > > preference to keep the core PWM controller driver (drivers/pwm/pwm-rp1.c)
+> > > focused strictly on PWM duties, rather than bloating it by registering an
+> > > hwmon device directly from within the PWM driver (see [2]).
+> > > 
+> > > Because the Linux PWM subsystem currently lacks a generic framework or
+> > > consumer API for reporting hardware-calculated tachometer readings, this
+> > > series implements a standalone hwmon driver (rp1-fan) using the following
+> > > structure:
+> > > 
+> > > -  The PWM driver exposes and exports rp1_pwm_read_tachometer() within a
+> > >     dedicated symbol namespace ('RP1_PWM') to read the RPM value from
+> > >     the MMIO block.
+> > > -  A companion DT binding (raspberrypi,rp1-fan.yaml) introduces a vendor
+> > >     property, 'raspberrypi,pwm-tachometer', to link the fan node to the
+> > >     PWM controller node without overloading or abusing the standard 'pwms'
+> > >     property.
+> > > -  The rp1-fan hwmon driver parses this phandle, establishes a device link
+> > >     for proper runtime and unbind dependency management, and registers the
+> > >     standard hwmon 'fan1_input' sysfs attribute.
+> > > 
+> > > An alternative architectural approach to the DT phandle + exported helper
+> > > method would be to model the tachometer as a child device using the
+> > > auxiliary bus framework (drivers/base/auxiliary.c). In that model, the RP1
+> > > PWM driver would instantiate an auxiliary device for the tachometer, and
+> > > the hwmon driver would bind to that auxiliary bus device without requiring
+> > > a separate DT node.
+> > > 
+> > > However, adopting the auxiliary bus would require a more significant
+> > > rework and refactoring of the existing RP1 PWM driver.
+> > > 
+> > > I'd appreciate any feedback on whether the current companion driver with
+> > > a dedicated DT property is acceptable, or if an auxiliary bus-based
+> > > refactoring of the PWM driver is the preferred upstream path.
+> > > 
+> > > Patch Breakdown
+> > > ---------------
+> > > Patch 1: pwm: rp1: Export helper to read fan tachometer RPM
+> > > Patch 2: dt-bindings: hwmon: Add Raspberry Pi RP1 fan binding
+> > > Patch 3: hwmon: Add driver for Raspberry Pi RP1 fan tachometer
+> > 
+> > This seems conceptually wrong.
+> > 
+> > Have you considered implementing the hwmon driver as auxiliary driver
+> > and accessing the register in question through regmap ?
 > 
-> The other way to setup netconsole is to create a new target at runtime
-> through configfs. Netconsole then only sends messages from the time the
-> target is enabled.
+> Yes, I also proposed that in the cover letter because auxbus seems also a viable
+> solution.
 > 
-> For this second case, I would like to replay the whole kernel log on
-> netconsole, such as previous messages. Something might have happened
-> before the target was enabled, and we want visibility into that.
+> The current implementation is a consequence to the discussion about the companion
+> PWM driver, from here (and the revisions that followed):
+> 
+> https://lore.kernel.org/all/cover.1775223441.git.andrea.porta@suse.com/
+> 
+> To give a short and hopefully coherent view of the decisions, here's a breakdown:
+> 
+> - first proposal: PWM driver + fan hwmon (to read the RPM), all in the same driver
+> 
+> - V2: Uwe preferred to split the PWM driver from the hwmon one, so the hwmon was
+>   dropped from teh PWM driver in favor of a future (fan) driver. To accomplish this,
+>   I moved from readl/writel to regmap + syscon.
+> 
+> - V8: Gary proposed to export a function to read the fan RPM as a viable
+>   solution. As a result, the regmap/syscon was dropped as it was no longer needed
+>   and the function has been exported from the PWM driver
+> 
+> - new patchset for fan driver: the now independent hwmon moodle just call the
+>   exported function from thw PWM driver.
+> 
+> If the auxiliary bus is indeed the preferred approach, I'd like to ensure we are
+> all aligned, as this would also require refactoring the PWM driver.
+> 
 
-Just to be sure that I understand it correctly. 
+Let's say it that way: If you don't want to implement the auxiliary driver,
+and you insist using the exported function, I would prefer for you to go back
+to the first solution. The one thing I really dislike is conceptually broken
+code, and I consider the current approach broken. Your call, but the one thing
+I won't accept is the code with the exported function.
 
-Is the netconsole registered before it gets functional, please?
-
-Is it possible to detect that the netconsole is not yet functional
-and when it could start working?
-
-I ask because there is the flag CON_PRINTBUFFER which should cause
-re-playing all messages on the console during registration.
-
-A solution might be to delay the console registration until
-the netwok target is really working.
-
-Another solution might be to temporary block/disable the console
-until it gets operational. We already have console_suspend()/resume()
-API. But we might need something new to distinguish it from
-the system suspend/resume handling.
-
-> That said, the "per-console counter" might work as well, since it would
-> start as 0, thus, we know that netconsole target would be behind, and
-> try to replay? (not sure how yet)
-
-This is what the console_try_replay_all() does. The only difference
-is that it resets the counter to the oldest available message,
-see __console_rewind_all(). It is just a small optimization
-when the ring buffer is already full and the oldest messages
-are gone.
-
-> That said, one way or another might work for our purposes ?!
-
-Best Regards,
-Petr
+Guenter
