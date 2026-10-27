@@ -1,58 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793094383;
-	b=UfLejSys9bvQi6VaF0UbLR8VEd3xEcfT5mGzHaSJTmlVyQXzZEqQONd1oz9xcWfMH6aj
-	 v3f+A94KRjjcoUdEAq2y4L8lnPI1Z11GRVwSoD+Wr8uqPX09WzJv/ZildlJoBaJjYqGMG
-	 vCFDCQHL+1UxR1uWriscIO3ungm9LsLGorI3FvkVtEYLX1N3ZEf/EhOYQ4I+B7TMD+OTH
-	 qMzTTdtT8CoN8kHUY5Q9Pjs6WyYkjFwvfnpcTZuFBiBRtTJgmUxiC5fRbkeo5xZYTodYk
-	 txv+2lyT323l5Vv0CT2QTttVFsP4Jf0A0ATN6VvXAaAu8rfk/p/JFEc1gudKXM4r1UQ==
+	t=1793095400;
+	b=DJlEf3RJqPqr6hXy3BI4WMvbFx3cOUtvKUv4tOXDvKxFCSOG1b8lDGKi2A74xKPaflj1
+	 GSiqIZIneOTIDchZ5OZ8Fv/8AQ9gdOZ/yWij4p7AS0Eu906aF+jS/yeRJakz2YQBv3HD3
+	 Td5Mec9rbmVa7hBptdSEv3qYV+r+T4IZqXSK72DL7zIEy/XjgL9mtZt0wgYTGSRJjQsCP
+	 Qx9olMV+i/HY201YCeKmP8b3k/9UxJPzWUKQ8qs0oOiKMqu9vkonVJgig3OTE1iABu2hv
+	 X9JRvcp7XBFMiT513J4wUVlrIeAi7JljjChFWMmiQWSaNYGaFusYdYY2W9AtE9jAe0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793094383;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=8rFiTxZOwo2VZms6MC4in4aJ0OzlRUdtTuBeNfB6VJY=;
-	b=AH5cgRsqvTHfEo9I0BGBN9pq6CFxh9dQ2g1EbR2vcSU6fX8TtBCKSHh2YImwpVyFPyMJ
-	 esfCir2WjAu/e4HLoXVtcmL4Ad+M29xkzqHB4edqSjYiDLFs6BVhcu5eW56IUDTSa+yGT
-	 dTSgtQLrBFaoY0IP+RXEMr1gGaKMCCS4vW4WggncaCk7VFBqugUiFFqqADyDlPnXD9ZVP
-	 u719SNiNxSWovRDZCMusULRwieQE7rrE6RVfffrIzl7FGeWAH00NRFKkXB4COzqsr3UFv
-	 fW3bVlYqNqdazpMmmb1SzMbgrEQnZ95m8HLbdBZteat7Qsqe/DzmPC5AhRFuS1JTOsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793095400;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=B/ZpDq3DjZV/62zmns9uwG24EjevmhON4QmJ/2QUaFc=;
+	b=LndGf4IIuzhlyYy355lMXc8ibFNtwG1WWnM7iY8zm2uG9VpaVkN0iHnr1n18/y4I8xq1
+	 elraiom+L6bnxh1HVTN5ZhcHKqoWdWoCE0Eiiv4AQtqudP9sYanjy+IaFWvo4YdH5AK11
+	 qhdM9N7whfl4t2bnv/9idTxG+kzXcAPxpqlkrvXoXRXJXf13hW2P+/D7BQe8GSkikNLqv
+	 xj957NqyfEVQuNZMZ15SfS46+dzueTnlq5DHdwqNncm9+LbmOusy4txuAFr0VH61iI3o3
+	 /cSPE8OlbNgC/MFQ395jrf56aC/8wEk2rHQRXnlLbUSbWHE6eLqt2aXVy6L91qzFVtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=1EphzHDe;
-	arc=none smtp.remote-ip=113.46.200.219
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	arc=none smtp.remote-ip=209.85.218.47
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294CA606A31D;
-	Tue, 27 Oct 2026 09:46:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 294CA606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=1EphzHDe
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=8rFiTxZOwo2VZms6MC4in4aJ0OzlRUdtTuBeNfB6VJY=;
-	b=1EphzHDeF8ps+FmTf91CAJlnqWNZeQB2cVJXv7phC/3EJX0PW9FKl2gAJj7pIQPi7hHXCOAyV
-	uTKXDXw4ESSfViCv2NMmRVxFxxd4vcsvB6d629RjnQPxW9hiuWjib28DkDH+gruklD5rXLtOcgI
-	inLVTEZl4FGJLWN+9hV+PYA=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jDQbx2w9gz1prky;
-	Tue, 27 Oct 2026 17:46:05 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id E9E2E4058F;
-	Tue, 27 Oct 2026 17:46:12 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 27 Oct
- 2026 17:46:12 +0800
-Message-ID: <6e381f14-f00b-4c0d-8499-f5a5f37b2572@huawei.com>
-Date: Tue, 27 Oct 2026 17:46:11 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A88606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 10:03:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71A88606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c423b145922so528124066b.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 03:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793095393; x=1793700193; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=B/ZpDq3DjZV/62zmns9uwG24EjevmhON4QmJ/2QUaFc=;
+        b=EKwpsigzwDmZPRkvIpX1b4c0/rz7uhtPntV0JfCYEz0s3pcwkOGnsL5Nzc3IENmwos
+         3sbhs5QgQhWDLpAOwIEmEB+wgVol0pjCngvClscZPLVgXpK6vwt6ozQLK9jHaqZpS7Wx
+         UAwHaOAiTlSXV7JOhQYBkg+WaE7NJjWYx0Q2jkUKe51KAl6u7hwDCeM2xNigR7jQ+Esl
+         2TD+6FVjssyPooQGV77/khcqAuzCs5MkcZsRcYmk+07Rxjllua9OU3dnOSkEIb4tDpCN
+         GKiS0GgWXoNCU/s9g+GrCc6/QeqrtOgD8LLSneSwbAfEJ6r0lK+DJ5aWEsAXcsoc+VP0
+         o0eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793095393; x=1793700193;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B/ZpDq3DjZV/62zmns9uwG24EjevmhON4QmJ/2QUaFc=;
+        b=y0W+vUupvt63Kq6OyLwUfrXWMgx3nEGNgp6kcBzRZ4cg64qSrrZLzraim5Bob1icgD
+         dc19BcjrD+LxMef5PQ63v+HmRb1aexQOF6f/gXGZ/9ytSgmHQf0gIQRVUTU8sT07Ch6G
+         pFg7pe3PuCT7IQPkC73hbuBxCoKap6d+kejKJFRwvPu1diio7tzkeiaX3pTBH3BTd5h2
+         MNa/wypJukZ5FI1YVG2iqVZbLFlKawnyp1F7c+UwmlD3kOjcNukw2UaYpYgldJIIFLEw
+         Bg2ocKgWzx7uGdVwExxaTl4UY9XYKsEnPerb86lNURDoh9tKxzfyWcz75UzNQMgazO1k
+         7sGw==
+X-Forwarded-Encrypted: i=1; AKwUvBzxYDqQW6fYMeN15lA0OU7HcMJrPpfXKyoMeOFpHiitNCAtdexdY/k9JIdJAKhY+AAkyOmbbyWIvjI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKN2gZTwOfXoSEv1fgScf+plDWf4EICxiGsB+Kv1bua0lABAWcr
+	V+CkFoFUXzMHKdGGs/MnOJlzImWLvjSmI4zAclm8xGHH/Pw3lFSorkyheLdb1V4oeAo=
+X-Gm-Gg: AYBFou3RbC3VSqtO8rUG6RuefP1XAeCAi19RxkvdUTQvv9AQLQmntGC5uhev4fGx07u
+	bgnGUE5NUUGa4DPJg4n2rtAJleLeVlf5vI07W0Ku7K7BxjoWx/xzS0co+PdY74FQhhU7DULJNOE
+	K/j9L7z8ggJgefrFNNLnuT0eLivdBZ0kJ06oWIPO3SwmKYmRxnAt3Jmc/sq2rEj4fS9RsY9s0hx
+	9t/4k/VBV0U+JL4ejL5oLqItLMDEbsHpq/K/M91ECzYMp/PO0H3kpdC2BM4Xya41uk8A0Woyg+0
+	gGr0Y6kxCGZAnaZxcRt9fht0XR38bHvRVUIeyhKX2Rv5dWWYPCW6OHTk/Kc1NeLD3Et4FBE7CVP
+	ZV95LJnHV+ugar6kHzNlncPwrUadNusRRhTeKxYMaLjM5YKcrxF5fVzsIOFClEbeo5hSu0IovFx
+	MjA6ml+puyKovKwT+WqXiCY8+Yoh6UTuVTGi/DdOWdeaaXBNNcaHiaJ98nw6cGzxK2FZ9K8h80Z
+	LNkSpjXYkjO1Eg7+H2z6PNBh3tvyyBPtawsZvEf8kI5qNJs+1nZzsGLvVGN/LFG
+X-Received: by 2002:a17:907:728f:b0:c3e:d18c:1d7d with SMTP id a640c23a62f3a-c46bddc42dcmr1033526666b.22.1793095392233;
+        Tue, 27 Oct 2026 03:03:12 -0700 (PDT)
+Received: from localhost ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd790afasm420098366b.68.2026.10.27.03.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 03:03:11 -0700 (PDT)
+Date: Tue, 27 Oct 2026 11:03:07 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 18/20] tdx-guest: Expose the native attestation
+ service API
+Message-ID: <auB21VZhFg3sDcXz@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-19-jiri@resnulli.us>
+ <179302367453.58760.3338436189030317197.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,72 +102,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] mm/damon/reclaim: allow disabling watermarks to force
- reclaim of cold pages
-To: SJ Park <sj@kernel.org>
-CC: <akpm@linux-foundation.org>, <david@kernel.org>, <ljs@kernel.org>,
-	<liam@infradead.org>, <vbabka@kernel.org>, <rppt@kernel.org>,
-	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<damon@lists.linux.dev>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20261020135822.85334-1-sj@kernel.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20261020135822.85334-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179302367453.58760.3338436189030317197.b4-review@b4>
 
+Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
+>> Share TDREPORT, Quote and measurement-register operations with one
+>> in-kernel client while preserving the existing misc, TSM report and TSM
+>> MR interfaces. Tie clients to service initialization and removal.
+>
+>The tdx stuff should just be an attestation driver, we don't need to
+>make these kinds of linkages..
 
-
-在 2026/10/20 21:58, SJ Park 写道:
-> Hello Jinjie,
-> 
-> On Tue, 20 Oct 2026 21:32:33 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
-> 
->> DAMON_RECLAIM runs its scheme only while the free memory rate is in
->> [wmarks_low, wmarks_mid].  Reclaiming cold pages raises the rate, so the
->> scheme self-stops as soon as memory looks plentiful again, which is wrong
->> for a VMM parking an idle sandbox that wants cold anonymous pages
->> reclaimed immediately.
->>
->> So add an ignore_wmarks module parameter. When set, the scheme uses
->> DAMOS_WMARK_NONE, so damos_wmark_wait_us() always returns zero and the
->> scheme stays active, bounded only by min_age and the quota.
-> 
-> I agree there could be use cases that doesn't want the watermarks at all.  I'd
-> like to avoid adding new DAMON_RECLAIM parameters if possible, though.  That's
-> becasuse DAMON_RECLAIM is introduced to let people use it without complicated
-> setups.  We will of course add new parameters if really needed, but I want to
-> see if there is a good alternative.
-> 
-> Have you considered some other alternatives?  For example, could respectively
-> setting wmarks_high, wmarks_mid and wmarks_low to 100%, 100% and 0% effectively
-> disable watermarks?  Have you tried that?  If that works, how about updating
-
-Hi SJ,
-
-Yes, it does for my use case.
-
-> document to clearly explain the usage?  Also, have you considered using DAMON
-
-Thank you! I will send a patch to update the doc later.
-
-> sysfs interface instead of DAMON_RECLAIM?
-
-DAMON sysfs can also do this with "none" watermarks. But I want the
-simple DAMON_RECLAIM for only proactive reclam.
-
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
-
--- 
-Best regards,
-Jinjie
-
+Okay.
