@@ -1,75 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793140777;
-	b=EufTfoRDb61aO3dK3BY+Xsehj9FT6AkRDRfkIw4PF5GKs8YOXhGeE3WzAmc9NBDH+oKX
-	 2D+YZteTlLXQh3DGHcbiFVV0dv99tXGwt5gZ+CThznj2p8sfYtiSx1SJU9HX6YyTYE50y
-	 fSY2dY1l7JllLCB5FBArfYQ2OdLa2wjmdvLMnkQ3xsGf6HGVHRgePAtRSe04ZAcpz9/LZ
-	 ROM+8fGTJISAZlrWVENpVZcOjOFyBZyvgMTlcxBX5ndsNwMIWmvWOKXAAsDEP/1j5eoVo
-	 /ix5lCPLw+4bqxIvrubDlrvOY6OWrDYb5aUw6d8LNvgDobPiPbkSzKeelxcOk2tNMuQ==
+	t=1793141155;
+	b=iXXmXqzldRGMub8pvW+aFBKSL1pTvF0KVubT9frIuVIKRv/PSBd/sKXpb8Ki14G0uLWp
+	 RONfbokm8Lgftmp1ENKf8yujbFZabnRAogBY5OnQJln08yva5ovd3jCBPIIF246h0WMa1
+	 kDGFG8rmUjxTHPdyYbWVxVWDcQGswFBAMR4lOqAMWh8SEPVqNyeJo++nMVfNS4rHrYbPP
+	 esdbOO/5osL7uMsbL9B8NlQVbbnQuVkzhYZXE6jUHAv98vEwD1K+uyFlH05hpd9N9Wah3
+	 WWEM8g/V/V2PLu5Idoii15X6Kc6cpzLktcJuM+k0S8j9afP8vk9uTFQ/Qhe82VLLJ4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793140777;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793141155;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=36a0/HoL8yXBAoRB1lx62HZinWx8I5wnTQwOiZ4VBGs=;
-	b=DzTIOsMkO2FYwIfz1Qv+QX9VfVHSP+kEzUmCv2GJ+Orri6U67cXfiTkiWH5Vt45JR/Oz
-	 rS32oT1Zy2jTA3XK2u4hdNw3+K9Wgql7VIw6P4oDetSFrtdDhpmV5mwrC7ZDVFYeG6Uql
-	 ZcdfadL7hFAaM1SqY4ncUY4oo6mS3ZBnWPIyJK+9ogB2vEgKNGdnEBaV8m38WuRdJ9g6O
-	 MxWCv3dS1Ma8EeCJ6RcwoRTzd8QY8zAhmZF+4/NJNY4Q97GsSDRKcrDAg40ich3jvkzKp
-	 s3tpCqOs/uq062rv2WfSwXW+y66XHFs7rY8tXnV93KfIvyX9YTDFNTYe78M3dNVScCA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=2S9p2IwZ6XavDmdrTQ9R1nXJLgNp+n1leUdQhEa1gUo=;
+	b=JpX/cUibwS0jMES7HNS7KRPZ7nQCZgb/PsKyJCCZiVHWAbECyFOhzJS8q3v+Y+7/sJ80
+	 LXOuwzwC2L1ycQJAqEeLliNzgtEs8epzo7YoeKqsG7f1b2VC9uNHqcTKl+QowCFrXdLie
+	 oGf7rx4YP8VXwo2vcezvWMrXA7M71z4jGt0NEYWhoMbB9vk7afoB3NK4zig704EXrhRvu
+	 aMb35kl3SDeb4Y+QnD+9D4DXXzRA223+h5qbkY1brMD8IzEkj4Ti90BcIU1GFnN5VREHX
+	 X7Thy9oq+iib/JnG/upFQv1YJ/yVR285KxnRAiTYK5VB1qDe0n9VDkGWSTF1Num6Qbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="WIsDL/NE";
-	arc=none smtp.remote-ip=74.125.82.197
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=EFo6qYAY;
+	arc=none smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3858F60A263C
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:39:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3858F60A263C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F788606A31A
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:45:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F788606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WIsDL/NE
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-359b81ad4e8so403103eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:39:37 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=EFo6qYAY
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-3535a54bed9so505199eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:45:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793140776; x=1793745576; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=36a0/HoL8yXBAoRB1lx62HZinWx8I5wnTQwOiZ4VBGs=;
-        b=WIsDL/NE9fbAppxAOJCSC9SF2GbFRy8oRSPiqeVLRNUKtEQb33jqO2hkEQn8J2DIK8
-         7KtEbeIvW2AWuqIgNsc/GqykrhPPo5RQ8PcAqNXNhbc0cjbH0cdWiTf8eGIEtqnsK7gs
-         gbeHZLGLzasU/0t//tV7eot4HLQ1DiwT27dEdrv03zraXRj3hSipY28UVh/dSc31ud/9
-         eDavnGKl4t2AmCa0di2OmiHCxZlfO9+GRF38WM67rOm+Ah/F7RdXE1VHw0Imv90Fmbgn
-         lT8fVkbgZsVwfEyL2pKdKpEGMh4pNq2/fa6RhGBoE46IRzKITArOPS/C7AkJZz6RTJei
-         xvBA==
+        d=chromium.org; s=google; t=1793141153; x=1793745953; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2S9p2IwZ6XavDmdrTQ9R1nXJLgNp+n1leUdQhEa1gUo=;
+        b=EFo6qYAYjbmpuM9lDFFuyKpsKYtmQ5wsMpQtehnjIS5Jv/x98Rru1Joq4rx1el7Ftm
+         asqYeYkYfIyo+ihd4ZNzAx7BO3Vi6L7MH0pvZjw/2DvFLxdclGBHFlP5GOuEkHdAgGTu
+         Yn7JwC1pc03UIyF3TZaPH3u2V/w+BxAW/52jM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793140776; x=1793745576;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793141153; x=1793745953;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=36a0/HoL8yXBAoRB1lx62HZinWx8I5wnTQwOiZ4VBGs=;
-        b=jhO9+u0ziwEx2N6TvAfYmTzm+pSeTFd9UwXmwhAbzla8/hdMry+tKTNy6D+yl0f+i/
-         0/ZxvNxmytcidu5ACwkGLX4mfv9F01bOM27NBEIcgj6QMV+zMMb48REGJzyD57y8em/A
-         O5bl2130lB8pusxlejIuhBJfDHtuGzNTy0pkIAkkvmIhwq3jhlex6DsOVLTzy1ZP/unQ
-         pWi+xxhZCh0TwTg04X0DWDAnhEEGRM1Mq+H2RNgsdq6TgcSe2L3w6HgrFjrB9kcMFkQD
-         vGxQF3rnk3/8n/y9OzhfhwCkcR4RvS2qxO9/hY7RVwTnhqQl+oq8Dp5+E9CvhTZqWLhw
-         aEaA==
-X-Forwarded-Encrypted: i=1; AKwUvBy0q6sue32aAd/V7ONyDA1huIfxkQoPQkYUoMqbq092U2Rb30y8g9KspUp9DStjU9lJrbRUEs2zv/E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJU0xbJxbsLEuDOmwu41wfsqCz35nJqsQLTgUonGqDMPDYTiFcH
-	Jbh65CFonziUw0f2LW4v1DnG4SxhdNvdh6Yby4HmPpr0fXIvJ5CBcHhJFRsWCr7RI7ZKYWcS9Jr
-	zwpSOJE5npg==
-X-Received: from dycna22.prod.google.com ([2002:a05:7300:ea96:b0:369:de3f:acf9])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:d101:b0:369:5583:bf4c
- with SMTP id 5a478bee46e88-36a200c8c63mr1046676eec.28.1793140775931; Tue, 27
- Oct 2026 15:39:35 -0700 (PDT)
-Date: Tue, 27 Oct 2026 15:38:44 -0700
-In-Reply-To: <20261027223847.652884-1-irogers@google.com>
+        bh=2S9p2IwZ6XavDmdrTQ9R1nXJLgNp+n1leUdQhEa1gUo=;
+        b=Q2FEGpFTlUNvAG+iPvrtxyCLukts8NJLAHvaC1H8HmXzTu8XDCyDfT8o/+26K5v6MQ
+         XEoFj6z/7GDG8ipfuhmok5hfTT3oDOfK1MVLPn/oRS0eHn8SOGf8Y+WFeCJyj/LL8nKg
+         hZ6UMgDa9EJDzpa43QBNfUIM5fsbJ4fIzFpJysaE4C51fUry1kzpfp7tth3y9rQsIv/y
+         fBNOZDSMFg/jgultLeRfiA2qgrDQ1TwtltwGs5rHrTq7/23aNJnrYH8aLmH/8SrwH/uH
+         lTJntoMOkLlcv1yniTDKbuyXlaI50YGMEQPQ074fIAAdzi4P6QvDQSJ4ikMmtQvuG9nL
+         dDcg==
+X-Forwarded-Encrypted: i=1; AKwUvBwiD6mENBoZ6LlyVmq8+PfDLGP79bwpoD88HTMz7MU4ZFoEDyLIxyyASflwHuSjaqFQRyOxxmvJYRM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLtli7dWUcuQcB8ou0T7kv1O9Dpk8Xhy3wl2IbYdy7NrzNHhAau
+	JjiY1IubzO0KqMJs084Y217G+QUhq9zWnBrlFex8mWd+LCJDWWh18oJy/IV/qX/phPsTxF4gdPA
+	xcBs=
+X-Gm-Gg: AYBFou06MjlJViSPLymYgC66gbyUxP59CXZZTcKEhK+onUeXa/d9VyEpEdNEngayvzm
+	O2/C90fHJ43Ksp/O6ncr3S3P60M/9KeJpRyAynH1WPXHmQ/QdnKAQwgyWR7zetWemyx6CTH+ave
+	Tshl5C+3Elr3FVbk23jvWGOlN4CSt9XfoJmd5wEA+ku10RCetIeDX1URtrSKPkLDtqlZkmEz8vH
+	tLWkTbOCNxF760FXbVemJs6GqR3fA9Zydu1QfvrF7jcJaGQxYjJwWWb5WtUnyqhWWli82Ynh7SA
+	vb5ZgMMissgOkvW8NfaOMA19wChR/g6w26LZuT8wcxRvuQdWDZOcY2nQMSux8CkmO4NM0Mk4rjH
+	0GdOk6PY9Wxr0zHqeoDYAPCjCcjRs2aIB3rX9hU06D3H/vKXnfH03DBWNRa8TFelV3Buf+2279O
+	KtgLbly99Rd+ynu6oLFh4YFEB4YWKaZlqIJ8QpP72LUHZWNEP3ERRoCOsznJFaLR8BElKTd+Lvv
+	EbeJmoFF4z+XmfA8LHZH0eItk37upM2KlD7mAxSbQf/HL3vD6OcQDhAkdpJG4h4XGXpoxMCknCC
+	DjmZB/qVuJTpwzLkDEO+
+X-Received: by 2002:a05:7300:3082:b0:36a:1452:8dad with SMTP id 5a478bee46e88-36a203d0982mr1578378eec.20.1793141152909;
+        Tue, 27 Oct 2026 15:45:52 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:2d45:5fa2:f626:22dd])
+        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-36a005c0188sm24402852eec.9.2026.10.27.15.45.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 15:45:52 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Doug Anderson <dianders@chromium.org>,
+	linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ulf Hansson <ulfh@kernel.org>,
+	Brian Norris <briannorris@chromium.org>
+Subject: [PATCH v5] PM: runtime: Add Example Driver Patterns section
+Date: Tue, 27 Oct 2026 15:45:20 -0700
+Message-ID: <20261027154519.v5.1.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,456 +95,656 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261027223847.652884-1-irogers@google.com>
-X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261027223847.652884-10-irogers@google.com>
-Subject: [PATCH v2 9/9] kobject: Require explicit initialization of struct kobj_type::release
-From: Ian Rogers <irogers@google.com>
-To: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Sumanth Korikkar <sumanthk@linux.ibm.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, 
-	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
-	linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
-	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Len Brown <lenb@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Frank Li <Frank.Li@kernel.org>, Alex Deucher <alexander.deucher@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Nelson Escobar <neescoba@cisco.com>, Satish Kharat <satishkh@cisco.com>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Linus Walleij <linusw@kernel.org>, Sebastian Reichel <sre@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Huisong Li <lihuisong@huawei.com>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Yue Hu <zbestahu@gmail.com>, Jingbo Xu <jefflexu@163.com>, 
-	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <hongbohbli@tencent.com>, 
-	Chunhai Guo <guochunhai@vivo.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Heming Zhao <heming.zhao@suse.com>, Johan Hovold <johan@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-f2fs-devel@lists.sourceforge.net, 
-	ocfs2-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Documentation/core-api/kobject.rst states:
+The runtime PM API surface is pretty large, but there are a few common
+patterns that many drivers should follow. Add some illustrative
+examples, to help guide the most common audience for runtime PM docs --
+driver writers.
 
-  "One important point cannot be overstated: every kobject must have a
-  release() method, and the kobject must persist (in a consistent state)
-  until that method is called. If these constraints are not met, the code
-  is flawed. Note that the kernel will warn you if you forget to provide
-  a release() method. Do not try to get rid of this warning by providing
-  an \"empty\" release function."
-
-Annotate struct kobj_type::release with __must_init
-so the compiler diagnoses any struct kobj_type initializer that omits
-.release.
-
-For the remaining legacy struct kobj_type definitions where the kobject
-is static, per-CPU, permanent firmware structures, or embedded inside a
-devm- or parent-managed structure rather than freed by kobject_put(),
-explicitly initialize .release = NULL with a comment documenting why no
-release callback is provided.
-
-Where the existing teardown is not safe with CONFIG_DEBUG_KOBJECT_RELEASE,
-because the kobject's memory can be freed or cleared while the delayed
-kobject cleanup is still pending (ioat, kunpeng_hccs and omapfb display),
-the comment says so. Fixing those is left to follow-up patches; this
-change does not alter their behavior.
-
-Link: https://lpc.events/event/20/contributions/2392/
-Signed-off-by: Ian Rogers <irogers@google.com>
+Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
- arch/arm64/kernel/cpuinfo.c                   |  5 +++++
- drivers/acpi/sysfs.c                          |  2 ++
- drivers/dma/ioat/sysfs.c                      |  7 +++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c    |  5 +++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       | 10 +++++++++
- drivers/infiniband/hw/hfi1/sysfs.c            |  5 +++++
- drivers/infiniband/hw/usnic/usnic_ib_sysfs.c  |  2 ++
- drivers/parisc/pdc_stable.c                   |  5 +++++
- drivers/power/supply/ab8500_fg.c              |  5 +++++
- drivers/s390/char/sclp_mem.c                  |  2 ++
- drivers/soc/hisilicon/kunpeng_hccs.c          | 21 +++++++++++++++++++
- .../fbdev/omap2/omapfb/dss/display-sysfs.c    |  7 +++++++
- .../fbdev/omap2/omapfb/dss/manager-sysfs.c    |  5 +++++
- .../fbdev/omap2/omapfb/dss/overlay-sysfs.c    |  5 +++++
- fs/erofs/sysfs.c                              | 10 +++++++++
- fs/f2fs/sysfs.c                               | 15 +++++++++++++
- fs/ocfs2/cluster/masklog.c                    |  5 +++++
- include/linux/kobject.h                       |  2 +-
- 18 files changed, 117 insertions(+), 1 deletion(-)
+This was previously part of a series:
+   "PM: runtime: Overhaul kerneldoc, runtime_pm.rst docs"
+The rest of the series has been applied, so this is now just 1 patch.
 
-diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
-index 94e6cd211d70..7a4ac8dd0b86 100644
---- a/arch/arm64/kernel/cpuinfo.c
-+++ b/arch/arm64/kernel/cpuinfo.c
-@@ -295,6 +295,11 @@ const struct seq_operations cpuinfo_op = {
+v1 is here:
+https://lore.kernel.org/all/20260904212000.4167880-1-briannorris@chromium.org/
+
+v2 is here:
+https://lore.kernel.org/all/20260923174711.1283986-1-briannorris@chromium.org/
+
+v3 is here:
+https://lore.kernel.org/all/20260930025044.104824-1-briannorris@chromium.org/
+
+v4 is here:
+https://lore.kernel.org/all/20261001155118.1750028-1-briannorris@chromium.org/
+
+I've tried to account for all the feedback from prior revisions, but
+runtime PM is complicated, and it's hard to make a one-size-fits-all
+(or, 3 to 6 sizes fit all?) example solution that covers all the most
+relevant topics, without leaving too many unexplained/unaccounted corner
+cases. I hope I struck the right balance.
+
+Changes in v5:
+ * Account for differing assumptions about initial device state,
+   especially with ACPI and with PM domains.
+ * Try to more precisely talk about "operational" and "non-operational"
+   states, in case "powered on/off" has a different or confusing meaning
+   (especially when considering PM domains).
+ * Expand some of the pseudocode/comments to be more realistic and clear
+   about what the code (foo_runtime_suspend(), foo_initialize(), etc.)
+   is doing.
+ * Be more verbose about what each step is doing, and what the entry and
+   exit conditions look like.
+
+Changes in v4:
+ * "state" to "status", to be consistent with Introduction terminology
+
+Changes in v3:
+ * Rewrite Examples to avoid devm_* at first, to highlight correct
+   approaches
+ * Include error-handling and remove() in any probe() Examples
+ * Advise more caution when using devm_*, as ordering issues are subtle
+
+Changes in v2:
+ * Add appropriate teardown to "Probe with Hardware Powered Off"
+   Example, as the remove() + power-off behavior is subtle here, and
+   easy to get wrong
+
+ Documentation/power/runtime_pm.rst | 567 ++++++++++++++++++++++++++++-
+ 1 file changed, 565 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/runtime_pm.rst
+index 40a5c23d5259..ef9e02ba893f 100644
+--- a/Documentation/power/runtime_pm.rst
++++ b/Documentation/power/runtime_pm.rst
+@@ -429,7 +429,8 @@ in ->probe(). Usually this means calling pm_runtime_disable() etc.
+ Alternatively, drivers can use devm_pm_runtime_enable() during probe, which
+ automatically takes care of calling pm_runtime_disable() upon driver detachment.
+ Any pm_runtime_use_autosuspend() calls in a driver will be automatically undone
+-on driver exit.
++on driver exit. See also the Examples in `Section 10`_ for some effective
++strategies for driver teardown.
  
+ The user space can effectively disallow the driver of the device to power manage
+ it at run time by changing the value of its /sys/devices/.../power/control
+@@ -654,7 +655,9 @@ The implementation is well suited for asynchronous use in interrupt contexts.
+ However such use inevitably involves races, because the PM core can't
+ synchronize ->runtime_suspend() callbacks with the arrival of I/O requests.
+ This synchronization must be handled by the driver, using its private lock.
+-Here is a schematic pseudo-code example::
++Here is a schematic pseudo-code example:
++
++.. code-block:: c
  
- static const struct kobj_type cpuregs_kobj_type = {
-+	/*
-+	 * Pre-existing: info->kobj is embedded in per-CPU cpu_data;
-+	 * cpuid_cpu_offline() only calls kobject_del().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/acpi/sysfs.c b/drivers/acpi/sysfs.c
-index a99373547126..1948b80e8a4a 100644
---- a/drivers/acpi/sysfs.c
-+++ b/drivers/acpi/sysfs.c
-@@ -973,6 +973,8 @@ static struct attribute *hotplug_profile_attrs[] = {
- ATTRIBUTE_GROUPS(hotplug_profile);
- 
- static const struct kobj_type acpi_hotplug_profile_ktype = {
-+	/* Pre-existing: hotplug->kobj is embedded in static struct acpi_scan_hotplug objects. */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- 	.default_groups = hotplug_profile_groups,
- };
-diff --git a/drivers/dma/ioat/sysfs.c b/drivers/dma/ioat/sysfs.c
-index e796ddb5383f..5ba44876eb96 100644
---- a/drivers/dma/ioat/sysfs.c
-+++ b/drivers/dma/ioat/sysfs.c
-@@ -167,6 +167,13 @@ static const struct attribute *const ioat_attrs[] = {
- ATTRIBUTE_GROUPS(ioat);
- 
- const struct kobj_type ioat_ktype = {
-+	/*
-+	 * Pre-existing: ioatdma_chan is freed by release_ioatdma(), not
-+	 * by kobject_put(). With CONFIG_DEBUG_KOBJECT_RELEASE the delayed
-+	 * kobject cleanup queued by ioat_kobject_del() may run after
-+	 * that kfree(), a use-after-free.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &ioat_sysfs_ops,
- 	.default_groups = ioat_groups,
- };
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-index 17888cf54447..c2cccd924b03 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-@@ -885,6 +885,11 @@ static const struct attribute_group ualink_xcp_info_group = {
- };
- 
- static const struct kobj_type ualink_xcp_info_ktype = {
-+	/*
-+	 * Pre-existing: xcp->ualink.kobj is embedded in struct amdgpu_xcp_mgr
-+	 * rather than freed individually by kobject_put().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops
- };
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-index ab14079d1c42..0847134a1391 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-@@ -797,6 +797,11 @@ static const struct sysfs_ops xcp_cfg_res_sysfs_ops = {
- };
- 
- static const struct kobj_type xcp_cfg_res_sysfs_ktype = {
-+	/*
-+	 * Pre-existing: xcp_res is embedded in struct amdgpu_xcp_cfg
-+	 * rather than freed individually by kobject_put().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &xcp_cfg_res_sysfs_ops,
- 	.default_groups = xcp_cfg_res_sysfs_groups,
- };
-@@ -1061,6 +1066,11 @@ static const struct attribute_group amdgpu_xcp_attrs_group = {
- };
- 
- static const struct kobj_type xcp_sysfs_ktype = {
-+	/*
-+	 * Pre-existing: xcp is embedded in struct amdgpu_xcp_mgr
-+	 * rather than freed individually by kobject_put().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/infiniband/hw/hfi1/sysfs.c b/drivers/infiniband/hw/hfi1/sysfs.c
-index 372cfd13dc61..5a1aca06b542 100644
---- a/drivers/infiniband/hw/hfi1/sysfs.c
-+++ b/drivers/infiniband/hw/hfi1/sysfs.c
-@@ -608,6 +608,11 @@ static const struct sysfs_ops sde_sysfs_ops = {
- };
- 
- static struct kobj_type sde_ktype = {
-+	/*
-+	 * Pre-existing: sdma_engine is embedded in dd->per_sdma array
-+	 * rather than freed by kobject_put().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &sde_sysfs_ops,
- };
- 
-diff --git a/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c b/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-index fdb63a8fb997..df0e48070c2e 100644
---- a/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-+++ b/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-@@ -245,6 +245,8 @@ static struct attribute *usnic_ib_qpn_default_attrs[] = {
- ATTRIBUTE_GROUPS(usnic_ib_qpn_default);
- 
- static struct kobj_type usnic_ib_qpn_type = {
-+	/* Pre-existing: usnic_ib_qp_grp is embedded in RDMA core-managed struct usnic_ib_qp_grp. */
-+	.release = NULL,
- 	.sysfs_ops = &usnic_ib_qpn_sysfs_ops,
- 	.default_groups = usnic_ib_qpn_default_groups,
- };
-diff --git a/drivers/parisc/pdc_stable.c b/drivers/parisc/pdc_stable.c
-index 6b567a74fc2c..2f530e8c6757 100644
---- a/drivers/parisc/pdc_stable.c
-+++ b/drivers/parisc/pdc_stable.c
-@@ -484,6 +484,11 @@ ATTRIBUTE_GROUPS(paths_subsys);
- 
- /* Specific kobject type for our PDC paths */
- static const struct kobj_type ktype_pdcspath = {
-+	/*
-+	 * Pre-existing: pdcspath_entry instances are static; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &pdcspath_attr_ops,
- 	.default_groups = paths_subsys_groups,
- };
-diff --git a/drivers/power/supply/ab8500_fg.c b/drivers/power/supply/ab8500_fg.c
-index e6b5efdf5dc9..d62411e4f535 100644
---- a/drivers/power/supply/ab8500_fg.c
-+++ b/drivers/power/supply/ab8500_fg.c
-@@ -2531,6 +2531,11 @@ static struct attribute *ab8500_fg_attrs[] = {
- ATTRIBUTE_GROUPS(ab8500_fg);
- 
- static const struct kobj_type ab8500_fg_ktype = {
-+	/*
-+	 * Pre-existing: fg_kobject is embedded in devm-allocated struct
-+	 * ab8500_fg; ab8500_fg_sysfs_exit() only calls kobject_del().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &ab8500_fg_sysfs_ops,
- 	.default_groups = ab8500_fg_groups,
- };
-diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
-index 6df1926d4c62..2fb7271dce36 100644
---- a/drivers/s390/char/sclp_mem.c
-+++ b/drivers/s390/char/sclp_mem.c
-@@ -305,6 +305,8 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
- }
- 
- static const struct kobj_type ktype = {
-+	/* Pre-existing: permanent firmware kobjects, never freed */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/soc/hisilicon/kunpeng_hccs.c b/drivers/soc/hisilicon/kunpeng_hccs.c
-index 0cc2953d59a5..da7a64c95058 100644
---- a/drivers/soc/hisilicon/kunpeng_hccs.c
-+++ b/drivers/soc/hisilicon/kunpeng_hccs.c
-@@ -1038,6 +1038,13 @@ static struct attribute *hccs_port_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_port_default);
- 
- static const struct kobj_type hccs_port_type = {
-+	/*
-+	 * Pre-existing: hccs_port_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_port_default_groups,
- };
-@@ -1110,6 +1117,13 @@ static struct attribute *hccs_die_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_die_default);
- 
- static const struct kobj_type hccs_die_type = {
-+	/*
-+	 * Pre-existing: hccs_die_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_die_default_groups,
- };
-@@ -1213,6 +1227,13 @@ static struct attribute *hccs_chip_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_chip_default);
- 
- static const struct kobj_type hccs_chip_type = {
-+	/*
-+	 * Pre-existing: hccs_chip_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_chip_default_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-index ae937854403b..452920a4e2a9 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-@@ -304,6 +304,13 @@ static const struct sysfs_ops display_sysfs_ops = {
- };
- 
- static struct kobj_type display_ktype = {
-+	/*
-+	 * Pre-existing: dssdev->kobj is embedded in struct omap_dss_device
-+	 * and zeroed in display_uninit_sysfs() right after kobject_put().
-+	 * With CONFIG_DEBUG_KOBJECT_RELEASE that memset() clobbers the
-+	 * pending delayed kobject cleanup.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &display_sysfs_ops,
- 	.default_groups = display_sysfs_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-index 1b644be5fe2e..40ec750f4315 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-@@ -496,6 +496,11 @@ static const struct sysfs_ops manager_sysfs_ops = {
- };
- 
- static struct kobj_type manager_ktype = {
-+	/*
-+	 * Pre-existing: mgr->kobj is embedded in static managers[] and
-+	 * zeroed in dss_manager_kobj_uninit().
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &manager_sysfs_ops,
- 	.default_groups = manager_sysfs_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-index 1da4fb1c77b4..4d333031b18d 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-@@ -429,6 +429,11 @@ static const struct sysfs_ops overlay_sysfs_ops = {
- };
- 
- static struct kobj_type overlay_ktype = {
-+	/*
-+	 * Pre-existing: ovl->kobj is embedded in static overlays[];
-+	 * dss_overlay_kobj_uninit() drops the kobject ref.
-+	 */
-+	.release = NULL,
- 	.sysfs_ops = &overlay_sysfs_ops,
- 	.default_groups = overlay_sysfs_groups,
- };
-diff --git a/fs/erofs/sysfs.c b/fs/erofs/sysfs.c
-index dfcec9376cd5..2ea6773cd98f 100644
---- a/fs/erofs/sysfs.c
-+++ b/fs/erofs/sysfs.c
-@@ -238,6 +238,11 @@ static const struct kobj_type erofs_sb_ktype = {
- static const struct kobj_type erofs_ktype = {
- 	.default_groups = erofs_groups,
- 	.sysfs_ops	= &erofs_attr_ops,
-+	/*
-+	 * Pre-existing: erofs_root is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kset erofs_root = {
-@@ -247,6 +252,11 @@ static struct kset erofs_root = {
- static const struct kobj_type erofs_feat_ktype = {
- 	.default_groups = erofs_feat_groups,
- 	.sysfs_ops	= &erofs_attr_ops,
-+	/*
-+	 * Pre-existing: erofs_feat is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject erofs_feat = {
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 430356e500af..6e15695cb75f 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -1683,6 +1683,11 @@ static const struct kobj_type f2fs_sb_ktype = {
- 
- static const struct kobj_type f2fs_ktype = {
- 	.sysfs_ops	= &f2fs_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_kset is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kset f2fs_kset = {
-@@ -1697,6 +1702,11 @@ static const struct sysfs_ops f2fs_feat_attr_ops = {
- static const struct kobj_type f2fs_feat_ktype = {
- 	.default_groups = f2fs_feat_groups,
- 	.sysfs_ops	= &f2fs_feat_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_feat is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject f2fs_feat = {
-@@ -1711,6 +1721,11 @@ static const struct sysfs_ops f2fs_tune_attr_ops = {
- static const struct kobj_type f2fs_tune_ktype = {
- 	.default_groups = f2fs_tune_groups,
- 	.sysfs_ops	= &f2fs_tune_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_tune is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject f2fs_tune = {
-diff --git a/fs/ocfs2/cluster/masklog.c b/fs/ocfs2/cluster/masklog.c
-index 563881ddbf00..ff8a1cf51e72 100644
---- a/fs/ocfs2/cluster/masklog.c
-+++ b/fs/ocfs2/cluster/masklog.c
-@@ -147,6 +147,11 @@ static const struct sysfs_ops mlog_attr_ops = {
- static struct kobj_type mlog_ktype = {
- 	.default_groups = mlog_default_groups,
- 	.sysfs_ops      = &mlog_attr_ops,
-+	/*
-+	 * Pre-existing: mlog_kset is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release        = NULL,
- };
- 
- static struct kset mlog_kset = {
-diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-index 55e37a5d405e..8a1332030884 100644
---- a/include/linux/kobject.h
-+++ b/include/linux/kobject.h
-@@ -114,7 +114,7 @@ void kobject_get_ownership(const struct kobject *kobj, kuid_t *uid, kgid_t *gid)
- char *kobject_get_path(const struct kobject *kobj, gfp_t flag);
- 
- struct kobj_type {
--	void (*release)(struct kobject *kobj);
-+	void (*release)(struct kobject *kobj) __must_init;
- 	const struct sysfs_ops *sysfs_ops;
- 	const struct attribute_group **default_groups;
- 	const struct kobj_ns_type_operations *(*child_ns_type)(const struct kobject *kobj);
+ 	foo_read_or_write(struct foo_priv *foo, void *data)
+ 	{
+@@ -720,3 +723,563 @@ pm_runtime_autosuspend_expiration() from within the ->runtime_suspend()
+ callback while holding its private lock.  If the function returns a nonzero
+ value then the delay has not yet expired and the callback should return
+ -EAGAIN.
++
++.. _Section 10:
++
++10. Example Driver Patterns
++===========================
++
++The runtime PM API is large and complex, but most device drivers follow a small
++set of canonical patterns when interacting with runtime PM. This section
++illustrates standard patterns for device probing, performing I/O, and handling
++interrupts.
++
++Probe and Initialization
++------------------------
++
++There are at least two general strategies regarding how to initialize a device
++in a driver that wants to use runtime PM: one in which the driver fully brings
++the device to an operational state before enabling runtime PM, and one in which
++the driver does not. We explore example driver patterns for those two approaches
++in the following two examples, and then explore an example with devres-based
++resource teardown and with autosuspend.
++
++Enabling a Fully Operational Device
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++In this approach, a driver expects to find its device initially in a
++non-operational state, and it intends to bring the device into an operational
++state before enabling runtime PM. Such a device may initially be powered on to
++some extent (e.g., by a PM domain, which is powered on by the PM core), but it
++may still require device-specific initialization (e.g., clocks, regulators,
++device-specific programming) to become fully operational. Such a driver's
++probe() routine should perform any device-specific initialization, mark the
++device **active**, and then enable runtime PM. On probe() errors and in
++remove(), the driver should perform all these steps in reverse.
++
++.. code-block:: c
++
++	static int foo_initialize(struct platform_device *pdev)
++	{
++		/*
++		 * Perform device-specific initialization, to bring the device
++		 * into an operational state. For example, enable clocks, bring
++		 * device out of reset, etc.
++		 *
++		 * In some cases, one may choose to share this code with the
++		 * driver's .runtime_resume() implementation.
++		 */
++
++		[...]
++
++		return 0;
++	}
++
++	static int foo_teardown(struct platform_device *pdev)
++	{
++		/*
++		 * Perform device-specific teardown/power-down.
++		 *
++		 * In some cases, one may choose to share this code with the
++		 * driver's .runtime_suspend() implementation.
++		 */
++
++		[...]
++
++		return 0;
++	}
++
++	static int foo_probe(struct platform_device *pdev)
++	{
++		struct device *dev = &pdev->dev;
++		struct foo_priv *priv;
++		int ret;
++
++		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++		if (!priv)
++			return -ENOMEM;
++
++		platform_set_drvdata(pdev, priv);
++
++		/* Acquire regulators, clocks, GPIOs, and register map... */
++		[...]
++
++		ret = foo_initialize(pdev);
++		if (ret)
++			return ret;
++
++		/*
++		 * The code above left hardware powered on and operational, so
++		 * tell the PM core that the device is active before enabling
++		 * runtime PM.
++		 */
++		pm_runtime_set_active(dev);
++
++		/* After this point, the device may suspend. */
++		pm_runtime_enable(dev);
++
++		/*
++		 * Perform remaining driver setup (e.g. register interrupts,
++		 * device nodes). If any step fails after enabling runtime PM,
++		 * we must unwind the PM initialization process.
++		 */
++		ret = foo_register_device(priv);
++		if (ret)
++			goto err_pm_disable;
++
++		/*
++		 * Upon successful return from ->probe(), the driver core
++		 * automatically executes pm_request_idle(dev), allowing the
++		 * device to suspend asynchronously if its usage counter is zero.
++		 */
++		return 0;
++
++	err_pm_disable:
++		/*
++		 * Ensure the device is active, so we tear it down from a
++		 * consistent state.
++		 */
++		pm_runtime_get_sync(dev);
++
++		/* Tear down in reverse order of initialization. */
++		pm_runtime_disable(dev);
++		pm_runtime_set_suspended(dev);
++		foo_teardown(pdev);
++
++		/* Drop the reference we acquired a few lines above. */
++		pm_runtime_put_noidle(dev);
++
++		return ret;
++	}
++
++	static void foo_remove(struct platform_device *pdev)
++	{
++		struct device *dev = &pdev->dev;
++		struct foo_priv *priv = platform_get_drvdata(pdev);
++
++		foo_unregister_device(priv);
++
++		/*
++		 * Ensure the device is active, so we tear it down from a
++		 * consistent state.
++		 */
++		pm_runtime_get_sync(dev);
++
++		pm_runtime_disable(dev);
++		pm_runtime_set_suspended(dev);
++		foo_teardown(pdev);
++
++		/* Drop the reference we acquired a few lines above. */
++		pm_runtime_put_noidle(dev);
++	}
++
++Drivers using this pattern should ensure that hardware is left back at its
++initial state upon driver remove() or probe() error. This generally means
++unwinding any resource acquisition and undoing any programming sequences in
++reverse of the order performed in probe(). However, runtime PM has additional
++state to consider -- the device may potentially be either **active** or
++**suspended** during teardown, even if the device is otherwise currently unused.
++Consider, for example, if user space configured
++``/sys/devices/.../power/control`` to ``on``, or if the device has not yet
++idled.
++
++Thus, ``foo_remove()`` and ``err_pm_disable`` first ensure the device is active,
++and then disable runtime PM and tear down the device to its initial probe()
++state.
++
++Note that for some devices (e.g., devices with an ACPI PM domain),
++foo_initialize() and foo_teardown() may be minimal or even empty, as the PM
++domain performed the power-on work. Such drivers may still follow this general
++pattern, but also may be even simpler in some cases.
++
++Also note that device-managed helpers such as devm_pm_runtime_enable() and
++devm_pm_runtime_set_active_enabled() exist, but they only call
++pm_runtime_disable() upon driver unbind; they do not take care of device quiesce
++and power-off. See the `Autosuspend and Device-Managed Probe`_ section below for
++how to encapsulate complete teardown in a custom devm action.
++
++Enabling a Device in a Non-Operational State
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++As an alternative approach, some drivers prefer to keep hardware powered off or
++in a low power non-operational state until actually needed, avoiding duplicate
++power sequencing logic between ->probe() and ->runtime_resume(), and potentially
++even avoiding unneeded power transitions during probe(). Because the initial
++runtime PM status of a device is suspended by default, the driver can enable
++runtime PM directly and rely on pm_runtime_resume_and_get() to trigger the
++->runtime_resume() callback when the driver needs to access hardware:
++
++.. code-block:: c
++
++	static int foo_runtime_suspend(struct device *dev)
++	{
++		struct foo_priv *priv = dev_get_drvdata(dev);
++
++		clk_disable_unprepare(priv->clk);
++		regulator_disable(priv->supply);
++
++		return 0;
++	}
++
++	static int foo_runtime_resume(struct device *dev)
++	{
++		struct foo_priv *priv = dev_get_drvdata(dev);
++		int ret;
++
++		ret = regulator_enable(priv->supply);
++		if (ret)
++			return ret;
++
++		ret = clk_prepare_enable(priv->clk);
++		if (ret) {
++			regulator_disable(priv->supply);
++			return ret;
++		}
++
++		return 0;
++	}
++
++	static int foo_probe(struct platform_device *pdev)
++	{
++		struct device *dev = &pdev->dev;
++		struct foo_priv *priv;
++		int ret;
++
++		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++		if (!priv)
++			return -ENOMEM;
++
++		platform_set_drvdata(pdev, priv);
++
++		/* Acquire regulators, clocks, GPIOs, and register map... */
++		[...]
++
++		/*
++		 * Hardware starts in a non-operational state. The default
++		 * status is RPM_SUSPENDED, so no need for:
++		 * pm_runtime_set_suspended(dev);
++		 */
++
++		pm_runtime_enable(dev);
++
++		/*
++		 * Optional: power on the device via ->runtime_resume() to
++		 * verify device ID or perform initial hardware configuration.
++		 */
++		ret = pm_runtime_resume_and_get(dev);
++		if (ret < 0)
++			goto err_pm_disable;
++
++		ret = foo_verify_hardware_id(priv);
++		if (ret) {
++			pm_runtime_put_sync(dev);
++			goto err_pm_disable;
++		}
++
++		/*
++		 * Drop the usage counter, allowing ->runtime_suspend() to
++		 * power off the device until an I/O request arrives.
++		 */
++		pm_runtime_put(dev);
++
++		return 0;
++
++	err_pm_disable:
++		pm_runtime_disable(dev);
++		if (!pm_runtime_status_suspended(dev)) {
++			foo_runtime_suspend(dev);
++			pm_runtime_set_suspended(dev);
++		}
++		return ret;
++	}
++
++	static void foo_remove(struct platform_device *pdev)
++	{
++		struct device *dev = &pdev->dev;
++
++		pm_runtime_disable(dev);
++		if (!pm_runtime_status_suspended(dev)) {
++			foo_runtime_suspend(dev);
++			pm_runtime_set_suspended(dev);
++		}
++	}
++
++Similar to the previous example, drivers using this pattern also must exercise
++care when handling probe() errors or performing unbind/remove(), to ensure they
++clean up resources that they manage with runtime suspend/resume, and generally
++leave the device in the same state it was when the driver first probed. And
++again, one must consider that the device can be either **active** or
++**suspended** while unwinding. Typically, this may mean explicitly suspending
++the device if not already suspended.
++
++Note that this pattern requires ``CONFIG_PM``. When ``CONFIG_PM`` is disabled,
++pm_runtime_resume_and_get() returns 0 without calling ->runtime_resume(),
++leaving hardware unpowered. Drivers using this pattern should typically depend
++on ``CONFIG_PM``.
++
++Autosuspend and Device-Managed Probe
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++If the driver wants to use autosuspend, it should first configure the
++autosuspend delay and enable autosuspend before enabling runtime PM.
++
++Additionally, drivers can use device-managed (``devm_*``) helpers to clean up
++resources on probe failure or driver unbind. This provides an alternative to
++writing complicated ``goto``-based error paths, with similar teardown code in
++remove(). Note that drivers must still exercise care to avoid assuming a
++particular runtime PM status in these cases; a device may be either **active**
++or **suspended**, and so ``devm``-based teardown code must be written
++accordingly.
++
++.. code-block:: c
++
++	static int foo_runtime_suspend(struct device *dev)
++	{
++		return foo_teardown(to_platform_device(dev));
++	}
++
++	static int foo_runtime_resume(struct device *dev)
++	{
++		return foo_initialize(to_platform_device(dev));
++	}
++
++	/* Tear-down action, for error handling or driver unbind. */
++	static void foo_poweroff_action(void *data)
++	{
++		struct device *dev = data;
++
++		/* Runtime PM is already disabled by this point. */
++
++		if (!pm_runtime_status_suspended(dev)) {
++			/*
++			 * Power device back off, in case device was left active.
++			 * e.g., leverage .runtime_suspend() routine:
++			 */
++			foo_runtime_suspend(dev);
++
++			pm_runtime_set_suspended(dev);
++		}
++	}
++
++	static int foo_probe(struct platform_device *pdev)
++	{
++		struct device *dev = &pdev->dev;
++		struct foo_priv *priv;
++		int ret;
++
++		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++		if (!priv)
++			return -ENOMEM;
++
++		platform_set_drvdata(pdev, priv);
++
++		/* Acquire regulators, clocks, GPIOs, and register map... */
++		[...]
++
++		/* Power on and initialize hardware registers... */
++		ret = foo_initialize(pdev);
++		if (ret)
++			return ret;
++
++		pm_runtime_set_active(dev);
++
++		/*
++		 * Guarantee hardware is powered off upon unbind or probe error.
++		 * Register this action before devm_pm_runtime_enable() to
++		 * ensure runtime PM status is frozen by the time we tear down
++		 * here.
++		 */
++		ret = devm_add_action_or_reset(dev, foo_poweroff_action, dev);
++		if (ret)
++			return ret;
++
++		/* Set autosuspend delay (e.g., 2000 ms) and enable autosuspend. */
++		pm_runtime_set_autosuspend_delay(dev, 2000);
++		pm_runtime_use_autosuspend(dev);
++
++		/*
++		 * Update last busy timestamp so the driver core's post-probe
++		 * pm_request_idle() respects the autosuspend delay.
++		 */
++		pm_runtime_mark_last_busy(dev);
++
++		/*
++		 * devm_pm_runtime_enable() ensures that pm_runtime_disable()
++		 * and pm_runtime_dont_use_autosuspend() are called upon driver
++		 * unbind.
++		 */
++		ret = devm_pm_runtime_enable(dev);
++		if (ret)
++			return ret;
++
++		return 0;
++	}
++
++Key points:
++
++* **Guaranteed Power-off on Detach**: Again similar to the previous examples, we
++  must exercise care in case the device was still active during probe failure or
++  driver unbind. In this case, we encapsulate the teardown using device-managed
++  actions.
++* **LIFO Teardown Ordering**: Because ``devm`` releases resources in reverse
++  order of registration (LIFO), registering foo_poweroff_action() before
++  devm_pm_runtime_enable() ensures that runtime PM is disabled first, and the
++  device is suspended *before* devm disables any clocks or regulators acquired
++  earlier in ->probe().
++* **Omission of ->remove()**: If all other resources in the driver are managed
++  with ``devm`` helpers, this eliminates both manual ``goto``-based unwinding in
++  ->probe() and the need for an explicit ->remove() callback.
++* **Initialization vs suspend/resume symmetry**: This example exploits the fact
++  that device-state initialization/teardown is often similar or identical to
++  runtime_resume()/runtime_suspend(), making it easier to perform appropriate
++  teardown in ``devm_`` teardown. If this is not the case, this becomes more
++  complicated, and ``devm_`` may not be the right approach to use.
++
++Performing I/O Operations
++-------------------------
++
++Before accessing hardware registers or initiating I/O transfers, drivers must
++ensure the device is active by calling pm_runtime_resume_and_get() or similar.
++
++Basic I/O
++~~~~~~~~~
++
++For devices without autosuspend, work completion is signaled with
++pm_runtime_put(), which drops the usage counter and queues an asynchronous idle
++check once the counter reaches zero:
++
++.. code-block:: c
++
++	int foo_do_transfer(struct foo_priv *priv, void *buf, size_t count)
++	{
++		int ret;
++
++		ret = pm_runtime_resume_and_get(priv->dev);
++		if (ret < 0)
++			return ret;
++
++		/* Access hardware registers or perform data transfer... */
++		ret = foo_hardware_transfer(priv, buf, count);
++
++		/*
++		 * Drop usage counter and request asynchronous idle check (and
++		 * suspend, if possible).
++		 */
++		pm_runtime_put(priv->dev);
++
++		return ret;
++	}
++
++Autosuspend I/O
++~~~~~~~~~~~~~~~
++
++For devices using autosuspend, work completion is signaled with
++pm_runtime_put_autosuspend(), which drops the usage counter and defers
++suspension until the autosuspend delay expires:
++
++.. code-block:: c
++
++	int foo_do_transfer(struct foo_priv *priv, void *buf, size_t count)
++	{
++		int ret;
++
++		ret = pm_runtime_resume_and_get(priv->dev);
++		if (ret < 0)
++			return ret;
++
++		/* Access hardware registers or perform data transfer... */
++		ret = foo_hardware_transfer(priv, buf, count);
++
++		/*
++		 * Drop the usage counter and schedule an autosuspend once
++		 * the delay expires. Note that pm_runtime_put_autosuspend()
++		 * updates the last-access timestamp automatically.
++		 */
++		pm_runtime_put_autosuspend(priv->dev);
++
++		return ret;
++	}
++
++Synchronous Completion
++~~~~~~~~~~~~~~~~~~~~~~
++
++When immediate suspension is desired -- such as before unregistering a device or
++during shutdown -- synchronous put helpers can be used instead of their
++asynchronous counterparts. Which helper to use depends on whether autosuspend is
++configured:
++
++* For non-autosuspend devices, use pm_runtime_put_sync().
++* For devices that use autosuspend, use pm_runtime_put_sync_suspend(), which
++  ignores any configured autosuspend delay and forces immediate suspension.
++
++However, note several important caveats when relying on synchronous runtime
++PM helpers for power-down:
++
++* **Parents and Suppliers**: While the target device itself is suspended
++  synchronously, the PM core handles idle notifications for parents and
++  device link suppliers asynchronously. As a result, parent devices or
++  power domain suppliers are not guaranteed to be powered off when the
++  function returns.
++* **User Policy ("Forbidden")**: Runtime PM helpers respect system policy.
++  If user space has set ``/sys/devices/.../power/control`` to ``on``
++  (pm_runtime_forbid()), the PM core holds an extra reference on the
++  device, meaning dropping the driver's usage counter will not trigger a
++  suspend.
++
++Because of these constraints, synchronous put helpers may not be suitable when a
++driver functionally requires hardware to be powered off synchronously (for
++example, to perform a hardware reset or power cycle). Such requirements may
++necessitate other methods, such as disabling runtime PM with
++pm_runtime_disable() and explicitly executing the hardware power-down sequence.
++
++Interrupt Handling with Conditional Get
++---------------------------------------
++
++Interrupt handlers (especially in atomic or hardirq context) cannot typically
++invoke pm_runtime_resume_and_get(), because runtime-resume may sleep. Moreover,
++if an interrupt arrives while the device is suspended or transitioning to low
++power (e.g., on a shared interrupt line or spurious wakeups), attempting to read
++hardware registers could trigger a bus fault or system hang.
++
++To handle this safely, drivers can conditionally acquire a runtime PM reference
++using pm_runtime_get_if_in_use() or pm_runtime_get_if_active():
++
++.. code-block:: c
++
++	static irqreturn_t foo_irq_handler(int irq, void *dev_id)
++	{
++		struct foo_priv *priv = dev_id;
++		irqreturn_t ret = IRQ_NONE;
++
++		/*
++		 * Check if the device is active before reading hardware
++		 * registers. If the device is suspended, this interrupt
++		 * cannot belong to us (or was already serviced).
++		 *
++		 * Note that this also will drop interrupts while runtime PM is
++		 * disabled.
++		 */
++		if (pm_runtime_get_if_active(priv->dev) <= 0)
++			return IRQ_NONE;
++
++		/* Hardware is active and usage count is incremented */
++		if (foo_has_pending_irq(priv)) {
++			foo_service_irq(priv);
++			ret = IRQ_HANDLED;
++		}
++
++		/*
++		 * Release the reference acquired by pm_runtime_get_if_active().
++		 * For autosuspend devices, use pm_runtime_put_autosuspend();
++		 * for non-autosuspend devices, use pm_runtime_put().
++		 */
++		pm_runtime_put_autosuspend(priv->dev);
++
++		return ret;
++	}
++
++Both pm_runtime_get_if_in_use() and pm_runtime_get_if_active() are safe to use
++from an interrupt routine. One example where a device might be active but not
++"in use" is if autosuspend is used. A device will stay active for a while with
++no users. If interrupts should still be serviced for a device in this state,
++pm_runtime_get_if_active() should be used.
 -- 
-2.56.0.313.g2479322e68-goog
+2.56.0.307.g5fe7bd680c-goog
 
