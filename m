@@ -1,109 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793082994;
-	b=26mpakVwQBdLUeszJkoZi16afVBFU29XUcmD8yxPfKdECCZVtNFzf0o+376jzttYoCQz
-	 leyMVgg1ucgoc4gKQFZQo5UEwVYb8phFZfyx+Ew2jjdwYlDCq0hrFI5r5ucV0d2JHvbrh
-	 5tFxrTNAiWNIAqxE5in7L9q+wNP63+ENUnHElb+GtxqJIdsKeRqMLRr5BXwJSf8PLAENb
-	 t4WTmE8RhNK708B6Ebe524QXVFGeEdMF9VMLQkZlKZk8coUuplT5YK3Jr6y2XBb0fPXKM
-	 m/1cCHZiQjAqHo9UU+QHNicGm6mXE/M9sEPEKq8HnUOFsgudtrxYElJ3jwRax65Nq/Q==
+	t=1793086091;
+	b=QEFW9Vvpob0Vzb/GuuwAveK2DNpkj3YgfCi40pcnApRFxXq3/nGXZCWtzkRdWE74L7UX
+	 OzT1h/LnjtVmsSxeNmk/PDPrhHH2+yEemULQ8sunFiOPI5B5AwHXOBwhku3IJLACCGCwF
+	 fIPRQRTdkxMNeirgfH/KTNPCmchRfawC88af/W8ZsnZ0F0DBeY/eUj4rQ6qZqfkGl8hj+
+	 goKVz0JvL1UzdBOkS7aJG7Pa7bhfBa4uB7N4yK8gy/5DfoOT44sKhtIe2ok+Dw3/QssQo
+	 BqgDBVVsp9m61JeZDvzqFHEUW+Sg57YYYCTfVoCVxRgIzACi6dkjz25SB1xZN+wgsAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793082994;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=dYFbbcr2uYZUTl7G/v0LoaX9lneqHtmhHpczJAH5sbg=;
-	b=Q4/BmHKJshwyQvvkyXhBcvq9GIktPViwHv5VsfDNmsvakL+++S/HyvGc9TBu6HrDHktc
-	 lwxEZ/7kFCad/13Vj+uLeVZHVyLuChMTBrPalwVeLX0dyRIDz6bq4m13UMyzmqbj3U5DQ
-	 oqPRO+oGgDvWvgX7V+zLcy3Ydyj4d+wKPbOarX5Zru46Vwsy7LaNXRsjeajsXqAxqM4Mm
-	 s1kiN+eqeppWtOaVJ3vIyphmAdIquzV2OhXZaFXt3LqPTwsScPFq4oROGRhaEX5FteEtq
-	 RK7IY39y8gSSntHhIzU62JT6PXFwV1g//CrtjrLakVwf+nr05R5rJ22cRXkjZUHTDxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793086091;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=rMoN6QW9WraNNNAxN2SCzxxv/n4k9iPkUrgSrddfZ5c=;
+	b=DSvioYDVVljr4NUCORAgx9GRXnCCQsHngB+C7+LM99cTdfKdTBGK8FHTvgU2x5afVUD8
+	 lH44WTItx1C69PME8/4vStYklckVARarWMqcoboeWqK9tuFlv6PpUZ7J6510SpKQDRpK0
+	 c/oDXszHBIyDE/VJNbqVIRG5PL85f9HXbCJdKdF6kMFVRku/j9iJxqJHZnc/GBpjqvgEF
+	 4/fxLTpcHkrRMbOPuElpO+bU6MuDorFSgusJLExLCWfDx3WMSLVk4b0tTyB0w5NxPudi/
+	 7JYrAPOY6TtnHifYZYxZu8LqWfmWHvX+s9k0FF2/X1CPZ0buJUxhigMil7xXo3cBxNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=CSpdWQ5s;
-	arc=none smtp.remote-ip=209.85.215.170
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i40tytRH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF4F606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 06:36:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECF4F606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90681606A31D;
+	Tue, 27 Oct 2026 07:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=CSpdWQ5s
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cd5d2dafeccso1354751a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 23:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793082993; x=1793687793; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=dYFbbcr2uYZUTl7G/v0LoaX9lneqHtmhHpczJAH5sbg=;
-        b=CSpdWQ5sW1tM9TEYi7fzC1hlNCiQyd5Sxmr/vYfmVU2KSb+XVcPTsiehoQ5jknIMuF
-         JTP6RgKoJAV/cshortkM393JqA4eFHgzst3osKjj6xSzVB93VoeGsdI/7zR6ZwdlpbNv
-         ccNchm+EY8fwa76i84kMtlSxGKBXE2C6bXW24=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793082993; x=1793687793;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dYFbbcr2uYZUTl7G/v0LoaX9lneqHtmhHpczJAH5sbg=;
-        b=A0jys/suKDIC51aTQndWIYBxSKSwAr6OuCaBZLl6rQAkLJIvpw+Y09mM336buDMw0+
-         RHfz5cJj3FaAxTFe/0N4zXsS6pSM2z4+LO6ndwvkhGmcR1IrprEvZWsKu6C3zY4v0iWP
-         u6o5SIwonYPYTuwO8+PPzVflroBYVEfxH7FKIvpqowD4FOW54IASfXDXzkoemXggz2dR
-         +QCA798rgfJ6qiiUedKOcFX6447wkMjkFqDfl9Wq0xv/ihKTin4lGiij7EYXRJJGEskQ
-         MQviG1IL5hDm3QULkjWRoEaFVT36VT8g8H4pifCBzwrtdAWSF2lcKPCesikHP2XItHPL
-         hxsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxLghnXooGcjz0eTPgrmdOV3sMLRzVxYhTiRX0VjIEkvkuLUwtBiDfoW9DpWxAu0dk5ddt+qfuQwIg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLC/YmAdHmGhqqIos/PvLVbXwXCPJukuVVl2is9HDuH//dnEK75
-	b8gYZEd/+VaLgCKtd5yJDZQsh7Ds4Jlc2MaeFLiUtaXw7gfBVHcMTBK6MyN6F/ojmbM=
-X-Gm-Gg: AYBFou0cFBMZg7XfpGTwYO2mpXpDXdBAPhueJMrGHYotd5//x6ewAxzsGsqUK/JBz4e
-	zW6Rp+LzEPQETzLWn54kwgOJYGBSqcVyGvXyFajs1kZY6Xvk8mVTjnIcbwq0sFBBLNveOdNAsZe
-	nU/0CIE7VwthvcX854wgDUGPDATxoYvVgP8V3ZOy7XLK4NWbEJakogHGN+wV4YGrhlk7yzaV/5I
-	/U6FQsozBTdcI+DcOdnCc1p0tjuXJrkZvChdqCTuMBeyNKaN1q7jY+HjzlEl0CdX43ReN7TSTLG
-	V0NxdXF33jPCmBc/O2EafD3oyvqzKk2OYuCmiI4QUsxrUgfHv0oq/SfuI1tBZlL6SS73hJsSuWE
-	vE3/6ftd8G8ZuvXkCVedU84YXqdgvjk7jUKaKPL2j5Y1tg4XyCk1iaKyhd3gwokOjfgJ5ix/Sx3
-	NjUNfQQZAih/b4qYUFIS+WhXspnhrkey8aAbAjeBsj1Pwu1aZULjXiz4UM2TdfL7RUNZ2Dj2lxv
-	kP5H5kcJtvIXz0NhDzjJFM4QrBm1LELu3H3yti0/X2Ijxoll8Cwz9yCg3CZJFoXC5dvuRVKO8mg
-	gXwIK9Pl+pDtg0wGu7cwLzBmnc541RxQig2XsRc8XxKEU0Zv9XuwLTgO/K2wvu/5KsJ/oWi7eT+
-	SNWsHJGYvurridN2pRwxGcJY=
-X-Received: by 2002:a17:90b:3ec2:b0:3a8:1a1a:7895 with SMTP id 98e67ed59e1d1-3adeae6d30bmr6210081a91.18.1793082993200;
-        Mon, 26 Oct 2026 23:36:33 -0700 (PDT)
-Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40456f65sm2331529a91.13.2026.10.26.23.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 23:36:32 -0700 (PDT)
-Date: Tue, 27 Oct 2026 14:36:28 +0800
-From: Chris Down <chris@chrisdown.name>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Kees Cook <kees@kernel.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Ard Biesheuvel <ardb@kernel.org>, Will Deacon <will@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH 3/3] lkdtm/bugs: Add CORRUPT_STACK_END to test the scheduler
- stack end check
-Message-ID: <7c4627a57202b505bc03837680f6b43c2683bc07.1793082868.git.chris@chrisdown.name>
-References: <cover.1793082868.git.chris@chrisdown.name>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i40tytRH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC921F01825;
+	Tue, 27 Oct 2026 07:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793086091;
+	bh=rMoN6QW9WraNNNAxN2SCzxxv/n4k9iPkUrgSrddfZ5c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=i40tytRHxLze3NangBdEjwfJrnEjDmuiYhIp6GeysGdoQ+h7PE3wAERE+pzaWloQk
+	 zCQUbdkQ5XduDKoDefD2mzQcl6EKf9Nb0oxJ5C6W5koD96THYjCmWGxnCayg7Bzdcm
+	 +Rm9QEdeQsinLOk3Gzy6fvgu68Imu1kYtAHoYcwYSDYQTCdgEjzE/ltnaZbup9FMdl
+	 /oLaVQ/7Wza4ltslk67SzOoSq8qQQIzGpRGtY1/v726Pva7cAi/XeiLBrhMXUQWeo8
+	 W7IEIISUtoh6SAZXE+ojNY2nLXAO1Nbc4VHzDOZy0yiQwjLNqgS018jaUPp980BQXa
+	 oOu47+S9giQEg==
+Message-ID: <43ef0af4-0594-41f1-9ad3-499bfb3352a9@kernel.org>
+Date: Tue, 27 Oct 2026 08:28:06 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,70 +51,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1793082868.git.chris@chrisdown.name>
-User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+To: Rob Herring <robh@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+ workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-There's no existing test for this, so let's add one.
+On 26/10/2026 21:12, Rob Herring wrote:
+> On Wed, Oct 21, 2026 at 6:55 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>
+>>>> All these tools should just work on top of linux-next. Requiring people
+>>>> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" is
+>>>> pointless. I understand that base is helping, but helping and requiring
+>>>> an obvious information just do not go together.
+>>>>
+>>>> So again: base has ZERO meaning to the maintainer process. It has
+>>>> meaning to tools, so fix the tools to work on known and obvious trees.
+>>>
+>>> So what is your proposed algorithm to apply an arbitrary patch when
+>>
+>> Already provided that, so to recap:
+>>
+>>> there's no base-commit?  Including any historical patch (from
+>>> months/years ago), patches with dependencies, etc.
+>>
+>> Dependency is something else, but for every other patch:
+>> 1. For testing/CI: you apply on top of next
+>> 2. Every other case the maintainer knows where to apply it, because it
+>> is his HEAD of next-branch.
+>>
+>> I am repeating myself, but I really had no single problem of lack of
+>> knowledge where to apply a patch as a maintainer or reviewer of some
+>> subsystem, thus maybe I do not understand the actual problem you are
+>> experiencing.
+> 
+> Look at our DT PW. There are numerous patches that don't apply and
+> then we silently don't test them at all. Here's one example[1] (3
+> actually as the whole series doesn't apply). The more base-commit
+> tags, the better. If b4 can't apply it, then I do try just linux-next,
+> but is that today's, yesterday's or 2 weeks ago? That still doesn't
+> work sometimes.
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
- drivers/misc/lkdtm/bugs.c               | 21 +++++++++++++++++++++
- tools/testing/selftests/lkdtm/tests.txt |  1 +
- 2 files changed, 22 insertions(+)
+I have doubts that DT CI would know these mentioned bases, unless
+everyone develops on master, which is obviously not possible. It could
+work if CI has all possible next tags fetched, but then I argue that
+without base commit such CI could apply to closest linux-next tag by date.
 
-diff --git a/drivers/misc/lkdtm/bugs.c b/drivers/misc/lkdtm/bugs.c
-index 3eca2ef64aff..929a60db00d6 100644
---- a/drivers/misc/lkdtm/bugs.c
-+++ b/drivers/misc/lkdtm/bugs.c
-@@ -215,6 +215,26 @@ static noinline void lkdtm_CORRUPT_STACK_STRONG(void)
- 	__lkdtm_CORRUPT_STACK((void *)&data);
- }
- 
-+static void lkdtm_CORRUPT_STACK_END(void)
-+{
-+	unsigned long *stack_end = end_of_stack(current);
-+
-+	if (READ_ONCE(*stack_end) != STACK_END_MAGIC) {
-+		pr_err("FAIL: stack end magic is already corrupted\n");
-+		return;
-+	}
-+
-+	pr_info("Corrupting stack end magic and calling schedule() ...\n");
-+	WRITE_ONCE(*stack_end, ~STACK_END_MAGIC);
-+	schedule_timeout_uninterruptible(1);
-+
-+	/* Still alive, so let's restore the magic so nothing else trips over it. */
-+	WRITE_ONCE(*stack_end, STACK_END_MAGIC);
-+	pr_err("FAIL: corrupted stack end was not detected by the scheduler\n");
-+	pr_expected_config_param(CONFIG_SCHED_STACK_END_CHECK,
-+				 "sched_stack_end_check");
-+}
-+
- static pid_t stack_pid;
- static unsigned long stack_addr;
- 
-@@ -854,6 +874,7 @@ static struct crashtype crashtypes[] = {
- 	CRASHTYPE(EXHAUST_STACK),
- 	CRASHTYPE(CORRUPT_STACK),
- 	CRASHTYPE(CORRUPT_STACK_STRONG),
-+	CRASHTYPE(CORRUPT_STACK_END),
- 	CRASHTYPE(REPORT_STACK),
- 	CRASHTYPE(REPORT_STACK_CANARY),
- 	CRASHTYPE(UNALIGNED_LOAD_STORE_WRITE),
-diff --git a/tools/testing/selftests/lkdtm/tests.txt b/tools/testing/selftests/lkdtm/tests.txt
-index bec57a02913a..2d856ed77a64 100644
---- a/tools/testing/selftests/lkdtm/tests.txt
-+++ b/tools/testing/selftests/lkdtm/tests.txt
-@@ -10,6 +10,7 @@ EXCEPTION
- #EXHAUST_STACK Corrupts memory on failure
- #CORRUPT_STACK Crashes entire system on success
- #CORRUPT_STACK_STRONG Crashes entire system on success
-+#CORRUPT_STACK_END Crashes entire system on success
- ARRAY_BOUNDS call trace:|UBSAN: array-index-out-of-bounds
- FAM_BOUNDS call trace:|UBSAN: array-index-out-of-bounds
- PTR_BOUNDS call trace:|UBSAN: array-index-out-of-bounds
--- 
-2.54.0
-
+Best regards,
+Krzysztof
