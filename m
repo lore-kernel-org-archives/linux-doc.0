@@ -1,89 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.192
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793103215;
-	b=P32wJHUeEIkvT4LyEU6WsHjMr0rpqa7ZqBOpe3Kl8gvTmRR7m4aChoVkPbSeFXAzeWBa
-	 vUBXJNsTYz+gLH8/Y94mfFeIzdwpu8BlZTiInOzxvcKHkLu7nqJOjBWdYiiUvqyNFZCIK
-	 HSNhkSCk5iNyBtIRkfr48bCJEs9wA9TzgrkZRUIKd2pbmgoUSJ4ZKPbBuKmwhao53DR8g
-	 2lugpZyI5rhCuzWnMeA3TEDHAFX7tUIfgbD5nvt4cOej/Z+uMfnv6eBktfQ+e5j1QXKhe
-	 hSvqi005zS+ErFEJ5LMr8aw4KNTyC1MI1kU/dHeWS23w+wuVGdugL4LJKPjzUcpqd6w==
+	t=1793103218;
+	b=3sx7RezaPb01gssf6bFf/y8LFCYRgiLfmsIy3fpTWZIDl1T6y31teDQJ/boRiu9iXsyb
+	 KVbYwsiryH4YMbfvemEwAWDl8D91c1Vk4oItg3TN/OTJauHMUs4qciLF9GOFINITx1HBf
+	 SRyEJlcfMKQrJYMUghrT2BrNiez4+S3xM0IZaRv5g9mFBMFpipDiPXYP9DR6L8p83itiH
+	 ueGFTkFyXVvLloGnEp05WYr/HkCa7g8aVbg5EAMlP/jNNhVGWt9efuJ+zfj226UeM/AT/
+	 x3t1hR19Cqv5s5k1TBbaMgNrYEzZt0PKQ4cGrvsA4UnIcn3Vb6ByNbwODTwz5HNRddA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793103215;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=UqgubOSrlWvHKhI1cqoT/fdRktbJuQr2VeGa7H2doB0=;
-	b=3kicCG6GuN2ZjBLiLwP7bNFTyYwKe497advGh/nUo4P55XzlXy3n68XDQ/tn5bi0KooI
-	 VG1UAMYmDwybw2B7jxPVp4em4jzHtvo91ivsV+1SDvT5acDpIh904ocDQRK10ZlLnW5lA
-	 UMBHNTS0N12JuIQFwUP7ERsju5cHvoVmsv7olvqJac9gFVqglVAVE+vE8HCZH4UyCj1Yh
-	 1r5EPwdjGidKxWXbp5jve30rOMliu8l9hbPLh51NwJEfER8Qbwlx0q/ARG06oRW8m0zdZ
-	 0QbLhvYHNmeiQBEUaLmpOhlbLoydWv3Sq1z+j5027LgZRo2FmB5XyS3v9FepZ0XyNsA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103218;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=2VXJ9XM97iLQduVg3UEnKJt/vf1Pmk/r9gbTiERY3d0=;
+	b=y7YnEBPAQsOZRsQyXtwtcJv/kpiQcIChIZKHgZKx+9Qaj/Hkof82wVd32v6H743tk/UR
+	 PZDoqdprXnXbtJVinksjoPHj95xE9znmdlYAEdwB/uMPDe4iPxeg9Fn7ekWoFxO8FhcW1
+	 onMDggmq5faPhj2Kw2+vZypCDa8QR0pY35UKNcoROPYGYO00KRM5tXTmCEq2eMJMC+Zci
+	 Tg/XriLacGIBO+4absdmzuh3aDqp+P5Qy+cQWKMB9G/3Nh1CXWbUcWf0M6fG9S+tGVE6p
+	 DJ0YJFcdnCZ9fkmDJz5MvVIk9fFMq2QKxSOL8TbiFKbHKGDMYArKtDNeAttGZaM7S8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b="RBTg/FKM";
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=F+Zzpd8m;
+	arc=none smtp.remote-ip=203.205.221.192
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698EB60A260A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3B5606A33A;
 	Tue, 27 Oct 2026 12:13:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 698EB60A260A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B3B5606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=RBTg/FKM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=UqgubOSrlWvHKhI1cqoT/fdRktbJuQr2VeGa7H2doB0=; b=RBTg/FKMjiMJhvBeWjtZ6CZIY9
-	rvPo1ckUCe6w+h0QiGzd+6cZ2SX9h4XjdR9cge27tpZKPnYIX66xu0ynCGVEVN17tU71OKLzHYeUd
-	YqLq2zAJnig/4jV33IsJ4SPBSdrisjLfFdiJlsjpW5dPMWCs+MvV7MeJYcTUbpvu4bgIGirMrhNRT
-	rfQtF87hxPbl4GLZG512PZKdcraOJ9bUOs97wFlIO/vsRNJjr0Xeic51ZjNa4hLcU1g1mU3TtvmU/
-	TMvXw7zT4HnYQe+O4c+SJwwIKJjffebWKGrSbkUjU7VknhliRZuEvq3AGqvm5+9EA7IZvX/8NaQPB
-	FB/pcf5A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLg3R-0000000EufN-04F8;
-	Tue, 27 Oct 2026 12:13:25 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9C1633014C0; Tue, 27 Oct 2026 13:13:23 +0100 (CET)
-Date: Tue, 27 Oct 2026 13:13:23 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Matthew Wilcox <willy@infradead.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>,
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	kernel-team@meta.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
-Message-ID: <20261027121323.GO2668564@noisy.programming.kicks-ass.net>
-References: <20260227194302.274384-1-kas@kernel.org>
- <20260227194302.274384-14-kas@kernel.org>
- <ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org>
- <at_f43oDv73y-t7O@thinkstation>
- <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
- <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
- <auCKv_omLGRc6wv2@thinkstation>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=F+Zzpd8m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793103213; bh=2VXJ9XM97iLQduVg3UEnKJt/vf1Pmk/r9gbTiERY3d0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=F+Zzpd8mhSVLCSIMCbbCMTqGZL0NLkJPj62aNWNxIlTcnH4eIh8KWjGK83/LDCChn
+	 pfnzuQxQYXyiPHwHyLbZO0VIQLoXl9CGUyU9J7IVEnZyu5CDyspyyO8yhf5Ck/jUfg
+	 OtsqHzArPE9XJj3AoVUQu1YNKNPCppYYcRYHiQVs=
+Received: from kernel-lab.tail5e91bb.ts.net ([2409:8950:57d:63:2e7f:4b13:c1e3:e391])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 35D23E21; Tue, 27 Oct 2026 20:13:29 +0800
+X-QQ-mid: xmsmtpt1793103211txq685nwy
+Message-ID: <tencent_092ACB939828E092E004E81FE5F32E68CA05@qq.com>
+X-QQ-XMAILINFO: NA8WCMn5GQiMy+zlO8CCuCFhNxcKbk3YTqLyzQkl9E56TpW6qghg03O7kczzEv
+	 lItanb9j8biCCfSDzqJcA7chTemFZvQ/UNmVglMulBCJxNb3nLTPaLMU++tCsMBtksTC5R6jpg4d
+	 /l34BeyWMpN4jGKHp8MEMnpQFeiD0nAmATv40N+AXiAybR11A4pWb6+qHV/UFD2KR4B6t+myVL26
+	 VSjDVhzU7rZB1oOWMRxCTXY6H6obnsw9MEZ65i/E+l1uuf6FtUeK/kPmPKg1qJsjE0iL4rShfDYT
+	 h/ULjj3BsSEuqjDoaZEjP1DaGwcleaJMzT1cXAGmnqvgjtx927iq2Ia+QmidnDvfOwxu2vf2KWwD
+	 PwTMMfVdfoRmgcWjTULXck38tNG3oNCyMXdNhu5BBFcZuIor4BBXL0t1nfciT3Np90l/+xbgFbbc
+	 Mb5/akVV0F4vQuFHoueek9207HQlHCOFvcnG2s7HdZLNjZlEnp78ak1R9uBy9wQHui+QxxsM18T4
+	 UNTTbLk6pss4iAQQUA4SqN9dSK+cOAgPqaoN3NRCvzLXuuazJ7mPRzN0V13iLRL4btdGA22ZI8Rq
+	 8N9OJBHBd6hB/FXZ0JQuVO3/UCv4M4krf5ji1inRjOp6FD8Z7t4ylsCVAvyXvuKZ7lt6qY6xzuj8
+	 IBeveK7ymqM2Abm89H4QVPloGsb88VXlFydNIYx0zQ4b9qx4w74UO4hkjuakDkCk++lnTiiGpeXW
+	 qrZzCSsAW+Ud4ZM5fq7CSnlsG/cFIyfmpeMYIHLc529GNvo08e/F2T6KV+9P/MRAHPp8R+2iF9NX
+	 IZgSLxRl/ZrOpeQ13EF9DPVrnS9JA9ydFTLTqsR7I6q7fF8NywScnDEHK/PSKvYKIew8JYEqSDSo
+	 3coOr6RNZKCsC8q1lcZEULkyknjzTP93bZhpPG4TDuDO+qL3hGgrZLLTxkmTGUcin6+2x79UBWY+
+	 Wx4XLSoMyfPsnxSmrzguJy4jGmeHhgOaap5Zi3nIXgSOaGyCKy8j7+8+w9u1h/MIbreoxbpeT3Ey
+	 aEiNGvIn0zS8SDtGBjMydqDTA7mDz7ZKwkzYCC0AC4hh0DuKSFqVv6AHuiuyydn8GaToWWzqNJ4Z
+	 OWYk4d8QQGzQCY9AIf6/VKTJrxJOSf0a6gwthTuxVzdnZScn0=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Yingjie Wang <1075151112@qq.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	hare@suse.de,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] nvmet-tcp: validate the TLS handshake timeout
+Date: Tue, 27 Oct 2026 20:13:28 +0800
+X-OQ-MSGID: <f4e900d47a25513c94f68b6fd69f31cda6e40ce0.1793103202.git.1075151112@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1793103202.git.1075151112@qq.com>
+References: <cover.1793103202.git.1075151112@qq.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,34 +89,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auCKv_omLGRc6wv2@thinkstation>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 27, 2026 at 12:00:47PM +0000, Kiryl Shutsemau wrote:
+tls_handshake_timeout is writable but stored as a signed int. Multiplying
+the value by MSEC_PER_SEC and HZ therefore uses signed arithmetic.
 
-> Fair enough. Here's some context.
-> 
-> HVO (HugeTLB Vmemmap Optimization) frees most of the memmap of a hugetlb
-> folio by remapping the struct pages after the first vmemmap page to a
-> shared page, mapped read-only.
-> 
-> Every lockless get of a page reference (e.g. page cache lookup, PFN
-> scanners) relies on page_ref_add_unless_zero(), which is
-> atomic_add_unless(&page->_refcount, nr, 0).
-> 
-> The page can be freed and reused between finding it and the get; the
-> zero refcount is what makes the get fail. The race:
-> 
->   lockless get                        other CPU
->   c = atomic_read(&page->_refcount)
->   c != 0
->                                       page freed
->                                       page allocated as a hugetlb tail
->                                       HVO remaps it read-only
->   try_cmpxchg(&page->_refcount, &c, c + nr)
->     -> write fault on read-only vmemmap
+With HZ=1000, setting it to 2147484 overflows both multiplications. If
+the handshake request is accepted and remains pending, the timer wheel
+treats the jiffies delay as already expired and queues the timeout work
+on its next advance, while the handshake agent was given about 24.9
+days. Negative values such as -1 cause the same immediate kernel-side
+timeout.
 
-I missed a little something here; page->_refcount is in the page-frame;
-how does the page itself being RO affect this?
+Store the parameter as an unsigned int and reject values that cannot be
+represented both by tls_handshake_args::ta_timeout_ms and by a safe
+jiffies delay. Take one snapshot so a concurrent parameter update cannot
+give the handshake agent and delayed work different timeouts. Document
+the accepted range for built-in use.
+
+Negative and oversized values now fail with -EINVAL. Keep zero valid,
+preserving the existing immediate-timeout behavior.
+
+Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yingjie Wang <1075151112@qq.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  5 ++++
+ drivers/nvme/target/tcp.c                     | 26 ++++++++++++++++---
+ 2 files changed, 27 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 68647ff4bdd24..cc54d5f169f67 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4801,6 +4801,11 @@ Kernel parameters
+ 			Example:
+ 			nvme.quirks=7710:2267:bogus_nid,^identify_cns-9900:7711:broken_msi
+ 
++	nvmet_tcp.tls_handshake_timeout=
++			[NVME] TLS handshake timeout in seconds. Valid values
++			range from 0 to the smaller of UINT_MAX / 1000 and
++			MAX_JIFFY_OFFSET / HZ. Default: 10
++
+ 	ohci1394_dma=early	[HW,EARLY] enable debugging via the ohci1394 driver.
+ 			See Documentation/core-api/debugging-via-ohci1394.rst for more
+ 			info.
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index e598101752620..7937377436d3b 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -6,6 +6,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
+ #include <linux/init.h>
++#include <linux/jiffies.h>
+ #include <linux/slab.h>
+ #include <linux/crc32c.h>
+ #include <linux/err.h>
+@@ -76,8 +77,24 @@ MODULE_PARM_DESC(idle_poll_period_usecs,
+ /*
+  * TLS handshake timeout
+  */
+-static int tls_handshake_timeout = 10;
+-module_param(tls_handshake_timeout, int, 0644);
++static unsigned int tls_handshake_timeout = 10;
++
++static int tls_handshake_timeout_set(const char *val,
++				     const struct kernel_param *kp)
++{
++	return param_set_uint_minmax(val, kp, 0,
++		min_t(unsigned long, UINT_MAX / MSEC_PER_SEC,
++		      MAX_JIFFY_OFFSET / HZ));
++}
++
++static const struct kernel_param_ops tls_handshake_timeout_ops = {
++	.set = tls_handshake_timeout_set,
++	.get = param_get_uint,
++};
++
++module_param_cb(tls_handshake_timeout, &tls_handshake_timeout_ops,
++		&tls_handshake_timeout, 0644);
++__MODULE_PARM_TYPE(tls_handshake_timeout, "uint");
+ MODULE_PARM_DESC(tls_handshake_timeout,
+ 		 "nvme TLS handshake timeout in seconds (default 10)");
+ #endif
+@@ -1904,6 +1921,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ {
+ 	int ret = -EOPNOTSUPP;
+ 	struct tls_handshake_args args;
++	unsigned int timeout = READ_ONCE(tls_handshake_timeout);
+ 
+ 	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
+ 		pr_warn("cannot start TLS in state %d\n", queue->state);
+@@ -1917,7 +1935,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ 	args.ta_done = nvmet_tcp_tls_handshake_done;
+ 	args.ta_data = queue;
+ 	args.ta_keyring = key_serial(queue->port->nport->keyring);
+-	args.ta_timeout_ms = tls_handshake_timeout * 1000;
++	args.ta_timeout_ms = timeout * MSEC_PER_SEC;
+ 
+ 	ret = tls_server_hello_psk(&args, GFP_KERNEL);
+ 	if (ret) {
+@@ -1925,7 +1943,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
+ 		pr_err("failed to start TLS, err=%d\n", ret);
+ 	} else {
+ 		queue_delayed_work(nvmet_wq, &queue->tls_handshake_tmo_work,
+-				   tls_handshake_timeout * HZ);
++				   (unsigned long)timeout * HZ);
+ 	}
+ 	return ret;
+ }
+-- 
+2.43.0
 
