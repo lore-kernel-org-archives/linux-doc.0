@@ -1,99 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793117621;
-	b=E2ZGi5yPaz20ojU3GG7oIZOOBBrJwjJJHuUol3P137vcvMWe2odWOSLoJaxdwm0FJrX9
-	 tVczx8nnTtPUhUWminl9suk4kfZ5KZuMmwJejV3yjIyZ4zM6fW9NLipWHXGD6iwxVdKQ6
-	 hQhqfLciEq9jWCOOyZnBmSRJWcHOaqUuE/Gl+MXYuYLWA7AuYUG9XWYuI/3IWpO9/xbOj
-	 YG6PTuf3naRZu5yXwKLnQZU7uBiqht9CMaPSbtuzfjYUujVEfxDWx/01Puq5//nkHBwqI
-	 aPb9CkisIYqhDluVpbO6Jsmvw2DxJ9yD80qL0sJ2eK/fMjR1q4TpN816hnpz39L5j7w==
+	t=1793117808;
+	b=xX8diTU3GVB5/Qmno7SjfhIPuqvEw+lDlCAgrMxTDynKRB3OPRGfLQ+P2m4m639GEE1C
+	 74e7UCof5IT0omDdhKE9lHTbCF0Td1cd9m3bX4oo8iqp+qHSw40M5kCkI27wUtluYyBvY
+	 gZyYcq+o2oRD5Y+K2TWEv2UlVGATJ/fWZcWAiwJbDuvlOcbXInBMFjdI+dFmQ8g4V00IQ
+	 Ks7ygVnJabE9Rdog9+YQfoMAg3MKoquYQKlceekqqq+LVBk3GeS2yaZvraejohqpgwSBz
+	 PA4iEDMaPtP1r98My0penYFu9X2iIQne9tNAofJptRQop9kg1slAOzkYWZ5+n1vJSHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793117621;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=5G3ZmT86d3fe1rJiM6b5mr2ay0ue+O83AEJqLc41Pes=;
-	b=PL67da/ZhT+cQP69sWQXchPh7npmcMQyiRKYo/QUs6OBZIX2NxfU0ZUg4GCsNmokOsPO
-	 6mnHwuOV9sFkE7Lcp6/1zc8Fu2kBx54TWVuk6UZWTMF6MQptBMwP70zvMJsA1mH+gyxjQ
-	 HnwWYb6tpfrB8Wkj3JUmZ/iGFUAqPqf0D8AdU2Or2PMQpVJH9g8AxjpnblVatNg7PkEKH
-	 qkfkQgjPSjem+UeTWyf1KF+sOnjAa8awgAsmkbGtZvt9QBWVv5ONv0RzkkAZJwjhTuu9k
-	 5HpvanmBIYlTu3qZHrqv7s7/23uKEPQXdDfoqMVAS6NfOI/4qLds7FicBAg31g0zqzw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793117808;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=GbocaL4tWDPWFJT66RNMeq5SQE2l2w1Jml0mjxtf0GU=;
+	b=yzhVOSfwu7FqTG+qZ6KXsw6y11kqAV0MR0gnQjUMRQzANgD45FutS339YIMfaKCrG8YD
+	 LAl1jo0Q63URSIXBSSIGM9hnQBni3ghonO1X3rT8LaO19Y9brQI2I9dFclAd0+nkBO0+1
+	 BqXZdgaBxfwKM2Zd9Q/dmUkttY16jLK/141NMcTh5VFahHqwruRPl0Nzvfq4el5l1wuYh
+	 ZbXMq6oXUPv/7CPZgCthy/+yHWgcTYhpFXGMaW44j+EweazJ9wIifmXuiSPpChI9EvRcn
+	 giWLwGsdamDsRHRaOANhzEm8QP8dRpvzPHrMprVHOQ1s53f5SgWXqxt1bA28o6qaIcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=0bRG5pWu;
-	arc=none smtp.remote-ip=44.202.169.35
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=DqeoYrBU;
+	arc=none smtp.remote-ip=91.218.175.41
+Received: from mta0.migadu.com (out-41.mta0.migadu.com [91.218.175.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C274B606A326
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 16:13:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C274B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB22606A31B
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 16:16:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FB22606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=0bRG5pWu
-Received: from eig-obgw-5006b.ext.cloudfilter.net ([10.0.29.217])
-	by cmsmtp with ESMTPS
-	id Lcv0x7am4LvgbLjnqxvhIz; Tue, 27 Oct 2026 16:13:34 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id Ljnpxsn3W9DdjLjnqxJWAz; Tue, 27 Oct 2026 16:13:34 +0000
-X-Authority-Analysis: v=2.4 cv=edA9f6EH c=1 sm=1 tr=0 ts=6ae0cdae
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10 a=VwQbUJbxAAAA:8
- a=iox4zFpeAAAA:8 a=lMUDpl8nYqh3M6R7ydkA:9 a=CjuIK1q_8ugA:10 a=LP3-5Lh9zdkA:10
- a=WzC6qhA0u3u7Ye7llzcV:22 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5G3ZmT86d3fe1rJiM6b5mr2ay0ue+O83AEJqLc41Pes=; b=0bRG5pWuLiZXHXqJQvNggCWlNQ
-	GbtulZEHDb8sReMmPpD9jeLOPqZQkvsmUB1QF/eaKJBgihsBywZ3ulNPnxshEjknN4c31xvSydrof
-	G8UKnkf5xfgnI69nY3a4sNA9bFAtUL8L0JA58uLhKUpMYHBBJ0OrdJplBMt99zyuCp21tdFaUrvXc
-	Rj/BTRRnkXIIxr7cfp1yIvTqmh6CwL7GsO4UOrGrFPKoB3lE61ZgXnJN1tKcwjo/RzpYUatrMH8pN
-	s0ztAID6NGI3HShJw5b84D//CWybXdMw56O+bg8PoNsDOWiW4Y6p1JVP8bF+MAB+WQBG2bEK7fw3K
-	OgN2UsKg==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:37196 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xLjnm-00000000huz-1JIR;
-	Tue, 27 Oct 2026 21:43:30 +0530
-Date: Tue, 27 Oct 2026 09:13:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Gary Guo <gary@garyguo.net>
-Cc: Andrea della Porta <andrea.porta@suse.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=DqeoYrBU
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=YMHm1UdhIogyYftZ2Kw0ekG8w2IuHdMfvUp+gtU8ncQ=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793117803; v=1; x=1793722603;
+ b=DqeoYrBUsvvIAN65neK/03xwClFAC7O1L/NU1G/ciKDGlCrWXcoXCGrB9sDxuBrj49OhzGp2
+ EmKTSUUtCiQJJ4QD2BxBMhtlqssxwjaIIS9lXMxg5hgqz+fKc6MWGLLXkvtykbuuQQtsVDSHyj9
+ sCQS/78EaHxsrEAu1IGBmh+/8nenmrbJGGJeXpDooU7XD06BOfVKw6204zpkcnMSrySLUnaaQn9
+ iLfWUCWsZM3qhk4LYjKp3KZdfU4KnTeNc7rqugFYGDvUG3ckZd74OlJa/1ulrHHMSo/8AwgCQEO
+ 3JTXAK1FEgeUJoe8HIy4fx6nT9kKhl6fImi4g1o3UwP/w==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 58fdc84ef17a101f;
+	Tue, 27 Oct 2026 16:16:43 +0000
+X-Mizu-Trace-ID: 58fdc84ef17a101f
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 28 Oct 2026 00:16:20 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Gregor Herburger <gregor.herburger@linutronix.de>,
-	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH RFC 0/4] hwmon: Add fan tachometer support for Raspberry
- Pi RP1
-Message-ID: <b02b4f0b-ad2c-453a-b69c-a0865a333d62@roeck-us.net>
-References: <cover.1792748690.git.andrea.porta@suse.com>
- <7df58d42-517c-4936-88b0-9d044d30882c@roeck-us.net>
- <auBzvB8TsvIK8Hik@apocalypse>
- <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
- <DMFPE71J8205.3FZKD5BKW3U7C@garyguo.net>
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jiandong Qiu <qiujiandong1998@gmail.com>
+Subject: Re: [PATCH 2/9] docs/zh_CN: update admin-guide/README.rst translation
+Message-ID: <auDOVHHfyFRWpHSa@wyuan.org>
+References: <20261027102552.3801595-1-dzm91@hust.edu.cn>
+ <20261027102552.3801595-3-dzm91@hust.edu.cn>
+ <auCM9YrxbpXvdRv9@wyuan.org>
+ <59010171-3f94-4574-89e4-b655c1c6dc30@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,91 +73,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DMFPE71J8205.3FZKD5BKW3U7C@garyguo.net>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xLjnm-00000000huz-1JIR
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:37196
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 27
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfI7B14S72PKy9ewwy6AKP31KFTKpIGxeQdVJSgysnvJKw0Yu/LBO1t7q17X6blMIulPk//Jw2rqgodlTj8GKTxC+QmiCNHrCTr/cpf+cQOJAcY4uSTcJ
- Y5eM41KVdLKVqpDeh7/Ai0ApIGxHjNFFQGqtFgeGsycOveB82snaA2N9zZMXnk0IjEKKcVWwpW23OLuLRiVJ08oIlwUMQKHpHLLkITnHRJusx4B8LUsyzBmL
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <59010171-3f94-4574-89e4-b655c1c6dc30@hust.edu.cn>
 
-On Tue, Oct 27, 2026 at 10:51:15PM +0800, Gary Guo wrote:
-> On Tue Oct 27, 2026 at 9:48 PM CST, Guenter Roeck wrote:
-> > On Tue, Oct 27, 2026 at 10:49:48AM +0100, Andrea della Porta wrote:
-> >> Hi Guenter,
-> >> 
-> >> Yes, I also proposed that in the cover letter because auxbus seems also a viable
-> >> solution.
-> >> 
-> >> The current implementation is a consequence to the discussion about the companion
-> >> PWM driver, from here (and the revisions that followed):
-> >> 
-> >> https://lore.kernel.org/all/cover.1775223441.git.andrea.porta@suse.com/
-> >> 
-> >> To give a short and hopefully coherent view of the decisions, here's a breakdown:
-> >> 
-> >> - first proposal: PWM driver + fan hwmon (to read the RPM), all in the same driver
-> >> 
-> >> - V2: Uwe preferred to split the PWM driver from the hwmon one, so the hwmon was
-> >>   dropped from teh PWM driver in favor of a future (fan) driver. To accomplish this,
-> >>   I moved from readl/writel to regmap + syscon.
-> >> 
-> >> - V8: Gary proposed to export a function to read the fan RPM as a viable
-> >>   solution. As a result, the regmap/syscon was dropped as it was no longer needed
-> >>   and the function has been exported from the PWM driver
-> >> 
-> >> - new patchset for fan driver: the now independent hwmon moodle just call the
-> >>   exported function from thw PWM driver.
-> >> 
-> >> If the auxiliary bus is indeed the preferred approach, I'd like to ensure we are
-> >> all aligned, as this would also require refactoring the PWM driver.
-> >> 
-> >
-> > Let's say it that way: If you don't want to implement the auxiliary driver,
-> > and you insist using the exported function, I would prefer for you to go back
-> > to the first solution. The one thing I really dislike is conceptually broken
-> > code, and I consider the current approach broken. Your call, but the one thing
-> > I won't accept is the code with the exported function.
-> 
-> I agree on the auxiliary driver part. However, I don't think EXPORT_SYMBOL_NS is
-> an issue, and regmap is not the right fit here:
-> 
-> - Previous version of the PWM1 patch series publish regmap using
->   of_syscon_register_regmap, but this cannot be undone -- which needs to happen
->   on PWM device unbind (the RP1 PWM device is itself platform device, but RP1
->   chip itself is PCIe device which must be removable).
-> 
-> - The tachometer register is not its own separate register, but rather (re)using
->   the phase control register. The phase control is not implemented in the RP1
->   PWM driver on the list yet, so this is currently a simple register read -- I
->   can see that RP1 PWM driver need to take special care to about the tachometer
->   reading if the phase control is implemented.
-> 
->   For the two reasons above, I think the way that tachometer is read should
->   really be an implementation detail of the PWM driver and not for the hwmon
->   driver to worry about, so I suggested using EXPORT_SYMBOL_NS.
-> 
-> - EXPORT_SYMBOL_NS is the documented way for exposing functionality from parent
->   device to auxiliary drivers: https://docs.kernel.org/driver-api/auxiliary_bus.html
-> 
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-Let's agree to disagree, and keep the code in the pwm subsystem.
+> On 10/27/26 7:37 PM, Weijie Yuan wrote:
+> > Dongliang Mu <dzm91@hust.edu.cn> writes:
+> > 
+> > > update Documentation/admin-guide/README.rst Chinese translation
+> > > 
+> > > Refresh the kernel installation guidance and correct the defconfig and
+> > > LSMOD descriptions. Add a label to the translated applying-patches guide
+> > > so the README can link to it.
+> > > 
+> > > Update the translation through commit 8913632998fc
+> > > ("Documentation: Fix typos and grammatical errors")
+> > > 
+> > > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> > > ---
+> > >   .../translations/zh_CN/admin-guide/README.rst | 89 +++++++++++--------
+> > >   .../zh_CN/process/applying-patches.rst        |  2 +
+> > >   2 files changed, 53 insertions(+), 38 deletions(-)
+> > > 
+> > > diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
+> > > index ee6dd3782f4a..050f671f8acb 100644
+> > > --- a/Documentation/translations/zh_CN/admin-guide/README.rst
+> > > +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
+> > > @@ -1,11 +1,12 @@
+> > >   .. include:: ../disclaimer-zh_CN.rst
+> > > -:Original: Documentation/admin-guide/README.rst
+> > >   :译者:
+> > >    吴想成 Wu XiangCheng <bobwxc@email.cn>
+> > > +.. _readme_zh:
+> > > +
+> > Hi Dongliang, good evening ;-)
+> > 
+> > I remember that Jon emphasized that top-level labels should not be
+> > added in this thread:
+> > 
+> >    https://lore.kernel.org/linux-doc/87tsqytxrn.fsf@trenco.lwn.net/
+> > 
+> > And I remembered that my patch (apply-patches.rst) was rendered
+> > correctly just using a plain path. (so I didn't add that label)
+> > But I'll check it again now.
+> 
+> 
+> It seems useless. I will test this removal, if it works I would remove this
+> top level in v2 patch.
 
-Thanks,
-Guenter
+Checked with sphinx-build 9.1.0, rendered correctly on f857ff5bf007
+(docs/translations/pt_BR: admin-guide: add efi-stub.rst, 2026-10-15)
+
+> > Also, v3 of this series is pending, if I remember correctly. In general
+> > I think it's not bad. So feel free to take a look when having spare
+> > time.
+> > 
+> > v3: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/
+> 
+> I will review this patchset today or tomorrmow.
+
+Thanks for your review!
+
+
+
