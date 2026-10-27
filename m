@@ -1,59 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793143388;
-	b=yGDIFZK6ynq/OpaoZ4rOovyERsjvA6SDXIq30qirR7TvbNnhil7rjP/RFECzutH4UnbP
-	 D/98JdU0SFTf7UEFCe/4Uk+G6zvTkE/PnLXc0uKjYgI0qr8lcx18BRuGnmeBgt1GJZ0IF
-	 f6OXL3SOzE7D0XsZCQO7n4rFQ+GfMZlPx75DlUtj3t8m/Q/VIoWANPAN85uC/hqgn5yXj
-	 D78D5Fj/kb5XvZokV7MgtSMcYARpwGoso164xhOSLZeq0aVDlKLzd3ceVEA31mNc1bed7
-	 S0PMXBcwVgDBxCwaAVBK9DhzYT7ryKAfKj7VriWZSsRvo3GQozpXb49cX4FIYNMPJhg==
+	t=1793144115;
+	b=rPhFiTgSunkH0UN7YvdQfXQd5/2qDHs47dcD2arZ9tRPFR+Co6fc6TM1m7XOOkBtRpuf
+	 H8/AvBO+cYysUoWa7P2Vt+NhY/F1TPnfaXFQirv57QpiigTMHkuwx18xQY5HSozaW4Qjg
+	 ffUx4UCfqT9ASNw3rSZJktMDKCDvWwwegXwZ/NzEwZsfnFrJv+ND7XnjvfGR02V6Ti312
+	 Cg+poaKhZZnc6N6BISkQEfcpEOEWjUdpAt+qa7AiZAmp0arcJMR5bdmZg5a8tTGzZ7kKw
+	 AQylgRraoDlqLAVyRN+1kgiarMOP/c8M+HKQ0hN6Q54igo7NCglY3/JPyFPxr4bGWmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793143388;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=afws3t8gUsUgdQ8PYku6SmpBffHNAMIiHuve0kA7xT0=;
-	b=4zZ0H8yd+Y4YWTdjT5sNF/sbPxkgatdYK3RQwSlCu8OWgudhWCkRhCLcrMRrFMuslvV7
-	 N/AkfoVcGINcRgXJghD64cK9B0CX217ZTMNW+wu6JyaFVI7rs6ckkMROpWxwi9pECZ73O
-	 SPUeBKI5f0O83xQDRuueaiabh/OaIulqfFYZX0n5AloD6qZrV+QutrZP/mRuycmLwadSX
-	 Ki+w7qjG/7wHnmTyUzEK89lX/I6mKZHMr3kFdl2HtIhuhq+ohrihaGuBCBKf+enRnAe2j
-	 ptQaFD9R8AWUHj89r3H1zFMoQDv8GCIFAZdd66VKAmsRg0JL6bC7IlaKFp64O1LwYTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793144115;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3AEKuRmRMD5kYKRL/svuIaLfmBr+e4xHMBURLY4w1FE=;
+	b=dvwcqMk81GawdyAbW2FOL4p8F9T8YV0EI/2kLLwhHHXfxi4tz+XAALjPHY7Qdn/eSgLb
+	 o6MQhdmPhIU2CCMNAv3t8EaofNaSxaDkMCn+cFfTaRVHI/+8XEIDYfZtXHGRjUqU/+ACu
+	 UKe2N4a+TyC+cOAEUQ1KJjZ8EKWU3sNtOwfnfSGC6u6TwTFyHGgNsYnJAntDhOalnpTbU
+	 qc3nR6rwImnLrQGaAh7NI2BcmrcSF2C0nl/ekkrOZQOJLGAQA+jCkA/V6NBcJKeuyA1X4
+	 0WlWxKu+gJC080AF5r6zwBgw2aV8Ak6xdu2AZoBCGGZG/ZmseUahoRcHCYZNyYP1A+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FvL1kI8d;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FxkLxzyT;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EA5606A31A;
-	Tue, 27 Oct 2026 23:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B052606A31A;
+	Tue, 27 Oct 2026 23:35:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B052606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FvL1kI8d
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9B61F01825;
-	Tue, 27 Oct 2026 23:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793143387;
-	bh=afws3t8gUsUgdQ8PYku6SmpBffHNAMIiHuve0kA7xT0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=FvL1kI8d9Va0rpyhFdoDX3ZHvw4FQgrgGuqARNouPlMP1sVgLW0Pdv1IQZ91ok4Yq
-	 CNvAZcnW5zqjkQOmZGEGhxJBzgb0Qti5CY2iCE0bYa7tfcgWtvgkvlD+eHbLjDAPOq
-	 PKdwhqRKjHQjEdL5aO8Wguo7cM0abRiBoone+g2SLtL1uDhi9D6QQ59y8mTFdXGzn/
-	 gGpbrgpY+wL5sUIVvi5/JeHQythrDS1/l/ToaCCm4XqzWdPVtQLlfGJF5sjedHJNA8
-	 lXjlwUKat6O8kyQGIotk7syTlnZwH7PaRe1qZzB01g65SBtOVQCYQ620bFQf3F4oA4
-	 bxZfuOtzLj84g==
-Subject: Re: [PATCH net] ipv6: bound temporary address regeneration advance
-From: netdev-bot+sashiko@kernel.org
-To: 1075151112@qq.com
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, dsahern@kernel.org,
- idosch@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-doc@vger.kernel.org, alexhenrie24@gmail.com
-Date: Tue, 27 Oct 2026 23:23:06 +0000
-Message-ID: <179314338680.3134.12884407597513324652@kernel.org>
-In-Reply-To: <tencent_F6E8C7CAC6D390C8E912EEE4FD9FE4333505@qq.com>
-References: <tencent_F6E8C7CAC6D390C8E912EEE4FD9FE4333505@qq.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FxkLxzyT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3AEKuRmRMD5kYKRL/svuIaLfmBr+e4xHMBURLY4w1FE=; b=FxkLxzyT+lerY94dkIEJXzfe/z
+	e03gCnpV1zBE/dX7Cq0B3N7Wh3dZRHDdeLwDU0IwTgGeYNBxseN/zcie2fL5zFIZeb0EB3uz9f97q
+	n8d7cR6iVFUGlDozzHUVTeKPlT42NCKL/SAgYBt32SZBRPbJkKAwXi4tBbAru/8Fb4g0BbPSBTEKq
+	EZONvOBeItyAtR2dhN/Pr98TcnSGQAWz7UIuaR4VzkGKqf3G/tYlYdeShDG6uozFnfjEladfMxPkp
+	2re9Eh+Kr1bKoO0LDJHWpq2fU71CprAJGRoEB8gkLiA/ZP9HqfZVMdvL1apESLPXT5VfW4hVXndUp
+	qLlg5gWg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xLqgz-00000005vkZ-1ZBb;
+	Tue, 27 Oct 2026 23:34:57 +0000
+Message-ID: <099dc59b-0699-4c2d-875e-289cf6d32cce@infradead.org>
+Date: Tue, 27 Oct 2026 16:34:56 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,134 +58,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] sched/core: Add sched_stack_end_check= boot parameter
+To: Chris Down <chris@chrisdown.name>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Kees Cook <kees@kernel.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Will Deacon <will@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com
+References: <cover.1793082868.git.chris@chrisdown.name>
+ <3d2bb6a8508b9d801878bb82c88165a1b1ff5f40.1793082868.git.chris@chrisdown.name>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <3d2bb6a8508b9d801878bb82c88165a1b1ff5f40.1793082868.git.chris@chrisdown.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0 (1)
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On 10/26/26 11:36 PM, Chris Down wrote:
+> +static int __init setup_sched_stack_end_check(char *str)
+> +{
+> +	bool enable;
+> +
+> +	if (kstrtobool(str, &enable)) {
+> +		pr_warn("Unable to parse sched_stack_end_check=\n");
+> +		return 0;
+> +	}
 
-- [Medium] The commit message names only regen_min_advance,
-  regen_max_retry and dad_transmits as inputs to the overflowing int…
+This error branch should return 1 since it handled the command
+line parameter -- it just didn't like the "value."
 
-Pre-existing issues:
-- [Low] In addrconf_verify_rtnl(), the deadline expressions `ifp->tstamp
-  + ifp->prefered_lft * HZ` (lines 4727, 4744, 4783) multiply a __u32 by…
-
---
-
-ipv6: bound temporary address regeneration advance
-
-The commit makes the regen_min_advance, regen_max_retry and dad_transmits
-sysctls reject negative values. It also reworks ipv6_get_regen_advance()
-to use checked u64 arithmetic capped at U32_MAX. In ipv6_create_tempaddr()
-the minimum preferred lifetime is now computed in u64 before narrowing,
-and max_desync_factor is computed without an unsigned wrap.
-
-> ipv6_get_regen_advance() combines regen_min_advance, regen_max_retry
-> and dad_transmits. All three are signed sysctls, and the latter two
-> are multiplied as int. Negative values or overflow of large positive
-> inputs can make the unsigned long result much larger than intended.
-
-[Severity: Medium]
-Is this description complete? The old expression also multiplied by
-NEIGH_VAR(idev->nd_parms, RETRANS_TIME). That value can come from an
-on-link Router Advertisement, not only from a sysctl.
-
-ndisc_router_discovery() in net/ipv6/ndisc.c stores the RA Retrans Timer
-in the int RETRANS_TIME slot:
-
-	if (in6_dev->nd_parms) {
-		unsigned long rtime = ntohl(ra_msg->retrans_timer);
-
-		if (rtime && rtime/1000 < MAX_SCHEDULE_TIMEOUT/HZ) {
-			rtime = (rtime*HZ)/1000;
-			if (rtime < HZ/100)
-				rtime = HZ/100;
-			NEIGH_VAR_SET(in6_dev->nd_parms, RETRANS_TIME, rtime);
-
-On 64-bit, the rtime/1000 < MAX_SCHEDULE_TIMEOUT/HZ check always passes
-for a u32. The only gate is ipv6_accept_ra(), which is on by default for
-hosts.
-
-Take the default sysctls (2/5/1), HZ=1000 and an RA Retrans Timer of
-858992859 ms. The old int expression becomes:
-
-    2 + (5 * 1 * 858992859) / 1000
-  = 2 + (-3001) / 1000
-  = 2 + (-3)
-  = -1
-
-So the old ipv6_get_regen_advance() returned ULONG_MAX. That is the same
-state as the dad_transmits=-1 reproducer.
-
-With age 0, the old ipv6_create_tempaddr() then set cfg.preferred_lft to
-(u32)(ULONG_MAX + 1) = 0. Temporary addresses were therefore created
-already deprecated.
-
-Sometimes the new address does not stay tentative (accept_dad=0, or
-IFF_NOARP devices). Then addrconf_verify_rtnl() sees
-age + ULONG_MAX >= 0 and restarts its scan. This gives the same
-address-creation loop under RTNL, and any RA that refreshes the public
-address tstamp can start it again.
-
-The new check_mul_overflow() in ipv6_get_regen_advance() does close this
-path, because retrans_time now goes through the checked u64 multiply.
-
-Could the commit message mention the RA-supplied Retrans Timer as an
-unprivileged on-link trigger, next to the privileged sysctl reproducers?
-That would matter for stable and security triage.
-
-> diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-> index c8c0dd04982d9..39ecb2c25055b 100644
-> --- a/net/ipv6/addrconf.c
-> +++ b/net/ipv6/addrconf.c
-
-[ ... ]
-
-> @@ -4705,7 +4722,7 @@ static void addrconf_verify_rtnl(struct net *net)
->  
->  				unsigned long regen_advance = ipv6_get_regen_advance(ifp->idev);
->  
-> -				if (age + regen_advance >= ifp->prefered_lft) {
-> +				if ((u64)age + regen_advance >= ifp->prefered_lft) {
->  					struct inet6_ifaddr *ifpub = ifp->ifpub;
->  					if (time_before(ifp->tstamp + ifp->prefered_lft * HZ, next))
->  						next = ifp->tstamp + ifp->prefered_lft * HZ;
-
-[Severity: Low]
-This isn't a bug introduced by this patch, but can these deadline
-calculations in addrconf_verify_rtnl() wrap by themselves?
-
-ifp->prefered_lft is __u32 and HZ is an int constant, so
-ifp->prefered_lft * HZ is computed in 32-bit unsigned arithmetic. At
-HZ=1000 it wraps for preferred lifetimes above about 4294967 seconds.
-
-The same pattern shows up further down in this function:
-
-				} else if (time_before(ifp->tstamp + ifp->prefered_lft * HZ - regen_advance * HZ, next))
-					next = ifp->tstamp + ifp->prefered_lft * HZ - regen_advance * HZ;
-    ...
-				/* ifp->prefered_lft <= ifp->valid_lft */
-				if (time_before(ifp->tstamp + ifp->prefered_lft * HZ, next))
-					next = ifp->tstamp + ifp->prefered_lft * HZ;
-
-If next ends up in the past, the clamp at the end of the function
-applies:
-
-	if (time_before(next_sched, jiffies + ADDRCONF_TIMER_FUZZ_MAX))
-		next_sched = jiffies + ADDRCONF_TIMER_FUZZ_MAX;
-
-Would addr_chk_work then be rescheduled every ADDRCONF_TIMER_FUZZ_MAX
-until the real deadline? Each run would do a needless full scan of the
-address table under RTNL.
-
-[ ... ]
+Returning 0 causes the option string to be added to init's
+environment, which is not wanted in this case.
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/tencent_F6E8C7CAC6D390C8E912EEE4FD9FE4333505%40qq.com
+~Randy
+
