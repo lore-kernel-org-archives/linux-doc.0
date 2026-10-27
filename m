@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793086581;
-	b=UQRAr6eREH2uMU02Y+4SFjjAughO5ci5ukxqvFIvje0QYGGv9jMLsKBzVYhn/NMsOIi1
-	 mcA2v5ZhIsc8iYlmD7edgM/fKQ2CNIqFWmRFrc7RjfrKsbU9u9/+xsyrZ8VU6o9u3tc4g
-	 5vxfXuedhoVh7qjw0oUOKarsZx2DyHbRlcP+nWMD5SEuzI0SGs5f4BAGCA2+I7sKK/6rG
-	 g671PJYkfCKRQRP5dbonIlOLsoa/EnKgN/K+tTq8Qcy7ArqqMdASRcpI6iJ+XDGw+KXoE
-	 cZoWQh9f1cd3V0Pp/QGeMkcX4EuVPQRuavxBo2iLT/Lt9JSm3SLpbtiCG6ZSqmiXwlQ==
+	t=1793088145;
+	b=337OUpGLdW8JSAnJ6/QrmxGRJdoLgEvZi02h/yr85pZCnifYg7wMfxZNJM7AKaA/mSXY
+	 GHvd8MdaufGTxpdf/TSelEOlhPRjrqMsMRo8etoRalwF5PIS1FevgxIsLx+FLMhlsoxWs
+	 haSSOldEsnFinQhQZPE8ou4EOa6pY5rdsVIfTSOHO31dUztN/QI+oT4SoxLZNiog2/n9S
+	 4qxRFydawlUzz7WaOv3wRhwksYDZRBUpJGlTkWwquBcDdNF+UE2m8Bnrq8ZbOvgSwW/Xs
+	 itd6NPs/onaCjQCL4ct7tj1gtHXBFrbpG8rPeDp8FkV4Kn3GG/RxA+GyHFrXM/w9RWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793086581;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793088145;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=WsDVlDiCyeeoi6YHVgqDovvrMD/IKVknSNFW9xBDDdM=;
-	b=p5Fv8aujvaCunWqsgHUmqZWPbwL3FkQrfToE5xiFtGXcFSGlXifeda5CWwNFjx0FPFVb
-	 Sh2mCmHNXq44RPSg+McGYQzBLpy76KQpkR5JMdhtvCLWo53LpVLDU4DJSfmcfMjPmAKwd
-	 tw5JjIIrydV8vDsIlJox4wng27Pqa8Hlx0JMIwJOGhocEbepRXOWh2EuudvMdDQO4s5zO
-	 y1VIm3gu+yTHsYyePdkWFJ0AXppwWo650YxEgMM5Shm7JQyrSKNnhOyXeLPa74T5BEK2W
-	 Od6s4xqwaNrNYErEGCL3lbsX2FeUbzwCTxOQeMCWxX/5Z/f2+OTfrZ/bWvEZNzqoHew==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=OscTJ3e2MwqNjRkFK+nwymaDOQ752snX6yOO/B0QxfQ=;
+	b=fTRHJqsUOQx80AyepLY5kaRIqRVBvw/MRCkWb16HmKLbjEawjtES5mWxKrCQIkYvSSQO
+	 9j3OP5hE4Ezpdnsh9hJQfS/r36Y2uiedm4bcBi8eQLv4XGEnQOvYaDzdTRQDWiOvv9IYE
+	 uXhGXVk8pR1ZzvRj6NpDnqo92ZOCh6KmftjHu0CGlmeSCMqYYgOun8R2y0VjckFvmYgME
+	 K+m05Nxnfky7+JRmspqdH14qHeQnPS7BxRddyklk3w75RuY6XxQF2ofLoFhjS2lsfRm0b
+	 dZTCj48O0Xz9gZr8WEEgF2u6NcnQwVIVXgtueldKJTfKLPQ3FhzBNPG0tPAdK1Kf35g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=oXS3sM3f;
-	arc=none smtp.remote-ip=209.85.215.177
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NMolLpc0;
+	arc=none smtp.remote-ip=209.85.208.49
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AD660A260E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:36:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52AD660A260E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BE0606A320
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:02:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8BE0606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=oXS3sM3f
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cd61cef87f1so1275370a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 00:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NMolLpc0
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b1ab2ad719so5895787a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 01:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793086581; x=1793691381; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=WsDVlDiCyeeoi6YHVgqDovvrMD/IKVknSNFW9xBDDdM=;
-        b=oXS3sM3fj2XUadb1vc02xfYY7JbNUjMzEB1ySQjFATcVV+4RJ6CNOqYCN+U9s9XxSP
-         si6YHQT30AZD9j6WiJrWoLTheN6jeOPZ5ePo8ir8ejCjumrJJtV83vfg56+xUpAoOkT6
-         5qjOKS1SP2re90ySQ0wAQXmiVC9h3nJ/zmoyM=
+        d=resnulli.us; s=google; t=1793088142; x=1793692942; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OscTJ3e2MwqNjRkFK+nwymaDOQ752snX6yOO/B0QxfQ=;
+        b=NMolLpc0FQhsbKyPXNo5vD2Cg/BWu9T4qNEcyg+3upoDCV1i8kqFJu94GbYuaYaXI5
+         6+weD5fjAM++wwTRv8cnloMadOuoPEYhXVjfzw0pQw4FM6O8rCvPezIKWkX3EN5AnQXo
+         oxBKOk1KCeHT6g12Bzu3kgqdZKaMVF2DpbUsqVhRdEijIE65ENncgcux89BxZu92khyP
+         mhKFEYHqyf3lF/OiBN7enB1E5XfpoxHnaUgG1pmH0KyKEqklYKNpHU47YfTGJdpowBCZ
+         LCAL1qW/7D4gjRPK+mBsDM7hr4CQjEqUjhbE6HMUtWiMBY9Z4+HqxYMWagUsowXBnwkz
+         HOCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793086581; x=1793691381;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793088142; x=1793692942;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WsDVlDiCyeeoi6YHVgqDovvrMD/IKVknSNFW9xBDDdM=;
-        b=V+tfYkvNCxzdkJTqnRDmqFITH6Cf/dOjoC5Mg/N7v2Mau+xU+1kKXKIItG1KLu+JfY
-         8iXwFAxnomVX2DE776BgrNF8oOo4roIP+d4Q6uY8PigqHxoSLIBAmj0dkIz/RZ1iA4PY
-         zBWLXXG2y/WMWpJE7jyBAU6nJe/z1dz7VSfLExlnCpiPAdo4HcVd1x76mkzLx77xJYzb
-         SNTH+w9VFkXxNRau3e2/iMVYqX+y51cZvz7ZNeJWoRY413fewcfNpPL+rjGx2d9LOtrw
-         xuVy3oDkZUvAU9jv+PTZuA3FUxPibYh+wJOoeI+A/jXuaGB1+RhsD/NfSjdaDoPItaEu
-         AxBg==
-X-Forwarded-Encrypted: i=1; AKwUvBypsR58eMi3OIrOHVePmiIsTyoGEtQ7XHgqRFGr6zEdULyBjQCeroFsM22BYbc0QpuIWmWsT9TumDw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLRfpNz13lgjL1EoF2aNaWrjlt7oIfFumaGYkUmH46hKbPtGeb3
-	lsbKRECEnY7K5j9xvlnPCH6DMRreLKn0hukjEHOdSzmZkunE4rapICsgCfA8xxfYgyw=
-X-Gm-Gg: AYBFou1LFBXeVFE4lyPHYCxGbx/bNYM/jFKnbSjnqtzZgKyGuyaxGD2H9Q5vHpKY30C
-	aW4a0XmraP2nZyk+9LLipedK1vh93yxbRfX3vskK3lROtv0Fikzdrh7lw18uEzFc7kNgTOqeEZV
-	ca/kS8L3wDNIGdzzc6rNK3Ba23nYag5Rkl+n4418MQzOSoYO+HbrfXIwJmVqhRviPWY/H3Cdwwq
-	hw4TEylGixHMW/x/ByYn93LpNew4i4l4fW6kcr3VHXXmys6/HFyBdc84v5LVL01bgF12VShD9/N
-	v7qlnstm7xVLU/ui+LUM4Ymp2GG7gbEhk5AmXM0DB0Hubo2OGSVTmUpRTs0pB5SOmp7GOlbkYQ2
-	rEXj+ez6+Nuy/SCp4zUj6v8dRkj1KFujlcoo4+yurw9DB3plBJnVpQPEmHt3UhLI+8zWdM6sION
-	/OaioGdZu2bTttAaqvDex5ziAxwnMkorFVTy+sGbajRyR1KBXc9Fe+PN2+FKAt3bkKgG4zqJJMy
-	7cWwRLIIST+zl6lRn47B0gPEUPzKloxzgCZt7NtW0YKuQ+2iBKRPGPkOZWCfj1tDAKYtXeA/kHj
-	ZfiEQBvVQ4mom5kSBrTHa4XRRrJvYGkXzIwY76OhLTamPYItmzgzxWRNoXRbxwatxAV99cGb7ZQ
-	j6116Ax8ztBSKr4SDZysj/nw=
-X-Received: by 2002:a17:90b:35c6:b0:3ad:a17d:f46c with SMTP id 98e67ed59e1d1-3adeb194872mr6931650a91.62.1793086580701;
-        Tue, 27 Oct 2026 00:36:20 -0700 (PDT)
-Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40614d7dsm2480038a91.3.2026.10.27.00.36.19
+        bh=OscTJ3e2MwqNjRkFK+nwymaDOQ752snX6yOO/B0QxfQ=;
+        b=VdXe89akxKPQLA8lyIWDLAj8AMCOWxNMNznPNVK1M5fkox1ttTZKDoZUZ5yibSIKZH
+         oFbGb2c7vs8o0YySfHNbE0ufl/JkBIqE+t/tmjz5CBpS6pNv2e1WsrF8CQBDnGNw668n
+         F4TMR7xmUJKf9Q8+X4norbS598MTDIgBKHlf7Kju0tIDZ+fS8C+vKB3f7gzIZprPyJ0i
+         dpvUQAyLsdyqWD1WFV4ndKLrobO8srrsvLvHC4H+7syTov3hU8hgiUgJvCC/tJBYr/Xf
+         0Wz2mjIYu57NTJrNxaRvCVQM3gq0eY6IP1RHpzOxWwZBhM/A8ZYbrE77jHL4PQSdHkOP
+         wAZw==
+X-Forwarded-Encrypted: i=1; AKwUvBzUcsCa+CMYM2rmKHWQ4Ynn00RSWNxU9K4qo+yizm42LlLv+lyz0ySvUd5a+AiM/z/ffZXPf9FMZxg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKYggWl3k7uWE/5nEvSceBHX3qqcAS9AKZx7DG4KEH5nbZerpay
+	T6qBOb1Dl4/j7RmvY9iWwGdPRaBytP4s3q/LB3OVluC7EPoC+ejXonZurbxPp5JSNIk=
+X-Gm-Gg: AYBFou0Wm62+6tOEmnhzx6yr+X38w2nrqGT/PdNJXhp0hBq/MlDDy/aq1M6WbgPwsK4
+	Dj9lUYdL0DOpXd3g3GSllwxI1kNwSlpA2PD6DOaTnlzhguXgHGgRPhbzsXTrvJT2rFGEI0pK14C
+	e8cro7nCLz/GHELOtXY/CbPNzk8dnUnxiXiX0xI73CW9uHq8N5xxW5nuTAd97PDic5QfDgc9htY
+	UvpoYClMqaO9wQeDq4lds3LFr5kf+Ox7bqEXlO9HK767wy13nzmjX8RtNYOH4WzVvtJGTetTNRR
+	X2niNPaCiNpMuSwsFHL8RgjZ6CHSuEHE101iPnZG4G+hOovEV11bV7BXOfsjxheFufjKdYwPON2
+	i/HfReTX9K33t8ng5H+SHvAvz5g1e2lxI9UUhFJ1C4LJ3Nbglhbo7k7xglMSwa2kN9P+0JOG/kn
+	uUW6KLpjtIqSoho5MHXssjYJ5rOUDAeD9X2UEng3oB1kSORzUVp0L5BBnHauxjuq7TX8xlLbeLr
+	ve0uCu6NndYX5GrMo8HaA1WUEwnRfWogkPjNezGlib/J/9bfn+aHNXA0Kes6kTx
+X-Received: by 2002:aa7:d286:0:b0:6b3:8018:7643 with SMTP id 4fb4d7f45d1cf-6b44300a8d3mr6891627a12.45.1793088141026;
+        Tue, 27 Oct 2026 01:02:21 -0700 (PDT)
+Received: from localhost ([128.77.52.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdd5b3sm21058785f8f.53.2026.10.27.01.02.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 00:36:20 -0700 (PDT)
-Date: Tue, 27 Oct 2026 15:36:16 +0800
-From: Chris Down <chris@chrisdown.name>
-To: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>,
-	GONG Ruiqi <gongruiqi@huaweicloud.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: [PATCH 8/8] slub_kunit: Add a test for the kmalloc_partition boot
- parameter
-Message-ID: <7c619e0ff37d83b825549ee257bb60a82bc8006f.1793086056.git.chris@chrisdown.name>
-References: <cover.1793086056.git.chris@chrisdown.name>
+        Tue, 27 Oct 2026 01:02:20 -0700 (PDT)
+Date: Tue, 27 Oct 2026 09:02:14 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 02/20] ctlv: Add the UAPI wire format and family API
+Message-ID: <auBaROC0XdWpILEI@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-3-jiri@resnulli.us>
+ <at-iEMxN98nie1Qr@e129823.arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,109 +106,92 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1793086056.git.chris@chrisdown.name>
-User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
+In-Reply-To: <at-iEMxN98nie1Qr@e129823.arm.com>
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
- lib/tests/slub_kunit.c | 46 ++++++++++++++++++++++++++++++++++++++++++
- mm/slab.h              |  4 ++++
- mm/slab_common.c       |  3 ++-
- 3 files changed, 52 insertions(+), 1 deletion(-)
+Mon, Oct 26, 2026 at 07:55:12PM +0100, yeoreum.yun@arm.com wrote:
+>Hi,
+>
+>> From: Jiri Pirko <jiri@nvidia.com>
 
-diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
-index 646596663b33..0fe10cbfc83d 100644
---- a/lib/tests/slub_kunit.c
-+++ b/lib/tests/slub_kunit.c
-@@ -430,6 +430,49 @@ static void test_slab_buckets(struct kunit *test)
- }
- #endif
- 
-+#ifdef CONFIG_KMALLOC_PARTITION_CACHES
-+/*
-+ * Each partition copy is a separate cache, unless the copies were disabled
-+ * with kmalloc_partition=0: then they alias the KMALLOC_NORMAL caches.
-+ */
-+static void test_kmalloc_partition(struct kunit *test)
-+{
-+	enum kmalloc_cache_type type;
-+	struct kmem_cache *s;
-+	unsigned int idx;
-+	bool found;
-+	void *p;
-+
-+	for (type = KMALLOC_PARTITION_START + 1; type <= KMALLOC_PARTITION_END; type++) {
-+		for (idx = 0; idx < ARRAY_SIZE(kmalloc_caches[type]); idx++) {
-+			struct kmem_cache *normal = kmalloc_caches[KMALLOC_NORMAL][idx];
-+			struct kmem_cache *part = kmalloc_caches[type][idx];
-+
-+			if (!kmalloc_partition_enabled) {
-+				KUNIT_EXPECT_PTR_EQ(test, part, normal);
-+			} else if (normal) {
-+				KUNIT_EXPECT_NOT_NULL(test, part);
-+				KUNIT_EXPECT_PTR_NE(test, part, normal);
-+			}
-+		}
-+	}
-+
-+	p = kmalloc(64, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, p);
-+	s = virt_to_slab(p)->slab_cache;
-+	idx = kmalloc_index(64);
-+	if (!kmalloc_partition_enabled) {
-+		KUNIT_EXPECT_PTR_EQ(test, s, kmalloc_caches[KMALLOC_NORMAL][idx]);
-+	} else {
-+		found = false;
-+		for (type = KMALLOC_PARTITION_START; type <= KMALLOC_PARTITION_END; type++)
-+			found |= s == kmalloc_caches[type][idx];
-+		KUNIT_EXPECT_TRUE_MSG(test, found, "allocated from %s", s->name);
-+	}
-+	kfree(p);
-+}
-+#endif
-+
- #if defined(CONFIG_PERF_EVENTS) || (defined(CONFIG_KPROBES) && defined(CONFIG_SMP))
- #define NR_ITERATIONS 1000
- #define NR_OBJECTS 1000
-@@ -628,6 +671,9 @@ static struct kunit_case test_cases[] = {
- #ifdef CONFIG_SLAB_BUCKETS
- 	KUNIT_CASE(test_slab_buckets),
- #endif
-+#ifdef CONFIG_KMALLOC_PARTITION_CACHES
-+	KUNIT_CASE(test_kmalloc_partition),
-+#endif
- #ifdef CONFIG_PERF_EVENTS
- 	KUNIT_CASE_SLOW(test_kmalloc_nolock_and_friends_perf),
- #endif
-diff --git a/mm/slab.h b/mm/slab.h
-index 185df5e68419..934b9db1ef6b 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -394,6 +394,10 @@ extern struct kmem_cache *kmem_cache;
- extern bool slab_buckets_enabled;
- #endif
- 
-+#if IS_ENABLED(CONFIG_KUNIT) && defined(CONFIG_KMALLOC_PARTITION_CACHES)
-+extern bool kmalloc_partition_enabled;
-+#endif
-+
- /* A table of kmalloc cache names and sizes */
- extern const struct kmalloc_info_struct {
- 	const char *name[NR_KMALLOC_TYPES];
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 5391149a2eed..406e8688ee0e 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -782,7 +782,8 @@ EXPORT_SYMBOL(random_kmalloc_seed);
- #endif
- 
- #ifdef CONFIG_KMALLOC_PARTITION_CACHES
--static bool kmalloc_partition_enabled __ro_after_init = true;
-+VISIBLE_IF_KUNIT bool kmalloc_partition_enabled __ro_after_init = true;
-+EXPORT_SYMBOL_IF_KUNIT(kmalloc_partition_enabled);
- 
- static int __init setup_kmalloc_partition(char *str)
- {
--- 
-2.54.0
+[..]
 
+>> +#define CTLV_MAX_NEST_DEPTH		32
+>
+>JFYI, when I tested with CTLV_MAX_NEST_DEPTH as 32 and try to run
+>ctlv_msg_test_as_deep_as_the_core_allows() message_kunit.c test,
+>It experiences the *real stack overflow* on FVP
+>(lesser value (e.g. 16) is fine):
+>
+>[    3.834419]     ok 22 ctlv_msg_test_the_bit_where_it_means_nothing
+>[    3.836499]     ok 23 ctlv_msg_test_a_bit_no_version_declares
+>[    3.837852] Insufficient stack space to handle exception!
+>[    3.837875] ESR: 0x0000000096000047 -- DABT (current EL)
+>[    3.837916] FAR: 0xffff800084efffe0
+>[    3.837953] Task stack:     [0xffff800084f00000..0xffff800084f04000]
+>[    3.838001] IRQ stack:      [0xffff800083d50000..0xffff800083d54000]
+>[    3.838049] Overflow stack: [0xffff00087b7c3150..0xffff00087b7c4150]
+>[    3.838114] CPU: 7 UID: 0 PID: 257 Comm: kunit_try_catch Tainted: G                 N
+>** replaying previous printk message **
+>[    3.838114] CPU: 7 UID: 0 PID: 257 Comm: kunit_try_catch Tainted: G                 N  7.3.0-rc4+ #1216 PREEMPTLAZY
+>[    3.838219] Tainted: [N]=TEST
+>[    3.838249] Hardware name:  , BIOS
+>[    3.838279] pstate: 21400009 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+>[    3.838360] pc : __kmalloc_flags_noprof+0x10/0x540
+>[    3.838433] lr : __alloc_empty_sheaf+0x48/0x88
+>[    3.838501] sp : ffff800084efffa0
+>[    3.838534] x29: ffff800084f00030 x28: 0000000000000400 x27: 0000000000000400
+>[    3.838657] x26: ffff000803d721c0 x25: 0000000000000000 x24: 0000000000400cc0
+>[    3.838780] x23: ffff00087b7e3398 x22: 16e0800080564b98 x21: ffff0008000a0900
+>[    3.838908] x20: 0000000000000000 x19: ffff000800013600 x18: 0000000000000000
+>[    3.839029] x17: 0000000000000001 x16: 0000000000000002 x15: ffffffff00000001
+>[    3.839150] x14: 0000001c000001c0 x13: ffffffff00000001 x12: ffff000800013500
+>[    3.839275] x11: ffff00080370a800 x10: 0000000000000060 x9 : ffff8000805627d0
+>[    3.839401] x8 : 0000000000000000 x7 : ffffffff00000001 x6 : 0000001d000001d0
+>[    3.839521] x5 : ffff800080567b68 x4 : 00000000ffffffff x3 : 0000000000000004
+>[    3.839640] x2 : 0000000000000dc0 x1 : 0000000000000008 x0 : 0000000000000080
+>[    3.839761] Kernel panic - not syncing: kernel stack overflow
+>[    3.841533] CPU: 7 UID: 0 PID: 257 Comm: kunit_try_catch Tainted: G                 N  7.3.0-rc4+ #1216 PREEMPTLAZY
+>[    3.841783] Tainted: [N]=TEST
+>[    3.841877] Hardware name:  , BIOS
+>[    3.841980] Call trace:
+>[    3.842065]  show_stack+0x20/0x40 (C)
+>[    3.842246]  __dump_stack+0x28/0x48
+>[    3.842427]  dump_stack_lvl+0x28/0xb0
+>[    3.842609]  dump_stack+0x18/0x34
+>[    3.842788]  vpanic+0x208/0x5b8
+>[    3.842944]  panic+0x54/0x60
+>[    3.843096]  nmi_panic+0xc0/0xc8
+>[    3.843273]  panic_bad_stack+0x10c/0x128
+>[    3.843466]  handle_bad_stack+0x34/0x38
+>[    3.843622]  __bad_stack+0x98/0xa0
+>[    3.843773]  __kmalloc_flags_noprof+0x10/0x540 (P)
+>[    3.843950]  __pcs_replace_empty_main+0x2ac/0x3e8
+>[    3.844139]  __kmalloc_node_track_caller_noprof+0x440/0x520
+>[    3.844328]  krealloc_node_align_noprof+0x178/0x390
+>[    3.844509]  kvrealloc_node_align_noprof+0x98/0x130
+>[    3.844690]  ctlv_schema_index_scope_add+0xb0/0x3f8
+>[    3.844882]  ctlv_schema_check_indexed_nest+0x1e8/0x958
+>
+>(repeat ctlv_schema_check_attr()/ctlv_schema_check_indexed_nest())
+>
+>[    3.856919]  ctlv_schema_check_attr+0x3dc/0x538
+>[    3.857105]  ctlv_schema_check_indexed_nest+0x788/0x958
+>[    3.857301]  ctlv_schema_validate+0x88/0x180
+>[    3.857482]  ctlv_msg_test_as_deep_as_the_core_allows+0x11c/0x1e8
+>[    3.857698]  kunit_try_run_case+0x64/0x188
+>[    3.857878]  kunit_generic_run_threadfn_adapter+0x30/0x68
+>[    3.858086]  kthread+0x10c/0x140
+>[    3.858245]  ret_from_fork+0x10/0x20
+>[    3.858398] SMP: stopping secondary CPUs
+>[    3.858630] Kernel Offset: disabled
+>[    3.858720] CPU features: 0x0,00000000,00b0802e,9f190bc3,2affe72f
+>[    3.858872] Memory Limit: none
+>[    3.858976] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
+>
+>[...]
+>
+>I think it might be good to configurable according to architecture
+>unless it's not good to reduce the CTLV_MAX_NEST_DEPTH number
+>otherwise, increasing stack size when CTLV is enabled seems unresonable...
+
+Agreed, will lower it down. I think we should be okay with 8 for start.
