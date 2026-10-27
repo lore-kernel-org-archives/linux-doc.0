@@ -1,65 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793104710;
-	b=o5TWNo3NlgU2pr/z8e8gh48zuDQM18zifKRjGfmSBi9S2NOpXo1YoicbHgEIrsqoUBji
-	 4kqgeiySztu+rU7F8p+NZUV09uuqNzIehleRsSY9/JrvyqFlnVIPFx4n+j8nT9sb9w4GS
-	 YpDZRBlf9+S88SBZiIECCfBBHCYGXFVB76Mr+yonWiUiYekNDTUhqnu+Q/xDzcOHfue6j
-	 RaLRxmls+W3aOauACTyqczb3sk0FKRuejA/PyERsU/hc9Ur8+/Eex69CJpMplC/Sr+7yq
-	 CJdR8ZAZW/AeF9WM9L199e1m3Z74r7Dvi+iNkKNCwUvHoZSugAJa9a4X78fJdN4U0oQ==
+	t=1793105245;
+	b=vEaHuy44x4pbILKboHJmg8/B+hphg/v2Zo9gD3lQSFawsRXr168Kj9JjAcPdjeHD2nFZ
+	 Ec2xforIyPSsdY0oZ4fO9R1UjQ3+TGZq4em2t9W1bj6w4Vkw/5TBHBpZ15SeT+mhiWy1i
+	 owcTywh8Krg91C7w1prc8J+wD9knhXdzB8u1tKwfmOTmDTKjNaSl1T6L572NbN0H6hk6d
+	 7HYFdjVd7QYFb5nRHrAZen12U4z/zPeJG19d33f/IuofyfI4WN0LhImfUqKTqEj9JDCfg
+	 C8hIAhYY5+iEQXoiCPxftAupBkQbmgLjjpTYcNj9M46TODgxAKTeWEDyDI9y0eupwAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793104710;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793105245;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=qN+oFteBBnu0qCEf7Z79N2pFESAzJvFrXcLvl6PgY1Y=;
-	b=054RjRV77eJQgJr9WLI2WGdBU4HnuvMauySTBJh9nAGCjDZWh5ar1EKeEmBT2Qs7V0G7
-	 gogQ8QyXaYUGmnpMMY9gQECE6cfhaEd9FkdG+ZbayB69Jz02TrU9dE0u6WlxHMw64eedZ
-	 56SLeo0IprfkjPVJMPtl9ERg+xnXjYkbY6+SwxmXf7eTO/kSBMuVANcBf+hZCxK4VERHt
-	 /YpyLmLHjQvxgZCONgX55CpaESs2qhZJRZv7RXO7mhjXlykNqvQR/1WhPnxJIUOLNnId5
-	 t/CabxtWLytC+m6jXnIYTdnBYcRVcTVuNT69grgoeMWCLgNAHgXRcU7g2G/43y3y1Lw==
+	bh=ZAIpqRoqpXgz0RZ4h56d9mqozECvPzO+I5VTSFmMVtE=;
+	b=0nOgqZoSNjM5YoE5EWbsIAKpyFAtNPhQ7P61BT8off3AKM+hLjE24sO3AZfrqMG795sx
+	 dUpqDzBB9SnSIHatwtVBeouXGvo3dnKa48vPlTHO2+gX9d49Zi7jQIUMHykCS2We8/FHq
+	 /BP1NzcrAe/f5ve1UycuJLcBhwl2fNKYY5b1XVJfVSool2oELhKQtyhs7gSjs1phrfy9j
+	 ewAAFoszOv02HLEDoteSxxJYakEAPB3/V/SQsVat0d2JUfhZsTyYdlarIrRXd/dtl5Twl
+	 Ol8d3HhvLM2U971pvFWt+bBUte+iji8TxjLOlkehLQ4dF7TEgb0tJu8VoAaPR9WvAWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=K9Nmp3Ym;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E481606A31D;
-	Tue, 27 Oct 2026 12:38:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E481606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=Jyj7jOfk;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C086606A324;
+	Tue, 27 Oct 2026 12:47:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C086606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=K9Nmp3Ym
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D5C115A1;
-	Tue, 27 Oct 2026 05:38:25 -0700 (PDT)
-Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24FD13F871;
-	Tue, 27 Oct 2026 05:38:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793104708; bh=AsQV8EPRWv/nZtGsAUNcNbWRUUJk7ZparFQR6Yrsrl8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K9Nmp3Ymll4ZjvGr4zTYwZFV+35ZQwesqboMyB7EIqAfv5qOu9RyO9XG9N+fpdzCo
-	 ULo58NND3GpJE273n6AvoGflscj1dRlINrrfQ6JxS0i+U388wwr+SauPBi98yZpGEr
-	 RxFv1WHb6q4sjcTeU2HZmV9Br7fuJRF2zXZbhbN8=
-Date: Tue, 27 Oct 2026 12:38:21 +0000
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
-	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
-	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
-	James.Bottomley@hansenpartnership.com, aik@amd.com,
-	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 10/20] ctlv: Prepare event queue support
-Message-ID: <auCbPdoaMq9oWoQ_@e129823.arm.com>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-11-jiri@resnulli.us>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=Jyj7jOfk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ZAIpqRoqpXgz0RZ4h56d9mqozECvPzO+I5VTSFmMVtE=; b=Jyj7jOfkJ3zLI2c3I5M3M46Zcb
+	WnQwrAXczn6dCAXUP2nPsq8E8i4il+VDWbyZfBRt8ElhZD9EVM6bXkMkelsrdJ6GzzFT4JrQ5k2fE
+	HvVnSCOOT/hXlFM44HSRfoB2SmByDM8uZCyGDhQCZ+RrkIY7H6uL+6RPWVddoEEJjx5K1r3Iyl0nd
+	vf+topQ1atCH+2NeREP/q708/GzItGv7B/7PC01xV58kaLhrw/a23RC3l/wqMvZJY6z4eOIVSBW1D
+	Nyi69d6JupfANQy+NhPNHkUsyGxbDvh2Y367Cb8T+P55YFRuWNaiZfelZ5Y9LdXhYPpImn2EH/+UO
+	I8j9sT5A==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xLgaD-0000000DbOb-1oue;
+	Tue, 27 Oct 2026 12:47:17 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id F1B43300A9A; Tue, 27 Oct 2026 13:47:16 +0100 (CET)
+Date: Tue, 27 Oct 2026 13:47:16 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Matthew Wilcox <willy@infradead.org>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Frank van der Linden <fvdl@google.com>,
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	kernel-team@meta.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
+Message-ID: <20261027124716.GC2668804@noisy.programming.kicks-ass.net>
+References: <20260227194302.274384-1-kas@kernel.org>
+ <20260227194302.274384-14-kas@kernel.org>
+ <ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org>
+ <at_f43oDv73y-t7O@thinkstation>
+ <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
+ <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
+ <auCKv_omLGRc6wv2@thinkstation>
+ <f3f3aca9-bdb7-4aec-9099-9fb63a60e61d@kernel.org>
+ <auCZFckDfBMrlfxV@thinkstation>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,79 +97,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015145053.3664509-11-jiri@resnulli.us>
+In-Reply-To: <auCZFckDfBMrlfxV@thinkstation>
 
-Hi Jiri,
+On Tue, Oct 27, 2026 at 12:31:09PM +0000, Kiryl Shutsemau wrote:
+> On Tue, Oct 27, 2026 at 01:05:58PM +0100, David Hildenbrand (Arm) wrote:
+> > > Writing this, I just realized that we have another option -- map the
+> > > shared tail page writable. A failing LOCK CMPXCHG writes back the value
+> > > it read, and the get never changes a zero refcount, so the race becomes
+> > > harmless. The cost is the protection: the page is shared by every
+> > > hugetlb folio of that order in the zone, so a stray write to any tail
+> > > silently corrupts all of them instead of oopsing.
+> > 
+> > Right. Without HVO we would just corrupt pages in the single folio (which is
+> > also not nice).
+> > 
+> > I'm also questioning whether we need this RO protection all the time active.
+> 
+> What do you have in mind? RO only under a debug option, or switching the
+> tail page to RO some time after the remap?
+> 
+> If it is the delay, a grace period alone does not close the race. We
+> would need rcu_read_lock() back around the get, and then it is the old
+> scheme with the wait taken off the allocation path.
 
+So it used to be; back when Nick introduced try_get_page, that it was
+only allowed with IRQs disabled.
 
-[...]
+And looking at gup.c now, I see gup_fast_pgd_range() still has
+local_irq_save/restore around it.
 
-> +int ctlv_event_emit(struct ctlv_op_ctx *ctx)
-> +{
-> +	struct ctlv_device *ctlvdev = ctx->ctlvdev;
-> +	struct ctlv_event_record *rec, *next;
-> +	struct ctlv_file *cfile;
-> +	u32 len, wanted = 0;
-> +	LIST_HEAD(spare);
-> +	int ret;
-> +
-> +	if (WARN_ON_ONCE(ctx->file))
-> +		return -EINVAL;
-> +	ret = ctlv_event_finish(ctx);
-> +	if (ret)
-> +		goto out_free;
-> +
-> +	len = sizeof(struct ctlv_event_hdr) + CTLV_ALIGN(ctx->output.root->len);
-> +	scoped_guard(spinlock, &ctlvdev->events_lock) {
-> +		if (ctlvdev->dead_announced)
-> +			goto out_free;
-> +		list_for_each_entry(cfile, &ctlvdev->files, node)
-> +			if (test_bit(ctx->op->event_index, cfile->subscribed))
-> +				wanted++;
-> +	}
-
-Suppose at the time of here, the number of subscriber is 1.
-However, before calling the ctlv_event_deliver(), another task hold the
-event_lock() to register new subscriber. for example:
-
-
-Task 1 (emit)					Task 2 (new subscriber B)
-
-wanted = 1
-unlock events_lock.
-						Register subscription.
-allocate one record
-ctlv_event_delver()
-
-  grab events_lock.
-    Deliver former subscribe event to old one.
-    new subscriber B will call ctlv_event_queue_event() with NULL.
-
-When this happens, new subscriber B would receive overflow event
-via ctlv_event_queue_dropped() though it was registered right before.
-
-Is this intended? It doesn't make sense that subscribe B receives
-the overflow event in this situation...
-
-
-> +	if (wanted) {
-> +		ctlv_event_copies(ctx, len, &spare, wanted);
-> +		ctlv_event_deliver(ctx, &spare);
-> +		list_for_each_entry_safe(rec, next, &spare, node)
-> +			kfree(rec);
-> +	}
-> +
-> +out_free:
-> +	ctlv_event_free(ctx);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(ctlv_event_emit, "CTLV");
-> +
-
-[...]
-
-Thanks!
-
--- 
-Sincerely,
-Yeoreum Yun
+So what do you need that rcu crud for?
