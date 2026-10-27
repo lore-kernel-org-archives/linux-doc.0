@@ -1,65 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793079480;
-	b=bE53LArhPkTbAWXyRjxxJVZj8mBR/orWKyNJeeXTelTnXUKnePhm4eDDrYa3fWCx5pIs
-	 O4QOBRectPoUtqnBb1eBIpTdvfKL//dtMta9HTfloLwrMBuJC3kaBwDmzsEtu4hv9wUul
-	 MwDe5KDmW76mPz8N8h0B+nN0Dk4aIIdQal8RhZW3fRQxjSlQtVQHGELRezoxlelA06rwD
-	 Qrd1oVe1x0GmQxmDQI2GntAluGBF/SQJJQFSM/NJvsolO7c5jRw4QlIWhxteDOsa7Vfqh
-	 Cq2IdC/zMLeV2mSEZZxoU04s3JGz5gXEMeMpmY0HbCRMRK6GiQk4ugobj7HknwRuQrA==
+	t=1793079569;
+	b=xH5qj5JHlN/Vkv9WZSY9atbzfKl0bYcCHbQf+cY9vfzirxkd1mJZApX2B0GyX1PfKr73
+	 jeFxNCJ53yTRZvv4h9tw6dhQc5BDU5SumJbeOrUxQYsLrQzuru0O8A+k7T3T5tRUsU2NQ
+	 cT83QqZbXwx3v8hN964GxrWISpSSVRaO7PqndpfIlmBGlqHfsFWaCVJK6dbWbN3V7QwEl
+	 V2kyr41P0UdKUAYnD3HNrUvVA+dKkQEd2jCv2668a1Nl/RToIAMU19w+o/yRIJNpIWUyE
+	 Md3oCCHF83PP7cd8OXuNTY5862GCabe4LB/tK3B/s8hpbgdaF6EzFCasmACbtk/qVzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793079480;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Nv/lnxPdAL8f7ZwBKC1/UYCMAS+CZk6z6IbxYlcIxfY=;
-	b=oFK7iDkIqzkYKDtQ69nWTyF8+d5dgiZBuHBY1Vncgnn5Pf+1NK09vIZRrP2f9pvBQ0ek
-	 aMRVSiFpc0yo+DabdSKFK6XsSBR5Lt51CvUDSc/AILkcc7eadi4Y2FnQQeYG7CzMSw8AS
-	 fAcLMHkx9Hgsfwcq4msedr91v8dJGMP0cLDTlPICs9Utt/HAHJ4Aeeep1Dh9Hpq4qgXS2
-	 gpaJgPmuRLSbl2f7t9gX9/eKBy5wwlli6PgmNH8Fo535A/JmPtw8oL4NWEsiUTUqEzEA7
-	 yNclSLKVzXF2No6yKCG9YPPN9x+3TQSAce8JM/IczG8QDf9JBKv9ua9ZPnUwZ7nUEjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793079569;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=QMFHkYsqBmcbVrWKDFByhexqX1LEHDSolSs6zJfCkfQ=;
+	b=xI6PLd6dcdLA4Im3/1yJRWMRiqFvop5EVR3lSrdJStO4QMi7r18n7uMN9vMNaLgLsa/U
+	 ZKgUaYls4SkahcANVl5Ba8MFelBPQruYqKSGFcbyIL82rRitrN1P5DZm+n67oh2Z9bopC
+	 ZXu1Q3ufWEgTBjQcgFOqIj+QMflISTpcOJInsvaIJEv1XSHGXUly02VCf7T79ePw/ImGZ
+	 vHmnZFO6r2maZ94NvvA9KrWyWRyeckDvGTrndV5zg9sFwbprgYVv1DSHqB8oLbWpLwA0O
+	 Rbhy1KkxuncUt7Kt1B1VrqfV/SLwZPnnRuJqbu9xe0iLNe/yh/d0oVZg/QjxJl+CtLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b="GAu/fsRT";
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j7uXFMbK;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A5E606A31A;
-	Tue, 27 Oct 2026 05:37:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40A5E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13AE606A31A;
+	Tue, 27 Oct 2026 05:39:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D13AE606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GAu/fsRT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Nv/lnxPdAL8f7ZwBKC1/UYCMAS+CZk6z6IbxYlcIxfY=; b=GAu/fsRTbB1eellz5tR+Gn9s5k
-	xIiH14IW4fePVO1I9BdkXk3t4tX7Yvmw15sOldvBV11QOqNT1CqBbxOhoMK6z8RLii+hKwEyqzkfE
-	9iXRqjQzJrC7IciBg3r4S/ghzy7Mwzk1oZLVvTQLya8+zPJafGq7xS7bpUK78yskQunzjrDxgsXFJ
-	UyTfFaNJa8C8YIFeZZn3yeQrD18OTClP1ti6bTVxpoC+Umtl63rl8FUNxTAvBUVS52PlJdENw3D0C
-	qLyTsvLC9Fcr8UZNPF6rw0IFa+aCykgGlfsbET846E4Uk6NSgKQkOV4dF/qZ21jIqGuj2LRLdDBZz
-	trTI8prw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLZsi-00000003moe-0ENF;
-	Tue, 27 Oct 2026 05:37:56 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j7uXFMbK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793079568; x=1824615568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pzpMExCU3NEyvekb7kKHOljun21uUmMNQ6c0Pg++oXE=;
+  b=j7uXFMbKpf89IH0ErCdVPNLnszj6wE1ogB6m1DBZBFHgmWbgXi8I8esO
+   s8zwlVTWS5xyfpC05M3INW2qvqyLzm9YnoUBh3u2pxfPZr0hpHycZP2B2
+   socFwvoGh5455XK97pDI/tTHS9HHdFMZk2bVAR5lIgi5ok7tyw62pRD8v
+   T6thqoxf4nb5DF3c4Xu4/ADY8Y6vjnV18dWjeauKcSF9n+UJl1+cSoLNs
+   ylarYzmLfn/x1/RCkafhpDeashwNZhg0J/uCpd+gTUXgRg+WY0Pz1lLIZ
+   ZfgdQiNcOAoxl/5kNgZwOfr3m6wRkPcqneiNv0UOfLE0VDuDScUu+cwXB
+   Q==;
+X-CSE-ConnectionGUID: Su7U9/QdRZug/1XWKaTXFQ==
+X-CSE-MsgGUID: sm4dxMPfS1OYj50qrJ6arg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1781494"
+X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
+   d="scan'208";a="1781494"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 22:39:27 -0700
+X-CSE-ConnectionGUID: 1kxPM+3HSqW+g3X4zqBZMQ==
+X-CSE-MsgGUID: jyfpNWjzS7ynp1/Q36Pggw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
+   d="scan'208";a="4843020"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 22:39:22 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xLZu2-00000000WtE-2eZ1;
+	Tue, 27 Oct 2026 05:39:18 +0000
+Date: Tue, 27 Oct 2026 13:38:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Samiullah Khawaja <skhawaja@google.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] debugfs: clarify return values when disabled
-Date: Mon, 26 Oct 2026 22:37:54 -0700
-Message-ID: <20261027053754.1339833-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	David Matlack <dmatlack@google.com>
+Subject: Re: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs
+ mount chosen by userspace
+Message-ID: <202610271346.EnKIU96f-lkp@intel.com>
+References: <20261022225035.377445-8-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,170 +101,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261022225035.377445-8-dmatlack@google.com>
 
-debugfs can be disabled at kconfig time (# CONFIG_DEBUG_FS is not set)
-or by using "debugfs=off" on the kernel command line.
+Hi David,
 
-The return values for some debugfs functions in these 2 cases can be
-different. Describe those differences.
+kernel test robot noticed the following build warnings:
 
-No code changes.
+[auto build test WARNING on 80cf37169daef112b6bea9ae7d9808355a045475]
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: remove one old leftover comment (Danilo)
-    correct return values of some exported functions when debugfs
-      is disabled on the command line (Danilo)
-v1: drop RFC tag in Subject line
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Matlack/liveupdate-Pass-user-argument-to-file-preserve-and-retrieve/20261022-225026
+base:   80cf37169daef112b6bea9ae7d9808355a045475
+patch link:    https://lore.kernel.org/r/20261022225035.377445-8-dmatlack%40google.com
+patch subject: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs mount chosen by userspace
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610271346.EnKIU96f-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271346.EnKIU96f-lkp@intel.com/reproduce)
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610271346.EnKIU96f-lkp@intel.com/
 
- Documentation/admin-guide/kernel-parameters.txt |    3 +
- Documentation/filesystems/debugfs.rst           |   24 ++++++++++++--
- fs/debugfs/file.c                               |    6 ++-
- fs/debugfs/inode.c                              |   24 +++++++++-----
- include/linux/debugfs.h                         |    5 +-
- 5 files changed, 47 insertions(+), 15 deletions(-)
+All warnings (new ones prefixed by >>):
 
---- linux-next-20261026.orig/Documentation/admin-guide/kernel-parameters.txt
-+++ linux-next-20261026/Documentation/admin-guide/kernel-parameters.txt
-@@ -1205,7 +1205,8 @@ Kernel parameters
- 			        get a -EPERM as result when trying to register files
- 				or directories within debugfs.
- 				This is equivalent of the runtime functionality if
--				debugfs was not enabled in the kernel at all.
-+				debugfs was not enabled in the kernel at all,
-+				except that the latter returns -ENODEV.
- 			Default value is set in build-time with a kernel configuration.
- 
- 	debugpat	[X86] Enable PAT debugging
---- linux-next-20261026.orig/include/linux/debugfs.h
-+++ linux-next-20261026/include/linux/debugfs.h
-@@ -110,8 +110,9 @@ struct dentry *debugfs_create_file_short
-  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-- * returned.
-+ * If debugfs is not enabled in the kernel build, the value -%ENODEV will be
-+ * returned. If debugfs is enabled in the kernel build but is disabled
-+ * on the kernel command line, the value -%EPERM will be returned.
-  *
-  * If fops points to a struct debugfs_short_fops, then simple_open() will be
-  * used for the open, and only read/write/llseek are supported and are proxied,
---- linux-next-20261026.orig/Documentation/filesystems/debugfs.rst
-+++ linux-next-20261026/Documentation/filesystems/debugfs.rst
-@@ -41,7 +41,17 @@ dentry pointer which can be used to crea
- clean it up at the end).  An ERR_PTR(-ERROR) return value indicates that
- something went wrong.  If ERR_PTR(-ENODEV) is returned, that is an
- indication that the kernel has been built without debugfs support and none
--of the functions described below will work.
-+of the functions described below will work. If the kernel was built with
-+debugfs support but it has been disabled by using "debugfs=off" on the
-+kernel command line, ERR_PTR(-EPERM) is returned.
-+
-+.. note::
-+
-+  It's expected that most callers should _ignore_ the errors returned
-+  by this function. Other debugfs functions handle the fact that the "dentry"
-+  passed to them could be an error and they don't crash in that case.
-+  Drivers should generally work fine even if debugfs fails to init or is
-+  disabled.
- 
- The most general way to create a file within a debugfs directory is with::
- 
-@@ -57,7 +67,17 @@ implement the file's behavior.  At a min
- operations should be provided; others can be included as needed.  Again,
- the return value will be a dentry pointer to the created file,
- ERR_PTR(-ERROR) on error, or ERR_PTR(-ENODEV) if debugfs support is
--missing.
-+missing.  If the kernel was built with debugfs support but it has been
-+disabled by using "debugfs=off" on the kernel command line, ERR_PTR(-EPERM)
-+is returned.
-+
-+.. note::
-+
-+  It's expected that most callers should _ignore_ the errors returned
-+  by this function. Other debugfs functions handle the fact that the "dentry"
-+  passed to them could be an error and they don't crash in that case.
-+  Drivers should generally work fine even if debugfs fails to init or is
-+  disabled.
- 
- Create a file with an initial size, the following function can be used
- instead::
---- linux-next-20261026.orig/fs/debugfs/file.c
-+++ linux-next-20261026/fs/debugfs/file.c
-@@ -1144,8 +1144,10 @@ static const struct file_operations fops
-  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-- * be returned.
-+ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
-+ * will be returned. If debugfs is enabled in the kernel build but is disabled
-+ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
-+ * will be returned.
-  */
- struct dentry *debugfs_create_blob(const char *name, umode_t mode,
- 				   struct dentry *parent,
---- linux-next-20261026.orig/fs/debugfs/inode.c
-+++ linux-next-20261026/fs/debugfs/inode.c
-@@ -339,8 +339,10 @@ MODULE_ALIAS_FS("debugfs");
-  * doesn't exist or an error occurs, %NULL will be returned.  The returned
-  * dentry must be passed to dput() when it is no longer needed.
-  *
-- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-- * returned.
-+ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
-+ * will be returned. If debugfs is enabled in the kernel build but is disabled
-+ * by using "debugfs=off" on the kernel command line, the value %NULL
-+ * will be returned.
-  */
- struct dentry *debugfs_lookup(const char *name, struct dentry *parent)
- {
-@@ -562,8 +564,10 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_si
-  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-  * returned.
-  *
-- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-- * returned.
-+ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
-+ * will be returned. If debugfs is enabled in the kernel build but is disabled
-+ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
-+ * will be returned.
-  *
-  * NOTE: it's expected that most callers should _ignore_ the errors returned
-  * by this function. Other debugfs functions handle the fact that the "dentry"
-@@ -660,8 +664,10 @@ EXPORT_SYMBOL(debugfs_create_automount);
-  * unloaded, you are responsible here.)  If an error occurs, ERR_PTR(-ERROR)
-  * will be returned.
-  *
-- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-- * returned.
-+ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
-+ * will be returned. If debugfs is enabled in the kernel build but is disabled
-+ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
-+ * will be returned.
-  */
- struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
- 				      const char *target)
-@@ -818,8 +824,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
-  *
-  * This function will return 0 on success and -E... on failure.
-  *
-- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
-- * returned.
-+ * If debugfs is not enabled in the kernel build, the value %-ENODEV
-+ * will be returned. If debugfs is enabled in the kernel build but is disabled
-+ * by using "debugfs=off" on the kernel command line, the value %0
-+ * will be returned.
-  */
- int __printf(2, 3) debugfs_change_name(struct dentry *dentry, const char *fmt, ...)
- {
+>> mm/shmem.c:5867:6: warning: no previous prototype for 'shmem_inode_on_internal_mount' [-Wmissing-prototypes]
+    5867 | bool shmem_inode_on_internal_mount(const struct inode *inode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/shmem_inode_on_internal_mount +5867 mm/shmem.c
+
+  5862	
+  5863	/*
+  5864	 * Whether @inode is on the internal shmem mount, which is used by
+  5865	 * shmem_file_setup() and thus by memfd_create().
+  5866	 */
+> 5867	bool shmem_inode_on_internal_mount(const struct inode *inode)
+  5868	{
+  5869		return inode->i_sb == shm_mnt->mnt_sb;
+  5870	}
+  5871	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
