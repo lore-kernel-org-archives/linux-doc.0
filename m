@@ -1,61 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793062164;
-	b=pUeERkUUbM+PhaMYjhTjf4A6Gb+7UEYQnSR+iVObpIoPvcyixPLQxC6liVOihJlYLSKA
-	 pcqNmB5XBvTEke0BrYal2gFVjTrLq/xdxPuR3Vgc+uAIgMcrCtZikfqwnUfJnCkyNSHL9
-	 H2/BO1vsxj5M3Jy7wnvWbijJrE9GAwQYShPnFDpn/RwjNvAyX2hPIETJTndRbm5jqKlkF
-	 TRQoMxdJBfiiMuwy7TXQaT+m3OqbOH+dt/fZH/XLs2NOXFeidgKegvpJL/ecPBfYSPoP0
-	 ln31jwB5V5eTSZQThpxmz/fE6Eg2ALtMFo1CrRHsOkp8rcui/JOhmt3xOU50BXHTlYw==
+	t=1793064351;
+	b=snQ/6dgfWLbnKVpzVUUJR1S4V/sGXL7TPeHZXy3iaUhNQYZL22JjmVEJhxmOkYW0WRe3
+	 OL0Ra94N0ZbzmfOqzeI4p9UZW+dcU0t4YXzqPwdP5+C6Tm4/4gL6fXlmTgC+TAkbL4Jr6
+	 hMY3M8oe+j+Cw6OoYnT5TPvvIglBjd0A4hp8Sk7dyDMjufvXLY5+IIupUDM1kA/rEtww3
+	 pTnCgROxjwgRAs4uBflhem6X16B9/vhPUgsVpuW7RITxoZVOGlOzDbllwwdGCRxOs3EPq
+	 WHNLBNNT9F8HfXoSFawT74KUi00Al7MjlMLL8uSKKUwg+xdxf0heEHccDYkz8QRY9TA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793062164;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=7/kZUclGYQP8NN34Z8XfBgy8oKvHfBFdfanXD9OlfAM=;
-	b=ptTYF8md8ukhdZNIukL0utOi6W4EMj2WDV42ruJGHANnJsUi0WwGN7a3ZTMdqkj8FQ43
-	 xUFRmwRS6ZQ3jlVzSFf8lIh2YQKw4pyL0yTI7t1qRWIZgQPGk9OTGSF4p5Eof+2a/Qkyo
-	 ispM6mBvJBHkWBSkxeRPUq4w7agWmKU6cITZQZvJ1N4Lu8qqdOo41nMyAy81TvfzOth4v
-	 clCKRCvSnYPQwewVDL5ypkkMZ/OG7kwOp/gjPjcTEqgmaKEATak/B+bbvaXYonLZp+z5t
-	 0sithd1WixF+pf0ib3pdRRsSoqkWPaubSzqt/8wOolY3cFN8ETEG2f0T6gnYKtq5GTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793064351;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Y+DIHcrA443uqX7QES2ZcgrJrcUrUUQxo223RqYtOdc=;
+	b=q2J4aUt6J+8AXcvvqpl3YFJ+M1lT2FA4YVJpKUB0aW98thdVDtZ9SKWR3juBhnuWakOe
+	 WqlHlzrdvafEhz3zJAk1xLvCBQ92mGibc0oULdY+5a7cqCjvVQK5oVUgtzYV2nqBZ8AsI
+	 XQcsyv1gfTPPdu+u1XgJK12Lp6zMAdM2FJDqcbw8IEY3q/yDTbYpyfpjwVZVHXn67moex
+	 UoF2h0WO+mYTvHiBKtVw/xFqXYY34Ytn0arSafLEdtUFVkC0CIeUoYKgL+6ehYBedo3SC
+	 jXAtvQhhQBlmh4pnEzrbS47krsdXFDH4oQdH2VyUlPn1QIX9RUw7ShG4OHP9uisYd6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhwJd0HH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L53lhoCx;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25172606A31A;
-	Tue, 27 Oct 2026 00:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E809A606A31A;
+	Tue, 27 Oct 2026 01:25:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E809A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhwJd0HH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533701F01825;
-	Tue, 27 Oct 2026 00:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793062163;
-	bh=7/kZUclGYQP8NN34Z8XfBgy8oKvHfBFdfanXD9OlfAM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IhwJd0HH7ml97hUAhy4mM+LxrQ2bHSAnxXT5bcTTqCYrKorbjVOfa6aQK448DPZUZ
-	 I0UbDVCSy2hHLW5PW4h032ayX/+bDm61VYux5U+fOZd7u5iOR44XnnAQq0KNDlAhUq
-	 jHUdbLzFXl4HCeqTogfS6QXU4nSqG7WsHqALzTeQcaDypFzXJjdhjSDGSpkntipz4i
-	 UI97FyUNZraeWVxoio6pYIeHastvNhvR7snqnMmzqVCnUvGEO0vnbj6cr3GER0BFD4
-	 n1EoM7UhMef2S2pPI2Qw/maUpE2zwjOXsiIqMNgYEkNmbL8RdxlO3rp/V4bemheEIM
-	 r0fMOuo2qCurg==
-From: SJ Park <sj@kernel.org>
-To: Aveline Noir <jm5905938@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Manuel Ebner <manuelebnerli@mailbox.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] Docs: damon: fix grammar and typos
-Date: Mon, 26 Oct 2026 17:49:15 -0700
-Message-ID: <20261027004916.160854-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
-References: 
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L53lhoCx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793064351; x=1824600351;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=1W0qQOp9dlvhFLQgWLSpC14yTIgst1Lk70JE9hOkfO0=;
+  b=L53lhoCxCvJanlIjEpE/6Dp9npkN103lLRTtG+JySOpcoMOgBCsktCaN
+   imlKGhC5v3ZTYiaddOaWn8TkaMxdegrxmPu4qtYC1fQCCScajiaFyahjW
+   +o7TS2oQCNmGQ+oGYTcLYggOiEOD53TxcHOph32TVex7P+JtOrGiRnpQp
+   alXLONnxVEnLnCkNOX/iKh5QnqISDFoxvQorFwI72U2xvGMrn4TkouohL
+   j4UQ0GeBLsuVcMfPyl5tW8DGPq1mySQGlGumDVtHCO5GUbP052cKlNUYx
+   /yJHTGkCYqWFU6JESu4Syn/5u+76azHitGMf9rb48fEedMEvGu7qyPPgz
+   w==;
+X-CSE-ConnectionGUID: Ey5msoRsRW6DdEcDgbXx8A==
+X-CSE-MsgGUID: NPhX6EtZTK+64IVIaDUaFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1760137"
+X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
+   d="scan'208";a="1760137"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 18:25:50 -0700
+X-CSE-ConnectionGUID: 499ixse/RBiiw5XlyzZDTQ==
+X-CSE-MsgGUID: 1iitD3rJT+2NzPxwk+903g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
+   d="scan'208";a="4422631"
+Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 18:25:44 -0700
+Message-ID: <153dd0db-32d8-4ec9-ab8d-2368a790ac55@linux.intel.com>
+Date: Tue, 27 Oct 2026 09:25:42 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,51 +72,80 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 02/28] KVM: VMX: Initialize VM entry/exit FRED
+ controls in vmcs_config
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-3-sohil.mehta@intel.com>
+ <acc168cc-e021-43dc-8846-ed1b2d69facb@linux.intel.com>
+ <a0f99d8b-b67d-42f3-b76b-90187a0bea5d@intel.com>
+ <5af354c7-9bbb-4ff2-b450-c08cc5b46304@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <5af354c7-9bbb-4ff2-b450-c08cc5b46304@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Aveline,
 
-On Mon, 26 Oct 2026 22:14:32 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
 
-> I was reading the DAMON docs and kept running into small grammar
-> mistakes and typos, so here is a series that tries to clean them up.
-> There is one patch per document, and nothing beyond grammar was
-> changed :)
+On 10/26/2026 1:00 PM, Sohil Mehta wrote:
+> On 10/22/2026 8:10 PM, Sohil Mehta wrote:
 > 
-> Some fixes pushed lines over 80 columns, so those paragraphs are
-> rewrapped.  Patch 4 picks up what I think was left in lru_sort.rst
-> after Manuel's recent fix.
+>> I couldn't find any precedent for this. I don't have a strong preference
+>> here. Is it worth making future-proof?
+> 
+> 
+> I did a bit of digging. The current entry in the table is the result of
+> Sean's preference provided early on in the FRED series. See
+> 
+> https://lore.kernel.org/all/Z739wdGmk4ZuWJ8v@google.com/
+> https://lore.kernel.org/all/ZUz3cPmnqSq7Lol9@google.com/
+> 
+> IIUC, we want the FRED entry/exit controls to be consistent without
+> depending on the ordering.
+> 
+> The current vmx_check_entry_exit_pairs() doesn't cover the FRED case (a
+> single entry bit mapping to two exit bits). So, the updated check would
+> cover this scenario.
 
-Thank you for these fixes.  All look good to me.
-
-I applied  this series to damon/next [1] tree, together with Manuel's
-suggestion patches.  Manuel's suggestion patches will be squashed into your
-original patches while adding 'Suggested-by:' tag for Manuel.  I will repost
-the resulting version after next -rc1 to request merging of it into the mm.git.
-So, no action from your side is needed for now.  If anything is wrong or the
-plan doesn't work for you, please feel free to let me know.
+OK, thanks for the info!
 
 > 
-> Based on damon/next at 9d301805e3f6.
+>> if (!(entry_controls & n_ctrl) == !(exit_controls & x_ctrl) &&
+>>     !(entry_controls & n_ctrl) == ((exit_controls & x_ctrl) != x_ctrl))
+>> 		continue;
+>>
+> 
+> 
+> 1st line: the entry control is set if and only if *any* exit bit is set.
+> 2nd line: the entry control is set if and only if *all* exit bits are
+> set (which is specific to FRED for now).
+> 
+> Also, to make it easier to read, planning to reformat it as:
+> 
+> struct {
+> 	u32 entry_control;
+> 	u64 exit_control;
+> } const vmcs_entry_exit2_pairs[] = {
+> 	{ VM_ENTRY_LOAD_IA32_FRED, SECONDARY_VM_EXIT_SAVE_IA32_FRED |
+> 				   SECONDARY_VM_EXIT_LOAD_IA32_FRED },
+> };
+> 
+> Please let me know if you disagree with the approach.
 
-Thank you for clarifying the baseline.  I guess this was because your patch
-depend on Manuel's early lru_sort.rst fix?  Clarifying the dependencies would
-also be helpful from the next time.
-
-By the way, I found your patches don't have the usual git version signature.
-That helped me finding a bug in hkml.  I fixed the bug, so no problem.
-
-Nonetheless, I'm just curious.  I might be able to make DAMON development
-process more easy for contributors if I better understand contributors' work
-setup.  Are you intentionally removing those suffix, using 'git format-patch
---no-signature' like feature?  If so, any reason to do so?  This might just
-don't matter, though.  Please feel free to do not answer if you find no worthy
-to answer or just feel uncomfortable.
-
-[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
-
-
-Thanks,
-SJ
-
-[...]
+It looks good to me.
