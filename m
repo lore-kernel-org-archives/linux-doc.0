@@ -1,97 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793069266;
-	b=MRbkD7cwjWIdT+nLvoNN4WE501SU8BvBXMR6suuhYqbOgo7z9MpLhI6VO5z6NTIaSLiA
-	 zf6I667v/x+IBWGqqIU3OE6+5G8BfcTmJrbgdjeIZf04mBJ1XYIo5RsqqptlINyZqtsso
-	 LHdJIFDoQEHiDEPHHxSGbDqdW8Tl/9UbR3R+qtldca21KTLUS66EvVsU2OSx6YAPp90EA
-	 S0XQAuf9XrSp/SKfT+DjMh5kVHX+cpNuFVXyjrqu+j7NADdZ6BF0J9NEqcUhGW4KDkfQZ
-	 yTDiPlVlgWXLJtH689xlL41ZPRAyVzUjtFM0FTyquOOhLdtapi6pWSpfPEtxs1wTi5A==
+	t=1793074879;
+	b=y4JiEDjpsNU10Pjzav7L+S+YKAnqIa3Z86kt2qh29uDDGcFnbftGjkPyZw4mvVhIbjWr
+	 DcxH3WeGsnbS1S4nAqQNa6wczU9IPTWthhcXIYG28ibOyJuXijfzIyoRjR97IIEorGVvW
+	 clyfc954hAu7849poVTlSQVdRqi3u0bxdfHYetU7wBuzwTmkJOPxKDm2GrteOvYLl9W5m
+	 ilpEIFMKxpwufuPlzLdOhZFETa9raliy2VdSccObyznW2WFSc0sZ7sCdJT78VS2K817ov
+	 3v0NanxIrRnbdEHgwzptQGOLWhEPt2E1crncnQzFhFzeAY+tx312ftPRZyGLjwED+bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793069266;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793074879;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:Date:Message-ID;
-	bh=lvDhK1lQBCnTBgCeDn8IE0UD8FXFRVaT+2qmolhhuoo=;
-	b=2iFYs3JAoRGb2lCCNNZpZFrlKVHGHn5JO1o3OctxbW+yS6E+OM+QFK2W7Jd7IATloPxn
-	 24BkgsiDCFVHbTUDLJFjIokkc/z/yh7i9cjj/eU0EyH8K8n7V0O6YyrnJhpGlqbY5uUj8
-	 Z9glM0n9P8scAXYiLpYzpkwsNH7b0rINIBxC73A3/Fy45Tm8U7/zCVZQvyvG9gH7Ojufm
-	 QiWEcJV72FTXRdjXU1t0j9tHgjW/t+BTFyyycDdDFGY5CjCwDedy7aXxtMTxdJU0OUTf9
-	 R90FaBCbCep/hMkbg9VIypw5MNbSe84WX3L9z7vrrsSPN5ALezYAJvCUMZBfHh1CtCQ==
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:User-Agent;
+	bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
+	b=uU6Gvs8v3snO6aypAkSfZmETUv8CmXVafz0Ll9fvrsjeBMGCTzpHve3zoMtym7sdfeSm
+	 CX/rXhyamo2TD5ySvGtIPUfNKJy/UVimVFdjyNanSdTQhhr16HLVlu5Jk67+BN+x0n+ao
+	 XLlDDc02VjWESBMBCs7NITOKng7l4tzSEyByEL2NEJRAfSry0yvhGHm+LiWOJOZsGB3TG
+	 EES2SWICy+dCPKwFYQgpVt49mRCNqqujGhCVfd8qO0GBRU1bZaZrQV1oUhiQOmV6ejQNs
+	 gVEwTALYJ4+8kkdYmEo9pU/Xek6wgiUZyoiFbHyYpN+7cfE9rHJfKcfHKsWPnTU8l9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ExcyeD3X;
-	arc=none smtp.remote-ip=74.125.227.135
-Received: from mail-pj2-f7.google.com (mail-pj2-f7.google.com [74.125.227.135])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b="U+webZk/";
+	arc=none smtp.remote-ip=209.85.215.176
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F748606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 02:47:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F748606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ACF606A31A
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 04:21:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57ACF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ExcyeD3X
-Received: by mail-pj2-f7.google.com with SMTP id 98e67ed59e1d1-3ac63aee1ecso707933a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 19:47:46 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=U+webZk/
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so1530584a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 21:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793069266; x=1793674066; darn=vger.kernel.org;
-        h=message-id:date:mime-version:content-transfer-encoding:content-type
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lvDhK1lQBCnTBgCeDn8IE0UD8FXFRVaT+2qmolhhuoo=;
-        b=ExcyeD3X/eASS+Lt56dL6RiK9ULFT3Pc5YgWeHYUVnK3/fxmU3LjuVBY5qTgq7Nvw1
-         5AmuEADgEJ+/9hfGT5RCvUELhTrKvjgbL5QbdIpi0QElAaNOl+gXJxtL9+Av9cQKStdk
-         HFUxpii0/WmmdMYFkCaaF/z6fdIE+/OGEM6CvjRXuOVZbt47YLk/fQGdZX5Lx5FxIZlr
-         vDx92Syx+RaKIXdx0aZbxswckdlg4CgI7tvsMxfzJOw1v3dF9cfweP4nJm3wTgr2tWNK
-         Kr4Z7qkUZOO3SaQ67nbMvxAQ2BKrTB77BvLsWHIDw4RjzHRtP/CMZ4Z+Hf3yCHtMwR1h
-         4hJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793069266; x=1793674066;
-        h=message-id:date:mime-version:content-transfer-encoding:content-type
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=chrisdown.name; s=google; t=1793074879; x=1793679679; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lvDhK1lQBCnTBgCeDn8IE0UD8FXFRVaT+2qmolhhuoo=;
-        b=ER5km/ExMtqLpDyabWYmst1O9Bf1G+sJF0E2Cu1gY8G4Q57++pB8+SIqt+I25ep3di
-         3KdNUgjXjDvKjkMN6w+hmPaKbUdPkiIfee4DlWQmQcZGAWhLaa1OETgLvWpe3uE9Xbyq
-         aqJNS212TFuu58MPfVb6SJMSMTOTKc5ClOpfEpWVYZIBhyn5xpd6dNuJ8dUxKkrsoYQL
-         tkKPODFhR5RRI4EBVv+vdWrj9r9iD77/9KW8m5M4sCddKbt1UJJN0pbjRTgVh4hGRJQN
-         tgc42YagoAEsz+IbFPT7+G9L8yHJ3FW5hG93Iedcdx5SZL1VrIA1/siWblODcr5x9hae
-         g23Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxJcECyiT64DfG3/OwjmFaG5cNkpGQP3AcTqyLyrHd1jF8qPyeYtDlTbxREuc65TrIq2EGOMwwjpEM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLOjhGZ7mnBwqUTNYbOBDfD7a0Y1yfbohlsONDPxqNp8ozp45h9
-	qWug3c1YV9QAoUcMbGsQsegAYy2FVZps30jtsa3VUe5fF35wJVjjWOfZ
-X-Gm-Gg: AYBFou3FtbhZzHuBTs5H5WbpNYYOiHh8He2rCHFbL4mxqb/FS/dTiVGRzDnx6D7qcoG
-	Ns/h1eTPupXwsHYvpHQ53AwMASZ85lQSPxs/5HvO08r23I5q0cKdwb4avoECfPRw1SEQ564Aw4Y
-	GdRAxCFXU8EQDk//rgBuZ8ah8SJ256Gd4Yqdsya25dirjp4zXFALVr4enA+ZLHsPZK4rSPXvewz
-	hy2svIyDWo3WGnhcDhrwxxAzP1+Wz7J7hjnqnwhnjZvoEuo1g/tBHNWemhNNNKBT+r9qORWLf2Z
-	+UpTHY1dSE7um9qK5h0PQ8POf27J4mr1SnSXsbIWu1s8zl8CcLxKcwGYdWRgdtyMdoyx3dJ9SRk
-	Zdreq5Ks3jHOBcZAfLUu55PL/vGXyYGKtgPxcmFIwojfIlCjqBgzUKgmJFCyOz49iOi+Ef5oSd5
-	GnQ0thgbOhCJBI/84SSnbv5xbIYYN2e8/IidMjlvG3LeU8yIptuhM8lYt2kMoPHWt1raw4G3v50
-	HGf0ELu7EBGkYqPfzzUv7TeAnv4NIDl8wpNKNYbutIDCVDBsIvxcLrR9PMmc1HvVfa4+ehokcso
-	VknGT6oqW8gaXQchXyoRTWFj8fa9VyAZx1e4rxV+p98HwQO+jZG0
-X-Received: by 2002:a17:90b:3b45:b0:3a8:7096:9b48 with SMTP id 98e67ed59e1d1-3ade9b2cff5mr7922722a91.1.1793069265598;
-        Mon, 26 Oct 2026 19:47:45 -0700 (PDT)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae404426c2sm1518262a91.7.2026.10.26.19.47.37
+        bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
+        b=U+webZk/UC0AmEh8JfGeN0MsgqZ5s35ckHlqcQZGpqM5matT9IESNMyqgLlqhn8+LU
+         62r6mR2RVpK4FKHh/WYKLLfw4IkyeBL78s9aMyPY/LBrc/ElrYJXV4FSqAoO8HPIUfve
+         57DIfcFTgwcH9ibOsaVbpBayQsR7iIg7tLxZE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793074879; x=1793679679;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IbKbkm2FCu1dJjWm0bA0zRZkrHajWkzVG1UGfJQ9bvA=;
+        b=X7CDcUma7BUzYOvpDp4MJsEmFQjaBdYDHIM6V9F+yHLwwcIEbuO5aQYOXOxz2WEcBd
+         HCVCk9d/0Evn9LDsMGQwq6rPFu6MkV23P+67lIckG2oQdHLERb1P/PuO8uLXahbRTOGj
+         fds2MIzNNF1ZmYa7tAbvSOwvQGtzxKf7R9REMyfnKxcoPyg5uigOSlJLWQEHI74iEPrC
+         1BPHgmPWVe/7y7+rPDj7+ZDqqrhGMmBNT/7SaRT1TxqMPcEA0bm2ZH0pVbawnIoh/prw
+         alkhq+C9Djildo+mqQcB7uybtkJO/k+pwcLNJrhpOfmXmUDySWJXVmzK89ovFVArlf4q
+         J8Ww==
+X-Forwarded-Encrypted: i=1; AKwUvBxsysdEvS21TlNwE422xu4cQCgly2bxvOElrlzAJhcotOeQinTUdho4QXLBLokraFenBtwI6fp/XHo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxCiS/Ji63ixkAt6k7l1LK+0D8+LvnpCc1nxKZ7OulaOmyeNVe
+	yUwDux0Gva8cXRg1RX0rlWzUmnDhQkEiqWOMWfYlD2HX2TCG1QUMjWfCfZB9YBWojFU=
+X-Gm-Gg: AYBFou0opeAoUbkWO8zrrF9KjIKHgTKOpDFNNG1MGd6+dXVtm5SaKXtKoQkOUuDRLH3
+	ei7k1Ku0FXYBQ8wwbCJhVKGfJqqMlq22+7O+jROkvwxcuO2rQbhNcen4CmyCse/AQgX/uwSejTv
+	MyUaBz0VcOlswbSzSDT+yPgbhQiGziznb5dcaUVKEE6TwBRPp1VWu4UTVJwLh7OJ4zRnf5pW49s
+	3xE1/bKJNtXLov8Baj5aajpHANTsXFB6qQ8IZBnPYzVk1KgpSWIBGEQEMS3nyuqg4JalJaEWMGc
+	Ndu3uSwprGpGe9T1dCLNOLivNzaMTeifGGJ1bVeOZXff16Y7DSZgDMqxP3ROw2OuuYYQVppy3ef
+	tL9oW4bqfiRRZ82ltCi8oqvV6psMDXn1+USZ7mhp6zbxrhMG4rgXc2Fshx/BFAhLl9PaBcyihjN
+	eQpWh9+H11pooaDxe5VuccfnZ4mmiSGBy9VRyjWjTV7hV7YazOnwWpdbAkfkXo9iYxjnxU1oEzd
+	AzsYZJRJda/c9L8WkemYcUniZgurDMlEnOTt8h/iBir1u6C3fl/XsA35rjysuE9QGetT84fp+SN
+	W1bImOcMAOblJ/lIHf8JA7rEoryip9zzxHPrc2KLg4yN3pUysP7vHuoIFpeRCsUsN1A9JPFFQjZ
+	YeNryxj6BAHwamV5aBSHU7kTYaZqti50c573m+2+4+Eer
+X-Received: by 2002:a17:90b:2d86:b0:3ac:17c:6e89 with SMTP id 98e67ed59e1d1-3adeae6d79amr6903972a91.19.1793074878569;
+        Mon, 26 Oct 2026 21:21:18 -0700 (PDT)
+Received: from localhost ([116.86.153.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40427bf1sm1790327a91.6.2026.10.26.21.21.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 19:47:45 -0700 (PDT)
-From: Aveline Noir <jm5905938@gmail.com>
-To: SJ Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Manuel Ebner <manuelebnerli@mailbox.org>, damon@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] Docs: damon: fix grammar and typos
-In-Reply-To: <20261027004916.160854-1-sj@kernel.org>
-References:
- <179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
- <20261027004916.160854-1-sj@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        Mon, 26 Oct 2026 21:21:17 -0700 (PDT)
+Date: Tue, 27 Oct 2026 12:21:14 +0800
+From: Chris Down <chris@chrisdown.name>
+To: Omar Sandoval <osandov@osandov.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH] proc/kcore: Allow disabling /proc/kcore at boot
+Message-ID: <auAmuqZyUodq3iqk@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,19 +97,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 27 Oct 2026 13:46:00 +1100
-Message-ID: <179306916017.2.12297411301652219760.damon-docs-footer-reply@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-Hi SJ,
+/proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
+memory. That's a pretty large read primitive for anyone who obtains
+CAP_SYS_RAWIO (and it also gives away the KASLR layout).
 
-On Mon, 26 Oct 2026 17:49:15 -0700, SJ Park wrote:
+For this reason on some hosts we want to turn /proc/kcore off. However,
+on a kernel built with CONFIG_PROC_KCORE=y the only ways to block it
+today are lockdown=confidentiality (which also disables many other
+things we perhaps don't want to disable), or LSM. That's annoying,
+because on the majority of hosts we do want it on for things like
+drgn/crash, so today we build two separate kernels.
 
-> Are you intentionally removing those suffix, using 'git format-patch
-> --no-signature' like feature?  If so, any reason to do so?
+Let's add a "kcore=" boot parameter so that this can be disabled at
+boot.
 
-I was trying out my own script to assemble the patch emails this time,
-and seemingly I forgot to add the Git version footer. Thx for 
-reminding me that.
+Signed-off-by: Chris Down <chris@chrisdown.name>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+ fs/proc/kcore.c                                 | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
 
-Thanks for applying the series,
-Aveline Noir
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e75344f4e0cd..d8acce2878ab 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2915,6 +2915,12 @@ Kernel parameters
+ 			parameter KASAN will print report only for the first
+ 			invalid access.
+ 
++	kcore=		[KNL,EARLY]
++			Enable or disable /proc/kcore on kernels built with
++			CONFIG_PROC_KCORE=y.
++			Format: <bool>
++			Default: on
++
+ 	keep_bootcon	[KNL,EARLY]
+ 			Do not unregister boot console at start. This is only
+ 			useful for debugging when something happens in the window
+diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
+index 390547b992ac..6a29a3e0ed92 100644
+--- a/fs/proc/kcore.c
++++ b/fs/proc/kcore.c
+@@ -69,6 +69,7 @@ static size_t kcore_notes_len;
+ static size_t kcore_data_offset;
+ DEFINE_STATIC_PERCPU_RWSEM(kclist_lock);
+ static int kcore_need_update = 1;
++static bool kcore_enabled __initdata = true;
+ 
+ /*
+  * Returns > 0 for RAM pages, 0 for non-RAM pages, < 0 on error
+@@ -720,8 +721,19 @@ static void __init add_modules_range(void)
+ }
+ #endif
+ 
++static int __init parse_kcore(char *str)
++{
++	return kstrtobool(str, &kcore_enabled);
++}
++early_param("kcore", parse_kcore);
++
+ static int __init proc_kcore_init(void)
+ {
++	if (!kcore_enabled) {
++		pr_info("/proc/kcore disabled on command line\n");
++		return 0;
++	}
++
+ 	proc_root_kcore = proc_create("kcore", S_IRUSR, NULL, &kcore_proc_ops);
+ 	if (!proc_root_kcore) {
+ 		pr_err("couldn't create /proc/kcore\n");
+
+base-commit: 01146870c415f6ff70a469fb7ceb962a3f2c8c52
+-- 
+2.54.0
+
