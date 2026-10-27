@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793102287;
-	b=GGY6WZkyxW4tZ/iP7z3V8qUOzCTtfGVb90g4MS2UXLi0lpTzMR8kjAMIZi/BG+G14ehr
-	 MLSdYdICe9WQEwuHJwwYTlZtHbclNrl+eWYmJTC2+rAM+oaNVubLQmUW2vS+7P6E6CkQ7
-	 vnMR4ElwtJd59cqstRb6EaKj1LUpkcApJ7OdHT8yzvlGIaKjMWmGrrb7cVgeWoHD0Q+QD
-	 miV49PjE0vYEhMpwK3LRa0lrKHN98Kfhe1xlAVzYbLb0I1GDkI8yrYj02e3vtD/00tzdi
-	 szumHRppKxmbYW89HMxbMho8C433q7r0P4eFvYK0PNTAL8fjZDdvzQ0KaZM8gmsgO0w==
+	t=1793102460;
+	b=ANHa8+2vePS0Gn5XyfAUJpL/bL1iQJ/9uDZH4OOHnj2+4mkjXPOtz2Q/pW9AuwbVylNl
+	 8TkssEWu4HExaYRQRLSU/XMT140QJBQ7IfR2gcblGQrLcJuKGTz9ls/cR601wC0kmc1v5
+	 TS6KCNMiU/wiCMQdqwauU1gReYsGU2qtrvjSoib0Qud8RwdZ6yKa8k/yPfd8hHtZMEi6H
+	 zAr5Yx4+qMwwdhp5NFYORGBarMgToC+BNEx6P8AR50PvxefzkfGOKkLINLwxNv7D23ocw
+	 oXJnuaLX7Tl709mP+wboRfMcy3pckL0buh43kECIMDNVNJfy9wJa1PHXEuR3A5cWiaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793102287;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Spamd-Result:X-Spam-Score:
-	 X-Spam-Level:X-Spam-Flag;
-	bh=vNqRak6R0NOXOPwZ8K7M7qsowzZcmzyNUaJvV33gtt4=;
-	b=T2sXjfqQQtU5RLTJyJAUQFXgT3YjNoiOyH8NJWMoTs62utWHCEvh5R3pNAlbAEDVzP0S
-	 7Wgw8OUOOTyfHEDeUn1T5W1BfWwa3y7QeUpK0toM/PLeR5OggZLIMrqu8hiKqhxuf/kTD
-	 /Z9hqJDC7CWIKIsa5AOmB0J34DDV6a9jdnxaCN+4WvA6oBKEGHVfdRsqVVLyz3di9elNn
-	 tNUxJFNBhRd8CwvvFjRFjazSmoV2fbylc4K81LK8xXnDdxyOwgj2ct0GVIymr4p45G2iF
-	 Zpg7xX2eVpiU2X5bE2CBsMmMpvuG0LQh8S3eXwMiDdmlFKReoZJ8laOCngpLNwXmsrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793102460;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=dDx8AqQR7Bt04x47N4Mn7I+5GyazYzKkWgOX6VGjETw=;
+	b=tOCtxEyT9Gpq64pXAhMPME9X8dU99G3qqiqoft4S1Vbp8h5m4s1Y9AXRw7RXvUuz2sia
+	 DqGedxD2T2fr58N835F2CE3dxrAh7JMbeiBdETq1B057gUwLNT9rbR69H+LpTsHC0Rqmi
+	 mAUeKZud9VoKPne01fKei2FPjrypxhBq5Yxeme24TDpp/2Sdd4nYYrXrIaWY5Ap/e89nh
+	 kVrITDc/JxuzxvQlscyhBZafdbQNuMM83J52xMdHFIwJex361S1FtzZqDzCQzKDfETnau
+	 5ZYXMsMM/VO4ASFGiKiVLngc+JhXRFtK2INxmmZS1kMC2KYA9AnZjA+NWSF7tAvDGAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mKhmBA0t;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xV5guRrs;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mKhmBA0t;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xV5guRrs;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jE63xTYV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515CA606A31A;
-	Tue, 27 Oct 2026 11:58:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 515CA606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A8560A2618;
+	Tue, 27 Oct 2026 12:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mKhmBA0t;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xV5guRrs;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mKhmBA0t;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xV5guRrs
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0CF8C21F22;
-	Tue, 27 Oct 2026 11:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793102280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNqRak6R0NOXOPwZ8K7M7qsowzZcmzyNUaJvV33gtt4=;
-	b=mKhmBA0tiWVXGtGZxRRdqM41EeWzPK1qlHp+yOdEuRezlkRrX3Ici82uja9Vu/A+8cEpzT
-	MMbfDO6KL0jzikb4yhLRfbvrTsBFD/F/1RcWDJNxwGm4p3PgW4O/aVWI2UdypPzC7XoBgO
-	Y2VhfaOgjMz4BzxsjSC01HdhIiydItc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793102280;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNqRak6R0NOXOPwZ8K7M7qsowzZcmzyNUaJvV33gtt4=;
-	b=xV5guRrsWz2oeB6vGqPBGdPzgA4V7DUGwNy/kAhe1NvG5KLbgMgxYB4cB8dUP5FOfKId1u
-	KIzEcQ1vkC0magCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793102280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNqRak6R0NOXOPwZ8K7M7qsowzZcmzyNUaJvV33gtt4=;
-	b=mKhmBA0tiWVXGtGZxRRdqM41EeWzPK1qlHp+yOdEuRezlkRrX3Ici82uja9Vu/A+8cEpzT
-	MMbfDO6KL0jzikb4yhLRfbvrTsBFD/F/1RcWDJNxwGm4p3PgW4O/aVWI2UdypPzC7XoBgO
-	Y2VhfaOgjMz4BzxsjSC01HdhIiydItc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793102280;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vNqRak6R0NOXOPwZ8K7M7qsowzZcmzyNUaJvV33gtt4=;
-	b=xV5guRrsWz2oeB6vGqPBGdPzgA4V7DUGwNy/kAhe1NvG5KLbgMgxYB4cB8dUP5FOfKId1u
-	KIzEcQ1vkC0magCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FDD41321C;
-	Tue, 27 Oct 2026 11:57:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YZZIDMaR4GpOawAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Tue, 27 Oct 2026 11:57:58 +0000
-Message-ID: <baffc5da-c794-4c78-ba9b-ec1a2dec0a9b@suse.de>
-Date: Tue, 27 Oct 2026 12:56:47 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jE63xTYV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3EC41F031E1;
+	Tue, 27 Oct 2026 12:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793102459;
+	bh=dDx8AqQR7Bt04x47N4Mn7I+5GyazYzKkWgOX6VGjETw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jE63xTYVQ0bibITRR3idWdLNB/lPlEiAJf2NmaLSuVI/gJQQ7RO3OaHmOhMV6Ojr9
+	 sk8vTmAIHS4gaGSFXAxR37yAk4nzk0JEu+2xnTi/HIq70PLfKWGKpNDldKREmEhRvl
+	 1ZSpXqOV5Hb4InOQA8omnK75bsNKJWDlGhlwP2t2OTWWZzx681syLUz2Lfcl/aZS1n
+	 fhjBHMJ7ELsOHVqCBge7nsM70rbeBgt341a9KIjObMyPz4g6SAcQ03VaiJcrcPiQy6
+	 8MrfVO+qbUvtdtGKgEIF5Rgcw5d0i6a94lmNt3WuWxkuFVyBL6j4H8RpBHRm4WwFtp
+	 mti1GaNrDEpJw==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 8FE7B198004A;
+	Tue, 27 Oct 2026 08:00:51 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 27 Oct 2026 08:00:56 -0400
+X-ME-Sender: <xms:c5Lgaq4ZQ8PwRI6i8KZZ_1a6MgmY4_VesoUflYDHSL2klFgmKl_XCQ>
+    <xme:c5LgamPZbqnQcO4ydCIVaMh5FlnCPCvs4Nls_1hUAQsz_hXgDP0mUHpd4gMun1l23
+    aoqEGdpHPflsvBWWkmRFVvFZ46y-dJJbw_0Kv-2xFMTptN0dANIn10Mew>
+X-ME-Received: <xmr:c5LgaoOocCkfxbkL7h0hX7WHNWFKHnO7qeuY6KqD6MnKFqfV-K3nEGTnJCk>
+X-ME-Proxy-Cause: dmFkZTGHFpKX1jiTMwU/zLbcEjLtIgjP4no/7v6bzBUeW+iOChjTDC5KyxGRFFAGyYBVcq
+    qDgTGrfkugTguLv1RZoJPJRr9TFt84gWeCibTTWFwj5ZCc1ZWzs9CxSp62O2K2EwuxAUbo
+    t1k0grfABMn2r699FuJ54BYDMKqUIzytxfVuu3Pv+ozDzSzCSbs5qNndCkNU8ysF6dywu0
+    7ir0xiOJauMuW0PI3TTom1GP5lzHCkiVdVm/wbI7Mh2bsHmfdZ9qiz7UnzJbshS7dD3SAj
+    FJF6UHO5XlbXu5vOXahQzNWbxOY0K/r58pyyCQ3L4G2o9SOXGGn43GlSykDAch+nsvX3Jt
+    kwyErHX2W4JyRwVIzJrBweuq3ibwyyf2rh1I+q3aOExNytzviQrhW9tHhAHTjgEs2FOURH
+    rBIVgNuQydHIqHVoC79wNa139/ZhZTxS6pcjs+hIpekPuC9KsYpMHb/cFYYQuk5K21Qwy8
+    3YhELuibEcG+sx0aoxBsRrokS/KwVE6xjGZogYNnN+xMSSCGdpZDTR9Cuf4eyPO37dhHq8
+    OV5xIrviy1SDa5VuIRXn3oO5irYRxiD2Xv2saxgkM+CAuuMc4HOZC/3S6lBOA90KJVMONR
+    zYaeVC0vzVxJIy4ALo/WOBQtU9hUDJA4knUKijzmUApI95YbTeE1XV2EUwXg
+X-ME-Proxy: <xmx:c5LgahXesNhO5LwQW3G7qm95Acm7DvWrFEvwCsldGMnrrnzg_a7VAg>
+    <xmx:c5LgaguovOSbfLSwNhnV63uBaNcmTlSppEy4UeEzkU4qaWdWxRGC4Q>
+    <xmx:c5LgaiaB71F57mviESnuAAsfdKVaXCoeB32JzcLcKb4i2u1NqwWZKw>
+    <xmx:c5Lgaj40Dq6YSJHHAAbcrvdPML-1M5LVAPFoVg5PjhrMRqLJ0OFesg>
+    <xmx:c5Lgajpo3RXifYMNLmrNAeFLHwirY6SjVQCuJnsbZNyiU49MdBxhHSSP>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Oct 2026 08:00:49 -0400 (EDT)
+Date: Tue, 27 Oct 2026 12:00:47 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Muchun Song <muchun.song@linux.dev>, 
+	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
+Message-ID: <auCKv_omLGRc6wv2@thinkstation>
+References: <20260227194302.274384-1-kas@kernel.org>
+ <20260227194302.274384-14-kas@kernel.org>
+ <ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org>
+ <at_f43oDv73y-t7O@thinkstation>
+ <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
+ <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,108 +102,121 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2 5/5] net: restrict message_cost and message_burst
- to non-negative values
-To: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org
-Cc: stable@vger.kernel.org, Joel Granados <joel.granados@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, David Ahern <dsahern@kernel.org>,
- Ido Schimmel <idosch@nvidia.com>, Thomas Gleixner <tglx@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Willem de Bruijn <willemb@google.com>, Maoyi Xie <maoyi.xie@ntu.edu.sg>,
- Gerd Rausch <gerd.rausch@oracle.com>,
- Zhan Xusheng <zhanxusheng1024@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
- Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
- Yung Chih Su <yuuchihsu@gmail.com>, Wyatt Feng
- <bronzed_45_vested@icloud.com>,
- Hannes Frederic Sowa <hannes@stressinduktion.org>,
- Flavio Leitner <fbl@redhat.com>, Petr Mladek <pmladek@suse.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261027104701.296240-1-jiayuan.chen@linux.dev>
- <20261027104701.296240-6-jiayuan.chen@linux.dev>
-Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <20261027104701.296240-6-jiayuan.chen@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-13.29 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,icloud.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,davemloft.net,redhat.com,lwn.net,linuxfoundation.org,infradead.org,nvidia.com,suse.com,google.com,ntu.edu.sg,oracle.com,gmail.com,nokia-bell-labs.com,icloud.com,stressinduktion.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLrr9ek4ud4f4qwi71m7motjzt)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	URIBL_BLOCKED(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -13.29
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
 
-On 10/27/26 11:45 AM, Jiayuan Chen wrote:
-> net.core.message_cost and net.core.message_burst feed the interval and
-> burst of net_ratelimit_state, but neither rejects negative values:
-> message_burst uses plain proc_dointvec, and message_cost uses
-> proc_dointvec_jiffies, which happily stores -1 second as -HZ jiffies.
+On Tue, Oct 27, 2026 at 12:00:28PM +0100, Peter Zijlstra wrote:
+> On Tue, Oct 27, 2026 at 12:37:13AM +0100, David Hildenbrand (Arm) wrote:
+> > On 10/27/26 00:25, Kiryl Shutsemau wrote:
+> > > On Mon, Oct 26, 2026 at 06:45:48PM +0100, David Hildenbrand (Arm) wrote:
+> > >> On 2/27/26 20:42, Kiryl Shutsemau (Meta) wrote:
+> > >>> From: Kiryl Shutsemau <kas@kernel.org>
+> > >>>
+> > >>> With fake head pages eliminated in the previous commit, remove the
+> > >>> supporting infrastructure:
+> > >>>
+> > >>>   - page_fixed_fake_head(): no longer needed to detect fake heads;
+> > >>>   - page_is_fake_head(): no longer needed;
+> > >>>   - page_count_writable(): no longer needed for RCU protection;
+> > >>>   - RCU read_lock in page_ref_add_unless(): no longer needed;
+> > >>
+> > >> I have an AI report that removing RCU read-lock was wrong.
+> > > 
+> > > Ughh. Yes, it is a real bug.
+> > > 
+> > > My reasoning in the commit message was wrong. Nothing stops a
+> > > speculative get from writing to one after the remap. On x86 even a
+> > > failing cmpxchg faults there.
+> > > 
+> > > The fix I have in mind is to let the atomic fault.
+> > > 
+> > > If the update faults, the struct page is a read-only HVO tail with a
+> > > zero refcount, so the get just fails. An exception table entry on the
+> > > cmpxchg handles it. No RCU on either side, and the fast path stays the
+> > > same lock cmpxchg loop.
+> > > 
+> > > Only x86, riscv and loongarch have HVO. Below is x86 only, to show the
+> > > idea; riscv and loongarch need the same primitive in their LL/SC
+> > > fetch_add_unless().
+> > > 
+> > > Lightly tested on x86 by hitting a real HVO tail page.
+> > > 
+> > > Does it look sane?
+> > 
+> > I'm sure x86 folks will have an opinion :) . Let me CC them whether something
+> > like that would be acceptable.
 > 
-> Since commit a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are
-> negative"), ___ratelimit() splats on such values, so the next
-> net_ratelimit() caller warns, e.g. a martian source log:
-> 
->    Negative interval (-250) or burst (10): Uninitialized ratelimit_state structure?
->    WARNING: lib/ratelimit.c:43 at ___ratelimit+0x56e/0x960, CPU#1: ping/3218
->    RIP: 0010:___ratelimit+0x578/0x960
->    Call Trace:
->     <IRQ>
->     net_ratelimit+0x1c/0x30
->     ip_handle_martian_source+0x1bb/0x340
->     ip_route_input_slow+0x1057/0x3650
->     ip_route_input_noref+0x104/0x260
->     arp_process+0x109b/0x2510
->     arp_rcv+0x381/0x460
->     __netif_receive_skb_one_core+0x173/0x1c0
->     __netif_receive_skb+0x21/0x150
->     process_backlog+0x37e/0x1200
->     __napi_poll.constprop.0+0xa5/0x5e0
->     net_rx_action+0x4c0/0xf70
->     handle_softirqs+0x204/0x9b0
->     __do_softirq+0x10/0x18
->     do_softirq.part.0+0x49/0xd0
->     </IRQ>
-> 
-> Negative values never meant anything here: 0 already expresses both
-> "no limit" (interval) and "suppress everything" (burst).
-> 
-> Reject them at write time. message_burst can simply use
-> proc_dointvec_minmax with extra1 = 0. proc_dointvec_jiffies has no
-> minmax variant, so add proc_dointvec_jiffies_minmax(), mirroring
-> proc_dointvec_ms_jiffies_minmax(), and use it for message_cost with
-> extra1 = 0. Note that like the ms variant, extra1/extra2 are compared
-> against the converted jiffies value.
-> 
-> Fixes: a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are negative")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Joel Granados <joel.granados@kernel.org>
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
+> This looks quite terrible, doubly so because I have no idea what its
+> trying to fix. Please try and justify this insanity.
 
-Thanks!
+Fair enough. Here's some context.
+
+HVO (HugeTLB Vmemmap Optimization) frees most of the memmap of a hugetlb
+folio by remapping the struct pages after the first vmemmap page to a
+shared page, mapped read-only.
+
+Every lockless get of a page reference (e.g. page cache lookup, PFN
+scanners) relies on page_ref_add_unless_zero(), which is
+atomic_add_unless(&page->_refcount, nr, 0).
+
+The page can be freed and reused between finding it and the get; the
+zero refcount is what makes the get fail. The race:
+
+  lockless get                        other CPU
+  c = atomic_read(&page->_refcount)
+  c != 0
+                                      page freed
+                                      page allocated as a hugetlb tail
+                                      HVO remaps it read-only
+  try_cmpxchg(&page->_refcount, &c, c + nr)
+    -> write fault on read-only vmemmap
+
+The refcount is zero by then and the compare fails, but LOCK CMPXCHG
+writes anyway.
+
+Before v7.1, HVO mapped the tail vmemmap pages to the head vmemmap page
+of the same folio. The first struct page in each of them read as the
+head, with PG_head and the head's refcount: a fake head. A get on a fake
+head of a folio in use always tried the write, not only in a race, so
+page_ref_add_unless() checked for fake heads before the atomic.
+
+Back then, the race above was closed by bd225530a4c7: rcu_read_lock()
+around the read and the cmpxchg, and synchronize_rcu() in HVO before the
+remap. The refcounts are already zero by then, so the get either
+finishes its cmpxchg before the remap or reads zero and bails.
+
+Since v7.1, tails encode the head as a mask instead of a pointer, so
+tails of the same order are identical and HVO maps them to one page of
+real tails, shared by the zone. Fake heads are gone, and every read-only
+struct page is a tail with a zero refcount. The race is not gone, but
+32c440d67e6c and 01b1d0ffb6f7 dropped the RCU on both sides anyway, on
+the wrong belief that it was only there for fake heads. That is what
+David reported.
+
+One fix is to put the RCU back. It works, but it means rcu_read_lock()
+around every get that goes through page_ref_add_unless_zero(), GUP-fast
+included, and synchronize_rcu() on hugetlb allocation and freeing,
+including surplus allocation at fault time. So I am exploring other
+options.
+
+The fixup is one of them. With the new layout, a fault on that CMPXCHG
+can only be a write to an HVO tail, so the refcount is zero and the get
+fails, and the fault only happens in the window above. With GCC the loop
+compiles to the same code as before; clang adds a SETE/TEST per call
+site.
+
+Writing this, I just realized that we have another option -- map the
+shared tail page writable. A failing LOCK CMPXCHG writes back the value
+it read, and the get never changes a zero refcount, so the race becomes
+harmless. The cost is the protection: the page is shared by every
+hugetlb folio of that order in the zone, so a stray write to any tail
+silently corrupts all of them instead of oopsing.
+
+
+And yes, I know, HVO is an ugly hack, like most of hugetlb. But it
+works, and it gives back about 16MB of memmap for every 1GB hugetlb
+page.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
