@@ -1,111 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793144823;
-	b=TG/IVJImvZJEUusFKAns1SVrJUwCIlRXMqUAYvnAg9YdIKfF5302K8DNyZy0LfEGVuO/
-	 tqImn8P9rpKoW/ev1BrGGsyRerc1xMF0kg8JNgTc6BpgPkI6PlGf6zrhDAhDvHD+6dihB
-	 rycO/Jb1/cWcGh27zqGrLnbtq8UKWlTRBdw7W6PnRPcQA2eEtzXNk7S6bzgQkjMhriI7w
-	 i5tPAM1rO6t22qgux93MqsdCFs1gPx11hiiB8c+gspFFK2RpvgLkdX84c+dfZkHkcjKIX
-	 stNHw3tb7Ls+bBn7XmIXr7sKi+UKoWYM0rIXjaRCuxPpkqpkBSf+PmZPuBFpwQcOfYQ==
+	t=1793145226;
+	b=T/tWrbM1pMCFv+PK/0QjxyQ0cK36TTNTc2hW9UIAUuqFn9Cw8ajo00J/9P99NP4jltqD
+	 EU1yTLO5WEyIZns/v9u1fXNRZULJs7Pf4MMXXeeW4S09R8t4eLtY6EepZQjAwAIaBVAQ5
+	 iVahV+XK84zj3seiS7C6/scW3U3/Ez/cvDagA5rx1N5uMP2asqn5vOgMBVsgGYILx5RCp
+	 WU5c9aKucdXrQhBenVmm5w+A4uuc8xSbF6i831m4OwU3wyewHIc4HqaU5jGaGAXVeD9Sw
+	 SGVOJZA38J+X7he9a7m7kCdBEQQUNrHu037HH2x3o0SiVG6cgpy0vA1uocF65Fqf+CA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793144823;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=0jobZ6lKMJLYxxTCc8I8rfjGuzkz6VIrJqfxqZy7dVw=;
-	b=A3Ui8vAwbHx4SBDrvpMQOUgwDj7PmprTjIFRT2nbDRwWZBhReycV/EzvfsQH9CHvIk97
-	 dulB4JwGjWz+YltB/Yq+lY3MSi8JWSRUCotcDMiHfTpTcV+K8zSbF+Uc9KOv9SslsDo7/
-	 Z/KCPjJTzOVxw/eFQbp9U8WrbXFFN12ryTY0cPJZpsXhRYAvi3xE7HADYgd2koecXyhBz
-	 /f3pLjnmFBISe4LQeqNUK4CuOY7OdIADgTjrXQevaVQ1Ob8Ems5F8/j888IPrAXuxDIKW
-	 OUl5CiUyt1w5+EppPpfcHHYIDGmJws5W40fcqNomcJzYiCKp/YG2lybI0drhv/R0ejA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793145226;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=g2ZTjrdVZe/hJwae0DDMZyqDrn3UxtuOCJQnq1CLxJo=;
+	b=BfbwF46oS71BqSQGGHxh2DCideH5rRZYe11IifQ6QBFjUvcY0dvwPMxYCNSP9FIKR3ct
+	 9/9OKhWEj455cYZsyasFEurJtM+74jqyAgia660OxjP0HA1sakJwawiUMepFXQasJJ+/T
+	 cWdhD/Qx6aWaxuh4Q6wj1jYxXf2Blf9RrS7PNDxnSVZwO+9LD593rEzyPrxx9CRja1UXH
+	 kj99m2iAUuLylirz7ZYF+sVYloG90rnff2odFAXf/kexFG95xbHDAZ2U+Wrnaq+jEro9E
+	 kLkzvSOtsEfihAiWvtiG8qBrVEzxBusKUJUkHjp+t1yc3c24UQoM1R71wmbVc9mwWog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=MAMauGjc;
-	arc=none smtp.remote-ip=209.85.160.181
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=TC3oitGK;
+	arc=none smtp.remote-ip=44.202.169.35
+Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363CC606A31F
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 23:47:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 363CC606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA31606A323
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 23:53:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DA31606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=MAMauGjc
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-53c4b82919fso7135981cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 16:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793144821; x=1793749621; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0jobZ6lKMJLYxxTCc8I8rfjGuzkz6VIrJqfxqZy7dVw=;
-        b=MAMauGjcQC5I4fdPuZtoQnkUL42Ja4RAOKAONT1AHTrTUlXxWwqX6qYADXfsEAR3/j
-         hUis6BLTdqxH9lpDGbebIZ+F0qhK+3Gw5A5H3+z2NBgRxi4MH2CtjOQEt/4ZNf155hzB
-         oTs4TdzanpcZpR/2BlKJXYZ5ayq9dCJ9KnWTYXDxPIGzp3UbV1x+jJ+RSlif0GRL/dJH
-         j0OePIYXBil1ld6ZPKFMsFzi6F38i35BXCm6Zqet5zyQslJePMeaHITZMn+3CDTRQJk4
-         QD6tYVzQJvCV1jaXUHg5KQO0GvIXtoG0gYWydzGqJE616loH3WeEVB2M4YGyBB7u1Jus
-         n4fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793144821; x=1793749621;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0jobZ6lKMJLYxxTCc8I8rfjGuzkz6VIrJqfxqZy7dVw=;
-        b=F4kijV+OfqSmlK4K/8nkRhYv6O+Ii0orXn8pcZcy6dv6tZ/TMHl0HuMnd5ppr+peS9
-         lQOjCg1jRertyBYclUu6zzMM064ZKg30w4maw+lZV9xUc076SXzo7OBw6CAnCH0xg60C
-         ZO1IhQejhkQyJaqt7+R8FUlBU0CDebH/9zLy/XyqKFov8K/nhYF/eh3yVBxe2hKhsIEB
-         OBGUWcSsmjy7VQm0BZbrHgyHcOPBwVhOUF/CtITIqqoWlZJanfJtsIjiPxTlS4wJea2f
-         1laZvrj2oK0iFBuoLlvN9+US6xnFJi+S9t2yTHIpfl9+BNg90+5QVs0lW8IHESzejFbP
-         HN4A==
-X-Forwarded-Encrypted: i=1; AKwUvBxsU6awWYLJ1/l4Rh/61e9DmPINBUC2npa87/1OGp12ZqKf7fkw1wNEPjjEhAbUJSJcLjxFUDnLM20=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI35nEObJYBn22JrEKifqg5tLp2VcLuLx61lO5XNmXZD8pvYO9j
-	2dMW7SQrTjQwAPDS5AmolJFvj+Ne7axrE2JU1Zvl1jzA5ylJpaHxHDLs7Y9+Nm/lltg=
-X-Gm-Gg: AYBFou1FCXqAxxm9/01jFq0IfrX4KI1LhIEg2RHWbvEOfGsSm2xx+2cYwZMJ8kqVc0t
-	voRx5IA1kf1Prpez7ZPB4R3kOQYzfyQtuhtqMlCAOcc12pCpkzt3ZkGj8JkrUPGauPMRbTE9Gw/
-	7eZ9FgDaAc5qMugW/KmnnCdTuT0Pj+432bVxofGVMDu6O2893KbUnkhu0XkETvBiQ9nc2woUCnC
-	fr9caD+MV3iJJPwCsF9ogNZ4HFXjzezSeZHpXHxkdWV0F3DroJ4rarh6y88KavSsJsUPg63rLva
-	JNObt5HvLEm8BqQTJDFAqQiiEbccr/AUun1oO1SdzxVen9VbQ/KM6ii2npRPINkgIYYCUIewhpI
-	RZjt21KvHfn/o+NpBd8T+XloqVrhXMikrCPRYc/jdikcgPK2EnhxCbNhYXmcNMszMSq1RLBxlfi
-	2yvRLxhqjkNoVR3iNzDGM9IIafFFbwe9X++5R4aDvXu9BnhT4oJEd/q0m/maz4rVhMHVbeMxibl
-	dGx+agh4z+vah/qolNT10yUhhSlLH+WWvjF5L/otMruG9fZM/z9i7S6rc7H+gY96AA99OK5ZaEt
-	qzjKmGsxA3SvYLsiAfNIVXMPG8Q5K/Y1aoRZjPLWUxqMicpNOOmazL1S9bgdSoXSbyVNEePj1z9
-	nFBuyGKiWPJQ=
-X-Received: by 2002:a05:622a:342:b0:532:8ed7:534 with SMTP id d75a77b69052e-53fcb7f9e76mr15856551cf.37.1793144820933;
-        Tue, 27 Oct 2026 16:47:00 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47a69129sm114200426d6.4.2026.10.27.16.47.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 16:47:00 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xLqsc-0000000BHke-3ly0;
-	Tue, 27 Oct 2026 20:46:58 -0300
-Date: Tue, 27 Oct 2026 20:46:58 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
-	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
-	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
-	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
-	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
-	dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-Message-ID: <20261027234658.GL1685504@ziepe.ca>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <592d643f-e97d-4de8-9a87-e47d57dc8457@intel.com>
- <20261027193629.GK1685504@ziepe.ca>
- <5f33aeed-a20d-4881-9ccf-a69bc308d348@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=TC3oitGK
+Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
+	by cmsmtp with ESMTPS
+	id Lq4oxAysvLvgbLqzBxzf63; Tue, 27 Oct 2026 23:53:45 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id LqzAxrYh7javuLqzAxzEbd; Tue, 27 Oct 2026 23:53:45 +0000
+X-Authority-Analysis: v=2.4 cv=D9xHKuRj c=1 sm=1 tr=0 ts=6ae13989
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10
+ a=SesowdIJlHH8kaKYTl0A:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=g2ZTjrdVZe/hJwae0DDMZyqDrn3UxtuOCJQnq1CLxJo=; b=TC3oitGK2Pjx
+	tNeJGOphfPsj+3gf5+rcrrajX7uZo2jITZPv47pgYxPr0FYz9S+UqLa8fJrpK8T3e0GeZaSa3W5As
+	hDnjh0Cn5MiXAV5QLYK28nr9FajOUKzMdAQUuUmYB6pPtjHdnfQsKQfZwBSMbugisbLDcmYxo7FTr
+	7KmLnHIwfwllIhJGns45bhEaAjI5TgJZBCi0UQZFzj6EctPAIs4lING3o7SAydnhsCycA46/RRv+X
+	LfCReYcg0061JQvFHqRu8Ivck0OOJ2QrsT6kbUtMCuGvchLdv/fYdT9MlQIWRUCZSCWj3+78idC3W
+	TVjV7STjLvwnNhTUB1RRMA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:46902)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xLqz9-00000000ASt-1Y7C;
+	Wed, 28 Oct 2026 05:23:43 +0530
+Message-ID: <50272385-6d0c-48c4-9779-2ad59a1289ad@roeck-us.net>
+Date: Tue, 27 Oct 2026 16:53:40 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,68 +75,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f33aeed-a20d-4881-9ccf-a69bc308d348@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] hwmon: (fs1603) Add driver for TDK FS160x and
+ FS1006 uPOL converters
+To: Kevin Jia <kjia@nexthop.ai>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Abdurrahman Hussain <abdurrahman@nexthop.ai>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261020-fs1603-v2-3-0986107a5cd2@nexthop.ai>
+ <3735b504-30ba-4656-927c-d321248102e1@roeck-us.net>
+ <20261027232157.3395142-1-kjia@nexthop.ai>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261027232157.3395142-1-kjia@nexthop.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xLqz9-00000000ASt-1Y7C
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:46902
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 1
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfH0OzwUbP/+iH39ch2JbWKgCsuXQgyEtqWoD7C5nSoFETl8wItI+bXJnMzVuHFAjXtuisqctkfkgLMp6L8HsEtZih2fgotEg2qll0m9BzmP+hhcK1JIh
+ G5bKaVbtPyvVft5Lsv/GYfV7bdEdrlWoka1Nefy68LR6xnDNK2vWBiqE/htebBmSEgoTN+Jtw2RWOAwAwajLBQ64fbIvhsL+FYnhdH8KC4OAE8hbmdXigdSA
 
-On Tue, Oct 27, 2026 at 04:09:19PM -0700, Dave Jiang wrote:
+Hi,
 
-> There are two issues for TDX Connect. One, the device info is collected at
-> SPDM connect (TDH.SPDM.CONNECT), not at lock. TDH.TDI.BIND only returns the
-> interface report. So the measurements a TD sees at lock can be from well
-> before the lock. To get measurements taken after the bind, the TD has to
-> ask the VMM for a recollection with its own nonce.
-
-IMHO measurements taken before lock must never be made visible through
-this interface, it defeats the security property of evidence within
-the locked session. I would expect the guest kernel TDX driver to
-prevent this.
- 
-> Second, a device may take a runtime firmware update of equal or higher SVN
-> while its TDIs stay locked, unless the lock sets NO_FW_UPDATE. The
-> TD isn't
-
-Sure, any of the live update things are not really relevant, the
-evidence can change asynchronously and without notification, so we can
-just ignore the issue. If the guest opts into live update then it can
-only rely on things like min svn.
-
-> > I'm a bit puzzled by this optional challenge concept, I haven't tried
-> > to read SPDM spec yet, but it really has a way to omit the challenge
-> > from the reply? It doesn't just replace it with 0 or something?
+On 10/27/26 16:21, Kevin Jia wrote:
+> On Mon, Oct 26, 2026 at 03:04:45PM -0700, Guenter Roeck wrote:
+>>> +static const struct of_device_id fs1603_of_match[] = {
+>>> +	{ .compatible = "tdk,fs1603", .data = &fs1603_models[fs1603] },
+>>> +	{ .compatible = "tdk,fs1604", .data = &fs1603_models[fs1604] },
+>>> +	{ .compatible = "tdk,fs1606", .data = &fs1603_models[fs1606] },
+>>> +	{ .compatible = "tdk,fs1606-0600",
+>>> +	  .data = &fs1603_models[fs1606_0600] },
+>>> +	{ .compatible = "tdk,fs1606-2500",
+>>> +	  .data = &fs1603_models[fs1606_2500] },
+>>> +	{ .compatible = "tdk,fs1006-5000",
+>>> +	  .data = &fs1603_models[fs1006] },
+>>> +	{ .compatible = "tdk,fs1006-3300",
+>>> +	  .data = &fs1603_models[fs1006] },
+>>
+>> Why those extra compatibles ? I can see that -0600 and -2500 are
+>> needed, but the others could just use tdk,fs1606.
 > 
-> SPDM puts the requester's nonce in the GET_MEASUREMENTS request, and only when
-> the request asks for a signature. The MEASUREMENTS response always carries the
-> responder's own nonce, and the signature covers the request too. An unsigned
-> request has no nonce and gets an unsigned response.
+> The FS1606 reports in 10 mV steps from a 300 mV base, while the FS1603,
+> FS1604 and FS1006 report in 20 mV steps from a 600 mV base, so they can't
+> use tdk,fs1606. They do encode telemetry the same way as each other, as
+> does the FS1606-2500.
 
-Returning an unsigned collection seems like an interesting use case,
-but why would you want to do that in the first place?
+I referred to "tdk,fs1006-5000" and "tdk,fs1006-3300, both of which reference
+the fs1006 configuration. Sorry for the misunderstanding.
 
-> The empty challenge in my provider means something else though: don't
-> recollect, return the evidence collected earlier. So it's less "omit the
-> nonce" and more "no new collection". Maybe that's better as an explicit flag
-> than an empty challenge?
-
-I'm not sure 'no new collection' is an especially useful thing. Since
-the kernel won't be validating the signature you still need to pass
-the expected nonce from the prior collection back to userspace so it
-can check it.
-
-Is there some specific use case for this?
-
-> >> 6. tdx_attestation_test's discovery_and_construction_fields expects an
-> >>    inheritance chain of 4, but the TDX family inherits ctlv-attestation
-> >>    directly, which gives 3. In a real TDX guest it fails with
-> >>    "Expected 4 (4) == ctlv_chain_len(self->dev) (3)".
-> > 
-> > I would have naively guessed this should inherent from some SPDM family?
 > 
-> The TDX family is the TD's own attestation (TD report, Quote and RTMRs), with
-> no device or SPDM in it. In wip_attestation_all_1 it inherits ctlv-attestation
-> directly, so I think the test's 4 is what's stale. Jiri would know for sure.
+> So for v3, I'd like to move the bindings to a dedicated tdk,fs1603.yaml,
+> where the FS1604, FS1006-3300, FS1006-5000 and FS1606-2500 list
+> tdk,fs1603 as a fallback. The driver would then only match tdk,fs1603,
+> tdk,fs1606 and tdk,fs1606-0600, with three sets of model data. I'd also
+> drop the OCSet check and patch 1/3.
+> 
+> How does that sound? And is there anything else you'd like me to change
+> before I send v3?
+> 
 
-I think TDX report/quote/rtmrs should be a different familiy from TDX device
-assignment SPDM. They are completely different things.
+Sounds good to me. I don't have any further suggestions.
 
-Jason
+Thanks,
+Guenter
+
