@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793110454;
-	b=mfDwnT4wUXtB3xJgaW9lfWR2IgSOwzd2ZG+OYbWFZZiEqMwcV2rGkJJ1kgw2Xq1CutuC
-	 lNGEUJ375xYlcSvYgIq/UTQoNyvn/BU9kSwuT3CJxPExipmb7hmMQVBp5T7aFUClfa2Wz
-	 VyFSfQeAjYUuFvFOSDG0LUsk9IkbvIUoES1e+MJcPydnbqb88fRyeNUZj/cwxe9DSjj5R
-	 leSxNCBk/AkhTN0Xb05g2rsSjIl4puNtU2qrdp0CZVm6ThMO5sXqXAdSXHSJDXQYR7OX5
-	 5sot+R8e/XMfJuO612TAwMcVoRKU58k3s4YlSBFsouMRVzcFuSP8etl9X7VyYvzk1VA==
+	t=1793110492;
+	b=3JALqmyJEnQ3I/4iVluiFsYJ1Jl6UImFMWZSTFMfxBlsdibijHfpq+MDN1BteDtu2ADZ
+	 RgjaNusTe2Mtjm5rVWlxSzldhbKh3DJS4QVvL6tHIFHCrzJwdzP7ihW+kbbLVQNR1ub95
+	 tJvnunaI6B5OhJo7tMdOi153UU88oYFIEZVuh55TBbRYmlfWhcn4NlEet/xyTqhoqfrhf
+	 ++9iTWUGlQahY6Jq0ZISQ1TpTrxIAKlZLedamnHLglWDsr0oMetDuXmPCY6fkhZz8l0UL
+	 fB40F5rVDpURaKbg/B4c1IE59VPw9JzPGi1nBozQ9ggcGHkU7holSmvXMg6Hkeof2ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793110454;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793110492;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ULtd9LbkaeiBjJrJ74ty1dyVfksSuVPpssfCtnxbGQs=;
-	b=drKGBPpFaBqb4Sa1otO5pyGaWQUWU9LtEbSOSpH0/74WJ8Qt8hqDQ+iaGTHtwtZWn7Fb
-	 /YmOaMHGBpfUR78KyodKax5r5Kt6Vpryo/elgAGpROT2ZBe9TgHQVdWefgO0QVEVygsD8
-	 v7l30BuEIT74RdRNiR13tq9/86rd9kYX9bdlrTZwxOqCf6PQlg+WpYcnN92Q09w0I5fLj
-	 wKprFgjN0ZBXzlFkzGXMEeAhzM0iJLOwFRpLDWFTJefL8gg2HAtEtkUw2AtLV6sB+rXIS
-	 w5F0wD0qbOia0QHvzFoDCIKuqM2avF+IvvM6ioeJ5KjOD6H6kXwiQUTS9PV4jHtlzWw==
+	bh=GaS9DIAzMYp6Tb26jgRNliWQoK7YtOPDgti3i8/xKo0=;
+	b=Y/Z4TCux2XvQ+GdnFBj9NuVFugR10pfr7CcWTMsxxIFQ13/+AstZ7Kq0/fZr5ZoNugPA
+	 TGk8F7bwld3er1G3ndZc1lMmNE4/wcrtgKDwXry2IQGJ2CYN1PyO3lk6oFx6LICja8tlt
+	 TL1jTOMozawHY0gV8+2fmmskBv803TfJQX7dnV13zm4Zz+s85KqYA1R61m/6Wbv9m7jrX
+	 uUSvYNy9s1qNOLxggvrzg6U9AXOLfaj17pNgCOtP+qCtJApHYGffnUvQI2pja7Gz0/jbT
+	 J/vtfKG/Qpxeh2tqDlpA0dvpNqz/RtVuYqgqtBUi8RXFEVjpEE6QUiuqinWI5oHisbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nOHXFD9i;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VexdIKwR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467D2606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94504606A31E
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nOHXFD9i
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FFEF1F031E6
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VexdIKwR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526321F01383
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 14:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793110454;
-	bh=ULtd9LbkaeiBjJrJ74ty1dyVfksSuVPpssfCtnxbGQs=;
+	s=k20260515; t=1793110492;
+	bh=GaS9DIAzMYp6Tb26jgRNliWQoK7YtOPDgti3i8/xKo0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nOHXFD9io0Ru2PaYz+V6smtGs0WntNANVygH/FG21ay5l6eXVd/Fv0/Tv/05f5lHN
-	 ro4iu7gr3151Nom7znD+w9DtyJZyWfUd1ugqFnU4sroYLuBrr059kaYzOqg3LHyBNE
-	 Nq5slenfftrhf+jQMKg2z4tHzFnbsIy48BStIJ4xgz9ShxnCKOCF83cSRLUB1U0tDm
-	 g3peUTLWKcVDShNXN+mUP1xR1HMK/LuErofPe2xUAZAdWO0fFLSPuWwNBeF/MoBv5J
-	 AbW/DgyYr644yxz8kE3Ve5Rjs1Wa91W5XlLBIEfFPMWntO1C6QOqcmg7216oQhQAET
-	 L21vjkzNFgP8A==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-4a75a5fa32dso944067fac.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:14:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxjXDI8l6ZTav8xF5Wxey92gkP2WmAFoDCkpyBCBfUcljorhaxiQNUAjeIdDoWbdt6bbzKTx5Q3rTs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIyych6wc6+nnv/vuRMUiaHRTZ+qccybloQ8pEVP7jQ0o4qad0b
-	d21j7/Y4aDfHUUE9K1kXPOUzTO5bDRQG5hTjHnBjpNcZ49DMQc10QYb9WrVvRUFTWUXDLFY4WJ0
-	FS8MSUCA7fw2XYhOC4aG98sCG+46mWrQ=
-X-Received: by 2002:a05:6870:c69e:b0:49d:c8ab:967b with SMTP id
- 586e51a60fabf-4a83f542697mr5910295fac.47.1793110453054; Tue, 27 Oct 2026
- 07:14:13 -0700 (PDT)
+	b=VexdIKwRzOvQEEgvmO8caE4nbf6xorObDq11NXYDvDa2mjeHckRll+Nx4EKxJD8ht
+	 W4KblFOO6y2af+SJ9nHUVFfDbKNeYcztIFgJWMAPsIy9N1QOvtFFKP0BwXuQ+Pz1Oq
+	 PU638njjn8Fyn5tTjko7v2pOLaNRMNrq1KUOtcwLu54gCfmwSIJkMaA3Tt4mtBszUY
+	 jK4rZKNgVSfkDM6vYqEpQDMMbEruHEMg4wX16UMopLSeUCvdYbUshewmZdxFr4vMsQ
+	 k2dDIfevo2EjeDJmoMRMUFEBreWAsQ6h7m2er3IkNb2RpM4W6NQJkmSB+FLbqt353i
+	 k7gwr/P6ceULQ==
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-43bf9548df4so3752233fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:14:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByJbGqWB5CPvOqdu2bfUI7T3szvo0MzBpu4JHDVffj3WW/SrTL1FbUDwk0+luE0wp12nZEq7V48hho=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKzaC9FdqGmAU0idj0ZjqbxdOPWEvYXZqIGydnmwGC9PB0yzxar
+	bu2s+21PxelNWkocaL8EADB+EAQYYm7iuAo7fU4URzulN2Sr4AkSHdkdwa2WPieZj4Wn0oi/w/Z
+	vNOz671NZHm44MaG1w+XuGT6j1i9Rb1w=
+X-Received: by 2002:a05:6870:2189:b0:4a7:5508:c526 with SMTP id
+ 586e51a60fabf-4a83f42f572mr6040267fac.21.1793110491448; Tue, 27 Oct 2026
+ 07:14:51 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,14 +59,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-9-5e3070a3478f@oss.qualcomm.com>
-In-Reply-To: <20261026-drm-panel-funcs-v1-9-5e3070a3478f@oss.qualcomm.com>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-10-5e3070a3478f@oss.qualcomm.com>
+In-Reply-To: <20261026-drm-panel-funcs-v1-10-5e3070a3478f@oss.qualcomm.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 27 Oct 2026 15:13:57 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=2zsU8xOQWURD7HFOiCYwCNwW9ece1=PoVci2qNM8Ykw@mail.gmail.com>
-X-Gm-Features: AclHuK8ruqZCGkf4O-7fY-Pys0rgaueWTZBuD-NGSUOyqWUpd7La4hdhioD434w
-Message-ID: <CAD++jL=2zsU8xOQWURD7HFOiCYwCNwW9ece1=PoVci2qNM8Ykw@mail.gmail.com>
-Subject: Re: [PATCH 09/35] drm/mcde: use drm_panel_bridge_add()
+Date: Tue, 27 Oct 2026 15:14:29 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnmuXaoKDLyCsPzUBYohOxqjVGVndz0047vmhZFgvvo6A@mail.gmail.com>
+X-Gm-Features: AclHuK9bjg1W8yVOv6xb18mY_G1euLOiDqjDsy95KUm0kaVExInNMT0MB46F2ok
+Message-ID: <CAD++jLnmuXaoKDLyCsPzUBYohOxqjVGVndz0047vmhZFgvvo6A@mail.gmail.com>
+Subject: Re: [PATCH 10/35] drm/pl111: use drm_panel_bridge_add()
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Douglas Anderson <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Jessica Zhang <jesszhan0024@gmail.com>, 
@@ -134,8 +134,6 @@ On Mon, Oct 26, 2026 at 12:10=E2=80=AFPM Dmitry Baryshkov
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Thanks for driving this patch series Dmitry!
 
 Yours,
 Linus Walleij
