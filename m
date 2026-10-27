@@ -1,118 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.119.170.32
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.228
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793123477;
-	b=fuOLAtFTE594k7oVbmhMrhQ9LNe7BzVqNK3hbAjRroCsxRouSIfAYWCYkWH+r+1ZI43L
-	 zZioTSZGYjkBjGqEjf60qNN9S5YRX2splKO2Uj1LVNn1ItF9c9EPTAzpcX+rEpRPQ2ccT
-	 m5gr2Jqko7Lhahx9gd7hDQPiICJM7XUaZedhOvfT9lBOvDlj0MgFy+4Qxn3AHu2LZGAYE
-	 LuXNSijufHvBa0d2F3GOVClQglw/7K/hpY9YltRcSQODLoSrrkEHLrkILSQUX2DAHANVy
-	 hrSm8R1UsAPIEVUbY1yKPTfSp9w1HD66EEkFA/+xeaQ6k1l/RQcU3BmIAkLE59fj79g==
+	t=1793123492;
+	b=pfwtkamc6pVvFfP7h2lYdI58ubF3rc7SJSjzyOYVf7dhV+AvB1nMD56iwI672Twd+QLi
+	 WoPVnAHQzArXKwCcs5VOVzG2TnnOfHnk635Yvgh8ONYJFFi5FQ7iNxZ2pxSVpzcf81onT
+	 GY2Ies/oe9REqcnRL4VdtNQRQzW3D+JIVVQTl/xGKuVqaH63yfYBFj+5qhJWbxLyvfvZZ
+	 Xl1hRzoP+VFy/W1Wex0LwTdra7WbfIW+Cz4+Xk8tlVcxYgQeb3NqdRbhfFFyGsUYeIeC5
+	 zvpzTMu+W6sv/RyPAWES1Vl80gdbHltgFQz4MzLRYoDpu7b8wsUvJeAZLGdzce5bDSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793123477;
-	h=DMARC-Filter:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Autocrypt:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version;
-	bh=M0+JEuJ8OIOjO1vhvMj0G5xuGrApLGUATURHEGMW734=;
-	b=xNTm1E9I6q9v3RoSmDignjMrgj7d4ZX8nsMDOtkQjfg5TEK1tK4QNTgiWS8qmFGrw/j1
-	 WHA2CMmTIsRnUG1nACujDHPpH+XkXxYT5wUgKOmGxRPIfw0aiStSauEd3vwAqQzdHOxis
-	 ybHX5Y46DAd/ENiVjr5mwC3OukI3S/TrqAbi+ffjUVfSgrgvqi3/awEQolz1TAOFtdK82
-	 jdqTDhxCN+0MWPzrXsWbB95Q0OXWyZTtW/v31eJmO4Oe5fIYfk4tAQyn+JJ207Ri6T59T
-	 vwVq7iaeywuhHhI12UIzIy0Gu+O19C2BuWnFgKmpd7Yuq3RLGqurfuhc/drJ52cYn6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793123492;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
+	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-DetectorID-Processed;
+	bh=ynPryf8FPydp/yEEGiFFJxiHciJ+nwSgBGs4pEky5R0=;
+	b=KZ1xQW5Vfs4OW4DWmRtOSHZtgdaQRyLjQbsc0dx0D7cr0Jd7SvbV+GHxq1zxbaETJxpH
+	 s6/SxBZcegC2xvrC9nU7G9Fg6iqB8Fy70aiL9SRrxvhwJxpDxXCx2sDB3MiLJPWlm0EtL
+	 ciX6w7xwqE8wLhFF7rraObL/a7YvCTgQBSVUdcHfLV568XNASaCZXcodasZlnSUfs5xqZ
+	 Y4fXoKKeaVfJtT44VmgEYm2p+ZGXtytC7QFVP75ADv4MoFAFADXI73VDvLtdz7+7m7LQG
+	 B9HK+8crwAU9gCwyU62pCWo6gy/2ZyAEvg6KpnH31D6q2s3DMMhWthjqvXB0DwgVaRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=crapouillou.net;
-	spf=pass smtp.mailfrom=crapouillou.net;
-	arc=none smtp.remote-ip=185.119.170.32
-Received: from aposti.net (aposti.net [185.119.170.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=broadcom.com;
+	spf=fail smtp.mailfrom=broadcom.com;
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=KnNsRIn5;
+	arc=none smtp.remote-ip=209.85.214.228
+Received: from mail-pl1-f228.google.com (mail-pl1-f228.google.com [209.85.214.228])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27361606A31A;
-	Tue, 27 Oct 2026 17:51:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27361606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-Message-ID: <763093e9d22390a36a53fa3f392b49c7b84d09ab.camel@crapouillou.net>
-Subject: Re: [PATCH 05/35] drm/ingenic: use devm_drm_panel_bridge_add()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Douglas Anderson	
- <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jyri Sarha <jyri.sarha@iki.fi>, Tomi
- Valkeinen	 <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>,  Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman	
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli
-	 <luca.ceresoli@bootlin.com>, Marek Vasut <marex@denx.de>, Stefan Agner	
- <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, Sascha Hauer	
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
- <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham	
- <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven	
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das	
- <biju.das.jz@bp.renesas.com>, Linus Walleij <linusw@kernel.org>, Sandy
- Huang	 <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?=
- <heiko@sntech.de>,  Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Inki Dae	 <inki.dae@samsung.com>, Seung-Woo Kim
- <sw0312.kim@samsung.com>, Kyungmin Park	 <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin
- <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, Alison
- Wang	 <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, Yannick
- Fertre	 <yannick.fertre@foss.st.com>, Raphael Gallais-Pou	
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai	
- <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, Thierry Reding	
- <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>,  Javier Martinez
- Canillas	 <javierm@redhat.com>, Igor Reznichenko <igor@reznichenko.net>,
- Michael Walle	 <mwalle@kernel.org>, Dario Binacchi
- <dario.binacchi@amarulasolutions.com>,  Jagan Teki <jagan@edgeble.ai>,
- Jianhua Lu <lujianhua000@gmail.com>, Guido =?ISO-8859-1?Q?G=FCnther?=	
- <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>, Jerry Han	
- <hanxu5@huaqin.corp-partner.google.com>, Joel Selvaraj <jo@jsfamily.in>, 
- Icenowy Zheng <icenowy@aosc.io>, Michael Trimarchi
- <michael@amarulasolutions.com>, Sumit Semwal	 <sumit.semwal@linaro.org>,
- Casey Connolly <casey.connolly@linaro.org>,  Michael Tretter
- <m.tretter@pengutronix.de>, Cristian Cozzolino
- <cristian_ci@protonmail.com>, Junjie Cao	 <junjie.cao@linux.dev>, Ryan Brue
- <ryanbrue.dev@gmail.com>, Nickolay Goppen	 <setotau@mainlining.org>, Stefan
- Mavrodiev <stefan@olimex.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, Robert Chiras
- <robert.chiras@nxp.com>,  Alexander Koskovich	 <akoskovich@pm.me>, Markuss
- Broks <markuss.broks@gmail.com>, Artur Weber	 <aweber.kernel@gmail.com>,
- David Heidelberg <david@ixit.cz>, Dzmitry Sankouski	
- <dsankouski@gmail.com>, Yedaya Katsman <yedaya.ka@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, 	linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, 	linux-rpi-kernel@lists.infradead.org
-Date: Tue, 27 Oct 2026 18:50:55 +0100
-In-Reply-To: <20261026-drm-panel-funcs-v1-5-5e3070a3478f@oss.qualcomm.com>
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
-	 <20261026-drm-panel-funcs-v1-5-5e3070a3478f@oss.qualcomm.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A73E606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 17:51:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A73E606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=KnNsRIn5
+Received: by mail-pl1-f228.google.com with SMTP id d9443c01a7336-2ea138a3497so261035ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 10:51:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793123491; x=1793728291;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ynPryf8FPydp/yEEGiFFJxiHciJ+nwSgBGs4pEky5R0=;
+        b=RmMr3sBR63j54QR0N2fWvDWnvIXo32vPAY/92BLyJThEvnXE77HsdWa80apDoWXVUQ
+         LeBfHleAvDryltP2lFu4VTELjxhdMzpDzbuA9m1pcv34LF2Fk4dHUBPZ84gzALceP2eF
+         f0SofUdR5SXa87WIxVJD6dkacwCNFt4f0ZQ1nRiWeqRsIlJ2plfOUTy/4dxfgIGi+ERt
+         i/3Q/7v6O624JUzc8Pi/kUWry56rvFGhLaUyKCkjMR5VYZEADm7Ii/WUh8pFPw6qCHEB
+         SNVHiWOqE7YwOpItXhVnoDfkddJfjh1CcyYQmcUxTXclPUr8p5uP3kiRYdUbYbjOPzat
+         zxgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzHw2lgPil0x8mETunWPuwrggkGCaax+x8svX2a1SVtwBhKjiSIp+0WR43fHeZNX9nV2y20erWnoDw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI+f1YkP9bbkD8NsvWPDH21+IszEn/1hvnoUw2wzCoqiYIfg1Mo
+	H0xjAHUIGhwwiI1KmLGrfStDIcGqX7v6ioOT70vnwoHWUZpQ7gKE/d36Smk5dnPLeNnYClF0lWb
+	N8ONIJuD+1QunNEq8XAuYH+MttAJLclz40iX69jxvLmqdWvxwUu99TjtAnvv6wNLyj+smNNa8Rj
+	8c2amWbXUc5cyfSBoeraJnRXyzbKQMpBB1gdbRc+mkA0EzKSELJRFBf+CScMJUvv0Dwo9IXpd/F
+	JaufhvTd3uWiO1sLxIWLE8=
+X-Gm-Gg: AYBFou0If1mG2d5sE+BiWFXyZydrer4fyeFo1pA1vn7lzdbrH0WOEoR7MQ3m1kQzbeC
+	TeHIgUNrSnVh6HRhgqyjuFlEc6V9IAZoEVX954u/9KaUriU/IkKC1vGEdvE8BZjrdD5Qfq7VO1g
+	20JC+1q3PmOKpehZdpKuxK2cze1UBczpw4QifQjGZkRgF0GZdhQiHW1UMRVbILuzGTk23p4dsRK
+	cssRvsdNOCWEaNrhwTDu9qFBaczTZOVfxIRPaaA9ROYnt/bkisyb8uOKu9eVXG5VgcO01xXm3ub
+	kJ1TbRPRNBDdqdbPmOEKsJ82LpbRUYfTxTJunVfbokGjF6oVKuj0tlWRonfUss/7UvZ7+cbEb19
+	x8Sxks4nUsi9W1nKDa2Xyh/XeWcD/kZOoET0KCvLtWuDmHwHREEzOc7GyKJ2x3SVYnSSpzapysC
+	T5FOjPvxNG3O3TO1YUI2JTaVmNll1dj6R1fCR55WVu/Qk=
+X-Received: by 2002:a17:90b:2cce:b0:3aa:548f:eb77 with SMTP id 98e67ed59e1d1-3adeaf95bd5mr9044107a91.56.1793123491384;
+        Tue, 27 Oct 2026 10:51:31 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-120.dlp.protect.broadcom.com. [144.49.247.120])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3ae405f198bsm2728769a91.3.2026.10.27.10.51.30
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 27 Oct 2026 10:51:31 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5338ff2cf14so4120841cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 10:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1793123490; x=1793728290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ynPryf8FPydp/yEEGiFFJxiHciJ+nwSgBGs4pEky5R0=;
+        b=KnNsRIn5rPXbYlRZ3D8CkIIIZ3cjZ2XNagJss9nCusmcYzYdSEeFZr4iGUEKO1j6Qa
+         VYT0q6RqN4/Qi9WDHp8awscMrllkxaVsdLomH+XO7J7FpvuOB+m+Bit093azr9MDVum0
+         q0643wT0D3JWUDFN60poZNns3i8L0mQmhUMiQ=
+X-Forwarded-Encrypted: i=1; AKwUvByo9BjdMaRWpcXhwMh7rQ/lRRITi7iZLtnfhH/wCZeI2mdL7oNOubHicu+peuJkK/sjDdk1RiP/irY=@vger.kernel.org
+X-Received: by 2002:a05:622a:5b09:b0:536:539a:af8d with SMTP id d75a77b69052e-53fc5cbfb48mr1179831cf.0.1793123490163;
+        Tue, 27 Oct 2026 10:51:30 -0700 (PDT)
+X-Received: by 2002:a05:622a:5b09:b0:536:539a:af8d with SMTP id d75a77b69052e-53fc5cbfb48mr1179381cf.0.1793123489573;
+        Tue, 27 Oct 2026 10:51:29 -0700 (PDT)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5383970ab61sm83164511cf.17.2026.10.27.10.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 10:51:28 -0700 (PDT)
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+To: linux-kernel@vger.kernel.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Besar Wicaksono <bwicaksono@nvidia.com>,
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:BROADCOM BCM5301X ARM ARCHITECTURE),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-perf-users@vger.kernel.org (open list:ARM PMU PROFILING AND DEBUGGING),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS)
+Subject: [PATCH v2 0/3] Support for BCM5301X AXI trace PMUs
+Date: Tue, 27 Oct 2026 10:51:21 -0700
+Message-ID: <20261027175124.3518239-1-florian.fainelli@broadcom.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,45 +124,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Hi Dmitry,
+This patch series adds support for the BCM5301x PMUs which are AXI trace
+engines present in the chip.
 
-Le lundi 26 octobre 2026 =C3=A0 13:09 +0200, Dmitry Baryshkov a =C3=A9crit=
-=C2=A0:
-> The connector type passed to devm_drm_panel_bridge_add_typed() has
-> been
-> ignored since commit b7797081ccfe ("drm/panel: embed a drm_bridge
-> into
-> every drm_panel"), the bridge always has the type of the panel.
->=20
-> Assisted-by: LLM
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Changes in v2:
 
-Acked-by: Paul Cercueil <paul@crapouillou.net>
+- addressed Sashiko's review by adding the appropriate title length and
+  group validation
 
-Cheers,
--Paul
+Florian Fainelli (3):
+  dt-bindings: perf: Describe the Broadcom BCM5301X AXI PMU
+  perf: Add Broadcom BCM5301X AXI Trace Module counters
+  ARM: dts: BCM5301X: Enable AXI PMUs
 
-> ---
-> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 +--
-> =C2=A01 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 625ec76cf04d..cafadcd2b765 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -1298,8 +1298,7 @@ static int ingenic_drm_bind(struct device *dev,
-> bool has_components)
-> =C2=A0		}
-> =C2=A0
-> =C2=A0		if (panel) {
-> -			bridge =3D
-> devm_drm_panel_bridge_add_typed(dev, panel,
-> -							=09
-> DRM_MODE_CONNECTOR_DPI);
-> +			bridge =3D devm_drm_panel_bridge_add(dev,
-> panel);
-> =C2=A0			drm_panel_put(panel);
-> =C2=A0		}
-> =C2=A0
+ .../admin-guide/perf/bcm5301x-axi-pmu.rst     |  92 ++++
+ Documentation/admin-guide/perf/index.rst      |   1 +
+ .../bindings/perf/brcm,bcm5301x-axi-pmu.yaml  |  43 ++
+ MAINTAINERS                                   |   3 +
+ arch/arm/boot/dts/broadcom/bcm5301x.dtsi      |  15 +
+ drivers/perf/Kconfig                          |  12 +
+ drivers/perf/Makefile                         |   1 +
+ drivers/perf/bcm5301x_axi_pmu.c               | 452 ++++++++++++++++++
+ 8 files changed, 619 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/bcm5301x-axi-pmu.rst
+ create mode 100644 Documentation/devicetree/bindings/perf/brcm,bcm5301x-axi-pmu.yaml
+ create mode 100644 drivers/perf/bcm5301x_axi_pmu.c
+
+-- 
+2.53.0
+
