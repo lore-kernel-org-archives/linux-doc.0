@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793116024;
-	b=jjunuLvY6+CfWHV/8ylBXpcMENTwrXU6n97mbeMuPd2bn+97SwUFDOaag0jYzRm+tdwr
-	 cjIF9nrXTGPt9S1DoaVQzi3aHOrEmo1sF4SnMrrjvfl+Iq28oLbrU4SoAFprmByBvvl6N
-	 I/uHweRjcOEqzJu0ikCj3TXD7k7RZF4sa4/zVC6aD9sSFwSWCNWA4kmwOJf3tpiYLLcWl
-	 AjkyKceTta8YF6FKhH1fYkSVSHMN76D4qMDyC6RxqXBWpLULP+l26N/RUheTltpmcxO1A
-	 un8uPwCurL14mss6K413A6pRUvnceIbceg+ALbJzUtdn+1E0ez3MbJls+pag1rmE1Dg==
+	t=1793116029;
+	b=2/4xsaJbJaz51TX5OM/HWxnrppLwXT73Zv06KZkFFiP+T9L9Fl5uA7dHnMIxFK1Bcb14
+	 HqkHyIRjrcxHHdNYOuf29429NZb2usYEOlnUL82jUZMVskUH0T+xeYbpgc0rctr9vi1HU
+	 a0QL5602AY5BuEeVJvkAcbBMHgetYJkl7xrNJfD13ZccruUg5azgFUY7Bj9OcSxmQvi3z
+	 gu41JXkj5y2jnQDqlC4PenPHBRuFZQKYLsEyxZWa74Qje70TgpIPvHUMnULxV2oLv2DWE
+	 KA36Od95jSnpxgDAfYtFk1wtf42EGOAylvyZWQ1W9Xkbt1jP0LtEJ1avhlAIhg4MnlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793116024;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793116029;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=c+t2RCt7p+zsicFUGs0SiXsBnjjHZ+TU2eQo8OoRVfQ=;
-	b=Ij0TqtzNVYMMb7mgEG/GFuZuWnBFOkzVAvODIJ4d9Gg3aNZ+MES3tdiAZa1BWyTw4qDI
-	 dJo4FZlWX/HTdiLEOxm08VmxXr80TbT3pSrBY4RpeJTm9kVmpL7YD+etgiFW4LIyAP9t8
-	 HnBSr4HiRL5nbvXN6dY2zOB0RzQX8u+oQC9yhWwdGPiz08sRCrQTUuUHmNtGEGyIe28GA
-	 R0qraiDi3WV9WHPI5SbuDhLY6umMJCuW/+F+zkk2M3Ce761BxQVBOuGahYiRYR7xF9jpI
-	 20n2xhpoUZMI5Dd5ZCFNlfSeafjOvYICE3R2S4t012YVIwcL2J3Vwe8dzPtvJynPMUg==
+	bh=I9tKrbL54EVqcIFPPtB7uxrxNAXJtibM80HAzpUcWLM=;
+	b=SEKBvf0IMoOn69ASkWM653d5tETZhxV9pwIAX3XFDcPqJ5gUO9QO3gsRlh7Uyw7jXVdK
+	 Hi8eEhFJ8hKrVJs/dsh1GQL8KOPqN92j3NZ2S+94AZGj3XeSl94s2UpZqRsMGgBxpDyy5
+	 scvFj3Ah05a5ez4T86BFKP61YSUQc5yo+na/GzGS3A6IQyjdUf5ykjqr2hGgDHo+3Pc/d
+	 4Kx3cFqm/uDRLxef4v6YvMRCMKBxYGAAz8V9IQVLul1A8rZnrRbsAgsY6/44NODMCq+p8
+	 e9TzW91Owttmp80ouqvs21AJN+eXqmlMs0rSNrIE1OeYTs/+gN1rAjDcGz34fXbsxlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kYgbAXpo;
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yRmVMWZO;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17BA606AB4B
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:47:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E17BA606AB4B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFC9606B83F
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:47:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BFC9606B83F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kYgbAXpo
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48c5358fc28so3887424f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:47:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yRmVMWZO
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso776894f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793116022; x=1793720822; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793116027; x=1793720827; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=c+t2RCt7p+zsicFUGs0SiXsBnjjHZ+TU2eQo8OoRVfQ=;
-        b=kYgbAXpozbCUdGlBS7i82c+HK8MQPHZLP6JTZwYIufdiodAlugvi+KaM8RIqPD2Sig
-         R596RyoB8hOV1ttoXUMF6NhtygxqOn73iCeQM06LQSR0RBbsWmQPpSoxWdeuJ9vlxkGZ
-         M7DHCeMXwNtebzXa2LsBwTU9y/3WCEu45ucigVcSwIjSXbQ064ClRw/arY3H5eECzHU2
-         VJ7K/msDM71SNeqzjXofQeXV1Csvz8zpPoj7D49oii1p7ggUYjXsBFQUNllFRtAEPiDr
-         E+8gtTFLGCBodk7j0bWSpqLCL34CwW6iGhS8jvu6lryOKJUKTxdlevPp5eIRazHVG1hc
-         jkvg==
+        bh=I9tKrbL54EVqcIFPPtB7uxrxNAXJtibM80HAzpUcWLM=;
+        b=yRmVMWZOSgYOouFJ3XXj5aw0KaSgckQYEvRlJmiAj5iMaleGe121rSWoqxNhtg5N14
+         hX5jZ8iCw6nxxKWsfk/jfcRNcK4D5RPZtrs/ZHpXMxQdJwUxLv/D02GyG9ly0itjET0l
+         QYJWU9CIDnW5SAScmWpFXXCYGxlIWaup/cyg16ZIu7O9e5Jaz34+seo9RmRvx9F/GpWp
+         7s0vaOvPuzftBCOXtxey5t+MSQh2D/edaVW4fxD59EZn55DdlWfybRHvnQ7jdJCtNXnA
+         aMKrIfeza+LyTAm3fNuJlj9oeBD8wLhxs5ehug6UvNlcUaWev8fOiNZ+aFqThE2FqT+j
+         rlEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793116022; x=1793720822;
+        d=1e100.net; s=20260707; t=1793116027; x=1793720827;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c+t2RCt7p+zsicFUGs0SiXsBnjjHZ+TU2eQo8OoRVfQ=;
-        b=jZ2Q2bwnmliCN0X126PYj5DgGjaHn2oL1KRH4j3+q3mPUGancDyQiKPU9TV3B7PhNU
-         qybGvj/WV5otqSIh9ZZR5Xm67Yrbk80+VALF3avOUAFD6OENARDYdHzoUpzve4unF4I/
-         k/td41KkIB89P5wyt7elhzoaFBvlmhydNKFRiKEGCIuq+J+zumZd/FDB6EIVAL0wNAT2
-         Bg/GWDxKz55P52cL7DXoRZ1hGoHpzoOiFe1NzeUReZAOPoX7psmXS124aINWfgASS0c0
-         7/Upif1Z5lTE4OrjNi9KoiQflYEQWSlKeFBfUAf6+AL5MMgc4L3qDjVlH41SEKcZukQr
-         yjpg==
-X-Forwarded-Encrypted: i=1; AKwUvBxWYNbnE3Cz22NVfLupewLeFrnbUQgoEmwc1v49SEMwZOOuAHuKLQAgaR+r9mVdF1uVvDAK62GEVgI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLQ4JhYHkbcu1dLpg4YPD5hHUBFjd0TYb0+7Ja5uOqexaAlifC+
-	xi67I9NfIO5KulwG43LIfw2tlu8zcOk94xExq6b8z1iCVhk9e2wuMATj
-X-Gm-Gg: AYBFou3heFaKp0j3Bj1Sob5ikwolM1xaTz8kq6II8FJjq17dzQT9qvlJOkj6MlX6V1F
-	HyMdiODNelIAjmPNylAqeB5y24bdYmMY06TGzTQ/2WyST9WF5JuqhNnwJsXISCPBl69ukimY4UP
-	6TlIIKCckmfhpPiwJOSxz20j77LLkEEspMoATrx1/vYtk171cNKysc/CQc4GiuAWufjQI01VjmK
-	FAHS2vRQ3+3zcW84IzQCVpbV0Bj+sOYv3PwAFAN6p2ZQ8aQY3UfK955RLnb26RHz20KU5bXMYfK
-	w22BxvI/jnCjcA6JVX71PqUqZpy6Av5xyT3NGlVKyD+65aIgIHpubfPexZK3C3oT2S/bONk804X
-	E+rN/FN7QEN6/vx5ohGpQ+iqrC8QjSH5DiBkOzQXK/S0/fHqjUXnIo/DcqZHdQM3OIkeuwT8y4k
-	z7o3vC9m1FH5yb4JraPlf5TlzLJv6ciK2UUraBihxI3pL9A0RNtZWYXK853nJT7SzRfOKn4Miq7
-	zLdVuNbIPyzzlTLB3jbLArOT09hpqJm72uPgxSkc8pIuh+n7CQAQxplUcfM98sZU3rEuUeNZliZ
-	RP6Ef9DRl7ZFB10gswR4XzNcAS8JFrLaSRH0y5G3IsPP1s5SEJax5xzGb+NlHz+wXkQtTHFZ1up
-	8dcYkx4RpaqutSPwX1C7f69+CUDwZrGEY3aexnw==
-X-Received: by 2002:a05:6000:469c:b0:488:5d44:6680 with SMTP id ffacd0b85a97d-48e3eb9161fmr12046915f8f.36.1793116022012;
-        Tue, 27 Oct 2026 08:47:02 -0700 (PDT)
+        bh=I9tKrbL54EVqcIFPPtB7uxrxNAXJtibM80HAzpUcWLM=;
+        b=fOwNr5YVIybbcdeVjiwSQoBhucEZ+FLQkAXVZD4tCX9rMHs6GyMJfeMpc29CopseC5
+         TJcYhre1QSMZodXFkxGxYN19sR8WKjBwOO/g/KWQGP48dfE3kfe1zhO4TQoHHPby7Nod
+         pOv46lBsSl7SYSiP1UatOa9G6zwl2iryNYzzuXAXoUVVU48GLc4XK5+R1oJay4LBp7UP
+         lxiEhv1UrsoCnCCZJe6i9Kul7M1op7AUGarT5RW09R2DxgZteeIHEreKt6kpIhjpGAsM
+         +/sFIJW3ucEwu3Vz5VYjlH5ofkwH+70ZeQetFagvJRYSh+/ne21pFIGZG0kNVjkzbL2D
+         wQ7A==
+X-Forwarded-Encrypted: i=1; AKwUvBwsXXk8nQorvZYk+J7Ts0sGCSHO+j9rCVP52+jQups8yORe7T/NMZMV+pz9cT6L4lrfIAw8sVsQOnA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJiVr99y2FJjkSbwL5af1+9YNMLXEJP1aTQpi5h9/E20gF7ElsA
+	+T+YYVflI5+AEuy++LZR94G8/s+JPBfc7tL4rnXWqxLLV5n50zG0TN7Z
+X-Gm-Gg: AYBFou3tN84UdXKwWpp6Gv5LrZbqob54sEw66/YKWeW/TCHBEZ9IK0a3t8Xo4PsgI6M
+	VvCONLRwJl20eMFPJtr/GHxSf4yLiAtaFuclDxo+rtLeWO30N+RhlL8kFxwCCHpsKrAb/Z3+jfn
+	M9MMf1BioDZVAycX1DBg+2NPQGIl3YOp+heyLCp0NaTNPjC01rcCsH8zvJCIwO8IP8n8+uR3HQD
+	RmKoGuCAcNwmMFdusypfgJzdbC5qG4DHBWQsivgZ8BBDNIwBnNwABOGc3BCAe6wl/+ZZUe6B5tW
+	ejhpBAddqbew246AHL0r7Jc+YqzdEpIpsjimAVG+kvurUm4w9sCQlVJbxjNbCdT5XkGUpCiOp1x
+	Eyf9PPfXp8clEzFBIgxO8NMSpXGmxxJRCLX01xCMQJ3I9jKnI6KkK6wkc9kQSzH3xN4AsSIaPhg
+	oYB4g7ZxE35oqbUKpKCuqk+6KAJT8rMO6tSOegz1Y9RrGVtQeyCO1CDOrVxZ02bMk/g99YIugZc
+	peOg8G02/nvHQqLL2gk9qpRnLNaRaDQaAw00LUMURS9jksPTQ19tumhBslA99BbXLv135jltwGf
+	sdUZJ7DWjZI8LZY1esO8gg9HQVqOcobQtV0ywwJchrLOxHAnHcIMkBiqYtrU8eAUpQ4LhAjy9QW
+	2UsTDChg4dV0X8LXHvwf8PLqRGSZd2HE7JskFYw==
+X-Received: by 2002:adf:ebcd:0:b0:48e:4ad2:32e0 with SMTP id ffacd0b85a97d-48e55a5a8bemr4605062f8f.29.1793116027147;
+        Tue, 27 Oct 2026 08:47:07 -0700 (PDT)
 Received: from dev-dsk-fgriffo-1c-93421965.eu-west-1.amazon.com (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.46.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb958sm23845574f8f.21.2026.10.27.08.47.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Oct 2026 08:47:01 -0700 (PDT)
+        Tue, 27 Oct 2026 08:47:06 -0700 (PDT)
 From: Fred Griffoul <griffoul@gmail.com>
 To: Ackerley Tng <ackerleytng@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -157,9 +157,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	linux-mm@kvack.org,
 	llvm@lists.linux.dev,
 	iommu@lists.linux.dev
-Subject: [RFC PATCH 04/14] KVM: guest_memfd: Keep truncated folios until the exports are updated
-Date: Tue, 27 Oct 2026 15:46:39 +0000
-Message-ID: <20261027154649.91571-5-griffoul@gmail.com>
+Subject: [RFC PATCH 06/14] KVM: guest_memfd: Report the size of holes in export lookups
+Date: Tue, 27 Oct 2026 15:46:41 +0000
+Message-ID: <20261027154649.91571-7-griffoul@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261027154649.91571-1-griffoul@gmail.com>
 References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
@@ -177,122 +177,100 @@ Content-Transfer-Encoding: 8bit
 
 From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-A punch hole frees the folios it truncates at once, but an export may
-still map them, since it holds no reference: a device would then write
-into freed memory.
+A lookup reports a hole as a single page, so a consumer walks a large
+private or unbacked range one page at a time, and cannot map a large
+hole with one entry, e.g. to a scratch page.
 
-Truncate a folio mode range batch by batch, holding a reference on each
-folio until the exports are updated, so that a folio goes back to the
-allocator only once no device maps it.
+Report the largest aligned hole around the page, up to the order the
+caller asks for. The search checks one half-block at a time, so it
+costs about one lookup per page of the hole it finds.
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- include/linux/guest_memfd.h | 28 ++++++++++++++--------------
- virt/kvm/guest_memfd.c      | 30 ++++++++++++++++++++++++++++--
- 2 files changed, 42 insertions(+), 16 deletions(-)
+ virt/kvm/guest_memfd.c | 48 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/guest_memfd.h b/include/linux/guest_memfd.h
-index fdf7f8404d6c..ba3eebb1ed1a 100644
---- a/include/linux/guest_memfd.h
-+++ b/include/linux/guest_memfd.h
-@@ -89,14 +89,14 @@ static inline int kvm_gmem_revoke(struct inode *inode, pgoff_t start, size_t nr_
-  * A subsystem that maps guest_memfd pages, such as iommufd, can neither pin
-  * nor fault them.  It attaches to the file, looks up the frame behind each
-  * shared page without taking a reference, and guest_memfd calls its update()
-- * whenever what a lookup returns for a range may have changed: conversions and
-- * memory failure.  update() makes the consumer's mappings of the range match
-- * what a lookup returns now: a frame, or a hole for a private page or a page
-- * without a frame.  It may be called for pages that did not change, and for
-- * ranges that do not follow the blocks that lookups report: the consumer may
-- * then remap whole blocks, also outside the range, e.g. to merge them into
-- * larger mappings.  A consumer that can fault may instead only remove its
-- * mappings of the range.
-+ * whenever what a lookup returns for a range may have changed: conversions,
-+ * punch holes and memory failure.  update() makes the consumer's mappings of
-+ * the range match what a lookup returns now: a frame, or a hole for a private
-+ * page or a page without a frame.  It may be called for pages that did not
-+ * change, and for ranges that do not follow the blocks that lookups report:
-+ * the consumer may then remap whole blocks, also outside the range, e.g. to
-+ * merge them into larger mappings.  A consumer that can fault may instead only
-+ * remove its mappings of the range.
-  *
-  * Until update() returns, the frames it replaces stay valid, so a consumer
-  * may switch each mapping to its new target in one step; once it returns,
-@@ -104,12 +104,12 @@ static inline int kvm_gmem_revoke(struct inode *inode, pgoff_t start, size_t nr_
-  * that needs memory to apply one, e.g. to split a large mapping, reserves it
-  * beforehand.
-  *
-- * guest_memfd calls update() with its invalidate lock held, exclusive when
-- * pages convert and shared on memory failure, possibly with a folio of the
-- * file locked; so update() may only call kvm_gmem_export_lookup_pfn().  Under
-- * the shared lock, updates may run at the same time, also for overlapping
-- * ranges.  The consumer holds a lock across a lookup and the mapping it
-- * installs, which update() also takes.  Lock order:
-+ * guest_memfd calls update() with its invalidate lock held, exclusive when it
-+ * takes frames away or pages convert and shared on memory failure, possibly
-+ * with a folio of the file locked; so update() may only call
-+ * kvm_gmem_export_lookup_pfn().  Under the shared lock, updates may run at the
-+ * same time, also for overlapping ranges.  The consumer holds a lock across a
-+ * lookup and the mapping it installs, which update() also takes.  Lock order:
-  *
-  *   guest_memfd invalidate lock
-  *     consumer lock
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 81031483a1f1..65a951fa49c2 100644
+index 015f6657c386..1c5826c5384e 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -424,7 +424,7 @@ static void kvm_gmem_invalidate_end(struct inode *inode, pgoff_t start,
- 
- /*
-  * What a lookup returns for [start, end) may have changed: exclusive lock when
-- * pages converted, shared on memory failure.
-+ * frames were taken away or pages converted, at least shared on memory failure.
-  */
- static void kvm_gmem_update_exports(struct inode *inode, pgoff_t start,
- 				    pgoff_t end)
-@@ -437,6 +437,32 @@ static void kvm_gmem_update_exports(struct inode *inode, pgoff_t start,
- 		e->ops->update(e, start, end - start);
+@@ -1417,6 +1417,48 @@ static int __kvm_gmem_export_lookup(struct inode *inode, pgoff_t index,
+ 	return 0;
  }
  
-+/*
-+ * Truncate [start, end) of a folio mode file.  The exports map the folios
-+ * without references, so hold the folios until the exports are updated.
-+ */
-+static void kvm_gmem_truncate(struct inode *inode, pgoff_t start, pgoff_t end)
++/* Does no page of [start, start + nr) have a frame to map? */
++static bool kvm_gmem_export_is_hole(struct inode *inode, pgoff_t start,
++				    pgoff_t nr)
 +{
-+	struct folio_batch fbatch;
-+	pgoff_t next = start;
-+	unsigned int i;
++	unsigned long pfn;
++	pgoff_t index;
++	u32 attrs;
++	int order;
 +
-+	folio_batch_init(&fbatch);
-+	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
-+		pgoff_t first = max(fbatch.folios[0]->index, start);
-+		pgoff_t last = min(next, end);
-+
-+		truncate_inode_pages_range(inode->i_mapping,
-+					   (loff_t)first << PAGE_SHIFT,
-+					   ((loff_t)last << PAGE_SHIFT) - 1);
-+		kvm_gmem_update_exports(inode, first, last);
-+		for (i = 0; i < folio_batch_count(&fbatch); i++)
-+			folio_put(fbatch.folios[i]);
-+		folio_batch_reinit(&fbatch);
++	for (index = start; index < start + nr; index++) {
++		order = 0;
++		if (__kvm_gmem_export_lookup(inode, index, &pfn, &order,
++					     &attrs) != -ENOENT)
++			return false;
 +		cond_resched();
 +	}
++	return true;
 +}
 +
- #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_RECLAIM
- static void kvm_gmem_pfn_reclaim(struct gmem_inode *gi, pgoff_t start, pgoff_t end)
++/*
++ * The order, up to @max_order, of the largest naturally aligned block around
++ * @index that lies inside the file and has no frame to map.  Each step checks
++ * only the half of the larger block that does not hold @index.
++ */
++static int kvm_gmem_export_hole_order(struct inode *inode, pgoff_t index,
++				      int max_order)
++{
++	pgoff_t npages = i_size_read(inode) >> PAGE_SHIFT;
++	int order;
++
++	for (order = 0; order < max_order; order++) {
++		pgoff_t n = 1UL << order;
++		pgoff_t first = round_down(index, 2 * n);
++
++		if (first + 2 * n > npages ||
++		    !kvm_gmem_export_is_hole(inode, index & n ? first : first + n,
++					     n))
++			break;
++	}
++	return order;
++}
++
+ /**
+  * kvm_gmem_export_lookup_pfn - The frame behind a shared page.
+  * @e:         The export.
+@@ -1424,7 +1466,8 @@ static int __kvm_gmem_export_lookup(struct inode *inode, pgoff_t index,
+  * @pfn:       The frame.
+  * @max_order: In: the largest order the caller can map.  Out: the order of
+  *             the naturally aligned block around @index that is contiguous,
+- *             shared and of the same @attrs; 0 for -ENOENT.
++ *             shared and of the same @attrs or, for -ENOENT, that has no
++ *             frame to map at all.
+  * @attrs:     The GUEST_MEMFD_PFN_* attributes of the block.
+  *
+  * Takes no reference and allocates nothing, and may be called from the
+@@ -1438,6 +1481,7 @@ int kvm_gmem_export_lookup_pfn(struct guest_memfd_export *e, pgoff_t index,
+ 			       unsigned long *pfn, int *max_order, u32 *attrs)
  {
-@@ -499,7 +525,7 @@ static int __kvm_gmem_revoke(struct inode *inode, pgoff_t start,
- 		if (put_pfn_range)
- 			gmem_provider_put_pfn_range(GMEM_I(inode), start, nr_pages);
- 	} else {
--		truncate_inode_pages_range(inode->i_mapping, offset, offset + len - 1);
-+		kvm_gmem_truncate(inode, start, end);
- 	}
+ 	struct inode *inode = file_inode(e->file);
++	int order = *max_order;
+ 	int r;
  
- 	kvm_gmem_invalidate_end(inode, start, end);
+ 	if (index >= i_size_read(inode) >> PAGE_SHIFT)
+@@ -1445,7 +1489,7 @@ int kvm_gmem_export_lookup_pfn(struct guest_memfd_export *e, pgoff_t index,
+ 
+ 	r = __kvm_gmem_export_lookup(inode, index, pfn, max_order, attrs);
+ 	if (r == -ENOENT)
+-		*max_order = 0;
++		*max_order = kvm_gmem_export_hole_order(inode, index, order);
+ 	return r;
+ }
+ EXPORT_SYMBOL_GPL(kvm_gmem_export_lookup_pfn);
 -- 
 2.47.3
 
