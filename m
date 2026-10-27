@@ -1,141 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793123985;
-	b=CVYo0/7+B1zonEMzPkutmPKuY1hi0zA0/m3nEwzvpGnuMweePFqSfh89nQYNn6wT5cw3
-	 4lg+PBMk+UzWOuX1hUZ9Kfk43W9wnPmHf6KkT69FIhz2w7UesVv11L1pfxxHkEimjw9J/
-	 aki3n3DM8s7gZg6XOoE3n5E/E51EsYk7AMOJcq8TCiqLPEZC2Pfm0sIZXgC5gtDsjYB8X
-	 qjsQFuAnBbklhfKur77s9hsGAMDdEjNM3s35eUdmBpQhE0+Sr6ZkruV/U7FrzXcJKytI1
-	 Kv4ZaUkauoqRMaSyE2eqexYqmhBPafnVcyRkTMXhsKB0EHFVkyS1taGkpQmNyOvcEGQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793123985;
-	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=zNuaeVQHNQqFUJa+PqI7b/TO/F47lbspMzWZbs2KJoM=;
-	b=oazxnNoDNC1pI14MMId2onHwZE7YSHi1vv5O4uKuwsHVkbQKMr+3ynHigX/8jENql0se
-	 eVIXItak+jozr6ktRH77neRjZVLOSSwS48jEd73/WnnpbcsKni+3Cs4J+z7ZO+vWduMfm
-	 EZqmz/HJqPJhwX+6WS4+Vlfc/YVQFb4DVTyohYoW5IAO3YWTXxYmu3qdsjdxhh8j24moF
-	 HuvxqrTGB8qLIJx53vzv0R2t8fusEwtpaQuvgIxZ4rtflG3vG0JVX8vA7HrzUAGdnRI+V
-	 pQ9aOeNajMM2iPhcLbg7bGD8ikc5r06nsYyRKewETI+hkge6x4p6BPxujuQu+IYf45w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ax7OJx6p;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793124404;
+	b=0cWYxP4sw0oaeJ0n27dL8yNw4/veTWYEvgvLkhnn2BVT/qy8JGo7Cmv/hFcWFHkXt6jh
+	 b68t05p690UMtUqyo+4f0dbYlXQWl+CZyC/dx02kYfNx2SubTfJzThb3DY3dJIHtrvykM
+	 MieMOn2mkD1wkimw/mEwVBRHalvA2Sl5pdb4uiBxqFzlIthCyUHkku+DvzPXexWiYsDYV
+	 We357z8lRLFg5RfjN8Uvg/m7l2fpRGm89CdKVxncrM87LDEhYbfp9BckRLtCKtaxk6hND
+	 uPmxRwtmG2xmmuB1g4HkAk8wEtvLAb/yclwzwvrA8uG/Oz0kfq/J/jnO59eZ7U2P+EA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793124404;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
+	b=h1/nhlu3v5+Vuy1spD73wr3bGkWt3oIZLVdiYEb9BPFzp3puGRmpvqSMZtyUMWpHlhWb
+	 d4Oo9nSYIVdgvb4MIH6CGT4KcEW+SFvC75Ar3P2QAEOKPlrEXiqS4pIG1umX7C2ucd1qz
+	 syLtxxD1R+zF+3f+VhbXDb7XEFwwnL4is2sfJlKpb4/4ddhXMR/boYcxBh7kH5mxZkF9m
+	 iZYMP6DTsZF1MIWZRp7akKLHpjHw9OqTVJBMX+4Ud6Blhkj76ENwY6yIqS6ogWi56D33Q
+	 5odQcn02NxDSzTwCDB+yt4JRtUIYfx/uvdQGx4BC3qV0tHd91BBLyfs5pk7Ybal+NwA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=everpuredata.com;
+	spf=pass smtp.mailfrom=purestorage.com;
+	dkim=pass header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=bnbx0c51;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.175
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B850606A31A;
-	Tue, 27 Oct 2026 17:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF05E606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 18:06:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF05E606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=everpuredata.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ax7OJx6p
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC631F01825;
-	Tue, 27 Oct 2026 17:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793123985;
-	bh=zNuaeVQHNQqFUJa+PqI7b/TO/F47lbspMzWZbs2KJoM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ax7OJx6p4umsu2oVnHrePRQPcEr5Z602yD1I7UIqAseRRa6me8ZFktJfQYURMg2Jv
-	 LtcrAx8nujniNItLa9TGApRpM0W2nT2CQi7gUHHIMTeOVym36GyvkI0Vf9lsLp1vVS
-	 l21xeaz/NkxPNUMJIMD0upztwHjaM75WQHGR1ZSDBKf6k2HVIp0PQ/FFO9r826Xau8
-	 EKd8oma/FmNOz+34gMhWypP6BefzqGtBLqi55L/LZyX3uozLcvIvH/MGJcZ8bJyvom
-	 eSUPSeMRQjuQN04/YD7do5hTlBrcc7uj304pokkdZplwto5Xda4eQnWHczbnRQXW6a
-	 6CA9BT9M/jTRg==
-Message-ID: <31238159b7a4753e0a10c9f8b9fdecc4b92fb2f5.camel@kernel.org>
-Subject: Re: [PATCH 2/6] NFSD: Apply per-export I/O modes to READ and WRITE
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Trond Myklebust
- <trondmy@kernel.org>,  Anna Schumaker	 <anna@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Mike Snitzer	 <snitzer@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Jakub Kicinski	 <kuba@kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet	 <edumazet@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman	 <horms@kernel.org>, Steve Dickson
- <steved@redhat.com>, netdev@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-nfs@vger.kernel.org, 	linux-doc@vger.kernel.org
-Date: Tue, 27 Oct 2026 13:59:41 -0400
-In-Reply-To: <ad5ac019-34ac-4c7f-8b90-cde8a0dc0546@slotpi15m67>
-References: <20261027-export-iomode-v1-0-262ed932a036@kernel.org>
-	 <20261027-export-iomode-v1-2-262ed932a036@kernel.org>
-	 <ad5ac019-34ac-4c7f-8b90-cde8a0dc0546@slotpi15m67>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=bnbx0c51
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eaf169fe3dso63508e0c.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 11:06:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793124398; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AFJaTNir6S5/370tlENsM6ErQbVeASnNmTAjehMEpFJqLu14WdJ04/A1ghSFvIZB8K
+         +SgUHln/vKaI7Utx5ke9/f39eZEoVy+NaVQVWOinsJFISXMqAWMSdtmwyBS+0BTyZA6x
+         iPsPTgh11dWdwNnm4M1BUb1zfJGnuOEOC0phdWc4Ji/rY8tiYtW5cJLp+GC9LZvqKLn9
+         4OB9EqOLiB1bdsJl3viuHEfruO2KC5/bjACb+xPMwwfUKJP1AHE1Gg9Mz3IVce8SVgVZ
+         DXuA7VFOS1dgEUZPyQZjwoDhBXWEiIX5thdHXCZ0DVhvkwW5gOb3CXAEZ/6lvbw1JmYd
+         ICrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
+        fh=7LL5bXEUaQmerJ/wQWt8vP7Q38gz2/Vm3Wc/2f7JKbU=;
+        b=M3JvJCo1OO5KN/LacQsmSINtdyfEFEYR/w0aqf1EwhguP9YUuTtYD/e6rdxbGQ3E3m
+         oeGf8YQLCEGjBwZzodGvyBguq+HajAkJZ/AqUVyzb/94He6rW6rRxMevVWjAjx5vmrxE
+         2dJJ8UTTFf6uOQPM2L/0EP0g9XnAdnACHE9eCo1+C4/G2zX6ZJ1qVDGTGHR31F0hHn94
+         2Oh/v0zIXPVC8acNj+3+N/nGYqd76e9YkAtOLgJbNbyMmzDDOZDOnHCCT0BbXkh0ejHj
+         wCd5jEE38ccpIe/Fcj//nxCK4Rj+TTq9ntS5hJjA4Ud+UhWuYj4JpfMd4o1Bjo8umn9c
+         0AZg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=everpuredata.com; s=google; t=1793124398; x=1793729198; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
+        b=bnbx0c51U+nUvfX/j79nCsJetkh88LNGfoTJLGA3xzmYftiKJdYVLqhLPqdZ0k18z0
+         bIqFKDGt83HphhpMIJWDSq5IemPgknKJvobWXMkQQ7VO6bjFrkqAvo1+AFXjuhKxvIpk
+         W8u9aa3z90Pfix4p1IqN/zzeSVEpuibE23dJovE1vgXkceZPgC5wnHgHRyGpVHnFHSqo
+         4QcZMxNMU1TfozGRggqrzXwePOAeXQO8QEHgSxDifyLvTVK7mcoRyMt9joRrDyXsUkpz
+         YOKZ8loy08dOxfLcfLVqOuFleKGvv4GBmszpAIV2b00wvKXhI27wlxfj8LFdjAx97rjC
+         1cHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793124398; x=1793729198;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
+        b=cwKNl4GG7WJqjHQPKvLLsYKW4eo90aOxf7ti4R+x0pE51AYaOmCD7HqMbAA3C1ETsj
+         wSy2it4LIbB1baiC17kKhOA4ctrSnOv+Uw4cvkwquBQtYiv0TriZ0ynGH1gdR40vmlPp
+         hoPL3JHAzr7DamFJDkpxfr1X8LjXAT3qWqs11E6SmCi2gQxcghmGPVxeE2q4hjXejsUw
+         CAO7tg6WeZalrL8oGrxJnr99LCfuUdR6v5Nr5ooUdpr+PIRjjw/tRZvo6UWoK/XGrxkn
+         psKnh5oSUMaSjnH5kHD9MjdlXOpqQWRHMWsKlAB2AAyaDXVf/vyZJNZkZgsG1G4ViUuI
+         iUNg==
+X-Forwarded-Encrypted: i=1; AKwUvByQInpXYdXBGzvUUi8slp1XXrtLXgChmSn2KtFcK3ewr3KwUsNyuPCg5cDpHoexTSg1HU1WJv0bV9k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIgFjrNyCjhGDfaAMairbF++BMlBC3b3tfGhfAssICCHrKFWt/R
+	MG+8rkCN8w6ILrksFyvtnl08cfw/8CLoCCwsxqUJzIcbWjSpAZkmIIA3H3+kFC7Oky0V5biYHEa
+	Jn5IADILyWtSAgHxK6nYC3QItQeshZR0kQ8tybjqyQw==
+X-Gm-Gg: AYBFou0NTndmu2lXmRCXlfluOMlKZon8+rw8hdR6XxDiavYh8gZAhJWzvKEQ5KcF9NJ
+	Ggy0W4YHsPwkve/eOqDj5H/ZQRzgCZE6W4IGY4YeZTm5a4OkbMAKlERWU8ETxvMynjywhHJlTwj
+	Rt05sTxh7JJ/4R+zFo/IVJiSvF5MGinEsjzqXof0zmsOtaF3bdy/yaKAJQgaJ5nwOfGVMOt2COI
+	lWsLdhEfI/iQrh9dCRnY22cCXbLJHJzSThlhV1myyRXttgtkM9Fj7gtjqENT5gRf4MyYkoNUiIc
+	IEM7Nn1FlmKmJICkGQD5phbkbUCr6NFZK7WPvLTWzJBSdD4nTF4lIyI1rL9V2eUpyKW/XGGDNNs
+	6wLAF/zbwYr8FrJ9kjxZNcqxv9J5AZmae0C2/aidePZcQQk3AyDxcoIgfcUW0bffNE5xHu1iJ+z
+	FI7mlht3x8mskeYjfSbJtPdzrzzsNGhyjVtCfXHNHNlKQkEZat0JX8Eh8Dnx/q2fX8XJsB4wkqi
+	Nm6Z+1i8Ib5z8WMXHrfcx9jvQ==
+X-Received: by 2002:a05:6122:6e09:b0:5ea:94cd:c5d7 with SMTP id
+ 71dfb90a1353d-5ec232a3210mr4742163e0c.16.1793124397567; Tue, 27 Oct 2026
+ 11:06:37 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -145,57 +106,201 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261020214500.972308-1-rjethwani@purestorage.com> <179287933702.3134.9880453017789029456@kernel.org>
+In-Reply-To: <179287933702.3134.9880453017789029456@kernel.org>
+From: Rishikesh Jethwani <rjethwani@everpuredata.com>
+Date: Tue, 27 Oct 2026 11:06:26 -0700
+X-Gm-Features: AclHuK_h_Qz1FLeM8P1E7678UoCNdVQNXwMlAzhrzR7bz3Jo7FQlCV3uB9oLBb4
+Message-ID: <CAKaoeS3EJK9kJ-mT9ZJChHFFX9MvTJkfqCyb_g37=5O-9wGkaQ@mail.gmail.com>
+Subject: Re: [PATCH net v2] tls: keep TX and RX hardware offload on the same device
+To: netdev-bot+sashiko@kernel.org
+Cc: netdev@vger.kernel.org, john.fastabend@gmail.com, kuba@kernel.org, 
+	sd@queasysnail.net, davem@davemloft.net, edumazet@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, borisp@mellanox.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-10-27 at 13:54 -0400, Chuck Lever wrote:
-> On 10/27/26 12:45 PM, Jeff Layton wrote:
-> > Resolve each export's effective I/O mode (explicit setting, else the
-> > global io_cache_read/write knob) in nfsd_iter_read and nfsd_vfs_write,
-> > and skip splice for reads on exports whose effective read mode is not
-> > buffered. Update the debugfs knob comments to match.
->=20
+On Sat, Oct 24, 2026 at 3:02=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
+te:
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider.
+>
+> Critical: 1 =C2=B7 High: 0 (1) =C2=B7 Medium: 0 =C2=B7 Low: 0
+>
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwor=
+k
+> know by including "pw-bot: cr" as a separate line at the end of your repl=
+y
+> (one such reply per series is enough).
+>
+> - [Critical] tls: type confusion and UAF in tls_device_down() when TX is
+>   not TLS_HW
+>
+> Pre-existing issues:
+> - [High] tls_set_sw_offload() (net/tls/tls_sw.c:2594) sets the shared
+>   ctx->push_pending_record =3D tls_sw_push_pending_record unconditionally=
+,=E2=80=A6
+>
+> --
+>
+> tls: keep TX and RX hardware offload on the same device
+>
+> This patch adds tls_device_can_attach(), which is checked under
+> device_offload_lock before each tls_dev_add() in tls_set_device_offload()
+> and tls_set_device_offload_rx(). A second direction is only offloaded if
+> it resolves to the netdev already bound to the context; otherwise setup
+> falls back to software for that direction.
+>
+> > diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+> > index f11d0528fc431..9df183d0dd972 100644
+> > --- a/net/tls/tls_device.c
+> > +++ b/net/tls/tls_device.c
+>
 > [ ... ]
->=20
-> > -	if (file->f_op->splice_read && nfsd_read_splice_ok(rqstp))
-> > +	if (file->f_op->splice_read && nfsd_read_splice_ok(rqstp) &&
-> > +	    nfsd_read_iomode(fhp->fh_export) =3D=3D NFSD_IO_BUFFERED)
-> >  		err =3D nfsd_splice_read(rqstp, fhp, file, offset, count, eof);
->=20
-> nfsd_io_cache_read_set() still sets nfsd_disable_splice_read whenever
-> the global knob is switched to dontcache or direct, so
-> nfsd_read_splice_ok() returns false before this per-export test is
-> reached. An export pinned to riomode=3Dbuffered on such a server never
-> gets splice; it falls through to nfsd_iter_read() and does vector
-> buffered reads. The same applies to the splice_ok decisions in
-> nfsd4_encode_read() and nfsd4_encode_read_plus_data().
->=20
-> Patch 3/6 says an explicit per-export setting pins that export's
-> IO mode "regardless of the global knob", and that isn't quite true
-> now for the buffered case.
->=20
-> I need to think carefully about the interaction between the "disable
-> splice" setting, which is global, and the per-export I/O setting.
->=20
+>
+> > @@ -1227,6 +1246,11 @@ int tls_set_device_offload_rx(struct sock *sk, s=
+truct tls_context *ctx)
+> >               goto release_lock;
+> >       }
+> >
+> > +     if (!tls_device_can_attach(ctx, sk, netdev)) {
+> > +             rc =3D -EOPNOTSUPP;
+> > +             goto release_lock;
+> > +     }
+> > +
+>
+> [Severity: Critical]
+> This isn't introduced by this patch, but the patch now deliberately
+> steers sockets into the state that hits it, so it seems worth raising
+> here.
+>
+> When RX is on hardware and TX is declined by tls_device_can_attach(),
+> do_tls_setsockopt_conf() falls back to TLS_SW for TX (or TX is simply
+> never configured and stays TLS_BASE), while ctx stays on
+> tls_device_list bound to the RX device. If that device later goes down,
+> tls_device_down() does this for every matching ctx:
+>
+>         WRITE_ONCE(ctx->sk->sk_validate_xmit_skb,
+>                    tls_validate_xmit_skb_sw);
+>
+> without looking at ctx->tx_conf. The tls_dev_del() calls further down
+> are guarded by tx_conf =3D=3D TLS_HW and rx_conf =3D=3D TLS_HW, but this =
+store
+> is not.
+>
+> >From then on every skb with TCP payload on the socket goes through
+> validate_xmit_skb() -> tls_validate_xmit_skb_sw() -> tls_sw_fallback(),
+> which casts tls_ctx->priv_ctx_tx with tls_offload_ctx_tx() and passes
+> the result to fill_sg_in(), which takes ctx->lock and walks
+> ctx->records_list through tls_get_record().
+>
+> With tx_conf =3D=3D TLS_BASE, priv_ctx_tx is NULL. Isn't this a NULL
+> pointer dereference on the first data segment sent after the device
+> goes down? With tx_conf =3D=3D TLS_SW, priv_ctx_tx is the struct
+> tls_sw_context_tx from init_ctx_tx(), so fill_sg_in() would take a
+> spinlock and walk a list that are really unrelated fields of that
+> structure.
+>
+> Close looks worse still. tls_sk_proto_close() frees priv_ctx_tx via
+> tls_sw_free_ctx_tx() before calling ctx->sk_proto->close(), but with
+> rx_conf =3D=3D TLS_HW the tls_context and the sk_validate_xmit_skb hook s=
+tay
+> around until tls_device_sk_destruct(). Data pushed out by tcp_close()
+> or retransmitted afterwards would run tls_sw_fallback() on freed
+> memory.
+>
+> The updated tls-offload.rst says a declined direction "uses software
+> instead", and NETDEV_DOWN clearing the binding is now an explicit
+> reason to decline TX, so the patch relies on this combination working.
+>
+> Should tls_device_down() only switch sk_validate_xmit_skb when TX is
+> really device offloaded? ctx->tx_conf is only set by
+> do_tls_setsockopt_conf() after tls_set_device_offload() has dropped
+> device_offload_lock, so I'm not sure tx_conf alone is a reliable test
+> there. Would comparing against tls_validate_xmit_skb, or having
+> tls_validate_xmit_skb_sw() bail out when TX is not TLS_HW, work better?
 
-Maybe disable_splice should be an export option of its own? It seems
-like that should be doable.
+Thanks, agreed this is real, and it predates this patch.
+It's fixed separately in "tls: restrict device-down TX fallback to
+hardware TX sockets"
+https://lore.kernel.org/netdev/20261027015205.2169253-1-rjethwani@purestora=
+ge.com/
+That patch publishes tls_validate_xmit_skb and sets tx_conf =3D TLS_HW befo=
+re
+tls_set_device_offload() drops device_offload_lock. tls_device_down()
+then switches
+to tls_validate_xmit_skb_sw, and calls tls_dev_del(TX), only when
+tx_conf is TLS_HW,
+so software-TX and RX-only sockets keep their validator unchanged.
+It also sets rx_conf under the lock to close the matching RX leak.
+Since neither kind of socket gets the fallback validator, the
+close-path use-after-free
+you describe can't happen either.
 
-> Separately, on the names of the export options: "riomode" and
-> "wiomode" are hard to read, and "mode" might suggest "permission bits"
-> to an administrator. How about read_io=3D and write_io=3D instead? They
-> follow the underscore style of the other multi-word export options
-> (no_subtree_check, root_squash, security_label) and read naturally:
->=20
->   /srv/data  client(rw,read_io=3Ddirect,write_io=3Ddontcache)
->=20
-> The values buffered, dontcache, and direct then carry the meaning
-> without "cache" or "mode" in the name.
->=20
-> The name appears in the exports syntax, the nfsd.export/content
-> output, the netlink YAML spec, and the forthcoming nfs-utils series,
-> so it's worth settling before v2 and before the nfs-utils side gets
-> merged.
->=20
+> [Severity: High]
+> This isn't a bug introduced by this patch, but it is related to the new
+> tls-offload.rst wording that a declined direction "is handled in software
+> as if offload had never been tried".
+>
+> Suppose TX is already on hardware and RX is rejected here. Then
+> do_tls_setsockopt_conf() falls back to tls_set_sw_offload(sk, 0, ...),
+> and that function sets the shared TX callback whatever the direction:
+>
+> net/tls/tls_sw.c:tls_set_sw_offload() {
+>     ...
+>         ctx->push_pending_record =3D tls_sw_push_pending_record;
+>     ...
+> }
+>
+> This replaces the callback that tls_set_device_offload() installed:
+>
+>         ctx->push_pending_record =3D tls_device_push_pending_record;
+>
+> The hardware RX success path also calls tls_set_sw_offload(sk, 0, NULL),
+> so this could already happen before this patch.
+>
+> Now suppose device TX leaves an open record, for example because
+> sendmsg() with MSG_MORE set pending_open_record_frags. A later sendmsg()
+> with a TLS_SET_RECORD_TYPE cmsg then takes this path:
+>
+> tls_device_sendmsg()
+>   tls_process_cmsg()
+>     tls_handle_open_record()
+>       ctx->push_pending_record() -> tls_sw_push_pending_record()
+>
+> tls_sk_proto_cleanup() reaches the same callback on close when
+> sk_write_pending is set. tls_sw_push_pending_record() does:
+>
+>         struct tls_sw_context_tx *ctx =3D tls_sw_ctx_tx(tls_ctx);
+>         struct tls_rec *rec =3D ctx->open_rec;
+>
+> but priv_ctx_tx is really a struct tls_offload_context_tx here.
+>
+> Doesn't this read an unrelated field of tls_offload_context_tx as a
+> struct tls_rec pointer?
+>
+> If that field is NULL, the open device record is not flushed before the
+> record type changes. Data that is already buffered then goes out under
+> the new record type. If the field is non-NULL, rec->msg_plaintext is
+> read through a garbage pointer.
+>
+> This seems to go back to 3c4d7559159b (2017). Could tls_set_sw_offload()
+> set push_pending_record only when tx is set? Then RX setup, hardware or
+> software fallback, would leave the device TX callback in place.
 
-Ok, I'll look at renaming them. Thanks for the initial review!
---=20
-Jeff Layton <jlayton@kernel.org>
+Thanks, agreed this is real, and it predates this patch.
+It's fixed separately in "tls: only install push_pending_record for a
+TX context"
+https://lore.kernel.org/netdev/20261027171537.2317025-1-rjethwani@purestora=
+ge.com/
+
+> [ ... ]
+>
+> --
+> Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
+set/20261020214500.972308-1-rjethwani%40purestorage.com
