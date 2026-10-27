@@ -1,97 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793139835;
-	b=5gc6LHsrdFico1vBd6HxGUIOE+YjgBNCsacEIDCtBtscxIJYJD/GBXCrcAjFUlwKcVlN
-	 L3Xq+zP+x3wqiyB7ExiWjYOsbCy7BZRy//I7UiM90ugGbXJnuNMuhpEP3F9DYLpwyZiVD
-	 Cy9Y8fYK+I1gRD7by+gp4xDyEWpQl27CzQjdoNYGjkUsCsJjsfOvFzeLc3C04NDJf3yv1
-	 vuq+K7nv0oQSb8krF8RiYv5dIblw3UZm5qGvGIC/RF0uSMxdoMp9E0R6+zTQTCw0cTfNX
-	 WI5fH1504BndqFD8nbjQ2LbePt4/2P+14HMBNKyjfU03dp7Mu2cen2PRfOVhQCad9rw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793139835;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793139903;
+	b=umfYz/KlD5axbszsfsHwcd6dI5ivsHacxR7PhcrhRV5A7/LuBW6vZyHQPjOE8yxSNBux
+	 FQCFrGWnpNqVt7gr+7y0k9IJab5Hl1uBcBuzPAhqxYWzXOUSb/wnsBaE4JTDUHpkL7ZUC
+	 KOUXWlq4qGe5kcy+y/h9dKVr6fpbvUgb0XIHu9aly5Sher0PDIjiInzSsQCD6DKf3aYE9
+	 TIqcc5kZWUjTJ/y+dFrpeok/FKHfmlwM5womF6f6afCo7fQX10etTX0+qqgTiV+zHIlWo
+	 n1UmnP/zHpTcDhH34ywOImjl1wl1VCGrdKPqk00vohs6/3YL/CE9yc4qZYSvHM4QHag==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793139903;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=i2QjVlI3Q/9QvBglZ67tlTP9YtDMbvPwzMrhEB98kgY=;
-	b=vJ99V9NlooTjSYF6DWi8YBrwwOYgP9aqYXTB+QVf8ptBi4t6LEgIneC3C9pPbApeAeGH
-	 KDBPJqnQtua6ugYZ8m+6tyKSBeX63rEHFkDV/tS9MvzFTtjfT/yfIPDmZNnomfXP2wBod
-	 BKO5bcrgRi+nra/asY3MfeBT9Fk90MQOWton/4FlFLcostbDhbqodzW9stZipsvJ2JHh1
-	 DHiMcoJ2oLMlrNOdXprAcVP1f3FRrMDMwYqUvGIxdd8NsEkpIdDVouRLMoBHcSweUmU2r
-	 CQY75Q1u0srVnRYj0vOL7JtEPKIgAprZ6Lvcro4zRWwqF6NkOsLTa987FvV+WX2Kwmw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ZEKOi1PwMO6a+hswERjow4zduMtspY4e9rbrauVqOm4=;
+	b=IMv/kJ2IHtPJffVp9v+mETqrTFw+cTabgbSQwmCbmRG9M3BIdNUPnrof6tJ5+AL3cvaU
+	 zrjWImgtdbPKt/IXp4rGWObSvoz9GhoTEmsoj5iNxPHEG/qlSf3Ml5+4ShIRB674bBXTE
+	 kJuIUPbGbVPc6zDXkhF2M6YRsdm2+6eT5oBNr89K1uO/a93nXtNKHEAncHhMSUTqt0vot
+	 7QFQtybLfg0MS7GjibvRaZC99JGVXW7ydcCMrtX8gekzsQZv40DRekdBDJIgLN5VcH8CE
+	 d99477/9zFSwSgRte+cPnm9nhLD8J4r6lWrsED/NVlYYE7UM1rgl+5mXENPD3V7wIAA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aB9SWrTt;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UIVonWY7;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.171
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AD3606A31A
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:23:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17AD3606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F01D606A320
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:25:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F01D606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aB9SWrTt
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so2643455e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:23:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UIVonWY7
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso234591a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 15:25:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793139902; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mK7+g7URMp/S3da6lG609au78naB0PqT2BzzqTLkZ25miuv8XfQ7TjsejT1h7ej9mH
+         XMZCkFFuuU4HbxYFVswkze5Xp6QHZF8JbDZKjDmaD2mi2mdscDG7z6+hRDUHsl9ECfMV
+         3R83o24Dtjj9jbqJx0GIBVcgEYeLcavq7G2j1OpDP9rP/cWmG+0Dpvhh/yI/z1XmUDH4
+         prwQlbf8a0LWOxqY/3ygmoVRW62GznNexTXpALr1w0o6egXQe0HsH0213Zby9CYAyibA
+         o6vtZp6T09HDZhWeD8zZ3MsZ3yD9nGb3IPc1xiZ0nEiBXVPooAxbtirCRZkI0dGJ+6zj
+         4pTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZEKOi1PwMO6a+hswERjow4zduMtspY4e9rbrauVqOm4=;
+        fh=oigEHsL6MrQkhC3gWFkQWNWmwiGGGdv1RExOhGOD2KU=;
+        b=ZSI5eNUuNW1DLtzM7MrVEt3fw7GDqqMlgx9Ec1JmsXhu0oxMGEqXLDk44mfE+RMwG5
+         Vvvw4M6JLLQXOIKqs5eUz1KJOlVlG3QFVHngY3yOCloSvMy5nT4SUblO57ZQhY90DMNx
+         9uOFTHjt5I8RfRXcDG9grebjKhEG/sWtV+D71raYpU51wtbn+H24W7hIkQLTQstd4Lgo
+         r8LBAfHw7dCxtMSQ+oGy9bT7+ZXYIempCk8OcS1V5NggiHdjIgbeDqgbWmTfGvWHtzkn
+         nxPdAn0Ht/dHjf9ju401Tvh3AWCE04j7a8ZP0bZLTiHwtTDv1DXNvvALGzCxeTOAjx25
+         oEeA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793139833; x=1793744633; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=i2QjVlI3Q/9QvBglZ67tlTP9YtDMbvPwzMrhEB98kgY=;
-        b=aB9SWrTtO4HUjZI3LxLtnQK19NMjm843cewTgF3gqn+rPxuYm6g4SFaH1JEB4BbIaV
-         rlNVx/5Xq2OmhBYP3i3386iFr+1VcNhviuA8Pb2xKs56vpu5+h0sm1sjtHg+AeUUwhew
-         yer7CZkanYc8H4CfGCFWaqdx0phVESGlawXuOMn3CLUnvajIWotFHwCIoG3DbC8iNKu1
-         THF1a1cPbE6BiY4rmT7asBaN7UrcptYQHc0MORSchpcy8T1lfshLDTmBDRMTL9+wiDme
-         1M8z902sD8E6UkLPL4Q7q9qAse/BJ1Q0LqG7PPjCc07l64fUczdrJKUe6ngNwVZ+oiYe
-         U1zQ==
+        d=gmail.com; s=20260707; t=1793139902; x=1793744702; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZEKOi1PwMO6a+hswERjow4zduMtspY4e9rbrauVqOm4=;
+        b=UIVonWY7/5Yge+0HZP1QKG9Zf85i9SU8Wrr6TMrhHLyCGP+B1P1bccPe9QeRW+5MEh
+         8KqzqQ/8kzdJGas+RM8ZfOc/MkZFqx74V81oklhqNlhXgZp4xljFEdoc2z7U21yfY2Yh
+         h9zbWAmHUzrANOG/4I3MACRmL+o/3YejoM+Hg7b2oMQ4OxQhdscgTGxKtE0XyITbYpTz
+         5A4TXSeTnfe4x3HGu+WI0ZMq3FMyTfy7w17FlrCFRvW7yWIAnh6CMDZZK0Yl/oJk3hqi
+         O168vP/JLZg/tDQCQXrLxXUrmZdPUJ1YfAKVFtSxOhSZ9KgLyPCsesca8cTN0RtESR0k
+         kvBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793139833; x=1793744633;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=i2QjVlI3Q/9QvBglZ67tlTP9YtDMbvPwzMrhEB98kgY=;
-        b=LRTy0yR14Bgg5oSrykFcKUwimcD1uq6EInYsbqNgz8GIWDSlKkqPYMKaN0Gn2B2tRM
-         Q6BxhekpgBHcp03hTy/6Jwhh3ELP7rV+rPkN3mD5vSpZoQLqza7Cn1DftEBoAVKLnJ9Z
-         t8k+RL4SOnrZ/TDQSnxZbESBH/AzoMjppkWLBrkidrF+mT7RgyJmeU9xB/ZRN3XcsbsN
-         1SKl4rrq3fYfinq4h2o+QeETxTg/cIdLs7UHnaWGRdhcjArBKPDHMZ5Gpv5LaT6XIDon
-         Kz7lAAqfgsZhdxhkQ6tmgmrKupVQA3fC2Z5q4+c6ZcNpiOPxVAu5KEhH78XW/1PVOFhg
-         kiZg==
-X-Forwarded-Encrypted: i=1; AKwUvBzS/DjTOLc2zW72B9SJK57q3Jfg2ZG/uGApIj/clsqXwMM2AjvcYuhZwS4/yeinQcuW+U0fCppy1Lw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4M3xM1jdIKwVwDL5X3KHfYVOP1DwRNJ9kp0Fhebu1myMs3zA9
-	Tvp2cWViPSUtTUUArCBiNt31b0H27/DabmBBJ+cdT9smYTiM5HFCg8BHkRXxkyAgD+Y=
-X-Gm-Gg: AYBFou1aIaK4G8M4Qo2xrXRgG3qHOv0gzqWCtMOEqqbyDRpoekXJB2mgSOwiRolMY85
-	4+qUHBspSEw7p4e1Fnd2B/1XsPKJzkjMlS1w+Mcc5TK1Fgr3jM59nzE30434VucimdhRxC3x4zj
-	QoPJxhzbNU1Cxq766icmS7reuPK4CTWMrG7RfU65bfep3/QHMUUxBUvVxhX8pmv03E4x1yTJVHi
-	AQ8I5QKt6V8pEv+N/DhklADR/HO8GDFQdb1kqumWAsq3S/bXp0Oz9MIof29RH/jk2XCMoHLZjK2
-	hZWigHA4Il83KZ0j5FBIRuAr/bA02WSdPOXmr5qa/iGJ81gxs/f8zOWFheh7CNQljdWHkJ/0Joo
-	CdDB87WR136lDfVD/bmcUEs+q3fTxmk114fmhp1OoZ1CXnNnITil1MvPUJEeJQLXaLMJbduF5xU
-	NwiOqrMdsKVVnGG3ZZhc03jOQ70cjoyO4lhb7JJD4qh8msmnkmNzNvrv7WUuiIjCI0wCdRVyOWb
-	miGnB0hLqz4RSUizwTBWtzF5pyaVvSS2mnIWWBbwt0ZgUhxzhO42Hb69C7iSC6p7NIEBwPZDiMz
-	bSL22ql8qPl9pfcyLDo/OhZ9OpYWyt29DHR1Aqg5UlJI6VfNfIJLadAAWtu5qB7+tP4N7Y2m72m
-	eosUjsCDjpVxAqfl8P2Yk2tabKSI0Ff9tDtARSIpWJMxJZha1tLAPZnAXEVhLibDuhxj5tp1P
-X-Received: by 2002:a05:600c:524c:b0:4a2:a9:ed56 with SMTP id 5b1f17b1804b1-4a9661ab67fmr7089855e9.8.1793139833420;
-        Tue, 27 Oct 2026 15:23:53 -0700 (PDT)
-Received: from cachyos (252.pool90-68-203.dynamic.orange.es. [90.68.203.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a9792269b2sm2292105e9.13.2026.10.27.15.23.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 15:23:52 -0700 (PDT)
-From: f1rul4yx <vargasgomezderequenadiego@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	f1rul4yx <vargasgomezderequenadiego@gmail.com>
-Subject: [PATCH v2 1/1] Documentation: make admin guide version-neutral
-Date: Tue, 27 Oct 2026 23:22:16 +0100
-Message-ID: <20261027222216.71715-2-vargasgomezderequenadiego@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261027222216.71715-1-vargasgomezderequenadiego@gmail.com>
-References: <924f3b3c-a5e4-4686-abf8-0d4e23183a2e@infradead.org>
- <20261027222216.71715-1-vargasgomezderequenadiego@gmail.com>
+        d=1e100.net; s=20260707; t=1793139902; x=1793744702;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZEKOi1PwMO6a+hswERjow4zduMtspY4e9rbrauVqOm4=;
+        b=diB7p+ValWxbu1Q6GeO3Ky8yTdKzLUdyeNYg8mWucKfeady75CFnbwXu11RHYicj8x
+         3305HWjXHqulGd3osYxZISC/b46WjJwlUlE6H9a3E82irPmP+n2rXTKTDbp/IsbHbFYt
+         5NkbTx1XvskD3M4FMZsLZl4Oy9sRDJSzIDCXfYc8yL3h/GEp8+wZnlBS5r6+rkZRl75l
+         MammgUUIkmVUyqxSL0Vc5O79OtacieI8dxCLMd4DiOcMYYQIgx8+82+MPqpGDn4QxJsJ
+         HhImZYTtRy44ZROAfTgG6S3gafk1vXJDIv/7c5vkmYYRFp3soabqt6Es0Ami7r0ayJBR
+         9NZg==
+X-Forwarded-Encrypted: i=1; AKwUvBx45/W6Ip40dpElGMcdxGEmtiOP7FGLDWrkfpCutWrfhemBXCAwZ+8/AzYG29YUYaneGGdV/NMh92Q=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJntlBXCgclzR45kq82u7B/nVIREIHU7qdLg0sK3H/LMOwC37+t
+	+bWl1YEEp4+r4iyx3XPnw9AT8Zj61e/x/3055g7eq4ZbKn3buOuVcq+oxinzmn1L++HFob/bYrU
+	PpdmiTK3QiccZoYzpTDquyh0ladJen1M=
+X-Gm-Gg: AYBFou053nwNgDlngjClUS9pHPTMXdICNbuifwsTkepd336cG5sBWKzxbdMdw7XqKaP
+	t0NJVQAG4M0diqsgZboslaVt0mrW8yN9rbvDCQkY/rpwGS8fTHXv2zwhfLXOAN00XZ5XAicnQx+
+	oqL99eXd4yJ9DOUS89EDw6uvpDlYBQzizOIdkLxallStdNC257eO+J5+PAIMfR980JNZH9U4LjO
+	5ZwBejvU1+OXU/6KiXE3yBess9le59QugpiBlU+dWsay/BimbjtiH1jxKD/Foklmd8Wxsg7GML/
+	6rK1qtFJzDK0ZLW/BR8dMIBmDUC0rkwk1nXltTeitxH3ew1iRKXmQ6eO8V/vhVuIu0nfjldyt6F
+	VG7NVrToaGX6hXzuHwnA7N892AIq9faP0Y45UDz28z1CK0PIn+/zNaho8DG1WQYXA+AsfJgYMe8
+	RFmdZCyPA8PMemay6uDahwwkcLYQM3ZpDeGg==
+X-Received: by 2002:a17:90b:3b85:b0:3ac:9259:122c with SMTP id
+ 98e67ed59e1d1-3ae58241dccmr307011a91.40.1793139902173; Tue, 27 Oct 2026
+ 15:25:02 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,113 +105,282 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
+In-Reply-To: <20261023001603.560210-9-wusamuel@google.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Tue, 27 Oct 2026 15:24:50 -0700
+X-Gm-Features: AclHuK_SsI0sp6o_bhNEekYUJ22um4BFp-_z7npxEVXNceFMnfOEnPql-EZ_y5k
+Message-ID: <CAEf4Bzb--Jzz696u057G9_CgQN7zf6ksvoL80KJacKO2CorsnQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+To: Samuel Wu <wusamuel@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace references to the 6.x series with version-neutral wording.
-Clarify that normal stable patches apply to the base release and that
-incremental stable patches are also available.
+On Thu, Oct 22, 2026 at 5:17=E2=80=AFPM Samuel Wu <wusamuel@google.com> wro=
+te:
+>
+> Add an extensible KALLSYMS_QUERY ioctl() interface to /proc/kallsyms
+> to support fast point queries without scanning the entire text file.
+> Exactly one query mode must be set in query_flags.
+>
+> When KALLSYMS_QUERY_BY_SYMBOL is set in query_flags, KALLSYMS_QUERY
+> resolves a NUL-terminated symbol name in vmlinux or loaded modules and
+> then populates sym_addr:
+> - Searches vmlinux first via kallsyms_lookup_names() (binary search),
+>   which takes precedence over loaded modules, and falls back to
+>   module_kallsyms_on_each_symbol() under module_mutex for module
+>   symbols
+> - Matches names exactly, like kallsyms_lookup_name(), disregarding the
+>   .llvm.<hash> matching, following precedent set by commit fb6a421fb615
+>   ("kallsyms: Match symbols exactly with CONFIG_LTO_CLANG")
+> - Resolves 0x0 symbol addresses in both vmlinux and modules
+> - Rejects ambiguous symbols (multiple entries with the same name at
+>   different addresses within vmlinux, or across loaded modules) with
+>   -EADDRNOTAVAIL, while allowing same-address aliases
+>
+> Userspace symbolizers resolve kernel addresses to symbol names with
+> /proc/kallsyms. This is typically done by reading the entire
+> /proc/kallsyms text file, and keeping a compressed sorted copy of it in
+> order to resolve addresses at runtime.
+>
+> When KALLSYMS_QUERY_BY_ADDR is set in query_flags, KALLSYMS_QUERY
+> resolves one address to the symbol that contains it:
+> - sym_addr holds the address to resolve on input.
+> - sym_name_addr must point to a user buffer of sym_name_size bytes
+>   that receives the NUL-terminated symbol name. On output,
+>   sym_name_size holds the number of bytes written (including the
+>   terminating NUL). -ENAMETOOLONG is returned if the buffer is too
+>   small; a buffer of KSYM_NAME_LEN (512 at the time of writing) bytes
+>   is always large enough.
+> - Symbols are resolved via kallsyms_lookup(), the same lookup as %pS,
+>   covering vmlinux, loaded modules, BPF JIT images, and freed module
+>   init functions still tracked by ftrace.
+>
+> On an 8 CPU Cuttlefish (x86-64 VM), using this patchseries to load a BPF
+> program with 11 typeless ksyms has ~220x speedup (157ms -> 0.7ms).
+>
+> On an 8 CPU x86-64 VM with a 175k line kallsyms, there are broad
+> performance and memory savings for the symbolization and callstack
+> sampling tool, Perfetto:
+> - Init time: ~350x speedup (155.7ms -> 0.44ms)
+> - 50k symbolizations: ~12x speedup (25.2ms -> 2.2ms)
+> - VmRSS: -68% (15.1MB -> 4.8MB)
+>
+> Suggested-by: Andrii Nakryiko <andrii@kernel.org>
+> Signed-off-by: Samuel Wu <wusamuel@google.com>
+> ---
+>  include/uapi/linux/fs.h |  41 +++++++++++++
+>  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 173 insertions(+)
+>
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 34c6f219462a..b43f227dad0e 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -674,6 +674,47 @@ struct procmap_query {
+>         __u64 build_id_addr;            /* in */
+>  };
+>
+> +/* /proc/kallsyms ioctl */
+> +#define KALLSYMS_QUERY _IOWR(PROCFS_IOCTL_MAGIC, 18, struct kallsyms_que=
+ry)
+> +
+> +/* Exactly one query mode must be set in query_flags. */
+> +enum kallsyms_query_flags {
+> +       /*
+> +        * Look up a symbol in vmlinux or loaded modules (vmlinux first; =
+BPF
+> +        * and ftrace symbols are not searched) by exact NUL-terminated n=
+ame
+> +        * at sym_name_addr and return sym_addr. sym_addr and sym_name_si=
+ze
+> +        * must be 0 on input.
+> +        */
+> +       KALLSYMS_QUERY_BY_SYMBOL =3D 0x01,
+> +       /*
+> +        * Look up the symbol covering sym_addr and write its NUL-termina=
+ted
+> +        * name to the sym_name_addr buffer of sym_name_size bytes. The s=
+ame
+> +        * symbols as %pS are searched: vmlinux, loaded modules, BPF JIT
+> +        * images, and freed module init functions still tracked by ftrac=
+e.
+> +        * A buffer of KSYM_NAME_LEN (512 at the time of writing) bytes i=
+s
+> +        * always enough. On success, sym_name_size is set to the number =
+of
+> +        * bytes written (including the terminating NUL).
+> +        */
+> +       KALLSYMS_QUERY_BY_ADDR =3D 0x02,
+> +};
+> +
+> +/*
+> + * Returns -ENOENT if no symbol matches, -EADDRNOTAVAIL if the name maps=
+ to
+> + * more than one address, -ENAMETOOLONG if the name does not fit in
+> + * KSYM_NAME_LEN (512 at the time of writing) or sym_name_size bytes, an=
+d
+> + * -EPERM if kallsyms addresses are hidden from the opener of /proc/kall=
+syms
+> + * (e.g. kptr_restrict).
+> + */
+> +struct kallsyms_query {
+> +       __u64 size;             /* in - struct size for compatibility */
+> +       __u64 query_flags;      /* in - query mode (enum kallsyms_query_f=
+lags) */
+> +       __u64 sym_name_addr;    /* in - address of symbol name buffer */
+> +       __u64 sym_addr;         /* out (BY_SYMBOL) / in (BY_ADDR) */
+> +       __u64 sym_name_size;    /* in/out - name buffer size / bytes writ=
+ten */
+> +};
 
-This change was prepared with AI assistance (OpenCode), which helped
-identify the outdated references and draft replacement text. The htmldocs
-build completed successfully on a separate test machine; checkpatch.pl and
-git diff --check pass.
+it might be smart to have QUERY_BY_ADDR and QUERY_BY_NAME to be two
+separate ioctl commands with its own query in/out struct. This would
+remove addr vs name ambiguity in sym_name_addr field, and will allow
+us to evolve APIs independently, if necessary. They should still
+probably reuse the same type to represent symbol information, and have
+kallsyms_query struct provide a pointer to that struct (and its
+maximum size), which the kernel will fill out and set the size it
+actually knows about.
 
-Signed-off-by: f1rul4yx <vargasgomezderequenadiego@gmail.com>
----
- Documentation/admin-guide/README.rst | 41 ++++++++++++++--------------
- 1 file changed, 20 insertions(+), 21 deletions(-)
+struct kallsyms_query_by_addr {
+    __u64 size;
+    __u64 query_flags;
+    __u64 sym_addr; /* in */
+    struct kallsyms_sym *sym; /* out */
+    __u64 sym_len;
+};
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 77fec1de6dc8..a4a149ff5726 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -1,9 +1,9 @@
- .. _readme:
- 
--Linux kernel release 6.x <http://kernel.org/>
--=============================================
-+Linux kernel release notes <http://kernel.org/>
-+==================================================
- 
--These are the release notes for Linux version 6.  Read them carefully,
-+These are the release notes for Linux.  Read them carefully,
- as they tell you what this is all about, explain how to install the
- kernel, and what to do if something goes wrong.
- 
-@@ -63,35 +63,34 @@ Installing the kernel source
-    directory where you have permissions (e.g. your home directory) and
-    unpack it::
- 
--     xz -cd linux-6.x.tar.xz | tar xvf -
-+     xz -cd linux-X.Y.tar.xz | tar xvf -
- 
--   Replace "X" with the version number of the latest kernel.
-+   Replace "X.Y" with the version number of the latest kernel.
- 
-    Do NOT use the /usr/src/linux area! This area has a (usually
-    incomplete) set of kernel headers that are used by the library header
-    files.  They should match the library, and not get messed up by
-    whatever the kernel-du-jour happens to be.
- 
-- - You can also upgrade between 6.x releases by patching.  Patches are
-+ - You can also upgrade between kernel releases by patching.  Patches are
-    distributed in the xz format.  To install by patching, get all the
-    newer patch files, enter the top level directory of the kernel source
--   (linux-6.x) and execute::
-+   (linux-X.Y) and execute::
- 
--     xz -cd ../patch-6.x.xz | patch -p1
-+     xz -cd ../patch-X.Y.xz | patch -p1
- 
--   Replace "x" for all versions bigger than the version "x" of your current
--   source tree, **in_order**, and you should be ok.  You may want to remove
--   the backup files (some-file-name~ or some-file-name.orig), and make sure
-+   Repeat this command for each release newer than your current source tree,
-+   in order.  You may want to remove the backup files (some-file-name~ or
-+   some-file-name.orig), and make sure
-    that there are no failed patches (some-file-name# or some-file-name.rej).
-    If there are, either you or I have made a mistake.
- 
--   Unlike patches for the 6.x kernels, patches for the 6.x.y kernels
--   (also known as the -stable kernels) are not incremental but instead apply
--   directly to the base 6.x kernel.  For example, if your base kernel is 6.0
--   and you want to apply the 6.0.3 patch, you must not first apply the 6.0.1
--   and 6.0.2 patches. Similarly, if you are running kernel version 6.0.2 and
--   want to jump to 6.0.3, you must first reverse the 6.0.2 patch (that is,
--   patch -R) **before** applying the 6.0.3 patch. You can read more on this in
-+   Unlike mainline release patches, normal patches for stable releases are
-+   not incremental: they apply to the base release, not the previous stable
-+   release.  For example, the normal X.Y.3 patch applies to the base X.Y
-+   kernel, not X.Y.2.  To update a source tree from X.Y.2 to X.Y.3, first
-+   reverse the X.Y.2 patch (that is, patch -R) **before** applying the X.Y.3
-+   patch.  Incremental stable patches are also available; see
-    :ref:`Documentation/process/applying-patches.rst <applying_patches>`.
- 
-    Alternatively, the script patch-kernel can be used to automate this
-@@ -114,7 +113,7 @@ Installing the kernel source
- Software requirements
- ---------------------
- 
--   Compiling and running the 6.x kernels requires up-to-date
-+   Compiling and running the Linux kernel requires up-to-date
-    versions of various software packages.  Consult
-    :ref:`Documentation/process/changes.rst <changes>` for the minimum version numbers
-    required and how to get updates for these packages.  Beware that using
-@@ -132,12 +131,12 @@ Build directory for the kernel
-    place for the output files (including .config).
-    Example::
- 
--     kernel source code: /usr/src/linux-6.x
-+     kernel source code: /usr/src/linux-X.Y
-      build directory:    /home/name/build/kernel
- 
-    To configure and build the kernel, use::
- 
--     cd /usr/src/linux-6.x
-+     cd /usr/src/linux-X.Y
-      make O=/home/name/build/kernel menuconfig
-      make O=/home/name/build/kernel
-      sudo make O=/home/name/build/kernel modules_install install
--- 
-2.56.0
+struct kallsyms_sym {
+    __u64 sym_addr;
+    __u64 sym_name;
+    __u64 sym_name_len;
+    __u64 sym_module;
+    __u64 sym_module_len; /* if zero, no module requested/available */
+};
 
+e.g. for symbol you'd want to return its name, address, but also
+module name. and we should leave a way to extend it further with more
+optional information (that's the kallsyms extensibility bit I was
+talking about).
+
+aslo, we should think about adding ways to paginate (or at least leave
+a possibility of that in the future) if there are multiple matches
+(e.g., for static functions with the same name resolving to multiple
+addresses); not sure how it should look like API wise, but it would be
+good to still return "any" or "first" match, but let user know there
+are multiple, so user can decide how to proceed...
+
+on input I'd also add module name as optional input argument, with
+"vmlinux" limiting to just vmlinux, set module name to just that name,
+and NULL/zero meaning "we don't care"
+
+
+for QUERY_BY_ADDR we should have a flag saying whether an exact match
+by address is requested or we should find a symbol that covers the
+address (that's most useful for symbolization). maybe even "at or
+after" address mode, so you can paginate (though probably explicitly
+designed batch API would be even more useful later)
+
+
+tl;dr, this is the right direction, but I think we should polish API a
+bit more to be more universally useful and extensible
+
+> +
+> +#define KALLSYMS_QUERY_SIZE_VER0       40 /* sizeof first published stru=
+ct */
+> +
+>  /*
+>   * Shutdown the filesystem.
+>   */
+> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> index aec2f06858af..7caaf3e421c7 100644
+> --- a/kernel/kallsyms.c
+> +++ b/kernel/kallsyms.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/bsearch.h>
+>  #include <linux/btf_ids.h>
+> +#include <linux/uaccess.h>
+>
+>  #include "kallsyms_internal.h"
+>
+> @@ -922,11 +923,142 @@ const char *kdb_walk_kallsyms(loff_t *pos)
+>  }
+>  #endif /* CONFIG_KGDB_KDB */
+>
+> +struct kallsyms_mod_find_ctx {
+> +       const char *name;
+> +       unsigned long addr;
+> +       bool found;
+> +};
+> +
+> +static int kallsyms_mod_find_cb(void *data, const char *name, unsigned l=
+ong addr)
+> +{
+> +       struct kallsyms_mod_find_ctx *ctx =3D data;
+> +
+> +       if (strcmp(name, ctx->name) !=3D 0)
+> +               return 0;
+> +       if (ctx->found && ctx->addr !=3D addr)
+> +               return -EADDRNOTAVAIL;
+> +       ctx->found =3D true;
+> +       ctx->addr =3D addr;
+> +       return 0;
+> +}
+> +
+> +static int do_kallsyms_query(struct kallsym_iter *iter, void __user *uar=
+g)
+> +{
+> +       char namebuf[KSYM_NAME_LEN];
+> +       struct kallsyms_query karg;
+> +       unsigned long addr;
+> +       unsigned int start;
+> +       unsigned int end;
+> +       unsigned int i;
+> +       __u64 usize;
+> +       long len;
+> +       int err;
+> +
+> +       BUILD_BUG_ON(sizeof(struct kallsyms_query) !=3D KALLSYMS_QUERY_SI=
+ZE_VER0);
+> +
+> +       /*
+> +        * The text interface shows zero addresses to openers without per=
+mission.
+> +        * A zeroed point query result is useless (and an address-to-symb=
+ol query
+> +        * would leak KASLR), so fail instead.
+> +        */
+> +       if (!iter->show_value)
+> +               return -EPERM;
+> +       if (copy_from_user(&usize, uarg, sizeof(usize)))
+> +               return -EFAULT;
+> +       if (usize > PAGE_SIZE)
+> +               return -E2BIG;
+> +       if (usize < KALLSYMS_QUERY_SIZE_VER0)
+
+PROCMAP_QUERY uses offsetofend() for the last defined field, any
+reason to have this #define and BUILD_BUG_ON here?
+
+> +               return -EINVAL;
+> +
+> +       err =3D copy_struct_from_user(&karg, sizeof(karg), uarg, usize);
+> +       if (err)
+> +               return err;
+> +
+
+[...]
