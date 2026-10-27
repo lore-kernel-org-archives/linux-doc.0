@@ -1,100 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793103788;
-	b=YTricJeUO6x8X8ysWmdeYsIl0l64+F+Pxk1bioJ5cfpKQb8tGAplOjd8zb09I2rjBc6j
-	 t1MkoBOlrRBIHKSUq3AOHPTN8u2hRRTw9Dqo6HYpUFJURLpOmDm6xNBUBKS+vt+LdH2Z0
-	 5LxpKEFFnsfDMGnxKZke9wxFRVOCGYXJ0WYvjS2hryHgPmJK4yMzD3HCW5VtAOKmFLzPl
-	 xCky695gMNeCgOnjvoiOl8hzLuCmIYn9mj6BEhhXpBhXfHySwCeloIIljd6Xs2KgY1Axv
-	 3IR4IhnXu0e8BE0g1h5ZRyEQEuJn1GEZUBe3plLExNxBg1epcceRGL9z6Hjh//0rbzg==
+	t=1793103837;
+	b=1uzj61T5sZwyg4yOlvAD9nMrEkHVhKfsLad/hed55SHwVJ5bGcjMYuw/iDnulPsHaZyd
+	 IT687dBe8MBHMrmgYibQV757qkV9oG7yj9gt6xgwu+2bSh6jQrN0PJ3TjBz045HuFgcaW
+	 zUFvqwLDsXKXdzHc6AndOoYYKcf3Ixrpjlv1EVatgZSyDPzVqp6by3jnMaceiAmWQi9KR
+	 0o4gbZsyj/6OtX168blxEvTDgTW+/Z8dOKN6WWCX7HF+URXRv642Q7cloxSHj+PdahVuS
+	 KPBNhKAl3Q9guvLq7wGJbtPxHNoFaOVQXXq0Y/dqIINdMbhECh2iCBKIKYzOR9I1evw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793103788;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=JH82SQPddTJN7QL/zfTDbgly6+w34WA/Fx2FsS5gJX0=;
-	b=tvkrnzt2bQyDqxZpSa0A0Bj9rtBVKgS1bMCcK10o9dF1/38AkIM/pAOS6Xaoc7Eqy+hc
-	 JtHrbXKmzDBUROoe/ij8czZQM1LMcQJR7I/PgmAP/BeSffLnuaUINFUU/mm9j0jMvfFju
-	 U5ljeL/owW1mM1VCszM3xeqpyTGinWwWVdcV2jsJqllVnAicb5nMG/FUZHl94uQvWb3nA
-	 VrFvzgXq5ZqEk178bAkD9p2itaDZ9KXL0sBDJ2W7jEim58WCH0ODYkCek6P7Jx+CrglrD
-	 +Z+Q17C7aP9dyBnTA9H5ciAyFDt29/gYoTi1acDlpKY2SrOQnvcjqnkA/OLipgy0mvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103837;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=3kyGnW26vs2sjKHmtrbQE7xnzfHT8gYFA7CSDPKdefg=;
+	b=wiExJ0mO3x//m+aymB9q9PrII/xvaWXjhREr0LKqfj+sPpNZyIXGm/KwqpnKScp+kX8U
+	 suBz/EsWj+QGU4XArJknqvrElr+g0/hgu1Xyzlpkr1nNPMl13x9hd9qrwRq66w7jXDbZk
+	 rxgsU8C3BjYVSCAxap8fI/wFkFHzH8PJW/GKujOdOAdv93zRzwicZrWh/77Ygl9fg/QY/
+	 w2JS0y5URXTKHBkd4z/fllQCRRtxqJnQneYYEyVlY49Y+ZJx/UCtZzH5O82c2YUXTxVL2
+	 ClEVBHbHb0RAmcJdPwXOJy2hoaC6QgudUaBndZ8UvSGABGtEy3WL3lr2aPkyUfNvo/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cTGAIvl8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=jQIi4Uwx;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CB6606A31D;
-	Tue, 27 Oct 2026 12:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5A360A2613;
+	Tue, 27 Oct 2026 12:23:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C5A360A2613
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cTGAIvl8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7F61F01828;
-	Tue, 27 Oct 2026 12:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793103787;
-	bh=JH82SQPddTJN7QL/zfTDbgly6+w34WA/Fx2FsS5gJX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cTGAIvl8KYAHXGMTqGOQk68gsniw9gx8F27qvbylYCwXiZAkK97itRAPuz+Km69z4
-	 l5qVom+jPX/FujKiJ6g4N913fr+YRHsXQxEL8+pFUsh/WJtw0lDnmUFjYnMLWBCFdc
-	 57ODOoIud/rWWtr6vu2w4+LSoKCYzJH17grJVSjKUqZZC2/tv7aZ6SmPgAME7UECK3
-	 KuYJZEf53Ueq9VReoyDmf+ufsMyNf8EYyupuBFA3EBVKgjcD1jO5HLumBmQXO6SfSX
-	 JOPh+lyss3rYe/13Uao+IZrYFgTvtbnu8SxJbxWDDcI1gyjlDPzn7+ghH+GMdWe8Y0
-	 Wf9ZKgUtTzSCQ==
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfauth.ams.internal (Postfix) with ESMTP id DDFAB198003A;
-	Tue, 27 Oct 2026 08:22:58 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Tue, 27 Oct 2026 08:23:03 -0400
-X-ME-Sender: <xms:opfgarAkOIR74toP6hkDm4hzLCfGQYFCfhEhfk01zfxeDfHJdt1rxg>
-    <xme:opfgah83ME6NZzWbkbNozB2k-g89XlXI5GXyiJwmo8FgcPu4M7R5CJT8nkqZIGw3u
-    YoTl63A1oEYW5gfV7RGxJg9MuCA8n0Tgk4ZTJe-S61Zdhh3f7CzbJsg>
-X-ME-Received: <xmr:opfgaoDoA_su67fQ0_Fhwb989zrijEY1mAcviOvIPNP1jmGNjiHfZ_C5aEw>
-X-ME-Proxy-Cause: dmFkZTGoVod3f+gzQyI5zh1cNfz3B/lNl8CDem1gpH9oo/zANXaPwl4/lEqCJQk8zhtrP8
-    e7wY2xOwNY02y862sCUKLrBcae/3k5Mjx6jchUi4fnRUF6UQHpQUbtomDtloc++Mt4EgSn
-    6OV9RwY8x6EJTliTPczhJN4bwoD1ZHOdp41L3oJAKvV08FPgHXZUAzX8iM6M1RdDjWD8pR
-    flOlcktTO34RfTZi2p3OTP+In8WQYMN3c5GjXWKOEMG60YIxkwPPIpuqZOl4C45T2eDwgW
-    PusULDyjW9qdpswwCkeor1T4yxtGU13QXTc9UC8KmEmi1bBuXRU1OfZmyA7pgZDHjUdQlO
-    eTlCLrQybSUeUm8OclpYFgHiYR1SQjwWU2EwgbgpPq+uzDLtCMAnmG6d21lxdDOc7zZYVZ
-    qpoln6Szr0E9lNDodnbNfhaO7NFtKowYNfwXS+qA3SreBzDEv/1UbkZ20VF5R9kZ8zd5EZ
-    EdQkIg1e2QQUmFVzGBmv6m69wiFiq2DKcfJ/YeYzEri9vknsMF1POuw571ZzzSc+60r1IN
-    U/Xx4NiWDE5T3vyWJ987ii2GbtrGHqbTbdJAxro2VPZIxLXMz3aKaNBoPaoM1F2ACL6VEb
-    P4n2bL+zkmkGncjs+41PFLwOkr/kxOR2XPrab+i03BxCQy4AjAvowYNZ7qNw
-X-ME-Proxy: <xmx:opfgatwlOOaO3u-M7qIJwbOTlyvqeCdmAWaZ7aiELloCGUdpNVU7zQ>
-    <xmx:opfgavoySzDzAfoxLc1H0-acvIkZ__jv_lnKNrlz01s0emfTeoZHcg>
-    <xmx:opfgaoyL1LIDX99Q-sC8wT-79rA1MTeeGbpgpHTuo51O-hl1-nLazw>
-    <xmx:opfgahNFbSFQotsSREFgxFAy5ldq_Ws_JeARrpcX72LIH1y3MFysnA>
-    <xmx:opfgaieOHSnFuqEoCD4VythpZOMKPLvazSko064KPu3HUzqbpEzy0d__>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Oct 2026 08:22:57 -0400 (EDT)
-Date: Tue, 27 Oct 2026 12:22:56 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Muchun Song <muchun.song@linux.dev>, 
-	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
-	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
-Message-ID: <auCXVv9yXtaS42w8@thinkstation>
-References: <20260227194302.274384-1-kas@kernel.org>
- <20260227194302.274384-14-kas@kernel.org>
- <ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org>
- <at_f43oDv73y-t7O@thinkstation>
- <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
- <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
- <auCKv_omLGRc6wv2@thinkstation>
- <20261027121323.GO2668564@noisy.programming.kicks-ass.net>
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=jQIi4Uwx
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DE7C4BB;
+	Tue, 27 Oct 2026 13:21:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1793103696;
+	bh=zzDxincjtQ0aOBbrKV1WXfzsyTRV3EKgzJBcWliMlFQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jQIi4UwxmafaCWDVk4w/Ja6XrQqBxhlYfv/qJi7MXjagGTW4cqH3JlXuamGdB+xCs
+	 oE7TB5Qb29+ejleWG7eUYv5bzsb5ayNXa5PqekoaHY2ERMw2qEuQfBaejKxpgr3AC3
+	 eMGOtq0NBCSpuly4jWAWbw67eQDV5tVD0C30ab3w=
+Date: Tue, 27 Oct 2026 14:23:46 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+Message-ID: <20261027122346.GA2133989@killaraus.ideasonboard.com>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+ <CAMuHMdX22CEnzQr8MuVftdVK23=ZpGoomGQuM-H8pw=x-Fsi-A@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,47 +71,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261027121323.GO2668564@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX22CEnzQr8MuVftdVK23=ZpGoomGQuM-H8pw=x-Fsi-A@mail.gmail.com>
 
-On Tue, Oct 27, 2026 at 01:13:23PM +0100, Peter Zijlstra wrote:
-> On Tue, Oct 27, 2026 at 12:00:47PM +0000, Kiryl Shutsemau wrote:
+On Tue, Oct 27, 2026 at 09:10:33AM +0100, Geert Uytterhoeven wrote:
+> On Mon, 26 Oct 2026 at 21:12, Rob Herring wrote:
+> > On Wed, Oct 21, 2026 at 6:55 AM Krzysztof Kozlowski wrote:
+> > > On 21/10/2026 08:49, Eric Biggers wrote:
+> > > > On Wed, Oct 21, 2026 at 08:41:47AM +0200, Krzysztof Kozlowski wrote:
+> > > >> On 21/10/2026 08:39, Eric Biggers wrote:
+> > > >>> On Wed, Oct 21, 2026 at 08:26:28AM +0200, Krzysztof Kozlowski wrote:
+> > > >>>> On 20/10/2026 23:22, Eric Biggers wrote:
+> > > >>>>> -Make sure that base commit is in an official maintainer/mainline tree
+> > > >>>>> -and not in some internal, accessible only to you tree - otherwise it
+> > > >>>>> -would be worthless.
+> > > >>>>> +    If ``git format-patch`` with ``--base=auto`` (or
+> > > >>>>> +    ``format.useAutoBase=true``) can't detect a base commit, e.g. due to
+> > > >>>>> +    the current branch having no upstream tracking branch, it exits with
+> > > >>>>> +    an error. In such cases, pass an explicit base commit to ``--base``
+> > > >>>>> +    instead. This is also needed if git detects the wrong base commit,
+> > > >>>>> +    such as when the upstream branch has local, unpublished commits.
+> > > >>>>> +
+> > > >>>>> +The base commit must be in a well-known public tree, such as the
+> > > >>>>> +subsystem development branch the patch is targeting. See
+> > > >>>>> +:ref:`obtain_a_current_source_tree`. Mainline or the latest linux-next
+> > > >>>>> +can also be acceptable bases, depending on the subsystem.
+> > > >>>>
+> > > >>>> I disagree, that's pointlessly too hard requirement.
+> > > >>>>
+> > > >>>> For many of my contributions base is obvious and not needed to be
+> > > >>>> explicitly defined. For all the patches I accept, answer is the same -
+> > > >>>> base is either obvious or if not and patch does not apply, then the base
+> > > >>>> does not matter.
+> > > >>>>
+> > > >>>> Requiring it is just bureaucracy without actual benefit.
+> > > >>>>
+> > > >>>> The only benefit would be if maintainer COULD change its base to apply
+> > > >>>> some patch with odd base... but this cannot happen. Maintainer base is
+> > > >>>> fixed - it's the HEAD of his development branch for given category of
+> > > >>>> commits (e.g. DTS branch for SoC maintainers).
+> > > >>>
+> > > >>> There are many use cases for applying patches besides the final patch
+> > > >>> acceptance, such as review (by anyone, not just a maintainer), testing,
+> > > >>> CI systems, etc.
+> > > >>>
+> > > >>> HEAD of a branch is of course not fixed, and changes every time a patch
+> > > >>> gets applied.  That's especially relevant when wanting to check out an
+> > > >>> old patch for any reason.  Trying to guess a base commit based on the
+> > > >>> date and patch subject is a waste of time.
+> > > >>
+> > > >> All these tools should just work on top of linux-next. Requiring people
+> > > >> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" is
+> > > >> pointless. I understand that base is helping, but helping and requiring
+> > > >> an obvious information just do not go together.
+> > > >>
+> > > >> So again: base has ZERO meaning to the maintainer process. It has
+> > > >> meaning to tools, so fix the tools to work on known and obvious trees.
+> > > >
+> > > > So what is your proposed algorithm to apply an arbitrary patch when
+> > >
+> > > Already provided that, so to recap:
+> > >
+> > > > there's no base-commit?  Including any historical patch (from
+> > > > months/years ago), patches with dependencies, etc.
+> > >
+> > > Dependency is something else, but for every other patch:
+> > > 1. For testing/CI: you apply on top of next
+> > > 2. Every other case the maintainer knows where to apply it, because it
+> > > is his HEAD of next-branch.
+> > >
+> > > I am repeating myself, but I really had no single problem of lack of
+> > > knowledge where to apply a patch as a maintainer or reviewer of some
+> > > subsystem, thus maybe I do not understand the actual problem you are
+> > > experiencing.
+> >
+> > Look at our DT PW. There are numerous patches that don't apply and
+> > then we silently don't test them at all. Here's one example[1] (3
 > 
-> > Fair enough. Here's some context.
-> > 
-> > HVO (HugeTLB Vmemmap Optimization) frees most of the memmap of a hugetlb
-> > folio by remapping the struct pages after the first vmemmap page to a
-> > shared page, mapped read-only.
-> > 
-> > Every lockless get of a page reference (e.g. page cache lookup, PFN
-> > scanners) relies on page_ref_add_unless_zero(), which is
-> > atomic_add_unless(&page->_refcount, nr, 0).
-> > 
-> > The page can be freed and reused between finding it and the get; the
-> > zero refcount is what makes the get fail. The race:
-> > 
-> >   lockless get                        other CPU
-> >   c = atomic_read(&page->_refcount)
-> >   c != 0
-> >                                       page freed
-> >                                       page allocated as a hugetlb tail
-> >                                       HVO remaps it read-only
-> >   try_cmpxchg(&page->_refcount, &c, c + nr)
-> >     -> write fault on read-only vmemmap
+> That's a false positive, as the first two patches (the ones that really
+> matter for you as DT maintainer) do apply to yesterday's linux-next ;-)
 > 
-> I missed a little something here; page->_refcount is in the page-frame;
-> how does the page itself being RO affect this?
+> > actually as the whole series doesn't apply). The more base-commit
+> 
+> There are indeed patches in that series that cannot be applied, which
+> is explained in the cover letter.
+> 
+> The problem boils down to how to present work that touches multiple
+> target trees, and where some parts depend on other work that is
+> not yet finished. Do you post it as single series, so people get an
+> overview? Do you split it in multiple small series (which may still
+> have interdependencies), so everybody looses context?
 
-Emm. I am not sure I follow the question.
+There's no one-size-fits-them-all solution to this problem. What I want
+in those cases is information provided by the person posting the patches
+about the dependencies and where to find them. I think there's value in
+specifying that information in a machine-parseable way.
 
-The memory itself is not touched. HVO remaps the vmemmap, the array of
-struct pages: the part that holds the folio's tail struct pages points
-to the shared page, mapped PAGE_KERNEL_RO. So it is the struct page,
-and its _refcount, that is read-only.
-
-For a 2M folio with 4K pages, its struct pages take 8 pages of vmemmap;
-the last 7 of them map to that one RO page.
+> > [1] https://patchwork.kernel.org/project/devicetree/patch/8b2c7719c301a445891fc6c5309456327ec8a94c.1793026273.git.geert+renesas@glider.be/
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Regards,
+
+Laurent Pinchart
