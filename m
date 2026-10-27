@@ -1,73 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793130201;
-	b=QTO8XNL+Y6IbJaaH4NHy/NIsMcWEU2qXCUO0oSQ1saTA+z9FMUc09YzhUY5wCxsFGtH7
-	 P5ery9JFSg74GM9kwHeFgrdWHKQHKA/rPxbq+hPf1gvSaQtWDuQ9GUsd00vVHPInt/Mh0
-	 qTXObdnPnkiaVpndgg8mExJN3SRUUC1diaeG1wvjZ0PQyyJGrwwTVbFuZtth9JbyNjeJs
-	 nwBHd5pr5xJxHwVCEZ5OE3XYDXbsGDwQvB0JpvpR0R5m8udB4+J5ClGzYgTac/Wyg5GuV
-	 XGr3rfFWaDjquqFSQC8LRIfSF/RDSyXHfTjKNOYMB/0bVOgrnv0QE6tldos5lmjQgmA==
+	t=1793131037;
+	b=vlMB7Uf900WrTBnHInIZ9/0O8Bp9PGjemCje5yQHr+jDDB4whXFMHxGrr8Ki0ROJ1468
+	 N+aUTkbw64EMo4y4nd+c0sJeD+DVdLUMyVNczIpRqaJwlt+UWXIMW0/T0O4o2/1jFo0eC
+	 iwJBXdAxDByJzoL+f4AkGJydUdGQGPr6ncdtMRE9qk9p5Bnx8H3dHtMl/Otj7yYkR++It
+	 rU9mdehnekBwKWbVVq0LtyftJ9xX4KY2dPzXLSzAtHKQBaq+r7V1BW1a3dLmcsQkQFfQ/
+	 9ic0Rhs9NUZXwsjqY79nv1yYa7ftUjlKbN90Lx00LDV3OBmqiNBksPZGwPCl20mt9ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793130201;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=YUdXRkUnmyKckbiCSZwqIfvpA2XsvLBQukrw69VFn8k=;
-	b=QU3DG5WMTnJwhtZIw2x6FywNGUONo8KchfCFwJ7FMkDaLTv++TAfEhfAGZqmkI7DalXG
-	 GkGmfW3WZYvqcYjpYvUx0/ev9SV2qjSR5RPPrMoS4LYp3yxuqIkP50MkqqNHuRPlVjsid
-	 2KOEIN6CsAvVp9MOjdUpknqi8/nHfYHm4nFq7Fh9qnZB0n6vK0spWAC8DrNxvavge+DnU
-	 wBjXoAjMRPR4HCzF54nOYuYZU5oIxrycIT3qgnKrIMQe3UR6w/BKRm+py5AKwtsm5xF8l
-	 5Hbx822rMliGjUcPHYQp4cRLv6//rq+VSYcsBymwL4k6/OZP4XZNcpyeTHmGfRYTkWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793131037;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
+	b=4B3Xp+rY8bOUolu6xqjgwp916dHlj7tb4p1/sCT/krJTGHR84uwfxl6q4FOGkN1SHoJI
+	 YWIo7pel90Ya4KcYdrucz0+Ao/BBlK5hQKBixHw9y2aiRbGAu/zGFRgV1Gz5taDINmgN3
+	 uDQr7uFOixupQ5/7Dt3wqwuCyekhxl1VFVXuOcC1Jp2i1WNNP8KYxpnviT31VvvAt4SJS
+	 LT0IUVwRBlE+rvMdU2hJPBYjaZ7rnbnWFcOq8PC3zY3/Lppghf3VTXptnNdeiDbFV+LFZ
+	 ub/7A3yjF9/4kuZsE14UZNhj0K9x5qp+pQYBJt/Y+eVUTQzOQ4pXXP1+IL6FAoHqMOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G0ymoyRg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5205606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 19:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94E5606A326;
+	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G0ymoyRg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6141F01829;
-	Tue, 27 Oct 2026 19:43:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfO+CnhS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E401F031E4;
+	Tue, 27 Oct 2026 19:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793130200;
-	bh=YUdXRkUnmyKckbiCSZwqIfvpA2XsvLBQukrw69VFn8k=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=G0ymoyRg7/stMNyNnU+GZzhymgKJMdGj9bWQ0sPN8f5SP9QVKHcUOacd/LVUr7iT/
-	 X/dfimZRKBrY+PT4y8gF7ubriOTBOODXspZFyav8Zmt5/6Ar4nYoZ5M45+DRPxdQt8
-	 qWUZiFY0bxlEXLKAuZWnRVdMeSC9nIDJbbRLMh511q3jRiVB7SutAghd3sAehXoj3Q
-	 7QBKQxU7huLh44yTYcPXyrGfv+lf4cznJQEKG5QOTL5rh7ujzkh6C+ihLST5IViod/
-	 cZaf6Jl8jpQl3DOhQV5UUFtQ8VsJkCAbXHWU09ONVWZjWi8ojI47P0l52Vn4yPmbLf
-	 +5t5bTnSzLVlg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 63F10F40066;
-	Tue, 27 Oct 2026 15:43:19 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 27 Oct 2026 15:43:19 -0400
-X-ME-Sender: <xms:1_7garR6_ii-3JqWAxkLfgp5COynTZHd7NgkE9vlTTdZ0Xw9BgszwA>
-    <xme:1_7gannKFijXN3WLc-ZZqIXqDfnNxdHxcistzuczVINnBEJedfTn3iADgs0lJmz_3
-    -dQF97cbBUnS911gI06Z55C9P0TsM4SqCpfzVsJg7jeLCqydIOEHAUN>
-X-ME-Proxy-Cause: dmFkZTFHp4xcxxMGOXbqjTEmsIzphxytrdzKnRuUsJ4q1xJ6tc++wD0Px1pkG595opi4L2
-    in5nosoMgjjhZ9i/1O7VORgeIhchpg2tC8i1KNVutWlZAR6WfIXTZJP7TWh+OoRRnYAqRg
-    PikNACcGZ79jBKMoYKn3ZESzcV7SDOfCGSffPtkcgLyuWbLsLlzS5neArTXHUypsRrC5kh
-    cdCFNjvb0qjKpalrMDPrB7zVZYeAksYVn0oIQoTbs/UqYnTkJPtJeyjmbi5hLHiQVlTTne
-    c/KZFYQF1LJ5ibZkZNEEK1eZ/BMW9E5f8+RoorcD2LjRzUuIIBWyh+wC+qbuA47WXBJljc
-    d12wCgK73jQWU/CEUMI+dRWFIYn8JL5eFMDQjTEUl9ue62crxyyrq3LV5sA7NMmm8HXF4s
-    78Ka2Rqsy7c7lOYOW6xRJepzD5g9U25ATjvKr1u7r+c4uEY7Z/4wHTOON+yrz4CgVzqDQD
-    vRRzhEdVGoq5UiHXNCkzOfsW0axVPB3VncqtOlJ5dn2v6MWR2bIgnLUQC3qDfwQmskZKrx
-    th7hExcwzQ6CC3IPLK153hQY/8fLQw5fx/lsq4HQi+oVaM93LPp34msqG8ykY1jhKADIrx
-    GJ3DJFT5UB9zWwJgvXumdaeMtAfSIJzVC+Ga08JmhsQt2QvmFxppVYS4mgwQ
-X-ME-Proxy: <xmx:1_7gagC4oYKjkSOGsyJVZW5Q3JBuTBQ3mtz-QETsvBmpDpF9UZJM5w>
-    <xmx:1_7gavuuY6CkskkVRsxgCjcw3GC9CJ3VrkGuZxso-h80drx3_7lSJA>
-    <xmx:1_7gaoF7wsqnDxxUAt9IodNUzHOsDdJ-g9nzHbv9ISzWU-uB2xUrnQ>
-    <xmx:1_7gai-Ded41_BKqj3Hnyc6REhnBGx_DiyNLZpjvcUO1765dt8xmng>
-    <xmx:1_7gamP6rv05RdNy_6yx8Edf4Go4Pqngd0zqvKqukN4lCQQe1gR5FSxa>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2DCB578273B; Tue, 27 Oct 2026 15:43:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1793131036;
+	bh=MjCOMTfDinep5vhJGuYRekQuBK53NYbLjZwxUltG/Hg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YfO+CnhSfb0ZtYrj2CML1pC1tIRO+z2avoDHlsH3Pg7Jh1XtdZihUbWne5MH13ZEr
+	 ndmOcwHWKJwE19Z8Gpl/t+QdOA78SYAaGtvABPhHc4tbAf8qGDUCmGbqJ2uzgRvUNC
+	 D5WMOCaDUWyjlTtD2oj8Qh3LzsCFncpf1YVp58L+Lgji6+E26NoBuB/VyP9Ndwsmgv
+	 tQ4hUOoI/M+eT962RzEcA0MuZla8CLe5YRl+zCwSwNE5bMGGVvwfa18N0/kPdJxm0l
+	 5hMU665s0mhzzyh+64GbMKE4QFaA8fJNFb0EunDnNQNqIBlLseJsL0qxIQl9xTSErt
+	 3jWa767pCRbgQ==
+Date: Tue, 27 Oct 2026 19:57:14 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+Message-ID: <20261027195714.GA2508049@google.com>
+References: <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <20261021163242.GB325924@killaraus.ideasonboard.com>
+ <73d01869-b536-4fcd-a139-6f9d0a043347@kernel.org>
+ <20261026104056.GH15441@killaraus.ideasonboard.com>
+ <3f518c8c-2950-458e-95fb-5b282db4c384@kernel.org>
+ <20261027122952.GB2133989@killaraus.ideasonboard.com>
+ <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,70 +69,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AGB9D7c4hmNR
-Date: Tue, 27 Oct 2026 15:42:59 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>
-Cc: NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>, "Mike Snitzer" <snitzer@kernel.org>,
- "Donald Hunter" <donald.hunter@gmail.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Steve Dickson" <steved@redhat.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-doc@vger.kernel.org
-Message-Id: <7b76322b-9d67-4479-a389-f982a6f4a17a@app.fastmail.com>
-In-Reply-To: <31238159b7a4753e0a10c9f8b9fdecc4b92fb2f5.camel@kernel.org>
-References: <20261027-export-iomode-v1-0-262ed932a036@kernel.org>
- <20261027-export-iomode-v1-2-262ed932a036@kernel.org>
- <ad5ac019-34ac-4c7f-8b90-cde8a0dc0546@slotpi15m67>
- <31238159b7a4753e0a10c9f8b9fdecc4b92fb2f5.camel@kernel.org>
-Subject: Re: [PATCH 2/6] NFSD: Apply per-export I/O modes to READ and WRITE
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8230fb00-b1a4-47f0-b9de-5d0fa42e9465@kernel.org>
 
+On Tue, Oct 27, 2026 at 03:31:36PM +0100, Krzysztof Kozlowski wrote:
+> >> Since this step is pointless - it would be linux-next
+> >> (assuming in the first place that this is what the author wanted here!)
+> >> - it is a waste of time for me and potential resubmit of series, just to
+> >> fulfill requirement which brings no benefits. So I have downside and I
+> >> see no upside for my case, when you require the base.
+> >>
+> >> This might be affecting others as well, but now speaking about my
+> >> workflow - I have a lot of independent cleanups, which I stack on top of
+> >> each other, sometimes series, sometimes not, but stacking is important
+> >> so when I run `make W=1` it passes.
+> >>
+> >> What's more important, I reject the entire reasoning/cause of this
+> >> change, which claimed you cannot review and therefore accept such
+> >> patches. It's simply not true.
+> > 
+> > That's not my claim.
+> 
+> That's the claim from commit msg. And wording should rather be "which
+> claimed one cannot review".
 
+Emailed patches include only 3 lines of context by default.  That's
+simply not enough for a proper review in most cases.  For a proper
+review patches usually have to be applied, which often fails especially
+if it's an old patch.  (Caveat: as usual, the frequency of this varies
+by subsystem.  So some people encounter them more than others.  Just
+because you might not experience this much doesn't mean others don't...)
 
-On Tue, Oct 27, 2026, at 1:59 PM, Jeff Layton wrote:
-> On Tue, 2026-10-27 at 13:54 -0400, Chuck Lever wrote:
->> On 10/27/26 12:45 PM, Jeff Layton wrote:
->> > Resolve each export's effective I/O mode (explicit setting, else the
->> > global io_cache_read/write knob) in nfsd_iter_read and nfsd_vfs_write,
->> > and skip splice for reads on exports whose effective read mode is not
->> > buffered. Update the debugfs knob comments to match.
->> 
->> [ ... ]
->> 
->> > -	if (file->f_op->splice_read && nfsd_read_splice_ok(rqstp))
->> > +	if (file->f_op->splice_read && nfsd_read_splice_ok(rqstp) &&
->> > +	    nfsd_read_iomode(fhp->fh_export) == NFSD_IO_BUFFERED)
->> >  		err = nfsd_splice_read(rqstp, fhp, file, offset, count, eof);
->> 
->> nfsd_io_cache_read_set() still sets nfsd_disable_splice_read whenever
->> the global knob is switched to dontcache or direct, so
->> nfsd_read_splice_ok() returns false before this per-export test is
->> reached. An export pinned to riomode=buffered on such a server never
->> gets splice; it falls through to nfsd_iter_read() and does vector
->> buffered reads. The same applies to the splice_ok decisions in
->> nfsd4_encode_read() and nfsd4_encode_read_plus_data().
->> 
->> Patch 3/6 says an explicit per-export setting pins that export's
->> IO mode "regardless of the global knob", and that isn't quite true
->> now for the buffered case.
->> 
->> I need to think carefully about the interaction between the "disable
->> splice" setting, which is global, and the per-export I/O setting.
->> 
->
-> Maybe disable_splice should be an export option of its own? It seems
-> like that should be doable.
+base-commit (and optional prerequisite-patch-id) can prevent that in
+most cases.  That's the point.  And it helps for applying patches for
+any other reason, like testing, or resuming work on on old patchset.
 
-That would be easy to implement, but I wonder if it's something we want
-to carry as a permanent extension of the export options API.
+It seems like your concern is that people would bureaucratically ignore
+patches without base-commit even when they apply cleanly to "something
+obvious"?  That is not what I intended for this at all.  This is all
+about getting more patches to include base tree information.
 
+I also don't think your interpretation is consistent with the actual
+commit message or diff of this patch.  Regardless, I'd also be glad to
+clarify the wording.  Do you have any specific wording suggestions?
 
--- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+- Eric
