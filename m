@@ -1,41 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793103088;
-	b=pMdOuPIG2Vy9jDwohmB0AUekZjQN2ZlSu1D2VQ7eVHooIK3LDTP8Uj8Nd9csXlMrh+nq
-	 4CRNb6FuTRVx0SVtfGdg4EM3dbUdHOwfZ6a60f0HJIHCZAoYEycz6ZvqMnjaQu2BQy7yy
-	 ycNpuHukCu5Z6fMtzP/4GqwPCtUehktf2TZjJWiv68ownmTCHqjJ6s6n/Ad7pE6xMmIk4
-	 9fpP7S8pnk2JkwLt6wc1Ey+4oIVYQwszM6rrcCeadClsvY5BcTt0EBrT8eSgw2BXRxU8s
-	 2lCXMkYRQkxnM66qvzudai4fFKwlqTrAtkVF8k8wPVWpFAT9r5lEn/cty6JeYTr/IwA==
+	t=1793103215;
+	b=P32wJHUeEIkvT4LyEU6WsHjMr0rpqa7ZqBOpe3Kl8gvTmRR7m4aChoVkPbSeFXAzeWBa
+	 vUBXJNsTYz+gLH8/Y94mfFeIzdwpu8BlZTiInOzxvcKHkLu7nqJOjBWdYiiUvqyNFZCIK
+	 HSNhkSCk5iNyBtIRkfr48bCJEs9wA9TzgrkZRUIKd2pbmgoUSJ4ZKPbBuKmwhao53DR8g
+	 2lugpZyI5rhCuzWnMeA3TEDHAFX7tUIfgbD5nvt4cOej/Z+uMfnv6eBktfQ+e5j1QXKhe
+	 hSvqi005zS+ErFEJ5LMr8aw4KNTyC1MI1kU/dHeWS23w+wuVGdugL4LJKPjzUcpqd6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793103088;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=iU54Zme+OcuYL0dzc+Pahc9pzVneTjh+9Gx1IthbgEg=;
-	b=ch7nkiq1w8A7ZuVu5+/w8gXEZlWNflTsgrtNWGBSejNNofLegjiH2FayqZMqj/5ofds9
-	 nVKvrHb1F7JIcR6NWpyZqWqzvW5UjcANJxxj1jmn8ekCpOjPlw/pza+K8NshADLmPJokd
-	 0eeDsWLtuULvjTl6rhFtWC1QR5N0zc5Qp+EKlBydztr4nrB/7PCM0vX2WuNjrCsNt3USW
-	 s9A4vSvf4T77ELNs7UdyTPVYnqP3KhIvGHBc7U9/y8yNsuqorBLKhR4QuvvmZd6gGXD3K
-	 DGco9n9rLB7z6uq9ANQ732x3nLON66+eeYYldUqa5ZREusED0IkYh1V6L7mZGtKJg4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103215;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UqgubOSrlWvHKhI1cqoT/fdRktbJuQr2VeGa7H2doB0=;
+	b=3kicCG6GuN2ZjBLiLwP7bNFTyYwKe497advGh/nUo4P55XzlXy3n68XDQ/tn5bi0KooI
+	 VG1UAMYmDwybw2B7jxPVp4em4jzHtvo91ivsV+1SDvT5acDpIh904ocDQRK10ZlLnW5lA
+	 UMBHNTS0N12JuIQFwUP7ERsju5cHvoVmsv7olvqJac9gFVqglVAVE+vE8HCZH4UyCj1Yh
+	 1r5EPwdjGidKxWXbp5jve30rOMliu8l9hbPLh51NwJEfER8Qbwlx0q/ARG06oRW8m0zdZ
+	 0QbLhvYHNmeiQBEUaLmpOhlbLoydWv3Sq1z+j5027LgZRo2FmB5XyS3v9FepZ0XyNsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.75.44.102
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11AA606A325;
-	Tue, 27 Oct 2026 12:11:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B11AA606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMC2_qTqlOBquhU7AQ--.34292S2;
-	Tue, 27 Oct 2026 20:11:22 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAH4ibhlOBqIOMTAA--.26244S2;
-	Tue, 27 Oct 2026 20:11:16 +0800 (CST)
-Message-ID: <59010171-3f94-4574-89e4-b655c1c6dc30@hust.edu.cn>
-Date: Tue, 27 Oct 2026 20:11:13 +0800
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b="RBTg/FKM";
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698EB60A260A;
+	Tue, 27 Oct 2026 12:13:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 698EB60A260A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=RBTg/FKM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UqgubOSrlWvHKhI1cqoT/fdRktbJuQr2VeGa7H2doB0=; b=RBTg/FKMjiMJhvBeWjtZ6CZIY9
+	rvPo1ckUCe6w+h0QiGzd+6cZ2SX9h4XjdR9cge27tpZKPnYIX66xu0ynCGVEVN17tU71OKLzHYeUd
+	YqLq2zAJnig/4jV33IsJ4SPBSdrisjLfFdiJlsjpW5dPMWCs+MvV7MeJYcTUbpvu4bgIGirMrhNRT
+	rfQtF87hxPbl4GLZG512PZKdcraOJ9bUOs97wFlIO/vsRNJjr0Xeic51ZjNa4hLcU1g1mU3TtvmU/
+	TMvXw7zT4HnYQe+O4c+SJwwIKJjffebWKGrSbkUjU7VknhliRZuEvq3AGqvm5+9EA7IZvX/8NaQPB
+	FB/pcf5A==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xLg3R-0000000EufN-04F8;
+	Tue, 27 Oct 2026 12:13:25 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 9C1633014C0; Tue, 27 Oct 2026 13:13:23 +0100 (CET)
+Date: Tue, 27 Oct 2026 13:13:23 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Matthew Wilcox <willy@infradead.org>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Frank van der Linden <fvdl@google.com>,
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	kernel-team@meta.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
+Message-ID: <20261027121323.GO2668564@noisy.programming.kicks-ass.net>
+References: <20260227194302.274384-1-kas@kernel.org>
+ <20260227194302.274384-14-kas@kernel.org>
+ <ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org>
+ <at_f43oDv73y-t7O@thinkstation>
+ <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
+ <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
+ <auCKv_omLGRc6wv2@thinkstation>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,97 +93,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] docs/zh_CN: update admin-guide/README.rst translation
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jiandong Qiu <qiujiandong1998@gmail.com>
-References: <20261027102552.3801595-1-dzm91@hust.edu.cn>
- <20261027102552.3801595-3-dzm91@hust.edu.cn> <auCM9YrxbpXvdRv9@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <auCM9YrxbpXvdRv9@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMC2_qTqlOBquhU7AQ--.34292S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxJr18tw1UtFWUuw4rWw4fuFg_yoW8urykpa
-	s5KFySkan7Ar13Gr47K3srtF1rJF4xGayDJr1jv34rZ3ZYyr1vqrnFqrZIgasxXrWIga17
-	XF4rtF9Yk3yjyFJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQEb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCY02
-	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auCKv_omLGRc6wv2@thinkstation>
 
+On Tue, Oct 27, 2026 at 12:00:47PM +0000, Kiryl Shutsemau wrote:
 
-On 10/27/26 7:37 PM, Weijie Yuan wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
->
->> update Documentation/admin-guide/README.rst Chinese translation
->>
->> Refresh the kernel installation guidance and correct the defconfig and
->> LSMOD descriptions. Add a label to the translated applying-patches guide
->> so the README can link to it.
->>
->> Update the translation through commit 8913632998fc
->> ("Documentation: Fix typos and grammatical errors")
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   .../translations/zh_CN/admin-guide/README.rst | 89 +++++++++++--------
->>   .../zh_CN/process/applying-patches.rst        |  2 +
->>   2 files changed, 53 insertions(+), 38 deletions(-)
->>
->> diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
->> index ee6dd3782f4a..050f671f8acb 100644
->> --- a/Documentation/translations/zh_CN/admin-guide/README.rst
->> +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
->> @@ -1,11 +1,12 @@
->>   .. include:: ../disclaimer-zh_CN.rst
->>   
->> -:Original: Documentation/admin-guide/README.rst
->>   
->>   :译者:
->>   
->>    吴想成 Wu XiangCheng <bobwxc@email.cn>
->>   
->> +.. _readme_zh:
->> +
-> Hi Dongliang, good evening ;-)
->
-> I remember that Jon emphasized that top-level labels should not be
-> added in this thread:
->
->    https://lore.kernel.org/linux-doc/87tsqytxrn.fsf@trenco.lwn.net/
->
-> And I remembered that my patch (apply-patches.rst) was rendered
-> correctly just using a plain path. (so I didn't add that label)
-> But I'll check it again now.
+> Fair enough. Here's some context.
+> 
+> HVO (HugeTLB Vmemmap Optimization) frees most of the memmap of a hugetlb
+> folio by remapping the struct pages after the first vmemmap page to a
+> shared page, mapped read-only.
+> 
+> Every lockless get of a page reference (e.g. page cache lookup, PFN
+> scanners) relies on page_ref_add_unless_zero(), which is
+> atomic_add_unless(&page->_refcount, nr, 0).
+> 
+> The page can be freed and reused between finding it and the get; the
+> zero refcount is what makes the get fail. The race:
+> 
+>   lockless get                        other CPU
+>   c = atomic_read(&page->_refcount)
+>   c != 0
+>                                       page freed
+>                                       page allocated as a hugetlb tail
+>                                       HVO remaps it read-only
+>   try_cmpxchg(&page->_refcount, &c, c + nr)
+>     -> write fault on read-only vmemmap
 
-
-It seems useless. I will test this removal, if it works I would remove 
-this top level in v2 patch.
-
-
-> Also, v3 of this series is pending, if I remember correctly. In general
-> I think it's not bad. So feel free to take a look when having spare
-> time.
->
-> v3: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/
-I will review this patchset today or tomorrmow.
-> Therefore +cc Jiandong.
->
-> Thanks!
+I missed a little something here; page->_refcount is in the page-frame;
+how does the page itself being RO affect this?
 
