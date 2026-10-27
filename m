@@ -1,68 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793142564;
-	b=PYyKsbAbDSCR74vKJQbF/By9Nqu2Fvv1WHuJkYhuFSmoCsj2TsOkokvH9Q1Qw1EcUy+h
-	 jQ6ETh1+2mrlBFYbDQiSbHf0MXyih+gsVfT5EHNPZrL/dDr08DnB7dKQuKvOzN30eLbuk
-	 RaG9ZJcigVmsUZ9RAne+fqGoveju8eHEHWBjy/aR3Si5qVtYZgLuBsf8/OfsIwzzKMwOp
-	 Lg+AiNsdyuDO03MEP2k1MWB4tfIMVeG/LnPbCzErrcsQ3fUGjBwigYRIf4xiKB+o02K2u
-	 hiPPeaW5ZegnamsINZPnxhIkUNzOtjdfCGdu23VxRmOyPGyMvOhm2Dma53il1xJ1/dA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793142564;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=PV2RT6jIH1WRbU7hSLbKZt++GuxkbZqxWqm1JGu5HoE=;
-	b=KKfWo6SwSXvnAfELZ9gkBEcPrxE8y0ESfokPLB5bU8PT1iDtt1MRQe5XtY7fT+mZysUU
-	 mwerWGAjrEMH/vkEufeqaU2IBjRd713kVXNVGp3CXPb6UZTvFA4uZjxE83Q2cP9RDtLDN
-	 RAlDrTItDw8+54d+90VIwm64XKiXZSdIvRyW06YTs3inkEmM9N0D0WIJPmJ0IwmnGQ3U5
-	 McbiScN5N1yU3HwxvxpnProA0/k3Za5Wv4Ht7/CO+1HK27WA/jNpkc25MRKAWqEf0ogmQ
-	 E6doKF8pTijN2G2TAXtSVi8c9nSGL8VFA7hacD5SvvmOdWAbNlI1Cd5T10Yn2C+3BPw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JIvT7bqL;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.65
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793142962;
+	b=AvIvYupA4X7jVeU/LMno0QkLZMtf645unZTg2FPtb2LOnmvoP1JGLFNIjRRZPQwx8l7X
+	 mUw95NakQqBQJZlthmVDYvHIQuyddh6nTBhxNu7enhhROKvMjhmEQa7dHfHBRmNqP8EHt
+	 2BScLErOz5kUBIlBx+99LR/1tzm4G4khcFwn3F7pLgDMo4LK1Vq5UPmSOeNfxTAAW45ld
+	 Amolcxd+VxczMBIGJHi52lTceuvKOi58y9hrYrxoh3zZ5Atv3vh04eLAn+an8QKB1EQqw
+	 qvb7703pLUg28nf5nPVeczBwHubgSNeFvHccd/B+6ptSAwuVKuFlZOwvl51Wu7BT+Vw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793142962;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:
+	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
+	b=IdGHutgvxHeFEQCMlHexL/JJ4hjLgffRu7devAk9sZJqdc92lrNDx2tiU9zVqKceH1/k
+	 +uRwz+6S7ffzb6MRI0rc11MsXfcz9xnDn2RMtJxFi5+hCnJNzWeykhYy68LGtIGdMg478
+	 L/xStZEY+7LAbsWIiUTf0/7CPr/s5rcazRqGU8T11mvC3f90ZlxKvqMC9QRWEeNh6Rbd5
+	 KuCGJisV4MXnpQ7eBDpkcan545uWkV4obZhGkDX3Pa4cwK3gIzmq6EnshAIVy5rn5LOiS
+	 XtjAi6QKTMlVphAJjAsRxih5Naa8aIVtxgpYxVog2S/tfg5ntkULY90A+fd2+vf971A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="Gt/46kow";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.65
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012065.outbound.protection.outlook.com [52.101.53.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABB4606A31D;
-	Tue, 27 Oct 2026 23:09:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6ABB4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA74860A3802;
+	Tue, 27 Oct 2026 23:15:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA74860A3802
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JIvT7bqL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793142564; x=1824678564;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RQBKrRd8W+UdFFloUvBdZhOEkrOVdVKDsQPlJex8VVI=;
-  b=JIvT7bqL1M831tucFki87nLuaRHE8mE77kdZO6t7x57BsYUBgFx7swpB
-   FoKbaqr7lXwzNFzPpj/JSm2MnpcVQjafsDa8djmRDzg+Kpx6Pg+lQ/DvA
-   9MsKuKgFoztO4Q+Rcub8IUUg+gYYWZ90ajG9lQwNHcWuQkWpkdmUkDb4W
-   vyJClk5hxLK+3C8CX18ld0zkUhptl59GejzWjb2DuvsdWfWUoSTYUG3JG
-   tu5I+ioZ3Uis9Cz71KnOCWc2u7mqDspjA1R6IQzf0PoG1sFIVXX8CLZOw
-   YAcmCAtJXEo+dHnTcgSGmAw/BaKliuSAYo0oKkJfn7YfI2QeckkXf/qyh
-   A==;
-X-CSE-ConnectionGUID: 0Y3BCEZhS++GR2HGfhWYiQ==
-X-CSE-MsgGUID: qryDNBcFQZ2CFwctftukaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1844086"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1844086"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 16:09:23 -0700
-X-CSE-ConnectionGUID: 2pNB8aHzQb6DVHvFCDzqJA==
-X-CSE-MsgGUID: EjfxNES/QuKl/hZDbHfGbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="5014929"
-Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.108.170]) ([10.125.108.170])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 16:09:20 -0700
-Message-ID: <5f33aeed-a20d-4881-9ccf-a69bc308d348@intel.com>
-Date: Tue, 27 Oct 2026 16:09:19 -0700
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Gt/46kow
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SQ0rtxs2yHtePTZKSKD03j2Lp/EMu3QXDUf/w94nK9S+l9CYSX+7Cr9paPIDE4/M19m4Ca8X79C0uz89dK22pQ72n+cDOzmWDU3wG0TK0yKs4K0jp/3oIuLOfP+nbdP0y8i3vmhQd6gwRl02mrcu4ByiN+RZ8GhgbCqALGUlndhuhHv5OsXsAxiLkHufzubfHg7vmeVMkxluO80yGDKOOnS0fKbHULE0sAh1LIqaFZh7Oc+5k5hucReBYuB1hA4t0UzQYIJe2FEpnsVIbRa9NCcLN7pveLT71fbGYNPKuH2nmC/bxE/gcjOhOCp6OTi2iVqnf3pdkgdpQpEn7LUOPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
+ b=b0JQW2AEqPk0iP8a9Zub+egPaFvQ3Dhf84zHirwe+SMZ7cbPs0/46tOcyBL2VHwrITCNhqMvFDlSoVfjuzHpvUShZ2rRyprTXr+2xJHEoJtCrTCq/qSxBvu1X+whIr0SBZqudOvFV+Hk0pqnT9+l0aBVaqR9sTE4zuLh7oD9DA/M4D0Ueo2m9Y8cv2Gf98xBykKP/uu4UIBVJHmiEFpJmW4xFNhe6B0hlBOktB/K8r+61T/36+0AhC60Iv3KqqvTCz8hoMyjiY36xf8h5RBGR+GrDYg27t4fE/Kc+iK6EFaxySSCcUo3nJ6cU/d5ZkkJsU5IyxzbTYJgerhci1O+lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
+ b=Gt/46kowYNiZfGLkAVE6OaDkSSnYpqckrOor/qJPeSdsHwKMTjjCglaYc28asPRHN0TIJ5YbjWWz+FYDCNfl7LBI4K+P4kmPsVpQwcgoeixgHICmsdDLcX6F6xw3v88rW98z6lgDsR4c0TCgFyOXraesRF/6osIb1OZDO9j2J/Y=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN7PPF5F16C5C9C.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::607) by DM6PR12MB4186.namprd12.prod.outlook.com
+ (2603:10b6:5:21b::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
+ 2026 23:15:52 +0000
+Received: from BN7PPF5F16C5C9C.namprd12.prod.outlook.com
+ ([fe80::67a7:9feb:71ef:964a]) by BN7PPF5F16C5C9C.namprd12.prod.outlook.com
+ ([fe80::67a7:9feb:71ef:964a%8]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
+ 23:15:52 +0000
+Message-ID: <34272fe1-e5cb-490e-9053-a2fa72f29a10@amd.com>
+Date: Tue, 27 Oct 2026 19:15:49 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 8/9] drm/amdkfd: Free queue in procfs_queue_type
+ kobject release callback
+To: Ian Rogers <irogers@google.com>, Kees Cook <kees@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Zhihao Cheng <chengzhihao1@huawei.com>,
+ Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+ Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+ llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+ linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+ xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amber Lin <Amber.Lin@amd.com>
+References: <20261027223847.652884-1-irogers@google.com>
+ <20261027223847.652884-9-irogers@google.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20261027223847.652884-9-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::8) To BN7PPF5F16C5C9C.namprd12.prod.outlook.com
+ (2603:10b6:40f:fc02::607)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,216 +119,148 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org, david.quigley@intel.com,
- lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
- cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
- James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com,
- qinkun@google.com, pgonda@google.com, jic23@kernel.org,
- alistair.francis@wdc.com, ankita@nvidia.com, suzuki.poulose@arm.com,
- kas@kernel.org, rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
- dave.hansen@linux.intel.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- peter.fang@intel.com
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <592d643f-e97d-4de8-9a87-e47d57dc8457@intel.com>
- <20261027193629.GK1685504@ziepe.ca>
-From: Dave Jiang <dave.jiang@intel.com>
-Content-Language: en-US
-In-Reply-To: <20261027193629.GK1685504@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PPF5F16C5C9C:EE_|DM6PR12MB4186:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4a9363e-e46d-4dba-1360-08df34803e8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|261009223027099003|261022105027099003|261021121427099003|261021123027099003|10067099003|56012099006|22082099003|18002099003|4143699003|11063799006|261026140227099003;
+X-Microsoft-Antispam-Message-Info:
+	DSmAC/LXxQNwDa5i5URmYnYa+8b0/OwMVhNeh3ZW0NuqAJafHKuOnQaOV0lIwiLh4xwlaBNevUZsjqmNUxBpst2EwayM/QPsvWOCH0nAQ7Ouwlh2Xxrx5NbkBIBXKIT1DqRqeULra7VgJq+BY7jk8uBLBM6q/X4zWFfSe30Dw2M/22y2CzhhaNFeBZwxvLStpgYWP5LPHl1fSHxHXphIwW6FLRkZPM1oiOpWa5Wj5GAr1qWDL/VJ6Yng12EqO5soAG290Xaytsxguy25IQ9zDRdFrF/+qqV9RT8gSDSTnNOwV7ERKIKIi1G8Z/ivMVfMoFHiCrIRR1Y9VYfRwMRW/wCp68FhBilOa8m3tW1zyUagPjSy31NY1yS9ChLCORD1FtVrn3A0xQ85Nr4kZcDm9WQU9kYFKhzppGECZlJ9g7Mx8fmoN/Yqfclcu37pAXmQFyVLWlMAEXHqFTLhtC7gh35ILFxRPgDh2HcGtsCQYl9Jx4qErnS7ttXoPClfclYDED+WsPGOSE7/5NzeoleF2c47cTgMdb/WC+R/4X/WTPFkvm7W18xysyPN656LB5laecoHSmWC61nJF0Rj9CpKopp67Fn+6SIj542SLGThROjCygcddKDvn4sWrWAafoxmVK8LL3yRIU6av/Rat8GCaOFUQAtOq09LPlAM5nOv2Fk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PPF5F16C5C9C.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(261009223027099003)(261022105027099003)(261021121427099003)(261021123027099003)(10067099003)(56012099006)(22082099003)(18002099003)(4143699003)(11063799006)(261026140227099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?empiQldXdGliaGFsc1JwOFdmQWViK0VFMlV5Vi80MnI1WW9tc1ZiSmNVN0VZ?=
+ =?utf-8?B?VVlhOHVzVFliZ0NScEx0OUxNVm13eUppMm9OU25NRGNUcWRrWFYwaVl4dDg2?=
+ =?utf-8?B?RUU3S2dPSk1taGxzbU1LV3lRQUhDK0FOcFZrdTBtQ29YeW43cnB2RnQyV0F2?=
+ =?utf-8?B?SlVET3F3d0V6aU42S3dwSXIzaGdLOFo2THJwTEx4YXRDVHdWR1pzcjN5TUtF?=
+ =?utf-8?B?Y1pEKytxd3QyaUJQQmtkRWVNWG91eFcycWlvKzBldjhGZk82em0xQ09sV0VC?=
+ =?utf-8?B?R0VFZW90dUpLeDF4TVI1U2tLN0kycXlpRnplRlR3SzFPRDlqcjdoS3hKbks4?=
+ =?utf-8?B?RXBIK1d1cDIrbjJjUWc0RVdKZGltKzdPNFBlVUx5MTRTSmZER2g3NTlLNUFn?=
+ =?utf-8?B?WU5DOU84OG82cE8zc2ZBUVJYT3dxQ0JtemUxODk2QXpUb2xESG1RUzdid1B5?=
+ =?utf-8?B?ZnZneE03VHk1S1BhRzhtNE1XQmxQOVRPb05IOUhaeUhqblVtVExxR2ovOUdC?=
+ =?utf-8?B?NjNIbE91c2JwcXJtYktKN2ZDaDAzeVZ1YkErT2Q2RVJDc3Q4bDc0aHFhZVNX?=
+ =?utf-8?B?V1hMUWZKU0t2R01HVEhaTEVKamFqMUZXd1luS2NaM0ozKzV1dldwUDlaMkRk?=
+ =?utf-8?B?YTljQlN1SXVJQlM0UjNrSWdieVpMWFdESEI1STNQVHJUK3k5eW1rYWRLbXA0?=
+ =?utf-8?B?V0g0bmYwSlBLcksrNUZ5NlJyUGM3bWw3TDlCR2Izc2U5STNpRGxKUEthN2cv?=
+ =?utf-8?B?TjhyYStvUDhVTjFIYVNDenJJVHFSZ2JpTmVHK0VEYVZKSlByVC9QS0pFcVJ0?=
+ =?utf-8?B?emI2ekJBVFpXNXozYnVLRXdTUURLb2VDeldlOFE3MERLVlZYWnVzSGhkVDlt?=
+ =?utf-8?B?YW94OTFabFhWem5pdEhQWlRDMFZNMldkUmJ3dXdjdnE2R0FudUdXZzdLM2lG?=
+ =?utf-8?B?Q1JkWXh5NVpGRFFOdGtNS2oxUnZ2M1JwbjBtV0s2Y1BIT1NuZ0JWTCs0Q01J?=
+ =?utf-8?B?ZUJINmtIY1ZlRjdUVmNESENuSUNQV25pdTBaaXNHVEs3K1FYSU4xYlcvN09m?=
+ =?utf-8?B?SllmR0NqRkxFcUh4ZEJYekJpOGpHdDAxRGFJNUJUQ3RjODQzZUN2aVlVOWNw?=
+ =?utf-8?B?TEM0SFZrcE0yR1A0bFNoK1lHK2VOZXE2dENJcXZQanBRckJKUTh5elVKOU9O?=
+ =?utf-8?B?RVFmTjhrTkZnTHN0RzFDTEkxR2hMUW9zYTBJNnBTbnRhMWVEUmphanFmT1E4?=
+ =?utf-8?B?YVBKeE9FdUNNZEtZUm5lZGp6NGVRUnRudGhSWGROd2E5OEE3blArVVFvTmI5?=
+ =?utf-8?B?cHpEZm1TUGpYZVNjSzZFeHBTeGNFYm1FUTIwbmVGazh3NmM3MHZtSkREZjBh?=
+ =?utf-8?B?d1pndkJnUEJaR0ZMUUJyb2greDJ3OHJRRE8xTy93SVpuamNaakVtNVhOc0pL?=
+ =?utf-8?B?WG5KZDdhcGRzZG9zTCtpOGJqZFY2dmswVjBmMjR6aDYyc2JjK2s3MDJ5M1R0?=
+ =?utf-8?B?bHNNSk9mN0FPUjhCcWRKUW5mQnBqUStZU1pobllGSGdUa0h6WjBld203OE8w?=
+ =?utf-8?B?TytZc1ZpekF3cTJxakZvQU94dUdLT2hHTVIxKzRaMldRQk9HTTVRcS9hNm45?=
+ =?utf-8?B?WDJIK0h4TUJyUVNqSkk1RTJRTGYwY3dvSWdrNW45MnErY3FlS3BFc280SFE0?=
+ =?utf-8?B?MXNNM203SnA4VGMzMnMycVpSdjdlWENnSEQ4dlNzSHF1ckV0RzBiZ0xLKzcw?=
+ =?utf-8?B?anJZS01PZUpOTVJIa2h3VXFRTzd0YlBySVIwN2NqQ3UyNnM1d09Bc0YrVEVj?=
+ =?utf-8?B?VTk2d0ZINllJWWh0bmtXdmw3dlhyTVEyL1B2a2gwSFY1dEM5c3NYWUFLTmp5?=
+ =?utf-8?B?cVUvM3ZWRkwxTnQyQ3UyeUUwWS96QVgvamo0c21UVTYzOFlaZWRmVWxQTU92?=
+ =?utf-8?B?ZzhEZmtYVkVkTm9ldER3RDMrS3ZqMDBZZEp1Y1ZxVnhDS2lFOTRoR1F3OWVi?=
+ =?utf-8?B?NmFocUZqT2pIakJlT2FnY2ZGdFZNL0Q5aDhGOWNxT3dmbk1tOHpxZGk4TzZO?=
+ =?utf-8?B?c3pucmhJT2ZqZFpvSDRTN0dqYW5ITzFtQVBBQlhKUi8zcEtsdlJKOUFEd2k3?=
+ =?utf-8?B?KzVzS3ZWZ1FDODJnYlQ3YzBGL0ZDaVJNOUJQdGJEVHhCdjZoWGZ5SEs0T1JT?=
+ =?utf-8?B?UXJBeWZBVWRpaEJKU2ViQldVbEN3T3pKb1AxdlNTdkZOTGVUU1d0VmdjYWNj?=
+ =?utf-8?B?T0Y0a3FYcFRwTzdqLzFhNjRGd0Z0VTZaR0dhaWFBNmhqVDdWd3gvdDFJbGpR?=
+ =?utf-8?B?dm0weUVFNDI4VVNXWVZIbVp0L1g4ODlKOWREaE00SjRFSjJ0M0liZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4a9363e-e46d-4dba-1360-08df34803e8c
+X-MS-Exchange-CrossTenant-AuthSource: BN7PPF5F16C5C9C.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 23:15:52.0995
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ob+TKLRgRvAPv0Q9NjDGMWPP+1+Q+RZGLPVUAzRJKfxvNbAWmbA/GcQ++WN0aIUSZde9N19st+by1XpDYPKkRg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4186
+
+On 2026-10-27 18:38, Ian Rogers wrote:
+> struct queue embeds a struct kobject (q->kobj) for procfs entries, but
+> procfs_queue_type had no .release callback and uninit_queue() freed q
+> immediately after kfd_procfs_del_queue() called kobject_put(&q->kobj).
+> With CONFIG_DEBUG_KOBJECT_RELEASE=y, this causes a use-after-free.
+>
+> Add kfd_procfs_queue_release() to free struct queue from the kobject
+> release callback, change kfd_procfs_del_queue() to only remove the
+> kobject from sysfs via kobject_del(), and drop the final reference in
+> uninit_queue() via kobject_put(). Check q->kobj.state_in_sysfs before
+> calling kobject_del() in kfd_procfs_del_queue() to avoid warnings if
+> sysfs creation previously failed.
+>
+> Fixes: 6d220a7e7971 ("drm/amdkfd: Add queue information to sysfs")
+> Signed-off-by: Ian Rogers <irogers@google.com>
+
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 
 
-
-On 10/27/26 12:36 PM, Jason Gunthorpe wrote:
-> On Tue, Oct 27, 2026 at 11:43:04AM -0700, Dave Jiang wrote:
-> 
->> I built a proof of concept on your wip_attestation_all_1 branch with help of LLM
->> for TDX Connect device attestation to see how it holds up, and wanted to share
->> what I found.
-> 
-> Nice!
-> 
->> What I built:
->>
->> - A ctlv-attestation-spdm family. As you proposed, the sysfs lock creates the
->>   assigned-TDI attestation instance; in my version unlock removes it.
->>   EVIDENCE_GET, EVIDENCE_ACCEPT, DEVSEC_STATE_GET and DEVSEC_RUN all go through
->>   your ops.
-> 
->> - A provider (a 'struct attestation_provider') that sits on top of PCI/TSM, so
->>   any backend can use it. It serves the evidence PCI/TSM already publishes, and
->>   asks the backend for a refresh when EVIDENCE_GET carries a challenge.
->>
->> I ran it in QEMU with the devsec sample TSM, and in a TDX Connect guest on real
->> hardware with a real device. Both worked: lock, EVIDENCE_GET, DEVSEC_RUN
->> refusing a device without a verdict, RUN, and unlock. My tree has out of tree
->> code for TDX Connect to get things working.
->>
->> The model works well for device attestation. A few things came up that I think
->> worth a look.
->>
->> 1. EVIDENCE_ACCEPT and DEVSEC_RUN take any evidence generation since the last
->>    device change (attestation_evidence_validate()). Ranges would narrow that,
->>    but they need measurement registers (attestation_ranges_required()), and a
->>    device has none. So a verdict survives a refresh. In QEMU with the devsec
->>    sample:
->>
->>      EVIDENCE_GET, empty challenge   -> evidence generation 1
->>      EVIDENCE_GET, challenge c1      -> generation 2, measurements changed
->>      EVIDENCE_ACCEPT generation 1    -> ok
->>      EVIDENCE_GET, challenge c2      -> generation 3, measurements changed
->>      DEVSEC_RUN generation 1         -> ok, device in RUN
->>
->>    Any process that can issue EVIDENCE_GET can do this between the appraisal and
->>    DEVSEC_RUN, and the device runs on evidence nobody looked at.
-> 
-> We don't care about freshness of measurements. What we care about is
-> that the device has remained continuously locked while we are doing
-> this.
-> 
-> Generation should not have anything to do with the # of evidence
-> collected, it should be tied to the lock event. We do a lock and we
-> get a generation number. That number remains fixed and could be passed
-> into run as a minor sanity check.
-> 
-> However the real security work is in the kernel driver which is
-> required to actively detect/prevent any host tampering with LOCKED.
-> 
-> RMM does this with a trio of sequences counters maintained by the
-> kernel driver: lock_seq, meas_seq, report_seq
-> 
-> If the host tampers with things then the sequences computed by the
-> driver will not match those computed by the RMM and it will fail.
-> 
-> So, I don't care if we lock the device and then collect three
-> evidences for some reason. It is not the APIs problem to make sure
-> they are all the same, or that the one used for attestation is
-> "freshest". 
-> 
-> While locked the device is not supposed to change its measurements,
-> allowing that turns locked into complete security nonsense. How do you
-> know when the measurements stop changing to actually measure it?
-> 
-> The only point here is to collect some evidence that represents the
-> start time of a continuous period of exclusive guest control.
-> 
-> Have I got this wrong somehow?
-
-You have it mostly right. The devsec sample has no real measurements. Its
-refresh only puts the new nonce into a fake request, so the "measurements
-changed" lines just reflect the nonce. I'm dropping the
-attestation_evidence_replaced() idea.
-
-There are two issues for TDX Connect. One, the device info is collected at
-SPDM connect (TDH.SPDM.CONNECT), not at lock. TDH.TDI.BIND only returns the
-interface report. So the measurements a TD sees at lock can be from well
-before the lock. To get measurements taken after the bind, the TD has to
-ask the VMM for a recollection with its own nonce.
-
-Second, a device may take a runtime firmware update of equal or higher SVN
-while its TDIs stay locked, unless the lock sets NO_FW_UPDATE. The TD isn't
-told when that happens. The VMM picks the lock flags, and INTERFACE_INFO
-bit 0 in the interface report tells the TD whether updates are permitted
-while locked. Currently our host passes no lock flags and nothing in the
-guest checks that bit.
-
-With NO_FW_UPDATE set and the evidence collected after the bind, tying the
-generation to the lock works for me.
-
-On the RMM sequence counters, I don't think TDX has an equivalent set. What it
-has is a bind session ID. The TD reads it after the bind, and TDG.TDI.START
-only succeeds with that same ID. Before START the TD checks the device info and
-report against the TDX Module's digests. After START it relies on the state the
-TDX Module tracks, which can lag as I mentioned.
-
-> 
->> 2. TDX Connect (maybe others) does not raise an event when a device drops out of
->>    RUN. The provider only finds out when it asks, and on TDX even that answer
->>    can lag. The guest reads the state the TDX Module last saw in a TDISP
->>    response. A function level reset, for example, moves a locked TDI to ERROR,
->>    but the guest keeps reading CONFIG_LOCKED until the TDX Module sees another
->>    TDISP response, such as when the host asks the device for its state.
-> 
-> Yeah, I bet this is common.
-> 
->>    Could the core add a version of attestation_state_changed() that a provider
->>    can call while the op already holds the lock? Or let the provider flag the
->>    change, and have the core send the notification once the op drops the lock?
-> 
-> Sounds right to me
->  
->> 3. Jason asked on 14/20 whether anyone needs a variable-length challenge. I
->>    don't think devices need a range. A plain read sends an empty challenge, and
->>    an SPDM GET_MEASUREMENTS nonce is "NL = 32 or 0". Your TDX provider always
->>    takes 64 (attestation_tdx_evidence_caps).
-> 
->>    A device needs exactly two lengths: 0 for a plain read and 32 for a refresh.
->>    struct attestation_evidence_caps only holds a single min/max range. It's
->>    checked on every request in attestation_evidence_request_decode(), and any
->>    range that allows both 0 and 32 also allows everything in between.
->>
->>    To work around that, my provider declares 0-64 and PCI/TSM rejects any length
->>    other than the backend's nonce size, 32 for both backends I ran. Could the
->>    caps give one exact challenge length instead of a range, plus a flag that
->>    also allows an empty challenge? A device provider would set 32 with the flag,
->>    and your TDX provider 64 without it.
-> 
-> I'd expect to be able to learn the exact nonce sice that the challenge
-> can support. It should probably be a list not a range, then you could
-> include 0 for SPDM..
-
-A list works for me. It covers 0 and 32 for a device, 64 for TDX, and other
-sizes later.
-
-> 
-> And maybe other lens if we do crypto agility here or something.
-> 
-> The challenge is formed into the returned token so it is a kind of
-> ABI and we don't want things like transparent 0 pad or something, so
-> userspace does have to know..
-> 
->> 4. EVIDENCE_GET rejects any buffer smaller than max_length
->>    (attestation_evidence_decode_objects()), so userspace has to allocate for the
->>    worst case. Aneesh's provider declares 16M per certificate chain, so every
->>    read needs a 16M buffer. Could EVIDENCE_GET take a smaller buffer and return
->>    the length it needs, or offer a way to ask for the size?
-> 
-> Makes sense, this is also where someday having the memfd as an option
-> might be nice since it could be dynamicaly sized by the kernel
->  
->> 5. evidence.challenge is a required attr of evidence-request, so a plain read
->>    has to send an empty one ("hex:" in Aneesh's example). Could it be optional?
-> 
-> I'm a bit puzzled by this optional challenge concept, I haven't tried
-> to read SPDM spec yet, but it really has a way to omit the challenge
-> from the reply? It doesn't just replace it with 0 or something?
-
-SPDM puts the requester's nonce in the GET_MEASUREMENTS request, and only when
-the request asks for a signature. The MEASUREMENTS response always carries the
-responder's own nonce, and the signature covers the request too. An unsigned
-request has no nonce and gets an unsigned response.
-
-The empty challenge in my provider means something else though: don't
-recollect, return the evidence collected earlier. So it's less "omit the
-nonce" and more "no new collection". Maybe that's better as an explicit flag
-than an empty challenge?
-
->  
->> 6. tdx_attestation_test's discovery_and_construction_fields expects an
->>    inheritance chain of 4, but the TDX family inherits ctlv-attestation
->>    directly, which gives 3. In a real TDX guest it fails with
->>    "Expected 4 (4) == ctlv_chain_len(self->dev) (3)".
-> 
-> I would have naively guessed this should inherent from some SPDM family?
-
-The TDX family is the TD's own attestation (TD report, Quote and RTMRs), with
-no device or SPDM in it. In wip_attestation_all_1 it inherits ctlv-attestation
-directly, so I think the test's 4 is what's stale. Jiri would know for sure.
-
-DJ
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 12 +++++++++---
+>   drivers/gpu/drm/amd/amdkfd/kfd_queue.c   |  5 ++++-
+>   2 files changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> index 226f52626e84..8e6136d52a50 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> @@ -512,7 +512,15 @@ static const struct sysfs_ops procfs_queue_ops = {
+>   	.show = kfd_procfs_queue_show,
+>   };
+>   
+> +static void kfd_procfs_queue_release(struct kobject *kobj)
+> +{
+> +	struct queue *q = container_of(kobj, struct queue, kobj);
+> +
+> +	kfree(q);
+> +}
+> +
+>   static const struct kobj_type procfs_queue_type = {
+> +	.release = kfd_procfs_queue_release,
+>   	.sysfs_ops = &procfs_queue_ops,
+>   	.default_groups = procfs_queue_groups,
+>   };
+> @@ -552,7 +560,6 @@ int kfd_procfs_add_queue(struct queue *q)
+>   	if (ret < 0) {
+>   		pr_warn("Creating proc/<pid>/queues/%u failed",
+>   			q->properties.queue_id);
+> -		kobject_put(&q->kobj);
+>   		return ret;
+>   	}
+>   
+> @@ -697,11 +704,10 @@ static void kfd_procfs_add_sysfs_files(struct kfd_process *p)
+>   
+>   void kfd_procfs_del_queue(struct queue *q)
+>   {
+> -	if (!q || !q->process->kobj)
+> +	if (!q || !q->process || !q->process->kobj || !q->kobj.state_in_sysfs)
+>   		return;
+>   
+>   	kobject_del(&q->kobj);
+> -	kobject_put(&q->kobj);
+>   }
+>   
+>   int kfd_process_create_wq(void)
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
+> index ae3e7c54014a..4666110aebe0 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
+> @@ -83,7 +83,10 @@ int init_queue(struct queue **q, const struct queue_properties *properties)
+>   
+>   void uninit_queue(struct queue *q)
+>   {
+> -	kfree(q);
+> +	if (q && q->kobj.state_initialized)
+> +		kobject_put(&q->kobj);
+> +	else
+> +		kfree(q);
+>   }
+>   
+>   #if IS_ENABLED(CONFIG_HSA_AMD_SVM)
