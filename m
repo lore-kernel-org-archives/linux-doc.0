@@ -1,122 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.155
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793088892;
-	b=P9a8+Dl1nbi+knQ707S1UA4lkuyv6yIBldXq96UyHaYP9Vi/PJ56SwyErJDajKB16K/O
-	 go1cG5rKc5/tC7bk73YgtWVd5UNDCzvby8BHJEIKzjfWt72Y6Dw4JXWPH1n1K8guW7B5L
-	 SPJ0UhFeXdFW+1ARqmTlfDcaD7FKiegCRqUDkWUv6yX6HDqXAyu/wVXWx5WHz/bkb2uDU
-	 d4pz/mV2PbUG0tsW8KBVIoIb4QOmfkb+RHsIIOzOo6UK5LSFJI7d7JMv3sJPtZ5APQDWs
-	 9XwaGQtEb/lU6xEX0o2Tiv9VCtAuDW4Ix/R5k8n2vOMS2RlTJscyUXiq7Ipqa+W7H/A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793088892;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=DQ1O5D8XCRfscupgrJRVMbXZrkg6BlOL7s17MUvfBDo=;
-	b=umxTgKW6BE398gcBIY+n9iKUo1tsHoMlVjSjik1VEgZINvNlfmCUCvdZo3/1XLqFwsc4
-	 PeYiMHupMieUEpkwLR88sI79HiL28jliksD//FJVeS7A53a7CEkox5c9It0gbYLW4EjDY
-	 nGle05wao942RwTrTcJMYW0nAPHQsLwkOYp22obStTpTUETmWoWeJJwatvjSEEumxnmPl
-	 tm6JokkU6r+8JKw1KVBdSBuUkLaLslbDZTxS+I5FnxXHWEL1KMd6wNsNAZHZAT2Lempli
-	 hFQzH9rWKcdunJk8lqRAeBnzuhLlWfSS3yItb8ESUasODnrW1se+BHriDfno1QFF/nA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=joshtriplett.org;
-	spf=pass smtp.mailfrom=joshtriplett.org;
-	dkim=pass header.d=joshtriplett.org header.i=@joshtriplett.org header.a=rsa-sha256 header.s=fm2 header.b=1PS7tLLT;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=a1863jL1;
-	arc=none smtp.remote-ip=202.12.124.155
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793089922;
+	b=iXx+INnJfjPqSP8IDWS8MCAmvCR2U/OxUGXPmb8Ecxbj8JNMdt6NZLi2A30/Khhb5JQc
+	 oEVuGdLkKPhMqESTFGAIMcyYHIbXA8N+JS6KCt1GyVkGKhnQxQIgT1oEqshK7n4lCYe22
+	 G1/YaBJqL7PzNxcIAnjugoVFEjVkBFwRoP93/5VeA68bukpyU3RY/36jfJhqtyWulOY1C
+	 eLj6aR2zkQUxBpz3Dpt8CZNAZsK2hCkOORvHTW27g0J3V5BOmebs0SMVfQLdIJUrS/VKr
+	 rZrmdf2mE91feu80XFYjcHBMV8pL61jdZNnRK/zBpm0Zq0zB93ex9jIUosohnPQkofg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793089922;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=UynfW7iNvibXVGme9+4+y50qRrX7DGhKBqz5uurKF50=;
+	b=KHFe5gGTlfo4+gWFybwJw3gSgjd1eCTBq7oEqCw6s1s5NcKPo5Zd2BzoBkdIaRDBPwH7
+	 QSUm3bwIHyjteR8wFEUXOlDt0AHddREgv/SYTLIKIhPKMwDic4h8iAVm3dDpvZloRY8Qr
+	 RUtaM0ycz4FZZZ4ooygDCOHf8ypW7IRwy2QvcMPKjfAf1A590dUrWhMnTAIYCUPXLIaWp
+	 vnuDPFpJ9hmbUYLfoRYlHAnaymDmAdrPMGaBYPe7MMUI8f0+19MumetXrren2BOAtrqzs
+	 CGi/59lxg4aebBKBbvH8ExmMvP6GKwnnoqTt9nfPDTy/5C5KVQTidlQl7RGTZ7ya1Rw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=BsP2BtHE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE13606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:14:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EE13606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshtriplett.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joshtriplett.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E6606A320
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 08:32:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C78E6606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=joshtriplett.org header.i=@joshtriplett.org header.a=rsa-sha256 header.s=fm2 header.b=1PS7tLLT;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=a1863jL1
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id BB24E7A0113
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 04:14:51 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 27 Oct 2026 04:14:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	joshtriplett.org; h=cc:cc:content-type:content-type:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1793088890; x=1793175290; bh=DQ1O5D8XCR
-	fscupgrJRVMbXZrkg6BlOL7s17MUvfBDo=; b=1PS7tLLTgyk6mpr0iINctDgSoG
-	2nuswQamfw0rQwoicPYTXtDUeEaOluQgJQKq2aS9CkT/eH8Aa2oo4jtl/EVSI72+
-	WAO522rZMuL2V1dmJOkIy4Sdvvs3mFj+wje02jawolV/VsxXBzAJ8wLjDIXeF/G3
-	Ky7Z5URLRXsTDWaZvMB9p3SZyXF1/IdOcvYAPQeD4qw+ZLTF0cWEUSmCnICVK7wN
-	E8rNGPXzmEUZCIupwVl09nFje1LByc6AJ0D/vU6NuW/BUCHHFSwoJW/czUBgDu4v
-	dL6MFzNgCE6Rx21XAYWNPg3o7R+/v0wVrjZpzOgWAzBsVqeXxIhhQT1aULfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793088890; x=
-	1793175290; bh=DQ1O5D8XCRfscupgrJRVMbXZrkg6BlOL7s17MUvfBDo=; b=a
-	1863jL1gJuQ/MtMvxXLIHdvUyB0uolILE92fvCNXSyfshY6dgFzz4jkATcFqhQYF
-	wsh4PhGNS+oOMXESXeCUzrUQMlq8qM7mirFqqq2DBtbV564WvSJMdF5sfzR9SCF5
-	gj6JWCRJFYsTFP1KVkO983Q2OuNV1/V2EP4oRqudRLYRTZTOOh730mpm6OEANHBM
-	MGfQvMCtmqNm8RrGmhqJ6MQwpSBMsMEtLzDamHJTja1FNLJCK/6CnuzLXWSf5OwG
-	pU7aWKj+cRoqOd2d9YyMqizRxFvrou01cjJlDGS390wnQCRfSCbmF67aRaCpxH9I
-	o56fseEP8cO7Z9JmmWpPg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=joshtriplett.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793088890; d=joshtriplett.org;
-	mf=PGpvc2hAam9zaHRyaXBsZXR0Lm9yZz4=;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:IXzAKm4MwdIA1Z1dUoLbmUwk47+sDXNsAUCQgpEIUgiTCex
-	b+XCQJPZD42RlsRDu00zK2wYWCCZ5tRR0d6oMwK0HNGpPUssn2iDjE203IIw+1Ul
-	eSwb7FVbzgZUHf2/0riNyEBKQO0X/TYWVjsIOcxpMRKqJMw33EUznHKD7dXRP3YB
-	HErjSWCPv0dxyu5JQZdqaYULdounsC2nAYnFhmIXNUF/SnNPsUNcdBhCjCPJvDfy
-	s7SWN9PU+Nh5J2w9h5M2ygPi3Xk8Szp97VwI/DzXtirKEvuQeScN9TUgIASxjv6x
-	K9/f0R9xMeNT4jHQ9llwALddG8cx9qh54BOXZZg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=10;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:X7GI2RF4A9VBkMYRS0wzaYT9U8SCUELBmSu7Wl6R3Xw=:V4DdvxFzeA6wC1TolVWuj0hyWB7hbsf5T4ZM7+HYRJ0=;
-X-ME-Sender: <xms:eV3galXlcj_scSoU3Hqv1NADbVX05JVBYwSpcLbi3WypcbSxK8bAdQ>
-    <xme:eV3gah-DMp9SrzsQreJosTVvxSkTCK_x4eVhtbswvvsox3qTVaJzWiP8MZVGsX0ej
-    kIxcx7TJ7d7Si91co7IWzyTUyA8JA0KAr_UbLQa7UsDj6u3-VsoSpk>
-X-ME-Received: <xmr:eV3gal0_ny_FAVYuRLc6-UTqRsQhbxpAK5SGok9edGWNdePmJl_I-Q8dSQ>
-X-ME-Proxy-Cause: dmFkZTGrWbY5Vw0aiQoHkO8jbm2XLbZm9c2gvrh5uZvUCxmh6DJEUnUukC6n1U1R3OV6pI
-    ZgLOzQnbLbtPesu2kZjA14WWItr0URYHFkBLWiv0V1PcXCxAs7dhWdvd4fymHMxsZORcy8
-    nMkAOyBabtGGLWdZ7/vb+R5aQXr1e7PzY7uAQVnd9gwZHmtrPe2hSIrmjh8m/UoaxdPvMd
-    f4GGz/D3ZEi/HjvRlHoFJ0vv10fjnZ9ok7j3bi7JUF6zCd7XDftGugpwCZM+WX9mG7Nq5U
-    t4zl6GQUES7GfkhDvEz5Dhc6WfMFMrG3aKfBAHdACbvGJ3uD3U98gppyfRo9HU4Ce9Y2q0
-    J01tJHY2olgVdQHnQHiDnpGW5iLCNS4/lUGy9c+wpVzvOBGzamRUt+ABfGXvUbBuQP7De/
-    ZX0hLVTpoRp57UU6JpKuEkmAU7Ex4YZAWkf2cMWyO5rW4oJ63lweQ5FgT78lKfXHgjGLf1
-    9cwuITXp55ltOfQugPfaetT8S4LMzgbso8MJ6r4ROFXVbxe33py0SRG2dov/HBJiEHFy8V
-    4yKASewSfTBKxpbfBQTZ/DQc/lk/512yIy145abItHJowmLiHT8YEYG4JI+q3fc8pRm/UO
-    u+8Gm4tHtFjQr2oG82dXFR5VELt0J6n8vNuFU7m9J3iAzIUfB7gZ9WwUkEPQ
-X-ME-Proxy: <xmx:eV3gamedrPD0pEWewVTVAacbb1AHmJ7vZY2syW4mvT1qevLRtnbDUg>
-    <xmx:eV3gasAupKgZa_gtyPD5Qx26qRlrVRdjTChKI9Yxhbdqh4bm3dMHQg>
-    <xmx:eV3gat-LTwTlokUk7ZU74ElSMryzSsZtlb99P6OF9MnVBBPANfvy9w>
-    <xmx:eV3gagrtRzXrPxzf0k4OxvVI1A0KQ_Zhw_Vtxh1c0KXelwVf1ZVwWA>
-    <xmx:el3gauSKc-A-1SlO5eUMg4TfW0Y9_NX6XagqEj5apYL9_pU0GtZHv1X6>
-Feedback-ID: i83e94755:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Oct 2026 04:14:46 -0400 (EDT)
-Date: Tue, 27 Oct 2026 00:14:45 -0800
-From: Josh Triplett <josh@joshtriplett.org>
-To: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-pci@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] pci: Support preferring MMCONFIG for all config space
- accesses
-Message-ID: <a7d2b402784a409f5564c1fdce77a41e09f29280.1793087687.git.josh@joshtriplett.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=BsP2BtHE
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3514b90bb89so8761609eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 01:32:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793089921; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Xrr3OLR/4k5VK7j6drTBk+4EGkvX4gBlN9ieorb5yKUCHPDDZeTKpZ6uk456EIkLBv
+         NqZCBW1ZzNOWj3YiJGn3woFfc0nM1JLSWSjmZtqoIFVUuimi950lkXGsG3vT4jSxX9V+
+         kFEIlYCKvk9J4Pm2FL9Df7pnOqrfu/ziU8s1+Zbhdfv2RfT6qBwKTMhEUHSMvSKkaVyS
+         sgfURH9OzFfERuKFro4sIzNDMr1s3LKsVrxhQ4Hjsh+Ezdhsyv/NElBLBtI8PTtckgC2
+         koZ+g+MYQoZepVwDzm9G78Tu3F8a0cyKMUG0FnELx3H8Wm5yT6djv7/PqEXAI0J5osVn
+         SKdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=UynfW7iNvibXVGme9+4+y50qRrX7DGhKBqz5uurKF50=;
+        fh=iVeHj7IQbGyajyTXetrhHJGx9PRlsL2f95Ywy9uhzII=;
+        b=eSCnI8Lnc3WWnS5CajbVg7dKuTi9nLA6u4aUUS+TqIzPlMxDBq5bla5nmd5rQ9wrJB
+         18/kiKtvpKX7zFQKO9ARFm4BkcUgld/iBdtv45KMlLLrper7IufJmXpDHQ5TAE0UR1rQ
+         DhzuupuHhimItNotzMiCAoBK92rwyKb3HQoJEV5fyVKY6XGcrmRiuGAsfzEVQxJxDJi0
+         Mz1pL8PAY4sImtgZ7HnvKv15Gv01XQKr5zuFSOYpng5lGXn0+XOE2Iqye4iKRdgucCvh
+         u3HO45QYAUpI8xq/6ZhfiheCwf+17tXnzWF3LRpRzqzkyzH195+cNxi37wGr3zUKGoih
+         Aa9Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1793089921; x=1793694721; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UynfW7iNvibXVGme9+4+y50qRrX7DGhKBqz5uurKF50=;
+        b=BsP2BtHEv0wXTPACcvoDY2idUZIDQOphHgDfe3DrH70XbaArBHqSgI+rwn0A+Pk1Ap
+         2wZSkAPH3wDoJzdLXVIe9emBW+ugoYWV5ntAzIOuYe/GgRGNRgc7UH0z9lmJou4disZP
+         k8URLHsDR5BO+ycsPJhhoUX2UG5QLu1GI0wmFb1NW7jMLI3fVnuDiMAaDKIqKZRW8Gup
+         LzdI2yBHZv+Sk50ZCl+N9D3GRe3QZPu8BygMWqaOoNMj86kzXvwYEvZR+0elEyz7Wo84
+         EUOpx7WGDb7hKf50BepHtsdYotLV+CejhSSJKX/b2HmsTgVuUbE5J/crIfEe+GdvAH2F
+         IRjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793089921; x=1793694721;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UynfW7iNvibXVGme9+4+y50qRrX7DGhKBqz5uurKF50=;
+        b=xpIZ8gw8KIIb4xKBz7gyRR2RZf5p9pBageufDqBLxMgs1Fhmsfgv8FBEiiLZtJT1fO
+         4G/3GqKXksqOaHbzSNTI3Z88cp52NRTx/XZThLuRu/fwudF5+cpQe0uiWg1hSiq51xVs
+         IdFIyYcDJNqkI4AfxD8MwLvbZuDAee3O9iOGIylrV0gM+IjHszK1JxuLU/1h31PeMALl
+         hsuST9tJRlE50RzAzijD7IRLwOfkg47rzFUp/r/pV6kO2JU4EKjYrQ9uBeC+cKJY2zGL
+         sya1qvVGkTnq9BLaF+QjFUEm8pwRj4rhhoQaWOpIQU54z66PtsLa2beRK3wK0oz+xZ8f
+         avAg==
+X-Forwarded-Encrypted: i=1; AKwUvBzVOpyfIDQ+RbpNrnyPOZIw2g8Y/hDUcfqDbyUnJpYIqtoMPKJLcnxO5Lbgr+bk97HomWpFpprig1c=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL6ildMRwz6fvzDOxUM7Tsu9JWl8gVQZa8vqcsZ7UKYlQBc06aR
+	NX8iPIJ8KzA59hhpKFZ0dLSqlJ1oOb62k4jor/x3NTzBPeUpJ2FOfDuLFjiWtSgFFkKf/pEIBe4
+	VgbKxkGGna2ZmKJb+fE1B8S//Nix3B/94Unw6KMSU
+X-Gm-Gg: AYBFou3lA6ZSXke7mTwgE7n53QdWdVIvduVeFhfmGPXf9GHco4LDRYeBEQShBijABqJ
+	Rjz6RaWrlKLmTkR0HmccKNziwgYfGAgFsC/Q32mkZ9SJVNFltQbXFpbfxpjogyC+sDyB8hHfok1
+	G6e9gqR/vr27V3DNa4N1A6qWKt7H39Oj5/pVlM+7mnoQQITXriXUmNkweexVSZUSaQsB+z/2OJD
+	nPwS4RXZZdNoYgad5k19yEhU8iQrZIZG8x09iDR/ASGy1L+tM+KgQrbsoU//Bqvo8nPFIq6mf4A
+	iQ/WliuW+WPWEiLtvb86oOSWNJUOZe7vg7jAmzos8TvSpuzs15SV9Bm+p2eo2v4+oufDxYBR0m3
+	S7AjVB95EAc2+qhf0IKw+JbGl/JyMgzLaaxoIeb1OYfa4ZzQsLBuSOiIx5g1AO2BzzW1Q
+X-Received: by 2002:a05:701b:2719:b0:14c:c947:6afb with SMTP id
+ a92af1059eb24-1993505eb6fmr12920689c88.15.1793089920040; Tue, 27 Oct 2026
+ 01:32:00 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -126,185 +103,236 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <auA7FdubFEDVPB7v@chrisdown.name>
+In-Reply-To: <auA7FdubFEDVPB7v@chrisdown.name>
+From: Marco Elver <elver@google.com>
+Date: Tue, 27 Oct 2026 09:31:23 +0100
+X-Gm-Features: AclHuK9Z31j2srRPq0cvI1MA14RltVYpiKhG7tlR1MRKpnbY3pyvJ0pGLxERO2E
+Message-ID: <CANpmjNMunLgXHRqXgW3LnniCX50CLbLYsE3DpY7h=cuvu2vSkA@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Allow selecting static keys mode at boot
+To: Chris Down <chris@chrisdown.name>
+Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Even when MMCONFIG is available, PCIe currently defaults to IO-based
-accesses for the first 256 bytes of config space.
+On Tue, 27 Oct 2026 at 06:48, Chris Down <chris@chrisdown.name> wrote:
+>
+> KFENCE can gate allocations by toggling a static key for each sample, or
+> by leaving the key enabled and checking an allocation gate. Static keys
+> mode saves a load and compare per allocation, but sends IPIs to all CPUs
+> twice per sample interval.
+>
+> Which tradeoff makes sense depends on the host. For example, on machines
+> with many CPUs or latency-sensitive workloads, the IPI cost can outweigh
+> the saving in the allocation path.
+>
+> For this reason on some machines we prefer to have static keys, and some
+> we don't. However, today this is configurable only by
+> CONFIG_KFENCE_STATIC_KEYS, so this means building and shipping separate
+> kernels. It also for that reason makes comparing the modes on a
+> particular workload more cumbersome.
 
-IO-based accesses are serialized, and can cause substantial scalability
-issues when initializing a large number of devices on a system with many
-CPUs. (Those often coincide, because many systems have PCIe devices per
-CPU.)
+On which systems have you found static keys to provide a significant
+improvement? Can you share benchmarks?
 
-Add a `pci=prefer_mmconf` option to use MMCONFIG for all config space
-accesses. Also add a Kconfig option (default n) to make that the
-default, allowing a boot-time opt out with `pci=no_prefer_mmconf`.
+IMHO, I was thinking of deleting the CONFIG_KFENCE_STATIC_KEYS mode,
+because on most systems, it's not worth the complexity for the small
+(if any) performance improvement anymore.
 
-Tested on an AWS c8i.48xlarge system, with 192 CPUs, over five boots
-with and five boots without.
-
-Without:
-PCI init 266ms
-Boot to minimal /init 726ms
-
-With:
-PCI init 213ms (~20% faster)
-Boot to minimal /init 661ms (~9% faster)
-
-Signed-off-by: Josh Triplett <josh@joshtriplett.org>
----
-
-This has come up a few times, such as in 2017:
-https://lore.kernel.org/linux-pci/20170302232104.10136-2-andi@firstfloor.org/
-
-We have even more parallel systems now than we did then, and the
-performance hit from the serialized IO path hurts.
-
-This *should* be safe everywhere. It seems exceedingly unlikely that any
-systems need this. Despite that, this patch makes it `default n` out of
-an abundance of caution.
-
-I expect this to have even more impact on larger systems. I'd be
-thrilled to test this on a 384-way system, if I had access to one. If
-anyone at AWS would like to approve quota increase case ID
-179306079200327 so I can test on a c8i.96xlarge, I'd be happy to test
-that. ;)
-
-
- .../admin-guide/kernel-parameters.txt         |  5 +++
- arch/x86/Kconfig                              | 24 +++++++++++
- arch/x86/pci/common.c                         | 41 +++++++++++++++++--
- 3 files changed, 67 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index d0f174288365..64a138ea8f54 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5018,6 +5018,11 @@ Kernel parameters
- 				disable the use of PCIE advanced error reporting.
- 		nodomains	[PCI] Disable support for multiple PCI
- 				root domains (aka PCI segments, in ACPI-speak).
-+		prefer_mmconf	[X86] Prefer use of MMCONFIG even for base (<256)
-+				config space accesses.
-+		no_prefer_mmconf	[X86] Don't prefer use of MMCONFIG for
-+				base (<256) config space accesses, even if
-+				CONFIG_PCI_MMCONFIG_PREFERRED=y.
- 		nommconf	[X86] Disable use of MMCONFIG for PCI
- 				Configuration
- 		check_enable_amd_mmconf [X86] check for and enable
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index bdad90f210e4..e8f2d02562ed 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2888,6 +2888,30 @@ config PCI_MMCONFIG
- 
- 	  Say Y otherwise.
- 
-+config PCI_MMCONFIG_PREFERRED
-+	bool "Prefer mmconfig for all accesses"
-+	depends on PCI_MMCONFIG
-+	help
-+	  Use memory-mapped accesses for all PCI config space accesses where
-+	  supported.
-+
-+	  Historically, Linux used legacy direct accesses for the first 256
-+	  bytes of each device's configuration space, even if memory-mapped
-+	  accesses were supported. Legacy accesses are serialized across all
-+	  CPUs, so they can become a bottleneck on systems with many CPUs.
-+	  Enabling this option substantially improves the scalability of PCI
-+	  config space accesses.
-+
-+	  In the unlikely case that enabling this configuration option causes
-+	  problems, you can switch it off with `pci=no_prefer_mmconf`.
-+
-+	  Even if this option is disabled, it can be set at boot time with
-+	  `pci=prefer_mmconf`; this option just sets the default.
-+
-+	  You should say Y unless you have a very old system that doesn't
-+	  support this. If you have a system that requires saying N here,
-+	  please report it.
-+
- config PCI_OLPC
- 	def_bool y
- 	depends on PCI && OLPC && (PCI_GOOLPC || PCI_GOANY)
-diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
-index 63105b29fbf5..13e547f88d75 100644
---- a/arch/x86/pci/common.c
-+++ b/arch/x86/pci/common.c
-@@ -26,6 +26,13 @@ unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROBE_CONF2 |
- 
- static int pci_bf_sort;
- int pci_routeirq;
-+#ifdef CONFIG_PCI_MMCONFIG
-+#ifdef CONFIG_PCI_MMCONFIG_PREFERRED
-+static int pci_prefer_mmconf = 1;
-+#else
-+static int pci_prefer_mmconf;
-+#endif
-+#endif /* #ifdef CONFIG_PCI_MMCONFIG */
- int noioapicquirk;
- #ifdef CONFIG_X86_REROUTE_FOR_BROKEN_BOOT_IRQS
- int noioapicreroute = 0;
-@@ -40,9 +47,20 @@ const struct pci_raw_ops *__read_mostly raw_pci_ext_ops;
- int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
- 						int reg, int len, u32 *val)
- {
-+	bool tried_mmconf = false;
-+
-+#ifdef CONFIG_PCI_MMCONFIG
-+	if (pci_prefer_mmconf && raw_pci_ext_ops == &pci_mmcfg) {
-+		int ret = raw_pci_ext_ops->read(domain, bus, devfn, reg, len, val);
-+
-+		if (ret != -EINVAL)
-+			return ret;
-+		tried_mmconf = true;
-+	}
-+#endif
- 	if (domain == 0 && reg < 256 && raw_pci_ops)
- 		return raw_pci_ops->read(domain, bus, devfn, reg, len, val);
--	if (raw_pci_ext_ops)
-+	if (!tried_mmconf && raw_pci_ext_ops)
- 		return raw_pci_ext_ops->read(domain, bus, devfn, reg, len, val);
- 	return -EINVAL;
- }
-@@ -50,9 +68,20 @@ int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
- int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
- 						int reg, int len, u32 val)
- {
-+	bool tried_mmconf = false;
-+
-+#ifdef CONFIG_PCI_MMCONFIG
-+	if (pci_prefer_mmconf && raw_pci_ext_ops == &pci_mmcfg) {
-+		int ret = raw_pci_ext_ops->write(domain, bus, devfn, reg, len, val);
-+
-+		if (ret != -EINVAL)
-+			return ret;
-+		tried_mmconf = true;
-+	}
-+#endif
- 	if (domain == 0 && reg < 256 && raw_pci_ops)
- 		return raw_pci_ops->write(domain, bus, devfn, reg, len, val);
--	if (raw_pci_ext_ops)
-+	if (!tried_mmconf && raw_pci_ext_ops)
- 		return raw_pci_ext_ops->write(domain, bus, devfn, reg, len, val);
- 	return -EINVAL;
- }
-@@ -551,7 +580,13 @@ char *__init pcibios_setup(char *str)
- 	}
- #endif
- #ifdef CONFIG_PCI_MMCONFIG
--	else if (!strcmp(str, "nommconf")) {
-+	else if (!strcmp(str, "prefer_mmconf")) {
-+		pci_prefer_mmconf = 1;
-+		return NULL;
-+	} else if (!strcmp(str, "no_prefer_mmconf")) {
-+		pci_prefer_mmconf = 0;
-+		return NULL;
-+	} else if (!strcmp(str, "nommconf")) {
- 		pci_probe &= ~PCI_PROBE_MMCONF;
- 		return NULL;
- 	}
--- 
-2.55.0
-
+> Let's add kfence.static_keys= as a boot parameter so that the mode can
+> be selected per host. The default still comes from
+> CONFIG_KFENCE_STATIC_KEYS.
+>
+> Testing with the unoptimised branch layout showed no obvious changes in
+> performance across allocation sizes.
+>
+> Signed-off-by: Chris Down <chris@chrisdown.name>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  6 +++
+>  Documentation/dev-tools/kfence.rst            |  9 ++--
+>  lib/Kconfig.kfence                            |  4 ++
+>  mm/kfence/core.c                              | 47 +++++++++++--------
+>  4 files changed, 42 insertions(+), 24 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e75344f4e0cd..cda98e1b0b68 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2989,6 +2989,12 @@ Kernel parameters
+>                         Format: <unsigned integer>
+>                         Default: 75
+>
+> +       kfence.static_keys=
+> +                       [MM,KFENCE] Whether to use static keys to set up
+> +                       KFENCE allocations. Ignored without CONFIG_JUMP_LABEL.
+> +                       Format: <bool>
+> +                       Default: CONFIG_KFENCE_STATIC_KEYS
+> +
+>         kgdbdbgp=       [KGDB,HW,EARLY] kgdb over EHCI usb debug port.
+>                         Format: <Controller#>[,poll interval]
+>                         The controller # is the number of the ehci usb debug
+> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+> index b03d1201ddae..15212ea1047d 100644
+> --- a/Documentation/dev-tools/kfence.rst
+> +++ b/Documentation/dev-tools/kfence.rst
+> @@ -259,10 +259,11 @@ SLUB) returns a guarded allocation from the KFENCE object pool (allocation
+>  sizes up to PAGE_SIZE are supported). At this point, the timer is reset, and
+>  the next allocation is set up after the expiration of the interval.
+>
+> -When using ``CONFIG_KFENCE_STATIC_KEYS=y``, KFENCE allocations are "gated"
+> -through the main allocator's fast-path by relying on static branches via the
+> -static keys infrastructure. The static branch is toggled to redirect the
+> -allocation to KFENCE. Depending on sample interval, target workloads, and
+> +When using static keys mode (boot parameter ``kfence.static_keys=1``, which is
+> +the default with ``CONFIG_KFENCE_STATIC_KEYS=y``), KFENCE allocations are
+> +"gated" through the main allocator's fast-path by relying on static branches
+> +via the static keys infrastructure. The static branch is toggled to redirect
+> +the allocation to KFENCE. Depending on sample interval, target workloads, and
+>  system architecture, this may perform better than the simple dynamic branch.
+>  Careful benchmarking is recommended.
+>
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> index 6fbbebec683a..2b2ad21aa36c 100644
+> --- a/lib/Kconfig.kfence
+> +++ b/lib/Kconfig.kfence
+> @@ -70,6 +70,10 @@ config KFENCE_STATIC_KEYS
+>           enabling and disabling static keys invoke IPI broadcasts, the latency
+>           and impact of which is much harder to predict than a dynamic branch.
+>
+> +         Sets the default for the "kfence.static_keys" boot parameter.
+> +         Selecting the other mode at boot adds one extra jump to each
+> +         slab allocation's KFENCE check.
+> +
+>           Say N if you are unsure.
+>
+>  config KFENCE_STRESS_TEST_FAULTS
+> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> index 55d5c114eadf..cfbefca5b78b 100644
+> --- a/mm/kfence/core.c
+> +++ b/mm/kfence/core.c
+> @@ -119,6 +119,9 @@ module_param_named(deferrable, kfence_deferrable, bool, 0444);
+>  static bool kfence_check_on_panic __read_mostly;
+>  module_param_named(check_on_panic, kfence_check_on_panic, bool, 0444);
+>
+> +static bool kfence_static_keys __ro_after_init = IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS);
+> +module_param_named(static_keys, kfence_static_keys, bool, 0444);
+> +
+>  /* The pool of pages used for guard pages and objects. */
+>  char *__kfence_pool __read_mostly;
+>  EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
+> @@ -845,7 +848,6 @@ static struct notifier_block kfence_check_canary_notifier = {
+>
+>  static struct delayed_work kfence_timer;
+>
+> -#ifdef CONFIG_KFENCE_STATIC_KEYS
+>  /* Wait queue to wake up allocation-gate timer task. */
+>  static DECLARE_WAIT_QUEUE_HEAD(allocation_wait);
+>
+> @@ -878,7 +880,6 @@ static void wake_up_kfence_timer(struct irq_work *work)
+>         wake_up(&allocation_wait);
+>  }
+>  static DEFINE_IRQ_WORK(wake_up_kfence_timer_work, wake_up_kfence_timer);
+> -#endif
+>
+>  /*
+>   * Set up delayed work, which will enable and disable the static key. We need to
+> @@ -897,17 +898,17 @@ static void toggle_allocation_gate(struct work_struct *work)
+>                 return;
+>
+>         atomic_set(&kfence_allocation_gate, -kfence_burst);
+> -#ifdef CONFIG_KFENCE_STATIC_KEYS
+> -       /* Enable static key, and await allocation to happen. */
+> -       static_branch_enable(&kfence_allocation_key);
+> +       if (kfence_static_keys) {
+> +               /* Enable static key, and await allocation to happen. */
+> +               static_branch_enable(&kfence_allocation_key);
+>
+> -       wait_event_idle(allocation_wait,
+> -                       atomic_read(&kfence_allocation_gate) > 0 ||
+> -                       !READ_ONCE(kfence_enabled));
+> +               wait_event_idle(allocation_wait,
+> +                               atomic_read(&kfence_allocation_gate) > 0 ||
+> +                               !READ_ONCE(kfence_enabled));
+>
+> -       /* Disable static key and reset timer. */
+> -       static_branch_disable(&kfence_allocation_key);
+> -#endif
+> +               /* Disable static key and reset timer. */
+> +               static_branch_disable(&kfence_allocation_key);
+> +       }
+>         queue_delayed_work(system_dfl_wq, &kfence_timer,
+>                            msecs_to_jiffies(kfence_sample_interval));
+>  }
+> @@ -956,7 +957,7 @@ void __init kfence_alloc_pool_and_metadata(void)
+>
+>  static void kfence_init_enable(void)
+>  {
+> -       if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
+> +       if (!kfence_static_keys)
+>                 static_branch_enable(&kfence_allocation_key);
+>
+>         if (kfence_deferrable)
+> @@ -967,22 +968,29 @@ static void kfence_init_enable(void)
+>         if (kfence_check_on_panic)
+>                 atomic_notifier_chain_register(&panic_notifier_list, &kfence_check_canary_notifier);
+>
+> -#ifdef CONFIG_KFENCE_STATIC_KEYS
+> -       register_reboot_notifier(&kfence_reboot_notifier);
+> -#endif
+> +       if (kfence_static_keys)
+> +               register_reboot_notifier(&kfence_reboot_notifier);
+>
+>         WRITE_ONCE(kfence_enabled, true);
+>         queue_delayed_work(system_dfl_wq, &kfence_timer, 0);
+>
+> -       pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p\n", KFENCE_POOL_SIZE,
+> +       pr_info("initialized - using %lu bytes for %d objects at 0x%p-0x%p%s\n", KFENCE_POOL_SIZE,
+>                 CONFIG_KFENCE_NUM_OBJECTS, (void *)__kfence_pool,
+> -               (void *)(__kfence_pool + KFENCE_POOL_SIZE));
+> +               (void *)(__kfence_pool + KFENCE_POOL_SIZE),
+> +               kfence_static_keys ? ", static keys mode" : "");
+>  }
+>
+>  void __init kfence_init(void)
+>  {
+>         stack_hash_seed = get_random_u32();
+>
+> +       /*
+> +        * Without jump labels a static key is just another dynamic branch, so
+> +        * static keys mode would only add the cost of toggling it.
+> +        */
+> +       if (!IS_ENABLED(CONFIG_JUMP_LABEL))
+> +               kfence_static_keys = false;
+> +
+>         /* Setting kfence_sample_interval to 0 on boot disables KFENCE. */
+>         if (!kfence_sample_interval)
+>                 return;
+> @@ -1175,10 +1183,10 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+>         allocation_gate = atomic_inc_return(&kfence_allocation_gate);
+>         if (allocation_gate > 1)
+>                 return NULL;
+> -#ifdef CONFIG_KFENCE_STATIC_KEYS
+>         /*
+>          * waitqueue_active() is fully ordered after the update of
+> -        * kfence_allocation_gate per atomic_inc_return().
+> +        * kfence_allocation_gate per atomic_inc_return(). There are only ever
+> +        * waiters in static keys mode.
+>          */
+>         if (allocation_gate == 1 && waitqueue_active(&allocation_wait)) {
+>                 /*
+> @@ -1187,7 +1195,6 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
+>                  */
+>                 irq_work_queue(&wake_up_kfence_timer_work);
+>         }
+> -#endif
+>
+>         if (!READ_ONCE(kfence_enabled))
+>                 return NULL;
+>
+> base-commit: bae9a042b03b27924c6fd5bdc00a20d6a44d6041
+> --
+> 2.54.0
+>
