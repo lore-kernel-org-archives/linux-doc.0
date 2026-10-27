@@ -1,102 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.175
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793124404;
-	b=0cWYxP4sw0oaeJ0n27dL8yNw4/veTWYEvgvLkhnn2BVT/qy8JGo7Cmv/hFcWFHkXt6jh
-	 b68t05p690UMtUqyo+4f0dbYlXQWl+CZyC/dx02kYfNx2SubTfJzThb3DY3dJIHtrvykM
-	 MieMOn2mkD1wkimw/mEwVBRHalvA2Sl5pdb4uiBxqFzlIthCyUHkku+DvzPXexWiYsDYV
-	 We357z8lRLFg5RfjN8Uvg/m7l2fpRGm89CdKVxncrM87LDEhYbfp9BckRLtCKtaxk6hND
-	 uPmxRwtmG2xmmuB1g4HkAk8wEtvLAb/yclwzwvrA8uG/Oz0kfq/J/jnO59eZ7U2P+EA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793124404;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
-	b=h1/nhlu3v5+Vuy1spD73wr3bGkWt3oIZLVdiYEb9BPFzp3puGRmpvqSMZtyUMWpHlhWb
-	 d4Oo9nSYIVdgvb4MIH6CGT4KcEW+SFvC75Ar3P2QAEOKPlrEXiqS4pIG1umX7C2ucd1qz
-	 syLtxxD1R+zF+3f+VhbXDb7XEFwwnL4is2sfJlKpb4/4ddhXMR/boYcxBh7kH5mxZkF9m
-	 iZYMP6DTsZF1MIWZRp7akKLHpjHw9OqTVJBMX+4Ud6Blhkj76ENwY6yIqS6ogWi56D33Q
-	 5odQcn02NxDSzTwCDB+yt4JRtUIYfx/uvdQGx4BC3qV0tHd91BBLyfs5pk7Ybal+NwA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=everpuredata.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=bnbx0c51;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.175
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF05E606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 18:06:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF05E606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=everpuredata.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793124824;
+	b=ngzMx9uWbQB8W58mkLyPMCZRWYeq0LU+hP6cQq4SNA+bx+oW+FI1zVrDYFCFKNDIQv6q
+	 mRUcdCu8qcbc2RQU7/Kyo2ruivWnJjWF2CcQJlEBYzbo74LS0Nnszdaglu8nVK964DMFh
+	 KjiDWyUJXgW5F+nGI+f+pXLpsBBvZDgZMfzrC2S4xHh4ytDQU/YNrSLvKwCf6NfZZSP7a
+	 013lgKO2AMkyiT+S8qHBGgg7Ts/Mh1/LdAJJgfSkVATdQ0MV+GhrpOS3Jj3zsCR+ECLIN
+	 7YwV/quJWSplw/EfBnAowAD3uW4c9zxjE+YLmUiafP+/xuphja7CtJEDLEaAO0qnLtA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793124824;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=SEGsNEKzJFKAXCSwgMTuyhg9hYL4zxxvha+xxLEPLv0=;
+	b=sewc3R0usClwkp4xSE0x8ibWi7/SYP176ci1hSVVu0vHkzly+cWFJQ2711N+19PKHs2N
+	 Nn9SWrYy/XgHZzvnoJRNt94mRKn0PT1x6NIp04QuVPzdV6nGGtcPVZPD8DCuLTYa6me0d
+	 yeEz8iS88ZJBSAk5qtHpiaKYoCcw3Q+52ppMHPyRX7q+Ytn62kcj36P2fze5//E8dGFrX
+	 GC4TKbDB9tL8Q5CGrHzzTutV5AaXM20wGMyzWmXlpfnbh0k2mVVXJtrarh+7VF6F1dsEY
+	 ZYc14jif7rrqcA5tqajvdh+qaVTNhkd3PPgsptU0XqKRWY1u1J1Rn4EZnCowbRDprMw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=MRWCaJvB;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85979606A31F;
+	Tue, 27 Oct 2026 18:13:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85979606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=everpuredata.com header.i=@everpuredata.com header.a=rsa-sha256 header.s=google header.b=bnbx0c51
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eaf169fe3dso63508e0c.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 11:06:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793124398; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AFJaTNir6S5/370tlENsM6ErQbVeASnNmTAjehMEpFJqLu14WdJ04/A1ghSFvIZB8K
-         +SgUHln/vKaI7Utx5ke9/f39eZEoVy+NaVQVWOinsJFISXMqAWMSdtmwyBS+0BTyZA6x
-         iPsPTgh11dWdwNnm4M1BUb1zfJGnuOEOC0phdWc4Ji/rY8tiYtW5cJLp+GC9LZvqKLn9
-         4OB9EqOLiB1bdsJl3viuHEfruO2KC5/bjACb+xPMwwfUKJP1AHE1Gg9Mz3IVce8SVgVZ
-         DXuA7VFOS1dgEUZPyQZjwoDhBXWEiIX5thdHXCZ0DVhvkwW5gOb3CXAEZ/6lvbw1JmYd
-         ICrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
-        fh=7LL5bXEUaQmerJ/wQWt8vP7Q38gz2/Vm3Wc/2f7JKbU=;
-        b=M3JvJCo1OO5KN/LacQsmSINtdyfEFEYR/w0aqf1EwhguP9YUuTtYD/e6rdxbGQ3E3m
-         oeGf8YQLCEGjBwZzodGvyBguq+HajAkJZ/AqUVyzb/94He6rW6rRxMevVWjAjx5vmrxE
-         2dJJ8UTTFf6uOQPM2L/0EP0g9XnAdnACHE9eCo1+C4/G2zX6ZJ1qVDGTGHR31F0hHn94
-         2Oh/v0zIXPVC8acNj+3+N/nGYqd76e9YkAtOLgJbNbyMmzDDOZDOnHCCT0BbXkh0ejHj
-         wCd5jEE38ccpIe/Fcj//nxCK4Rj+TTq9ntS5hJjA4Ud+UhWuYj4JpfMd4o1Bjo8umn9c
-         0AZg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everpuredata.com; s=google; t=1793124398; x=1793729198; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
-        b=bnbx0c51U+nUvfX/j79nCsJetkh88LNGfoTJLGA3xzmYftiKJdYVLqhLPqdZ0k18z0
-         bIqFKDGt83HphhpMIJWDSq5IemPgknKJvobWXMkQQ7VO6bjFrkqAvo1+AFXjuhKxvIpk
-         W8u9aa3z90Pfix4p1IqN/zzeSVEpuibE23dJovE1vgXkceZPgC5wnHgHRyGpVHnFHSqo
-         4QcZMxNMU1TfozGRggqrzXwePOAeXQO8QEHgSxDifyLvTVK7mcoRyMt9joRrDyXsUkpz
-         YOKZ8loy08dOxfLcfLVqOuFleKGvv4GBmszpAIV2b00wvKXhI27wlxfj8LFdjAx97rjC
-         1cHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793124398; x=1793729198;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YIa8cnD1c6AuCIf6bi+2H8Rp6ZuWBprgbDUrVNg5BxI=;
-        b=cwKNl4GG7WJqjHQPKvLLsYKW4eo90aOxf7ti4R+x0pE51AYaOmCD7HqMbAA3C1ETsj
-         wSy2it4LIbB1baiC17kKhOA4ctrSnOv+Uw4cvkwquBQtYiv0TriZ0ynGH1gdR40vmlPp
-         hoPL3JHAzr7DamFJDkpxfr1X8LjXAT3qWqs11E6SmCi2gQxcghmGPVxeE2q4hjXejsUw
-         CAO7tg6WeZalrL8oGrxJnr99LCfuUdR6v5Nr5ooUdpr+PIRjjw/tRZvo6UWoK/XGrxkn
-         psKnh5oSUMaSjnH5kHD9MjdlXOpqQWRHMWsKlAB2AAyaDXVf/vyZJNZkZgsG1G4ViUuI
-         iUNg==
-X-Forwarded-Encrypted: i=1; AKwUvByQInpXYdXBGzvUUi8slp1XXrtLXgChmSn2KtFcK3ewr3KwUsNyuPCg5cDpHoexTSg1HU1WJv0bV9k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIgFjrNyCjhGDfaAMairbF++BMlBC3b3tfGhfAssICCHrKFWt/R
-	MG+8rkCN8w6ILrksFyvtnl08cfw/8CLoCCwsxqUJzIcbWjSpAZkmIIA3H3+kFC7Oky0V5biYHEa
-	Jn5IADILyWtSAgHxK6nYC3QItQeshZR0kQ8tybjqyQw==
-X-Gm-Gg: AYBFou0NTndmu2lXmRCXlfluOMlKZon8+rw8hdR6XxDiavYh8gZAhJWzvKEQ5KcF9NJ
-	Ggy0W4YHsPwkve/eOqDj5H/ZQRzgCZE6W4IGY4YeZTm5a4OkbMAKlERWU8ETxvMynjywhHJlTwj
-	Rt05sTxh7JJ/4R+zFo/IVJiSvF5MGinEsjzqXof0zmsOtaF3bdy/yaKAJQgaJ5nwOfGVMOt2COI
-	lWsLdhEfI/iQrh9dCRnY22cCXbLJHJzSThlhV1myyRXttgtkM9Fj7gtjqENT5gRf4MyYkoNUiIc
-	IEM7Nn1FlmKmJICkGQD5phbkbUCr6NFZK7WPvLTWzJBSdD4nTF4lIyI1rL9V2eUpyKW/XGGDNNs
-	6wLAF/zbwYr8FrJ9kjxZNcqxv9J5AZmae0C2/aidePZcQQk3AyDxcoIgfcUW0bffNE5xHu1iJ+z
-	FI7mlht3x8mskeYjfSbJtPdzrzzsNGhyjVtCfXHNHNlKQkEZat0JX8Eh8Dnx/q2fX8XJsB4wkqi
-	Nm6Z+1i8Ib5z8WMXHrfcx9jvQ==
-X-Received: by 2002:a05:6122:6e09:b0:5ea:94cd:c5d7 with SMTP id
- 71dfb90a1353d-5ec232a3210mr4742163e0c.16.1793124397567; Tue, 27 Oct 2026
- 11:06:37 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=MRWCaJvB
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5256C1650;
+	Tue, 27 Oct 2026 11:13:39 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2746E3F59E;
+	Tue, 27 Oct 2026 11:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793124822; bh=StP32dfIcKd8YphSKpAL+/HMutnlIIEzCaQQmma93NA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MRWCaJvB6Q28OPTMIyyC6DjI8k5TlohZktMkWptC/He2/3HJxzp5kYwhVFDcW74p3
+	 o33mnJ07QNYP5dUnmQi2BdWSac/cz93NF/qOl3XcNpzMvuUI9ZLP8rq0VqQ5Xx4KuG
+	 8wbM62lsVAv+Qy+Es7f5beZKEbQGV8ixw8A3RHbI=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	yangjinqian1@huawei.com,
+	caijian11@h-partners.com,
+	liuyonglong@huawei.com,
+	tangchengchang@huawei.com,
+	yezhenyu2@huawei.com,
+	yubihong@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	seiden@linux.ibm.com,
+	suzuki.poulose@arm.com,
+	fuad.tabba@linux.dev,
+	mark.rutland@arm.com,
+	seanjc@google.com,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 08/15] KVM: arm64: Flush the HDBSS buffer on VM exit
+Date: Tue, 27 Oct 2026 18:13:35 +0000
+Message-ID: <auDpyRNpeDNzIk3W@LeoBrasDK>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20260929103655.85107-9-zhengtian10@huawei.com>
+References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-9-zhengtian10@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,201 +89,202 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261020214500.972308-1-rjethwani@purestorage.com> <179287933702.3134.9880453017789029456@kernel.org>
-In-Reply-To: <179287933702.3134.9880453017789029456@kernel.org>
-From: Rishikesh Jethwani <rjethwani@everpuredata.com>
-Date: Tue, 27 Oct 2026 11:06:26 -0700
-X-Gm-Features: AclHuK_h_Qz1FLeM8P1E7678UoCNdVQNXwMlAzhrzR7bz3Jo7FQlCV3uB9oLBb4
-Message-ID: <CAKaoeS3EJK9kJ-mT9ZJChHFFX9MvTJkfqCyb_g37=5O-9wGkaQ@mail.gmail.com>
-Subject: Re: [PATCH net v2] tls: keep TX and RX hardware offload on the same device
-To: netdev-bot+sashiko@kernel.org
-Cc: netdev@vger.kernel.org, john.fastabend@gmail.com, kuba@kernel.org, 
-	sd@queasysnail.net, davem@davemloft.net, edumazet@kernel.org, 
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, borisp@mellanox.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 24, 2026 at 3:02=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
-te:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue(s) to consider.
->
-> Critical: 1 =C2=B7 High: 0 (1) =C2=B7 Medium: 0 =C2=B7 Low: 0
->
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwor=
-k
-> know by including "pw-bot: cr" as a separate line at the end of your repl=
-y
-> (one such reply per series is enough).
->
-> - [Critical] tls: type confusion and UAF in tls_device_down() when TX is
->   not TLS_HW
->
-> Pre-existing issues:
-> - [High] tls_set_sw_offload() (net/tls/tls_sw.c:2594) sets the shared
->   ctx->push_pending_record =3D tls_sw_push_pending_record unconditionally=
-,=E2=80=A6
->
+On Tue, Sep 29, 2026 at 06:36:48PM +0800, Tian Zheng wrote:
+> From: Eillon <yezhenyu2@huawei.com>
+> 
+> HDBSS entries accumulate in the per-vCPU buffer while the guest runs,
+> and must be drained into the dirty bitmap or dirty ring before
+> userspace can observe them.
+> 
+> Drain the buffer at a single point: kvm_arch_vcpu_ioctl_run() flushes
+> it on every VM exit, before the exit reason is handled. Flushing
+> inside the run loop keeps the dirty-ring feedback timely: when a flush
+> pushes the ring past its soft limit, kvm_dirty_ring_push() raises
+> KVM_REQ_DIRTY_RING_SOFT_FULL, which check_vcpu_requests() observes at
+> the top of the next loop iteration, so the vCPU exits to userspace for
+> the harvest before re-entering the guest.
+> 
+> kvm_arch_sync_dirty_log() relies on the exit path to flush: it kicks
+> vCPUs out of guest mode, and the GET/CLEAR protocol tolerates
+> concurrent bitmap writes, so the snapshot is complete without extra
+> synchronization.
+> 
+> Signed-off-by: Eillon <yezhenyu2@huawei.com>
+> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> ---
+>  arch/arm64/include/asm/kvm_dirty_bit.h | 15 +++++++++
+>  arch/arm64/kvm/arm.c                   | 20 ++++++++++++
+>  arch/arm64/kvm/dirty_bit.c             | 45 ++++++++++++++++++++++++++
+>  3 files changed, 80 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_dirty_bit.h b/arch/arm64/include/asm/kvm_dirty_bit.h
+> index fe703f02626b..d828e6b43fe9 100644
+> --- a/arch/arm64/include/asm/kvm_dirty_bit.h
+> +++ b/arch/arm64/include/asm/kvm_dirty_bit.h
+> @@ -13,6 +13,9 @@
+>  #include <asm/sysreg.h>
+>  #include <linux/sizes.h>
+> 
+> +#define HDBSS_ENTRY_VALID	BIT(0)
+> +#define HDBSS_ENTRY_IPA	GENMASK_ULL(55, 12)
+> +
+>  #define KVM_ARM_HDBSS_DEFAULT_SIZE  PAGE_SIZE
+>  #define KVM_ARM_HDBSS_MAX_SIZE      SZ_2M
+> 
+> @@ -22,7 +25,19 @@ static inline u32 kvm_hdbss_buffer_size(struct kvm *kvm)
+>  	return kvm->arch.hdbss_buffer_size ?: KVM_ARM_HDBSS_DEFAULT_SIZE;
+>  }
+> 
+> +static inline bool kvm_hdbss_enabled(struct kvm *kvm)
+> +{
+> +	return kvm->arch.mmu.vtcr & VTCR_EL2_HDBSS;
+> +}
+> +
+> +static inline bool vcpu_hdbss_enabled(struct kvm_vcpu *vcpu)
+> +{
+> +	return vcpu->arch.hw_mmu &&
+> +		(vcpu->arch.hw_mmu->vtcr & VTCR_EL2_HDBSS);
+> +}
+> +
+
+IIUC, arch.mmu is always the canonical s2_mmu, while hw_mmu can be the 
+nested s2_mmu, if enabled.
+
+Was that your intend here?
+If not, we could use only kvm* version, which can be called with vcpu->kvm.
+
+If it was, then I would like to understand the logic here, as IIUC the 
+buffer is accessible only for the non-nested guest, as it's 
+allocated in a per-vcpu structure. (vcpu->arch)
+
+>  int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu);
+>  void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
+> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu);
+> 
+>  #endif /* __ARM64_KVM_DIRTY_BIT_H__ */
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 5ea4ac26995e..9d7bdece149a 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -1430,6 +1430,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+> 
+>  		trace_kvm_exit(ret, kvm_vcpu_trap_get_class(vcpu), *vcpu_pc(vcpu));
+> 
+> +		/*
+> +		 * Drain the HDBSS buffer before the exit is handled, so
+> +		 * entries pushed to the dirty ring are accounted for by
+> +		 * dirty_ring_check_request() on the next iteration.
+> +		 */
+> +		if (vcpu_hdbss_enabled(vcpu))
+> +			kvm_flush_hdbss_buffer(vcpu);
+> +
+>  		/* Exit types that need handling before we can be preempted */
+>  		handle_exit_early(vcpu, ret);
+> 
+
+
+looks the correct place, haven't looked too much on that, though.
+
+
+> @@ -2017,7 +2025,19 @@ long kvm_arch_vcpu_unlocked_ioctl(struct file *filp, unsigned int ioctl,
+> 
+>  void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
+>  {
+> +	unsigned long i;
+> +	struct kvm_vcpu *vcpu;
+> 
+> +	if (!kvm_hdbss_enabled(kvm))
+> +		return;
+> +
+> +	/*
+> +	 * The buffer is drained on every VM exit, so kicking running
+> +	 * vCPUs is enough to flush them; the dirty-log GET/CLEAR
+> +	 * protocol tolerates bits set concurrently with the snapshot.
+> +	 */
+> +	kvm_for_each_vcpu(i, vcpu, kvm)
+> +		kvm_vcpu_kick(vcpu);
+>  }
+> 
+>  static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+> diff --git a/arch/arm64/kvm/dirty_bit.c b/arch/arm64/kvm/dirty_bit.c
+> index f9aeb9f34ad0..be0d12555c84 100644
+> --- a/arch/arm64/kvm/dirty_bit.c
+> +++ b/arch/arm64/kvm/dirty_bit.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/kconfig.h>
+>  #include <linux/log2.h>
+>  #include <linux/mm.h>
+> +#include <linux/srcu.h>
+> 
+
+Out of curiosity, could you please explain you reasoning on selecting srcu 
+as locking here? 
+
+(Like, what are you protecting against, and why srcu is a good choice)
+
+>  int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu)
+>  {
+> @@ -53,3 +54,47 @@ void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
+>  	vcpu->arch.hdbss.hdbss_pg = NULL;
+>  	vcpu->arch.hdbss.hdbssbr_el2 = 0;
+>  }
+> +
+> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
+> +{
+> +	int idx, curr_idx;
+> +	u64 prod;
+> +	u32 entries;
+> +	u64 *hdbss_buf;
+> +	struct kvm *kvm = vcpu->kvm;
+> +	int srcu_idx;
+> +
+> +	if (!vcpu_hdbss_enabled(vcpu))
+> +		return;
+
+You test this before calling, is it really necessary to test it again, just 
+after calling?
+
+> +
+> +	prod = read_sysreg_s(SYS_HDBSSPROD_EL2);
+> +	curr_idx = HDBSSPROD_IDX(prod);
+> +
+> +	if (curr_idx == 0 || !vcpu->arch.hdbss.hdbss_pg)
+> +		return;
+> +
+> +	hdbss_buf = page_address(vcpu->arch.hdbss.hdbss_pg);
+> +	if (!hdbss_buf)
+> +		return;
+> +
+> +	entries = kvm_hdbss_buffer_size(kvm) / sizeof(u64);
+> +
+> +	/* kvm_vcpu_mark_page_dirty() resolves the memslot under SRCU. */
+> +	srcu_idx = srcu_read_lock(&kvm->srcu);
+> +	for (idx = 0; idx < min_t(u32, curr_idx, entries); idx++) {
+> +		u64 gpa;
+> +
+> +		gpa = hdbss_buf[idx];
+> +		if (!(gpa & HDBSS_ENTRY_VALID))
+> +			continue;
+> +
+> +		gpa &= HDBSS_ENTRY_IPA;
+> +		kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
+> +	}
+> +	srcu_read_unlock(&kvm->srcu, srcu_idx);
+> +
+> +	prod &= ~HDBSSPROD_EL2_INDEX_MASK;
+> +	write_sysreg_s(prod, SYS_HDBSSPROD_EL2);
+> +	vcpu->arch.hdbss.hdbssprod_el2 = prod;
+> +	isb();
+> +}
 > --
->
-> tls: keep TX and RX hardware offload on the same device
->
-> This patch adds tls_device_can_attach(), which is checked under
-> device_offload_lock before each tls_dev_add() in tls_set_device_offload()
-> and tls_set_device_offload_rx(). A second direction is only offloaded if
-> it resolves to the netdev already bound to the context; otherwise setup
-> falls back to software for that direction.
->
-> > diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-> > index f11d0528fc431..9df183d0dd972 100644
-> > --- a/net/tls/tls_device.c
-> > +++ b/net/tls/tls_device.c
->
-> [ ... ]
->
-> > @@ -1227,6 +1246,11 @@ int tls_set_device_offload_rx(struct sock *sk, s=
-truct tls_context *ctx)
-> >               goto release_lock;
-> >       }
-> >
-> > +     if (!tls_device_can_attach(ctx, sk, netdev)) {
-> > +             rc =3D -EOPNOTSUPP;
-> > +             goto release_lock;
-> > +     }
-> > +
->
-> [Severity: Critical]
-> This isn't introduced by this patch, but the patch now deliberately
-> steers sockets into the state that hits it, so it seems worth raising
-> here.
->
-> When RX is on hardware and TX is declined by tls_device_can_attach(),
-> do_tls_setsockopt_conf() falls back to TLS_SW for TX (or TX is simply
-> never configured and stays TLS_BASE), while ctx stays on
-> tls_device_list bound to the RX device. If that device later goes down,
-> tls_device_down() does this for every matching ctx:
->
->         WRITE_ONCE(ctx->sk->sk_validate_xmit_skb,
->                    tls_validate_xmit_skb_sw);
->
-> without looking at ctx->tx_conf. The tls_dev_del() calls further down
-> are guarded by tx_conf =3D=3D TLS_HW and rx_conf =3D=3D TLS_HW, but this =
-store
-> is not.
->
-> >From then on every skb with TCP payload on the socket goes through
-> validate_xmit_skb() -> tls_validate_xmit_skb_sw() -> tls_sw_fallback(),
-> which casts tls_ctx->priv_ctx_tx with tls_offload_ctx_tx() and passes
-> the result to fill_sg_in(), which takes ctx->lock and walks
-> ctx->records_list through tls_get_record().
->
-> With tx_conf =3D=3D TLS_BASE, priv_ctx_tx is NULL. Isn't this a NULL
-> pointer dereference on the first data segment sent after the device
-> goes down? With tx_conf =3D=3D TLS_SW, priv_ctx_tx is the struct
-> tls_sw_context_tx from init_ctx_tx(), so fill_sg_in() would take a
-> spinlock and walk a list that are really unrelated fields of that
-> structure.
->
-> Close looks worse still. tls_sk_proto_close() frees priv_ctx_tx via
-> tls_sw_free_ctx_tx() before calling ctx->sk_proto->close(), but with
-> rx_conf =3D=3D TLS_HW the tls_context and the sk_validate_xmit_skb hook s=
-tay
-> around until tls_device_sk_destruct(). Data pushed out by tcp_close()
-> or retransmitted afterwards would run tls_sw_fallback() on freed
-> memory.
->
-> The updated tls-offload.rst says a declined direction "uses software
-> instead", and NETDEV_DOWN clearing the binding is now an explicit
-> reason to decline TX, so the patch relies on this combination working.
->
-> Should tls_device_down() only switch sk_validate_xmit_skb when TX is
-> really device offloaded? ctx->tx_conf is only set by
-> do_tls_setsockopt_conf() after tls_set_device_offload() has dropped
-> device_offload_lock, so I'm not sure tx_conf alone is a reliable test
-> there. Would comparing against tls_validate_xmit_skb, or having
-> tls_validate_xmit_skb_sw() bail out when TX is not TLS_HW, work better?
+> 2.43.0
+> 
 
-Thanks, agreed this is real, and it predates this patch.
-It's fixed separately in "tls: restrict device-down TX fallback to
-hardware TX sockets"
-https://lore.kernel.org/netdev/20261027015205.2169253-1-rjethwani@purestora=
-ge.com/
-That patch publishes tls_validate_xmit_skb and sets tx_conf =3D TLS_HW befo=
-re
-tls_set_device_offload() drops device_offload_lock. tls_device_down()
-then switches
-to tls_validate_xmit_skb_sw, and calls tls_dev_del(TX), only when
-tx_conf is TLS_HW,
-so software-TX and RX-only sockets keep their validator unchanged.
-It also sets rx_conf under the lock to close the matching RX leak.
-Since neither kind of socket gets the fallback validator, the
-close-path use-after-free
-you describe can't happen either.
 
-> [Severity: High]
-> This isn't a bug introduced by this patch, but it is related to the new
-> tls-offload.rst wording that a declined direction "is handled in software
-> as if offload had never been tried".
->
-> Suppose TX is already on hardware and RX is rejected here. Then
-> do_tls_setsockopt_conf() falls back to tls_set_sw_offload(sk, 0, ...),
-> and that function sets the shared TX callback whatever the direction:
->
-> net/tls/tls_sw.c:tls_set_sw_offload() {
->     ...
->         ctx->push_pending_record =3D tls_sw_push_pending_record;
->     ...
-> }
->
-> This replaces the callback that tls_set_device_offload() installed:
->
->         ctx->push_pending_record =3D tls_device_push_pending_record;
->
-> The hardware RX success path also calls tls_set_sw_offload(sk, 0, NULL),
-> so this could already happen before this patch.
->
-> Now suppose device TX leaves an open record, for example because
-> sendmsg() with MSG_MORE set pending_open_record_frags. A later sendmsg()
-> with a TLS_SET_RECORD_TYPE cmsg then takes this path:
->
-> tls_device_sendmsg()
->   tls_process_cmsg()
->     tls_handle_open_record()
->       ctx->push_pending_record() -> tls_sw_push_pending_record()
->
-> tls_sk_proto_cleanup() reaches the same callback on close when
-> sk_write_pending is set. tls_sw_push_pending_record() does:
->
->         struct tls_sw_context_tx *ctx =3D tls_sw_ctx_tx(tls_ctx);
->         struct tls_rec *rec =3D ctx->open_rec;
->
-> but priv_ctx_tx is really a struct tls_offload_context_tx here.
->
-> Doesn't this read an unrelated field of tls_offload_context_tx as a
-> struct tls_rec pointer?
->
-> If that field is NULL, the open device record is not flushed before the
-> record type changes. Data that is already buffered then goes out under
-> the new record type. If the field is non-NULL, rec->msg_plaintext is
-> read through a garbage pointer.
->
-> This seems to go back to 3c4d7559159b (2017). Could tls_set_sw_offload()
-> set push_pending_record only when tx is set? Then RX setup, hardware or
-> software fallback, would leave the device TX callback in place.
+Thanks!
+Leo
 
-Thanks, agreed this is real, and it predates this patch.
-It's fixed separately in "tls: only install push_pending_record for a
-TX context"
-https://lore.kernel.org/netdev/20261027171537.2317025-1-rjethwani@purestora=
-ge.com/
-
-> [ ... ]
->
-> --
-> Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
-set/20261020214500.972308-1-rjethwani%40purestorage.com
