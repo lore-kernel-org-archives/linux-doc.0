@@ -1,106 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793105937;
-	b=f0E0vR5w3AnB8uMLZrJNPFML20O0CG9zznV3gKMkIAfTo+A9NNNPhmPL3x6vb81Ts81U
-	 hAFhIvg6bP/JzPGiUgq6r7hdoWpCNsWlztUr4XC4vjliBmm4wKfRCbttjKqlRC6W9AWB1
-	 8wd6EYSR2wVumNXz1FxEfElmYQIWEM9ShlUMZqKZE5xz43eQJFidwnfqHfytJypYvPX7G
-	 /quYnrSzcz2WwH7UXkf56VH8t7SKCrUUHfsnnaKEQ/J8tzTEUc8eXMutlVaZ9I3MJt0I5
-	 aE0HPGyOHntEuq5FYiiCG0g93QPF9AyfGJDsrfKzwRj2hnDRuYBgVQRSYiLdjh6wwBw==
+	t=1793105966;
+	b=zCsVoBhuH26B10JDUCknN7KeJYUIQBq2L5IT9nb4hJdg/WlosUk/hFS97G2PxAibSBxS
+	 qb69BMns3YoVYoR7ZA/wYlp7clAdSAKYOuZR/aOioO7AS5VWRZRumia2DyPEw8+EivCBT
+	 XJz9oi9ad5rpy41SUP9TK2pq4tLdl4uQHjn6II2kgRZB1EufD41pLL28cPm25dU1uGeJz
+	 F8O8L6HjrmqirzDK1Ospt/x/LqtyU2dGB2tNCFE+znBx5q5z2aMsxR+bFSztatB3XSqyj
+	 +qdh7prsCuc5FBxqZgPZYDHpzR7YUrBXPVh2ujA0VFn83RVcjj6pW8Q5+1zC5CvFVRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793105937;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=b2oJG/Cx+yrxp2tVulERESQsUaYqENiGI/N1hIw4DgY=;
-	b=KHA+O3htfdyMuPsEHtgr8mqAA3rgHNG+mQNGpGKBUbShxBdRb8TNIhJrygXesrZZ4Eez
-	 6F9KFWK+9zWfwmyj9Nly7swyywq8CEPNia91tw0c0cy3q3QPaCxZIr4ITLu1JB4w8qSo/
-	 V4IaDKkg6gWP+FGLIX58rkfOiauMAFxH/iIjea6RCEsLLgbxqZrlgGxL1brsCo0FggOLB
-	 DsOIZDEZE2tSeqZ7sA/bEp2bAFMsOWTV6r5dvFlDvsJtDLDX8alSPrgaJoW25v14n7fh+
-	 5yVYMTBPvReQY4n9YeBa/XiWk7KHJjtSHWqo+5j1eAPjfysuv6Fp6c/n3dXMB92MUQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793105966;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=Vsl0HVbEuoM51i6BhyxMfLu4Q1ZoOEb60y6FW9JjSq4=;
+	b=e30BSKYi03Na8/1cYZ33mW9es/F7u7fwZm0zumr9LvBim8OOIRsA6dFCXxy6fASvVyGu
+	 eChmDTMmOqy3rQqEvIzqfxjZdcO8AnENbxlpuP4fNneLCoTWx7lKSA48LKBAvYwOnklqm
+	 oy9+cEuRoq8D0ZPPAU9dTLQU734YfFeSAvz587a2VZSVx4W32TVm6X8Ym9FUChkzvqqPa
+	 +6SeLxYlpZPwY4QYDpsBH9KcMwQULfQJDZFvQGceMGWZ6SnAOe7vS003IZP7+cHY/fVwp
+	 soSKn6fAbPFV4s1oKtqUxJdQvIxCfvGlsCt+/wEeX1LLKOfBkYBzZapBHaWu2uLKu5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=IruyvjM5;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JJhqJsrX;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A713B606A31E
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 12:58:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A713B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a214af2076so30678795e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 05:58:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40DB606A322
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 12:59:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D40DB606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=IruyvjM5;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JJhqJsrX
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RAe8Sb3026348
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 12:59:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Vsl0HVbEuoM51i6BhyxMfLu4Q1ZoOEb60y6FW9JjSq4=; b=IruyvjM5/aLrDMuW
+	5KVWVW2tcpRSZCiH34BEt6jagRX0sat0rKmCzk1TcpRNrs2ziG3qQoYIw9VRDHnC
+	bUEWdoXMy/GEel6T+h5B6nByfFUxDVQkunbk4aXPuP2A/MsZlyHb7EmrytuOBbbe
+	Y2LofxqRFRaa35TUaPPeQoY2ZKZthfjJb0uwn90uV2NO9GLEM0kV8SDeMeblyfXi
+	Wim4p14h+k1+jc5sgM6BJcTCfPQ6xl8os4N1nll6kIOrKWAKFpM7jbBDSh6kZudN
+	o7H0yuNneG5mFCmSsIWRl2ryA94CFTQ7l0AOTQ5lLWKcL4Q9zctu0oWBR9XFmfME
+	9x7eTw==
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjh91aj1a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 12:59:24 +0000 (GMT)
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-16bc6f3fdb1so4390146c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 05:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793105935; x=1793710735; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=b2oJG/Cx+yrxp2tVulERESQsUaYqENiGI/N1hIw4DgY=;
-        b=dCSBHlqJhbxGNxDS28So5RrVfZbL9zjwyxN0BnPVQzn6xBvQNqDzN8GcLoz9swLVXy
-         KW+y+lNSZIKsl81mHaSzYspKq0V+gopGCvEfclPmjL1bC+JXRzy1LhZKgMysuIP1bUNF
-         1zWrlVUj6iLBuWL6qS5CHZCLctqLx6E+u/nRJp9bT3jRYNWVj0N0dPsbXSjedTXUpuag
-         Y+aEcVbY0czb5Dz5mRrmKXWnjUo5kPpKnxNk+aYYzYnfWl8FD+LNLItQMWQd1eG7E4sG
-         LS+jDkeHD2jpfcLzzF87vvM1S9lQO9vpJl8N6TIJXRDdtIQui4rq1xQ7KuzG9HFysfyA
-         AX4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793105935; x=1793710735;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1793105964; x=1793710764; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=b2oJG/Cx+yrxp2tVulERESQsUaYqENiGI/N1hIw4DgY=;
-        b=XB/lHAuE03Dfhu255qJlQkpMyJJ1NrApz20iWvBjcHxuHQawGMerFbArzQL4neyIn7
-         1LfyYHnWSn/ezma2nG4R56kMwOeS8w655oYun8aScZjXw4HvXSzB0m4SPkTPKMIg2g5j
-         C4NBvBkvonK1DJd13taCVQXOSGVj+MGCQXAIMpQpbAXANrNtPqdXybc4JdfIX9Vrt0PI
-         WAKQqr5qUJB7Mljg47x454HWNVRNZ+PywCYos3w9coEDLINbcqc5uPrbu33H06i+6qwM
-         3AvdgmzLPFZUy6/7z/oDfM+kWhEWOWpG4Thkk1nqg+oCDayzyS2inH8WzGqj36s+cdL0
-         JTXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxsvT64krPu9pSyZfxX0YaJ6q0DxhPhfL8fROQTW0XJvzPNZXWiz57IukHUNy02mYePI3oMOBGBzuQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJEWH77WZXwDU+YvZCzEuZxiZTSCZEMts91GgAmKPUzaESu/esq
-	fYvzuz/E3pY3++cRnmiYuy1taQXSl2i/DuhLHVXFIih8SLi6hmbm3sKeYjWURSYMFu0=
-X-Gm-Gg: AYBFou2WMfGmtMH8kF6RBqSM+aA0/tPxciPoLCnluVI65hEeTYBIlbJm94F62Lu6aV8
-	2BKyfdJ6E9OPi/qI59K0D8oh69XVjI8K6pAvlbXApnrUWQ7xaWBxaULjOLuDTF8zA38N0WWdwUV
-	TNbdOwu0xnBWfgTD0U039pifen3pz6XG+yVR+pO1CCyZcp1OCn8EcFJdztfT8W6Gr5Xfjn0iFEo
-	EdeXhouv5e2GlIU8Dt3z6YvFqiS5S0TmH4BBaRctFzDlDGwa4Gm9NLgPnZSvup1FnTazC+k+Mky
-	dvB5LfHFobIfjyo+GRyPSytWlEfRXzlfg+mvdy4rPFmgmlXcNBGRdBFqsl67rQBaUX5+vBaIsQq
-	WfHm0EWsyKplKbTC9wB3i7KgVTmeM7xbSko/iDwpL1c42CkCisizExW+BVimhAfJlcqvpXxNGn5
-	I6h+EN1vB+gPLUBmd25wzS2Ocyz5RQU0w1WupNWpuop3fc6b3F/gbr0eakgoo4vuiF3tYvjnZe/
-	3fedZ7Eiaxau6wcc9VZ7jE5vpJCJigMY6Ul9REOV+avZTpBodPIyN5r6w==
-X-Received: by 2002:a05:600c:621b:b0:4a2:59:f568 with SMTP id 5b1f17b1804b1-4a35ac95a53mr181284635e9.14.1793105934989;
-        Tue, 27 Oct 2026 05:58:54 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a2d9280sm262504675e9.13.2026.10.27.05.58.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 05:58:54 -0700 (PDT)
-Date: Tue, 27 Oct 2026 13:58:52 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Breno Leitao <leitao@debian.org>, chris@chrisdown.name,
-	Sam Crossley <samuelcrossley@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] netconsole: allow replaying the printk buffer on
- demand
-Message-ID: <auCgDAzkio4RVfWK@pathway.suse.cz>
-References: <20261024-netcons-replay-upstream-v1-0-9613f38496e5@gmail.com>
- <87fqxskdpl.fsf@jogness.linutronix.de>
- <at84qygscue8crQi@gmail.com>
- <87a4o0k3qa.fsf@jogness.linutronix.de>
- <at9qgBucVm-QHnye@pathway.suse.cz>
- <87zew0ifpp.fsf@jogness.linutronix.de>
+        bh=Vsl0HVbEuoM51i6BhyxMfLu4Q1ZoOEb60y6FW9JjSq4=;
+        b=JJhqJsrX2oU34E6gMKvvyqkngUtNRYqLbqXehgsB3krNFSc75OR3zjMQss5LPn9Vyv
+         PS3/Qd18V/urRs/kZJcAfTK8bXfH8YjC43tEj4Nj7xHenV3+K/lACUpCsoOo0Laiafg8
+         p+IpS8Ka7mu7PjVWvfgoKqUTZu3mS+7iT7U9rXuIEhNUkvWFRVzOWzy8UPNoL/Yyaxmv
+         AyXc4fnQIM+IEW2X+r9NqWCdsUVAeJntop89Xebr3HIJyIAmJXY862tEhkuFa0324Bzi
+         tP6yU8z13DliSaKhud/3lXVRHLIpCGuh+lG8GZ1GuDSdZYL/RkvFW0OWmOAJGu026jfR
+         ya3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793105964; x=1793710764;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Vsl0HVbEuoM51i6BhyxMfLu4Q1ZoOEb60y6FW9JjSq4=;
+        b=O4xNL9UD5rOrEa+N/s3RHRiny62b9hkrLRnwa77gQNLQ5bHyW0ZB+1t/I0zB45s1jA
+         JzF3gp+LhsbSW6mD3zXi50Wf0LaggirVcSFLCBQNmof46R9b2wVaHoY6Lr3xa9QjUdWB
+         QVPY3rnaX4O75tmcH8isUdpr7CWqlYYfT2tpFKaY2EOxmY3H3S2t1xhdaEvGJQyKVckE
+         PIBP+TwnQ4ODVBnN2jVSNKNrtlWg0wjRqLSD9D9haCDrNyGnqbehGZLpeTCtEmuHBDCl
+         T9wCB0dXJnH0S5zDSviQ/J4+kh6y4VfsdUQ27wj24aS+fQRunE5/gd7Uf3fD8dqBM1AK
+         09Pw==
+X-Forwarded-Encrypted: i=1; AKwUvBxAGWn1DLdZ0nbOe1QZLs+xZNN6hRKi3AoIUH9vrbFrHy/5ZDDiGlm4ZgG1NB0qFToeHyvue57a+Aw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKJPKp+tu9LmIE1CUEnXVE/3r9Jfz4onj1Ixw5luoDImlyOm0xK
+	QpqwyYEeDIu+ORWSK8751ABb4+YWEHXiX6nPneu7ItXbcY+zxYBfQev4QHGNgmOC6K1ggdC61Ev
+	fsm9I9HtZYzOQRSmg2sf9XZz+Leg2ByjEvjJmXZMVQ5L2hd6qzrGzp7edWSIRdpw=
+X-Gm-Gg: AYBFou2iuH186XffxU35ROneXvNcJcdnvailPJLgfS55qREFTKUC8vABA6HA2k1Nq/V
+	zSRHZwZuyIFUGNkQLfsRN2DLwTTJbQ9rgaxXZTgpFf9CS4mz32u0wmrusPsTWWiFtYRhf3PDbjV
+	UzFJ9CFTPoFy67qsWPGSV6o7PPDGOlV+TMVXur8E+OhlD53qzFRb7+dgGS0PVYuXxRHPJRmPTXp
+	6gwzpO5OiN+I93xVSf7plDsZc5CzupQUdpbYPp9+2dX1hzswC+9gIc47XRKulSgPfv+y69YBX2F
+	fmG4P1RxRjCJOHKTaRChIoQBfV5y/ZL8D/7lfK5OkSmvZeGdTPxE9vScAWk2faMibH3wbWcBYZz
+	xtqieVn4fNbvgVmHmhA1ECOE9MtXy
+X-Received: by 2002:a05:701b:204e:20b0:183:bebb:e93b with SMTP id a92af1059eb24-199292f43eamr13457146c88.6.1793105963988;
+        Tue, 27 Oct 2026 05:59:23 -0700 (PDT)
+X-Received: by 2002:a05:701b:204e:20b0:183:bebb:e93b with SMTP id a92af1059eb24-199292f43eamr13457100c88.6.1793105963185;
+        Tue, 27 Oct 2026 05:59:23 -0700 (PDT)
+Received: from [10.218.49.202] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-198a249c331sm70037137c88.17.2026.10.27.05.59.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 05:59:22 -0700 (PDT)
+Message-ID: <991e6b64-8741-4669-9bbf-e31eed788f42@oss.qualcomm.com>
+Date: Tue, 27 Oct 2026 18:29:13 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,66 +115,131 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zew0ifpp.fsf@jogness.linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] thermal: qcom: tsens: add hardware-bin trip-point
+ filtering
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Thara Gopinath <thara.gopinath@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+References: <20261002-thermal_bin-v1-0-5a29be7e8ec5@oss.qualcomm.com>
+ <20261002-thermal_bin-v1-4-5a29be7e8ec5@oss.qualcomm.com>
+ <7cd708de-a58e-47fd-acd4-0e37be77de92@oss.qualcomm.com>
+ <e832301a-6129-4697-a5e4-94671072622b@oss.qualcomm.com>
+ <e7788a12-3cad-4bd4-9f79-82cd118e0049@oss.qualcomm.com>
+Content-Language: en-US
+From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+In-Reply-To: <e7788a12-3cad-4bd4-9f79-82cd118e0049@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: FUOIqGTyKUtRQwv9kLx3dyOqMAaVqBNM
+X-Proofpoint-GUID: FUOIqGTyKUtRQwv9kLx3dyOqMAaVqBNM
+X-Authority-Analysis: v=2.4 cv=TuxzFzXh c=1 sm=1 tr=0 ts=6ae0a02c cx=c_pps
+ a=SvEPeNj+VMjHSW//kvnxuw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=2QBr877Ud9-TTkl_dS0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=Kq8ClHjjuc5pcCNDwlU0:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA1MSBTYWx0ZWRfXzkDJ+PgBvJud
+ xFwEVG6MwO3+PdWxFUsi34AnWixgvb4ogCcVy5zzMIhFRsbRVm10RUuBdbx2UVIz4rMdICE83nW
+ kvsDI6R+mOW0bU8y9fFJWqLc/g0GR0QFuf4QoGhGDtOuIx8t7RiHQtQ3PY7qZ+ErcBP0YPbr1X3
+ TbnB8XfNlmzqUta0sym2bNsFakY+R1aVDlXJqZ/t8ZBqtkKlhRIGnLLiwuudSMDgve3AR47cP8x
+ gbjun5nI4JWMiOFAkUQoN0A6z1s1UF5hK+ufabW9UwwtBZUgdSbbbty4t7blWicZ1LtQkcpynxY
+ svLDhvs++vf6rTp7YQ+kdKVt5n749txJ60ByIckxNEnFxhAViD/w1tihrPgfsj7X6PtGr/dgd3y
+ n2x+DB/f8WkR7LkCuPD5z0SPmPNbSMlXn9nxDlHYH5Bx1voQQ/LHVA0Lne6kviFPW/7EMruZ5CC
+ 3JDw+Gm4o6kUehJnLZA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA1MSBTYWx0ZWRfX32OW39DBfVzu
+ EjcsD7XMDROPYfEIOwsUmH6gh/npovbEWYGJ/+k84O5kAR87N/IILPDSu+h9nymNIVTMe07FtXV
+ nESPI46847zr3UicgMa02muZzl7iH8U=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-27_02,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610270051
 
-On Mon 2026-10-26 17:39:54, John Ogness wrote:
-> On 2026-10-26, Petr Mladek <pmladek@suse.com> wrote:
-> > The "replay" approach looks like a big hammer. Many messages might get
-> > duplicated, especially when the outage was small.
-> >
-> > A better solution might be to do not increment con->nbcon_seq
-> > when the transmission failed. And try it later again.
+
+
+On 10/26/2026 5:21 PM, Konrad Dybcio wrote:
+> On 10/23/26 12:01 PM, Gaurav Kohli wrote:
+>>
+>>
+>> On 10/22/2026 2:39 PM, Konrad Dybcio wrote:
+>>> On 10/2/26 12:46 PM, Gaurav Kohli wrote:
+>>>> From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+>>>>
+>>>> Some Qualcomm SoCs are binned at manufacturing time and expose the bin
+>>>> in qfprom fuses.  The thermal core's supported_hw_bin mechanism filters
+>>>> trip points by hardware version; wire tsens up to feed it.
+>>>
+>>> [...]
+>>>
+>>>> +    /* Hardware-bin values for thermal-hw-bin matching in DT. */
+>>>> +    const u32 hw_bin_std = 0x1;
+>>>> +    const u32 hw_bin_elevated = 0x2;
+>>>> +
+>>>> +    /* Higher thermal profile identification for qcm6490/sc7280 bins. */
+>>>> +    const u32 tsens_chip_id0 = 0x197;
+>>>> +    const u32 tsens_chip_id1 = 0x198;
+>>>> +    const u32 tsens_chip_id2 = 0x20e;
+>>>> +    const u32 tsens_chip_id3 = 0x20f;
+>>>> +    const u8 tsens_feat_id2 = 0x2;
+>>>> +    const u8 tsens_feat_id3 = 0x3;
+>>>> +    const u8 tsens_feat_id4 = 0x4;
+>>>
+>>> Isn't that (also) exposed over SMEM?
+>>
+>> Thanks Konrad, for review.
+>>
+>> SMEM has related socinfo data, but there is no exported helper for the
+>> exact fields needed here, such as feat-id, which is also used as the bin
+>> value.
 > 
-> Note that there was a time during the rework that we used to allow the
-> console to return failure but decided it was too complicated [0].
+> Is that different to qcom_smem_get_feature_code()?
 
-> [0] https://lore.kernel.org/lkml/ZdTCZqhZww8_WgSU@alley
+Thanks for review.
+I am checking internally and will update with the exact difference from
+feat-id. My understanding is that qcom_smem_get_feature_code() returns
+the SMEM socinfo feature_code, while this code needs the QFPROM feat-id
+field from the JTAG ID fuse word.
 
-It seems that the main problem was how to handle the nbcon ownership
-when the callback returned an error. But I think that has been later
-solved because we needed to re-acquire the ownership for the clean up.
-
-Honestly, I am not completely sure what worms could jump from this
-can. But I think that adding the error handling should be doable.
-Well, I am not sure that it is worth the effort for this use-case.
-
-> The kthreads are setup to stay in their printing loop until the backlog
-> is clear. Having a nice=-20 task busy-loop would be bad.
-
-My idea was to put the kthread into in interruptible sleep. It could
-be woken again by a timer and by the next printk() call.
-
-> > con->write_thread() currently does not return anything. I believe that
-> > it is partly a historical limit. Two problems come to my mind:
-> >
-> >    1. There used to be a global "console_seq" counter which was common
-> >       for all console drivers. But we have a per-console counter since
-> >       the commit a699449bb13b70b8bd1 ("printk: refactor and rework
-> >       printing logic").
-> >
-> >    2. There has never been a try-later logic. But is should be easier
-> >       to add it now. We have the kthreads. And even the legacy loop
-> >       is able to break when there is not progress.
+For this series, would prefer to keep the fuse-based path. The same
+binding is also used by the generic i-temp fuse bit for Hamoa/future
+targets, while the jtag-id/feat-id decoding remains only the
+Kodiak/QCM6490-specific callback. Please let me know if you are fine 
+with this approach.
 > 
-> I suppose for only the write_thread() callback we could implement some
-> sort of throttled retry if the console driver reports failure. But this
-> is assuming console drivers can even detect if it successfully sent or
-> not. The netconsole certainly has no method to _know_ if the UDP packet
-> was received. And UARTs (asside from flow-control) also have no way to
-> confirm that the other side received the data.
+>> This jtag-id/feat-id decoding is Kodiak/QCM6490-specific, and the
+>> thermal-bin mapping needs both values. Other/future targets are expected
+>> to use only the generic i-temp fuse bit, like Hamoa.
+> 
+> So there are variants of kodiak that ""incorrectly"" set the feat_id?
 
-Good point. We could detect problems only on the sender side
-which might need not be enough.
+No, Kodiak is not incorrectly setting it.
 
-> Breno and Sam simply want the user to trigger a replay of the full
-> log. Essentially a sysrq-R but per-console. I think that is a reasonable
-> request and certainly much easier than attempting some sort of
-> transmission guarantee.
+Kodiak/QCM6490 does not use the generic i-temp bit for this thermal
+profile selection, it is using feat id only for high TJ profile. The 
+i-temp path is for Hamoa/future targets where the thermal bin is exposed
+as single bit.
 
-Yes. I am not against the interface. I just thought about a better
-solution.
+> 
+> Konrad
 
-Best Regards,
-Petr
