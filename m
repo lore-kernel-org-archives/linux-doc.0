@@ -1,103 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793101410;
-	b=gT2aSYikFyOVh0MQ+q9PIEAOHzXseb1hQxBK79WHXwhuePz7KdR9EiesETt1jMr23oBn
-	 qhgemOXeNEAiL5WU5tVk9Nw5pqQFoBzvsjtIVebySQL/cpm97pAncqMp8VAyKj7uTgWP+
-	 V9B3ICcSCThlEVUBo/BAHsD/4DmoodwPgKiAaeQCPr3sLhfCrW2KzRx6tazjYR+eUscTP
-	 T3kqkY2WiEdnN394Ps8gwUCKjL/PW97W21HLD+SEXHwnUj/4UKIqJBB2BoqX8ETS+uOXO
-	 GqfHr8vJB+yZsdVadRVvvcyANCNtXpEdLB9Xh7djdJEbhjLr+brVFhEGHp7Z8WgxowA==
+	t=1793102112;
+	b=y27YfcRdga9mZil2tPONMXX1BRkZ4h9XV9ZhEK7qxeE8sQ207ZfVAkRT7yLwVoQFQXBT
+	 itoyQa6BjOzvQCipduuCSSnROfpp5MpqK92nVRFJHQ1JlJE59IM2ZSr7UcGCUGLOxuZnJ
+	 c+i26mP488pFKv900gMElzZ1ujzILip4j9aQrRGtAEK/KTCf3dEdgMYem+USVVqeRprk8
+	 S1lg4PQ0NQK/+rxBSFdfF3tCttsNzII5Z96XyCEoGhXmZdIsWMD0yxiGtdF7QtqyXZnHc
+	 n9RrDSxPzSgPk+6vSFfiv5z5M0Jcev4bFv/5t0sdpBgOq07HmYH9j9i4kVHDeqb7Big==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793101410;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=qRj5nmSVr8oaHYTfwp3nV+7muLaSPF1hwSVuKOsZ4eM=;
-	b=fDyPqFNGJWXnZ8AjgGO0r03YH3crI6E9lyugWXHvuvytDnwQPwby0J9xLsFURu0kNSiR
-	 KXOqHBy+kLcOWuo1VarUtsiMyQAeZRHLxGzW3Bh9iwTGYSJWffZjI49w4qFlftV22UsLA
-	 VxjEmWTqxW1xz/cm7zNa+P45udOUWF/EvKHTLOaRkhmZmrAmdYD/7Hk0/a5aSbTxYOMeX
-	 0N/5zodpqHCm2zo1TkGy4Ek5H4SQx4TZkjcCv8SJFHCbzRiSD4HBgaz4db//8hKE/hR2O
-	 UmZ6Nu7negmDbNCjUs7tMDMd0TzsNEq9smCuYoCcjLrMZX7qo/70lyt566pAa6Z2J2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793102112;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=PA0aAaFh/9H5HFt7Di8mduI1kjnyfcgklhevJ7k24bc=;
+	b=fJT3kAiH5+Kp1xxu1lWMFLe1pZZ0MNJtVpocQkhbB3AwwygcZTpOD3VOYGyOknpytPor
+	 zJeQr4y0qwM/BULlWKFnHB4pNWbyVWcT8ZvYOZkZrxhJDdPM3qITsBiHT0VQsn2JqOF4a
+	 ctqSfs/pcmlqN/hrbs7+avEh9+DFzI7I36FCM/u76AfeH2ZM2poc8KbiOrArlc4RRqmmt
+	 hxE4tfK+GGSnMGmCHvdfkbXGkJbJEyMOidvGziuCWPSRdMzTdlksMoKHmzVNGi8SVnHqI
+	 n+ZOmi92yiZ5OGog51+KS6X2aSt29nVlFLSJ4jTGJ2CwPMc5jApztM/XZsqRGPwN9Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b="iBOg8BS/";
-	arc=none smtp.remote-ip=209.85.215.182
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M6Lj7WTg;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A8D606A9C1
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 11:43:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14A8D606A9C1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF97606A31A;
+	Tue, 27 Oct 2026 11:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=iBOg8BS/
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so1711308a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 04:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793101409; x=1793706209; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=qRj5nmSVr8oaHYTfwp3nV+7muLaSPF1hwSVuKOsZ4eM=;
-        b=iBOg8BS/AfD0VOTVMWP3REB+11vPV7w0ToTM56EJrWZAxVXDxPmG2MqW8hvNvUbI+l
-         YLBtKH1cr2sx6cgkWNqYFi3Vz8TZKPEM4+mP4lXO1mL58LsaQeFs/aZsyjGzeSlcZ0Lb
-         r9YN/CYxzdAX9OSGZqJcz9kVZHtlPumWOo/gM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793101409; x=1793706209;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qRj5nmSVr8oaHYTfwp3nV+7muLaSPF1hwSVuKOsZ4eM=;
-        b=wN8QxG8OkE829KRWSjx2MSRccErcRWrn5Jui1xgheiji5hNOTAe7yOwZYsgX6sO2q2
-         ioMCOyc42oWWoTebKJZGD5uDXVcEDjiRHlkOO5hayr6nKFpC0KnZPkSzFAkjgGLfr6oa
-         3DXSOGl6G5qyXg/m9bWM95kmVBU4ieBliP6+BnwOxLNq3/TDcokH4zvBlqzkwktTbKPc
-         Q4n+wEqmypbIdJPichlKyzRnyq0fcTepWxkJrKU7veMOWOomHUIzZOsVArK2vxeamJeE
-         /zBBDxC4lIJvGdx/RADzvKnEHlg7IiHBMsde2dngHg5i22LFM9GEUyYaQP7gJO730Pg+
-         QJgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxSoFriU+Lm0pI15svqEzgB0bG3S5OK7nixXzV324pus6F55WhTrJs00qg/yCvgSHjWS/uoGAwOKXw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLeOB2Q5XnNgsrZAQKugtTx6kp+wqTRs9+MFytTyQ4mYUwezaqm
-	n58WgA9szofHcxvu6eMJACPrdEfjpnWsq9CnVcJVrctFzVnXClC/9o2RYm2B+QKziuU=
-X-Gm-Gg: AYBFou3ZFM5l39WG/yjQaxSl9lHdWAdT93ZplxR1IC+VvBzbLc01zY8zZVs85pmrxS6
-	vGe4z4AteiRbOB0CV5jIQwLSuPEeZBqDXLxYzxgz5klU7xg0IXndqHvITsBd8hgk9T250qnfpfc
-	z9lG2W7kR8YR5ipYdjzOgXQlKbaSMJ78irko6D+HNbCRBxuvFt83CxikJQixw8aiWeMVTZ9rIwR
-	ypQyfaXMjiUB6x22hDWMYbN49hooH9h9o8bx1eOdOfvlJGSLV3CBSd0qzBiQqBGpuFjR48g6/5P
-	BXTiTA3kU2TJiEgqZkHVUf2UNUp6LfCG557gw3gIFBtaNslgP8r8OJF6dQKqg3aTDm6sKkp+CAt
-	o7kxHLXWU7uyMnOz5YM7iXps61ePCPC5GttGf2Gy2MYm5TfFxXNGtUKiRvHm68Wf07Mb2Tx06rf
-	jfeyCqnrzV7aVl+ro/mCDE2BvLGo9qdwpwgsLzihnm5ntfrEQprm14Jw5GPBC0djhsHZrmF+x8k
-	Um79WBeV2cu0fvOLDU1O45JScRRJapliLX1DfVpCS45TX3TnRhVck90kWidp96Fct5lc0SvO85Y
-	T3sdJmmtDIyp4Z/ieqFtOQlTdiibwv22V12+YGAQ0GAASJ3zvb4bcB+ZLmXxn9Ezxjc0/k3gEaG
-	IGRWa0+VIKcNAFpHr92h63bw=
-X-Received: by 2002:a17:90b:35c5:b0:3ac:9599:a689 with SMTP id 98e67ed59e1d1-3adeafb079amr6566975a91.34.1793101409391;
-        Tue, 27 Oct 2026 04:43:29 -0700 (PDT)
-Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adf8f3f22csm7120822a91.3.2026.10.27.04.43.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 04:43:28 -0700 (PDT)
-Date: Tue, 27 Oct 2026 19:43:25 +0800
-From: Chris Down <chris@chrisdown.name>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@kernel.org>, Kees Cook <kees@kernel.org>,
-	Jeff Xu <jeffxu@chromium.org>, Andrey Vagin <avagin@gmail.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: [PATCH 3/3] selftests/mseal_system_mappings: Test vdso unmap and
- remap
-Message-ID: <621847973ba2ec49d0a58e0261da35a9f3a97eda.1793094611.git.chris@chrisdown.name>
-References: <cover.1793094611.git.chris@chrisdown.name>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M6Lj7WTg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18B7D1F01825;
+	Tue, 27 Oct 2026 11:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793102111;
+	bh=PA0aAaFh/9H5HFt7Di8mduI1kjnyfcgklhevJ7k24bc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=M6Lj7WTgp5gOXXOANVLTc/TCAGYF0TTH0Q/bmEx9u26HEmAyLHrPRDioFRVydnlcp
+	 ePjOXeP4WnrsZCNG9mUGeJ4OkA4iZ39ouqY1XUIrColIvGvcdmss81HOwvzbYTiliW
+	 4LJmjJILFU2jwmNxGggNwz1EyYD1zdsrntfVmVl9wMKAKmxrhHvlkjOb1+lLBCyubz
+	 h+XYmjsdx0wOoaCuACCyih8A0bd60Q4tW3TCuGsPCR54pAdTDVYeY7gxLX0SuK10Ok
+	 evgVYl0RY52hgDlICBN+YoV2ONjRKELcoy5HKDTzxnaw2YqT7Z9890B/OxWQCHxobe
+	 9PPLstGTXZHWw==
+Date: Tue, 27 Oct 2026 06:55:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH] docs: submitting-patches: Require base tree information
+Message-ID: <20261027115507.GD3598537-robh@kernel.org>
+References: <20261020212235.1143086-1-ebiggers@kernel.org>
+ <363b228a-7e96-481a-b70f-195ba55d025e@kernel.org>
+ <20261021063927.GA31908@sol>
+ <d5d0801e-371c-4836-8b4a-26bff33df46f@kernel.org>
+ <20261021064940.GC31908@sol>
+ <aea2328d-4ea8-45bc-922e-9c1fed94083f@kernel.org>
+ <CAL_JsqLA2F0oB=7LsoxZe-=AboOJu7FotpMACNsuV==jGWB8nw@mail.gmail.com>
+ <43ef0af4-0594-41f1-9ad3-499bfb3352a9@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,124 +67,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1793094611.git.chris@chrisdown.name>
-User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <43ef0af4-0594-41f1-9ad3-499bfb3352a9@kernel.org>
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
- .../mseal_system_mappings/sysmap_is_sealed.c  | 92 +++++++++++++++++++
- 1 file changed, 92 insertions(+)
+On Tue, Oct 27, 2026 at 08:28:06AM +0100, Krzysztof Kozlowski wrote:
+> On 26/10/2026 21:12, Rob Herring wrote:
+> > On Wed, Oct 21, 2026 at 6:55 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>>>
+> >>>> All these tools should just work on top of linux-next. Requiring people
+> >>>> to add base like "next-20261021" or "tip-of-obvious-maintainer-tree" is
+> >>>> pointless. I understand that base is helping, but helping and requiring
+> >>>> an obvious information just do not go together.
+> >>>>
+> >>>> So again: base has ZERO meaning to the maintainer process. It has
+> >>>> meaning to tools, so fix the tools to work on known and obvious trees.
+> >>>
+> >>> So what is your proposed algorithm to apply an arbitrary patch when
+> >>
+> >> Already provided that, so to recap:
+> >>
+> >>> there's no base-commit?  Including any historical patch (from
+> >>> months/years ago), patches with dependencies, etc.
+> >>
+> >> Dependency is something else, but for every other patch:
+> >> 1. For testing/CI: you apply on top of next
+> >> 2. Every other case the maintainer knows where to apply it, because it
+> >> is his HEAD of next-branch.
+> >>
+> >> I am repeating myself, but I really had no single problem of lack of
+> >> knowledge where to apply a patch as a maintainer or reviewer of some
+> >> subsystem, thus maybe I do not understand the actual problem you are
+> >> experiencing.
+> > 
+> > Look at our DT PW. There are numerous patches that don't apply and
+> > then we silently don't test them at all. Here's one example[1] (3
+> > actually as the whole series doesn't apply). The more base-commit
+> > tags, the better. If b4 can't apply it, then I do try just linux-next,
+> > but is that today's, yesterday's or 2 weeks ago? That still doesn't
+> > work sometimes.
+> 
+> I have doubts that DT CI would know these mentioned bases, unless
+> everyone develops on master, which is obviously not possible. It could
+> work if CI has all possible next tags fetched, but then I argue that
+> without base commit such CI could apply to closest linux-next tag by date.
 
-diff --git a/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c b/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
-index ea75ad537620..83b4fadfbfe7 100644
---- a/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
-+++ b/tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
-@@ -10,6 +10,7 @@
- #include <unistd.h>
- #include <string.h>
- #include <stdbool.h>
-+#include <sys/mman.h>
- #include <sys/utsname.h>
- #include <zlib.h>
- 
-@@ -232,4 +233,95 @@ TEST_F(basic, check_sealed)
- 	EXPECT_EQ(expected, sealed);
- };
- 
-+static bool find_vdso(unsigned long *start, unsigned long *end)
-+{
-+	char line[MAX_LINE_LEN];
-+	bool found = false;
-+	FILE *maps;
-+
-+	maps = fopen("/proc/self/maps", "r");
-+	if (!maps)
-+		return false;
-+
-+	while (fgets(line, sizeof(line), maps)) {
-+		if (strstr(line, "[vdso]") &&
-+		    sscanf(line, "%lx-%lx", start, end) == 2) {
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	fclose(maps);
-+	return found;
-+}
-+
-+static int vdso_is_sealed(void)
-+{
-+	int sealed = -1;
-+	FILE *maps;
-+
-+	maps = fopen("/proc/self/smaps", "r");
-+	if (!maps)
-+		return -1;
-+	if (has_mapping("[vdso]", maps))
-+		sealed = mapping_is_sealed(maps);
-+	fclose(maps);
-+	return sealed;
-+}
-+
-+/*
-+ * Unmapping or moving [vdso] must fail with EPERM when it is sealed. When it
-+ * is not sealed, it succeeds and leaves glibc with a stale vdso pointer, which
-+ * is fine because each test runs in its own forked child.
-+ */
-+TEST(vdso_munmap)
-+{
-+	int sealed;
-+	unsigned long start, end;
-+	int ret;
-+
-+	if (!find_vdso(&start, &end))
-+		SKIP(return, "could not find the mapping, [vdso]");
-+	sealed = vdso_is_sealed();
-+	if (sealed < 0)
-+		SKIP(return, "could not read the [vdso] sealing state");
-+
-+	ret = munmap((void *)start, end - start);
-+	if (sealed) {
-+		EXPECT_EQ(-1, ret);
-+		EXPECT_EQ(EPERM, errno);
-+	} else {
-+		EXPECT_EQ(0, ret);
-+	}
-+	EXPECT_EQ(sealed, find_vdso(&start, &end));
-+}
-+
-+TEST(vdso_mremap)
-+{
-+	int sealed;
-+	unsigned long start, end, size, new_start;
-+	void *dst, *ret;
-+
-+	if (!find_vdso(&start, &end))
-+		SKIP(return, "could not find the mapping, [vdso]");
-+	sealed = vdso_is_sealed();
-+	if (sealed < 0)
-+		SKIP(return, "could not read the [vdso] sealing state");
-+	size = end - start;
-+
-+	dst = mmap(NULL, size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	ASSERT_NE(MAP_FAILED, dst);
-+
-+	ret = mremap((void *)start, size, size, MREMAP_MAYMOVE | MREMAP_FIXED,
-+		     dst);
-+	if (sealed) {
-+		EXPECT_EQ(MAP_FAILED, ret);
-+		EXPECT_EQ(EPERM, errno);
-+	} else {
-+		EXPECT_EQ(dst, ret);
-+	}
-+	ASSERT_TRUE(find_vdso(&new_start, &end));
-+	EXPECT_EQ(sealed ? start : (unsigned long)dst, new_start);
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.54.0
+I fetch the last 5 next trees or so. b4 will also try to guess the base, 
+but that doesn't seem to work all that well. If this is "easy", then b4 
+should just work without issue, right?
 
+Rob
