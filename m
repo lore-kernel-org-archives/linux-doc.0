@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793086547;
-	b=vreHSLNUYUfMOzpYf5IzKOb6p2O3Asw8BmnkweA7s8ipBv5sWsvXRFKrMaHvp6aEU3Nm
-	 OL6Ti38NfgEVoRwBF7QGly/FtYDnOmuOE0m+0ztGw3ueCZCadb36lR/Jcq0+tYnBB1jMx
-	 zbTIYgJc0CF42iv7W7vvQIvAnUR/Nx8pUTLNib/4ZhB5Rz1lZq6SNTjvKTmtDaEUSmb/q
-	 /wk15Z5u+mUR5hnAqqST5YBTiuTi6zGNb81yYMhQ2S67/A6kr0nOd8H+PFaccvVOEB871
-	 NYZA2JE8Pfz8o2iGVviowWZdRTxHvQCm0kzqiUr8WIkObXwEvZI5ybuM9ISJDAlTY7Q==
+	t=1793086554;
+	b=YzdKRDKndgm4t/N0wFhc1N2sf4GxjBKrvKuEO1jOC18V3rpkdxA1eJk5DCdjiZPZRGNt
+	 zkSZINSHeNTz9EXZxrmTC9OHm14WH9Vc9u81d8RXvpDTPnENkTFKOFC+XKkxIppCQDWfU
+	 8wNQ1jkmgWFy4GzIYoSigl/Ts+q6qJDgrRDpjtfS00Ob9Y3jdYbdn6tGxB09mF8lJ07MQ
+	 H9XDAmhmxncKSZ5EyWL7gIkFYH9+wZtMebuP8BBFj3ypysyH2I02LHgMp1j2W8Zq75xwO
+	 CReq+jO4WZdDuVgkWuFDsAoDXg9SA8iL2T262QOjcfqqequmbui57kCjREaBByda0Sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793086547;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793086554;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=sN6UGPpUTXeJgZ2lTe0CetjR/EEvcG4cIahELjc1+Mo=;
-	b=tCjMAWd8cxrAW8rpf8j7jrdswFImVcia6p8v2Ex0IA8w23Yn9qw1anXUktQAg7OVeyi3
-	 g75fe2TuTCFMNZjI7zYiFnKqwVg7uZFW11cb6EpR/T49SjyrOcMKtwoA/gnj/SE4CWXya
-	 9RgY2Jns7dN7OzBhU5N3uLpKzqFYMrtrulCscmDrZazb3JhBDomnk8YremPa5bivtNniM
-	 Zet4wDoPBAuB45AN/XysIplhK49HpiHue/Wl/0t11kSjApZqJdjbbPAXbQRZnOxCSCjpF
-	 Lyt/NPfQnP/yg29/rdsET5kkify4misn6snt9aFYRUDm3h4YsuuVrFkyBv5Vg5XDS6w==
+	bh=aAleu3PFDaaloUL3fp9TR8UUZq+CL8OXKyhY9njoszw=;
+	b=uJkzbKE2f1Jsd0TrT9aqT+48vKMGlaZd+Vf+3cOF1rLjFgL9Ak8zvaS+4RfB0nGnBYPw
+	 1c9Sj8gMNWB+gYrSNMS/gWpTWxRSqaKFSKO3Ny0iJmvdKK4kjToy7AEGq/AVTxZWtkJWs
+	 NtHBmQN0qaqAyoytky9PA58wKjk5b6Ulyx9wuNksq/KN4J4JchYDSfWhUGIaHt1VYHHta
+	 bYkwie59/h7qQCuMnFFhxEfDR+jgWwIQjg6X3OHWh+bvZJKUVVoK0zGhn/zOz1dsgRBL+
+	 wrbmM5+3ocnZOlucwd0mnzNp4MbIPAN0dEMaLQgJQec1uzpg6DutgMosy0lNdNC/hjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=fAiXxZKB;
-	arc=none smtp.remote-ip=209.85.210.181
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=UA+RMIvd;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30392606A31D
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:35:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30392606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF20606A31D
+	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 07:35:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAF20606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=fAiXxZKB
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a06b27bf9bso2009891b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 00:35:47 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=UA+RMIvd
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e987a2ba0cso24101375ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 00:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793086546; x=1793691346; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1793086553; x=1793691353; darn=vger.kernel.org;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=sN6UGPpUTXeJgZ2lTe0CetjR/EEvcG4cIahELjc1+Mo=;
-        b=fAiXxZKBWY8H0gWlOOTToiLfSVY/mehDO8qgrRu+4YIETSxmnjYIO1QbkvuyOtWEJH
-         Dqx5WyLbLDt1fRSP6vMZu93WK93ZrbmOpU76q3DEMVxZYZZgM9U/hQm8bHOMh7dgZsWY
-         aIlVc7K6drYWA4kDzhZ1Y18RrgHzpDmMc1wG4=
+        bh=aAleu3PFDaaloUL3fp9TR8UUZq+CL8OXKyhY9njoszw=;
+        b=UA+RMIvdJDiDPeX/NjNZrP60ECVkNVdz5unnwoSR8k6neRC99YxJu+tZQ4l6XDJul5
+         VKBgjMwFh83zsMth2P6QZMjYAHPFZX1UPTpIjC2sJZXYGp6DhJfmFCQFWoup7+5G35oY
+         TzxKVGL7soDKtAjYzTb6jCNU3NgUnmMzEe9ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793086546; x=1793691346;
+        d=1e100.net; s=20260707; t=1793086553; x=1793691353;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sN6UGPpUTXeJgZ2lTe0CetjR/EEvcG4cIahELjc1+Mo=;
-        b=ZXnKK6H14WYBZzHI16K+yYHYy5uCWaGeN9utKX0oajQ8Om29ImYr+Dtw1vw2NdB29n
-         ffmuk9mg+KNZL9U3rXfyI2Z151NnENs+kXxtiqlHUNVl26Hvnistj3nlWfYjKhIRu6YJ
-         1AfLExmNbfMk5BMyQBeJdFk8y8o1778uaKMIcA1hqSYZ+DIlc8TeyLGeGBkFjNZAGEQh
-         mwSYwvboU+qHWxxu9CWVGb3jeRp9WYWbuVmPBrXCkePBTXp5eP5g5q+XIh2C06P8Xgsv
-         53i0wD7eDBZ2YfaVO8M/iEr88ouODrWDtRjAQZFKwIdAnrCGUxUGXNYMU1JS3yvrq61T
-         vWng==
-X-Forwarded-Encrypted: i=1; AKwUvBzfIYwUphYL/hF1jeALpujeg8syjYd/FRB3kplDdV2OeIPY91EwDdPk9QmFT7ECZHGoZ3jrtEBWl+I=@vger.kernel.org
-X-Gm-Message-State: AFq9FYINOpuICGGoA7SAU3Iv3LlStb3ECz2o0H9GCfqQnThuZOCey5o/
-	pf5xpt/1NPLyVT60IkL9O0xQD2eR2j9/jBeFOoXhqqS1R0l4e88Zpvk6zSXn6eFL82Q=
-X-Gm-Gg: AYBFou2IE49V4OMvztevxMLT0gsHlEzR1NottX4CMqu2maXnYlh8aTWK3VljtKrZr9i
-	cyOZVeEC/NgbrwsjxdfqH/me0Thy/NY2LEAJJ3zzEigbTH0UK/QNhglTN3TiLSnYmDgntj2a463
-	/lnFjb0Q8jqGkBXs6Jkvh26voCIlxTCanDqmHTlon7Mq9FAyty19SQccIV2UEDyS9roqzul04dq
-	NJb25tE0Zg4OHijOUT/39YDLr62gi2ayKoHMH+5IU0nSp+/U3fSffb2ek49ORvBkQ2s48u0wYPo
-	6xO9i57Ssf25P7xhksvm5vQNu6rhdlhJqCy5l1TbQmDAWRln9dP1+1pLcAnL9/O/RdyIArifDdK
-	I2479TnTjR1hu07JwOXSfjGivL8AXHd7JxpnD0+T7/wtLAnvolzpScMSopiIIWQzs2f4wNNi1rk
-	ZD4YBHGbzy6W7oghgHxTzF09Qw45QW+aVanUSB4dnH74UDRPXeltNDE33qvsjsPR3S+PcT3v+Bh
-	5OcdACF1TjxxbJQIsjgxFk1l+LkyKhNNBPDS12wjAaFmKZjYNer2DZJhNJ1GW/GGfF8EyuXHwEW
-	Jt5XNl9qU6d3UzXJMdpNV62dFJ/ui127iWKBp3J6RMcgcZtG8OthW2WJ9LAANh0LZ5ejhC4Qoox
-	na/1DCB+FeHKjw69dYlHjZU8=
-X-Received: by 2002:a17:90b:4b92:b0:3ac:6fcf:81a2 with SMTP id 98e67ed59e1d1-3adeb137d1cmr7346559a91.57.1793086546607;
-        Tue, 27 Oct 2026 00:35:46 -0700 (PDT)
+        bh=aAleu3PFDaaloUL3fp9TR8UUZq+CL8OXKyhY9njoszw=;
+        b=SZ8m6jwoInYsl3p8A3X0EKpiar9gRRwgvqf7khqGpQ74M/8S5SADd9HIS9q+GMkZkD
+         aRVJ2E6zl1w1K030o+EOekHBgHM6fa3UEh39iatqFs9PI8fgmOkccRuB2pEItlnzlmd+
+         3IM0bkuGpIMkTj5+rvcC3vyoEcqWm/ql59vt4/3UB9u2JVEAOlTKTh1pLseIcgfDMlHQ
+         1jN14/ccAVddjaSE8FLwfVkUfBd0xqNcjh3+6/+kjhC/DH67MNYm1ZotdMQW0nJwoe61
+         xK1arAQV5jFwpNTL4DsYxV4w+q8O2wTJlwhcDJ0cTYJjSRSr6ub4nMhujGynlaoB8c/w
+         Etag==
+X-Forwarded-Encrypted: i=1; AKwUvBxczKy5bWgCZCgiU3q/k4e5Y2bHpZuX0SFFzwpwQhYuPYoXTg3NRybe+CfdFpB2BW+Us0EFv2Jy04k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL/wciQ35BcvRRiCa19n5XaGVUHaV9YAmdoNbo42/XEXNpKnBiV
+	PsXxSFIW9POK1vbRjjEHO5fh3x537YvqSIwi5Qa0c3WsuoW2/WXHQg1MROCIK3EZYWY=
+X-Gm-Gg: AYBFou2vz0TMO5nCHxKH1Mngtr7dY/pQFIoXc+hlTo+t8IgQt+BqpBiGZXjFKv8baRZ
+	zsrmuE1FYwrR+GJ4+eFitMgaak8J/sqPYEQ2WBnp4lSwkaVKWugoXgdOjh+nFVW6z2XiBODOcYm
+	OHY7UvkD6fX9unwk9GFMc+aLivb/2S1EXrz6sgdGmEsCzAhcD9DvrQyFLLx2PKo7ZPF5Lvtvv3b
+	SQtMzUMh1yT2MEwWQKFoCEbAfTY9sVa2BncuRSPK6I0z1kB+75I5j57byeVGrQRfP66l11wtO2m
+	VqIom4PeE61aMJJ33WChZb5iFNzKyn+ti3fDo6k2N/3Ih+55fM5dtOwz8C6gJwuG8DOHW4aAXqR
+	ZeNl0CUhxjxJX4DSHJIgElxhWk/eLMm8yc596W/0UvzBbt0S8A0DfZgi0tRNG4awiLot6gsH4iY
+	Z60ucjWn1zW6i2JYkX8Cd8C/wDnJHvlqoE3TJARNKikDnP1/sWt1qQVf495r9OdSJU3Ih3ww3uf
+	ft7CuISXrEnBDMQ8AYVCAn2r4XREEMNCSELfLwdKn1KlBN1qPJCjZW6XgfDQdOMCy3Ss31kix2h
+	S64bvqPXIduOFXG5xNpDFc5KEIC4fZYEZo11J0FEAAcJhMEcJ51o6M4B3MxYQCOh4BJjrW3oJn5
+	17k694Yf9pCJG3qsiKjayPqo=
+X-Received: by 2002:a17:90b:1652:b0:3a7:82ef:bcdd with SMTP id 98e67ed59e1d1-3adead4f65fmr8276505a91.41.1793086553098;
+        Tue, 27 Oct 2026 00:35:53 -0700 (PDT)
 Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40614daasm2511140a91.4.2026.10.27.00.35.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae406506c2sm2520384a91.14.2026.10.27.00.35.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 00:35:45 -0700 (PDT)
-Date: Tue, 27 Oct 2026 15:35:42 +0800
+        Tue, 27 Oct 2026 00:35:52 -0700 (PDT)
+Date: Tue, 27 Oct 2026 15:35:49 +0800
 From: Chris Down <chris@chrisdown.name>
 To: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>
@@ -91,8 +91,8 @@ Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
 	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
 	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: [PATCH 2/8] slub_kunit: Add a test for slab_freelist_hardened=
-Message-ID: <b5bab23337f5448d8a134c71d42a9e3165ba3366.1793086056.git.chris@chrisdown.name>
+Subject: [PATCH 3/8] mm/slub: Support disabling freelist randomisation at boot
+Message-ID: <58f32032f0f5f3828322780aca1847f1cd80cef0.1793086056.git.chris@chrisdown.name>
 References: <cover.1793086056.git.chris@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -108,115 +108,88 @@ Content-Disposition: inline
 In-Reply-To: <cover.1793086056.git.chris@chrisdown.name>
 User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
+Add a slab_freelist_random= early parameter, enabled by default on
+kernels built with CONFIG_SLAB_FREELIST_RANDOM=y.
+
 Signed-off-by: Chris Down <chris@chrisdown.name>
 ---
- lib/tests/slub_kunit.c | 52 ++++++++++++++++++++++++++++++++++++++++++
- mm/slub.c              |  2 ++
- 2 files changed, 54 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ mm/Kconfig                                      |  3 +++
+ mm/slub.c                                       | 16 ++++++++++++++++
+ 3 files changed, 26 insertions(+)
 
-diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
-index e3b63f0338d5..5ace73368523 100644
---- a/lib/tests/slub_kunit.c
-+++ b/lib/tests/slub_kunit.c
-@@ -9,6 +9,8 @@
- #include <linux/delay.h>
- #include <linux/perf_event.h>
- #include <linux/kprobes.h>
-+#include <linux/string_choices.h>
-+#include <linux/swab.h>
- #include "../mm/slab.h"
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ddf2f6fd60be..5c4d784e7786 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7021,6 +7021,13 @@ Kernel parameters
+ 			without that option.
+ 			Default: on.
  
- static struct kunit_resource resource;
-@@ -107,6 +109,54 @@ static void test_first_word(struct kunit *test)
- 	kmem_cache_destroy(s);
- }
++	slab_freelist_random= [MM,EARLY]
++			Format: <bool>
++			Enable or disable slab freelist randomisation on
++			kernels built with CONFIG_SLAB_FREELIST_RANDOM=y.
++			Ignored without that option.
++			Default: on.
++
+ 	slab_max_order= [MM]
+ 			Determines the maximum allowed order for slabs.
+ 			A high setting may cause OOMs due to memory
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 3ae97fec9946..56c422684b44 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -205,6 +205,9 @@ config SLAB_FREELIST_RANDOM
+ 	  security feature reduces the predictability of the kernel slab
+ 	  allocator against heap overflows.
  
-+static void test_freelist_hardened(struct kunit *test)
-+{
-+	struct kmem_cache *s = test_kmem_cache_create("TestSlub_freelist_hardened",
-+					64, SLAB_CONSISTENCY_CHECKS);
-+	bool hardened = slab_freelist_hardened_enabled();
-+	unsigned long ptr_addr, raw;
-+	void *a, *b, *c;
++	  The randomisation is enabled by default and can be disabled at
++	  boot with "slab_freelist_random=0".
 +
-+	a = kmem_cache_alloc(s, GFP_KERNEL);
-+	b = kmem_cache_alloc(s, GFP_KERNEL);
-+	c = kmem_cache_alloc(s, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, a);
-+	KUNIT_ASSERT_NOT_NULL(test, b);
-+	KUNIT_ASSERT_NOT_NULL(test, c);
-+
-+	if (virt_to_slab(a) != virt_to_slab(b) ||
-+	    virt_to_slab(b) != virt_to_slab(c)) {
-+		kmem_cache_free(s, a);
-+		kmem_cache_free(s, b);
-+		kmem_cache_free(s, c);
-+		kmem_cache_destroy(s);
-+		kunit_skip(test, "objects were allocated from different slabs");
-+	}
-+
-+	/*
-+	 * Caches with debug flags have no sheaves, so a and b are pushed onto
-+	 * the slab freelist in that order.
-+	 */
-+	kmem_cache_free(s, a);
-+	kmem_cache_free(s, b);
-+
-+	ptr_addr = (unsigned long)b + s->offset;
-+	raw = *(unsigned long *)ptr_addr;
-+
-+	kunit_info(test, "freelist hardening is %s\n", str_on_off(hardened));
-+	KUNIT_EXPECT_EQ(test, raw == (unsigned long)a, !hardened);
-+#ifdef CONFIG_SLAB_FREELIST_HARDENED
-+	if (hardened)
-+		KUNIT_EXPECT_EQ(test, raw,
-+				(unsigned long)a ^ s->random ^ swab(ptr_addr));
-+#endif
-+
-+	kmem_cache_free(s, c);
-+	validate_slab_cache(s);
-+	KUNIT_EXPECT_EQ(test, 0, slab_errors);
-+	kmem_cache_destroy(s);
-+}
-+
- static void test_clobber_50th_byte(struct kunit *test)
- {
- 	struct kmem_cache *s = test_kmem_cache_create("TestSlub_50th_word_free",
-@@ -480,6 +530,7 @@ static struct kunit_case test_cases[] = {
- #ifndef CONFIG_KASAN
- 	KUNIT_CASE(test_next_pointer),
- 	KUNIT_CASE(test_first_word),
-+	KUNIT_CASE(test_freelist_hardened),
- 	KUNIT_CASE(test_clobber_50th_byte),
- #endif
- 
-@@ -505,5 +556,6 @@ static struct kunit_suite test_suite = {
- };
- kunit_test_suite(test_suite);
- 
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
- MODULE_DESCRIPTION("Kunit tests for slub allocator");
- MODULE_LICENSE("GPL");
+ config SLAB_FREELIST_HARDENED
+ 	bool "Harden slab freelist metadata"
+ 	depends on !SLUB_TINY
 diff --git a/mm/slub.c b/mm/slub.c
-index c82bc626b657..de4937fcb293 100644
+index de4937fcb293..7e9dadda3d10 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -46,6 +46,7 @@
- #include <linux/prandom.h>
- #include <kunit/test.h>
- #include <kunit/test-bug.h>
-+#include <kunit/visibility.h>
- #include <linux/sort.h>
- #include <linux/irq_work.h>
- #include <linux/kprobes.h>
-@@ -220,6 +221,7 @@ static DEFINE_STATIC_KEY_FALSE(strict_numa);
-  * so it must not change once the first slab has been populated.
-  */
- DEFINE_STATIC_KEY_TRUE_RO(slab_freelist_hardened);
-+EXPORT_SYMBOL_IF_KUNIT(slab_freelist_hardened);
- static bool slab_freelist_hardened_early __initdata = true;
+@@ -3424,12 +3424,23 @@ static inline struct slab *alloc_slab_page(gfp_t flags, int node,
+ }
  
- static int __init setup_slab_freelist_hardened(char *str)
+ #ifdef CONFIG_SLAB_FREELIST_RANDOM
++static bool slab_freelist_random __ro_after_init = true;
++
++static int __init setup_slab_freelist_random(char *str)
++{
++	return kstrtobool(str, &slab_freelist_random);
++}
++early_param("slab_freelist_random", setup_slab_freelist_random);
++
+ /* Pre-initialize the random sequence cache */
+ static int init_cache_random_seq(struct kmem_cache *s)
+ {
+ 	unsigned int count = oo_objects(s->oo);
+ 	int err;
+ 
++	if (!slab_freelist_random)
++		return 0;
++
+ 	/* Bailout if already initialised */
+ 	if (s->random_seq)
+ 		return 0;
+@@ -3456,6 +3467,11 @@ static void __init init_freelist_randomization(void)
+ {
+ 	struct kmem_cache *s;
+ 
++	if (!slab_freelist_random) {
++		pr_info("SLUB: freelist randomisation disabled\n");
++		return;
++	}
++
+ 	mutex_lock(&slab_mutex);
+ 
+ 	list_for_each_entry(s, &slab_caches, list)
 -- 
 2.54.0
 
