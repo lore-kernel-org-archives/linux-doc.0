@@ -1,67 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793059070;
-	b=w3BJFQg98yLzvjqqyb/j7x0muCBloHwNw3flRmuKJnWWktlAQ+fIdk1tFB6kgKxJ5toN
-	 8mbDfUnbLd4r3+TMCEU+MLSYWpJ1SafIWjt6RYRMClD9yl8evAnoW3WmjRBVTAaFHz59Q
-	 sBRHa2HL3Kq6JdPVypCOIv8DkZTcI4iEL3gMLRDo3+TjN3i/Ci+S+c6eBRYqCRWlSaIwq
-	 ewN17zsCZoacnmL9qAEAEVGGVfFng+qBiq3yS61ySiVR1jJ8m4UwgbkhGRrV/p/y/lo2O
-	 8TSsJhpAF6xBtw6TWnsantoEI6JHGCJgJWiFZPxNGg25LJ4xE7oYSpZqKIgSzXalO2A==
+	t=1793059208;
+	b=4eO8Y+lSQ/CE+V+fW7SpWXauYEJHDUV5i2Yw+CkxdgcXBaQr3yXdTK9MKe8sr5cxXd1Q
+	 OKdrM25jm8jiKvPjiL6Th4Stvh9kcaU1syTj00zzbDKug4sZ8EQ/RPinHCe66rcBv3A0l
+	 DwRpcqZBTOY0qZQ5EHvt23TxXlY4QI+B8gvEKh78GiGAFGGs5WLMN+n2PZhwr+0Bi9daK
+	 J8pNrwiKiHLAWKKMkeRJSjeS1+6AJKbG+D1Zow42lbk8BRa+kbWC6x2w61hMsXlL78EmU
+	 yIR5Vj0kINXPF1tQIF26IYT11XrVpwZPuzbuza7nU+trWnulCXZ9IOWnwDXuztWPi4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793059070;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7WMtPtdK1lzlrp4rQzyLZbJevL2RrG4eQh3LkZ7hUGo=;
-	b=X35ppmRmWllOUa6ZhzzudJ3uFVeviADveDNQ24rEUX108S2oKkum0/28dpq4Nx+40FUt
-	 kRlP8waoXocdC9PEL0wLEn/AR0wDawzQrP3pqkUVkV/D9afOcudSXfGsWgieavNop3sB0
-	 pVKsSc096HA4K6QVQ0HLwTYVPTffhgxC7ag3Qy56d5DlvV6rsmm/qwFyH/qKN7XyuF3O1
-	 iFVjHTym7soXMDb3FST9QptVScEbXGy3oHpBTCxfcmvE1rKyBB4qGj61YdO9zQT0IhvOj
-	 cgNOus/cAYjwJrjPyyF38scnVTlQDEXXuzOixql6DvNV1q4jA4/qf40EFAEHmiZjXNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793059208;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=sRBxls+fDXcYabNmDkORIlMaTl0ADNtGzRxkQN+pXR0=;
+	b=ua8+b6b2lqaZyQdi/8sxXz8+ttAcp6PNMQv5rmLM/hWZrRdeJh6VukyqgEllbY+W8Qxl
+	 M6cIJzk40wsHYmokxQwLSTYFF19TQRlRivFdxSo4EjIPVDgnxZy6CZRdmejkemIcqxRVL
+	 Wp4ceCy6ogcSeN/9wMPxnMmwBbcdDS/E50emoPkN4JejnIq3TOnVvnddBksl5dixQGZ1/
+	 s4dL3sEtj59Vz2pMaAHIluC7aVJysFcfx5Yip7sVvUuxHMKo+JnarGTty4c6CRa/VBeT7
+	 uSJuqjj4UFWZ8NfCE0BVRiE97ygwxJQFL587c1qWV0/opfdHKDRAxtbyp2hgAXEm00g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oLcqO6x0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lVfFljSR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC1A606A31A;
-	Mon, 26 Oct 2026 23:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6E606A320;
+	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oLcqO6x0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 319DF1F01825;
-	Mon, 26 Oct 2026 23:57:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lVfFljSR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 133171F01825;
+	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793059070;
-	bh=7WMtPtdK1lzlrp4rQzyLZbJevL2RrG4eQh3LkZ7hUGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oLcqO6x0oulfxlcnAKCrFhFbMWlL5/QD7QCywadLB6JldFjE5lm2gqVIo3EU5BbVg
-	 WYbGn9mKBdKjVaFUnCUPMqmQXyqRsZwQop2IpmMILLdNuZamSlXfmPxYl42b21GzTY
-	 9c8f7D782s7UBlXziEhUe3XlyW1YBlvEXrGm6xYB6GL+5gUeqWT7L1pqYWRG9v5w+E
-	 +VifU758renDR/uattP2SNPTrFZJhcuUi/cb9IDF/QiOSCMe867XqHT0vgKsaUIMek
-	 6lXfWErJGtfUayfFoTlL630dCbVmDt+MmVmDBEU6l7pz/vDDsqVL1levZTprqzETzI
-	 2rE7a1V4u9WBw==
-Date: Mon, 26 Oct 2026 16:57:47 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Graf <tgraf@suug.ch>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:RHASHTABLE" <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH v3 6/6] lib: Remove assoc_array
-Message-ID: <20261026235747.GB2395@quark>
-References: <20261025001105.1824178-1-jarkko@kernel.org>
- <20261025001105.1824178-7-jarkko@kernel.org>
+	s=k20260515; t=1793059208;
+	bh=sRBxls+fDXcYabNmDkORIlMaTl0ADNtGzRxkQN+pXR0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=lVfFljSRPcMn+FDAEFbvFCyrsfvBlZtNff4+EsYFi6Ovb/1CgJ9S761Es5oQhtzKV
+	 5tWh1gpLEXYa6Ut0c5gEkPs4GHCJtVNRH58UMN7yP7jsNuA3C66kFWvN4OyEAQUKtG
+	 jCpnmAxQg8Gsl7196nd9QHIHKqkeDci3e7U20RuH9qf7W2mD3lReN1+QZwHUACtKe6
+	 x584byggWLdcO6sINU5U7umgr6FD0mTwwTUctG3TmoYRIctWqLPw6V2q9KPjWoG6l5
+	 TH7Y6ILlPg2fME7y4VyxD2m9Wfetj1pX86ozKxdrtga7hAYIJiGqQOBjkMJPiAxUDR
+	 AVHY4xgdquP+w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 073753AA80F1;
+	Tue, 27 Oct 2026 00:00:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,16 +53,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261025001105.1824178-7-jarkko@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] tcp: limit tcp_tso_rtt_log to a valid shift count
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179305920681.3470272.11485380440248270643.git-patchwork-notify@kernel.org>
+Date: Tue, 27 Oct 2026 00:00:06 +0000
+References: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+In-Reply-To: <tencent_31D2FFCCE76C50A695A1270151F825E90906@qq.com>
+To: Yingjie Wang <1075151112@qq.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, jiayuan.chen@linux.dev,
+ ncardwell@google.com, kuniyu@google.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
 
-On Sun, Oct 25, 2026 at 03:10:14AM +0300, Jarkko Sakkinen wrote:
-> As assoc_array has no longer in-kernel users, remove assoc_array
-> implementation, includes and documentation.
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri, 23 Oct 2026 22:40:36 +0800 you wrote:
+> tcp_tso_autosize() right-shifts the u32 returned by tcp_min_rtt() by
+> sysctl_tcp_tso_rtt_log. The sysctl uses proc_dou8vec_minmax() without
+> an upper bound, so it accepts values through 255. Values above 31 make
+> the shift undefined.
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> A process with CAP_NET_ADMIN in the target network namespace can set the
+> per-netns sysctl. With CONFIG_UBSAN_SHIFT=y, setting it to 32 and sending
+> TCP data over loopback triggers:
+> 
+> [...]
 
-Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Here is the summary with links:
+  - [net,v2] tcp: limit tcp_tso_rtt_log to a valid shift count
+    https://git.kernel.org/netdev/net/c/850a7225bc61
 
-- Eric
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
