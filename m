@@ -1,101 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793060150;
-	b=rGOSztGHTAh+t/N2NwZb4B6KpBWYOt+ckN7AfppIN92coGQ2wY66GzAqfLKyKsYlIYnM
-	 yQcI1sEzcHe7LiRouePQmG3NUkxz+lx2QKdNmEzBg736ngI0CIo8nJfTSB1PgwyqEB6aE
-	 YSs0l52lmw7YO5d6SydbpY0KuSIMQ8HUGFpE0ssUabcP7w3hl7HvWztc5ZeYYcrKq157S
-	 yRAz3ovl1MHJs+hGnR4kDAEZvEsmY2xLr+evbrqZ4vEIjnC/hpKWT9tZ9Gy0QmTAhMxLH
-	 Xm1O4h/PGT3dsGqjQzmrpffduy22mSDttSsZ3FsD9pNSyyt+yYLNod3vJ6/yzJE/6eA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793060150;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=qKeQmKdHS147YBCUhe6/TQHxqYO/kgxJinnL8fZRSJA=;
-	b=sFpMb88dMluTkJ7XyXwKWcyhcN6PW2medYIQyOZBetG9RKFOHYmyE/g5Juaa1qm+zGgz
-	 CxvdIuzBzsVguYfZ+qGOZbjXv32dtZJis7jI8QlbQxmojm62MgIDlZiFUj+0rLH8xgQ1t
-	 wbB+T5mRq6thRBaM7w4VH7//ZffxDnErZTgMu7I+6FjVhc7+94tEw7WJnZQKQ+gECbBnj
-	 401QuCecC7yuEYKSV/1sZ/IoafumjT252Y+WzkXFArA3giQSDwjgGydBuvj7Dr+7WDbFa
-	 VTRgT+Lt2X2mCc6QuQ/qef4dRtRLd3n/NQG81an54xfd3xm8fNBM7Y6IO2+/yd4M2Aw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=s0Wfg3DQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793062164;
+	b=pUeERkUUbM+PhaMYjhTjf4A6Gb+7UEYQnSR+iVObpIoPvcyixPLQxC6liVOihJlYLSKA
+	 pcqNmB5XBvTEke0BrYal2gFVjTrLq/xdxPuR3Vgc+uAIgMcrCtZikfqwnUfJnCkyNSHL9
+	 H2/BO1vsxj5M3Jy7wnvWbijJrE9GAwQYShPnFDpn/RwjNvAyX2hPIETJTndRbm5jqKlkF
+	 TRQoMxdJBfiiMuwy7TXQaT+m3OqbOH+dt/fZH/XLs2NOXFeidgKegvpJL/ecPBfYSPoP0
+	 ln31jwB5V5eTSZQThpxmz/fE6Eg2ALtMFo1CrRHsOkp8rcui/JOhmt3xOU50BXHTlYw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793062164;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=7/kZUclGYQP8NN34Z8XfBgy8oKvHfBFdfanXD9OlfAM=;
+	b=ptTYF8md8ukhdZNIukL0utOi6W4EMj2WDV42ruJGHANnJsUi0WwGN7a3ZTMdqkj8FQ43
+	 xUFRmwRS6ZQ3jlVzSFf8lIh2YQKw4pyL0yTI7t1qRWIZgQPGk9OTGSF4p5Eof+2a/Qkyo
+	 ispM6mBvJBHkWBSkxeRPUq4w7agWmKU6cITZQZvJ1N4Lu8qqdOo41nMyAy81TvfzOth4v
+	 clCKRCvSnYPQwewVDL5ypkkMZ/OG7kwOp/gjPjcTEqgmaKEATak/B+bbvaXYonLZp+z5t
+	 0sithd1WixF+pf0ib3pdRRsSoqkWPaubSzqt/8wOolY3cFN8ETEG2f0T6gnYKtq5GTQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhwJd0HH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F78D606A32A
-	for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 00:15:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F78D606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25172606A31A;
+	Tue, 27 Oct 2026 00:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=s0Wfg3DQ
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8aea7b7ca0cso29153347b3.2
-        for <linux-doc@vger.kernel.org>; Mon, 26 Oct 2026 17:15:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793060148; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LtBFAMOWLigUbKhQlxDmQGxr1GbYJ4vULWXxRHhTLyEkJ0WjTdyyzwTcwiHPX/848F
-         8suVGdLag85/wRTGMXWg7nRXuM5DGe7kLDTVndbAnezyLHY6kKNGHnYq7NS+T1JbN9+5
-         KrpEsWid1Ej8Mxl23vxNzzAbhAZvY/Ggk+LkeqdGoWPMK9C8hgd23ERV/g+EGSygPU93
-         /AQlkvja8CsaNErdDtqH2AJD/uLo0nDZ4m/N9+vCTPnZKwiwdByJRw21N9pwTPVKQQJ7
-         WrDC5WkbTuzhf0fxd4ka9Z+BA9jAs/VG+VEwKHKrXDvV0izmF7+zS0mBjKXcrySzD7re
-         YtIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qKeQmKdHS147YBCUhe6/TQHxqYO/kgxJinnL8fZRSJA=;
-        fh=ZfyGkKHZ2svi+kVJbQp1oh1N2rzGdE5b9Pvx4nVybeg=;
-        b=L4NRmMOU7OE4qfpiSEI5wlEpvBr54zjOQJrikVWflV5CBdhmH7cy4cAUgIuP0Vjjjs
-         GkGDn8lVdQwlpj9lIQgT+6q1CQjBb7y79kYRhtyPc4atPob0Jn3zz0Ik0zXsF/hcJf0v
-         19oSgVRXlNCG5Vo6Z2eQ4K4DBPRv4ljdwL2/LJm3G7eHMXkchPDszGFsM20bg0pMTqiE
-         JeLmMGggUM4O/VccjcaHLPN3pN5ttPFQs+Rhq03j09jmb3xodBM4+pBt3ts+xvJfumLn
-         CuAqPmiAIFwZGvqoFDe7bKx6cfyeJw0X96GWl6x3XR9ChmNps+qDW0So3S9wiuLoqIVY
-         kn9w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793060148; x=1793664948; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qKeQmKdHS147YBCUhe6/TQHxqYO/kgxJinnL8fZRSJA=;
-        b=s0Wfg3DQSfdPBtgTrPJ7hEq4HUweU0fxNhhrERYXULKUVGjvojByBZj8KKVt7nRxU+
-         qfuMSheIJo5HVMHmH35pJ0m4FosgwDQvoFqO6hWdyPRkiWPWjpgGD4+44lYarYwcj4p9
-         lwGrCp9TiIJ7Y9Q7o3VLX5IDHtJph2ZfYWK9hb7nwFZcN/EGzSOwKwJdiqW4e4tKM19a
-         TwcHswoqbtz3QUq2JqUArNS2ontBIM0U5Az1Xxt/qvNOY6jlotL5RVH54V4eQYaO9/UJ
-         cfXBJNeZLYP/7FfHZRk1FnPXiW2XAqkAAz+W61A369XeoogwEs/6FcBTuT08s5U96hTP
-         UsKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793060148; x=1793664948;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qKeQmKdHS147YBCUhe6/TQHxqYO/kgxJinnL8fZRSJA=;
-        b=BssTPrSpne/c6AUWLZspS11jTZwjXvrv4XJAGZkvWcSDKiGtXw9NrbIa2OgNQyjwmq
-         Z+D96s9nd169YrBRHpYlBFzmbok7OxeqNl3Q5MFkRIDMoF3CSLRVvrnGWpiH6eDWYkFg
-         eHw2jqvEtiheLo8jl0VLww7cFAaObp2AajOvR25wq/eyxQmFAMPGBCMVOx/Es+VTN6h5
-         c63Nnq/GEhM2UBw3IX6wvBwp1CVkDDUvyOwUEhuliurCWzjtGdoUMDRz9kut8+yZtMQM
-         +lA+hPQh2uREKegqy64omBNEFWo64jjopGVD0im1XyDE2tYIsbV67a/c8yXOVgmdFINK
-         tReg==
-X-Forwarded-Encrypted: i=1; AKwUvBxezy9DhiY/ljZzQApuvwE9xa6ZPli5fU/TjiiJuuJyNqh08gPQWQj11RbLFKpFqMlb9SUUPanuFfE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ/mzgYISpWmAPt7Sq9gjpisEDcjmOWykDsxfvTEhy31qdC6Nnf
-	fsdkQ31muLdkjL5GkRJZAAuhENFmAR8Ua0I4Lgz0MTToA1rq7DPUEftnDlc7I30BY6WoD8rHx/t
-	pZxI7Go7MFvicrwDJuCSm9+gL0PcOFjbRxavb
-X-Gm-Gg: AYBFou3Mlf0Jbq4FW30hH2YKszg7OSzGsui3xedFBL4ojiOrHcMulHqDyhPOgEWP1SO
-	dtUv4l6Zjk8HmsG2lcLDvBvqUrdqgNhHL/QVE/4CwVDIieuNwHAPg4rxEeNZN4oR9tD4UeidB6+
-	CQsxMkjSMTnoNEtst2gDraLck/SnLRjkGnaegZ/qTrDQ9zwLeEt18zFy8TYm2l42Uvnii4jVSaJ
-	RFnWUF0gee2HJS1JxqOU8q1G/H/OUbq1nlQYCqGyambV8Qv0NFoAxV+Z2Kq91Hrx4VBkT5ebkTd
-	bEabbFCU2ebPROa4p6xgB4ljrQ30dePdLkVBJkGMNUFPgh4hJuA4up/VcPzLbNVOHXhck8Q5suG
-	PSWqq7QE6hOAtDb9/rdgbpPcuHA7gGEEeF8gPlFXocagjUip4M+fA3jr97eYRt+N4YbbuqGu39m
-	XD0LcOrh1xTX57Rjs=
-X-Received: by 2002:a05:690e:150f:b0:679:c803:98d1 with SMTP id
- 956f58d0204a3-67a45496c6cmr4080476d50.152.1793060148265; Mon, 26 Oct 2026
- 17:15:48 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhwJd0HH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 533701F01825;
+	Tue, 27 Oct 2026 00:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793062163;
+	bh=7/kZUclGYQP8NN34Z8XfBgy8oKvHfBFdfanXD9OlfAM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=IhwJd0HH7ml97hUAhy4mM+LxrQ2bHSAnxXT5bcTTqCYrKorbjVOfa6aQK448DPZUZ
+	 I0UbDVCSy2hHLW5PW4h032ayX/+bDm61VYux5U+fOZd7u5iOR44XnnAQq0KNDlAhUq
+	 jHUdbLzFXl4HCeqTogfS6QXU4nSqG7WsHqALzTeQcaDypFzXJjdhjSDGSpkntipz4i
+	 UI97FyUNZraeWVxoio6pYIeHastvNhvR7snqnMmzqVCnUvGEO0vnbj6cr3GER0BFD4
+	 n1EoM7UhMef2S2pPI2Qw/maUpE2zwjOXsiIqMNgYEkNmbL8RdxlO3rp/V4bemheEIM
+	 r0fMOuo2qCurg==
+From: SJ Park <sj@kernel.org>
+To: Aveline Noir <jm5905938@gmail.com>
+Cc: SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Manuel Ebner <manuelebnerli@mailbox.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] Docs: damon: fix grammar and typos
+Date: Mon, 26 Oct 2026 17:49:15 -0700
+Message-ID: <20261027004916.160854-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <179301327249.2.4690198998605536207.damon-docs-grammar-0@gmail.com>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,172 +65,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261012-dd-cmap-part2-clean-v12-0-3c8cc5725def@gmail.com>
- <20261012-dd-cmap-part2-clean-v12-33-3c8cc5725def@gmail.com> <as4W9hToBqAvbzJ-@pathway.suse.cz>
-In-Reply-To: <as4W9hToBqAvbzJ-@pathway.suse.cz>
-From: jim.cromie@gmail.com
-Date: Mon, 26 Oct 2026 18:15:21 -0600
-X-Gm-Features: AclHuK9LH_u23sCYiYKMz0I-9md-phfbwb6JA9KZbhXjHlVRGYmTapsg8H2JBYc
-Message-ID: <CAJfuBxw-cq3AYXKZ07Y3732tDM-NYxt+rs8Fz6S=P7+1TF5WNA@mail.gmail.com>
-Subject: Re: [PATCH v12 33/40] dyndbg: Ignore additional arguments from pr_fmt
-To: Petr Mladek <pmladek@suse.com>
-Cc: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@net.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Steven Rostedt <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Philipp Hahn <phahn-oss@avm.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 13, 2026 at 5:33=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
-e:
->
-> On Mon 2026-10-12 20:37:04, Jim Cromie via B4 Relay wrote:
-> > From: Philipp Hahn <phahn-oss@avm.de>
-> >
-> > pr_fmt can be used to add a common prefix to any output from a module:
-> >       #define pr_fmt(fmt) KBUILD_MODNAME ".%s " fmt, __func__
-> >
-> > But adding additional arguments breaks dynamic debug:
-> > > error: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" passed 4 arguments, =
-but takes just 3
-> > > |         pr_debug_ratelimited("%s", "Hello world!");
-> > > |                                                  ^
-> > > note: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" defined here
-> > > | #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)       \
-> > > |
-> > > error: =E2=80=98DEFINE_DYNAMIC_DEBUG_METADATA_CLS=E2=80=99 undeclared=
- (first use in this function)
-> > > |         DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT=
-, fmt)
-> > > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> I wonder what this error about undeclared macro means.
->
-> > > note: in expansion of macro =E2=80=98DEFINE_DYNAMIC_DEBUG_METADATA=E2=
-=80=99
-> > > |         DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));    =
-     \
-> > > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > note: in expansion of macro =E2=80=98pr_debug_ratelimited=E2=80=99
-> > > |         pr_debug_ratelimited("%s", "Hello world!");
-> > > |         ^~~~~~~~~~~~~~~~~~~~
-> >
-> > Add an additional ', ...' to DEFINE_DYNAMIC_DEBUG_METADATA_CLS to slurp
-> > any additional argument, which `pr_fmt` might add.
-> >
-> > --- a/include/linux/dynamic_debug.h
-> > +++ b/include/linux/dynamic_debug.h
-> > @@ -351,7 +351,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor=
-,
-> >               dump_stack();                                   \
-> >  }
-> >
-> > -#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)    \
-> > +#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)       \
-> >       static struct _ddebug  __aligned(8)                     \
-> >       __section("__dyndbg_descs") name =3D {                    \
-> >               .modname =3D KBUILD_MODNAME,                      \
-> > diff --git a/include/linux/printk.h b/include/linux/printk.h
-> > index f594c1266bfd..5d701952e739 100644
-> > --- a/include/linux/printk.h
-> > +++ b/include/linux/printk.h
-> > @@ -742,7 +742,7 @@ do {                                               =
-                       \
-> >       static DEFINE_RATELIMIT_STATE(_rs,                              \
-> >                                     DEFAULT_RATELIMIT_INTERVAL,       \
-> >                                     DEFAULT_RATELIMIT_BURST);         \
-> > -     DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));         \
-> > +     DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);         \
->
-> IMHO, this changes the existing behavior. The prefix added by
-> pr_fmt() will no longer be stored in DEFINE_DYNAMIC_DEBUG_METADATA().
-> Is this intentional, please?
->
+Hello Aveline,
 
-yes, its intentional.
+On Mon, 26 Oct 2026 22:14:32 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
 
-515a9adce0f0 ("include/linux/printk.h: include pr_fmt in pr_debug_ratelimit=
-ed")
-added pr-fmt to both the METADATA macro call, and to the printk() just belo=
-w it.
-The commit-msg was clearly about adding it to the __dynamic_pr_debug() itse=
-lf,
-the METADATA addition was overzealous.
+> I was reading the DAMON docs and kept running into small grammar
+> mistakes and typos, so here is a series that tries to clean them up.
+> There is one patch per document, and nothing beyond grammar was
+> changed :)
+> 
+> Some fixes pushed lines over 80 columns, so those paragraphs are
+> rewrapped.  Patch 4 picks up what I think was left in lru_sort.rst
+> after Manuel's recent fix.
 
-Removing it brings pr_debug_ratelimited() into conformance with the other
-*_pr_debug_* calls:
-    dynamic_pr_debug, dev_dbg_ratelimited, net_dbg_ratelimited.
+Thank you for these fixes.  All look good to me.
 
-and as you noted, this makes the ... variadic unnecessary.
+I applied  this series to damon/next [1] tree, together with Manuel's
+suggestion patches.  Manuel's suggestion patches will be squashed into your
+original patches while adding 'Suggested-by:' tag for Manuel.  I will repost
+the resulting version after next -rc1 to request merging of it into the mm.git.
+So, no action from your side is needed for now.  If anything is wrong or the
+plan doesn't work for you, please feel free to let me know.
 
-Ive added the Fixes: tag accordingly.
+> 
+> Based on damon/next at 9d301805e3f6.
 
-thanks for the review & pushback.
-and apologies for the delay, I picked up a FLU shortly after sending v12.
+Thank you for clarifying the baseline.  I guess this was because your patch
+depend on Manuel's early lru_sort.rst fix?  Clarifying the dependencies would
+also be helpful from the next time.
+
+By the way, I found your patches don't have the usual git version signature.
+That helped me finding a bug in hkml.  I fixed the bug, so no problem.
+
+Nonetheless, I'm just curious.  I might be able to make DAMON development
+process more easy for contributors if I better understand contributors' work
+setup.  Are you intentionally removing those suffix, using 'git format-patch
+--no-signature' like feature?  If so, any reason to do so?  This might just
+don't matter, though.  Please feel free to do not answer if you find no worthy
+to answer or just feel uncomfortable.
+
+[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
 
 
+Thanks,
+SJ
 
-
-> Anyway, if we do not longer pass pr_fmt(fmt) then we should not
-> need to add "..." into DEFINE_DYNAMIC_DEBUG_METADATA_CLS().
->
-> By other words, we newly pass just the format "fmt" without the parametes=
-.
-> The 4th parameter was added by pr_fmt().
->
->
-> IMHO, the right solution is to keep pr_fmt(fmt) here and extend both
-> BEFINE_DYNAMIC_DEBUG_METADATA() and
-> DEFINE_DYNAMIC_DEBUG_METADATA_CLS()
-> to accept var args. I would expect something like:
->
-> #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)  \
-> ...
->
-> #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)           \
->         DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt,=
- ##__VA_ARGS__)
->
->
-> or maybe, we could "eat" the extra parameters in
-> DEFINE_DYNAMIC_DEBUG_METADATA. It would mean to keep
-> DEFINE_DYNAMIC_DEBUG_METADATA_CLS() as is and just add the "..." into
-> DEFINE_DYNAMIC_DEBUG_METADATA(), aka
->
-> #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)           \
->         DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt)
->
->
-> Or do I miss something, please?
->
-> It is possible that the macros work another way. Or this depends
-> on another change. I checked only this patch...
->
-> Best Regards,
-> Petr
->
-> PS: I was curious what Sashiko says about this change and it seems
->     that it does not review this patchset from some reasons.
-
-I checked shortly after sending, it was "embargoed" for 24 hrs,
-perhaps cuz it was so soon after rc7
-
->
-> >       if (DYNAMIC_DEBUG_BRANCH(descriptor) &&                         \
-> >           __ratelimit(&_rs))                                          \
-> >               __dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS_=
-_);    \
+[...]
