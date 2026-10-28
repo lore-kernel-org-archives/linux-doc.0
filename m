@@ -1,136 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.138
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793193992;
-	b=WgTsjsquWeLbNzBW5A7oQ0YKwjC+m0abWmmtRljm0mbwzZYqv9SwFNl8qTENfOc+Ykzn
-	 0NY1lWUkoN/h6DFJk5TsdHkpeunRfai5RWev75BLNjZlv1oKgmys9Uy7FkUQAiztZGsbc
-	 OZMHI6KBgzZ0rjB+9E+JFF4XCdgDvG68BaYGGZxOkNSsIp0ipOX6zz2ULLaeVkh2xGwh8
-	 I2EglQ43IfvgtU+ZG/NFLB6ySVthIWgRKtAWhTIrBfGznpCnrxHYGb2GjhOl/jyPodiXs
-	 RSL6DJYdJNf5s/l7jmQq+MFn6gXg749jv3skThoU6quKAjKANimlh/Z1w20Qo9z1kFg==
+	t=1793194425;
+	b=X1RMNCQZtw41ArixeOXwJGGMd95Vs5xQRtNf8sQ0hcavFCeNkjkNuesmds7urLyTUuOd
+	 8M8ot99hSWwb/H6RgbS9Z3f0SiYbWSceKjMyaXAp4JWmOh2Bf24FuMr8uACO2ZmoWeTJo
+	 xsbutH5de7jIMHi7tge5RPrYjQGo+0zuDSAgn8xed//a43RxDt48WO5DDZCu0vwNHty1I
+	 oMWR60SjSEiiGenUVW1LgqvaIo1ist0hf07ceY7kn2eAeb4SpJDnQX5kiTmo+BRafhigs
+	 SFOxDvjVGE5H9blw3Tefu3VU1MEC0d7z2Ni2rwciXjrXjvYbDrG57vXXbQFCB8J6LGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793193992;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194425;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=nGV8TGo/yLZr4o9PiqDwm5LBW5oZMSj/CX19OZeK0Do=;
-	b=o6fC5ta+cxVpT+Zb6Fwwp89AuDGK8geI7zkOoRIiBmVWbgHFtrw6QBI5i9gtGPp3rrKp
-	 eKf/dE6vvM6SXPpIcnJnFBeGX1Q7glkJHNRhZ0HmjjI5cvRncbTgjj6+N94B/wv/sKELU
-	 14VXAILVnb+RX6lz8wlAi6yEECzJSBSkJLpmX93t4rf1Q2ZN5qlEXGwaYzbXePXYU8Mzw
-	 9iejwmXQYGaZa2VUoQPmirsRffRYC2wyfKQJXupsfKPdhl+PqUUk8Ox+Eur4OFqLRw1Bc
-	 +qePCMt/B+e+1OqBGziPCwWhEcPeamemWhmB07SWmrHXv5sv+3MSdaHEZ2e7ot5uz0A==
+	bh=5qhrixXgJz9/TxX0zDeSD+7uwhcTAxtkmvISQ/Cf0T4=;
+	b=3ZgCLiOKkuga2lfa2/rmq5RaEw5395nOB6DxTNTPpmmhA+xcHckhWHauO+DSvMAuCqp9
+	 +ugmJg+vLpXlC8w9UcGO8E7TUYQCo0bIl1HLRPGqgIoLAI5lEhyfK7/fd/XllbC04a2MS
+	 AKo+rhChJ9f6jV/FEQu1wMV1JPORFZjG2NWIVDXblgxueu1aQ6mK8GtYngvkPg/U1ouVd
+	 LnfNL6O1sXawKNs6yVnrx5Pds/KtBZCDF+BDc1SdrK2M+j6bKbDThww/0lVk4ciGnqADF
+	 3DjZHgu9kBVBNGq615mCtO6Ia9ZjaBWQOfcIT/QSwvmS9nFpPOm4pQZLrQj+OHm4z3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=shutemov.name;
-	spf=pass smtp.mailfrom=shutemov.name;
-	dkim=pass header.d=shutemov.name header.i=@shutemov.name header.a=rsa-sha256 header.s=fm1 header.b=gy8OenAF;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=H8GnFBEZ;
-	arc=none smtp.remote-ip=202.12.124.138
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=armoriq.io;
+	spf=pass smtp.mailfrom=armoriq.io;
+	dkim=pass header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Mtr5tjUV;
+	arc=none smtp.remote-ip=74.125.224.52
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD615606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:26:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD615606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E34606A324
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:33:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95E34606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armoriq.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=armoriq.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shutemov.name header.i=@shutemov.name header.a=rsa-sha256 header.s=fm1 header.b=gy8OenAF;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=H8GnFBEZ
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.stl.internal (Postfix) with ESMTP id E10FD1301F14
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 09:26:29 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 28 Oct 2026 09:26:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm1; t=1793193986; x=1793201186; bh=nGV8TGo/yL
-	Zr4o9PiqDwm5LBW5oZMSj/CX19OZeK0Do=; b=gy8OenAFMLHfaZG0qmRFdJB67l
-	2fdnIqzhzrXbNNxQwblZ6fJC/9T3uIZpJVPeVkYlSlSrwr2HmVyg7+nixwLiNTZy
-	m+lOrTOcbrjqrXxD4J8Su0i4QF8hn56tFUJs/T/w/G9uUaqkeah42XO4glWc7aZC
-	5qS2fA+F6MLR4FEE3cKDHbbgdCB4TBj/NvL0JeXjZyj6HED78UMY4bR+3lieqR4U
-	yD5zrL2/WurM8KF8xvTIFukBwNilVrnqjyteq/Tac11pYShlDy0eMcb7sihS7EcY
-	MllQAm5tGQuUylHSBQxU/2Bxavc4F3xM/0DXCjT6Ua/O2GwUqKrBuLhqFvcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1793193986; x=1793201186; bh=nGV8TGo/yLZr4o9PiqDwm5LBW5oZMSj/CX1
-	9OZeK0Do=; b=H8GnFBEZYw4ImYs4/EgX41yMD2bVchofdDp5MgKLd7TDbqo/uqp
-	YYFsgRUXKR5BZTKIrQZ42ASDrpoYoffMP9yWHZV8Hf0wJKMmbfkRTX8ePRaTagsL
-	ihy+vQh/aebhd70bPT2OaUBq3tOSt901l4j/ENCwyzfvmMnSaqscaYhUtIoHxNwh
-	GRRB+3QaILezQc4gyBhlGi8vDhaK4FoeX2HHrO+k5EkRY6J4iCT8YTzzTqa4Nrki
-	/nYmsNWQTufXvPOASD0/Vc/TVEhiV1p6TcjrZsIOAHMRLs1vHpO8PdfARTaTiKv9
-	BQAQs+a11S0Jle1pzWUv14AgfUXfMqRFpWA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=shutemov.name a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793193986; d=shutemov.name;
-	mf=PGtpcmlsbEBzaHV0ZW1vdi5uYW1lPg==;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:z/pEvfymN9x4mHC9fuWhOBpZOk/Rwjn6GSCMMEss98PtElD
-	2hcsHqKHSZwAR/MxoWp8lOf8UhM9ciBo2ckSJP2iMKoGPRnlYhKqwbBP9QzJEK9x
-	Rb3f90IArdGBAzHIXFkqLWtoyO5neqls4FHknxSAFBiMxuxsWUUgJAVKP9EDsbqf
-	zElrw+RglcBQeDsWkflmrdLL08mQpEcoX5jLpNgrZ1Jn9ZWHlEgZsIYqGF+pgDsM
-	EHhsUH1VBFxayndcA4u8phWhiIHKAaSSo5NpGoyOAfDks1Vdro/7pxH9E9ZU9DGW
-	vySMnQplj6eouAJ+Ml81AfFtqJ556choJ+ymteA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:OA/Jt433qooHZMN1h1WfoAm++DE0cH2Dg90+cuGoGF0=:ry0dPA1lG7EjfUdotOKwWx/qimPuaUA0TcFFKTFqWn4=;
-X-ME-Sender: <xms:AfjhatVj2es6gkQDMYQSgr9nxnbON-bIYFOsUIt37tagNRyuhwXm9Q>
-    <xme:AfjhaoGHWCR8fomC0IqSeRFAEWFbBKJnCKrOAfDp7VV62yKXdXHI6Th7JE8cDZCyb
-    HNvoQyqIPqVQkeARlQ_2a6odwsaiNCfaip38ojLX4wTk4NYEMtzARg>
-X-ME-Received: <xmr:AfjhamU1gRIgp1j7PumnllJnE-T69J7QMo2nhORsgGaGgqrJRxqUWrfyq3I>
-X-ME-Proxy-Cause: dmFkZTEBob7BBdDUpiR/GngnoqTsMBf2/lBIU/4HIblrHHKKO1LG8nWmV+7kthh8R/a2+K
-    vcfJ3uMRW+8EZo1Is4k2ufyPCCwrsPei6dHydg9OvN+DJ9ptNt4hF/42xgm86G3vfDFHFj
-    rdodipbfc74DZ5B354ocfR6zFiENC1woBoZk1x/ZFax9UASuUX/LRAr4Qoo7LtIuZAV8VH
-    OztBs+qrN3d8zQvSyiTswcoP/a8mprmxxZ/Wzc/DE2pxN1fA2dga3xnGCDSCF7IiQoJS3C
-    B9pIX8YIbUTKmafQ4a6iV/l7Ku/n4maIj2OlC3uit0Ir3lO1BxAO7Hfq2OD9EQ9EOO0ljG
-    B4Q3IRTbmCFH2ma40rgv4JCOmdm+r8iEJ6icf2+NG2H6lOA/Ax4QrzuN2phS+JzcCTn9E/
-    kLVAnQI4wjHgFI2u7cS3K+U76cFQfnfRsJEtk4k5nLoK+xaEVpCg8x9dxO3DXiIQTABV/r
-    XiBZGg41Qbn9j23Fk4tRQviTsR+xLuH+RiCgV60VFsQ5URba42Yhm7FI9epUrEYXDKYdO/
-    nDkGBnLdaj2XXiW4bsemjDHZlRNY5u2M7ZyIE8HioffVyz8YblTM4a1CyIMMTrYtNIEUEI
-    cTQ9jIRCDK8BNbXYM1vpt7b5C62QKRUgZGqyoOOYaMHzf6rPuK+xZN2MmRSw
-X-ME-Proxy: <xmx:AfjhajBBheFrS7CaCUtr6xJEUuZdFR4f0RoSMw1N3bD-YtO15xUe4A>
-    <xmx:Afjhav0kTEtLGRfMbaAhFlI8SghYxSexJbZJf_j1gEOAR1c0M89G2A>
-    <xmx:AfjharRkGw49QdBD_N4SdpyevUijtPGNurC0nUexAALVMuotUFlC2w>
-    <xmx:AfjhakYRy4M27O9Is9nnt_U7V-j5DomIw2ZtZr2732YsXq13Fp1Fxw>
-    <xmx:Avjhag5tmHV-eZkrvxuU6XGq8oClFUrtxYsrXKOXtWHKbZUb5YanxnFJ>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Oct 2026 09:26:25 -0400 (EDT)
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Frank van der Linden <fvdl@google.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Mtr5tjUV
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6798d4ab549so1084767d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=armoriq-io.20260707.gappssmtp.com; s=20260707; t=1793194423; x=1793799223; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5qhrixXgJz9/TxX0zDeSD+7uwhcTAxtkmvISQ/Cf0T4=;
+        b=Mtr5tjUVjoKiIImb9L4oKa8STy6M7NVSE5j5eKs2c8PgmvCmlhe4fn7vJ/1E/4EruS
+         JW7u5L0CGZjitr4ykSHPAt7O+oMIZoaRQRRugRVl9edYbk9v42CC8JsoMWx9XcuaZZm3
+         c0toqQt4eN1nj2krHPrj1HEBCzqfwnfIAyuYYgE5AZ4LiTuJVm07xIkRD6euYgRkdRI/
+         i3pP+ommLCOjbrhFOKo0d2yggDakHwnyiHTaqjF+9bgDiS+Fw9EtN7yQ7JPUfValqAnb
+         D7Wpo8J36xOMHBOpI2+7Xvs8WYCEotXh+Tyj9//QlNgt94R15xvcRHCGZxVhzy3K/FsM
+         T9ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793194423; x=1793799223;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5qhrixXgJz9/TxX0zDeSD+7uwhcTAxtkmvISQ/Cf0T4=;
+        b=Cc26lXA/KTWrRubMazAvPlFTDrLvmH5xXPWYEYgkc38QKpcQWvR7CKBwNiiYnKJqGF
+         VXSOkXBUTAb0IAQoXYmLrC9GXBkntb7l8xNvZ15O29muZUL//rH2etT8RswSdolZFwS4
+         4FIfnGyLYDL/6XUtg47BDwKsM+YMKqm0SaPIPIkR0sBrwJE/ZwhPTBCSBlgzb0jPhuH4
+         M3bhBAhdb/qFofH8TgUetAKbRog7xtJFPKCcWdF0/cji8w6V+n+Ds1swmj8HlM/r/WNT
+         weYDxA+F4mDYdigXlAo5C3zUNF++A+Q9hQfNeizcWhduqAEfJKNvnaNW4m4hqjoIzzh3
+         OsYw==
+X-Forwarded-Encrypted: i=1; AKwUvBwceWVNPISP+1uFEDjhiAl0SSCSyPN38x2awjGrGREXggVTwcXLsuNp+ymHL07XFu2RvJhdY/NePEM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJSYbiSw61m7M3NkcDCqsmE2ekpyIp2xVycplbcCPNd5YlXoit6
+	H3P9Vd8Z+8SHndCHp7ZDYEwqGhrXANgdYAoZBS6g7O8OZtjn9UKtcM5JchDgqbBDUSj2
+X-Gm-Gg: AYBFou0BW9q36gC3vxmREROBD587LENg0kaMMRn60kXWYGjNQ0gVleVoEAPr8R3FZYc
+	QxdWjs59AnNKP+oPH21VddB+IoJeaPkmWkcUKWuGEkzzgX8G5qPWqa+974E5Fdvrhv5mQbvO7Fb
+	eA7kH11vr3nlu7kNVb7BDHBfsI4I+TYA6WQUK+fqxYduv4dVgkL9bp8iXHMg3iN0hRVv0u6wNIm
+	vDa6eph1yO/T4vm8awgnNbVDHsIJ+9bUU9CUGZUQE0ezIVHoIijpaAuEBea8y/huCCHUInQBH63
+	UquoAm45OBkIR5U+g2vB8ODQwcL0uzBmKLMRpTrjUVjiTLpK2Hd0uQD7B5kjx3jQHcuw5HAU2pd
+	0FgOC6NNXUeJrI0TcTwYtGtcvX7Qe4O5o1MXi4G8nVMOoSQAQLy8RfYuB7mNH1oXcwYh05j7yM4
+	NzVC/Qb1996g25xdBsI3JO0FetnVLtiY2DAr9XUJIWTV6jucdWXF0DqGswgsPD5CdrRj9ff145A
+	5YVjZ4oloq9sYN8jaKJRI6+S+W/jgWZ2F3c2sRpQWRuADouMrRenjepvYi06aw5rmk3uDSBYcNA
+	tTHr+GjR02QVG0oO7Zknkn1RzxY06inQ9qmL06Y4iWtlUtCTp7JtmWNOgE+DceYuhSePKU3u0nJ
+	LVuDn1zkc4tCU8ZanEjmy5LL5AL/8DBlsfppXyy24MBpfPNo=
+X-Received: by 2002:a05:690e:4808:b0:679:9bc4:cc03 with SMTP id 956f58d0204a3-67a7bcf715fmr1382145d50.69.1793194423425;
+        Wed, 28 Oct 2026 06:33:43 -0700 (PDT)
+Received: from CC-KJQTV599DQ.attlocal.net ([2600:1702:7b5a:ab90:103d:30e1:1f09:a9ae])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a79f38dfesm1694911d50.1.2026.10.28.06.33.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 28 Oct 2026 06:33:42 -0700 (PDT)
+From: Ketan Bhardwaj <ketan@armoriq.io>
+To: Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E . Hallyn" <serge@hallyn.com>
+Cc: linux-security-module@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	kernel-team@meta.com,
-	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] mm/hugetlb_vmemmap: map the shared tail page writable
-Date: Wed, 28 Oct 2026 13:26:21 +0000
-Message-ID: <20261028132623.2560146-1-kirill@shutemov.name>
-X-Mailer: git-send-email 2.56.0
+	"HARIHARA SUDHAN . R" <harisudhan@armoriq.io>,
+	Ketan Bhardwaj <ketan@armoriq.io>
+Subject: [RFC PATCH v2 0/6] security: introduce Kernel Assurance Plane
+Date: Wed, 28 Oct 2026 09:33:29 -0400
+Message-ID: <20261028133335.75899-1-ketan@armoriq.io>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -142,112 +108,102 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Kernel Assurance Plane (KAP) introduces objective-scoped authority as a kernel
+subsystem. Intent Lineage Groups (igroups) are its core kernel object, LSM hooks
+are its enforcement mechanism, and securityfs is its control-plane interface.
 
-page_ref_add_unless_zero() reads the refcount and then updates it with
-a cmpxchg.  A lockless get, such as a page cache lookup or a PFN
-scanner, can read a non-zero refcount from a page that is then freed
-and reused as a hugetlb tail page.  If HVO remaps its struct page to
-the shared tail page in between, the cmpxchg writes to read-only
-vmemmap:
+Linux decides whether a task may perform an operation. It does not decide
+whether the operation still belongs to the objective the task was started for,
+which matters once long-running agents start programs, edit files and open
+connections on a user's behalf. KAP binds a task and its descendants to an
+igroup holding the authority compiled for that objective, and refuses
+operations outside it at existing LSM hooks. Planning and policy validation
+stay in privileged userspace.
 
-    CPU0 (lockless get)               CPU1
-    c = atomic_read(&page->_refcount)
-                                      page freed
-                                      page allocated as a hugetlb tail
-                                      HVO remaps the struct page RO
-    try_cmpxchg(&page->_refcount, &c, c + 1)
-      -> write fault on read-only vmemmap
+v1 [1] was the design document alone. This version adds the implementation it
+describes. An earlier revision of this code runs on Linux 6.18 as the guest
+kernel of Kata microVMs. There, under nested virtualization and in a single
+run, running the same binary unbound and then bound, enforcement added 154 ns
+to a read and 787 ns to an open, while the unhooked getpid control did not
+move. This version has not been measured yet.
 
-The refcount is zero by then and the compare fails, but a
-compare-and-swap instruction needs write access whether or not it
-succeeds.  The kernel oopses when hugetlb pages are allocated at
-runtime with HVO enabled while a lockless get races with it.
+Changes since v1:
 
-Commit bd225530a4c7 ("mm/hugetlb_vmemmap: fix race with speculative PFN
-walkers") closed the window with RCU on both sides.  The RCU was removed
-together with fake heads, on the wrong belief that it was only needed
-for them.
+* Add the implementation: the LSM and its igroup decision engine (3/6), the
+  securityfs control plane (4/6), and checks on unshare and setns (5/6).
+* Documentation: drop the admin-guide/LSM index entry, which pointed at a
+  page that does not exist (Randy Dunlap). Describe the authority format,
+  kap.igfd, kap.transition and the event fields as implemented, and drop
+  "It does not add code".
+* Add a MAINTAINERS entry (6/6).
 
-Map the shared tail page writable instead of restoring the RCU.  Every
-struct page on it is a tail with a zero refcount, so a late cmpxchg
-fails and leaves the page unchanged.  RCU would put rcu_read_lock()
-back around every get and synchronize_rcu() back into hugetlb
-allocation and freeing.
+The control plane follows the shape discussed for v1: /sys/kernel/security/kap
+holds kap.default and an igroups link to a small internal filesystem, as
+AppArmor publishes its policy namespaces, so an igroup is created with mkdir as
+a cgroup is.
 
-The cost is the protection against stray writes to tail struct pages.
-The shared page is shared by all hugetlb folios of the same order in
-the zone, so such a write now corrupts all of them instead of oopsing.
+Known gaps, where feedback is welcome:
 
-Bootmem folios optimized when the memmap is set up keep their tails
-read-only.  Nothing does a lockless get on them before hugetlb takes
-them over.
+* The authority format is a strict subset of JSON and is experimental.
+* Decisions are serialized by one spinlock, and those that resolve a path
+  allocate a PATH_MAX buffer before taking it. Both are prototype choices.
+* igroups cannot be removed yet, and kap.procs keeps the pids written to it
+  after those tasks exit. A task's binding lives in its task blob and is
+  released with it.
+* A thread created while its process is being bound can miss the binding.
+  cgroups closes the same race with cgroup_threadgroup_rwsem; KAP does not
+  yet.
+* Control writes need CAP_SYS_ADMIN. CAP_MAC_ADMIN may be the better fit.
+* unshare and setns call KAP directly because they have no LSM hook
+  (question 5 in the document).
+* There are no selftests in this series yet. It was built with and without
+  KAP and with networking, namespaces and io_uring disabled, and boot tested
+  in QEMU with lock debugging: the control plane, file and exec decisions,
+  epoch revocation of a running task and kap.default.
+* The LSM ID is provisional and is for the LSM maintainers to confirm.
 
-Fixes: 32c440d67e6c ("mm: drop fake head checks")
-Fixes: 01b1d0ffb6f7 ("hugetlb: remove VMEMMAP_SYNCHRONIZE_RCU")
-Reported-by: David Hildenbrand (Arm) <david@kernel.org>
-Closes: https://lore.kernel.org/r/ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org
-Cc: stable@vger.kernel.org
-Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
-Changes since the draft posted inline in the report thread [1]:
- - keep the pre-HVO write-protect for bootmem folios (Muchun);
- - describe the fault in arch-agnostic terms (Muchun).
+[1] https://lore.kernel.org/linux-security-module/20261021165748.19304-1-ketan@armoriq.io/
 
-[1] https://lore.kernel.org/r/auDkbDlgSZxqlk2G@thinkstation
+Base commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907 (Linux 7.3-rc7)
 
- Documentation/mm/vmemmap_dedup.rst | 15 +++++++++++++--
- mm/hugetlb_vmemmap.c               |  8 +++++---
- 2 files changed, 18 insertions(+), 5 deletions(-)
+Ketan Bhardwaj (6):
+  docs: security: Describe the Kernel Assurance Plane design
+  security: kap: add the LSM ID and internal headers
+  security: add the Kernel Assurance Plane LSM
+  security: kap: add the securityfs control plane
+  kernel: add KAP checks for unshare and setns
+  MAINTAINERS: add an entry for the Kernel Assurance Plane
 
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index 9fa8642ded48..66d58fbea5b1 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -131,8 +131,19 @@ pages of ``struct page`` (page 1 to page 7) are tail pages.
- The optimization is only applied when the size of the struct page is a power
- of 2. In this case, all tail pages of the same order are identical. See
- compound_head(). This allows us to remap the tail pages of the vmemmap to a
--shared, read-only page. The head page is also remapped to a new page. This
--allows the original vmemmap pages to be freed.
-+shared page. The head page is also remapped to a new page. This allows the
-+original vmemmap pages to be freed.
-+
-+The shared page is mapped writable. A lockless get of a page reference can
-+read a non-zero refcount before the remap and attempt its atomic update
-+after it. The refcount of a tail page is zero, so the update fails without
-+changing the page. Nothing else may write to the shared page: it is shared
-+by all HugeTLB pages of the same size in the zone, and a stray write would
-+corrupt all of them.
-+
-+HugeTLB pages whose vmemmap is optimized when the memmap is first set up at
-+boot keep a read-only mapping of the shared page. Nothing can do a lockless
-+get on them before they are handed to HugeTLB.
- 
- Here is how things look after remapping::
- 
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 917db0984143..8e5981888937 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -222,10 +222,12 @@ static void vmemmap_remap_pte(pte_t *pte, unsigned long addr,
- 		VM_WARN_ON_ONCE(!PageTail((const struct page *)addr));
- 
- 		/*
--		 * Remap the tail pages as read-only to catch illegal write
--		 * operation to the tail pages.
-+		 * Map the shared tail page writable. A lockless get that read
-+		 * a non-zero refcount before the remap can still do its
-+		 * cmpxchg after it. The refcount is zero, so the cmpxchg
-+		 * fails and leaves the page unchanged.
- 		 */
--		entry = mk_pte(walk->vmemmap_tail, PAGE_KERNEL_RO);
-+		entry = mk_pte(walk->vmemmap_tail, PAGE_KERNEL);
- 	}
- 
- 	list_add(&page->lru, walk->vmemmap_pages);
+ Documentation/ABI/testing/securityfs-kap | 111 +++
+ Documentation/security/index.rst         |   1 +
+ Documentation/security/kap.rst           | 236 ++++++
+ MAINTAINERS                              |  10 +
+ include/linux/kap.h                      |  16 +
+ include/linux/lsm_count.h                |   9 +-
+ include/uapi/linux/lsm.h                 |   1 +
+ kernel/fork.c                            |   4 +
+ kernel/nsproxy.c                         |   5 +
+ security/Kconfig                         |   1 +
+ security/Makefile                        |   1 +
+ security/kap/Kconfig                     |  14 +
+ security/kap/Makefile                    |   2 +
+ security/kap/igroup.c                    | 945 +++++++++++++++++++++++
+ security/kap/kap.h                       | 159 ++++
+ security/kap/kap_lsm.c                   | 866 +++++++++++++++++++++
+ security/kap/kapfs.c                     | 524 +++++++++++++
+ 17 files changed, 2904 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/securityfs-kap
+ create mode 100644 Documentation/security/kap.rst
+ create mode 100644 include/linux/kap.h
+ create mode 100644 security/kap/Kconfig
+ create mode 100644 security/kap/Makefile
+ create mode 100644 security/kap/igroup.c
+ create mode 100644 security/kap/kap.h
+ create mode 100644 security/kap/kap_lsm.c
+ create mode 100644 security/kap/kapfs.c
 
-base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
 -- 
-2.54.0
+2.51.0
 
