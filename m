@@ -1,86 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793224972;
-	b=zhhr8uiaFTdGRK4qdspEcbo2eSsMNcvMV8+OIXssi/Zofc86ccGoVXUQWn9cvZdyGVYO
-	 k11Gtmdi/wFwtbPNPpDYUjWg4Bdbs2c43wgmfHkNqaZ70yc/XRXsL0Qv4X6fW5b5Q6RJs
-	 Sv4A4+mIQJu6Nagp57IjjG7IJxsufsaMiWFCK/JjFyONMWkKzvxwLHUD161N2z1ly7ODV
-	 xUR2HsMolk2rQsJ88VvI8c9uKt75R74u089nLftPK5KDqcy7UWUN6uaJ9OxjGlwUAuTHx
-	 e17VF19MS3Ao3+uDCcv7xEudPp72a6gbTvDHldWwN0U2uNn9H2ygAh1Mjzyl5Zx0qzA==
+	t=1793225893;
+	b=tjUhNtz+Nx45bmrkG2FFfqol64+y/t9VuWRc485IMq3psLZqEG+MJBPYCfHxsKmrT3+C
+	 5kXkfboo12+VhOLvD0De3yM3z2XLtKLak9892JmImyvY3nBYaOJ8eMaCF2/HimZNuhowp
+	 WEJOz5UVH9DaFr01mgRTPN3AH/CLuhK3RWRTgVSuHGERym/315z1ZDbDG7XJbUiEb+cJZ
+	 Od7S0wC/Kz2vA0TAxRpQ/X9YDsA/vSRYHVhXZd5GXjdUYb4mreyiG06VR7SSXz1nufkyR
+	 vx7SgYB7MrzC4lpGeCHc/augBM4anOYvZSdfx8WwnGhT168Ta/u+uP6WM3gMbCkhCGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793224972;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793225893;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=GcrlTSCULdvhrUkPvOAFhOTgnCx2Xeq+skZ+Lyakb9A=;
-	b=lDARTnPZLCp0g1Bsbsi/32w8KL1zVqkZFFQ5iJ3+pnwD9uDXCWzux4f8CI10TY3quJFt
-	 QIZx696Z9Ooka9xwsdHhKx3crX4VN7a/g2CRBq4vDOX+CPkQNIfTKrL13SxNzxa0gpFRo
-	 zh1kWaYkKzRUo+SdYxRcCOTgu2CGaVJsWJS73ATMXaJWKYECORix6SkgP4L8ik+sgKstD
-	 +yAC7joII3f+apHK6ENGCuGLB+/h3fr9XJCSpAQt9nxsN+M8GjzcKrQgQRY2n6n66yAt1
-	 iEzEd++At5dn0cwgvycH8nI+NSuB53PdZSStknFGUtm4Sjhi9ipI8hHBATCZw3ftykA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=zdrXXSLELVsSwHMVPbcUtO/5ayyZxJyxQiN0TcFmn/A=;
+	b=4n2yCk7DmfOFVDucfxGJx0czqHIi7i0W/OMu7jmQKz4dwCdr6Yhp1AsnCV0WTDJCPIvh
+	 KZSm5SEdCDRVtnNu1o7IFExjzdf7ti117xLiemwjbgFsQmeIi6/qeH8HgqN6NMBkGSjA+
+	 d/dtZBCsF/zrW+QXIMxb69qwpeWzt5tURmooWyWlJA2DqJfSN9NLLAgpPVgkFetdJBmME
+	 du8JS6DG+jiHozXurOt9G3xft0P9iLbNuYIIjn+W348RXVivzRjxN62o3w8fcePLMjnfk
+	 yx0lizfNZghHDAp0bWIYYQkNKHMC9+Lgudkjnh6wTaDfXa5wm+pz+BCpyEkRqaXT9SA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OJYYelLK;
-	arc=none smtp.remote-ip=209.85.222.48
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=R0rY2M8Z;
+	arc=none smtp.remote-ip=209.85.218.71
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F56B606A31A
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 22:02:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F56B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FD1606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 22:18:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53FD1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OJYYelLK
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-98c78660542so1183418241.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:02:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=R0rY2M8Z
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c40bbd26f74so121751566b.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1793224970; x=1793829770; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GcrlTSCULdvhrUkPvOAFhOTgnCx2Xeq+skZ+Lyakb9A=;
-        b=OJYYelLK1iGMMCvcQfBuaIV/Yjzi0Dl7jficiYkSauMn5Nk1s6d/mr8bEuISK01u/A
-         qg6urmTUQtzZPnZojdQmN+ftrOVB6EF4xMfajB0fmd/uD8RiUwGHYqLIWMSydovmTwEp
-         +Q/S0EdwX/PlhcG6mgigk7zM56rNALLMsHJRFMjWgG/YG9np//ECc8zTMh6opSahajBG
-         M2XHaxWwoOSe95+JtVNjfH007Y0Im/zKXm7qxqkOsGNqGLMPYFlrSeu3wGZnNr2A1TEi
-         QlBI9a9lvLh6jbCvgxkBXstHZ5HdZBS7e83te5CR+dvFiXHjARHoQQgTgO4m4UjrO5mk
-         kjvg==
+        d=google.com; s=20260707; t=1793225891; x=1793830691; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zdrXXSLELVsSwHMVPbcUtO/5ayyZxJyxQiN0TcFmn/A=;
+        b=R0rY2M8ZBUpsVK5bvV77N25RxUNl/lUiEIl/l/IxVInBY6WYxjElllaIF5TS+q6dcU
+         z0XpP3NNHCu9S89x/gTlWHBVP7dA9wWeYXTc0glEmrZPaKSnw3haEyProTm/RxyhTpeK
+         bgJtiEw+QO4eJlE6D3wwySmvlU8Tg8ja0ActR9YXpRuTwOQRSDKukk9jzd1pAT0O/7jf
+         GRxAUBTrmV4J3lwkf2Ay5hI5EI/MZtN14zKbwi3wSxtgUnXQSNSy/BenMyQTitov8cer
+         jS1iH/9a990RSGgwDGJWTSCO26h5zi3DAFhRsB6P7SX8T1pnUzd5RmcSiJnQAh79zmm+
+         naQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793224970; x=1793829770;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793225891; x=1793830691;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GcrlTSCULdvhrUkPvOAFhOTgnCx2Xeq+skZ+Lyakb9A=;
-        b=Ql3xAkz/mjasta9KglDZgzqDK77N0gTqrGJpQ7uySIgreMgsC68EipVNkPSmmYMX/m
-         oGClRK9bg5bUduSvjyH5iGevwEY0bF4laKyDWAopOz0rqG1Xyoo1pDZy9iks7UU+Mgpj
-         zh2KG0E7UYnguOj1RoHo1+Ls+fOIqjfyHK+R4TaAHiNQsD17T4RKRgKbFCH06ILStluS
-         u9/9yPQPLvBDZqkiLEPUzwW7x/qUiO86TtYayEFqhLTeiw1Yf+bYBMs20E/+wz3Md4fd
-         dJ+crW1r/5HDCVWVRy3xIPD2z9FrTiJk4HpMG+GgX9CHAzc6nfk5Dp0P51qwmoFAcf0s
-         MgkA==
-X-Forwarded-Encrypted: i=1; AKwUvBymnnVSPM8YULy8zPgfTszQGVWcAQexGOt4zWubxaTrPLPMPgphC6468VZppfejUik2U4Y+3UlUq/U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKww7KWrLIJ4R8rWL09AAY84IYuK4Cn2wNPksB9EcCBDDf8VMfp
-	MhEGS0NW1a41FRU099fcdT/G+gGJnP/4ucLhKYqMxs1oVmAR4LShbQ+F0ReRUGDJ3nM=
-X-Gm-Gg: AYBFou3GyyZO+YAr1nvazGQ/6uN36Lb/nS2b4pMiR9BttcaYVVx02MJqC091igIE6nB
-	liZhJrMLtwWWxHNdCkEpDr8OGunsu9TF3Oxf0fKHuQRwywNpXyp9JdU0j5mfSTUlS1+2edSXeeI
-	g2JWa2YC72HG3Q4yrgoH1CIaIBiAAOx666sSkQCgr3h3lrbMCmoydftUlEJGGX3vOIDSHiQ7qOn
-	o+AolqF86qT6odPjnGxCINNmFFK6RIvFGs3657Pc3qEurDJXLbjR0krb0w3ItVyC6xioqGqdDGI
-	F/LhFppVS0Gh8wpHO+6+nqxi3+UfBtyDdOEqTSBD0AkuuZ+2YUAE95e3qPxlTnjdEKt4TGvMnWE
-	7AaMZtSuya97X9ztbfo3oyorta7opNNePgGKMzKBvDGtXYffDQ42A/j33PH4IuQI8h0WjiD1Qou
-	AdPJnumheHqx7nSP0BYKAlblbwBuoNSe0Oq1WxxfivUkRAqQiXCJlrbuG34GhN2+CdXcavSwyyv
-	1bRWIIonhqBY2iatcr1SRQpB5rRz+y6OyT8D143sRYcv/VonlFPPnmvlkP7gdu6tG8iqsysY/dZ
-	Cjy31dCusOfwOU+VRkLWALQws916VHUzDs8BZyEDpMxMXDriHl6siOhRvh9NF2yl3NoMnfcCdiA
-	O/JQlBRRJ5XuEylAzHPoP2EUi3IwchiF6cxe+s46cSsOo
-X-Received: by 2002:a05:6102:3eca:b0:7c1:8aa5:36c8 with SMTP id ada2fe7eead31-7d03a66da9dmr1683821137.36.1793224970093;
-        Wed, 28 Oct 2026 15:02:50 -0700 (PDT)
-Received: from soleen.c.googlers.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9912dad26fcsm4837237241.11.2026.10.28.15.02.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 15:02:49 -0700 (PDT)
+        bh=zdrXXSLELVsSwHMVPbcUtO/5ayyZxJyxQiN0TcFmn/A=;
+        b=oOBHV1KkIiTfovY3hoy+khLulr0ZUW59WIcIRiwFrq1yAzJsNV8QaCfKsgfz1oUKrL
+         HdCKooXqK4qwVdVObTHeeT0GnJ0MJqgT+I0P7fcGT556YDAAnFsNa0oMLxq2BRbnpySc
+         Q87XAf1vW14ctaNmghmGqZEJxl0RYEuBRmy9mKdB/EaYdjaCf3a+g0hjQdCIqG2sfND8
+         O29JiXqZOBT15ICXbqvGsxmv6cBMpWRqZaK6PFycajZZevDXJt1LzpCjwFWJTD2zayYj
+         4lLnpIxBDdpIbMTLCwHl9KbxxKyNxfBw9juZwyBRqOujByRQKcJy39vIw9qNNPwPERFU
+         oCTA==
+X-Forwarded-Encrypted: i=1; AKwUvBxlQv110k9gUv6eUwFje06AY9uGcPzHenLRuxwrF9ZWFyGJ5TVeYE4TJcchI1Qpywz6Yo5fEfrHis8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKDObn0fJJv3G9BoSyc5iidHZW/paiyiBJeZqaq6JSnc+cDGj3i
+	7AdxTZZBr8JLlM9KnybOA0A+qp0VK252TFEy7taE4g5/lDlWFv/WOecWC1X4eqFa9Vv12ps3VA=
+	=
+X-Received: from educ16.prod.google.com ([2002:a05:6402:1010:b0:6b4:1882:2675])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:608e:b0:c46:8b87:c1f4
+ with SMTP id a640c23a62f3a-c49bded259fmr314393966b.20.1793225890525; Wed, 28
+ Oct 2026 15:18:10 -0700 (PDT)
+Date: Wed, 28 Oct 2026 22:16:57 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,362 +75,204 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a
- tmpfs mount chosen by userspace
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-mm@kvack.org, Alexander Graf <graf@amazon.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Christian Brauner <brauner@kernel.org>, 
- David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett" <liam@infradead.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
- Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>
-In-Reply-To: <20261022225035.377445-8-dmatlack@google.com>
-References: <20261022225035.377445-1-dmatlack@google.com>
- <20261022225035.377445-8-dmatlack@google.com>
-Date: Wed, 28 Oct 2026 18:02:45 -0400
-Message-Id: <179322496574.1894369.544573858973645958.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14608;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=FI8Cbq/EUksn+UGQql9laZNxBy24mVhpSXErkKywoD8=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBq4nEI+PlHSI4mk7Ces6sCfKC/790Y0VsKBAORM
- pyUUdp9GrSJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCauJxCAAKCRC7dyhM23N6
- 3lb+D/9u6A/NQV4P9T3JjOuluXAIXM7Z04GRzTR8QhSQbgHmqkbjLR5QQfrzJghpCxmnYDj0yRB
- x4XgYPsOEPAfwwCKlhPlgJ4al1tiLVO1vYJbSDYBSL5rE5htgOXRn0aP6u7av7vgvGi2ws3K566
- cIDN2IfonQvAFoytaGF8VmpxE/wg7VAiNGZfr68hQyg39aocNoqxpmbqTK4i672ywldx+9i1mqG
- CfGRZammvOms1rGpGHSp/nGzVZe1EioWwVAYx5QjlZQy5gKlo0DufadpCQdzCa7zn1+L2hkAuKU
- CuchnpqcaPokmtTQ+aShKvhqsJ77TZfSOT9iFbn6oTjwyT0KjJqNKvB6HHFcKp3BUkke6LBsuIW
- KytYaN4HbZJddbN+bgSygdtD8MjAzrNYE+5pkznvbNaJKUPR09T9dhVHtOhgHk7HUjTbcliI0Wv
- 6/jr/KWWxBV3OoL9EnEtgi9Iyn7AbR4LuC8ypMMp49CkIKsQtNr7pv5Q6PHitX0K4xTEwTMpzHP
- 77yt8qV5i+iv0JzFC/+ld1rKWFNSi2OPfniKNo2qGoyOrJFTq23ViznDD9n66PxHQSu6jywjBmy
- uqEL66CFKCM+yKefO3PwaKI8bNhulw+YAWe+LEhI/LtljRZUPB2CC7ebPrIrlVns+76pTiKlQDt
- VKotPHrha+rrKoA==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
+Message-ID: <20261028221705.3915340-1-halg@google.com>
+Subject: [PATCH 0/8] userns: per-namespace capability bounding set and opt-in
+ netns loopback
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	"=?UTF-8?q?G=C3=BCnther=20Noack?=" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-> Retrieve files that were preserved from a tmpfs mount onto a tmpfs mount
-> chosen by userspace, instead of as memfds on the internal tmpfs mount.
-> Record which mount a file was on with a new SHMEM_LUO_FLAG_TMPFS flag in
-> struct shmem_luo_ser, based on the superblock of the file. shmem_luo
-> already accepts unlinked tmpfs files, such as files created with
-> O_TMPFILE, and a following commit also accepts linked ones.
-> 
-> The mount a tmpfs file was on doesn't exist in the new kernel, and
-> userspace may want to put the file elsewhere anyway. So add struct
-> liveupdate_shmem_retrieve_arg, which userspace passes as the retrieve
-> argument of LIVEUPDATE_SESSION_RETRIEVE_FD. It is modeled on open(): The
-> kernel creates a new file as if by openat(dirfd, ".", O_TMPFILE | flags,
-> mode), so the file gets the owner, permission checks and security labels
-> of any new file in that directory, and is charged to that mount. The
-> kernel then fills the file with the preserved contents, size, position
-> and seals before returning it, so nothing else can access the file
-> before it is complete. Userspace links the file at the path it wants
-> with linkat(), or passes O_EXCL to keep it unlinked. Neither the path
-> nor any other inode attribute of the file is part of the preserved
-> state, which keeps them out of the KHO ABI.
-> 
-> Pass the flags from userspace to file_open_root(), so that the VFS
-> checks them like for open(). file_open_root() silently ignores unknown
-> flags and mode bits, so reject those like openat2() does. Also reject
-> O_PATH, with which file_open_root() would ignore O_TMPFILE and open the
-> directory.
-> 
-> Keep the type of the file: memfds can only be retrieved as memfds, and
-> files on tmpfs mounts only onto tmpfs mounts, so that e.g. a file
-> can't be moved off the mount whose size limit and quotas it was subject
-> to. Passing the argument when retrieving a memfd, or not passing it when
-> retrieving a file from a tmpfs mount, fails with -EINVAL. Unlinked tmpfs
-> files were retrieved as memfds until now, but nothing relies on that, as
-> the LUO uAPI is not stable yet.
-> 
-> Like the other failures before the folios are restored, problems with
-> the argument and with creating the file can be retried.
-> 
-> Assisted-by: LLM
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Link: https://patch.msgid.link/20261022225035.377445-8-dmatlack@google.com
->
-> diff --git a/Documentation/mm/shmem_preservation.rst b/Documentation/mm/shmem_preservation.rst
-> index e79bf8afaa9e..030a8f18680c 100644
-> --- a/Documentation/mm/shmem_preservation.rst
-> +++ b/Documentation/mm/shmem_preservation.rst
-> @@ -1,11 +1,11 @@
->  .. SPDX-License-Identifier: GPL-2.0-or-later
->  
-> -==========================
-> -Memfd Preservation via LUO
-> -==========================
-> +====================================
-> +Memfd and Tmpfs Preservation via LUO
-> +====================================
->  
->  .. kernel-doc:: mm/shmem_luo.c
-> -   :doc: Memfd Preservation via LUO
-> +   :doc: Memfd and Tmpfs Preservation via LUO
->  
->  Memfd Preservation ABI
->  ======================
-> diff --git a/include/linux/kho/abi/shmem.h b/include/linux/kho/abi/shmem.h
-> index b61687e358a2..88ef7d49b5f3 100644
-> --- a/include/linux/kho/abi/shmem.h
-> +++ b/include/linux/kho/abi/shmem.h
-> @@ -18,8 +18,8 @@
->   * DOC: shmem Live Update ABI
->   *
->   * The shmem file handler, which preserves memfds created without
-> - * ``MFD_HUGETLB``, uses the ABI defined below for preserving their state across
-> - * a kexec reboot using the LUO.
-> + * ``MFD_HUGETLB`` and tmpfs files, uses the ABI defined below for preserving
-> + * their state across a kexec reboot using the LUO.
->   *
->   * The state is serialized into a packed structure `struct shmem_luo_ser`
->   * which is handed over to the next kernel via the KHO mechanism.
-> @@ -69,12 +69,25 @@ struct shmem_luo_folio_ser {
->  			     F_SEAL_EXEC)
->  
->  /**
-> - * struct shmem_luo_ser - Main serialization structure for a memfd.
-> + * SHMEM_LUO_FLAG_TMPFS - The file was on a tmpfs mount.
-> + *
-> + * Set for files that were not on the internal shmem mount that memfds are
-> + * created on. Such a file is retrieved onto a tmpfs mount chosen by userspace,
-> + * instead of as a memfd.
-> + */
-> +#define SHMEM_LUO_FLAG_TMPFS		BIT(0)
-> +
-> +/* The set of flags this version supports. */
-> +#define SHMEM_LUO_ALL_FLAGS		SHMEM_LUO_FLAG_TMPFS
-> +
-> +/**
-> + * struct shmem_luo_ser - Main serialization structure for a memfd or tmpfs file.
->   * @pos:       The file's current position (f_pos).
->   * @size:      The total size of the file in bytes (i_size).
->   * @seals:     The seals present on the memfd. The seals are uABI so it is safe
->   *             to directly use them in the ABI.
-> - * @flags:     Flags for the file. Unused flag bits must be set to 0.
-> + * @flags:     Flags for the file (SHMEM_LUO_FLAG_*). Unused flag bits must be
-> + *             set to 0.
->   * @nr_folios: Number of folios in the folios array.
->   * @folios:    KHO vmalloc descriptor pointing to the array of
->   *             struct shmem_luo_folio_ser.
-> diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
-> index 953ffe0823be..a9dcc4fcc87b 100644
-> --- a/include/uapi/linux/liveupdate.h
-> +++ b/include/uapi/linux/liveupdate.h
-> @@ -247,4 +247,39 @@ struct liveupdate_session_get_name {
->  #define LIVEUPDATE_SESSION_GET_NAME					\
->  	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_GET_NAME)
->  
-> +/**
-> + * struct liveupdate_shmem_retrieve_arg - Argument to retrieve a tmpfs file
-> + * @size:  Input; sizeof(struct liveupdate_shmem_retrieve_arg)
-> + * @dirfd: Input; A file descriptor for a directory on the tmpfs mount to create
-> + *         the file on.
-> + * @flags: Input; The flags of the file, like the flags argument of open(),
-> + *         except for O_TMPFILE, which is implied, and O_PATH, which is not
-> + *         allowed.
-> + * @mode:  Input; The mode of the file, like the mode argument of open().
-> + *
-> + * Passed via &struct liveupdate_session_retrieve_fd.arg to retrieve a file that
-> + * was preserved from a tmpfs mount. Such files can only be retrieved with this
-> + * argument, and memfds, i.e. files that were preserved from the kernel's
-> + * internal shmem mount, can only be retrieved without it. Otherwise, the
-> + * retrieve fails with -EINVAL.
-> + *
-> + * The kernel creates a new file as if by openat(@dirfd, ".", O_TMPFILE |
-> + * @flags, @mode), fills it with the preserved contents, and returns it in
-> + * &struct liveupdate_session_retrieve_fd.fd. Like any O_TMPFILE file, the file
-> + * is not linked into the filesystem. Userspace can link it with linkat(),
-> + * unless @flags contains O_EXCL.
-> + *
-> + * If @flags contains unknown flags or O_PATH, if @mode contains unknown mode
-> + * bits, or if @dirfd is not on a tmpfs mount, the retrieve fails with -EINVAL.
-> + * If the file can't be created, the retrieve fails with the same errors as
-> + * open(). A retrieve that fails before the preserved contents are restored can
-> + * be retried.
-> + */
-> +struct liveupdate_shmem_retrieve_arg {
-> +	__u32		size;
-> +	__s32		dirfd;
-> +	__aligned_u64	flags;
-> +	__aligned_u64	mode;
-> +};
-> +
->  #endif /* _UAPI_LIVEUPDATE_H */
-> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-> index 9a1c49e2e0c4..61d01f5a336e 100644
-> --- a/kernel/liveupdate/Kconfig
-> +++ b/kernel/liveupdate/Kconfig
-> @@ -70,14 +70,14 @@ config LIVEUPDATE
->  	  If unsure, say N.
->  
->  config LIVEUPDATE_SHMEM
-> -	bool "Live update support for memfd"
-> +	bool "Live update support for memfd and tmpfs files"
->  	depends on LIVEUPDATE
->  	depends on MEMFD_CREATE
->  	depends on SHMEM
->  	default LIVEUPDATE
->  	help
-> -	  Enable live update support for memfd regions. This allows preserving
-> -	  memfd-backed memory across kernel live updates.
-> +	  Enable live update support for memfds and tmpfs files. This allows
-> +	  preserving their contents across kernel live updates.
->  
->  	  This can be used to back VM memory with memfds, allowing the guest
->  	  memory to persist, or for other user workloads needing to preserve
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 38b1165212c9..630ae0297dd5 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1436,6 +1436,7 @@ int shmem_add_to_page_cache(struct folio *folio,
->  			    pgoff_t index, void *expected, gfp_t gfp);
->  int shmem_inode_acct_blocks(struct inode *inode, long pages);
->  bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped);
-> +bool shmem_inode_on_internal_mount(const struct inode *inode);
->  
->  #ifdef CONFIG_SHRINKER_DEBUG
->  static inline __printf(2, 0) int shrinker_debugfs_name_alloc(
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 897fa2b61346..fe2be9300ae7 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -5860,6 +5860,15 @@ struct file *shmem_kernel_file_setup(const char *name, loff_t size,
->  }
->  EXPORT_SYMBOL_GPL(shmem_kernel_file_setup);
->  
-> +/*
-> + * Whether @inode is on the internal shmem mount, which is used by
-> + * shmem_file_setup() and thus by memfd_create().
-> + */
-> +bool shmem_inode_on_internal_mount(const struct inode *inode)
-> +{
-> +	return inode->i_sb == shm_mnt->mnt_sb;
-> +}
+When an unprivileged process creates a new user namespace, it is granted
+a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+While these capabilities are isolated to the namespace, they allow
+unprivileged local users to reach deep kernel subsystems (most notably
+networking configuration and raw sockets via CAP_NET_ADMIN and
+CAP_NET_RAW) that historically assumed a trusted caller and have
+accounted for a large share of local privilege escalation
+vulnerabilities.
 
-Please fix the warning reported by kernel test robot.
+Many workloads and sandboxes use unprivileged user namespaces strictly
+for basic UID/GID, mount, PID, or network isolation and never need
+high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+system administrators often want a host-wide policy ceiling restricting
+which capabilities unprivileged user namespaces may acquire, without
+disabling unprivileged user namespaces altogether.
 
-> +
->  /**
->   * shmem_file_setup - get an unlinked file living in tmpfs
->   * @name: name for dentry (to be seen in /proc/<pid>/maps)
-> diff --git a/mm/shmem_luo.c b/mm/shmem_luo.c
-> index bcac1bbb3db3..ecbeb37d33a8 100644
-> --- a/mm/shmem_luo.c
-> +++ b/mm/shmem_luo.c
-> @@ -9,19 +9,20 @@
->   */
->  
->  /**
-> - * DOC: Memfd Preservation via LUO
-> + * DOC: Memfd and Tmpfs Preservation via LUO
->   *
->   * Overview
->   * ========
->   *
-> - * Memory file descriptors (memfd) can be preserved over a kexec using the Live
-> - * Update Orchestrator (LUO) file preservation. This allows userspace to
-> - * transfer its memory contents to the next kernel after a kexec.
-> + * Memory file descriptors (memfd) and tmpfs files can be preserved over a kexec
-> + * using the Live Update Orchestrator (LUO) file preservation. This allows
-> + * userspace to transfer its memory contents to the next kernel after a kexec.
->   *
->   * Here, a memfd is a memfd created without ``MFD_HUGETLB``, which is a shmem
-> - * file on the kernel's internal shmem mount. Memfds created with
-> - * ``MFD_HUGETLB`` are hugetlbfs files, which this file handler doesn't
-> - * preserve. Preserving them fails with ``-ENOENT``.
-> + * file on the kernel's internal shmem mount, and a tmpfs file is a file on any
-> + * other tmpfs mount. Memfds created with ``MFD_HUGETLB`` and other files on
-> + * hugetlbfs are not shmem files, and this file handler doesn't preserve them.
-> + * Preserving them fails with ``-ENOENT``.
->   *
->   * The preservation is not intended to be transparent. Only select properties of
->   * the file are preserved. All others are reset to default. The preserved
-> @@ -29,12 +30,13 @@
->   *
->   * .. note::
->   *    The LUO API is not stabilized yet, so the preserved properties of a memfd
-> - *    are also not stable and are subject to backwards incompatible changes.
-> + *    or tmpfs file are also not stable and are subject to backwards
-> + *    incompatible changes.
->   *
->   * Preserved Properties
->   * ====================
->   *
-> - * The following properties of the memfd are preserved across kexec:
-> + * The following properties of the file are preserved across kexec:
->   *
->   * File Contents
->   *   All data stored in the file is preserved.
-> @@ -49,10 +51,12 @@
->   *
->   * File Status Flags
->   *   memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property
-> - *   is maintained.
-> + *   is maintained. The file status flags of tmpfs files are not preserved.
-> + *   Userspace chooses the flags when retrieving them, as described in
-> + *   "Retrieving Tmpfs Files" below.
->   *
->   * Seals
-> - *   File seals set on the memfd are preserved and re-applied on restore.
-> + *   The seals of the file are preserved and re-applied on restore.
->   *   Only seals known to this LUO version (see ``SHMEM_LUO_ALL_SEALS``) may
->   *   be present; preservation fails with ``-EOPNOTSUPP`` otherwise.
->   *
-> @@ -67,12 +71,50 @@
->   *   A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
->   *   ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set
->   *   again after restore via ``fcntl()``.
-> + *
-> + * Inode Attributes
-> + *   The name, path, owner, mode, timestamps and extended attributes of the
-> + *   file are not preserved.
-> + *
-> + * Retrieving Tmpfs Files
-> + * ======================
-> + *
-> + * A tmpfs file can be retrieved onto any tmpfs mount that userspace chooses.
-> + * The mount that the file was on doesn't exist in the new kernel, and userspace
-> + * may want to put the file elsewhere anyway.
-> + *
-> + * To retrieve a tmpfs file, userspace passes a
-> + * ``struct liveupdate_shmem_retrieve_arg`` to
-> + * ``LIVEUPDATE_SESSION_RETRIEVE_FD``. The argument specifies a directory on the
-> + * target mount, and the flags and mode of the new file. The kernel creates the
-> + * file as if by ``openat(dirfd, ".", O_TMPFILE | flags, mode)``, so the file
-> + * gets the same flags, owner, permission checks and security labels as any
-> + * other new file in that directory. The kernel then fills the file with the
-> + * preserved contents, size, position and seals before it returns the file, so
-> + * nothing else can access the file before it is complete.
+Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+per-thread capability set (cap_userns) alongside a global sysctl mask.
+During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+suggested that rather than adding another per-thread capability set and
+prctl() interface, capability restrictions could be integrated directly
+into struct user_namespace and configured via clone3(). At the same
+time, as noted in [1], a clone3() flag alone is not sufficient for
+administrators who need to enforce a host-wide ceiling on unprivileged
+user namespaces without modifying every userspace callsite.
 
-Looking at this together with Pratyush's mapping-freeze series ([PATCH 
-0/3] mm: allow freezing mappings), I think we should extend the mapping 
-freeze lifecycle from preserve() -> retrieve() to preserve() -> 
-finish().
+This series combines both pieces of feedback: it embeds a capability
+bounding set (cap_bset) directly into struct user_namespace, reusing
+the existing task cap_bset, cap_permitted, and cap_effective sets on
+namespace entry, and provides both a system-wide sysctl ceiling for
+unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+voluntary per-namespace restriction via clone3().
 
-When retrieve() returns an fd, its mapping should still come out frozen 
-and only become fully user-owned/mutable once a successful session 
-finish() happens. That keeps the index -> folio mapping invariant across 
-the entire live update until every fd in the session (e.g. vmfd, 
-iommufd, vfiofd that depend on the memfd) has been retrieved, passed 
-can_finish(), and been finalized together in finish().
+In addition, because restricting CAP_NET_ADMIN at user namespace
+creation time prevents userspace from bringing up the loopback
+interface in new network namespaces, the series first introduces
+an opt-in flag to automatically enable loopback on network namespace
+creation:
 
-(Doesn't have to block this series, we can do it on top or as part of 
-Pratyush's AS_FROZEN series.), but I think we must fix it either here or 
-there.)
+1. Opt-in loopback activation on netns creation (Patch 1)
 
+  New network namespaces start with the loopback interface (lo) DOWN by
+  default, requiring CAP_NET_ADMIN over the owning user namespace to
+  bring it up. To block external network access while preserving
+  localhost networking, sandboxes commonly create an isolated network
+  namespace with only the loopback interface enabled.
+
+  However, requiring a sandbox to hold CAP_NET_ADMIN in a new user
+  namespace solely to bring loopback up conflicts with reducing the
+  CAP_NET_ADMIN attack surface. Today, an unprivileged sandbox must
+  start with CAP_NET_ADMIN to bring loopback up, drop it, and then
+  block CAP_NET_ADMIN from being regained in nested user namespaces
+  (e.g. via seccomp or max_user_namespaces limits). Conversely, when
+  CAP_NET_ADMIN is restricted at user namespace creation time (via the
+  sysctl ceiling or CLONE_NEWUSER_BSET introduced in Patches 2-3, or
+  via LSMs such as Landlock), tasks inside the new namespace never
+  acquire CAP_NET_ADMIN and cannot bring loopback up from userspace,
+  breaking localhost networking for unprivileged sandboxes.
+
+  Introduce the CLONE_NEWNET_LOOPBACK flag for clone3() and the
+  corresponding UNSHARE_NEWNET_LOOPBACK flag for unshare(), which imply
+  CLONE_NEWNET and automatically bring the loopback device up in
+  copy_net_ns() before returning the new network namespace. Making this
+  an explicit opt-in preserves default network namespace semantics
+  while allowing unprivileged sandboxes to create an isolated network
+  namespace with functional localhost networking without ever holding
+  CAP_NET_ADMIN.
+
+2. Per-user-namespace capability bounding set & sysctl ceiling (Patch 2)
+
+  Add cap_bset to struct user_namespace (initialized to CAP_FULL_SET in
+  init_user_ns) and introduce a system-wide sysctl ceiling for
+  unprivileged users at:
+    /proc/sys/kernel/unprivileged_userns_caps_allowed
+  (defaulting to CAP_FULL_SET).
+
+  When a new user namespace is created:
+  - Privileged creators (holding CAP_SYS_ADMIN in the parent user
+    namespace) inherit cap_bset from the parent user namespace.
+  - Unprivileged creators (lacking CAP_SYS_ADMIN in the parent user
+    namespace) have the child namespace's bounding set constrained by
+    the sysctl ceiling combined with any effective capabilities the
+    creator already holds in the parent namespace:
+        child_bset = parent_bset & (sysctl_ceiling | creator_effective)
+    Allowing the creator to retain capabilities it already holds in the
+    parent namespace ensures that a process granted a specific
+    capability (e.g. CAP_NET_ADMIN) does not lose it when creating a
+    nested user namespace.
+
+  When a task enters a user namespace via clone()/unshare() or
+  setns(), its cap_bset, cap_permitted, and cap_effective sets are
+  clamped to user_ns->cap_bset. In addition, cap_capable_helper() is
+  updated so that implicit capabilities granted to the parent-namespace
+  owner of a user namespace are likewise bounded by the owned
+  namespace's cap_bset.
+
+3. Per-namespace restriction via clone3() (Patch 3)
+
+  Introduce CLONE_NEWUSER_BSET and add cap_bset to struct clone_args.
+  When specified alongside CLONE_NEWUSER, the new user namespace's
+  bounding set is further intersected with the requested cap_bset mask,
+  allowing container runtimes and sandboxes to drop unneeded capabilities
+  from a user namespace at creation time even when permitted by the
+  global sysctl.
+
+4. Introspection via NS_USER_GET_INFO (Patch 4)
+
+  While tasks inside a user namespace see their initial ceiling in
+  /proc/<pid>/status (CapBnd), threads may subsequently drop
+  individual capabilities from their per-thread bounding set. Add
+  an extensible NS_USER_GET_INFO ioctl on userns file descriptors
+  to allow userspace to directly query a user namespace's cap_bset.
+
+5. Selftests (Patches 5-8)
+
+  Add kselftest suites covering CLONE_NEWNET_LOOPBACK, the sysctl
+  ceiling, creator capability retention, nested monotonicity,
+  parent-owner bounding, CLONE_NEWUSER_BSET and NS_USER_GET_INFO.
+
+[1] https://lore.kernel.org/all/20240609104355.442002-1-jcalmels@3xx0.net/
+[2] https://lwn.net/Articles/978846/
+
+Note on tree routing:
+
+While Patch 1 (CLONE_NEWNET_LOOPBACK) touches net/core/net_namespace.c,
+most of its changes add clone3()/unshare() flag plumbing in
+include/uapi/linux/sched.h, kernel/fork.c, and kernel/nsproxy.c, which
+Patch 3 (CLONE_NEWUSER_BSET) builds directly on top of. To avoid
+merge conflicts in kernel/fork.c and include/uapi/linux/sched.h, it
+may be simplest to route the entire series through a single tree, e.g.
+a namespace branch in vfs.git with Acked-by from the netdev and
+capabilities/credentials maintainers, or whichever tree the maintainers
+prefer.
+
+Hallgrimur H. Gunnarsson (8):
+  net: introduce CLONE_NEWNET_LOOPBACK to auto-enable loopback
+  userns: introduce capability bounding set for user namespaces
+  userns: allow restricting capability bounding set via clone3()
+  nsfs: add NS_USER_GET_INFO ioctl to inspect user namespace
+    capabilities
+  selftests/net: add test suite for CLONE_NEWNET_LOOPBACK
+  selftests/capabilities: tests for user namespace capability bounding
+    set
+  selftests/capabilities: add clone3() tests for CLONE_NEWUSER_BSET
+  selftests/nsfs: add tests for NS_USER_GET_INFO ioctl
+
+ Documentation/admin-guide/sysctl/kernel.rst   |  37 ++
+ fs/nsfs.c                                     |  29 +
+ include/linux/cred.h                          |   3 +-
+ include/linux/sched/task.h                    |   1 +
+ include/linux/user_namespace.h                |  20 +-
+ include/uapi/linux/nsfs.h                     |  17 +
+ include/uapi/linux/sched.h                    |   9 +
+ kernel/cred.c                                 |  10 +-
+ kernel/fork.c                                 |  38 +-
+ kernel/nsproxy.c                              |   9 +
+ kernel/user.c                                 |   1 +
+ kernel/user_namespace.c                       | 100 +++-
+ net/core/net_namespace.c                      |  11 +
+ security/commoncap.c                          |   8 +-
+ .../testing/selftests/capabilities/.gitignore |   1 +
+ tools/testing/selftests/capabilities/Makefile |   2 +-
+ .../capabilities/userns_bounding_set_test.c   | 566 ++++++++++++++++++
+ .../selftests/clone3/clone3_selftests.h       |   1 +
+ .../selftests/filesystems/nsfs/.gitignore     |   1 +
+ .../selftests/filesystems/nsfs/Makefile       |   4 +-
+ .../selftests/filesystems/nsfs/userns.c       | 120 ++++
+ tools/testing/selftests/net/.gitignore        |   1 +
+ tools/testing/selftests/net/Makefile          |   1 +
+ tools/testing/selftests/net/loopback_netns.c  | 103 ++++
+ 24 files changed, 1069 insertions(+), 24 deletions(-)
+ create mode 100644 tools/testing/selftests/capabilities/userns_bounding_set_test.c
+ create mode 100644 tools/testing/selftests/filesystems/nsfs/userns.c
+ create mode 100644 tools/testing/selftests/net/loopback_netns.c
+
+
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 -- 
-Pasha
+2.56.0.313.g2479322e68-goog
 
