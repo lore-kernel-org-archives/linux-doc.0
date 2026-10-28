@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793173124;
-	b=ugIsieKXr+AkXyHxATr3hiWnBUblxVeANxy6HN2MXQI5ekg2Ey2pbMwwmG2wJY+qCa31
-	 yeOFl6Y0pGIu8c65LPhiSHlpneXKtg7yYZMS1t9U8MSakT5Erkd2/PA9iFzVLsOuXUCHH
-	 Xj9IxnRXqR7w8BJ97LVcPytxNjirR46fqeK1zJDyhP64pqhtJdpzjQZb6sI0DveRj0kM0
-	 Ow/T7CRF8qvKVfRHDlgea/5Ubsp8ORzYr4tWxj9aNUn9gYYVTJnelZoBIf+n2HeEa+XSj
-	 7AAgEKpG7/7LFbcMJWG2vZ2KnjIfXw8Pko44M28BvTYAJt4enD1X2b3mA4OYxhv+x1Q==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793173411;
+	b=a3HJqiAyywPss1o+xqxMYoJbEkcyFpa6hNxctX53Ew0So/HJEKqf8OIITPm1ZGhc6mia
+	 Vl6Bb39pmwVWX/cBmDJTnO9XDEkKLrPBN8kJwsYlpup4Y7yYmLrPGaZLLAkf9+t5UvqQ5
+	 iPeaS5rDaIFx46+M/p043s/tbTZx2zxoPHCkVyXiCDrbieqNdIkGgRrzC7wAb8HtGp98G
+	 iejlV6HL63hr1dHCtVeXvHTlhUNY1d4HiCMjadZYJ21gf1z9m0rAC+/jIXgcu9qYX8QEd
+	 qY8g9eHBKQrVEQ7OyANdisHj/v/0Wl1hhwc8+4ATIr8/qx1bCQq9p8tf6YWL+dWyQxw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793173124;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793173411;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Z7MG1enuoki8MLFbTcKPNbIF1r1YUl7PKsWNYhZD0wk=;
-	b=f+OEW3gTseNUIEIbZzMIOtF0+2Vscpgc3YKUMIDCH0g5brRhm8RNGJN1sm0p25fbZRvI
-	 CnTF+UmxeEEcTC8fq8rO9fsfitgE2CAu97A6fGRepCUTk15Eu7hGaE8YKl/6clt+5tERt
-	 6BBdb3JLG93wuqCSF4f77KzbbKlcsbbMifu1ZVIezg9bSE44QovlP1VBZ934VFC/KwjqI
-	 cC8eNnXiBqPEiazFZ1725Bwynq7E8jktETmWZb1ZXSEOBdw9kiu55JQfydbzSs7VEy8q/
-	 VYoZs2t+AEau8Y3Tpr1pxLL7K24N6/0IP4qOM0pd2xKpjDdY1n24/bnmQkA7ux38osQ==
+	bh=nskSZD59o5Wku3VNP5CAyzpTIbm3E/kieBuAkeS4vuo=;
+	b=Rg0R7uLtE3QskmkjHu4adtvrWfm7SJqZJ/F0QSARPKOfXNNwuSqq+X8LwQ1hdFQ+gRUQ
+	 6fh7bunKNsw8jxI9TrW2I2CcK3sdeftGEDrquMN1mCMIh9PrIi0jM3KCXeG/b5VLmGbI8
+	 DnxIbLkXikGSLNWg5dYQ02ZXWlXkGsXu/gUBwz4Bk/qmsps/MC5lh9/QGF8ZMI+kuMBD3
+	 MmBtWlEKWVNfa7EGWi3ycS7r4QdMrn8EomVq18McViIzoNQjZzOeOobKVcVOP1Qed8u6c
+	 fOCmLIu9Ft6WKVVDHKlpSgbNdOboU/E09Z2ZjLRKz0xNTNdS7nrtwc/Yv7CE9bxOk6g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zklaNDR5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.47
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eY8K2Qfq;
+	arc=fail smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9203E606A320
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 07:38:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9203E606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFB0606A31D
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 07:43:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDFB0606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zklaNDR5
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c43373ae89aso81401566b.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 00:38:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793173123; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eY8K2Qfq
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c46822eefb6so73901366b.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 00:43:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793173409; cv=none;
         d=google.com; s=arc-20260327;
-        b=DQH8G6nUl8cpUZG4FRZrkdJL8i08F6hBh9zqi2+rAuuId57n6rl3iSei7U4gpUsPG5
-         /G8dXeSQQ6Ui8AIdd++TG2kVUT1PRSHwmqL3P0MNTg1Kb8zwVdIgrkoLPBQVrenpZy/z
-         Z5QnT5S/9b3KZl5prjyHeH4wcDO7w0BTl11Vb0PGtSgpq/Abi3BEI2HGnnXpy0SRyBU6
-         BQD8MjR1RQ5ufTI7wdmg7s8bsP3WwEiBB37SSiYDiYV/aeiGg6ZeEdOVoOatAwDPQTtv
-         v90nDHIluKBl9K/IfB5rIOzupsQIYhlEpgrRjHVTPzX5znZM3HC+4xKFxZUbUhOBh0Uz
-         LLCg==
+        b=FNkYCDW8VG305EX2bOEBJ22jBFGZoG6I2zE0w9BoHRHcxPZouBeSoiTk3cEbWwVHtM
+         /Y8y2eH36E41A9vbio4hHyxOvBFNnJIA7e4/ACYnFfrUKhRcskBc+aCDwS7AzHXKkSC+
+         aANZ80+hR0wdr1mtFkqCx0X/1Xs9mM6lgdXUQZi2bFZugmmWDhScKvo8RFOwB+DBI2oq
+         Z5YFosRNGN8cbldYkCyWghXYicmaLxoZ+bgiPpEVRrDOsm7a1C3s+AcO2kvICYNqtK2p
+         X+tZTtMGKYaKtYLTofkR1hq2Df/4qII0EdOfoeDA+SpnsqaYBwZLBmLzquKAzAokHQ0B
+         lwuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z7MG1enuoki8MLFbTcKPNbIF1r1YUl7PKsWNYhZD0wk=;
-        fh=ciOIbZGWuSd7kVg3bWM65YchbbqqHF/G3spb0Fz9k3U=;
-        b=Y1CzskdgGjbvA2ZErBHtWv14GwvyOs/G1zZHA6y3esPKxMcVhctP271P6WqblwEMx7
-         LzVQGTAzuIOqC2KMlDzc9A+sTNbgCe4cRc3BjYhLi4hASyB70RgaAt6FhJL51s7dwEvi
-         JeKgzInKmrWmVWLysl62HXohR2qk3isEH1tBPrX8YL71u0V87aynxe/d3II97Mlx9zjF
-         sP/QTKF7oIhI/PIpdHgKVfZztdGHiuSTjwL5zvAYM/x6XWFemafKQ2pzJGEZ0G0DXxFF
-         4Amj9J/9YwDWAWHIRXMFbE/hm237do3P8+hTV2E4cB0S3pjmgQiiTvmcUQWCjFj7UHqm
-         rq7Q==;
+        bh=nskSZD59o5Wku3VNP5CAyzpTIbm3E/kieBuAkeS4vuo=;
+        fh=DxH3Z5d05o5qVsPHVQxBWkTh4zqsYOW9wEL+PkohhNk=;
+        b=j/aVcHthY/vK7frgKxEWEzYeuovRDXEW3mep4DTB9Mcbr/YTtgq/H73nXcSsGv1fhR
+         nDoYFpyJtnFNng33y+vctY/7o/txeencIxW59C584ylUba/lnnOpUQZ6rcG2SZK8C4h3
+         sCa4xP3QD2/2FHH9nJaRYDMkMoA5HuAVKHSi/QTJt8b6WTf7Wy8cMg2rZTZaSBfPmaL4
+         ytSsD+LqBsMzN5/s5zayOLwRm8b594d4cY6nHi8LqkFypXWmCUADzMb16wZCtbW+leRE
+         4o4X3JLd6MgmHaQu8k+oo43laqplHpmr4kkchE+S8GPGXUeyAGz1uotf6p98q8U+lOK1
+         sbFw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793173123; x=1793777923; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793173409; x=1793778209; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Z7MG1enuoki8MLFbTcKPNbIF1r1YUl7PKsWNYhZD0wk=;
-        b=zklaNDR5CX5KpN3HuGoYhIyGZYuSEuP05buHr5SZEdsCFMrjreIo9qb3BmjVgwO8CZ
-         gD9l+cpnqzVJrP1ItqA1uQKdDP6DA+IO5K1u6bZHclNbZGPKdbCI3UJSXFaxe96fJTBr
-         55pEopCUZHL4egHDIXBn16EMalOL78//B96Ut3lxfUgAUtQaCjNyFdJtRUp9eNbtzfDF
-         9LOv25/WL4hEqcUaZwQGNEdLSjt0AhgUO5v3lbFjej7Xb7GY9DrYkNToLes0HDW+Wu5d
-         iy7EyUuqS5JgOaZ5YUfbUr4no4xKW6q/BVbiVWc2cKSzAk47ZS9KKtf91Hiap3/x2WVH
-         8oMA==
+        bh=nskSZD59o5Wku3VNP5CAyzpTIbm3E/kieBuAkeS4vuo=;
+        b=eY8K2QfqWnb9Uy5/XzguQIx7EQpUUcQbEVhYARBR17WJ4iuiiEJRw8vLhNRNaxP8d3
+         +TfZFT1spjkwqs4FMS/lskywFPc7/3c6Yx9Baunf+hC1PNfje3kaaG+fhnKqCE3eG8dM
+         YHUQ6F29rrBzhxSdqbJaZuQLiJneTH+9O6T+/e4jhEjlimbuDP2m1OIuLlTyBT3FOznq
+         IAQqlkBATrqu6uq3uytL5wLjUbcRuEJinWiO5PYS6CMeSf5uFd0gs0BMOE8hRSA+rw4e
+         11MR/BNlpNrTXvZ30lBSufofLldS2rH3HNuzXRtxUu5cvG+MNrQAWIFHBItMAyWuPf/K
+         Ieww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793173123; x=1793777923;
+        d=1e100.net; s=20260707; t=1793173409; x=1793778209;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Z7MG1enuoki8MLFbTcKPNbIF1r1YUl7PKsWNYhZD0wk=;
-        b=Kbn4Vw8bfTHxbuVNFN1IIjziw9Hv5G350+1nk/6y6hhPrOTlBW9cD9wkdVaYVIb5rc
-         CfrkPSWPO5EWJp9UoTN56SR7FchbytJCVSFlfVmln8Wsr9BsjinpPORQrwwW9FQf8PsR
-         oMKdF3n43hqljpveMD40lixTjmOdm7eKiZdh8PPFde5g63krGOMK0o6RIEnb4xbutxdM
-         TPPhdG2Atw76GoaeOQkbUXX/xJwGXdh8fVuDULoIgOo4i6FWbFSfkGc3iGmz+2MBgmGH
-         dH/pN+k6lZJf/BqsnU+IUm+vBF3uDYw+xe89noFH/ogU9LIQLKnIltZp7NnpacpS50c8
-         Antw==
-X-Forwarded-Encrypted: i=1; AKwUvBw2IbGIt5JAKNqJ1rrrDafH/euCed26fs7I/j04n0Fborp0qv1iKan5A3I6RhStOVW2zbGqah2SW+k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK/ADDa1coba1Dq5MGCgzvSVjKeFsPSNMWoD3DKwj2O+yLuAgrU
-	pHkedHPQfpZpV49T49g6OChgBEGTTEXppQKAaUB5XMUREDxcPwS3BQLj1FmRV7MDJC/RFzEHJDz
-	7D72CL3j9MIYrBwlezlmuXS7X3HJzyCg=
-X-Gm-Gg: AYBFou0OhMRmJJ1tO7SUasSRXp3I6/Jbe17NfCvN8ZPS+KRHNEK2AQvkkOUaI6PapiH
-	F6iLHsa7YXHZnDxxBkJmJVzqVHf3kkDkD96hNLOeoXbO3M8QVrSq/gNawC8oSssWyGXg6BBgHjL
-	rAr9sUo4CLqxBVadvRr30j+G02gKf47pM1OLFC0iaLznPoE6c5xn7IaxXo4Wv9FaKpKrkBozCni
-	tfltge4kSfsTuMsKkLJ0NmVdEFHDlR3gs865Jkn5Z70MNOE0LQmsl+7l+crkTVanJIh87PTeaQD
-	7eZ8Bj1l6z6RF9Wlly5yk2ErSCM1LrNiMsndMbsuBvoyq0FjUYRosZOQ38b+ibRX0ImZOYTkv9T
-	PE28atn1+ktUOJaOhqubAKeBtuRFcyxO2BulzBEXm3za229KDAvbykTYbkSjm34UJhSbqRubE5n
-	b8DIwRcbmE7aYweFo=
-X-Received: by 2002:a17:907:d90:b0:c40:aa04:18d0 with SMTP id
- a640c23a62f3a-c49bdf0b830mr127577966b.17.1793173122715; Wed, 28 Oct 2026
- 00:38:42 -0700 (PDT)
+        bh=nskSZD59o5Wku3VNP5CAyzpTIbm3E/kieBuAkeS4vuo=;
+        b=0dzU/Kl3uqBlKWELEVzeeDfWX52BQzviOaSZtwkcX+CYwZHSej4LxuiZ8Ga2cto7bX
+         3zmeCFbJDsctdIdZ+mmx5ARE7G6XErJGDWnSRmfWq3feL8M8ptopysr/QWgN/TIlAzXU
+         laePKgkjaNvF5u2s/0VLr5jl9a1zlgQbKzFtrOXyPQWmaKsTJAQxP6y5W9NCxYCLVpLO
+         onpeRgkH3v8WNwrYa+xmOUcICeBEmUsIVV1hQl8KISoajW1PUqUUmkBEOA8GjMDsaFCd
+         P21+UTU6OE8apxuT6KkE7/A4AgzNt220SlPsnf5c4fZrm/m3/decpPpVMNSymH3WYa8q
+         hSyA==
+X-Forwarded-Encrypted: i=1; AKwUvBx/O5p6p7X1jfc2QbT+nqiedIMYR5TtM7bR9Z4OKWr/WfIJOTiNOorXG2P87v6lxENKyxdV7YWrKKw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIqmffvsIIJASVU8+eyWx+o6vn51oRciw5g6k98dQlRdtBQ9Aeq
+	TzfnbBHIub9bea9jlvImqCPgxQRtMS4aYo67hsxGCtT13HJjKk/coTxk2u+B9hf74Tv+YcwAxTh
+	VTJO0ANZNC5ZSIn4q3lIdBCCnZPGdy10=
+X-Gm-Gg: AYBFou0I2v6DMZVu+EgNlSLeRGcZFd22LKliBPUF2KxuLYUp1eFjPA6nxc4jt/qBEr/
+	0vUSOrPoXAvTMaAKpQStRQTeL1y3KAFBh/ULEiLA0H8cxxWNXvptufo0/xOJf2uuy9/3Wm4zaAk
+	DIkBlDwBdQjL2a0uBNtMYRFetzEteQw0lEH4C73i//q5AEP1rjVQ8ntGaMcf8+q5Ial1Q+qCyiS
+	lZuVN3w8I0b17OR/DNQdH0c4h4iq3t0o+eisls6vevBwvfkW5s1KuR2IXP0y6xzMtSTxzb3QEbw
+	RszYJ0vk34geOFBzylMCRv9dMgLjITL5fHrWxI2VjUXHK3fW5cGjq67sxNXmrAJsofVP/JCu6WK
+	l6NIyM0OHGi6W2GdAdLTXzetkc4Qn8HfbqQDKd0ttvijocMdKSdhEnlK4K0iBgVSEdlgt6g==
+X-Received: by 2002:a17:907:6e8c:b0:c29:5172:6151 with SMTP id
+ a640c23a62f3a-c49bdfdf3d0mr122319066b.45.1793173408903; Wed, 28 Oct 2026
+ 00:43:28 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,15 +118,15 @@ References: <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org>
  <c6e62e80befa886fccd36d34a39cf56ea5b9c9c2.camel@surriel.com>
  <CAMgjq7CN7qTes+OXvCfsgPOnbtyY7YPytTEP3zZJTBxrGZ5JnA@mail.gmail.com>
  <12081d266e4846f23faacfc65c7be7da4ed013a9.camel@surriel.com>
- <CAMgjq7Cjt==BxXPNw5HjiA0hjxhfzWn=9gDQ+2x-rdrEQBWTeg@mail.gmail.com> <340025b7e3bdc6d905da2cd052ccbbda63a58ac0.camel@surriel.com>
-In-Reply-To: <340025b7e3bdc6d905da2cd052ccbbda63a58ac0.camel@surriel.com>
+ <CAMgjq7Cjt==BxXPNw5HjiA0hjxhfzWn=9gDQ+2x-rdrEQBWTeg@mail.gmail.com> <CAKEwX=P_3W+MAFe80MZ5FT0mytv-UDzfmbyBiNsYR5XjC5emSQ@mail.gmail.com>
+In-Reply-To: <CAKEwX=P_3W+MAFe80MZ5FT0mytv-UDzfmbyBiNsYR5XjC5emSQ@mail.gmail.com>
 From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 28 Oct 2026 15:38:06 +0800
-X-Gm-Features: AclHuK-mX8ixSikBppmP8XVxk2jjNDTFYKjV7_1Dyl2RLvPqe5fDdGLjEWtahao
-Message-ID: <CAMgjq7BQ-K-ZDmP_ZW-2+t+OQWWKEZP4ynoNk5C7NaWq+PP3Eg@mail.gmail.com>
+Date: Wed, 28 Oct 2026 15:42:52 +0800
+X-Gm-Features: AclHuK-cU-BwWpWyYgAak_kB-Mx6gRxkfBQhQnfBmZqza-WmMuBHvINcokofiDk
+Message-ID: <CAMgjq7Bie8raWzLB9H+u0eX=FrUKw638mXcRQD-Qahe5qCiMtw@mail.gmail.com>
 Subject: Re: Path forward for Virtualized Swap?
-To: Rik van Riel <riel@surriel.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Rik van Riel <riel@surriel.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Chris Li <chrisl@kernel.org>, 
 	Baoquan He <baoquan.he@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
@@ -151,10 +150,12 @@ Cc: Nhat Pham <nphamcs@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 26, 2026 at 11:59=E2=80=AFPM Rik van Riel <riel@surriel.com> wr=
-ote:
+On Tue, Oct 27, 2026 at 12:01=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
 >
-> On Sun, 2026-10-25 at 12:21 +0800, Kairui Song wrote:
+> On Sat, Oct 24, 2026 at 9:22=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wr=
+ote:
+> >
 > > Rik van Riel <riel@surriel.com> =E4=BA=8E 2026=E5=B9=B410=E6=9C=8825=E6=
 =97=A5=E5=91=A8=E6=97=A5 02:16=E5=86=99=E9=81=93=EF=BC=9A
 > > >
@@ -162,6 +163,16 @@ ote:
 > > > > On Sat, Oct 24, 2026 at 4:03=E2=80=AFAM Rik van Riel <riel@surriel.=
 com>
 > > > > wrote:
+> > > > >
+> > > > > On Fri, 2026-10-23 at 10:24 -0700, Nhat Pham wrote:
+> > > > > >
+> > > > > > * Swapoff: this was brought up as a request, but we ran out of
+> > > > > > time
+> > > > > > before we could discuss the motivations and use cases behind
+> > > > > > them.
+> > > > > > Folks interested, could you explain as a follow-up?
+> > > > >
+> > > > > This is one that I really don't understand.
 > > > > >
 > > > > > In my mind, we have vswap sitting as kind
 > > > > > of a swap VFS between the rest of the system
@@ -178,41 +189,68 @@ com>
 > > > > > > file  |  |       |   |       |
 > > > > > +-------+  +-------+   +-------+
 > > > > >
-> >
-> > > However, having swapoff remove all data from the swap
-> > > cache, after mapping the memory back into userspace
-> > > page tables, seems like it would be fairly easy to do.
+> > > > > When a page is unmapped from userspace by the
+> > > > > reclaim code, it goes into the swap cache.
+> > > > >
+> > > > > The vswap layer then decides where to store it
+> > > > > at eviction time. This is configurable by userspace.
+> > > > >
+> > > > > If the zswap pool is shrunk, the vswap layer knows
+> > > > > where to put the data next. There is no need to
+> > > > > change page table entries to indicate that the
+> > > > > data was moved from zswap to a swap file.
+> > > > >
+> > > > > If we decide to disable one of the backing swap
+> > > > > devices, the vswap layer can just move the data
+> > > > > into the swap cache, and the page reclaim code
+> > > > > can evict it into a different backing store, if
+> > > > > needed.
+> > > >
+> > > > And in this case we want to disable vswap itself.
 > > >
-> > > Does that meet the needs of your use case?
+> > > OK, so you are looking for a way to totally depopulate
+> > > the swap cache, in addition to swap files, zswap, etc?
+> > >
+> > > I think we can accomplish that by simply keeping the
+> > > current swapoff code around, which scans through the
+> > > virtual memory of all processes and brings the memory
+> > > out of swap.
 > >
-> > Right, it's nothing hard, as long as we don't add mandatory new
-> > layers. For very high bandwidth swap devices, a mandatory indirection
-> > layer is pure overhead.
+> > Yeah, that's the right starting point. The scan itself can also be
+> > optimized to be cheaper or better later on, but that's orthogonal.
+> >
+> > > > I also hope there is a way to release swap metadata completely too.
+> > > > e.g. for fs, you at least have umount, and can rmmod the fs itself
+> > > > afterwards. We also have many ways to bypass the page cache. In cas=
+es
+> > > > where a virtual layer is just a burden, we want raw physical swap,
+> > > > and
+> > > > the ability to swap off that too.
+> > >
+> > > The VM cannot operate without the swap cache, though.
+> > >
+> > > That is very much built into core parts of the VM.
+> >
+> > I never meant to strip swap cache out of VM... The opposite, actually
+> > :), most of my work over the last couple of years has been about
+> > removing the paths that bypass the swap cache (e.g. the
+> > SWP_SYNCHRONOUS_IO fast path), to get a simpler model and better
+> > performance.
+> >
+> > What I'd like is for swapoff of the last swap device to return the
+> > system to its pre-swapon state: no leftover swap metadata, no leftover
+> > per-slot or per-cgroup data or statistic, and ideally no residual cost
+> > in the fast paths (e.g. minor fault).
 >
-> Don't we need a swap cache lookup regardless, to
-> make sure the data we want to swap into the
-> process is not already present in memory?
+> So basically remapping? I don't think that's terribly hard to do. I
+> mean the swapoff code is still there, so it's just the question of
+> exposing an off knob, basically?
 >
-> At that point, it shouldn't matter whether we
-> get the backing swap location from the swap
-> cache lookup data structure, or from the
-> page tables?
->
-> We have the page table lookup, and the swap
-> cache lookup. That is two lookups, regardless
-> of whether there is indirection, or not.
->
-> Am I missing something?
+> But wouldn't MADV_WILLNEED be the better tool here? Or is it not reliable=
+?
 
-It involves more than just the swap cache. It includes book keeping in
-cgroup accounting, statistics, allocation, device info reading, etc..
-And swap cache is blazing fast nowadays so that isn't the problem
-here.
-
-We used to need to bypass the swap cache for similar reason, but we no
-longer do that since the swap cache is flatten now:
-https://lore.kernel.org/linux-mm/20251125-swap-table-p2-v3-7-33f54f707a5c@t=
-encent.com/
-
-Other parts I mentioned do not have zero overhead so keeping the layer
-thin seems like the best approach.
+I think I've mentioned it above? You will have to iterate through
+every process in every container every namespace, from userspace, and
+do some remote memory access / control on all of them, which is really
+not a good solution.. It's not reliable and is really hard to maintain
+or deploy..
