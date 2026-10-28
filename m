@@ -1,102 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793198551;
-	b=EJZBVdkYeBODrLSEcxpGyJYHWLzK1p9qnQBS+23qDHcBwIdQWKuIsiGfgzPcrCjSD2At
-	 wCaqkyiDwZCUw3HuDiKFm+Q9CW0ICRNri5ilONnCi6Tczh4SAQykjSMPkEyTKJAesfU51
-	 QPI8+q3s9Ccpim270RkicuFWh4W7zi/5x36+TGF8YM3sfN+K0IS6T52GjnXWc6ExSP0Rw
-	 2/e2JYvz3JS2iz4HqoDNHfW+GK5Vee1U9cLMZRIB/ggWPeaFXZOl2CmNipWwpXGBUgwuF
-	 yBQJNDsE4GBPJPj+3mg4VWrDxYzsAytwGlCIN3c9w7jboh1a1BRSiwbgkj7AxAlqw+A==
+	t=1793199051;
+	b=PRpKzr454FsI0+81a04oBnQKnKCXBmImBllbwNbHlyFr1wS8ncR3x7Xr/4z1aK4ZBRAk
+	 46R7ocxdf/VFtdfFhn/LK5x7GLfPnqwrIMBEjapqdGTAZkspHw6AuxZ7bEzxUcpesfuOT
+	 kcmYSxuo9UO3V5l+UO2R0FXD8Ue0VHWQuqd55Lxhl6ELk9QZDi3AS2qN0tZTv6yevliYk
+	 0Bza2ku/VqmwDBVQVgs2o/2w+O/NZYuDam75qLgH0s56QlNwC7dyGWOpXOimNDx95+aWs
+	 PKjStxB8Viu7Zh2vTzIDj9faSexiMDmDjouAwOhmKwhaNo8dNuPLo9ztM8jT7ifKH7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793198551;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=zGvM4WaKud/5KFKek7VP+6vXlrF9p+blEmIcU3Dd2uU=;
-	b=BA7N7IjSyzsmhZGI+L2xz6FNfFKQBLYCsPJ8QzSGYOdpvSC+pJBbTlpf0tktpKhoeeGm
-	 w0Bn8nvumMznyLAm7hOk1zAQaZCBj69887tU+JQ5XYr1ZtMVhXq6Ktg+fso9Lh5d4XeMC
-	 xJK9+th2l5ymUxqVBMsEEng0+rlVwx2Oq/cuC4Ke/9ioYsVcf1GDX8jcOEtWETIWiq05w
-	 CGv5VJ62WKHpJfj+RfNRRtIw0wxi45NDepW5xX+x34ZBDRD9oLtR6FSIhVBtYDPc6t8R6
-	 2yQcVeTi0zQXwtsVlZjBlhEJt9/cHVT0ts4nY+0dfCzwjfRWnP7lQmNO7rtasS4ALvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793199051;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
+	b=IHy6uJbhQY2k9/Tcan9mgqmT8C4HCO3qjevOe2vWA9NeaGRalUYaVL/V+00S+fra3f5H
+	 sO2U4RXuU5wqgDSFOFt2HEIKcr3OEFmN2rZPOFWGcQ402B6/8D25FnXNGikXvTjDvsysn
+	 /jqQCyoOf97aabneFbVvrQbd9aXnvFFWmDlHhp0NVoUbCbHHDiDI7npb/5E6Ym9eKVIkY
+	 dZQ+AJmooiouHejwqzO+vza7JTryvBm6jy8SBP9VnBCHlqlWuiYIvZnnDelL8LMrvkbEv
+	 bL8EjP3rtynTPZ02Ad67kq2o4Jv9ftS/+LURXnwfX/r0lgUVpakM/AizEDRaVPZw9aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B9eXWaex;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBHmMrtn;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B9eXWaex;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBHmMrtn;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ZHI+PnMY;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95132606A32F;
-	Wed, 28 Oct 2026 14:42:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95132606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4D6606A322
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 14:50:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A4D6606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B9eXWaex;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBHmMrtn;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B9eXWaex;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBHmMrtn
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C89E41F7A9;
-	Wed, 28 Oct 2026 14:42:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793198548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGvM4WaKud/5KFKek7VP+6vXlrF9p+blEmIcU3Dd2uU=;
-	b=B9eXWaexz8/aeAqZ1393KVLUf50NlZJvQuaPZiWDAmiZZDwsjSGMlbS4cOJyrGGx6s639j
-	ac8ImIXtZ98g2XMyh8seJyWhJg/mDnheJ9WfvApMNqHX4i4mOgQWq1CIf4BbJKoH9aFAV5
-	tH0o8Zw+r9hsnv9ieQPeghVo+tpCCiQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793198548;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGvM4WaKud/5KFKek7VP+6vXlrF9p+blEmIcU3Dd2uU=;
-	b=CBHmMrtneTknzVLz83xFs8Ob00TgPvpbpbGukzUzLRN+0CCEVgkUCvD5JPwVRuo/4VcXe2
-	I29SIJDRlZ8Y26Ag==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793198548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGvM4WaKud/5KFKek7VP+6vXlrF9p+blEmIcU3Dd2uU=;
-	b=B9eXWaexz8/aeAqZ1393KVLUf50NlZJvQuaPZiWDAmiZZDwsjSGMlbS4cOJyrGGx6s639j
-	ac8ImIXtZ98g2XMyh8seJyWhJg/mDnheJ9WfvApMNqHX4i4mOgQWq1CIf4BbJKoH9aFAV5
-	tH0o8Zw+r9hsnv9ieQPeghVo+tpCCiQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793198548;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGvM4WaKud/5KFKek7VP+6vXlrF9p+blEmIcU3Dd2uU=;
-	b=CBHmMrtneTknzVLz83xFs8Ob00TgPvpbpbGukzUzLRN+0CCEVgkUCvD5JPwVRuo/4VcXe2
-	I29SIJDRlZ8Y26Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 764CD13419;
-	Wed, 28 Oct 2026 14:42:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dWnXE9QJ4mo0CAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 28 Oct 2026 14:42:28 +0000
-Message-ID: <3544cb56-e43b-49ec-aa94-beafe061879b@suse.de>
-Date: Wed, 28 Oct 2026 15:42:28 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ZHI+PnMY
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso9685135e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 07:50:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793199047; x=1793803847; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
+        b=ZHI+PnMYUO4N11z48C45pvIZIJWpMQLYtqa/tXxi4VJPtckafE2C8vZsmMqf8WSay0
+         WkP8vzXw7KUTk+v36CyGXajDZqG5by6+RXck/9D3EACNfx4yeyKYYQCGbZWVuUnG8rUY
+         5qLQe1LGWxfOMYFobc3VGIHrV+AV15yetvd7tYKfqNhVaNLNUnVgOeygrUQUPRbwHDiW
+         lcID/IWXFCzR53WbNv/a/lMfGMt8NtxMv4qhxOQ+gXhSRnRitG8FLFKqq0+vRsgTDT10
+         G8Oqf0Udam7YRK2gHQ+5l/UpMXkarOzmpwiZriOVr29JvpcbNa84+vP5mTUlSdzwCT8R
+         2qnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793199047; x=1793803847;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
+        b=Qy2c6ybqBkYqRnBGfQ5dEDCi+/75MOaHTkgyc/Xl3NsWaJbOf322XKjpEBgT79xrQC
+         +9+qLWgFPSTZwZs0JlreL3SETm7WIlC9kbP1RqDA73PClP/iis3B3vBbYe2ToJQUkWwE
+         pGUqwMywAcZ+ZaMLCGGyf10LdmSSAw2HVwluQf79zA+36+d3K7CdtD1bFDAwjotIS+zk
+         +2YdoP86u1Igsv/2tyG2MHIiGypR5fN7Du28KZpbnpiDXwAbDS0FOH1V8fZhM5l6KiGr
+         I4FJR5XHY4CjbH6OloPoknUDipv6b4FVN3UvsppiCoD/GmEAYgHhNZpp/ORzKxIG8PVf
+         8CFQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzQCk1HKlbiahI8K6UkPMdx1FONaZXInz3SgrSl+fyZHPGxWbPE9rpF6+uxKHBNmZf6jF6+iIrsd5w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLtRmYVNV24hqHng4qJCs2Tar0v9ViODFcqBuLbjOkS7fJ97JcB
+	5rcyDjsjaw+yhdFMeye5RwECg9pK3jseg7ywVDRzDPERJcWnqdCiR4aY2/HqsP28mAA=
+X-Gm-Gg: AYBFou23B/cbPo76y75ImjpevU7h+am+bMyRCR0adqobcV4X3LN2X94Dysn+VKy+uk4
+	jRwiAz5vDn/ou+SXtUUcJB/pdnT61b5Pzz9EQ8rErJIZQDrUPFvcYk9qUhFj+9e0pHuHMQpLqld
+	CTykZOatsQJEzSHM3aD+eqACJ9B/fj63pG1hGg4oVP0nAW9x1t4KI3VzsXe3Oe4dvr9CLVT+1wg
+	QqoS/tbcnNVaOjls7mQCqgVwWVoCCjx8R7g6ZnDdB/uLjjaCYOLt0g8Fp9rfCQlQKKDmNe19hXF
+	r31u9QAkEdLm8xh0OZWnH5c/HDQqH4+OfuS+qE9QME2TBBLogH2FmhHmhSqpLqjurHpjAlfbBRG
+	1SG1vidw2eUxIoqqd8OunAFUNwDCPYHk7ucUQzZ/VB25i4N0FwtBoyhAFeIo1KosvK9wxw1MJVo
+	tliPL+PZmkPp7GFznxowtopB0pgpGcjSvF1FL4k4gkBH5iRl+I4pqztwzfTWpX1zFLV0PJAna5d
+	Sffxzg4SOCPCOjZ0LV692Uu221Lg3XfTTp4lTh5JsbCT2jT/By9BoaPmxotn2YOPH8O+0YwzD37
+	E6fh7OR+G5qt0SIKgXiAMj1TPGEcmPxKWcs=
+X-Received: by 2002:a05:600c:3510:b0:4a4:7a8d:c436 with SMTP id 5b1f17b1804b1-4a96667dd75mr52332595e9.11.1793199047357;
+        Wed, 28 Oct 2026 07:50:47 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a97cebf858sm57250745e9.12.2026.10.28.07.50.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 07:50:46 -0700 (PDT)
+Date: Wed, 28 Oct 2026 15:50:44 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alex Williamson <alex@shazbot.org>, 
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Bradley Morgan <brads@mainlining.org>, 
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Richard Weinberger <richard@nod.at>, Thierry Reding <thierry.reding@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <auILBqh9Ccv7ztid@monoceros>
+References: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <2026102437-vista-unsoiled-b089@gregkh>
+ <at34UOuYv3NtX36R@monoceros>
+ <20261026225950.GD1685504@ziepe.ca>
+ <2026102849-turkey-series-ac07@gregkh>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,137 +117,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next v2 0/5] tls: perform TLS 1.3 KeyUpdate in the
- kernel
-To: Chuck Lever <cel@kernel.org>, martin.nvme.dev@gmail.com,
- John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- Sabrina Dubroca <sd@queasysnail.net>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Hannes Reinecke <hare@kernel.org>, kernel-tls-handshake@lists.linux.dev,
- linux-nvme@lists.infradead.org, Alistair Francis <alistair.francis@wdc.com>,
- Martin Belanger <martin.belanger@dell.com>
-References: <20261028-keyupdate-rfc-v2-0-eb5143b4c487@gmail.com>
- <76ccd502-f1d1-4135-b92e-d783f259a687@app.fastmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <76ccd502-f1d1-4135-b92e-d783f259a687@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.79 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,queasysnail.net,davemloft.net,redhat.com,lwn.net,linuxfoundation.org,infradead.org];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.79
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dvdgfsb6jpiy7bdt"
+Content-Disposition: inline
+In-Reply-To: <2026102849-turkey-series-ac07@gregkh>
 
-On 10/28/26 3:21 PM, Chuck Lever wrote:
-> 
-> 
-> On Wed, Oct 28, 2026, at 9:52 AM, Martin Belanger via B4 Relay wrote:
->> kTLS does not currently handle TLS 1.3 KeyUpdate. It never sends a
->> KeyUpdate. And when it receives one, it blocks the socket until the
->> application installs the next key. kTLS also does not enforce the key
->> usage limit on transmit.
-> 
-> No argument here.
-> 
-> 
->> This applies to TLS libraries in user space as well as kernel users such
->> as NVMe/TCP or sunrpc:
->>
->> - GnuTLS sends a KeyUpdate after 2^24 records when it runs its own
->>    record layer. With kTLS, the record layer is handled in the kernel and
->>    GnuTLS therefore never runs the check. OpenSSL never sends a KeyUpdate
->>    on its own.
->> - NVMe/TCP and sunrpc don't have a mechanism to install a new key. A
->>    conforming peer that sends a KeyUpdate stalls their connection.
-> 
-> The design intention of these consumers is that they are supposed to break
-> the connection and create a new session, rather than stall. If that is not
-> happening, that's a bug. KeyUpdate is complicated enough that backporting
-> to LTS is not really an option, so that bug needs to be addressed first,
-> IMHO.
-> 
-Yes. But Martin send already a patchset for that (well, for NVMe, at least).
 
-> The argument that was made that put tlshd in user space is that we do
-> not want the kernel to handle something that the libraries are already
-> good at (IOW, mechanisms that have been soaked in commodity usage by many
-> consumers).
-> 
-> Is that rationale different for handling TLS KeyUpdate? I see that the
-> series adds back the HKDF functionality to the kernel. That seems like
-> an indication that KeyUpdate should be handled via an upcall.
-> 
-Yes. TLS KeyUpdate requires that all records _after_ the KeyUpdate 
-message are encrypted with the next key; idea is here that one can
-(and should) do this in-line without stopping/resetting the connection.
-_And_ TLS KeyUpdate is done independently on the RX and the TX side.
+--dvdgfsb6jpiy7bdt
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
 
-This makes it extremely hard to implement via tlshd; we would need
-to pass the KeyUpdate message to tlshd (which is easy), but then
-we would need to stop processing incoming packets until we get
-a response from tlshd indicating that it has installed the new
-secret.
+On Wed, Oct 28, 2026 at 02:45:18PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Oct 26, 2026 at 07:59:50PM -0300, Jason Gunthorpe wrote:
+> > On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-K=F6nig wrote:
+> >=20
+> > > The more I think about this taint, the more I believe the commit shou=
+ld
+> > > be reverted and replaced by a some stop gaps for driver_override. (Be=
+ it
+> > > a taint or better yet
+> > > https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.=
+1790612298.git.u.kleine-koenig@baylibre.com/
+> > > .)
+> >=20
+> > I also think this patch is way too broad and should be reverted until
+> > something better is designed.
+>=20
+> Fair enough, I've sent a revert for now, will get it merged before -rc1
+> is out.
 
-Which makes the whole idea of KeyUpdate (namely that you can
-do it _without_ stopping packet processing) a bit pointless.
+\o/, thanks
 
-And I haven't even mentioned that you would need to be able to
-stop RX and TX _independently_, which I'm not sure the various
-ULPs can do.
+> I'll rework this for a later release, thanks.
 
-Plus there is the question why ULPs need to be burdened with
-protocol specific knowledge; why would I need to code hooks/
-handling for an extremely protocol-specific know?
-It's far better be handled by the protocol itself.
+Please look at the series behind the link above before investing time
+here. I think most of the ideas are already implemented there. If you
+voice your preferences there, I can rework accordingly and rebase on top
+of your revert.
 
-> Are there policy decisions that need to be made during KeyUpdate (like,
-> has the peer's certificate expired, or has it been put on a revocation
-> list in the meantime) ?
-> 
-No. This is not about the certificate, it's about traffic secrets.
-If a certificate is expired you need to reset the connection
-to install a new certificate; TLS 1.3 does not allow you to do
-that while the connection is established.
-And handling of expired certificates is an admin choice, not
-something one should do automatically.
+Best regards
+Uwe
 
-(The last thing you want is your root fs becoming inaccessible
-just because a lazy admin forgot to renew the certificate ...)
+--dvdgfsb6jpiy7bdt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers,
+-----BEGIN PGP SIGNATURE-----
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmriC7gACgkQj4D7WH0S
+/k7RWwf/cwXDsUHX0jhgjipjJFi1+cjW14UhDdlEnrd0BnzhDhCcWYdtX4Jokju7
+CvB5Oiyfrbzutn6NGqwDb2r6lwabIE+FUkSwqOYBh0v9DeYZc09PyetAJUrJc1P+
+ykWQcL5z1tPk5gkQDnk/OMUtvZXVwgH9T+CJaYjJ1zX5KQEqpM1iA0orv6blUtcV
+QoHhDAdbFR9S/jZ/4rdCfk08awpvM3VqeV4VW0n2VR/QwFLZ7NS45TRo8EZdRHiI
+enU/kyx10Vep14yRZmuVr3Xw5rdSN+ylwbNFFKzSLcL/Vz00iyhlIOgvlsS2wy69
+vU6dhHVeUJVTb8Y8hxbTBePHR0MSsQ==
+=kVFg
+-----END PGP SIGNATURE-----
+
+--dvdgfsb6jpiy7bdt--
