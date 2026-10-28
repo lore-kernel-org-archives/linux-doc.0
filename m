@@ -1,58 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793170236;
-	b=to966a40Rzjb2fTdlCySH0m+nbpZLr3gvqsw/3HhqWvSLrN2kf9TEx2JQUqCkT64cs2f
-	 8JHm6PIt5Tu+TEidG5I+wkavc/mXFnjXFIx3TENUOwZYD7JItk38cazfLAHB5UA5IYagC
-	 yFr/kB87B3cUSUxLMQvDJXBLTzTkGSOM3eR6tUg42rK0zWlicp5mgAKOAVkN4t3uuOMXj
-	 /Zh7DlHc8bY2y64fI89QGJd1A8Hjdl3yy8il9Hi4bqG/J7OQY8UcbrfI35dZFy14yHcgF
-	 P6+er+ry7RyttXJvV2OuDb1OZnFVySp1F0+F98WS0SGhEhGUakuedgVcQl7PUT/81+g==
+	t=1793170966;
+	b=pWxGWTilLh4vT2S4AQ6GzrtaeoZOCmlUUquz9WyiJd64CJEdp/dg0EDsNmBtawNrqWxW
+	 7Du8BXF3vLV1plau63AHzl72jQ7ut7M9s4Fvqs6Oou5tOzbfCGwq+z+bHuhukaHj/bp/j
+	 1cIDUzcYw3jYmpOm+RhVokyoUbj8JfVOI+Aqd9KDnbXX24v9JAA9MjZntS64JovFPpdwk
+	 EOz4Ozs85SzuLBrmpcGGMULEYwPhh2XftVs+WlVQCHpJqUg/7aBYwEJTVBPMNIpzMNkDA
+	 zdAGnPrxGiDgqptev3G8/OIUFawz7vCplgFbn/0BCA7SMwnu56LdIxq6d1IhzjZDRng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793170236;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=MM4e7fqDmtE4Y1ZW9vkBOxUF+4WU0wru0ULzuQOF7XA=;
-	b=0VixCM6zljjygfFagl6nCDzxsJx1coumtrvDz3mE5Pi4orEeeFCZlfBBiqDXxgT1S4Xc
-	 KNbnISF4pOOjfcS5Kkd1xCqzyw7N6CcOktlqWUzGxq2KB/x0BGALpzvBK1uzeYEHW5r58
-	 fNvzGBR0ioSGgIz3bVQsaccc2UnGHTJ2oP/ZZ124xyiaIH0McGJZBrI6tOjDW9EmPu8Lh
-	 +SJ/SJyNeRBKQN3jO0xp0shhFBa6Xkmc0XHIoC8Drd7eN+PgbbyDOsrUntKOivdP0Gxd7
-	 SiUMi5EKOITE159P9VO0dKrvIiRpwBVA5+EtYp0C6UhcPGZp+qlP/zNUbUPkOZQ8Tkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793170966;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=q08GKnMLIclDg6PTr8i2voxZm8I33mhrixHE5JuaMUs=;
+	b=gAFXf74OWVO3pbsVyGMRkXMvIRWRhCsUis+Gs9EtAodWrKzCW5Z4HMzjWDMPqL/N6j9C
+	 qxeIQTp9zxra2aouUi2W018u3vB23yQPDA+hUSddVJe/ccXbNWEQj1c3/+AxIWd6PiXC9
+	 DehalXtkuXs3Ah8CoYxlaKbwr7df/XXHo4fP5ooTYhOGqcNi0M6ATYW7Axwlf6yrqPfCO
+	 Umuk1+j9FtNv1+Gz/jwr6tXXCloM4J71VY3rOH54CXQqLqqJ855SYT73xlXhJ2bcLqqIM
+	 tqQFdpslasGD/Ci8HWPSvCsWBs2yG9U6QEHgzNX9NYY1WnMfqka6DtBMAB39Aada8Qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=kDYCJR6S;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzZZqJ47;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB13606A31A;
-	Wed, 28 Oct 2026 06:50:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DB13606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D36AA606A31F;
+	Wed, 28 Oct 2026 07:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=kDYCJR6S
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=MM4e7fqDmtE4Y1ZW9vkBOxUF+4WU0wru0ULzuQOF7XA=;
-	b=kDYCJR6SJ82tPv7VlCiiurY6K2bKbbvDJxj3cmhJNiV6IeumEI1K1Ib+EOGfAF0FExlMWgzAu
-	0VU372aPc4j52tFDFJU/YVCKIXA7Ib+XrObEW0jN50KdQLSSeIXeOxJiUQLp1wLBLvNsXAuLTK4
-	ibWmxgHJEB8QLqv5F/24Q3s=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jDyfl5V83z1cyqb;
-	Wed, 28 Oct 2026 14:50:23 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 71B9340586;
-	Wed, 28 Oct 2026 14:50:30 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 28 Oct
- 2026 14:50:29 +0800
-Message-ID: <e0475b6d-3728-49e2-aab7-efd4c49593f1@huawei.com>
-Date: Wed, 28 Oct 2026 14:50:29 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzZZqJ47
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E64751F01825;
+	Wed, 28 Oct 2026 07:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793170965;
+	bh=q08GKnMLIclDg6PTr8i2voxZm8I33mhrixHE5JuaMUs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EzZZqJ47lMCCR7dVk2hu9KwHo/iAZMjZKBzMs+gjAQnA5TfLoAuE/lrZCIOrYBw2T
+	 3NJ37YKg2C+FPc+wr4HddAc2Lcwd0PrM7GrlUrbLfa7uiEGHEYphF62rWWWE3Og/BM
+	 HivWTNw80Wc5XdUqU6TW9QuFPSLpnsKPaOGmd8esPDUZuLF0SmumPlvE1s2anqINIS
+	 ONgZOScwSvGLCwtxsKgrXFKCNBzzddx1VZLNH1PRoP4ELfkSqvk4UHzCK2PzbFwsgV
+	 Nax0KXyAkaA9c1MumOTuxrQZkxVYCOzpNvPkB8F//DjxCWnBgE/SjUIDQdlFSSUqCB
+	 aMpRoEtnAt17g==
+Date: Wed, 28 Oct 2026 08:02:42 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Andrea della Porta <andrea.porta@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Gregor Herburger <gregor.herburger@linutronix.de>, 
+	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	Gary Guo <gary@garyguo.net>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
+ tachometer
+Message-ID: <auGdsv0OVG4iLjZV@monoceros>
+References: <cover.1792748690.git.andrea.porta@suse.com>
+ <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,107 +67,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/7] arm_mpam: Add L2 cache monitors
-To: Ben Horgan <ben.horgan@arm.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <mark.rutland@arm.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <james.morse@arm.com>,
-	<reinette.chatre@intel.com>, <fenghuay@nvidia.com>, <tony.luck@intel.com>,
-	<Dave.Martin@arm.com>, <babu.moger@amd.com>, <x86@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20261022084821.4014873-1-ruanjinjie@huawei.com>
- <c1e80268-3981-48bb-b251-dcd2218fc9d5@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <c1e80268-3981-48bb-b251-dcd2218fc9d5@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7352vh2aneherser"
+Content-Disposition: inline
+In-Reply-To: <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
 
 
+--7352vh2aneherser
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
+ tachometer
+MIME-Version: 1.0
 
-在 2026/10/26 19:46, Ben Horgan 写道:
-> Hi Jinjie,
-> 
-> On 22/10/2026 09:48, Jinjie Ruan wrote:
->> MPAM resource monitors hang off a partitionable resource in an MSC, not
->> off a particular cache level. resctrl only knows about the L3 scope, so
->> the L2 cache monitors that MPAM platforms implement are discovered by
->> the driver but never show up in resctrl.
-> 
-> Yes, it would be good to add support for more monitoring scopes. This is not just relevant for MPAM.
-> RISC-V can also have monitors at many places in the system and we should coordinate so we have a
-> uniform solution across architectures.
+On Fri, Oct 23, 2026 at 12:15:56PM +0200, Andrea della Porta wrote:
+> +#include <linux/platform_device.h>
+> +#include <linux/mod_devicetable.h>
 
-Hi Ben,
+Irrespective of how this patch set evolves: Please don't add new
+includes for <linux/mod_devicetable.h>. <linux/platform_device.h>
+already provides of_device_id without introducing a batch of unneeded
+dependencies.
 
-Agree, we should take other emerging architectures such as RISC-V into
-account, design a more extensible solution.
+Best regards
+Uwe
 
-> 
->>
->> An L2 MSC has the same CSU and MBWU counters as an L3 MSC; the cache
->> level comes from the ACPI MPAM table's cache locator. So this is mostly
->> a resctrl scope problem, not a hardware one.
->>
->> Extend resctrl's monitor scope to L2: register the L2 occupancy and
->> bandwidth events against the L2 resource, pick the L2 classes for them,
->> and borrow a CSU/MBWU monitor for the duration of a read. With CDP the
-> 
-> Borrowing an MBWU monitor doesn't sound right. The MBWU monitor needs to be configured while the
-> traffic is happening so that it can keep count of bytes. The CSU is different as it can measure the
-> occupancy without having to keep any state.
+--7352vh2aneherser
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you very much, will drop this approach and try the compatible
-solution you suggested.
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Thanks,
-> 
-> Ben
-> 
->> two PARTIDs need separate accumulating monitors, so the borrowed-monitor
->> context becomes one monitor per PARTID.
->>
->> Patches:
->>
->>   1-2  Generalise the per-domain read path, add l2c_occupancy and
->>        mbm_core_bytes, update the documentation.
->>
->>   3    Split the borrowed-monitor context into data and code entries.
->>
->>   4    Do the CDP num_rmid halving for every mon_capable resource.
->>
->>   5-7  Pick the L2 classes, describe the events with the L2 resource,
->>        add the read paths.
->>
->> Tested on QEMU with an L2/L3/memory-controller MSC topology. The L2_MON
->> files show up and are readable; l2c_occupancy reports the modelled
->> occupancy, and mbm_core_bytes reports the modelled bandwidth.
->>
->> QEMU branch: https://github.com/ruanjinjie-eng/qemu/tree/mpam
->> Test cases: https://github.com/ruanjinjie-eng/mpam_testcase
->>
->> Jinjie Ruan (7):
->>   fs/resctrl: Generalize __l3_mon_event_count for non-L3 resources
->>   fs/resctrl: Add the L2 monitor events
->>   arm_mpam: resctrl: Split monitor context for code/data
->>   arm_mpam: resctrl: Halve num_rmid for every mon_capable resource on
->>     CDP
->>   arm_mpam: resctrl: Describe the L2 monitor events with the L2 resource
->>   arm_mpam: resctrl: Pick L2 classes for the L2 monitor events
->>   arm_mpam: resctrl: Add the L2 monitor read paths
->>
->>  Documentation/arch/arm64/mpam.rst |  23 +--
->>  drivers/resctrl/mpam_resctrl.c    | 236 +++++++++++++++++++++++-------
->>  fs/resctrl/monitor.c              |  15 +-
->>  include/linux/resctrl_types.h     |  13 +-
->>  4 files changed, 222 insertions(+), 65 deletions(-)
->>
-> 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrhng8ACgkQj4D7WH0S
+/k4mXQf/f5hiHhqUiclt+2CPju6hq8FCsfStkH+EZvSc7NslDu75MRe7OC+1yY7u
+nWSyOG6WZJOrBiFEFih2KF5vWvNqRT1lW3XPYx336dt5u3QSAtO/PXVnzZHIxW4U
+L8YmwRx/roF86xyaKZ5W1zffnXUSBd/kl0vx9EPzXtxk7QUYcxp7aRf17fkQFr5t
+RfO+cCPHdi5EYs2bx1/YpQMw3dxHTNv7Bk9+muv9DArcBaZxXI/dluDw1eKhcshP
+z8k28tn35as60d4zbj2J06gpwzuLCyHgyfOoR8ztRK5z46PqHhSNVzecRZFLDeZZ
+fMrS+8lBuPXYYKbmDD7Yt/AbS9cvCA==
+=+FkA
+-----END PGP SIGNATURE-----
 
--- 
-Best regards,
-Jinjie
-
+--7352vh2aneherser--
