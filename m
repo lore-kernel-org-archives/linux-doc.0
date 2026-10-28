@@ -1,65 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793175166;
-	b=QcBPHy68Io4ZR/Wodxz8s99uZINFU2nF3nMOienK9t34iudwgQZpzQc7+8vWTvPSLrlR
-	 pvyLuOqRyGSwFSpU1jOiycGRWDYCVIHwa6lT993cT40BbST1WrPvnGlNjT8Nl7RHjPfJI
-	 62FPk4/ZoPAtHTCpau0bkGtN0e4891u53OlWK6ov/t26wq6wP0kSopVoj4IsWwM9NciAs
-	 dI9VmhS1MPM2qIs1ITrEXHPu+yWQ3JM1YylQDVpc8rLc94oWA7xLggL1Wsf5O+gqr1LEI
-	 zlo87DVk6nRGspGIfVowQn6Q11xllvIERe+3AZ0NA/dsfwze2IcPV/0XNEUThZghKqw==
+	t=1793175642;
+	b=H16WUMOihT8+sN0DkxIzlbz0A+hvAFOf0LKoQ6s6IjWSYW9+9BoBfuPOsQVgZjcMsckr
+	 vTY2oqHHnKljQfZ0nSn/ePFVknWMMyjXHCgam0Bq9i4WFRNryEo0oTA2DZniXSkwq4h8C
+	 HtPlJACMDaSfWbCn7I+fNRtfHlM/Z8uhmqUfk9/0tRF80oMAzOOo3SWVYUrBZ+p5PIwSJ
+	 FrCfbE+0F6kbwltYfp4q48ArYjpsa3Z+hUi1bvFsMGjNptnHN7ffy/vVIaVXBrRQrj26b
+	 AfypeYyhBDVYjAEYaxVoKt7MMJt5kIJ1M42Xv6Q4wMkgiRKf95AMq4tsiM1oKFw0ZyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793175166;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=kz6U7/Rt337UHy9Vo8Jf64vb+wflzdQqSM8NpD3MjaQ=;
-	b=m0V9nX8cLMNdTiZ7X1kTVeM7pgq9pxX4MLSI2g++OCXse/6yBfVQd+Jbr2Olba3ku0Ln
-	 PIfpozIeR/wOFXhE+zcoZY+6QKpKDlKwUcj/b8jsZlfukPIVaxZ9sYtyLb1uGjBc8+rMg
-	 3JLDy6e2y7Nyk42K5usP2jvCyyVdCK9gf2JdBmXJj7JLZUIMSFMMYbPXDlqW7JiSObxpL
-	 OueEpVhS4FUq/6Qkps7urQQKMG60YNH9x4X5lzyPGcO2AOa7DZio6zNPsHiGlStiX1I/I
-	 qG7f2T5q6u4stnrTmQBnToWSYkEP0zlAP4gfZT+MlnEpa3jnRRNHdICAmetGGnIZHeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793175642;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=dWJJn/15+ghgzzIGKgM3IMULkpSh/eugDFHemmlBRb4=;
+	b=TsWSCUWpSSpMrYiGkzS4az08umU0W1q3VwgNvgMLJdIo/B8G6vkTd4ZCw/hmiUut+Ogx
+	 UUp4srkjbTdnMCS5vbmow3u4N8VFk1KEbRlgkYlbc7Tx9wOOufY7aSwP94Ls7/9jeA8q2
+	 /dGSRzdfvK9D1i+YK+tKuf+o8JjwhSYQyj24sq6q/oykbL/tDRKM9uQHdMojWy/QqoWwz
+	 kbEyPtgQkd38lmtrWf9E0a4hCCZckSu5YZYar03t1qJowJDoYKU84jVFaMH9nOLjGOYhn
+	 enx/IGtQrdSal2jWZ1cHebJ1d2D8f92HV2u8uD+KVdvWzB2XIM41G69Tk5sfblYAY5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=hhfg1Ia3;
-	arc=none smtp.remote-ip=95.215.58.183
-Received: from mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ilvokhin.com;
+	spf=pass smtp.mailfrom=ilvokhin.com;
+	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=DeIiv9WX;
+	arc=none smtp.remote-ip=178.62.254.231
+Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA252606A31D
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 08:12:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA252606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB3D606A324;
+	Wed, 28 Oct 2026 08:20:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDB3D606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=hhfg1Ia3
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=kYJzVb+/y1jUWkWBlGr+eNCtQoMqqZ6PM/6ikyhtDWE=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793175163; v=1; x=1793779963;
- b=hhfg1Ia36SlJEdFDsDpFcZSHp77W4F0D7cPmAZceA++QiJKL/CjEFcYUyMHcRE4361U5GTEL
- xY6r58RRNtjTuCJyMCjpQ3Wpxhnuj7+cH3uoymq9fciw8sw0FK9tpZsySSEDOMSLYj0JfQ5gjDC
- 8rKaD0oVqFtCZNSKn1l6Bw3IpPbut3vqkHy6oYZUrL9aP2YjPyg0n2jfDhJ0066K1kAiwFpp6vN
- b7QPKXz34mSKgWgXAmuOXWVM38xDlc1vb52N7SPphKoFOJ0ctlFDL8ZPkPlh5LLCy/smfv3Wpp3
- qPxmynItes+cEKzYmDRjnj7VWvk3liOU99LavaKg4OQKQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7fa1a44eb70b14e0;
-	Wed, 28 Oct 2026 08:12:43 +0000
-X-Mizu-Trace-ID: 7fa1a44eb70b14e0
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 28 Oct 2026 16:12:34 +0800
-From: Weijie Yuan <kernel@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=DeIiv9WX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
+	s=mail; t=1793175634;
+	bh=dWJJn/15+ghgzzIGKgM3IMULkpSh/eugDFHemmlBRb4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=DeIiv9WXQV3gD55AucY67CXV5GytqfXEJkOIlH/p1vvpmEBa02wb0CiZ7FetKO8kp
+	 vKMP3WYwznobDJIR52jidVzMPZfhGDf6UWW8grvqXfGJ9aPtokciLL67F0nlp74wpP
+	 VCbSuHZCHz4d69J6NRvoiFKB6uqBPcC0poA2OXFs=
+Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
+	(Authenticated sender: d@ilvokhin.com)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id DF86BFBCE8;
+	Wed, 28 Oct 2026 08:20:33 +0000 (UTC)
+From: Dmitry Ilvokhin <d@ilvokhin.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Kees Cook <kees@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Weijie Yuan <wy@wyuan.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/9] docs/zh_CN: align translation paths and update
- guides
-Message-ID: <auGucr4smrSp9g5l@wyuan.org>
-References: <20261028034134.4144660-1-dzm91@hust.edu.cn>
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-hardening@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Dmitry Ilvokhin <d@ilvokhin.com>
+Subject: [PATCH 02/10] string: Switch to __nonnull_args() macro
+Date: Wed, 28 Oct 2026 08:19:41 +0000
+Message-ID: <f0d7b2f0dce916f4cde3dd466a5b51a4b88fbdd8.1793027261.git.d@ilvokhin.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,37 +99,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261028034134.4144660-1-dzm91@hust.edu.cn>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 11:41:25AM +0800, Dongliang Mu wrote:
-> Several Chinese translations are no longer at the same relative paths as
-> their English originals, and some Original fields are stale. This series
-> moves the translations to matching paths, adjusts their indexes, and
-> removes stale Original fields. It also updates selected translations to
-> newer English commits.
-> 
-> v1->v2:
-> - Drop the unused top-level readme_zh label from the translated
->   admin-guide README.
+Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+nonnull") added the macro __nonnull_args() to wrap raw compiler
+attribute.
 
-Hmm, so why still keeping these labels here?
+Replace __attribute__((nonnull)) with __nonnull_args() to
+standardize nonnull attribute usage across the tree and keep the
+attribute's quirks in one place rather than open-coded at every call
+site.
 
-[2/9] .. _zh_applying_patches:
-[4/9] .. _process_index_zh:
-[5/9] .. _magicnumbers_zh:
+Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+---
+ include/linux/string.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks.
+diff --git a/include/linux/string.h b/include/linux/string.h
+index 6cb5cdd01158..1f1cb73514e1 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -587,7 +587,7 @@ static inline bool strstarts(const char *str, const char *prefix)
+  * Returns:
+  * True if @str ends with @suffix. False in all other cases.
+  */
+-static inline bool __attribute__((nonnull(1, 2)))
++static inline bool __nonnull_args(1, 2)
+ strends(const char *str, const char *suffix)
+ {
+ 	unsigned int str_len = strlen(str), suffix_len = strlen(suffix);
+-- 
+2.53.0-Meta
 
-> Dongliang Mu (9):
->   docs/zh_CN: update admin-guide/index.rst translation
->   docs/zh_CN: update admin-guide/README.rst translation
->   docs/zh_CN: add media administrator guide translations
->   docs/zh_CN: reorganize process debugging guides
->   docs/zh_CN: update magic-number to match upstream
->   docs/zh_CN: reorganize media driver API translations
->   docs/zh_CN: move GFS2 translations into filesystems/gfs2
->   docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
->   docs/zh_CN: remove stale Original fields from SCSI and IPE
->     translations
