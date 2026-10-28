@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793175644;
-	b=LUuro+Nb+M9K0F4abxNGKplnRIPcpp6V9b19nnpSNL2eJquf2rAMhWtC93c3zbelKcf4
-	 NZTkhF0dyT5vYOTiyTcnO/o7jZPcm+nmWjWf51szpOAAqRwVg3RApXGkmsHlnAGmlBzsp
-	 DVCBhb/EgDL5tJyt6JGRqoNZUkld6LUv2YtjEiGFpgDlKYkx0VaNO7MPPM6ttp+aWFixu
-	 QjXbwofPSKhXwcr25gUhFJD3GOV56EoAyGr1ctW4VLAKoX5Y7gcolEoQfMcugt0v9X3Mt
-	 ukPe7E5xK0Pw2OQyQQpHqfTljBXwOkBvvOfma4OOmdBw0plkPnkCXYoGOBqiZQlE2gQ==
+	t=1793175642;
+	b=YkrunWWlSX/7BMCyLcJxAQOexZ0/JSgBvQmZ0crPPqkn9Fpj7k9d2cYB/XlRxEj4RDGm
+	 ObZ/WvMLZoRJ9QWWoDBEH7i7KFMKeODANNwzBPyDuHcQwus6JqRH3Cy8f5g2q2IM9SugC
+	 lRLpXShaCzYG6vROkxdwGNGlblPU5wnWN31cWAnufY7mMdKI+0gzNX2v4hLAV+MHEys0D
+	 5EkuFqQJw+9qYDcAopDSpDdz6U0R4jzml9WATAyUih26t2TxpHDCk3DDa9qIZwWFSvLTa
+	 hrb5kigl94F27oE0CM9oWE2n056x1a+uXCnzfGUEtGK0N9kOi8zOze2dJjB8AKESQgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793175644;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793175642;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=f3wDiNCwMmjyXbWSfqLqTJmF38wOioqFlsZp1JBWY8g=;
-	b=QFhuZRit7qVu1GBGWOAazVfPX5eyd1xSSElMY3HZuN0J4/xjjCfXF7JphZs0MnTl0Rix
-	 ZBMyB42q6O6+saB8Ih4WSM7gthf4toR8wc/dGIlpabgRCIfI46yjvpCWrWW/Hw6eOpY5E
-	 C5rDvrlD0j0b0hm4rcvCxY2a7tYBNMb6YhLuzml8Be6bi77r9AfiX01if8Ct4j9j27omN
-	 q5ornfJFckcA7eHZTIyT8eIcWGvaa/IY3W/O8pvaENngyu3nWkhnzkG9Mom2nHwQXBwKW
-	 u4bn94Ykc/5029jNYpWIILwbQDkRe/2fPsuOK/Hs47SW2va4Qd4uVLFf+X2B+sUPJSA==
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=K5LKyQgYKwl4SQBjA15TdSBAX9bbXAc3tVQHLRXEih8=;
+	b=s5LljF0zPkrRDmD40e4rO+xnIHHSuPwdC+LcbObTM1VfldOJ966N9K0LBpTnyiC9byVx
+	 YDFdomHE8lPYJdaWPS5i4672sIPpDF363NGkBRSo5VU9Ed8nXHP+ynw6NG+FHfb1XDa4t
+	 89yAtD56Rn1QaFm0kSUaOCyHuJLNdnhwMb+utdW4XfBtIY7NWWy/1iITQdWQitKgyY6ua
+	 Z35f1ASPPqOuNSgMxi2LXps1DBkYFHBOu23qDWE7TH6PL7xXf+bpnUYK6yOpachbO+ExC
+	 0UJee5J1mcLSp3p6LKzTXhCHZMHCsYj1tFuYmzvJrqNVlTnhjganvsSyMqetfb3vSjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ilvokhin.com;
 	spf=pass smtp.mailfrom=ilvokhin.com;
-	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=gY3XUXUz;
+	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=scmphY3W;
 	arc=none smtp.remote-ip=178.62.254.231
 Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E5F60A2619;
-	Wed, 28 Oct 2026 08:20:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1E5F60A2619
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62250606A31D;
+	Wed, 28 Oct 2026 08:20:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62250606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=gY3XUXUz
+	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=scmphY3W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1793175637;
-	bh=f3wDiNCwMmjyXbWSfqLqTJmF38wOioqFlsZp1JBWY8g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=gY3XUXUzE59WwCVC4Qxuo4c1OjSPVasCM7D1wASmJouVr1JmoDvCR1fpvkN/NRule
-	 x920S0FQBtza5BGKQpbvfVCzTkgENiiK4WcKdNZUluCqTy6kzWj7Aq537yU0sAAPsA
-	 q2wy/d0fqfUd08AA2eVS24Chvy9WL59hmC+ynavA=
+	s=mail; t=1793175633;
+	bh=K5LKyQgYKwl4SQBjA15TdSBAX9bbXAc3tVQHLRXEih8=;
+	h=From:To:Cc:Subject:Date;
+	b=scmphY3Wunrsmp+34WEVPizPYNuER4OuyqQN+7wcAk8b243s6Ql6ZgZzt2Q3H2Zn3
+	 fwtCXvfv3lUFbjuEGdD5xIfcK8QirvUz/AoB8DzMfhdVnF9ZGl/3QyMwT3LvSHQOfV
+	 tYEhcDcVdgbtrWL1qNZRxMyUJGS6xrDDGVIAFe9A=
 Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
 	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 0D880FBD0B;
-	Wed, 28 Oct 2026 08:20:37 +0000 (UTC)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id E3225FBCE3;
+	Wed, 28 Oct 2026 08:20:32 +0000 (UTC)
 From: Dmitry Ilvokhin <d@ilvokhin.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -84,12 +83,10 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [PATCH 08/10] leds: pwm: Switch to __nonnull_args() macro
-Date: Wed, 28 Oct 2026 08:19:47 +0000
-Message-ID: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
+Subject: [PATCH 00/10] treewide: switch to __nonnull_args() macro
+Date: Wed, 28 Oct 2026 08:19:39 +0000
+Message-ID: <cover.1793027261.git.d@ilvokhin.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
-References: <cover.1793027261.git.d@ilvokhin.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,32 +99,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-nonnull") added the macro __nonnull_args() to wrap raw compiler
-attribute.
+nonnull") added the __nonnull_args() macro to wrap the raw compiler
+attribute, keeping the attribute's quirks in one place rather than
+open-coded at every call site.
 
-Replace __attribute__((nonnull)) with __nonnull_args() to standardize
-nonnull attribute usage across the tree and keep the attribute's quirks
-in one place rather than open-coded at every call site.
+This series replaces the remaining open-coded __attribute__((nonnull))
+users with __nonnull_args() to standardize nonnull attribute usage
+across the tree.
 
-Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
----
- drivers/leds/leds-pwm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Each patch can be applied separately by the respective maintainers. The
+only dependency is kernel-doc: the string and lib/list_sort patches need
+patch 1 ("docs: xforms_lists: support __nonnull_args()") in the same
+release, otherwise strends() and list_sort() drop out of the generated
+documentation.
 
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 6c1f2f50ff85..0363d370828b 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -80,7 +80,7 @@ static int led_pwm_default_brightness_get(struct fwnode_handle *fwnode,
- 	return default_brightness;
- }
- 
--__attribute__((nonnull))
-+__nonnull_args()
- static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
- 		       struct led_pwm *led, struct fwnode_handle *fwnode)
- {
+Latest Sparse release could not properly parse __nonnull_args() without
+arguments. Fix was proposed [1] and merged, but until updated version of
+Sparse will reach wide masses it might trip on __nonnull_args() without
+arguments.
+
+There are few more instances of __attribute__((nonnull)) usages left in
+the tools subdirectory, they are perf related copied files and can
+(should?) be updated separately after this patchset lands.
+
+Build-tested allmodconfig with GCC 11.5.0 and clang 22.1.8.
+
+[1]: https://lore.kernel.org/all/20261019175633.415493-19-bvanassche@acm.org/
+
+Dmitry Ilvokhin (10):
+  docs: xforms_lists: support __nonnull_args()
+  string: Switch to __nonnull_args() macro
+  lib/list_sort: Switch to __nonnull_args() macro
+  xarray: switch to __nonnull_args() macro
+  drm/i915: switch to __nonnull_args() macro
+  drm/amdgpu: switch to __nonnull_args() macro
+  drm/gem: Switch to __nonnull_args() macro
+  leds: pwm: Switch to __nonnull_args() macro
+  soc: aspeed: lpc-snoop: Switch to __nonnull_args() macro
+  checkpatch: suggest nonnull attribute conversion
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h | 4 ++--
+ drivers/gpu/drm/i915/i915_request.h        | 4 ++--
+ drivers/leds/leds-pwm.c                    | 2 +-
+ drivers/soc/aspeed/aspeed-lpc-snoop.c      | 4 ++--
+ include/drm/drm_gem.h                      | 2 +-
+ include/linux/list_sort.h                  | 4 ++--
+ include/linux/string.h                     | 2 +-
+ include/linux/xarray.h                     | 4 ++--
+ lib/list_sort.c                            | 6 +++---
+ scripts/checkpatch.pl                      | 3 +++
+ tools/include/linux/compiler.h             | 4 ++++
+ tools/lib/python/kdoc/xforms_lists.py      | 1 +
+ 13 files changed, 25 insertions(+), 17 deletions(-)
+
+
+base-commit: 6b4b543fa18757297ac756a6fe6e64f506b7844a
 -- 
 2.53.0-Meta
 
