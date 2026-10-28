@@ -1,86 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793219829;
-	b=GOFDWL2yoF40SDt7jhgU9yFg/wXHUkYgW42Kuxea6FCgPAeo1xeuplMUdhl+ihYJ4FU8
-	 l8gLJ6X4Az9uob6VeiWusX01LWNzth8s9zk1dGzW4ej8G02M2NQyE8XDPdf3RmCWg3S1+
-	 1eAQYVxy/V/+tCZs1/v7pLqfIOfabio9C9DpF9rrH0yjmq3fgTNwnPTHNuP3Ed2oVNgzz
-	 ySlR8H2WO7OcmigkpizpyVduPcK2GjonLEWavytosU9iqPj0D0OKvAhW5HxZgQjVV5vBN
-	 MhrFEgmt6n9DyFkUXbJp/E3awW66v4ewTZIAQp3JygmIuU8kS+V33u/FTn7WtBbyedw==
+	t=1793220323;
+	b=HmMG3zWQU7LSm+vkF++XkCYzK5eIQIxf9FNzdnevevcRBe8MZaZyKUh3zyKp1HOpqcSx
+	 ShNxBYLCwvlWZubStiZUs/H+bcT14v+D35OTsKNYulcuIdq23kqJ+haKLNv2+ICoSv68E
+	 8x54Hf69Ze7A4Yx+qmT+h2MmR7ljvDAnPVNT5tYcSZVPYACo24KB6G59ZTClsOydDnl9f
+	 UdhDJxnX3pjxmejgGZJHEL6yHVolXmcN8Xw3mdlHbZvgo/FU4zbUeZu5zpspavYmoApfj
+	 9LZeoPvE4qCAG3uH1+CICDdjC5EF3ydpYAbfCkiAsXFLR0teuE/Pp9hd58CSb0ysuGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793219829;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=GOkZMWndE8pvmQEZjLf6QfLtdr6Oc875cvI2O5RWo1A=;
-	b=iEJvQBh3HgwF8BxfmKlsjRKBia6uClnwguAWsXuWDs6aMbGAI8eL0lZbbZyLiVw/klnv
-	 UKeIByjniC6y9wt5eQOszzbcBoVkO836NUG3HT9DKQEpSSM4cmzlZWrIZLAKR8LBpYVbm
-	 z3HGTZdyoJwWKBzLZlAaj7cNTBd+JyYCbNgBUjZv3y6H8vqP9eYlm4QynZpNMRw/XQINm
-	 YEkOB17Pygz4UWN9zC5VPnAgEh6PPL9sg7/T4ev41A/u+wNzL8fEghj+MnYp9B7N6gkss
-	 j6CXX8ndup8PQtJaNA9xvGtZb7mmU3jTfnj7Cmk0/k30kbKfn597q/LfBvwOHPjvryA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793220323;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=xhSU0Ll/YflHcbTsaPvMuTReTRNyw9O7ljUv0SFKW4A=;
+	b=aTUX0v/02eGl0431wE2Jq/0tTOQ11B6atodGQUtW5Z8jMIwtxdPyCdZ1sKSvMC90PJEm
+	 Fjuu7eIjzjy2MdU0Tu0XqdHKJiXoSeaxq5nqt1CMvJvuXlLvhgrRHRw9NiCHFrhVkQcAW
+	 QXkU9Bm3AalR5iRdwNOu0BKNjDRU6AKahPE/zp1naNHKF37usHYP52L60/+F2ygqlANOd
+	 CC2BECo01ZSlUzkhEs69Kh3CNmnGbp7GyKmrHDgb1tM2+jzyjRDXlmNF6230u1JibWgbq
+	 mzZv5qSgx5496UNcnDMZTrVV26LEW3IOTlk7USlfGvOIpIGwiET1/SVCkFZEQGagQ7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=TAe25ahd;
-	arc=none smtp.remote-ip=209.85.221.178
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uwiMqCzW;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410CB606A326
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 20:37:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 410CB606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391E1606A31E;
+	Wed, 28 Oct 2026 20:45:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 391E1606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=TAe25ahd
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5eaabf28c06so1195753e0c.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1793219828; x=1793824628; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GOkZMWndE8pvmQEZjLf6QfLtdr6Oc875cvI2O5RWo1A=;
-        b=TAe25ahduDUoJ2Df6GDNj6g1K0GNDwadJWeM9d71dY/Kg5P//CUMBBiOUzh/f8q+w0
-         jUSNhyns6i9PCiLzpb/4IXdowNQQUHmS1qSsD3ecdiF3VVlGvSeV/z0FOBXURzQ5QXiy
-         m+Z5HXCcuE7UFKf7f7v3yMdyY+oYc2VMbqihp72ccXvnl2b8bR+lVLt4GqxD/dqqOzoc
-         0478O12Gs0Dcvk00suElhRNVZUabVIC6ugsV3JAcOgBHb4hADNbxbh0B/TdQ4NPOVG7q
-         OjVFcT0YHK9S87uEjGAsbkclhOKFuxhegC5AW8Xeqj+Mp6VEQzS/0MMLFcw7O2I/Qkl2
-         6TFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793219828; x=1793824628;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GOkZMWndE8pvmQEZjLf6QfLtdr6Oc875cvI2O5RWo1A=;
-        b=LMt+52/p7SRfRmcQR/ZtCtx3xmv2EGgUqdz0q5c1GjX/58xt52glR0WpsPycsmxyE+
-         yqNlNRdhT9xUIKDRFB9q4iVQQkH9OlqBC6EXhZTeTKLLfwuBFeiT/plxkCpY6RQUHc9f
-         ACQVNzz/km2qbThP6JDBltg8SU1pu1j5fSHILIvBIq9lvbp+a5kHQ6pUdAtb9D2NNQod
-         3XdiZ0M+rZ1OxXJ75ZHQ/hDR7nbXkYtGH33bkcyCKI+ZJWXIdSKTiAVJeoCpwZR6OTpJ
-         MS1klKs7beUTzSNh2INtIfHj8APtPCdlPj9uwp/DHdT6xoUsnCCvXB0TVJVrjg0KvOP4
-         ZMaw==
-X-Forwarded-Encrypted: i=1; AKwUvBxQcYuhRyf1Ey1iUfKhJE+tcZit3bp3ij/YS6CzrRP7JHQnqkLND7+UD91ii7IQf2L6n/Y7y3+A0HI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIA0vYtXe6/Gs/Uf8fW/7iEtA9+yKCpI9DU8TNgxGSgr2U3lfM5
-	9s/Sd8EwBWkm/DkHN/sNp1Foq/1u/aYyzYcvIoiaxxB3xj2C/Fp+wUE8GzMcWSKLkZQ=
-X-Gm-Gg: AYBFou1MFGWOVVGnTZGFLWdgmUFVmBD2HLWQGkJZKfL1VAGF1dIO8NRf6N717mT6G+z
-	pOVMauqbgyNnuFqMbjJb9rJo/TnQi3Suqp9uzsPD9GNy6Vcp3+8TFi/9ldgBIHY4svGstJCDXJ8
-	5QaATOmtZ8CstfxsFiuEeGy/m0HNQ6VSjpsC2r34kcC8V1MMZpu2s7G3ZGhkaO9U3d06HYxck8e
-	WT6b9tkq73RGLLcKoeFn5MxEDfcOnwtX2MxGvFZlm9ZDr9S3W9VE+AUTrFb0/x5jySzYu0U17O+
-	0T1aWYBtgelByy0oglxXwC7hFpYCQSFiFDuXqxtGvuNfOd//z84bgzNyZtt6hB72Khhfy48KkQo
-	IqyRvWsrq1xE6ZK8FYEO59CYSBC7pEWWq/ZdRNvq3StQUZVqbn4kh1a2kuuDzNMeCIiRTbZ3Pbv
-	KcIRFJWsRn7jurF+fF6Wbw17XZhMKmRFH/8L/11/R0ieVP4IndgG2P6y+AXXZSAehwvXCxv4n26
-	TfRc7BnkUxxqNuMR+pvyl3DU00s0EPbVbUIPTV1TTyoKoJDDv7qTs8B+6lbScRcuuaqDB/sOF7a
-	4FAM8WhPcG55MNVa51HfGqLUvJETXbNV3lWbb2Oc2ypxbFLOLFGTP42MTTrYhT/bdY96ULN0hiu
-	D0zkyyi41gxpiUQb+Rjfg3XqV55P/tKN5YC9tzLvUg6ae
-X-Received: by 2002:a05:6122:e146:b0:5ea:aedd:6087 with SMTP id 71dfb90a1353d-5ec4cc275f7mr2103697e0c.4.1793219828216;
-        Wed, 28 Oct 2026 13:37:08 -0700 (PDT)
-Received: from soleen.c.googlers.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec4f931911sm3001789e0c.10.2026.10.28.13.37.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 13:37:07 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=uwiMqCzW
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xhSU0Ll/YflHcbTsaPvMuTReTRNyw9O7ljUv0SFKW4A=; b=uwiMqCzWxlSLOyvJWx1EpAyUkI
+	8btbBfprVdCDyHYW3PydxYRJfRc+kFnuoObOoozn1rwW58Vj2BVWhqh0F+wlp8xlwih90BYwI51Em
+	K1iI2tMdxPVFIWoitj5UhzFd4b/5QNlPTbdXz9zJMTATbRVGeZUbYvxryNKsjaEpApTR2/Y1wym5S
+	RWkAgUP9MihkaliXEWdKo6u9MyrEOFdwTO3LSL1qUppz7BzJah7zzT1oZKKj6Mf9SU1NRxYMWkfbQ
+	WLJ0+6zjDTz5RuWWZ/Qmx/h26GtaT+lmVMT47+gjluaxiNFrhSxl9AUI43A4wXxL3uIkD/jLlvX82
+	Gvlz4IVw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xMAW5-00000007wax-2Fqn;
+	Wed, 28 Oct 2026 20:45:01 +0000
+Message-ID: <cce30180-c1c4-4b10-b681-8944057bc698@infradead.org>
+Date: Wed, 28 Oct 2026 13:44:59 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,156 +58,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] treewide: switch to __nonnull_args() macro
+To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai
+ <billy_tsai@aspeedtech.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Andy Whitcroft
+ <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 06/10] mm/shmem_luo: Don't make early retrieve
- failures permanent
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-mm@kvack.org, Alexander Graf <graf@amazon.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Christian Brauner <brauner@kernel.org>, 
- David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett" <liam@infradead.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
- Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>
-In-Reply-To: <20261022225035.377445-7-dmatlack@google.com>
-References: <20261022225035.377445-1-dmatlack@google.com>
- <20261022225035.377445-7-dmatlack@google.com>
-Date: Wed, 28 Oct 2026 16:36:59 -0400
-Message-Id: <179321981903.1894369.10174219200491856665.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3851;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=tG1lwbJH2imddc9/EkdAvCrAH3EsxAEhBkg3bvhE7pU=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBq4lzu/Ke5JngGl45TFenDqO7sG2rxu1esqb+GP
- W9djlMo20SJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCauJc7gAKCRC7dyhM23N6
- 3iaED/9+Ua/XelfQOiEDcPhs+IpN2Oer+RtBy5oWFs3Ld85ncxpkokj4M4S+zrCda7T6eqJ99qt
- WLFndguG8lw6lCfX6vMRTCE9OvLMPJBZgk++IOWd8vMSMo6sJuHC2aIVh3oiJGQbplm8A1pHtUd
- vK6/sqWNP+mqdoADa7IlEmu7uydtPZQ6gVUtj2oUDU/YZzfGVeoNe5EpResTvkYk6Vdp1neLYfh
- lGFsCCrjbH7TCtTThMrEBPQ4JJlJ1/OFqdkCwFpq+cdyUtErBGUGLeK2rxFf07U8U/ydQn4SZUM
- WENbDKA0F1DjRR8/sx7kedrfcj9vWP2vd3hFY+cEsyTLawSybRQS3QTUa+gEJtOXZPjHosBrYLV
- SgvOrjrbhjAv0oaxXMYRWWKgn64IPRbOdPvQ4F/QszjMPjkReBEjjmQFtsspuKgQddk58EUwpqT
- 4ngiCEIpWUObRZBvgLFJYKOfdLl0q15dVVsk2n07fF0Neb1UD5cKlw/weF8lT3q6GuTXbsMyJum
- A4XQ+dpSI5XTmQAxL/tylp3fhJLTkVqQo9jG9GkfeVltDyl5rgMWOELBqk40kb4LfCQGwzLL4Hl
- lFLQ2ewQ3dOcxeCNM8ZEEzGZDPFihhVjKt13uUjJSoCIYziR5ctZUkisBrVjd+w69E7fYLFUC0e
- eLmLu3ergMn5ALQ==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-> If shmem_luo_retrieve() fails before it starts restoring the folios,
-> mark the failure as retryable and return the error without freeing the
-> serialized state. Nothing has consumed the preserved state at that
-> point, so the retrieve can be tried again. If no retrieve succeeds,
-> finish() frees the preserved folios, like it does for a file that was
-> never retrieved.
+
+
+On 10/28/26 1:19 AM, Dmitry Ilvokhin wrote:
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the __nonnull_args() macro to wrap the raw compiler
+> attribute, keeping the attribute's quirks in one place rather than
+> open-coded at every call site.
 > 
-> This fixes leaking the preserved folios when one of these early steps
-> fails, e.g. because the file has seals that this kernel doesn't support.
-> The retrieve freed the serialized state but not the folios, and finish()
-> then skipped the file because its retrieve had failed.
+> This series replaces the remaining open-coded __attribute__((nonnull))
+> users with __nonnull_args() to standardize nonnull attribute usage
+> across the tree.
+> 
+> Each patch can be applied separately by the respective maintainers. The
+> only dependency is kernel-doc: the string and lib/list_sort patches need
+> patch 1 ("docs: xforms_lists: support __nonnull_args()") in the same
+> release, otherwise strends() and list_sort() drop out of the generated
+> documentation.
+> 
+> Latest Sparse release could not properly parse __nonnull_args() without
+> arguments. Fix was proposed [1] and merged, but until updated version of
+> Sparse will reach wide masses it might trip on __nonnull_args() without
+> arguments.
+> 
+> There are few more instances of __attribute__((nonnull)) usages left in
+> the tools subdirectory, they are perf related copied files and can
+> (should?) be updated separately after this patchset lands.
+> 
+> Build-tested allmodconfig with GCC 11.5.0 and clang 22.1.8.
 
-You should also note that args->retryable was introduced in this 
-series, so there is no fixup required for this since this was 
-previously not possible.
+What ARCH(es)?
 
-> Assisted-by: LLM
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Link: https://patch.msgid.link/20261022225035.377445-7-dmatlack@google.com
->
-> diff --git a/mm/shmem_luo.c b/mm/shmem_luo.c
-> index b8d86055912d..bcac1bbb3db3 100644
-> --- a/mm/shmem_luo.c
-> +++ b/mm/shmem_luo.c
-> @@ -390,9 +390,9 @@ static void shmem_luo_finish(struct liveupdate_file_op_args *args)
->  	struct shmem_luo_ser *ser;
->  
->  	/*
-> -	 * If retrieve was successful, nothing to do. If it failed, retrieve()
-> -	 * already cleaned up everything it could. So nothing to do there
-> -	 * either. Only need to clean up when retrieve was not called.
-> +	 * If retrieve was successful, nothing to do. If it failed permanently,
-> +	 * retrieve() already cleaned up everything it could. So nothing to do
-> +	 * there either. Only need to clean up when the file was not retrieved.
->  	 */
->  	if (args->retrieve_status)
->  		return;
-> @@ -526,11 +526,16 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
->  	if (!ser)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * Nothing has consumed the preserved state until the folios are
-> +	 * restored below, so failures before that can be retried. If no
-> +	 * retrieve succeeds, finish() frees the preserved state.
-> +	 */
-> +	args->retryable = true;
-> +
->  	/* Make sure the file only has seals supported by this version. */
-> -	if (ser->seals & ~SHMEM_LUO_ALL_SEALS) {
-> -		err = -EOPNOTSUPP;
-> -		goto free_ser;
-> -	}
-> +	if (ser->seals & ~SHMEM_LUO_ALL_SEALS)
-> +		return -EOPNOTSUPP;
->  
->  	/*
->  	 * The seals are preserved. Allow sealing here so they can be added
-> @@ -539,8 +544,7 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
->  	file = memfd_alloc_file("", MFD_ALLOW_SEALING);
->  	if (IS_ERR(file)) {
->  		pr_err("failed to setup file: %pe\n", file);
-> -		err = PTR_ERR(file);
-> -		goto free_ser;
-> +		return PTR_ERR(file);
->  	}
->  
->  	err = memfd_add_seals(file, ser->seals);
-> @@ -552,17 +556,20 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
->  	vfs_setpos(file, ser->pos, MAX_LFS_FILESIZE);
->  	i_size_write(file_inode(file), ser->size);
->  
-> +	/* The preserved state is consumed from here on. */
-> +	args->retryable = false;
-> +
->  	if (ser->nr_folios) {
->  		folios_ser = kho_restore_vmalloc(&ser->folios);
->  		if (!folios_ser) {
->  			err = -EINVAL;
-> -			goto put_file;
-> +			goto free_ser;
->  		}
->  
->  		err = shmem_luo_retrieve_folios(file, folios_ser, ser->nr_folios);
->  		vfree(folios_ser);
->  		if (err)
-> -			goto put_file;
-> +			goto free_ser;
->  	}
->  
->  	args->file = file;
-> @@ -570,10 +577,10 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
->  
->  	return 0;
->  
-> -put_file:
-> -	fput(file);
->  free_ser:
->  	kho_restore_free(ser);
-> +put_file:
-> +	fput(file);
->  	return err;
->  }
->  
+Did you mean to use such an "old" version of GCC?
 
-Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+thanks.
+
+> 
+> [1]: https://lore.kernel.org/all/20261019175633.415493-19-bvanassche@acm.org/
+> 
+> Dmitry Ilvokhin (10):
+>   docs: xforms_lists: support __nonnull_args()
+>   string: Switch to __nonnull_args() macro
+>   lib/list_sort: Switch to __nonnull_args() macro
+>   xarray: switch to __nonnull_args() macro
+>   drm/i915: switch to __nonnull_args() macro
+>   drm/amdgpu: switch to __nonnull_args() macro
+>   drm/gem: Switch to __nonnull_args() macro
+>   leds: pwm: Switch to __nonnull_args() macro
+>   soc: aspeed: lpc-snoop: Switch to __nonnull_args() macro
+>   checkpatch: suggest nonnull attribute conversion
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h | 4 ++--
+>  drivers/gpu/drm/i915/i915_request.h        | 4 ++--
+>  drivers/leds/leds-pwm.c                    | 2 +-
+>  drivers/soc/aspeed/aspeed-lpc-snoop.c      | 4 ++--
+>  include/drm/drm_gem.h                      | 2 +-
+>  include/linux/list_sort.h                  | 4 ++--
+>  include/linux/string.h                     | 2 +-
+>  include/linux/xarray.h                     | 4 ++--
+>  lib/list_sort.c                            | 6 +++---
+>  scripts/checkpatch.pl                      | 3 +++
+>  tools/include/linux/compiler.h             | 4 ++++
+>  tools/lib/python/kdoc/xforms_lists.py      | 1 +
+>  13 files changed, 25 insertions(+), 17 deletions(-)
+> 
+> 
+> base-commit: 6b4b543fa18757297ac756a6fe6e64f506b7844a
 
 -- 
-Pasha Tatashin <pasha.tatashin@soleen.com>
+~Randy
+
