@@ -1,101 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793215592;
-	b=jMe2Hm76V0dv1sFNVE9WQc1BRQsiOvuq0+gSjA1YNx66zH19OiHDs1SrMk1ZXZyHty6F
-	 Tkq/ZlZpuT9AHwZDNeYiI1Oa67TW8GQa2mRqR21KulHabDn3fAx/kWGVqx+44fxEdQWjM
-	 ZXqnC3YWcXXjdbCfqtmdCG77z12YpNKJHSZYNM2x6d/sayw9UPOhti9fF4Dxb+vJVItfk
-	 GthxSkJFPDY5A680o9qlx2zD3xTp9goX4m/KHyKLBSoKEEi3NcO3G2nwJIb9irYp+h58p
-	 BD422rN8iBgNuzUdXaFQnc8JPh07rBdaj33HQD1JBgOdClFdBbObqIoS0ogu6LgnBlw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793215592;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=n2qFxTYTj+6lAt2CEy+ze/jmH9GS4iy0PMP9lTAM1QA=;
-	b=itDwYyAo8XOdMQpHhx4zmwgb1Rh7Qwud1eeigTsILbAema3/WSpq3o+5m5uwqIdle3Qm
-	 hlaPsRzXcNEH9c7jRx5m0nmb2PR9tjVfZubgELCWDZBDE7vH0ASKkRcZnzsQ4U0uENDM/
-	 7MsKLwcpdIQFJuvQy5w+byRtKI9xdo1FL6HRm6wPQn/UTgC1f+IPzVXyi46kfNVDQicMG
-	 Prs+1Ciz78sKoS3ABDfoCyn8STBc/TdgKL72IpO7TesYTSbvwQzSE+lKKAKRrhAEfPj9f
-	 xDX04WmLgQIqbonks0GbZrr11G7lBXJ+9NPDCj3mDJHT2EY8bh0pKKvfZv2d7XPfWZw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ORU73yaL;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.42
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793218444;
+	b=Am+M09JUBKzdlAU08AqjAab0qnplxTqKMxhGkILjjjvQ+DnntlFnsEsrQHpTCo1C8cSD
+	 SHXuziATTab6EPnQAvhJMusYxU1ECJ2FgiMH6ypB9ZVikE00oOMT1ehnwxpdH24w26NRZ
+	 xNrgkY96POQA3IAUgJkOIgQbbhtAD1ao3NKTUJyJt8no6hjJGzpApDyl3GHULPeMtBGaS
+	 BBGS2y/biDfukWtN6rWTKPUCadnWbpUPgFft+B1aRJ273xp7RiIVe0klAUKlXAI4smxJN
+	 Ta+fgzDBPuigekwPueEqsdop6bsvnsLpDnQuhpKkjCo9QEd05wIRWZ3tFOHbgqkEXdg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793218444;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=kpnp0nKo1RLJPeIcxnHpYwtTOco9Mw53rg5cDi3/lLs=;
+	b=uJGcQgXFij2Hi8b6ClezpmeD6PwNYU0OjcIm8aNNfXJdGEMQQrYPic9/xEuImxc9THjX
+	 YpQaiKJMHZs7kG1wEEipSgvrb4ti3LNARJat29M+BXGDmSiZFjJc6BwyvYUPw0R7n3udi
+	 keXY1IaeYDtMxA01oIQOJT7VFsb44dF0ldHd9TG/6wlgZGEte7IDVHyRsPhAdbutRe/XF
+	 klV6zdCgRb7UiTWGQA7Z+R3r8Hb5LqnZRJHNoStHymojWOigs0ul5uPaOrkbf7pjDUCmn
+	 N/QB0hb7K7iR9zr3osLNdA7iorH7/oFoxmOXI4Bhi4Kt4VzJEdRuwpUlYWoLRsTZEQg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kdh2USKD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4C606A31A
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 19:26:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF4C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5DA606A31C;
+	Wed, 28 Oct 2026 20:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ORU73yaL
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5be42ae8eadso1107307e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 12:26:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793215590; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PBAoZ+zK81z8OTC+7QL3JhlNajgeoO2aXN2nqrmN4UVim2kIVor7M1iTq+QdGF0wJQ
-         A8o2cXwpxQw16sfP0YkVK7lEtUQg1NvYV7EoaSbiu1SlKc7+BvoHLdaWa38W+1yi6bUJ
-         ncBFPAiMmitVFi8aUWKh43abV2zqD4cDBs0k1SjAenpruc0Pa29nP7SXqX/EiIsoH6pK
-         4/3C2V3sFBUQfbuHk70tvPvnv8NRI1xwD9TozW88sBIoU/0e/zmVxjs8OY9VmVIvJ6Da
-         lHbqLA2pq8fLeUo1Ff61blNxbcvZ1cl//6JIIpxbmzxkqLCZo36qVGTbPpd1x90+ohf/
-         33gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=n2qFxTYTj+6lAt2CEy+ze/jmH9GS4iy0PMP9lTAM1QA=;
-        fh=R4dFORs7+ie4jEX8oDdIFsjHLgfiFlH5dlo+YQGv/9M=;
-        b=D9S7Zme7T8PHtRVJNHiUKBQLfnTFvZjILGmurhnzwRmb8pKL3fTAa5O/4MCjdFPYVJ
-         B2RN7VS+DYyUJyJwOfUcgJxqdefsTs5JCpCe/2FNBqI0snICYuVk/g9nQFfu7DhlSlgO
-         FPE/dp3JO+JSD2j9wlzHjQJIcF+7erQy0RbUnLFKlOtUbp5nYjLyp5U+jldyGKz2iSWE
-         j+3sjnyvAKmWdhgh3v0oLOvfBZG2E+JUlPfa7Pa/j7a30A5KA+HASDTEVqDeli9W5Fc3
-         iJrNZA3gtjGzKqtq311+0uLUMqT/Fe7QO0TaEYxtaU8hpQuU5m3KCh1UETmIlmeeHD/U
-         1zNQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793215590; x=1793820390; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=n2qFxTYTj+6lAt2CEy+ze/jmH9GS4iy0PMP9lTAM1QA=;
-        b=ORU73yaLtW5wRVH5cpaMw0E38ib3Jw2vDW0ZmCirAgqx3Tgpr3CvejRnYiVql79xlq
-         43v46nR+Jxmm4easMaolaT9XTNZu+5M5HwcIyXOogeb28n1gaE18EH6stokH3i0NqQRw
-         RRnc16kf0OebFj09rDU3H4qY3O55i70vdDifjoP9Mb0Jh1Zock5qQC8UfcKprVa6RGDk
-         IKElMRLctZ6RLBegeIhIL+1FpA0w7eurjp0NKYgW9xCnQmgq1jKtvHSQEAwClDaY0tl1
-         EGZBWspjS2CtHjnPeUhSPGGSM0txo7a63fvQZ8LPGntpS4SgT25BfWwJicb2tOgL+EL3
-         XAhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793215590; x=1793820390;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n2qFxTYTj+6lAt2CEy+ze/jmH9GS4iy0PMP9lTAM1QA=;
-        b=RIBxNz9Vopg8RC2KIiiNNJ+2lC8LPdX6PNK0BKGyevV26/2AI4cQLettviv3/V5yYY
-         qrKZf49p8xBqPU+Iargl0m4id9gV5o4tjo0yVgne+Vz/SksMKjHmTtDlFlExbAQ5TnY7
-         Rt/JyQ5yZVJZmjK2itTbwpyzB+sUlYLoRmY06571eLLp9fubkZ295qG8HPWvcaeEYdCV
-         iuK/dQa6XK5wJ19lv7rHB0ZJvtP1Y9bj+pLpLrkYi90NSWdwCZzJP9+PBkLTqIqOiMju
-         Ya0PZvtOhPjZXXaNKLTswuDgIw8PAAshYejuJyXJus6lLSMGdf4aSOH+CyeIufNTMx15
-         9jcg==
-X-Gm-Message-State: AFq9FYI95Fyebqtq5mgh4oFNLGMYHVHNga14T43Ralt0uJdDUnJSvBID
-	UKRHx31ACsUatuEmBoB1n/PNNtfsAPnokys38BuczlGMb+fqlZizHxqMzNzDtNSWdMHidL89JMe
-	5J09Mx3mmHifz3nTpYjq8T0jOaAHKqeI=
-X-Gm-Gg: AYBFou0xS01NMIv0JUTwWi/Oq5ZmX2h/q9bt4Ot+rj3oNvzETjXStEyiqfFy5X/VTO/
-	F1dcb7qB3C3//eu4/yrDlrDF3fXIUPUBBAMHWCk8RD8FuILLTp2yf/X04VErPHkhdDF9hpF8p5+
-	To5lKSiyG7eWuVXxI4hB0U14u9B9fNTxldQJs+u8teHxqhcD1dErjMoiFlL7xbMxUx0ztvTxICb
-	Nqbp+9K5p8NBulTbKdvRbDsI6gWhRDpk8oWYwVVhssTLegzLrqRzORDii/boPDH0XYEGTqmmlHX
-	YwCjGHsp0w4PaFcxKXJTCO6ANYiTigRf57z4u2g420hu4DE1AtMd6UtEkROQSfkBzIRbzdWGRm0
-	t4U6bemQVHfrWofGhVL2Bd9KH3+mpBGOKGyY3/binl1MrayalAEcHamM6NEokhG8tJIngHMzQo/
-	IWO7vdC3P3dlOhF23PmLOLJ05aDAizT0sykJRytj+4dwNKomSRADYoqYGr5OQIe30OTTs/FHOEK
-	+j3xmsEMjltxSITHh3+
-X-Received: by 2002:a05:6512:39d4:b0:5be:4904:d2c4 with SMTP id
- 2adb3069b0e04-5bfcad7e51bmr1381844e87.15.1793215589567; Wed, 28 Oct 2026
- 12:26:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kdh2USKD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ECCE1F01829;
+	Wed, 28 Oct 2026 20:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793218444;
+	bh=kpnp0nKo1RLJPeIcxnHpYwtTOco9Mw53rg5cDi3/lLs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Kdh2USKDJZ0FkYnWxpwRhfUMZvge6+fv52eBOYXQE4K9FiM0K4U+BHJFNVSPa8SaR
+	 qz0fJopgw/70FToz7iDOKngca29X//VXT5/e8eP6xGe5f7GFhffQH6zeC2GOp/hleH
+	 n9o4bqtE3izozibZx0/EGpV6yc5ooao2ZOamV04m7ODd/0AjL324MpPNritM1bvgPV
+	 i4WVSj11U1NP3zYtWbfrCuQSbjPM+7EWyuQ7RkG3U4c8cWx2ojiZ48TgZhVuUFx9jj
+	 PTNmpfwlk+bKAkCQlPvJwDrVqWXVgoBNuxz+ZTVLJ/GThvLKqVUtebOP+aR2t9RJfI
+	 QneBInCwD8IQw==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Date: Wed, 28 Oct 2026 21:13:29 +0100
+Subject: [PATCH 01/15] hugetlbfs: fix integer overflow in fallocate()
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,132 +52,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028122739.5874-1-ic.gabrielribeiro@gmail.com>
-In-Reply-To: <20261028122739.5874-1-ic.gabrielribeiro@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Wed, 28 Oct 2026 16:26:13 -0300
-X-Gm-Features: AclHuK8NspXUp5sa4f9DrpougHgahx4CAWqm7lcpujQjdYinJ2Zou8w4OpupYjk
-Message-ID: <CAMAsx6e9Br5iqUGDPVrJ4forg3AV_-HXZ_32cn1rXzjE7Tb+1g@mail.gmail.com>
-Subject: Re: [PATCH] docs: translations: pt_BR: add maintainer PGP guide
-To: ic.gabrielribeiro@gmail.com
-Cc: linux-doc@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, sashal@kernel.org, kees@kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261028-fixes_hugetlb-v1-1-a0a033db180f@kernel.org>
+References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
+In-Reply-To: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
+ Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, 
+ Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>, 
+ Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, 
+ "David Hildenbrand (Arm)" <david@kernel.org>, 
+ luojiajun <luojiajun3@huawei.com>, Josef Bacik <josef@toxicpanda.com>, 
+ stable@kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2170; i=david@kernel.org;
+ h=from:subject:message-id; bh=I1sQzSgEyvJMIZxcUjk6PSvZ4Sdw/GRLUPVEqCN7UCk=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIehZcebvr66cjyjsA4Z8MHays+f2Jax1wSNyGwXXO75
+ bTlOWxcHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAExk8xaG/zEmOY2li54ueRq3
+ v7n3zJSkguNagnz6Ep+ZLr7Oe6t++x3DP/VXvov+1dmK3lywRTvn29Xfb744bo47787m7frugMi
+ alUwA
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On Wed, Oct 28, 2026, Gabriel Ribeiro <ic.gabrielribeiro@gmail.com> wrote:
+hugetlbfs_fallocate() rounds the range end up by adding hpage_size - 1
+to offset + len. vfs_fallocate()'s existing overflow check only makes
+sure that offset + len does not overflow.
 
-> docs: translations: pt_BR: add maintainer PGP guide
->
-> Translate the maintainer PGP guide into Brazilian Portuguese and add it
-> to the pt_BR process index.
+Once we overflow for valid endpoints near LLONG_MAX, we can get a
+negative temporary result that is then converted to a very large
+huge page index.
 
-Hi Gabriel,
+A one-byte allocation ending at LLONG_MAX can therefore consume all
+available huge pages. Pages added beyond LLONG_MAX are skipped during
+inode eviction, leaking them and triggering the BUG_ON() in clear_inode().
 
-Thanks for the patch. I applied it on top of your programming-language.rst
-patch (index.rst depends on it), compared the translation against the
-original, and ran a full make htmldocs. No warnings were emitted for this
-file, but I found a few things, commented inline below.
+To fix it, calculate the end index in a simpler way that cannot
+overflow. This also fixes the signed overflow reported by luojiajun in
+2019.
 
-Also, checkpatch warns about a commit message body line over 75 columns
-(the "Translate the maintainer PGP guide ..." line quoted above). Please
-wrap it. The MAINTAINERS warning can be ignored, since
-Documentation/translations/pt_BR/ is already covered.
+Backporting notes: without commit a08c7193e4f18 ("mm/filemap: remove
+hugetlb special casing in filemap.c"), remove_inode_hugepages() must
+include the final huge page during truncate and eviction.
 
-> +++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
+Reported-by: luojiajun <luojiajun3@huawei.com>
+Closes: https://lore.kernel.org/all/1554775226-67213-1-git-send-email-luojiajun3@huawei.com/
+Reported-by: Josef Bacik <josef@toxicpanda.com>
+Fixes: 70c3547e36f5 ("hugetlbfs: add hugetlbfs_fallocate()")
+Cc: stable@kernel.org
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+ fs/hugetlbfs/inode.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> +- Snapshots peri=C3=B3dicas de vers=C3=B5es (tarballs)
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 01c4d6f44ebe..5592cfc6cc8b 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -721,11 +721,13 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+ 
+ 	/*
+ 	 * Default preallocate case.
+-	 * For this range, start is rounded down and end is rounded up
+-	 * as well as being converted to page offsets.
++	 * vfs_fallocate() guarantees that offset + len is positive and does
++	 * not overflow. Avoid overflows when calculating the end huge page
++	 * index: set it to one past the index of the huge page containing the
++	 * last byte.
+ 	 */
+ 	start = offset >> hpage_shift;
+-	end = (offset + len + hpage_size - 1) >> hpage_shift;
++	end = ((offset + len - 1) >> hpage_shift) + 1;
+ 
+ 	inode_lock(inode);
+ 
 
-I believe it should be "peri=C3=B3dicos", since "snapshot" is masculine.
+-- 
+2.43.0
 
-> +- Os tarballs v=C3=AAm acompanhados de assinaturas PGP destacadas.
-
-"Separadas" sounds more natural to me for "detached signatures", but this
-is a preference.
-
-> +Desde o comprometimento de sistemas centrais do kernel.org em 2011, o
-> +princ=C3=ADpio operacional do projeto Kernel Archives =C3=A9 presumir qu=
-e qualquer
-
-The original says "the main operating principle", so "principal" got
-dropped here.
-
-> +.. _pt_BR_devs_not_infra:
-
-Same for pt_BR_pgp_tools, pt_BR_protect_your_key, pt_BR_smartcards,
-pt_BR_pgp_with_git, pt_BR_kernel_identities and
-pt_BR_kernel_org_trust_repository: none of these labels is referenced
-anywhere in the tree. The ones that matter are pt_BR_pgpguide (document
-anchor) and pt_BR_verify_identities (used by :ref:). The original has the
-same unused labels, so keeping or dropping them is a matter of taste.
-
-> +- Chaves **[S]** podem ser usadas para assinar.
-
-(Also for the [E]/[A]/[C] items.) These end with a period and the original
-ones do not. Not a problem, just a difference.
-
-> +Use uma frase secreta forte
-> +--------------------------------
-
-The underline is longer than the title (27 vs 32 characters). RST accepts
-it, but the original keeps them the same length. The same happens at
-"Entenda as subchaves PGP", "Use o gpg-agent via SSH", "Crie commits
-assinados" and "Instale e configure o patatt".
-
-> +- `Nitrokey Start <pt_BR_nitrokey_start_>`_: hardware aberto e software
-
-Instead of the embedded alias with a separate prefixed target, you can
-keep the original form:
-
-  `Nitrokey Start`_
-  .. _`Nitrokey Start`: https://www.nitrokey.com/products/nitrokeys
-
-The pt_BR_ prefix only matters for labels used with :ref:, which are
-global; hyperlink targets are local to the file. The embedded-alias form
-also makes docutils report a duplicate-name INFO for "Prote=C3=A7=C3=A3o da
-integridade do c=C3=B3digo", which appears twice.
-
-> +  resistente a adultera=C3=A7=C3=B5es e com mais recursos de seguran=C3=
-=A7a e formatos
-> +  USB.
-> +  Oferece suporte =C3=A0 criptografia de curva el=C3=ADptica (ED25519 e =
-NISTP).
-
-"USB." is left alone on a line and "Oferece suporte..." starts on the
-next one; the wrapping could be adjusted.
-
-> +``key 1`` (=C3=A9 a primeira da lista, a subchave **[E]**):
-> +
-> +    gpg> key 1
-
-This one is a real bug: the paragraph is missing the "::" at the end. The
-original ends with ")::". Without it, the "gpg> key 1" line is not a
-literal block; in the generated HTML it comes out as a blockquote. Sphinx
-does not warn about this, so a clean build does not catch it.
-
-> +qual chave est=C3=A1 =E2=80=9Cselecionada=E2=80=9D. Ele funciona como um=
- *alternador*: Se voc=C3=AA
-
-"Se" should be lowercase after the colon.
-
-> +Use o reposit=C3=B3rio de chaves confi=C3=A1veis do kernel.org
-
-The original heading is "Using the kernel.org web of trust repository",
-so "web of trust" got lost here.
-
-> +`adicione o UID =C3=A0 sua chave <pt_BR_add_kernel_uid_>`_ para tornar o=
- WKD
-
-The link text in the original is "add the kernel.org UID to your key", so
-"do kernel.org" got lost.
-
-Everything else matches the original: the remaining 40 literal blocks are
-byte-identical, URLs, e-mail addresses and numbers match, and the heading
-structure and notes/warnings are the same.
-
-With the "::", the lowercase "Se", "peri=C3=B3dicos" and the commit message
-wrapping fixed, this looks good to me.
-
-Thanks,
-Daniel
