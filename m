@@ -1,58 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793167786;
-	b=CmTYCogfTqnYGGsTJnrlC1TSVwqMQC87q4KCguPY60lF7MtVHQcwZJoUrFw0j0fLvz8H
-	 M+SD+Xy5KnWmIpART287SOAmqO75YlUVsblkrMIg4x+BxYmXVQK7Ehv5NfrktBDAssQIq
-	 2gRDGkTTraGJeRNhVg0zTLv84aibGon0/ANhSQpM/vToj9VughirfYSxCwyY0Q87EDLzZ
-	 vOymGcDB6IsDJJhArE+5xZL3hB1fRn+8pXYb+xHzaJQAFe6zWa1q+P8wYtyYYR24pM+Sy
-	 y+ru9PpmReoaUzi3MDJAGlVRtt8CY0Rl/Aq2BLcuCQAetYbcNzfiRKIqp/Xi5nCAF6g==
+	t=1793168197;
+	b=whiowemNmy/omdYTozlUPzjgWQponMgwPI12mTpw+UPtM4RuP9doMNCtpMXu7aAzmP9k
+	 zFqboQjzzKh5rsGop1ElmRQmcoXRRDGwfpU0GQhvXAm4/UpkPzBbqN1czP51hcBZT2DWq
+	 2PVHTA6FbljrveYhalLiX8UkTMo4eyZ6SOHekhSfQMmYLouYxjMOQ2xBb3Xo3gnFO1h1i
+	 6t29mc1DtQKSN78cwCYHi6b2OECCkIotH8qe3/FMj5IOo2AB3FcG4nM2FMlvavD8Pw+q+
+	 tsfb/CJ0KtPPbsUTtMTBAsz2ETxbe7Iqnytt1G/alVi8qo/UtN6CTt3EvHKfZHrEcAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793167786;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=W7W8QgouVJygAFTU/QOPQhBR1kM7Toq82huy2c/7CAk=;
-	b=rDl/g6mUVMImIo+BtnDJtdiWB/Y1JdGvQYcKXN7Chiu+vtHRXrkNjWRFPPbGwPNS1XII
-	 iK8CgFRoAYk2KjzCBGrRmO94YFs3AunQ1gl1jpPWWLxfs1HnrWOr80c2Esl9eQhlaM/h4
-	 dHrcqrB3UmE3HTH9Fl52RCZySxnukU9RcdsBZUuldrWbbAn8WC4gTzllKnYk480TfFGAH
-	 +VVgp2UiqJEkX2TYlkZ/3c1eYvC/oMdIa5luAtZDCExJzF6wujYIgBU2QS5PneANIXTlQ
-	 ntXa/GGdXI8Ym8UBnJEdK92hfEq8vrLZTZT9zSPljcMNJJ/V5Kes48isuATE3D32FyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793168197;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:MIME-Version:X-Received:
+	 In-Reply-To:References:Message-ID:Date:Subject:From:To:Cc:
+	 Content-Type;
+	bh=X4wg8Pbjg2SQve6wgEy6XvKbvCoQemBjrt/2F9Kq2TY=;
+	b=OG3GsIbM4ElgJBTEJSaNsH31lrMOZl9Aasm5yi6Q0SiRfx88tuOm6B4zc73GFUKRuUln
+	 JpH+Gn003TCAyZRkbSyKAqN9pGcW8wDNKVqhD3AeSGRLTSvScxbkJ7SPzn1yfeeFjp/dX
+	 Zv5GIVOsDIqwpgFj0XqSDtPdLTMZv6/A3d+6QucyD7tB/CdcVT6fGqzs4h/kt7evxxXKq
+	 zXZ3379phcE5e+GZVUdkOwLZsyXkEp8ayW1frp65cxOP0U+Ifx8V+MNsFsWkgncRySmV5
+	 k+2qArG/Ire3p7xkaEr79aKTUOqsJ5i3pyi4Tap+W79ceW0q7woI7nDfUp7L9KGeHpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2+1C75S9;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--jeffxu.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=C6Pudu23;
+	arc=none smtp.remote-ip=74.125.82.198
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC04606A31D;
-	Wed, 28 Oct 2026 06:09:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AC04606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694AC606A320
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:16:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 694AC606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jeffxu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=2+1C75S9
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=W7W8QgouVJygAFTU/QOPQhBR1kM7Toq82huy2c/7CAk=;
-	b=2+1C75S9OvsLz5K40sfJSzRlBYdU/BzYWI58tMpRIf+0f0ZK2cOZMkg2juReOBynHPHQxG8TR
-	tTmeA6XyS7FmG29CW8JylZa5BKgFqpekjwBkELhjh5GoiGNjizS2oYUG38F/FqoFbE36Y/xgmF/
-	PUeGEdiWDebD7k2wBkYX44Q=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jDxld6q7gz1cynb;
-	Wed, 28 Oct 2026 14:09:33 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9C6AE40586;
-	Wed, 28 Oct 2026 14:09:40 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 28 Oct
- 2026 14:09:40 +0800
-Message-ID: <b0fb80cc-4a0d-4612-beef-bf2fc398f06e@huawei.com>
-Date: Wed, 28 Oct 2026 14:09:39 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=C6Pudu23
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-359b81ad4e8so843917eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 23:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793168196; x=1793772996; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:date:message-id:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=X4wg8Pbjg2SQve6wgEy6XvKbvCoQemBjrt/2F9Kq2TY=;
+        b=C6Pudu23merR8N3QUSSvCl7wNv2iJ4wZUywbEvQhTfxkkwUD1bmyJMvQ2INlo/bCI7
+         3J2m8hD96wmYaDz2HNVTnKY7bDC8tFyaNdiOM1QFSV5826GR/S9EbVVncFbiq7dSSy2t
+         w24/QFazfb8wG5dHVpT8H928MituPMKXEXB8snmifr3Gc2O/tC3crUaeuJw9TS9d5Gvn
+         r5pkfFwogZZk3Efst5f17eYYlK22KsZS0vTvX+rFSthgeT4zRTnDzcMhm7e0c3Erq6Sh
+         bhACPNNEje+m79G8yP5AhOuwbfhrViJl3Ag1sVFrnaEc56uj8+6SQualB4meyXj8OWeW
+         6OeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793168196; x=1793772996;
+        h=content-type:cc:to:from:subject:date:message-id:references
+         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=X4wg8Pbjg2SQve6wgEy6XvKbvCoQemBjrt/2F9Kq2TY=;
+        b=o/LH0XE400wKqGxhKgA9IMGCxflBJB+oF1nbbfff83rGz1TXZYLrcVBNRCNlLozhk3
+         aKfRoaONtjBiplBCR+dfiyd8FUHBtODjwftSUszyZgZuE0xeX4Mg5/b+PB7S0rAKCZSN
+         FzMRz1CntJWOTyOxX93AY4qGxHlcRQNSvI0OG+knpT1xaHR1cCnOxiY/uEiPBhMWNX9K
+         GgxuTlUeG6TPzK4EESEr6dZgUbNO+fJJ1n7odexNIztTd62IeognT7VPVgWtuxWgbgN1
+         izTLvdJrhayqzwuiZjhVafVoaoG6V+Lc1tpU3oFlUioQ0/1KCdE10WhSbSkWuzNtJj0H
+         LdiQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwZBkvlfkrvOxjXI5+lMJF2i7dDwXm+FvGOsqFJIo6zNoXYVj40TeRz7pJUBpMjBsYIXB2ug1s2rpY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKNyWZVRsM8E5vuVf0qagtdNgTJ3uVb9GYvM5eITl39uVuR+QK4
+	W9BPeKlqsqG3RM9eGDKk4W7R5pHHtY8I2QkOviAZ9xyydaDjK+Lnk4ESVgOI5L+cjZ7qZyNGU2n
+	Eu5mWsw==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,83 +73,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs/admin-guide/mm/damon/reclaim: document how to
- disable watermarks
-To: SJ Park <sj@kernel.org>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<damon@lists.linux.dev>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20261028053525.155909-1-sj@kernel.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20261028053525.155909-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+X-Received: from dyx13.prod.google.com ([2002:a05:693c:820d:b0:36a:1d37:273b])
+ (user=jeffxu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:6195:10b0:35d:95e4:267d
+ with SMTP id 5a478bee46e88-36a200c3b89mr2179969eec.27.1793168196147; Tue, 27
+ Oct 2026 23:16:36 -0700 (PDT)
+In-Reply-To: <auGOXLB1XZFWcTfX@chrisdown.name>
+References: <cover.1793094611.git.chris@chrisdown.name> <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
+ <auCxjbvY3qPv1sV6@gremlin> <auDTMb6WMFUpxeZy@chrisdown.name>
+ <auDTptDQsB4xBcz7@gremlin> <18e2972cb8520c2e.3137322e32382e342e3434.279dd1.0000sendgmr@google.com>
+ <auGNkhSHpBRd2U_5@chrisdown.name> <auGOXLB1XZFWcTfX@chrisdown.name>
+Message-ID: <18e29cf9499c7ec0.3137322e32382e342e3434.2a28ab.0000sendgmr@google.com>
+Date: Wed, 28 Oct 2026 06:16:36 +0000
+Subject: Re: [PATCH 1/3] mseal sysmap: Add mseal_system_mappings= boot parameter
+From: Jeff Xu <jeffxu@google.com>
+To: Chris Down <chris@chrisdown.name>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Jeff Xu <jeffxu@chromium.org>, Jeff Xu <jeffxu@google.com>, Andrey Vagin <avagin@gmail.com>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
+Hi Chris,
 
+On Wed, Oct 28, 2026 at 01:55:40PM +0800, Chris Down wrote:
+> Chris Down writes:
+> > - Have check_sealed skip as usual when [vdso] isn't sealed and param
+> >   is not set
+> > - A new test, say expect_sealed, fails in the same case
+> > - run_vmtests runs with -T expect_sealed when
+> >   CONFIG_MSEAL_SYSTEM_MAPPINGS=y
 
-在 2026/10/28 13:35, SJ Park 写道:
-> On Tue, 27 Oct 2026 22:24:24 -0700 SJ Park <sj@kernel.org> wrote:
-> 
->> Hello Jinjie,
->>
->> On Wed, 28 Oct 2026 10:36:28 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
->>
->>> DAMON_RECLAIM runs its scheme only while the free memory rate is
->>> between `wmarks_low` and `wmarks_mid`.
->>>
->>> But some users want to reclaim cold pages even while the system has
->>> plenty of free memory, and it is not obvious that the existing
->>> watermarks parameters can already do that. So Document the setup.
->>
->> Thank you for this patch!
->>
->>>
->>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->>> ---
->>>  Documentation/admin-guide/mm/damon/reclaim.rst | 7 +++++++
->>>  1 file changed, 7 insertions(+)
->>>
->>> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
->>> index ec7e3e32b4ac..23fede7d1cdb 100644
->>> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
->>> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
->>> @@ -193,6 +193,13 @@ DAMON_RECLAIM becomes inactive, so it does nothing but periodically checks the
->>>  watermarks.  In the case, the system falls back to the LRU-list based page
->>>  granularity reclamation logic.
->>>  
->>> +To keep DAMON_RECLAIM always active regardless of the free memory rate, set
->>> +``wmarks_high``, ``wmarks_mid`` and ``wmarks_low`` to ``1000``, ``1000`` and
->>> +``0``, respectively.  Then the reclamation is limited only by ``min_age`` and
->>> +the quotas.  This is useful for reclaiming cold pages even while the system
->>> +has plenty of free memory, e.g., right after an idle virtual machine is
->>> +paused.
->>> +
->>
->> I feel like above might be too detailed.  Particularly, the second sentence
->> looks too detailed.  In a sense, it is not technically correct because of
->> 'skip_anon' parameter.  We might later need to add more such controls, and I
->> concern if this kind of detailed documentation will limit such extensions.
->>
->> What about keeping only the first sentence and dropping later two sentences?
-> 
-> If you don't mind, I could add this patch to damon/next after dropping the last
-> two sentences on my own.
+> Er, the other way around. I meant vm_runtests passes -T expect_sealed
+> _unless_ CONFIG_MSEAL_SYSTEM_MAPPINGS=y.
 
-Hi SJ,
+Using kselftest_harness's `-T expect_sealed` together with checking
+`/proc/cmdline` for `no_mseal_sys_mappings` in `check_sealed` sounds
+great to me -- very clean and covers both regression cases without extra
+argument parsing.
 
-It is fine with me, thanks. Please go ahead.
-
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
-
--- 
-Best regards,
-Jinjie
-
+Thanks!
+Jeff
