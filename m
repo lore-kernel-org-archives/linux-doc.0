@@ -1,72 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793188897;
-	b=uNQlahCMXChVOHpH88TeIDLWCddFEeiQbrMed3PS7c+fNkoVbYdCadOfUlXfb3g0UmB3
-	 ga/QYBMl873nZTB3pp6xw6OSAXaOVFb0E9ZuDcwNOtlSuubx0FocwLqmoA7hu40Ha5bqZ
-	 uOnSoljt9RyOrfCt1UkMUSTKlIcjFgxLqTjHxTFFFPo8RQY116wNUc9/yo/sogv0FGSh2
-	 ZNlVfdQ7o7xj0YXQCbXuSverkr9EK6JITZHfvxQB7LnhaAQq1jVEoqvOOq0tWPo0v7Vha
-	 1LrQk58vSG68g7UM7inIyrb/qMfiAyH+Pi4+F70t2cYLQB0L5GdcuX2+Lz4lLZ9vfYQ==
+	t=1793189935;
+	b=jrfr0nqCWgDvitif4yYUR2LjFnwVxmcratWUmeSS33idLdUsVRSXOGs59VYRIMZENrJe
+	 ErwajPSpBvpPgtcXEn3+XhvKB4vg9dtb5+qYO7jNfhTQdck7C8CemCqODDvwA6Wf7tW3o
+	 Jl1EsEtdDRPxf1P2hBr/0MkxtiEMMvHmkvoJg627FIRjnf0Fe/CIND6rK/cODL5MTosDv
+	 YVx9nZIVXh+lPrfGOL9/a9UDxauQnuNjOoO4pQEoUah1JZSMJwouWCFseUA6+D3ZFKtVr
+	 0dpS0R4zHwKOCWz3zwDWST8nS/1qic++Ibiv+v2g+A1iv4+MHSGRXaq+76uu0ihhVEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793188897;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=KSAfAdmkLzgs7oG/P0lPnMVbpcKomfX4CP2cVdP4kI8=;
-	b=MMrRYhimmVzs/FJq8qodYeWLUDrnfhvq8rEOPTtwVQyKR/3GlioZoRd9cdOMG8W6Q2SA
-	 ujQ12Ep1g18Mqsu0zBoiv4xW6nR97g+t5yjpjeQOfOLxcMLb/nT6VoTs0j/rdBBVVpGDm
-	 AEYtUzk266mRVvniGfjtUT9+p3rmLLdqyLBDsROCFNDYAsrQrwtuL0aNRfCmffwH+UJv9
-	 n2dTBFNFph5w0mlSkcgiEt56J9jBJIIP6rAISE6Ns43qR1eIPDYbifJjc9/PoFK4XO1LC
-	 j/jvdCeZ+vw9kfYlHTiPPzhiv6eVmoUx0k9ZJlBnlLiLRwv4utxS+4qc//qUgIGd9qw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793189935;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=OskEvaxrgfNfL/Gq5v8g3VeZhJ7zUOHQB1CES574JS0=;
+	b=grhouGRvmEjU7iJQGeHspzUrPsFmFffvGj0Pm8a2gSKZu8HupLXig3RuT6GywBkELM/h
+	 A527WKLANdnqmdx0WRUekaYtXmF9Ti6kX2OflNQF0M4zSwMKHAg50EgzMcGWmEuP2co2c
+	 qQKEVme3rRf913PvlhTHwWvsKeCD+0WEcAzdTkHYg0Pci14uyz6hujC4CnStuseK1AI5U
+	 l9g6ia9URIHMMvSva5zo2sW45OVxplZwtklqKy+PBug0SIv6bWJVuMMEjBQZg/QPDHUFS
+	 G9iZ4iqjnZwLCRLws+VcNRjmzy/89tv20EsuQ/YhSLDBwAdbC/HnkwInTsIjNfXk+PQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EHVHJunT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="gXfA/Dfp";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ihTRBDUo;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="z8DqKq/+";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HgutpAPI;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C56B60A2618;
-	Wed, 28 Oct 2026 12:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F272606A32F;
+	Wed, 28 Oct 2026 12:18:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F272606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EHVHJunT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC9C1F01828;
-	Wed, 28 Oct 2026 12:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793188896;
-	bh=KSAfAdmkLzgs7oG/P0lPnMVbpcKomfX4CP2cVdP4kI8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=EHVHJunTm8Nv+lnKG6uLDqasPxtmijWw4ksHgJ+5YvhykX5BgEuvWrM29x7Kiulyd
-	 aWQPYOeJpW43gt3k5a3HeXSh8eqGsksK/9WLEOm21ShuJjO5+dQSGsbVKd5Gh/CW2G
-	 uQ09EOFUrt33u1z6HeINlkYmIQ02bLlR1n0fraHaTz8a+QfSpcwz3LbABvRm9ClRTQ
-	 3WprqdvmO5vADnePnsEjB4HLUzn0zqP3mfPlACvEWQeiUFH3SwbV6EqDtCVcWy9K1q
-	 L5g26l2DrI+YxGBSwVpO/hAjccICmuT85zoYrHXBanoqshyScCo80qYqFhi7DvY0PM
-	 WOzimJDWvssIQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Chuck Wolber <chuck@wolber.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Stitt <justinstitt@google.com>,
-	kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Marco Elver <elver@google.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	workflows@vger.kernel.org
-Subject: [RFC PATCH 20/20] Documentation: dev-tools: document the common code coverage interface
-Date: Wed, 28 Oct 2026 07:59:44 -0400
-Message-ID: <20261028120034.871983-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261028120034.871983-1-sashal@kernel.org>
-References: <20261028120034.871983-1-sashal@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gXfA/Dfp;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ihTRBDUo;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z8DqKq/+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HgutpAPI
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DB2AB2212C;
+	Wed, 28 Oct 2026 12:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793189927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OskEvaxrgfNfL/Gq5v8g3VeZhJ7zUOHQB1CES574JS0=;
+	b=gXfA/DfpF6w+jyZaWtiR86xpjyK4cUM01VKUq3ddfeV01r2x5BlhIoEm39ldSPFMxwckRQ
+	/Fy4Ng+MwGEDmhprV1iwEcx53S2e1sfnTLx8rptIWu4ZkVfpJ/dOaVgJHrCrKQZaHAExFC
+	lesktXcN/bRaF6rQoWKMbvwZakHJ8DE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793189927;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OskEvaxrgfNfL/Gq5v8g3VeZhJ7zUOHQB1CES574JS0=;
+	b=ihTRBDUoHkkC1CO9Vi7stz2y/cMF7dsbcqqppFqULwrhtZd80WfubWLOKDDczOMOfPN7UP
+	tMqLffewEcxRxUAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="z8DqKq/+";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HgutpAPI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793189926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OskEvaxrgfNfL/Gq5v8g3VeZhJ7zUOHQB1CES574JS0=;
+	b=z8DqKq/+TGAIJwmTF4U0sQ7FfYKJ77L7dKL/trqLyzIl/Sgl9Ekctzsh1xn4HTwg+/cd4o
+	R0xm4n8RpjQrRepUKjnrNa/qi2quvDzjKwWyo8+erMWnL1P2DO5b4tyYhdhl+EHyi1fk2X
+	55OxWOhPLgi8dZ8SLybC4j9oDNf4bMk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793189926;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OskEvaxrgfNfL/Gq5v8g3VeZhJ7zUOHQB1CES574JS0=;
+	b=HgutpAPIGu/bYSfZI0OSy/iDcOHIXFbgI+oIOVqCmUwY1MYJLVJuYZ33vVQG/DQK6vAmu9
+	ASr5yKE/0sTjYkBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 399C71321C;
+	Wed, 28 Oct 2026 12:18:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3uAeNSTo4WqLbwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 28 Oct 2026 12:18:45 +0000
+Date: Wed, 28 Oct 2026 12:18:43 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Chris Down <chris@chrisdown.name>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+	David Hildenbrand <david@kernel.org>, Kees Cook <kees@kernel.org>, Jeff Xu <jeffxu@chromium.org>, 
+	Andrey Vagin <avagin@gmail.com>, Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 1/3] mseal sysmap: Add mseal_system_mappings= boot
+ parameter
+Message-ID: <auHkLMb_Xo-7Z7mx@pedro-suse.tail5790ac.ts.net>
+References: <cover.1793094611.git.chris@chrisdown.name>
+ <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,272 +119,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
+X-Rspamd-Queue-Id: DB2AB2212C
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,kernel.org,google.com,chromium.org,gmail.com,mihalicyn.com,paul-moore.com,namei.org,hallyn.com,lwn.net,kvack.org,vger.kernel.org,meta.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -13.51
 
-Describe the code coverage implementations and what they share: the
-Kconfig options, the COVERAGE_PROFILE annotations, the
-/sys/kernel/debug/coverage/ interface, MC/DC measurement, and how they
-deal with noinstr code. Point to it from the gcov and KCOV
-documentation, and document gcov's MC/DC support.
+On Tue, Oct 27, 2026 at 07:43:04PM +0800, Chris Down wrote:
+> CONFIG_MSEAL_SYSTEM_MAPPINGS seals each process' system mappings when
+> they are created. As it is today this can only be toggled at build time,
+> so hosts that need sealing and hosts running software which moves or
+> unmaps these mappings end up with separate kernels. This is not ideal
+> since it adds more complexity of deployment, it would be great to be
+> able to have one kernel which can configurably do both.
+> 
+> So, to improve this, let's add mseal_system_mappings= so that this can
+> be chosen at boot.
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/coverage.rst | 158 +++++++++++++++++++++++++++
- Documentation/dev-tools/gcov.rst     |  28 +++++
- Documentation/dev-tools/index.rst    |   1 +
- Documentation/dev-tools/kcov.rst     |   3 +
- MAINTAINERS                          |   1 +
- 5 files changed, 191 insertions(+)
- create mode 100644 Documentation/dev-tools/coverage.rst
+I'm very curious, do you actually have a usecase for this?
 
-diff --git a/Documentation/dev-tools/coverage.rst b/Documentation/dev-tools/coverage.rst
-new file mode 100644
-index 0000000000000..547863b2afd6d
---- /dev/null
-+++ b/Documentation/dev-tools/coverage.rst
-@@ -0,0 +1,158 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============
-+Code coverage
-+=============
-+
-+The kernel can be instrumented to find out which parts of it get executed.
-+This serves two different purposes:
-+
-+* Measuring code coverage, e.g. to assess and improve a test suite, or to
-+  show the structural coverage required by safety standards. This is done by
-+  one of the code coverage measurement implementations described below.
-+
-+* Guiding fuzzers. This is done by KCOV, which collects coverage per task;
-+  see Documentation/dev-tools/kcov.rst.
-+
-+All of them are configured in the "Kernel hacking -> Kernel Testing and
-+Coverage -> Code coverage" menu, live in ``kernel/coverage/``, and share the
-+``/sys/kernel/debug/coverage/`` debugfs directory.
-+
-+
-+Code coverage measurement
-+=========================
-+
-+The implementation is selected by the "Code coverage measurement" choice:
-+
-+============================  ==============  ================================
-+Option                        Compilers       Data
-+============================  ==============  ================================
-+``CONFIG_GCOV_KERNEL``        GCC, Clang      gcov ``.gcda`` files, see
-+                                              Documentation/dev-tools/gcov.rst
-+``CONFIG_LLVM_COV_KERNEL``    Clang 19 and    LLVM raw profile of the kernel
-+                              later           image (``.profraw``)
-+============================  ==============  ================================
-+
-+The instrumentation and the format of the data are defined by the toolchain,
-+so only one implementation can be used at a time. Both only instrument C
-+code.
-+
-+Clang's source-based code coverage (``CONFIG_LLVM_COV_KERNEL``) instruments
-+the code in the compiler front end. Its data therefore maps back to the source
-+code exactly, regardless of the optimizations applied, and it can show the
-+coverage of every condition of a decision. It only instruments code built into
-+the kernel image. gcov also supports modules.
-+
-+
-+Selecting the code to instrument
-+--------------------------------
-+
-+``CONFIG_COVERAGE_PROFILE_ALL`` instruments the entire kernel. On architectures
-+that don't support it, or to instrument only parts of the kernel, add a line
-+like the following to the respective Makefile.
-+
-+For a single file (e.g. main.o)::
-+
-+	COVERAGE_PROFILE_main.o := y
-+
-+For all files in one directory::
-+
-+	COVERAGE_PROFILE := y
-+
-+To exclude files from being instrumented even when
-+``CONFIG_COVERAGE_PROFILE_ALL`` is enabled, use::
-+
-+	COVERAGE_PROFILE_main.o := n
-+
-+and::
-+
-+	COVERAGE_PROFILE := n
-+
-+The per-file setting takes precedence over the per-directory one, which takes
-+precedence over ``CONFIG_COVERAGE_PROFILE_ALL``.
-+
-+Only exclude code that can't work when instrumented, for example because it
-+runs before the kernel is relocated or is copied elsewhere. Code that must not
-+be instrumented for correctness reasons, such as the entry code, is annotated
-+``noinstr`` instead; see `noinstr`_.
-+
-+
-+Interface
-+---------
-+
-+``/sys/kernel/debug/coverage/`` contains:
-+
-+``backend``
-+	The name of the selected implementation, ``gcov`` or ``llvm``, followed by
-+	``mcdc`` when MC/DC is measured.
-+
-+``reset``
-+	Writing to this file resets all coverage data of the selected
-+	implementation. It does not affect KCOV.
-+
-+``gcov``
-+	A symlink to ``/sys/kernel/debug/gcov``, where gcov keeps its data (see
-+	Documentation/dev-tools/gcov.rst).
-+
-+``llvm/profraw``
-+	The raw profile of the kernel image, for Clang's source-based code
-+	coverage.
-+
-+``kcov``
-+	A symlink to ``/sys/kernel/debug/kcov`` (see
-+	Documentation/dev-tools/kcov.rst).
-+
-+The instrumented code updates the coverage data without synchronizing with
-+readers, so reading the data while other CPUs execute instrumented code
-+doesn't give an atomic snapshot, and the same applies to a reset.
-+
-+With Clang's source-based code coverage, convert the raw profile and create a
-+report with the ``llvm-profdata`` and ``llvm-cov`` tools of the LLVM version
-+that built the kernel, since the raw profile format changes between releases::
-+
-+	# cp /sys/kernel/debug/coverage/llvm/profraw vmlinux.profraw
-+	$ llvm-profdata merge vmlinux.profraw -o vmlinux.profdata
-+	$ llvm-cov report -instr-profile=vmlinux.profdata vmlinux
-+	$ llvm-cov show -instr-profile=vmlinux.profdata vmlinux kernel/fork.c
-+
-+
-+MC/DC
-+-----
-+
-+Modified condition/decision coverage (MC/DC) verifies that each condition of a
-+boolean decision has been shown to independently affect the outcome of the
-+decision. It is required by safety standards such as DO-178C (avionics) and
-+ISO 26262 (automotive). Enable it with ``CONFIG_COVERAGE_MCDC``:
-+
-+* With Clang's source-based code coverage, decisions with more than
-+  ``CONFIG_LLVM_COV_MCDC_MAX_CONDITIONS`` conditions are not measured. Show
-+  the results with ``llvm-cov show -show-mcdc`` and
-+  ``llvm-cov report -show-mcdc-summary``.
-+
-+* With gcov, GCC 14 or later is required, and decisions with more than 64
-+  conditions are not measured. Show the results with ``gcov --conditions``.
-+
-+The compiler warns about every decision it doesn't instrument.
-+
-+
-+noinstr
-+=======
-+
-+Code annotated ``noinstr`` must not be instrumented; this includes the code
-+running on kernel entry and exit, and in NMI context. Outside of
-+``instrumentation_begin()``/``instrumentation_end()`` sections, ``noinstr``
-+functions may only call other ``noinstr`` functions and ``__always_inline``
-+functions.
-+
-+The code coverage measurement implementations insert their instrumentation
-+before functions get inlined, which would carry the instrumentation of an
-+``__always_inline`` function into the ``noinstr`` code it is inlined into. To
-+avoid that, ``__always_inline`` functions are not instrumented when one of them
-+is enabled, and as a consequence they don't show up in the coverage data.
-+
-+With ``CONFIG_NOINSTR_VALIDATION``, objtool reports coverage counters that get
-+updated by ``noinstr`` code outside of such sections.
-+
-+KCOV instruments the code after inlining and honours ``noinstr`` through the
-+``no_sanitize_coverage`` attribute with Clang and GCC 12 or later; with older
-+GCC, objtool removes its calls from ``noinstr`` code.
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index b6910c3fc00dd..d2950070f3ca4 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -22,6 +22,9 @@ Possible uses:
- * minimizing kernel configurations (do I need this option if the
-   associated code is never run?)
- 
-+See Documentation/dev-tools/coverage.rst for the options and interfaces shared
-+with the other code coverage implementations.
-+
- .. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
- .. _lcov: https://github.com/linux-test-project/lcov
- 
-@@ -180,6 +183,31 @@ b) gcov is run on the BUILD machine
-       [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
- 
- 
-+MC/DC Coverage
-+--------------
-+
-+When using GCC 14 or later with ``CONFIG_COVERAGE_MCDC=y``, Modified
-+Condition/Decision Coverage (MC/DC) data is collected alongside standard
-+branch coverage. MC/DC verifies that each condition in a decision
-+independently affects the decision's outcome.
-+
-+To view MC/DC data, use::
-+
-+    gcov --conditions -o /sys/kernel/debug/gcov/path/to/dir file.c
-+
-+MC/DC coverage is required by safety standards such as DO-178C
-+(avionics) and ISO 26262 (automotive).
-+
-+GCC's condition coverage implementation has a limit of 64 conditions per
-+boolean expression, due to the use of 64-bit bitmasks internally.
-+Expressions exceeding this limit cannot be instrumented and will produce
-+a compiler warning. This does not affect the correctness of the kernel;
-+those expressions simply will not have MC/DC coverage data.
-+
-+Note that MC/DC instrumentation increases binary size and execution
-+overhead compared to standard gcov profiling.
-+
-+
- Note on compilers
- -----------------
- 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 59cbb77b33ff4..d670c1398e495 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -23,6 +23,7 @@ Documentation/process/debugging/index.rst
-    coccinelle
-    context-analysis
-    sparse
-+   coverage
-    kcov
-    gcov
-    kasan
-diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-index 1a739290c8ecc..98a30a1a3f88a 100644
---- a/Documentation/dev-tools/kcov.rst
-+++ b/Documentation/dev-tools/kcov.rst
-@@ -12,6 +12,9 @@ To achieve this goal, it does not collect coverage in soft/hard interrupts
- (unless remove coverage collection is enabled, see below) and from some
- inherently non-deterministic parts of the kernel (e.g. scheduler, locking).
- 
-+KCOV is configured next to the other code coverage implementations, see
-+Documentation/dev-tools/coverage.rst.
-+
- Besides collecting code coverage, KCOV can also collect comparison operands.
- See the "Comparison operands collection" section for details.
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 506f25cfc3e85..ff9b355c2fc0d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6592,6 +6592,7 @@ F:	drivers/media/platform/chips-media/coda
- CODE COVERAGE
- M:	Sasha Levin <sashal@kernel.org>
- S:	Maintained
-+F:	Documentation/dev-tools/coverage.rst
- F:	kernel/coverage/Kconfig
- F:	kernel/coverage/Makefile
- F:	kernel/coverage/core.c
 -- 
-2.53.0
-
+Pedro
