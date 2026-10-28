@@ -1,54 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.24
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793194443;
-	b=svZuzxUv+sk+ohI6n3oCd9ZYhUT7dC8r9wTNt7A4ykoFR6XD1yBYVRC7I6sR6WQLPG+X
-	 xTzQ0yFLBiGMiBhitld204jsdDANgl8jPIrOHVB4YMJ2cjuM6DrvMWFUsFj1kznNainu6
-	 5TNHuD4y2tCnVQCsCEARBfTG6+dTDmnLwHT3tNRJKPbZATpHFUMjFnpXgaNq4Q31fkjs2
-	 nmkMnlY+Skr0TxXQ1RZMqpVpAPj8zHtyBR0pokjayBdX8OzL8N1Gp7MKhAn0Xh+JNCb4h
-	 +/Gu7DcnNOwjfaM10ldggfWtKbhjNqVd8sPBr3PecSWoTbLwDbjebbIa4bpE3MJ6UdA==
+	t=1793194497;
+	b=CAe7nnvoxerlWqtn6je8FGJDMpJFiRmugWMXkmclHfnBkwqbgTwtmBdKRLCztexuhzwh
+	 ud4hSxbm/YoAi6hPCGTbGmQ9vqR0eVJC3hsCZP+Q6J/Rjj2Ru9yKixbB1m9G8UZyL1Web
+	 DXpJSvuJyVXIcJUu1BEV7aGSQ7D16CWmIgMPwljScj8IquLhsCaylyChWtqLJrbjWjXzt
+	 JHqaBsX2rT8hommIyEz28x/M72KwxaoBOQRHCTBwr9pAW/fWGnmWxr5hRFIP4ZGh+34Mm
+	 1x6msOnH9bM2r7kpySGSjxAqoGznQLDZT45aOPBTxGj+Jq23mU/bAU/jBPfpDOHmsYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793194443;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=+i89gbLbnk0eWNWQfGRGjKqDrE0gEnhRAgw++rXrpR4=;
-	b=G0apcgRoY6gnTp357a6zTt674L4Evp3xFBByf+6CQAz/HNKcf8tl8VTvB8/meQdmGArt
-	 sBmJz2SiHyZs7vXzqTi5KDLr5pQ+vB0+wNx7QfrKXhWlRWW/K48t4bJ6XrkZg3yt+t1GE
-	 bH5kiikdtFVT5nVlL42pC1Dot6u3XgsST7/yPIni6RP2hpEg3POKNorj3jQvuWhn6ApBs
-	 qoXqIosaU1jZX/t2iuc6vwPAsgJ267jw8vIzQ5Gc20dWTWiVboVw6MoM/gErSVv4aYc9M
-	 h5hzFv1lw7OtgpsbHaZhyCjS1yT7E9bPv0U3aqhvlXf33Ba4tX26S867rslRrfDMB3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194497;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=K5sU8ZAJRz6gFhM4gDWxCHu2kvyqTC/PTTWhoAieCGY=;
+	b=zvz2UrUH8e2e/TZJ3eFZ3Y+aFSccgRLTqSKJJfiz01mtZ4xDpSbUrAtFQKXyG3/PS8pE
+	 K5OPGuezyG+6eKoVN6C/yCvp4AaxsjFjp2z2+hQ3ZUEBEVoZShMPWF1LUErzFf776dpw5
+	 CgRZEqzWfln7AOB/6DN8+8LHUXOrJc0VZmoRZx/jjWvwFBDu5c2Kd4blVzAS1+c1JD6zv
+	 tyoeMJSWMomuCNzmP3zvckVeowHSi3yJxcOQ2vK5dgf3/83yl6msvZLEF+axMnJgS0CjJ
+	 RPEqw+yWod0GfyiWjYL9pKvIHLcrNwnCm7c3CO4O/IynqnQpxkTeFSLjAsXTsa5GBWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="WKNMsN+/";
-	arc=none smtp.remote-ip=95.215.58.24
-Received: from mta1.migadu.com (out-24.mta1.migadu.com [95.215.58.24])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=WQTo7RRj;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56BB60A2626
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:34:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C56BB60A2626
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7A6606A31A;
+	Wed, 28 Oct 2026 13:34:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC7A6606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WKNMsN+/
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ZGabnbBPQOG1vD10Hk045MNH8SrJwcOoFj1T632b9xc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793194440; v=1; x=1793799240;
- b=WKNMsN+/7QQJ0nkJCxFdL6jIECD96U8E8w7ib/hk7NVugdFM4/sf31Fm7dzVpmjnTbBX/Q1m
- bklXMChdXq/GnVjzr+hEUwKRvazZvgtXPlRL7Xf1LQqCzwdzgtNJ0223jk7AD64gIWdIl/t6gTl
- mA4kYVS5itSBPG1qtU8eHgXs=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 87b8adf5ccd19833;
-	Wed, 28 Oct 2026 13:34:00 +0000
-X-Mizu-Trace-ID: 87b8adf5ccd19833
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=WQTo7RRj
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=K5sU8ZAJRz6gFhM4gDWxCHu2kvyqTC/PTTWhoAieCGY=; b=WQTo7RRjUws4wLzC6TxpAmx57w
+	qcq5fCMagtfKad2FmcZhLNiyNmxBTF8/cvyU5FhHuyznlY2ota9MN31xYDxFIv2Erfp4aIicHdOEl
+	E2jxLk1iu6UVgBFuNZDHQbP8i5O71tuJIGJbKRCf70a3PNnSQKK+sWlOzaRMzfKYFkbHgL5lDL9Vp
+	ZvXgetdmOXoLVKHD/1ZDYuRo7eMc1PaJvukhM56Ia68PICeBLH2PimR6BGNHj7GsDJbTI86FtVG5t
+	W0wLnsMXdRptmezamho6yQr8A3y96kAxjX7Nk07pkHXtbr6zoq0TtEiKMjF427WJnVaamNRv1dQ0Y
+	/t33+Xow==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xM3ne-0000000G0rh-0VGE;
+	Wed, 28 Oct 2026 13:34:43 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E42F1300DB9; Wed, 28 Oct 2026 14:34:39 +0100 (CET)
+Date: Wed, 28 Oct 2026 14:34:39 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Frank van der Linden <fvdl@google.com>,
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	kernel-team@meta.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
+Message-ID: <20261028133439.GK2668804@noisy.programming.kicks-ass.net>
+References: <auCKv_omLGRc6wv2@thinkstation>
+ <f3f3aca9-bdb7-4aec-9099-9fb63a60e61d@kernel.org>
+ <auCZFckDfBMrlfxV@thinkstation>
+ <070DDE5C-2183-4A8B-AC2D-891CAE15E581@linux.dev>
+ <d7a634b6-8668-4753-8bfc-e9334dde705e@kernel.org>
+ <4A32F5E6-977D-4720-8723-B19AFBC08FCF@linux.dev>
+ <auDkbDlgSZxqlk2G@thinkstation>
+ <7cb3dd91-f518-49b6-b311-9ec807b3c63b@linux.dev>
+ <20261028080635.GD2668804@noisy.programming.kicks-ass.net>
+ <auHxIORufMbldrBr@thinkstation>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,97 +95,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH] mm/hugetlb_vmemmap: map the shared tail page writable
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028132623.2560146-1-kirill@shutemov.name>
-Date: Wed, 28 Oct 2026 21:33:33 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>,
- David Hildenbrand <david@kernel.org>,
- "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Frank van der Linden <fvdl@google.com>,
- Matthew Wilcox <willy@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0C23A63A-43C8-4434-BEB8-8E5ED3471C25@linux.dev>
-References: <20261028132623.2560146-1-kirill@shutemov.name>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-X-Mailer: Apple Mail (2.3901.100.1.1.12)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auHxIORufMbldrBr@thinkstation>
 
+On Wed, Oct 28, 2026 at 12:58:11PM +0000, Kiryl Shutsemau wrote:
+> On Wed, Oct 28, 2026 at 09:06:35AM +0100, Peter Zijlstra wrote:
+> > On Wed, Oct 28, 2026 at 10:38:22AM +0800, Muchun Song wrote:
+> > > 
+> > > 
+> > > On 2026/10/28 01:51, Kiryl Shutsemau wrote:
+> > > > On Tue, Oct 27, 2026 at 10:03:54PM +0800, Muchun Song wrote:
+> > > > > Therefore, I am kind of leaning towards removing the RO protection
+> > > > > and restoring RW permissions to solve the race.
+> > > > Okay, what about this:
+> > > > 
+> > > >  From e23ab850837b53cc79d57d58f1cfb4266e745c3d Mon Sep 17 00:00:00 2001
+> > > > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> > > > Date: Tue, 27 Oct 2026 17:23:47 +0000
+> > > > Subject: [PATCH] mm/hugetlb_vmemmap: map the shared tail page writable
+> > > > 
+> > > > page_ref_add_unless_zero() reads the refcount and then updates it with
+> > > > a cmpxchg.  A lockless get, such as a page cache lookup or a PFN
+> > > > scanner, can read a non-zero refcount from a page that is then freed
+> > > > and reused as a hugetlb tail page.  If HVO remaps its struct page to
+> > > > the shared tail page in between, the cmpxchg writes to read-only
+> > > > vmemmap:
+> > > > 
+> > > >      CPU0 (lockless get)               CPU1
+> > > >      c = atomic_read(&page->_refcount)
+> > > >                                        page freed
+> > > >                                        page allocated as a hugetlb tail
+> > > >                                        HVO remaps the struct page RO
+> > > >      try_cmpxchg(&page->_refcount, &c, c + 1)
+> > > >        -> write fault on read-only vmemmap
+> > > > 
+> > > > The refcount is zero by then and the compare fails, but LOCK CMPXCHG on
+> > > > x86 writes anyway.  The kernel oopses when hugetlb pages are allocated
+> > > 
+> > > Is this an X86-specific issue? If not, I suggest a more generic
+> > > description.
+> > 
+> > AFAICT most architectures that implement single compare-and-swap
+> > instructions are affected, with the possible exception of s390.
+> > 
+> > That is, sparc, arm64-lse, riscv-Zacas, loonarch-amocas, openrisc (and
+> > ia64 for those people keeping the out-of-tree port alive) all require
+> > write protection to begin cmpxchg.
+> > 
+> > All the LL/SC architectures should be fine, they'll never get to the SC
+> > part.
+> 
+> Only architectures with HVO matter here: x86-64, riscv and loongarch.
+> arm64 has had it disabled since 060a2c92d1b6.
 
+Per that commit, could it be re-enabled now that its no longer marked RO?
 
-> On Oct 28, 2026, at 21:26, Kiryl Shutsemau <kirill@shutemov.name> =
-wrote:
->=20
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
->=20
-> page_ref_add_unless_zero() reads the refcount and then updates it with
-> a cmpxchg.  A lockless get, such as a page cache lookup or a PFN
-> scanner, can read a non-zero refcount from a page that is then freed
-> and reused as a hugetlb tail page.  If HVO remaps its struct page to
-> the shared tail page in between, the cmpxchg writes to read-only
-> vmemmap:
->=20
->    CPU0 (lockless get)               CPU1
->    c =3D atomic_read(&page->_refcount)
->                                      page freed
->                                      page allocated as a hugetlb tail
->                                      HVO remaps the struct page RO
->    try_cmpxchg(&page->_refcount, &c, c + 1)
->      -> write fault on read-only vmemmap
->=20
-> The refcount is zero by then and the compare fails, but a
-> compare-and-swap instruction needs write access whether or not it
-> succeeds.  The kernel oopses when hugetlb pages are allocated at
-> runtime with HVO enabled while a lockless get races with it.
->=20
-> Commit bd225530a4c7 ("mm/hugetlb_vmemmap: fix race with speculative =
-PFN
-> walkers") closed the window with RCU on both sides.  The RCU was =
-removed
-> together with fake heads, on the wrong belief that it was only needed
-> for them.
->=20
-> Map the shared tail page writable instead of restoring the RCU.  Every
-> struct page on it is a tail with a zero refcount, so a late cmpxchg
-> fails and leaves the page unchanged.  RCU would put rcu_read_lock()
-> back around every get and synchronize_rcu() back into hugetlb
-> allocation and freeing.
->=20
-> The cost is the protection against stray writes to tail struct pages.
-> The shared page is shared by all hugetlb folios of the same order in
-> the zone, so such a write now corrupts all of them instead of oopsing.
->=20
-> Bootmem folios optimized when the memmap is set up keep their tails
-> read-only.  Nothing does a lockless get on them before hugetlb takes
-> them over.
->=20
-> Fixes: 32c440d67e6c ("mm: drop fake head checks")
-> Fixes: 01b1d0ffb6f7 ("hugetlb: remove VMEMMAP_SYNCHRONIZE_RCU")
-> Reported-by: David Hildenbrand (Arm) <david@kernel.org>
-> Closes: =
-https://lore.kernel.org/r/ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> riscv and loongarch implement atomic_fetch_add_unless() with LL/SC only,
+> no CAS variant, so they see the zero at the load. That leaves x86.
 
-LGTM.
-
-Acked-by: Muchun Song <muchun.song@linux.dev>
-
-Thanks.
+Ah yes, I only looked at the cmpxchg implementation rather than the
+fetch_add_unless :/
 
