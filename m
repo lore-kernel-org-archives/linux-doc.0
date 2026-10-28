@@ -1,110 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793203789;
-	b=Y6gpriW3IHCp9F3QhbNtfmLTiIv3tKX/E7efOiXBTVsBSkytMXv56V+FZbssiQm2Is2G
-	 ysxyDDok92I2jkg76BhRzyD6Oxtzypj9TOXRbc85yznjS048cmXHnWkzpqTENLxmVN5eg
-	 Adv87QEy6KO3yyagWpe+vHNsEFlgdFDZ1E/qxbeFmnYlkoOVzre8OauGZ9hjDn0IprTxe
-	 FQHNsZebjNj1O0Yfi+ZcfK0qA0Vy1Pa0KXw8XgjIlszfSCWQmU6pU9DDorbvcctTBrt16
-	 pxCO44e5ArSohecY4GQy4ZuMfLZJybTlrsbMROJcnan+iiReRkjHIsKUnDOmW/fIhTQ==
+	t=1793203902;
+	b=0VTDwaKNk3/tQqr+XM0OiHnh9yURGiFVWrKaflhT5Ht86RMtnWM9UGrxkVQAsiqqshm/
+	 5DibpZIQeVuNw4GMMgRcqGsOvq1JFNjwtL4WnmMPMnXhjsIt1h+ooSIZxJWZ0rTYycaMW
+	 TW+RLteMeQCrq1oCXNPWs3cnZaDqzecVVCzSvePwHNxKpu/6lAHmdaLs+bRSnZc+wyOR/
+	 LYHeK/hvmx7IIQHHUD27GjIJeFuIDiavsrrU0EWaHkqmafS47Pt87jJV+lpavPQeHHKl1
+	 9rCRZhS0XeRzPRrsj/m5HDd2FWOf4tc8qzYepfyt4AggZ8h6a7OGYg230+j4f3omVQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793203789;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=YZcts4qcYFLKUzeEZmCB29OAtaKV7wlY2duix3l+9sA=;
-	b=TyaN9SVvXK3Qxwm4JprN//OuWpLJIyrA0aW8e07SZIw18oo4E8xr/mrK98vdMVGNPCBE
-	 hhn40X8QlrNMira50fpabx/w+PElNlWuWexc0XWYtsUo+kx1By0Fke02qUV2YQZNlCt/D
-	 VO8Pv6Y3lz5ItDq7QYFR5dKQ/iiexilV7JtIw1fXw1QpC71IXHjjcbKB3lE3k9DH+rJ1l
-	 luukEQBjgSW+7zQe5+jDEpif6uzP2+6mavs/Ns9gCVs38kUmaHIEKRGn8mq6wOM68lqHD
-	 1kz0fPoZyA7oocOyumGTDK+7gUVTY0SSav0MKn8TdCxU1zoughBM80kxHN2MwBVY8mA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793203902;
+	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
+	 X-HE-Meta;
+	bh=uxSAUdDO3MwPK+26JuHSTsq458DkeZfKh4h7kUJVnPI=;
+	b=rAmZPaehgngr5+/oU5c+kMbrkBHEGMs5+nwHwYsimvpEGZuCwuftXm37rNyQLK3cPEfq
+	 goLu3GrOrOVP+JNxeS8tDyGjOAOl9pYVswmFmuW6sZDY9iiT5nwG1fCoyR6+TV5bA6iGx
+	 fqpAOK3kvq3HxM7ns0E/Yg/4U4Gh2tPNbA7n59t5Z0jny29eFVOHMhZrLtZxzMp+cjekS
+	 VtJF/je00S2Rwfi1lnYsASkIm6hdaBPrXHejM4EbKdV2qINTxDpf6wgLu8PV8WrAL97CR
+	 29u624HTSBJ1YUKRU/Dkt1cwdG/NPoK8phjsw0VMlGhoxUhue1+a67TuSf3QlGXzB0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=perches.com;
+	spf=pass smtp.mailfrom=perches.com;
+	arc=none smtp.remote-ip=216.40.44.15
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F40606A31E
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 16:09:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6F40606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so11227035e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 09:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793203782; x=1793808582; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YZcts4qcYFLKUzeEZmCB29OAtaKV7wlY2duix3l+9sA=;
-        b=Ji5Xvtpoxyb8kVn4SdVY2cX+DsEgu1bKkZdsC3ebjs4d1+CltzAuRtjoP6qRorAjmm
-         U/OTale8tpuOeROnVeyxXNIIaWfog47eEJFCNp27SbEPsWiXlbJSFUU7KgmL/w+kS1Qk
-         Xoz40ZBJl6WRqwF7cZjV6sWb8IbzqZcrFctXWKFMXwrZRtrx0RyDRwjEA32GAPhICZjW
-         MQaQxgB9raqsmYBxkaP7PzkQnI5sX89vYUiv0DZuFdVs9fh4gndC7Z/ZAgGohdQcpiRV
-         +IlqliYlhUTo7YEUzaeGWGEgvu/pIVHVtE9NKkTWWWXdySGqcXDMlZXy58QAKS+slkSX
-         voyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793203782; x=1793808582;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:date
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=YZcts4qcYFLKUzeEZmCB29OAtaKV7wlY2duix3l+9sA=;
-        b=AD9BZGePNaAK2P7i4CLq4P7880o0xr4rmlynn2K05hgrsQTa11C9in1zQtJ92dZI7o
-         vcjyIsdwKHgb3yKqXYXnG0dZQyhQEfqrs/2sy5d2fkMJ5vVOSrtsfMDfrXm0BMLnBlCz
-         TvXml5E9SEuwySqCLNwsZOGezE5Ya1tlynELSCr9uPxkinH0TSoy5fBY0fcNLUwnbKig
-         dOeS7oBWWFTt9r5Z54vJpOnOAs+lXdXnCtCcDqzbdNbcdtxTeX4RGM8lUyH+2pKcHhg1
-         8u1J/bRsQIrU/dT+1Q+JMOuHp93e3H/bAdggFmroIJI5/W2xE9N2oQOVD2Qpy1OgY+wm
-         TEfw==
-X-Forwarded-Encrypted: i=1; AKwUvBxoTzOmen8KOkmzcqMEj7ts5txm2xLxN8H6TkBsa5FJCAd/8izhOQvttMpS8SGfoDzn8giE6r3T1tE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJQsvTh231BTcENj6Q21mB/b+e6kUmryGPLbOILt0BY+gUUPCIq
-	OKPyBjjf0W2RhYYBY5/HBNivFuG81pHoIbxMr/YRHrgNAkFLrWzBHxtyYHoVFXK3WTk=
-X-Gm-Gg: AYBFou1ILy+o6FNYhCf8vZvfzfNpDfEiSEToZZGCtLm9onFGRnT5L+LjMrbAk9utUX5
-	X7gLgUhA+RSdcBYb9l+i5rbz9YD17y4R3x5ShjiQ+g0LbSB6QuHicfSyYDfy1gVHpKxhP7y07p0
-	J+LVc2uzdFsTkz88tdj8MOof0DgTK7k9lafZS0lFkv2d40xiu2hAOLtqSaUHzr7q/lpyDD3LzqL
-	TZzcwq0tyKCvWOQmE+k0s9QDdNdx/Fz14wn0j4tWklme2hXSZBoqloXtZarwkGU1PHVC3p3frpX
-	NgFx4FmdXho50X7y1ciHWtKcEq+y4jUSOPELPJgk8P+CBnJpeP8/U8rnGJfWSfysrinSpuzpLmN
-	hsQ0UlFSSsFinvmzjYKEgfHpwckSN+OdHTzypCsl9LjRBqEsgVqWl7KkaSRM6soHXqZHZztszii
-	/WUcV6Go2K0GxRFyodle/RIlrC2wA4VYOjuJAnzCrkDL7Hil6oqUTu2hRPHh8Guhdtv6j9JHK89
-	CVxQbp07bTPEeT+501tZ/+qp3K/+OYk6zauDMJJAk4d7Vaho6Od23SZ3dM/qtqLRuef9lsWZRF4
-	1ZQxC2NcsyCKQCBOc5fOhpkxcce6nA==
-X-Received: by 2002:a05:600c:4f89:b0:4a1:c6fd:4db0 with SMTP id 5b1f17b1804b1-4a966c41836mr68052215e9.19.1793203782221;
-        Wed, 28 Oct 2026 09:09:42 -0700 (PDT)
-Received: from localhost ([82.192.120.214])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa8213ead6sm1572025e9.14.2026.10.28.09.09.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 09:09:41 -0700 (PDT)
-From: Andrea della Porta <andrea.porta@suse.com>
-X-Google-Original-From: Andrea della Porta <aporta@suse.de>
-Date: Wed, 28 Oct 2026 17:13:35 +0100
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: Andrea della Porta <andrea.porta@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Gregor Herburger <gregor.herburger@linutronix.de>,
-	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Gary Guo <gary@garyguo.net>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
- tachometer
-Message-ID: <auIfL4ZGdfNDUZxO@apocalypse>
-References: <cover.1792748690.git.andrea.porta@suse.com>
- <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
- <auGdsv0OVG4iLjZV@monoceros>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDA9606A31A;
+	Wed, 28 Oct 2026 16:11:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCDA9606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf08.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id D9BA980162;
+	Wed, 28 Oct 2026 16:11:36 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id A762B20029;
+	Wed, 28 Oct 2026 16:11:26 +0000 (UTC)
+Message-ID: <aacb76ee8a23f956eb2e778da7b125d86d164b25.camel@perches.com>
+Subject: Re: [PATCH 10/10] checkpatch: suggest nonnull attribute conversion
+From: Joe Perches <joe@perches.com>
+To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
+ <alexander.deucher@amd.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+	 <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
+ Lahtinen	 <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones
+ <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Joel Stanley	
+ <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Chen	
+ <ryan_chen@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann	 <tzimmermann@suse.de>, Kees Cook
+ <kees@kernel.org>, Andy Shevchenko	 <andy@kernel.org>, Matthew Wilcox
+ <willy@infradead.org>, Andrew Morton	 <akpm@linux-foundation.org>, Andy
+ Whitcroft <apw@canonical.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap	 <rdunlap@infradead.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org,  Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 28 Oct 2026 09:11:25 -0700
+In-Reply-To: <bc2cd702455e58feb777cdb230e3ba4f7e1db60f.1793027261.git.d@ilvokhin.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
+	 <bc2cd702455e58feb777cdb230e3ba4f7e1db60f.1793027261.git.d@ilvokhin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,25 +77,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <auGdsv0OVG4iLjZV@monoceros>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: A762B20029
+X-Stat-Signature: 5m56y4bjcqjn15doddn3439d63u3xrtz
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18kHAE4RjXJ/BeJ9lSamcdiJOrG4xRY5jU=
+X-HE-Tag: 1793203886-334294
+X-HE-Meta: U2FsdGVkX1+vO3ZouaggYmakzKiEViVwEjIkayqsOUxRh4Y+D03W9OsYvhntgdSUdjdTBgNAGM07O+W/OBkN7qiawu9kPLoFiAUred/Z/Bvw2Ynv8IG7qnAPxQ8uaps63yUCxrPyn7HCEVo07x5i6NYNvKDhGCJh54qqNDafUAiSXShW2FGTVwwUUFc93x1OQO9f/LKoTfr2/KbcvJm3wJYFIWxls5MSV6vUbxfQ1CWIN5fZL2IoMApFvaTjDQjqQiBboJBwZoq4pSCGSqpTDJvfdjT4vabv8HAYbaFYZefsnth8dvgSgzQtAJujUJ5T/R386onDul4BmhyfIQ2SbKwU1ePW8+59QlMTPdteTFyX32nsSOnI504//g+rZB3j
 
-On 08:02 Wed 28 Oct     , Uwe Kleine-König wrote:
-> On Fri, Oct 23, 2026 at 12:15:56PM +0200, Andrea della Porta wrote:
-> > +#include <linux/platform_device.h>
-> > +#include <linux/mod_devicetable.h>
-> 
-> Irrespective of how this patch set evolves: Please don't add new
-> includes for <linux/mod_devicetable.h>. <linux/platform_device.h>
-> already provides of_device_id without introducing a batch of unneeded
-> dependencies.
+On Wed, 2026-10-28 at 08:19 +0000, Dmitry Ilvokhin wrote:
+> The kernel provides the __nonnull_args() macro as the preferred form for
+> marking pointer arguments as non-NULL. Add a check suggesting the macro
+> over the raw __attribute__((nonnull)) spelling, consistent with the
+> existing attribute conversion suggestions.
+>=20
+> Examples:
+>=20
+>   WARNING: Prefer __nonnull_args(1, 2) over __attribute__((nonnull(1, 2))=
+)
+>   #11: FILE: drivers/soc/aspeed/aspeed-lpc-snoop.c:230:
+>   +__attribute__((nonnull(1, 2)))
+>=20
+>   WARNING: Prefer __nonnull_args() over __attribute__((nonnull))
+>   #11: FILE: drivers/soc/aspeed/aspeed-lpc-snoop.c:283:
+>   +__attribute__((nonnull))
+>=20
+> Signed-off-by: Dmitry Ilvokhin <[d@ilvokhin.com](mailto:d@ilvokhin.com)>
 
-Ack.
+Seems sensible, thanks.
 
-> 
-> Best regards
-> Uwe
-
-
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -6856,6 +6856,7 @@ sub process {
+>  				"no_caller_saved_registers"	=3D> "__no_caller_saved_registers",
+>  				"noclone"			=3D> "__noclone",
+>  				"noinline"			=3D> "noinline",
+> +				"nonnull"			=3D> "__nonnull_args",
+>  				"nonstring"			=3D> "__nonstring",
+>  				"noreturn"			=3D> "__noreturn",
+>  				"packed"			=3D> "__packed",
+> @@ -6876,6 +6877,8 @@ sub process {
+>  					if ($curr_attr eq "format" && $params) {
+>  						$params =3D~ /^\s*\(\s*(\w+)\s*,\s*(.*)/;
+>  						$new =3D "__$1\($2";
+> +					} elsif ($curr_attr eq "nonnull" && $params eq "") {
+> +						$new =3D "$new()";
+>  					} else {
+>  						$new =3D "$new$params";
+>  					}
+>=20
