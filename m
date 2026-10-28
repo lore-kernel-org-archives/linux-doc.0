@@ -1,63 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793170966;
-	b=pWxGWTilLh4vT2S4AQ6GzrtaeoZOCmlUUquz9WyiJd64CJEdp/dg0EDsNmBtawNrqWxW
-	 7Du8BXF3vLV1plau63AHzl72jQ7ut7M9s4Fvqs6Oou5tOzbfCGwq+z+bHuhukaHj/bp/j
-	 1cIDUzcYw3jYmpOm+RhVokyoUbj8JfVOI+Aqd9KDnbXX24v9JAA9MjZntS64JovFPpdwk
-	 EOz4Ozs85SzuLBrmpcGGMULEYwPhh2XftVs+WlVQCHpJqUg/7aBYwEJTVBPMNIpzMNkDA
-	 zdAGnPrxGiDgqptev3G8/OIUFawz7vCplgFbn/0BCA7SMwnu56LdIxq6d1IhzjZDRng==
+	t=1793172411;
+	b=qIUuLpMGs0s3qcvx4uEJ16ueuoCxj9vIO64zj/gE5R5M/DyDY4OF8pUojesbqT05syrI
+	 R4FDGQdjEWdLr78wd1d+ZszdiVTz2IGlFjQBS6yU7fURQ+M9DN/+Vkob/gPDsv+g4+1Pr
+	 VmrQCWEKvzKSGrweZFr8y1jkV0MRO4n7/c5kTCWZxNKimzFwjx/FrQnZ+bb7NoghxD49g
+	 cokL+qBVzNY4HIKGisH5P86w7kwBQI18mqgwNQPDmDqHvZ7R0v9lwo6IFQ2W13IHJLfWk
+	 DQU1X1+UmGMS5+Ndoxgrr0xrcQMVE8O8FE4EzA2zsiawZVy5d/mIUXDM2HBut9pCxDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793170966;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=q08GKnMLIclDg6PTr8i2voxZm8I33mhrixHE5JuaMUs=;
-	b=gAFXf74OWVO3pbsVyGMRkXMvIRWRhCsUis+Gs9EtAodWrKzCW5Z4HMzjWDMPqL/N6j9C
-	 qxeIQTp9zxra2aouUi2W018u3vB23yQPDA+hUSddVJe/ccXbNWEQj1c3/+AxIWd6PiXC9
-	 DehalXtkuXs3Ah8CoYxlaKbwr7df/XXHo4fP5ooTYhOGqcNi0M6ATYW7Axwlf6yrqPfCO
-	 Umuk1+j9FtNv1+Gz/jwr6tXXCloM4J71VY3rOH54CXQqLqqJ855SYT73xlXhJ2bcLqqIM
-	 tqQFdpslasGD/Ci8HWPSvCsWBs2yG9U6QEHgzNX9NYY1WnMfqka6DtBMAB39Aada8Qw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793172411;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=8fL9gMXaJRZ0Xj4WziyDDNMiCJApIpywa4WB+ca7aWE=;
+	b=xe8qJUN6jQBi7EL4MtS+a4BAoaFcK0yaREAfQGqRJ8tOZMBYU40YvLaWxPvGyJj3DXgJ
+	 ILD6nyQFFlWgEitRMLWZcxVEHGuEe26Ry7lwh0WG9Q9HEE0zyB878kxD3Ly1A2eQDKFDT
+	 u7seGQKtmN9Wfz4we5wGXK8Egym8+26++BrcD0RahcREc9yVDuYA/3eqYabqu/TuKOJ6+
+	 Yay/MbQhW+B5l5DZTDaKB3ejkR2ZipOTnS0ewiEsrYTsShIEMgzw+veUykkmzezanVBNt
+	 sujo70wGhCwzStUfyFuil9+MgZn7ClqTeIS2moATzx40X+3kiZtN/FVLn3gONKkDvVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzZZqJ47;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KTxc01Xt;
+	arc=none smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D36AA606A31F;
-	Wed, 28 Oct 2026 07:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E954D606A31D
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 07:26:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E954D606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EzZZqJ47
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E64751F01825;
-	Wed, 28 Oct 2026 07:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793170965;
-	bh=q08GKnMLIclDg6PTr8i2voxZm8I33mhrixHE5JuaMUs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EzZZqJ47lMCCR7dVk2hu9KwHo/iAZMjZKBzMs+gjAQnA5TfLoAuE/lrZCIOrYBw2T
-	 3NJ37YKg2C+FPc+wr4HddAc2Lcwd0PrM7GrlUrbLfa7uiEGHEYphF62rWWWE3Og/BM
-	 HivWTNw80Wc5XdUqU6TW9QuFPSLpnsKPaOGmd8esPDUZuLF0SmumPlvE1s2anqINIS
-	 ONgZOScwSvGLCwtxsKgrXFKCNBzzddx1VZLNH1PRoP4ELfkSqvk4UHzCK2PzbFwsgV
-	 Nax0KXyAkaA9c1MumOTuxrQZkxVYCOzpNvPkB8F//DjxCWnBgE/SjUIDQdlFSSUqCB
-	 aMpRoEtnAt17g==
-Date: Wed, 28 Oct 2026 08:02:42 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Andrea della Porta <andrea.porta@suse.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Gregor Herburger <gregor.herburger@linutronix.de>, 
-	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	Gary Guo <gary@garyguo.net>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
- tachometer
-Message-ID: <auGdsv0OVG4iLjZV@monoceros>
-References: <cover.1792748690.git.andrea.porta@suse.com>
- <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KTxc01Xt
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4395d31228so91141666b.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 00:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793172409; x=1793777209; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8fL9gMXaJRZ0Xj4WziyDDNMiCJApIpywa4WB+ca7aWE=;
+        b=KTxc01XtexAWBJr6OrZOfuAvgMg+gEOwA5+7/Mcz13J4YoEvTeIaMOw/5roWGCi8Q5
+         k5OtJRjb+W2CttkG8CkChCJRu/be7C/QHocZuXAaqRlPK3aS9eDvJKeduDIjBA38AyQy
+         0E3FSb/4LbLMrt/2Wxs5rRhxnk5Rs5d2tVoh//HfpgxjVocdlCO6V72KvO1NMTXx7Uxv
+         3YntGDWu1wdpttTfCC2iE6MUKKi0cDZnyu94mB5WMo1DiPp6n/d3q8GBPDnd3LpdP6J+
+         Gos8dm3b/5EDRffG5o4oUWqYfPPCwK6n0+y4t1X5zSFn0gDSMmWSgJSyyYmrt48Nt9L6
+         vTGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793172409; x=1793777209;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8fL9gMXaJRZ0Xj4WziyDDNMiCJApIpywa4WB+ca7aWE=;
+        b=rnehvx1cA3zppB44Ajk7fDZ4CrzB8qI2WY45P3rm9WXVX6WVr8BA7cvFLVgqobavKo
+         uzh4UsbRtAJDYKhr3mIR/NfQ0p3bNl8Vt7TcOOXfjsFnLe6mRSMYJfD28pzyOA1zqb3/
+         7XlpmhLRd0cAcKIRwbpSgGOrWDnGsmbSSUyUfYy793GBIW9XKlMvGsySyCz1I6LFXxBc
+         Cp0GNl01XWYlWoCeKyG1dgrSqM9FWFmqzG21yPdEwEioTC+JxKLwNt9CD6ezON4cHuPX
+         7oFNphNGGMT9glhn6w5vf3hW6quFRF5nahYXkAGH5aQ4XB8Bv0LpyXSsC6zCHdFds+gT
+         tTrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwqA9TmgUfhDPMAOzSc4cDgp/ViTfiRffVJzGrHtAZmj9/V1SFLDHm6Ja8rzIXkASWjR171pD+r/tQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI8q+2Et/mV+rnCfbiH8eP9BKYAQuG3n4iK8lBmBLJzPqaqvo+j
+	mty11VUoQVIkDq6C74Xu24pEim0cDL4v30NcxhpmKzQJ2Odk2JDD7Muf
+X-Gm-Gg: AYBFou0VjByxvXKGLgGxNEhnK2QVLwWN2kRBn2WxYCa3e782pn/E9tPnOE/BKYiFXHI
+	/oGXccl9osI949sr6lxqqJHngt7Dlyl7Hg8iqypWocUY/KVyfk1aLzEAAj/8HbeRzfhb/7facuk
+	X2BpsOBSOWo2ga/jbrIFtqx3EiOompzj52Nhs36ncFbXm4ap9GeKGveLOPYxPc6fOzOtz3phVa+
+	MIkj1w0ivK7GHymgiwdZQbGz4oB9y+9fEMaxdRPDVw8Tfv1axVr4t7qfmVFHCn2efz0tpmRSZG3
+	kZoj9EfYMvvUOTtDivUGHed2PjuimXgVg7EPT6vYpfeYOJ5LjWmLeee6rqvWJ9AAl+Y9ZdTl37a
+	DmLtG+BrwWiphG9uhkUTKC1B0+V7sFFneg0LbUzAkxOF+BJkNgFzIB4ddVjF9fSa1ElCx5WzS/u
+	6thSPbRgY2epdXwGjAEA5pXJuQtnjxk9l9I0CkX8lIn/tvT2F9uEAPPD+pPiAKdfdshZzaO70jk
+	2j6E17k12qDpRqzQhfozmiHqk6n+bVurfHbCdOQn/U3BTI9tLSetzNR3n7lPpMUP9yoXleotKUe
+	ykZNajvz5Au+IE7GiqpicPVa6R0fNRbE89XM
+X-Received: by 2002:a17:907:3f11:b0:c3f:c878:7c1d with SMTP id a640c23a62f3a-c49bdf2b6ddmr121255066b.9.1793172409029;
+        Wed, 28 Oct 2026 00:26:49 -0700 (PDT)
+Received: from RuiTian-14.guest.local ([2a09:bac5:303b:28c::41:144])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd795bf8sm564019566b.70.2026.10.28.00.26.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 00:26:48 -0700 (PDT)
+From: jiamingouyang13@gmail.com
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] docs/zh_CN: add Chinese translation for usb/ohci.rst
+Date: Wed, 28 Oct 2026 08:26:43 +0100
+Message-ID: <20261028072643.32250-1-jiamingouyang13@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,44 +100,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7352vh2aneherser"
-Content-Disposition: inline
-In-Reply-To: <0d2249a66732bfce38a2260bee08cd1ba4097e51.1792748690.git.andrea.porta@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Jiaming Ouyang <jiamingouyang13@gmail.com>
 
---7352vh2aneherser
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH RFC 3/4] hwmon: Add driver for Raspberry Pi RP1 fan
- tachometer
-MIME-Version: 1.0
+Translate Documentation/usb/ohci.rst into Chinese Simplified.
 
-On Fri, Oct 23, 2026 at 12:15:56PM +0200, Andrea della Porta wrote:
-> +#include <linux/platform_device.h>
-> +#include <linux/mod_devicetable.h>
+The translation covers OHCI driver overview, hardware protocol
+differences (OHCI vs UHCI), improvements since 2.4 kernel,
+queueable interrupt transfers, and non-PCI support.
 
-Irrespective of how this patch set evolves: Please don't add new
-includes for <linux/mod_devicetable.h>. <linux/platform_device.h>
-already provides of_device_id without introducing a batch of unneeded
-dependencies.
+Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
+---
 
-Best regards
-Uwe
+Changes in v4:
+- Replaced spelling problem.
+- In your cited discussion [1](https://lore.kernel.org/linux-doc/87o6cvrs27.fsf@trenco.lwn.net/), I still would like to keep ':翻译:' line.
+---
+ .../translations/zh_CN/usb/index.rst          |  2 +-
+ Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
 
---7352vh2aneherser
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index df99814c6497..c96eacf13e11 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -32,6 +32,7 @@ USB 支持
+     chipidea
+     dwc3
+     ehci
++    ohci
+     usbmon
+ 
+ 待翻译文档：
+@@ -49,7 +50,6 @@ USB 支持
+ * mass-storage
+ * misc_usbsevseg
+ * mtouchusb
+-* ohci
+ * raw-gadget
+ * usbip_protocol
+ * usb-serial
+diff --git a/Documentation/translations/zh_CN/usb/ohci.rst b/Documentation/translations/zh_CN/usb/ohci.rst
+new file mode 100644
+index 000000000000..5f2bc7b41f29
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/ohci.rst
+@@ -0,0 +1,38 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++:Original: Documentation/usb/ohci.rst
++
++:翻译: 欧阳家铭 Jiaming Ouyang <jiamingouyang13@gmail.com>
++
++========
++OHCI驱动
++========
++
++2002年8月23日
++
++“OHCI-HCD”驱动程序是一个USB主机控制器程序（HCD），它源自2.4内核系列中的“usb-ohci”
++驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber <weissg@vienna.at>编写但也获
++得了来自David Brownell <dbrownell@users.sourceforge.net>，Linus Torvalds
++和Gregory P. Smith的支持。
++
++它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的
++硬件寄存器协议。“与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多智能功能
++注入到硬件中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
++
++自2.4内核以来的更改包括
++
++         - 提高了健壮性; 修复了错误; 减少了开销
++         - 支持更新和简化的usbcore API
++         - 中断传输可以更大，并且可以排队
++         - 通过使用上层“hcd”框架，减少代码量
++         - 支持一些非PCI的OHCI实现
++         - ... 以及更多
++
++“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”
++中也是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢
++失的风险。当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要
++处理，来最大限度的降低这些风险。
++
++- David Brownell
++  <dbrownell@users.sourceforge.net>
++
+-- 
+2.53.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrhng8ACgkQj4D7WH0S
-/k4mXQf/f5hiHhqUiclt+2CPju6hq8FCsfStkH+EZvSc7NslDu75MRe7OC+1yY7u
-nWSyOG6WZJOrBiFEFih2KF5vWvNqRT1lW3XPYx336dt5u3QSAtO/PXVnzZHIxW4U
-L8YmwRx/roF86xyaKZ5W1zffnXUSBd/kl0vx9EPzXtxk7QUYcxp7aRf17fkQFr5t
-RfO+cCPHdi5EYs2bx1/YpQMw3dxHTNv7Bk9+muv9DArcBaZxXI/dluDw1eKhcshP
-z8k28tn35as60d4zbj2J06gpwzuLCyHgyfOoR8ztRK5z46PqHhSNVzecRZFLDeZZ
-fMrS+8lBuPXYYKbmDD7Yt/AbS9cvCA==
-=+FkA
------END PGP SIGNATURE-----
-
---7352vh2aneherser--
