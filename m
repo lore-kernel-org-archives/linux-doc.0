@@ -1,69 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793161821;
-	b=bcSNkqwwrJlJZLoWE33n+3Jr7cwh1IoHYB3z3yFarqIMWmyy3ZpyT/5+ohK/RNhYqJFo
-	 D6pwRlAhiUDl2LeYRd82pWpQROgapkjowELej9cnZh2sMJtCntBAiWrV4gc8cXj5PkJuB
-	 JPEFbCDEU1DCnpkV+6XobxLILJbLOBgzAPzcQCTk2JTzBeQH0AkCMbyk3wITI0Dd4ZMTy
-	 dmUK8G4p7I54aaikxqLOpZvljg34wl9nRwJDAEP4YPKY90BtfYrNnYLKfmVjghLw0RCqD
-	 2EI7aYzECpvf3AX6m/+c/zraCncEHzkqJMf1FM8dtIa7wDp4AkyLj+eBGzQ0gZChoiA==
+	t=1793165073;
+	b=cPUDNdAx0/2xohyTXO22GWd/YEVHd3cfLdjTyobgpt/nPmVo6HxnrVBA1OjpkrHKYMXh
+	 g9kWtPLBFXGTzNCIz72sdcyd5UQ2c1MG1hlpLHj4c9kNkKFduL6WoCN5pXqHGp25pu9eF
+	 SeYjQ2wQOP/TBJMkG+2o2/duPBJ1PdG5h7SQAxLtu9b+bMdfO4pVjfclcvCn18wuP8LQI
+	 UbFAylEYceIyReRVvsHGqmLo3pDcjKvdCO9RQURQHH2/MGSChqoaFsKuzLPlJs3Usfvex
+	 FMawR6DTFbPPPgdy6XDLwxY43NAlRQxQuinCYjHWlEbvnF27NVuRtirG8BfAyLOtY5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793161821;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:MIME-Version:X-Received:
-	 In-Reply-To:References:Message-ID:Date:Subject:From:To:Cc:
-	 Content-Type;
-	bh=kPQx6GgboXmcUMcY5/lzKrJ0ssCkME3FTMDmy2U7T6k=;
-	b=U14tXKPtxs3KQAwlNAEj21nrvg/6qlluFrkZNkaQG802C/tN6W4GNVTCtBiidBTKjlxo
-	 TVsFtno6VjeNjDelESuV0FtKI8syzHDC3LAiN2caWSwalrS4U25uqVrsfd/oIGx5jsMsq
-	 s3cJC0phSnguLTJ+mFC3Zshv4RQfym4qCctR+sX7g1sSnouB7BzyJXOC78YpMVBZ439F6
-	 GXVgp++vKaNHX6kRfp23EENi3lqvhzsxXmMQBRNK6l7+7LB0jFn82/LcBhw22c+UYb43o
-	 fJmyTaqBdrMQ4/HYiu/Z+RtioGrT0szKyVIheirNgpUcldSVL8yuG3ACj8mUIs+HSUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793165073;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=oJZAZ0A86kifY1NPYX8XYC0xWNprTevsjHMyzxjeHnM=;
+	b=0sppppXqxKv7E14ESMLDT+k1EOpOD3mUgGKsGpVUUaGf4babSK40QeEuC70woNVz7zl2
+	 BzUD90xf4eWEmI4/yjGGzvl7Km5Eju6qJgAuIG5G6M5SG3NxAEB3OyNHt5FIGj1Vt1az7
+	 r6Os8y/2YsgOAOStWxmXbPwh9caeQTu0mVd0CnIZO4zaaCdKgIU6oIvIqWKkXSUI8EzGX
+	 KGEtecfBNNRBfQenitVHXY3YRqzgp0XP+eKZIc/wcmXWaNMaUgsY74rCZCzmKYfm6UHq0
+	 vz7vTSK4VO/LuwsOZo0X5yZgpb16MBPKeuorg93y8sMlcu+8WuHhTVVyrJt3wPXQ+RA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--jeffxu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PCQLkeFq;
-	arc=none smtp.remote-ip=74.125.82.199
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ngYis3e2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70036606A322
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 04:30:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70036606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jeffxu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7A7606A31A;
+	Wed, 28 Oct 2026 05:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PCQLkeFq
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-30bcb065bfdso940794eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 21:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793161820; x=1793766620; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:date:message-id:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=kPQx6GgboXmcUMcY5/lzKrJ0ssCkME3FTMDmy2U7T6k=;
-        b=PCQLkeFqYzzEc1UNxxO2SwDWNuvwXCTIhjbkdQznKqU2g4DjFA/FXyxGRex5YcdsnA
-         Xgf5iy01BQ8rOnqrN6NVQPlizUrqHh2RZ6ivs+Oyj1MA9ZP9SL6SV4smhPoQSISGLof3
-         bfkA1nptW6pC7C2owKdZR1L+bpDE/sb4uN3KYnQm7kyN18GNyXQlDYxEK1+9gaL4vYUd
-         pnpf58X96pUnGR5kaD/ulKDbAv6Bam86N4YfddjhLeLkpwI9XD/lIKOBIC8VmpxhlctP
-         WGbuwl9Y9WOJy3woSOwZZW3I37lEy/0CEbwuA8XqraBjnRplspQ8Og0S/bGriiZtuOI9
-         k43A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793161820; x=1793766620;
-        h=content-type:cc:to:from:subject:date:message-id:references
-         :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kPQx6GgboXmcUMcY5/lzKrJ0ssCkME3FTMDmy2U7T6k=;
-        b=RKYOH1DiEMy2p2JzpfpAfOi10DiSh8rzQivp6DRsC/YU8YygH0ACLH8n5jx4a6Aa7a
-         WW0zH4LIeq5F4JxEa1z0fcNPMVZWF3DXgvkXF29Tx96Lx9cOQWgk/dG1QiUmAjHsKqct
-         x1zUqV2Dnv5weVlxxabJ2FHm/LDGyJlt3NXZAEPUFCTTbqgk0Gy6bD7KVzB01SvF7MdX
-         9oFaGj+RGCb6VTHngZBlhItjsan3iHLD2az3vlq4XJP13dxFh7DmtbbhRpVj7jkeqqj3
-         /bPJAtwhPi+SFipnqm8HIvLAO9jSQMgQE+r0jvjMPmHZUckKfrXU6QofjDdWS2z3Fn08
-         rb6w==
-X-Forwarded-Encrypted: i=1; AKwUvBzXvd1gadg+wBVm+nMkathuWuAp6a0CfdWOQDmgqfLdnExY1fQQxVdNXGUZZ/CHZmh6mNVvRVH2FEQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJKtj9qYY1I7sle9TCC3F8JCoCkSBc5vmChOUFzWMp1ORblNWD3
-	qK++eeV3jlTpfy37SESSk3b9VPgrbJx/C62l7A58Do6gkscA1NBEKyJjM2gL2Ikfnc6C/cZXNmv
-	Ph82CoQ==
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ngYis3e2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4059F1F01825;
+	Wed, 28 Oct 2026 05:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793165072;
+	bh=oJZAZ0A86kifY1NPYX8XYC0xWNprTevsjHMyzxjeHnM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ngYis3e2wvUOSJvp8+0jEGKSRDYMAK9HDAntN9cymSinu549gET696m3116YIejwJ
+	 5XIWt/Mp+Inwhh34rmXQnFzlmSbXuxweOA+gSdcBQjRlwCxPXq6FAheBvqJqQdZzNA
+	 E4wKqnPVfaQAlZ4Q9i9McBUaVFtLkG+c7NtlMpsqccENGbmjhCiPc3cv70cYXmodue
+	 eiab7TSuTB75C1kUmYTF2sV0N6KN9Ul50EVqFwxf4RSWnUpOYVgSmnti6Ms1sTCTGr
+	 di74MpOpebIVO3Xyh3IelZ0EUD/1U+rRwUvsu+S/FEDd8MSxu6L20KJk588yv9LuGR
+	 pMMcssqoPeMDg==
+From: SJ Park <sj@kernel.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: SJ Park <sj@kernel.org>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/admin-guide/mm/damon/reclaim: document how to disable watermarks
+Date: Tue, 27 Oct 2026 22:24:24 -0700
+Message-ID: <20261028052425.154616-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261028023628.795637-1-ruanjinjie@huawei.com>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,85 +64,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: from dyaz12-n2.prod.google.com ([2002:a05:693c:638c:20b0:369:fbca:f640])
- (user=jeffxu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:693c:250d:b0:369:f5f6:36a7
- with SMTP id 5a478bee46e88-36a2014b887mr2079336eec.16.1793161819981; Tue, 27
- Oct 2026 21:30:19 -0700 (PDT)
-In-Reply-To: <auDTptDQsB4xBcz7@gremlin>
-References: <cover.1793094611.git.chris@chrisdown.name> <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
- <auCxjbvY3qPv1sV6@gremlin> <auDTMb6WMFUpxeZy@chrisdown.name> <auDTptDQsB4xBcz7@gremlin>
-Message-ID: <18e2972cb8520c2e.3137322e32382e342e3434.279dd1.0000sendgmr@google.com>
-Date: Wed, 28 Oct 2026 04:30:20 +0000
-Subject: Re: [PATCH 1/3] mseal sysmap: Add mseal_system_mappings= boot parameter
-From: Jeff Xu <jeffxu@google.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Chris Down <chris@chrisdown.name>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Kees Cook <kees@kernel.org>, Jeff Xu <jeffxu@chromium.org>, 
-	Jeff Xu <jeffxu@google.com>, Andrey Vagin <avagin@gmail.com>, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: 8bit
 
-Hi Chris, Lorenzo,
+Hello Jinjie,
 
-On Tue, Oct 27, 2026 at 04:57:04PM +0000, Lorenzo Stoakes (ARM) wrote:
-> > One option is to skip if [vdso] isn't sealed, and otherwise expect
-> > all system mappings to be sealed. Then there's parsing at all, and it
-> > also stops failing on kernels built without
-> > CONFIG_MSEAL_SYSTEM_MAPPINGS, which matters more once it's in
-> > run_vmtests.sh. The downside is that it can't notice sealing being
-> > broken entirely.
-> >
-> > Another is to check /proc/cmdline for no_mseal_sys_mappings and
-> > expect the mappings to be unsealed if it's there. That's only a few
-> > lines now, but the test still fails on kernels without the option, as
-> > it does today.
-> >
-> > Do you have a preference between the two?
+On Wed, 28 Oct 2026 10:36:28 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
 
-> Yeah it's awkward, really moving the tests to mm we'd have to skip them
-> if the vdso isn't sealed, then assume a sealed vdso for a new process =
-> feature enabled.
+> DAMON_RECLAIM runs its scheme only while the free memory rate is
+> between `wmarks_low` and `wmarks_mid`.
+> 
+> But some users want to reclaim cold pages even while the system has
+> plenty of free memory, and it is not obvious that the existing
+> watermarks parameters can already do that. So Document the setup.
 
-> I guess at that point it's redundant to check if disabled?
+Thank you for this patch!
 
-Thanks for working on this series!
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>  Documentation/admin-guide/mm/damon/reclaim.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+> index ec7e3e32b4ac..23fede7d1cdb 100644
+> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
+> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+> @@ -193,6 +193,13 @@ DAMON_RECLAIM becomes inactive, so it does nothing but periodically checks the
+>  watermarks.  In the case, the system falls back to the LRU-list based page
+>  granularity reclamation logic.
+>  
+> +To keep DAMON_RECLAIM always active regardless of the free memory rate, set
+> +``wmarks_high``, ``wmarks_mid`` and ``wmarks_low`` to ``1000``, ``1000`` and
+> +``0``, respectively.  Then the reclamation is limited only by ``min_age`` and
+> +the quotas.  This is useful for reclaiming cold pages even while the system
+> +has plenty of free memory, e.g., right after an idle virtual machine is
+> +paused.
+> +
 
-Could we please keep the test coverage for the unsealed [vdso] case and
-avoid unconditionally skipping whenever [vdso] is unsealed?
+I feel like above might be too detailed.  Particularly, the second sentence
+looks too detailed.  In a sense, it is not technically correct because of
+'skip_anon' parameter.  We might later need to add more such controls, and I
+concern if this kind of detailed documentation will limit such extensions.
 
-There are two regressions I'd love for us to still be able to catch:
+What about keeping only the first sentence and dropping later two sentences?
 
-1. Kernel or config regressions when sealing is expected to be on:
-    Distros/platforms such as ChromeOS and Android enable
-    CONFIG_MSEAL_SYSTEM_MAPPINGS=y. Originally this test lived in its own
-    selftest directory with `CONFIG_MSEAL_SYSTEM_MAPPINGS=y` in its
-    `config` fragment specifically so that if a kernel change accidentally
-    broke system mapping sealing completely, [vdso] being unsealed would
-    trigger a hard FAIL rather than silently turning into a SKIP in CI
-    (whereas `run_vmtests.sh` runs on kernels with
-    `MSEAL_SYSTEM_MAPPINGS=n`).
-
-2. Regressions in the new `no_mseal_sys_mappings` boot parameter itself:
-    When booted with `no_mseal_sys_mappings` (or when unsealed), running
-    the assertions in Patch 3 (verifying system mappings have no `sl` flag
-    and that `munmap()` / `mremap()` -- and ideally `mprotect(PROT_READ |
-    PROT_WRITE)` -- on [vdso] succeed) directly verifies that the boot
-    parameter works and doesn't regress.
-
-If we move the test into `tools/testing/selftests/mm/`, perhaps we could:
-- Check `/proc/cmdline` for `no_mseal_sys_mappings` and actively test the
-   unsealed behavior when it is set (rather than skipping), and
-- Either enable `CONFIG_MSEAL_SYSTEM_MAPPINGS=y` in `selftests/mm/config`,
-   or keep strict failure as an option (e.g. `./sysmap_is_sealed` fails if
-   unsealed without the boot param, while `run_vmtests.sh` passes a flag
-   like `--allow-disabled` when `CONFIG_MSEAL_SYSTEM_MAPPINGS` may not be
-   enabled), so CI environments that expect sealing still catch a broken
-   seal.
 
 Thanks,
-Jeff
+SJ
+
+[...]
