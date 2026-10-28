@@ -1,67 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793206587;
-	b=Rv/xSyJbpi7PWjmbVyGVh6CEYSU9TP9BRtrCniV3T6zt66EO2XMUqLYugJI8dHKG81mw
-	 4ucJwtoCpWSB9LwZqMGUpYbB862BEf4co6LuII8PGmdCzmn2ht3ir3gJeUb9zqfuBV9N0
-	 oHrth6LgpQH32y+KrOG2c08Lm/okZiQDjqA+uW1E4J/iMkRMe7hvu2c/GYK0bSOrkQiAN
-	 rmFCWKVRzvbz+skw5MQ4rA2c3/2TjwPkq9SHlynZshsc7fO7f5Szl+CWOqGh2LH3wHLt0
-	 jMvca7LqKvxcC3N8aFqUYkiNLUsPJflS2kPRdaGzSDWCNWbputPf3ELz3GNFwQgD1vg==
+	t=1793206593;
+	b=YPNCLRa9/w1ljIFTPEpefy84aeY6W0SYEcWRLv/78knPH5+3KQ0pwipB4xyLQutKGBvU
+	 opERq1iIt2LSI5Jm2XZr1QkHNXR9HlWPxnfA2PtSqzTzAgmouex8a6gLZYAKpJ+qkzcnW
+	 8id+qw0R3YqlmC+JCaPvhHOsShgsF/b6zvJUTSupXsPBDi+xZyQJS0pe4xPmloSPinyZh
+	 3JTzVqJEIqlM107ZvMCsSCjDglgKE628ScwY/fWkn/BVHJUiNpU80yeMxIue+nYpKBnwR
+	 UrjDpeBfBa5T0g1NYL/gyz5nJlgTzXOXqoBtj2+wVXX5ErTt4O4eMEw7wCxhwjtN0qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793206587;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793206593;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Reinject:
-	 X-QCInternal:X-QCInternal:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=M5B9TDbfmanBmXj9WGkg/1GBsSFAT/OXKf+QOZEIqRU=;
-	b=Nwz3kY/LBqvGP4vtwiiD6Ly9CXJkDsVzFzzwnuxdxhjS1+hrl4n03eAj59HgLFbbZZAt
-	 4VD3cbwItQIgxXXWZ0x6CNzy4HNq5V00Opsl3/eR5++3K3QrFxglCU7dxAHTfjmQEc4Dq
-	 sX8x4NJwHWmDomt/+TaKdTOL81z92X7xr3hetf/SdXIumL02bJiv2tl9/qLHliTGP58Do
-	 rGDPSSdwKkin8fYYftdIsOj8+cZvsFlqt3Wfo3VmpII+cX/V8ccpQSs7B1cQyX/KKjQtH
-	 3SJzr7Au3OPq/SLHKaMMuKti+tonhuJGcdReCmJaYFF/RlVnFX2lU7st0G7cgAHSYgA==
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Reinject:X-QCInternal:X-QCInternal:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=LJbjYFTtjWGc+HHApwfnRi58H6VnDBMLckHB/qHv5tU=;
+	b=W2bRx9ow6C1KzkwnyuLrCiRHGjgKZSGT+MJDX5kpGimBN7gjvhRtznrEMv1sOoIXtROd
+	 vYBJVmq7waPcVSnxeVRrqDOmdKiYkwKjLeADqRFvg9rka5mi6lHT8D7ul9BhJS1fd8Zk2
+	 5qahEt8vEgOC7ms/LYCPPsoXZBJWQEQSYqhZkACqGJgqs9wmXfdGwtLQ6IF4itvw9wuHZ
+	 tbT5cykRsZPs43vDvjpBzrKDdoJlyLEBotqeGELmYkaIremG084dEcxERM/nAQ/RgDjNi
+	 uqss691tFhm70mGogTS5+1d16OvVyZggjY4RyD3T3GPJjueUvLburdxqgXlAimu7x5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=U8ZT2jdT;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TAZgwEJH;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF17606A31D;
-	Wed, 28 Oct 2026 16:56:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAF17606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2ADD60A2621;
+	Wed, 28 Oct 2026 16:56:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2ADD60A2621
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=U8ZT2jdT
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SFAjg71517021;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TAZgwEJH
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SFAXt11153221;
 	Wed, 28 Oct 2026 16:55:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=M5B9TDbfmanBmXj9WGkg/1
-	GBsSFAT/OXKf+QOZEIqRU=; b=U8ZT2jdT01SzJZ2APLT4oKPdQDCj7EhjsTtkhS
-	X5SRjhDjdFzzEMIlcFndiyNfr6/c/vniSA4zYKfdY0AVv4ZY//kzTweiXJV5D13S
-	AeetYI2E/muZ3TAk2p22mqtRufPCk1qcODkNOucHA2R9WLPoT/QwM1KKDeLHaSno
-	zi35sdBfvjeZCXZlvH/22/9qaf8TeYlecxuGCM6TxUTazsyK1cZe7tQthCG7ywMP
-	CJqlsBfT/Mvyd5FwyuSQHTwcHRRhYBUeEsrXXC9AhXlJO2fckZXeqU40JywaMi+r
-	w66jcF8FmgIwo8MDHTUUuUsexIggQ7dVKUfF72pdJ0f/p/6w==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	LJbjYFTtjWGc+HHApwfnRi58H6VnDBMLckHB/qHv5tU=; b=TAZgwEJHW0lCOJ7J
+	FSGUCQBtySgyAmMxU6LTzwfAhVy0dsTxNA0KJMuMQPYSURsm+hsadaRXOjvm7W7z
+	0cNpOJwgiXe8/J0vDKQomsCezhJ3DnO2CE/02W5pY2eYzH/masM1qP0VpLrMxOXL
+	/JK88R0G/v1bUgyi8pQ59FRiYo7XilRaN3qa8C3aqSU4sYVNY/SXFJqQZX0ia5YQ
+	NNQP3txMt26dYYKG1ZDQZwLYSjCyneTkASgRISnQQu6FyXBk8Z02hKmOS3832+eq
+	/bHLfZQxQMceDbcLCrYrLaU2YOXbC4ooKnVMkM0ECwE66XBeB+CKXpkzNKHOYHHb
+	vRgYwA==
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkbhwahbr-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hk6be3knm-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Wed, 28 Oct 2026 16:55:37 +0000 (GMT)
 Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69SGtYQF1881523;
+	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69SGtYcE1881527;
 	Wed, 28 Oct 2026 16:55:34 GMT
 Received: from hu-devc-blr-u24-a.qualcomm.com (hu-anuppate-blr.qualcomm.com [10.131.36.165])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 69SGtYlB1881494
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 69SGtY3f1881491
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Wed, 28 Oct 2026 16:55:34 +0000 (GMT)
 Received: by hu-devc-blr-u24-a.qualcomm.com (Postfix, from userid 486687)
-	id 244B523334; Wed, 28 Oct 2026 22:25:33 +0530 (+0530)
+	id 3405C24B3C; Wed, 28 Oct 2026 22:25:33 +0530 (+0530)
 From: Anup Patel <anup.patel@oss.qualcomm.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
         Alexandre Ghiti <alex@ghiti.fr>,
@@ -82,11 +83,14 @@ Cc: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
         Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Anup Patel <anup.patel@oss.qualcomm.com>
-Subject: [PATCH v11 0/9] riscv: add SBI Supervisor Software Events support
-Date: Wed, 28 Oct 2026 22:25:22 +0530
-Message-ID: <20261028165531.940336-1-anup.patel@oss.qualcomm.com>
+        =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v11 4/9] drivers: firmware: add riscv SSE support
+Date: Wed, 28 Oct 2026 22:25:26 +0530
+Message-ID: <20261028165531.940336-5-anup.patel@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261028165531.940336-1-anup.patel@oss.qualcomm.com>
+References: <20261028165531.940336-1-anup.patel@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,420 +105,1516 @@ Content-Transfer-Encoding: 8bit
 X-Proofpoint-Reinject: loops=2 maxloops=12
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-GUID: Kuvt8ORw7KMjX6H9N6KTkFcek8bDy2Cu
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA2NyBTYWx0ZWRfXwONSzImYyp9y
- naYBLpKiqnCGnP0Z5WYxx8Y0nnShgik/U1HXF06M+eor+zQcRHou2+EYC4EADbxPQ+csVZZjVjD
- KRAeR3U1Q1gfcwe8egw7SWKLEU+fAi4=
-X-Authority-Analysis: v=2.4 cv=V+joQuni c=1 sm=1 tr=0 ts=6ae2290a cx=c_pps
+X-Proofpoint-ORIG-GUID: o23Ak8S_wlGCTgskFju1SkhLUGsmGCfp
+X-Authority-Analysis: v=2.4 cv=HeuB3SE8 c=1 sm=1 tr=0 ts=6ae2290a cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
- a=968KyxNXAAAA:8 a=h0uksLzaAAAA:8 a=HwFc7jivAAAA:8 a=NEAV23lmAAAA:8
- a=Mwg44Dw2nxROhg5v3AAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=MSi_79tMYmZZG2gvAgS0:22 a=kr7TZk85JJIQSqC0cl8G:22
-X-Proofpoint-ORIG-GUID: Kuvt8ORw7KMjX6H9N6KTkFcek8bDy2Cu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA2NyBTYWx0ZWRfX8UpZOsXS9O5i
- ksRBUiL+oBbLrBgwUeIHjYrPJVbUHKHjPWz+fVQosQJ+UbWZhutmb9teoeMmJYUPQWFYvZwvP1g
- Gb2xwlok38/34MrWVx6n0vSeqkpy9yFP858raMnMBzz1QnYg21PIt1t+pMhiLu1DH9oE1ci3XO1
- Ef6iYRlK0HX3UdJb8O8LenKgew0Xo05gJZzTZKEOvaurFntcRx3+xpbG65wzdHRMLPlnQKE4oHc
- QSAXPSanyMmH8rQ5RZ+ORnb/xRAm29rYMabPu6iNhflv5s+0q6igAUcSFGuqBknD3oft3hjLVx7
- jPuHG2VYQNJZML9FTSPNGsQEdJeYV7J0yeUQKm8x2tip1dTjUSdIaOG/zxWEfBBCsHfZP1azvMw
- OZdLrBNu3FNl6CSJ/lyr297z97WQ7TYskZivLBVeuaPRQ65pWE7hgpoDz0LWcdOAsJQyWwmeUQp
- OHHwhxqjPIFE5gnNmKA==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=h0uksLzaAAAA:8
+ a=EUspDBNiAAAA:8 a=968KyxNXAAAA:8 a=XYAwZIGsAAAA:8 a=VwQbUJbxAAAA:8
+ a=JfrnYn6hAAAA:8 a=OBrefVsFyxYMkWC0R3cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=MSi_79tMYmZZG2gvAgS0:22 a=E8ToXWR_bxluHZ7gmE-Z:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA2NyBTYWx0ZWRfX/EHslRLmBQYL
+ /BrPcZXqhoSUGoZ7j4yNeeSaRFa/19QrsoRsxenAVoMThmzQ9iptAyG3cvzfXRuZ0/b88se1gQ8
+ fqjO/hdOX3meT+Uae2edKdbzLRn2Va4=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA2NyBTYWx0ZWRfX9BzrP3FMhYxE
+ Z8M20scsLGfVabBabhkLlKrgbkFmIakisTVlQGD5UD+bM2SKJ69G444BfqBdfJU0AXlyMUEMieY
+ xbdsyL7f/IWAwj4ym60He7wu6j86DzcDxgsRConoOOcSzgfnesbdHiwsJn7HA4TCX2B9IKapmXR
+ 01J5m+VttO3ey47zlMuoalVEBf98pmxPDp9DM6Qv+Y2L2YbclZUe/ZXc2GJ+JrB2qGVzbtMg9cz
+ MwC7rfI95VfnfmydCmxlvDmN2/FuwCTC/bqzPseSHwvmM62lakrhjlSTsgKCLsVaaH7EZSTYJka
+ TrLS4JD3flVFx1TTz89cMuFI3lpkbbcS2/26rHOVYM4YhSkNcS4381esCQ8aciv0RzBGE4dnlN5
+ Mbsx3MMp93weHjeCViXwyE8yeKXr9mvZO4orAGP7l+UVpxk4c+9aZx+b5PPGe219N8fi0bJUz8L
+ Jw+UhQpl/B5j0wX9oVg==
+X-Proofpoint-GUID: o23Ak8S_wlGCTgskFju1SkhLUGsmGCfp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-28_05,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1011 bulkscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280067
+ malwarescore=0 adultscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1011 priorityscore=1501
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610280067
 
-RISC-V does not architecturally define a supervisor-mode non-maskable
-interrupt (NMI). An interrupt that arrives while Linux has cleared SIE stays
-pending and is not observed until interrupts are enabled again. That is
-correct for ordinary interrupt handling, but some kernel work needs an
-NMI-like notification that can run even inside an interrupt-disabled region:
-sampling a PMU overflow at the instruction that caused it, or taking a
-high-priority RAS report promptly, cannot wait for the next unmask boundary.
+From: Clément Léger <cleger@rivosinc.com>
 
-The SBI Supervisor Software Events (SSE) extension [1] fills this gap. It lets
-Linux register handlers for events that the SBI implementation can deliver
-ahead of ordinary traps and interrupts, giving RISC-V the NMI-like supervisor
-notification mechanism it otherwise lacks.
+Add a driver-level interface for RISC-V SSE. Linux clients can register
+handlers, select a target CPU for global events, and enable, disable or
+unregister events. The architecture entry wrapper completes an event after
+the registered handler returns. PMU and GHES drivers can use this
+interface.
 
-SSE can carry several event sources: high-priority RAS reports, double traps,
-and PMU overflow, with room for further standard and platform events. This
-series focuses on PMU overflow, its first user. Delivering overflows through
-SSE lets perf sample the code that was actually running while interrupts were
-disabled, rather than the later point where execution reached an
-interrupt-unmask boundary.
+Represent global events with one firmware registration and local events
+with one registration per possible CPU. Keep registration and enable state
+stable across CPU hotplug, and validate firmware-provided hart IDs before
+converting them to Linux CPU IDs. Use phys_addr_t for attribute buffers to
+match the physical addresses passed to firmware. Require MMU support
+because the current event-stack implementation relies on vmapped memory and
+TLB synchronization.
 
-This series implements the Linux side of that interface: the architecture
-entry machinery, a firmware driver that exposes SSE events to in-kernel
-clients, PMU overflow delivery, and regression tests. Per-hart local events
-and system-wide global events share one client API.
+Serialize client list updates with the SSE mutex and the CPU read lock.
+Normal CPU hotplug callbacks provide the matching write-side exclusion, and
+CPUHP state removal holds the SSE mutex. These rules avoid holding an
+additional spinlock across firmware calls. Local event operations select a
+per-CPU registration, so require callers to remain on the current CPU and
+use lockdep assertions to verify that contract.
 
-SSE delivery model
-==================
+Propagate firmware failures from register, disable and unregister
+operations. Update Linux state only after successful firmware operations,
+and release an event only after all registrations are gone. Preserve the
+difference between SBI_ERR_NOT_SUPPORTED and a generic SBI failure so
+clients only select a fallback after firmware explicitly rejects an SSE
+operation.
 
-Linux first registers a handler and an event stack with the SBI
-implementation, then enables the event. When an event source is signalled, the
-M-mode SBI implementation preempts Linux even in an interrupt-disabled region:
-it saves the interrupted supervisor state and constructs an S-mode context
-that enters the registered handler. Linux can now run its own handler, for
-example to take a perf sample or process a RAS report, then completes the
-event with another SBI call, allowing the interrupted context to resume.
+If setup fails partway through a local event, roll back only the CPU
+instances changed by that invocation. Keep non-fallback errors across CPUs.
+This lets a client distinguish an event rejected as unsupported by every
+failing hart from an unknown firmware failure.
 
-The typical hardware-triggered delivery flow is (software-injected events skip
-the hardware trigger):
+A failed registration rollback can leave firmware state without a client
+handle. Retain these events on a driver-owned cleanup list with a no-op
+handler. This lets CPU hotplug and shutdown retry cleanup without relying
+on client callback lifetime.
 
-       <--------- Linux kernel ----------->  <-- Firmware --->  <- Hardware ->
-     interrupted context  SSE handler             OpenSBI          Hardware
-              |                 |                    |                 |
-[1] setup     |                 |-register & enable-->                 |
-              |                 |                    |                 |
-[2] trigger   |                 |                    <----trigger------|
-              |                 |                    |                 |
-[3] save      |                 |            +--------------+          |
-              |                 |            | context save |          |
-              |                 |            +--------------+          |
-              |                 |                    |                 |
-[4] inject    |                 |        +-----------------------+     |
-              |                 |        | handler context setup |     |
-              |                 |        +-----------------------+     |
-              |                 <---inject (mret) ---|                 |
-              |                 |                    |                 |
-[5] handle    |        +----------------+            |                 |
-              |        | event handling |            |                 |
-              |        +----------------+            |                 |
-              |                 |                    |                 |
-[6] complete  |                 |-----complete------->                 |
-              |                 |                    |                 |
-[7] restore   |                 |           +-----------------+        |
-              |                 |           | context restore |        |
-              |                 |           +-----------------+        |
-              |                 |                    |                 |
-[8] resume    <------------resume (mret) ------------|                 |
-              |                 |                    |                 |
+Mask SSE before CPU teardown. If a normal CPU-offline teardown fails after
+partially changing local events, reconstruct their requested registration
+and enable state. Unmask the hart, then return the original error to abort
+the offline operation. Shutdown and CPUHP state removal cannot fail, so
+record incomplete cleanup and refuse an unsafe normal kexec instead.
 
-The context used to enter the handler exists only for this handoff; it is not
-the task context that the event interrupted. The architecture entry code joins
-the two sides: it moves execution onto the event's dedicated stack and shadow
-call stack, establishes the current task, and presents the interrupted
-registers to the callback as a normal pt_regs. Clients can therefore operate
-on the original interrupted context without depending on the firmware entry
-details.
+Close enable admission before reboot or kexec teardown. Protect the
+shutdown check and firmware enable operation with RCU, then drain existing
+enable calls before CPUHP removes registrations. This prevents a client
+from re-enabling an event between the teardown disable and unregister
+operations.
 
-Linux implementation
-====================
+A crash kernel cannot identify registrations inherited from the crashed
+kernel. Leave SSE masked, report the retained firmware state separately
+from an unavailable extension, and do not let clients select a delivery
+path that may still be owned by the old kernel.
 
-An SSE handler runs in NMI-like context: it must not sleep, must not take a
-page fault, and may interrupt code that holds arbitrary locks or is partway
-through kernel entry. The implementation is shaped by those constraints.
-
-Because it is NMI-like, an SSE can arrive at any point where interrupts are
-disabled, including while Linux is midway through exception entry, a task
-switch, or a KVM guest transition, where the normal kernel entry state is only
-partially established. The SSE entry wrapper (the architecture assembly that
-runs before the client callback) copes with this: it preserves Linux-owned
-stvec, hstatus, and task stack metadata across the handler and any nested
-exception, and its earliest instructions, which run before the event stack and
-current task are set up, are kept outside kprobe instrumentation.
-
-The callback receives the interrupted registers as a pt_regs and is allowed to
-edit them. On RISC-V a6 and a7 carry SBI call arguments and results, so a
-callback that wants to influence an in-flight SBI call the event interrupted
-edits them there. The entry wrapper copies just a6 and a7 from that pt_regs
-back into the context handed to the completion SBI call, so the edit takes
-effect when the interrupted code resumes; the rest of the interrupted state is
-restored by firmware and left untouched.
-
-The firmware driver maps the SBI event state machine onto kernel resource
-ownership. A callback, stack, and attribute buffer stay alive until firmware
-has removed every registration that can refer to them. Failed partial
-operations remain tracked for later cleanup, an aborted CPU-offline operation
-restores the requested event state, and shutdown and kexec mask SSE before
-Linux stops servicing handlers.
-
-PMU overflow and perf
-=====================
-
-The RISC-V SBI PMU driver delivers overflows through ordinary interrupts by
-default. When firmware implements SSE and the local PMU-overflow event, the
-driver routes overflows through SSE instead. The choice is made once at setup
-and is not switched at runtime; an operational failure disables sampling
-rather than risking two active routes for the same overflow.
-
-This changes where perf can observe an overflow, not how applications use
-perf. A normal PMU interrupt raised while S-mode interrupts are masked is
-handled only once they are enabled again, so the resulting sample often points
-at the unmask boundary rather than at the code that consumed the cycles. SSE
-can enter Linux at the original point and remove that source of sampling bias.
-No new perf option or perf.data format is introduced.
-
-The entry code supplies the interrupted pt_regs needed for register samples
-and for kernel and user callchains. DWARF callchains additionally require a
-copy of the interrupted user stack. Since an SSE handler cannot take a normal
-page fault, this series takes a temporary reference to the resident user pages
-with fast-only GUP, copies them through their kernel mappings, and truncates
-the sample at the first page that is not immediately available. The existing
-in-atomic copy remains unchanged outside SSE context.
-
-The PMU integration retains perf's throttling and stopped-event semantics. It
-restarts only runnable counters and orders the CPU power-management callbacks
-so that counters cannot resume after a hart has failed to restore its SSE
-delivery path.
-
-Hardware results
-================
-
-We measured this on a RISC-V server platform. The same kernel source
-and perf binary were used for both routes; one delivered PMU overflows through
-ordinary interrupts and the other through SSE. The table shows the mean of
-three runs of three million single-CPU "perf bench sched pipe" operations. The
-"ops/s" columns are workload throughput (higher is better, so they show the
-profiling overhead); the "samples/s" columns are the sampling rate perf
-actually achieved against the requested -F frequency:
-
-  rate       IRQ ops/s   SSE ops/s   delta   IRQ samples/s   SSE samples/s
-  -F 99        337,707     339,555   +0.55%            98.0            98.6
-  -F 999       338,352     338,289   -0.02%           995.7           998.0
-  -F 5000      329,002     333,034   +1.23%          5001.7          5001.6
-
-There were no lost samples. Across these normal frequency settings, both
-delivery modes reached the requested sample rate and workload throughput
-differed by no more than 1.23%.
-
-The "perf bench sched pipe" workload also shows why the delivery mechanism
-matters to the resulting profile. Ordinary PMU interrupts cannot enter an
-interrupt-disabled kernel critical section. Overflows raised there remain
-pending until interrupts are enabled again. Samples consequently accumulate
-at the enable boundary rather than at the code that consumed the cycles. In
-the IRQ profile, finish_task_switch() and _raw_spin_unlock_irqrestore()
-therefore accounted for 54.99% of all samples.
-
-SSE can enter Linux while S-mode interrupts are disabled. The PMU-SSE
-profile therefore samples inside those critical sections and exposes the
-scheduler, locking, address-space switching, and wake-up paths doing the
-actual work. The leading entries from the two -F 999 reports show the
-difference.
-
-With ordinary PMU interrupt delivery:
-
-  overhead   symbol
-    36.63%   finish_task_switch.isra.0
-    18.36%   _raw_spin_unlock_irqrestore
-     7.66%   __internal_syscall_cancel
-     7.55%   do_trap_ecall_u
-     4.19%   mutex_lock
-     3.64%   mutex_unlock
-     3.06%   exit_to_user_mode_loop
-
-With PMU-SSE delivery:
-
-  overhead   symbol
-     5.48%   __kprobes_text_end
-     5.29%   __schedule
-     5.10%   ret_from_exception
-     4.71%   do_raw_spin_lock
-     4.01%   do_trap_ecall_u
-     3.99%   mutex_lock
-     3.66%   switch_mm
-     3.43%   mutex_unlock
-     3.29%   exit_to_user_mode_loop
-     3.28%   psi_group_change
-
-The ordinary interrupt profile is dominated by two interrupt-enable
-boundaries. With SSE, those two entries account for only 3.37%. The samples
-are instead distributed across scheduler paths within the critical sections.
-
-At perf's configured limit of 100,000 samples per second, both routes still
-made progress without lost samples. In this deliberately saturated regime SSE
-reduced workload throughput by 2.7% to 5.8%, which exposes the additional
-firmware-entry cost and marks a practical upper boundary for sampling.
-Thirty-second perf top runs at the same rate each processed about 3.1 million
-samples with no loss, stalls, or kernel failures.
-
-The DWARF callchain path gets dedicated coverage because it was the source of
-the corruption this series fixes. On the same platform,
-"perf record -a -g --call-graph dwarf,512 -F 999" layered on a concurrent
-"hackbench -g25 -l600" -- the configuration that previously corrupted
-spinlocks and mutexes under SSE -- now completes cleanly, with no lost
-samples, lockups, RCU stalls, or faults, including a 431-iteration soak.
-Patch 9 adds a regression test that drives the non-faulting user-stack copy
-through the SSE handler with 32 concurrent samplers and checks perf's
-truncation semantics.
-
-Changes in v11
-==============
-
-Rebased on latest for-next branch of linux-riscv tree (commit a5ae1bf65cee).
-Also, tested PMU driver with both PMU irqs and PMU SSE events.
-
-Changes in v10
-==============
-
-V10 turns the earlier feature series into a path suitable for sustained perf
-use. In particular, it:
-
-  - reconstructs and publishes the interrupted context for perf register
-    samples and kernel and user callchains;
-  - preserves current, task stack metadata, stvec, hstatus, and shadow-call
-    stack state across synthetic entry and nested exceptions;
-  - prevents fault-disabled accesses from entering the generic RISC-V page
-    fault path and provides a non-faulting SSE user-stack copy;
-  - makes event lifetime and rollback explicit across partial firmware
-    operations, CPU hotplug, shutdown, crash, and kexec;
-  - closes PMU throttle, counter restart, CPU power-management, and cleanup
-    races without adding a runtime SSE-to-IRQ transition; and
-  - expands the framework stress coverage and adds a regression test for
-    high-frequency DWARF user-stack sampling.
-
-Changes in v9:
-  - Rebased the original series onto RISC-V for-next.
-  - Preserved Linux-owned trap, virtualization, and supervisor state across
-    the synthetic SSE handler.
-  - Added framework stress modes and updated MAINTAINERS.
-
-Previous versions:
-  v9:
-    https://lore.kernel.org/r/cover.1778331862.git.zhangzhanpeng.jasper@bytedance.com
-  v8:
-    https://lore.kernel.org/r/20251105082639.342973-1-cleger@rivosinc.com
-
-How to test
-===========
-
-Enable the SSE framework and SSE overflow delivery:
-
-  CONFIG_RISCV_SBI_SSE=y
-  CONFIG_RISCV_PMU_SBI=y
-  CONFIG_RISCV_PMU_SBI_SSE=y
-
-PMU-SSE also requires two OpenSBI fixes:
-
-  f30a54f3b3a0 ("lib: sbi: pmu: Remove MIP clearing from pmu_sse_enable()")
-    [2], included since OpenSBI v1.7,
-    which keeps an overflow pending while its SSE event is temporarily
-    disabled; and
-  35511bc6ee1c ("lib: sbi: sse: clear SPV for non-virtualized events") [3],
-    not yet included in a tagged release,
-    which stops a stale HSTATUS.SPV from being applied to a non-virtualized
-    event.
-
-Build tools/testing/selftests/riscv, then run:
-
-  for stress in 0 1 2; do
-          ./run_sse_test.sh stress=$stress || break
-  done
-  ./sse_perf_ustack
-
-Useful perf regression workloads include:
-
-  perf record -e cycles -a -- sleep 1
-  perf top
-  perf record -g -F 999 -- hackbench
-  perf record --call-graph dwarf,8192 -F 999 -- hackbench
-  perf record -a -C 3 -e cycles -F 999 -- \
-          taskset -c 3 perf bench sched pipe -l 3000000
-
-Limitations and follow-up work
-==============================
-
-This series does not yet deliver SSE events into a guest or unwind a guest
-stack; a later KVM-SSE series will let the host receive an event from firmware
-and inject the corresponding event into the guest.
-
-Hibernation and crash kernels are unsupported: the current SBI interface
-cannot reconstruct firmware registrations after an image is restored, and a
-crash kernel cannot take over the registrations left by the crashed kernel, so
-it leaves SSE masked.
-
-[1] https://docs.riscv.org/reference/sbi/ext-sse.html
-[2] https://github.com/riscv-software-src/opensbi/commit/f30a54f3b3a091c225a00476f4039bf399badd1f
-[3] https://github.com/riscv-software-src/opensbi/commit/35511bc6ee1c9c17b6a89b44c52e2044bb51b979
-
-Acknowledgements
-================
-
-The original five feature patches were developed by Clément Léger and
-Himanshu Chauhan. Thanks to Susheng Yang for reporting the perf callchain
-failure and for providing a workload that made it reproducible.
-
-Sorry for keeping you waiting. Since v9 I spent a good deal of time hardening
-the lifecycle and error paths and reproducing and analysing the bugs that only
-show up in the callchain path, until the series finally passed both functional
-and sustained stress testing on hardware. I am confident in v10, but, echoing
-Clément, SSE is a genuinely complex feature: it adds a new NMI-like entry path
-into the kernel to stand in for a hardware NMI. I would therefore welcome wider
-community testing and feedback, especially under high-frequency delivery and
-more complex handlers.
-
-Clément Léger (5):
-  riscv: add SBI SSE extension definitions
-  riscv: add support for SBI Supervisor Software Events extension
-  drivers: firmware: add riscv SSE support
-  perf: RISC-V: add support for SSE event
-  selftests/riscv: add SSE test module
-
-Zhanpeng Zhang (4):
-  riscv: sse: mask events during shutdown and kexec
-  riscv: mm: avoid enabling interrupts for nofault page faults
-  perf: RISC-V: support callchains with SSE delivery
-  selftests/riscv: add perf user-stack SSE copy regression test
-
- Documentation/arch/riscv/index.rst            |    1 +
- Documentation/arch/riscv/pmu-sse.rst          |   55 +
- MAINTAINERS                                   |   22 +
- arch/riscv/include/asm/asm.h                  |   14 +-
- arch/riscv/include/asm/perf_event.h           |   10 +
- arch/riscv/include/asm/sbi.h                  |   63 +
- arch/riscv/include/asm/scs.h                  |    7 +
- arch/riscv/include/asm/sse.h                  |   82 ++
- arch/riscv/include/asm/thread_info.h          |    1 +
- arch/riscv/kernel/Makefile                    |    1 +
- arch/riscv/kernel/asm-offsets.c               |   14 +
- arch/riscv/kernel/entry.S                     |   14 +
- arch/riscv/kernel/machine_kexec.c             |   11 +
- arch/riscv/kernel/perf_callchain.c            |  142 ++
- arch/riscv/kernel/reset.c                     |   18 +
- arch/riscv/kernel/sbi_sse.c                   |  246 ++++
- arch/riscv/kernel/sbi_sse_entry.S             |  226 +++
- arch/riscv/kernel/smp.c                       |   17 +
- arch/riscv/mm/fault.c                         |   11 +-
- drivers/firmware/Kconfig                      |    1 +
- drivers/firmware/Makefile                     |    1 +
- drivers/firmware/riscv/Kconfig                |   18 +
- drivers/firmware/riscv/Makefile               |    3 +
- drivers/firmware/riscv/riscv_sbi_sse.c        | 1223 +++++++++++++++++
- drivers/perf/Kconfig                          |   11 +
- drivers/perf/riscv_pmu.c                      |   14 +-
- drivers/perf/riscv_pmu_sbi.c                  |  536 ++++++--
- include/linux/cpuhotplug.h                    |    1 +
- include/linux/perf/riscv_pmu.h                |   20 +-
- include/linux/riscv_sbi_sse.h                 |   95 ++
- tools/testing/selftests/riscv/Makefile        |    2 +-
- tools/testing/selftests/riscv/sse/Makefile    |   10 +
- .../selftests/riscv/sse/module/Makefile       |   22 +
- .../riscv/sse/module/riscv_sse_test.c         | 1154 ++++++++++++++++
- .../selftests/riscv/sse/run_sse_test.sh       |   59 +
- .../selftests/riscv/sse/sse_perf_ustack.c     |  564 ++++++++
- 36 files changed, 4592 insertions(+), 97 deletions(-)
- create mode 100644 Documentation/arch/riscv/pmu-sse.rst
- create mode 100644 arch/riscv/include/asm/sse.h
- create mode 100644 arch/riscv/kernel/sbi_sse.c
- create mode 100644 arch/riscv/kernel/sbi_sse_entry.S
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+Co-developed-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Signed-off-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Co-developed-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ MAINTAINERS                            |    7 +
+ drivers/firmware/Kconfig               |    1 +
+ drivers/firmware/Makefile              |    1 +
+ drivers/firmware/riscv/Kconfig         |   18 +
+ drivers/firmware/riscv/Makefile        |    3 +
+ drivers/firmware/riscv/riscv_sbi_sse.c | 1214 ++++++++++++++++++++++++
+ include/linux/cpuhotplug.h             |    1 +
+ include/linux/riscv_sbi_sse.h          |   89 ++
+ 8 files changed, 1334 insertions(+)
  create mode 100644 drivers/firmware/riscv/Kconfig
  create mode 100644 drivers/firmware/riscv/Makefile
  create mode 100644 drivers/firmware/riscv/riscv_sbi_sse.c
  create mode 100644 include/linux/riscv_sbi_sse.h
- create mode 100644 tools/testing/selftests/riscv/sse/Makefile
- create mode 100644 tools/testing/selftests/riscv/sse/module/Makefile
- create mode 100644 tools/testing/selftests/riscv/sse/module/riscv_sse_test.c
- create mode 100644 tools/testing/selftests/riscv/sse/run_sse_test.sh
- create mode 100644 tools/testing/selftests/riscv/sse/sse_perf_ustack.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6ee1f74c1c4e..1eb51b04dc42 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23518,6 +23518,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
+ F:	Documentation/devicetree/bindings/iommu/riscv,iommu.yaml
+ F:	drivers/iommu/riscv/
+ 
++RISC-V FIRMWARE DRIVERS
++M:	Conor Dooley <conor@kernel.org>
++L:	linux-riscv@lists.infradead.org
++S:	Maintained
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git
++F:	drivers/firmware/riscv/
++
+ RISC-V MICROCHIP SUPPORT
+ M:	Conor Dooley <conor.dooley@microchip.com>
+ M:	Daire McNamara <daire.mcnamara@microchip.com>
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index b7cc11e4fbfa..cf0212576dfd 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -306,6 +306,7 @@ source "drivers/firmware/meson/Kconfig"
+ source "drivers/firmware/microchip/Kconfig"
+ source "drivers/firmware/psci/Kconfig"
+ source "drivers/firmware/qcom/Kconfig"
++source "drivers/firmware/riscv/Kconfig"
+ source "drivers/firmware/samsung/Kconfig"
+ source "drivers/firmware/smccc/Kconfig"
+ source "drivers/firmware/tegra/Kconfig"
+diff --git a/drivers/firmware/Makefile b/drivers/firmware/Makefile
+index be46f1e1dc77..879953c316dc 100644
+--- a/drivers/firmware/Makefile
++++ b/drivers/firmware/Makefile
+@@ -35,6 +35,7 @@ obj-y				+= efi/
+ obj-y				+= imx/
+ obj-y				+= psci/
+ obj-y				+= qcom/
++obj-y				+= riscv/
+ obj-y				+= samsung/
+ obj-y				+= smccc/
+ obj-y				+= tegra/
+diff --git a/drivers/firmware/riscv/Kconfig b/drivers/firmware/riscv/Kconfig
+new file mode 100644
+index 000000000000..d15ff84e1258
+--- /dev/null
++++ b/drivers/firmware/riscv/Kconfig
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-2.0-only
++menu "Risc-V Specific firmware drivers"
++depends on RISCV
++
++config RISCV_SBI_SSE
++	bool "Enable SBI Supervisor Software Events support"
++	depends on RISCV_SBI && MMU && !HIBERNATION
++	default y
++	help
++	  The Supervisor Software Events support allows the SBI to deliver
++	  NMI-like notifications to the supervisor mode software. When enabled,
++	  this option provides support to register callbacks on specific SSE
++	  events.
++
++	  Hibernation is not supported because firmware registrations do not
++	  survive restoring a kernel image.
++
++endmenu
+diff --git a/drivers/firmware/riscv/Makefile b/drivers/firmware/riscv/Makefile
+new file mode 100644
+index 000000000000..c8795d4bbb2e
+--- /dev/null
++++ b/drivers/firmware/riscv/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-$(CONFIG_RISCV_SBI_SSE)		+= riscv_sbi_sse.o
+diff --git a/drivers/firmware/riscv/riscv_sbi_sse.c b/drivers/firmware/riscv/riscv_sbi_sse.c
+new file mode 100644
+index 000000000000..e81cfb4b0c56
+--- /dev/null
++++ b/drivers/firmware/riscv/riscv_sbi_sse.c
+@@ -0,0 +1,1214 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (C) 2025 Rivos Inc.
++ */
++
++#define pr_fmt(fmt) "sse: " fmt
++
++#include <linux/atomic.h>
++#include <linux/cpu.h>
++#include <linux/cpuhotplug.h>
++#include <linux/cpu_pm.h>
++#include <linux/crash_dump.h>
++#include <linux/hardirq.h>
++#include <linux/kexec.h>
++#include <linux/list.h>
++#include <linux/panic_notifier.h>
++#include <linux/percpu-defs.h>
++#include <linux/rcupdate.h>
++#include <linux/reboot.h>
++#include <linux/riscv_sbi_sse.h>
++#include <linux/slab.h>
++#include <linux/smp.h>
++
++#include <asm/sbi.h>
++#include <asm/sse.h>
++
++struct sse_event {
++	struct list_head list;
++	u32 evt_id;
++	u32 priority;
++	sse_event_handler_fn __rcu *handler;
++	void *handler_arg;
++	/* Only valid for global events */
++	unsigned int cpu;
++	/*
++	 * Desired state requested by the client. Firmware state is tracked per
++	 * instance because a failed transition can leave a partial result.
++	 */
++	bool enable_requested;
++	/* Registration failed, but firmware state still needs driver cleanup. */
++	bool cleanup_pending;
++
++	union {
++		struct sse_registered_event *global;
++		struct sse_registered_event __percpu *local;
++	};
++};
++
++static bool sse_available __ro_after_init;
++static bool sse_fw_state_retained __ro_after_init;
++static bool sse_shutting_down;
++static atomic_t sse_teardown_failed = ATOMIC_INIT(0);
++/*
++ * Client-side updates hold sse_mutex and the CPU read lock. Normal CPU hotplug
++ * callbacks exclude them through the CPUHP write side. Initialization replay
++ * runs before clients can register, and state removal holds sse_mutex.
++ */
++static LIST_HEAD(events);
++static DEFINE_MUTEX(sse_mutex);
++
++/*
++ * A registration rollback can fail before the client receives an event
++ * handle. Keep the retained event independent of client-owned callback text
++ * and data while the driver retries firmware cleanup.
++ */
++static int sse_cleanup_event_handler(u32 evt, void *arg, struct pt_regs *regs)
++{
++	return 0;
++}
++
++struct sse_registered_event {
++	struct sse_event_arch_data arch;
++	struct sse_event *event;
++	unsigned long attr;
++	/*
++	 * Actual firmware state for one global or per-CPU instance. A retry can
++	 * then skip instances that already completed a partial transition.
++	 */
++	bool is_registered;
++	bool is_enabled;
++};
++
++void sse_handle_event(struct sse_event_arch_data *arch_event,
++		      struct pt_regs *regs)
++{
++	sse_event_handler_fn *handler;
++	int ret;
++	struct sse_registered_event *reg_evt =
++		container_of(arch_event, struct sse_registered_event, arch);
++	struct sse_event *evt = reg_evt->event;
++
++	rcu_read_lock();
++	handler = rcu_dereference(evt->handler);
++	ret = handler(evt->evt_id, evt->handler_arg, regs);
++	rcu_read_unlock();
++	if (ret)
++		pr_warn("event %x handler failed with error %d\n", evt->evt_id, ret);
++}
++
++static struct sse_event *sse_event_get(u32 evt)
++{
++	struct sse_event *event;
++
++	lockdep_assert_held(&sse_mutex);
++
++	list_for_each_entry(event, &events, list) {
++		if (event->evt_id == evt)
++			return event;
++	}
++
++	return NULL;
++}
++
++static phys_addr_t sse_event_get_attr_phys(struct sse_registered_event *reg_evt)
++{
++	phys_addr_t phys;
++	void *addr = &reg_evt->attr;
++
++	if (sse_event_is_global(reg_evt->event->evt_id))
++		phys = virt_to_phys(addr);
++	else
++		phys = per_cpu_ptr_to_phys(addr);
++
++	return phys;
++}
++
++static struct sse_registered_event *sse_get_reg_evt(struct sse_event *event)
++{
++	if (sse_event_is_global(event->evt_id))
++		return event->global;
++	else
++		return per_cpu_ptr(event->local, smp_processor_id());
++}
++
++static int sse_err_map_linux_errno(long err)
++{
++	if (err == SBI_ERR_NOT_SUPPORTED)
++		return -EOPNOTSUPP;
++
++	return sbi_err_map_linux_errno(err);
++}
++
++static int sse_sbi_event_func(struct sse_event *event, unsigned long func)
++{
++	struct sbiret ret;
++	u32 evt = event->evt_id;
++	struct sse_registered_event *reg_evt = sse_get_reg_evt(event);
++
++	ret = sbi_ecall(SBI_EXT_SSE, func, evt, 0, 0, 0, 0, 0);
++	if (ret.error) {
++		pr_warn("Failed to execute func %lx, event %x, error %ld\n",
++			func, evt, ret.error);
++		return sse_err_map_linux_errno(ret.error);
++	}
++
++	if (func == SBI_SSE_EVENT_DISABLE)
++		reg_evt->is_enabled = false;
++	else if (func == SBI_SSE_EVENT_ENABLE)
++		reg_evt->is_enabled = true;
++
++	return 0;
++}
++
++int sse_event_disable_local(struct sse_event *event)
++{
++	if (!sse_event_is_global(event->evt_id))
++		lockdep_assert_preemption_disabled();
++
++	if (!sse_get_reg_evt(event)->is_enabled)
++		return 0;
++
++	return sse_sbi_event_func(event, SBI_SSE_EVENT_DISABLE);
++}
++EXPORT_SYMBOL_GPL(sse_event_disable_local);
++
++int sse_event_enable_local(struct sse_event *event)
++{
++	struct sse_registered_event *reg_evt = sse_get_reg_evt(event);
++	int ret;
++
++	if (!sse_event_is_global(event->evt_id))
++		lockdep_assert_preemption_disabled();
++
++	rcu_read_lock();
++	if (READ_ONCE(sse_shutting_down)) {
++		ret = -ESHUTDOWN;
++		goto out;
++	}
++
++	if (!reg_evt->is_registered) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	if (reg_evt->is_enabled) {
++		ret = 0;
++		goto out;
++	}
++
++	ret = sse_sbi_event_func(event, SBI_SSE_EVENT_ENABLE);
++out:
++	rcu_read_unlock();
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sse_event_enable_local);
++
++static int sse_event_attr_get_no_lock(struct sse_registered_event *reg_evt,
++				      unsigned long attr_id, unsigned long *val)
++{
++	struct sbiret sret;
++	u32 evt = reg_evt->event->evt_id;
++	phys_addr_t phys;
++
++	phys = sse_event_get_attr_phys(reg_evt);
++
++	sret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_EVENT_ATTR_READ, evt, attr_id, 1,
++			 (unsigned long)phys, 0, 0);
++	if (sret.error) {
++		pr_debug("Failed to get event %x attr %lx, error %ld\n", evt,
++			 attr_id, sret.error);
++		return sse_err_map_linux_errno(sret.error);
++	}
++
++	*val = reg_evt->attr;
++
++	return 0;
++}
++
++static int sse_event_attr_set_nolock(struct sse_registered_event *reg_evt,
++				     unsigned long attr_id, unsigned long val)
++{
++	struct sbiret sret;
++	u32 evt = reg_evt->event->evt_id;
++	phys_addr_t phys;
++
++	reg_evt->attr = val;
++	phys = sse_event_get_attr_phys(reg_evt);
++
++	sret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_EVENT_ATTR_WRITE, evt, attr_id, 1,
++			 (unsigned long)phys, 0, 0);
++	if (sret.error)
++		pr_debug("Failed to set event %x attr %lx, error %ld\n", evt,
++			 attr_id, sret.error);
++
++	return sse_err_map_linux_errno(sret.error);
++}
++
++static void sse_global_event_update_cpu(struct sse_event *event,
++					unsigned int cpu)
++{
++	struct sse_registered_event *reg_evt = event->global;
++
++	event->cpu = cpu;
++	arch_sse_event_update_cpu(&reg_evt->arch, cpu);
++}
++
++static int sse_event_set_target_cpu_nolock(struct sse_event *event,
++					   unsigned int cpu)
++{
++	unsigned long hart_id, old_hart_id;
++	struct sse_registered_event *reg_evt = event->global;
++	u32 evt = event->evt_id;
++	unsigned int old_cpu;
++	bool was_enabled;
++	int ret;
++
++	if (!sse_event_is_global(evt))
++		return -EINVAL;
++
++	if (cpu >= nr_cpu_ids || !cpu_online(cpu))
++		return -EINVAL;
++	hart_id = cpuid_to_hartid_map(cpu);
++	old_cpu = event->cpu;
++	old_hart_id = cpuid_to_hartid_map(old_cpu);
++
++	was_enabled = reg_evt->is_enabled;
++	if (was_enabled) {
++		ret = sse_event_disable_local(event);
++		if (ret)
++			return ret;
++	}
++
++	ret = sse_event_attr_set_nolock(reg_evt, SBI_SSE_ATTR_PREFERRED_HART,
++					hart_id);
++	if (ret == 0)
++		sse_global_event_update_cpu(event, cpu);
++
++	if (was_enabled) {
++		int enable_ret;
++
++		enable_ret = sse_event_enable_local(event);
++		if (enable_ret) {
++			int rollback_ret;
++
++			/*
++			 * The preferred hart was already changed. Restore both the
++			 * firmware attribute and Linux's cached target before reporting
++			 * the failed migration.
++			 */
++			rollback_ret = sse_event_attr_set_nolock(reg_evt,
++								 SBI_SSE_ATTR_PREFERRED_HART,
++								 old_hart_id);
++			if (!rollback_ret) {
++				sse_global_event_update_cpu(event, old_cpu);
++				rollback_ret = sse_event_enable_local(event);
++			}
++			if (!rollback_ret)
++				return enable_ret;
++
++			pr_warn("Failed to restore global event %x to CPU %u: %d\n",
++				evt, old_cpu, rollback_ret);
++			event->enable_requested = false;
++			return enable_ret;
++		}
++	}
++
++	return ret;
++}
++
++int sse_event_set_target_cpu(struct sse_event *event, unsigned int cpu)
++{
++	int ret;
++
++	if (cpu >= nr_cpu_ids)
++		return -EINVAL;
++
++	scoped_guard(mutex, &sse_mutex) {
++		if (READ_ONCE(sse_shutting_down))
++			return -ESHUTDOWN;
++
++		scoped_guard(cpus_read_lock) {
++			if (!cpu_online(cpu))
++				return -EINVAL;
++
++			ret = sse_event_set_target_cpu_nolock(event, cpu);
++		}
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sse_event_set_target_cpu);
++
++static int sse_event_init_registered(unsigned int cpu,
++				     struct sse_registered_event *reg_evt,
++				     struct sse_event *event)
++{
++	reg_evt->event = event;
++	reg_evt->is_registered = false;
++	reg_evt->is_enabled = false;
++
++	return arch_sse_init_event(&reg_evt->arch, event->evt_id, cpu);
++}
++
++static void sse_event_free_registered(struct sse_registered_event *reg_evt)
++{
++	arch_sse_free_event(&reg_evt->arch);
++}
++
++static int sse_event_alloc_global(struct sse_event *event)
++{
++	unsigned int cpu;
++	int err;
++	struct sse_registered_event *reg_evt;
++
++	reg_evt = kzalloc_obj(*reg_evt, GFP_KERNEL);
++	if (!reg_evt)
++		return -ENOMEM;
++
++	event->global = reg_evt;
++	cpu = cpumask_first(cpu_possible_mask);
++	if (cpu >= nr_cpu_ids) {
++		kfree(reg_evt);
++		return -ENODEV;
++	}
++
++	err = sse_event_init_registered(cpu, reg_evt, event);
++	if (err)
++		kfree(reg_evt);
++
++	return err;
++}
++
++static int sse_event_alloc_local(struct sse_event *event)
++{
++	int err;
++	unsigned int cpu, err_cpu;
++	struct sse_registered_event *reg_evt;
++	struct sse_registered_event __percpu *reg_evts;
++
++	reg_evts = alloc_percpu(struct sse_registered_event);
++	if (!reg_evts)
++		return -ENOMEM;
++
++	event->local = reg_evts;
++
++	for_each_possible_cpu(cpu) {
++		reg_evt = per_cpu_ptr(reg_evts, cpu);
++		err = sse_event_init_registered(cpu, reg_evt, event);
++		if (err) {
++			err_cpu = cpu;
++			goto err_free_per_cpu;
++		}
++	}
++
++	return 0;
++
++err_free_per_cpu:
++	for_each_possible_cpu(cpu) {
++		if (cpu == err_cpu)
++			break;
++		reg_evt = per_cpu_ptr(reg_evts, cpu);
++		sse_event_free_registered(reg_evt);
++	}
++
++	free_percpu(reg_evts);
++
++	return err;
++}
++
++static struct sse_event *sse_event_alloc(u32 evt, u32 priority,
++					 sse_event_handler_fn *handler,
++					 void *arg)
++{
++	int err;
++	struct sse_event *event;
++
++	event = kzalloc_obj(*event, GFP_KERNEL);
++	if (!event)
++		return ERR_PTR(-ENOMEM);
++
++	event->evt_id = evt;
++	event->priority = priority;
++	event->handler_arg = arg;
++	RCU_INIT_POINTER(event->handler, handler);
++
++	if (sse_event_is_global(evt))
++		err = sse_event_alloc_global(event);
++	else
++		err = sse_event_alloc_local(event);
++
++	if (err) {
++		kfree(event);
++		return ERR_PTR(err);
++	}
++
++	return event;
++}
++
++static int sse_sbi_register_event(struct sse_event *event,
++				  struct sse_registered_event *reg_evt)
++{
++	int ret;
++
++	if (reg_evt->is_registered)
++		return 0;
++
++	ret = sse_event_attr_set_nolock(reg_evt, SBI_SSE_ATTR_PRIO,
++					event->priority);
++	if (ret)
++		return ret;
++
++	ret = arch_sse_register_event(&reg_evt->arch);
++	if (!ret)
++		reg_evt->is_registered = true;
++
++	return ret;
++}
++
++static int sse_event_register_local(struct sse_event *event)
++{
++	int ret;
++	struct sse_registered_event *reg_evt;
++
++	reg_evt = per_cpu_ptr(event->local, smp_processor_id());
++	ret = sse_sbi_register_event(event, reg_evt);
++	if (ret)
++		pr_debug("Failed to register event %x: err %d\n", event->evt_id,
++			 ret);
++
++	return ret;
++}
++
++static int sse_sbi_unregister_event(struct sse_event *event)
++{
++	struct sse_registered_event *reg_evt = sse_get_reg_evt(event);
++	int ret;
++
++	if (!reg_evt->is_registered)
++		return 0;
++
++	ret = sse_sbi_event_func(event, SBI_SSE_EVENT_UNREGISTER);
++	if (!ret) {
++		reg_evt->is_registered = false;
++		reg_evt->is_enabled = false;
++	}
++
++	return ret;
++}
++
++struct sse_per_cpu_evt {
++	struct sse_event *event;
++	unsigned long func;
++	atomic_t first_error;
++	atomic_t nonfallback_error;
++	cpumask_t changed;
++};
++
++static void sse_event_per_cpu_func(void *info)
++{
++	struct sse_per_cpu_evt *cpu_evt = info;
++	struct sse_registered_event *reg_evt;
++	bool changed;
++	int ret;
++
++	reg_evt = sse_get_reg_evt(cpu_evt->event);
++
++	if (cpu_evt->func == SBI_SSE_EVENT_REGISTER) {
++		changed = !reg_evt->is_registered;
++		ret = sse_event_register_local(cpu_evt->event);
++	} else if (cpu_evt->func == SBI_SSE_EVENT_UNREGISTER) {
++		changed = reg_evt->is_registered;
++		ret = sse_sbi_unregister_event(cpu_evt->event);
++	} else if (cpu_evt->func == SBI_SSE_EVENT_ENABLE) {
++		changed = !reg_evt->is_enabled;
++		ret = sse_event_enable_local(cpu_evt->event);
++	} else if (cpu_evt->func == SBI_SSE_EVENT_DISABLE) {
++		changed = reg_evt->is_enabled;
++		ret = sse_event_disable_local(cpu_evt->event);
++	} else {
++		changed = false;
++		ret = -EINVAL;
++	}
++
++	if (ret) {
++		atomic_cmpxchg(&cpu_evt->first_error, 0, ret);
++		if (ret != -EOPNOTSUPP)
++			atomic_cmpxchg(&cpu_evt->nonfallback_error, 0, ret);
++	} else if (changed) {
++		cpumask_set_cpu(smp_processor_id(), &cpu_evt->changed);
++	}
++}
++
++static bool sse_event_is_registered(struct sse_event *event)
++{
++	unsigned int cpu;
++
++	if (sse_event_is_global(event->evt_id))
++		return event->global->is_registered;
++
++	for_each_possible_cpu(cpu) {
++		if (per_cpu_ptr(event->local, cpu)->is_registered)
++			return true;
++	}
++
++	return false;
++}
++
++static bool sse_event_is_enabled(struct sse_event *event)
++{
++	unsigned int cpu;
++
++	if (sse_event_is_global(event->evt_id))
++		return event->global->is_enabled;
++
++	for_each_possible_cpu(cpu) {
++		if (per_cpu_ptr(event->local, cpu)->is_enabled)
++			return true;
++	}
++
++	return false;
++}
++
++static void sse_event_free(struct sse_event *event)
++{
++	unsigned int cpu;
++	struct sse_registered_event *reg_evt;
++
++	if (WARN_ON_ONCE(sse_event_is_registered(event)))
++		return;
++
++	if (sse_event_is_global(event->evt_id)) {
++		sse_event_free_registered(event->global);
++		kfree(event->global);
++	} else {
++		for_each_possible_cpu(cpu) {
++			reg_evt = per_cpu_ptr(event->local, cpu);
++			sse_event_free_registered(reg_evt);
++		}
++		free_percpu(event->local);
++	}
++
++	kfree(event);
++}
++
++static struct sse_event *sse_register_failed(struct sse_event *event, int ret)
++{
++	/*
++	 * Keep failed rollback state visible to CPU hotplug and shutdown. The
++	 * core-owned handler also makes the retained registration independent of
++	 * the client whose registration request failed.
++	 */
++	if (sse_event_is_registered(event)) {
++		event->cleanup_pending = true;
++		rcu_assign_pointer(event->handler, sse_cleanup_event_handler);
++		synchronize_rcu();
++		list_add(&event->list, &events);
++		pr_err("Event %x remains registered after rollback; cleanup retained\n",
++		       event->evt_id);
++		ret = -EUCLEAN;
++	} else {
++		sse_event_free(event);
++	}
++
++	return ERR_PTR(ret);
++}
++
++void sse_event_cleanup(struct sse_event *event)
++{
++	guard(mutex)(&sse_mutex);
++	guard(cpus_read_lock)();
++
++	if (event->cleanup_pending)
++		return;
++
++	/*
++	 * Firmware may still enter the old callback after disable or unregister
++	 * fails. Publish a core-owned callback, then wait before the client frees
++	 * its callback data.
++	 */
++	event->cleanup_pending = true;
++	rcu_assign_pointer(event->handler, sse_cleanup_event_handler);
++	synchronize_rcu();
++}
++EXPORT_SYMBOL_GPL(sse_event_cleanup);
++
++static void sse_release_cleanup_event(struct sse_event *event)
++{
++	if (!event->cleanup_pending || sse_event_is_registered(event))
++		return;
++
++	list_del(&event->list);
++	sse_event_free(event);
++}
++
++static int sse_event_setup_all_cpus(struct sse_event *event,
++				    unsigned long func,
++				    unsigned long rollback_func)
++{
++	struct sse_per_cpu_evt cpu_evt;
++	int rollback_ret;
++	int ret;
++
++	cpu_evt.event = event;
++	atomic_set(&cpu_evt.first_error, 0);
++	atomic_set(&cpu_evt.nonfallback_error, 0);
++	cpumask_clear(&cpu_evt.changed);
++	cpu_evt.func = func;
++	on_each_cpu(sse_event_per_cpu_func, &cpu_evt, 1);
++	/* IRQ fallback is safe only if every failing CPU reports unsupported. */
++	ret = atomic_read(&cpu_evt.nonfallback_error);
++	if (!ret)
++		ret = atomic_read(&cpu_evt.first_error);
++	/*
++	 * A previous attempt may already have changed some CPUs. Roll back only
++	 * instances changed by this invocation.
++	 */
++	if (ret) {
++		cpu_evt.func = rollback_func;
++		atomic_set(&cpu_evt.first_error, 0);
++		atomic_set(&cpu_evt.nonfallback_error, 0);
++		on_each_cpu_mask(&cpu_evt.changed, sse_event_per_cpu_func, &cpu_evt, 1);
++
++		rollback_ret = atomic_read(&cpu_evt.nonfallback_error);
++		if (!rollback_ret)
++			rollback_ret = atomic_read(&cpu_evt.first_error);
++
++		/* A rollback failure leaves the firmware state uncertain. */
++		return rollback_ret ?: ret;
++	}
++
++	return 0;
++}
++
++static int sse_event_teardown_all_cpus(struct sse_event *event,
++				       unsigned long func)
++{
++	struct sse_per_cpu_evt cpu_evt;
++
++	cpu_evt.event = event;
++	atomic_set(&cpu_evt.first_error, 0);
++	atomic_set(&cpu_evt.nonfallback_error, 0);
++	cpumask_clear(&cpu_evt.changed);
++	cpu_evt.func = func;
++	on_each_cpu(sse_event_per_cpu_func, &cpu_evt, 1);
++
++	return atomic_read(&cpu_evt.first_error);
++}
++
++int sse_event_enable(struct sse_event *event)
++{
++	int ret = 0;
++
++	scoped_guard(mutex, &sse_mutex) {
++		if (READ_ONCE(sse_shutting_down))
++			return -ESHUTDOWN;
++
++		scoped_guard(cpus_read_lock) {
++			if (sse_event_is_global(event->evt_id)) {
++				ret = sse_event_enable_local(event);
++			} else {
++				ret = sse_event_setup_all_cpus(event,
++							       SBI_SSE_EVENT_ENABLE,
++							       SBI_SSE_EVENT_DISABLE);
++			}
++			event->enable_requested = !ret;
++		}
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sse_event_enable);
++
++static int sse_events_mask(void)
++{
++	struct sbiret ret;
++
++	ret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_HART_MASK, 0, 0, 0, 0, 0, 0);
++	if (ret.error == SBI_ERR_ALREADY_STOPPED)
++		return 0;
++
++	return sse_err_map_linux_errno(ret.error);
++}
++
++static int sse_events_unmask(void)
++{
++	struct sbiret ret;
++
++	ret = sbi_ecall(SBI_EXT_SSE, SBI_SSE_HART_UNMASK, 0, 0, 0, 0, 0, 0);
++	if (ret.error == SBI_ERR_ALREADY_STARTED)
++		return 0;
++
++	return sse_err_map_linux_errno(ret.error);
++}
++
++static int sse_event_disable_nolock(struct sse_event *event)
++{
++	if (sse_event_is_global(event->evt_id))
++		return sse_event_disable_local(event);
++
++	return sse_event_teardown_all_cpus(event, SBI_SSE_EVENT_DISABLE);
++}
++
++int sse_event_disable(struct sse_event *event)
++{
++	int ret = 0;
++
++	scoped_guard(mutex, &sse_mutex) {
++		if (READ_ONCE(sse_shutting_down))
++			return -ESHUTDOWN;
++
++		scoped_guard(cpus_read_lock) {
++			if (!event->enable_requested && !sse_event_is_enabled(event))
++				return 0;
++
++			event->enable_requested = false;
++			ret = sse_event_disable_nolock(event);
++			if (!ret && sse_event_is_enabled(event))
++				ret = -EIO;
++		}
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sse_event_disable);
++
++struct sse_event *sse_event_register(u32 evt, u32 priority,
++				     sse_event_handler_fn *handler, void *arg)
++{
++	struct sse_event *event;
++	int cpu;
++	int ret = 0;
++
++	if (sse_fw_state_retained)
++		return ERR_PTR(-EUCLEAN);
++	if (!sse_available)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	guard(mutex)(&sse_mutex);
++	if (READ_ONCE(sse_shutting_down))
++		return ERR_PTR(-ESHUTDOWN);
++
++	guard(cpus_read_lock)();
++
++	if (sse_event_get(evt))
++		return ERR_PTR(-EEXIST);
++
++	event = sse_event_alloc(evt, priority, handler, arg);
++	if (IS_ERR(event))
++		return event;
++
++	if (sse_event_is_global(evt)) {
++		unsigned long preferred_hart;
++
++		ret = sse_event_attr_get_no_lock(event->global,
++						 SBI_SSE_ATTR_PREFERRED_HART,
++						 &preferred_hart);
++		if (ret)
++			return sse_register_failed(event, ret);
++
++		cpu = riscv_hartid_to_cpuid(preferred_hart);
++		if (cpu < 0 || !cpu_online(cpu)) {
++			cpu = cpumask_first(cpu_online_mask);
++			if (cpu >= nr_cpu_ids)
++				return sse_register_failed(event, -ENODEV);
++
++			ret = sse_event_set_target_cpu_nolock(event, cpu);
++			if (ret)
++				return sse_register_failed(event, ret);
++		} else {
++			sse_global_event_update_cpu(event, cpu);
++		}
++
++		ret = sse_sbi_register_event(event, event->global);
++		if (ret)
++			return sse_register_failed(event, ret);
++	} else {
++		ret = sse_event_setup_all_cpus(event, SBI_SSE_EVENT_REGISTER,
++					       SBI_SSE_EVENT_UNREGISTER);
++		if (ret)
++			return sse_register_failed(event, ret);
++	}
++
++	list_add(&event->list, &events);
++
++	return event;
++}
++EXPORT_SYMBOL_GPL(sse_event_register);
++
++static int sse_event_unregister_nolock(struct sse_event *event)
++{
++	if (sse_event_is_global(event->evt_id))
++		return sse_sbi_unregister_event(event);
++
++	return sse_event_teardown_all_cpus(event, SBI_SSE_EVENT_UNREGISTER);
++}
++
++int sse_event_unregister(struct sse_event *event)
++{
++	int ret = 0;
++
++	scoped_guard(mutex, &sse_mutex) {
++		if (READ_ONCE(sse_shutting_down))
++			return -ESHUTDOWN;
++
++		scoped_guard(cpus_read_lock) {
++			ret = sse_event_unregister_nolock(event);
++			if (ret)
++				return ret;
++			if (sse_event_is_registered(event))
++				return -EBUSY;
++
++			list_del(&event->list);
++
++			sse_event_free(event);
++		}
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sse_event_unregister);
++
++static int sse_teardown_event(struct sse_event *event, unsigned int cpu);
++
++static int sse_cpu_online(unsigned int cpu)
++{
++	int ret, rollback_ret;
++	struct sse_event *event, *tmp;
++	struct sse_registered_event *reg_evt;
++
++	arch_sse_init_cpu();
++
++	list_for_each_entry_safe(event, tmp, &events, list) {
++		if (sse_event_is_global(event->evt_id))
++			continue;
++		if (event->cleanup_pending) {
++			ret = sse_teardown_event(event, cpu);
++			if (ret)
++				goto rollback;
++			sse_release_cleanup_event(event);
++			continue;
++		}
++
++		ret = sse_event_register_local(event);
++		if (ret)
++			goto rollback;
++		if (event->enable_requested)
++			ret = sse_event_enable_local(event);
++		else
++			ret = sse_event_disable_local(event);
++		if (ret)
++			goto rollback;
++	}
++
++	/* Only unmask after every cached per-CPU state is reconstructed. */
++	ret = sse_events_unmask();
++	if (!ret)
++		return 0;
++
++rollback:
++	/* A failed startup callback is not followed by this state's teardown. */
++	list_for_each_entry_safe(event, tmp, &events, list) {
++		if (sse_event_is_global(event->evt_id))
++			continue;
++
++		reg_evt = sse_get_reg_evt(event);
++		rollback_ret = reg_evt->is_enabled ?
++			sse_event_disable_local(event) : 0;
++		if (rollback_ret) {
++			pr_warn("Failed to disable event %x while rolling back CPU %u: %d\n",
++				event->evt_id, cpu, rollback_ret);
++			atomic_set(&sse_teardown_failed, 1);
++			continue;
++		}
++
++		rollback_ret = reg_evt->is_registered ?
++			sse_sbi_unregister_event(event) : 0;
++		if (rollback_ret) {
++			pr_warn("Failed to unregister event %x while rolling back CPU %u: %d\n",
++				event->evt_id, cpu, rollback_ret);
++			atomic_set(&sse_teardown_failed, 1);
++		}
++		sse_release_cleanup_event(event);
++	}
++
++	return ret;
++}
++
++static int sse_teardown_event(struct sse_event *event, unsigned int cpu)
++{
++	struct sse_registered_event *reg_evt = sse_get_reg_evt(event);
++	int ret;
++
++	if (reg_evt->is_enabled) {
++		ret = sse_event_disable_local(event);
++		if (ret) {
++			pr_warn("Failed to disable event %x on CPU %u: %d\n",
++				event->evt_id, cpu, ret);
++			return ret;
++		}
++	}
++
++	ret = sse_sbi_unregister_event(event);
++	if (ret)
++		pr_warn("Failed to unregister event %x on CPU %u: %d\n",
++			event->evt_id, cpu, ret);
++
++	return ret;
++}
++
++static int sse_restore_local_events(unsigned int cpu)
++{
++	struct sse_event *event;
++	int first_error = 0;
++	int ret;
++
++	list_for_each_entry(event, &events, list) {
++		if (sse_event_is_global(event->evt_id) || event->cleanup_pending)
++			continue;
++
++		ret = sse_event_register_local(event);
++		if (!ret) {
++			ret = event->enable_requested ?
++				sse_event_enable_local(event) :
++				sse_event_disable_local(event);
++		}
++		if (ret) {
++			pr_warn("Failed to restore event %x on CPU %u: %d\n",
++				event->evt_id, cpu, ret);
++			if (!first_error)
++				first_error = ret;
++		}
++	}
++
++	return first_error;
++}
++
++static int sse_cpu_teardown(unsigned int cpu)
++{
++	/* Only a regular CPU-offline callback may abort the CPUHP operation. */
++	bool regular_offline = READ_ONCE(sse_available) &&
++			       !READ_ONCE(sse_shutting_down);
++	unsigned int next_cpu;
++	struct sse_event *event, *tmp;
++	int first_error = 0;
++	int ret;
++
++	/* Do not dismantle CPU state while firmware can still deliver SSE. */
++	ret = sse_events_mask();
++	if (ret) {
++		pr_warn("Failed to mask SSE on CPU %u during teardown: %d\n",
++			cpu, ret);
++		if (READ_ONCE(sse_shutting_down))
++			atomic_set(&sse_teardown_failed, 1);
++		/* CPUHP installation rollback and state removal cannot fail. */
++		return regular_offline ? ret : 0;
++	}
++
++	list_for_each_entry_safe(event, tmp, &events, list) {
++		if (sse_event_is_global(event->evt_id))
++			continue;
++
++		ret = sse_teardown_event(event, cpu);
++		if (ret && !first_error)
++			first_error = ret;
++		sse_release_cleanup_event(event);
++		if (ret && regular_offline)
++			goto restore_cpu;
++	}
++
++	list_for_each_entry_safe(event, tmp, &events, list) {
++		if (!sse_event_is_global(event->evt_id) || event->cpu != cpu)
++			continue;
++
++		/*
++		 * cpuhp_remove_state() invokes teardown while every CPU remains
++		 * online. Do not migrate to a CPU whose callback may have run.
++		 */
++		if (READ_ONCE(sse_shutting_down) || event->cleanup_pending) {
++			ret = sse_teardown_event(event, cpu);
++		} else {
++			next_cpu = cpumask_any_but(cpu_online_mask, cpu);
++			if (next_cpu >= nr_cpu_ids) {
++				ret = sse_teardown_event(event, cpu);
++			} else {
++				ret = sse_event_set_target_cpu_nolock(event, next_cpu);
++				if (ret)
++					pr_warn("Failed to migrate global event %x from CPU %u: %d\n",
++						event->evt_id, cpu, ret);
++			}
++		}
++
++		if (ret && !first_error)
++			first_error = ret;
++		sse_release_cleanup_event(event);
++		if (ret && regular_offline)
++			goto restore_cpu;
++	}
++
++	if (first_error) {
++		/* An offline CPU is not revisited when this CPUHP state is removed. */
++		atomic_set(&sse_teardown_failed, 1);
++	}
++
++	return 0;
++
++restore_cpu:
++	/*
++	 * CPUHP leaves this CPU online when teardown returns an error. Restore
++	 * every client-owned local event before making SSE delivery visible again.
++	 */
++	ret = sse_restore_local_events(cpu);
++	if (!ret)
++		ret = sse_events_unmask();
++	if (ret) {
++		atomic_set(&sse_teardown_failed, 1);
++		pr_warn("Failed to restore SSE after aborting CPU %u offline: %d\n",
++			cpu, ret);
++	} else {
++		pr_warn("Aborted CPU %u offline after SSE teardown failed: %d\n",
++			cpu, first_error);
++	}
++
++	return first_error;
++}
++
++static int sse_pm_notifier(struct notifier_block *nb, unsigned long action,
++			   void *data)
++{
++	int ret;
++
++	WARN_ON_ONCE(preemptible());
++
++	switch (action) {
++	case CPU_PM_ENTER:
++		ret = sse_events_mask();
++		break;
++	case CPU_PM_EXIT:
++	case CPU_PM_ENTER_FAILED:
++		if (READ_ONCE(sse_shutting_down))
++			return NOTIFY_OK;
++		ret = sse_events_unmask();
++		break;
++	default:
++		return NOTIFY_DONE;
++	}
++
++	if (ret)
++		return notifier_from_errno(ret);
++
++	return NOTIFY_OK;
++}
++
++static struct notifier_block sse_pm_nb = {
++	.notifier_call = sse_pm_notifier,
++};
++
++static int sse_panic_notifier(struct notifier_block *nb, unsigned long action,
++			      void *data)
++{
++	riscv_sse_mask_current_hart();
++
++	return NOTIFY_OK;
++}
++
++static struct notifier_block sse_panic_nb = {
++	.notifier_call = sse_panic_notifier,
++	.priority = INT_MAX,
++};
++
++/*
++ * Mask all CPUs and unregister all events on reboot or kexec.
++ */
++static int sse_reboot_notifier(struct notifier_block *nb, unsigned long action,
++			       void *data)
++{
++	int ret;
++
++	scoped_guard(mutex, &sse_mutex) {
++		if (!sse_shutting_down) {
++			WRITE_ONCE(sse_shutting_down, true);
++			ret = cpu_pm_unregister_notifier(&sse_pm_nb);
++			if (ret) {
++				pr_warn("Failed to unregister CPU PM notifier: %d\n",
++					ret);
++				atomic_set(&sse_teardown_failed, 1);
++			}
++			/* Drain CPU PM callbacks and client enables before teardown. */
++			synchronize_rcu();
++			cpuhp_remove_state(CPUHP_AP_RISCV_SSE_ONLINE);
++		}
++	}
++
++	/* Normal kexec preserves firmware state but discards old kernel memory. */
++	if (kexec_in_progress && atomic_read(&sse_teardown_failed))
++		panic("SSE teardown failed; refusing unsafe kexec");
++
++	return NOTIFY_OK;
++}
++
++static struct notifier_block sse_reboot_nb = {
++	.notifier_call = sse_reboot_notifier,
++};
++
++static int __init sse_init(void)
++{
++	int ret;
++
++	/*
++	 * A kdump kernel cannot identify registrations left by the crashed
++	 * kernel. Keep them masked by not initializing SSE again.
++	 */
++	if (is_kdump_kernel() && riscv_sse_available()) {
++		sse_fw_state_retained = true;
++		pr_info("SSE remains disabled in the crash kernel\n");
++		return -EOPNOTSUPP;
++	}
++
++	if (sbi_probe_extension(SBI_EXT_SSE) <= 0) {
++		pr_info("Missing SBI SSE extension\n");
++		return -EOPNOTSUPP;
++	}
++	pr_info("SBI SSE extension detected\n");
++
++	ret = cpu_pm_register_notifier(&sse_pm_nb);
++	if (ret) {
++		pr_warn("Failed to register CPU PM notifier...\n");
++		return ret;
++	}
++
++	ret = register_reboot_notifier(&sse_reboot_nb);
++	if (ret) {
++		pr_warn("Failed to register reboot notifier...\n");
++		goto remove_cpupm;
++	}
++
++	ret = atomic_notifier_chain_register(&panic_notifier_list, &sse_panic_nb);
++	if (ret) {
++		pr_warn("Failed to register panic notifier...\n");
++		goto remove_reboot;
++	}
++
++	/* Tear down perf events before dismantling their SSE delivery path. */
++	ret = cpuhp_setup_state(CPUHP_AP_RISCV_SSE_ONLINE, "riscv/sse:online",
++				sse_cpu_online, sse_cpu_teardown);
++	if (ret < 0)
++		goto remove_panic;
++
++	sse_available = true;
++
++	return 0;
++
++remove_panic:
++	atomic_notifier_chain_unregister(&panic_notifier_list, &sse_panic_nb);
++
++remove_reboot:
++	unregister_reboot_notifier(&sse_reboot_nb);
++
++remove_cpupm:
++	cpu_pm_unregister_notifier(&sse_pm_nb);
++
++	return ret;
++}
++arch_initcall(sse_init);
+diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+index feb32949aeea..d13af475508d 100644
+--- a/include/linux/cpuhotplug.h
++++ b/include/linux/cpuhotplug.h
+@@ -200,6 +200,7 @@ enum cpuhp_state {
+ 	CPUHP_AP_ARM_MVEBU_SYNC_CLOCKS,
+ 	CPUHP_AP_ARM_CORESIGHT_ONLINE,
+ 	CPUHP_AP_X86_INTEL_EPB_ONLINE,
++	CPUHP_AP_RISCV_SSE_ONLINE,
+ 	CPUHP_AP_PERF_ONLINE,
+ 	CPUHP_AP_PERF_X86_ONLINE,
+ 	CPUHP_AP_PERF_X86_UNCORE_ONLINE,
+diff --git a/include/linux/riscv_sbi_sse.h b/include/linux/riscv_sbi_sse.h
+new file mode 100644
+index 000000000000..774a782e556d
+--- /dev/null
++++ b/include/linux/riscv_sbi_sse.h
+@@ -0,0 +1,89 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (C) 2025 Rivos Inc.
++ */
++
++#ifndef __LINUX_RISCV_SBI_SSE_H
++#define __LINUX_RISCV_SBI_SSE_H
++
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/types.h>
++#include <linux/linkage.h>
++
++struct sse_event;
++struct pt_regs;
++
++typedef int (sse_event_handler_fn)(u32 event_num, void *arg,
++				   struct pt_regs *regs);
++
++#ifdef CONFIG_RISCV_SBI_SSE
++
++/*
++ * The callback and its argument must remain valid until unregister succeeds.
++ * The callback runs in NMI context and must not sleep.
++ * regs is NULL if firmware cannot provide a complete interrupted context.
++ */
++struct sse_event *sse_event_register(u32 event_num, u32 priority,
++				     sse_event_handler_fn *handler, void *arg);
++
++int sse_event_unregister(struct sse_event *evt);
++
++/*
++ * Transfer a retained event to the SSE core for deferred cleanup. The caller
++ * must not access the event or its callback data after this function returns.
++ */
++void sse_event_cleanup(struct sse_event *evt);
++
++int sse_event_set_target_cpu(struct sse_event *sse_evt, unsigned int cpu);
++
++int sse_event_enable(struct sse_event *sse_evt);
++
++int sse_event_disable(struct sse_event *sse_evt);
++
++/* Local events require the caller to remain on the current CPU. */
++int sse_event_enable_local(struct sse_event *sse_evt);
++int sse_event_disable_local(struct sse_event *sse_evt);
++
++#else
++static inline struct sse_event *sse_event_register(u32 event_num, u32 priority,
++						   sse_event_handler_fn *handler,
++						   void *arg)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
++static inline int sse_event_unregister(struct sse_event *evt)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void sse_event_cleanup(struct sse_event *evt) { }
++
++static inline int sse_event_set_target_cpu(struct sse_event *sse_evt,
++					   unsigned int cpu)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int sse_event_enable(struct sse_event *sse_evt)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int sse_event_disable(struct sse_event *sse_evt)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int sse_event_enable_local(struct sse_event *sse_evt)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int sse_event_disable_local(struct sse_event *sse_evt)
++{
++	return -EOPNOTSUPP;
++}
++#endif
++#endif /* __LINUX_RISCV_SBI_SSE_H */
 -- 
 2.43.0
 
