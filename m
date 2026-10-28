@@ -1,54 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793158914;
-	b=dpfqrzdVUt0f+jJsHDLEwgatyXaAPYUygIxn2DdHqNV8DOV+6FSeykxsALYobd1CBPaV
-	 ccTNIbiOL4xH1cMs3qj5gqBgbjCy5cEP4R4OaUsuIPXHzNS3UTdXz6sfliWcxp/g0nDnJ
-	 P8Dm6tvDG74cJ82vMKmIXyoOltRQcA9Zvsh2fQCt3bAwSzFl2W+fmDLRRfWIYctqiPcr+
-	 zYlgL1gV3jufY+/gVAhGCvI4vEBYJlaY5vVJAv+DXHqhEYUQFRxxinvWpb/pvH6VJr08K
-	 PtFTFUQ+nzgBb6Ao6dXgN4GGo85uXUZIlEwbufAQMll7Vk2mc6h+vq9gFttlLLKigWA==
+	t=1793160839;
+	b=jjcungGSHU3/KJrEtmAnmZ6agFZd6v87QpLu93N57R94SiFYGrRU2poLyzgwbftizIab
+	 GZ55n871KALpgLazsHsD5PNRPibWzgxkWN4sNd56aOBTIyybDh1enGD5gtug9iX+pE6l4
+	 x81vmabUdF0KSGwBuhwa/QRz/bxLQNlXzXUNL0rOitEIfOfQ3lqrWbjxVKo8OSL/mTjFT
+	 bx9iw0pYp9pvuh73CvCTxrdi5dWKa+sAnEjk4Bg6KTS0Mxw+1PcstgWb9QlBhea0xisYw
+	 l9u2vcaVj/BWDUpjQNwycZEaHJ4SNuKmTO3PasQsINtZY+p0NrHDcPw35Nlw7Owj/Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793158914;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=Ji97ndRb0L85uvtFbDoAT0Doj9OLhT3C76ZLow53MNM=;
-	b=ZOm5dFEdruYDuVp9m2zPmwW/bgkHJ1MVDwyN0gMeBJ2BAp9/dlAs+lt7QKwL8ImmIGUv
-	 LCFjwai/I1qrPR4aaOGWSvdfz9ZLpv7fpDr7CUsff1oLJ3//638y/JA5vMBJVH3w4Uxfq
-	 50iW/b/ZDoq9R+74I4+ZOFpigE5EP9xyRLlSJBp7DzCYMjrCWF1C24qwI9UIMW/VECup9
-	 IVJpip7hu7Cy2Sg/qLk03yG/o34PDPWp8NgXly4LNovzJTxvHJ7jvGchOJ0qJy/qXhxS9
-	 14nkxr/bzWp2kJcqQdricH4npDAA+xpbDMk7ad1XYRFpuGzZovm7l6foaUGqNO76qzw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793160839;
+	h=DMARC-Filter:DKIM-Signature:Message-Id:Mime-Version:
+	 X-Lms-Return-Path:Content-Transfer-Encoding:To:Content-Type:
+	 X-Original-From:Cc:From:Subject:Date:X-Mailer;
+	bh=Ufn0FgIJu+3KUWz3Ja9xTt0y5cutm6hq8a8JjEz61Gs=;
+	b=w1Ie76BNla7LfSCc3EVM91ZSkkon65MyOlrP5h4z/7ypazFtqAhSo7XbLAtC87oBEgc0
+	 rg0A8Y6l9WAzS393gLinFvGJzpt+o9XiuynhJeO/WRvZKm7qId5AWLb9kotp+sxccLtVg
+	 /UoIUA+mV2O/B4YE0Xk9tAZahm1/WfHGiDJgzUaNAqU+sAVIseMufDwmWWK4AirwX1ZAz
+	 i7NNY3+RPqh9olJj83jCYzfCaT93UdcOoPrZlJjcz/bArsihUUb5vjE7m4JcH8Jw5n6sv
+	 45ZEXtMFGLE9tgQpCzFNcE4RQKuaaPcB+tvYcZZian2PUoxRdqpHEB3YLgEfSCip+XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.161.220
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E6860A3832;
-	Wed, 28 Oct 2026 03:41:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34E6860A3832
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMCmzHUAb+FqHOFgAA--.38435S2;
-	Wed, 28 Oct 2026 11:41:52 +0800 (CST)
-Received: from mudongliang-PC.tailb307d0.ts.net (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wCXkDvubuFql1YAAA--.815S10;
-	Wed, 28 Oct 2026 11:41:49 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Weijie Yuan <wy@wyuan.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/9] docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
-Date: Wed, 28 Oct 2026 11:41:33 +0800
-Message-ID: <20261028034134.4144660-9-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20261028034134.4144660-1-dzm91@hust.edu.cn>
-References: <20261028034134.4144660-1-dzm91@hust.edu.cn>
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=QPVr+U0A;
+	arc=none smtp.remote-ip=209.127.230.111
+Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5CB606A31F
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 04:13:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E5CB606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=QPVr+U0A
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1793160831; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=Ufn0FgIJu+3KUWz3Ja9xTt0y5cutm6hq8a8JjEz61Gs=;
+ b=QPVr+U0ANHSlCCAX8olEc2ciXekwax7Kkr/vj4atUOGWVA+dOWxQGoZuiJxcUyvDthqQq3
+ LEup4EKSz9FnUrqUTaTbLR2baaXNbD6AelTh+18wnSvsJjiClny4VIt8UpAOfeaYGIELS9
+ RpRfi0iIlGTTle4QzucTwM6ycY1+otCjFiHBt2lQVf+mszioWks+B/m51wNemHM/z6tzvK
+ OF/TgbxZGts6KwPU4ywCGe8bN1y0bGC5R8RC3Amslxq8bTjj3HflrMQtf/t4jS2LYH2Kkx
+ F0xTER+tNqYR28NjSwXCyj/pcJCXpSdR3HMoClWjq2FqmJACupr/wfBxZcXckQ==
+Message-Id: <20261028041253.74839-1-lizhe.67@bytedance.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,362 +52,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+26ae1767e+81b04e+vger.kernel.org+lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 7bit
+To: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, 
+	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
+	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
+	<vschneid@redhat.com>, <ziy@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IQEQrMCmzHUAb+FqHOFgAA--.38435S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3AF4UtFyfWFW8tF1kCFykXwb_yoWxXr4UpF
-	48KryfKF48C3Wakw48Gr1UGF18Ka1xCanFkF17Jw10qr1kJrWYkrsxK39IkFyxGrWSkFW5
-	XanrKrW5uryjyFJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUHFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
-	CY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC2
-	0s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJV
-	W8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>, "Li Zhe" <lizhe.67@bytedance.com>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Subject: [PATCH v2 0/3] sched/numa: refine memory tiering promotion heuristics
+Date: Wed, 28 Oct 2026 12:12:50 +0800
+X-Mailer: git-send-email 2.45.2
 
-Move the XFRM proc translation to its current upstream location and
-adjust the disclaimer include. Add an XFRM chapter index and update
-the networking index to follow the English layout.
+This version narrows the series to memory tiering.  The generic normal
+NUMA balancing cleanups and heuristic changes from v1 are not included.
 
-Track the English xfrm_proc.rst through commit 03e23b18c720
-("net: Move XFRM documentation into its own subdirectory").
+Patch 1 makes the free-space promotion bypass configurable while keeping
+the existing eager-promotion behavior as the default.  Disabling the
+bypass forces slow-tier promotions through the normal hotness and
+rate-limit checks, which helps workloads that intentionally keep part of
+their memory on a slow tier avoid short cold bursts refilling the fast
+tier.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Patch 2 keeps memory-tiering-only promotion faults out of normal AutoNUMA
+task-placement statistics.  Slow-tier NUMA hint faults use the folio
+last-cpupid field as access-time metadata, so those faults should not be
+interpreted as normal placement feedback.  The patch marks them explicitly
+and skips the placement accounting path.
+
+Patch 3 builds on that separation.  Once tiering faults are no longer fed
+into task placement stats, tiering-only mode can use tiering-specific
+outcomes to tune the scan period: hot feedback speeds scanning up, while
+cold, throttled, failed or empty windows slow it down.  This prevents
+tiering-only promotion feedback from being handled by the normal placement
+heuristic, where repeated promotions can otherwise push the scan period
+towards the maximum.
+
+Li Zhe (3):
+  sched/numa: make free-space tiering promotion bypass configurable
+  sched/numa: do not feed tiering promotions into task placement stats
+  sched/numa: fix scan-period adjustment for tiering-only mode
+
+ include/linux/mmzone.h               |   5 +-
+ include/linux/sched.h                |  17 ++++
+ include/linux/sched/numa_balancing.h |  10 ++
+ kernel/sched/debug.c                 |   2 +
+ kernel/sched/fair.c                  | 140 +++++++++++++++++++++++++--
+ kernel/sched/sched.h                 |   1 +
+ mm/memory.c                          |   6 +-
+ 7 files changed, 168 insertions(+), 13 deletions(-)
+
 ---
- .../translations/zh_CN/networking/index.rst   | 238 +++++++++---------
- .../zh_CN/networking/xfrm/index.rst           |  20 ++
- .../zh_CN/networking/{ => xfrm}/xfrm_proc.rst |   4 +-
- 3 files changed, 138 insertions(+), 124 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/networking/xfrm/index.rst
- rename Documentation/translations/zh_CN/networking/{ => xfrm}/xfrm_proc.rst (96%)
+v1: https://lore.kernel.org/all/20261014094347.99157-1-lizhe.67@bytedance.com/
 
-diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-index bf22d22b64db..9f28240d6b14 100644
---- a/Documentation/translations/zh_CN/networking/index.rst
-+++ b/Documentation/translations/zh_CN/networking/index.rst
-@@ -2,8 +2,6 @@
- 
- .. include:: ../disclaimer-zh_CN.rst
- 
--:Original: Documentation/networking/index.rst
--
- :翻译:
- 
-  王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
-@@ -13,142 +11,140 @@
- 网络
- ====
- 
--有关网络设备（netdev）开发过程的详细指南，请参考：:ref:`netdev-FAQ`
-+有关网络设备（netdev）开发流程的具体指南，请参阅 :ref:`netdev-FAQ`。
- 
- 目录：
- 
- .. toctree::
--   :maxdepth: 1
-+   :maxdepth: 2
- 
-    msg_zerocopy
-+   alias
-    driver
-+   generic-hdlc
-    ipv6
-+   mptcp-sysctl
-    napi
--   secid
--   vxlan
-    netif-msg
--   xfrm_proc
-    netmem
--   alias
--   mptcp-sysctl
--   generic-hdlc
-+   secid
-    sriov
-    team
-    timestamping
-+   vxlan
-+   xfrm/index
- 
- Todolist:
- 
--*   af_xdp
--*   bareudp
--*   batman-adv
--*   can
--*   can_ucan_protocol
--*   device_drivers/index
--*   diagnostic/index
--*   dsa/index
--*   devlink/index
--*   ethtool-netlink
--*   ieee802154
--*   iso15765-2
--*   j1939
--*   kapi
--*   failover
--*   net_dim
--*   net_failover
--*   page_pool
--*   phy
--*   sfp-phylink
--*   bridge
--*   snmp_counter
--*   checksum-offloads
--*   segmentation-offloads
--*   scaling
--*   tls
--*   tls-offload
--*   tls-handshake
--*   nfc
--*   6lowpan
--*   6pack
--*   arcnet-hardware
--*   arcnet
--*   atm
--*   ax25
--*   bonding
--*   cdc_mbim
--*   dccp
--*   dctcp
--*   devmem
--*   dns_resolver
--*   eql
--*   fib_trie
--*   filter
--*   generic_netlink
--*   netlink_spec/index
--*   gen_stats
--*   gtp
--*   ila
--*   ioam6-sysctl
--*   ip_dynaddr
--*   ipsec
--*   ip-sysctl
--*   ipvlan
--*   ipvs-sysctl
--*   kcm
--*   l2tp
--*   lapb-module
--*   mac80211-injection
--*   mctp
--*   mpls-sysctl
--*   mptcp
--*   multiqueue
--*   multi-pf-netdev
--*   net_cachelines/index
--*   netconsole
--*   netdev-features
--*   netdevices
--*   netfilter-sysctl
--*   nexthop-group-resilient
--*   nf_conntrack-sysctl
--*   nf_flowtable
--*   oa-tc6-framework
--*   openvswitch
--*   operstates
--*   packet_mmap
--*   phonet
--*   phy-link-topology
--*   pktgen
--*   plip
--*   ppp_generic
--*   proc_net_tcp
--*   pse-pd/index
--*   radiotap-headers
--*   rds
--*   regulatory
--*   representors
--*   rxrpc
--*   sctp
--*   seg6-sysctl
--*   smc-sysctl
--*   statistics
--*   strparser
--*   switchdev
--*   sysfs-tagging
--*   tc-actions-env-rules
--*   tc-queue-filters
--*   tcp_ao
--*   tcp-thin
--*   tipc
--*   tproxy
--*   tuntap
--*   udplite
--*   vrf
--*   x25
--*   x25-iface
--*   xfrm_device
--*   xfrm_sync
--*   xfrm_sysctl
--*   xdp-rx-metadata
--*   xsk-tx-metadata
-+* af_xdp
-+* bareudp
-+* batman-adv
-+* can
-+* can_ucan_protocol
-+* device_drivers/index
-+* diagnostic/index
-+* dsa/index
-+* devlink/index
-+* ethtool-netlink
-+* ieee802154
-+* iso15765-2
-+* j1939
-+* kapi
-+* failover
-+* net_dim
-+* net_failover
-+* page_pool
-+* phy
-+* sfp-phylink
-+* bridge
-+* snmp_counter
-+* checksum-offloads
-+* segmentation-offloads
-+* scaling
-+* tls
-+* tls-offload
-+* tls-handshake
-+* nfc
-+* 6lowpan
-+* arcnet-hardware
-+* arcnet
-+* atm
-+* bonding
-+* cdc_mbim
-+* dctcp
-+* devmem
-+* dns_resolver
-+* eql
-+* fib_trie
-+* filter
-+* generic_netlink
-+* ../netlink/specs/index
-+* gen_stats
-+* gtp
-+* ila
-+* ioam6-sysctl
-+* iou-zcrx
-+* ip_dynaddr
-+* ipsec
-+* ip-sysctl
-+* ipvlan
-+* ipvs-sysctl
-+* kcm
-+* l2tp
-+* lapb-module
-+* mac80211-injection
-+* mctp
-+* mpls-sysctl
-+* mptcp
-+* multiqueue
-+* multi-pf-netdev
-+* net_cachelines/index
-+* netconsole
-+* netdev-features
-+* netdevices
-+* netfilter-sysctl
-+* nexthop-group-resilient
-+* nf_conntrack-sysctl
-+* nf_flowtable
-+* oa-tc6-framework
-+* openvswitch
-+* operstates
-+* packet_mmap
-+* phonet
-+* phy-link-topology
-+* phy-port
-+* pktgen
-+* plip
-+* ppp_generic
-+* proc_net_tcp
-+* pse-pd/index
-+* psp
-+* radiotap-headers
-+* rds
-+* regulatory
-+* representors
-+* rxrpc
-+* sctp
-+* seg6-sysctl
-+* skbuff
-+* smc-sysctl
-+* statistics
-+* strparser
-+* switchdev
-+* sysfs-tagging
-+* tc-actions-env-rules
-+* tc-queue-filters
-+* tcp_ao
-+* tcp-thin
-+* tipc
-+* tproxy
-+* tuntap
-+* udplite
-+* vrf
-+* x25
-+* x25-iface
-+* xdp-rx-metadata
-+* xsk-tx-metadata
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/translations/zh_CN/networking/xfrm/index.rst b/Documentation/translations/zh_CN/networking/xfrm/index.rst
-new file mode 100644
-index 000000000000..b366c908eb25
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/xfrm/index.rst
-@@ -0,0 +1,20 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+
-+=========
-+XFRM 框架
-+=========
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   xfrm_proc
-+
-+Todolist：
-+
-+* xfrm_device
-+* xfrm_migrate_state
-+* xfrm_sync
-+* xfrm_sysctl
-diff --git a/Documentation/translations/zh_CN/networking/xfrm_proc.rst b/Documentation/translations/zh_CN/networking/xfrm/xfrm_proc.rst
-similarity index 96%
-rename from Documentation/translations/zh_CN/networking/xfrm_proc.rst
-rename to Documentation/translations/zh_CN/networking/xfrm/xfrm_proc.rst
-index a2ae86c44707..eb4ece66df49 100644
---- a/Documentation/translations/zh_CN/networking/xfrm_proc.rst
-+++ b/Documentation/translations/zh_CN/networking/xfrm/xfrm_proc.rst
-@@ -1,8 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. include:: ../disclaimer-zh_CN.rst
--
--:Original: Documentation/networking/xfrm_proc.rst
-+.. include:: ../../disclaimer-zh_CN.rst
- 
- :翻译:
- 
+Changes since v1:
+- Dropped the generic normal NUMA balancing patches.
+- Added patch 3 to dynamically adjust the scan period in
+  memory-tiering-only mode.
+
 -- 
-2.51.0
-
+2.20.1
