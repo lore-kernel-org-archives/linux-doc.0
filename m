@@ -1,99 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.241
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793174645;
-	b=lcN+f/tw+lmEMWr8AJB0aG/np/Xhy7hM/lV6ylTCMVLKwgcLjAkgVFCNccnDxgvlRjms
-	 6KwDxgF/KCKfk8C+EN9rw9jH67J/3aaJ4QEkcpDJ3JLlSsV5O+Umymg8PdGGtUyxICsVA
-	 xst9YwEM4lA/98aSLph41urCV5U3MjpwfDBdD+LiO4pihWnGEcl9zOmxxtV6Inr6L2dt3
-	 Tnd/WAOTHhG/7ib0zf6uBj9Y29OyxVa7aalAE3qDPfWPBnuppbk6HdzuiTTZ7V0MX/EEm
-	 876xRL9VQxd3eOilwIe1gSrjFdA7HzKwmPlxcWcr/zOmkklyfH3Cv/dEOZGwLpBoVJw==
+	t=1793174679;
+	b=FUhFAet3oKjvmeFnH1Q1Qu8KgcAIrZbXKXxTmU882g6mlneeUwhcUIswgYwr/1bAnWFo
+	 5rm3xsGvnT+inQmsmV8W0phZP7/YmzvYp5eKa2v7ccEbEmpvYlnkH7JvaRbWaF1XxZYZA
+	 AqPhx6afTmXEOSKkr/QzZ7DQpapMYZwUk/ExysObAEsfnEl1gZexGWBOCrAIB3WFAPzU5
+	 GRT2vtR9LD+1hWSLW7haRYn93CvlVAXwyFGkQF4SVWBSNiSS5fg4pTxVEVQjpTWzlfYQZ
+	 TcGTqDhdJembC1/JeH/w4jbS/YymmCP05+btbS4QKxfFiIODaBH5wiWPyohh9PaEang==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793174645;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=cmUygOtzVQYGYmoDrp60NTGZ/egBDRJwiYY9TeXBYAA=;
-	b=Oblg4ka8GGr8KGG7w+Sg03DybNYS0Do70ThRdv29+ASe22FrcWSWcNt5bns3atvE2nwE
-	 Q4wwWUcdw/vGluz9NZmrwrnFXNPJhv64qsm489yY5bXkt8Km4cT1sw7QGjzORs6yFONHt
-	 ijePQUpZ1RqZ6aksGR69BQPWuFX0EQO/igvDV4LZDGyjF2xcN1PdP4iQky4+u6bhIPXX0
-	 1obrn2pocL3uH2yOSpIh8uVICCeq8Jlucx6gTF5v2Y91YDu/xfzxNucL2D5gNAlpmPxdt
-	 x+cGHSaCIZsv+JF1WWHUTN5PdE+tOmZWyuCBsFT8i/DN4ZhsxmpYHVm5q2Wk3LzZP+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793174679;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=r40AGc2HV5Phw46UNoMLkUuwsJc6KtksK+EPVQ4gjzA=;
+	b=0+0n+NjwO2e1sudBrzNgD6n5rwD96jdHC4/9aCSCIflbJK2W31el2lV6acDXyRdL36R8
+	 YuflPnpECIPjXdC1CkmiyngM+sq8a2Hf5WuVEZvnC15RLPi+0D/I0tyEcn4em15shl6iZ
+	 yZ8kdqK2rul9A8+M5m+JVuA7OEd5PARaDGMI9VJdXJOzAK6fAlCRCadDpiT44dYNrYFwn
+	 sgT1psD+nrrQQ9zr1qEzNTkyetvbZB4kv2jOpmFvmechDISCr5vsaWp/a4a4lpOeRX84v
+	 rlFavRPHG8TmsLSziS+1CyEn6lLU9+kjQI695Lvore4Go9/jvvt6WA+DJI/NPW4zY4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	arc=none smtp.remote-ip=95.215.58.241
+Received: from mta1.migadu.com (out-241.mta1.migadu.com [95.215.58.241])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEC4606A323
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 08:03:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BEC4606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so5942165e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 01:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793174637; x=1793779437; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cmUygOtzVQYGYmoDrp60NTGZ/egBDRJwiYY9TeXBYAA=;
-        b=VeacjZeXZ2H13/shN5QKdF0Sxcnm9lpHBcpJfpiq/VZZCzVqilfmiMnO6yd9HPmtP8
-         TlP7YPN/+pGErIJoG9jZhviV59zAjTP3slB4ZYlffC2y4ybUKnDtr8VDEBowp1/236dz
-         41VKts/axq7MozBdQ1YY2hKuPYsWiXs8pAQof3scRBNPlVaD+qoHb8JXzNRQjfvCr75b
-         eBgkGWDxzyyYqgqqf32SsbL+4S69QKep2J7ckixHRyauW04C4j2WRVVeZugAz2hZXeqh
-         j/n/IfrenSmA+1cUAixL8t72OKzbOqwY1WpyqJttvkxGfBv2p0MVLHQftbPotHpD4HrN
-         s3dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793174637; x=1793779437;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cmUygOtzVQYGYmoDrp60NTGZ/egBDRJwiYY9TeXBYAA=;
-        b=vTaixJ3qiduyBc0sR/At1OsQNAbbFmSzYjKcfhDGNkLv6Jg8SPcaq1s1NnOOcVtsjE
-         uoiYgsxJBaWgPbUpElj8FvRLAglELeTiBpHXj2CfHdyepCmxrKAEKXmm3+AHcVyvR7aT
-         eik34S1vrgAnauMjjwekp49xEIGI8LG7v60tmY9Dhixu8VJyBTvbuHtho7cfCRu2ViDe
-         Ak4JMPGp/biKaZSD/C6DhnqsIqS/677lb0v/7uIvoPbB86FAMW8HIR1Gk+oUyFIz8P4U
-         c2l31N5+prhLGvjuyDfoxfcR2yACx6g+FiqsZZUOC/PWvQBAyWsQqIbrynGm9FMkiOPu
-         f2bw==
-X-Forwarded-Encrypted: i=1; AKwUvBySPlTS28KEJ2MzOOpYqrfSRdGC/zU+PTzBefNYBEjT9gN5VxB9nmOXnpZMK8t2NYtjDGNJhkI6fGU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLPjAphEREoUvdx4g3fF2goa00w6QbwpgD2EJEUBkTi8HgAQ75R
-	6lHONzJhuwHAwJxQyM8xFn7kILG/0oFKMkZDkldNlkEVQeymxt7726jU05kcl/ZcbNk=
-X-Gm-Gg: AYBFou1nsrEfATlDwox7lqAw8T6S7hqWkyTaubw4zsB+K37tNBToyNIdW5rT/Llj0Df
-	PAuFMPgf+6luqgxi+3H4wkr+AsW2OEZLYN+y7PshXC7+8pOcV62Gvmjt4wl6PddoL5g+bvVmuAW
-	RVxAeT+0ylwYplfYre7vEfTzhzb3jciSQuF8axaYyQM3NKO7xOx45p2NKaG78Yn6vsiC0aoZ8mM
-	yW7zy3ouCcAF0eoZFrakPE2Vj9QBA7scm46j6GvUbWFY0rrROepxtRudsQSbB3QK5H1dVx2lV1T
-	9Z3aedLF75rRbxm1r9p5odYg3kq2wunjmI85t9QS4tpRrSoUPmBa347tl1nZ1PNTJHuI7WvSrha
-	RWwwHFUJtQictV7CsfRX2Wuh1CrNL9J9LApha+LSOBV6Fsp3KG1nIWlIp7Wod4D/vn5qCIBNiww
-	19ZYG0yKyJmOD3VVhvjJ7Ib/dtb+Y/5wkAIhAl6eTgvYPUUuhFGWvvcjUOdUXo6wK+AR8Y0+HNC
-	lr2ivJ2ric9jamxp87CNRhoWE03mIfBWNmQmSNPgeko2XJxZGFQZexgOR8eNFcw/UUpJ1Bh7BOh
-	x1wBvQBHwsDt5KuJaV+p02JJ7TjmF5JjYXvDvCXR7NspybkLPKNpeGJwS/omGvOYXNN0A+DUVug
-	yfctcNgzX6tSvpWM=
-X-Received: by 2002:a05:600c:c117:b0:4a1:e69d:90e8 with SMTP id 5b1f17b1804b1-4a9672030cbmr23350005e9.22.1793174637584;
-        Wed, 28 Oct 2026 01:03:57 -0700 (PDT)
-Received: from localhost (p200300f65f19a904c16506b94501b867.dip0.t-ipconnect.de. [2003:f6:5f19:a904:c165:6b9:4501:b867])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a97bf5d6besm25792835e9.4.2026.10.28.01.03.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 01:03:56 -0700 (PDT)
-Date: Wed, 28 Oct 2026 09:03:55 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Alexander Usyskin <alexander.usyskin@intel.com>, Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: Update after split of
- <linux/mod_devicetable.h>
-Message-ID: <auGsNgw50hDIdm3R@monoceros>
-References: <20260908070031.32833-1-kmehltretter@gmail.com>
- <87h5jq8gia.fsf@trenco.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA22606A32D
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 08:04:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CA22606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=u1Y8KdRrWAv9eIpRyra/9RFWCZ/RbIdOt3vtgFGgx2Y=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793174676; v=1; x=1793779476;
+ b=dr/OfbPAQ8JFAyMgt4wx8iOppKu8QXoQYok1zfHQKnC2KJdPHT98zZezeTh85WitWMNPcRHl
+ 1zrVNBu4LGxfyQZS8Lolj9Z+bcqyTJQP1ORI7Lpgy4Tx9ZOo0nzFFxTJGeZNAuOq7gZ4iKEqX54
+ MSb/7x5IETI9Casb/kCwXkIZL8Cv4tkMtCh6SUwcoH9FC/7kUCkM6OEnkDrAX0yr61YY8r1o/B/
+ 4Z5tEO/tErqD9uYYwrhT8C+LgLgWClA3O1S/hI4Au8U80L24tpOgiLwy2U2zxryD0Uocyb7Q3L8
+ K4QeybYK74FAnUoXCZrntnJNjUtAPe+hdPplAzIMTy5Zg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 935c37095ecf4d61;
+	Wed, 28 Oct 2026 08:04:36 +0000
+X-Mizu-Trace-ID: 935c37095ecf4d61
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 28 Oct 2026 16:04:27 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Weijie Yuan <wy@wyuan.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/9] docs/zh_CN: reorganize process debugging guides
+Message-ID: <auGsi1N37Ptp7Kqg@wyuan.org>
+References: <20261028034134.4144660-1-dzm91@hust.edu.cn>
+ <20261028034134.4144660-5-dzm91@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,64 +67,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oh5zvfs3ycvvg6bf"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87h5jq8gia.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261028034134.4144660-5-dzm91@hust.edu.cn>
 
+On Wed, Oct 28, 2026 at 11:41:29AM +0800, Dongliang Mu wrote:
+> Move the GDB debugging translation into process/debugging. Update the
+> process and development tools indexes to match the current English
+> structure.
+> 
+> Synchronize the process index with upstream revision a03ef333fbd6.
+> 
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  .../translations/zh_CN/dev-tools/index.rst    |  37 +++---
+>  .../debugging}/gdb-kernel-debugging.rst       |  15 ++-
+>  .../zh_CN/process/debugging/index.rst         |  62 ++++++++++
+>  .../translations/zh_CN/process/index.rst      | 111 +++++++++++-------
+>  4 files changed, 160 insertions(+), 65 deletions(-)
+>  rename Documentation/translations/zh_CN/{dev-tools => process/debugging}/gdb-kernel-debugging.rst (93%)
+>  create mode 100644 Documentation/translations/zh_CN/process/debugging/index.rst
 
---oh5zvfs3ycvvg6bf
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] Documentation: Update after split of
- <linux/mod_devicetable.h>
-MIME-Version: 1.0
+[...]
 
-Hello Karl,
+>  ============
+>  内核开发工具
+>  ============
+>  
+> -本文档是有关内核开发工具文档的合集。
+> -目前这些文档已经整理在一起，不需要再花费额外的精力。
+> -欢迎任何补丁。
+> +本文档收集了用于内核开发的工具文档。目前这些文档只是汇集在一起，尚未充分整理成一份连贯的指南；欢迎提交补丁！
+>  
+> -有关测试专用工具的简要概述，参见
+> -Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> +测试工具的简要概述见 ``Documentation/dev-tools/testing-overview.rst``。
+> +
+> +调试专用工具见 ``Documentation/process/debugging/index.rst``。
+>  
+>  .. toctree::
+>     :caption: 目录
+> @@ -21,21 +19,26 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>     testing-overview
+>     sparse
+>     kcov
+> -   kcsan
+> -   kmsan
+>     gcov
+>     kasan
+> +   kmsan
+>     ubsan
+>     kmemleak
+> -   gdb-kernel-debugging
+> +   kcsan
+>  
+>  Todolist:
+>  
+> - - checkpatch
+> - - coccinelle
+> - - kfence
+> - - kgdb
+> - - kselftest
+> - - kunit/index
+> - - ktap
+> - - checkuapi
+> +* checkpatch
+> +* clang-format
+> +* coccinelle
+> +* context-analysis
+> +* lkmm/index
+> +* kfence
+> +* kselftest
+> +* kunit/index
+> +* ktap
+> +* checkuapi
+> +* gpio-sloppy-logic-analyzer
+> +* autofdo
+> +* propeller
+> +* container
 
-On Tue, Sep 15, 2026 at 01:24:29PM -0600, Jonathan Corbet wrote:
-> Karl Mehltretter <kmehltretter@gmail.com> writes:
-> > Most structs that were defined in <linux/mod_devicetable.h> before were
-> > moved to a bus specific header. Follow the movement to get the struct's
-> > documentation back.
-> >
-> > For the list of device ids in basics.rst use an explicit list of all the
-> > headers that have kernel-doc annotations and that are not described
-> > elsewhere (i.e. pci and mei_cl). <linux/device-id/acpi.h> is left out on
-> > purpose, ACPI_DEVICE_CLASS() is not a device id struct.
-> >
-> > Also repair the referencing in the zh_CN translation of pci.rst and
-> > don't duplicate `struct mei_cl_device_id`.
->=20
-> This one adds some new build warnings:
->=20
->   Documentation/translations/zh_CN/PCI/pci:98: ./include/linux/pci.h:3: W=
-ARNING: Duplicate C declaration, also defined at PCI/pci:3.
->   Declaration is '.. c:struct:: pci_driver'. [duplicate_declaration.c]
->   kernel/Documentation/translations/zh_CN/PCI/pci:106: ./include/linux/de=
-vice-id/pci.h:3: WARNING: Duplicate C declaration, also defined at PCI/pci:=
-3.
->   Declaration is '.. c:struct:: pci_device_id'. [duplicate_declaration.c]
++ cc Chen-Yu
 
-Do you intend to address this?
+My b4 review agent scanner says..
 
-Best regards
-Uwe
+| OpenAI Codex <codex@openai.com>:
+| 
+| The move leaves Documentation/translations/zh_TW/admin-guide/README.rst
+| (line 289) pointing readers to the deleted
+| Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst.
+| Please update that reference too, either to the new zh_CN path or to the
+| existing zh_TW/process/debugging/gdb-kernel-debugging.rst translation,
+| so readers can still locate the debugging guide.
 
---oh5zvfs3ycvvg6bf
-Content-Type: application/pgp-signature; name="signature.asc"
+Seems to be a good finding :-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrhrGcACgkQj4D7WH0S
-/k77+AgAlbsTSlbn2W+qPf7ANkGol57boWPL2S0I72TOezIPXND8DYud1c7YRtKB
-PhpKb65OvxBNMec8fqyAFR6akXoak+b0LjgivWXWCOLrQOVwd96tYscMz9T9Zo5a
-iRhWUg++SffuMe29/9xFDsjM8JgReW0CUhMfsySfbQm/TSFEl5H+4cCJJsGGtfL3
-D1yiIWAQh24ef4OCHJjVjXkWufmtZitqRhecerzr0XU23WE5HyloUqa5j9rMKkiL
-0zhPpQMkyPgmas+RNzxq8PVExFJdmjzr8D2BSNitOhQYuzUl762KznuCur+bCurI
-6r+fdfpC0jZ68DsEx6a7fNVLvdalZg==
-=tz1o
------END PGP SIGNATURE-----
-
---oh5zvfs3ycvvg6bf--
+Thanks.
