@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793225899;
-	b=e8fs7Al1PQ2ol3jr4GiR466SrV/B6RoE/PbwgzTXgBWvIwETBpaxGyPY2zicxLuFGqMZ
-	 DW0N0GR0rCky6r1gS6zOUuQDnBpnu39R1yTE2xcM4SQO/o1iDnIvJSFNPZSAOIkjVSNYT
-	 RINeEvmuEJ1w+Mrs35PCxNBK3c3CigGUbPPJMiyvMVoQ79ZVr181Y25JQHRu/HP/A6e4B
-	 zhSraXFM4KLi7I/ghPUO7NTfEKWRwweodRI0Eys/o7PMGw9v4BMskTsAcEgd1bWMqGnn4
-	 arV6Hssdv3V6EQoDELCtNnsXUJpfPbw+qy859OT/i5SWnHBzIQ2g6QZ89EP/MnhpWHA==
+	t=1793225893;
+	b=robczaZn9FUTax5uaTniEYxI/lIEtMD9m9IMSnwaQLpzjtctpnWGgJRMAYDX0+A/qCmf
+	 rMuodYvKYWXcz8wBapqG5l59yN4JhDGC2rix/kGHGpSHNGxMomfHP/A25TrgmsW6ESJg3
+	 swdUTCHKMfnDNje9sBXGuvAFmKcqtnVU2+lNrJ8oJ7DUv5FjqZ5qIaakBRlYTYtf9j5Kq
+	 6/mknOBS/WvpXADpYIIX59dS/cmSi5bKsPUFd7eRytdgyudAMH1wpdlJTYv1klYFNwHNA
+	 GPvp6Kw4FoQTRtV1+XZjP/N8qRRy4yJ+/upMVcuv5xKNHCmw90dl79R6xFE5/aiS/mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793225899;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793225893;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=rXOZnWDvJmiB79ZuH6HXR6byjnesMoeHBtfopQgX5R4=;
-	b=JwhQUi0ugv9yleOkxyGi/7cCq6peCv7OEXDODYWzU7DJjP1E9Jj2WHOIs1KVGPlIvQba
-	 73332CcWhZ9/cK/EkYNrFUTO4Zz8PhKCgjXqCnvy4ryfrFtHh0okqdyzKSNrSGayjusZW
-	 lzQ+iHjns2pAVaOyuFmmHGXJCh9iDNMqrL6v83Omue6HPUR3ENfYY3cE3RHkmOLkKn6uV
-	 T0zgxlEtkmp+4hlqnoKV7+Z8PHX/KDCn8bhBScOcj6wxdO0wayqnrVr4ehOpOEGzfQvMR
-	 7w2XWIa4oitrFZiT54M64GGnWdE8oXA+ta+BSk1OsHyKHrgO2UzRMe4eLxna8ZMw5zw==
+	bh=9FCa9rxR0w5Su0OT2TXTOp3Qrhv4gyecy+qhdi4ZgS0=;
+	b=CraDqtMvflfn/rLn2JNlFeKWe85LhNq2kGj+IKYfIifQ+OJot7Qkt45wRhdo1W5oJHQ2
+	 UUMewmtWYoFi7l+9LJTgwmaIeYS8gARcGez+VTyR+hbuVlF9AlDhcFenvQYaun0p1v+kf
+	 PikrXze2YbVcd4uP6kBiFRyRL+hg1U2nhIG0FUBFFkBRkKCXmSTTH10PUcUgzA9vgS4dv
+	 cHJ/g8ZwsbiCmwZi2xBYDbz6sg2Sjug6dYI8f5lILKqyM39TFiqdEfzyB3N29t7DYQNgJ
+	 N9keFxnf60xWqOxbHjqj718WjrNp4i5DHpobnHOF/LmZb906JLXesxHZAD0XGwjk26A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HApD03Ii;
-	arc=none smtp.remote-ip=209.85.218.70
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qDCHVDvA;
+	arc=none smtp.remote-ip=209.85.208.71
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF8760A262C
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 22:18:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FF8760A262C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A898606A32C
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 22:18:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A898606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=HApD03Ii
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c3a4da6437bso153069866b.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:18:18 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qDCHVDvA
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6acb986a43bso1693007a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793225897; x=1793830697; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793225892; x=1793830692; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rXOZnWDvJmiB79ZuH6HXR6byjnesMoeHBtfopQgX5R4=;
-        b=HApD03IioDyB/5xObYimRMBXncSrv0kSSdX2CR4WLFeIls9pL1v/pxHjby5HEDU6XY
-         DhYhE0Atf4LeGLxzR4c9XbKLH2Jg2yLY1UN+BL7kW/Pv42jgs19tqA4glesZbbzyZHs/
-         2TuH5smtOOqfXh5bOhu2Kfggifu8IMewub5YgBsxil909wHKiYCC71SeKrhv8LoiFTcA
-         qg2RCrwHNNr7uFBfnfJJtbULdwgB+1bpieVpXUjPMDzx97URLNiT/pMFxrFe1HdjFmuZ
-         0rNB57Fkbg7KgNe/2mwnwp3g6ZUQhyRsAINMiWNLvhxAQGMtGrilqdMZZMDLx0KYIwc/
-         7xKg==
+        bh=9FCa9rxR0w5Su0OT2TXTOp3Qrhv4gyecy+qhdi4ZgS0=;
+        b=qDCHVDvAeZE6nbJqwRWR2O44xWY+Cp4tlC8bvUrtxDRAWy7MMFL83SYTkz8TNqKsYX
+         gw1vBYGaeYTemXnD8a0lBWoYo28oKE7vPnRudgDUssXwZw1ea/Deh1fJc0mhuqa8rur+
+         ialRmLMoxbR0y1BZDysn0LDoBy0CGo8zQvFvT4e+PLyKzs9aD36pn6eDh3rQ5dmnKbJM
+         /03mF44Ezy6bO32TeK9dJcml4xAYiygRoQDgF2vsi/FTxTi6cOf9+5ACwfOv4IK5MYct
+         0+WvSEOHYhr41BaVAZcR7Z7Juw1D6xHfuNadDPF4b0QOkXCrApVxpNLQWAFKUms3aWjd
+         4goQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793225897; x=1793830697;
+        d=1e100.net; s=20260707; t=1793225892; x=1793830692;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rXOZnWDvJmiB79ZuH6HXR6byjnesMoeHBtfopQgX5R4=;
-        b=qIq9TFo+gE63z4u1ISWv8Jyc8KC8eRY2DrWv1fNTGd1RJ6xCSb0xerqQRqzHRfQEiV
-         bfvZKltznMiek2mIFtK1ny1ovSIRfZGoFsL1KZrTIAUWsNiE4x0mE7Nm2t8Nuh0HDgvz
-         r45JmhjfG/oh1QgfJnzU9tduwEg6MWr4BvGTXZ5i96Mx7KCkKlqkpJcDZqh6+5+faej1
-         q2F7GLvkeSl8Ymx6FJD+DfUYHYtuHkDdja14NQwIIFmCBx8GKhGavndzXMQ3PUUhuQXG
-         3jHkvR1vZ9MDQaC91Jz3gAIqJd7pxZZEM6LYObfHDT0M9KzHCzqttt5l3+9HbNBBPgpD
-         dygA==
-X-Forwarded-Encrypted: i=1; AKwUvBxtRSc7PwQKXeuOYWFRdKe+AIoucelbv/xexCin2t3cB5Gkxr/CBigOcr6EIn93Kkr9SuXpwOtDFMM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLlnpBkGq4yWwDrZg5AtAw6sKtT/JzUzMYydTKO22dJoxyECaZl
-	X0V2funkjUwfi25Fer7M3mlK57pBJnjL5cChs/lcxN3qg09LWeRvboOBSaIeRa/JqUELLrtQFw=
+        bh=9FCa9rxR0w5Su0OT2TXTOp3Qrhv4gyecy+qhdi4ZgS0=;
+        b=irKfCXAuUKMHzZCGhatM2m9q60DrzDJ9chRuhc8ovGs/RU1Lzv+vJvOFUdOeDB3oBZ
+         95JHn02BmGKx7P6jQ9ZUbaE/y/lVKrsfxxP3DjyDWD0t0LYSdJ6vfag/aHMp3HiZ1BCB
+         iYIMoIXzoLl0WmSKH4hHutlz5CvocH0fGBAFMYmYheD2v+OnyxYqY3+ruWeyBJAtI+Wt
+         IG0GpeZlnBiHe66CJKU+FH0oq9Hp5ddNpuwMCH49NhM9dlUWri7jEZ9+cehNdWPESgu2
+         vX+IlORhwaahFIA+57Xh49zcNF2ncaeSstA7571jqKZMw5IW+qzDSvouoaQgPrD32DSl
+         OyQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzjJTYuMTNTHESEAcOSOBe6n+sGhfYDLED0E3yflFGFU4tEfDTmgCyGA89Uv1EH4Y+YoHYHMl2LHHU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIhohVp6jojZNsEyhM54SOjZywiY3z8KO1HMFioScQ3vJ/PeRY+
+	sSYOiLaA3a2I7523thQFWwdLRF6vT/AdEtMC4Mhbzn0FusStxYz1/KpZz/kwdUFlT1nKPwUlBg=
 	=
-X-Received: from ejbgx8.prod.google.com ([2002:a17:906:f1c8:b0:c49:b559:be86])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:d649:b0:c40:d762:feaf
- with SMTP id a640c23a62f3a-c49bdf380c3mr325253666b.21.1793225896643; Wed, 28
- Oct 2026 15:18:16 -0700 (PDT)
-Date: Wed, 28 Oct 2026 22:17:03 +0000
+X-Received: from edt14.prod.google.com ([2002:a05:6402:454e:b0:6b1:c2b6:cf0a])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:aa7:cfd3:0:b0:6b4:2aa6:2c07
+ with SMTP id 4fb4d7f45d1cf-6b49cbd8fa6mr2184624a12.14.1793225891454; Wed, 28
+ Oct 2026 15:18:11 -0700 (PDT)
+Date: Wed, 28 Oct 2026 22:16:58 +0000
 In-Reply-To: <20261028221705.3915340-1-halg@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,9 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261028221705.3915340-1-halg@google.com>
 X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
-Message-ID: <20261028221705.3915340-7-halg@google.com>
-Subject: [PATCH 6/8] selftests/capabilities: tests for user namespace
- capability bounding set
+Message-ID: <20261028221705.3915340-2-halg@google.com>
+Subject: [PATCH 1/8] net: introduce CLONE_NEWNET_LOOPBACK to auto-enable loopback
 From: "Hallgrimur H. Gunnarsson" <halg@google.com>
 To: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
 	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -100,472 +99,167 @@ Cc: Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>, Simon Horman <hor
 	linux-kernel@vger.kernel.org, "Hallgrimur H. Gunnarsson" <halg@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add tests in tools/testing/selftests/capabilities for the user
-namespace capability bounding set feature:
+New network namespaces start with the loopback interface DOWN by
+default, requiring CAP_NET_ADMIN over the owning user namespace to
+bring it up.
 
-- Verify default full capabilities and sysctl capability restriction for
-  unprivileged user namespaces.
-- Verify that unprivileged creators retain their existing effective
-  capabilities despite the sysctl ceiling.
-- Verify that privileged creators bypass the sysctl ceiling.
-- Verify monotonic capability restriction across nested namespaces.
-- Verify parent-ownership capability bounding.
+To block external network access while preserving the localhost
+networking that many applications expect, sandboxes (such as bwrap,
+nsjail and minijail) commonly create an isolated network namespace
+with only the loopback interface enabled.
+
+However, requiring a sandbox to hold CAP_NET_ADMIN in a new user
+namespace solely to bring loopback up conflicts with reducing the
+CAP_NET_ADMIN attack surface.
+
+Today, an unprivileged sandbox or sandbox manager must start with
+CAP_NET_ADMIN in its user namespace to be able to bring up loopback,
+drop it, and then take precautions to block CAP_NET_ADMIN from being
+regained in nested user namespaces (e.g. via seccomp or
+max_user_namespaces limits). This adds considerable complexity just
+to bring up loopback.
+
+Conversely, if CAP_NET_ADMIN is restricted at user namespace creation
+time, tasks inside the new namespace never acquire CAP_NET_ADMIN.
+While this removes the CAP_NET_ADMIN attack surface down the
+namespace hierarchy, it also prevents userspace from bringing loopback
+up, breaking localhost networking for unprivileged sandboxes.
+
+Introduce the CLONE_NEWNET_LOOPBACK flag for clone3() and the
+corresponding UNSHARE_NEWNET_LOOPBACK flag for unshare(). When
+specified, each flag implies CLONE_NEWNET and automatically brings the
+loopback device up in copy_net_ns() before returning the new network
+namespace.
+
+Making this an explicit opt-in preserves default network namespace
+semantics while allowing unprivileged sandboxes to create an isolated
+network namespace with functional localhost networking without ever
+holding CAP_NET_ADMIN.
 
 Signed-off-by: Hallgrimur H. Gunnarsson <halg@google.com>
 ---
- .../testing/selftests/capabilities/.gitignore |   1 +
- tools/testing/selftests/capabilities/Makefile |   2 +-
- .../capabilities/userns_bounding_set_test.c   | 420 ++++++++++++++++++
- 3 files changed, 422 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/capabilities/userns_bounding_set_test.c
+ include/uapi/linux/sched.h |  2 ++
+ kernel/fork.c              | 22 ++++++++++++++++++----
+ kernel/nsproxy.c           |  9 +++++++++
+ net/core/net_namespace.c   | 11 +++++++++++
+ 4 files changed, 40 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/capabilities/.gitignore b/tools/testing/selftests/capabilities/.gitignore
-index 426d9adca67c..28767c08dea8 100644
---- a/tools/testing/selftests/capabilities/.gitignore
-+++ b/tools/testing/selftests/capabilities/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- test_execve
-+userns_bounding_set_test
- validate_cap
-diff --git a/tools/testing/selftests/capabilities/Makefile b/tools/testing/selftests/capabilities/Makefile
-index 411ac098308f..b29f7b117c11 100644
---- a/tools/testing/selftests/capabilities/Makefile
-+++ b/tools/testing/selftests/capabilities/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- TEST_GEN_FILES := validate_cap
--TEST_GEN_PROGS := test_execve
-+TEST_GEN_PROGS := test_execve userns_bounding_set_test
+diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
+index 33a4624285cd..efd00d9f8bd3 100644
+--- a/include/uapi/linux/sched.h
++++ b/include/uapi/linux/sched.h
+@@ -40,6 +40,7 @@
+ #define CLONE_NNP		(1ULL << 35) /* Set no_new_privs on child. */
+ #define CLONE_PIDFD_AUTOKILL	(1ULL << 36) /* Kill child when clone pidfd closes. */
+ #define CLONE_EMPTY_MNTNS	(1ULL << 37) /* Create an empty mount namespace. */
++#define CLONE_NEWNET_LOOPBACK	(1ULL << 38) /* Create network namespace with loopback UP. */
  
- CFLAGS += -O2 -g -std=gnu99 -Wall $(KHDR_INCLUDES)
- LDLIBS += -lcap-ng -lrt -ldl
-diff --git a/tools/testing/selftests/capabilities/userns_bounding_set_test.c b/tools/testing/selftests/capabilities/userns_bounding_set_test.c
-new file mode 100644
-index 000000000000..798758e0705d
---- /dev/null
-+++ b/tools/testing/selftests/capabilities/userns_bounding_set_test.c
-@@ -0,0 +1,420 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define _GNU_SOURCE
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/prctl.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+#include <linux/capability.h>
-+#include <linux/sched.h>
-+
-+#include "../clone3/clone3_selftests.h"
-+#include "../kselftest_harness.h"
-+
-+#define SYSCTL_PATH "/proc/sys/kernel/unprivileged_userns_caps_allowed"
-+
-+static const uint64_t cap_full_set = ~0ULL;
-+
-+struct cap_state {
-+	bool bset;
-+	bool permitted;
-+	bool effective;
-+};
-+
-+static int get_cap_state(int cap, struct cap_state *state)
-+{
-+	struct __user_cap_header_struct hdr = {
-+		.version = _LINUX_CAPABILITY_VERSION_3,
-+		.pid = 0,
-+	};
-+	struct __user_cap_data_struct data[2];
-+	uint32_t mask;
-+	int idx;
-+
-+	if (cap < 0 || cap >= 64)
-+		return -EINVAL;
-+
-+	if (syscall(SYS_capget, &hdr, data) != 0)
-+		return -errno;
-+
-+	idx = (cap >= 32) ? 1 : 0;
-+	mask = 1U << (cap % 32);
-+
-+	state->bset = (prctl(PR_CAPBSET_READ, cap, 0, 0, 0) == 1);
-+	state->permitted = (data[idx].permitted & mask) != 0;
-+	state->effective = (data[idx].effective & mask) != 0;
-+
-+	return 0;
-+}
-+
-+static bool cap_raised(int cap)
-+{
-+	struct cap_state t;
-+
-+	if (get_cap_state(cap, &t) != 0)
-+		return false;
-+
-+	return t.bset && t.permitted && t.effective;
-+}
-+
-+static bool cap_dropped(int cap)
-+{
-+	struct cap_state t;
-+
-+	if (get_cap_state(cap, &t) != 0)
-+		return false;
-+
-+	return !t.bset && !t.permitted && !t.effective;
-+}
-+
-+static int set_effective_cap(int cap)
-+{
-+	struct __user_cap_header_struct hdr = {
-+		.version = _LINUX_CAPABILITY_VERSION_3,
-+	};
-+	struct __user_cap_data_struct data[2] = {};
-+
-+	if (cap >= 0) {
-+		int idx = (cap >= 32) ? 1 : 0;
-+		uint32_t mask = 1U << (cap % 32);
-+
-+		data[idx].effective = mask;
-+		data[idx].permitted = mask;
+ /*
+  * cloning flags intersect with CSIGNAL so can be used with unshare and clone3
+@@ -52,6 +53,7 @@
+  * unshare syscall:
+  */
+ #define UNSHARE_EMPTY_MNTNS 0x00100000 /* Unshare an empty mount namespace. */
++#define UNSHARE_NEWNET_LOOPBACK 0x00200000 /* Unshare network namespace with loopback UP. */
+ 
+ #ifndef __ASSEMBLY__
+ /**
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 416758c8a3d4..c0f7520e754a 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2728,6 +2728,15 @@ pid_t kernel_clone(struct kernel_clone_args *args)
+ 		args->flags = clone_flags;
+ 	}
+ 
++	/*
++	 * Set implied CLONE_NEWNET before copy_process() so that
++	 * security_task_alloc() and other clone_flags checks see it.
++	 */
++	if (clone_flags & CLONE_NEWNET_LOOPBACK) {
++		clone_flags |= CLONE_NEWNET;
++		args->flags = clone_flags;
 +	}
 +
-+	return syscall(SYS_capset, &hdr, data);
-+}
+ 	/*
+ 	 * For legacy clone() calls, CLONE_PIDFD uses the parent_tid argument
+ 	 * to return the pidfd. Hence, CLONE_PIDFD and CLONE_PARENT_SETTID are
+@@ -3010,7 +3019,8 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
+ 	if (kargs->flags &
+ 	    ~(CLONE_LEGACY_FLAGS | CLONE_CLEAR_SIGHAND |
+ 	      CLONE_INTO_CGROUP | CLONE_AUTOREAP | CLONE_NNP |
+-	      CLONE_PIDFD_AUTOKILL | CLONE_EMPTY_MNTNS))
++	      CLONE_PIDFD_AUTOKILL | CLONE_EMPTY_MNTNS |
++	      CLONE_NEWNET_LOOPBACK))
+ 		return false;
+ 
+ 	/*
+@@ -3160,9 +3170,10 @@ void __init proc_caches_init(void)
+  */
+ static int check_unshare_flags(unsigned long unshare_flags)
+ {
+-	if (unshare_flags & ~(CLONE_THREAD|CLONE_FS|CLONE_SIGHAND|
+-				CLONE_VM|CLONE_FILES|CLONE_SYSVSEM|
+-				CLONE_NS_ALL | UNSHARE_EMPTY_MNTNS))
++	if (unshare_flags & ~(CLONE_THREAD | CLONE_FS | CLONE_SIGHAND |
++				CLONE_VM | CLONE_FILES | CLONE_SYSVSEM |
++				CLONE_NS_ALL | UNSHARE_EMPTY_MNTNS |
++				UNSHARE_NEWNET_LOOPBACK))
+ 		return -EINVAL;
+ 	/*
+ 	 * Not implemented, but pretend it works if there is nothing
+@@ -3266,6 +3277,9 @@ int ksys_unshare(unsigned long unshare_flags)
+ 	if (unshare_flags & CLONE_NEWNS)
+ 		unshare_flags |= CLONE_FS;
+ 
++	if (unshare_flags & UNSHARE_NEWNET_LOOPBACK)
++		unshare_flags |= CLONE_NEWNET;
 +
-+static int drop_privileges(void)
-+{
-+	return set_effective_cap(-1);
-+}
+ 	/* No unsharing with overriden fs state */
+ 	VFS_WARN_ON_ONCE(unshare_flags & (CLONE_NEWNS | CLONE_FS) &&
+ 			 current->fs != current->real_fs);
+diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+index d9d3d5973bf5..4e30c6a9f8ed 100644
+--- a/kernel/nsproxy.c
++++ b/kernel/nsproxy.c
+@@ -231,6 +231,15 @@ int unshare_nsproxy_namespaces(unsigned long unshare_flags,
+ 		flags |= CLONE_EMPTY_MNTNS;
+ 	}
+ 
++	/*
++	 * Convert the 32-bit UNSHARE_NEWNET_LOOPBACK (which aliases
++	 * CLONE_CHILD_CLEARTID) to the unique 64-bit CLONE_NEWNET_LOOPBACK.
++	 */
++	if (flags & UNSHARE_NEWNET_LOOPBACK) {
++		flags &= ~(u64)UNSHARE_NEWNET_LOOPBACK;
++		flags |= CLONE_NEWNET_LOOPBACK;
++	}
 +
-+static int write_file(const char *path, const char *str)
-+{
-+	ssize_t len = strlen(str);
-+	ssize_t ret;
-+	int fd;
+ 	*new_nsp = create_new_namespaces(flags, current, user_ns,
+ 					 new_fs ? new_fs : current->fs);
+ 	if (IS_ERR(*new_nsp)) {
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index da5f881fbd3b..70972639932a 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -596,6 +596,17 @@ struct net *copy_net_ns(u64 flags,
+ 		dec_net_namespaces(ucounts);
+ 		return ERR_PTR(rv);
+ 	}
 +
-+	fd = open(path, O_WRONLY | O_CLOEXEC);
-+	if (fd < 0)
-+		return -1;
-+	ret = write(fd, str, len);
-+	close(fd);
-+
-+	return (ret == len) ? 0 : -1;
-+}
-+
-+static int read_sysctl_caps(uint64_t *caps_out)
-+{
-+	char buf[64] = {};
-+	ssize_t ret;
-+	int fd;
-+
-+	fd = open(SYSCTL_PATH, O_RDONLY | O_CLOEXEC);
-+	if (fd < 0)
-+		return -1;
-+	ret = read(fd, buf, sizeof(buf) - 1);
-+	close(fd);
-+	if (ret <= 0)
-+		return -1;
-+
-+	*caps_out = strtoull(buf, NULL, 16);
-+	return 0;
-+}
-+
-+static int write_sysctl_caps(uint64_t val)
-+{
-+	char buf[64];
-+
-+	snprintf(buf, sizeof(buf), "%016llx\n", (unsigned long long)val);
-+	return write_file(SYSCTL_PATH, buf);
-+}
-+
-+/*
-+ * Attempts setns(CLONE_NEWUSER) into an unprivileged child user namespace
-+ * from the owning parent process (which has no effective capabilities in
-+ * its own namespace and relies on the parent-owner rule in
-+ * cap_capable_helper()).
-+ */
-+static int run_parent_owner_setns(uint64_t sysctl_mask)
-+{
-+	pid_t owner_pid;
-+	int status;
-+
-+	if (write_sysctl_caps(sysctl_mask) != 0)
-+		return -1;
-+
-+	owner_pid = fork();
-+	if (owner_pid < 0)
-+		return -1;
-+
-+	if (owner_pid == 0) {
-+		struct __clone_args args = {
-+			.flags = CLONE_FILES | CLONE_NEWUSER,
-+			.exit_signal = SIGCHLD,
-+		};
-+		pid_t child_pid;
-+		int userns_fd;
-+		int err;
-+
-+		if (drop_privileges() != 0)
-+			_exit(255);
-+
-+		child_pid = sys_clone3(&args, sizeof(args));
-+		if (child_pid < 0)
-+			_exit(255);
-+
-+		if (child_pid == 0) {
-+			int fd = open("/proc/self/ns/user", O_RDONLY);
-+
-+			if (fd < 0)
-+				_exit(255);
-+			_exit(fd);
++	if (flags & CLONE_NEWNET_LOOPBACK) {
++		rtnl_net_lock(net);
++		rv = dev_open(net->loopback_dev, NULL);
++		rtnl_net_unlock(net);
++		if (rv < 0) {
++			put_net(net);
++			return ERR_PTR(rv);
 +		}
-+
-+		if (waitpid(child_pid, &status, 0) != child_pid ||
-+		    !WIFEXITED(status) || WEXITSTATUS(status) == 255)
-+			_exit(255);
-+
-+		userns_fd = WEXITSTATUS(status);
-+		err = (setns(userns_fd, CLONE_NEWUSER) == 0) ? 0 : errno;
-+		close(userns_fd);
-+		_exit(err);
 +	}
 +
-+	if (waitpid(owner_pid, &status, 0) != owner_pid || !WIFEXITED(status))
-+		return -1;
-+
-+	return WEXITSTATUS(status);
-+}
-+
-+FIXTURE(userns_bset) {
-+	uint64_t orig_caps;
-+	bool have_orig_caps;
-+};
-+
-+FIXTURE_SETUP(userns_bset)
-+{
-+	self->orig_caps = 0;
-+	self->have_orig_caps = false;
-+
-+	if (geteuid() != 0)
-+		SKIP(return, "Requires root privileges");
-+	if (access(SYSCTL_PATH, F_OK) != 0)
-+		SKIP(return, "Sysctl %s not present", SYSCTL_PATH);
-+
-+	ASSERT_EQ(0, read_sysctl_caps(&self->orig_caps));
-+	self->have_orig_caps = true;
-+}
-+
-+FIXTURE_TEARDOWN(userns_bset)
-+{
-+	if (self->have_orig_caps)
-+		write_sysctl_caps(self->orig_caps);
-+}
-+
-+/*
-+ * An unprivileged userns creator with the full mask should receive
-+ * CAP_NET_ADMIN and CAP_SYS_ADMIN.
-+ */
-+TEST_F(userns_bset, default_full_capabilities)
-+{
-+	pid_t pid;
-+	int status;
-+
-+	ASSERT_EQ(0, write_sysctl_caps(cap_full_set));
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (drop_privileges() != 0)
-+			_exit(1);
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(2);
-+		if (!cap_raised(CAP_SYS_ADMIN))
-+			_exit(3);
-+		if (!cap_raised(CAP_NET_ADMIN))
-+			_exit(4);
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+/*
-+ * Dropping CAP_NET_ADMIN from the sysctl prevents unprivileged userns
-+ * from obtaining CAP_NET_ADMIN while retaining other capabilities.
-+ */
-+TEST_F(userns_bset, unprivileged_restriction)
-+{
-+	uint64_t restricted_mask = cap_full_set & ~(1ULL << CAP_NET_ADMIN);
-+	pid_t pid;
-+	int status;
-+
-+	ASSERT_EQ(0, write_sysctl_caps(restricted_mask));
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (drop_privileges() != 0)
-+			_exit(1);
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(2);
-+		if (!cap_raised(CAP_SYS_ADMIN))
-+			_exit(3);
-+		if (!cap_dropped(CAP_NET_ADMIN))
-+			_exit(4);
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+/*
-+ * Unprivileged userns should retain effective capabilities from the creator
-+ * (CAP_NET_ADMIN) while still having unheld capabilities (CAP_NET_RAW) trimmed.
-+ */
-+TEST_F(userns_bset, creator_retains_effective_cap)
-+{
-+	uint64_t restricted_mask = cap_full_set &
-+		~((1ULL << CAP_NET_ADMIN) | (1ULL << CAP_NET_RAW));
-+	pid_t pid;
-+	int status;
-+
-+	ASSERT_EQ(0, write_sysctl_caps(restricted_mask));
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (set_effective_cap(CAP_NET_ADMIN) != 0)
-+			_exit(1);
-+
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(2);
-+
-+		if (!cap_raised(CAP_NET_ADMIN))
-+			_exit(3);
-+		if (!cap_dropped(CAP_NET_RAW))
-+			_exit(4);
-+		if (!cap_raised(CAP_SYS_ADMIN))
-+			_exit(5);
-+
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+/*
-+ * Privileged processes (with CAP_SYS_ADMIN in parent ns) retain full
-+ * capabilities regardless of the unprivileged sysctl mask.
-+ */
-+TEST_F(userns_bset, privileged_bypass)
-+{
-+	uint64_t restricted_mask = cap_full_set & ~(1ULL << CAP_NET_ADMIN);
-+	pid_t pid;
-+	int status;
-+
-+	ASSERT_EQ(0, write_sysctl_caps(restricted_mask));
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(1);
-+		if (!cap_raised(CAP_NET_ADMIN))
-+			_exit(2);
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+/*
-+ * Verify that once a capability is dropped in a user namespace
-+ * a privileged creator (holding CAP_SYS_ADMIN) in that namespace
-+ * cannot regain the dropped capability by creating a nested child
-+ * namespace.
-+ */
-+TEST_F(userns_bset, nested_monotonic_restriction)
-+{
-+	uint64_t restricted_mask = cap_full_set & ~(1ULL << CAP_NET_ADMIN);
-+	pid_t pid;
-+	int status;
-+
-+	ASSERT_EQ(0, write_sysctl_caps(restricted_mask));
-+
-+	pid = fork();
-+	ASSERT_GE(pid, 0);
-+
-+	if (pid == 0) {
-+		if (set_effective_cap(CAP_SETFCAP) != 0)
-+			_exit(1);
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(2);
-+		if (!cap_dropped(CAP_NET_ADMIN))
-+			_exit(3);
-+
-+		/* Map our UID/GID so creating a nested userns is permitted */
-+		if (write_file("/proc/self/setgroups", "deny\n") != 0 ||
-+		    write_file("/proc/self/uid_map", "0 0 1\n") != 0 ||
-+		    write_file("/proc/self/gid_map", "0 0 1\n") != 0)
-+			_exit(4);
-+
-+		if (unshare(CLONE_NEWUSER) != 0)
-+			_exit(5);
-+		if (!cap_dropped(CAP_NET_ADMIN))
-+			_exit(6);
-+		if (!cap_raised(CAP_SYS_ADMIN))
-+			_exit(7);
-+		_exit(0);
-+	}
-+
-+	ASSERT_EQ(pid, waitpid(pid, &status, 0));
-+	ASSERT_TRUE(WIFEXITED(status));
-+	EXPECT_EQ(0, WEXITSTATUS(status));
-+}
-+
-+/*
-+ * Verify that an unprivileged parent owning a child namespace retains
-+ * implicit capabilities over it when permitted by the child's cap_bset.
-+ */
-+TEST_F(userns_bset, parent_owner_cap_permitted)
-+{
-+	EXPECT_EQ(0, run_parent_owner_setns(cap_full_set));
-+}
-+
-+/*
-+ * Verify that an unprivileged parent's implicit capabilities over its
-+ * owned child namespace are restricted by the child's cap_bset.
-+ */
-+TEST_F(userns_bset, parent_owner_cap_restricted)
-+{
-+	uint64_t restricted_mask = cap_full_set & ~(1ULL << CAP_SYS_ADMIN);
-+
-+	EXPECT_EQ(EPERM, run_parent_owner_setns(restricted_mask));
-+}
-+
-+TEST_HARNESS_MAIN
+ 	return net;
+ }
+ 
 -- 
 2.56.0.313.g2479322e68-goog
 
