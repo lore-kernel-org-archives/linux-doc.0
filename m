@@ -1,85 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793188656;
-	b=CcLkcpg0BSjNd4byGwMpgfs5rxwzCR8A156HjLHuS7oK7uSFjALjTq8XaDuuqXiKCmWw
-	 PmGlTDOa4JlPJ1Rb7I9uC6Svy8gZQaxnC2jX4/KuNBDirA11Z5Aprw7QO3rTGgyevaF4N
-	 T0+esZnEITa5Tgiapkir07dinHPBEolm6RMX4w53+rfLtUkP6ladJRj5taVigF36tNdJB
-	 adRuh6y6m2l8ufgIDN5av4hwUNSHnn98J0GkbFcoE/YkV6rz/fLImvvAyTEQvSiSmIy+Q
-	 fVTHeRoM7yB3/0BNNzp2paftaWckKbVHEJeJ4mp1U1KlIfrimfPTzmD4JZbRvnK6rnA==
+	t=1793188841;
+	b=VP/hCT22U1+rCeg3wGytg1AhcKXOhGhD09e/a6gbT/qdytlsPQNvgjmr0d85S2Z42OeR
+	 ru49n2O04+R5XlfGX/MAfolK+8lyBztvBX85KycikZgTEKQbUazFoK3DWxAtdcVaCwzmQ
+	 jjWhBUXO5uSrOB+0TzxZu61spLi0LzWgtI0jJRVeiffZMd3yRNjveTP5J8PmGyc+PJqgn
+	 PToaOhVFeSurLcc72624/Je6ydoS1ia90jNRCusl20xjOvjrW9IAx4PSdewb45jyDIlWL
+	 0XH9vWhE7ImqqHho2j2+OB1Iu/jpHC0JXseCJs3daKVb97g5RT8G/M6srXdMsh+uybw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793188656;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=vQn70RFilaV6vCUmTPIBJG08q6mnqtgfrSTQOJVWmnM=;
-	b=MSsaco+pgURPwa/SKpGkbylhOfUTxxkp+UUpVsxkxZvoqe4UUGab/JtHfaR0n29YUO1S
-	 jdh5b4IQrGfdXFHi11VKizsgLVGKa+rHzno+2i63gbMlgHeShlBAPhq5n5aY/s5x6+XVX
-	 EkyB/6xx7OnlPYxztj0C7MpX/4k6ljQyKhedJn1WUh9GDTUJuf4J+Dc9iWjRXR2kfsNbF
-	 iKhmwHDt+bzFwEjDlJZcumFnRKvKOa2JGkQp/lQc8M5OKvdhmhPllVS1Nc+j9htvf54+h
-	 fXRZDBVhlAUWoYNPJeu6zSwM1SCtx+EkAbXrknUYJdq/Mh32s2qd68yHgSzZneWhJCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793188841;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=9LDhZK1T6m8HsEM5XkfB4j7Ba0Dw0HSkS/FtB/D3TxU=;
+	b=RocCapd9+EKb9N6I070850ihuEFbWnC8kL9N+Akx3I+yeNW/XxlEiM8Xn2KZRnDl++tj
+	 SL4VawCe6SxVwI7+uKHIYCHcVrzcDnyZx/wDrFsVsN/3nfBwoFxu3ETROqIJc7Dmu9SqG
+	 xY1gE2xrgrlCheC4atpRL2tBBDwn9NVDWfP+nXSCcF+7Llx2eaMYafU69PBZgHOImw9vx
+	 Bvy8TraWcqqDHccfxOEfSgaH55Ds0GsoEUCSR9ieXuOMHRXkeGJCr1LmVwf6IWlwx62IR
+	 EialsurntFlhzRoyTr+X7r0P92nRxqSdfhq95y/0ZtfaP/475lID+p4l0tZtzQFAoIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=klIQwHUu;
-	arc=none smtp.remote-ip=43.163.128.44
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DPscgP4J;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D411606A333;
-	Wed, 28 Oct 2026 11:57:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D411606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C10606A31A;
+	Wed, 28 Oct 2026 12:00:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=klIQwHUu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793188647; bh=vQn70RFilaV6vCUmTPIBJG08q6mnqtgfrSTQOJVWmnM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=klIQwHUuzh2w45eHtuOnqbQAuZd7Fpx91XWMp/Gc3S/rXVxug8HU/H8SHCOe1Il86
-	 8ibt/no49YAHrWUnxt645If5Ac9fwJwc4dxyORRXNe7E1KJuUNHmE82/ZZrZJtHYfs
-	 XPOfAVOBkJAOj2/ETMkMVsjwgPt81IwnMHdn/tak=
-Received: from kernel-lab.tail5e91bb.ts.net ([2409:8950:57d:63:7875:da97:7462:bbd3])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id E54BDCF4; Wed, 28 Oct 2026 19:57:20 +0800
-X-QQ-mid: xmsmtpt1793188644t4xpull8n
-Message-ID: <tencent_BFD509CFBFC7E76F10959593270DD1CAA506@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJDwY7q+uWS/ezw2m7FPoHn9QNH3RigtCsbW4ix+ZHS/aNzvIYXU
-	 SFCKEknR0qW1MsihjWZNbEMd8dacQ2CrxYSJO+MTicnuwaKy3N9P9kLnJlldIqNVIbJ86Phfdhen
-	 ZreMA7dFlqxB8BIXvfkRfXDI811Oa9JXn6+m959yk7lr372RlZRaz6RQRvfalnZ6A/j9Gv8k7xVe
-	 pr7YfAR6NjD/m8AcjGmIFmjQ0B0o08431itwnambfkK9OCVhXHEH0VkB3bn9ZD1siABq+V1711Ob
-	 DyASJ2WIMBfL32gbWn6UYuhU3QIdgd5h0iZtEUbRXr0mI6MRCQt4Z6e/HtppUD1+a8+YGhs28NL4
-	 dndWA7WCET7Ec5hRc16MXg9lPJYRf8lEoBHabubJ4RCtHlPWusNbi/rHFt08HmeFjP1km346iebZ
-	 sgBY06G4h3SHVPDyKQocusDwLFKd3mYCFJ803rT9FpM0sTKi/gTGlIv/yiz87lxFmmIbMqu85mN7
-	 LzajgbqQHsy3NwVy85Yd2F6T0RUaBePGokd5w3hVuvaVcho2YwwYFTX2YTwQ/NjPzNWRAPgl0dq9
-	 ljasEATEQGhgClxAJxIQwlgg9SSt+f44H4aPitLkmIqfvRbJu7hdDNFeHFsBceFCw6PTRl9nAn9q
-	 EBmzhLCHxj0niCfAlszdmWsMlxxXtyhTvNs69rwzP/FBtg06mR/deRx36ZBpLFqPRWEv3EZ00rzE
-	 mALVoJa29tGDxzUK8qY08mXs9bj6bauOG1Nol20Cf4+ToDp24re0j9h3ooqBbSbXBxnjbULbhefF
-	 L4Wo0SIeE6pbI1QZcq5+krAaIE+n64lRGg8WjAE7hYuhzXaTPSQ/CJQJh+VERNx3kxCMNQUEmPNj
-	 MVQbgbjUdhnFwTIDpoTkTIJqTK635V6BGEtjnWCJYXdRp9JeTNHTEc+hCaGTmksf+Q0LJ6BZ82Iw
-	 QHRK23d3nrkwtM7uUBIoZl9yIakj1JYQhA0EYVyHXGfxS37MxFN0zfjU0mVJUy7W17nr7+xTBSOr
-	 IQKNcNsmS8UiFGvueKj0771zOKwxXsDR8LrsRYB1sivOrilBjmpccpAQSPUJBrOovmE+Uq2lqtlL
-	 QNPZO+IzbW23ooqQVZVcza4VyUufN6nmzati6iMoPedfqtYAo=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Yingjie Wang <1075151112@qq.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	hare@suse.de,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DPscgP4J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 887FB1F01828;
+	Wed, 28 Oct 2026 12:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793188841;
+	bh=9LDhZK1T6m8HsEM5XkfB4j7Ba0Dw0HSkS/FtB/D3TxU=;
+	h=From:To:Cc:Subject:Date;
+	b=DPscgP4JuYpQgqqvyPcXYYjMtMtd5iN6P/KxSoy6BIx7EqQvXCcl5/k6tnE2eqyPr
+	 dlVZEHFSp5S5ENdZH1KrjuNx/XqWF+wqMLF+yOawBB3FoxWvt+bK2PSwy++wMoADRS
+	 A+W4s8FzJmLzptvwcPAze+I0DhU2neIBLnqa4GIX8XYVL69LKU+4dI0if9VQf5b1EN
+	 7SCwg2bQfcBMOYOMTcVHK635Cp9JaZBPgADGHWmCuAqsDsoFDFj+xokYH7bBMHESGu
+	 xA0EQ9RAH9JpF1IRlyLrCfg2mM+BtRT70DmloN2EhzUBFaDNfnM3fMQKR0RrnruVrw
+	 Xo5mMxSZ7OWJQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: Adrian Hunter <adrian.hunter@intel.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Ben Segall <bsegall@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Boqun Feng <boqun@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Chuck Wolber <chuck@wolber.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Frantisek Hrbata <fhrbata@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ian Rogers <irogers@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	James Clark <james.clark@linaro.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Julian Braha <julianbraha@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Justin Stitt <justinstitt@google.com>,
+	kasan-dev@googlegroups.com,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] nvme-tcp: validate the TLS handshake timeout
-Date: Wed, 28 Oct 2026 19:57:20 +0800
-X-OQ-MSGID: <54ebf9c3b89165a0a4d5df754b3a099253dc15b2.1793188633.git.1075151112@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1793188633.git.1075151112@qq.com>
-References: <cover.1793188633.git.1075151112@qq.com>
+	linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Marco Elver <elver@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mel Gorman <mgorman@suse.de>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nsc@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Waiman Long <longman@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	x86@kernel.org
+Subject: [RFC PATCH 00/20] Unify code coverage and add Clang source-based coverage with MC/DC
+Date: Wed, 28 Oct 2026 07:59:24 -0400
+Message-ID: <20261028120034.871983-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,130 +117,263 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tls_handshake_timeout is writable but stored as a signed int. Multiplying
-the value by MSEC_PER_SEC and HZ therefore uses signed arithmetic.
+The previous postings of Clang's source-based code coverage [1][2] drew
+objections [3][4]: rather than a third coverage implementation with its
+own interface next to gcov and KCOV, reviewers asked for a unified
+coverage interface, and for coverage instrumentation to honour noinstr.
+This series first restructures the existing coverage support into one
+framework, then adds source-based coverage and MC/DC as part of it.
 
-With HZ=1000, setting it to 2147484 overflows both multiplications. If
-the handshake request is accepted and its completion remains pending,
-schedule_timeout() reports a wrong timeout value with a stack dump and
-returns zero. The handshake then fails immediately with -ETIMEDOUT,
-while the handshake agent was given about 24.9 days. Negative values
-such as -1 have the same kernel-side effect.
+Architecture
+============
 
-Store the parameter as an unsigned int and reject values that cannot be
-represented both by tls_handshake_args::ta_timeout_ms and by a safe
-jiffies delay. Take one snapshot so a concurrent parameter update cannot
-give the handshake agent and completion wait different timeouts.
-Document the accepted range for built-in use.
+Today, each coverage implementation brings its own plumbing. gcov has its
+compiler flags in the top-level Makefile, the GCOV_PROFILE annotations,
+its options under "General architecture-dependent options" and
+/sys/kernel/debug/gcov/. KCOV has scripts/Makefile.kcov, KCOV_INSTRUMENT,
+its options under "Kernel hacking" and /sys/kernel/debug/kcov. Anything
+that depends on the kernel being built with coverage instrumentation
+spells it GCOV_KERNEL, and the earlier source-based coverage postings
+added a third copy of all of it.
 
-wait_for_completion_interruptible_timeout() returns the remaining
-jiffies as a long after a successful completion. Keep that result in a
-long because an accepted timeout can exceed INT_MAX jiffies on 64-bit
-systems.
+This series turns that into one framework, kernel/coverage/:
 
-Negative and oversized values now fail with -EINVAL. Keep zero valid,
-preserving the existing immediate-timeout behavior.
+  kernel/coverage/
+    core.c, coverage.h   debugfs root, backend registration, common reset
+    gcov/                gcov backend (moved from kernel/gcov/)
+    llvm/                Clang source-based coverage backend (new)
+    kcov.c               KCOV (moved from kernel/kcov.c)
 
-Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
-Cc: stable@vger.kernel.org
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
-Signed-off-by: Yingjie Wang <1075151112@qq.com>
----
- .../admin-guide/kernel-parameters.txt         |  5 +++
- drivers/nvme/host/tcp.c                       | 34 ++++++++++++++-----
- 2 files changed, 31 insertions(+), 8 deletions(-)
+A code coverage measurement implementation, or backend, only provides
+what is specific to its toolchain:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 5bd8a24be6b61..187917a4f196d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4801,6 +4801,11 @@ Kernel parameters
- 			Example:
- 			nvme.quirks=7710:2267:bogus_nid,^identify_cns-9900:7711:broken_msi
- 
-+	nvme_tcp.tls_handshake_timeout=
-+			[NVME] NVMe/TCP host TLS handshake timeout in seconds.
-+			Valid values range from 0 to the smaller of
-+			UINT_MAX / 1000 and MAX_JIFFY_OFFSET / HZ. Default: 10
-+
- 	nvmet_tcp.tls_handshake_timeout=
- 			[NVME] NVMe/TCP target TLS handshake timeout in seconds.
- 			Valid values range from 0 to the smaller of
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index dbefe36b0575e..1b9c090bfda93 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -6,6 +6,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- #include <linux/module.h>
- #include <linux/init.h>
-+#include <linux/jiffies.h>
- #include <linux/slab.h>
- #include <linux/async.h>
- #include <linux/err.h>
-@@ -48,9 +49,24 @@ MODULE_PARM_DESC(wq_unbound, "Use unbound workqueue for nvme-tcp IO context (def
- /*
-  * TLS handshake timeout
-  */
--static int tls_handshake_timeout = 10;
-+static unsigned int tls_handshake_timeout = 10;
- #ifdef CONFIG_NVME_TCP_TLS
--module_param(tls_handshake_timeout, int, 0644);
-+static int tls_handshake_timeout_set(const char *val,
-+				     const struct kernel_param *kp)
-+{
-+	return param_set_uint_minmax(val, kp, 0,
-+		min_t(unsigned long, UINT_MAX / MSEC_PER_SEC,
-+		      MAX_JIFFY_OFFSET / HZ));
-+}
-+
-+static const struct kernel_param_ops tls_handshake_timeout_ops = {
-+	.set = tls_handshake_timeout_set,
-+	.get = param_get_uint,
-+};
-+
-+module_param_cb(tls_handshake_timeout, &tls_handshake_timeout_ops,
-+		&tls_handshake_timeout, 0644);
-+__MODULE_PARM_TYPE(tls_handshake_timeout, "uint");
- MODULE_PARM_DESC(tls_handshake_timeout,
- 		 "nvme TLS handshake timeout in seconds (default 10)");
- #endif
-@@ -1930,8 +1946,10 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- {
- 	int qid = nvme_tcp_queue_id(queue);
- 	int ret;
-+	long wait_ret;
- 	struct tls_handshake_args args;
--	unsigned long tmo = tls_handshake_timeout * HZ;
-+	unsigned int timeout = READ_ONCE(tls_handshake_timeout);
-+	unsigned long tmo = (unsigned long)timeout * HZ;
- 	key_serial_t keyring = nvme_keyring_id();
- 
- 	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
-@@ -1945,7 +1963,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 	if (nctrl->opts->keyring)
- 		keyring = key_serial(nctrl->opts->keyring);
- 	args.ta_keyring = keyring;
--	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-+	args.ta_timeout_ms = timeout * MSEC_PER_SEC;
- 	queue->tls_err = -EOPNOTSUPP;
- 	init_completion(&queue->tls_complete);
- 	ret = tls_client_hello_psk(&args, GFP_KERNEL);
-@@ -1954,10 +1972,10 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 			qid, ret);
- 		return ret;
- 	}
--	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, tmo);
--	if (ret <= 0) {
--		if (ret == 0)
--			ret = -ETIMEDOUT;
-+	wait_ret = wait_for_completion_interruptible_timeout(&queue->tls_complete,
-+							     tmo);
-+	if (wait_ret <= 0) {
-+		ret = wait_ret < 0 ? -ERESTARTSYS : -ETIMEDOUT;
- 
- 		dev_err(nctrl->device,
- 			"queue %d: TLS handshake failed, error %d\n",
+- its compiler flags, as CFLAGS_COVERAGE in scripts/Makefile.<backend>,
+  including the ones for MC/DC;
+- a struct coverage_backend registered with the core: its name, its
+  enabled features and how to reset its data;
+- its data, reachable under /sys/kernel/debug/coverage/;
+- its capabilities: the architectures it supports, and whether it can
+  instrument modules.
+
+Everything else is shared by all backends:
+
+- Configuration: one "Code coverage" menu with a choice of backend (none,
+  gcov or Clang source-based coverage, as each data format is defined by
+  its toolchain), CONFIG_COVERAGE_KERNEL for anything that depends on
+  coverage instrumentation (LTO, KCFI, ...), CONFIG_COVERAGE_PROFILE_ALL,
+  the per-subsystem CONFIG_COVERAGE_PROFILE_<subsystem> options and
+  CONFIG_COVERAGE_MCDC. Existing configurations are migrated.
+- Build control: COVERAGE_PROFILE[_obj.o] decides what gets instrumented,
+  whichever backend is selected. Kbuild applies the backend's flags,
+  leaves modules alone for backends that can't export their data, and
+  sets up objtool accordingly.
+- Runtime interface: /sys/kernel/debug/coverage/, with "backend" naming
+  the backend and its features, "reset" resetting its data, and the
+  backend's data files. The existing gcov and kcov entries stay where
+  they are, for lcov and syzkaller, and are linked from there.
+- noinstr: one mechanism for all backends, enforced by objtool, see
+  below.
+
+With that in place, adding source-based coverage (patch 14) only takes
+the backend specific parts.
+
+KCOV is a per-task tracing interface for fuzzers with its own UAPI, so it
+is not a backend: it moves into kernel/coverage/, the same menu, the same
+debugfs root and the same documentation, and its noinstr handling is
+unified, but it keeps its UAPI and KCOV_INSTRUMENT, whose exclusions serve
+the fuzzing signal and the KCOV runtime rather than marking code that
+can't be instrumented.
+
+noinstr
+=======
+
+gcov and source-based coverage instrument the code before inlining, so
+__always_inline helpers carried their counters into noinstr code: in an
+x86 build, 2833 relocations in .noinstr.text and .cpuidle.text referenced
+coverage counters. objtool didn't notice, as these are plain memory
+updates rather than calls. KCOV instruments after inlining and was not
+affected.
+
+- Patch 4 stops instrumenting __always_inline functions in coverage
+  builds, which costs about 1-2% of the coverage data.
+- Patches 5-10 make the empty stubs that noinstr code calls
+  __always_inline, and switch the GHCB accessors to the arch_ bitops.
+- Patch 11 makes objtool report coverage counter updates in noinstr code.
+- Patches 12 and 13 drop the coverage exclusions that only existed for
+  noinstr: arch/x86/coco/sev/noinstr.o, added by 9efb74f84ba8
+  ("x86/sev: Disable GCOV on noinstr object"), and the KCOV exclusion of
+  the x86 entry code. The generic entry code stays excluded from KCOV for
+  a different reason, which patch 13 documents.
+
+Source-based coverage and MC/DC
+===============================
+
+Patches 14-20 add Clang's source-based code coverage for code built into
+the kernel image (raw profile formats of Clang 19-22 and 23+), enable it
+on x86_64, add MC/DC measurement for it and for gcov with GCC 14+ [5],
+including the gcov merge fix MC/DC needs, and document the result.
+
+Testing
+=======
+
+- x86_64 with CONFIG_DEBUG_ENTRY, gcov with GCC 16 and Clang 22, and
+  source-based coverage with Clang 19, 22 and 24, including MC/DC, on
+  configurations toggling lockdep, context tracking, SEV and rseq:
+  objtool is clean and no coverage counter is left in noinstr code.
+- KCOV with GCC 16 and Clang 22: the noinstr functions of the x86 entry
+  code have no KCOV calls, and system call traces don't pick up
+  interrupt code.
+- Booted in a VM: gcov and source-based coverage data, reset, MC/DC
+  reports from llvm-cov and gcov --conditions, gcov data persistence
+  across module reloads, and KCOV.
+- Every patch builds, kernels without coverage produce identical
+  compiler invocations, and arm64, i386 and UML build with coverage.
+
+[1] https://lore.kernel.org/all/20240905043245.1389509-1-wentaoz5@illinois.edu/
+[2] https://lore.kernel.org/all/20251014232639.673260-1-sashal@kernel.org/
+[3] https://lore.kernel.org/all/20251015073701.GZ3419281@noisy.programming.kicks-ass.net/
+[4] https://lore.kernel.org/all/20251218092439.GL3707891@noisy.programming.kicks-ass.net/
+[5] https://lore.kernel.org/all/20260314141749.3382679-1-sashal@kernel.org/
+
+Sasha Levin (20):
+  coverage: move gcov and kcov under kernel/coverage/
+  kbuild: unify static coverage instrumentation as COVERAGE_PROFILE
+  coverage: add a common debugfs interface
+  compiler_types.h: Don't instrument __always_inline functions for
+    coverage
+  context_tracking: Always inline the empty stubs called from noinstr
+    code
+  lockdep: Always inline the empty stubs called from noinstr code
+  perf: Always inline the empty perf_lopwr_cb() stub
+  rseq: Always inline the empty rseq_note_user_irq_entry() stub
+  x86: Always inline empty stubs called from noinstr code
+  x86/sev: Use non-instrumented bitops in the GHCB accessors
+  objtool: Detect code coverage instrumentation in noinstr code
+  x86/sev: Stop excluding noinstr.o from code coverage
+  x86/entry: Stop excluding the entry code from KCOV
+  coverage: add Clang's source-based code coverage
+  x86: Enable Clang's source-based code coverage
+  coverage: add MC/DC measurement
+  gcov: fix gcov_info_add() merge semantics for IOR counters
+  kconfig: add CC_HAS_CONDITION_COVERAGE for MC/DC support detection
+  gcov: add MC/DC condition coverage support
+  Documentation: dev-tools: document the common code coverage interface
+
+ Documentation/dev-tools/coverage.rst          | 158 ++++++++++++
+ Documentation/dev-tools/gcov.rst              |  46 +++-
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/kcov.rst              |   3 +
+ .../translations/zh_CN/dev-tools/gcov.rst     |  16 +-
+ .../translations/zh_TW/dev-tools/gcov.rst     |  16 +-
+ MAINTAINERS                                   |  20 +-
+ Makefile                                      |  23 +-
+ arch/Kconfig                                  |   8 +-
+ arch/alpha/boot/compressed/Makefile           |   2 +-
+ arch/parisc/kernel/vdso32/Makefile            |   2 +-
+ arch/parisc/kernel/vdso64/Makefile            |   2 +-
+ arch/powerpc/kernel/Makefile                  |   6 +-
+ arch/powerpc/kernel/trace/Makefile            |   4 +-
+ arch/powerpc/kexec/Makefile                   |   2 +-
+ arch/powerpc/xmon/Makefile                    |   2 +-
+ arch/s390/boot/Makefile                       |   2 +-
+ arch/s390/kernel/Makefile                     |   2 +-
+ arch/sh/mm/Makefile                           |   2 +-
+ arch/x86/Kconfig                              |   2 +
+ arch/x86/coco/sev/Makefile                    |   2 -
+ arch/x86/entry/Makefile                       |   1 -
+ arch/x86/include/asm/processor.h              |   2 +-
+ arch/x86/include/asm/sev.h                    |   6 +-
+ arch/x86/include/asm/svm.h                    |   8 +-
+ arch/x86/kernel/vmlinux.lds.S                 |   2 +
+ arch/x86/platform/efi/Makefile                |   2 +-
+ arch/x86/um/vdso/Makefile                     |   4 +-
+ arch/xtensa/boot/lib/Makefile                 |   2 +-
+ drivers/gpu/drm/amd/amdgpu/Kconfig            |  12 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   4 +-
+ .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   2 +-
+ drivers/gpu/drm/i915/Makefile                 |   2 +-
+ drivers/gpu/drm/xe/Makefile                   |   2 +-
+ drivers/s390/char/Makefile                    |   2 +-
+ include/asm-generic/vmlinux.lds.h             |  36 +++
+ include/linux/compiler_types.h                |  13 +
+ include/linux/context_tracking.h              |   8 +-
+ include/linux/irqflags.h                      |   6 +-
+ include/linux/lockdep.h                       |   4 +-
+ include/linux/perf_event.h                    |   2 +-
+ include/linux/rseq_entry.h                    |   2 +-
+ include/linux/sched.h                         |   2 +-
+ init/Kconfig                                  |   9 +-
+ io_uring/Makefile                             |   4 +-
+ kernel/Makefile                               |  15 +-
+ kernel/coverage/Kconfig                       | 226 ++++++++++++++++++
+ kernel/coverage/Makefile                      |  18 ++
+ kernel/coverage/core.c                        |  71 ++++++
+ kernel/coverage/coverage.h                    |  22 ++
+ kernel/{ => coverage}/gcov/Makefile           |   0
+ kernel/{ => coverage}/gcov/base.c             |   0
+ kernel/{ => coverage}/gcov/clang.c            |   2 +-
+ kernel/{ => coverage}/gcov/fs.c               |  22 +-
+ kernel/{ => coverage}/gcov/gcc_4_7.c          |  25 +-
+ kernel/{ => coverage}/gcov/gcc_base.c         |   0
+ kernel/{ => coverage}/gcov/gcov.h             |   0
+ kernel/{ => coverage}/kcov.c                  |   3 +
+ kernel/coverage/llvm/Makefile                 |   4 +
+ kernel/coverage/llvm/fs.c                     | 202 ++++++++++++++++
+ kernel/coverage/llvm/llvm-cov.h               | 139 +++++++++++
+ kernel/entry/Makefile                         |   3 +
+ kernel/gcov/Kconfig                           |  55 -----
+ kernel/trace/Kconfig                          |   9 +-
+ kernel/trace/Makefile                         |   4 +-
+ lib/Kconfig.debug                             |  61 +----
+ lib/Makefile                                  |   2 +-
+ lib/crypto/Makefile                           |   2 +-
+ net/bridge/Makefile                           |   8 +-
+ net/bridge/netfilter/Makefile                 |   4 +-
+ net/ipv4/Makefile                             |   4 +-
+ net/ipv4/netfilter/Makefile                   |   4 +-
+ net/ipv6/Makefile                             |   4 +-
+ net/ipv6/netfilter/Makefile                   |   4 +-
+ net/netfilter/Kconfig                         |   9 +-
+ net/netfilter/Makefile                        |   4 +-
+ net/netfilter/ipset/Kconfig                   |   9 +-
+ net/netfilter/ipset/Makefile                  |   4 +-
+ net/netfilter/ipvs/Kconfig                    |   9 +-
+ net/netfilter/ipvs/Makefile                   |   4 +-
+ net/rds/Kconfig                               |   9 +-
+ net/rds/Makefile                              |   4 +-
+ scripts/Kconfig.toolchain                     |   3 +
+ scripts/Makefile.gcov                         |  25 ++
+ scripts/Makefile.lib                          |  19 +-
+ scripts/Makefile.llvm-cov                     |  11 +
+ scripts/Makefile.modfinal                     |   2 +-
+ scripts/sbom/sbom/environment.py              |   2 +-
+ tools/objtool/check.c                         |  53 ++++
+ tools/testing/selftests/net/rds/config.sh     |   9 +-
+ tools/testing/selftests/net/rds/rds_run.sh    |   8 +-
+ tools/unittests/test_cmatch.py                |   2 +-
+ 92 files changed, 1245 insertions(+), 312 deletions(-)
+ create mode 100644 Documentation/dev-tools/coverage.rst
+ create mode 100644 kernel/coverage/Kconfig
+ create mode 100644 kernel/coverage/Makefile
+ create mode 100644 kernel/coverage/core.c
+ create mode 100644 kernel/coverage/coverage.h
+ rename kernel/{ => coverage}/gcov/Makefile (100%)
+ rename kernel/{ => coverage}/gcov/base.c (100%)
+ rename kernel/{ => coverage}/gcov/clang.c (99%)
+ rename kernel/{ => coverage}/gcov/fs.c (97%)
+ rename kernel/{ => coverage}/gcov/gcc_4_7.c (94%)
+ rename kernel/{ => coverage}/gcov/gcc_base.c (100%)
+ rename kernel/{ => coverage}/gcov/gcov.h (100%)
+ rename kernel/{ => coverage}/kcov.c (99%)
+ create mode 100644 kernel/coverage/llvm/Makefile
+ create mode 100644 kernel/coverage/llvm/fs.c
+ create mode 100644 kernel/coverage/llvm/llvm-cov.h
+ delete mode 100644 kernel/gcov/Kconfig
+ create mode 100644 scripts/Makefile.gcov
+ create mode 100644 scripts/Makefile.llvm-cov
+
+
+base-commit: 83f32c773255720a661aa45d83e36278135f23f5
 -- 
-2.43.0
+2.53.0
 
