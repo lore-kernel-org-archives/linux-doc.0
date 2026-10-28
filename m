@@ -1,146 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.145
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793202115;
-	b=1oEi13ztBDYPKaSyL0keEC9vEs9353YPZM2h8e0gAQG9PSC3VCm7bGxKgTPvpuO2GyA4
-	 Bo+P4Gg8eDR3HR7k32pO7Bd5XQKrq9iIyZdPpBFud7Lsw0HQw/BWxmt4csgUHMt0fwddA
-	 6w1BGFoZjLosKkHrUpw8Na9Ft0YhAAecXUO7S8zv5cJlutHc42CYbkkEV6zvK4v5Pi8xt
-	 /aJsExTa3thkRsaroceg//F+ky9MSOCl7GfY/+svRuWMycGoKJ38KWytmSC0GbowNpbTz
-	 IMpaKATtEiqbSGMBbizL5ruk5OSgBQbpVQCqz6cjHBp/3dW4HVPnOyYq56E4liQrHtw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793202115;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=nBjRxj9zvpUWBYieU8XuvaoHIUe7KPpEifpHAoXCHno=;
-	b=erdYcRakiqIp5WQ9WzMZxP/QP4SXOOFxOu7lq5thmk8O3P3k6nZmvn1JB2J/zhoYbTVm
-	 Y5APU6XPbh27jrOqTRozaR2pwdbFpt5UomXjGTpFcCgIHp1N9Pg/n47xvDGJnAfa3uPjN
-	 jJWGgw4OXD+hRFGWryNLfrm9BG2YsQMw0D3Pk344OX2lnzLLCHqK/IgjeQ3Fu1mKWlqE8
-	 NpKONwSL+PcxCGwDwE5fApy6rRstuhpOEvAMhwcKHj7jRaxQ1PkgByLJBbfQ6A4c7sy25
-	 RF6QUraKjVzAMc+xG2RiPwry1VH8zNoEK8oRxm7csPOhtPtuYOE94VcF9lOnQvtYIYA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=FVpzlnAS;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=wlvapL51;
-	arc=none smtp.remote-ip=103.168.172.145
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793202221;
+	b=NvYC3bdHt17OqFGR3oa2Ms18hAT0BGKBissVmmCGUoVVw5Wyz3okIAVHASrCQ1DXHDct
+	 MMaUDPtygeLafV1L3jff42u0Wduf1C5n9maaJte0sdtOUYC4ixmqWnwf8QJ5tqtT2C7F9
+	 Fdg6o9sCu2BcrKP6QmFxSdaMb6clgiqlzIK8tj8DYZznCQzgHVpP81CUMwMETmXI+U6Tn
+	 4qBypvd7zIWbd9Gogy1ffRxQoJ/qEWeaD8AZzzlz5Kn9FL7WRxgau4fpa36CNMGrF4ST9
+	 uvZilXxtaZpwnRKGsQOuo75rND4aQ0l4xu4Q9jf9r49n1LkSj+EUAHnsOCwCs1Hqndg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793202221;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=DVOOLLsmYNxFDN2neSUnVtuLeg8VjPxhidpQKIzCTQU=;
+	b=PP3Vq3JbwpVs/6pTI4ddpB5XYHPJ3UkcQdCh1CAWsiXzWzk7+aVipa4vwlCL44ZaEG9m
+	 ph/qinCt+7px3O5rzQ+cAlhCRveHiPlolvWt9JFbJJjpr2bcIiVrzWFMYcVSSpaAWV/DP
+	 NY9mqueBBa00z6xWGaF+ZI07eZHvUGJzCw8wl1wILFzAw7bBEk5OX1+EDPjz5Dy2xjiRf
+	 uLdDqvr6npELy9Q59Y4vj4v7lKiv02/nM0Yk4IW6hRWOLizSLbQFZvutT0ftS2VLqGqCE
+	 X/J3V854uljhNt6Q/by/F8AQA3s/ID9WCLjYhU6nyUYEC8miuC7k+VskCh5qrHnHQgA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IQqFfx4r;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.182
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B3A606A329
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:41:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9B3A606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B60A606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:43:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B60A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=FVpzlnAS;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=wlvapL51
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id E044EEC0309
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 11:41:43 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 28 Oct 2026 11:41:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793202103;
-	 x=1793288503; bh=nBjRxj9zvpUWBYieU8XuvaoHIUe7KPpEifpHAoXCHno=; b=
-	FVpzlnASFLIgMhSAokz5WxVtPsXYnzyL9VnakQ8d785I6sUIh7B0i9rGgfOl3zgb
-	M9jrNUXFhfDxhrEQue4mWL9J+3weVIsSZKD2AGScxN5owyVbl1DZpO85rvel7/I1
-	BrCf7L/aLiNX412JCoddPsLufqWg3OMixQuGeRzZyBWjClhmqJnoCzaYeWflH51U
-	J6sXRjylQK7nL5GuERS71vGqHQNJ+Yqamnzd+oSarhdumxuQi+rbbT0F732Ua9pU
-	qj0PnA57KvJR1l/yHwfFl42HmXtRB8xA0o7xfHrF9K/1w2LTGFk3th4uvLF2NRoI
-	6OvRTENrsvHfV/fOaq6IZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793202103; x=
-	1793288503; bh=nBjRxj9zvpUWBYieU8XuvaoHIUe7KPpEifpHAoXCHno=; b=w
-	lvapL51zA89BkW/sxkEZw9DFwV94KnZk/BZ0+s+RpDfinhDwGrIxfgTjm84TXUq0
-	sWkRA+oMDT31Ri/WVn8qQaI1ww+DXqgMR6OWYUWgY6Bj76QpG9xPyU5MgoUfQrLk
-	5i+DpSuunDtFApEt15d4BHepQ1+ktFsQVrq94aIDqx9l720XFlp35pDOcjHBUKzG
-	vYsn/VbyHB6YA4+WufAjQ3At7PXrs+VbzrTKSuq9gmZAOI1+P4zqW324+H4X1Qd7
-	qJM1SHpXZXECNI2OEPRPpw7IIwLuXqkbxtWruqtBC0DTPV7dxjJLcUh2XuV7Hdp1
-	KbJC/IRzA6C0BvQy7zukQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793202103; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:cHrOkdzuExJ70LPb0eGaXCOhmks6B/dn4UNHUkPHQV09bZe
-	7u/tjsvWwbF7ITSWh9C7QMJqfoF+l54NSQtGlFEesDHuyGeFY/oPEmuerqorSgql
-	vt1iGqkT8sTMK6jMyeEm6xbs30GU0XCWc+SemIuuZFhctfaqhCiHLI9CJ5WKj1S/
-	v9ASDEfDrr+wc7p9ITt4rThGor+oNGqrr9Hso3ijPiB+J+9p9UratLJCFQKq+azY
-	O1ShkAVZnijWpUwSI5nzClZylSOtz+EY9TiRRegJazpD+EakYEQpK2uKxo1mNVC/
-	yjNSpG3xkScT+z2lPLsMwO1zO0/7fMN5StvxS9Q==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:LbaJFfvktga4aPohWhLRqD5XDHeLFbrHeHEX9cs/bjY=:Ao+SYeV4Fwst0FguSJhVXFa1iUPte2lvw40dXbYdsA4=;
-X-ME-Sender: <xms:thfiaihfluVol6rg-FGWHMORXsY4fsgyeqW5UIQf30ztzcl-5MrAyw>
-    <xme:thfiajx914QKVKWi3mzbHIFcfGf3figU7XmgBTJBHcIdX99RRnSo789w9MaRXjYot
-    xJZzZlGL92cnyOwa2gstAKHtKiSDtTO_R9KDhdHH3Fa2LiB3rjdIUw>
-X-ME-Received: <xmr:thfiai9qWdMYuGf8NueSZAhPm39FP8IZ9nuMGulKASzToUqclmalSPRg73aZYA>
-X-ME-Proxy-Cause: dmFkZTGpkGeIHBa7luaXBdHEkLteeYnKFNz5z7xJ/WgARwQ/bjfzIr6g9EFyMFBeIIt/3H
-    dae+QqGnTr2u2vKK2rCOBCOcBLdyoqXayi6/RfPxoNfJSSMj6iuaGmWTBooZlKMbL6o6Hu
-    dPpxxoi5wXr3tlAqnVWkvTk/5lsu0ZkbhnRYCNCpQNIpMTa8ycE7RedAyqJvgXv1BwuwFP
-    D/qnUhITaiyi1RMk4C49tPO38F4cpfnoREJ/bR3Kl4ysaGYlAj2skuA2XPgiueCFEIQamF
-    D5+QtLIcs27z8qWkd6OVDwEm8bue7gaDNmrCJAAIcdOt/A42TK64KNVVzmQG35jP6W0Ob2
-    9tMrsRBiApamE6nyVJld0CmaDkJduyQtAIM6HvPcMYKsbYiBwREblVe203pddCh3RV1ECf
-    D1RKRCgPAuSey2qObDDuJeW/VCh4Ma/I2TwGczA1C6XUtLgLQb8Go3gj0T3zOic9pP97lX
-    d9i/mIPFZ+Whm2zjUbM7nGMS3bNpBYwDrsg/nzD6ORrtn34d6482FloFrVjBqMAY2cSYya
-    t/I0FSQbvE6/bRSMozKwuLnpEdoD0U9FFDDEQmE+gvCxDv9LQuBywaajkqHrhUnYcEklc3
-    oDaKdXAkZTDVzzh10hEb9ghYD72MwkCLEzhs6E96QiKhhjg/KbBDhQRsPxpg
-X-ME-Proxy: <xmx:thfiajIGaz02nZq9ogfRr7EslNQisxspDEtEpply8CYGFCtG5LkFxw>
-    <xmx:thfiau7RDDvJT57OJPQn2HyP4je_8qFPdv-lyJ_t0ZgmOD5QhHJsxw>
-    <xmx:thfiagumjOsbvnn57Q0RPFk_Fio4VF5ZYBfD__Le5uT9m-ctfLTeYw>
-    <xmx:thfiakZPCUYo1I8CgmGMJbZiVr2ckMXPWSvv6P36oqJrKS32uCkelQ>
-    <xmx:txfial_gUUZpbUA7gcB8NhEWr_8iNpjXDJtLY4_FEa73WN0qEBiwKIVP>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Oct 2026 11:41:40 -0400 (EDT)
-Date: Wed, 28 Oct 2026 09:41:39 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jason Gunthorpe
- <jgg@ziepe.ca>, Armin Wolf <W_Armin@gmx.de>, David Lechner
- <dlechner@baylibre.com>, Danilo Krummrich <dakr@kernel.org>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel
- Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
- Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Bradley Morgan <brads@mainlining.org>,
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Richard Weinberger <richard@nod.at>, Thierry Reding
- <thierry.reding@kernel.org>, alex@shazbot.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20261028094139.12ea7c16@shazbot.org>
-In-Reply-To: <auILBqh9Ccv7ztid@monoceros>
-References: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
-	<2026092321-province-yearly-44aa@gregkh>
-	<arOfHEsGGglNse7T@monoceros>
-	<2026092348-victory-erased-0e5a@gregkh>
-	<20261023181326.0dc2f7ed@shazbot.org>
-	<2026102437-vista-unsoiled-b089@gregkh>
-	<at34UOuYv3NtX36R@monoceros>
-	<20261026225950.GD1685504@ziepe.ca>
-	<2026102849-turkey-series-ac07@gregkh>
-	<auILBqh9Ccv7ztid@monoceros>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IQqFfx4r
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3ac97e45a79so8187051fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 08:43:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793202219; cv=none;
+        d=google.com; s=arc-20260327;
+        b=a23qbr/8a8reqpHo7vDO2mTgrw4ct1hJoR6UaL5ed9mcA+c29KJsyhtnKyfwbpMRmM
+         tUVS/RkV969iIdmgVepqfpMCYD+IZ0d+u3rxlw2T2Ex1VDq5qdVE6kiS/Luhk5RYTpuc
+         CxVeJYn80UFKXWBCbiouEQNw/RlJP0bz6Kvm7ddV9s2NET06EZI4neRx4KrY8xv/4OvG
+         7vfLNJL3PrHotqpNW6ATQxtNNqY0/WYErIjupNF1gIxztHLB5OtgU1w4O0yzzvLz3A8Q
+         VM3hcxzSteln/p9ALlfqGdLCPNOro+cZtuXX9WHFz0Phvr5eQqHjEhdPbVKwx9Fo+MwI
+         eWQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DVOOLLsmYNxFDN2neSUnVtuLeg8VjPxhidpQKIzCTQU=;
+        fh=sOI0TgVMIxaoriifejSIN9zx9k56tzgEaA+U1namxa8=;
+        b=AaBeszkWeVA7A8fiAjg3BRaqjo4SRNxoM1960UToQGQZCtaiG2ZC1hsorRMkm5//T7
+         EHkXazNtp580dot6ZrHZtLbTnkUQJ+jKFheU0g1WlhondN7vntZVNjQj47oYtnLeS8YL
+         utxyCMiwX8P/h1HtIRohNzeAHzPgBIa5rlrDd5HjcDvSZYpIgRlW4mJJ7gERKYISpm+7
+         EYouUg/15xUui5wKi9pLBhawERKzW8ft240HEEQ2pxaYFnReP6k6wC6OKmYT2bRWOy7S
+         axEnYUrZYyACGdqKgCrvFlZLIGj/XTLepEvnjWKvsibqah21N2tgncMsUX80z4E0LZmK
+         ZQWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793202219; x=1793807019; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DVOOLLsmYNxFDN2neSUnVtuLeg8VjPxhidpQKIzCTQU=;
+        b=IQqFfx4rbHCH0DIbi12l9QSCcD8sp0iAlKzsIwur+LBHKnWKd/48ZuVFlLQNinGfzr
+         9+Jo8u9YjtY2gCbZhM1ugN0iZtjD2W+/ojRI/m6WMJd7z/RrsP9dYE/fZYsxTua4gggJ
+         uD6HlfED8L3zw2HF5AnLxho7zYACgkuUk2AqKR5OWARGiCo3LGLkBoqS4CTzllOsB3Z8
+         nyjPcVw1WWWKJi9nVqMCFzd7c+B/I5apujBIaHDB+SRM0PPq21JDPnOl97nYfK4/YHl7
+         Z9EAWa637ZT6Oh/UFWyyDOjnEVSQR1irS5ClX9iWEAwTJG4MCMNgWf1Ac/Zfl1RNMU0/
+         0OwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793202219; x=1793807019;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DVOOLLsmYNxFDN2neSUnVtuLeg8VjPxhidpQKIzCTQU=;
+        b=rgdzmJhUhuvYotWIpFuzSTQRobY0lQRBedCfhPat1GSoWJtLQWi8ynryUkuje9spkx
+         dUptgAdnvzsDErDxNTuiUu3LeMHthK5hflGA13KJYMJypfXiza0mALkextp6qPrTRFZ8
+         SEbcgTRFDHZGZ5rZF7Y1NbhcGUVT2G+2LXsNx9JAMNi5wDqY3NAI+KyMHLumDGtb/zyI
+         fSQC/va8c7udFaSx8IWm2IGerNTml/rMcHl64HNy+NkR86sPMS6Q7aOUpybPIituYYmP
+         /FIOYvFiA/35yaMZ9t+T9AgBHWXUXrvUkShfF0W07H2wjtGtAqoG4BiM5R91NYyzVMuO
+         TkYw==
+X-Forwarded-Encrypted: i=1; AKwUvBwMQO0NHkRgvJCXvMf1MT1Smdd17A6h8mrrdtVwSI+kSUns5Q1eG5fOtdKWlxj/ssqPXvwBKhsSYNU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKQI2sty8tmANagZZiDq3rrsj1qBi8UqPGqdnU5IvkCmn3v4uPu
+	uJnO0NqyqXbOvKWUeJRnJy6PV0XwypCNI92wDyHuR6R/D9aqhFYf69oTqjkOlw9WV9VurLRylQJ
+	YWHlVthsjOolaOhkl8sXJtbldMyTH0Zw=
+X-Gm-Gg: AYBFou3l6S3I0T2Pz+9/PmBad2i16ze3jPc0I7CeZdW881gIyObvlftJYrWC2y5pLW2
+	wlYMiiPb/+VAKKlQh+rSHlpENkSIn8/iZ45462ivob4ASeG03nq2PDIstTQpsjxHq8fvzbWxbj0
+	XK7AdLWPBrDk846o+iaJXN5Uh6oVWsobyS2XEvSiFQqamIjf/kIQB//m3QKJA/2oNiLBDKbpj4l
+	y10yebtWg52m/yxcw5dQl32+TdZV+pHJsnlTefuTua7tsGt6DxvgQd7mo1kpMbwXU/MqeM56iwG
+	n5scsdV6dc1CckZsnmMO0HAJugXckaeeBWffPDwbZf7DI7x545V5ifxN70JYp297B2jXV1rbVWF
+	d1pe+CGC+VZ78CYz7MlF67I4P8ffkNBGKGHIJoQN81YbuGvYtPW4rratufh8+9LBq8DUW6bPyo2
+	wSNRzkvwwm/95SUsw1RYrZxRyYnhWHHASXyzho1qkY30Ky3xCy
+X-Received: by 2002:a05:6512:3a93:b0:5be:52d8:f70a with SMTP id
+ 2adb3069b0e04-5bfcad1f7b2mr1381582e87.34.1793202219168; Wed, 28 Oct 2026
+ 08:43:39 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -150,68 +104,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20261028024333.795917-1-ruanjinjie@huawei.com> <20261028024333.795917-3-ruanjinjie@huawei.com>
+In-Reply-To: <20261028024333.795917-3-ruanjinjie@huawei.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Wed, 28 Oct 2026 12:43:26 -0300
+X-Gm-Features: AclHuK8ctFKN0EMd2E0XLfbEQe99ggeVXVUtiN5LeR_vMR1AjTiWTZfSaXZksYc
+Message-ID: <CAMAsx6eMqJdM6BDZB=mxn8JSayyYSv7oMdsM_yy89q+p1xigiQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] docs: sched-preemption: Fix the list of
+ runtime-selectable models
+To: ruanjinjie@huawei.com
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 28 Oct 2026 15:50:44 +0100
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> wrote:
+On Tue, Oct 27, 2026 11:44 PM, Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+>
+> CONFIG_PREEMPT_DYNAMIC now depends on CONFIG_ARCH_HAS_PREEMPT_LAZY, so the
+> none and voluntary models can no longer be selected at runtime; passing
+> either to preempt= is rejected with "Dynamic Preempt: unsupported mode".
+>
+> Drop them from the table of runtime-selectable models, and describe the
+> build-time situation instead of implying the choice simply depends on the
+> architecture offering lazy preemption.  Keep the per-model descriptions
+> below, which still explain how a scheduling request is honoured under
+> models used by other kernels.
+>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>  Documentation/scheduler/sched-preemption.rst | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
 
-> On Wed, Oct 28, 2026 at 02:45:18PM +0100, Greg Kroah-Hartman wrote:
-> > On Mon, Oct 26, 2026 at 07:59:50PM -0300, Jason Gunthorpe wrote: =20
-> > > On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > >  =20
-> > > > The more I think about this taint, the more I believe the commit sh=
-ould
-> > > > be reverted and replaced by a some stop gaps for driver_override. (=
-Be it
-> > > > a taint or better yet
-> > > > https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a30=
-8.1790612298.git.u.kleine-koenig@baylibre.com/
-> > > > .) =20
-> > >=20
-> > > I also think this patch is way too broad and should be reverted until
-> > > something better is designed. =20
-> >=20
-> > Fair enough, I've sent a revert for now, will get it merged before -rc1
-> > is out. =20
->=20
-> \o/, thanks
->=20
-> > I'll rework this for a later release, thanks. =20
->=20
-> Please look at the series behind the link above before investing time
-> here. I think most of the ideas are already implemented there. If you
-> voice your preferences there, I can rework accordingly and rebase on top
-> of your revert.
+Hi Jinjie,
 
-=46rom a vfio perspective, the concern with the linked series is that
-driver_override always taints.  That's the same regression we have
-here; vfio use cases rely on driver_override.  Introducing a driver
-flag that allows a driver to opt-in to declare support for
-driver_override, but then taints if it actually generates a match is
-contradictory.
+Thanks for the patch. I validated it: checkpatch and the scheduler docs
+build (SPHINXDIRS=scheduler) report no errors or new warnings, the table
+renders as expected, and the changes match current mainline
+(PREEMPT_DYNAMIC depends on ARCH_HAS_PREEMPT_LAZY, d3d16750693b).
 
-I had been working on a series that allowed match to return a match
-type classification, for example 1 as a static match (for
-compatibility), 2 for a dynamic match, and 3 for a driver_override
-match.  Anything other than a static match that reaches driver probe
-generates a taint.  Also note that generating a match doesn't
-necessarily result in a driver probe callback, in at least one flow we
-haven't even tested that the device isn't already bound to a driver.
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
 
-The bus level match function can filter and downgrade the
-classification, for example PCI has an override_only flag in its match
-ID.  vfio-pci and variant drivers thereof make use of this to avoid
-becoming the default driver for devices.  A driver_override that
-matches the override_only match ID in the driver table can be demoted
-to a static match and avoid tainting.
-
-I'm not sure I understand the rationale for focusing only on
-driver_override though, new_id has just as much ability to generate
-bogus driver matches.  It's also racy to use new_id if you're trying to
-get a specific device bound to a driver, which is why driver_override
-was invented.  So we end up placing barriers to the use of the
-interface that we've now long recommended as the better alternative to
-new_id, while leaving the gaps in new_id wide open.  Thanks,
-
-Alex
+Best regards,
+Daniel
