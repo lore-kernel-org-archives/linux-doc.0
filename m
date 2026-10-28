@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793166743;
-	b=KqOzFMQ4prwBMne7W8QG7+javCKeyvy4jHG8NlZxjT/mMd3qKcJRon0yZwrjigUnzumo
-	 I7AbszCwXyFfEMHPjBHjjf55lMS+GI7w45ETV9y/nMZirK0rBXd+VZdvqCTx9QUVIazJy
-	 2ObXPgHkyf7uvRpsExxfZKpZj3WMs0pzHcK1frgeB7WRe2JVKr9Fs5cw/jeAClpfr+6QX
-	 3Jt4a5j0bBNUNCUJl/Da3izsQdbyk7IYYnpZ2DrX9n3Ab57gng/+pGLEtJp5SR95XnD43
-	 wGIX/6jn2hLKSbvWpdIbrtTQgVDhzwtAdwK/0kPKYKZMqHSkSTXhtVw3o+iJjM2QF3w==
+	t=1793166945;
+	b=KJ0W8A9U3mIsvYyGHDTtgaWcG44tx6SoOEJqDqyG0tDGcWaExZN7DO/HuZx/VQPbfbfZ
+	 yMJSsWdoFUGsJfu2zS6j5xtt3jnH17RRJh/aRTTZxT6OuTa+ygLbBL/Z7bND7t5ouo576
+	 DoS9ygHb3h0pvpwSeALxPEb3s/vj/Yr+ZtGYnjW3cnvqWmVrV+EpXsmIn4cR8U0JgiK/D
+	 wtk/hlkijWwDuMC7XfSNn4dKGLYQYA79ggfMXeuJh4LZlLk8NjydnUxzuQIcftWsCGjk4
+	 UO3vek8K1FEqu2aVO3XeWUVKL7QPihCl9o5Sac9soKas9KlJf74EQak0Hbsr4GtJUXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793166743;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793166945;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=o0+YQ8IhrloxYZmXJNyf64tQivuQ6Pn/Dp36CBxwNv4=;
-	b=tmupMWrOydtdYgvrdjsI31eh3vJoRmYSYVqln+yM3V5o5UDCj8lNq50rhQ7/jJbw5sUB
-	 UtzcCmsAXe39kflIEGCXJ58Yseut+HBaha8pI865iWZMAuBcpiRjnQf2nkF/Vn+kQPS6Z
-	 HycTUxuLnKUidPr2Inctq53g7aMJhTLFBODAMKoRZWCJuGgARcks6Pt3zaACl2QH7rg4A
-	 OAVVx5V275vwjZdFEjnAW/0R/o7aNBFCjJxoYwdUASs9o6zMn9zj/yQkaY0MUeEsGiLub
-	 0eG1V0phapd6fxwNRQ23OiXZXfipDCAjHQ7Z2M/x6j8OSpCpz4+FcCCPe45dYfmPkXg==
+	bh=hLkqAi8ctPqSRIwXUevfGPv3vaKrwbjwbnl9pr4s97k=;
+	b=g48Orq6vLdjxXIc+dm/lEFxx8KgNWDiAIYTKNg3nXJOJgh2Q3ekQgZFoRRvdNIkRkV/r
+	 jK/Ba7Fycjgtg946i8qYb/69rGqyMEgkoiFOwXGKACEE2yOMej5Hnm/ZE+UyqXFaA1pxC
+	 l5D+PRf2b8Ch1vd0u5OAfrZ+ENYh9CceLeXZCgBd8MK4cwHfEbTeqLLjJtT2810fuFzdP
+	 56l7uzT/TY65b+1u256GQj29BQJiDiWBs7KvLprr2RrE31+hKid8SdK5hgvOuNr7zv8lX
+	 vloDt9KLk8qMwGFBTH6mVErrGm6L2VFq7ffqEQ4wm9XOg0nQd2GDIsXHCcQl4k2AavA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=u1CUAc5U;
-	arc=none smtp.remote-ip=209.85.210.175
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=S1bmZhe5;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984E6606A321
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 05:52:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 984E6606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FF3606A31A
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 05:55:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6FF3606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=u1CUAc5U
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8a05da1cc1fso242945b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:52:22 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=S1bmZhe5
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ea1e7fad99so3297575ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Oct 2026 22:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793166742; x=1793771542; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1793166944; x=1793771744; darn=vger.kernel.org;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=o0+YQ8IhrloxYZmXJNyf64tQivuQ6Pn/Dp36CBxwNv4=;
-        b=u1CUAc5UGEIg8w651QAnSj1ilJ1Hp07nRBlYJYLip7lca9dtV+G4XIVLxIkkYk+9He
-         Gi0KpLWies9ZXilvLmEHfJEIcvI8kzJ1Wyu473aUFgZ+EPn9NADS0gpTZFOInL5tm9Nq
-         7qBSbt2D7PxHKFRNJ0ExDlyKLPKzHEsOpZICg=
+        bh=hLkqAi8ctPqSRIwXUevfGPv3vaKrwbjwbnl9pr4s97k=;
+        b=S1bmZhe5omygstKNn+fR4XNnXR8jlOAug6FHViW62htHZqlaaV3C+husILnE2vlUDF
+         qUlYJF3FxNHUTl83dYgzukZI/bHzvwRlNtWH7gR8fWpMpq/83wx9L/j3lJilHpU9YOHo
+         cfLpDdCxwOCvGatK4hqkL/OtX/o2+WygsNxRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793166742; x=1793771542;
+        d=1e100.net; s=20260707; t=1793166944; x=1793771744;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=o0+YQ8IhrloxYZmXJNyf64tQivuQ6Pn/Dp36CBxwNv4=;
-        b=0bWh5xAZ0PlbTSXPp7LTL92xzqJs1mjKffPvC3VHhEKNVHuoofILF+BFkcw4Fw7982
-         e+QLNHfPuVoOThyCp5NjAytwWB6fDAOydYQmRlV9Ecpt8o6kxs2cthMPVRT8AAXQlTWi
-         K3A9yTzMEdYLzG9ZKI6DmQM7c27DRr7rqqujMffHJSWDK28MRpgs4h5jyYXMtiKcgJFj
-         uMe4JGWQhhyotiwK6xwZsX7ryqHi8KtL5Um8sQJE+N4dxTgtTQNyALQWfoZ7XmhXlV8Y
-         dACasE8/sD9TQis3EKAF0XcVWkstmUQ4aw8yFCH8p+o3198oHH5gEPhWfVWpTsQLv92Y
-         QbHA==
-X-Forwarded-Encrypted: i=1; AKwUvBzYO6QvnV0esck/5lbU2kp7W2/LAkfe5eiYNynr8mvYXw+R1By43sSQ9kKdL0580/Yx5iFq4iu1WYo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKbYxsTfxl0JUkpNxZ62cwZIMlQ1T+UPbsJnrtEt8bmY6y5P+ch
-	EHVPLkXgLbqJLK5aI2mYLYCCa+p8OCFZkBHXiy9HsegH5J9q/Gbr5VAwxuIL1Q8UJrU=
-X-Gm-Gg: AYBFou1qJi/E4xFzevXC4XVi2Pz7eihiHDJdC7yZ93dOjjq9MXKsalSIQqx5ZBBz1XA
-	iHimd6Um68kT367+MBqUjM0Gdpt2TuII5yEWuSWL7J4Gr6Wj2zt3ro8LO3j1xa/VtFo847P+kUn
-	biWh8gyidXX60SygWetzJkYzhrgEDrUXgAb3/jmdQlOnkbghXxi/c0gLTNGN/3gtVNpCcy8f6R+
-	WtrcDEN6znTQUt5OM9vaSBZ/pavzdlyknUDagqQ2Q7gCQUiO5n+Yk5QzrB3XqA8GVQLTrVT4Y8W
-	nD9HUSwxbLit88QolbkGt59XHM3HH6M1QU9MORe8Y8E+AlgIs6R3406FDdCOhMIJD7ph+donGvy
-	zbMHWrS6PqPKC8yoVb4luGvmgVbuxzMpyQOkLnThXXu6/A3d1p5azySzRcWdeXCOZq+bCWt63ku
-	osY4nqjiIhKC5rrGcDJoD7S6YEcYLxKZDVwadkBEwoRnhD8aNORZgwXf25Jj5ImZNUi29WH6L4r
-	xfF87YpRY0aq1YTVh0UecgTlZrhlUAmtCaAGk2PgfIdj539YAVn5uP6Uw2sz2oZrMU5Ioytp+3w
-	juXw4rWjTfl1esIQNX4TaZ7hoOTywZ5oQFoXJ9Sv3YCwIWvDy4N2cih6It9LV+tfgogzofdb+GK
-	rBjTBUoe93ds8gvrlCkChs6ctkpf0sS39KzbRdq0GALcSXcrPxas0CtySgaBVnMZ08s1TfTGx
-X-Received: by 2002:a05:6a00:4b4f:b0:88d:20ff:15c9 with SMTP id d2e1a72fcca58-8a6e7acb277mr1168038b3a.17.1793166741947;
-        Tue, 27 Oct 2026 22:52:21 -0700 (PDT)
+        bh=hLkqAi8ctPqSRIwXUevfGPv3vaKrwbjwbnl9pr4s97k=;
+        b=YqlxBq6fby0qo4D+kR49PLpjDpMU1nm/3uiHbxIKG7N263sGmjupKK7jl16BkBdhI/
+         2f4NPeVeFuxxGQ/55vEmFbYGoo/DcyIMT/Jd7QBPv/RgPh8TcXGYQbaNQltlYyN/0f1P
+         m+kzsA4dQydFoStZ97GKO6VtEDxd0Sl4FbS6ZugrIWMefnnUAsFvmm/YdZnHZs+0ss5y
+         yBja6h5pBWo0yORPLtfTJSEcdNG38qU80knZq5P3WyI2lrkF0NZLTA5RkJgK2xiBYzx0
+         Y8xrDVzCx4vy5Ue9SaLAztPYl9hk10iyIoFwR4TKOauI03l3GgT1hv0o6c8EC2UITHjQ
+         0T0w==
+X-Forwarded-Encrypted: i=1; AKwUvBywVwAhV3RCSYNC7SnUmeafJcn++/8XHNETFjJ7UZewi0c0dluifypvk9ve45OoCxPLkxoHn+i3cOI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLYWTv3pahX/bqJGvpuvIxb7wzgh63SXuV+7SeGnVib2zZ/s8DT
+	6h1ICSze9GJJCKRU3RdgSrkOi4hTAtuGfZRcUBHKhgTb3cCu8lwy1Zc5ZbGux4RDfmI=
+X-Gm-Gg: AYBFou0uU6NKy0K5UV4MzchpIxtYu/JFH/O7x/j+quPc1X33RvPWueW9tuttiJx14bV
+	2vl0/U/ZbTJE/yqilEiO7IdiQbbHEmCa0GM4xjaEf/orCOvY+wJHOris42vC+U8CjOtJ0DXMR1P
+	TFqd+0EOFiEUfBAUNpAMNe+V5wjtT/D52CD7fvjwul/Cc/05IQO8oqbdxMz6aPqsHILnAlaUVUN
+	q1n3izW3oe3odC+fEDDVfb7fQc3Obm0pUAsTYtvmvN82s9PQfZhVUF4TZ9Jm6/1p6xPRLTqtLZX
+	13KJGEXWHbDknYteq80rhLxq2mKmJdvx8p54vH5jT2Q02BU0QJhTME8BXhWlSbo8oDIfy5NBzYe
+	KYaPSq+iEsOuaazFwUfOnngTRxfHdj4kbFzwv4hGLjo8c6xDEXWQCJBgLOt6uujibOsXhX2woFO
+	mondUSIfBVfEzgtQRcRQUxhbso5SknDIHvZHZMwUQGVh5T2BcWcTtYdVux+Au/CUMAKkn4T7HoR
+	Vfe3sPLyIx2DxQvqy8YyqHRxblTv++D1rZOSbQVrLbGeAeHMix+E2JryGl6XxlvsL0g00K2hQ4m
+	a2ygj8LjPGgwAuWtxV3kpphnfRWiaHKCOAWjriOqh/f2wKou4+JZOznXSNUcKUo4XyGWX0eCA4U
+	hlWDsVLmNUijPigcU0RVQjL9DxRiU5+DcnIwVpD+U8KAMVFXYvYNhHxd3oF4SF9NuEUtAjWD0
+X-Received: by 2002:a17:90b:4c47:b0:3ab:1af3:a0d with SMTP id 98e67ed59e1d1-3ae5811b551mr920591a91.33.1793166944108;
+        Tue, 27 Oct 2026 22:55:44 -0700 (PDT)
 Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a6a6cfc785sm695363b3a.38.2026.10.27.22.52.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae5a9019a4sm1368356a91.1.2026.10.27.22.55.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 22:52:21 -0700 (PDT)
-Date: Wed, 28 Oct 2026 13:52:18 +0800
+        Tue, 27 Oct 2026 22:55:43 -0700 (PDT)
+Date: Wed, 28 Oct 2026 13:55:40 +0800
 From: Chris Down <chris@chrisdown.name>
 To: Jeff Xu <jeffxu@google.com>
 Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
@@ -97,13 +97,14 @@ Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
 	linux-kernel@vger.kernel.org, kernel-team@meta.com
 Subject: Re: [PATCH 1/3] mseal sysmap: Add mseal_system_mappings= boot
  parameter
-Message-ID: <auGNkhSHpBRd2U_5@chrisdown.name>
+Message-ID: <auGOXLB1XZFWcTfX@chrisdown.name>
 References: <cover.1793094611.git.chris@chrisdown.name>
  <5bd3c89d733ad22224f296dfa8900769de937de0.1793094611.git.chris@chrisdown.name>
  <auCxjbvY3qPv1sV6@gremlin>
  <auDTMb6WMFUpxeZy@chrisdown.name>
  <auDTptDQsB4xBcz7@gremlin>
  <18e2972cb8520c2e.3137322e32382e342e3434.279dd1.0000sendgmr@google.com>
+ <auGNkhSHpBRd2U_5@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,51 +116,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <18e2972cb8520c2e.3137322e32382e342e3434.279dd1.0000sendgmr@google.com>
+In-Reply-To: <auGNkhSHpBRd2U_5@chrisdown.name>
 User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-Hi Jeff,
+Chris Down writes:
+>- run_vmtests runs with -T expect_sealed when CONFIG_MSEAL_SYSTEM_MAPPINGS=y
 
-Thanks for the review!
-
-Jeff Xu writes:
->Could we please keep the test coverage for the unsealed [vdso] case and
->avoid unconditionally skipping whenever [vdso] is unsealed?
->
->There are two regressions I'd love for us to still be able to catch:
->
->1. Kernel or config regressions when sealing is expected to be on:
-
-Yeah agreed. With the cleanup it matters even more I think because when sealing 
-is set in one place the most likely regression is probably one that unseals 
-everything at once.
-
->2. Regressions in the new `no_mseal_sys_mappings` boot parameter itself:
-
-In v2 I can check /proc/cmdline for no_mseal_sys_mappings to do that.
-
-Lorenzo, I think that also may inform your question about whether checking for 
-the disabled case is redundant, right?
-
->   When booted with `no_mseal_sys_mappings` (or when unsealed), running
->   the assertions in Patch 3 (verifying system mappings have no `sl` flag
->   and that `munmap()` / `mremap()` -- and ideally `mprotect(PROT_READ |
->   PROT_WRITE)` -- on [vdso] succeed) directly verifies that the boot
->   parameter works and doesn't regress.
-
-Sounds good.
-
->  or keep strict failure as an option (e.g. `./sysmap_is_sealed` fails if
->  unsealed without the boot param, while `run_vmtests.sh` passes a flag
->  like `--allow-disabled` when `CONFIG_MSEAL_SYSTEM_MAPPINGS` may not be
->  enabled), so CI environments that expect sealing still catch a broken
->  seal.
-
-I like this and I think we can do it without adding some of the complexity that 
-Lorenzo was not so happy about:
-
-- Have check_sealed skip as usual when [vdso] isn't sealed and param is not set
-- A new test, say expect_sealed, fails in the same case
-- run_vmtests runs with -T expect_sealed when CONFIG_MSEAL_SYSTEM_MAPPINGS=y
-
-That should be pretty minimal. Lorenzo, Jeff, how does that sound?
+Er, the other way around. I meant vm_runtests passes -T expect_sealed _unless_ 
+CONFIG_MSEAL_SYSTEM_MAPPINGS=y.
