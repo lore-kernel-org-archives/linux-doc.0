@@ -1,102 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793192690;
-	b=rXZTX1evFg2HudwZ5jNu51Y1iYvLRcYxKGRXaDl2hpYJ2XWOOA12GD4UtnhO1vYBdbKD
-	 o77QAqbJcIyUsfIOX1BVheby55QtKpYkPUcxkRZ8NX9Rqf4hCGGuLul4gEdXS6AiCCV0K
-	 M0uvf3RFvC/mNOthJiK/E2ORHaXx5HEOdnoZCQ6u2irvYnYD5hyB+NdicBkcTX0Xb4jBt
-	 wbOkxQNAVPuyJ6m5jVplnNYaplITr4XDVclMensW9UiODqjeU6xeX2aHU2KeckOHRFy4S
-	 cgYbWKX1Uy0n9E3qm2tnBJgPlZNXwgevbmUZc9GzoztPVp3JhWJXE92K9Dz3U6hXojA==
+	t=1793193992;
+	b=WgTsjsquWeLbNzBW5A7oQ0YKwjC+m0abWmmtRljm0mbwzZYqv9SwFNl8qTENfOc+Ykzn
+	 0NY1lWUkoN/h6DFJk5TsdHkpeunRfai5RWev75BLNjZlv1oKgmys9Uy7FkUQAiztZGsbc
+	 OZMHI6KBgzZ0rjB+9E+JFF4XCdgDvG68BaYGGZxOkNSsIp0ipOX6zz2ULLaeVkh2xGwh8
+	 I2EglQ43IfvgtU+ZG/NFLB6ySVthIWgRKtAWhTIrBfGznpCnrxHYGb2GjhOl/jyPodiXs
+	 RSL6DJYdJNf5s/l7jmQq+MFn6gXg749jv3skThoU6quKAjKANimlh/Z1w20Qo9z1kFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793192690;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=OG80Mz0mVm49EyuyKHOkJqtYHLMvKooWxYEt+ri6Okc=;
-	b=jkdg42hZ/5bKMDm2AhBov9FgXpkTrYppjA5NSi6qh054YAFKzpERmv5+DBsuJmqAKmVe
-	 hvPHmSmvjgCoL7zh96Jr5XCDXKorPGhdEOKDqSHi/52cxd269aKpDzl9JtAZHj5Kr3rAN
-	 1i21sAuc3X7uV+FwwYR/oEK3h3iLNCtLiLzUIEbaTf5Yf9/5PJ593pDmVy38U9GhqSAJM
-	 2NKFMIHqOfKrBzp++GYRhVn6M34LYkr6BWufbU81UnJUXPs+h1xneuSjBZPdOcZQRUZBC
-	 F1bUWVUpYlGGGueDr+HNyE2MovTl9G3zzHQsDPG/3lAN9RztxJ3WGriK3nMOuLteNlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793193992;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=nGV8TGo/yLZr4o9PiqDwm5LBW5oZMSj/CX19OZeK0Do=;
+	b=o6fC5ta+cxVpT+Zb6Fwwp89AuDGK8geI7zkOoRIiBmVWbgHFtrw6QBI5i9gtGPp3rrKp
+	 eKf/dE6vvM6SXPpIcnJnFBeGX1Q7glkJHNRhZ0HmjjI5cvRncbTgjj6+N94B/wv/sKELU
+	 14VXAILVnb+RX6lz8wlAi6yEECzJSBSkJLpmX93t4rf1Q2ZN5qlEXGwaYzbXePXYU8Mzw
+	 9iejwmXQYGaZa2VUoQPmirsRffRYC2wyfKQJXupsfKPdhl+PqUUk8Ox+Eur4OFqLRw1Bc
+	 +qePCMt/B+e+1OqBGziPCwWhEcPeamemWhmB07SWmrHXv5sv+3MSdaHEZ2e7ot5uz0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NhoVazCk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=shutemov.name;
+	spf=pass smtp.mailfrom=shutemov.name;
+	dkim=pass header.d=shutemov.name header.i=@shutemov.name header.a=rsa-sha256 header.s=fm1 header.b=gy8OenAF;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=H8GnFBEZ;
+	arc=none smtp.remote-ip=202.12.124.138
+Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4180606A31A
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD615606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:26:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD615606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NhoVazCk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9868B1F01828;
-	Wed, 28 Oct 2026 13:04:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793192689;
-	bh=OG80Mz0mVm49EyuyKHOkJqtYHLMvKooWxYEt+ri6Okc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NhoVazCkHOBZd/Zh8WtWlntaIO9ino1lTyefSK8Dzb4X7rZBNS7fhkNVtdGcP7Vdb
-	 cGNbg6lFcEZvFjT9yMlCTwP0SqOF9qq5NhXW5cvhPl0xIwEr/6L1LkNZ/uQXf4aKoi
-	 clPXr9aGTTc3EyDb+CotvlY11YlESdSO1VdrbdyIfTAyysBgktMbUkrEUpSh9IMlcM
-	 ftZdaz6ql75fiVG+RctbuKjhXW5zisfa9P6A7RWIlUDFmg1y4qEYh9gGrGcv24aiMY
-	 RQJ+Uor7BCdHWg/Ja0NxSTpMLPcpXq6FVL+09fkmcCDKK41pgGMTScRqAMVA7WiXTd
-	 C1UvOifI78Avg==
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 72805198003A;
-	Wed, 28 Oct 2026 09:04:41 -0400 (EDT)
+	dkim=pass (2048-bit key, unprotected) header.d=shutemov.name header.i=@shutemov.name header.a=rsa-sha256 header.s=fm1 header.b=gy8OenAF;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=H8GnFBEZ
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailflow.stl.internal (Postfix) with ESMTP id E10FD1301F14
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 09:26:29 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Wed, 28 Oct 2026 09:04:46 -0400
-X-ME-Sender: <xms:6PLhamR2N2SYNNuW2COGtT0iyhIuZN4Ab6M11IdWYpzZuKhsU46euQ>
-    <xme:6PLhasO4PXs2DpvcsOJdlR4DUwcFplQftBYqhk86Injx7DrJH78rj0Flf6xhD1ZCG
-    9pRgr7WmxxhEKvC9jS3FNwkDCbgMXER2Q_-Oi7X5VYg422dDXLURdp2>
-X-ME-Received: <xmr:6PLhalRzbQegRW9_6wGQEi1w56Rek9Y-7oRBd7AXEqBOGSgslElXkkEZ0hw>
-X-ME-Proxy-Cause: dmFkZTFg4m4oPEAUf0wKUWw/Iv3SvfDuV2dwoufosxi56rG8rE3yzXkDOL9mHtdMD5t3xb
-    TNtQvdWPVpliQZzMEq2j9Gt/Qeqa/rF77vTyxnTf5UOLPNJ2zUCh17VsnOcEYbxGgk6pd/
-    jnrFGdaKttqtWNKjNbixKC92UE8SCbRpRx0WxGiIqSl0J0ICk0JQhy9Sr/LMCk3/IVcW/o
-    bCjLH09OVr/VQlaboh+GTF0eV9P0WsRQ0NN8dvTtbJ5CULwJ3YspX58BzjPnKc4esZY0AE
-    vCO/2EXsD9kJV70LTbLoWjGuNnwDImFpXgd/qrFbj8lz7uaYEYKynkoZbbntZlYoJ2cVe9
-    /+rhqV/xdrC6ND9aiGvuSZn+fk+lMFKBk+CwBAGjoY66y4uTs5oqVkdwtiVpN3jnfufyiw
-    mbFGB54MLhrD1QUgxn90nVffgd8oQRT4PZ2d0Cv8SF1Gpgx6GZU5qUwdlixKbbdcCnstPy
-    C4OiiGs/7AHNy17plPHaquUuUuXG0T7RKsstw38S2VOjByMTyHT12LhV9xiy9nSaBbtkzo
-    eBHrVxgrtsC+JoLewb5t0X58mNTZctuMyI/X+JJS417uckswZSke7odEKVKiXLKSFCGJgN
-    lxiRKVDKgquvVnW9gYMK5Q2ompqZeG5/mSl+cviBwf32c/V8SUzaJThtISOA
-X-ME-Proxy: <xmx:6PLhaiC6UtU4qiOKsaD5z32WpUxwn9JqWMWZSp2POMwzX3Gff5sviw>
-    <xmx:6PLhau5rgYZr77ak_O9wBERlqC7gG-5MjSAFZcS46YIGK_q8Pomf4g>
-    <xmx:6PLhanADBjgOZwiVxGQ_V1IaXvAzSFbWN577V2Cq37A223MQNBj2kg>
-    <xmx:6PLhaicpZIf6CfrEn_5aKXq1MPBLbhnnSSAvw380Z41uC6bjcbw0yw>
-    <xmx:6fLhaquilv7jS-EmMG921CB-BsfpaPFMfHQ-RZ4zKq83ZgdvbLzPWKgp>
-Feedback-ID: i10464835:Fastmail
+  by phl-compute-03.internal (MEProxy); Wed, 28 Oct 2026 09:26:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1793193986; x=1793201186; bh=nGV8TGo/yL
+	Zr4o9PiqDwm5LBW5oZMSj/CX19OZeK0Do=; b=gy8OenAFMLHfaZG0qmRFdJB67l
+	2fdnIqzhzrXbNNxQwblZ6fJC/9T3uIZpJVPeVkYlSlSrwr2HmVyg7+nixwLiNTZy
+	m+lOrTOcbrjqrXxD4J8Su0i4QF8hn56tFUJs/T/w/G9uUaqkeah42XO4glWc7aZC
+	5qS2fA+F6MLR4FEE3cKDHbbgdCB4TBj/NvL0JeXjZyj6HED78UMY4bR+3lieqR4U
+	yD5zrL2/WurM8KF8xvTIFukBwNilVrnqjyteq/Tac11pYShlDy0eMcb7sihS7EcY
+	MllQAm5tGQuUylHSBQxU/2Bxavc4F3xM/0DXCjT6Ua/O2GwUqKrBuLhqFvcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1793193986; x=1793201186; bh=nGV8TGo/yLZr4o9PiqDwm5LBW5oZMSj/CX1
+	9OZeK0Do=; b=H8GnFBEZYw4ImYs4/EgX41yMD2bVchofdDp5MgKLd7TDbqo/uqp
+	YYFsgRUXKR5BZTKIrQZ42ASDrpoYoffMP9yWHZV8Hf0wJKMmbfkRTX8ePRaTagsL
+	ihy+vQh/aebhd70bPT2OaUBq3tOSt901l4j/ENCwyzfvmMnSaqscaYhUtIoHxNwh
+	GRRB+3QaILezQc4gyBhlGi8vDhaK4FoeX2HHrO+k5EkRY6J4iCT8YTzzTqa4Nrki
+	/nYmsNWQTufXvPOASD0/Vc/TVEhiV1p6TcjrZsIOAHMRLs1vHpO8PdfARTaTiKv9
+	BQAQs+a11S0Jle1pzWUv14AgfUXfMqRFpWA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=shutemov.name a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793193986; d=shutemov.name;
+	mf=PGtpcmlsbEBzaHV0ZW1vdi5uYW1lPg==;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:z/pEvfymN9x4mHC9fuWhOBpZOk/Rwjn6GSCMMEss98PtElD
+	2hcsHqKHSZwAR/MxoWp8lOf8UhM9ciBo2ckSJP2iMKoGPRnlYhKqwbBP9QzJEK9x
+	Rb3f90IArdGBAzHIXFkqLWtoyO5neqls4FHknxSAFBiMxuxsWUUgJAVKP9EDsbqf
+	zElrw+RglcBQeDsWkflmrdLL08mQpEcoX5jLpNgrZ1Jn9ZWHlEgZsIYqGF+pgDsM
+	EHhsUH1VBFxayndcA4u8phWhiIHKAaSSo5NpGoyOAfDks1Vdro/7pxH9E9ZU9DGW
+	vySMnQplj6eouAJ+Ml81AfFtqJ556choJ+ymteA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:OA/Jt433qooHZMN1h1WfoAm++DE0cH2Dg90+cuGoGF0=:ry0dPA1lG7EjfUdotOKwWx/qimPuaUA0TcFFKTFqWn4=;
+X-ME-Sender: <xms:AfjhatVj2es6gkQDMYQSgr9nxnbON-bIYFOsUIt37tagNRyuhwXm9Q>
+    <xme:AfjhaoGHWCR8fomC0IqSeRFAEWFbBKJnCKrOAfDp7VV62yKXdXHI6Th7JE8cDZCyb
+    HNvoQyqIPqVQkeARlQ_2a6odwsaiNCfaip38ojLX4wTk4NYEMtzARg>
+X-ME-Received: <xmr:AfjhamU1gRIgp1j7PumnllJnE-T69J7QMo2nhORsgGaGgqrJRxqUWrfyq3I>
+X-ME-Proxy-Cause: dmFkZTEBob7BBdDUpiR/GngnoqTsMBf2/lBIU/4HIblrHHKKO1LG8nWmV+7kthh8R/a2+K
+    vcfJ3uMRW+8EZo1Is4k2ufyPCCwrsPei6dHydg9OvN+DJ9ptNt4hF/42xgm86G3vfDFHFj
+    rdodipbfc74DZ5B354ocfR6zFiENC1woBoZk1x/ZFax9UASuUX/LRAr4Qoo7LtIuZAV8VH
+    OztBs+qrN3d8zQvSyiTswcoP/a8mprmxxZ/Wzc/DE2pxN1fA2dga3xnGCDSCF7IiQoJS3C
+    B9pIX8YIbUTKmafQ4a6iV/l7Ku/n4maIj2OlC3uit0Ir3lO1BxAO7Hfq2OD9EQ9EOO0ljG
+    B4Q3IRTbmCFH2ma40rgv4JCOmdm+r8iEJ6icf2+NG2H6lOA/Ax4QrzuN2phS+JzcCTn9E/
+    kLVAnQI4wjHgFI2u7cS3K+U76cFQfnfRsJEtk4k5nLoK+xaEVpCg8x9dxO3DXiIQTABV/r
+    XiBZGg41Qbn9j23Fk4tRQviTsR+xLuH+RiCgV60VFsQ5URba42Yhm7FI9epUrEYXDKYdO/
+    nDkGBnLdaj2XXiW4bsemjDHZlRNY5u2M7ZyIE8HioffVyz8YblTM4a1CyIMMTrYtNIEUEI
+    cTQ9jIRCDK8BNbXYM1vpt7b5C62QKRUgZGqyoOOYaMHzf6rPuK+xZN2MmRSw
+X-ME-Proxy: <xmx:AfjhajBBheFrS7CaCUtr6xJEUuZdFR4f0RoSMw1N3bD-YtO15xUe4A>
+    <xmx:Afjhav0kTEtLGRfMbaAhFlI8SghYxSexJbZJf_j1gEOAR1c0M89G2A>
+    <xmx:AfjharRkGw49QdBD_N4SdpyevUijtPGNurC0nUexAALVMuotUFlC2w>
+    <xmx:AfjhakYRy4M27O9Is9nnt_U7V-j5DomIw2ZtZr2732YsXq13Fp1Fxw>
+    <xmx:Avjhag5tmHV-eZkrvxuU6XGq8oClFUrtxYsrXKOXtWHKbZUb5YanxnFJ>
+Feedback-ID: ie3994620:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Oct 2026 09:04:39 -0400 (EDT)
-Date: Wed, 28 Oct 2026 13:04:38 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
-	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
-Message-ID: <auHxpuEHrpkvSFFi@thinkstation>
-References: <f97a8d33-50b2-4a86-8381-ee840cdfa2f9@kernel.org>
- <20261027110028.GH2668564@noisy.programming.kicks-ass.net>
- <auCKv_omLGRc6wv2@thinkstation>
- <f3f3aca9-bdb7-4aec-9099-9fb63a60e61d@kernel.org>
- <auCZFckDfBMrlfxV@thinkstation>
- <070DDE5C-2183-4A8B-AC2D-891CAE15E581@linux.dev>
- <d7a634b6-8668-4753-8bfc-e9334dde705e@kernel.org>
- <4A32F5E6-977D-4720-8723-B19AFBC08FCF@linux.dev>
- <auDkbDlgSZxqlk2G@thinkstation>
- <7cb3dd91-f518-49b6-b311-9ec807b3c63b@linux.dev>
+ 28 Oct 2026 09:26:25 -0400 (EDT)
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@kernel.org>
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Frank van der Linden <fvdl@google.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	kernel-team@meta.com,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] mm/hugetlb_vmemmap: map the shared tail page writable
+Date: Wed, 28 Oct 2026 13:26:21 +0000
+Message-ID: <20261028132623.2560146-1-kirill@shutemov.name>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,27 +140,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7cb3dd91-f518-49b6-b311-9ec807b3c63b@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 10:38:22AM +0800, Muchun Song wrote:
-> > Bootmem folios optimized in early boot get their tails mapped writable
-> > and write protected later.  Drop the write protect step.
-> 
-> For bootmem folios, I don't think the RO mapping should be removed,
-> because we are in the initialization stage of struct page.
-> No one should touch those pages at this point; otherwise, they could
-> encounter uninitialized struct page as well. This assumes no race
-> exists during early boot.
-> 
-> Since such a problem does not exist during the boot stage, why should
-> we give up the protection that RO provides?
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 
-Agreed. Nothing does a lockless get on bootmem folios before hugetlb
-takes them, so they can stay RO.
+page_ref_add_unless_zero() reads the refcount and then updates it with
+a cmpxchg.  A lockless get, such as a page cache lookup or a PFN
+scanner, can read a non-zero refcount from a page that is then freed
+and reused as a hugetlb tail page.  If HVO remaps its struct page to
+the shared tail page in between, the cmpxchg writes to read-only
+vmemmap:
 
-I will keep the pre-HVO write-protect and post the patch.
+    CPU0 (lockless get)               CPU1
+    c = atomic_read(&page->_refcount)
+                                      page freed
+                                      page allocated as a hugetlb tail
+                                      HVO remaps the struct page RO
+    try_cmpxchg(&page->_refcount, &c, c + 1)
+      -> write fault on read-only vmemmap
 
+The refcount is zero by then and the compare fails, but a
+compare-and-swap instruction needs write access whether or not it
+succeeds.  The kernel oopses when hugetlb pages are allocated at
+runtime with HVO enabled while a lockless get races with it.
+
+Commit bd225530a4c7 ("mm/hugetlb_vmemmap: fix race with speculative PFN
+walkers") closed the window with RCU on both sides.  The RCU was removed
+together with fake heads, on the wrong belief that it was only needed
+for them.
+
+Map the shared tail page writable instead of restoring the RCU.  Every
+struct page on it is a tail with a zero refcount, so a late cmpxchg
+fails and leaves the page unchanged.  RCU would put rcu_read_lock()
+back around every get and synchronize_rcu() back into hugetlb
+allocation and freeing.
+
+The cost is the protection against stray writes to tail struct pages.
+The shared page is shared by all hugetlb folios of the same order in
+the zone, so such a write now corrupts all of them instead of oopsing.
+
+Bootmem folios optimized when the memmap is set up keep their tails
+read-only.  Nothing does a lockless get on them before hugetlb takes
+them over.
+
+Fixes: 32c440d67e6c ("mm: drop fake head checks")
+Fixes: 01b1d0ffb6f7 ("hugetlb: remove VMEMMAP_SYNCHRONIZE_RCU")
+Reported-by: David Hildenbrand (Arm) <david@kernel.org>
+Closes: https://lore.kernel.org/r/ebc7bde1-f52e-4da8-b16f-822d6c0a4d74@kernel.org
+Cc: stable@vger.kernel.org
+Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+---
+Changes since the draft posted inline in the report thread [1]:
+ - keep the pre-HVO write-protect for bootmem folios (Muchun);
+ - describe the fault in arch-agnostic terms (Muchun).
+
+[1] https://lore.kernel.org/r/auDkbDlgSZxqlk2G@thinkstation
+
+ Documentation/mm/vmemmap_dedup.rst | 15 +++++++++++++--
+ mm/hugetlb_vmemmap.c               |  8 +++++---
+ 2 files changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
+index 9fa8642ded48..66d58fbea5b1 100644
+--- a/Documentation/mm/vmemmap_dedup.rst
++++ b/Documentation/mm/vmemmap_dedup.rst
+@@ -131,8 +131,19 @@ pages of ``struct page`` (page 1 to page 7) are tail pages.
+ The optimization is only applied when the size of the struct page is a power
+ of 2. In this case, all tail pages of the same order are identical. See
+ compound_head(). This allows us to remap the tail pages of the vmemmap to a
+-shared, read-only page. The head page is also remapped to a new page. This
+-allows the original vmemmap pages to be freed.
++shared page. The head page is also remapped to a new page. This allows the
++original vmemmap pages to be freed.
++
++The shared page is mapped writable. A lockless get of a page reference can
++read a non-zero refcount before the remap and attempt its atomic update
++after it. The refcount of a tail page is zero, so the update fails without
++changing the page. Nothing else may write to the shared page: it is shared
++by all HugeTLB pages of the same size in the zone, and a stray write would
++corrupt all of them.
++
++HugeTLB pages whose vmemmap is optimized when the memmap is first set up at
++boot keep a read-only mapping of the shared page. Nothing can do a lockless
++get on them before they are handed to HugeTLB.
+ 
+ Here is how things look after remapping::
+ 
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 917db0984143..8e5981888937 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -222,10 +222,12 @@ static void vmemmap_remap_pte(pte_t *pte, unsigned long addr,
+ 		VM_WARN_ON_ONCE(!PageTail((const struct page *)addr));
+ 
+ 		/*
+-		 * Remap the tail pages as read-only to catch illegal write
+-		 * operation to the tail pages.
++		 * Map the shared tail page writable. A lockless get that read
++		 * a non-zero refcount before the remap can still do its
++		 * cmpxchg after it. The refcount is zero, so the cmpxchg
++		 * fails and leaves the page unchanged.
+ 		 */
+-		entry = mk_pte(walk->vmemmap_tail, PAGE_KERNEL_RO);
++		entry = mk_pte(walk->vmemmap_tail, PAGE_KERNEL);
+ 	}
+ 
+ 	list_add(&page->lru, walk->vmemmap_pages);
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.54.0
+
