@@ -1,92 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793194497;
-	b=CAe7nnvoxerlWqtn6je8FGJDMpJFiRmugWMXkmclHfnBkwqbgTwtmBdKRLCztexuhzwh
-	 ud4hSxbm/YoAi6hPCGTbGmQ9vqR0eVJC3hsCZP+Q6J/Rjj2Ru9yKixbB1m9G8UZyL1Web
-	 DXpJSvuJyVXIcJUu1BEV7aGSQ7D16CWmIgMPwljScj8IquLhsCaylyChWtqLJrbjWjXzt
-	 JHqaBsX2rT8hommIyEz28x/M72KwxaoBOQRHCTBwr9pAW/fWGnmWxr5hRFIP4ZGh+34Mm
-	 1x6msOnH9bM2r7kpySGSjxAqoGznQLDZT45aOPBTxGj+Jq23mU/bAU/jBPfpDOHmsYg==
+	t=1793194699;
+	b=Jx3ky9URkayud8dPiKh6s5t2Is2Rs6vSKRxnF49JjE6D24akp/z6TS8761CPy9mqFzhy
+	 Y+NeC1vBuPzOa5c4gmgMhHHK6GOJWohmAl2yiec35w5umKcpcxcRLDeCNndPNhbBvWtRs
+	 K8zzMefaBqsTSLPM6rrM6TKVCCtl2VvD1jV8T96KRHlbsP9Jlr5ZbnUyxY71xm2EQQD7L
+	 5Dnbdo1MJx20OOrgwy2CjKSexPPxBKMDoLj6Z6J4vIlmnjoxMIrMkLfjRJ+GBqwdyPxVt
+	 cFXOjRkdOx9KmKufMCiD9WFxKMPx+r20R2DA16xtCxHOrXadxPL/mCUTQSo2qMUcNgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793194497;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=K5sU8ZAJRz6gFhM4gDWxCHu2kvyqTC/PTTWhoAieCGY=;
-	b=zvz2UrUH8e2e/TZJ3eFZ3Y+aFSccgRLTqSKJJfiz01mtZ4xDpSbUrAtFQKXyG3/PS8pE
-	 K5OPGuezyG+6eKoVN6C/yCvp4AaxsjFjp2z2+hQ3ZUEBEVoZShMPWF1LUErzFf776dpw5
-	 CgRZEqzWfln7AOB/6DN8+8LHUXOrJc0VZmoRZx/jjWvwFBDu5c2Kd4blVzAS1+c1JD6zv
-	 tyoeMJSWMomuCNzmP3zvckVeowHSi3yJxcOQ2vK5dgf3/83yl6msvZLEF+axMnJgS0CjJ
-	 RPEqw+yWod0GfyiWjYL9pKvIHLcrNwnCm7c3CO4O/IynqnQpxkTeFSLjAsXTsa5GBWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194699;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=/mpEE39JA9/80m6032FRQgwoN+AByKF2xUG7co+uHQE=;
+	b=O9cOai+2FB+8u0BqXETJXyQqEjtYp6HhbEqMq6ac0r7DmDHxkUVX8j4ueTxShglbbHNR
+	 sPNdon/iTUB/vlIcAKTgi5mZ5Kb/ExiHs/aLjOHw9SQN0rGViNGN8XnsbKCTSRjyxVkF/
+	 SJQPtuJKkMPoqAIlelG9hxiLURMmhMEXFjSRwcGc92/izXQO4cvh3VJf7xLkwsrlBW5a3
+	 Zwm6WeFKhy5x9Po4w0omSZmRGUC15yR5Wsjma7vr4sVSGqIedih4bGlq0Gd5u4zsBq1Jr
+	 kpXiw79kKTe11hf/JPCuPsPjtSvuWwXUOh+We1uKSOkVa63Vo5bkpln1m6ISTxDQ0Ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=WQTo7RRj;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="kybmvRQ/";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=djHwWfUg;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7A6606A31A;
-	Wed, 28 Oct 2026 13:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC7A6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7007606A31F
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:38:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7007606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=WQTo7RRj
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=K5sU8ZAJRz6gFhM4gDWxCHu2kvyqTC/PTTWhoAieCGY=; b=WQTo7RRjUws4wLzC6TxpAmx57w
-	qcq5fCMagtfKad2FmcZhLNiyNmxBTF8/cvyU5FhHuyznlY2ota9MN31xYDxFIv2Erfp4aIicHdOEl
-	E2jxLk1iu6UVgBFuNZDHQbP8i5O71tuJIGJbKRCf70a3PNnSQKK+sWlOzaRMzfKYFkbHgL5lDL9Vp
-	ZvXgetdmOXoLVKHD/1ZDYuRo7eMc1PaJvukhM56Ia68PICeBLH2PimR6BGNHj7GsDJbTI86FtVG5t
-	W0wLnsMXdRptmezamho6yQr8A3y96kAxjX7Nk07pkHXtbr6zoq0TtEiKMjF427WJnVaamNRv1dQ0Y
-	/t33+Xow==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xM3ne-0000000G0rh-0VGE;
-	Wed, 28 Oct 2026 13:34:43 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E42F1300DB9; Wed, 28 Oct 2026 14:34:39 +0100 (CET)
-Date: Wed, 28 Oct 2026 14:34:39 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>,
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	kernel-team@meta.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCHv7 13/18] mm: Drop fake head checks
-Message-ID: <20261028133439.GK2668804@noisy.programming.kicks-ass.net>
-References: <auCKv_omLGRc6wv2@thinkstation>
- <f3f3aca9-bdb7-4aec-9099-9fb63a60e61d@kernel.org>
- <auCZFckDfBMrlfxV@thinkstation>
- <070DDE5C-2183-4A8B-AC2D-891CAE15E581@linux.dev>
- <d7a634b6-8668-4753-8bfc-e9334dde705e@kernel.org>
- <4A32F5E6-977D-4720-8723-B19AFBC08FCF@linux.dev>
- <auDkbDlgSZxqlk2G@thinkstation>
- <7cb3dd91-f518-49b6-b311-9ec807b3c63b@linux.dev>
- <20261028080635.GD2668804@noisy.programming.kicks-ass.net>
- <auHxIORufMbldrBr@thinkstation>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kybmvRQ/;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=djHwWfUg
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SDIHFN3916334
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:38:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/mpEE39JA9/80m6032FRQgwoN+AByKF2xUG7co+uHQE=; b=kybmvRQ/e8UryMBc
+	WTenpDPQ1WXj2/WXl6n6Bq5zRTSaoMiIq1oHOfYCQs2rjN60Az7tYyL1caLBWoyS
+	5uqiCf81wrK1zFnWSOQIieq+99Mp/7YDDAtU0NWqbMGq/yGOIG9i+KiL8yiR4GXi
+	X72Lp3p5GyAH7Hd+atC3W3CIHzw89ogn8shdErygiC+Cx3+/ZCnIsh+o3RgASQYw
+	nA5ake7yV87wcaPewH//Urw/AUqpqUwOlaJfT/+j3Xs0s89eDvv2Z5ivMRoET1iX
+	xdHmIFy9DRmjwRxZPsUiPxJtNp+hFSemWqCalsL0lyhFkkCT/d5doiVtaFhagvjK
+	fB74Bg==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkhtng2qc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:38:17 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5eae4d7ebd2so87785e0c.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793194697; x=1793799497; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/mpEE39JA9/80m6032FRQgwoN+AByKF2xUG7co+uHQE=;
+        b=djHwWfUg7mpzu1uq6nHEi2OX/T89tBmMQmOfLP8QKR4P9N1VvL5X46Bo2yMkSmQvyF
+         E+lLCfzhIe1dkpwgf4pdm1irvUr9+x6OVG+KPfmYaE+q/x468oFI96WGhtGLdRe8fDz8
+         YGXT5ODIgq/ncLSNHLAEJjqMssWBDnTplw/oNePBO5sXq+sji9xkpfucYH/ihqSA7Etu
+         y0qyC6DwlQVHM4CbCgApVUb5Y2amtDvHw1u/Y5BmvCKIuHv9vS9jXiYVUfFlq+3GtJ4j
+         cGyD0/e1GbMOhB54JrkGghtvqZ1+ru4qF2B18UknNyanPGimm1B1p1/PdXVU3GNM76Ni
+         KkPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793194697; x=1793799497;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/mpEE39JA9/80m6032FRQgwoN+AByKF2xUG7co+uHQE=;
+        b=LVfWtFl0XDpVMMxd19+Xlbpl4Als0mQ3Dq0V5C8nwoBpqc4zK6535Wvyvev5aKgBAd
+         fK6WUZf2ohHbu/oYHtXaVS1QUB3b331pD8wkNHuNq+dFt3uLrrD2wvBhbFw2mCH9NOo8
+         iZOXmKO2PWi3MkbR5j3hmSaWvTSixCFA+ih3Zndd52aRQZ1txfrElC3z8TDAuIxf+6Mo
+         4d0wCFTdPNZZd4evDhjWJTWm3k1v/OwE0hW+5pKlz4vpgo6urweuOiWyrUBfMatu1kuX
+         pLobHQnD591BaUKhr8KO1p4/ha5p3Z5FrPX+LtqoAAfeFWNNK1OSva/w+TBWS0hGKb86
+         oRkA==
+X-Forwarded-Encrypted: i=1; AKwUvBws2+nTl4ZbY+XmaH66qvIALf+0Je/chVwWosZtRT1q6P2CFt7Wb2YWtt+SG63kRSsRxavZJIdaT00=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKWQnBlHPwVxdrcsTXLlM5sQV5Lvo+aSW2RJCD5hij/zHgSRX5D
+	FNicJsBX0oqJQ9betiGVUf1PPUarPoYVoJUH4/+om++/4vXJ/rny0oChnUqTT/iGNoWlpzCC/i2
+	jQRskJUvw7xSreK58kO81Qw7k1nvOvf7QIHa0SbMLWlcROqDvwy9FSKp23Kf7wL4=
+X-Gm-Gg: AYBFou1HHY+NnoIYxeoOOzC+oQaWJ42gRPEUsY/26i2VQMPMSa5O7/KLz/x4vSFjpOc
+	6aLDYT5wpIY2ggCJdGEXGWAKV/oqNTqgINTL8+9vUIbUvpMY27erwyBXI74J8aGrI4NFWqC/RUp
+	CU82DrcNp2RyUK7MOi16fnE7in1U4Il7Hy79DVYcGRE/5eVO42avlr8NmR5/UeXm2tyIU30tT3g
+	/TkvuL8yKzkMeGzXW/ahsjVmqGcZHLxjZzxbBeWd2MrakPrQKEkITj97j4lW/uzzykaxkvcua/j
+	Z9NYFwqUsn8tC+bu+mjApV/2j7nd4A8Ip5Ax2U4aowtKuGtqa+G4rycBpRj00+TRs4PCaFvIAJ1
+	9cRvvvyVGi+aajgfsBNG27UU490e9zSaApBoFoUHdX/mdSUyT3/tLN4PG4LfBLbakhgLOZNc=
+X-Received: by 2002:a05:6123:553:20b0:5ea:af6f:16e7 with SMTP id 71dfb90a1353d-5ec4cc714a5mr1020158e0c.4.1793194696811;
+        Wed, 28 Oct 2026 06:38:16 -0700 (PDT)
+X-Received: by 2002:a05:6123:553:20b0:5ea:af6f:16e7 with SMTP id 71dfb90a1353d-5ec4cc714a5mr1020137e0c.4.1793194696325;
+        Wed, 28 Oct 2026 06:38:16 -0700 (PDT)
+Received: from [192.168.226.26] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ac709f3d9esm30451071fa.26.2026.10.28.06.38.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 06:38:15 -0700 (PDT)
+Message-ID: <0bbe4db6-0c47-41e3-838c-37d880869ea9@oss.qualcomm.com>
+Date: Wed, 28 Oct 2026 14:38:12 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,65 +115,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auHxIORufMbldrBr@thinkstation>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 22/23] arm64: dts: qcom: glymur-crd: add WSA speaker
+ protection VI feedback
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261023171433.820092-23-srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20261023171433.820092-23-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: tAlFHfW6x7UPABXCdPeiYeuyXmrI6n2Y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA1NCBTYWx0ZWRfX8v0fn1Ux4P+N
+ wPZz3Xun0/Q/ectMwLlYN9HvwlFhCtyBWCQLz4a0VZwKrzMW2qxpNzIE+pAVV9ZawdNtQkI/mX9
+ /HGjpW/qTfigLn/3CyI2sE1IWNI2ccit7RfGKiWKYcfa5QQ/N1SZZTzk2JeFgDyvctNcL30zASo
+ MYkh9Cr2yvx7WU66reUbFEsWSyO2jywPMHKUOoVcFlBCYMRfzpyM/Ak/YHAy01PrATASlO3XVmJ
+ 6c6uxE0qUu3SIrRO/fli3DakIp/sZ1qLpWnVrmC0cedROXv5IR9K9hlVzsH3VcHKhNOaVKB7j8L
+ +oqsU6CEukLuRzJvrhoOTYZ+EXodqnimfO3IKfBsQtondQB69/Opt8P4UwJsCAMMiZogbFxTEJJ
+ XWIVCmEIIvpE3pKHlvZXny4npId3lslyQEhG6kVj8Y15TMSNbu2uW+MeK6GSMHXE00pzSbPX0CS
+ eLYLbgrE7iztMOt/4qw==
+X-Authority-Analysis: v=2.4 cv=c/A+0h9l c=1 sm=1 tr=0 ts=6ae1fac9 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=7ERdoP64vwSu8KGZOMAA:9 a=QEXdDO2ut3YA:10
+ a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-ORIG-GUID: tAlFHfW6x7UPABXCdPeiYeuyXmrI6n2Y
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA1NCBTYWx0ZWRfX2IUf9TZwCYgC
+ 2/MmqnlflSQrM/uPHH7K5xVNn1LufQUtSQHN4fYEySC6gaTgwZSUckEucIFHbrnJr9xH+UTMmkz
+ VnsLQbejUzulUpW2meJYxixAuuYT8+Q=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280054
 
-On Wed, Oct 28, 2026 at 12:58:11PM +0000, Kiryl Shutsemau wrote:
-> On Wed, Oct 28, 2026 at 09:06:35AM +0100, Peter Zijlstra wrote:
-> > On Wed, Oct 28, 2026 at 10:38:22AM +0800, Muchun Song wrote:
-> > > 
-> > > 
-> > > On 2026/10/28 01:51, Kiryl Shutsemau wrote:
-> > > > On Tue, Oct 27, 2026 at 10:03:54PM +0800, Muchun Song wrote:
-> > > > > Therefore, I am kind of leaning towards removing the RO protection
-> > > > > and restoring RW permissions to solve the race.
-> > > > Okay, what about this:
-> > > > 
-> > > >  From e23ab850837b53cc79d57d58f1cfb4266e745c3d Mon Sep 17 00:00:00 2001
-> > > > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-> > > > Date: Tue, 27 Oct 2026 17:23:47 +0000
-> > > > Subject: [PATCH] mm/hugetlb_vmemmap: map the shared tail page writable
-> > > > 
-> > > > page_ref_add_unless_zero() reads the refcount and then updates it with
-> > > > a cmpxchg.  A lockless get, such as a page cache lookup or a PFN
-> > > > scanner, can read a non-zero refcount from a page that is then freed
-> > > > and reused as a hugetlb tail page.  If HVO remaps its struct page to
-> > > > the shared tail page in between, the cmpxchg writes to read-only
-> > > > vmemmap:
-> > > > 
-> > > >      CPU0 (lockless get)               CPU1
-> > > >      c = atomic_read(&page->_refcount)
-> > > >                                        page freed
-> > > >                                        page allocated as a hugetlb tail
-> > > >                                        HVO remaps the struct page RO
-> > > >      try_cmpxchg(&page->_refcount, &c, c + 1)
-> > > >        -> write fault on read-only vmemmap
-> > > > 
-> > > > The refcount is zero by then and the compare fails, but LOCK CMPXCHG on
-> > > > x86 writes anyway.  The kernel oopses when hugetlb pages are allocated
-> > > 
-> > > Is this an X86-specific issue? If not, I suggest a more generic
-> > > description.
-> > 
-> > AFAICT most architectures that implement single compare-and-swap
-> > instructions are affected, with the possible exception of s390.
-> > 
-> > That is, sparc, arm64-lse, riscv-Zacas, loonarch-amocas, openrisc (and
-> > ia64 for those people keeping the out-of-tree port alive) all require
-> > write protection to begin cmpxchg.
-> > 
-> > All the LL/SC architectures should be fine, they'll never get to the SC
-> > part.
+On 10/23/26 7:14 PM, Srinivas Kandagatla wrote:
+> From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 > 
-> Only architectures with HVO matter here: x86-64, riscv and loongarch.
-> arm64 has had it disabled since 060a2c92d1b6.
+> Add the V/I sense DAIs of the four WSA8845 speakers, the SoundWire VI
+> ports and the WSA macro VI capture DAIs to the WSA Playback link, for
+> speaker protection. The speakers now expose two DAIs, so give them a
+> '#sound-dai-cells' of 1 and address the playback DAI explicitly.
+> 
+> Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  arch/arm64/boot/dts/qcom/glymur-crd.dtsi | 29 ++++++++++++++++++------
+>  1 file changed, 22 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/glymur-crd.dtsi b/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
+> index 58158b51fe29..fddc76f59557 100644
+> --- a/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
+> @@ -256,11 +256,26 @@ cpu {
+>  				sound-dai = <&q6apmbedai WSA_CODEC_DMA_RX_0>;
+>  			};
+>  
+> +			/*
+> +			 * WSA SPKR playback-side codec DAIs plus the WSA
+> +			 * speaker-protection VI capture-side DAIs on both
+> +			 * WSA (left) and WSA2 (right) buses. One MM1
+> +			 * playback open brings up both chains via the
+> +			 * machine driver's multi_direction_codecs flag;
+> +			 * the SP<->SP_VI control link in the tplg handles
+> +			 * the DSP-side pairing.
+> +			 */
 
-Per that commit, could it be re-enabled now that its no longer marked RO?
+I think this part belongs in the commit message instead
 
-> riscv and loongarch implement atomic_fetch_add_unless() with LL/SC only,
-> no CAS variant, so they see the zero at the load. That leaves x86.
+Otherwise, do you think we could bind the speaker protection
+channels in the driver to avoid having to modify the DT?
 
-Ah yes, I only looked at the cmpxchg implementation rather than the
-fetch_add_unless :/
-
+Konrad
