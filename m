@@ -1,54 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793146510;
-	b=EBwCRmWvTZ8Dv7xw7PS6n5FfJvaQ4QsNUnVrFr0Yw2pxR519bvNBDQCZ97jcpcoZLbAx
-	 aZiWbWF8C1af9OZ8QqnFwlFFCJzd9KOn978Cfc6goiNufDVC1H1lH5fSZJUWAafcUK+Pn
-	 kf6/ssnv8FJX+i0WPU5uYwyVmJaURmUCJhkW5FngzUyS3dQ5P4Dzm80BC/lDyhW/VvEDO
-	 xWZcyccrwu+3W03xaeSmuA0iRqOcOb/yNMBoEYyCDo/FbUqL7aPUAOq1Ueq4a2DXYBJyc
-	 d09hzW+k0XcFM22piLd07764Vjvjk4P/48Dj6VK4tkkshHD9hAtOhMnxs2+H7MTFwWg==
+	t=1793146764;
+	b=Of2mopPgybk2vL+dfd0s1JrgNtqxDTROvL78JQ5M2eShL6PFuba+6s14LspcixaQXrkg
+	 imuezeyK6fbCAVKcvgLVDcYsg52MZVX7L7Qdh8t6Tx9Z15uthfPw4DgKab8HvUrKmOl61
+	 qpoHtuL+Kjy9Njg6K+pDaHk7yLK0wPL3hAxX3lylmGftYylyEaFx1td+D8gyL2RadEEQt
+	 MF9tunczfNuafBQtIv/fUs3Lor/syJMX46/+RlLS73DiggyKkVm8pjnv+SVTs/9sCkfco
+	 y3WcgFddAFCruu58u60Hm3IetYSPLdBPDqCUIDcX7kYjlSz+NNEsN9FVHBGdTYhPAfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793146510;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=bEXoySqE1E7wtC8saJF9swA1PomhW/MnVMsJoDe3ky0=;
-	b=g2Pt5vTP27K93FhWTMrD6UrW9sSuo2hA9t+a3HYtsU1tlCi6wwBpfaL/IG3LQ2vR2hKd
-	 4BpNBruraJSraQyU4YyDzIQ34T2MTQtCD6lJmvqhfEN/+PxAK54piWlCL5sDImGMWavKn
-	 YB2YDGEcoronNEl3nyih9qFTSrysW7mQme4tYWvI2tUuf9cNeL79QCqgxP57pXjCzTMkR
-	 jPS3fKl1io4m64rSGO3RfBUFnqeyKBEn+8QTmPG0bE5BvjrPYPSe0y1ZxjS1EfDjMJjCc
-	 +VP89/qUplTSbEZZTepBNHklPc68UQ4ImjLWSbhRj6ujNxKVLbGA6i1mqVr3kB+87xw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793146764;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=Of+Ihfq2JolsP7lQDuT/aMXMnMjzwRQu8EA+8gWaGVg=;
+	b=nMfd2/dUYenWmjdqoyRzPF+HqWQR3cDwxKsiBqfj3iIQoYfFrS3tdwz75BGj2Sz89rQ7
+	 aJCQnKI3/HEp4U2qhJjt9jAXcUtHhs+4PXPDHr/rVT9NdN9wcOrFPbObyg+bNK4nTc7AK
+	 AHR4x46QnG2nIQFhZuZ7FyZtDzYALSFHeHqA77W96qkRopA2lFoR5YRTsBND7FWTnZPlx
+	 V6CL81fqlqtTq1FCLVshZXFICF5KaDy8D07bK9VMxBR9cNIO75iRcxZDKDqKdW+Ti5XIO
+	 hL0hf4+wNvZVciDxIctRyQ9Cl0RQIgBeAa8pSAzljAwRLU7+Q+EjKkRzrPN1BFgtnlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GveICGRb;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SUj6Hq/E";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868D7606A31D
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 00:15:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 868D7606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80113606A31A;
+	Wed, 28 Oct 2026 00:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=GveICGRb
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=bEXoySqE1E7wtC8saJF9swA1PomhW/MnVMsJoDe3ky0=; b=GveICGRbR0uuGVF/FQBfg/an3K
-	UXNXNwtzLwtiU792ZHYSY2DcOJVWx4xsPxiOTs+0tOoQZpMiBHci8j3w8mZWVVoNFF64JmfvELZzX
-	4FnlZEo65EN/I0Ai9I17w/4R4OLJ25/SMVd2JgsdGvBIpKormZu3xygWJTbznihHFV9wJv8gIYfJ0
-	r77sH2457eHJ30V+J9rfij4s4OCLQrjop0/ebSDb0PXnOeZl3xjco9DfLxpt7U/mEbA24ikTRTxiz
-	qSmY0XtBWsdZZuBPjk7SsodekQqta9CNOOno7stgTpuDqco4HHlIAxslOvy3oFDDd5/xqsDMgGzvP
-	F3Iyfgow==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xLrJs-00000005ylQ-47dM;
-	Wed, 28 Oct 2026 00:15:09 +0000
-Message-ID: <87270a2f-de18-4174-95d7-6ab4e18f2d1b@infradead.org>
-Date: Tue, 27 Oct 2026 17:15:08 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SUj6Hq/E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62C51F01825;
+	Wed, 28 Oct 2026 00:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793146764;
+	bh=Of+Ihfq2JolsP7lQDuT/aMXMnMjzwRQu8EA+8gWaGVg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=SUj6Hq/E/BbsMuEPgwvTu+j59aaKTVRomAQqlezP6T5LfKJTaXDSIHye46Kac/A3j
+	 zhAIed35qXIE1rALmYpMIjVWkPi3TV/Qu5E1tJdkR8j36fIw7yeXUl+PosckFVvipq
+	 I3SmzaPG4nSarXEnDWZvJDI5Mzy7ZXolD3alEDUQ/KwZ8fnVjjeD9d9b0wbv8kLZWw
+	 U7ZBFjbBT4SbtHAa+2GKllC8fgxCjii9c/xVnELEzTky1JActGEE7AqeblKcDPYcs6
+	 Ri+2bWQqoQ1CTFN9sJzMx/xy64IJMKIyXleyk7nkibh4iFg1+o/+/Y0Z945UNCpLYP
+	 BE1r0CbrGGQ7Q==
+From: SJ Park <sj@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: SJ Park <sj@kernel.org>,
+	corbet@lwn.net,
+	damon@lists.linux.dev,
+	jm5905938@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 2/2] Docs/admin-guide/mm/damon/reclaim: rewrite complex parts
+Date: Tue, 27 Oct 2026 17:19:15 -0700
+Message-ID: <20261028001916.157488-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261027212345.2586628-2-manuelebnerli@mailbox.org>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,51 +65,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] Documentation: make admin guide version-neutral
-To: f1rul4yx <vargasgomezderequenadiego@gmail.com>, corbet@lwn.net
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-References: <924f3b3c-a5e4-4686-abf8-0d4e23183a2e@infradead.org>
- <20261027222216.71715-1-vargasgomezderequenadiego@gmail.com>
- <20261027222216.71715-2-vargasgomezderequenadiego@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261027222216.71715-2-vargasgomezderequenadiego@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Hello Manuel,
 
 
+On Tue, 27 Oct 2026 22:23:46 +0100 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-On 10/27/26 3:22 PM, f1rul4yx wrote:
-> Replace references to the 6.x series with version-neutral wording.
-> Clarify that normal stable patches apply to the base release and that
-> incremental stable patches are also available.
+> Rewrite complex sentences.
+
+Any special reason to keep this as a separated one?  I think it is ok to merge
+this into the first patch.
+
 > 
-> This change was prepared with AI assistance (OpenCode), which helped
-> identify the outdated references and draft replacement text. The htmldocs
-> build completed successfully on a separate test machine; checkpatch.pl and
-> git diff --check pass.
-> 
-> Signed-off-by: f1rul4yx <vargasgomezderequenadiego@gmail.com>
-
-I'll let Jon clarify regarding the S-o-b: line, but it may
-need some improvement. Documentation/process/submitting-patches.rst
-says:
-
-then you just add a line saying::
-
-	Signed-off-by: Random J Developer <random@developer.example.org>
-
-using a known identity (sorry, no anonymous contributions.)
-
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Suggested-by: Aveline Noir <jm5905938@gmail.com>
 > ---
->  Documentation/admin-guide/README.rst | 41 ++++++++++++++--------------
->  1 file changed, 20 insertions(+), 21 deletions(-)
+> Two more minor changes
+> @ 31
+> /s/attempts to pages out those/attempts to page out those/
+> @ 126
+> + 'is' to fix grammar
+> 
+>  .../admin-guide/mm/damon/reclaim.rst          | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+> index 0bab2299ea..033686f410 100644
+> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
+> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+> @@ -30,12 +30,13 @@ guests could mitigate this problem.
+>  How It Works?
+>  =============
+>  
+> -DAMON_RECLAIM finds memory regions that weren't accessed for specific time
+> -duration and page out.  To avoid it consuming too much CPU for the paging out
+> -operation, a speed limit can be configured.  Under the speed limit, it pages
+> -out memory regions that weren't accessed longer time first.  System
+> -administrators can also configure under what situation this scheme should
+> -automatically be activated and deactivated with three memory pressure watermarks.
+> +DAMON_RECLAIM identifies memory regions that have not been accessed for a
+> +specified period and attempts to page out those.  To avoid it consuming
+> +too much CPU for the paging out operation, a speed limit can be configured.
+> +Within the configured speed limit, it prioritizes regions that have been
+> +idle longer for reclamation.  System administrators can also configure under
+> +what situation this scheme should automatically be activated and deactivated
+> +with three memory pressure watermarks.
+>  
+>  Interface: Module Parameters
+>  ============================
+> @@ -125,8 +126,8 @@ quota_reset_interval_ms
+>  
+>  The time/size quota charge reset interval in milliseconds.
+>  
+> -The charge reset interval for the quota of time (quota_ms) and size
+> -(quota_sz).  That is, DAMON_RECLAIM does not try reclamation for more than
+> +The charge reset interval for the quota of time is quota_ms and for the quota of
+> +size is quota_sz.  That is, DAMON_RECLAIM does not try reclamation for more than
+>  quota_ms milliseconds or quota_sz bytes within quota_reset_interval_ms
+>  milliseconds.
 
-This README is quite out of date, but this is an improvement.
+I think the original sentence was not that confusing.  Also, this changes the
+nuance of the sentence?  What the sentence is saying is
+"quota_reset_interval_ms is the charge reset interval for ...".  If this was
+really confusing, maybe we can add "quota_reset_interval_ms is " part.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+But, I start feeling we might trying too much polishing...?
 
-thanks.
--- 
-~Randy
+>  
+> @@ -137,7 +138,7 @@ quota_mem_pressure_us
+>  
+>  Desired level of memory pressure-stall time in microseconds.
+>  
+> -While keeping the caps that are set by other quotas, DAMON_RECLAIM automatically
+> +While respecting the limits imposed by other quotas, DAMON_RECLAIM automatically
+>  increases and decreases the effective level of the quota aiming this level of
+>  memory pressure is incurred.  System-wide ``some`` memory PSI in microseconds
+>  per quota reset interval (``quota_reset_interval_ms``) is collected and
+
+I'm not sure if the original sentence was really difficult to understand.
+
+I'd prefer dropping this change.
+
+
+Thanks,
+SJ
+
+[...]
