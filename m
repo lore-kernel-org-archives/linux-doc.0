@@ -1,102 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793201041;
-	b=A+aAdvU31TfqF6jbQTTapir2IY20bOmsrgVYpZz4Bw4voQDN12S9exzY7F3CPLlSiwiN
-	 Gs4qx+Nn3/I6zE4FNQuJaEYW11Mkeec1ZNzok26C1RSowBBVa6khwCrV2p5K06NeYnnPq
-	 oV7sAg8vDwxpvnw+MtKexP6Q4B6crEoWsrCx6AYJAeUm5Wwp+VS41SdTsf7J7ZafPkVld
-	 g4Yu3PC/qwqGNdTjzq8gAWMpuuVkVwQj+JvMCqroW0xTOcfHAcVn2h4TYLXzuNZXb/mxh
-	 9W8246+jF0z6SvMMX9NLnrpNTqWJrqLN+NKqvfElcfq5ii8/BJxQ6aeQJwKoFqhBQpw==
+	t=1793201221;
+	b=TcdyKQkcBJ+wpUgkt/BdWYBxPZkkT1LrrkJr9OwXYcmjPLQu/nEIwzPhOX+kadF1SQU6
+	 fDBKMVWkzS4dK/A2dtwVtH66GkTBzoRDgk9h4cBqAkGEXlYBFmKNd6tQA8ZoB//Esu1Yp
+	 zXId60I7Xe4Gr2SqVHn/3C7Dcf5Pt92EQ6Jn01Xb6MBR5LKwR/H8vv6KyWLJUDku+990l
+	 q6VPueBMCgOqLu/B17y/R1drubZYlsMX35y6efScl/JHFsj2sNOCcsH3t/qXN/QAxz7r2
+	 JvkCnluuZ4wWMX1UAKS7Q5L+jdeLMAQ2MWM4ona1AUscZCUgexOAvRIV710evB17aRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793201041;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=2lKISFaBYtFQkl6whcZ+TLSbktmxJHBA6VayRzr31Z4=;
-	b=wro+SnjW2u9NjDsOyA7CTXXRDloSjI1uvdM8uhWGKChEFA5DOHLFywG1e3+kwgl9eeRG
-	 8ZDmMFjhx2s0mXfC4LMeAPBcW4VGAlqXKTn0RXPw+uk10R12RXwnjZzeleValw9NWDgNn
-	 O77WIpbQiNVHapmdPNxWtDj1vmDcjpvrIPSVJGJzibBYpzdDtY8zpcQqwSRK9yWueABKH
-	 +4GzfGIpJVni9vxVedCUXIYy6jR/UtDbb3GZwZz1hSN61zyvaNYZoVgjoSsuihOQrIdq7
-	 d/+YTHwnuAcQI4p1sKUcbczGdO/vF/HgJ5Ya+mdMtPohL+Ke5fr8P14oLntuQ1nYAXg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793201221;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=VB5jNk5xkH6on40MV2K4aHnG1H26SC3nlVA3Ge7l2CY=;
+	b=mYZum0MJn7vrPfThnZ3UYclNxAEFHGbxjOfmXluU8Wcymumvt23mAoBmrJJPKJGYVQiP
+	 nmbFe+PkbQjYVss1o2toFpCyO3q0MwBRdihFBQ9MEEqku2A4UkOEvA0WCIUszm+SV2hnY
+	 2/JMDoXO+/AcuPNf3EMuVqEsX+WyGJ09LBWvrHMwCPL5tj3p9glOS/4yIELiq7ridiBuo
+	 vF49r0/+OgmmQfwz1WUvRonrIE5qO5Su/v3JwgY19dVS5sEtS6yXY1meAbIqyOWvh0BL/
+	 tV5hhmwJRFH+SaUkXYgrGUZme6VW+kfA/Dn3K2/a+0L3G9YKJK8sxm8OZrgd+4U/qNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=QzsOFHTn;
-	arc=none smtp.remote-ip=209.85.161.50
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=i34c8xuC;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B0D606AB1F
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 15:24:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78B0D606AB1F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CB7606A31E;
+	Wed, 28 Oct 2026 15:27:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45CB7606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=QzsOFHTn
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6dd4f3f696aso642033eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 08:24:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1793201040; x=1793805840; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=2lKISFaBYtFQkl6whcZ+TLSbktmxJHBA6VayRzr31Z4=;
-        b=QzsOFHTn+8+YYCPTJGlmJAzYJSwbb+puZMPW8ZPyRBshyLngAY+e6dPhx864T41TeV
-         VRoSqpZvHxzPFF3fa4fGRSkeTPwimQr4nEfmZvP+5fZNAO4/mcunv/VJZJ3ivpfeQnby
-         lKmOSVPl/Oez5xPk8aefWZsD/XQxg3z33pUYc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793201040; x=1793805840;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2lKISFaBYtFQkl6whcZ+TLSbktmxJHBA6VayRzr31Z4=;
-        b=hIPm34VV+eVwBj/rAVzmQTLJDFtFjJDnO2Q5shVhXerFaLWDc5rmXNJLbk0MD0XZxt
-         MITQd1NbTzrkXhIkBWiKc14utT8QIz0Ho3DKbYVE9wQKfY3D4If7LC/B9RetIqZ9ywDi
-         AZDa8O5IL4v+EGeh+i4FHHyQLMtMsUUkuTdOVRBaQYG3CwXVExf365HX+Q+r2nhR9fSW
-         Fl4v6epFi2qciujEfUeBE775vZWgfekNjJS1C95YCWbCHU2Xy5o9oeVFQNdEtcvURhgc
-         As2gQO8bVSP0Fwr3n0AoxpuELHlt9JEyk2wBkg1G2y/86bddD0kzJB0pj2uMrMl/8AR9
-         4M8A==
-X-Forwarded-Encrypted: i=1; AKwUvBza4yONFUEXrcewUzZWMTMHDvNXLsI5hs3/D2sZUoBMXbjC+UD8FDfn/Z4gIPKfeaxW+Mm7Dk+bzns=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIwqC7OPqwKqmM3HW1Pvjgd1lB7zPfu0LF96eEhL3eHicwKfmpr
-	jCgrrRZLtaB2sAHLxi+gerj6/plUhiRHTx0ri6Va2AG++npoEXlj/m243TVDIk2mQAM=
-X-Gm-Gg: AYBFou0Z9Gsngb+r7KCbEso5fETqnbctbCM8ZOpHzRS4y9+WORFvDUo9OuaAaoWwpA0
-	tKY/0RARtMAOXZoVnKihIAKBhNE3gfWEH5w7EuNjbmjwBs250GPkBu8qQeXhBPRakLlkOc1MgpJ
-	1u+yrfQW2dsyXUW2vu1bIt3t+O0HMXu8L74Q5fHCQfmmbclKYbhbmMHwWrJLZExYLGaS5VOiSKi
-	+dHFRWdnLW4QOkOGDW0fESPKWUOlKd4PWnEwKhYXBibuZ0OmxLYSc3qUifFNQli8k0rueZyrXZ0
-	Ek0mb80reySigwH2uF5JYHjejQ8+F+3g43YK2wT4VYqOP+pPuqKXhOGknbC8cd3Jyp4VMV6cOY+
-	b4BI2oX87KtnXZzwJyQ+HjN4rofmVxVdooEZZL51sSIsbhq8UzCUfgheWbLhAihqRHiROQ+ldDv
-	Gl9WFnoCGd+QTQXUwvjIRwIJlNYbieAHAiZR2BZJZtHHv/ExutbTnSLVvlO6gZsQ1uk1brQ6ZLp
-	zeioHns620KxmhAP38OQYeN/uotEYnGTHN+gtqtCg9QhEkL7Q4BhqpSliXkHLOCnfIX4cZF9LdN
-	moB0tS+aqhw5FEQt+47BLy/YJAKGLTQ3llUXcl1QgDnHl4snIIxWonDfRGvarIz9mm2h2dghi4Z
-	sJvNkuZGD381UAjSZkp1PMbPrf0aVl2uIOGvVMQP071OhwQZceoZLzmtaMEMdo8QMQ8xgr6DpE+
-	I4RMgraOB62mwPIG36spw=
-X-Received: by 2002:a05:6820:8597:10b0:70b:8379:c170 with SMTP id 006d021491bc7-713ee85c744mr964651eaf.27.1793201040161;
-        Wed, 28 Oct 2026 08:24:00 -0700 (PDT)
-Received: from localhost ([116.86.153.182])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-7142c736d4dsm1749066eaf.8.2026.10.28.08.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 08:23:59 -0700 (PDT)
-Date: Wed, 28 Oct 2026 23:23:55 +0800
-From: Chris Down <chris@chrisdown.name>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Harry Yoo <harry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>,
-	GONG Ruiqi <gongruiqi@huaweicloud.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 0/8] mm/slab: Support selecting slab hardening features
- at boot
-Message-ID: <auITixAJMfLtfa7i@chrisdown.name>
-References: <cover.1793086056.git.chris@chrisdown.name>
- <16121542-acd5-4727-b64c-f8d519145b63@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=i34c8xuC
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4E61340430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1793201220; bh=VB5jNk5xkH6on40MV2K4aHnG1H26SC3nlVA3Ge7l2CY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i34c8xuCGVXoLmvzJ+z39EjUgu4CcQ2zM2AdFq7J/vTbdnzPtXtNANEgTYEwLhZC7
+	 39OZZYEjmce2EZ73fGYG6fUu8QVOQxMZB29MkyaNt/QApW/7HB1DCTMB6sLZ813m2w
+	 lam+kgzvvot1xt5GZ3iRCigvacvkJH/HUT0vlLLXqpXK2lLPirZxHbqzvOfRwxFavg
+	 O1Xx+ep0LARD25C0qQRJhW8uHUwu4OmWrummk/v9/RGs5awSLVknpeqtC37UZgOdKp
+	 hT37TcTsxeB507hCjImsWex0lXkce0I1cfxcnmaEK8stIJpO5VSI3xLuVjSF4qrcYR
+	 Pw1+QH460FUpw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4E61340430;
+	Wed, 28 Oct 2026 15:27:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] More documentation for 7.4
+Date: Wed, 28 Oct 2026 09:26:59 -0600
+Message-ID: <87o6cdq20s.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,49 +63,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <16121542-acd5-4727-b64c-f8d519145b63@kernel.org>
-User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
+Content-Type: text/plain
 
-Hi Vlastimil,
+The following changes since commit 90d9f76ccb72ec024ef476b4229f3dd1957d7b26:
 
-Vlastimil Babka (SUSE) writes:
->These two should be only a small cpu overhead, which is why distros
->generally enable them [1]. Also the code basically only runs in slowpaths
->because percpu caching doesn't use freelists. It's possible the static key
->conversion doesn't help anything. You could try to measure the impact, I'd
->be surprised perhaps :)
+  docs: add AGENTS.md as a symlink to README (2026-10-14 11:45:46 -0600)
 
-Well I measured it, and you're right :-)
+are available in the Git repository at:
 
-I built kernels from d15d7703166d ("mm/slub: initialize the free pointer of the 
-bootstrap kmem_cache_node") toggling SLAB_FREELIST_HARDENED and 
-SLAB_FREELIST_RANDOM, with SLAB_BUCKETS, KMALLOC_PARTITION_CACHES and 
-SHUFFLE_PAGE_ALLOCATOR pinned off on an AMD Genoa.
+  git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.4-2
 
-With both on vs both off, sched messaging, perf bench syscall fork, a 
-tinyconfig kernel build and netperf over lo all moved by less than 0.8%, which 
-is within the noise here. So the slowpaths do pay, as you'd expect. Here's the 
-change in ns/object vs both off, over 64, 256 and 1024 byte objects:
+for you to fetch changes up to 151235bf3d5d4de1a077a83c54ee651e074816ae:
 
-                       hard           rand          both
-   batch alloc      +5.5..+7.8%    +7.6..+12.5%   +13..+15%
-   bulk alloc       -2.0..+3.9%    +28..+32%      +33..+38%
-   batch/bulk free  +0.5..+4.6%    -1.7..+0.6%    +0.8..+4.5%
+  uaccess: fix some erroneous kerneldoc comments (2026-10-26 12:42:28 -0600)
 
-These are from a small module which just does ktime_get_ns() on one pinned CPU.  
-batch allocates 4096 objects with kmalloc() and then frees them 1000 times.  
-bulk does the same with kmem_cache_alloc_bulk() and kmem_cache_free_bulk() on a 
-private cache, so it keeps creating new slabs, which is where the random seq 
-gets applied.
+----------------------------------------------------------------
+A handful of late-arriving changes, most of which were ready ahead of the
+merge window:
 
-So for us the right answer is to likely just turn these two on rather than make 
-them switchable, too.
+- More Portuguese translation updates
 
->Maybe we should just make them default=y.
+- Some docs-build and self-test fixes
 
-Agreed. In v2 I'll replace the boot parameters for these two with patches which 
-make them default y, and keep slab_buckets= and kmalloc_partition=.
+- Bring documentation for the user-space access primitives in
+  include/linux/uaccess.h into the docs build.  This revealed a number of
+  malformed kerneldoc comments, which are fixed in a subsequent tweak to
+  uaccess.h.
 
-Thank you for spotting this!
+Expect a trivial conflict with your tree due to a kerneldoc change that
+came via another path.
+
+The uaccess.h change was done late, but only affects formatting, not
+content.  Nonetheless, if you don't want it, this stuff can wait until
+7.5 without causing undue grief.
+----------------------------------------------------------------
+Daniel Pereira (10):
+      docs/translations/pt_BR: admin-guide: add features.rst
+      docs/translations/pt_BR: admin-guide: add sysfs-rules.rst
+      docs/translations/pt_BR: admin-guide: add sysctl/index.rst
+      docs/translations/pt_BR: admin-guide: add cputopology.rst
+      docs/translations/pt_BR: admin-guide: add hw-vuln/index.rst
+      docs/translations/pt_BR: admin-guide: add LSM/index.rst
+      docs/translations/pt_BR: admin-guide: add perf-security.rst
+      docs/translations/pt_BR: admin-guide: add bootconfig.rst
+      docs/translations/pt_BR: admin-guide: add kernel-parameters.rst
+      docs/translations/pt_BR: admin-guide: add efi-stub.rst
+
+Igor Giamoniano (1):
+      docs: pt_BR: process: translate userspace debugging guide
+
+Jonathan Corbet (2):
+      docs: core-api: include documentation from linux/uaccess.h
+      uaccess: fix some erroneous kerneldoc comments
+
+Karl Mehltretter (1):
+      docs: kerneldoc.py: preserve headings in kernel-doc output
+
+Mauro Carvalho Chehab (4):
+      docs: test_doc_build: better handle python version
+      docs: test_doc_build: update it to support newer Sphinx versions
+      docs: test_doc_build: address pylint warnings
+      docs: test_doc_build: don't select urllib3 yanked version
+
+Pasha Tatashin (1):
+      docs: xforms_lists: Handle DECLARE_KHOSER_PTR() struct members
+
+Subhadip Sarkar (1):
+      docs: admin-guide: Fix typo in kernel-parameters.txt
+
+ Documentation/admin-guide/kernel-parameters.txt    |   2 +-
+ Documentation/core-api/mm-api.rst                  |   3 +
+ Documentation/sphinx/kerneldoc.py                  |   3 +-
+ .../translations/pt_BR/admin-guide/LSM/index.rst   |  53 +++
+ .../translations/pt_BR/admin-guide/bootconfig.rst  | 425 +++++++++++++++++++++
+ .../translations/pt_BR/admin-guide/cputopology.rst | 105 +++++
+ .../translations/pt_BR/admin-guide/efi-stub.rst    | 102 +++++
+ .../translations/pt_BR/admin-guide/features.rst    |   3 +
+ .../pt_BR/admin-guide/hw-vuln/index.rst            |  30 ++
+ .../translations/pt_BR/admin-guide/index.rst       |  34 +-
+ .../pt_BR/admin-guide/kernel-parameters.rst        | 134 +++++++
+ .../pt_BR/admin-guide/perf-security.rst            | 328 ++++++++++++++++
+ .../pt_BR/admin-guide/sysctl/index.rst             | 108 ++++++
+ .../translations/pt_BR/admin-guide/sysfs-rules.rst | 195 ++++++++++
+ .../translations/pt_BR/process/debugging/index.rst |  10 +-
+ .../debugging/userspace_debugging_guide.rst        | 297 ++++++++++++++
+ include/linux/uaccess.h                            |  10 +-
+ tools/docs/test_doc_build.py                       | 120 ++++--
+ tools/lib/python/kdoc/xforms_lists.py              |   1 +
+ 19 files changed, 1900 insertions(+), 63 deletions(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/LSM/index.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/bootconfig.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/cputopology.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/efi-stub.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/features.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/hw-vuln/index.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/perf-security.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/sysctl/index.rst
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/sysfs-rules.rst
+ create mode 100644 Documentation/translations/pt_BR/process/debugging/userspace_debugging_guide.rst
