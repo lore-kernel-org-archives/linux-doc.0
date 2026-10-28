@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793194435;
-	b=Z7IVTg607RoOpSyePofKp0n2UlMJyuiTArINfCMUmodGQOP5tryuSimUJkmLCzu6Qta/
-	 uL5MvLHj4jmA/BajcjUcD0+sOXgf1faBeRduojheu4Z/ixFc+/UJdUx5vuYCzIDBv3FPI
-	 xHxMJwykBj+qkjSYQxsvbQKQI6pU5NuuqYXlPBrDWpZDSNOJ6JgxKLCe+k5uvW8aiwSuj
-	 cZQszU25g89Lid/NX7HY41qD2YBqUmDez+OZ/T0U4kylmt6gV8l6dAaWQ2Xv2x/qKoz8U
-	 PtMMVNUCXOfWE2hKfRKb3gqkWTstM2VsMGRKbMeCrugoXUUSIQhLQCcqaeoLVJvfsdw==
+	t=1793194436;
+	b=gcn+gbnYMu4vzkmiwpoOESFNWnEN8iJfG05hGv4B4iBZrELRRsDK/SEUF+X1dqP8a12f
+	 YNl/MmGHoapIow5TNtesni2lvXuviUJa8yREMi39zlu+9TqxI9ai552fiLCih7pP7KZG+
+	 nJJ5g6Ao5NbQDQxLb+Sd4awjUOFT/gkTeNZo9Wfg64CeVMgf0hk89nATy0mmk6fGEcgkI
+	 kHBYTGWMwYTa1wCTdk6SVrUAcarK8x1JKdSvuPs8OoYfgG+RJidhCWr9LWRZkiTt0d5+p
+	 Tm6bS7U2kCzfBzNtMyoOSB0Z1LUEWcVpkbc+raUpmwDe+n9xsct6hzzrBJmHga52aOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793194435;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194436;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=0jiG2rD9So/arZvMAXmt3lPJiORsbNPvj+sHUkRM/lY=;
-	b=0faf0O8g44BLhybZG1vKBKCqQafsW10RRf7SWpzV7NPP7Ft3YZzCugZZYlUMOrpxd7Bo
-	 5ROQgmoWwAKo6Xvzz1znMrtAXdRQ3d3xiRuJumwIta4PynmrsY7cCtTmWN++qkgshaCL9
-	 A1VD2/0hPe8azYnCkzBMOf98VdBxSG2/E00qYvZY7lv45kTdQQUogM/1lHtHlQX82qRz2
-	 bGsDiScianugpPJaDdyOELsYeDgIIlyM2i/e+RIQfieDc/q09kzTtWuLR5eaMfndWuYvq
-	 Zkz48UixEN6MIMI7iGu8811Zft9pd6B5mKOBgR2IUxVsGUjukwSiGWZ5FR2psi437sQ==
+	bh=mHBWVyhcqxaC5vumFhxxpKEuhD3213M1GsePKvUPh1Q=;
+	b=oPlldr4hByDyFwG6blQv4F39LioXeX4oejnX+1W6k7vhR2RkA+GAFNCymUjSw4TjBCTd
+	 t9LhhIhiWxVw9Q0eCFZnioedxtEkrZQEi0SikcFqhnmau1EJVwwCxumJSVdp0HpiGrDYh
+	 ktArzcYitBd6lBxfBkPHiACFwQGlo9z5orYSRZ4DLR7DzK9+PYb/W/d20ICZPYGJrE7Oh
+	 tkrgR0ng3c9Dyvms//OsuDQJBwUR2NtzXUY71OKK9mJmkj+8EBpUVR8Bb0cg6i3yR55YJ
+	 Y5LyXn7jDNfbRg7HalBh9/ZVUg5oCSxGZlQpnFZwISVZijrGWI4mmPntu0Pj4JAagDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=armoriq.io;
 	spf=pass smtp.mailfrom=armoriq.io;
-	dkim=pass header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="dLn/UHz5";
-	arc=none smtp.remote-ip=74.125.224.46
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	dkim=pass header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=a0tLEIZV;
+	arc=none smtp.remote-ip=74.125.224.51
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A98660A262E
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:33:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A98660A262E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EB960A2634
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:33:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11EB960A2634
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armoriq.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=armoriq.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=dLn/UHz5
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-679e6ab6471so2035577d50.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:33:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=a0tLEIZV
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-676858d42f8so942794d50.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=armoriq-io.20260707.gappssmtp.com; s=20260707; t=1793194434; x=1793799234; darn=vger.kernel.org;
+        d=armoriq-io.20260707.gappssmtp.com; s=20260707; t=1793194435; x=1793799235; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0jiG2rD9So/arZvMAXmt3lPJiORsbNPvj+sHUkRM/lY=;
-        b=dLn/UHz5laULvOPw2Z4Il7Aes12V3tgaa7l8ko/Z6TiMfArXMOE0vl5uTrR+SM5+UC
-         UXFW9wsVIwY7y6LQZ8Kp7zfKyM2kDUosLPf1Ulylv65drrBZkQnx9UltIGDC7E6Y8v5X
-         vwnC3zFVtn+PPhm6Xqmb90g5fxvW3ExPK0sCXwdU1j6tyT5zdgBDt3uLraIrJulfCxZu
-         FACMECN/6hf9PgeufeuE3m5Z/5aJMCrCGQdje9ZZQeU4OZytdlGUyRiMn2lENLTUQC0I
-         cX4W5vCVgrdNNQaW6ET7ZfWTwM7jkpctDlFBps+8rRNUpTevoiHxA0NpeASFFj4Jj+Tt
-         BQPw==
+        bh=mHBWVyhcqxaC5vumFhxxpKEuhD3213M1GsePKvUPh1Q=;
+        b=a0tLEIZVYyhkTlIJHtgGbFZONiiDQraHICSs8nIr1Mw8HVsHHaim+W21SJOURks2cx
+         61LO/g8DvIxgQhaGuocD17ZH/DA4iaOHyjQrLqvDuajbQoadCuwEJCYzv6ytYZ488PyY
+         6RP5RF0HmPdnKboB6PcfpwOn894vMmmRnBEgJgJHkKN20mHnSrwCmpTy9nNQaa76UAWN
+         NpNmbx2oRjFr0n7ImcBB7NpIjIxHAYO1AHWj0PGm8ai11QqqZC4jA1qSo7eoPgwI0ndQ
+         cBlclyvHvowc6wQkBzpllidO02OCyWxupMHOBYWp76zlmeTbU415dVFYLCJd5WjoD/Bk
+         ik0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793194434; x=1793799234;
+        d=1e100.net; s=20260707; t=1793194435; x=1793799235;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0jiG2rD9So/arZvMAXmt3lPJiORsbNPvj+sHUkRM/lY=;
-        b=f5D4DuvCPtB/XXdMDMAEQy3Dhr9WaAZbP6DVlsP6al02LT1F3vD5iFmfwTGHI3M4RA
-         fVd5iFtgGZjrWIXcTMA/otSvuOIB2XI7IddxYMYCE5A65e7gWe/ekCN3Twb6IDdXyN7M
-         FIrYks5MOJCLZTW+xqqxY6CUcfjZhjqAMk0uAcKiBaMQjHGFXkXLuWv1n14Jaxu1oAOq
-         Y9S8W2pqawOZD+eXEIigM6sTXWlJ8PLmzMTeKWq5zJ0FiW5YQAhyWfzdsyKJ0ORvfMdD
-         kYxI4BINyjj90Ry4a9ga9bEFlGUMWUB3lkroWmLdi05VqGwZyHjtLcMMmTAbbBdi/Ssl
-         c6PQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzwbT43g+1FZ3FZ0ykrVJMigJZgomJsYH5iExmmV/MAdDnA756wtfoUZzQZFzPT2smfxcH6FjOG/Z8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK6PjhElV4gP474KFO0CS/BLADO8Vou+y8zTOj6V4cORB8ci7KY
-	hb/N4xEBXxV8Tp9SnumsODP6FZLwRDwXZIcyy+wYlVOCGq8SuCeoSE87Hru7nY6lux7Q
-X-Gm-Gg: AYBFou2p8dSuz0/ffPJcsSv7TPLiePX0K484mfuBQGOS7DN1utIIFcw2X9Qh04Odf3O
-	zB98BmGD0wv7zQf/eieOVbDPeFUpzXfdYxHa38F/cB7/Qr0+XSNcUAFirGQX9EQlWXCVTFNfdBc
-	3GZjLiHKG+KXpw55CcjMLEuSc7W3oTA+gGujrvb1fH33Be7I8t8QsqrQcqofNEDPXlGTGA/qrRi
-	ZlSYU+wmSDiTDciaiZBtq5MXVRbIVKNv7Pg/T7qBRVO8dsRR8b5X+UZCU1HQZp7uyiJgP/L9Azw
-	Nf+YeoORK+e0Qqtgnul5+sWF9X4mrfiDrD9paxtcXF//A2vGTlL/3PUqVhV4jw7zV7vR8Nrndby
-	KXo+aReYsLda3sFlv0N4+EHeDM3Z7y98oV9LdPdyrcA5OXDHDjjmklT+UUG6vIZrroI9sSop6QK
-	mayIkWZHuWWSC9kU5U+3SqXrlapIi9Nj03+ARulFG9LvKHJK8ShyjztTluozCoakKcKzOa7SYOE
-	V0I1yAjzsMBRUD2sM7ar9tdD2iil7jZh2GV8mrI6SZ8sqktSRMyHOJ+Lfj+RTpgoJYustLSSY9K
-	5HEH2UXePALEIs5Hq5Bm21oyiL8kuQxcm+UDEQ7oi8fmsQOw3zB8dD75I6V95/38Xdx/VqjFs7T
-	iDdsKK9NmaI80LAS4C1VVVee398w6dy2QfNxjLd2kB1BmcpE=
-X-Received: by 2002:a05:690e:4884:20b0:675:449d:3d72 with SMTP id 956f58d0204a3-67a814bcec8mr653958d50.32.1793194433581;
-        Wed, 28 Oct 2026 06:33:53 -0700 (PDT)
+        bh=mHBWVyhcqxaC5vumFhxxpKEuhD3213M1GsePKvUPh1Q=;
+        b=OYimDerXKuOGEGKhlrtTSaHMF/84Yq20/zx4EhLCvQD3wfVeMeaplVcsZTtf9FJX4h
+         OrMuXi+TVWW4bEJFyWRr91eHEipQ2njRWrjVMHcgJK2nyYM5bnYUGIHwdjnGZU/7k5UJ
+         exC+4VVHziez/csRFUIvt/31EHy+k80OHVI6gajKZ/FuzOwvrcpXNttNqnkvUl+7yZSh
+         2R7pLzKeJhAUThqkNsqOyukqiRpdvGOkU7hfx2ljy+f5AFxlUXJHoq0MjJHdbbNaz4P1
+         ojPQOQBLITp+Tg5AbkXr+p3diLcxUxzX2f1KiiBIXjLn/uFLeVuL1Jud8YDg9VYJ4Znf
+         p1BA==
+X-Forwarded-Encrypted: i=1; AKwUvBzlaloObDyVfIRjBgP/rJFtkevax+e5hQWf11dSv7Pk2qeRVOr2XaDJhaJia1fjCTi3ISEWwdyFb2U=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIEcVWisCwXEm2D6Io9gqjiC6Qwbs4Sy3ZTPkxXX8SU/Z2uWOCn
+	70rAv+MXiUGScsga90eSly6pMN4Li4Qw6qu5Is5RKy2/XvwuH5m3iUAmiqIycatnFoff
+X-Gm-Gg: AYBFou3DiQN+nQGn/1g/+hk2MtnE4q5YFfAynQTAPdnFgkR5noh+sYo4bPLeTd2AM3K
+	lGEa3MKJFady8S4nOgYfQO65Bdef2Hh2Z360kfnuC5OhO2GY2dGu17nWLI8sjyTG2FvfFZd8oNm
+	sK2/8HmdF5aNKw99X9DsY2BZfxA0Co9S/hgybLGTn2OzS4Xg/uziw1h5dAQazuLZMT9LAR5iS/v
+	EO9reLuWMPLqxKSfF+KtQB/O3LlShx57IrabPpbtbPEVsEnrSadf0/ta47VE6GuMpmuOkQfdsr1
+	bcTEU7Eyk04O0uCWIaB2lTYyMH7VcS7n5XCzPKG5lGMrOi3TLjcz7DYBQxafGrCtj9xfY/gcGf9
+	AQQHOtmpTkZVmDNMqBnWm1bWL8KxiAPnoZUJ4eMUyxDzMi/cYRlrcsuyTOrvY9td1Q1HHTigW3c
+	V0oOgyA51TDLF6sr4zy9VxLs6XqHa9OMvS48Jd+WGNnMz5ozH9fgkv3uPZtGXfP1jGZvjk2Gj0d
+	FfugsiI/Dvp/AtM+7wZDsjUfOVr0ZbPTMMi0bFv7EAQPsZtUO68xNLhnweWQhzFk4L0jtP77ru5
+	nMMaAyiuskf8DdkoQ4buuRk5o4dyRQnwYURYBpCeEpNIqmIj/HMmcnosBtGXYPPDmWlz/Wnp5qK
+	g+XcexipSBlWFzI+rIpxXF2BsnR+K7/AdDTYCf4Nv2BoKm0g=
+X-Received: by 2002:a53:d60f:0:b0:679:992e:3ad8 with SMTP id 956f58d0204a3-67a7bd3cbf0mr1120504d50.132.1793194434760;
+        Wed, 28 Oct 2026 06:33:54 -0700 (PDT)
 Received: from CC-KJQTV599DQ.attlocal.net ([2600:1702:7b5a:ab90:103d:30e1:1f09:a9ae])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a79f38dfesm1694911d50.1.2026.10.28.06.33.53
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67a79f38dfesm1694911d50.1.2026.10.28.06.33.54
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 06:33:53 -0700 (PDT)
+        Wed, 28 Oct 2026 06:33:54 -0700 (PDT)
 From: Ketan Bhardwaj <ketan@armoriq.io>
 To: Paul Moore <paul@paul-moore.com>,
 	James Morris <jmorris@namei.org>,
@@ -94,9 +94,9 @@ Cc: linux-security-module@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"HARIHARA SUDHAN . R" <harisudhan@armoriq.io>,
 	Ketan Bhardwaj <ketan@armoriq.io>
-Subject: [RFC PATCH v2 5/6] kernel: add KAP checks for unshare and setns
-Date: Wed, 28 Oct 2026 09:33:34 -0400
-Message-ID: <20261028133335.75899-6-ketan@armoriq.io>
+Subject: [RFC PATCH v2 6/6] MAINTAINERS: add an entry for the Kernel Assurance Plane
+Date: Wed, 28 Oct 2026 09:33:35 -0400
+Message-ID: <20261028133335.75899-7-ketan@armoriq.io>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20261028133335.75899-1-ketan@armoriq.io>
 References: <20261028133335.75899-1-ketan@armoriq.io>
@@ -111,11 +111,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check unshare and setns against the bound task's authority. Neither
-has an LSM hook, so they call KAP directly. Every namespace type is
-checked, and setns checks the type of the namespace it is given.
-
-Unbound tasks are not checked.
+Add the KAP maintainers and the files they look after.
 
 Assisted-by: Claude
 Co-developed-by: HARIHARA SUDHAN. R <harisudhan@armoriq.io>
@@ -123,55 +119,30 @@ Signed-off-by: HARIHARA SUDHAN. R <harisudhan@armoriq.io>
 Assisted-by: Codex
 Signed-off-by: Ketan Bhardwaj <ketan@armoriq.io>
 ---
- kernel/fork.c    | 4 ++++
- kernel/nsproxy.c | 5 +++++
- 2 files changed, 9 insertions(+)
+ MAINTAINERS | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index eb198c8..4216a2d 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -52,6 +52,7 @@
- #include <linux/cpu.h>
- #include <linux/cgroup.h>
- #include <linux/security.h>
-+#include <linux/kap.h>
- #include <linux/hugetlb.h>
- #include <linux/seccomp.h>
- #include <linux/swap.h>
-@@ -3276,6 +3277,9 @@ int ksys_unshare(unsigned long unshare_flags)
- 			 current->fs != current->real_fs);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f53047a..0946d15 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14118,6 +14118,16 @@ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/radio/radio-keene*
  
- 	err = check_unshare_flags(unshare_flags);
-+	if (err)
-+		goto bad_unshare_out;
-+	err = kap_check_namespace_flags(unshare_flags, "unshare");
- 	if (err)
- 		goto bad_unshare_out;
- 	/*
-diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-index 3fb1595..d41d7f5 100644
---- a/kernel/nsproxy.c
-+++ b/kernel/nsproxy.c
-@@ -25,6 +25,7 @@
- #include <linux/proc_ns.h>
- #include <linux/file.h>
- #include <linux/syscalls.h>
-+#include <linux/kap.h>
- #include <linux/cgroup.h>
- #include <linux/perf_event.h>
- #include <linux/nstree.h>
-@@ -589,6 +590,10 @@ SYSCALL_DEFINE2(setns, int, fd, int, flags)
- 	if (err)
- 		goto out;
- 
-+	err = kap_check_namespace_flags(flags, "setns");
-+	if (err)
-+		goto out;
++KERNEL ASSURANCE PLANE (KAP)
++M:	Ketan Bhardwaj <ketan@armoriq.io>
++M:	HARIHARA SUDHAN. R <harisudhan@armoriq.io>
++L:	linux-security-module@vger.kernel.org
++S:	Supported
++F:	Documentation/ABI/testing/securityfs-kap
++F:	Documentation/security/kap.rst
++F:	include/linux/kap.h
++F:	security/kap/
 +
- 	err = prepare_nsset(flags, &nsset);
- 	if (err)
- 		goto out;
+ KERNEL AUTOMOUNTER
+ M:	Ian Kent <raven@themaw.net>
+ L:	autofs@vger.kernel.org
 -- 
 2.51.0
 
