@@ -1,112 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793206232;
-	b=U9SoT9QbKYy57aJd77d7zokWv6G6485dForqfLiZyzlup5tebmzdu1G1386emh69pR1B
-	 XJMNg5tB4qhhDwBEPVfoUsH/MIF3RW73mhuEk6hZT7CqllRSpEpTByXHD1Y0/pWjbx1cR
-	 gLO3+cFFhLhl/lB3WT/zeHIjf42VFN9q1gWbqJ4JMnLEtWVuKABRJ7+IhTbfuEuvqOARS
-	 Mc6XMFLqDb4ofM8UXu/yoNcLsvLadu/mNLCZXPSiHaEkp7efz3Ih6HjnpdI1HA8gZJByB
-	 D9JQK1Dh7KHM5NW5cUr8/modCwx1beXxYNm8/6Cn/d4/ItkU9Yc1zK+ququGEcdLV4Q==
+	t=1793206328;
+	b=3oNz9Ypm66QUTbcTduQwf2zll2UfssYwbxFnUoL8M8hjOeMm9mDmtvczNVdeQfN7r+xB
+	 g1t/cveIxggq2WGixERvDHWnOYYbQ1Lt3MFntLJagTI32Z/Qdm4mh9auEjrkLY0FQig//
+	 3mgc9FLFqcMNpgrabeyhYSuemAV2SKLQ7zVk4QwrSvERvLacVA0krgX3Vta286RtZzkBY
+	 Mgepp/eDEjFIUiyprNwjX1oeBaHFMlS0s5HeshMumjZkMLEdtvDjux8VkEP4QRLVHSXfy
+	 5gFO4D4XKrRMRESC8QVHwQCezIVWQ328sQKs/fMJSbO2qE8kOrd5q+OYSDwXNxP+1Cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793206232;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rmtUDKQ0yoNlGhv53ScFwXXOWxSmXa4pTOke6+QnPrc=;
-	b=E56Ihgbm1zVW4xTL9r9d6VnRMDftw/e+v2AuBLVS7052hLsh8xQoGHbdjLNA49t51RoA
-	 fSTREx7VFYPJ/X4CUTcVmD95rvQDY8KWwG4/iSWIYEJ+9cE/WoQ2ld+SEdwbTPbTHIaoF
-	 Ycnly9onlVK59tqFYkbvU7cPHVupdiAqpwA8tcHArxt7hqJ42w5CpRWzdc07Lvn+xSDUA
-	 7FXA33zEHvMZpyMyaJmCla2infDd+e+fWyoDkPBK5DFLR4J76eCRwcpR0iRrD6UNvuvyd
-	 AsCUZPw4jYRth482LtUkA55RjSiLf4ubSyKDFR8pLIe5DiThl23x/yrg7sbTH0+oB6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793206328;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=1YA1pnK2XncY5lqNVKOymhfOhZgmGZ7s1l1eW83JveE=;
+	b=sGmQ76kBXQjqf9ffp4FJ3US/x3p2LgNN0v2o6taqfKk5tCwmilcDg5obXRCDMbRv21CB
+	 p9t2CywIo9bNXND9iV0RNWYL4gDmm18At3Kmzv9tExLOCnnu8SGbsCOeHSjfA324FOy10
+	 MSOG+vk1lEnyDffi+sFlgV0NscMGOxoDpOWrPhKgIgS0XdZ0WCb2G8bA17r20rMUeR475
+	 9lrIkDVFnH3UdX5TfgUaJfztbnldJsyQ5c3xAnjjq9bSSXV/hVqEd96/skNPIeZHFvbJQ
+	 927/gMZXTh+shbjp5swmDu48Q29DoQ5jsn75YnToLo5jlQI99Lyu9GPhN/B2iGosuaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=uUL+AdTg;
+	arc=none smtp.remote-ip=80.241.56.172
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5A1606A31F
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 16:50:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E5A1606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso13156455e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 09:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793206220; x=1793811020; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rmtUDKQ0yoNlGhv53ScFwXXOWxSmXa4pTOke6+QnPrc=;
-        b=gXgEqKbhWXg0LLz9FvWn6V2M5RTpYqWlHjLH0NP+RzhxzISPz7BuGBUwie7l/s0pC0
-         dOwOBNbVtUx+iHm3MIQFrm0Q6B8YArSlQrgE2RjwCmAeHjH/rbC2Ago7GMPFouoQ6/Ki
-         l5VpdHIlZEAmEJd/hd6iBVSFe7YFraVN9uwKzuPIZY0xxhlmn5iKPXeboEDishSTZ1NR
-         kxAs+/bXVi8UcA9VkCQboWB3250MXxYFPGAybyrY1stsxVzdDhdKlq4ix1NqVrhMkKw1
-         +0/Ip1FdOvXwVyjfEdFth/TNwiS57iprsQbLE7kk7Ljjlnd8LVfmm4UX1+3z/GKZWwxU
-         GfbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793206220; x=1793811020;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rmtUDKQ0yoNlGhv53ScFwXXOWxSmXa4pTOke6+QnPrc=;
-        b=EkY5IZLFJ9lI+oJYpX9Z3GBgBCfYhuKreEnlLnAUzu9hb/jP0bI2nNO79sJkVvXIDN
-         KRBEe9w/mJ7Z5Tu+UTYSzu1sod/CWbf7t+7cAEnQl+w4ix+s690hu66KNtDPk3AQO+rb
-         AzzLv3WmIpJA6fTx4biFDR2/FXmypLdCluuGntYpgbn9ClOumYHJ+Ukvw6mbxthVJhas
-         5YS9NMDSbuTfp2YkgTTgJ0MUPnj+urRDvC4cbfOxEjSklseQ5wKPR9sfFnlFgJHLQNCH
-         6EelEnv/7pcrlslhvULygeo8TUy33PI9qRDxhqEv/xliFG4U/vGOKu2laftUJr844PEA
-         Ng5g==
-X-Forwarded-Encrypted: i=1; AKwUvBzZn3o5CcY/mOkZew7qusNoYYfDIlCKCYxisjoWdj/htZT160tkwpqw+6AxhSrPAIRDaS4SBpFbCp4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIbW2ccx2dgoZfTF7ow4hjSubKgAf8ZnbQXIxeTsBlHwXvw6SQx
-	Z8C1Vh2rRYQiA5RzrWMbVS65p0LAbxrjAkLSLMQhThb/Z5hAtsS05QJOODxiVsNwCis=
-X-Gm-Gg: AYBFou28qZVj3jLGlgHXWWz9dmeXPFGB5ZhM0bMnHYOs0/nEXOa8ro0GzKRjsK4JPjn
-	qHniqC+q8KWl1z6lq++kGQ0lcgcMX6VEsNf5noH10sXcQeYSMz4/nFCvusW4+PesnurdidwBHG7
-	XdnYDdmnvTCs90g/nkrvRoI20Xoof3nbAUzFRnhxQj/Apg8Q5K3Zl6AjY6WXIxhDEFpPrP2yTQX
-	f+THDvIPseljWuLjvswVcvBU//K19UzG4IBtv7gTGRmY7ZeJoyYKwvObnqEgY6MsC0+OJzYWbb5
-	U3mKSsWqXzWdTcSrpx7nLH3mr43HvXEm36rTBe19bcIP6mTXiYL/0UOcpwNBmm//PITjonSxdz4
-	ZVp1JOibyN2WnzXZBZpyoluhvFE2OKOkpWA807AvgBzPysn3J84W3woWvAQunerL9bMjT79HyIv
-	Q3dSforliy66UYuLrbakkjLC8cc43rRo0PK8oKUFOqnxIintf3IgaB0r27JVPpgIZBijfTU4Qb2
-	o1cCEHk8JyASgxCraPNQbHUrRFqTacOxA4J3I9h+zSexQp3erJYi1y0zVI8j6gyUYmpstKBblgA
-	+YR87fzk4l6yUJjkoMxEl8xVsUf6
-X-Received: by 2002:a05:600c:1986:b0:4a1:fae5:f2e2 with SMTP id 5b1f17b1804b1-4a9643d5154mr61518125e9.4.1793206219964;
-        Wed, 28 Oct 2026 09:50:19 -0700 (PDT)
-Received: from localhost ([82.192.120.214])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a94e4be4b2sm38091265e9.2.2026.10.28.09.50.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 09:50:19 -0700 (PDT)
-From: Andrea della Porta <andrea.porta@suse.com>
-X-Google-Original-From: Andrea della Porta <aporta@suse.de>
-Date: Wed, 28 Oct 2026 17:54:12 +0100
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Gary Guo <gary@garyguo.net>, Andrea della Porta <andrea.porta@suse.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Gregor Herburger <gregor.herburger@linutronix.de>,
-	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH RFC 0/4] hwmon: Add fan tachometer support for Raspberry
- Pi RP1
-Message-ID: <auIotAwnOWKNApjp@apocalypse>
-References: <cover.1792748690.git.andrea.porta@suse.com>
- <7df58d42-517c-4936-88b0-9d044d30882c@roeck-us.net>
- <auBzvB8TsvIK8Hik@apocalypse>
- <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
- <DMFPE71J8205.3FZKD5BKW3U7C@garyguo.net>
- <b02b4f0b-ad2c-453a-b69c-a0865a333d62@roeck-us.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C319B606A31C;
+	Wed, 28 Oct 2026 16:52:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C319B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=uUL+AdTg
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jFD102sZ8zMllN;
+	Wed, 28 Oct 2026 17:52:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1793206324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YA1pnK2XncY5lqNVKOymhfOhZgmGZ7s1l1eW83JveE=;
+	b=uUL+AdTgjM/9MiitX0whRTqEsijLx4C6KdxAhwRCKa0kb4eF0Sce7/FRtdiqf2XOzEBkdj
+	p1g/KbhveW0qdGPfM04WDSHoIs6eUPJr3gwrhbkhffZmV6urAxgFaSb8zXDRRn491Bcj73
+	1998YgkwZ3sEs2iPBApCD92oTVrYT701g8LIV4FO2QCQTaayhbVZVh35FT2/3fkzfEpN+w
+	FBgPKyoMFdUPE56H6PeN7wv4KhcWdo584HvmGg5rAfhUCgDP0WpxW7h0HyytreXRGViHIl
+	dHX1AlkEA1X54Ld0YUEkrKli/q4bDzbC600FPJIx8B4dE/bMkQX99lk9cuzWOA==
+Message-ID: <1303b843e41498612cce4acdbb47941c054bcf7d.camel@mailbox.org>
+Subject: Re: [PATCH v2 1/2] Docs/admin-guide/mm/damon/reclaim: improve
+ grammar and style
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: SJ Park <sj@kernel.org>
+Cc: corbet@lwn.net, damon@lists.linux.dev, jm5905938@gmail.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, 	rdunlap@infradead.org, skhan@linuxfoundation.org
+Date: Wed, 28 Oct 2026 17:52:01 +0100
+In-Reply-To: <20261028000637.157110-1-sj@kernel.org>
+References: <20261028000637.157110-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,90 +74,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b02b4f0b-ad2c-453a-b69c-a0865a333d62@roeck-us.net>
+X-MBO-RS-META: jjn9q5xi6rqow5uypb9g11hnxcsctzaq
+X-MBO-RS-ID: 7eb96ce423f99d218cd
 
-On 09:13 Tue 27 Oct     , Guenter Roeck wrote:
-> On Tue, Oct 27, 2026 at 10:51:15PM +0800, Gary Guo wrote:
-> > On Tue Oct 27, 2026 at 9:48 PM CST, Guenter Roeck wrote:
-> > > On Tue, Oct 27, 2026 at 10:49:48AM +0100, Andrea della Porta wrote:
-> > >> Hi Guenter,
-> > >> 
-> > >> Yes, I also proposed that in the cover letter because auxbus seems also a viable
-> > >> solution.
-> > >> 
-> > >> The current implementation is a consequence to the discussion about the companion
-> > >> PWM driver, from here (and the revisions that followed):
-> > >> 
-> > >> https://lore.kernel.org/all/cover.1775223441.git.andrea.porta@suse.com/
-> > >> 
-> > >> To give a short and hopefully coherent view of the decisions, here's a breakdown:
-> > >> 
-> > >> - first proposal: PWM driver + fan hwmon (to read the RPM), all in the same driver
-> > >> 
-> > >> - V2: Uwe preferred to split the PWM driver from the hwmon one, so the hwmon was
-> > >>   dropped from teh PWM driver in favor of a future (fan) driver. To accomplish this,
-> > >>   I moved from readl/writel to regmap + syscon.
-> > >> 
-> > >> - V8: Gary proposed to export a function to read the fan RPM as a viable
-> > >>   solution. As a result, the regmap/syscon was dropped as it was no longer needed
-> > >>   and the function has been exported from the PWM driver
-> > >> 
-> > >> - new patchset for fan driver: the now independent hwmon moodle just call the
-> > >>   exported function from thw PWM driver.
-> > >> 
-> > >> If the auxiliary bus is indeed the preferred approach, I'd like to ensure we are
-> > >> all aligned, as this would also require refactoring the PWM driver.
-> > >> 
-> > >
-> > > Let's say it that way: If you don't want to implement the auxiliary driver,
-> > > and you insist using the exported function, I would prefer for you to go back
-> > > to the first solution. The one thing I really dislike is conceptually broken
-> > > code, and I consider the current approach broken. Your call, but the one thing
-> > > I won't accept is the code with the exported function.
-> > 
-> > I agree on the auxiliary driver part. However, I don't think EXPORT_SYMBOL_NS is
-> > an issue, and regmap is not the right fit here:
-> > 
-> > - Previous version of the PWM1 patch series publish regmap using
-> >   of_syscon_register_regmap, but this cannot be undone -- which needs to happen
-> >   on PWM device unbind (the RP1 PWM device is itself platform device, but RP1
-> >   chip itself is PCIe device which must be removable).
-> > 
-> > - The tachometer register is not its own separate register, but rather (re)using
-> >   the phase control register. The phase control is not implemented in the RP1
-> >   PWM driver on the list yet, so this is currently a simple register read -- I
-> >   can see that RP1 PWM driver need to take special care to about the tachometer
-> >   reading if the phase control is implemented.
-> > 
-> >   For the two reasons above, I think the way that tachometer is read should
-> >   really be an implementation detail of the PWM driver and not for the hwmon
-> >   driver to worry about, so I suggested using EXPORT_SYMBOL_NS.
-> > 
-> > - EXPORT_SYMBOL_NS is the documented way for exposing functionality from parent
-> >   device to auxiliary drivers: https://docs.kernel.org/driver-api/auxiliary_bus.html
-> > 
-> 
-> Let's agree to disagree, and keep the code in the pwm subsystem.
+Hi SJ,
 
-And auxiliary bus it will be. I propose the following:
+On Tue, 2026-10-27 at 17:06 -0700, SJ Park wrote:
+> On Tue, 27 Oct 2026 20:05:04 +0100 Manuel Ebner <manuelebnerli@mailbox.or=
+g> wrote:
+>=20
+> > Fix upper case. Fix tenses. Replace 'set as' with 'set to'. Add space a=
+fter
+> > sentence to make it double space.
+> >=20
+> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> > CC: Aveline Noir <jm5905938@gmail.com>
+> > ---
+> > @ -113,8 +113,8
+> > Choose as you wish.
 
-- drivers/pwm/pwm-rp1.c: create an auxiliary device for the fan. The function to read
-  the RPM will not be exported, but a function pointer will be passed through the
-  private data to the fan driver. No need for regmap. To be taken by Uwe.
+I will refer to this below.
 
-- drivers/hwmon/rp1-hwmon.c: The auxiliary driver is probed against the device registered
-  by the pwm driver. No imported function. To be taken by Guenter.
+> >=20
+> > @ 20
+> > should be:
+> > -Free Pages Reporting [3]_ based
+> > +Free pages reporting [3]_ based
+> > or
+> > +'*Free Pages Reporting'* [3]_ based
+> > * the right kind of quoting/ kernel-doc highlighting.
+> > Choose as you wish.
+> > ---
+> > =C2=A0.../admin-guide/mm/damon/reclaim.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 36 +++++++++----------
+> > =C2=A01 file changed, 18 insertions(+), 18 deletions(-)
+> >=20
+> > diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documenta=
+tion/admin-guide/mm/damon/reclaim.rst
+> > index e4e2ffa52e..0bab2299ea 100644
+> > --- a/Documentation/admin-guide/mm/damon/reclaim.rst
+> > +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+> [...]
+> > @@ -30,12 +30,12 @@ guests could mitigate this problem.
+> > =C2=A0How It Works?
+> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =C2=A0
+> > -DAMON_RECLAIM finds memory regions that didn't accessed for specific t=
+ime
+> > +DAMON_RECLAIM finds memory regions that weren't accessed for specific =
+time
+> > =C2=A0duration and page out.=C2=A0 To avoid it consuming too much CPU f=
+or the paging out
+> > =C2=A0operation, a speed limit can be configured.=C2=A0 Under the speed=
+ limit, it pages
+> > -out memory regions that didn't accessed longer time first.=C2=A0 Syste=
+m
+> > +out memory regions that weren't accessed longer time first.=C2=A0 Syst=
+em
+> > =C2=A0administrators can also configure under what situation this schem=
+e should
+> > -automatically activated and deactivated with three memory pressure wat=
+ermarks.
+> > +automatically be activated and deactivated with three memory pressure =
+watermarks.
+>=20
+> Let's keep 80 columns limit.=C2=A0 Same for below.
 
-In this way, we decouple the two drivers and we leverage the auxiliary bus paradigm.
-Also, no DT node needed for the fan.
+Okay.
 
-Do we all agree on this approach?
+> [...]
+> > @@ -113,10 +113,10 @@ quota_sz
+> > =C2=A0
+> > =C2=A0Limit of size of memory for the reclamation in bytes.
+> > =C2=A0
+> > -DAMON_RECLAIM charges amount of memory which it tried to reclaim withi=
+n a time
+> > -window (quota_reset_interval_ms) and makes no more than this limit is =
+tried.
+> > -This can be used for limiting consumption of CPU and IO.=C2=A0 If this=
+ value is
+> > -zero, the limit is disabled.
+> > +DAMON_RECLAIM records the amount of memory which it tried to reclaim w=
+ithin a time
+>=20
+> Didn't we agree to keep use "charge" ?
 
-Thanks,
-Andrea
+I thought we agreed to "records' but I sensed a misunderstanding. That's wh=
+y I wrote
+> > @ -113,8 +113,8
+> > Choose as you wish.
+above. Should i have been more explicit?
 
-> 
+Thanks
+ Manuel
+>=20
+> Other than the above two things, looks good to me.
+>=20
+>=20
 > Thanks,
-> Guenter
+> SJ
+>=20
+> [...]
