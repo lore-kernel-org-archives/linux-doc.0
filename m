@@ -1,48 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.114
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793160859;
-	b=wbPzOMBHbS3ehsTrukIlo2BDn3uB20uliIGPrvYEcrNNkgtkq6VK2dEwLZPT8I5dCvvT
-	 o0kv5sRMYdWBCUvqrGCHxfvmfbVZFZBVOlO89fL5dz3vHm+fRVthh0/nUxmfzYaoVDuDz
-	 F+8/2PVrGVNeRQ1KxhZYNUef57Co/W+TCuiTDCzlf+zQIIB/c66uDitCo65utgGbZQffr
-	 lg3t3pnNZnADPa8UFkARBVShKm8b6PzQHbIKJzG1ZUcfJu8U8Ix0CNjDeida8YeAkUiMq
-	 GmRucbHw3i6vwE0+k2q+QOtPyo2235G/mn04JdIhAGp3/jGWNimNSUvjvdL82dJ/fwg==
+	t=1793160886;
+	b=TyR2mE/BjjC6FVvtTQ1JGgZMkJQhpBTmUCNvvqIyetZ1qf7Ik4fU058o1uZdFjz73duY
+	 FJDN/IyKNLansO0uuK63ZtbROdbe94sYzptEkIQxBKJFUBG1zvBasF5Ozn0B63j4wh4SA
+	 smB8xEZBd0yHaUqic+ZwePmoz44Lv/L3JzSR1gWiya5rbX7fPWFmGtPtHolUt6gFelu5S
+	 bKuiYYxYIHXVFKqhnUEb1lfo1ibcokeoyMh3XJ+hyo0N3Glqm4CcFypjDrle1e52mSMYl
+	 bX7JBd1IAOkzXouj8JC17qyFsXV79Qw1EWwcIZ/4VC6Ltya3yLgJAZEzgMMiV61OrRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793160859;
-	h=DMARC-Filter:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 X-Mailer:To:Subject:X-Original-From:From:Message-Id:Cc:Date:
-	 References:Content-Type:In-Reply-To:X-Lms-Return-Path;
-	bh=Kv8Uf76D8g9HHwpLA0JXrynTIbbQnsLJupQzb81VbQk=;
-	b=qF93ddY3qPtpJC30Brkk/S71vyvvtVG5VcriJQvHayFKA5E/vlmogW42d88wuB1iI6Fg
-	 cEQ4sk820b0sCsEfOnzURxJi2F9Jo0mExEzhu1+U8/bBvehK98ysUBm7GrNEsFIUykGqn
-	 6AVh9vwyEGVzaTDNsku2Lo6BfxC++Kt+eyiAlCv7VFt5Uo8qfzx7BVRjkBN4EbODUXuVk
-	 PY4c56tiIgQJni0zX88frtsDBukBtluZROckfdEsN3WnR6sprGaDTw4gqeBaGcJufBzNp
-	 piV0QQ+slRaYXnPmg3ncEkHmUwZ63xdEsOfbTdz1O31FiBBwf1Iq/qTs40G1H3yTzeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793160886;
+	h=DMARC-Filter:DKIM-Signature:Subject:X-Original-From:X-Mailer:
+	 In-Reply-To:To:From:Date:X-Lms-Return-Path:Content-Transfer-Encoding:
+	 Cc:Message-Id:Content-Type:Mime-Version:References;
+	bh=KU/0A4X+KAaLkdtLWi9oM8/JR72sv7pM4/duoNwVWJs=;
+	b=x6+egkC22k3TLS2L5LXu9BLWs6Y8Dwc7PBRexu+QFs7fhFJXB7e3fae+A7nehOxA8dBK
+	 BPssmKMmNtxKWQ+EhAFaztkwp3KelwbrjoleIqlU1Xl4KiojrXWQfBaJFIyEZohNM9yPW
+	 zC4Nt/7CmK2WeWbgQ/H5ipZJkLapw5p/ZAbFl0eObdPKZptXGd6WFxPzdPwdIq6Si119O
+	 J/SyA+HoQvcYPEkIYlC/xk5j2mWAPpmbw0fQgrme6f16nAA/BwDzF2iZkDuxWHJh88oRN
+	 X/5idL+wqOB9xFFtO07RIOX08cRRkm0RkkIOs2L/dMZlBphVa5hoM73udAVZhgEs8Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=KwdzROd7;
-	arc=none smtp.remote-ip=209.127.231.112
-Received: from va-2-112.ptr.blmpb.com (va-2-112.ptr.blmpb.com [209.127.231.112])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=XXbSx7eL;
+	arc=none smtp.remote-ip=209.127.230.114
+Received: from va-1-114.ptr.blmpb.com (va-1-114.ptr.blmpb.com [209.127.230.114])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA20B606A31A
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 04:14:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA20B606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBBB606A324
+	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 04:14:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FBBB606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=KwdzROd7
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=XXbSx7eL
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793160853; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1793160879; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=Kv8Uf76D8g9HHwpLA0JXrynTIbbQnsLJupQzb81VbQk=;
- b=KwdzROd73dvrapoCQxe/K5JjQnGqsV1jX61fAbvNYfxMpoybEctfIusmvR8pbyFCLzJrcz
- 4ZE8C20VHAj+Ow3nZi8W7vqc5y0DePDk9TpQxmwR70mFYkRGDKWMW2O+PpJpzZdV1fzH1K
- 4b663MjktnnSkjocwwS6muWD42X1buEdt5rkz4Ry2oiGCuTxOXg9kBt9X+poN5l/87PxT2
- GMzgngDymLDMceMc/EkRIPXHHYav06ZPxINLYkhxZ/BgdJsSRJltASfjs60m6u4bIdkXo+
- xA7OgrNL+qwBv1vJQdFaRd+2Y4QEyljvs+kBFkPRbxJl1uoP/oHiX1RRrBhB6A==
+ bh=KU/0A4X+KAaLkdtLWi9oM8/JR72sv7pM4/duoNwVWJs=;
+ b=XXbSx7eLYDocUKAVPFz96s7iHNCtBWnzh5RGvprfSAOtgjov7vGLJCeY6lstCUgdhf9RUH
+ p0EBvrsDdCnfzPCQoKbN2L5OOZXYaBIf6mTEZwwtvbpyJphS2DQXBI5+sywEacaZSecLTn
+ gkVdy8J/6emXRZDD9z+mlZwOfTE0I9qe6ASup2D1zAoS8lyLJT/XxZXDEzJEbd5RoJnu+0
+ qhvFNc1j+ots3oaJVxsx3AXzOk5Tv2A2yCRCrQHTYIJtccSiABF+lAfpgFdUOzFVpMaPWa
+ S9o5kw6b+iPc4XuswspbS+mLqs97xS/t6yJqEROXs7t8VHedytes2hJb8uD5Zg==
+Subject: [PATCH v2 2/3] sched/numa: do not feed tiering promotions into task placement stats
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20261028041253.74839-1-lizhe.67@bytedance.com>
+To: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, 
+	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
+	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
+	<vschneid@redhat.com>, <ziy@nvidia.com>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Date: Wed, 28 Oct 2026 12:12:52 +0800
+X-Lms-Return-Path: <lba+26ae176ad+81d302+vger.kernel.org+lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 7bit
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>, "Li Zhe" <lizhe.67@bytedance.com>
+Message-Id: <20261028041253.74839-3-lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,156 +71,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: git-send-email 2.45.2
-To: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
-	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, 
-	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
-	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
-	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
-	<vschneid@redhat.com>, <ziy@nvidia.com>
-Subject: [PATCH v2 1/3] sched/numa: make free-space tiering promotion bypass configurable
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Message-Id: <20261028041253.74839-2-lizhe.67@bytedance.com>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>, "Li Zhe" <lizhe.67@bytedance.com>
-Date: Wed, 28 Oct 2026 12:12:51 +0800
 References: <20261028041253.74839-1-lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <20261028041253.74839-1-lizhe.67@bytedance.com>
-X-Lms-Return-Path: <lba+26ae17693+ee59cf+vger.kernel.org+lizhe.67@bytedance.com>
 
-Memory tiering normally promotes any recently accessed slow-tier page if
-the target fast-tier node has enough free space. This preserves the
-existing policy of filling available fast memory before relying on
-hotness and rate-limit control.
+NUMA balancing has separate mode bits for normal task placement and
+memory tiering. In memory-tiering-only mode, NUMA hinting faults on
+slow-tier pages are used to detect hot pages and promote them to a top
+tier. They are not normal task-placement faults.
 
-That is not always the desired policy. Some deployments may intentionally
-keep part of a workload's memory on CXL-attached memory, for example to
-preserve a desired DRAM/CXL capacity split or bandwidth distribution. With
-the free-space bypass, short cold accesses and bursts of hot accesses can
-refill the fast tier and pull the workload away from that distribution
-whenever DRAM has free space.
+For slow-tier folios, memory tiering reuses the folio last-cpupid field
+to store access-time metadata. numa_migrate_check() therefore cannot
+return a real cpupid for those faults. Before this change, it returned the
+same all-ones last_cpupid value that normal AutoNUMA uses for a first or
+unknown access.
 
-Redis testing exercises this policy issue. On a CXL system with node0 as
-DRAM and node3 as slow-tier memory, a Redis test was run with
-memory-tiering-only mode enabled. The test used a Redis dataset with 12
-million 4KB values. It reclaimed memory until about 85% of Redis
-anonymous memory was on node3, used a Redis benchmark configuration with
-a 10% hot-key working set, and then issued a short 256MB access burst to
-cold keys outside that working set. The cold-key burst mainly touches
-memory outside the hot working set, which is expected to remain mostly on
-the slow tier.
+That can make a memory-tiering-only promotion look like an ordinary first
+private AutoNUMA fault. After a successful promotion, do_numa_page()
+reports the target top-tier node to task_numa_fault(), so the existing
+slow-node skip no longer applies. task_numa_fault() then accounts the
+fault in p->numa_faults and p->numa_faults_locality, and
+task_numa_placement() can consume that sample to update normal task
+placement state even though normal NUMA balancing is disabled. In other
+words, hot-page promotion feedback can leak into the CPU placement
+heuristic.
 
-The upstream default promoted the cold-key burst through the free-space
-bypass. The patched default preserved that behavior, while disabling the
-bypass kept the same promotions behind the hotness and rate-limit checks:
+Mark faults that carried access-time metadata with TNF_ACCESS_TIME. If
+normal NUMA balancing is disabled, keep the migrated-page accounting but
+skip normal task-placement accounting for those faults.
 
-                              upstream     patched default    bypass disabled
-  cold-key burst ops/s          117250         115481             142505
-  cold-key burst P99.9 ms        0.854          0.859              0.686
-  pgpromote_candidate              0              0               1488328
+When normal NUMA balancing and memory tiering are both enabled, promoted
+pages can still feed task placement. In that mode, the user has enabled
+both CPU placement feedback and tiering promotion, so a promoted top-tier
+fault is treated as an ordinary unset-cpupid AutoNUMA fault.
 
-Compared to upstream default, disabling the bypass improved cold-key burst
-throughput by 21.5% and P99.9 latency by 19.7%.
+This does not change whether a page is promoted. It only prevents
+memory-tiering-only promotion faults from being consumed by the normal
+AutoNUMA placement heuristic.
 
-Add a sched debugfs knob:
-
-  /sys/kernel/debug/sched/numa_balancing/promote_free_space_bypass
-
-It defaults to enabled, preserving the existing behavior. When disabled,
-enough free space in the target fast-tier node no longer bypasses the
-normal hotness and rate-limit controls.
+Using a fault flag avoids reserving an in-band value from the cpupid
+namespace, where any masked value may also be produced by a real CPU/PID
+pair.
 
 Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
 ---
- include/linux/mmzone.h |  5 ++---
- kernel/sched/debug.c   |  2 ++
- kernel/sched/fair.c    | 14 ++++++++------
- kernel/sched/sched.h   |  1 +
- 4 files changed, 13 insertions(+), 9 deletions(-)
+ include/linux/sched/numa_balancing.h |  1 +
+ kernel/sched/fair.c                  | 13 +++++++++++++
+ mm/memory.c                          |  6 ++++--
+ 3 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index ecd1ebd49756..bf2d604c04b3 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -278,9 +278,8 @@ enum node_stat_item {
- 	 */
- 	PGPROMOTE_CANDIDATE,
- 	/**
--	 * Not rate-limited (NRL) candidate pages for those can be promoted
--	 * without considering hot threshold because of enough free pages in
--	 * fast-tier node.  These promotions bypass the regular hotness checks
-+	 * Not rate-limited (NRL) candidate pages selected for promotion through
-+	 * the free-space bypass. These candidates bypass the regular hotness checks
- 	 * and do NOT influence the promotion rate-limiter or
- 	 * threshold-adjustment logic.
- 	 * This is for statistics/monitoring purposes.
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index e6a3b516c703..a28f0f09c91e 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -736,6 +736,8 @@ static __init int sched_init_debug(void)
- 	debugfs_create_u32("scan_period_max_ms", 0644, numa, &sysctl_numa_balancing_scan_period_max);
- 	debugfs_create_u32("scan_size_mb", 0644, numa, &sysctl_numa_balancing_scan_size);
- 	debugfs_create_u32("hot_threshold_ms", 0644, numa, &sysctl_numa_balancing_hot_threshold);
-+	debugfs_create_bool("promote_free_space_bypass", 0644, numa,
-+			    &numa_balancing_promote_free_space_bypass);
- #endif /* CONFIG_NUMA_BALANCING */
+diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
+index 52b22c5c396d..200f50075d5c 100644
+--- a/include/linux/sched/numa_balancing.h
++++ b/include/linux/sched/numa_balancing.h
+@@ -14,6 +14,7 @@
+ #define TNF_SHARED	0x04
+ #define TNF_FAULT_LOCAL	0x08
+ #define TNF_MIGRATE_FAIL 0x10
++#define TNF_ACCESS_TIME	0x20
  
- #ifdef CONFIG_SCHED_CACHE
+ enum numa_vmaskip_reason {
+ 	NUMAB_SKIP_UNSUITABLE,
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index cfc982205b98..46a11f5ddafb 100644
+index 46a11f5ddafb..136207b62d87 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -134,6 +134,8 @@ static unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
- #ifdef CONFIG_NUMA_BALANCING
- /* Restrict the NUMA promotion throughput (MB/s) for each target node. */
- static unsigned int sysctl_numa_balancing_promote_rate_limit = 65536;
-+/* Preserve the existing default of using free fast-tier space eagerly. */
-+bool numa_balancing_promote_free_space_bypass = true;
- #endif
+@@ -4149,6 +4149,19 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	if (!p->mm)
+ 		return;
  
- #ifdef CONFIG_SYSCTL
-@@ -2759,11 +2761,10 @@ static inline bool cpupid_valid(int cpupid)
- }
++	/*
++	 * Slow-tier pages use last_cpupid as access-time metadata instead of
++	 * a real cpupid. Do not feed these faults into normal task placement
++	 * when normal NUMA balancing is disabled.
++	 */
++	if (flags & TNF_ACCESS_TIME) {
++		if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_NORMAL)) {
++			if (migrated)
++				p->numa_pages_migrated += pages;
++			return;
++		}
++	}
++
+ 	/*
+ 	 * NUMA faults statistics are unnecessary for the slow memory
+ 	 * node for memory tiering mode.
+diff --git a/mm/memory.c b/mm/memory.c
+index 0fb676dd2bd6..00b171e2fe23 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -6241,10 +6241,12 @@ int numa_migrate_check(struct folio *folio, struct vm_fault *vmf,
+ 	 * For memory tiering mode, cpupid of slow memory page is used
+ 	 * to record page access time.  So use default value.
+ 	 */
+-	if (folio_use_access_time(folio))
++	if (folio_use_access_time(folio)) {
++		*flags |= TNF_ACCESS_TIME;
+ 		*last_cpupid = (-1 & LAST_CPUPID_MASK);
+-	else
++	} else {
+ 		*last_cpupid = folio_last_cpupid(folio);
++	}
  
- /*
-- * For memory tiering mode, if there are enough free pages (more than
-- * enough watermark defined here) in fast memory node, to take full
-- * advantage of fast memory capacity, all recently accessed slow
-- * memory pages will be migrated to fast memory node without
-- * considering hot threshold.
-+ * For memory tiering mode, if the target fast memory node has enough free
-+ * pages, recently accessed slow memory pages can bypass the normal hotness
-+ * check and rate limit so the fast tier can be filled. The bypass can be
-+ * disabled by numa_balancing_promote_free_space_bypass.
-  */
- static bool pgdat_free_space_enough(struct pglist_data *pgdat)
- {
-@@ -2884,7 +2885,8 @@ bool should_numa_migrate_memory(struct task_struct *p, struct folio *folio,
- 		long nr = folio_nr_pages(folio);
- 
- 		pgdat = NODE_DATA(dst_nid);
--		if (pgdat_free_space_enough(pgdat)) {
-+		if (numa_balancing_promote_free_space_bypass &&
-+		    pgdat_free_space_enough(pgdat)) {
- 			/* workload changed, reset hot threshold */
- 			pgdat->nbp_threshold = 0;
- 			mod_node_page_state(pgdat, PGPROMOTE_CANDIDATE_NRL, nr);
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 87c5335add37..662b11bd401e 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -3218,6 +3218,7 @@ extern unsigned int sysctl_numa_balancing_scan_period_min;
- extern unsigned int sysctl_numa_balancing_scan_period_max;
- extern unsigned int sysctl_numa_balancing_scan_size;
- extern unsigned int sysctl_numa_balancing_hot_threshold;
-+extern bool numa_balancing_promote_free_space_bypass;
- 
- #ifdef CONFIG_SCHED_HRTICK
- 
+ 	/* Record the current PID accessing VMA */
+ 	vma_set_access_pid_bit(vma);
 -- 
 2.20.1
