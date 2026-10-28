@@ -1,109 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793194817;
-	b=Ld0tD5f8YSEFaKBrP2LDgT8RuBzT7TnSV2sgK9leJ7Rbh8xZiYuCvHmIa//YDF2c060l
-	 +5P0EbKsSDFQ5MjkupZlq8cXweBvTXJPMFV97avdXx7YGHCP2FsR/koVdQ1WzP8A3FScA
-	 wrcDnUrqWAmQfqflGC1x+SObPN9Nsm8LQSg1IsRssOmoY05CKK8Ntkm73caUDjo9Oynqi
-	 PsTWsYskkMVtW3W8ivAqjFZqi0AXS7flllk8Ix/TYosKsb3OcyH91GU57BpRAB9R30m35
-	 LvmXmRsdBGEI1AD/xH5H9KpYQBacPurS8qJoonjjJZnvuK0AKGq2ajPWUyKUn46OPsA==
+	t=1793194943;
+	b=e2VFPAEykkgUtjiEqS/64giL/oH6NNJ0A5vu2UmcDe8J0VUaHurAbMiLTysJb6dDjzxk
+	 lAwa1UQlwYj2j/4PYWsMkaSqWjfWzrP6d9htR4JPhN/D0XZhU7KwU5LBTU2cXTBx78FXP
+	 6FMgzVp9GkHFhsH1A+tWswHAyWw2H9k9ZAuPSbvAy2Rfehn2V4D+fnZWGtPo7ZnOEsLvF
+	 HLOiXUhgGveyQp0HWSL02wZC2yilr5EL9SI4iJhEQnkpfYnTi5AYyumlaRGG6Oj6EDcJf
+	 7UEcKY+8JEr+eo3WVMC1dMTuCt+OQDTS+sLYLgrJssV3Qut2k7JA4G+mAfUJFm3TrPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793194817;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=rTR6fgNF+2TTk5l8yXrK2u6P71Yis/UBObU7lA/CVSY=;
-	b=ZCYEotHw/zWRl0g4VlI2bbm32fSZu1QzZ90rgxMNATPo4cISHjqSzLVWhLF5LavE6G9+
-	 Ezdm9mV+wZcxr57eTLHp0Gu4SMA/OtHByEwIaNuRMzVYOywgJg4tL5t+VeHhK3cZIkTHl
-	 70Otvbyg9cQKd50vmPNafDpYI9zJm99+XT1xNtlumFOooJnJG0SY0YDgmESW31O2lF5si
-	 ZByo3oq20YV2dtI0lgqF6E+YakxO/07rDGY6GQa3gAfQIe9WV9RhX3sGPjJSfzirfchdA
-	 3eOlltIvx5DiylNjXzgrIIzr1fCwFvIoJbtY5t3j59cafhGZQ4Nuqdp+2DEIrk6IC1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194943;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=vGGkmgZlyNVgmXZbc17aFcU5yqNlGUh8mJuGJ4CJ8Y4=;
+	b=LqnxmQ/NcxAXAQ8qD9Zq+1w53gcPJaZwuTJQvBg/5DaJVqQJsA1K5nk+0wdgUtYJSXHX
+	 0dDwFQyogSVIPWDmRa4C6r5IZ5zMEazjlxsqlZBUNaKJMIkHe4vtpYaIx1TkfNgnVviU5
+	 SBHeATUwj9FqoKpn4OgWIa640E3ziMTGRoXC71vxMj3BkOaqF1HDgz82j40+S2xW8DF+3
+	 DBn82PapZQHAxQYmEKq7MGHKA25+FPefeu5b+8rtEzYI7ykTs667VQF+Wo+VCGFAUTguu
+	 BdZFJe5Vb6e/+gMsmzeGC/EdC0Qs7La9KCkO3dgbAkJ3Mx4BvNcNogjTb6hM+1M3cXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T4eBS8Wg;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R3vQli9Z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91982606A31D
-	for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 13:40:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91982606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5384F606A31C;
+	Wed, 28 Oct 2026 13:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T4eBS8Wg
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so8778585e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 06:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793194815; x=1793799615; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rTR6fgNF+2TTk5l8yXrK2u6P71Yis/UBObU7lA/CVSY=;
-        b=T4eBS8Wg2tS8DF2FxDoEzLk87FWGAltZONOWqqijvhnliG+/czE7LgvFt+6WpuWixQ
-         JoL0giCy/cjWdD0Ne1bc1EGAQPvdUpic6VSEjbeOkc4Qxc/nA8+64kkEwHTGNWVj/hcw
-         Ohpjh2dSQWALbSot6oK24tbEpUlpMI/8rxyrSro5tibi/fo2DFSYzf+s+1vyqxKYfvLo
-         XrgA9dUQd65+mVhNnGRNVZaeFKJxG86XUO6IYgm6Rou9lg4QAMd9jEwsjX6tOev+Eag4
-         ktPy6iANe6CUFb13V9Km1VpmaoEpJmi//nnx+suJrOUXG2jBKAYszIucY7rtpIFQi9UR
-         glig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793194815; x=1793799615;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rTR6fgNF+2TTk5l8yXrK2u6P71Yis/UBObU7lA/CVSY=;
-        b=WDuDgElosagHJyOWLTXdMnyURQThsSt6f9cfPoGXv2cg9s/UcRtXDgJQi+PHxYUzlG
-         BPz77GcMdbMrwbp5uZTdjGK41AqnuUXnQwlR/ydpNqLi+VzAbCb5dCWa4bkZZXsbYNJb
-         UGiLDHsP0STBYWRhTJj8JYlQq7yQZaG82Ztf/hCR7a66aNqwNmsxamnqfMJLV65oqSzC
-         xCusajJ9j/X24JMo8dSLo9aXT4YpNA5CUcwi6LBk7bH4Vk0Y8HuGq/ijGVPuGj7P+d7p
-         TV34yMIZIJ64EJDNSmckEhotaIXVXsfZQuH3zUkwEPpjxfOKBdYO55XGihLdui5xgYcS
-         9UHQ==
-X-Forwarded-Encrypted: i=1; AKwUvByLXtND4h9laLuvbaaJ334apPpbrOeP/5sHikWGyqlVTim+qmRjCIiojRGzUdEUxn8a/5V8No2f9No=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLUdRBwEI14e3l+KDMKsNx6tCM2yvJhRBx6Q2tYHk+FQ9BoX/3C
-	5UI/iScc8cLjuaZEodTgPzZfze3SPCleolFJDHYlgEHFreo5J5EDpc4Q
-X-Gm-Gg: AYBFou2DzrjQxfugw/0NVRfis4J1hi1UTpKczQG1He0fyKHgeuhUUGa7CvAH0wN/NIc
-	H0nf35iowHo5+cdwn20k0hlT7i676PRZ8OJNRzoHlpxR06mxgDI6C9NEG5FTw2a6Z+6tVfAaxI7
-	bJ5N9ijlLVYwNTxixL4S4xD8RBnfKwrM+cFDL5YgCk8jFEyAUmwBehIKpyWikZqfw4NmQBS2WJq
-	KOIzujFJAl6mlBWsMmj7LzmV0cHlapaKZezkUA0W0oALPkQwQ+vaqp9mN3vJvJ+dsx3MjMw1BAS
-	5AZYaNRN44buvXQA8f+vL0P7wPUZK/zMTWHkU9S7RdZTEpNVSVP08XZguRKfGcaLlGujsW3trw0
-	5id+pE8/PHGa7SzrhxRv+TEt6/MECP4g//HAai3uauXAhTtQXF9yrDL9XQnhA8vFNSZRNvamfJK
-	MBORaKHR1ni/Aou6dmMCH9dTOSUewNjVpg4WXXgOwP7IwXT3nIIiyv+uWjXZegMaFGA66ZSyidB
-	Awbj6ZgNFmaVPtjVFjA2OmQ0sFycYOVrIYawstVCAqFVUAUDpCV8DOJJCvFJXhSN6/9PemXQmw2
-	wIpDA37G9S23PvOZhovHXJvayWENh+DoKdIXF9uY78e8OxNrKQ1EtZ4xqjr+ZLQss+o=
-X-Received: by 2002:a05:600c:6085:b0:4a1:e01e:1927 with SMTP id 5b1f17b1804b1-4a996a9e304mr40226765e9.5.1793194814621;
-        Wed, 28 Oct 2026 06:40:14 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd3c32sm29592978f8f.47.2026.10.28.06.40.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 06:40:14 -0700 (PDT)
-Date: Wed, 28 Oct 2026 13:40:12 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai
- <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
- <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to
- /proc/kallsyms
-Message-ID: <20261028134012.01d52e94@pumpkin>
-In-Reply-To: <20261023001603.560210-9-wusamuel@google.com>
-References: <20261023001603.560210-8-wusamuel@google.com>
-	<20261023001603.560210-9-wusamuel@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R3vQli9Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD601F01825;
+	Wed, 28 Oct 2026 13:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793194942;
+	bh=vGGkmgZlyNVgmXZbc17aFcU5yqNlGUh8mJuGJ4CJ8Y4=;
+	h=From:Date:Subject:To:Cc;
+	b=R3vQli9ZfyEM47iG/JusIyoMOVDtXvETH1TKeaU6E3ZL3msfDHQ/IV5z/3zkoW5ed
+	 YjKXCamzDRHgILZzUagvqoO6heI77Hk/fmhBBAuVCgqr89pMLWnHzU7B+tdnTUOcSe
+	 /O5gtTkzrOL1GA//aLTBt3nAv/Wrb9upc9Nw4C4E=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Wed, 28 Oct 2026 14:42:15 +0100
+Subject: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,314 +50,254 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261028-bind_taint-revert-v1-1-7c6b9cef30c9@linuxfoundation.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAMBTG8VfRubaaEfIqks7m4LgYbSMl7264/
+ NX3/S/w5Jg8NMkFjg72vNqILE3AzGgnEjxEg5KqzKSqhWY79AHZBhH35IKQaCo0KpdlgRB/m6O
+ Rz6/Zdr/9rhcy4Q3BfT+y8ceNdQAAAA==
+X-Change-ID: 20261028-bind_taint-revert-0ac7ac23064a
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+ Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Michal Pecio <michal.pecio@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: b4 0.17-dev-e5168
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9825;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=WEjDzOBuI0zhJ6U8i83hUCjPMIw/Sk9SQRDgYzrzWcw=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPf+9ZW6f+zcwxeNbNGO9tVaa2nm9/+HiZeq1+O/UXu
+ 5ala8u2jlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIfimG+U59E5+o2nHscv7i
+ 6brRddMx/21pZxkW7L8YXn12FnOZmcnEa8f0dysdmxi2GwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-On Thu, 22 Oct 2026 17:16:02 -0700
-Samuel Wu <wusamuel@google.com> wrote:
+This reverts commit fcbfaffee51a452cc8efcbaa3b88ec4595678424.
 
-> Add an extensible KALLSYMS_QUERY ioctl() interface to /proc/kallsyms
-> to support fast point queries without scanning the entire text file.
-> Exactly one query mode must be set in query_flags.
-> 
-> When KALLSYMS_QUERY_BY_SYMBOL is set in query_flags, KALLSYMS_QUERY
-> resolves a NUL-terminated symbol name in vmlinux or loaded modules and
-> then populates sym_addr:
-> - Searches vmlinux first via kallsyms_lookup_names() (binary search),
->   which takes precedence over loaded modules, and falls back to
->   module_kallsyms_on_each_symbol() under module_mutex for module
->   symbols
-> - Matches names exactly, like kallsyms_lookup_name(), disregarding the
->   .llvm.<hash> matching, following precedent set by commit fb6a421fb615
->   ("kallsyms: Match symbols exactly with CONFIG_LTO_CLANG")
+Turns out that vfio is a crazy beast and people have been "relying" on
+the bind/unbind debugging feature as a way to handle passing through
+devices to guest instances.  Because of this (https://xkcd.com/1172/),
+let's revert the feature for now until we can figure out a more agreable
+way to handle this such that normal workflows do not taint the kernel.
 
-Hmmmm....
-What happens when you have functions foo and foo.constprop0
-In some sense they are duplicates.
+Odds are something like what Uwe proposes at:
+	https://lore.kernel.org/lkml/cover.1790612298.git.u.kleine-koenig@baylibre.com/
+will be the best way forward and will be revisited after for after 7.4.
 
-> - Resolves 0x0 symbol addresses in both vmlinux and modules
-> - Rejects ambiguous symbols (multiple entries with the same name at
->   different addresses within vmlinux, or across loaded modules) with
->   -EADDRNOTAVAIL, while allowing same-address aliases
-> 
-> Userspace symbolizers resolve kernel addresses to symbol names with
-> /proc/kallsyms. This is typically done by reading the entire
-> /proc/kallsyms text file, and keeping a compressed sorted copy of it in
-> order to resolve addresses at runtime.
+The feature was originally intended to stem the flow of unnecessary
+fuzzing reports of "broken" drivers where random devices were being
+bound to random drivers and of course things were going wrong.  The main
+syzbot tool is now not doing this anymore, and hopefully no one else
+starts it up again (but in this madness of LLMs these days, you can't be
+sure.)
 
-You could mmap the tables into userspace and have a ioctl that reported
-the offsets of the tables (etc).
-Then user lookup would faster then kernel lookup!
-Especially since you could throw a bit more memory at it to remove the
-linear scans.
+Thanks to everyone for telling me just how wrong I was to implement
+this, I appreciated the feedback :)
 
-> 
-> When KALLSYMS_QUERY_BY_ADDR is set in query_flags, KALLSYMS_QUERY
-> resolves one address to the symbol that contains it:
-> - sym_addr holds the address to resolve on input.
-> - sym_name_addr must point to a user buffer of sym_name_size bytes
->   that receives the NUL-terminated symbol name. On output,
->   sym_name_size holds the number of bytes written (including the
->   terminating NUL). -ENAMETOOLONG is returned if the buffer is too
->   small; a buffer of KSYM_NAME_LEN (512 at the time of writing) bytes
->   is always large enough.
-> - Symbols are resolved via kallsyms_lookup(), the same lookup as %pS,
->   covering vmlinux, loaded modules, BPF JIT images, and freed module
->   init functions still tracked by ftrace.
-> 
-> On an 8 CPU Cuttlefish (x86-64 VM), using this patchseries to load a BPF
-> program with 11 typeless ksyms has ~220x speedup (157ms -> 0.7ms).
+Link: https://lore.kernel.org/all/DLIL9H50MALI.3JROXYEEUM3KU@kernel.org/
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reported-by: Leon Romanovsky <leon@kernel.org>
+Reported-by: Jason Gunthorpe <jgg@ziepe.ca>
+Reported-by: Michal Pecio <michal.pecio@gmail.com>
+Reported-by: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/admin-guide/tainted-kernels.rst | 52 +++++++++++++--------------
+ drivers/base/bus.c                            |  3 --
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/panic.c                                |  5 ++-
+ tools/debugging/kernel-chktaint               |  8 -----
+ 6 files changed, 28 insertions(+), 46 deletions(-)
 
-Have you tried measuring it with my patches that speed up the kernel
-'search by name' code?
-That speeds the lookup by a factor of ~18 (testing the code in userspace).
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index a208811ad525..3d312bc17942 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -79,31 +79,30 @@ which bits are set::
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-===  ===  =======  ========================================================
+-Bit  Log  Number   Reason that got the kernel tainted
+-===  ===  =======  ========================================================
+-  0  G/P        1  proprietary module was loaded
+-  1  _/F        2  module was force loaded
+-  2  _/S        4  kernel running on an out of specification system
+-  3  _/R        8  module was force unloaded
+-  4  _/M       16  processor reported a Machine Check Exception (MCE)
+-  5  _/B       32  bad page referenced or some unexpected page flags
+-  6  _/U       64  taint requested by userspace application
+-  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
+-  8  _/A      256  ACPI table overridden by user
+-  9  _/W      512  kernel issued warning
+- 10  _/C     1024  staging driver was loaded
+- 11  _/I     2048  workaround for bug in platform firmware applied
+- 12  _/O     4096  externally-built ("out-of-tree") module was loaded
+- 13  _/E     8192  unsigned module was loaded
+- 14  _/L    16384  soft lockup occurred
+- 15  _/K    32768  kernel has been live patched
+- 16  _/X    65536  auxiliary taint, defined for and used by distros
+- 17  _/T   131072  kernel was built with the struct randomization plugin
+- 18  _/N   262144  an in-kernel test has been run
+- 19  _/J   524288  userspace used a mutating debug operation in fwctl
+- 20  _/Y  1048576  device was manually bound or unbound from a driver
+-===  ===  =======  ========================================================
++===  ===  ======  ========================================================
++Bit  Log  Number  Reason that got the kernel tainted
++===  ===  ======  ========================================================
++  0  G/P       1  proprietary module was loaded
++  1  _/F       2  module was force loaded
++  2  _/S       4  kernel running on an out of specification system
++  3  _/R       8  module was force unloaded
++  4  _/M      16  processor reported a Machine Check Exception (MCE)
++  5  _/B      32  bad page referenced or some unexpected page flags
++  6  _/U      64  taint requested by userspace application
++  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
++  8  _/A     256  ACPI table overridden by user
++  9  _/W     512  kernel issued warning
++ 10  _/C    1024  staging driver was loaded
++ 11  _/I    2048  workaround for bug in platform firmware applied
++ 12  _/O    4096  externally-built ("out-of-tree") module was loaded
++ 13  _/E    8192  unsigned module was loaded
++ 14  _/L   16384  soft lockup occurred
++ 15  _/K   32768  kernel has been live patched
++ 16  _/X   65536  auxiliary taint, defined for and used by distros
++ 17  _/T  131072  kernel was built with the struct randomization plugin
++ 18  _/N  262144  an in-kernel test has been run
++ 19  _/J  524288  userspace used a mutating debug operation in fwctl
++===  ===  ======  ========================================================
+ 
+ Note: The character ``_`` is representing a blank in this table to make reading
+ easier.
+@@ -190,6 +189,3 @@ More detailed explanation for tainting
+  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+      to use the devices debugging features. Device debugging features could
+      cause the device to malfunction in undefined ways.
+-
+- 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
+-     successfully bound or removed a device from a driver.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index f8759d5c9056..396097fdb316 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -19,7 +19,6 @@
+ #include <linux/string.h>
+ #include <linux/mutex.h>
+ #include <linux/sysfs.h>
+-#include <linux/panic.h>
+ #include "base.h"
+ #include "power/power.h"
+ 
+@@ -242,7 +241,6 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+ 
+ 	dev = bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && dev->driver == drv) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		device_driver_detach(dev);
+ 		err = count;
+ 	}
+@@ -266,7 +264,6 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
+ 
+ 	dev = bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && driver_match_device(drv, dev)) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		err = device_driver_attach(drv, dev);
+ 		if (!err) {
+ 			/* success */
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index 23976b1dfdb6..17e61b61c45f 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -89,8 +89,7 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+ #define TAINT_RANDSTRUCT		17
+ #define TAINT_TEST			18
+ #define TAINT_FWCTL			19
+-#define TAINT_FORCED_BIND		20
+-#define TAINT_FLAGS_COUNT		21
++#define TAINT_FLAGS_COUNT		20
+ #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+ 
+ struct taint_flag {
+diff --git a/include/trace/events/module.h b/include/trace/events/module.h
+index 19df3e39bba4..e5a006be9dc6 100644
+--- a/include/trace/events/module.h
++++ b/include/trace/events/module.h
+@@ -26,8 +26,7 @@ struct module;
+ 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
+ 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
+ 	{ (1UL << TAINT_CRAP),			"C" },		\
+-	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
+-	{ (1UL << TAINT_FORCED_BIND),		"Y" })
++	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
+ 
+ TRACE_EVENT(module_load,
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b824b68fcb08..574ee5a12f92 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -825,7 +825,6 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
+ 	TAINT_FLAG(TEST,			'N', ' '),
+ 	TAINT_FLAG(FWCTL,			'J', ' '),
+-	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
+ };
+ 
+ #undef TAINT_FLAG
+@@ -862,9 +861,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
+  * exact size is allocated dynamically; the initial buffer remains
+  * as a fallback if allocation fails.
+  *
+- * The verbose taint string currently requires up to 344 characters.
++ * The verbose taint string currently requires up to 327 characters.
+  */
+-#define INIT_TAINT_BUF_MAX 370
++#define INIT_TAINT_BUF_MAX 350
+ 
+ static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
+ static char *taint_buf __refdata = init_taint_buf;
+diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
+index d8628be37214..e1571c04afb5 100755
+--- a/tools/debugging/kernel-chktaint
++++ b/tools/debugging/kernel-chktaint
+@@ -211,14 +211,6 @@ else
+ 	addout "J"
+ 	echo " * fwctl's mutating debug interface was used (#19)"
+ fi
+-
+-T=`expr $T / 2`
+-if [ `expr $T % 2` -eq 0 ]; then
+-	addout " "
+-else
+-	addout "Y"
+-	echo " * device was manually bound or unbound from a driver (#20)"
+-fi
+ echo "Raw taint value as int/string: $taint/'$out'"
+ 
+ # report on any tainted loadable modules
 
-You also should allow for 'find first' and 'find next'.
-As well as letting the code iterate though functions with the same name
-it is absolutely trivial to enhance the 'lookup by name' code to match
-a prefix.
-(Basically it needs to 'return -index' instead of 'return -1' when the
-binary scan fails.)
+---
+base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+change-id: 20261028-bind_taint-revert-0ac7ac23064a
 
-
-> 
-> On an 8 CPU x86-64 VM with a 175k line kallsyms, there are broad
-> performance and memory savings for the symbolization and callstack
-> sampling tool, Perfetto:
-> - Init time: ~350x speedup (155.7ms -> 0.44ms)
-> - 50k symbolizations: ~12x speedup (25.2ms -> 2.2ms)
-> - VmRSS: -68% (15.1MB -> 4.8MB)
-> 
-> Suggested-by: Andrii Nakryiko <andrii@kernel.org>
-> Signed-off-by: Samuel Wu <wusamuel@google.com>
-> ---
->  include/uapi/linux/fs.h |  41 +++++++++++++
->  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 173 insertions(+)
-> 
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index 34c6f219462a..b43f227dad0e 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -674,6 +674,47 @@ struct procmap_query {
->  	__u64 build_id_addr;		/* in */
->  };
->  
-> +/* /proc/kallsyms ioctl */
-> +#define KALLSYMS_QUERY	_IOWR(PROCFS_IOCTL_MAGIC, 18, struct kallsyms_query)
-> +
-> +/* Exactly one query mode must be set in query_flags. */
-> +enum kallsyms_query_flags {
-> +	/*
-> +	 * Look up a symbol in vmlinux or loaded modules (vmlinux first; BPF
-> +	 * and ftrace symbols are not searched) by exact NUL-terminated name
-> +	 * at sym_name_addr and return sym_addr. sym_addr and sym_name_size
-> +	 * must be 0 on input.
-> +	 */
-> +	KALLSYMS_QUERY_BY_SYMBOL = 0x01,
-> +	/*
-> +	 * Look up the symbol covering sym_addr and write its NUL-terminated
-> +	 * name to the sym_name_addr buffer of sym_name_size bytes. The same
-> +	 * symbols as %pS are searched: vmlinux, loaded modules, BPF JIT
-> +	 * images, and freed module init functions still tracked by ftrace.
-> +	 * A buffer of KSYM_NAME_LEN (512 at the time of writing) bytes is
-> +	 * always enough. On success, sym_name_size is set to the number of
-> +	 * bytes written (including the terminating NUL).
-> +	 */
-> +	KALLSYMS_QUERY_BY_ADDR = 0x02,
-> +};
-> +
-> +/*
-> + * Returns -ENOENT if no symbol matches, -EADDRNOTAVAIL if the name maps to
-> + * more than one address, -ENAMETOOLONG if the name does not fit in
-> + * KSYM_NAME_LEN (512 at the time of writing) or sym_name_size bytes, and
-> + * -EPERM if kallsyms addresses are hidden from the opener of /proc/kallsyms
-> + * (e.g. kptr_restrict).
-> + */
-> +struct kallsyms_query {
-> +	__u64 size;		/* in - struct size for compatibility */
-
-I'm not sure you need a size here as well as the one in the ioctl command.
-It only complicates things when they differ.
-
-If you need a new version they you add an extra case to the switch statement.
-Simple and easy,
-
-> +	__u64 query_flags;	/* in - query mode (enum kallsyms_query_flags) */
-> +	__u64 sym_name_addr;	/* in - address of symbol name buffer */
-> +	__u64 sym_addr;		/* out (BY_SYMBOL) / in (BY_ADDR) */
-> +	__u64 sym_name_size;	/* in/out - name buffer size / bytes written */
-
-Maybe separate the buffer size from the length of the symbol written?
-The in/out parameter will get annoying in code doing multiple lookups.
-Or just have the buffer size and require it to be '\0' terminated.
-(There is a strncpy_from_user() can that be used.)
-
-The '\0' terminated string handling is likely to be noise against
-all the rest of the lookup code.
-
-David
-
-> +};
-> +
-> +#define KALLSYMS_QUERY_SIZE_VER0	40 /* sizeof first published struct */
-> +
->  /*
->   * Shutdown the filesystem.
->   */
-> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-> index aec2f06858af..7caaf3e421c7 100644
-> --- a/kernel/kallsyms.c
-> +++ b/kernel/kallsyms.c
-> @@ -31,6 +31,7 @@
->  #include <linux/kernel.h>
->  #include <linux/bsearch.h>
->  #include <linux/btf_ids.h>
-> +#include <linux/uaccess.h>
->  
->  #include "kallsyms_internal.h"
->  
-> @@ -922,11 +923,142 @@ const char *kdb_walk_kallsyms(loff_t *pos)
->  }
->  #endif	/* CONFIG_KGDB_KDB */
->  
-> +struct kallsyms_mod_find_ctx {
-> +	const char *name;
-> +	unsigned long addr;
-> +	bool found;
-> +};
-> +
-> +static int kallsyms_mod_find_cb(void *data, const char *name, unsigned long addr)
-> +{
-> +	struct kallsyms_mod_find_ctx *ctx = data;
-> +
-> +	if (strcmp(name, ctx->name) != 0)
-> +		return 0;
-> +	if (ctx->found && ctx->addr != addr)
-> +		return -EADDRNOTAVAIL;
-> +	ctx->found = true;
-> +	ctx->addr = addr;
-> +	return 0;
-> +}
-> +
-> +static int do_kallsyms_query(struct kallsym_iter *iter, void __user *uarg)
-> +{
-> +	char namebuf[KSYM_NAME_LEN];
-> +	struct kallsyms_query karg;
-> +	unsigned long addr;
-> +	unsigned int start;
-> +	unsigned int end;
-> +	unsigned int i;
-> +	__u64 usize;
-> +	long len;
-> +	int err;
-> +
-> +	BUILD_BUG_ON(sizeof(struct kallsyms_query) != KALLSYMS_QUERY_SIZE_VER0);
-> +
-> +	/*
-> +	 * The text interface shows zero addresses to openers without permission.
-> +	 * A zeroed point query result is useless (and an address-to-symbol query
-> +	 * would leak KASLR), so fail instead.
-> +	 */
-> +	if (!iter->show_value)
-> +		return -EPERM;
-> +	if (copy_from_user(&usize, uarg, sizeof(usize)))
-> +		return -EFAULT;
-> +	if (usize > PAGE_SIZE)
-> +		return -E2BIG;
-> +	if (usize < KALLSYMS_QUERY_SIZE_VER0)
-> +		return -EINVAL;
-> +
-> +	err = copy_struct_from_user(&karg, sizeof(karg), uarg, usize);
-> +	if (err)
-> +		return err;
-> +
-> +	switch (karg.query_flags) {
-> +	case KALLSYMS_QUERY_BY_SYMBOL:
-> +		if (karg.sym_addr || karg.sym_name_size)
-> +			return -EINVAL;
-> +
-> +		len = strncpy_from_user(namebuf, u64_to_user_ptr(karg.sym_name_addr),
-> +					sizeof(namebuf));
-> +		if (len < 0)
-> +			return len;
-> +		if (len == 0)
-> +			return -EINVAL;
-> +		if (len == sizeof(namebuf))
-> +			return -ENAMETOOLONG;
-> +
-> +		if (kallsyms_lookup_names(namebuf, &start, &end)) {
-> +			struct kallsyms_mod_find_ctx ctx = { .name = namebuf };
-> +
-> +			err = module_kallsyms_on_each_symbol(NULL, kallsyms_mod_find_cb, &ctx);
-> +			/* Check first: maps -EOPNOTSUPP (CONFIG_MODULES=n) to -ENOENT. */
-> +			if (!ctx.found)
-> +				return -ENOENT;
-> +			if (err)
-> +				return err;
-> +			addr = ctx.addr;
-> +		} else {
-> +			addr = kallsyms_sym_address(get_symbol_seq(start));
-> +			for (i = start + 1; i <= end; i++) {
-> +				if (kallsyms_sym_address(get_symbol_seq(i)) != addr)
-> +					return -EADDRNOTAVAIL;
-> +			}
-> +		}
-> +
-> +		karg.sym_addr = addr;
-> +		break;
-> +	case KALLSYMS_QUERY_BY_ADDR:
-> +		if (!karg.sym_name_size)
-> +			return -EINVAL;
-> +		addr = karg.sym_addr;
-> +		/* Reject addresses that do not fit in unsigned long (32-bit). */
-> +		if (addr != karg.sym_addr)
-> +			return -ENOENT;
-> +		if (!kallsyms_lookup(addr, NULL, NULL, NULL, namebuf))
-> +			return -ENOENT;
-> +
-> +		len = strlen(namebuf) + 1;
-> +		if (karg.sym_name_size < len)
-> +			return -ENAMETOOLONG;
-> +		if (copy_to_user(u64_to_user_ptr(karg.sym_name_addr), namebuf, len))
-> +			return -EFAULT;
-> +
-> +		karg.sym_name_size = len;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (copy_to_user(uarg, &karg, min_t(size_t, sizeof(karg), usize)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static long kallsyms_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct seq_file *m = file->private_data;
-> +
-> +	switch (_IOC_NR(cmd)) {
-> +	case _IOC_NR(KALLSYMS_QUERY):
-> +		if (!extensible_ioctl_valid(cmd, KALLSYMS_QUERY, KALLSYMS_QUERY_SIZE_VER0))
-> +			return -ENOIOCTLCMD;
-> +		return do_kallsyms_query(m->private, (void __user *)arg);
-> +	default:
-> +		return -ENOIOCTLCMD;
-> +	}
-> +}
-> +
->  static const struct proc_ops kallsyms_proc_ops = {
->  	.proc_open	= kallsyms_open,
->  	.proc_read	= seq_read,
->  	.proc_lseek	= seq_lseek,
->  	.proc_release	= seq_release_private,
-> +	.proc_ioctl	= kallsyms_ioctl,
-> +#ifdef CONFIG_COMPAT
-> +	.proc_compat_ioctl = compat_ptr_ioctl,
-> +#endif
->  };
->  
->  static int __init kallsyms_init(void)
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
