@@ -1,95 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793175643;
-	b=XKt32pVhuODC68gQS4MI7NL/BEjQqC7zz9RjlJDOlGuf54YgPDrej8SsSaqGB1wv6Nc9
-	 XXcR7AWSe6Yb0eeADlJmhjK8HouEte+0cD9FxJFAoFVKXMD3bkGd0XrhFHmW8gR8iPrU0
-	 H4FKrr8ltlkm/QRpM1rJecBAEHeDeW90VQI1jiOihM5fbdMepQuKjO56kcoLKYyc8G6+3
-	 W2KRBl5rEQxEVRE1M4aFNzGqML7E3CpDEEnxDsL6Sg/4bMEFRrWjsEY6C0PWg+HPhMvB6
-	 h8qyPXI6KWqidpxsELp38GrBNkDKy9W/zbtZdRjOgUOX7iGLKNlJLtkeGCn/O0mbYsw==
+	t=1793177406;
+	b=SjqIcqsGbMfYya6/uP7cWGlESE8CxBEbJ754vRvEJHivDlZhZ1Ss2cEJj3oH/vTIjV9V
+	 r3XVZYbSvLMzbwwTPirjGfURTbyUr+MaBdYuEHqg/Oq0owH0jf+qtwWLvFnqMYkXrSzp7
+	 lR4qxLljKjuxCP1J6t+pjg1+1ZcbZa6NtCQCx8zZwZUIlGRktBbka6OzAB8WskyheOXwv
+	 7l/HcYN6ztrqp+QqEIFOq2cCjUEaqHbRWgVVLF2s6M1lqX0G7j6LKSZ2sgMFYnubYotzF
+	 z4HxvTKTeVyvdseqQ/FIvix9j+QRA1a44RW6tyroRXyfe3GGsV93fZw0nAez4jKnZpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793175643;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7iGwC/zgOWLrxX4ANiv2xF58zogBn71EZM14tRgOJbE=;
-	b=GMGmF/cKeefpBxH3garKwCaLnumP0BwHtejzBe4nQOLOpcL0TNYK257xl1hBwoBoqKuP
-	 PpfmxxJoQJk+2akfJv147EVN5bqJWzjjk+xhlHAfhUncPTBMkV0Te2mlAzciA+c90QIDc
-	 WhueBxBJHmHtXOViOrDQOw6185omivxsSSiPyTBaeLP3MkQOeXIoXlr5eWgEHa9Q8846I
-	 XdMNUGkgb7usCcooAE07OcglA6WTiqYazMpVpCj/a8wuhfE/805FzTTcTrHYuKB+2SAEm
-	 dwlCj0jIWZqZjEJQ/RhrvTMJK+ZqpHpoBZFrRBd123sRpLNlOjVHiL/GwsYOWzkpAZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793177406;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=TnCmFNN61rfZljZyq8oIidethrdD8OTEnQRhzssrqzg=;
+	b=EQkfxWAhH810ezFco7vfaxf+I2UYoNyRO/ItjxVXOdHaimI0a1JqcSW0UB9Mp9uxeuUP
+	 Kh0cmVZglgKyztYVj6ElA/i08+oH5iZSYDI55CAq9+UwtDdHX/4ggpqGzUNVjENi97/aO
+	 ndeGkVoRz366fOJ/py406AOWB7pFUPlfQkXN36GPv3laVKWvhq8fwTCeN7YX7CMu48CDI
+	 Y6zbPpPUsf31SlVn5urQ2/fu5UIWCoG4Z5MT4nBJKX3PJtXpwRgzpNiXKxxFFWEjBgr3Z
+	 G+Se8m2KDFlS0l/pd2rcCv1+OyODrYgz6YasxZpW4Sks4m6Mz5t+if1on2Aj1pg3j6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ilvokhin.com;
-	spf=pass smtp.mailfrom=ilvokhin.com;
-	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=csUWtQzw;
-	arc=none smtp.remote-ip=178.62.254.231
-Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iEqVgown;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5229D60A260D;
-	Wed, 28 Oct 2026 08:20:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5229D60A260D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28693606A325;
+	Wed, 28 Oct 2026 08:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=csUWtQzw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1793175638;
-	bh=7iGwC/zgOWLrxX4ANiv2xF58zogBn71EZM14tRgOJbE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=csUWtQzwD2E/XlWZClH8qe1DSNmkf/BxgxVrI21nciRCwiVBnNkgR/QmWPWiXgOFf
-	 r7hvwbXh1TI+dwN3mfeJxPnh+wv9MNKw/OzT9SWuYLztFyR/10iP2qfxQuy6XpjkYc
-	 swD9LFS71C2gJ4LZM8Rqw6CkTpFxgtqHX1iTdRcg=
-Received: from localhost.localdomain (shell.ilvokhin.com [138.68.190.75])
-	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 91086FBD11;
-	Wed, 28 Oct 2026 08:20:37 +0000 (UTC)
-From: Dmitry Ilvokhin <d@ilvokhin.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-hardening@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Dmitry Ilvokhin <d@ilvokhin.com>
-Subject: [PATCH 09/10] soc: aspeed: lpc-snoop: Switch to __nonnull_args() macro
-Date: Wed, 28 Oct 2026 08:19:48 +0000
-Message-ID: <6b82201d601c23bf8545f8d581fd6632c36cd208.1793027261.git.d@ilvokhin.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <cover.1793027261.git.d@ilvokhin.com>
-References: <cover.1793027261.git.d@ilvokhin.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iEqVgown
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C689D1F031EF;
+	Wed, 28 Oct 2026 08:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793177405;
+	bh=TnCmFNN61rfZljZyq8oIidethrdD8OTEnQRhzssrqzg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=iEqVgownJdHBb5bp9aNUipa5HALvAg9sgMnZoQt0xTfLYE/bLVKfjRkgT15aEGSd2
+	 LJ7EYq5CivJqiWmN1csszprORDYeD2L3Bu6TgGsMbR4poJ+A0JxmAWrwktK54VrDP/
+	 5L3wpXma6FCLtWNxURnpTuiYuWVycYnhkypZEoSsUt9yzz0LpEW0P+LE5uOWeK40ff
+	 JSbc93MJU6ZWAP7DizzQO1HAC6oPL3/TDJLXmWwmeCYFHWmt+sKfqPrcuY0i8HrjRl
+	 wGkwjmAkl7QnjFSWyfqPNt3a4XbKBYKvlLvCmyYX84njVsYDniZXgDW9w9Tw+VCS7N
+	 o3mq7+BCCVn9w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BE7643AA9F7B;
+	Wed, 28 Oct 2026 08:50:05 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,43 +54,45 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] tls: keep TX and RX hardware offload on the same
+ device
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179317740457.586826.13676893511407745921.git-patchwork-notify@kernel.org>
+Date: Wed, 28 Oct 2026 08:50:04 +0000
+References: <20261020214500.972308-1-rjethwani@purestorage.com>
+In-Reply-To: <20261020214500.972308-1-rjethwani@purestorage.com>
+To: Rishikesh Jethwani <rjethwani@purestorage.com>
+Cc: netdev@vger.kernel.org, john.fastabend@gmail.com, kuba@kernel.org,
+ sd@queasysnail.net, davem@davemloft.net, edumazet@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, borisp@mellanox.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-nonnull") added the macro __nonnull_args() to wrap raw compiler
-attribute.
+Hello:
 
-Replace __attribute__((nonnull)) with __nonnull_args() to standardize
-nonnull attribute usage across the tree and keep the attribute's quirks
-in one place rather than open-coded at every call site.
+This patch was applied to netdev/net.git (main)
+by Dave Miller <davem@davem-thinkpadp1gen8.ibmlond.csb>:
 
-Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
----
- drivers/soc/aspeed/aspeed-lpc-snoop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, 20 Oct 2026 15:44:59 -0600 you wrote:
+> After TX is offloaded on device A, a route change, or a change in the
+> usable-slave set of an 802.3ad or balance-xor (layer3+4) bond, can make
+> RX setup program device B. tls_device_attach() sees the existing TLS
+> destructor and keeps ctx->netdev pointing at A. The RX driver state on B
+> is then untracked: tls_dev_resync() and tls_dev_del() are invoked on A
+> for a context it never created, and neither socket close nor
+> NETDEV_DOWN on B calls tls_dev_del() for B, so the driver context leaks.
+> The reverse setup order has the same problem.
+> 
+> [...]
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index b09dca34099f..ee84a06a035e 100644
---- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -226,7 +226,7 @@ static int aspeed_lpc_snoop_config_irq(struct aspeed_lpc_snoop *lpc_snoop,
- 	return 0;
- }
- 
--__attribute__((nonnull))
-+__nonnull_args()
- static int aspeed_lpc_enable_snoop(struct device *dev,
- 				    struct aspeed_lpc_snoop *lpc_snoop,
- 				    struct aspeed_lpc_snoop_channel *channel,
-@@ -279,7 +279,7 @@ static int aspeed_lpc_enable_snoop(struct device *dev,
- 	return rc;
- }
- 
--__attribute__((nonnull))
-+__nonnull_args()
- static void aspeed_lpc_disable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
- 				     struct aspeed_lpc_snoop_channel *channel)
- {
+Here is the summary with links:
+  - [net,v2] tls: keep TX and RX hardware offload on the same device
+    https://git.kernel.org/netdev/net/c/1c8a70075235
+
+You are awesome, thank you!
 -- 
-2.53.0-Meta
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
