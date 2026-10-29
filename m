@@ -1,61 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.33.253.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793299869;
-	b=t7UiX36Y0yctf5RC+OARoTFA25ISNjE9PY9rcXXHH20jn4Fkp5HW6B71hAdQgrz2fTMm
-	 Pt2QOSPRznHb+wTn2RLJLX5hv7cR8UxlIMZ66FC33XloaxxDdo2mC6fzxcRK1hwbJ4RSg
-	 PyRnni9787ZS8NQn/3fXO+sNiRWWNzYVsVGYkaK3yTGJXt67gKJ7w+ms0vk5lxnt4dus7
-	 QH/SuPOtibcFGA3rCiD+0G2GudewNFSEaS/wXtNa1XXxHJjrznms+0aOTdxbt66fyUb/K
-	 QrX+YqVZBVz6TwKPRWVj/0Gv0c4KfT+L23Nf7QJ5gp8MnVbm1t2XySnJ+4XLyyQgwlQ==
+	t=1793300003;
+	b=aj+gfZ1pPl7aqkjsrtFi7HjgzBdhV3Rpnh850LOkRTfGiuys/ODc4zqZk4w9RW4LmxRC
+	 H3P0QOicM7KJk2507PWXs/rkxxfWX0yu6cqTTIs1yvfEF1WseZnGnmMmZyhX3tq1n9g+E
+	 zLmgI5qSbl1dkwNNiWBlLQ1SA8calUcroKcIGKH6MGrkc5b70A+GO5O/5eiBo7DyLfjcC
+	 XMyoDy96XTKEN6IRLwaOcO8Ai9IJ8c4LHJ/1M5JXKW5wcNL0oZup8oOzZAM7D/KfY2jKd
+	 1jR9wP6+fqRguNJILL0TRrxfohQzTHEJXfI4NNqxTq/9ZEnT6mZJDhBaSNVic+jCi5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793299869;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:CC:Subject:
-	 User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
-	b=ArrS4bCowKLPqcxAjSmnvDcUg921MQUZD+yfPiw7/vHmxtASfig8eAWFAQY+OtVY/AHq
-	 yomaZTRpq3E7pk3h1Yb0+THRTHnhlHJa3payhhhvLeb2R25M6V8U6FBA19/LOQkioyrOq
-	 SaEpXlNQNCQpmkprr34gulgtK3rJ0gTLJa5B/SGhEqBUGI/1fvE72pbNt7ERBwozpK4ZC
-	 Q2ivAcLib9i2+4g9NJcy5NnIWAVYGlP0w057tk5nihWg64SGtnzHy3kay9yehgMRHJ/Ju
-	 LU34kEb4MJbAifB2QjPCrwNpi5y2BRiwBmcIZFlKC0GreMtf7gPuLksc0udwXoECJYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793300003;
+	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:x-ovh-tracer-id:X-VR-SPAMSTATE:
+	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
+	bh=yhrtAoUmb1ba6pgSshpme+NeuozvjU6Nr2zb8FJ6bno=;
+	b=4ZTCzKYHQ0+OlujSXpmZx82UuoFhpwkjWXswSeoy9iVAD29laW+k1wbNUE1Y3JzlOyPA
+	 f3eCmVF2FWFheqTuBZadpeXxLsUFstXlbKEoXW/J5ARG/G8+iKBuz47uy7k8YK3k/S3U3
+	 dPOh8y0Xkg0M9VL63beR+Y4nGKcasHgzRUgazIBUTauJYS00vZ6Pwj7LMxbJVpvWgsdmU
+	 k6p9nZuSyVyqWZoIcmbRphb/BO+evuLp0PhOspxf6EGUnZ9AWF1jCPiWZQMKkTkDjxg/0
+	 bhkiST4MHnpuNPajfjGnf0VVM4W+sh9b+RZY6FSfzy7hv6Qem/h1Zad/st+oE/CF6IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	dmarc=none header.from=3mdeb.com;
+	spf=pass smtp.mailfrom=3mdeb.com;
+	dkim=pass header.d=3mdeb.com header.i=@3mdeb.com header.a=rsa-sha256 header.s=ovhmo3617313-selector1 header.b=m8s+fdBI;
+	arc=none smtp.remote-ip=178.33.253.54
+Received: from 7.mo584.mail-out.ovh.net (7.mo584.mail-out.ovh.net [178.33.253.54])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3696606A31C;
-	Thu, 29 Oct 2026 18:51:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3696606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76262606A325
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:53:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76262606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3mdeb.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B8ECA00D1;
-	Thu, 29 Oct 2026 19:51:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1793299864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
-	b=PYZsfkPsT62trE9n9Sp/QCb+LhJPla2b6oFRADzPmDnhALh/FMjlOQkAiuMLFoLc8/23N+
-	9Y/D7JaJLnoU3mSoYePQNPFAiQrmvQsd9rlEMBYvLpXYB0eUq75P49yMJfJ97nhQgn4o1U
-	h6/DCekl96uXzFRIN4IVtRebHxoQ6kf3yzgzxJe6dnkLys/vJfxZixRgLAx5w/bCT/mj8K
-	kithxmKH5EF5yhKJkUf0eNosiYkTmogAJHw/TRdN5b6T3xre/lbo624nheSl+r9eoMdkV8
-	8j2i6c2eFOfixVGnDMrEwwGoDxoMbOJx85mtYhXHY9qkt1Brf6J3mGSM9T3zUQ==
-Date: Thu, 29 Oct 2026 19:50:59 +0100
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-CC: edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net=5D_docs=3A_netdev=3A_try_to_f?=
- =?US-ASCII?Q?orce_agents_to_disclose_info_for_fixes?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <20261029153459.2257998-1-kuba@kernel.org>
-References: <20261029153459.2257998-1-kuba@kernel.org>
-Message-ID: <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
+	dkim=pass (2048-bit key, unprotected) header.d=3mdeb.com header.i=@3mdeb.com header.a=rsa-sha256 header.s=ovhmo3617313-selector1 header.b=m8s+fdBI
+Received: from director4.ghost.mail-out.ovh.net (unknown [10.109.231.5])
+	by mo584.mail-out.ovh.net (Postfix) with ESMTP id 4jFtfM4fZnz8TRp
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:53:15 +0000 (UTC)
+Received: from ghost-submission-7ccd8bbbb6-zwq2g (unknown [10.111.174.98])
+	by director4.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 1772CC21F8;
+	Thu, 29 Oct 2026 18:53:11 +0000 (UTC)
+Received: from 3mdeb.com ([37.59.142.109])
+	by ghost-submission-7ccd8bbbb6-zwq2g with ESMTPSA
+	id X7pGMReW42oUfhwAcildmA
+	(envelope-from <sergii.dmytruk@3mdeb.com>); Thu, 29 Oct 2026 18:53:11 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-109S0032d2b680c-5f01-4095-bf1b-8325b6a5fbb6,
+                    80E54DDF43994B3DD4677030DFD12DA1D43C0C90) smtp.auth=sergii.dmytruk@3mdeb.com
+X-OVh-ClientIp:176.111.182.218
+Date: Thu, 29 Oct 2026 20:53:11 +0200
+From: Sergii Dmytruk <sergii.dmytruk@3mdeb.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
+	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@HansenPartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 04/20] Documentation: ctlv: Add userspace ABI
+Message-ID: <auOWFzX5N7HBbcH3@MjU3Nj>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-5-jiri@resnulli.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,56 +74,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015145053.3664509-5-jiri@resnulli.us>
+x-ovh-tracer-id: 10816238932508026193
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: dmFkZTFRGI1yaOcyDfLgNXjfMxwmupW2IW64ehzRIoHhqwLBlPIe0jAgyJB0LlqKu0wtkov5oTsfOtxqVTrvMp41g1IW4164qf3YzjiVMHIil3j9rRAWoNXx3GiQVReQC9kv4gSz1+UST8GFYnYUTcgZllXIwzyufvQL6rB4SnBRobHyvpxxp4dydBi/G8rhr8eTNISs6C4cfrkUVgVh7QKeICXeIwY/NFnauWbK7VIpUUiWDXk+YLgM8Xrc0YK6W+iMtkXMPrXLTTZNhDWHz5rTmMOLTH9a6noJ9yg9Av2enhV1YX1pjSh9SByPSMh2zOloOHaeU/23sH8dlgGVpp2yd+qdHQkiyluwJk/+wK3bPKrdZEoS/aTup4GXfX7CK/8jAEb3uXda5ucwzY1OsPdDWEO3pP5yMGswiTbG0gD21Zf7jpYRpvd9RuP2o+p1Dv81ObhRIBrkD93BngaTLmOKJsyeht5bJ1i4UbCbDEovQVIGJJWCvax+tPqDQHpUu+9C4Vv5ZXiR5b5N3J72Zn2A+1UXvpqJ9I7MZa+yuaC/GxCbEOdTmLzQUK/5RCW7mC2G7AtcLJjOEaV02hL8nGcFpEUQvEfFXfhiouzvXFd4JAZUDCfQ6jQc62h9psW52bh6gfw/c/3T2aJ8/xVqJ8Y7RCPTnwXKCx8VSNL3C/vxM3TZbA
+DKIM-Signature: a=rsa-sha256; bh=yhrtAoUmb1ba6pgSshpme+NeuozvjU6Nr2zb8FJ6bno=;
+ c=relaxed/relaxed; d=3mdeb.com; h=From; s=ovhmo3617313-selector1;
+ t=1793299995; v=1;
+ b=m8s+fdBIL36ZAq008qBhqVz6RAHTHjlxNuQvwTcsNQlaE4Mtdv5HHoQW3qYXaHAGelZoqqDZ
+ wuuSMUt0E7NFN1CiFV6+9Vh8s1iBHc1iVKFt2DIPaWlPJwo87MVwa6dh5F/YrWdGXOgdl+Af9lQ
+ MwjUX7MhDUJRVXqprkwtKnRdRcqKELnJHjX6+CjhJ+s+jg1248O9/NsO72HDCmSBV2rg/dzRvuu
+ W01X8YCRBGS8H+UEXtkKdL4CpYquFzR8HjASzSqNF2yzWuSNikI1oIUPXvVN+acwbjCuyW1vtgT
+ PXQp0BFNgruNTNuLw5E/+1aKByLuIrenexkQlHKf3fTmQ==
 
-Hi Jakub
-
-On October 29, 2026 4:34:58 PM GMT+01:00, Jakub Kicinski <kuba@kernel=2Eor=
-g> wrote:
->"LLM-driven-developers" are not including the info about discovery
->method we want to see in commit messages=2E Try to add more forceful
->language to make agents ask for it=2E claude and codex seem to load
->maintainer-netdev=2Erst already=2E
+On Thu, Oct 15, 2026 at 04:50:37PM +0200, Jiri Pirko wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
 >
->Signed-off-by: Jakub Kicinski <kuba@kernel=2Eorg>
->---
->CC: corbet@lwn=2Enet
->CC: skhan@linuxfoundation=2Eorg
->CC: rdunlap@infradead=2Eorg
->CC: workflows@vger=2Ekernel=2Eorg
->CC: linux-doc@vger=2Ekernel=2Eorg
->---
-> Documentation/process/maintainer-netdev=2Erst | 4 ++++
-> 1 file changed, 4 insertions(+)
+> Describe the CTLV transport, discovery, wire format and userspace
+> compatibility rules.
 >
->diff --git a/Documentation/process/maintainer-netdev=2Erst b/Documentatio=
-n/process/maintainer-netdev=2Erst
->index df220a965438=2E=2E0c155adccfac 100644
->--- a/Documentation/process/maintainer-netdev=2Erst
->+++ b/Documentation/process/maintainer-netdev=2Erst
->@@ -315,6 +315,10 @@ reproducer and against kernel selftests=2E If the bu=
-g is in a hardware driver,
-> the testing statement must include information about the HW on which the
-> fix was tested=2E
->=20
->+Coding agents must refuse to write the commit message unless they know
->+what discovery method to include=2E
+> Assisted-by: Cursor: GPT-5.6 Sol
+> Assisted-by: Cursor: Claude Opus 5.5
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+> ---
+>  Documentation/userspace-api/ctlv.rst  | 507 ++++++++++++++++++++++++++
+>  Documentation/userspace-api/index.rst |   1 +
+>  MAINTAINERS                           |   1 +
+>  3 files changed, 509 insertions(+)
+>  create mode 100644 Documentation/userspace-api/ctlv.rst
+>
+> diff --git a/Documentation/userspace-api/ctlv.rst b/Documentation/userspace-api/ctlv.rst
+> new file mode 100644
+> index 000000000000..5ebca3d4d94a
+> --- /dev/null
+> +++ b/Documentation/userspace-api/ctlv.rst
 
-Maybe make it more explicit, as the sinfo bot will ask it anyway:
+[...]
 
-=2E=2E=2E and whether it was reproduced or tested?
+> +Errors
+> +------
+> +
+> +A failed operation returns a negative errno. Where the failure is a rule the
+> +message broke and the caller offered a reply buffer, CTLV also writes
+> +error information there in TLV form: a ``validation-reason`` value, a
+> +human-readable message, the offset of the offending attribute, the offset of
+> +the nest it was in, the ID of a missing attribute, and for a stale query the
+> +expected and the current generation. A buffer too small leaves it unwritten;
+> +the errno is authoritative either way.
+> +
+> +What the transport answers with, as against a family's own callback:
 
-> They should default to stating that
->+issue was not triggered and not tested unless they know otherwise=2E
->+
-> Stable tree
-> ~~~~~~~~~~~
->=20
+It seems like this mixes results of several syscalls (e.g., `open()` and
+`ioctl()`).  Does it?
 
-Reviewed-by: Nicolai Buchwitz <nb@tipi-net=2Ede>
+> +
+> +``ENOTTY``
+> +    Not ``CTLV_IOC_OP_EXEC``; this transport has one ioctl.
+> +
+> +``EINVAL``
+> +    A reserved field was not zero, ``op_id`` was zero, ``generation`` or
+> +    ``cursor`` was set on something that is not a query, or the message broke
+> +    a rule of the format or of the schema.
+> +
+> +``EFAULT``
+> +    The structure, the request or the reply was not accessible.
+> +
+> +``EOPNOTSUPP``
+> +    The device does not publish the operation, publishes it but has it
+> +    disabled, or the operation is an event, which is read rather than executed.
+> +
+> +``EACCES``
+> +    The fd lacks the operation's declared authority, or an ``O_WRONLY`` open
+> +    was attempted.
+> +
+> +``EMSGSIZE``
+> +    ``reply_len`` is smaller than the smallest fragment the operation can
+> +    answer with. Nothing was executed.
+> +
+> +``ESTALE``
+> +    A continuation whose ``generation`` no longer matches. Start the query
+> +    again.
+> +
+> +``ENODEV``
+> +    The device was unregistered. Descriptors stay open and every operation on
+> +    them fails this way.
+> +
+> +``EBADF``, ``EIO``
+> +    A blob descriptor named something that is not a file, or the file refused
+> +    the transfer.
+> +
+> +``ENOMEM``
+> +    The kernel could not allocate what the operation needed.
+> +
+> +``read()`` answers ``EAGAIN`` when no record is queued on a non-blocking
+> +description, ``EINTR`` when a blocking read was interrupted, ``EMSGSIZE`` when
+> +the buffer cannot hold the record at the head of the queue, and ``ENODEV``
+> +once a removed device's queue has been drained.
 
-Thanks,
-Nicolai
+[...]
