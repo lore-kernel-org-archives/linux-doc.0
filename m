@@ -1,59 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.111
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.112
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793242182;
-	b=wWjpr9KznALc37j7Yeev4M1B52Qh+W9nD4vRwTn1WWciLebESRQPLvir+RQjCLIHInCp
-	 WAHz2Bn8oQoKJOt41ExbkktVYNHCi3ejcAnmCrrX6aWDJa4oXqgdOf6ZMmIyn6QQlngjh
-	 RK/chqAANx5CBQ3sgpmHjNVmjbjdaO7Z4W4KBlJchgeN1pp1u14xf1rBL37Zk+xoENedv
-	 zu7ApNKEhTR6Cs39Nli2kqlZM+EVQ1ZUg53tcK2WANkPHom1kl910dKXJuErzcXLS6+o3
-	 OkVRcdNduw4+9U5n/pkbYDmBrDzfd1qtaNjpqXPtTXOcJDUFnLep/Z7t4duKMEvTYxw==
+	t=1793242385;
+	b=CTt/v0o6xhJ30Vbv7Hqmcpv0p0SnqXBc0ZTv/D5zA4RVa+dvlBz6/5mhQzosFtvG+r/b
+	 h5HLlpXzDKU/DWLIrkLhqlpVjXW33rQkEOSFRtLKLkm8qu06ic+IwV+6ALMhZ3uAAaDiF
+	 EfK6blTUEc8ipHZC7DrB1LarOwmMv4cfztcMdb5nJK78uCIuY4Qz42vy0uQsQv8G6HEbl
+	 2R3Zg/fK42tnqQ3KOuV+ViWHqLBls5FFiQfAiOlER+z2oCDmPE+WKyiJ1qjG3Iekd9kg+
+	 KKoq69SqbRoJClhVEcFwl5Nwvqs5q5hm0Cbwq/bC+tclrcv5iXkDpEcMs0FD/GWMaUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793242182;
-	h=DMARC-Filter:DKIM-Signature:Content-Type:Cc:From:Message-Id:
-	 Mime-Version:Content-Transfer-Encoding:To:Subject:Date:In-Reply-To:
-	 User-Agent:X-Lms-Return-Path:References:X-Original-From;
-	bh=hTvlG/Tq8WG71QR3KEeqZ4U9dHyqctWa0aSN+5Yu23w=;
-	b=cTDeDgHMyDkjRiLbo0KyvGuNVTaTW1m2swFHD/2X2S5O+n8AZ07RrIfqurqoKLua+8+p
-	 cXqENVbTglgDt1KM3HcN/ZbcfdeVz0QOc+MZ5AYvl4PcoRqKit8O0DWLRp00x7IEKUBhx
-	 VawxSPbthGlnKvamqVZ0JsoXzq9O4GdoCmcFJJ15xKhGh1o1uwNVwp6WQb7JFC7x7JhEs
-	 vzx5m2MMa0L6w0pwAmgx1zLgw1MUoLDEmaGQI69I7THZ0EhMaUZepjHUBI3iSz6PJaRNL
-	 Awt3iAjeivYtG3bvjCUE2cFKPdIgpOlIf50UxDkdZxIaPw5s04uTV2tpz7E1ZUEKdIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793242385;
+	h=DMARC-Filter:DKIM-Signature:To:From:Message-Id:X-Original-From:
+	 In-Reply-To:User-Agent:Subject:Date:Mime-Version:X-Lms-Return-Path:Cc:
+	 References:Content-Transfer-Encoding:Content-Type;
+	bh=0CbHfJZd9Ouin6+NJRHxk52K7pGc80VMx8HJ0a2GrKE=;
+	b=cHjuo5Q1Dex8vF/+kD3Jab6ghOo/lqazTQy+pnVBLe02BjYRyDXTt5MtaC1ZWWyAVnL7
+	 nnpccw7ZeLb7N6mNCJRpDxi8j9Fre7KZDBd8wyXvnzGecgxDRM/oyUAlL5vN4bJVUDvqI
+	 7XgOwKXNt4qoV6aMPjVTjXTQLFlnFKHikuo0eJJ8b4Ctn1PsRQ6bbTRJnDmQf5Q1S0XST
+	 x+rlrBHIgIRzoEKNTu7WHgLmO3E9kjavq3IEGhzVkwG8TcrT8xSXScNz7uac5LMtvxAAv
+	 G2HMx2Fkb70EnLjoqbWM1k4le0XGrTqp+yFhSYCYkFoG0jEW+Qiku8aaNpPji6cACEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=hdocmnqL;
-	arc=none smtp.remote-ip=209.127.230.111
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=KCIZEWwE;
+	arc=none smtp.remote-ip=209.127.230.112
+Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB72606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 02:49:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDB72606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D396606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 02:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D396606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=hdocmnqL
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=KCIZEWwE
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793242171; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1793242379; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=hTvlG/Tq8WG71QR3KEeqZ4U9dHyqctWa0aSN+5Yu23w=;
- b=hdocmnqL7Au86xutXGj5AxJd6L2RQ9zUDLfyiIK1GwmRJCNJFLwJJpn593fjdbY0zCEJQ7
- 1MoC3D7EjToaXcsv+jHn0WflqUguMcKiWxbklah2aPqhNGVtthA/8mWqBPat/mNyWI2M/q
- eqAsetgnmchrJdyRa/L9NLPJvQu6F9zuDHT9k0qAqIBmYRQwf91FDM9XfQAXhxiAKZEzcy
- 2VQxwFYLfijiNlYczQRbgst121FvVhB8Zq5uAnENx4ZbcoAw60fw6W4zNZX/BmXw7p6XrJ
- i3+Xw0N4W6cA6duLzeY0VT2yJYKVqRtKcbdXChcWgcCo3dGaSBPKxQHhJKnOgQ==
-Content-Type: text/plain; charset=UTF-8
-Cc: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
-	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, 
-	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
-	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <riel@redhat.com>, <rostedt@goodmis.org>, 
-	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
+ bh=0CbHfJZd9Ouin6+NJRHxk52K7pGc80VMx8HJ0a2GrKE=;
+ b=KCIZEWwE0Rakwepat3tvgULGutY33z9z8xTks6Z4jojsdN1oalw9VE/v213oiffiEjK+Oi
+ Ey/ycif6bDMwscOSk57X8/N7sTJKP8UqS9HaS2rFFEXMvkfEuIQdrb01LMJ++nSLTChxnH
+ i6XyUVP9NTtJM7DV7AklU+sTXu4DZ/Xd0yrJsy4l9VwT/EGm1l8v6JapsY4Ck6wZ62HbT2
+ 0kxPBqmJDm4Rxgzalc1hravktWQYiwvxVjp6uONgnwfV8F22hQ+IvwN9W4oqpM0Q213D6E
+ AzYFMyD8aLvYPEYoTfluP31EWFCk1V9FgRVjo41oKLHME8KS0TJMt7mWPhjHVQ==
+To: "Joshua Hahn" <joshua.hahnjy@gmail.com>
 From: "Li Zhe" <lizhe.67@bytedance.com>
-Message-Id: <b32b2bec-4fa1-4899-9014-52a6568cbd73@bytedance.com>
+Message-Id: <4c94b526-cacb-4b52-9c28-7344f8ab582f@bytedance.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+In-Reply-To: <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] sched/numa: do not feed tiering promotions into task placement stats
+Date: Thu, 29 Oct 2026 10:52:35 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,34 +60,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+X-Lms-Return-Path: <lba+26ae2b509+7de3eb+vger.kernel.org+lizhe.67@bytedance.com>
+Cc: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
+	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
+	<vschneid@redhat.com>, <ziy@nvidia.com>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
+References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-3-lizhe.67@bytedance.com> <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com>
 Content-Transfer-Encoding: quoted-printable
-To: "Peter Zijlstra" <peterz@infradead.org>, <bharata@amd.com>
-Subject: Re: [PATCH v2 0/3] sched/numa: refine memory tiering promotion heuristics
-Date: Thu, 29 Oct 2026 10:49:03 +0800
-In-Reply-To: <20261028092004.GG2668804@noisy.programming.kicks-ass.net>
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+26ae2b439+d67bc1+vger.kernel.org+lizhe.67@bytedance.com>
-References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028092004.GG2668804@noisy.programming.kicks-ass.net>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 
-On 10/28/26 5:20 PM, Peter Zijlstra wrote:
-> On Wed, Oct 28, 2026 at 12:12:50PM +0800, Li Zhe wrote:
->> This version narrows the series to memory tiering.  The generic normal
->> NUMA balancing cleanups and heuristic changes from v1 are not included.
-> Should we not look at Bharata's pghot stuff first and untangle this numa
-> balancing vs tiering nonsense, before making an even bigger mess of
-> things?
-I agree that pghot is relevant to the longer-term direction.=C2=A0 My
-understanding is that the two ideas are not conflicting with each other:
-this series tries to refine the current NUMA-balancing-based tiering
-implementation, while pghot would be a larger rework of the promotion
-infrastructure.
+On 10/28/26 11:03 PM, Joshua Hahn wrote:
+> On Wed, Oct 28, 2026 at 12:14=E2=80=AFAM Li Zhe <lizhe.67@bytedance.com> =
+wrote:
+>> NUMA balancing has separate mode bits for normal task placement and
+>> memory tiering. In memory-tiering-only mode, NUMA hinting faults on
+>> slow-tier pages are used to detect hot pages and promote them to a top
+>> tier. They are not normal task-placement faults.
+>>
+>> For slow-tier folios, memory tiering reuses the folio last-cpupid field
+>> to store access-time metadata. numa_migrate_check() therefore cannot
+>> return a real cpupid for those faults. Before this change, it returned t=
+he
+>> same all-ones last_cpupid value that normal AutoNUMA uses for a first or
+>> unknown access.
+>>
+>> That can make a memory-tiering-only promotion look like an ordinary firs=
+t
+>> private AutoNUMA fault. After a successful promotion, do_numa_page()
+>> reports the target top-tier node to task_numa_fault(), so the existing
+>> slow-node skip no longer applies. task_numa_fault() then accounts the
+>> fault in p->numa_faults and p->numa_faults_locality, and
+>> task_numa_placement() can consume that sample to update normal task
+>> placement state even though normal NUMA balancing is disabled. In other
+>> words, hot-page promotion feedback can leak into the CPU placement
+>> heuristic.
+> Hi Zhe,
+>
+> Thanks for the revision. To me, this looks more like a fix than an
+> optimization, since there really is incorrect NUMA balancing behavior
+> happening that could be visible in userspace (unintended
+> task-placement and related accounting). On the other hand patch 3/3
+> doesn't seem like a fix to me despite the name, since this one would
+> mitigate the incorrect behavior.
+>
+> How about we pull this one out of the series and submit it
+> independently with an appropriate Fixes: tag and cc:stable, and
+> discuss 1 and 3 later on? Unfortunately this is also not a great time
+> to submit new features or behaviors as we are in the middle of a large
+> merge window, and there are a bunch of fixes that maintainers might be
+> busy looking into : -(
+>
+> Regardless, thank you for the fix, Zhe! I don't have a strong
+> preference on the ordering of this against pghot, but if other folks
+> are concerned that this could create more churn, I think it would be
+> reasonable to wait for patches 1 and 3 after we discuss with Bharata.
+Thanks for the review.
 
-Let's also copy Bharata here so he is aware of this discussion.
+Agreed, patch 2 is better framed as a fix.=C2=A0 I will check the exact
+commit that introduced this path and can resend it separately with a
+proper Fixes tag and Cc stable after rc1 is released.
 
-Based on Joshua's comment, I can also split patch 2 out as a standalone
-fix with a proper Fixes tag, and keep patches 1 and 3 for the broader
-tiering heuristic discussion.
+For patches 1 and 3, I agree they are more about the tiering heuristic
+and policy behavior.=C2=A0 I will keep them separate from the fix discussio=
+n
+and continue that part together with the pghot-related discussion.
 
 Thanks,
 Zhe
+>
+> I hope you have a great day : -)
+> Joshua
