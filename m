@@ -1,96 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306015;
-	b=2roJ3Nr+8TRJM1zrUdEmlaTtbALJTN6USOAsb8IlnuPv1u9E3tludQVseKdjUAS1lXvy
-	 eQecWNtVkpLFPk3RRyEfwE6Qh4xlZtEJPXsoNrwkRP0GRCTqEgjK4rkGaDSMo2t2U+14P
-	 Q1RHuZOvYe7X+7zVX12d3EbsfnvEMHtriVyVxVncdLGezxeu1iqzFn2z5UopSiJNlQteh
-	 /d9Zo1aSo1AcN7rlY9w47TloxHJCXBEigyNq6nl3D0wfWRNtd13kidzur2hacknee1bdD
-	 EfD8/BVWT+UhzA7gHG9sO8RHhAWUVuXGmENTo1B1TebyjjC0KZMniMfZieG9H08cUMw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306015;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793307227;
+	b=ZSDFsxHB3Decqi1Z238Bb5Pi8VCOaNMuYBOHn2qmDZ2vMdKfiy6s6KWy3IhvaigzrwPT
+	 wWQSLUvHbYjMP7NA5ZMIEY5uYd303M9C0ixvG9bu1cDylykkHdKdFTOIV+M6Q5s6+Oy+H
+	 uSO/K0ZkTqsBXOtTKsxrpckC7ldDV5M3qTMKaF3YTAaPhH5R/c6en/2GPGR8O97sdckkK
+	 bgaSTVgcKUt9mzwVlLlmsZMMN1foUJnPppEch8Pco7B9xooP9d5BcxiwdJdU5W/kdeNbS
+	 mmQAIpqpif0waqd5hFhAhs43Tqsi1S2nicfZAc4jcdDxmuyKTLZwnqJAAjbzBwl8oIA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793307227;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=1FwGxH5RamrY2sgTjs3EG6aOjMo9Ydi6StxHkJqw4Uo=;
-	b=eb1Q1fCz+eyz0z8W9Ooor1ra8iqIc8CFnkjsqY+duSaRIpDFygtenjxmAapCiORAe3jj
-	 GqPfg4C53pyoTSLpQb0IvfW4M7hZ8PW/CE2pGPnbAl1/iX7gizMc7nWyTVpnNA4/Ez0NL
-	 nIO+2KFUiXXzkPnCzdTG+QNFO8YxYRmTABX3XpojSi/a9pb97rxnw1F5E7jrN0dwYPNtz
-	 0gvt++KPCVqtdTmf5Q6V6QohbJrR8F5tZXRf15Bps9+4CeBqGN90PVSbRIRgHbR22vNTR
-	 PXp/Ua2+cINgjTKHskRomlTRrJWHK6+b5uoLZsLKhAhUMtKgSiwTPUOV2mHgKLNal6w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	arc=none smtp.remote-ip=209.85.161.52
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	 From:In-Reply-To:References:MIME-Version:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=+9X2/iX/Lqo173Vwu0EOcoEv3bNJRFgizimBaD4S5Pk=;
+	b=SvK5NSHmhuFIxb8bj5T0Ep3EehbA0dEqdESp99D7Gt2Kco8/EjIlGPmnGmAfsq+fJhK1
+	 FPYVf80Qycgs+zyIxl6JZU1uaWNYRQ7ngXTnc7PDBRknDTcnfH7GfKrLjeiKQy3H0YhYN
+	 DaBgOzcnlFM7epO7J0Zq7ZpxsSt1926Iuajmrnm3Z2HLSLRstQcLpFeLz5g0oVhhJgQP5
+	 zzW0OGYl8FNQhUTzIptYiVElpdK5CFxHv7VX/PyPNUSNogkZOff6xqZAcuxBKIoYlvpTf
+	 zdqGOYYgd8m/r1z9u9yMl1wgTPSa6RVcro9gZeHpxNlwzSDtqYPPWJKzxTrbDBO470Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=X4ncqWDH;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.51
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792F0606A33B
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 20:33:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 792F0606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-703be215729so1405248eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 13:33:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E4360A2609
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 20:53:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35E4360A2609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=X4ncqWDH
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-15943c9c005so2235583c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 13:53:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793307226; cv=none;
+        d=google.com; s=arc-20260327;
+        b=l1gCoJ+/Fhgy1nEoIHXmh7Oh0ZlxguyOeUM6wL8ftw823aKC/H1gJA1iz8W9kiDPf9
+         YvvzSBMJRsKEFjLj2m9MrX3wOnz86RlQb78PYBX2BxD0Ak7nzYq+TO5gkuTR1KxHqrcw
+         EJ3ddocftQk1UJfP6QGXBvkixbciNDcJfBSGHOdmVs2Kw6yzV6HbKjlTOW5dk8WVgQAT
+         PUSta9UO5l2X1/+9E64crwtnr66WNhKTaUcP/bBz3NOnd4ey2xMTTCpMiA3pkGlbBKnF
+         G17VFDVODX3U5viIM57T3WQJzguPN6sW/d3yDA45CwmS0X0EfPEY/6gFt1ew465lorTM
+         fwrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=+9X2/iX/Lqo173Vwu0EOcoEv3bNJRFgizimBaD4S5Pk=;
+        fh=nl9mwLPvCF3d9oqr14be+8cskOf2L5j05tFSCdrwPWs=;
+        b=SVMFdiRFP9u4/6eCMCtI+4+U6KAsKi5ZWdUmJpHXN2YtqUd2X9/JE5fz/69Doo9tHG
+         OkUNRdpR6yP24FGQAUc31Fs4jUAjU5MvOvLRVXGUjqKO5nC11PerL6+By9kK90RwjrmM
+         9arHKFyOkRsu0rKhUevmtNSOFxdSilpet0tb394wJnIKe9ysyeASDs57SrGK2HoBtv7g
+         G2MnJpURJDsxRW5t4SaZKTVB7059E5tG/EX2B5veXVL2PgnOCuLrv0iwhv242L0FPgpm
+         SWfgXUR16x5cr4jECA4KkX7p0et02IqVqD1sDfAT1+MjFNuIVLxNggrlpTFQUP2e4R1E
+         MvVw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1793306008; x=1793910808; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1FwGxH5RamrY2sgTjs3EG6aOjMo9Ydi6StxHkJqw4Uo=;
-        b=jzUC4j+m5k1GWzE4M+MP1+7CZ24I8OTXJlA+L47TEmbE8YmDlulAMxTxxOUwWkdRHH
-         ZA7UWCWY4UP0IpGp1AHTAIZ3biCBCS3Tm/hc1d7JYAYzBEUgymxOLRamDSR52NWY6yTV
-         Nj/CqyTphrQl74nCEr4jlN0A5maoCINl7zvMB7W8X8TZfTkAJvS2G8HM3Jp5HF69ixuK
-         k8K6KaBp15/F8ksjNkcHk9DTAxy2LvSV5923Kd0H2P6TbZ8q5agmTrdcmkY94F1z8Riv
-         XkPjRnV7/c156Gl2EZ27Xh6M+m8MNab0eP3uNFZbUkpddrNb2ItyVbJgXuN7mAV+JTBo
-         PHqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793306008; x=1793910808;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1793307226; x=1793912026; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1FwGxH5RamrY2sgTjs3EG6aOjMo9Ydi6StxHkJqw4Uo=;
-        b=1YjzcD8iy27ECL2LxjW6ql74/3xf3BktVmVtXiwzw4jW5CBzEeFBRb4b4VanT5LgsA
-         2NK2lex7iyMvyQ8mLDwu9XVmGOuYoJD9llmntSKSNEeDxGv/h3QmSz3bd2vjI/ULyh06
-         uN9/wKyiRUUJzPcZWkdAxPNTbzPWy4GT2CPeJM2JKDALK/EH1sidHiTizxJ3VWotPkXa
-         cetGlmuBgWjh+oPBWUAIbuGfrJWfZxvt4CY1s9Z8p9YVkgrpqFn5QHp7c4apvtsz/W9w
-         xLRftZlGkRFFhFI8TAHL6oGIxXka79V+648wXXusL96LrRMiikymUABBvVVMkvd1MiWd
-         Botw==
-X-Forwarded-Encrypted: i=1; AKwUvBwQhSGYS/QugGHeaeNjHqftcejQL7CxZWBsSMEk5wUmg2rqswSz5VFhNjffVQVzFMDeKEAUo/SEEf8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJmB+Xjmm3QJi3RwFjgv37xM2t8ICvZx8ZQWITYrUITSwl8aL7s
-	r3wsYq4Rt2J27uOyU10NOwlL8+lMeMYH7Ob4ql0x6dG8aB20WPF63i6nTsyOCCjNJIOX
-X-Gm-Gg: AYBFou2NDVSPX0kuzYZ1s2gs9Z1qNS6N3uegl6oYxaK4lzr8vOFJro3fG+rEdzm/x9k
-	T7zKRypZmXZC4Osf4DBDKkiA6wMZJVwCSsQvaSxZOD7JpWDTx//otpZHXgSwqhqbGeWujdAL8vB
-	T0ViuCubOVROGtKPYq6neZdjAq3AVkWO43Eewb46vwY2vw1o8DuUVtrS0KHTjSS7H4Kxt9FiQZz
-	uzEjWlaezXxguJwOnW1lJRMpsTA0k0pIUJqpYTMRId6xyy01CJM3FJH3rww1n8q/yzRRL4nDq8R
-	g1/k4PCGB/eB8fAmGBh1nAaAqMrBYdzc6oLdc2ob1/ftGXUApBA7sYLjYocpMTNNJWaGTIU2t/q
-	0P/8aictwAc/94CxiCeE/f+K4sSWd1yH5z6fck0RJcxChzfLFUrpUo6zeUAi+uu/X6nhNKG1Khy
-	WTnShpLrRXQBDQ9D1xLy+P6WXDlA08R4tz8JvCCkeOHL9bPp61hosV2AtUdEZG2rmfbJgev4vui
-	etV2aMaJ5V4Zj70HNl679yijHWusFFYlCw2pP8upU2f2evBPQ0y7Y2zo8uJLlRdWswnpH4TU8EK
-	7k66fClaLQkOXmNkJzzh1M53
-X-Received: by 2002:a05:6820:240b:b0:6dd:25a3:94dd with SMTP id 006d021491bc7-714f29beb56mr224819eaf.41.1793306008134;
-        Thu, 29 Oct 2026 13:33:28 -0700 (PDT)
-Received: from toolbx ([2600:6c8e:af00:4c:73ea:df46:8ccd:ac9f])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-714f2ce7c9csm260964eaf.5.2026.10.29.13.33.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 13:33:27 -0700 (PDT)
-Date: Thu, 29 Oct 2026 15:33:25 -0500
-From: Andrew Halaney <andrew@amutable.com>
-To: manuelh@nvidia.com
-Cc: Fan Wu <wufan@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Luca Boccassi <luca.boccassi@gmail.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] ipe: add the .ipe policy keyring
-Message-ID: <auOn9CzT_gku-5cH@toolbx>
-References: <20261029-b4-ipe-keyring-rfc-v2-0-77727b205844@nvidia.com>
- <20261029-b4-ipe-keyring-rfc-v2-1-77727b205844@nvidia.com>
+        bh=+9X2/iX/Lqo173Vwu0EOcoEv3bNJRFgizimBaD4S5Pk=;
+        b=X4ncqWDHObARExJNzFicTAgGNShnnQyxHKRK/cw0fjeWbrVpO9dqNdFUtJLaHpfPe3
+         3pQCYs5wPDyyeDRmHh6ZqxApAZowXImXkA1IiV80Wa+vN63OrMv6zHZ38w2Artqhj0kC
+         TU5uAZwV8krucDNHMSBMsftqEv1zyLHEc4T7kkfonRf1QyhSc0K9tIEDxDosPnvHYJtU
+         xrApcK1DGEJ0jC9G46yDslykO/UkCOdwNhIENzzsS6m5+HzjfiU4CekIHstdVmcDr6+w
+         qoB3o1FiEmAOoeBr6eS4J+v8S4/RWAMAqqL+riJw8IsTfV7R0fo/ywFH88iTB5PhjqF0
+         soEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793307226; x=1793912026;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+9X2/iX/Lqo173Vwu0EOcoEv3bNJRFgizimBaD4S5Pk=;
+        b=kbtZX1olpptiX5NrrF9oHNHAGvaG9OKVp0PK/NDZtqK7IubrKbEeAhrPhiOisYkNr7
+         2ObQhg6anYjQ+7senHgCjjiRDZ89iwxiwKnPN903HM3fhS5a2cl3esHEbyu5kZD9n9Xt
+         d2d/xkz7EScOmTaHHKQ28OHu8OZfuKnntEuq37N/IpZF71ufOp1opjoG0oPJ5YZuAbuC
+         ODeQvvdNJt9POLg0uBcuPjB9Mm4p9NNJ3fV55qkeY/cKRKwhfyyUu8EKppeyCQc7g5M1
+         9zh6syWW1kYvtAFc70ulaTxUcjdi0dK/+u3HbKZiORj071/077BmHp9ctKbuKUlV/+gu
+         tDHw==
+X-Forwarded-Encrypted: i=1; AKwUvBxovG8LP+qgRgYFt3dGZDWo1awJTf/6n70oRsIjzNeLvU8QHTAJp1k/yc/y4XiZqiwnfnDBeql+i7k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIeD6vCWC5XEkgKfEKJci0ZOtDTqh8FZ3YOvqmBDccLoNCmjJBF
+	UMSXCZpvfaLwnuqk1NOAyI62eOnQ1MN8ErJrpTCScaJG4DD4vqnNnli2krX6D9MfI72ECSlXYpA
+	SL/7JF6fXWOpvhOYJv3eHs0PmtpUiCUKjKaxQ3DQx
+X-Gm-Gg: AYBFou0AJAimevrdLZ3OtsUsrsEuPQ53I2Tjb8kml14Pcq6LXsT/cF1ZgFU8OTRd3cx
+	RGvkH9PFbm2NNQkzyRcA2awQo5vGVKDCQv7NSIa55VmWMCJ9zTrHD+aEOYbkG2rSogq2nZJa/9+
+	ppQ3CUV5EX67hqHGKAx3VAYAAzg/iYmsUf0xRh2gYvbA58K0gOrhIe8wkHCq2Xb5jWmm+6QPGFJ
+	qN9/WZK3PpFo4MwJMZBt7ZNHjOuMnWZvn3istSvt6WnZmGBE7T+fexCeocFYAzjNl6m73nU0nRD
+	K7ipSrIeKEe6uRSVy/NqBZeqaDuVJQEc1FLL8B2ICC68noeOsEpRBwDmFUxzVa6nCcvxo0w+BbQ
+	wsd04dDCMsrzJzBiALd2T5mpMxu4zQ0nXsSLUB0w3qcdU4kPghts/m7XmKMxWWyeclTa5GmGINX
+	NZZJTlKpX0fM6SPOPSlvvMpK4=
+X-Received: by 2002:a05:7022:2522:b0:1a9:c9fe:12c7 with SMTP id
+ a92af1059eb24-1ac5bbb4b85mr358477c88.9.1793307224406; Thu, 29 Oct 2026
+ 13:53:44 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 29 Oct 2026 13:53:43 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20261028-fixes_hugetlb-v1-1-a0a033db180f@kernel.org>
+References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org> <20261028-fixes_hugetlb-v1-1-a0a033db180f@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,64 +109,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029-b4-ipe-keyring-rfc-v2-1-77727b205844@nvidia.com>
+Date: Thu, 29 Oct 2026 13:53:42 -0700
+X-Gm-Features: AclHuK_vfygndkmig7dtJT75402KjRWCrBeo-qQvow0jlIneeAJCjzWqgPCqOeQ
+Message-ID: <CAEvNRgEY1uNs7F+ZPpcbx4Tgg=9r+f6nYpPsnm7em0+2YMq6cQ@mail.gmail.com>
+Subject: Re: [PATCH 01/15] hugetlbfs: fix integer overflow in fallocate()
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
+	Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, Michal Hocko <mhocko@suse.com>, 
+	Rik van Riel <riel@surriel.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Peter Xu <peterx@redhat.com>, Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Arnd Bergmann <arnd@arndb.de>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-s390@vger.kernel.org, luojiajun <luojiajun3@huawei.com>, 
+	Josef Bacik <josef@toxicpanda.com>, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 29, 2026 at 12:30:38AM +0000, Manuel Huber via B4 Relay wrote:
-> From: Manuel Huber <manuelh@nvidia.com>
-> 
-> Add a dedicated .ipe keyring for IPE policy signature verification.
-> With this, userspace can provision its own keys into the keyring,
-> then restrict it and activate it for IPE policy signature verification.
-> 
-> Gate creation of the keyring behind a new by-default disabled
-> CONFIG_SECURITY_IPE_KEYRING Kconfig option. When created, the keyring
-> is empty and writable. The keyring is used as a fallback after the
-> existing policy trust sources only when it is created, non-empty, and
-> restricted with restrict_link_reject.
-> 
-> This enables scenarios in which a trusted userspace component generates
-> an IPE policy, and creates an ephemeral policy-signing key pair,
-> provisions its public certificate, and restricts the IPE keyring during
-> the early lifetime of a system. The trusted component can then sign the
-> IPE policy, destroy the private key, and load and activate the policy.
-> During that phase, the system is considered in a trusted state whereas
-> the system transitions into a possibly untrusted state afterwards,
-> running arbitrary user-provided applications. In such a scenario, the
-> trusted userspace component could reside on a dm-verity protected
-> rootfs disk, and applications would reside on additional dm-verity
-> protected disks. The latter disks would be dynamically attached and
-> their dm-verity root hashes and/or signatures not known a priori to
-> launching the system.
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-Not trying to muddy the water here, but I stared / thought about this
-a while and wonder if I'm missing something below...
+> hugetlbfs_fallocate() rounds the range end up by adding hpage_size - 1
+> to offset + len. vfs_fallocate()'s existing overflow check only makes
+> sure that offset + len does not overflow.
+>
+> Once we overflow for valid endpoints near LLONG_MAX, we can get a
+> negative temporary result that is then converted to a very large
+> huge page index.
+>
+> A one-byte allocation ending at LLONG_MAX can therefore consume all
+> available huge pages. Pages added beyond LLONG_MAX are skipped during
+> inode eviction, leaking them and triggering the BUG_ON() in clear_inode().
+>
+> To fix it, calculate the end index in a simpler way that cannot
+> overflow. This also fixes the signed overflow reported by luojiajun in
+> 2019.
+>
+> Backporting notes: without commit a08c7193e4f18 ("mm/filemap: remove
+> hugetlb special casing in filemap.c"), remove_inode_hugepages() must
+> include the final huge page during truncate and eviction.
+>
+> Reported-by: luojiajun <luojiajun3@huawei.com>
+> Closes: https://lore.kernel.org/all/1554775226-67213-1-git-send-email-luojiajun3@huawei.com/
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Fixes: 70c3547e36f5 ("hugetlbfs: add hugetlbfs_fallocate()")
+> Cc: stable@kernel.org
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  fs/hugetlbfs/inode.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index 01c4d6f44ebe..5592cfc6cc8b 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -721,11 +721,13 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
+>
+>  	/*
+>  	 * Default preallocate case.
+> -	 * For this range, start is rounded down and end is rounded up
+> -	 * as well as being converted to page offsets.
+> +	 * vfs_fallocate() guarantees that offset + len is positive and does
+> +	 * not overflow. Avoid overflows when calculating the end huge page
+> +	 * index: set it to one past the index of the huge page containing the
+> +	 * last byte.
+>  	 */
+>  	start = offset >> hpage_shift;
+> -	end = (offset + len + hpage_size - 1) >> hpage_shift;
+> +	end = ((offset + len - 1) >> hpage_shift) + 1;
 
-With this Kconfig approach, aren't we now saying "if you want to use IPE,
-and you want to ever use this feature, you need to make sure you seal that
-keyring or else someone can replace the IPE policy!"? That seems rather
-easy to foobar, and means to me at most kernels (i.e. distros) won't have
-this enabled which limits how easy this is to use. I know Fan wanted this
-behind some Kconfig to make it controlled by build time, but does it make
-sense to keep the command line option as well to really make this opt-in
-for users who have it enabled at build time? Otherwise you really are gonna
-have to craft a special kernel in my mind.
+Reviewed-by: Ackerley Tng <ackerleytng@google.com>
 
-Likewise, but more nitpicky, I'm not sure the restrict_link_reject
-requirement buys much over the chain restriction. restrict_link_reject
-stops new keys being added, but pkcs7_validate_trust() walks certs
-embedded in the signature, so whoever holds the private key of any cert
-in .ipe can sign a new leaf, embed it, and have a policy accepted anyway
-I believe. Under both restrictions that basically means "holders of an
-enrolled private key and whoever they delegate to". If the concern is a
-restriction like key_or_keyring:<id> pointing at a writable keyring,
-that seems like a provisioner bug rather than a reason to rule out the
-chain restriction. Am I missing another reason for the stricter check?
-I do realize this is rather pedantic in argument and doesn't have a place
-in the use case described, but I'm wondering if a future use case will
-want such a thing.
-
-Thanks,
-Andrew
-
+>
+>  	inode_lock(inode);
+>
+>
+> --
+> 2.43.0
