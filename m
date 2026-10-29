@@ -1,63 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.115
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.114
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793255096;
-	b=va1i5Ys8aZn2+ACjkSNoieVb323Ajx4X7KicbvkryLG9A0G/SwFZmKBBF18ZIcYy8RAo
-	 RTp+7/POB4aIBFGbmuy9/xb2qjbk3m8+XsRkFsCFB/LjOvSUEo4gkkKxUv+r/SUwyzCsx
-	 F0zo9y3AYh6uVIEQSJ4hjSBeBjKC+Sz2fcH90k24ZFQ5Z1CPxGQw9FLZLLzjgG/BCLE41
-	 SQqDrKbwGr2OUNEzuzlAqFwxdeZojHpJG9i4UtDR+QXkVLI3o/07ODd5MSdQtITvkcfOP
-	 lZVfSP77QrmIGBRaa36+i9wp0ua6TLTe+4ErL/jqUC2eJ3rcpiQUCljMFgQieJJ/XSw==
+	t=1793255381;
+	b=ERzcb9T8zobFMgqvuSXVXi4fg5yViuYf+IIWB46w5oROJpXLHMCy0Dz3qqmafSX3wU8w
+	 /QsaUAyyS1dZwoQYy7ZBLSeuSioMNcGq8WsV5py7rJ1O2cbzDMEEpM0GbWRJQFOpBOTb+
+	 qKbs/ldJGSUhdXXMtqfleOX3gsGgYE2ZmcWnlJOKhu59UiUcV+cUImehoAnkJHS1hEPjW
+	 ZUnjwUnOsaQ5yu3Dh4M4isZwL5WDHmKUdwnWa0KMrRRHtDqFqCnmM1/0iyrESC+j27lK+
+	 z2+GRsYUsXVFR4qSwFApra+vMhmylCiRqcSxe328yWhJCjzixy/jnUsRnIpsjJlgMCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793255096;
-	h=DMARC-Filter:DKIM-Signature:Cc:Date:X-Original-From:User-Agent:
-	 Content-Transfer-Encoding:To:From:Subject:Mime-Version:Content-Type:
-	 X-Lms-Return-Path:Message-Id:References:In-Reply-To;
-	bh=G/jHONOjsG3jk3ok02og65/P6DgsNIUASy0C0aH+3Fk=;
-	b=u+kfWCeRvyeHHG+NEa3Aw2HOizsTQwo6gaDRILAejQPrEfUgNyEM/JVi8ChekRLzQznA
-	 H1AAG8KIGC+2JC3AsVRuvCJdZzYUIxOb4COQjMriwJPHxoumJ5QeIZW6dygC1jByI4Ly0
-	 cWssj9N7Ad8om34uz22JEXHX+0bUpV8dwYpZis+4A9z8yFpUNhBuBdbh6FEKQ+l4JAC2Q
-	 2dKeA/e00hetylKRjypvFjakfUKW+np5FP5dJMtqeuh7UfD+gWlSJDyFJaM4PRR2/F8Vw
-	 bI5QiEfnwyErnwzClDg9JSGrEWR0WMUFZFDcob0FU+i+hIMVZAna+bM+xZ74F7e9/qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793255381;
+	h=DMARC-Filter:DKIM-Signature:Cc:From:References:X-Original-From:
+	 In-Reply-To:Subject:Message-Id:X-Lms-Return-Path:
+	 Content-Transfer-Encoding:User-Agent:Mime-Version:To:Date:
+	 Content-Type;
+	bh=LSpsxZ0UOcO2qaOwszBPuySwWt2HOSaZ4drFli6RZ2s=;
+	b=T9VvyXj8hybMp0njKMYkVgQpwg6QLp7X7rK75CbRi1f5K+hoc8+XMZcRWl8os5BU+IoA
+	 2BVmK/5JIBFu61IXkUniqBvZgWQDmX/7rAQ8TM0ikXPBJ3TEz0tOeL/BC8rpCVMZPHk5Q
+	 7n5wEuSZwohr4A7dlQvO1kt9VZTCEU19poYRjCMZzaKvcdfWlnQsjM8u713lwCJ0xhHyc
+	 p949kWmvoix0B54YygnKv8zn5m6Mws0JwfQdHJRxFuU0iQM9oTiiC7En5A+fsHEDgQKWS
+	 bsPGhOGoUgDYJ1h00KhDYXSWeS3fEOXnOO8QX3XdSusqxP8HrP+uxOCck+O/n7sbClw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=ZtOQpinT;
-	arc=none smtp.remote-ip=209.127.231.115
-Received: from va-2-115.ptr.blmpb.com (va-2-115.ptr.blmpb.com [209.127.231.115])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SWxxW4lJ;
+	arc=none smtp.remote-ip=209.127.231.114
+Received: from va-2-114.ptr.blmpb.com (va-2-114.ptr.blmpb.com [209.127.231.114])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78070606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 06:24:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78070606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536FB606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 06:29:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 536FB606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=ZtOQpinT
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SWxxW4lJ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793255089; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1793255370; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=G/jHONOjsG3jk3ok02og65/P6DgsNIUASy0C0aH+3Fk=;
- b=ZtOQpinToUAnE5i2fpxWQ/Sbs6hx6Jgx3dpW3z4CMXa0LEp6S3Y36paqfrL4rJcNGoVWbq
- KZMwuwlNWtfKC0yA9VXgkb8z2Q/qya8jztPfkYSV7dIa4JmJhNX9+Z8Kf495etYfmfY/dX
- K0b5qTGbp7fTzS1QuUpYZ9zhCgdiZ0mNw5NSyoISy+/cVBg/3P7vuTodSfZCbT3l3N+2AP
- 8BmkXmRzt5lXl6gE6kxFwFo+XR4Gh/kLLGfJGxArIr78cB7LEFOzQWf130WmdAnsuXb5Hz
- DtOZz0TAQTuTCmNTN5AexDn1e1ZGAXlOP/erRKdLEOOw/PZHuv+glcqWJNXWbA==
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-Date: Thu, 29 Oct 2026 14:24:24 +0800
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-User-Agent: Mozilla Thunderbird
-Content-Transfer-Encoding: quoted-printable
-To: "Bharata B Rao" <bharata@amd.com>, <akpm@linux-foundation.org>, 
-	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>, 
-	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+ bh=LSpsxZ0UOcO2qaOwszBPuySwWt2HOSaZ4drFli6RZ2s=;
+ b=SWxxW4lJrbz9WGHaQQdDbYHk6CtxBs6AVHOz/tfi967QnVoYvku5CKRTq54q2NSpdK8rJx
+ uvu0Rc7nEysZMOx5g0C+1U1ebXLucQUGHXl1EgAHY8dTj0OalC/HpdiOHdeYCsJWCRi1Gl
+ 7LZh2HJt/8lQuq+o8pHwEpBh6chveJffti88zP6UrHdDCW9mjVZamxDVDe1ibtXPmpFqPT
+ yCftoUXDipbE/JaMD9KdukA0iulVxd7xYP685DHWq/XzPJeb9uLe/njzxJOVFBUPNbwklS
+ I4y86nRxP5nB/cpMy8fW9n2hhjFv/OmtDAtAhIFixdlHni0O4TdLRAKmFuZWHg==
+Cc: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, <juri.lelli@redhat.com>, 
 	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
-	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
-	<vschneid@redhat.com>, <ziy@nvidia.com>
+	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>, 
+	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>,  "Huang,  Ying" <ying.huang@linux.alibaba.com>, 
+	<riel@surriel.com>
 From: "Li Zhe" <lizhe.67@bytedance.com>
-Subject: Re: [PATCH v2 1/3] sched/numa: make free-space tiering promotion bypass configurable
+References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-3-lizhe.67@bytedance.com> <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com> <8d6f589c-4427-465d-be5a-17eb99f41a91@amd.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+In-Reply-To: <8d6f589c-4427-465d-be5a-17eb99f41a91@amd.com>
+Subject: Re: [PATCH v2 2/3] sched/numa: do not feed tiering promotions into task placement stats
+Message-Id: <49e49011-45c1-4eef-84fa-96bd2de701c9@bytedance.com>
+X-Lms-Return-Path: <lba+26ae2e7c8+6519e4+vger.kernel.org+lizhe.67@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,51 +70,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+To: "Bharata B Rao" <bharata@amd.com>, 
+	"Joshua Hahn" <joshua.hahnjy@gmail.com>
+Date: Thu, 29 Oct 2026 14:29:02 +0800
 Content-Type: text/plain; charset=UTF-8
-X-Lms-Return-Path: <lba+26ae2e6af+e0aca2+vger.kernel.org+lizhe.67@bytedance.com>
-Message-Id: <74f3a0bf-22cc-42b7-8ced-c8c6ea9f6f93@bytedance.com>
-References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-2-lizhe.67@bytedance.com> <e2fb13e8-6d17-41ea-a9f7-397f62a85f72@amd.com>
-In-Reply-To: <e2fb13e8-6d17-41ea-a9f7-397f62a85f72@amd.com>
 
-On 10/29/26 12:16 PM, Bharata B Rao wrote:
-> On 28-Oct-26 9:42 AM, Li Zhe wrote:
->> Memory tiering normally promotes any recently accessed slow-tier page if
->> the target fast-tier node has enough free space. This preserves the
->> existing policy of filling available fast memory before relying on
->> hotness and rate-limit control.
+On 10/29/26 1:51 PM, Bharata B Rao wrote:
+> On 28-Oct-26 8:33 PM, Joshua Hahn wrote:
+>> On Wed, Oct 28, 2026 at 12:14=E2=80=AFAM Li Zhe <lizhe.67@bytedance.com>=
+ wrote:
+>>> NUMA balancing has separate mode bits for normal task placement and
+>>> memory tiering. In memory-tiering-only mode, NUMA hinting faults on
+>>> slow-tier pages are used to detect hot pages and promote them to a top
+>>> tier. They are not normal task-placement faults.
+>>>
+>>> For slow-tier folios, memory tiering reuses the folio last-cpupid field
+>>> to store access-time metadata. numa_migrate_check() therefore cannot
+>>> return a real cpupid for those faults. Before this change, it returned =
+the
+>>> same all-ones last_cpupid value that normal AutoNUMA uses for a first o=
+r
+>>> unknown access.
+>>>
+>>> That can make a memory-tiering-only promotion look like an ordinary fir=
+st
+>>> private AutoNUMA fault. After a successful promotion, do_numa_page()
+>>> reports the target top-tier node to task_numa_fault(), so the existing
+>>> slow-node skip no longer applies. task_numa_fault() then accounts the
+>>> fault in p->numa_faults and p->numa_faults_locality, and
+>>> task_numa_placement() can consume that sample to update normal task
+>>> placement state even though normal NUMA balancing is disabled. In other
+>>> words, hot-page promotion feedback can leak into the CPU placement
+>>> heuristic.
+>> Hi Zhe,
 >>
->> That is not always the desired policy. Some deployments may intentionall=
-y
->> keep part of a workload's memory on CXL-attached memory, for example to
->> preserve a desired DRAM/CXL capacity split or bandwidth distribution. Wi=
-th
->> the free-space bypass, short cold accesses and bursts of hot accesses ca=
-n
->> refill the fast tier and pull the workload away from that distribution
->> whenever DRAM has free space.
-> Currently promotion happens on 1st access. Won't it be more natural to tw=
-eak
-> this frequency of access and also the time between successive accesses to
-> prevent promotion due to short cold accesses and bursts of hot accesses
-> rather than free space bypass configuration?
-I agree that using hotness and rate-limit controls is the more natural
-policy here.=C2=A0 That is exactly what this knob is trying to make possibl=
-e.
-
-The current free-space bypass promotes before reaching those existing
-checks.=C2=A0 So when the target fast-tier node has enough free space, shor=
-t
-accesses can still be promoted even if they would not pass the
-hotness/rate-limit path.
-
-With this knob disabled, the free-space shortcut is skipped and those
-faults fall back to the existing hotness and rate-limit controls instead.
-So the patch does not add a new hotness policy; it only makes the
-existing one effective even when the fast tier has free space.
+>> Thanks for the revision. To me, this looks more like a fix than an
+>> optimization, since there really is incorrect NUMA balancing behavior
+>> happening that could be visible in userspace (unintended
+>> task-placement and related accounting). On the other hand patch 3/3
+>> doesn't seem like a fix to me despite the name, since this one would
+>> mitigate the incorrect behavior.
+>>
+>> How about we pull this one out of the series and submit it
+>> independently with an appropriate Fixes: tag and cc:stable, and
+>> discuss 1 and 3 later on?
+> Currently only successful promotions feed stats to scan period update.
+> This change stops that and nothing updates the scan period for tiering
+> mode after this change.
+>
+> Though the direction of the fix is right, I think this can't be an
+> independent fix until there is some alternative which patch 3 in this
+> series brings in.
+Agreed, thanks for pointing this out.=C2=A0 Patch 2 should not be sent as a
+standalone fix without the replacement scan-period feedback path.
 
 Thanks,
 Zhe
 
+>
+> Also it would be good to get a view from Ying Huang as to why only
+> successful promotions drove the fault stats while unsuccessful promotions
+> didn't in the tiering mode.
 >
 > Regards,
 > Bharata.
