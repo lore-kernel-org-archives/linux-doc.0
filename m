@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297409;
-	b=N8/fDE4rH57ld0rtP5PIvXXyo78vZ1ir6WNft5B1JsGsy6q3BQQCVomowgkB3sga+JMM
-	 NM2a+dXwOXstGJZ9wG+0K/De/RHvtyUEIQ+ZhRKo1sWcrZsD1ahdqyAwyK+spFrUUBh2a
-	 B+z0Ld3oXYAQeKSHiKqvqsrfepmse7FN1N/9deeLU3v6a2Z7G6p2rV+fqpP8rLnAKetcm
-	 GwTBdEcGbdzWlY9vLOgmWLFjJzHRg7M3sXYmtMquTt6y7SrF/ohMs6pKPUISOUQTAzLTf
-	 qoHgrSMniS6ytoS1PGu+8vbfEdj0xZn32rvOxa5aEHL6xG2Tqvy0Ye8O3R/xSlKRz2w==
+	t=1793297405;
+	b=rJKQU83rI2QumN+/hI+aDNpHfwkKfa9nAEtNn9Hb2smVtj6VIKxHI33qxjK0UWdUHVlV
+	 ygRrlQl+XOpfvtc/Rxguvfr61TZJaU9L2NeVMFIfMn+tKMwubIh5/f2aWs4LAwECNgQ5o
+	 9PByqeNWmO2X4eBCmhQ8+xwcdwPeMeuZF8gavL9dEo6UloSdV/QHDsBzV2yq5bdo/T8R9
+	 /E8bukSk9nhCopICRQI7BbfgEgv+QiEfelh0T+BgCbt5CUCA8yPRE1Sx8a+31pS2bZDJ7
+	 A+WNyQG0kBcej/GmFBvV2Trfw84f09++tT9e6N3fk46rCa3kmCTeBg2TMszJCxol37w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297409;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793297405;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=rH9CbGqODly4QJymlyl4BG0aA7nsrIIcMmK3tybqsts=;
-	b=EQ2ZRLaIBWvEZ8IEZoOc692Y7ATODZRim9+jCxKm5kY3NtIUSMqG3cM8LvEQ+FBRq3NS
-	 9tpoj9y9OTSMGyKCCRgWE7+HbDy3tgxMZxrLKNTRW7sM+GSBfoxye0TfLouFMdJmWVo9D
-	 dIw94btXrjw9f5h17hPbC0xOFRzL6T7NHqPYGs8K+tlMpJPdmq7DPE7ogYl50VQbD1Jct
-	 MYm83uYAxAL9CyPb5aU06q571ky7YJtt2wQAsy7Yn+ivbfUWpRdxZfVZ8BuyG9EbHYjhC
-	 0XARBvchNoQjsB7UEa7p8MNqJr7fJB8dJvA1jih6SzGdEKb02Nm37dKzS0jjCOpnNeg==
+	bh=Pm1R1Yg8qM+RQX7ApNjTy6aurLKiAREVlSqc/qkmz+A=;
+	b=cE0oEpcwS6nPcs+BZDFuk5x4epFXSu8RQuVNtnea2I7eEHu8weVMte1U5rXomjeBpDPr
+	 vwIdtvmMPrnEntmDRn8Q3Xwjyn78PZvlTj09dwdMQ5qLXz0/UYRGeBX1hWitOeIgSqG90
+	 30hPy+tNy4wOByYOrYZNzDLwZ8L1m+qZCiOaOmxr6N/C+hHlijysW4xtfkuVldFRTOkGU
+	 jWzlTAyqrUulLcXs3F4jDUnND3PqfkLiEq1ZuC7vnYn6fDzbV5YOvmw3Wfrn3K++Jnbes
+	 z9Zoka0UdF3ab1xpCoENyZQESrJC0p+DGv56xp0uZkMQb+sFQi+s+6M4hMPAcb4mGaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hammerspace.com;
 	spf=pass smtp.mailfrom=hammerspace.com;
-	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=jiIoUki4;
-	arc=none smtp.remote-ip=209.85.167.173
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=m41LuiIJ;
+	arc=none smtp.remote-ip=209.85.167.172
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F1360A2628
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:10:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1F1360A2628
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8265760A5BDA
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:10:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8265760A5BDA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=jiIoUki4
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4f66bb2ab57so992263b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:10:08 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=m41LuiIJ
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-53ec9237600so1553131b6e.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1793297408; x=1793902208; darn=vger.kernel.org;
+        d=hammerspace.com; s=google; t=1793297404; x=1793902204; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rH9CbGqODly4QJymlyl4BG0aA7nsrIIcMmK3tybqsts=;
-        b=jiIoUki4j4MwfBdQRja9mQm5YbKyR2UfdgEDEpBelWc7CL+KZVxs8YGe3V4thSYnTf
-         4Q+6PlYwf8H0dxXpIZVkw0gqDbX1JjegbhGQsrf0o123qkP9aVQ+RgM9z+sgWLRegzAy
-         mXzOKWzYxxn3T25pHgaOYoGMT14v36G/tEp03Ighzjd8v+4bIIhikIk6gOb+8BzUxOip
-         IeVfFmYJIsZi4z1gBG6/k7WKvjJtJAehF2bUmKLJyCjPLaBWNFrYAiaSo9l0uVlFKgw0
-         Pm1MqLT15sII2XEXTBrAYgBpCOqBlXifLBnUsRmeBl6T25KGkyrt9j3xpkOIqf7olmiN
-         p8xw==
+        bh=Pm1R1Yg8qM+RQX7ApNjTy6aurLKiAREVlSqc/qkmz+A=;
+        b=m41LuiIJlm3MggjpHDY1vfjUIc3UfxLDNZGSIVM8Fm3PovKNWnn9hGmi3Gz42FmWKW
+         1089sX1WmPElVGNk7+XJXmOA7D40jb8N2b9CJ7tpRrb3Bh8LnlsDoLp0mjQk8fMUvPPc
+         mdP4X4O1OSG/tPVrUxR8lw4cIQI6sgkwPLL/pVmC/I1mHKDXr0Uj4hCOnO4+6vWQxXMb
+         l3c4nMqwgJmYSolJYQGozefAPJxYZjEaz5i60mFN+Tg5i70xdP+V//Ff+4djT3yvRDy5
+         mm6T7swk7bJkv2f9lyBPEDqW6lD6W4FmujHpQTImEvHSWMdvKuOsUvoktLBUJl8VThXJ
+         HuzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793297408; x=1793902208;
+        d=1e100.net; s=20260707; t=1793297404; x=1793902204;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rH9CbGqODly4QJymlyl4BG0aA7nsrIIcMmK3tybqsts=;
-        b=X2EjbO+gIAx0Zl5WkU9a0sn3JbEEnpIoYLQy7Wczy4vbvR6aEucybVHI75fqIgoU+0
-         5Sr7kOJxFHlIXFWNFa54pWYnlOn0jg/wKK1uZ9bKXYqAGEBCcyT0We8qV43nV+2KylOv
-         ofvyWyORSNRUem75qIw5akFTpNOL+JH347vf904GtkJq78UE1jFAnAtlrbwosa73I2Mv
-         5Difg3kPRwkIzuE5urrbBAw+0jK5RNjngzTQDVUfoOIItCQtemwDDjV6yGDZqGdiNmE0
-         hbZvi9mrM7E5QXCtz1TrC32sUufexEkPODp1xpZxvyuBjbL5EeROYgc93uyj7cscEuRZ
-         wy7A==
-X-Forwarded-Encrypted: i=1; AKwUvBwFAOwmLd40xpmWWucW1HFCdimXRM7FuqCAUpuaRw+KbXLHrbhxwM8kB+kryhQNAxP+1wtsvX8txns=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJqpNmF1jOjWZRurrUFCgZmRsca0HwY7v7fszyf4ugOXuK+Xw2K
-	EiGb4mc+yDe+GPQJ0fBhuyRm5DN/pstD/YsW/0kdpB7FbZj2UMizs9U7Kqrz97NwRDA=
-X-Gm-Gg: AYBFou1pqHZ54pC4OgL7ejadAGpNPEvxoJbyqRpCEXVRNWnjrjsBJdmrpsrxSOKuljI
-	dscbCvTJ9TyY2uUFGf+YRFNJ5cItk8eBJe8Pxbd6exxnFTeikOVNi2Zfqt7ye2DwXojntElsm9F
-	6yQYZ3eZgOcK+YWyA10YmCwtDvNRLhad4DHZ7rdnMr0j7pLVOw5wgXhnVEnbZpfRNw0T8u2GbL/
-	SAnps/6LFpMTDdWYIIbu/kvX16WHcDyKCIaJuWRxtdRIZJA6TI3EuO5V1Lf7Nxv58kP3o+c4p5u
-	5Yd8sHSYaN6BrGzG3PjBwL6MstpQH+2qxUGngMhwm+8OHnXRggwdHSRGPiWYRin2YLWClB9lEEH
-	c+0yRCAedmP/HmPaT463ds/hXMH/13CCXQd6Nz2cNI231Gg3TKOvpzIBYExlX6uidjGAbSe7+8T
-	h20L5PL76Z4Smx5LNswqu8OSvgyk4n819K9YB6PnUmdUlTegtUqng5Pe2wfDXyJ5CIw3dhxpk4k
-	B5QX/ZnS9jGT7IXYdOhAg6H7xdYhNQyOm6GFQ/ssmTVGyNHeR7aHqgarP+4+YBOcgiWUkhUJ7nC
-	jaN99KAgmospZWnU8a6vGZVF2zoL/tPUKUca5oCHjDVQNNAlMeGm6+99ipQnXjlzhf+1t/r9
-X-Received: by 2002:a05:6808:1904:b0:4e4:627a:e0a5 with SMTP id 5614622812f47-56383e91af6mr4444175b6e.40.1793297407750;
-        Thu, 29 Oct 2026 11:10:07 -0700 (PDT)
+        bh=Pm1R1Yg8qM+RQX7ApNjTy6aurLKiAREVlSqc/qkmz+A=;
+        b=Dexyyhrb7lsgCtNfCJHHZhyDxKTYemTqkIP36FFFB2zpHUVg6Bz8FV5nu0gKApycqJ
+         WKx8X7DfOYEhtn4NUmrsG1k43CFm4FUYUqDc7SaDd5vUcKbZKIJqo5eor/MGeVScOwwQ
+         sLkvFzypMz87en67lLge7f9Fl/s2C1BJvksj2K7Xi7E5JFpIK/x/9O7uid8XUkCZocFv
+         plXivWXZeHrXF7g0Fv3zCWEG+2lXjE5fUPId+zHmGydedwo7r8nzBmRlu1yJ0wvOZdsP
+         xo1UWsPUY96f36dbJC8e3KULirUegZ2WlwLXLkbpX2sP91XuboMqbJ4Ojhv/k4fino1B
+         uskA==
+X-Forwarded-Encrypted: i=1; AKwUvBwOEUzCIlqOy5wSyceyBiUFXTfL+okeAzV/ExhPKkYkJ/CJJww0R39voCDHSeao202kxmGFS81rXfI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ6PvHo0LbMhCOfyHVItvxCGcnOChsGd4DUqNQdeCFBHU+JkA9T
+	1s5oIvkTkiSrrqXJ4AqBYaAIwbR0ULplX19Y4n5RrEXuQw47Ii4fTnfO/MMDgSgW5ug=
+X-Gm-Gg: AYBFou3M/snM4X74iPFAADn8MTOuPZ7AZxmZrNJbzV6XPa1TjKYm4yv7XzeCscanEVh
+	A0jA/6w5VFa2CtgM1mOGCSiz76Jlmckl0NbGMZ89w7Mhvfc3CqYVTLsUYmi0ksgZBEB+hgJSyjO
+	bbCjexGLmY3pOMewkYtnlVUzBeMwG7KDjOFpiR/7UC3oaVQ+HE6heASJx/tcjUQlKUl18YyiHVx
+	ejPQA6syzsr7fTyVELOobAH7pV0/8N7JLJg/99sYeqpSwMpAkVoJiZuvbuMEXSosxcf1TXYX9DF
+	rksU+S01q3mpp6iM6YaLOzXFCKdx+W7WTDwXaBGuw5Yt1qvsE2fsUZfkovx2yUsSJ3HP429dF+g
+	+qKnxM/JbEExVnPn/2jN9w8piLKjTXvIC2MV+OxhXZ4bpHOhPNlcVgHO0EENzhnun+j0aii1uUJ
+	IBbc9RqJMaT+2RJU4RknhyToCpiisMz1tYbGHOTkSTF68mbZT/vaTSjpzRLmDxwzboPuOpCkAz7
+	I8neRA0NOAhQlaa0VcPXiYAcqf38eWb0wLol78w8g6+yrSThcFN/GPT1ivwl1qP1JJvhGxFAjY4
+	EGfuMQ7b3NIlOLIEFw77JDoKiOFF6OrH4xNY32CVfd1NYyVOe7hBEKZPvDymWxIK3kQ7qGn3
+X-Received: by 2002:a05:6808:238a:b0:4f2:ac42:656b with SMTP id 5614622812f47-5640dbd6766mr13996b6e.7.1793297404102;
+        Thu, 29 Oct 2026 11:10:04 -0700 (PDT)
 Received: from localhost (75-163-200-235.clsp.qwest.net. [75.163.200.235])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-563c654a22bsm4702434b6e.14.2026.10.29.11.10.06
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-563c5a4d8b7sm4093603b6e.8.2026.10.29.11.10.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 11:10:06 -0700 (PDT)
+        Thu, 29 Oct 2026 11:10:03 -0700 (PDT)
 From: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 To: NeilBrown <neil@brown.name>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -92,9 +92,9 @@ Cc: Jeff Layton <jlayton@kernel.org>,
 	linux-nfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 05/12] vfs: factor file removal into a helper, no functional change
-Date: Thu, 29 Oct 2026 12:09:50 -0600
-Message-ID: <20261029180957.387138-6-jonathan.flynn@hammerspace.com>
+Subject: [PATCH RFC 03/12] nfs: tell the VFS when two names can be one entry on the server
+Date: Thu, 29 Oct 2026 12:09:48 -0600
+Message-ID: <20261029180957.387138-4-jonathan.flynn@hammerspace.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
 References: <20261028041023.3738553-1-neilb@ownmail.net>
@@ -110,79 +110,114 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the body of vfs_unlink() into a static helper, __vfs_unlink(),
-that calls the method it is passed in place of ->unlink(), or
-->unlink() when passed NULL.  vfs_unlink() becomes a wrapper that
-passes NULL, so every caller behaves exactly as before; its kerneldoc,
-including the requirement that the caller hold the parent directory's
-lock exclusive, does not change.
+A server that reports itself case-insensitive, or as not preserving
+case, can make one entry of two names that the client caches apart,
+because the client compares names byte for byte.  Mark the filesystem
+on such a server with SB_I_NAMES_COLLIDE, from "vfs: allow the parent
+lock to be shared for O_CREAT", so that the VFS keeps the exclusive
+directory lock for creates there: the per-name exclusion that replaces
+the lock for a create made with it held shared covers one byte string,
+not the names the server treats as equal.  The client learns this when
+it reads the server's capabilities, which it does again on remount, on
+migration and when a later mount reuses the filesystem, and it updates
+the mark each time.
 
-This prepares for a second removal method, called with the parent
-directory's lock held shared, which a following patch adds.
+This is a conservative fallback.  A server that declares itself
+case-insensitive should itself treat the two names as one, but one that
+did not was seen making two files of one name when such creates arrived
+together.  No filesystem relies on the mark yet, so nothing changes.
 
 Signed-off-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 ---
- fs/namei.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ fs/nfs/client.c   |  1 +
+ fs/nfs/internal.h | 35 +++++++++++++++++++++++++++++++++++
+ fs/nfs/nfs4proc.c |  1 +
+ fs/nfs/super.c    |  2 ++
+ 4 files changed, 39 insertions(+)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index ce10a408d3..1b3a605ded 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -5679,6 +5679,12 @@ SYSCALL_DEFINE1(rmdir, const char __user *, pathname)
- 	return filename_rmdir(AT_FDCWD, name);
- }
+diff --git a/fs/nfs/client.c b/fs/nfs/client.c
+index ea99b3c105..30206b309c 100644
+--- a/fs/nfs/client.c
++++ b/fs/nfs/client.c
+@@ -975,6 +975,7 @@ static int nfs_probe_fsinfo(struct nfs_server *server, struct nfs_fh *mntfh, str
+ 			server->caps &= ~(NFS_CAP_CASE_INSENSITIVE |
+ 					  NFS_CAP_CASE_NONPRESERVING);
+ 		}
++		nfs_server_publish_name_caps(server);
+ 	}
  
-+static int __vfs_unlink(const struct mnt_idmap *idmap, struct inode *dir,
-+			struct dentry *dentry,
-+			struct delegated_inode *delegated_inode,
-+			int (*method)(struct inode *dir,
-+				      struct dentry *dentry));
-+
- /**
-  * vfs_unlink - unlink a filesystem object
-  * @idmap:	idmap of the mount the inode was found from
-@@ -5706,6 +5712,20 @@ SYSCALL_DEFINE1(rmdir, const char __user *, pathname)
-  */
- int vfs_unlink(const struct mnt_idmap *idmap, struct inode *dir,
- 	       struct dentry *dentry, struct delegated_inode *delegated_inode)
-+{
-+	return __vfs_unlink(idmap, dir, dentry, delegated_inode, NULL);
-+}
-+EXPORT_SYMBOL(vfs_unlink);
-+
+ 	if (clp->rpc_ops->discover_trunking != NULL &&
+diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
+index 5af6a032f1..34b8aff4e0 100644
+--- a/fs/nfs/internal.h
++++ b/fs/nfs/internal.h
+@@ -224,6 +224,41 @@ int nfs_init_server_rpcclient(struct nfs_server *, const struct rpc_timeout *t,
+ struct nfs_server *nfs_alloc_server(void);
+ void nfs_server_copy_userdata(struct nfs_server *, struct nfs_server *);
+ 
 +/*
-+ * The body of vfs_unlink().  @method, if not NULL, is called in place of
-+ * dir->i_op->unlink(); vfs_unlink() passes NULL.
++ * Tell the VFS whether this server can make one directory entry of two names
++ * that differ as byte strings.  NFS installs no ->d_hash or ->d_compare, so
++ * the dcache compares names byte for byte, while a server that is
++ * case-insensitive, or does not preserve case, makes "foo" and "FOO" one
++ * entry.  On such a server SB_I_NAMES_COLLIDE keeps the parent of an O_CREAT
++ * open locked exclusive; see atomic_open_create_shared() in fs/namei.c.
++ *
++ * server->caps is derived again on every probe of the server: at mount, at
++ * remount, on migration, and when a later mount reuses this superblock
++ * (nfs4_proc_get_root()).  So this is called wherever the case bits of
++ * server->caps are written, once they have their final value, and when the
++ * superblock is set up, because the first probe runs before it exists.  The
++ * value is what the probed file handle reported, normally the mount root's;
++ * the homogeneous attribute is not fetched, so a server whose answer differs
++ * below the root is described by the root.  Migration runs the probe from
++ * the state manager without ->s_umount, so the update is atomic, and it is
++ * made only when the value changes.  Two probes of one server at once can
++ * leave the bit as the earlier of them derived it; that needs the server's
++ * answer to change between them, and server->caps has the same race.
 + */
-+static int __vfs_unlink(const struct mnt_idmap *idmap, struct inode *dir,
-+			struct dentry *dentry,
-+			struct delegated_inode *delegated_inode,
-+			int (*method)(struct inode *dir,
-+				      struct dentry *dentry))
- {
- 	struct inode *target = dentry->d_inode;
- 	int error = may_delete_dentry(idmap, dir, dentry, false);
-@@ -5730,7 +5750,10 @@ int vfs_unlink(const struct mnt_idmap *idmap, struct inode *dir,
- 			error = try_break_deleg(target, 0, delegated_inode);
- 			if (error)
- 				goto out;
--			error = dir->i_op->unlink(dir, dentry);
-+			if (method)
-+				error = method(dir, dentry);
-+			else
-+				error = dir->i_op->unlink(dir, dentry);
- 			if (!error) {
- 				dont_mount(dentry);
- 				detach_mounts(dentry);
-@@ -5750,7 +5773,6 @@ int vfs_unlink(const struct mnt_idmap *idmap, struct inode *dir,
++static inline void nfs_server_publish_name_caps(struct nfs_server *server)
++{
++	struct super_block *sb = server->super;
++	unsigned long bits = 0;
++
++	if (!sb)
++		return;
++	if (READ_ONCE(server->caps) & (NFS_CAP_CASE_INSENSITIVE |
++				       NFS_CAP_CASE_NONPRESERVING))
++		bits = SB_I_NAMES_COLLIDE;
++	if ((READ_ONCE(sb->s_iflags) & SB_I_NAMES_COLLIDE) != bits)
++		set_mask_bits(&sb->s_iflags, SB_I_NAMES_COLLIDE, bits);
++}
++
+ extern void nfs_put_client(struct nfs_client *);
+ extern void nfs_free_client(struct nfs_client *);
+ void nfs_cb_idr_remove(struct nfs_client *clp);
+diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
+index 113c199a6f..fac8450b65 100644
+--- a/fs/nfs/nfs4proc.c
++++ b/fs/nfs/nfs4proc.c
+@@ -4020,6 +4020,7 @@ static int _nfs4_server_capabilities(struct nfs_server *server, struct nfs_fh *f
+ 		if (nfs4_server_delegtime_capable(&res))
+ 			caps |= NFS_CAP_DELEGTIME;
+ 		WRITE_ONCE(server->caps, caps);
++		nfs_server_publish_name_caps(server);
  
- 	return error;
- }
--EXPORT_SYMBOL(vfs_unlink);
+ 		memcpy(server->cache_consistency_bitmask, res.attr_bitmask, sizeof(server->cache_consistency_bitmask));
+ 		server->cache_consistency_bitmask[0] &= FATTR4_WORD0_CHANGE|FATTR4_WORD0_SIZE;
+diff --git a/fs/nfs/super.c b/fs/nfs/super.c
+index 23292680ad..e70cef88fb 100644
+--- a/fs/nfs/super.c
++++ b/fs/nfs/super.c
+@@ -1082,6 +1082,8 @@ static void nfs_fill_super(struct super_block *sb, struct nfs_fs_context *ctx)
+ 			sb->s_export_op = &nfs_export_ops;
+ 		break;
+ 	}
++	/* The first probe of the caps ran before this superblock existed */
++	nfs_server_publish_name_caps(server);
  
- /*
-  * Make sure that the actual truncation of the file will occur outside its
+ 	sb->s_magic = NFS_SUPER_MAGIC;
+ 
 -- 
 2.43.0
 
