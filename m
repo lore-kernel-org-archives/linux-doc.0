@@ -1,66 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.114
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793255381;
-	b=ERzcb9T8zobFMgqvuSXVXi4fg5yViuYf+IIWB46w5oROJpXLHMCy0Dz3qqmafSX3wU8w
-	 /QsaUAyyS1dZwoQYy7ZBLSeuSioMNcGq8WsV5py7rJ1O2cbzDMEEpM0GbWRJQFOpBOTb+
-	 qKbs/ldJGSUhdXXMtqfleOX3gsGgYE2ZmcWnlJOKhu59UiUcV+cUImehoAnkJHS1hEPjW
-	 ZUnjwUnOsaQ5yu3Dh4M4isZwL5WDHmKUdwnWa0KMrRRHtDqFqCnmM1/0iyrESC+j27lK+
-	 z2+GRsYUsXVFR4qSwFApra+vMhmylCiRqcSxe328yWhJCjzixy/jnUsRnIpsjJlgMCA==
+	t=1793257719;
+	b=edAcfdoLw1I0yAMLql+KgkRMV9C6UtYLlSLN9SWNqXEDYj4d+8GOCSb6TpploFxr1XFX
+	 nhQn4ycBhbXtGmy/KPeulSDuIaFOowHq5+OQMBgRcG3GwhHmEEib+USXHjROA7kF2G7EL
+	 cf2uFFbefQh8J6Wm68rf7Qbx+BmzyjtDP6iKwTRplWzjco789704FUs2X4Hbe5jnIB8sl
+	 +PAv6JwXzDQ1tRwfNUChlyp4fF4w2NnBSk/2QuY78n2pAwG/qQOzNvMUwSH+l7jPiV3At
+	 HyEW47utwORiLnAp0cfQUp+NuCV6h40LY0QoBsUejL0gaNA+WQBe4S7l6MS29FERcnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793255381;
-	h=DMARC-Filter:DKIM-Signature:Cc:From:References:X-Original-From:
-	 In-Reply-To:Subject:Message-Id:X-Lms-Return-Path:
-	 Content-Transfer-Encoding:User-Agent:Mime-Version:To:Date:
-	 Content-Type;
-	bh=LSpsxZ0UOcO2qaOwszBPuySwWt2HOSaZ4drFli6RZ2s=;
-	b=T9VvyXj8hybMp0njKMYkVgQpwg6QLp7X7rK75CbRi1f5K+hoc8+XMZcRWl8os5BU+IoA
-	 2BVmK/5JIBFu61IXkUniqBvZgWQDmX/7rAQ8TM0ikXPBJ3TEz0tOeL/BC8rpCVMZPHk5Q
-	 7n5wEuSZwohr4A7dlQvO1kt9VZTCEU19poYRjCMZzaKvcdfWlnQsjM8u713lwCJ0xhHyc
-	 p949kWmvoix0B54YygnKv8zn5m6Mws0JwfQdHJRxFuU0iQM9oTiiC7En5A+fsHEDgQKWS
-	 bsPGhOGoUgDYJ1h00KhDYXSWeS3fEOXnOO8QX3XdSusqxP8HrP+uxOCck+O/n7sbClw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793257719;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=NcG7rziTtzBQo+YgRjjhG7OeEH2wIvONYfErWYNIqjI=;
+	b=sdw3UQxYV24FAjEJcxh7k6hnELM4ZhUpZRVwjxe2FYSRrp7ojEUNVA9zTQerbyTNF0h5
+	 ab2uqBDbMfVNjHcCCD06rsJJ4tSwskDJvuXexItJzBTq+TbYapj9TxAMcRyBlNE/Z3OBe
+	 wlk5NdqGH+zubiszSNOTR83msI0QF4yKnKTz1HQZN6i/+znypZCNvNcxEc0gWTlLBc7q6
+	 0TziyJW3JxIOFSLanNp+Bz+hm1mlfGKpSi4TpXkTakv1l2NjcAOZJYkaiNXXV41CEd9vg
+	 UBn+12ghSCg6CrgiS9sbKqUU+ggamBAaa4XJf1W4cFbtRkyWf0ds57Zz5trs7D8nZfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SWxxW4lJ;
-	arc=none smtp.remote-ip=209.127.231.114
-Received: from va-2-114.ptr.blmpb.com (va-2-114.ptr.blmpb.com [209.127.231.114])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="kfi7zL3/";
+	arc=none smtp.remote-ip=113.46.200.216
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536FB606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 06:29:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 536FB606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3150C606A31E;
+	Thu, 29 Oct 2026 07:08:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3150C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SWxxW4lJ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793255370; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=LSpsxZ0UOcO2qaOwszBPuySwWt2HOSaZ4drFli6RZ2s=;
- b=SWxxW4lJrbz9WGHaQQdDbYHk6CtxBs6AVHOz/tfi967QnVoYvku5CKRTq54q2NSpdK8rJx
- uvu0Rc7nEysZMOx5g0C+1U1ebXLucQUGHXl1EgAHY8dTj0OalC/HpdiOHdeYCsJWCRi1Gl
- 7LZh2HJt/8lQuq+o8pHwEpBh6chveJffti88zP6UrHdDCW9mjVZamxDVDe1ibtXPmpFqPT
- yCftoUXDipbE/JaMD9KdukA0iulVxd7xYP685DHWq/XzPJeb9uLe/njzxJOVFBUPNbwklS
- I4y86nRxP5nB/cpMy8fW9n2hhjFv/OmtDAtAhIFixdlHni0O4TdLRAKmFuZWHg==
-Cc: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
-	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, <juri.lelli@redhat.com>, 
-	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>, 
-	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>,  "Huang,  Ying" <ying.huang@linux.alibaba.com>, 
-	<riel@surriel.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-3-lizhe.67@bytedance.com> <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com> <8d6f589c-4427-465d-be5a-17eb99f41a91@amd.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-In-Reply-To: <8d6f589c-4427-465d-be5a-17eb99f41a91@amd.com>
-Subject: Re: [PATCH v2 2/3] sched/numa: do not feed tiering promotions into task placement stats
-Message-Id: <49e49011-45c1-4eef-84fa-96bd2de701c9@bytedance.com>
-X-Lms-Return-Path: <lba+26ae2e7c8+6519e4+vger.kernel.org+lizhe.67@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Mozilla Thunderbird
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=kfi7zL3/
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=NcG7rziTtzBQo+YgRjjhG7OeEH2wIvONYfErWYNIqjI=;
+	b=kfi7zL3/rr8sDCvbxJvwXX+rL/VVtaqKgNez2Wf2ByMEWMm1U6i6ncOOM167EOf6Q1cR13nys
+	dz/8xRElyMbITao2PzoSBB43OVCo1PnLXvv8pnBvLtstXdh/0h4EplLxYhFPkF3extdTNeZdKvk
+	EjWsN4t64y+XM32LpNJISoQ=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jFb0y2tZ4z1T4kk;
+	Thu, 29 Oct 2026 15:08:18 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5D83740537;
+	Thu, 29 Oct 2026 15:08:29 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 29 Oct 2026 15:08:28 +0800
+Message-ID: <6d2411a3-b37b-4cdb-80ca-10654cc88a17@huawei.com>
+Date: Thu, 29 Oct 2026 15:08:27 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,68 +61,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-To: "Bharata B Rao" <bharata@amd.com>, 
-	"Joshua Hahn" <joshua.hahnjy@gmail.com>
-Date: Thu, 29 Oct 2026 14:29:02 +0800
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/15] KVM: arm64: pgtables: Change write bit from
+ S2AP_W to DBM
+To: Leonardo Bras <leo.bras@arm.com>
+CC: Oliver Upton <oupton@kernel.org>, <maz@kernel.org>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+	<pbonzini@redhat.com>, <yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>,
+	<yangjinqian1@huawei.com>, <caijian11@h-partners.com>,
+	<liuyonglong@huawei.com>, <tangchengchang@huawei.com>,
+	<yezhenyu2@huawei.com>, <yubihong@huawei.com>, <linuxarm@huawei.com>,
+	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<seiden@linux.ibm.com>, <suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>,
+	<mark.rutland@arm.com>, <seanjc@google.com>, <rdunlap@infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<skhan@linuxfoundation.org>
+References: <20260929103655.85107-1-zhengtian10@huawei.com>
+ <20260929103655.85107-2-zhengtian10@huawei.com> <arxW4PUY3qqRkogl@kernel.org>
+ <8ca88576-651a-4b7f-91ff-2cb2359aa79e@huawei.com>
+ <at9raEVrsbb7rj6n@LeoBrasDK>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <at9raEVrsbb7rj6n@LeoBrasDK>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-On 10/29/26 1:51 PM, Bharata B Rao wrote:
-> On 28-Oct-26 8:33 PM, Joshua Hahn wrote:
->> On Wed, Oct 28, 2026 at 12:14=E2=80=AFAM Li Zhe <lizhe.67@bytedance.com>=
- wrote:
->>> NUMA balancing has separate mode bits for normal task placement and
->>> memory tiering. In memory-tiering-only mode, NUMA hinting faults on
->>> slow-tier pages are used to detect hot pages and promote them to a top
->>> tier. They are not normal task-placement faults.
+
+
+On 10/26/2026 11:02 PM, Leonardo Bras wrote:
+> On Wed, Sep 30, 2026 at 10:44:26AM +0800, Tian Zheng wrote:
+>> On 9/30/2026 8:25 AM, Oliver Upton wrote:
+>>> Hmm... I'd actually like to see this structured where the "write" bit
+>>> could either be S2AP_W or DBM depending on if the system supports
+>>> FEAT_HAFDBS. Look at how HVHE is handled for selecting the right AP
+>>> encoding for the hyp stage-1 page tables.
 >>>
->>> For slow-tier folios, memory tiering reuses the folio last-cpupid field
->>> to store access-time metadata. numa_migrate_check() therefore cannot
->>> return a real cpupid for those faults. Before this change, it returned =
-the
->>> same all-ones last_cpupid value that normal AutoNUMA uses for a first o=
-r
->>> unknown access.
->>>
->>> That can make a memory-tiering-only promotion look like an ordinary fir=
-st
->>> private AutoNUMA fault. After a successful promotion, do_numa_page()
->>> reports the target top-tier node to task_numa_fault(), so the existing
->>> slow-node skip no longer applies. task_numa_fault() then accounts the
->>> fault in p->numa_faults and p->numa_faults_locality, and
->>> task_numa_placement() can consume that sample to update normal task
->>> placement state even though normal NUMA balancing is disabled. In other
->>> words, hot-page promotion feedback can leak into the CPU placement
->>> heuristic.
->> Hi Zhe,
 >>
->> Thanks for the revision. To me, this looks more like a fix than an
->> optimization, since there really is incorrect NUMA balancing behavior
->> happening that could be visible in userspace (unintended
->> task-placement and related accounting). On the other hand patch 3/3
->> doesn't seem like a fix to me despite the name, since this one would
->> mitigate the incorrect behavior.
+>> Hi Oliver,
 >>
->> How about we pull this one out of the series and submit it
->> independently with an appropriate Fixes: tag and cc:stable, and
->> discuss 1 and 3 later on?
-> Currently only successful promotions feed stats to scan period update.
-> This change stops that and nothing updates the scan period for tiering
-> mode after this change.
->
-> Though the direction of the fix is right, I think this can't be an
-> independent fix until there is some alternative which patch 3 in this
-> series brings in.
-Agreed, thanks for pointing this out.=C2=A0 Patch 2 should not be sent as a
-standalone fix without the replacement scan-period feedback path.
+>> Thanks for the suggestion. I missed the case where FEAT_HAFDBS is not
+>> supported. Systems without the feature should keep the original
+>> encoding, with S2AP[1] as the write permission bit. I'll follow the HVHE
+>> pattern to select between the two encodings in the next version.
+>>
+>> Thanks!
+>> Tian
+>>
+> 
+> Hi Oliver, Tian,
+> 
+> After some digging, I think it would be better if we kept using S2AP[1] as
+> a writable bit, while DBM can be treated as "Can promote a non-writable
+> page to writable if HAFDBS=on".
+> 
+> I know it's not that intuitive, as the Arm ARM even introduced the concept
+> of Writable-clean an Writable-dirty, but I think it will be the best way of
+> referring to what was intended of the bit.
+> 
+> I wrote down what I mean by that:
+> https://lore.kernel.org/all/20261026144413.441566-1-leo.bras@arm.com/
+> 
+> tl;dr:
+> - DBM + S2AP[1] is set on writable entries (KVM_PGTABLE_PROT_W)
+> - Writable detection is made only on S2AP[1], so no changes
+> - Wrprotect sets S2AP[1]=0 from the PTE, and also DBM=0 if it's a block
+> 
+> On dirty-tracking:
+> - If HAFDBS=0 : no functional change, DBM bit there but unused
+> - If HDBSS=1
+>    - Pages: writable-clean promoted to writable-dirty on write, HDBSS does
+>      the tracking
+>    - Blocks: faults on write, splits in pages, pages get DBM=1.
+>    	(argh, I think we need a PROT_DBM for that)
+> 
+> Does that make sense?
+> 
+> Thanks!
+> Leo
+
+Hi Leo,
+
+Got it. I'll wait for the conclusion of your discussion with Oliver
+before proceeding.
 
 Thanks,
-Zhe
+Tian
 
->
-> Also it would be good to get a view from Ying Huang as to why only
-> successful promotions drove the fault stats while unsuccessful promotions
-> didn't in the tiering mode.
->
-> Regards,
-> Bharata.
