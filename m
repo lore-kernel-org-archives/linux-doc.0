@@ -1,101 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793280628;
-	b=EzUBIPg6dp9XtV2yoE04YsZmBfSNVF25SyGQTw6IrsfDoeyAeSb/nf049+rlxiMkZtEg
-	 RSMtOzc/FHL9rEsdblumWcP9rvarTrDN2K/Y0VIfAH84uYqx49Qbh3cyfcXRgT+3EIGN6
-	 2ATCPUFS77aGvsFB/dSy2btDj9Mcczc6DUu8elVFgPbxchzAZypa/4zMyBf4JmIwAZCKo
-	 vS7YsxDib5WwyJVMzEtUuayYYe88yj+V6nVk3wMoC9h6XwTn/o5kMPxSVycLxkZKT5whD
-	 PKBrMIsluXhexFkuPkaiu9Dvnmjndhks0GoLkntPE+4eJZrzrnwhHCIMm5yuwkUiq5g==
+	t=1793280766;
+	b=R93yjRMGuDwONDalc+3KVXWMIBF/gAL9V66wccpBJ82DTC6WZV3rM2SIb9LiMb7ppJV0
+	 XT+QIUB/4FxD1eZqmaouwdOv/hQkjJn5Ok+/xe2qJXUy7Gw7hjTXahGrrrNWflKpBPcek
+	 B7b4bIJcOTwieGdGPTyuYW0an6A2qagFaq1MxyQ6SWnB0ikbWnW/HQjfv/FBSBs2VJUze
+	 XCs89BObFkoidDNi9TfwR3HGiES5R+E1+tHhnjkmblXTaaVVyHMB3b66FmCKIZejaZNMc
+	 6UgZI2wpzHKLdFRZGNy+pXNdep04EhF3BSDTTR3BztaaTyogUmAVx7sHzhNIn3JlKFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793280628;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=PK7PIz/XHKvbgEGFXLHdkuizkeTPXjj5s1KD8FpI9Mc=;
-	b=FwZGUOBBbGnAGqH8Olm8rDIKi1vyWpeVM3lOqPey9tYpIni99N1dmJ8kCnFVEEBphC+J
-	 KB6PnteFRUn8ucjgiff++o+Q9Pp6ycB+/JbXixnuNHBvarZpiagnwBleuXbpRnBFrYkRF
-	 btRaFa4GW9fi41r54Sr+j2X91mo5sPDCmFCM1Z+b+0wflR8KyVrtMhFRF6yqq8HicghP+
-	 fctIWCJUotdwpFWvyX6d4z3zFvr0GJtoFBrBylI3z1ZPa5wBUcfUd1MVb9gOBu8rxGA37
-	 AUxN9fCdmt8fWTPf8fcy1QnnMqOOGsmixma/UMy/NBVxYEjF498oz/l7/rcPdAlOv4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793280766;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=d/d3yGImmhA5Pa1MeHR8lgTc0tfl6qkT6DVrelhpVq4=;
+	b=D+z3KihWW7Ope92v/9bySjrUvStAa58d28e4u4M6+/rizweg2slT01D3hYoPqroYyoAW
+	 McyjnENGENSVR9fsfuM6N+VGhIrO/93VNgLgdOTnyuPu+/ZJAjCMGduRTtqcIAe089O5f
+	 ioC49KknPqtOR43x9cUf/Y4Zd8KMCy2nsPaWQMvvQwIdzOuQ0YK9tWeoUxq/MGbgEg4YZ
+	 oxH8q1cY6lQEakWO5asoJK4J2Dz94KJzm1n4hZjD2gpAR1sVqqtc4sUkD5Nfsk8Ro2YxR
+	 zmdesQrn4qf1i3NSN6kDUNjW2gUB4xAWsKp76CTIkwP50mCaIq/DrlT6FKK+EaVK99Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=biRaKl2F;
-	arc=none smtp.remote-ip=74.125.227.139
-Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=osCaFOwX;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56D3606A320
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 13:30:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E56D3606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8987606A31A;
+	Thu, 29 Oct 2026 13:32:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8987606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=biRaKl2F
-Received: by mail-pj2-f11.google.com with SMTP id 98e67ed59e1d1-3adfd217146so489679a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 06:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793280627; x=1793885427; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PK7PIz/XHKvbgEGFXLHdkuizkeTPXjj5s1KD8FpI9Mc=;
-        b=biRaKl2F9RZKTc1bdU1NhkD5IIkN413QCWGV5yeJ74uk204ihhyUlyeerIPU2jY15j
-         Myb2upY5CPzvrc/B6aCRcUlqIBiZaAlnHYitai5U2Tr6Ymlrw78YKQ1QdMb/WqVytyta
-         n3kH7mWApecQeX23zNoLaSf1XyWC3fmYlR06BSWn9uth5QzDiU2AEjZFfsYmtqQgn4wt
-         aWXHzYL41w+7Oe11JqCCN2TXRVjlDnC+7MjaerPDLtSEn2jRdr5Op1MMMdEew1rhb0bQ
-         w+2OjNMohirrN3dQ38sHZf6tV0tThB4b2kwJ60Y4NFGrTcB2F6oIoQAITAAFNu0UEyfI
-         NMFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793280627; x=1793885427;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PK7PIz/XHKvbgEGFXLHdkuizkeTPXjj5s1KD8FpI9Mc=;
-        b=HO8jFqVXkVgL/u13ffRaOqZ6Skueor5tfnGL1tc7QuYrLff682zyW56+kYDUtxYAEj
-         Cm+sHYzERf3aF5GCukFFfpHOohuBWJNXj0RRSRRXVjpzop4p3OqkjlLiK6QAImjgyFiu
-         cdQP7mDAb/61LXeceALhHxelWQW1C9jmq2tYrf8+9D1E5SYsftbumPwcgKo3QkbrLmfN
-         xkaGO8gLZqbITeVIfZsN6CPl0Kxk3q3gnpOucDaR5QSUs5iU1Tx9FXvh495O+M8Fx91Y
-         BQe7U6oayFLyqp6d7ab0GFA0sYyWsLxOVrTXeoickiPkoLeOPSzzDU5hGBwDGCNn1V/4
-         uYQQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwcEcfbsNeK5Rd8MJLR4Rk0/rbvFZJ+I2pf3WzZclj2YPmPn6CI2+AuqR7hVRXK3Y2S6UjIq7zOADY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLAbwSF7SVQm3MKwPOHzpH1f6Yxh5u8ZktyK24y03jc3bIk6KpG
-	52ejejwztWjbJB/QGt4rTRMVKg6l6BVjrfpkmMg9fBAv5L0SZ0tOXvDE
-X-Gm-Gg: AYBFou03IxJt0fmqY/OcNA48qXsY/tnxRTE8snNZ+gerVmYpXnjrnNyb6r9XiWJSJ3/
-	K/dedeZKewWIpwnePXOePyC5sorsChUlv0VfKl6TxucOypAI2BapNP1ZQ0GOZszm33JBq/LbMww
-	m3U2lc4PaA9wZT5nhEJoKwLRHhS8HSBM1gQC9jb115dfgqbIBtvIMg2B63buTjJNwnuHdRQ636J
-	fmjEfIodoKTJDU2CrbJa9Gs7KH5KeBaNJj8xSe7MGu2XPJVm27dh6Tr1uwn+zFnd4EUjOdntEh1
-	VVcxLOSZuMm8X+HyzHySxcXp2QRx64Wfm8R6ni7Re3EzgCZfUBiSCRgEHuQikoNTzEKBbMmmPe8
-	xMuEc3JkLH+9YqDzILjLoEZYs64FpiUMaVQVFuUSEaDMfZa8qLKnc8m0ZehY70Z3XtfMGUQhOqX
-	vp3BT9VFYncjbndyisLQAEh4fyJHj53LWEH19HuswdKSHFJTDOubi6X8l0KDLRgM7qdRGHBLhtB
-	M2vM/W/T7ZltGM7J3N9LPnw9C0Aa1MpjfLeJ6VM4gBRJUHolg9uDyE7jBvH028v6sPuG0mmwrzy
-	gw/y3z8ZGgIoQU4T7n4NkyEyPRDxelRk7GAVyQ==
-X-Received: by 2002:a17:90b:538c:b0:3ac:9ed8:f319 with SMTP id 98e67ed59e1d1-3ae57e2b5bcmr4115071a91.2.1793280626056;
-        Thu, 29 Oct 2026 06:30:26 -0700 (PDT)
-Received: from archlinux ([2409:8a4c:cc3:2931:e1d3:ace0:b5ce:fd44])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdacd6aeb55sm4068530a12.7.2026.10.29.06.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 06:30:25 -0700 (PDT)
-From: Jiandong Qiu <qiujiandong1998@gmail.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	dzm91@hust.edu.cn,
-	wy@wyuan.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jiandong Qiu <qiujiandong1998@gmail.com>
-Subject: [PATCH v4 2/2] docs/zh_CN: update sphinx.rst translation
-Date: Thu, 29 Oct 2026 21:29:41 +0800
-Message-ID: <e349e9ea6a9c7ad38f3fd2220ca51f26db102354.1793279600.git.qiujiandong1998@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1793279600.git.qiujiandong1998@gmail.com>
-References: <cover.1793279600.git.qiujiandong1998@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=osCaFOwX
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TCi7LI212081;
+	Thu, 29 Oct 2026 13:32:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=d/d3yG
+	ImmhA5Pa1MeHR8lgTc0tfl6qkT6DVrelhpVq4=; b=osCaFOwX1RX+0p+Uwb5xz/
+	yzXjc4tYzkIM6ZJ+j+x/uom5s3/y2nJlQDK88I/ea2o35ridblABxgMTxuEMvzO0
+	130e1xEmeCaGg6rCqB7kLKcBrePLpgmOCIVrAeqoQ+eigv/MPfwvrBFqABjaMdZe
+	4d3SNKsS9gxmpn4ilUfKzAmkgAJQ+dvPds1u0hjS/9Dyyb1b7ALeR4nNCtXHj6Jt
+	LjbOirJ0zxookb5R0crCw2An4pgjRsAIkLE0DqIMPPjU8osJ8N+e8aMl3VhjWpCR
+	mHLIPKfDn4bLwqCNqXt2Fkq+qdDEa9Yl+Xs5o8aLrqIViaJPOhE1UmksnDQfsqKw
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hgm64af46-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 29 Oct 2026 13:32:14 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69TCnxWx3085026;
+	Thu, 29 Oct 2026 13:32:13 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hjtnnhtke-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 29 Oct 2026 13:32:13 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69TDW9dh15598032
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Oct 2026 13:32:09 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 988B620040;
+	Thu, 29 Oct 2026 13:32:09 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9399C2004B;
+	Thu, 29 Oct 2026 13:32:08 +0000 (GMT)
+Received: from [9.87.137.195] (unknown [9.87.137.195])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 29 Oct 2026 13:32:08 +0000 (GMT)
+Message-ID: <4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com>
+Date: Thu, 29 Oct 2026 14:32:08 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,291 +86,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 04/13] cpumask: Introduce cpu_preferred_mask
+To: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, yury.norov@gmail.com,
+        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+        ynorov@nvidia.com
+Cc: tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
+        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
+        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
+        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
+        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
+        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
+        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org,
+        jgross@suse.com, virtualization@lists.linux.dev,
+        sunlightlinux@gmail.com
+References: <20260928053728.797539-1-sshegde@linux.ibm.com>
+ <20260928053728.797539-5-sshegde@linux.ibm.com>
+Content-Language: en-US
+From: Mete Durlu <meted@linux.ibm.com>
+In-Reply-To: <20260928053728.797539-5-sshegde@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA1MSBTYWx0ZWRfXwmENVi6yd30m
+ 07V81Q7TAzyI70EmBlMbSyhJibr/vBMCR3p69dzoTwMzg3WlgGqOZ7218XblEKPIWVQZkYJXhvZ
+ dl8RuRBMg3G97/xgM8SFHznqf1PgPPU=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA1MSBTYWx0ZWRfX7IFz0/EFbET9
+ DhCeQyXGvf0cHYHHCtm2NUt1Tni0JxS5yIPCAsN9SRm1k8ZOobEuOERw6IZ3ypcoMhr3/D7a42q
+ rmU3NgCu5LsSvVnizIEcVo67i72G9tSxp9NZmVeH/N18S7XdtL0tkPccE1oSgmk7tKYWJQeKYVD
+ 2j8rgW3bKwHLqy4Fp7iBu4JOAkJB3IUBjSSorwu5jW11gJIzmyLoi2/ACMa9z7kMKCTkHJONjXF
+ c0d4+cZnWKV01rUZNROjHwUgbuIh0U9eAapow3AMc10fNwkCzCPsqKpbim3tSwURP+gBCkAYjUa
+ ki01BF1JbiLWDiijV0OqwRoraGqfDJVzohLpqPgyjArMQAz3quD479FQWSgeLswKK9BforJlb5O
+ XxtjbwWGGEE6lASI5nuBimQYTYyn0Hc1juwwek4Mc4fncM5yhd7lcA7BCVCe7DUp/hdMGp36Iry
+ CP0bl0o2F7AHa6q5Kcg==
+X-Proofpoint-ORIG-GUID: YjLDRhwcO4SdktYbavYUvtEdxGpgFOL4
+X-Authority-Analysis: v=2.4 cv=Uu32pOwB c=1 sm=1 tr=0 ts=6ae34adf cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
+ a=VnNF1IyMAAAA:8 a=mP_uidrk0wjRY6XPjW0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: s7PRJQE60tIN94dBRZ_PuUEFzyRxo7Y1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-29_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1011 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610290051
 
-Update zh_CN translation of doc-guide/sphinx.rst.
+On 28/09/2026 07:37, Shrikanth Hegde wrote:
+> Provide the preferred CPU infrastructure. Define get/set macros
+> which could be used to get/set CPU state as preferred.
+> 
+> CONFIG_PREFERRED_CPU will be selected by the driver which handles
+> steal time values. It is going to set/clear preferred CPU state.
+> This driver will be called steal_governor and it is introduced in
+> subsequent patches. It periodically computes the steal ratio and
+> decides on preferred CPU state.
+> 
+> A CPU is set to preferred when it becomes active. Later it may be
+> marked as non-preferred depending on steal ratio by the steal_governor.
+> 
+> Always maintain design construct of preferred is subset of active.
+> i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
+> 
+> With CONFIG_PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
+> method returns the active state in that case.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+>   include/linux/cpumask.h | 24 ++++++++++++++++++++++++
+>   kernel/Kconfig.preempt  |  4 ++++
+>   kernel/cpu.c            |  6 ++++++
+>   kernel/sched/core.c     |  5 +++++
+>   4 files changed, 39 insertions(+)
 
-Update the translation through commit f1c2db1f145b
-("docs: move test_doc_build.py to tools/docs")
+[..snip..]
 
-- cleanup the file header anchor `_sphinxdoc_zh`
-- sync the Chinese translation with current Sphinx build requirements
-- add sections on HTML math rendering and minimum-version testing
-- refresh guidance for tables, cross-references, and commit references
+>   
+>   #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
+> diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
+> index 985aea617cfe..edc067a0c422 100644
+> --- a/kernel/Kconfig.preempt
+> +++ b/kernel/Kconfig.preempt
+> @@ -194,3 +194,7 @@ config SCHED_CLASS_EXT
+>   	  For more information:
+>   	    Documentation/scheduler/sched-ext.rst
+>   	    https://github.com/sched-ext/scx
+> +
+> +config PREFERRED_CPU
+> +	bool
+> +	depends on SMP && PARAVIRT
+FWICT, PREFERRED_CPU mechanism can work perfectly fine without PARAVIRT
+selected. It would be annoying to enable it and implement a dummy
+paravirt_steal_clock() just for that.
 
-Signed-off-by: Jiandong Qiu <qiujiandong1998@gmail.com>
----
- .../translations/zh_CN/doc-guide/sphinx.rst   | 167 ++++++++++++++----
- 1 file changed, 133 insertions(+), 34 deletions(-)
+Shrikanth, would it be possible to drop that dependency?
 
-diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-index 3375c6f3a811..11e846fc97e4 100644
---- a/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-@@ -1,10 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
- .. include:: ../disclaimer-zh_CN.rst
- 
- :Original: Documentation/doc-guide/sphinx.rst
- 
--:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
--
--.. _sphinxdoc_zh:
-+:译者:
-+ - 吴想成 Wu XiangCheng <bobwxc@email.cn>
-+ - 裘剑东 Jiandong Qiu <qiujiandong1998@gmail.com>
- 
- 简介
- ====
-@@ -14,7 +15,7 @@ Linux内核使用 `Sphinx <http://www.sphinx-doc.org/>`_ 来把 ``Documentation`
- 换成漂亮的文档。使用 ``make htmldocs`` 或 ``make pdfdocs`` 命令即可构建HTML
- 或PDF格式的文档。生成的文档放在 ``Documentation/output`` 文件夹中。
- 
--reStructuredText文件可能包含包含来自源文件的结构化文档注释或kernel-doc注释。
-+reStructuredText文件可能包含来自源文件的结构化文档注释或kernel-doc注释。
- 通常它们用于描述代码的功能、类型和设计。kernel-doc注释有一些特殊的结构和
- 格式，但除此之外，它们还被作为reStructuredText处理。
- 
-@@ -26,7 +27,7 @@ reStructuredText文件可能包含包含来自源文件的结构化文档注释
- 安装Sphinx
- ==========
- 
--Documentation/ 下的ReST文件现在使用sphinx1.7或更高版本构建。
-+Documentation/ 下的ReST文件现在使用 ``sphinx`` 3.4.3 或更高版本构建。
- 
- 这有一个脚本可以检查Sphinx的依赖项。更多详细信息见
- :ref:`sphinx-pre-install_zh` 。
-@@ -38,21 +39,13 @@ Documentation/ 下的ReST文件现在使用sphinx1.7或更高版本构建。
- ``virtualenv-3`` 或 ``virtualenv`` 在虚拟环境中安装Sphinx，具体取决于发行版
- 如何打包Python3。
- 
--.. note::
--
--   #) html输出建议使用RTD主题。根据Sphinx版本的不同，它应该用
--      ``pip install sphinx_rtd_theme`` 单独安装。
-+总之，如您要安装最新版的Sphinx，应执行::
- 
--   #) 一些ReST页面包含数学表达式。由于Sphinx的工作方式，这些表达式是使用 LaTeX
--      编写的。它需要安装amsfonts和amsmath宏包，以便显示。
-+       $ virtualenv sphinx_latest
-+       $ . sphinx_latest/bin/activate
-+       (sphinx_latest) $ pip install -r Documentation/sphinx/requirements.txt
- 
--总之，如您要安装Sphinx 2.4.4版本，应执行::
--
--       $ virtualenv sphinx_2.4.4
--       $ . sphinx_2.4.4/bin/activate
--       (sphinx_2.4.4) $ pip install -r Documentation/sphinx/requirements.txt
--
--在运行 ``. sphinx_2.4.4/bin/activate`` 之后，提示符将变化，以指示您正在使用新
-+在运行 ``. sphinx_latest/bin/activate`` 之后，提示符将变化，以指示您正在使用新
- 环境。如果您打开了一个新的shell，那么在构建文档之前，您需要重新运行此命令以再
- 次进入虚拟环境中。
- 
-@@ -76,6 +69,23 @@ PDF和LaTeX构建
- 根据发行版的不同，您可能还需要安装一系列 ``texlive`` 软件包，这些软件包提供了
- ``XeLaTeX`` 工作所需的最小功能集。
- 
-+HTML中的数学表达式
-+------------------
-+
-+有些ReST页面中包含数学表达式。由于Sphinx的工作方式，这些表达式使用LaTeX
-+符号书写。Sphinx在HTML输出中渲染数学表达式有两种方式：一种是名为 `imgmath`_
-+的扩展，它将数学表达式转换成图像并嵌入到HTML页面中。
-+另一种是名为 `mathjax`_ 的扩展，它将数学表达式的渲染交由支持 JavaScript
-+的浏览器处理。
-+在6.1版内核文档之前，前者是唯一可用的方式，并且需要安装大量texlive软件包，
-+其中包括amsfonts和amsmath等。
-+
-+自内核6.1版本起，无需安装任何texlive软件包即可构建包含数学表达式的HTML
-+页面。更多信息请参阅 :ref:`choice_of_math_renderer_zh`。
-+
-+.. _imgmath: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.imgmath
-+.. _mathjax: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.mathjax
-+
- .. _sphinx-pre-install_zh:
- 
- 检查Sphinx依赖项
-@@ -108,7 +118,29 @@ PDF和LaTeX构建
- 
- ``--no-virtualenv``
- 
--	使用Sphinx的系统打包，而不是Python虚拟环境。
-+	使用系统发行版提供的Sphinx软件包，而不是Python虚拟环境。
-+
-+安装最小版本的Sphinx
-+--------------------
-+
-+在修改Sphinx构建系统时，确保其最小支持版本仍然可用非常重要。
-+然而，在现代发行版上，这样做正变得越来越困难，因为在Python 3.13及以上版本
-+环境下，已经无法安装该最小版本。
-+
-+要按照 Documentation/translations/zh_CN/process/changes.rst
-+中定义的最低支持Python版本进行测试，可以使用该版本创建一个虚拟环境，
-+并安装最小依赖::
-+
-+	/usr/bin/python3.9 -m venv sphinx_min
-+	. sphinx_min/bin/activate
-+	pip install -r Documentation/sphinx/min_requirements.txt
-+
-+更全面的测试可以使用以下脚本完成:
-+
-+	tools/docs/test_doc_build.py
-+
-+该脚本会为每个受支持的Python版本创建一个虚拟环境，并可选择针对一定范围内的
-+Sphinx版本构建文档。
- 
- Sphinx构建
- ==========
-@@ -117,17 +149,66 @@ Sphinx构建
- 的格式：请参阅 ``make help`` 的文档部分。生成的文档放在 ``Documentation/output``
- 下相应格式的子目录中。
- 
--要生成文档，显然必须安装Sphinx（ ``sphinx-build`` ）。要让HTML输出更漂亮，可以
--使用Read the Docs Sphinx主题（ ``sphinx_rtd_theme`` ）。对于PDF输出，您还需要
--``XeLaTeX`` 和来自ImageMagick（https://www.imagemagick.org）的 ``convert(1)`` 。
--所有这些软件在大多发行版中都可用或已打包。
-+要生成文档，显然必须安装Sphinx（ ``sphinx-build`` ）。对于PDF输出，您还需
-+要 ``XeLaTeX`` 和来自 ImageMagick（https://www.imagemagick.org）的
-+``convert(1)`` 。\ [#ink]_ 所有这些软件在各大发行版中都很常见，
-+也都有对应的软件包。
- 
- 要传递额外的选项给Sphinx，可以使用make变量 ``SPHINXOPTS`` 。例如，使用
- ``make SPHINXOPTS=-v htmldocs`` 获得更详细的输出。
- 
-+也可以通过make变量 ``DOCS_CSS`` 传入一个额外的DOCS_CSS覆盖文件，以自定义
-+html布局。
-+
-+默认情况下，构建HTML文档时使用的是"Alabaster"主题；该主题随Sphinx一同提供，
-+无需单独安装。也可以通过make变量 ``DOCS_THEME`` 覆盖Sphinx主题。
-+
-+.. note::
-+
-+   有些人可能更喜欢在html输出中使用RTD主题。根据Sphinx版本的不同，它可能需要
-+   单独安装，可使用 ``pip install sphinx_rtd_theme`` 进行安装。
-+
-+还有一个make变量 ``SPHINXDIRS`` ，在测试构建某个文档子集时很有用。例如，您可
-+以通过运行 ``make SPHINXDIRS=doc-guide htmldocs`` 构建
-+``Documentation/doc-guide`` 下的文档。 ``make help`` 的文档部分会显示可指定的
-+子目录列表。
- 
- 要删除生成的文档，请运行 ``make cleandocs`` 。
- 
-+.. [#ink] 如果还安装了来自 Inkscape（https://inkscape.org）的 ``inkscape(1)`` ，
-+	  则能够提升嵌入到PDF文档中的图像质量，尤其是在5.18及之后的内核版本中。
-+
-+.. _choice_of_math_renderer_zh:
-+
-+数学渲染器的选择
-+----------------
-+
-+自内核 6.1 版本起， ``mathjax`` 可作为html输出中数学渲染器的后备方案。\ [#sph1_8_zh]_
-+
-+数学渲染器会根据可用命令按如下方式选择：
-+
-+.. table:: HTML 中数学渲染器的选择
-+
-+    ============ ================= ============
-+    数学渲染器   所需命令          图像格式
-+    ============ ================= ============
-+    imgmath      latex, dvipng     PNG（栅格）
-+    mathjax
-+    ============ ================= ============
-+
-+也可以通过设置环境变量 ``SPHINX_IMGMATH`` 来覆盖该选择，如下所示：
-+
-+.. table:: 设置 ``SPHINX_IMGMATH`` 的效果
-+
-+    ====================== ==========
-+    设置                   渲染器
-+    ====================== ==========
-+    ``SPHINX_IMGMATH=yes`` imgmath
-+    ``SPHINX_IMGMATH=no``  mathjax
-+    ====================== ==========
-+
-+.. [#sph1_8_zh] 数学渲染器的后备机制要求Sphinx >= 1.8。
-+
- 编写文档
- ========
- 
-@@ -187,7 +268,8 @@ Sphinx构建
-        ~~~~~~~~
- 
-   尽管RST没有规定具体的顺序（“没有强加一个固定数量和顺序的节标题装饰风格，最终
--  按照的顺序将是实际遇到的顺序。”），但是拥有一个通用级别的文档更容易遵循。
-+  按照的顺序将是实际遇到的顺序。”），但整体上让较高层级的标题样式保持一致，
-+  会更便于阅读和理解文档结构。
- 
- * 对于插入固定宽度的文本块（用于代码样例、用例等）： ``::`` 用于语法高亮意义不
-   大的内容，尤其是短代码段； ``.. code-block:: <language>`` 用于需要语法高亮的
-@@ -218,15 +300,24 @@ C域
- 神奇力量，如果给定函数名的索引项存在，文档构建系统会自动将对 ``function()``
- 的引用转换为交叉引用。如果在内核文档中看到 ``c:func:`` 的用法，请删除它。
- 
--
--列表
-+表格
- ----
- 
--我们建议使用 *列式表* 格式。 *列式表* 格式是二级列表。与ASCII艺术相比，它们对
--文本文件的读者来说可能没有那么舒适。但其优点是易于创建或修改，而且修改的差异
--（diff）更有意义，因为差异仅限于修改的内容。
-+reStructuredText 为表格语法提供了多种选项。内核文档中的表格通常优先使用
-+*simple table* 或 *grid table* 语法。更多细节请参阅
-+`reStructuredText 用户参考中的表格语法`_ 。
-+
-+.. _reStructuredText 用户参考中的表格语法:
-+   https://docutils.sourceforge.io/docs/user/rst/quickref.html#tables
- 
--*平铺表* 也是一个二级列表，类似于 *列式表* ，但具有一些额外特性：
-+列式表
-+~~~~~~
-+
-+列式表（``list-table``）格式对于无法用常规Sphinx ASCII艺术格式轻松排版的表格来说
-+可能很有用。然而，这种格式对于纯文本文档的读者来说几乎无法理解，因此，
-+除非有充分的理由，否则应避免使用。
-+
-+``flat-table`` 也是一个二级列表，类似于 ``list-table`` ，但具有一些额外特性：
- 
- * 列范围：使用 ``cspan`` 修饰，可以通过其他列扩展单元格
- 
-@@ -302,15 +393,15 @@ C域
- 
- 从一页文档到另一页文档的交叉引用可以通过简单地写出文件路径来完成，无特殊格式
- 要求。路径可以是绝对路径或相对路径。绝对路径从“Documentation/”开始。例如，要
--交叉引用此页，以下写法皆可，取决于具体的文档目录（注意 ``.rst`` 扩展名是可选
-+交叉引用此页，以下写法皆可，取决于具体的文档目录（注意 ``.rst`` 扩展名是必需
- 的）::
- 
-     参见 Documentation/doc-guide/sphinx.rst 。此法始终可用。
-     请查看 sphinx.rst ，仅在同级目录中有效。
-     请阅读 ../sphinx.rst ，上级目录中的文件。
- 
--如果要使用相对路径，则需要使用Sphinx的 ``doc`` 修饰。例如，从同一目录引用此页
--的操作如下::
-+如果希望链接显示的文本不同于文档标题，则需要使用 Sphinx 的 ``doc`` 修饰。例
-+如::
- 
-     参见 :doc:`sphinx文档的自定义链接文本 <sphinx>`.
- 
-@@ -318,7 +409,15 @@ C域
- 个没有任何特殊作用的 ``:doc:`` 用法，请将其转换为文档路径。
- 
- 有关交叉引用kernel-doc函数或类型的信息，请参阅
--Documentation/doc-guide/kernel-doc.rst 。
-+Documentation/translations/zh_CN/doc-guide/kernel-doc.rst 。
-+
-+引用提交
-+~~~~~~~~
-+
-+对 git 提交的引用如果采用以下格式书写，会自动转换为超链接::
-+
-+    commit 72bf4f1767f0
-+    commit 72bf4f1767f0 ("net: do not leave an empty skb in write queue")
- 
- .. _sphinx_kfigure_zh:
- 
--- 
-Jiandong Qiu <qiujiandong1998@gmail.com>
-
+Thanks!
+-Mete
