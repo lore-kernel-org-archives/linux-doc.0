@@ -1,108 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793245238;
-	b=poOv88lD6PjB5JLhmBmAzjHFXq1d/LGqk81hrJWF1fCEfwvAuO7gb3FtKFC6oxtBnxtm
-	 DYRWtVZqwYwbCpSZftKpIO5i70uj1wOfVCkgYI41dkR+POgeENURK24DlWzbD+03XPKc7
-	 f5aWx3A/piajCo+kxgOzTOyr/cOy5jG6EA+sCVScQdJKngDus5KXkte4z4rnK/bDMcHIQ
-	 ChMWFIX1jCnSuI3YPcnj8O97LpuB8ig+8Ix898sqrqGRvO260E4iPUwUpY1tbgqUHcihB
-	 9hotL6ZeaEjBYM7qaVRM0LfCJigHPec1sly3T3+zOqzfrhHIvDbQHIuk+KM0Wef4GeQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245238;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Original-From:From:User-Agent:Mime-Version:References:
-	 In-Reply-To:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=m9kpCROtj4+oMCA1t2d29m32pyjhCLnRU2codU4EShc=;
-	b=QqRRfHUAEsXQQMYkYz+s9cmFZDJvysjAmggqQN8gLuM6naj4BVyBh+u+U3UaSYzFYZgs
-	 Me/YqhtZq1db7bGlnlTL/50cOFPwNJTiCCyJ/9g4+S348NxXn5bQ7tzrKaQWSp/g6BhXu
-	 MTyyg3bzHaDCt/JkhopALIiTP7Vs5dmyl+lc0Kh9XwCs9N6RjBsLKeCI7AWXigBMx2ntN
-	 0KdhAoZEPJ2H6pqe0iJtGAqznxnMXzUohb3E8k5ijd4T5Z0+1llkJmxEPMnD+5knvv4G0
-	 VILFMFqgaHHl6nVUapWNiZSYPWvGlBNlomGu7DGWUTbpUUUamGDqjUyqvJ7SS0oHBXA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b="kyEj/xtI";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.44
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.134
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793245305;
+	b=nu82js4jOCGBCzOL+fIdkplqCF5GRuc1kz0J2jjEP4jbkGDSKW58uqKbILJpTcBDUFrW
+	 s8lNhTZvAsMxCId1GetfqtCY4BlDG2JS/F4cLjX4gVWRr7fgu6FwMnahk92QTK0GfjutT
+	 TKRditNSGg3C9R7FNrA/7jGmye4T6ZOKyFnQZWj0sPT3mKKiN/Cwijdg6u0IlZczubuj4
+	 i8C1dddF5DxX3eVyNh0xosSidhjadMbcSJpN7JvisYCPFaCpZgRa/tcWTEEzuFBRUpJ61
+	 F9efX/4vAWSnyAvV+/oBh9vGCR340/H+NwL2JY87IYwDmHdd0oY2jlwgN+u08/FnKMA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793245305;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
+	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
+	 To:X-Mailer;
+	bh=SfpksgeRXYSviYFeyWHR5mqkoXxAslF2D1vkefSL3uw=;
+	b=EAtlmB0ONln7LeXCIRDE8+F+Yh2CjzZ4rc7c8HNVbf0XL7e+Q8kWwsCOs7BLqy2VHZ9q
+	 xVY5if9l1qA7i1E0SxGPCSo3Li5UzDzs+PKVroPUGeuiACqffhoGJk0FIv+kxhHzcUMvl
+	 +hiG5jXxz+Tg1UmYzFhU+515AiJl/MQ+6N5vevWgx6S4Qa7ydbg6gpKqRVgd0iTQDyPuW
+	 gJi15uBa3V2P0CKpUx4kaFx8ZKTNNJBxkv+1uatIYliYAuhHTLfsekomkvuJSf4tATIlv
+	 jT0o1hewqRJjPiJQ4wFTH/OOax958k+laCiyCBizS8AdGgn7LOCrVUSC9Co2v9nFvnA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NxV2zbRI;
+	arc=none smtp.remote-ip=95.215.58.134
+Received: from mta1.migadu.com (out-134.mta1.migadu.com [95.215.58.134])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD86D606A31F
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:40:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD86D606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A01606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:41:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69A01606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=kyEj/xtI
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5bfc32574e7so289520e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 20:40:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793245236; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hrtO1gJjQn9gpMK0tlCJh8Yy5WJoXT5HbOcE9jCbW4+ckQ987T9uI6Yuqb+QGskxJU
-         /V4CrjAOYSt27v1MlwZdskhHhmO8VBcB8QoBa4FNWdaFCC6D2DtI3rbUaHrlDqYxO6gA
-         Y6WUAyE2/jS7rHV8wNCFEGRxIxZuW8aWgjOfXK7x5r1C3y2jjYpVnvdK/q8Tfd28TQXp
-         th3p4eb1PuPf6Fv6xnexjge4J5+nuXbC/anrwbQCLLgvzY5+tYtHnOcqhMDHSUATUTIN
-         5v0a+hd2uRAdcYTepYpbyzUrxg+OnPMSvfPUhWwy36oduZ9CBwZiFkPRyLut0bFfT0Uy
-         Xjig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:mime-version:user-agent:from:dkim-signature;
-        bh=m9kpCROtj4+oMCA1t2d29m32pyjhCLnRU2codU4EShc=;
-        fh=XuRNbs016z6azGFLutm+cISRO8hGoc4Iv+fdh4qOqz8=;
-        b=io5WkfCcWuoC48ZpdVbD4VCEcu57PPXMQzVQMVHieVexAmLjFJNG9IvQ7HEsqDbkDH
-         3lSs4NIVgTAQnIkBqiRoFPVf290Plf5YHo4lJKMxzz9LDqC3RcN6VmCewUPkNB7mRBA9
-         txT2d0BQuDv9tsYg6TyXeeCG7c1k4PqzCF+cs6fnxTcXR9goB48Eku1l0vPc1Zf+bAwD
-         lVKdR0XbAl/v7+WHVyDH8oS7rbDFZRms2CX8+VUZEacsPEFDyUIRPm9X+W7bki6N3dRy
-         3IerFLUkREIuL38G2FJwYF3sNHe6Hr3TfFQ6AxkoZJgEAniZ9fxGdBrsTUYlr/k0+puK
-         vRlA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1793245236; x=1793850036; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:in-reply-to:references:mime-version:user-agent:from:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=m9kpCROtj4+oMCA1t2d29m32pyjhCLnRU2codU4EShc=;
-        b=kyEj/xtIfG1psDrutwEjeBnQE+zyFD2DaTTga09yoiHeGT32/X6hjSuC/PkGQYy4AN
-         jxbm+XcIUg9rbPD5CmsU8sKB/161+m5yz53nivZT1jDhRJUVIf3LW5jLFebOjRPE/7d2
-         2ek2z4aMTQ/VvXgiLPGKoLZo3iMFnjLV/5nrI/1aadQkVsOd6UnQX8Iq/tpil76gJLC8
-         eYKBS+OTM9cmsD+w+h52sPAK3q/JBFg8lnKIw9RC80ow8+xtY0n9XWnPI7srxOFfqG5x
-         lxN7/Ixn+7z/vG5AT661jRaOMyMxmm2Pfu8XVebUs0Wkim+Jj4o23KryJnWdfqNV78/R
-         RirQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793245236; x=1793850036;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:in-reply-to:references:mime-version:user-agent:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m9kpCROtj4+oMCA1t2d29m32pyjhCLnRU2codU4EShc=;
-        b=MMybrRqcdxLcEiUGy0NRLJU2HxR2qR3eavOgi7m8dM6jziV9hp85SQc1euBf5UQJB0
-         68lV1zJRguleX2w351P/shtW8ds1bj/HjCgYSFhcfkMWMhRJGT9t3cuB0EaGilpQH7wS
-         L3WtuHID3GRAnGQEgoFhCPiYkA/72XjavVbFs7FEMr/UAEk0mldhb16R43v/veEWmsuP
-         LF2S7VytVpfcxlliTQjaoU8CZ0eiXEpfGT62WR4fpayeniG9xFSA7msZm/S9TVcUazo/
-         AQn0T7a4crCt5j6BY8Y+nNikS8Texa3NU8H0Ia3vX+ZqgaFxsJ8bY/OhUgmYYyV1sZW6
-         KlHw==
-X-Forwarded-Encrypted: i=1; AKwUvBz4eoQjw6cPjjB5LWN9kfOr3RQDVz4F5uB2rAo7W4YAR24Y9mh8yqxsjL9+MF+UZW6RetHCh8IfYmA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ/J2PaoDuKw4m+1EPn3u53BtAHSfsmIGUGWga8BMrNPLas8hkg
-	W9mGYNdJuUtBjaC6il3EUgOY0tzGPOjj/XMZecntvVIADy1+Gzhyod+8pLr/JkprB3yUO1/HfnN
-	IAvh1EqgcdH55hrtQl32U62RGdoTUOLwZQe1SjmDxJw==
-X-Gm-Gg: AYBFou3RE0lGs6t2HengdtOc6dBhAaAUFYoOqjCMi7RKpHXmD1FldtHpV2EMjN2FM9E
-	JwIhu0HIzx53vs0fm1dVEA4Ig4ksjY97hTQM4QBazZfhBXgsIzeAnaZPilstKEAoiKmyJ9Hf1+P
-	YUyFh1J7Uaqk7rC+4TGOMW6llDV+eL8YU4BvV7+DdL30CgD9tweJBdKMGGvWqeMo4ZPnRlHFB2X
-	gKQvQSBRoOZ+GXAZrZUwrvzGdwwsVsashAMJjulqrhpn0wRzTEEeBcNvELccO4Q9If4N81iP12c
-	raHbJgeKChfknsG7CtkP1EWjiinZJ13uk7i/FWDwD+vESydiENVsoZLLQfQXyAh35qeNElOeyLf
-	L/0h7JpqZBIAz0FqlEBFL1q2/tqIAGg/BfVTV5g==
-X-Received: by 2002:a05:6512:10cd:b0:5bf:b6f6:e81a with SMTP id
- 2adb3069b0e04-5bfd11b6e58mr399145e87.19.1793245235608; Wed, 28 Oct 2026
- 20:40:35 -0700 (PDT)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Wed, 28 Oct 2026 20:40:34 -0700
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Wed, 28 Oct 2026 20:40:34 -0700
-X-Original-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-User-Agent: Mozilla Thunderbird
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NxV2zbRI
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SfpksgeRXYSviYFeyWHR5mqkoXxAslF2D1vkefSL3uw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793245302; v=1; x=1793850102;
+ b=NxV2zbRImUBwLKbaCg/zWhoTSvWR2eSfQzp5or3rZukb97Uuetb23hfqkeJZqlF/85Uv7SQV
+ 14s70j8cLPyw9jp/T7OE1W8F9ax2XsvgOtzbsLJ+K8zxGU3m0hjhT/SGpjNMU8Qv+D01RB5EhgF
+ NXXHqIlq3oU27FdrMaowEbaY=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id dc9967750c407019;
+	Thu, 29 Oct 2026 03:41:42 +0000
+X-Mizu-Trace-ID: dc9967750c407019
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,128 +57,80 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028165531.940336-1-anup.patel@oss.qualcomm.com>
- <CACnXVncwzQiUN9CO8_Ds7UQJEKzEF29vagsTFrC0WbRZXt7aLw@mail.gmail.com> <CAAhSdy1u4Tme=cv7pSyYeahh1BQhQOnsnWBn3D4yxTnfzrApPA@mail.gmail.com>
-In-Reply-To: <CAAhSdy1u4Tme=cv7pSyYeahh1BQhQOnsnWBn3D4yxTnfzrApPA@mail.gmail.com>
-Date: Wed, 28 Oct 2026 20:40:34 -0700
-X-Gm-Features: AclHuK8WQ6e-ALzK5a1gaSR322umexfJNu7ra0n_GcOfKrsqQ5w5YBowqgksE4o
-Message-ID: <CACnXVndt7Rm3UqZH=T3xYjQ+1H-zPMgU29FcCOjJ2mtu=avoWg@mail.gmail.com>
-Subject: Re: [PATCH v11 0/9] riscv: add SBI Supervisor Software Events support
-To: Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: Anup Patel <anup.patel@oss.qualcomm.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Conor Dooley <conor@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Atish Patra <atish.patra@linux.dev>, Yuanzhu <yuanzhu@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
+Subject: Re: [PATCH 03/15] mm/hugetlb: preserve reservations when shrinking on
+ HIGHMEM
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20261028-fixes_hugetlb-v1-3-a0a033db180f@kernel.org>
+Date: Thu, 29 Oct 2026 11:41:12 +0800
+Cc: Oscar Salvador <osalvador@suse.de>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mel Gorman <mgorman@suse.de>,
+ Andy Whitcroft <apw@canonical.com>,
+ Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Rik van Riel <riel@surriel.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Peter Xu <peterx@redhat.com>,
+ Breno Leitao <leitao@debian.org>,
+ Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <A4D91A63-87BD-4BFA-A12B-22A8513A496F@linux.dev>
+References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-3-a0a033db180f@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: Apple Mail (2.3901.100.1.1.12)
 
-Hi all,
 
-On 10/29/26 11:17 AM, Anup Patel wrote:
-> On Thu, Oct 29, 2026 at 8:36=E2=80=AFAM Zhanpeng Zhang
-> <zhangzhanpeng.jasper@bytedance.com> wrote:
->>
->> Hi Anup, Paul, Himanshu,
->>
->> On 10/29/26 12:55 AM, Anup Patel wrote:
->>
->>> [...]
->>>
->>> Changes in v11
->>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>
->>> Rebased on latest for-next branch of linux-riscv tree (commit a5ae1bf65=
-cee).
->>> Also, tested PMU driver with both PMU irqs and PMU SSE events.
->>>
->>
->> Thanks for rebasing and testing the series. I was a little surprised
->> to see v11 posted, as I am still working through Himanshu's v10 review
->> and validating the fixes on hardware. It would have been helpful to
->> coordinate before reposting so that those changes could be included.
->>
->> I guess this follows Paul's request to rebase onto riscv/for-next.
->> However, there is one change beyond the rebase that I would like to
->> clarify: why does patch 4 remove the scoped_guard(preempt) sections
->> from the CPU hotplug paths? These were present in v10 RESEND, and
->> the local helpers still retain their preemption-disabled assertions.
->> Is there a reason this protection is no longer needed?
->
-> Yes, this is based on discussion with Paul yesterday.
->
-> This series is blocking the whole RAS ACPI support.
->
->>
->> The changes discussed on the v10 threads are still outstanding in
->> this posting:
->>
->> - Preserve TASK_TI_A0/A1/A2 across nested exceptions.
->> - Replace the temporary GUP-based perf user-stack copy with nofault
->>     uaccess, following the x86 approach.
->> - Address the per-CPU initialization/preemption concern.
->> - Split the MAINTAINERS updates into a separate patch.
->
-> There is always going to be new updates since it will take
-> time to harden the SSE implementation. All these changes
-> can be done as separate follow-on patches.
->
->>
->> Additional fixes from Sashiko review, the kernel test robot report,
->> and our follow-up debugging are also being consolidated:
->>
->> - NMI-safe entry and lockdep irqflags tracking.
->> - The unused-function warning reported by the kernel test robot.
->> - RV32 vmalloc synchronization before nofault fixup.
->> - Faulting-PC validation in the kprobe single-step fault path.
->> - Per-counter STOP handling in SSE error paths.
->> - Ordinary IRQ CPU-PM notifier ordering and IRQ cleanup tracking.
->
-> Same comment as above, please do this as separate series.
-> No point in holding all other dependent work endlessly.
->
 
-I agree that we should unblock the dependent work. However, I would
-not characterize addressing a known, reproduced issue as holding things
-up endlessly.
+> On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
+wrote:
+>=20
+> try_to_free_low() drops the hugetlb_lock while freeing lowmem folios.
+> set_max_huge_pages() then resumes freeing folios using the
+> min_count computed before that unlock. Reservations created in between
+> can consequently lose their backing.
+>=20
+> Collect lowmem folios on the caller's existing page_list instead. Keep
+> the hugetlb_lock held through both selection passes, and free the =
+combined
+> list at the caller's existing unlock point.
+>=20
+> Likely not stable-worthy.
+>=20
+> Fixes: 1121828a0c21 ("hugetlb: call update_and_free_page without =
+hugetlb_lock")
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
->>
->> In particular, Himanshu identified the missing preservation of
->> TASK_TI_A0/A1/A2 across nested exceptions [1]. Following his review,
->> I validated the fix with hardware A/B testing: removing it reproduced
->> corruption, while the fixed kernel completed the same test sequence.
->> This also gives us a solid basis for replacing the temporary GUP
->> workaround with nofault uaccess.
->>
->> Paul, please hold off on taking this version into for-next until
->> these fixes are included. The rebase and PMU testing are useful, but
->> there are still outstanding correctness issues.
->>
->> I will consolidate the changes and post v12 against riscv/for-next,
->> with an updated changelog and validation results. Let's coordinate
->> the next posting to keep everything together.
->>
->> Thanks,
->> Zhanpeng
->>
->> [1] https://lore.kernel.org/r/as79MHtNYd-VbUug@hu-himchau-blr.qualcomm.c=
-om/
->
-> Regards,
-> Anup
+Acked-by: Muchun Song <muchun.song@linux.dev>
 
-I'll post a focused v12 before this weekend with the immediate
-correctness fixes. Further improvements can follow separately.
+Thanks.
 
-Thanks,
-Zhanpeng
