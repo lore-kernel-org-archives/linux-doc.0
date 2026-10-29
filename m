@@ -1,65 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793241980;
-	b=QhV3moKckARjGIsetGoX4dXtOSb3nm+iNOoIapEln9bMUFVlSXCyFgQ07hvyGpjAZlZk
-	 x+CfppNlCsZQ+z5EUEuk88VVnM5P54OESQJ26MmVwcIdLuxPY3njv/EnpGqNM0Uyv/I/r
-	 aFNTGiEYqJQI39FXq7SriVNsNVexD0yiTPkpHd5tSLzcGjeVAoYyGwYWFZin//Jcyhb2E
-	 koS9jZFKq9Rh26O6UrElv4zSEdB4k55U/ar6MkKmw6IHX8f5HOQrCV+d/iaJyvChj9ZmZ
-	 sdKF9bik/0ktmVR+g9JasFocpgDqeMULfdAabTltIOmpgu7QZ6afMVOU0WSLYtsVE8A==
+	t=1793242182;
+	b=wWjpr9KznALc37j7Yeev4M1B52Qh+W9nD4vRwTn1WWciLebESRQPLvir+RQjCLIHInCp
+	 WAHz2Bn8oQoKJOt41ExbkktVYNHCi3ejcAnmCrrX6aWDJa4oXqgdOf6ZMmIyn6QQlngjh
+	 RK/chqAANx5CBQ3sgpmHjNVmjbjdaO7Z4W4KBlJchgeN1pp1u14xf1rBL37Zk+xoENedv
+	 zu7ApNKEhTR6Cs39Nli2kqlZM+EVQ1ZUg53tcK2WANkPHom1kl910dKXJuErzcXLS6+o3
+	 OkVRcdNduw4+9U5n/pkbYDmBrDzfd1qtaNjpqXPtTXOcJDUFnLep/Z7t4duKMEvTYxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793241980;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=PABQUNtwzA7tp2WIdIkVm8tzuMcr4y+wWPxd8RLkMGk=;
-	b=Qszo8bulfvZ/8epRGKfYQM98Y2bNn98n+9I01pjvzdsZlg2HS9mosqTlM/eEdwNZ+kfB
-	 ouUiZnoGYQ3QYEAzWT+pwEaZAymOIFibeBj+evnXa3DVx1rql91qmQq8mQKKg+rafhqk5
-	 uG/U64D2LAcFNXs+Gwp+59HRMnnQi9hcNFOu01EkgnTTK1yhnZnXSYHe8UhI+VEJL3oUO
-	 6WmwhbHj87yaR/OHCf60pOOu7ngb9ulgbZnrF7Vpj7OCJ8i1bd+tnsuSNIQH0/rhOeTYk
-	 p0dFf8FOOumLDTqmQLNVKvnq0vdIzTKfyGsIcOGV8+q9Z/i4Uc0nXMrnJ1hp8ysCdBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793242182;
+	h=DMARC-Filter:DKIM-Signature:Content-Type:Cc:From:Message-Id:
+	 Mime-Version:Content-Transfer-Encoding:To:Subject:Date:In-Reply-To:
+	 User-Agent:X-Lms-Return-Path:References:X-Original-From;
+	bh=hTvlG/Tq8WG71QR3KEeqZ4U9dHyqctWa0aSN+5Yu23w=;
+	b=cTDeDgHMyDkjRiLbo0KyvGuNVTaTW1m2swFHD/2X2S5O+n8AZ07RrIfqurqoKLua+8+p
+	 cXqENVbTglgDt1KM3HcN/ZbcfdeVz0QOc+MZ5AYvl4PcoRqKit8O0DWLRp00x7IEKUBhx
+	 VawxSPbthGlnKvamqVZ0JsoXzq9O4GdoCmcFJJ15xKhGh1o1uwNVwp6WQb7JFC7x7JhEs
+	 vzx5m2MMa0L6w0pwAmgx1zLgw1MUoLDEmaGQI69I7THZ0EhMaUZepjHUBI3iSz6PJaRNL
+	 Awt3iAjeivYtG3bvjCUE2cFKPdIgpOlIf50UxDkdZxIaPw5s04uTV2tpz7E1ZUEKdIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=codewreck.org;
-	spf=pass smtp.mailfrom=codewreck.org;
-	dkim=pass header.d=codewreck.org header.i=@codewreck.org header.a=rsa-sha256 header.s=2 header.b=SayRpoU0;
-	arc=none smtp.remote-ip=62.210.214.84
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=hdocmnqL;
+	arc=none smtp.remote-ip=209.127.230.111
+Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC05B606A31F;
-	Thu, 29 Oct 2026 02:46:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC05B606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB72606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 02:49:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDB72606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=codewreck.org header.i=@codewreck.org header.a=rsa-sha256 header.s=2 header.b=SayRpoU0
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 99A0B14C2D6;
-	Thu, 29 Oct 2026 03:46:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1793241976;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PABQUNtwzA7tp2WIdIkVm8tzuMcr4y+wWPxd8RLkMGk=;
-	b=SayRpoU0s+/TQ1WuZe4o/5liJzEtyY0Ch/PDlpO9NxyVwx7wBoIwb6jSmg1hmjWXSkV4hJ
-	4JzHeZSHMtuRZqHGVoRJgpaOCo1K3WAM0AmqQUK5SJD0dreuMVeEV1EcMg28060HokvO0l
-	luhnibaYFzKSkxsF/AzWQUu0ZZWpKg9nZUKjRI3xLgdA9D8jdi8mogTt4H8mkQvntdY1Kh
-	aUE8rRpDDwCdwQ2Qo1PSqUY02t9w5+uvBQ7ESivCc/jxPpMnwGZGU1eBL7n15UNt4oLFXd
-	n0hkQJl8mCxEVLo1nZ9UCziAU7jpmF3pXWy0cSg/jdZCHpkulq9Vqj0CX+dGzw==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 438811e2;
-	Thu, 29 Oct 2026 02:46:11 +0000 (UTC)
-Date: Thu, 29 Oct 2026 11:45:56 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Cc: ericvh@kernel.org, lucho@ionkov.net, mika.westerberg@linux.intel.com,
-	andreas.noever@gmail.com, YehezkelShB@gmail.com, corbet@lwn.net,
-	linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux_oss@crudebyte.com
-Subject: Re: [PATCH 0/3] net/9p: Add 9P transport over USB4STREAM
-Message-ID: <auKzZIyFW2CTci1b@codewreck.org>
-References: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=hdocmnqL
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1793242171; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=hTvlG/Tq8WG71QR3KEeqZ4U9dHyqctWa0aSN+5Yu23w=;
+ b=hdocmnqL7Au86xutXGj5AxJd6L2RQ9zUDLfyiIK1GwmRJCNJFLwJJpn593fjdbY0zCEJQ7
+ 1MoC3D7EjToaXcsv+jHn0WflqUguMcKiWxbklah2aPqhNGVtthA/8mWqBPat/mNyWI2M/q
+ eqAsetgnmchrJdyRa/L9NLPJvQu6F9zuDHT9k0qAqIBmYRQwf91FDM9XfQAXhxiAKZEzcy
+ 2VQxwFYLfijiNlYczQRbgst121FvVhB8Zq5uAnENx4ZbcoAw60fw6W4zNZX/BmXw7p6XrJ
+ i3+Xw0N4W6cA6duLzeY0VT2yJYKVqRtKcbdXChcWgcCo3dGaSBPKxQHhJKnOgQ==
+Content-Type: text/plain; charset=UTF-8
+Cc: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>, 
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, 
+	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <riel@redhat.com>, <rostedt@goodmis.org>, 
+	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>, 
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Message-Id: <b32b2bec-4fa1-4899-9014-52a6568cbd73@bytedance.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,55 +62,35 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+To: "Peter Zijlstra" <peterz@infradead.org>, <bharata@amd.com>
+Subject: Re: [PATCH v2 0/3] sched/numa: refine memory tiering promotion heuristics
+Date: Thu, 29 Oct 2026 10:49:03 +0800
+In-Reply-To: <20261028092004.GG2668804@noisy.programming.kicks-ass.net>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26ae2b439+d67bc1+vger.kernel.org+lizhe.67@bytedance.com>
+References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028092004.GG2668804@noisy.programming.kicks-ass.net>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
 
-Alan Borzeszkowski wrote on Thu, Sep 24, 2026 at 06:23:30PM +0200:
-> This series adds trans=thunderbolt, a 9P transport over the
-> Thunderbolt/USB4 DMA tunnels exposed by the tbstream character devices
-> (USB4STREAM). It's designed for simple host-to-host file sharing over
-> single Thunderbolt/USB4 cable.
-> 
-> Today the only practical way to use 9P over a USB4 link is trans=fd
-> which, due to its design, cannot fully utilize USB4STREAM capabilities.
-> Thunderbolt transport offers a simpler mount (no fd redirection required),
-> busy-poll support and substantial throughput increase compared to FD
-> transport.
-> 
-> User may mount 9P export with following command:
-> 
-> mount -t 9p -o trans=thunderbolt,aname=<exported_remote> /dev/tbstreamX /mnt
-> 
-> Thunderbolt transport achieves a median 1.21x more throughput compared
-> to FD transport under same conditions, and the advantage grows with
-> concurrency: 1.03-1.09x at 1-2 threads, 1.14-1.27x at 4, and 1.34-2.28x
-> at 8-16.
-> 
-> As an example, 4K random reads, 4 worker threads. FD transport achieves
-> ~53k IOPS, Thunderbolt transport ~66k (+24.7%). 4K random writes follow:
-> FD ~28k IOPS, Thunderbolt ~33k (+19.4%).
+On 10/28/26 5:20 PM, Peter Zijlstra wrote:
+> On Wed, Oct 28, 2026 at 12:12:50PM +0800, Li Zhe wrote:
+>> This version narrows the series to memory tiering.  The generic normal
+>> NUMA balancing cleanups and heuristic changes from v1 are not included.
+> Should we not look at Bharata's pghot stuff first and untangle this numa
+> balancing vs tiering nonsense, before making an even bigger mess of
+> things?
+I agree that pghot is relevant to the longer-term direction.=C2=A0 My
+understanding is that the two ideas are not conflicting with each other:
+this series tries to refine the current NUMA-balancing-based tiering
+implementation, while pghot would be a larger rework of the promotion
+infrastructure.
 
-Thanks for the patches
+Let's also copy Bharata here so he is aware of this discussion.
 
-We've kept adding new transports for 9p lately but maintenance is
-becoming a burden so let me push back a bit: is the increased
-performance really worth it over trans=fd ?
-
-If this could be used to bringup a system with a root filesystem like it
-was done for trans=usbg I'd see the point, but otherwise the simpler
-usage could be addressed with a simple mount.9p helper, and at this
-point I'd consider usb4stream to be used for perhaps one-shot copy and
-not care too much about 4k random IOs (so less affected by latency
-if msize is large enough, and for a one-shot backup it doesn't matter
-too much if it takes 6 instead of 5 minutes)
-
-If you can convince me this is worth it and can take care of the
-transport for the forseable future I'm not dead set to refuse this, but
-I can't say I'm convinced right now, especially as I can't even test
-this (I don't own two computers with working usb-c...)
+Based on Joshua's comment, I can also split patch 2 out as a standalone
+fix with a proper Fixes tag, and keep patches 1 and 3 for the broader
+tiering heuristic discussion.
 
 Thanks,
--- 
-Dominique Martinet | Asmadeus
+Zhe
