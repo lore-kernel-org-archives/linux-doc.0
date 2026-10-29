@@ -1,92 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793283001;
-	b=e8DRAZ//YPm0og7rv5FVjYI0/mrX+4J0ayOKiVTKTMoTu1/MjnS0LU0g7RCzkfcu3JbE
-	 h9vgM4QG7E999aXdiYFIF+Xm4vUHRiOsp0OoVdGosGDrYkmMbZv8MfcMvSQiw+XpbBAxP
-	 mF8YQhmwK07BvuC342XmX6K+5wjaoAYX3pqaMd4ZtEQWQd8ka6BCDGsDpYeM1ocNhx48s
-	 EWhMu/7XMRCYc+iqrQ2LA7wev9UsQyVxJFkMbvZxxc5t18kBxHDJ2KvHsjsl/vIRDsar0
-	 fHPyyzxQClYnH6wVv0XAgWFbnZ2MoOswJSGLA2Ywo6tTZvSADb2jxYcM0pa5ryfRZZw==
+	t=1793283391;
+	b=ZOx79EuaOq+cx4te+MIshE8Jv2/MHSTklObzyb8Bnh34sgjDuBv39rWi3eRyObrt6I3M
+	 GGt0QJ/MF1wYjNAfGmkxzby3G+pDOqXnG84JHZjezpxPagO0yrrJqBjNrV4JUxeujrNDy
+	 r7A2Q801JMqweIrthIkFN3sOJ8OADsHc5kBypgrwgAymKLEZ50q/CN0mQUhFdB0hqtYc6
+	 9k62HbP45fkiuLDPHNANAgEy3UJxoPswZ8uvJ+ieq67xtJ8NJxPCicPb1JWzSerxDvH53
+	 Rw+r9FYJFdOIgUG3RB8RRqPyfvTt1dZzZnyvM8fzw7uXjtshfnUiIgRoR+Zu5XlAWWA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793283001;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793283391;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
-	b=QPioOzQxoaKGcmaVyjz3J/16kNzB1Opsy1IruO2AK7kZQYRfxrnq2A5xQdwPoZqFuOsa
-	 iF51iZ2x1xlE/3jMAbRt5QwX/gel8mmaKICN7O9ti7jus5kxgrX8bCCiD3G1F02yLa28O
-	 /OqjXufx/0680JzqK14Lli+R5pnsZSb161GhNWk0nAWZYNn6eMWyk9QVwWZB00urLJ7XC
-	 nRzTIVA1i3ZzRSDulfZ7f6bYnYMnqRPkk14uAgYwJJAMd6d0+TBuQcAKpZYSOgYiQxVQo
-	 xuao9F2IGuNCNrlxSh/q6CZjWP9ghi/hboYSKCnsda2JgMbph9Xmrl56GkgGAUDYN6Q==
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=v0w3vTM41MmYY5jFFnm91zARv8a41r8bbrucc1w3RPo=;
+	b=QQzT6V1GsaLv6vnMdl+Q6Ee2keiOcyih0D98VOoa4xEh53YiD6SMERc521N9oTpO5w8H
+	 P3AxyCJbk7z3qgs4WprA1f6SMR3cCB2vMSaicHrHjZpzhaFiws2nJ+W5/dClTDhImyJ2g
+	 No3CtDZG3gX3qau811Iv9d3sugCD4OuXrMLzt4zLRoVeG24phGGVi21ZumXASnyt4WHMY
+	 4JwzccxeweI6CaOnAPzfQ+SDgBgniVEcws8cjoS7QFyVEa/iFrFIbdev/Dt2M6YkEh/wp
+	 Re1P5EBOwpjT72SPzQFTRJTTjVxIRs/Cju2CHzQzkQBbO0SCPc50w2fr/C0FdmmnmXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=ziepe.ca;
 	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=oqoCkjVs;
-	arc=none smtp.remote-ip=209.85.222.174
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=K3GWWvW6;
+	arc=none smtp.remote-ip=209.85.160.179
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD25606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:09:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DD25606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A3D606A31E
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:16:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51A3D606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=oqoCkjVs
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93f20c3aaa5so199818785a.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 07:09:57 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=K3GWWvW6
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-536c8f958d7so18363351cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 07:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793282997; x=1793887797; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
-        b=oqoCkjVszR8u8wCAtEPVJAxDRDmSU97Ltyl0epD2Lt3u2UIIXdVHNDGujjYdwY6WRE
-         SKBt6uYgdBnT6o5KdL7GbgHiWWlXLYlzp8oWVtx/63snb1x0A/98UMN9nSo5V6B5ls/h
-         9u535mipY84FplFJ5MHPeqQly0KmoyExjUBmnPmbZgYUFhtaNmzu1pOR7TqeL6ghQvnJ
-         wb2AWZsJdkzFI9sCrqTqK7UV5M+ZSaa+yHEEkToHs9S+zZdwlj+JO6pofP8F4CYTjz8w
-         BisOYjY7MDZGSlzjpRbTYDWgiYT+BJxMePPhJG1Ck8ZG82Y4PAMfi9RC0ZL1zm8pkkMN
-         jT8Q==
+        d=ziepe.ca; s=google; t=1793283390; x=1793888190; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v0w3vTM41MmYY5jFFnm91zARv8a41r8bbrucc1w3RPo=;
+        b=K3GWWvW6rB7cRoFkVogJ2KSZo/0Y/1HCDIRdHzAIwLoLDsyMicRGMjOseGev/J/xTf
+         7GktCCuPItsgUn+ypTk60UX0aWoLaz29rDEd+7ry0VKQZgmxJu4rxk9u/82PZO0lHBoj
+         a0rS4Qcv1UTo0qCGsLn097FMzPIIosJ6Sq/dM+Cpe88Ee5HToav+cCJFoWYUIenfBqwj
+         BfXtQt8E5/J+XaBz+AzHqXbj9Vz+xQWJJQPIA+hvJei/SyQf96CW2nSLK1ee/Y9r1bUI
+         sgaZ8c4K2r7GTls+1UpYG7HJCNHiY8m5qhHnc/SvL5F1gGTyDMBNiM4S9pBh3H/k7bQZ
+         gG+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793282997; x=1793887797;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
-        b=1y5jcwyNA1vONx6XcCxuBNSFCGcdH4CFRK6m3rwkfW53DHavbiLjgcXmsY/2ejneX7
-         e20D4RrVGzQJBVEdjs3QYYQwl6/jTzYeN2tORmNY24NFBQ0HlsxoSgop2RGAR6Edjhbg
-         kQzptKNtgaxeWOLUyWe5v5pvqIqQaK9SgQXgzy7BTaMi3ODIZHWc087dm6fF+qMYNQD1
-         xd1hJam2vVOZJjLLDQSxT+BYk19t9oSboofQpJSrEbnGUIAK1UN8VfyQc3Zs3kar9dFQ
-         /o0G+xpgbYRtr0QkqNbJ4j72vfVNjUDG69F/yBwWOIACGE9DkXENo/tz12f9C9Gdsfdi
-         yOcg==
-X-Forwarded-Encrypted: i=1; AKwUvBzxG/RA2sSANV0bPwVUWMpJwd5OuiRF2B0e972m8gKO/jOTDnPjCsyDXuNchxJsHHtpt3Uk+/L04tw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJWhdOM8bAyk3d7+oD1NPcDpydlWQL7c2FZ+uNN7wU6kUyv9KJv
-	L3GXKbGzGqlf/LzO28tHW6CC6ero626LLwWGvlrAWqlHDD1iXwf7Ar6F+lHPsWSNtAg=
-X-Gm-Gg: AYBFou0ugipiay7WMiJehd7RqiG7xR8sB5GR3HbynENSJAYnDRHbAsI535eZyi+lSms
-	u+hFga21/xd3xFFipMkZ8PKNotaNBvyvOE/L3XTtEq7gNZUX1vO6Vh6DT09oXmLigi4Bjp+6ePW
-	TAs6vqXIs2Fm6Cd6caQccLDW9YQSHuReqQhITqyh9QL9dk12rf1BKXrqZ6Ux9P+yCFDl8tZP3ka
-	3OETzV0HQVaI55ebgsNCGKDHapIKrAIER5oce0kAZy1BGYKWQh1RhbF+2mA6DQ08ILKMy87HYFS
-	8FtS44wY77PFFJuvT/xWmOZ91hqFUAYchntgjIGJ7cFn/k3NfTbZeZJW+r8qbMijuvxu5d+nLp3
-	mGSaZ0Bopn1vYENCAey/LpB3DLFe2U6eOgNfkCzM3HhXqqXhvIsze5iDYgsPAwzlqVaDQGtvB0W
-	DPf/2ScHnmU9RmNWm/Cgvmt4Cj48K/DMADYttLjjk+2A+U0hiaAwRYblVVLJg1tihQ4p2KbBEMc
-	LPwh8bbz+AsJfLqIrASuR/oVUtNX66TNxIgoH+0q3OOKZqqIUteu+RKkwCuSo1a/VJw36OpLdRH
-	nS0Kf6vQqpWFGi4bXfkJ+R/RIPNdD2U37R2gNkcrMspdoSt72CEOrmugvw1NrJwiP42ZkjkYPXR
-	VGu7NJFv/S7k=
-X-Received: by 2002:a05:620a:29c5:b0:93f:59b8:e28a with SMTP id af79cd13be357-94408cf4114mr838476185a.28.1793282996749;
-        Thu, 29 Oct 2026 07:09:56 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793283390; x=1793888190;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=v0w3vTM41MmYY5jFFnm91zARv8a41r8bbrucc1w3RPo=;
+        b=chNujtbtD84MhiAxn4vFBQKOiDvCrk9tw5Ad6yqA7gIBYBlNbft/uf97m2voLHGTaw
+         ySjDmaJbr4gxvxjjuQpel5hjSZ2GiVvfwj9XK0pCmQKSRtd7XoW+kaJC0NCmIVX3qXED
+         pF1VHTWyHTGNEFv0QSK0DqA36IBtRJZejW9T3t7IUaqNzfOK8IObQQNgN0mdOxt4Ug8u
+         dLVKMbe/wRb2CJ0mgu9jyBsP2LI5m+lbB5Nua5lKQ0s3VIm+By8hDkGdw8ZW3JHMwQn/
+         86+dg4jEBZp9/k1k4I7HWoKyzqN7oW1t7XdE/w3ICJci93V0VNjvQ6YnvLqi0T21oP1P
+         7aDg==
+X-Forwarded-Encrypted: i=1; AKwUvBzuovK2JtGrweaVw+76K9w4w8Mh1Zcd4WRqHEtkwB16TyBY8g7uWhioKLzkMbdgW4KUS/FpX7Fc8i4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI8qoRwFl/Brv0Xnp1QieAVwnPMz0pIugjzOPraYROPacTJnwb4
+	COBMpgYQKHQPODux7GQhVzbvYqXtuIGCr4wHc8GullGgjM82x+wKHJgYPR4aHvjzxLA=
+X-Gm-Gg: AYBFou237Og44GNaiunK/t3yt0cQbJRNRXgsRWrNyjulLF2BjZkGlRtRoOAU6DD1ThZ
+	J/y/eHaYX4f898nictA9XW2raggLTpSqNx9+3LnErHjESvnW00mCdvXpd7rdLFXaypPT3ToFSfF
+	0q7dVupCqBlFRIQIvdYhW38x/191YH8LUb1ecoJm1laypie32z9Lmkymjqqz7xmGoou+HkctS7s
+	aB1EjJmc6pLQdsKpeT4qEBb7zf0N0LdGrV1H5leUQPR0x9NDvFWr6Yc5PBlYotFjtkmV63KSVmO
+	3E6CLAm23yzTPzG1ZhLUxVz6PF9riTurOa9e/Ng8E6ekfputbkPZNn993NbvVOn7iQkTopqeI62
+	jIAukIxzqklZBYf8roMZdJYnxTxupZJXB1G+DIyFQaoy4kpAdBN9a1muPVXykCjB/dWM7SbKScX
+	PSPVjXdHqczElLxrst+FwfYkQIPDqCWXYWOmjVvc5V0IUwxZy2R7YvD6sq6bNF22PRr1lXFC8Um
+	ct6MbktXtSHRFIoW6q5anlo4t1tG8WkE1FKaU5hqAFKrUy1sB/hvfDQSGhLw62pP9X4f8vuF5N+
+	TE8or5xGaDtGqgJKB32/3nhKRtfPCfciLQak93INFZNklAuyr8cCFsarGJmdip/EDEI9q/llTWN
+	lZrSEVNxOpUw=
+X-Received: by 2002:a05:622a:5c14:b0:533:21c6:f4e2 with SMTP id d75a77b69052e-53fcb20dda0mr85167991cf.20.1793283389957;
+        Thu, 29 Oct 2026 07:16:29 -0700 (PDT)
 Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47cb4f56sm162421066d6.35.2026.10.29.07.09.55
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c7f6ef1b7sm45505406d6.7.2026.10.29.07.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 07:09:56 -0700 (PDT)
+        Thu, 29 Oct 2026 07:16:29 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1xMQpH-0000000FhyS-1U83;
-	Thu, 29 Oct 2026 11:09:55 -0300
-Date: Thu, 29 Oct 2026 11:09:55 -0300
+	id 1xMQvb-0000000FihF-2QML;
+	Thu, 29 Oct 2026 11:16:27 -0300
+Date: Thu, 29 Oct 2026 11:16:27 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dave Jiang <dave.jiang@intel.com>
+To: Nikolay Borisov <nik.borisov@suse.com>
 Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
 	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -101,13 +102,9 @@ Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
 	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
 Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
  support
-Message-ID: <20261029140955.GO1685504@ziepe.ca>
+Message-ID: <20261029141627.GP1685504@ziepe.ca>
 References: <20261015145053.3664509-1-jiri@resnulli.us>
- <592d643f-e97d-4de8-9a87-e47d57dc8457@intel.com>
- <20261027193629.GK1685504@ziepe.ca>
- <5f33aeed-a20d-4881-9ccf-a69bc308d348@intel.com>
- <20261027234658.GL1685504@ziepe.ca>
- <c57c45bb-5047-4aa9-9f06-6ac5f36ff3ce@intel.com>
+ <2a2a5d93-1c10-4533-8709-437ceb6a3f94@suse.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,94 +114,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c57c45bb-5047-4aa9-9f06-6ac5f36ff3ce@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a2a5d93-1c10-4533-8709-437ceb6a3f94@suse.com>
 
-On Wed, Oct 28, 2026 at 12:16:01PM -0700, Dave Jiang wrote:
+On Thu, Oct 29, 2026 at 09:37:20AM +0200, Nikolay Borisov wrote:
 > 
 > 
-> On 10/27/26 4:46 PM, Jason Gunthorpe wrote:
-> > On Tue, Oct 27, 2026 at 04:09:19PM -0700, Dave Jiang wrote:
+> On 15.10.26 г. 17:50 ч., Jiri Pirko wrote:
+> > From: Jiri Pirko <jiri@nvidia.com>
 > > 
-> >> There are two issues for TDX Connect. One, the device info is collected at
-> >> SPDM connect (TDH.SPDM.CONNECT), not at lock. TDH.TDI.BIND only returns the
-> >> interface report. So the measurements a TD sees at lock can be from well
-> >> before the lock. To get measurements taken after the bind, the TD has to
-> >> ask the VMM for a recollection with its own nonce.
+> > Linux has several attestation interfaces tied to individual technologies.
+> > That makes evidence retrieval, measurement registers, device state and
+> > kernel consumers provider-specific.
 > > 
-> > IMHO measurements taken before lock must never be made visible through
-> > this interface, it defeats the security property of evidence within
-> > the locked session. I would expect the guest kernel TDX driver to
-> > prevent this.
+> > This series introduces a common attestation subsystem. Its goal is to
+> > support platform, TEE and device providers through one model, including
+> > TPM2, TDX, SEV-SNP, Arm CCA, FIRME, Caliptra and PCI/TSM-backed devices.
+> > This first series implements the common subsystem and a TDX provider.
+> > Existing native TDX tsm_mr and tsm_report interfaces remain independent.
 > 
-> Agreed. I'll change the guest driver so the lock asks the VMM for a
-> recollection with a nonce the driver picks. Each lock then costs one
-> recollection.
+> Wasn't config-tsm supposed to be this common attestation subsystem? Was this
+> discussed when the initial config-tsm was proposed? Why is this coming now?
 
-I do not understand why cached evidence exists in the host. What
-reason is there to ever provide a stale signed evidence? None.
+Maybe but it was far too narrowly scoped to do that. config-tsm
+doesn't even include MRs, they were awkwardly pushed off into another
+different spot. It just doesn't seem to meet the need, and it can't
+sanely fit SPDM.
 
-Other things may make more sense to capture once and are not permitted
-to change, but evidence is not one of them.
-
-> >> The empty challenge in my provider means something else though: don't
-> >> recollect, return the evidence collected earlier. So it's less "omit the
-> >> nonce" and more "no new collection". Maybe that's better as an explicit flag
-> >> than an empty challenge?
-> > 
-> > I'm not sure 'no new collection' is an especially useful thing. Since
-> > the kernel won't be validating the signature you still need to pass
-> > the expected nonce from the prior collection back to userspace so it
-> > can check it.
-> > 
-> > Is there some specific use case for this?
+> > Attestation devices use CTLV, a schema-driven character-device TLV UAPI.
+> > Compared with sysfs or configfs, CTLV executes one validated request
+> > atomically instead of assembling a transaction through several files.
+> > Compared with netlink, an opened device fd directly identifies authority
+> > and lifetime, can be delegated normally, and owns its event queue. CTLV
+> > also provides:
 > 
-> Getting the lock event's evidence. With the suggested lock change
-> above, the guest driver collects it during the lock. But the lock is
-> a sysfs write and returns nothing. Userspace still has to read the
-> evidence to appraise it before run. The device was already locked
-> when it was collected, so the read needs no new collection.
+> Assuming we want to go through the route of CTLV, do we really want an
+> attestation-specific  interface, or most of this functionality can
+> simply be
 
-Why collect evidence during lock with a useless kernel made up nonce?
-What is that even for?
+CTLV is not attestation specific..
 
-Signed evidence must always be collected with a userspace provided
-nonce. Any path that doesn't do that is pointless and I wonder why it
-exists at all.
+> implemented as a specific genetlink protocol, utilising all the existing
+> hardening that has gone into netlink's infrastructure to marshal messages
+> from userspace to kernel space?
 
-I imagine lock should only put the TDI into the locked
-state. Attestation should later collect the evidence with a user
-provide nonce.
+Been there, seems like a hard no:
 
-Do not collect evidence during locked. Do not hold stale signed
-evidence in the kernel for later retrieval.
+https://lore.kernel.org/all/20260721182046.16219426@kernel.org/
 
-Again, we need a flow where we get into locked and know we are
-continuously in the same locked session until we reach run and dma
-enable. That should not be done with evidence or evidence generations,
-it must be some contract inside the TDX driver to provide a locked
-session generation.
+And then later this:
 
-Under these rules it does not matter when we collect the evidence. Any
-time during the session is sufficient, it does not have to be done
-instantly during locked.
+https://lore.kernel.org/all/20260921131911.532d81f4@kernel.org/
 
-How TDX does this is up to its spec, if TDX has to capture evidence
-and do evidence compares internally thats awful, but has to be hidden
-in TDX and not leak to userspace in any way.
+Plus netlink being based around sockets and net namespaces is a very
+poor fit for something that has nothing to do with net namespaces and
+really wants a DAC security model.
 
-ARM should do it with the sequence numbers I mentioned earlier.
+> >   83 files changed, 18084 insertions(+), 28 deletions(-)
+> 
+> That's an awful lot of code to just move certain binary blobs around
+> (Judging by what config-tsm is doing ATM).
 
-> The guest driver picks the nonce for the lock's collection and
-> checks it before publishing. If userspace sends a challenge instead,
-> that nonce is its own. The collection's nonce is in the evidence in
-> the GET_MEASUREMENTS request that asked for the signature.
+Yeah, netlink is alot of code.
 
-Unless the kernel is decoding the evidence to check the nonce this is
-security broken. I'd rather not have the kernel decode the evidence
-like this, so the nonce should always be known to userspace and
-userspace/verifier should be checking the signature covers the
-expected nonce.
+ctlv is trying to solve a bigger more general problem than just
+config-tsm.
+
+Attestation is simply the first user as it has some complicated data
+structure that suits it well.
 
 Jason
