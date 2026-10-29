@@ -1,100 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793234096;
-	b=j8yhYfdANmdKFBkYKhwGDdVbSh6kXDoKHEkrNHjiPn2A6QX2tn5JOnk2l4l0mrzkKQJ5
-	 lbGE1iUHJZUfPLu7aBSZQpaYnbD6BoyGHdZDormAYQ1cH67pLjwL4ER21OlJ49q+xZwok
-	 K7+fnXxjKySP6cir8UFxM9BQn6JSRp1+aK3tGRjH1XJbZY2equN3PgS9ga1zLj/00qhCC
-	 hOwwuuaBIn2xOnUWjwDgjX0im9g84VHt/gnqXu6lwLusu4fsViMe3IFf7AW88vxyXjcKI
-	 BwUiC5eScgjDawrIuTaXySlQRuKLLNxcq3XJDGC2wual1GCXszMcvKCI6cOnaQzN+vw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793234096;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793237929;
+	b=ylnLPirVyeA0HczS+Zdu63ZGY1UgnUSBuxda9gnkQpSymiVJr/+slmvvp9HrR/VFmbo+
+	 sdQjMO2r/jGAmGLyWz2BpK0p0uwFrKe5qFJgFcfgXL+4Kxzgk25BD1PXTYdlarRWxIffe
+	 Ig9tY3IwlqDvw1F8POHajUvHP+peJFvrEdtXwOqQOXRyHu9Mk1yE3MzoGOLA8Gi7O8Zti
+	 kaCFAMiszt0gfLGdhcyKIsFJfWDQr4VRR0Y0dj/np7uKZvbJzsOU2sa2SvPJi7710A4EE
+	 q9GrYuwA+ajFGuY2cbx8bQtCtLp86r8hPM7YSdEzpWuZE9LBo7APUQWnidKj6I4F2sA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793237929;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=D5QSZtmmBwsZEse/gnhOiul6mMk02INnjVORNY8/ULQ=;
-	b=gPIu+YO4oq7eJ9OhH5Re/+SPpnKM/WeoCdezDTdE+/kr+vTEneS1yDXF0orHrc7IW2qG
-	 B+fTCiT4B2UL2VoKg8/sURAZNZyRjJ0ZbDiXQBaDGpBs+d7h+E21uwpBF9cHU4LGHM698
-	 t8Ik4wCxRIO/fWzR2p+6/YrdvN8whI84rrtMdJHkRhMHSop4VbOLEwT+JgnwOM/4q3abf
-	 AUM7debNLAfmD3/AUJll7L/4qyXWISR/oRb33lBY4mCfHJsn86PdNETLZH+QIt1ZgEp9m
-	 AYqQVS6FnZ6W2wpyjvOfssDUT2ZGpe5rHJvDVxIZWmrEScjc8MAkzNfGsAJodwmEZgQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="LTuOScZ/";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=EOs04QSJXkpqukLkDiiMN3/l/AZfTjlV7qiVUsZE4wE=;
+	b=r6Myuw1s44y+q0R7YW1PGYmldPHcb96q28uWHGvEt99/KXOla+VOvv/o845Mcra81GDB
+	 hw2fzqLknC5GKaGAg84SzpcN/sK9z8yBi6xkIxaVSNKmznniLtVo0lnEQOA1Ox6g5qcDS
+	 wudiiy/V88mxcmOH2fvoWPgxBb4KOu4b3Hr/NapfkF9TVX3flCBdcyCbBc+obg40NfBZ1
+	 Y4a/dBy18BSKXNBZP5Pziw8ZgkOuTlUfXKV4ZB2T8SEh05+lLGzOPEDEDRvmvEHZ4w3tf
+	 kOkZKO+IGgSVfFoAOzF8PGkJtkGbwV9KjyeaXzL9/ZJ00Rrol+d1MEfFlwdxSMXSFIQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=grk3GLND;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCF2606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 00:34:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFCF2606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9B3606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:38:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A9B3606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LTuOScZ/
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b1b12de661so5405a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 17:34:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793234094; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pOmCFL3PyOWGBJ9xUAtYcu+WOKPti/SxZJ5OZHgcIemgvjM3rWZUgSMVtr7yeypq2s
-         IDovXx4hCe7KTo6hcHf1KdNbWbejFI00gvcQ0K+LO4gxkCqCHNsXytcpDbQcQ9WZdVWR
-         eVoK/UWmNQ/7VjXSwUNfwyoQTF3QWf8+zyg7ezyPPudq10Io8XkC3oyXs0P4q54PzEp2
-         HzEts98aak62L4hlzOYOz69F3AOzWHE7r2xLHYtNsRCJk3OZb7H8wgfX+T9S4SBhgKRi
-         z0tdk/7diWfHD0jBdjoZIRoA2Nl05S2w5PKMtjL9xMJV4H6pZ5aApSP/MEi1oA8uXMQa
-         agQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D5QSZtmmBwsZEse/gnhOiul6mMk02INnjVORNY8/ULQ=;
-        fh=NkvgN5TmTCObMZw3JLSFeiOP7bHBgWrW0s42Ts851gk=;
-        b=jzLA6jm0TayMkNjANWuLV8TcX2aQHmAzI7Go/vJuNoN9TlZsQGdOSyf1+1XVeWa+BL
-         HLysJBz3N1MKdMdtd9IOE2aG98IVbxTEw0OJYZY648JQXRgJkJEI69xPSSW3GZOnAALS
-         VRdxP5I7TycH4Yf5lJ6He6QGbeOwkBTh/T254t4tVXBRYItpbLww7bU2IIvjrAzT/78h
-         6F913eBYFgQiFK5fi8e6W0O39HlpqvS3skaWyEt6M0CrNOgoFYxWge+uZNr/ch+8ai/U
-         1kY6+qZhxoShiEyEYAeGGUINceW7MV9q/e0puc6WBrrK428dMD0yQSiApmnL7gHFXyVe
-         DhPA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=grk3GLND
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso930126f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 18:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793234094; x=1793838894; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=D5QSZtmmBwsZEse/gnhOiul6mMk02INnjVORNY8/ULQ=;
-        b=LTuOScZ/rCyXq7B5fLImJnjGGPTOLIzzasDSv/Z2p6PqPJmRziQoJ1O7d3oaCjTkUu
-         B+UHp0mCDOqLT7ySUAsfMBcv688Sc68emao2JjBm3Syd9L14UCbTocBopLtZNwXltSci
-         HcqWledHcX8p09HWoTLVR80kTnAZQcRSkhylRdoAza5tG0xqU7TwwmGevDAUcWKSh11Y
-         9YDiNIWspFnhubbtnWM7EBU3tZ0dBU7xUESfQOxDhxTvEfuHr9LkhNSpQYZ8XJy+yUO/
-         teru1PJg3c97n+a1D2DSbuwNmLncH5DCw5M9qjOf/bmJLehvizG/8LO6jXR8ahHWR1Rh
-         erKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793234094; x=1793838894;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793237927; x=1793842727; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=D5QSZtmmBwsZEse/gnhOiul6mMk02INnjVORNY8/ULQ=;
-        b=yr1Y9LMC+92MZnN5n8Zhf6nelPcJCICTR84IOSttq/Kq/X93B35LMCLcWDkUrI1kPC
-         YsTAqX1ZAJHeOaYfnQ9fhOw7ah6Zfq19DKv12xkA6uZrRbIorGk0FiZhf7sD9N5k5FzY
-         UDxJXtXAYquYl6BH3TE+FLTxbQVirn+Tp51+7WSshpEekJLFw/fKKbWhvAvE+dXITZX5
-         W+bBKldK7A1vQcAZDKjAgw7Jr5wU3YLWA3/sFkwkoJQnD2kB+jA6cHlyh7qj4HCKeY+6
-         0ZT53MvDmpor+lAA4v/oJxRhS8TDok32JDHfEO57DQh60RCT6gp/GxWKXVQxPVEDIv2G
-         hLrA==
-X-Forwarded-Encrypted: i=1; AKwUvByj9h41rQsspFgP0buMEZnzv5qLUkxZJtbFbHqdcQb/HwRQMOhXZy8t7dC7nyQ+PpG1PhXctBuyppo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJgQB5Otof80NQAWmJDzf5KPy12yFAboax/HTWhWgaCibQ4k9kP
-	7ul0lCG4KQz9BjHV1SY0RaCNJK0FRuOnxF9WAxTR3Nv6VPe+0U5L0byCQFsIHSGyl0zdCYyCZPW
-	CmzCVpdYvUuQmwP8+9Q0UENz9kbkKgFI4gfMPOBok
-X-Gm-Gg: AYBFou3x5Bq+W5dsQDD2CIKs/uuTa+PaYz6tyw5Wlu7kg9ZOcw/H7fvMGWiLlDMTic2
-	Wdj8Asz2WmzlLxkoRnAZwH8d0YHgdJmiVUm2x07Gl9bhdJh9tyWcCm515AF4IJdXMCOzv2g4mpl
-	Fbf1IUpwYbnjpyOjj76MytRrI+Q/DxqcE/k7IEUdGvXMbuyjpSzmPxb4P+zFzaPq/uAlPFd0Wz0
-	UimB9/MCZ75U8jdkwvmQixpIYj8QSiCDNjNlcAiAPg9jk71OO88P1gZfeDoUwoeNG5TXgBHCa8l
-	jdqC9v5PcC3znxdMXm2D3YT9Y5MLBdIbL68/ronFmv4cXEdvLEEVvaCQjOpmrqK7SUHQrP/j+6u
-	x9pMAkaNG9Ew9Xyrp4y5jZL0PAQxmZj1zqMg=
-X-Received: by 2002:a05:6402:305b:20b0:6ae:188e:e119 with SMTP id
- 4fb4d7f45d1cf-6b4b38e71bamr17357a12.9.1793234093746; Wed, 28 Oct 2026
- 17:34:53 -0700 (PDT)
+        bh=EOs04QSJXkpqukLkDiiMN3/l/AZfTjlV7qiVUsZE4wE=;
+        b=grk3GLNDCCoeOl1TvUGmpR8xJPm8Z4YDkmEpvSd+S6BYMJm859V9LcT+pBH+rGfgrQ
+         JrBGAFMGbyq11Dh+Vr/VLtSqAYnnrNS3gUoxraHyEs0gSlIipr9qTCYN5jQVspwzIQWV
+         osth8sbzSEgaG6hFpuPlxfV1KveQTe45a2N44VdAuHfTQuIaZpIgYnYVS3z3hK+tuPy+
+         TGmB65KBOd3dXZl+UT3epg9Nv+Z1M1DG0oap9YiVnvzzzyuLvmbJEW917s/5iZ9dr/7f
+         CoWS6ObSIGhsHhgUVHPoaMh9trWc0pC2auq4IOGHx+JUD88TAzSuZMls53fyOUQcSEJM
+         GD9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793237927; x=1793842727;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EOs04QSJXkpqukLkDiiMN3/l/AZfTjlV7qiVUsZE4wE=;
+        b=JbQJ3ucZOXJno/UAvuGGZY0sdx3hMbCzGSGTHKGl9QqilSZJeOtjE6DBf7OHfC3ZV5
+         heR/iJaMRghnfgu6dUqq6hMUDaj2wQb1+YDQ4SAxuCWeE+RASCS9fTSHw+5rEFbaTx4J
+         hhxpeV4hov1eKQeSTe76u8cLfMwfJ+oij5td7qgo79zPhcmQlIbFP7tsR3iwhtIwOwh1
+         2KFhMv2CsRGmZcRjk1S7xcpGW46THHJk+YUhllPRH7aLzSa8cUV6JHK0iVVcZ2W3QN3C
+         elKr7n4YQFCiWLiKpPXSvhPUyDgHgHnb6Tk4t8RoAkNB5tRVP63PJ/VYo85mBh6QXPyZ
+         lilw==
+X-Forwarded-Encrypted: i=1; AKwUvBxy/Cg0umc+xFmxeI18oL8PdVQsBDtKcF3a+oif86fJ0FE1USG9cX7KhhbBxoV8vZC86fLBhJtQ1N0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIG0XmzqkKd8kYZi/V8dS+xpxeLSwXmP2xFJhe7nfvI1OxNqJ+F
+	DDS2ggwiqS3NLSppt3uBxARtFO3qUav4HKZvF15+/XdzfE9pMCzdcYes
+X-Gm-Gg: AYBFou04jORmxiJSqI679qyV8LFDA3gI93M5fRsL5ok1zBa4X3at2A1JexDg8EuU/vf
+	8pGd4qi2qG7Mk2i3k43O7IQp8oBJX22eDFws8Ey8g8so5qvMUcBvar7WEEGDgd39wlaVbzRr4aU
+	4chhGLfQTP8wLuhyUDU64SoRK9WfmQ+2OV8h9GkNGaEZmJqmkNTVWTSrFKDfvvnrAmUA8CDEUMi
+	Sbn482G2Jl7MqO3pIVXN9Xd29i+roFm9uMhrK8pGHXPq8M/n960HCM6nKb5Wzqj3Dho3LV9LB84
+	ueNmjmDKRjSZtSdYLSJPbTK0FjJacSU+L7a9guJWlzeAdHvIiu8Kpzz7KOVOESDCHBYktQ/kTmt
+	c7YgtR/lF1YW5fsfnlvDtrqPMlZ5j7ukl0chhloV6V87xUoCXEZIcWYhrnqTCAFgjFWlEu7n7RG
+	m7bhqdME+rAbkS71W4GjPJPiileArlxI7l518/57gSegvnPpFeP4QspI2KPvinf7EhdxNQ/ccbM
+	Je+pOM6lnniOKmPHc65IL22fNTp6l6a8q01mlowRG1Cxh79wvOB0+9yRFzABV9xIiGRqlJTbYDR
+	QuX0fTdUqSU/cMfAk6Kq6um1QWOU8CSuV++SkkIDLjdmbUOf/HaA5Npvz7tdHKmVARIEpyU5HmZ
+	ApEznftsfCQpi1cRIQom3qKFGt7UbshcI4PbUzA/eBh/ERniEGvlmoxRdXzD2eBWv8N6nj6/VHu
+	Hacg==
+X-Received: by 2002:a05:6000:719:b0:488:88ec:59c3 with SMTP id ffacd0b85a97d-48e5d5b53f4mr9121122f8f.14.1793237926737;
+        Wed, 28 Oct 2026 18:38:46 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-077-007-226-156.77.7.pool.telefonica.de. [77.7.226.156])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8ddasm34154098f8f.48.2026.10.28.18.38.45
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 28 Oct 2026 18:38:46 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	=?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org
+Subject: [PATCH v4 0/2] Documentation: Restore device-ID documentation
+Date: Thu, 29 Oct 2026 02:37:15 +0100
+Message-Id: <cover.1793221199.git.kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,125 +115,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
- <atXjbsDn7DJybsHU@pedro-suse.tail5790ac.ts.net> <atYJA7nIu_RwpoCC@gremlin>
- <auIIxSorX0bhZNZc@gremlin> <auIPRjj2t0BcYlOa@pedro-suse.tail5790ac.ts.net>
-In-Reply-To: <auIPRjj2t0BcYlOa@pedro-suse.tail5790ac.ts.net>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 28 Oct 2026 17:34:38 -0700
-X-Gm-Features: AclHuK9v-C5aWQDQlkF49lUxmcEnZFv5OCriejxPhNjzEUORWR_RPAcdszPg35Y
-Message-ID: <CAJuCfpFVv-t08YGMPR3YHCyiOK4HY-YjMk5rB6tdBa=mq2MvKQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
- mm->mm_lock_seq overflows
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>, Daehyeon Ko <4ncienth@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 8:06=E2=80=AFAM Pedro Falcato <pfalcato@suse.de> wr=
-ote:
->
-> On Wed, Oct 28, 2026 at 03:04:07PM +0000, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Oct 19, 2026 at 01:19:45PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > On Mon, Oct 19, 2026 at 10:53:27AM +0100, Pedro Falcato wrote:
-> > > > On Fri, Oct 16, 2026 at 12:34:33PM +0100, Lorenzo Stoakes (ARM) wro=
-te:
-> > > > I'm concerned by the possible latency when doing this to many VMAs.=
- Do you
-> > > > have any numbers?
-> > >
-> > > No, somebody schloppened a patch for a real issue and I haven't the t=
-ime to do
-> > > even the things I need to do let alone 'here's a new task' stuff :)
-> > >
-> > > However, this is a simple write to every VMA, done at the point the m=
-map write
-> > > lock is held with all VMA write locks dropped.
-> > >
-> > > It was implemented such that:
-> > >
-> > > * No VMA write lock is taken on the VMAs.
-> > > * VMA read locks can proceed.
-> > >
-> > > I.e. it amounts to a loop over VMAs and a write to a field.
-> > >
-> > > I don't think you could possibly do more to reduce latency here, and =
-you
-> > > absolutely have to update this field across the board.
-> > >
-> > > Under any realistic workloads this will occur at worst ~days interval=
-s, often
-> > > far longer, and likely you will see quite some gaps between separate =
-processes
-> > > experiencing it.
-> > >
-> > > There's also an upper bound of vm.max_map_count per-process, so it ca=
-n't explode
-> > > into something truly insane.
-> > >
-> > > Most processes don't have that many VMAs, other than certain steam ga=
-mes :) so
-> > > it's hard to imagine there really would be that much latency here.
-> > >
-> > > And the latency is occurring on one thread, which is performing an mm=
-ap unlock,
-> > > so nobody sane will put that on a hot path.
-> >
-> > Sorry, I forgot about this and didn't get numbers to back this.
-> >
-> > I had an LLM go get numbers on this, all in ms on my threadripper (but =
-numbers
-> > should scale similarly) with fork() + munmap() all VMAs for comparison:
-> >
-> > (all ms)
-> >
-> >       VMAs      reset    reset     fork()     munmap()
-> >                 (warm)   (cold)    (cold)     all VMAs
-> >   --------    -------  -------    -------    ---------
-> >      1,000      0.006    0.041       0.33         0.43
-> >     10,000      0.072    0.36        2.1          4.2
-> >     65,500      0.61     2.4        14.1         33.5 (default)
-> >    262,144      5.3      9.6        60          168
-> >  1,048,000     34.7     39.2       237          691
-> >  4,194,304    162      163         954         2810
-> >
-> > It happens on a random VMA write lock release, so there could be tail
-> > latency, but it'd be tail latency on the scale of ~weeks for normal
-> > workloads, and (assuming max map count reached at default limit) a ~2ms
-> > latency for an operation such as mprotect(), madvise(), mmap() or munma=
-p()
-> > which shouldn't be placed in any situation where the latency of that ca=
-ll
-> > matters.
-> >
-> > One call in 2^31 is the
-> > 99.99999995th percentile, far beyond any latency target anyone measures=
-.
-> >
-> > The amortised time per write-lock cycle is ~18 picoseconds (0.018 ns).
->
-> Thanks, this addresses my concerns :)
+This v4 addresses the duplicate PCI declaration warnings Jonathan
+reported on v3.
 
-Sorry for missing this fix before (due to my vacation) and only now
-finding it. From a quick look it seems correct but I'll spend some
-more time reviewing and testing it.
-Thanks Lorenzo for the fix! I completely overlooked this overflow
-side-effect. And thanks to Liam for flagging it!
+Patch 1 retains Uwe's device-ID documentation restoration. Patch 2
+corrects the Chinese PCI header path and preserves its existing plain
+references. The kernel-doc blocks added in v3 are dropped, with generated
+API documentation deferred to a separate change.
 
->
-> >
-> > Interestingly, the runner observed khugepaged-induced mmap lock stalls =
-of
-> > ~100ms, far far more regularly, which seriously exceeds any of these
-> > numbers, about which I assume we haven't had too much complaint.
->
-> Wow, that's horrible.
->
-> --
-> Pedro
+A focused Sphinx 8.2.3 build with -W includes the complete English and
+Chinese PCI pages together. It reproduces both warnings with v3 and
+passes without warnings after each v4 patch.
+
+Changes since v3:
+  https://lore.kernel.org/r/20260908070031.32833-1-kmehltretter@gmail.com/
+- Move the Chinese PCI changes to patch 2. The five files in patch 1 are
+  unchanged from v3.
+- Clarify the ACPI exclusion in patch 1's commit message using Uwe's
+  explanation to Andy. Only ACPI_DEVICE_CLASS() has kernel-doc in that
+  header.
+- Retain Randy's review and test tags from v2 on patch 1.
+
+Changes since v2:
+  https://lore.kernel.org/r/ede7ce64f20e10660ebf6bc1b41836dad750ae3b.1783349758.git.ukleinek@kernel.org/
+- Use the :file: role in pcmcia/driver.rst (Randy) and explain why acpi.h
+  is excluded.
+
+Documenting struct mei_cl_driver in include/linux/mei_cl_bus.h remains
+a separate follow-up.
+
+Report: https://lore.kernel.org/r/87h5jq8gia.fsf@trenco.lwn.net/
+
+Karl Mehltretter (1):
+  docs/zh_CN: PCI: Update the pci_device_id header reference
+
+Uwe Kleine-König (The Capable Hub) (1):
+  Documentation: Update after split of <linux/mod_devicetable.h>
+
+ Documentation/PCI/pci.rst                     |  2 +-
+ Documentation/driver-api/basics.rst           | 31 +++++++++++++++++--
+ .../driver-api/mei/mei-client-bus.rst         | 12 ++-----
+ Documentation/pcmcia/driver.rst               |  2 +-
+ Documentation/staging/rpmsg.rst               |  2 +-
+ Documentation/translations/zh_CN/PCI/pci.rst  |  2 +-
+ 6 files changed, 36 insertions(+), 15 deletions(-)
+
+base-commit: 5b0764a53235d3c77e1ed674e836e1b3fe1a4b1f
