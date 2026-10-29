@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793263890;
-	b=yliHyHGjVIntkrmUybyrIrLC+aMbZ6VeKAXjcxibA6krflzZIfzkF/QyS33TktEIPmjw
-	 SJ1adHDuq36flESwrHmPWkvmGrLvPHROMOrfeGQkSXFwXepINOldzJGQNdKy9qokh1Lho
-	 eg45tfpglEFxJUbcQlkBYirOz84Cj4YSlSeY4o1os52MvPsTn9N7tkTxRS01FJyAGs8VZ
-	 6LdPTpguEmVDdOrTRTU3fcNeXGOAkQW45e5SzZSOWnYVBYJnqd7o5g++VoUvOXXTFWjOz
-	 y6b6beF/dBin1wSKcS9GFx8mwaEzcPxjWZrfcOZlgHWzqyleDbnm6IxjmEm3O+6zaVg==
+	t=1793263894;
+	b=guBhxvhX76nU0petBlPKuVOrnIu3GyEPBFH6GJ8xTu/4I8Eue/OCxskYQVF44LHIrtWg
+	 nEyvntSEZjQfo4csBcd1d8Wrl9dJrRFIpes0J1h7fLlfV1FkVefbzpC6nqouB3DOUpDkf
+	 RhfM+xMDqaLiWeSjiZAKaWo4tiUjtUoVntLnlMDL4rYar2xOq7yekSoGbIHPqf4kWAFKC
+	 pPv3321RV8RU4EOBYKNwfwa0mfFoYlnDvNuwxLBzZWYvsY3BrVPDCBIy41nP7fmhTRGD+
+	 VLI7p6zgkWKYqNBsu0TyCBHIH0OZLjIu4eUj3v1EWFA78DAYd4n/4Bj7kJH7lirrBUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793263890;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793263894;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-	b=uspvyOGw7XJBhNy49/d97fyC2j88kLseKZiuPqzEGHxdIIWec+1dwntdCwtdQS1a1qtM
-	 NlSQ5n6mBHNvjkHBPm4EnMnnOCEbQHVLxou3sFEEl9lb61NXz+RH+zS3FG0UdR6G0sToT
-	 tnp86jNPgRsUsR0uWLfAMk/8/M14Drtc3ccaMFnT/QsY+ivsgqmmVGE0qgtxhl++Hk0ns
-	 u7V3QmwzTwr7JgmIrPgxaqBeOcSwK8c2cWnHsqq3TPFiagy/7zcYq1zQTTD3yMJI58t1v
-	 hRMIim+EKBCtgoGJQSn0h0eAzHVG2tbRSDmJqrYL+8FlUbYGnyTDstuKfDIvnkOmn0w==
+	bh=Rpn8KYcVL0EiT/FmqIaIfPQD2S7vrJUUAZEWCZQOS5g=;
+	b=KyU0Pa0Q3H/gem9e0ifY0qW7ItvFcSmuXtcs825LkgFAq1XuiC0Ib/mlr9l9vcUfvy0p
+	 EFlEPb/kn8v6vPtsxdKyqDO28hN4C6hniv325hmVcddzUwkZYFJdENKc1nSkbxHE1xqQh
+	 oq9sGgNZDNWwKWh8opc0SX6/pcsS8ypQii3CiueWkHyn0j3Az0Uuvw5PfuGUgFeWnr0Rd
+	 syUzoflGWgyWZ1lLmWskSni18Q1MCD+dPeEGoHQ6aWZW1PEEZyFJgw2uNd/HYxvbrEV/3
+	 X5+VWrId3i36vrUgmYuQKL/9h+QbldZlBRlPjfK2j/LaZxn3NxH1H+/cjelYCCKnskw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qwmoa4L+;
-	arc=none smtp.remote-ip=209.85.214.182
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bvJ1VIma;
+	arc=none smtp.remote-ip=209.85.214.173
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126B2606A32C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:51:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 126B2606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B52360A2625
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:51:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B52360A2625
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qwmoa4L+
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e987a2ba0cso11715725ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:51:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bvJ1VIma
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e9f6a16aedso12149735ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793263889; x=1793868689; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793263893; x=1793868693; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-        b=qwmoa4L+HNj5Q0fRNwQ9fO7IO1jY8UDZ4AzzzoGERhLqXvirZSUk4RvHLE3pEQjGND
-         72sBMqdzJpub03Vemg/+JbXq4B0KN1WOnz8sbPTLmag5Qc2vxxXtLSMXuBhWH5h+sOm4
-         ufXDOhG2fUyB6uT6AHC0jpODcP+nyc9TO4DJtV0SsDHktIlwGREbiUxzmUggQYmQYsCn
-         GT1SwxqFniTQSeNc/R2FxtmabHtV7neWsR0cbB6vr2Jp3GfJjdwLp0KL21O0HMRVD9yb
-         wYMm+daKpWullHSqYNh9Ugruc0C3NfUslQpOrLfZxY3nGRqhD6GsI2ilQMGKKwf8BJaJ
-         CabA==
+        bh=Rpn8KYcVL0EiT/FmqIaIfPQD2S7vrJUUAZEWCZQOS5g=;
+        b=bvJ1VIma1OiTv5lG1edzSyTUoKeiO/HTSrjF4O9r4Gk0k9oKrUoIVDghi+I82FSo7l
+         26l0DhKi2nwdH4FZ07YXMfnWywP4jLqK3VMe8kXpL7w9jkvfG4UD16MhTEtlLtj2l3h6
+         ksgSv1Hqm4yIJXZXG4AQRnNO+38NAEjDGDsNQhBW5/zbhL2YWfNjCoT3xefLJHGK7TQ8
+         XT0ZvEejdzK6aE8jnAmzFu+MlbNNpBXQnxLY8SRGPlVWktPooUpw10zqETYnC/VinpN/
+         o4qvybIfaryAC9w5mHL2nNMet+O0AWQQPaQYEQOGVkUHdlvI1BAkyEJQEK7t8yk1PREp
+         MV7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793263889; x=1793868689;
+        d=1e100.net; s=20260707; t=1793263893; x=1793868693;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-        b=ir7cTWMy/mh80k4vhK9f8MlpOsXWgqkymHXlJeh8zjYsgqiPwinzE0eGvV8xi+jVgy
-         4MGL/mmmyrwVHr4ntzGyIK97Hu0tS0uiEmKW2CNSlhmErzkPC5u5R+yEinw+Fgux3ofM
-         ajB3WHeVhzEvzl/3fM6n5o+pTQKm7p6Bs7bca0hwKKxm2+y8ffNXx0U4NWWte5n05zvE
-         szHSCJqriwdfguZFI8YuKBXL4710hVzJx9XpEQhDm5JQFKQr295ThKlnAp6q769umDoO
-         7YfeKwDC1sRWgQJiWRPgYDySZVmWorrbwSxQvxcDE20KZ8DMxt3ArTrWnmTHpxvRRV/O
-         1DPg==
-X-Forwarded-Encrypted: i=1; AKwUvBz8aksJLQk2+KVarfNAkatfNmkMLzJfBWG2y6wPrViErKN/WI+IsC/rB4gE28DctPZmJPB3smceL28=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLMsenOjxjNvb71HPbTE7/4dGdd1g3d/9f0W9UrzVZfgDMSgYC/
-	EoTjQly5CmVMKy8OmWs7caBPHIkUoD62m+CgL/Q/mWlU55l/hq7ha8Z3
-X-Gm-Gg: AYBFou3Sr/SjtYMuAG3Tr6VgmTyaQX02qDKDdligOPYO/5qv/jR8/iwNiU8k7eEBYE2
-	Qjdh6//KkavaHmVIgj73B5t9MYBkpp6SqDWa+60vKZSBeMUI2dbDIQ5j2Bj24V2ZETgWayRByS0
-	mx33TdJQxszRI59MCy+hX1gQrVczm9DRuiw1HGPBD1WczICEAgybHQVQTkgSenj7JkWPzehl6El
-	EtZhtSGh/Jl/bDWXH+s0xSWuBgmoQfHAhg+dJefPwwS6siydFuNm05kXg/NRV4iH/1NO+2p4CbR
-	1hlMqiA8mFpeRIIEmBz6XzeUX2rvK3ev9qxBJrYMPQm5dS8HzDI8HdbeFnfigTF8S8ZPWCrojvs
-	uf30EbkMcKJbMqWvNg5ADoFrZLMYDe9tGrFJDCgWOMuah065c7amGpVtQRl1q/JLz8ZAWMOWfAo
-	ASHOOkHCAaoKFAdOdoEaGnV7L6KbtCT0pIQHiW69EPasSOBV0AP/TrhSt1Xn5bRDAnKbYDT9CK7
-	uLSADnqxBt/l8EkVRw/ovQisiNet8BX0c/DGXrqALs96ztE17aQQvCqYYfgo8K9+/FM9KVsJiqO
-	KHwbr9yMf6zkPwSRleW+A11tpAdloIcpOp0OMbLXqBrAp2N8AMEJnTBhzPyk9/lfPr/QMaTaWmw
-	5jJLRZuihZSU154iTCzCDOUYQW8qvrngogl0pymXN1g==
-X-Received: by 2002:a17:902:f68c:b0:2e5:cf96:9340 with SMTP id d9443c01a7336-2eb00338bb4mr39809965ad.18.1793263889488;
-        Thu, 29 Oct 2026 01:51:29 -0700 (PDT)
+        bh=Rpn8KYcVL0EiT/FmqIaIfPQD2S7vrJUUAZEWCZQOS5g=;
+        b=yzQ69n4+aklCSMlC5O3ap9ajdCT1awj6xkLYECD7Dxt0eaBnVCN4mE91Njpy9Fz3hb
+         DMv5WmPsJKYR67pfiFYd7AfIuoIn6WjT1tmUTwox0HzQY/7ya8XyDsvl2dnCQtc02LaI
+         aSFgJD8QkiH9GV8tfPnJdfmNKgPP2c05V0c1RBf+Z71VjcNfk33AGEg59ofOT5Xy5Qt7
+         NCTfsoOKg2PmweHnAvQKm7aNBz0EfUHD/N3dSfQLCrNlVe3BOL5k0I8pHEVNzBuegDHY
+         6NynL5ZpFq2EBTjB0Z0WtkmGuzQ6/ksEuwwV6MDUXxef0Vb+DIDvcPg4lQUdEaSAf3pc
+         S62Q==
+X-Forwarded-Encrypted: i=1; AKwUvByiuAL/IXoir1Uymu/DfPpdLO+ZEHUYTxIwbI5JjOu00OI/j1WivkbLNgCmuKooDB6EBkFOJTw4hRo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKXENKP883h2K0UqoCVn8MurgWkz3MhJ6sMvkaVJOAd9IbWFFvM
+	nRaVwWsUkZg75k7Jz+3j+oeawq+VQmbpb8Zz2l73zsrGxGqplP/LjDC9
+X-Gm-Gg: AYBFou1ETwqb62xcNIXD3k46M+K3f9GgOYYcFGeTgCCFW+bdViIh04MlVYl7+STZ7Oe
+	ljWfrUOtYnx7brs0wclp5T+7Btd88cIBAeOVfL0grDZXaL7FVm/LrvDI2PuDVnGjLH0EYvHScPd
+	2VDyLSSmSFnEwgCVo0YnG/3QQJCYPkAwms4+jts9lgEpukho2lJh/3qvp/ynW2bm4n6bj47E732
+	Z+wfOeHyB2QNSz7vbrIox6shEwk6EDea+QULwW9tGOMtJxJVlIi0FiwFhmKpZPL6cUNubH9UMSq
+	F4wHzU6QSs1zRTL0Xaxrqx2CiZZrpinCutSZTPeJkBL4eNTeUmGnKjC1ocOi/mo03RnWIgoFsyT
+	oDBhX+UMTY/9OcICRpFXsF6oPhaEM91ZPkzlLNkW/10zTPjQbJidVt0sFzJQdxw5Tf+N4aYfj7h
+	+2XhQYECZ7bmi/zuNMo1Gm2+BiRGNajVtn8Z9adf6I5udycKPK7/BdfncU9KvlMWHdfPisXwi9E
+	IleK+5PjEZTo1vX/7KIJ1bkWgZPe9ikgH2DGNaoA0KjVtfV8AuSJKle2CUVFQdfPNtFHzESmmzl
+	o6t4DjTawqRRoh/onMSoaqDukwQ0DWoiVYr6KTsbhICe9HzJy1jmHrNqm0iDWCi3otgcTc+AxoQ
+	9i2olVQvleOQNaw/04esIWMs3mBde/HX6t6/e+7WERg==
+X-Received: by 2002:a17:902:c40a:b0:2e2:d02d:a173 with SMTP id d9443c01a7336-2eb00542986mr43647935ad.49.1793263893503;
+        Thu, 29 Oct 2026 01:51:33 -0700 (PDT)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6bddae0sm29991205ad.35.2026.10.29.01.51.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6bddae0sm29991205ad.35.2026.10.29.01.51.29
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 29 Oct 2026 01:51:28 -0700 (PDT)
+        Thu, 29 Oct 2026 01:51:33 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
@@ -92,9 +92,9 @@ Cc: tiwai@suse.de,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v9 11/14] docs: describe virtio-sound capture options
-Date: Thu, 29 Oct 2026 17:50:29 +0900
-Message-ID: <20261029085032.70689-12-mynameisjune111@gmail.com>
+Subject: [PATCH v9 12/14] ALSA: pcm: add an optional reset operation under the stream lock
+Date: Thu, 29 Oct 2026 17:50:30 +0900
+Message-ID: <20261029085032.70689-13-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261029085032.70689-1-mynameisjune111@gmail.com>
 References: <20261029085032.70689-1-mynameisjune111@gmail.com>
@@ -109,52 +109,160 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the five opt-in capture module parameters introduced by this
-series. All default to false. Describe the startup-empty, short-payload,
-packed-status and pause-restart compatibility behavior alongside staging,
-and require validation with the target device.
+A driver may need to synchronize private capture accounting with the
+common RESET pointer observation and the core's position rebase.
+
+Add an optional reset operation called under the member's stream lock.
+Expose snd_pcm_lib_reset() so the callback can retain common pointer and
+time handling. On zero return the core completes that member's rebase
+before unlocking it. Drivers without the callback retain the ioctl path.
+The operation is also used after a successful prepare.
+
+Zero permits the position rebase; it does not promise XRUN recovery.
+A negative return skips the core rebase, so a callback returning an error
+must leave coherent pointer state even after partial work.
+
+Linked RESET and prepare stop at the first error without rollback.
+Earlier callback members may already have completed. Legacy members keep
+the existing post_action policy. Applications must recover the group
+after partial failure before relying on shared positions.
+
+This adds an internal kernel operation and no userspace ioctl or layout.
+Out-of-tree modules using snd_pcm_ops need to be rebuilt.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8328,6 +8328,36 @@
- 			brightness level.
- 			default: 1
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -77,6 +77,26 @@
+ 			     unsigned long offset);
+ 	int (*mmap)(struct snd_pcm_substream *substream, struct vm_area_struct *vma);
+ 	int (*ack)(struct snd_pcm_substream *substream);
++	/*
++	 * Optional RESET operation, also used after a successful prepare.
++	 * Called with this substream's PCM lock held; atomic streams must not
++	 * sleep. Do not reacquire the PCM lock through snd_pcm_lib_ioctl().
++	 * snd_pcm_lib_reset() provides the common pointer update under this
++	 * lock. The core completes the position and appl_ptr rebase before
++	 * unlocking a successful member.
++	 *
++	 * Return zero to let the core complete the position rebase. As with
++	 * the legacy RESET ioctl, zero does not guarantee recovery from XRUN;
++	 * callers must still handle the stream state and subsequent I/O errors.
++	 * On a negative return the core does not finish the rebase, so the
++	 * callback must leave coherent pointer state even after partial work.
++	 *
++	 * Linked RESET/prepare
++	 * stops at the first error without rollback. Earlier callback members
++	 * retain their completed reset; legacy members retain the existing
++	 * post_action policy. An error does not guarantee unchanged state.
++	 */
++	int (*reset)(struct snd_pcm_substream *substream);
+ };
  
-+	virtio_snd.capture_allow_empty= [HW,SOUND]
-+			Retry a bounded number of empty startup capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,SOUND]
-+			Accept non-empty, frame-aligned short capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,SOUND]
-+			Read status immediately after the returned capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,SOUND]
-+			Release and reprepare capture streams across pause.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,SOUND]
-+			Use request-owned buffers for capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
- 	virtio_mmio.device=
- 			[VMMIO] Memory mapped virtio (platform) device.
+ /*
+@@ -1179,6 +1199,7 @@
+ {
+ 	substream->runtime->std_sync_id = true;
+ }
++int snd_pcm_lib_reset(struct snd_pcm_substream *substream);
+ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+ 		      unsigned int cmd, void *arg);                      
+ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -1760,20 +1760,39 @@
+ }
+ EXPORT_SYMBOL(snd_pcm_hw_params_bits);
  
+-static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
+-				   void *arg)
++/**
++ * snd_pcm_lib_reset - Reset the pointer while holding the PCM stream lock
++ * @substream: PCM substream
++ *
++ * Context: PCM stream lock held. The caller must not hold driver locks
++ * acquired by the pointer or XRUN callbacks.
++ *
++ * Update a running stream through the ordinary pointer path. Other states
++ * start at zero. Pointer errors keep the existing RESET return semantics;
++ * a zero return does not imply recovery from XRUN.
++ * This helper does not update appl_ptr or acquire the stream lock.
++ *
++ * Return: zero.
++ */
++int snd_pcm_lib_reset(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 
+-	guard(pcm_stream_lock_irqsave)(substream);
+-	if (snd_pcm_running(substream) &&
+-	    snd_pcm_update_hw_ptr(substream) >= 0)
++	if (snd_pcm_running(substream) && snd_pcm_update_hw_ptr(substream) >= 0)
+ 		runtime->status->hw_ptr %= runtime->buffer_size;
+ 	else {
+ 		runtime->status->hw_ptr = 0;
+ 		runtime->hw_ptr_wrap = 0;
+ 	}
+ 	return 0;
++}
++EXPORT_SYMBOL(snd_pcm_lib_reset);
++
++static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
++				   void *arg)
++{
++	guard(pcm_stream_lock_irqsave)(substream);
++	return snd_pcm_lib_reset(substream);
+ }
+ 
+ static int snd_pcm_lib_ioctl_channel_info(struct snd_pcm_substream *substream,
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1988,7 +1988,31 @@
+ 			    snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+-	int err = snd_pcm_ops_ioctl(substream, SNDRV_PCM_IOCTL1_RESET, NULL);
++	int err;
++
++	if (substream->ops->reset) {
++		/*
++		 * Complete this member before releasing its PCM lock. A later
++		 * linked member may fail; RESET has no group rollback operation.
++		 */
++		guard(pcm_stream_lock_irq)(substream);
++
++		err = substream->ops->reset(substream);
++		if (err < 0)
++			return err;
++		runtime->hw_ptr_base = 0;
++		runtime->hw_ptr_interrupt = runtime->status->hw_ptr -
++			runtime->status->hw_ptr % runtime->period_size;
++		runtime->silence_start = runtime->status->hw_ptr;
++		runtime->silence_filled = 0;
++		runtime->control->appl_ptr = runtime->status->hw_ptr;
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
++		    runtime->silence_size > 0)
++			snd_pcm_playback_silence(substream, ULONG_MAX);
++		return 0;
++	}
++
++	err = snd_pcm_ops_ioctl(substream, SNDRV_PCM_IOCTL1_RESET, NULL);
+ 	if (err < 0)
+ 		return err;
+ 	guard(pcm_stream_lock_irq)(substream);
+@@ -2004,6 +2028,9 @@
+ 			       snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++
++	if (substream->ops->reset)
++		return;
+ 	guard(pcm_stream_lock_irq)(substream);
+ 	runtime->control->appl_ptr = runtime->status->hw_ptr;
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
