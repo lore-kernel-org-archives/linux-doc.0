@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.134
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245305;
-	b=nu82js4jOCGBCzOL+fIdkplqCF5GRuc1kz0J2jjEP4jbkGDSKW58uqKbILJpTcBDUFrW
-	 s8lNhTZvAsMxCId1GetfqtCY4BlDG2JS/F4cLjX4gVWRr7fgu6FwMnahk92QTK0GfjutT
-	 TKRditNSGg3C9R7FNrA/7jGmye4T6ZOKyFnQZWj0sPT3mKKiN/Cwijdg6u0IlZczubuj4
-	 i8C1dddF5DxX3eVyNh0xosSidhjadMbcSJpN7JvisYCPFaCpZgRa/tcWTEEzuFBRUpJ61
-	 F9efX/4vAWSnyAvV+/oBh9vGCR340/H+NwL2JY87IYwDmHdd0oY2jlwgN+u08/FnKMA==
+	t=1793245905;
+	b=sAY2ICFg9bPzNr8cQdJRVOr0+Nl3A2y3oWi2udS44S1uo9/KkWKHechHTV74wpZmq/ee
+	 YbWOkDoLx56KRzo86uj7EUwMXS402aKmtmOBaqVIkvrMRmMwYpfUP8QL7CSdjG7v87oO/
+	 HHfuLbCEkNDw9M4wMYy023hMlNqh4t+3GYUWnOkReH5YLRgS76WXlvVf+wTmUlRLd7T6B
+	 cvNfza5CX/bvi5nInvvDwxJfDRwdeqcb5KDS5+yfsliGXyn9+DHpDFZh0U5W/8vnIGWob
+	 Rrl4ycN3Q6ZskNxNgIIAxlu8CHgfRZO/0cp7t4OnZVm9iSeiiquXcUkjsAZrRZakaPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245305;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793245905;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=SfpksgeRXYSviYFeyWHR5mqkoXxAslF2D1vkefSL3uw=;
-	b=EAtlmB0ONln7LeXCIRDE8+F+Yh2CjzZ4rc7c8HNVbf0XL7e+Q8kWwsCOs7BLqy2VHZ9q
-	 xVY5if9l1qA7i1E0SxGPCSo3Li5UzDzs+PKVroPUGeuiACqffhoGJk0FIv+kxhHzcUMvl
-	 +hiG5jXxz+Tg1UmYzFhU+515AiJl/MQ+6N5vevWgx6S4Qa7ydbg6gpKqRVgd0iTQDyPuW
-	 gJi15uBa3V2P0CKpUx4kaFx8ZKTNNJBxkv+1uatIYliYAuhHTLfsekomkvuJSf4tATIlv
-	 jT0o1hewqRJjPiJQ4wFTH/OOax958k+laCiyCBizS8AdGgn7LOCrVUSC9Co2v9nFvnA==
+	bh=YXfmsX/yQpRThvRvFibuXD3vPcTXDbmM4UJssVVOAKc=;
+	b=1j9q7Ks9nQ0YlVssIfeeVTuaYg6FRuSoTV4Sta7FhRhsI5eImU9tjFLOOewsbQnvAkw/
+	 HJqUdcocmluQ6IxPkGFxPLNy3Yme61RQbf98/RZ5HLkLBgNalMPKoQyPlUiVOyLZhpiqH
+	 pl7S8RKaPZ+LO++tGpXP871P4fHxEd4DZjPwjo+57nfD1ScFUqz7dJTF6RazXc01gWQNG
+	 jRn2Y35H3eL/3IcHuVpvLDNlVe6hm04cuhR5HvKkRqLRAjry5ncSm+PgBHTUJBN3+8jzU
+	 F741a7nXoHEfVYxGjPi96MoG6wpnjnXQQv2gYsbQj1Gxi5THYisCzfH4F3VtoURuExQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NxV2zbRI;
-	arc=none smtp.remote-ip=95.215.58.134
-Received: from mta1.migadu.com (out-134.mta1.migadu.com [95.215.58.134])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=kKimkzyM;
+	arc=none smtp.remote-ip=95.215.58.101
+Received: from mta1.migadu.com (out-101.mta1.migadu.com [95.215.58.101])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A01606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:41:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69A01606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566FF606A31E
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 566FF606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NxV2zbRI
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=kKimkzyM
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=SfpksgeRXYSviYFeyWHR5mqkoXxAslF2D1vkefSL3uw=;
+DKIM-Signature: a=rsa-sha256; bh=716xbJigIsWZtYo06Vb5k1w3O79is5fyZrfOLJIQCDQ=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793245302; v=1; x=1793850102;
- b=NxV2zbRImUBwLKbaCg/zWhoTSvWR2eSfQzp5or3rZukb97Uuetb23hfqkeJZqlF/85Uv7SQV
- 14s70j8cLPyw9jp/T7OE1W8F9ax2XsvgOtzbsLJ+K8zxGU3m0hjhT/SGpjNMU8Qv+D01RB5EhgF
- NXXHqIlq3oU27FdrMaowEbaY=
+ t=1793245901; v=1; x=1793850701;
+ b=kKimkzyMPeC7s5+fbgeXF8tpg/Q20CMWuvnl55Scox90nZ4dUkgyeG+w0oApM+0nWA4fRHkg
+ q/pfBgaWt9rb3eD6HUd7Wny2AINRQQZRfUAHY9eATkwakdCHmJE5s3+3NeXmKraZBCz+10zFbr1
+ 2tzeKUEeN5Os5kX7uiceRtZA=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id dc9967750c407019;
-	Thu, 29 Oct 2026 03:41:42 +0000
-X-Mizu-Trace-ID: dc9967750c407019
+Received: by mta10.migadu.com with ESMTPS id 718d34fddc079b55;
+	Thu, 29 Oct 2026 03:51:40 +0000
+X-Mizu-Trace-ID: 718d34fddc079b55
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,11 +58,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 03/15] mm/hugetlb: preserve reservations when shrinking on
- HIGHMEM
+Subject: Re: [PATCH 05/15] mm/hugetlb: keep surplus folios when the pool
+ shrinks
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-3-a0a033db180f@kernel.org>
-Date: Thu, 29 Oct 2026 11:41:12 +0800
+In-Reply-To: <20261028-fixes_hugetlb-v1-5-a0a033db180f@kernel.org>
+Date: Thu, 29 Oct 2026 11:51:13 +0800
 Cc: Oscar Salvador <osalvador@suse.de>,
  Naoya Horiguchi <nao.horiguchi@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -101,11 +101,13 @@ Cc: Oscar Salvador <osalvador@suse.de>,
  Gerd Hoffmann <kraxel@redhat.com>,
  linux-doc@vger.kernel.org,
  linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org
+ linux-s390@vger.kernel.org,
+ Josef Bacik <josef@toxicpanda.com>,
+ stable@kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A4D91A63-87BD-4BFA-A12B-22A8513A496F@linux.dev>
+Message-Id: <8DF234F5-8EAF-427C-928C-8DD6E53FC501@linux.dev>
 References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-3-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-5-a0a033db180f@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.100.1.1.12)
 
@@ -114,20 +116,45 @@ X-Mailer: Apple Mail (2.3901.100.1.1.12)
 > On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> try_to_free_low() drops the hugetlb_lock while freeing lowmem folios.
-> set_max_huge_pages() then resumes freeing folios using the
-> min_count computed before that unlock. Reservations created in between
-> can consequently lose their backing.
+> From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> Collect lowmem folios on the caller's existing page_list instead. Keep
-> the hugetlb_lock held through both selection passes, and free the =
-combined
-> list at the caller's existing unlock point.
+> Surplus folios are accounted per node. When shrinking the pool,
+> set_max_huge_pages() removes free folios through
+> remove_pool_hugetlb_folio() and accounts them as persistent folios.
 >=20
-> Likely not stable-worthy.
+> It can select a node whose folios are all surplus and leave its =
+surplus
+> count larger than its total count. Free surplus folios can back
+> reservations created by gather_surplus_pages().
 >=20
-> Fixes: 1121828a0c21 ("hugetlb: call update_and_free_page without =
-hugetlb_lock")
+> For example, with nr_overcommit_hugepages =3D 8 on two nodes:
+>=20
+>  (node columns show total/free/surplus)
+>=20
+>                                      total free surp   node0   node1
+>  mmap() of one page, bound to node 0     1    1    1   1 1 1   0 0 0
+>  node1/nr_hugepages =3D 7                  8    8    1   1 1 1   7 7 0
+>  nr_hugepages =3D 6                        7    7    1   0 0 1   7 7 0
+>  munmap()                                7    7    1   0 0 1   7 7 0
+>  nr_hugepages =3D 0                        1    1    1   0 0 1   1 1 0
+>=20
+> After shrinking to six persistent folios, node 0 has no folios but its
+> surplus count is still one. Releasing the reservation cannot clear =
+that
+> count, and shrinking the pool to zero leaves one free page on node 1.
+>=20
+> A later write to node0/nr_hugepages underflows the unsigned per-node
+> persistent count: 0 - 1, resulting in allocation of many folios.
+>=20
+> Use persistent_huge_pages_node() to skip nodes with no persistent =
+folios,
+> as adjust_pool_surplus() does. This also excludes temporary folios.
+>=20
+> Fixes: e4e574b767ba ("hugetlb: Try to grow hugetlb pool for MAP_SHARED =
+mappings")
+> Cc: stable@kernel.org
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> [ david: cleanup code and description ]
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Acked-by: Muchun Song <muchun.song@linux.dev>
