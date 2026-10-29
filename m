@@ -1,55 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793307781;
-	b=VzChL9lwWClrhe7DCkYOwAb5QtQfldHfLXGSQRdnP4KNeCcabYxMIh74VODfumkS851q
-	 H39rTZQVQg2trcGsqxXKH4JyX+DlgXsoputUND1oG4AipA4YzwF3A6Z7cA7hQ/MsDTuig
-	 bqAK/sXvy3SgOCpjZd01c8yl49TZaLRqC2DOsw7sV/oScWOiB39ZoFim8Vp702Zgdz5HG
-	 +6npyf8L2PuF69klD88ANPvVXCrVp+wNuVIsX1yKDoLQ5D3BGYuERBKhJBlWXniv089mq
-	 O+RZjlF27mZ1OxSfsfaeUjedY1Y9gKB2Y0bnUQYmA9FpFy2bT3Ck22SapDAWXVAOUZQ==
+	t=1793309664;
+	b=VCpRy9FUW3W0C7suqx4OEIclvf16dY13MEcZUEVqHSZLhkf1MwmdTfw1UoLolQtX/iC4
+	 rEsRPq0xhqMAs/NLsY3z3+JXSwWLpr9VdV+M+IZcSuC/z7l0vK14fXH6XiQuQv40w+squ
+	 qaZ64I1CLl7LRk1Y1GFklh9BG95zDrG+zWAliCU5Co8tnaazqebki37AWhN7paGgZvaue
+	 vjR2pucbsOX0CHvJq9tKLAC7vd5+H1dgr33FGVDxwxA1jIo3znBLtZdkCm23sIizmk/FP
+	 YRGE6Ky6eH3PJmdQV5ScMHHxk8uaqzA1yNBoS/3HD/eDe2vFrpYH8OA105vYtmTUvTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793307781;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=pFdMJCwen6N9JrBbr+moXA8rlsyaQPsNKoYeVLEHUfA=;
-	b=x7cQmrByFNzxqzFidVx/Gnrq2hy0OkGN05W1ipRJO1tyQK1ygLGDx+p72aqbVJ8Xao8l
-	 Z5fblCynu6aLAxoiM7A+3ub+q20drqOpuOqmWWNaU2iIZO33JGca2P5crJkkKuNh93jrE
-	 wsjvEVSLzlYKCx+BCdPK0oO52RkNr4FIw3eLnji3Pkz14afTWUvQrPndIGAwia2IKNAkg
-	 bRiUG2uLbMuMoYqBj5ovb2H9rHRsiNtXdxtSY33ssZZwl/xbbUf5B61xfJZSAAeprQw/Z
-	 EoojcugPCmspQbB36LwBJV816UXDnDXdLQDJ21TvkvhemqVNZMHocE5orW8irTV9+cg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793309664;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=vsTgvTJ67UmXZNnV62IYb7BaAYlbsR7gCdAiI5k6ouI=;
+	b=3qbFo05R8jN8SY27oBIgmUMLG8h9ZmtuTbuIh1u4Qh1Tg1sYH9laOgo91Yf+9AikGSNf
+	 vQJkIoRoL9q+XJHi0AELuGgHOKzSwuvzg1tns5VNk9tVzLrSqccW6EJa+VbO0oCeDgfrn
+	 Ln8+u60g4A9gw+53RrzLt5bNus8lywowT/qDSCgNG6/0lCp5k4iMasomfVuQevdndG/UC
+	 UK31HWZ/gr64q8xSu8wVMSBIlVA8F1tdNPBbyis8/ChnbsN8n2G6as705gjsTLsSEJQTp
+	 mtrPT+FFjYK8h1V66vfHGcpbYrK4sQDGEiSe9SX+Gq4lKaKtA4ESBvaxrUJFaBoRr0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cUxhcSPi;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712C1606B7FE
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 21:03:01 +0000 (UTC)
+	dmarc=pass header.from=linux.microsoft.com;
+	spf=pass smtp.mailfrom=linux.microsoft.com;
+	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rzKAgOP2;
+	arc=none smtp.remote-ip=13.77.154.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A05606A31A;
+	Thu, 29 Oct 2026 21:34:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62A05606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cUxhcSPi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF0F1F0146E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 21:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793307781;
-	bh=pFdMJCwen6N9JrBbr+moXA8rlsyaQPsNKoYeVLEHUfA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cUxhcSPi/tITdJen6fvOKkVtsXBb2MCcrCpPnkgTOWvdakP0TbT0tYFgdo2A0VH9v
-	 Hhev/qm82oNN/H428O0soZv6TAmZb5OkNu0eTQXCKwgciEzMkLgaeFq2H1hyC9HOEh
-	 zjXUmVuo1pAa6yVNj0RkvexznWCRRO0SiIvY6Ss2TYPlutNrh96KrtdOzQ2o2PjiGU
-	 kWQ8BmBGS80kgIVrug2jckdtW6b1a3J1pwBoVZKEmZPgY0yU9zbR/XyzRYFthrnA6l
-	 DAFHNiyHUJgM0MAvCAqnQ8p4U5hLyvOV0QXmsGvGy1Z2sYlop4zOl0rcwzYd1Nlx0J
-	 oXfMA5s5v6bKw==
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93e503815adso234926185a.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:03:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBymeQxht1I8HZP8hOgUrkM/aNVBrsDbSCPlWrjb3r5rpjN3R/rXZqdzJB3nuJ19eeVx2DWzvsz353M=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJyRcGcQRgdNnmllILeHtjnYoxXPEbcvq/2eUpFQpVFZcoBZnre
-	jPFgsCFBsGmpSRsBhUhJeLn3gS9qLcNzp+AMzYlwZzwGWO7Ruc+pZRFmi9UVI7c/U2qg8Aqy5Sy
-	zXLs5iBNVsCqQWHK/tqYrg5+FxEXLcls=
-X-Received: by 2002:a05:620a:439f:b0:939:b099:d52f with SMTP id
- af79cd13be357-9442171b930mr72138385a.20.1793307780343; Thu, 29 Oct 2026
- 14:03:00 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=rzKAgOP2
+Received: by linux.microsoft.com (Postfix, from userid 1216)
+	id 7774320B7166; Thu, 29 Oct 2026 14:34:06 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7774320B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1793309646;
+	bh=vsTgvTJ67UmXZNnV62IYb7BaAYlbsR7gCdAiI5k6ouI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rzKAgOP2FOkAwxZEUfZYjZPjAEnIHtrWND4Oli8t+mGeEtpAThpOf+ogdeif4bBMW
+	 qkOlIHJ42ZjllZreQPUIoknfukvcFfD0YZNRKWsp2QCruCud1JOjb/HaaTpEJQxt7l
+	 3T5nTRckT7elrDuand5sHNL1B3a9RztdeKx7W2V8=
+Date: Thu, 29 Oct 2026 17:34:06 -0400
+From: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org
+Cc: Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices
+ on a root bus
+Message-ID: <auO7zt6EtXiNUZP3@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,101 +64,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028010611.3929937-1-tjmercier@google.com>
- <20261028010611.3929937-3-tjmercier@google.com> <auHMXBwnwuRwHLmo@KASONG-MC4>
- <CAGsJ_4zuGRjH+=1JxH4BYEC-vJumKjkhXPse0jW_nKEzQXXVmg@mail.gmail.com> <CABdmKX1PvZjnJkqD48_Pb64Je_oZVO3F-oaxMsBYzHmY-GjbDQ@mail.gmail.com>
-In-Reply-To: <CABdmKX1PvZjnJkqD48_Pb64Je_oZVO3F-oaxMsBYzHmY-GjbDQ@mail.gmail.com>
-From: Barry Song <baohua@kernel.org>
-Date: Fri, 30 Oct 2026 05:02:49 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4xggGnAhguPkCJ5k08v3QYKUv07_MhF-acXdBczMAEpdA@mail.gmail.com>
-X-Gm-Features: AclHuK9dc7QMnH9xT-OkQ4nOME9fLgwIUxGnHM4PmofBeJVL-x30ExOe2tYWoAE
-Message-ID: <CAGsJ_4xggGnAhguPkCJ5k08v3QYKUv07_MhF-acXdBczMAEpdA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/mglru: stop rotating offlined memcgs to the old generation
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Kairui Song <ryncsn@gmail.com>, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Kairui Song <kasong@tencent.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
 
-On Thu, Oct 29, 2026 at 5:22=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
-[...]
-> > > > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > > > index 636152d8c94d..45a2c1021f4f 100644
-> > > > --- a/mm/vmscan.c
-> > > > +++ b/mm/vmscan.c
-> > > > @@ -4538,7 +4538,6 @@ bool lru_gen_look_around(struct page_vma_mapp=
-ed_walk *pvmw, unsigned int nr)
-> > > >  enum {
-> > > >       MEMCG_LRU_NOP,
-> > > >       MEMCG_LRU_TAIL,
-> > > > -     MEMCG_LRU_OLD,
-> > > >       MEMCG_LRU_YOUNG,
-> > > >  };
-> > >
-> > > I think there could be other usage of this LRU_OLD macro, but indeed
-> > > offline is the only user currently, removing it is cleaner.
-> >
-> > I'm imagining an Android use case where, after LMKD or similar
-> > userspace killers implemented by various OEMs kill an application,
-> > we may want to prioritize reclaiming its memory by making it more
-> > likely to be scanned and reclaimed, while the killed application's
-> > memcg still exists - not offlined.
->
-> I think it's an idea worth investigating. I had a similar idea which
-> is proactive instead of depending on reclaim hints. The code is behind
-> a currently inactive flag - it runs memory.reclaim on an application
-> cgroup before offlining it (so no zombie or reparenting), but I
-> haven't had time to properly test it yet.
-> https://cs.android.com/android/platform/superproject/+/android-latest-rel=
-ease:system/core/libprocessgroup/include_platform/processgroup/processgroup=
-_platform.h;drc=3D2ed7b05ab42dd67391ad2819b0ee399d89128ead;l=3D33-34
+Hi Bjorn,
 
-Thanks! I know Minchan Kim has explored something
-similar: releasing exclusive file memory when processes exit:
-https://lore.kernel.org/linux-mm/20260421230239.172582-1-minchan@kernel.org=
-/
+On Fri, Oct 16, 2026 at 07:59:39PM -0400, Hamza Mahfooz wrote:
+> The "bus" reset method resets a device by asserting Secondary Bus Reset
+> on its upstream bridge, so it is not available for a device on a root
+> bus, which has no upstream bridge.
+> 
+> Some platforms have no Root Ports and expose PCI devices directly on a
+> root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
+> on the root bus of a virtual host bridge. Such a device has no reset
+> method at all if it supports neither FLR nor PM reset, even if the
+> platform is able to reset it.
+> 
+> pci_host_bridge::reset_root_port() already allows a host bridge to reset
+> a device on a root bus in a platform-specific way, so far only in place
+> of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
+> method of a device that is the only device on a root bus, and wait for
+> the device to become ready afterwards, as is done for other reset
+> methods.
+> 
 
-The idea probably wasn't well received because Android
-workloads are quite different from typical server and desktop
-workloads.
+Do you have any comments regarding this patch? If not, do you mind if we
+take it though the hyperv tree?
 
-The fundamental assumption is that a killed app is unlikely
-to be restarted shortly, so its memory is expected to lose
-recency. In practice, this is usually true.
-
-There are some exceptions, though. Some badly behaved apps
-have monitors that keep restarting them whenever they are
-killed. We might regress these cases by reclaiming their
-memory, only for them to restart immediately and have to
-read the data back from storage.
-
-That said, this may not be common among apps on Google
-Play.
-
->
-> > Similarly, a foreground application might benefit from a lower
-> > chance of being scanned and reclaimed. This suggests that Android
-> > background-to-foreground transitions, or LMKD itself, could
-> > potentially leverage the reordering of memcg LRUs.
->
-> We are planning to use memory.low/min for foreground protection.
-
-Thanks! I guess the challenge is figuring out what value
-works best for different apps. Should we collect data in the
-lab, learn the appropriate value dynamically on the device,
-or simply hardcode a relatively large value?
-
-Any thoughts on this?
-
-Best,
-Barry
+> Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+> ---
+>  drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 8cc6a89130b5..fd4e958d6b99 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
+>  
+> +static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
+> +{
+> +	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
+> +	int rc;
+> +
+> +	/*
+> +	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
+> +	 * because dev->subordinate is not set up yet when the reset methods
+> +	 * are probed during enumeration.
+> +	 */
+> +	if (pci_is_bridge(dev) || !host->reset_root_port)
+> +		return -ENOTTY;
+> +
+> +	if (probe)
+> +		return 0;
+> +
+> +	rc = host->reset_root_port(host, dev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
+> +}
+> +
+>  static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
+>  {
+>  	struct pci_dev *pdev;
+>  
+> -	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
+> -	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
+> +	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
+>  		return -ENOTTY;
+>  
+>  	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
+>  		if (pdev != dev)
+>  			return -ENOTTY;
+>  
+> +	if (pci_is_root_bus(dev->bus))
+> +		return pci_root_bus_reset(dev, probe);
+> +
+> +	if (!dev->bus->self)
+> +		return -ENOTTY;
+> +
+>  	if (probe)
+>  		return 0;
+>  
+> -- 
+> 2.56.0
