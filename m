@@ -1,64 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793265507;
-	b=ssT/5IfhyLc/ciGStQ2oPhFey13vJ7gvazrdAldCwUMce/tfGOP7q0IO2HRVQQkIPfYG
-	 ylyQBqdqKm9RNQp/xwxL2WXrUCn+S9jteZSWiQEHWEX8noXxyGO9E+2Cd1wRq45UQxZaz
-	 MWJbkrSCXini6K1YekbooCHxEg7wELCVPKJXQ5To6OM1S4iErHj9gmfJQ5v1wYsjcORzU
-	 F04DRVjaZ2oztl1Y4BgD/1xXSeVuF6bz6nHSHq3LVaWr9tQmIy9wjnASRfgCKtFmI90m8
-	 HdDmOcvso/FBhjijI7PVzL3BytJWgwDYHUFNPO31q1dr4VZKY6XjMxTkHvEBmLxjipA==
+	t=1793265982;
+	b=W2sTxLmK0LESBJq07OSNqus2wxBbySaHcUYpO/QTmoexPr1a6XvLe09NFVPkqeBan30/
+	 MlHlWqNwrPkFkB2ERBFOQ8kgOpCrpQ0VVdwQvkmsf5rpJQOhoIGXBGFAoPfmtz4RLOxdD
+	 PmTJeiqayAzQf1z3AWLGOMZLDg1MC8pXWddh16VMVNE2P0+0eaKgL2cL6bAql+2aCoyw7
+	 ftp1cZTVIhUOIo9N+c9RGpp64rOp/idnD5504bg/APEn+LFrqqRKTdA2YUxfYSmVWLX+r
+	 cJgRNsVIdSSpelPHzLMhaQjSgIqnCZdie8R+WQTLOfRrw+J7vOfAomK3OukYwkXFYQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793265507;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=UkwRg2MfCoRtAJI2sGxhVQjo2bap0vqxQXUt68TRs8o=;
-	b=RnlV19S2GH7D9ceJh8Vrc6UCre4xit16w4IdwOGJb8HWyWYKDBhSR9UhHYlmZPsyy6yE
-	 owYMcIt5v0SdE6Tq+d9uEBrhxPogqvHrBhiZqmb63HtQYvp3Fzl96Wbf9nPEQdmb45HBR
-	 +Znisww5F9iG98WUc3MrgzUjxYFJ2IhfkgUHKkqaYTJb5m6wOlDHziLJw2goZKOEv4YXv
-	 llhYz25AiewB95OqE9sJ8zZyEDTk0LISknjzXyaLw3t4tz5BBYRsoROjFd7higR7iF9Hs
-	 5CgVhFh522GrbVxOe4MOfe3NYh9lobiBvsp0xjPk+YURS54xEmNN9vCPDoRCOss6ijw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793265982;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=tAQEh4b++pVve/ioXaXSgT5PVOtBYojYtT+jFL5BfII=;
+	b=HAvFO9NUnfdtlFscoo2vT8vr4sNi4GI6M4ewgWSQB58LLkyUenm0VsKpuNjKbYxnoXXQ
+	 saK/RXwBir3k/Il10efwwCEzMoSIuMOv1P2keWj0lPobTzt8UmJFCjcQKQA/8SiKb1J/0
+	 oNDNBsVhU+4VMXXTRHpCSVa8/WyeFAmzCPwr7MhRZ94i5Syglq7VcRk7NM1gxhx/x8W+o
+	 yEHa14mjDhMsgDi+6OH0d7pSlQv90gwEWgtAZ3Tx4FitliK26gC05eRKAqfT4CZKgsj6r
+	 /kSLA02kNRxe3hIf5QFYwwT2ECJs5WncUjRLsHFdNNBHrMw1Kw5q1jQKUhNCzPNFyQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WPG5loz0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=qyiyQbai;
+	arc=none smtp.remote-ip=91.218.175.145
+Received: from mta0.migadu.com (out-145.mta0.migadu.com [91.218.175.145])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA469606A31F;
-	Thu, 29 Oct 2026 09:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7806A606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 09:26:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7806A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WPG5loz0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54F61F01825;
-	Thu, 29 Oct 2026 09:18:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793265506;
-	bh=UkwRg2MfCoRtAJI2sGxhVQjo2bap0vqxQXUt68TRs8o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WPG5loz0OzzMkDVWR0/RpNMb53o+NMDQ8VSEFjfepQzfcPpperDYBZwPoNNeNuXO+
-	 FkRxqWgqe4eYfxS1nYOjB6wQZ/xqbDR+H5e0gXKGrgldBgH4Gmm0OaX81ATkpADRSi
-	 TGzIeIazP00gQWOV30Urwq0V5NhUxJrj5dv7qfWC/woUpG/I4RVC7f4FuNgsLcb+c9
-	 rOG3r4VVE2tMYRR1aWjgT1wIyKxaF6r3JHRqW/rgCpeVnw/LprE4s6KHUJh4D+YwlZ
-	 Eaz30jiCbbmNhI3jaGaef4jqEDApfzBH3O2P/uV4L7REpM6bmmfTT5GthHZY7vWaS6
-	 Y/pOavIuBOLAg==
-Date: Thu, 29 Oct 2026 09:18:20 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Pedro Falcato <pfalcato@suse.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
-	Daehyeon Ko <4ncienth@gmail.com>
-Subject: Re: [PATCH v2] mm/vma: avoid spurious write locks when
- mm->mm_lock_seq overflows
-Message-ID: <auMHSGBR6SB6HcTZ@gremlin>
-References: <20261016-fix-vma-lock-overflow-v2-1-9eb778b79b58@kernel.org>
- <atXjbsDn7DJybsHU@pedro-suse.tail5790ac.ts.net>
- <atYJA7nIu_RwpoCC@gremlin>
- <auIIxSorX0bhZNZc@gremlin>
- <auIPRjj2t0BcYlOa@pedro-suse.tail5790ac.ts.net>
- <CAJuCfpFVv-t08YGMPR3YHCyiOK4HY-YjMk5rB6tdBa=mq2MvKQ@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=qyiyQbai
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=1FtM7Migx9dzZdG1vymUR6EU2ZfvoOws1XUBq1EJFgU=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793265979; v=1; x=1793870779;
+ b=qyiyQbaidpQsXap3RN5cDy6dHmvfoVaiCUQBNKhwFL+mbccMTyGMoNcIRYt/mauo4//JyDHs
+ NNLfScA8W7/lWdMr0kmGdpaU+xi9WfQPu95iowD8qeGK46xk4KEqLT5+6DcKJCeNgvgfUgOEhBM
+ T9GhM0DA3U1v0kREcNx+j7Iq0WUpL8jMTelJdkTyA7YkxrwkVA9gxZPQz2zaP1ZCB6HeS15fcSH
+ 80LWOgG5Vjb/oVPelR2h7qGnzANamb7qCvXdQlQ9KdnQwasq+OMlVOUoIPrGwhsrol/DIVa6DsU
+ RLNh0E+YreCVg9G5uOIEQJoew3RP09dM7novQcXC0pPjA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a6f7e260be4e957a;
+	Thu, 29 Oct 2026 09:26:18 +0000
+X-Mizu-Trace-ID: a6f7e260be4e957a
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 29 Oct 2026 17:26:04 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Weijie Yuan <wy@wyuan.org>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_TW: remove top-level labels from process/
+Message-ID: <f851e36f0ca9db7a0f71200964fe97a2efa85c13.1793265072.git.wy@wyuan.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,55 +67,386 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpFVv-t08YGMPR3YHCyiOK4HY-YjMk5rB6tdBa=mq2MvKQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 28, 2026 at 05:34:38PM -0700, Suren Baghdasaryan wrote:
-> Sorry for missing this fix before (due to my vacation) and only now
+I happened to notice that there was actually an embarrassing label on
+this page [*] that had been rendered in HTML.
 
-Never apologise for taking a holiday ;)
+ * https://docs.kernel.org/translations/zh_TW/process/kernel-enforcement-statement.html
 
-> finding it. From a quick look it seems correct but I'll spend some
-> more time reviewing and testing it.
-> Thanks Lorenzo for the fix! I completely overlooked this overflow
-> side-effect. And thanks to Liam for flagging it!
+Therefore let me drop these labels in process dir but leave the cleanup
+job later.
 
-No worries, though it has already been merged -> Linus's tree (lol). Obviously
-if you find anything of concern we can chase up!
+--- >8 ---
+From: Weijie Yuan <wy@wyuan.org>
 
-The general idea is simple, really - though there's nuances with the memory
-barriers (ugh).
+We can link to these documents by path, so the top-level labels
+do not buy us anything.
 
-First off, it turns out we don't have to use UINT_MAX when initialising a
-VMA, since commit e5e7fb278e59 ("mm: convert mm_lock_seq to a proper
-seqcount"), as 0 works just as well (it's not observed since VMA is
-detached at that point).
+Drop these redundant labels from the Traditional Chinese process
+documents.
 
-Then we can simply detect when there's about to be an overflow, and zero
-every VMA's write seqcount.
+Signed-off-by: Weijie Yuan <wy@wyuan.org>
+---
 
-This is done without VMA write lock and with potential concurrent
-readers. Which is fine, since the write locks are about to be unlocked
-anyway, so any write-locked VMAs can either be encountered as write-locked
-or not-write-locked safely.
+ * Tested with '(make cleandocs && make htmldocs) 2>&1 | grep -F -e zh_CN -e zh_TW'
+   seems work fine. But please leave an eye on this if available.
 
-0 is even, so that marks everything as unlocked. However, to avoid read
-locks spuriously failing due to vma->vm_lock_seq == mm->mm_lock_seq, that
-check is updated to also test whether the seqlock is odd (write-locked), if
-not it allows a read-lock.
+ * Based on these series on top of Alex's docs-next branch..
+   - [v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
+   - [0/4] docs/zh_TW: relocate translations to follow the English layout
+   - [1/1] docs/zh_TW: remove the unreachable plain-text translations
+   - [0/3] docs/zh_TW: mark translations that are not kept in sync
 
-Since the 'reset' doesn't acquire VMA write lock (not required and not
-really meaningful in the context), nor does it block read locks, it causes
-no interruptions on that side.
+   which are currently queued here for 7.5:
+   https://github.com/kernel-zh/linux-zh_TW.git docs-next
 
-And, as per the numbers I got the LLM to obtain that I shared with Pedro,
-there's no meaningful latency when this happens, which for most workloads
-takes ~days/weeks to achieve.
+ Documentation/translations/zh_TW/process/1.Intro.rst            | 2 --
+ Documentation/translations/zh_TW/process/2.Process.rst          | 2 --
+ Documentation/translations/zh_TW/process/3.Early-stage.rst      | 2 --
+ Documentation/translations/zh_TW/process/4.Coding.rst           | 2 --
+ Documentation/translations/zh_TW/process/5.Posting.rst          | 2 --
+ Documentation/translations/zh_TW/process/6.Followthrough.rst    | 2 --
+ Documentation/translations/zh_TW/process/7.AdvancedTopics.rst   | 2 --
+ Documentation/translations/zh_TW/process/8.Conclusion.rst       | 2 --
+ .../zh_TW/process/code-of-conduct-interpretation.rst            | 2 --
+ Documentation/translations/zh_TW/process/code-of-conduct.rst    | 2 --
+ Documentation/translations/zh_TW/process/coding-style.rst       | 2 --
+ .../translations/zh_TW/process/development-process.rst          | 2 --
+ Documentation/translations/zh_TW/process/email-clients.rst      | 2 --
+ Documentation/translations/zh_TW/process/howto.rst              | 2 --
+ Documentation/translations/zh_TW/process/index.rst              | 2 --
+ .../translations/zh_TW/process/kernel-driver-statement.rst      | 2 --
+ .../translations/zh_TW/process/kernel-enforcement-statement.rst | 2 --
+ Documentation/translations/zh_TW/process/license-rules.rst      | 2 --
+ Documentation/translations/zh_TW/process/management-style.rst   | 2 --
+ .../translations/zh_TW/process/programming-language.rst         | 2 --
+ .../translations/zh_TW/process/stable-api-nonsense.rst          | 2 --
+ .../translations/zh_TW/process/stable-kernel-rules.rst          | 2 --
+ Documentation/translations/zh_TW/process/submit-checklist.rst   | 2 --
+ Documentation/translations/zh_TW/process/submitting-patches.rst | 2 --
+ .../translations/zh_TW/process/volatile-considered-harmful.rst  | 2 --
+ 25 files changed, 50 deletions(-)
 
-For backports, which lack my anon pgoff stuff, I will simply make the
-fields 64-bit which make it practically impossible to hit the issue.
-
-Let me know if you have any questions/concerns, thanks!
-
--- Cheers, Lorenzo
+diff --git a/Documentation/translations/zh_TW/process/1.Intro.rst b/Documentation/translations/zh_TW/process/1.Intro.rst
+index 65c5ae095504..0c1c6709b1cb 100644
+--- a/Documentation/translations/zh_TW/process/1.Intro.rst
++++ b/Documentation/translations/zh_TW/process/1.Intro.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/1.Intro.rst <development_process_intro>`
+ 
+-.. _tw_development_process_intro:
+-
+ 引言
+ ====
+ 
+diff --git a/Documentation/translations/zh_TW/process/2.Process.rst b/Documentation/translations/zh_TW/process/2.Process.rst
+index cf9bd1b1444a..85e1444b3be6 100644
+--- a/Documentation/translations/zh_TW/process/2.Process.rst
++++ b/Documentation/translations/zh_TW/process/2.Process.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/2.Process.rst <development_process>`
+ 
+-.. _tw_development_process:
+-
+ 開發流程如何進行
+ ================
+ 
+diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+index 7d7ecf9658e5..be3dadcf1663 100644
+--- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
++++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/3.Early-stage.rst <development_early_stage>`
+ 
+-.. _tw_development_early_stage:
+-
+ 早期規劃
+ ========
+ 
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index 423d51f4b3de..982735fd6134 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/4.Coding.rst <development_coding>`
+ 
+-.. _tw_development_coding:
+-
+ 使代碼正確
+ ======================
+ 
+diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
+index d54b16364474..ba3b8a79f21a 100644
+--- a/Documentation/translations/zh_TW/process/5.Posting.rst
++++ b/Documentation/translations/zh_TW/process/5.Posting.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/5.Posting.rst <development_posting>`
+ 
+-.. _tw_development_posting:
+-
+ 發布補丁
+ ========
+ 
+diff --git a/Documentation/translations/zh_TW/process/6.Followthrough.rst b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+index 76082a15677f..e9a70eec850c 100644
+--- a/Documentation/translations/zh_TW/process/6.Followthrough.rst
++++ b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/6.Followthrough.rst <development_followthrough>`
+ 
+-.. _tw_development_followthrough:
+-
+ 跟進
+ ====
+ 
+diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+index 392c00213078..fb2e3764802f 100644
+--- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
++++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/7.AdvancedTopics.rst <development_advancedtopics>`
+ 
+-.. _tw_development_advancedtopics:
+-
+ 進階主題
+ ========
+ 
+diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+index 2436263c6506..82e89d992964 100644
+--- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
+ 
+-.. _tw_development_conclusion:
+-
+ 更多資訊
+ ========
+ 
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+index 4fc568409198..fbb9fb719b19 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
+ 
+-.. _tw_code_of_conduct_interpretation:
+-
+ Linux核心貢獻者契約行為準則解釋
+ ===============================
+ 
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct.rst b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+index 0266cd74a0b1..4db8ddc71474 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
+ 
+-.. _tw_code_of_conduct:
+-
+ 貢獻者契約行爲準則
+ ++++++++++++++++++
+ 
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index 5778b707503f..166b952cb54e 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: Documentation/process/coding-style.rst
+ 
+-.. _tw_codingstyle:
+-
+ Linux 核心程式碼風格
+ ====================
+ 
+diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
+index 1d22aa0d3711..e3e69882d8f6 100644
+--- a/Documentation/translations/zh_TW/process/development-process.rst
++++ b/Documentation/translations/zh_TW/process/development-process.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
+ 
+-.. _tw_development_process_main:
+-
+ 內核開發過程指南
+ ================
+ 
+diff --git a/Documentation/translations/zh_TW/process/email-clients.rst b/Documentation/translations/zh_TW/process/email-clients.rst
+index 272e3073521d..7a5cf79fe4f9 100644
+--- a/Documentation/translations/zh_TW/process/email-clients.rst
++++ b/Documentation/translations/zh_TW/process/email-clients.rst
+@@ -2,8 +2,6 @@
+ 
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+-.. _tw_email_clients:
+-
+ :Original: Documentation/process/email-clients.rst
+ 
+ Linux郵件客戶端設定資訊
+diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
+index 1ffc076ce26c..46c7a63398f7 100644
+--- a/Documentation/translations/zh_TW/process/howto.rst
++++ b/Documentation/translations/zh_TW/process/howto.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _tw_process_howto:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/howto.rst <process_howto>`
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index bd638264bbe4..b27af36ce3bb 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -9,8 +9,6 @@
+ 
+ :Original: :ref:`Documentation/process/index.rst <process_index>`
+ 
+-.. _tw_process_index:
+-
+ ========================
+ 與Linux核心社群一起工作
+ ========================
+diff --git a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+index 34bcb6f164cb..e6ff67f75650 100644
+--- a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _tw_process_statement_driver:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
+diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+index d54d20529294..45bb50fd1e6a 100644
+--- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-﻿.. _tw_process_statement_kernel:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
+diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
+index 0a4558b7fc76..8f9b57e223a7 100644
+--- a/Documentation/translations/zh_TW/process/license-rules.rst
++++ b/Documentation/translations/zh_TW/process/license-rules.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
+ 
+-.. _tw_kernel_licensing:
+-
+ Linux核心許可規則
+ =================
+ 
+diff --git a/Documentation/translations/zh_TW/process/management-style.rst b/Documentation/translations/zh_TW/process/management-style.rst
+index 2cef0ef25ede..9908724e37a2 100644
+--- a/Documentation/translations/zh_TW/process/management-style.rst
++++ b/Documentation/translations/zh_TW/process/management-style.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/management-style.rst <managementstyle>`
+ 
+-.. _tw_managementstyle:
+-
+ Linux內核管理風格
+ =================
+ 
+diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+index 9aac89e2c23b..04ad22a25a4e 100644
+--- a/Documentation/translations/zh_TW/process/programming-language.rst
++++ b/Documentation/translations/zh_TW/process/programming-language.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+ 
+-.. _tw_programming_language:
+-
+ 程式語言
+ ========
+ 
+diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+index 94748429c182..2e82df8544ef 100644
+--- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
++++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _tw_stable_api_nonsense:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/stable-api-nonsense.rst
+diff --git a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+index d182d625728d..bd0a1599dbff 100644
+--- a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
++++ b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _tw_stable_kernel_rules:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index 452fecc7c425..f5b2cb56eec4 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -4,8 +4,6 @@
+ 
+ :Original: Documentation/process/submit-checklist.rst
+ 
+-.. _tw_submitchecklist:
+-
+ Linux內核補丁提交檢查單
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+index 514903daae25..967e558350c0 100644
+--- a/Documentation/translations/zh_TW/process/submitting-patches.rst
++++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+@@ -2,8 +2,6 @@
+ 
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+-.. _tw_submittingpatches:
+-
+ :Original: Documentation/process/submitting-patches.rst
+ 
+ 提交補丁：如何讓你的改動進入核心
+diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+index edfc83f32672..a2384b60b874 100644
+--- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
++++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+@@ -1,7 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. _tw_volatile_considered_harmful:
+-
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/volatile-considered-harmful.rst
+-- 
