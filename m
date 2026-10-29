@@ -1,89 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793259445;
-	b=cdv/aObWb9Ngj0Ii/XdNQmR94CiyH+QMnd0vNIIncjmAq66Up9qNN0e6VbjEp4W3pMO1
-	 pHQ2WdbyNbbcl0Kv0kP/Dw4rzrvkKSV2r/BVE1iq0BeoXi90w92XQh4rUDeWHJWdfiXwO
-	 jmvUk1iSOc2ffiyyMG2sFUnUOkHndA9Cj7x3K+W7L8uxmj5uvQqO4VQi+U0urH8AnYbaf
-	 FvxlxPDWyaT57xatujD3Qa5D88ZseJUVilTG14WiS6XFhjOjKZ1TLR726dxw0Ne/8tRwH
-	 h++q8ifyh09CPX0xa8+tGO1WkApzTW8CatWFSLeKrTiX9MnMyZKzlWxvxj7ayIYqHbg==
+	t=1793260152;
+	b=KodWld86QfSkf9NOTXW1OD89dl2kxXPtyH7iyws8+ADa3gOfXklWUPllazBm/qPNzjnk
+	 +vT0uy9+Bp980gpWljyJG+am2PKOhsyiNNe0JzRdeB3SVuzTxoQzA4n2SVXdC3qZwY7fL
+	 Bc/vjRU/haWqfVI1CEibIw1D1SrNYISBu0NhQc0wIWzLwfDs0whlOU37cuuyxefFCYwJe
+	 84M0+3g6MuEwsExX2AkybgBCvcrhzm0jk1Zfa5/6T/oUAexClfVSfsQXO+5KgYbya+Yqw
+	 C6w21Woknm6M6pBex1NT2RHqvmEuuuQ3BilfcPYmPJmyexS8ndVby97KvuRCpee5DeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793259445;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793260152;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:Autocrypt:In-Reply-To:Content-Type:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=fzUObAd1gPdMT5m6XcBC5Jns8W/Y+lrWpL82WiQ785A=;
-	b=CW4BOmFF4K7GpdF83A6qZu2satzZ7n5o32bCiw8GLMYKyUQNz0ayID/XuzYdNYzLxV7v
-	 qL6jLDe+bMzgxAZRdhrxsWj29Y63yAzv97d20hPcngrZEYmi8hyEy9rcyZJlxkE9zNNSV
-	 sISPiVJuAQGMj4ZISQXBNvw1EiciuBHU+kh+JZWEj1Iz5QucRIBg4mch1bL43WcR4CegL
-	 8pxW3k8q1nin/38wUKFo7QKIpYJkjM/pa/Ul5BLyn31y0fXBZNfSxLkIRaS8Eat4UyDYb
-	 yXIxMmht8iImrnOOo9PNYCvZOwEJRNYhHuABqSnfISC18/Y/SmpG6wUhgt0ERdIdFuA==
+	bh=yCXScZRm5ovDoqUgmZ8kXGr4YYrkIHqreSHj5aUnKbo=;
+	b=L8qdiiwyMeRkiQqFROHulxN3sFiJb7nZhYIG1LTTtoU2wrN6o/r6geCFrA/2IPsPKtmR
+	 3tznmmOFDVVpynFNHp0uHJkgueaEZBOtlpsUjeeZZ3QinUIWApncPIwRsPVE4Y39v2Z/I
+	 yN1u/gojm5NUhBw3mDY8hr6JCtehNQj7FuAGlmY4sgAUXZoyLWjgUjG3kLT84E7Grx+Uw
+	 OAKkFyNsekyTFs5RRb05CFXDIAJC/oiFhOBgjWfiGRzy2MiFNSLTlIIKrF9qwl6moKMRm
+	 sC/CeD+1RYitvR3beHNdNr+26spLQsHdAYK/gMnst8MBIfYP62/soyHhEvwc8aFoIPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="TJhrKm/D";
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Y96Daie7;
+	arc=none smtp.remote-ip=74.125.227.131
+Received: from mail-pj2-f3.google.com (mail-pj2-f3.google.com [74.125.227.131])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C52606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 07:37:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97C52606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BE6606A31F
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 07:49:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48BE6606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=TJhrKm/D
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a218c463d1so11524875e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 00:37:24 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=Y96Daie7
+Received: by mail-pj2-f3.google.com with SMTP id d9443c01a7336-2e831901331so14377565ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 00:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793259443; x=1793864243; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=fzUObAd1gPdMT5m6XcBC5Jns8W/Y+lrWpL82WiQ785A=;
-        b=TJhrKm/Damb4bsRQwz1SifntKVJJkxhYDgN962GmLP/xy2kCtvUcONSf1d3+6RBcEe
-         lmZNHUhzIB4jgy/hPyIeBvELGo3Zaym0jDYgFFEmFENYa5YnAvR97dRnBaFfypF3m5FI
-         hwNukOS8ezJt9tUz+YtT0U46mKX057MGXy+J3BDUZ17jmN+lesBATi2ZrRG4L1hWpZ5l
-         +ocxI6217Nx2ssWp2SRx1dhZS+Cmciv8QJIM3AlT1PG410DBDeuLf3jIh4eHwjhr48G5
-         +FJRUPMSFEvAhPEyLc22DsORQuXV3TIyt++gg0hf8helkMnlmvaYzG2wDBe3hWMnjDrI
-         iEDw==
+        d=bytedance.com; s=google; t=1793260150; x=1793864950; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yCXScZRm5ovDoqUgmZ8kXGr4YYrkIHqreSHj5aUnKbo=;
+        b=Y96Daie76RdZMV790RR/5MY/zljmmD7kh5hy3GznOCG0sG0a4O9FBVdh0oAA/syBcG
+         A8MeTHyK0fPWbx8sfFwuVBBE7hvj7tLKvvzzmr6E8u8xVc7PfWIcnqQsMyXNexUaZ0jo
+         l5OmPHYvO7YQRADIeELvNvlruKfGxSkbXD+jUS6bb9e55viWNgkAKQfRwmQNL3HIUmvf
+         77qH8FDZ//9BrhsKt//WoUG4zj0A5zACKWiRya8zurWDPSLpPysQoiCowfA2M9E2sBo0
+         GReXsjh747NA1FB+UnbwuzekVudFbmZqCF4koKWOUq99PhVcEEKxBKjVGl5lnjCVF+kS
+         kLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793259443; x=1793864243;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=fzUObAd1gPdMT5m6XcBC5Jns8W/Y+lrWpL82WiQ785A=;
-        b=FoRBA7RGe+4GzDaqMPpxUUznxoDhzC9i9PhjdfawCdXVW1oZSZXzOWZYRHTEQhKNQc
-         Fqr1Hzfj4W4mRc7HSIcdDNLCHQYY+yduTGklbXmhXG/6OBFnSAhUtX75YVrikVZQWr6t
-         A/mVMezCj/rkqy3emyofxjto5dA6ZRHwLE8JML2z5Nl7L1EqL1yBay7lQitCiWFW9ERa
-         OSzVJw9L8Ca1D8h3lwDWAN0ZNYhdxYrqKF/X4BT700mwXxH9hg1dlKvyYfbidNZHuRpb
-         u36y/WmgV/fAHObpIMkw/IVdYyZN3wHtt6Ftap1/6oSZF+b3zhPNXt6pogbi8L8iQY00
-         fqtg==
-X-Forwarded-Encrypted: i=1; AKwUvBylWLLf/2pZa5hL8l6uZ+tyhPEG8o6HOjYKxUlQqitRWimUrhKXAP9dl4P/dQKXyY2dDem8L9RBOqQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJTHdg0FH97vDAnbaZEd0wQIc3+Km3nrP0o9zkXV4t1zjaJmspB
-	ZAqWoi5AYcpepQlS3r/rwNANJibQitrU8BO4gcoAwLozSRuR0ZvIj07y21VkImdxDtw=
-X-Gm-Gg: AYBFou2d5NIu9ASjAOaGWv01LWpT3HG5MvVGnwja8hYC9+ve6agUL/4xHyH5jXx+XT6
-	4l5h5SUwFsn3vWh+GLD84q9q6BtvvkaD3+RiUKj6n8nddhMZQTKTdP8Wj10T2oBJhM/OotlMmi9
-	MFneqP4g6Y/PTVPUby/HVeMV7b/P3CCNQFsWxcMwRDB/Y7oDC2nDvXbf94U711WCh2aW4yeb0bY
-	V5GBjf8NXhmo1/MI5CXXGXZU+B4v8eGbxFYxvpmeKShZHY7hN6CHLLtReBaI3lorTyP8IOQjhnQ
-	t2IE9RAWuLq4ZQUI1t9Hl4JvR4FTpnVHxsGuvH0P/qA2JEo4GJhqIhpETAFH0p5YCOxvXhoGNfb
-	5GjNVZaOxVs3WDHSuJqaSYSVZ3gIGgX/Cla+fcTpq57/p7XL7yf6r89CviT3mpFNRh60SYwIjMX
-	5REbSO9ANQQERnewHBjvlSeb0IOv7nSgXNO93R86xHf4Ni69ser56qmQgh7G0Xqcux+hGXXqb2v
-	OsRpn+emTR/fyb9RpAVN/lfol5ZzilKr/01yJeS6X10ky+mvmfiIi0EqrKkaE8hdgQSGnUgQoCc
-	GaMw3Ffcbe6MI4qNxnPld2quoA/wmsrUsMgvIQkFPVYs8BBx67n8ZmFz4owmtp8eHwhE+xzz4BM
-	=
-X-Received: by 2002:a05:600c:4f94:b0:4a3:5a42:b29c with SMTP id 5b1f17b1804b1-4a967202997mr107918525e9.26.1793259442995;
-        Thu, 29 Oct 2026 00:37:22 -0700 (PDT)
-Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [185.218.66.243])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a94f05e4e4sm68388545e9.3.2026.10.29.00.37.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 00:37:22 -0700 (PDT)
-Message-ID: <2a2a5d93-1c10-4533-8709-437ceb6a3f94@suse.com>
-Date: Thu, 29 Oct 2026 09:37:20 +0200
+        d=1e100.net; s=20260707; t=1793260150; x=1793864950;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yCXScZRm5ovDoqUgmZ8kXGr4YYrkIHqreSHj5aUnKbo=;
+        b=RWsN+HQR9SGcc/fZ2mp8KMP5z5yGVcCYdwcmYVPsJznCeKPHDOEA0KiXRZePzCNUIW
+         cF2jOWr7DNZXNr08eq4g/68TXmBBaehhOePfc/AVbMIDktjnIhAssHvcf5wBieMPf4Fy
+         aC7TpbQ0+qMqdkLoa/FmD47FEMOgwWJcSkzkeXGKMg01cHtubTev6UIYjqz3EEw5vhcm
+         n/W8nJohuD9P6GKfMJYz9d/Rw+/xyOJwUb71pxGTZ3WF4LyboY6NsodvJX1igErm8rpF
+         EwL2porXBt1SuILGnEpc2k+yCuZIvDLvMgs3gyvUf7CUK+8WCzWBUN+g9a5ospu1gTOR
+         DoAA==
+X-Forwarded-Encrypted: i=1; AKwUvBzNA7ELAi49rTy13qVB8/6Sg6Af54JxFGTc4UQSwnxHs3J0gjsYcZKMTwi4o66epFGJ+q7M5/ilXQk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLgQ7TPstmpsRWuYwK1KW3elm2Pv1RF4oh3ZU2EbrnbOdRw8tRz
+	ZwijFl2fM8O+Mebu6/nQeAKoP9dV7xZFQ0DyYG/XDGJsxmBAu4l8bmLSxkWFINJWQ/s=
+X-Gm-Gg: AYBFou2J82RkOb8YcRJzlN62Wou9mK9IkdId9ofTUpFezM0mkiV+rPVBPylJSNIFeeL
+	gf7Px419XxgIBsp+I4PEm+rgsgiBS2Tvi6g7icm1h+v3WJTEOWsYYEhj8sZsivXy9mQwdZL55Fe
+	ya7V11cFj1QFEZiUU4iAABqWcjdJ8QmPo2k2PCIWefu2QeHFn7XCdWMEkAkP6c1M1RvK51+apqM
+	Uwj48nmQ+Unp9j7VTfOpQrdIkYTZPpMp60h/Ipv8Fup0yYotKVoKlqPUeO5jhE+JMfhWUT7TKYk
+	ncnpPj6EZQIi0OryZloiHroKLPDykgLFM3o3JmrBTWTSxVSIXntGJmMdE/mK+Ltnyy3lwQuz8UI
+	N0GRxlAp/C2n/G6/RNd/ZU+78jZbEnLneIe6k1mzdXg2rSQj7tOfSuNH4TBoXEAVUdbMZ14v22C
+	2ednWL4Ydfa5Nx6tvfq6Mc++bYxlJ3zG+fgKEokJvlpN++LP2iM7u9AX4XE3zy5Iy9Y88ELjHvy
+	mADc/yZDE9VOnWZb9618Hx1mjZ9nZcyKRlrZBkgCh2myokmjWO7rfPP4+5aezIfa5JCAVfpEbDe
+	AS3jZrjsqjO/26I6DsO0ATa2ZKc5zhdydPWmfTllGcOhh6KcNiGCKsLstgucSn+2S0gNZ6c+J99
+	AqlJ7YB2caFO6OYVruLqs8caT/I9vGA==
+X-Received: by 2002:a17:902:f645:b0:2e9:5507:b532 with SMTP id d9443c01a7336-2eb00547963mr43569405ad.43.1793260150412;
+        Thu, 29 Oct 2026 00:49:10 -0700 (PDT)
+Received: from FJ7FR2JRQ3.bytedance.net ([186.240.245.239])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6bd60desm30598915ad.29.2026.10.29.00.48.57
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 29 Oct 2026 00:49:09 -0700 (PDT)
+From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+To: Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>,
+	Conor Dooley <conor@kernel.org>,
+	Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Yunhui Cui <cuiyunhui@bytedance.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Will Deacon <will@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <shuah@kernel.org>,
+	yuanzhu@bytedance.com,
+	yang.yicong@picoheart.com,
+	yang.susheng@zte.com.cn,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Subject: [PATCH v12 00/11] riscv: add SBI Supervisor Software Events support
+Date: Thu, 29 Oct 2026 15:48:42 +0800
+Message-ID: <20261029074853.35467-1-zhangzhanpeng.jasper@bytedance.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,165 +127,274 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
- support
-To: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org, jgg@ziepe.ca,
- david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
- rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
- drdeeglaze@gmail.com, James.Bottomley@HansenPartnership.com, aik@amd.com,
- jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
- jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
- suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
- elena.reshetova@intel.com, dave.hansen@linux.intel.com,
- sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-References: <20261015145053.3664509-1-jiri@resnulli.us>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- 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
-In-Reply-To: <20261015145053.3664509-1-jiri@resnulli.us>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+This revision follows Anup's v11 [1] and uses the same riscv/for-next
+base, a5ae1bf65cee. It incorporates the entry-state fix identified by
+Himanshu, replaces the temporary GUP workaround for perf user-stack
+sampling, and brings together the outstanding preemption, fault-entry,
+lockdep and PMU error-handling changes. Thanks to Anup for the rebase
+and PMU testing, and to Paul for coordinating integration.
 
+Why SSE
+=======
 
-On 15.10.26 г. 17:50 ч., Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
-> 
-> Linux has several attestation interfaces tied to individual technologies.
-> That makes evidence retrieval, measurement registers, device state and
-> kernel consumers provider-specific.
-> 
-> This series introduces a common attestation subsystem. Its goal is to
-> support platform, TEE and device providers through one model, including
-> TPM2, TDX, SEV-SNP, Arm CCA, FIRME, Caliptra and PCI/TSM-backed devices.
-> This first series implements the common subsystem and a TDX provider.
-> Existing native TDX tsm_mr and tsm_report interfaces remain independent.
+RISC-V does not define an ordinary supervisor-mode non-maskable interrupt
+(NMI). When Linux clears SIE, a normal supervisor interrupt remains pending
+until interrupts are enabled again. That is appropriate for ordinary
+interrupt handling, but leaves a blind spot for profiling and delays
+notifications that need attention inside an interrupt-disabled region.
 
-Wasn't config-tsm supposed to be this common attestation subsystem? Was 
-this discussed when the initial config-tsm was proposed? Why is this 
-coming now?
+The SBI Supervisor Software Events (SSE) extension [2] provides a
+firmware-to-supervisor event delivery interface that does not depend on
+SIE. Linux registers an entry point, and firmware can transfer control to
+it while ordinary supervisor interrupts are masked. After the handler
+completes the event, firmware resumes the interrupted execution.
 
-> 
-> Attestation devices use CTLV, a schema-driven character-device TLV UAPI.
-> Compared with sysfs or configfs, CTLV executes one validated request
-> atomically instead of assembling a transaction through several files.
-> Compared with netlink, an opened device fd directly identifies authority
-> and lifetime, can be delegated normally, and owns its event queue. CTLV
-> also provides:
+PMU overflow is the first client in this series. The same framework is
+intended to support other clients, including high-priority RAS reports;
+the RAS client implementation is separate from this series.
 
-Assuming we want to go through the route of CTLV, do we really want an 
-attestation-specific  interface, or most of this functionality can 
-simply be implemented as a specific genetlink protocol, utilising all 
-the existing hardening that has gone into netlink's infrastructure to 
-marshal messages from userspace to kernel space?
+Delivery and implementation
+===========================
 
-> 
->    - generated kernel metadata, UAPI constants and documentation;
->    - strict type, bounds, nesting and required-field validation;
->    - runtime operation and schema introspection;
->    - family inheritance and extension points;
->    - fragmented queries with generation checks;
->    - per-fd event subscription, overflow reporting and removal notification;
->    - large input and output blobs.
-> 
-> The attestation family exposes capabilities, evidence, measurement-register
-> topology and operations, an append-only MR journal and journal
-> notifications. This first ABI contains the paths exercised by TDX. Extended
-> evidence classes, dynamic registers, record payloads, verdict recording and
-> device-security transitions follow with providers that need them and are out
-> of scope of this initial patchset. The broader direction is illustrated here:
-> 
-> https://github.com/jpirko/linux_mlxsw/commits/wip_attestation_all_1
-> 
-> That branch also contains additional providers (test and sim),
-> attestation core extensions, libctlv and ctlvctl. With the tools
-> and kernel specifications, an attestation device can be used as follows:
-> 
->    # Discover CTLV devices and their family chains.
->    ctlvctl --spec-dir Documentation/ctlv/specs list
-> 
->    # Inspect the root-family lineage and attestation capabilities.
->    ctlvctl --spec-dir Documentation/ctlv/specs query ctlv0 families-dump
->    ctlvctl --spec-dir Documentation/ctlv/specs query ctlv0 device-get
-> 
->    # List the measurement registers of the attestation device.
->    ctlvctl --spec-dir Documentation/ctlv/specs query ctlv0 mr-dump
-> 
->    # Read RTMR0 (MR 1).
->    ctlvctl --spec-dir Documentation/ctlv/specs \
->            query ctlv0 mr-read mr.id=1
-> 
->    # Extend RTMR0 with 48 zero bytes (SHA-384).
->    digest=$(printf '%096d' 0)
->    ctlvctl --spec-dir Documentation/ctlv/specs \
->            exec ctlv0 mr-extend --json \
->            '{"id":1,"value":[{"hash-algo":5,"data":"hex:'"$digest"'"}]}'
-> 
->    # Retrieve the RTMR0 journal.
->    ctlvctl --spec-dir Documentation/ctlv/specs \
->            query ctlv0 mr-log-get --json '{"selection":[{"id":1}]}'
-> 
-> The 20 patches are organized as follows:
-> 
->    1-13    add CTLV, its generator and documentation
->    14-17   add the base attestation family and implementation
->    18-20   expose the native TDX service and add the TDX family
-> 
-> Note to reviewers: Please focus on the overall design, UAPI and internal
-> attestation-provider API. The internal CTLV and attestation implementations
-> remain rough around the edges.
-> 
+For a hardware-triggered event, the flow is:
 
-<snip>
+                   Linux kernel                  Firmware         Hardware
+            interrupted    SSE handler            OpenSBI          source
+              context           |                    |                |
+                 |              |                    |                |
+  1. setup       |              |-----register------->                |
+                 |              |------enable-------->                |
+  2. trigger     |              |                    <-----event------|
+                 |              |          +-------------------+      |
+  3. save        |              |          |   context save    |      |
+                 |              |          +-------------------+      |
+                 |              |                    |                |
+                 |              |          +-------------------+      |
+  4. inject      |              |          |   handler setup   |      |
+                 |              |          +-------------------+      |
+                 |              <-------mret---------|                |
+                 |    +-------------------+          |                |
+  5. handle      |    |  event handling   |          |                |
+                 |    +-------------------+          |                |
+  6. complete    |              |-----complete------->                |
+                 |              |          +-------------------+      |
+  7. restore     |              |          |  context restore  |      |
+                 |              |          +-------------------+      |
+  8. resume      <---------------mret----------------|                |
+                 |              |                    |                |
 
->   83 files changed, 18084 insertions(+), 28 deletions(-)
+Software-injected events do not need the hardware trigger. The diagram
+shows a typical OpenSBI implementation of the firmware interface.
 
-That's an awful lot of code to just move certain binary blobs around 
-(Judging by what config-tsm is doing ATM).
+Linux enters on a dedicated event stack and establishes NMI context.
+The entry wrapper reconstructs the interrupted pt_regs for the callback,
+rather than treating the synthetic handler context as the sampled task.
+It also preserves Linux-owned trap state, task stack metadata and the
+temporary register slots used by ordinary exception entry.
 
-<snip>
+Handlers must not sleep or rely on locks that the interrupted code may
+hold. A nofault user access may still raise a synchronous exception: that
+exception must return through its exception-table fixup without paging
+memory in or opening an interrupt window. Preserving the interrupted
+entry state across such nested exceptions is therefore essential.
+
+The firmware driver provides a common client API for local and global
+events. It tracks ownership across partial setup and teardown failures,
+keeps callback resources alive while firmware may still reference them,
+and integrates event handling with CPU hotplug, shutdown and kexec.
+
+PMU overflow and perf
+=====================
+
+Ordinary PMU interrupts cannot sample an interrupt-disabled critical
+section until Linux unmasks interrupts. The sample then often lands at
+that boundary, obscuring the work that preceded it. SSE removes this
+SIE-induced delivery delay. It does not promise zero skid or precise-event
+sampling, but lets perf observe execution inside those critical sections.
+
+No new perf command or perf.data format is required. The PMU driver
+selects its delivery mechanism during setup. With PMU-SSE configured,
+explicitly unsupported firmware or events can use ordinary interrupts;
+other setup errors do not silently select that route. There is no runtime
+SSE-to-IRQ transition after SSE has become active.
+
+Kernel and user callchains use the interrupted context. Kernel unwinding
+falls back to the interrupted PC where stack bounds cannot be established.
+For DWARF sampling, perf copies the raw user stack with page faults
+disabled and truncates it at an inaccessible address. V12 uses inatomic
+uaccess and exception-table fixup instead of fast-only GUP. The additional
+address-space checks reject a missing mm or mismatched active page-table
+root; they are not a complete equivalent of x86's nmi_uaccess_okay().
+
+The PMU path retains throttling and stopped-event semantics. It restores
+counters and userpage state before enabling an event after CPU power
+management, and stops affected counters if an SSE operation fails.
+
+Hardware observations
+=====================
+
+The following measurements were reported with v10. They illustrate the
+delivery mechanism, not a new benchmark of this v12 source tree. The IRQ
+and SSE comparisons used the same kernel source and perf binary on a
+RISC-V server platform.
+
+For perf bench sched pipe, the mean of three runs of three million
+single-CPU operations was:
+
+  rate       IRQ ops/s   SSE ops/s   delta   IRQ samples/s   SSE samples/s
+  -F 99        337,707     339,555   +0.55%            98.0            98.6
+  -F 999       338,352     338,289   -0.02%           995.7           998.0
+  -F 5000      329,002     333,034   +1.23%          5001.7          5001.6
+
+These runs had no lost samples. Both routes reached the requested rates,
+with workload throughput differing by at most 1.23% in this comparison.
+
+The same workload makes the irq-off sampling bias visible. In the -F 999
+IRQ profile, finish_task_switch() and _raw_spin_unlock_irqrestore()
+accounted for 54.99% of samples. Sampling via SSE instead exposed work
+inside the critical sections, including scheduling, locking and address
+space switching. Leading entries from the two reports were:
+
+  Ordinary PMU IRQ
+  overhead   symbol
+    36.63%   finish_task_switch.isra.0
+    18.36%   _raw_spin_unlock_irqrestore
+     7.66%   __internal_syscall_cancel
+     7.55%   do_trap_ecall_u
+     4.19%   mutex_lock
+     3.64%   mutex_unlock
+     3.06%   exit_to_user_mode_loop
+
+  PMU-SSE
+  overhead   symbol
+     5.48%   __kprobes_text_end
+     5.29%   __schedule
+     5.10%   ret_from_exception
+     4.71%   do_raw_spin_lock
+     4.01%   do_trap_ecall_u
+     3.99%   mutex_lock
+     3.66%   switch_mm
+     3.43%   mutex_unlock
+     3.29%   exit_to_user_mode_loop
+     3.28%   psi_group_change
+
+Symbols are reproduced as reported by perf. This is a change in what the
+profile can observe, not evidence that SSE made those functions faster.
+
+Entry-state fix and validation
+==============================
+
+Himanshu identified that TASK_TI_A0/A1/A2 were not preserved across SSE
+handling [3]. Ordinary RV64 exception entry temporarily stores registers
+in these slots. If SSE interrupts that window and its handler takes a
+nested exception, the nested entry can overwrite slots still needed by
+the interrupted entry path. Patch 2 preserves and restores them alongside
+the task's kernel and user stack pointers.
+
+Hardware A/B testing confirmed that preserving these scratch slots fixes
+the reproduced corruption, allowing the temporary GUP workaround to be
+replaced with nofault uaccess.
+
+Guest SSE delivery, guest callchains and hibernation are outside the scope
+of this series.
+
+Firmware requirements
+=====================
+
+Firmware must implement SSE and the local PMU event. PMU testing also
+requires the OpenSBI fixes that preserve pending overflows across event
+enablement [4] and clear stale SPV for non-virtualized events [5].
+
+Changes in v12
+==============
+
+Relative to Anup's v11 [1], on the same a5ae1bf65cee base:
+
+- P2: Preserve TASK_TI_A0/A1/A2, fix per-CPU initialization preemption,
+  and address the kernel test robot's unused-function warning.
+- P3/P4: Clarify the kexec restriction and retain v10 RESEND's CPU-hotplug
+  preemption guards.
+- P5/P6: Order RV32 vmalloc synchronization before nofault fixup and add
+  NMI-safe lockdep irqflags tracking.
+- P7: Replace GUP with nofault uaccess.
+- P8: Fix early-error counter STOP, ordinary IRQ CPU-PM ordering and IRQ
+  cleanup tracking; carry Conor's Acked-by [6].
+- P9: Split MAINTAINERS updates out; keep both selftests last.
+
+Acknowledgements
+================
+
+The original feature patches were developed by Clément Léger and
+Himanshu Chauhan. Thanks to Himanshu for identifying the missing scratch
+slot preservation and reviewing the entry and lifecycle code; to Susheng
+Yang for reporting the callchain failure and providing a reproducer; to
+Conor Dooley for review and acknowledgements; and to Anup Patel, Paul
+Walmsley and the kernel test robot for integration work and feedback.
+
+[1] https://lore.kernel.org/r/20261028165531.940336-1-anup.patel@oss.qualcomm.com/
+[2] https://docs.riscv.org/reference/sbi/ext-sse.html
+[3] https://lore.kernel.org/r/as79MHtNYd-VbUug@hu-himchau-blr.qualcomm.com/
+[4] https://github.com/riscv-software-src/opensbi/commit/f30a54f3b3a091c225a00476f4039bf399badd1f
+[5] https://github.com/riscv-software-src/opensbi/commit/35511bc6ee1c9c17b6a89b44c52e2044bb51b979
+[6] https://lore.kernel.org/r/20261002-reach-cloning-f1594729dbe3@wendy/
+
+Clément Léger (5):
+  riscv: add SBI SSE extension definitions
+  riscv: add support for SBI Supervisor Software Events extension
+  drivers: firmware: add riscv SSE support
+  perf: RISC-V: add support for SSE event
+  selftests/riscv: add SSE test module
+
+Zhanpeng Zhang (6):
+  riscv: sse: mask events during shutdown and kexec
+  riscv: mm: avoid enabling interrupts for nofault page faults
+  riscv: enable NMI-safe lockdep irqflags tracking
+  perf: RISC-V: support callchains with SSE delivery
+  MAINTAINERS: add RISC-V SSE maintainers and file coverage
+  selftests/riscv: add perf user-stack SSE copy regression test
+
+ Documentation/arch/riscv/index.rst                 |    1 +
+ Documentation/arch/riscv/pmu-sse.rst               |   62 +
+ MAINTAINERS                                        |   22 +
+ arch/riscv/Kconfig                                 |    1 +
+ arch/riscv/include/asm/asm.h                       |   14 +-
+ arch/riscv/include/asm/perf_event.h                |   10 +
+ arch/riscv/include/asm/sbi.h                       |   63 +
+ arch/riscv/include/asm/scs.h                       |    7 +
+ arch/riscv/include/asm/sse.h                       |   82 ++
+ arch/riscv/include/asm/thread_info.h               |    1 +
+ arch/riscv/kernel/Makefile                         |    1 +
+ arch/riscv/kernel/asm-offsets.c                    |   14 +
+ arch/riscv/kernel/entry.S                          |   14 +
+ arch/riscv/kernel/machine_kexec.c                  |   11 +
+ arch/riscv/kernel/perf_callchain.c                 |  140 +++
+ arch/riscv/kernel/reset.c                          |   18 +
+ arch/riscv/kernel/sbi_sse.c                        |  252 ++++
+ arch/riscv/kernel/sbi_sse_entry.S                  |  237 ++++
+ arch/riscv/kernel/smp.c                            |   17 +
+ arch/riscv/mm/fault.c                              |   32 +-
+ drivers/firmware/Kconfig                           |    1 +
+ drivers/firmware/Makefile                          |    1 +
+ drivers/firmware/riscv/Kconfig                     |   18 +
+ drivers/firmware/riscv/Makefile                    |    3 +
+ drivers/firmware/riscv/riscv_sbi_sse.c             | 1228 ++++++++++++++++++++
+ drivers/perf/Kconfig                               |   11 +
+ drivers/perf/riscv_pmu.c                           |   14 +-
+ drivers/perf/riscv_pmu_sbi.c                       |  561 +++++++--
+ include/linux/cpuhotplug.h                         |    1 +
+ include/linux/perf/riscv_pmu.h                     |   20 +-
+ include/linux/riscv_sbi_sse.h                      |   95 ++
+ tools/testing/selftests/riscv/Makefile             |    2 +-
+ tools/testing/selftests/riscv/sse/Makefile         |   10 +
+ tools/testing/selftests/riscv/sse/module/Makefile  |   22 +
+ .../selftests/riscv/sse/module/riscv_sse_test.c    | 1154 ++++++++++++++++++
+ tools/testing/selftests/riscv/sse/run_sse_test.sh  |   59 +
+ .../testing/selftests/riscv/sse/sse_perf_ustack.c  |  564 +++++++++
+ 37 files changed, 4656 insertions(+), 107 deletions(-)
+
+base-commit: a5ae1bf65cee84bcc121d659e7e22a767853f5f5
+-- 
+2.50.1
