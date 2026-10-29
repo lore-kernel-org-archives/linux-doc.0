@@ -1,58 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793282549;
-	b=dPQw4hBkROknYNBB5zA74DnU9vcSCYnqv6+OLR2JJuqroq46I6oHuez6Qj8Fa3zCAv68
-	 TuapTBOtlIyscCtM/eCtxfycHTNSIHF6BtBvBPb9lVVq4hbnjCziWZ1oRrVotSuRRaqBH
-	 cAsu0N9EIQfhLpaOOZC1YfuyMeaSqJu8tfGUhaD11pEG3eRZOMhT/4uWRLIi1V3/sp0O7
-	 97vE1EHJvYi5tTnx6uXB0i9ACsEQFTPlz7WgfcY3WGvzGQgOcOyY8S66DUVpxkyRgD7V4
-	 yCogqF5/hHr6xLYq5Gedmpylx2lbFRF14lZNxtULocslgSOKlk/9QkEaoSCqS5W0UeQ==
+	t=1793283001;
+	b=e8DRAZ//YPm0og7rv5FVjYI0/mrX+4J0ayOKiVTKTMoTu1/MjnS0LU0g7RCzkfcu3JbE
+	 h9vgM4QG7E999aXdiYFIF+Xm4vUHRiOsp0OoVdGosGDrYkmMbZv8MfcMvSQiw+XpbBAxP
+	 mF8YQhmwK07BvuC342XmX6K+5wjaoAYX3pqaMd4ZtEQWQd8ka6BCDGsDpYeM1ocNhx48s
+	 EWhMu/7XMRCYc+iqrQ2LA7wev9UsQyVxJFkMbvZxxc5t18kBxHDJ2KvHsjsl/vIRDsar0
+	 fHPyyzxQClYnH6wVv0XAgWFbnZ2MoOswJSGLA2Ywo6tTZvSADb2jxYcM0pa5ryfRZZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793282549;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=46BTS2L17vKUMaAXzO89PlCn4e9X2ecYyyZ5hRRDLBc=;
-	b=WS9Phh0Zw8LWjnC4ojlp9jcodm0sjhRCYzM4FTlOIgbB/DDt8AfBer5c7Sb+cmCJyHgV
-	 hbWCbKa0KrTeKjddRi7JYlL/2XF4HKT0mUWN7g6RzM0A9f+p/BnSMamt+EMJMUYdUiBuI
-	 wIUGXAYZX8WiMJnqedYH0W8iItjBj4VAIF2lwIJIS0WNqzF8905aA9GNj3IoYxkF5vzzC
-	 FnD8CsDKgAsokuYbwviMRBP3F932m1J3xor4KGDqejzduXDvLxxRq6//IJEwnJYaaKMwX
-	 ZlVsuI0Nk9B19Wp634g857ibrqGLKVJMqwZmAT14ahNEN3rPDXt0kIACAF4QvlkXfUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793283001;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
+	b=QPioOzQxoaKGcmaVyjz3J/16kNzB1Opsy1IruO2AK7kZQYRfxrnq2A5xQdwPoZqFuOsa
+	 iF51iZ2x1xlE/3jMAbRt5QwX/gel8mmaKICN7O9ti7jus5kxgrX8bCCiD3G1F02yLa28O
+	 /OqjXufx/0680JzqK14Lli+R5pnsZSb161GhNWk0nAWZYNn6eMWyk9QVwWZB00urLJ7XC
+	 nRzTIVA1i3ZzRSDulfZ7f6bYnYMnqRPkk14uAgYwJJAMd6d0+TBuQcAKpZYSOgYiQxVQo
+	 xuao9F2IGuNCNrlxSh/q6CZjWP9ghi/hboYSKCnsda2JgMbph9Xmrl56GkgGAUDYN6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Xxcr1uEv;
-	arc=none smtp.remote-ip=113.46.200.221
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=oqoCkjVs;
+	arc=none smtp.remote-ip=209.85.222.174
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C28606A336;
-	Thu, 29 Oct 2026 14:02:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7C28606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD25606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:09:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DD25606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Xxcr1uEv
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=46BTS2L17vKUMaAXzO89PlCn4e9X2ecYyyZ5hRRDLBc=;
-	b=Xxcr1uEvjyUncblEyLuJ13eru1beYW/GY5GFrPE5ZiK43B4KlA7E+sfVr4qhA3hrvIBxIwDSM
-	8bbmRWDAsZAUJOf4aPz+Fkbsf8dlBiYZwCbJ4LCU36/fQiGVBZ8WrYc5WWyoqZLYFc7PE1SX2xp
-	egChEha82ieFCMIiUlrLwNo=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jFmBT2KpwzRhQX;
-	Thu, 29 Oct 2026 22:02:09 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 162B340561;
-	Thu, 29 Oct 2026 22:02:12 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 29 Oct 2026 22:02:10 +0800
-Message-ID: <009b13c6-f618-43fe-8a56-8519d31b239b@huawei.com>
-Date: Thu, 29 Oct 2026 22:02:10 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=oqoCkjVs
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93f20c3aaa5so199818785a.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 07:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793282997; x=1793887797; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
+        b=oqoCkjVszR8u8wCAtEPVJAxDRDmSU97Ltyl0epD2Lt3u2UIIXdVHNDGujjYdwY6WRE
+         SKBt6uYgdBnT6o5KdL7GbgHiWWlXLYlzp8oWVtx/63snb1x0A/98UMN9nSo5V6B5ls/h
+         9u535mipY84FplFJ5MHPeqQly0KmoyExjUBmnPmbZgYUFhtaNmzu1pOR7TqeL6ghQvnJ
+         wb2AWZsJdkzFI9sCrqTqK7UV5M+ZSaa+yHEEkToHs9S+zZdwlj+JO6pofP8F4CYTjz8w
+         BisOYjY7MDZGSlzjpRbTYDWgiYT+BJxMePPhJG1Ck8ZG82Y4PAMfi9RC0ZL1zm8pkkMN
+         jT8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793282997; x=1793887797;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u/mTL+S+jT7oJspNq9ZedMuDxLFktRxLqgiEWs4bjJc=;
+        b=1y5jcwyNA1vONx6XcCxuBNSFCGcdH4CFRK6m3rwkfW53DHavbiLjgcXmsY/2ejneX7
+         e20D4RrVGzQJBVEdjs3QYYQwl6/jTzYeN2tORmNY24NFBQ0HlsxoSgop2RGAR6Edjhbg
+         kQzptKNtgaxeWOLUyWe5v5pvqIqQaK9SgQXgzy7BTaMi3ODIZHWc087dm6fF+qMYNQD1
+         xd1hJam2vVOZJjLLDQSxT+BYk19t9oSboofQpJSrEbnGUIAK1UN8VfyQc3Zs3kar9dFQ
+         /o0G+xpgbYRtr0QkqNbJ4j72vfVNjUDG69F/yBwWOIACGE9DkXENo/tz12f9C9Gdsfdi
+         yOcg==
+X-Forwarded-Encrypted: i=1; AKwUvBzxG/RA2sSANV0bPwVUWMpJwd5OuiRF2B0e972m8gKO/jOTDnPjCsyDXuNchxJsHHtpt3Uk+/L04tw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJWhdOM8bAyk3d7+oD1NPcDpydlWQL7c2FZ+uNN7wU6kUyv9KJv
+	L3GXKbGzGqlf/LzO28tHW6CC6ero626LLwWGvlrAWqlHDD1iXwf7Ar6F+lHPsWSNtAg=
+X-Gm-Gg: AYBFou0ugipiay7WMiJehd7RqiG7xR8sB5GR3HbynENSJAYnDRHbAsI535eZyi+lSms
+	u+hFga21/xd3xFFipMkZ8PKNotaNBvyvOE/L3XTtEq7gNZUX1vO6Vh6DT09oXmLigi4Bjp+6ePW
+	TAs6vqXIs2Fm6Cd6caQccLDW9YQSHuReqQhITqyh9QL9dk12rf1BKXrqZ6Ux9P+yCFDl8tZP3ka
+	3OETzV0HQVaI55ebgsNCGKDHapIKrAIER5oce0kAZy1BGYKWQh1RhbF+2mA6DQ08ILKMy87HYFS
+	8FtS44wY77PFFJuvT/xWmOZ91hqFUAYchntgjIGJ7cFn/k3NfTbZeZJW+r8qbMijuvxu5d+nLp3
+	mGSaZ0Bopn1vYENCAey/LpB3DLFe2U6eOgNfkCzM3HhXqqXhvIsze5iDYgsPAwzlqVaDQGtvB0W
+	DPf/2ScHnmU9RmNWm/Cgvmt4Cj48K/DMADYttLjjk+2A+U0hiaAwRYblVVLJg1tihQ4p2KbBEMc
+	LPwh8bbz+AsJfLqIrASuR/oVUtNX66TNxIgoH+0q3OOKZqqIUteu+RKkwCuSo1a/VJw36OpLdRH
+	nS0Kf6vQqpWFGi4bXfkJ+R/RIPNdD2U37R2gNkcrMspdoSt72CEOrmugvw1NrJwiP42ZkjkYPXR
+	VGu7NJFv/S7k=
+X-Received: by 2002:a05:620a:29c5:b0:93f:59b8:e28a with SMTP id af79cd13be357-94408cf4114mr838476185a.28.1793282996749;
+        Thu, 29 Oct 2026 07:09:56 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47cb4f56sm162421066d6.35.2026.10.29.07.09.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 07:09:56 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xMQpH-0000000FhyS-1U83;
+	Thu, 29 Oct 2026 11:09:55 -0300
+Date: Thu, 29 Oct 2026 11:09:55 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org,
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com,
+	drdeeglaze@gmail.com, James.Bottomley@hansenpartnership.com,
+	aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com,
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com,
+	ankita@nvidia.com, suzuki.poulose@arm.com, kas@kernel.org,
+	rick.p.edgecombe@intel.com, elena.reshetova@intel.com,
+	dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 00/20] attestation: Add a common subsystem and TDX
+ support
+Message-ID: <20261029140955.GO1685504@ziepe.ca>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <592d643f-e97d-4de8-9a87-e47d57dc8457@intel.com>
+ <20261027193629.GK1685504@ziepe.ca>
+ <5f33aeed-a20d-4881-9ccf-a69bc308d348@intel.com>
+ <20261027234658.GL1685504@ziepe.ca>
+ <c57c45bb-5047-4aa9-9f06-6ac5f36ff3ce@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,143 +117,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/15] KVM: arm64: Harvest stage-2 dirty state into the
- host folio account
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
-	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
-	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
-	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
-	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
-	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-6-zhengtian10@huawei.com> <at-WceRKAVM2kEnI@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <at-WceRKAVM2kEnI@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c57c45bb-5047-4aa9-9f06-6ac5f36ff3ce@intel.com>
 
-
-
-On 10/27/2026 2:05 AM, Leonardo Bras wrote:
-> Hi Tian,
-> Sorry for the delay in reviewing...
+On Wed, Oct 28, 2026 at 12:16:01PM -0700, Dave Jiang wrote:
 > 
-> On Tue, Sep 29, 2026 at 06:36:45PM +0800, Tian Zheng wrote:
->> With VTCR_EL2.HD set, hardware promotes writable-clean descriptors to
->> writable-dirty without any VM exit, and the only record of the write
->> is the S2AP[1] bit in the stage-2 PTE. The write never passed through
->> the host stage-1, and no unmap path reads the bit, so the record dies
->> with the PTE and reclaim may discard written guest data (silent
->> corruption).
 > 
-> Sorry, I didn't get what you are trying to achieve here.
+> On 10/27/26 4:46 PM, Jason Gunthorpe wrote:
+> > On Tue, Oct 27, 2026 at 04:09:19PM -0700, Dave Jiang wrote:
+> > 
+> >> There are two issues for TDX Connect. One, the device info is collected at
+> >> SPDM connect (TDH.SPDM.CONNECT), not at lock. TDH.TDI.BIND only returns the
+> >> interface report. So the measurements a TD sees at lock can be from well
+> >> before the lock. To get measurements taken after the bind, the TD has to
+> >> ask the VMM for a recollection with its own nonce.
+> > 
+> > IMHO measurements taken before lock must never be made visible through
+> > this interface, it defeats the security property of evidence within
+> > the locked session. I would expect the guest kernel TDX driver to
+> > prevent this.
 > 
-> On your patch, I see you marking backing pages dirty at wrprotect and unmap
-> walkers, and it's very confusing to me on why you are doing this.
+> Agreed. I'll change the guest driver so the lock asks the VMM for a
+> recollection with a nonce the driver picks. Each lock then costs one
+> recollection.
+
+I do not understand why cached evidence exists in the host. What
+reason is there to ever provide a stale signed evidence? None.
+
+Other things may make more sense to capture once and are not permitted
+to change, but evidence is not one of them.
+
+> >> The empty challenge in my provider means something else though: don't
+> >> recollect, return the evidence collected earlier. So it's less "omit the
+> >> nonce" and more "no new collection". Maybe that's better as an explicit flag
+> >> than an empty challenge?
+> > 
+> > I'm not sure 'no new collection' is an especially useful thing. Since
+> > the kernel won't be validating the signature you still need to pass
+> > the expected nonce from the prior collection back to userspace so it
+> > can check it.
+> > 
+> > Is there some specific use case for this?
 > 
-> IIUC, what you are trying to do is make sure a page does not lose it's
-> contents in case it is reclaimed by the OS.
-> 
-> IIUC, when a page is reclaimed, it will unmap the S2 PTE, and save it's
-> contents to swap, so when the guest read or write to that page will cause
-> it to fault.
-> 
-> The page can never be just unmaped, as if there was a single write to it,
-> the backing pages should be writable, and the contents need to be saved
-> somewhere.
-> 
-> So, if I was able to understand your suggestion, we don't need to worry
-> about this, and this patch wouldn't be necessary.
-> 
-> Did you hit this issue?
-> Can you please expand on your issue, if I could not describe it above?
-> 
-> Thanks!
-> Leo
+> Getting the lock event's evidence. With the suggested lock change
+> above, the guest driver collects it during the lock. But the lock is
+> a sysfs write and returns nothing. Userspace still has to read the
+> evidence to appraise it before run. The device was already locked
+> when it was collected, so the read needs no new collection.
 
-Hi Leo,
+Why collect evidence during lock with a useless kernel made up nonce?
+What is that even for?
 
-Thanks for the review. I haven't hit this in practice, and based on your
-analysis the patch doesn't look necessary.
+Signed evidence must always be collected with a userspace provided
+nonce. Any path that doesn't do that is pointless and I wonder why it
+exists at all.
 
-Reclaim only writes back folios whose PG_dirty flag is set; a clean
-folio is simply freed. A stage-2 write never touches the host
-stage-1, so the folio depends entirely on kvm_release_faultin_page()
-at fault-in to be marked as dirty; without it, the page stays clean from
-the host's perspective and reclaim drops the data.
+I imagine lock should only put the TDI into the locked
+state. Attestation should later collect the evidence with a user
+provide nonce.
 
-Your **RFC v1** patch 2 changed that marking from writable to dirty:
+Do not collect evidence during locked. Do not hold stale signed
+evidence in the kernel for later retrieval.
 
-```
-- kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
-+ kvm_release_faultin_page(kvm, s2vi->page, !!ret, dirty);
-```
+Again, we need a flow where we get into locked and know we are
+continuously in the same locked session until we reach run and dma
+enable. That should not be done with evidence or evidence generations,
+it must be some contract inside the TDX driver to provide a locked
+session generation.
 
-During logging, a read fault maps the page as WC: the folio is not
-marked PG_dirty in kvm_s2_fault_map() and hardware promotes the PTE to
-WD on write without any fault, so reclaim frees the page without saving
-it (the folio was treated as clean).
+Under these rules it does not matter when we collect the evidence. Any
+time during the session is sufficient, it does not have to be done
+instantly during locked.
 
-Therefore, **HDBSS v5** patch 2 reverted to marking the folio for any
-write-permitting mapping:
+How TDX does this is up to its spec, if TDX has to capture evidence
+and do evidence compares internally thats awful, but has to be hidden
+in TDX and not leak to userspace in any way.
 
-```
-kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
-```
+ARM should do it with the sequence numbers I mentioned earlier.
 
-Together with the v5 scheme, this makes patch 5 unnecessary:
+> The guest driver picks the nonce for the lock's collection and
+> checks it before publishing. If userspace sends a challenge instead,
+> that nonce is its own. The collection's nonce is in the evidence in
+> the GET_MEASUREMENTS request that asked for the signature.
 
-- kvm_s2_fault_compute_prot: always set PROT_W when map_writable
-- stage2_set_prot_attr: PROT_W -> DBM unconditionally
+Unless the kernel is decoding the evidence to check the nonce this is
+security broken. I'd rather not have the kernel decode the evidence
+like this, so the nonce should always be known to userspace and
+userspace/verifier should be checking the signature covers the
+expected nonce.
 
-
----------
-
-On a related note, I'd like to discuss the next version of the DBM
-scheme, following Oliver's suggestion [1].
-
-Oliver asked for the write bit to be selected by the system capability:
-
-	FEAT_HAFDBS: PROT_W => DBM, PROT_DIRTY => S2AP[1]
-	!FEAT_HAFDBS: both => S2AP[1]
-
-However, our v5 kvm_s2_fault_compute_prot() granted PROT_W
-unconditionally. With PROT_W => S2AP[1] on !FEAT_HAFDBS, a read fault on
-a dirty-tracked memslot would install a writable page. Since dirty-
-logging relies on the write fault to observe the page, we would fail to
-track it.
-
-So we also need to fix kvm_s2_fault_compute_prot():
-
-```
-if (s2vi->map_writable) {
-         if (s2vi->device ||
-             !memslot_is_logging(s2fd->memslot) ||
-             kvm_is_write_fault(s2fd->vcpu)) {
-                 *prot |= KVM_PGTABLE_PROT_W |
-                          KVM_PGTABLE_PROT_DIRTY;
-         } else if (kvm_supports_hafdbs()) {
-                 *prot |= KVM_PGTABLE_PROT_W;
-         }
-}
-```
-
-For normal RAM on a system without FEAT_HAFDBS:
-
-	logging + read fault  -> PTE read-only
-	logging + write fault -> PTE S2AP[1]=1
-
-[1] 
-https://lore.kernel.org/all/ff218960-c412-4283-aa41-b7af2a7048b8@huawei.com/
-
-Thanks,
-Tian
+Jason
