@@ -1,54 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.101
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245905;
-	b=sAY2ICFg9bPzNr8cQdJRVOr0+Nl3A2y3oWi2udS44S1uo9/KkWKHechHTV74wpZmq/ee
-	 YbWOkDoLx56KRzo86uj7EUwMXS402aKmtmOBaqVIkvrMRmMwYpfUP8QL7CSdjG7v87oO/
-	 HHfuLbCEkNDw9M4wMYy023hMlNqh4t+3GYUWnOkReH5YLRgS76WXlvVf+wTmUlRLd7T6B
-	 cvNfza5CX/bvi5nInvvDwxJfDRwdeqcb5KDS5+yfsliGXyn9+DHpDFZh0U5W/8vnIGWob
-	 Rrl4ycN3Q6ZskNxNgIIAxlu8CHgfRZO/0cp7t4OnZVm9iSeiiquXcUkjsAZrRZakaPw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245905;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=YXfmsX/yQpRThvRvFibuXD3vPcTXDbmM4UJssVVOAKc=;
-	b=1j9q7Ks9nQ0YlVssIfeeVTuaYg6FRuSoTV4Sta7FhRhsI5eImU9tjFLOOewsbQnvAkw/
-	 HJqUdcocmluQ6IxPkGFxPLNy3Yme61RQbf98/RZ5HLkLBgNalMPKoQyPlUiVOyLZhpiqH
-	 pl7S8RKaPZ+LO++tGpXP871P4fHxEd4DZjPwjo+57nfD1ScFUqz7dJTF6RazXc01gWQNG
-	 jRn2Y35H3eL/3IcHuVpvLDNlVe6hm04cuhR5HvKkRqLRAjry5ncSm+PgBHTUJBN3+8jzU
-	 F741a7nXoHEfVYxGjPi96MoG6wpnjnXQQv2gYsbQj1Gxi5THYisCzfH4F3VtoURuExQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=kKimkzyM;
-	arc=none smtp.remote-ip=95.215.58.101
-Received: from mta1.migadu.com (out-101.mta1.migadu.com [95.215.58.101])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793247444;
+	b=cmsKpNlOMS5DiEPsdAuIOljKrc6xKM2LGetAyVwV1NutqbHbze4+XEGvSAZjg5cyFN1x
+	 25cTLgLsm8qfoXBZQTbso2Cg2mRGNw4tQ9G43MhjdOhbkrxJ3uP/81rrUGwzj1pfLTZDQ
+	 gPf/euTwp2hQ9Jtz9gXti7k/CyiWd9QMtuXeJnWpyBb1uu0Ics/PGPbX2ANONVrBGEVwr
+	 vJzHJNLlr0ssLKhlFlf3+Em8cbKR9y7zzl2X36mwRdZ9iCqh3fqp7shfDMbGLiCY/XFXp
+	 woW48hrXWveVr/N0IkjHg5Un21FXmy8c/rUTQjrFUE3lN/Py0UsrhDWqXd+liUyncRA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793247444;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=rSJCe8zophbfUBSAlmq6SzeBx9UPvQmMr7CRrRTL5U4=;
+	b=qClcpf8mbD+zrNiHS0wbxTUtNBPmPzMawaHfdMxAI3l3YnxKYXPqDT1ayrs8+8PoX2yJ
+	 QmidvV4ZM0ix1aC1BuNHGlClPkwPCgjmKpr5sJuftDFAubcXmoo3wqdeLIzSKlBaZz9i3
+	 xA28qaRKZpB26V6glQauLUGge09hUCvUlOS3WDmEuuRtrP0qJ1SFMsnfJQB1WteqRuufb
+	 eh7Tg/kVq1jaAPxW8UreLAlMgJpiLTZCX8w7jp5j1PDFi6oN32zoqveklMdZp/mA9mAui
+	 UvwgEujh91gwJCcJ+Kuotlqrjc7OJCtv72gfwnXsKtHnVT8EEIbGYvcE+632o41/q+g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=z2gPyzrq;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.11
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011011.outbound.protection.outlook.com [52.101.62.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566FF606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:51:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 566FF606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE56606A31A;
+	Thu, 29 Oct 2026 04:17:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCE56606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=kKimkzyM
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=716xbJigIsWZtYo06Vb5k1w3O79is5fyZrfOLJIQCDQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793245901; v=1; x=1793850701;
- b=kKimkzyMPeC7s5+fbgeXF8tpg/Q20CMWuvnl55Scox90nZ4dUkgyeG+w0oApM+0nWA4fRHkg
- q/pfBgaWt9rb3eD6HUd7Wny2AINRQQZRfUAHY9eATkwakdCHmJE5s3+3NeXmKraZBCz+10zFbr1
- 2tzeKUEeN5Os5kX7uiceRtZA=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 718d34fddc079b55;
-	Thu, 29 Oct 2026 03:51:40 +0000
-X-Mizu-Trace-ID: 718d34fddc079b55
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=z2gPyzrq
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LGRFQqYGVBnIRJk8Wxo/NFKW1n4j3BH0OPNDaMEcqXnSWOy3KRGjRvuH1LEYH7xRk2++33ZalA+Achl10/Ga8l91YzqRHFZjPrj4aYPBs2ztbH1h8woeTDRYyzjedobpdXv5lwgoAya0m6NeLb0g3MGvYAogAP4ptjvalXXsKAsqXzzlB2h9qWj75mSXo68ouAUPSijyhtai94p3BE0Mmou5tYveJX/LNb2djxpMZvn/fXyqL0EIRYVCJKOOnOT6hLvtdEh28Hjx3C7AILFkcr+zV24yQ7Nk+uPNX76enrlxTLeDkIuJ4l/948WJO34PNzUZEuCErqpySmCjVf5y0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rSJCe8zophbfUBSAlmq6SzeBx9UPvQmMr7CRrRTL5U4=;
+ b=BtxLAfO8gPNXItteHHop17FWyQO9Tr7qKpHz+Hn9Gp9Y9g8nxNqKiy/ECsCjfu5UyUf5AQTlhFuWPw+svD8KHYdq0nC8HSd+yGVKnCVotakbcXC//97ZRXdRSZYSgYo+eoeUxJRcB9iySahBxI4RNEwjpaXAxcaYtw3s+0VsgFj58NVuWaUurWy747UPaSU2pkqkEjeYiqg1ZJaKN9F+8OIWP3R28CuWZ5KmPdP6bTLfRi7KeeP5nh7RMbcCdiVq9f4kxTwwB24JiByV4k5x/qUNi9XOyY1wQFAYn4C7O4rzWDwnJd1IGP+08dD2oXte5FUs4H8+40sI68Mh4Qs6Vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=bytedance.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rSJCe8zophbfUBSAlmq6SzeBx9UPvQmMr7CRrRTL5U4=;
+ b=z2gPyzrqo2LmUHU+hKsGxJI3hMuvprB8hzoAAVhE14oCgQg1LyLdNDcWmpopJq+JFleJkqiypLaxQ1+L+mU7+X8uE/8o9k/messHjCsvwMNkv9zS7z0s1Wish4T0rFlvKN0xqxvv9OmdpykV9dsx2RaXfeqJc0zBRlEm/uX7exE=
+Received: from PH8PR20CA0011.namprd20.prod.outlook.com (2603:10b6:510:23c::14)
+ by SN7PR12MB7130.namprd12.prod.outlook.com (2603:10b6:806:2a2::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
+ 2026 04:16:52 +0000
+Received: from CY6PEPF0000004C.namprd03.prod.outlook.com
+ (2603:10b6:510:23c:cafe::88) by PH8PR20CA0011.outlook.office365.com
+ (2603:10b6:510:23c::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.22 via Frontend Transport; Thu,
+ 29 Oct 2026 04:16:52 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CY6PEPF0000004C.mail.protection.outlook.com (10.167.247.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 04:16:51 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 28 Oct
+ 2026 23:16:50 -0500
+Received: from [192.168.0.152] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Wed, 28 Oct 2026 23:16:45 -0500
+Message-ID: <e2fb13e8-6d17-41ea-a9f7-397f62a85f72@amd.com>
+Date: Thu, 29 Oct 2026 09:46:44 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,107 +100,70 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 05/15] mm/hugetlb: keep surplus folios when the pool
- shrinks
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-5-a0a033db180f@kernel.org>
-Date: Thu, 29 Oct 2026 11:51:13 +0800
-Cc: Oscar Salvador <osalvador@suse.de>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mel Gorman <mgorman@suse.de>,
- Andy Whitcroft <apw@canonical.com>,
- Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>,
- Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Peter Xu <peterx@redhat.com>,
- Breno Leitao <leitao@debian.org>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>,
- stable@kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <8DF234F5-8EAF-427C-928C-8DD6E53FC501@linux.dev>
-References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-5-a0a033db180f@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.12)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] sched/numa: make free-space tiering promotion
+ bypass configurable
+To: Li Zhe <lizhe.67@bytedance.com>, <akpm@linux-foundation.org>,
+	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>,
+	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>,
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>,
+	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>,
+	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, <vschneid@redhat.com>,
+	<ziy@nvidia.com>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20261028041253.74839-1-lizhe.67@bytedance.com>
+ <20261028041253.74839-2-lizhe.67@bytedance.com>
+Content-Language: en-US
+From: Bharata B Rao <bharata@amd.com>
+In-Reply-To: <20261028041253.74839-2-lizhe.67@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY6PEPF0000004C:EE_|SN7PR12MB7130:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fbb6a21-1bb4-419a-37f5-08df35737548
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|36860700016|82310400026|921020|261028144727099003|11063799006|4143699003|56012099006|261021121427099003|261026140227099003|261022105027099003|10067099003|261022075727099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	lghA6RluDIyLnFFvhX9rRwyXQVPXDF5Q09X9mZz7yf6KfDPeIpsfBG4Pp427Y2pJdaPJgSRAq8SQOLynq5eGo/bjAJ9+xI7WsNyajiEdagRCbtp3br43plZAoiRn6Q5vtxyX+Pjc/S1jZnLJP+X86egbT+yLaKoLQlYv8TkZZQVMOf9NIfNVgf0pEolw5+iILeYrL+ZQbqrsoHQnmnhreyqGy8NKUFhMzXP0BcAuya9vrBFv88RmrgIlgT8PdzGe0SoqoXxfS9XBmP+hlP1D/69VE57sg7E2reRHkMKV/baoQN/zkp7WeDZiixbmnXbmH5FZES9f0BUBj6zc0EBQ2uS7zl5pwPt1mERpJO0p7MWn9zMEoSqkFkHsQCHYbozEz5sltTe0JUOTKtwoIghS0JMa/TRHVhHP/dOpmQLrVfCnXXi2R5wHm3ovUIvfxqgku0zA8uC2Zw5O5B9Ri5ibre2zV6I47/LIXWHZZC0V2CEOsAALlgfo5tbRc3zhYGuuwBiPdc9dzjLgJ8I6S21qDn5QLAhRQbroYfimgOqmwwm8DXFvGtV4pvzbW6934e1zeBTL2r/1Q4WKTOSvIUnhZ8uykxqkA7xHpIUWIkHc0XzIkz6GtJ1Rio2ERodq1/gRnG67o5SiwGQkVj3lWsKI9KUkWl/9n2PDLuInjd1s4myOgybdsw92h6bc2EC9FFVzu58QZtlX6ttoV8usL3WQdJ8aRyCuXEk1AnQKvRHlcwQpRd5b83d+LXIGKk0zsOdr
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(36860700016)(82310400026)(921020)(261028144727099003)(11063799006)(4143699003)(56012099006)(261021121427099003)(261026140227099003)(261022105027099003)(10067099003)(261022075727099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	oqVkSRXzBFedJKBR+kLSwCEO1vxosnB0uJwkaHQJM9bJ9+Ys9ZXtC09C7juq/0fh44zti7Z9EJUh+gLSOYpzrRyVSjBzFYmlkF/xW+X4YLHHmNUbWdKA931UtCJvKcJ0GxkgVq6lqzvk0jURkKKkTnnaP7et3qF4HHdPCxFfF85MJdy4+NWtmAUSVbJqjpxdof4xAxZezMYU9lskPpDiTfIsyYQi4aGEezs/78V9NWle2bj1oA9fC++8pdpEtKuyd/SNxPRBewnty4OZjCRTLv2WU41ImOwF350CMO2Xkb4pIsoO8sexHwqgjCsobS7PBB2ZBsZy4gJWUKeupsgVtau8PeDTjgQPExrwU5542kxl/cTwRVFFsHpWi8dqAstuLzYUjKztuaOx6ljAx0lGBZzIM2N7OCtB2d8wzgWzOuaED0OY8XCLvoBK5sm9Xztl
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 04:16:51.4189
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fbb6a21-1bb4-419a-37f5-08df35737548
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY6PEPF0000004C.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7130
 
+On 28-Oct-26 9:42 AM, Li Zhe wrote:
+> Memory tiering normally promotes any recently accessed slow-tier page if
+> the target fast-tier node has enough free space. This preserves the
+> existing policy of filling available fast memory before relying on
+> hotness and rate-limit control.
+> 
+> That is not always the desired policy. Some deployments may intentionally
+> keep part of a workload's memory on CXL-attached memory, for example to
+> preserve a desired DRAM/CXL capacity split or bandwidth distribution. With
+> the free-space bypass, short cold accesses and bursts of hot accesses can
+> refill the fast tier and pull the workload away from that distribution
+> whenever DRAM has free space.
 
+Currently promotion happens on 1st access. Won't it be more natural to tweak
+this frequency of access and also the time between successive accesses to
+prevent promotion due to short cold accesses and bursts of hot accesses
+rather than free space bypass configuration?
 
-> On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> From: Josef Bacik <josef@toxicpanda.com>
->=20
-> Surplus folios are accounted per node. When shrinking the pool,
-> set_max_huge_pages() removes free folios through
-> remove_pool_hugetlb_folio() and accounts them as persistent folios.
->=20
-> It can select a node whose folios are all surplus and leave its =
-surplus
-> count larger than its total count. Free surplus folios can back
-> reservations created by gather_surplus_pages().
->=20
-> For example, with nr_overcommit_hugepages =3D 8 on two nodes:
->=20
->  (node columns show total/free/surplus)
->=20
->                                      total free surp   node0   node1
->  mmap() of one page, bound to node 0     1    1    1   1 1 1   0 0 0
->  node1/nr_hugepages =3D 7                  8    8    1   1 1 1   7 7 0
->  nr_hugepages =3D 6                        7    7    1   0 0 1   7 7 0
->  munmap()                                7    7    1   0 0 1   7 7 0
->  nr_hugepages =3D 0                        1    1    1   0 0 1   1 1 0
->=20
-> After shrinking to six persistent folios, node 0 has no folios but its
-> surplus count is still one. Releasing the reservation cannot clear =
-that
-> count, and shrinking the pool to zero leaves one free page on node 1.
->=20
-> A later write to node0/nr_hugepages underflows the unsigned per-node
-> persistent count: 0 - 1, resulting in allocation of many folios.
->=20
-> Use persistent_huge_pages_node() to skip nodes with no persistent =
-folios,
-> as adjust_pool_surplus() does. This also excludes temporary folios.
->=20
-> Fixes: e4e574b767ba ("hugetlb: Try to grow hugetlb pool for MAP_SHARED =
-mappings")
-> Cc: stable@kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> [ david: cleanup code and description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Acked-by: Muchun Song <muchun.song@linux.dev>
-
-Thanks.
-
+Regards,
+Bharata.
