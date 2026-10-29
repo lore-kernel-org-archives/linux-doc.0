@@ -1,108 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.39
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793291985;
-	b=0Hci1QmJqp6cPGzyqEBA3PWGCIg52gar+bndRAQi/o0Svh9HRYS/2yAitj5NPobgYKIQ
-	 xirYYFxCVoA6GRCY223Cb0PB7QiAbYFI2h4rGPExLJ7WeYEkq6S3tBB0XDGwSKPgEx5hv
-	 OjbQI3ND6m8N0wPOU1849VtAxtPhyMaed3revAWg1ZX8jzDu3WU23LYqmC3LU0SoX8l/g
-	 fU/uiwqeNtXh1mI84YSiVBY0TD9mWkC+yIn7MCvql6A4a4gmFRcaDwieLvgzSy987uSWc
-	 rOzr/AbSd1Ua7P93aDs0YnMYeduz3y/qcHJUsg+MOYRP8bT7AHh/oQEhyXbQDZcMLqw==
+	t=1793293674;
+	b=F4kCCztt7ODSiZDkIpd1NtQb1WBBwlVLF8ygicDotehbAaV7wIfl9DokapUABAPrWZ+4
+	 5CzNqS1eAFkR7JPCXt53RBSiwwZM2rd66TNF7YJJ6Sh++WPivMXc0sLjIEwLXBUnUvjmK
+	 zvR90aIXiMATTOkY+yvlwkvJ9i00YQ5Q1+n0nvtZyneN9AVyJs5LCrY17UTWLgdF3teLc
+	 59VYNyRa1KXQSEsSezW+gGNGWeiXQYzKGoY9gS3XekLrL/H1bR+9D6ZUOEnUodcxMTIIZ
+	 pI2WSNK5K+jIa+zpZP2Uv+wGeEnLzbAnzF/CuJP4dIL/iXDNKrlZF2OFpxPpFC0SLog==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793291985;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=UWyYqycZVKNDpPdq0LPTCf1Fqe9kP99q/1k1Y+Cyk+I=;
-	b=MI+NIEJGsid3OXlxzavcVOmKfUa1k//ssMUnc1O4U4cOaRVTzmG01SAt1CAjnki7A7Mu
-	 iJ+LQQuMqAQtL0qv4aMS6Wqr+99IOMXt6x/TeeXSILXpzr61rq6WdnY2XPFUb7X1K2TqA
-	 mU1xUnxhucd4GeP2BvC1SSdwuMLwshDj2oMsFUILMk5e/BIQyNBXnmvr3iyxfKMJeq1Zb
-	 j4dpsbLXPMxFjVS5e8AHPPMHQuX0Mb+OGtdUN1VTt+0P9Xo5ulrM6gCcGt05+EEH7nQkH
-	 r17uPREoeDBfCgXPvRk647nPYft5cVAmqXpVtiFmR51AK0zwYLb8sWqg9FLsnRphJbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793293674;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
+	b=NUGprKJmzDL4IOhA8t5Ku7Qb1Cfvx8PEjlJcJ72YUzT1JGKIKkuQC/oAKJ0Wl1pNLCPK
+	 27LC+aJBPeOwtme6Pm7sfH30m4lSm/01gJdU2NcMdUONGuz9LeQEff3Sm39P2ZQ8tiDtd
+	 End7BXBziq7qd7rNZaZ9bJUjO/ZeBe6mokKwN7VIzWD1i+TefEb8QIGC5TkEb++/8eQDR
+	 glIgNvdIKSPxQJDNo/x2h00lYS/avt3D/mwwreCbh22NeDn4/LWk4uan0xUR1shc7L88W
+	 /O9LGICV1g4XYiqKFbZ2nj0EAb3PZbqICpw6VqER0fAN58SqipCadtyW8tmAzl6WAzA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=uWcfiJYv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.39
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010039.outbound.protection.outlook.com [52.101.56.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MuWAqUZR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AD2606A31C;
-	Thu, 29 Oct 2026 16:39:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87AD2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382F0606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 17:07:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 382F0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=uWcfiJYv
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O8nI3XzwoSy/qwm/gdGgAKEmAwxcv0lMksvhA9dTsoOHWDuo5hYgJORiJV9YeTr7XxVIuOkAVd1s51oGGLuPCf3V6sjh3RHqDMtWidGOXUgOFNnlF0bKZwUxvetX0gCzL7aDWGEV5CfWu/zd38XqPY4/1uTfwOpfdgdCRoIKxiiJA+nuoDp8jna9gHvvLYZfzOTp8N0fYh3s/+GWfL007OPVAi0CC1oB/OuJhTij9JowOoBgPOe2N21xzAk4N21vtniEczkM8g6n6mLwVVwft3GaHSgsiuBaoDyakFAkUKOZy7fQ73PcFHP8CVOQJF3dXX1CDZItX0op8V2zujq8gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UWyYqycZVKNDpPdq0LPTCf1Fqe9kP99q/1k1Y+Cyk+I=;
- b=x5HVokzlzDDu24v0ZtbN5mPolkDxVsKw8wFwCA9/iqJ4y1B+LfW22uH95p3V+ZFiPVoz+S8A3Cml7bbpHoAQPQtGeba2xrjYn8qUSRgmVbtaEV/uB6c/wyxXOPf3Eqlp5Oy0ackXpPRdFVX2xbVWTqPGDZDzvxugqtOO99wXQ2czBVEwmM12duTeJo9j4L3iByNX9vepp7kMDCBm3aeqTsA/ICYmw2jwvL1lX5A8I+/LwNynd826RnsSt/tM9SkKGPa5CZyJLXshfHtHpcIhoeN9+vqsdmv+TpcgqPC0jqbCFN0+XP5dCwNmZlagwT4a6suedQNfdu0b1ALqsOwTtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UWyYqycZVKNDpPdq0LPTCf1Fqe9kP99q/1k1Y+Cyk+I=;
- b=uWcfiJYvoZYbtZy12Dd8uEzTOnTNswk3wiZ7Hbs+xA5CpC401WwIpo/Cd0x/UPmgmVxl/Br/afzy6cKaVbErNp/HpnKOv1D9RrpHUR3va/agN8OZGGR30vG5CL3VvPfCQeivOyqGzyIkCQUsczMpikO5hZqdVsuqr006qFUiy2VKmqUSIM5JoG4vsrNvVNaXB8jb005M8XkXCcKzdKCs8bVxZYjPv2O46Qn0nR0IaqgMnyIH4K+Bde24ScYQwbJhrwqb13MjiEndL+TIVvWI6uwj268n21kU93EvqExkxAgSennygWxRP5blVC6AH49HyOMJIsR4fB8Z/YgPWf6txg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9349.namprd12.prod.outlook.com (2603:10b6:0:49::12) by
- SA1PR12MB8697.namprd12.prod.outlook.com (2603:10b6:806:385::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Thu, 29 Oct
- 2026 16:39:39 +0000
-Received: from DM3PR12MB9349.namprd12.prod.outlook.com
- ([fe80::7678:ab4c:4a7d:7f9f]) by DM3PR12MB9349.namprd12.prod.outlook.com
- ([fe80::7678:ab4c:4a7d:7f9f%3]) with mapi id 15.21.0569.007; Thu, 29 Oct 2026
- 16:39:39 +0000
-Date: Thu, 29 Oct 2026 12:39:37 -0400
-From: Yury Norov <ynorov@nvidia.com>
-To: Mete Durlu <meted@linux.ibm.com>
-Cc: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, yury.norov@gmail.com,
-	kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-	tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-	seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-	rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-	srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-	vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-	pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org, jgross@suse.com,
-	virtualization@lists.linux.dev, sunlightlinux@gmail.com
-Subject: Re: [PATCH v14 04/13] cpumask: Introduce cpu_preferred_mask
-Message-ID: <auN2yRZPKKWYk_CP@yury>
-References: <20260928053728.797539-1-sshegde@linux.ibm.com>
- <20260928053728.797539-5-sshegde@linux.ibm.com>
- <4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com>
- <auN0GKVMNvXbNdCN@yury>
- <b83e2d2f-681d-4e19-a680-c076493b3edd@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b83e2d2f-681d-4e19-a680-c076493b3edd@linux.ibm.com>
-X-ClientProxiedBy: BL1PR13CA0255.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::20) To DM3PR12MB9349.namprd12.prod.outlook.com
- (2603:10b6:0:49::12)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MuWAqUZR
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4395d31228so378894166b.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 10:07:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793293672; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z05zZF5ws8+iIcIiW/ywj8kdHrJe73K8k0eYz9Of7paNu7jo4CHKr5vaKLJjhYajNg
+         vwDBKLDriTpQQjNtTw9KJIWtm9d5Uuux9ZFwRolOZeRNZokFvYw2t3n7oMv6zvl3S84g
+         6+MJakFx/T7KQSaQ6h4PU7I+piT90wvLGDclaixf62SfNuZnesSk1rPPpDBXljQyDW0a
+         KSKh0ikRxQC1GOrtjICXFE2eW0p/NDBDeAojot/S7YeC64P0oNTgBMU3v0jIhtkzxbPy
+         rODCdVtfSyUhCrLJjJFmbuIjyy/6B+f6iYPmjcYlvLDbaMm5a7DPTesHaCjwMVMVspgt
+         xvwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
+        fh=XTaDom+4Y5uouhlGKpBxT3wxEH4j+v/0kNHnPkB8f5s=;
+        b=gCnpxrrpj1cRZNXzSVOisNDlH2t6NJwF9823CPArfoJ0b4/0ChRn4887rlpgXfoLAt
+         PFJaTom7uoz20V5S//swteBbIbcMvEdDBqtQXV2v4dUZ0simdAWNHcaz64U3N8dNHTFL
+         yAGzklOaYu7k8/PlfIW8NnBVvkRd4x8HHnQa3DcRKfnc9hNuDcXBpdoRHTWdNhHO5Xur
+         52hhn599Yx69ob2hv7XIbP4S3T3qYnP+V5ytx/2kSbSl5dH+uWb8kaVA9U2TywcuySdg
+         LwIh8i1gVqdWVpmqQMSiWM5iujkKWTU5D80OO4Vk28VosUSY5u8tfkM3A8upWD2I+QCh
+         ArjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793293672; x=1793898472; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
+        b=MuWAqUZRlat6aJ6f8GSESPnGQrfK9syg40aZf1Ngw4XasvhbbIUdsMyG95RGl30Qzz
+         9Yxe0i/egPCaT2iDSP9o+SPOXxQDDHkvTy3Tmbsi7gHFPDFfNRdbgAMu2ri/XRuLOU4P
+         w/N5pfbyO9+Mpyr56qJnr5Sli9u08T7aPzZBRGkJDhg+UkYzIxyUfOXZhvpgOXisSD+b
+         zn44DE015kKSRc0VnLzrd7UMO1HCWL8nTrMaQf75CEoS8svAUUSwo8/rKdYyb+ti+XeW
+         +ALiAdTd1CasSqLpNDr1GyAgjW6d36Qz7JKGCZD44Z9QbmaWAcCAiRBe1yPTRf3qPA3x
+         QBqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793293672; x=1793898472;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
+        b=IHqS7LvlM+xNc6yl+HWPqybK1jc+pDQIIk3pDgShz45xb2Ie25K3Gp22Myyd74n5QN
+         qUOPONJIA0DVczC7J0y9IQgYjFvKzpPai9393mtTJ4d+DBwWP2PJ4SsEm35B+bhOgfzR
+         V46Za4FoG+CQ2nAbxuVC4KE4SOAN00B/gqRX4YhkvNcEEpw0nyTnRXuawZyhjvfBTqzy
+         UEEBR/oFf3PwzijGiBZlwleF/R3KTDSNswdGCl4yLLsapisZVfeZ208pevQJ9rzTU0A6
+         HDfIXmEd9RqJuSxjmZdOuD40d8LAoA+CUOLhk+GnsEGV080SLmzdf/cOgQfS3GWSmCHA
+         6W4A==
+X-Forwarded-Encrypted: i=1; AKwUvByRUE8yMP/gmBhBJxi8xdlCRMv4EZNq4oTM6nPsC3S4GWcAsiWUowXJ375E31zNL4lwJZjjNkIhjtM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIVTsqsLikQAHxNeEGVTD4cCz6UmzXZryzeX8m/QXlnUmLZJfQ6
+	kdHG836cTALs4Vf9ZiXuHIDFyFYsDMDRGDeHdIUNz5Zca4frWTgOCrA0W9UWvMMA0asAeSpmOvG
+	SpnkOqcY01VFffVnRbrE0BwaXchPLsv8=
+X-Gm-Gg: AYBFou34Ch0cOE26k7yQNWXKyEVmJkp8o6GBfhPHGFuHCRtpPpDYitbg6YBlLMNqu5v
+	Ms7TObn9FnpMXim3VZ/d6GTZh9teV8Stfdvjkr9+AxT4YC+3Plk8Dn5Z5SjmQoUcpadZjW/PEeN
+	3HQROSiE+DQWQhr7FLEnEirmFfFiDRJej3auCM9CQzoLfoiTr7KqBXSa5SZ05Hl42BxoaoFLG0m
+	e+H3hlXN0IPDktCRkr8n6NrR78E1C7/FBsHELsoLojpB0gAaMmIFHYikZOxHYvPW2M7tiC/UL7T
+	BurblG50fMmRt82W7Rg3MSQu7Hn20908oEY9PS8Wt0mKOxzsO5+Kg/0XNWr2xOlSailHYrR0kRJ
+	fn6oMS+6drbeEbpehNg0p+EiLaSGRmXLGkLYam+0cJjV7oT3x7ana8xVRdpQ06iNOzo/54Dwdsb
+	mTX2zpRLU7UAyC9R0=
+X-Received: by 2002:a17:906:7313:b0:c45:c030:732c with SMTP id
+ a640c23a62f3a-c49be03a73amr610119866b.41.1793293672256; Thu, 29 Oct 2026
+ 10:07:52 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -112,137 +105,294 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9349:EE_|SA1PR12MB8697:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcfa84b6-4279-4a29-0059-08df35db39d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|261026135527099003|261026140227099003|11063799006|4143699003|261028144727099003|261026130827099003|10067099003|56012099006|261021130227099003|261022105027099003|261022113327099003|261021135927099003|261021123027099003|261022075727099003|261021133027099003|261022115727099003|261021121427099003|261009223027099003|22082099003|261026121527099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	CJnEnkpZazoaAdldqifeQngcZ+7I6rwb50LM4+NGHJNNlFb+ttpKHHkyofmtD+MrZE7kjA5l2RtBfqE4r8ZxxwbISTyZsCROJxESg6G1XlOTn7UdmDk/COGL1Fjfy8U3b72X/T91e8wZIgv5hDz4ugMur3D+GMDUrzpdNChq+dFb9WP9P/bZb3B2hnIfjVUCqBekibug0ZNHsKlXQjpx+fB1CEbgqaw7MHRZd2+Zg1DJbfcNVmRCKXPlEk+vhR2IniLr++CHtORew4iuFpt8YfKpm2HyfBBLPOum7Spbt1MHPlnlmclPRLIhnEeKbVaocAt7QNyDtb8z9nPmsoSDYTezwLKxiE9zbKRTJc79Eff7jK3FPiWZucxV6C/+ldqCqhdNuJCZXeMF3i+cOICzCWhPtzjCZhL7smGtO3HuJgY2Jh1DT3kD5jnj+gfaZcNf3/38kX/o1SO+3VFMCizP/MSTYVqRcjYCf7CokF8m2JtYQGNv4mr2o8L/xCMKarv95PAOQ727lfCPooDCCsHEUndEe4EC6s4mAsMP3GMvoXxxGoQaCpuiCYLcyQJHlegV8uX4MmOjK+kb+hRfcA8wanhCpZm0vWf/aHk8dA2wg9qdlZUysk+oX+vv2dNnbRcE7BOP4YEwQyJRtAbmD/61azjS83akq/D1J1tGFteAE1w=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9349.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(261026135527099003)(261026140227099003)(11063799006)(4143699003)(261028144727099003)(261026130827099003)(10067099003)(56012099006)(261021130227099003)(261022105027099003)(261022113327099003)(261021135927099003)(261021123027099003)(261022075727099003)(261021133027099003)(261022115727099003)(261021121427099003)(261009223027099003)(22082099003)(261026121527099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RkhKS1JWVC91WlFHclNRbThITHRwcmprY2U2ZjduaEIrcWVPN1dWUno4R3Jv?=
- =?utf-8?B?bWw1S0cyTGlHOFVvU0NxT0JvT1AreUorN1dvMEd0aXlWb3NNb2NkckdqcFU0?=
- =?utf-8?B?MWUrWGxZU3QzWWo4aTBKTUwreklOT21CMjRza0dDQk1PeDJ3b3J3VnJQcmdt?=
- =?utf-8?B?YlFjZ3JRaVZ6NjNCTVY1Wmk0Uk5CZFdSMG0rYVFwb1B0aFVsZVNmdHV1MEFy?=
- =?utf-8?B?Q2ZuTG11azY5WjBVRFBXbDhPcVlLbUlnWjUrRUY0TnFvdXFMZ0lmNFV4UFdD?=
- =?utf-8?B?MXlud0RtUDZ1cjA3VkJzSS9NWUxXMEsvUmEydVUxMVpzUHhsYnFKMTN0QytF?=
- =?utf-8?B?TCs3TWxXaGhKOTdrUUF6a2NWYk1FOU1DTFQ3aFQzTlFxODd2STY0eHVxSGNl?=
- =?utf-8?B?NllwaFNkNFFsZW9qNzVadkZibE1MTU5DZXBBRHNQazFkYTVqV1k1VGgweTlC?=
- =?utf-8?B?REVxN0hCb1JhaGxiNUJqUGkxVVNWMjd4cC9qcVM1dEo1aDcvQkFJZ2gzNEpl?=
- =?utf-8?B?VUpBRWlNQk1LMXE0MUZVKytjalNBRkZnSnRjaFA1NEJoVTk3c1cxK2VCdDRB?=
- =?utf-8?B?WkY5K1lzanQ2YTRMUjAxc0FEbmYzTWw1TUplKytkZEYxWjJTMzVyWFU0RGw0?=
- =?utf-8?B?eW1LR3BteTM4ZmZTTTVwUmpYSGcrRElVeGtPTUxvUXZUN0x4TkRDMk81Tm1p?=
- =?utf-8?B?SE9uRVhsbjlYeGRSMGNQcXJjdzNFTVU5YzJSbFI3eXRGVlo3cEVyTTBKTXpa?=
- =?utf-8?B?RiszRnpJeWFQUTZQNVhGam1CckV6TjQvZWVFRmtkeGlCcTU5T1F3dVV6SjJV?=
- =?utf-8?B?UHMwODZtNFZnWHR6SU5EMWc4MXFScFRENUl4akhXa3F3K2IvL0lSSitqVHdR?=
- =?utf-8?B?cGpLbjBhVTVVZVlHSWE0TzJGVk5VV1gwWkxkYnoySWNuUmVCVi9FMVVxdzZ0?=
- =?utf-8?B?STNHdW9kR1hvL1d0dE9JOWs4bi9ITTVzWk4xSmNEMFo1QUgyeXpvcHNaV2FY?=
- =?utf-8?B?UGVWdnVyRUJnc1I3dERZcmlkNTR2VWk5Nm0xajVpMElnbThrYW9SMVVGQmk5?=
- =?utf-8?B?UDV5SWdXM3NXQ3BDanhXQjRNVUJZbGRrNnZseGUzM0t0VWVwYlpWTjE4NDNO?=
- =?utf-8?B?VjB3cE9McVd4S04xZWtUbTFxREM5VFFEc2FyaldpUC92eHZYeU92bVVuRFpH?=
- =?utf-8?B?WWhqTFdZUkRaQlZtd0lMK2Q4V2J5MnF0ZHEzWkYzS0MyM1NwSVZRSno0aFpE?=
- =?utf-8?B?d1ArcklOd1IvQVhKL3VXSXQya2t4QU5NT1NaT0lSYThlN1poODRnb1N3WG5D?=
- =?utf-8?B?Z2x0Z3d6aGdaMzBxTGpzUC9remF4RkR4TkJGOFg3WkRLV0VoWVFLM29UZUxP?=
- =?utf-8?B?QjQzcElzZjhCLzhUeG9sYkJHYVNTcE9PbVpBRXZaVlZQUWJmWTN4eFVCbzk1?=
- =?utf-8?B?ZXI3NXhSakZtaFpxQ0dzcHdvMWpsSUpZWHRGTHg2UWlvaUZ3ZmMyM3NqaUxx?=
- =?utf-8?B?MmpwR0ZSY1BRTFNrQS9mK3dyVmxPeUN2U1RXYWxraDRKK2lRYmVRanowbnlJ?=
- =?utf-8?B?QkZuTkU5OGxwdzZIRllpL29qU2lrdHE5N25jSlN3N3RYNkRaeWszRUlqMU02?=
- =?utf-8?B?QkVsVTcxVDcvNTNVci96RjVKdDY1MFpGTjYxZWtjbmZISlJuaVN6NEgzN25U?=
- =?utf-8?B?Q3NtUGxpQ2t3aDIrcWl3QkVsMGRzUGVNbFNra3RjQnhSai85VlV0T1I2L2pu?=
- =?utf-8?B?cGw3clg5RElLOXRBVzVoRElLS05uUnZQejlDSmNVREhEbGhZYkplOFh4eDNG?=
- =?utf-8?B?OGN3QUN0RzJwWGZ0TFUvTGZwbGM2WTdzc0lvTUVJMGp5eGVnTHFCMmVkSnlw?=
- =?utf-8?B?Rm1GcjdWYS9aYk4wRXVkR093WjNDNDVQb0lmQXRmSHMxaEw0UFpWZFdFenUz?=
- =?utf-8?B?Q1JaN3ZoMzBJTVgyd3EvQzRvTGQrVmNjZU41VEpZaHhaZStBeTRZQWpza2R0?=
- =?utf-8?B?NzBwYnptdnQzN2RMREllZWRyODdyUklNYzZJZUlTRm5nS2ppUWtnZzB6emY3?=
- =?utf-8?B?Z1VjVW0yRGp4MURyVkQvL0pTOC9qNFdFZjEzY0JWTlFDWk8xMlB1RkhRNFhS?=
- =?utf-8?B?RGJHRjRPdXA1SjdkUmhnMTVFR2hBTUlsTU1TYmhPbDh2U3YzUUtpZ2M5bitT?=
- =?utf-8?B?dXVOTGhobHJzaDhtcDllalJVWnBPMmFTMHpOQ21uM3lNVVJyeFVLWGtDV0lN?=
- =?utf-8?B?clpnM2VrL2xXUVJVYjhKUThraHR2bFlQa1lMOHNodDRpb1Z2aGpOejMxYmdH?=
- =?utf-8?B?aExGQTYyREV2T2xzVXV4K2w2SGtUZmw4TER2TE9XNVhZSU1iTmJMdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcfa84b6-4279-4a29-0059-08df35db39d4
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9349.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 16:39:39.5776
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Td5FHV9oAp2k+7T2uOlHtZSCcaTEFMM9b429QYLK9KLbYi5IVyROTSYgCCzOoWHheWyiYVe40rLLOdyWORW50Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8697
+References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
+ <20261027154649.91571-1-griffoul@gmail.com> <20261027154649.91571-2-griffoul@gmail.com>
+ <CAEvNRgGvxtgT=x3sLcasLZzCrtX+qEkHjPgs2yFRY0HRJvodag@mail.gmail.com>
+In-Reply-To: <CAEvNRgGvxtgT=x3sLcasLZzCrtX+qEkHjPgs2yFRY0HRJvodag@mail.gmail.com>
+From: Frederic Griffoul <griffoul@gmail.com>
+Date: Thu, 29 Oct 2026 17:07:41 +0000
+X-Gm-Features: AclHuK-XOTTZ577Y9tlQyUF1DU-1w6QS3FSXEW1jGcpzGvSeAxBjghFI3p-6WVU
+Message-ID: <CAF2vKzP7mKAsbDFfj-ndoYSxxZYbNzVO7uysb-XtKytR4zuC7w@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/14] KVM: guest_memfd: Clamp the order of PFN mode
+ blocks to what KVM can map
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>, 
+	Alexander Graf <graf@amazon.de>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Alexey Kardashevskiy <aik@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Baolu Lu <baolu.lu@linux.intel.com>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Christian Brauner <brauner@kernel.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Connor Williamson <connordw@amazon.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, David Hildenbrand <david@kernel.org>, 
+	David Rientjes <rientjes@google.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Erdem Aktas <erdemaktas@google.com>, Frank van der Linden <fvdl@google.com>, 
+	Gregory Price <gourry@gourry.net>, "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	James Houghton <jthoughton@google.com>, Jan Kara <jack@suse.cz>, Jianxiong Gao <jxgao@google.com>, 
+	Joerg Roedel <joro@8bytes.org>, Joey Gouly <joey.gouly@arm.com>, 
+	John Starks <John.Starks@microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Michael Roth <michael.roth@amd.com>, Mike Rapoport <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Oliver Upton <oupton@kernel.org>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Steven Price <steven.price@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Tarun Sahu <tarunsahu@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Tycho Andersen <tycho@kernel.org>, 
+	Vishal Annapurve <vannapurve@google.com>, Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, 
+	Xu Yilun <yilun.xu@linux.intel.com>, Yan Zhao <yan.y.zhao@intel.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, x86@kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, llvm@lists.linux.dev, iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 29, 2026 at 05:36:28PM +0100, Mete Durlu wrote:
-> On 29/10/2026 17:28, Yury Norov wrote:
-> > On Thu, Oct 29, 2026 at 02:32:08PM +0100, Mete Durlu wrote:
-> > > On 28/09/2026 07:37, Shrikanth Hegde wrote:
-> > > > Provide the preferred CPU infrastructure. Define get/set macros
-> > > > which could be used to get/set CPU state as preferred.
-> > > > 
-> > > > CONFIG_PREFERRED_CPU will be selected by the driver which handles
-> > > > steal time values. It is going to set/clear preferred CPU state.
-> > > > This driver will be called steal_governor and it is introduced in
-> > > > subsequent patches. It periodically computes the steal ratio and
-> > > > decides on preferred CPU state.
-> > > > 
-> > > > A CPU is set to preferred when it becomes active. Later it may be
-> > > > marked as non-preferred depending on steal ratio by the steal_governor.
-> > > > 
-> > > > Always maintain design construct of preferred is subset of active.
-> > > > i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
-> > > > 
-> > > > With CONFIG_PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
-> > > > method returns the active state in that case.
-> > > > 
-> > > > Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> > > > ---
-> > > >    include/linux/cpumask.h | 24 ++++++++++++++++++++++++
-> > > >    kernel/Kconfig.preempt  |  4 ++++
-> > > >    kernel/cpu.c            |  6 ++++++
-> > > >    kernel/sched/core.c     |  5 +++++
-> > > >    4 files changed, 39 insertions(+)
-> > > 
-> > > [..snip..]
-> > > 
-> > > >    #define cpu_is_offline(cpu)	unlikely(!cpu_online(cpu))
-> > > > diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
-> > > > index 985aea617cfe..edc067a0c422 100644
-> > > > --- a/kernel/Kconfig.preempt
-> > > > +++ b/kernel/Kconfig.preempt
-> > > > @@ -194,3 +194,7 @@ config SCHED_CLASS_EXT
-> > > >    	  For more information:
-> > > >    	    Documentation/scheduler/sched-ext.rst
-> > > >    	    https://github.com/sched-ext/scx
-> > > > +
-> > > > +config PREFERRED_CPU
-> > > > +	bool
-> > > > +	depends on SMP && PARAVIRT
-> > > FWICT, PREFERRED_CPU mechanism can work perfectly fine without PARAVIRT
-> > > selected. It would be annoying to enable it and implement a dummy
-> > > paravirt_steal_clock() just for that.
-> > > 
-> > > Shrikanth, would it be possible to drop that dependency?
-> > 
-> > Do you have a non-paravirt case in mind?
-> 
-> s390 LPARs are exactly that. s390 does not select PARAVIRT by default
-> but enabling PREFERRED_CPU is strongly considered.
-> 
-> I removed the PARAVIRT dependency and gave the whole thing a quick
-> spin. Builds and functions w/o any issues on s390!
-> > I'm actually about to submit an RFC that drops the PARAVIRT dependency
-> > and provides write access to the preferred mask. But I want to make
-> > sure that we need it, and we've got no reasonable mechanism to put
-> > unneeded CPUs on idle already.
-> 
-> You can mention s390 LPARs as valid case on your RFC if need be.
+On Thu, Oct 29, 2026 at 06:25:49AM -0700, Ackerley Tng wrote:
+> Fred Griffoul <griffoul@gmail.com> writes:
+>
+> > +        kvm_mmu_invalidate_range_add(kvm,
+> > +                         round_down(gfn_range.start, blk),
+> > +                         round_up(gfn_range.end, blk));
+> > +
+>
+> Yes, we want to make the invalidation range larger, but not the range
+> being zapped. We can't over-zap for CoCo VMs.
+>
+> Would it be better to refactor kvm_mmu_unmap_gfn_range() instead of
+> doing kvm_mmu_invalidate_range_add() twice?
 
-Sure, will do. I'm about submitting this before the end of week; will
-add you in CC.
+Good point. As far as I can see, kvm_mmu_unmap_gfn_range() is only
+kvm_mmu_invalidate_range_add() plus kvm_unmap_gfn_range(), so
+guest_memfd could do the two steps itself: add the blocks around the
+range, then unmap the exact range. The zap stays exact and the range is
+added once. Or am I missing something about kvm_mmu_unmap_gfn_range()
+that a refactor would need to keep?
 
-Thanks,
-Yury
+> So I think we should follow the same model:
+>
+> + The provider reports the max_order based on it's contiguity
+>   information, which is the actual contiguity of memory and
+>   read-only attributes
+> + guest_memfd further reduces max_order due to shared/private contiguity
+> + After handing it to KVM, KVM further reduces the max order based on
+>   the above.
+>
+> I think mappings for all other page tables (userspace and IOMMU) should
+> also follow this approach.
+
+Agreed. guest_memfd should then only reduce the order for shared and
+private pages, and drop the gfn alignment and the rounding to a
+page-table size, which KVM does. For the provider, "contiguity" would
+mean a naturally aligned block of contiguous frames with the same
+attributes, the frames aligned to the block too, so a mapping of that
+size is valid as is.
+
+One gap: KVM does not cover a memslot whose gfn and guest_memfd offset
+are not aligned to each other. On x86, kvm_alloc_memslot_metadata()
+disallows large pages when base_gfn and userspace_addr are misaligned,
+but nothing compares base_gfn with gmem.pgoff, and kvm_gmem_bind()
+takes any page-aligned offset. A gmem.pgoff check next to the
+userspace_addr one would keep that in KVM too.
+
+The export lookup in the series already works this way: it reports the
+provider's block, reduced for shared and private pages. iommufd maps
+PAGE_SIZE IOPTEs in this series, and will pick larger IOPTEs from that
+block later.
+
+> I guess the kvm_gmem_fault_user_mapping() equivalent of this max_order
+> tuning is missing from this series. :) I think we should defer order >
+> 0 to a later series though. I think read-only-ness should be part of
+> the first PFN mode series.
+
+Right, userspace mappings are PAGE_SIZE for now.
+
+Deferring order > 0 for KVM and userspace is fine with me. I'd like to
+keep the order in the export lookup, though: large IOPTEs matter for
+device performance, and I'm preparing iommupt changes to split and merge
+them in place.
+
+Fred
+
+On Thu, Oct 29, 2026 at 1:25=E2=80=AFPM Ackerley Tng <ackerleytng@google.co=
+m> wrote:
+>
+> Fred Griffoul <griffoul@gmail.com> writes:
+>
+> > From: Fred Griffoul <fgriffo@amazon.co.uk>
+> >
+> > KVM maps guest memory in 4K, 2M or 1G blocks, and uses guest_memfd's
+> > max_order to choose. A folio of order N is physically aligned and never
+> > mixes shared and private pages, so the order needs no check. A PFN mode
+> > provider's frames need not be aligned
+>
+> I'll need to think about max_order > 0 more for PFNs. I put it out of my
+> mind because my frame of mind is that only order-0 folios are supported
+> today. Perhaps with PFNs it's actually a lot easier to support order >
+> 0.
+>
+> > and the provider does not know
+> > which pages are private, yet kvm_gmem_get_pfn() passes its order to KVM
+> > unchanged. KVM can then map a block over the wrong frames, or with one
+> > attribute over shared and private pages.
+> >
+>
+> Yes, makes sense that private/shared contiguity needs to be taken into
+> account. I didn't consider this because order-0 is always safe to
+> map. Thank you!
+>
+> >
+> > [...snip...]
+> >
+> > -static void __kvm_gmem_invalidate_start(struct gmem_file *f, pgoff_t s=
+tart,
+> > +static void __kvm_gmem_invalidate_start(struct inode *inode,
+> > +                                     struct gmem_file *f, pgoff_t star=
+t,
+> >                                       pgoff_t end,
+> >                                       enum kvm_gfn_range_filter attr_fi=
+lter)
+> >  {
+> > +     const gfn_t blk =3D kvm_gmem_is_pfn_mode(GMEM_I(inode)) ?
+> > +                       1UL << PUD_ORDER : 1;
+> >       bool flush =3D false, found_memslot =3D false;
+> >       struct kvm_memory_slot *slot;
+> >       struct kvm *kvm =3D f->kvm;
+> > @@ -355,6 +360,16 @@ static void __kvm_gmem_invalidate_start(struct gme=
+m_file *f, pgoff_t start,
+> >
+> >               flush |=3D kvm_mmu_unmap_gfn_range(kvm, &gfn_range);
+> >
+> > +             /*
+> > +              * In PFN mode, a fault may map a block of up to PUD_ORDE=
+R
+> > +              * pages, sized before this invalidation (see
+> > +              * kvm_gmem_pfn_map_order()): make faults anywhere in the
+> > +              * blocks around the range retry.
+> > +              */
+> > +             kvm_mmu_invalidate_range_add(kvm,
+> > +                                          round_down(gfn_range.start, =
+blk),
+> > +                                          round_up(gfn_range.end, blk)=
+);
+> > +
+>
+> Yes, we want to make the invalidation range larger, but not the range
+> being zapped. We can't over-zap for CoCo VMs.
+>
+> Would it be better to refactor kvm_mmu_unmap_gfn_range() instead of
+> doing kvm_mmu_invalidate_range_add() twice?
+>
+> >  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
+> >               kvm_arch_gmem_invalidate_range(kvm, &gfn_range);
+> >  #endif
+> > @@ -374,7 +389,7 @@ static void kvm_gmem_invalidate_start(struct inode =
+*inode, pgoff_t start,
+> >       struct gmem_file *f;
+> >
+> >       kvm_gmem_for_each_file(f, inode)
+> > -             __kvm_gmem_invalidate_start(f, start, end, filter);
+> > +             __kvm_gmem_invalidate_start(inode, f, start, end, filter)=
+;
+> >  }
+> >
+> >  static void __kvm_gmem_invalidate_end(struct gmem_file *f, pgoff_t sta=
+rt,
+> > @@ -670,7 +685,7 @@ static int kvm_gmem_release(struct inode *inode, st=
+ruct file *file)
+> >        * Zap all SPTEs pointed at by this file.  Do not free the backin=
+g
+> >        * memory, as its lifetime is associated with the inode, not the =
+file.
+> >        */
+> > -     __kvm_gmem_invalidate_start(f, 0, -1ul,
+> > +     __kvm_gmem_invalidate_start(inode, f, 0, -1ul,
+> >                                   kvm_gmem_get_all_gfns_filter(inode));
+> >       __kvm_gmem_invalidate_end(f, 0, -1ul);
+> >
+> > @@ -1535,6 +1550,44 @@ static struct folio *__kvm_gmem_get_pfn(struct f=
+ile *file,
+> >       return folio;
+> >  }
+> >
+> > +/*
+> > + * The order a PFN mode block can be mapped at: the provider's order, =
+no
+> > + * larger than the alignment of @gfn and @pfn to @index allows, rounde=
+d down to
+> > + * a page-table size, and never over pages that are not all shared or =
+all
+> > + * private, since KVM maps a block with a single attribute.  Called wi=
+th the
+> > + * invalidate lock held; an invalidation of any page of the block make=
+s the
+> > + * fault retry (see __kvm_gmem_invalidate_start()).
+> > + */
+> > +static int kvm_gmem_pfn_map_order(struct inode *inode, pgoff_t index,
+> > +                               gfn_t gfn, kvm_pfn_t pfn, int order)
+> > +{
+> > +     u64 misalign =3D (gfn ^ index) | (pfn ^ index);
+> > +     u64 attrs;
+> > +
+> > +     if (WARN_ON_ONCE(order < 0))
+> > +             return 0;
+> > +
+> > +     order =3D min(order, PUD_ORDER);
+> > +     if (misalign)
+> > +             order =3D min_t(int, order, __ffs64(misalign));
+> > +
+> > +     if (order >=3D PUD_ORDER)
+> > +             order =3D PUD_ORDER;
+> > +     else if (order >=3D PMD_ORDER)
+> > +             order =3D PMD_ORDER;
+> > +     else
+> > +             return 0;
+> > +
+> > +     attrs =3D kvm_gmem_get_attributes(inode,
+> > +                                     mtree_load(&GMEM_I(inode)->attrib=
+utes, index));
+> > +     while (order &&
+> > +            !kvm_gmem_range_has_attributes(inode,
+> > +                                           ALIGN_DOWN(index, 1UL << or=
+der),
+> > +                                           1UL << order, attrs))
+> > +             order =3D order =3D=3D PUD_ORDER ? PMD_ORDER : 0;
+> > +     return order;
+> > +}
+> > +
+>
+> I'll review this function more closely again. I think the mapping order
+> should fit into how KVM does it. After taking guest_memfd's input on
+> max_order, KVM then lets these parties possibly tune the max order down:
+>
+> 1. lpage_info contains information about highest order due to memslot
+>    alignment and alignment due to VM-level memory attributes
+> 2. CoCo platform can impose a max order
+> 3. Userspace mappings can impose a max order too.
+>
+> So I think we should follow the same model:
+>
+> + The provider reports the max_order based on it's contiguity
+>   information, which is the actual contiguity of memory and
+>   read-only attributes
+> + guest_memfd further reduces max_order due to shared/private contiguity
+> + After handing it to KVM, KVM further reduces the max order based on
+>   the above.
+>
+> I think mappings for all other page tables (userspace and IOMMU) should
+> also follow this approach.
+>
+> I guess the kvm_gmem_fault_user_mapping() equivalent of this max_order
+> tuning is missing from this series. :) I think we should defer order > 0
+> to a later series though. I think read-only-ness should be part of the
+> first PFN mode series.
+>
+> >
+> > [...snip...]
+> >
