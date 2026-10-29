@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245049;
-	b=Se+S6F2qUvuyu8auGfp24qzxz618hAs/MnrSP808k0FeUIdfT1qZtHC8IHnhgPcmO576
-	 KPHt6AuRCFRFWVi2/W0j8zOF6Sp9BnywJYl0N0+beIu1Z6h/DR7HrfitTIMsRnq5mkKa9
-	 wqvy4oC77G8NR0CY46WMJxMqF9P6X/FThrItiM64IHIzmbkzeenqYQ0eFrRasy274DnB3
-	 sWMHjqchchPf453KnaYWedD0ksla+IxKmd/BzOdHWgCipVMHaAHPoUfFGSzYDN6//h9fn
-	 DFjFYChw/i9sx4whq2fUuihg0NvOAVNVL+HIx14Vtsd+vGNWkbbaHmAaJQT/af2cowA==
+	t=1793245192;
+	b=b2RUE+XfrpE9v1NRwuxK+zd0Uc77iJJgTMw9FtQqKTBvpRMTMACWTlWtb3SDu8Xyy1k/
+	 dfit3QSGMWUbNT5FzuZB+XuOhmWKRmbC/v6x1bh3a1PIWuon1NEjBriclzZtuVL3dsr+W
+	 pfdWU81d6y54HQLpmDS+YiwmcMcq+wVKEjgV5+pe7sXV9H4v1AkOaZ7tostaBTs3wAzz1
+	 RQtTRx/PaFI5x42SPhWWCBRI6cG7Odvj52r37wjgp3ucHKl7XgSVoo2ERoboI4jTgntXH
+	 KVNl7RymU6FEj3a7rMLsFBBb+59XBAM09RFothC3X1xmvFfIb7Iogiu40zq+BS5YPqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245049;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793245192;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=0TYkcz3oi8Hce4FiXDXGEUsAkrCmcslpFK3fxjBXOUw=;
-	b=ShtHvGdJGkKANOtSkYJVj8KqZTrJcxI8n5h2SMwgDRMrZBq9Xsd0Lz1pcG071dc8iRPB
-	 e6Xx3CTAH+pdChCi3mm9mTaMrJugIViyqXStG/9u0NFCWBorVvGOZyjj+vxLgmJBHwsa9
-	 c0wgxIQQtioAD99A0n2nSomG5FOPDQxAx+gvngf9C7c82Ztr1hNH1BXvPXSuvS/tzCpYV
-	 vVk9RrylgcVb0pu5UkiCBSbabUQyYmhoE8qf+PUjYJBSNtLNZ6+u7VcR20TUNI6d5j7bO
-	 UNWF7di7yUk2iV4huHNwaF1iD7OPUcfZjsBiZ7tIZy16f9m7W6iUjI6egxytqNJ2IKQ==
+	bh=nHYJzejo29azPzDNOxZ+tmpvvDu3XTTv89JLTyFVqd4=;
+	b=ghLaOxZkAkgJtDLpuxHJGtGTFYsJDjMTpMEvYfMqwWdsbYUisOxMrflKR1FaV4iyBlOr
+	 My7B55gjEgGs3cW7+0FAGjfaL5zSRGuG6uytjZDdWnBZ64C+xDxJlO91Z0V4xtb2Dhf3L
+	 YqBbXzeRjnI0cJIa/f826Agm5gmQl4VjvvMEm2b2xi6+crLfS/Kt8ZNCkJxJrtHoBA5nf
+	 wHrj+SiB3UaiON6r0Vxfj3ip5jtM6GdByx7Hvtz1Ehq1QqgJJK4Bvaf+bje8yeWbMOM0q
+	 SZZZyAFwj5MRdieDbj+VQ2IRLCnJphSpvdawcBUwGdzW5nSg3M+KGRVQ7WnAEgZYkuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EwhdD0ta;
-	arc=none smtp.remote-ip=95.215.58.212
-Received: from mta1.migadu.com (out-212.mta1.migadu.com [95.215.58.212])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=JwHCiaU6;
+	arc=none smtp.remote-ip=95.215.58.59
+Received: from mta1.migadu.com (out-59.mta1.migadu.com [95.215.58.59])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25952606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:37:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25952606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72673606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 03:39:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72673606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EwhdD0ta
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=JwHCiaU6
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=0TYkcz3oi8Hce4FiXDXGEUsAkrCmcslpFK3fxjBXOUw=;
+DKIM-Signature: a=rsa-sha256; bh=R50k7qXAG33bbhagggBhqvchCPQ52saBCXt3awMCb6U=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793245046; v=1; x=1793849846;
- b=EwhdD0taQspvWOf1jRfVxj3kKfbzBcoW1Zh6PIQfZnIs/iXQRocbPuPpJfyNmtIfGQm3KGHU
- Oh06JsdTIGrNthlWEpv+6QrXR0Zdq/Zd63qqHMkLytRK+ku2AIn63jTXNRRnmPotzFTLiJNDfR3
- LZIOVGY4YGYH1FAzvkJnfq8Q=
+ t=1793245189; v=1; x=1793849989;
+ b=JwHCiaU6wNlgkZwersY6AMgWtViVtjskMcecd/6+Od2qPv/mWGKr7rlSGPwoiVQjWtSEquTl
+ jz8ubRhsB/Dyc/RqHacrPomgc4WK1uts7m7DL8ZDejrhXjpDsM5Zh945kHdyhP94x2zIdgWwum6
+ 47kzoRxtALGbiybFTOALoFVw=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id b3dc07f6f034e3dc;
-	Thu, 29 Oct 2026 03:37:25 +0000
-X-Mizu-Trace-ID: b3dc07f6f034e3dc
+Received: by mta12.migadu.com with ESMTPS id 5ac0218b5b613cc1;
+	Thu, 29 Oct 2026 03:39:48 +0000
+X-Mizu-Trace-ID: 5ac0218b5b613cc1
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,10 +58,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 01/15] hugetlbfs: fix integer overflow in fallocate()
+Subject: Re: [PATCH 02/15] mm/hugetlb: compare against persistent count when
+ freeing lowmem folios
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-1-a0a033db180f@kernel.org>
-Date: Thu, 29 Oct 2026 11:37:01 +0800
+In-Reply-To: <20261028-fixes_hugetlb-v1-2-a0a033db180f@kernel.org>
+Date: Thu, 29 Oct 2026 11:39:27 +0800
 Cc: Oscar Salvador <osalvador@suse.de>,
  Naoya Horiguchi <nao.horiguchi@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -101,13 +102,11 @@ Cc: Oscar Salvador <osalvador@suse.de>,
  linux-doc@vger.kernel.org,
  linux-arch@vger.kernel.org,
  linux-s390@vger.kernel.org,
- luojiajun <luojiajun3@huawei.com>,
- Josef Bacik <josef@toxicpanda.com>,
  stable@kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <497E3E4E-B423-46FA-AB00-5D2ABFB833A0@linux.dev>
+Message-Id: <68EFA1E5-4898-4278-8718-06B1A010DFFD@linux.dev>
 References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-1-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-2-a0a033db180f@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.100.1.1.12)
 
@@ -116,42 +115,78 @@ X-Mailer: Apple Mail (2.3901.100.1.1.12)
 > On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> hugetlbfs_fallocate() rounds the range end up by adding hpage_size - 1
-> to offset + len. vfs_fallocate()'s existing overflow check only makes
-> sure that offset + len does not overflow.
+> try_to_free_low() gets a target number of persistent folios, but
+> compares it with "nr_huge_pages", which includes surplus folios. As a
+> result, it can free lowmem folios below that target.
 >=20
-> Once we overflow for valid endpoints near LLONG_MAX, we can get a
-> negative temporary result that is then converted to a very large
-> huge page index.
+> For example, with two persistent folios and one surplus folio, a =
+target
+> of two can still end up freeing one persistent folio.
 >=20
-> A one-byte allocation ending at LLONG_MAX can therefore consume all
-> available huge pages. Pages added beyond LLONG_MAX are skipped during
-> inode eviction, leaking them and triggering the BUG_ON() in =
-clear_inode().
+> Compare against persistent_huge_pages() instead. Convert the macro to =
+a
+> helper function and place it before try_to_free_low().
 >=20
-> To fix it, calculate the end index in a simpler way that cannot
-> overflow. This also fixes the signed overflow reported by luojiajun in
-> 2019.
-
-Amazing that you remember something from so long ago!
-
->=20
-> Backporting notes: without commit a08c7193e4f18 ("mm/filemap: remove
-> hugetlb special casing in filemap.c"), remove_inode_hugepages() must
-> include the final huge page during truncate and eviction.
->=20
-> Reported-by: luojiajun <luojiajun3@huawei.com>
-> Closes: =
-https://lore.kernel.org/all/1554775226-67213-1-git-send-email-luojiajun3@h=
-uawei.com/
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Fixes: 70c3547e36f5 ("hugetlbfs: add hugetlbfs_fallocate()")
+> Fixes: 7893d1d505d5 ("hugetlb: Try to grow hugetlb pool for =
+MAP_PRIVATE mappings")
 > Cc: stable@kernel.org
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-LGTM.
-
 Acked-by: Muchun Song <muchun.song@linux.dev>
 
+One nit bellow.
+
+> ---
+> mm/hugetlb.c | 8 ++++++--
+> 1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index da5d04edf7c1..3a94ea1c9457 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1335,6 +1335,11 @@ static unsigned long =
+available_huge_pages(struct hstate *h)
+> 	return h->free_huge_pages - h->resv_huge_pages;
+> }
+>=20
+> +static unsigned long persistent_huge_pages(struct hstate *h)
+
+Better to make *h const?
+
 Thanks.
+
+> +{
+> +	return h->nr_huge_pages - h->surplus_huge_pages;
+> +}
+> +
+> static struct folio *dequeue_hugetlb_folio(struct hstate *h, gfp_t =
+gfp_mask,
+> 					   struct mempolicy_interpreted =
+*mpoli)
+> {
+> @@ -3719,7 +3724,7 @@ static void try_to_free_low(struct hstate *h, =
+unsigned long count,
+> 		struct folio *folio, *next;
+> 		struct list_head *freel =3D &h->hugepage_freelists[i];
+> 		list_for_each_entry_safe(folio, next, freel, lru) {
+> -			if (count >=3D h->nr_huge_pages)
+> +			if (count >=3D persistent_huge_pages(h))
+> 				goto out;
+> 			if (folio_test_highmem(folio))
+> 				continue;
+> @@ -3773,7 +3778,6 @@ static int adjust_pool_surplus(struct hstate *h, =
+nodemask_t *nodes_allowed,
+> 	return 1;
+> }
+>=20
+> -#define persistent_huge_pages(h) (h->nr_huge_pages - =
+h->surplus_huge_pages)
+> static int set_max_huge_pages(struct hstate *h, unsigned long count, =
+int nid,
+> 			      nodemask_t *nodes_allowed)
+> {
+>=20
+> --=20
+> 2.43.0
+>=20
 
