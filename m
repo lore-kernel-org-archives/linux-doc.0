@@ -1,111 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793261715;
-	b=Y2EZWdrCY0htgBxRkoWwTkt9vVP9XA3phgyO0CffsYLGbFXUjcwjPUbf2dK46ee/WDqi
-	 ZigjMRBVIpJ0CbcULKjitHItg3F4ouxVusLe03XNlMYqOuvbd+vBVL/GKJucTJPfdWk/k
-	 pNqbnEnWYHCPxDp8YMPCWUUu3q4uYlZ/vBuCrCA6RsYOBQAXD0Ds/kzFwm1bPPfQJ0/Ic
-	 U/j5Ewtc0Q3mBgpbFiYm36utnOqMorU7a8hT4A9CKMOVrdaAdwNC9p+R6Vahc+iq/Q/ma
-	 q3QJxEpFNp8h+N0MDwLa2PDL/YY2D475SFgN/ZTXbYjf5kbjfrbwzLTOQvCmwV52rew==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793261715;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:From:User-Agent:X-Original-From:References:Mime-Version:
-	 In-Reply-To:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=msFGCktevQa+phvCxwZ5TloB/VJ6CyygSDWLYKumkSA=;
-	b=XkfxIuxR2yAsFmnsdo2b9yfy4AWgc9sxu7NQKEAi2zaY5l9giwnl9PCsawGXVK3W7U3O
-	 SH4dadYVUTbOgkQ/Mbe6YOpkQYebXmz/3gw0GXkh5p69j57q9MRm/4mE7MRgR0tUPGX2w
-	 9tyht2gdV5sy+voc+gEulYqthqluPwMwh3FsaVn8LxxHnLrYnI7sVPmGNcfdBg62YewjM
-	 qxxYBM093IFIvr8OpBr8Hp+RX+AHaD3n+ZE2fphox1W7maw6xql/GnEQn+7nEhWb72C9l
-	 5qH0SD8yoAzvSlinaOI0awBunvmr+E4NOObh79v/vq2SBbPNqg38UFKkWfz1YVz/EPg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.113
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793261850;
+	b=lF0lgaqpbBOxgyD2x7hleHEedEfmRP5UsOrXkoWR3NwSHwDZPcXpVe/Uh+ZJbYvvqwNh
+	 ZeIWRDejl2si7RPmiWf7UbRqC87ExLQYjLJkTLEtsqcAR3qe1RLrLwF9sWW9Fa66Fao4f
+	 NCjouVlT0fzXYbS9GGhTggRY7rFvNdxfuRZqhH6jynZwV5yNIKU6yKHQoW8J4Dh4UVG5x
+	 Q3aQyvuBh+6c7YxB8geLValxmLSVWXW2so0HgM4zbaYFhg2iV729uJ1zjyxYjOB9YnSex
+	 7O2FgVq/mROEgWZNz4vjB39WWKQTyRlSzIzFgheBsCAgGjW9RO+9+nJpUbdSo+fbyjg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793261850;
+	h=DMARC-Filter:DKIM-Signature:Message-Id:References:To:Subject:
+	 In-Reply-To:Cc:X-Lms-Return-Path:Date:Mime-Version:Content-Type:
+	 X-Original-From:User-Agent:Content-Transfer-Encoding:From;
+	bh=+a0pwiupnElVC4iJq7ApJkfigClnpAXCdq3Fy64eUq4=;
+	b=yONFJsZZoq2xXkNTEYXnVZYLzyQGy/qDxQYaiRlZqdsysGKlGutqMx85dE15v+//xPH5
+	 vku/ocS1bFmHiTOY4KdqiRvu4+hCPvBjRwP/D7KdohO0MWEI0atlZ/6Mk522khqYUYA2C
+	 SV+xNheK3zXxCv1XiMnu6JMRjfmtpMVdftaHjvO1tifRFP0DSeqJhFINCW/cKkB3AiKTJ
+	 qgZxTEuYGTVB78K8WHAvlstO8aWNaeC3BlbmwN4DQncZGvBEhWlyzaCVHz8x6rl31ewRJ
+	 8NjILuha76wMbnWu2aD1jH6ZKy1/YDjF70B74f9ftEZYmLA07U26gf9TiwGiwZOhj/A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bytedance.com;
 	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=RFI4zuaC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=XeN680I7;
+	arc=none smtp.remote-ip=209.127.230.113
+Received: from va-1-113.ptr.blmpb.com (va-1-113.ptr.blmpb.com [209.127.230.113])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38C0606A31E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:15:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C38C0606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6AA606A31D
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:17:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C6AA606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=RFI4zuaC
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ea0efd636dso15111895ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:15:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793261714; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Kn4EoL6fFWa72G3GRWneauRq7axQczl1UkhXa+3GiUL4JCSsVm1mskh9nkvPsHPmq0
-         MHavt3jiQnrY2O4rzM6ZPUfZ0+4wNodbCQ9PIwz16irrPHLMewz5I3J83Z64lQk4ffH7
-         BL1N3DvvhUQlhfqG6KimfeiwbGEjjdnaL7PgFNnNDqUVGtifljXz2wtHmS3Mmb+V7Zgy
-         5N3F9P8j6tkiGx5kJnWR+p4NZ70NMaXO2lzzXO7RzSOLe1wErZRfI0fOX4b08W9c2bvT
-         HqrCce9bqMr0/c7WXGgekQz/0ysA9BZO1nniPGYJTCdfF5f4EjuwFQZmqnBZjegxy6jD
-         2l1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
-         :user-agent:from:dkim-signature;
-        bh=msFGCktevQa+phvCxwZ5TloB/VJ6CyygSDWLYKumkSA=;
-        fh=QzhE6khd8fIDbFZGGfMYaSPbaghIzo/BgBRPwKn/GcY=;
-        b=CFgFz/rZ9Jc+8E1k/wTfna6MIlxboBmtMPDwPj9TASHh2TRSfS/CkoysdzXlvBLokj
-         PFwggDly9OtGF77D1z8LeLtJFZi1pjnYVD87GMXezuyqDWKZ8gyQonyIoMQulCggg9Ie
-         GW0AnrtmX+OiZ/SgRRV/+0q37xXYWWiUIqU0JmqB52fcNelMR8lP5YCFdLYhM0xumMJa
-         f4Ec6lz7XYOrEN68fEd4SY0qnvE+lTnDQ5fhU2E2n5YJYlGOaj6RYhAmzvsNXMWQwRJg
-         U2h4WT7eesMr4RffwtPxPUS2pOLhZWqiog045vS3T5Nsq4yzVC1N5j3wjn/i4Hb+wdN0
-         VVRw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1793261714; x=1793866514; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:in-reply-to:mime-version
-         :references:user-agent:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=msFGCktevQa+phvCxwZ5TloB/VJ6CyygSDWLYKumkSA=;
-        b=RFI4zuaCnjf0fN5tmtBIH0lhUxmF5UpTQqI0bfI2MJ62zdrjSQoUtfKJemeQNxuLMT
-         NN9a/1T+6gwPT42Q2S0zE5NokPyuA/PXaghdfrs2kAawogxGcm3jZekQYMkRO4pA4gq/
-         DUPJb+yu+jrfBPnSQlr19DYYvE73xW5bleANLI/WN25oQzFOCPbkJURptYuxPecPkOgb
-         9+XQUwYi6ZOwVgPgHs26aeQSPy2FvOkwQdVoAzd7U7w5BU9vTnox/GApfw1Ube3nSUJt
-         kTBY7z68hwvB8/OV2Thb8A4WM7AVMQCFW7CL+jJRC42ITMx78QZ2rRMGEy4uF6S35MZm
-         7rAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793261714; x=1793866514;
-        h=content-type:cc:to:subject:message-id:date:in-reply-to:mime-version
-         :references:user-agent:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=msFGCktevQa+phvCxwZ5TloB/VJ6CyygSDWLYKumkSA=;
-        b=PfY+dUxmJAbfc9oW8IJtPFaOImjCS2YY0Q9HyDJhzTodKb98KMaAklgIgkyA2S46m7
-         Npn2o6lsF8P4GZKsFFpLOJNOym4fKrqBEzULWQGv4+fi2jFC/0pdtCd6ghmTkffMT8sw
-         GwK/nMuuw+stlcedbLkp2hY0O8R1ZuYDZB3AoMZCAITU5E00xRaOOAm9/qcDOmX8DuRC
-         jH2q4yaRWfpGsNUQYZPUbSUtwX9DS7VogkMftwE7Bn/LbRAwBjelQ9naFy613FEFFoEW
-         VtTk6ZXqQ9k3oZ4GFsm+NDGz99d6NH/IyS+uYEGrC57YK9L8tDDHjK9+v+L4vJ/SPsSW
-         moSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwXjLiANnbxxt2uBsctpFopJCA3jqlVhxtQbHRTnwp0Rpmujopu9T3CA4Oyc/cYSjJcO4StxWVIWrI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK6DhtuzNngd+8cPqKanqlRMvDnpZ6dwzCRTqVvVeGEU/cmpEdA
-	7FvdNuV6ieRh3T/YMY9TJTubTRlScEU3qulX5ILnMZwGVyxpF9HfvVmcZHbL064CvANga+cKLjL
-	ibRp//UbGdQz1LBuCrJAJ5hEWb9pbMvz58Wx7qK3Uzw==
-X-Gm-Gg: AYBFou0at0THFnmXcTnmoiDbyeRL0LJq9Jnbh6pE7JScn0eg14D3HqVaeLDnG2nEoJ+
-	0jG+Fdnn7RkGXjmHT8v/dMfhu0JuiP25KLhCjcJt4vQGHIOT8oK7quj7Uq4NthZXH5LqcWLlGIm
-	YzyqKxwf3OyoZlgAj+4UcCD9Q0VO4ivLc2QW0CKQxa9Pb5WOvXfwBGwupwB+uWU3AVZMftvDzFx
-	Z/MpOqD6VCamO0nZps7HNWSQ8S6pPwN2g4l3cu/CMLJSdSUzu0TVYuCXMvxk8IW7IYpo/I+pRXU
-	sIO93A3DO89Y8eMvDIfE2zPMnTAKpQlgbhLSjar9qzsR9R8O4fBPmzQiNLFVLf4im+8X79VIp6t
-	orsdhw/M4AXlGv8UyR3W25Zkqe+5q6WqNN9x2OqpWTghlse/6N3P4pBxWZQ==
-X-Received: by 2002:a17:90b:1644:b0:3ac:bc3d:6fe5 with SMTP id
- 98e67ed59e1d1-3ae57df3d9cmr3792452a91.7.1793261714053; Thu, 29 Oct 2026
- 01:15:14 -0700 (PDT)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 29 Oct 2026 01:15:09 -0700
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 29 Oct 2026 01:15:09 -0700
-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-User-Agent: Mozilla Thunderbird
-X-Original-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-References: <20261028165531.940336-1-anup.patel@oss.qualcomm.com>
- <CACnXVncwzQiUN9CO8_Ds7UQJEKzEF29vagsTFrC0WbRZXt7aLw@mail.gmail.com>
- <CAAhSdy1u4Tme=cv7pSyYeahh1BQhQOnsnWBn3D4yxTnfzrApPA@mail.gmail.com>
- <CACnXVndt7Rm3UqZH=T3xYjQ+1H-zPMgU29FcCOjJ2mtu=avoWg@mail.gmail.com>
- <CAAhSdy3WVmzEkG4fgTuXENcys_cWX8h6Hag_fYSkyOdu++iBBQ@mail.gmail.com> <auLxHK4g-_MvFyrp@hu-himchau-blr.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=XeN680I7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1793261842; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=+a0pwiupnElVC4iJq7ApJkfigClnpAXCdq3Fy64eUq4=;
+ b=XeN680I7IJlNMjMU87dIzNsxFTBBTj3N5w3g0gCwl1fJHn5Rw1SF4eOneUkqJxa/YwNwJz
+ 4+f8RvjasCmqzwtsuwTZZRC9OMWc7dIhcHPsbSp8/TIAJB5foGuei9CreWol+vyR+wy8Ue
+ l3ESXeSgyAmWo8VZ+mK1DwmD8Xse74pPKf4vh2xt1rVEAwadtbH0A2/1hlKNqn7aYEpCGV
+ jWJpN3qN6JQmUIg/eLFTNGzUe5N2RiO9xhfm8P8S+u/gyaIJIBfU+mFR0qhrhe5oq03tlr
+ C+Z8B7anBTTCgC2MKqUO/dEseibVvg61SVujbN11KZ9n4hnkTnUC/bJSHksJdg==
+Message-Id: <b17f7fcf-0c7e-49b8-a7be-779f3c5e97d2@bytedance.com>
+References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-4-lizhe.67@bytedance.com> <de52b5f1-97eb-4404-b7f1-53f0aab17fae@amd.com>
+To: "Bharata B Rao" <bharata@amd.com>, <akpm@linux-foundation.org>, 
+	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>, 
+	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <peterz@infradead.org>, <riel@redhat.com>, 
+	<rostedt@goodmis.org>, <vincent.guittot@linaro.org>, 
+	<vschneid@redhat.com>, <ziy@nvidia.com>, <riel@surriel.com>
+Subject: Re: [PATCH v2 3/3] sched/numa: fix scan-period adjustment for tiering-only mode
+In-Reply-To: <de52b5f1-97eb-4404-b7f1-53f0aab17fae@amd.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
+X-Lms-Return-Path: <lba+26ae30110+12b493+vger.kernel.org+lizhe.67@bytedance.com>
+Date: Thu, 29 Oct 2026 16:16:55 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,80 +67,239 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-In-Reply-To: <auLxHK4g-_MvFyrp@hu-himchau-blr.qualcomm.com>
-Date: Thu, 29 Oct 2026 01:15:09 -0700
-X-Gm-Features: AclHuK_f9UmrKyQEn9kevLn5RZ0DxR6jXXwQ6CxrknwZt6gPcFhXWT1BqyQH4Dk
-Message-ID: <CACnXVndTuZd8jyVG0=KEq1WicQ4iCA22_TkOnSMyrtbTD+ybWA@mail.gmail.com>
-Subject: Re: [PATCH v11 0/9] riscv: add SBI Supervisor Software Events support
-To: Paul Walmsley <pjw@kernel.org>, Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: Anup Patel <anup.patel@oss.qualcomm.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Conor Dooley <conor@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Atish Patra <atish.patra@linux.dev>, Yuanzhu <yuanzhu@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+User-Agent: Mozilla Thunderbird
+Content-Transfer-Encoding: quoted-printable
+From: "Li Zhe" <lizhe.67@bytedance.com>
 
-Hi Himanshu, Paul,
-
-On 10/29/26 3:09 PM, Himanshu Chauhan wrote:
-> On Thu, Oct 29, 2026 at 11:32:36AM +0530, Anup Patel wrote:
->>>>> [...]
->>>>> Paul, please hold off on taking this version into for-next until
->>>>> these fixes are included. The rebase and PMU testing are useful, but
->>>>> there are still outstanding correctness issues.
->>>>>
->>>>> I will consolidate the changes and post v12 against riscv/for-next,
->>>>> with an updated changelog and validation results. Let's coordinate
->>>>> the next posting to keep everything together.
->>>>>
->>>>> Thanks,
->>>>> Zhanpeng
->>>>>
->>>>> [1] https://lore.kernel.org/r/as79MHtNYd-VbUug@hu-himchau-blr.qualcomm.com/
->>>>
->>>> Regards,
->>>> Anup
->>>
->>> I'll post a focused v12 before this weekend with the immediate
->>> correctness fixes. Further improvements can follow separately.
+On 10/29/26 2:21 PM, Bharata B Rao wrote:
+> On 28-Oct-26 9:42 AM, Li Zhe wrote:
+>> When automatic NUMA balancing runs in memory-tiering-only mode, NUMA hin=
+t
+>> faults identify slow-memory pages that are worth promoting. They are not
+>> normal task-placement feedback.
 >>
->> Linux-7.4 merge window closes end-of this week so your v12
->> will be too late for it hence I suggest sending incremental fixes
->> separately.
+>> Without separate tiering feedback, successful tiering promotions are fed
+>> to update_task_scan_period() as private remote faults. That leaves
+>> local =3D=3D 0 and shared =3D=3D 0, so the function hits its early slow-=
+down path
+>> and doubles p->numa_scan_period. Repeated promotion feedback can therefo=
+re
+>> drive the scan period towards the maximum.
 >>
+>> Track memory-tiering feedback separately from normal task-placement stat=
+s.
+>> Successful free-space bypass promotions are not counted as tiering scan
+>> feedback because they did not pass the hotness and rate-limit checks. Co=
+ld,
+>> hot, and throttled feedback is generated only by the hotness/rate-limit
+>> path, while migration failures slow scanning like the normal placement
+>> heuristic does.
+>>
+>> Use the same 70% threshold style as the normal scan-period heuristic. A
+>> hot-dominated window speeds scanning up, a cold-dominated window slows i=
+t
+>> down, and a throttled ratio of at least 30% also slows it down. If a
+>> window has no tiering feedback, for example because promotions used the
+>> free-space bypass, double the scan period, following the same
+>> no-useful-signal slow-down direction as normal scan-period adjustment.
+>>
+>> Evaluate the tiering window when a scan sequence completes as well as wh=
+en
+>> tiering faults are reported. This lets an empty window back off the scan
+>> period after qualifying tiering feedback stops.
+>>
+>> On a CXL system with node0 as DRAM and node3 as slow-tier memory, a
+>> STREAM Triad-derived OpenMP workload was used to model a
+>> bandwidth-sensitive working-set shift. It first accessed one 100G range,
+>> then switched to another 100G range. The workload was first-touch placed
+>> on node3 and then run from node0 with memory-tiering-only mode enabled.
+>>
+>> With the free-space bypass disabled, so that promotions have to pass the
+>> hotness and rate-limit checks, a kernel with only the bypass control was
+>> used as the no-feedback baseline. Tiering scan-period feedback improved
+>> the transition window after the active range switch:
+>>
+>>                                no feedback       tiering feedback
+>>    first 80s after switch       122.4 GB/s             129.3 GB/s  (+5.7=
+%)
+>>    200-240s after switch        139.9 GB/s             140.6 GB/s  (+0.5=
+%)
+>>
+>> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+>> ---
+>>   include/linux/sched.h                |  17 ++++
+>>   include/linux/sched/numa_balancing.h |   9 +++
+>>   kernel/sched/fair.c                  | 113 ++++++++++++++++++++++++++-
+>>   3 files changed, 137 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/linux/sched.h b/include/linux/sched.h
+>> index 1c93da75226e..c4959747374b 100644
+>> --- a/include/linux/sched.h
+>> +++ b/include/linux/sched.h
+>> @@ -833,6 +833,16 @@ struct task_ipi_mask {
+>>   struct task_ipi_mask { };
+>>   #endif
+>>  =20
+>> +#ifdef CONFIG_NUMA_BALANCING
+>> +enum numa_tiering_fault_stats {
+>> +	NUMA_TIERING_FAULT_COLD,
+>> +	NUMA_TIERING_FAULT_HOT,
+>> +	NUMA_TIERING_FAULT_THROTTLED,
+>> +	NUMA_TIERING_FAULT_MIGRATE_FAIL,
+>> +	NR_NUMA_TIERING_FAULT_STATS
+>> +};
+>> +#endif
+>> +
+>>   struct task_struct {
+>>   #ifdef CONFIG_THREAD_INFO_IN_TASK
+>>   	/*
+>> @@ -1433,6 +1443,13 @@ struct task_struct {
+>>   	 */
+>>   	unsigned long			numa_faults_locality[3];
+>>  =20
+>> +	/*
+>> +	 * Memory tiering faults are tracked separately from normal NUMA
+>> +	 * placement statistics. In tiering-only mode, slow-memory hint faults
+>> +	 * are used to decide promotion, not task placement.
+>> +	 */
+>> +	unsigned long			numa_tiering_faults[NR_NUMA_TIERING_FAULT_STATS];
+>> +
+>>   	unsigned long			numa_pages_migrated;
+>>   #endif /* CONFIG_NUMA_BALANCING */
+>>  =20
+>> diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/=
+numa_balancing.h
+>> index 200f50075d5c..12f31ed56d66 100644
+>> --- a/include/linux/sched/numa_balancing.h
+>> +++ b/include/linux/sched/numa_balancing.h
+>> @@ -8,6 +8,7 @@
+>>    */
+>>  =20
+>>   #include <linux/sched.h>
+>> +#include <linux/sched/sysctl.h>
+>>  =20
+>>   #define TNF_MIGRATED	0x01
+>>   #define TNF_NO_GROUP	0x02
+>> @@ -16,6 +17,14 @@
+>>   #define TNF_MIGRATE_FAIL 0x10
+>>   #define TNF_ACCESS_TIME	0x20
+>>  =20
+>> +static inline bool numa_balancing_tiering_only(void)
+>> +{
+>> +	int mode =3D sysctl_numa_balancing_mode;
+>> +
+>> +	return (mode & NUMA_BALANCING_MEMORY_TIERING) &&
+>> +	       !(mode & NUMA_BALANCING_NORMAL);
+>> +}
+>> +
+>>   enum numa_vmaskip_reason {
+>>   	NUMAB_SKIP_UNSUITABLE,
+>>   	NUMAB_SKIP_SHARED_RO,
+>> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+>> index 136207b62d87..1d9efc2b7427 100644
+>> --- a/kernel/sched/fair.c
+>> +++ b/kernel/sched/fair.c
+>> @@ -2760,6 +2760,32 @@ static inline bool cpupid_valid(int cpupid)
+>>   	return cpupid_to_cpu(cpupid) < nr_cpu_ids;
+>>   }
+>>  =20
+>> +static void task_numa_tiering_placement(struct task_struct *p);
+>> +
+>> +static bool task_numa_tiering_update(struct task_struct *p)
+>> +{
+>> +	if (!numa_balancing_tiering_only() || !p->mm)
+>> +		return false;
+>> +
+>> +	task_numa_tiering_placement(p);
+>> +	return true;
+>> +}
+>> +
+>> +static void task_numa_tiering_no_feedback(struct task_struct *p)
+>> +{
+>> +	task_numa_tiering_update(p);
+>> +}
+>> +
+>> +static void task_numa_tiering_fault(struct task_struct *p,
+>> +				    enum numa_tiering_fault_stats stat,
+>> +				    unsigned long pages)
+>> +{
+>> +	if (!task_numa_tiering_update(p))
+>> +		return;
+>> +
+>> +	p->numa_tiering_faults[stat] +=3D pages;
+>> +}
+>> +
+>>   /*
+>>    * For memory tiering mode, if the target fast memory node has enough =
+free
+>>    * pages, recently accessed slow memory pages can bypass the normal ho=
+tness
+>> @@ -2887,6 +2913,7 @@ bool should_numa_migrate_memory(struct task_struct=
+ *p, struct folio *folio,
+>>   		pgdat =3D NODE_DATA(dst_nid);
+>>   		if (numa_balancing_promote_free_space_bypass &&
+>>   		    pgdat_free_space_enough(pgdat)) {
+>> +			task_numa_tiering_no_feedback(p);
+>>   			/* workload changed, reset hot threshold */
+>>   			pgdat->nbp_threshold =3D 0;
+>>   			mod_node_page_state(pgdat, PGPROMOTE_CANDIDATE_NRL, nr);
+>> @@ -2899,10 +2926,18 @@ bool should_numa_migrate_memory(struct task_stru=
+ct *p, struct folio *folio,
+>>  =20
+>>   		th =3D pgdat->nbp_threshold ? : def_th;
+>>   		latency =3D numa_hint_fault_latency(folio);
+>> -		if (latency >=3D th)
+>> +		if (latency >=3D th) {
+>> +			task_numa_tiering_fault(p, NUMA_TIERING_FAULT_COLD, nr);
+>> +			return false;
+>> +		}
+>> +
+>> +		if (numa_promotion_rate_limit(pgdat, rate_limit, nr)) {
+>> +			task_numa_tiering_fault(p, NUMA_TIERING_FAULT_THROTTLED, nr);
+>>   			return false;
+>> +		}
+>>  =20
+>> -		return !numa_promotion_rate_limit(pgdat, rate_limit, nr);
+>> +		task_numa_tiering_fault(p, NUMA_TIERING_FAULT_HOT, nr);
+>> +		return true;
+>>   	}
+> I like the separation of scan-period updation of tiering mode from the re=
+gular
+> mode as the existing update scheme was dependent on private/shared faults=
+ which
+> made little sense in tiering mode.
 >
-> Hi Zhanpeng,
+> However I am not sure if you should drive the scan period updates from
+> should_numa_migrate_memory(). The scan period belongs to the hint fault
+> scanner. I am pulling the promotion heuristic out of
+> should_numa_migrate_memory() in the pghot series. The hint fault path
+> only reports an access and shared engine does the classification and
+> migration for every source. The other sources may not have numa_scan_peri=
+od,
+> so this feedback has to stay with the hint fault path.
 >
-> I agree with Anup. IMO, SSE as a feature is ready. It will be easier
-> for you and for me if the patches are merged. It has become a pain to
-> send revised RAS patches because of the dependency.The issue that I
-> identified can be sent incrementally in coming weeks.
->
-> I would request Paul to pick up the SSE patches now.
->
-> Regards
-> Himanshu
+> pghot supporting multiple sources may not see the light of the day in
+> near future but it is still good to keep the source specific
+> aspects and promotion engine separate.
 
-SSE v12[1] is ready with the correctness fixes discussed on the v10 threads.
 
-Himanshu, I checked your posted RAS v5 series against v12: all nine
-patches apply cleanly without modification. V12 uses the same
-riscv/for-next base as v11, so switching the dependency requires no
-changes to your patches.
+Agreed, that layering makes sense.
 
-Paul, please pick up v12 rather than v11 so these fixes are included
-from the start.
+I am wondering whether that separation is better handled together with
+the larger promotion-engine rework, though.=C2=A0 Without the shared engine=
+ in
+place, moving the outcome reporting out of should_numa_migrate_memory()
+would add interface changes mainly for a future direction.
+
+For this series, my goal was narrower: keep tiering-only scan-period
+feedback separate from normal task-placement stats while staying close
+to the current numabalance implementation.
 
 Thanks,
-Zhanpeng
+Zhe
 
-[1]
-https://lore.kernel.org/linux-riscv/20261029074853.35467-1-zhangzhanpeng.jasper@bytedance.com/
+>
+> Regards,
+> Bharata.
