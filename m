@@ -1,41 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.75.44.102
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793278798;
-	b=YpEpKfytWZ1FjtRG2on9/5ADjpCIslUdWQcakftybabYGYaLcRZq2EWg3Hu9hdkMy3Y4
-	 wD4J3b4ekNrInZFvpq0AOjL+ApwTMbMmcXuxWorwVCB0YHxo6fVgB4zNd9CpaTvWcftcH
-	 EXxIdN6VleFf7nnfTIHAiMJnvB/oilUOfdzY/eZgjLh6ILGM5ijgWXeFTgvTmsHo2Ykf4
-	 VfRYI3MYJtAbvdYpNfB+p1ymF9iBfu9acL77/G7nFKmaNjgyqwoJT4jK5Gu69ouaUd7Y3
-	 Fr12kWoXD28rWxDEJNh58f6meZ79TLb5MLihhL6IY9PhbPJFsd0E+WDVHNroU8+X32A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793278798;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=NstS/N2lRFNEiUMgelVbNnyk5b/ReAgSXagsruMe62o=;
-	b=elqbo+regVaatSNybMEN66RSRLLqnDvur9tylqhAe0e93xCrKkaAREUYGHwGNvv6fmlT
-	 j6mW31S7+n2T9JadbcVYH8022lzoLvgKpgsPxcr5SEKdG7BqL6b1DH8ndIr0KRJIwFtIu
-	 SX/EffkNh9YPSS9AP1zlcuIbK+8YBSBWeIksArGL8Og8ZsFOewU2Slpsc/K8eOHArpG6o
-	 CYwESvm9GMXXrAOYFF/m8qEg+qfDYuQJ7PtBoKOXHEZ52jKqvgNlwRAwILe9AN38HqiSn
-	 lQ5zFl7GdyB5d5YSpc+86hEOuvKe6OuU42ay2MGQCBSixbfiSfBF/Rh0PwSf5/QnsIg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.75.44.102
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F55606A31A;
-	Thu, 29 Oct 2026 12:59:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80F55606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMDW_XZIQ+Nq405kAA--.64282S2;
-	Thu, 29 Oct 2026 20:59:52 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wA3wz1EQ+NqLm8EAA--.8472S2;
-	Thu, 29 Oct 2026 20:59:51 +0800 (CST)
-Message-ID: <89b83efa-4c94-470c-9fb6-e680941c4c58@hust.edu.cn>
-Date: Thu, 29 Oct 2026 20:59:48 +0800
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.82.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793278843;
+	b=Eje0IZb6IOfmRpx4nJr8YCgI7UH0LabGcWN5GuPp85dP2vGbiPrg3DdwhlE4G7jXy4KU
+	 +ozaqJZ3owrJQG6sscb3R2RqCbs+UagTpxUK9y3hEtytPxoCZZzW0t6rPpxJx6RfXVjkg
+	 cb6ah7a1K7CKpMv2fNQ1uvF0nGpLdf6Ko6VDOBghCUbmijqbh8+xuwU/Pq0PK7oy4HMwA
+	 u3gL+DRq74ZCPvT1Q7LY/JlHblo6VEZB++nLnHksTVoPQCOMnYrAFkNPt46fxC6RASDdx
+	 bZxYQXE7lmnUa5bcRflSNmSofnQ1HTd/WrnqvslEVoUiAl7DKJmLPcbR8ibkMmqdUjg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793278843;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ganH4EWpICXirAxibAD+5YRIHmRwYY6kvCGrRyrhM1Y=;
+	b=K/uZnpxNWdxZUG6g2keJy2N/4OoeOkcRilZXKrPi9Qtoh9ivQCtv1Zt+uvkk7VIrBR+c
+	 6ZzKXe69QmNOJ+9foCYhRBaGJhybl+YIVr68k0BAzElt1Kdt3ctX5BApTAXG1xZzz+UcT
+	 7r15S5VeCwP7L4hN48gLBKNDHRBAIlTJ0eFyhysh0NXySbNfva31ObOsPZpM1yRu0ggvZ
+	 ZAa4cGeYiiHBgJl6br77+3MwIPoplulfEiVOdwVALDdf3bxKC45GTJ4mEJ8H8eKtGaGAU
+	 vaBj9yaRFJU0vlUw/wl6vaM5o9dDB19T5dbT7Im0/39DOlec3cunJYD6y4n6k3AuapA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ofPvZk+o;
+	arc=fail smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F86E606A334
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 13:00:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F86E606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ofPvZk+o
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-36a10095f3aso279599eec.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 06:00:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793278842; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sTAtn0fAEZZ9QzI4XrO0IM9AEEihKdcw71Q2HIMo+L80iTDmkLl8Sh96aE+wi2mxHh
+         rgjAQ5LDyqG0u9a+GMwaDIuluIIwqgV6ru7zmVx4aK+sthczhCmD356zP1JdV0YkLZqq
+         kQP3oyt6TDEYaVQ8YBJji/zV3R7v/sU+f/C4K4wu66lH2QXZH3yg+uPSDgvwflkqXs3e
+         al8IXQxTOVkMWTT50+iHdrbjObpeSnWpqTHgaqUTPQf8/7wklnYFwvOt7ZWzINfJ4/yY
+         rG0Yjg7du123v1kJaIRTK1awt9+s+MFi9l7z2OrY0hUvrPKidR7btzDnzw4/KsRBIX/E
+         P8CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ganH4EWpICXirAxibAD+5YRIHmRwYY6kvCGrRyrhM1Y=;
+        fh=kf9vkPEHOK1dvRkHvsu3NjJWgG1rSdc/UyA1RAbtcHQ=;
+        b=cvaAv25AKxHNqJWohgMpEiVRunfXXPZqy+M8BV7zBK5Qu2Au6rlwRrn0yDLbtvjy+u
+         M+X2Oulp8qPAsPqM+MNk4YUOlmdVnMMqOUDOXYqOHdrVMe8wFI40ncKNwUqdTeraoVTZ
+         S3mF+uZxb/x95oqYkWwzzrljKxSJhhpvC0EiScpqIeXlj0/Pw3wu9N6z8i7Vrz4zrzPr
+         FE1GgWVW/C+L277GjoxhIuL1bl8z9kXTnOlta409i+qe1qLzWzzJFHpkL8xeDRN1TmmH
+         aIT/VixefYgy4wDAPL71VW7K5VWgF7965zyEVE38RxqMGaRmY/34pk1ZVYMSGUGoaYTo
+         j6+g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793278842; x=1793883642; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ganH4EWpICXirAxibAD+5YRIHmRwYY6kvCGrRyrhM1Y=;
+        b=ofPvZk+oAY1UtBN8lfS9Hjg636A5yXXxymVbjphADhkntlAvo7d+OJU8vVQ+Az1YKb
+         dWukwXu2x313G1oppF7iAuhlMKCT3diyXTgTlAKXWjGM+Iwm50zBqxbGFoqtU4CjQPRi
+         ToYeRwJPj5xeiznntBlX4VFyiQuMizC0YzA2Fycqh5ak/5xu31DBjOip8vO4Z2tuK/4f
+         9PhR8pLQtraxqSwScA6jTPUn2IoU48Ael0NpD7F/lfQbSWkS9kG+njGnjZ8V4i1r6jjs
+         NKUP7iwgO2CL1t6jHHe5bxmc7L4p3wIS4RcYs0ebru/xZh/T2s+t/RLRgJoRw7N6mzGF
+         pkVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793278842; x=1793883642;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ganH4EWpICXirAxibAD+5YRIHmRwYY6kvCGrRyrhM1Y=;
+        b=M0N0h4h9Gzesoz4fxJOEmP+iXzOWyxkzinvegGHc9kBBkarbQJ8fJ2yHx7uEXbRpek
+         ZZ8QbMxm5flYZlcXsQk0Iy6CCTCjXjOzuGskJ0JC+iVp3JFkZG7DEl81q4H1YTdV18vC
+         SG3idxrIv+ZocUhFv4KA6pIZOecpECyAZbA+eHf9vmPQWk8ew2cpR51xIzh2JMwMCISU
+         2Fkrr1p6VyohbXSb2RnEis8of1PV1/Qwec6COKuaxyrezAUMbHC5tDpaSmwRI8hGOg55
+         FAyK7XZPPyXCQzX9j5J+J2RchD4BZ3vDuujWb1zhXN/2h9uwMPV6GWnDG9RgEm2WBHeY
+         QWEQ==
+X-Forwarded-Encrypted: i=1; AKwUvByBinxj+JQdP2Xj5ytBFA4zAnQ14n7fe3LcMEKViBgqxZrURfTAjYRJ/OHYp3EpR0XcdmmYlMnYPZY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLZoF2vnxd6dJezdqqNTXYbtn0azdVtu/UhLJkWPNh1i9HxHi3z
+	ECZiz0n1lZ+bA1kRPPGAd569UaGoeLro7dWdnhj4qLvDGwsrn3goH0jqi86CJyhEiLoqwyrbaXo
+	sJcNAn3qtD/VV29Pj/vP/YiaRTJzY9xQ=
+X-Gm-Gg: AYBFou0bsBcb0/5cZ6NVP7E7E69uPBctneXPBgFd73dcFEy3YR9iMMJOMY7boUGtw3e
+	qc4VC4AnsVbGNGIL8rB/eBr2wAgGfHpOuE0QK56hIiPPWye2jLxaJN8iGPChSimpGJoZNxGtNy3
+	JTVgtllvENNyQU/F8ZDwy4AcHKfyl+Ad76l/4BTAtK9+9ofJAokhXLanKtWHKUg6TkJpzbpxAxP
+	/679zEuWLYOSftoFsqy1zbOGjFNUUxq6bgFuRKWK2uXaBPbF5HNjcCFEW30hy4oVHUlasKZLYqM
+	O+n+HpQbxQzNN/B0zlLzzsVyfrvRcDDFQeaYuda076H56DFpIMec2cCDTBwsHQGc1ylsXr/QWVk
+	kU8O5rc+1r3iinsqEkHT7/NsLzxrVbvcQBEkIYt/dHdttbWw9hcBki2eIv6jQbAnmOoP7OnV17v
+	yCDut5/D1KFhKHP9KPUVgBJ+puN9HN9BBtUCbtHtb0mw4n8ar+Vf1sS0emeWkY1JZfeRtPR6ZWl
+	SK55VORZPO2ZW96ZPvNS+wJr1cOCAqt9cQd9A==
+X-Received: by 2002:a05:693c:4196:20b0:36a:e7a:e89 with SMTP id
+ 5a478bee46e88-36a202cb0e4mr12034617eec.2.1793278841146; Thu, 29 Oct 2026
+ 06:00:41 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,436 +106,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: Improve wording in Sphinx dependency checker
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1793119566.git.dzm91@hust.edu.cn>
- <13b42c47a375e2ccc9f84412c10e7868f7ea7c4a.1793119566.git.dzm91@hust.edu.cn>
- <20261028015855.288f1905@foz.lan>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20261028015855.288f1905@foz.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:IQEQrMDW_XZIQ+Nq405kAA--.64282S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3uw1DKr4rZFyfuF48Wr48WFg_yoW8WFyUWo
-	Z3Z39xJa9rKrnrJF1vv3s7ta4xW3WIkF4rJr1jqr45Ca1Iva45Cw1rZ3yrJay3CF1kC3sr
-	Ga4DW340vFZ5JF93n29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOJ7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCY02
-	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
-	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IUYcID3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <cover.1793027261.git.d@ilvokhin.com> <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+ <fb3b6a24-74ca-4da8-8593-352afd515313@suse.de>
+In-Reply-To: <fb3b6a24-74ca-4da8-8593-352afd515313@suse.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 29 Oct 2026 14:00:28 +0100
+X-Gm-Features: AclHuK_VOCF7u599iESvOsHhN0DoC1VeK-LagvEMwpUC6WNOUUTl411X-macJoc
+Message-ID: <CANiq72mMm75svCqevd8fHtVoczDpvpo4NwL0SC8=bWy030vQuQ@mail.gmail.com>
+Subject: Re: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 29, 2026 at 8:32=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Should gem.h now include <linux/compiler_attributes.h> ?
 
-On 10/28/26 8:58 AM, Mauro Carvalho Chehab wrote:
-> On Wed, 28 Oct 2026 01:07:47 +0800
-> Dongliang Mu <dzm91@hust.edu.cn> wrote:
->
->> Correct typos and awkward phrasing in user-facing installation hints,
->> command-line help, and docstrings. Leave dependency checks and package
->> mappings unchanged.
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   tools/docs/sphinx-pre-install | 115 +++++++++++++++++-----------------
->>   1 file changed, 57 insertions(+), 58 deletions(-)
->>
->> diff --git a/tools/docs/sphinx-pre-install b/tools/docs/sphinx-pre-install
->> index d1af82e1466d..00a8a42ca7d9 100755
->> --- a/tools/docs/sphinx-pre-install
->> +++ b/tools/docs/sphinx-pre-install
->> @@ -10,19 +10,19 @@
->>   # incompatible python versions.
->>   
->>   """
->> -Dependency checker for Sphinx documentation Kernel build.
->> +Check Sphinx installation and Linux kernel documentation build dependencies.
->>   
->> -This module provides tools to check for all required dependencies needed to
->> -build documentation using Sphinx, including system packages, Python modules
->> -and LaTeX packages for PDF generation.
->> +This module checks whether Sphinx is available and verifies dependencies
->> +needed to build Linux kernel documentation, including system programs,
->> +Python modules, and LaTeX packages for PDF output.
->>   
->> -It detect packages for a subset of Linux distributions used by Kernel
->> -maintainers, showing hints and missing dependencies.
->> +It reports missing dependencies and provides distribution-specific
->> +installation hints for a subset of Linux distributions used by kernel
->> +maintainers.
->>   
->>   The main class SphinxDependencyChecker handles the dependency checking logic
->> -and provides recommendations for installing missing packages. It supports both
->> -system package installations and  Python virtual environments. By default,
->> -system pacage install is recommended.
->> +and provides recommendations for installing missing packages. When Sphinx is
->> +missing, it can suggest a Python virtual environment or a distribution package.
->>   """
->>   
->>   import argparse
->> @@ -51,8 +51,8 @@ class DepManager:
->>       - PDF: dependencies needed by PDF builds.
->>   
->>       Each dependency can be mandatory or optional. Not installing an optional
->> -    dependency won't break the build, but will cause degradation at the
->> -    docs output.
->> +    dependency won't break the build, but may degrade the generated
->> +    documentation.
->>       """
->>   
->>       # Internal types of dependencies. Don't use them outside DepManager class.
->> @@ -148,7 +148,7 @@ class DepManager:
->>           """
->>           Clear dependencies without changing needed/optional.
->>   
->> -        This is an ackward way to have a separate section to recommend
->> +        This is an awkward way to have a separate section to recommend
->>           a package after system main dependencies.
->>   
->>           TODO: rework the logic to prevent needing it.
->> @@ -162,8 +162,8 @@ class DepManager:
->>           Update self.missing_pkg, using progs dict to convert from the
->>           agnostic package name to distro-specific one.
->>   
->> -        Returns an string with the packages to be installed, sorted and
->> -        with eventual duplicates removed.
->> +        Returns a string with the packages to be installed, sorted and
->> +        with duplicates removed.
->>           """
->>   
->>           self.missing_pkg = {}
->> @@ -211,8 +211,7 @@ class DepManager:
->>   
->>   class AncillaryMethods:
->>       """
->> -    Ancillary methods that checks for missing dependencies for different
->> -    types of types, like binaries, python modules, rpm deps, etc.
->> +    Common helpers for locating and running programs.
->>       """
->>   
->>       @staticmethod
->> @@ -232,7 +231,7 @@ class AncillaryMethods:
->>       @staticmethod
->>       def run(*args, **kwargs):
->>           """
->> -        Excecute a command, hiding its output by default.
->> +        Execute a command, hiding its output by default.
->>           Preserve compatibility with older Python versions.
->>           """
->>   
->> @@ -288,7 +287,7 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_missing_file(self, files, package, dtype):
->>           """
->> -        Does the file exists? If not, add it to missing dependencies.
->> +        Check whether any listed file exists; otherwise, record the missing package.
->>           """
->>           for f in files:
->>               if os.path.exists(f):
->> @@ -297,8 +296,7 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_program(self, prog, dtype):
->>           """
->> -        Does the program exists and it is at the PATH?
->> -        If not, add it to missing dependencies.
->> +        Check whether the program is in PATH; otherwise, record it as missing.
->>           """
->>           found = self.which(prog)
->>           if found:
->> @@ -310,8 +308,8 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_perl_module(self, prog, dtype):
->>           """
->> -        Does perl have a dependency? Is it available?
->> -        If not, add it to missing dependencies.
->> +        Check whether Perl and the specified module are available;
->> +        otherwise, record the missing dependency.
->>   
->>           Right now, we still need Perl for doc build, as it is required
->>           by some tools called at docs or kernel build time, like:
->> @@ -340,8 +338,8 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_python_module(self, module, is_optional=False):
->>           """
->> -        Does a python module exists outside venv? If not, add it to missing
->> -        dependencies.
->> +        Check whether the Python module is available; otherwise, record it
->> +        as missing.
->>           """
->>           if is_optional:
->>               dtype = DepManager.PYTHON_OPTIONAL
->> @@ -355,7 +353,7 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_rpm_missing(self, pkgs, dtype):
->>           """
->> -        Does a rpm package exists? If not, add it to missing dependencies.
->> +        Check whether each RPM package is installed; record any that are missing.
->>           """
->>           for prog in pkgs:
->>               try:
->> @@ -365,7 +363,7 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_pacman_missing(self, pkgs, dtype):
->>           """
->> -        Does a pacman package exists? If not, add it to missing dependencies.
->> +        Check whether each pacman package is installed; record any that are missing.
->>           """
->>           for prog in pkgs:
->>               try:
->> @@ -375,7 +373,7 @@ class MissingCheckers(AncillaryMethods):
->>   
->>       def check_missing_tex(self, is_optional=False):
->>           """
->> -        Does a LaTeX package exists? If not, add it to missing dependencies.
->> +        Check whether each TeX resource is available; record missing packages.
->>           """
->>           if is_optional:
->>               dtype = DepManager.PDF_OPTIONAL
->> @@ -511,7 +509,7 @@ class MissingCheckers(AncillaryMethods):
->>           methods are used here.
->>   
->>           By default, it will use lsb_release function. If not available, it will
->> -        fail back to reading the known different places where the distro name
->> +        fall back to reading the known locations where the distro name
->>           is stored.
->>   
->>           Several modern distros now have /etc/os-release, which usually have
->> @@ -784,10 +782,10 @@ class SphinxDependencyChecker(MissingCheckers):
->>               if not self.distro_msg:
->>                   self.distro_msg = \
->>                       "Note: RHEL-based distros typically require extra repositories.\n" \
->> -                    "For most, enabling epel and crb are enough:\n" \
->> +                    "For most, enabling EPEL and CRB is enough:\n" \
-> As Randy already pointed: "are enough": both EPEL and CRB are needed
-> to have all packages needed by the LaTeX builder (which outputs PDF).
-> That actually varies: CentOS, Unbreakable Oracle, AlmaLinux ... may have
-> different repositories for the extra packages needed for PDF output.
->
->>                       "\tsudo dnf install -y epel-release\n" \
->>                       "\tsudo dnf config-manager --set-enabled crb\n" \
->> -                    "Yet, some may have other required repositories. Those commands could be useful:\n" \
->> +                    "Some may require other repositories. These commands may help:\n" \
->>                       "\tsudo dnf repolist all\n" \
->>                       "\tsudo dnf repoquery --available --info <pkgs>\n" \
->>                       "\tsudo dnf config-manager --set-enabled '*' # enable all - probably not what you want"
->> @@ -934,8 +932,8 @@ class SphinxDependencyChecker(MissingCheckers):
->>               if not self.distro_msg:
->>                   self.distro_msg = \
->>                       "Notes:\n"\
->> -                    "1. for venv, ensurepip could be broken, preventing its install method.\n" \
->> -                    "2. at least on OpenMandriva LX 4.3, texlive packages seem broken"
->> +                    "1. ensurepip may fail while creating a Python virtual environment.\n" \
->> +                    "2. At least on OpenMandriva LX 4.3, TeX Live packages appear broken."
-> I'm almost sure the packages on OpenMandriva are named "texlive*".
-I will change it back. My original thought is to revise it back to a 
-high level name, not concrete name.
->
->>   
->>           else:
->>               packager_cmd = "urpmi"
->> @@ -1155,16 +1153,16 @@ class SphinxDependencyChecker(MissingCheckers):
->>   
->>           #
->>           # Fall-back to generic hint code for other distros
->> -        # That's far from ideal, specially for LaTeX dependencies.
->> +        # That's far from ideal, especially for LaTeX dependencies.
->>           #
->>           progs = {"sphinx-build": "sphinx"}
->>           if self.pdf:
->>               self.check_missing_tex()
->>   
->>           self.distro_msg = \
->> -            f"I don't know distro {self.system_release}.\n" \
->> -            "So, I can't provide you a hint with the install procedure.\n" \
->> -            "There are likely missing dependencies."
->> +            f"I don't recognize the distribution: {self.system_release}.\n" \
->> +            "I can't suggest a package installation command.\n" \
->> +            "Some dependencies may be missing."
->>   
->>           return self.get_install_progs(progs, None)
->>   
->> @@ -1184,8 +1182,8 @@ class SphinxDependencyChecker(MissingCheckers):
->>           Give a hint about how to activate an already-existing virtual
->>           environment containing sphinx-build.
->>   
->> -        Returns a tuble with (activate_cmd_path, sphinx_version) with
->> -        the newest available virtual env.
->> +        Returns (activate_cmd_path, sphinx_version) for a suitable virtual
->> +        environment, or an empty path if none is found.
->>           """
->>   
->>           cwd = os.getcwd()
->> @@ -1220,8 +1218,8 @@ class SphinxDependencyChecker(MissingCheckers):
->>   
->>               if not ver:
->>                   venv_dir = f.replace("/bin/activate", "")
->> -                print(f"Warning: virtual environment {venv_dir} is not working.\n" \
->> -                      "Python version upgrade? Remove it with:\n\n" \
->> +                print(f"Warning: virtual environment {venv_dir} is unusable,\n" \
->> +                      "possibly after a Python upgrade. To remove it, run:\n\n" \
-> I don't think "possibly" is the best choice. It could be an incomplete pip
-> environment, for instance, if one stops pip before the end.
-Will keep it.
->
-> I mentioned "Python version upgrade?" here because this is something that
-> people may end forgetting to update/recreate venv after distro upgrades.
->
-> This is common for ones using a distro like Fedora, where upgrades happen
-> on every 6 months - not so common for people using LTS distros.
->
->>                         "\trm -rf {venv_dir}\n\n")
->>               else:
->>                   if self.need_sphinx and ver >= self.min_version:
->> @@ -1235,9 +1233,8 @@ class SphinxDependencyChecker(MissingCheckers):
->>           """
->>           Check if Sphinx needs to be upgraded.
->>   
->> -        Returns a tuple with the higest available Sphinx version if found.
->> -        Otherwise, returns None to indicate either that no upgrade is needed
->> -        or no venv was found.
->> +        Returns a version tuple for the upgrade recommendation, or None when
->> +        the current Sphinx version is already sufficient.
->>           """
->>   
->>           # Avoid running sphinx-builds from venv if cur_version is good
->> @@ -1284,7 +1281,7 @@ class SphinxDependencyChecker(MissingCheckers):
->>           Recommend installing Sphinx as a distro-specific package.
->>           """
->>   
->> -        print("\n2) As a package with:")
->> +        print("\n2) From a distribution package:")
-> You may need to update documentation if you're touching print messages.
-Yeah, you are right. I prefer to revise comments first in this patchset.
->
->>   
->>           old_need = self.deps.need
->>           old_optional = self.deps.optional
->> @@ -1375,7 +1372,7 @@ class SphinxDependencyChecker(MissingCheckers):
->>           # Suggest newer versions if current ones are too old
->>           if self.latest_avail_ver and self.latest_avail_ver >= self.min_version:
->>               if self.latest_avail_ver >= RECOMMENDED_VERSION:
->> -                print(f"\nNeed to activate Sphinx (version {latest_avail_ver}) on virtualenv with:")
->> +                print(f"\nActivate Sphinx {latest_avail_ver} in the virtual environment with:")
->>                   print(f"\t. {self.activate_cmd}")
->>                   self.deactivate_help()
->>                   return
->> @@ -1383,21 +1380,23 @@ class SphinxDependencyChecker(MissingCheckers):
->>               # Version is above the minimal required one, but may be
->>               # below the recommended one. So, print warnings/notes
->>               if self.latest_avail_ver < RECOMMENDED_VERSION:
->> -                print(f"Warning: It is recommended at least Sphinx version {RECOMMENDED_VERSION}.")
->> +                print(f"Warning: Sphinx {PythonVersion.ver_str(RECOMMENDED_VERSION)} "
->> +                      "or newer is recommended.")
->>   
->>           # At this point, either it needs Sphinx or upgrade is recommended,
->>           # both via pip
->>   
->>           if self.rec_sphinx_upgrade:
->>               if not self.virtualenv:
->> -                print("Instead of install/upgrade Python Sphinx pkg, you could use pip/pypi with:\n\n")
->> +                print("Instead of installing or upgrading the distribution's "
->> +                      "Sphinx package, you can use PyPI:\n\n")
-> Don't break strings, except if they have "\n".
-Will not touch output string in this patchset.
->
->>               else:
->>                   print("To upgrade Sphinx, use:\n\n")
->>           else:
->> -            print("\nSphinx needs to be installed either:\n1) via pip/pypi with:\n")
->> +            print("\nInstall Sphinx with:\n1) A Python virtual environment:\n")
->>   
->>           if not virtualenv_cmd:
->> -            print("   Currently not possible.\n")
->> +            print("   A virtual environment is not available with this Python version.\n")
->>               print("   Please upgrade Python to a newer version and run this script again")
->>           else:
->>               print(f"\t{virtualenv_cmd} {self.virtenv_dir}")
->> @@ -1409,9 +1408,9 @@ class SphinxDependencyChecker(MissingCheckers):
->>               self.recommend_package()
->>   
->>           print("\n" \
->> -              "   Please note that Sphinx currentlys produce false-positive\n" \
->> +              "   Please note that Sphinx currently produces false-positive\n" \
->>                 "   warnings when the same name is used for more than one type (functions,\n" \
->> -              "   structs, enums,...). This is known Sphinx bug. For more details, see:\n" \
->> +              "   structs, enums, ...). This is a known Sphinx bug. For details, see:\n" \
->>                 "\thttps://github.com/sphinx-doc/sphinx/pull/8313")
->>   
->>       def check_needs(self):
->> @@ -1437,7 +1436,7 @@ class SphinxDependencyChecker(MissingCheckers):
->>   
->>           if sys.version_info < MIN_PYTHON_VERSION:
->>               min_ver = ver_str(MIN_PYTHON_VERSION)
->> -            print(f"ERROR: at least python {min_ver} is required to build the kernel docs")
->> +            print(f"ERROR: Python {min_ver} or newer is required to build the kernel docs")
->>               self.need_sphinx = 1
->>   
->>           self.venv_ver = self.recommend_sphinx_upgrade()
->> @@ -1445,7 +1444,7 @@ class SphinxDependencyChecker(MissingCheckers):
->>           if self.need_pip:
->>               if sys.version_info < MIN_PYTHON_VERSION:
->>                   self.need_pip = False
->> -                print("Warning: python version is not supported.")
->> +                print("Warning: this Python version is not supported.")
->>               else:
->>                   virtualenv_cmd = f"{self.python_cmd} -m venv"
->>                   self.check_python_module("ensurepip")
->> @@ -1499,10 +1498,10 @@ class SphinxDependencyChecker(MissingCheckers):
->>           elif self.deps.need:
->>               sys.exit(f"Can't build as {self.deps.need} mandatory dependencies are missing")
->>   
->> -        print("Needed package dependencies are met.")
->> +        print("All checked mandatory package dependencies are available.")
->>   
->>   DESCRIPTION = """
->> -Process some flags related to Sphinx installation and documentation build.
->> +Check Sphinx installation and dependencies for building kernel documentation.
->>   """
->>   
->>   
->> @@ -1514,21 +1513,21 @@ def main():
->>           "--no-virtualenv",
->>           action="store_false",
->>           dest="virtualenv",
->> -        help="Recommend installing Sphinx instead of using a virtualenv",
->> +        help="Do not suggest creating a new virtual environment",
->>       )
->>   
->>       parser.add_argument(
->>           "--no-pdf",
->>           action="store_false",
->>           dest="pdf",
->> -        help="Don't check for dependencies required to build PDF docs",
->> +        help="Skip dependency checks for PDF documentation",
->>       )
->>   
->>       parser.add_argument(
->>           "--version-check",
->>           action="store_true",
->>           dest="version_check",
->> -        help="If version is compatible, don't check for missing dependencies",
->> +        help="Skip dependency checks if Sphinx meets the recommended version",
->>       )
->>   
->>       args = parser.parse_args()
->
->
-> Thanks,
-> Mauro
+No, it should be included for you (unless you are doing something
+custom with the compiler flags etc.).
 
+I hope that helps!
+
+Cheers,
+Miguel
