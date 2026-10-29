@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297421;
-	b=ubv0+XzrZ3Y+FBvPkDsOJUCW6Ct49zo8uWouB31cG8M+LxLiC+ecnzktf/feBUKYJWwA
-	 gvOLl/pHOC9H+kijkc9eJRSf+p7wdweq2UY+c4eq+izx0IwoS6s6cEFZxAOsaRQ7i/C4M
-	 KXkQh+8TBja94aVEEsJ4b/qkN1lWHUwOLgZD3cIxYKs2rZNkgA6ieWLV7Zqa/C4ekqPUe
-	 DFQ4QvqPeOLDgFwfPc/HB6NAcblC54hJFEmZ2FhsUpaFeC4rkltQVTKBpHUtR2ZZ58JW5
-	 TmelWNmrVK25U2ikspu314xiZMoWTf331JCILx8N80QqYT5dkNEE/+FLd09Suj83msQ==
+	t=1793297426;
+	b=HOMGz1bjFpIeoe8FGgvuSrdRmek+XKXnrg9/7jpgzzuRfck5CarrOgvEhqbqs0EXcyY0
+	 6Wrp+rvmwE4Vv6VYNMjfEetzRQ7Eq4O5gGehJrGOzzrhir8vYACH5lhLK2JzV1IEtvoha
+	 GqTbsXsg7MvybrcmI4YQ45Y59OTFjXwYZ3+5C2grexN8CioDjUjMqxu4GMTq41blTcCXf
+	 5Q3fViYe8COzETYWhNBFeSFtW14kdCKX0l13TC9HMWNfkSH6qfmfx8BzpEB/z6PKYj5i/
+	 inF/QCST+cRuG4pBSL08JUZFHRfl1cNHrDH/xsbygB0nbWBlpdtU0/PguaTNrZnIx3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297421;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793297426;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=dgDYcOW/jCAQEvwY8NBNP2pASb7BMmxqcS2FbIf9bZo=;
-	b=LzsryqQVOFu6MIfMCFzXM8dh0R53BbZHSBGZ5dR7uWIxLNkc298OiVJGRyAadtsPQ8tB
-	 5hFAG79Ec2GSSpCpgtrGimXQ5IRVAd9qgpvVfysvxo54Pis/1uTLVHEfU4fAFk40rtpqB
-	 d+CxALMYXhRv8SSokakiLsXtLNaOlPYix2kzfTUrXjfqxsN1vcvYE50QAGqJsC97wxJm9
-	 PV4vdtfigApR63dQ3o9PLpwaklLo/brGkCDRVcqC2Je4JVe+FfP23Xbi+Lg6kbVoIJ9+I
-	 JRmWSiukwWgP78J8xrRuTpXQF+AKnKNKPEaa26eJm+Oje8pLEfuu7gJIvl8ze5MI/9g==
+	bh=4xMOYm4IpfE3gPGdn9UWNdhcEWDkgMVOaC7S309xY8U=;
+	b=1wB1lS92v0hfDWGhgdwEjGF9Qshh4SgzqeK3YvpaTr8hnxsqjDq4zDqBnAx3vUP2mo2B
+	 Az/hy6pADJIcQCshnoCwdDgDY8NMGR8vPRufYq41MQ+evWCa4tIFiY3uF12wChlbfHaZb
+	 EXI0c5nxlSNVG3kMdDtiyPV6XrlMC6RwE4CxofOKHko7OsgGcjCDqs7UTr7VdC1EKwaT7
+	 pdzT6SBqhZK0HJdJVbYJ8pZT3/tKtorYlGNoGV6k+kvZLu64tEk0eVhOkaglt3oWRsiDP
+	 BqrOhlNyqdEjIGopGCLwMbQ8vrWNjm5WsEq6+s3kDxw+JPdzMXtsIysMDPnjqqEfmEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hammerspace.com;
 	spf=pass smtp.mailfrom=hammerspace.com;
-	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=lFibtdcF;
-	arc=none smtp.remote-ip=209.85.161.52
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	dkim=pass header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=O9MuA2oQ;
+	arc=none smtp.remote-ip=209.85.161.47
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2E6606AB68
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:10:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC2E6606AB68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4390160A3801
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:10:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4390160A3801
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=lFibtdcF
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6b8e2d8df4fso1855508eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:10:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=hammerspace.com header.i=@hammerspace.com header.a=rsa-sha256 header.s=google header.b=O9MuA2oQ
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6faddda49e7so2073450eaf.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1793297420; x=1793902220; darn=vger.kernel.org;
+        d=hammerspace.com; s=google; t=1793297424; x=1793902224; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dgDYcOW/jCAQEvwY8NBNP2pASb7BMmxqcS2FbIf9bZo=;
-        b=lFibtdcFnO6KOqq8bSRxHk0Ur98BYC9nkkggQQjWcH5Ron4jwFF2ZXs8MhZCx8vBCm
-         OskDTwXg65lR8vhrYqaexkRul6btl1l5BsJRhn9pM/uoufUoWouvVgaysGA4RbxAhhkt
-         NVA45FoGbpTgCQ9sCymd46tpUq6BcMjFm3ocxdoXXwVK2E5LPKLYFTErhRmOGlFvnzpb
-         obJhgn3ctJVM88C0IFZeS7gdetAbAqhzKL4jfMtuaH6d9O4zyUz2KQaya67ro94HGJtN
-         2nHlBTN9mQsKjuRVQZFpXsdK3GTZNK0ROaJFkmqaf4/SZcA3blKolhRb+9DFEFLGryJU
-         GyTg==
+        bh=4xMOYm4IpfE3gPGdn9UWNdhcEWDkgMVOaC7S309xY8U=;
+        b=O9MuA2oQA2kKI8pZQsdNwps8O5ygNrAV9ZydO26Te8GbEpNPTdYi3/2h09zNgZ4jJ6
+         v+T8Zv3m3Xd9Lg9M0k9USqpLOw1LcZAPcVHvGJVhIxjAkUVUfLgz4yWQdSLF9PlLbOLH
+         qZAY6RQEMsDC258PV97I6yO5FGZF8C//UC0BFJHXKWKuE8Iq6oU3h0F/Tk5hsqwogcXp
+         hspPthNAYMAjZH/MoFbqRcpPUxoyR4R1Dlo8AkWHKMD4jL2Y+rOYTd9t8pvumdhTTLbG
+         9l/SK1SZbGoP3d76hRXhlSUckIh7eDJKfa4rQVWWtuu2EZuTQM1yiFea/5rv0V9BzLqY
+         m6aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793297420; x=1793902220;
+        d=1e100.net; s=20260707; t=1793297424; x=1793902224;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dgDYcOW/jCAQEvwY8NBNP2pASb7BMmxqcS2FbIf9bZo=;
-        b=xUq3gnbONJfhD35QAb4eARgvhMblq5ajTnlNvteuXEEzhAoK9h7kPeNT8Zx2S9PSi2
-         ry4f14fSBTnG5D0fcSVvNiCzAVwHRqb1Y0JoRucqX5xdlVwhmcphPLs50q1PuVw5oPEz
-         GEIAlcK4Q6CaRI/xb4mayVwwVlz3YRcgdm3pate2R/YLWtYR/rJlKNKbqZ4ojh+fknTe
-         DFefVtTL+xjG3V1il287BQa2IvjrspvlPWSTGfMwYVNVJOnaalXo/UDFThrajfOQ0SUj
-         SebnsrZ0FJDetNFERLVe+noszyj3dY7pkLBZ6YvYzEh0tS5WHdm5mOiOvaAHUStObGXs
-         BCbA==
-X-Forwarded-Encrypted: i=1; AKwUvBwXFpk6VfWO5AAM9GuZwRMeJ9gyWgY9BQ7FS6iduRUuu50RnE8wEOjkh5m+pQY7XBKhlUham5MAKA4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIJg3Jz6IbZ/JoDwWxzp1Hk7UZGfpNMRvlulUaLD7/nCf+L+bDM
-	rbE+eP1yPwrAhHc92ipj8eF35/gGW7fHpdYTePwWfJstNhvok1EEksr3Hl7SHD3Y0zw=
-X-Gm-Gg: AYBFou1aAVUhZYeBNg1Xtt9HR5+WAm94zmQ9Ol4TlN9gYEbB8lKNtJDGh30KZ7jVEj7
-	YruMUtA0lDTq+DKN9aOwW2LJsc7XaZBG0A5FeFKRyseNakzmS0g/8KnUmqbmxBVpY0j+VfMRBVL
-	NVqekQ3JXTswJsBX4cxflVAvAk/dUCp6m2jLDGeJZY3xzQehOvzJdIIyc7cv4aGSz+CSFXsqt+Z
-	+jI/8/ctSoUiJ65EkyXYYAAoJbxvk5tBLzBpOAVwYFp1BDGB0FYi+QzByBpM+LMsvIZK99KqITG
-	qsnir20lY9xCb0KAbsQodg4Mfzy0DHUQyk7/KHGr8Mso2Jb2HeHMhKrOS6Cqqu9ntjaJ5eL5fV9
-	c0IweNTlknTbckJfDpG0BxqREFj31gTr9DE6afkNZ/Zgy6KYl7H88NcnQ4EPyGGD8+orntHVvv9
-	2m7pyWN2pNJHcehyKMSrBZ6PkzU46JaQJ9MXHZLCAJ08+bpEb0E5R4QBxh/S2nosj5MRRH+xD/1
-	QluhI9+rsihdovtjaukI/nOkPOv5h1LKwpbGjDia/W85MRNDkBmn4mh18Y8F+GAIH3dzlqpxYBw
-	Vs8Tk+AjqA739U7Zu3BGzUqtDqzQ5QcVUstVgRlV75WSOy08lO2kpCNbEp8ANbVuDNq7PUaE
-X-Received: by 2002:a05:6820:a504:20b0:6dc:6e90:f650 with SMTP id 006d021491bc7-714f2947ed7mr33452eaf.15.1793297419439;
-        Thu, 29 Oct 2026 11:10:19 -0700 (PDT)
+        bh=4xMOYm4IpfE3gPGdn9UWNdhcEWDkgMVOaC7S309xY8U=;
+        b=kXB7hWU1uNeGWJfJ5HsLqFjxB0J8SQHtGiw8jxbjEkv5/6+dUUyYBg6+wJ9aad3Kyf
+         Ly2BeFRg4VkzPEWpTx/U5L1kV0Y4IvhYhjPfOuYi7WEHqbZcfxT1vwT/ZDPLku9Z7Oa8
+         Y83nR8adffijeAKV4tqUs4CpxN2IejmRve4vVNTwDpTHs3DHEAdjivxtsH3rjYN/3r1/
+         2VC4pTAuOVKy/XvfXWmsocBXXAdDWtIO0aZ+4tTfM3W6WfgUXW7QuV+IuomMlV99nNue
+         dHslCQY+EUHQZfbWeE2Al2jSRUjWc8dzXpaYNEnvKwgOmIVJG9h2rsjh0K427G3Cfp06
+         kBrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzbUPF+MwHO+biIm4pLp/cdj8rr/aZHAyKQaUGmRu4wHItHn48JR2Nv65aSul+ETvQUNWnv/5oc9AQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLQr7bcAnx2ly/Y+fymTMrZuUFZAJiDaOd7q+puv6KgFKH2LryU
+	8aKnZVihJN0R3+CifFQvxQVtLEeXvENba17ZmZVfQLBG6+VnQDIVlJfPzmJ/is2bkZM=
+X-Gm-Gg: AYBFou1406PtQuxTWd+O+gO6a1S4eq1eQVRIseZ6NAtiB5tsII3mw/4V6LwtWN2m+2N
+	sT/ixl/ao9o+BWLAur9Gb4ocvNKkfQDzutfwKXMvfxD20pK6HR32fQEDGWxzJDPfqkXG5FFNBRO
+	kL4NTCWhnVYbNxZlkQxrQN+hRiO/uVXBQ1toInEWxRxh523USTWdaV1Q769w7FRYpivYiF36Oby
+	B3KAL4/KT5M4skqxTvqc+b5KidBCjdmI376dqQbq1EjdyIing0DhJn+wJMCid6jpF9A/iwPrk0a
+	+IXX0vdRW2LrY9fCqhn8HffDv62kE+y8rgKfrrsFeqH/P+zRrNLv04Nwc4X67Qcej5bmUeor4qv
+	+ilStsxeT7YN4TQBQbMPYvPvMnfJdTXzCHmY0wCfa9q0mBH2gA3rpnZPNnNcvzMs+QpDqboyXuA
+	04ZPluIHYS27RGcIBM60xJelhDB+wpTwQQ+WwKJRPMozXEMwMp37UZ8YyrLf9RBlYbBIeWyjwfk
+	LzbxluEHWrX9pmZq0kRDSoKMpCVrXjr6oe7n+apl9FKnA8ZiiVycp76aQVKtkUXsBKVsJ1kQ2Qe
+	exdNXIpeDt/Ciec5bR9lMNC2m5oqvPi02LxXY/yGuzQfuk2BP20M242jtYkHrVNDHCh4fe+u
+X-Received: by 2002:a05:6820:f02c:b0:6f6:a60e:3675 with SMTP id 006d021491bc7-714f29073b7mr51392eaf.34.1793297424010;
+        Thu, 29 Oct 2026 11:10:24 -0700 (PDT)
 Received: from localhost (75-163-200-235.clsp.qwest.net. [75.163.200.235])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d3545b89asm189856a34.6.2026.10.29.11.10.16
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-714f2e3c910sm291eaf.9.2026.10.29.11.10.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 11:10:16 -0700 (PDT)
+        Thu, 29 Oct 2026 11:10:20 -0700 (PDT)
 From: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 To: NeilBrown <neil@brown.name>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -92,9 +92,9 @@ Cc: Jeff Layton <jlayton@kernel.org>,
 	linux-nfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 09/12] nfs: do not cache a name from a listing that a removal overlapped
-Date: Thu, 29 Oct 2026 12:09:54 -0600
-Message-ID: <20261029180957.387138-10-jonathan.flynn@hammerspace.com>
+Subject: [PATCH RFC 10/12] nfs: add the removal method for a parent directory locked shared
+Date: Thu, 29 Oct 2026 12:09:55 -0600
+Message-ID: <20261029180957.387138-11-jonathan.flynn@hammerspace.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261029180957.387138-1-jonathan.flynn@hammerspace.com>
 References: <20261028041023.3738553-1-neilb@ownmail.net>
@@ -110,193 +110,341 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With a removal holding the directory lock shared, a directory listing,
-which holds it shared too, can run beside it, and the server can build
-the listing before the removal while the client reads it after.  The
-client would then put the removed name back in its cache as a valid
-entry, and keep it for as long as it trusts its cached view of the
-directory.
+Add the client's method for removing a file while its directory is
+locked shared.  It handles one case: a cached name that nothing else is
+using.  It marks the cached entry and sends the REMOVE, which the
+listing check of "nfs: do not cache a name from a listing that a removal
+overlapped" counts as waiting until the protocol's ->remove() returns,
+and as answered after.  A second method, which the VFS calls after any
+delete event for the removal, clears the mark, so that a create of the
+same name that waited on it emits its create event after that delete
+event, not before.  Everything else, such as an open file that would
+have to be renamed aside, or an entry that is no longer hashed or no
+longer names a file, is handed back untouched and done with the
+directory locked exclusive, as today.  The VFS does not call the method
+on a server that reports itself case-insensitive or not case-preserving,
+and the method hands back any removal that reaches it there.  A warning
+fires if the marked entry is found dropped from the cache when the
+removal succeeds.
 
-Count, per directory, the removals made with the directory locked shared:
-those waiting for the server's answer, and those that have had it.  A
-listing notes the second count before it is requested, and adds no new
-name to the cache while a removal is waiting or once one has been
-answered since.  Positive entries already in the cache are covered by
-"nfs: keep the dentry of a shared-parent removal hashed".
-
-Nothing counts a removal yet, so nothing changes.  NFSv2 and NFSv3
-listings note the count too, and NFSv3 listings that return attributes
-make the same check; the behavior of both is unchanged.
+Two new trace events record the attempts made this way and the
+hand-backs, so a trace shows whether removals took this path.  Make
+block_revalidate() a wrapper around a new __block_revalidate(), which
+stores the mark it is given; the wrapper still stores
+NFS_FSDATA_BLOCKED, and now warns if it finds NFS_FSDATA_BLOCKED_SHARED.
+The existing removal method is otherwise unchanged, and no directory
+uses the new one yet, so nothing changes.
 
 Signed-off-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
 ---
- fs/nfs/dir.c           | 16 +++++++++--
- fs/nfs/inode.c         |  2 ++
- fs/nfs/internal.h      | 63 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/nfs_fs.h |  8 ++++++
- 4 files changed, 87 insertions(+), 2 deletions(-)
+ fs/nfs/dir.c           | 183 +++++++++++++++++++++++++++++++++++++++--
+ fs/nfs/internal.h      |  19 +++--
+ fs/nfs/nfstrace.h      |   2 +
+ include/linux/nfs_fs.h |  11 ++-
+ 4 files changed, 196 insertions(+), 19 deletions(-)
 
 diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index 2a4c059064..d9ba3cb1d7 100644
+index d9ba3cb1d7..0b6de87030 100644
 --- a/fs/nfs/dir.c
 +++ b/fs/nfs/dir.c
-@@ -165,6 +165,7 @@ struct nfs_readdir_descriptor {
+@@ -1919,12 +1919,12 @@ static int nfs_lookup_revalidate(struct inode *dir, const struct qstr *name,
+ 	return nfs_do_lookup_revalidate(dir, name, dentry, flags);
+ }
  
- 	__be32		verf[NFS_DIR_VERIFIER_SIZE];
- 	unsigned long	dir_verifier;
-+	unsigned long	shared_removal_seq;
- 	unsigned long	timestamp;
- 	unsigned long	gencount;
- 	unsigned long	attr_gencount;
-@@ -603,6 +604,7 @@ static int nfs_readdir_xdr_filler(struct nfs_readdir_descriptor *desc,
- 	timestamp = jiffies;
- 	gencount = nfs_inc_attr_generation_counter();
- 	desc->dir_verifier = nfs_save_change_attribute(inode);
-+	desc->shared_removal_seq = nfs_dir_shared_removal_seq(inode);
- 	error = NFS_PROTO(inode)->readdir(&arg, &res);
- 	if (error < 0) {
- 		/* We requested READDIRPLUS, but the server doesn't grok it */
-@@ -723,7 +725,7 @@ static void nfs_lookup_advise_force_readdirplus(struct inode *dir,
- 
- static
- void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
--		unsigned long dir_verifier)
-+		      unsigned long dir_verifier, unsigned long removal_seq)
+-static void block_revalidate(struct dentry *dentry)
++static void __block_revalidate(struct dentry *dentry, void *sentinel)
  {
- 	struct qstr filename = QSTR_INIT(entry->name, entry->len);
- 	struct dentry *dentry;
-@@ -825,6 +827,15 @@ void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
- 		d_lookup_done(dentry);
- 		goto out;
- 	}
+ 	/* old devname - just in case */
+ 	kfree(dentry->d_fsdata);
+ 
+-	dentry->d_fsdata = NFS_FSDATA_BLOCKED;
++	dentry->d_fsdata = sentinel;
+ 
+ 	/* Any new reference that could lead to an open
+ 	 * will either:
+@@ -1933,14 +1933,13 @@ static void block_revalidate(struct dentry *dentry)
+ 	 *    after taking the reference.
+ 	 *
+ 	 * Holding this lock and invalidating ->d_seq *after* recording
+-	 * NFS_FSDATA_BLOCKED ensures we cannot race with
+-	 * __nfs_lookup_revalidate().
+-	 * If __nfs_lookup_revalidate() doesn't see NFS_FSDATA_BLOCKED then:
++	 * @sentinel ensures we cannot race with __nfs_lookup_revalidate().
++	 * If __nfs_lookup_revalidate() doesn't see @sentinel then:
+ 	 * In the ref-walk case - d_lookup() will have incremented
+ 	 * d_count() before we check it.
+ 	 * In the RCU-walk case - ->d_seq must have been sampled before
+ 	 * we call write_seqcount_invalidate() below (because it was sampled
+-	 * before we set NFS_FSDATA_BLOCKED) so d_count() will have been
++	 * before we set @sentinel) so d_count() will have been
+ 	 * incremented or the d_seq check will fail in legitimize_path()
+ 	 * (or both).
+ 	 */
+@@ -1949,6 +1948,16 @@ static void block_revalidate(struct dentry *dentry)
+ 
+ }
+ 
++static void block_revalidate(struct dentry *dentry)
++{
 +	/*
-+	 * Make no dentry for a name that a removal under a shared parent may
-+	 * have taken away after the server built this listing; see
++	 * The caller holds the parent's i_rwsem exclusive, and a shared
++	 * remover's sentinel does not outlive its shared hold of that lock.
++	 */
++	WARN_ON_ONCE(nfs_fsdata_blocked_shared(dentry->d_fsdata));
++	__block_revalidate(dentry, NFS_FSDATA_BLOCKED);
++}
++
+ static void unblock_revalidate(struct dentry *dentry)
+ {
+ 	store_release_wake_up(&dentry->d_fsdata, NULL);
+@@ -2689,6 +2698,168 @@ int nfs_unlink(struct inode *dir, struct dentry *dentry)
+ }
+ EXPORT_SYMBOL_GPL(nfs_unlink);
+ 
++/*
++ * ->unlink_shared(): remove a file with the parent's i_rwsem held shared.
++ *
++ * The lock then excludes no lookup of this name, and no open of it but
++ * one that takes the parent exclusive.  What orders those behind the
++ * REMOVE is the dentry.  While it is hashed it is what every resolver of
++ * the name is handed, and NFS_FSDATA_BLOCKED_SHARED in ->d_fsdata makes
++ * each one that consults ->d_revalidate() after it is stored wait there
++ * until the removal is over: the REMOVE, and the VFS's report of it (see
++ * nfs_unlink_shared_done()).  That works only for a dentry in the one
++ * clean state tested below.  Anything else is handed back with
++ * UNLINK_NEED_EXCL and is done by nfs_unlink() with the parent held
++ * exclusive, as it always has been.  Nothing here silly-renames, and
++ * nothing here waits for another removal.
++ *
++ * An RCU-walk that consulted ->d_revalidate() before the store does not
++ * get past it: __block_revalidate() invalidates ->d_seq after the store,
++ * in the same ->d_lock section, so the walk fails its recheck and waits
++ * in ref-walk.  The one resolver that does get past, as it gets past the
++ * exclusive lock, is set out below.
++ *
++ * NFSv4 sets IOPF_ATOMIC_OPEN_CREATE_SHARED, so an O_CREAT open of the
++ * name takes the parent shared too, and the lock does not exclude it
++ * either.  While the dentry is hashed, such an open is handed it like any
++ * other resolver, and waits as they do.
++ *
++ * The sentinel is not cleared here.  nfs_unlink_shared_done() clears it, and
++ * the VFS calls that after any event for the removal is out, so that an open
++ * released by the clear cannot create the name and have its create event out
++ * before the delete event of the removal it waited for.
++ */
++int nfs_unlink_shared(struct inode *dir, struct dentry *dentry)
++{
++	int error;
++
++	dfprintk(VFS, "NFS: unlink_shared(%s/%llu, %pd)\n", dir->i_sb->s_id,
++		 dir->i_ino, dentry);
++
++	lockdep_assert_held_read(&dir->i_rwsem);
++	trace_nfs_unlink_shared_enter(dir, dentry);
++
++	/*
++	 * The anchor is keyed on the dcache name, and NFS installs no
++	 * ->d_hash or ->d_compare, so names are compared byte for byte: the
++	 * anchor assumes that the server keeps one object per byte string.
++	 * On a server for which "FOO" and "foo" are one object the client
++	 * can hold two independent hashed dentries, and blocking one of them
++	 * makes no resolver of the other wait.  A server that reports itself
++	 * case-insensitive, or as not preserving case, has SB_I_NAMES_COLLIDE
++	 * on its superblock (nfs_server_publish_name_caps()), and the VFS does
++	 * not call this method there; the test here hands back a removal whose
++	 * caller read the bit before it was set.  A server that makes one
++	 * object of other names that differ as byte strings, as Unicode
++	 * normalization does, is not detected, and a removal there is not
++	 * ordered against an open of another spelling; that is a limitation
++	 * of this method.
++	 */
++	if (READ_ONCE(dir->i_sb->s_iflags) & SB_I_NAMES_COLLIDE)
++		goto need_excl;
++
++	spin_lock(&dentry->d_lock);
++	/*
++	 * The clean state, read in the ->d_lock section the sentinel is
++	 * stored in, so that nothing can come between the two.
++	 *
++	 * A count of one is the interlock everything else rests on.  A second
++	 * reference either calls for a silly-rename, which ends in d_move()
++	 * and needs the parent exclusive, or belongs to a resolver that may
++	 * be past its ->d_revalidate() consult and would then unhash the
++	 * dentry without having seen the sentinel.  Every resolver that can
++	 * do that takes its reference before it consults, so with a count of
++	 * one here every resolver that consults from now on finds the
++	 * sentinel and waits.  The readdir guard in nfs_prime_dcache()
++	 * depends on this test and the store staying in one ->d_lock
++	 * section.
++	 *
++	 * One resolver escapes, as it escapes the exclusive lock: an open by
++	 * file handle, whose reference comes from d_obtain_alias() with no
++	 * ->d_revalidate().  It may go on to fail its open, reaching
++	 * nfs_d_drop_unless_anchored(), to open the file that the REMOVE then
++	 * deletes, or to get -ESTALE from the server.  An RCU-walk that
++	 * consulted ->d_revalidate() before the store does not escape; see
++	 * above.
++	 *
++	 * A victim that is no longer hashed and positive is no anchor.
++	 * Nothing between the lookup and here re-tests either, and with the
++	 * parent shared a failed ->d_revalidate() in another lookup, or
++	 * another remover's d_delete(), may have unhashed it since.  That is
++	 * not -ENOENT: a name invalidated locally may still exist on the
++	 * server.  A pending silly-delete on the dentry, or a block already
++	 * present, is for the exclusive pass to answer as well, and both
++	 * tests have to stay ahead of the store: __block_revalidate()
++	 * kfree()s ->d_fsdata, which while DCACHE_NFSFS_RENAMED is set is
++	 * the queued struct nfs_unlinkdata, and a store over another
++	 * sentinel would end that block early.
++	 */
++	if (d_count(dentry) > 1 ||
++	    (dentry->d_flags & DCACHE_NFSFS_RENAMED) ||
++	    nfs_dentry_is_blocked(dentry) ||
++	    d_unhashed(dentry) || d_really_is_negative(dentry)) {
++		spin_unlock(&dentry->d_lock);
++		goto need_excl;
++	}
++	__block_revalidate(dentry, NFS_FSDATA_BLOCKED_SHARED);
++	spin_unlock(&dentry->d_lock);
++
++	trace_nfs_unlink_enter(dir, dentry);
++	/*
++	 * The REMOVE of nfs_safe_remove(), less its silly-renamed case, which
++	 * the tests above hand back; the protocol's ->remove() drops the link
++	 * count itself.  It is copied and not called so that the directory's
++	 * removal sequence moves as soon as the server has answered, whatever
++	 * the answer, and before anything here can unhash the anchor: on
++	 * -ENOENT, nfs_dentry_handle_enoent() does.  See
 +	 * nfs_dir_shared_removal_since().
 +	 */
-+	if (nfs_dir_shared_removal_since(d_inode(parent), removal_seq)) {
-+		d_lookup_done(dentry);
-+		goto out;
-+	}
- 
- 	nfs_set_verifier(dentry, dir_verifier);
- 	inode = nfs_fhget(dentry->d_sb, entry->fh, entry->fattr);
-@@ -853,7 +864,8 @@ static int nfs_readdir_entry_decode(struct nfs_readdir_descriptor *desc,
- 	ret = xdr_decode(desc, entry, stream);
- 	if (ret || !desc->plus)
- 		return ret;
--	nfs_prime_dcache(file_dentry(desc->file), entry, desc->dir_verifier);
-+	nfs_prime_dcache(file_dentry(desc->file), entry, desc->dir_verifier,
-+			 desc->shared_removal_seq);
- 	return 0;
- }
- 
-diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
-index e0a2e92952..7885216a48 100644
---- a/fs/nfs/inode.c
-+++ b/fs/nfs/inode.c
-@@ -426,6 +426,8 @@ static void nfs_inode_init_dir(struct nfs_inode *nfsi)
- 	nfsi->cache_change_attribute = 0;
- 	memset(nfsi->cookieverf, 0, sizeof(nfsi->cookieverf));
- 	init_rwsem(&nfsi->rmdir_sem);
-+	nfsi->shared_removal_seq = 0;
-+	nfsi->shared_removals = 0;
- }
- 
++	trace_nfs_remove_enter(dir, dentry);
++	nfs_dir_start_shared_removal(dir);
++	error = NFS_PROTO(dir)->remove(dir, dentry);
++	nfs_dir_end_shared_removal(dir);
++	/* Nothing may unhash an anchor while its REMOVE is in flight */
++	WARN_ON_ONCE(!error && d_unhashed(dentry));
++	if (error == -ENOENT)
++		nfs_dentry_handle_enoent(dentry);
++	trace_nfs_remove_exit(dir, dentry, error);
++
++	nfs_dentry_remove_handle_error(dir, dentry, error);
++	trace_nfs_unlink_exit(dir, dentry, error);
++	return error;
++
++need_excl:
++	trace_nfs_unlink_need_excl(dir, dentry);
++	return UNLINK_NEED_EXCL;
++}
++EXPORT_SYMBOL_GPL(nfs_unlink_shared);
++
++/*
++ * ->unlink_shared_done(): end the exclusion nfs_unlink_shared() installed.
++ *
++ * The VFS calls this for a call of nfs_unlink_shared() that did not hand the
++ * removal back, with the parent still held shared and the event for the
++ * removal, if there was one, already out.  Clearing the sentinel here rather
++ * than at the end of nfs_unlink_shared() is what keeps the notifications for
++ * the name in order: an O_CREAT open released by the clear would otherwise be
++ * able to create the name and have its create event out first.
++ *
++ * Every such call stored the sentinel, both of the tests that hand a removal
++ * back being made before the store, so there is nothing to test for here.
++ * Nor can anything have replaced it: nfs_unlink_shared() anchors only on a
++ * dentry with no reference but the caller's, which the caller still holds, so
++ * no second remover can anchor on it and nfs_d_release() cannot run;
++ * nfs_call_unlink() skips a dentry that is blocked; and every other writer of
++ * the field needs either the parent held exclusive or DCACHE_NFSFS_RENAMED,
++ * which is one of the cases handed back above.
++ */
++void nfs_unlink_shared_done(struct inode *dir, struct dentry *dentry)
++{
++	lockdep_assert_held_read(&dir->i_rwsem);
++	unblock_revalidate(dentry);
++}
++EXPORT_SYMBOL_GPL(nfs_unlink_shared_done);
++
  /*
+  * To create a symbolic link, most file systems instantiate a new inode,
+  * add a page to it containing the path, then write it out to the disk
 diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-index 907ea27ea2..9cd8e5e808 100644
+index 9cd8e5e808..2600ae7865 100644
 --- a/fs/nfs/internal.h
 +++ b/fs/nfs/internal.h
-@@ -152,6 +152,69 @@ static inline void nfs_d_drop_unless_anchored(struct dentry *dentry)
- 	spin_unlock(&dentry->d_lock);
- }
- 
-+/*
-+ * readdir holds the directory shared, so a listing can run beside a removal
-+ * made under a shared parent, and the server can build the listing before
-+ * the REMOVE while the client decodes it after.  Once the removal is done
-+ * its anchor no longer stands in the way - the remover's d_delete() leaves
-+ * the dentry unhashed or negative - and priming the dcache from such a
-+ * listing would put the removed name back, as a positive dentry with a
-+ * valid verifier.
-+ *
-+ * So a remover counts itself in ->shared_removals from before it sends its
-+ * REMOVE until the reply is in, and then advances ->shared_removal_seq,
-+ * before anything it does can unhash the anchor.  readdir samples the
-+ * sequence before it sends the READDIR, and makes no new dentry from the
-+ * listing while a removal is counted or once the sequence has moved.  A
-+ * listing whose sample is the advanced value was sent after the server had
-+ * answered the REMOVE.  The count makes priming stand aside even if the
-+ * anchor were to be lost while the REMOVE is in flight.  A dentry that
-+ * priming finds hashed is left to the test in nfs_prime_dcache(), which
-+ * leaves it alone while it is anchored and once it has been unhashed;
-+ * one that the removal left negative is dropped there, and its name
-+ * then gets no new dentry from such a listing either.
-+ *
-+ * Both fields change under the directory's ->i_lock, and the test reads
-+ * them under it.  The sample is taken without the lock.
-+ */
-+static inline unsigned long nfs_dir_shared_removal_seq(struct inode *dir)
-+{
-+	return READ_ONCE(NFS_I(dir)->shared_removal_seq);
-+}
-+
-+/*
-+ * Has a removal under a shared parent been in flight in @dir since @seq was
-+ * sampled, or is one in flight now?
-+ */
-+static inline bool nfs_dir_shared_removal_since(struct inode *dir,
-+						unsigned long seq)
-+{
-+	struct nfs_inode *nfsi = NFS_I(dir);
-+	bool since;
-+
-+	spin_lock(&dir->i_lock);
-+	since = nfsi->shared_removals || nfsi->shared_removal_seq != seq;
-+	spin_unlock(&dir->i_lock);
-+	return since;
-+}
-+
-+static inline void nfs_dir_start_shared_removal(struct inode *dir)
-+{
-+	spin_lock(&dir->i_lock);
-+	NFS_I(dir)->shared_removals++;
-+	spin_unlock(&dir->i_lock);
-+}
-+
-+static inline void nfs_dir_end_shared_removal(struct inode *dir)
-+{
-+	struct nfs_inode *nfsi = NFS_I(dir);
-+
-+	spin_lock(&dir->i_lock);
-+	nfsi->shared_removals--;
-+	WRITE_ONCE(nfsi->shared_removal_seq, nfsi->shared_removal_seq + 1);
-+	spin_unlock(&dir->i_lock);
-+}
-+
- static inline fmode_t flags_to_mode(int flags)
+@@ -49,7 +49,7 @@ static inline bool nfs_lookup_is_soft_revalidate(const struct dentry *dentry)
+  * removal of the dentry's name is in flight: the first when the remover
+  * holds the parent's i_rwsem exclusive, the second when it holds it shared,
+  * and the second until the VFS ends the removal, after any delete event for
+- * it (see the client's ->unlink_shared_done()).
++ * it (see nfs_unlink_shared_done()).
+  * ->d_revalidate() waits for either to clear.  The two differ in what the
+  * dentry is to the removal.
+  *
+@@ -73,12 +73,15 @@ static inline bool nfs_lookup_is_soft_revalidate(const struct dentry *dentry)
+  * ->d_revalidate(), has to leave an anchor hashed or wait for its sentinel
+  * to clear.
+  *
+- * The shared sentinel is stored and cleared within one shared hold of the
+- * parent, so it is never present while the parent is held exclusive.  That
+- * is why the two tests made with the parent exclusive, the WARN_ON()s in
+- * nfs_unlink() and nfs_rename(), still compare against NFS_FSDATA_BLOCKED
+- * alone.  They are the only bare compares against a sentinel; every other
+- * test uses the helpers below.
++ * The shared sentinel is stored in nfs_unlink_shared() and cleared in
++ * nfs_unlink_shared_done(), which the VFS calls while it still holds the
++ * parent shared, so it is stored and cleared within one shared hold of the
++ * parent and is never present while the parent is held exclusive.  That
++ * is why the WARN_ON()s in nfs_unlink() and nfs_rename(), made with the
++ * parent exclusive, still compare against NFS_FSDATA_BLOCKED alone, and
++ * why block_revalidate(), which both call, warns if it finds
++ * NFS_FSDATA_BLOCKED_SHARED.  Those WARN_ON()s are the only bare compares
++ * against a sentinel; every other test uses the helpers below.
+  */
+ static inline bool nfs_fsdata_blocked(const void *fsdata)
  {
- 	fmode_t res = (__force fmode_t)flags & FMODE_EXEC;
+@@ -611,6 +614,8 @@ struct dentry *nfs_mkdir(const struct mnt_idmap *, struct inode *, struct dentry
+ 			 umode_t);
+ int nfs_rmdir(struct inode *, struct dentry *);
+ int nfs_unlink(struct inode *, struct dentry *);
++int nfs_unlink_shared(struct inode *dir, struct dentry *dentry);
++void nfs_unlink_shared_done(struct inode *dir, struct dentry *dentry);
+ int nfs_symlink(const struct mnt_idmap *, struct inode *, struct dentry *,
+ 		const char *);
+ int nfs_link(struct dentry *, struct inode *, struct dentry *);
+diff --git a/fs/nfs/nfstrace.h b/fs/nfs/nfstrace.h
+index a32c76df72..99393ebc7e 100644
+--- a/fs/nfs/nfstrace.h
++++ b/fs/nfs/nfstrace.h
+@@ -748,6 +748,8 @@ DEFINE_NFS_DIRECTORY_EVENT(nfs_remove_enter);
+ DEFINE_NFS_DIRECTORY_EVENT_DONE(nfs_remove_exit);
+ DEFINE_NFS_DIRECTORY_EVENT(nfs_unlink_enter);
+ DEFINE_NFS_DIRECTORY_EVENT_DONE(nfs_unlink_exit);
++DEFINE_NFS_DIRECTORY_EVENT(nfs_unlink_shared_enter);
++DEFINE_NFS_DIRECTORY_EVENT(nfs_unlink_need_excl);
+ DEFINE_NFS_DIRECTORY_EVENT(nfs_symlink_enter);
+ DEFINE_NFS_DIRECTORY_EVENT_DONE(nfs_symlink_exit);
+ 
 diff --git a/include/linux/nfs_fs.h b/include/linux/nfs_fs.h
-index b45952727c..3e86449485 100644
+index 3e86449485..7ccdc5b867 100644
 --- a/include/linux/nfs_fs.h
 +++ b/include/linux/nfs_fs.h
-@@ -205,6 +205,14 @@ struct nfs_inode {
- 			/* Readers: in-flight sillydelete RPC calls */
- 			/* Writers: rmdir */
- 			struct rw_semaphore	rmdir_sem;
-+			/*
-+			 * Removals made with i_rwsem held shared: how many
-+			 * have finished, and how many are waiting for the
-+			 * reply to their REMOVE.  Both change under
-+			 * ->i_lock; see fs/nfs/internal.h.
-+			 */
-+			unsigned long	shared_removal_seq;
-+			unsigned int	shared_removals;
- 		};
- 		/* Regular file */
- 		struct {
+@@ -697,12 +697,11 @@ static inline bool nfs_ooo_test(struct nfs_inode *nfsi)
+  *  - NFS_FSDATA_BLOCKED, while a REMOVE of the name, or a RENAME onto it,
+  *    is in flight with the parent's i_rwsem held exclusive.  It outlives
+  *    that hold only when a rename is killed, until its RENAME completes;
+- *  - NFS_FSDATA_BLOCKED_SHARED, from the store in the client's
+- *    ->unlink_shared(), with the parent's i_rwsem held shared, until its
+- *    ->unlink_shared_done(), which the VFS calls after any delete event
+- *    for the removal, whether or not it succeeded, and before it drops
+- *    that hold.  The dentry may be negative, or positive and unhashed,
+- *    by then.
++ *  - NFS_FSDATA_BLOCKED_SHARED, from the store in nfs_unlink_shared(),
++ *    with the parent's i_rwsem held shared, until nfs_unlink_shared_done(),
++ *    which the VFS calls after any delete event for the removal, whether
++ *    or not it succeeded, and before it drops that hold.  The dentry may
++ *    be negative, or positive and unhashed, by then.
+  * Both sentinels are stored under ->d_lock and cleared by
+  * unblock_revalidate(), and ->d_revalidate() waits while either is set.
+  * fs/nfs/internal.h says what else has to respect them.
 -- 
 2.43.0
 
