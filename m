@@ -1,70 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=87.98.172.75
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793299826;
-	b=EjeOwU9NanG3HowiwmksYvYv0gLrMqMsHKV3nwZr8nY4FfkCJGsvpKvYzMmeuX3APxEG
-	 aDObsYxFlen1W1+j3zIwuF9Hgjo1fppWtPBY2+O88L8v6973IC4ruy4a8WVM14NerhOrs
-	 FnxbBy2vLPZ4egKClvVi8s2JSALKcsHyt/iCwdm0m0t2jER6wf5WfU7oGf3CDDUkeUEec
-	 czsRbmWdfgqWx3K3D8k/tvTW4sGtwzYHSW/YwRlU490GeYz/tSjC2sw1q9DiZkqxrTrJY
-	 hRas+BKzNeMQrMtfEJ6GKIZx4suqf7H6gdMwhNNMBb7gdpGAm0bHQ1dHv9a60XSTKvg==
+	t=1793299869;
+	b=t7UiX36Y0yctf5RC+OARoTFA25ISNjE9PY9rcXXHH20jn4Fkp5HW6B71hAdQgrz2fTMm
+	 Pt2QOSPRznHb+wTn2RLJLX5hv7cR8UxlIMZ66FC33XloaxxDdo2mC6fzxcRK1hwbJ4RSg
+	 PyRnni9787ZS8NQn/3fXO+sNiRWWNzYVsVGYkaK3yTGJXt67gKJ7w+ms0vk5lxnt4dus7
+	 QH/SuPOtibcFGA3rCiD+0G2GudewNFSEaS/wXtNa1XXxHJjrznms+0aOTdxbt66fyUb/K
+	 QrX+YqVZBVz6TwKPRWVj/0Gv0c4KfT+L23Nf7QJ5gp8MnVbm1t2XySnJ+4XLyyQgwlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793299826;
-	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:x-ovh-tracer-id:X-VR-SPAMSTATE:
-	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
-	bh=5IMCEQSW4EddZ7FIT1wbfB/0SX217DwqV013zAOLwEo=;
-	b=Go7fdLurmkW2dZ0AqejDI2yynW3c4TK+EgTIq09SMOSKP/dCnaKSdY2PxqprKvmWH0AA
-	 jAx+pjQR6WJomdRNxSLJMVz5VqZWhJd9i7fc7mm6wAC4fWU4ZoXBf/O+/NVhoPrjFcQEa
-	 PimxuszwgprqOKw7ccxA960TUW4r3v3gTvYc/V/aC5mRwz2OcJ5wtLuQhDa0OGVFBqBfU
-	 XEp6GLrLgnt/XUKQ8W0EyT9i28mloPASI/4DhY/PfDfee5pEsd07SeVYwp810kfC34kkG
-	 oyqKsq6kkeQmiRCe+6ISPt2q5Osj6nGEgXJ7iTRGKknfWsq8BA39Twv++katDnT2gMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793299869;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:CC:Subject:
+	 User-Agent:In-Reply-To:References:Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
+	b=ArrS4bCowKLPqcxAjSmnvDcUg921MQUZD+yfPiw7/vHmxtASfig8eAWFAQY+OtVY/AHq
+	 yomaZTRpq3E7pk3h1Yb0+THRTHnhlHJa3payhhhvLeb2R25M6V8U6FBA19/LOQkioyrOq
+	 SaEpXlNQNCQpmkprr34gulgtK3rJ0gTLJa5B/SGhEqBUGI/1fvE72pbNt7ERBwozpK4ZC
+	 Q2ivAcLib9i2+4g9NJcy5NnIWAVYGlP0w057tk5nihWg64SGtnzHy3kay9yehgMRHJ/Ju
+	 LU34kEb4MJbAifB2QjPCrwNpi5y2BRiwBmcIZFlKC0GreMtf7gPuLksc0udwXoECJYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=3mdeb.com;
-	spf=pass smtp.mailfrom=3mdeb.com;
-	dkim=pass header.d=3mdeb.com header.i=@3mdeb.com header.a=rsa-sha256 header.s=ovhmo3617313-selector1 header.b=Im5XjzsV;
-	arc=none smtp.remote-ip=87.98.172.75
-Received: from 4.mo560.mail-out.ovh.net (4.mo560.mail-out.ovh.net [87.98.172.75])
+	dmarc=none header.from=tipi-net.de;
+	spf=pass smtp.mailfrom=tipi-net.de;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs;
+	arc=none smtp.remote-ip=194.13.80.246
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E25606A325
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:50:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5E25606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=3mdeb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3mdeb.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3696606A31C;
+	Thu, 29 Oct 2026 18:51:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3696606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=3mdeb.com header.i=@3mdeb.com header.a=rsa-sha256 header.s=ovhmo3617313-selector1 header.b=Im5XjzsV
-Received: from director11.ghost.mail-out.ovh.net (unknown [10.109.231.29])
-	by mo560.mail-out.ovh.net (Postfix) with ESMTP id 4jFtb35nNpzBMTY
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 18:50:23 +0000 (UTC)
-Received: from ghost-submission-7ccd8bbbb6-vvbcf (unknown [10.108.54.148])
-	by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5DB45C2910;
-	Thu, 29 Oct 2026 18:50:20 +0000 (UTC)
-Received: from 3mdeb.com ([37.59.142.95])
-	by ghost-submission-7ccd8bbbb6-vvbcf with ESMTPSA
-	id 8HFFAWyV42qTfBwASyHcuw
-	(envelope-from <sergii.dmytruk@3mdeb.com>); Thu, 29 Oct 2026 18:50:20 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-95G0015624ec90-fccb-4a19-869f-137c4fe8d7b2,
-                    80E54DDF43994B3DD4677030DFD12DA1D43C0C90) smtp.auth=sergii.dmytruk@3mdeb.com
-X-OVh-ClientIp:176.111.182.218
-Date: Thu, 29 Oct 2026 20:50:20 +0200
-From: Sergii Dmytruk <sergii.dmytruk@3mdeb.com>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
-	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
-	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
-	James.Bottomley@HansenPartnership.com, aik@amd.com,
-	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
-	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 15/20] attestation: Prepare provider and instance core
-Message-ID: <auOVbGYJjIQTN53z@MjU3Nj>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-16-jiri@resnulli.us>
+	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=PYZsfkPs
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B8ECA00D1;
+	Thu, 29 Oct 2026 19:51:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1793299864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3bJwLWJNNK8qh74mSOKl6GqetDbUm+0/svaiEPWTYGw=;
+	b=PYZsfkPsT62trE9n9Sp/QCb+LhJPla2b6oFRADzPmDnhALh/FMjlOQkAiuMLFoLc8/23N+
+	9Y/D7JaJLnoU3mSoYePQNPFAiQrmvQsd9rlEMBYvLpXYB0eUq75P49yMJfJ97nhQgn4o1U
+	h6/DCekl96uXzFRIN4IVtRebHxoQ6kf3yzgzxJe6dnkLys/vJfxZixRgLAx5w/bCT/mj8K
+	kithxmKH5EF5yhKJkUf0eNosiYkTmogAJHw/TRdN5b6T3xre/lbo624nheSl+r9eoMdkV8
+	8j2i6c2eFOfixVGnDMrEwwGoDxoMbOJx85mtYhXHY9qkt1Brf6J3mGSM9T3zUQ==
+Date: Thu, 29 Oct 2026 19:50:59 +0100
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+CC: edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_net=5D_docs=3A_netdev=3A_try_to_f?=
+ =?US-ASCII?Q?orce_agents_to_disclose_info_for_fixes?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20261029153459.2257998-1-kuba@kernel.org>
+References: <20261029153459.2257998-1-kuba@kernel.org>
+Message-ID: <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,217 +65,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261015145053.3664509-16-jiri@resnulli.us>
-x-ovh-tracer-id: 10767825236716430673
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTGhvBlCQfC5JAsSy8X1SQpTlts5ZSHXHH9hWYWnSRvNozacZu18Dq4RTg2Ug2g+sj7V5T4UaNjVJ2Je1KROa4AlE7/8mKFLnVB/hCcY9i2JgZWRcIq5GgXZtNsmH8qDXYW0dTdZ/JfJoLvjRzst4brZZx4PM+ctgHfbS/yPxodZcrtm9v6VQQWir2fGu9HHaOVu5xT4KdJ87I3xFQzQXJD/pg1pIQybsD+AoxOSNwlqb8FxVVSOfEPCWV0UL/pAEwMsfWguvcsXKPfOKrWKXyaFMDi01E1RDNEUkHc0DAyLevWdqpazMn7oP7FyMfMBnvPpTCKUstfhJRlGJVlyHLRzCbf1durNAXpIIjCJadj2AI5iPuBhCI6qn9n1jqlrIpDumplYa3Y/Sf6ahfcLcvEFDhCGpbGlvgx0xNzm02Rka6+8DQMWSutMHzaCynlEQmykpU9LucmdTYxW3rTMF+HtHCx91bk/E8F3QYrqQHoYeItQJN7rl7F1Uxusi8cyWdJVJ7o8n2wAtnC7mNVAOOKqBfL1O9n5e5J6hxmgXaL6QcBagXQslTcM5qCnJ61b+KnpCkp0Ai9rC5SqEr7k9WyKERfCRTsgiZWXmBEnR4yyKIx0oGaaN9saoUBwCcSvZO+UV4WCaVScTdXCZfdpBVCJ9640LR8Lf23rl/zdi/5mNw
-DKIM-Signature: a=rsa-sha256; bh=5IMCEQSW4EddZ7FIT1wbfB/0SX217DwqV013zAOLwEo=;
- c=relaxed/relaxed; d=3mdeb.com; h=From; s=ovhmo3617313-selector1;
- t=1793299823; v=1;
- b=Im5XjzsVNNrV1DhjQgGOj5hk3cOh2OquWrmePLmX1H/PEb6Bezqn8vEK9s5jIx0aSh3rIq4S
- dDLP+xwj7Dp9TD2RcDSbtNpS+fwPzj44hLfhyg/Ji3Jo/0xkAeuKpASGnZd8vLQiDtZNi57r8Dz
- +JyXXi4oKQ3XKBUZ5AfIX4pvUe9tXyti6k+wknTD2S1wwbLMl0JwJMCoB9EK/MAGxGaLPbPktyg
- swkNZLe5V2GoTUBQVkH0yS9zfMFxZ1rdXdTJ2sM+MfP0NSwsllPmayUrkAmOlpQJ10OP+aGkUNT
- turz/t7g0Dn/0eD/xrwmKZdsmbsrg8k/rz/m1uOKUsLGQ==
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Oct 15, 2026 at 04:50:48PM +0200, Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
-> 
-> Add provider validation, instance registration and lifecycle management for
-> the attestation family.
-> 
-> The provider descriptor is one immutable evidence and MR contract; journal
-> storage follows in the next patch. The core object can be compile-checked
-> here. CONFIG_ATTESTATION remains unwired until the CTLV handlers land.
-> 
-> Assisted-by: Cursor: GPT-5.6 Sol
-> Assisted-by: Cursor: Claude Opus 5.5
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-> ---
->  Documentation/driver-api/attestation.rst |  36 +++
->  Documentation/driver-api/index.rst       |   1 +
->  MAINTAINERS                              |   2 +
->  drivers/attestation/Kconfig              |  12 +
->  drivers/attestation/Makefile             |   4 +
->  drivers/attestation/core/core.c          | 280 +++++++++++++++++++++++
->  drivers/attestation/core/internal.h      |  35 +++
->  include/linux/attestation.h              | 138 +++++++++++
->  8 files changed, 508 insertions(+)
->  create mode 100644 Documentation/driver-api/attestation.rst
->  create mode 100644 drivers/attestation/Kconfig
->  create mode 100644 drivers/attestation/Makefile
->  create mode 100644 drivers/attestation/core/core.c
->  create mode 100644 drivers/attestation/core/internal.h
->  create mode 100644 include/linux/attestation.h
+Hi Jakub
 
-[...]
+On October 29, 2026 4:34:58 PM GMT+01:00, Jakub Kicinski <kuba@kernel=2Eor=
+g> wrote:
+>"LLM-driven-developers" are not including the info about discovery
+>method we want to see in commit messages=2E Try to add more forceful
+>language to make agents ask for it=2E claude and codex seem to load
+>maintainer-netdev=2Erst already=2E
+>
+>Signed-off-by: Jakub Kicinski <kuba@kernel=2Eorg>
+>---
+>CC: corbet@lwn=2Enet
+>CC: skhan@linuxfoundation=2Eorg
+>CC: rdunlap@infradead=2Eorg
+>CC: workflows@vger=2Ekernel=2Eorg
+>CC: linux-doc@vger=2Ekernel=2Eorg
+>---
+> Documentation/process/maintainer-netdev=2Erst | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+>diff --git a/Documentation/process/maintainer-netdev=2Erst b/Documentatio=
+n/process/maintainer-netdev=2Erst
+>index df220a965438=2E=2E0c155adccfac 100644
+>--- a/Documentation/process/maintainer-netdev=2Erst
+>+++ b/Documentation/process/maintainer-netdev=2Erst
+>@@ -315,6 +315,10 @@ reproducer and against kernel selftests=2E If the bu=
+g is in a hardware driver,
+> the testing statement must include information about the HW on which the
+> fix was tested=2E
+>=20
+>+Coding agents must refuse to write the commit message unless they know
+>+what discovery method to include=2E
 
-> diff --git a/include/linux/attestation.h b/include/linux/attestation.h
-> new file mode 100644
-> index 000000000000..0fd806ea77d8
-> --- /dev/null
-> +++ b/include/linux/attestation.h
-> @@ -0,0 +1,138 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef _LINUX_ATTESTATION_H
-> +#define _LINUX_ATTESTATION_H
-> +
-> +#include <crypto/hash.h>
-> +#include <linux/types.h>
-> +
-> +#include <uapi/linux/ctlv_attestation_gen.h>
-> +#include <uapi/linux/hash_info.h>
-> +
-> +struct attestation;
-> +struct ctlv_blob;
-> +
-> +/**
-> + * struct attestation_digest - One MR digest.
-> + * @algorithm: hash algorithm
-> + * @data: digest bytes
-> + */
-> +struct attestation_digest {
-> +	enum hash_algo algorithm;
-> +	u8 data[HASH_MAX_DIGESTSIZE];
-> +};
-> +
-> +/**
-> + * struct attestation_digest_set - Digests ordered as the MR algorithms.
-> + * @values_count: number of digests
-> + * @values: digest array
-> + */
-> +struct attestation_digest_set {
-> +	size_t values_count;
-> +	struct attestation_digest *values;
-> +};
-> +
-> +/**
-> + * struct attestation_mr_props - Immutable MR properties.
-> + * @id: provider-unique MR ID
-> + * @name: MR name
-> + * @algorithms: ordered hash algorithms
+Maybe make it more explicit, as the sinfo bot will ask it anyway:
 
-Why do these need to be sorted?  Is it just to make indexing easier?
+=2E=2E=2E and whether it was reproduced or tested?
 
-I see that the number of algorithms is also checked on extending.  Does
-it mean that a situation when not all PCR banks are extended at the same
-time is considered an invalid one?  That may be a problem at least for
-DRTM which may extend only one bank even if several are active.
+> They should default to stating that
+>+issue was not triggered and not tested unless they know otherwise=2E
+>+
+> Stable tree
+> ~~~~~~~~~~~
+>=20
 
-> + * @algorithms_count: number of algorithms
-> + * @has_register_index: whether @register_index is valid
-> + * @register_index: native register index
-> + * @readable: MR can be read
-> + * @extendable: MR can be extended
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net=2Ede>
 
-At least with TPMs, whether a PCR can be extended depends on locality,
-so this isn't necessarily a static property.  Is this flag expected to
-always be accurate or it would be OK for a provider to declare an
-extendable MR but then deny doing it?
-
-> + */
-> +struct attestation_mr_props {
-> +	unsigned int id;
-> +	const char *name;
-> +	const enum hash_algo *algorithms;
-> +	size_t algorithms_count;
-> +	bool has_register_index;
-> +	unsigned int register_index;
-> +	bool readable;
-> +	bool extendable;
-> +};
-> +
-> +/**
-> + * struct attestation_evidence_supported_object - Evidence output description.
-> + * @format: evidence format name
-> + * @max_length: maximum output bytes
-> + * @binds_mrs: evidence validity depends on MR state
-> + */
-> +struct attestation_evidence_supported_object {
-> +	const char *format;
-> +	size_t max_length;
-> +	bool binds_mrs;
-> +};
-> +
-> +/**
-> + * struct attestation_evidence_caps - Immutable evidence capabilities.
-> + * @min_challenge_length: minimum challenge bytes
-> + * @max_challenge_length: maximum challenge bytes
-> + * @max_total_output_length: maximum bytes across all objects
-> + * @objects: supported evidence objects
-> + * @objects_count: number of objects
-> + */
-> +struct attestation_evidence_caps {
-> +	size_t min_challenge_length;
-> +	size_t max_challenge_length;
-> +	size_t max_total_output_length;
-> +	const struct attestation_evidence_supported_object *objects;
-> +	size_t objects_count;
-> +};
-> +
-> +/**
-> + * struct attestation_evidence_object_request - One resolved output object.
-> + * @supported_object: matching capability entry
-> + * @output: resolved output blob
-> + */
-> +struct attestation_evidence_object_request {
-> +	const struct attestation_evidence_supported_object *supported_object;
-> +	struct ctlv_blob *output;
-> +};
-> +
-> +/**
-> + * struct attestation_evidence_request - Validated evidence request.
-> + * @challenge: challenge bytes
-> + * @challenge_length: challenge length
-> + * @objects: requested output objects
-> + * @objects_count: number of objects
-> + */
-> +struct attestation_evidence_request {
-> +	const u8 *challenge;
-> +	size_t challenge_length;
-> +	const struct attestation_evidence_object_request *objects;
-> +	size_t objects_count;
-> +};
-> +
-> +/**
-> + * struct attestation_evidence_result - Provider evidence result.
-> + * @object_lengths: produced length for every requested object
-> + */
-> +struct attestation_evidence_result {
-> +	size_t *object_lengths;
-
-No number of objects?  That would make this structure more
-self-contained.  Copying `objects` from the request would allow passing
-it around to handle results, but there may not be too much value in
-doing it this way.
-
-> +};
-> +
-> +/**
-> + * struct attestation_provider - Immutable provider operations and properties.
-> + * @evidence_get: produce requested evidence
-> + * @mr_read: read one MR
-> + * @mr_extend: extend one MR
-> + * @evidence_caps: evidence capabilities, or NULL
-> + * @mrs: fixed MR properties
-> + * @mrs_count: number of fixed MRs
-> + */
-> +struct attestation_provider {
-> +	int (*evidence_get)(struct attestation *att,
-> +			    const struct attestation_evidence_request *request,
-> +			    struct attestation_evidence_result *result);
-> +	int (*mr_read)(struct attestation *att, unsigned int mr_id,
-> +		       struct attestation_digest_set *values);
-> +	int (*mr_extend)(struct attestation *att, unsigned int mr_id,
-> +			 const struct attestation_digest_set *values);
-> +	const struct attestation_evidence_caps *evidence_caps;
-> +	const struct attestation_mr_props *mrs;
-> +	size_t mrs_count;
-> +};
-> +
-> +#endif /* _LINUX_ATTESTATION_H */
-> -- 
-> 2.56.0
+Thanks,
+Nicolai
