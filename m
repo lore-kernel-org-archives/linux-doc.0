@@ -1,114 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.236
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793237933;
-	b=CxhnFwFJ0wqc3K0cOf9YLTXD1dJYc93NZufflt3FaHERHhacYy2SlN7BiPlqyJ7pRt61
-	 lNSkdej6pf/URx7NW6ooDa2/G/hLXCWxrVBt5U6wgYjpiaofESiVrO8MedHwNarOWxi/h
-	 IPdbjghNpuGbC+xOJIYITeOkDRUslsnDUzx6VE2H75DqApixl0yJhwzLQN5vAHK/Lgx/A
-	 pdnMMBMFROgXOTlReGZvZhfClJkJW6UMZRRCcZ7bjPwdNx/DfndP0GgxhTKccvb1+3Xlj
-	 qZt0oYLCcR8w0ZNHZKrXSEiinenOkg/jGLMRPQqCSQw+8AwOrLDmcQm1cHlPGhTPymA==
+	t=1793238435;
+	b=vdbneHuhykepmna1hJL3yJtmW78p+kBk3FicgOvDfuv0R3FyDdmwBSQVcqULHzaEVwSG
+	 Ms9tAEQkPujgwEZQCe1b6gzwTyR1mgEYQJFhC9UYSNXeeW820lCPYTT6fzPzEJ9YV5uei
+	 G3jV0oqQHGEwNT1wlXJnkOoi4/ccT+UbCeb3tptHReOAk5v7RhFFqQ11JCWMEMvlELBRU
+	 smespalSQVbu02AK7O4agTqvRieUdsmCW9fm6622qRGExUSJNkYrFqsqtpn0gjEMLJ5on
+	 hqkgu5tLyewuHwGmaZhul8kScSv8J6ZqffzKo4mPzYLj0yJ5mduDH00d7/r4ERnfkXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793237933;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=/cTHNomGdMzdwGOEPd/Mb+9dZ6EWwM9vGNpl5GZyT/s=;
-	b=SeljT3xS9UTZmfpupu3veVoPsdBJRCRXYwbmLBk5ooJn8QfSrUgPeXb1Yd2M2mv88QOU
-	 H9HylCM52Xoc6A1b2StLUGBUo3qRDMkTnukrAPvzu5hWq9gs9QDTUA0E15DNhzgMw/8Bx
-	 HCNP8ioYQqhC6wofW+Go6fZ5TkVJsQl6DVLj8Qsqcr7BU9x0SONqTsZPP3gZ8sp4GgXHI
-	 qh/qXKrc6wGCDeVQksJ1sxf840/A26r362q88ENis/20W0Fja6KGaLELIF00Hync2JxmN
-	 ywxfWYRhJ65l6ZuaxHvbYujPtHhfX1pF044r1qSndJO9qpxXMAgXitm6LdKi/zICUVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793238435;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=PFzIqZjHVXD411j1Xcb58DKmChpls4qJYNm7u9vlcyc=;
+	b=Two92vMpw8gqisnHbwlVP0LxLpJmEB+M1A7JW4Qs08bibXqhvCPgFB60qFmEgfotA4+i
+	 7AJzLNZe37RQqwfMDJnXj2qen0rqxjQKE/uzc6zOP0pjHM8keR+lWkQV8q0RFrrcIUZzM
+	 SkyB8C0dOIG+wNyIlSNPkh8X+MCVl1r+kPny6RNuRTRkV2pYnb23SAWUU4qGq0pi4E3JY
+	 C/zQAhlhZMp1yV3QI7mpJNBigfUYjKRmpzWlxvGuWKLF3dKDgeCzfhcNuGABfNFRXdJgk
+	 28uCv9AXYGtAJVFzg8IMicsoMFcRvsjFbnHjTcjHbvAilFWvAvFIGqb1lP1nsRNnO6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L6c+IPE+;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PMTWrmvq;
+	arc=none smtp.remote-ip=91.218.175.236
+Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11232606A332
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:38:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11232606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BE7606A31D
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:47:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64BE7606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L6c+IPE+
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso115949f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 18:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793237931; x=1793842731; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/cTHNomGdMzdwGOEPd/Mb+9dZ6EWwM9vGNpl5GZyT/s=;
-        b=L6c+IPE+TusQzbodaS4Y8bDimeOge0wsfqMCW09n1Xz70yNq0U95vP2JdsERw5EuIU
-         Aq9f9+D7DXAqUux6+m96MwkWa6k9MknozLsKMTQJHXERZo0mT+larlyUAIvXjTkFVuYm
-         Cn0coLa4xlTb1kcTnZPWBvbr+evtFxizLmVV6BbCrrv/oswQl3iBu47c1Fk9XiNW7SEi
-         R40Hc4C6LQEKRyArjcAeR7UtoinslXuLkB0cOe16olQBRR+6gmYAqVZ7v1tCeT/TE2s0
-         dgVEM1YAG71RjPDbaDQJDAJMUv/nQAdazE4UpVLZLkjjwyzi56d1fX/Iupz7HP7mPYwO
-         OlwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793237931; x=1793842731;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/cTHNomGdMzdwGOEPd/Mb+9dZ6EWwM9vGNpl5GZyT/s=;
-        b=PeIGigq2yA2hsVDrRH0TxTnIl/nJWEyduKJ8rF/jwfqWB0pTbYdpDy6f6MNJcAnRGZ
-         QP4sQZjHcmTzINlNSACmBlpveOVtQLjfmzrRJBIa9zVim/y0NLbkmC2aoqY8opSFXMYb
-         TJcAQbPhbSAUBaf5jP1b1Jv9yBQt4RlwiPaU6x15BJFhDYqteDBcmfBWZqbwXYlrn+2e
-         RayEEQZ03FbBVYggOiD1QBeaBVSKITlEvCYU8XBI8WXT2Lz/T9Hu09yPFireZCuvOALw
-         EOVzAOawnBcABxFr5x3wlk07d/AUlhGSTFyIMR9I7lvHK3/kcvD5nNR/QUehNbGbLrC9
-         3rsw==
-X-Forwarded-Encrypted: i=1; AKwUvBx8XNTcY7h36L4cT1gnvhadzpS50oqgEgG9A6Nmds6eD/Pe/Trtx8imy51K1lfoZEIRv1qvJ2oj4Lw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL3jc/cMta/1W+nR1NdISFonC5fpEx1zdjivyB6yMwQUH0zdld1
-	7ZK3Rcpw4XmoopZmiOX8f7di9GBv9zJfpTfEmi6UmaAiDCmhnJJWj8ZH
-X-Gm-Gg: AYBFou1uDUGyQgscTKMhC9C0kEY/mwRH+Zwv2tXpDrUkNK870wdnrO6dWbPIi2ZR+t7
-	vv7wLUf0TwNtiuWiCw0MjbIfubAZEb2BtyQdH48KjPZv0FrWBpinZ502OJWv/7wPE2yguafXYg9
-	DTD71qMaXHx4Mly8q12bLTah1m4N5RPL2Z8mbiCo6EZ1HwM2PT1aYPtDfleZTwQwA/LmNQEI5kS
-	drZOylvzeN4feZ6oI2loZeT/ja/Mzno+myuFMCsyD42KRgic6+CPfPf7OuGleu1MbyHH5y4NXE9
-	AvENJjXaOUgdrN1YoGHxM0JxeC7Z/ylEHg/0RUHpZg1def5ghDnOb7dh2mDq24SCbkvjOBfMlQJ
-	N/GLfdCDdJ/CHDSiiPVgLz3eNw3Az+G/F+/1xjp4JzqAk1d0s89l/PhU5m1/2pu5PwRGYaggCPh
-	Pk50GZO3TG3bGz0A34SM1XuQaUJCqGz9NiUS+/ExDp3cbFhlTsSD7Yez6B8vnGx2Cvo3KCfiWwt
-	KRbwiQIylgz/lVuN6sa1mB493CHomcmOBofr9Mg79Qa9FH9e2GyBa8fdknSTiSsPizxFGZ/MAUb
-	+lxH/Na4fqDYJE0Xu4dF+CDyZzhVNoRRgT98huu1LBoCBnOE61Bphq32sWh+l3FAOTvpQTySkBU
-	YWya3oPzf3Y/fUc3kxd5clNbJ46asHfIJ+ndj+SWTqQnz+Ij5qz70Qs8yYMuPW1PNys4HyqMgNx
-	UzYeSzUaamFfrM/8KdfoKN6xA=
-X-Received: by 2002:a5d:540c:0:b0:48a:fad8:52a2 with SMTP id ffacd0b85a97d-48e64ba60d3mr2291450f8f.23.1793237931074;
-        Wed, 28 Oct 2026 18:38:51 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl.localdomain (dynamic-077-007-226-156.77.7.pool.telefonica.de. [77.7.226.156])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd8ddasm34154098f8f.48.2026.10.28.18.38.49
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 18:38:49 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	=?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org
-Subject: [PATCH v4 2/2] docs/zh_CN: PCI: Update the pci_device_id header reference
-Date: Thu, 29 Oct 2026 02:37:17 +0100
-Message-Id: <203f4407e5ed5335cda17a74fa6aeac311a572d5.1793221199.git.kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <cover.1793221199.git.kmehltretter@gmail.com>
-References: <cover.1793221199.git.kmehltretter@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PMTWrmvq
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=aL4JAUADBNDogSZrrKOi77qTC3m8cP+9/JJH38fu0Ds=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793238424; v=1; x=1793843224;
+ b=PMTWrmvqpQFUK4IYXqwED6DcXkNtmsGZgBtM5IEcoedv8CWOgp9SUgm/IvZhlw2dgZF5scX8
+ HXh1KOyyglGj6ecDSiNSK8zX8BWtPJGfpBXlgv/U5MkMLzHJxXPNnQ20Yrwnc6i9vPwmyOJrZQ5
+ 9uqbyF4IoyeL8XY9Fa0EsLBg=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 714350141f370ecb;
+	Thu, 29 Oct 2026 01:47:03 +0000
+X-Mizu-Trace-ID: 714350141f370ecb
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <eb85d54b-778e-403e-a5a5-56805b23b560@linux.dev>
+Date: Thu, 29 Oct 2026 09:46:53 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,30 +58,128 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2 1/5] ipv6: restrict gc_elasticity to 31
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
+ Fernando Fernandez Mancera <fmancera@suse.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, David Ahern <dsahern@kernel.org>,
+ Ido Schimmel <idosch@nvidia.com>, Joel Granados <joel.granados@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Willem de Bruijn <willemb@google.com>, Maoyi Xie <maoyi.xie@ntu.edu.sg>,
+ Jiri Wiesner <jwiesner@suse.de>, Gerd Rausch <gerd.rausch@oracle.com>,
+ Zhan Xusheng <zhanxusheng1024@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
+ Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+ Yung Chih Su <yuuchihsu@gmail.com>, Wyatt Feng
+ <bronzed_45_vested@icloud.com>,
+ Hannes Frederic Sowa <hannes@stressinduktion.org>,
+ Flavio Leitner <fbl@redhat.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261027104701.296240-1-jiayuan.chen@linux.dev>
+ <20261027104701.296240-2-jiayuan.chen@linux.dev>
+ <CAAVpQUCBBaVmaZUv+D+a4anSbGSR_pKukYVXvRJRzSGVnjb2kw@mail.gmail.com>
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <CAAVpQUCBBaVmaZUv+D+a4anSbGSR_pKukYVXvRJRzSGVnjb2kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-struct pci_device_id moved from <linux/mod_devicetable.h> to
-<linux/device-id/pci.h>. Update the header reference in the Chinese PCI
-guide to match its new location.
 
-Fixes: ad428f5811bd ("mod_devicetable.h: Split into per subsystem headers")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- Documentation/translations/zh_CN/PCI/pci.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/29/26 7:58 AM, Kuniyuki Iwashima wrote:
+> On Tue, Oct 27, 2026 at 3:48 AM Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+>> Every counted IPv6 dst allocation runs ip6_dst_gc() once the number of
+>> live dst goes over gc_thresh (1024 by default). ip6_dst_gc() decays
+>> ip6_rt_gc_expire by gc_elasticity: the smaller gc_elasticity is, the
+>> smaller ip6_rt_gc_expire gets, i.e. the more aggressive the gc.
+>>
+>> ip6_dst_gc() reads ip6_rt_gc_expire into a u32, but gc_elasticity has no
+>> bounds at all, so writing >= 32 shifts a 32-bit value by >= 32 bits, and
+>> a negative value gives a negative shift count. Both are UB:
+>>
+>>          val = atomic_read(&net->ipv6.ip6_rt_gc_expire);
+>>          atomic_set(&net->ipv6.ip6_rt_gc_expire, val - (val >> rt_elasticity));
+>>
+>>    UBSAN: shift-out-of-bounds in net/ipv6/route.c:3369:53
+>>    shift exponent 32 is too large for 32-bit type 'unsigned int'
+>>    CPU: 2 UID: 0 PID: 615 Comm: ping6 Not tainted 7.3.0-rc7+ #364 PREEMPT
+>>    Call Trace:
+>>     <IRQ>
+>>     dump_stack_lvl+0xc1/0xf0
+>>     dump_stack+0x10/0x20
+>>     __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
+>>     ip6_dst_gc.cold+0x15/0x1a
+>>     dst_alloc+0x4e0/0x620
+>>     ip6_rt_cache_alloc+0x189/0x7e0
+>>     __ip6_rt_update_pmtu+0x68e/0x1160
+>>     ip6_update_pmtu+0x30c/0x3a0
+>>     icmpv6_err+0x1fa/0x330
+>>     icmpv6_notify+0x303/0x770
+>>     icmpv6_rcv+0xc12/0x1670
+>>     ip6_protocol_deliver_rcu+0xb4a/0x1520
+>>     ip6_input_finish+0x19c/0x400
+>>     ip6_input+0xd4/0x240
+>>     ipv6_rcv+0x1fd/0x330
+>>     __netif_receive_skb_one_core+0x118/0x1c0
+>>     __netif_receive_skb+0x21/0x150
+>>     process_backlog+0x37e/0x1200
+>>     __napi_poll.constprop.0+0xa5/0x5e0
+>>     net_rx_action+0x4c0/0xf70
+>>     handle_softirqs+0x204/0x9b0
+>>     __do_softirq+0x10/0x18
+>>
+>> Make it a u8 and reject writes outside 0..31 with proc_dou8vec_minmax().
+>>
+>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+>> Cc: stable@vger.kernel.org
+>> Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
+>> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+>> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+>> ---
+>> v2: switched to u8 and proc_dou8vec_minmax(), as suggested by Kuniyuki
+>> Iwashima.
+>> ---
+>>   include/net/netns/ipv6.h | 2 +-
+>>   net/ipv6/route.c         | 7 +++++--
+>>   2 files changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/net/netns/ipv6.h b/include/net/netns/ipv6.h
+>> index ffda15318be59..aefce37c04a4f 100644
+>> --- a/include/net/netns/ipv6.h
+>> +++ b/include/net/netns/ipv6.h
+>> @@ -25,11 +25,11 @@ struct netns_sysctl_ipv6 {
+>>          int ip6_rt_gc_min_interval;
+>>          int ip6_rt_gc_timeout;
+>>          int ip6_rt_gc_interval;
+>> -       int ip6_rt_gc_elasticity;
+>>          int ip6_rt_mtu_expires;
+>>          int ip6_rt_min_advmss;
+>>          u32 multipath_hash_fields;
+>>          u8 multipath_hash_policy;
+>> +       u8 ip6_rt_gc_elasticity;
+>>
+>>          __cacheline_group_begin(sysctl_ipv6_flowlabel);
+>>          u8 flowlabel_consistency;
+>> diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+>> index 94e5ef1c4f83e..abc8b811cd423 100644
+>> --- a/net/ipv6/route.c
+>> +++ b/net/ipv6/route.c
+>> @@ -6579,6 +6579,8 @@ static int ipv6_sysctl_rtcache_flush(const struct ctl_table *ctl, int write,
+>>          return 0;
+>>   }
+>>
+>> +static int ip6_rt_gc_elasticity_max = 31;
+> as you need v3, s/int/u8/
+>
 
-diff --git a/Documentation/translations/zh_CN/PCI/pci.rst b/Documentation/translations/zh_CN/PCI/pci.rst
-index 347f5c3f5ce99bade1221f083b208972baf102ec..452e073b8c067ce16c76d9a5a5883532ebce3296 100644
---- a/Documentation/translations/zh_CN/PCI/pci.rst
-+++ b/Documentation/translations/zh_CN/PCI/pci.rst
-@@ -92,7 +92,7 @@ ID表是一个由 ``struct pci_device_id`` 结构体成员组成的数组，以
- 
- 该API在以下内核代码中:
- 
--include/linux/mod_devicetable.h
-+include/linux/device-id/pci.h
- pci_device_id
- 
- 大多数驱动程序只需要 ``PCI_DEVICE()`` 或 ``PCI_DEVICE_CLASS()`` 来设置一个
+Hi Kuniyuki,
+
+proc_dou8vec_minmax() put extra1/extra2 into proc_uint_conv(), which
+reads them as unsigned int, so the max has to stay an int like
+tcp_syn_retries_max and friends; a u8 there would read
+three bytes past the variable.
+
+
