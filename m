@@ -1,100 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793309750;
-	b=QK2ZYr5DuLidagPMh3dsv9TuqEaVQKh4//ieyNbTQD1mGcevXaiQXqufzyk0dyrbM9Xw
-	 vq2nmlY8QEn+348rVFMiNezyOSd6X+ZiQ+fd+lR+6RE6+faw2iQxWBtwdIPD34pxM5YN5
-	 f/mceKo/akVt9NHy3u95GT/Gljo5odNkuCE79iwSg47Z8sP01O6LZYxhyZYIJPL+ltOi/
-	 gwZhhtSXP7LnJ5E+4eSm7LOAKxtFlNLA/RBqX08J7Gqrde6yYWZLvXxpwmPuvgbNyp9cy
-	 sYu2PWiXG3fqLDVgwsC7B1T/Dr7K4Tp+NaaxyNNMjxdAcKFhwg9i/4yIiCFFYKfevRg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793309750;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
-	b=TwkFcwSzbpuHvzcUiPXxVeNWwmLuT5JB0GeSG0UAeaB5nAGm/FUDXFmUrDeyAypdd5Z/
-	 lyJoxx26Enx9jC5kyDnHr4TrxU+cZtWeRTJRFyU95qfpD9WpmWkVPK86s0OTOj0uHMPs1
-	 tS0d642VmWy1NZ7JJGXeadTVVJTFvOR2qhO29T7FGaFdojf4sSMZYICxR/WcoQCy6wfhB
-	 X7uP2z53J/Q9WK38DXu85xd4aqfQZxmbXg+midHierUIs8rfVJoyW4VSdHXNBGfbUJHjJ
-	 sf7Z7k/zu/A8YuZcUAW3YaGURul1f2zZWseaPd3Fz4eKGttkT4fLMOdAg/hr+C5G9Ww==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ny4Qf79m;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.37
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793310037;
+	b=pS455EX6gjXYTb1pUEtoT8TPvE6hdv4OYa9oeIc+FtPAgGPACW7vatYpVnXNxuSFi2X3
+	 qb9ZC6IwtzrX/PcqVg1SpdF0UHCp1QimBZcP4XbOe4I1ZFhLPv0AGtpwseo1AcFWH0EFZ
+	 DxWurBnposYfu3gwYYy1DbQiM/N7ZQfe010PoEn4xmOXVX1RdXanG0NWlF1AH/tfGgK5g
+	 ULtGpepbdr5694Q65tGZsQlMVRjrFsUClLLzJyRavZVp/IXxvOc1l3cLu10+uBXKGaXU5
+	 R/F+BVTiIkJujqK+wMXshpvXSJdLNk9tkmM0U13ClPJTqg/qVNc5AMIsmEHliHaOBlw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793310037;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:From:Subject:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=MZvzDpBPwEa2xjmhJpCaescetJXwNLlVXAcXe0UAq8M=;
+	b=v8eJODtL/J2WuAftzhjw1PqRroRTw2OTOAN1a+aXmhK96S2DJY0011+0nxC3is2Lop7V
+	 ShNxy5wRWJcXF5AY2QBI1wSyCvGHW4Rc6eK02jOYAXP30G6sz25cYxBdf2lu3aHeU/nG4
+	 yI0ILOnOXOllf2PU01S2kezR++C/CfbSTpGdgkjwwB7MPK6922M4vbl7r7hIm1lOQHkgV
+	 49IAqB27vFKkxKbiS39SCwIzrRkWFROxl73U0yd1li6+VM3kfz50TpFpXMgMZv6FXU75N
+	 guDvTryXuJIfoi7ZYxSJk5mhSBM8D/d4VuHIbkWUuDDP7ihnPePzBnov4RHASKq/dsA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=rbox.co;
+	spf=pass smtp.mailfrom=rbox.co;
+	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=DJ9gkgJ2;
+	arc=none smtp.remote-ip=185.226.149.37
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21A4606A31D
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 21:35:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C21A4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61B6606A31C;
+	Thu, 29 Oct 2026 21:40:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E61B6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ny4Qf79m
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso488666b.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:35:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793309748; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eA0TQphhzGmFMzZGS30VJmOGpBmHjuNmDKTKuIKo0udagt71mBqCmrKC3mh4bDpnNe
-         vnEnTJG3iEWJ4urtVnDqb0clxUOCb2mkVyB4f7USphzv/2sIjewPE1q23yQIz9p1nvDE
-         zTcfhzgmCJCNXhRawzziRtk5r5Ye+NYBXZ1u80OAIk8/Y5hLef2hnt79mxjbcH9NkcuZ
-         uDfvFIPfR/owsK8tmHAp3JNKkwBIJbGEVaya8PWVyG1NjYHepkCVuZa7Crl2J5OUAPZw
-         RD6M+QxIgc+tb3fzgVoDboWJdi2pnL4v2k+lzrstYASgz7BYsRCM8ZUeaNxVyfNv4jV9
-         saVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
-        fh=K9dNZIpdi8AFQJAwDkmTtCDwKJpIBnwrLsDsEGCMwHw=;
-        b=Ah9WGcEnDshaazJxIHrh6GFo2bI876URL1d0WCQuN9c33C+RYJAQWPNQCivW1ZfNr8
-         CWQbKJJIrH9Xt3PfLkdCwcg52YHOiktXjM9x9IurRMTNZkLBedbQT3QqKGsdnSevIBgD
-         gZXp9NPbTOSbLKaNOvsfgNowD9clyqwAoNIvlIc9Tc/ggnGX7rKM0/pgJWcR3O3ZfJB3
-         Ym0pYh6dPigYW83xtu7NR/t0e/zaNLl3FhhGm8Vt+jwvoALtf3zvkinljBspqZOf4W+S
-         UfJJqeK/dLUMsBRBMMlVTZ6cIidTw/Zo3WqwudPwJdFzfUPPQ6WMlZIAXOOspiKY7iOX
-         jiQg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793309748; x=1793914548; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
-        b=Ny4Qf79msA3Ol1Y6e8/IcUAH9yOvaHBe2q/r2VBC2ELpk56XQeNul05malBDOFT8ku
-         3iNV5LUh1WN6OSi58GJtPL1CdzJ6Gfdq1EwPPwQTHQ+fJYrr4uuUNxUlmh+B6VBLkI3H
-         ZEj0B1DaLGuydvsPOrmNnyN+V5M9uzXhIOuB8IAfuS4x7RzFZc8EHwvHkIbq2HZsSAXO
-         f8K9v16/gbB/xNpURIL1Ixe+3ZCyFOiwul7kpsyeMIznZ8WtYjV+3pMV90juEncbUJ39
-         jANFHK4YH+YJxQHzX5N4bA9Y7nUKExBRqIOMrQJ2r0F5nLrYhReYCpQZmLjrgHbgSrOi
-         AU7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793309748; x=1793914548;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
-        b=e2K4A96nnjDBiJm5tqQNR53Pg4OhwHBTvU4Fx0kNiJWM/RLPVxCI7yxPWsVhDRU+ZA
-         3h788KhSn1xDAIcVY8MqiS5VrWi/b7k2Jo6pBbWoS5/AHnrOtOqZZaOmN/se4HNLlZr6
-         DUdqVaj512lx894iIXPn+K6swAvQd7fcGwD0+s2gcMvd92gtN/phAZf3TzuKkxso6RYs
-         WQ4z74+NbvyxgwyYyEvSyYiqTsuM62Ze3v9DjVbvcKuasyapnMgnFDTO9kgPbt/DaMI5
-         0HqIaG7be+SfClUE1bkpjhrGFfDbJ/UtSBTwXEe+IAawTnqLuNhgpG+Y4SV/uG9Xb0mO
-         ka/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxASzKU7lz6xPwPSBtMCF5iqMHB3c/TmimPRlWNPP99w11RRgIp5Oa2OMPtBx7dtnMrJRCDudwfs2g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJQJa2qav5LgmgPWtwPImURdYXDSnf9R4Kdh0vAlKwYyB0LQDrj
-	PmPhNSim0UcyngLGkMdUZEbFdUagzpYGdn9Y3yPtk7PaEQI45zxUS4tkuHEB084vOSskQUzFsF5
-	LpN4U+tW8HWrP45kMiv0cUN+ItHCIpmqXHFbwZbzq
-X-Gm-Gg: AYBFou3t35JBmgB6m+R6HYcw67Iti4xDcN1SpfnKHvvJmJfgbDuW+MvcI9MHDW/N/OE
-	H0HGkYrDA/4/2wPVVgu45R7faTh8YSrzSduzvKcQRYbL+Ktj91zoRxHiZ+ZyiTesKERdSVh3/ls
-	2t6QUInqPihPuvCqJ5a55mqfaLf33A0qbR9MQAIj75qwpPyOc2VfNwk0mlQHbAei155r6oHOzyl
-	TelSs/nSJcnwOGbAtYH5nocFuv24uYtW3RwGK0gMZB1PBfBUqSI4m3bk7N4tjkuMr062PwkGhCQ
-	UxWhkdmyP5VxtndAjhFMXYqbCS95so5L8TEayitnaRDX94GaIAym+eS66CWk5UtumaG4ncSubhf
-	1gUhruCQvZhic+5ao2evZLKAZknCnfM2is3NjggVTyG6vHkQqUHRCtMG1JjI72O2JvRMKR/0=
-X-Received: by 2002:a17:907:805:b0:c3f:a728:b437 with SMTP id
- a640c23a62f3a-c4ca7ac07eemr32967066b.45.1793309747666; Thu, 29 Oct 2026
- 14:35:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=DJ9gkgJ2
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <mhal@rbox.co>)
+	id 1xMXr9-00Gcqs-C6; Thu, 29 Oct 2026 22:40:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
+	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
+	bh=MZvzDpBPwEa2xjmhJpCaescetJXwNLlVXAcXe0UAq8M=; b=DJ9gkgJ2mHgUKKUfDwDDCCU7a2
+	fY3qUzdAHPf+1mgtIxttXFG8oYMrGk8IPq37+NOgMbA7ITXr9SeRSTwb7mazn9bnla/u5roR31Zw3
+	qu34bdMib+teJwEVATRjhpWBCLDl332CxeCq704J595bVN8Po3498i1F3u9x5kGT7cXmlh62HGYEL
+	DPRtHkEcgoH4iY5YsicYidSkk5rKcp0+JVbgxkW7oS9KlIm61ipQqj5a+C2LqUdtSAa68zXic8/Bq
+	+z1WmX5Ef/A82aBvUnJ4M1F1Tn/fDZVXZ5Ws8k3XBQj37hfD+iQSNkTr3oXcbSUORSmeSXooj6hjg
+	/OW/lTmw==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <mhal@rbox.co>)
+	id 1xMXqv-0006P1-3W; Thu, 29 Oct 2026 22:40:05 +0100
+Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.95)
+	id 1xMXqh-001Zdr-J4;
+	Thu, 29 Oct 2026 22:39:51 +0100
+Message-ID: <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
+Date: Thu, 29 Oct 2026 22:39:50 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,155 +66,180 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-12-wusamuel@google.com>
- <at8dNNb4vwovNZcZ@krava> <CAG2KctpMEuK5OJSedSFshNMSwOqe1g87m2ZOKBhn=Z5iCA45Aw@mail.gmail.com>
- <20261028140127.7bfeab46@pumpkin>
-In-Reply-To: <20261028140127.7bfeab46@pumpkin>
-From: Samuel Wu <wusamuel@google.com>
-Date: Thu, 29 Oct 2026 14:35:36 -0700
-X-Gm-Features: AclHuK84Rx0Zv6bqYRMUgm-AA1OaD1X9ao32PPa3PHwJ78sUr0bqSyZbITTizzQ
-Message-ID: <CAG2Kctra0GYjkzggB0cdMxPK-b9U9x-m+gR6E8goAYvhsNXEdA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/6] libbpf: Resolve typeless ksyms via
- KALLSYMS_QUERY ioctl
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Michal Luczaj <mhal@rbox.co>
+Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
+ the g2h device to a netns
+To: Stefano Garzarella <sgarzare@redhat.com>,
+ Bobby Eshleman <bobbyeshleman@meta.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Stefan Hajnoczi
+ <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
+ virtualization@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, sargun@sargun.me,
+ jlinbox@meta.com
+References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+ <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
+ <atjZZP2ebhXKzMxL@sgarzare-redhat>
+ <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
+ <atnjOZjKUBagRVWq@sgarzare-redhat>
+Content-Language: pl-PL, en-GB
+In-Reply-To: <atnjOZjKUBagRVWq@sgarzare-redhat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 28, 2026 at 7:01=E2=80=AFAM David Laight
-<david.laight.linux@gmail.com> wrote:
->
-> On Tue, 27 Oct 2026 15:07:44 -0700
-> Samuel Wu <wusamuel@google.com> wrote:
->
-> > On Mon, Oct 26, 2026 at 2:28=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> =
-wrote:
-> > >
-> > > On Thu, Oct 22, 2026 at 05:16:05PM -0700, Samuel Wu wrote:
-> > >
-> > > SNIP
-> > >
-> > > > +static int bpf_object__query_ksyms(struct bpf_object *obj)
-> > > > +{
-> > > > +     struct kallsyms_query q;
-> > > > +     struct extern_desc *ext;
-> > > > +     int err =3D 0;
-> > > > +     int fd;
-> > > > +     int i;
-> > > > +
-> > > > +     fd =3D open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
-> > > > +     if (fd < 0)
-> > > > +             return -errno;
-> > > > +
-> > > > +     for (i =3D 0; i < obj->nr_extern; i++) {
-> > > > +             ext =3D &obj->externs[i];
-> > > > +             if (ext->type !=3D EXT_KSYM || ext->ksym.type_id)
-> > > > +                     continue;
-> > > > +
-> > > > +             q =3D (struct kallsyms_query){
-> > > > +                     .size =3D sizeof(q),
-> > > > +                     .query_flags =3D KALLSYMS_QUERY_BY_SYMBOL,
-> > > > +                     .sym_name_addr =3D ptr_to_u64(ext->name),
-> > > > +             };
-> > > > +
-> > > > +                     err =3D -errno;
-> > > > +                     if (err =3D=3D -ENOENT) {
-> > > > +                             err =3D 0;
-> > > > +                             continue;
-> > > > +                     }
-> > > > +                     if (err =3D=3D -EADDRNOTAVAIL)
-> > > > +                             pr_warn("extern (ksym) '%s': resoluti=
-on is ambiguous\n",
-> > > > +                                     ext->name);
-> > > > +                     break;
-> > > > +             }
-> > > > +             ext->is_set =3D true;
-> > > > +             ext->ksym.addr =3D q.sym_addr;
-> > > > +             pr_debug("extern (ksym) '%s': resolved in kernel to 0=
-x%llx\n",
-> > > > +                      ext->name, ext->ksym.addr);
-> > > > +     }
-> > > > +     close(fd);
-> > > > +     return err;
-> > > > +}
-> > > > +
-> > > > +static int bpf_object__resolve_typeless_ksyms(struct bpf_object *o=
-bj)
-> > > >  {
-> > > > +     int err;
-> > > > +
-> > > > +     err =3D bpf_object__query_ksyms(obj);
-> > >
-> > > hi,
-> > > we could also add similar support for libbpf_available_kallsyms_parse=
- and
-> > > probably in some other places like bpf_get_ksyms.. which makes me thi=
-nk it
-> > > could be useful to have KALLSYMS_QUERY support for multiple symbols
-> > >
-> > > thanks,
-> > > jirka
-> > >
-> >
-> > Thanks for lookiing over this Jiri!
-> >
-> > Using KALLSYMS_QUERY for libbpf_available_kallsyms_parse() would
-> > theoretically by O(m*log(n)) instead of O(n*log(m)), where m is the
-> > number of tracefs symbols, and n is lines in kallsyms, with n >> m.
-> > But AFAICT, libbpf_available_kallsyms_parse() would only be called in
-> > pre-6.5 kernels, for kernels without commit 83f74441 (ftrace: Show all
-> > functions with addresses in available_filter_functions_addrs); so this
-> > ioctl could never be called.
->
-> Isn't that code also O(n*log(m)) ?
+On 10/22/26 12:47, Stefano Garzarella wrote:
+>>>> +/* Move @vsk to TCP_ESTABLISHED and into the connected table, unless the device
+>>>> + * has moved to a namespace @vsk cannot reach. Returns false without doing
+>>>> + * either in that case.
+>>>> + *
+>>>> + * The reset sweep walks the same table under the same lock, so an assign
+>>>> + * cannot land between the check and the insert: either the sweep finds @vsk
+>>>> + * and closes it, or @vsk is never added.
+>>>> + */
+>>>> +bool vsock_maybe_set_connected(struct vsock_sock *vsk)
+>>>> +{
+>>>> +	struct list_head *list;
+>>>> +	bool reachable;
+>>>> +
+>>>> +	list = vsock_connected_sockets(&vsk->remote_addr, &vsk->local_addr);
+>>>> +
+>>>> +	spin_lock_bh(&vsock_table_lock);
+>>>> +	reachable = vsock_g2h_reachable_sk(vsk);
+>>>> +	if (reachable) {
+>>>> +		sk_vsock(vsk)->sk_state = TCP_ESTABLISHED;
+>>>> +		__vsock_insert_connected(list, vsk);
+>>>> +	}
+>>>> +	spin_unlock_bh(&vsock_table_lock);
+>>>> +
+>>>> +	return reachable;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(vsock_maybe_set_connected);
+>>>> +
+>>>> +static bool vsock_g2h_should_reset(struct vsock_sock *vsk,
+>>>> +				   const struct vsock_transport *t)
+>>>> +{
+>>>> +	return vsk->transport == t &&
+>>>> +	       READ_ONCE(sk_vsock(vsk)->sk_state) != TCP_CLOSE &&
+>>>> +	       !READ_ONCE(vsk->close_work_scheduled) &&
+>>>> +	       !vsock_g2h_reachable_sk(vsk);
+>>>> +}
+>>>> +
+>>>> +static struct vsock_sock *
+>>>> +vsock_g2h_next_unreachable(const struct vsock_transport *t, unsigned int *i)
+>>>> +{
+>>>> +	struct vsock_sock *vsk;
+>>>> +
+>>>> +	spin_lock_bh(&vsock_table_lock);
+>>>> +
+>>>> +	for (; *i < ARRAY_SIZE(vsock_connected_table); (*i)++) {
+>>>> +		list_for_each_entry(vsk, &vsock_connected_table[*i],
+>>>> +				    connected_table) {
+>>>> +			if (vsock_g2h_should_reset(vsk, t)) {
+>>>> +				sock_hold(sk_vsock(vsk));
+>>>> +				spin_unlock_bh(&vsock_table_lock);
+>>>> +				return vsk;
+>>>> +			}
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>> +	spin_unlock_bh(&vsock_table_lock);
+>>>> +
+>>>> +	return NULL;
+>>>> +}
+>>>> +
+>>>> +/* Close every connected socket of @t that can no longer reach the g2h device.
+>>>> + */
+>>>> +static void vsock_g2h_reset_unreachable(const struct vsock_transport *t)
+>>>> +{
+>>>> +	struct vsock_sock *vsk;
+>>>> +	unsigned int i = 0;
+>>>> +	struct sock *sk;
+>>>> +	bool reset;
+>>>> +
+>>>> +	lockdep_assert_held(&vsock_g2h_assign_mutex);
+>>>> +	lockdep_assert_not_held(&vsock_register_mutex);
+>>>> +
+>>>> +	while ((vsk = vsock_g2h_next_unreachable(t, &i))) {
+>>>
+>>> can we reuse vsock_for_each_connected_socket() ?
+>>>
+>>> If not, maybe a comment here will be nice and maybe I'll try to merge
+>>> vsock_g2h_next_unreachable() here if it's not used somewhere else.
+>>
+>> I think we would need a variant that returns the socket, since we need
+>> to be able to acquire the lock_sock after releasing the
+>> vsock_table_lock.
+> 
+> That would be nice if it's not too complicated.
+> 
+>>
+>> Maybe the callback could return a bool, if true then return socket
+>> otherwise skip. Then the cb could also grab the sock_hold ref under the
+>> table lock.
+> 
+> Yeah, looks promising to me!
+> 
+>>
+>>>
+>>> I find these functions a bit hard to read.
+>>
+>> Yeah its all kind of a pain. The problem is that we need to hold
+>> sock_lock to set sk_state and sk_err, but can't acquire it under the
+>> table lock. Instead, we grab the socket ref sock_hold under the table
+>> lock to guarantee it stays alive between releasing the table lock and
+>> grabbing the socket lock.
+>>
+>> I was really tempted to not do this lock_sock dance though. The race
+>> condition I'm avoiding here is that if this reset races with an RST
+>> receive, then the socket could end up with TCP_CLOSING + sk_err
+>> ECONNRESET... but I'm not sure this actually propagates up into a real
+>> problem for any potential user.
 
-Yes, sorry maybe I wasn't clear before, but the current code is
-O(n*log(m)), and the ioctl approach would be better since it's m
-lookups of O(log(n)) for vmlinux symbols, where n >> m. However, this
-is a red herring because that path only runs on pre-6.5 kernels, which
-won't have this ioctl.
+Right, vsock_connect() is fragile. Two things to be cautious about:
+1. Don't let it reset the already connected socket. Because that would
+allow user to "re-connect()" and make mess in connected_table.
+2. Don't let it re-assign transport of an already connected socket. Because
+that breaks the contract in few places.
 
-> I've got a patch (I might send it after the merge window) that changes
-> one of the ftrace functions to look up every symbol by name, not just
-> when only asked to look up one.
-> It can also use the 'callback' function to detect duplicates.
-> That should be massively faster - especially with my ~18 fold improvement
-> (also waiting for the merge window to end before posting a new
-> (not much changed) version).
+State 1 is not an issue: vsock_g2h_reset_unreachable() calls
+__vsock_remove_connected().
 
-Excellent, I'll keep an eye out for it!
+State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
+when connect() is scheduled out, then after the wake-up sock may get reset
+to SS_UNCONNECTED. Then user re-connect()s and hits the transport
+re-assignment logic. I'm worried that, as we re-assign, someone may be
+holding a reference to such "connected" (even if not in connected_table
+anymore) vsock.
 
-> Does look the the code could do with getting the 'symbol name table index=
-'
-> for the symbol so that it can read the entries sequentially from that
-> point onwards.
->
-> David
->
-> >
-> > And regarding bpf_get_ksyms(), it loads all traceable functions and
-> > needs the full syms table, so a /proc/kallsyms should fits better.
-> >
-> > I did profile a slightly different form of querying multiple symbols
-> > at once [1], but didn't see much benefit. struct kallsyms_query is
-> > extensible via size and query_flags, so we can update in the future as
-> > needed.
-> >
-> > [1]: https://lore.kernel.org/all/CAG2KctozPSev+EXSpHitM3JWfjufQaEjsPJHS=
-_1HJ1wSm7sJ1w@mail.gmail.com/
-> >
-> > [...]
-> >
->
+So I don't know, maybe it's vsock_connect() that should be fixed/hardened
+instead?
+
+Or at least disallow transport *re*-assignment? Does the "re-" part have a
+use case?
+
+Hope it's not too off-topic.
+
+>> It also avoided some racing with the tx path, but now that send_pkt()
+>> also checks reachability I think that path is safe.
+>>
+>> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
+>> sk_error_report) with no lock_sock?
+> 
+> Looking at the code, it seems that in all the places where we close all 
+> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
+> with no lock_sock but with vsock_table_lock.
+> 
+> So, makes sense to me.
+
+virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
+peeves: state switcheroo without taking lock_sock(). Which, again, races
+vsock_connect().
+
