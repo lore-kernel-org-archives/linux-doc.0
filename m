@@ -1,84 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793271837;
-	b=f3unLhBkUReiKPtEUDs/b857AHfw9zAJMpUe0Q8yntJlwhOxzcENiYV5CbxEi5Sp8fr9
-	 oCF1VkGthiJFg9NoywlQycsLffvUMyThla9tQeb3oi4xJdSmKzTlCPFcBpmpWCaDBkzzQ
-	 QbvwQZNCxcHICI4fnJNNoK1jkyTe2+fjdFD75xs9Dmha9uo2R5dSy8e06U/ZqapQ6mvpe
-	 OEvcdC6n/E/UABpeCdqPww6toAInKlxJzjBdC0+/CFgrEhDCgcVo9IuQJo6LpvOxnPahr
-	 hOrHLr/paX3F7rKuRehPvJ0iLOz0Hyzt84XXA2W//gApcQlYyTaswBLCHEcH1W9doIg==
+	t=1793273635;
+	b=11tO1rpl6VDmgoRk6nTSPzD0JD/VafXkC/pUtoT2iLgEBmS7XX/kaRsOpnTLA4CvbA3g
+	 pYessuHIg+ocADOapYxxVAkT+1Emm3rUutfzOce02QrjVl4uQ072JIZxkWgGvipwmvOgd
+	 paXd+Ti3YHXktvR1y2/Z6t7F/nbyChd4B6GZi0HZoiwKBKRL/Gxr5VKSBRcS6P+WR6zy+
+	 SEyXxJnnPa9Ln9Ix6bsgOjlZ5U5ghjubbZIZy3ORXvUo/yHNmCNrdV/BKTp7+xSANb+mb
+	 JpDEQARe7JYw9Xqa5dp+AEn/y1Kl817vgZwhlzoTXPijbXNL+Jp3eTNVcKKODGaPcZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793271837;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
-	bh=muSquEeptmJIsXJiarZANV9wpj/9lTOSCGNsvcEZLTo=;
-	b=YqYyVDR4hiycHdSmkYeMAOHZEjPvDA7J1Cp1z/pD+U6U4WZ5EtvALPCHaurjSAF2zwIe
-	 sb/YufC49D7bW0WHWFxi3AfeoG/r9WcC5QyMe9i5Wd/oiuGBCM2yS7yVu5oslT4wvByV6
-	 O4MEwmOl1EDIqSIWOFAuj4Li6K8XxBbq+lEkAVi6zRl+x9+XRh1LBFbYRLPPzjvMjj9q/
-	 vqIppH3/QrhMptfNyaWgTuWsVHQIpkhIm9eEutT62Dp+Jj+sMZroVXY0Mw4BVbimJBjaw
-	 V5vFChIXhwoU5RqwAMjZ38FthiiptRNtS9aazEPIkCDXRHhY5IbLN0zK774kmHgLAMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793273635;
+	h=DMARC-Filter:DKIM-Signature:Date:In-Reply-To:To:From:Message-Id:Cc:
+	 Mime-Version:Content-Transfer-Encoding:References:X-Original-From:
+	 Subject:Content-Type:User-Agent:X-Lms-Return-Path;
+	bh=wFBCu+YdzwIUEcYKGRG11Fp0ZZOhUTu2QED4Ky6DRFk=;
+	b=ss7mMozxLHkUAGhqtBM9CX3S2h8RpRZN2cjjZ/UL2n/9qOOPFt3+48ScCyxfrg4rqmnW
+	 bwj3qnwLQseSlqjBA4IMb/i7dD57BJiSuIzq6GLy/auejTvtNzXh3Qp+pUv46FNoG6Ss1
+	 e1k2XvNEpXvIzJj52D/tx4TF25EAsMjRW3a+sB4nvO98/prQLiEjIzq8ThVEfumh+2hz0
+	 zqQOaSAGA3UN40ZQYrnxsRq1rWFDxg2LJXH8y4NV4ZTUN56Tr+ua8E3cq6JpE+iJJjlv6
+	 ElVmnXLweNWldpTN3WEwLkn334H3KTNYTc4uYcEGwuUbVFAOkJD0/oo1MQtHA8Y9bzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="qvHinnD/";
-	arc=none smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	dmarc=pass header.from=bytedance.com;
+	spf=pass smtp.mailfrom=bytedance.com;
+	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SNU828+O;
+	arc=none smtp.remote-ip=209.127.231.111
+Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5087606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:03:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5087606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63198606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:33:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63198606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qvHinnD/
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f3c8958d5so213714985a.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 04:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793271836; x=1793876636; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=muSquEeptmJIsXJiarZANV9wpj/9lTOSCGNsvcEZLTo=;
-        b=qvHinnD/zBOohgWrBCPjKhxrCzsM5HIs+nI4rv2uerlKKl4bAfAogD0nXVnEzVc6E7
-         /QPewiKO5a3PhClnv8wrwJHy4hWNsd1N5JOXDhXrYiqwfGGWk4Eyi2PRTbkOn3EvNE3f
-         bzHsuT9CuuNzS/XKGTdWov126Pyo/KycEqR3JkcwfoPBdxwZTjlGWmqDWC0IvPb+STt+
-         vGUc2mxpeYiT/o6Tt64YokXfvgkLvmTzniUq9524kWyfOGfzXFS6Jlm7VFsqFI74uP8N
-         glpJ7XJu/M2le5uQVgKOhgpK/u3vfnmihOyeM3U3AOTEBBR2+q1/ek6cNwxtoFZVYwLJ
-         xtCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793271836; x=1793876636;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=muSquEeptmJIsXJiarZANV9wpj/9lTOSCGNsvcEZLTo=;
-        b=iGzvhgADhDlXZoJ21Qr4SdEmVxW82+8bAkHeBeTFfgcpfVVr+8gOiLpAfG1vGBe8gU
-         jOvIju9tFdLn0qcs4QEqDQPAR5rYEY0YG4iY4/yJtCP8BMaQasfsZRkTIsPjeahXBrSM
-         U8S5Zib78UDdzIHn97tenj8VgjGldIZOCURvWfT/T0uDtcpnDgTvQUkhPx45gAAd/5J5
-         PRxWhEJezOro9Fo88/N+M2zi6pb80WdiNnRgQ39TpBN6aPWPsCBwvZMyeoc8R8BawHCz
-         yolPb/IeSSYVygP1lfeKf7uuc6XVTlin9jrCPZ2j1YOdHb5AMcvIF99LUlaVW6prz6FJ
-         7ViQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzVph/EV7mxf7pItkwcYkyzLZQ6zQT5OqUuaHfBHf2p0TvZlmmdhqMWajgkf2ECkNxZuDneSet+bes=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIO8xv7Y76L9F5eFaoZEhYUMG9TdMWRtdCebWDc+UVkeSFUdiTc
-	wjij4vdpzg1TJYCaemahFsG0/huUJsb7cKk9P03AwssMrVznjATXJA2O
-X-Gm-Gg: AYBFou1cu+MYNReNFGbSVhuZZd9FQxPoNwz3ehMfNA3QkzpluPNuL+5xcSbpuLkdl4L
-	u77a0if+rYxHkN/jPVKBe/+bs2+4cw2PG45YRqkwsNXpFQiF5+bMFptvkT1GjB/kv58EikzjN1X
-	QrIdfbC+Yuz/zZNZ9ZU3ZYbcXRT/DLI4qTX9sPLQkK7PT8lz9beWFB05eD8bA5lDX46H/5I4tiW
-	2Ol4HxI6XzbvbDxRzDwKQbfXltIJwiLYAaoVO2mAZ91+7h+gjKgzqUg6l5TTYh/aoUGtS6OOMr+
-	RmOOBnnEBDD9PyuF4AWMUhcMWtvh+odeVuXZi1tvmNfMclWM6AcEgkN3JeKFa3qtykDHh0SwkuD
-	5FYX68UqVlutlCK6gfM5dZxeGxhh6c0uXsb8ciBBoeC/mc3LcUhD/UTMJKFEvj2SJZ5Jf4EdaGP
-	5NDSHS62jtDm3uMnFypOiOCblYpFOAs8nA0ySoRuX6AZiQ5ICyIv16ugaIDiObOMvmCCf6SlMX/
-	vCjzYBu6KTfomeGb5wfuwcNQ23nbRbN/3e72jGCL6auW460nYVXYdkh8v3IPMuT9nhDXSHeVNm/
-	uJ0EDQyPRJ9EXma3xa65y7qqiYAZYCyADw==
-X-Received: by 2002:a05:620a:3183:b0:93f:2c95:658c with SMTP id af79cd13be357-94408a7fa2amr789388085a.14.1793271835721;
-        Thu, 29 Oct 2026 04:03:55 -0700 (PDT)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f05af648sm1506079685a.1.2026.10.29.04.03.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 04:03:55 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SNU828+O
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1793273626; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=wFBCu+YdzwIUEcYKGRG11Fp0ZZOhUTu2QED4Ky6DRFk=;
+ b=SNU828+ONqWhAEgsW3dWYHT8vSOIYdYk0B/sxMZtRG/I66U5pIznJieA51RKbVa0OfKXOi
+ 6EmWB4lSolufwNm8Y/ZCoQA2/+z7jOilK7tRsZdPHLuS5av+7kVuwYWFbWFeUWsyitdgFR
+ EGpRVC4IDwrxB+TOuRZLA/niaur9H0UD7wm1zM6sQV0LFNUUyAj5+mbTli2Q1TMC6fRTBV
+ JAMFbRgDozNu4ZEnZsWAskHAIIfgWaREmIXB4Aph6VIZHEhxC/Toc1Y7mxdxL9bd4vuqwF
+ l5B5h1W57DfRKram+RGdtP4UXAxjeDCkd34KgjbxHKNAHq2UqbIsh4D/CDR53g==
+Date: Thu, 29 Oct 2026 19:33:22 +0800
+In-Reply-To: <a6bcd771-fcf7-4fe4-8c21-5e65bd579de7@amd.com>
+To: "Bharata B Rao" <bharata@amd.com>, <akpm@linux-foundation.org>, 
+	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>, 
+	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
+	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>, 
+	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+Message-Id: <1bab234e-8914-4694-b0aa-f265fa49c6d3@bytedance.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-mm@kvack.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,67 +65,112 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-2-lizhe.67@bytedance.com> <0676993f-c04c-4e4e-9f8d-1650c8fd6d6e@amd.com> <010b2b6c-8f1b-4c3b-913f-cc2e8b957759@bytedance.com> <a6bcd771-fcf7-4fe4-8c21-5e65bd579de7@amd.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+Subject: Re: [PATCH v2 1/3] sched/numa: make free-space tiering promotion bypass configurable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 29 Oct 2026 07:03:54 -0400
-Message-Id: <DMH9T7NY96VZ.X2G6APCG51K0@gmail.com>
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: "Kiran Kella" <kiran.kella@broadcom.com>, "Jakub Kicinski"
- <kuba@kernel.org>
-Cc: "Daniel Zahka" <daniel.zahka@gmail.com>, "Willem de Bruijn"
- <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Donald Hunter" <donald.hunter@gmail.com>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>, "Shuah Khan" <shuah@kernel.org>,
- <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 4/7] psp: add core tracked stat for
- outstanding tx keys
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261009-psp-v2-0-5596ab50f677@gmail.com>
- <20261009-psp-v2-4-5596ab50f677@gmail.com>
- <CAPHeo3erVfzLE0wTmz4=0HKWdOL63+7W2KXO67OuEfRXhf_M8Q@mail.gmail.com>
- <20261028152950.6624ee83@kernel.org>
- <CAPHeo3c0RP34ASvzV3UrwDa4PvXHhuAOq1+-Bn0Z5+QXFV+BpA@mail.gmail.com>
-In-Reply-To: <CAPHeo3c0RP34ASvzV3UrwDa4PvXHhuAOq1+-Bn0Z5+QXFV+BpA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26ae32f19+1fccaa+vger.kernel.org+lizhe.67@bytedance.com>
 
-On Thu Oct 29, 2026 at 3:14 AM EDT, Kiran Kella wrote:
-> On Thu, Oct 29, 2026 at 3:59=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> =
-wrote:
+On 10/29/26 6:22 PM, Bharata B Rao wrote:
+> On 29-Oct-26 3:16 PM, Li Zhe wrote:
+>> [You don't often get email from lizhe.67@bytedance.com. Learn why this i=
+s important at https://aka.ms/LearnAboutSenderIdentification ]
 >>
->> On Wed, 28 Oct 2026 17:16:17 +0530 Kiran Kella wrote:
->> > > +      -
->> > > +        name: tx-key-count
->> > > +        type: uint
->> > > +        doc: |
->> > > +          Current number of Tx keys installed on the device.
->> > > +          Only visible if the driver stores keys on device.
->> > > +          Kernel statistic.
->> > >
->> >
->> > Maybe it is good to have a counter that denotes the number of PSP
->> > sessions set up on a device, which is managed in
->> > psp_dev_tx_key_add/psp_dev_tx_key_del operations similar to the
->> > tx-key-count. That way, even in non-SADB drivers the user can know the
->> > scale of the PSP sessions set up on a device at any time.
+>> On 10/29/26 5:34 PM, Bharata B Rao wrote:
+>>> On 28-Oct-26 9:42 AM, Li Zhe wrote:
+>>>> Memory tiering normally promotes any recently accessed slow-tier page =
+if
+>>>> the target fast-tier node has enough free space. This preserves the
+>>>> existing policy of filling available fast memory before relying on
+>>>> hotness and rate-limit control.
+>>>>
+>>>> That is not always the desired policy. Some deployments may intentiona=
+lly
+>>>> keep part of a workload's memory on CXL-attached memory, for example t=
+o
+>>>> preserve a desired DRAM/CXL capacity split or bandwidth distribution. =
+With
+>>>> the free-space bypass, short cold accesses and bursts of hot accesses =
+can
+>>>> refill the fast tier and pull the workload away from that distribution
+>>>> whenever DRAM has free space.
+>>>>
+>>>> Redis testing exercises this policy issue. On a CXL system with node0 =
+as
+>>>> DRAM and node3 as slow-tier memory, a Redis test was run with
+>>>> memory-tiering-only mode enabled. The test used a Redis dataset with 1=
+2
+>>>> million 4KB values. It reclaimed memory until about 85% of Redis
+>>>> anonymous memory was on node3, used a Redis benchmark configuration wi=
+th
+>>>> a 10% hot-key working set, and then issued a short 256MB access burst =
+to
+>>>> cold keys outside that working set. The cold-key burst mainly touches
+>>>> memory outside the hot working set, which is expected to remain mostly=
+ on
+>>>> the slow tier.
+>>> Can you please clarify if 85% of redis memory ended up on lower tier na=
+turally
+>>> due to overflow from toptier? I ask this question because, if it is a n=
+atural
+>>> overflow/demotion, then it will be hard to find head room in the toptie=
+r to
+>>> allow promotions that bypass hotness or rate limit checks."
 >>
->> AFAIR the thinking was to also implicitly flag that the device has
->> an SADB here. So this stat should probably be called tx-sadb-key-count.
->> We couldn't think of a reason to count the tx keys when SADB is not
->> present. Rx keys? maybe, because of SPI exhaustion. Tx keys - why..
+>> It was not a natural overflow from a full top tier.
+> Thanks for confirming this.
 >
-> Tx keys to just provide info to the user about the scale of active PSP
-> bidirectional sessions (after the key exchange) for debuggability and
-> for any other derived scaling/performance metrics.
-> Especially for non-SADB drivers, where there is no device limit on the
-> Tx keys that can be created (of course limited by the SPI exhaustion
-> on the peer).
+>> The test intentionally reclaimed/demoted Redis memory to the lower tier
+>> to model a deployment that keeps only a limited fraction of the workload
+>> in DRAM and leaves the rest on CXL memory.  In that setup the top tier c=
+an
+>> still have enough free space, so the current free-space bypass can promo=
+te
+>> short cold accesses back to DRAM.
+> With pghot, I have been providing benchmark numbers from two scenarios:
+>
+> 1. Non-overcommitted case: The workload memory is pushed to lower tier be=
+fore
+> the measurement phase begins, the toptier has enough memory to accept the
+> the incoming promotions.
+>
+> 2. Overcommitted case: The workload memory naturally overflows/demotes in=
+to
+> the lower tier and every promotion undergoes the hotness + ratelimiting c=
+heck.
+>
+> I gather that your measurement technique is similar to case 1 above.
+>
+> The feedback I have received for pghot is this: Non-overcommitted case is=
+ not
+> the right methodology to use but the natural spillover is. Hence I am not=
+ sure
+> if optimizing the free-space bypass case would benefit any naturally run
+> cases.
 
-The main use case I had in mind was seeing how much of a device's SADB
-was in use. If the usage is high, maybe the user will have a policy to
-not even try rx-assoc (which always succeeds), just to fail tx-assoc
-with -ENOSPC.
 
-Total active PSP connections on a host is something I think users will
-want to track. I'm not sure it needs kernel support though.
+Thanks for sharing this feedback.
+
+Yes, the case I am trying to cover is closer to the non-overcommitted
+case.=C2=A0 We do have deployments where memory is intentionally placed acr=
+oss
+DRAM and CXL memory, instead of relying only on natural spillover from a
+full top tier.
+
+For example, the orchestration layer may want a cgroup to use a planned
+DRAM/CXL ratio, so that DRAM capacity remains available for later
+placement decisions or other workloads.
+
+In such setups, the top tier can still have free space, but we may not
+want short cold accesses to refill it simply because the free-space
+bypass is available.=C2=A0 The intent of this patch is to let those
+deployments keep using the existing hotness and rate-limit checks even
+when there is top-tier headroom.
+
+Thanks,
+Zhe
+
+>
+> Regards,
+> Bharata.
