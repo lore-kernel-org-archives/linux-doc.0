@@ -1,103 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793252696;
-	b=pU+5TvLdleKzGpHViMiK/JVxXwvhosGObuXNeoxXS0qZteBBW/sMBfLUmnYs76ui0htW
-	 jAsfTAK9oBM++TeRJpCIMY9u4QCb6zPCj4chBIZh52462sfjE/sb5Jhy9wqPLDJyiNYB+
-	 aLZPGnAbghoxH6jYDvUb9FtVI8C58+u/Fvfucr+1HL/x0Tx0LLeAyxOi+s8IriG1Ok+wF
-	 sTOb9Ec0iZAglXJIAAOlQPYdBGBSMyloEJFYWisiClEJZiS6GrlasQkOrYyTRoZGPmmmU
-	 ttX2Q0qKBXFNsCdRBO0t4KBq3Vq/0EjEECAowE1yvxPZfM9lDr6QZPfuGoBJAmCTs9w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793252696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-	b=JSKhcZjLFcl/3oLSuo43L8tQFc89eF0V9A5trWvmn+kE/i8jgB0lPJw9XMMTntb6I/oK
-	 LMBqRN9d+Ie/Yf40kmv3DYDkgg6BtaVm3Hm337GbUUJdvRtWHs4s97Z+1XfrzTnbDmx3x
-	 I/bTzwh/RKip52YvQAW+YeVquGnMMmlyvar+JkBQAEbp21qcyO+G0pzifaoicFLCkD8iv
-	 3BPA1vC8Ft7I4DLEhOy7fMec5n5Ma6W8d2bHocPon3AS9H6t+6tHBfugNulErzp8ck/nG
-	 RI9cBjdAxb+60OEpRuu/5p5SRnBa9fs46AMttvXUM43G9wvAkX0oaR5XCUVSMrBTM3A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bockavAG;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.61
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793253118;
+	b=a7l2kXOWzFHxjG3HtkBbBDFp68mLfdInlxgHxbos03/l9HMzfIb8GBMbQzMLPelRiAMi
+	 0fcbysTk4f7AuzLmX51LU46MQuj7wi1flFqTJQuAuYqY4tN6IPG23jvEdBSbmPuwWQRMZ
+	 CzlkhPZzJLkpvc/FELNzi7LWyG/2+8gGaB+wiGBSeM+6DmX6gJjeGMN/e/fsC+su3Uy5k
+	 RrewnIAbiAL9RjESJvdZeQ/6t2M3/Hkud96SK0c9t1CNX/8X04rCbckb43/iM0Mp3u71w
+	 52GjoPKCKLEhU6fJazDb3cnWTPTKUUIV4Ow/7UdTlEC1TSlIIH1nn8gIXTtEx8Q2ngw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793253118;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=8GHIN+BezP5E4cFcEnKietJaaRrj32cVdp3XGBe+Ko4=;
+	b=GXg3qp4OnsWpzOOaxzVg7ir+ZVmrx59690xjB2+UcamFZDJewUDLS2F1AgmJizuqZSdS
+	 n0QwNpdvOMEbTwU/GoWfIUQXQCmjr/SsPpwGd7yU7TtzqzukA9JvYM1RMtqE9//ST2PG9
+	 7LvV4z0pQwdJ+1a931UHWU9mjhJYbT3qbKA3ebJzboHVfcdRRtd2UgeHDzzgM2PUV4ag3
+	 e1EcSydYOcEQu4+OmRU3mn//cB1tJfsEMlSFKOoEXiHyWLAg/aYre6skR5+TsIxYwa0HK
+	 vktkyzkYBx+Sw6AHq/z+sTnohKfnpG9ppjh9gmM7U74GFw2CTTXhjsZHDqx44NDyMqg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=0qFfRZuA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.61
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010061.outbound.protection.outlook.com [52.101.46.61])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF73606A326
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 05:44:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDF73606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCF0606A31A;
+	Thu, 29 Oct 2026 05:51:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CCF0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bockavAG
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ea94541adbso7744915ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Oct 2026 22:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793252695; x=1793857495; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-        b=bockavAGG9CgSPhXpT2YfENGrJDsH6ZRDQ1Okk+V9fpfIdPpMzr46n+ofdHYjOKzG5
-         momK4e7xeAexQ9+yhizn/9RJiSWNRYlEKgrbXspga79C2QGhyArxLwkdyBZYjWY+rt1D
-         MH0FPZB1e16Nsz0ToCPPvg3xA7WNYxUcdKc+6osULL05Swa8xqJ1vCH+WnWg724eaKyl
-         F3S9NKhV7ggbTWRatF/c9dcjdrXkEAiKJ0iHclD9Tv4LqE1w1CGzSihZzUUM//prc+Q3
-         HndU/GOkeu69XQIuvv9JjNWfpDekQDHlsPLX0UIXXLIehqo8p8SCVgDKjNigVfSBufSr
-         p12Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793252695; x=1793857495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-        b=ZfFnQZF+0iP9QiR74EAHOzbg+UtrpoV55EEeIujJW2YZu2M8ZexpTEqzuB2mT/TJJ+
-         Vht1/lL5PFtUbf5n3c1XT3zYh/RWFmanB1rKgKFev1qasjhOxyZXEoNX/8P4pPBNHlfW
-         6OS2xGRNmL7lBcRTnlN5itqQ1GPjwzYm9UYHhB5Wr24619zYkja6kjh28qtpUAjcza9p
-         ag2TFzJUCmyIFVFZAR+MrwgRPxuughqVEl/87tnwLYRTy2asn752KqfjZ2U/ApteGqn7
-         evthIkYEI45JX2h//KZruY8Z5i9VvAmGrfSeV3w+T79WzszGl1ddnnKB7DPG2+ihMp2V
-         FQkg==
-X-Forwarded-Encrypted: i=1; AKwUvByL9g37Psa40c4BKBwpPjopVolYEyUCYYp4xel7nCZpKtGxk6v3awlgI1pz2hGEzNjStfc2RJ/cmXQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI6kDhzqNRnRTdLYi/KzcG9tYi68P6yAt93r5zR+P5GzKYDHWMC
-	7EYpf953wYz1jV6zAr7EFiIaPcZnC/6F7Jfz6sq5/eJ5q/GV/dHxoKKr
-X-Gm-Gg: AYBFou1hUpVOSN2wXLkmm+SRqrS5Gub1jkML6UmRlhCSnoLzBaTA3O931A6LkwymkLW
-	9DizkQ/U4awBVovjr+PNDKcS15j8uaFfgjfhd5wYL/sn6YRi85GdG3bnFK8uFfNxYgDb/YiWBxR
-	YsAIL90U4oWmrsNkWLZy6uHlSAlr3Fpfxf/4HRjSSHqRXm2qPrtzJT9iHna2aapGGy9sOT7f23w
-	gFV1s9m9stX6d878socFZqZV/Ke3jKOPj0NilxKyFp+K1s12Ow0V7FpwhOXm156n4UTY1bgwKR/
-	rZO5nsD+7b4ZeaeP2+a7djObrdyidQNIz1CXaDoRPtmVHxYBwBy8/ehH2fgFrdv8T0P67ecxYL6
-	qMnbw/BMdV3oCU0v1wulfJBD+fJvcwdF3gmpG/RK4gN05omU3gw2fTA61Wo6cTrR8AxpTNMfKzE
-	gXqey2FgdA1xBqGXvgZT38Tho3uB8yt7MzEzico0I/jQP1lzCz04nYpA5kBzLABf+UCpuMeQRCv
-	ZNySPdNQNkhD1K0aLq3ocxOG4imP6vfQovg52epyeOrjjxYEiAQ06u69Jh3KBVyH7cdejHfn7CS
-	X4cIEBY1d9IV7OJNUAR41qTJadqO0AKfnPevTHjrZa3Y684iRnNRpaz2G1Nh8Dkzu/gt2si0SvL
-	UQfZzGWQfUHTJNfu91MKXvDNpi2wpH3+rdqIpwDsyxVy7KU4=
-X-Received: by 2002:a17:90a:e7d2:b0:3ad:fb12:9bf5 with SMTP id 98e67ed59e1d1-3ae583152ffmr3612053a91.62.1793252695309;
-        Wed, 28 Oct 2026 22:44:55 -0700 (PDT)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e83127csm2433520a91.10.2026.10.28.22.44.51
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 22:44:54 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v8 14/14] ALSA: virtio: synchronize indirect capture positions on reset
-Date: Thu, 29 Oct 2026 14:43:54 +0900
-Message-ID: <20261029054354.2931-15-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261029054354.2931-1-mynameisjune111@gmail.com>
-References: <20261029054354.2931-1-mynameisjune111@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=0qFfRZuA
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hesJ3D/Ouiy6BHnb0pBueO+w8i7FkgjQVkOZACPW+3Erj+U4BuKdqkaEJpBiMqxOYaK7iFDm5JYvwBQKyV/HXDm0uq9WBydmN26TuvAIa3JgvUgpBTQkNFpDCckvnl5ql6/pSTbH/Io2Nc8+5uFHIc+kRNvzu6k56ALs155hZZErLxc+Scf0WbktkUyqpc4HsjUeuNmen6VLvI8qReuwEVFrUoqfKAvRHxqX0XG6xYyXJKl9AjQNjcDd/pKmgU4b4GyEyclv+mmHZL9BJltvxyS/T6Cwc22CXSxehH+/XylvuC4C5pe3D8HBdsfGXY3f2wj/YaqI1lTRqwf0VNOy9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8GHIN+BezP5E4cFcEnKietJaaRrj32cVdp3XGBe+Ko4=;
+ b=kXKazXX37TsG2B3rsP7ntEm3xORMfepDNUZO8ftUVIx6S42DAIhAswfxZ7fmMSBSfHnou+af3oX8HEM5TDbRpHz49d9GGSx8NTpjEapGL/n7ovjyHiN3A3B33D51jRtp/boXfJqSMxScKrIIV6HGBW14sfzQORYzXrYNDFpqZnUSKN41JTXKCXdRW7cj92vL11jabyd4eygTuSJR4PRxSwiUrE8l6QItPN6B0rvM485AjdTZXpS+iBTGl8hFvEhXCFQf9RASGQwbw2IL2sH9HJmYGQHOvH99eoSjzjoxuKZbKR3MCnBlnaEAQanlCv3ffXluFOXfVS42ZVuw6IR+Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8GHIN+BezP5E4cFcEnKietJaaRrj32cVdp3XGBe+Ko4=;
+ b=0qFfRZuA6fRMeU9eOdDQTByr/1y2tPFegzzm/KTBaDKHS5AyEcGDEVl6EMp1m6zse3N9vepB91RQJncHe+vW516Leo6PJ3APosmhoQ4t944geSOmu1ne/tFLpLdIMi1Vw/eLU2KqVhkAnjLk1GJmdLQPVjYvz3fHoAp+3nCzuag=
+Received: from DS7P221CA0017.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:25c::7) by
+ SJ0PR12MB7082.namprd12.prod.outlook.com (2603:10b6:a03:4ae::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Thu, 29 Oct
+ 2026 05:51:52 +0000
+Received: from DS1PEPF00053453.namprd04.prod.outlook.com
+ (2603:10b6:8:25c:cafe::22) by DS7P221CA0017.outlook.office365.com
+ (2603:10b6:8:25c::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.7 via Frontend Transport; Thu, 29
+ Oct 2026 05:51:52 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS1PEPF00053453.mail.protection.outlook.com (10.167.23.235) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 05:51:52 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 29 Oct
+ 2026 00:51:51 -0500
+Received: from [192.168.0.152] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Thu, 29 Oct 2026 00:51:45 -0500
+Message-ID: <8d6f589c-4427-465d-be5a-17eb99f41a91@amd.com>
+Date: Thu, 29 Oct 2026 11:21:44 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,157 +101,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] sched/numa: do not feed tiering promotions into
+ task placement stats
+To: Joshua Hahn <joshua.hahnjy@gmail.com>, Li Zhe <lizhe.67@bytedance.com>
+CC: <akpm@linux-foundation.org>, <bsegall@google.com>, <david@kernel.org>,
+	<dietmar.eggemann@arm.com>, <gourry@gourry.net>, <juri.lelli@redhat.com>,
+	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>,
+	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>,
+	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, "Huang, Ying" <ying.huang@linux.alibaba.com>,
+	<riel@surriel.com>
+References: <20261028041253.74839-1-lizhe.67@bytedance.com>
+ <20261028041253.74839-3-lizhe.67@bytedance.com>
+ <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com>
+Content-Language: en-US
+From: Bharata B Rao <bharata@amd.com>
+In-Reply-To: <CAN+CAwPM=-sRDypP0+ZxX8_CziBRjXbxKEE3UZGLzkmOWrajNg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00053453:EE_|SJ0PR12MB7082:EE_
+X-MS-Office365-Filtering-Correlation-Id: d14bb7e2-dde3-4cf2-ceb3-08df3580bb43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|7416014|376014|36860700016|82310400026|4143699003|5023799004|11063799006|56012099006|261026121527099003|261021121427099003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	1/RONOmcmKtj7VreU/UAZKabmKjOwiWVO6M+EGfnT39ZgHFvlciIOaj2454ZwbJFSxbIFbtqjQH+H3IpD4HDpJ1miOPIYA+FVirBUBiRRstE/AS7jsFIu/JDHrTaxfm2Aju2tZC+WvdMhiyETTWyZ3wua3ZbFUQnuSvMiGKFuYTgR8S+I5TQWas4r3q+yLW8Wtw7p/awkI06TkdBDSERhgS20HGrmzu+pwCJaxYvULjvH9UTvMTUSY/Ujq/Lv0scUQCPgMnMpuf4lPluBrh3VVh7L1MJxozhpZ/oAS2ihMhUK93h5Z6I89Zki2JaTwPgE2swK2U+bfI7gZc4pdwCmHJK7XmI+0eQOTBodcosme4WEPj2XOdyIX+4YKepejLxMr1I4PBJtS17xKj7ZIXhg6tf4Fb8w5GMWEgEuOs6JIydG3OQOYgn//yYtsmdB2UhKfvOzjtzB4x9Oetwn9ta+bo5tgyXLTWKp5VfObdcAVE+rQwRIrBn+L1Fk/QR5XWZl6iwIh2bv7CNmWyYxH0OFQbeQiswOXpkuT/gMPiwHsYtETYDjk7OklaZnUedtUnBDl5UG/i2OG8i1NCpnotAf71Fo33Hkbkewrkdz/khTH62eeDsuEdh/JI/cFBSmR/Z43TYs7A+Tlf5wG9Tz3STXUMLpbpiHDuwLop+SekkUViijf7OJ+7bayeI66+YLLh9zNorwCYuSPircHwcwrb0gw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(376014)(36860700016)(82310400026)(4143699003)(5023799004)(11063799006)(56012099006)(261026121527099003)(261021121427099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	KBYThA9IEIuxPiDNQQ1U3hCxSH9yBVoD3L5nYd0jlEdOxIsqmfdh6jdyjvSHC52b7GQQVULxDv0F8tj8xi33SWKwuothJhJjLfhP2XEbFQAg7bDfbWCRL2WBOTAskA0vEfFVdoLgZmBzcLkxjaeK1D1Yl10Kle5llcUFqNh08clqerYa2J73aHQuqGNS7KBOmbvwwFE7bhYYwxk9tgzQBm8kZHUcHznv4FlW3eVc8zzuboD3/uEpU2GqsIK1Z+dJ3/xmqqGTJqGZVfi1MtVy3Obx/nBbuAzc5JtkfcBiVf77BtAZuCEAwhZBWhvw0/N2Oqc9crncibx3vhbOt2+WKMW6kItZreIOCc5vO2HgGBKWjoEZ3lQoHHon5hMEgQ3IuASSFY/vH/ymYt+gdUvlJ2ynvy2c9wK1OPfUdjxaHQk7o6qLL4ihmXAzh8E+MvNk
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 05:51:52.3027
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d14bb7e2-dde3-4cf2-ceb3-08df3580bb43
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF00053453.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7082
 
-RESET rebases the PCM application position without updating the indirect
-capture accounting. The next ACK can interpret that change as a backward
-application move and return -EPIPE. In a QEMU reproduction, the PCM
-application position changed from 24000 to 2880 frames while the private
-position stayed at 24000. Both running and paused capture failed with
-free-running and buffer-sized stop thresholds.
+On 28-Oct-26 8:33 PM, Joshua Hahn wrote:
+> On Wed, Oct 28, 2026 at 12:14 AM Li Zhe <lizhe.67@bytedance.com> wrote:
+>>
+>> NUMA balancing has separate mode bits for normal task placement and
+>> memory tiering. In memory-tiering-only mode, NUMA hinting faults on
+>> slow-tier pages are used to detect hot pages and promote them to a top
+>> tier. They are not normal task-placement faults.
+>>
+>> For slow-tier folios, memory tiering reuses the folio last-cpupid field
+>> to store access-time metadata. numa_migrate_check() therefore cannot
+>> return a real cpupid for those faults. Before this change, it returned the
+>> same all-ones last_cpupid value that normal AutoNUMA uses for a first or
+>> unknown access.
+>>
+>> That can make a memory-tiering-only promotion look like an ordinary first
+>> private AutoNUMA fault. After a successful promotion, do_numa_page()
+>> reports the target top-tier node to task_numa_fault(), so the existing
+>> slow-node skip no longer applies. task_numa_fault() then accounts the
+>> fault in p->numa_faults and p->numa_faults_locality, and
+>> task_numa_placement() can consume that sample to update normal task
+>> placement state even though normal NUMA balancing is disabled. In other
+>> words, hot-page promotion feedback can leak into the CPU placement
+>> heuristic.
+> 
+> Hi Zhe,
+> 
+> Thanks for the revision. To me, this looks more like a fix than an
+> optimization, since there really is incorrect NUMA balancing behavior
+> happening that could be visible in userspace (unintended
+> task-placement and related accounting). On the other hand patch 3/3
+> doesn't seem like a fix to me despite the name, since this one would
+> mitigate the incorrect behavior.
+> 
+> How about we pull this one out of the series and submit it
+> independently with an appropriate Fixes: tag and cc:stable, and
+> discuss 1 and 3 later on?
 
-Use a separate reset operation for indirect capture. The PCM stream lock
-covers the common pointer reset, private accounting and core completion.
-Discard the observed unread data and return its buffer space to RX. Keep
-the hardware and software ring offsets so in-flight completions continue
-at their existing DMA positions. Set the private application position to
-the position core will publish on completion.
+Currently only successful promotions feed stats to scan period update.
+This change stops that and nothing updates the scan period for tiering
+mode after this change.
 
-A paused device retains its fixed DMA positions. Keep the observed
-software ring position as the reset position in this state, instead of
-making userspace read from offset zero while the device continues at a
-different offset. Completions after the observation are retained.
+Though the direction of the fix is right, I think this can't be an
+independent fix until there is some alternative which patch 3 in this
+series brings in.
 
-If returning RX space fails, stop further transfers and return the
-error. The caller must drop and prepare or reopen the stream after this
-partial failure. The existing staged reset operation and playback are
-unchanged.
+Also it would be good to get a view from Ying Huang as to why only
+successful promotions drove the fault stats while unsuccessful promotions
+didn't in the tiering mode.
 
-This patch depends on the proposed PCM reset operation and helper in
-patch 1. The series diff applies after patch 2 because both touch the
-operation tables. The indirect reset implementation also applies on top
-of patch 1 alone; an alternate local diff is supplied for that order.
-The reproduction uses the pending virtio-snd stack with local follow-up
-corrections described in the cover letter.
-
-The earlier RW capture tests covered running and paused RESET, both stop
-thresholds, a 240 ms read backlog, refill-error recovery and reopen. The
-core-only plus indirect variant also passed the four RW reset cases.
-
-Additional direct MMAP_INTERLEAVED tests used 48 kHz mono S16_LE in
-ARM64 QEMU. The pre-fix running and paused cases failed after RESET with
-ACK -EPIPE. All 13 fixed runs passed, including two 1-vCPU 70-second
-captures, refill -ENOSPC injection, managed overrun recovery and reopen.
-All 9,072,000 captured frames matched the deterministic source at their
-expected positions. RESET discards observed unread data; verification
-starts at the resulting position. Recovery and reopen checks start at
-the device's new START position.
-
-KASAN and lockdep reported no errors. These MMAP runs used the combined
-local stack with staging disabled. Physical VZ/MOTU, other MMAP layouts,
-multi-channel input and concurrent RESET between mmap_begin and
-mmap_commit remain untested for this candidate.
-
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
-
----
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -10,6 +10,7 @@
- #include "virtio_card.h"
- 
- static const struct snd_pcm_ops virtsnd_pcm_capture_staged_ops;
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops;
- 
- bool virtsnd_capture_staging;
- module_param_named(capture_staging, virtsnd_capture_staging, bool, 0444);
-@@ -389,10 +390,13 @@
- 		}
- 	}
- 
--	/* Keep the legacy RESET completion policy outside staged capture. */
-+	/* Keep RESET operation selection fixed for the opened runtime. */
- 	substream->ops = vss->capture_staging ?
- 		&virtsnd_pcm_capture_staged_ops :
- 		&virtsnd_pcm_ops[substream->stream];
-+
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE && !vss->capture_staging)
-+		substream->ops = &virtsnd_pcm_capture_indirect_ops;
- 
- 	snd_pcm_hw_constraint_integer(substream->runtime,
- 				      SNDRV_PCM_HW_PARAM_PERIODS);
-@@ -1596,6 +1600,54 @@
- 			return 0;
- 	}
- 	return virtsnd_pcm_sync_stop_locked(substream);
-+}
-+
-+/* The PCM lock covers both indirect accounting and core completion. */
-+static int virtsnd_pcm_indirect_reset(struct snd_pcm_substream *substream)
-+{
-+	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
-+	struct virtsnd_pcm_transfer transfer = {};
-+	int rc;
-+
-+	rc = snd_pcm_lib_reset(substream);
-+	if (rc)
-+		return rc;
-+	if (!snd_pcm_running(substream) &&
-+	    runtime->state != SNDRV_PCM_STATE_PAUSED)
-+		return 0;
-+
-+	guard(spinlock_irqsave)(&queue->lock);
-+	guard(spinlock)(&vss->lock);
-+	if (vss->resetting)
-+		return -ECANCELED;
-+	if (!vss->prepared || vss->stopped)
-+		return -EBADFD;
-+
-+	/* Pausing does not move the device's fixed DMA buffer positions. */
-+	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
-+		runtime->status->hw_ptr =
-+			bytes_to_frames(runtime, vss->pcm_indirect.sw_io);
-+
-+	transfer.indirect = vss->pcm_indirect;
-+	transfer.indirect.sw_ready = 0;
-+	/* Consume no application delta while returning discarded RX space. */
-+	transfer.indirect.appl_ptr = runtime->control->appl_ptr;
-+	rc = snd_pcm_indirect_capture_transfer(substream, &transfer.indirect,
-+					       virtsnd_pcm_trans_copy);
-+	if (!rc)
-+		rc = transfer.error;
-+	if (rc) {
-+		virtsnd_pcm_transfer_failed(vss);
-+		return rc;
-+	}
-+
-+	/* RESET discards all samples through the observed software pointer. */
-+	transfer.indirect.sw_ready = 0;
-+	transfer.indirect.appl_ptr = runtime->status->hw_ptr;
-+	vss->pcm_indirect = transfer.indirect;
-+	return 0;
- }
- 
- /* The core holds the stream lock through the matching appl_ptr reset. */
-@@ -1691,3 +1743,17 @@
- 	.pointer = virtsnd_pcm_cp_pointer,
- 	.ack = virtsnd_pcm_cp_ack,
- };
-+
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops = {
-+	.open = virtsnd_pcm_open,
-+	.close = virtsnd_pcm_close,
-+	.ioctl = snd_pcm_lib_ioctl,
-+	.reset = virtsnd_pcm_indirect_reset,
-+	.hw_params = virtsnd_pcm_hw_params,
-+	.hw_free = virtsnd_pcm_hw_free,
-+	.prepare = virtsnd_pcm_prepare,
-+	.trigger = virtsnd_pcm_trigger,
-+	.sync_stop = virtsnd_pcm_sync_stop,
-+	.pointer = virtsnd_pcm_cp_pointer,
-+	.ack = virtsnd_pcm_cp_ack,
-+};
+Regards,
+Bharata.
