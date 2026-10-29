@@ -1,62 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.37
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793310037;
-	b=pS455EX6gjXYTb1pUEtoT8TPvE6hdv4OYa9oeIc+FtPAgGPACW7vatYpVnXNxuSFi2X3
-	 qb9ZC6IwtzrX/PcqVg1SpdF0UHCp1QimBZcP4XbOe4I1ZFhLPv0AGtpwseo1AcFWH0EFZ
-	 DxWurBnposYfu3gwYYy1DbQiM/N7ZQfe010PoEn4xmOXVX1RdXanG0NWlF1AH/tfGgK5g
-	 ULtGpepbdr5694Q65tGZsQlMVRjrFsUClLLzJyRavZVp/IXxvOc1l3cLu10+uBXKGaXU5
-	 R/F+BVTiIkJujqK+wMXshpvXSJdLNk9tkmM0U13ClPJTqg/qVNc5AMIsmEHliHaOBlw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793310037;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:From:Subject:To:Cc:References:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=MZvzDpBPwEa2xjmhJpCaescetJXwNLlVXAcXe0UAq8M=;
-	b=v8eJODtL/J2WuAftzhjw1PqRroRTw2OTOAN1a+aXmhK96S2DJY0011+0nxC3is2Lop7V
-	 ShNxy5wRWJcXF5AY2QBI1wSyCvGHW4Rc6eK02jOYAXP30G6sz25cYxBdf2lu3aHeU/nG4
-	 yI0ILOnOXOllf2PU01S2kezR++C/CfbSTpGdgkjwwB7MPK6922M4vbl7r7hIm1lOQHkgV
-	 49IAqB27vFKkxKbiS39SCwIzrRkWFROxl73U0yd1li6+VM3kfz50TpFpXMgMZv6FXU75N
-	 guDvTryXuJIfoi7ZYxSJk5mhSBM8D/d4VuHIbkWUuDDP7ihnPePzBnov4RHASKq/dsA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rbox.co;
-	spf=pass smtp.mailfrom=rbox.co;
-	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=DJ9gkgJ2;
-	arc=none smtp.remote-ip=185.226.149.37
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793311118;
+	b=A9AKIJBfQUelR3S7TCw7DPuGA+agk1FeDAhVXLvog0FAqUck8eB7un+pL+7+OoGSefDu
+	 TX4LTdkzadB9Wzyd1IbxiQ/N0uE+3YHG3PO5S6ZgOk9poMwYqMS2XL0ocVUIJCcoseBOt
+	 4nBGOXr+e+7Y8wYq/d+2copjxtleNcve5YRI7SoJE18h0FlJk7BPO3lYDJuEtjZU6+8Hd
+	 blkkUDZXbtoDck5AUxhftj6bv2q1UcDFT50umYxvonDxvTV7qTntHOgRqk5ESJuIPtGum
+	 0bZrgcHvfnEOrnHSbMXw0JvCmEmKYTT90uSqEjpRXuAD3rRAWZFsV00m6x/Ghk6rElw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793311118;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=B9+gAB8Cjyl4VLckQC54VBSrUBYtxpoBl30X97BtI60=;
+	b=3eUJjofPNWq1/hKVKiBGRL1GOSTsVuYnySBMqKoKu6UJAKxmcshWS8KJsfYZwiO2BuEc
+	 TfJEdnZSTma4jezu4/RrRgTMIGaOKw0TwPu66U1JHKiEeYGFVxdP37KQj2HOqormu+B1+
+	 eLd3l7GPwQ2uG5HT/AyecLshXQkGsUXp+NmiAKoCI6o/kjgGZp4uDCzeNvzNhNF7ngCHP
+	 2giC0+HekksdSEz/zP6vnyXECQsqZ0sH9/a4NZ0Y4s8txqThHVAxeohi5YKyeWQumLkAM
+	 4lST/qvYjrjKgOu4eHgKS8HoBghpXi10iCitnK7RYNsFHabLjfxFBFIszK2Da5SeD+Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=VjfWL3MC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61B6606A31C;
-	Thu, 29 Oct 2026 21:40:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E61B6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E4C606A31E
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 21:58:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40E4C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=DJ9gkgJ2
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <mhal@rbox.co>)
-	id 1xMXr9-00Gcqs-C6; Thu, 29 Oct 2026 22:40:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
-	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
-	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
-	bh=MZvzDpBPwEa2xjmhJpCaescetJXwNLlVXAcXe0UAq8M=; b=DJ9gkgJ2mHgUKKUfDwDDCCU7a2
-	fY3qUzdAHPf+1mgtIxttXFG8oYMrGk8IPq37+NOgMbA7ITXr9SeRSTwb7mazn9bnla/u5roR31Zw3
-	qu34bdMib+teJwEVATRjhpWBCLDl332CxeCq704J595bVN8Po3498i1F3u9x5kGT7cXmlh62HGYEL
-	DPRtHkEcgoH4iY5YsicYidSkk5rKcp0+JVbgxkW7oS9KlIm61ipQqj5a+C2LqUdtSAa68zXic8/Bq
-	+z1WmX5Ef/A82aBvUnJ4M1F1Tn/fDZVXZ5Ws8k3XBQj37hfD+iQSNkTr3oXcbSUORSmeSXooj6hjg
-	/OW/lTmw==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <mhal@rbox.co>)
-	id 1xMXqv-0006P1-3W; Thu, 29 Oct 2026 22:40:05 +0100
-Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.95)
-	id 1xMXqh-001Zdr-J4;
-	Thu, 29 Oct 2026 22:39:51 +0100
-Message-ID: <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
-Date: Thu, 29 Oct 2026 22:39:50 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=VjfWL3MC
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c414e5d282eso2703966b.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 14:58:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793311116; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rksdJ3M2M0ZN5ASBrHgGa8lwmzFq2UAu05khwI72ieBPCxZjpLhRnJYoJc9pNWB7Mz
+         azPqSG4+t+lf9x6He7vwEHSXj7ePQuxryfSaDN/iBlWbeghraitapRUD0UqAA8Ck35E+
+         OK/REZZ2TZjmTaqPwb8Pajl+cHQJxai4k1zDxz92KZdkNky9tHSAl2iXyBd9NBv3mjUv
+         LMTAtHddo6mc3mwm1xgXvsbrLIYdMGbZxsg+NTefjXwXQCxcJ4Pb4xjhpbVxXhz1uI/O
+         EF1wkYYxMQolQAUoffzo5pmUECWt3jVjSrr9mCpus4IpY69Ho3QZnDRpkgLz1XfbrWyD
+         jKkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B9+gAB8Cjyl4VLckQC54VBSrUBYtxpoBl30X97BtI60=;
+        fh=faN4qghY92UmYowT8GftMvSsnlUOscNK9VTTYhApN3o=;
+        b=oKTcTRo/tgPtzMr8Gl+z7TUj9C5ZLtXiaU5muRsBd7g2c7AZSThssj7aizISytmIbV
+         glwabYQJUVkb+11/RK10wLemqp5hdy/qiyk3CJovUboAOvUp66D48myct73lnLwgkPXO
+         o9JX1xLZZM7vReCEP2kcn6t25zVHzvnqSGsDHhckrr/sVYWWhq2ZWD+amtkMDuio/W/F
+         v5inemxxGv0G48v2DZHhHHqzqX4aHq5QU+lpMdOF4QVe7pvBnNtThQ3JSiHN4M08dMk9
+         1FSTBA/E/7MUn9af45iB/xmtLtLhyFjt1uSm3tDfOmnSe3y81REO3YuiVatiV7tia2eh
+         dR6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793311116; x=1793915916; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=B9+gAB8Cjyl4VLckQC54VBSrUBYtxpoBl30X97BtI60=;
+        b=VjfWL3MCQHgmtdTsMUdVT/rqpu68psBenh5+JCuYyGF3lPR5M/yQZLl90WV2OoCDZg
+         Jg42rc7B+OFHBpm1AepennXZtjf8i5xyUVe72eqbT5Uoa5DfgMGcHMG919fY8s/L1YJH
+         d8ieC/BLo2m/7P5tfU/fRwBYGYrOa62tA5lKxIARqRT51xhdEcgmoTI5Lz4OGEGpL7F+
+         g3zPnmHucBga0p4sKNpSyCbxBZCeAdC4A4pdcgpxZpwT2EaB/qoU86h0nL3YtWblL4p6
+         W2jO7v2BhxlrAuor2HisrNjrTQVSsvS8eksa0Oy1J/AcgTs/RL+ZJtGzUhHTOL4a1pfB
+         mc6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793311116; x=1793915916;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B9+gAB8Cjyl4VLckQC54VBSrUBYtxpoBl30X97BtI60=;
+        b=nAinHUXZ5pBzYQwbNBDdPDIOoK3mB+yaF8bhJZLnON4YRsKvTDAelRJ7PCyHOmMt4G
+         1PKLUOpQwmDNPXLozCRGYh/BfuMdaGd0HPXIBLW2/ELjIptwB4iIIf1zeXotC1EGvOjJ
+         KrrRomzdhcIfhMeEdAEcodO8O9Mf/k4MCyusvcWVtHEm47vvcAg8hxtPfIjFsLXOylPp
+         9ck/NlQGhkjgea1oA/6iIf8C9H0FrHTRKz5CgLffOx1o/PgdCALcssJKtT5bY4KZKUbd
+         VGTYJuB1yJdrukf7zW/XpqzshNpi2a8fhojQMf5sKDX/m9PgH9wwRsF3yi+YlnDKDEKs
+         bNMg==
+X-Forwarded-Encrypted: i=1; AKwUvByHbqtOgRXHVVelKTFNAzXdNW2Y5s1DQR45weXGmOKt+K9CCaoIAf602dn59t099g4YX8rCXg94NOE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLKFQbh9lUMNycBGdRTGSOMiQr6O0cBTYM1j+swdELtVgVV6JX3
+	ud8PzFMvERblclskkM7s+qKLEEClJz1LBYLZ8W71uRyhfahBV6zD0r2pTnkKa+9U9P0OtsZB4ES
+	m677dcAkEnAR6/H4xwYi3Bna2wAPrNHekJxFwngg4
+X-Gm-Gg: AYBFou3EQOx1pDjppBziSAE/J8JGrDC3wsvb2cgZtpEWviE+h1wcCLeGhp60FJFIvM2
+	2qCCR/CE76yjlMwR8ZlBE1XWowg4Hb41y6XrI02Oi+p+rPJG/oALTfkEREkhwb3oc85+yG30TAx
+	dDWjCMbqYH0Vkz6ya80NXxEEsep5R+lO3jkuaV13W5QHjFOIfyZYci8444V5FCW6eiCV+ZUOzpS
+	9YWcYzZFVAmfJ97uCGwzZiURBgQOwGi3guZfyGEbXVj4+wPWFzDCnFDAezPmRaibt/vlHwTg+lD
+	fEj2QBJWzAG37UeHow0pzn93+c8DcJLG2agI+mSi0W7ytXw6k2dGuSw8RU4WzIsgcsuqqNQ5Rpj
+	8gqbbCdw2yErGi3OoGt5+DHKSgV58IWtu/vZYNS5LcF5JtGOf7Hs5W5q930pYSKoUBXV2VrA=
+X-Received: by 2002:a17:907:18c3:b0:c26:22ae:b66b with SMTP id
+ a640c23a62f3a-c4ca7aee966mr31602566b.15.1793311115078; Thu, 29 Oct 2026
+ 14:58:35 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,180 +104,320 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Michal Luczaj <mhal@rbox.co>
-Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
- the g2h device to a netns
-To: Stefano Garzarella <sgarzare@redhat.com>,
- Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Stefan Hajnoczi
- <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowangio@gmail.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
- virtualization@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, sargun@sargun.me,
- jlinbox@meta.com
-References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
- <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
- <atjZZP2ebhXKzMxL@sgarzare-redhat>
- <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
- <atnjOZjKUBagRVWq@sgarzare-redhat>
-Content-Language: pl-PL, en-GB
-In-Reply-To: <atnjOZjKUBagRVWq@sgarzare-redhat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
+ <CAEf4Bzb--Jzz696u057G9_CgQN7zf6ksvoL80KJacKO2CorsnQ@mail.gmail.com>
+In-Reply-To: <CAEf4Bzb--Jzz696u057G9_CgQN7zf6ksvoL80KJacKO2CorsnQ@mail.gmail.com>
+From: Samuel Wu <wusamuel@google.com>
+Date: Thu, 29 Oct 2026 14:58:23 -0700
+X-Gm-Features: AclHuK8Skd5aK1mpj2aYhCa7McUFcLlkjExMScvtTmOLJycjBhAcAzm-z_wLwRU
+Message-ID: <CAG2Kctojb7xiOqTmwWqoAKFaNUECjOzXVc_t6KbG13Pqm2dbng@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/22/26 12:47, Stefano Garzarella wrote:
->>>> +/* Move @vsk to TCP_ESTABLISHED and into the connected table, unless the device
->>>> + * has moved to a namespace @vsk cannot reach. Returns false without doing
->>>> + * either in that case.
->>>> + *
->>>> + * The reset sweep walks the same table under the same lock, so an assign
->>>> + * cannot land between the check and the insert: either the sweep finds @vsk
->>>> + * and closes it, or @vsk is never added.
->>>> + */
->>>> +bool vsock_maybe_set_connected(struct vsock_sock *vsk)
->>>> +{
->>>> +	struct list_head *list;
->>>> +	bool reachable;
->>>> +
->>>> +	list = vsock_connected_sockets(&vsk->remote_addr, &vsk->local_addr);
->>>> +
->>>> +	spin_lock_bh(&vsock_table_lock);
->>>> +	reachable = vsock_g2h_reachable_sk(vsk);
->>>> +	if (reachable) {
->>>> +		sk_vsock(vsk)->sk_state = TCP_ESTABLISHED;
->>>> +		__vsock_insert_connected(list, vsk);
->>>> +	}
->>>> +	spin_unlock_bh(&vsock_table_lock);
->>>> +
->>>> +	return reachable;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(vsock_maybe_set_connected);
->>>> +
->>>> +static bool vsock_g2h_should_reset(struct vsock_sock *vsk,
->>>> +				   const struct vsock_transport *t)
->>>> +{
->>>> +	return vsk->transport == t &&
->>>> +	       READ_ONCE(sk_vsock(vsk)->sk_state) != TCP_CLOSE &&
->>>> +	       !READ_ONCE(vsk->close_work_scheduled) &&
->>>> +	       !vsock_g2h_reachable_sk(vsk);
->>>> +}
->>>> +
->>>> +static struct vsock_sock *
->>>> +vsock_g2h_next_unreachable(const struct vsock_transport *t, unsigned int *i)
->>>> +{
->>>> +	struct vsock_sock *vsk;
->>>> +
->>>> +	spin_lock_bh(&vsock_table_lock);
->>>> +
->>>> +	for (; *i < ARRAY_SIZE(vsock_connected_table); (*i)++) {
->>>> +		list_for_each_entry(vsk, &vsock_connected_table[*i],
->>>> +				    connected_table) {
->>>> +			if (vsock_g2h_should_reset(vsk, t)) {
->>>> +				sock_hold(sk_vsock(vsk));
->>>> +				spin_unlock_bh(&vsock_table_lock);
->>>> +				return vsk;
->>>> +			}
->>>> +		}
->>>> +	}
->>>> +
->>>> +	spin_unlock_bh(&vsock_table_lock);
->>>> +
->>>> +	return NULL;
->>>> +}
->>>> +
->>>> +/* Close every connected socket of @t that can no longer reach the g2h device.
->>>> + */
->>>> +static void vsock_g2h_reset_unreachable(const struct vsock_transport *t)
->>>> +{
->>>> +	struct vsock_sock *vsk;
->>>> +	unsigned int i = 0;
->>>> +	struct sock *sk;
->>>> +	bool reset;
->>>> +
->>>> +	lockdep_assert_held(&vsock_g2h_assign_mutex);
->>>> +	lockdep_assert_not_held(&vsock_register_mutex);
->>>> +
->>>> +	while ((vsk = vsock_g2h_next_unreachable(t, &i))) {
->>>
->>> can we reuse vsock_for_each_connected_socket() ?
->>>
->>> If not, maybe a comment here will be nice and maybe I'll try to merge
->>> vsock_g2h_next_unreachable() here if it's not used somewhere else.
->>
->> I think we would need a variant that returns the socket, since we need
->> to be able to acquire the lock_sock after releasing the
->> vsock_table_lock.
-> 
-> That would be nice if it's not too complicated.
-> 
->>
->> Maybe the callback could return a bool, if true then return socket
->> otherwise skip. Then the cb could also grab the sock_hold ref under the
->> table lock.
-> 
-> Yeah, looks promising to me!
-> 
->>
->>>
->>> I find these functions a bit hard to read.
->>
->> Yeah its all kind of a pain. The problem is that we need to hold
->> sock_lock to set sk_state and sk_err, but can't acquire it under the
->> table lock. Instead, we grab the socket ref sock_hold under the table
->> lock to guarantee it stays alive between releasing the table lock and
->> grabbing the socket lock.
->>
->> I was really tempted to not do this lock_sock dance though. The race
->> condition I'm avoiding here is that if this reset races with an RST
->> receive, then the socket could end up with TCP_CLOSING + sk_err
->> ECONNRESET... but I'm not sure this actually propagates up into a real
->> problem for any potential user.
+On Tue, Oct 27, 2026 at 3:25=E2=80=AFPM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
+> On Thu, Oct 22, 2026 at 5:17=E2=80=AFPM Samuel Wu <wusamuel@google.com> w=
+rote:
+> >
+> > Add an extensible KALLSYMS_QUERY ioctl() interface to /proc/kallsyms
+> > to support fast point queries without scanning the entire text file.
+> > Exactly one query mode must be set in query_flags.
+> >
+> > When KALLSYMS_QUERY_BY_SYMBOL is set in query_flags, KALLSYMS_QUERY
+> > resolves a NUL-terminated symbol name in vmlinux or loaded modules and
+> > then populates sym_addr:
+> > - Searches vmlinux first via kallsyms_lookup_names() (binary search),
+> >   which takes precedence over loaded modules, and falls back to
+> >   module_kallsyms_on_each_symbol() under module_mutex for module
+> >   symbols
+> > - Matches names exactly, like kallsyms_lookup_name(), disregarding the
+> >   .llvm.<hash> matching, following precedent set by commit fb6a421fb615
+> >   ("kallsyms: Match symbols exactly with CONFIG_LTO_CLANG")
+> > - Resolves 0x0 symbol addresses in both vmlinux and modules
+> > - Rejects ambiguous symbols (multiple entries with the same name at
+> >   different addresses within vmlinux, or across loaded modules) with
+> >   -EADDRNOTAVAIL, while allowing same-address aliases
+> >
+> > Userspace symbolizers resolve kernel addresses to symbol names with
+> > /proc/kallsyms. This is typically done by reading the entire
+> > /proc/kallsyms text file, and keeping a compressed sorted copy of it in
+> > order to resolve addresses at runtime.
+> >
+> > When KALLSYMS_QUERY_BY_ADDR is set in query_flags, KALLSYMS_QUERY
+> > resolves one address to the symbol that contains it:
+> > - sym_addr holds the address to resolve on input.
+> > - sym_name_addr must point to a user buffer of sym_name_size bytes
+> >   that receives the NUL-terminated symbol name. On output,
+> >   sym_name_size holds the number of bytes written (including the
+> >   terminating NUL). -ENAMETOOLONG is returned if the buffer is too
+> >   small; a buffer of KSYM_NAME_LEN (512 at the time of writing) bytes
+> >   is always large enough.
+> > - Symbols are resolved via kallsyms_lookup(), the same lookup as %pS,
+> >   covering vmlinux, loaded modules, BPF JIT images, and freed module
+> >   init functions still tracked by ftrace.
+> >
+> > On an 8 CPU Cuttlefish (x86-64 VM), using this patchseries to load a BP=
+F
+> > program with 11 typeless ksyms has ~220x speedup (157ms -> 0.7ms).
+> >
+> > On an 8 CPU x86-64 VM with a 175k line kallsyms, there are broad
+> > performance and memory savings for the symbolization and callstack
+> > sampling tool, Perfetto:
+> > - Init time: ~350x speedup (155.7ms -> 0.44ms)
+> > - 50k symbolizations: ~12x speedup (25.2ms -> 2.2ms)
+> > - VmRSS: -68% (15.1MB -> 4.8MB)
+> >
+> > Suggested-by: Andrii Nakryiko <andrii@kernel.org>
+> > Signed-off-by: Samuel Wu <wusamuel@google.com>
+> > ---
+> >  include/uapi/linux/fs.h |  41 +++++++++++++
+> >  kernel/kallsyms.c       | 132 ++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 173 insertions(+)
+> >
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index 34c6f219462a..b43f227dad0e 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -674,6 +674,47 @@ struct procmap_query {
+> >         __u64 build_id_addr;            /* in */
+> >  };
+> >
+> > +/* /proc/kallsyms ioctl */
+> > +#define KALLSYMS_QUERY _IOWR(PROCFS_IOCTL_MAGIC, 18, struct kallsyms_q=
+uery)
+> > +
+> > +/* Exactly one query mode must be set in query_flags. */
+> > +enum kallsyms_query_flags {
+> > +       /*
+> > +        * Look up a symbol in vmlinux or loaded modules (vmlinux first=
+; BPF
+> > +        * and ftrace symbols are not searched) by exact NUL-terminated=
+ name
+> > +        * at sym_name_addr and return sym_addr. sym_addr and sym_name_=
+size
+> > +        * must be 0 on input.
+> > +        */
+> > +       KALLSYMS_QUERY_BY_SYMBOL =3D 0x01,
+> > +       /*
+> > +        * Look up the symbol covering sym_addr and write its NUL-termi=
+nated
+> > +        * name to the sym_name_addr buffer of sym_name_size bytes. The=
+ same
+> > +        * symbols as %pS are searched: vmlinux, loaded modules, BPF JI=
+T
+> > +        * images, and freed module init functions still tracked by ftr=
+ace.
+> > +        * A buffer of KSYM_NAME_LEN (512 at the time of writing) bytes=
+ is
+> > +        * always enough. On success, sym_name_size is set to the numbe=
+r of
+> > +        * bytes written (including the terminating NUL).
+> > +        */
+> > +       KALLSYMS_QUERY_BY_ADDR =3D 0x02,
+> > +};
+> > +
+> > +/*
+> > + * Returns -ENOENT if no symbol matches, -EADDRNOTAVAIL if the name ma=
+ps to
+> > + * more than one address, -ENAMETOOLONG if the name does not fit in
+> > + * KSYM_NAME_LEN (512 at the time of writing) or sym_name_size bytes, =
+and
+> > + * -EPERM if kallsyms addresses are hidden from the opener of /proc/ka=
+llsyms
+> > + * (e.g. kptr_restrict).
+> > + */
+> > +struct kallsyms_query {
+> > +       __u64 size;             /* in - struct size for compatibility *=
+/
+> > +       __u64 query_flags;      /* in - query mode (enum kallsyms_query=
+_flags) */
+> > +       __u64 sym_name_addr;    /* in - address of symbol name buffer *=
+/
+> > +       __u64 sym_addr;         /* out (BY_SYMBOL) / in (BY_ADDR) */
+> > +       __u64 sym_name_size;    /* in/out - name buffer size / bytes wr=
+itten */
+> > +};
+>
+> it might be smart to have QUERY_BY_ADDR and QUERY_BY_NAME to be two
+> separate ioctl commands with its own query in/out struct. This would
+> remove addr vs name ambiguity in sym_name_addr field, and will allow
+> us to evolve APIs independently, if necessary. They should still
+> probably reuse the same type to represent symbol information, and have
+> kallsyms_query struct provide a pointer to that struct (and its
+> maximum size), which the kernel will fill out and set the size it
+> actually knows about.
+>
+> struct kallsyms_query_by_addr {
+>     __u64 size;
+>     __u64 query_flags;
+>     __u64 sym_addr; /* in */
+>     struct kallsyms_sym *sym; /* out */
+>     __u64 sym_len;
+> };
+>
+> struct kallsyms_sym {
+>     __u64 sym_addr;
+>     __u64 sym_name;
+>     __u64 sym_name_len;
+>     __u64 sym_module;
+>     __u64 sym_module_len; /* if zero, no module requested/available */
+> };
+>
+> e.g. for symbol you'd want to return its name, address, but also
+> module name. and we should leave a way to extend it further with more
+> optional information (that's the kallsyms extensibility bit I was
+> talking about).
 
-Right, vsock_connect() is fragile. Two things to be cautious about:
-1. Don't let it reset the already connected socket. Because that would
-allow user to "re-connect()" and make mess in connected_table.
-2. Don't let it re-assign transport of an already connected socket. Because
-that breaks the contract in few places.
+Agree, two ioctls with a shared symbol type is cleaner. v3 plan is to
+have QUERY_BY_NAME and QUERY_BY_ADDR both fill a shared struct
+kallsyms_sym (address, size, name, module), passed by pointer so it
+can grow later.
 
-State 1 is not an issue: vsock_g2h_reset_unreachable() calls
-__vsock_remove_connected().
+> aslo, we should think about adding ways to paginate (or at least leave
+> a possibility of that in the future) if there are multiple matches
+> (e.g., for static functions with the same name resolving to multiple
+> addresses); not sure how it should look like API wise, but it would be
+> good to still return "any" or "first" match, but let user know there
+> are multiple, so user can decide how to proceed...
 
-State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
-when connect() is scheduled out, then after the wake-up sock may get reset
-to SS_UNCONNECTED. Then user re-connect()s and hits the transport
-re-assignment logic. I'm worried that, as we re-assign, someone may be
-holding a reference to such "connected" (even if not in connected_table
-anymore) vsock.
+Makes sense, but I'm thinking v3 doesn't need pagination or batching.
+I didn't see any performance wins when profiling libbpf, and it can be
+added later without breaking UAPI.
 
-So I don't know, maybe it's vsock_connect() that should be fixed/hardened
-instead?
+> on input I'd also add module name as optional input argument, with
+> "vmlinux" limiting to just vmlinux, set module name to just that name,
+> and NULL/zero meaning "we don't care"
 
-Or at least disallow transport *re*-assignment? Does the "re-" part have a
-use case?
+Makes sense, so here is a possible plan for QUERY_BY_NAME:
+- Optional module filter: NULL =3D any, "vmlinux", or a module name
+- Returns the first match by default (vmlinux first, then modules). An
+ALL_MATCHES flag searches everything and reports the number of matches
 
-Hope it's not too off-topic.
+And an open question I'm unsure about: Should libbpf keep the light
+skeleton semantics (take the first match, no ambiguity check), or set
+ALL_MATCHES to keep today's check that fails on names with multiple
+addresses?
 
->> It also avoided some racing with the tx path, but now that send_pkt()
->> also checks reachability I think that path is safe.
->>
->> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
->> sk_error_report) with no lock_sock?
-> 
-> Looking at the code, it seems that in all the places where we close all 
-> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
-> with no lock_sock but with vsock_table_lock.
-> 
-> So, makes sense to me.
+> for QUERY_BY_ADDR we should have a flag saying whether an exact match
+> by address is requested or we should find a symbol that covers the
+> address (that's most useful for symbolization). maybe even "at or
+> after" address mode, so you can paginate (though probably explicitly
+> designed batch API would be even more useful later)
 
-virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
-peeves: state switcheroo without taking lock_sock(). Which, again, races
-vsock_connect().
+For v3 I think we can keep BY_ADDR to the covering lookup only. The
+result can fill in the covering symbol's (start address, size, name,
+module), and callers can check for an exact match themselves by
+comparing the start address with the queried address. A batch API can
+be added later when there is a user for it.
 
+> tl;dr, this is the right direction, but I think we should polish API a
+> bit more to be more universally useful and extensible
+> > +
+> > +#define KALLSYMS_QUERY_SIZE_VER0       40 /* sizeof first published st=
+ruct */
+> > +
+> >  /*
+> >   * Shutdown the filesystem.
+> >   */
+> > diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> > index aec2f06858af..7caaf3e421c7 100644
+> > --- a/kernel/kallsyms.c
+> > +++ b/kernel/kallsyms.c
+> > @@ -31,6 +31,7 @@
+> >  #include <linux/kernel.h>
+> >  #include <linux/bsearch.h>
+> >  #include <linux/btf_ids.h>
+> > +#include <linux/uaccess.h>
+> >
+> >  #include "kallsyms_internal.h"
+> >
+> > @@ -922,11 +923,142 @@ const char *kdb_walk_kallsyms(loff_t *pos)
+> >  }
+> >  #endif /* CONFIG_KGDB_KDB */
+> >
+> > +struct kallsyms_mod_find_ctx {
+> > +       const char *name;
+> > +       unsigned long addr;
+> > +       bool found;
+> > +};
+> > +
+> > +static int kallsyms_mod_find_cb(void *data, const char *name, unsigned=
+ long addr)
+> > +{
+> > +       struct kallsyms_mod_find_ctx *ctx =3D data;
+> > +
+> > +       if (strcmp(name, ctx->name) !=3D 0)
+> > +               return 0;
+> > +       if (ctx->found && ctx->addr !=3D addr)
+> > +               return -EADDRNOTAVAIL;
+> > +       ctx->found =3D true;
+> > +       ctx->addr =3D addr;
+> > +       return 0;
+> > +}
+> > +
+> > +static int do_kallsyms_query(struct kallsym_iter *iter, void __user *u=
+arg)
+> > +{
+> > +       char namebuf[KSYM_NAME_LEN];
+> > +       struct kallsyms_query karg;
+> > +       unsigned long addr;
+> > +       unsigned int start;
+> > +       unsigned int end;
+> > +       unsigned int i;
+> > +       __u64 usize;
+> > +       long len;
+> > +       int err;
+> > +
+> > +       BUILD_BUG_ON(sizeof(struct kallsyms_query) !=3D KALLSYMS_QUERY_=
+SIZE_VER0);
+> > +
+> > +       /*
+> > +        * The text interface shows zero addresses to openers without p=
+ermission.
+> > +        * A zeroed point query result is useless (and an address-to-sy=
+mbol query
+> > +        * would leak KASLR), so fail instead.
+> > +        */
+> > +       if (!iter->show_value)
+> > +               return -EPERM;
+> > +       if (copy_from_user(&usize, uarg, sizeof(usize)))
+> > +               return -EFAULT;
+> > +       if (usize > PAGE_SIZE)
+> > +               return -E2BIG;
+> > +       if (usize < KALLSYMS_QUERY_SIZE_VER0)
+>
+> PROCMAP_QUERY uses offsetofend() for the last defined field, any
+> reason to have this #define and BUILD_BUG_ON here?
+
+David pointed out that the size field in struct kallsyms_query is
+redundant. In v3, I can drop the size field and use _IOC_SIZE(cmd),
+keep the *_SIZE_VER0 define (since we need minimum size). Perfectly
+fine to switch to the PROCMAP_QUERY style though if preferred.
+
+Thanks Andrii for all the thoughtful feedback!
+
+> > +               return -EINVAL;
+> > +
+> > +       err =3D copy_struct_from_user(&karg, sizeof(karg), uarg, usize)=
+;
+> > +       if (err)
+> > +               return err;
+> > +
+>
+> [...]
