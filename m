@@ -1,60 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.111
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793273635;
-	b=11tO1rpl6VDmgoRk6nTSPzD0JD/VafXkC/pUtoT2iLgEBmS7XX/kaRsOpnTLA4CvbA3g
-	 pYessuHIg+ocADOapYxxVAkT+1Emm3rUutfzOce02QrjVl4uQ072JIZxkWgGvipwmvOgd
-	 paXd+Ti3YHXktvR1y2/Z6t7F/nbyChd4B6GZi0HZoiwKBKRL/Gxr5VKSBRcS6P+WR6zy+
-	 SEyXxJnnPa9Ln9Ix6bsgOjlZ5U5ghjubbZIZy3ORXvUo/yHNmCNrdV/BKTp7+xSANb+mb
-	 JpDEQARe7JYw9Xqa5dp+AEn/y1Kl817vgZwhlzoTXPijbXNL+Jp3eTNVcKKODGaPcZg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793273635;
-	h=DMARC-Filter:DKIM-Signature:Date:In-Reply-To:To:From:Message-Id:Cc:
-	 Mime-Version:Content-Transfer-Encoding:References:X-Original-From:
-	 Subject:Content-Type:User-Agent:X-Lms-Return-Path;
-	bh=wFBCu+YdzwIUEcYKGRG11Fp0ZZOhUTu2QED4Ky6DRFk=;
-	b=ss7mMozxLHkUAGhqtBM9CX3S2h8RpRZN2cjjZ/UL2n/9qOOPFt3+48ScCyxfrg4rqmnW
-	 bwj3qnwLQseSlqjBA4IMb/i7dD57BJiSuIzq6GLy/auejTvtNzXh3Qp+pUv46FNoG6Ss1
-	 e1k2XvNEpXvIzJj52D/tx4TF25EAsMjRW3a+sB4nvO98/prQLiEjIzq8ThVEfumh+2hz0
-	 zqQOaSAGA3UN40ZQYrnxsRq1rWFDxg2LJXH8y4NV4ZTUN56Tr+ua8E3cq6JpE+iJJjlv6
-	 ElVmnXLweNWldpTN3WEwLkn334H3KTNYTc4uYcEGwuUbVFAOkJD0/oo1MQtHA8Y9bzQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SNU828+O;
-	arc=none smtp.remote-ip=209.127.231.111
-Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793273906;
+	b=0eM8Q2R1f2WdYQY3Mt8QQsn2flc8SoS2bBDh49iuDdl1gFNVQMmGOL44XckpieuC+6VR
+	 BUejpdhK7T6SBXx1oBB3XK0LbbgWlihzgrWEFO8ccxpoceH5boGu9PSaV+CK+xJCuBt9P
+	 +uoT0tOpCVLpgNe78seamRfYE5zGpIup9hFRWTBNLEtT2ROTKHfByjRP/rZ1bOnn1D6pQ
+	 9D9y9sSaMZsAdQyEZRGBceio5o0gL4odGcLahc59g1vtb5NkBnYEXHO9EhMnvH6zp19rV
+	 qrwMP6A8zQtRrMqQxI8AYPd9L+LVLShh/5U5fzMl0J/g2RBJ/wVlvQ3XkvCl6kXWKHA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793273906;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Cc:Content-Type:X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=d+gMCI5zJ/0ncCjFjxtCwKE+NZWsbIHy4vH2hFbUCDM=;
+	b=5GgHNm9dVvO4GJUFuXGWeE2IWqYNANC87kPOje2a5q7p6wTlPTHSLYfyCbdm7sSeN1kw
+	 vyVXGZejz98wKOmHVTt/CPkDlBr3VYjl9f+Y8xLXsjfYMvPqnV0+nQbagylecCOzIqKg9
+	 0V88xlFSQd4XBezDtGF358YBWyCOBce+ywJSzkGt5ZGOW7fd09Sa71YhC0/ksRrG2qZUU
+	 dAHlh+BknkoC6oCd8Nmm7yk+6eTomB+E1TgoGJknip0/EE9nplj4Xrne7zLJhvwPiOfHg
+	 kI3I8BE6pHD+Fng9Nh3XSRCVy0Oz8TKDaDKhb9lzZQ1MfPCoJhRG0HSLhT576egysog==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=D5ewi8Si;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ButymcXZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63198606A31A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:33:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63198606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE9A606A334
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:38:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CE9A606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=SNU828+O
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793273626; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=wFBCu+YdzwIUEcYKGRG11Fp0ZZOhUTu2QED4Ky6DRFk=;
- b=SNU828+ONqWhAEgsW3dWYHT8vSOIYdYk0B/sxMZtRG/I66U5pIznJieA51RKbVa0OfKXOi
- 6EmWB4lSolufwNm8Y/ZCoQA2/+z7jOilK7tRsZdPHLuS5av+7kVuwYWFbWFeUWsyitdgFR
- EGpRVC4IDwrxB+TOuRZLA/niaur9H0UD7wm1zM6sQV0LFNUUyAj5+mbTli2Q1TMC6fRTBV
- JAMFbRgDozNu4ZEnZsWAskHAIIfgWaREmIXB4Aph6VIZHEhxC/Toc1Y7mxdxL9bd4vuqwF
- l5B5h1W57DfRKram+RGdtP4UXAxjeDCkd34KgjbxHKNAHq2UqbIsh4D/CDR53g==
-Date: Thu, 29 Oct 2026 19:33:22 +0800
-In-Reply-To: <a6bcd771-fcf7-4fe4-8c21-5e65bd579de7@amd.com>
-To: "Bharata B Rao" <bharata@amd.com>, <akpm@linux-foundation.org>, 
-	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>, 
-	<gourry@gourry.net>, <joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
-	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>, 
-	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Message-Id: <1bab234e-8914-4694-b0aa-f265fa49c6d3@bytedance.com>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=D5ewi8Si;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ButymcXZ
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T8vDTO3824957
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:38:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=d+gMCI5zJ/0ncCjFjxtCwKE+
+	NZWsbIHy4vH2hFbUCDM=; b=D5ewi8Si/yyUEb4CJLgr2xpoJW6pK614WmguzPBw
+	J5FlTgxUj9XZAh+NE9KOm3uJhnohYq0oODVnzC0zXuWRlnWGEa0EpKshXqVexq/V
+	YeIqos3s4ctK6PgTrZ6nDAyJaIyWu7IfJZ/H5eVqFhw8q/upJZft8UhNmy5g4gYs
+	5v8oEy86bTKoZ6WTVHwQUa4cduU9NSj2a4xh3DaIcSJ5A2gq/4mbwNdYKh7xEi5s
+	DKBN7/aB+9Nu0ERYvB0Gej2xy2JSoBHcXD0V+8L2FOtcQj8jg7gAI142AY7+jX4L
+	45TLVh2VKZ9QfCGDALDlCzP6GcXAKCzO+bqGPqH3BCm1Ew==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkut3j5qt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 11:38:24 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-341eff9e381so4286224eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 04:38:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793273904; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JW+pFmEkjRC6bnc7i/w3mj+v6XwYmS9xE6Gss5k3jTuuHxLjUAtmfNlS8fhcdt7v7W
+         RQONZMiwXmra1ogcoOxmMP7LGV22SJBZ9aQzBUt/rbkL6I7vTGNvB9WPrupSfevgH0Pk
+         rAFJ1Hp53Fz60x2m3xh6mNAE132uoYVv9CYR4Ef5u/vvedkIo2/HHqFOnraZRuIYcE3T
+         Kdns4DVySfOo9MF8APeplOZRoFCxP9EH7fb73CvmYLszRDXaP9DiVlLlfl1e5irjf38k
+         tJDjA9FlfEGTBvDL7tcNqH3Sj/+KgIXFNre/4Hoy/+UFmW3TupHqdqttrbdsOkNXbO7o
+         yT2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=d+gMCI5zJ/0ncCjFjxtCwKE+NZWsbIHy4vH2hFbUCDM=;
+        fh=D64z/4UqVmI6eAeb8jzR5gALveIEaE2JzDPiMIocNBc=;
+        b=qE2RlEy4ZzpP2cmOrDr71OyK+arFGKQ4wVrLp5GjSpdDWniZ0luNMpSzzukUyZq04E
+         /oWzC/i1RY2UZ83tZijSEDPfkkeyVNHMyvK1JRMSDXz4uC4HLOPZ6Pwty6QdMlhzhmH2
+         7557Pem42aFOn6LGquy/7X3WwadSn2HSo90TntD93WazxPiojnXtOgDJWdPSYJ2v5d+k
+         OYeVH1NnwE4/KIiTJQFB5zwJIoc441tH1hupEGBato59dpQ+AUvR1XmAtlHeAZMcj/Vu
+         p3d98Xf7a2FNjyIRJI7hnz5tlUM/DF0bppvEaHQ1iv9nHREF2zWC+GOFFvtD+lLSlu7K
+         Db4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793273904; x=1793878704; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d+gMCI5zJ/0ncCjFjxtCwKE+NZWsbIHy4vH2hFbUCDM=;
+        b=ButymcXZfc0Waii9DJ0T72l6Uvi/Zrzco27bvXxYF9jTsh9AYzmGH6HwTZ0sov38Uf
+         aStY4Py+kaowk1I5SZUme7PVp7X6OZEHCG/L/8QcFF+YHrMpdbYF3NJwDau/uwcoX2a2
+         ToOkgaXgM8eIpVjlvKRpRhyu7GEQ4GnkdYyQtmOwdzZavjJ+uk47K7vpYpdJWFieE3tD
+         EM+W1arS2GQ60K8qYWJm+l/z1KzWIqKoaDKEW3f1+3Xkb1BwWTS1r/qlkN5WiX802hxc
+         OJTGUtQ+XoBGWC6TAkt0IbIdmeud+Bw68m+BQ13lDMLX8urlhHmsVAl9gOr1qagk0mRz
+         FeSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793273904; x=1793878704;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=d+gMCI5zJ/0ncCjFjxtCwKE+NZWsbIHy4vH2hFbUCDM=;
+        b=2P9uVMAm78C7feGRZAvnVZXFuO0PispiR/Wa5m8vkapK1oNv0FtOhX41U7rT/ic+H0
+         4/6FuiyUWSIJATBdmTGjXWXD/k/SIu84iT9D+3xx7rPlzSXlMKVn224+0R1HshBOKXkw
+         Z2RzIPuhVIIDl9BPxoerCjHoIlF43s3BPpskQGT2pDUzX/x/O+pPgL/EBaFsOjxoL/k1
+         F537HOEflEkPPdX60W/l7Uhs94qzYBJkEp4IeRBcXVxVQfnAiFjEH5u6PnZ/elKTgK8y
+         vNlC9VkH9W5uhUV9X+coPwtNpaZ2LUGNgIFfjDSr4ZAucxuHDbJdDfPXdw4CAXfKHKP8
+         dMmQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz5IwnTWcmB1yoRMiT0zXNJ0cIJY8wds/HWb8q4GvmD59ZOGSlbj+hjuUdLFCtqjSNDa+tfSl4Z4oE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJRmB9/AV2uF7L/LheHNfagh5KQB4THPjWPvTUXIVfWWYW3nHDc
+	qUMCJAeVmhSpfkWgbNvx57GsS33CqxgZkzeMC/v2eDm8q2jAHO6oX+oHyAQF3oFmV87HYju//JD
+	z0EyI4pDQhmBt+K9bOHPhx1CprFmaz+oWVCzKqFVELRqBtY0GiArTFntBn9NBkVJOYWeaRT21os
+	RIakHwijdxEshyqW3cjRVjhYyML/uqy9oOpLXysw==
+X-Gm-Gg: AYBFou3F92svB0canAIBclA4nAu9M4mxKJ0Da2b5biQ4IXOl60FfA5k8URSSzqN3kNl
+	ZteCByILhqvA02gaxMxcMgPweAN6IuFRvaiz6R5SlI5RypN37jsKEfna3VtOchP+fv/+9NduW0T
+	ZptjVEycTVZZkkQTzgjH/hN3wAucpW3xRq60hH5omCCSXSsn2eYC5FAu4ljg==
+X-Received: by 2002:a05:7301:1888:b0:369:e930:6bc4 with SMTP id 5a478bee46e88-36a20440ab1mr6660873eec.30.1793273904009;
+        Thu, 29 Oct 2026 04:38:24 -0700 (PDT)
+X-Received: by 2002:a05:7301:1888:b0:369:e930:6bc4 with SMTP id
+ 5a478bee46e88-36a20440ab1mr6660831eec.30.1793273903447; Thu, 29 Oct 2026
+ 04:38:23 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,114 +123,69 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-2-lizhe.67@bytedance.com> <0676993f-c04c-4e4e-9f8d-1650c8fd6d6e@amd.com> <010b2b6c-8f1b-4c3b-913f-cc2e8b957759@bytedance.com> <a6bcd771-fcf7-4fe4-8c21-5e65bd579de7@amd.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Subject: Re: [PATCH v2 1/3] sched/numa: make free-space tiering promotion bypass configurable
-Content-Type: text/plain; charset=UTF-8
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+26ae32f19+1fccaa+vger.kernel.org+lizhe.67@bytedance.com>
+MIME-Version: 1.0
+References: <20261029074853.35467-1-zhangzhanpeng.jasper@bytedance.com>
+In-Reply-To: <20261029074853.35467-1-zhangzhanpeng.jasper@bytedance.com>
+From: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Date: Thu, 29 Oct 2026 17:08:11 +0530
+X-Gm-Features: AclHuK9mkpiY9HLm48B-7iSzfqzEzMPXUUWrIwq3MFK1djLB6MzLTJk2GLxddQQ
+Message-ID: <CA+Ht8=YtrKJxr7YLO2z1389NPDnws8hSppAzVnYYJp5K1duvOw@mail.gmail.com>
+Subject: Re: [PATCH v12 00/11] riscv: add SBI Supervisor Software Events support
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Conor Dooley <conor@kernel.org>,
+        Anup Patel <anup.patel@oss.qualcomm.com>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+        Yunhui Cui <cuiyunhui@bytedance.com>,
+        Atish Patra <atish.patra@linux.dev>,
+        Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
+        yuanzhu@bytedance.com, yang.yicong@picoheart.com,
+        yang.susheng@zte.com.cn, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA0NSBTYWx0ZWRfX3jmAL9HTiisk
+ 8Sw0bI5nQlLMhl5M21oCGU4/eBO/qjbKlX9Q4IO7KP9jlbSUwO57Tt6/QRu+Z1IAIBfXb1UgBOj
+ CEJpMuel9WnoY5E3ZNqCC1EFGepaVVc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA0NSBTYWx0ZWRfX1YKp/Z2Kwnje
+ a1oHtkt0C4DxeFYJhU7ur/iNA7norVJbPaUTe9pacF8qfYBP3JqDYLPGjnB6UJXjA7k35UvmV/4
+ /lELarOAqLtYoDdj26nWoFono3bIM3frFqmpyVa94dgLMlqqc3jl2nH2jHAT5I3X605D0snpBkl
+ 52Z9H5VTrvIcMixbRonqQs4wi7uWbPBUUqnrlqU9Q3CD4QnbBCu/hoAdLqLUN9HIqq8zjiaNd97
+ SnwzNVjiZtLbIAXys4orvr8QDDp7/bZKzRQ5bV5mAINw2rEnhcAd9uFMqK2dutgS5VZcpepiXyk
+ dR52f4/xLV1srPxWkJD2s6tTOmgQ882Bb/qQUoRLfTbbqQnVxGAw2QSHvS9IY3n1oXQXGKAsgpp
+ Oq/W11w0XhRSRqfvxbqXb52gYQ9pvzgOVzvZQTMXecxZ5GxTUQjHjCncnSXuIuK+Ekg5qjRE1HI
+ +WeZY1Ss97IoEky7geQ==
+X-Proofpoint-ORIG-GUID: 7o4k3cQpn85eQJPUD5v2bKoTpMGWG6V4
+X-Proofpoint-GUID: 7o4k3cQpn85eQJPUD5v2bKoTpMGWG6V4
+X-Authority-Analysis: v=2.4 cv=HYSB3SE8 c=1 sm=1 tr=0 ts=6ae33030 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=ojhntA04eiNvkV59mfQA:9 a=QEXdDO2ut3YA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-29_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610290045
 
-On 10/29/26 6:22 PM, Bharata B Rao wrote:
-> On 29-Oct-26 3:16 PM, Li Zhe wrote:
->> [You don't often get email from lizhe.67@bytedance.com. Learn why this i=
-s important at https://aka.ms/LearnAboutSenderIdentification ]
->>
->> On 10/29/26 5:34 PM, Bharata B Rao wrote:
->>> On 28-Oct-26 9:42 AM, Li Zhe wrote:
->>>> Memory tiering normally promotes any recently accessed slow-tier page =
-if
->>>> the target fast-tier node has enough free space. This preserves the
->>>> existing policy of filling available fast memory before relying on
->>>> hotness and rate-limit control.
->>>>
->>>> That is not always the desired policy. Some deployments may intentiona=
-lly
->>>> keep part of a workload's memory on CXL-attached memory, for example t=
-o
->>>> preserve a desired DRAM/CXL capacity split or bandwidth distribution. =
-With
->>>> the free-space bypass, short cold accesses and bursts of hot accesses =
-can
->>>> refill the fast tier and pull the workload away from that distribution
->>>> whenever DRAM has free space.
->>>>
->>>> Redis testing exercises this policy issue. On a CXL system with node0 =
-as
->>>> DRAM and node3 as slow-tier memory, a Redis test was run with
->>>> memory-tiering-only mode enabled. The test used a Redis dataset with 1=
-2
->>>> million 4KB values. It reclaimed memory until about 85% of Redis
->>>> anonymous memory was on node3, used a Redis benchmark configuration wi=
-th
->>>> a 10% hot-key working set, and then issued a short 256MB access burst =
-to
->>>> cold keys outside that working set. The cold-key burst mainly touches
->>>> memory outside the hot working set, which is expected to remain mostly=
- on
->>>> the slow tier.
->>> Can you please clarify if 85% of redis memory ended up on lower tier na=
-turally
->>> due to overflow from toptier? I ask this question because, if it is a n=
-atural
->>> overflow/demotion, then it will be hard to find head room in the toptie=
-r to
->>> allow promotions that bypass hotness or rate limit checks."
->>
->> It was not a natural overflow from a full top tier.
-> Thanks for confirming this.
->
->> The test intentionally reclaimed/demoted Redis memory to the lower tier
->> to model a deployment that keeps only a limited fraction of the workload
->> in DRAM and leaves the rest on CXL memory.  In that setup the top tier c=
-an
->> still have enough free space, so the current free-space bypass can promo=
-te
->> short cold accesses back to DRAM.
-> With pghot, I have been providing benchmark numbers from two scenarios:
->
-> 1. Non-overcommitted case: The workload memory is pushed to lower tier be=
-fore
-> the measurement phase begins, the toptier has enough memory to accept the
-> the incoming promotions.
->
-> 2. Overcommitted case: The workload memory naturally overflows/demotes in=
-to
-> the lower tier and every promotion undergoes the hotness + ratelimiting c=
-heck.
->
-> I gather that your measurement technique is similar to case 1 above.
->
-> The feedback I have received for pghot is this: Non-overcommitted case is=
- not
-> the right methodology to use but the natural spillover is. Hence I am not=
- sure
-> if optimizing the free-space bypass case would benefit any naturally run
-> cases.
+Hi Zhanpeng,
 
+> [PATCH v12 00/11] riscv: add SBI Supervisor Software Events support
 
-Thanks for sharing this feedback.
+I See only 8 patches out of 11.
 
-Yes, the case I am trying to cover is closer to the non-overcommitted
-case.=C2=A0 We do have deployments where memory is intentionally placed acr=
-oss
-DRAM and CXL memory, instead of relying only on natural spillover from a
-full top tier.
-
-For example, the orchestration layer may want a cgroup to use a planned
-DRAM/CXL ratio, so that DRAM capacity remains available for later
-placement decisions or other workloads.
-
-In such setups, the top tier can still have free space, but we may not
-want short cold accesses to refill it simply because the free-space
-bypass is available.=C2=A0 The intent of this patch is to let those
-deployments keep using the existing hotness and rate-limit checks even
-when there is top-tier headroom.
-
-Thanks,
-Zhe
-
->
-> Regards,
-> Bharata.
+Regards
+Himanshu
