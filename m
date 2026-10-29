@@ -1,101 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.180
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793302738;
-	b=UFuRtxelKd95PcddShWQkG/t1cC3IjcUEBN+Zoe0XwBBsgKr0voAfTH0v3ZnhppwJlCQ
-	 zzV5mgSYTEWSfpa8ppKQc5mcxsROVlWiyZ2yFsP/lo77sQUWjsCtwSF0CHITQsnEN8ycN
-	 M/B/vRyv2pHBSZVUNVYo3azygfyWVgw1f+iDkztQqpZZyE9Fp+l8aW89URhZ0faJfiJRy
-	 0DnqGUtX4gOYDU+jtZgHvTNqJB4zj7ljOgPPOAwh2Zj2y+E/KMpH09iHtGIQZYE0CumFK
-	 upOs+Jw/ROu8vNIFc1XM6tVGRo+b4JjLcXLmsOojI8etOdqgPBwjv7DQdplRvJ4jIFw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793302738;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793304091;
+	b=JajWN6H/4LFzxuobnXrShjNuU5bla17DQLq+m99/Y9fmSqfrk2eGhPHyzZ/ev2VTDaZK
+	 zcAzZBsBYEcs0KEbzhQeF5dDTCsqzzWCY5Ap+fnWwjgxPpIvNYOhbx0H7zpfX+V6nHK0j
+	 A6C2A4iMskt/o0EcDjrYtEWU+tXGscqA6N/xGmU2isAwMQ4fOUMmu3EAXC0aqZgw6gPna
+	 OAjHn4Y7OLLdCvzzrt6nirFSrAY396rXTqx6xvlbBqu14rcD4+5Kx/E0HOlwxSe3t7K+y
+	 XtbZdOFgn3J7qFgwNDVxZSGZX3IcsXNhyPc8n5FmjSBMF/TSSzGkofDLdzuZgqH0Vtg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793304091;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=L2bOsI/tPPOv5HbBwJUDpCwYmaK0u+9V6K9ALx35wl4=;
-	b=FzsaYjfy8Xbyf7AdiKt+d6lOCGBm0L/0f25ehFH9oK+9PPDZt1z+ljVmc9LImHIy05wo
-	 /asqe8L4GFWsPJQMRT5lIn2BkKjjZw/yTkUCt+He4AGF9YV1lOEvjrrjkoF+YWOV+ewGj
-	 ctEyqUEsEXVeZbkTXJzZNERKI06oq8E63/PbSJeBrzSgclK3NY+NEN/CeNB0IeDwkx5ES
-	 x3k3i96T6KvGwU8YMvSxH/NoAjoPabllhzo2z7+tTQwvJv0/ROoejA7DPXLeW1g4yJE5Z
-	 CXQmZhTQ1RHt8ncaVCC+x+6CFhnVafl6Cqcigkb/CqgcT+IQxGuGdAZQRzKGPQt+5LA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	arc=none smtp.remote-ip=209.85.208.180
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	 From:In-Reply-To:References:MIME-Version:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=41rEEZJHQ1b0lZW5NZ/hL5Z21i+HuFKPEi+1JbBpXGc=;
+	b=ZyuTTDrlqiPAFwRSNcAVhqnXI+NJ1AQV7PxyN/WcJwI4i6xCPLPXOD91kG9H4DkTaBtX
+	 jD1ZiJbyOaBkTEZ7xZFBfKROxGBJwOL9ixRNTra339rWR1XFTQMgWgzEwQxrOTxp7hEQw
+	 Zwy1w4JC4lX4+LGkzG0kxilxtkUdrD/RMrZNOizzDWacKrXpvnVMo9jcAMtN/Jp0sujhN
+	 pqOc7uSi2y/1I4/W1Eh0gcVW8z37APNEi/Pla2q6R+BAsevqnHWqL4plWWgA+ThI8Cd6S
+	 J1zudRjmrTcRU1n4TISidEpGqaT3+Qhd3IICBLauDaSZMe1D8lj19/+iemiTu8S1riw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WzkVwYzI;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC47606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 19:38:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CC47606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3a9841363b5so291491fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 12:38:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9350606A31A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 20:01:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9350606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=WzkVwYzI
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93e64d52949so202843185a.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 13:01:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793304090; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ZKD6qdE/auOKe9t5wDlDWqn+9aIrrBc9yCR5vEyM59XzndzfU/KJqo7e/jDzZ2TKSq
+         ZAnwwsD27g8OH4nvED1lDTI7uQlEBpEzlDEOjP3k8JAkAcMSDjCOOHL/DaFoY5PRyfNd
+         4oJJqT+lLb/GwZlRa7iM3S1x7sGZcQZo9fmmNis6G+YcCEpcM0Q3v2qvG8U144Y9Q8bU
+         DWcM8PjoZS//DsktZWXd7ykGrAwdMaoBW5r7oklX+MXA4Qpej03jWQwFzRlJ23J5DmCw
+         G/5hpu4VnELmCkSa44t8LnAmuqslqY8vSX8CAditGDM4xpm2O2juw4XFOn5qo6+6+/8G
+         7y7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=41rEEZJHQ1b0lZW5NZ/hL5Z21i+HuFKPEi+1JbBpXGc=;
+        fh=mmLbLyZJ5dBx2fCDhfvXoBUVDSPZamk7JLPCnDQFXiA=;
+        b=GggcdBRxQHl962sn13tWOF0AYAwolD2xkyRmjijoh1z+Xkb5EqeRi1D4U/KzfDwpT1
+         L8C+dk7E0JAxddPs8cJJWjn4yHINFew2sCVL24gmqF/tjh0BqhnGgcRjW94lsMC/tYV2
+         EEdZnYSJm8xWvhn0m/x37DB4tLwlgNO3mKN2THsNCqhV8Bwz/PyDxmHFkogyAzWW1vRO
+         KkJxfFGaQztpi0otVsIEWr7G/yDtpNu4Xz9tt4g6iB39qjgvKSGcIo0OdEVf/HsSJ9bO
+         6H/WZkCjoGJ/zOlut5wKbNuV9f2sA47/oX27MpnBNx+Q2cck3mr0TYb19Bg6NKvChFvV
+         /g6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793302734; x=1793907534; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L2bOsI/tPPOv5HbBwJUDpCwYmaK0u+9V6K9ALx35wl4=;
-        b=FNBa56KT/9Dp2z4RqTJX4SmEdUz5QF0XsrQGqBzBDcfvePMHkyjRSZHgA2dL4abyfy
-         Z5mCosjvFkTxPpDmCgqoP7G7lT2FVFFUQ0YpXNjOUhaorkhdgy63Iaj0z/fMjsNDNf/C
-         B7N559oM1aQ463TkFMl4hlBO/WHCqunTmnc/UsMFfppEpnpGG5WUa9uxWJFZXCt4Mw4m
-         rz9/qKuz3+niyjl8T1wW4UCRCMZX5MVtZiU3CO2A9BHdOcdEtVxmOzi+D8+vZa+Jmmo5
-         /rJGHoehxWckvC7h0zyK1y6pn3xGNLKqI4ReeBj7jtQ2yBzeEYj7vSzrelBOMx5CX0az
-         WXnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793302734; x=1793907534;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1793304090; x=1793908890; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L2bOsI/tPPOv5HbBwJUDpCwYmaK0u+9V6K9ALx35wl4=;
-        b=RcKgDbMbQ0DLdH/f8zUpqWdtfKt3afzQHgU/Tu7twdnn2HXVHxNvb6nI6q41x8PF55
-         FeJ2ynmcrZrSmpgATsLoC8cs9nlY1hUlWdNvBHfzrEEJBUMfNddqEu3EU9tqXK8jxwuI
-         HIA2gWlGGLMLBBa4J1PyoljSxHlnSHpT9JeCRpeaDYc7BA6ZfZVJ4+xGK62/qOAzt2wC
-         5iM+Tsjk4UegNUDHjyxT0ChPpeWtkzkkU1qXvRz48noW/Mi8kP/PTX9iJYDKK4yR1exj
-         pG4wSAPha6sPbflKzVuvtEjrvAV+UcNoYYK74U/tWnx3JwHjbJv/Ke8pPKU7O0OO9KsV
-         554A==
-X-Forwarded-Encrypted: i=1; AKwUvBye5to9jrxzY9Dd5MCMubxMdUsvO8j+TSwkG0NcmXYeaPJ5lrocS+0MpLRry9y9aJmlzXZxo1myHGA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYISoGfDyizXlZyqmMhSCWULkFnNZ+OfPMPL2DAa+A/omanZy6S6
-	fzFYRF9zoMUNqBif1072yOVu4ekcHqOyOBbneUa1D1P8oq0Ip8WqRwtFFieZ5Ft9g8s=
-X-Gm-Gg: AYBFou288THH2Vf2xEcEdTC9CqERAbgKHpaPpvMl9sMYFJRyPxUvQXu/tzkK/L2xJIR
-	DI7lXwLQOZPLczYGFtN31w3kr7AEbsl9slL3srR5p9RbZKPLkiTj3hsTbbtP7rCvfkvOkUMVbuN
-	MHIvRU/sh8DbX1EIUs7BGWLUCzSDF+F8Qi7worEOokOgV3SlQIcnpRcan1PncsfbRzEF/R6ZMdM
-	k5F6ufbJoDQr1LbRfzuDYTBDNxgoi7rqJoc9+syg5Ttxxe5x/PkYvOpMqueZshcng5nQQhP3+zd
-	/s0jm7qbEs3/ITxobg8ZOqQ1lURBajPbxdwW4EdNw8UrwpBHTHeWRpB1DBEkloiCu0F3l5cbRjN
-	R8gqvg5mIHy5BqS6OsVC/DvWPpXOIR3FYjmRdmBcJ1S7WHY8yURRZYkl7E3bYSKblY27Vo+OJWO
-	I/vSRUix037f4GYIJNXpw0vR4I0w5ieBlSbMbdNp9ssW43s1uvDV0Ps2TvzV+Ylp9tnMELtvBc5
-	0xIXZdmrarLQkJPusc8p+Ef2Hq0N/6W+LKwgFZDtAwjrLu9CXnXiO2y8i2jYz2JSAnhCiFcKuFK
-	PP8RLIhvnv13wbLJ4NC0bgP/Dvp8+oXRmhkvZm/4R8kXfjizzGMdO0ZKwTU=
-X-Received: by 2002:a05:6512:3f03:b0:5be:414b:a84b with SMTP id 2adb3069b0e04-5bfcadda82dmr2380923e87.51.1793302734163;
-        Thu, 29 Oct 2026 12:38:54 -0700 (PDT)
-Received: from localhost ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfd7ef0c2esm69050e87.50.2026.10.29.12.38.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 12:38:53 -0700 (PDT)
-Date: Thu, 29 Oct 2026 20:38:49 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
-	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 14/20] attestation: Add the base family specification
- and generated files
-Message-ID: <auOgwlGeW-vRGVb0@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-15-jiri@resnulli.us>
- <179302367452.58760.3782556786585774917.b4-review@b4>
- <auMX4kbsflE9kK3Q@FV6GYCPJ69>
- <20261029184324.GE3734323@nvidia.com>
+        bh=41rEEZJHQ1b0lZW5NZ/hL5Z21i+HuFKPEi+1JbBpXGc=;
+        b=WzkVwYzIEvlUD4jouGSIwB6FRlfF8hxTgPyyNpqGmkTWIQg0Ole0rsRJIpCMSLmcYo
+         xny2WIjTKOduGBsjO3M3Hy3Y5Gpxav5pAEQ+dey/WDXOYqqnfW/4s9rt/5qtlD0o1JQD
+         qgNWqEb/ESz1VmMIS/1NOS99QXo6xUINV4qKkkXEUdhm9m1VegHsAvLzUItKmZOIN1QJ
+         iIqXI//Wxc9ozlcrU7fWVky9rHoQfM3GQHS/Ns3ot/06EY6+UkCJJuj9LxgFC9LLrk2R
+         hMe7EXKbU+My2iqLUjxXv7+wewDozb/5zzK2zqO63rDc2gOPzlMplP5cO5XTnsm8pZwT
+         JcEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793304090; x=1793908890;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=41rEEZJHQ1b0lZW5NZ/hL5Z21i+HuFKPEi+1JbBpXGc=;
+        b=zSe2a98u7ZTNBFVGSg5kn9o1jpfgH69O/uxw8sI4yGOYCQ4PviLlCBzQe1xF+Ee2DW
+         15AnpEeJ8UYwI1U5YKoBbI0pZXKKiPIpng87ip4VtVMJ7yw9nW3F3HHFkASDoIN7NnuV
+         xbJfkrafdHe5PpF2CNHs2leuwjhPEi5flQTL3rvTY4xklVoXOs94c6T3sEY5GmIw6DTL
+         5uUl6s3jJbmkOCOCWCpCjW/rbaLbta95T5C6TQGLHJhWDa8UGXtaE7rBPLO/4ldlxR44
+         44+EN8NhUk71znv+NQwgYZKyU682fQdv8mlYHIcjX9jYI0AyLN6T49TKErO6uOUGzbtx
+         Jl3g==
+X-Forwarded-Encrypted: i=1; AKwUvBx+1/CU/s0NRlV6XqCuKsn3OHbc9ZzyWmIL++2bJQ/5sY6JGivEFUOZnWm1av4iCyB4+WVUch4a0M4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKg3jEuktO3M1aZQXGMgAqzDGE3sKbcK3aVc0CWMBv+TMgcYr3M
+	ZtZxsufmnsC3SyQESiB7leB+pLoTCdX2V1WP+qdtE9AN9IwrWqVL3kjZUziNWTx6gHbWqtlxVzl
+	ESxFRV1WP5daKXoKZNC0b5qhdp9AYPpNsQ6sNA8ki
+X-Gm-Gg: AYBFou1Q6vsyPPUsFhk/Xqeq/1DhWRlrdbNkgPaVsSF8yT3zJQlF5DmFJ+RYZRcYFnI
+	eoCn4HQBk6KvI7rra0sulHqPlhMmd8BUwGmltB4mqMYAncFCjAnIms5KTiGpjUorgLJC8a8YAjc
+	vgR7eFNhOKW3ru3CDNRjCzZOf6rULL06fRiwUjdBFw0bUtxx7SoXQ+5KD6D3VYfGunJjzXcEJmf
+	8bJslhsQzw7kV1tm3v2WST73weFzFLrkYlzPLOQaBZx1DfGwyTc2PINZA3dxQJ40vlnr1TcKLDY
+	C/PD5uGR7jLbCIJKge//9/O+zo7GPJq95p9KD/WIlg2pZQj0qn1QhrcaJxKEtl4USjoSxvWh4Za
+	qmUadem80Xe5Ryv/ObikYEWSGpEYDMipKR1fhD8fElwLsjHmqqCcFg8eFv2/P7RV8eaNxrsNglo
+	McAvcUT2uBoJf2tnm/ZiMoQjk=
+X-Received: by 2002:a05:620a:439b:b0:93c:b6db:8c with SMTP id
+ af79cd13be357-94421400aaemr54046085a.0.1793304088692; Thu, 29 Oct 2026
+ 13:01:28 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 29 Oct 2026 13:01:27 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20261026064424.3003536-1-gongtao@google.com>
+References: <20261026064424.3003536-1-gongtao@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,50 +109,95 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029184324.GE3734323@nvidia.com>
+Date: Thu, 29 Oct 2026 13:01:27 -0700
+X-Gm-Features: AclHuK8yWAvbtrHc6IRHr91-GPti5braQ_xMkumtHHr_gZTK1th84mOiXH74nIU
+Message-ID: <CAEvNRgFtgAFg_nBLXwvXv69zrCQDKRSvLC6DwYPAw30N+BEoeg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/5] KVM: guest_memfd: Add KVM_LINK_GUEST_MEMFD ioctl
+To: Tao Gong <gongtao@google.com>, kvm@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>
+Cc: David Hildenbrand <david@kernel.org>, Ryan Afranji <afranji@google.com>, 
+	Vishal Annapurve <vannapurve@google.com>, Sagi Shahar <sagis@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, aneesh.kumar@kernel.org, 
+	Fred Griffoul <fgriffo@amazon.co.uk>, David Woodhouse <dwmw2@infradead.org>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, John Hubbard <jhubbard@nvidia.com>, 
+	pankaj.gupta@amd.com, "Alain Gefflaut (HE/HIM)" <agefflaut@microsoft.com>, michael.roth@amd.com, 
+	Samiullah Khawaja <skhawaja@google.com>, suzuki.poulose@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thu, Oct 29, 2026 at 07:43:24PM +0100, jgg@nvidia.com wrote:
->On Thu, Oct 29, 2026 at 11:04:58AM +0100, Jiri Pirko wrote:
->> Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
->> 
->> [..]
->> 
->> >
->> >=======
->> >
->> >device-get:
->> >  request: {}
->> >  reply:
->> >    caps:
->> >      evidence?:
->> >        min-challenge-length: uint
->> >        max-challenge-length: uint
->> >
->> >Did anyone implement a variable length challenge? That seems a bit
->> >strange. There is also a very important crypto warning here that the
->> 
->> Yes. TPM2_Quote accepts variable-length qualifyingData, represented by
->> TPM2B_DATA with an explicit length. This varies per request on the same
->> TPM:
->> 
->> [1] TPM Library Part 2, section 10.3.3, page 136: TPM2B_DATA.
->> https://medias.cdn.trustedcomputinggroup.org/production/Trusted_Platform_Module_2_0_Library_Part_2_Structures_Version_185_pub_c0a962a931.pdf#page=136
->> 
->> [2] Part 3, section 18.4.2, page 158: TPM2_Quote qualifyingData.
->> https://medias.cdn.trustedcomputinggroup.org/production/Trusted_Platform_Module_2_0_Library_Part_3_Commands_Version_185_pub_87a5c10230.pdf#page=158
->> 
->> The PSA Attestation API, section 4.4, also requires one implementation to
->> support 32-, 48-, and 64-byte challenges:
->> https://arm-software.github.io/psa-api/attestation/1.0/api/api.html
->> 
->> FIRME DEN0149 1.0 ALP2, section 8.12, Table 8.23, page 100, likewise
->> defines an explicit Platform challenge size parameter in x4[31:0].
->> FIRME itself does not mandate the specific 32/48/64-byte set:
->> https://documentation-service.arm.com/static/699c3b70b60ef220b14ec14d?token=#page=100
+Tao Gong <gongtao@google.com> writes:
+
+Adding a few more people to Cc after today's discussion at guest_memfd
+biweekly.
+
+Sean mentioned the link ioctl as the line of sight to sharing memory,
+would like people's thoughts on this. Captured some of today's
+discussion below.
+
+> [...snip...]
 >
->I feel like userspace needs to know the difference between 'any size
->between 0 and 100 and 'exactly one of 32, 64, 128' ?
+> Use cases
+> ---------
+>
+> 1. Intra-host migration of VMs with private memory, where the
+>    destination VM takes over the source VM's guest memory in place:
+>
+>    a. Userspace passes the source VM's guest_memfd fd to the destination
+>       VM, e.g. over a Unix socket.
+>    b. The destination VM calls KVM_LINK_GUEST_MEMFD to get a new fd for
+>       the same inode, bound to the destination VM.
+>    c. The destination VM binds the new fd to its memslots with
+>       KVM_SET_USER_MEMORY_REGION2, at the same offsets as the source.
+>    d. The remaining VM state is moved with KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM
+>       (SEV only today; generalized by the follow-up series) and the
+>       destination VM is run as normal.
+>
+>    Linking does not revoke the source VM's access; the source simply
+>    stops using the memory, so every private page keeps a single owner.
+>
+> 2. Sharing guest memory between non-confidential VMs. Both VMs bind the
+>    same inode at the same time, each through its own file, and the
+>    memory keeps its guest_memfd properties: neither VMM needs a
+>    userspace mapping of it, and inode-level operations such as a hole
+>    punch apply to every linked VM.
+>
+>    A related use raised in discussion is Nitro Enclaves-style memory
+>    donation, where a guest gives part of its memory to a sibling VM on
+>    the same host ("nesting without real nesting").
+>
 
-True.
+We discussed Fred's "aliased" attribute that was going to be passed to
+guest_memfd through .get_pfn(). "aliased" was going to indicate that
+this memory is shared between two users of the same memory range.
+
+> Alternatives considered
+> -----------------------
+>
+> [...snip...]
+>
+> * Keeping the memory and its attributes in a "memory provider" and
+>   creating two independent guest_memfd instances on top of it. The
+>   guest_memfd inode already plays that role today (page cache,
+>   attributes and the list of files), so linking gets the same result
+>   without a new abstraction. If guest_memfd grows a provider layer,
+>   linking could be expressed on top of it.
+>
+
+Sean pointed out that we need to take into account that at some point
+there CoCo protected memory might need sharing, where protected
+indicates protected for a given guest (and let encryption be orthogonal
+to protection).
+
+Then, we'd need to know which struct kvm the memory belongs to, to
+determine whether to share or not, and for that, guest_memfd would be
+the natural choke point that understands memory, which kvm owns it, and
+shared/private state, and hence memory sharing should be handled via
+guest_memfd rather than directly through the provider.
+
+>
+>
+> [...snip...]
+>
