@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793263845;
-	b=xfK75KVayQ9rKQQpFNlJiUuB4uFvtamwQfoBeGqqdfEIR8nnEcmy4kK6INKQjMI6+789
-	 k6irV2/4j9qEZSURbkttJPmN4pGWCjtLEqpnJmsugCXS4RbIKTeZtg2NYPChagQTPfK++
-	 nKsxM9CIwtwAF3zck0qHhMiSnlaOpzvpQExE8F4jYDHI59ksqdXUQCNztEhz6Ol/l9ie4
-	 5D3MnkSNz6He0u6qveR1Kq5+hoby+6ockaw8TQBUWFlu7hSpI5OW9OsqxThV+2sWNuu2I
-	 oCnaiP16U7aN37rYx9ckdEGoK4vyV2dRt7M1I5LyWqQkrTW+iPrBd6mckz3wQTv77bQ==
+	t=1793263849;
+	b=DUDeqAqW+XUT4Zd3rQThaTim3CtnnVZLeHugJB6FzK5jrsOwNppj7QDTILTWLS8RTWzG
+	 EekRNEg80ppAahJ3U7ImmCAO/VZhsiDqEVkVdtVRrLgC6OA9q4mX1QHqWcGtanEXZGj01
+	 EKNQPuZv5q0Ps8a+IbQFLdRmjSqtBmfCdtosHBC4Lf8pra5uE/K4m4HyTAq7F3lnQdcDl
+	 iSdY58SSEFkz2RlNcdPdV3ejap+6SFdpDGdPDRv/HVh2hR7vn6KItDHJP2pm9fizG/kt8
+	 x0pFNQzjoQ06wB42tAReWV8mKRyjZ3b9B2QLtyzvhCOBIeNPNDJQYS117nuPeLKNicA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793263845;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793263849;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
-	b=nCpDjJDeLNbEfNk2T99eUWqCTA6rSwDOISRs56Mwk6UEJjSsT2smXFsoSWv4JOVq2qxS
-	 5z5llLikJwDvdzRXlWVjaZrWINcG577mrfYeVbRsH0nN4X46k6eL63H+4uI9kX18haDYA
-	 sCf7oSgH0bq6DDWuZCKzpnxRszAwj4t+9PhCnrXCcrUA/s6/yX9cKUfd6/udf5RkMpWad
-	 /ddkLKwVvVf2YAbo8i3jrffbJwM7W/HeN+o8p85EFyom3MZM9uf+o9XxXltduxjK3bpPy
-	 LStwEXrIpSun0GIfj37idk9K1XbzyxOflI3CMuRwU2mric+7CeE2UYCOrB6hPhUs9Gg==
+	bh=pPsijI/WFroQ3WU8JWBkdFg+dO3cPuO9jwy6Y07G2CQ=;
+	b=TV77OI3ruUupa5r68/whVxVcbzg20DynULLZVbt8Re3qIVaEQ5IG27kgPgNMdDAuTiLZ
+	 wxICJEuv022ZJtiACLocV4NtbQhjUXw3WsD1NyOO4qJECGfMQVyFDOpu2q+RScWjyjU/B
+	 ZnUnrWN82tdYAMePz1zP7L6BPOlYZetseoia3w7G0YeGw2fIswCIVkir4MB334X6jb6SV
+	 nOAV780OE6WztPThbhc4Yx7hzYyhyDt4fQZYUjBsmKcC+vbrqx5Q+daXf+AqPEJ4UB8VP
+	 9if87Y3SDK2kNZtjKFeC8wEeoT0fGumLf/vTtk3tEnEjLbeTAyseNM23ixY42Lk2hBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fDf97nYJ;
-	arc=none smtp.remote-ip=209.85.214.171
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sTvDL5oh;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E48606A323
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:50:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99E48606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93987606A31D
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 08:50:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93987606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fDf97nYJ
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2e98798cbddso8776015ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:50:44 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sTvDL5oh
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e8246b13cbso15946515ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 01:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793263844; x=1793868644; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793263849; x=1793868649; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
-        b=fDf97nYJsM+l8W2HoLcXALuU3OhZZ18vxeZy1z42+xZqnOIYL0fyGQBj5NDqFGXbiB
-         6QWFcojFGjLFzIkN7OdmvGh9/DDP9p9o2QOQGl+dghNsSQktLyaLLH0qlay2joz6hJel
-         2VfyTRFE/HZnMdl7U+1HImD1aSRx1cGC3HfnuEHQapnoobNKE4g8H1pqiC5BJGoXV/pl
-         cf5pxSXolNtJHH/ssCZM6Xc48LDb7kTrguYzejX0HTNopLl0Wgc0UHVy8sejosA2BFYQ
-         JfkebsdgB++1judA+8jqXpiyeYl2XNLoKuBvgLXt4x0Gnz5qA70u1+a81aW/g9+qtMsu
-         kTTA==
+        bh=pPsijI/WFroQ3WU8JWBkdFg+dO3cPuO9jwy6Y07G2CQ=;
+        b=sTvDL5ohlFoIshfVNUoV4RB57tZoQvBWjfTHGqnBOheJZpyjhEQLPGcR2sqYhjXh1j
+         OapNZ/N7oXo7zP3QkGeV3W6IUwkYIxeQXhZiO7dTfMBknta53tJHbEzKqCIj3SXJgXYA
+         g8ag0/GMK/LhlCA6DkOapQvX2fqE35rHZkLLWp2a8x0ZiAEVPHE6R68h59VlcuRUgIQy
+         94NNLAlh5D4hzLS4bhBg2mGWvli48rmy9vBbw0bgRdWb5xRzMJ8EXgAft4zIFVPaUFO/
+         1cdJsV3QFEnCRWsjtnDZ4DcMprLEX1Tj7u380M/YhgK3/C1SpADNxCjFYkdmYDNdxTBY
+         1vZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793263844; x=1793868644;
+        d=1e100.net; s=20260707; t=1793263849; x=1793868649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
-        b=rsmNjiqtSeUKomSGigzlz0MUe1tUrsOH69JDKiyQtlWVIGge5jqDdDQ8FALvuOXtUj
-         cCjoUCp6wdbPpE30Zj58UDMHx0OvA5yQQeF18Ze8OeNcYcYF+fLQjhcZcLJ0TisQq7BV
-         sON0xwB/vjnTDRwOR5R6LQK7VO4dFIB/1UehYL6ZNM/+FYr+Fr0smNU2GKrTwP87f3aM
-         qFFcQUlv993W5fXRj+tOwZgBJFuyLU/117Q5clxinC+Dt+wTuQGpGme+Zhdd8CqWn068
-         iBqv2olF6ZXMve0y6pVSQqbNM4tNx+HhBdHed6x8+ythJpeui6N0UfiyC8JPbRKM1Gl/
-         3ddQ==
-X-Forwarded-Encrypted: i=1; AKwUvByi9JsFF8HXmYU1Yl1FbkWXrZSH/p7NgVbBTmlVQ7BVGnV4hhzxFOe77NI1KSORxUFGvX/ozD1Tgfo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIUJ+01D/eal8QD1dT4HwaaCTHIIRzAe9dIxxhUbwwJfl0CsZ9r
-	+C7JP2yqIbqFGqNukDehXL/mInqHVnB2GHz3fYs0DcZkHK817+8r5dLOWq1MaQ==
-X-Gm-Gg: AYBFou2ALadGV7aaObM57I9A7s+G7KOWwR0EUAmJFbNBYFR/Zw77NUXoHeK20g1Uc0S
-	JClf3MVMbg4ArpTr5Jg2BbWt0qcC/EykaIJ8C5QZkuzMP8ZPn5IZ8W+PK/IpxFolLSSGnzjOHUN
-	w8opxcYnt1xNAUB7bQaLzbcuKMDU/MVdS5Zqw/7Q2FUDrnZPhbeV/l6kQz00vKXStbvcNL9YWOp
-	OKO9h7BOcCyMv8YEgDQOcRO7/+ALVY4nSmRsQk2pqLd+Lypdti7TXjrJY9/FYi9CgYnc8vha/86
-	bwsYu8udVgSZYkPzNloZZBLtPgwGJEpgwt0gawa5RWYXgIYeQnYADsFAyphwKjyqDokB3sDhXTj
-	AXGzySgdKH9jls+sZ82VcZKpKUdmi2F2TRI3VOYcmcX6tN7ixVmW+ZqRLbZDQQp3uglmBq7gk8a
-	YnNh0lk48nlcrTkDFdAqj+9630bCVSLRAbyBJFBXDAabnGYeu5HrHtr17GufFEUjV0bBWtD4kkP
-	suIzNpzCn19G3QNtlIeo8dncvbbK5JVy490zCCT1fSFcv+u4jD0wdoWbH+obDvecjyhgXubKGwB
-	4XU489sqRTr33zVsNYfF4o3ggRPRqJo+JTomb5GirmEHKJMsgd3BLgf0f8f5kdrRXV61r2jHTRf
-	8jMe5o9TH7O90ajBzUlF/l09RkNAVHOsSDBC7R9CKmwPkibuFCWpkPv15kYefla4=
-X-Received: by 2002:a17:902:cf4c:b0:2e5:467a:7a6b with SMTP id d9443c01a7336-2eb004f2a79mr44003435ad.10.1793263843827;
-        Thu, 29 Oct 2026 01:50:43 -0700 (PDT)
+        bh=pPsijI/WFroQ3WU8JWBkdFg+dO3cPuO9jwy6Y07G2CQ=;
+        b=0xdxvgLBxR1NI2fYhQ/u+PUbeQiPVA1T/rU35U0YB+WpD1dcnIln9pa8KTDnr6nnNC
+         Z0fUMs8ik9n8eRR3DDPhHMSDHEXt16ND5dgbDuJ5DJN9RpCKsOsqUZx4rjm8v5dCenaG
+         DlGppY4YLkgf8Eunhch8s9gDHko/ujJPWHoYnA5hV2dkPYg20Z2PhjZ+tdFF4mj7bxIN
+         a6glhvEywVtwoMhDd3wdIQr1M3PiXHVuSuGDIIKy94D+BGakMnxzTWIeeIWiYhibospH
+         bMpJkFWN+qEjtI4D5/mS3GQgm9Uvy+41caaqgVk98BmzYfUNFVriRBaAhk++LNHc9Uju
+         FAFA==
+X-Forwarded-Encrypted: i=1; AKwUvBzK+LmJItkbAuLplvvk84bSZCakIyrxYGu3OCpEBRpOwHtwbdEGQCN38ZWT/6UiADV9pp2pEfGiIr0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK7bpcSFA6FN/x4RIlf5dEHePs/9GndeRqYP0D96JbNsEltzfsA
+	J0/9FANnhJ7dVe8LJ6gBp+UrMFTrFRFZTCyHMKNS6AzuYXZfojlZ7Njs
+X-Gm-Gg: AYBFou1gsb/DmLKxCi7TGAbz3PpP9s6xZ1JFFomy5LXXb+XuPEKtZRvH3KkK46LofIS
+	/Qq8mpHfXPDQM06cwLmQ9I52kBnI55pRJCiXFVw/gJMnJ6FOYu6KXjqvB57mhbjZF239uBUUBTk
+	kin1SRic2AW7L9R2egC50g+2fB+sjEjXLVS6rme1Ekzwipr1OqJFeXj65VKqIGvvdR8vfEwJUw8
+	TitaJ/Q2PCgp6/lM0kQjjWeTT4xuIonRtozjFZ7vBft43w2Jgae2XGYtrMd3K/baDnetNd39bhu
+	45IEu8MDfYwsL0iSS/FJICcy989Mt7Sf8maFqXrGsGQF6qZsLKi9AaxGZsq5uWpfTvXeHbgv42J
+	rmCDCEK4HL/mroD2PjZ2uRIdG95aWjiRG13BWlgprie4IBsNV8ZMcFgs9nqPvu44t+QWCQoFGx7
+	pA/6js8IT9JpuXhZhROGEVa+tIC8kB86TBGSIBEVLP+bDybf18cWznF5jSEIsPOt6Uv2TA6lSDT
+	zq7WagZMpSawAbE6dRjk5THIuh8VIjSKMGgseEwnWy60g+rSVAwnZ782zNCCNmMc3xGH33gW7QX
+	z7vFy2H6n+NGWJPnj9+KHkboA+LukK06xs8owyQuHkDC4KVzRgCC6ACN+Sj81XaCWA/441NIzWp
+	NX3QD1fmCdPLNINtUYuqSxT1XgCSiLD5N4jibQ65ILQ==
+X-Received: by 2002:a17:902:d2c4:b0:2e9:6333:fbb7 with SMTP id d9443c01a7336-2eb004cf0e0mr48238865ad.51.1793263848855;
+        Thu, 29 Oct 2026 01:50:48 -0700 (PDT)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6bddae0sm29991205ad.35.2026.10.29.01.50.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6bddae0sm29991205ad.35.2026.10.29.01.50.44
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 29 Oct 2026 01:50:42 -0700 (PDT)
+        Thu, 29 Oct 2026 01:50:48 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
@@ -92,9 +92,9 @@ Cc: tiwai@suse.de,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v9 01/14] ALSA: virtio: Propagate PCM send failures through ACK
-Date: Thu, 29 Oct 2026 17:50:19 +0900
-Message-ID: <20261029085032.70689-2-mynameisjune111@gmail.com>
+Subject: [PATCH v9 02/14] ALSA: virtio: Recover PCM state after a failed start
+Date: Thu, 29 Oct 2026 17:50:20 +0900
+Message-ID: <20261029085032.70689-3-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261029085032.70689-1-mynameisjune111@gmail.com>
 References: <20261029085032.70689-1-mynameisjune111@gmail.com>
@@ -109,159 +109,252 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-virtsnd_pcm_msg_send() can fail while queueing a transfer. Restore the
-failed message's length and notify the device about earlier messages
-queued by the same call, so they do not remain stranded.
+Capture trigger queues I/O messages before PCM_START. If the START
+message cannot be allocated or sent, transfers may remain queued, and
+ALSA does not invoke the action undo callback for the failed trigger.
 
-Propagate that failure through the indirect PCM transfer callback instead
-of discarding it. Commit the updated indirect state only after successful
-submission and stop further transfers when a send fails. Return an XRUN
-error to ALSA so the stream can recover.
+Mark the stream stopped and disable transfers for every failed START
+path. Arm runtime->stop_operating so sync_stop releases pending I/O and
+prevents prepare, hw_params, or START retries until release succeeds.
 
-Keep the polling feature path unchanged.
+The stopped flag is shared with ACK callbacks that can run without the
+ALSA stream lock. Protect every stopped access with vss->lock. Read the
+pending message count under the same lock in open and hw_params. In
+sync_stop, decide whether RELEASE is needed and mark the stream stopped
+in one locked transition; leave it stopped when release or draining fails.
 
-Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
+Always cancel elapsed-period work in sync_stop, even when no RELEASE
+is needed.
+
+Record the RELEASE obligation after successful PREPARE and clear it as
+soon as RELEASE succeeds. If the subsequent RX wait fails, retry that
+wait without submitting RELEASE again.
+
+Fixes: da76e9f3e43a ("ALSA: virtio: PCM substream operators")
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
---- a/sound/virtio/virtio_pcm_msg.c
-+++ b/sound/virtio/virtio_pcm_msg.c
-@@ -260,6 +260,18 @@
- 				dev_err(&vdev->dev,
- 					"SID %u: failed to send I/O message\n",
- 					vss->sid);
-+				msg->length -= n;
-+
-+				/*
-+				 * Do not leave earlier messages queued without notifying
-+				 * the device when a later message could not be added.
-+				 */
-+				if (msg_count != vss->msg_count &&
-+				    !(vss->features &
-+				      (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
-+				    virtqueue_kick_prepare(vqueue))
-+					virtqueue_notify(vqueue);
-+
- 				return rc;
- 			}
- 
+diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
+--- a/sound/virtio/virtio_pcm.h
++++ b/sound/virtio/virtio_pcm.h
+@@ -26,13 +26,13 @@
+  * @hw: Kernel ALSA substream hardware descriptor.
+  * @elapsed_period: Kernel work to handle the elapsed period state.
+  * @lock: Spinlock that protects fields shared by interrupt handlers and
+- *        substream operators.
++ *        substream operators, including @stopped.
+  * @buffer_bytes: Current buffer size in bytes.
+  * @hw_ptr: Substream hardware pointer value in bytes [0 ... buffer_bytes).
+  * @xfer_enabled: Data transfer state (0 - off, 1 - on).
+  * @xfer_xrun: Data underflow/overflow state (0 - no xrun, 1 - xrun).
+  * @stopped: True if the substream is stopped and must be released on the device
+- *           side.
++ *           side; protected by @lock.
+  * @suspended: True if the substream is suspended and must be reconfigured on
+  *             the device side at resume.
+  * @msgs: Allocated I/O messages.
+@@ -56,6 +56,8 @@
+ 	bool xfer_enabled;
+ 	bool xfer_xrun;
+ 	bool stopped;
++	/* Successful PREPARE still needs RELEASE; protected by lock. */
++	bool release_required;
+ 	bool suspended;
+ 	struct virtio_pcm_msg **msgs;
+ 	unsigned int nmsgs;
 diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
 --- a/sound/virtio/virtio_pcm_ops.c
 +++ b/sound/virtio/virtio_pcm_ops.c
-@@ -466,36 +466,100 @@
- 		vss->hw_ptr);
- }
+@@ -96,6 +96,15 @@
  
-+struct virtsnd_pcm_transfer {
-+	struct snd_pcm_indirect indirect;
-+	int error;
-+};
-+
- static void virtsnd_pcm_trans_copy(struct snd_pcm_substream *substream,
- 				   struct snd_pcm_indirect *rec, size_t bytes)
- {
- 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
--
--	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
-+	struct virtsnd_pcm_transfer *transfer =
-+		container_of(rec, struct virtsnd_pcm_transfer, indirect);
-+
-+	if (transfer->error)
-+		return;
-+
-+	transfer->error = virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
+ static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream);
+ 
++static void virtsnd_pcm_start_failed(struct virtio_pcm_substream *vss)
++{
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		vss->xfer_enabled = false;
++		vss->stopped = true;
++	}
++	vss->substream->runtime->stop_operating = true;
 +}
 +
-+/* Caller holds vss->lock. */
-+static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
-+{
-+	vss->xfer_enabled = false;
-+	vss->stopped = true;
-+	vss->substream->runtime->stop_operating = true;
- }
+ /**
+  * virtsnd_pcm_open() - Open the PCM substream.
+  * @substream: Kernel ALSA substream.
+@@ -115,7 +124,8 @@
+ 	snd_pcm_hw_constraint_integer(substream->runtime,
+ 				      SNDRV_PCM_HW_PARAM_PERIODS);
  
- static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
+-	vss->stopped = !!virtsnd_pcm_msg_pending_num(vss);
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		vss->stopped |= !!vss->msg_count;
+ 	vss->suspended = false;
+ 
+ 	/*
+@@ -217,11 +227,23 @@
  {
  	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
- 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
--
--	guard(spinlock_irqsave)(&queue->lock);
--	guard(spinlock)(&vss->lock);
--
--	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
--						  virtsnd_pcm_trans_copy);
-+	struct virtsnd_pcm_transfer transfer = {};
-+	int rc;
-+
-+	scoped_guard(spinlock_irqsave, &queue->lock) {
-+		guard(spinlock)(&vss->lock);
-+		transfer.indirect = vss->pcm_indirect;
-+		if (vss->stopped) {
-+			rc = -EPIPE;
-+		} else {
-+			rc = snd_pcm_indirect_playback_transfer(substream,
-+								&transfer.indirect,
-+								virtsnd_pcm_trans_copy);
-+		}
-+		if (!rc)
-+			rc = transfer.error;
-+		if (rc)
-+			virtsnd_pcm_transfer_failed(vss);
-+		else
-+			vss->pcm_indirect = transfer.indirect;
-+	}
-+	if (rc) {
-+		dev_err(&vss->snd->vdev->dev,
-+			"SID %u: playback ACK transfer failed: %d\n",
-+			vss->sid, rc);
-+		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
-+		return -EPIPE;
-+	}
-+
-+	return 0;
- }
+ 	struct virtio_device *vdev = vss->snd->vdev;
++	unsigned int msg_count;
++	bool stopped;
+ 	int rc;
  
- static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
- {
+-	if (virtsnd_pcm_msg_pending_num(vss)) {
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		msg_count = vss->msg_count;
++		stopped = vss->stopped;
++	}
++	if (msg_count) {
+ 		dev_err(&vdev->dev, "SID %u: invalid I/O queue state\n",
+ 			vss->sid);
++		return -EBADFD;
++	}
++	if (stopped) {
++		dev_err(&vdev->dev, "SID %u: stream release failed\n",
++			vss->sid);
++		substream->runtime->stop_operating = true;
+ 		return -EBADFD;
+ 	}
+ 
+@@ -273,6 +295,17 @@
  	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
- 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
--
--	guard(spinlock_irqsave)(&queue->lock);
--	guard(spinlock)(&vss->lock);
--
--	return snd_pcm_indirect_capture_transfer(substream, &vss->pcm_indirect,
--						 virtsnd_pcm_trans_copy);
-+	struct virtsnd_pcm_transfer transfer = {};
+ 	struct virtio_device *vdev = vss->snd->vdev;
+ 	struct virtio_snd_msg *msg;
++	bool stopped;
 +	int rc;
 +
-+	scoped_guard(spinlock_irqsave, &queue->lock) {
-+		guard(spinlock)(&vss->lock);
-+		transfer.indirect = vss->pcm_indirect;
-+		if (vss->stopped) {
-+			rc = -EPIPE;
-+		} else {
-+			rc = snd_pcm_indirect_capture_transfer(substream,
-+							       &transfer.indirect,
-+							       virtsnd_pcm_trans_copy);
-+		}
-+		if (!rc)
-+			rc = transfer.error;
-+		if (rc)
-+			virtsnd_pcm_transfer_failed(vss);
-+		else
-+			vss->pcm_indirect = transfer.indirect;
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		stopped = vss->stopped;
++	if (stopped) {
++		dev_err(&vdev->dev, "SID %u: stream release failed\n",
++			vss->sid);
++		substream->runtime->stop_operating = true;
++		return -EBADFD;
 +	}
-+	if (rc) {
-+		dev_err(&vss->snd->vdev->dev,
-+			"SID %u: capture ACK transfer failed: %d\n",
-+			vss->sid, rc);
-+		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
-+		return -EPIPE;
+ 
+ 	if (!vss->suspended) {
+ 		if (virtsnd_pcm_msg_pending_num(vss)) {
+@@ -311,7 +344,12 @@
+ 	if (!msg)
+ 		return -ENOMEM;
+ 
+-	return virtsnd_ctl_msg_send_sync(vss->snd, msg);
++	rc = virtsnd_ctl_msg_send_sync(vss->snd, msg);
++	if (!rc) {
++		guard(spinlock_irqsave)(&vss->lock);
++		vss->release_required = true;
 +	}
-+
-+	return 0;
++	return rc;
  }
  
- /* PCM substream operators map. */
+ /**
+@@ -338,31 +376,40 @@
+ 
+ 		scoped_guard(spinlock_irqsave, &queue->lock) {
+ 			guard(spinlock)(&vss->lock);
++			if (vss->stopped) {
++				substream->runtime->stop_operating = true;
++				return -EBADFD;
++			}
+ 			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE)
+ 				rc = virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes);
+-			if (rc)
++			if (rc) {
++				vss->stopped = true;
++				substream->runtime->stop_operating = true;
+ 				return rc;
++			}
+ 			vss->xfer_enabled = true;
+ 		}
+ 
+ 		msg = virtsnd_pcm_ctl_msg_alloc(vss, VIRTIO_SND_R_PCM_START,
+ 						GFP_KERNEL);
+ 		if (!msg) {
+-			guard(spinlock_irqsave)(&vss->lock);
+-			vss->xfer_enabled = false;
+-
++			virtsnd_pcm_start_failed(vss);
+ 			return -ENOMEM;
+ 		}
+ 
+-		return virtsnd_ctl_msg_send_sync(snd, msg);
++		rc = virtsnd_ctl_msg_send_sync(snd, msg);
++		if (rc)
++			virtsnd_pcm_start_failed(vss);
++
++		return rc;
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 		vss->suspended = true;
+ 		fallthrough;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+-		vss->stopped = true;
+-		fallthrough;
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+ 		scoped_guard(spinlock_irqsave, &vss->lock) {
++			if (command != SNDRV_PCM_TRIGGER_PAUSE_PUSH)
++				vss->stopped = true;
+ 			vss->xfer_enabled = false;
+ 		}
+ 
+@@ -393,21 +440,34 @@
+ 	struct virtio_snd *snd = vss->snd;
+ 	struct virtio_snd_msg *msg;
+ 	unsigned int js = msecs_to_jiffies(virtsnd_msg_timeout_ms);
++	bool need_release;
+ 	int rc;
+ 
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		vss->xfer_enabled = false;
++		need_release = vss->release_required;
++		if (need_release)
++			vss->stopped = true;
++	}
+ 	cancel_work_sync(&vss->elapsed_period);
+ 
+-	if (!vss->stopped)
+-		return 0;
+-
+-	msg = virtsnd_pcm_ctl_msg_alloc(vss, VIRTIO_SND_R_PCM_RELEASE,
+-					GFP_KERNEL);
+-	if (!msg)
+-		return -ENOMEM;
+-
+-	rc = virtsnd_ctl_msg_send_sync(snd, msg);
+-	if (rc)
+-		return rc;
++	if (need_release) {
++		msg = virtsnd_pcm_ctl_msg_alloc(vss, VIRTIO_SND_R_PCM_RELEASE,
++						GFP_KERNEL);
++		if (!msg) {
++			substream->runtime->stop_operating = true;
++			return -ENOMEM;
++		}
++
++		rc = virtsnd_ctl_msg_send_sync(snd, msg);
++		if (rc) {
++			substream->runtime->stop_operating = true;
++			return rc;
++		}
++
++		scoped_guard(spinlock_irqsave, &vss->lock)
++			vss->release_required = false;
++	}
+ 
+ 	/*
+ 	 * The spec states that upon receipt of the RELEASE command "the device
+@@ -421,11 +481,13 @@
+ 	if (rc <= 0) {
+ 		dev_warn(&snd->vdev->dev, "SID %u: failed to flush I/O queue\n",
+ 			 vss->sid);
++		substream->runtime->stop_operating = true;
+ 
+ 		return !rc ? -ETIMEDOUT : rc;
+ 	}
+ 
+-	vss->stopped = false;
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		vss->stopped = false;
+ 
+ 	return 0;
+ }
