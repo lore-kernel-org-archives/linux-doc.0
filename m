@@ -1,101 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793293674;
-	b=F4kCCztt7ODSiZDkIpd1NtQb1WBBwlVLF8ygicDotehbAaV7wIfl9DokapUABAPrWZ+4
-	 5CzNqS1eAFkR7JPCXt53RBSiwwZM2rd66TNF7YJJ6Sh++WPivMXc0sLjIEwLXBUnUvjmK
-	 zvR90aIXiMATTOkY+yvlwkvJ9i00YQ5Q1+n0nvtZyneN9AVyJs5LCrY17UTWLgdF3teLc
-	 59VYNyRa1KXQSEsSezW+gGNGWeiXQYzKGoY9gS3XekLrL/H1bR+9D6ZUOEnUodcxMTIIZ
-	 pI2WSNK5K+jIa+zpZP2Uv+wGeEnLzbAnzF/CuJP4dIL/iXDNKrlZF2OFpxPpFC0SLog==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793293674;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.176
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793295499;
+	b=R6s4m7dZULceZ0kPEU/EGyXEkn6ehl3SzsRDnwHr7eHDDf/9RwZ0EYDfdOvcMCjW5qYn
+	 WQGcMhPucq8ZUm2r6uS/WtfE5RUU7zmJSaAb8BIOQfdEM30OEFcXD2jALb1SvTaZDrLSk
+	 hb0wYlHTv7vOFHxPwbqcVlfn3TAFCAiiJJhosVEw3CCvV2UUTupODn+zOKyIoTiAIUuLM
+	 kLhYOTVuwhdDcwP69Q1TmtdSvvhrZXKLFY7DYYXGwR/J+Ap0n2LuPZruOVbBQYbO7zcuk
+	 CqTPo+6kqTTpObTH7Mg1zDVV8b0bbXiK3OiiNQUbGMyYCLR6zIIKuNoNMg42NyskrVg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793295499;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
-	b=NUGprKJmzDL4IOhA8t5Ku7Qb1Cfvx8PEjlJcJ72YUzT1JGKIKkuQC/oAKJ0Wl1pNLCPK
-	 27LC+aJBPeOwtme6Pm7sfH30m4lSm/01gJdU2NcMdUONGuz9LeQEff3Sm39P2ZQ8tiDtd
-	 End7BXBziq7qd7rNZaZ9bJUjO/ZeBe6mokKwN7VIzWD1i+TefEb8QIGC5TkEb++/8eQDR
-	 glIgNvdIKSPxQJDNo/x2h00lYS/avt3D/mwwreCbh22NeDn4/LWk4uan0xUR1shc7L88W
-	 /O9LGICV1g4XYiqKFbZ2nj0EAb3PZbqICpw6VqER0fAN58SqipCadtyW8tmAzl6WAzA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MuWAqUZR;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=+xEi/FXjAcaiOhZWzJNypC4CeC4XPVjT5VrS5d9n3Bw=;
+	b=3iBMz7XvlbclLzW6ErzeEukL9mKchLXDCrPI2/4/1hSy6feJPVMVjBr15PMcA/+yJerd
+	 LNdbpSEE897BFknzRshnHXz498WxkYyjRGqbLKSzeGPfppXmZMpKXJhxTUI9SLqJbyaBi
+	 nf9KsBNIRmNOnBg9QNUGNuxqWWqftUkAmuipNVzwbpUXqFGEFe9rOF1M1m7YucuRxzGqk
+	 0+0sjKa/mDgFJ6GOf+yG3RV4VrbwZkQaP+DZfal4k0eQ3g5H1bx+NUBIbxqqZvqeJGF6R
+	 jSbdw7yYjMqCebSg4tFf3H0IjAYUC0LbUgBoSSMB2RXVIHG5jND5H5xjuMa4EMWVKmg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=F0yCYTRH;
+	arc=none smtp.remote-ip=209.85.210.176
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382F0606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 17:07:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 382F0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65BF606A321
+	for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 17:38:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D65BF606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MuWAqUZR
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4395d31228so378894166b.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 10:07:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793293672; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z05zZF5ws8+iIcIiW/ywj8kdHrJe73K8k0eYz9Of7paNu7jo4CHKr5vaKLJjhYajNg
-         vwDBKLDriTpQQjNtTw9KJIWtm9d5Uuux9ZFwRolOZeRNZokFvYw2t3n7oMv6zvl3S84g
-         6+MJakFx/T7KQSaQ6h4PU7I+piT90wvLGDclaixf62SfNuZnesSk1rPPpDBXljQyDW0a
-         KSKh0ikRxQC1GOrtjICXFE2eW0p/NDBDeAojot/S7YeC64P0oNTgBMU3v0jIhtkzxbPy
-         rODCdVtfSyUhCrLJjJFmbuIjyy/6B+f6iYPmjcYlvLDbaMm5a7DPTesHaCjwMVMVspgt
-         xvwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
-        fh=XTaDom+4Y5uouhlGKpBxT3wxEH4j+v/0kNHnPkB8f5s=;
-        b=gCnpxrrpj1cRZNXzSVOisNDlH2t6NJwF9823CPArfoJ0b4/0ChRn4887rlpgXfoLAt
-         PFJaTom7uoz20V5S//swteBbIbcMvEdDBqtQXV2v4dUZ0simdAWNHcaz64U3N8dNHTFL
-         yAGzklOaYu7k8/PlfIW8NnBVvkRd4x8HHnQa3DcRKfnc9hNuDcXBpdoRHTWdNhHO5Xur
-         52hhn599Yx69ob2hv7XIbP4S3T3qYnP+V5ytx/2kSbSl5dH+uWb8kaVA9U2TywcuySdg
-         LwIh8i1gVqdWVpmqQMSiWM5iujkKWTU5D80OO4Vk28VosUSY5u8tfkM3A8upWD2I+QCh
-         ArjA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=F0yCYTRH
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8a05da1cc1fso1060295b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 10:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793293672; x=1793898472; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
-        b=MuWAqUZRlat6aJ6f8GSESPnGQrfK9syg40aZf1Ngw4XasvhbbIUdsMyG95RGl30Qzz
-         9Yxe0i/egPCaT2iDSP9o+SPOXxQDDHkvTy3Tmbsi7gHFPDFfNRdbgAMu2ri/XRuLOU4P
-         w/N5pfbyO9+Mpyr56qJnr5Sli9u08T7aPzZBRGkJDhg+UkYzIxyUfOXZhvpgOXisSD+b
-         zn44DE015kKSRc0VnLzrd7UMO1HCWL8nTrMaQf75CEoS8svAUUSwo8/rKdYyb+ti+XeW
-         +ALiAdTd1CasSqLpNDr1GyAgjW6d36Qz7JKGCZD44Z9QbmaWAcCAiRBe1yPTRf3qPA3x
-         QBqA==
+        d=chrisdown.name; s=google; t=1793295498; x=1793900298; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=+xEi/FXjAcaiOhZWzJNypC4CeC4XPVjT5VrS5d9n3Bw=;
+        b=F0yCYTRH1KCKgj1wamQyvj2+BZVTNOuWxMJPDP0xqDm8z2AXasRhnLVIjfTJB+urOA
+         hYMOTEHqguCWwBanaJwRqINoqTBckwHx8a2498qdICI+n/lBDqGMFaBGSnDJTcqrlXwJ
+         6N3EVeIucQlMqzblx8dYqq1ROCDLze9gT6aRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793293672; x=1793898472;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793295498; x=1793900298;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0YjGbXSGdFWqGTw7iXBWdHWj/MRYXXZreyMjEGvCLmY=;
-        b=IHqS7LvlM+xNc6yl+HWPqybK1jc+pDQIIk3pDgShz45xb2Ie25K3Gp22Myyd74n5QN
-         qUOPONJIA0DVczC7J0y9IQgYjFvKzpPai9393mtTJ4d+DBwWP2PJ4SsEm35B+bhOgfzR
-         V46Za4FoG+CQ2nAbxuVC4KE4SOAN00B/gqRX4YhkvNcEEpw0nyTnRXuawZyhjvfBTqzy
-         UEEBR/oFf3PwzijGiBZlwleF/R3KTDSNswdGCl4yLLsapisZVfeZ208pevQJ9rzTU0A6
-         HDfIXmEd9RqJuSxjmZdOuD40d8LAoA+CUOLhk+GnsEGV080SLmzdf/cOgQfS3GWSmCHA
-         6W4A==
-X-Forwarded-Encrypted: i=1; AKwUvByRUE8yMP/gmBhBJxi8xdlCRMv4EZNq4oTM6nPsC3S4GWcAsiWUowXJ375E31zNL4lwJZjjNkIhjtM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIVTsqsLikQAHxNeEGVTD4cCz6UmzXZryzeX8m/QXlnUmLZJfQ6
-	kdHG836cTALs4Vf9ZiXuHIDFyFYsDMDRGDeHdIUNz5Zca4frWTgOCrA0W9UWvMMA0asAeSpmOvG
-	SpnkOqcY01VFffVnRbrE0BwaXchPLsv8=
-X-Gm-Gg: AYBFou34Ch0cOE26k7yQNWXKyEVmJkp8o6GBfhPHGFuHCRtpPpDYitbg6YBlLMNqu5v
-	Ms7TObn9FnpMXim3VZ/d6GTZh9teV8Stfdvjkr9+AxT4YC+3Plk8Dn5Z5SjmQoUcpadZjW/PEeN
-	3HQROSiE+DQWQhr7FLEnEirmFfFiDRJej3auCM9CQzoLfoiTr7KqBXSa5SZ05Hl42BxoaoFLG0m
-	e+H3hlXN0IPDktCRkr8n6NrR78E1C7/FBsHELsoLojpB0gAaMmIFHYikZOxHYvPW2M7tiC/UL7T
-	BurblG50fMmRt82W7Rg3MSQu7Hn20908oEY9PS8Wt0mKOxzsO5+Kg/0XNWr2xOlSailHYrR0kRJ
-	fn6oMS+6drbeEbpehNg0p+EiLaSGRmXLGkLYam+0cJjV7oT3x7ana8xVRdpQ06iNOzo/54Dwdsb
-	mTX2zpRLU7UAyC9R0=
-X-Received: by 2002:a17:906:7313:b0:c45:c030:732c with SMTP id
- a640c23a62f3a-c49be03a73amr610119866b.41.1793293672256; Thu, 29 Oct 2026
- 10:07:52 -0700 (PDT)
+        bh=+xEi/FXjAcaiOhZWzJNypC4CeC4XPVjT5VrS5d9n3Bw=;
+        b=PilT0M8pI2+JYJbUWxJAEktVnE2rHUt8TVa096mdT0Sq67l1tehJUgY8UieWQ3tQPd
+         uYOxxxnWNpeFigIM2YScz8GD3//4ZD+v0nH/naYpiLoTXl7KLPcxbi+ZSMQsBeCytrd2
+         wpcWgcKBuLhmOXmfl4DMTC7sFz/pR61re8coWpaC4DwgqFM+tTqLhWA/IkdFhNH12Twi
+         9Dbq2BCtnAVdNhggXu14w2M522tU0UYRLiD2G+zdXHu3Z1wO2P9YcwBiYWcmaYo16U9Y
+         nzNDHhAw/wge8PeU97puqv06fODdgNLrtHregOxc5hz69NcmLI0fozDwupsoavU0YsnX
+         /gVg==
+X-Forwarded-Encrypted: i=1; AKwUvByz+zEp3DULu/5fcQtd4XkIWXY4hUWb2XqVH+nRAXhgj+JsYdTK9SF8ptfCuPzH/d5WUKmpiPgpwys=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIw4X6yZFN76lxfrkbhonRUr0Q0mGgOyxlo2RxjopelWk28Wqro
+	pDNSp/HRIWaquZqrqPVvQaUzWv7Njagy/oHNhcRCrTJB53hLUXiKnWSMKGGogAyRuWM=
+X-Gm-Gg: AYBFou2qfZaaHNU7hDK1ViMslGoqAQTEtw+GKZ/PflyfnU4Yha8XK3ZAB4H04AGN/AL
+	KUAq+eUIzDfhEnx5BRxYXivp1dXfW/FDfzS/ko2YMnxKKgkhEyjRKSKyx6WDJtFdBRceo9gYEDZ
+	h84NLFL4kMpHTlu2VQvImH+v54AD9pgLo3r2TQzQ24upb8dA30RTTFw86NNcwKE+Of5GeLnQRPb
+	JvMOc0X4lO7fKyfKgI1Iwz8pu2xHG/v+sgAe0rBUoRLP25nN/3Z5HpC8RaLRzqMHw7VSniqKUgT
+	mH/R+ca1U0R3fPnXyXxdP1J7gBjze97U2hEV9T+oJxObZZhoSP2o+jBbz6YGMHOCRFs1YAGD28g
+	jdH5eHfwdWCRGJlF43q05gUPpYOpfD0PZyc6w3h3+mFUeDZNS1uJhyl+xMp2j9oSW/jmF5amGnP
+	jV+L9oa0oZswfTv4ZBDG7+EmYnngzlq+g6Ec4QQ5sG5OgMMXr9kck0/izDt/fmAO8wMqrjJ+QQv
+	s48vbB3eIb3X1OvocOoZpgruXg7XsIFom/GNW2egi6tVMt+3dOqKvePFuYDAHJCvOIBmsjbRddP
+	ns0lJfdNQSBTW7co2pjwRHJ1ZHsQ6wEuTIbSrrPNHSXVJJLTCCJRSHglZMD/tT4G6zmlCjmdVLt
+	edVhz+spa2+yBm/z7JU6dXToFNaCxubCRyL+GYm4/+GgtDdDWZIYXZPrpnwPclVJOdrVeJ915
+X-Received: by 2002:a17:90b:1d44:b0:3a7:250:333e with SMTP id 98e67ed59e1d1-3ae57f631f6mr4570721a91.11.1793295497657;
+        Thu, 29 Oct 2026 10:38:17 -0700 (PDT)
+Received: from localhost ([116.86.153.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e8fb1ddsm5096378a91.5.2026.10.29.10.38.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 10:38:16 -0700 (PDT)
+Date: Fri, 30 Oct 2026 01:38:13 +0800
+From: Chris Down <chris@chrisdown.name>
+To: Omar Sandoval <osandov@osandov.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH] proc/kcore: Allow disabling /proc/kcore at boot
+Message-ID: <auOEhTNaKzu8dgEy@chrisdown.name>
+References: <auAmuqZyUodq3iqk@chrisdown.name>
+ <auKKisespDm1xLLg@os-N5J97HY9XQ>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,294 +100,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261022-gmem-alternative-providers-v2-0-5dd1dc6c660a@google.com>
- <20261027154649.91571-1-griffoul@gmail.com> <20261027154649.91571-2-griffoul@gmail.com>
- <CAEvNRgGvxtgT=x3sLcasLZzCrtX+qEkHjPgs2yFRY0HRJvodag@mail.gmail.com>
-In-Reply-To: <CAEvNRgGvxtgT=x3sLcasLZzCrtX+qEkHjPgs2yFRY0HRJvodag@mail.gmail.com>
-From: Frederic Griffoul <griffoul@gmail.com>
-Date: Thu, 29 Oct 2026 17:07:41 +0000
-X-Gm-Features: AclHuK-XOTTZ577Y9tlQyUF1DU-1w6QS3FSXEW1jGcpzGvSeAxBjghFI3p-6WVU
-Message-ID: <CAF2vKzP7mKAsbDFfj-ndoYSxxZYbNzVO7uysb-XtKytR4zuC7w@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/14] KVM: guest_memfd: Clamp the order of PFN mode
- blocks to what KVM can map
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>, 
-	Alexander Graf <graf@amazon.de>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Alexey Kardashevskiy <aik@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baolu Lu <baolu.lu@linux.intel.com>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Christian Brauner <brauner@kernel.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Connor Williamson <connordw@amazon.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, David Hildenbrand <david@kernel.org>, 
-	David Rientjes <rientjes@google.com>, David Woodhouse <dwmw2@infradead.org>, 
-	Erdem Aktas <erdemaktas@google.com>, Frank van der Linden <fvdl@google.com>, 
-	Gregory Price <gourry@gourry.net>, "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	James Houghton <jthoughton@google.com>, Jan Kara <jack@suse.cz>, Jianxiong Gao <jxgao@google.com>, 
-	Joerg Roedel <joro@8bytes.org>, Joey Gouly <joey.gouly@arm.com>, 
-	John Starks <John.Starks@microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Justin Stitt <justinstitt@google.com>, Lorenzo Stoakes <ljs@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Michael Roth <michael.roth@amd.com>, Mike Rapoport <rppt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Oliver Upton <oupton@kernel.org>, 
-	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Steffen Eiden <seiden@linux.ibm.com>, 
-	Steven Price <steven.price@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Tarun Sahu <tarunsahu@google.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Tycho Andersen <tycho@kernel.org>, 
-	Vishal Annapurve <vannapurve@google.com>, Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, 
-	Xu Yilun <yilun.xu@linux.intel.com>, Yan Zhao <yan.y.zhao@intel.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, x86@kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Fuad Tabba <fuad.tabba@linux.dev>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, llvm@lists.linux.dev, iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <auKKisespDm1xLLg@os-N5J97HY9XQ>
+User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-On Thu, Oct 29, 2026 at 06:25:49AM -0700, Ackerley Tng wrote:
-> Fred Griffoul <griffoul@gmail.com> writes:
->
-> > +        kvm_mmu_invalidate_range_add(kvm,
-> > +                         round_down(gfn_range.start, blk),
-> > +                         round_up(gfn_range.end, blk));
-> > +
->
-> Yes, we want to make the invalidation range larger, but not the range
-> being zapped. We can't over-zap for CoCo VMs.
->
-> Would it be better to refactor kvm_mmu_unmap_gfn_range() instead of
-> doing kvm_mmu_invalidate_range_add() twice?
+Hi Omar,
 
-Good point. As far as I can see, kvm_mmu_unmap_gfn_range() is only
-kvm_mmu_invalidate_range_add() plus kvm_unmap_gfn_range(), so
-guest_memfd could do the two steps itself: add the blocks around the
-range, then unmap the exact range. The zap stays exact and the range is
-added once. Or am I missing something about kvm_mmu_unmap_gfn_range()
-that a refactor would need to keep?
+Thanks for taking a look!
 
-> So I think we should follow the same model:
->
-> + The provider reports the max_order based on it's contiguity
->   information, which is the actual contiguity of memory and
->   read-only attributes
-> + guest_memfd further reduces max_order due to shared/private contiguity
-> + After handing it to KVM, KVM further reduces the max order based on
->   the above.
->
-> I think mappings for all other page tables (userspace and IOMMU) should
-> also follow this approach.
+Omar Sandoval writes:
+>The code looks correct, but is there a reason that /proc/kcore
+>(CAP_SYS_RAWIO) is any more concerning than other ways to read kernel
+>memory (e.g., CAP_BPF + CAP_PERFMON)?
 
-Agreed. guest_memfd should then only reduce the order for shared and
-private pages, and drop the gfn alignment and the rounding to a
-page-table size, which KVM does. For the provider, "contiguity" would
-mean a naturally aligned block of contiguous frames with the same
-attributes, the frames aligned to the block too, so a mapping of that
-size is valid as is.
+Not in terms of what it can read, indeed. I would say the distinction is more 
+about who needs each capability and what we can remove.
 
-One gap: KVM does not cover a memslot whose gfn and guest_memfd offset
-are not aligned to each other. On x86, kvm_alloc_memslot_metadata()
-disallows large pages when base_gfn and userspace_addr are misaligned,
-but nothing compares base_gfn with gmem.pgoff, and kvm_gmem_bind()
-takes any page-aligned offset. A gmem.pgoff check next to the
-userspace_addr one would keep that in KVM too.
+Abstractly speaking CAP_SYS_RAWIO may be needed for hardware access without 
+necessarily wanting to grant general RAM access. STRICT_DEVMEM already makes 
+that possible for /dev/mem, but /proc/kcore gives the same capability to do 
+general purpose RAM reading anyway.
 
-The export lookup in the series already works this way: it reports the
-provider's block, reduced for shared and private pages. iommufd maps
-PAGE_SIZE IOPTEs in this series, and will pick larger IOPTEs from that
-block later.
+In our case in particular, a process with CAP_SYS_RAWIO doesn't necessarily 
+have CAP_BPF and CAP_PERFMON, so keeping BPF available doesn't make removing 
+kcore redundant.  On the hosts in question, BPF tracing and BPF LSM are part of 
+the monitoring and sandboxing we rely on, so we can't remove it from the kernel 
+entirely, but we nevertheless keep CAP_BPF and CAP_PERFMON away from guest 
+facing processes. Nothing on those host uses /proc/kcore, so we remove it as 
+one more gap to close.
 
-> I guess the kvm_gmem_fault_user_mapping() equivalent of this max_order
-> tuning is missing from this series. :) I think we should defer order >
-> 0 to a later series though. I think read-only-ness should be part of
-> the first PFN mode series.
+For that reason those hosts already run with CONFIG_PROC_KCORE=n, while other 
+hosts keep kcore to aid debugging, since they have a different threat model.  
+This patch, then, lets us preserve those choices while using the same kernel 
+image.
 
-Right, userspace mappings are PAGE_SIZE for now.
+In retrospect I should have explained that better in the commit message :-) I 
+can update it for v2. Does that make more sense? Let me know if I can clarify 
+further.
 
-Deferring order > 0 for KVM and userspace is fine with me. I'd like to
-keep the order in the export lookup, though: large IOPTEs matter for
-device performance, and I'm preparing iommupt changes to split and merge
-them in place.
-
-Fred
-
-On Thu, Oct 29, 2026 at 1:25=E2=80=AFPM Ackerley Tng <ackerleytng@google.co=
-m> wrote:
->
-> Fred Griffoul <griffoul@gmail.com> writes:
->
-> > From: Fred Griffoul <fgriffo@amazon.co.uk>
-> >
-> > KVM maps guest memory in 4K, 2M or 1G blocks, and uses guest_memfd's
-> > max_order to choose. A folio of order N is physically aligned and never
-> > mixes shared and private pages, so the order needs no check. A PFN mode
-> > provider's frames need not be aligned
->
-> I'll need to think about max_order > 0 more for PFNs. I put it out of my
-> mind because my frame of mind is that only order-0 folios are supported
-> today. Perhaps with PFNs it's actually a lot easier to support order >
-> 0.
->
-> > and the provider does not know
-> > which pages are private, yet kvm_gmem_get_pfn() passes its order to KVM
-> > unchanged. KVM can then map a block over the wrong frames, or with one
-> > attribute over shared and private pages.
-> >
->
-> Yes, makes sense that private/shared contiguity needs to be taken into
-> account. I didn't consider this because order-0 is always safe to
-> map. Thank you!
->
-> >
-> > [...snip...]
-> >
-> > -static void __kvm_gmem_invalidate_start(struct gmem_file *f, pgoff_t s=
-tart,
-> > +static void __kvm_gmem_invalidate_start(struct inode *inode,
-> > +                                     struct gmem_file *f, pgoff_t star=
-t,
-> >                                       pgoff_t end,
-> >                                       enum kvm_gfn_range_filter attr_fi=
-lter)
-> >  {
-> > +     const gfn_t blk =3D kvm_gmem_is_pfn_mode(GMEM_I(inode)) ?
-> > +                       1UL << PUD_ORDER : 1;
-> >       bool flush =3D false, found_memslot =3D false;
-> >       struct kvm_memory_slot *slot;
-> >       struct kvm *kvm =3D f->kvm;
-> > @@ -355,6 +360,16 @@ static void __kvm_gmem_invalidate_start(struct gme=
-m_file *f, pgoff_t start,
-> >
-> >               flush |=3D kvm_mmu_unmap_gfn_range(kvm, &gfn_range);
-> >
-> > +             /*
-> > +              * In PFN mode, a fault may map a block of up to PUD_ORDE=
-R
-> > +              * pages, sized before this invalidation (see
-> > +              * kvm_gmem_pfn_map_order()): make faults anywhere in the
-> > +              * blocks around the range retry.
-> > +              */
-> > +             kvm_mmu_invalidate_range_add(kvm,
-> > +                                          round_down(gfn_range.start, =
-blk),
-> > +                                          round_up(gfn_range.end, blk)=
-);
-> > +
->
-> Yes, we want to make the invalidation range larger, but not the range
-> being zapped. We can't over-zap for CoCo VMs.
->
-> Would it be better to refactor kvm_mmu_unmap_gfn_range() instead of
-> doing kvm_mmu_invalidate_range_add() twice?
->
-> >  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
-> >               kvm_arch_gmem_invalidate_range(kvm, &gfn_range);
-> >  #endif
-> > @@ -374,7 +389,7 @@ static void kvm_gmem_invalidate_start(struct inode =
-*inode, pgoff_t start,
-> >       struct gmem_file *f;
-> >
-> >       kvm_gmem_for_each_file(f, inode)
-> > -             __kvm_gmem_invalidate_start(f, start, end, filter);
-> > +             __kvm_gmem_invalidate_start(inode, f, start, end, filter)=
-;
-> >  }
-> >
-> >  static void __kvm_gmem_invalidate_end(struct gmem_file *f, pgoff_t sta=
-rt,
-> > @@ -670,7 +685,7 @@ static int kvm_gmem_release(struct inode *inode, st=
-ruct file *file)
-> >        * Zap all SPTEs pointed at by this file.  Do not free the backin=
-g
-> >        * memory, as its lifetime is associated with the inode, not the =
-file.
-> >        */
-> > -     __kvm_gmem_invalidate_start(f, 0, -1ul,
-> > +     __kvm_gmem_invalidate_start(inode, f, 0, -1ul,
-> >                                   kvm_gmem_get_all_gfns_filter(inode));
-> >       __kvm_gmem_invalidate_end(f, 0, -1ul);
-> >
-> > @@ -1535,6 +1550,44 @@ static struct folio *__kvm_gmem_get_pfn(struct f=
-ile *file,
-> >       return folio;
-> >  }
-> >
-> > +/*
-> > + * The order a PFN mode block can be mapped at: the provider's order, =
-no
-> > + * larger than the alignment of @gfn and @pfn to @index allows, rounde=
-d down to
-> > + * a page-table size, and never over pages that are not all shared or =
-all
-> > + * private, since KVM maps a block with a single attribute.  Called wi=
-th the
-> > + * invalidate lock held; an invalidation of any page of the block make=
-s the
-> > + * fault retry (see __kvm_gmem_invalidate_start()).
-> > + */
-> > +static int kvm_gmem_pfn_map_order(struct inode *inode, pgoff_t index,
-> > +                               gfn_t gfn, kvm_pfn_t pfn, int order)
-> > +{
-> > +     u64 misalign =3D (gfn ^ index) | (pfn ^ index);
-> > +     u64 attrs;
-> > +
-> > +     if (WARN_ON_ONCE(order < 0))
-> > +             return 0;
-> > +
-> > +     order =3D min(order, PUD_ORDER);
-> > +     if (misalign)
-> > +             order =3D min_t(int, order, __ffs64(misalign));
-> > +
-> > +     if (order >=3D PUD_ORDER)
-> > +             order =3D PUD_ORDER;
-> > +     else if (order >=3D PMD_ORDER)
-> > +             order =3D PMD_ORDER;
-> > +     else
-> > +             return 0;
-> > +
-> > +     attrs =3D kvm_gmem_get_attributes(inode,
-> > +                                     mtree_load(&GMEM_I(inode)->attrib=
-utes, index));
-> > +     while (order &&
-> > +            !kvm_gmem_range_has_attributes(inode,
-> > +                                           ALIGN_DOWN(index, 1UL << or=
-der),
-> > +                                           1UL << order, attrs))
-> > +             order =3D order =3D=3D PUD_ORDER ? PMD_ORDER : 0;
-> > +     return order;
-> > +}
-> > +
->
-> I'll review this function more closely again. I think the mapping order
-> should fit into how KVM does it. After taking guest_memfd's input on
-> max_order, KVM then lets these parties possibly tune the max order down:
->
-> 1. lpage_info contains information about highest order due to memslot
->    alignment and alignment due to VM-level memory attributes
-> 2. CoCo platform can impose a max order
-> 3. Userspace mappings can impose a max order too.
->
-> So I think we should follow the same model:
->
-> + The provider reports the max_order based on it's contiguity
->   information, which is the actual contiguity of memory and
->   read-only attributes
-> + guest_memfd further reduces max_order due to shared/private contiguity
-> + After handing it to KVM, KVM further reduces the max order based on
->   the above.
->
-> I think mappings for all other page tables (userspace and IOMMU) should
-> also follow this approach.
->
-> I guess the kvm_gmem_fault_user_mapping() equivalent of this max_order
-> tuning is missing from this series. :) I think we should defer order > 0
-> to a later series though. I think read-only-ness should be part of the
-> first PFN mode series.
->
-> >
-> > [...snip...]
-> >
+Thanks!
