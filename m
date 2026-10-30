@@ -1,103 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793353221;
-	b=GWe60ayi/9OtRhCBKW6VMLRRMuXrPFafG3vQYVPdMo6pXQy8QRVE+6KY75lQCpLf4AzN
-	 9hFQsWGgIBEI+Q3S0QX3jQqSBydWqXXUZOmjnt1ioSdPihWrWPd9yQFF4fn9qZVbly1iw
-	 H4xVBvuVDn1G9+2RTcvvWWrnFOKo2r2rUjAKqrM60fiLFgESmcdrfuhUQPf8FK9pV+wlD
-	 LJDTAOEq1aao6nsqKmB1BzGhgib/a/FCL/duJG5xteFvwt3XYqHMWVhROyNSe2MANYaBU
-	 s5lf2X+6hJnvDaSmP5kgOsdc7ygmCRYEXq7pchSPVlFyrFT3dSQRBWFw6Z4kY4xNCoQ==
+	t=1793353891;
+	b=YAqQThr7ezu4shLGf+FxTLUirpP8VWqRVasM23eN7R+C0iuBarUH4sort1nVUbOv5of4
+	 qDTpJ1mKzoNiLHTx4bDAuguB7EJFKURWNvNKl9bsMSumckuibtKtN6TF46UX/uR/Bz1r9
+	 6WMGKC0dXWmIxQ0rH2uiYyQm7F9zojxY+YHHk2GVfykXXfW0Zcng1+clOROjYbI6CTt6J
+	 aqRtVkWSAKkPb8II8+mqou7EfP2s7F9ALr9NmVWfm77DOVakaN7IqFr1QFx+102DUQPQm
+	 OcmEaEBqU78noTDTZ2Vg2HnqNNcP+sMqFGEm/T67WjZ57GC/VoZMF2Oi1Jrqstpokzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793353221;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=La278T1NrCS4XO98Q/cTkbnnx/6adToIXrUcsW5BqDY=;
-	b=sfNBDK3KF+RjGS+7AywJ6XX2c0Z9BjFSNyViTEM13sbY0eJ1CX7xWpzoW25OvDrLOY4n
-	 bN6k8MnOoMHm6w1K2QWNIQc+NY7I8mWtNGxAOmcGi/nSRSHfbrkVedlY7d3TMosPAqZsF
-	 aSm0abv7bAO6JT6SFnVdXlcfK1TaF6j3q7Qy8UYfpXKsvOe2jRFe3gbADFNOR6t+3YCNc
-	 RHxe49KdNRmtQI5ta1pcI8p14IOQHAGbi2Q31pbPhjgsql8s1zZXoZyuOKwq7j1GPHn/J
-	 wVG8fCX+PyzA7dwXqsld/kukZDQpPjiaZkcQDzXfjSt8uchYlt5An2z9Tcmx9SuEAXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793353891;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
+	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+	 Content-Type:Content-Language:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=ZuzL8N0vlppJloy/muSuIIAe2Zftz1tlLIt/FEE//g4=;
+	b=2djx273MDkcBKNNMDLuh2lrAajWLNHZeQQvRaBOmRuwcFZlzlBz7gjmZnVW+f/Xe6kDg
+	 TIlQKQocwKHC1SK9OGOvGSqoyZzu/uDogCsPkFRPnoDUZ23nAJ755QknL/mwaas8bKB09
+	 9Mmt2noD6bt6Ykdy/Bdikg5+lHqRLNY7Gb2YVDMuF6fjO1qxFNe0nB3Gd8ZRKzsdAY0PV
+	 bLFIweCvn5AgwItSROPn0IWv7Td3ON5jSL+MsZrRFEC9wV6Syl4iNB8WDYHI0NcYcUjlf
+	 cIdJ17AQAr/DWjrtLMXYwOuSztGhWSdGXBViqrUbU960YkJxDKlN5iD5rKPNwuIX1Kg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=Kv4m9vJR;
-	arc=none smtp.remote-ip=209.85.167.52
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=0UrTyjyV;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE15D606A321
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 09:40:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE15D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AAC606A32D;
+	Fri, 30 Oct 2026 09:51:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2AAC606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=Kv4m9vJR
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5ba3ec92031so691768e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 02:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793353213; x=1793958013; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=La278T1NrCS4XO98Q/cTkbnnx/6adToIXrUcsW5BqDY=;
-        b=Kv4m9vJR6R9/MCQPr8oImYroO5YLgSVS0DYGIvONwSH5eZkPBnkxNVp6UbPLFqhzJa
-         mHwnam4KotFiiw2rxYegY1kWtGQiTINkwVf+f0Y+u2QzIsLuF3DneFaKE20yzTnkJvUL
-         70+rwPeuEdD8KBv3DlclPXB2VFwYGOM9bVM++la8LT/SMXM8wnof4b6Sr9VGEuhyM5qi
-         DH8zSsN+nlr7X7dPGz8SzGu1UlqoriuFXy1G9JxtzUCbp+ogvr7v5xumXPOz5NJ/Vd0Y
-         /RvkMRt3ErRcgH7pb13vlNxMeCRHTiaIzHOaKj6JlTsxLzPyaWS/IEGF7NiBV8mjUXk9
-         vdzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793353213; x=1793958013;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=La278T1NrCS4XO98Q/cTkbnnx/6adToIXrUcsW5BqDY=;
-        b=KK5/Y16N0vPj0vlhRJPh+QyLTuSA9/newQFEZRMM3mhT8Yy4+3//m7818XAzCPMxPH
-         MKrBySzP7MAbSX87BeJPIwhqMlqa/ZAPtwPUVtEc7PhSBjU/35sWeUScmR0f4eZbWEXJ
-         Av3Azm8Bu39PZNF5/Rovw7fF3mzWwcaI4F6JmmLW2EBXIQ2tmoHMBNwJ2QNgC7+sDOUK
-         n3QkSF9MFJTJbphOQ3BHpOMgLIwy4WvaEjNw/DFCT525ME/9Nxug4UR89X9FDj8KkhYo
-         /LpqWysMAMcFPUwZQ42HNbmSZSTrou363DlO00GcK6EvNjuo8WTVzYPaMPJl8YOimaQL
-         +5bQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw6idMD4qq/9j9Q48oJutcautMJzZhUMFUIllUxpHmKZgCmQDHki3CQbsVyfz5EDp9Cj7zf7cFnaB8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKNEXyB85NJ7oJ9oxzIuRkOm+QMgVmXTV7SxVkwXw4WHDULa8qn
-	WFrtl3mNxXnLqovY65KWLvCwQfJg4OfYFV03EIvvgPQSm9CiBuyy1d6JWeyzbB365/4=
-X-Gm-Gg: AYBFou0EoqYroyrQOnXKqwEHNbEosYoK1HQrA5uuC1ipNST7lMmb7GfdqeP9r1PJGdn
-	MaItxg8Hpfoc77iHYXHtxJUmhjygVOerNbxybeo9+5T0Wiy4mmvD5C9m8EdnU753aehETXYdsQO
-	iQ6dLm1tSgbM0+w5GFnbOuQ2d/D8OY3GgaiAX77T+TiY0GyKp+wlaynQ57LujkreQiB5KN/5IXn
-	YwDdY7CL2K7kxEFPXIaYRm+r62Mv8sjWpApSU7GCIor6qHrUx3IuzeapY1bbkPJ7t0836LlnZeO
-	Dfyx0enTF+JV6gFsNY0r48sP8/9vBtXQSBd+LT9jERBbpWEqrRIi7V9QkfTXCl6o2CxyOvrSpNx
-	ObippzuxZ85p25WUn9ABavfEOnwseVxasUOcTZT6TqIGkhEc6FIW19lsIHMj9cpOPXI2OfYyrcM
-	MhY01IYKg/Um3LUhjMk/vvNHyZQVVk6NwEy8XPbd92yJn5jshFLpNbluqFvL08rHo8SHHYRs1wA
-	0nuPeJBUBJ9b3rpQsDF12zl0N8G31KXZ5yxkzlHW+KpkIMB8zCtA8aZE0KxeGqGT8LQB+bwF0bW
-	2s7lrLp+BU8IZfsDZnGdkaC/lmRff3YCwRanAA==
-X-Received: by 2002:a05:6512:668b:20b0:5bf:da1f:c390 with SMTP id 2adb3069b0e04-5bfda1fc9c2mr262942e87.36.1793353212517;
-        Fri, 30 Oct 2026 02:40:12 -0700 (PDT)
-Received: from localhost ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfdc08ea60sm221364e87.33.2026.10.30.02.40.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 02:40:10 -0700 (PDT)
-Date: Fri, 30 Oct 2026 10:40:05 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
-	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 11/20] ctlv: Prepare runtime introspection
-Message-ID: <auRl4VzVljAQ1Suy@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-12-jiri@resnulli.us>
- <179302367452.58760.11808905856343064399.b4-review@b4>
- <at9nsxtGOl3N5PJR@FV6GYCPJ69>
- <20261026161220.GA1671235@nvidia.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=0UrTyjyV
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ZuzL8N0vlppJloy/muSuIIAe2Zftz1tlLIt/FEE//g4=;
+	b=0UrTyjyVBnf6sKptfuORA4gghvLGNMWRrh5UmCN2USUQ+RRTVy20wvL5hedXymwwnx1WLmlT1
+	dFk71RHUewofm7xwqA2BFLWPX8QPbMPw3svRB9+d+9tvDuO25irRK8fJMAYE4TiEDBzCQkyGonR
+	K+fk3eRBbKlsBllNXL+ivFQ=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jGGZh3FNcz1prM0;
+	Fri, 30 Oct 2026 17:51:24 +0800 (CST)
+Received: from whupemo200006.china.huawei.com (unknown [7.152.185.252])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0A5FF40575;
+	Fri, 30 Oct 2026 17:51:26 +0800 (CST)
+Received: from [10.174.178.219] (10.174.178.219) by
+ whupemo200006.china.huawei.com (7.152.185.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 30 Oct 2026 17:51:24 +0800
+Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile
+ for KVM/arm64
+To: Matthias Goergens <matthias.goergens@gmail.com>
+CC: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Fuad
+ Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>, Steffen Eiden
+	<seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	<kvmarm@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-kernel@vger.kernel.org>, <workflows@vger.kernel.org>
+References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <cc52465a-54b8-12ca-ec5f-fa1aa1c0c55d@huawei.com>
+Date: Fri, 30 Oct 2026 17:51:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,60 +76,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261026161220.GA1671235@nvidia.com>
+In-Reply-To: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ whupemo200006.china.huawei.com (7.152.185.252)
 
-Mon, Oct 26, 2026 at 05:12:20PM +0100, jgg@nvidia.com wrote:
->On Mon, Oct 26, 2026 at 03:52:30PM +0100, Jiri Pirko wrote:
->> >device-get:
->> >  request: {}
->> >  reply:
->> >    caps:
->> >      evidence?:
->> >        min-challenge-length: uint
->> >        max-challenge-length: uint
->> >        max-total-output-length: uint
->> >        objects[]:
->> >          blob-class: evidence-blob-class
->> >          format: string
->> >          representation: evidence-representation
->> >          max-length: uint
->> >      mr?:
->> >        mr-flags: mr-device-caps
->> >    info:
->> >      $extend: device-info
->> >
->> >So.. how about could we drop the sets, use a direct description of the
->> >layout and do something else for the ID numbering? Maybe the numbering
->> >can be solved directly by only listing the names in:
->> 
->> I didn't want to have a lot of duplications. Netlink show us that the
->> same attr, or attr group (or nest) is often used in multiple ops. It is
->> not good to repeat them each time (multiple obvious reasons), so I came
->> with the sets and groups. But I will think about how to make this
->> possible to be formatted in more readable way.
->
->If a "record" is re-used in multiple places, then sure, put it in one
->spot, not disagreeing with that.
->
->That can still work out with a clearer top down flow, more like C:
->
->records:
->   evidence-object:
->          blob-class: evidence-blob-class
->          format: string
->          representation: evidence-representation
->          max-length: uint
->
->ops:
->  device-get:
->    reply:
->      caps:
->       evidence?:
->	 objects[]: record evidence-object
->
->Jason
+Hi Matthias,
 
-Okay, I like it.
+On 2026/10/30 16:33, Matthias Goergens wrote:
+> KVM/arm64 has no P: entry in MAINTAINERS, so nothing tells a contributor
+> that the kvmarm tree is used for integration only, or what the
+> maintainers expect patches to be based on.  Marc Zyngier said a profile
+> would help.
+> 
+> Add one covering the trees, the base for patches, the submit checklist,
+> key cycle dates and review cadence, and point the KVM/arm64 entry at it.
+> 
+> Link: https://lore.kernel.org/all/875wzu4vuv.wl-maz@kernel.org/
+> Link: https://lore.kernel.org/all/87tsnb2dtq.wl-maz@kernel.org/
+> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+> ---
+> Changes since the RFC
+> (https://lore.kernel.org/all/20260925085621.562448-1-matthias.goergens@gmail.com/):
+> 
+> - Point at the MAINTAINERS entry instead of naming maintainers and lists.
+> - Describe master, topic branches and shared branches; drop the open
+>   questions, which the RFC's Sashiko review had also flagged.
+> - Base: prefer -rc1 to -rc3, not kvmarm/next; leave conflicts visible.
+> - Subject lines: capital letter after the prefixes.
+> - Architecture references: prefer rule identifiers; drop the comparison
+>   with KVM x86.
+> - Testing: selftests usually at the end of the series, reproducible
+>   performance measurements, tests encouraged rather than required for NV.
+> - Key cycle dates: no new features after -rc6; how fixes are sent.
+> - Review cadence: stability of commit IDs; answering bot reviews.
+> - Posted as a new thread, with the documentation maintainers and lists
+>   on Cc.
+> 
+> Steffen, Marc asked you for a short addition on KVM/arm64 on s390 for
+> the Trees section.  I've left it out and can add it as a follow-up.
+> 
+> Oliver, thanks for inviting an updated patch.  Corrections are welcome.
+> 
+>  .../process/maintainer-kvm-arm64.rst          | 181 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +
+>  2 files changed, 183 insertions(+)
+>  create mode 100644 Documentation/process/maintainer-kvm-arm64.rst
 
+This looks pretty good. Thanks a lot for your efforts!
+
+Acked-by: Zenghui Yu <yuzenghui@huawei.com>
