@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793351285;
-	b=IhsB+zsY4bohp9EhoDDXEwqTBxhRHDnnBXOr4YZMFyyNrrfAXsSTBeNy83lDLYHWPZia
-	 ApEFDMW2+qfoed1/jW3tATC5B2lRoUz5NxKADhSJ0BrDnxiETo8EZy4bs34E55/4ipsae
-	 P+U6bwaVyvBFFa0dQor3UQR2urTQF7cJeR7rtwlD7s9Hp2EzpI/WGnOu7VU2wWVIqgft4
-	 bg5jtSMT57aKMkOIFF2RyPdmBEI+/6aK5tISjMtzH2YLQdotmDF9EETRo4nRIwuOnrUu6
-	 TJOaW/5i1rT6w9vzstY8bu5KgHJnSDSjzegU4c2GK0C3jtbccyxWRp3IiFQ2my+uvaA==
+	t=1793352053;
+	b=xAIuFl6ILTXYDeacDUYD7/8zUgu+O/TUr+V0zqFCeRr1BPIiRkLoTvHK+DecO8U61lRF
+	 5/sakWgTXQvlOXbvmXz4a7nhonW1Pu8NbHtpB3WsxoSx5kxbGqpla8imUJ+Nm6Um5UIX1
+	 CXVVg2kwXIO7XlgFgLhSQ8HuMtDWPmO78YoYYPxVat19HxhAoZfyYaTDPD3Cmfe2iONq0
+	 lPyAuiQe5B2gg7PZsvKj4j9+KxFNSB41qFjS7wYZXO8KYYM0xD3Y7wOBDFP4HQG1mrL+I
+	 QOZqSlwMhFNpGwckQv8S0gFGFz/keO/RbigbROOOOPj1nDzOGWHI136ND4IsIFhuW3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793351285;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793352053;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=HzETpkZCDXkShONkGAZlIV0dEoNYXp2bUggxSrX6SDs=;
-	b=aSu3jG+t7sYyuHcBx+A5c1Eo3pRWn5E86KJcF8co06PiI+OvB5fyALT00FurDRp5ls9z
-	 ieKwLLl1earDlPqRfbtQyMkOVS5ifKKhO9N8Ke4uCHX49+ylCZ0b74lcBUqaaZO0toVdK
-	 56GTewy+rPkAyI50xagg/0YltbN0QXVZcBfbeUh5mxApLA1VF94eQ0KS6qjEUs9a+5HQP
-	 /6GyL7U0+FNuSdssUNFyr49aEd23E+E5Im3uOOPiaBEpXblzqmkeTl4Tro4e3Y8LXsfNf
-	 CtLpk4f8MzOkMPrqk7x3QIEqp67Mt9PX+3P3+k/UCYxHa72Tr7wyne1pbbGumYAu8Cw==
+	bh=DwWDiQU31GhAJkKLOok0q5GmDT5UejWxDA7k4JTVj4M=;
+	b=HXgEicaHc9Y/YijgXLLmFuO438dBWw+nxN9BAoG5zRwuGUgT2ycjZZKZtWJ/zTWQaAES
+	 E8+ptWN9pWwMRYGNNl8u3mT5JkghMP9MzOCqQ7tFPTFN9Hfyr9BHD1JalMqM6gpojtIJo
+	 jKzNWZh/MSbJfeBvvY1t2E9/aFPSCxk/7C1g2G6FoRAuuW/LxgZJoM/Ja5GbO+penJGL1
+	 9mnkaDWqldkApKlKnqzgDVMks6o+NX9NiI0tdwYa3LBMjkECRvVaavbZnDxmVO9hC5g48
+	 XpYzJGJ/u+xxunVXWtEss6WawsyEXqOCTdDKtYrb6k5zBo3LIcpYiRwlvRSjX+IvM/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BPoXN38o;
-	arc=none smtp.remote-ip=91.218.175.99
-Received: from mta0.migadu.com (out-99.mta0.migadu.com [91.218.175.99])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=d87jxZYs;
+	arc=none smtp.remote-ip=95.215.58.14
+Received: from mta1.migadu.com (out-14.mta1.migadu.com [95.215.58.14])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07A4606A31C
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 09:08:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C07A4606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03604606A31F
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 09:20:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03604606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BPoXN38o
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=d87jxZYs
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8R0FqJTbDe7nC/J3cP65RdEuTA26QhIX/KSEeF9uB9k=;
+DKIM-Signature: a=rsa-sha256; bh=DwWDiQU31GhAJkKLOok0q5GmDT5UejWxDA7k4JTVj4M=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793351282; v=1; x=1793956082;
- b=BPoXN38obfYHfZy9SZp+rS0+IWXOSOa1zhP7QLcL77ktdrxAL4d2atfbjcLNQ2sB+By5fMvw
- Zlet4ZoKfrs3FT0BQKqZwIzk8DiwAYYqFH+PcGr1NtPmH/8/ABPUdlZ3C3w+CEm7DfCQZAxx/Af
- cpbh71pLOtzXW9BCaMr0ni7M=
+ t=1793352050; v=1; x=1793956850;
+ b=d87jxZYsXzSYCQ/xHD6fPWdvBbmfDED2jZYdIP/wz0YMDb65qjez3nTkqQ2OiGGUSbvTbfQM
+ 4fRPwHh32lyypRcBqLI618nMxfYTKzklpEZuKUGzwqzhkdwzTqJOKu5v5/QYZXXVsjgPD8Ix4e3
+ f6sg9vfDv/TQg6Cbx/x5kjZ0=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id b2e1111847a6cf4a;
-	Fri, 30 Oct 2026 09:08:01 +0000
-X-Mizu-Trace-ID: b2e1111847a6cf4a
+Received: by mta12.migadu.com with ESMTPS id 222f0c8429a65a02;
+	Fri, 30 Oct 2026 09:20:38 +0000
+X-Mizu-Trace-ID: 222f0c8429a65a02
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,10 +58,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.12\))
-Subject: Re: [PATCH 04/15] mm/hugetlb: account temporary folios separately
+Subject: Re: [PATCH 06/15] mm/hugetlb: fix mremap() racing with page migration
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-4-a0a033db180f@kernel.org>
-Date: Fri, 30 Oct 2026 17:07:39 +0800
+In-Reply-To: <20261028-fixes_hugetlb-v1-6-a0a033db180f@kernel.org>
+Date: Fri, 30 Oct 2026 17:20:12 +0800
 Cc: Oscar Salvador <osalvador@suse.de>,
  Naoya Horiguchi <nao.horiguchi@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -102,11 +102,11 @@ Cc: Oscar Salvador <osalvador@suse.de>,
  linux-arch@vger.kernel.org,
  linux-s390@vger.kernel.org,
  stable@kernel.org,
- Josef Bacik <josef@toxicpanda.com>
+ Chris Mason <mason@kernel.org>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <BCB80A53-031D-4479-8D2B-0291ACF92F70@linux.dev>
+Message-Id: <9FFF0EF2-A99A-4448-9CA3-50E1733D6232@linux.dev>
 References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-4-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-6-a0a033db180f@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.100.1.1.12)
 
@@ -115,57 +115,49 @@ X-Mailer: Apple Mail (2.3901.100.1.1.12)
 > On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> Hugetlb migration might have to allocate a temporary folio through
-> alloc_migrate_hugetlb_folio(). Such folios are currently accounted in
-> "nr_huge_pages" but not in "surplus_huge_pages". =
-persistent_huge_pages()
-> can mistake them as persistent huge pages, as it merely calculates the
-> difference.
+> Migration of anon hugetlb folios walks the anon_vma, so the file's
+> i_mmap_rwsem does not serialize it against move_hugetlb_page_tables().
 >=20
-> If set_max_huge_pages() shrinks the pool at the wrong time, it will =
-turn
-> hugetlb folios into surplus folios until persistent_huge_pages() =
-returns
-> the desired number.
+> There are various issues with that. Most importantly, move_huge_pte()
+> releases both page table locks before the TLB is flushed. Migration =
+can
+> then find the destination entry and finish migration, reusing the old
+> folio while the TLB still has entries cached.
 >=20
-> After the migration (successful or unsuccessful) either the new =
-(temporary)
-> folio or the old folio gets freed: this will reduce "nr_huge_pages" =
-but
-> not "surplus_huge_pages", to undo what was done when allocating a
-> temporary folio.
+> Hold the anon_vma write lock across the move and the final TLB flush.
+> This also prevents concurrent rmap walks from missing entries moved
+> during rollback.
 >=20
-> This can result in having more surplus folios than actually allocated
-> folios:
+> When we must allocate a destination page table, flush the TLB before
+> dropping the anon_vma lock, then reacquire it after allocation.
 >=20
->  HugePages_Total:       0
->  HugePages_Surp:        1
+> Dropping the lock only works around lockdep: hugetlb folios are not
+> reclaimed or migrated by allocation compaction, but their anon_vmas
+> share the lock class used by ordinary anonymous memory. Having a
+> separate lock class for hugetlb's anon_vma (like already done for
+> i_mmap_rwsem via hugetlbfs_i_mmap_rwsem_key) requires more thought.
 >=20
-> =46rom then on persistent_huge_pages() returns garbage.
+> There is a concern that this can block page migration of anonymous
+> folios quite a while ... which is not really different to what happens
+> to page-cache folios today. If ever a problem, we can temporarily
+> release the lock.
 >=20
-> To fix it, add internal temporary counters and subtract them when
-> calculating persistent pool sizes. Update persistent_huge_pages() and =
-add
-> persistent_huge_pages_node() to make the code easier to read.
+> So let's keep it simple for now.
+
+Make sense.
+
 >=20
-> Count migration targets and rejected surplus allocations as temporary.
-> Transfer the per-node temporary count along with the temporary flag on
-> migration, such that folio freeing will always do the right thing.
+> It is a shame that hugetlb has to implement everything core-mm =
+implements
+> in a different way that just screams for problems.
+
+Yeah, nightmare in MM.
+
 >=20
-> Take care of calling account_new_hugetlb_folio() only after setting =
-the
-> folios to be temporary.
->=20
-> For now, keep temporary folios in nr_huge_pages, so HugePages_Total =
-and
-> Hugetlb continue to include them and overcommit accounting remains
-> unchanged. The new temporary counters are internal for now and are not
-> exported to userspace.
->=20
-> Fixes: ab5ac90aecf5 ("mm, hugetlb: do not rely on overcommit limit =
-during migration")
+> Fixes: 550a7d60bd5e ("mm, hugepages: add mremap() support for hugepage =
+backed vma")
 > Cc: stable@kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Reported-by: Chris Mason <mason@kernel.org>
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Acked-by: Muchun Song <muchun.song@linux.dev>
