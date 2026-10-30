@@ -1,84 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793333186;
-	b=nhJNCfRsCGodx0/DCc2AH9WdxAI1FKGGIYskSwSIgqv9D0k1QcndYc4mtqzU8dpv7lIM
-	 PvcdfgYNXolGwyCp3fyl4D13PjNg5j9+dO0iBrQNIbbRDYZMpJiKZTLw3pVJ6OAwj5LeA
-	 ADsby87dcFGrkmHnbGcUBS0QxNTg4znOiypNvIdzupkjgFT+20nzTfJhFY4LbOdGQ24Q3
-	 Xgpu3ovWK5mE9RhetQ1ZhtqQQk348JRjRBJIYhKJYWpKRl+3EsUeNfKi2T9SrbIcaNxQ0
-	 9uWiXdCHFaT2bnjF/UPKihCHn78TKiogdCiciUB7SSyn60S6n1DHU5HQ+3trH8czZVA==
+	t=1793336234;
+	b=Tf5SYKkbMw7F6MyMi2tzI2v453/n3ClRwjlLjboJtH7rinMjMPQU7NAm0gUY/qMq9ZOr
+	 Van/Jsda7OLZCpvI0avsSR4nO3GTL3vOHKCZ6cZ1+giIxRWrUmNtSFgeXcL4M6xxR7j5o
+	 4Dt4k4GoYFOCym3rdjyDGgNRZBCNC7P1i3bwuMM6ZZtz4m0R8GTqZsV4ZeTh1lkLe7foi
+	 stjAkiO9FTlBEQjvMd85iWtc8iZHkYf/BEbXZMsaNFfC4Y+AupaehiKJqOE1kGsCxnqgN
+	 W/SWNUafMXWVial5xgAC6brTnwMjV2aPl+aiPJ6mrW50NVyS0uBr99NmcAe5rcAcGgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793333186;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=grdHjhMd7QvaUC0XVPHxOaowqqDmcsmw2rXkQG3QSuY=;
-	b=p5IwRt9xXXFcUVbokMtt8i2NuT7ezLxx+tiNvYyB9bnADr2xxI5LUbgVmCeyvy0cUV/L
-	 4uSpsmGSmuBruijVgiyl9OFB2nBCv1xSMMdUSxvxTsNm2Bh3PKt2qZiWbmNAH3GCt3G8S
-	 U48ZJeSAzKoNO2frzp/2r1tN4p+1/F5bYMxcUORKazl8/LC98pYd4A1Y/pIvedpIKUqyU
-	 MrRXet0MIh+9tvPQJsyhOKsSrtv9dtlpu3VrM1i6oyeh1dzGPC9DZFUnZrkAoo+SVM9kG
-	 6JbpLbj40mX42eTcBzEhduCgq+pB5o9aDN2d2bB9ykkFao6gFo6r5NE8HKPQ+tuYGLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793336234;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=LkSAHBtoPgrkAY7QvIyWogTu4sDPqd80TrYA0xZEnEk=;
+	b=1sh7C6ZMPUoZbrW14qqUBNMsdjHgUN8Lv03EhuM3D8eoZtOATkky/oRK9/WRhRDzK+D5
+	 I7BwreAnn50up8WFTHmEOH8wOFrviYWEg+EFjwX59Ze11aVZn0QsVMFsaglHTxsFQayGQ
+	 eq23zPW3Fh29HqK4IXdAAymMx7s3qniyB/Qb7aKEfgsoG3jvRDC2UMzqHVH8rRCe35fxL
+	 B3jBCy3CBbE3hsbBro9FTam1HpFGHG0LkWXv7zRO+zxcyCiRnqflVVEoA7YBhS/dfBYvB
+	 hpZp2zaiad3iZt+Iu4iI+DZMORPqZ2pSDzA5ELqG7Gsx1+iUchfRzz+W6sern7a7jyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=codeconstruct.com.au;
-	spf=pass smtp.mailfrom=codeconstruct.com.au;
-	dkim=pass header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=gP4O6XbB;
-	arc=none smtp.remote-ip=203.29.241.158
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dlXIONyU;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9C6606A31C;
-	Fri, 30 Oct 2026 04:06:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C9C6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EC6606A31C;
+	Fri, 30 Oct 2026 04:57:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12EC6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=gP4O6XbB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1793333177;
-	bh=grdHjhMd7QvaUC0XVPHxOaowqqDmcsmw2rXkQG3QSuY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=gP4O6XbBNP3E0tCn55RYSkni7rxRKdrPd+cAyKq7Q7ka6AX+fl+13CnYSbEz7qfEV
-	 LUM/eSwndXbzayTZMnEAp911V2klLbt5RdolBTtGj9AJTcE18qFP1hOh1I7GA16LN9
-	 PECOUTfLQgdUDd06Osrb37D8zntZ+Lgd9AICm5Z3Z9dkLnvotzrpcjxQseRVizJ4Ja
-	 5Ht44VRDHFQXUOgBigtuRcLyXFEmMcx7oavVBo3fsC6Yih5Gp6XxAiuSXecPSpLKUg
-	 lTfO1PMhHtvMi6NObu4pDTT21lbh/vev1DcBDlJCjrCS0cRbkFOrTlFJFvpNXcQ1Jn
-	 7NZqQTlVp2x1w==
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8496470E87;
-	Fri, 30 Oct 2026 12:06:15 +0800 (AWST)
-Message-ID: <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adrian Ambrozewicz
-	 <aambrozewicz@nvidia.com>
-Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Linus Walleij	 <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Lee Jones	 <lee@kernel.org>, Pavel Machek
- <pavel@kernel.org>, Andi Shyti	 <andi.shyti@kernel.org>, Mark Brown
- <broonie@kernel.org>, Jiri Slaby	 <jirislaby@kernel.org>, Corey Minyard
- <corey@minyard.net>, "Rafael J. Wysocki"	 <rafael@kernel.org>, Len Brown
- <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,  Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?=	 <ilpo.jarvinen@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Hans de Goede <hansg@kernel.org>, Lixu
- Zhang <lixu.zhang@intel.com>, Danilo Krummrich <dakr@kernel.org>,  Johan
- Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>, Quan Nguyen
- <quan@os.amperecomputing.com>,  Andrew Jeffery
- <andrew@codeconstruct.com.au>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, 	linux-gpio@vger.kernel.org,
- linux-leds@vger.kernel.org, 	linux-i2c@vger.kernel.org,
- linux-spi@vger.kernel.org, 	linux-serial@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, 	linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, Bart Van Assche	 <bvanassche@google.com>
-Date: Fri, 30 Oct 2026 12:06:15 +0800
-In-Reply-To: <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
-		 <2026101310-scuttle-unison-d4c3@gregkh>
-	 <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dlXIONyU
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=LkSAHBtoPgrkAY7QvIyWogTu4sDPqd80TrYA0xZEnEk=;
+	b=dlXIONyUPuQhZmuhCVJ9Kxz1cWOkRyM210Hdd3g7CpRzTkcjoW5dcIT/e1AqdzHD3yxjPUBGt
+	Kg8d91FT+/NcevLnn1rbWOV1WdTucGPMfWiKtOzXUsxtufmrvYHEX7AYgpa/mxbe4KxKSlvkh9H
+	+8bUTXdstDRfB7W/SMYTv44=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jG82p6qyjzcZyh;
+	Fri, 30 Oct 2026 12:56:50 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 24DA740579;
+	Fri, 30 Oct 2026 12:57:08 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 30 Oct 2026 12:57:06 +0800
+Message-ID: <5bbd0d3b-1026-43f3-bc45-245472603144@huawei.com>
+Date: Fri, 30 Oct 2026 12:57:06 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,72 +62,244 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-
-Hi Greg,
-
-> FWIW, we did raise greybus as an approach to various HW vendors; I
-> assume there were reasons behind OBMF-ICP, and assume some prior-art
-> assesment was involved, but I don't have specifics for those reasons.
->
-> HW peeps: This would be an excellent opportunity for elaboration on the
-> motivation there, either for LSTP or OBMF-OCP.
-
-I have been doing some asking around, and a few items came up around
-motivations for OBMC-ICP over Greybus. My motivation here is entirely
-around OBMF-ICP; the NVIDIA contributions for LSTP somewhat comes under
-this, and so we're working on composing a unified solution.
-
-Collating some of those items here:
-
-As a bit of background, the typical use case for OBMF-ICP is for
-platform pre-boot environments, with limitations in capabilities of both
-the hardware and software stack. Microcontroller and mask-ROM
-implementations of either side of the protocol are potential targets.
-
-This leads to the structure of OBMF-ICP being intentionally
-light-weight; the channel configuration (ie, definition of the
-encapsulated devices) is static, and the channel-level messaging is kept
-simple, mainly through a requirement of only one message in flight per
-channel.
-
-[Greg, this is related to one of your points around why not use a
-multi-function USB device for individual, separate devices: the typical
-device-side hardware does not have support for enough USB endpoints to
-do so. Like greybus, the intention is to be able to support multiple
-downstream peripherals without constraints from USB hardware on existing
-SoC devices]
-
-There are a few design points that lead to the preference for OBMF-ICP:
-
-The front-loaded configuration mechanism means less state to manage on
-both sides of the protocol; the channel set and channel-specific
-parameters (like individual GPIO descriptors and flash geometry) being
-stable over the lifetime of the device means simpler core protocol
-support and channel driver implementations.
-
-The simpler channel communication protocol is better suited to
-lower-complexity interfaces that are needed for the pre-boot
-environments (GPIO control, uart, IPMI, flash access) than the greybus
-targets for mobile device runtime, with higher-bandwidth communication
-requirements (camera, audio, display). For example, typical platform
-management functions generally involve a lot of short i2c operations -
-ICP messages for these are around half the length of greybus
-equivalents.
-
-For the platform-boot use-cases, we would need to provide a bunch of new
-channel definitions for greybus. This certainly isn't a showstopper in
-itself, but the specification does not appear to be in active
-development; last change was 10 years ago, and the spec repository has
-since been archived as far as I can tell (and so is read-only).
-
-With OBMF-ICP's super-minimal core protocol, and the use-case
-appropriate channels, seems like a suitable approach to me.
-
-The USB-IF has a class ID allocated for OBMF-ICP interface descriptors,
-with the intention that we have multiple vendor implementations of the
-common protocol; we would like Linux to be one of those.
-
-Cheers,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/15] KVM: arm64: Flush the HDBSS buffer on VM exit
+To: Leonardo Bras <leo.bras@arm.com>
+CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
+	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
+	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
+	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
+	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
+	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
+References: <20260929103655.85107-1-zhengtian10@huawei.com>
+ <20260929103655.85107-9-zhengtian10@huawei.com> <auDpyRNpeDNzIk3W@LeoBrasDK>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <auDpyRNpeDNzIk3W@LeoBrasDK>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
 
-Jeremy
+
+On 10/28/2026 2:13 AM, Leonardo Bras wrote:
+> On Tue, Sep 29, 2026 at 06:36:48PM +0800, Tian Zheng wrote:
+>> From: Eillon <yezhenyu2@huawei.com>
+>>
+>> HDBSS entries accumulate in the per-vCPU buffer while the guest runs,
+>> and must be drained into the dirty bitmap or dirty ring before
+>> userspace can observe them.
+>>
+>> Drain the buffer at a single point: kvm_arch_vcpu_ioctl_run() flushes
+>> it on every VM exit, before the exit reason is handled. Flushing
+>> inside the run loop keeps the dirty-ring feedback timely: when a flush
+>> pushes the ring past its soft limit, kvm_dirty_ring_push() raises
+>> KVM_REQ_DIRTY_RING_SOFT_FULL, which check_vcpu_requests() observes at
+>> the top of the next loop iteration, so the vCPU exits to userspace for
+>> the harvest before re-entering the guest.
+>>
+>> kvm_arch_sync_dirty_log() relies on the exit path to flush: it kicks
+>> vCPUs out of guest mode, and the GET/CLEAR protocol tolerates
+>> concurrent bitmap writes, so the snapshot is complete without extra
+>> synchronization.
+>>
+>> Signed-off-by: Eillon <yezhenyu2@huawei.com>
+>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+>> ---
+>>   arch/arm64/include/asm/kvm_dirty_bit.h | 15 +++++++++
+>>   arch/arm64/kvm/arm.c                   | 20 ++++++++++++
+>>   arch/arm64/kvm/dirty_bit.c             | 45 ++++++++++++++++++++++++++
+>>   3 files changed, 80 insertions(+)
+>>
+>> diff --git a/arch/arm64/include/asm/kvm_dirty_bit.h b/arch/arm64/include/asm/kvm_dirty_bit.h
+>> index fe703f02626b..d828e6b43fe9 100644
+>> --- a/arch/arm64/include/asm/kvm_dirty_bit.h
+>> +++ b/arch/arm64/include/asm/kvm_dirty_bit.h
+>> @@ -13,6 +13,9 @@
+>>   #include <asm/sysreg.h>
+>>   #include <linux/sizes.h>
+>>
+>> +#define HDBSS_ENTRY_VALID	BIT(0)
+>> +#define HDBSS_ENTRY_IPA	GENMASK_ULL(55, 12)
+>> +
+>>   #define KVM_ARM_HDBSS_DEFAULT_SIZE  PAGE_SIZE
+>>   #define KVM_ARM_HDBSS_MAX_SIZE      SZ_2M
+>>
+>> @@ -22,7 +25,19 @@ static inline u32 kvm_hdbss_buffer_size(struct kvm *kvm)
+>>   	return kvm->arch.hdbss_buffer_size ?: KVM_ARM_HDBSS_DEFAULT_SIZE;
+>>   }
+>>
+>> +static inline bool kvm_hdbss_enabled(struct kvm *kvm)
+>> +{
+>> +	return kvm->arch.mmu.vtcr & VTCR_EL2_HDBSS;
+>> +}
+>> +
+>> +static inline bool vcpu_hdbss_enabled(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return vcpu->arch.hw_mmu &&
+>> +		(vcpu->arch.hw_mmu->vtcr & VTCR_EL2_HDBSS);
+>> +}
+>> +
+> 
+> IIUC, arch.mmu is always the canonical s2_mmu, while hw_mmu can be the
+> nested s2_mmu, if enabled.
+> 
+> Was that your intend here?
+> If not, we could use only kvm* version, which can be called with vcpu->kvm.
+> 
+> If it was, then I would like to understand the logic here, as IIUC the
+> buffer is accessible only for the non-nested guest, as it's
+> allocated in a per-vcpu structure. (vcpu->arch)
+> 
+
+Hi leo,
+
+Yes, that was the intent. The shadow MMU never carries VTCR_EL2.HDBSS,
+so the flush is naturally skipped when running nested.
+
+>>   int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu);
+>>   void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
+>> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu);
+>>
+>>   #endif /* __ARM64_KVM_DIRTY_BIT_H__ */
+>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>> index 5ea4ac26995e..9d7bdece149a 100644
+>> --- a/arch/arm64/kvm/arm.c
+>> +++ b/arch/arm64/kvm/arm.c
+>> @@ -1430,6 +1430,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+>>
+>>   		trace_kvm_exit(ret, kvm_vcpu_trap_get_class(vcpu), *vcpu_pc(vcpu));
+>>
+>> +		/*
+>> +		 * Drain the HDBSS buffer before the exit is handled, so
+>> +		 * entries pushed to the dirty ring are accounted for by
+>> +		 * dirty_ring_check_request() on the next iteration.
+>> +		 */
+>> +		if (vcpu_hdbss_enabled(vcpu))
+>> +			kvm_flush_hdbss_buffer(vcpu);
+>> +
+>>   		/* Exit types that need handling before we can be preempted */
+>>   		handle_exit_early(vcpu, ret);
+>>
+> 
+> 
+> looks the correct place, haven't looked too much on that, though.
+> 
+
+Thanks!
+
+> 
+>> @@ -2017,7 +2025,19 @@ long kvm_arch_vcpu_unlocked_ioctl(struct file *filp, unsigned int ioctl,
+>>
+>>   void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
+>>   {
+>> +	unsigned long i;
+>> +	struct kvm_vcpu *vcpu;
+>>
+>> +	if (!kvm_hdbss_enabled(kvm))
+>> +		return;
+>> +
+>> +	/*
+>> +	 * The buffer is drained on every VM exit, so kicking running
+>> +	 * vCPUs is enough to flush them; the dirty-log GET/CLEAR
+>> +	 * protocol tolerates bits set concurrently with the snapshot.
+>> +	 */
+>> +	kvm_for_each_vcpu(i, vcpu, kvm)
+>> +		kvm_vcpu_kick(vcpu);
+>>   }
+>>
+>>   static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>> diff --git a/arch/arm64/kvm/dirty_bit.c b/arch/arm64/kvm/dirty_bit.c
+>> index f9aeb9f34ad0..be0d12555c84 100644
+>> --- a/arch/arm64/kvm/dirty_bit.c
+>> +++ b/arch/arm64/kvm/dirty_bit.c
+>> @@ -13,6 +13,7 @@
+>>   #include <linux/kconfig.h>
+>>   #include <linux/log2.h>
+>>   #include <linux/mm.h>
+>> +#include <linux/srcu.h>
+>>
+> 
+> Out of curiosity, could you please explain you reasoning on selecting srcu
+> as locking here?
+> 
+> (Like, what are you protecting against, and why srcu is a good choice)
+> 
+
+kvm_vcpu_mark_page_dirty() resolves the memslot under SRCU
+(kvm_vcpu_gfn_to_memslot), and the flush loop calls it for each entry,
+so the whole loop needs the read lock held.
+
+>>   int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu)
+>>   {
+>> @@ -53,3 +54,47 @@ void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
+>>   	vcpu->arch.hdbss.hdbss_pg = NULL;
+>>   	vcpu->arch.hdbss.hdbssbr_el2 = 0;
+>>   }
+>> +
+>> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
+>> +{
+>> +	int idx, curr_idx;
+>> +	u64 prod;
+>> +	u32 entries;
+>> +	u64 *hdbss_buf;
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +	int srcu_idx;
+>> +
+>> +	if (!vcpu_hdbss_enabled(vcpu))
+>> +		return;
+> 
+> You test this before calling, is it really necessary to test it again, just
+> after calling?
+> 
+
+You're right, I've removed it.
+
+Thanks,
+Tian
+
+>> +
+>> +	prod = read_sysreg_s(SYS_HDBSSPROD_EL2);
+>> +	curr_idx = HDBSSPROD_IDX(prod);
+>> +
+>> +	if (curr_idx == 0 || !vcpu->arch.hdbss.hdbss_pg)
+>> +		return;
+>> +
+>> +	hdbss_buf = page_address(vcpu->arch.hdbss.hdbss_pg);
+>> +	if (!hdbss_buf)
+>> +		return;
+>> +
+>> +	entries = kvm_hdbss_buffer_size(kvm) / sizeof(u64);
+>> +
+>> +	/* kvm_vcpu_mark_page_dirty() resolves the memslot under SRCU. */
+>> +	srcu_idx = srcu_read_lock(&kvm->srcu);
+>> +	for (idx = 0; idx < min_t(u32, curr_idx, entries); idx++) {
+>> +		u64 gpa;
+>> +
+>> +		gpa = hdbss_buf[idx];
+>> +		if (!(gpa & HDBSS_ENTRY_VALID))
+>> +			continue;
+>> +
+>> +		gpa &= HDBSS_ENTRY_IPA;
+>> +		kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
+>> +	}
+>> +	srcu_read_unlock(&kvm->srcu, srcu_idx);
+>> +
+>> +	prod &= ~HDBSSPROD_EL2_INDEX_MASK;
+>> +	write_sysreg_s(prod, SYS_HDBSSPROD_EL2);
+>> +	vcpu->arch.hdbss.hdbssprod_el2 = prod;
+>> +	isb();
+>> +}
+>> --
+>> 2.43.0
+>>
+> 
+> 
+> Thanks!
+> Leo
+
