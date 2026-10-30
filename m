@@ -1,76 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.187.6.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793338343;
-	b=Jv5MmAq41CW2+jzHii1Gy7aCs+fTcjx7Y39pL0b/iGjnN54/Rkz4z5zZ53UAujMKDrww
-	 Gpq3s2dQUtr7gx4u6ekhn+bPQsiLGJqJ6NOO5qSrYZ+Y4KvBnSYGnnZ85vIqolNLOk/OA
-	 Maj0dRzxpWFgY0swtDISETf7FdOpPaoymgveG1Eedso47okMcekk9y0d3FxPJIDzqgPZg
-	 eexSpveVTgn3OTut1s+uhSofKgy11FLrSGfAW0cDFDKhh2rpwTCyZCieYcl+34nPQn6qC
-	 hMzSw9w/Hdu8SH63FpUNAAbPuckgDifTzWOqPlZK1ijJOXhONFtC66N+pCZnjXebzRw==
+	t=1793339433;
+	b=OQnRIDNavCxVj+QcDorkjp2v1DHQQ53SwAaZjTYfRf/Of6OwgPRTP0bxahF0MZKNKQzN
+	 h/SX4T0yUb3VI8+1OaOV5J+ynahJnppI2GZ9z/3pHZRaolz6cJUVV3CqHvKDhJRMe6Tej
+	 PB6YQ/qlBrjCtLnofnud9TUSlI9hkVZCQsPVMMjxaZbl21mBwcS+XKek4RN7tT8dgCLBS
+	 bWlLJEmHacfsqQSFUIlR0C7mDgq/iDpQEHYAXlAaCVzNpusDa+03R0jhCD9p4VRzF7sZ9
+	 3SNeQC0dEArjBltETdXCl/51RTlTXH/i3NOlow7ZJQhYkVnEvKanuIeNyv5quVcqqlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793338343;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=iqzvhuQcnt+M1uy6q8ZgEZg+92jJlmTF/zBz9tyaOXw=;
-	b=S11yUm6POSdMigMDjkWvkARK12OWAC4SWzols8nsit8fWpD7z36D9r6fz7LQOfYY7fOf
-	 /OOUMCu04Nu6NOX9rGL0JAMtDcqq2ppFz8oT4+UN2KNPzfWy43M6Pfvk+8dwzvONbcxjc
-	 sL1ugcvB+pdxsYbCYTvFBNn3wwk+s5j6e8cyFqzQ4O21dEX8eaSeyASXK6jdbWLWdHvpj
-	 Et5YcGfW7I1ApI4GvqQtrY2SV0GLi5zjaIlxYjFMTclwUvj/2D+qlLwLb9olmcNfJrh/X
-	 72DWM4z5rozfySf7Nr2ChCRWJy76XEIzeCCjTmmr2wPx3fqO788uqAIV50qJn4mrybw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793339433;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=nRLWCqYk1y7vVdpT5+4Ia/48/2K4M5vE4bN2ZGaSYiI=;
+	b=c1P8HmgEYZ/dfb+pi+bw9rprmfliGQeb1o7v9U+ZXy1R4+DPdREw4iT8pcTKz0pV2avP
+	 9yuWIZYvfl520qLk8LbiW8lAcnvwoKZw/jyqXWSi0VsOx/YAObDHD+KhKYlRySAePKumR
+	 dYBSt8iqx9X0eOAtaX0SGxOLfe2xUVIoaJpnulgBKhG+/dMe8Cu/lukcfxx34gw3MAcDn
+	 l65AB1F+CnoCBRpK4QN3Xef0Foh5bZ4JUP/8A6byuS7WPba0IQQvsV4J80xQvj7DVAZTx
+	 uf6Jq5zZpxLs8+YR2/t7geMdbQ6dbrOQtSBZBi2blU23N2SmDUylPHJ8QzefmistZBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bB5zxCnA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68390606A31A;
-	Fri, 30 Oct 2026 05:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bB5zxCnA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7441F000C1;
-	Fri, 30 Oct 2026 05:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793338341;
-	bh=iqzvhuQcnt+M1uy6q8ZgEZg+92jJlmTF/zBz9tyaOXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bB5zxCnAMbRDPFIf7fH+qrDq6h84IYsxZwVp/YP9NhScXxtWDfbNqfwjiKxGmNH6/
-	 LJbMP6M3xBtjNQz4LZ/Gfws6cMsl48OR4Uw+XmriiFRAMPHJ0IIEW0l/0BHbAAjG9X
-	 /GRLLc8J6d4wmcFL6VBaQHGcG5HCbgIsVWfyQ8fA=
-Date: Fri, 30 Oct 2026 06:32:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
-	Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bart Van Assche <bvanassche@google.com>
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Message-ID: <2026103015-stained-shudder-1582@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <2026101310-scuttle-unison-d4c3@gregkh>
- <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
- <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=52.187.6.220
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.187.6.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 036D5606A31A;
+	Fri, 30 Oct 2026 05:50:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 036D5606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMDW_XYdMORqad9lAA--.2791S2;
+	Fri, 30 Oct 2026 13:50:21 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wDXsToaMORq2acKAA--.1267S2;
+	Fri, 30 Oct 2026 13:50:21 +0800 (CST)
+Message-ID: <b95c5ea9-cb4b-4535-8eb0-0318357aa11a@hust.edu.cn>
+Date: Fri, 30 Oct 2026 13:49:11 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,114 +45,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/9] docs/zh_CN: align translation paths and update
+ guides
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Weijie Yuan <kernel@wyuan.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261028034134.4144660-1-dzm91@hust.edu.cn>
+ <auGucr4smrSp9g5l@wyuan.org>
+ <0ecb719c-5e0a-400c-b1b3-da2923c40bb4@hust.edu.cn>
+ <auQPB6S1VAFOLuhs@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <auQPB6S1VAFOLuhs@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMDW_XYdMORqad9lAA--.2791S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr18tFWfWry7uFy3Gw1fCrg_yoW8Wr4xpF
+	93WFyI9a1fJr1fArn7K3y7JF1fKF47Gay7GF17t3sayFnav3s5tFWrtrZ8uF9rXrn5ua47
+	XF45tF95Xay5uaDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQlb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
+	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4
+	AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCF
+	s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+	8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+	IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+	AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+	jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, Oct 30, 2026 at 12:06:15PM +0800, Jeremy Kerr wrote:
-> Hi Greg,
-> 
-> > FWIW, we did raise greybus as an approach to various HW vendors; I
-> > assume there were reasons behind OBMF-ICP, and assume some prior-art
-> > assesment was involved, but I don't have specifics for those reasons.
-> >
-> > HW peeps: This would be an excellent opportunity for elaboration on the
-> > motivation there, either for LSTP or OBMF-OCP.
-> 
-> I have been doing some asking around, and a few items came up around
-> motivations for OBMC-ICP over Greybus. My motivation here is entirely
-> around OBMF-ICP; the NVIDIA contributions for LSTP somewhat comes under
-> this, and so we're working on composing a unified solution.
-> 
-> Collating some of those items here:
-> 
-> As a bit of background, the typical use case for OBMF-ICP is for
-> platform pre-boot environments, with limitations in capabilities of both
-> the hardware and software stack. Microcontroller and mask-ROM
-> implementations of either side of the protocol are potential targets.
+
+On 10/30/26 11:29 AM, Weijie Yuan wrote:
+> Dongliang Mu <dzm91@hust.edu.cn> writes:
 >
-> This leads to the structure of OBMF-ICP being intentionally
-> light-weight; the channel configuration (ie, definition of the
-> encapsulated devices) is static, and the channel-level messaging is kept
-> simple, mainly through a requirement of only one message in flight per
-> channel.
+>> On 10/28/26 4:12 PM, Weijie Yuan wrote:
+>>> On Wed, Oct 28, 2026 at 11:41:25AM +0800, Dongliang Mu wrote:
+>>>> Several Chinese translations are no longer at the same relative paths as
+>>>> their English originals, and some Original fields are stale. This series
+>>>> moves the translations to matching paths, adjusts their indexes, and
+>>>> removes stale Original fields. It also updates selected translations to
+>>>> newer English commits.
+>>>>
+>>>> v1->v2:
+>>>> - Drop the unused top-level readme_zh label from the translated
+>>>>     admin-guide README.
+>>> Hmm, so why still keeping these labels here?
+>>>
+>>> [2/9] .. _zh_applying_patches:
+>> This is necessary and used by another location.
+> $ git grep -n -F -- 'zh_applying_patches' Documentation/
+> Documentation/translations/zh_CN/admin-guide/README.rst:82:   :ref:`Documentation/translations/zh_CN/process/applying-patches.rst <zh_applying_patches>`。
+> Documentation/translations/zh_CN/process/applying-patches.rst:11:.. _zh_applying_patches:
+>
+> Seems that it is only used in your patchset? Because I didn't create
+> this label when I made this translation.
 
-greybus is very light-weight, you don't need to have more than one
-message in flight.  That's not a real answer :)
 
-> [Greg, this is related to one of your points around why not use a
-> multi-function USB device for individual, separate devices: the typical
-> device-side hardware does not have support for enough USB endpoints to
-> do so. Like greybus, the intention is to be able to support multiple
-> downstream peripherals without constraints from USB hardware on existing
-> SoC devices]
+Yes. It originates from the English documentation. To make the 
+translation have the same style, I create a similar top level label in 
+our translation.
 
-That's for LSTP, and USB devices are dirt cheap, multi-endpoint ones
-should also be very cheap compared to the system they are attempting to
-control here.  Don't place this on a "it would cost too much so we are
-going to fix that by making the software a complex beast and having
-someone else solve our problem for us" solution driven by a hardware
-designer.  That's not acceptable these days, you all know that...
+Dongliang Mu
 
-> There are a few design points that lead to the preference for OBMF-ICP:
-> 
-> The front-loaded configuration mechanism means less state to manage on
-> both sides of the protocol; the channel set and channel-specific
-> parameters (like individual GPIO descriptors and flash geometry) being
-> stable over the lifetime of the device means simpler core protocol
-> support and channel driver implementations.
 
-What state needs to be managed here for Greybus?  And given that there
-is firware and kernel code for greybus already written and working for
-10+ years, that feels simpler to me.
+>
+>>> [4/9] .. _process_index_zh:
+>>> [5/9] .. _magicnumbers_zh:
+>> The above labels needs removed. I forget to clean the same issues in other
+>> patches.
+> Thanks!
 
-> The simpler channel communication protocol is better suited to
-> lower-complexity interfaces that are needed for the pre-boot
-> environments (GPIO control, uart, IPMI, flash access) than the greybus
-> targets for mobile device runtime, with higher-bandwidth communication
-> requirements (camera, audio, display). For example, typical platform
-> management functions generally involve a lot of short i2c operations -
-> ICP messages for these are around half the length of greybus
-> equivalents.
-
-You don't have to do the high-bandwidth devices, just be a low-bandwidth
-device.  and "size" of an operation doesn't make sense here, it's just
-bytes in a buffer that you have plenty of on both sides of the
-connection.
-
-> For the platform-boot use-cases, we would need to provide a bunch of new
-> channel definitions for greybus. This certainly isn't a showstopper in
-> itself, but the specification does not appear to be in active
-> development; last change was 10 years ago, and the spec repository has
-> since been archived as far as I can tell (and so is read-only).
-
-There are new proposals for the spec, see the mailing list.  And what is
-missing for your needs that isn't currently present?
-
-I haven't read all of OBMF, as obviously that isn't what is being
-proposed here, I was just complaining about the madness of attempting to
-create a device tree representation for a single USB device that wanted
-to be carved up into different virtual devices because no one decided to
-learn from history.
-
-I have other objections about OBMF-ICP, but that's not what this thread
-is about, sorry.  Please propose your own patch series for that and I'll
-be glad to criticize it there.
-
-And all of these seem to be OMBC answers, not LSTP answers.  There's
-still no excuse for LSTP to be designed like this :)
-
-> With OBMF-ICP's super-minimal core protocol, and the use-case
-> appropriate channels, seems like a suitable approach to me.
-> 
-> The USB-IF has a class ID allocated for OBMF-ICP interface descriptors,
-> with the intention that we have multiple vendor implementations of the
-> common protocol; we would like Linux to be one of those.
-
-It's always fun to make a new spec and protocol, but getting an ID
-doesn't mean that usb-if says "this is how it shoudl be done."  Anyone
-can get an ID :)
-
-sorry,
-
-greg k-h
