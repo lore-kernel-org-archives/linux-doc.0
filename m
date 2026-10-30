@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.145
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.235
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793320725;
-	b=TxqvQO9a4kC1469YEIplZ7/QP4Vk97ldbYKH8NYrm0PXSa2tJXHwgVccxAhL5PTdeakx
-	 hbqv7BIswD55s3boqoxuNb7wGnGXdWEFvD1MaFIuaPR6XisopZCDkBaM/mvoT+PU+Ictv
-	 ZQ2VjF56O6k4RiYBrv2BVTO4xxoQQ3wbdXxhypuNXuBGsGrPM8j7V63iGXUZwKVSidGhE
-	 guaS1gwNU2unnCCool0TpjrjCGClz3iVrUK/eh2lDgdZAb3HnHtgxUgKf/R/qySCOzB/S
-	 9ybjT7BgU6I3u9fSNNeP3LbyD82XU54XA71x4lGOb/opr4ZuStwmlTGdAOHjsQJ6tNg==
+	t=1793322294;
+	b=XZZvsQF9ZkAPL8+87Fcw97PElFR1l++4EvQ9fmEsIobJr3E5vweiZVqlDpDJ1SnyoTpW
+	 boH8pLhM3QuvCVGApDk2YoRRqkim4aFLlTNS/iQto0h2YiwfAJOX5NdrC2/8W8JazPz/y
+	 0tfr18KudMyXCU81uCsihe0r9J+dYkjKd+XU6/RTu5GVx+8xePtPOK3FvS6JMFFHWBFXE
+	 DSl0jSAaP+L/5aPAsVUUk/isCtCz0XXRx7PtdMeBw3LPuqjkLPeDjHL7vqY6XIBTWj3aW
+	 1v2KEcSjq/gPE/BGzsb3DuUF8HsSL0iEbw/pBcUx5v/EEvfK7qN88HIMRURN3uiGjRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793320725;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793322294;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=J6AO5iwJua3wSUKXq7JQ0GRWveMiXiy9MHn5yIPX6+M=;
-	b=MNosgDGaiAZom3a+3ZfNqYcZpgk5PYDj+FuZdJCth4jBAWlYMKetCBDcYbAgiAzGIojS
-	 RUwYnRAZj1zxbNFlMT5hsy3+TWoEipplfWfiOV9UwNo0ljqkrbWMugOXV62gzFK3WaYJF
-	 XD9Y5ZdpuGsAprFvV8PQ8Z2NwR0UlQiRXA+OfPebwQkF9oxHQu7bM5c4sMP4OIuvIFnEz
-	 LcQ+xrm1HT+Gs1NxdiKeE27o/5Zlcs8M6brO116xarK5a+k3FqvBD4xdAUCbzWaMToJMx
-	 RoRHA/ri+p3P1DTWeLTJDFInsrq7qppClgeVfAet9v5OoFSU07qwqY1iea6HcrN4Lzg==
+	bh=d1VA9+a8v9XayiVkKTCnk0Rz1yYHohvOV7GRM9CJgGU=;
+	b=488/EQjyMOviQuy29MGOlBUiiLisKxwhTv4ud/05hFyJ4enY2Sqm31V6ylKyMaPe5NzP
+	 7gcFK85awysnQwRCv4U8TnFnqPK3TN+ToJT7IcF+mjLYtAkGeMoZHzgiS07fXHWNhF31y
+	 ZHcCSooiNZxePxh/djug6jmPQRNgFnfDaa3Dj8VGL8deAQclnKl9+vtj0e1hk/Xd+NNzv
+	 oNTZkD7O5MgqHGHsxN/mXH0pt8sdbG8t/xcMsI/l0YoY3jYDGBvRdGsE/beLgnxMO5xdD
+	 JvXwrO3hkUkorKsfWJj62+nKsYFJjx0hpUOhifM8+EtXSiI8h6o0ZCvnjuhfgUBUjyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qkqJzT1V;
-	arc=none smtp.remote-ip=91.218.175.145
-Received: from mta0.migadu.com (out-145.mta0.migadu.com [91.218.175.145])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J8XZS9E1;
+	arc=none smtp.remote-ip=95.215.58.235
+Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BEC606A31C
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 00:38:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6BEC606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1614F606A31C
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 01:04:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1614F606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qkqJzT1V
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J8XZS9E1
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=vxAClMAETmotJ8WMibjPFifJuGZdlwrE/indgpYj/J4=;
+DKIM-Signature: a=rsa-sha256; bh=j4+plSflKzu0Pz75yvIumxPrCTL8G+Bx7E2W3FjR664=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793320722; v=1; x=1793925522;
- b=qkqJzT1VmSFmJwVcaNvKkH72ZbagCFYMwi5XWDdW0qcxQJt6vAxmRwqnmvWrztiGpa32mAGF
- NWe0B/pg1SwushCmfxlDiwZ2KDfw1yUtcZ7hS02o5ZOAGQsOJNzAI8NEJ2VPZ5MHjRBtFcyv6AH
- hVuAhhNE+VrO7/PEzi+Gjlss=
+ t=1793322291; v=1; x=1793927091;
+ b=J8XZS9E1dQ4iKxBGEwub9qn7KwOpUiv70E8Nyq0Mxj9sdfJWEFpXYtGqIitzGXIlac1RyetU
+ 3VFBDiyLw+N++s6WtQjToS1ImrAMHwy1NUVzkNqW5SS4KNGBc1SC6m8maomtBppkJJ4u/mJyN5w
+ ZxI5BGnjfmZw/CPZJ80ZLTqc=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d4ce0f56de47b696;
-	Fri, 30 Oct 2026 00:38:42 +0000
-X-Mizu-Trace-ID: d4ce0f56de47b696
+Received: by smtp.migadu.com with ESMTPS id e19d4824ef9125b0;
+	Fri, 30 Oct 2026 01:04:50 +0000
+X-Mizu-Trace-ID: e19d4824ef9125b0
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <bfc7a731-eef9-4cd3-a2bb-3fe47e966097@linux.dev>
-Date: Fri, 30 Oct 2026 08:38:36 +0800
+Message-ID: <b8419932-c8bd-49c1-b8d0-079115597abb@linux.dev>
+Date: Fri, 30 Oct 2026 09:04:41 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,222 +59,532 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] docs/zh_CN: update admin-guide/README.rst
- translation
+Subject: Re: [PATCH v3 3/9] docs/zh_CN: add media administrator guide
+ translations
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Randy Dunlap <rdunlap@infradead.org>, Weijie Yuan <wy@wyuan.org>,
  Chen-Yu Yeh <chenyou910331@gmail.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20261029124429.294868-1-dzm91@hust.edu.cn>
- <20261029124429.294868-3-dzm91@hust.edu.cn>
+ <20261029124429.294868-4-dzm91@hust.edu.cn>
 Content-Language: en-US
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20261029124429.294868-3-dzm91@hust.edu.cn>
+In-Reply-To: <20261029124429.294868-4-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 在 2026/10/29 20:44, Dongliang Mu 写道:
-> update Documentation/admin-guide/README.rst Chinese translation
+> Translate the media administrator guide and V4L driver index. Move the
+> OMAP3 ISP translation from video4linux to its current location and
+> update it for the English source.
 >
-> Refresh the kernel installation guidance and correct the defconfig and
-> LSMOD descriptions. Add a label to the translated applying-patches guide
-> so the README can link to it.
->
-> Update the translation through commit 8913632998fc
-> ("Documentation: Fix typos and grammatical errors")
+> Update the translation through commit 3cd9b7011519
+> ("Documentation: add documentation of AMD isp 4 driver")
 >
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 > ---
->   .../translations/zh_CN/admin-guide/README.rst | 87 +++++++++++--------
->   .../zh_CN/process/applying-patches.rst        |  2 +
->   2 files changed, 51 insertions(+), 38 deletions(-)
+>   .../zh_CN/admin-guide/media/index.rst         |  54 ++++
+>   .../zh_CN/admin-guide/media/omap3isp.rst      |  95 ++++++
+>   .../zh_CN/admin-guide/media/v4l-drivers.rst   |  42 +++
+>   .../zh_CN/video4linux/omap3isp.txt            | 277 ------------------
+>   4 files changed, 191 insertions(+), 277 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/index.rst
+>   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
+>   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
+>   delete mode 100644 Documentation/translations/zh_CN/video4linux/omap3isp.txt
 >
-> diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
-> index ee6dd3782f4a..06d0172b2ee3 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/README.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
-> @@ -1,6 +1,5 @@
->   .. include:: ../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/admin-guide/README.rst
->   
->   :译者:
->   
-> @@ -30,7 +29,7 @@ Linux内核6.x版本 <http://kernel.org/>
->   
->     虽然Linux最初是为32位的x86 PC机（386或更高版本）开发的，但今天它也能运行在
->     （至少）Compaq Alpha AXP、Sun SPARC与UltraSPARC、Motorola 68000、PowerPC、
-> -  PowerPC64、ARM、Hitachi SuperH、Cell、IBM S/390、MIPS、HP PA-RISC、Intel
-> +  PowerPC64、ARM、Hitachi SuperH、Cell、IBM S/390、MIPS、HP PA-RISC、Intel
->     IA-64、DEC VAX、AMD x86-64 Xtensa和ARC架构上。
->   
->     Linux很容易移植到大多数通用的32位或64位体系架构，只要它们有一个分页内存管理
-> @@ -42,15 +41,12 @@ Linux内核6.x版本 <http://kernel.org/>
->   
->   文档
->   -----
-> -因特网上和书籍上都有大量的电子文档，既有Linux专属文档，也有与一般UNIX问题相关
-> -的文档。我建议在任何Linux FTP站点上查找LDP（Linux文档项目）书籍的文档子目录。
-> -本自述文件并不是关于系统的文档：有更好的可用资源。
->   
-> - - 因特网上和书籍上都有大量的（电子）文档，既有Linux专属文档，也有与普通
-> -   UNIX问题相关的文档。我建议在任何有LDP（Linux文档项目）书籍的Linux FTP
-> -   站点上查找文档子目录。本自述文件并不是关于系统的文档：有更好的可用资源。
-> + - 因特网上有大量电子文档，书籍中也有丰富资料，既包括 Linux 专属内容，也包括
-> +   一般 UNIX 问题。在任何 Linux FTP 站点的文档子目录中，都可以查找
-> +   LDP（Linux 文档项目）的书籍。本 README 并非系统使用手册；另有更好的资料。
->   
-> - - 文档/子目录中有各种自述文件：例如，这些文件通常包含一些特定驱动程序的
-> + - ``Documentation/`` 子目录中有各种 README 文件：它们通常包含特定驱动程序的
->      内核安装说明。请阅读
->      :ref:`Documentation/process/changes.rst <changes>` 文件，它包含了升级内核
->      可能会导致的问题的相关信息。
-> @@ -82,8 +78,8 @@ Linux内核6.x版本 <http://kernel.org/>
->      直接应用于基本的6.x内核。例如，如果您的基本内核是6.0，并且希望应用6.0.3
->      补丁，则不应先应用6.0.1和6.0.2的补丁。类似地，如果您运行的是6.0.2内核，
->      并且希望跳转到6.0.3，那么在应用6.0.3补丁之前，必须首先撤销6.0.2补丁
-> -   （即patch -R）。更多关于这方面的内容，请阅读
-> -   Documentation/translations/zh_CN/process/applying-patches.rst 。
-> +   （即 ``patch -R``）。有关这方面的更多内容，请参阅
-> +   :ref:`Documentation/translations/zh_CN/process/applying-patches.rst <zh_applying_patches>`。
->   
->      或者，脚本 patch-kernel 可以用来自动化这个过程。它能确定当前内核版本并
->      应用找到的所有补丁::
-> @@ -154,13 +150,14 @@ Linux内核6.x版本 <http://kernel.org/>
->        "make olddefconfig"
->                           类似上一个，但不询问直接将新选项设置为默认值。
->   
-> -     "make defconfig"   根据体系架构，使用arch/$arch/defconfig或
-> -                        arch/$arch/configs/${PLATFORM}_defconfig中的
-> -                        默认选项值创建./.config文件。
-> +     "make defconfig"   根据体系架构，使用
-> +                        arch/$ARCH/configs/defconfig 或
-> +                        arch/$ARCH/configs/${PLATFORM}_defconfig 中的
-> +                        默认选项值创建 ./.config 文件。
->   
->        "make ${PLATFORM}_defconfig"
-> -                        使用arch/$arch/configs/${PLATFORM}_defconfig中
-> -                        的默认选项值创建一个./.config文件。
-> +                        使用 arch/$ARCH/configs/${PLATFORM}_defconfig 中
-> +                        的默认选项值创建一个 ./.config 文件。
->                           用“make help”来获取您体系架构中所有可用平台的列表。
->   
->        "make allyesconfig"
-> @@ -180,7 +177,7 @@ Linux内核6.x版本 <http://kernel.org/>
->                              已加载的模块不需要的任何模块选项。
->   
->                              要为另一台计算机创建localmodconfig，请将该计算机
-> -                           的lsmod存储到一个文件中，并将其作为lsmod参数传入。
-> +                           的 lsmod 输出存储到文件中，并通过 LSMOD 参数传入。
->   
->                              此外，通过在参数LMC_KEEP中指定模块的路径，可以将
->                              模块保留在某些文件夹或kconfig文件中。
-> @@ -216,10 +213,10 @@ Linux内核6.x版本 <http://kernel.org/>
->         这种情况下，数学仿真永远不会被使用。内核会稍微大一点，但不管
->         是否有数学协处理器，都可以在不同的机器上工作。
->   
-> -    - “kernel hacking”配置细节通常会导致更大或更慢的内核（或两者
-> -      兼而有之），甚至可以通过配置一些例程来主动尝试破坏坏代码以发现
-> -      内核问题，从而降低内核的稳定性（kmalloc()）。因此，您可能应该
-> -      用于研究“开发”、“实验”或“调试”特性相关问题。
-> +    - “kernel hacking”配置选项细节通常会使内核体积更大、运行更慢，或者
-> +      两者兼有。某些选项还会让例程主动触发有问题的代码，以发现内核问题
-> +      （例如 ``kmalloc()``），从而降低内核的稳定性。因此，对于“开发”、
-> +      “实验”或“调试”功能，通常应回答 ``n``。
->   
->   编译内核
->   ---------
-> @@ -227,8 +224,9 @@ Linux内核6.x版本 <http://kernel.org/>
->    - 确保您至少有gcc 8.1可用。
->      有关更多信息，请参阅 :ref:`Documentation/process/changes.rst <changes>` 。
->   
-> - - 执行 ``make`` 来创建压缩内核映像。如果您安装了lilo以适配内核makefile，
-> -   那么也可以进行 ``make install`` ，但是您可能需要先检查特定的lilo设置。
-> + - 执行 ``make`` 来创建压缩内核映像。如果安装了 LILO，或发行版提供了内核
-> +   安装程序可以识别的安装脚本，也可以执行 ``make install``。多数常见发行版
-> +   都提供这样的脚本；请先检查发行版的安装方式。
->   
->      实际安装必须以root身份执行，但任何正常构建都不需要。
->      无须徒然使用root身份。
-> @@ -244,7 +242,8 @@ Linux内核6.x版本 <http://kernel.org/>
->   
->        make V=1 all
->   
-> -   如需构建系统也给出内个目标重建的愿意，请使用 ``V=2`` 。默认为 ``V=0`` 。
-> +   若还需要构建系统说明每个目标重新构建的原因，请使用 ``V=2``。
-> +   默认值为 ``V=0``。
->   
->    - 准备一个备份内核以防出错。对于开发版本尤其如此，因为每个新版本都包含
->      尚未调试的新代码。也要确保保留与该内核对应的模块的备份。如果要安装
-> @@ -257,23 +256,35 @@ Linux内核6.x版本 <http://kernel.org/>
->    - 为了引导新内核，您需要将内核映像（例如编译后的
->      .../linux/arch/x86/boot/bzImage）复制到常规可引导内核的位置。
->   
-> - - 不再支持在没有LILO等启动装载程序帮助的情况下直接从软盘引导内核。
-> + - 在 BIOS（非 EFI）系统上，已不再支持不借助 LILO 或 GRUB 等引导加载程序，
-> +   直接从存储设备启动内核。在 UEFI/EFI 系统上，可以使用 EFISTUB，让主板
-> +   直接启动内核。不过，对于现代工作站和台式机，通常建议使用引导加载程序，
-> +   因为安装多个内核或启用安全启动时可能遇到困难。有关 EFISTUB 的详情，
-> +   请参阅 ``Documentation/admin-guide/efi-stub.rst``。
->   
-> -   如果从硬盘引导Linux，很可能使用LILO，它使用/etc/lilo.conf文件中
-> -   指定的内核映像文件。内核映像文件通常是/vmlinuz、/boot/vmlinuz、
-> -   /bzImage或/boot/bzImage。使用新内核前，请保存旧映像的副本，并复制
-> -   新映像覆盖旧映像。然后您【必须重新运行LILO】来更新加载映射！否则，
-> -   将无法启动新的内核映像。
-> + - 请注意，LILO（LInux LOader）自 2016 年起就不再积极开发。它曾经非常流行，
-> +   因此仍常见于文档。常见的替代方案包括 GRUB2、rEFInd、Syslinux、
-> +   systemd-boot 和 EFISTUB。由于多种原因，不建议使用已经停止积极开发的软件。
->   
-> -   重新安装LILO通常需要运行/sbin/LILO。您可能希望编辑/etc/lilo.conf
-> -   文件为旧内核映像指定一个条目（例如/vmlinux.old)防止新的不能正常
-> -   工作。有关更多信息，请参阅LILO文档。
-> + - 您的发行版很可能提供了安装脚本，这时运行 ``make install`` 就足够了。
-> +   如果没有，则需要确认所用的引导加载程序并查阅其文档，或配置 EFI。
->   
-> -   重新安装LILO之后，您应该就已经准备好了。关闭系统，重新启动，尽情
-> -   享受吧！
-> +旧版 LILO 操作说明
-> +------------------
->   
-> -   如果需要更改内核映像中的默认根设备、视频模式等，请在适当的地方使用
-> -   启动装载程序的引导选项。无需重新编译内核即可更改这些参数。
-> + - 如果使用 LILO，内核映像在 ``/etc/lilo.conf`` 中指定。映像文件通常是
-> +   ``/vmlinuz``、``/boot/vmlinuz``、``/bzImage`` 或 ``/boot/bzImage``。
-> +   要使用新内核，请先保存旧映像的副本，再用新映像覆盖旧映像。然后
-> +   **必须重新运行 LILO** 来更新加载映射！否则将无法启动新内核映像。
+> diff --git a/Documentation/translations/zh_CN/admin-guide/media/index.rst b/Documentation/translations/zh_CN/admin-guide/media/index.rst
+> new file mode 100644
+> index 000000000000..80bd1fec7ceb
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/media/index.rst
+> @@ -0,0 +1,54 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> + - 重新安装 LILO 通常只需运行 ``/sbin/lilo``。可以编辑 ``/etc/lilo.conf``，
-> +   为旧内核映像（例如 ``/vmlinux.old``）保留一个条目，以防新内核无法工作。
-> +   更多信息请参阅 LILO 文档。
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +.. include:: <isonum.txt>
 > +
-> + - 重新安装 LILO 后就可以关闭系统、重新启动并使用新内核了。
 > +
-> + - 如果需要更改内核映像中的默认根设备、视频模式等，请在适当情况下使用
-> +   引导加载程序的启动选项。无须为更改这些参数而重新编译内核。
->   
->    - 使用新内核重新启动并享受它吧。
->   
-> @@ -287,5 +298,5 @@ Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 。
->   Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
->   
->   更多用GDB调试内核的信息，请参阅：
-> -Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-> +Documentation/translations/zh_CN/process/debugging/gdb-kernel-debugging.rst
->   和 Documentation/process/debugging/kgdb.rst 。
-> diff --git a/Documentation/translations/zh_CN/process/applying-patches.rst b/Documentation/translations/zh_CN/process/applying-patches.rst
-> index c056b241b0cd..fb76a0b69f5c 100644
-> --- a/Documentation/translations/zh_CN/process/applying-patches.rst
-> +++ b/Documentation/translations/zh_CN/process/applying-patches.rst
-> @@ -8,6 +8,8 @@
->   
->    袁维杰 Weijie Yuan <wy@wyuan.org>
->   
-> +.. _zh_applying_patches:
+> +========================
+> +媒体子系统管理和用户指南
+> +========================
 > +
->   将补丁应用到 Linux 内核
->   +++++++++++++++++++++++
->   
+> +本节介绍媒体子系统及其支持的驱动程序的使用方法。
+> +
+> +另请参阅：
+> +
+> +``Documentation/userspace-api/media/index.rst``
+> +
+> +  - 介绍媒体设备使用的用户空间 API。
+> +
+> +``Documentation/driver-api/media/index.rst``
+> +
+> +  - 介绍媒体设备使用的驱动开发信息及内核 API。
+> +
+> +``Documentation/process/debugging/media_specific_debugging_guide.rst``
+> +
+> +  - 介绍调试媒体子系统驱动程序所需的基本工具和方法。
+> +
+> +.. toctree::
+> +   :caption: 目录
+> +   :maxdepth: 2
+> +   :numbered:
+> +
+> +   v4l-drivers
+> +
+> +Todolist：
+> +
+> +* intro
+> +* building
+> +* remote-controller
+> +* cec
+> +* dvb
+> +* cardlist
+> +* dvb-drivers
+> +
+> +**Copyright** |copy| 1999-2020 : LinuxTV Developers
+> +
+> +::
+> +
+> +  本文档是自由软件；您可以按照自由软件基金会发布的 GNU 通用公共许可证
+> +  第 2 版，或（由您选择）任何后续版本的条款重新分发和/或修改本文档。
+> +
+> +  发布本文档是希望它能够发挥作用，但不提供任何担保；甚至不提供有关
+> +  适销性或特定用途适用性的默示担保。详情请参阅 GNU 通用公共许可证。
+> +
+> +  更多详情请参阅源代码目录中的 COPYING 文件。
+> diff --git a/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst b/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
+> new file mode 100644
+> index 000000000000..6d9c16bdb5ef
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
+> @@ -0,0 +1,95 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +.. include:: <isonum.txt>
+> +
+> +:翻译:
+> +
+> + 傅炜 Fu Wei <tekkamanninja@gmail.com>
+> +
+> +:校译:
+> +
+> + 傅炜 Fu Wei <tekkamanninja@gmail.com>
+> +
+> +OMAP 3 图像信号处理器 (ISP) 驱动
+> +================================
+> +
+> +Copyright |copy| 2010 Nokia Corporation
+> +
+> +Copyright |copy| 2009 Texas Instruments, Inc.
+> +
+> +联系人：Laurent Pinchart <laurent.pinchart@ideasonboard.com>、
+> +Sakari Ailus <sakari.ailus@iki.fi>、David Cohen <dacohen@gmail.com>
+> +
+> +
+> +简介
+> +----
+> +
+> +本文档介绍位于 ``drivers/media/platform/ti/omap3isp`` 的德州仪器
+> +OMAP 3 图像信号处理器（ISP）驱动。原始驱动由德州仪器编写，此后在
+> +诺基亚经过两次重写。
+> +
+> +该驱动已成功用于以下 OMAP 3 版本：
+> +
+> +- 3430
+> +- 3530
+> +- 3630
+> +
+> +该驱动实现 V4L2、媒体控制器和 v4l2_subdev 接口，并支持内核中使用
+> +v4l2_subdev 接口的传感器、镜头及闪光灯驱动。
+> +
+> +
+> +拆分为子设备
+> +------------
+> +
+> +OMAP 3 ISP 被拆分为多个 V4L2 子设备。ISP 内部每个模块均由一个子设备
+> +表示，每个子设备都向用户空间提供 V4L2 子设备接口。
+> +
+> +- OMAP3 ISP CCP2
+> +- OMAP3 ISP CSI2a
+> +- OMAP3 ISP CCDC
+> +- OMAP3 ISP preview
+> +- OMAP3 ISP resizer
+> +- OMAP3 ISP AEWB
+> +- OMAP3 ISP AF
+> +- OMAP3 ISP histogram
+> +
+> +ISP 中每条可能的连接都由媒体控制器接口中的一条连接表示。示例程序参见 [#]_。
+> +
+> +
+> +控制 OMAP 3 ISP
+> +---------------
+> +
+> +通常，对 OMAP 3 ISP 所做的设置会在下一帧开始时生效：传感器的垂直消隐期间，
+> +模块进入空闲状态，此时应用这些设置。在内存到内存的运行模式下，处理管线每次
+> +运行一帧，设置在两帧之间应用。
+> +
+> +除 CSI-2 及可能的 CCP2 接收器外，ISP 中所有模块都要求接收完整的帧。
+> +因此，传感器绝不能向 ISP 发送不完整的帧。
+> +
+> +至少在 3430 上，某些 ISP 模块的自动空闲功能存在问题。仅当 ``omap3isp``
+> +模块参数 ``autoidle`` 非零时，才会在 3630 上启用自动空闲功能。
+> +
+> +
+> +技术参考手册（TRM）及其他文档
+> +--------------------------------
+> +
+> +OMAP 3430 TRM：
+> +<URL:http://focus.ti.com/pdfs/wtbu/OMAP34xx_ES3.1.x_PUBLIC_TRM_vZM.zip>
+> +引用日期：2011-03-05。
+> +
+> +OMAP 35xx TRM：
+> +<URL:http://www.ti.com/litv/pdf/spruf98o> 引用日期：2011-03-05。
+> +
+> +OMAP 3630 TRM：
+> +<URL:http://focus.ti.com/pdfs/wtbu/OMAP36xx_ES1.x_PUBLIC_TRM_vQ.zip>
+> +引用日期：2011-03-05。
+> +
+> +DM 3730 TRM：
+> +<URL:http://www.ti.com/litv/pdf/sprugn4h> 引用日期：2011-03-06。
+> +
+> +
+> +参考资料
+> +--------
+> +
+> +.. [#] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
+> diff --git a/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst b/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
+> new file mode 100644
+> index 000000000000..370a242e13cd
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
+> @@ -0,0 +1,42 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +==============================
+> +Video4Linux (V4L) 驱动专用文档
+> +==============================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   omap3isp
+> +
+> +Todolist：
+> +
+> +* amdisp4-1
+> +* bttv
+> +* c3-isp
+> +* cafe_ccic
+> +* cx88
+> +* fimc
+> +* imx
+> +* imx7
+> +* ipu3
+> +* ipu6-isys
+> +* ivtv
+> +* mali-c55
+> +* mgb4
+> +* philips
+> +* qcom_camss
+> +* raspberrypi-pisp-be
+> +* rcar-fdp1
+> +* rkcif
+> +* rkisp1
+> +* raspberrypi-rp1-cfe
+> +* saa7134
+> +* si470x
+> +* si4713
+> +* si476x
+> +* vimc
+> +* visl
+> +* vivid
+> diff --git a/Documentation/translations/zh_CN/video4linux/omap3isp.txt b/Documentation/translations/zh_CN/video4linux/omap3isp.txt
+> deleted file mode 100644
+> index 75e481985630..000000000000
+> --- a/Documentation/translations/zh_CN/video4linux/omap3isp.txt
+> +++ /dev/null
+> @@ -1,277 +0,0 @@
+> -Chinese translated version of Documentation/admin-guide/media/omap3isp.rst
+> -
+> -If you have any comment or update to the content, please contact the
+> -original document maintainer directly.  However, if you have a problem
+> -communicating in English you can also ask the Chinese maintainer for
+> -help.  Contact the Chinese maintainer if this translation is outdated
+> -or if there is a problem with the translation.
+> -
+> -Maintainer: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> -	  Sakari Ailus <sakari.ailus@iki.fi>
+> -	  David Cohen <dacohen@gmail.com>
+> -Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
+> ----------------------------------------------------------------------
+> -Documentation/admin-guide/media/omap3isp.rst 的中文翻译
+> -
+> -如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+> -交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> -译存在问题，请联系中文版维护者。
+> -英文版维护者： Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> -	  Sakari Ailus <sakari.ailus@iki.fi>
+> -	  David Cohen <dacohen@gmail.com>
+> -中文版维护者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
+> -中文版翻译者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
+> -中文版校译者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
+> -
+> -
+> -以下为正文
+> ----------------------------------------------------------------------
+> -OMAP 3 图像信号处理器 (ISP) 驱动
+> -
+> -Copyright (C) 2010 Nokia Corporation
+> -Copyright (C) 2009 Texas Instruments, Inc.
+> -
+> -联系人: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> -	  Sakari Ailus <sakari.ailus@iki.fi>
+> -	  David Cohen <dacohen@gmail.com>
+> -
+> -
+> -介绍
+> -===
+> -
+> -本文档介绍了由 drivers/media/video/omap3isp 加载的德州仪器
+> -（TI）OMAP 3 图像信号处理器 (ISP) 驱动。原始驱动由德州仪器（TI）
+> -编写，但此后由诺基亚重写了两次。
+> -
+> -驱动已在以下 OMAP 3 系列的芯片中成功使用：
+> -
+> -	3430
+> -	3530
+> -	3630
+> -
+> -驱动实现了 V4L2、媒体控制器和 v4l2_subdev 接口。支持内核中使用
+> -v4l2_subdev 接口的传感器、镜头和闪光灯驱动。
+> -
+> -
+> -拆分为子设备
+> -==========
+> -
+> -OMAP 3 ISP 被拆分为 V4L2 子设备，ISP中的每个模块都由一个子设备
+> -来表示。每个子设备向用户空间提供一个 V4L2 子设备接口。
+> -
+> -	OMAP3 ISP CCP2
+> -	OMAP3 ISP CSI2a
+> -	OMAP3 ISP CCDC
+> -	OMAP3 ISP preview
+> -	OMAP3 ISP resizer
+> -	OMAP3 ISP AEWB
+> -	OMAP3 ISP AF
+> -	OMAP3 ISP histogram
+> -
+> -ISP 中每个可能的连接都通过一个链接嵌入到媒体控制器接口中。详见例程 [2]。
+> -
+> -
+> -控制 OMAP 3 ISP
+> -==============
+> -
+> -通常，对 OMAP 3 ISP 的配置会在下一帧起始时生效。在传感器垂直消隐期间，
+> -模块变为空闲时完成配置。在内存到内存的操作中，视频管道一次处理一帧。
+> -应用配置应在帧间完成。
+> -
+> -ISP 中的所有模块，除 CSI-2 和 （可能存在的）CCP2 接收器外，都必须
+> -接收完整的帧数据。因此，传感器必须保证从不发送部分帧数据给ISP。
+> -
+> -Autoidle（自动空闲）功能至少在 3430 的 ISP 模块中确实存在一些问题。
+> -当 omap3isp 模块参数 autoidle 非零时，autoidle（自动空闲）功能
+> -仅在 3630 中启用了。
+> -
+> -
+> -事件机制
+> -======
+> -
+> -OMAP 3 ISP 驱动在 CCDC 和统计（AEWB、AF 和 直方图）子设备中支持
+> -V4L2 事件机制接口。
+> -
+> -CCDC 子设备通过 HS_VS 中断，处理 V4L2_EVENT_FRAME_SYNC 类型
+> -事件，用于告知帧起始。早期版本的驱动则使用 V4L2_EVENT_OMAP3ISP_HS_VS。
+> -当在 CCDC 模块中接收到起始帧的第一行时，会准确地触发事件。这个事件
+> -可以在 CCDC 子设备中“订阅”。
+> -
+> -（当使用并行接口时，必须注意正确地配置 VS 信号极性。而当使用串行接收时
+> -这个会自动校正。）
+> -
+> -每个统计子设备都可以产生事件。每当一个统计缓冲区可由用户空间应用程序
+> -通过 VIDIOC_OMAP3ISP_STAT_REQ IOCTL 操作获取时，就会产生一个
+> -事件。当前存在以下事件：
+> -
+> -	V4L2_EVENT_OMAP3ISP_AEWB
+> -	V4L2_EVENT_OMAP3ISP_AF
+> -	V4L2_EVENT_OMAP3ISP_HIST
+> -
+> -这些 ioctl 的事件数据类型为 struct omap3isp_stat_event_status
+> -结构体。如果出现计算错误的统计，也同样会产生一个事件，但没有相关的统计
+> -数据缓冲区。这种情况下 omap3isp_stat_event_status.buf_err 会被
+> -设置为非零值。
+> -
+> -
+> -私有 IOCTL
+> -==========
+> -
+> -OMAP 3 ISP 驱动支持标准的 V4L2 IOCTL 以及可能存在且实用的控制。但
+> -ISP 提供的许多功能都不在标准 IOCTL 之列，例如 gamma（伽马）表和统计
+> -数据采集配置等。
+> -
+> -通常，会有一个私有 ioctl 用于配置每个包含硬件依赖功能的模块。
+> -
+> -支持以下私有 IOCTL：
+> -
+> -	VIDIOC_OMAP3ISP_CCDC_CFG
+> -	VIDIOC_OMAP3ISP_PRV_CFG
+> -	VIDIOC_OMAP3ISP_AEWB_CFG
+> -	VIDIOC_OMAP3ISP_HIST_CFG
+> -	VIDIOC_OMAP3ISP_AF_CFG
+> -	VIDIOC_OMAP3ISP_STAT_REQ
+> -	VIDIOC_OMAP3ISP_STAT_EN
+> -
+> -在 include/linux/omap3isp.h 中描述了这些 ioctl 使用的参数结构体。
+> -与特定 ISP 模块相关的 ISP 自身的详细功能在技术参考手册 (TRMs)中有
+> -描述，详见文档结尾。
+> -
+> -虽然在不使用任何私有 IOCTL 的情况下使用 ISP 驱动是可能的，但这样无法
+> -获得最佳的图像质量。AEWB、AF 和 直方图（译者注：一般用于自动曝光和增益
+> -控制，以及图像均衡等）模块无法在未使用适当的私有 IOCTL 配置的情况下使用。
+> -
+> -
+> -CCDC 和 preview（预览）模块 IOCTL
+> -===============================
+> -
+> -VIDIOC_OMAP3ISP_CCDC_CFG 和 VIDIOC_OMAP3ISP_PRV_CFG IOCTL
+> -被分别用于配置、启用和禁用 CCDC 和 preview（预览）模块的功能。在它们
+> -所控制的模块中，两个 IOCTL 控制多种功能。VIDIOC_OMAP3ISP_CCDC_CFG IOCTL
+> -接受一个指向 omap3isp_ccdc_update_config 结构体的指针作为它的参数。
+> -同样的，VIDIOC_OMAP3ISP_PRV_CFG 接受一个指向 omap3isp_prev_update_config
+> -结构体的指针。以上两个结构体定义位于 [1]。
+> -
+> -这些结构体中的 update 域标识是否针对指定的功能更新配置，而 flag 域
+> -则标识是启用还是禁用此功能。
+> -
+> -update 和 flag 位接受以下掩码值。CCDC 和 preview（预览）模块的
+> -每个单独功能都与一个 flag 关联（禁用或启用；在结构体中 flag 域的
+> -一部分）和一个指向功能配置数据的指针。
+> -
+> -对于 VIDIOC_OMAP3ISP_CCDC_CFG，下面列出了 update 和 flag 域
+> -中的有效值。 这些值可能会在同一个 IOCTL 调用中配置多个功能。
+> -
+> -        OMAP3ISP_CCDC_ALAW
+> -        OMAP3ISP_CCDC_LPF
+> -        OMAP3ISP_CCDC_BLCLAMP
+> -        OMAP3ISP_CCDC_BCOMP
+> -        OMAP3ISP_CCDC_FPC
+> -        OMAP3ISP_CCDC_CULL
+> -        OMAP3ISP_CCDC_CONFIG_LSC
+> -        OMAP3ISP_CCDC_TBL_LSC
+> -
+> -针对 VIDIOC_OMAP3ISP_PRV_CFG 的相应值如下：
+> -
+> -        OMAP3ISP_PREV_LUMAENH
+> -        OMAP3ISP_PREV_INVALAW
+> -        OMAP3ISP_PREV_HRZ_MED
+> -        OMAP3ISP_PREV_CFA
+> -        OMAP3ISP_PREV_CHROMA_SUPP
+> -        OMAP3ISP_PREV_WB
+> -        OMAP3ISP_PREV_BLKADJ
+> -        OMAP3ISP_PREV_RGB2RGB
+> -        OMAP3ISP_PREV_COLOR_CONV
+> -        OMAP3ISP_PREV_YC_LIMIT
+> -        OMAP3ISP_PREV_DEFECT_COR
+> -        OMAP3ISP_PREV_GAMMABYPASS
+> -        OMAP3ISP_PREV_DRK_FRM_CAPTURE
+> -        OMAP3ISP_PREV_DRK_FRM_SUBTRACT
+> -        OMAP3ISP_PREV_LENS_SHADING
+> -        OMAP3ISP_PREV_NF
+> -        OMAP3ISP_PREV_GAMMA
+> -
+> -在启用某个功能的时候，相关的配置数据指针不可为 NULL。在禁用某个功能时，
+> -配置数据指针会被忽略。
+> -
+> -
+> -统计模块 IOCTL
+> -=============
+> -
+> -统计子设备相较于其他子设备提供了更多动态配置选项。在图像处理流水线处于
+> -工作状态时，它们可以被启用、禁用和重配。
+> -
+> -统计模块总是从 CCDC 中获取输入的图像数据（由于直方图内存读取未实现）。
+> -统计数据可由用户通过统计子设备节点使用私有 IOCTL 获取。
+> -
+> -AEWB、AF 和 直方图子设备提供的私有 IOCTL 极大程度上反应了 ISP 硬件
+> -提供的寄存器级接口。有些方面纯粹和驱动程序的实现相关，这些将在下面讨论。
+> -
+> -VIDIOC_OMAP3ISP_STAT_EN
+> ------------------------
+> -
+> -这个私有 IOCTL 启用/禁用 一个统计模块。如果这个申请在视频流启动前完成，
+> -它将在视频流水线开始工作时生效。如果视频流水线已经处于工作状态了，它将在
+> -CCDC 变为空闲时生效。
+> -
+> -VIDIOC_OMAP3ISP_AEWB_CFG, VIDIOC_OMAP3ISP_HIST_CFG and VIDIOC_OMAP3ISP_AF_CFG
+> ------------------------------------------------------------------------------
+> -
+> -这些 IOCTL 用于配置模块。它们要求用户应用程序对硬件有深入的认识。对
+> -大多数域的解释可以在 OMAP 的 TRM 中找到。以下两个域对于以上所有的
+> -私有 IOCTL 配置都很常见，由于他们没有在 TRM 中提及，故需要对其有
+> -更好的认识。
+> -
+> -omap3isp_[h3a_af/h3a_aewb/hist]_config.buf_size:
+> -
+> -模块在内部处理自身缓冲。对模块数据输出所必需的缓存大小依赖于已申请的配置。
+> -虽然驱动支持在视频流工作时重新配置，但对于所需缓存量大于模块启用时内部
+> -所分配数量的情况，则不支持重新配置。在这种情况下将返回 -EBUSY。为了避免
+> -此类状况，无论是禁用/重配/启用模块，还是第一次配置时申请必须的缓存大小，
+> -都应在模块禁用的情况下进行。
+> -
+> -内部缓冲分配的大小需综合考虑所申请配置的最小缓存量以及 buf_size 域中
+> -所设的值。如果 buf_size 域在[minimum（最小值）, maximum（最大值）]
+> -缓冲大小范围之外，则应该将其调整到其范围中。驱动则会选择最大值。正确的
+> -buf_size 值将回写到用户应用程序中。
+> -
+> -omap3isp_[h3a_af/h3a_aewb/hist]_config.config_counter:
+> -
+> -由于配置并未在申请之后同步生效，驱动必须提供一个跟踪这类信息的方法，
+> -以提供更准确的数据。在一个配置被申请之后，返回到用户空间应用程序的
+> -config_counter 是一个与其配置相关的唯一值。当用户应用程序接收到
+> -一个缓冲可用或一个新的缓冲申请事件时，这个 config_counter 用于
+> -一个缓冲数据和一个配置的匹配。
+> -
+> -VIDIOC_OMAP3ISP_STAT_REQ
+> -------------------------
+> -
+> -将内部缓冲队列中最早的数据发送到用户空间，然后丢弃此缓冲区。
+> -omap3isp_stat_data.frame_number 域与视频缓冲的 field_count
+> -域相匹配。
+> -
+> -
+> -技术参考手册 (TRMs) 和其他文档
+> -==========================
+> -
+> -OMAP 3430 TRM:
+> -<URL:http://focus.ti.com/pdfs/wtbu/OMAP34xx_ES3.1.x_PUBLIC_TRM_vZM.zip>
+> -参考于 2011-03-05.
+> -
+> -OMAP 35xx TRM:
+> -<URL:http://www.ti.com/litv/pdf/spruf98o> 参考于 2011-03-05.
+> -
+> -OMAP 3630 TRM:
+> -<URL:http://focus.ti.com/pdfs/wtbu/OMAP36xx_ES1.x_PUBLIC_TRM_vQ.zip>
+> -参考于 2011-03-05.
+> -
+> -DM 3730 TRM:
+> -<URL:http://www.ti.com/litv/pdf/sprugn4h> 参考于 2011-03-06.
+> -
+> -
+> -参考资料
+> -=======
+> -
+> -[1] include/linux/omap3isp.h
+> -
+> -[2] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
