@@ -1,96 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793357110;
-	b=D/sH+LYdGp+7uIKLcqI+4+0d7Er3u+rxcaWHJOyAtH73eTe6iKqDXg81K7JRIBoNps5X
-	 WujA/xvGkxWAphT5KOvpMTnyIap1ATh+RCrMFESUbYJPlxX2MwxD2mqNRyeFtBCHKfJ8l
-	 WybxUJHsiis7PrxR50yYIZ8uV5pR6O1BKwDKloN8jil53h57s4y4LJsN/QrBNIvlQapEj
-	 umIa2UXlylYNthrugiVD5IVH8X7kZfl4RG9rKlR+CwpfBNYN6h7vWjusN1V1rrxoF6t9n
-	 81esSGV2ITE5yzAtH+AjBwnjk9EHHgjqEB59UgNdnZXFL+Ta6FWc1OrLa48CNSELGhQ==
+	t=1793357912;
+	b=csX51C9E+J3e5hO/mRL1WgiLZkoQLIJ1r0Sk3P5x1uQqhB1CyRAg9wFr020P/cnjYhes
+	 mIQ57FAbrwIPZaYV/J2ps/jqQfh4uIPDQRl98p/3Qlhb2mzE3MdQFOIJl3CYQgKMK+yV4
+	 UepwwcZDCbYBxT9dGmePKYkiB6ZxdCWp9PPgebZX5VsXSJO246Zx7bdWODb59kLrrG2lt
+	 dtGB3qJwtfsARA1lq+fRKo3a/1kNFwKGnK2pjCgGhcj3NOp/qOq30swjogGF4l0BPpSVO
+	 DQliRfZozDzsCB68wxBhVra7UjsFiGPmJDvODhY4YH4PnlJ1UR7raZk9o3wpt37ddwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793357110;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=+c1ihJ1Xln4zEcrREqgDAfDTBrnVULNOnFAexlBeung=;
-	b=kc2IT7ZMgGi7tg4sN8eD4fhYnHmUkM3D4MItUp+Y25NzwjaB0muBf8oEnPEeO3IxgbqU
-	 Z2ii1kA53XuXiUEqySNKoQhulS8F8vqiXXiB+0xJ/oN2NFVyIqfdWrao5T1ZOOjMO8yRK
-	 IdRkAM6qVYbFUn4ErVT86PB/m+mG7k5zIPrhDNlrC/tTSbIspLlwY70DpDZdRtP1+0wAK
-	 mvexS0D3EgNZA49AQ0+Ic7gHxeKpVMn8IPKAL3V9IgZOQcB1AcerGDkVghe0Te/4L0dgs
-	 9jLW+LNdhH5ovBKUE8cJ71ltHbHn8k/CIb+4qZK6ecZnjhbr5z7FYtRU40qW2ZUtXnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793357912;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=qANwLEKHR+Q8Yt9LD0kW884nruLVZmuaF5lEr9bqDbs=;
+	b=Oehbq2lag8L8JeYwKcp/6dX+5CPb5hib60iEAxUxazEfbs00CjTir0r4fMkFC2zKKFF1
+	 1rNFmIjsgj5SuAJkEp8EMdtV8Z7h4nyHW/Fk56y/DKLO4oXki0qqXTAxKaJh9gmBZAY7P
+	 f5jGyESplyK9PBvHwhsSkUy6mZYYdn3YOFH9lDXveZg7u3MLSsSeA+CpfL8F2TqE9lqhH
+	 Ab3kXMoVpl/uL+9Kf44TI1OhBp1SeRdXuiwNbLcGOseJAVGzxACwFjAUkgUkWkkxvEWLG
+	 vFAst1QiroJb3Oztdt5Cus+5wnJHPud8rTRRKmELDD3RWpHmK74zYFoORWh5a0oSmkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=dss6POhi;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.173
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885A960A3802;
-	Fri, 30 Oct 2026 10:45:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 885A960A3802
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=dss6POhi
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8ET8p2376743;
-	Fri, 30 Oct 2026 10:44:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=+c1ihJ
-	1Xln4zEcrREqgDAfDTBrnVULNOnFAexlBeung=; b=dss6POhisLc8cfJCKTifeh
-	e+zeaNYuHH/S+VNxv02rsfOpAAnPd4o3EXWVOgIGXK9wUtudQiLRLunlWU3HQbEF
-	S+RaUFDI4QzfXTaudAzQsGpG3ulq9R05Lr8IiUi53XbtCC5IhlRkLd02Jj3UHjEf
-	4BqxYQLvkunC4NMK6BIf1xCGsuPlWAxHVvfNCoeq3IP9B8Dmu/h2XQgk+MADFPuJ
-	SX4qeCc3Gn40ncO7VNprWTsvmwMinfoZaD0Fdjb+T6w4q+QwsicEEUW9BDNaVvkf
-	OJwxYVInsMUKK8S2FTdTdK29t27jsAs5n/zYE/1G643+3AszcO47WJxIxHRkWXVw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hmeay29j6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 10:44:23 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8Jvbq238919;
-	Fri, 30 Oct 2026 10:44:22 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hm69e47b2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 10:44:22 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69UAiJoN44892546
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 30 Oct 2026 10:44:19 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0651320040;
-	Fri, 30 Oct 2026 10:44:19 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4028220043;
-	Fri, 30 Oct 2026 10:44:13 +0000 (GMT)
-Received: from li-49acbccc-2994-11b2-a85c-d51b89e344f1.ibm.com.com (unknown [9.43.39.23])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 30 Oct 2026 10:44:13 +0000 (GMT)
-From: Pavithra <pavrampu@linux.ibm.com>
-To: songmuchun@bytedance.com
-Cc: akpm@linux-foundation.org, chleroy@kernel.org, corbet@lwn.net,
-        david@kernel.org, lance.yang@linux.dev, liam@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, ljs@kernel.org,
-        maddy@linux.ibm.com, mhocko@suse.com, mpe@ellerman.id.au,
-        muchun.song@linux.dev, npiggin@gmail.com, osalvador@suse.de,
-        qi.zheng@linux.dev, rdunlap@infradead.org, ritesh.list@gmail.com,
-        rppt@kernel.org, skhan@linuxfoundation.org, sshegde@linux.ibm.com,
-        surenb@google.com, pavrampu@linux.ibm.com, vbabka@kernel.org
-Subject: Re: [PATCH 0/4] mm: Enforce read-only shared vmemmap tail mappings
-Date: Fri, 30 Oct 2026 16:14:10 +0530
-Message-ID: <20261030104410.417740-1-pavrampu@linux.ibm.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261019090830.1917657-1-songmuchun@bytedance.com>
-References: <20261019090830.1917657-1-songmuchun@bytedance.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6CA606D28D
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 10:58:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF6CA606D28D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5ec6f271883so224695e0c.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 03:58:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793357911; x=1793962711;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qANwLEKHR+Q8Yt9LD0kW884nruLVZmuaF5lEr9bqDbs=;
+        b=Njugrtx9Izj71WrT1Sf5BpzuamIudg7F2BN99qogwZFoxdre1rvDjvfik9u+6VBbca
+         L8F+4ePFj7Kf6fVGjhj2B9DI2K/ZYXARpC6qf2ZbNYxVsft413Qtyvam5F5KQWCR4NH0
+         2Q1Qi9iBwJ2rdKQ/+iygowgByZu+E8x8nGNnE7RZSn+bFt31imtvqj2kU0EZYKCgDJ4i
+         4sgYsPs43uMia0UXj73Omk8HOwq4crlcHDZMnY/h9SK7X26rlaRVvN04t2mOsjpmy+/F
+         2iKTGWm8bpdUlzOP0R2/3y3osNnvlZMjBRoYC1o7w8pcCzD0TTvKBg1YOPMf6vpm8S0j
+         vEhQ==
+X-Forwarded-Encrypted: i=1; AKwUvByIIOGUtQnav8T78AQoIxl4mubPMGTEI3x3Mkx9xQ2c8JihJeMOFg23/pyVV4AHaTaHgC1l92goatU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIe685hLNIonhq+Oou/W8B+AKeWARs/mMNwc9xOjWIZ4wlhSGKZ
+	pX6FCFmeBF2Tul5XDezjgCnKdH6ZIqB5PUMtvpA/RWUeM7r66ec7fkDOle+7m2o5
+X-Gm-Gg: AYBFou2ZSaZZ5PLzdJxK3PKlXYi4RqEAtqjMGvHPjmJh6MyllHLe3dVqJm6KApcXvll
+	3eb7mq0LFnK0xP6fKXsgvzb0yUQWB53Sg8w53u2gVDG63Eyw3oPKiq4af25WktrmZRyOw21lYl9
+	5iGzt++mRt9MMqIrejsjU+s0gknSAqa5YKyBrIto2ZKnhBUALs1cC/3ohdNukzajw8Kv8Cgemy6
+	MnYa/4UkZO4kWfYYof/I5ml/VoyTLgIK0NbyH6st0+s7XaKTa6Vc1SR7WyGQIVS+cHzXgwt2nHe
+	bpGWV/KbcCFW32IwPDBG1FWCvt1cbJ1PNa3LrUcH3Lvb1diruNykjatldhMc9+5Jrq41dEDvmLs
+	QU4+PuJDojPdH9ApV+zmjAPIkuRnuCTWHmFiu+XJh42rJzvSiR24Tdsz98CVdvI5Pd6l0KCJN2C
+	4290JCGU0VBOG0WhQkBb1x2fyL+LxH5Pzk4wIyn3OxdHS8tF0hMUHGxwoSNlQn9aBd7dJeTePnS
+	lwSMVAmXp3mg6WzUxEFYNODIJ/cZvJ5fgfn0bI4aEuQDsFWlhpYpnZ2PzOikFN771kbw8h5U6Lc
+	FtXa0KfbeRyv9BtRbi3NzWCVhRg1yqrL980TMwGxIgtAi+Njzp4DKefSLgoBLkV9DA0=
+X-Received: by 2002:a05:6102:e0c:b0:7cc:2bb7:1335 with SMTP id ada2fe7eead31-7d07276121fmr880167137.33.1793357910762;
+        Fri, 30 Oct 2026 03:58:30 -0700 (PDT)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-992ee4e7453sm2068714241.11.2026.10.30.03.58.29
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 03:58:29 -0700 (PDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-7cc365db987so377827137.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 03:58:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzzR61Cl32Zabo+5g545fA9l76fROKGcAwB9UHqR6yDA+4m79FFj9hY504OHDq6iH0Urm2oUkFRPro=@vger.kernel.org
+X-Received: by 2002:a05:6102:3f44:b0:7cc:24e1:77b with SMTP id
+ ada2fe7eead31-7d072270da8mr920373137.4.1793357909406; Fri, 30 Oct 2026
+ 03:58:29 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,53 +80,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: Cq-D5FMcULtYQJqPtFBU-Ss_evhba_3I
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfXyG+fs1ghDdeu
- MufdeAtSObpnKs0XjFFcDX2NqGMGt7MHQXUNybXyz53Fpx5amXAtuMm34jTk75sa+4qr1stjkxL
- W4mTEW2Wg+tKYnjBZPaniDSxElpoM6rAiJnRlo+5BEcOeBlWQmiSqtSkWZg/0RqOhdewZE5nCHS
- 7F4GF6CU7dxnmGk6bXQZHzXUjhtxmPB8nhEizRkNqNRacXRUjHfBtpcS3vHNNqhbNQdbb2k6SyP
- 4iWd5KSjzbKBagjm3VDXKfdYWa6BxZ71PxnqFHfPoO3orZam21OnNKnNL1mznBWbHnLEZR5yiAF
- nDT181Dq8h0ROzEuGXqsq3AAvYUh50njhXSMNxxLZu3pfolJkFLeftBVau3zEFP28NqImjRMB5V
- GyfgLl3sU7eiZvH4nBoBbVhnvQrP9SSBSXEWVfNTwXvjlfqm88/iv3UwT9mdRlxXt22gSpz+Htf
- OPlw6g22K/JelFWbJxQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfX5dC/lVTICYYG
- PJrbr8wpoREtd2C2ydh3d2GuaJgASQ9dZh5g7ZaHXI4cuQzosbh6FtReDhmycaMxMNbqAdhNIgz
- Meh5Gf3IkxQBnIaTiPevwSoYHYeShng=
-X-Authority-Analysis: v=2.4 cv=QbjzLcbv c=1 sm=1 tr=0 ts=6ae47508 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=Uv9NjG45AAAA:20 a=VnNF1IyMAAAA:8
- a=8zS9G5xvJLahJeJr1kgA:9 a=zgiPjhLxNE0A:10 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-ORIG-GUID: 8kHx2nZ45Fplgz9D0Wt0xILKkBxGZrzM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 malwarescore=0
- spamscore=0 suspectscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300042
+References: <20261029153459.2257998-1-kuba@kernel.org> <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
+In-Reply-To: <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 Oct 2026 11:58:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVJVxpX6OLVpE9K9CDY5q61A2rFGf7FpUjs7xpFwReEzA@mail.gmail.com>
+X-Gm-Features: AclHuK9le6YNpAmBa-b_MrMdfR--FywlxS_qw1QqJzPLGdBMqrmLc_GWMKZnVUw
+Message-ID: <CAMuHMdVJVxpX6OLVpE9K9CDY5q61A2rFGf7FpUjs7xpFwReEzA@mail.gmail.com>
+Subject: Re: [PATCH net] docs: netdev: try to force agents to disclose info
+ for fixes
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Tested on Power10 (ppc64le)
+On Thu, 29 Oct 2026 at 19:51, Nicolai Buchwitz <nb@tipi-net.de> wrote:
+> On October 29, 2026 4:34:58 PM GMT+01:00, Jakub Kicinski <kuba@kernel.org> wrote:
+> >"LLM-driven-developers" are not including the info about discovery
+> >method we want to see in commit messages. Try to add more forceful
+> >language to make agents ask for it. claude and codex seem to load
+> >maintainer-netdev.rst already.
+> >
+> >Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Test configurations validated:
-  Page sizes : 4K, 64K, 2MB hugepage, 1GB hugepage
+> >--- a/Documentation/process/maintainer-netdev.rst
+> >+++ b/Documentation/process/maintainer-netdev.rst
+> >@@ -315,6 +315,10 @@ reproducer and against kernel selftests. If the bug is in a hardware driver,
+> > the testing statement must include information about the HW on which the
+> > fix was tested.
+> >
+> >+Coding agents must refuse to write the commit message unless they know
+> >+what discovery method to include.
+>
+> Maybe make it more explicit, as the sinfo bot will ask it anyway:
+>
+> ... and whether it was reproduced or tested?
 
-Test suites run:
-  - libhugetlbfs test suite
-  - LTP hugetlb tests
-  - mm selftests (tools/testing/selftests/mm)
-  - ndctl test suite via avocado (--map=mem and --map=dev,
-    2MB and 1GB alignment)
-    https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py
-  - HTX mdt.pmem_all
-  - Memory savings validation with 1GB alignment
-  - Hash mode basic pmem tests
+Which is true for anyone, not limited to bots...
 
-No issues observed. Thanks for the patches.
+Do we really need "different" guidelines for humans and bots?
 
-Tested-by: Pavithra Prakash <pavrampu@linux.ibm.com>
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
