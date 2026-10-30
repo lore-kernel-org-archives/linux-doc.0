@@ -1,71 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793383020;
-	b=YH9oWJSeNZoxwv4SR1Det8K2o4YKw+WSf6EfmdKkuZxDyfF9ZOrdqgWMw7C2eYe+2wcq
-	 tiFqC5PQTsAECvOyYD4NuOV1IBNt7Bi0hjmbBRegVRszQvdE0JiErOor975yo+u9QkQPk
-	 yAl/eAL5at5Bfq+DdwI4rRmDSC4bky+c2HOwrxp8tq78TrgO6woBF1pvVwgkslsE0Dltr
-	 Q9La8du+CZEs7TPKnSkWblwASdxBTa+geXiY7ztd3hCeRlya1qNTp3d7vOTuvvQG97bTk
-	 sSyPdA8VhAo2kaozShJMI2DCPaF9K2b0KaXVev44Bey5+hKzyRAZHg0K/P2NcgES21A==
+	t=1793385049;
+	b=muapRm1UW6usFltoQwhRp7mwjbhYI2PqH9JVzR+N9NeD3ElpH+uZY1cmRox4MN0IHaen
+	 k1kzBTDRKKy1yKU3E3u55N7SzFiH5UU2zQnhxdnJWq2FEfH3dLEp3GR2EBbKQkxwHug2I
+	 U71KWOHHLaRyl5kr/LlzHrluW1Om41UiOFFttKv9jvhbgUPYVhVkZG39B9bexVPRxTQVu
+	 RcXY07HMeKOM0q30lZPiFAIOriEfD25TZqMD6lda1dqTmuiwQV61qHA5jCwGpm3EuRSlY
+	 OU6pixBy7NFZ5590DfSaNBit7BSo6IfsV6ezd8vWWxAOKiiXUJr6+zF4JY+iTm4Zl3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793383020;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=uDy0pyy8VarHwZfBJ/PxvbJXYlygH1k7PMC/5T92TUQ=;
-	b=Y3YwNuA3HGzO+fo2WNMECX6bNy6LwmNFdYzBU8xee7R7vJiJok64N32ZFhET8THs2QTt
-	 ysLgBgs3OBavnzB41iBJRgIMVccNnghjU4h1hSRzipLTyvmnbICL4C9M9j8N6k7ClAc92
-	 S+8/QOaMOYcUWaPtmp8GYCMP90OO8OrmM3Yd25QBMqhXTOKWVVLg37X+SksY3+UquMai8
-	 f42Q5q68cqiAy3W9HSauW22PZth06p6BE4BG+6qKsiUCVBMypp1p7o0ahv2fdYH7gNweA
-	 b8bRWMlhqPm1ufQKqfUwtW2yF1qyJqLtN0UjR3xCR27uDlqBzY+MP+Oo6SpfAKDFk7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793385049;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Ymmdwc5PEMgv61WbZEAXoHrjiG+5VIZ10E632soWGCc=;
+	b=e7SAedFEReOX8ABSAKdqb1d4tlqabu7d1pbog9qTO9PMrmgbJutX7co64P3v/9yhO21g
+	 q9D4b2adVXHFzDdWpCURYuadmtza5A6hEYlquG2SzXGCQZbFzM3IiktiAHGLp6p9BOAds
+	 j2dRwqWAomvy0nd/+ivbY6H143ilBFlodeYqH3+UcHNgx4EMGcGCf/fZeXY1hld4N1Sdt
+	 6wjoQCttZJD8CX4suqI5RMKIdDUZdB4s4L7vvgux6icn2gqwT2mMKe8eMztSadwyphvtk
+	 oiWS0fxMnBhopr//51N85kUYauyGDd3Z3shLXEhzvTWSNB9iZvgZPjY3GkFbVsjwuNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rCWS2cqZ;
-	arc=none smtp.remote-ip=44.202.169.37
-Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bd5mnlMY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF5606A321
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:56:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7FF5606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CC2606A31A;
+	Fri, 30 Oct 2026 18:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rCWS2cqZ
-Received: from eig-obgw-5004b.ext.cloudfilter.net ([10.0.29.208])
-	by cmsmtp with ESMTPS
-	id Mp1fxpzZPJFmFMqqZxpwc0; Fri, 30 Oct 2026 17:56:59 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id MqqYxjGsimTkmMqqYxy5dv; Fri, 30 Oct 2026 17:56:58 +0000
-X-Authority-Analysis: v=2.4 cv=eKsTjGp1 c=1 sm=1 tr=0 ts=6ae4da6a
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10
- a=3Qouvag4AIL0u_44hBsA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=uDy0pyy8VarHwZfBJ/PxvbJXYlygH1k7PMC/5T92TUQ=; b=rCWS2cqZzHmq
-	FMA/lM16fZZgOstmH0P9FLFNgtdUjcbgn+Hzx6IK0eypveARIh32FcidsydH9p+C5ckxX6/esFpO7
-	mysi3tJg8ocR20qjAlTmEGI3rIWfH9VLlWZASkqeb/HeHZD1+EF6QYTtW8Mn7bh7YAj45xAqBh7XZ
-	cRIcwmYlX1PenaJrYOBuQha7T/G+0kSQyy61wBvuNqb+ooIxbORteCbSTU5fUAaMmwjJo/ftMAkMO
-	p5Q1+HPvWUv11etdD6jor6lVaqQoXAV14rH26Uh6ZkM8uHay+kjiYv1iK+6ie9W338ZeZa+58MJxF
-	RioPAYyZ/s2LFb9f19K85A==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:44134)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xMqqX-00000002x3N-3ig6;
-	Fri, 30 Oct 2026 23:26:57 +0530
-Message-ID: <a1a0582a-271e-44b8-a1ff-2e657e20b33a@roeck-us.net>
-Date: Fri, 30 Oct 2026 10:56:56 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bd5mnlMY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365561F000C1;
+	Fri, 30 Oct 2026 18:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793385048;
+	bh=Ymmdwc5PEMgv61WbZEAXoHrjiG+5VIZ10E632soWGCc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bd5mnlMYQl798ipBazvCyuBvEJ+dWQPwsnUhVWLaW7b1vz5ZxxwwDFJAXipNxVYkZ
+	 1YMHg32fNUCuoVzm2HCBW3ov7kG+JMaBOx03FaMytt2PrrA5GHA2Tvi5hKn/EfloYP
+	 2beONBCAOHLRlOst0mi76+aNgfLm6mIii3Lr5Fvstx8lw6wGj/SrTAbdVuY0LzPwAU
+	 bCJanwYpvATD+HqFWKlmHWzxbYzpj5FiFEot/sqUcaxCu2/PrJulmkzTYLC6de+Ext
+	 aaZWpT6UFdWy/d0gaseRtXTvi4oQtl70vUfG4Wb6sIpH14qDGlI1q3EhfXbEG7UOrn
+	 +aykTDKlAEfuQ==
+Date: Fri, 30 Oct 2026 11:30:48 -0700
+From: Kees Cook <kees@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Ian Rogers <irogers@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+	Sumanth Korikkar <sumanthk@linux.ibm.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+	linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v2 1/9] Compiler Attributes: Add __must_init macro
+Message-ID: <202610301130.FEF31E7F@keescook>
+References: <20261027223847.652884-1-irogers@google.com>
+ <20261027223847.652884-2-irogers@google.com>
+ <202610281155.4D2AA663@keescook>
+ <20261028190233.GA669046@ax162>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,103 +81,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hwmon: (asus_rog_ryujin) Fix pump control source
- on the Ryujin III
-To: Zac Lanzon <lanzonza@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: Aleksa Savic <savicaleksa83@gmail.com>,
- Edward Blair <edward.blair@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <cover.1790512964.git.lanzonza@gmail.com>
- <7ca8fe6cd6b4125813613bd4187ff6cdda72e4b6.1790512964.git.lanzonza@gmail.com>
- <CAPusjWrmKH4wHK6LY7NFi1=+rzDY0uq5N4dgKC4FuUh_=xGhLg@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CAPusjWrmKH4wHK6LY7NFi1=+rzDY0uq5N4dgKC4FuUh_=xGhLg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xMqqX-00000002x3N-3ig6
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:44134
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 4
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCl3j7B0iuwIDvrhi+8ZC46chpIZRXlrkJu6Bd+JiFuA3Aqof/Kit8cZOKlTXCdnzoNLsg3qpv3BM2aTtaq5LIS/D0wq2oqfVIXGJjkOJI4yEIMB1L+2
- mZCC1Z+gqqZj0wF5+nxsPSUqVklWhpAKvnIJMKakCO+qGuMs0UHIdo1MquNOLgU+WDSx+jUbQuDmgW1Wj2CrZjLPsysEFAj8aL4e+GQxv/SkDNDlgaiDS8YG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261028190233.GA669046@ax162>
 
-On 10/30/26 10:38, Zac Lanzon wrote:
-> Hi Guenter,
+On Wed, Oct 28, 2026 at 12:02:33PM -0700, Nathan Chancellor wrote:
+> On Wed, Oct 28, 2026 at 11:56:08AM -0700, Kees Cook wrote:
+> > On Tue, Oct 27, 2026 at 03:38:36PM -0700, Ian Rogers wrote:
+> > > Note that Clang does not yet diagnose file-scope objects declared
+> > > without any initializer (initializers at file scope that omit the field
+> > > are diagnosed), see https://github.com/llvm/llvm-project/issues/232483.
+> ...
+> > As part of this, can you open a Clang bug for the lack of detecting
+> > global initializers? It'd be nice to get that fixed.
 > 
-> Gentle ping on v2 of this series. Patch 1 fixes the pump control
-> source on the Ryujin III and is Cc'd to stable. Patch 2 adds
-> pwm1_enable.
+> Is that this linked issue or a different one? Looks like you filed that
+> one and it got fixed in clang ToT about a week ago:
 > 
-> I can rebase onto hwmon-next and resend if that helps.
-> 
-The patches are queued, and I'll push them into my published hwmon-next
-branch after the commit window closes. The first one should actually
-already be visible in the hwmon branch since it is a bug fix.
+>   https://github.com/llvm/llvm-project/commit/58936cb3678b4b5b96177f24cac3940b9a389fe3
 
-I did send a note, but I am having trouble with gmail; it often refuses
-to accept my e-mails, claiming that I am a Spammer. Since I am working
-for Google, I guess they must know ;-).
+Oh! Hah, it moved so fast I missed it. Great!
 
-Guenter
-
+-- 
+Kees Cook
