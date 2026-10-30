@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.235
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793322294;
-	b=XZZvsQF9ZkAPL8+87Fcw97PElFR1l++4EvQ9fmEsIobJr3E5vweiZVqlDpDJ1SnyoTpW
-	 boH8pLhM3QuvCVGApDk2YoRRqkim4aFLlTNS/iQto0h2YiwfAJOX5NdrC2/8W8JazPz/y
-	 0tfr18KudMyXCU81uCsihe0r9J+dYkjKd+XU6/RTu5GVx+8xePtPOK3FvS6JMFFHWBFXE
-	 DSl0jSAaP+L/5aPAsVUUk/isCtCz0XXRx7PtdMeBw3LPuqjkLPeDjHL7vqY6XIBTWj3aW
-	 1v2KEcSjq/gPE/BGzsb3DuUF8HsSL0iEbw/pBcUx5v/EEvfK7qN88HIMRURN3uiGjRg==
+	t=1793322363;
+	b=R/dDz1jw7s03SQkPU9teDVwvxY+25EQrvJjLZGe9c7e6pFl1ESzXFdrGF+nFr543/aNR
+	 NVf6saxHukqzu3PRIWB/5cRqKBk0EZ3nnh4CNRNaBqYmWF0NaDAlzMiKkCLU/iAU8i+Ov
+	 YJb0ytOlyY2IyKYjFH5FpYUn7gwjv7sfVLEOmzfw8UZyjrZeAWH0M2Twt/7qXdCRPD40P
+	 555DJCS8VcRhNk+dyUAi8BXfdKSu4wKSjTGL/PKqOKunCnUdbeogLuYnuiEDsTukVrN7y
+	 Zo1roIUPfOb+x/M36hE24Nk9RlQ3ZgLhAr0he/kwFZQ7SMccyoKNDq9RPoB6DzBx8YQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793322294;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793322363;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=d1VA9+a8v9XayiVkKTCnk0Rz1yYHohvOV7GRM9CJgGU=;
-	b=488/EQjyMOviQuy29MGOlBUiiLisKxwhTv4ud/05hFyJ4enY2Sqm31V6ylKyMaPe5NzP
-	 7gcFK85awysnQwRCv4U8TnFnqPK3TN+ToJT7IcF+mjLYtAkGeMoZHzgiS07fXHWNhF31y
-	 ZHcCSooiNZxePxh/djug6jmPQRNgFnfDaa3Dj8VGL8deAQclnKl9+vtj0e1hk/Xd+NNzv
-	 oNTZkD7O5MgqHGHsxN/mXH0pt8sdbG8t/xcMsI/l0YoY3jYDGBvRdGsE/beLgnxMO5xdD
-	 JvXwrO3hkUkorKsfWJj62+nKsYFJjx0hpUOhifM8+EtXSiI8h6o0ZCvnjuhfgUBUjyg==
+	bh=rs/oFurKJhSYGG+sQ6Wjjn4Z6/eBxMr6Bp2M1KnVjls=;
+	b=bOH5H3D9ErRTdOGMVXxWcbL6rJYMPZtpjgUa3c+MUQDBcCzNhRDvRYIl/8zXBnUBoszB
+	 1obyJ+nvz6/wTuB1b6xm8JV3ssYcHhNjMLmWTTAajTNtei9lchQZmleRkdhYq7ajB5T85
+	 yrBVGxAX8Ypa93cFo9UV1h0p6rwBZWEGwn91Tv2gMNcWw4/v6cLhblrX0ccnxK9FYYRRz
+	 FJMonfKoX2hnZUfeav1yEiYTCORJPMs+UXpba2wM/+h3l50e/r3AO+lliRlbUdNM/qUOP
+	 Poohr7B5G4PsdZkDnhKRZVHz07zywSzWzCPmVL18cyIRqyRDBaOMNZsv5pWdDxgtXeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J8XZS9E1;
-	arc=none smtp.remote-ip=95.215.58.235
-Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G+v7B4i8;
+	arc=none smtp.remote-ip=91.218.175.152
+Received: from mta0.migadu.com (out-152.mta0.migadu.com [91.218.175.152])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1614F606A31C
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 01:04:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1614F606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355C1606A31C
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 01:06:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 355C1606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=J8XZS9E1
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G+v7B4i8
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=j4+plSflKzu0Pz75yvIumxPrCTL8G+Bx7E2W3FjR664=;
+DKIM-Signature: a=rsa-sha256; bh=FDXTRkfucaFAYD70xdlMzkbFL6oW+ZvOhQiLVAVKUG4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793322291; v=1; x=1793927091;
- b=J8XZS9E1dQ4iKxBGEwub9qn7KwOpUiv70E8Nyq0Mxj9sdfJWEFpXYtGqIitzGXIlac1RyetU
- 3VFBDiyLw+N++s6WtQjToS1ImrAMHwy1NUVzkNqW5SS4KNGBc1SC6m8maomtBppkJJ4u/mJyN5w
- ZxI5BGnjfmZw/CPZJ80ZLTqc=
+ t=1793322360; v=1; x=1793927160;
+ b=G+v7B4i8okUX/VGALKwqTfrASULk6THj5S+FF5RBokr3kUeX5CDTDQgbo192lU8C0m9jf6tT
+ tR72Wj1IYpahTQuDz7S049uPa4sT6/G51TcdrkTIxF3abYqfT4eh5abJ/Jg9mtqJRPb0jSIaP3p
+ otiEV2Lv4GF9orG6brhPki04=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e19d4824ef9125b0;
-	Fri, 30 Oct 2026 01:04:50 +0000
-X-Mizu-Trace-ID: e19d4824ef9125b0
+Received: by smtp.migadu.com with ESMTPS id d3b563cc8270636e;
+	Fri, 30 Oct 2026 01:05:30 +0000
+X-Mizu-Trace-ID: d3b563cc8270636e
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <b8419932-c8bd-49c1-b8d0-079115597abb@linux.dev>
-Date: Fri, 30 Oct 2026 09:04:41 +0800
+Message-ID: <4d63fb8d-e61b-478c-867c-36f2e0f5d44e@linux.dev>
+Date: Fri, 30 Oct 2026 09:05:19 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,532 +59,395 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/9] docs/zh_CN: add media administrator guide
- translations
+Subject: Re: [PATCH v3 4/9] docs/zh_CN: reorganize process debugging guides
 To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Randy Dunlap <rdunlap@infradead.org>, Weijie Yuan <wy@wyuan.org>,
  Chen-Yu Yeh <chenyou910331@gmail.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20261029124429.294868-1-dzm91@hust.edu.cn>
- <20261029124429.294868-4-dzm91@hust.edu.cn>
+ <20261029124429.294868-5-dzm91@hust.edu.cn>
 Content-Language: en-US
 From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20261029124429.294868-4-dzm91@hust.edu.cn>
+In-Reply-To: <20261029124429.294868-5-dzm91@hust.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 在 2026/10/29 20:44, Dongliang Mu 写道:
-> Translate the media administrator guide and V4L driver index. Move the
-> OMAP3 ISP translation from video4linux to its current location and
-> update it for the English source.
+> Move the GDB debugging translation into process/debugging. Update the
+> process and development tools indexes to match the current English
+> structure.
 >
-> Update the translation through commit 3cd9b7011519
-> ("Documentation: add documentation of AMD isp 4 driver")
+> Update the zh_TW admin-guide README reference to the moved zh_CN GDB
+> guide.
+>
+> Synchronize the process index with upstream revision a03ef333fbd6.
 >
 > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 > ---
->   .../zh_CN/admin-guide/media/index.rst         |  54 ++++
->   .../zh_CN/admin-guide/media/omap3isp.rst      |  95 ++++++
->   .../zh_CN/admin-guide/media/v4l-drivers.rst   |  42 +++
->   .../zh_CN/video4linux/omap3isp.txt            | 277 ------------------
->   4 files changed, 191 insertions(+), 277 deletions(-)
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/index.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
->   create mode 100644 Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
->   delete mode 100644 Documentation/translations/zh_CN/video4linux/omap3isp.txt
+>   .../translations/zh_CN/dev-tools/index.rst    |  37 +++---
+>   .../debugging}/gdb-kernel-debugging.rst       |  15 ++-
+>   .../zh_CN/process/debugging/index.rst         |  62 ++++++++++
+>   .../translations/zh_CN/process/index.rst      | 109 +++++++++++-------
+>   .../translations/zh_TW/admin-guide/README.rst |   2 +-
+>   5 files changed, 159 insertions(+), 66 deletions(-)
+>   rename Documentation/translations/zh_CN/{dev-tools => process/debugging}/gdb-kernel-debugging.rst (93%)
+>   create mode 100644 Documentation/translations/zh_CN/process/debugging/index.rst
 >
-> diff --git a/Documentation/translations/zh_CN/admin-guide/media/index.rst b/Documentation/translations/zh_CN/admin-guide/media/index.rst
+> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+> index 7b37194217b0..f5cf2621b6e3 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+> @@ -1,18 +1,16 @@
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/dev-tools/index.rst
+>   :Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
+>   
+>   ============
+>   内核开发工具
+>   ============
+>   
+> -本文档是有关内核开发工具文档的合集。
+> -目前这些文档已经整理在一起，不需要再花费额外的精力。
+> -欢迎任何补丁。
+> +本文档收集了用于内核开发的工具文档。目前这些文档只是汇集在一起，尚未充分整理成一份连贯的指南；欢迎提交补丁！
+>   
+> -有关测试专用工具的简要概述，参见
+> -Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> +测试工具的简要概述见 ``Documentation/dev-tools/testing-overview.rst``。
+> +
+> +调试专用工具见 ``Documentation/process/debugging/index.rst``。
+>   
+>   .. toctree::
+>      :caption: 目录
+> @@ -21,21 +19,26 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>      testing-overview
+>      sparse
+>      kcov
+> -   kcsan
+> -   kmsan
+>      gcov
+>      kasan
+> +   kmsan
+>      ubsan
+>      kmemleak
+> -   gdb-kernel-debugging
+> +   kcsan
+>   
+>   Todolist:
+>   
+> - - checkpatch
+> - - coccinelle
+> - - kfence
+> - - kgdb
+> - - kselftest
+> - - kunit/index
+> - - ktap
+> - - checkuapi
+> +* checkpatch
+> +* clang-format
+> +* coccinelle
+> +* context-analysis
+> +* lkmm/index
+> +* kfence
+> +* kselftest
+> +* kunit/index
+> +* ktap
+> +* checkuapi
+> +* gpio-sloppy-logic-analyzer
+> +* autofdo
+> +* propeller
+> +* container
+> diff --git a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst b/Documentation/translations/zh_CN/process/debugging/gdb-kernel-debugging.rst
+> similarity index 93%
+> rename from Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+> rename to Documentation/translations/zh_CN/process/debugging/gdb-kernel-debugging.rst
+> index 0b382a32b3fe..f5010c144dcb 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+> +++ b/Documentation/translations/zh_CN/process/debugging/gdb-kernel-debugging.rst
+> @@ -1,8 +1,7 @@
+>   .. highlight:: none
+>   
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/process/debugging/gdb-kernel-debugging.rst
+>   :Translator: 高超 gao chao <gaochao49@huawei.com>
+>   
+>   通过gdb调试内核和模块
+> @@ -34,7 +33,7 @@ Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口
+>     但这通常仅在不依赖内核模块时才有效。有关此模式的更多详细信息，请参阅QEMU文档。
+>     在这种情况下，如果架构支持KASLR，应该在禁用CONFIG_RANDOMIZE_BASE的情况下构建内核。
+>   
+> -- 构建gdb脚本（适用于内核v5.1版本及以上）
+> +- 构建gdb脚本（内核 v5.1 及以上版本需要此步骤）::
+>   
+>       make scripts_gdb
+>   
+> @@ -78,7 +77,7 @@ Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口
+>       ...
+>       loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
+>   
+> -- 对一些尚未加载的模块中的函数函数设置断点，例如::
+> +- 对尚未加载的模块中的函数设置断点，例如::
+>   
+>       (gdb) b btrfs_init_sysfs
+>       Function "btrfs_init_sysfs" not defined.
+> @@ -165,3 +164,11 @@ Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口
+>   
+>   可以通过“help <command-name>”或“help function <function-name>”命令
+>   获取指定命令或指定调试功能的更多详细信息。
+> +
+> +调试 GDB 脚本
+> +-------------
+> +
+> +GDB 默认不会显示完整的 Python 回溯，这会使调试 GDB 脚本比必要的更困难。
+> +使用以下命令可输出 Python 环境的完整回溯::
+> +
+> + (gdb) set python print-stack full
+> diff --git a/Documentation/translations/zh_CN/process/debugging/index.rst b/Documentation/translations/zh_CN/process/debugging/index.rst
 > new file mode 100644
-> index 000000000000..80bd1fec7ceb
+> index 000000000000..b0a121f7a91e
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/media/index.rst
-> @@ -0,0 +1,54 @@
+> +++ b/Documentation/translations/zh_CN/process/debugging/index.rst
+> @@ -0,0 +1,62 @@
 > +.. SPDX-License-Identifier: GPL-2.0
 > +
 > +.. include:: ../../disclaimer-zh_CN.rst
-> +.. include:: <isonum.txt>
 > +
 > +
 > +========================
-> +媒体子系统管理和用户指南
+> +Linux 内核开发者调试指南
 > +========================
 > +
-> +本节介绍媒体子系统及其支持的驱动程序的使用方法。
-> +
-> +另请参阅：
-> +
-> +``Documentation/userspace-api/media/index.rst``
-> +
-> +  - 介绍媒体设备使用的用户空间 API。
-> +
-> +``Documentation/driver-api/media/index.rst``
-> +
-> +  - 介绍媒体设备使用的驱动开发信息及内核 API。
-> +
-> +``Documentation/process/debugging/media_specific_debugging_guide.rst``
-> +
-> +  - 介绍调试媒体子系统驱动程序所需的基本工具和方法。
-> +
-> +.. toctree::
-> +   :caption: 目录
-> +   :maxdepth: 2
-> +   :numbered:
-> +
-> +   v4l-drivers
-> +
-> +Todolist：
-> +
-> +* intro
-> +* building
-> +* remote-controller
-> +* cec
-> +* dvb
-> +* cardlist
-> +* dvb-drivers
-> +
-> +**Copyright** |copy| 1999-2020 : LinuxTV Developers
-> +
-> +::
-> +
-> +  本文档是自由软件；您可以按照自由软件基金会发布的 GNU 通用公共许可证
-> +  第 2 版，或（由您选择）任何后续版本的条款重新分发和/或修改本文档。
-> +
-> +  发布本文档是希望它能够发挥作用，但不提供任何担保；甚至不提供有关
-> +  适销性或特定用途适用性的默示担保。详情请参阅 GNU 通用公共许可证。
-> +
-> +  更多详情请参阅源代码目录中的 COPYING 文件。
-> diff --git a/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst b/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
-> new file mode 100644
-> index 000000000000..6d9c16bdb5ef
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/media/omap3isp.rst
-> @@ -0,0 +1,95 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +.. include:: <isonum.txt>
-> +
-> +:翻译:
-> +
-> + 傅炜 Fu Wei <tekkamanninja@gmail.com>
-> +
-> +:校译:
-> +
-> + 傅炜 Fu Wei <tekkamanninja@gmail.com>
-> +
-> +OMAP 3 图像信号处理器 (ISP) 驱动
-> +================================
-> +
-> +Copyright |copy| 2010 Nokia Corporation
-> +
-> +Copyright |copy| 2009 Texas Instruments, Inc.
-> +
-> +联系人：Laurent Pinchart <laurent.pinchart@ideasonboard.com>、
-> +Sakari Ailus <sakari.ailus@iki.fi>、David Cohen <dacohen@gmail.com>
-> +
-> +
-> +简介
-> +----
-> +
-> +本文档介绍位于 ``drivers/media/platform/ti/omap3isp`` 的德州仪器
-> +OMAP 3 图像信号处理器（ISP）驱动。原始驱动由德州仪器编写，此后在
-> +诺基亚经过两次重写。
-> +
-> +该驱动已成功用于以下 OMAP 3 版本：
-> +
-> +- 3430
-> +- 3530
-> +- 3630
-> +
-> +该驱动实现 V4L2、媒体控制器和 v4l2_subdev 接口，并支持内核中使用
-> +v4l2_subdev 接口的传感器、镜头及闪光灯驱动。
-> +
-> +
-> +拆分为子设备
-> +------------
-> +
-> +OMAP 3 ISP 被拆分为多个 V4L2 子设备。ISP 内部每个模块均由一个子设备
-> +表示，每个子设备都向用户空间提供 V4L2 子设备接口。
-> +
-> +- OMAP3 ISP CCP2
-> +- OMAP3 ISP CSI2a
-> +- OMAP3 ISP CCDC
-> +- OMAP3 ISP preview
-> +- OMAP3 ISP resizer
-> +- OMAP3 ISP AEWB
-> +- OMAP3 ISP AF
-> +- OMAP3 ISP histogram
-> +
-> +ISP 中每条可能的连接都由媒体控制器接口中的一条连接表示。示例程序参见 [#]_。
-> +
-> +
-> +控制 OMAP 3 ISP
-> +---------------
-> +
-> +通常，对 OMAP 3 ISP 所做的设置会在下一帧开始时生效：传感器的垂直消隐期间，
-> +模块进入空闲状态，此时应用这些设置。在内存到内存的运行模式下，处理管线每次
-> +运行一帧，设置在两帧之间应用。
-> +
-> +除 CSI-2 及可能的 CCP2 接收器外，ISP 中所有模块都要求接收完整的帧。
-> +因此，传感器绝不能向 ISP 发送不完整的帧。
-> +
-> +至少在 3430 上，某些 ISP 模块的自动空闲功能存在问题。仅当 ``omap3isp``
-> +模块参数 ``autoidle`` 非零时，才会在 3630 上启用自动空闲功能。
-> +
-> +
-> +技术参考手册（TRM）及其他文档
-> +--------------------------------
-> +
-> +OMAP 3430 TRM：
-> +<URL:http://focus.ti.com/pdfs/wtbu/OMAP34xx_ES3.1.x_PUBLIC_TRM_vZM.zip>
-> +引用日期：2011-03-05。
-> +
-> +OMAP 35xx TRM：
-> +<URL:http://www.ti.com/litv/pdf/spruf98o> 引用日期：2011-03-05。
-> +
-> +OMAP 3630 TRM：
-> +<URL:http://focus.ti.com/pdfs/wtbu/OMAP36xx_ES1.x_PUBLIC_TRM_vQ.zip>
-> +引用日期：2011-03-05。
-> +
-> +DM 3730 TRM：
-> +<URL:http://www.ti.com/litv/pdf/sprugn4h> 引用日期：2011-03-06。
-> +
-> +
-> +参考资料
+> +通用指南
 > +--------
 > +
-> +.. [#] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
-> diff --git a/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst b/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
-> new file mode 100644
-> index 000000000000..370a242e13cd
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/media/v4l-drivers.rst
-> @@ -0,0 +1,42 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +==============================
-> +Video4Linux (V4L) 驱动专用文档
-> +==============================
-> +
 > +.. toctree::
-> +   :maxdepth: 2
+> +   :maxdepth: 1
 > +
-> +   omap3isp
+> +   gdb-kernel-debugging
 > +
-> +Todolist：
+> +待译文档：
 > +
-> +* amdisp4-1
-> +* bttv
-> +* c3-isp
-> +* cafe_ccic
-> +* cx88
-> +* fimc
-> +* imx
-> +* imx7
-> +* ipu3
-> +* ipu6-isys
-> +* ivtv
-> +* mali-c55
-> +* mgb4
-> +* philips
-> +* qcom_camss
-> +* raspberrypi-pisp-be
-> +* rcar-fdp1
-> +* rkcif
-> +* rkisp1
-> +* raspberrypi-rp1-cfe
-> +* saa7134
-> +* si470x
-> +* si4713
-> +* si476x
-> +* vimc
-> +* visl
-> +* vivid
-> diff --git a/Documentation/translations/zh_CN/video4linux/omap3isp.txt b/Documentation/translations/zh_CN/video4linux/omap3isp.txt
-> deleted file mode 100644
-> index 75e481985630..000000000000
-> --- a/Documentation/translations/zh_CN/video4linux/omap3isp.txt
-> +++ /dev/null
-> @@ -1,277 +0,0 @@
-> -Chinese translated version of Documentation/admin-guide/media/omap3isp.rst
-> -
-> -If you have any comment or update to the content, please contact the
-> -original document maintainer directly.  However, if you have a problem
-> -communicating in English you can also ask the Chinese maintainer for
-> -help.  Contact the Chinese maintainer if this translation is outdated
-> -or if there is a problem with the translation.
-> -
-> -Maintainer: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -	  Sakari Ailus <sakari.ailus@iki.fi>
-> -	  David Cohen <dacohen@gmail.com>
-> -Chinese maintainer: Fu Wei <tekkamanninja@gmail.com>
-> ----------------------------------------------------------------------
-> -Documentation/admin-guide/media/omap3isp.rst 的中文翻译
-> -
-> -如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
-> -交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> -译存在问题，请联系中文版维护者。
-> -英文版维护者： Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -	  Sakari Ailus <sakari.ailus@iki.fi>
-> -	  David Cohen <dacohen@gmail.com>
-> -中文版维护者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
-> -中文版翻译者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
-> -中文版校译者： 傅炜 Fu Wei <tekkamanninja@gmail.com>
-> -
-> -
-> -以下为正文
-> ----------------------------------------------------------------------
-> -OMAP 3 图像信号处理器 (ISP) 驱动
-> -
-> -Copyright (C) 2010 Nokia Corporation
-> -Copyright (C) 2009 Texas Instruments, Inc.
-> -
-> -联系人: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -	  Sakari Ailus <sakari.ailus@iki.fi>
-> -	  David Cohen <dacohen@gmail.com>
-> -
-> -
-> -介绍
-> -===
-> -
-> -本文档介绍了由 drivers/media/video/omap3isp 加载的德州仪器
-> -（TI）OMAP 3 图像信号处理器 (ISP) 驱动。原始驱动由德州仪器（TI）
-> -编写，但此后由诺基亚重写了两次。
-> -
-> -驱动已在以下 OMAP 3 系列的芯片中成功使用：
-> -
-> -	3430
-> -	3530
-> -	3630
-> -
-> -驱动实现了 V4L2、媒体控制器和 v4l2_subdev 接口。支持内核中使用
-> -v4l2_subdev 接口的传感器、镜头和闪光灯驱动。
-> -
-> -
-> -拆分为子设备
-> -==========
-> -
-> -OMAP 3 ISP 被拆分为 V4L2 子设备，ISP中的每个模块都由一个子设备
-> -来表示。每个子设备向用户空间提供一个 V4L2 子设备接口。
-> -
-> -	OMAP3 ISP CCP2
-> -	OMAP3 ISP CSI2a
-> -	OMAP3 ISP CCDC
-> -	OMAP3 ISP preview
-> -	OMAP3 ISP resizer
-> -	OMAP3 ISP AEWB
-> -	OMAP3 ISP AF
-> -	OMAP3 ISP histogram
-> -
-> -ISP 中每个可能的连接都通过一个链接嵌入到媒体控制器接口中。详见例程 [2]。
-> -
-> -
-> -控制 OMAP 3 ISP
-> -==============
-> -
-> -通常，对 OMAP 3 ISP 的配置会在下一帧起始时生效。在传感器垂直消隐期间，
-> -模块变为空闲时完成配置。在内存到内存的操作中，视频管道一次处理一帧。
-> -应用配置应在帧间完成。
-> -
-> -ISP 中的所有模块，除 CSI-2 和 （可能存在的）CCP2 接收器外，都必须
-> -接收完整的帧数据。因此，传感器必须保证从不发送部分帧数据给ISP。
-> -
-> -Autoidle（自动空闲）功能至少在 3430 的 ISP 模块中确实存在一些问题。
-> -当 omap3isp 模块参数 autoidle 非零时，autoidle（自动空闲）功能
-> -仅在 3630 中启用了。
-> -
-> -
-> -事件机制
-> -======
-> -
-> -OMAP 3 ISP 驱动在 CCDC 和统计（AEWB、AF 和 直方图）子设备中支持
-> -V4L2 事件机制接口。
-> -
-> -CCDC 子设备通过 HS_VS 中断，处理 V4L2_EVENT_FRAME_SYNC 类型
-> -事件，用于告知帧起始。早期版本的驱动则使用 V4L2_EVENT_OMAP3ISP_HS_VS。
-> -当在 CCDC 模块中接收到起始帧的第一行时，会准确地触发事件。这个事件
-> -可以在 CCDC 子设备中“订阅”。
-> -
-> -（当使用并行接口时，必须注意正确地配置 VS 信号极性。而当使用串行接收时
-> -这个会自动校正。）
-> -
-> -每个统计子设备都可以产生事件。每当一个统计缓冲区可由用户空间应用程序
-> -通过 VIDIOC_OMAP3ISP_STAT_REQ IOCTL 操作获取时，就会产生一个
-> -事件。当前存在以下事件：
-> -
-> -	V4L2_EVENT_OMAP3ISP_AEWB
-> -	V4L2_EVENT_OMAP3ISP_AF
-> -	V4L2_EVENT_OMAP3ISP_HIST
-> -
-> -这些 ioctl 的事件数据类型为 struct omap3isp_stat_event_status
-> -结构体。如果出现计算错误的统计，也同样会产生一个事件，但没有相关的统计
-> -数据缓冲区。这种情况下 omap3isp_stat_event_status.buf_err 会被
-> -设置为非零值。
-> -
-> -
-> -私有 IOCTL
-> -==========
-> -
-> -OMAP 3 ISP 驱动支持标准的 V4L2 IOCTL 以及可能存在且实用的控制。但
-> -ISP 提供的许多功能都不在标准 IOCTL 之列，例如 gamma（伽马）表和统计
-> -数据采集配置等。
-> -
-> -通常，会有一个私有 ioctl 用于配置每个包含硬件依赖功能的模块。
-> -
-> -支持以下私有 IOCTL：
-> -
-> -	VIDIOC_OMAP3ISP_CCDC_CFG
-> -	VIDIOC_OMAP3ISP_PRV_CFG
-> -	VIDIOC_OMAP3ISP_AEWB_CFG
-> -	VIDIOC_OMAP3ISP_HIST_CFG
-> -	VIDIOC_OMAP3ISP_AF_CFG
-> -	VIDIOC_OMAP3ISP_STAT_REQ
-> -	VIDIOC_OMAP3ISP_STAT_EN
-> -
-> -在 include/linux/omap3isp.h 中描述了这些 ioctl 使用的参数结构体。
-> -与特定 ISP 模块相关的 ISP 自身的详细功能在技术参考手册 (TRMs)中有
-> -描述，详见文档结尾。
-> -
-> -虽然在不使用任何私有 IOCTL 的情况下使用 ISP 驱动是可能的，但这样无法
-> -获得最佳的图像质量。AEWB、AF 和 直方图（译者注：一般用于自动曝光和增益
-> -控制，以及图像均衡等）模块无法在未使用适当的私有 IOCTL 配置的情况下使用。
-> -
-> -
-> -CCDC 和 preview（预览）模块 IOCTL
-> -===============================
-> -
-> -VIDIOC_OMAP3ISP_CCDC_CFG 和 VIDIOC_OMAP3ISP_PRV_CFG IOCTL
-> -被分别用于配置、启用和禁用 CCDC 和 preview（预览）模块的功能。在它们
-> -所控制的模块中，两个 IOCTL 控制多种功能。VIDIOC_OMAP3ISP_CCDC_CFG IOCTL
-> -接受一个指向 omap3isp_ccdc_update_config 结构体的指针作为它的参数。
-> -同样的，VIDIOC_OMAP3ISP_PRV_CFG 接受一个指向 omap3isp_prev_update_config
-> -结构体的指针。以上两个结构体定义位于 [1]。
-> -
-> -这些结构体中的 update 域标识是否针对指定的功能更新配置，而 flag 域
-> -则标识是启用还是禁用此功能。
-> -
-> -update 和 flag 位接受以下掩码值。CCDC 和 preview（预览）模块的
-> -每个单独功能都与一个 flag 关联（禁用或启用；在结构体中 flag 域的
-> -一部分）和一个指向功能配置数据的指针。
-> -
-> -对于 VIDIOC_OMAP3ISP_CCDC_CFG，下面列出了 update 和 flag 域
-> -中的有效值。 这些值可能会在同一个 IOCTL 调用中配置多个功能。
-> -
-> -        OMAP3ISP_CCDC_ALAW
-> -        OMAP3ISP_CCDC_LPF
-> -        OMAP3ISP_CCDC_BLCLAMP
-> -        OMAP3ISP_CCDC_BCOMP
-> -        OMAP3ISP_CCDC_FPC
-> -        OMAP3ISP_CCDC_CULL
-> -        OMAP3ISP_CCDC_CONFIG_LSC
-> -        OMAP3ISP_CCDC_TBL_LSC
-> -
-> -针对 VIDIOC_OMAP3ISP_PRV_CFG 的相应值如下：
-> -
-> -        OMAP3ISP_PREV_LUMAENH
-> -        OMAP3ISP_PREV_INVALAW
-> -        OMAP3ISP_PREV_HRZ_MED
-> -        OMAP3ISP_PREV_CFA
-> -        OMAP3ISP_PREV_CHROMA_SUPP
-> -        OMAP3ISP_PREV_WB
-> -        OMAP3ISP_PREV_BLKADJ
-> -        OMAP3ISP_PREV_RGB2RGB
-> -        OMAP3ISP_PREV_COLOR_CONV
-> -        OMAP3ISP_PREV_YC_LIMIT
-> -        OMAP3ISP_PREV_DEFECT_COR
-> -        OMAP3ISP_PREV_GAMMABYPASS
-> -        OMAP3ISP_PREV_DRK_FRM_CAPTURE
-> -        OMAP3ISP_PREV_DRK_FRM_SUBTRACT
-> -        OMAP3ISP_PREV_LENS_SHADING
-> -        OMAP3ISP_PREV_NF
-> -        OMAP3ISP_PREV_GAMMA
-> -
-> -在启用某个功能的时候，相关的配置数据指针不可为 NULL。在禁用某个功能时，
-> -配置数据指针会被忽略。
-> -
-> -
-> -统计模块 IOCTL
-> -=============
-> -
-> -统计子设备相较于其他子设备提供了更多动态配置选项。在图像处理流水线处于
-> -工作状态时，它们可以被启用、禁用和重配。
-> -
-> -统计模块总是从 CCDC 中获取输入的图像数据（由于直方图内存读取未实现）。
-> -统计数据可由用户通过统计子设备节点使用私有 IOCTL 获取。
-> -
-> -AEWB、AF 和 直方图子设备提供的私有 IOCTL 极大程度上反应了 ISP 硬件
-> -提供的寄存器级接口。有些方面纯粹和驱动程序的实现相关，这些将在下面讨论。
-> -
-> -VIDIOC_OMAP3ISP_STAT_EN
-> ------------------------
-> -
-> -这个私有 IOCTL 启用/禁用 一个统计模块。如果这个申请在视频流启动前完成，
-> -它将在视频流水线开始工作时生效。如果视频流水线已经处于工作状态了，它将在
-> -CCDC 变为空闲时生效。
-> -
-> -VIDIOC_OMAP3ISP_AEWB_CFG, VIDIOC_OMAP3ISP_HIST_CFG and VIDIOC_OMAP3ISP_AF_CFG
-> ------------------------------------------------------------------------------
-> -
-> -这些 IOCTL 用于配置模块。它们要求用户应用程序对硬件有深入的认识。对
-> -大多数域的解释可以在 OMAP 的 TRM 中找到。以下两个域对于以上所有的
-> -私有 IOCTL 配置都很常见，由于他们没有在 TRM 中提及，故需要对其有
-> -更好的认识。
-> -
-> -omap3isp_[h3a_af/h3a_aewb/hist]_config.buf_size:
-> -
-> -模块在内部处理自身缓冲。对模块数据输出所必需的缓存大小依赖于已申请的配置。
-> -虽然驱动支持在视频流工作时重新配置，但对于所需缓存量大于模块启用时内部
-> -所分配数量的情况，则不支持重新配置。在这种情况下将返回 -EBUSY。为了避免
-> -此类状况，无论是禁用/重配/启用模块，还是第一次配置时申请必须的缓存大小，
-> -都应在模块禁用的情况下进行。
-> -
-> -内部缓冲分配的大小需综合考虑所申请配置的最小缓存量以及 buf_size 域中
-> -所设的值。如果 buf_size 域在[minimum（最小值）, maximum（最大值）]
-> -缓冲大小范围之外，则应该将其调整到其范围中。驱动则会选择最大值。正确的
-> -buf_size 值将回写到用户应用程序中。
-> -
-> -omap3isp_[h3a_af/h3a_aewb/hist]_config.config_counter:
-> -
-> -由于配置并未在申请之后同步生效，驱动必须提供一个跟踪这类信息的方法，
-> -以提供更准确的数据。在一个配置被申请之后，返回到用户空间应用程序的
-> -config_counter 是一个与其配置相关的唯一值。当用户应用程序接收到
-> -一个缓冲可用或一个新的缓冲申请事件时，这个 config_counter 用于
-> -一个缓冲数据和一个配置的匹配。
-> -
-> -VIDIOC_OMAP3ISP_STAT_REQ
-> -------------------------
-> -
-> -将内部缓冲队列中最早的数据发送到用户空间，然后丢弃此缓冲区。
-> -omap3isp_stat_data.frame_number 域与视频缓冲的 field_count
-> -域相匹配。
-> -
-> -
-> -技术参考手册 (TRMs) 和其他文档
-> -==========================
-> -
-> -OMAP 3430 TRM:
-> -<URL:http://focus.ti.com/pdfs/wtbu/OMAP34xx_ES3.1.x_PUBLIC_TRM_vZM.zip>
-> -参考于 2011-03-05.
-> -
-> -OMAP 35xx TRM:
-> -<URL:http://www.ti.com/litv/pdf/spruf98o> 参考于 2011-03-05.
-> -
-> -OMAP 3630 TRM:
-> -<URL:http://focus.ti.com/pdfs/wtbu/OMAP36xx_ES1.x_PUBLIC_TRM_vQ.zip>
-> -参考于 2011-03-05.
-> -
-> -DM 3730 TRM:
-> -<URL:http://www.ti.com/litv/pdf/sprugn4h> 参考于 2011-03-06.
-> -
-> -
-> -参考资料
-> -=======
-> -
-> -[1] include/linux/omap3isp.h
-> -
-> -[2] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
+> +* driver_development_debugging_guide
+> +* kgdb
+> +* userspace_debugging_guide
+> +
+> +针对特定子系统的指南
+> +--------------------
+> +
+> +待译文档：
+> +
+> +* media_specific_debugging_guide
+> +
+> +一般调试建议
+> +============
+> +
+> +根据遇到的问题，可以使用不同的工具追踪问题，甚至判断问题是否确实存在。
+> +
+> +首先要弄清楚需要调试哪一类问题。不同的问题可能需要不同的方法和工具。
+> +
+> +是否只能有限地访问系统？
+> +------------------------
+> +
+> +如果只能有限地访问机器，或者无法停止正在运行的程序，调试能力就取决于发行版内核
+> +内置的调试支持。有关这种情况下可用工具的简要介绍，请参阅
+> +``Documentation/process/debugging/userspace_debugging_guide.rst``。多数情况下，
+> +可以查看 ``/boot`` 目录中的内核配置文件，确认内核提供了哪些调试支持。
+> +
+> +是否拥有系统的 root 权限？
+> +--------------------------
+> +
+> +如果能够轻松地更换模块或安装新内核，可用的调试手段就多得多。详情请参阅
+> +``Documentation/process/debugging/driver_development_debugging_guide.rst``。
+> +
+> +时间因素是否相关？
+> +------------------
+> +
+> +需要判断问题是稳定复现的（即相同输入总会得到相同的错误结果），还是偶发的。
+> +如果问题偶发，就可能受到时间因素影响。如果插入延迟会改变问题的表现，那么时间
+> +因素很可能起了作用。
+> +
+> +当时间因素会影响结果时，使用简单的 ``printk()`` 调试可能不起作用。可以改用
+> +``trace_printk()``，将消息写入跟踪文件，而不是内核日志。
+> +
+> +**Copyright** ©2024 : Collabora
+> diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
+> index 3a36ca7d9333..cac143b68c47 100644
+> --- a/Documentation/translations/zh_CN/process/index.rst
+> +++ b/Documentation/translations/zh_CN/process/index.rst
+> @@ -5,8 +5,6 @@
+>   
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/process/index.rst
+> -
+>   :翻译:
+>   
+>    Alex Shi <alex.shi@linux.alibaba.com>
+> @@ -15,84 +13,107 @@
+>   与Linux 内核社区一起工作
+>   ========================
+>   
+> -你想成为Linux内核开发人员吗？欢迎之至！在学习许多关于内核的技术知识的同时，
+> -了解我们社区的工作方式也很重要。阅读这些文档可以让您以更轻松的、麻烦更少的
+> -方式将更改合并到内核。
+> +你想成为 Linux 内核开发者吗？欢迎！除了要学习大量内核技术知识，了解社区的工作方式
+> +也很重要。阅读这些文档可以帮助你更顺利地将改动合入内核。
+> +
+> +内核开发流程简介
+> +----------------
+>   
+> -以下是每位开发人员都应阅读的基本指南：
+> +请先阅读这些文档：理解其中的内容有助于你加入内核社区。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> -   license-rules
+>      howto
+> -   code-of-conduct
+> -   code-of-conduct-interpretation
+>      development-process
+>      submitting-patches
+> -   programming-language
+> -   coding-style
+> -   maintainer-pgp-guide
+> -   email-clients
+> -   kernel-enforcement-statement
+> -   kernel-driver-statement
+> -
+> -TODOLIST:
+> +   submit-checklist
+>   
+> -* handling-regressions
+> -* maintainer-handbooks
+> +内核开发者的工具和技术指南
+> +--------------------------
+>   
+> -安全方面, 请阅读:
+> +内核开发者应当熟悉以下资料。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> -   embargoed-hardware-issues
+> -   cve
+> -   security-bugs
+> +   programming-language
+> +   coding-style
+> +   maintainer-pgp-guide
+> +   email-clients
+> +   applying-patches
+> +   volatile-considered-harmful
+>   
+> -TODOLIST:
+> +Todolist:
+>   
+> -* handling-regressions
+> +* changes
+> +* backporting
+> +* adding-syscalls
+> +* botching-up-ioctls
+>   
+> -其它大多数开发人员感兴趣的社区指南：
+> +政策指南与开发者声明
+> +--------------------
+>   
+> +这些是内核社区及其他相关领域努力遵守的规则。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> +   license-rules
+> +   code-of-conduct
+> +   code-of-conduct-interpretation
+> +   kernel-enforcement-statement
+> +   kernel-driver-statement
+>      stable-api-nonsense
+> -   management-style
+>      stable-kernel-rules
+> -   submit-checklist
+> +   management-style
+>      researcher-guidelines
+>   
+> -TODOLIST:
+> +Todolist:
+>   
+> -* changes
+> -* kernel-docs
+> -* deprecated
+> -* maintainers
+>   * contribution-maturity-model
+> +* generated-content
+> +* coding-assistants
+> +* conclave
+>   
+> +处理缺陷
+> +--------
+>   
+> -这些是一些总体性技术指南，由于不大好分类而放在这里：
+> +缺陷不可避免，妥善处理很重要。以下文档提供一般的调试建议，并介绍
+> +如何处理两类特殊缺陷——回归问题和安全问题。
+>   
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> -   magic-number
+> -   applying-patches
+> -   volatile-considered-harmful
+> -   ../arch/riscv/patch-acceptance
+> -   ../core-api/unaligned-memory-access
+> +   debugging/index
+> +   security-bugs
+> +   cve
+> +   embargoed-hardware-issues
+>   
+> -TODOLIST:
+> +Todolist:
+>   
+> -* backporting
+> -* adding-syscalls
+> -* botching-up-ioctls
+> -* clang-format
+> +* handling-regressions
+> +* threat-model
+> +
+> +维护者信息
+> +----------
+> +
+> +这些文档介绍如何找到能够接受你提交的补丁的人。
+> +
+> +Todolist:
+> +
+> +* maintainer-handbooks
+> +* maintainers
+> +
+> +其他资料
+> +--------
+> +
+> +以下社区指南也与大多数开发者有关。
+> +
+> +Todolist:
+> +
+> +* kernel-docs
+> +* deprecated
+>   
+>   .. only::  subproject and html
+>   
+> diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
+> index 9be4915ae420..bec930b16e64 100644
+> --- a/Documentation/translations/zh_TW/admin-guide/README.rst
+> +++ b/Documentation/translations/zh_TW/admin-guide/README.rst
+> @@ -290,6 +290,6 @@ Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 。
+>   Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
+>   
+>   更多用GDB調試內核的信息，請參閱：
+> -Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
+> +Documentation/translations/zh_CN/process/debugging/gdb-kernel-debugging.rst
+>   和 Documentation/process/debugging/kgdb.rst 。
+>   
