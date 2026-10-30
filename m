@@ -1,59 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793378756;
-	b=Py3UwiW/Y/YP0/qOWOxHreslO8V05CyZpjAtG+GyYNzR2FY6DujUPn1OUJZTVGAFtvIT
-	 463EONoNWqWZTGjUtFEgSiL1d7F1fgfmI+18x9dMfOhqfQ/TNWPGJDWacwBUqi3OdYvQZ
-	 dTlroX9kBOBjNMDIHU4VHm7NEFfL2es1wloCFKI1jbM4IObA7b3ys5aJuq1qkDrZQCwRA
-	 E0zeVrVTBvxWgEf/kkNINs3pcFSqGU33kuwd6X2+gzrXKG0I3Jqh7Hw3zuyQK6pB9wXLW
-	 YrZE8UUBFqdmoVfBH8zhP1k1Qv7mw/jZVOMqeYsu5c09dkZZ7jrDLNF1/KXFQXyXytQ==
+	t=1793378888;
+	b=V58NXtJx+oEL0Vd6SleuqcUWEfQt6ygJehV332en66CL4Wa3hq/QeamXvxi0BqJNT7KE
+	 ckmLHkcoJL+7dMiOUT6Rm2jSJVBDK6IZFOrPEa6zpju3G2LzHMWGeCWU0U6g3oFGp6XS8
+	 uHiRtmRuHUljYtocdFK/9yHfZSyzASRW9oGBRNMpNdP/Z1PxX5lzSFX1lB7Vfu+8Ak6ob
+	 efprF+MCFPlQB8MNSDJqRUEnvyNK5ozM89lNPg6HzgOok7eMRuqnp39XF5POCNd4KRR1i
+	 oicxROOvih5vhvcnv96jjky8n0Azr1XXPqnUemi/wjQJOTTDiqzQxZE2lUMOyfETWIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793378756;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=52xTTzrrbC1bMV9FtChgDxBJI5ySTBL3GYcsCBoyQKg=;
-	b=2p+vk1gtyeEpsF7t31GTZGPtbgrFMkoObByyZRPofgWL49NWOsSve0UzHyb4lcbsaH75
-	 1o/XbX5kIWDgv0xU0v2HsmD2+u6TnhZkitc7dpkyV4biCrmnkwf2hEIuCXT4ZbS4EKBIM
-	 gWGh1JeUHayYRFld4QiIvYVdYahaw0C/KRwcjAcc26I9ukaM3S/o6S8cgg+MJ3e4nB54Z
-	 dDi8h7Yxebu8ZfAiz1h3//GIFA0PahvgL6NlbO+mAHeGDYlmDMY6UYLSivFEVQt4fk9AM
-	 HgF5rPn+QZc1MLmP+5WZJhZXLizlmTdTB4S9MvTG72QmeC1HLHMdlXXNCRZSA1gaGVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793378888;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=1PWjnarbXn2HA0JXVn8uhcAwVn54VxjKuus/kKGu7w4=;
+	b=PzwQ9TiTMypePSBPrO8j0/5bRHC1zkuBSNKhVd2wEk+Xuj49vafRkGWxM0Cnc+Hs0FoC
+	 pM9yEF5Jrcupy9VV+8iAYydY2jOUinvnl5yFiUg/g4XlR7s6EYYHtNLk79bxMdqNLeKv+
+	 oyx4y2PDD8nO0bg6zOvLgHm2zXDELu4/gNAMB9uDTFCdRi1mzINvAFITOefaF60Cbfvfq
+	 /VVby0K2TSXt1OYoz+MFnphN7dbbIcTLpGJoMVfmvtoIdP9CKNqWuy6w7BPEoJ6BLhtZx
+	 jmHRkMpzU8eSIRjkjYeVUctJJewi+xWFFmc6CjjzspKBphKGfgLo1A7u4gZVHOvKWvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bVzNbutF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=Ue21snLp;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21D4606A31A;
-	Fri, 30 Oct 2026 16:45:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B74C606A31C;
+	Fri, 30 Oct 2026 16:48:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B74C606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bVzNbutF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F34841F0093A;
-	Fri, 30 Oct 2026 16:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793378755;
-	bh=52xTTzrrbC1bMV9FtChgDxBJI5ySTBL3GYcsCBoyQKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bVzNbutFMnANPdYkbrUI56pS2HX2noR+FLh/AXMn0/doxaUOhkfZiC2RbvoooAlcx
-	 2YVSjDrUVw/J78r1HgYDY0K5/UpBEuU2t5b4/kDbqFgXwj8dTxSyUpt+Lo12i9MVAY
-	 Fqc+cPRg6Kg7V/T6SrMLvO6x7liI9IuCSkzHXfFNPYEAI8qxlCbF5y074pNpIZp/JA
-	 U0/sz+kQcX1szwPJRhKXef+kvXpqxDZ8TR+9SgpSMLhGg3Xic+iODcP0FrE1UrxDLP
-	 i9oGkPUN/FBHE9WNnov3mkNmxhbLYthi1Vj5IfXW55YBU/aWEYQ6EjIgOdY4vRbLR9
-	 BEyajOTXOkFFQ==
-Date: Fri, 30 Oct 2026 11:45:51 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kevin Jia <kjia@nexthop.ai>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: Add TDK FS160x and
- FS1006
-Message-ID: <179337875070.546916.6057991565347100078.robh@kernel.org>
-References: <20261020-fs1603-v2-0-0986107a5cd2@nexthop.ai>
- <20261020-fs1603-v2-2-0986107a5cd2@nexthop.ai>
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=Ue21snLp
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D0654B0;
+	Fri, 30 Oct 2026 17:45:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1793378745;
+	bh=nNfRFz9RHsWzb2VPMSn/bmoPqJSmb2mjhetIfPVXziw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ue21snLpAimaE/sWZ7TLy5tNuEQxYK2fRPPz/vMxP71GPQMqdjCX7QZHLcQyIsBMh
+	 BVfV2soGwprlk0oHyQcGa+tA4rtD5foGjJhj8cWwch+LP6ePzi43VS82bkyn5vdIt2
+	 QtLGCe6JFUxhxiNgrpvIAl7TC60ysrLp7k56CRbc=
+Date: Fri, 30 Oct 2026 18:47:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Nicolai Buchwitz <nb@tipi-net.de>, netdev@vger.kernel.org,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: try to force agents to disclose info
+ for fixes
+Message-ID: <20261030164758.GD2673734@killaraus.ideasonboard.com>
+References: <20261029153459.2257998-1-kuba@kernel.org>
+ <9A74CA14-D4C0-4252-A3E7-256F9626B513@tipi-net.de>
+ <CAMuHMdVJVxpX6OLVpE9K9CDY5q61A2rFGf7FpUjs7xpFwReEzA@mail.gmail.com>
+ <20261030093418.2fbf0999@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,21 +68,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261020-fs1603-v2-2-0986107a5cd2@nexthop.ai>
+In-Reply-To: <20261030093418.2fbf0999@kernel.org>
 
-
-On Tue, 20 Oct 2026 16:48:15 +0000, Kevin Jia wrote:
-> Add the TDK FS1603, FS1604, FS1606 and FS1006 uPOL converters. The
-> FS1606-0600 and FS1606-2500 presets scale telemetry differently, so they
-> get their own compatibles.
+On Fri, Oct 30, 2026 at 09:34:18AM -0700, Jakub Kicinski wrote:
+> On Fri, 30 Oct 2026 11:58:17 +0100 Geert Uytterhoeven wrote:
+> > > >+Coding agents must refuse to write the commit message unless they know
+> > > >+what discovery method to include.  
+> > >
+> > > Maybe make it more explicit, as the sinfo bot will ask it anyway:
+> > >
+> > > ... and whether it was reproduced or tested?  
 > 
-> Signed-off-by: Kevin Jia <kjia@nexthop.ai>
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> That's already in the existing text?
 > 
+> > Which is true for anyone, not limited to bots...
+> > 
+> > Do we really need "different" guidelines for humans and bots?
+> 
+> Looks like at least a half of the commit messages today are
+> bot-written. With the existing guidance the bots don't add
+> the requested info by default (presumably since they don't
+> know the information). If this patch doesn't help we may
+> need to add our requirement to coding-agents guide.
+> They seem to be reading that one fairly reliably.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Is there no way this can be tested without being merged upstream ?
+Tweaking documentation in semi-random ways in the hope that some of the
+changes will have an impact doesn't seem to be a good process,
+especially if it's to work around defect of tools.
 
+And unless I missed something, I thought there was a general consensus
+that documentation should be written in a way that doesn't reference
+agents specifically, as the same behaviour is expected for all
+submissions regardless of how they're generated. Has that changed ?
+
+-- 
+Regards,
+
+Laurent Pinchart
