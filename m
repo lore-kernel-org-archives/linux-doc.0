@@ -1,55 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793381662;
-	b=ppngQYhv7TxymIsDrGTgUzsHCdkzykxfFFjR1zb4VsQzh2cYgB9nmdE1pfQlZuIGOfnd
-	 E42m6IcW7ugMV7b6McBF4aiTh4gWdKiZb4sztBu3c4Cm1pOFLfd5gfUblsSb7XKYDARD/
-	 fo8kxCDNIG/ONwIVIldkG8gyC9OoZOfy1LMAALcieSoQlH6vjEmojfXXxoIxxgmJgQS2C
-	 7O1T3uvEKLEkE26lIFZmlZTz4vhkJs35G9y2EKA6+BuJhEKV3Cq5UzJ6VEBHPr7923WDh
-	 niSAf2A8JTLXxSwfBXwsxb+E3YUTSdVJO/YJ8sLgo6F33D2+OQif0QysibxbgcmUJ0A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793381662;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
-	bh=VICXlRZ14rhhanz6CJeMesIouFUKGkvUkT9t7FZfz4Q=;
-	b=qWgnB37B0UbK26lxJVxHudxhDctXqVt3ZmfsjmeAJKu7QsYNM7mnE3iIiZCRnKrR5Mp3
-	 HQMJOZeCO9IPZG1lKwhDMTVrsHVfqI8DMMcPN84iYvQRzxaM1OeWt/aylPfvRQs3XQd9v
-	 +b9MIP60VmoOeoC6a8+kfnP8UlyrwZOOem8RZNBPGBTm3+D9DR/pdU5RheQNRhjOBII4A
-	 GaHg6vzG3hXrlwfom28dIb9w46AW2vuMuyLo13qRpJsPpBDPVRZwm4EDfE2vx9ZglcrOf
-	 X1i7Jb+w+HDPg+967G/ekCVtEAklfRfbKUSsjH+YnTvnbpm5+qJwQgB3h62evFWbRyA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=epCP46ok;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793381947;
+	b=G7aJd60eh8hh8cSNMfvMzveo9EefUCCnoiIXhn/ldWzO6mD1IgBcAYBLRYE4/Y+phsqA
+	 8ij56Ry8JkPw7DIIH4mrlhcxKXh7PggY2o6Q65stAKwOzFOE9nktoWcPbaagRRqLOCeNC
+	 f8pqSZXGcVGzpUnNXT2GYWUtO+AYZPY/yU9sSu8ixf9BUKpC5gEOSUHXhu5LDq6IfJVh0
+	 zX5fI9WSXacql7mvzYMoJn/15HgrcgZUym1JMi97Te0eyBTqMUykvN+6egrJKXhIsvmyQ
+	 Ouq2H376fcyXNX1nf2p2tNdQv4y6DIZby4trAPHUxtwFmBCXwSz2NGl5KghqKKehx5Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793381947;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=espr7eMUoL4NEp1fFPw2X7cY1hYHDQwWESfnyLsQmNw=;
+	b=ugt2vw9oS00Y9n2Ag9gIOUDrlj4xlD4HywbKRfmKl4MRiLJC0sScZMrVzZyhI7c21sAa
+	 /xS08Kn5574BfiFqzz1/tIj3ZFQni3u+hUfwZjRHEa69NqZkPUBaF6GdGLA5KXxBE/R/D
+	 CyT5epYSbXIVFrEPl9DDXj9Qhe3a26cDKMIZlDzwWRUmX1/yb855nZUQCUmVtkql96w98
+	 eWzEjhMvmtqsOJ2ZlOFVMGS2K/pD/pLGhbdKM5Cxdw3GjeM37wdt7d7BDxIlR/SVrdr8L
+	 g8XlfyhYxTI3dgTGSjuCF+8zswcE3euxDNtSIx60DIKSYOAeprNWWkZD/AnGigeQ+EQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=phsogC6Y;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.54
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C855B606A31C;
-	Fri, 30 Oct 2026 17:34:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C855B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E0D606A31F
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:39:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35E0D606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=epCP46ok
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 5D2B7C49F71;
-	Fri, 30 Oct 2026 17:35:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7394A603C2;
-	Fri, 30 Oct 2026 17:34:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A00FB10328D09;
-	Fri, 30 Oct 2026 18:33:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793381649; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=VICXlRZ14rhhanz6CJeMesIouFUKGkvUkT9t7FZfz4Q=;
-	b=epCP46okpn+q9I/oAstY23ZTzc6zvOUk2WFw9lJqfdty423a8pNpW/0aljG/xZlBCNmILB
-	cyxUtC4Wfa+XvawZp3CtmRabDu9CVIVe9kN0ajZf91nWEi3ETAzROUbH8oYfvgSeXOrBML
-	kSFJubPKKVq4nsZfCM3ZQT0wjG1r8Klktwxywq8lJRUWthbTR+NTCH5bJ063MRv2DHiXr/
-	0VWkfSga6rWzqV0u1TpnoAmluCt0c44RsZshdtlqmUeqrBjGHZjKOHkU8N+JNLHP94NoAr
-	JFyqeVp6OfbFsAyZ32AOvAJUvx9z6Gm5Bjv2rjQgetml1BE+johyjpnx6gtY1g==
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=phsogC6Y
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91c75267b0fso10238216d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 10:39:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793381946; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ZDA7OqBTaaAd0XS1saWjweglQW6NSKev7MHHu4FPq+SVv97nwO9CuuC0P6ly6HX0xr
+         1C1rBpRxeRtR5G+bv/ZB7A670DCV/to8PTuSG78NvuUkil3ZCww22qO7hu1uMrZFYfKo
+         BJnCAzQHtcR+y05sH4RdtiKYmpD68+G6yYV+zQDK1ueqj38H70tBO3g9hj4ywB0RjQtQ
+         IRmm6lomlTQhibfA0bm5HP9HO46+fu0IgO4qE5QIXNFdcAJbsDBnDoJwtY78gw3f6mPC
+         F+jB14eTQLl0J2v88d+4tY+1P/htbQBYslrS2dCK5O4TCKAtTqPIbUz/NbfUeJUT86FP
+         nrZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=espr7eMUoL4NEp1fFPw2X7cY1hYHDQwWESfnyLsQmNw=;
+        fh=5d2nqqSlPaZcP5WGKxcmTkzxLbvF+kaYvQ5Dfue4TT0=;
+        b=VqqqXPCS3sxs0+cKlHHit6Nw8rvPYtZ6mx18Ucc1Irmeq/MNCzj5ZYsuS8KmffKyCC
+         DBnYH3Q16OqgOVreYmXti96C6gVXj7dzCmf6sDbD7SnvK9srI9EsXrsvzVl0it/YQRk8
+         +0IDzbvyga12TuR8eSww+KjpBlb6ctAHlB8iJzQhvqsgQ/oBCoDv/HvSgiDsN51+hDH/
+         MiPgGQy9OjYLdR68lBvyy39V/JkVv9DKb810OB560nRQ3y33wb6FuFXWxujVpfLX4ITP
+         V4ygR5LlA+dRc6PsBMaoW/CW8F4fyB39JydF3cjUkBpkIx2wyMtcerj9ueoZctRA/Zuo
+         0Ruw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793381946; x=1793986746; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=espr7eMUoL4NEp1fFPw2X7cY1hYHDQwWESfnyLsQmNw=;
+        b=phsogC6Y+qtsb0QGVFGSDDf5T5Kh20EJJXMOsGlfuqX5VlyD6VMPQ8vSmR/mCfXDMo
+         2GFmmgqHGJeNJVXfLqFbsvCh324IQWNuBvDyY3Pcci4A5ESkB2Z3hSC8Q/GovLQZtU8k
+         Iwd/evxgoGgJvL5OMRp8Or9unuzO0a7dxUCCb1SUwkmIRNALmNb/9AEo3rA8zEPai2hS
+         6s703AX4O2RsuiJcwFc0vfd5vPLtYQXa70N6TaP01xJsrNXxTVYKk/fFr3SOLlcEd4s8
+         RDzu1j9SEC0hqsaxOtJpkWxdEywO/uUnHQY6XgxhjDO0E+SPt3O/kmthnolh6hc3rYrL
+         CNKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793381946; x=1793986746;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=espr7eMUoL4NEp1fFPw2X7cY1hYHDQwWESfnyLsQmNw=;
+        b=iEAnLEWaQkcIHgEZuDTS2i6QatGA1zXSENFIBSe7hBEeSl9ncSz+vbIj9hkWKV3z0+
+         wVR9obXGZdLY1SEGon5VuiWQG+mFHJCwgTxlmWePkUzUV0ZAZzUbymrpyLpEIoNF0Fy5
+         nNq6h0j3aYz5owM3XXLWPQOUx28MjrgzCnHYrSP/5yGfGn2sMsPpLjHa0FFJdD86FMTN
+         nTMFaaKy9BFwh0P/PSqLzjLt5pU0YInaaXeMLs10hx94ivh3vHb6oSbESxOrIdDpLTZi
+         rTywZNjywPqIFqBAM/CCA6YYPLh2kxw2XW5phplujce5SSSimc8q99x6Uv6BkaIIX/s/
+         +U5w==
+X-Forwarded-Encrypted: i=1; AKwUvByRgzin2lAZrdaYAFKw3/8yGDTLK54HfO1sduYevJHjw5kNBdaEKgQwW1s9S0/0aWSAQfL2IIUsQUY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL8/9Zu7CQ1CCpmttZaG70apt7vGYCm9QGvv27GNFUZA/Uu/ypS
+	40AukN8fFp4tTKkqHVYi3IwksbRyc3GzmUdSRX1Yn78AUDpw7wYAo0nvX1sZHTh7NoRx4hstnfl
+	HZN+7zrBODrOxFUNNc4W5hedCm176cuw=
+X-Gm-Gg: AYBFou3scqrEGwDFOGixyEoNND4H+xvnzcp5BMzdaerocUVvzUq2vwuVNSvSmUoBMoW
+	B0AAwBXLcC+ZKT2N8OI6Fo03QGhViK53O7YTHtaEUGm+h7ZSBJ76qOf5QJzWvL9e5OmjK7x/vOs
+	jWa8wXZykzt+YSq2m7vqpHOzxbfOz+v3TqLq33PnqpZHEql8DLuCTbk01RqayJ0nvTc+kmYxn3U
+	MRAqX/wQyuT2lf4+HWdnCuw+1/i0eDTDVirF1kW0pPMxhN86ea2xX1V/HSRoEV4nxzV2fe5uE/Z
+	vYnfSaOmsm6PENLjK+p2qLg96+b3I2t7QIeDtW1sbTwtD+AOZaSqzLMdMAfTT5WzjQOiwcQHfGb
+	lk52aqmo8V10p+nRWc4s42D4XtJvEb8mmEIuv
+X-Received: by 2002:a05:620a:1a08:b0:93c:9d56:a860 with SMTP id
+ af79cd13be357-944217439e4mr528491585a.19.1793381946045; Fri, 30 Oct 2026
+ 10:39:06 -0700 (PDT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,103 +103,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 13/35] drm/panel: remove the _typed() panel bridge
- functions
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, 
- Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Igor Reznichenko <igor@reznichenko.net>, Michael Walle <mwalle@kernel.org>, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
- Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, 
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
- Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Michael Tretter <m.tretter@pengutronix.de>, 
- Cristian Cozzolino <cristian_ci@protonmail.com>, 
- Junjie Cao <junjie.cao@linux.dev>, Ryan Brue <ryanbrue.dev@gmail.com>, 
- Nickolay Goppen <setotau@mainlining.org>, 
- Stefan Mavrodiev <stefan@olimex.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Robert Chiras <robert.chiras@nxp.com>, 
- Alexander Koskovich <akoskovich@pm.me>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Artur Weber <aweber.kernel@gmail.com>, David Heidelberg <david@ixit.cz>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
-In-Reply-To: <20261026-drm-panel-funcs-v1-13-5e3070a3478f@oss.qualcomm.com>
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-13-5e3070a3478f@oss.qualcomm.com>
-Date: Fri, 30 Oct 2026 18:28:25 +0100
-Message-Id: <179338130524.3009485.17598085708064235352.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+References: <cover.1790512964.git.lanzonza@gmail.com> <7ca8fe6cd6b4125813613bd4187ff6cdda72e4b6.1790512964.git.lanzonza@gmail.com>
+In-Reply-To: <7ca8fe6cd6b4125813613bd4187ff6cdda72e4b6.1790512964.git.lanzonza@gmail.com>
+From: Zac Lanzon <lanzonza@gmail.com>
+Date: Fri, 30 Oct 2026 13:38:55 -0400
+X-Gm-Features: AclHuK-QAySofGqN-BH0ysfW9wI2BwE9lRTbGJWzIzgQZTntV5tJ3u0NVFiOCeQ
+Message-ID: <CAPusjWrmKH4wHK6LY7NFi1=+rzDY0uq5N4dgKC4FuUh_=xGhLg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hwmon: (asus_rog_ryujin) Fix pump control source
+ on the Ryujin III
+To: linux-hwmon@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Aleksa Savic <savicaleksa83@gmail.com>, 
+	Edward Blair <edward.blair@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 26 Oct 2026 13:10:02 +0200, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> The connector type argument of drm_panel_bridge_add_typed() and
-> devm_drm_panel_bridge_add_typed() has been ignored since commit
-> b7797081ccfe ("drm/panel: embed a drm_bridge into every drm_panel"),
-> and they have no users left.
+Hi Guenter,
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Gentle ping on v2 of this series. Patch 1 fixes the pump control
+source on the Ryujin III and is Cc'd to stable. Patch 2 adds
+pwm1_enable.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I can rebase onto hwmon-next and resend if that helps.
 
+Thanks,
+Zac
