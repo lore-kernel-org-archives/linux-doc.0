@@ -1,89 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793392548;
-	b=L6ztlz9hfUYfXyN+rDNEB8H5r0pHY8CRiR3lEJhc3a7R8xyIlGBSX7fv6+cK4K+1wmeJ
-	 UPYyKhhmCweDedqPzxH8NWGCfm0Mf7+MpYh9JY/EFyPNIHbMfeqzTfNYTibqf/K25+24x
-	 zmy1xSGCda3pJx1zqvvdbvKgIW/RevVzknRsEWAvRnLfqBrXojiDRerFAn8pJHJ8Qgfgy
-	 AyGqg3rE49IrO7gvO9UZUnHav4kIFm14YUxfhGs+8qSVaE4m3S94VXfPWwuATxcZQqgTf
-	 gDbug/PjEYUUGEVOiKle+aRn46S1KlnrX8tY3HWqFx53JzZ5rmlvRk1iA3SQ1fjqMUA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793392548;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=arOPDSChaNRNcZBsyPaKaudZ5cihJRjbZr8llH31bc0=;
-	b=ZSGUGJ5Asxr/NqD2bFgLZ2bGS069xph77gvWQ2K68uxVoiiMGhOfWQYTLXErr5dGcToH
-	 ELygEvkbXl292bgu5tQNZ0RVqpRWSJ/WrTzFQ9x9S7c4+feCr+pBz3xeC8cHe7cJRXdfL
-	 p04+yPAc0Gl1GTycmPEgzBMsAX/I+hrsWQU82ilXiW5xRkGbnR0eFwPJV2jz1Tn5ILPtx
-	 HmaL0xkrPkNGcmkouqXFYcYBBa5JxDv46JE680J6vsaE+Zo6gZm23U+e3jvIhIEcAGum8
-	 Ykv7vWkPuOoKgP3zoif+jfcyF3WqKXLIbN2f9Vd5gs1pRr8M7xq6DWYIQJRnBtrdZlA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nexthop.ai;
-	spf=pass smtp.mailfrom=nexthop.ai;
-	dkim=pass header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=F4LeboI1;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.16
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793393639;
+	b=2JNlbRDbDEa9tNLa0LpMtr7ZOXhHXErWMqR/0b1aNhJxtYxJnejNqHAoWs6xlWl0Kt0+
+	 +719Wr4WhVs4q6KBqnO2OlNuRErvoPj4ufjBUv1lW1hJtDxUfqwIOxhKd1VoxBvcduwzg
+	 nNUHnzp79GkDtqkOnN2KdFDJJPWEtbO495OIiUi9kO5TinXjPaoywdMeSNFwMBgaXiPnR
+	 C7ZmPqW9zUC8LPD7Z+b24hVQE+kJnKuKD/7Hm+wmb0DGg7QwhMqBe8We/n7M1BJIvFaJ7
+	 dvVy2rY3mNwwkf2y6mfWzi2UwXtI3cKTcWjifyMXXMRfzlkkJHET82YSXQtigmwXknw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793393639;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:From:Subject:To:
+	 CC:References:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=UhwtbPFZ7cFdsb1nfTQeZJyB/lwXQENWPnLo6uALBQw=;
+	b=c1TY7NtYLWdWSsDB3Hrt0mklu4RUqRfbs2l5krX1XEpmD9wN+L3paPrw6fDLbRWv/fEY
+	 P8ZMB9zAhCI2R92tBYupR95GbyaPQHFS7CoOQxm5nScMVfyJnV6HkRlTGKkS//N/x9OsO
+	 +VHpngGbTAsVI8FGZBO07vJXhuU9nElegnWLROmBaqc0MoYoUVePpBKa7lVNDF8d0xv1Y
+	 S94GdTjJLR4HBSauQ0Ey9QsknLpdlaIr5ez8dRJvFVh2cirk8atsY/sDPxUPjuVqCT40e
+	 bmh5rXG7rmT2VliaryTpwgESLSWqrCDnLYrDijMOk91ODW/yo+G3xKnzHKUB0KeYmzQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nvXb15qZ;
+	arc=fail smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE47606A332
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 20:35:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FE47606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4CB606A31A;
+	Fri, 30 Oct 2026 20:53:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A4CB606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=F4LeboI1
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-18cdcfc05ffso1521941c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 13:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1793392547; x=1793997347; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=arOPDSChaNRNcZBsyPaKaudZ5cihJRjbZr8llH31bc0=;
-        b=F4LeboI1/+wSQplUvgCeRwPbm+SK8nbycjMzIAP8j5iBXXOQcYzD5oVes9TgwOAdZ0
-         fT5P1emPIa5YGYH3C2+QR84QWjyuREsoKpQHPf6PWu069oDX/FN9zKbNnPilff0IoLXs
-         hawL2KmDtg5KcRLpMJYsLCzIOSPfEg7xFzKH+oybPxmMsibNHepvgjzGe8j7L4IzkA9k
-         bye0fIAJ/v7M+4TjFcvt1PSu49VmxL7KtJOUl5xxkeQEk64h4tiWQQ+1mlM2raMcuva6
-         ZgVk3JDE2dKVh8p3Ga1iIde/o27t4h+NksafHeJIgXLieOgEm1s2RymTol/s2M0/lhqE
-         p3Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793392547; x=1793997347;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=arOPDSChaNRNcZBsyPaKaudZ5cihJRjbZr8llH31bc0=;
-        b=P6IsnbRUuNbUYWExyRqWBm3v5kLJiBe0/WIy6jjyg2WILsA/XkP08sI+vpFlLSlOnE
-         1oBJS4NkJaGebHnQySNetpwkVpP595GbaHPRvF1K63kS00h3Z9QtvDCOCguXmGhpkwgO
-         YNNTaRGa+XA3M7Xniyy09EG3ok3u/NLgqhadjMXW3ks0RxPBGvOgkZHsoN1767utIr+2
-         djG+/VijHBRpo4cnAlrZtK2csNB84idj58nXNajERt9mPLj6/sDja64cNxMNVzuv7jdR
-         9E8wXRhP+07vNbGiFO3QNDUUZhLJNPQljO7A89+Wgf060MvE5KwIBn+UdQWDYAMbzcPT
-         zcNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxkwbcRwThg0FYUjHgdWT28g9K+JPbgzF5SO897v133OCx4oTjYDKip33kqVKWCLb4lnbZYlNoM5y8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKLTDAH/YrZmqrmlv8ywiNW0kC6CNN8no1FDeGM+EWD++FDXhHp
-	DGYm8OOIx7yG0IrVxXhn7x2qDydrA8GB+7eF37ZpPwJdbZ7ba8GeLpOxYScFkCx4FlM=
-X-Gm-Gg: AYBFou1yaP8Mr4JCoU60Qoc3ryRHtaph2h2x/vQ3v34Mq7iGAipUy7uRSTd2dYFjNDv
-	vJzrZGveBiHPq3W2KOUF5rKBXFitPVbFe8lgpp1hzCY021+r94Lx/qE+5hbVtWwEYQ2I0K7p+oF
-	05etvtnfedBpcmG7fk1kMWc/8PPOo2n2WKFTeeM3SJldSha9ph3s3yHYPCb6g6A5iKZhwQDNzB/
-	ThzWJ+hSdkEG3a3+ZDwK+qQ6RbOOPAVIZXejAHXR7He64Ze2vm067SF42jvzKEeTc9vcKPGY2XL
-	y2BfShZa6/jL/n7JOZBmMGUOGsKuzzbYU5j4V9vj1jt3ceBKwJ4y74blv+hvcJV8D6fhA0Tqs6C
-	yumeTbBIkPoGPqcoVbVtCaVCnRRYBRANQv96iBLwL2z+Bsso7/N9qATxMA3avr+T2jT7P6u6UvH
-	iwqh2qrzGS9zQsDzZIOPzBo4TtFllSjPp/oo0Yya5zQm6wrlGQmMmPqh33DdeqFbSV9PJQzDL89
-	ot+pCM13QJ9qfkCqQEErzVdKb/L8CnmI893NmgateW0UmAsA2vscrqR3tZWQLOPeqxd8PlgR57g
-	n16xrOsh1klyiAqWCDMJwTM=
-X-Received: by 2002:a05:701b:2310:b0:160:a80f:3ed2 with SMTP id a92af1059eb24-1ac5bbb9664mr3923608c88.10.1793392546813;
-        Fri, 30 Oct 2026 13:35:46 -0700 (PDT)
-Received: from [127.0.1.1] ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1854d925sm15120020c88.7.2026.10.30.13.35.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 13:35:46 -0700 (PDT)
-From: Kevin Jia <kjia@nexthop.ai>
-Date: Fri, 30 Oct 2026 20:35:38 +0000
-Subject: [PATCH v3 2/2] hwmon: (fs1603) Add driver for TDK FS160x and
- FS1006 uPOL converters
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nvXb15qZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793393638; x=1824929638;
+  h=message-id:date:from:subject:to:cc:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JTTmuW0Qf5dffg49hQ0pLw7RpJfgX5pL86M6RLo4JSw=;
+  b=nvXb15qZJLXxv4iLYXIEjRGed7Ooz8yDOzzYwu0tdctfw1IhacTGujaM
+   yTLd4Jud6I48Is8OxQDli7bpxUlMQNjRoDC1uJx/X3vrCSxMJzCiQpdLw
+   trFCGVKfCtRhqLWShPcvNyWqkP/wmBxFoBkHD/rA9BAuBEs6k/HE6RNNa
+   dnGSY49FSi0h+NymIYETcoWpXhnNjB6NHtYeo2BVLfygJGdLUBt5bsLei
+   LGD/lZX8DrnhyV/qSn1LvaH2z8bt+qig/Bh/IuKIpCUI+Re3O5yw4O7Ot
+   jKGWVfJEYgFXR9kjvBBy4f/JsVG748cpyPh09zRDz9ZtnmuC8OfJ++sFG
+   Q==;
+X-CSE-ConnectionGUID: fZ3HvLsoQjyzigmBrGoEQw==
+X-CSE-MsgGUID: iYAqTyc9SVmhaoEmmDhtvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2159058"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="2159058"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 13:53:57 -0700
+X-CSE-ConnectionGUID: ncecYJBeRn+soMWm7HFp8A==
+X-CSE-MsgGUID: X8qQr6weShysVaHShwNJFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5426033"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 13:53:57 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 30 Oct 2026 13:53:57 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Fri, 30 Oct 2026 13:53:57 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.11) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 30 Oct 2026 13:53:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hVlXXxTf00BQjt6gMdQcKdNU5kT3eoa+sGIVtSMOcKkJ427w1U++o1Oe4Zhi0lZC9xUV9tn3Trwfd2ZOjbYB1RKh9OdAUncn117sb0qf++fZu7V3JTncuYWosFONIlNbhHuBCRcpQ2ZCbBs8CJ0MrlBytq6Gb/pEtZbnG6rspHUTw/DJonfeDpOyrRziZ1sxwiEQPZeX5SbGul4v/a0FizK/IWzALQ99QUrIY0TJ/AvaQ48XC6YO1Dz2Ukx601jd6FhmXOmHqr7LtvPVZod2olbpwQvHIHY5TIrMueCJhuv+KSWzJHFRqI2TN0OwKSsGVEbFxzrJ8/FJIsnCHoa4gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UhwtbPFZ7cFdsb1nfTQeZJyB/lwXQENWPnLo6uALBQw=;
+ b=bV+OCEdz95TRh2aiEnp+lqkoUwy/G015+QnuiiVSG0LQ7lDRUXUXsiZU8OaxMPWebQAdGaNuMe39w8nC0DvMmyXOXaco0//orqcQ1X17LZuplfdUFVwbDSGHVIBH1dC3AIxO79klyyR79xlAxazkzqirNtoF5Au6J4dZBApUkcATvM7plFafuFXIXhnmdvXa94PykMd0fzaHGx1E8MIWtabRe3hMJax4H8MCjJEjmtvuHBF/gowmXAVKbs//a4rkVD4+RnPQSWhc15p7ws/uCtBApqxNgoQEWbh1Vi7xJEqRCXskKguPo2AqTRJ2w4D9wsP+XysrJZnRWrK5gCztgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7925.namprd11.prod.outlook.com (2603:10b6:8:f8::18) by
+ SA3PR11MB7415.namprd11.prod.outlook.com (2603:10b6:806:318::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
+ 2026 20:53:54 +0000
+Received: from DS0PR11MB7925.namprd11.prod.outlook.com
+ ([fe80::60af:89a0:65dc:9c84]) by DS0PR11MB7925.namprd11.prod.outlook.com
+ ([fe80::60af:89a0:65dc:9c84%7]) with mapi id 15.21.0569.008; Fri, 30 Oct 2026
+ 20:53:54 +0000
+Message-ID: <609c2e22-db8f-417a-93b6-c4fcafe79bc1@intel.com>
+Date: Fri, 30 Oct 2026 13:53:50 -0700
+User-Agent: Mozilla Thunderbird
+From: "Chang S. Bae" <chang.seok.bae@intel.com>
+Subject: Re: [PATCH v10 00/28] KVM: Enable FRED support with KVM VMX
+To: Sohil Mehta <sohil.mehta@intel.com>, <kvm@vger.kernel.org>,
+	<x86@kernel.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+	<seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+	<dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
+	<xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
+	<peterz@infradead.org>, Andrew Cooper <andrew.cooper3@citrix.com>, "Tom
+ Lendacky" <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+	Shivansh Dhiman <shivansh.dhiman@amd.com>, David Woodhouse
+	<dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>, Binbin Wu
+	<binbin.wu@linux.intel.com>, Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed
+	<yosry@kernel.org>, David Matlack <dmatlack@google.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260911213659.2025974-1-sohil.mehta@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0124.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::9) To DS0PR11MB7925.namprd11.prod.outlook.com
+ (2603:10b6:8:f8::18)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,721 +147,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-fs1603-v3-2-6f8963a74def@nexthop.ai>
-References: <20261030-fs1603-v3-0-6f8963a74def@nexthop.ai>
-In-Reply-To: <20261030-fs1603-v3-0-6f8963a74def@nexthop.ai>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Kevin Jia <kjia@nexthop.ai>, Abdurrahman Hussain <abdurrahman@nexthop.ai>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793392543; l=22091;
- i=kjia@nexthop.ai; s=20261016; h=from:subject:message-id;
- bh=55DctAsL/sZwEUOKwNvPcvPvL6JF45ENFrm1uatqe08=;
- b=fsR1U4Q12PZGH6aULYU9fvbC6MQ3fP0LKRpzSdXw+7He4c0yjWUNORH/RqIMMJc+j3mtRusNV
- 0IYAPtkoiIdCDWDfMM3m42MMITx4v9nCo/hOzNmmVjbJJgU4OYk8AOr
-X-Developer-Key: i=kjia@nexthop.ai; a=ed25519;
- pk=TcHV4RjX7qo9R0iryPJ/gWzq3O9yq1SUw0VO2QXQ3Zs=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7925:EE_|SA3PR11MB7415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 854653c8-cfc7-4d08-2242-08df36c7e8cc
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|22082099003|18002099003|56012099006|11063799006|261022075727099003|10067099003|261021123027099003|261026121527099003;
+X-Microsoft-Antispam-Message-Info: S/VqHvhZZGRLXrsXGSNtujntRfH4zAfTftjMoDQaIUWZKPDyu7ML0f/Vu3MB5Xn9zE1Jzo5F+1Ef7qA+XRsrDdOtj6kGf/kYEzYSIJHONEdAdxV2Tid7EE5mRuj5HvvE4qPCS3QbAHtOKU+UknXT3MNo98zT3vk4HBBym89HXRF/jEd3tjF8LzpeYUsZ3FLaR2VTgIwR2If7Wrcymhi5Y9VMFo4LRaLQYaXxDJDWQSh4hcA6CRUI+gK6inM8yQ0+DsOo1x5m6fbO+yZ4SwE+gANoFo8lkddsTOP1RXFBRahtneyu4XFJO4k8LvJtouzAx5VJp8LDbpfP++ID/xgGkPUH7rp3ekwtHqKemGmK6r4miDiz1LzLCW8Vka0gQhifCnJ3K36R5eyyAzXqUUaiYjb5D0b5s9lZNhcAQqTaQW9nG61ujF2TDGOk17GvxuQ6vvKIt/26ofuwMe/aByP7/PHPEhMM7zhaYkTPlJJU77tEb4BgQ/a9Dft6IvdWoyjbEGjNuMZILIagbeb5GYWjkMfkUDpnc8/I6SUye2i9/6VNQTPIGWqiEgnm2wBsorIKN5rMWfGbKBMWl6ixdoxyDYwFUG4MX87g7Jpetq0QnJC3BS6+A57L10zeXeBnwVRyjkUhb2bgGfe7x8Q+j8SMe+kVwenxGYz0dB/lJNksMsg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7925.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(22082099003)(18002099003)(56012099006)(11063799006)(261022075727099003)(10067099003)(261021123027099003)(261026121527099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmZXMDhEL0tReENNL0dhZHNEYmY3Q3FTbGF5Z3lNdUtPbUVmMG9CczRZZ1JD?=
+ =?utf-8?B?NEh6VGI1anlJTUdYK2QzaFZrUnFrWG1LZFBsY28rRGM1KzR3SVRVU3QxbUVp?=
+ =?utf-8?B?N2psSGFhZGkwT2lSa05QUGtZcnZmOEdRdzFKa1dFWTVhb1lkcDEySXNIN3gx?=
+ =?utf-8?B?Zk5HcGpJZFNxekJ6cUFqWitWaEVmTDRRVkEvODRKdlNlVmtDYmlNT2p1akdH?=
+ =?utf-8?B?cE12ZEdGSFFhQXdzWE1NQmhDWUxVLzcxUFE0RW1rNlVKcWlSak1tSlhtM0g3?=
+ =?utf-8?B?TTIzczluVHdkK0ppbDZkVWUwbG5Yb2t6OTdCVEJtcTJqZFV0ck9saXI3dHVs?=
+ =?utf-8?B?WkdXbUoxRXFRUnQ1MVkvbU90NDUza1lrY3dPcmdTb1FhUHpvNjB5TlNBNjRp?=
+ =?utf-8?B?aXlUeHNsOVp3YUhlS2dnS2lsVUZSdCsrTTdieVVDc3dUTWFvUFoxZy9uOUZM?=
+ =?utf-8?B?N1BFQzd4Y2dVcEVjMkFxZWRBS0RqOHhzc09kaFNxUHcvUTVzU0V0bnlSVjZw?=
+ =?utf-8?B?MmU3U2FodU16QlBzdlJiQWF5NlcrcDZtVVBvdGdMWEZpM3p5VElQMm5Ka1hw?=
+ =?utf-8?B?WGQrcCtjck1BZHpLK2R4VXhEbkEzSzBYSGszMnB5M1FueFM0UEYrMmFvRjVx?=
+ =?utf-8?B?ZzgzYnpkZVVQVFdYWGx1QXIyVlhvWDhoMTRkcGNZQ3JsNC96SEZ3eUljUWRI?=
+ =?utf-8?B?SmRmSk1Pc25haGRtZFhkYi9GQmRJZlk4QzhQSnNnZU94WnRHdTlZTFI4dVVJ?=
+ =?utf-8?B?dVdIcTl6bktHTnVoNHhQYkhLNG1wenRaMTg0UVdROHlWQVZxU2Q0ejVlRE93?=
+ =?utf-8?B?ZXM2OWVpUElveUpuY3F5RnFBRFdCamF3OFBHanltVEREUUpDUW5HblJvbVN0?=
+ =?utf-8?B?VTBuUEJNVnNSc2w4Wm1JcStjQ1R5NG5JVGoxUk40bWVNYWtwTUh5dTNreTNH?=
+ =?utf-8?B?OXNYdTkvVDkrTmttV1FFMzlJaVlmSldtaU1Tb2xYS0dNS1FEZUZOT05qSWpq?=
+ =?utf-8?B?VjB2NFdXY2ZJbWM0NHdQTlZQQ3BnNG44UVBWY2psdTd5S2plM2VvS1F3dlBy?=
+ =?utf-8?B?UHFocE1rSUR5T1YyLzQyWWxPVWdwMjlhdERvd00zKzFNaE94eDFhT0gvQUdr?=
+ =?utf-8?B?V3l4SEtENTdXSmcyQjVqU2ZFNzZWZEV6U1c4RC9icG8vZXgzeFdjUUFrSVJa?=
+ =?utf-8?B?UXdCbmNkWHpHdHR6b0lKU1IrbUJvWHZkakN4cUtJZkZvNE4xWkhMWHUzUjdM?=
+ =?utf-8?B?SkE3c1NReXo3M2JaZkdjUHlHaDNQMkM0cE5OSUt3OWE5S3l0eHI1NVF2S1oz?=
+ =?utf-8?B?blQ3NHdlNE1YQ2VFSE9SNzdURzFjNkpvMENvZHpQQWVaWWJoM3NsaWdmMUZ4?=
+ =?utf-8?B?REZBbGxjOTFpdHFCaDl0QTNiSWprSmkwUEkrbFp4MTVxZ2c4ekpqek5MQ2Vs?=
+ =?utf-8?B?b29tVzdtUitNbHM0bU05RHl1elhJek43eWYwQzZjSGhIWmY1a2lvVjh1eG00?=
+ =?utf-8?B?dlp6S2txNHdtWC9xZlJhZkxCZjhUUTY3WjI4eEswZ3l0NzdpVk55aGx2cWdW?=
+ =?utf-8?B?bjM2THJ0cmFrb2lPNjMzeE9RbXJaT2s4VmRDVFlLK245YlhVV0h3dHVGcXgw?=
+ =?utf-8?B?eTNvMXExYkFyU0kzNG1hNzgzNko3UjJ6SjFwbDhIdTRrOWV4S09tdm5FR2Vw?=
+ =?utf-8?B?alBNSUJ0b1dSRkJHRnVrRVdiWFlrY3JPelpvZHVZeXBRM3BOOWVkdm1GODM0?=
+ =?utf-8?B?dzlnbGFISGsxOURpYmhTY1hIclJoOGUxcndNUE1IRUhkMXR1NUJrMVRaeXNu?=
+ =?utf-8?B?MzBUMjBGWnRtOGJGUkx6TW50QmZIMGhkbXpCYXdNL3c1YStuVm1IeSthMlFs?=
+ =?utf-8?B?UmRkUmdrVUV2VVdPUzA1bHNpbEVuRy9MbytFcmV6SWczc25BaE01ODdZemdT?=
+ =?utf-8?B?eWM0Sm5LZXRWbHdwMldVQVh1YnpnaGJ0Rkk1OUxnZGRTT1VnL1NRZjljV3Ry?=
+ =?utf-8?B?d08vcXl5THplMVBVLzg3YTY3V2xUTTFmSzdBUTliL1g0TGNYY2I4OHgvRnBW?=
+ =?utf-8?B?NGxhZmJ4by8wMUdaUG92ZGQvQ1dSQ1BvVUk2VDJvNzkyalNtaUtxeEVhNGE5?=
+ =?utf-8?B?OEUyUVFXRXUzOVNzWkJWbnZlbnptU0NZeTF5ei9YV0Qycy9ZMlcwQVhsZG51?=
+ =?utf-8?B?MGlFcGpZSmF5dUpoY2dSdnlnYlcrWlI3SDBQK1g1bVlPRVgxK0xKdEt0R1hX?=
+ =?utf-8?B?bTFzNDk4eFpCM2RrdFE5QUN6ZmVQdFI5eWtjSm5kMWlzeWs0TkhuYUNITVFC?=
+ =?utf-8?B?dEtmQ1d4V09ISDBPMlBndHpKc2luV3FONUlESTZHcFcrZytsQ2NUZz09?=
+X-Exchange-RoutingPolicyChecked: 3pTyDAzKF4KMVVFeSBEbWiGsELWqmaekvEDHkB8mYoWHgqnQLRKizifiEI4cQ10tU+5S8g/4tsbw6CcxnWW2tMaXjPl5iv71V+bKoQ7ZSe0ZL1CrG4DCevpkzYDFgAcqUwZvBKF2DWD87Wh2saMXj1Avewub5eDFw0g0UNVadREnmhm+E1sBXRZfpIl2eb96HugbDZhnfRbutz1bVEq/AHuVIc8wuZxpslFN1nxba5ep+ijjB2dP0bewkoOMCxMydRCHvLcby9Ma8n24X/VsqJH5wFrmhCvGO10WeyhNH0k/8SEamx1ICELVxL8LF1m9Ri30fIf8Czrosq0wzUEqIw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 854653c8-cfc7-4d08-2242-08df36c7e8cc
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7925.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 20:53:54.4100
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LYE9/m/QGsvCJPWdwF8ud5tqfN06IihXqoNhebiskbFbe74KoQXU1GsL1MguOiajonMhXGsk8/KULjQ8qwy6TlAuKfHDLXhNB8Bb82CHCuI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7415
+X-OriginatorOrg: intel.com
 
-The TDK FS1603, FS1604, FS1606 and FS1006 are uPOL DC-DC converters with
-an integrated inductor. They report input voltage, output voltage, output
-current and temperature, plus over-voltage, over-current and
-over-temperature status, over a proprietary I2C register map. They are
-not PMBus devices, and their register numbers collide with PMBus command
-codes: 0x21 is a status byte here where PMBus defines VOUT_COMMAND.
+On 9/11/2026 2:36 PM, Sohil Mehta wrote:
+> 
+> Patch structure
+> ---------------
 
-The parts have no ID register, and the FS1606-0600 and FS1606-2500
-presets change how telemetry is encoded: the -2500 uses the 20mV steps
-of the higher voltage parts, and the -0600 needs a current correction
-derived from the IOUT_GAIN register and the output voltage. The model is
-therefore taken from the device name or compatible.
+Since now at the 10th iteration, and I saw Sean gave a bunch of feedback 
+already, I suppose pieces are quite sorted out. So I'm more interested 
+in how those pieces could be organized to make easier to follow, review, 
+and integrate going forward.
 
-The over-voltage and over-temperature protection thresholds are
-reported as in1_crit and temp1_crit. The over-voltage threshold is a
-percentage of the VOUT_SET target, so the driver reads VOUT_SET but
-never writes it: VOUT_SET is a two-byte pair, and a partial write leaves
-the part silently ignoring all register writes until its input power is
-cycled. The driver is read-only.
+> Patches   1-6: Enable the VMX controls and export the host stacks
 
-Power good is not exposed. It also deasserts while the output is
-disabled or soft-starting, so it would report a deliberately disabled
-output as a fault.
+These seem to be preparatory changes for supporting the state and 
+extending event delivery later in this series.
 
-On boards that raise the rail with a feedback divider, VOUT_SET holds
-the feedback-pin target while the output voltage telemetry reports the
-rail. The driver measures the divider ratio at probe from the output
-voltage and the Fb register and scales the over-voltage threshold by
-it, so in1_crit is in the same domain as in1_input. A part whose Fb
-reads within four steps of the output keeps a ratio of one.
+Would it make sense to put the x86 core preparation up front rather than 
+having it in the middle of the KVM changes?
 
-Co-developed-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Signed-off-by: Kevin Jia <kjia@nexthop.ai>
----
- Documentation/hwmon/fs1603.rst |  75 +++++++
- Documentation/hwmon/index.rst  |   1 +
- MAINTAINERS                    |   8 +
- drivers/hwmon/Kconfig          |  11 +
- drivers/hwmon/Makefile         |   1 +
- drivers/hwmon/fs1603.c         | 498 +++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 594 insertions(+)
+> Patches  7-19: Virtualize the FRED context and advertise it to userspace
 
-diff --git a/Documentation/hwmon/fs1603.rst b/Documentation/hwmon/fs1603.rst
-new file mode 100644
-index 000000000000..1892d7c7f850
---- /dev/null
-+++ b/Documentation/hwmon/fs1603.rst
-@@ -0,0 +1,75 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver fs1603
-+====================
-+
-+Supported chips:
-+
-+  * TDK FS1603
-+
-+    Prefix: 'fs1603'
-+
-+    Datasheet: Publicly available at the TDK website
-+
-+  * TDK FS1604
-+
-+    Prefix: 'fs1604'
-+
-+    Datasheet: Publicly available at the TDK website
-+
-+  * TDK FS1606, FS1606-0600, FS1606-2500
-+
-+    Prefixes: 'fs1606', 'fs1606_0600', 'fs1606_2500'
-+
-+    Datasheet: Publicly available at the TDK website
-+
-+  * TDK FS1006-3300, FS1006-5000
-+
-+    Prefixes: 'fs1006_3300', 'fs1006_5000'
-+
-+    Datasheet: Publicly available at the TDK website
-+
-+Author:
-+
-+  * Kevin Jia <kjia@nexthop.ai>
-+
-+Description
-+-----------
-+
-+The TDK FS160x and FS1006 are uPOL DC-DC converters with an integrated
-+inductor. They report input voltage, output voltage, output current and
-+temperature over a proprietary I2C register map. They are not PMBus devices,
-+and their register numbers collide with PMBus command codes, so a PMBus driver
-+must not be bound to them.
-+
-+The model is not auto-detected. It must be declared through the I2C device
-+name or the devicetree compatible. The FS1606-2500 preset uses the voltage
-+scaling of the FS1603, FS1604 and FS1006 rather than that of the base FS1606,
-+and the FS1606-0600 applies a gain correction to the output current, so
-+neither can be declared as an FS1606.
-+
-+The driver is read-only. On boards that use a feedback divider to reach a
-+higher rail voltage, the output voltage is still reported for the rail, and the
-+over-voltage threshold is scaled to the rail by the divider ratio, measured at
-+probe from the output voltage and the feedback pin. TDK notes that current
-+reporting does not apply in that configuration.
-+
-+Sysfs attributes
-+----------------
-+
-+=================== == ========================================================
-+in0_input           RO Input voltage in millivolts.
-+in0_label           RO "vin"
-+in1_input           RO Output voltage in millivolts.
-+in1_label           RO "vout"
-+in1_crit            RO Output over-voltage protection threshold in millivolts:
-+                       the OV_Threshold percentage of the VOUT_SET target,
-+                       scaled to the rail on boards with a feedback divider.
-+in1_alarm           RO Output over-voltage status.
-+curr1_input         RO Output current in milliamperes.
-+curr1_alarm         RO Over-current status.
-+temp1_input         RO Temperature in millidegrees Celsius.
-+temp1_crit          RO Over-temperature protection threshold in millidegrees
-+                       Celsius.
-+temp1_alarm         RO Over-temperature status.
-+=================== == ========================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index ac4a407c121f..1be1032f6ea9 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -82,6 +82,7 @@ Hardware Monitoring Kernel Drivers
-    f71882fg
-    fam15h_power
-    fs1412
-+   fs1603
-    fsp-3y
-    ftsteutates
-    g760a
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e591d631281..e53b97fbf193 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -26806,6 +26806,14 @@ S:	Maintained
- F:	Documentation/hwmon/fs1412.rst
- F:	drivers/hwmon/pmbus/fs1412.c
- 
-+TDK FS1603 HARDWARE MONITOR DRIVER
-+M:	Kevin Jia <kjia@nexthop.ai>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/hwmon/tdk,fs1603.yaml
-+F:	Documentation/hwmon/fs1603.rst
-+F:	drivers/hwmon/fs1603.c
-+
- TEA5761 TUNER DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 18c682e1a475..047a3050946b 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -728,6 +728,17 @@ config SENSORS_MC33XS2410
- 	  This driver can also be built as a module. If so, the module
- 	  will be called mc33xs2410_hwmon.
- 
-+config SENSORS_FS1603
-+	tristate "TDK FS1603 and compatible uPOL DC-DC converters"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get hardware monitoring support for the
-+	  TDK FS1603, FS1604, FS1606 and FS1006 uPOL DC-DC converters.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called fs1603.
-+
- config SENSORS_FSCHMD
- 	tristate "Fujitsu Siemens Computers sensor chips"
- 	depends on (X86 || COMPILE_TEST) && I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index d4c345ed7261..23a5f262eecf 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -85,6 +85,7 @@ obj-$(CONFIG_SENSORS_F71805F)	+= f71805f.o
- obj-$(CONFIG_SENSORS_F71882FG)	+= f71882fg.o
- obj-$(CONFIG_SENSORS_F75375S)	+= f75375s.o
- obj-$(CONFIG_SENSORS_FAM15H_POWER) += fam15h_power.o
-+obj-$(CONFIG_SENSORS_FS1603)	+= fs1603.o
- obj-$(CONFIG_SENSORS_FSCHMD)	+= fschmd.o
- obj-$(CONFIG_SENSORS_FTSTEUTATES) += ftsteutates.o
- obj-$(CONFIG_SENSORS_G760A)	+= g760a.o
-diff --git a/drivers/hwmon/fs1603.c b/drivers/hwmon/fs1603.c
-new file mode 100644
-index 000000000000..21e545a61bb3
---- /dev/null
-+++ b/drivers/hwmon/fs1603.c
-@@ -0,0 +1,498 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+/*
-+ * Copyright (C) 2026 Nexthop Systems Inc.
-+ *
-+ * Driver for the TDK FS160x family of uPOL DC-DC converters with integrated
-+ * inductor. Supported models: FS1603, FS1604, FS1606, FS1006.
-+ *
-+ * The parts expose voltage, current and temperature telemetry over a
-+ * proprietary I2C register map. They are not PMBus devices, and their
-+ * register numbers actively collide with PMBus command codes -- 0x21 is a
-+ * status byte here where PMBus defines VOUT_COMMAND -- so a generic PMBus
-+ * driver must never be bound to them.
-+ *
-+ * Read-only. VOUT_SET (0x12/0x13) is an atomic write-protected pair: writing
-+ * the high byte arms an update that takes effect only once the low byte is
-+ * written. A partial write leaves the part armed, after which it acknowledges
-+ * but silently ignores every register write until its input power is cycled,
-+ * so this driver only reads it, to scale the over-voltage threshold.
-+ *
-+ * On a board that raises the rail with a feedback divider, VOUT still reports
-+ * the rail but VOUT_SET holds the feedback-pin target, so the over-voltage
-+ * threshold is scaled by the divider ratio, measured at probe from VOUT and
-+ * the Fb register (0x22). TDK notes that current reporting does not apply in
-+ * that configuration.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/err.h>
-+#include <linux/hwmon.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#define FS1603_REG_PVIN			0x0C
-+#define FS1603_REG_VOUT			0x0D
-+#define FS1603_REG_IOUT			0x0E
-+#define FS1603_REG_TEMP			0x0F
-+#define FS1603_REG_VOUT_SET_HI		0x12
-+#define FS1603_REG_VOUT_SET_LO		0x13
-+#define FS1603_REG_OV_THRESHOLD		0x17
-+#define FS1603_REG_OT_THRESHOLD		0x19
-+#define FS1603_REG_IOUT_GAIN		0x1A
-+#define FS1603_REG_STATUS		0x21
-+#define FS1603_REG_FB			0x22
-+
-+#define FS1603_VOUT_SET_HI_MASK		BIT(0)
-+#define FS1603_OV_THRESHOLD_MASK	GENMASK(1, 0)
-+#define FS1603_OT_THRESHOLD_MASK	GENMASK(1, 0)
-+#define FS1603_IOUT_GAIN_MASK		GENMASK(7, 2)
-+
-+/* Bits in FS1603_REG_STATUS. */
-+#define FS1603_STATUS_OVER_VOLTAGE	BIT(6)
-+#define FS1603_STATUS_OVER_CURRENT	BIT(5)
-+#define FS1603_STATUS_OVER_TEMP		BIT(4)
-+
-+/* OV_Threshold[1:0] in percent of programmed VOUT; OT_Threshold[1:0] in degC. */
-+static const unsigned int fs1603_ov_threshold_pct[] = { 105, 110, 115, 120 };
-+static const unsigned int fs1603_ot_threshold_c[] = { 75, 85, 125, 145 };
-+
-+/*
-+ * Voltage telemetry is a linear step and base, both fixed per variant.
-+ * Current is raw/32 A except on the FS1606-0600, which applies a calibration
-+ * correction derived from FS1603_REG_IOUT_GAIN and the output voltage.
-+ */
-+struct fs1603_info {
-+	unsigned int vout_step_mv;
-+	unsigned int vout_base_mv;
-+	bool iout_gain_corrected;
-+};
-+
-+enum fs1603_model {
-+	fs1603,
-+	fs1606,
-+	fs1606_0600,
-+};
-+
-+/*
-+ * The FS1603, FS1604, FS1006 and FS1606-2500 share the 20mV/600mV encoding.
-+ * The other FS1606 variants report at 10mV/300mV.
-+ */
-+static const struct fs1603_info fs1603_models[] = {
-+	[fs1603]      = { .vout_step_mv = 20, .vout_base_mv = 600 },
-+	[fs1606]      = { .vout_step_mv = 10, .vout_base_mv = 300 },
-+	[fs1606_0600] = { .vout_step_mv = 10, .vout_base_mv = 300,
-+			  .iout_gain_corrected = true },
-+};
-+
-+/*
-+ * Every register is a byte, and every read is live telemetry, so nothing is
-+ * cached. regmap is used for the uniform accessors and the debugfs dump.
-+ */
-+static const struct regmap_config fs1603_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = FS1603_REG_FB,
-+	.cache_type = REGCACHE_NONE,
-+};
-+
-+struct fs1603_data {
-+	struct regmap *regmap;
-+	const struct fs1603_info *info;
-+	u32 fb_ratio_num;
-+	u32 fb_ratio_den;
-+};
-+
-+static int fs1603_read_vout_mv(struct fs1603_data *data, long *val)
-+{
-+	unsigned int raw;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_VOUT, &raw);
-+	if (err)
-+		return err;
-+
-+	*val = raw * data->info->vout_step_mv + data->info->vout_base_mv;
-+	return 0;
-+}
-+
-+/*
-+ * Output current in mA.
-+ *
-+ * Every variant but the FS1606-0600 reports raw/32 A directly. The -0600
-+ * additionally applies, with G taken from FS1603_REG_IOUT_GAIN bits [7:2]:
-+ *
-+ *   I = raw/32 - (9.05 - 0.24 * G) * Vout - 0.356 * G + 13.1
-+ *
-+ * Scaled to milliamps and millivolts so it stays in integer arithmetic:
-+ *
-+ *   I_mA = raw * 125 / 4
-+ *          - ((9050 - 240 * G) * Vout_mV) / 1000
-+ *          - 356 * G
-+ *          + 13100
-+ */
-+static int fs1603_read_iout_ma(struct fs1603_data *data, long *val)
-+{
-+	unsigned int raw, gain;
-+	long vout_mv;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_IOUT, &raw);
-+	if (err)
-+		return err;
-+
-+	*val = raw * 125 / 4;
-+
-+	if (!data->info->iout_gain_corrected)
-+		return 0;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_IOUT_GAIN, &gain);
-+	if (err)
-+		return err;
-+	gain = FIELD_GET(FS1603_IOUT_GAIN_MASK, gain);
-+
-+	err = fs1603_read_vout_mv(data, &vout_mv);
-+	if (err)
-+		return err;
-+
-+	*val -= ((9050 - 240 * (long)gain) * vout_mv) / 1000;
-+	*val -= 356 * (long)gain;
-+	*val += 13100;
-+
-+	if (*val < 0)
-+		*val = 0;
-+
-+	return 0;
-+}
-+
-+/*
-+ * The 9-bit VOUT_SET code steps at half the telemetry resolution from a base
-+ * of 80 steps.
-+ */
-+static int fs1603_read_vout_set_mv(struct fs1603_data *data, long *val)
-+{
-+	unsigned int hi, lo;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_VOUT_SET_HI, &hi);
-+	if (err)
-+		return err;
-+	err = regmap_read(data->regmap, FS1603_REG_VOUT_SET_LO, &lo);
-+	if (err)
-+		return err;
-+
-+	*val = ((FIELD_GET(FS1603_VOUT_SET_HI_MASK, hi) << 8 | lo) + 80) *
-+	       data->info->vout_step_mv / 2;
-+	return 0;
-+}
-+
-+/* Fb has no documented encoding; it decodes with the VOUT step and base. */
-+static int fs1603_read_fb_mv(struct fs1603_data *data, long *val)
-+{
-+	unsigned int raw;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_FB, &raw);
-+	if (err)
-+		return err;
-+
-+	*val = raw * data->info->vout_step_mv + data->info->vout_base_mv;
-+	return 0;
-+}
-+
-+/*
-+ * A board that raises the rail with a feedback divider leaves VOUT_SET at the
-+ * feedback target, and Fb then reads well below VOUT. The divider is fixed in
-+ * hardware, so measure its ratio once. Without a divider Fb reads the output
-+ * itself, and the ratio stays one so the limit does not follow ADC noise.
-+ */
-+static int fs1603_measure_fb_ratio(struct fs1603_data *data)
-+{
-+	long vout_mv, fb_mv;
-+	int err;
-+
-+	data->fb_ratio_num = 1;
-+	data->fb_ratio_den = 1;
-+
-+	err = fs1603_read_vout_mv(data, &vout_mv);
-+	if (err)
-+		return err;
-+	err = fs1603_read_fb_mv(data, &fb_mv);
-+	if (err)
-+		return err;
-+
-+	if (fb_mv > 0 && vout_mv > fb_mv + 4 * data->info->vout_step_mv) {
-+		data->fb_ratio_num = vout_mv;
-+		data->fb_ratio_den = fb_mv;
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * OVP trips at OV_Threshold percent of the VOUT_SET target, measured at the
-+ * feedback pin. Scale it by the feedback divider ratio to report it in the
-+ * same rail domain as in1_input.
-+ */
-+static int fs1603_read_vout_crit_mv(struct fs1603_data *data, long *val)
-+{
-+	unsigned int raw;
-+	long vout_set_mv;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_OV_THRESHOLD, &raw);
-+	if (err)
-+		return err;
-+	err = fs1603_read_vout_set_mv(data, &vout_set_mv);
-+	if (err)
-+		return err;
-+
-+	raw = FIELD_GET(FS1603_OV_THRESHOLD_MASK, raw);
-+	*val = DIV_ROUND_CLOSEST_ULL((u64)fs1603_ov_threshold_pct[raw] *
-+				     vout_set_mv * data->fb_ratio_num,
-+				     100 * data->fb_ratio_den);
-+	return 0;
-+}
-+
-+static int fs1603_read_status_bit(struct fs1603_data *data, u8 mask,
-+				  long *val)
-+{
-+	unsigned int status;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_STATUS, &status);
-+	if (err)
-+		return err;
-+
-+	*val = !!(status & mask);
-+	return 0;
-+}
-+
-+static int fs1603_read_in(struct fs1603_data *data, u32 attr, int channel,
-+			  long *val)
-+{
-+	unsigned int raw;
-+	int err;
-+
-+	switch (attr) {
-+	case hwmon_in_input:
-+		if (channel == 0) {
-+			err = regmap_read(data->regmap, FS1603_REG_PVIN, &raw);
-+			if (err)
-+				return err;
-+			/* PVIN reports in 1/16 V steps. */
-+			*val = raw * 1000 / 16;
-+			return 0;
-+		}
-+		return fs1603_read_vout_mv(data, val);
-+	case hwmon_in_crit:
-+		return fs1603_read_vout_crit_mv(data, val);
-+	case hwmon_in_alarm:
-+		return fs1603_read_status_bit(data, FS1603_STATUS_OVER_VOLTAGE,
-+					      val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int fs1603_read_curr(struct fs1603_data *data, u32 attr, long *val)
-+{
-+	switch (attr) {
-+	case hwmon_curr_input:
-+		return fs1603_read_iout_ma(data, val);
-+	case hwmon_curr_alarm:
-+		return fs1603_read_status_bit(data, FS1603_STATUS_OVER_CURRENT,
-+					      val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int fs1603_read_temp_crit_mc(struct fs1603_data *data, long *val)
-+{
-+	unsigned int raw;
-+	int err;
-+
-+	err = regmap_read(data->regmap, FS1603_REG_OT_THRESHOLD, &raw);
-+	if (err)
-+		return err;
-+
-+	*val = fs1603_ot_threshold_c[FIELD_GET(FS1603_OT_THRESHOLD_MASK, raw)] * 1000;
-+	return 0;
-+}
-+
-+static int fs1603_read_temp(struct fs1603_data *data, u32 attr, long *val)
-+{
-+	unsigned int raw;
-+	int err;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		err = regmap_read(data->regmap, FS1603_REG_TEMP, &raw);
-+		if (err)
-+			return err;
-+		/* TEMP_REPORT is degC directly: 1 degC per LSB, no offset. */
-+		*val = raw * 1000;
-+		return 0;
-+	case hwmon_temp_crit:
-+		return fs1603_read_temp_crit_mc(data, val);
-+	case hwmon_temp_alarm:
-+		return fs1603_read_status_bit(data, FS1603_STATUS_OVER_TEMP,
-+					      val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int fs1603_read(struct device *dev, enum hwmon_sensor_types type,
-+		       u32 attr, int channel, long *val)
-+{
-+	struct fs1603_data *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_in:
-+		return fs1603_read_in(data, attr, channel, val);
-+	case hwmon_curr:
-+		return fs1603_read_curr(data, attr, val);
-+	case hwmon_temp:
-+		return fs1603_read_temp(data, attr, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int fs1603_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			      u32 attr, int channel, const char **str)
-+{
-+	if (type != hwmon_in || attr != hwmon_in_label)
-+		return -EOPNOTSUPP;
-+
-+	*str = channel == 0 ? "vin" : "vout";
-+	return 0;
-+}
-+
-+static umode_t fs1603_is_visible(const void *data, enum hwmon_sensor_types type,
-+				 u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		case hwmon_in_crit:
-+		case hwmon_in_alarm:
-+			/* OVP and its alarm describe the regulated output only. */
-+			return channel == 1 ? 0444 : 0;
-+		default:
-+			return 0;
-+		}
-+	case hwmon_curr:
-+	case hwmon_temp:
-+		return 0444;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static const struct hwmon_ops fs1603_ops = {
-+	.is_visible = fs1603_is_visible,
-+	.read = fs1603_read,
-+	.read_string = fs1603_read_string,
-+};
-+
-+static const struct hwmon_channel_info *fs1603_channel_info[] = {
-+	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL | HWMON_I_CRIT |
-+			   HWMON_I_ALARM),
-+	HWMON_CHANNEL_INFO(curr, HWMON_C_INPUT | HWMON_C_ALARM),
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_CRIT | HWMON_T_ALARM),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info fs1603_chip_info = {
-+	.ops = &fs1603_ops,
-+	.info = fs1603_channel_info,
-+};
-+
-+static int fs1603_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	char *name;
-+	struct fs1603_data *data;
-+	struct device *hwmon;
-+	int err;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-+		return dev_err_probe(dev, -ENODEV,
-+				     "SMBus byte data not supported\n");
-+
-+	name = devm_hwmon_sanitize_name(dev, client->name);
-+	if (IS_ERR(name))
-+		return PTR_ERR(name);
-+
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = devm_regmap_init_i2c(client, &fs1603_regmap_config);
-+	if (IS_ERR(data->regmap))
-+		return dev_err_probe(dev, PTR_ERR(data->regmap),
-+				     "failed to allocate regmap\n");
-+
-+	data->info = i2c_get_match_data(client);
-+	if (!data->info)
-+		return dev_err_probe(dev, -ENODEV, "no match data for %s\n",
-+				     client->name);
-+
-+	err = fs1603_measure_fb_ratio(data);
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "failed to read the feedback ratio\n");
-+
-+	hwmon = devm_hwmon_device_register_with_info(dev, name, data,
-+						     &fs1603_chip_info, NULL);
-+	return PTR_ERR_OR_ZERO(hwmon);
-+}
-+
-+static const struct i2c_device_id fs1603_id[] = {
-+	{ .name = "fs1603",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1603] },
-+	{ .name = "fs1604",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1603] },
-+	{ .name = "fs1606",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1606] },
-+	{ .name = "fs1606_0600",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1606_0600] },
-+	{ .name = "fs1606_2500",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1603] },
-+	{ .name = "fs1006_5000",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1603] },
-+	{ .name = "fs1006_3300",
-+	  .driver_data = (kernel_ulong_t)&fs1603_models[fs1603] },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, fs1603_id);
-+
-+static const struct of_device_id fs1603_of_match[] = {
-+	{ .compatible = "tdk,fs1603", .data = &fs1603_models[fs1603] },
-+	{ .compatible = "tdk,fs1606", .data = &fs1603_models[fs1606] },
-+	{ .compatible = "tdk,fs1606-0600",
-+	  .data = &fs1603_models[fs1606_0600] },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, fs1603_of_match);
-+
-+static struct i2c_driver fs1603_driver = {
-+	.driver = {
-+		.name	= "fs1603",
-+		.of_match_table = fs1603_of_match,
-+	},
-+	.probe = fs1603_probe,
-+	.id_table = fs1603_id,
-+};
-+module_i2c_driver(fs1603_driver);
-+
-+MODULE_AUTHOR("Kevin Jia <kjia@nexthop.ai>");
-+MODULE_DESCRIPTION("TDK FS160x uPOL DC-DC converter telemetry driver");
-+MODULE_LICENSE("GPL");
+I think there are a few sub-groups here:
+  (1) patch07-10: Support FRED state context switching
+  (2) patch11-14: Extend event delivery
+  (3) patch15-17: Handle CR4
+  (4) patch18-19: Advertise the feature, etc.
 
--- 
-2.43.0
+At glance, (2) looks a little difficult to follow. Patch 13/14 in 
+particular appear to mix the FRED support itself with some preparatory 
+changes. IIUC, the code is saying everything outside of the 
+is_fred_enabled() path has no functional change.
 
+Perhaps, the changes outside of is_fred_enabled() could be separated 
+out. That would make the actual is_fred_enabled() path easier to follow. 
+Also, the part introduces the ABI immediately after adding 
+is_fred_enabled(), before showing up the callsite of is_fred_enabled(). 
+This flow is a bit abrupt.
+
+For example, extending kvm_requeue_exception() alone could be one step. 
+The next step could add the code under is_fred_enabled(), initially with 
+is_fred_enabled() as a placeholder that simply returns false. I think 
+that would better highlight which parts are actually FRED-specific and 
+why this dynamic check is needed.
+
+Since is_fred_enabled() depends on CR4 anyway, its actual implementation 
+could then come with (3), or somewhere later. Finally, (2) could perhaps 
+be completed by adding the new ABI at the end.
+
+> Patches 20-25: Extend FRED virtualization to nested VMX
+
+Since nVMX support comes after exposing the feature, does that also mean 
+the series could be partitioned into two parts, one up through the 
+advertisement (and tests) and another for nVMX support? Splitting up a 
+complex series like this may make review and integration easier going 
+forward.
+
+Thanks,
+Chang
