@@ -1,61 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.25.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793362188;
-	b=Cv5GLPmqio+PMhtgRiTTM2cx17mX3GpNbSmj/qAD2MJZhlBgBGJiG+fqf+fuCrz9boNX
-	 vCHs3DIvLP9EtXEClAPJ/ZJXJ+pwQbN/R86V5LjM5E97QHWbn9nSyXfy1khfxcH6mXBM7
-	 8vwNiKPHGNUsZEu1Lvee1czlKNHqf4qQS1CAMZMiYDtEeAsYloaEdq9gv7tWxOUCMBWmo
-	 +1QKhXoUHZr2Tw2MAcvEH8bGU5RdR/xOJePhsGY48j0rrvH1RPV7zHa/vMdLkDzA102v4
-	 imVIKS8YCrx9wqp3VnGmmNwA+dOsAAYg/hZyGMt6hq/qI+ylSJtTbFWjrrc1xlQyaBg==
+	t=1793363096;
+	b=Cijy7vNdmka+bYI++b6Yw6BZ88quOjxGhZZzKygs3FocIm/cGXugbeUkBz2JGXsWacfn
+	 XqB9xcLAKnVou6Psq1wp6WLijPhtqvOuz6cVj4sHNacvEINGQnjSLLWspM5QOja/QTaQE
+	 OWJDpzcleLBTnizByhMaSX80H50Nk7ikwJlgHGReZCcIe+J1+6rGpTcwHrfUdaJhMyh5L
+	 VBuIWX/SfsPn3gE7p7VKadol6ORvW6GH4YLbbQqXcAr835tAkijkkVEisJrOBIOE1RKTH
+	 4dAQahS4BUcibkpVA8NSQtESrm8BhIPFu2r8eaotuLhQVcDuO955P33CrBB4nBckXbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793362188;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Infomaniak-Routing;
-	bh=CHiOHhGM8wF8lZDketcUzQJ4hUyzLdW+kg23E8g6Q8Y=;
-	b=dHmDaO3frqVZHrx35yLoFG71aGDmuwUMf/dRaakvwT+dHvEz+vVSKmznYtVoNmcZqATp
-	 Lenz3lCoafZnvXukiFbI3+Oo6Q7sWazLaptQnh0SgdY3APlaO945d+TZZkBc/TOSjevfe
-	 EJE/sglEdWXcgES5iKW38cV1UxlppaFifMPquV7+Cfs0RleJPbdSJlNjvDgNYuJLluQ4b
-	 9bOsrCgVdaaKHrLThudhm+5cNSAdStRmvq3kRAN7aTSBxWIF+BL1n7Ld5xlzQwunJNAyK
-	 +QCtU+fvU2kptqE1jVEXCMYNMHvZrjwVV8iF5+N+Cp+N2uTJH8yfyUGZBVm17AATBvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793363096;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
+	bh=BGYHEZ8/yGpunCTkOYvgRITEqUm5TYbCUQMtVfX6jU0=;
+	b=gBXYaAwhfdmJ/SFs/H3Bx7Rd8qbAux6BhW3MN5gZ/tnf6N1xX9CirGw3u/ZvAfuL0b02
+	 bC1FsdxXrjnvAWqsStbluweXNfOqikhmzXU9W5NNnpB8rDibOmXE6bVd2nTbPg6FRCXCB
+	 tWg9k6CAY75Lj5kqK4K7iktbRTF7YoEFMATNFLqPd6ldpYY0k0dcyLWCJvgC0oWZM4NSY
+	 jdl0sculeL2YiqBmUsFmCpPn8v9MEM6xvYUtj138RbGOWQG+E/n3QazphlFQpjYVVy2PD
+	 hNj40+JC7jNsN+VO9idiqVoGHzLRpq3ak5KfN7Q1OJFF0baK672nLR9XxZ7Z2N1iFOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=digikod.net;
-	spf=pass smtp.mailfrom=digikod.net;
-	dkim=pass header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=hK77lSuE;
-	arc=none smtp.remote-ip=185.125.25.15
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2288606A31A
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 12:09:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2288606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oTraL4TW;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A35F606A326;
+	Fri, 30 Oct 2026 12:24:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A35F606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=hK77lSuE
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jGKfB3PMCz2kVC;
-	Fri, 30 Oct 2026 13:09:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1793362178;
-	bh=CHiOHhGM8wF8lZDketcUzQJ4hUyzLdW+kg23E8g6Q8Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hK77lSuE5wzFwhCRobE9qXWskjQ3zxNRilzRvFrQtPauZ2z/+6poqRZVQebnFDiJ/
-	 1wzkAGB0/h2FUJeLSQC2e4E48yWXjrgs+Cy+sAJZc51JcSXjfYYSs/oDCVT/jY0PwE
-	 UhjntZlEcLXvsUm91zESPOyaZLrU9HbrzVtBdLNo=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4jGKf62QN9zdbQ;
-	Fri, 30 Oct 2026 13:09:34 +0100 (CET)
-Date: Fri, 30 Oct 2026 13:09:29 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Farid Zakaria <farid.m.zakaria@gmail.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	John Ericson <mail@johnericson.me>, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
-Message-ID: <20261030.ohkopheePh2a@digikod.net>
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oTraL4TW
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C4531682;
+	Fri, 30 Oct 2026 05:24:52 -0700 (PDT)
+Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E26493F673;
+	Fri, 30 Oct 2026 05:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793363095; bh=eGdbHVu74E1ReCplaksFUR7oTU7Slvjcv5W3BhCgOSQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oTraL4TW6hdj6K6/eVqxzmeVe/O6RS5Hc/k5lTSA7nQwCWgUetERsiwu+MuBGb/M+
+	 E5ipFfUb7SrTtrmTnveMAht6d2TA78URXg27fGnLANURPAclKI5Vxoo+8H4TvEnGgB
+	 U3+Peb9gGg2q1ZA3QRpkBU3oaq2qWu1g5CGKx7b8=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	yangjinqian1@huawei.com,
+	caijian11@h-partners.com,
+	liuyonglong@huawei.com,
+	tangchengchang@huawei.com,
+	yezhenyu2@huawei.com,
+	yubihong@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	seiden@linux.ibm.com,
+	suzuki.poulose@arm.com,
+	fuad.tabba@linux.dev,
+	mark.rutland@arm.com,
+	seanjc@google.com,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 05/15] KVM: arm64: Harvest stage-2 dirty state into the host folio account
+Date: Fri, 30 Oct 2026 12:24:49 +0000
+Message-ID: <auSMkdEhLI7k8QbV@LeoBrasDK>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <009b13c6-f618-43fe-8a56-8519d31b239b@huawei.com>
+References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-6-zhengtian10@huawei.com> <at-WceRKAVM2kEnI@LeoBrasDK> <009b13c6-f618-43fe-8a56-8519d31b239b@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,158 +89,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
-X-Infomaniak-Routing: alpha
+Content-Transfer-Encoding: 8bit
 
-Hi Farid,
+On Thu, Oct 29, 2026 at 10:02:10PM +0800, Tian Zheng wrote:
+> 
+> 
+> On 10/27/2026 2:05 AM, Leonardo Bras wrote:
+> > Hi Tian,
+> > Sorry for the delay in reviewing...
+> > 
+> > On Tue, Sep 29, 2026 at 06:36:45PM +0800, Tian Zheng wrote:
+> > > With VTCR_EL2.HD set, hardware promotes writable-clean descriptors to
+> > > writable-dirty without any VM exit, and the only record of the write
+> > > is the S2AP[1] bit in the stage-2 PTE. The write never passed through
+> > > the host stage-1, and no unmap path reads the bit, so the record dies
+> > > with the PTE and reclaim may discard written guest data (silent
+> > > corruption).
+> > 
+> > Sorry, I didn't get what you are trying to achieve here.
+> > 
+> > On your patch, I see you marking backing pages dirty at wrprotect and unmap
+> > walkers, and it's very confusing to me on why you are doing this.
+> > 
+> > IIUC, what you are trying to do is make sure a page does not lose it's
+> > contents in case it is reclaimed by the OS.
+> > 
+> > IIUC, when a page is reclaimed, it will unmap the S2 PTE, and save it's
+> > contents to swap, so when the guest read or write to that page will cause
+> > it to fault.
+> > 
+> > The page can never be just unmaped, as if there was a single write to it,
+> > the backing pages should be writable, and the contents need to be saved
+> > somewhere.
+> > 
+> > So, if I was able to understand your suggestion, we don't need to worry
+> > about this, and this patch wouldn't be necessary.
+> > 
+> > Did you hit this issue?
+> > Can you please expand on your issue, if I could not describe it above?
+> > 
+> > Thanks!
+> > Leo
+> 
+> Hi Leo,
+> 
+> Thanks for the review. I haven't hit this in practice, and based on your
+> analysis the patch doesn't look necessary.
+> 
+> Reclaim only writes back folios whose PG_dirty flag is set; a clean
+> folio is simply freed. A stage-2 write never touches the host
+> stage-1, so the folio depends entirely on kvm_release_faultin_page()
+> at fault-in to be marked as dirty; without it, the page stays clean from
+> the host's perspective and reclaim drops the data.
+> 
 
-Thanks for this RFC.  The Nix build sandbox is definitely a valid use
-case for Landlock.
+Oh, okay. IIUC it will be enough if PG_dirty flag is set once, right?
 
-I didn't have time to do a full review of your patches yet, but I'll do
-that next week.  In the meantime, I have a few questions:
+While on HAFDBS/HDBSS we will skip the fault for marking them dirty again, 
+we always take the first fault for every PTE (or prefault them), so 
+PG_dirty should always be set once the page is first wroten to.  
 
 
-On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
-> This is a proposal for an idea to add support for landlock to work
-> better with build systems such as Nix where they want to apply
-> restrictions but the paths may not yet exist.
+> Your **RFC v1** patch 2 changed that marking from writable to dirty:
 > 
-> TL;DR;
-> ========
+> ```
+> - kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
+> + kvm_release_faultin_page(kvm, s2vi->page, !!ret, dirty);
+> ```
 > 
-> Landlock rules attach to inodes that exist when a ruleset is built.
-> That makes a directory shared between trusted and sandboxed tasks hard
-> to confine: the sandbox may create entries there with
-> LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
-> time, and granting read access on the directory to cover them exposes
-> every other entry as well. This series adds a rule flag that grants
-> access rights on the entries a domain creates in a directory, instead
-> of on the directory.
-> 
-> Motivation
-> ==========
-> 
-> The motivating user is the Nix build sandbox. Every Nix build runs in
-> its own sandbox, and a build may only read its declared inputs in
-> /nix/store and must be able to write and read back the outputs it
-> creates there. Nix enforces this with a private mount namespace: it
-> creates an empty store directory and bind-mounts each input path into
-> it, one mount per input. Nix has paid this per-input cost since the
-> sandbox was introduced [1].
-> 
-> The cost is paid per build and grows with the size of the input
-> closure. Nix is moving towards much finer-grained builds (many small
-> derivations instead of a few large ones), so the number of sandboxes
-> grows while each build's own work shrinks, and the sandbox setup is
-> becoming the bottleneck. A typical build has hundreds of inputs; large
-> ones have thousands.
-> 
-> A microbenchmark sets up and tears down a Nix-like sandbox (user,
-> mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
-> removing the chroot afterwards). It compares one bind mount per input
-> with a single bind mount of the whole store plus one Landlock rule per
-> input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
-> ext4, 16 cores:
-> 
->   inputs   bind mount per input   one bind mount + Landlock   speedup
->       10         3.2 ms                    2.3 ms               1.4x
->      100        11.6 ms                    2.8 ms               4.1x
->     1000        79.3 ms                    6.4 ms              12.4x
->     5000       400.1 ms                   24.4 ms              16.4x
+> During logging, a read fault maps the page as WC: the folio is not
+> marked PG_dirty in kvm_s2_fault_map() and hardware promotes the PTE to
+> WD on write without any fault, so reclaim frees the page without saving
+> it (the folio was treated as clean).
 
-Did you do this benchmark with this series?  Do you have the related
-code to easily reproduce it?
+Ah, I see your point.
+During dirty-tracking guest reads a page, then HAFDBS promotes it to 
+writable without marking it as dirty. Good catch!
 
-> 
-> With Landlock, an input costs an O_PATH open and a landlock_add_rule()
-> call: there is a single mount, and no mountpoint directory to create
-> before the build and remove after it (removing the 1000 empty
-> mountpoints alone took 17 ms).
-> 
-> The single bind mount is only sound if the store listing and the
-> undeclared store paths stay unreadable while the build can still use
-> its outputs. Without this series, covering the outputs requires a rule
-> on /nix/store itself, which makes every store path readable again.
-> 
-> [1] https://github.com/NixOS/nix/issues/179
+But wouldn't a simpler solution be to change the conditions in the fault 
+handler, so that it indeed marks it as dirty if dirty-tracking is on, even 
+if it's just a read fault? 
 
-I'm wondering if the Nix build sandbox can create the store dir per
-build before the actual build.  Isn't already the case with the bind
-mount?
-
-> 
-> Series
-> ======
-> 
-> Patch 1 lets an LSM observe inode creation through the
-> inode_init_security hook when no LSM provides an xattr. Patch 2 adds
-> the LANDLOCK_ADD_RULE_CREATED flag for path-beneath rules and bumps the
-> ABI to 13. Patch 3 adds selftests.
-> 
-> Testing
-> =======
-> 
-> The series applies to the Landlock next branch (3e271a27c46f) and was
-> tested on Linux 7.3 with that branch applied.
-> 
-> Without patch 2, the five new tests and the ABI version check fail.
-> 
-> Open questions
-> ==============
-> 
-> - A created inode stays pinned until the layer's hierarchy is freed, so a
->   sandbox that creates many entries in such a directory keeps them all in
->   memory. Should this be bounded?
-
-Only the sandbox creator should pay for the related kernel memory
-allocations, and this should be at creation time.
-
-Another property that would be nice is that if a sandboxed process can
-create a file, the related policy should also make it possible to delete
-this file.  Is that the case with the current approach?  We need to
-think not only about the lifetime of the sandbox, but about consecutive
-creations of such sandboxes by/for the same program.
+Thanks! 
+Leo
 
 > 
-> - Creation is detected in inode_init_security, so on filesystems that do
->   not call security_inode_init_security() created entries get no rights.
->   Is there a better hook?
+> Therefore, **HDBSS v5** patch 2 reverted to marking the folio for any
+> write-permitting mapping:
 > 
-> - Through overlayfs, created entries get no rights either, because the
->   upper inode is created with the mounter's credentials. Should overlayfs
->   be handled, e.g. via security_dentry_create_files_as()?
+> ```
+> kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
+> ```
 > 
-> - A file renamed or linked in keeps only the rights it had at its source.
->   Should it get none instead?
+> Together with the v5 scheme, this makes patch 5 unnecessary:
 > 
-> ---
-> Farid Zakaria (3):
->       lsm: Call inode_init_security hooks without xattrs
->       landlock: Add access rights on created files
->       selftests/landlock: Test LANDLOCK_ADD_RULE_CREATED
-> 
->  Documentation/userspace-api/landlock.rst     |  42 +++++
->  include/uapi/linux/landlock.h                |  18 +++
->  security/landlock/domain.c                   | 182 ++++++++++++++++++++-
->  security/landlock/domain.h                   |  28 ++++
->  security/landlock/fs.c                       | 176 +++++++++++++++++++--
->  security/landlock/object.h                   |   6 +
->  security/landlock/ruleset.c                  |   6 +
->  security/landlock/ruleset.h                  |  14 ++
->  security/landlock/syscalls.c                 |  20 ++-
->  security/security.c                          |   9 +-
->  tools/testing/selftests/landlock/base_test.c |   2 +-
->  tools/testing/selftests/landlock/fs_test.c   | 227 +++++++++++++++++++++++++++
->  12 files changed, 703 insertions(+), 27 deletions(-)
-> ---
-> base-commit: 3e271a27c46fd591d1011c7de5a644a41e2010f1
-> change-id: 20261024-landlock-created-rights-9340b00a8c4d
-> 
-> Best regards,
-> --  
-> Farid Zakaria <farid.m.zakaria@gmail.com>
+> - kvm_s2_fault_compute_prot: always set PROT_W when map_writable
+> - stage2_set_prot_attr: PROT_W -> DBM unconditionally
 > 
 > 
+> ---------
+> 
+> On a related note, I'd like to discuss the next version of the DBM
+> scheme, following Oliver's suggestion [1].
+
+Just as a note for future readers: on another thread we agreed to wait for 
+the discussion to reach a point we are all happy before rebasing 
+everything.
