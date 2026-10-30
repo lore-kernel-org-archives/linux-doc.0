@@ -1,102 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793372720;
-	b=tVarIFhkXCQqBMozkuse6iLPrzM9uhWUnP+VzYATrVD2uYf7/RhTbhG6p+Q6v8RRKkzp
-	 /8ecDAhUO7h6/oACeTlVP3m0ciBbbsN0OeKgC6DHnyTans2whU7BEMmC18+rrvvtnEOuK
-	 XM8ULBj+swpbvZjJultQYSJlvAXSI1lbHEyiOBZ0W/powUldkZMoNti27iyDb955c+aaM
-	 Q+vzI4VEl61u/ESQQqC524VRKwpncvedr8WNMsdyFAyxrJvlyrnckLcLEONz+Q1pLE4eL
-	 oGNwGFww1ZDM9h03TftuJ6ferthIMK0g7X34BopPNWg+3gqCHYpmHJVZJqJWvPuuEmg==
+	t=1793372843;
+	b=pNaIv3/bep2mdZVoN5AgAvWHx7IHMb7QpvRBVQoAP1nSvXpAn2/IG/mm1Toh7JLaXTsy
+	 QoNaNXrD+mh4580kpIc6N0ezaYrbxR7HpKWVcPysdeZwqmPdy9QWRG9HRa3He/VwpFoAZ
+	 UgCod47enMU1a+CXdCHEGg/8tDP0CrfKuqsB0GjmvVcsbUSTdrUQ7Z7HRKC+HGGszbps4
+	 6lubCQXfHosgPMx7hsqlpkbsZYqQEaBXzo2ZkZjY9A5fxMlsQm4u2wv7aUwxuQUYiSFuj
+	 HWL/iAdsh8lcD8LUej3ktmH3Ib3S6xE1AM0ie13KqVXoGUuewlb0tWTxugiyZypeHfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372720;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793372843;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=8skhpE8x/+Won6i3+XD12raNMCS4xOoCCKoDLeKTESk=;
-	b=yKOVGY7U1H0Dk9uIUP8N9q5WTqBE7Q3+0sKDVLna+rlfd2Vwkajo4I+QACE86usBmfht
-	 1ujptQGR53DYoTsnjnHpqsfKtTPf+x5++ULvtlyxe4BVK26a6ZPYEmq00hSuXzod1zbD/
-	 mKiTKnTJ6JfjH9+zBsPzqI3KpTDh2TvgyyjECvkyK+sNNTF3r1RH5BSKAJ6mF9H5vmyQa
-	 k4AbQO+BWT87keHPLIF1g3VgD3LTxUmLYbE9vj6VeUAeobXLgKGQDScJNudY+K6XoitZA
-	 eUm5GKpGUaw/E3XyGHxpyW65fr2NmaRkwesAimUrAOXL0L4EN/es2/zywAE2SuqqjUw==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=YNL5gTzoS0SNcKXI362OG6Cyagd0/f8y/Be+hIpJbPg=;
+	b=zsa5677E6/Ae24yGbQQhExYuqyr0Vm917Fxrtplh23uzn6+DA+HusHXtx1OI50HJe89S
+	 GMFq5fyQPCByKbNWjhToYOfFFxxaJ7qSelO17MtYFGMFw6EQ/xbwK/ZVeIbqShNl6rMDS
+	 ai+SoGzf1sd1xGEaK1v8FM0BahUwJIJg0C6tZwMMiW+t5E4SZXNFWOmuT+VMrTI0lbFBG
+	 Rqka1yUVvPSul0WgAsxj2gfp8w2FVHH0bM6Qc4quSaUvFI1yFdrDA1SCcufv1ATlqOCqR
+	 kDnjjdTFUDIxg7Id1j9q/NJYV3EAZvPhgNj8X1nNvHPUm25NCSnR8nrKuGWo0bJdeRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=czkACChM;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uWnnIDaF;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E454F606A31F
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 15:05:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E454F606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93912606A326
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 15:07:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93912606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=czkACChM
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e10a70540so525315f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 08:05:18 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uWnnIDaF
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso7286955e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 08:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793372717; x=1793977517; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1793372841; x=1793977641; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=8skhpE8x/+Won6i3+XD12raNMCS4xOoCCKoDLeKTESk=;
-        b=czkACChM1Vp//qoKfk5C/DvEMQvaO2yxTtnTnNrUz1iZrGkpmjYA7sRpCOkiK85OR5
-         DKyVNu3yHScYnpTV8mEyNjy0GM6AiGkEY+yqMV2kwhj4nogM5hBtnMNrDyDvhJfUP91Y
-         2qLHj18b3y+ItwylHnK3AxAJpQcnWODG8q5TOy1izMOxysmu/gE3PBKDvsyiMMeYHPdN
-         L37BWcbW4GBGw63knHhhcjI2CyLf8W45aZwoP+DUdcfn7pfklTtyoTc13Ps5EzD68ze2
-         PhwKJwRPpHLlcw1quPe3gfGrKyhVNOtKuxcCOGPE+MqRlL4wQREaJw+p9SN5GR4rJNeH
-         4qQw==
+        bh=YNL5gTzoS0SNcKXI362OG6Cyagd0/f8y/Be+hIpJbPg=;
+        b=uWnnIDaFZDr4pqzEYcHVHDAqr85/92Q2My9fXNCJD+rkJgIdgpI1tq1Nsu/ad8rMv1
+         +RWezfm2jh3eMuFkIfsmUhO1gyAqms4M0rNFpMVk2SIZgx66VY2GDIayj0MDbNPZoCQj
+         P0CxcqVstEmDxE8O16N5QIJkpPdcPsFJ/MGp6i3sqw15OksJS9Ox2+geN8KZJuvA53ed
+         NhD+8PloOM+6WV43JiFyt+cdUB8pC1HWVKszqyu7EQ+Dw+hClQ9Jtnh8sho7HITeY2Mv
+         GPTARz0x64NBro0lE7klgoIWeExmR78Ni5nKXKZLufumNznEsjPgq9U1YNuLr5BhMcDv
+         gHbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793372717; x=1793977517;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793372841; x=1793977641;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8skhpE8x/+Won6i3+XD12raNMCS4xOoCCKoDLeKTESk=;
-        b=AmJibpNOwpzo0PtoWjPllMyrO4GZmI5NOWg/tx2Cm0yHWN+iZQexwCSUZlS5EoaXrU
-         vs73JA6nDXjxXPXcvVnnA/1WPkAz0VW0dXYWgTrhIMZErsTto8JWfOacAD1FKqWqpVu7
-         E0Vxn9fWBBci4lmCGiXj3dG0N0Z9/hrGrKeiCGwcrOi0E/IhuoTnh2mrVAwNuanHNz3p
-         JeKlFYOlx1FltRbOlFzFHzxTzYZL7kotewN8oO0Z4tkzUFQmZ6QqezFvUfvCiY/q8hAf
-         0jtYINUa98gWMWIrpBJ8Plew2og3j1HPpiKqijx4kwVYNbi4gA50LlMpZbzUglzq6EXj
-         nz/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBy6JOvRQXpwt3J0qLjRLOgatPbxbv87hvxS/YAm+ORKKFSxSilvdZ/kHtAbU5Pa9ZV2aNzlG05gL2A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKtqLHQTbkVM25bhHKdox+3ZjnYDKsplsNs5+MCcau8D+1kZ4jS
-	RFx2VKhgUHdP4Hi8UMcdXTSLL5NHjwjEViYXVRFLxOTrYAmkYnjfRCHmxBM5SXCnbFQ=
-X-Gm-Gg: AYBFou1Pwyb6tdWZ5XFY0G9H9v7OCR7OuCaOSDESjoNqGNyvbTP82cUqh+j/9jxM2Rh
-	fnXZUWtH6YgV+PSwVm1EkAmsbs94jB+7Kc/qJO58oWNvGyFk841mUa4DaxMM9su/jCv3QeEkqrj
-	rGw6v3esmHjJRWZmGzQ4Rly4KHKPdOFusTNg5fnrL9o33SJjJvATLPqSUNMT1ncvRFfmA7EMG+I
-	CJLTe5sxM256uf5By1Ukfob9Iqs0vIQP3XdjDCm9bmRK3BT5aHmrSAKR/MDU3c85TkGlVYmOVvN
-	j4c+BSb6Qpc2kowmbOb6Lpz+uAxt5ffeEDMxy68zObzFqf1PYDacdBPHAhbv+PgjzE7DJPavQB/
-	oOo2+I5Muc7hoR72bczLIUZMurdPWhLvYiFEudryCin5whO8gAFn/YyibVrVRSfswBEj50oivmj
-	HxYXZ1XhhrGsBnUaSf0b/8KBDnPwp2f2QdeH3bQhnuMLaO7Sq2yU/pvlEgECYKZdFfFvsFCEGqW
-	whAQ0roJTLWTntrTJBmviKpGARXsvfzXE+FO8WOfALw42ELcF1YmWRmFPC4UNQStpFFgN0hSrr3
-	SpLpYh6hLBT19KO+DsT7wyXe5CSRJxeZzugId73/
-X-Received: by 2002:a5d:4ec6:0:b0:48c:7143:610c with SMTP id ffacd0b85a97d-48e6e3091c8mr5024505f8f.36.1793372717264;
-        Fri, 30 Oct 2026 08:05:17 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b77f06sm3716923f8f.21.2026.10.30.08.05.16
+        bh=YNL5gTzoS0SNcKXI362OG6Cyagd0/f8y/Be+hIpJbPg=;
+        b=zxCdhsl7gG+8Fwh5Nhnz9vYUhp8RU0/iaaMOSd/lvDeor9bKQom+ipzRzRLQINksae
+         LA/d2xY24iYqamzt/h3yet84vd7RPZYAuQW5luISe4mgropV66w7+9exrzEVZanr3sIv
+         ECsHgoWgJcoUmfP+OLFwZ76gXmGCl69mwOp64wJXc7f2V7XAzhFjlHW2QJOGZOeJFbDL
+         xc5s8BDY7GIBSzY3OLD22AY3jxI2KBqB5AKxBjD/Hbx9boFU3rMBFBmDgaU3G87HAxXR
+         peaveCjHk+i3aq1A0XSbHCHGSsz+Aa41lcOY3aBky2CnHOGY6gka0GOWzUvgrOwe8WDu
+         t7BA==
+X-Forwarded-Encrypted: i=1; AKwUvByqM6HOKFavppAX2CFTk6pz4RWULstNFQClj93unsf4NbVelyHgrD76VLyAnO9SlSl/zkvEAtYPw4M=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLHtW63qs6jVy+l2KXneGUbWXOLjCuNEwZ8Zavc+GECuSBXSByJ
+	sI7VyYkymBaeqDVJZyPMupuJzfQM+oDe+vL4Pto54as8zYNcvSY3igu2
+X-Gm-Gg: AYBFou2w/tvXV8iyRwxpjztD1ZU+afZMo4sppmrDHdgicqmLt2f5R+S75MPSOlAq++P
+	OBC0ro2bC2jZap0MW4HTPqxRxoB5D91Mu2MmXgAf5EE0OQnJcXbYw7fwPDDJlNqifq1iXAjtA43
+	dj5U9lYZ9YkpUbInP+ZnHZnZUMMXOHt8T7Kt+kQz+VWyL6YA6o9HwPXVRGSW1swCtvkY99i47DE
+	s6jpRmbLG2TD9+YzPJqXomB8OdGMq2ok2oUKqDllDbLcTId5BVIjiyiovn/mFOEZ69slAuqaWgR
+	rhrSkInTVqyVLEAmtkuL4787PzEUCdqMR+TjNLmnlFnAlP4r1uTX0KcZfsEmpCvYMhclp+Nz+CZ
+	K7+807LW6U0i9ym12/GZqmZViWctxsEPflWDrzt7m8byrtRIt1YHYIfeo0qsWadDih8mSA/ohs+
+	EoSIdG5PKi8YbsRroL+6A0RnE09iCMWUNmWltxBMF5K/ssoL7zOIglX+RDSga1gOxLwZ0sO2rjS
+	sXU+LiDCuR3vwU4BgDAoHAytgUtMMThFPD5JUIZcvl1UT7B8WmB1nGgXrSCyTPn6ZePL40DLX1J
+	dlXY2ypSGaIvkBujRuuzOwupxHd/T7vTt/UqgJEBsaX1cU0ugWc6v3jQxhq0QGgMWg==
+X-Received: by 2002:a05:600c:4e8c:b0:4a1:dade:f049 with SMTP id 5b1f17b1804b1-4ac1793ff26mr57275105e9.15.1793372840727;
+        Fri, 30 Oct 2026 08:07:20 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf67aab10sm64599465e9.9.2026.10.30.08.07.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 08:05:16 -0700 (PDT)
-Date: Fri, 30 Oct 2026 16:05:13 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 14/20] attestation: Add the base family specification
- and generated files
-Message-ID: <auSxxPM5z8BzgNm3@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-15-jiri@resnulli.us>
- <179302367452.58760.3782556786585774917.b4-review@b4>
+        Fri, 30 Oct 2026 08:07:18 -0700 (PDT)
+Date: Fri, 30 Oct 2026 15:07:17 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: jim.cromie@gmail.com, Jason Baron <jbaron@akamai.com>, Shuah Khan
+ <shuah@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Arnd Bergmann
+ <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
+ <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Jonathan
+ Corbet <corbet@net.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel
+ Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, Philipp Hahn
+ <phahn-oss@avm.de>
+Subject: Re: [PATCH v12 33/40] dyndbg: Ignore additional arguments from
+ pr_fmt
+Message-ID: <20261030150717.094d8a35@pumpkin>
+In-Reply-To: <auNes2b11NqUey3C@pathway>
+References: <20261012-dd-cmap-part2-clean-v12-0-3c8cc5725def@gmail.com>
+	<20261012-dd-cmap-part2-clean-v12-33-3c8cc5725def@gmail.com>
+	<as4W9hToBqAvbzJ-@pathway.suse.cz>
+	<20261027132253.5f3a461d@pumpkin>
+	<auNes2b11NqUey3C@pathway>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,43 +122,145 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179302367452.58760.3782556786585774917.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
+On Thu, 29 Oct 2026 15:56:51 +0100
+Petr Mladek <pmladek@suse.com> wrote:
 
-[..]
+> On Tue 2026-10-27 13:22:53, David Laight wrote:
+> > On Tue, 13 Oct 2026 13:33:10 +0200
+> > Petr Mladek <pmladek@suse.com> wrote:
+> >  =20
+> > > On Mon 2026-10-12 20:37:04, Jim Cromie via B4 Relay wrote: =20
+> > > > From: Philipp Hahn <phahn-oss@avm.de>
+> > > >=20
+> > > > pr_fmt can be used to add a common prefix to any output from a modu=
+le:
+> > > > 	#define pr_fmt(fmt) KBUILD_MODNAME ".%s " fmt, __func__
+> > > >=20
+> > > > But adding additional arguments breaks dynamic debug:   =20
+> > > > > error: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" passed 4 argumen=
+ts, but takes just 3
+> > > > > |         pr_debug_ratelimited("%s", "Hello world!");
+> > > > > |                                                  ^
+> > > > > note: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" defined here
+> > > > > | #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)      =
+ \
+> > > > > |
+> > > > > error: =E2=80=98DEFINE_DYNAMIC_DEBUG_METADATA_CLS=E2=80=99 undecl=
+ared (first use in this function)
+> > > > > |         DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_=
+DFLT, fmt)
+> > > > > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   =20
+> > >=20
+> > > I wonder what this error about undeclared macro means.
+> > >  =20
+> > > > > note: in expansion of macro =E2=80=98DEFINE_DYNAMIC_DEBUG_METADAT=
+A=E2=80=99
+> > > > > |         DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));=
+         \
+> > > > > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > note: in expansion of macro =E2=80=98pr_debug_ratelimited=E2=80=99
+> > > > > |         pr_debug_ratelimited("%s", "Hello world!");
+> > > > > |         ^~~~~~~~~~~~~~~~~~~~   =20
+> > > >=20
+> > > > Add an additional ', ...' to DEFINE_DYNAMIC_DEBUG_METADATA_CLS to s=
+lurp
+> > > > any additional argument, which `pr_fmt` might add.
+> > > >=20
+> > > > --- a/include/linux/dynamic_debug.h
+> > > > +++ b/include/linux/dynamic_debug.h
+> > > > @@ -351,7 +351,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descri=
+ptor,
+> > > >  		dump_stack();					\
+> > > >  }
+> > > > =20
+> > > > -#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
+> > > > +#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)	\
+> > > >  	static struct _ddebug  __aligned(8)			\
+> > > >  	__section("__dyndbg_descs") name =3D {			\
+> > > >  		.modname =3D KBUILD_MODNAME,			\
+> > > > diff --git a/include/linux/printk.h b/include/linux/printk.h
+> > > > index f594c1266bfd..5d701952e739 100644
+> > > > --- a/include/linux/printk.h
+> > > > +++ b/include/linux/printk.h
+> > > > @@ -742,7 +742,7 @@ do {									\
+> > > >  	static DEFINE_RATELIMIT_STATE(_rs,				\
+> > > >  				      DEFAULT_RATELIMIT_INTERVAL,	\
+> > > >  				      DEFAULT_RATELIMIT_BURST);		\
+> > > > -	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));		\
+> > > > +	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);		\   =20
+> > >=20
+> > > IMHO, this changes the existing behavior. The prefix added by
+> > > pr_fmt() will no longer be stored in DEFINE_DYNAMIC_DEBUG_METADATA().
+> > > Is this intentional, please?
+> > >=20
+> > > Anyway, if we do not longer pass pr_fmt(fmt) then we should not
+> > > need to add "..." into DEFINE_DYNAMIC_DEBUG_METADATA_CLS().
+> > >=20
+> > > By other words, we newly pass just the format "fmt" without the param=
+etes.
+> > > The 4th parameter was added by pr_fmt().
+> > >=20
+> > >=20
+> > > IMHO, the right solution is to keep pr_fmt(fmt) here and extend both
+> > > BEFINE_DYNAMIC_DEBUG_METADATA() and
+> > > DEFINE_DYNAMIC_DEBUG_METADATA_CLS()
+> > > to accept var args. I would expect something like:
+> > >=20
+> > > #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)	\
+> > > ...
+> > >=20
+> > > #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)		\
+> > > 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt, ##=
+__VA_ARGS__)
+> > >=20
+> > >=20
+> > > or maybe, we could "eat" the extra parameters in
+> > > DEFINE_DYNAMIC_DEBUG_METADATA. It would mean to keep
+> > > DEFINE_DYNAMIC_DEBUG_METADATA_CLS() as is and just add the "..." into
+> > > DEFINE_DYNAMIC_DEBUG_METADATA(), aka
+> > >=20
+> > > #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)		\
+> > > 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt)
+> > >=20
+> > >=20
+> > > Or do I miss something, please? =20
+> >=20
+> > Don't think that will work.
+> > Won't you end up with ".%s" fmt as the string without the extra argumen=
+t.
+> > So you need to keep the expansion of pr_fmt() together until is is fina=
+lly
+> > substituted into a printf-like call.
+> > It is possible to enclose it in () so it is passed as one parameter and
+> > remove them on the final expansion. =20
+>=20
+> My understanding was that the format is stored in the metadata as is.
+> I mean that the string is not formatted in this code path. So that
+> the parameter values are or can be ignored. We just need to make
+> the compiler happy.
+>=20
+> But I might miss something.
 
->> +
->> +/* attrs of group cap */
->> +#define _CTLV_ATTESTATION_ATTR_CAP(_attr) \
->> +	_CTLV_ATTESTATION_ATTR(CTLV_ATTESTATION_GROUP_CAP, _CTLV_ATTESTATION_ATTR_CAP_##_attr)
->> +
->> +enum _ctlv_attestation_attr_cap {
->> +	_CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = 1,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MR,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MIN_CHALLENGE_LENGTH,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_CHALLENGE_LENGTH,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_TOTAL_OUTPUT_LENGTH,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MR_FLAGS,
->> +	_CTLV_ATTESTATION_ATTR_CAP_OBJECT,
->> +	_CTLV_ATTESTATION_ATTR_CAP_BLOB_CLASS,
->> +	_CTLV_ATTESTATION_ATTR_CAP_FORMAT,
->> +	_CTLV_ATTESTATION_ATTR_CAP_REPRESENTATION,
->> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_LENGTH,
->> +};
->> +
->> +#define CTLV_ATTESTATION_ATTR_CAP_EVIDENCE _CTLV_ATTESTATION_ATTR_CAP(EVIDENCE)
->
->I feel like there are too many layers here for a code generator..
->
->enum ctvl_attestation_attributes {
->   CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = CTLV_ATTR(CTLV_FAMILY_ATTESTATION, 2, 1),
->}
->
->Do the intermediate constants add anything?
+If it is formatted in any code path you need any argument added by pr_fmt()
+otherwise the values printed wont match the format.
+Indeed, in some cases, the format has to be formatted in the same code path
+(or at least scanned for anything passed by reference) to avoid accessing
+stale data.
 
-True. I originally had it like you suggest, I changed to enums to avoid
-the explicit numbers. But you are right, does not add anything.
-Changed back.
+I've definitely used:
+#define pt_fmt(fmt) "driver serial %s:" fmt, foo->serial
+which relies on all call sites having a local variable foo of the correct
+type. There may be some in the main kernel tree.
+
+Maybe I'm missing something.
+
+David
+
+>=20
+> Best Regards,
+> Petr
+>=20
+
