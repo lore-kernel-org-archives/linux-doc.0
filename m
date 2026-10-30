@@ -1,58 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793336234;
-	b=Tf5SYKkbMw7F6MyMi2tzI2v453/n3ClRwjlLjboJtH7rinMjMPQU7NAm0gUY/qMq9ZOr
-	 Van/Jsda7OLZCpvI0avsSR4nO3GTL3vOHKCZ6cZ1+giIxRWrUmNtSFgeXcL4M6xxR7j5o
-	 4Dt4k4GoYFOCym3rdjyDGgNRZBCNC7P1i3bwuMM6ZZtz4m0R8GTqZsV4ZeTh1lkLe7foi
-	 stjAkiO9FTlBEQjvMd85iWtc8iZHkYf/BEbXZMsaNFfC4Y+AupaehiKJqOE1kGsCxnqgN
-	 W/SWNUafMXWVial5xgAC6brTnwMjV2aPl+aiPJ6mrW50NVyS0uBr99NmcAe5rcAcGgg==
+	t=1793337996;
+	b=dmg9y/iyjYhckmrbA2qHGCfsELxD/1doQlWRDpoI7Q0y/kaKwCVA6Rc39WZzdE7SbR5J
+	 PExYIHpoH/BPHkhAO5g38X4gimfeWzPtLC6Ga/C75EzS0ojjGEPnxjxSh5yHvLO2TCBKZ
+	 n3V+a6bDF6y3bYUvO6o2BKOfN2hmCjVUFyZiTBWxVLob+NN373ao6XphIwWeUN25VtbO4
+	 zAER8YhdFnHmUz2L9B27aGB0/zz7WwXkxIwN3h6tv3m1n10/GPkVm/cDQLsg5+Db03+i8
+	 NUmQGz4drALguYzMMReBNcyEeKMPNhmkUIkdyRChN683oOVrsg6/zep/1MTx1UwEsDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793336234;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=LkSAHBtoPgrkAY7QvIyWogTu4sDPqd80TrYA0xZEnEk=;
-	b=1sh7C6ZMPUoZbrW14qqUBNMsdjHgUN8Lv03EhuM3D8eoZtOATkky/oRK9/WRhRDzK+D5
-	 I7BwreAnn50up8WFTHmEOH8wOFrviYWEg+EFjwX59Ze11aVZn0QsVMFsaglHTxsFQayGQ
-	 eq23zPW3Fh29HqK4IXdAAymMx7s3qniyB/Qb7aKEfgsoG3jvRDC2UMzqHVH8rRCe35fxL
-	 B3jBCy3CBbE3hsbBro9FTam1HpFGHG0LkWXv7zRO+zxcyCiRnqflVVEoA7YBhS/dfBYvB
-	 hpZp2zaiad3iZt+Iu4iI+DZMORPqZ2pSDzA5ELqG7Gsx1+iUchfRzz+W6sern7a7jyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793337996;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=EYLJkULI4RCqRinApGy05xYoNrT80+MOd8wREM3Ge2s=;
+	b=LCceN13jAnzuIhATRYLYHpH642Rtz0xbgWnqlrp724F5ryC4wLXLc/aEy9xQy+yOJlsR
+	 pJw6yMuchLC1Uy3iCedjzRUaRcSV8mgrviV/XB3HXVFoLcnAbq4s0uUu6wYj22sS0q4PG
+	 IH1u2dAYn0w/taw9v6rA5lEhg/RqTNT6ECpyxIPTuepqVPTll4fn/bbMCb9I5JJ0cjCXj
+	 HCSbNWWRrOkpgSvb6beCEd4PeOmBQ0nzDBLsx5IR0RtcVHWKk0G2AGUtHojvg6Y9RJtNC
+	 euqRCaE43Xd8CnWpZB/NVjBjeyoG+M6tFti3F1M7HhEflTrprzpKCiuHunJbaXIoBXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dlXIONyU;
-	arc=none smtp.remote-ip=113.46.200.217
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XBHNmIiK;
+	arc=none smtp.remote-ip=209.85.215.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EC6606A31C;
-	Fri, 30 Oct 2026 04:57:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12EC6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77018606A31A
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 05:26:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77018606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dlXIONyU
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=LkSAHBtoPgrkAY7QvIyWogTu4sDPqd80TrYA0xZEnEk=;
-	b=dlXIONyUPuQhZmuhCVJ9Kxz1cWOkRyM210Hdd3g7CpRzTkcjoW5dcIT/e1AqdzHD3yxjPUBGt
-	Kg8d91FT+/NcevLnn1rbWOV1WdTucGPMfWiKtOzXUsxtufmrvYHEX7AYgpa/mxbe4KxKSlvkh9H
-	+8bUTXdstDRfB7W/SMYTv44=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jG82p6qyjzcZyh;
-	Fri, 30 Oct 2026 12:56:50 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 24DA740579;
-	Fri, 30 Oct 2026 12:57:08 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 30 Oct 2026 12:57:06 +0800
-Message-ID: <5bbd0d3b-1026-43f3-bc45-245472603144@huawei.com>
-Date: Fri, 30 Oct 2026 12:57:06 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XBHNmIiK
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cdab6ae1ee9so123146a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Oct 2026 22:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793337996; x=1793942796; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EYLJkULI4RCqRinApGy05xYoNrT80+MOd8wREM3Ge2s=;
+        b=XBHNmIiKhTKucSo1DaUnHEnqdoTMSrYApbsQpUxmRwR6OMjVuJ4PYbJNA0QO65MUR+
+         vD02OU2lrvUAqcp9zK91VPlx7qx+PPHi2tP2Y4J8yHvG33F+5GActOSCDpnkUbDZURhC
+         ejsPs+tSMz1CWNlGHlriBoUH4rruFFkCqpG8GXjp5W0kov5t04VRsxhpFHThbRBUBH1l
+         AqkoBKxUkfslDqVWc4SsedBo/o+r4II40bbh8xxorpzjxoz19sHQ1rdjnOoEGX1lJbvW
+         llkRZDjoN8/yLoRTnTrysq6yvu1gglr2VDVOeALR/KtgY6KwUjoEhaW8eAEjNxaHuKRD
+         TNzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793337996; x=1793942796;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EYLJkULI4RCqRinApGy05xYoNrT80+MOd8wREM3Ge2s=;
+        b=miiHYKteR8nP8T94aeLldBr+SfYIVsYJOhFBYI9k5GpZ+8dLp239/R4dS/6zDepxE0
+         OMS7z2Zpj4WoOK98GJV5qm3vM6DZ6+y5oeZMCR4FVyShhb/e/6OG24va+kLen2l2OFR5
+         cOu0qR2wYLFapNoHiRu7ONJqit2cVSgoPtn2ovFabOW21eEivghhSV4F2R43V6q5dZQ1
+         W9IWS7myrnMBemyJnHaXNRs836G5WioX4dcYd8rpiBcD+PvHkBlBc4w/sVSnz5pyfmff
+         fKnqQwmoVxvHcG/52RwmowdWuuusvqFJpGSVzpGldiHg3c+S5FRI5L5QEHejfqcFy1gm
+         DTxA==
+X-Forwarded-Encrypted: i=1; AKwUvBzryfDjrLLqNduYkOPyzH76NzoqyhG8cDibL5nYdpqUgDZ9o2Ja4UwUmtaIwvGqMSuyEI8eG27Tn8I=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIvfDNCbuRHQS11mttSDh8LO8XByv1WTd1Ls3N9X6HCMF+GlwbW
+	7njPhV2e6/I5uS9Av2fMEPlfP1kaiQ/+q6f377OFSwWwEkxMDQb+LPb/
+X-Gm-Gg: AYBFou2Mz1+mblJc38+lCYYaBD3VSZejPLWFLOqEsf+8ZnBhSOPyrb8HMIqb6jjqYHP
+	xy7A/wbtHGuveOHgGdb8NlyVjtKQ5dLjz8l50cOfVIlYq3A6SGUIP8pBmNbjibAhmEYDkv7ttSN
+	ImISsNbMwih3BaV4j6btIjlre2LPdz51FNM+4r71ouy7Pu5Vy3GdZw+S9J0fmY2nONGTnLY+N+R
+	U15y18THahvcyHaGec5BPezjEZDyU4IR1g5YjFeupwazviw7YHDkJfQnEwhV5cgtd1Uq0jZO+dn
+	evA5a2llgEB+S27ZEvHdp5YqfBRuVbY0EJOVdxJO6A92TKYpxPxxoXztrgQL1tzpVWaMtmKTJDZ
+	fYl5li38XRBiX+/oUG2HQq857qvgiQL0Ney6y68AFnb+uqQZSJivrkAxHizZFqNxAvYpzwOi7WF
+	1OiqqZ2gFg+KVRNBgI8QzGsy4fW9ETMNp5YsldiDvvCkIhCm5YpkBzUFZQe+//aMk5ydeFaNzEq
+	ofOBEWhfTdoYuaEdL75zGWZZNYf78hxnpY2pkjCZ/UFsgpaGnTMMNmniv5L3iHRZfhM+9R2CqNT
+	7Qd/Y75j9sM88hVKWuCQTij2HhoC134bdgNae+OpwyzlGCiYKWY9leFxSqecrdly/u1OYat8EX7
+	LS7ERKlYoAfyH68LvnMbelSq1bPUoFJ2WKcHbCmR3cxll4pxaC4Yo8i+gnmT7NAsMBFgd
+X-Received: by 2002:a17:90a:ec8e:b0:3ac:9599:a689 with SMTP id 98e67ed59e1d1-3ae897d5fc0mr792195a91.34.1793337995724;
+        Thu, 29 Oct 2026 22:26:35 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae845429e6sm2421027a91.6.2026.10.29.22.26.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 29 Oct 2026 22:26:34 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v10 00/14] ALSA: virtio: staged capture recovery and PCM RESET synchronization
+Date: Fri, 30 Oct 2026 14:26:15 +0900
+Message-ID: <20261030052629.27742-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,244 +103,147 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/15] KVM: arm64: Flush the HDBSS buffer on VM exit
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
-	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
-	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
-	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
-	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
-	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-9-zhengtian10@huawei.com> <auDpyRNpeDNzIk3W@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <auDpyRNpeDNzIk3W@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Transfer-Encoding: 8bit
 
+Hi Takashi,
 
+This revision supersedes v9 and includes its unmerged prerequisites.
+Apply patches 1-14 directly to sound.git for-next at
+a4311e9447bbb219044db38897f95be112f46a8a. Targeting 7.5 or later still
+works for me.
 
-On 10/28/2026 2:13 AM, Leonardo Bras wrote:
-> On Tue, Sep 29, 2026 at 06:36:48PM +0800, Tian Zheng wrote:
->> From: Eillon <yezhenyu2@huawei.com>
->>
->> HDBSS entries accumulate in the per-vCPU buffer while the guest runs,
->> and must be drained into the dirty bitmap or dirty ring before
->> userspace can observe them.
->>
->> Drain the buffer at a single point: kvm_arch_vcpu_ioctl_run() flushes
->> it on every VM exit, before the exit reason is handled. Flushing
->> inside the run loop keeps the dirty-ring feedback timely: when a flush
->> pushes the ring past its soft limit, kvm_dirty_ring_push() raises
->> KVM_REQ_DIRTY_RING_SOFT_FULL, which check_vcpu_requests() observes at
->> the top of the next loop iteration, so the vCPU exits to userspace for
->> the harvest before re-entering the guest.
->>
->> kvm_arch_sync_dirty_log() relies on the exit path to flush: it kicks
->> vCPUs out of guest mode, and the GET/CLEAR protocol tolerates
->> concurrent bitmap writes, so the snapshot is complete without extra
->> synchronization.
->>
->> Signed-off-by: Eillon <yezhenyu2@huawei.com>
->> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->> ---
->>   arch/arm64/include/asm/kvm_dirty_bit.h | 15 +++++++++
->>   arch/arm64/kvm/arm.c                   | 20 ++++++++++++
->>   arch/arm64/kvm/dirty_bit.c             | 45 ++++++++++++++++++++++++++
->>   3 files changed, 80 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/kvm_dirty_bit.h b/arch/arm64/include/asm/kvm_dirty_bit.h
->> index fe703f02626b..d828e6b43fe9 100644
->> --- a/arch/arm64/include/asm/kvm_dirty_bit.h
->> +++ b/arch/arm64/include/asm/kvm_dirty_bit.h
->> @@ -13,6 +13,9 @@
->>   #include <asm/sysreg.h>
->>   #include <linux/sizes.h>
->>
->> +#define HDBSS_ENTRY_VALID	BIT(0)
->> +#define HDBSS_ENTRY_IPA	GENMASK_ULL(55, 12)
->> +
->>   #define KVM_ARM_HDBSS_DEFAULT_SIZE  PAGE_SIZE
->>   #define KVM_ARM_HDBSS_MAX_SIZE      SZ_2M
->>
->> @@ -22,7 +25,19 @@ static inline u32 kvm_hdbss_buffer_size(struct kvm *kvm)
->>   	return kvm->arch.hdbss_buffer_size ?: KVM_ARM_HDBSS_DEFAULT_SIZE;
->>   }
->>
->> +static inline bool kvm_hdbss_enabled(struct kvm *kvm)
->> +{
->> +	return kvm->arch.mmu.vtcr & VTCR_EL2_HDBSS;
->> +}
->> +
->> +static inline bool vcpu_hdbss_enabled(struct kvm_vcpu *vcpu)
->> +{
->> +	return vcpu->arch.hw_mmu &&
->> +		(vcpu->arch.hw_mmu->vtcr & VTCR_EL2_HDBSS);
->> +}
->> +
-> 
-> IIUC, arch.mmu is always the canonical s2_mmu, while hw_mmu can be the
-> nested s2_mmu, if enabled.
-> 
-> Was that your intend here?
-> If not, we could use only kvm* version, which can be called with vcpu->kvm.
-> 
-> If it was, then I would like to understand the logic here, as IIUC the
-> buffer is accessible only for the non-nested guest, as it's
-> allocated in a per-vcpu structure. (vcpu->arch)
-> 
+Previous revision:
+https://lore.kernel.org/all/20261029085032.70689-1-mynameisjune111@gmail.com/T/
 
-Hi leo,
+The series adds staged capture accounting for shared users such as
+dsnoop, lifecycle recovery, and synchronized PCM RESET accounting. The
+capture compatibility options remain opt-in and disabled by default.
 
-Yes, that was the intent. The shadow MMU never carries VTCR_EL2.HDBSS,
-so the flush is naturally skipped when running nested.
+Changes since v9
 
->>   int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu);
->>   void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
->> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu);
->>
->>   #endif /* __ARM64_KVM_DIRTY_BIT_H__ */
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index 5ea4ac26995e..9d7bdece149a 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -1430,6 +1430,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
->>
->>   		trace_kvm_exit(ret, kvm_vcpu_trap_get_class(vcpu), *vcpu_pc(vcpu));
->>
->> +		/*
->> +		 * Drain the HDBSS buffer before the exit is handled, so
->> +		 * entries pushed to the dirty ring are accounted for by
->> +		 * dirty_ring_check_request() on the next iteration.
->> +		 */
->> +		if (vcpu_hdbss_enabled(vcpu))
->> +			kvm_flush_hdbss_buffer(vcpu);
->> +
->>   		/* Exit types that need handling before we can be preempted */
->>   		handle_exit_early(vcpu, ret);
->>
-> 
-> 
-> looks the correct place, haven't looked too much on that, though.
-> 
+Sashiko raised five findings in patch 9 and four in patch 14. I folded
+their fixes into those patches. The other patches retain their code;
+patch 13 has refreshed hunk positions. The final postimage matches the
+candidate used for the new regression tests.
 
-Thanks!
+Patch 9 now checks for a detached virtqueue in the PCM IRQ callback.
+Period work is disabled until open succeeds and disabled synchronously at
+close, including ordinary capture. hw_free cancels work after teardown
+even when cleanup returns an error. These changes cover late producers
+after reset, failed restore, and pause-restart error handling.
 
-> 
->> @@ -2017,7 +2025,19 @@ long kvm_arch_vcpu_unlocked_ioctl(struct file *filp, unsigned int ioctl,
->>
->>   void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
->>   {
->> +	unsigned long i;
->> +	struct kvm_vcpu *vcpu;
->>
->> +	if (!kvm_hdbss_enabled(kvm))
->> +		return;
->> +
->> +	/*
->> +	 * The buffer is drained on every VM exit, so kicking running
->> +	 * vCPUs is enough to flush them; the dirty-log GET/CLEAR
->> +	 * protocol tolerates bits set concurrently with the snapshot.
->> +	 */
->> +	kvm_for_each_vcpu(i, vcpu, kvm)
->> +		kvm_vcpu_kick(vcpu);
->>   }
->>
->>   static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
->> diff --git a/arch/arm64/kvm/dirty_bit.c b/arch/arm64/kvm/dirty_bit.c
->> index f9aeb9f34ad0..be0d12555c84 100644
->> --- a/arch/arm64/kvm/dirty_bit.c
->> +++ b/arch/arm64/kvm/dirty_bit.c
->> @@ -13,6 +13,7 @@
->>   #include <linux/kconfig.h>
->>   #include <linux/log2.h>
->>   #include <linux/mm.h>
->> +#include <linux/srcu.h>
->>
-> 
-> Out of curiosity, could you please explain you reasoning on selecting srcu
-> as locking here?
-> 
-> (Like, what are you protecting against, and why srcu is a good choice)
-> 
+Playback and capture ACK take each runtime's buffer_mutex with a trylock
+while holding the PCM lock. This excludes prepare without waiting in the
+reverse lock order. Linked prepare marks buffer_accessing negative only
+on the member that initiated the action, so checking that counter alone
+left later members exposed to the old appl_ptr during counter
+initialization.
 
-kvm_vcpu_mark_page_dirty() resolves the memslot under SRCU
-(kvm_vcpu_gfn_to_memslot), and the flush loop calls it for each entry,
-so the whole loop needs the read lock held.
+sync_stop checks the PCM state under its stream lock after acquiring the
+lifecycle mutex. This waits for trigger to finish and preserves a newer
+active stream. A definitely rejected native pause also refills RX buffers
+that returned while transfer was disabled. Failed recovery latches XRUN
+and keeps the teardown obligation.
 
->>   int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu)
->>   {
->> @@ -53,3 +54,47 @@ void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
->>   	vcpu->arch.hdbss.hdbss_pg = NULL;
->>   	vcpu->arch.hdbss.hdbssbr_el2 = 0;
->>   }
->> +
->> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
->> +{
->> +	int idx, curr_idx;
->> +	u64 prod;
->> +	u32 entries;
->> +	u64 *hdbss_buf;
->> +	struct kvm *kvm = vcpu->kvm;
->> +	int srcu_idx;
->> +
->> +	if (!vcpu_hdbss_enabled(vcpu))
->> +		return;
-> 
-> You test this before calling, is it really necessary to test it again, just
-> after calling?
-> 
+Patch 14 suppresses ACK refill during the common RESET pointer
+observation. Paused RESET observes the latest device pointer before
+rebasing indirect positions. A late refill failure retains XRUN across
+capture completions, and RESET avoids scheduling new work while the
+device is resetting.
 
-You're right, I've removed it.
+A further playback check found the same prepare/ACK window: a forced ACK
+consumed the old appl_ptr after the driver counters were reset, and the
+first write failed with -EPIPE. The buffer_mutex trylock now protects
+playback as well. Limiting the XRUN latch to capture also preserves the
+earlier TX completion behavior and playback pause/resume after an event.
+Both cases passed with recovery and reopen on the corrected candidate.
 
-Thanks,
-Tian
+Patch layout
 
->> +
->> +	prod = read_sysreg_s(SYS_HDBSSPROD_EL2);
->> +	curr_idx = HDBSSPROD_IDX(prod);
->> +
->> +	if (curr_idx == 0 || !vcpu->arch.hdbss.hdbss_pg)
->> +		return;
->> +
->> +	hdbss_buf = page_address(vcpu->arch.hdbss.hdbss_pg);
->> +	if (!hdbss_buf)
->> +		return;
->> +
->> +	entries = kvm_hdbss_buffer_size(kvm) / sizeof(u64);
->> +
->> +	/* kvm_vcpu_mark_page_dirty() resolves the memslot under SRCU. */
->> +	srcu_idx = srcu_read_lock(&kvm->srcu);
->> +	for (idx = 0; idx < min_t(u32, curr_idx, entries); idx++) {
->> +		u64 gpa;
->> +
->> +		gpa = hdbss_buf[idx];
->> +		if (!(gpa & HDBSS_ENTRY_VALID))
->> +			continue;
->> +
->> +		gpa &= HDBSS_ENTRY_IPA;
->> +		kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
->> +	}
->> +	srcu_read_unlock(&kvm->srcu, srcu_idx);
->> +
->> +	prod &= ~HDBSSPROD_EL2_INDEX_MASK;
->> +	write_sysreg_s(prod, SYS_HDBSSPROD_EL2);
->> +	vcpu->arch.hdbss.hdbssprod_el2 = prod;
->> +	isb();
->> +}
->> --
->> 2.43.0
->>
-> 
-> 
-> Thanks!
-> Leo
+  1-6: ACK errors, START/RELEASE recovery, and request/DMA lifetime.
+  7:   Core stop-threshold accesses used by capture policy sampling.
+  8:   Partial-progress notification under the PCM stream lock.
+  9:   Staged capture, dsnoop policy, and lifecycle recovery; uses 1-8.
+  10:  Staged capture work priority; uses 9.
+  11:  Capture compatibility option documentation.
+  12:  Optional PCM reset operation under the stream lock.
+  13:  Staged capture RESET accounting; uses 9 and 12.
+  14:  Ordinary capture RESET accounting; follows 12-13.
 
+The IRQ and work-lifetime fixes are present from patch 9, where their new
+lifecycle paths appear. The ordinary RESET observation flag and error
+latch are introduced with patch 14. The two ALSA core API patches remain
+separate from the driver changes that use them.
+
+RESET behavior
+
+The callback retains the common pointer and time handling through
+snd_pcm_lib_reset(). Zero permits the core to complete the member's
+position and appl_ptr rebase while holding its stream lock. Drivers
+without the callback keep their existing ioctl path.
+
+A late refill failure permits that rebase and reports XRUN afterwards.
+RESET can return zero before the notification worker publishes the error.
+A nonblocking read can initially return -EAGAIN and later -EPIPE; paused
+resume is rejected. Prepare or reopen is required for recovery. Linked
+RESET and prepare stop at the first error without rollback, so earlier
+members may already have completed. These policies are unchanged from v9.
+The internal snd_pcm_ops addition requires module rebuilds.
+
+Validation
+
+Seven reported conditions were reproduced against v9 and passed with the
+fixes: the NULL-queue crash, prepare/ACK interference, RX starvation
+after pause rejection, stale sync_stop, nested RESET refill, stale paused
+positions, and loss of the latched XRUN. Prepare/ACK tests also covered a
+real linked playback/capture group with capture as a later member.
+
+The two work-lifetime findings share the close barrier. The original UAF
+itself was not reproduced. Tests exercised active freeze, RESET, failed
+restore, close, late work submission after runtime release, and recovery
+for ordinary and staged capture. The uncertain control-result subcase of
+the pause finding was checked statically; the forced pause rejection
+tests used a definite error.
+
+Thirteen fresh ARM64 QEMU runs passed with KASAN and lockdep after these
+playback corrections. For each capture mode, an uninstrumented build
+recorded 70 seconds through RW and another 70 seconds through MMAP after
+paused RESET, followed by reopen checks. All 14 captured segments,
+14,208,000 S16 mono frames at 48 kHz, matched SHA-256 values generated
+independently from QEMU's sequence metadata. The comparison accounts for
+the intended RESET discard boundary and the backend's epoch change at
+restart.
+
+RW and MMAP use separate VM boots to stay within the test backend's
+4,096-response limit. Test hooks are separate from the submitted code.
+ARM64 W=1 Image/modules and ARM32 LLVM object builds passed. Series
+application checks compare every intermediate postimage and the final
+source with the validated candidate.
+
+Three fresh intermediate stage tests passed: native and pause-restart
+capture at patch 9, and paused MMAP RESET/reopen at patch 13. The three
+patch-13 capture segments also matched the backend sequence. Stages 9-14
+built without compiler warnings. Separate failed-START tests checked
+prepare, direct reconfiguration with the same geometry, and close/reopen
+recovery.
+
+Earlier prerequisite and RESET tests remain relevant where their source
+is unchanged. The new 70-second results do not measure high-load
+behavior. Earlier TCG tests had reader gaps of 165-283 ms against 160 ms
+buffers; those comparisons cannot establish performance equivalence or
+exclude a regression. Work priority provides no real-time guarantee.
+
+This revision still needs physical VZ/MOTU acceptance, a separate KCSAN
+run, and broader format, multichannel, playback-error, and ARM32 runtime
+testing. Playback event tests cover completion-policy preservation and
+pause/resume, leaving broader playback error validation pending. The
+partial-progress helper and linked RESET contract also need maintainer
+review.
+
+Coding assistance was used to analyze the reports, prepare the fixes and
+test fixtures, and draft these explanations. The patches carry
+Assisted-by: LLM.
+
+Thanks, Joonho
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
