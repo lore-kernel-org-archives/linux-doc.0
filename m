@@ -1,110 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793382449;
-	b=Yug1c+Pv4MVlzBpUjqbte8d91cvSQ6gih7HRjTXw0vSqGyT3EYQsi0vbKB2zQKS9myy1
-	 YzSPq3wdByBUFsEQD6SbnJc6+pt8hfGw20AF7SJ+5hGRb36MdmI/wF64Mj926q1vcG5Ig
-	 6NDEV1bn+R9jvJniS1SfYebPNKRaK00WWcNRpiGv5YLCqDZBtIdbzb+HY5OQE/0J4mo06
-	 mHnT0LEPNurqRfnp478oxEuGhRk/wW6qLZMTMUMUDGKsomJ0otK3qZfdeJ54rx3/tyVsL
-	 TkUmecOb+eenMgKFvpjkfkxsZGbUrkHsUOY5ostFP6e6V36i/aTMKyJ1k0XGlKLaxCA==
+	t=1793383020;
+	b=YH9oWJSeNZoxwv4SR1Det8K2o4YKw+WSf6EfmdKkuZxDyfF9ZOrdqgWMw7C2eYe+2wcq
+	 tiFqC5PQTsAECvOyYD4NuOV1IBNt7Bi0hjmbBRegVRszQvdE0JiErOor975yo+u9QkQPk
+	 yAl/eAL5at5Bfq+DdwI4rRmDSC4bky+c2HOwrxp8tq78TrgO6woBF1pvVwgkslsE0Dltr
+	 Q9La8du+CZEs7TPKnSkWblwASdxBTa+geXiY7ztd3hCeRlya1qNTp3d7vOTuvvQG97bTk
+	 sSyPdA8VhAo2kaozShJMI2DCPaF9K2b0KaXVev44Bey5+hKzyRAZHg0K/P2NcgES21A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793382449;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-	b=Nt5QIFVB1ZIcfOFZOIsIL/ipsfmWVaY0QxmA9S3Rc3lu3nbo4NZk2QKShre10EEVKbZx
-	 /kxYEBWgCtg92cVvXEP7FCr/NbLEXy95+pMsZp9jodVKYYpn1s8G+HKDabZGRmJoa85rc
-	 OYE9GoNAYHUnlXq43rsdok2VFSEC5r5/MwYs2855jiZo5NPF3cThdm/k4nJJLTaVQLPn0
-	 0Ve6u35WKQnDZmSEN7v8baAG/AD1A0MBZLZjCxcZOViBXSvMPOberkCWM9MuJViEuAQ1G
-	 HQ3VhRprHOLXzybHYTtVHOQ8XInKjtejZnmwgsHeeq54+MaZ4fO2tQ8eAXykTJpJX/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793383020;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=uDy0pyy8VarHwZfBJ/PxvbJXYlygH1k7PMC/5T92TUQ=;
+	b=Y3YwNuA3HGzO+fo2WNMECX6bNy6LwmNFdYzBU8xee7R7vJiJok64N32ZFhET8THs2QTt
+	 ysLgBgs3OBavnzB41iBJRgIMVccNnghjU4h1hSRzipLTyvmnbICL4C9M9j8N6k7ClAc92
+	 S+8/QOaMOYcUWaPtmp8GYCMP90OO8OrmM3Yd25QBMqhXTOKWVVLg37X+SksY3+UquMai8
+	 f42Q5q68cqiAy3W9HSauW22PZth06p6BE4BG+6qKsiUCVBMypp1p7o0ahv2fdYH7gNweA
+	 b8bRWMlhqPm1ufQKqfUwtW2yF1qyJqLtN0UjR3xCR27uDlqBzY+MP+Oo6SpfAKDFk7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Q+uOJQx6;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WAtypqQg;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rCWS2cqZ;
+	arc=none smtp.remote-ip=44.202.169.37
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80184606A31E
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:47:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80184606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF5606A321
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:56:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7FF5606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Q+uOJQx6;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WAtypqQg
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UERFie3515574
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:47:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=; b=Q+uOJQx6MN7bb3Qp
-	RIQYTGJp2FfIusVoQOW4c63d9kjqf9fxZE5a+4AMLZ03E3UWZKhYtxxNDQxmrv4d
-	D7nXu9WxEBKPvZXkAgtmE08o/m638bt1LeKz9gZqzO9Z1F4WrmKB4hhO4d/kw2/Y
-	AByqDlV1dclPMk97s/tXSR8QqMgqvUPrMSzmAy/GlYXH9UH+KBCu8JujNQHC6D9i
-	evxujPQd6NPk0uS5cLyla83tXlWHbJi4/pywcNTdQg7JBet1vESc646SDTrxon0c
-	UGQQYWMKkY8K/GpKNr3A8akHe+CgD7KJtltINTYsYqKDqBvtnA5bqsHO9TjFGM9A
-	3+Zc0w==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6qmbur-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 17:47:27 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso2158871eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 10:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793382447; x=1793987247; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-        b=WAtypqQggD/Fr0zt6j/gkIyY/NCMrf44hvdYgTKN2FQ0Apb/3yxP83wtyrKdXzBoOl
-         Mk29YcqcXlsQ8vsAIv5T7knA8QvP4X6IL5oIr0oySJBgzUhfH9IgdCecjmN9z2CUqUE5
-         /8p806PkQ4NtCeog6eD0NidvD4lfk9zplbFs2JkhEL59yUvcSTBkdhqXEsOMTL3VTFGV
-         zmSFgrwGr/kLZBsAqvMI2096pUB6hdHXVZwpsYRvRtPokyR1uRAm01dGx+mw84Z8mwuE
-         T4qIcMiQry0zqGkH9R6J6n0K/bKQbVjz6NUIjkboelCDF7aLwGN1hyPhrRS9DGSoa9ls
-         TqlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793382447; x=1793987247;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RKBYhPhEC+UwaTqew5bmTNWlU+HnyY6Comv/tpdax1E=;
-        b=gynAYae3FTaFZIsBUK0QKKb5lVbE8svzskmMA9M8GV2XnP3/Mt4fOK/0zZsTMkrFRf
-         jVw0YeIAz8UyG4CI93+TRNYdB0reEjwo5SDH0yjawSdly3nLMaR9st/d7ljPpP0qw+w7
-         jtGXUYGOCoSotgJwe2RzplYwt3TKbnw+EpdhcAZ2LTsXrkga869c+aZeBvkTvbUL6g4N
-         HRUIJ/o0O6EBOj2sEDomy1viPuD77h+S0eaTunXqd+MkhdiPQkFvWjYsaUUnKBV99NCZ
-         1zrzLdn/YqKKTvKSJwvCbHWlyPwT37/1a8NfOTra6CUUc/1A3QQLmfskogG0e22/fuAp
-         T3sA==
-X-Gm-Message-State: AFq9FYI7XSftQLAFYnIKea4ps+lkCox5eggYbYzaC1MnGcaVs6mqbrVV
-	u4OcUQBHWUnpwaPuxhCRZIi6uJvwruXfAWnxSmZiJ1gfx9n1ix+uOPkstGynapxr08ei/KaSh6f
-	PD0qnGScsdQ4R8ZZlZ+2tisQeyTt8WyrAswSlskJsu/sZ4EfeHjBAQglr2rh7OzE=
-X-Gm-Gg: AYBFou1fqxthQIkF2NRsr4aOwyOWpoKMMLVr8v4Kf9oWN7pkGXh1p1bVITa2c6pWzJa
-	O//S+A0wflr57LbmnfTnkHsPv3S3zHyghuQVSNVFkXW36J6ArximP28ylhAtoL+1qA5KUQ9PMy/
-	gVKL5LhAMD7EovldGj7ADpAqulb5bgDopIzPRWRDMwB3gCJIKRLiOWb/u/O0EcxFKsSq1F+IUK0
-	q30Xvk+TeL4By/8VMPUae+79k834exlU25x+vcCNGp/bN2SMkolIve5W8lWdE+CYDQlinqs5F+3
-	5fuEzLkmONewTFkuvf3HGW5GyYvccsr/uawBw3V1GoT1DWxstqzPFA64teweFI7pLxUAKJ6CDOZ
-	4heIqXSroPyRkj9rqZ114N4X46VMCXgC2ug2suTv7yud5rJpfQYjpuyQk9a1uRznA6bGBHo9wBa
-	srdVG1Kx1masYj+6XCedNZbNI=
-X-Received: by 2002:a05:7300:aca8:b0:35d:28aa:3ae6 with SMTP id 5a478bee46e88-36a4244e81amr5894602eec.32.1793382446847;
-        Fri, 30 Oct 2026 10:47:26 -0700 (PDT)
-X-Received: by 2002:a05:7300:aca8:b0:35d:28aa:3ae6 with SMTP id 5a478bee46e88-36a4244e81amr5894546eec.32.1793382446272;
-        Fri, 30 Oct 2026 10:47:26 -0700 (PDT)
-Received: from [10.226.59.182] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a429467cdsm8787868eec.19.2026.10.30.10.47.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 10:47:25 -0700 (PDT)
-Message-ID: <683ca22c-f0f8-458f-8323-214945ae6d45@oss.qualcomm.com>
-Date: Fri, 30 Oct 2026 11:47:24 -0600
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=rCWS2cqZ
+Received: from eig-obgw-5004b.ext.cloudfilter.net ([10.0.29.208])
+	by cmsmtp with ESMTPS
+	id Mp1fxpzZPJFmFMqqZxpwc0; Fri, 30 Oct 2026 17:56:59 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id MqqYxjGsimTkmMqqYxy5dv; Fri, 30 Oct 2026 17:56:58 +0000
+X-Authority-Analysis: v=2.4 cv=eKsTjGp1 c=1 sm=1 tr=0 ts=6ae4da6a
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10
+ a=3Qouvag4AIL0u_44hBsA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=uDy0pyy8VarHwZfBJ/PxvbJXYlygH1k7PMC/5T92TUQ=; b=rCWS2cqZzHmq
+	FMA/lM16fZZgOstmH0P9FLFNgtdUjcbgn+Hzx6IK0eypveARIh32FcidsydH9p+C5ckxX6/esFpO7
+	mysi3tJg8ocR20qjAlTmEGI3rIWfH9VLlWZASkqeb/HeHZD1+EF6QYTtW8Mn7bh7YAj45xAqBh7XZ
+	cRIcwmYlX1PenaJrYOBuQha7T/G+0kSQyy61wBvuNqb+ooIxbORteCbSTU5fUAaMmwjJo/ftMAkMO
+	p5Q1+HPvWUv11etdD6jor6lVaqQoXAV14rH26Uh6ZkM8uHay+kjiYv1iK+6ie9W338ZeZa+58MJxF
+	RioPAYyZ/s2LFb9f19K85A==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:44134)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xMqqX-00000002x3N-3ig6;
+	Fri, 30 Oct 2026 23:26:57 +0530
+Message-ID: <a1a0582a-271e-44b8-a1ff-2e657e20b33a@roeck-us.net>
+Date: Fri, 30 Oct 2026 10:56:56 -0700
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,104 +76,102 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/7] Add documentation for Sahara protocol
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev
-References: <20261013-sahara_protocol_new_v2-v9-0-dc9f24357c4a@oss.qualcomm.com>
- <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/2] hwmon: (asus_rog_ryujin) Fix pump control source
+ on the Ryujin III
+To: Zac Lanzon <lanzonza@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: Aleksa Savic <savicaleksa83@gmail.com>,
+ Edward Blair <edward.blair@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <cover.1790512964.git.lanzonza@gmail.com>
+ <7ca8fe6cd6b4125813613bd4187ff6cdda72e4b6.1790512964.git.lanzonza@gmail.com>
+ <CAPusjWrmKH4wHK6LY7NFi1=+rzDY0uq5N4dgKC4FuUh_=xGhLg@mail.gmail.com>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CAPusjWrmKH4wHK6LY7NFi1=+rzDY0uq5N4dgKC4FuUh_=xGhLg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: KvJxtCNeVr8hhPJ0a_GECADHTzBVCfop
-X-Authority-Analysis: v=2.4 cv=KLzPn1Fo c=1 sm=1 tr=0 ts=6ae4d82f cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=dq9AVsfMO__Ke9BKiAIA:9 a=QEXdDO2ut3YA:10
- a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA3MCBTYWx0ZWRfX/sGkq2yZ5DKj
- 4IRMmZ4hdjU/g+1ip7NrdMgE4cMmCEKZBITPG8jSroDzj6w2IRDHyKrAddG+JO6mfAqxRO2vvWD
- QsH0T1mOTHDsx55gNCoFLxwKbctINTnRsRckDHCAB8mfN9CZ5Akl2g5+98FhomjkAlcAJGAAyck
- 37Wq3frq4vvy1bevCj3ks8mdBixWTsYKP3j6IZZz0zqPAkmsA7zpwM4NQ09ZL7t2nFeyZoDQlHV
- b1dSN9IUHG7HGpYQGVXy/W0xsfpLXAnfdthavwZdgRyLVdntKXiuKsB8mw/hEjqrQ16CccltlcF
- aW/z4UF0SMPwnbEMaS+wpfaY6zdcMvgb6CEVVOZ4FNsUMJSfnlI+nhgivCkz1Hvo1ItWrRHOJvo
- HhRE/2J7orOm73LuOLJ+sJTGAwEuPU2Uwl2fJEx/koAMMP4VYbnyayyWYeL+2p45cF0AKq7wNi3
- dREFLMDUA2Nzdp76uuA==
-X-Proofpoint-ORIG-GUID: KvJxtCNeVr8hhPJ0a_GECADHTzBVCfop
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA3MCBTYWx0ZWRfX5/T8P0gOFPFU
- G4uMWLsVtd0/YpU15Zb+9nZg1Mhr2PvxVH3rtzBrzCZSI1pxgxGwOUYWSb8Y9gE65MJ+OXAt/U1
- QTm+H011a3gN9hv/wPXcjWNvgO2gtYg=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 spamscore=0 malwarescore=0 impostorscore=0
- clxscore=1011 bulkscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610300070
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xMqqX-00000002x3N-3ig6
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:44134
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 4
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfCl3j7B0iuwIDvrhi+8ZC46chpIZRXlrkJu6Bd+JiFuA3Aqof/Kit8cZOKlTXCdnzoNLsg3qpv3BM2aTtaq5LIS/D0wq2oqfVIXGJjkOJI4yEIMB1L+2
+ mZCC1Z+gqqZj0wF5+nxsPSUqVklWhpAKvnIJMKakCO+qGuMs0UHIdo1MquNOLgU+WDSx+jUbQuDmgW1Wj2CrZjLPsysEFAj8aL4e+GQxv/SkDNDlgaiDS8YG
 
-On 10/13/2026 2:45 AM, Kishore Batta wrote:
-> Introduce documentation for the Sahara protocol, describing its
-> operational modes and their respective functions. The image transfer mode
-> enables firmware transfer from host to device. The memory debug mode
-> allows extraction of device memory contents to host. The command mode
-> facilitates retrieval of DDR training data from the device and also
-> to restore the training data back to device in subsequent boot of device
-> to save boot time.
+On 10/30/26 10:38, Zac Lanzon wrote:
+> Hi Guenter,
 > 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
-> ---
->   Documentation/mhi/index.rst           |    1 +
->   Documentation/mhi/sahara_protocol.rst | 1241 +++++++++++++++++++++++++++++++++
->   2 files changed, 1242 insertions(+)
+> Gentle ping on v2 of this series. Patch 1 fixes the pump control
+> source on the Ryujin III and is Cc'd to stable. Patch 2 adds
+> pwm1_enable.
 > 
-> diff --git a/Documentation/mhi/index.rst b/Documentation/mhi/index.rst
-> index 0aa00482aa2e2d7ec4941154a8c6947dc0a0ac40..39a38978398b81727514ec95dee4e060a1063b34 100644
-> --- a/Documentation/mhi/index.rst
-> +++ b/Documentation/mhi/index.rst
-> @@ -9,3 +9,4 @@ MHI
->   
->      mhi
->      topology
-> +   sahara_protocol
-> diff --git a/Documentation/mhi/sahara_protocol.rst b/Documentation/mhi/sahara_protocol.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3190e3e5a2820628e89efcf759c9ca634428f8b2
-> --- /dev/null
-> +++ b/Documentation/mhi/sahara_protocol.rst
-> @@ -0,0 +1,1241 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +
-> +=============================
-> +Sahara protocol Specification
+> I can rebase onto hwmon-next and resend if that helps.
+> 
+The patches are queued, and I'll push them into my published hwmon-next
+branch after the commit window closes. The first one should actually
+already be visible in the hwmon branch since it is a bug fix.
 
-I think either "Sahara Protocol Specification" or "Sahara protocol 
-specification". Having lowercase protocol sandwiched between uppercase 
-words seems weird.
+I did send a note, but I am having trouble with gmail; it often refuses
+to accept my e-mails, claiming that I am a Spammer. Since I am working
+for Google, I guess they must know ;-).
 
+Guenter
 
-> +Hello Packet
-
-Until here, "packet" was lowercase. Please be consistent.
-
-Also, somewhere around the read data packet section, it seems like you 
-stopped capitalizing the packet type as well.
-
-Also, did you run the make doc make target and look over this?  Also 
-around the read data packet section you start using the section 
-delimiter "=" instead of subsection delimiter "-".
-
-The inconsistencies in the formatting of this documentation are probably 
-going to make it very hard to read.
