@@ -1,81 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793372055;
-	b=nqfxEW2tuU/5sQ3tCN8ok5+m0kXm3B3OWuvfwugQT04Jul5tZFUll5ySZ72Ce+VolXOS
-	 22huIsxhKC/5WmAYdIEHweV7xoiSxPd5SmYU2MNhgGgELLyJfYb/Zrwx7SYaAsHrjyqO5
-	 0LUEhr+JY8XzEBkuY0ehnURk4pmOgJ0M1ADBY0hdC6W9AdUv0/MXkRWQ2sniVEU8KT+7k
-	 Te2shFwtAdXHf/g+WJkuux1r6JH9ljhJxDoMcGfy1SX67QR3zqImSpoMbG8QSfJZOLQtE
-	 LhxoArKptcQmVa/9hoJo0p6lRHOTCQGeQ7sIpnX1f/15HyPOneUlWWWMCPBs7Ej69hw==
+	t=1793372580;
+	b=fO9tQGUPgRJOXNSIUq/7uB+RsGUEnao48V2Bz0bISV5awdwYcgyMjpZOBgRjoFnyFGFk
+	 u5lUMfsLS2KB75l1ka83RUmnKoqe90pLuGWP/uCnHhY5UBy0e0TZ1P2XgDlNsu5P0BJ/B
+	 6b3HuyfJLi+50pJOw7Y1dfDI3JSLNWRr3TFuI1Q9fk0unEFGrDXD4RK4ULyFVV7JsjKp9
+	 3ichD4Mbcb6nFeWFAiwtRtMRfomOAvuusfpbplbCE5kBH2UnXd6DGTlRC8nLA5VAHFW04
+	 3AkajumWsXuiyGvueXOy4sl4EbofiYHQdYgazn6PlzN630IX8PB89436A/coJnwHpAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372055;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=H9eLUfkkXk3rN8z33BkjptRVTbsFOrVizvCzkbGO2F4=;
-	b=SUhRLYnOH2B8zt8vZ2NqAvbqkf9Sqvz5QUE0r+bYMY7qPUyX4qiVl9KB/BUGpYWtIGsM
-	 HmbbpC/60UeBLEUC5TvnzRDJoFOyRQ1m8nSAd+8i+V5zf13Vdu15/nKYKwTb7emYPyyH8
-	 DQxdRGKxl8ATPJMtw4AgZ7DCUVBcbL6SjgI83rpyDiGFkUuS3rwMoEMkADHhLArj4Kx2E
-	 fQsGzJsgWJDD5iPi4lJ39rPD450nMJ3DYSDrOqugOMWrz7kdGkvoUJ0vAIDCGbAK8dk0K
-	 91D8fFP2bLKrdnKO4aDeVqTvkN15lI3azsW4feANTQXl9zqT5UoipK5bcIGHIB3BHtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793372580;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=LD3FTctKH+htDtI40/USwM/+YwDf042Qy6l0BgbuGzY=;
+	b=CuOsFfSmXSvpi/clPfBF7RC5eTyKhKe/SNkTKnUiQLPMqzrnYVHM/AkafI77Z1cLz0s5
+	 xL5vYhCLtXWbmVJXYNf15wbjqPUfUT+ycylrnaseUYuVFB268QpFNCS9U8jcWD+ggI363
+	 bJMATaVSRqwjf3Lza/4JqRI0mJU6kMlhFC3+1FLkRN/l3lsNdShQkxXQtJdgSDBc4CQ7p
+	 +mfTo0y9u3Gn7ACUYfsYDoKAWK/Zz/uHyoqygUjBHrd+UEAN9oxlevONWamPPhnauGser
+	 PrAVxAyDBFTIFVoAgYXqutqWO8EoQC12+fGpoI3ukdv76zSq5nK/BN2L6Yl4nuWAxQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5rx7k2;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=wwfcN5xh;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D71606A31A;
-	Fri, 30 Oct 2026 14:54:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28D71606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FE5606A31E
+	for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 15:02:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5FE5606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5rx7k2
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEigKo2023720;
-	Fri, 30 Oct 2026 14:53:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=H9eLUf
-	kkXk3rN8z33BkjptRVTbsFOrVizvCzkbGO2F4=; b=LG5rx7k2ZGi3UzhYmWiZhu
-	EyT6ySS/ZxjEMgG7gjKFTgWqAa2Yro9evOiStnJmWPbwM6/8RLcRxVZKlD/XkMmG
-	ixwo6FSUp3QozaRSZDBza8Tj+e6vUSZmu7yLkZ2POrQ1e6J31V3fuGuZoewuDFNU
-	E57I33b8nlgyA9zZbxYl9vvAdwVnH7gTZ/yZCoSoRVJjA9Wt1+gBbxOQ4dOCgLvB
-	PKSlx6WqMqsNccaqZwFtDaxnJ3uUl8N80hsk6FvfGbpvzDx7ln/VkuicEHxlbQ1K
-	rL1GxxQSGzDynIBO1O+ABv9Kqnmo2564XEIa4U2aGZ9c/TU4i6jGF6aHvIFnAsrQ
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hmeayu89k-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 14:53:49 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69UEnrS3673647;
-	Fri, 30 Oct 2026 14:53:49 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hk55pktqu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 14:53:49 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69UErhZp30277974
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 30 Oct 2026 14:53:43 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A950320040;
-	Fri, 30 Oct 2026 14:53:43 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 94FDD2004B;
-	Fri, 30 Oct 2026 14:53:35 +0000 (GMT)
-Received: from [9.39.22.177] (unknown [9.39.22.177])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 30 Oct 2026 14:53:35 +0000 (GMT)
-Message-ID: <15083d2e-1c9f-4dad-816a-25cc2f3810b0@linux.ibm.com>
-Date: Fri, 30 Oct 2026 20:23:34 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=wwfcN5xh
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so7620865e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 08:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793372577; x=1793977377; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LD3FTctKH+htDtI40/USwM/+YwDf042Qy6l0BgbuGzY=;
+        b=wwfcN5xhJxmJIEs/AzLSOKGoZTkD6+8NGP2qYbyNFhJ3ZePhPC12lXgsmIHSzpBzcO
+         71d0fBrr1/B0EVWRwTU4JSXXvJ/Wr1eHyWOr6vbvgmdkDIWvglRqf4i9q++G0XE3NJ8i
+         S2xNR+q8cf0+NqHemf9xQpAofRPyggoeqvaCmnZTKQtViK6XnkkmWIqV5NXQQ7TxzVF2
+         ZZ0TVZcs3kkfzqhYZ3v4MGg348nCq3l3bT/bwopwha2MLL2cYn1f5N9xcPZtRK96BFm0
+         9J6dNo27JRTdybTsDSGt55KhTK18zZR2Ab+2mEsVjSiKfFzKHINGh8jYyPI2Ol1FvCLG
+         s7kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793372577; x=1793977377;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LD3FTctKH+htDtI40/USwM/+YwDf042Qy6l0BgbuGzY=;
+        b=zX2bE7keZtyOF+N/m7RckkFQxd396BJeyn3Tg9wL032ZD9baNTkNB0f1Ou9wnukn0g
+         NR8H4DnFfB01Qg6Vw5bjIasOoI7+bBJqHVTjZMzj4wM1si/IVY8e4epaQmObaptw4I1X
+         FxZPrQoTAON90pxm/e/gXrd2sE7dI4H5kSrp+cCVYH4m46rlY4x03+tucB9rbv0dutGn
+         llULIy83h14339bULVE+YcHU7Xf86LG7DrUbSV/yG+Tt5E/95sYDjyap5itn9y3gY3Qw
+         fxYTPwpCTaHzepZH/yxjc7oEmIFo6PAA/qRASafXpKeiwjSZP/RMOE5Sdo1uMHdHtqds
+         Al4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzw5B5e2+mbCgFvKH8ZUHTnWUVsPykmuAGhwO9gmYduNqQUmel0FnNMx40/sqV3B9w/Oxp7ovbEToQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJmpaZRWdVztFjFHW2+whrB/HEMLW9uVA4bfvnx6309A6q7SUjf
+	nW7N7roccicRWe8T1mKXA1FMGN8vVlc/OhYcDmxG0DdXlkPjEb2UiqZWHismeeOQY3Q=
+X-Gm-Gg: AYBFou1JVsuzfWEizOVj8yIw5hocJ2Rf1wlIrxoXHsL/NGBr0rTC3Aylbpqza1fZdCS
+	74KDG5kjQTgOWRLJkopT9gaCABmcIqB7wwf9kgEhm9GeSZD05kiUpnqnQrXfV7IHxFH4q/tNZff
+	6NV4qyQB8cY+awQcIJ8a1+xLquapGGTkyKZSSxL5DvkadFY0rXYQNaii3ORIlyvlQsVVCQV756z
+	XPA5ZqhjxeM59iUw69R8GPk0yvf0u5esUNdL8jzS9dU550fkTA5y4K+kztOrOkdFGRTfe8B9UFn
+	s0JFxP3P3q+O0I4JrOm2vWAwVRauVIvwm/qRu3tLVsKc3y2Op0FcO624/Pe6kgDFdzrb992mDrW
+	tS7rETuWDMJRseN5cST2rLbuZcPzx5xck517oRAjMn6SeWArXJy4BokOEbq1+JlRdcw8ZoYahko
+	fXeqkbyxoTDTMB+WUNjgTZuVdXitv47lER0owmQeF/ISONyzeLKebTQWKxwSTxoT3kzTc+mSAI7
+	LJPQLCNJM/8LE5KXrweEhEogqWB+WXDzNoFJwik4gyH/R6V2BPt8ZylnD0yXpmBkR7IdDxHnxIH
+	CeMN0FUKmdjSU5/klFweeKoWq6QBSybsar/ESMBH
+X-Received: by 2002:a05:600c:a00d:b0:4a5:e6fd:65e5 with SMTP id 5b1f17b1804b1-4ac19705d57mr55863395e9.31.1793372577101;
+        Fri, 30 Oct 2026 08:02:57 -0700 (PDT)
+Received: from localhost ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b81c74sm3623785f8f.36.2026.10.30.08.02.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 08:02:56 -0700 (PDT)
+Date: Fri, 30 Oct 2026 16:02:52 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 14/20] attestation: Add the base family specification
+ and generated files
+Message-ID: <auSxhgC30bubNJpI@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-15-jiri@resnulli.us>
+ <179302367452.58760.3782556786585774917.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,139 +106,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 04/13] cpumask: Introduce cpu_preferred_mask
-To: Mete Durlu <meted@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
-        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
-        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
-        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
-        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
-        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
-        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
-        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
-        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
-        linux-doc@vger.kernel.org, jgross@suse.com,
-        virtualization@lists.linux.dev, sunlightlinux@gmail.com
-References: <20260928053728.797539-1-sshegde@linux.ibm.com>
- <20260928053728.797539-5-sshegde@linux.ibm.com>
- <4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com> <auN0GKVMNvXbNdCN@yury>
- <b83e2d2f-681d-4e19-a680-c076493b3edd@linux.ibm.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <b83e2d2f-681d-4e19-a680-c076493b3edd@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: zD7eqUoFVJX6qOWyoBOqTcljINbZh8Yk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA1OCBTYWx0ZWRfX+OsVeVvUBuLP
- +kotTP+CNj8Mq8uADmGzUuBDJhK/UTwi175qFLQeUiFq1GqBit5zwImg4DfUbimsSg+RM4/0MK4
- BFdMuoyaiDQ8ZNc0mpoK6XjUK0DEpjs5Xd+ZK6Kcq18U4/eP9/cs5Yaqs2WqZtrzu2TtTFRJ7ra
- Nvp/e9Xqdk1FPfoxi0rcn5hWZfqizp9tpEQGAio+cWimQA6EVoVP9LhsHeNBBBosFZvyHcVjDpZ
- GgGp/oTZ8ImsZom58dt5WDhqrgQDPz0GS6gGPOTTdETfdZqx7HNgOGu31qmL9lHOZahYNaMlDc+
- htKmSLMubsG2y5F9Y4IQ6+t2g47RQpqNjLJHbUNUhwBngPSyl4QPtS0GKkASig8+xRUIF6kuyFC
- b7OuffOUPJa+CrSssjISvhi3SwmRiuxqX3RcDl6WYiNqWZv3fmJlto8a96qyb9lZIFw4Rj9Z56K
- 9FW6BQs1ZjX+EusUhIQ==
-X-Authority-Analysis: v=2.4 cv=Ms3HeGae c=1 sm=1 tr=0 ts=6ae4af7e cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=NEAV23lmAAAA:8
- a=VnNF1IyMAAAA:8 a=E59y4fOkklvYIgKuzMwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA1OCBTYWx0ZWRfX7nkNKVkVr8tJ
- /RPF/E2QmW/AQa/67zLfDZ7aipRcJLJYLmzEL37METL9n45XMtxgPSG68I97PRx96+7XjI9Ktuf
- WPFIGxLlg0rK5rxr5v8Rq5Z60BITo3o=
-X-Proofpoint-ORIG-GUID: L-bQG4I8V72p5Lz-1R7e8SLFZACiUwJZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- spamscore=0 adultscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300058
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179302367452.58760.3782556786585774917.b4-review@b4>
 
-Hi Mete, Yury,
+Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
 
-On 10/29/26 10:06 PM, Mete Durlu wrote:
-> On 29/10/2026 17:28, Yury Norov wrote:
->> On Thu, Oct 29, 2026 at 02:32:08PM +0100, Mete Durlu wrote:
->>> On 28/09/2026 07:37, Shrikanth Hegde wrote:
->>>> Provide the preferred CPU infrastructure. Define get/set macros
->>>> which could be used to get/set CPU state as preferred.
->>>>
->>>> CONFIG_PREFERRED_CPU will be selected by the driver which handles
->>>> steal time values. It is going to set/clear preferred CPU state.
->>>> This driver will be called steal_governor and it is introduced in
->>>> subsequent patches. It periodically computes the steal ratio and
->>>> decides on preferred CPU state.
->>>>
->>>> A CPU is set to preferred when it becomes active. Later it may be
->>>> marked as non-preferred depending on steal ratio by the steal_governor.
->>>>
->>>> Always maintain design construct of preferred is subset of active.
->>>> i.e. preferred ⊆ active ⊆ online ⊆ present ⊆ possible
->>>>
->>>> With CONFIG_PREFERRED_CPU=n, ensure set_cpu_preferred is a nop and get
->>>> method returns the active state in that case.
->>>>
->>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
->>>> ---
->>>>    include/linux/cpumask.h | 24 ++++++++++++++++++++++++
->>>>    kernel/Kconfig.preempt  |  4 ++++
->>>>    kernel/cpu.c            |  6 ++++++
->>>>    kernel/sched/core.c     |  5 +++++
->>>>    4 files changed, 39 insertions(+)
->>>
->>> [..snip..]
->>>
->>>>    #define cpu_is_offline(cpu)    unlikely(!cpu_online(cpu))
->>>> diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
->>>> index 985aea617cfe..edc067a0c422 100644
->>>> --- a/kernel/Kconfig.preempt
->>>> +++ b/kernel/Kconfig.preempt
->>>> @@ -194,3 +194,7 @@ config SCHED_CLASS_EXT
->>>>          For more information:
->>>>            Documentation/scheduler/sched-ext.rst
->>>>            https://github.com/sched-ext/scx
->>>> +
->>>> +config PREFERRED_CPU
->>>> +    bool
->>>> +    depends on SMP && PARAVIRT
->>> FWICT, PREFERRED_CPU mechanism can work perfectly fine without PARAVIRT
->>> selected. It would be annoying to enable it and implement a dummy
->>> paravirt_steal_clock() just for that.
->>>
->>> Shrikanth, would it be possible to drop that dependency?
->>
->> Do you have a non-paravirt case in mind?
-> 
-> s390 LPARs are exactly that. s390 does not select PARAVIRT by default
-> but enabling PREFERRED_CPU is strongly considered.
+[..]
 
-s390 may not have PARAVIRT=y, but this use case is still a virtualizated system no?
-i.e you are observing steal time. By definition of steal time, it is a para-
-virtualized system. Though you may be deriving the steal time not using the
-paravirt_steal_clock.
 
-Or my understanding here is wrong?
+>> +++ b/Documentation/ctlv/abi/ctlv-attestation.yaml
+>> @@ -0,0 +1,184 @@
+>> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+>> +%YAML 1.2
+>> +---
+>> +# Checked-in ABI snapshot of the ctlv-attestation family, written by
+>> +# "make -C tools/ctlv abi-update".
+>> +#
+>> +# The checker compares this family's declarations and inherited stub fills
+>> +# against this file. Updating it is how a UAPI change gets reviewed; an update
+>> +# that removes or renumbers anything, narrows a bound, or makes a placement
+>> +# required is an ABI break, whatever this file says afterwards.
+>
+>Have the generator emit a line showing the original yaml file this was
+>generated from?
 
-> 
-> I removed the PARAVIRT dependency and gave the whole thing a quick
-> spin. Builds and functions w/o any issues on s390!
->> I'm actually about to submit an RFC that drops the PARAVIRT dependency
->> and provides write access to the preferred mask. But I want to make
->> sure that we need it, and we've got no reasonable mechanism to put
->> unneeded CPUs on idle already.
-> 
+Okay.
 
-We might run into few corner cases quickly with write allowed.
-But yes, this is a simpler mechanism not to run anything on few CPUs
-in a dynamic way.
-
-> You can mention s390 LPARs as valid case on your RFC if need be.
-> Thank you!
-> 
-
+[..]
