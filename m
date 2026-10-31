@@ -1,113 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793453022;
-	b=ibTp3aNhrbWRGcmuS/RKHnkak3F6nbsvobs+6H7ibL+JrgsU76VxUkIqHEy0YcwOBSDC
-	 T1+itV2vSZtPf6ppE8KP2mEvCaQS6lMldPGULevRoCifNMDuzIuSIP5hoh3ZIHU5/2NRf
-	 HnyedzzFPE9CEwlC17zUfi5gSYHODyr5Z//aLEq6FwMhyeBgyoZHj5/C2mfU4/YQENCJy
-	 RwCERbwPvcBSoSL5M5s0cKSpfzeV64mCCSEgQl8YJUgdWyOVAyTlc7ksbsjTtTLlQJdxt
-	 zZnW1PVOIybau//E31Rl0wYkSvlWCIcOGCWQk2W2IbLZb7dqguPVY6Jx2lWRrBumMdw==
+	t=1793453028;
+	b=5tlqfAxLw9aapqIv3hVGCrczyoZ4BNPvmaObvCYv+7X4MuAqVTr00DDCRq8xD9u3HVIE
+	 gODX5AgKdbka4S1JBtC4uQybGVPz0Pdo0A8EFeGW4DyLAjXmV70nn5UfZVPfDEW+AtP4f
+	 u5Mw8ZAu34dTaDPJswnTKo6jmikdQnfP7vo/RwyCqfooF7+kVgmqqcq/imw1F+YKmUurL
+	 4VIYtg4rvl9l3Y1/pyQtm9TruQeLGpT7dzmw5j61k6KKgyUK187vFWQFpnajREVovkGHr
+	 Zkmalz3JD399ah+tI611UkAm7hfx0T4l4zQJjoMqmNoMjm8mK52Drfe7PsTAnxEMO6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793453022;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793453028;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=KyrkqULzyuOm2TygVu97UNN1jy5vwvlOJyvkTfDC074=;
-	b=thCS8TN2NINthQIovBPXOZXHazLfXJq8aGGDIKohyfQk9kogRUlO0E6eLFh+623+bbQe
-	 dR6iYpCTKgVRp/G/1ZtxmygIpLrl2Gtnr/66/q210NnffDDhkleAjftkE65ejOicRtUVq
-	 CepgRRveFk5CjHGqGS8MzDhmfNsTQ9U3J5Oe1vARWyYzN28cVP79MVE8M5Folj7IPpzdB
-	 ugOTgIyij8YJq/UxdrcGY1jz9iX+UFhNXB7w9M4SCfmNTnLA2DD4aqHNj+8INkQiAR78R
-	 xr8B8MRBZimJ/LvKmQGZTan/sPria9i02yUoO0uLTDi/BThrUBTxEsJJ/eJXzEMlV2Q==
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=QK/sB9dSAJ/2G2Zrti3sXc4ovzV/2wnifjT8fx0zQuk=;
+	b=vNSINffJBPHNquAZ0AqKJwZVAjxpw8hmRX5jR5iGDrnIPVE5BQcp4NyZUTYhctuigd8x
+	 EIlHzOhYhCAdrm55FlJYNilMNcojR4YbYjZpen0c3mxBSB2AEFRlqQ5PA3VCfdOqLito7
+	 RIDx8qWAm63+4jDbqap2tsdhPzTEJwTElocn/AEIJKsZl9zk0WeFiCifv+u5enAP4AFhc
+	 cVwNW/xpH3a88CNLo2nhciVXg1o9o9Y3vAjPXFbyOj6EO1wK9D54IuPnsaMnz1oRCC3Kg
+	 KqTxWlO5NleodtvOZ9mscuNMLtwfJMCLn3R5boUf9OMfDQgJi7S4SPWTyLvj9ccUK4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cqz3Ihob;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Bjj9jDwO;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DAiH6qaW;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K94VOunY;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29ABD606A31C
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29ABD606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52306606A330
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52306606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cqz3Ihob;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Bjj9jDwO
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VD0I1L2162419
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:40 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DAiH6qaW;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=K94VOunY
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VD034Y2788864
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KyrkqULzyuOm2TygVu97UNN1jy5vwvlOJyvkTfDC074=; b=cqz3IhobwWakp0T8
-	yECU8vLSjEdCzW5N29c7HRB+wAmBd6qLTnBpkgT2yzeZsQ3Oo/FbcrEZVwSrmayc
-	DcRwTYYJQlSpQbPG/NZ2+hplgEKlgDYuYJi4annhNF4Of+80m3uOxvHUmT6zhGy4
-	qDYlR8MKMKuRvGK2LoHIqo4M4Hj+rsKL0PnI3WNcSBbqBu15Yt0Z3D0VZWUFrmYf
-	QbshOL5S4/2T+V/isiN3Vma7WpTsAnNXjzAg/rdbG8ZQQ3BQwf/CCbDUgA0AoHmH
-	R4wZwAeQI2huPmPvBa2dsFZvPrAl64ZHYsw7HnmyAnr+zwyR5QPcJ/pSG4k9jlkQ
-	X8wGkA==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn8j2s6un-1
+	QK/sB9dSAJ/2G2Zrti3sXc4ovzV/2wnifjT8fx0zQuk=; b=DAiH6qaWy3OIoFXK
+	tjVtIZQJMMM3ei6OwfCf4EAUNyUcswW+pMQ3QXnvzl1y5jRjxg6miU3yhBdJmScY
+	rrMXoPwcY1JjK2a8MYTqaFyDTT0hkRw1fCHbd2GdHhV/czB0pv/xe09CfqLlJsuD
+	ltQNEB2UxIUMrvzhbMH7MRZxEXUwIwHxxUgyDLeeofAim6FIXgP1GtnWvGros8QJ
+	V9Hoesmrozfe8mQgLlEu+TX7RZQ4LfsVSmU8YOIRuq5Oa6oHvSh5hAsYPbRSZJKm
+	H/cHbzGwZCzDjDJW+6Z14zy+je+E85A4ZZfJxmDlpUoeQpYKUKJc92s6jo/Et4oA
+	I6zwSw==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn7wxh7qu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:40 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1af203073e0so525866c88.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:40 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:47 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-3425098ae4bso3834613eec.0
+        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793453020; x=1794057820; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793453026; x=1794057826; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KyrkqULzyuOm2TygVu97UNN1jy5vwvlOJyvkTfDC074=;
-        b=Bjj9jDwOroCHNNwy3JMRWucuuV+HdInGVQBTQMcFOe3A0vU7qbIz37rv/39kvGrmo/
-         PRYutKBTTDi6d1PM8DSmf88Ud+sPBxMwswm39nQ+FMGO9+y0p+OxQq6ivjWr2y9YMg2X
-         co6Erx5/oJQA2MneCiKSISv7cHYLZioUMlu7gJMBAW+Li7WAaJB8/ELYuuBCXtmDwkVY
-         7fsKy7sT1xa63bFqxkuDOEd5jqCoyHCMct95w05pyvmihvucqgU/5IfhL4nONhWGdlhc
-         nCcLleU7GR2z6Wgjk5XYyCTDaR3HUX5RkXKyBdxRTJLyef+Etlu3vyrg7FE1qrOz3Umx
-         T5HA==
+        bh=QK/sB9dSAJ/2G2Zrti3sXc4ovzV/2wnifjT8fx0zQuk=;
+        b=K94VOunYFCTJucjPgXdzzsE1i6nKnoHTpICFaG0+o72a3j+IdhQ8ITjJiKoZ3JLCCU
+         c0Nbd7b60tGtkGbZXWS4nREbu3TnddXR72zquVuHjB8I53KPsqHPXp0geLVAiy6RnCmQ
+         tZl8kQ9c/zXejB4hPsikFgemTX8y38DeV/oIxieEV0UVAftf7swrfdnEuh8VkaeahYY0
+         D1e7QlNXKxJk6nZ2cZBg242thMw/rKeHdW/96aSHNSRQfyrFqBSmpdU3VgRaERX7+X/L
+         UZSuvwLtt1lbNdLhgy0x32FFptYcze7FZ7bZ7Cos95kjdAWJSC/5jHqj7TFYeEkzLV0p
+         blJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793453020; x=1794057820;
+        d=1e100.net; s=20260707; t=1793453026; x=1794057826;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KyrkqULzyuOm2TygVu97UNN1jy5vwvlOJyvkTfDC074=;
-        b=NYU7QS9i+/rsGDnd/fzj8S1zazqfAqj+gn280/NGGdbiJn20tyuZ4s+qx238l72JxU
-         6vRa1mkkoJRNdXDV810LC/qzJGIfvmmkq7nDfkqETeAdFg7+OmpxPIfl9SZXa7OzPSfl
-         EmjLN0TAUFyX1VW/bapXkcR2QPXfv3IgB0fUvTc+/lHMwWDg+Hcfdh1dvq9+Ix3aw2+4
-         hFgKnMMrKY9CQcnXIpimpp4dwI6OEZZtvaM6X0MOLC15WKzaWcjWmJT8lAIMu9TactMU
-         fE5nQnZ4kW1vtN6wziVaVeHEuliOgMtYaExu1vqL5M6PIz/nCPND5+Xpns1p2m6IGA2B
-         k0mg==
-X-Forwarded-Encrypted: i=1; AKwUvBwQZ/bGb6K4zEUSqkNG0DD9I5AMGcLzN/ZjqwuSEL8Lwa0ynJhMy4aC3EGQ9rtMpmxPjsPU9Hle3FE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIb3SH4Z0k743Lbm7j0RjibMbNkBCX2i3HEBZm9w3rts7KLmqL1
-	WLa01+cEFlZnVDAGO2G8aYVn5akTnoVoFp7bhoCb3AXwiq8D7pDWu76cXH8H+79rW6VgCsVEC7z
-	a9OSTJAbE+nzeHf8BZ6p8LY0NnZJ85ouYuGps61JEKP9U5073yHOX0Umiq5Vnzvs=
-X-Gm-Gg: AYBFou270h/oipRbz2eNPQwgWDKbv+PjLNcdmwifdklwmEtheJeVeim6DwHmqTOcaGX
-	kTiF747BxT1icWoIaKbj2ki1wfk3TrkeBMbqt/lvsw2hyw/2bialRzoHVXHgMwSHHO553Cy0eQx
-	KzRw03sEHtuygVFzQW8HU6f+cTM2/uH4i//npmghY5kubenhVX/q13xOheSa6ClXztI7H0Xu9zR
-	kLuftOw65enjVkG0h3k9ITAyg93BZf5VHiVansAvAybW88UNjbDEbToZnYnRGmAqHR6TPJXInv8
-	tzRW7LUmx6AKEWa6RVv0+WXoyQI047MiXp0N7gX1vqgl/mwX06P1FKxhZpqveaqS7MY6B/ZiZIn
-	pbPFujH7Ou76frliGzJOflBcZU6h77Fbgvy1A3mJJE6npZdZOUBD8tPk05V1VoS7EIsbQVJYYHP
-	Oa28s=
-X-Received: by 2002:a05:7023:90c:b0:138:30b1:4c00 with SMTP id a92af1059eb24-1ac56d95448mr8133243c88.3.1793453019153;
-        Sat, 31 Oct 2026 06:23:39 -0700 (PDT)
-X-Received: by 2002:a05:7023:90c:b0:138:30b1:4c00 with SMTP id a92af1059eb24-1ac56d95448mr8133187c88.3.1793453018305;
-        Sat, 31 Oct 2026 06:23:38 -0700 (PDT)
+        bh=QK/sB9dSAJ/2G2Zrti3sXc4ovzV/2wnifjT8fx0zQuk=;
+        b=MywYEWb4h1PULcIwtkKjJM3aC2CXmGSeNZghKFFTK+f2S4j6nD2hSv/bFvho5iMheH
+         xgm+GHZml+E9MeSeV/1TkCFlbLkYF2HVjntcJHj827b0hzPHZqodTBHl6uS2Ok4icc6r
+         FqxpOtQuTSj+kr+GolOnz3bHR3g7DTwohMl50++VTeanLU5DHQD2zP3Y5Y3PnOL7pC1n
+         TFuOJuy3N4USiisJSkoir9gzuBlueHV1OtcM3+xPruEt0pJgd7KIrlOamLadurOkkeU8
+         IbFxjRyyYNQw8atYxpoDS1PqNebu2RRtMSmYxI6qs7zOwoP0qto112kIqR9ExngRQhVI
+         m57Q==
+X-Forwarded-Encrypted: i=1; AKwUvBz5Nq78e6UyWcJ88i/0j0YyNgqq7fxg2UKNck4/T+bgjND8Yy/qiduOUI0OOqkuZtISbZrwotHWsv8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJbRuCA/hMA6KMXAXeVHiiWXlxUGNrYcfrTNgAim3g3ZEBlTojP
+	UnKRov7Uvj2z838ieXibMZGA18n9o6/M2fP8U95ZNckLQ2X2HecFIDlExyoNrB6MgsN2/S5UvFD
+	efWXlVkhAh0OYPlJ51+eU7JhAlsGtrlnARTeuYz7l0cz8DIMRYFGFF+F1UB7I1dI=
+X-Gm-Gg: AYBFou03CpRBPYIXz+x+CJCKbzeAUN5OYe3g0ALAmxgDG9qZ0iKIDghHcehUafkPug1
+	w1prPt+2zN7ZPrEfcowaUQnv2p+MH20rwEnwaA4mUDMNGJ44F3paIATnbQM3Cn48oSYDk4wAkrx
+	Tx6cD/FB0ah86W+VELUqoQc/Iut1uzSD9ZP6CxkRySqLnalOPJaSG8XjkKQxKkKfTOM+afWN9Gv
+	yfGI84GQZ6kHRsAcspM5vdMOpI33cMxjLFTVW+xZetZUtH/pXuh154gmaqi2Apf1vyxHdwZj+1T
+	LlsVtsVAnbe1uZIOr8CXY6P+LEKOSS80c47xspMzN3ThDNfq1CHiCicG0wXBoOlMvYO7+kaYhOU
+	ORk63rxjFvxtmYtRbDRb3XKuAJuT/YxwHimCfYz0DfFpO9MZfdeSbIzmPnXnWUx6zK7RBZ6aPyI
+	HUq8A=
+X-Received: by 2002:a05:7022:619b:b0:144:eb3f:563a with SMTP id a92af1059eb24-1a9497b9d52mr16175362c88.15.1793453025805;
+        Sat, 31 Oct 2026 06:23:45 -0700 (PDT)
+X-Received: by 2002:a05:7022:619b:b0:144:eb3f:563a with SMTP id a92af1059eb24-1a9497b9d52mr16175303c88.15.1793453025137;
+        Sat, 31 Oct 2026 06:23:45 -0700 (PDT)
 Received: from hu-gkohli-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.31
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:23:37 -0700 (PDT)
+        Sat, 31 Oct 2026 06:23:44 -0700 (PDT)
 From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Date: Sat, 31 Oct 2026 18:52:50 +0530
-Subject: [PATCH v2 4/6] thermal: qcom: tsens: add hardware-bin trip-point
- filtering
+Date: Sat, 31 Oct 2026 18:52:51 +0530
+Subject: [PATCH v2 5/6] arm64: dts: qcom: kodiak: use thermal hw-bin trips
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,7 +118,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261031-thermal_bin-v2-4-d76fd073ae98@oss.qualcomm.com>
+Message-Id: <20261031-thermal_bin-v2-5-d76fd073ae98@oss.qualcomm.com>
 References: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
 In-Reply-To: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -140,418 +139,241 @@ Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
         Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
         Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=12971;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=6059;
  i=gaurav.kohli@oss.qualcomm.com; s=20260302; h=from:subject:message-id;
- bh=xyKPuWk0ucxs0cPQi+kiBuczxmxXu+qUEiLpjxgyqKs=;
- b=nN52fRW7s8uzgHrVQsIS+VOd/MJ8jSC35EGNiNN0fb3yNdWM5UhORxyn8L5aoC1hYpxRhOEXN
- MlJB03+8480BFunSr97PnTTjRCOKBhShBHThELjUEYB+rPDdoH8ZHCb
+ bh=zx/+KrnPBXqW3IXQIcYA1/rGyuK8dpGWYkITAXNPsCY=;
+ b=landNCcP2nN/nDJm9jEwbRau0/QrQklY7co+ps2J8y2O/5eYr/NHeZXlWxOMXFTITaO7Ec188
+ lgLUtKStI5oCbtZuCH6veO9WX5jrTp459fVs3SQ3tsKgkFER7dO397L
 X-Developer-Key: i=gaurav.kohli@oss.qualcomm.com; a=ed25519;
  pk=IdNsqe8rWsF6dbpGHfwPEH9zM0nbOdRH72HxUT9qPak=
-X-Proofpoint-GUID: GSUmz7ShA_JcURE7qc9ekdmUvDtPm5V9
-X-Proofpoint-ORIG-GUID: GSUmz7ShA_JcURE7qc9ekdmUvDtPm5V9
-X-Authority-Analysis: v=2.4 cv=S5RMU4sP c=1 sm=1 tr=0 ts=6ae5ebdc cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: AHnvFAawgKCqsn5lWBpD7l3taOoUJRoW
+X-Proofpoint-ORIG-GUID: AHnvFAawgKCqsn5lWBpD7l3taOoUJRoW
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX4o67OXyOoJ54
+ 1lDb9guVrj/vKIUJgzBr8X5iBqk1ehYFs2UvlcUctWktVOqoF6HSCyEL0eSbIEi3IfIL5SZ+v1P
+ KS5YvgJyIIFj8wFy+6axLT/KMDn1NmA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX+ghPHswL23dz
+ ZwKbMgW/LzL/DYHNnjeqWJP9s2mdCNfkitzoHo9SsTW7lYNqW443zlxMRjNEC5kmz5aENG8YE8D
+ bNXrzS4+zzxqgNfBjp3mSl4aBrrg+ENAkSF795KI37E0TV+cY//ZS5r4fM/S260aJmx6w+OYlga
+ E/eXdj5NA7Vo9LtCgWBvW/HpmNg09EZy9qvGsVVTdSy6GFdlatqQAeXqZsJ4ly21aXHEUFXM59z
+ DGN5E0KWbQJeywAxf4MdEzSSZ6IDlf50Ez0xrQbQ0UYMVjeq9orzoo1CeLY7fHGkoyjtTrgYOzV
+ kCDpmj+YvgBj67QwYubLPLtjZ0yewl98YM+2mTpVVsdG1Y/3FXsDRiRzTzUfCNPwjinPYoDzs4X
+ BUWE0ihvxzcEfBJPIbeq5nP2vj0j2MhsLs6JIDNEvUxA48IaonRfth723xITAO5bK+RQJgfo4YI
+ 2sK7LEWqnI6FMgP82eA==
+X-Authority-Analysis: v=2.4 cv=JLquIMKb c=1 sm=1 tr=0 ts=6ae5ebe3 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=EHpzqkDVQ6hHbY9poFgA:9 a=QEXdDO2ut3YA:10
- a=vr4QvYf-bLy2KjpDp97w:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfXx1CRycAabxEO
- p6UGYZ2L+33CfPIlSWCAmz2evTCm9Rmtb0zWZVjcoKuXMhLPhm0xxE8mT883JtKGridr2glZNFU
- Ia56hZ/DfCCwlkSl1ZEhq2L63/QD/H4=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX3emwbdt32yT6
- T33AeXbj4ara+i/NP1kUqqH4nsD/B+EgfvNKaNdk8FA83QWEEtUN8gqhdG67T0tGIUL058sXTey
- joKt2A1y/cvTgY44uwYHt/B59xQmmHwsdk3qaSY1qOvsMN3cOe110CbB2jn3Egd9FNR+hhqJP06
- pR6yFPLzfquTC/scuVGIqD/dej828eI7fG9z5e+jFFZ/CYYmsOkgvkHy6j20O1BsM6Qfsa0kSLp
- RL3m12CR/pcWihxOyqL6iMPYCtSIL5ZXSs25vGkSr3+JSfHVVBtrD43DFDCHKhAos993zrBuSLQ
- vB7LHoMJ3F22J2ERenz+bACjZSFZp36wiCsOkuwBXlxxZaC9kjC+tFnPfwo03OVjYFZWzCgMaDn
- wiWEQUiDn/GQYYSVl+xxxDcDC/ScaUdqrBQFIBAyIj/MbY+WJ3c/YC/b2rhIABmKnLGF0Ilg0k2
- Z+/5N0xs6c4pkgozRAA==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=PCFpqnHMHODqJTmB6Q0A:9 a=QEXdDO2ut3YA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-31_03,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 impostorscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2610310053
 
 From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 
-Some Qualcomm SoCs are binned at manufacturing time and expose the bin
-in qfprom fuses. The thermal OF parser can filter trip points by
-hardware version; wire tsens up to feed it.
+kodiak-based SoCs are binned at manufacturing time, with the bin
+computed from the jtag-id and feat-id qfprom fuses.  The tsens driver
+now reads these and feeds the resulting bin to the thermal core, which
+selects per-bin trip temperatures.
 
-Add the per-SoC plumbing:
-
- - struct tsens_hw_bin_desc names the nvmem cells to read and supplies a
-   compute_hw_version() callback that turns the raw fuse values into the
-   hw-version bitfields consumed by the thermal OF parser. A SoC opts in
-   by pointing tsens_plat_data.hw_bin_desc at one of these descriptors;
-   leaving it NULL disables the feature for that SoC.
-
- - tsens_populate_hw_bin_info() reads the named cells at probe time,
-   invokes the callback, and stashes the result in priv->hw_bin_info.
-   When hw_bin_desc is NULL it is a no-op, so SoCs that do not bin are
-   unaffected.
-
- - tsens_register() now uses devm_thermal_of_zone_register_with_bin(),
-   passing &priv->hw_bin_info only when a bin was actually read.
-
-Two descriptors and their SoC wiring are provided:
-
- - tsens_hw_bin_desc_i_temp reads a single i-temp bit and reports it
-   directly as the hw-bin value; used by data_x1e80100.
-
- - tsens_hw_bin_desc_qcm6490 reads the jtag-id and feat-id fuses and maps
-   the known qcm6490/sc7280 ID pairs to a synthesized hw-bin value (0x1
-   for the standard profile, 0x2 for the elevated profile); used by
-   data_sc7280, which serves both the sc7280 and qcm6490 compatibles.
-
-Register the qcm6490, sc7280 and x1e80100 compatibles in tsens_table.
+Add the jtag-id and feat-id nvmem cells to the tsens nodes and convert
+the passive mitigation trip points from a fixed 95C to per-bin values
+(95C for bin 0x1, 105C for bin 0x2) using the new
+temperature-bin/thermal-hw-bin properties.
 
 Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 Co-developed-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 ---
- drivers/thermal/qcom/tsens-v2.c |  16 ++++
- drivers/thermal/qcom/tsens.c    | 190 +++++++++++++++++++++++++++++++++++++++-
- drivers/thermal/qcom/tsens.h    |  29 ++++++
- 3 files changed, 232 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/kodiak.dtsi | 58 +++++++++++++++++++++++++++---------
+ 1 file changed, 44 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/thermal/qcom/tsens-v2.c b/drivers/thermal/qcom/tsens-v2.c
-index 2ee117aa91ba..8b2a00956a36 100644
---- a/drivers/thermal/qcom/tsens-v2.c
-+++ b/drivers/thermal/qcom/tsens-v2.c
-@@ -271,6 +271,22 @@ struct tsens_plat_data data_tsens_v2 = {
- 	.fields	= tsens_v2_regfields,
- };
+diff --git a/arch/arm64/boot/dts/qcom/kodiak.dtsi b/arch/arm64/boot/dts/qcom/kodiak.dtsi
+index 347815e5983e..b984cf47b70e 100644
+--- a/arch/arm64/boot/dts/qcom/kodiak.dtsi
++++ b/arch/arm64/boot/dts/qcom/kodiak.dtsi
+@@ -1019,6 +1019,18 @@ gpu_speed_bin: gpu-speed-bin@1e9 {
+ 				reg = <0x1e9 0x2>;
+ 				bits = <5 8>;
+ 			};
++
++			jtag_id: jtag-id@180 {
++				reg = <0x180 0x4>;
++				/* bits = <offset width>: 20 bits at offset 0 */
++				bits = <0 20>;
++			};
++
++			feat_id: feat-id@180 {
++				reg = <0x180 0x4>;
++				/* bits = <offset width>: 8 bits at offset 20 */
++				bits = <20 8>;
++			};
+ 		};
  
-+/* x1e80100: tsens-v2 with i-temp hardware-bin trip filtering */
-+const struct tsens_plat_data data_x1e80100 = {
-+	.ops		= &ops_generic_v2,
-+	.feat		= &tsens_v2_feat,
-+	.fields		= tsens_v2_regfields,
-+	.hw_bin_desc	= &tsens_hw_bin_desc_i_temp,
-+};
-+
-+/* sc7280/qcm6490: tsens-v2 with jtag-id/feat-id hardware-bin trip filtering */
-+const struct tsens_plat_data data_sc7280 = {
-+	.ops		= &ops_generic_v2,
-+	.feat		= &tsens_v2_feat,
-+	.fields		= tsens_v2_regfields,
-+	.hw_bin_desc	= &tsens_hw_bin_desc_qcm6490,
-+};
-+
- struct tsens_plat_data data_ipq8074 = {
- 	.ops		= &ops_generic_v2,
- 	.feat		= &ipq8074_feat,
-diff --git a/drivers/thermal/qcom/tsens.c b/drivers/thermal/qcom/tsens.c
-index b5ec70201e2f..9ba6b3c4c133 100644
---- a/drivers/thermal/qcom/tsens.c
-+++ b/drivers/thermal/qcom/tsens.c
-@@ -71,6 +71,167 @@ char *qfprom_read(struct device *dev, const char *cname)
- 	return ret;
- }
+ 		sdhc_1: mmc@7c4000 {
+@@ -5782,6 +5794,8 @@ tsens0: thermal-sensor@c263000 {
+ 			compatible = "qcom,sc7280-tsens","qcom,tsens-v2";
+ 			reg = <0 0x0c263000 0 0x1ff>, /* TM */
+ 				<0 0x0c222000 0 0x1ff>; /* SROT */
++			nvmem-cells = <&jtag_id>, <&feat_id>;
++			nvmem-cell-names = "jtag-id", "feat-id";
+ 			#qcom,sensors = <15>;
+ 			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>;
+@@ -5793,6 +5807,8 @@ tsens1: thermal-sensor@c265000 {
+ 			compatible = "qcom,sc7280-tsens","qcom,tsens-v2";
+ 			reg = <0 0x0c265000 0 0x1ff>, /* TM */
+ 				<0 0x0c223000 0 0x1ff>; /* SROT */
++			nvmem-cells = <&jtag_id>, <&feat_id>;
++			nvmem-cell-names = "jtag-id", "feat-id";
+ 			#qcom,sensors = <12>;
+ 			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>;
+@@ -7136,7 +7152,8 @@ cpu0_alert0: trip-point0 {
+ 				};
  
-+/*
-+ * Hardware-bin fuse support
-+ *
-+ * Each SoC that needs trip-point filtering based on fuse values provides a
-+ * struct tsens_hw_bin_desc in its tsens_plat_data.  The descriptor names the
-+ * nvmem cells to read and supplies a compute_hw_version() callback that
-+ * converts the raw fuse values into the hw-version bitfields consumed by the
-+ * thermal OF parser.
-+ */
-+
-+static int tsens_compute_hw_version_qcm6490(struct device *dev,
-+					    const u32 *fuse, unsigned int nfuse,
-+					    u32 *hw, unsigned int *count)
-+{
-+	u32 tsens_jtag;
-+	u8 tsens_feat_id;
-+	bool elevate_trip;
-+
-+	/* Hardware-bin values for thermal-hw-bin matching in DT. */
-+	const u32 hw_bin_std = 0x1;
-+	const u32 hw_bin_elevated = 0x2;
-+
-+	/* Higher thermal profile identification for qcm6490/sc7280 bins. */
-+	const u32 tsens_chip_id0 = 0x197;
-+	const u32 tsens_chip_id1 = 0x198;
-+	const u32 tsens_chip_id2 = 0x20e;
-+	const u32 tsens_chip_id3 = 0x20f;
-+	const u8 tsens_feat_id2 = 0x2;
-+	const u8 tsens_feat_id3 = 0x3;
-+	const u8 tsens_feat_id4 = 0x4;
-+
-+	if (nfuse < 2)
-+		return -EINVAL;
-+
-+	tsens_jtag = fuse[0] & GENMASK(19, 0);
-+	tsens_feat_id = fuse[1] & GENMASK(7, 0);
-+
-+	elevate_trip =
-+		(tsens_jtag == tsens_chip_id0 && tsens_feat_id == tsens_feat_id3) ||
-+		(tsens_jtag == tsens_chip_id1 && tsens_feat_id == tsens_feat_id4) ||
-+		(tsens_jtag == tsens_chip_id2 && tsens_feat_id == tsens_feat_id3) ||
-+		(tsens_jtag == tsens_chip_id3 && tsens_feat_id == tsens_feat_id2);
-+
-+	hw[0] = elevate_trip ? hw_bin_elevated : hw_bin_std;
-+	*count = 1;
-+
-+	dev_dbg(dev,
-+		"qcm6490 hw-bin from jtag-id=0x%x feat-id=0x%x => 0x%x\n",
-+		tsens_jtag, tsens_feat_id, hw[0]);
-+
-+	return 0;
-+}
-+
-+static int tsens_compute_hw_version_i_temp(struct device *dev,
-+					   const u32 *fuse, unsigned int nfuse,
-+					   u32 *hw, unsigned int *count)
-+{
-+	if (nfuse < 1)
-+		return -EINVAL;
-+
-+	/* Single bit: set bit 1 for high-temp bin, bit 0 for standard bin */
-+	hw[0]  = (fuse[0] & BIT(0)) ? 0x2u : 0x1u;
-+	*count = 1;
-+
-+	dev_dbg(dev, "i-temp hw-bin from i-temp=0x%x => 0x%x\n",
-+		fuse[0], hw[0]);
-+
-+	return 0;
-+}
-+
-+static const char * const tsens_cells_qcm6490[] = { "jtag-id", "feat-id" };
-+static const char * const tsens_cells_i_temp[]  = { "i-temp" };
-+
-+const struct tsens_hw_bin_desc tsens_hw_bin_desc_qcm6490 = {
-+	.cell_names         = tsens_cells_qcm6490,
-+	.ncells             = ARRAY_SIZE(tsens_cells_qcm6490),
-+	.compute_hw_version = tsens_compute_hw_version_qcm6490,
-+};
-+
-+const struct tsens_hw_bin_desc tsens_hw_bin_desc_i_temp = {
-+	.cell_names         = tsens_cells_i_temp,
-+	.ncells             = ARRAY_SIZE(tsens_cells_i_temp),
-+	.compute_hw_version = tsens_compute_hw_version_i_temp,
-+};
-+
-+/**
-+ * tsens_populate_hw_bin_info - read fuse cells and populate priv->hw_bin_info
-+ * @priv: tsens private data
-+ * @data: platform data containing the optional hw_bin_desc pointer
-+ *
-+ * If data->hw_bin_desc is NULL, this is a no-op and returns 0.  Otherwise,
-+ * reads the nvmem cells named in hw_bin_desc->cell_names, calls the
-+ * compute_hw_version() callback, and stores the result in priv->hw_bin_info
-+ * for later use by tsens_register().
-+ *
-+ * Return: 0 on success, negative errno on failure.
-+ */
-+static int tsens_populate_hw_bin_info(struct tsens_priv *priv,
-+				      const struct tsens_plat_data *data)
-+{
-+	const struct tsens_hw_bin_desc *desc;
-+	u32 fuse_vals[TSENS_HW_BIN_MAX_CELLS];
-+	u32 hw_versions[THERMAL_HW_BIN_MAX_LEVELS] = { 0 };
-+	unsigned int hw_count = 0;
-+	int i, ret;
-+
-+	if (!data->hw_bin_desc)
-+		return 0;
-+
-+	desc = data->hw_bin_desc;
-+
-+	if (!desc->ncells || desc->ncells > TSENS_HW_BIN_MAX_CELLS) {
-+		dev_err(priv->dev, "hw_bin_desc ncells %u out of range\n",
-+			desc->ncells);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < (int)desc->ncells; i++) {
-+		ret = nvmem_cell_read_variable_le_u32(priv->dev,
-+						      desc->cell_names[i],
-+						      &fuse_vals[i]);
-+		if (ret < 0) {
-+			dev_err(priv->dev,
-+				"failed to read nvmem cell '%s': %d\n",
-+				desc->cell_names[i], ret);
-+			return ret;
-+		}
-+	}
-+
-+	ret = desc->compute_hw_version(priv->dev, fuse_vals, desc->ncells,
-+				       hw_versions, &hw_count);
-+	if (ret) {
-+		dev_err(priv->dev, "compute_hw_version failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	if (!hw_count || hw_count > THERMAL_HW_BIN_MAX_LEVELS) {
-+		dev_err(priv->dev,
-+			"compute_hw_version returned invalid hw_count %u\n",
-+			hw_count);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Store a copy of the hw-version array in priv->hw_bin_info so
-+	 * tsens_register() can pass it to the thermal OF parser while trips are
-+	 * parsed.
-+	 *
-+	 * Use devm_kmemdup so the copy is freed when the device is unbound.
-+	 */
-+	priv->hw_bin_info.supported_hw_bin = devm_kmemdup(priv->dev, hw_versions,
-+							  hw_count * sizeof(u32),
-+							  GFP_KERNEL);
-+	if (!priv->hw_bin_info.supported_hw_bin)
-+		return -ENOMEM;
-+
-+	priv->hw_bin_info.supported_hw_bin_count = hw_count;
-+
-+	return 0;
-+}
-+
- int tsens_read_calibration(struct tsens_priv *priv, int shift, u32 *p1, u32 *p2, bool backup)
- {
- 	u32 mode;
-@@ -1206,6 +1367,12 @@ static const struct of_device_id tsens_table[] = {
- 	}, {
- 		.compatible = "qcom,msm8996-tsens",
- 		.data = &data_8996,
-+	}, {
-+		.compatible = "qcom,qcm6490-tsens",
-+		.data = &data_sc7280,
-+	}, {
-+		.compatible = "qcom,sc7280-tsens",
-+		.data = &data_sc7280,
- 	}, {
- 		.compatible = "qcom,tsens-v1",
- 		.data = &data_tsens_v1,
-@@ -1218,6 +1385,9 @@ static const struct of_device_id tsens_table[] = {
- 	}, {
- 		.compatible = "qcom,sa8255p-tsens",
- 		.data = &data_automotive_v2,
-+	}, {
-+		.compatible = "qcom,x1e80100-tsens",
-+		.data = &data_x1e80100,
- 	},
- 	{}
- };
-@@ -1327,12 +1497,18 @@ static int tsens_register(struct tsens_priv *priv)
- {
- 	int i, ret;
- 	struct thermal_zone_device *tzd;
-+	const struct thermal_hw_bin_info *bin_info;
-+
-+	bin_info = priv->hw_bin_info.supported_hw_bin_count ?
-+		   &priv->hw_bin_info : NULL;
+ 				cpu0_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7179,7 +7196,8 @@ cpu1_alert0: trip-point0 {
+ 				};
  
- 	for (i = 0;  i < priv->num_sensors; i++) {
- 		priv->sensor[i].priv = priv;
--		tzd = devm_thermal_of_zone_register(priv->dev, priv->sensor[i].hw_id,
--						    &priv->sensor[i],
--						    &tsens_of_ops);
-+		tzd = devm_thermal_of_zone_register_with_bin(priv->dev,
-+							     priv->sensor[i].hw_id,
-+							     &priv->sensor[i],
-+							     &tsens_of_ops,
-+							     bin_info);
- 		if (IS_ERR(tzd))
- 			continue;
- 		priv->sensor[i].tzd = tzd;
-@@ -1425,6 +1601,14 @@ static int tsens_probe(struct platform_device *pdev)
- 	priv->feat = data->feat;
- 	priv->fields = data->fields;
+ 				cpu1_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7222,7 +7240,8 @@ cpu2_alert0: trip-point0 {
+ 				};
  
-+	ret = tsens_populate_hw_bin_info(priv, data);
-+	if (ret == -EPROBE_DEFER)
-+		return ret;
-+	if (ret)
-+		dev_warn(&pdev->dev,
-+			 "thermal-bin failed to read FUSE data (%d): trips with temperature-bin will use first entry\n",
-+			 ret);
-+
- 	platform_set_drvdata(pdev, priv);
+ 				cpu2_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7265,7 +7284,8 @@ cpu3_alert0: trip-point0 {
+ 				};
  
- 	device_init_wakeup(dev, !data->no_irq_wake);
-diff --git a/drivers/thermal/qcom/tsens.h b/drivers/thermal/qcom/tsens.h
-index e8376accdff3..1ebdc6935b79 100644
---- a/drivers/thermal/qcom/tsens.h
-+++ b/drivers/thermal/qcom/tsens.h
-@@ -40,6 +40,29 @@ enum tsens_ver {
- 	VER_2_X_NO_RPM,
- };
+ 				cpu3_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7308,7 +7328,8 @@ cpu4_alert0: trip-point0 {
+ 				};
  
-+/**
-+ * struct tsens_hw_bin_desc - per-SoC descriptor for hardware-bin fuse reading
-+ * @cell_names: NULL-terminated array of nvmem cell names to read
-+ * @ncells:     number of entries in @cell_names
-+ * @compute_hw_version: callback that converts raw fuse values to hw-version
-+ *                      bitfields for thermal OF trip filtering
-+ *
-+ * Embed a pointer to this struct in tsens_plat_data.hw_bin_desc to enable
-+ * hardware-bin trip filtering for a given SoC.  Set to NULL to disable.
-+ */
-+struct tsens_hw_bin_desc {
-+	const char * const	*cell_names;
-+	unsigned int		 ncells;
-+	int (*compute_hw_version)(struct device *dev,
-+				  const u32 *fuse, unsigned int nfuse,
-+				  u32 *hw, unsigned int *count);
-+};
-+
-+#define TSENS_HW_BIN_MAX_CELLS	8
-+
-+extern const struct tsens_hw_bin_desc tsens_hw_bin_desc_qcm6490;
-+extern const struct tsens_hw_bin_desc tsens_hw_bin_desc_i_temp;
-+
- enum tsens_irq_type {
- 	LOWER,
- 	UPPER,
-@@ -533,6 +556,7 @@ struct tsens_features {
-  * @feat: features of the IP
-  * @fields: bitfield locations
-  * @no_irq_wake: if set, TSENS interrupts will not be configured as wakeup sources
-+ * @hw_bin_desc: optional hardware-bin fuse descriptor for trip filtering
-  */
- struct tsens_plat_data {
- 	const u32		num_sensors;
-@@ -541,6 +565,7 @@ struct tsens_plat_data {
- 	struct tsens_features	*feat;
- 	const struct reg_field		*fields;
- 	bool		no_irq_wake;
-+	const struct tsens_hw_bin_desc	*hw_bin_desc;
- };
+ 				cpu4_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7351,7 +7372,8 @@ cpu5_alert0: trip-point0 {
+ 				};
  
- /**
-@@ -568,6 +593,7 @@ struct tsens_context {
-  * @feat: features of the IP
-  * @fields: bitfield locations
-  * @ops: pointer to list of callbacks supported by this device
-+ * @hw_bin_info: hardware binning info read from SoC fuse (populated at probe)
-  * @debug_root: pointer to debugfs dentry for all tsens
-  * @debug: pointer to debugfs dentry for tsens controller
-  * @uplow_irq: IRQ number for uplow (upper/lower) threshold interrupts
-@@ -591,6 +617,8 @@ struct tsens_priv {
- 	const struct reg_field		*fields;
- 	const struct tsens_ops		*ops;
+ 				cpu5_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7394,7 +7416,8 @@ cpu6_alert0: trip-point0 {
+ 				};
  
-+	struct thermal_hw_bin_info		 hw_bin_info;
-+
- 	struct dentry			*debug_root;
- 	struct dentry			*debug;
+ 				cpu6_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7437,7 +7460,8 @@ cpu7_alert0: trip-point0 {
+ 				};
  
-@@ -677,6 +705,7 @@ extern const struct tsens_plat_data data_ipq5018;
- /* TSENS v2 targets */
- extern struct tsens_plat_data data_8996, data_ipq8074, data_tsens_v2;
- extern const struct tsens_plat_data data_ipq5332, data_ipq5424;
-+extern const struct tsens_plat_data data_x1e80100, data_sc7280;
+ 				cpu7_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7480,7 +7504,8 @@ cpu8_alert0: trip-point0 {
+ 				};
  
- /* TSENS automotive targets */
- extern struct tsens_plat_data data_automotive_v2;
+ 				cpu8_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7523,7 +7548,8 @@ cpu9_alert0: trip-point0 {
+ 				};
+ 
+ 				cpu9_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7566,7 +7592,8 @@ cpu10_alert0: trip-point0 {
+ 				};
+ 
+ 				cpu10_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7609,7 +7636,8 @@ cpu11_alert0: trip-point0 {
+ 				};
+ 
+ 				cpu11_alert1: trip-point1 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7724,7 +7752,8 @@ gpuss0-thermal {
+ 
+ 			trips {
+ 				gpuss0_alert0: trip-point0 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
+@@ -7751,7 +7780,8 @@ gpuss1-thermal {
+ 
+ 			trips {
+ 				gpuss1_alert0: trip-point0 {
+-					temperature = <95000>;
++					temperature-bin = <95000>, <105000>;
++					thermal-hw-bin = <0x1>, <0x2>;
+ 					hysteresis = <2000>;
+ 					type = "passive";
+ 				};
 
 -- 
 2.34.1
