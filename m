@@ -1,55 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793443813;
-	b=yCTy6MwuOJoc18DIdAU6ZDO494nDeQf96p015V44/Wnch0ljGWwS336YOVsc5ngMju8e
-	 RTTdxRtgDKSdDxtCX+v3Ad5L+wt1om3ZlSibO/cZru7IvjE2LHgY1lqLavAJLsHQKpoeI
-	 6wufqdeqrCRDiEZeYOj2vzAvBCd3lmY2R3WWWcCH+5KjDxvlV8q/VNP2cc24dOtaYG6tY
-	 mchTZpNJSNr4Vr/FxH73xdmjpXwL0icltcPr+MMW8ugLjSOH9A5TvzV9m2E3a1wT52ZD/
-	 mpPz1bKcfJ6Dy5rxhJesXf613dVT0CkulmEqTvicFFN5fsBkmSGfTKW/7h0OVMs2e7A==
+	t=1793445050;
+	b=SGey916IopYeFqsvuE8XbsvO0135BWJU8HiUqLnPO2IhM0m2y864FHTgYCfrlCxC5mAk
+	 3UedB+kZ9fKdZKwoW9aop9fkFTDe1b0oigz2xG5WI9lAQTDIAFRa5CH2GTxJR5/4OM8C6
+	 7URXvtgC9vkyXMJ8I1GmhLDzTfekV1mFgQi2C2W6jg+5anJWkdBuyTD28Ce/0yMISRwk3
+	 Z6T+ya9rFm9kbUoEe7zfa3yDobbrrpZfr5aT7akSurB8YpysxRK/DiE5Q8sMKzNdP0fqJ
+	 g7gfa1/PzAq8Ien87LYxy7W/qs3aC6lJOhiO1jmBlsyS/weFk5Pey2BVZeLGeP1x3Rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793443813;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
-	bh=wfW2viipMB+TYAZ+Y4DJ13i/34AHklnHI0K1OUw0+KM=;
-	b=F+HXNFOsp+1flRKHWk+pzSffASFIBMWJvI4H8zasjmyIrzGArP5li7ACtaRQ/GxgvrZS
-	 ADjV+C58h/gS70maJDMadpHV+gsnJgIUSiCtBSqf7pnuC93f+8o96+OVkHcK+oxL0sZW6
-	 D7SskXTx+bNwdvYzQAaw7YXusqnSJXdnOM/SqLaK+KU9hxKYFCXnBzEyi20o1TJIP2FmT
-	 UPHuSLnN5Ybfn5qN5uDMxCSySmElHD1jR8nbbsM1dlh6eG9Q5Uvul97zKbu7o3ETyELpb
-	 VZsqvg8k5k1qH46CC03zF3qqlzRNlICHijtEySsYKT0lW5n3qsM9CbfFcPETYpLbc9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793445050;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=8/DEyBWZeNjbIYVLMYEXjqZxeouD7j/CxCTXFjXVFWE=;
+	b=iLc3DxqAZX3v4lmABltnvB9n7WLeUsOhZzxbmONcv0mz0FctzNgmbwt8zJzTxoqGBJ6V
+	 ExWHl7mDqqhTKOdFeRyYOIQY05NMk72hz4gxpQtpwCZ7PN/G1l6UvzMhvB548xQ2iuOCP
+	 T2C7tubuoEZlXcQfNMeRjs51S1WfEt2yzWy529gA58MIjSBPiUCTyfPaX10EiEpGhBI8B
+	 +cEgnw2c77aVfv8rH7bCtEZlhUB5ofrRD4GMFUH+9VoLx4dj11DW73m4qxgR9Js3a7SGB
+	 g2FvQuwVCgbm5rrfmyIumbTFfcKGQR/8DOpavy4V0fssQNf2LA7gF/+z+M2X1m0BtWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=jdJxIjJ3;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nlvriD47;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F81C606A31D;
-	Sat, 31 Oct 2026 10:50:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F81C606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AA8606A31A
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 11:10:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72AA8606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=jdJxIjJ3
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B9D9D1A13F2;
-	Sat, 31 Oct 2026 10:50:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A10C6076B;
-	Sat, 31 Oct 2026 10:50:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1C9410328D83;
-	Sat, 31 Oct 2026 11:49:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793443803; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wfW2viipMB+TYAZ+Y4DJ13i/34AHklnHI0K1OUw0+KM=;
-	b=jdJxIjJ3ChsL6d8hPAAPLvEecTqPISyKSGZRNxVtOxAwke8yKEgptsX4zZFKhMRL9hdxOw
-	BfK+XfFcbLUgMPqReS3H5MRyf2rvpoxSGy7ZozjCFRFAB/63KAsQK86vaIIXuO4Bwysabu
-	tj/Kgdyqa6XTfdrkGoYypbDhxnJQ0JnOhRvFVGJoWpyincax4aThygQbABx52TtBKB26Kp
-	1EtoW4BbWsFv0Kd58ffGuzr7DzUy/o5tVHMGGqcG2HxifVJgMrieCogibzySGKJnJD7kEW
-	5nPDyJUmtSOatVCdoMD9KOU7CMA5bx3Q7q44WxILZpLDr/XTKaPUjBBiiotsSw==
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nlvriD47
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a7992e2f7dso16390285e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 04:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793445049; x=1794049849; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8/DEyBWZeNjbIYVLMYEXjqZxeouD7j/CxCTXFjXVFWE=;
+        b=nlvriD47siSUj/pHhAZKx+QLV5KHM/oCUhB2Z72IcmRKuDh3jiEue41W2bEqqDFxx/
+         epSfCs0ji+w96+RHDverYdlufb2BeD51SHb8d3aVAf+bP+sHMqHpLrleLcr8XhEat+Nm
+         VvdLIP08AZAu/HYXHTlVeHrk2AaqHs9omZ+vtzdVJZTnqNPbFwfOqYWohu0mLNHzx5kJ
+         UjaZlR+pqvdN6OFKp6OtIFKhTA/nOquQtmw59tEofdPcG/4gvVN33faezMupVGz9Vq6b
+         7noxXbyB6tLXWzdp8rBQ+Uvzirz/0qTMpQojvrDhungxg0breARLZraCM2bJ7BqfbDNO
+         f57Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793445049; x=1794049849;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8/DEyBWZeNjbIYVLMYEXjqZxeouD7j/CxCTXFjXVFWE=;
+        b=dZ/YJOgj2ugb4X6/QERITKrc+JsOlXCqdRmQIWK9+HLntY5ij8RGtoMud2EKZs/4tc
+         46Rolw0A1L2s+Ug9cexQlwFmYa8V0h1SNNKRq7OYhv0Nh6TduAMqhwpvFGXhn8Cc11Bh
+         YmMlXQqnhEh2ho9oF8beXaPebAFG+G2xa2L5nqoT8pUEN68ETMoACwyDHiNVqmOUy20d
+         J4WE4AqNotakYacS0DMgXsMBP/ATIOEUVJHUCGwuD5RD33N6oQx/p9/s3K32P2bt577c
+         WOdYzhs2pf/K/7be4lxXoNWNp9q1oKU8uWRfIbdi0FwM6LGML26E+Fdfd32enpX7mH6N
+         4nXA==
+X-Forwarded-Encrypted: i=1; AKwUvBzVwVXUaSgpoqtbWnNlsJKAQZyhwJJlByGmOeiMZlEQEfrJrcunhQG1lTPNlHzl13ROZ6Yh9j/qDeU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKY6c1Z7saoEa/cFPadgHoIoRaeobeLbvs6vT1XVv6ykGnHjGrQ
+	DU2m07bgiw5TEINIe0XEjTVLXrqcFDJVLFwZj/sqATNAJkFjcCxf9KKT
+X-Gm-Gg: AYBFou0w2OOm5BVdY+GxTDFXLXm/d0swRPwGum8d7y4/7vemgqCOKCtJvLsq/xXFL/j
+	XwAAGjVwT60eL+1tIRGSq+cXJ6HY7ajpF6X2U1Hqt+ZtTwnA/bHrV7B1b6Y1BsCNSGyFrQvJdVR
+	5+s3wESk6tFLngXd+VW3M+M471ftbjOp3CF5OJp3bi91lWcNHsknhfCjDO9iQCijc6iDMrL8bil
+	L+73NO2GB/B2H7HUy4rKkFHsxozVshcToV0eTM6Kx2uif106P0pgdhxRv3ViTz//j0LgXOxIjR5
+	kpLP5u44Znq/DrfZrdte2t/7SRczNbi47rw476CDw4brJQsXjW+OzAEBwgiIfN8M1MN4hoMdJbz
+	+bX/IDCkbSCjGGH9Yyn92uyByZ17YdK934gGuh1U2tJRbYEP1j6XQuuuHO5xqUKQ+7sWKuse9yA
+	olEkd8jRVEok4Su0pt/qB4W1hY+5O5kVeV3RsMs/ACc0lR5f0Kmp0oNVazFEBv3gaiRSYmDX+JG
+	SsFyP9c9pfovfoLxzulhQ7J9bzT2AMd+g4CYwephQtuWjRodHxUSHg4NLlzpENlXZcUo8bhjVGE
+	BP+3nYjtrELKGCKqyjcO0SspCP6f8njzi1jojrEMobNhGWZI5+/4GqhZHThAZm+h962M/+0ApqJ
+	lkn+aq5S1UuTAs2kwzK5JB4JpGzlsodq1FCjG7bdrR9ZW5HsEIp5ur5jx2Xd4StQPcJVgNbmOy1
+	QbQpAkZb3SavoC+stmfe/qVeYjFLPU
+X-Received: by 2002:a05:600c:198c:b0:4a2:5ca:767f with SMTP id 5b1f17b1804b1-4ac151a9a36mr117500995e9.4.1793445048512;
+        Sat, 31 Oct 2026 04:10:48 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a81d-e001-9c9b-db33-f166-0fda.310.pool.telefonica.de. [2a02:3100:a81d:e001:9c9b:db33:f166:fda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf67aa704sm117315545e9.8.2026.10.31.04.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 04:10:47 -0700 (PDT)
+Date: Sat, 31 Oct 2026 12:10:45 +0100
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Hongyan Xia <hongyan.xia@transsion.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v2 03/13] sched: Split preempt-count bookkeeping from
+ raw updates
+Message-ID: <auXLfz6mFh_uOvRr@gmail.com>
+References: <20261028033127.82193-1-kmehltretter@gmail.com>
+ <20261028033127.82193-4-kmehltretter@gmail.com>
+ <20261029093219.GH1779021@noisy.programming.kicks-ass.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,122 +115,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 16/35] drm/exynos: dpi: set the panel orientation on
- the connector
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, 
- Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Igor Reznichenko <igor@reznichenko.net>, Michael Walle <mwalle@kernel.org>, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
- Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, 
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
- Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Michael Tretter <m.tretter@pengutronix.de>, 
- Cristian Cozzolino <cristian_ci@protonmail.com>, 
- Junjie Cao <junjie.cao@linux.dev>, Ryan Brue <ryanbrue.dev@gmail.com>, 
- Nickolay Goppen <setotau@mainlining.org>, 
- Stefan Mavrodiev <stefan@olimex.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Robert Chiras <robert.chiras@nxp.com>, 
- Alexander Koskovich <akoskovich@pm.me>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Artur Weber <aweber.kernel@gmail.com>, David Heidelberg <david@ixit.cz>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
-In-Reply-To: <20261026-drm-panel-funcs-v1-16-5e3070a3478f@oss.qualcomm.com>
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-16-5e3070a3478f@oss.qualcomm.com>
-Date: Sat, 31 Oct 2026 11:48:44 +0100
-Message-Id: <179344372468.9825.13949889516138830334.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029093219.GH1779021@noisy.programming.kicks-ass.net>
 
-> The panel is used directly, without the panel bridge, so nothing sets
-> its orientation on the connector apart from the workaround in the
-> get_modes() of some panel drivers, which runs too late.
->
-> Assisted-by: LLM
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> index 74d3a2bebb74..05014c2e7d92 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> @@ -109,6 +109,7 @@ static int exynos_dpi_create_connector(struct drm_encoder *encoder)
->  	}
->
->  	drm_connector_helper_add(connector, &exynos_dpi_connector_helper_funcs);
-> +	drm_connector_set_orientation_from_panel(connector, ctx->panel);
+On Thu, Oct 29, 2026 at 10:32:19AM +0100, Peter Zijlstra wrote:
+> Urgh, so much crazy.
+> 
+> So WARNs in noinstr code are 'fine'. That is, they should not happen, if
+> they do, bad things have happened and we need the warning out ASAP, if
+> it takes the machine down, too bad. See the
+> instrumentation_{begin,end}() markers in x86 asm/bug.h.
+> 
+> But yes, the tracing needs to go. But moving that around should not be
+> this ugly and also, that will give you the opportunity to fix
+> preempt_{en,dis}able_notrace(), since they currently also skip the bound
+> checks.
 
-Patches 15-21 are quite inconsistent in terms of error checking:
+Yes, that's a good direction.
 
- * some don't check for errors (like this one)
- * some do and return silently on error
- * some do and log an error before returning
+I checked the call chain and DEBUG_LOCKS_WARN_ON() is already fine in
+noinstr. arm64 just needs __always_inline on preempt_count() and
+should_resched() so Clang doesn't outline them.
 
-I don't see a good reason, so I'd make them all log and return on error.
+I will work on that.
 
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Thanks,
+Karl
