@@ -1,113 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793453000;
-	b=hUoSLGBlGQyJEdhdZXSVNaHhWq9G64Dty1i+oQgN8YplSGK07UTh3GaVYsQy773LRhfz
-	 0+HT0Ue8jeSN50i8qocyUF++uDPMbHgH3RybUDuaQQtQWhIpTuYP9l45qT8BwNfo9bfvD
-	 xLV6Zyo3FJ2h+T2o+aauFxlAdttdKcu7KnFp22/NTPnehBs12/MGB92c7H8YHpa2ymSHJ
-	 f8wPX4UEW1xjkaBLXITXAxIFxAgl5D2HSiwb45EmhViIs02DPVs7epmgPrDG2yJrxTo5l
-	 xCMyHDtUx+FJlW3t5GCHJBoa0CXZe13dP4H/4TmUVzwEfd8HMFhjDMgJPOOohohh1FA==
+	t=1793453008;
+	b=dgJOnZrFx4FoPYGp5yOYTo3LY2Jql6inmwCNITrAjE5YI92tQAMbwnLdTYPysSS77KP9
+	 5dDrNqL/Kl/awTAHDWHATnzxJaGQ+/23TlFD31IbPm+UihDQFk5HF0dpuZ43koIdcvfPp
+	 0Gtd2/XvPNTBlZAoGnjkGAOtO9+5qYbFjmyU7LdL9WCz1NCsbiwULcOChXWn09BcPe5S8
+	 eEqBPCoOEutCIz+jIAmuc/FNk+zx562CVfUAwifvRSLF1U0uuMe/g/PoTmybxTJGE+yCY
+	 JSbouPI3dPs76UN8ML64+d52NSOGtNjK95SkqBjycLOzIL/Gb7jUC7N0MeP9lM4CdKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793453000;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793453008;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
 	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
-	b=1pADqTQxZKSLSS6Z9fk2xSfctvLikMX5rkjUw0tfpPq/+g/8uHp7BwXe1pv9lXuNupiH
-	 TFMi662QoNuXQHGyKM6hkaX59U5WoNy+ToLHKwmG7cX3ctKmWju8Zc7LaHtSwktUjsGjT
-	 bBeRn+uFBvcAITKzGviPn6loLciO0iUDDFgyMN+CWquYeo9sDM0HPnCQVlfMYjphvoWo+
-	 4r7nGRcO0D+hthjpLXFEOgcS8SdIHcQgS54uWa4Vscl1r/rTsjB1EQzFqjGCk6HFeTuf6
-	 AyGv+ZMuwz0G8Z6qVyX+Ne+fRpSh66tqI6nEz0bxgOkDxwhj0Di/GJiFA0c+2b/HbEg==
+	bh=FTlxMjnJ9grJ39wAfylJUBTJSfWzAKcVIkKO9D0XngI=;
+	b=Q8DkjkiW3WIo3MRyIVlxIdNfB1BiG4mPFHun49L/U05C+PaGrWDYsZgdfGZwC6dspgi1
+	 /f2DTJLjuI6Rib54CabF7tq78y9vxgdEkyBT+/WmVtdBV+YAXn8HnfADUUZ0aBO/dC3lz
+	 /dip9aK99kOFW38uc0HNmz95bdQx/ergMAAOHCVTNeSEBGhIwZWWX7+udX+jUKAMC1rU0
+	 nRGXzcjRvH9Ec9A9PGr+N+9UpXrMyDPchQklLiipJqiq3iSN4ttTOXqdmV/JnGLShnbdr
+	 8U7MtSgk7F51Jh4m0ydRvtjJpVhOI39ocIxRzsLlzdheYiiJMRcT9uDF/vvTH3KVhvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RNweS2kL;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KUkem9Gc;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SmecC96w;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=CWviRtPl;
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A13606A326
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A13606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D67606A327
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51D67606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RNweS2kL;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KUkem9Gc
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VCxqGs2161133
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:18 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=SmecC96w;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=CWviRtPl
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VD04cO3208646
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=; b=RNweS2kLLiYzRuKf
-	o8AOiskYhmIoQEQeuYb4UX8XSBHuSUYNtE79nqhtW/UhFiWP6H771xIXGjcKVhbm
-	/Bg5CYXbaWctKdA/deZHUEjhxo/gojv/t7Ibnx2sMgg2nSfMZ/PdABFxywKWS2KY
-	bs6kqCr6zMftzT4McsmDekOVb94eXOklpP7JL4Fl477Pf4LxH/3hsDUVsMgcgi5X
-	rmcX43XxJC7gJXvPNRtrxF+oa30+h33WtvCcc1/gzHQu8m8DRikJe0/fOHRHxWGr
-	EHhK+YsegoPVqVx8y0sI5brnC3vRU/8Hku1c798JMSwegLRnS5K50Wk9cXmXDRdm
-	flHozQ==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn8j2s6tr-1
+	FTlxMjnJ9grJ39wAfylJUBTJSfWzAKcVIkKO9D0XngI=; b=SmecC96w0L0TzrAz
+	pJLOlR50EKJ99cTYeP2fJhSGVmWuTzegOZe4oP6rmTOqrN3IiZ4MjXwdHlnGcjsT
+	nclz/ng/jjaBSTyiUezqotKlQ5naaoAZ8Go39/59jAwCmf6VN5W71d6Ojtcle4su
+	g5YWaRFhtpKl7EfCXPR1v6QHk7sLqaDFzokJEh695oKW+SF18fXKqPrP+J2F9T7Z
+	RjJE5vLh9BZSXLQlU5nPHCR+PSJzn9OeW9H3SPVLxsZgAjZPSgxikYADv3BxjavJ
+	tcnP30fTq1Ew9oxyzQuxtmVGlUtMzHDr4KZtty2+aMaI3DhqpBm7QuppT51/Ruwl
+	9q7hSQ==
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn79rsaph-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:18 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso3649602eec.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:18 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:26 +0000 (GMT)
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-16bc6f3fdb1so1638253c88.0
+        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793452998; x=1794057798; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793453006; x=1794057806; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
-        b=KUkem9Gc+v02mhQuczLT4KZ6QWcf2dE48mARWuX/gWDWcl+Ku21ArvXecMouDzANHZ
-         WJlngq3aji0ifUJs0MU8kuPTt3QbESI9ZWmGNbAbFm8ZSWTnRedqg4LbeqlqdTdn9skp
-         WYh6uU8qCbdKvs20EDQVczfNzBPBboxgheUQKgmfmRBZocKSoJiJ+5GRBsL4ojzbSxXE
-         F27MWSOEyRSwe3hh81vbL58utmEL0+sSdYntSBYx9p5MPw/IX1V1jt7kxpf804IhaP5J
-         C7d7AvyPfpOpTetRnalUxtnUtr+wL6LwonVCQmIJYuzNHPILDHt57XurusPCIfglDtLL
-         gEPQ==
+        bh=FTlxMjnJ9grJ39wAfylJUBTJSfWzAKcVIkKO9D0XngI=;
+        b=CWviRtPlNeObYAYNQ62qfd4LAFn4y16AtkOGhecif6H7nqztUFu7+6XTzvnZDpmPmI
+         ASUJ+ov613/llIeP0xsgKbCmLTYJtMaH4db0wtqMP0N1KcopOIcvgEOCy5jaOeXpPvnG
+         X7N6TnWWN1wo1qCpnAAcy34Fdhqj5j2aZ+jBGtyQA5IzRIyICJnncnCxhJzqOMqUImoi
+         zHNJT7P2+mqZFW4gxNMdVc5n7sh0oR5nXDH+snCIv0fOCq1CjULeVtiGLciS4HwOHtF/
+         jPnAJfAvQos8z3GFJ7g4aAThqtcGxp2mfOL/xU1c4gsxoKy3naCb98BHR1FAHBLoqvDF
+         wgdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793452998; x=1794057798;
+        d=1e100.net; s=20260707; t=1793453006; x=1794057806;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
-        b=x7OxOCm2QctECWXa3IadZxLnAPBHIU31ltycLNhub9tgqPxJYaAzO7TIo8BjxIIDML
-         whf1pve8PndK++hUz4W7fwQbeZMvWmODWvybgbn/pwNmCuAKnhJ46Cj+0hw6Ct/cRReX
-         BJehRVe8hP7d/9hNZjOzjd3mPAKmm4IKHqswvn8BVNuJpw7KQdmL4h43H6ZQO+ZC4XVh
-         LagyvoCBEX8ur59xS/QuEQVUZ1B6ip8K7ZIOKf/YzDSY611v+AvTCSMiMD+j7HLgnfia
-         +LOmkKgaOCzv+KOOIOQsSsw2EBXASIUcap8HnRM+Cvuf/V0gUweN0yM2x9cqBgtgwJMl
-         HANg==
-X-Forwarded-Encrypted: i=1; AKwUvBxfX1WMCw8lee5vpWXtfPVvTasB+fQl2YvXgGjfhJAc1WbZBOPSlsL6EUW/tYsS5GxJh+iXdgSDUco=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ1C1OjhjxKZUS1k1bPtR69oQOmzY8i2jEMDNa8APL63sHH981e
-	Dt2KSw0blxHdQ/wszL2PRBqkUqDxdQY/omPr0FE0Ju1SN3dSIgZIsUmt18RTsw9EqpL6vOREds4
-	8DUxJOYbYbNmtSSnjnrK6hX7cuGDHjc2dVZ4Nqa6mwQ1HQ4I1rXjuGZ5OMhqRLQI=
-X-Gm-Gg: AYBFou3dF2AHhcGS9CJ8aLidvVk20Cg3MnAYaAOm8AEs9JT64QNoGxB20k/MKKKw7jy
-	O4LH1ZzMttGBbYUCPpG0DvioKSbBvz7QIqt+mOgiPWt3UdFPWukSoxgI56PFumS/awj6akDWSsc
-	g0lJE6ZBTSkJ4DHHMsvKVgebsL98X7pRXDOLkx1mrm0NqP/lAbdIIOMiwK0mS5hSvbd9m0+Ac1g
-	LC2koUnFRYaO3sn+k1Wj/pZSIqhjJMeh64F53ue4THosEe8fWVe6ez5fYxZaI7mPGUVcYq5lZnU
-	bdGES3GaUAd4st/nQF5CftPguSVVcwQbMMFdeIr27XTuuneNj0LsceDFkz9l+928IjvYTUVbkfE
-	fHBK9ERgS3spSUaVwZjapplG845si+0Py6Jfgto1ecBsXGiY3tMaVjVU9qEEidd4xG667hDiw7z
-	vTh1Q=
-X-Received: by 2002:a05:7022:f507:b0:190:d9bb:281f with SMTP id a92af1059eb24-1ac5e3225aamr6930086c88.18.1793452998024;
-        Sat, 31 Oct 2026 06:23:18 -0700 (PDT)
-X-Received: by 2002:a05:7022:f507:b0:190:d9bb:281f with SMTP id a92af1059eb24-1ac5e3225aamr6930039c88.18.1793452997369;
-        Sat, 31 Oct 2026 06:23:17 -0700 (PDT)
+        bh=FTlxMjnJ9grJ39wAfylJUBTJSfWzAKcVIkKO9D0XngI=;
+        b=yUGcGXkcJ+/CxX3DSXfjMWmFAW1XtySKhdqUhiMSnR6aBpnyzvIh99DRFa6wQNWlqP
+         Jjjl/Buhce10PvpLIXZCTmCv0WtZGSH6KO5VdTvFrrRP8Tbj4HSpRYP+lBr3kWSm1u3g
+         OcpOc76WBQmysHRE8G2OaKBDqsx9FAvZUk6T9jHybejUNAuFxvc3MqFZe+AlHx1CJPcw
+         dfNieGOB/0cEfGHkJglFSoQg4MH1VZZPFcEQi13hSDwj7x/Zqe0TU4Rzz8IaNqWhnz1w
+         cf/OPhPjcbAs/nxvQSf43j7SetTe0fxxG18zHN9FbjFE0h03kbN5Y23JdfiQeIxQWpKT
+         ns4w==
+X-Forwarded-Encrypted: i=1; AKwUvBwylSjrl9SxW1svHoiWDJfZEPOfhaGxbFQvGcmBDgKWii01gqShXYLmWSxIwZ7SuigiqX9AQmxrgqo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIkyvUUP64Lv3AfqvJRlHfEnbnO1/lNSAhivkdYM5UfcVKIBqhv
+	/oZtdZxCI2agRqblTLu0JxDAunFZGXDpraEoGAZ2yDzf0mH+RAh5S1v/jK1gpittYs4UN6HpQTe
+	aO8xy0WmnsAmRAvvg64OncBcC2Iq1W+AqBpp18uE/Z5S9kfBuKT/xNf4bYIJNA9c=
+X-Gm-Gg: AYBFou3EzUo4kI4x3Qpbf0Jty2Ui8GWgjCicIFAFRLHD9mjErb42JMnOjZEAPf55RVE
+	fGdsvAZX/qUOzzEag4PBxRQdsZQbRr+a2HPJpSySOBa/yz00KJA6XgXydVJ4HAjk1MsuKsS7hhK
+	vtkWNkmha/Rnb3kNVXm4eSQqFPSQTBnAQtb4+IpYyLmWJuyr2uWxl4lcp7gMv9zRp5S42alsxnY
+	KoLT+pjuKXhq3FSGC2rz2KLjFqICkOV6EoTKV3XiXsF/jj9pSYrewUcc8IEvHxJE10m686B70wQ
+	JteTB+EZ5mBBn4y6jypNO73pU5/D+3Lo9pv41sv5dK3lSHftNysvG1zI2gzPVPTLS9keU02EWwt
+	zGYJyC7Y9fCA3W09ZQnTUua5xORivw+ooqKbJAZC5dV+2SmKiY1YDpfJT5GY0ylholx9I04luoU
+	53RCE=
+X-Received: by 2002:a05:7022:92b:b0:19a:8e3e:530e with SMTP id a92af1059eb24-1ac5bda7dd8mr9418559c88.8.1793453005347;
+        Sat, 31 Oct 2026 06:23:25 -0700 (PDT)
+X-Received: by 2002:a05:7022:92b:b0:19a:8e3e:530e with SMTP id a92af1059eb24-1ac5bda7dd8mr9418473c88.8.1793453004461;
+        Sat, 31 Oct 2026 06:23:24 -0700 (PDT)
 Received: from hu-gkohli-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.10
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:23:17 -0700 (PDT)
+        Sat, 31 Oct 2026 06:23:24 -0700 (PDT)
 From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Date: Sat, 31 Oct 2026 18:52:47 +0530
-Subject: [PATCH v2 1/6] dt-bindings: thermal: thermal-zones: add
- hardware-binning trip properties
+Date: Sat, 31 Oct 2026 18:52:48 +0530
+Subject: [PATCH v2 2/6] thermal: add hardware-binning trip-point filtering
+ support
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261031-thermal_bin-v2-1-d76fd073ae98@oss.qualcomm.com>
+Message-Id: <20261031-thermal_bin-v2-2-d76fd073ae98@oss.qualcomm.com>
 References: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
 In-Reply-To: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -140,38 +140,38 @@ Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
         Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
         Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=4695;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=21634;
  i=gaurav.kohli@oss.qualcomm.com; s=20260302; h=from:subject:message-id;
- bh=ncFZPtnOUeeKhOPBeq8g6g1+nKJHU1t/0jL31m8J8Cc=;
- b=Tm+Ia+SgoeDa5fXtBbi5k9T80BKfPWtqz/KtX4cC0D1IO54QiUL7nDXJbvoVFK+i6miQ3IKAZ
- 7TfNxEHrpxNDP2eKFgG7ZOW0akgtPOifXwZsuyY9l6FyKg9q021MnO8
+ bh=4GQMlt3kN0303+k4mKsOBx3Wa61YwirAee/NxKihTqo=;
+ b=5hd6IIdnkIP36ukojRAcM9u1nWuJ2d6WHjkGvbEFWiOphqy0LLRr7ZCLMsx+e7AMKTWyAoZPW
+ dhdJEthPr6hBWLU6bLr4rITuZxbzLU2ZMLUXVom9gwPrtC/EZJEGHRX
 X-Developer-Key: i=gaurav.kohli@oss.qualcomm.com; a=ed25519;
  pk=IdNsqe8rWsF6dbpGHfwPEH9zM0nbOdRH72HxUT9qPak=
-X-Proofpoint-GUID: 0RqN1ko4-CzNSCVpPTQ8X_nbF81Qjg6T
-X-Proofpoint-ORIG-GUID: 0RqN1ko4-CzNSCVpPTQ8X_nbF81Qjg6T
-X-Authority-Analysis: v=2.4 cv=S5RMU4sP c=1 sm=1 tr=0 ts=6ae5ebc6 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-ORIG-GUID: nXceRwazoMLY9KoMymWvObd0hHDUos99
+X-Authority-Analysis: v=2.4 cv=Wtq+otfv c=1 sm=1 tr=0 ts=6ae5ebce cx=c_pps
+ a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=j3Ouay22MIlEJhTpI7oA:9 a=QEXdDO2ut3YA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX2+v6qXnG7bZP
- Cq03sSmBvYw+gjJu+tfRrAJh0fuMcpty24qW60sE4rQ4T2V6NP/+9GeZwgp3yf5LU3i2/TPMEOZ
- ocMh4YoRFNxxnTD0oV9ssIu8VswITtQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX9IIkpSx3wnA9
- fZvUGw2JYGtRVGf1xBcw+YneEXLI+6iQLZFlJJkB+qyYJ1wACsJCp+kG3p/0zuO+wESq7zAEpae
- O7ARrhzmS0CwO1EF1d4v/Fbk/k4R6HKMqB63TLz/CwNQ66LHhHt5GtCAV7pjd+M3VIHXcC51ly0
- lRbeLUpfFEIE1JXp8yM0DmyHdjlnvp7y4FW0t8jRT7Bh+U0GTSqpxOeGXuTTXgUN7q6smhFe8sw
- FYRtUmcLiTrXcqLFF1VSBOVoyLhmAU45IQ7jEM35bCbH/trINuKTVfBT5amchjnFDn/hKus6NpU
- fkZq32E6f+1YlGb+Vg3KWY7jsfriZ8EPijmuAjKow9hRxFkDnjygvthVtLYypZsPR2ErQM2VAfC
- PXZAn/wGDim4FVyS7hQOK8dCQCqGDrGSKKUYObbXeErvIZfTJQFZyg0nTVkT4s8M1mWIbg5Itu8
- h5Z68MkivosxVJyVr6w==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=B0hz1L2w7P3HlZecjf4A:9 a=QEXdDO2ut3YA:10
+ a=vBUdepa8ALXHeOFLBtFW:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX8VGJQUohLuB3
+ nUJsIwnwPQWGbGTZOu4GieLjIutQl5YvYdrY13IWefR899pQIYCGO27VkdU0gN+oxRuT/gc7f6S
+ UX26Gbyk6m2ncOn77ps10n//Fi1wn00=
+X-Proofpoint-GUID: nXceRwazoMLY9KoMymWvObd0hHDUos99
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX0mgW8RmlX9WE
+ GJDXzkdWZDAtAruwBgDS8OaEcT9qcJSSmHijspJEG85xVHl7Iytz/wn6CmuC9nEOvJPRCwhuXDl
+ nkhQT12kop0+jh17spupbAKCyQwHpfNucYI0hibpvX06KeV4auFG34226NCjwb+EVAv3BTZjxmS
+ XzQFsBpPUcmCZSrwEHHhlGUV3ZduQoMuFYiqTwYa+hu/nbwNoz5IRV5I+JvgJ0mm0VAn0yq3hSq
+ LlTRUxE4gRRwwnGhgFV1lzHK16487LIrOSwxIU6KcVZ1aNEZ1Vqa+sFWPt4v2N/4nCUpgXphL1D
+ dH7qLhNtI0MQyyy/zEOuTXV5HODH2tsvGH78zVL47qh/2Hj9Lq932LKAtNnwrVilGo2BvbMnDbp
+ DxDcAiRB3phYYkFaxza41Hp1R9AZUG/D78bJeg7K3NLRtyp93a1AZ203dzyb8RuK2MGTNfynps4
+ tU5pWjrEVz6L4KJnhgw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-31_03,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ malwarescore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 phishscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2610310053
 
@@ -180,102 +180,558 @@ From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 Differences in SoC packaging can be used to provide multiple SoC SKUs at
 different thermal and performance characteristics. The underlying SoC
 remains the same except for how much heat the packaging can dissipate,
-thereby influencing the critical trip point at which an SoC SKU needs to
-be throttled. This SKU-specific data is typically burned into fuses
-during manufacturing and can be read back at runtime.
+thereby influencing what is the critical trip point at which the SoC SKU
+needs to be throttled. This is the basis for thermal-binning.
 
-Add two optional trip-point properties to describe this:
+This SKU-specific data is typically burned into EFUSEs during
+manufacturing. We can read back this information at runtime to populate
+the appropriate trip points applicable to an SKU.
 
-  - 'temperature-bin': an array of per-bin trip temperatures, used
-    instead of 'temperature' when the trip depends on the hardware
-    revision encoded in fuses.
+Linux support for this has been modeled along the lines of the
+opp-supported-hw property in the OPP framework that already allows
+similar mechanisms to allow/disallow certain operating frequencies for
+the processor. The thermal-hw-bin property allows multiple SKUs of an
+SoC to be configured for different critical trip points based on a fuse
+mask.
 
-  - 'thermal-hw-bin': one or more bitmask groups describing the hardware
-    revisions for which a trip point is valid, modeled on the
-    'opp-supported-hw' property of the OPP framework.
+Add thermal OF support to parse the thermal-hw-bin and temperature-bin
+DT properties. Platform sensor drivers pass decoded hardware-version
+information to devm_thermal_of_zone_register_with_bin() before trip
+points are parsed, allowing the OF parser to filter trips and select
+per-bin temperatures during zone registration.
 
 Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+Co-developed-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 ---
- .../devicetree/bindings/thermal/thermal-zones.yaml | 57 +++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
+ .../driver-api/thermal/hardware-binning.rst        | 112 +++++++++
+ Documentation/driver-api/thermal/index.rst         |   1 +
+ MAINTAINERS                                        |   1 +
+ drivers/thermal/thermal_of.c                       | 253 +++++++++++++++++++--
+ include/linux/thermal.h                            |  32 +++
+ 5 files changed, 377 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-index 999ad40a20d5..62590dfc77bf 100644
---- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-+++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
-@@ -152,6 +152,55 @@ patternProperties:
-                 situation where the trip gets constantly triggered soon after
-                 cooling action is removed.
+diff --git a/Documentation/driver-api/thermal/hardware-binning.rst b/Documentation/driver-api/thermal/hardware-binning.rst
+new file mode 100644
+index 000000000000..c385a2e224e3
+--- /dev/null
++++ b/Documentation/driver-api/thermal/hardware-binning.rst
+@@ -0,0 +1,112 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================
++Thermal hardware bins
++=====================
++
++:Author: Amit Kucheria
++
++Overview
++========
++
++Differences in SoC packaging let a vendor ship several SKUs built from the
++same silicon but with different thermal characteristics.  Better packaging
++dissipates more heat, so the temperature at which a SKU must be throttled (or
++shut down) differs between SKUs.  This SKU-specific information is typically
++burned into eFUSEs during manufacturing and can be read back at runtime.
++
++Thermal "hardware binning" lets a single device tree describe the trip points
++for every SKU of an SoC and have the kernel pick the values that match the
++silicon it is actually running on.  The mechanism is modelled on the
++``opp-supported-hw`` property used by the OPP framework: the platform supplies
++one or more 32-bit hardware-version words decoded from fuses, and each trip
++point declares the hardware bitmasks for which it is valid.
++
++Hardware-bin trip parsing is part of the thermal OF helpers.
++
++Device tree properties
++=======================
++
++Two properties are added to a trip-point node (see
++``Documentation/devicetree/bindings/thermal/thermal-zones.yaml`` for the
++authoritative schema):
++
++``temperature-bin``
++  An array of trip temperatures in millicelsius, one entry per
++  ``thermal-hw-bin`` sub-group.  It is used *instead of* the plain
++  ``temperature`` property when the trip temperature depends on the hardware
++  bin.  Exactly one of ``temperature`` or ``temperature-bin`` must be present
++  in a trip node.
++
++``thermal-hw-bin``
++  One or more groups of N 32-bit masks describing the hardware revisions for
++  which the trip point is valid, where N is the number of hardware-version
++  words supplied by the platform (``supported_hw_bin_count``, see below).  The
++  format and semantics match ``opp-supported-hw``: a sub-group matches when,
++  for every word ``i`` in ``[0 .. N-1]``, the bitwise AND of the ``i``-th mask
++  and the ``i``-th platform hardware value is non-zero.  The trip is enabled if
++  any sub-group matches.  When paired with ``temperature-bin`` the number of
++  sub-groups must equal the number of ``temperature-bin`` entries, and the
++  matching sub-group selects which ``temperature-bin`` entry is used.  When
++  ``temperature-bin`` is present, ``thermal-hw-bin`` is required.
++
++Example::
++
++    trips {
++        cpu-critical {
++            /* bin 0 throttles at 95C, bin 1 at 105C */
++            temperature-bin = <95000 105000>;
++            thermal-hw-bin = <0x1>, <0x2>;
++            hysteresis = <1000>;
++            type = "critical";
++        };
++    };
++
++Here the platform registers a single hardware-version word (N = 1).  If that
++word ANDed with ``0x1`` is non-zero, the first sub-group matches and the trip
++uses 95000 mC; if it ANDed with ``0x2`` is non-zero, the second sub-group
++matches and the trip uses 105000 mC.  If neither matches the trip is skipped.
++
++Platform driver API
++===================
++
++A platform driver decodes the SoC fuses into hardware-version words and hands
++them to the thermal core, which makes them available to the OF trip parser.
++The words are carried in ``struct thermal_hw_bin_info``::
++
++    struct thermal_hw_bin_info {
++            const u32       *supported_hw_bin;
++            unsigned int     supported_hw_bin_count;
++    };
++
++``supported_hw_bin``
++  Array of N bitfields identifying the running hardware version.
++
++``supported_hw_bin_count``
++  Number of valid entries in ``supported_hw_bin`` (the N above).  Must be in
++  the range ``1 .. THERMAL_HW_BIN_MAX_LEVELS``.
++
++Pass a filled ``struct thermal_hw_bin_info`` to
++``devm_thermal_of_zone_register_with_bin()`` when registering the thermal zone.
++The hardware-version information must be available at registration time because
++the OF trip points are parsed synchronously during zone registration::
++
++    struct thermal_zone_device *
++    devm_thermal_of_zone_register_with_bin(struct device *dev, int id,
++                                           void *data,
++                                           const struct thermal_zone_device_ops *ops,
++                                           const struct thermal_hw_bin_info *hw_bin_info);
++
++The caller owns the storage referenced by ``hw_bin_info``.  It only needs to
++remain valid for the duration of ``devm_thermal_of_zone_register_with_bin()``,
++because the OF parser consumes the values before the function returns.
++
++If a trip uses ``temperature-bin`` but no bin info has been provided for the
++zone, the core cannot select an entry; it warns once and falls back to the
++first ``temperature-bin`` value.  Platform drivers should therefore provide
++the bin info before the zone's trips are parsed.
++
++The Qualcomm tsens driver is the reference user: it reads the named nvmem
++cells described by a per-SoC ``struct tsens_hw_bin_desc``, converts the raw
++fuse values into hardware-version words, and passes the result to
++``devm_thermal_of_zone_register_with_bin()``.
+diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
+index a886028014ab..5f858fabc865 100644
+--- a/Documentation/driver-api/thermal/index.rst
++++ b/Documentation/driver-api/thermal/index.rst
+@@ -11,6 +11,7 @@ Thermal
+    cpu-idle-cooling
+    sysfs-api
+    power_allocator
++   hardware-binning
  
-+            temperature-bin:
-+              $ref: /schemas/types.yaml#/definitions/int32-array
-+              items:
-+                minimum: -273000
-+                maximum: 200000
-+              description: |
-+                An array of integers expressing trip temperatures in
-+                millicelsius, one entry per hardware bin sub-group defined
-+                in the thermal-hw-bin property.  Each value is the trip
-+                temperature for the corresponding hardware bin.
-+
-+                Use this property instead of 'temperature' when the trip
-+                temperature depends on the SoC hardware revision as encoded
-+                in fuse values.  The platform driver reads the fuse and
-+                registers the hardware-version bitfields with the thermal
-+                zone; the framework then selects the matching entry.
-+
-+                Exactly one of 'temperature' or 'temperature-bin' must be
-+                present in each trip node.
-+
-+            thermal-hw-bin:
-+              $ref: /schemas/types.yaml#/definitions/uint32-matrix
-+              description: |
-+                Optional bitmask(s) describing the hardware revisions for
-+                which this trip point is valid.
-+
-+                Uses the same format and semantics as the opp-supported-hw
-+                property in the OPP framework.  The platform provides N
-+                32-bit values describing the hardware it is running on.
-+                Each trip node may provide one or more groups of N 32-bit
-+                mask values.
-+
-+                The total number of 32-bit cells must be a multiple of N.
-+                Each contiguous group of N cells forms a sub-group.  A
-+                sub-group matches if, for all i in [0 .. N-1], the bitwise
-+                AND of the i-th mask and the i-th platform hardware value
-+                is non-zero.  The trip point is enabled if any sub-group
-+                matches.  If multiple sub-groups match, the first matching
-+                sub-group selects the corresponding temperature-bin entry.
-+
-+                When used together with 'temperature-bin', the number of
-+                sub-groups must equal the number of entries in
-+                'temperature-bin'.
-+
-+                If absent, the trip point is valid for all hardware.
-+              items:
-+                minItems: 1
-+                maxItems: 4
-+
-             type:
-               $ref: /schemas/types.yaml#/definitions/string
-               enum:
-@@ -179,8 +228,14 @@ patternProperties:
-                 The active trip type can be used to control other HW to
-                 help in cooling e.g. fans can be sped up or slowed down
+    exynos_thermal
+    exynos_thermal_emulation
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6e50747a621c..d99605b8b54c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -27343,6 +27343,7 @@ F:	Documentation/ABI/testing/sysfs-class-thermal
+ F:	Documentation/admin-guide/thermal/
+ F:	Documentation/devicetree/bindings/thermal/
+ F:	Documentation/driver-api/thermal/
++F:	Documentation/driver-api/thermal/hardware-binning.rst
+ F:	drivers/thermal/
+ F:	include/dt-bindings/thermal/
+ F:	include/linux/cpu_cooling.h
+diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+index fe47d74b7219..c5ec7d2a38ca 100644
+--- a/drivers/thermal/thermal_of.c
++++ b/drivers/thermal/thermal_of.c
+@@ -60,18 +60,165 @@ static int thermal_of_get_trip_type(struct device_node *np,
+ 	return -ENODEV;
+ }
  
-+          oneOf:
-+            - required:
-+                - temperature
-+            - required:
-+                - temperature-bin
-+          dependentRequired:
-+            temperature-bin: [thermal-hw-bin]
-           required:
--            - temperature
-             - hysteresis
-             - type
++/*
++ * thermal_of_match_hw_bin_group - test one thermal-hw-bin sub-group
++ * @np:     device node containing the property
++ * @hw:     hardware binning info (must be non-NULL)
++ * @levels: number of words per sub-group, equal to hw->supported_hw_bin_count
++ * @group:  sub-group index to test
++ *
++ * Returns true if every word in sub-group @group has a non-zero bitwise
++ * AND with the corresponding hw->supported_hw_bin[] entry.  The caller is
++ * responsible for ensuring @group < total-cells / @levels.
++ */
++static bool thermal_of_match_hw_bin_group(struct device_node *np,
++					  const struct thermal_hw_bin_info *hw,
++					  unsigned int levels, unsigned int group)
++{
++	unsigned int j;
++	u32 val;
++
++	for (j = 0; j < levels; j++) {
++		if (of_property_read_u32_index(np, "thermal-hw-bin",
++					       group * levels + j, &val))
++			return false;
++		if (!(val & hw->supported_hw_bin[j]))
++			return false;
++	}
++
++	return true;
++}
++
++/**
++ * thermal_of_trip_is_supported - check if a trip node is valid for this hardware
++ * @np:  device node for the trip point
++ * @hw:  hardware binning info (may be NULL)
++ *
++ * If @hw is NULL or the trip node has no thermal-hw-bin property, the trip is
++ * considered valid for all hardware.  Otherwise, the property is read as groups
++ * of hw->supported_hw_bin_count 32-bit masks; the trip is valid if any group
++ * matches (bitwise AND non-zero for every word in the group).
++ *
++ * Return: true if the trip is valid for the running hardware, false otherwise.
++ */
++static bool thermal_of_trip_is_supported(struct device_node *np,
++					 const struct thermal_hw_bin_info *hw)
++{
++	unsigned int levels, ngroups, i;
++	int count;
++
++	if (!hw)
++		return true;
++
++	levels = hw->supported_hw_bin_count;
++
++	count = of_property_count_u32_elems(np, "thermal-hw-bin");
++	if (count == -EINVAL)
++		return true;
++	if (count < 0) {
++		pr_warn_once("%pOF: error reading thermal-hw-bin: %d\n", np, count);
++		return false;
++	}
++	if (count == 0)
++		return true;
++
++	if (count % levels) {
++		pr_warn("%pOF: thermal-hw-bin length %d not a multiple of supported_hw_bin_count %u; disabling trip\n",
++			np, count, levels);
++		return false;
++	}
++
++	ngroups = count / levels;
++	for (i = 0; i < ngroups; i++)
++		if (thermal_of_match_hw_bin_group(np, hw, levels, i))
++			return true;
++
++	return false;
++}
++
++/**
++ * thermal_of_trip_read_temperature - read trip temperature, with bin support
++ * @np:   device node for the trip point
++ * @hw:   hardware binning info (may be NULL)
++ * @temp: output temperature in millicelsius
++ *
++ * Tries the scalar 'temperature' property first.  If absent, falls back to
++ * 'temperature-bin', selecting the entry whose corresponding thermal-hw-bin
++ * sub-group matches the running hardware.  Returns -ENODEV if temperature-bin
++ * is present but no sub-group matches (caller should skip this trip).
++ *
++ * Return: 0 on success, negative errno on failure.
++ */
++static int thermal_of_trip_read_temperature(struct device_node *np,
++					    const struct thermal_hw_bin_info *hw,
++					    s32 *temp)
++{
++	unsigned int levels, ngroups, i;
++	int count_hw, count_temp;
++	s32 t;
++
++	if (!of_property_read_s32(np, "temperature", &t)) {
++		*temp = t;
++		return 0;
++	}
++
++	count_temp = of_property_count_elems_of_size(np, "temperature-bin",
++						     sizeof(u32));
++	if (count_temp < 0)
++		return -EINVAL;
++
++	if (!hw) {
++		u32 utmp;
++
++		pr_warn("%pOF: temperature-bin requires platform hw binning info; using first entry\n",
++			np);
++		if (of_property_read_u32_index(np, "temperature-bin", 0, &utmp))
++			return -EINVAL;
++		*temp = (s32)utmp;
++		return 0;
++	}
++
++	levels = hw->supported_hw_bin_count;
++	count_hw = of_property_count_u32_elems(np, "thermal-hw-bin");
++	if (count_hw <= 0 || count_hw % levels)
++		return -EINVAL;
++
++	ngroups = count_hw / levels;
++	if (count_temp != (int)ngroups)
++		return -EINVAL;
++
++	for (i = 0; i < ngroups; i++) {
++		if (thermal_of_match_hw_bin_group(np, hw, levels, i)) {
++			u32 utmp;
++
++			if (of_property_read_u32_index(np, "temperature-bin",
++						       i, &utmp))
++				return -EINVAL;
++			*temp = (s32)utmp;
++			return 0;
++		}
++	}
++
++	pr_warn("%pOF: no thermal-hw-bin sub-group matched for temperature-bin\n", np);
++	return -ENODEV;
++}
++
+ static int thermal_of_populate_trip(struct device_node *np,
+-				    struct thermal_trip *trip)
++				    struct thermal_trip *trip,
++				    const struct thermal_hw_bin_info *hw)
+ {
+ 	u32 hysteresis;
+ 	s32 temperature;
+ 	int ret;
  
+-	ret = of_property_read_s32(np, "temperature", &temperature);
+-	if (ret < 0) {
+-		pr_err("missing temperature property\n");
+-		return ret;
++	if (!thermal_of_trip_is_supported(np, hw)) {
++		pr_debug("%pOF: trip skipped: no thermal-hw-bin match\n", np);
++		return -ENODEV;
+ 	}
++
++	ret = thermal_of_trip_read_temperature(np, hw, &temperature);
++	if (ret)
++		return ret;
+ 	trip->temperature = temperature;
+ 
+ 	ret = of_property_read_u32(np, "hysteresis", &hysteresis);
+@@ -94,7 +241,9 @@ static int thermal_of_populate_trip(struct device_node *np,
+ 	return 0;
+ }
+ 
+-static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *ntrips)
++static struct thermal_trip *thermal_of_trips_init(struct device_node *np,
++						  int *ntrips,
++						  const struct thermal_hw_bin_info *hw)
+ {
+ 	int ret, count;
+ 
+@@ -114,9 +263,12 @@ static struct thermal_trip *thermal_of_trips_init(struct device_node *np, int *n
+ 
+ 	count = 0;
+ 	for_each_child_of_node_scoped(trips, trip) {
+-		ret = thermal_of_populate_trip(trip, &tt[count++]);
++		ret = thermal_of_populate_trip(trip, &tt[count], hw);
++		if (ret == -ENODEV)
++			continue;
+ 		if (ret)
+ 			return ERR_PTR(ret);
++		count++;
+ 	}
+ 
+ 	*ntrips = count;
+@@ -364,27 +516,24 @@ static void thermal_of_zone_unregister(struct thermal_zone_device *tz)
+ }
+ 
+ /**
+- * thermal_of_zone_register - Register a thermal zone with device node
+- * sensor
+- *
+- * The thermal_of_zone_register() parses a device tree given a device
+- * node sensor and identifier. It searches for the thermal zone
+- * associated to the couple sensor/id and retrieves all the thermal
+- * zone properties and registers new thermal zone with those
+- * properties.
++ * thermal_of_zone_register_with_bin - Register a thermal zone with device node
++ * sensor and optional hardware binning info
+  *
+- * @sensor: A device node pointer corresponding to the sensor in the device tree
+- * @id: An integer as sensor identifier
+- * @data: A private data to be stored in the thermal zone dedicated private area
+- * @ops: A set of thermal sensor ops
++ * @sensor:   A device node pointer corresponding to the sensor in the device tree
++ * @id:       An integer as sensor identifier
++ * @data:     A private data to be stored in the thermal zone dedicated private area
++ * @ops:      A set of thermal sensor ops
++ * @hw_bin_info: Optional hardware binning info for trip filtering (may be NULL)
+  *
+  * Return: a valid thermal zone structure pointer on success.
+  *	- EINVAL: if the device tree thermal description is malformed
+  *	- ENOMEM: if one structure can not be allocated
+  *	- Other negative errors are returned by the underlying called functions
+  */
+-static struct thermal_zone_device *thermal_of_zone_register(struct device_node *sensor, int id, void *data,
+-							    const struct thermal_zone_device_ops *ops)
++static struct thermal_zone_device *
++thermal_of_zone_register_with_bin(struct device_node *sensor, int id, void *data,
++				  const struct thermal_zone_device_ops *ops,
++				  const struct thermal_hw_bin_info *hw_bin_info)
+ {
+ 	struct thermal_zone_device_ops of_ops = *ops;
+ 	struct thermal_zone_device *tz;
+@@ -403,7 +552,7 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
+ 		return ERR_CAST(np);
+ 	}
+ 
+-	trips = thermal_of_trips_init(np, &ntrips);
++	trips = thermal_of_trips_init(np, &ntrips, hw_bin_info);
+ 	if (IS_ERR(trips)) {
+ 		pr_err("Failed to parse trip points for %pOFP id=%d\n", sensor, id);
+ 		ret = PTR_ERR(trips);
+@@ -461,6 +610,26 @@ static struct thermal_zone_device *thermal_of_zone_register(struct device_node *
+ 	return ERR_PTR(ret);
+ }
+ 
++/**
++ * thermal_of_zone_register - Register a thermal zone with device node sensor
++ *
++ * @sensor: A device node pointer corresponding to the sensor in the device tree
++ * @id:     An integer as sensor identifier
++ * @data:   A private data to be stored in the thermal zone dedicated private area
++ * @ops:    A set of thermal sensor ops
++ *
++ * Return: a valid thermal zone structure pointer on success.
++ *	- EINVAL: if the device tree thermal description is malformed
++ *	- ENOMEM: if one structure can not be allocated
++ *	- Other negative errors are returned by the underlying called functions
++ */
++static struct thermal_zone_device *
++thermal_of_zone_register(struct device_node *sensor, int id, void *data,
++			 const struct thermal_zone_device_ops *ops)
++{
++	return thermal_of_zone_register_with_bin(sensor, id, data, ops, NULL);
++}
++
+ static void devm_thermal_of_zone_release(struct device *dev, void *res)
+ {
+ 	thermal_of_zone_unregister(*(struct thermal_zone_device **)res);
+@@ -510,6 +679,46 @@ struct thermal_zone_device *devm_thermal_of_zone_register(struct device *dev, in
+ }
+ EXPORT_SYMBOL_GPL(devm_thermal_of_zone_register);
+ 
++/**
++ * devm_thermal_of_zone_register_with_bin - register a thermal zone with hardware binning info
++ *
++ * Like devm_thermal_of_zone_register(), but passes @hw_bin_info to the trip-point
++ * parser so that trips can be filtered and per-bin temperatures selected at
++ * zone registration time.  Use this when fuse values are read before zone
++ * registration (e.g. in a platform driver's probe function).
++ *
++ * @dev:         device structure pointer to sensor
++ * @id:          the sensor identifier
++ * @data:        private data stored in the thermal zone 'devdata' field
++ * @ops:         ops structure associated with the sensor
++ * @hw_bin_info: hardware binning info for trip filtering (may be NULL)
++ */
++struct thermal_zone_device *
++devm_thermal_of_zone_register_with_bin(struct device *dev, int id, void *data,
++				       const struct thermal_zone_device_ops *ops,
++				       const struct thermal_hw_bin_info *hw_bin_info)
++{
++	struct thermal_zone_device **ptr, *tzd;
++
++	ptr = devres_alloc(devm_thermal_of_zone_release, sizeof(*ptr),
++			   GFP_KERNEL);
++	if (!ptr)
++		return ERR_PTR(-ENOMEM);
++
++	tzd = thermal_of_zone_register_with_bin(dev->of_node, id, data,
++						ops, hw_bin_info);
++	if (IS_ERR(tzd)) {
++		devres_free(ptr);
++		return tzd;
++	}
++
++	*ptr = tzd;
++	devres_add(dev, ptr);
++
++	return tzd;
++}
++EXPORT_SYMBOL_GPL(devm_thermal_of_zone_register_with_bin);
++
+ /**
+  * devm_thermal_of_zone_unregister - Resource managed version of
+  *				thermal_of_zone_unregister().
+diff --git a/include/linux/thermal.h b/include/linux/thermal.h
+index 306ad17aed89..e9e4b2dc2824 100644
+--- a/include/linux/thermal.h
++++ b/include/linux/thermal.h
+@@ -86,6 +86,23 @@ struct thermal_trip {
+ #define THERMAL_TRIP_PRIV_TO_INT(_val_)	(uintptr_t)(_val_)
+ #define THERMAL_INT_TO_TRIP_PRIV(_val_)	(void *)(uintptr_t)(_val_)
+ 
++/* Matches the maxItems: 4 constraint on the thermal-hw-bin binding. */
++#define THERMAL_HW_BIN_MAX_LEVELS	4
++
++/**
++ * struct thermal_hw_bin_info - platform-specific hardware binning description
++ * @supported_hw_bin: array of bitfields identifying the running hardware version
++ * @supported_hw_bin_count: number of valid entries in @supported_hw_bin
++ *
++ * Filled by platform code that decodes SoC revision / fuse information.
++ * Shared with the thermal OF parser to filter trip points and select
++ * per-bin temperatures via the thermal-hw-bin / temperature-bin DT properties.
++ */
++struct thermal_hw_bin_info {
++	const u32	*supported_hw_bin;
++	unsigned int	 supported_hw_bin_count;
++};
++
+ struct cooling_spec {
+ 	unsigned long upper;	/* Highest cooling state  */
+ 	unsigned long lower;	/* Lowest cooling state  */
+@@ -216,6 +233,12 @@ devm_thermal_of_child_cooling_device_register(struct device *dev,
+ 					      struct device_node *np,
+ 					      const char *type, void *devdata,
+ 					      const struct thermal_cooling_device_ops *ops);
++
++struct thermal_zone_device *
++devm_thermal_of_zone_register_with_bin(struct device *dev, int id, void *data,
++				       const struct thermal_zone_device_ops *ops,
++				       const struct thermal_hw_bin_info *hw_bin_info);
++
+ #else
+ 
+ static inline
+@@ -254,6 +277,15 @@ devm_thermal_of_child_cooling_device_register(struct device *dev,
+ {
+ 	return ERR_PTR(-ENODEV);
+ }
++
++static inline struct thermal_zone_device *
++devm_thermal_of_zone_register_with_bin(struct device *dev, int id, void *data,
++				       const struct thermal_zone_device_ops *ops,
++				       const struct thermal_hw_bin_info *hw_bin_info)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
+ #endif
+ 
+ int for_each_thermal_trip(struct thermal_zone_device *tz,
 
 -- 
 2.34.1
