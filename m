@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793443785;
-	b=YlXN1MeHwOisQ2Pg1+YAVPkC7PWPiTV4EWd/rqNkFdCJlcTYnh3dj2C1rdVX2cFpU5d1
-	 mEVw8mx2ZGBcZPNO1tTsD43TQN+pQDo3VSMEMTINvnRbiaO2yD56F6TIp5bJq2dWcSN7b
-	 QV4e2FYBmy9g28qVwbDjNtfz6u8hGRulXRtO/62G4Kyay5Vuw8rioF8l0CQWdPYt/ru94
-	 bSMys7jiWzDEgYalhnweifmRbx2feMjBGtHwXO9YQlunYwgytYSmm7h3SvOQ4ghsmHnjB
-	 88g16Qo4MwWJlT8o2TJ00bSQxxsj/Bkwi0pyEo27JeV+ZlxiKiL7DnbO2Mk6Peb8l+Q==
+	t=1793443813;
+	b=yCTy6MwuOJoc18DIdAU6ZDO494nDeQf96p015V44/Wnch0ljGWwS336YOVsc5ngMju8e
+	 RTTdxRtgDKSdDxtCX+v3Ad5L+wt1om3ZlSibO/cZru7IvjE2LHgY1lqLavAJLsHQKpoeI
+	 6wufqdeqrCRDiEZeYOj2vzAvBCd3lmY2R3WWWcCH+5KjDxvlV8q/VNP2cc24dOtaYG6tY
+	 mchTZpNJSNr4Vr/FxH73xdmjpXwL0icltcPr+MMW8ugLjSOH9A5TvzV9m2E3a1wT52ZD/
+	 mpPz1bKcfJ6Dy5rxhJesXf613dVT0CkulmEqTvicFFN5fsBkmSGfTKW/7h0OVMs2e7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793443785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793443813;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
 	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
-	bh=Pem4c/xVlXIJMXRu8hbS7XQANQwY9xNX3xjHyyNsujU=;
-	b=fImCFJY3xHzrIRuo62A8SDFSCEyI07xuEkUnRFYwGBFWYY03cBK+hcO5T8DslQN9akIx
-	 idoZLfO4DdvkHH0eRDEp8s0Ng4xctLffmtqaJwsDkGbiMfMM5mwqPbKy6vq8v21RB4I0y
-	 Sf9kdyWRJKRVHNL6zwJ/qOn4eQn3wMy+mMCxMRZg4awx8iP5XGDnM9Kj5pQkdv5DMFQiJ
-	 Aryf7NbQiuE/LReSyrgE66oaunMXqz/8Irv1VVUPMfY9f3xok6CHaeiAXdr52NGZz1318
-	 dxZhaS9XanmA0J9ztK8hCF/QQJQvOCs6m5cQRcuXrHF7GDPPmdqrdfksCVfYBFJGR2w==
+	bh=wfW2viipMB+TYAZ+Y4DJ13i/34AHklnHI0K1OUw0+KM=;
+	b=F+HXNFOsp+1flRKHWk+pzSffASFIBMWJvI4H8zasjmyIrzGArP5li7ACtaRQ/GxgvrZS
+	 ADjV+C58h/gS70maJDMadpHV+gsnJgIUSiCtBSqf7pnuC93f+8o96+OVkHcK+oxL0sZW6
+	 D7SskXTx+bNwdvYzQAaw7YXusqnSJXdnOM/SqLaK+KU9hxKYFCXnBzEyi20o1TJIP2FmT
+	 UPHuSLnN5Ybfn5qN5uDMxCSySmElHD1jR8nbbsM1dlh6eG9Q5Uvul97zKbu7o3ETyELpb
+	 VZsqvg8k5k1qH46CC03zF3qqlzRNlICHijtEySsYKT0lW5n3qsM9CbfFcPETYpLbc9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=wkQOT8xc;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=jdJxIjJ3;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4325E606A31D
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 10:49:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4325E606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F81C606A31D;
+	Sat, 31 Oct 2026 10:50:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F81C606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=wkQOT8xc
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=jdJxIjJ3
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 14BBFC49F6B;
-	Sat, 31 Oct 2026 10:50:43 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B9D9D1A13F2;
+	Sat, 31 Oct 2026 10:50:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B225460771;
-	Sat, 31 Oct 2026 10:49:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD62810329038;
-	Sat, 31 Oct 2026 11:48:56 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A10C6076B;
+	Sat, 31 Oct 2026 10:50:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1C9410328D83;
+	Sat, 31 Oct 2026 11:49:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793443772; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793443803; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Pem4c/xVlXIJMXRu8hbS7XQANQwY9xNX3xjHyyNsujU=;
-	b=wkQOT8xcyHQMWB9OEmtZKxKhcla8pzW8jvSZA/x2hal0q4bLz0JU8/AbA0mawe0Dw0DjnF
-	smQsxRHd8gGm24wPOPzLXmCZOappY+s574tn+Ot15X2CQkrhTntBbO7WXDMyU49KLQRkPK
-	h7j1KZhmVf/R/GTl4Nzp+pwdSzjR8YnlT4C4yRqR8NJdg7sSMxL2polFsLUci29G6I7az2
-	G7ZI9YBVzBbECQbXbEM5LUBOA60ZJjLIvJem/gBhbilhA1IJfKFkoP2+xvNFFD3XbHemx8
-	LfFG9kdrLGcZHm6vFXW8AM+Avi0U48paCXRSVpt60+sl7VTB7Aq1IEg3H56QDA==
+	bh=wfW2viipMB+TYAZ+Y4DJ13i/34AHklnHI0K1OUw0+KM=;
+	b=jdJxIjJ3ChsL6d8hPAAPLvEecTqPISyKSGZRNxVtOxAwke8yKEgptsX4zZFKhMRL9hdxOw
+	BfK+XfFcbLUgMPqReS3H5MRyf2rvpoxSGy7ZozjCFRFAB/63KAsQK86vaIIXuO4Bwysabu
+	tj/Kgdyqa6XTfdrkGoYypbDhxnJQ0JnOhRvFVGJoWpyincax4aThygQbABx52TtBKB26Kp
+	1EtoW4BbWsFv0Kd58ffGuzr7DzUy/o5tVHMGGqcG2HxifVJgMrieCogibzySGKJnJD7kEW
+	5nPDyJUmtSOatVCdoMD9KOU7CMA5bx3Q7q44WxILZpLDr/XTKaPUjBBiiotsSw==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,8 +61,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 15/35] drm/bridge: anx6345: set the panel orientation
- on the connector
+Subject: Re: [PATCH 16/35] drm/exynos: dpi: set the panel orientation on
+ the connector
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Douglas Anderson <dianders@chromium.org>, 
@@ -138,11 +138,11 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
  linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
-In-Reply-To: <20261026-drm-panel-funcs-v1-15-5e3070a3478f@oss.qualcomm.com>
+In-Reply-To: <20261026-drm-panel-funcs-v1-16-5e3070a3478f@oss.qualcomm.com>
 References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-15-5e3070a3478f@oss.qualcomm.com>
+ <20261026-drm-panel-funcs-v1-16-5e3070a3478f@oss.qualcomm.com>
 Date: Sat, 31 Oct 2026 11:48:44 +0100
-Message-Id: <179344372467.9825.11469688608855257522.b4-review@b4>
+Message-Id: <179344372468.9825.13949889516138830334.b4-review@b4>
 X-Mailer: b4 0.16.0
 X-Last-TLS-Session-Version: TLSv1.3
 
@@ -153,25 +153,23 @@ X-Last-TLS-Session-Version: TLSv1.3
 > Assisted-by: LLM
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> index 407834a03b63..91ce1a877bf8 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
-> @@ -525,6 +525,11 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
+> index 74d3a2bebb74..05014c2e7d92 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
+> @@ -109,6 +109,7 @@ static int exynos_dpi_create_connector(struct drm_encoder *encoder)
+>  	}
 >
->  	anx6345->connector.polled = DRM_CONNECTOR_POLL_HPD;
->
-> +	err = drm_connector_set_orientation_from_panel(&anx6345->connector,
-> +						       anx6345->panel);
-> +	if (err)
-> +		goto connector_cleanup;
+>  	drm_connector_helper_add(connector, &exynos_dpi_connector_helper_funcs);
+> +	drm_connector_set_orientation_from_panel(connector, ctx->panel);
 
-Muy understanding is that this driver, and those in patches 15-21, should
-be eventually converted to use the bridge API instead of the panel API, but
-that's a significant work and so for now this small change is enough to get
-to patch 22 (workaround removal).
+Patches 15-21 are quite inconsistent in terms of error checking:
 
-Correct?
+ * some don't check for errors (like this one)
+ * some do and return silently on error
+ * some do and log an error before returning
+
+I don't see a good reason, so I'd make them all log and return on error.
 
 Luca
 
