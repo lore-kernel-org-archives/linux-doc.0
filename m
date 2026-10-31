@@ -1,111 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793452994;
-	b=IVXVAM59xT2K2cogbMHU1mUTlP9SuofAI5DTA0HCTHggf/c7pB+nFEQbNRd5/P+btpZB
-	 8vMsQIFmyHu5DkCj+0YiP3DtOCDV7SZt4rLJRAIYsXT5YNff0CY47ikSafGkCFirvTIEU
-	 BORqOClgJt2fXbErxPDZw2fz8Um7tfMYrDndRm9msjLaqw++jbPAlylvCJMMlBSlgnU1/
-	 FsJQnzx9oAQ+4fadmMDG31cQfX4BAh9Tf0JBCD9VLSPe8MtIpyZUfC+RNgOBDu9aHvU7G
-	 876Snk6Gl8Xlce+cNplBsMxKxl4l9oM59TyhBRmyRO7BFft9rDuxndl+7GUeDbwV9cQ==
+	t=1793453000;
+	b=hUoSLGBlGQyJEdhdZXSVNaHhWq9G64Dty1i+oQgN8YplSGK07UTh3GaVYsQy773LRhfz
+	 0+HT0Ue8jeSN50i8qocyUF++uDPMbHgH3RybUDuaQQtQWhIpTuYP9l45qT8BwNfo9bfvD
+	 xLV6Zyo3FJ2h+T2o+aauFxlAdttdKcu7KnFp22/NTPnehBs12/MGB92c7H8YHpa2ymSHJ
+	 f8wPX4UEW1xjkaBLXITXAxIFxAgl5D2HSiwb45EmhViIs02DPVs7epmgPrDG2yJrxTo5l
+	 xCMyHDtUx+FJlW3t5GCHJBoa0CXZe13dP4H/4TmUVzwEfd8HMFhjDMgJPOOohohh1FA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793452994;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793453000;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:
-	 Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=4oSUppzxzHF3D+dg1jUudVpg0qnnD2G2Yi8QoIkwJ48=;
-	b=yb0d/qWdL1xJGRoK2Q3nV4jy5LOM7cBowKt1BXVCAMS3Ikk/79NBg8h9BSqcE/apZRMU
-	 9afUJAk9ckpK6NYS9aGsPOmnbQtJMhkA0ud+Zou8EeyxviqVVL7oTCCRiRQyuwhg373iY
-	 1MqgzjuJYjmyPMBwWzJVOeWJvXyZKbX5sBOorfKNe2I8MT/aAUzIvlf0KKzzFvmze2axu
-	 EayMfCSnbXs6h8zHDOK6+RMw7mPIsRUL0agCmLXEPC40C7dZCI8RYAag1T+HTCfyWLwbw
-	 vdzdUjgLJeRRfpdUddURHwhhWsrodFR5Vdqtewtz5saNr2m3U/3RV+M8NKVKHAoYwrg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
+	b=1pADqTQxZKSLSS6Z9fk2xSfctvLikMX5rkjUw0tfpPq/+g/8uHp7BwXe1pv9lXuNupiH
+	 TFMi662QoNuXQHGyKM6hkaX59U5WoNy+ToLHKwmG7cX3ctKmWju8Zc7LaHtSwktUjsGjT
+	 bBeRn+uFBvcAITKzGviPn6loLciO0iUDDFgyMN+CWquYeo9sDM0HPnCQVlfMYjphvoWo+
+	 4r7nGRcO0D+hthjpLXFEOgcS8SdIHcQgS54uWa4Vscl1r/rTsjB1EQzFqjGCk6HFeTuf6
+	 AyGv+ZMuwz0G8Z6qVyX+Ne+fRpSh66tqI6nEz0bxgOkDxwhj0Di/GJiFA0c+2b/HbEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cgvrcHcv;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LZQ3R96Q;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RNweS2kL;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KUkem9Gc;
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F860606A320
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F860606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A13606A326
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A13606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cgvrcHcv;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LZQ3R96Q
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VD032c1233015
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:12 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=RNweS2kL;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KUkem9Gc
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69VCxqGs2161133
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=4oSUppzxzHF3D+dg1jUudV
-	pg0qnnD2G2Yi8QoIkwJ48=; b=cgvrcHcvCZNzVtSvV+tBKNVF/ZohKSMCXHsLDR
-	7pMaDiDHuenF92r1ZIXt2wUzDXiBmM1US0Bi3Z0jHukA68ihi/IM2pegxHuG/wAr
-	6pgvlxLpVNP+kNQOTQXOk/kwf35vTEqTxAvbL0XV0iH9+P2v0nplCY1Rp0gd54j/
-	WUdbzCAIwnFcM6bBjWBsaElL2BlbEH3a/MIQvDQgA4ljvQ+83OxMcawZjVGEQytY
-	gHK/mxicw2hpNfILmqLLO4A6JxR7jyaNGShPWHcDaIscJUEYjCXDdpguvCkgBMHO
-	l+sWrMoEuv3prrxvVD52TlMFXilTYbO/AH/7fpyVDH9uALkg==
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn9m98yth-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=; b=RNweS2kLLiYzRuKf
+	o8AOiskYhmIoQEQeuYb4UX8XSBHuSUYNtE79nqhtW/UhFiWP6H771xIXGjcKVhbm
+	/Bg5CYXbaWctKdA/deZHUEjhxo/gojv/t7Ibnx2sMgg2nSfMZ/PdABFxywKWS2KY
+	bs6kqCr6zMftzT4McsmDekOVb94eXOklpP7JL4Fl477Pf4LxH/3hsDUVsMgcgi5X
+	rmcX43XxJC7gJXvPNRtrxF+oa30+h33WtvCcc1/gzHQu8m8DRikJe0/fOHRHxWGr
+	EHhK+YsegoPVqVx8y0sI5brnC3vRU/8Hku1c798JMSwegLRnS5K50Wk9cXmXDRdm
+	flHozQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn8j2s6tr-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:11 +0000 (GMT)
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-147be78cd56so1905183c88.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:11 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 13:23:18 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso3649602eec.1
+        for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 06:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793452991; x=1794057791; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=4oSUppzxzHF3D+dg1jUudVpg0qnnD2G2Yi8QoIkwJ48=;
-        b=LZQ3R96QnU+Gi19XZCAZanIqNUuiLezMaVE2deiiYIFJ5SHjkQN2trIpyWarsGnr96
-         R2jDqCeNU+6h4q92jJ3+TgIfgCHEDBTBz428/lFCoIN2wXrRj22JCLKQpxbctxYbNL71
-         Xa4S+qg/7CJVsK3xiX2hxQJi4XOBj6gNxysu3oeB9yKi/3ZpMVHwHmlAl/0SYPq9TFxx
-         MGMdKZCX9suaK+ef1wGwDPZ7JMisVxKkM5+v79E8zX/SACiZFwBdB2Xgj4LFUpJWDh3Q
-         73AvgGtn6AMfiyuXTnrSpHioC2HSZ3GS5kDY7L+oE7P+IniYDuCzsqfQNIUkYjMrxKf3
-         nxpw==
+        d=oss.qualcomm.com; s=google; t=1793452998; x=1794057798; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
+        b=KUkem9Gc+v02mhQuczLT4KZ6QWcf2dE48mARWuX/gWDWcl+Ku21ArvXecMouDzANHZ
+         WJlngq3aji0ifUJs0MU8kuPTt3QbESI9ZWmGNbAbFm8ZSWTnRedqg4LbeqlqdTdn9skp
+         WYh6uU8qCbdKvs20EDQVczfNzBPBboxgheUQKgmfmRBZocKSoJiJ+5GRBsL4ojzbSxXE
+         F27MWSOEyRSwe3hh81vbL58utmEL0+sSdYntSBYx9p5MPw/IX1V1jt7kxpf804IhaP5J
+         C7d7AvyPfpOpTetRnalUxtnUtr+wL6LwonVCQmIJYuzNHPILDHt57XurusPCIfglDtLL
+         gEPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793452991; x=1794057791;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4oSUppzxzHF3D+dg1jUudVpg0qnnD2G2Yi8QoIkwJ48=;
-        b=lArYDOGV1KXXY6matElxva4wF6KylQUlXvEYY/M6U2FaDTEYnO+X/vcksRJB8i+JU3
-         ZesW9luA8D+aw5xjYa5/Ph9lwUJknzU03vo8kV7bZpQmk8tXrKlnNjBZNVxuvc4SBtV0
-         WgL36Tw2l0VvEAOkh9ZOgCTUnZajwNanVmvQQGIoeS3KMn3UV2IEoqp3WXRg9PoIpt/o
-         /zUH5IYDRh0OWJ2wQShzvFcWeIVzOhSOSfVKsMhTgayCF7dNs8OYkKsh/M3dPjHpudPy
-         Xm9BP9JigfiPXoK/t0e/msBPEU1F9U/WrTDffqOG1fwRPtf5Y3aXySfBGO98GtsrwlUn
-         mUvA==
-X-Forwarded-Encrypted: i=1; AKwUvBynoLb1rxqd0pVkYwetUgEJ8vszm3rmz604zoNO9C7Yz2ds/RujE1poHuceZTfTWkeWNBupxTH1on8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIRA70rCmSYRA+tQIX0HLYgr2bSKKUtkulJnk9x5atlxuw/9z8b
-	IkRrTAsKM5/fns7zBXZtShNzMt5Lq3GkK+S9Dxc5itWG6zf6SBqI+Zhoje6DWUFKCLBJMF84Z+P
-	Myf9MNHPyvjIElVtJATcAHFaWmLoZV3eoz9eSrNmZ2mjTE4+KWm/8Qlw3f86Kba4=
-X-Gm-Gg: AYBFou2KS6swkxtqduZS9T4/Bv/nWGKIQC2bpuqZNHiLKhlD8mAXlv/JBbYK2a6apoG
-	trHh2Rv99jU6cTwa0JtG2qBtqhAX/Xg73lekWinOmwmhBZaRutthmJGmw0mWBeJt5JFeKcIK6T0
-	plea/gFE9mPQvbvGG8EQ+2IvMsTIurhI4CMtaVgy08N/sFDK/7lWZ1K7G0dEl8swLEyQM6hX4Oc
-	LXG6Ziv6eaN5G3mckP7l3VBbKBUR53ibSELS7pPFbX6zlsi4qtySS39CWY1flnvvP/Ga+aYykhU
-	I8oviqfwBrT08zj0j3PrGKzgAgq5I3kwa0qGXx0kE0pZmhduY+jZ/1HKjmvV0eHY64HQgfBaFRe
-	ubvVZMiftpDxhEWFX3S5ydJtVXjEW2EiieUWcWjlYY4RJpdeM4abnGjEjsxC2l6/UUsPfysMUBP
-	yMHo8=
-X-Received: by 2002:a05:701b:4502:10b0:18d:96e8:b913 with SMTP id a92af1059eb24-1ac5f64afcbmr7058772c88.47.1793452991107;
-        Sat, 31 Oct 2026 06:23:11 -0700 (PDT)
-X-Received: by 2002:a05:701b:4502:10b0:18d:96e8:b913 with SMTP id a92af1059eb24-1ac5f64afcbmr7058733c88.47.1793452990367;
-        Sat, 31 Oct 2026 06:23:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793452998; x=1794057798;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t7zIqXb+j1h1NKIcOBksnZHm6tGnQ1r6omYIqQFPW4I=;
+        b=x7OxOCm2QctECWXa3IadZxLnAPBHIU31ltycLNhub9tgqPxJYaAzO7TIo8BjxIIDML
+         whf1pve8PndK++hUz4W7fwQbeZMvWmODWvybgbn/pwNmCuAKnhJ46Cj+0hw6Ct/cRReX
+         BJehRVe8hP7d/9hNZjOzjd3mPAKmm4IKHqswvn8BVNuJpw7KQdmL4h43H6ZQO+ZC4XVh
+         LagyvoCBEX8ur59xS/QuEQVUZ1B6ip8K7ZIOKf/YzDSY611v+AvTCSMiMD+j7HLgnfia
+         +LOmkKgaOCzv+KOOIOQsSsw2EBXASIUcap8HnRM+Cvuf/V0gUweN0yM2x9cqBgtgwJMl
+         HANg==
+X-Forwarded-Encrypted: i=1; AKwUvBxfX1WMCw8lee5vpWXtfPVvTasB+fQl2YvXgGjfhJAc1WbZBOPSlsL6EUW/tYsS5GxJh+iXdgSDUco=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ1C1OjhjxKZUS1k1bPtR69oQOmzY8i2jEMDNa8APL63sHH981e
+	Dt2KSw0blxHdQ/wszL2PRBqkUqDxdQY/omPr0FE0Ju1SN3dSIgZIsUmt18RTsw9EqpL6vOREds4
+	8DUxJOYbYbNmtSSnjnrK6hX7cuGDHjc2dVZ4Nqa6mwQ1HQ4I1rXjuGZ5OMhqRLQI=
+X-Gm-Gg: AYBFou3dF2AHhcGS9CJ8aLidvVk20Cg3MnAYaAOm8AEs9JT64QNoGxB20k/MKKKw7jy
+	O4LH1ZzMttGBbYUCPpG0DvioKSbBvz7QIqt+mOgiPWt3UdFPWukSoxgI56PFumS/awj6akDWSsc
+	g0lJE6ZBTSkJ4DHHMsvKVgebsL98X7pRXDOLkx1mrm0NqP/lAbdIIOMiwK0mS5hSvbd9m0+Ac1g
+	LC2koUnFRYaO3sn+k1Wj/pZSIqhjJMeh64F53ue4THosEe8fWVe6ez5fYxZaI7mPGUVcYq5lZnU
+	bdGES3GaUAd4st/nQF5CftPguSVVcwQbMMFdeIr27XTuuneNj0LsceDFkz9l+928IjvYTUVbkfE
+	fHBK9ERgS3spSUaVwZjapplG845si+0Py6Jfgto1ecBsXGiY3tMaVjVU9qEEidd4xG667hDiw7z
+	vTh1Q=
+X-Received: by 2002:a05:7022:f507:b0:190:d9bb:281f with SMTP id a92af1059eb24-1ac5e3225aamr6930086c88.18.1793452998024;
+        Sat, 31 Oct 2026 06:23:18 -0700 (PDT)
+X-Received: by 2002:a05:7022:f507:b0:190:d9bb:281f with SMTP id a92af1059eb24-1ac5e3225aamr6930039c88.18.1793452997369;
+        Sat, 31 Oct 2026 06:23:17 -0700 (PDT)
 Received: from hu-gkohli-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.03
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm18234699c88.11.2026.10.31.06.23.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 06:23:09 -0700 (PDT)
+        Sat, 31 Oct 2026 06:23:17 -0700 (PDT)
 From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Subject: [PATCH v2 0/6] thermal: Add hardware-binned trip point support
-Date: Sat, 31 Oct 2026 18:52:46 +0530
-Message-Id: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
+Date: Sat, 31 Oct 2026 18:52:47 +0530
+Subject: [PATCH v2 1/6] dt-bindings: thermal: thermal-zones: add
+ hardware-binning trip properties
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,11 +119,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKfr5WoC/1XM0QrCIBTG8VcZ5zqHCsvWVe8RI9Sd5YE5S5cUw
- 3fPdtfNgf+B77dBwkiY4NxsEDFTorDUkIcGrNPLHRmNtUFyeeS9UGx1GL2eb4YWNqEyaMeJo1B
- QF4+IE7137TrUdpTWED87nsXvuzuCc/nnZME467TsDSo8oe0uIaX2+dKzDd639cBQSvkCfTZIX
- K0AAAA=
-X-Change-ID: 20260917-thermal_bin-fe7becdf0e17
+Message-Id: <20261031-thermal_bin-v2-1-d76fd073ae98@oss.qualcomm.com>
+References: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
+In-Reply-To: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>,
         Daniel Lezcano <daniel.lezcano@kernel.org>,
         Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
@@ -140,135 +140,143 @@ Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
         Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>,
         Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=4715;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793452983; l=4695;
  i=gaurav.kohli@oss.qualcomm.com; s=20260302; h=from:subject:message-id;
- bh=MRemRaOBOzvAS+s91I3hR3FSXCHfN0Am3nSSTty9cbc=;
- b=Y+4eo6jLmnpvhRPgCYXsO0sY0h6PwZfNKxRNFHd0HoR+PgpiTyd9NwOWHU2fj2AW5kVaV+Wfh
- ImDebT/ed3pDFmlHJu6sjPOIsUTV5u4Z3aNiv0mayuqPbb7U4n813q4
+ bh=ncFZPtnOUeeKhOPBeq8g6g1+nKJHU1t/0jL31m8J8Cc=;
+ b=Tm+Ia+SgoeDa5fXtBbi5k9T80BKfPWtqz/KtX4cC0D1IO54QiUL7nDXJbvoVFK+i6miQ3IKAZ
+ 7TfNxEHrpxNDP2eKFgG7ZOW0akgtPOifXwZsuyY9l6FyKg9q021MnO8
 X-Developer-Key: i=gaurav.kohli@oss.qualcomm.com; a=ed25519;
  pk=IdNsqe8rWsF6dbpGHfwPEH9zM0nbOdRH72HxUT9qPak=
-X-Proofpoint-ORIG-GUID: 5amv3attfPX0WsHc9FR8QZz8mhnNBE4i
-X-Proofpoint-GUID: 5amv3attfPX0WsHc9FR8QZz8mhnNBE4i
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX580/WFrgKTUn
- efhwqobvHAR4cOTZb/phA6VVas37FAioKb/XNPENDDmH/awyMlJw1H0lIyX47qClVITLIVq9Dvi
- qAFmwq37uBxaoDzHCx02unVwi2IAKdcWZkOPVQrQVQihz33DkjcIbgEATYRlrJWEZE9xuIxkM5+
- H/ohqLMSeQhebybrfIlQuVKyQdoFGqVsDbULfGZWyMDqG/nFpORZVVtKUdogpMJ7lt/K77aqbwZ
- vhUs6/9BWChWN9PnnoLJdrCICckQXHLAd2pwgsWziaVnpuEH08bURqrNVu9GaldY2SaGt00BvpI
- TBguh+P7BS1v9PpgcquKqGuISBdvHixJ/cdr9nft4c1ufrt9kKfkHs5kEn0yOJCjz8Sg4h3aeZR
- pX0smZbfSW1vECwuEoGWjg1NqCE/ZbqgcQxXTnfYFSo4Mhkjff0YYnJOyYlDRWKgnr2HXKkTJMz
- W1gI3OzQLswidKY0f1g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfXyVZmhQ0T1+yP
- Jsjpv27y1EjTx2M7W2ceefu4EhDE84kdZLN6qs/0RdV/GlKhcdbpTVfHrRBY0PJoZDKhl/7fWL4
- x2rLl6A9PYgQgAnDoGaV5zoj6GLejYc=
-X-Authority-Analysis: v=2.4 cv=cfVHPXDM c=1 sm=1 tr=0 ts=6ae5ebc0 cx=c_pps
- a=SvEPeNj+VMjHSW//kvnxuw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: 0RqN1ko4-CzNSCVpPTQ8X_nbF81Qjg6T
+X-Proofpoint-ORIG-GUID: 0RqN1ko4-CzNSCVpPTQ8X_nbF81Qjg6T
+X-Authority-Analysis: v=2.4 cv=S5RMU4sP c=1 sm=1 tr=0 ts=6ae5ebc6 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=OGjWj8McAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=CgZP1dY-1rEdhbSE9MUA:9
- a=QEXdDO2ut3YA:10 a=Kq8ClHjjuc5pcCNDwlU0:22 a=UYjydHh6ynBBc6_pBLvz:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=j3Ouay22MIlEJhTpI7oA:9 a=QEXdDO2ut3YA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX2+v6qXnG7bZP
+ Cq03sSmBvYw+gjJu+tfRrAJh0fuMcpty24qW60sE4rQ4T2V6NP/+9GeZwgp3yf5LU3i2/TPMEOZ
+ ocMh4YoRFNxxnTD0oV9ssIu8VswITtQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMxMDA1MyBTYWx0ZWRfX9IIkpSx3wnA9
+ fZvUGw2JYGtRVGf1xBcw+YneEXLI+6iQLZFlJJkB+qyYJ1wACsJCp+kG3p/0zuO+wESq7zAEpae
+ O7ARrhzmS0CwO1EF1d4v/Fbk/k4R6HKMqB63TLz/CwNQ66LHhHt5GtCAV7pjd+M3VIHXcC51ly0
+ lRbeLUpfFEIE1JXp8yM0DmyHdjlnvp7y4FW0t8jRT7Bh+U0GTSqpxOeGXuTTXgUN7q6smhFe8sw
+ FYRtUmcLiTrXcqLFF1VSBOVoyLhmAU45IQ7jEM35bCbH/trINuKTVfBT5amchjnFDn/hKus6NpU
+ fkZq32E6f+1YlGb+Vg3KWY7jsfriZ8EPijmuAjKow9hRxFkDnjygvthVtLYypZsPR2ErQM2VAfC
+ PXZAn/wGDim4FVyS7hQOK8dCQCqGDrGSKKUYObbXeErvIZfTJQFZyg0nTVkT4s8M1mWIbg5Itu8
+ h5Z68MkivosxVJyVr6w==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-31_03,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2610310053
 
-Some SoCs are available in multiple thermal/package bins. The silicon is
-otherwise the same, but the package/bin determines which junction
-temperature limits are valid for a given part. This information is
-programmed in manufacturing fuses and needs to be reflected in the trip
-points used by the kernel.
+From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 
-At the moment this is difficult to describe cleanly. Board-specific trip
-overrides can handle individual cases, but they do not describe the real
-hardware property: the limit is selected by SoC fuse state, not by board
-identity. Duplicating thermal zones or adding vendor-specific trip
-properties would also make the binding harder to share across platforms.
+Differences in SoC packaging can be used to provide multiple SoC SKUs at
+different thermal and performance characteristics. The underlying SoC
+remains the same except for how much heat the packaging can dissipate,
+thereby influencing the critical trip point at which an SoC SKU needs to
+be throttled. This SKU-specific data is typically burned into fuses
+during manufacturing and can be read back at runtime.
 
-This series adds generic hardware-binned trip point support to the
-thermal OF parser, following the same general model as the OPP
-framework's opp-supported-hw property. A thermal sensor driver provides
-the decoded hardware bin when registering a thermal zone, and the OF
-parser uses that information to select the applicable trip data.
+Add two optional trip-point properties to describe this:
 
-Two generic trip-point properties are added:
+  - 'temperature-bin': an array of per-bin trip temperatures, used
+    instead of 'temperature' when the trip depends on the hardware
+    revision encoded in fuses.
 
-  - thermal-hw-bin:
-      one or more hardware-bin mask groups for which the trip is valid
+  - 'thermal-hw-bin': one or more bitmask groups describing the hardware
+    revisions for which a trip point is valid, modeled on the
+    'opp-supported-hw' property of the OPP framework.
 
-  - temperature-bin:
-      per-bin trip temperatures, selected by the matching
-      thermal-hw-bin group
-
-This topic was discussed at the Linux Plumbers Conference Power and
-Thermal Management microconference as "Thermal binning support". The
-discussion covered how to represent SoCs whose valid junction temperature
-limits depend on package/bin characteristics. The approach taken here is
-to keep the DT description generic and let the platform thermal driver
-provide the hardware-specific fuse decoding.
-
-LPC discussion:
-  https://lpc.events/event/19/contributions/2245/
-
-Slides:
-  https://lpc.events/event/19/contributions/2245/attachments/1885/4034/LPC2025-Thermal-Microconf-Amit-Tj-Thermal-binning.pdf
-
-Qualcomm TSENS is added as the first user of the generic support. On
-SC7280/QCM6490-class platforms, TSENS reads the jtag-id and feat-id
-QFPROM cells and maps them to the thermal hardware bin. On
-X1E80100-class platforms, TSENS reads the i-temp QFPROM bit. The decoded
-bin is passed to the thermal OF registration path before trip points are
-parsed.
-
-The DTS patches use the new properties for the affected Kodiak and Hamoa
-thermal zones. For the standard bin the passive trip remains at 95C; for
-the elevated bin it is selected as 105C.
-
+Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
 Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 ---
-Changes in v2:
-- Format temperature-bin as separate DT cells. (Konrad)
-- Add min/max constraints for temperature-bin entries. (Sashiko)
-- Drop the post-registration hardware-bin API. (Sashiko)
-- Remove CONFIG_THERMAL_BIN and make hardware-bin trip parsing part of
-  the thermal OF registration path. (Sashiko)
-- Keep hardware-bin selection registration-time only through
-  devm_thermal_of_zone_register_with_bin(), because OF trips are parsed
-  synchronously during zone registration. (Sashiko)
-- Propagate -EPROBE_DEFER when TSENS cannot read the hardware-bin nvmem
-  cells yet. (Sashiko)
-- Link to v1: https://lore.kernel.org/r/20261002-thermal_bin-v1-0-5a29be7e8ec5@oss.qualcomm.com
+ .../devicetree/bindings/thermal/thermal-zones.yaml | 57 +++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
 
----
-Amit Kucheria (6):
-      dt-bindings: thermal: thermal-zones: add hardware-binning trip properties
-      thermal: add hardware-binning trip-point filtering support
-      dt-bindings: thermal: qcom-tsens: document qcm6490 tsens
-      thermal: qcom: tsens: add hardware-bin trip-point filtering
-      arm64: dts: qcom: kodiak: use thermal hw-bin trips
-      arm64: dts: qcom: hamoa: add thermal hw-bin support
+diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+index 999ad40a20d5..62590dfc77bf 100644
+--- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
++++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+@@ -152,6 +152,55 @@ patternProperties:
+                 situation where the trip gets constantly triggered soon after
+                 cooling action is removed.
+ 
++            temperature-bin:
++              $ref: /schemas/types.yaml#/definitions/int32-array
++              items:
++                minimum: -273000
++                maximum: 200000
++              description: |
++                An array of integers expressing trip temperatures in
++                millicelsius, one entry per hardware bin sub-group defined
++                in the thermal-hw-bin property.  Each value is the trip
++                temperature for the corresponding hardware bin.
++
++                Use this property instead of 'temperature' when the trip
++                temperature depends on the SoC hardware revision as encoded
++                in fuse values.  The platform driver reads the fuse and
++                registers the hardware-version bitfields with the thermal
++                zone; the framework then selects the matching entry.
++
++                Exactly one of 'temperature' or 'temperature-bin' must be
++                present in each trip node.
++
++            thermal-hw-bin:
++              $ref: /schemas/types.yaml#/definitions/uint32-matrix
++              description: |
++                Optional bitmask(s) describing the hardware revisions for
++                which this trip point is valid.
++
++                Uses the same format and semantics as the opp-supported-hw
++                property in the OPP framework.  The platform provides N
++                32-bit values describing the hardware it is running on.
++                Each trip node may provide one or more groups of N 32-bit
++                mask values.
++
++                The total number of 32-bit cells must be a multiple of N.
++                Each contiguous group of N cells forms a sub-group.  A
++                sub-group matches if, for all i in [0 .. N-1], the bitwise
++                AND of the i-th mask and the i-th platform hardware value
++                is non-zero.  The trip point is enabled if any sub-group
++                matches.  If multiple sub-groups match, the first matching
++                sub-group selects the corresponding temperature-bin entry.
++
++                When used together with 'temperature-bin', the number of
++                sub-groups must equal the number of entries in
++                'temperature-bin'.
++
++                If absent, the trip point is valid for all hardware.
++              items:
++                minItems: 1
++                maxItems: 4
++
+             type:
+               $ref: /schemas/types.yaml#/definitions/string
+               enum:
+@@ -179,8 +228,14 @@ patternProperties:
+                 The active trip type can be used to control other HW to
+                 help in cooling e.g. fans can be sped up or slowed down
+ 
++          oneOf:
++            - required:
++                - temperature
++            - required:
++                - temperature-bin
++          dependentRequired:
++            temperature-bin: [thermal-hw-bin]
+           required:
+-            - temperature
+             - hysteresis
+             - type
+ 
 
- .../devicetree/bindings/thermal/qcom-tsens.yaml    |   8 +
- .../devicetree/bindings/thermal/thermal-zones.yaml |  57 ++++-
- .../driver-api/thermal/hardware-binning.rst        | 112 +++++++++
- Documentation/driver-api/thermal/index.rst         |   1 +
- MAINTAINERS                                        |   1 +
- arch/arm64/boot/dts/qcom/hamoa-iot-evk.dts         |  66 ------
- arch/arm64/boot/dts/qcom/hamoa.dtsi                |  42 +++-
- arch/arm64/boot/dts/qcom/kodiak.dtsi               |  58 +++--
- drivers/thermal/qcom/tsens-v2.c                    |  16 ++
- drivers/thermal/qcom/tsens.c                       | 190 +++++++++++++++-
- drivers/thermal/qcom/tsens.h                       |  29 +++
- drivers/thermal/thermal_of.c                       | 253 +++++++++++++++++++--
- include/linux/thermal.h                            |  32 +++
- 13 files changed, 751 insertions(+), 114 deletions(-)
----
-base-commit: 0d9d0dbf2fddcff5859d623e90ca73c4054276e1
-change-id: 20260917-thermal_bin-fe7becdf0e17
-
-Best regards,
 -- 
-Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+2.34.1
 
