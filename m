@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793454208;
-	b=30QyD/vAcMxg2V4RZ2yrcnTtHQd3Bcr62SYFCLE7lIIA1IDOySyhxdPsxrgTyF5SgMbH
-	 ab0V+c1QuhTTORjIbR+55RmkPo1o8vmdZrogbESQaQqEZSBEErrVCAKm9i2ClELTQE3PB
-	 9DixuQkdcgYXfvPjxEeNcw1+v4oAM2DBZrBbm0l3MUH4PUtexIBRhc7InvRaAmerLaKdx
-	 79ypfk6lL4JDi+EGxSaUYfuXxCC+RzMJGQtWLxJNsgMx5KjpfLXGB+sHzX3tCVrZfwmws
-	 SVi3F4O4Z2nJRHh26LkSmjRuQN1DU4JrzsOla7Rf5d84gNM0n8InxeGVCN99Ry/iKVw==
+	t=1793454941;
+	b=rw1oJkEffFPRuj63tnl4CiZJVWvc6EchVuXpsp7oOBTnROToWVTk8470nuuqKejB4wXu
+	 0rcfJZ1haXT8XWPVOthBqL9AdnZIyQ3WVTeTXGMiPHL+TBsvQQUfEQDpJ32gKCIIdKBji
+	 2Pb787kc0whn/Z2mfNXjNha2bfLjdRs4MiJR5dvwZGx514MeEeQ3t9/r2siKBwHrCY8Rq
+	 YX9m2cwlrIIBkIG+6m+qTmpYamIluzPF0IeQ2dIfi77i839g62YlcCu3GRTgQopnAQ739
+	 yLdirb4+GaFuybIt0wPwJdn+YWIjTlrPFUHsruU/Dojqj4l4/f9h3pvLmf9+rFxRVpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793454208;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793454941;
 	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
 	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=z9ugbRFtepT8lOB17TZSNPg/oII/opdNslH+HVfUMgE=;
-	b=KtTMWxAbkvEbWQntyJCKmSL5se1surG+2AAaQL3K5LLTUW22LWq6oNzR3cc+A2nupYoW
-	 DSXES+2Qzshi8i61EM12O8LWBGlCn0qedU7EXrCbS2riuLV02nE7L384wL+J1sKie5UN3
-	 5lWvZgf5YBVMSte5kFkUaZKPwT7HNOY5sGB/o+xDL74ceLBlCcUvDYPcQUIZNqu/YoQ0t
-	 OHkdsrnOp0STc8VX0D+blWPLTGjVWvPBQpttpaRpIGZdI5xcCoaMkpgBPsjmixuD7c84N
-	 xDvzRpU6GdelTq3zpsEA9gprFMrpYCye/ctlUmgR6dKgLCfinyRbL1Mh8qZiWKvclKA==
+	bh=SfRIxaGJLK/TxQe7BtY57YPRwVwg1sw1o69yhwgKRCA=;
+	b=yeFWWqEiw1QRKEb2EpfdYCkPBJEU4bIBQhIo0UG6R1NTP0u4orNesV0B2wMVg6bivtGb
+	 K/iBvDPw+des4nsI9j9dH94ZtzCeuluDFEdXHUhRMtStF9GCWPTkLRoGqsyeglXmtBaKa
+	 2A1jYA/BPyFG+WbkFKpeWpKu1pvrrkJXKK97nBcoRzSRFu3YSokUoD1ZgwlYsDDi8G/Wc
+	 a5XY+W464oYlZqRUBXynxjq9eAC9kT5e6jlvBNfXla7XY3Vm8flByBoRUYblUOdEHfg96
+	 l4arOukP4AdOxldz5JC6xkRHrATtXhR59dmQJjq/sHkjt5Avwz3rcTMOUEJgBegLrvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mv1MzkWc;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XkwJy1a6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4092860A260E;
-	Sat, 31 Oct 2026 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A2606A330;
+	Sat, 31 Oct 2026 13:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mv1MzkWc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C5C1F00A15;
-	Sat, 31 Oct 2026 13:43:27 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XkwJy1a6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A9C1F00A17;
+	Sat, 31 Oct 2026 13:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793454207;
-	bh=z9ugbRFtepT8lOB17TZSNPg/oII/opdNslH+HVfUMgE=;
+	s=k20260515; t=1793454941;
+	bh=SfRIxaGJLK/TxQe7BtY57YPRwVwg1sw1o69yhwgKRCA=;
 	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=Mv1MzkWcHnurpn7lktWo6a25e8NVHuPBjDNwfX54NMYiIYWrgtDtOzGE3vO/nge6U
-	 GAxecgI1db5SKk/xa2qJn8qGeDjzK/sFf2Jm265MQu4bCWZ5GO8bowbwucR+L1GVZ8
-	 vrR8E7imBeWF+wRkxsSrdm5zrVgv/N3HjMTpwcbvXUSOnx7l0GQZmiYWO4VsqgF3y9
-	 Ce5BbhXx1x6YlsR+RE2MPzJwMlDq/r8LabDBWU9fLcmB6Expx7oVe2roOWng3b8qW4
-	 +m7ZECAHHN0dkg2YIfRSdE+nqaLs2dJdrG6qY5zth7lIZ1ZA19x/A+m+2jwMZQYdOd
-	 C6ChYDq1KuNuw==
-Content-Type: multipart/mixed; boundary="===============7704618518988457790=="
+	b=XkwJy1a6/qqwFqlBPSbPei8mZIpqCfX3vtFkvS1gBvDkRVULFU13DWtjWdO9gmmXA
+	 TfYLqVnair3D5UZh93fe+sRjslYzbJvFew9Cpbzay2PXq29BtgPzBpDOZzxAuyDKJF
+	 CI1gY7BFAzYw8p6B/eUU7pcRMlWPKx6RrVdMm2qiv2Oz/Evjm12nWLOJADFt8VrsNL
+	 cOM3h7q11LY8p4SHJtZC3DizwiY38lZW0aIV4LNaXc/1zpUOAwTzWeIPuqK1YKOlfc
+	 BAqSGuOboHDGmvLFfO3WYqr65C6GA/7e9w8v9OYFm0pOUqRg7cFlcDXHId9L+7FoO1
+	 lnGmGcR9AHOlg==
+Content-Type: multipart/mixed; boundary="===============1389222973622085419=="
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,153 +49,186 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <4ff8548aae0e33d90f9b6b294e642d0de460b983ccc711b31dcbb374267d44da@mail.kernel.org>
-In-Reply-To: <20261031130959.23472-9-wanjay@amazon.com>
-References: <20261031130959.23472-9-wanjay@amazon.com>
-Subject: Re: [PATCH bpf-next 08/13] tracing: parse the vmlinux BTF when BTF-typed output is enabled
+Message-Id: <5b30c8da1e5fa12691926f41a2a845d2a6f47ce33611c249c79350e67f4e636e@mail.kernel.org>
+In-Reply-To: <20261031130959.23472-3-wanjay@amazon.com>
+References: <20261031130959.23472-3-wanjay@amazon.com>
+Subject: Re: [PATCH bpf-next 02/13] bpf: fetch the vmlinux BTF where kernel types enter a program
 From: bot+bpf-ci@kernel.org
 To: wanjay@amazon.com,bpf@vger.kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com
 Cc: ihor.solodrai@linux.dev,almagui@kernel.org,martin.lau@linux.dev,yonghong.song@linux.dev,jolsa@kernel.org,rostedt@goodmis.org,mhiramat@kernel.org,mathieu.desnoyers@efficios.com,linux-trace-kernel@vger.kernel.org,nathan@kernel.org,nsc@kernel.org,linux-kbuild@vger.kernel.org,arnd@arndb.de,linux-arch@vger.kernel.org,x86@kernel.org,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,abuehaze@amazon.com,doebel@amazon.de,mpohlack@amazon.de,jay.wang.upstream@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sat, 31 Oct 2026 13:43:27 +0000 (UTC)
+Date: Sat, 31 Oct 2026 13:55:40 +0000 (UTC)
 
---===============7704618518988457790==
+--===============1389222973622085419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-> tracing: parse the vmlinux BTF when BTF-typed output is enabled
+> bpf: fetch the vmlinux BTF where kernel types enter a program
 
 TL;DR:
-- irqsoff/wakeup tracers may print function lines without arguments, since
-  they never call trace_btf_prepare() and the lazy BTF may be unparsed
-- Author's Signed-off-by is a TODO placeholder
+- check_ptr_to_map_access(): without BTF, the map_ptr error now names the map
+  type, not the missing BTF, and the new !btf branch looks unreachable
+- Co-developed-by is followed by a placeholder, not a Signed-off-by (commit
+  message)
 
->     tracing: parse the vmlinux BTF when BTF-typed output is enabled
+> bpf: fetch the vmlinux BTF where kernel types enter a program
 >
->     func-args of the function tracer, and funcgraph-args and
->     funcgraph-retval of the function_graph tracer, print arguments and
->     return values by their BTF types: print_function_args() and
->     btf_trim_retval() look the function up with btf_find_func_proto(),
->     which parses the vmlinux BTF if nobody has yet.  Since commit
->     42643ba35deb ("tracing: Avoid BTF lookup in atomic context") they do not
->     do that in atomic context, but they still can in the readers of the
->     trace: s_show() and tracing_read_pipe() print under trace_event_sem and
->     the trace access lock, while the tracer keeps recording, by default
->     into the buffer being read.
->
->     Today the BTF is always parsed at boot, so this cannot happen.  To keep
->     it that way once the vmlinux BTF can be parsed on first use
->     (CONFIG_DEBUG_INFO_BTF_LAZY, later in this series), parse it when such
->     output is enabled instead: trace_btf_prepare() is called from
->     select_trace_function() when func-args is set, from graph_trace_init()
->     when funcgraph-args or funcgraph-retval is set, and from
->     func_graph_set_flag() when either is turned on, all with
->     trace_types_lock held.  The two printers only peek at the BTF and fall
->     back to the output without it if it is not parsed, which then cannot
->     happen while the option is in effect.
->
->     "trace_options=" on the command line sets the options from
->     early_trace_init() in start_kernel(), with interrupts disabled and
->     before btf_alloc_id() can allocate; while the system is still booting
->     (system_state < SYSTEM_SCHEDULING) trace_btf_prepare() only records the
->     request, and a core_initcall parses the BTF.
->
->     Reading an event's btf_ids file looks the BTF up under event_mutex;
->     parse it before taking the mutex, as the CO-RE candidate lookup does
->     before cand_cache_mutex.
->
->     No functional change with today's eager parse, except that with such
->     an option on the command line the BTF is parsed at core_initcall time,
->     before the initcalls that would otherwise parse it.
->
->     TODO-NEEDS-IHOR: Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
->     [moved trace_func_args_prepare() to trace_btf.c as trace_btf_prepare();
->      extended it to funcgraph-retval and the btf_ids file; the printers check
->      the BTF with bpf_peek_btf_vmlinux() in front of btf_find_func_proto()]
->     Signed-off-by: Jay Wang <wanjay@amazon.com>
+> bpf_check() fetches the vmlinux BTF up front for every program, whether
+> the program uses kernel types or not.  That is free today because the
+> BTF is parsed at boot anyway.  Once it can be parsed on first use
+> (CONFIG_DEBUG_INFO_BTF_LAZY, later in this series), it would make every
+> program load pay for parsing 5-7 MB of BTF, including the socket filters
+> systemd loads at boot.
+> Drop the up-front fetch and fetch where kernel types enter the verifier
+> state instead:
+>  - bpf_add_kfunc_call(), for the first kfunc call of a program;
+>  - check_ptr_to_map_access(), for map_ptr field access;
+>  - check_pseudo_btf_id(), for ldimm64 of a kernel variable (ksym);
+>  - check_helper_call(), for helpers whose prototype takes
+>    ARG_PTR_TO_BTF_ID or returns RET_PTR_TO_BTF_ID, and for
+>    bpf_snprintf_btf() and bpf_seq_printf_btf(), which take a kernel
+>    type id inside struct btf_ptr (helper_uses_vmlinux_btf()).
+> The other ways in already fetch the BTF themselves: attach_btf in
+> bpf_prog_load(), struct_ops map creation, CO-RE candidate lookup,
+> bpf_find_btf_id(), btf_prepare_func_args() for kernel-typed arguments
+> and the kernel context type lookups.  The remaining reads of the
+> btf_vmlinux global in the verifier are on paths dominated by one of
+> these fetches.  A program that uses none of them, such as a socket
+> filter, does not need the vmlinux BTF any more, and verifies the same
+> whether or not it has been parsed.
+> Four related changes keep it that way:
+>  - The "in-kernel BTF is malformed" check in bpf_check() read the
+>    global right after the up-front fetch.  Without the fetch it would
+>    pass or fail depending on whether something else had parsed the BTF
+>    before, so drop it; every fetch point reports a missing BTF itself
+>    and passes on an error of the parse, as that check did.
+>  - check_ptr_to_map_access() checks allow_ptr_leaks before it fetches
+>    the BTF, and bpf_prog_load() falls back to the vmlinux BTF for an
+>    attach_btf_id only with CAP_BPF, which all program types that take
+>    one need, so that an unprivileged load cannot make the kernel parse
+>    it only to be refused.  The map_ptr permission error can then not
+>    name the map's struct any more and says "map_ptr access is allowed
+>    only to CAP_PERFMON and CAP_SYS_ADMIN".  A ksym, which unprivileged
+>    programs may use, still parses it.
+>  - Add bpf_peek_btf_vmlinux(), which returns the vmlinux BTF only if it
+>    is parsed already, and use it in bpf_btf_printf_prepare().  The BTF
+>    printf helpers run in program context, which may be atomic, and the
+>    verifier has fetched the BTF for every program that calls them.
+>  - is_kfunc_dynptr_write(), reached from the argument checks that
+>    helpers and kfuncs share, compared meta->btf with the global, which
+>    a helper's NULL matches while the global is NULL.  Check that the
+>    call is a kfunc first, as the other kfunc predicates there do.
+> Helpers taking ARG_PTR_TO_BTF_ID_SOCK_COMMON are left out on purpose:
+> they take sockets without BTF types too, the shared argument check reads
+> the global only for a PTR_TO_BTF_ID register, and every source of such
+> a register fetched the BTF.
+> No functional change with CONFIG_DEBUG_INFO_BTF=y, where kfunc
+> registrations at boot parse the BTF, other than that error message and
+> that, if the vmlinux BTF fails to parse (a broken toolchain), programs
+> that use no kernel types now load instead of failing.  Without BTF the
+> new helper check is compiled out and the existing error paths are
+> unchanged.
+> Co-developed-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> TODO-NEEDS-IHOR: Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> Signed-off-by: Jay Wang <wanjay@amazon.com>
 
-The patch is authored by Ihor Solodrai, but the only Signed-off-by in the
-trailer block is Jay Wang's.  Is this line meant to be the author's
-sign-off?
+This isn't a bug, but the Co-developed-by: tag is followed by a placeholder
+line, "TODO-NEEDS-IHOR: Signed-off-by: Ihor Solodrai
+<ihor.solodrai@linux.dev>", rather than a real Signed-off-by: line.
 
-    TODO-NEEDS-IHOR: Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+Documentation/process/submitting-patches.rst asks for a Co-developed-by: to
+be immediately followed by that co-author's Signed-off-by:.  Should the
+placeholder be replaced with the real tag before this is applied?
 
-With the "TODO-NEEDS-IHOR:" prefix it is not a Signed-off-by tag, so the
-patch carries no sign-off from its author, which
-Documentation/process/submitting-patches.rst requires.  The placeholder
-text would also end up in the changelog as is.
-
-Should the prefix be dropped before this is applied?
-
-> diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
-> index a5ad76175d10..cdb926c9d4e2 100644
-> --- a/kernel/trace/trace_output.c
-> +++ b/kernel/trace/trace_output.c
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 1b6c0674ff6a..18b2bd009d58 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
 
 [ ... ]
 
-> @@ -739,6 +739,9 @@ void print_function_args(struct trace_seq *s, unsigned long *args,
->  	if (lookup_symbol_name(func, name))
->  		goto out;
->  
-> +	/* see trace_btf_prepare() */
-> +	if (IS_ERR_OR_NULL(bpf_peek_btf_vmlinux()))
-> +		goto out;
->  	/* TODO: Pass module name here too */
->  	t = btf_find_func_proto(name, &btf);
->  	if (IS_ERR_OR_NULL(t))
+> @@ -6867,30 +6883,33 @@ static int check_ptr_to_map_access(struct bpf_verifier_env *env,
+>  	enum bpf_type_flag flag = 0;
+>  	const struct btf_type *t;
+>  	const char *tname;
+> +	struct btf *btf;
+>  	u32 btf_id;
+>  	int ret;
+>
+> -	if (!btf_vmlinux) {
+> -		verbose(env, "map_ptr access not supported without CONFIG_DEBUG_INFO_BTF\n");
+> -		return -ENOTSUPP;
+> -	}
+> -
+>  	if (!map->ops->map_btf_id || !*map->ops->map_btf_id) {
+>  		verbose(env, "map_ptr access not supported for map type %d\n",
+>  			map->map_type);
+>  		return -ENOTSUPP;
+>  	}
+>
+> -	t = btf_type_by_id(btf_vmlinux, *map->ops->map_btf_id);
+> -	tname = btf_name_by_offset(btf_vmlinux, t->name_off);
+> -
+> +	/* before the BTF fetch: unprivileged loads must not parse it */
+>  	if (!env->allow_ptr_leaks) {
+> -		verbose(env,
+> -			"'struct %s' access is allowed only to CAP_PERFMON and CAP_SYS_ADMIN\n",
+> -			tname);
+> +		verbose(env, "map_ptr access is allowed only to CAP_PERFMON and CAP_SYS_ADMIN\n");
+>  		return -EPERM;
+>  	}
+>
+> +	btf = bpf_get_btf_vmlinux();
+> +	if (IS_ERR(btf))
+> +		return vmlinux_btf_err(env, btf);
+> +	if (!btf) {
+> +		verbose(env, "map_ptr access not supported without CONFIG_DEBUG_INFO_BTF\n");
+> +		return -ENOTSUPP;
+> +	}
+> +
+> +	t = btf_type_by_id(btf, *map->ops->map_btf_id);
+> +	tname = btf_name_by_offset(btf, t->name_off);
+> +
+>  	if (off < 0) {
 
-Are func-args, funcgraph-args and funcgraph-retval the only producers of
-entries that carry arguments?
+Can the new "if (!btf)" branch ever be reached?
 
-Since commit 76fe0337c219 ("ftrace: Add arguments to function tracer"), the
-latency tracers pass fregs straight to trace_function(), whatever the
-func-args option says:
+Without CONFIG_DEBUG_INFO_BTF, every map type's .map_btf_id points at a
+zero-filled array:
 
-irqsoff_tracer_call() (kernel/trace/trace_irqsoff.c):
-	trace_function(tr, ip, parent_ip, trace_ctx, fregs);
+include/linux/btf_ids.h:
+    #define BTF_ID_LIST_SINGLE(name, prefix, typename) static u32 __maybe_unused name[1];
 
-wakeup_tracer_call() (kernel/trace/trace_sched_wakeup.c):
-	trace_function(tr, ip, parent_ip, trace_ctx, fregs);
+so "!*map->ops->map_btf_id" is true for every map, and the function returns
+at the first check with "map_ptr access not supported for map type %d".
 
-trace_function() reserves room for FTRACE_REGS_MAX_ARGS arguments and
-stores them whenever fregs is non-NULL.  On x86_64 and arm64, which are the
-only architectures CONFIG_DEBUG_INFO_BTF_LAZY allows, ftrace_caller always
-passes a non-NULL fregs.
+With CONFIG_DEBUG_INFO_BTF=y, bpf_get_btf_vmlinux() returns either a BTF or
+an ERR_PTR, never NULL, so the branch is unreachable in that configuration
+too.
 
-When the irqsoff, preemptoff, preemptirqsoff, wakeup, wakeup_rt or
-wakeup_dl tracer runs with function tracing on (the default, not in
-display-graph mode), irqsoff_print_line()/wakeup_print_line() return
-TRACE_TYPE_UNHANDLED.  The entry then goes through:
+Before this patch, "if (!btf_vmlinux)" was the first test.  On a kernel
+without BTF, a privileged program doing "r0 = *(u32 *)(map_ptr + off)" was
+told:
 
-trace_fn_trace()
-  print_fn_trace()
-    print_function_args()
+    map_ptr access not supported without CONFIG_DEBUG_INFO_BTF
 
-with args != NULL.
+It is now told, for example:
 
-None of these tracers calls trace_btf_prepare(), and they have no func-args
-option that would.  With CONFIG_DEBUG_INFO_BTF_LAZY (added later in this
-series by 66c4a6a9293d, e46b5971bc91 and cae96a9f7395), if nothing else has
-parsed the vmlinux BTF yet, the peek returns NULL and every function line
-in these tracers prints as "func()" where it used to print
-"func(a=..., b=0x...)".  Before this patch the reader would have parsed the
-BTF on demand.
+    map_ptr access not supported for map type 1
 
-The same applies to a boot-mapped persistent instance that holds the
-previous boot's func-args entries.  It is read-only and no tracer is
-started on it, so nothing prepares the BTF.
+That message points at the map type rather than at the missing BTF.  The
+errno (-ENOTSUPP) is unchanged.
 
-The commit message says the fallback "then cannot happen while the option
-is in effect", and the comment above trace_btf_prepare() lists only
-func-args, funcgraph-args and funcgraph-retval.  Neither covers these
-producers, and no later commit in 38e2751cdb40..4d32ca0c95ea touches
-trace_irqsoff.c or trace_sched_wakeup.c or adds another
-trace_btf_prepare() call.
+This also looks at odds with the commit message statement "Without BTF the
+new helper check is compiled out and the existing error paths are
+unchanged."
 
-Should the irqsoff/wakeup tracers call trace_btf_prepare() from their init
-when function tracing records args, or should their trace_function() calls
-pass NULL fregs unless args are wanted?
+Would an early IS_ENABLED(CONFIG_DEBUG_INFO_BTF) test with the old message,
+placed before the map_btf_id check, be a way to keep the old diagnostic?  It
+would not fetch or parse anything, so the allow_ptr_leaks-before-fetch
+ordering would stay as is.
+
+No later commit in the series changes check_ptr_to_map_access().
 
 
 ---
@@ -203,4 +236,4 @@ AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
 See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
 CI run summary: https://github.com/kernel-patches/bpf/actions/runs/41205212136
---===============7704618518988457790==--
+--===============1389222973622085419==--
