@@ -1,103 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793412585;
-	b=VdmyIcZK3M4ByPzk0hD0hqDOJrajv2YZdyUKby2Wg194Cq9NR+wpIDuObHX0JfKulPzP
-	 OeqcY9gacxFc12ZW9V3u+2JRSykoThpEkG5dgHMg0TggynggZ/WRynUzox1fcGRKXX40/
-	 bxNHaskDCgo7DKIik7oUeLEV8KmZFZB+OsYTjT2g64zljtdDuFs2rizYLr7zYD4ncD1H4
-	 kXF2sI1rd8JMDzl7ne+VyGU6wkLSKXwIgtatum4pP/gDBIhrYJs5nBcXXoC8ZCeM4Z4Z3
-	 pBZOKibVc/tHseJMSJ1tc3Gt6YcHIdjtICxrDeMEzFzA0JMIdD/bJWS3+3FKYuoYqFQ==
+	t=1793413488;
+	b=unDsgAVjnF3pTk4xYvOtr6yeUf3Vih+S/tlDXT+juqRoJkCNTFkwzCgCOYvfGPGv/3dC
+	 yK+yqe3QrN3rzyzzujeGID9SENHRW/x6r385RP2hEzhLTVozVCq0b+eToAnzuYgkQUQEK
+	 QQOTMYaPaLWIs2E1VzpCpV8dbi1rPxjQmBjsyGdgOt/yLyKAJdu4LFXwOb2DW0YxrktYE
+	 dAU2moUlOO41IAB1rPWHWN4W/9+/pzwqKzJiSAXnFCYgiUwrso3H8pLoE3hfsU0oMjB5L
+	 Z0tibqR++PJXAtN1mUc1mk0+FzqYLr/JfmeECqQEb+LzYPWMtE/j/PQdmbUNOvc8YsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793412585;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=bhNDjqO9TvYmvioIqiGGiLqz7fELlYmLdRUXFsLMln0=;
-	b=MtiblrtUlyC3xCL4KfE4sRhuAlraVK1np5EZXvL0kcsxJ031BvH1J7e8Dz092aziV15u
-	 sugGJgIRNarEY9PMkWdURfRJhI1k2qeVkVId56mC5RdgKzN3JGllOhCkk8AA8SU5/vNmr
-	 WHqUIRO5pvB6BOgGraQ+Lek/eHrRt9vOzw2XsKHHgSZclhj5p2BEsOxPi4fKNZmLIbIXF
-	 +MpNM7Oqm1D665EY90YbmeCMt2WFLTqDEEjxNc18gha4J+r2FIsrYfLuXWrM6ANxcJMHe
-	 hU62LJ+f87P22MD4rtuV8OLBfAh924153rvOJ5mJJmihchSv8hdfzgDlTOJbTLZYpWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793413488;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=nB4pM2ZJXpnwRA8pYcn66mc+0T+eg4LR6jSzacwN0sA=;
+	b=O6qyplmw4XP5Stk9c9Mv2cAISMWHwmxM7wNgech4G8sjV0ptfJyF5u8j/GnFLhF943yG
+	 7HJO6sN2KaHbLJITsNU3kku4AwoE+Mzd+FvXz/AmsKyCB6gGZPvGFTfaXqv0YecCsUmf8
+	 Ifym+DBqIwBTe9wzVA8dj7USuifolF1GuStzX787VvmIoebFPyWslLlQn+XjCaHrVPS5p
+	 B1kfqLw1wo+95/cVvtCDmEweFvTb9DxlH2V2TNcv3OMGIdIboGqShgRN3gTHe9DlpSxzz
+	 aWRy0SmYkhceNS3TvG4XiKmzST8+xPK60BLTDu6Fmxk7JVaFaIPpvJVQprNt68POMfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTzwE4Pn;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=raUpYOFg;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF19C606A33B
-	for <linux-doc@vger.kernel.org>; Sat, 31 Oct 2026 02:09:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF19C606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAD1606A31A;
+	Sat, 31 Oct 2026 02:24:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEAD1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fTzwE4Pn
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-36a2551d7b5so3062071eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Oct 2026 19:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793412584; x=1794017384; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bhNDjqO9TvYmvioIqiGGiLqz7fELlYmLdRUXFsLMln0=;
-        b=fTzwE4PngQGwqpMMBgHBcuhmnZjg+XDzOwJDz9S1QXEU0GYPdBLQCsc6j9wD1WbV/X
-         OnPLrQbh267GoEuCi9p+qs3zw64R0ZZeVTpcTooJNtQB9uhZNb+CmtkT7HuxyJNt20e0
-         aYkXGhScmaavMQiVkFVrUUiGDvC8fSxOuYq/9UkRejiXkJWzhWLlGRe4NusxSgeBKMAN
-         QGMfnU07BLGjj83SnYkV0wXi7iGE8FH9qZquKk2ZGhkjfoz742ZL2pHoVnxuYz8Ojk/q
-         cP28SUHP4VafQAnHWkqJFR4ldOB2EYDUen1rxX9GZgByssz54fHaO4ZLqGf1voA3v7o4
-         Brpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793412584; x=1794017384;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bhNDjqO9TvYmvioIqiGGiLqz7fELlYmLdRUXFsLMln0=;
-        b=E7HcEY7VHTH4R7eo9UrUi4vmqFA/D1oDPSagIjmx0afjYVzbqyr7eZ3NHNg5UBjOqm
-         NkijNGq74HoPVuf5W4RZnGOT3DP5piaQNyPo28QKMUB75YkDQvrj3LB1xhJ1W+Q9b39/
-         TptSnLbB2ElR/R0jujtPY1nejQUrn39m/yQCcBL9nHWb9wEQVipi4TxVTWVDmCoyv+jT
-         3xh2CgDd4KKStbV1J7ufR/L0uWLAbFEIq98Rp7P63/l3h3es/u785U5EWAGPAD7gsz6D
-         9jNqEVgj1iI1wKuBlLnXsPikwrUFQWrzzQQGkAiSw8FyvvvF1yEyP1tLHdQlV2KRdxku
-         7GkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx8SlcPPH5SX13QlPNbSZF/bTdduEINfQEcKspJYVSNxg3r8/SOlwjPw32PqBiOI8HySTm49cWkTSk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIGZ8MLnEfzfTA4WJ38QTkpYIOLMe3McfUVLafkHMY0ICA8O/a5
-	LIwsl8PMhzJLxfeVkg3M8zPQTCmRfmgXt0LA8YRPRQ9oP2xowJktB4jn
-X-Gm-Gg: AYBFou1W5FQJGNwrDc4+vmcdxnYnv9Gz3W173g216Ja9szNg17uUZU/Jfm7fymnpTXh
-	pxh1G7qA3ZF9qRO4kMgWzICY/m9mJ29ISiDby4j4ivDAVuCH0Wl6Sy9TxjzOyfEThzcD+uq7Me3
-	V5q8tUEimltjtvSOEuZwuTskhNHd9+5jGW4C8JVGiThvz9ms/PzCOFXF1yHFIeLemn5+BnHv4Xm
-	iHXlcEHAjgKHhOTtvrLgUFtBkOIiIYI+RQ4PO1k4AMx+GQPlDnB/z97IVdvvPsp/Ss1igbynH8X
-	pwz/ECOA7IOjAxyBEZTD4eTtB694IdzvrpfZuR+eQYZEZ45o9Dh06kBJwMNrbg8kHbBRt6zI8HY
-	SFvyL6SgfM6IKlOtWUOv7omPVeuXWl0b3gmYpEgKFwLJYrkjWgawtWoV1DzzJYLWVMJ7Eh8L2Rp
-	vNJyEWeMJIZCCMi91Giv9AfUfHefv9SsOXPwhiWLsrLHAsMuPfluL1KGDVYkqtm1TxlA1Hxtb87
-	ZbPJjCgoqygu67Q2UvR+O/ODnFnPD+AQXSzDWdaC+y+Y3rrYG+OqqWr0NjvHS7dg62h24YK3nPk
-	UsNnt+cWB4KBtQBdnfxakVBk3L69pXBzMDaZRwPPZpREp4bY6wYwDvZdsjbmcVqJPTIYJgydi9Z
-	YckkqgTqSTsVMHpFo/J+lMDnnaPchii7nvmW20lyO/8/Zbw==
-X-Received: by 2002:a05:693c:4088:b0:36a:2f6c:490e with SMTP id 5a478bee46e88-36a30009ecemr10595948eec.6.1793412583676;
-        Fri, 30 Oct 2026 19:09:43 -0700 (PDT)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a77c0dsm13214096eec.26.2026.10.30.19.09.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 30 Oct 2026 19:09:43 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v11 14/14] ALSA: virtio: rebase ordinary capture accounting on RESET
-Date: Sat, 31 Oct 2026 11:08:55 +0900
-Message-ID: <20261031020855.2402-15-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261031020855.2402-1-mynameisjune111@gmail.com>
-References: <20261031020855.2402-1-mynameisjune111@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=raUpYOFg
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=nB4pM2ZJXpnwRA8pYcn66mc+0T+eg4LR6jSzacwN0sA=;
+	b=raUpYOFgQh9voYZCcg/OdijcaqglHGfZZNxTVqJS0LCtBGqRCcsPX7o9pBhQCMBGH31u4wfgw
+	Qjfi6WZmlQEhgM12bST5N2B2vkEcfU3HyItBP3p/jVOytsN7ALvwk7SZvmfNA7YywyBpTgjsnuY
+	HzdvuTsz24yzs1NokF/AV48=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jGhcR0LV4zcZyQ;
+	Sat, 31 Oct 2026 10:24:23 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id DCCDF40538;
+	Sat, 31 Oct 2026 10:24:41 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Sat, 31 Oct
+ 2026 10:24:40 +0800
+Message-ID: <04b19a8f-72aa-4342-b5ec-a0bf8417b276@huawei.com>
+Date: Sat, 31 Oct 2026 10:24:40 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,201 +62,158 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/19] arm_mpam: resctrl: Leave CDP off when there
+ are too few PARTIDs
+To: Ben Horgan <ben.horgan@arm.com>, <reinette.chatre@intel.com>,
+	<james.morse@arm.com>, <fenghuay@nvidia.com>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <mark.rutland@arm.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <babu.moger@amd.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <tan.shaopeng@jp.fujitsu.com>, <jic23@kernel.org>,
+	<zengheng4@huawei.com>, <gshan@redhat.com>, <x86@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
+References: <20261029123611.1108424-1-ruanjinjie@huawei.com>
+ <20261029123611.1108424-2-ruanjinjie@huawei.com>
+ <bea9392d-a9d1-4683-ba2c-41139a1dca9d@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <bea9392d-a9d1-4683-ba2c-41139a1dca9d@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-Ordinary capture's indirect positions must follow the common RESET
-observation while preserving the device's fixed DMA ring offsets. Select
-its reset callback at open alongside the staged capture callback.
 
-Suppress nested ACK refills during snd_pcm_lib_reset(). For paused
-capture, hold the RX queue and substream locks while checking lifecycle
-state and observing the latest completed position. Update a local copy
-of the indirect state, return discarded RX space, and commit on success.
-This also keeps the observation boundary consistent with a late RX
-completion. Data arriving after the committed observation remains unread.
 
-Honor an existing XRUN before changing private paused accounting or
-refilling descriptors. On a refill failure, retain the error and complete
-the core rebase; the worker then reports XRUN. RESET can return zero while
-the error notification is pending. Prepare or reopen recovers the stream.
-Device reset suppresses fresh notifications until a usable queue exists.
+在 2026/10/31 0:38, Ben Horgan 写道:
+> Hi Jinjie,
+> 
+> Thanks for this fix!
+> 
+> On 29/10/2026 12:35, Jinjie Ruan wrote:
+>> Enabling CDP needs a second PARTID for the reserved closid.
+> 
+> I'm not sure what a 'reserved closid' is here but you could just say:
 
-Set the ordinary notification floor to the RESET observation so queued
-work cannot report a discarded period as new progress. Native resume
-preserves the RX ring ownership established by the earlier patches.
+Hi Ben,
 
-Fault tests covered late completions, existing XRUN, nested refill and
-refill failures with recovery and reopen. Ordinary and staged 70-second
-RW and MMAP captures matched the deterministic sequence, including
-PAUSE, RESET, resume and the intended discard boundary. The paused
-interleaving test verifies the atomic observation boundary; it does not
-establish sample loss in the original implementation.
 
-Link: https://sashiko.dev/#/patchset/20261030052629.27742-1-mynameisjune111%40gmail.com?part=14
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+This means there are two copies: one for data and one for code.
 
----
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -76,6 +76,8 @@
-  * @release_required: Successful PREPARE still needs a successful RELEASE.
-  * @control_uncertain: Native control result requires device reset before reuse.
-  * @capture_reset_observing: Reclaim staged samples during RESET pointer capture.
-+ * @indirect_reset_observing: Suppress ordinary ACK refill during RESET pointer
-+ *                            capture; protected by the PCM stream lock.
-  * @suspended: True if the substream is suspended and must be reconfigured on
-  *             the device side at resume.
-  * @pause_restart_state: Device-side state for opt-in pause compatibility.
-@@ -127,6 +129,7 @@
- 	bool release_required;
- 	bool control_uncertain;
- 	bool capture_reset_observing;
-+	bool indirect_reset_observing;
- 	bool suspended;
- 	enum virtio_pcm_pause_restart_state pause_restart_state;
- 	struct virtio_pcm_msg **msgs;
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -10,6 +10,7 @@
- #include "virtio_card.h"
- 
- static const struct snd_pcm_ops virtsnd_pcm_capture_staged_ops;
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops;
- 
- bool virtsnd_capture_staging;
- module_param_named(capture_staging, virtsnd_capture_staging, bool, 0444);
-@@ -398,6 +399,9 @@
- 		&virtsnd_pcm_capture_staged_ops :
- 		&virtsnd_pcm_ops[substream->stream];
- 
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE && !vss->capture_staging)
-+		substream->ops = &virtsnd_pcm_capture_indirect_ops;
-+
- 	snd_pcm_hw_constraint_integer(substream->runtime,
- 				      SNDRV_PCM_HW_PARAM_PERIODS);
- 
-@@ -1724,9 +1728,13 @@
-  */
- static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
- {
-+	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int rc;
- 
-+	/* RESET observes the pointer before returning discarded RX space. */
-+	if (vss->indirect_reset_observing)
-+		return 0;
- 	if (!mutex_trylock(&runtime->buffer_mutex))
- 		return -EBADFD;
- 	rc = virtsnd_pcm_cp_ack_locked(substream);
-@@ -1759,6 +1767,89 @@
- 			return 0;
- 	}
- 	return virtsnd_pcm_sync_stop_locked(substream);
-+}
-+
-+/*
-+ * The PCM lock covers indirect accounting and core completion. Once lib_reset
-+ * changes hw_ptr, complete the core rebase even if refilling fails. The latched
-+ * XRUN rejects subsequent pointer/ACK operations; the worker publishes XRUN to
-+ * paused streams too. RESET success therefore does not imply stream recovery.
-+ */
-+static int virtsnd_pcm_indirect_reset(struct snd_pcm_substream *substream)
-+{
-+	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
-+	struct virtsnd_pcm_transfer transfer = {};
-+	snd_pcm_uframes_t paused_ptr = 0;
-+	bool paused = runtime->state == SNDRV_PCM_STATE_PAUSED;
-+	int rc;
-+
-+	/* Only PCM-locked callbacks access this observation flag. */
-+	vss->indirect_reset_observing = true;
-+	rc = snd_pcm_lib_reset(substream);
-+	vss->indirect_reset_observing = false;
-+	if (rc)
-+		return rc;
-+	guard(spinlock_irqsave)(&queue->lock);
-+	guard(spinlock)(&vss->lock);
-+	if (vss->resetting)
-+		return 0;
-+	if (vss->xfer_xrun) {
-+		virtsnd_pcm_transfer_failed(vss);
-+		virtsnd_pcm_schedule_period_elapsed(vss);
-+		return 0;
-+	}
-+	if (!snd_pcm_running(substream) && !paused)
-+		return 0;
-+	if (!vss->prepared || vss->stopped) {
-+		virtsnd_pcm_transfer_failed(vss);
-+		vss->xfer_xrun = true;
-+		virtsnd_pcm_schedule_period_elapsed(vss);
-+		return 0;
-+	}
-+
-+	transfer.indirect = vss->pcm_indirect;
-+	if (paused) {
-+		/* Observe and reclaim paused completions in one queue transaction. */
-+		vss->capture_pointer_seen_total = vss->capture_copied_total;
-+		vss->indirect_reset_observing = true;
-+		paused_ptr = snd_pcm_indirect_capture_pointer(substream,
-+							      &transfer.indirect, vss->hw_ptr);
-+		vss->indirect_reset_observing = false;
-+		if (paused_ptr == SNDRV_PCM_POS_XRUN) {
-+			virtsnd_pcm_transfer_failed(vss);
-+			vss->xfer_xrun = true;
-+			virtsnd_pcm_schedule_period_elapsed(vss);
-+			return 0;
-+		}
-+		runtime->status->hw_ptr = paused_ptr;
-+	}
-+	transfer.indirect.sw_ready = 0;
-+	/* Consume no application delta while returning discarded RX space. */
-+	transfer.indirect.appl_ptr = runtime->control->appl_ptr;
-+	rc = snd_pcm_indirect_capture_transfer(substream, &transfer.indirect,
-+					       virtsnd_pcm_trans_copy);
-+	if (!rc)
-+		rc = transfer.error;
-+	if (rc) {
-+		virtsnd_pcm_transfer_failed(vss);
-+		vss->xfer_xrun = true;
-+		virtsnd_pcm_schedule_period_elapsed(vss);
-+		return 0;
-+	}
-+
-+	/* RESET discards all samples through the observed software pointer. */
-+	transfer.indirect.sw_ready = 0;
-+	transfer.indirect.appl_ptr = runtime->status->hw_ptr;
-+	vss->pcm_indirect = transfer.indirect;
-+	{
-+		size_t period = snd_pcm_lib_period_bytes(substream);
-+
-+		vss->capture_notified_periods = period ?
-+			div64_ul(vss->capture_pointer_seen_total, period) : 0;
-+	}
-+	return 0;
- }
- 
- /* The core holds the stream lock through the matching appl_ptr reset. */
-@@ -1858,3 +1949,17 @@
- 	.pointer = virtsnd_pcm_cp_pointer,
- 	.ack = virtsnd_pcm_cp_ack,
- };
-+
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops = {
-+	.open = virtsnd_pcm_open,
-+	.close = virtsnd_pcm_close,
-+	.ioctl = snd_pcm_lib_ioctl,
-+	.reset = virtsnd_pcm_indirect_reset,
-+	.hw_params = virtsnd_pcm_hw_params,
-+	.hw_free = virtsnd_pcm_hw_free,
-+	.prepare = virtsnd_pcm_prepare,
-+	.trigger = virtsnd_pcm_trigger,
-+	.sync_stop = virtsnd_pcm_sync_stop,
-+	.pointer = virtsnd_pcm_cp_pointer,
-+	.ack = virtsnd_pcm_cp_ack,
-+};
+> 
+> Enabling CDP requires at least 2 PARTIDs.
+
+OK.
+
+> 
+>> If firmware
+>> reports too few PARTIDs, resctrl_arch_set_cdp_enabled() returns -EINVAL,
+> 
+> Not all systems are firmware backed. This can be:
+> 
+> If there are too few PARTIDs, ... .
+
+Thank you! I will fix it.
+
+> 
+>> but only after it has recorded CDP as enabled, halved the monitor count
+>> and turned off the mbw_max MBA control. 
+> 
+> 
+>> resctrl then reports an error
+>> and believes CDP is off, which leaves the two sides out of step and the
+>> halved monitor count and the missing MBA control are not undone.
+> 
+> I think the 'reports an error part' can be dropped leaving 'resctrl then believes CDP is off...' as
+> exactly what resctrl does is not important here.
+
+Will update it.
+
+> 
+>>
+>> Check the PARTID limit, and work out the CDP PARTIDs, before anything is
+> 
+> Why work out the CDP PARTIDs so early if they aren't going to be used?
+
+Modified them together as a whole.
+
+> 
+>> changed so a failed enable has no effect.
+>>
+>> Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>  drivers/resctrl/mpam_resctrl.c | 20 ++++++++++++--------
+>>  1 file changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
+>> index 5468367776e2..886f0595d364 100644
+>> --- a/drivers/resctrl/mpam_resctrl.c
+>> +++ b/drivers/resctrl/mpam_resctrl.c
+>> @@ -210,6 +210,18 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level rid, bool enable)
+>>  	if (enable)
+>>  		pr_warn("CDP is an expert feature and may cause MPAM to malfunction.\n");
+>>  
+>> +	/*
+>> +	 * Check this before changing any state: if CDP can't be enabled the
+>> +	 * caller must see CDP left off.
+>> +	 */
+> 
+> I don't think this comment is needed. Failing early rather than failing late after some side effects
+> have happened is clearly better.
+
+Will delete it.
+
+> 
+>> +	if (enable) {
+>> +		if (mpam_partid_max < 1)
+>> +			return -EINVAL;
+>> +
+>> +		partid_d = resctrl_get_config_index(RESCTRL_RESERVED_CLOSID, CDP_DATA);
+>> +		partid_i = resctrl_get_config_index(RESCTRL_RESERVED_CLOSID, CDP_CODE);
+> 
+> The partid_d/partid_i determination can stay below so it's close to the user.
+
+Will put it back in its original place.
+
+> 
+> I think we can just have the check here:
+> 
+> if (enable && mpam_partid_max < 1)
+>   	return -EINVAL;
+
+That is fine.
+
+> 
+> Thanks,
+> 
+> Ben
+> 
+>> +	}
+>> +
+>>  	/*
+>>  	 * resctrl_arch_set_cdp_enabled() is only called with enable set to
+>>  	 * false on error and unmount.
+>> @@ -238,14 +250,6 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level rid, bool enable)
+>>  	if (!cdp_enabled && mpam_resctrl_controls[RDT_RESOURCE_MBA].class)
+>>  		mpam_resctrl_controls[RDT_RESOURCE_MBA].resctrl_res.alloc_capable = true;
+>>  
+>> -	if (enable) {
+>> -		if (mpam_partid_max < 1)
+>> -			return -EINVAL;
+>> -
+>> -		partid_d = resctrl_get_config_index(RESCTRL_RESERVED_CLOSID, CDP_DATA);
+>> -		partid_i = resctrl_get_config_index(RESCTRL_RESERVED_CLOSID, CDP_CODE);
+>> -	}
+>> -
+>>  	mpam_set_task_partid_pmg(current, partid_d, partid_i, 0, 0);
+>>  	WRITE_ONCE(arm64_mpam_global_default, mpam_get_regval(current));
+>>  
+> 
+
+-- 
+Best regards,
+Jinjie
+
