@@ -1,112 +1,113 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793571940;
-	b=I+PSF2+cRKxB8o1PfAF4ar9HMEnmHi/+ygyxyn7/wut7fIgU1iIbkQMdNajnFO3aWwXj
-	 nmrQA20PMJsz7UddFqMsY54v8sn4ckg+mNw0kLKAg6pQtBk5xVjp7yrLM/PzXDfAl3rtj
-	 YXDFsZqU4VK6d3psSyHLQ1vbj+IpwNEnRFuxSFkfxWD1v4hmD61OhVELy1vRhupG6vV5V
-	 LiSNh0lFc6UP5TD7lBx4IbvtXr7UYf+oxgLCSL2t6mI8iZ/jy20Af2SEhxZAjFC9E6+Ng
-	 3Ar9uqU6ifaxsgJxh6aCGzD00FRgll26TJQg9hin8CEEi9Uk3utjv3kKhANJyohLeNQ==
+	t=1793571951;
+	b=mgQv1dcTN3YroIfCHLP32zLig5h0jKf+hv62QyHFe9nHPfRWd+3OfMeGv9i24Hb1y04r
+	 EgVD6wvlSS3JWpm8Z1kGSvBBivjLQQLI8YWyWKEUOd4p+L34u8jzGAL9nie+UNTlphpZp
+	 ZEI/hGhkQoy1KfajEFqhLioVSm4tzZRjvIYP/St7k2u5f5PEAiphjGReiQW/R8C1Ebfhd
+	 TEWYdPqP6wuVB7nDqtk8dio9slMuI1Lz/GUTw9ogaPaIOgkJEMrPYFWAYb2AwUkuSgPaT
+	 M94R26KSNi1PLEBQpooY7G87Qk8Sju/oBxyvMM3gpI6d+9/PjSvQCjGOe05+3AIhdMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793571940;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793571951;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=UoXewJ+qoJ0mNCjyPNEf85tc/AzzsV0ZZJUTkeHj8tM=;
-	b=jjdFrZpuG4skIbYJK6q7boCOaYcD0xIRu2nlB2I2rcy4anr2Y1wnuKpqHttYsTOnUTs/
-	 Jc2zLTRohSl0SUtFZUxP9haKYwYHSVpjcDe/uFYcTXDAKRV5OxVhUZBfGI7+smTDN4KKx
-	 lWAsT8w11ecyhLyjJHz8rjulE8+l3hOSTtVdefz7PCQ8iK18QKBjXHnNf89adhYlZryet
-	 VKFi2njGJs/c3yYLGbkjd07ObTAOlgmj2jXb6KP7cCheiX1LcorpZfRB6A2dfE538uEYo
-	 XXp57wb6kJM88Y7CHCHYQsL+rt4RYVLxcTUxc39WkL3v+GA8XVIHxjkc+jsulqybQ/Q==
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=nwucajbD+HNWxH4FxeHiZU8tWXZnOU3zyZiJTCLv21w=;
+	b=Qc+IQgWK2v5wqFJs9V2Ui6qhDLXkzSKr/B571mdXGQQ1h8Nck5I+szJ+gNlfP+IEb2gs
+	 x+TabYpbsoNn9g5Rwr/SF1OECo/UU8oX9D4KSXK7Po+7vartxPxqOtWStw9ROkSZEJZGV
+	 GbhAlWXV3+gtsGhotdB7E2ZtFldibfYNNNPZODZNZHiOP+BIyE3iyIWYmcfsOylCTIN84
+	 WiaTdSEOy1yMAR4SiofGcniA0IVbet3JkVOu3idh2M8ylENX5XgQTtZlMUPMvB0RbRFaA
+	 3C0OluYhMhpooGZvfxBqIDYjiek91/63mR1tO6k+aoP6ZvOaMF/Cfk12rDe3x4Sxy9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NrrMKBal;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JHVw75kB;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nuQFYCfs;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V7iY4ZYt;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1220660701DE
-	for <linux-doc@vger.kernel.org>; Sun,  1 Nov 2026 22:25:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1220660701DE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95BF6070E90
+	for <linux-doc@vger.kernel.org>; Sun,  1 Nov 2026 22:25:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A95BF6070E90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NrrMKBal;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JHVw75kB
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1KJw9U1808353
-	for <linux-doc@vger.kernel.org>; Sun, 1 Nov 2026 22:25:39 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nuQFYCfs;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V7iY4ZYt
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1KKOd1733503
+	for <linux-doc@vger.kernel.org>; Sun, 1 Nov 2026 22:25:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UoXewJ+qoJ0mNCjyPNEf85tc/AzzsV0ZZJUTkeHj8tM=; b=NrrMKBal1dXoKXUg
-	oRZN1JvOaJIN+P27N48rbuxEk2sQtUihIl1p52km3oQkBNWB3mjh8MRA7RL7vAWu
-	56QoK2SXe2qSFGVKo4A2LGEjJuoLtwRgerDb+PoyU0h4wvs+IKk4iGCaKu+K/z4w
-	wm7l1yO/iSS8kibYW69+lHnSJrMWuQYx2W0bbDQpkc0FkQzgzpXsVW5hv8SVrSLs
-	P2QWlgAyDu5u1BkPVKum7eixtLDecGhabtU86bNTxWhnOM7p6veK/SFpLmz7j6rI
-	2PP7nd3ROHlD85tejum/1yVkywNH6eZ2ptB3f80QISi7YpiVLI4JC4lEpH125tXB
-	nqodPA==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn5pkmq3a-1
+	nwucajbD+HNWxH4FxeHiZU8tWXZnOU3zyZiJTCLv21w=; b=nuQFYCfsssQ3y9N0
+	7Za3EjBr7nYaRhEHo9aY3j7SnThyTGwMB/gPb5kJYP450DFQoxpU0e1nmLixVV2g
+	Ryy94jRAyJPD183XJBUbly1erFQ8c8d+0JRI+ib3Y1GMov/cte8Tv9hCHE5XdPsO
+	0jL2sdhUWBn6EGsz8oHxzjrMfRJq0zkKcqa9syoD2B3FRbMvY1BVgEmUFwIv9I50
+	RoMr8LcuNQc4ncTb4h34iWJ6nuOXUq4XdRVDzWvKxRtXdkNl/oc3gkvB7xpbjcqO
+	f5ZlITYalzKx+4c7MXLabR5NGdhYYH/qH6/7j6ht8uobG6vEnFPNFChWIteB4Abp
+	E7xFZg==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn8q7v9m5-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 22:25:39 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36637676140so3403077eec.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 14:25:38 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 22:25:49 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-36a190c53a3so3389104eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 14:25:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793571938; x=1794176738; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793571949; x=1794176749; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UoXewJ+qoJ0mNCjyPNEf85tc/AzzsV0ZZJUTkeHj8tM=;
-        b=JHVw75kBsH36icFIJMQyYKktY2TxneSyqUcsOkqUK2XfwWl73RXhE095bo3tfb+Uu9
-         MCyloJd1eemBFXiOtdg4VaKXbC2+Olg5FwDIgyHj+4UNy42h5Kg2+KqfZWoQxKyP/W7C
-         RurHCj1skVJzd0VVdHw/7R8IogUbmcyErbnzyAs+ZSyxsXUotox4eusqR8K/DINHXSjn
-         WMYoVH3MktHh2HfoDKnqlsmY/A3hKHJiY6RmOEIxNJhfqSVgSjMe7teRI0mySRDh3bw8
-         PueVDGWmCR1S7SUhx4Emlv0sASrD47h41wW5W908I1OeCM46+yWryv1mbKmn92xqkFJZ
-         3cdQ==
+        bh=nwucajbD+HNWxH4FxeHiZU8tWXZnOU3zyZiJTCLv21w=;
+        b=V7iY4ZYtHtS627Sesz8xwXpsYRXiVl4n2+shqiK5mogl3OF1Rgy2wrD2FnD09Tb3Th
+         YvJns/BuQcE9wB63sbmd3nkVRN05nBe4a1ZCYKA1WDsy6dDwSpH6NoVB8zUSCtUQAq/P
+         YisVX2zKVFMGFFoqlOAwtw67ccJzLWK5J/Y2i29i0WuDeVhCoroQp+GlFBnQgoo2YRwR
+         kaulmkGtJuqmlFF6iRHjrZgVsM3ANpbNkUlaH/UsW1AM775XhxnRSGU7BYPGGcxJCQYr
+         w2OrbA9kTyq1IIE3ZW5FmF6WDVrQccHMNW/nzqX9BbNYY0yax9z/ZhjcTrLuMTvXZiQ9
+         eKuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793571938; x=1794176738;
+        d=1e100.net; s=20260707; t=1793571949; x=1794176749;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UoXewJ+qoJ0mNCjyPNEf85tc/AzzsV0ZZJUTkeHj8tM=;
-        b=bf8qPv0rtoNDv0AcOqdNlEQuOxrbRh7s3/HqNZPcUtqmXfI5O1pUm/5VbfOARvL33U
-         xvbrwbXVFfexYmVHprB0AeaJ+BWqOnxjgAnTUGcbaHY5yIB/FTZ6vV0DlDxlDfgdl4mX
-         2LCVj4hUszL3vMN0qRSZeyGcYjt6yn89SPXlwmMMWewdRWyVSSgpImWw1wBXGy9qNjVo
-         9DyiCFb7H2QrYQhvB8CtNIR2vnBWOogI2KwNcLji6cULrFJcxMM81D+sJvc6y/oR9zj6
-         KjjolYxvZZAj9qFd61G/vp3XS7PVnn7JSYJgUAdW+QXKQ5/WUV5EErKSm4296TIur3Dv
-         LszQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymqUJsMbvn4GjGcsg9a0oP3gWoZCPxfdB7gloCIFwYGzAvAWB4eyY+Dxupb24zN2ImhNJn00Yw83c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLmr79fBnv3JQ2qsKSE4UjKnhwAyUraModoKqCk6RQ4oJsUfZGY
-	Wsu8Dx7S5JwkpbClcDub21mfisaES8P2R3GIhHc9eTFUt7uvQV3fT/mc8aCduzZbKuVNiL564PI
-	q1t4fZfSwiCW9klkVsgx+Tf3bAHQzWthVVcxkQNvJivSgsKpJZ75M9PPSiuBAeYM=
-X-Gm-Gg: AYBFou24eUa9w0zmuoaieNgaoEL2IdTrgVAGXfZIBFEvDfSvlVaDT0PUkxHNuHiYV20
-	R5MdZvCvYsIjDA5+8h/xRLonYziY8G9nLoZi1BoJwb5nQEDno/FkDYhHzGdYBhhJf/bzJsEzwi1
-	aUQ3AooqiN9ogkal07c4a5iQUF1FHs3BGfpPDF85057OXvQU5t8ui6ydBxTYRUo+oxfWaAjKMJv
-	wR3LzFPivS1zP9UKEPQza5MaHxAE3p2gQNOLl8EyzZCrBBRuZjY7+dxwcg6zgMkjRKIqdK1AJSz
-	8Do7lYBk0LD/KnVJ8zphtH3N9vaGVdQEPwq/eNX7+IJhaVQWDyY1otRMw0/OZ1FU3DTcKZ/fDKa
-	NkbPoi353R5SOLwocby6Tfq5iFJCKTZkmS9TzpD/lG51VDdslZDIQFFuUa3YBNg+luOs87n8MmR
-	6fbnJlOg==
-X-Received: by 2002:a05:7022:f908:b0:14c:d84c:7182 with SMTP id a92af1059eb24-1ac5da75597mr11150917c88.22.1793571937893;
-        Sun, 01 Nov 2026 14:25:37 -0800 (PST)
-X-Received: by 2002:a05:7022:f908:b0:14c:d84c:7182 with SMTP id a92af1059eb24-1ac5da75597mr11150877c88.22.1793571936932;
-        Sun, 01 Nov 2026 14:25:36 -0800 (PST)
+        bh=nwucajbD+HNWxH4FxeHiZU8tWXZnOU3zyZiJTCLv21w=;
+        b=Ij/9j4+/o1VfHVbgy0ZAXYBnswN3qbpJ/qQ2iyZGJyJ9eEqI6km16dyufHC6rgLN3s
+         bmvhu2Yqrv0Gh51pD8srkHJj1E5/G6yJCenEwO2KzO0LwRlpfHNzLYThBNo67TwW7/+G
+         5n355fNkLr6iRy9wkMa5M5VfgWSycjA6vCdpstu2XNeHjozy5EPVmKV7KUoXXA9EFymP
+         5OzhepVuw5jzVk/77il6MUw2uGh/VdUXunAsh/hcYvcWIMF3HvscLajvhd17RxCg4GAG
+         xWo0890OZ609B0dKhFZbq5iwLd0w0ld5R4+11LrQ67Phg+n1e6wx4Mzv09ZSYGwfPb5K
+         jCvg==
+X-Forwarded-Encrypted: i=1; AKwUvBwJPiKm00UkSih9/Ufh35vZ4PTQcyX4dT5oVQAx0kbAwUFO9pd+dUs23Sjas4GuccpMFBnjQ+5qbKI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3jz51ulEGln8Oqx61PxlBAVAiGFPfN0fFoF+cGHzO3bLx3aZz
+	Mmfd0NRgQcRLi/iie7igybDpd7aHSayldCA97+T7ilvhxib67OxYJYnRjx32lLgl1CtBngZzmXo
+	agS4QLXkmjNaRgN+Qbti2KfXor+R1j8U95BBPlkneeyr1Jb8m7wvXXmzxQo8cAHI=
+X-Gm-Gg: AYBFou1P2IwScumqPwpVVtqs0/FtxZc+5hffg/D4sflugl4cBXbppTHQhPm3gL2neKM
+	7tqt2Or16H7j6sv+G8DoTrOdWFKbRVRUHbyFD9umjpR9WOJny940DOW2Ds5N6xTw+Owc48R3P7g
+	ICqVNvjat0purSXwy9UbtKsb1PrarN5EQbcWo3ZiXkuvxpTOcAWVgExGfDrvC+1/pnSBFGHyKuh
+	2ddXYqz/CRnA2bKsevrLUOeZZKSBIs5DMnaHFNfUrCoNXRVcm2Kn3/+JaN3vP3o/XX3YJxLPhKf
+	y+FXDWa6UogTUAygm0zaGDFrwsh1UL8Sr16DP/YyI3AZAc5JTIU8H5QPtuNDi9plNlBRpRwoKX2
+	m9rUjF7VuRD+Ri3cBsvCycYxJ4SQWshPywhzeO5XMfpIoLQtMA9VYgGSR2cslP4r46lJD5lApv1
+	OdPROSsA==
+X-Received: by 2002:a05:701b:2092:20b0:1a7:77ae:11f6 with SMTP id a92af1059eb24-1ac5b7e0185mr12212171c88.17.1793571948415;
+        Sun, 01 Nov 2026 14:25:48 -0800 (PST)
+X-Received: by 2002:a05:701b:2092:20b0:1a7:77ae:11f6 with SMTP id a92af1059eb24-1ac5b7e0185mr12212134c88.17.1793571947846;
+        Sun, 01 Nov 2026 14:25:47 -0800 (PST)
 Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac13ef1932sm27742653c88.2.2026.11.01.14.25.26
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac13ef1932sm27742653c88.2.2026.11.01.14.25.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 14:25:36 -0800 (PST)
+        Sun, 01 Nov 2026 14:25:47 -0800 (PST)
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Date: Mon, 02 Nov 2026 03:51:36 +0530
-Subject: [PATCH v4 23/25] accel/qda: Add DSP capability query
+Date: Mon, 02 Nov 2026 03:51:37 +0530
+Subject: [PATCH v4 24/25] accel/qda: Add legacy shim support for DSP
+ capability query
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-v4-v4-23-88f2f24a5f0b@qti.qualcomm.com>
+Message-Id: <20261102-v4-v4-24-88f2f24a5f0b@qti.qualcomm.com>
 References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
 In-Reply-To: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
 To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -146,320 +147,134 @@ Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
         Chenna Kesava Raju <quic_chennak@quicinc.com>,
         Ekansh Gupta <ekangupt@qti.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793571679; l=10471;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793571679; l=3736;
  i=ekangupt@qti.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=4QIZzgQix6cG3ssVtqx+8DJ25upu5rDPc5bsdyYcbs8=;
- b=t7OqUD+ipLOcfM5X1uvFAyDz59PT/R9V8zjulsxcB4GZxcqlEsSzWHmVsHHaS1nDCwZDaYEwa
- 4w0jIiHRVg7C/6YpiUXai0F1gpD0RyrPGkldZaBDHUyioaDuTxFaxdA
+ bh=jwnH5cfp8M6GHrX4Z/62vWuSavKSWMU+7o5H4b+rDhI=;
+ b=e5bP4QRM4M++NoUYF49dvgjnn6jVgLjcjBzplELgWbocjqksZsYZ+UeV+0spKYA4N1U2Y6IMe
+ CXSX78olZOjCfKLCICBHH6b1BTgTKI13Kv1urMO2RHlPcTyD5seSD2d
 X-Developer-Key: i=ekangupt@qti.qualcomm.com; a=ed25519;
  pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Proofpoint-GUID: BhVqC663bi4ct0c9h-3lPbbEIgzMp6Po
-X-Authority-Analysis: v=2.4 cv=Z4F5j3RA c=1 sm=1 tr=0 ts=6ae7bc63 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-ORIG-GUID: VJloaG-aA6HF04NylS2A7o7tvH4sDKPU
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfXxvH4eISOhNC3
+ vQjMQgGI30gwzQAqQvpU6jjy47F1VsZA2gZdElxWZhXbdeLU6yyr18oAnvua5IjxWmIlvN4wR4C
+ M3HyOH22PoGrBbpLOOXDFHbDeZigQvc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfXzex9f+y5bytU
+ xOeRr5lugQz3ME8l7Ow5+bOI84/c5WXSeQG0xj2vZCN+jfMozul3SKmD/rEfW/pQwYrI/O6KuZK
+ NRTNJ9QNa3lHEjTsQAwpj2JipSxV6GHwAxzvwxsiyAt6hizip6hBS1vWT63bUj867H+AJqerJUQ
+ 72Al1AeLnJ5oIkZJYtCT+rMW5Gku2LdYvbnjzs4uwivvjlQ5f/2es/o1gbPNf326VUw4oHOUZWP
+ 5XrI2wJUecQlO3AtbR5z4SlGlben7NZTo8aKzreWv5Yt8NJBSGxv8WDXFi39cs7n1cusltwOyeX
+ 0QuBQvUTT4bXqgJDIrcaMSjPYqYxl0REGP5j/3TMSpduOFHkhNWq4OyeQ2eWoWnPVBGaS6SXMMx
+ CQLlpLgWLKbNngG81tSdkGfiEfq+tFcST3JSTgrjaHPvqtmq6cKSEdhusC2uk7fF92nkvqg3Dh0
+ 9o1ak8FJ/Ajo3wS5Opw==
+X-Proofpoint-GUID: VJloaG-aA6HF04NylS2A7o7tvH4sDKPU
+X-Authority-Analysis: v=2.4 cv=PucG/AM3 c=1 sm=1 tr=0 ts=6ae7bc6d cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=zoN6bUAshuLXMwAB7M0A:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfXxH6Q+X/MmDR1
- t/LD454bABp7TC3KvbaaDuxsyTPtGWho2IXykVqb5Wn8RQqPPfBKVxPOja3Eb4PA+eerALbXRci
- cICKqu/KOPRPpOLoLxgDBNjSrWWtoyg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfX6KlbFftDTbU4
- OWPXRv5KZN1Y3rtaK89G3LMPt4ytvBUeBMZ7weM1oqEQjSkynJXPg9uiBhXDguJV3GH6LfU8x2a
- TZ+p9l7iRrvzyo/3y+T8pX9bHK280cNKjaCmrZq5W8PSbLaY1aVHzQPaYnuHm2PlZO7trDXQa6I
- lc8RLjXVkbRCzoJedoV0Eu4kpdQnSxbURzpZ/dz8sPocBNVw9Cl87EWI6xxLbbk6Ki5YdEGCMXA
- FQc8flsOTHjjOi+51rU/VkKqwVuEnvVu1zxBYtSzytGjN+q/go6XyOpgR/+MTWOlO3W1KfNTncU
- yyUt4DE66EYD/33cT1YxtRMitSqWO5BGf42WoOjiMZewONNfMYY4AdcAypAUx72Sx1RX549LLOs
- OpOV2TRMvBErK1GR/gNQvqpcPWcIO+8CNiGpJ25gToAd0dOAv6tDHEGOY+bq+Y7vqNTvsvmoUvk
- OV2mYIvRY2veDkF9PpQ==
-X-Proofpoint-ORIG-GUID: BhVqC663bi4ct0c9h-3lPbbEIgzMp6Po
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=co94-PkH9mM8E1aZUYUA:9 a=QEXdDO2ut3YA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-01_07,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- phishscore=0 impostorscore=0 adultscore=0 spamscore=0 bulkscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611010089
+ suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 clxscore=1015 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010089
 
 From: Ekansh Gupta <ekangupt@qti.qualcomm.com>
 
-Add a DRM_IOCTL_QDA_QUERY query type that returns a DSP capability
-attribute, such as async support, unsigned PD offload or VTCM size, so
-user space can ask the DSP what it supports without a separate ioctl.
+Wire FASTRPC_IOCTL_GET_DSP_INFO into the legacy FastRPC compatibility
+shim on top of qda_fastrpc_get_dsp_info(), so existing user space can
+query DSP capabilities through the /dev/fastrpc-* interface exactly
+as it could with the driver this one replaces.
 
-The attributes are fetched from the DSP through its stateless utilities
-handle, which needs no process context, and cached on the device the
-first time any session queries them. Later queries from any session are
-served from the cache. A DSP without capability support makes the query
-fail with -EOPNOTSUPP.
+The device-wide capability cache introduced for the native
+DRM_IOCTL_QDA_QUERY path is reused as-is; the shim only has to
+translate between the legacy fastrpc_ioctl_capability layout and the
+shared qda_fastrpc_get_dsp_info() call.
 
 Signed-off-by: Ekansh Gupta <ekangupt@qti.qualcomm.com>
 ---
- drivers/accel/qda/qda_drv.c     |  2 ++
- drivers/accel/qda/qda_drv.h     |  9 ++++++++
- drivers/accel/qda/qda_fastrpc.c | 47 +++++++++++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_fastrpc.h | 12 +++++++++++
- drivers/accel/qda/qda_ioctl.c   | 42 ++++++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_ioctl.h   |  2 ++
- include/uapi/drm/qda_accel.h    | 15 +++++++++++--
- 7 files changed, 127 insertions(+), 2 deletions(-)
+ drivers/accel/qda/qda_fastrpc_shim.c | 20 ++++++++++++++++++++
+ drivers/accel/qda/qda_legacy_ops.c   |  6 ++++++
+ drivers/accel/qda/qda_legacy_ops.h   |  2 ++
+ 3 files changed, 28 insertions(+)
 
-diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-index 1e72dce769b9..51d8ef10c6c1 100644
---- a/drivers/accel/qda/qda_drv.c
-+++ b/drivers/accel/qda/qda_drv.c
-@@ -154,6 +154,7 @@ struct qda_dev *qda_alloc_device(struct device *dev)
- 
- 	INIT_LIST_HEAD(&qdev->cb_devs);
- 	mutex_init(&qdev->import_lock);
-+	mutex_init(&qdev->attr_lock);
- 	xa_init_flags(&qdev->ctx_xa, XA_FLAGS_ALLOC1);
- 	atomic64_set(&qdev->ctx_seq, 0);
- 	atomic_set(&qdev->session_id_seq, 0);
-@@ -181,6 +182,7 @@ void qda_deinit_device(struct qda_dev *qdev)
- 	qda_memory_manager_exit(qdev->iommu_mgr);
- 	xa_destroy(&qdev->ctx_xa);
- 	mutex_destroy(&qdev->import_lock);
-+	mutex_destroy(&qdev->attr_lock);
- }
- 
- int qda_register_device(struct qda_dev *qdev)
-diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
-index 1d083ea9fdd7..cbb580d03e0b 100644
---- a/drivers/accel/qda/qda_drv.h
-+++ b/drivers/accel/qda/qda_drv.h
-@@ -35,6 +35,9 @@
- /* Upper bound on the "qcom,vmids" DT property */
- #define QDA_MAX_VMIDS	16
- 
-+/* Size of the cached DSP attribute array; index 0 is reserved */
-+#define QDA_MAX_DSP_ATTRIBUTES	256
-+
- /**
-  * struct qda_session - One user of a DSP
-  *
-@@ -122,6 +125,12 @@ struct qda_dev {
- 	 * to, or NULL if it could not be created
- 	 */
- 	struct auxiliary_device *legacy_auxdev;
-+	/** @attr_lock: Serialises the DSP capability query and protects the cache below */
-+	struct mutex attr_lock;
-+	/** @valid_attributes: True once @dsp_attributes has been queried from the DSP */
-+	bool valid_attributes;
-+	/** @dsp_attributes: Cached DSP capability attributes */
-+	u32 dsp_attributes[QDA_MAX_DSP_ATTRIBUTES];
- 	/** @vmperms: VMs the remote heap is shared with, from qcom,vmids */
- 	struct qcom_scm_vmperm vmperms[QDA_MAX_VMIDS];
- 	/** @vmcount: Number of valid entries in @vmperms */
-diff --git a/drivers/accel/qda/qda_fastrpc.c b/drivers/accel/qda/qda_fastrpc.c
-index e9688e3ba404..6044cfad53e9 100644
---- a/drivers/accel/qda/qda_fastrpc.c
-+++ b/drivers/accel/qda/qda_fastrpc.c
-@@ -638,6 +638,13 @@ void qda_fastrpc_return_result(struct qda_fastrpc_invoke_ctx *ctx, void *argp)
- 	int idx;
- 
- 	switch (ctx->type) {
-+	case QDA_FASTRPC_TYPE_GET_DSP_INFO:
-+		/* @argp is the attribute array; entry 0 is reserved */
-+		((u32 *)argp)[0] = 0;
-+		memcpy((u32 *)argp + 1,
-+		       (u8 *)to_qda_gem_obj(ctx->gem_objs[1])->virt + ctx->args[1].offset,
-+		       ctx->args[1].length);
-+		return;
- 	case QDA_FASTRPC_RMID_INIT_MMAP:
- 		idx = 2;
- 		break;
-@@ -980,6 +987,43 @@ static int qda_fastrpc_prepare_args_create_static(struct qda_fastrpc_invoke_ctx
+diff --git a/drivers/accel/qda/qda_fastrpc_shim.c b/drivers/accel/qda/qda_fastrpc_shim.c
+index c1464b1adbc2..2be1dd116ef7 100644
+--- a/drivers/accel/qda/qda_fastrpc_shim.c
++++ b/drivers/accel/qda/qda_fastrpc_shim.c
+@@ -463,6 +463,24 @@ static long qda_shim_mem_unmap(struct qda_shim_file *sf, void __user *argp)
  	return 0;
  }
  
-+/*
-+ * DSP capability query packed layout:
-+ *   [0] count	sizeof(u32), the capacity of the array below	IN
-+ *   [1] attrs	(QDA_MAX_DSP_ATTRIBUTES - 1) * sizeof(u32)	OUT
-+ *
-+ * Index 0 of the cached array is reserved, so only the rest is exchanged.
-+ */
-+static int qda_fastrpc_prepare_args_get_dsp_info(struct qda_fastrpc_invoke_ctx *ctx)
++static long qda_shim_get_dsp_info(struct qda_shim_file *sf, void __user *argp)
 +{
-+	const u32 attr_count = QDA_MAX_DSP_ATTRIBUTES - 1;
-+	struct qda_gem_obj *kernel_gem;
++	struct fastrpc_ioctl_capability args;
 +	int err;
 +
-+	const size_t off_attrs = sizeof(u32);
-+	const size_t total_size = off_attrs + attr_count * sizeof(u32);
++	if (copy_from_user(&args, argp, sizeof(args)))
++		return -EFAULT;
 +
-+	ctx->sc = QDA_FASTRPC_SCALARS(0, 1, 1);
-+	ctx->handle = QDA_FASTRPC_DSP_UTILITIES_HANDLE;
-+
-+	err = alloc_kernel_args(ctx, 2);
++	err = qda_legacy_ops_table.get_dsp_info(sf->session, args.attribute_id, &args.capability);
 +	if (err)
 +		return err;
 +
-+	kernel_gem = alloc_kernel_gem(ctx, total_size);
-+	if (IS_ERR(kernel_gem))
-+		return PTR_ERR(kernel_gem);
-+
-+	*(u32 *)kernel_gem->virt = attr_count;
-+
-+	assign_kernel_gem_arg(ctx, 0, kernel_gem, kernel_gem->virt, sizeof(u32));
-+	assign_kernel_gem_arg(ctx, 1, kernel_gem, (u8 *)kernel_gem->virt + off_attrs,
-+			      attr_count * sizeof(u32));
-+	drm_gem_object_put(&kernel_gem->base);
++	if (copy_to_user(argp, &args, sizeof(args)))
++		return -EFAULT;
 +
 +	return 0;
 +}
 +
- /*
-  * Find the buffer a mapping request names and describe it to the DSP. The
-  * buffer is held by the context until the request is done, so that closing its
-@@ -1277,6 +1321,9 @@ int qda_fastrpc_prepare_args(struct qda_fastrpc_invoke_ctx *ctx,
- 		ctx->pd = QDA_USER_PD;
- 		err = qda_fastrpc_prepare_args_create_static(ctx, argp);
- 		break;
-+	case QDA_FASTRPC_TYPE_GET_DSP_INFO:
-+		err = qda_fastrpc_prepare_args_get_dsp_info(ctx);
-+		break;
- 	case QDA_FASTRPC_RMID_INIT_MMAP:
- 		err = qda_fastrpc_prepare_args_map(ctx, argp);
- 		break;
-diff --git a/drivers/accel/qda/qda_fastrpc.h b/drivers/accel/qda/qda_fastrpc.h
-index de04cadcaeb0..7d5cd04943a3 100644
---- a/drivers/accel/qda/qda_fastrpc.h
-+++ b/drivers/accel/qda/qda_fastrpc.h
-@@ -55,9 +55,21 @@ struct qda_session;
- #define QDA_FASTRPC_RMID_INIT_MEM_UNMAP		11
- #define QDA_FASTRPC_RMID_INVOKE_DYNAMIC		0xFFFFFFFFU
- 
-+/*
-+ * ctx->type tag for the DSP capability query. Not a wire method ID: the query
-+ * is addressed by QDA_FASTRPC_DSP_UTILITIES_HANDLE, method 0.
-+ */
-+#define QDA_FASTRPC_TYPE_GET_DSP_INFO		0xFFFFFFFEU
-+
- /* Handle the initialisation methods are addressed to */
- #define QDA_FASTRPC_INIT_HANDLE		0x1
- 
-+/* Handle of the DSP's utility calls, which include the capability query */
-+#define QDA_FASTRPC_DSP_UTILITIES_HANDLE	0x2
-+
-+/* Status the DSP returns when it does not support the capability query */
-+#define QDA_FASTRPC_DSP_UNSUPPORTED_API		0x80000414U
-+
- /* Protection domains a request can be directed at */
- #define QDA_ROOT_PD			0
- #define QDA_USER_PD			1
-diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-index aaf3e5e6b5b1..c784defd0f70 100644
---- a/drivers/accel/qda/qda_ioctl.c
-+++ b/drivers/accel/qda/qda_ioctl.c
-@@ -27,6 +27,9 @@ int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_pr
- 	case QDA_QUERY_DSP_NAME:
- 		strscpy(args->dsp_name, qdev->dsp_name, sizeof(args->dsp_name));
- 		return 0;
-+	case QDA_QUERY_DSP_CAPABILITIES:
-+		return qda_get_dsp_capability(qdev, file_priv->driver_priv,
-+					      args->cap.attribute_id, &args->cap.capability);
+ static long qda_shim_invoke(struct qda_shim_file *sf, void __user *argp)
+ {
+ 	struct qda_legacy_invoke_arg *largs;
+@@ -550,6 +568,8 @@ static long qda_shim_dispatch(struct qda_shim_file *sf, unsigned int cmd, void _
+ 		return qda_shim_mem_unmap(sf, argp);
+ 	case FASTRPC_IOCTL_INVOKE:
+ 		return qda_shim_invoke(sf, argp);
++	case FASTRPC_IOCTL_GET_DSP_INFO:
++		return qda_shim_get_dsp_info(sf, argp);
  	default:
- 		return -EINVAL;
- 	}
-@@ -165,6 +168,45 @@ int qda_session_init_create(struct qda_session *session, struct qda_init_create_
- 	return qda_fastrpc_invoke(QDA_FASTRPC_RMID_INIT_CREATE, create, session);
+ 		/*
+ 		 * Includes FASTRPC_IOCTL_FREE_DMA_BUFF, which the driver this
+diff --git a/drivers/accel/qda/qda_legacy_ops.c b/drivers/accel/qda/qda_legacy_ops.c
+index fc5e94c0c9bc..8d9d597c76c2 100644
+--- a/drivers/accel/qda/qda_legacy_ops.c
++++ b/drivers/accel/qda/qda_legacy_ops.c
+@@ -188,6 +188,11 @@ static int legacy_invoke(struct qda_session *session, u32 handle, u32 sc,
+ 	return qda_fastrpc_invoke_legacy(session->qda_dev, session, handle, sc, args);
  }
  
-+/**
-+ * qda_get_dsp_capability() - Read one DSP capability attribute
-+ * @qdev: Device whose DSP to query
-+ * @session: Session the query is issued on if the cache is still empty
-+ * @attribute_id: Attribute to read
-+ * @capability: Receives the value of the attribute
-+ *
-+ * The attributes are fetched from the DSP once per device and served from the
-+ * cache afterwards, to every session. The cache is only written by a query
-+ * that succeeded.
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+int qda_get_dsp_capability(struct qda_dev *qdev, struct qda_session *session,
-+			   u32 attribute_id, u32 *capability)
++static int legacy_get_dsp_info(struct qda_session *session, u32 attribute_id, u32 *capability)
 +{
-+	int err;
-+
-+	if (attribute_id >= QDA_MAX_DSP_ATTRIBUTES)
-+		return -EOVERFLOW;
-+
-+	guard(mutex)(&qdev->attr_lock);
-+
-+	if (!qdev->valid_attributes) {
-+		err = qda_fastrpc_invoke(QDA_FASTRPC_TYPE_GET_DSP_INFO, qdev->dsp_attributes,
-+					 session);
-+		if (err == (int)QDA_FASTRPC_DSP_UNSUPPORTED_API)
-+			return -EOPNOTSUPP;
-+		if (err)
-+			return err;
-+
-+		qdev->valid_attributes = true;
-+	}
-+
-+	*capability = qdev->dsp_attributes[attribute_id];
-+
-+	return 0;
++	return qda_get_dsp_capability(session->qda_dev, session, attribute_id, capability);
 +}
 +
- /**
-  * qda_release_dsp_process() - Tear down a session's DSP process
-  * @qdev: QDA device structure
-diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
-index 94adba549989..329f3809c8ce 100644
---- a/drivers/accel/qda/qda_ioctl.h
-+++ b/drivers/accel/qda/qda_ioctl.h
-@@ -23,6 +23,8 @@ int qda_ioctl_attach(struct drm_device *dev, void *data, struct drm_file *file_p
- int qda_session_init_create(struct qda_session *session, struct qda_init_create_args *create);
- int qda_session_attach(struct qda_session *session, u32 pd_type, const char __user *name,
- 		       u32 namelen);
-+int qda_get_dsp_capability(struct qda_dev *qdev, struct qda_session *session,
-+			   u32 attribute_id, u32 *capability);
- int qda_session_mem_map(struct qda_session *session, struct qda_mem_map_args *args);
- int qda_session_mem_unmap(struct qda_session *session, struct drm_qda_mem_unmap *unmap);
- 
-diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-index 7c439058876e..07b943a3c822 100644
---- a/include/uapi/drm/qda_accel.h
-+++ b/include/uapi/drm/qda_accel.h
-@@ -50,19 +50,30 @@ extern "C" {
- 
- /* Query type definitions for drm_qda_query */
- #define QDA_QUERY_DSP_NAME		1
-+#define QDA_QUERY_DSP_CAPABILITIES	2
- 
- /**
-  * struct drm_qda_query - Device information query structure
-  * @query_type: Type of query (input)
-  * @dsp_name: Null-terminated name of the DSP (returned when query_type is
-  *            QDA_QUERY_DSP_NAME)
-+ * @cap: DSP capability query (used when query_type is
-+ *       QDA_QUERY_DSP_CAPABILITIES): @cap.attribute_id selects the attribute
-+ *       (input) and @cap.capability returns its value (output)
-  *
-  * This structure is used with DRM_IOCTL_QDA_QUERY to query device attributes
-- * based on @query_type.
-+ * based on @query_type. @dsp_name and @cap share storage, as only one query
-+ * is made per call.
-  */
- struct drm_qda_query {
- 	__u32 query_type;
--	__u8 dsp_name[16];
-+	union {
-+		__u8 dsp_name[16];
-+		struct {
-+			__u32 attribute_id;
-+			__u32 capability;
-+		} cap;
-+	};
+ const struct qda_legacy_ops qda_legacy_ops_table = {
+ 	.session_create = legacy_session_create,
+ 	.session_destroy = legacy_session_destroy,
+@@ -201,5 +206,6 @@ const struct qda_legacy_ops qda_legacy_ops_table = {
+ 	.alloc_dmabuf = legacy_alloc_dmabuf,
+ 	.import_dmabuf = legacy_import_dmabuf,
+ 	.invoke = legacy_invoke,
++	.get_dsp_info = legacy_get_dsp_info,
+ };
+ EXPORT_SYMBOL_FOR_MODULES(qda_legacy_ops_table, "qda_fastrpc_shim");
+diff --git a/drivers/accel/qda/qda_legacy_ops.h b/drivers/accel/qda/qda_legacy_ops.h
+index 95a169edc594..c79003021fc1 100644
+--- a/drivers/accel/qda/qda_legacy_ops.h
++++ b/drivers/accel/qda/qda_legacy_ops.h
+@@ -57,6 +57,8 @@ struct qda_legacy_ops {
+ 	/** @invoke: Run a method on the DSP; takes ownership of each @args[i].obj */
+ 	int (*invoke)(struct qda_session *session, u32 handle, u32 sc,
+ 		      struct qda_legacy_invoke_arg *args);
++	/** @get_dsp_info: Query a DSP capability attribute */
++	int (*get_dsp_info)(struct qda_session *session, u32 attribute_id, u32 *capability);
  };
  
- /**
+ extern const struct qda_legacy_ops qda_legacy_ops_table;
 
 -- 
 2.34.1
