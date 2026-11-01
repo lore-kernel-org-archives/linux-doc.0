@@ -1,113 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793571962;
-	b=VwBAZUlIkdGGk6qdwIenxdsgY6L78q3om0ccxC0+81h7rm0wnxXu69tYzvZhWvuevDA/
-	 qhnxOiDSyejWc7YChvopwfuddzNCCBzF3EOkwFY6yC5MRV6kH/ryhIT3D+VndZ99oBgrS
-	 K8JY/mkIsQejM4i+PQbcL+jUVTudPxJmd8K553erc7J+k1yv8RQQjlybyo/tjBx/L90fb
-	 ek+VtSiFlWM/9PCoiIeOe6++ndkLxW+KJG/DTK4iNvoHKe/iqYaBljLccpSNlziJowmfa
-	 qI74W0wxnP96SyLaG5NlIhrup/jc0l0jFP0ytkCUDP4Yd1W9g5+7GbZ1D5Y1sYuHcXQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793571962;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=VH5oZcye/R46VG7GKGZ6vqEDOzHFGzla9wugxvshNp0=;
-	b=L1Ji8jdgDNc/6f0U8f3FmcUemri4PJLlcrF+yS7LE1bBQXcPdQ3mt3lrV6pp0i+zS0vF
-	 zasBrVOhTDOPlztQ+jhV+o/SGUjmpPMpPgTK6TUodpxq5ZnYos2NkUW1U3OMYLgZagTFI
-	 IKbBCoDPu9BcZ6e3VMN+96GiOuSbBEak7GVppK9c/lmDvAs8I5lGepnl2VsmhcdXP6jK5
-	 Mvbi0v5q6dqXDyrTk5Jt+5VJTUjnxAlL39JZYvfWQ1zMzifN3EfuHfWtvQKZBkRLS3TV2
-	 y8RoOBstHCxciXYq3SPTm+vM6UGgoL65BhOl3+oBdJ5WkVi3Zksyq2yyVcBvI1qMbjQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TqIfUXs5;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=OB18Hbww;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=185.56.87.7
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793575629;
+	b=vPh0gwch7G8T0Bz2L46vAnHinuZynyPZilZJwlK2eivTdfH4uh0mcVALmt9+NTj8V+HF
+	 kvK3za/QsF6mVRcOdWdOh8Ayp8fEouCl3Mg3Ob6n7O2JUHs5ssrUgWCYylIkxezoKqfTF
+	 UN6lFP0PcqCtY9500WbgdhqNpKERkaW53MrhpUgRttfVu7XGVsiBL/VSF6J3uOJKaBuwe
+	 wwh3qsUFR4O7tFPbgWwUIkOCNauuPJ5X7J9mKgkSBynjlzu7fztt8jiQXTK/uVYzZdsP5
+	 PNL3eu6o2i7pDhP3+O1ZnC1/ateCFsL2hWJPHnYTHnBcb2zEKOj3QEaflBU4e5tqfDw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793575629;
+	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:
+	 X-Source-Dir:X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:
+	 AntiSpam-DLSRS:AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
+	bh=wEJnWzIAnou4pQH9tImVIhiTvGpOYOR1x4eAbFCRMDE=;
+	b=FQJQzm76vv2LIYJ/HGPg9+cDV+nW+crDAMBCGkr3zOTvpW46uhsODZaJWrQYvJCMYrqG
+	 qYbo0lgtA7BZhtKR9p0CjpwTxkCUepaee0VOhMrVGkFGs25Qdn8gjJf/DXJDfWFov7IQb
+	 EtbDUGM4VXVgUSFgpT8FTZn1l8pl3Kyaei+WACZa7Fl+Hf6Xc7HqHOGASOeRLXbAadI8E
+	 5HuUwwrHsLqiO87tZjodht+1WiCEYV4nQgmMRcvoCRCQKwDZJtxgMONyTJKWskU6TvZ6B
+	 ApHhvVO57f/8eoeKrfynrgwhnkWFf4Jc1QMq4rYstGn24HlUTx74PqXj5X4RbXla7Qg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=valla.it;
+	spf=pass smtp.mailfrom=valla.it;
+	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=UYGRD2Nn;
+	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=dfBbLBAl;
+	arc=fail smtp.remote-ip=185.56.87.7
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D8260701D1
-	for <linux-doc@vger.kernel.org>; Sun,  1 Nov 2026 22:26:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19D8260701D1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBC9606A324;
+	Sun,  1 Nov 2026 23:27:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DBC9606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TqIfUXs5;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=OB18Hbww
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1KK7cG1245904
-	for <linux-doc@vger.kernel.org>; Sun, 1 Nov 2026 22:26:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VH5oZcye/R46VG7GKGZ6vqEDOzHFGzla9wugxvshNp0=; b=TqIfUXs5sWgTMRRX
-	FEe2xrUwCuW6Ic5OGPgZJL9qjLZpyf1zJcwTO+tm3fw6q6zFHu8RGTT2NhzXljjn
-	4D7vXnvSEcURiG8C70nRxUhSL2a2trY6RUqoBhsnZFmsstxWQ3P/RNUWbDhO2RW0
-	TT2ziFDPeFeH9P1euEyBU6xrigE1qcAWdYqU4WT6CJXOqqnqBqhLRQR9DPjpIAfx
-	zgC3NRrenpCYuKRCs1g39ogxG6Q7RG+ZRAa2YJTehGqlAuHU7QHBYEuW3KI8OnVr
-	ThufX4WLhtzX+QmH//fT+EkFq+7PQWlccFkmHuJMOzepsWv0tiYimolqlkqftR9f
-	HikMpw==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn93em684-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 22:26:00 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-3698bd5392cso2157760eec.1
-        for <linux-doc@vger.kernel.org>; Sun, 01 Nov 2026 14:26:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793571960; x=1794176760; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VH5oZcye/R46VG7GKGZ6vqEDOzHFGzla9wugxvshNp0=;
-        b=OB18HbwwTAFlZb/ddUdQNZ5fanax+3MBMLENlV9UOQK+rUdbuMDYjbKKBCNy1a2tEm
-         RwFwwH5RacaKYcz9S2UtKpeYhnoxJ3cSl6Ng9aaWkZBLENDpy05qKOSNuc2WDn+61G0f
-         QtFb1VkVWZl900b1Z7Ok02/D9o5BMKwHBTPIrZt4p0ZVoJLisjJx7seFPmzCvGp/9xWR
-         auf0RHmka0pBqc+sognVS9U+SxjcrVPSMkIGsyKxPHu6e3YMXh3amiwrVZdFdLC0z4Lz
-         frYyZDHIA3dBznwe1ejohdn2/8zLp+00MKXJZ34+wRqI9/zmWdP0V/HtErUIclHSOEHf
-         pIbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793571960; x=1794176760;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VH5oZcye/R46VG7GKGZ6vqEDOzHFGzla9wugxvshNp0=;
-        b=oc0rfZmpasc5krYWCOHFIgGqO7fd6YUgnV3Dxw2qBmGuKAxc9/8791fsF2ecgQAxpF
-         zLIhSdJ73WrMQoTc0J/vLZbxVFO2IBoXDvJsW9rgr1jVXNrqPj+GUCDTWD5cTH9ZNgbL
-         RNutCY+SWAihi8j+QE+xnbouHxaAPxWVcQyQXVI2q8ufH+IvM4CHHAnHEmTFr4WpZ1BL
-         k0sn7LpSaYkYp+KaJjVl3+mV6muo4AmgBcIdDIFw3uoxaCwIbAAsdh9IjJzNf1sJMReQ
-         f1C0SBna2wau9iaCn54srYXRiK1+KW9o+4ycFY6bd3R95uGFtXfteYLOJjcm0LQJXKzn
-         fDog==
-X-Forwarded-Encrypted: i=1; AKwUvBwKZk8o7Xjqh1TmAxRVPiMHSv1zITChiv0KQNVoiYfeIxe76MDmFC26T4Hiy+1Rnpl6Br29WE7m/wo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ7fakx5NTuLkykWqv99ALQGMuRFp64FlSCs8gX7QeuW61GazPz
-	whtH3IhEgf3n0mhs01A9UaePeoN7gy7UhgU3qUEPLeOILYx8N0XWAD5CW/uvoahjC0g3Egj2VI2
-	eiFJiWgTo3dvvlGscGrUiz7j6rNmGBjXR7eQd6OsJvKtTtrfwa2XBW/yUpO1ZitQ=
-X-Gm-Gg: AYBFou18rrBvJ3DolMseOvfTFHIMh1i+kx1RY/hTDPrc4KnhtneliyeEW1k5zdqDP3B
-	yBQ4AZCZI9BGtpgmDwWpUIvmgLdzWF9Cvczqu6Qx0qVxzSrBP8HBgF4WW8dr/6zRgYZ5dq3sSrq
-	a6Q118GJ3R0YoFQM3yAjufIHHUdzjBqshzwmnedH8HSQfVMQmmwl7kSyLgdaJ2TNhvdUIumJCpf
-	p/kqcLN7zA+pYGeuIBpTI6tjsth2Btm30C+ph8ohCwkQggmt6xJNhNNxmM27aN+OxCoNNAuEu/Y
-	qNXlOHLmV0I5g3xWga7mgnHrJooGvczPX07ysd6dsHQVGuXrslj4IX0rwssNKQuHXcQOSK15kfX
-	s8QW9nqxaU0ByF7Cfhc5WyP9nb1O38HpzaatE+SJac4T99YPaey3C77zuUeop3ixC4iq7pkyX6V
-	R4Sy3xzg==
-X-Received: by 2002:a05:7022:b053:10b0:19d:233:989d with SMTP id a92af1059eb24-1ac5b02894bmr12804544c88.14.1793571959247;
-        Sun, 01 Nov 2026 14:25:59 -0800 (PST)
-X-Received: by 2002:a05:7022:b053:10b0:19d:233:989d with SMTP id a92af1059eb24-1ac5b02894bmr12804508c88.14.1793571958553;
-        Sun, 01 Nov 2026 14:25:58 -0800 (PST)
-Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac13ef1932sm27742653c88.2.2026.11.01.14.25.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 14:25:58 -0800 (PST)
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Date: Mon, 02 Nov 2026 03:51:38 +0530
-Subject: [PATCH v4 25/25] accel/qda: Add poll mode for invocation
- completion
+	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=UYGRD2Nn;
+	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=dfBbLBAl
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-nzm1.prod.antispam.mailspamprotection.com; s=arckey; t=1793575627;
+	 b=eHkkyeEmTi4hduU9uxjNzxDyX8QsfET4ecRY8pIEz+Ftxd06iQo7kvtIE4wKwykR6dntN8EBdW
+	  5IwcLZBm3ZuAy9rHwk8ziRhKr6V46z40JXDTjXdLlxphV9QQv+o40BICjLDZzfb10UoUsXIgru
+	  tWqZH/nSus3Twf9sxp3epgt0EaOw1xoW23ODwARHGFV2+vaul4dUmNzNRc2ULe4bC1kGkpMEFY
+	  qnYonHtH3mxVPURnyFFcxvqlo28YhA1Eioq0MVEzsQGzUbvTHvC2wJH3gCNsXoTwkmcb1nfVGu
+	  nWzNCO8V+y0VekWy4FG2s3NlmzXCK+VeqFlykBhPOb1j4g==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-nzm1.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-nzm1.prod.antispam.mailspamprotection.com; s=arckey; t=1793575627;
+	bh=hjsHjvJdiVFb4MkP4Oih67FLGqThyQsQsUFshw2v5Gc=;
+	h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
+	  Subject:From:DKIM-Signature:DKIM-Signature;
+	b=lbxWpgE7ZdxIEmKd6Zq1LsajLRY/6HDD/GNNaZSddvCBw6EzgCy565SjeWRbVRFCy+IPMVwaYH
+	  Z07kJPw1CSz0yNkZfUa4OJKBzT/LTGTLHzmbljI/daFZ1GEfoIGRlLb1KmgN9VFPP+xj+4JfKf
+	  e3P5YyT21ReutUa7bGBWLmOggHi8Z7EAOohJBnTKKF47r1I0vBeftGJtz1XJL8FOYYp2VuO9dA
+	  AicDGU9FX+LWq6fFDyjttC6e7wKJBSEuw97Px1QqTuxuPTeNFSNstkft5c9Hk+mCPJ3DomUPi0
+	  WMSpvHAOBrS3cIefnUnB13L/mKvCFVujLDZy2krjaWGjzw==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:
+	Subject:From:Reply-To:List-Unsubscribe;
+	bh=wEJnWzIAnou4pQH9tImVIhiTvGpOYOR1x4eAbFCRMDE=; b=UYGRD2NnyIW0SOvzRickxNs58X
+	VnipCN8MYhVatJEHmGv/KFeq3M7wCSM4/3Zs9yrHmGnJ+oEKlOjq6nb2R2x9Qf6hQYfNjdc7vGwO0
+	oyNONBM6jKySzXQVLLBXBcI4/4h2OtaWvPQapTyF2Y6EaogX4dri0s0R1140yPwpV2/U=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-nzm1.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xNex1-00000007Acn-2pCn;
+	Sun, 01 Nov 2026 23:27:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Cc:To:Date:Subject:From:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=wEJnWzIAnou4pQH9tImVIhiTvGpOYOR1x4eAbFCRMDE=; b=dfBbLBAlApgqTHmnycC+gRxNYT
+	3Lw1gbuR/w1N5HvIB2yULgKIeJ5KQoMK0HZEx9GtqWiUulwLsA+qmqyKqNdzKWfEvh1YY0hjrhi5t
+	hxqkMUjTqizWAfirhXvKVKxDlcthuRORvijdrFftE2pSvZPBlQZIlrM03Hiy7nj01Vi8=;
+Received: from [79.17.15.196] (port=60226 helo=[192.168.178.175])
+	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xNewv-000000002I5-3gcq;
+	Sun, 01 Nov 2026 23:26:53 +0000
+From: Francesco Valla <francesco@valla.it>
+Subject: [PATCH RFC v2 00/11] remoteproc: add support for any virtio device
+Date: Mon, 02 Nov 2026 00:26:37 +0100
+Message-Id: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,592 +99,251 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-v4-v4-25-88f2f24a5f0b@qti.qualcomm.com>
-References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
-In-Reply-To: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Philipp Stanner <phasta@kernel.org>, dmitry.baryshkov@oss.qualcomm.com,
-        andersson@kernel.org, krzk@kernel.org, rob.clark@oss.qualcomm.com,
-        jgg@ziepe.ca
-Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
-        sandheep@qti.qualcomm.com, Bharath Kumar <bkumar@qti.qualcomm.com>,
-        Chenna Kesava Raju <chennak@qti.qualcomm.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        Ekansh Gupta <ekangupt@qti.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793571679; l=20282;
- i=ekangupt@qti.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=+nPkE5NneCmaTJhchIOEXlxkCnJcDVLKMVDvWgcCpkA=;
- b=6+KxBiSn04aQ8+0IsDOZm32O2gNrJAGFR2fC78J2dqilYzKg1S4VC/UqxfLRD7CZ23VroIn4W
- oPaR5eDnldaAo6gTjGKr1ucceaMjPNLDFSQhiShyrST32Ay0vp1ku/k
-X-Developer-Key: i=ekangupt@qti.qualcomm.com; a=ed25519;
- pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfXz/fdbJBAGMhm
- 12lZMcgwaUrhFQXCI/U+d6ojAwajdRWmGw/xFIQSepRe5kPsiupvYEUrz2lg0FuNvfbl9pHxpGw
- WikriJLpfPaApFQc4UFH7Qm8uCnpRSJ5qTsSFr1WTJLr9wu4PsbFxOJ7ht5R8y/UPTu79c0DXXJ
- n1W+k7DqGnQLhImal1CX+ltd7WS4kCDolP9kj3EYucbSB/FeOspc+CX04qU0VfbkGnf3ccfiz/7
- LzFTAnyXg0rr6gEMEO8pXq3FkMIp1QDNYrQo1dy+/Dke1o/PMmww4W05XEUtN4EeBKCblgT61zw
- TKxy3k/YutyDuIfndLQhwwpsKYfWF2YSo82XODS0SMETTO3qTGG2FHj7+UkdjOa5HzkZG458q6O
- n0JVxyqB7pQ2JHqwIjuKEZXXFCZCp1W8WR/0uhE5tHK+DzlXJ95gzvlTsHRIt718NHoHxfTvZID
- obH5b9aVcgPxx7ttFaA==
-X-Authority-Analysis: v=2.4 cv=FciiV5+6 c=1 sm=1 tr=0 ts=6ae7bc78 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=ck3PsjUFfxvozorqPcMA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-ORIG-GUID: k4OaF97F6JZJA_Ljdt40RZOoy8cUKu3_
-X-Proofpoint-GUID: k4OaF97F6JZJA_Ljdt40RZOoy8cUKu3_
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA4OSBTYWx0ZWRfX4RutfSoHoOx5
- /MwsDbfCTscsj6Y3P0fAbh73Ye7G9xI/T+Z1rJiQXOavehdCuWaXUGHxEOCl4mfWMtuMM8/jtJ7
- XQq05acwdjB0WXT6k9cuJoQUZKk89kA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-01_07,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010089
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQ6CMBBEf4Xs2RqolIgnExM/wKshZKmLrAFK2
+ tpoCP8uoFePbzIzbwRHlsnBIRrBUmDHpp9BbiLQDfZ3EnybGWQsszhPlLDUGU+DNboMbD2bssN
+ BVLreSVQ1ViqFeTtYqvm1/l7hcj5B8Q3ds3qQ9svjUmvYeWPfqz0ka/knyv6IQiJicUO914qqF
+ DE/Bmxb3LKHYpqmD2BW1sHQAAAA
+X-Change-ID: 20260915-remoteproc_virtio_map-bcf32a5fab54
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Francesco Valla <francesco@valla.it>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, linux-remoteproc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8611; i=francesco@valla.it;
+ h=from:subject:message-id; bh=hjsHjvJdiVFb4MkP4Oih67FLGqThyQsQsUFshw2v5Gc=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFnPT23L87qZHNmzat6Kkx/SdGqZfksUb2u98u/Moosb3
+ oju8l3p2lHKwiDGxSArpsgSsu7GvT1zzb+lbWB8BDOHlQlkCAMXpwBM5GI/wz91Rj+xQo7agCWv
+ 7NKnas4IO3ThVNZD3dvnUlNnmydPXlvC8D/hTqdm6+Jtcwy3xE75IPDqM2dMg/w7C4UZEZsPeLY
+ 81WUAAA==
+X-Developer-Key: i=francesco@valla.it; a=openpgp;
+ fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: ad9dbb98e73fb9ef78a08ed9f14fdb8b
+X-AntiAbuse: ID - ad9dbb98e73fb9ef78a08ed9f14fdb8b
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1xNex1-00000007Acn-2pCn-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-nzm1.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 
-From: Ekansh Gupta <ekangupt@qti.qualcomm.com>
+Hello,
 
-Let a session opt in to completion polling for dynamically loaded
-module invocations in a user PD via a new DRM_IOCTL_QDA_SET_OPTION
-ioctl (and the equivalent legacy FASTRPC_IOCTL_SET_OPTION), mirroring
-drivers/misc/fastrpc.c's FASTRPC_POLL_MODE.
+this is the second iteration of the patch series that introduces the
+possibility to support generic virtio devices over the remoteproc
+transport, whereas today only rpmsg and rproc-serial are supported.
 
-A poll word is reserved at the end of every invocation's metadata
-region. When polling is enabled, in use, and the invocation targets a
-dynamically loaded handle in a user PD, the driver busy-waits on that
-word for QDA_FASTRPC_POLL_RESPONSE instead of immediately blocking on
-the rpmsg response, trading CPU cycles for lower round-trip latency.
-If the DSP has not answered by the time the poll loop times out, the
-driver falls back to waiting for the interrupt-based rpmsg response as
-usual; the two paths share an is_work_done flag so whichever notices
-completion first wins without racing the other.
+Some introduction and motivation can be found in V1 [1].
 
-Only SoCs whose DSP firmware actually implements this are allowed to
-enable it: qda_soc_data gets a poll_mode_supported flag, set for
-Kaanapali, and a closed list of older platforms using the generic
-default_soc_data is checked as a fallback.
+This new proposal leverages the existing virtio infrastructure and its
+optional usage of the DMA APIs to obtain the goal in two cases:
 
-Signed-off-by: Ekansh Gupta <ekangupt@qti.qualcomm.com>
+ - if the remote device is able to access the whole DMA space of the
+   host, no special arrangement is needed; the DMA APIs will take care
+   of cache management and (if required) DMA translation, optionally
+   resorting to swiotlb if/when the buffers allocated by a virtio driver
+   are not DMA-able;
+
+ - in case the remote device and the host share only a small portion of
+   memory (often the case for e.g. mixed-criticality systems), the DMA
+   APIs can be coupled with a restricted-dma-pool area to force swiotlb
+   translation for all the transmitted buffers.
+
+The new functionality is introduced by setting the
+VIRTIO_F_ACCESS_PLATFORM feature flag for all non-remoteproc-specific
+virtio devices (i.e., all except the aforementioned rpmsg and
+rproc-serial); this flag instructs the virtio framework to use the DMA
+APIs when mapping and unmapping buffers to and from the remote
+processor.
+
+The series was tested against a custom Zephyr application [2] running on
+the Cortex-M33 processor of an i.MX93 and exposing six different virtio
+devices:
+
+  - rpmsg
+  - entropy (rng)
+  - gpio
+  - i2c
+  - spi
+  - can
+
+== Open Points ==
+
+There are still the following open points:
+
+  - some virtio devices (e.g.: virtio-input) communicate through the
+    device's config space. The remoteproc transport expects this config
+    space to be somewhat constant, and there is no mechanism to sync
+    changes made by the driver with the remote device.  
+
+  - device de-registration on remoteproc stop is causing oopses (under
+    investigation - might not be strictly tied to the series).
+
+  - I still have to wrap my mind around DMA ranges and IOMMUs, and the
+    way the remoteproc framework uses them; the current series keeps the
+    legacy behavior for the first (i.e., DMA properties of the parent
+    remoteproc device are copied to vdevs) and assumes da == pa for
+    remote processor behind an IOMMU.
+
+  - [i.MX-specific] the imx-rproc driver was sending messages in
+    blocking mode; the change proposed in the series, required for
+    proper operation in atomi contexts is sub-optimal and needs more
+    work.
+
+== Patches breakdown ==
+
+Patches 1 and 2 are cleanups to the remoteproc-virtio driver and could
+be applied independently of this series.
+
+Patch 3 was submitted a couple of months ago [6] and paves the road for
+the actual support of generic virtio devices, removing the fixed number
+of 2 for the vrings associated to a vdev.
+
+Patch 4 defines the VIRTIO_F_VERSION_1 feature for all
+non-rproc-specific vdevs. This is required to support some virtio device
+types, and there is no other mean of defining it, since the field
+reserved for features inside the resource table is limited to 32 bits.
+Given that the 1.x virtio specifications are ~10 years old this still
+seems reasonable.
+
+Patch 5 defines the VIRTIO_F_ACCESS_PLATFORM feature for all
+non-rproc-specific vdevs. This is the first step required to obtain the
+full virtio functionality.
+
+Patch 6 introduces new devicetree bindings for declaring virtio
+devices exposed by a remote processor inside a devicetree. This is not
+required for some devices (e.g.: can, net, gpu), but for others (e.g.:
+i2c, gpio) is necessary to declare child devices and link them.
+
+Patch 7 assigns a fwnode (if existent) to each new virtio device and
+assigns to it the memory region defined for such node.
+
+Patch 8 expands existing remoteproc-virtio documentation to explain the
+possibilities introduced by the previous changes.
+
+Patches 9 and 10 are i.MX-specific and enable the usage of the newly
+introduced support on this family of platforms. The first one might
+probably be submitted independently of the series, since it aligns
+the behavior of imx-rproc to the other platforms in relation to
+mailbox usage. However, having a kmalloc in the hot send path is
+sub-optimal. **Advice needed here.**
+
+Finally, patch 11 is the PoC that has been used to develop and test the
+series and shall not be merged.
+
+======
+
+Thanks to everyone that commented on v1 - the functionality evolved in a
+much more flexible and no-nonsense way. Thanks in advance to whom will
+do the same on this revision.
+
+Regards,
+Francesco
+
+[1] https://patch.msgid.link/20260916-remoteproc_virtio_map-v1-0-dac8c5eb4aa9@valla.it
+[2] https://github.com/WallaceIT/zephyr/tree/multi_vdev
+
 ---
- drivers/accel/qda/qda_drv.c          |  1 +
- drivers/accel/qda/qda_drv.h          |  8 +++++
- drivers/accel/qda/qda_fastrpc.c      | 67 +++++++++++++++++++++++++++++++++---
- drivers/accel/qda/qda_fastrpc.h      | 15 ++++++++
- drivers/accel/qda/qda_fastrpc_shim.c | 30 ++++++++++++++++
- drivers/accel/qda/qda_ioctl.c        | 45 ++++++++++++++++++++++++
- drivers/accel/qda/qda_ioctl.h        |  2 ++
- drivers/accel/qda/qda_legacy_ops.c   |  1 +
- drivers/accel/qda/qda_legacy_ops.h   |  2 ++
- drivers/accel/qda/qda_rpmsg.c        |  3 ++
- drivers/accel/qda/qda_soc.c          | 33 ++++++++++++++++++
- drivers/accel/qda/qda_soc.h          |  3 ++
- include/uapi/drm/qda_accel.h         | 27 +++++++++++++++
- 13 files changed, 233 insertions(+), 4 deletions(-)
+Changes in v2:
+- Rebased on v7.4-rc1
+- Drop the custom .map APIs and rely on the virtio framework to perform
+  DMA management and (if required) the bounce buffering [Robin].
+- Set the VERSION_1 and ACCESS_PLATFORM features only for
+  non-rproc-specific virtio devices to preserve existing usecases.
+- Add the possibility to have a memory-region property in each vdev's
+  node and use it for DMA allocations / swiotlb.
+- Drop the new DMA subsystem APIs (no more required).
+- Drop the spi-virtio bindings, which are not critical for the series
+  and have been submitted independently [Mathieu].
+- PoC i.MX93 FRDM dts: drop the virtio/spi node and child devices and
+  move from gpio-keys-polled to gpio-keys.
+- Re-introduced the rsc-table in PoC i.MX93 FRDM dts.
+- Fixes in the remoteproc-virtio bindings [Rob].
+- imx-rproc: drop unneeded rework of reserved memory assignment.
+- imx-rproc: do not send async mailbox messages with payload living in
+  the stack.
+- Rephrase and expand commit messages.
+- Document the memory allocation behavior.
+- Scattered fixes for minor issues [Mathieu and sashiko].
+- Link to v1: https://patch.msgid.link/20260916-remoteproc_virtio_map-v1-0-dac8c5eb4aa9@valla.it
 
-diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-index 51d8ef10c6c1..912dcb2b593d 100644
---- a/drivers/accel/qda/qda_drv.c
-+++ b/drivers/accel/qda/qda_drv.c
-@@ -128,6 +128,7 @@ static const struct drm_ioctl_desc qda_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MMAP, qda_ioctl_mmap, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MUNMAP, qda_ioctl_munmap, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_SESSION_ATTACH, qda_ioctl_attach, 0),
-+	DRM_IOCTL_DEF_DRV(QDA_SET_OPTION, qda_ioctl_set_option, 0),
- };
- 
- static const struct drm_driver qda_drm_driver = {
-diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
-index cbb580d03e0b..ff58bac77319 100644
---- a/drivers/accel/qda/qda_drv.h
-+++ b/drivers/accel/qda/qda_drv.h
-@@ -71,6 +71,12 @@ struct qda_session {
- 	 * ioctls on one file can run concurrently.
- 	 */
- 	struct qda_gem_obj *init_mem_gem_obj;
-+	/**
-+	 * @poll_mode: Poll for completion of invocations on dynamically loaded
-+	 * modules in a user PD. Set through the set-option ioctl, which can run
-+	 * concurrently with invocations on the same file.
-+	 */
-+	bool poll_mode;
- 	/**
- 	 * @msg_buf_pool: Invoke header buffers this session is done with,
- 	 * kept for its later invocations to reuse.
-@@ -146,6 +152,8 @@ struct qda_dev {
- 	struct mutex remote_heap_lock;
- 	/** @audio_init_mem: True once the DSP has been given the remote heap */
- 	bool audio_init_mem;
-+	/** @poll_mode_supported: Sessions may opt in to invocation completion polling */
-+	bool poll_mode_supported;
- };
- 
- /**
-diff --git a/drivers/accel/qda/qda_fastrpc.c b/drivers/accel/qda/qda_fastrpc.c
-index 6044cfad53e9..0617bb4842b5 100644
---- a/drivers/accel/qda/qda_fastrpc.c
-+++ b/drivers/accel/qda/qda_fastrpc.c
-@@ -3,6 +3,7 @@
- #include <linux/bitfield.h>
- #include <linux/capability.h>
- #include <linux/dma-mapping.h>
-+#include <linux/iopoll.h>
- #include <linux/limits.h>
- #include <linux/mm.h>
- #include <linux/sched.h>
-@@ -89,8 +90,8 @@ static u64 calculate_page_aligned_size(u64 addr, u64 len)
-  * import time unless they are. So the metadata region needs exactly one
-  * qda_remote_buf, one qda_invoke_buf and one qda_phy_page per scalar; unlike
-  * drivers/misc/fastrpc.c, which supports multi-page buffers and so may need
-- * several qda_phy_page entries per scalar. It ends with the handle list and
-- * the CRC list.
-+ * several qda_phy_page entries per scalar. It ends with the handle list, the
-+ * CRC list and the poll word.
-  */
- static size_t qda_fastrpc_get_meta_size(struct qda_fastrpc_invoke_ctx *ctx)
- {
-@@ -98,7 +99,8 @@ static size_t qda_fastrpc_get_meta_size(struct qda_fastrpc_invoke_ctx *ctx)
- 		sizeof(struct qda_invoke_buf) +
- 		sizeof(struct qda_phy_page)) * ctx->nscalars +
- 		sizeof(u64) * QDA_FASTRPC_MAX_HANDLELIST +
--		sizeof(u32) * QDA_FASTRPC_MAX_CRCLIST;
-+		sizeof(u32) * QDA_FASTRPC_MAX_CRCLIST +
-+		sizeof(u32);
- }
- 
- /**
-@@ -518,6 +520,10 @@ static int qda_fastrpc_get_args(struct qda_fastrpc_invoke_ctx *ctx, struct qda_m
- 	pages = (struct qda_phy_page *)&list[ctx->nscalars];
- 	/* Kept so the handle list, which follows the pages, can be found later */
- 	ctx->pages = pages;
-+	/* The poll word follows the handle list and the CRC list */
-+	ctx->poll_addr = (u32 *)((u8 *)(pages + ctx->nscalars) +
-+				 sizeof(u64) * QDA_FASTRPC_MAX_HANDLELIST +
-+				 sizeof(u32) * QDA_FASTRPC_MAX_CRCLIST);
- 
- 	for (i = 0; i < ctx->nbufs; ++i) {
- 		rpra[i].buf.addr = 0;
-@@ -598,6 +604,54 @@ int qda_fastrpc_invoke_pack(struct qda_fastrpc_invoke_ctx *ctx, struct qda_msg *
- 	return 0;
- }
- 
-+static u32 qda_fastrpc_read_poll_addr(struct qda_fastrpc_invoke_ctx *ctx)
-+{
-+	dma_rmb();
-+
-+	return READ_ONCE(*ctx->poll_addr);
-+}
-+
-+/*
-+ * Busy-wait for the DSP to write QDA_FASTRPC_POLL_RESPONSE into the poll word,
-+ * which saves the interrupt and scheduling latency of waiting for the rpmsg
-+ * response. The response still arrives afterwards and drops the reference
-+ * qda_rpmsg_send_msg() took for it as usual.
-+ *
-+ * Return: 0 if the invocation completed, negative error code if it has not
-+ * answered within QDA_FASTRPC_POLL_MAX_TIMEOUT_US
-+ */
-+static int qda_fastrpc_poll_for_rsp(struct qda_fastrpc_invoke_ctx *ctx)
-+{
-+	u32 val;
-+	int err;
-+
-+	err = read_poll_timeout_atomic(qda_fastrpc_read_poll_addr, val,
-+				       val == QDA_FASTRPC_POLL_RESPONSE ||
-+				       READ_ONCE(ctx->is_work_done),
-+				       1, QDA_FASTRPC_POLL_MAX_TIMEOUT_US, false, ctx);
-+	if (err)
-+		return err;
-+
-+	/* The rpmsg path records its own status, so only the poll path's is set here */
-+	if (val == QDA_FASTRPC_POLL_RESPONSE) {
-+		WRITE_ONCE(ctx->is_work_done, true);
-+		ctx->retval = 0;
-+	}
-+
-+	return 0;
-+}
-+
-+static int qda_fastrpc_wait_for_completion(struct qda_fastrpc_invoke_ctx *ctx)
-+{
-+	if (ctx->is_polled && !qda_fastrpc_poll_for_rsp(ctx))
-+		return 0;
-+
-+	/* Polling timed out, so fall back to waiting for the rpmsg response */
-+	ctx->is_polled = false;
-+
-+	return qda_rpmsg_wait_for_rsp(ctx);
-+}
-+
- /**
-  * qda_fastrpc_flush_pending() - Fail every invocation still in flight
-  * @qdev: Device whose invocations should be failed
-@@ -617,6 +671,7 @@ void qda_fastrpc_flush_pending(struct qda_dev *qdev)
- 
- 	xa_for_each(&qdev->ctx_xa, idx, ctx) {
- 		ctx->retval = -EPIPE;
-+		WRITE_ONCE(ctx->is_work_done, true);
- 		complete(&ctx->work);
- 		kref_put(&ctx->refcount, qda_fastrpc_context_free);
- 	}
-@@ -680,11 +735,15 @@ int qda_fastrpc_invoke_common(struct qda_dev *qdev, struct qda_fastrpc_invoke_ct
- 	if (err)
- 		return err;
- 
-+	/* Only invocations of a dynamically loaded module in a user PD are polled */
-+	ctx->is_polled = READ_ONCE(ctx->session->poll_mode) && ctx->pd == QDA_USER_PD &&
-+			 ctx->handle > QDA_FASTRPC_MAX_STATIC_HANDLE;
-+
- 	err = qda_rpmsg_send_msg(qdev, &msg);
- 	if (err)
- 		return err;
- 
--	err = qda_rpmsg_wait_for_rsp(ctx);
-+	err = qda_fastrpc_wait_for_completion(ctx);
- 	if (err)
- 		return err;
- 
-diff --git a/drivers/accel/qda/qda_fastrpc.h b/drivers/accel/qda/qda_fastrpc.h
-index 7d5cd04943a3..2e01d126addc 100644
---- a/drivers/accel/qda/qda_fastrpc.h
-+++ b/drivers/accel/qda/qda_fastrpc.h
-@@ -75,6 +75,15 @@ struct qda_session;
- #define QDA_USER_PD			1
- #define QDA_SENSORS_PD			2
- 
-+/* Handles up to this value name static DSP services, not loaded modules */
-+#define QDA_FASTRPC_MAX_STATIC_HANDLE	20
-+
-+/* Value the DSP writes to the poll word once a polled invocation completes */
-+#define QDA_FASTRPC_POLL_RESPONSE	0xdecaf
-+
-+/* How long to poll before falling back to waiting for the rpmsg response */
-+#define QDA_FASTRPC_POLL_MAX_TIMEOUT_US	10000
-+
- /* Largest ELF image a process may be created from */
- #define QDA_FASTRPC_INIT_FILELEN_MAX	(4 * 1024 * 1024)
- 
-@@ -342,6 +351,12 @@ struct qda_fastrpc_invoke_ctx {
- 	struct drm_gem_object *map_obj;
- 	/** @pages: Array of physical page descriptors inside the payload */
- 	struct qda_phy_page *pages;
-+	/** @poll_addr: Poll word at the end of the payload, written by the DSP */
-+	u32 *poll_addr;
-+	/** @is_polled: Wait for completion by polling @poll_addr first */
-+	bool is_polled;
-+	/** @is_work_done: Set once either the poll or the rpmsg path saw completion */
-+	bool is_work_done;
- 	/** @work: Completed once the DSP has answered */
- 	struct completion work;
- 	/**
-diff --git a/drivers/accel/qda/qda_fastrpc_shim.c b/drivers/accel/qda/qda_fastrpc_shim.c
-index 2be1dd116ef7..acd1b1b2f2b7 100644
---- a/drivers/accel/qda/qda_fastrpc_shim.c
-+++ b/drivers/accel/qda/qda_fastrpc_shim.c
-@@ -463,6 +463,34 @@ static long qda_shim_mem_unmap(struct qda_shim_file *sf, void __user *argp)
- 	return 0;
- }
- 
-+/*
-+ * The legacy request IDs and values match the accel ones, but they are
-+ * translated rather than passed through, so the two ABIs stay independent.
-+ */
-+static long qda_shim_set_option(struct qda_shim_file *sf, void __user *argp)
-+{
-+	struct fastrpc_ioctl_set_option args;
-+	int i;
-+
-+	if (copy_from_user(&args, argp, sizeof(args)))
-+		return -EFAULT;
-+
-+	for (i = 0; i < ARRAY_SIZE(args.reserved); i++)
-+		if (args.reserved[i])
-+			return -EINVAL;
-+
-+	if (args.request_id != FASTRPC_POLL_MODE)
-+		return -EINVAL;
-+
-+	if (args.value != FASTRPC_POLL_MODE_ENABLE &&
-+	    args.value != FASTRPC_POLL_MODE_DISABLE)
-+		return -EINVAL;
-+
-+	return qda_legacy_ops_table.set_option(sf->session, QDA_SET_OPTION_POLL_MODE,
-+					       args.value == FASTRPC_POLL_MODE_ENABLE ?
-+					       QDA_POLL_MODE_ENABLE : QDA_POLL_MODE_DISABLE);
-+}
-+
- static long qda_shim_get_dsp_info(struct qda_shim_file *sf, void __user *argp)
- {
- 	struct fastrpc_ioctl_capability args;
-@@ -570,6 +598,8 @@ static long qda_shim_dispatch(struct qda_shim_file *sf, unsigned int cmd, void _
- 		return qda_shim_invoke(sf, argp);
- 	case FASTRPC_IOCTL_GET_DSP_INFO:
- 		return qda_shim_get_dsp_info(sf, argp);
-+	case FASTRPC_IOCTL_SET_OPTION:
-+		return qda_shim_set_option(sf, argp);
- 	default:
- 		/*
- 		 * Includes FASTRPC_IOCTL_FREE_DMA_BUFF, which the driver this
-diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-index c784defd0f70..f43fae60059d 100644
---- a/drivers/accel/qda/qda_ioctl.c
-+++ b/drivers/accel/qda/qda_ioctl.c
-@@ -413,3 +413,48 @@ int qda_ioctl_invoke(struct drm_device *dev, void *data, struct drm_file *file_p
- {
- 	return qda_fastrpc_invoke(QDA_FASTRPC_RMID_INVOKE_DYNAMIC, data, file_priv->driver_priv);
- }
-+
-+/**
-+ * qda_session_set_option() - Set a per-session option
-+ * @session: Session to update
-+ * @request_id: Option to set (QDA_SET_OPTION_*)
-+ * @value: Request-specific value
-+ *
-+ * Shared by the accel UAPI and the legacy shim's FASTRPC_IOCTL_SET_OPTION.
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+int qda_session_set_option(struct qda_session *session, u32 request_id, u32 value)
-+{
-+	switch (request_id) {
-+	case QDA_SET_OPTION_POLL_MODE:
-+		if (!session->qda_dev->poll_mode_supported)
-+			return -EOPNOTSUPP;
-+
-+		if (value == QDA_POLL_MODE_ENABLE)
-+			WRITE_ONCE(session->poll_mode, true);
-+		else if (value == QDA_POLL_MODE_DISABLE)
-+			WRITE_ONCE(session->poll_mode, false);
-+		else
-+			return -EINVAL;
-+
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+/**
-+ * qda_ioctl_set_option() - Set a per-session option
-+ * @dev: DRM device structure
-+ * @data: User-space data (struct drm_qda_set_option)
-+ * @file_priv: DRM file private data
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+int qda_ioctl_set_option(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	struct drm_qda_set_option *args = data;
-+
-+	return qda_session_set_option(file_priv->driver_priv, args->request_id, args->value);
-+}
-diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
-index 329f3809c8ce..277c16742196 100644
---- a/drivers/accel/qda/qda_ioctl.h
-+++ b/drivers/accel/qda/qda_ioctl.h
-@@ -20,6 +20,8 @@ int qda_ioctl_init_create(struct drm_device *dev, void *data, struct drm_file *f
- int qda_ioctl_mmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_munmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_attach(struct drm_device *dev, void *data, struct drm_file *file_priv);
-+int qda_ioctl_set_option(struct drm_device *dev, void *data, struct drm_file *file_priv);
-+int qda_session_set_option(struct qda_session *session, u32 request_id, u32 value);
- int qda_session_init_create(struct qda_session *session, struct qda_init_create_args *create);
- int qda_session_attach(struct qda_session *session, u32 pd_type, const char __user *name,
- 		       u32 namelen);
-diff --git a/drivers/accel/qda/qda_legacy_ops.c b/drivers/accel/qda/qda_legacy_ops.c
-index 8d9d597c76c2..18c17d5a9d2b 100644
---- a/drivers/accel/qda/qda_legacy_ops.c
-+++ b/drivers/accel/qda/qda_legacy_ops.c
-@@ -198,6 +198,7 @@ const struct qda_legacy_ops qda_legacy_ops_table = {
- 	.session_destroy = legacy_session_destroy,
- 	.init_create = legacy_init_create,
- 	.attach = qda_session_attach,
-+	.set_option = qda_session_set_option,
- 	.release = legacy_release,
- 	.mmap = legacy_mmap,
- 	.mem_map = legacy_mem_map,
-diff --git a/drivers/accel/qda/qda_legacy_ops.h b/drivers/accel/qda/qda_legacy_ops.h
-index c79003021fc1..ffb3ebd9b1c5 100644
---- a/drivers/accel/qda/qda_legacy_ops.h
-+++ b/drivers/accel/qda/qda_legacy_ops.h
-@@ -36,6 +36,8 @@ struct qda_legacy_ops {
- 	/** @attach: Attach the session to a DSP-resident protection domain */
- 	int (*attach)(struct qda_session *session, u32 pd_type, const char __user *name,
- 		      u32 namelen);
-+	/** @set_option: Set a per-session option */
-+	int (*set_option)(struct qda_session *session, u32 request_id, u32 value);
- 	/** @release: Release the session's DSP process, if it has one */
- 	int (*release)(struct qda_session *session);
- 	/** @mmap: Map a buffer into the DSP's address space */
-diff --git a/drivers/accel/qda/qda_rpmsg.c b/drivers/accel/qda/qda_rpmsg.c
-index b93e906b5793..c2a6798cb50d 100644
---- a/drivers/accel/qda/qda_rpmsg.c
-+++ b/drivers/accel/qda/qda_rpmsg.c
-@@ -132,6 +132,7 @@ static int qda_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len,
- 	}
- 
- 	ctx->retval = resp_msg->retval;
-+	WRITE_ONCE(ctx->is_work_done, true);
- 	complete(&ctx->work);
- 
- 	/*
-@@ -267,6 +268,8 @@ static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
- 	if (!qdev->soc_data)
- 		return -ENODEV;
- 
-+	qdev->poll_mode_supported = qda_soc_poll_mode_supported(qdev->soc_data);
-+
- 	ret = of_property_read_string(rpdev->dev.of_node, "label", &qdev->dsp_name);
- 	if (ret) {
- 		dev_err(&rpdev->dev, "Missing 'label' property in DT node: %d\n", ret);
-diff --git a/drivers/accel/qda/qda_soc.c b/drivers/accel/qda/qda_soc.c
-index fb316b74103d..c670f747e1f5 100644
---- a/drivers/accel/qda/qda_soc.c
-+++ b/drivers/accel/qda/qda_soc.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- // Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+#include <linux/of.h>
- #include <linux/string.h>
- #include "qda_drv.h"
- #include "qda_soc.h"
-@@ -8,6 +9,7 @@ const struct qda_soc_data kaanapali_soc_data = {
- 	.sid_pos = 56,
- 	.dma_addr_bits_cdsp = 34,
- 	.dma_addr_bits_default = 32,
-+	.poll_mode_supported = true,
- };
- 
- const struct qda_soc_data default_soc_data = {
-@@ -16,6 +18,37 @@ const struct qda_soc_data default_soc_data = {
- 	.dma_addr_bits_default = 32,
- };
- 
-+/*
-+ * Platforms that share default_soc_data but whose DSP firmware does implement
-+ * invocation completion polling. The list is closed: new SoCs advertise
-+ * polling support through their own qda_soc_data instead.
-+ */
-+static const struct of_device_id qda_poll_mode_machines[] = {
-+	{ .compatible = "qcom,milos" },
-+	{ .compatible = "qcom,qcs8300" },
-+	{ .compatible = "qcom,sa8775p" },
-+	{ .compatible = "qcom,sar2130p" },
-+	{ .compatible = "qcom,sm8450" },
-+	{ .compatible = "qcom,sm8550" },
-+	{ .compatible = "qcom,sm8650" },
-+	{ .compatible = "qcom,sm8750" },
-+	{ .compatible = "qcom,x1e80100" },
-+	{ .compatible = "qcom,x1p42100" },
-+	{ }
-+};
-+
-+/**
-+ * qda_soc_poll_mode_supported() - Whether the DSP supports completion polling
-+ * @soc_data: SoC parameters of the device
-+ *
-+ * Return: true if invocations on this SoC may use poll mode
-+ */
-+bool qda_soc_poll_mode_supported(const struct qda_soc_data *soc_data)
-+{
-+	return soc_data->poll_mode_supported ||
-+	       of_machine_get_match(qda_poll_mode_machines);
-+}
-+
- /**
-  * qda_soc_dma_addr_bits() - DMA address width of a device's context banks
-  * @qdev: QDA device
-diff --git a/drivers/accel/qda/qda_soc.h b/drivers/accel/qda/qda_soc.h
-index fb5b786d0928..db8f10a30f7b 100644
---- a/drivers/accel/qda/qda_soc.h
-+++ b/drivers/accel/qda/qda_soc.h
-@@ -24,11 +24,14 @@ struct qda_soc_data {
- 	u32 dma_addr_bits_cdsp;
- 	/** @dma_addr_bits_default: DMA address width of all other context banks */
- 	u32 dma_addr_bits_default;
-+	/** @poll_mode_supported: DSP firmware supports invocation completion polling */
-+	bool poll_mode_supported;
- };
- 
- extern const struct qda_soc_data kaanapali_soc_data;
- extern const struct qda_soc_data default_soc_data;
- 
-+bool qda_soc_poll_mode_supported(const struct qda_soc_data *soc_data);
- u32 qda_soc_dma_addr_bits(const struct qda_dev *qdev);
- 
- /**
-diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-index 07b943a3c822..816f2c10accf 100644
---- a/include/uapi/drm/qda_accel.h
-+++ b/include/uapi/drm/qda_accel.h
-@@ -20,6 +20,7 @@ extern "C" {
- #define DRM_QDA_REMOTE_MMAP		0x05
- #define DRM_QDA_REMOTE_MUNMAP		0x06
- #define DRM_QDA_REMOTE_SESSION_ATTACH	0x07
-+#define DRM_QDA_SET_OPTION		0x08
- 
- #define DRM_IOCTL_QDA_QUERY		DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_QUERY, \
- 					 struct drm_qda_query)
-@@ -39,6 +40,8 @@ extern "C" {
- #define DRM_IOCTL_QDA_REMOTE_SESSION_ATTACH					\
- 	DRM_IOW(DRM_COMMAND_BASE + DRM_QDA_REMOTE_SESSION_ATTACH,		\
- 		struct drm_qda_remote_attach)
-+#define DRM_IOCTL_QDA_SET_OPTION	DRM_IOW(DRM_COMMAND_BASE + DRM_QDA_SET_OPTION, \
-+					 struct drm_qda_set_option)
- 
- /* Request types for drm_qda_mem_map.request */
- #define QDA_REQUEST_MMAP	1	/* Map a whole buffer */
-@@ -248,6 +251,30 @@ struct drm_qda_remote_attach {
- 	__u64 name;
- };
- 
-+/* Request IDs for drm_qda_set_option.request_id */
-+#define QDA_SET_OPTION_POLL_MODE	1
-+
-+/* Values for drm_qda_set_option.value with QDA_SET_OPTION_POLL_MODE */
-+#define QDA_POLL_MODE_DISABLE	0
-+#define QDA_POLL_MODE_ENABLE	1
-+
-+/**
-+ * struct drm_qda_set_option - Set a per-session option
-+ * @request_id: Option to set (QDA_SET_OPTION_*)
-+ * @value: Request-specific value
-+ *
-+ * For QDA_SET_OPTION_POLL_MODE, @value is QDA_POLL_MODE_ENABLE or
-+ * QDA_POLL_MODE_DISABLE. Enabling poll mode lets the driver poll shared
-+ * memory for completion of a dynamically loaded module's invocations in a
-+ * user PD instead of waiting for an interrupt-based response, trading CPU
-+ * cycles for lower round-trip latency. DSPs that do not support it reject
-+ * the request with EOPNOTSUPP.
-+ */
-+struct drm_qda_set_option {
-+	__u32 request_id;
-+	__u32 value;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
+To: Bjorn Andersson <andersson@kernel.org>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Kees Cook <kees@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Francesco Valla <francesco@valla.it>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Frank Li <Frank.Li@nxp.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: linux-remoteproc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-hardening@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Signed-off-by: Francesco Valla <francesco@valla.it>
 
--- 
-2.34.1
+---
+Francesco Valla (11):
+      remoteproc: virtio: cleanup rproc_add_virtio_dev error path
+      remoteproc: virtio: replace commas with semicolons
+      remoteproc: virtio: support dynamic number of vrings
+      remoteproc: report VIRTIO_F_VERSION_1 for non-rproc-specific vdevs
+      remoteproc: virtio: report VIRTIO_F_ACCESS_PLATFORM when required
+      dt-bindings: remoteproc: add remoteproc-virtio
+      remoteproc: assign fwnode during vdev registration
+      Documentation: remoteproc: expand virtio support section
+      remoteproc: imx_rproc: always use non-blocking mailboxes
+      dt-bindings: remoteproc: imx-rproc: support virtio
+      PoC: arm64: dts: imx93-11x11-frdm: add multiple vdevs
+
+ .../bindings/remoteproc/fsl,imx-rproc.yaml         |   3 +-
+ .../bindings/remoteproc/remoteproc-virtio.yaml     | 106 ++++++++++++
+ Documentation/staging/remoteproc.rst               |  99 ++++++++++-
+ arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts | 188 +++++++++++++++++++++
+ drivers/remoteproc/imx_rproc.c                     |  76 +++------
+ drivers/remoteproc/imx_rproc.h                     |   1 -
+ drivers/remoteproc/remoteproc_core.c               |  55 ++++--
+ drivers/remoteproc/remoteproc_virtio.c             | 110 +++++++++---
+ include/linux/remoteproc.h                         |  10 +-
+ 9 files changed, 558 insertions(+), 90 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260915-remoteproc_virtio_map-bcf32a5fab54
+
+Best regards,
+--  
+Francesco Valla <francesco@valla.it>
 
