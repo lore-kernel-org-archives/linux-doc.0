@@ -1,93 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=185.56.87.7
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793576310;
-	b=4sNk8th/MQ1oBNoJHmUrnXrgfxoJtT9SY+ExT41t8P6MZGzVgG2X0ACdX6XDUVV4iihK
-	 AxXRcRPamAlSqQrZYSZGD2UBgy6/DNfLNholdUTUAfD4kDZWtJxwQt1rENjhgDz6+0jTI
-	 yBVeQmW3HxGHgAdNf/NRNGE5dImqzBcvl08eEnrEMS7BcDkKmCaWe+e8HLFShs48qRiPr
-	 LbHL2yqoTqpmdG8rrHniV3lrN78pJupLDNvcyV1s1uRUuZpVo4O2BLTaVnxS0tqYOp0Hl
-	 VpYHfHizPrDLylfPJqOKgM6UaHBKs/m2nrlm2xuR+HRsoiWzMPcbdzc8hlx2KDAlL+w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793576310;
-	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:From:
-	 Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:
-	 X-Source-Dir:X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:
-	 AntiSpam-DLSRS:AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
-	bh=18pDHMm0XqeCRNvNB8S0ooGOx5P4hUMuhrJSq5OimuA=;
-	b=FXInq98PU2gYzy0sMxDnIrO4/8P3ywa8GkGd/bEKh4TyC7RnE9HbQN4+889fgH9R+jEZ
-	 Nyz/CjKDY1mDyBlPiuwfYZibc/OpDuyxt2QXqiyXL5ODSNic84gfvLy4xkgCsDQnLss8H
-	 7tdQsoBd52Rn0l2T7AV+lhvwWv4L//ElhOnZzUpaRWTQUs451xJsatsgFKmirkhfTbUw1
-	 rBg1ioecpDONDKAft8zl2th0pg+Cu3cyOcJYHE0/IPrgUQwmesw4TdbedRiIApJ+LUdpf
-	 nj2GhUlzNTsYfmseSZhVmFkrWONwy1NyHiRt8xLGM/muHwBAWXMjHSAzGbLtzbRIcNA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=valla.it;
-	spf=pass smtp.mailfrom=valla.it;
-	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=W7LSFbA4;
-	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=G5XOvsID;
-	arc=fail smtp.remote-ip=185.56.87.7
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.7])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.16
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793577083;
+	b=z8+IQ9UEQm49Rq3WvCrgO7civnC8F+8SBak+LDIYvSSn8W39goyyl6Oo/6/KGC1AOlZ/
+	 0KkKfhXBrBRZlT3O1r3XlYF3sZxllPzbWV/RYAUBSr8GGd13gd3c/xBZndVpI/aibZWH7
+	 Xix/IkWD1XSNRf7g+zO8mJNDFZwzUdheIMNtohXY/4Q7+0SnsI8oEE+mLkwi3reaeGxs0
+	 uycEQ66Za3fG39I7ypKDG5hNZwJreQjVuJEBa6CMv4/fIUskhupXNT7CuGPTeP7o8Ny8C
+	 olWJIrEfziRT81OYONtdLlgHJKy1r1PzNsTUVMnhwq/MI5FpgFpmVgjszAFpispG6CA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793577083;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=EzaB0dFrqATFo/F9hMIFjRzg10fufdUElMcuGto4f/g=;
+	b=HmfTBKx5qf4HBnH8A5OfA8aliO8GmP5SQbRuSHRqBGKbjgQ7qz/OGsTVM3fmNoMTh4UM
+	 2cNUb5YGrAgSa2WGuGHOxgKobcoudMmZEyzTQTj6t/WD8ZYSEy6LkT/KBqzxWR0VCxWkJ
+	 FoJmdBK6a9LGSXClI4gB5HAQu+urVFXSeWDjIJTow/4W+ojYDMgjSKlkVQ6397igVqADp
+	 oAB2JoztJ9LBKLHI+Nm43pcAPJPK0rzBD5RtlXgP+cSvRy6f8+17lI1EEwbnStFdOYfOW
+	 Bezl2Y0IQRt9U5oNSAd0cYesged2++77FEexUBgLXDxB48BU1zZ41zuMjIQ2mkz8xgA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=ZlQD0HLF;
+	arc=none smtp.remote-ip=109.224.244.16
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C760606A32F;
-	Sun,  1 Nov 2026 23:38:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C760606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9102606A324
+	for <linux-doc@vger.kernel.org>; Sun,  1 Nov 2026 23:51:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9102606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=W7LSFbA4;
-	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=G5XOvsID
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-xdd7.prod.antispam.mailspamprotection.com; s=arckey; t=1793576309;
-	 b=GuaTFSWq6L6tF/AGZdFpCZHKjx5pq9ARDOameEezZPVrfiNQi29EROaG0zzJlHm3AjwzeYVtRn
-	  iDG0ivd7TgnOTUCfrJP2OAXKiuaxATaCrRGT591SRIrA9FdJSUSdHg1MpK3Jgf7d9KNEVfM9V8
-	  1U7YZ0nX4qAW0JcK8jfApXTlYFor4cIRl9NO0ZRl/PgSNLooB4oujQ/l142fQR1p2E5reaRLHe
-	  z4oTrJShcZY283zY8d3gOselpl0KjPjE2eCrLgXVHdhdHGyEICbX6neKXB+jEyx7rBfT1bkOPX
-	  4Z+rl/oie6v0l78bWccodx/pmYuc5FlrEsk+7KbTYwBviA==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-xdd7.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-xdd7.prod.antispam.mailspamprotection.com; s=arckey; t=1793576309;
-	bh=7sSWwWaTdi8eub1qzTC0gPuMXFcGQ/27nlgu71hjiaU=;
-	h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
-	  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=lsbAlGHC5rlTUgeSX1LlzkCgBx9IQh0zUfttr2GHFQTjmoLxFzxssCzi/5/qWIPFX7y96ikr9I
-	  FlrUVsgW9T+XjMX1StOQjF2ewa6PuALpMxyrHJyCxA6u6vEY1xaVGvCestIYty2RvQCXFiTTzB
-	  cpBIe3i81G5jPWX/2oa8GcsexyZ5ONIFefpJqc7pMt5kjR3GFR6w3GcpSeWJx+h2JQadb8gBD8
-	  yEsI90ytMlgMGv8KlM9OcVxhcgPwZN8CtRYbX7W6iv4o7OFeTyg5FYCsWiPc3o87uxB2msjlsG
-	  UX+N6VIoylhVnIjdg0iV5ZAYhddXMANUhxvCQMe0zokJSw==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
-	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
-	:Date:From:Reply-To:List-Unsubscribe;
-	bh=18pDHMm0XqeCRNvNB8S0ooGOx5P4hUMuhrJSq5OimuA=; b=W7LSFbA4xyLPGwBOJcg9+RBgFX
-	kgUHp2qjJjDIYaJWU2+iM3ZIAzAYCsHOndR0Y9p/GIbt+CAogzxxkYB4H3OE6LoZw17GW9f6I3FJK
-	nROJT/ti4ThJ3msnZS3AloEPo7SX8oB40H6yLxq42LAaQvaQ18yac2lISxQIOU2PYLPY=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-xdd7.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xNf87-00000005pXg-0R84;
-	Sun, 01 Nov 2026 23:38:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
-	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
-	list-subscribe:list-post:list-owner:list-archive;
-	bh=18pDHMm0XqeCRNvNB8S0ooGOx5P4hUMuhrJSq5OimuA=; b=G5XOvsID4NOflI9PqG6tJoz65d
-	CPoIHKRNxE0wJRiKaDQuuqn9GWbsPTeP+qeZOaH2dQbcnD4GKW8u2Y4Irpp70QlQ0M+lHH8Y95Ryk
-	lG1gsdql1owqhV535+itVZvb2xWwlsXLHVmy4qtzOwEIg9GN3D70N8jv23gRh3zEJgow=;
-Received: from [79.17.15.196] (port=60226 helo=[192.168.178.175])
-	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xNex5-000000002I5-12xV;
-	Sun, 01 Nov 2026 23:27:03 +0000
-From: Francesco Valla <francesco@valla.it>
-Date: Mon, 02 Nov 2026 00:26:48 +0100
-Subject: [PATCH RFC v2 11/11] PoC: arm64: dts: imx93-11x11-frdm: add
- multiple vdevs
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=ZlQD0HLF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1793577079; x=1793836279;
+	bh=EzaB0dFrqATFo/F9hMIFjRzg10fufdUElMcuGto4f/g=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ZlQD0HLF/IOtVcjNIj9YatHrxg3HKazXhbtNL7qoLz8L2HMJKM7T0c7RUqz8C9nxR
+	 BG/wg2JNrIUU0+kgiE+zXfZ5jlGD19ufQ+ssmo4/Zt7dg4DV4EqgBKWPlS3j8K/eop
+	 Hk5vPcenhJR+Z80J89IPsjfe4xiqR6pXm5ynYHNcQ9aKvVnUlFTrAbuqDXLCS3/24s
+	 4+fseg1jQJ9L8mkD9Yg78CRkLnmGtQoxl2LNtkhRIJwGPxkVAX3AgGASZl/aqMKHDG
+	 YyErqqG2Ic0VeDm9L7ZFQyNGTk7obaxDoDipU2KkwAkjZwH0LILPaN+VIYwDqTMit2
+	 QBy9tpiR9mi7Q==
+Date: Sun, 01 Nov 2026 23:51:16 +0000
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
+From: Ismael Ojeda Perez <iojedaperez@proton.me>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (it87) Add support for IT8607E
+Message-ID: <179357707375.834227.595814448085536071@proton.me>
+Feedback-ID: 55883223:user:proton
+X-Pm-Message-ID: 195c5c7a0034942337a697c596d10dd4e26769cc
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -97,290 +61,190 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-remoteproc_virtio_map-v2-11-26b300e01c62@valla.it>
-References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
-In-Reply-To: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Francesco Valla <francesco@valla.it>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, linux-remoteproc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5433; i=francesco@valla.it;
- h=from:subject:message-id; bh=7sSWwWaTdi8eub1qzTC0gPuMXFcGQ/27nlgu71hjiaU=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFnPT+3Zf6yTVVnmlPfLqdymm19lH6yJfiB9QiFRdeUrt
- S3P2d30O0pZGMS4GGTFFFlC1t24t2eu+be0DYyPYOawMoEMYeDiFICJ9Gox/NM5KtapZmmRzBvZ
- 8rt/Lp8c4z5Jhf1dwYYbQ1f9t2SfIcXIMOXAhi9lc16/mzFj+gLdDp61l/UY952N6FV7MrXojoy
- aITcA
-X-Developer-Key: i=francesco@valla.it; a=openpgp;
- fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: 7756c959dc21fe76546c7b0ffe8f257f
-X-AntiAbuse: ID - 7756c959dc21fe76546c7b0ffe8f257f
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1xNf87-00000005pXg-0R84-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-xdd7.prod.antispam.mailspamprotection.com;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Add rings and buffers for multiple virtio devices exposed by the
-firmware running on the Cortex-M33 processor which is part of the i.MX93.
-It is expected that such firmware exposes, through its resource table,
-the following vdevs:
+The IT8607E is the Super I/O of the Intel NUC6i3SYB and, according to
+Intel's product specification, the NUC6i5SYB (BIOS SYSKLi35.86A). Its
+environment controller is hidden from ACPI (HHMD._STA returns 0), so the
+chip is only reachable through the LPC configuration ports, and the ACPI
+resource check must be bypassed with ignore_resource_conflict=3D1.
 
-  - vdev0: rpmsg
-  - vdev1: entropy
-  - vdev2: gpio
-  - vdev3: i2c
-  - vdev4: spi
-  - vdev5: can
+No datasheet is available. The register layout was compared against the
+IT8603E, and the BIOS fan setup (IT8607PeiInit and FanPei PEI modules of
+SYSKLi35.86A.0071) was disassembled to confirm it programs the same
+"newer autopwm" registers (0x68-0x6d for pwm2). Features are therefore
+copied from the IT8603E.
 
-The order in which the devices are contained inside the resource table
-is critical, since it is used both to associate vrings and buffers to a
-vdev and to map additional dt nodes to them.
+Tested on a NUC6i3SYB (BIOS SYSKLi35.86A.0042, chip ID 0x8607, rev 2):
+temperatures agree with coretemp, +3.3V reads 3.31 V, the 3VSB and VBAT
+inputs read plausible values, fan2 tach and pwm2 respond to the
+automatic-curve registers (start 74 C, full speed 92 C, as programmed by
+the BIOS) and to manual mode, and the original values are restored.
 
-All vdev buffers except the one for the rpmsg bus are declared as
-restricted-dma-pool, because the corresponding drivers need bounce
-buffering for the communication to work correctly.
+The tachometer was not compared with an external tachometer and the
+voltage scaling was not compared with a multimeter; the values above are
+only cross-checked against coretemp and the expected rail voltages.
 
-Nodes for the gpio and i2c vdevs with example children devices are
-included.
-
-NOTE: this is a Proof-Of-Concept, not meant to be integrated!
-
-Signed-off-by: Francesco Valla <francesco@valla.it>
-
+Signed-off-by: Ismael Ojeda Perez <iojedaperez@proton.me>
 ---
+Notes (not part of the commit message):
 
-Notable diff from RFC v1: the rsc-table node has been re-introduced to
-focus on the changes that are truly in scope for the series. I still
-believe something is off with the current implementation, but I'll
-tackle it separately.
----
- arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts | 188 +++++++++++++++++++++
- 1 file changed, 188 insertions(+)
+Based on the hwmon-next branch of groeck/linux-staging.git (file contents
+as of 2026-11-01). Also compiled as a module against 6.18.58.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts b/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
-index 6e8351d12016..84324b02c45d 100644
---- a/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
-+++ b/arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dts
-@@ -137,3 +137,191 @@ MX93_PAD_SD3_DATA3__GPIO3_IO25		0x31e
- 		>;
- 	};
- };
-+
-+/* Multi-vdev PoC */
-+
-+#include <dt-bindings/input/linux-event-codes.h>
-+
-+/ {
-+	reserved-memory {
-+		rsc_table: rsc-table@2021e000 {
-+			reg = <0 0x2021e000 0 0x1000>;
-+			no-map;
-+		};
-+
-+		/* vdev0: rpmsg */
-+		vdev0vring0: vdev0vring0@a4000000 {
-+			reg = <0 0xa4000000 0 0x8000>;
-+			no-map;
-+		};
-+
-+		vdev0vring1: vdev0vring1@a4008000 {
-+			reg = <0 0xa4008000 0 0x8000>;
-+			no-map;
-+		};
-+
-+		vdev0buffer: vdev0buffer@a4020000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0 0xa4020000 0 0x100000>;
-+			no-map;
-+		};
-+
-+		/* vdev1: entropy */
-+		vdev1vring0: vdev1vring0@a4010000 {
-+			reg = <0 0xa4010000 0 0x1000>;
-+			no-map;
-+		};
-+
-+		/delete-node/ vdev1vring1@a4018000;
-+
-+		vdev1buffer: vdev1buffer@a4120000 {
-+			compatible = "restricted-dma-pool";
-+			reg = <0 0xa4120000 0 0x10000>;
-+		};
-+
-+		/* vdev2: GPIO */
-+		vdev2vring0: vdev2vring0@a4011000 {
-+			reg = <0 0xa4011000 0 0x2000>;
-+			no-map;
-+		};
-+
-+		vdev2vring1: vdev2vring1@a4013000 {
-+			reg = <0 0xa4013000 0 0x2000>;
-+			no-map;
-+		};
-+
-+		vdev2buffer: vdev2buffer@a4130000 {
-+			compatible = "restricted-dma-pool";
-+			reg = <0 0xa4130000 0 0x20000>;
-+		};
-+
-+		/* vdev3: I2C */
-+		vdev3vring0: vdev3vring0@a4015000 {
-+			reg = <0 0xa4015000 0 0x2000>;
-+			no-map;
-+		};
-+
-+		vdev3buffer: vdev3buffer@a4150000 {
-+			compatible = "restricted-dma-pool";
-+			reg = <0 0xa4150000 0 0x20000>;
-+		};
-+
-+		/* vdev4: SPI */
-+		vdev4vring0: vdev4vring0@a4017000 {
-+			reg = <0 0xa4017000 0 0x4000>;
-+			no-map;
-+		};
-+
-+		vdev4buffer: vdev4buffer@a4170000 {
-+			compatible = "restricted-dma-pool";
-+			reg = <0 0xa4170000 0 0x90000>;
-+		};
-+
-+		/* vdev5: CAN */
-+		vdev5vring0: vdev5vring0@a401b000 {
-+			reg = <0 0xa401b000 0 0x2000>;
-+			no-map;
-+		};
-+
-+		vdev5vring1: vdev5vring1@a401d000 {
-+			reg = <0 0xa401d000 0 0x2000>;
-+			no-map;
-+		};
-+
-+		vdev5vring2: vdev5vring2@a401f000 {
-+			reg = <0 0xa401f000 0 0x1000>;
-+			no-map;
-+		};
-+
-+		vdev5buffer: vdev5buffer@a4200000 {
-+			compatible = "restricted-dma-pool";
-+			reg = <0 0xa4200000 0 0x80000>;
-+		};
-+	};
-+
-+	gpio-keys-virtio {
-+		compatible = "gpio-keys";
-+
-+		button-v1 {
-+			label = "Button V1";
-+			linux,code = <BTN_3>;
-+			gpios = <&v_gpio 23 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		button-v2 {
-+			label = "Button V2";
-+			linux,code = <BTN_4>;
-+			gpios = <&v_gpio 24 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led {
-+			gpios = <&v_gpio 18 GPIO_ACTIVE_HIGH>;
-+			label = "LED V";
-+		};
-+	};
-+};
-+
-+&cm33 {
-+	memory-region = <&vdev0buffer>, <&vdev0vring0>, <&vdev0vring1>,
-+			<&vdev1vring0>, <&vdev2vring0>, <&vdev2vring1>,
-+			<&vdev3vring0>, <&vdev4vring0>, <&vdev5vring0>,
-+			<&vdev5vring1>, <&vdev5vring2>, <&rsc_table>;
-+
-+	virtio {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* vdev1: entropy */
-+		vdev@1 {
-+			reg = <1>;
-+			memory-region = <&vdev1buffer>;
-+		};
-+
-+		/* vdev2: GPIO */
-+		vdev@2 {
-+			reg = <2>;
-+			memory-region = <&vdev2buffer>;
-+
-+			v_gpio: gpio {
-+				compatible = "virtio,device29";
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+				interrupt-controller;
-+				#interrupt-cells = <2>;
-+			};
-+		};
-+
-+		/* vdev3: I2C */
-+		vdev@3 {
-+			reg = <3>;
-+			memory-region = <&vdev3buffer>;
-+
-+			i2c {
-+				compatible = "virtio,device22";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				eeprom@50 {
-+					compatible = "atmel,24c1025";
-+					reg = <0x50>;
-+				};
-+			};
-+		};
-+
-+		/* vdev4: SPI */
-+		vdev@4 {
-+			reg = <4>;
-+			memory-region = <&vdev4buffer>;
-+		};
-+
-+		/* vdev5: CAN */
-+		vdev@5 {
-+			reg = <5>;
-+			memory-region = <&vdev5buffer>;
-+		};
-+	};
-+};
+Sample output on the NUC6i3SYB with it87 loaded with
+ignore_resource_conflict=3D1 (raw sysfs, hwmon5 =3D it8607):
 
--- 
+  in0_input=3D828  in1_input=3D1212  in2_input=3D2004  in3_input=3D2004
+  in4_input=3D2016  in7_input=3D3312 (3VSB)  in8_input=3D2808 (Vbat)
+  in9_input=3D3312 (+3.3V)
+  temp1_input=3D72000  temp2_input=3D67000  temp3_input=3D74000
+  fan1_input=3D0  fan2_input=3D4623
+  pwm2=3D89  pwm2_enable=3D2
+
+The Super I/O is found at 0x2e, chip ID 0x8607, revision 2, and the
+hardware monitor at 0xa40; ACPI reserves that range, hence the module
+parameter. Is that acceptable, or would you prefer a DMI quirk for the
+NUC6 boards?
+
+ Documentation/hwmon/it87.rst | 16 +++++++++++++++-
+ drivers/hwmon/Kconfig        |  4 ++--
+ drivers/hwmon/it87.c         | 17 +++++++++++++++--
+ 3 files changed, 32 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/hwmon/it87.rst b/Documentation/hwmon/it87.rst
+index c33ba8a..17bfffb 100644
+--- a/Documentation/hwmon/it87.rst
++++ b/Documentation/hwmon/it87.rst
+@@ -19,6 +19,14 @@ Supported chips:
+=20
+     Datasheet: Not publicly available
+=20
++  * IT8607E
++
++    Prefix: 'it8607'
++
++    Addresses scanned: from Super I/O config space (8 I/O ports)
++
++    Datasheet: Not publicly available
++
+   * IT8620E
+=20
+     Prefix: 'it8620'
+@@ -243,7 +251,7 @@ motherboard models.
+ Description
+ -----------
+=20
+-This driver implements support for the IT8603E, IT8620E, IT8623E, IT8628E,
++This driver implements support for the IT8603E, IT8607E, IT8620E, IT8623E,=
+ IT8628E,
+ IT8689E, IT8705F, IT8712F, IT8716F, IT8718F, IT8720F, IT8721F, IT8726F,
+ IT8728F, IT8732F, IT8758E, IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F,
+ IT8786E, IT8790E, IT8792E/IT8795E, IT87952E and SiS950 chips.
+@@ -287,6 +295,12 @@ The IT8603E/IT8623E is a custom design, hardware monit=
+oring part is similar to
+ IT8728F. It only supports 3 fans, 16-bit fan mode, and the full speed mode
+ of the fan is not supported (value 0 of pwmX_enable).
+=20
++The IT8607E is found on the Intel NUC6i3SYB and NUC6i5SYB boards. The hard=
+ware
++monitoring part is treated as compatible with the IT8603E (16-bit fans, ne=
+wer
++autopwm registers) because no datasheet is available. The BIOS keeps the
++environment controller hidden from ACPI, so the driver can only be loaded
++with ``ignore_resource_conflict=3D1``.
++
+ The IT8620E and IT8628E are custom designs, hardware monitoring part is si=
+milar
+ to IT8728F. It only supports 16-bit fan mode. Both chips support up to 6 f=
+ans.
+=20
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 18c682e..bc6ddff 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -952,8 +952,8 @@ config SENSORS_IT87
+ =09  If you say yes here you get support for ITE IT8705F, IT8712F, IT8716F=
+,
+ =09  IT8718F, IT8720F, IT8721F, IT8726F, IT8728F, IT8732F, IT8758E,
+ =09  IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F, IT8786E, IT8790E,
+-=09  IT8603E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips, and
+-=09  the SiS950 clone.
++=09  IT8603E, IT8607E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips=
+,
++=09  and the SiS950 clone.
+=20
+ =09  This driver can also be built as a module. If so, the module
+ =09  will be called it87.
+diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
+index 2757d42..bdef0b7 100644
+--- a/drivers/hwmon/it87.c
++++ b/drivers/hwmon/it87.c
+@@ -12,6 +12,7 @@
+  *  similar parts.  The other devices are supported by different drivers.
+  *
+  *  Supports: IT8603E  Super I/O chip w/LPC interface
++ *            IT8607E  Super I/O chip w/LPC interface
+  *            IT8620E  Super I/O chip w/LPC interface
+  *            IT8622E  Super I/O chip w/LPC interface
+  *            IT8623E  Super I/O chip w/LPC interface
+@@ -66,7 +67,7 @@
+=20
+ enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
+ =09     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
+-=09     it8792, it8603, it8613, it8620, it8622, it8628, it8689, it87952 };
++=09     it8792, it8603, it8607, it8613, it8620, it8622, it8628, it8689, it=
+87952 };
+=20
+ static struct platform_device *it87_pdev[2];
+=20
+@@ -160,6 +161,7 @@ static inline void superio_exit(int ioreg, bool noexit)
+ #define IT8786E_DEVID 0x8786
+ #define IT8790E_DEVID 0x8790
+ #define IT8603E_DEVID 0x8603
++#define IT8607E_DEVID 0x8607
+ #define IT8613E_DEVID 0x8613
+ #define IT8620E_DEVID 0x8620
+ #define IT8622E_DEVID 0x8622
+@@ -530,6 +532,14 @@ static const struct it87_devices it87_devices[] =3D {
+ =09=09.num_temp_map =3D 6,
+ =09=09.peci_mask =3D 0x07,
+ =09},
++=09[it8607] =3D {
++=09=09.name =3D "it8607",
++=09=09.model =3D "IT8607E",
++=09=09.features =3D FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
++=09=09  | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_IN7_INTERNAL
++=09=09  | FEAT_AVCC3 | FEAT_PWM_FREQ2,
++=09=09.peci_mask =3D 0x07,
++=09},
+ =09[it8620] =3D {
+ =09=09.name =3D "it8620",
+ =09=09.model =3D "IT8620E",
+@@ -2941,6 +2951,9 @@ static int __init it87_find(int sioaddr, unsigned sho=
+rt *address,
+ =09case IT8613E_DEVID:
+ =09=09sio_data->type =3D it8613;
+ =09=09break;
++=09case IT8607E_DEVID:
++=09=09sio_data->type =3D it8607;
++=09=09break;
+ =09case IT8620E_DEVID:
+ =09=09sio_data->type =3D it8620;
+ =09=09break;
+@@ -3095,7 +3108,7 @@ static int __init it87_find(int sioaddr, unsigned sho=
+rt *address,
+=20
+ =09=09sio_data->beep_pin =3D superio_inb(sioaddr,
+ =09=09=09=09=09=09 IT87_SIO_BEEP_PIN_REG) & 0x3f;
+-=09} else if (sio_data->type =3D=3D it8603) {
++=09} else if (sio_data->type =3D=3D it8603 || sio_data->type =3D=3D it8607=
+) {
+ =09=09int reg27, reg29;
+=20
+ =09=09superio_select(sioaddr, GPIO);
+--=20
 2.56.0
+
 
