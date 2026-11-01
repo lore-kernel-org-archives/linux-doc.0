@@ -1,55 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793544130;
-	b=wZYMgzqq5iEx6H/vYUO99R2rsxCnm6av+uION5tIuqwhfXula7oKQm0PStBtVYp5xvVP
-	 3sY3FNcumLNEqE9KSysVsvUH9MtA5X40gWZtE5iV+JP6yZbti/QyVtLXReVMXLH3bJVls
-	 /aqVTn8lcChVsD+UqhkRod6EHrnX1y3KicpmXvGtYvmQjadJRuBXIMYJco7w+VAOfD2vb
-	 7gR5otZC2dD81rzAdJzLeRVcWpUreQnrBaEmjDtKPUyUYn9UjJaiHDs/3I2n5sv9gZNlM
-	 6BCsE0D49YX81Mxuq9KQMrF1GurapaF0jsaliaMcQwyE4xEfV+qLDIP7FsCwcijFr6w==
+	t=1793555892;
+	b=FXIcFh7dOmBvLkccW6Pmtfk9UNfYtnbK2nFMIYfF7USaK2GOjNjmgWTIdZjYXK+JpG44
+	 tqyZ0MOuwDi/WYZxJq2vyrGUGsUtRFafjL2GebWj4/sufLRJsJBbyPOS6g+vpKQG2jOz/
+	 d08Nm6+1MdAl4XDfljYFpgteSVYmPyBNOrbjeYKAN+utLcDzRv7EtRP6sfdU3WPwggRhZ
+	 gt3pmB2dbX842tC4cXpO8qbDFq+1x+3GWd36mGLP3BDbxJG2s/y43YRQSG4BX8G3FL/JH
+	 VKpfCGNTp1Hz0GdDcZARYpLUn5L45Fh2eEljXH2E7aR2A95SjzD1/7WJ45Hy9hXQgLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793544130;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yTv+63IoiSC/7HIqnxNmdXMmP57cJFHvG785xwiYPN8=;
-	b=KTwbNvNzrfnn23+yeCCZlJ6nWXgp51o0NRnFokie43VfRYZGOzHKEEO0UbFL0jUroe4S
-	 iJaZyAWEKaX10SMvRMyhsS5zbh/B2qk7GcYuKrTQ9I6LgTiyyKiK3pc9+yhS+zs8IBKBi
-	 ZeRpBpF/LzqZuo319Oicbr4K1WLq6eC/LDIVYpSwD0K/bJIFwvJG70n8W2KNiF+8Jjx00
-	 nbCkCbacB+HN07nE6eqfFEZorL8mlVnuNQr/VwPns71qQR/TWjWrQMPLzJOcZtN33YWzP
-	 FuWsav0bwRUq2yjSmnfPg05kYahfIxBAIgT+Z0KQlD/iuJ5ttp3aOJ315RwyCK2VpnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793555892;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type;
+	bh=+7HwRXGWtYS3xmU+Z46/w0lVl31Dl0sZcMyXjmUDfIs=;
+	b=e5Xj0w/BMboK2HQTrlV3GC9nl6B4wY2eIhjnYKaxYXq6FcqHV6g/4o/4sNm7Yk8pIt1P
+	 GubvDHoF3P9IfIZ64kH/SrqXU+FvyHXCkHkydGw4xIZVnM3zDZaDNVHLokOm3NLlUV5tz
+	 aj4+LvcdpZFGZawmh6JY5Sc8UMl8DTlgnC93b6QJ43JQmcZCXaa6LIvDPp3rJjDHQ9p1g
+	 0TPGTX3jwWN/n+YsCLlKSua75jB7b+KM3N/9V45vjViVZa2NwK1GRGCfVyEyuhkhDNWdl
+	 O1P/fPfVoq1Z7ZkCr6dgNpsYtUuNmhKMMMu5ivftXcMwLcIVwKssjyXi+rzxGn1H6MQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=beV+ex6L;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FkpyzqH8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F20606A324;
-	Sun,  1 Nov 2026 14:42:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155C7606A338;
+	Sun,  1 Nov 2026 17:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=beV+ex6L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 280351F000C1;
-	Sun,  1 Nov 2026 14:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793544129;
-	bh=yTv+63IoiSC/7HIqnxNmdXMmP57cJFHvG785xwiYPN8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=beV+ex6Lh6FjU87SePRwRs05RQgLV+nB3zrqE7MkU83InoxEa2WkfHIfg5BXqJ0Ls
-	 5QtYETGurRbjzNPHR1f3PTsZZ3tbRFVewLRmITMy3adl+I/UiDFWt5hkHL+R19yja7
-	 tV+eqBpWR/xPietij14U1Bod6VlSaRd7nAgT9ngE=
-Date: Sun, 1 Nov 2026 09:42:08 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <20261101-inescapable-vivacious-shoebill-5b7ebb@lemur>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FkpyzqH8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 388A21F00A17;
+	Sun,  1 Nov 2026 17:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793555891;
+	bh=+7HwRXGWtYS3xmU+Z46/w0lVl31Dl0sZcMyXjmUDfIs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=FkpyzqH892Y24Bf4MzJaxg0GENU+W3h1HrKoje37+gLiStKVwoHULfobDtcxPd97k
+	 O7yDPvc5mWSjJBu8vqqdIiJljIIY/6Z6d8PFXXCg74LTEn4DannL5V6rcy3NiVl7Cu
+	 DnutKq7d2bLfY2EkKJcg1fiS7Qvebb0UQQu9SHDSugPX5Tba1NEXcVGdUEzB6sw+y5
+	 V2z/p2t+EDUDEUhm+YjJeNELsgmzPgXTja1HpGoACFV2HxgapWeRjmaKUW4P/rTSol
+	 vGE0a3SiPbMJFefI/JNfVFZ/R4iCFJ+Rd4uFfOaqAIzWd7mtslcqNYqP4841tBmpOx
+	 x3REifKbTPuGQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: "H. Peter Anvin" <hpa@zytor.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, Shrikanth
+ Hegde <sshegde@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Kees Cook
+ <kees@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ loongarch@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Sven Schnelle
+ <svens@linux.ibm.com>, linux-s390@vger.kernel.org, x86@kernel.org, Mark
+ Rutland <mark.rutland@arm.com>, Jinjie Ruan <ruanjinjie@huawei.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Guo
+ Ren <guoren@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Helge Deller <deller@gmx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Richard Weinberger
+ <richard@nod.at>, Chris Zankel <chris@zankel.net>,
+ linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-m68k@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-um@lists.infradead.org, Arnd Bergmann
+ <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>, Will Deacon
+ <will@kernel.org>, Brian Cain <bcain@kernel.org>, Michal Simek
+ <monstr@monstr.eu>, Dinh Nguyen <dinguyen@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>,
+ linux-snps-arc@lists.infradead.org, linux-hexagon@vger.kernel.org,
+ linux-openrisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org, Michal =?utf-8?Q?Such=C3=A1nek?=
+ <msuchanek@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH V2] x86/entry: Fix ptrace regression
+In-Reply-To: <87mrrvxaty.ffs@fw13>
+References: <20260707181957.433213175@kernel.org>
+ <20260707190254.493733289@kernel.org>
+ <20261022142425.3Wx-RrU5@linutronix.de> <87fqxx1r80.ffs@fw13>
+ <87cxt11ktr.ffs@fw13> <1149A39E-BEBA-46EA-94F4-4DFFC4733EF5@zytor.com>
+ <871p9g1s3w.ffs@fw13> <87y0boze95.ffs@fw13>
+ <C6D7BF04-4CF7-48D1-93B5-E80D52C2617D@zytor.com> <87se1wyvs8.ffs@fw13>
+ <87mrrvxaty.ffs@fw13>
+Date: Sun, 01 Nov 2026 18:58:08 +0100
+Message-ID: <87ecd4xwlr.ffs@fw13>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,39 +90,87 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+Content-Type: text/plain
 
-On Tue, Oct 20, 2026 at 11:35:24AM -0400, Konstantin Ryabitsev wrote:
-> LKML has become mostly a firehose of patches that are already going to a
-> subsystem list. The reason is THE REST: it matches every file in the
-> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
-> single patch. During the week of Oct 1-7, 2026:
-> 
->   - LKML carried 13,641 messages (~1,950/day), 90% of which were also
->     sent to at least one other list;
->   - with ~2,100 subscribers, that is about 29 million deliveries per
->     week for LKML alone.
-> 
-> This issue came up during the 2026 Maintainer Summit and the consensus
-> was that "always include linux-kernel for every patch" was never the
-> intent.
-> 
-> This series makes THE REST a fallback as initially intended: it is only
-> added for a file when no other matching MAINTAINERS section provides a
-> mailing list that get_maintainer.pl would actually output for it.
-> Patch 2 updates submitting-patches.rst, which currently tells submitters
-> to send every patch to LKML.
+The recent rework of the syscall entry code missed the historical detail of
+the abuse of syscall number -1L to abort a syscall and keep modifications
+by tracers to the return value, while a rewrite of the syscall number to an
+invalid value undoes eventual tracer modification to the return value and
+overwrite it with -ENOSYS.
 
-Linus, it looks like everyone is on board with this change, but it never made
-it into any pull request. Will you consider merging this one directly for 7.4
-rc-1? This ought to do it:
+Restore the original behaviour.
 
-    b4 shazam -S 20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org
+Fixes: 1b1f3b3e1b39 ("x86/entry: Get rid of the sys_ni_syscall() indirection")
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+Cc: stable@vger.kernel.org
+Closes: https://lore.kernel.org/all/20261022142425.3Wx-RrU5@linutronix.de
+---
+V2: Add the missing -1 check in the 32bit path - sashiko
+---
+ arch/x86/entry/syscall_32.c |    4 ++++
+ arch/x86/entry/syscall_64.c |   26 ++++++++++++++++++++++----
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
-With the ever-increasing volume of patches sent in and Gmail's obtuse "you're
-sending us too much mail, back off" attitude, this is becoming urgent.
-
-Thanks,
--K
+--- a/arch/x86/entry/syscall_32.c
++++ b/arch/x86/entry/syscall_32.c
+@@ -77,6 +77,10 @@ static __always_inline void do_syscall_3
+ 	if (likely(nr < IA32_NR_syscalls)) {
+ 		nr = array_index_nospec(nr, IA32_NR_syscalls);
+ 		regs->ax = ia32_sys_call(regs, (unsigned int)nr);
++	} else {
++		/* See comment in do_syscall_64() */
++		if (nr != -1UL) {
++			regs->ax = -ENOSYS;
+ 	}
+ }
+ 
+--- a/arch/x86/entry/syscall_64.c
++++ b/arch/x86/entry/syscall_64.c
+@@ -64,15 +64,20 @@ static __always_inline bool do_syscall_x
+ 	return false;
+ }
+ 
+-static __always_inline void do_syscall_x32(struct pt_regs *regs, unsigned long nr)
++static __always_inline bool do_syscall_x32(struct pt_regs *regs, unsigned long nr)
+ {
++	if (!IS_ENABLED(CONFIG_X86_X32_ABI))
++		return false;
++
+ 	/* Adjust the starting offset of the table */
+ 	nr -= __X32_SYSCALL_BIT;
+ 
+-	if (IS_ENABLED(CONFIG_X86_X32_ABI) && likely(nr < X32_NR_syscalls)) {
++	if (likely(nr < X32_NR_syscalls)) {
+ 		nr = array_index_nospec(nr, X32_NR_syscalls);
+ 		regs->ax = x32_sys_call(regs, (unsigned int)nr);
++		return true;
+ 	}
++	return false;
+ }
+ 
+ /* Returns true to return using SYSRET, or false to use IRET */
+@@ -81,8 +86,21 @@ static __always_inline void do_syscall_x
+ 	if (likely(syscall_enter_from_user_mode_randomize_stack(regs, &nr))) {
+ 		instrumentation_begin();
+ 
+-		if (!do_syscall_x64(regs, nr))
+-			do_syscall_x32(regs, nr);
++		if (unlikely(!do_syscall_x64(regs, nr))) {
++			/*
++			 * The special treatment of syscall number -1 is a
++			 * historical bogosity as the original code used -1 to
++			 * indicate syscall abort, which is not distinguishable
++			 * from a syscall which is invoked with syscall number
++			 * -1. The historic behavior is to keep the return value
++			 * in regs->ax unmodified in that case, which means it's
++			 * either the preset value -ENOSYS or a value which was
++			 * written by a tracer. If the syscall number is invalid
++			 * but not -1 then overwrite any tracer modification.
++			 */
++			if (!do_syscall_x32(regs, nr) && nr != -1L)
++				regs->ax = -ENOSYS;
++		}
+ 
+ 		instrumentation_end();
+ 	}
