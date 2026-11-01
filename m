@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=185.56.87.7
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793575630;
-	b=KcnKluwtXUq3LaeaH7a1wP5kgZvUcslB/Zm44IvU0vjK57OYHBFBUbjcXJ6tDOGU3LRa
-	 HoSeeECzLxabWRmb9yO+OPw7MYdMqPsrcpmgcVQZhx967EYC/8pEJak20lWcXZk2d7FDM
-	 ZWjjeWm/IfEuh+fS0N2QCGZnVJUBidC/UxY7kJhmWqiKaXXCuM0+7wZcxf9uXO4m5SLMb
-	 ksAoOiGJxRpT2soA8HXqnP/1CueIhyZPNP0n7iZGOGXSqwkVns/8h+M3KHqGkCYWnESoU
-	 WVwlPu9idf9osUe+ga5BbZaOdBEcaWCLM0pbg1KSnycxhWCp+WRrpzTWEIfbWFL6Weg==
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.9
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793576289;
+	b=KZ6T0gaV1U+ZJtktycNlie8ntn5yO2eQ+LT0eXdj1BGap3CStsiFeXJzs92fs22TzBvo
+	 tLxetBW6mQ36BTST5LbYyhiyJrkcvkWz1wlZhHOSLxZrdcaOWyIlH2U2vIDjotnTWLMho
+	 np5tmqQuePviPn8xtk/1HSuzSM8HD/YxC90u9co+LLwIm4LmJMwsALTNelWknf1GlZlzm
+	 ajR74q229MB///YyMfuAtSDqt0MKGox8oNX4tNXHPUpcBANTwL4RlFYA1J2g03dxUDwVy
+	 raFJtFIRTuZFWiCAo9IZ4vSIaDfm9CM2QcZhbzes4SDxhi9iAvz9o7CCzyWS5ZrUkZg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793575630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793576289;
 	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:From:
 	 Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
@@ -15,79 +15,79 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:
 	 X-Source-Dir:X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:
 	 AntiSpam-DLSRS:AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
-	bh=jDGzUeJoU453C6E72rSA80bKxfeU0j/w1IYP/rP6ntc=;
-	b=RI+qc80CsrfKwh7SFgh4OEUbjs3GEyMRlnHA4g33S8Klo2OQl//pnP8pVx3lompoM+SI
-	 45zdsVvXF8P/fuag5jKkDO8XvWvJvc5MG4PFE54zwslFquG6ruRz9ZtopwSdcJDGFUXL2
-	 gb9tMC6XQvo3g5XPfE8OyfztgDx73lW+LwIyxx8Bb7myfE2AIbne+JsRhBrtTrA/xLJS+
-	 XF12z4q0kRZMjcvZNirxMvxXE11N3by8ZhXadsNPvLUqgxuhk1U4JsdtgBl4ZYvC/BBhz
-	 DaYwBJauFlgrihKri1jZEEqf7nzGR+vN1BucRmcjSp1ibmJSRwqDNTnkG+Zl8h1dsoQ==
+	bh=KWf41TzVYDqHL4pTFUus8pIHhKH/ijmasendTpwykTU=;
+	b=RdpNNGWaFKNGqtxocrU6LYONApFb7B3lwBjIJFA1RfTNWMDcK69jx8Ha/qGsW5Bz17yp
+	 noTdAlIcH7W6e5fUTo6d3nMRjcf5rPrR7fxl3JR/SzJVtCEgDSse/hWGQmRmC+8Q0XhzP
+	 OFVbEuayYhZVtydBtRqXnz/Y5kEiLH43nQTB0OHXPTAM1aZWsrSSnJK6EnW1MDVwdV9pK
+	 faK26ysnfXAWyRGPI7jD28vG3JqLpBHxxbn/1LiFpkJfOG5ILLcMbxLukRhoOvdm7OcPp
+	 iLXKvv9SM1isCKbBWQNZALSEnrirvaBsvyUQN/o2bLVRCp28izrZK9E2CGNVM2y+eHg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=valla.it;
 	spf=pass smtp.mailfrom=valla.it;
-	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=kEi0LNlZ;
-	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=DWkHZglW;
-	arc=fail smtp.remote-ip=185.56.87.7
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.7])
+	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ieTSstGx;
+	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=LZBK1gbk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.9
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCAB606A326;
-	Sun,  1 Nov 2026 23:27:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DCAB606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E02606A324;
+	Sun,  1 Nov 2026 23:38:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61E02606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=kEi0LNlZ;
-	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=DWkHZglW
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-0kln.prod.antispam.mailspamprotection.com; s=arckey; t=1793575627;
-	 b=JQn7S/6vkQpZX9BKiOCxwn0UhvnuXXJwD+bcnbjhLtQV8O2dIsj0JMCU1tESxLozJbEsGu8RX2
-	  Ua05rDjgSXNZh9TfO3w2V9r7jO89/5B9YVgjQpvNhkRK99V6RxtK/Q6zWXqNlJfnN12AzTL9Cd
-	  0UfdStCjFrNzYDuQa5Tt1G8JirjVnwSa3+6GulfieRZzdUqDMfr7n9TUsdd8eGFbeY86wxdR8R
-	  ljp1pK6dBDjHit7u9RjewvcxL20diLoOLotcn6rDJqw2Asge3ngCjjd/yJ2GkwXtMy4UbCICJz
-	  jbk0lGZiIF+J40EsPHhVXD8hT9uIJZZzsCaVyc95Q5WM6g==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-0kln.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ieTSstGx;
+	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=LZBK1gbk
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-2pfm.prod.antispam.mailspamprotection.com; s=arckey; t=1793576288;
+	 b=j/g2IXZwtyaxeu03qRRevOmI0tE2oiQORih5pyWJUG5KrFMbnUUqPlCUjfADsEZX4IUK9MxTvi
+	  ZYSV2VKVLp22GgAtwiDbC2tiyBX28blGnVfWJMrbnvGhkLLhX1NA9o5WkEaaTaSFgHJGO/2rTZ
+	  l8CA4jstdmQxEPpVzLugq67pTEsOuXnChZG/qyHwxiW1D2fLPT3NQj6P5xJxjtZxhzk2JSQcfk
+	  GEwZPpOk4v3KDlA+65Mbt1dXtrqD/F/YZvD9tX5O1cC8Jp3adl8k/DMdqUOc7qN7GKIk88+MZf
+	  POwVRKdEcZlJQRINRMmf5eNzP8C1I4Rc2+/pv6ae6wEUlA==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-2pfm.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
 	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-0kln.prod.antispam.mailspamprotection.com; s=arckey; t=1793575627;
-	bh=wjrwqlTjD+bsGiygLxRdvngnMYwukHYEcpIoG27o7NQ=;
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-2pfm.prod.antispam.mailspamprotection.com; s=arckey; t=1793576288;
+	bh=W8xnIBvS7wOydEJdbm8IEFFIvhRv58/EitM/q4dFv+4=;
 	h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
 	  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=Qomx6U744HaruxvXSOSRDZuVNBesmwA8knIvBn8sBMPjEUCnvY2O6Rw6+2b0ATRKOe0EcFOLqK
-	  F3KCYRK9+QPlRnpzG7d4+1r0BIcY4BEDR6pHtOKqd+nQWN4cbkEZxN2l4RE8zBlJohdmk1Ychl
-	  s/ztmLp6I4yv4dIJ/CuWqXhVF66aBl+eV8qhmj4Qoxjv1IdLFbx7RVfMTury82ODMxQZuDQ7As
-	  rDaUgOji0Xbr6Y7G4EXYmZg0MXrfSJJqWUxxnc9JZ0IkZTaGQDddd2x+Wl3OY2y8t8u8/D9uUW
-	  dPLHTTWxSe+9eU4DHgId6Da4wJCjVlCNk8nJMBK0quVbpA==;
+	b=KPpFGy2XJg/Sm2MiW12YPRTv5xd5iepDgzXhD7xJhtmVljAbhqBOZ1T+IyW7bUbLdgCSmMDdXc
+	  7pdqX22OP1PeTYxaEvT6mD+9A3BUAISb4/p0SbzqAgTmcbVcJZqfBMjwzwl0CmMtyeeMaRKSAv
+	  1tctRRUHQDPgWvWI0t/FOAP5hXPByQpoRvbCbk4UUvvyE48rsAYsnDLuW/7cDPpoaF/nqOCCCa
+	  TvwgdcOxS6jAAjZjmI7qoPDgidwxgscwCdXZiYDx9KxEC1WHVMG+XQCG5/RwCBGuQopZswSOC8
+	  RBABvNFiNkUXPI11a5/5WXKTqzXkMwp3bjvwHAjoPLOLPA==;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
 	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
 	:Date:From:Reply-To:List-Unsubscribe;
-	bh=jDGzUeJoU453C6E72rSA80bKxfeU0j/w1IYP/rP6ntc=; b=kEi0LNlZGfGZfW5YMKTrR5QZyo
-	17hNL4rx1Rx7+8UttNmNyWj0c5f6Iytutw4zOiAlp82A1wxBg0w6tUHc1QnsxAC1kInpuNeRrXhE6
-	NJU5r4Ec401p2i84BdV0DqYrMMGHsIbU3HukWXX3RKtQVMRqjs74K3zOuO2avTAUO5C8=;
+	bh=KWf41TzVYDqHL4pTFUus8pIHhKH/ijmasendTpwykTU=; b=ieTSstGx270Rjdfx8adl2/fiYg
+	ViRRoId6GXz6qQ82HT3FBGN9L1YinhnZCV9uds0GmzbY8BtQOZ6PYyF5WkY+aq3vUjXjucmods30+
+	3WQMuXXGV5hYqc4ecqCWE0tk5wRNNsHCYkM4fFXhP92v2EIq0NA9llKrdUPi+605uoEU=;
 Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-0kln.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	by instance-europe-west4-2pfm.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.100.1)
 	(envelope-from <francesco@valla.it>)
-	id 1xNex7-000000075UM-1Bga;
-	Sun, 01 Nov 2026 23:27:05 +0000
+	id 1xNf7m-00000007F7S-09RP;
+	Sun, 01 Nov 2026 23:38:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
 	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
 	list-subscribe:list-post:list-owner:list-archive;
-	bh=jDGzUeJoU453C6E72rSA80bKxfeU0j/w1IYP/rP6ntc=; b=DWkHZglWJBAhWKTBNUqy4BrJ9y
-	hYXQHTINCO6Tv62B/pPA57suAYhsZO/5GLNfBvMm+OU7z0msEuGdf4Jj6RinMEOVJInbhyl5XjUOL
-	toFsrhRSnLw9ZmeIV69q7ci29XsXzjyNWDsyC/EAViym1PcZNNYULQ5OldBT6CpPTDLY=;
+	bh=KWf41TzVYDqHL4pTFUus8pIHhKH/ijmasendTpwykTU=; b=LZBK1gbkx1xKTU/yLEhk5AVcnx
+	JZp/8TE38n9SCpNZy5oVP2C/OiqiXBfEDSVt5YspvCObs2UGDB+jWgKCJAjahy2HAXkBjUZ7k/zgJ
+	TLP2Obf1xFhWwLUVaEwozxyl/n4PUdueBSTZkR3VYVMh6vmraNDp1+HZ22ZTy+1wkwdg=;
 Received: from [79.17.15.196] (port=60226 helo=[192.168.178.175])
 	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.100.1)
 	(envelope-from <francesco@valla.it>)
-	id 1xNex1-000000002I5-09og;
-	Sun, 01 Nov 2026 23:26:59 +0000
+	id 1xNex4-000000002I5-1jEm;
+	Sun, 01 Nov 2026 23:27:02 +0000
 From: Francesco Valla <francesco@valla.it>
-Date: Mon, 02 Nov 2026 00:26:43 +0100
-Subject: [PATCH RFC v2 06/11] dt-bindings: remoteproc: add
- remoteproc-virtio
+Date: Mon, 02 Nov 2026 00:26:47 +0100
+Subject: [PATCH RFC v2 10/11] dt-bindings: remoteproc: imx-rproc: support
+ virtio
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,7 +99,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-remoteproc_virtio_map-v2-6-26b300e01c62@valla.it>
+Message-Id: <20261102-remoteproc_virtio_map-v2-10-26b300e01c62@valla.it>
 References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
 In-Reply-To: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -117,12 +117,12 @@ Cc: Robin Murphy <robin.murphy@arm.com>, linux-remoteproc@vger.kernel.org,
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4131; i=francesco@valla.it;
- h=from:subject:message-id; bh=wjrwqlTjD+bsGiygLxRdvngnMYwukHYEcpIoG27o7NQ=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFnPT+1ZOt07pE+76wzvgiav4v7lb8Ovry8SnWzhsihPb
- erBllm2HaUsDGJcDLJiiiwh627c2zPX/FvaBsZHMHNYmUCGMHBxCsBELC4zMtwWEz+urpm56f7P
- 3tM/CwoTV9/fvu+JY3v7Mqv2F8/uCPEyMtxjFZq6euHOhf+t02Y0nutSbTqyhe309lidBe3axTF
- fmvgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=912; i=francesco@valla.it;
+ h=from:subject:message-id; bh=W8xnIBvS7wOydEJdbm8IEFFIvhRv58/EitM/q4dFv+4=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFnPT+35GL1ZfeoOluP6+64JCXXfWsylzcvLXc/97ab0v
+ MsHOnds7ChlYRDjYpAVU2QJWXfj3p655t/SNjA+gpnDygQyhIGLUwAmMn83I8Mc09lCMadyH+XN
+ WrZeT3teRIfIkeehx+8H9+2aGLtJ9kIww/+6G/cMToYLN8Y4vg5M1lf+v8eYw2kiy6yQK8tn8O3
+ 2V+EGAA==
 X-Developer-Key: i=francesco@valla.it; a=openpgp;
  fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -133,151 +133,48 @@ X-AntiAbuse: Sender Address Domain - valla.it
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-SGantispam-id: 7775717b9a173c6e301ec8f944791d20
-X-AntiAbuse: ID - 7775717b9a173c6e301ec8f944791d20
+X-SGantispam-id: fd2c21fdc2a8d7b25c9b082e16c0de12
+X-AntiAbuse: ID - fd2c21fdc2a8d7b25c9b082e16c0de12
 AntiSpam-DLS: false
 AntiSpam-DLSP: 
 AntiSpam-DLSRS: 
 AntiSpam-TS: 1.0
 CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1xNex7-000000075UM-1Bga-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-0kln.prod.antispam.mailspamprotection.com;
+CFBL-Feedback-ID: 1xNf7m-00000007F7S-09RP-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-2pfm.prod.antispam.mailspamprotection.com;
 	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
 	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
 	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
 	arc=none
 
-Add a new binding to describe remoteproc-provided virtio devices; while
-these are discovered through a resource table parsed by the remoteproc
-infrastructure at runtime, their description can be needed to probe
-non-discoverable buses (such as I2C) or to link consumers and suppliers.
-
-Each vdev is described by a dedicated "group" node, which then includes
-a virtio-device node. Each vdev shall be statically linked to a "group"
-node using its index inside the resource table as the reg property of
-the node; this permits to have multiple instances of the same type of
-device.
-
-The binding is intended to be generic and adopted by any remoteproc
-provider.
+Add support for virtio devices description for i.MX remoteproc devices.
 
 Signed-off-by: Francesco Valla <francesco@valla.it>
 ---
- .../bindings/remoteproc/remoteproc-virtio.yaml     | 106 +++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/remoteproc/remoteproc-virtio.yaml b/Documentation/devicetree/bindings/remoteproc/remoteproc-virtio.yaml
-new file mode 100644
-index 000000000000..8cdfa8d0f936
---- /dev/null
-+++ b/Documentation/devicetree/bindings/remoteproc/remoteproc-virtio.yaml
-@@ -0,0 +1,106 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/remoteproc/remoteproc-virtio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Virtio devices over remoteproc
-+
-+description: |
-+  Virtio devices ("vdevs") can be exposed using the remoteproc infrastructure
-+  and its resource table. For some of them, a device tree node might be needed
-+  to describe remote undiscoverable hardware and/or connect consumers and
-+  providers.
-+
-+maintainers:
-+  - Francesco Valla <francesco@valla.it>
-+
-+properties:
-+  virtio:
-+    type: object
-+    description: |
-+      Contains a group of virtio devices exposed by the firmware running on
-+      the remote processor through its resource table.
-+
-+    additionalProperties: false
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      "@[0-9a-f]+$":
-+        type: object
-+        description: |
-+          A single virtio device exposed by the remote processor. It can
-+          contain at most one child node, describing the virtio device itself
-+          (e.g., to declare devices on a non-discoverable bus or to act as a
-+          provider for other nodes).
-+
-+        properties:
-+          reg:
-+            description: |
-+              Position of the virtio device among the VDEV resources contained
-+              inside the resource table.
-+            maxItems: 1
-+
-+          memory-region:
-+            description: |
-+              Memory region used for the buffers exchanged with the remote
-+              processor. A restricted-dma-pool region forces all buffers to
-+              be bounced through it.
-+            maxItems: 1
-+
-+        additionalProperties:
-+          type: object
-+          $ref: /schemas/virtio/virtio-device.yaml#
-+
-+        required:
-+          - reg
-+
-+    required:
-+      - '#address-cells'
-+      - '#size-cells'
-+
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    remoteproc-cm33 {
-+        virtio {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            vdev@0 {
-+                reg = <0>;
-+
-+                gpio {
-+                    compatible = "virtio,device29";
-+
-+                    gpio-controller;
-+                    #gpio-cells = <2>;
-+                };
-+            };
-+
-+            vdev@1 {
-+                reg = <1>;
-+                memory-region = <&vdev1_buffer>;
-+
-+                i2c {
-+                    compatible = "virtio,device22";
-+
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    eeprom@50 {
-+                        compatible = "atmel,24c1025";
-+                        reg = <0x50>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-+...
+diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+index c18f71b64889..32fc415c7028 100644
+--- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+@@ -92,6 +92,7 @@ required:
+   - compatible
+ 
+ allOf:
++  - $ref: remoteproc-virtio.yaml#
+   - if:
+       properties:
+         compatible:
+@@ -118,7 +119,7 @@ allOf:
+       properties:
+         power-domains: false
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 
 -- 
 2.56.0
