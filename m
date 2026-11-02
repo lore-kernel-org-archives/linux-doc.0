@@ -1,82 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.214.250.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793619349;
-	b=z8ZCPvxt+82Wnb1PErmzDInf+lgnCxtinN+MRWyNGH8S3JkSyrV8vJYi4oqAIjsxsLyR
-	 nfy740dtrLLkfAo28tvT799YMVsHvHq4z1YBeUWJmPRrB3+FVbl08mN3Wr+T6VWtzSHiM
-	 gPTyQWOdbtKew1Lu5a5FKy8rkTkTl6BbfdDR1p/luGv9+6kiAcvdxedeNqoKaSwETBfSi
-	 X240YEUWTLo12OCczLyK934QaMVUU4UpsYLOlaRf//ktnhttpJWUnLGHObzk9T7Xs5jlu
-	 /LmVy+yM4Z83k2v/rUMO0bP/ni/wZ3ipEVztxMpqV47T6enZ1+1GlUygQ1jCuPqSZcg==
+	t=1793619731;
+	b=kJd3uYuXq2sWtDsgYdFelqObUccTb4Sv46QubpFM/XTFT4iSYNiwZW/xNhSdVqxFct6x
+	 +i8OElkcAeHl4XCAohWCYYr6+pZHG4QfXA5BxV3PdMe2Fphpyo1qQCz1Dv8NGmbQTWqhB
+	 hvbKFNcMv1xXgftdXJ6x9jOnoh0M0O0tS+csevunvhCd2R09kXgFarrceWsMgYvaAW35O
+	 b4MjSYQDSOZn9RdMi+2iDQUWoiUQ4GOEM+wTwmrwyGXRquVuErVC2c4+HShlu9c8OtE7d
+	 sEQRuqUigK8aITNV1buxWcHQi2C69cStNM5akY0wNIiGLOeV/iSaiOdm/CZkHASE8MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793619349;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=TfXq70VRw0+EWLo4hGrFvfTZk90eytaHGZHylY3mlwY=;
-	b=bn9YZjbj/n55j19xoFSiuJO138CW66Whkp6s5MG+wHZq71PKyxArEx+6/Y89w7BGsqAd
-	 v9+vaGnlFJgDoH35VmhOHQS5K8lFisZQ0u+RwXcjj7Y37BQp0ZsqhSV69Or0GnCsKY32w
-	 jwZldqDZn/uJm/8pBWzXO56f8uBZY8CRCHs2aBN+zrT9GwP/TeO0pQL61mkVi/R5DWji7
-	 lliKAFk7XZGaZef5HwbUPuO4KavUew5j/72n41/tkKRkuyJx+9ezJgjpn4qJGka7bNn4I
-	 ZXd8AVKrR/k5lgW5xfS3LFgjLW1oAm/QW2EZAJ8IAdCcsQkiUbrfPNwSlqumszC4RRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793619731;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=TEU2WoAEETIO1KA1ci4BU3Q44LkzMYCz5O8+st3qozg=;
+	b=uglohwT6zTMq5gbVOGad6s7tXIovXS/vdOtvAj/Khrvd8MDny7yRlANGAZwq4pkk6x47
+	 i0bQQM2PygKT2+l8EJ7LoX1eR+5JHApqIMBFcupOD6xVQaiwvZ5Dv0AGd+gHOxUCTHA2C
+	 Mux4owF4pZ9xjt8hQlyBw+4lhc92zbS5NikH7BQf0PE8LwhItpgGyJ4jhsL1Vg8pgE24r
+	 V0qs2HpfQGyiagfydVwO6ivMxbuUzMYH5i416lzqdvSQhhi+j5QMgh4moYl5Mrn3CpamI
+	 kEP4Ix0ZvZaG8c68N7v7mCyWuTWYozf5UHf0hfzSBfmBIyq3DjEtyikUb7SehI6zFBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b="PJUrk7/s";
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	dmarc=none header.from=8bytes.org;
+	spf=pass smtp.mailfrom=8bytes.org;
+	arc=none smtp.remote-ip=85.214.250.239
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8001606A334;
+	Mon,  2 Nov 2026 11:42:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8001606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
+Received: from io.fritz.box (p200300f6af404a0027ad06761c59e6b3.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:27ad:676:1c59:e6b3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40099606A326;
-	Mon,  2 Nov 2026 11:35:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40099606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=PJUrk7/s
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29E8Me2719556;
-	Mon, 2 Nov 2026 11:35:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=TfXq70
-	VRw0+EWLo4hGrFvfTZk90eytaHGZHylY3mlwY=; b=PJUrk7/sHaYVEd2TuGFtfR
-	w+Uc0DWCtWbfg5P0mqK8Gk9ZbrG1E2hiLz6/Ot4Sps19vpEPm4MCVmxamgvPcZ6x
-	vTcM7/6Gn9fzzoWat0MUY0iesHtnS5TKUmbXkIRUvBsQFC43KqJgFBh7BFkmU7Rb
-	AU8idQUOXK2UvK0U0ONyxVVckGddFW5oamiUF6De0cbVDLnsImWDzSTJWQClnfI5
-	KBhA73mx0pmyc7XqRohoh/sVujE1MovOObPNAN1HeIlVT78mbguv7bCloLObOfAX
-	xBiUZwwr0zqChRBHzWgUUq2MCCo3vimjH0+8b5sLYBcGTgH7KTBZBCL0FnF9pTjw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn7u386su-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 11:35:02 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29Jt2P703033;
-	Mon, 2 Nov 2026 11:35:01 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hntnpwq1k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 11:35:01 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A2BYv4X31588636
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 2 Nov 2026 11:34:57 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9CE8520043;
-	Mon,  2 Nov 2026 11:34:57 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F17720040;
-	Mon,  2 Nov 2026 11:34:56 +0000 (GMT)
-Received: from [0.0.0.0] (unknown [9.111.80.131])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  2 Nov 2026 11:34:56 +0000 (GMT)
-Message-ID: <9273846b-d815-4c40-a7a0-960281515878@linux.ibm.com>
-Date: Mon, 2 Nov 2026 12:34:56 +0100
+	by mail.8bytes.org (Postfix) with ESMTPSA id 84E4B243AB0;
+	Mon,  2 Nov 2026 12:42:04 +0100 (CET)
+From: =?UTF-8?q?J=C3=B6rg=20R=C3=B6del?= <joro@8bytes.org>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: Michael Roth <michael.roth@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ninad Naik <ninadnaik07@gmail.com>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	coconut-svsm@lists.linux.dev,
+	joro@8bytes.org
+Subject: [PATCH v3 4/8] KVM: SEV: Add direct VMSA capability
+Date: Mon,  2 Nov 2026 12:41:33 +0100
+Message-ID: <20261102114137.1198982-5-joro@8bytes.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261102114137.1198982-1-joro@8bytes.org>
+References: <20261102114137.1198982-1-joro@8bytes.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,194 +63,225 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
- Kconfig.preempt
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Yury Norov <ynorov@nvidia.com>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi
- <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
-        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <20261101192203.6979-2-ynorov@nvidia.com>
- <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
- <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-In-Reply-To: <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Zsp4uN7G c=1 sm=1 tr=0 ts=6ae87566 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=Ikd4Dj_1AAAA:8 a=I1v3tsrwUu51H011r8EA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: we72V2jneRZhoR5xmwFuL_ybqRSX3oIk
-X-Proofpoint-GUID: 5evHCYDIK3Zr41_QeZIheuYxwC9baE2Z
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0NCBTYWx0ZWRfXxaptEFt9Wq7Y
- YsLWgdI4NtRzlPpH7XpzpXLQU4dbQX1MbTUTbtUrvie8cqjbED3Tf5zyGcm44I5DV2xpwJuRgh3
- z7Kj2uImG+RHwITIoXw3xgZdk6OYP2eX2h8mfe1EIb/1KA+XLdDkookz+W5Mrz05uOu5R+hqoFT
- sZYjS6z6OJom7qg41WvepQhE/MTLFd00p+0eZh5yIOgZX9TxdMTBmrGtUrRj3OG3p24TRVF0S+W
- dAg4sNlbiF558AhyX7t8y8ZagGqw/zwuI5F96FODOT+75lPQOFf/5qR5EvbUzxtxeS9y3UHrKyD
- 3IuEGSc+z0GVdePBPBQlJ+BUl7wfjedPdmFh/5krR4fHeWQtxSydQW4XE84qJLT8V0p1PsG+0h8
- 00xXrPdzUYRFmsmte6xiyo5mpXQu+xtvTbbGkML6KlAkuiGO7tbXLHhFvemfshcu9WXT3f3M956
- yFPH2sQJpdfkZaLlBfg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0NCBTYWx0ZWRfXz1mH42xp8ibK
- a+jDfdF/+xjaItdtLNeX2pYORs9I2F+HJOfg3G3TihWlTcsEQEblkugE4I04PcLqsDinlRez0Jj
- I5kqIATiGDtQMh0VB6OwVYWewbx34ZQ=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020044
+Content-Transfer-Encoding: 8bit
 
+From: Joerg Roedel <joerg.roedel@amd.com>
 
+Direct VMSA mode is currently selected implicitly when userspace installs
+a guest-owned VMSA on any vCPU.  That makes the launch model a side effect
+of per-vCPU state and applies it retroactively to every vCPU.
 
-On 11/2/26 12:00, Peter Zijlstra wrote:
-> On Mon, Nov 02, 2026 at 11:16:30AM +0100, Ilya Leoshkevich wrote:
->>
->>
->> On 11/1/26 20:21, Yury Norov wrote:
->>> The IBM s390 doesn't enable PARAVIRT config for their hardware
->>> virtualized Logical Partitions (LPAR). However, the steal time is
->>> accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
->>> is enabled.
->>>
->>> Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
->>> and requires it to minimize the configuration space and runtime overhead,
->>> with the lack of non-paravirt user. Now that s390 wants to adopt preferred
->>> cpumask, there's no reason to keep it coupled to paravirt.
->>>
->>> Make PREFERRED_CPU a user-configurable option, even if paravirtualization
->>> is not enabled, and drop PARAVIRT dependency on the steal governor.
->>>
->>> Keep the default module selection conditional on PARAVIRT so other SMP
->>> configurations can opt in without enabling the governor by default.
->>>
->>> Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
->>> CC: Mete Durlu <meted@linux.ibm.com>
->>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
->>> ---
->>> Can be applied independently from the rest of the series.
->>>
->>>    drivers/virt/Kconfig   |  8 ++++++--
->>>    kernel/Kconfig.preempt | 12 ++++++++++--
->>>    2 files changed, 16 insertions(+), 4 deletions(-)
->>
->> This is really useful to us, since even though s390 is nominally
->> paravirtualized, it does not technically benefit from defining
->> CONFIG_PARAVIRT.
-> 
-> And therefore removing PARAVIRT is the only possible solution?
-> 
->> Specifically, steal time accounting happens by
->> computing a difference between wall time and CPU time, and not by
->> explicitly querying the hypervisor.
-> 
-> Nobody explicitly asks the hypervisor, that would be horrendously slow.
-> 
-> Something trivial like this should do.
-> 
-> ---
->   arch/Kconfig                           | 9 +++++++++
->   arch/powerpc/platforms/pseries/Kconfig | 1 +
->   arch/s390/Kconfig                      | 1 +
->   drivers/virt/Kconfig                   | 2 +-
->   4 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 1163736de1f9..8980054beb52 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -1080,6 +1080,15 @@ config HAVE_IRQ_TIME_ACCOUNTING
->   config HAVE_PV_STEAL_CLOCK_GEN
->   	bool
->   
-> +#
-> +#  Archs that can account CPUTIME_STEAL; normal route is through PARAVIRT which
-> +#  selects HAVE_PV_STEAL_CLOCK_GEN. Directly selected by s390 and PPC-LPAR
-> +#  which have their own thing and don't go through generic cputime accounting.
-> +#
-> +config HAVE_CPUTIME_STEAL
-> +	bool
-> +	default y if HAVE_PV_STEAL_CLOCK_GEN
-> +
->   config HAVE_MOVE_PUD
->   	bool
->   	help
-> diff --git a/arch/powerpc/platforms/pseries/Kconfig b/arch/powerpc/platforms/pseries/Kconfig
-> index 7d125e288f6e..3c49baf606d7 100644
-> --- a/arch/powerpc/platforms/pseries/Kconfig
-> +++ b/arch/powerpc/platforms/pseries/Kconfig
-> @@ -41,6 +41,7 @@ config PPC_SPLPAR
->   	depends on PPC_PSERIES
->   	select PARAVIRT_SPINLOCKS if PPC_QUEUED_SPINLOCKS
->   	select PARAVIRT_TIME_ACCOUNTING if VIRT_CPU_ACCOUNTING_GEN
-> +	select HAVE_CPUTIME_STEAL
->   	default y
->   	help
->   	  Enabling this option will make the kernel run more efficiently
-> diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-> index 7138d923d86f..03a884355218 100644
-> --- a/arch/s390/Kconfig
-> +++ b/arch/s390/Kconfig
-> @@ -291,6 +291,7 @@ config S390
->   	select USER_STACKTRACE_SUPPORT
->   	select VDSO_GETRANDOM
->   	select VIRT_CPU_ACCOUNTING
-> +	select HAVE_CPUTIME_STEAL
->   	select VMAP_STACK
->   	select ZONE_DMA
->   	# Note: keep the above list sorted alphabetically
-> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-> index eeb84e578ddf..a3721d34a55c 100644
-> --- a/drivers/virt/Kconfig
-> +++ b/drivers/virt/Kconfig
-> @@ -43,7 +43,7 @@ config FSL_HV_MANAGER
->   
->   config STEAL_GOVERNOR
->   	tristate "Dynamic vCPU management based on steal time"
-> -	depends on PARAVIRT && SMP
-> +	depends on SMP && HAVE_CPUTIME_STEAL
->   	select PREFERRED_CPU
->   	default m
->   	help
+Add KVM_CAP_SNP_DIRECT_VMSA as a VM-scoped settable capability.  Require
+userspace to enable it on an SNP VM before creating vCPUs, and reject
+nonzero arguments.
 
-I can't comment on the PPC part, but for s390 this works fine with the
-following addition:
+When enabled, skip allocating KVM-owned VMSAs during vCPU creation and
+skip generating and measuring KVM-owned VMSAs at launch finish.  Keep
+legacy allocation and measurement behavior when it is not enabled.
 
---- a/kernel/Kconfig.preempt
-+++ b/kernel/Kconfig.preempt
-@@ -197,4 +197,4 @@ config SCHED_CLASS_EXT
+Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
+---
+ arch/x86/include/asm/kvm-x86-ops.h |  1 +
+ arch/x86/include/asm/kvm_host.h    |  1 +
+ arch/x86/kvm/svm/sev.c             | 28 ++++++++++++++++++++--------
+ arch/x86/kvm/svm/svm.c             | 22 ++++++++++++++++++++++
+ arch/x86/kvm/svm/svm.h             |  1 +
+ arch/x86/kvm/x86.c                 |  5 +++++
+ include/uapi/linux/kvm.h           |  1 +
+ 7 files changed, 51 insertions(+), 8 deletions(-)
 
-  config PREFERRED_CPU
-         bool
--       depends on SMP && PARAVIRT
-+       depends on SMP && HAVE_CPUTIME_STEAL
+diff --git a/arch/x86/include/asm/kvm-x86-ops.h b/arch/x86/include/asm/kvm-x86-ops.h
+index 4dde4e3e608a..c853dc65fb53 100644
+--- a/arch/x86/include/asm/kvm-x86-ops.h
++++ b/arch/x86/include/asm/kvm-x86-ops.h
+@@ -23,6 +23,7 @@ KVM_X86_OP(vcpu_after_set_cpuid)
+ KVM_X86_OP(vm_init)
+ KVM_X86_OP_OPTIONAL(vm_destroy)
+ KVM_X86_OP_OPTIONAL(vm_pre_destroy)
++KVM_X86_OP_OPTIONAL(enable_vm_cap)
+ KVM_X86_OP_OPTIONAL_RET0(vcpu_precreate)
+ KVM_X86_OP(vcpu_create)
+ KVM_X86_OP(vcpu_free)
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 1ee4b127004d..be758e0d55aa 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1524,6 +1524,7 @@ struct kvm_x86_ops {
+ 	int (*vm_init)(struct kvm *kvm);
+ 	void (*vm_destroy)(struct kvm *kvm);
+ 	void (*vm_pre_destroy)(struct kvm *kvm);
++	int (*enable_vm_cap)(struct kvm *kvm, struct kvm_enable_cap *cap);
+ 
+ 	/* Create, but do not attach this VCPU */
+ 	int (*vcpu_precreate)(struct kvm *kvm);
+diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+index 9681ff0aa5d3..09e1c2da546d 100644
+--- a/arch/x86/kvm/svm/sev.c
++++ b/arch/x86/kvm/svm/sev.c
+@@ -2541,8 +2541,15 @@ static int snp_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
+ 
+ 	kvm_for_each_vcpu(i, vcpu, kvm) {
+ 		struct vcpu_svm *svm = to_svm(vcpu);
+-		u64 pfn = __pa(svm->sev_es.vmsa) >> PAGE_SHIFT;
++		u64 pfn;
++
++		if (sev->snp_direct_vmsa) {
++			if (!svm->sev_es.snp_has_guest_vmsa)
++				svm->vmcb->control.vmsa_pa = INVALID_PAGE;
++			goto protect_vcpu;
++		}
+ 
++		pfn = __pa(svm->sev_es.vmsa) >> PAGE_SHIFT;
+ 		ret = sev_es_sync_vmsa(svm);
+ 		if (ret)
+ 			goto out;
+@@ -2562,6 +2569,7 @@ static int snp_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
+ 			goto out;
+ 		}
+ 
++protect_vcpu:
+ 		svm->vcpu.arch.guest_state_protected = true;
+ 		/*
+ 		 * SEV-ES (and thus SNP) guest mandates LBR Virtualization to
+@@ -3583,6 +3591,9 @@ void sev_free_vcpu(struct kvm_vcpu *vcpu)
+ 	 * a guest-owned page. Transition the page to hypervisor state before
+ 	 * releasing it back to the system.
+ 	 */
++	if (!svm->sev_es.vmsa)
++		goto skip_vmsa_free;
++
+ 	if (is_sev_snp_guest(vcpu)) {
+ 		u64 pfn = __pa(svm->sev_es.vmsa) >> PAGE_SHIFT;
+ 
+@@ -4078,13 +4089,9 @@ static void __sev_snp_reload_vmsa(struct kvm_vcpu *vcpu, gpa_t gpa)
+ 	vmcb_mark_all_dirty(svm->vmcb);
+ 
+ 	/*
+-	 * From this point forward, the VMSA will always be a guest-mapped page
+-	 * rather than the initial one allocated by KVM in svm->sev_es.vmsa. In
+-	 * theory, svm->sev_es.vmsa could be free'd and cleaned up here, but
+-	 * that involves cleanups like flushing caches, which would ideally be
+-	 * handled during teardown rather than guest boot.  Deferring that also
+-	 * allows the existing logic for SEV-ES VMSAs to be re-used with
+-	 * minimal SNP-specific changes.
++	 * From this point forward, the VMSA will always be a guest-mapped page.
++	 * If KVM allocated an initial VMSA, keep it until teardown to defer
++	 * cache flushing and other cleanup out of the guest boot path.
+ 	 */
+ 	svm->sev_es.snp_has_guest_vmsa = true;
+ 
+@@ -4975,12 +4982,15 @@ void sev_init_vmcb(struct vcpu_svm *svm, bool init_event)
+ int sev_vcpu_create(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_svm *svm = to_svm(vcpu);
++	struct kvm_sev_info *sev = to_kvm_sev_info(vcpu->kvm);
+ 	struct page *vmsa_page;
+ 
+ 	mutex_init(&svm->sev_es.snp_vmsa_mutex);
+ 
+ 	if (!is_sev_es_guest(vcpu))
+ 		return 0;
++	if (is_sev_snp_guest(vcpu) && sev->snp_direct_vmsa)
++		goto init_vmsa_state;
+ 
+ 	/*
+ 	 * SEV-ES guests require a separate (from the VMCB) VMSA page used to
+@@ -4991,6 +5001,8 @@ int sev_vcpu_create(struct kvm_vcpu *vcpu)
+ 		return -ENOMEM;
+ 
+ 	svm->sev_es.vmsa = page_address(vmsa_page);
++
++init_vmsa_state:
+ 	svm->sev_es.snp_pending_vmsa_gpa = INVALID_PAGE;
+ 	svm->sev_es.snp_guest_vmsa_gpa = INVALID_PAGE;
+ 
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 136069dfcd44..d84109394115 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -5458,6 +5458,27 @@ static void *svm_alloc_apic_backing_page(struct kvm_vcpu *vcpu)
+ 	return page_address(page);
+ }
+ 
++static int svm_enable_vm_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
++{
++	switch (cap->cap) {
++#ifdef CONFIG_KVM_AMD_SEV
++	case KVM_CAP_SNP_DIRECT_VMSA:
++		if (memchr_inv(cap->args, 0, sizeof(cap->args)) ||
++		    kvm->arch.vm_type != KVM_X86_SNP_VM)
++			return -EINVAL;
++
++		guard(mutex)(&kvm->lock);
++		if (kvm->created_vcpus)
++			return -EINVAL;
++
++		to_kvm_sev_info(kvm)->snp_direct_vmsa = true;
++		return 0;
++#endif
++	default:
++		return -EINVAL;
++	}
++}
++
+ struct kvm_x86_ops svm_x86_ops __initdata = {
+ 	.name = KBUILD_MODNAME,
+ 
+@@ -5478,6 +5499,7 @@ struct kvm_x86_ops svm_x86_ops __initdata = {
+ 	.vm_init = svm_vm_init,
+ 	.vm_pre_destroy = avic_vm_pre_destroy,
+ 	.vm_destroy = svm_vm_destroy,
++	.enable_vm_cap = svm_enable_vm_cap,
+ 
+ 	.prepare_switch_to_guest = svm_prepare_switch_to_guest,
+ 	.vcpu_load = svm_vcpu_load,
+diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+index 6d0242966dc8..1a94d0c1ef91 100644
+--- a/arch/x86/kvm/svm/svm.h
++++ b/arch/x86/kvm/svm/svm.h
+@@ -122,6 +122,7 @@ struct kvm_sev_info {
+ 	struct mutex guest_req_mutex; /* Must acquire before using bounce buffers */
+ 	cpumask_var_t have_run_cpus; /* CPUs that have done VMRUN for this VM. */
+ 	bool snp_certs_enabled;	/* SNP certificate-fetching support. */
++	bool snp_direct_vmsa;	/* Userspace provides and measures VMSA pages. */
+ };
+ #endif
+ 
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 32563a91fba9..0a96bdc7f869 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2415,6 +2415,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_VM_TYPES:
+ 		r = kvm_caps.supported_vm_types;
+ 		break;
++	case KVM_CAP_SNP_DIRECT_VMSA:
++		r = !!(kvm_caps.supported_vm_types & BIT(KVM_X86_SNP_VM));
++		break;
+ 	case KVM_CAP_READONLY_MEM:
+ 		r = kvm ? kvm_arch_has_readonly_mem(kvm) : 1;
+ 		break;
+@@ -4254,6 +4257,8 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 	}
+ 	default:
+ 		r = -EINVAL;
++		if (kvm_x86_ops.enable_vm_cap)
++			r = kvm_x86_call(enable_vm_cap)(kvm, cap);
+ 		break;
+ 	}
+ 	return r;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8dff2fc1972e..005c25263030 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1000,6 +1000,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_PPC_COMPAT_CAPS 250
+ #define KVM_CAP_ARM_PMU_V3_STRICT 251
+ #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
++#define KVM_CAP_SNP_DIRECT_VMSA 253
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+-- 
+2.53.0
+
