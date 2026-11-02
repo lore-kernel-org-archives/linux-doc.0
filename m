@@ -1,85 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793642078;
-	b=hlS7FYjkNMKFp1l/hSbteiwd1XD/0UN10/8OIyNY/ZP192Q6+RdvgX7LOEb3dlRTzosI
-	 HSqJ484tlVoEf6Ifh8fz3BIjYFxfBYZG5PU3PcmmLJ4ifMaWtcRQopfoc7u0elNcOxjqq
-	 dfp2+snsKEnpsgdbEXYYfqm/t9f3M8L1EBbtQciE+SrYB/Ep6iq9YwWznZOIxqchEam3E
-	 xK+sHZriQvYy4cSAOGFyBfAgj3nc1JvlGt8sZAFmTXZVBnhrs80IZEwDFlCRHZ7E3zAXR
-	 Ca9wYMs1mVtxEwrqeowwLbQFODIkp4886VSIjAS0O7lzCsxSR/9isU3dpPj2S6Y2NHw==
+	t=1793642188;
+	b=OwdTP4S1+neZb7YpEKQO+Mfn5+ZU1kJpDKCgTA8XTYfz91PMH5ZhTTGH63BIyRS5H2Ea
+	 a9rm8VXHQID7xtGc94vx4ojtnI8/Py4j5pf0Dm72sGDLSc8gVm2bdTHWRj1LVsiNfOUxo
+	 mjtKWeb4KNIpcWLePETXxb65WeTbBheQrhizpQ+7l1npE/JsLJ08gMiN+6/1dmE9q4q+q
+	 80WfLYaODqZB+HLMG5iWJtwEl5Zab7+a+r4RAy7eO0ipnjwlzDgNbsyAqVLnaAlAFW1kz
+	 O6HA+s2C2DCguEteUr0O/9Pez4al165Rru2tNtDpD/QSlirnRgFpAX8pBvMg6PQTS9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793642078;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 To:Cc:Subject:From:X-Mailer:References:In-Reply-To;
-	bh=scZeb17XXKm1k29PX4odbDUwJgulUaI/xTz9Vkg+cZk=;
-	b=GKU6KBdifVkdXSlk2ODdoiarfan9D779HVFjXSjD07Xu091iSL97HceZ+tOWLVQFpmy3
-	 bHIG61lACiVNEhx2WPM97DUspGUsFIbzSYcLAyZiMszGiZy9tIdluRl88YSWI52C4i3ro
-	 /lBJ2hUZdCuLpGyKa5nQHva5Or3nMI5SHSbX7t8032Gs0G7Zpb7TMagLnvfVbl7+87y7G
-	 hy0DGYWR8xjZnTnHbfx86MVf9T9t843ELxWRFGAq/uxEz35KqIyOV2a+mqkCkyvXSH2D0
-	 Pd2u9zURYXYPghjceKlPe75eiKssRd/ra3RWkfGe2RWxopD9j5UnSOfjYNw8OOEKFIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793642188;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=wksPVf4+3BY129091ZVPp8TwYhF+Bq8Qv4YKU7zTmjs=;
+	b=scuTuLcQjjcqO0L5RYqrwOCPxeoVH1xgihMVBi8MctLTy7yvf3tZQOBzxSLQh3Q05esw
+	 SW60a4Cn5COIfMIKje+KBKwTBvSprcjynG56Gf2UWT+jgcHsYn/W26xSfbBNowF5EGu8J
+	 VJ2KVc+gVSG8B0OBcG0B/KgwthyGss8RNLQOonjMwtmeCzIEU6fq7ogf3sYeBjni4ZCN8
+	 Od/3/SbVX4yJWXNYBEkFLESB4/3/dRyjTebkq/AKVTbmeAT9H2utP7szdhhhgLTHWOXnh
+	 zFVCULN5M/TFzUfr4sLmPCkX8QDIUIvMO6+MhHxDkvLPriqZcVXGFytFOmShtqTmqUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gUUKJZ6i;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dZK7zyHM;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2B6606B0FA
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 17:54:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE2B6606B0FA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7BE606A589;
+	Mon,  2 Nov 2026 17:56:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB7BE606A589
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gUUKJZ6i
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdb15cd8558so779356a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 09:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793642077; x=1794246877; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=scZeb17XXKm1k29PX4odbDUwJgulUaI/xTz9Vkg+cZk=;
-        b=gUUKJZ6iE6kMeJX2wngFOmJfdj34tHNdukYJ2763/cO78pWzbLpFiKwzNJXe3kied2
-         6kOgIXV1pK+gXNCLw7PW7dyddapp/S+ZcVxmvmI8KmVa0VoZ4G5IHs5nppxRYhKPGT7Y
-         CXLAw5MZ/pUJt6atuEm+Ut8tbfdqBO8uutAUQDoZnwmkmueSobeQS8dX5HM8wTn402vr
-         3wS6ZRFTtpf0Gb3m6ojljLsWlt9sPRQFXyDhejy0lUVPBqlO0SD1ofi3XKsNk3TfQJWy
-         TpJPR76fGTxghSMr+8VmSiaWD7DKO/AYuW3IK0YYGNoTMz8CzEs3U9466f6bOQmwQYZm
-         GWVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793642077; x=1794246877;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=scZeb17XXKm1k29PX4odbDUwJgulUaI/xTz9Vkg+cZk=;
-        b=QQq6c8qEYo1Xezh1klI2cWn4nbPUjZ8wUnFeKlc5v0NpW6/LlmlFcm+HCMGxIyAITZ
-         pwNU4+in/XWA9kdek6SnVDsRRHagHvaR8REwyQ87SAs0LsnMF+M4rYmWsZcfxxlAt0Lu
-         kOs8N3V5M1RncAR5JHkFyt/XfUQ3XRJf+M1gZFfIP1g6/7Rqj1F20DXKqbHve2i9bGiG
-         SI4iOA6HdH/D8Itxie6zQ3i63Wv9wMqrXPnN6Qu+kU3uSHzVbQ1cCbkKOZnTxt/N2mrq
-         Pn6qj1BVzepFC3MXrvaPzvWHAL2kEcYFqsp5GE5yLPRTz1EJQ2rMB8HSHSHFTnlX7HFv
-         lJDA==
-X-Forwarded-Encrypted: i=1; AKwUvBynPOth8bQZK8fCFNO/XyQXYDuTHJfgEy9AgOzgq/J/j40vfzCxySaDkOMOte/XApbtpew4JVyAhmc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8jvPB2hXcoXvHv8narAL6vldBBm7Mnqf0QwfV0nfrffcXDrq1P
-	1bfAMbmUuqw6+70ryoO4D3wpNk9FDzzA8dHk4rxt6JI5Hr67NPGUUzkr
-X-Gm-Gg: AYBFou35Dju99CQ04OxmvpVDn/7a09GCmXuTvTCI2Liehzr4ayxz8+uJJtc0RFKxZhY
-	ujM8Sw+Raq2OPCaCBnreiMZ8y21p5ElAumeWAJoUSo22e7k9OBIwEyKXfSCDkScOgqjCPPoTtb2
-	DIUDqMpHQagvaUhnzRxuTAqb0pgLJ+i6mJ/+95gulsy/naGzHoPB3LrgVmh0Zdq4RaM+pikliD2
-	hBkTFNUCNslSnFwx56BfJrmiq25GudJboEwHAletzrlAoxylnE+ml1WhGop8WnEMnDklG6ZITDv
-	IzrY+V+x2F2WsoV206l+GUMpvPRdmNPx/y8CRB4p5tglfNn+vGPK0w3qLAGukKQAP+zK6/goy1C
-	5ojAl48P+qq8WHQfXRyDcc1P4RDcnSmrfWl4hSjlO2JsjRxMiWgIgXjZCvAyFpZlAE8qILVgXxG
-	rEqb/aSRmlE1kfm9fzM7oc9krRSwcSTTcAoMrgkashfuNtvvALUwxxCUzLjtmSNDQBpeQOQfUE+
-	KEdjkYoiUquEj8s4t4BtYD9F64zxgaLzCgfK+GIS3p/rgScxJOysSab+X28P6WE/w8ql313VKzn
-	LhNu7zNfnC7j2seMiyOY7CwxK2XktWNwzCDnpBfAnrr3rkwkwn+CXJi4QcWIP6NAhWOJOZM0w6V
-	nw4pDpi1j1RyXLDmXwDZldM8a91OWqXEzgg==
-X-Received: by 2002:a17:90b:2e90:b0:3ac:86a0:5764 with SMTP id 98e67ed59e1d1-3ae898311b8mr7938750a91.64.1793642076815;
-        Mon, 02 Nov 2026 09:54:36 -0800 (PST)
-Received: from localhost ([153.61.198.248])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae8826a769sm7170534a91.4.2026.11.02.09.54.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2026 09:54:35 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dZK7zyHM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=wksPVf4+3BY129091ZVPp8TwYhF+Bq8Qv4YKU7zTmjs=; b=dZK7zyHMmVcP48N00IenBMCX+Z
+	o/yReFYgu0RlweK61kvVICf3+IdrR04qdXyCDYFGJlfQiMz3Vf18t7orAjRSwQnHJfQIBX6UU1BH/
+	DpiFtlXZi54c0aV2bdZz7/uWb+H3p3wPrAkobXdf4hBYKa+sP98O5HOzKBxenRi2ul/w3nxnbFU0C
+	au3VMDS9FkEXUnokh00uqNwuR6KExyRWhKz4Bz0VeCeAW5a1iUMeLkfnErUN00knw5G/sm4s+DwdF
+	aDCYH6zmK0tb9CmbVmr5mJ3CL6kfOXOaDrnnNy/Me/GDAPIbbJ2Wno5OnJ/2X59JoziyW/Cn3MA1i
+	rGfY+6Vg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xNwGe-0000000HXav-43SO;
+	Mon, 02 Nov 2026 17:56:25 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2] Docs: mmap_prepare: don't italicize structs
+Date: Mon,  2 Nov 2026 09:56:19 -0800
+Message-ID: <20261102175619.2274135-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,69 +67,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Nov 2026 17:54:34 +0000
-Message-Id: <DMKX1TT24BEL.328L6X0AO3CDS@gmail.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
- Kartikeya Dwivedi" <memxor@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Martin KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>,
- "Emil Tsalapatis" <emil@etsalapatis.com>, "Ihor Solodrai"
- <ihor.solodrai@linux.dev>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, <bpf@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH bpf-next] bpf: Use "new" URL to show if net-next is open
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-X-Mailer: aerc 0.20.1-355-gf870624f6c37
-References: <20261102111509.357269-2-u.kleine-koenig@baylibre.com>
- <DMKVOUX2GDZN.2Y8MKLR367NU8@gmail.com> <aujNf7TVDcwMYeLC@monoceros>
-In-Reply-To: <aujNf7TVDcwMYeLC@monoceros>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Nov 2, 2026 at 5:51 PM UTC, Uwe Kleine-K=C3=B6nig wrote:
-> Hello,
->
-> On Mon, Nov 02, 2026 at 04:50:37PM +0000, Alexei Starovoitov wrote:
->> On Mon, Nov 02, 2026 at 03:15 AM Uwe Kleine-K=C3=B6nig <u.kleine-koenig@=
-baylibre.com> wrote:
->> >  For non-subscribers to kernel mailing lists, there is also a status
->> >  page run by David S. Miller on net-next that provides guidance:
->> >
->> > -  http://vger.kernel.org/~davem/net-next.html
->> > +  https://netdev.bots.linux.dev/net-next.html
->>=20
->> The link is not the only stale part. The whole paragraph is wrong.
->> We apply patches during the merge window too.
->>=20
->> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_=
-devel_QA.rst
->> index 4729efd..f6b9533 100644
->> --- a/Documentation/bpf/bpf_devel_QA.rst
->> +++ b/Documentation/bpf/bpf_devel_QA.rst
->> @@ -231,19 +231,9 @@ load or urgency.
->>=20
->>  Q: Are patches applied to bpf-next when the merge window is open?
->>  -----------------------------------------------------------------
->> -A: For the time when the merge window is open, bpf-next will not be
->> -processed. This is roughly analogous to net-next patch processing,
->> -so feel free to read up on the netdev docs at
->> -Documentation/process/maintainer-netdev.rst about further details.
->> -
->> -During those two weeks of merge window, we might ask you to resend
->> -your patch series once bpf-next is open again. Once Linus released
->> -a ``v*-rc1`` after the merge window, we continue processing of bpf-next=
-.
->> -
->> -For non-subscribers to kernel mailing lists, there is also a status
->> -page run by David S. Miller on net-next that provides guidance:
->> -
->> -  http://vger.kernel.org/~davem/net-next.html
->> +A: Yes.
->
-> Even better. Do you care to get this change in then?
+Using a single quote mark `struct xyz` causes the html output to be
+produced as italic. Omit the quote marks so that kernel-doc's automarkup
+can make the "struct xyz" bold monospace ("code" style") in the
+generated html.
 
-Pls send a patch.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+---
+v2: fix one more instance of unneeded single quotes
 
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+
+ Documentation/filesystems/mmap_prepare.rst |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+--- linux-next-20261030.orig/Documentation/filesystems/mmap_prepare.rst
++++ linux-next-20261030/Documentation/filesystems/mmap_prepare.rst
+@@ -156,16 +156,16 @@ pointer. These are:
+ * mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
+   physical address and over a specified length.
+ 
+-* mmap_action_map_kernel_pages() - Maps a specified array of `struct page`
++* mmap_action_map_kernel_pages() - Maps a specified array of struct page
+   pointers in the VMA from a specific offset.
+ 
+-* mmap_action_map_kernel_pages_full() - Maps a specified array of `struct
+-  page` pointers over the entire VMA. The caller must ensure there are
++* mmap_action_map_kernel_pages_full() - Maps a specified array of struct
++  page pointers over the entire VMA. The caller must ensure there are
+   sufficient entries in the page array to cover the entire range of the
+   described VMA.
+ 
+ * mmap_action_map_discontig_kernel_pages() - Maps a discontiguous range of
+-  `struct page` pointers over the VMA. They must span from the start of the VMA,
++  struct page pointers over the VMA. They must span from the start of the VMA,
+   but may terminate prior to the end (leaving the remainder unmapped).
+ 
+ **NOTE:** The ``action`` field should never normally be manipulated directly,
