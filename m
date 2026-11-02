@@ -1,59 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793651292;
-	b=pdetMhDQhPq4j8fQxgAmaloxN57ztOY9SJeS5ophzRlj07hIU8B3zPEjuK2GBMBizb9N
-	 La6ebPLlCo7qG794DbzvZ1ne/kE30hSBuCgGXMKUOON46a0LbO9usa9QRonCO6Ab9aX21
-	 USRm9ekL9BjWDfc0pDQ1GoxcykNRTUuiHROWmSGkhtxsEyr/CBJsDwArm6DkL69kQKjQU
-	 pdc/mE8iw/+GhB27CLsfBR3yIbZU4fsa2vBEhnwJ07vmyTWnftHK+inyaK2uDL8l/8+Fh
-	 CQsBX11JK0WKT9aRwvtSakvGmvJkFD0a+lHBgrM++HuekDq4FsWcm711eYtPY1t3EZw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793651292;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=kNIoXMIj0D6tWi8oDVr/cix9uEHn2FqNesf3emLKmwA=;
-	b=Ia7zPYNraX2AvTR5USXKqzJKDiXquKlDjDzZQOL16YsvRRY06wzlF78WZkv9H3B7Ak4e
-	 rUSYbzu//WVBN42U7Lin13IN+NFJtN4SMpI2csjgHqwppBZlTokPWceQGq5QAudZJnJG2
-	 sTiIk8Jp6nW5lQW8zHPF9f5NKDDOmlVQIh19A2skIAxTc7hESzHGdWSoWpADLGllNbJAk
-	 WYIDN/mEX3kPkkAmiA2qotNfcUsyPetU7ahaUTZnxMDtDSd5yCFBz8HYSs4uvf6fRx6mO
-	 Z3rEf243ef/UHqdbjYKqtw2JiZ9N0coF1YoK1KKUbMW9mPKl9CNn34vXjj6D1OWzoLw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LwqGN/5O";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793651482;
+	b=IpAUwPbEvPiFC1ulQ9LAlQA4IbJG1zVY2w0cMyl0MyQu54G64x3dnPYsaRAlqizCREpj
+	 89URrgkG/FH4Gd0kgPeHxBYe0KVrExTIiKfeLfoz4IrPRHckgzAbSm+mU6quAPDY5y78l
+	 B7659bcV8wh/aOnXf1iUBL6MaptF3XgYUlVA3ms8LVIexZPuwWoqvSVoqZcpWd3Np01pa
+	 L8ZELnzXgk4Fy7w27+JNsI22GpMqXRMeR98fRmobVrDaisYjr4J6d/iCcM4U2bvsUu6UV
+	 8D+V7RgxOXJHuV/G3gbOllY6OMsT5TbTvHN2M3V7jgj1AI6PPRod7p9Ki5htEKFG0vw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793651482;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5RwrqFV+JAK3ySp9u6e0Zx2PkbN0JduCY8deT2c09So=;
+	b=3OZFskibq7NzLKtUxW9fX+d7KgtbFeeH/cLwpbFGNYgg/YxO78ttmjVDKWYAfAHFjvXH
+	 3ksOU1yqWdG20N1JhlMggj2PWRFEN5dQEa9vjRVg/waCg8nTwtXVhHlO2Tq2LAvt7wAO6
+	 S6LXM9Pbj0zVIFcmeHeIBMm+5s+/JTlSI8Xs9YT5d8y5a5NUG2y0xke6fRCpvCMwIvo9H
+	 GFwVdD6cPysBExVvwPzsuBiGyIXQxPYhrace11MscGfQpVhJehxOTg4+W/s+5qsKK+A77
+	 TCjDl5dyisQTjVZtrKxC7jvixerRgGnM27B0m+z9WXi3LWDGm3Js9aNPKmSi3Tnw9uQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RHJlzlK9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838DC606A324;
-	Mon,  2 Nov 2026 20:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CD5606A334
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 20:31:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89CD5606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LwqGN/5O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C281C1F00A16;
-	Mon,  2 Nov 2026 20:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793651292;
-	bh=kNIoXMIj0D6tWi8oDVr/cix9uEHn2FqNesf3emLKmwA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=LwqGN/5ONoTdHIJf0oGXsaCmTm0ZoJmgimhJGGd5YL1IWtV3ZAZCKuENAPVbyXLVO
-	 TCk4hvjQoMayINfxHIWSzC/NuClx8w4pfjevEjDJXyyU0KgBLhcq6v9N0NX4MmCad0
-	 ZDzrkIXoKeOL4EvcS9i5WHW+hgjC7Ac9b9dSN3jzIYphBX6UmQH9REEROu2Vf3iZTG
-	 z4CIr1O0V5uiUy6TH5ZdvB+9mk7kYCZIiQ822FF5FPhRgA+0cICtxrTduFUd1u0FtI
-	 kNb+TiH9Pb3/ieVX6hm88QZ1+UMAtyYC9vmlyIaUYY/2tchw31HJ0DJ2HnYRz3EGdR
-	 h4g+XLF2we1hg==
-Date: Mon, 2 Nov 2026 14:28:10 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices
- on a root bus
-Message-ID: <20261102202810.GA982665@bhelgaas>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RHJlzlK9
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b1b12de661so2082a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 12:31:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793651481; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I5/RN+pZV+5L+1JYVNGvxoYfmknlZdHz8Z6Bno/tptly1kmIH0LqviOFmMJ/DARFFD
+         xXMVaDIKXcd9fd8b8O27nWYqKvZoPSVSY6T5BG8NjUimlGnb5hNbcxlPTd4Zpe+nrmfc
+         a6TkaL9jkOyvZSwFprJDuoTSOI9OShRrAkUKH7DEQmxXSwH8VSoS18KC6kJIM83WSHrU
+         LBACgkgY97nx2VkeBZ8lZHez9joPh++iPCBannh0MidYpN/2m8dP3XI5IqNPiIWCbsn7
+         ksx9vyPtvyG0ofmlXYIumLnTuXE/kR9TXmDkeE1Ba9OgdfrKKwh9bvhi+ER6+LwLKluc
+         8qrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5RwrqFV+JAK3ySp9u6e0Zx2PkbN0JduCY8deT2c09So=;
+        fh=znYABwuHEInHkuQJrrKMzR/T5a+SHq1uiVbZ2eC7hFc=;
+        b=quVJCN8HgmH7xkGVChfmm/a7Rf/SuTOuaVmrXHCZRdbyfYgQ2dfeXTZcbxiDtBRiTf
+         WXhZ2uCEtnqKnDw1haJnK+5pKprLPVomiNcHm+0xFgLWm7JigVAGnWFVNKLhgW0XE3Cl
+         4dOndmevY+JIICDWXKH0JGau6Gj8WY2PYnvFTQ7gwG2vlzzKhz0PepnsKPryyVk3I+5C
+         B9v0w3Qp87nLKyArQ1R3zC1r+YybO0rQrD22a3E12uP95IZafkuh5s14I0wliFV6Lh2o
+         7SgflIsGFcNSFT/AT1KeiXC/OHh7oosEfcqnQGqzxn3FGAGbmdOaw6SgD6F6FBDhbiIr
+         SzzA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793651481; x=1794256281; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5RwrqFV+JAK3ySp9u6e0Zx2PkbN0JduCY8deT2c09So=;
+        b=RHJlzlK97bzgvXNW3xL3lDaxN4w+2qFJE1LvMY2LQLzINz9zP/BXIKEYZFP8bTVh+A
+         EuulrRQH2guD6Utn/XukATUgp1NTEYUsdzmamqkRjQqZiDi9K2SIsNujmk46Qm5y6JZf
+         uIFSGrR990BOymBXHS1Tszzj4O86/1RwSR8bRNWPN2MZgA6SHuPNrcuPBptrZ5rhkepq
+         lFcQtooLnqodgchqyzmjsOI+7faMvfesXvFaJ8Al5opVkj1T7uoos8Pe2du1wsPrZi1t
+         w5DMRvVWUzkOF2Pn1RzYh0i2fUWXYvngpVGHQ4W8qiTOWH71A2iNPDwDZ+DiK4LqnDDM
+         h3pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793651481; x=1794256281;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5RwrqFV+JAK3ySp9u6e0Zx2PkbN0JduCY8deT2c09So=;
+        b=SArlIHvr8VtelNA+wSlSFYDTvyvd3s1tqhfG5/zGb7fV4vDr9nIpt0otgJ/Mr5d1N5
+         emnsFIm9OUj0bkUuEmlbLXLqPAozLr2abMPsESj1qJY4NYZgaSR0eiNMMwXGNkKYyN8d
+         G61Im/vi5XnAV8szmq/I/OwULID8H0qKT/hvUaJQ67aD6AMfelBdckE/KokkJoSCwvRZ
+         31lMYI3nd9m2YCdhsqIIxFQtiS0Xnsycb3lsP0tlohgmLiftODlL/L+YaaMrKOFdhqBE
+         8QTXka7j4ZN8ydvfvWpzeYrfrq+zJjJkWcVgR9VQp1zqI0hN6+8HPY6oV2jo1ZRLGs+z
+         kiOQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxxFHlCMwmazKjsn/67UTBxeIb9PgpvGYwk6GSpXcfSzkaRnEVvqT6PCHE9aqoDr/woncMC9AKkyuk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8zBoSpQ+1nUFiUFheGaYf0Gx7KOQ2SAFYQuYj7fVIQKHgtoyk3
+	ahNNriFA5UvV1edjb375pTl672jnreiGG4B/Hd8pPL7GpQBdgQH1owMeoLdrkhLx/HdeJITg1Lx
+	mkg62Rcyt/LhQJ4ZTs8uS8DoUL8z+MPv5c0GJGzd0
+X-Gm-Gg: AYBFou3bJ9gbwUQ9eWIcJo//ezLXvFYYqrIL57pqD7QUvsvyvHXRwuZtnsy2HQEv1Xe
+	psG752Imr1IVeAAtLjpxwsnpdMqhr51Ynzo3TmFbc2aoiUdTF+KPtVzuD9Nl1AkTlwzWNn3K7Lw
+	SGyVH6kLgEiF7s0LmlD3mdjfyByafFopk78mT2+jSlomzYoyw+1nEVqabEaYT5++tvhafgl4/Wu
+	3QR2igpGqzxwhjeMftWiUdIbLtdKZkifLG4ODGbBYYTn3HhcgbfDqFolw3+leE0OISSFvC4yioM
+	T6qCZ8SRL4RclD3ND+J1JZKXPh67IUhlY4Xy0h6wPGAOJiu2HOfCSEV0+l4GRc3wkrFvVsti+7C
+	GK2nSXA7Zuv4vufJ0wbTpE3UDvF/tQCCBA+lWw0joRi8ChCI+yBk64iwyM16u6RYYKC4=
+X-Received: by 2002:a05:6402:20cc:10b0:6a6:7dff:61ab with SMTP id
+ 4fb4d7f45d1cf-6b4b42b3ef0mr308863a12.15.1793651480477; Mon, 02 Nov 2026
+ 12:31:20 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,89 +104,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
+References: <20261102191438.1059771-1-sdf@fomichev.me> <20261102191438.1059771-5-sdf@fomichev.me>
+In-Reply-To: <20261102191438.1059771-5-sdf@fomichev.me>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 2 Nov 2026 12:31:08 -0800
+X-Gm-Features: AclHuK9XRqRq9bYvRVLxJXUkdgt5z_NPqmaDip-9Zrh7UQsi494jQFBIdl60e9Q
+Message-ID: <CAHS8izP6BmNJLUdKR0DpqieOVXreR7ycKWmVbtbBtP-kHy7HOg@mail.gmail.com>
+Subject: Re: [PATCH net-next 4/7] net: devmem: add a per-device netmem TX frag
+ size limit
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, 
+	edumazet@kernel.org, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com, 
+	pavan.chebbi@broadcom.com, sdf@fomichev.me, bobbyeshleman@meta.com, 
+	asml.silence@gmail.com, daniel@iogearbox.net, razor@blackwall.org, 
+	leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 16, 2026 at 07:59:39PM -0400, Hamza Mahfooz wrote:
-> The "bus" reset method resets a device by asserting Secondary Bus Reset
-> on its upstream bridge, so it is not available for a device on a root
-> bus, which has no upstream bridge.
-> 
-> Some platforms have no Root Ports and expose PCI devices directly on a
-> root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
-> on the root bus of a virtual host bridge. Such a device has no reset
-> method at all if it supports neither FLR nor PM reset, even if the
-> platform is able to reset it.
-> 
-> pci_host_bridge::reset_root_port() already allows a host bridge to reset
-> a device on a root bus in a platform-specific way, so far only in place
-> of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
-> method of a device that is the only device on a root bus, and wait for
-> the device to become ready afterwards, as is done for other reset
-> methods.
-> 
-> Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+On Mon, Nov 2, 2026 at 11:14=E2=80=AFAM Stanislav Fomichev <sdf.kernel@gmai=
+l.com> wrote:
+>
+> Devmem TX frags are bounded only by the net_iov size, which is about
+> to grow up to 2MB, more than some devices can describe in a single TX
+> descriptor.
+>
+> Add netmem_tx_max_frag_size, U32_MAX by default, and cap devmem TX
+> frags to the limit of the device the binding is attached to.
+>
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 
-Applied both to pci/reset for v7.5, thanks!
+Abstractly LGTM but I'm not sure why this is TX-specific. Didn't we
+add non-PAGE_SIZE rx net-iovs? This should have been a problem then.
+Either you know what you're doing (maybe document in the commit
+message) or we need some more alignment on RX and TX.
 
-> ---
->  drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 8cc6a89130b5..fd4e958d6b99 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
->  }
->  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
->  
-> +static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
-> +{
-> +	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
-> +	int rc;
-> +
-> +	/*
-> +	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
-> +	 * because dev->subordinate is not set up yet when the reset methods
-> +	 * are probed during enumeration.
-> +	 */
-> +	if (pci_is_bridge(dev) || !host->reset_root_port)
-> +		return -ENOTTY;
-> +
-> +	if (probe)
-> +		return 0;
-> +
-> +	rc = host->reset_root_port(host, dev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
-> +}
-> +
->  static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
->  {
->  	struct pci_dev *pdev;
->  
-> -	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
-> -	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
-> +	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
->  		return -ENOTTY;
->  
->  	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
->  		if (pdev != dev)
->  			return -ENOTTY;
->  
-> +	if (pci_is_root_bus(dev->bus))
-> +		return pci_root_bus_reset(dev, probe);
-> +
-> +	if (!dev->bus->self)
-> +		return -ENOTTY;
-> +
->  	if (probe)
->  		return 0;
->  
-> -- 
-> 2.56.0
-> 
+TBH I was dissapointed when LLMs started reporting that
+binding->vdev/dev are treated very differently for RX and TX and I
+have to write a cleanup that consolidates this:
+
+https://github.com/mina/linux/compare/devmem-teardown-v4...devmem-lease-bin=
+d-map-dev
+
+I think maybe my reviews and yours maybe should be more mindful about
+keeping these memory things consolidated and as much as possible not
+RX/TX specific.
+
+--=20
+Thanks,
+Mina
