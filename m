@@ -1,111 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793647885;
-	b=ShW4Vj8kX6eDZNsi4qTY9HOaavBLRscvCPM+QiRUFS9JfEugkSuJ3vdn7gPk+65bLrJb
-	 sRseuQ4P3AZgmDLx2IOj7ya10DgpiB4Pk4N+8dP72mDWqSgmIcKRe5V2P/8jHtvGuKoRZ
-	 jbsJAdEhyqTUuoqrlY9C183mT5VRwFfWydAcIVq1MwfkJ4kqy2zOSG3jFk+1yp9xox0A7
-	 yFMDqTu9XKX4WoMdEzOoii/BTScbJxyrAhGDQ/c7S+fAvcPIgqQT6f1zb+Sdd0/Ke8Vq2
-	 IokuoEmsZ8jWPJpZ7YwF8NJ+Zbpy+laPmhYTurywpCRQvWcx7sSVcb97wboPjpXVjTg==
+	t=1793648646;
+	b=YrraTWZG5ua25kd5p6ZwACxUB7whPXLky1ccIe5OafCZe+mkFwWzCMS2+8n8TXs4FVPr
+	 bx+RdEWdqVVcOkZ4hOjme1BUMz6SU9i5ZiQX5xEB28u/VQQ6LsqSdTiAxT1RaBVKMmLwy
+	 UdDSaDaxCXTASp2rUuPxSzjTIAd7Kb8ZLwbi9Z/NzAU4MsVikzynQp6FqExJ0LS6rXewl
+	 YARQR8obZYkKgzgCP2/WOZzojbrej2Frz1Gz0HDxfUrKvJ27gfSY7Rs0xewc4hOt7xEWq
+	 yvvR7mHJi4GiTw6DxtaARpvqzVPzC9NRzYFfIscfMK8bq8sDaUoDQYKiNHKOSHhl1wQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793647885;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-	b=FZaLW/h+6xQAcINKgpLRICqK7IhUgBNH3dWXSFkgf5YGEptns9n7+tk1dYuK7Kg/xVZL
-	 JPCZ015bN/rSxfpvQj+2IuzxjIdEgoYuBAKkExQYq3tlx8Dabkmn39acvC2IGUU/A6yES
-	 CH1Sg4XwWCns0fnBMp+UCuQkBP/lrpOfOiwc8gv6lFKVN+qehCKjDyjOdIFFWqprWgjkl
-	 ernFE3IGxRHG5rIbhkmmm+R6sbqY4FjjiVG6oFJNwWQsZ1QEvbkKGbiUnngDbZ/aJpFDU
-	 ySerYjwTj73eM+R6SUphF13zglrvJY9E0V5AsR4h2/PlHU0FXVagH+HOw17/vxJYAEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793648646;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version;
+	bh=Xs/bknxSjUD992DcwA52sYwD2HmK67B3GQnMd3KGXmA=;
+	b=306C/nc87W1Gv9iMjt66t+nM6PjnZw4eRcRwW+jiz5tVQ/Sis2xEmuOn9tnTcTMYnv6k
+	 rKlNH0PHvQxMafJH/030/TBdcN1HoIqeUKyp6d/g/e5SSYGd8hqstSTCEUA4aWtzqF8ND
+	 vT1138QX2hqS7TEzBxnSGs32HvbgvxlkBBs2vhaV9fvYPMHcdFWhaxfJxe2ebMU4xH4JI
+	 1WH5GWyGY8Pxsm0WG4GnNyIcC27s7OzGEE2AQW+y3Q2BTsnRNVCW2Pexft9MXg42ZfV9y
+	 BIXyRy06xaCxVKFH/g+CpHgmuTnoLkA6PBSAaTnC0rTBT3q2Ttab0riyyqp+upoG3eA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Xz6MZ6Q5;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F5A606A32E
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:31:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28F5A606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8917A606A329;
+	Mon,  2 Nov 2026 19:44:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8917A606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so32901175e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793647883; x=1794252683; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-        b=l73LkrQvuZciKzRpKr1DfT+CyrRl3sJ4ez5tHIOziCKKoB/NIWjlFJVqceOemEeFiP
-         9SZFYkIhtEQg6AQWUQiCd4HhIzPr6VFPJ+5Vbr01oA7qHVtw0gzlRhch5jJkngznqgv8
-         Innt0EQ5E4l41nWAGtL3GUUDl0QU0hdckMOYKnucV/07iQswTt6jNpTLvLjxUQxSXrbh
-         zYXtDsW1Q2yBmCnUClnpBVLX9t4yeOpGJzwi2YkOZPxnRlK+4t/ju8kpdbOKLVbooiul
-         yi8Ys8kz8IYBi/UvG7xllQbO+R2I006wPSIzT6PGGxF8IEz4JS8+g+mktXlAP4+K8h3v
-         ldFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793647883; x=1794252683;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
-        b=KVrfGab3Kdv0etgld2ZwtFWjtPf+8yxwvSAEUyT+OFa683DYqK4ZaxIu8Z8KoRMzih
-         4iml3+oUi4FJ0ZaowdCs/solEqEa7GBGVKelyB8g1zqAoEiMIY6lLvO6gOoMXEslnr5z
-         nmAysANOlv278jc23mHgDI5MIkWV/xdpptEcrjcvjFEt3p+0hQbcweOyX5aLMIpM3YZc
-         3Fpp2cXdN3BfNVZeT/L5FH8dDltEYTtqlF1EwJHnjMaSR2+K4d+74JQaCXR1rlgywBMH
-         nfASvZZRASGvT9dzEudCIH37U/baa580ynrgVuOubYjQzshTMTrJVfJggo85/sBaKq9N
-         Hmlw==
-X-Forwarded-Encrypted: i=1; AKwUvBzOin710SFlh66aIHYZzGpyDhLHtsX796PX1EYbfSaEer880/vMPWAR8/PoW7Bf2JGohjeeTKGeZ4o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKlbwk9RjxhHbyHlTyBaSuDVb340RXHY7wJgy8gB+QzcGszMahv
-	fNS37H8pyUNgApeOYbpGZvBEF65wy5a8Wx7EVfHI1T2PGHTV8SdlkBPG
-X-Gm-Gg: AYBFou2iMaIftxmgH6vRao13Q3ExKlwpXNmLc0d6hSsKX21UP/YsnZUgomRAm3MwuZ7
-	qcwZM3vD3lg8c9TTnmoBBcOUEnSh7q/w/k+RYUDx6LYO43nS2iCdpCAt+gBdVNlSH8xjIK3gVcK
-	QOdDf/WTKQejysLUK10EYwCKeAgylN0i/xCiOMNs7SweZFHnbwcSNkB1XAJFtlDSHv6/R5jQLPE
-	BJaSXrLdeHOlcJO/8B0iC55ZL+XEiqkPL3oindTskVM7LdpZwLo1suRKc9kisG60u3eYZJDZv2P
-	Mo/ABQP4MbI0/DgsBgT88uAGfggnkrwsksvHLDwNU4WhNerXz7TrJ4f+cQYHb/opH+wOsOXArf1
-	Fd3uqP6WmvZK0gnewC5r4HXnmiMBBccvMar7/BxfGrFDeltGAqfKULGz3y3hCVw4nuineCzxKPx
-	A+wIPifLN/IrBWFoHY9IuMoxX9E16vaFvcX6vw9XZDK78pBj650zfvPJqJsAoejCo76xm9ELy4G
-	TGPBOVRTllZ3XTBlxTMG/xpgtq+a215J+7dsoXd71O+ds2DDDKzi8Uw1pCDEn2YsvNJ4TeW2uhK
-	kaHAmPCVvz+6KeYv58i3UDy72ws12ufDyqsMQsdE2Z64rJOZWsBwMbQPcBE46Gxo7r2I916FXLu
-	clienBFOgLQ==
-X-Received: by 2002:a05:600c:e555:10b0:4b2:61e5:b2f4 with SMTP id 5b1f17b1804b1-4b261e5b38bmr21493425e9.11.1793647883361;
-        Mon, 02 Nov 2026 11:31:23 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a5372d8bsm9940525e9.0.2026.11.02.11.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 11:31:22 -0800 (PST)
-Date: Mon, 2 Nov 2026 19:31:20 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Jonathan Corbet
- <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe
- Perches <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
- <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh
- <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu
- <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-Message-ID: <20261102193120.4c88f066@pumpkin>
-In-Reply-To: <20261102-affable-undetectable-beluga-eded3e@meerkat>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
-	<20261102093206.50b6c9ad@pumpkin>
-	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
-	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-	<87a4nrfgjm.fsf@trenco.lwn.net>
-	<20261102150535.6c5689f6@pumpkin>
-	<CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
-	<20261102-affable-undetectable-beluga-eded3e@meerkat>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Xz6MZ6Q5
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2IhL6b3944200;
+	Mon, 2 Nov 2026 11:43:38 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=Xs/bknxSjUD
+	992DcwA52sYwD2HmK67B3GQnMd3KGXmA=; b=Xz6MZ6Q55LH2h5+cH8Uv9SYwyhG
+	fqA0wCgtCeQ2MLDJE5lEOYNeF2tBmMxf/Ozjov+u3E3gde/WflZJDwBao7xj7sS8
+	x+YiE+yvgTc53YY5b89vpl2L1l5FAQsyGao1lBjvZhO8LmPpCMJBYfR3WLhJRaz2
+	Ju7xsfJ+U1/q/2/dM4jxfqRL6Ri1wUnlzo7YVwGCzoLAfU43sEFrXSNt0sPjpgP5
+	gLVtCwSquAWEu6Ibk9k1YodRwN+FMA10HHh0dhV5VT1HmU1Ongvi3dFQqWf18xtd
+	P9ElzdgxTJCRynqy7J0zQLiia8LoN7NTX3cEsjNE3ribWcsz5OF/7y+21Dg==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hne57ca7n-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 02 Nov 2026 11:43:37 -0800 (PST)
+Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Mon, 2 Nov
+ 2026 19:43:36 +0000
+Date: Mon, 2 Nov 2026 11:43:35 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Michal Luczaj <mhal@rbox.co>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Stefan Hajnoczi
+	<stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang
+	<jasowangio@gmail.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio
+ =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Shuah Khan
+	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Donald Hunter
+	<donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, <virtualization@lists.linux.dev>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <sargun@sargun.me>,
+        <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
+ the g2h device to a netns
+Message-ID: <aujn5/nm9f9YX6bM@devvm29614.prn0.facebook.com>
+References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+ <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
+ <atjZZP2ebhXKzMxL@sgarzare-redhat>
+ <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
+ <atnjOZjKUBagRVWq@sgarzare-redhat>
+ <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
+ <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
+ <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,49 +103,166 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
+X-Proofpoint-GUID: QR2S-efKBO6QdYqmIxgc6lAyUaLaTRaV
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA3OCBTYWx0ZWRfX/+ZJayM1LQ+r
+ 9CV/sgjbk1pFruMf2Sg0Afqz45bxdOm/q1kCI1B+bg8HW4Cjn7g4Lr79nb2RdSW2Xmzq4dF0XOW
+ GqQjtLSbwrhVrlFabcgVpqZqM5ZWyic=
+X-Authority-Analysis: v=2.4 cv=SJ/Xx+vH c=1 sm=1 tr=0 ts=6ae8e7e9 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=wpfVPzegXHpEFt3DAXn9:22 a=VwQbUJbxAAAA:8
+ a=BjZWFOVnn3HtxxQ2TYoA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: QR2S-efKBO6QdYqmIxgc6lAyUaLaTRaV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA3OCBTYWx0ZWRfX2ea4iepLya8e
+ u/RHH1/wfHIKJZ8+Jf7wOY4wj8XR9xzoUNBYjnpFjO47yzsaKfjU/XN8j7g82pGNcHLIAuDVzMJ
+ KMGfZDToKxladXb1lbLFhLwt5iGVw3LJBtrZsMaVjskGsjdSEfVKQXCCYwA5zkPm482GMtvPwN3
+ jyJIuvtvK2eZdI8VGkblCf8zlVF/GyFNxFgJDRGQUE4YhkD6gz6U8H7oeeXXITLS0LjBEBIQkVd
+ hciJv6mh5dbOOr8WbBAG68O9jPfYLSopCyL97moXfPwULj4fUglw2KjlroxFs7mDRTA3fUU1qXY
+ XulWKBv1MwarGtHmsJHqll9CuwDtloBZZGQW/RsUBi0kqUJ/29Ugn3cBOSVu/19P+N8EkFP2I+3
+ RQ+4KR1LzEbgliAqZ8kR4kJ2WqGwZjinnsOjv8iLgk7AxJ9WUGp/AjfY+5pp07gMXMNbiYKu5YO
+ VcLFK14qbwpeW4bMkfw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_05,2026-11-02_03,2025-10-01_01
 
-On Mon, 2 Nov 2026 12:56:28 -0500
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
-
-> On Mon, Nov 02, 2026 at 05:24:51PM +0100, Geert Uytterhoeven wrote:
-> > > I certainly scan it.
-> > > It is also useful to have an archived local copy that can be searched.  
+On Mon, Nov 02, 2026 at 02:21:27AM +0100, Michal Luczaj wrote:
+> On 10/30/26 21:30, Bobby Eshleman wrote:
+> >>>> Yeah its all kind of a pain. The problem is that we need to hold
+> >>>> sock_lock to set sk_state and sk_err, but can't acquire it under the
+> >>>> table lock. Instead, we grab the socket ref sock_hold under the table
+> >>>> lock to guarantee it stays alive between releasing the table lock and
+> >>>> grabbing the socket lock.
+> >>>>
+> >>>> I was really tempted to not do this lock_sock dance though. The race
+> >>>> condition I'm avoiding here is that if this reset races with an RST
+> >>>> receive, then the socket could end up with TCP_CLOSING + sk_err
+> >>>> ECONNRESET... but I'm not sure this actually propagates up into a real
+> >>>> problem for any potential user.
+> >>
+> >> Right, vsock_connect() is fragile. Two things to be cautious about:
+> >> 1. Don't let it reset the already connected socket. Because that would
+> >> allow user to "re-connect()" and make mess in connected_table.
+> >> 2. Don't let it re-assign transport of an already connected socket. Because
+> >> that breaks the contract in few places.
+> >>
+> >> State 1 is not an issue: vsock_g2h_reset_unreachable() calls
+> >> __vsock_remove_connected().
+> >>
+> >> State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
+> >> when connect() is scheduled out, then after the wake-up sock may get reset
+> >> to SS_UNCONNECTED. Then user re-connect()s and hits the transport
+> >> re-assignment logic. I'm worried that, as we re-assign, someone may be
+> >> holding a reference to such "connected" (even if not in connected_table
+> >> anymore) vsock.
 > > 
-> > Indeed. Sorry to say that, but Gmail web interface search is still
-> > much more effective than lore web interface search.  
+> > I see path you're looking at... after vsock_connect() gets scheduled
+> > back in we set TCP_CLOSE/SS_UNCONNECTED if sock_error returns non-zero.
+> > Could you elaborate on your last concern there about someone holding a
+> > reference? I'm not sure I fully understood.
 > 
-> Folks, I don't want this to turn into another thread of "me too" responses.
+> Ah, sorry, let me explain. This case reminded me of the vsock's TCP_CLOSING
+> bug[1]: reporter mentioned vsk->trans getting freed when skb was still in
+> flight. I did not reproduce the exact scenario, but it did sound plausible
+> and I thought it applies here: virtio_transport_destruct() frees vsk->trans
+> the moment vsock_loopback_work() invokes virtio_transport_consume_skb_sent().
 > 
-> Yes, I know that some people still use it for a number of legitimate reasons
-> -- but these are few-and-far-between exceptions. I need this change because
-> the current status quo is NOT TENABLE. *Everyone's* quality of life is
-> affected because Gmail's throttling results in (looks) ~350,000 mails in the
-> queue, most of them waiting for Google to graciously allow us to talk to them.
+> Now, to get there let's start with vsock_connect() setting SS_UNCONNECTED
+> (on a connected) socket after vsock_g2h_reset_unreachable(). Then user is
+> able to re-assign the transport, which involves
+> virtio_transport_destruct(). But since we're dealing with a connected
+> socket, (before the reset) some send() might have triggered
+> vsock_loopback_work(). Does this make sense to you?
 
-They are actually waiting for gmail to reject them so often they get deleted.
-If you try subscribing a gmail address to lkml it really doesn't work very well.
-Maybe you get 70% of the emails (hard to say) but they all arrive out of order
-and sometimes days late - makes a real mess of patch sets.
+Ah you're right. I think that your approach of making vsock_connect()
+more robust is probably the right way to go...
 
-More interesting would be not sending any patch emails (and replies to) to
-gmail addresses.
-That isn't as harsh as unsubscribing gmail addresses and still leaves the
-gmail addresses getting any 'admin' messages.
+I think this is the new race...
+
+1) vsock_connect(cid=VMADDR_CID_HOST)
+   -> enqueue pkt
+   -> sleep
+
+2) rx worker receives OP_RESPONSE
+   ->  sets TCP_ESTABLISHED/SS_CONNECTED
+
+   (vsock_connect() still asleep)
+
+2) sendmsg()
+   -> sees SS_CONNECTED
+   -> enqueues skb
+
+3) netns reset sets TCP_CLOSE and sk_err=ECONNRESET
+
+4) vsock_connect()
+   -> scheduled back in
+   -> sees sk_err != 0
+   -> sets SS_UNCONNECTED
+
+5) vsock_connect(CID=VMADDR_CID_LOCAL) call #2
+   -> sees SS_UNCONNECTED
+   -> frees old vsk->trans
+
+6) sendmsg's skb tx completes
+   -> tx worker dereferences vsk->trans for the UAF
+
+If connect() checks for SS_CONNECTING before setting SS_UNCONNECTED,
+then in step 4 sock->state stays as SS_CONNECTING and the second
+connect() call will hit -EISCONN instead of freeing vsk->trans.
+
+Seems to work for a racing vsock_shutdown() too, where sock->state would
+become SS_DISCONNECTING, and the second connect() would hit -EINVAL
+instead of freeing the vsk->trans.
+
+I guess the rule would be that vsock_connect() sets SS_CONNECTING before
+sleeping and only changes it to SS_UNCONNECTED after waking if and only
+if it is still SS_CONNECTING.
+
+WDYT?
 
 > 
-> So, we either unsubscribe all gmail addresses from LKML and prevent them from
-> resubscribing, or we do something less drastic and revert it to how it was
-> supposed to work in the first place -- only patches without a dedicated list
-> end up on LKML.
-
-Then those of us who want to see most emails (or use local filters) will have
-to subscribe to all the lists we can think of, and then handle the fact that
-we receive multiple copies of emails that get sent to multiple lists.
-
-David
-
+> Another thing is this feature of vsock_assign_transport(): in some
+> re-assign failure paths you may end up with vsk->transport = NULL. In the
+> past this caused issues with sockmap: see WARN_ON_ONCE in
+> vsock_bpf_recvmsg(). Problem here is that normally vsock gets removed from
+> sockmap on close(), but in our (reset+reassign) case close() is never invoked.
 > 
-> -K
+> [1]: https://lore.kernel.org/netdev/anzT1fREOSyHT99k@v4bel/
+> 
+> >> So I don't know, maybe it's vsock_connect() that should be fixed/hardened
+> >> instead?
+> >>
+> >> Or at least disallow transport *re*-assignment? Does the "re-" part have a
+> >> use case?
+> >>
+> >> Hope it's not too off-topic.
+> >>
+> >>>> It also avoided some racing with the tx path, but now that send_pkt()
+> >>>> also checks reachability I think that path is safe.
+> >>>>
+> >>>> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
+> >>>> sk_error_report) with no lock_sock?
+> >>>
+> >>> Looking at the code, it seems that in all the places where we close all 
+> >>> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
+> >>> with no lock_sock but with vsock_table_lock.
+> >>>
+> >>> So, makes sense to me.
+> >>
+> >> virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
+> >> peeves: state switcheroo without taking lock_sock(). Which, again, races
+> >> vsock_connect().
+> > 
+> > True, I don't love that either, but I feel the impact is at least
+> > constrained by the fact that it only happens when the module or device
+> > is already going away.
+> 
+> Doesn't it happen on suspend as well? Is so, with a poorly timed connect()
+> things can go south on resume.
 
+Ah that's true.
+
+Thanks,
+Bobby
