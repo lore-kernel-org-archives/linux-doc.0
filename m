@@ -1,74 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.245.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630085;
-	b=UMa98AOjtv8bqask3LGjWANRsWZlB4sLdWI3JDTlyZhaNBpl2yGWbaBFH8I7Ixyk6yC3
-	 UEmlxlDgo9q28XLaQXi8z3e7c6fuEBF8KZqz9NAheiCgzLm9ZoZD6dYAiIQnNB8HvFlx9
-	 I8cy9XQ6TpAkv1bHlTcVuHoCLcASqxfVQaeBOQLBTOLoqbfMqJh5Rzq/xvMuT0jm5K32o
-	 mCYBR7Bep1DyDXFj7COzAS7iSPYP8s6aD9biJeRbROLmWBgOvdUOuwVh3qP0X5qWx5UbE
-	 q2ue8O8k1W3eqsJSXvvM8ddqnuVGrV5nNevtFxXdEPQ4xnfD9P1Ma+q8Sg0OFExK/eg==
+	t=1793630474;
+	b=ikjCLBrhwjBVUT7U5Xikw1gopAJondWQMvIOqfw3TmJ7Ng+BdAwUipIejsbBXmZhVysH
+	 g2rTbSUh/aVFpREvjT0OsM+v/hoqrCqQeyqFqVI3B4iqbJvHENlCu8xbylDt65Z+sbmHr
+	 1pdJvmBEudMFjMHPzd23GvB5kgCjSNry+hi2VSOSF6S37Q5hcC5vki9pr+f6BYEygqvp3
+	 +aTTMxasxESjxsMw39DgOV6xsb2ay+c9FoKLj3Va3XcTJ0fE1UBB+xHZ+eUt3KvcalIdK
+	 7ewmOX7/ybCf3R0x34d3ABMbg5sn7vlNgK4EJMpsmhHiFc+Ua4+jA0UPrw2PYiEvpqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630085;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=090k3TlRajsth1XEyx/HYuI+wNDJ5fHp2My7JUfpVPk=;
-	b=vCraRZMrRjaSCv8GQTmRNir1jgMuRwvITBWQ4UNl1yqHhQWlEjC7ZLugAchoSk42lSY0
-	 gOyiS7lW9IuLOetCUDveGy7N0eC60H1hXEoo9NrNW92ICCyONuOrU9xl/ZqHUTiARDESq
-	 L5ObhgWLaRi7J/l5qOjgIKt4g+NUdv+gnrIRG9shGwrFkm6O2dApNZztndHySL61elWxZ
-	 VgUhDgxF04Eynq9f8Qu8tNUz82LWzNuatwgyMaE8p1T0RgXdFHQGFChfNHnm5yd84afG+
-	 jWhjH94PYwzXTE9XF05/XlZSlIFZU6+SIZjGhsOx4Y/UNdkLT8fSWWreNmvbkda5WiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630474;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=OMjVTvjZtZrTjrcI72ExCzD1i9afB7DwzHLxEXPZD7Y=;
+	b=QAagfSfraZYCEWKYZoj7u18gvF+xVL0V9/XxN5HTb6ZU3XKXclP9VH4SNNrwOqMzBKa+
+	 DRYSv7dtCh6H6VlEvbbdaGzExo53YYKKGvGBi/zx94DsuUj9C7KIqVHah8OUn1Kb+FDC8
+	 U9igneJDol81Z8fYH2au+BwZy/bwcCnQgp5ne4ccYY87pUYBX38WP7I8sJys5IrYlZC/S
+	 lswLfFcvpIpFqiH/8qxntTabuu3jR1DnZhtSX8DWwyDHjVxlPRUxOa3T90LLIyppyNiHX
+	 FFdiUa3ErmSZG7ukOKwm5rYbfLFwwiww4XEYOJFqdxNhttcnqNNj1K0k4Yn7WuKj/Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hJXjvv5Z;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dmarc=none header.from=strlen.de;
+	spf=pass smtp.mailfrom=strlen.de;
+	arc=none smtp.remote-ip=91.216.245.30
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B47606B929;
-	Mon,  2 Nov 2026 14:34:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74B47606B929
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hJXjvv5Z
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0B3B640917
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1793630078; bh=090k3TlRajsth1XEyx/HYuI+wNDJ5fHp2My7JUfpVPk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hJXjvv5Z0Fo3j68sPK8zoNHPYR8ykGiw6JQe1Ut8Bhcfw1eXnHYTHu023K2762B56
-	 dT/y++Xkwp9MU6GLjxbXYAepZZqGU7eLF43MQk1iaSZjs1EM7ihecJzKC7SDdw2vnb
-	 vsj2qDTDtr1cJJG0KKLa9ssz0wCMA440D2gUE5XRR1yJTmGWHb0g7HKiIuSw92XT7i
-	 XrErlzGx2vao+1rZnKISZLsGCnyg/wk5d0nj5SYWUD/liZOAISx5S+BQzU7+GNfEzk
-	 Zplm+fCO9mVdv+H4qAtyS34IVlBEm+6OtiirTULAObxTdfOA8RO717UCFc7bw39uQe
-	 sgL2eQ/+c9T/g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0B3B640917;
-	Mon,  2 Nov 2026 14:34:37 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>
-Cc: David Laight <david.laight.linux@gmail.com>, Joe Perches
- <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, users@kernel.org,
- Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
- <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh
- <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu
- <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-In-Reply-To: <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin>
- <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-Date: Mon, 02 Nov 2026 07:34:37 -0700
-Message-ID: <87a4nrfgjm.fsf@trenco.lwn.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE80607BDEE;
+	Mon,  2 Nov 2026 14:41:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFE80607BDEE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
+	id B65DD60342; Mon, 02 Nov 2026 15:41:04 +0100 (CET)
+Date: Mon, 2 Nov 2026 15:41:03 +0100
+From: Florian Westphal <fw@strlen.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org,
+	kexec@lists.infradead.org, linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org, linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org,
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 03/38] netfilter: xt_recent: don't remove the proc
+ entries under a spinlock
+Message-ID: <auig_zhd3L0HEis3@strlen.de>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-3-59422ed3e465@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,18 +81,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-3-59422ed3e465@kernel.org>
 
-"Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
+Christian Brauner <brauner@kernel.org> wrote:
+> recent_proc_net_exit() removes the proc entries of all tables with
+> recent_lock held. remove_proc_entry() waits until nobody calls into the
+> entry anymore, and reading one of them takes recent_lock in
+> recent_seq_start() while procfs has the entry pinned. So when a reader
+> gets there while the network namespace goes away, the exit path sleeps
+> with a spinlock held and bh disabled, waiting for a reader that spins
+> on that very lock:
 
-> So it occurred to me that it might be actually better to stop sending
-> messages directly to LKML subscribers and only make it available for
-> download somewhere and as a Lore archive.
->
-> Is there really anyone depending on receiving all of the LKML traffic every day?
-
-* raises hand
-
-Some of us crazy people really do depend on it, yes.
-
-jon
+Yes, but note that this change is already part of a pending nf -> net
+merge request.
