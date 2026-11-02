@@ -1,76 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637037;
-	b=M+QMGaVLhZ78wsSUvgu2if9jb0r2yTNusi3QoRvQQ2LQYt1SRCNDg4CnKJD8Qg2YA7pJ
-	 Puw0XF7N9i2dFXZQHOeoXy712C58w1M8jfGozRZhvLAQAC4K4kxLySY6M7SRylz5iP0sE
-	 adeS3NvVWmPXah5v5h7OA9GqqfoTYttrmyUVuZe3vuQnyruPjLPK94dK2TQ+ldR1yQIum
-	 fiU8cfTgw5soNrguHvsQNBdkwHMf21NMkU522KbWd+ilWFlbdLkR8/Y5WzbLnHHRkDrnt
-	 sWhYnKw6J9NmWFf5D/SjRoc0LrFoY/Fam/4d5KmdUP9tJQDA9TYXjR/4OR2D6XStqoQ==
+	t=1793637780;
+	b=tt4Bs+ORKY1m5H3YpwBGSc/mVtoHmPuDvQOoEbjR9euArczwLYpMVWVbZ+U/VsggTz7d
+	 jR+0f7YnK+YtdiSXiguW99k4Tm4KNPF7qHeKgEYM+LK4FfmCbid5oJc2MJHnSUqO64A/F
+	 kXMisQ8usQoFLcqAGYi4vC5pkPFYB02Z1XGSZf65bAwgjTh/IEknqtieGXJyfZ4H1ggro
+	 BbCHlw9NkFC8Xq9JtLZw1S5soZvZnlc3A/VHPIW1O9RGrxpb7DNV1mAZd3SBaQArEaYrC
+	 20Bjq3nKPo/NRnw7uAGSIY1kr3YSfRiYv8lQUzzzkdm/rMKDyaMkGQeMtmcSERgZNHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637037;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=tQ/DNk7a1iTmjw2NtKHat2WmkFC7lCI9EiNUytx5K+U=;
-	b=hRBFLPULmdmCOTtmjJNGNxwqJ6YfA5mWnDMZZ7sX5LFcyOMWigTn51xgtwLCFAYZpC9F
-	 42x5EnZbTKJ52e3U9lHh/DipQno9oMQFBxztBxg/QcvocbNLxhoSPski6qggwX1zKzg7X
-	 rdcK726KLTsW6RuJcac6RQRmOd6yItbzEIXUdDXfl6Bi7qi3l11bqeQJwHu4XwYPwgX+k
-	 ZWOXJXN6nGObFYo8ri7LxNAXhU2EqulKO5ux6+uZH2aMbT55vznnPWcZcIDpvAZBMlF0T
-	 7Y2fIsN1NDehEJQtn8BEZBB/VJQRm3YzLGKPn9vi3pS9l3MkNCrtStAD8z+xXt09syA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637780;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=xHJeHvXACorKK44UnJWTQGTj0sq3EbOMAUr07ROOR1g=;
+	b=i6Ha3o+zT7ddNXge2JoS7+eRTiH1YvdpvvVCZyl0GE2+/HqD5vzTP5eLoiqOSvaZ3zHk
+	 mHvJHwTaXe70vocQ0y7I6qLHVrcTmw91FFJP4p6n23A370Wz+QHPbgwR9sQbcQeKDskMc
+	 rB8QYd8sgOYf573O8qfn24NXjAUz7RmNlR96Tk47uqUgDb/BMof5dmw8K+77DM/iZMjuk
+	 qWgHOqoxEJtthk2MGvBCUMeHvmArIBSBASSvhh2pBGUR2mlodppQKgC+9VmyzjqkRX5tm
+	 IGrSieWViM+kpeP5+VuqK1coIoizwqtgPUkBQnYb6/kQKKBARYdVGnnQzWttJTXuM/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.217.47
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=leKwA0uj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11126072C5C
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 16:30:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F11126072C5C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7c322cbc998so641925137.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 08:30:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793637036; x=1794241836;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tQ/DNk7a1iTmjw2NtKHat2WmkFC7lCI9EiNUytx5K+U=;
-        b=r23rOD8P9zcN6y8G6CAzAX2Ol6Ave4tjPRPArtvgqKK9V/jXzuckLivq/2ZRd0AYNy
-         49/zBOTjo+TRuLS/8SUVANht1ZbkgV7LvKpkC1NSY3LCSp7udihOJXf1YLyUuzxlVA9m
-         P4of4UNga10D1LrBDekrNSPYRtTapBGNHd1mcwlZmknE2qYA5QkMG0qFaIU5GxRdVkrm
-         RPakbpMyjPM5LOzE+cdL+/OlYXn6X1smc91fYmqhzMQPHYxc8gghls/19cvgNWScW6VJ
-         RxeOeK+aKOvGlVDDB7lxg0N9CTaKYuH2uSeqJ1uoHXuHwRp4m92aFWA2qxHZ3LqdHVQJ
-         EYwg==
-X-Forwarded-Encrypted: i=1; AKwUvBzh+TxgcSRQmGtp8iWRjuhC1nSD6rQscx4PuFcgS9GTgSUk+UX+7GcZ4V6zPQtTOP3+00pPug2m8tE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/14c/fVQyz4ebMKmXfN+gOE4GNsifMEoalcL9b7wEqVms+ye27
-	LqFIHYfkfPcvseCTq6oqTZlSRuWZqWeOyKoyEpXAPaGyC9F5SSHO67H6NBFeovNtXC4=
-X-Gm-Gg: AYBFou03uJL+VhXV7LTWv3FjXIkRgCgeDNw/BiI2Kyp5HbVZiMGk8oQcf1JJllyI6Vu
-	+Fqt0GfFajY456ZLMh2wOsEqNZs2KgCyu85/nOO1M5dv0neKPl5PIuqlM4913zPRFQqDQOEnBQ2
-	3WwSPl7IPzqOpVZ/1BP4yBkBLkdkQUDdqWV6foJqxAr/jSkcH4gvHAsLq88UDZmCPF/RKX8VwbY
-	WtLakYnGcydB5aT3B+LFBS3M/SJq/GyJm2zhF7n20kxWq8gUkBaV2HlJhu7HyAwu0oi08dZugVw
-	r0B8VgxsJ/F1FwgAYuxNePfkZuxPfQOKaYFh2CXV2h1Bo/ht89qMba6RzXAQmkHAZsQrKAS8/82
-	OhGFOzVPosRhe5+606wv+mWkrhn61efcHxUY9eJHf0uQSxCqSlyEr284gEPFGVgINKKcB4P48s4
-	yz926fGIlDSuA41VfGm3h9UrbB5qjDgDzInRfk+H4UVuP+iD8VIhIC22tItK7ae5eefRn28Hl7T
-	1l6J2x9xZYQAF5Y0PCQXoXRddAkdYQqbR3jfHEQMgEG07GahU+xNKBxSTcn/F6ju4gNWkOmP3/S
-	pF7tO+BuEydxcaxn0wgF0KWyHVFwJAW94LTULpsxmgrU1lXyg2+eoZ2OU8Qa3jnbAA==
-X-Received: by 2002:a05:6102:6881:b0:7cb:288a:b678 with SMTP id ada2fe7eead31-7d0726b4e2fmr4074733137.19.1793637035699;
-        Mon, 02 Nov 2026 08:30:35 -0800 (PST)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-992ee509f58sm12189010241.12.2026.11.02.08.30.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2026 08:30:35 -0800 (PST)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-996eeadfbeaso232607241.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 08:30:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBy0Zw0wA98KriUOModgopgq9S13rjQ9bds1sLopJ/iZtqNpXZV/EAnSfIQ3nEx2sDTFv01Aeqc0n1g=@vger.kernel.org
-X-Received: by 2002:a05:6102:15a2:b0:7cc:776:6c5c with SMTP id
- ada2fe7eead31-7d07261533cmr4465421137.7.1793636702714; Mon, 02 Nov 2026
- 08:25:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5F960A44D8;
+	Mon,  2 Nov 2026 16:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=leKwA0uj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E3B1F00A26;
+	Mon,  2 Nov 2026 16:42:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793637780;
+	bh=xHJeHvXACorKK44UnJWTQGTj0sq3EbOMAUr07ROOR1g=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=leKwA0uj2kWxNO/8AG3qGwX4ZEi1Q62SLMlWBl/QU/vcRLE1/Nao3pLHyzn77TLnW
+	 IpBCU8U3n1gpU7meLd0yLOD3uV5RtVAtGRKfqo6EtTYhDAhZQvjEeuHbgZhiAV4+aa
+	 l98bhftWBAh9DFums9N/yna13aXZ+h0wHzsy3Kvgjm+2ZK9NEw7+9L8QhX3zhXwnBZ
+	 urO1KoejJXGkHf58IBcm5gYP3Q9eeCJgeqsneXKMsP4xI0IHqD0ihgQaDNAD9CsCzJ
+	 Lu3flfLyiSel57AYPzwRLmgA5RCL6D6FPJPvPaIbRXA5LyIPEzGDKazv83ZQCPwBrh
+	 VSui6emGuwYRQ==
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 02 Nov 2026 16:37:42 +0000
+Subject: [PATCH v2 1/7] kunit: tool: Preserve failures from kernels without
+ test results
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,57 +53,121 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
- <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
- <87a4nrfgjm.fsf@trenco.lwn.net> <20261102150535.6c5689f6@pumpkin>
-In-Reply-To: <20261102150535.6c5689f6@pumpkin>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Nov 2026 17:24:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
-X-Gm-Features: AclHuK-8i5UubVSnw4SQFIo1lFtZYZ1lQPWaRR8ZSWJrkN6Qpqf7rWpkXGAuxvE
-Message-ID: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Joe Perches <joe@perches.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-kunit-parallel-v2-1-8774b558d4b0@kernel.org>
+References: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
+In-Reply-To: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Daniel Latypov <dlatypov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4431; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ngOWZldry4i5/7ftUvL3DAkS9yqqg6eLn3r2dMgr/Hc=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O0xeLe3bv+cozU+Egx7dTPPbV+3bdOyEIFdsqxZy
+ jxlnwSmdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiW9MYGWb9Tqvyk2RQ2lPI
+ e433+I6uZ1caO3fIBqr51U4paCwKvM3IsONQzCK3p1Jcy8NL1Bnnrs0/pvDMM/LD9gNW186XrWl
+ 1YQAA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 2 Nov 2026 at 16:49, David Laight <david.laight.linux@gmail.com> wrote:
-> On Mon, 02 Nov 2026 07:34:37 -0700
-> Jonathan Corbet <corbet@lwn.net> wrote:
-> > "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
-> > > So it occurred to me that it might be actually better to stop sending
-> > > messages directly to LKML subscribers and only make it available for
-> > > download somewhere and as a Lore archive.
-> > >
-> > > Is there really anyone depending on receiving all of the LKML traffic every day?
-> >
-> > * raises hand
-> >
-> > Some of us crazy people really do depend on it, yes.
->
-> I certainly scan it.
-> It is also useful to have an archived local copy that can be searched.
+When an isolated kernel produces no test results, the parser
+reports failure without adding failed test counts. Aggregating only the
+counts therefore lets a passing kernel mask the missing results and makes
+the command exit successfully. A kernel reporting an empty test plan has
+the same problem.
 
-Indeed. Sorry to say that, but Gmail web interface search is still
-much more effective than lore web interface search.
+Preserve each kernel's failure status alongside the aggregate counts.
+Keep treating skipped tests as successful and retain the failure when no
+kernels run at all. Add regression coverage for missing and empty
+results in either execution order and for passing and skipped kernels.
 
-Gr{oetje,eeting}s,
+Fixes: d65d07cb5b01 ("kunit: tool: improve compatibility of kunit_parser with KTAP specification")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ tools/testing/kunit/kunit.py           |  6 ++++++
+ tools/testing/kunit/kunit_tool_test.py | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-                        Geert
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index 91d234ac3b57..218ae294ad1b 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -191,6 +191,7 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
+ 	metadata = kunit_json.Metadata(arch=linux.arch(), build_dir=request.build_dir, def_config='kunit_defconfig')
+ 
+ 	test_counts = kunit_parser.TestCounts()
++	test_failed = False
+ 	exec_time = 0.0
+ 	for i, filter_glob in enumerate(filter_globs):
+ 		stdout.print_with_timestamp('Starting KUnit Kernel ({}/{})...'.format(i+1, len(filter_globs)))
+@@ -212,6 +213,9 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
+ 		exec_time += test_end - test_start
+ 
+ 		test_counts.add_subtest_counts(test_result.counts)
++		# A kernel with no results has no failed test counts to aggregate.
++		if _map_to_overall_status(test_result.status) != KunitStatus.SUCCESS:
++			test_failed = True
+ 
+ 	if len(filter_globs) == 1 and test_counts.crashed > 0:
+ 		bd = request.build_dir
+@@ -220,6 +224,8 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
+ 				bd, bd, kunit_kernel.get_outfile_path(bd), bd, sys.argv[0]))
+ 
+ 	kunit_status = _map_to_overall_status(test_counts.get_status())
++	if test_failed:
++		kunit_status = KunitStatus.TEST_FAILURE
+ 	return KunitResult(status=kunit_status, elapsed_time=exec_time)
+ 
+ def _map_to_overall_status(test_status: kunit_parser.TestStatus) -> KunitStatus:
+diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
+index 85ae21754bdf..ca2dac6651aa 100755
+--- a/tools/testing/kunit/kunit_tool_test.py
++++ b/tools/testing/kunit/kunit_tool_test.py
+@@ -1018,6 +1018,37 @@ class KUnitMainTest(unittest.TestCase):
+ 			mock.call(args=None, build_dir='.kunit', filter_glob='suite2.test1', filter='', filter_action=None, timeout=300),
+ 		])
+ 
++	@mock.patch.object(kunit, '_list_tests')
++	def test_isolated_kernel_without_results_fails(self, mock_tests):
++		mock_tests.return_value = ['suite1.test1', 'suite2.test1']
++		for missing_output in ([], ['KTAP version 1', '1..0']):
++			for missing_suite in ('suite1', 'suite2'):
++				with self.subTest(output=missing_output,
++						 suite=missing_suite):
++					def fake_run_kernel(filter_glob, **kwargs):
++						if filter_glob == missing_suite:
++							return missing_output
++						return ['KTAP version 1', '1..1', 'ok 1 - test1']
++					self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
++
++					with self.assertRaises(SystemExit) as e:
++						kunit.main(['exec', '--run_isolated=suite'])
++					self.assertEqual(e.exception.code, 1)
++
++	@mock.patch.object(kunit, '_list_tests')
++	def test_isolated_skipped_kernels_succeed(self, mock_tests):
++		mock_tests.return_value = ['suite1.test1', 'suite2.test1']
++		for all_skipped in (False, True):
++			with self.subTest(all_skipped=all_skipped):
++				def fake_run_kernel(filter_glob, **kwargs):
++					result = 'ok 1 - test1'
++					if all_skipped or filter_glob == 'suite1':
++						result += ' # SKIP unavailable'
++					return ['KTAP version 1', '1..1', result]
++				self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
++
++				kunit.main(['exec', '--run_isolated=suite'])
++
+ 	@mock.patch.object(kunit, '_list_tests')
+ 	@mock.patch.object(sys, 'stdout', new_callable=io.StringIO)
+ 	def test_list_suites(self, mock_stdout, mock_tests):
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.47.3
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
