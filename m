@@ -1,65 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793603490;
-	b=sN3wFXJ6nu/1nNVDRMd5Yr78v2J9dbCjNIqZIQVsNgjO8im647hiqMdTSph99B0sbtP5
-	 FcN5oEv8IYqNDGHTTPldkr0fgyOwt6qnq6DEGQCL2FawvWij/siV2ackRHvfcKFRF4rc0
-	 0498gLnwvvQ5F7gXxFfY7WudIIq8EwFx+/zIw2oqybbvfrnfvTUJEVjuXzsf2wwg41pee
-	 8sLb3nr6E6bYaCrvxlNSa/ii/7fL0ARRVzT5ad/9pTAgbMRpMVXpQchj9tMTCLMaK8hYj
-	 HRfUm+CHf61RJuJnig7ao3Q/z8MPv0U448j3hJRU2BnCDflbJCltKoayPas2F6zhiQg==
+	t=1793603816;
+	b=YqOA+wAWyzpH5h1YaxtISIXEZcivCSLeq7YOygmZKmHK+c+Y+PYCEhbyqyNb3XXCbXtZ
+	 AEpTG7TID+EpBBLmV7AdBkpAokwfTWdk0RJnP8IqMgpBzvypk4newVEaVMxWUQfEVRZcX
+	 xpXcSAU4wfP7qKAwZZSi/PsogdAOMyIiL6m7FwetPjpagb35zS5tqfJ4Co+jneFIKY+ME
+	 VJ4WKFmWWgBZFdc2TlYp7wTYVB0a53q4yCZem4SOUrwkpHlUxH3akeh2thF3eHiOPH6bW
+	 g+rFkPSZxMxviEgS1LTZJ/v9omZouD+UydxCfYBqLJ8zjkSMZ1r7BOuM1oxksXosqVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793603490;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ZV0tab7VysaykfUEfxp751GYptchpJHxcMrTzqLLZ4o=;
-	b=KF7p8/g8/s5vFpwWA40B8D5hFt27A862BTmfVX7YLM6y3J/ZkiMb6Cg+WAFiUfNBK4GS
-	 ZHf6OhgonLDNn9rxv1N3KGeb+UdTaaulvIa7eoRGM97DFICNFTAPU8/SRGob96R2roZtu
-	 x+yepAgVv7smE1l13PnH2ebF+kg27CBDj6sMWEdTy70//tEQFOphjomMnh+9fSRAAFxze
-	 H9dRoCnP7bNGdw1+MHJXe/p5rbivX/zSZh/Z+yQFgHDi2szTIkTFgGj5wEKgL0uu/TYXI
-	 nsKkJ0hZ7dL1EGMDOFuhm3CWDc7ytfUjF7h2Gcj6/6KT7dJWofu7nP8aJgwiH3PQ3sQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793603816;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=IRRSzlFERtC04EgY/YgoUh8ILIPmo4NEPdC+84g3mHo=;
+	b=jXtLuz4/K8PVPCHRoSd6jYNSoXEpcwD5aUylI0OuyF5mfUrJZNd5aESUJ5qHmy6hUfPU
+	 HJl5jpGWfc6QCBcTXA8/+UByhaOmgZXVv7/gGUdPiAwIeaVon3CinumKdugYZCIZ/bfa4
+	 C3KzBrJrsa8Z88D7Fsj+tiXGv1SShAJxm5bnjBGufhhGIhOZnRxFyNHlXsBYhjMIBVGF1
+	 njNMHrEAWdv44vdQd3I+1dG0qmBOjdjUj4G7YlpXeYK363rqp7ksh3iRZMroCXknJ9Jot
+	 aPXnL9J3tH2hZPZ8s5HRtY4n7SWeJpAQ9fXQBMzARAsXNcpF18QSkfqsVCohU6vjnew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=elp9ahrs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3zt+J9v;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C437606A326;
-	Mon,  2 Nov 2026 07:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3F3606A326;
+	Mon,  2 Nov 2026 07:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=elp9ahrs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED431F000C1;
-	Mon,  2 Nov 2026 07:11:27 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3zt+J9v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874831F000C1;
+	Mon,  2 Nov 2026 07:16:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793603489;
-	bh=ZV0tab7VysaykfUEfxp751GYptchpJHxcMrTzqLLZ4o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=elp9ahrsIrEjpgWnlZp5Cp9aX93TOL93VsWU/VvpfbLp16hlzNeViKjMHY+5I0oP8
-	 T8pM9M83/RNIRfEdKbL7Pp7hv5K2/nfyFVZaZ8/YtKoig7DRlh+DvDyPxNMW7sZnTw
-	 p0eRKrV+4dx9Rq40iYUz2qjlMvr0fKGBdCKjHOUa3VgN4UG3enaFMCHxXqprXA1E0W
-	 gNXozluPXqrwRkqlI4s/e+PUswMl/ANR5m6Kn2pUXRb1l602YC3AqO2dXTWMsIWLrT
-	 +6VVyHr6lN1rF8VzXN8aQ0Z+pFhlXxuI4n62Gk71FNAb0mhVZhOQnh586U4rLdjwP8
-	 TCNEbto7lVE9A==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Naveen N Rao <naveen@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 3/3] docs: trace: Warn against using printk() in probe handlers
-Date: Mon,  2 Nov 2026 16:11:25 +0900
-Message-ID: <179360348516.115681.16358304979974648339.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <179360345418.115681.193455787480210412.stgit@devnote2>
-References: <179360345418.115681.193455787480210412.stgit@devnote2>
-User-Agent: StGit/0.19
+	s=k20260515; t=1793603815;
+	bh=IRRSzlFERtC04EgY/YgoUh8ILIPmo4NEPdC+84g3mHo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=U3zt+J9v0y+R4Fy5ABH5505GeWQElaRf2eRkhJAs9ZH6/a9kmYRSKFBoxFZLiLTPm
+	 z8PUM2O+mk31AMYY9KB+bIH9MMNpOz3rPR76nQsNrUEiEkP0yJUZHyvqeaUz6aMv6q
+	 BubFzWy1M9rL1ike8WQUmkt4/e8BGJs+6h4DUNrsg7UwhJNRLsikC7LQGj4KRZ3b63
+	 FhOFw4XOT+baeJ87ze3OIamHOlYVRFbgqSF7vARYdgauP3phfMkoNTvn30g4+oIB9B
+	 +hTyRaGIJ4Prk+pL2tvqAf64J4s+/aMnr0xPuRAqiWbQu7qgzPenrICUIBIs4O4Zwn
+	 Va3PPB74BtEpg==
+Message-ID: <8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
+Date: Mon, 2 Nov 2026 08:16:47 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,71 +51,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile
+ for KVM/arm64
+To: Matthias Goergens <matthias.goergens@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+ Steffen Eiden <seiden@linux.ibm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, kvmarm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On 30/10/2026 09:33, Matthias Goergens wrote:
+> +
+> +If your series depends on something else that is not yet in mainline, such as
+> +another series under review, say so in the cover letter and name exactly what
+> +it applies on top of.
+> +
+> +Use ``git format-patch --base`` so that the base commit is recorded in the
+> +patches.
 
-Probe handlers (kprobes, kretprobes, and fprobes) execute in atomic or
-non-preemptible contexts. Because handlers do not run in NMI context
-(especially when jump-optimized or ftrace-based), calling printk()
-directly can attempt to synchronously acquire console driver locks or
-scheduler locks (via console_unlock()), risking a deadlock if the probed
-or interrupted context already holds those locks.
+You should rather encourage usage of b4, which does above for you.
 
-Document this restriction in both kprobes.rst and fprobe.rst, and
-recommend using trace_printk() instead to safely log messages to the
-ftrace buffer.
+...
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- Documentation/trace/fprobe.rst  |    5 +++++
- Documentation/trace/kprobes.rst |   11 +++++++++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
+> +
+> +Security issues
+> +---------------
+> +
+> +Bugs that let a guest attack its host, or a nested guest attack its guest
+> +hypervisor, should be reported as described in
+> +Documentation/process/security-bugs.rst.
 
-diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
-index 46dd46a97c1f..72e0fd9e1808 100644
---- a/Documentation/trace/fprobe.rst
-+++ b/Documentation/trace/fprobe.rst
-@@ -101,6 +101,11 @@ handler.
- If the entry callback function returns !0, the corresponding exit callback
- will be cancelled.
- 
-+Since the callbacks run with preemption disabled under ftrace recursion
-+protection, calling printk() or pr_*() from these callbacks is not safe
-+and can cause deadlocks on console driver or scheduler locks. Use
-+trace_printk() instead to log debugging output.
-+
- @fp
-         This is the address of `fprobe` data structure related to this handler.
-         You can embed the `fprobe` to your data structure and get it by
-diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
-index 5e606730cec6..19c04a91a664 100644
---- a/Documentation/trace/kprobes.rst
-+++ b/Documentation/trace/kprobes.rst
-@@ -563,8 +563,8 @@ course, has no way to distinguish the deliberately injected faults
- from the accidental ones.  Don't drink and probe.
- 
- Kprobes makes no attempt to prevent probe handlers from stepping on
--each other -- e.g., probing printk() and then calling printk() from a
--probe handler.  If a probe handler hits a probe, that second probe's
-+each other -- e.g., probing trace_printk() and then calling trace_printk()
-+from a probe handler.  If a probe handler hits a probe, that second probe's
- handlers won't be run in that instance, and the kprobe.nmissed member
- of the second probe will be incremented.
- 
-@@ -579,6 +579,13 @@ which depends on the architecture and optimization state.  (e.g.,
- kretprobe handlers and optimized kprobe handlers run without interrupt
- disabled on x86/x86-64).  In any case, your handler should not yield
- the CPU (e.g., by attempting to acquire a semaphore, or waiting I/O).
-+Furthermore, probe handlers should avoid calling printk() or pr_*().
-+Because probe handlers execute in atomic/non-preemptible contexts without
-+being in NMI context (especially when jump-optimized or ftrace-based),
-+calling printk() may attempt to synchronously acquire console driver locks
-+or scheduler locks via console_unlock(), risking a deadlock if the probed
-+or interrupted context already holds those locks. Use trace_printk()
-+instead to safely output messages to the trace buffer.
- 
- Since a return probe is implemented by replacing the return
- address with the trampoline's address, stack backtraces and calls
+Do we need to repeat standard stuff in every maintainer profile? Above
+is quite obvious, so maybe skip it which would make the document shorter
+increasing the chances anyone will read it.
 
+Best regards,
+Krzysztof
