@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793642188;
-	b=OwdTP4S1+neZb7YpEKQO+Mfn5+ZU1kJpDKCgTA8XTYfz91PMH5ZhTTGH63BIyRS5H2Ea
-	 a9rm8VXHQID7xtGc94vx4ojtnI8/Py4j5pf0Dm72sGDLSc8gVm2bdTHWRj1LVsiNfOUxo
-	 mjtKWeb4KNIpcWLePETXxb65WeTbBheQrhizpQ+7l1npE/JsLJ08gMiN+6/1dmE9q4q+q
-	 80WfLYaODqZB+HLMG5iWJtwEl5Zab7+a+r4RAy7eO0ipnjwlzDgNbsyAqVLnaAlAFW1kz
-	 O6HA+s2C2DCguEteUr0O/9Pez4al165Rru2tNtDpD/QSlirnRgFpAX8pBvMg6PQTS9g==
+	t=1793642193;
+	b=hZhh/Vyqn5aTxZvybrVbVeKt9OC7+Nvdnw8tQpnMrHqqKSbD3+ap6OeYSL3uMMmpoGNU
+	 hncu9y/eBEATOdv/kN4m6P5/swDomfvGOGXfQ2Ae3wpuKdOBYwoGJzVV8Tbz6erEScoxB
+	 GLu2yug5HKI4b7VbWvpXHGEIGJJmZbVy59Ox0+750OzqVUhvVG0r1zV3U2KrNnqoZrE+u
+	 Ub3+FJk0cQ62lU0H+qV8Ad/EqCoy8JjUcYzOZCq4wotZ0CZK1OzaHUBQ40yEjHC5E3aCl
+	 tW+Pp0sAlc0lgzXX058rg0G5GKwcpKrLIBQ/T+tUSYTctrW8GR751SVI+2X4QxOanMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793642188;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=wksPVf4+3BY129091ZVPp8TwYhF+Bq8Qv4YKU7zTmjs=;
-	b=scuTuLcQjjcqO0L5RYqrwOCPxeoVH1xgihMVBi8MctLTy7yvf3tZQOBzxSLQh3Q05esw
-	 SW60a4Cn5COIfMIKje+KBKwTBvSprcjynG56Gf2UWT+jgcHsYn/W26xSfbBNowF5EGu8J
-	 VJ2KVc+gVSG8B0OBcG0B/KgwthyGss8RNLQOonjMwtmeCzIEU6fq7ogf3sYeBjni4ZCN8
-	 Od/3/SbVX4yJWXNYBEkFLESB4/3/dRyjTebkq/AKVTbmeAT9H2utP7szdhhhgLTHWOXnh
-	 zFVCULN5M/TFzUfr4sLmPCkX8QDIUIvMO6+MhHxDkvLPriqZcVXGFytFOmShtqTmqUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793642193;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wrXGlUr7f7OVMQEZ1c1YC3FtYl19CS404NXDobfyGFY=;
+	b=cB9OxCNlYPqGxWtkL64aJFmk/WedadL+gdmF2yW6YQEQXx0fafKx6xhG33aJOQb/0ic7
+	 S/pp8ZBz44Y0B7DSYmaGeMtmm9/DaVqzFtKMVAFnmora64dJMGS+Wqctq+QGXQPQLm37F
+	 K7f3oou2q1UWhrbf3pnMnWPwdz9Cwnskk7LRDGhKuxNJlajdP0bWWjyBhT9duyUFw2nX7
+	 NI6xCMTZii13lgSJt6TSpWpeuqc2/sU0yQR1DjzkLehfqakXYcGqHKoQGtxlnUv0v3KHB
+	 sEKEckr3MP/cJR3JS2Qd+Adck6A7u+0uJJLNfG79/q9bO9VlLUrqusePlmIiNCJJPnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dZK7zyHM;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Yz+0BgX0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7BE606A589;
-	Mon,  2 Nov 2026 17:56:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB7BE606A589
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AFF606D825;
+	Mon,  2 Nov 2026 17:56:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=dZK7zyHM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=wksPVf4+3BY129091ZVPp8TwYhF+Bq8Qv4YKU7zTmjs=; b=dZK7zyHMmVcP48N00IenBMCX+Z
-	o/yReFYgu0RlweK61kvVICf3+IdrR04qdXyCDYFGJlfQiMz3Vf18t7orAjRSwQnHJfQIBX6UU1BH/
-	DpiFtlXZi54c0aV2bdZz7/uWb+H3p3wPrAkobXdf4hBYKa+sP98O5HOzKBxenRi2ul/w3nxnbFU0C
-	au3VMDS9FkEXUnokh00uqNwuR6KExyRWhKz4Bz0VeCeAW5a1iUMeLkfnErUN00knw5G/sm4s+DwdF
-	aDCYH6zmK0tb9CmbVmr5mJ3CL6kfOXOaDrnnNy/Me/GDAPIbbJ2Wno5OnJ/2X59JoziyW/Cn3MA1i
-	rGfY+6Vg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNwGe-0000000HXav-43SO;
-	Mon, 02 Nov 2026 17:56:25 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] Docs: mmap_prepare: don't italicize structs
-Date: Mon,  2 Nov 2026 09:56:19 -0800
-Message-ID: <20261102175619.2274135-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Yz+0BgX0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2641F01578;
+	Mon,  2 Nov 2026 17:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793642192;
+	bh=wrXGlUr7f7OVMQEZ1c1YC3FtYl19CS404NXDobfyGFY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Yz+0BgX0f4wJhNXrFkBOp3GppRBPPtLLZwSQcuGHaZ0lpcFXOiaPlLnt9aXPbjbfM
+	 RAAeCRnYn7JEmx0JVA+kjBBnIP6nx79e1tVUscPQz2SyUUHnhVzWl3IHk7KRmOELAM
+	 tyYhCCPsagH1Bzt+e0jo8cFfe1lPAtDtKw7of7tE=
+Date: Mon, 2 Nov 2026 12:56:28 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: David Laight <david.laight.linux@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, 
+	Joe Perches <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, users@kernel.org, 
+	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
+	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102-affable-undetectable-beluga-eded3e@meerkat>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261102093206.50b6c9ad@pumpkin>
+ <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+ <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+ <87a4nrfgjm.fsf@trenco.lwn.net>
+ <20261102150535.6c5689f6@pumpkin>
+ <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,48 +66,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
 
-Using a single quote mark `struct xyz` causes the html output to be
-produced as italic. Omit the quote marks so that kernel-doc's automarkup
-can make the "struct xyz" bold monospace ("code" style") in the
-generated html.
+On Mon, Nov 02, 2026 at 05:24:51PM +0100, Geert Uytterhoeven wrote:
+> > I certainly scan it.
+> > It is also useful to have an archived local copy that can be searched.
+> 
+> Indeed. Sorry to say that, but Gmail web interface search is still
+> much more effective than lore web interface search.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
----
-v2: fix one more instance of unneeded single quotes
+Folks, I don't want this to turn into another thread of "me too" responses.
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>
-Cc: linux-mm@kvack.org
-Cc: linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
+Yes, I know that some people still use it for a number of legitimate reasons
+-- but these are few-and-far-between exceptions. I need this change because
+the current status quo is NOT TENABLE. *Everyone's* quality of life is
+affected because Gmail's throttling results in (looks) ~350,000 mails in the
+queue, most of them waiting for Google to graciously allow us to talk to them.
 
- Documentation/filesystems/mmap_prepare.rst |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+So, we either unsubscribe all gmail addresses from LKML and prevent them from
+resubscribing, or we do something less drastic and revert it to how it was
+supposed to work in the first place -- only patches without a dedicated list
+end up on LKML.
 
---- linux-next-20261030.orig/Documentation/filesystems/mmap_prepare.rst
-+++ linux-next-20261030/Documentation/filesystems/mmap_prepare.rst
-@@ -156,16 +156,16 @@ pointer. These are:
- * mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
-   physical address and over a specified length.
- 
--* mmap_action_map_kernel_pages() - Maps a specified array of `struct page`
-+* mmap_action_map_kernel_pages() - Maps a specified array of struct page
-   pointers in the VMA from a specific offset.
- 
--* mmap_action_map_kernel_pages_full() - Maps a specified array of `struct
--  page` pointers over the entire VMA. The caller must ensure there are
-+* mmap_action_map_kernel_pages_full() - Maps a specified array of struct
-+  page pointers over the entire VMA. The caller must ensure there are
-   sufficient entries in the page array to cover the entire range of the
-   described VMA.
- 
- * mmap_action_map_discontig_kernel_pages() - Maps a discontiguous range of
--  `struct page` pointers over the VMA. They must span from the start of the VMA,
-+  struct page pointers over the VMA. They must span from the start of the VMA,
-   but may terminate prior to the end (leaving the remainder unmapped).
- 
- **NOTE:** The ``action`` field should never normally be manipulated directly,
+-K
