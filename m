@@ -1,81 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793614652;
-	b=ZDREaC9Gfg/jitEChOEL76BLbd9a1cL0JUh6tICUrorWUhtvUc9o3Kuol1QKanYpiek0
-	 dU4iKBWlpiX6vS2vh9fHmeuf3oEV3rHKB5FDQXtagkpOarhka3CBS6RrQFDouPqjtHLgQ
-	 4EvApr5JGxg3MceXzxSZKrdf7ZxkA9larV2nfNbRS09nBY6mn31HIXeFuYp2GLVHh2HA4
-	 pT2I+sJuEW97aK5e2EJ9rFYaJ9s9Eff9kpcc58jFC/4JvTVOnBvO1rT6NmKcz8M7n2pgD
-	 8+7YK01fDmxkYXs/vrkRkIyZwS358vMeI7C/RJFnUKJU1b5Lp9XJiUB+/DbXc5zmOjg==
+	t=1793616746;
+	b=B8IYprReoxo1zWt6nZvm8Z3dDYDH8SAErJTlm7A6DyKDDSLPQmK7iigB64r7ul4ETHEF
+	 ZBpSmeF4BXAP2YPRgu7trBQs90FJqf6fkmbP08a2BWlga8JAi55+CFQOF61Jl8KdUWWOI
+	 YS9LcVgzj1BxaaAEdBTDYKeLniacRW/CdAYTWgUADi6Lji75RbKwRM/UWHW7fnWwVLWjZ
+	 KUmZL+2U005KEUI2d9aaxqdreWE5md2E5v3A41yTQjV01Axi3ytDyguGwdyVmKk4ZG3eP
+	 YQhfiIOtMYZRiUypGSPaLD6THFONudK9/Chk8o73aACZocNDv0lqYDMI0cKwzmgLc6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793614652;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=2F86aI5ohDf80izXsZxQxKJfZLJiR7e19DnwPOFk4m0=;
-	b=wfV55ne7KHAl/nXkK8gxflKrx14w4sFVkDrVHDrpupuqdJAUO7gQNd0N+Em8AsfPuu4w
-	 1LaYqIHcHxgCloIjpl6OGKqgb7hZdJATQGq6OHjCM86FqvxvSx5Yvc97aEHhIqe5uR4c1
-	 z/DyV/mjnQP7UUkfhKc/51P2y87W8L+JXwYj3/Fk+CWfMAtsvMtUZge4ens+sNDK425DR
-	 /wlyaYbwjSs+ibeLet7K3C+YXwhS9UriAu/r4Io1Dc6mtRuoW38MiU4VjwWbphq0vTAh9
-	 UZJ+MnrZDaVwac5NzbkibmO/RfpFtGVrewPkUpP1xfrGk3RntuUfSWqYqA2eWFkI2JA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793616746;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
+	b=MEjP9QFKslAOUOLO0qRP8pFqJsb4rPfEgCdjoM5hpdxHMrLPGVXGstaG92FRhYh2PTup
+	 7qacEFif9gdcqnIe2QovutDTfBH8bDzSyRvHaSIHD+2xX2DnpmBI4zXXbA7Lkr2T4l1GV
+	 VT3H5X0MT/honLaAMe+0g1fBT8YWvV2i8MJFICrIxBxxQEgL0z58CViGwzlCfFEfKC6X0
+	 L8+uj2XLj/C+lozG0xUYx60lWTDWKXZHTAzL/IeIfO963vdi63wixw9iFTUXz4oRUggN4
+	 KRPH52PjSwOwpSw5l/fImSmvRbVZSKBR8vDLC/W36sPN5apr67xB6UXp/KUq44ifENA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rkhhkqbN;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fdAlc8IC;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kQlGD44u;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805CF606A326;
-	Mon,  2 Nov 2026 10:17:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 805CF606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAF2606A327
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 10:52:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BAF2606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rkhhkqbN
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29EJDA1334104;
-	Mon, 2 Nov 2026 10:16:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=2F86aI
-	5ohDf80izXsZxQxKJfZLJiR7e19DnwPOFk4m0=; b=rkhhkqbNEthWur7HWcprqS
-	XgNkeUuFFXLOyNXsXY6qGMEHuDSfSYYLgBVy+0zQnSumfw92EdvK2SFpKCMUuWtW
-	SYBKGdKb0KWe2Ws4TKV0bVk4hd0C4MJ/bozlnC2Tn1z90o6Kj+vA1q2IqtR20RsL
-	+8D/c4fC13fdxDcfWx35sKppm/9Sw72gjuZud9kSuZwTUowie5M2cMj433st3hXj
-	mJMKZl2UpvBf81Uy/Q4RNImp7IIwk/lkjc961qy00ifsarszGNVY5iHwhW8/RkBi
-	Z6lrKPoc7elWrbZuy1FO8MtPc/ZosxuqdmbdEmvzRIYtHMCd+xzju2bKaGYOhaHw
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn6rcyxcj-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 10:16:36 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29YxVt730389;
-	Mon, 2 Nov 2026 10:16:35 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnu1vdcfj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 10:16:35 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A2AGVrm38011336
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 2 Nov 2026 10:16:31 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A8CA22007C;
-	Mon,  2 Nov 2026 10:16:31 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6FECC20077;
-	Mon,  2 Nov 2026 10:16:30 +0000 (GMT)
-Received: from [0.0.0.0] (unknown [9.111.80.131])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  2 Nov 2026 10:16:30 +0000 (GMT)
-Message-ID: <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
-Date: Mon, 2 Nov 2026 11:16:30 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fdAlc8IC;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kQlGD44u
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29AM7k1821123
+	for <linux-doc@vger.kernel.org>; Mon, 2 Nov 2026 10:52:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=; b=fdAlc8ICM5cJKU24
+	MEyeQiZ+Ko0T6Euviv1nufX/eAZJCEpNNXX6/iPFBHQp2YeaBdyo0wDL9nxcdqEb
+	KiAPVbKSxlXjOTIYMqA7M8ipYH6KsN+mAFINrBJ5DnUJYM3fJNgBd1iIaY1AsIvh
+	w8X3mSVK0wI93WCwx2SSIBV5TyFioLSzce6Mm630ql6KoplC0ugiZSHPOVe0LL/e
+	gFuEss3KDTEMziSmQELQ8ngrTDPlpjGz38N8FDCCSgepsjdGmqlUGP62KW2DxKVh
+	5KJLw2DbOwc8P5JU4iqpKCfkhIB67ttFbvE/XQr2ijYTF3KINVmn/ogcIarmmFpg
+	aLcq4g==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpky4ha2j-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 10:52:24 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3aed1b64104so431388a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 02:52:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793616744; x=1794221544; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
+        b=kQlGD44uZmeJQcp+eNg5t3k6wqC4gOjuSVp5gY3CenSneoS/bWuSPTdbQoIL12kCtQ
+         yrIYvjCbjkO6o4m9eNyAIuM40rfL8gyNV0MHfuv7Cik0mqaIMFAn19u46gIaAPT6Bqnl
+         zhGUXy7g2u+r0WPbhuYi90hRs3L916bA+XqAxQLus82EHpu2G+CHnUHT2Abmmglvbwqu
+         ThKK0vfRdXeiOD8WGc2pu8ooMKzSYHCJUHQxNWp6bzsndB0U6hIvqNJclbX3KSphcSMa
+         TbwPoBAhiRadZ0mc80NYWfWZC9IcqbcITQHcYEeWSK4iVOvzB5zyquBcBGssIUVTChP9
+         meDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793616744; x=1794221544;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
+        b=O2drf0wDLNPZfjFw3owPH27NT+dm+ZmVqXy6084cA/vQHXSyWdLvBiJ9Emo4UStV60
+         O7PjIJQA0T6F5TE9gWQjSONRQXLBadIZwRdqyMSwmm14ndwD9wZg0g3N2vWvRYkCDi7t
+         yuCuvBHRpSkRN74WN23L2oxNL0EfzVDAlBf0oDe3PdEWNW6xfIu5jaE4kYTBoAffjio2
+         /s42bk+qOXYqo07f6dcDH8rcub40utc03pHdvCn2mx1WvQUQYmxEJLFwxFiiivRE6H5B
+         +lVQfh97ZGL6eTLnJ7iC7+MrVAaPxmP7Uh6LbT9YuoCcltuF3GWyskc0e7d+Mqcmac3f
+         KJEg==
+X-Forwarded-Encrypted: i=1; AKwUvBxsqJjJ+iiN04HDXt+hpa/IxXzZNny27EWsWtVS8T1QpqqS73tjmYG7nxg8Pt5Hreou4sNiO0zADoI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z83MKaUcj114889F2yfKdne52s6/wcCoN74mygWal/0XU1rzwf2
+	+LJ4b8yPvnN7JU5qLbV36seLPaZ+Ro74Qi/yJoOcovqp7BZhc3GyfaSHdB+WD89x843FL7LXnwk
+	8UfG5FsJ8wOes5XhBKgp3Ldr1iGSNEyigo1zlZdBVVJOeriN3D7tW7LfvzrA2XKk=
+X-Gm-Gg: AYBFou0Fs1NMndrnFuifY0xJjeGAwiC8+8jUXTN3WODDj3Jdbe1Sjf4G/bbpkTOZbnW
+	1CckNdzJV/FBBFzi2yDhL49bhQeBMj4Sc/YYjx3btGwMsTGsSEV3vMhTNC2+Ju5E82SRX6T0bHF
+	4x3tJMJerfZn3uVbgzsKMw2V8deKO2MQ506oI/qRzE+opCF3K1rKVH8sYZKLdpwGu+gSdPAgeFd
+	AyjrZjPR3pRvDUZcxiEKHuPWHc0g6VC9YkcrcvdWgvN974FcQY8e944KuC3Ii51qJQ+q0eelY+9
+	w/spr7VFZyWsLiy9gbIlu2ZtvRaKZNIUforW+6cs6XRH85LpyZwQPdaasJkenFg7FBzYASLcTnO
+	P7sSnhuT04hxYJvhILUG4Q7hNa46TN5DMh2PHffxBkTuvB74/cIYWrSQ8rhj7/yicfi1zugvX5v
+	1H4Q==
+X-Received: by 2002:a17:90b:5623:b0:3aa:6b5d:a018 with SMTP id 98e67ed59e1d1-3ae89866277mr8172366a91.67.1793616743900;
+        Mon, 02 Nov 2026 02:52:23 -0800 (PST)
+X-Received: by 2002:a17:90b:5623:b0:3aa:6b5d:a018 with SMTP id 98e67ed59e1d1-3ae89866277mr8172345a91.67.1793616743488;
+        Mon, 02 Nov 2026 02:52:23 -0800 (PST)
+Received: from [10.219.57.104] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3aebc8942e0sm4951335a91.7.2026.11.02.02.52.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 02:52:22 -0800 (PST)
+Message-ID: <c8375e63-e358-469f-9e9e-8a174137f914@oss.qualcomm.com>
+Date: Mon, 2 Nov 2026 16:22:11 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,110 +117,115 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
- Kconfig.preempt
-To: Yury Norov <ynorov@nvidia.com>, Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki"
- <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+Subject: Re: [PATCH v4 00/25] accel/qda: Qualcomm DSP Accelerator driver
+To: Krzysztof Kozlowski <krzk@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
-        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <20261101192203.6979-2-ynorov@nvidia.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Srinivas Kandagatla
+ <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Philipp Stanner <phasta@kernel.org>, dmitry.baryshkov@oss.qualcomm.com,
+        andersson@kernel.org, rob.clark@oss.qualcomm.com, jgg@ziepe.ca
+Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
+        sandheep@qti.qualcomm.com, Bharath Kumar <bkumar@qti.qualcomm.com>,
+        Chenna Kesava Raju <chennak@qti.qualcomm.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        Ekansh Gupta <ekangupt@qti.qualcomm.com>
+References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
+ <a97fb0b0-e4e1-4b25-a5ac-60777941c574@kernel.org>
+ <26ca5c66-a2ff-4aaf-9c9d-724ac66480eb@oss.qualcomm.com>
+ <da2b5192-a081-4469-92f4-2ecfcf502e4a@kernel.org>
 Content-Language: en-US
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-In-Reply-To: <20261101192203.6979-2-ynorov@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <da2b5192-a081-4469-92f4-2ecfcf502e4a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: KIKmBXBbZxQ0AgfSqcziIZ-8sh-ULZ7d
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MCBTYWx0ZWRfX4b8mYsBsQI90
- Cds463mvoN7ipqKAPcMhRG9cv2cmJH7imu+pBNAKUzYHZ0l4QRzT6OtWfocplphprbRPPcKUhK/
- ewKqcPIRH7GGJrL7xKQ6XpJdqzz6TgjaSI2ivY9JJSH24KlUEbBGsMe1i/6f5ENqM879+1V5uPD
- sHhZ4aVMl3Pdx2HGeXnZi+d6SkpJ3e8JhVA1w8B3k3EXRQ2QR0Jqk7PjHrb+DTMkBbYibeR51hS
- VrEvAoc0qhDJfiKUG9iErQN23vYv4ulZFh2ZkIAD9qD868BkZG/JdGutezE7uDx0M6feE3lY0/p
- Q2/IrS40JQRVOvH/Tbt71zjIvhJ3L1/wcVe/5WSEHuFXw3yIITyGLzWEciPGhWv2r/PFqggQO8V
- KN7P2Zs3c+rVLq4CD8Uif+/PadLgHrZW2Z3Tv4UTrGYCQKnjwQ1MUZYQwaukbcXEphkvBg4eSxc
- fMN9UME+CtgYLDm7V1g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MCBTYWx0ZWRfX+121CA8UooYf
- y/fpWTXMJ/RyZzfqKMtOEDj2zgmYMzNR35/LU/M2zk1es7XQ8dDO6azVrWHx5Jiyb/KXWV8XJxR
- TWAIxg88JFalGqTloUcrvtjAqcF7tLw=
-X-Authority-Analysis: v=2.4 cv=QK391QLL c=1 sm=1 tr=0 ts=6ae86305 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=Ikd4Dj_1AAAA:8 a=Oo2n8jX_zgt0tV1EdkUA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: BeEFtssz9nEvVgG4jeq4H4_xQzJd-ycM
+X-Proofpoint-ORIG-GUID: 5qRX-4t1AsVVEZa9HDBiWwGJoL5fZ2_c
+X-Proofpoint-GUID: 5qRX-4t1AsVVEZa9HDBiWwGJoL5fZ2_c
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX/9TtjC3uh5iH
+ fwfjGJmymB1wdbmqgJf3giXmoXpGblL2NbE65W8bYTCEssiw1H15zrD8qarud+NWvmSdZsEMjOg
+ oBCuhbJwtaeT+07lJMaaDgjvwiwgPbs=
+X-Authority-Analysis: v=2.4 cv=QoHLTlyd c=1 sm=1 tr=0 ts=6ae86b68 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=oPeKDEZYKiJIZNr3YAsA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX6uGRIsI3QgwP
+ wG9lGalTFZs/5nHCIW9rOpxruobARk9Asp3h+FWqwDJUlboBgYjkWqCKeehwdSICnprD0B120Mx
+ qC1f8AQLAeX5beto7ZxMZkYVGBU376uG2MVlucz+qbeeKc35gVw71+wJwhEVA4ElGaJQ3F4lBjm
+ TdiJm3cuEeFSzUTtob0PNtt7SZ4dadhgvaepprVN3xOf9jCMxOVVAThSSbb6o4o9ZZtIh9CK7iV
+ /TyFAhZQzjB+y0pjxCcFBsIsgiZvL4JaqCTUs8N5OM7SdQzY+NdCksS8T996oF/w6ohTYUclW8f
+ SJGvEWtau/dj70Op/2+4p0f8GS+bwQhccFfqvP+EOGlOvpFEd3i2nV3wgJJVxniloRRv7oM38wh
+ vk9OnQtLDtbr18GTu1dD98oY5SSQSvK6n6FpU8srQVy4MZk/Pu/3sGBXfn8wjHZeuKhesWJ6eov
+ +9JzyVltIs1G1M99CHQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 adultscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611020040
+ malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020043
 
-
-
-On 11/1/26 20:21, Yury Norov wrote:
-> The IBM s390 doesn't enable PARAVIRT config for their hardware
-> virtualized Logical Partitions (LPAR). However, the steal time is
-> accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
-> is enabled.
+On 02-11-2026 15:42, Krzysztof Kozlowski wrote:
+> On 02/11/2026 11:08, Ekansh Gupta wrote:
+>> On 02-11-2026 14:23, Krzysztof Kozlowski wrote:
+>>> On 01/11/2026 23:21, Ekansh Gupta wrote:
+>>>>  drivers/accel/qda/qda_soc.c            |   66 ++
+>>>>  drivers/accel/qda/qda_soc.h            |   61 ++
+>>>>  drivers/misc/Kconfig                   |    1 +
+>>>>  include/uapi/drm/qda_accel.h           |  282 +++++++
+>>>>  33 files changed, 5877 insertions(+), 1 deletion(-)
+>>>> ---
+>>>> base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
+>>>> change-id: 20261102-v4-e8feb321263f
+>>>
+>>> What is happening here? How are we supposed to work with this?
+>>>
+>>> v1: 20260223-qda-firstpost-4ab05249e2cc
+>>> v2: 20260519-qda-series-78c2bf0ed78b
+>>> v2 again: 20260817-qda-v2-78e2d1f10529
+>>>
+>>> And now completely different one?
+>>>
+>>> This makes the change id completely unusable. b4 diff obviously does not
+>>> work. Any tracking of this does not work.
+>>>
+>>> NAK, really, I already complained internally months ago about such
+>>> practice, so apparently not enough.
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>
+>> Sorry about this. I lost the original b4 branch and re-enrolled the
 > 
-> Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
-> and requires it to minimize the configuration space and runtime overhead,
-> with the lack of non-paravirt user. Now that s390 wants to adopt preferred
-> cpumask, there's no reason to keep it coupled to paravirt.
+> You lost original branch four times. It's not a coincidence, it's not
+> random data loss because then after first loss you would solve the
+> problem. It's a broken workflow.
 > 
-> Make PREFERRED_CPU a user-configurable option, even if paravirtualization
-> is not enabled, and drop PARAVIRT dependency on the steal governor.
 > 
-> Keep the default module selection conditional on PARAVIRT so other SMP
-> configurations can opt in without enabling the governor by default.
-> 
-> Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
-> CC: Mete Durlu <meted@linux.ibm.com>
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
-> ---
-> Can be applied independently from the rest of the series.
-> 
->   drivers/virt/Kconfig   |  8 ++++++--
->   kernel/Kconfig.preempt | 12 ++++++++++--
->   2 files changed, 16 insertions(+), 4 deletions(-)
+> Best regards,
+> Krzysztof
 
-This is really useful to us, since even though s390 is nominally
-paravirtualized, it does not technically benefit from defining
-CONFIG_PARAVIRT. Specifically, steal time accounting happens by
-computing a difference between wall time and CPU time, and not by
-explicitly querying the hypervisor.
+You are right, and I'm not going to call it data loss again. I started
+each posting from a new tree and re-enrolled the series every time,
+which is what produced a new change-id for every revision. I've changed
+how I work so this cannot happen again:
+- one long-lived tree and one b4 branch for this series, used for all
+future revisions;
+- before every b4 send, a check that the change-id is still
+20260817-qda-v2-78e2d1f10529.
 
-Thanks!
-
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
-
-[...]
-
+v5 will continue from that change-id, with the v3 and v4 postings
+recorded in its history.
