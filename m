@@ -1,47 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793603816;
-	b=YqOA+wAWyzpH5h1YaxtISIXEZcivCSLeq7YOygmZKmHK+c+Y+PYCEhbyqyNb3XXCbXtZ
-	 AEpTG7TID+EpBBLmV7AdBkpAokwfTWdk0RJnP8IqMgpBzvypk4newVEaVMxWUQfEVRZcX
-	 xpXcSAU4wfP7qKAwZZSi/PsogdAOMyIiL6m7FwetPjpagb35zS5tqfJ4Co+jneFIKY+ME
-	 VJ4WKFmWWgBZFdc2TlYp7wTYVB0a53q4yCZem4SOUrwkpHlUxH3akeh2thF3eHiOPH6bW
-	 g+rFkPSZxMxviEgS1LTZJ/v9omZouD+UydxCfYBqLJ8zjkSMZ1r7BOuM1oxksXosqVA==
+	t=1793604781;
+	b=tzRuyrMOBpGD1EIoXOI+ej3EFBaYTlt1kGziqng2uVX3aK6/Rw2Vmxih+VM0XhZX3Ret
+	 umbMzpay8D5M/VghSgurnQjgecWulT4nND1sjh887eaWOZM8F7oLVaOm5GYl/fcT+ve5S
+	 pTBZAfejL4Z6qozrFYIXmk3DcS0VfhvmEWri/5DdSqVaQU2plbCYPUGJzbnbHaAe3cCeB
+	 uUFuwi+Kplu9pWCqj25juKXmOAJEGLYyNj5DVkGmczE9wbXKATwgPJY4FKR8S5Ehbp+ay
+	 RJLG8W4hOQdwaNT9PXJN5AJJWeU0bUCg2I8NnLVf6oG/vMNDvosUPeWSv/ZyCoo/gwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793603816;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=IRRSzlFERtC04EgY/YgoUh8ILIPmo4NEPdC+84g3mHo=;
-	b=jXtLuz4/K8PVPCHRoSd6jYNSoXEpcwD5aUylI0OuyF5mfUrJZNd5aESUJ5qHmy6hUfPU
-	 HJl5jpGWfc6QCBcTXA8/+UByhaOmgZXVv7/gGUdPiAwIeaVon3CinumKdugYZCIZ/bfa4
-	 C3KzBrJrsa8Z88D7Fsj+tiXGv1SShAJxm5bnjBGufhhGIhOZnRxFyNHlXsBYhjMIBVGF1
-	 njNMHrEAWdv44vdQd3I+1dG0qmBOjdjUj4G7YlpXeYK363rqp7ksh3iRZMroCXknJ9Jot
-	 aPXnL9J3tH2hZPZ8s5HRtY4n7SWeJpAQ9fXQBMzARAsXNcpF18QSkfqsVCohU6vjnew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793604781;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=yjKLHHzS10n4wGDXarJMvF0fOdP5JcGYaK0RuRwho0s=;
+	b=g4XaGdF8552gxNRIAuK0VVEQOPOZvPz3FCSobUi5CgM1x968gWshHDo1j45WvAzH69Wa
+	 G5MGwDDbLYoQLMqCqcbMqw63prwud5Uh5zFBSHLI+Y6aamC/Wq6+jhrneSXBi04Gik3pP
+	 D7TaBtEJeSxZ24H26aZAS3LvZQDha7a2fTocAiz4r3eTcSuHkqoJNWb6EsHWw/rSnAaSo
+	 YX4jiziveONSFipXLpvOlah+fkdSNGQUk3c0PoTEvbwO5ptRzwVPh/erYXLrkUlMwY4me
+	 7su1Dr9eytfaJ03tr3DPfaRDt7ad9lbAHv7FqMeLseq3F/vRy7Tw8aJ1hCadXUq+WfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3zt+J9v;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JyBHoWUA;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3F3606A326;
-	Mon,  2 Nov 2026 07:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC82606A326;
+	Mon,  2 Nov 2026 07:33:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BC82606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U3zt+J9v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874831F000C1;
-	Mon,  2 Nov 2026 07:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793603815;
-	bh=IRRSzlFERtC04EgY/YgoUh8ILIPmo4NEPdC+84g3mHo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=U3zt+J9v0y+R4Fy5ABH5505GeWQElaRf2eRkhJAs9ZH6/a9kmYRSKFBoxFZLiLTPm
-	 z8PUM2O+mk31AMYY9KB+bIH9MMNpOz3rPR76nQsNrUEiEkP0yJUZHyvqeaUz6aMv6q
-	 BubFzWy1M9rL1ike8WQUmkt4/e8BGJs+6h4DUNrsg7UwhJNRLsikC7LQGj4KRZ3b63
-	 FhOFw4XOT+baeJ87ze3OIamHOlYVRFbgqSF7vARYdgauP3phfMkoNTvn30g4+oIB9B
-	 +hTyRaGIJ4Prk+pL2tvqAf64J4s+/aMnr0xPuRAqiWbQu7qgzPenrICUIBIs4O4Zwn
-	 Va3PPB74BtEpg==
-Message-ID: <8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
-Date: Mon, 2 Nov 2026 08:16:47 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JyBHoWUA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793604781; x=1825140781;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=kCW91QP6kziHBH5nmJbj/L70gH2j0FXLHyWiHf3tiRQ=;
+  b=JyBHoWUAzChv0NkKTa/hyIf+JC9LRVRcCRSiBnNOgru/MSQAGIJj5XMA
+   gdwBDq/Ve4d0sFgg6FwO7LL6LCYPqDV7asDL5LNLcRBf2SkcRAUJwYt2X
+   M9rJMmNaewd1IDOK2mM5Xt3uKFnrtmoaqnv/9qaqy+LBtihiOfUA8dUyN
+   ekxroAOSyHD+DmWAb1gHL7Cpj4/Gk/qN89FNG18gLMjv494OUVP+mvkL2
+   yrtC/H28Fj6Fxt//9wHNntZVtrj44cjl1pTJFA39DReExH2UMHb2h3y8w
+   XNlEZncABipAj/iatYTzyNpgR6ECpZTjt4pIYYg+1lLJ33DqV/NKZmDJi
+   A==;
+X-CSE-ConnectionGUID: Okj9089pRtusxwyj3vpnlA==
+X-CSE-MsgGUID: Uw9imQ2LTamzyQSdlEPkMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2174758"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2174758"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 23:33:00 -0800
+X-CSE-ConnectionGUID: 4RPUP8gfTXyAuUQuVakVWg==
+X-CSE-MsgGUID: /Tc03w7gTjWtUuHOZbVydQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="6368915"
+Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 23:32:54 -0800
+Message-ID: <14447223-008f-49e1-824b-9f6e8a4aa0c1@linux.intel.com>
+Date: Mon, 2 Nov 2026 15:32:50 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,92 +73,80 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile
- for KVM/arm64
-To: Matthias Goergens <matthias.goergens@gmail.com>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
- Steffen Eiden <seiden@linux.ibm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, kvmarm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v10 19/28] KVM: x86: Advertise support for FRED
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-20-sohil.mehta@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261030083351.3040604-1-matthias.goergens@gmail.com>
+In-Reply-To: <20260911213659.2025974-20-sohil.mehta@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/10/2026 09:33, Matthias Goergens wrote:
+On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+> From: "Xin Li (Intel)" <xin@zytor.com>
+> 
+> Advertise support for FRED to userspace after changes required to enable
+> FRED in a KVM guest are in place.
+> 
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+> Reviewed-by: Chao Gao <chao.gao@intel.com>
+
+The code change itself looks good to me.
+But this patch should be moved after patch 25.
+
+X86_CR4_FRED is added to nested.msrs.cr4_fixed1 in patch 25, before that
+if the L1 guest enables FRED, it will break the nested case when do VMXON,
+which checks nested_host_cr4_valid() and it will fail during the bisect
+window before patch 25.
+
+> ---
+> v10:
+>  - kvm_cpu_cap_clear(X86_FEATURE_FRED) in svm_set_cpu_caps() (Chao).
+> ---
+>  arch/x86/kvm/cpuid.c   | 1 +
+>  arch/x86/kvm/svm/svm.c | 3 +++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index ddb022cb203a..5682bacdfd32 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -1034,6 +1034,7 @@ void kvm_initialize_cpu_caps(void)
+>  		F(FSRS),
+>  		F(FSRC),
+>  		F(WRMSRNS),
+> +		X86_64_F(FRED),
+>  		X86_64_F(LKGS),
+>  		F(AMX_FP16),
+>  		F(AVX_IFMA),
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index f254a5ff570d..dd19c7b4e904 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -5518,6 +5518,9 @@ static __init void svm_set_cpu_caps(void)
+>  
+>  	kvm_cpu_cap_clear(X86_FEATURE_IBT);
+>  
+> +	/* SVM FRED virtualization not implemented yet */
+> +	kvm_cpu_cap_clear(X86_FEATURE_FRED);
 > +
-> +If your series depends on something else that is not yet in mainline, such as
-> +another series under review, say so in the cover letter and name exactly what
-> +it applies on top of.
-> +
-> +Use ``git format-patch --base`` so that the base commit is recorded in the
-> +patches.
+>  	/* CPUID 0x80000001 and 0x8000000A (SVM features) */
+>  	if (nested) {
+>  		kvm_cpu_cap_set(X86_FEATURE_SVM);
 
-You should rather encourage usage of b4, which does above for you.
-
-...
-
-> +
-> +Security issues
-> +---------------
-> +
-> +Bugs that let a guest attack its host, or a nested guest attack its guest
-> +hypervisor, should be reported as described in
-> +Documentation/process/security-bugs.rst.
-
-Do we need to repeat standard stuff in every maintainer profile? Above
-is quite obvious, so maybe skip it which would make the document shorter
-increasing the chances anyone will read it.
-
-Best regards,
-Krzysztof
