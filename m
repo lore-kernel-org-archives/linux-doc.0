@@ -1,55 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.123
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793583107;
-	b=fUE7mdcr+aiHI9s481BX3D1GXgOPiBR7qDByyvc0qRu1MWDyctr3F8hWIA8j3LDUCBhR
-	 bECxgzYMB8+jl0Z8EnYYWQx6bjVcwv/bVfTWrSfRKvLC2Q7DtwhF/TjiBnthM9qpaXk+D
-	 FXdBpr4x0u7Pox0eBuArJvezFElIik5eJ4pZ4WY7bxPLUKLGFLEnpxWy/XSplwu5fjs1x
-	 rnbm7g92r2cmBP2PBX5Pzedk4RMbyp1KzIgt8/tmyZiGH6Fw28dTmqEtkZ8cK9h+qoKet
-	 Zvq9Bh7tLC+Tgku4kc2sLtMCooKCvtIfyRpZkm28658wMza/+WnhJNAswE2rS85wlTw==
+	t=1793584574;
+	b=J4nO0LlvSL+W8G42iRAV8zLLCQCFcMll7jxbDyQ8ER/eHA5ENzjNUkJOHs+u23uldk0W
+	 2iLTF7G8KTADk8MFir4QCIzhPJWnXRxRnvETVMzzxZYMTfIdqLoUzKyrRNdF7U/Rd518r
+	 OvWR34TL1244/UmUGZyubIkSNiKCa6Wl+UJeICSe5hOIBsGE57RwPlGAMwg2UmtbysFfu
+	 nU2omtMqXXUsyE5/NVoQi7o4+k3FTjzKeBj0rmLTlLoP671GdSfCi7fLiicu8+1DdWmjz
+	 1TKQmDs1H4kr2WpeOIAf7KL9o/aqXzwb6YNwJygodPLrnb3eBQ5pVIZXtIRedb5QC0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793583107;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793584574;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=L1qln637r4iaxhU6X2qqgXPNtSD5t9x/HzmOPAimvzw=;
-	b=MDUDaFlbkwA4tqSTt6uyuw3n60om9hYk0LM863cBwse1lTeblSD6ORiPmm+UZ4K4oA5m
-	 kYFsxDSfP7VPUcZSrzdzDPjq1NlXqojgoYyc1Cmq2sHt16/PflLa25aKJ/XjjFibt6AOU
-	 i2nZbLeSLGXy7birhjcyfixHaxwNxIno1sPJx+UbraS1QfliRZCGidLn5ZRG2CZqTySuq
-	 urf4fLec3y/V3FCEc78W3BDJLddpaalUEFfH8OWTUACDxYhpk6v2IuKITmMA/FSI8ChLx
-	 cz7N0iwNg8qiitlC9bwVrePnpWcrGcg5C4pLnanVMeDWg3ffHKzEvm3FIlY/CxKUzug==
+	bh=hPEzD1WQWoI6DLgJc3nFH78eRCH06B+HG0fOl1fLX4c=;
+	b=bXV20bsYWWLyi/BC0td1s5fYHQbXk56IaFaFfrhV/Iq4A5ztab5OPMFrFLb7ZLr3qx45
+	 vsISqnkYvINgKHiMr+mxGah+6inoIMBVri+RFPEIdHEyiNjU2NhF+2PQj0p3SBt6t6/jr
+	 ofqlCX2Tz734jRBxJ7HTd5KlPhPUWQptZlF2zlCSF4Fdpu/BjZsvPQ2hCgfwalrzbrIt/
+	 KTY4xb3xilAIt65yty92NpEqM+M56Fx8gNx1HX1S8GkbuLfbu05M1dYguvNdXyOlgGimb
+	 dmDdK2MHUlhrG+ozFvh5j1Wfqta7WJU/TrN2bjzUpdqCkgDH77sT5f9u45R/cDn/9Vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KVXFclE1;
-	arc=none smtp.remote-ip=95.215.58.165
-Received: from mta1.migadu.com (out-165.mta1.migadu.com [95.215.58.165])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hn2rxo2K;
+	arc=none smtp.remote-ip=95.215.58.123
+Received: from mta1.migadu.com (out-123.mta1.migadu.com [95.215.58.123])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C50606A327
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 01:31:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05C50606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42076606A327
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 01:56:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42076606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KVXFclE1
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hn2rxo2K
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=p/3iXpZzk7ktrVPH1x7dECGM4TyYW5DHZyEDipf4J6M=;
+DKIM-Signature: a=rsa-sha256; bh=n3WZoTD06QO8DsgnhDFWT7ENJHabABG8avIZs4EqSgM=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793583105; v=1; x=1794187905;
- b=KVXFclE1Z7CTQ/NTKVZrjdsDLbu9qZLu7NmzKY9yBSMHXV5T0GIYhLxfcUgLAkhJTkeWWuX2
- HVjPKgsRUeggtpBT7umyFO0I+3Xa8joYzo+WWg10+oIqr5qTSjQpD7FNQDXVgsmiu+WayUjOyW/
- Qncq0lHgHeFvFtrKH4uG9Rys=
+ t=1793584571; v=1; x=1794189371;
+ b=hn2rxo2Kp3RPsFUeD5iMp+yYiNkD9BkO8dPlckuu9ygmt5q8l1cXVMVU8N3BkLMc2AdWBfRN
+ gAb+aCNZzDwjD3+4F5iPSSo551rEMYDktlVT6ye0WJKYSTilNMHSWhCfBKlpncIUTQWscDGWwAB
+ JxhSdSik670VSwjfK+HCmneM=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 3bb2a1c69930a0d5;
-	Mon, 02 Nov 2026 01:31:45 +0000
-X-Mizu-Trace-ID: 3bb2a1c69930a0d5
+Received: by mta10.migadu.com with ESMTPS id d5ce155f172fdd98;
+	Mon, 02 Nov 2026 01:56:09 +0000
+X-Mizu-Trace-ID: d5ce155f172fdd98
 X-Migadu-Flow: FLOW_OUT
-Date: Mon, 2 Nov 2026 09:31:30 +0800
+Date: Mon, 2 Nov 2026 09:55:55 +0800
 From: Hangbin Liu <hangbin.liu@linux.dev>
 To: Jiayuan Chen <jiayuan.chen@linux.dev>
 Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
+	Joel Granados <joel.granados@kernel.org>,
 	Fernando Fernandez Mancera <fmancera@suse.de>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@kernel.org>,
@@ -58,14 +59,12 @@ Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
 	Kuniyuki Iwashima <kuniyu@google.com>,
 	Maoyi Xie <maoyi.xie@ntu.edu.sg>,
-	Gerd Rausch <gerd.rausch@oracle.com>,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>,
 	Oleg Nesterov <oleg@redhat.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
+	Neal Cardwell <ncardwell@google.com>,
 	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
 	Yung Chih Su <yuuchihsu@gmail.com>,
 	Wyatt Feng <bronzed_45_vested@icloud.com>,
@@ -74,10 +73,11 @@ Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
 	"Paul E. McKenney" <paulmck@kernel.org>,
 	Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3 3/5] ipv6: restrict mld_qrv to 255
-Message-ID: <aufn8jMjBc51dKXO@fedora>
+Subject: Re: [PATCH net v3 5/5] net: restrict message_cost and message_burst
+ to non-negative values
+Message-ID: <auftqzpuuNFiScrb@fedora>
 References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
- <20261101061331.286404-4-jiayuan.chen@linux.dev>
+ <20261101061331.286404-6-jiayuan.chen@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,101 +89,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101061331.286404-4-jiayuan.chen@linux.dev>
+In-Reply-To: <20261101061331.286404-6-jiayuan.chen@linux.dev>
 
-On Sun, Nov 01, 2026 at 02:12:01PM +0800, Jiayuan Chen wrote:
-> net.ipv6.mld_qrv only has a lower bound, but ipv6_mc_reset() stores it
-> into the u8 inet6_dev::mc_qrv, so 256 wraps to 0 and the first MLDv2
-> Query received on the interface trips the WARN_ON() in mld_update_qrv():
+Hi Jiayuan,
+On Sun, Nov 01, 2026 at 02:12:03PM +0800, Jiayuan Chen wrote:
+> net.core.message_cost and net.core.message_burst feed the interval and
+> burst of net_ratelimit_state, but neither rejects negative values:
+> message_burst uses plain proc_dointvec, and message_cost uses
+> proc_dointvec_jiffies, which happily stores -1 second as -HZ jiffies.
 > 
-> 	WARN_ON(idev->mc_qrv == 0);
+> Since commit a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are
+> negative"), ___ratelimit() splats on such values, so the next
+> net_ratelimit() caller warns, e.g. a martian source log:
 > 
->   WARNING: net/ipv6/mcast.c:1327 at mld_query_work+0x1fd2/0x2cb0, CPU#3: kworker/3:1/2688
->   Workqueue: mld mld_query_work
->   RIP: 0010:mld_query_work+0x1fd2/0x2cb0
+>   Negative interval (-250) or burst (10): Uninitialized ratelimit_state structure?
+>   WARNING: lib/ratelimit.c:43 at ___ratelimit+0x56e/0x960, CPU#1: ping/3218
+>   RIP: 0010:___ratelimit+0x578/0x960
 >   Call Trace:
->    <TASK>
->    process_one_work+0x93a/0x1b20
->    worker_thread+0x6d0/0x11d0
->    kthread+0x358/0x470
->    ret_from_fork+0x5b3/0x820
->    ret_from_fork_asm+0x1a/0x30
->    </TASK>
+>    <IRQ>
+>    net_ratelimit+0x1c/0x30
+>    ip_handle_martian_source+0x1bb/0x340
+>    ip_route_input_slow+0x1057/0x3650
+>    ip_route_input_noref+0x104/0x260
+>    arp_process+0x109b/0x2510
+>    arp_rcv+0x381/0x460
+>    __netif_receive_skb_one_core+0x173/0x1c0
+>    __netif_receive_skb+0x21/0x150
+>    process_backlog+0x37e/0x1200
+>    __napi_poll.constprop.0+0xa5/0x5e0
+>    net_rx_action+0x4c0/0xf70
+>    handle_softirqs+0x204/0x9b0
+>    __do_softirq+0x10/0x18
+>    do_softirq.part.0+0x49/0xd0
+>    </IRQ>
 > 
-> Make the sysctl a u8 like mc_qrv and switch to proc_dou8vec_minmax(),
-> which rejects anything above 255, and document it.
-> 
-> Fixes: 2f711939d2ea ("ipv6: add sysctl_mld_qrv to configure query robustness variable")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-> ---
-> v2: switched to u8 and proc_dou8vec_minmax(), as suggested by Kuniyuki
-> Iwashima.
-> ---
->  Documentation/networking/ip-sysctl.rst | 2 ++
->  include/net/ipv6.h                     | 2 +-
->  net/ipv6/mcast.c                       | 2 +-
->  net/ipv6/sysctl_net_ipv6.c             | 4 ++--
->  4 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-> index 4b19c8d3efda7..71f334f27004e 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -2515,6 +2515,8 @@ mld_qrv - INTEGER
->  
->  	Minimum: 1 (as specified by RFC6636 4.5)
->  
-> +	Maximum: 255
-> +
->  max_dst_opts_number - INTEGER
->  	Maximum number of non-padding TLVs allowed in a Destination
->  	options extension header. If this value is less than zero
-> diff --git a/include/net/ipv6.h b/include/net/ipv6.h
-> index 3de07e738538f..4901a92066e61 100644
-> --- a/include/net/ipv6.h
-> +++ b/include/net/ipv6.h
-> @@ -205,7 +205,7 @@ struct sk_buff *ip6_frag_next(struct sk_buff *skb,
->  
->  /* sysctls */
->  extern int sysctl_mld_max_msf;
-> -extern int sysctl_mld_qrv;
-> +extern u8 sysctl_mld_qrv;
->  
->  #define _DEVINC(net, statname, mod, idev, field)			\
->  ({									\
-> diff --git a/net/ipv6/mcast.c b/net/ipv6/mcast.c
-> index ecef55f261890..13f31132e0f97 100644
-> --- a/net/ipv6/mcast.c
-> +++ b/net/ipv6/mcast.c
-> @@ -106,7 +106,7 @@ static int __ipv6_dev_mc_inc(struct net_device *dev,
->  #define IPV6_MLD_MAX_MSF	64
->  
->  int sysctl_mld_max_msf __read_mostly = IPV6_MLD_MAX_MSF;
-> -int sysctl_mld_qrv __read_mostly = MLD_QRV_DEFAULT;
-> +u8 sysctl_mld_qrv __read_mostly = MLD_QRV_DEFAULT;
->  
->  #define mc_assert_locked(idev)			\
->  	lockdep_assert_held(&(idev)->mc_lock)
-> diff --git a/net/ipv6/sysctl_net_ipv6.c b/net/ipv6/sysctl_net_ipv6.c
-> index 1a0a36dcdabc1..f3ac04dbc71d0 100644
-> --- a/net/ipv6/sysctl_net_ipv6.c
-> +++ b/net/ipv6/sysctl_net_ipv6.c
-> @@ -226,9 +226,9 @@ static struct ctl_table ipv6_rotable[] = {
->  	{
->  		.procname	= "mld_qrv",
->  		.data		= &sysctl_mld_qrv,
-> -		.maxlen		= sizeof(int),
-> +		.maxlen		= sizeof(u8),
->  		.mode		= 0644,
-> -		.proc_handler	= proc_dointvec_minmax,
-> +		.proc_handler	= proc_dou8vec_minmax,
->  		.extra1		= SYSCTL_ONE
->  	},
->  #ifdef CONFIG_NETLABEL
-> -- 
-> 2.43.0
-> 
+> Negative values never meant anything here: 0 already expresses both
+> "no limit" (interval) and "suppress everything" (burst).
 
-Reviewed-by: Hangbin Liu <liuhangbin@kylinos.cn>
+Will this limit breaks the UAPI on old kernels that supports negative values?
+
+As the comment in ___ratelimit() says:
+
+        /*
+         * Zero interval says never limit, otherwise, non-positive burst
+         * says always limit.
+         */
+
+If all others agree to set the limit in this patch. I think the comment
+and the WARN_ONCE() , and the admin-guide/sysctl/net.rst all need to be updated.
+
+Thanks
+Hangbin
