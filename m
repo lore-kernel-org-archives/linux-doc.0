@@ -1,99 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.56
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793649269;
-	b=R9AlLl6pk9izf9AiuPsD2D+Asf2dTQr7LMmb2x1By7c1URlPxFRn+5beqQUqCWBvjFHh
-	 /LnEtN9Hc6hcC7V4UpZcOh28G726b0iBxE4VwYxO7jsO2p0tsZx9tM648saL+p+dJHh6y
-	 X4vps3q5MImiWjNEk7wsYPoekxxY/RcpvQLe59xVAovSz2hLosjreXKwy1TdSWShVfD6e
-	 PlFhplouEMTrklerBW2TrLgpx1XpV40UiT/gH2jtrIyz2jyHGJyC0cRLJuhpqQJPYOn2a
-	 jBdRcr4IORxpZfzAs+tealMhPLca/xg+GU/xr7ArKKFg6QuxC4mkjNg8D5cJveu8L2Q==
+	t=1793650069;
+	b=TBR+9rotQE5ZKn+UAvxYQT1CACOnVGYIxSeUAhcVql3ZTzGzxOyZ9PC2mf4EtKDSLxh6
+	 7VqaLhupo6E/N4QjdhTG50W0R/QI7gmrVr7ZZHTKwJ/zn4RMXl1/8PHMBeUToaEwLkESo
+	 NJc6e+lNa0i5h8k5mC3QOnDcVdKbLq+oA1L5mg5eVLA/+vCabMmpf5Tsy/EX7gr9Bmftx
+	 jAo8tZ6VkVfRdYtn5czq4Td7K7Q8usfO9VOtQ2QQSlPTvmc85qFp5L1vweHTrl68Ghcue
+	 2eClUIQWt/1sF/4uA1dLm9nU059LJTWha+ngFLNRMEgGLtQ2YRoIfvYAT4QfhrsR+sg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793649269;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
-	b=jgM4xgaxLrgr5fdp1zuFrmIzam/sQBX+Y4uPftys7q0P/vPnSORdlLbWO6Mp+RXuLKse
-	 iSjomy578hNT5qn/EfHHjGB6azPuHINsdrSTWilaOOgk6ahxPuHH2nZOufQaCQ4txyq8F
-	 9N50Pi94F3RjWZArG7O7YpyM1KloFWaOksErZcyhJ482LpaZf3ytEaN88FFEiQybFBH3p
-	 o4c+iU791/4vQ7VL+fXWe06oDAH81XGeDE4dp345jo2kMdLWWWrR1RktaLc7j5sK9c5km
-	 B0VBLmckWeJ7jIA1jSvpPRVO34pQ3LVTFfgCul9SOmI0o4OyPTol9NCO5nYFjYVG0GA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793650069;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=2y2WavsP8svBBeJai9Uevzqpj1fQ7NNZDo+HgkQhGww=;
+	b=RH5TJK9TjJUumO1lEqZQaekBBaBlPyWnOPu5o4I3r98bR4SMOYzb8VYKmj8vtrSlhd8H
+	 GjWUbu1MDAYTG/8neK7mkUQOuNsJ/9vkH3oPTxWg8Tbu0VUeptGA8rmrjAdlIlxDomqAE
+	 RLhGwlWlNSCRhPIaUrWIY55RpSjMrQiwxwVXLpbShOz4su9kxHtfY2IcgBtuREYAhJjBy
+	 nQSlhixSDYcTS6irwJ0e84N9tTjKCMmPbmXyVR0dLZZWMEmG3KbTzGUD8CXNNvIBwRzWB
+	 ctcjuIHdMK5WEfbI9PrZ89wsaILtlcB4uq+u0eLCCoBIxDN7B1F34/Cd8z1VKuNrXWg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=5nCrjxMO;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.56
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012056.outbound.protection.outlook.com [40.93.195.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jk8TrkOl;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA5C606A335;
-	Mon,  2 Nov 2026 19:54:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDA5C606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0F5606A326
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 20:07:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF0F5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=5nCrjxMO
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vMInJtG9Jk0tF3/xIe/EwfcueBDKe3WF9O9p9JkvUqnG3xdQrnxX0r4roCpCQA3GUuL+2VnwLPYu9nMJgqkKV0GPWvYWjUW2kj0q5oyKK5+4cJYIDcGrJxO6YEwUvcH+OiiAUv8Byogzwl1UZ907muArwkliwAX6PuiS+rYvaOrqxcYALrstqIu5Ncz8XO/L6OU0CkhU5lOhzbZyrMSQaRMWtBc8eFJGgRSrLsZLrZh8Kopp4W7R7+H8dri4GAeFTlrhDSA0vOqdYWKoE2cv6s8Fsb4m4QEJVqAkjWjHsF/XKUG9qls3EMie+H5UCoHVP+NzrJl/bLOZ5WxzHr5seA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
- b=f/7aZDkPYIJjYAhJfCSaKXmrz1u/QXsYl4QEXvtkGnDRXaSjrkIBr+xQ92P0fQ0l02I8GvSH4NeILGxcuEhhHMEPvF2wiuxax6ngsUcqaxwuB7zkrK2SlNyYJO0ytlxpJt8ybEq07odnsqGaRqNTLf8m5gA835cWyu+u9Ar9g1VKumnBdmhG1kgMsjLCgyth42Gcb7Sjka+sq4eGBPLq4vr75oO5fdg+R+QloVnryNpEZrpziaDepTOZ3SQcc71pXLvgsDRLnAIQps6aZh7k9PfqBTdRIrMafCCdlwoSNoYxChW0qoeGpzIjcg7U+hzTrs6+ckN+fW3c1859ELIRPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
- b=5nCrjxMOXshumvrQjE2oBs69rRu88fjuAfmoB149xZMdCVAP6KqV//QNXcBGePpsCO8kdw6WHG96hTn9dxqQBVxsP7Dk/LCZVj9XxjQxxhHSOFdzPGRJD4GFZHXLVwB4IxoSpaz2cvDgwIynVdaJR/abViey1gbMSeXF9LwLUHE=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by IA1PR12MB7758.namprd12.prod.outlook.com (2603:10b6:208:421::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 19:54:18 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 19:54:18 +0000
-Message-ID: <4d7fed02-5ec9-49b9-bc52-83571fd368c7@amd.com>
-Date: Mon, 2 Nov 2026 13:54:14 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] x86,fs/resctrl: Keep mbm_assign_mode in default
- mode at boot
-To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
- bp@alien8.de
-Cc: x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, tglx@kernel.org,
- mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
- kas@kernel.org, rick.p.edgecombe@intel.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org
-References: <cover.1793392128.git.babu.moger@amd.com>
- <c1e5ef23e83ea663e9aa969e301fac20723a988a.1793392128.git.babu.moger@amd.com>
- <3ebc7028-c559-4add-800a-614b29d66ba3@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <3ebc7028-c559-4add-800a-614b29d66ba3@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0010.namprd03.prod.outlook.com
- (2603:10b6:610:b0::15) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jk8TrkOl
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b1b12de661so1785a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 12:07:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793650067; cv=none;
+        d=google.com; s=arc-20260327;
+        b=r1FW/OBag6gnUusz7IeT7ihmSGqfmoKeE7BIMyK7qpX4AcznS8ASvPESbrJMAs/KBl
+         KOZkPDeXDis1WZUsCXG6mXpRC3InezpuLGdLGb9AjI3z/24HfvCZYE3YVh6J7hAX+Vd4
+         +cu8rDlFgE4WLD0fbb+0252F0KMOeLJyV40HOa4lh7/+VHGZijD3Cdgeh64oaurn7HPp
+         wkKObGgrDnVMaB5z4sbLKRizonucaYGWfe2bYEeRINzqOilXowPnZPQwnvAbvkLeZe6h
+         nJXQiH0UG3Y7PiMZb3hXW6GgPTNnXS53NzWcIeB3I82H6Jn3X0FZ2BcpEhLcxUHcpN/O
+         wlIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2y2WavsP8svBBeJai9Uevzqpj1fQ7NNZDo+HgkQhGww=;
+        fh=IIihqrrVTsqBoFGPBpYvEEteQJF7TDbkl7F/4YhtwNc=;
+        b=ORSLStUGII4ZqeuHNPVhWkQKujc1UKBTETs37+SQVoDZigDhPD6c3jtBA5wZ1+EGg2
+         otaODUDZ3lifkBsvtV3sOf8YlR58JOtEVGlqFRih5XZt93AMjE7ERH4sgQG2K8wBm7v8
+         bUK9mN3N/KhnTsK+cma6l+DRX0KVJS6LKZVkohA5gfWEPWjRU8MK+Suip1t0gJ2hvYHM
+         IwKgOpQ3OHH2qTG6ntd82NENgWGAQciRIrwrnUduLs4jN2frLNbjaMTn7h5G9E5/Lgvx
+         a5JJMlGzTpPL+mBb1gpemqo3oL/UFmSLodkn8OMSQB1WIjIifS/Xyxpmb2tCgINexMuJ
+         QsKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793650067; x=1794254867; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2y2WavsP8svBBeJai9Uevzqpj1fQ7NNZDo+HgkQhGww=;
+        b=jk8TrkOlsW97Uh2N2lxEQCWSr5BDOlLraKDAJDImF5X93emauVjuWCB4kRG5DXJ2mg
+         oXi8tL+XOW49nPtI2u2njp9hmZSDUMa6G/1KMaO9Q5qzNu07fJxBg+FGZwHSPkrB/3+p
+         +n35tr9rPg7bWoPu4eX8xtne358FzfbxYLhTbxaih9uGNnm8EspyFlcWvKfSR929T1wP
+         PdhuKIXNMBvyc8JGPZ0UjLnzK8d/ugvhnqcVfKUScJJXgrIRL8SofUmBK+358GTHLXn6
+         4DOPImXL7BUxCQKWkh8a6VYnY27wG/hPyzEY2mSBDHGTrMVjqQIyvUjbN5Mtc+HYQcjd
+         XJ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793650067; x=1794254867;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2y2WavsP8svBBeJai9Uevzqpj1fQ7NNZDo+HgkQhGww=;
+        b=t46Wq8SXvP6WBFyns5QsxZNtZDJ7SgGIRb3tKvTItio4dldhXLS+RqTsY0SxDOBdI8
+         FLaFLSSBt33ObbLOdg7pclcXZDgqrS1ra2x+3zqafLN+/85wRj/RyogEuSN93XyWpUmt
+         o+DYpiejdwI2VgpSyQIFIDEJQlkcmfe/WfVijlb89GTDdlfp9Wzs8lPJsnLTBkKK5VCy
+         JjrTidOPuQTAVJYNQbba0uoAY9+8caKwWDI/iAMap7FX4Jf0EidsE0uZ0JCxHUoD4ZF+
+         d5W7MFGlP1ixKXXMDBJVcB7j1oE2dk5DB5+WUXGX3Nl6lOSrZ2H30sWZAdwxOYOYojuy
+         ruAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxcnrR/+iQYzYgqtmC8lCBvRZiYvZ3J2CWJVtYTRxIDFh7t3L3MCaVXUgpBQdJEzK5QjFwHSDOQirI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9bmpt+1adUeN1H/Sk4y6K8cRlkypFKoFfomai2hZheVPetLJZv
+	+gIBAeRJovh96DsbUwM6S5rCOBq7xIWE3kpaV9VRSaxV4FxZa4ykzb/vQATVaftB/dCqpj9QroN
+	OU6p4dZLxFnERU0gxnklpNUAjXRhpN2Izu2L2tAp4
+X-Gm-Gg: AYBFou0YcNcUzRza47mWJoU7KZQpsgMq7ExLp2vfPMv7KGJY/K955xbuvpBGJzzhMqv
+	xv0L+FJNcqjkHZqxPgpcYumgY9KQ9EyVMX1VzDKgFRQG7WEtDPPpoVJr9W3Jlck7j9c79ChXcBu
+	uOfsev0og8kmHsAAEqhTvZCbPRyPQWV8Mo4Fu6dML/NQHLaVhRTfhU7OcGkO9Be3FsTUXiNorQd
+	DyxD+iSSbF7llqhpzNJFwd+KxkcggcdKrZtdig4kG6qh7geRBlHTsmiJa9Pk7fNkcvn6Uby6sh7
+	JyP+baA8VTUUcJd/hSVOvIGwg123FSAeyYBWQskqam3rIfjhtUEV1MGD439zkiCAMZJ5dzmK6LJ
+	roBdV5+tgExtj7xDyN/82hPrOJFQrcXqAK578Kw1CZjVd0eGtHXFi7PXQI/g/HJTHp4CJnNpLtp
+	5NEWBOQl1FSNMm
+X-Received: by 2002:aa7:d752:0:b0:6b4:629a:6352 with SMTP id
+ 4fb4d7f45d1cf-6b539cf7661mr6374a12.5.1793650066614; Mon, 02 Nov 2026 12:07:46
+ -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,148 +105,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA1PR12MB7758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c947364-25f8-4175-0fc9-08df391b1452
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|10067099003|18002099003|22082099003|261102123227099003|4143699003|56012099006|11063799006|261022105027099003|261022113327099003|261026140227099003|261026121527099003|261009223027099003|261028144727099003|261022075727099003|261021121427099003;
-X-Microsoft-Antispam-Message-Info:
-	2QB5C8CAn0T9fcdQXgwNCe+e83dL2A1FoUEAf2A7XLmLNMqOQ5Pg/SugPwGSllIJWmz7y0fadS32PxOF0bY2UCQp6wgxxCE/0JrNK1U6txi36AIfDWUIKkUGBwTEGjMWvD1DjlPtjzRUIUvEKro/qv5cXCtRzh2qosrcrIWixERd9pPigc1Vlv7BbaD/xngeqYwzBWmsP49kKqt5e5u0PCCcS1V40R7N8itCkV0+Lz0fk1jRZwXQLTeXNmTArpZW0tckZysfm3VLvTMTw/E4UxwJIUoK41RWmjANutRlX8XrPbzwYTc0djrSCmSNk4QNYZ9pCbV0aNKunSiyhx8vNO6SLulwz8L7hQc4eqh2z0ltF3RkMgfn611zYzQs0y32Qgh47E/MKzglq4qv9cD24+3VbIWsOpyYs4Ub6jjuTOcyW7rCxdkC7sOWcpmk0j/+54KVkdOPKJPol2Glht5TI3F4zFQ0s8snW2d+7N919EEEyR6QTdLAMvfIG8fQiINAIXGMMCZAZmILkXmdvTzJ9IdgIoKGV0Kj8/EH3imb/wl/YfGL6GsAkaLGedlAw3eii/BBsEjOafSfLgHqTo9ccZck4/vpMy/7DgEvz8mmS1O1LvQj+U7eX1iY5Rd1e/bW
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(261102123227099003)(4143699003)(56012099006)(11063799006)(261022105027099003)(261022113327099003)(261026140227099003)(261026121527099003)(261009223027099003)(261028144727099003)(261022075727099003)(261021121427099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UER1TWFabWNYWXBCU3ZURnJyU0xtb3lIU2RHcEtZTjBWNUJNU0lDd3k0MzRy?=
- =?utf-8?B?ejVObERlZ2U5RnZjbU1ZMVo5bGxnQ2oyWG9PNUhkNFhSWWNhbFFFNzkrbzhK?=
- =?utf-8?B?NnJFVUpPTEcrMGZSSHZUcWE4Q1JWazAxS0tXVmpFZ3ZlbXhVR2hJT1VOdjY1?=
- =?utf-8?B?QVFad053elBOWjMwZjM1NGtmekJHRGhHemR5Q256aXN0azdOMFlTelBIWkp4?=
- =?utf-8?B?ZkNTYUlHdU0xVnpGUlNNSER3ZmJDVktGTVE1T0VFV1lxMHZjV3dpUGdXbGtH?=
- =?utf-8?B?OWN2b3owR3lzUWlIZ0ZjT1A1ZDFoN0pPZ3gwL0kwTmlpVlpKUkV2NTVxbG5V?=
- =?utf-8?B?L3BjcjVIZ1QzWlVCN0M4U3V6VFhxMFVBc3pjcXFKU0t3SVBEWTdnWndVMnFV?=
- =?utf-8?B?MVlmL2FFVUNYd3ZxUFN4QU4wVDNURkFXcmNEQUptNWxPVWtsWWhod3k4eHl3?=
- =?utf-8?B?WDhodlRBOEFVMlNRZnM5VVlaWVZCWlFNMEhoNVRwckc5M09IOXl5aEJZYkd6?=
- =?utf-8?B?ZkVZVDZJeVBaQy9XdVFGZ0pmcVI2TlpTOW8xNCthSnM0S0ZxeW1NY1A2cGJo?=
- =?utf-8?B?RFZ5Z3ZWKzN2cVZzMzA0UUd5TXg3VVNSUXREY2w0QjV3bEViMFdKT216dnpu?=
- =?utf-8?B?bUVUV1BXZ0pGb0Ywb3FnMUhwWTlUSzBmUmNwdWNHKzh6cHNuVjFrUHNZT0VO?=
- =?utf-8?B?bFREUjVQWVNvWWhOdDRKWUhNN3Y5WE5ObFgwSFJoL3loRjlTcGVKcGUxN1Zw?=
- =?utf-8?B?eDNRZ3prdVF4R0oxYUpUTXB1UTdlaTdmV2hVbnVrWE1La0ZlUkptWENJNmhh?=
- =?utf-8?B?ZWduZ3Q1bWZNQjRUZ2pxL1dIcXk0ZXBHUlIxK0p6NEdDOVByb1ljcGxsV3hZ?=
- =?utf-8?B?WEQ2U1kvREJleUtZOXdyNi9ib01OWnFBaXRDWmY3UmtubDN3cmxnUlNqbzdz?=
- =?utf-8?B?N29VbnVOb0lIRTR6enl1d2F1aS9BbVZhWVJXNHdqZHpMWVdzQTMyeWNLTXBu?=
- =?utf-8?B?UzVSTE1vanRjcU5tRktxU29vMWRFbGtKYXJoU3dhb1hrNHc0dkZoZjZxbkll?=
- =?utf-8?B?NCt2MFR0LzZGMlZRelBpSGxlVFJLRUJ6dlhVdXIyOEFrUkpBUVVJVWlRS0Vo?=
- =?utf-8?B?VXhYVk44dm1VYWdNVk4yOGVzMEIreDJER1A4dXJVaTcrVFdUbGtvRXJ1RmF1?=
- =?utf-8?B?SzFPb0tXY3Y3YkFoc1B4Zko1TENCVUxiYk9IQUJYSmJ0MHpCY1BWeGVlTkZ2?=
- =?utf-8?B?ODVtNk5WVnFNWW5XYkpXcnBRQlVYN1ZQTzlpc013RUdoYVZ1aWVHT2RtekFu?=
- =?utf-8?B?S01qeFZsNUE1SkR2UzFZL2lVa05xUFpoUUlxbllpdHdDdW5pSFZjY0RJemti?=
- =?utf-8?B?WkNEaWVENWZTQTVxb2F2SHExQ21kWWUyMGpaM0VKeTI2V3B3aUhJVWt0YVhy?=
- =?utf-8?B?Z0tPdjVYazE1dGFUZnB4ZDVPWEQ0aXErSUlzOThGYnlUQjVWVlpXbG42SDhX?=
- =?utf-8?B?ZDN5TVJCVUZ0eVRpTkdDaGx1RENQRTFnZ1NWN2c4bWMySHdJUm9pZ21vWWZr?=
- =?utf-8?B?NXlnN0tzck81bjJSUVc2MXFHUVhDNWMzYzBFTGZHdnhKckpzWks4ZktCQ3hQ?=
- =?utf-8?B?ckFBaVZWbzBNaHBTYzVWNy9zS3VXNiswdHpLSkNyZ2wvejQzTWtNemJSSEk0?=
- =?utf-8?B?dWVjdXFVWkxCMjF2eXJidUFPeVJlUzVGSDNySElxS2EvVUdNWVYyeUFGMFZG?=
- =?utf-8?B?dE44eEg4VDFPUWxLVVZmQ3R5OXR5Q3NUNElNdUdZK0pENEdUam1RNWNISFNk?=
- =?utf-8?B?Rmw3cW9jUGhzMmd0MjlaWEpnQVBicEEvYlFPcnlEbmdDOVhOdGJwdGM0MjFq?=
- =?utf-8?B?emlhYUxGZVFKTGV1TkFzR2EwQnpnZ1VTbDZseUdOYkVtWU0vdEorUEt0NVlC?=
- =?utf-8?B?cjJRZ3NMSzRSOFZoU2xkektSZVBWc1dDbDlnUlFOV25JOFBwWUo5dGwveVND?=
- =?utf-8?B?NG1pN2dMRnQxQWZmNjNIR0tqcFhmTnlsU01zYTh5eC9KUm9VN0RKSDEzSHZu?=
- =?utf-8?B?eExiSXllSDh6bzZlVEF5eXhOLzJ2QWtlOHI4bjBzOFJUY1RRa2c3YUdGT2lo?=
- =?utf-8?B?UmhZTTJ1Q0VEWlQ1ZnNtTjdseUh3UksyMkd6ajZJL2dYaGFDbTVvdnV4RHBU?=
- =?utf-8?B?cFVJdlBkRzE1eUZ0UFdOQ3JzUjRMZi9TS3N0aWlPMFBrdUd0bzg0Rkx1cFda?=
- =?utf-8?B?cGNyRlJmdURIcno5cENBdGIxVmM0dW9mRWwvRnQ0MytFY2RPemhDNkc1R3dN?=
- =?utf-8?Q?2ncxZT3iGndADk2QaF?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c947364-25f8-4175-0fc9-08df391b1452
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 19:54:17.9373
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JtDELy5OgYNKqCM3XWZPxnOATEEuzJ60glrf9DuoD6YYLCxOxGzqY8cq2AWIUQvz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7758
+References: <20261102191438.1059771-1-sdf@fomichev.me>
+In-Reply-To: <20261102191438.1059771-1-sdf@fomichev.me>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 2 Nov 2026 12:07:34 -0800
+X-Gm-Features: AclHuK9gfr07IGAAZ9tA7d9yIuAWy2wfQLlcGX2KzOTTr8xZ9Khn8LIVGKzus2g
+Message-ID: <CAHS8izPAaA5fNGmA6TTAuo7z8T4-+1xmR0yF=OZH6EAcQEF-RA@mail.gmail.com>
+Subject: Re: [PATCH net-next 0/7] net: devmem: size TX net_iovs from the
+ dmabuf layout
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, 
+	edumazet@kernel.org, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com, 
+	pavan.chebbi@broadcom.com, sdf@fomichev.me, bobbyeshleman@meta.com, 
+	asml.silence@gmail.com, daniel@iogearbox.net, razor@blackwall.org, 
+	leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Mon, Nov 2, 2026 at 11:14=E2=80=AFAM Stanislav Fomichev <sdf.kernel@gmai=
+l.com> wrote:
+>
+> TX bindings use PAGE_SIZE net_iovs, so a frag covers at most a page.
+> A 64KB skb needs 16 frags, and MAX_SKB_FRAGS caps devmem skbs at about
+> 68KB, which makes BIG TCP ineffective for devmem TX.
+>
+> This series picks the TX net_iov size from the dmabuf sg table instead:
+> the largest power of 2, up to 2MB, which aligns every DMA segment. With
+> a 2MB hugepage-backed udmabuf a BIG TCP skb takes a few frags. There's
+> no UAPI change since TX addresses are dmabuf offsets.
+>
+> TCP still bounds skbs by size_goal, so frags get larger, skbs don't.
+> A single frag can now be as large as the skb, which matters for
+> NETMEM_TX drivers with tso_max_size above 64KB:
+> - mlx5: 32-bit length per data segment
+> - gve: splits frags into 16KB descriptors
+> - fbnic: keeps the default 64KB tso_max_size
+> - bnxt: 16-bit BD length, devmem TX frags are capped at 32KB by a new
+>   per-device limit
+>
+> Tested on two mlx5 400Gb/s hosts with kperf (udmabuf, 32KB RX
+> net_iovs, 2MB hugepage-backed TX buffer), series backported to a 7.1
+> kernel on the sender only. 4 flows, MTU 4200, 6 x 60s runs, medians
+> (CPU over the 3 runs where every flow got its own CPUs):
+>
+>                               before    after
+>   frags per skb (sender)       16-17      1-2
+>   throughput (Gb/s)            389.6    389.6
+>   sender sendmsg CPU (sys)     12.0%     6.7%   (-44%)
+>
+> The link is the bottleneck, so the gain is CPU, not throughput.
+>
 
-On 10/30/26 17:08, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 10/30/26 1:28 PM, Babu Moger wrote:
->> The mbm_event mode assigns hardware MBM counters to RMID/event pairs.
->> It is intended for deployments that need to manage counter assignment
->> on platforms where the number of monitoring groups exceeds the available
->> hardware counters. Hardware counters are scarce on these platforms, so
->> mbm_event mode suits workflows that monitor a subset of groups at a time
->> and rotate assignments as needed.
->>
->> x86 resctrl enables the mbm_event mode by default on hardware that supports
->> it. This breaks the pqos tool [1], which assumes the historical default
->> mode. It creates 16 or more monitoring groups and uses two counters per
->> group. On a platform with 32 counters per domain, that exhausts the
->> mbm_event counters pool, causing additional groups to read "Unassigned".
->> pqos interprets a non-numeric event read as zero bandwidth and reports 0
->> MB/s for those groups:
->>
->>    $ sudo pqos -m all:0-4
->>    CORE         IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
->>       0        0.69         16k       192.0         0.0         0.0
->>       1        0.40          3k         0.0         0.0         0.0
->>       2        0.44          1k        64.0         0.0         0.0
->>       3        0.39          1k        64.0         0.0         0.0
->>       4        0.43          1k         0.0         0.0         0.0
->>
->> Leave mbm_assign_mode in default mode during initialization. Default mode
->> uses one counter per monitoring group. On existing AMD platforms, the
->> default active counters pool is 64 and may be larger on newer hardware.
->> The active counters pool is the number of counters that the hardware can
->> actively track in default mode.
->>
->> Deployments within the active counters pool receive accurate bandwidth
->> measurements in the default mode. Users can create more monitoring groups
->> (for example, 4096 on current hardware) than there are active counters in
->> the pool. Beyond that pool, readings may be misleading or report as
->> "Unavailable", with no user-visible indication.
->>
->> Default mode is still limited once the number of monitoring groups exceeds
->> that active counters pool. After hardware re-allocates a counter, a read
->> may return "Unavailable". pqos still treats "Unavailable" as zero.
->> Successive reads can be a count, "Unavailable", then another count. pqos
->> treats those jumps as wraparound and can report an inconsistent rate:
->>
->>    $ sudo pqos -m all:0-4
->>    CORE     IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
->>    0        0.76         60k        32.0         0.0         0.0
->>    1        0.45          1k        32.0         0.0         0.0
->>    2        1.57        107k        64.0         0.0 17592186044184.9
->>    3        1.62        276k      4928.0         3.2         0.5
->>
->> Users that need stable measurements beyond the active counters pool should
->> use mbm_event mode and rotate assignments as needed. Enable it with:
->>
->>    # echo mbm_event > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->>
->> Fixes: 0f1576e43adc ("x86/resctrl: Configure mbm_event mode if supported")
->> Closes: https://github.com/intel/intel-cmt-cat/issues/311
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Cc: stable@vger.kernel.org
->> Link: https://github.com/intel/intel-cmt-cat # [1]
->> ---
-> 
-> To help future readers understand how we landed on this I think it may be useful
-> to add a link to the decision that resulted in this fix. For example:
+I mean, test single flow please so we see the throughput gain. But
+CPU% reduction is good enough reason to merge I guess too.
 
-Looks like Boris is taking care of adding the below text.
-> 
-> 	...
-> 	Leave mbm_assign_mode in default mode during initialization as decided in [2].
-> 	...
-> 	Link: https://lore.kernel.org/20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local # [2]
-> 
-> | Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> 
-Thank you.
-Babu
-
+--=20
+Thanks,
+Mina
