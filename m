@@ -1,83 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.123
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793584574;
-	b=J4nO0LlvSL+W8G42iRAV8zLLCQCFcMll7jxbDyQ8ER/eHA5ENzjNUkJOHs+u23uldk0W
-	 2iLTF7G8KTADk8MFir4QCIzhPJWnXRxRnvETVMzzxZYMTfIdqLoUzKyrRNdF7U/Rd518r
-	 OvWR34TL1244/UmUGZyubIkSNiKCa6Wl+UJeICSe5hOIBsGE57RwPlGAMwg2UmtbysFfu
-	 nU2omtMqXXUsyE5/NVoQi7o4+k3FTjzKeBj0rmLTlLoP671GdSfCi7fLiicu8+1DdWmjz
-	 1TKQmDs1H4kr2WpeOIAf7KL9o/aqXzwb6YNwJygodPLrnb3eBQ5pVIZXtIRedb5QC0A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793584574;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=hPEzD1WQWoI6DLgJc3nFH78eRCH06B+HG0fOl1fLX4c=;
-	b=bXV20bsYWWLyi/BC0td1s5fYHQbXk56IaFaFfrhV/Iq4A5ztab5OPMFrFLb7ZLr3qx45
-	 vsISqnkYvINgKHiMr+mxGah+6inoIMBVri+RFPEIdHEyiNjU2NhF+2PQj0p3SBt6t6/jr
-	 ofqlCX2Tz734jRBxJ7HTd5KlPhPUWQptZlF2zlCSF4Fdpu/BjZsvPQ2hCgfwalrzbrIt/
-	 KTY4xb3xilAIt65yty92NpEqM+M56Fx8gNx1HX1S8GkbuLfbu05M1dYguvNdXyOlgGimb
-	 dmDdK2MHUlhrG+ozFvh5j1Wfqta7WJU/TrN2bjzUpdqCkgDH77sT5f9u45R/cDn/9Vw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hn2rxo2K;
-	arc=none smtp.remote-ip=95.215.58.123
-Received: from mta1.migadu.com (out-123.mta1.migadu.com [95.215.58.123])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793585583;
+	b=wH7ukvdf00sbGZBom47tiUxnxX8nmGcbBJ8VicloQwIWEZaWVKBpFTcqcwhtGDsnO0zf
+	 b8c+57zTzeoH45s9CD4gzEnVuqEPvxjeIRt+5+B/YHAkO8DUlpy5QFT0pSj40Jp80Je4x
+	 XFcmXb+OCmJtHB9S73uH6KXtsj9lRSTWQmH7hQoVYcDrbh7cnegh5iridXvdFUwQ/B2Ca
+	 gb+r3Yyy3jdESLdS4cpxVSWuKDwtDQvh1L07oeg0DHfIss/QblDS/dV7vhgcrEeDFXzK9
+	 JysptPNy1CbkWlQnQZymFeMnlGDbvLDZVBrW1gZXEhRB2ID2scKVK5upfyZtnUKV3eA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793585583;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=oPZPff7AFCJTvcprCc+r9tCNwzIc/Brea+tOpGgX6d4=;
+	b=0yja93bY/1C9Da23wyQgYQ8FQmK4jWyluE7H0eY8jIqka5bzaP8rkT2Wt77M/jL/hDc/
+	 0r1TYuBsHeLzpJbZvW7/QVSmEKMuNj8wLClTrV7457zQCC0ML3I8CUS7NN01JA4SIw/At
+	 yWs2vHY6s9vUYwLf6GwRGSy5z0M+QMC17UbJFM67ZjXQN7t61zW4j8ir9uPix3tFVfnQP
+	 WbseD17y6PX1h1O0WdmMOGcQFsT5uOUA85d7qrTBNURDyVoPRTQEHqt/mMV/0a9CQmvwk
+	 gp2+BbSdtl2HOEYt5aNYFb2kZZmM6S8dlFfiorj4kgFx/9TfiafbJMBFImvJF2h1ALg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPGJulMl;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034A160A261F;
+	Mon,  2 Nov 2026 02:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPGJulMl
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793585582;
+	b=tcyVuZPumlVKqkFTIez/NMYvLAuhiFsi/Mw6WyDwT0+gkjKGLHv/F7BehMu5URK9niZ+
+	 rRCxwWnHCZGuoYRVLKb/xuhqQVlzuz1Ur2Yd3zptQBt7BE5CDy8PF+ziMdt1BGqWJbboe
+	 wDIvlAc6X/GrJD2kIxuhwxntK54+DAe4D/QtILMyWlIwLkuKmeFMEwsBa635YXEpuH4sV
+	 1QesfpFJ3R0BlOHgmBiXwf0WPEjDewWVQH66vgs9YL65JJ25Ac38wANZcplBmSs5ZMXpp
+	 dNUdRaxt39IHZCuhCm9JKkVyLb6ysp/G9gCifpr/SzjGgjFBf9z4B7gP+7ueEkdJCXw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793585582;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=oPZPff7AFCJTvcprCc+r9tCNwzIc/Brea+tOpGgX6d4=;
+	b=HFG3gy8eATpPs9vYfXmvi4eXjCKDuhn1tJYftjCq46wODPGdU+NfYa7KeMQdrySPm5kL
+	 bw1U8LfxJ9Ldk/kW5NSyzUilxiwsnbRpWkag2jsyM5EySSGfkgvOFyQRMeAf2p782io22
+	 eS065j3H7HvaajfZrLVm4cczJnHrY724ANSZ2uy33OrXOtDFgdsSJ4TzbAwlFJN8gHMsf
+	 g1718AdWXTx2SsqG0kTQz7Q8YYu2AQ0KSsX8tfAu8pyAsDmqvKJpS2PClgGZzi2ISYgDn
+	 Xk35GbGkkyRX0M62j5eSGqvDhfz991/4WicIRenmXlHzjyOx8lvmmWI1nLKUlqNZw2A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42076606A327
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 01:56:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42076606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hn2rxo2K
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n3WZoTD06QO8DsgnhDFWT7ENJHabABG8avIZs4EqSgM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793584571; v=1; x=1794189371;
- b=hn2rxo2Kp3RPsFUeD5iMp+yYiNkD9BkO8dPlckuu9ygmt5q8l1cXVMVU8N3BkLMc2AdWBfRN
- gAb+aCNZzDwjD3+4F5iPSSo551rEMYDktlVT6ye0WJKYSTilNMHSWhCfBKlpncIUTQWscDGWwAB
- JxhSdSik670VSwjfK+HCmneM=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id d5ce155f172fdd98;
-	Mon, 02 Nov 2026 01:56:09 +0000
-X-Mizu-Trace-ID: d5ce155f172fdd98
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 2 Nov 2026 09:55:55 +0800
-From: Hangbin Liu <hangbin.liu@linux.dev>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Fernando Fernandez Mancera <fmancera@suse.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
-	Thomas Gleixner <tglx@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Maoyi Xie <maoyi.xie@ntu.edu.sg>,
-	Zhan Xusheng <zhanxusheng1024@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
-	Yung Chih Su <yuuchihsu@gmail.com>,
-	Wyatt Feng <bronzed_45_vested@icloud.com>,
-	Hannes Frederic Sowa <hannes@stressinduktion.org>,
-	Flavio Leitner <fbl@redhat.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3 5/5] net: restrict message_cost and message_burst
- to non-negative values
-Message-ID: <auftqzpuuNFiScrb@fedora>
-References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
- <20261101061331.286404-6-jiayuan.chen@linux.dev>
+	by smtp.kernel.org (Postfix) with ESMTPS id 714CA1F00A27;
+	Mon,  2 Nov 2026 02:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793585582;
+	bh=oPZPff7AFCJTvcprCc+r9tCNwzIc/Brea+tOpGgX6d4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=dPGJulMlCxawAbkZTWbC2U1/9v07aYnmZ7EDF1/kKxuQ3J2lRTtlzH48vlVrexpXg
+	 hNItSe+1bkDCu1UhKGLazZKbTecsUvdrbYKX9CqBDzixiq2jTkP+59quMspAdjj3O4
+	 9G1b7I2Qc54V1xvTdFfKMh/Cmcg5guUgv9wjoczZcnANd642wY/U6OSQPZaVDzPz1y
+	 lUGpQwzO7nbds5Gke9eu5sHOiwKmOj4c1HFEjYCGiC1j9w80QHDf/w0swqDoL4tQeN
+	 L4ItPYeyWxl10r8CAZCIcVoqv1trx7vI2l1ArEyujicHMPJX4MOZSMZcyMRLl7q4aL
+	 sqQjWTJWTeaRw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id E3D5846316;
+	Mon,  2 Nov 2026 02:13:00 +0000 (UTC)
+From: Joseph Telaak via B4 Relay <devnull+joseph.telaak.dev@kernel.org>
+Date: Sun, 01 Nov 2026 21:12:27 -0500
+Subject: [PATCH 03/10] leds: rgb: ktd202x: Never program an on time of zero
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,56 +82,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261101061331.286404-6-jiayuan.chen@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261101-ktd202x-et6326-v1-3-eb51eddad08c@telaak.dev>
+References: <20261101-ktd202x-et6326-v1-0-eb51eddad08c@telaak.dev>
+In-Reply-To: <20261101-ktd202x-et6326-v1-0-eb51eddad08c@telaak.dev>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Griffin Kroah-Hartman <griffin@kroah.com>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793585579; l=1451;
+ i=joseph@telaak.dev; s=20261102; h=from:subject:message-id;
+ bh=BQnhsK3g/4tt6UBpzegrKNnjIOdXU+LjWaFg/kEIEHY=;
+ b=aa6+XTZ8sxMI8F0yqi8aFZw2HBodQCUNACWVvmGhJpL+u3H0n+so0U2cyX8gicIFzf+K+ZKIA
+ rGsxSYOs6yLDBhpjyG5N+7KGuywL0+8VbcpxNUbBsSOeHn+JjlLOTS4
+X-Developer-Key: i=joseph@telaak.dev; a=ed25519;
+ pk=OmwSusdK4grZpiuZVfCZAvYyqz9FBkNemsV1EnHyVr4=
+X-Endpoint-Received: by B4 Relay for joseph@telaak.dev/20261102 with
+ auth_id=1382
+X-Original-From: Joseph Telaak <joseph@telaak.dev>
+Reply-To: joseph@telaak.dev
+Content-Transfer-Encoding: 7bit
 
-Hi Jiayuan,
-On Sun, Nov 01, 2026 at 02:12:03PM +0800, Jiayuan Chen wrote:
-> net.core.message_cost and net.core.message_burst feed the interval and
-> burst of net_ratelimit_state, but neither rejects negative values:
-> message_burst uses plain proc_dointvec, and message_cost uses
-> proc_dointvec_jiffies, which happily stores -1 second as -HZ jiffies.
-> 
-> Since commit a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are
-> negative"), ___ratelimit() splats on such values, so the next
-> net_ratelimit() caller warns, e.g. a martian source log:
-> 
->   Negative interval (-250) or burst (10): Uninitialized ratelimit_state structure?
->   WARNING: lib/ratelimit.c:43 at ___ratelimit+0x56e/0x960, CPU#1: ping/3218
->   RIP: 0010:___ratelimit+0x578/0x960
->   Call Trace:
->    <IRQ>
->    net_ratelimit+0x1c/0x30
->    ip_handle_martian_source+0x1bb/0x340
->    ip_route_input_slow+0x1057/0x3650
->    ip_route_input_noref+0x104/0x260
->    arp_process+0x109b/0x2510
->    arp_rcv+0x381/0x460
->    __netif_receive_skb_one_core+0x173/0x1c0
->    __netif_receive_skb+0x21/0x150
->    process_backlog+0x37e/0x1200
->    __napi_poll.constprop.0+0xa5/0x5e0
->    net_rx_action+0x4c0/0xf70
->    handle_softirqs+0x204/0x9b0
->    __do_softirq+0x10/0x18
->    do_softirq.part.0+0x49/0xd0
->    </IRQ>
-> 
-> Negative values never meant anything here: 0 already expresses both
-> "no limit" (interval) and "suppress everything" (burst).
+From: Joseph Telaak <joseph@telaak.dev>
 
-Will this limit breaks the UAPI on old kernels that supports negative values?
+blink_set() turns delay_on into a fraction of the period in 1/256 steps.
+When delay_on is less than 1/256 of the period, for example 1 ms on and
+1000 ms off, that fraction is 0: the LED stays dark, while the timer
+trigger reports that it is blinking with delay_on = 0.
 
-As the comment in ___ratelimit() says:
+Use the shortest on time the hardware has, 1/256 of the period, and
+report it back.
 
-        /*
-         * Zero interval says never limit, otherwise, non-positive burst
-         * says always limit.
-         */
+Fixes: 0ebdb7210943 ("leds: Add ktd202x driver")
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Joseph Telaak <joseph@telaak.dev>
+---
+ drivers/leds/rgb/leds-ktd202x.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-If all others agree to set the limit in this patch. I think the comment
-and the WARN_ONCE() , and the admin-guide/sysctl/net.rst all need to be updated.
+diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
+index 482af28e8..8c890ea5a 100644
+--- a/drivers/leds/rgb/leds-ktd202x.c
++++ b/drivers/leds/rgb/leds-ktd202x.c
+@@ -304,8 +304,12 @@ static int ktd202x_blink_set(struct ktd202x_led *led, unsigned long *delay_on,
+ 				  (delay_total_ms - KTD202X_FLASH_PERIOD_MIN_MS) /
+ 				  KTD202X_FLASH_PERIOD_STEP_MS);
+ 
+-	/* Integer representation of percentage of LED ON time */
++	/*
++	 * Integer representation of percentage of LED ON time. A value of 0
++	 * keeps the LED dark, so use the shortest on time instead.
++	 */
+ 	on = (*delay_on * KTD202X_FLASH_ON_MAX) / (*delay_on + *delay_off);
++	on = max(on, 1);
+ 
+ 	/* Actually used delay_{on,off} values */
+ 	delay_total_ms = num_steps * KTD202X_FLASH_PERIOD_STEP_MS + KTD202X_FLASH_PERIOD_MIN_MS;
 
-Thanks
-Hangbin
+-- 
+Git-155)
+
+
