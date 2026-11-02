@@ -1,112 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793616746;
-	b=B8IYprReoxo1zWt6nZvm8Z3dDYDH8SAErJTlm7A6DyKDDSLPQmK7iigB64r7ul4ETHEF
-	 ZBpSmeF4BXAP2YPRgu7trBQs90FJqf6fkmbP08a2BWlga8JAi55+CFQOF61Jl8KdUWWOI
-	 YS9LcVgzj1BxaaAEdBTDYKeLniacRW/CdAYTWgUADi6Lji75RbKwRM/UWHW7fnWwVLWjZ
-	 KUmZL+2U005KEUI2d9aaxqdreWE5md2E5v3A41yTQjV01Axi3ytDyguGwdyVmKk4ZG3eP
-	 YQhfiIOtMYZRiUypGSPaLD6THFONudK9/Chk8o73aACZocNDv0lqYDMI0cKwzmgLc6w==
+	t=1793617241;
+	b=sm3n0sxtrZSmIrfQDihImVTWwxCo62dLrk+7QcwdiQgyvyrP5+ASz1k2E8p37dPvcH/r
+	 ufwB1KK3Rxf3uAxfdPLmQUznPaBDuLSGsOva6OlEfXmd5cvJOZE4PUQTi3mlxUy2YM7AZ
+	 ccPz1AfCxHJyl6vhRuRiyHVW2TKRkzQoczlB1paHi0DkF55rCpOkeslXEoXCvgqU/E8WY
+	 MlhofLMYjjR0pUXve24HIJ2NBb/LeMSuoU6iJwUY5DJxRG2+191BJg/nEwP/xlEEPf2EG
+	 qFK58Q+1qXsijeiz5+Znnr3KHpdur7pBZd9kLA++Ak+62/Bgglw2O9QuPRKZW6LRRVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793616746;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
-	b=MEjP9QFKslAOUOLO0qRP8pFqJsb4rPfEgCdjoM5hpdxHMrLPGVXGstaG92FRhYh2PTup
-	 7qacEFif9gdcqnIe2QovutDTfBH8bDzSyRvHaSIHD+2xX2DnpmBI4zXXbA7Lkr2T4l1GV
-	 VT3H5X0MT/honLaAMe+0g1fBT8YWvV2i8MJFICrIxBxxQEgL0z58CViGwzlCfFEfKC6X0
-	 L8+uj2XLj/C+lozG0xUYx60lWTDWKXZHTAzL/IeIfO963vdi63wixw9iFTUXz4oRUggN4
-	 KRPH52PjSwOwpSw5l/fImSmvRbVZSKBR8vDLC/W36sPN5apr67xB6UXp/KUq44ifENA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793617241;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=gmu1a3NLHJfVVFwt2LsdZOjGhk0iaWLym4PaWiReE/U=;
+	b=qDCufLmt2SE/L43wwClP6lnWj6qjd8QjltTWf+bpwQfQH74uQ95VBzpuHGQruRy10NiN
+	 oLQCYP5WQBQ/aVRugR4G5wvoXZjZnvi2y7+nf2Bl1/nLLWnj7/baBMDIiqjMeYxVI6NHv
+	 dCv1+HiPzqt57altQcRxeW2+toeqe17FYmYGE5UL78mvrxcdQB/zy2WU5pdZjhnoS3zST
+	 v+tKBTm6pylsM3AJVyUMHnQNoD4MP7NFPsP/wwPb5qbIwiNldqC1Vv62fYgFRqWv/gLyM
+	 iznESBm+ucB7jKuD1Cc+/SUsQNHFkj8SL3gCvgQIKWGccrxynDd98ebDVSZYVjreoEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fdAlc8IC;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kQlGD44u;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pFIIuG9I;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAF2606A327
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 10:52:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BAF2606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5CB606A32D;
+	Mon,  2 Nov 2026 11:00:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C5CB606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fdAlc8IC;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kQlGD44u
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29AM7k1821123
-	for <linux-doc@vger.kernel.org>; Mon, 2 Nov 2026 10:52:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=; b=fdAlc8ICM5cJKU24
-	MEyeQiZ+Ko0T6Euviv1nufX/eAZJCEpNNXX6/iPFBHQp2YeaBdyo0wDL9nxcdqEb
-	KiAPVbKSxlXjOTIYMqA7M8ipYH6KsN+mAFINrBJ5DnUJYM3fJNgBd1iIaY1AsIvh
-	w8X3mSVK0wI93WCwx2SSIBV5TyFioLSzce6Mm630ql6KoplC0ugiZSHPOVe0LL/e
-	gFuEss3KDTEMziSmQELQ8ngrTDPlpjGz38N8FDCCSgepsjdGmqlUGP62KW2DxKVh
-	5KJLw2DbOwc8P5JU4iqpKCfkhIB67ttFbvE/XQr2ijYTF3KINVmn/ogcIarmmFpg
-	aLcq4g==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpky4ha2j-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 10:52:24 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3aed1b64104so431388a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 02:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793616744; x=1794221544; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
-        b=kQlGD44uZmeJQcp+eNg5t3k6wqC4gOjuSVp5gY3CenSneoS/bWuSPTdbQoIL12kCtQ
-         yrIYvjCbjkO6o4m9eNyAIuM40rfL8gyNV0MHfuv7Cik0mqaIMFAn19u46gIaAPT6Bqnl
-         zhGUXy7g2u+r0WPbhuYi90hRs3L916bA+XqAxQLus82EHpu2G+CHnUHT2Abmmglvbwqu
-         ThKK0vfRdXeiOD8WGc2pu8ooMKzSYHCJUHQxNWp6bzsndB0U6hIvqNJclbX3KSphcSMa
-         TbwPoBAhiRadZ0mc80NYWfWZC9IcqbcITQHcYEeWSK4iVOvzB5zyquBcBGssIUVTChP9
-         meDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793616744; x=1794221544;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xppyrRxkA2Uo3mrTIkoi7ocXriSCH5ZyUXb5WmyTlKU=;
-        b=O2drf0wDLNPZfjFw3owPH27NT+dm+ZmVqXy6084cA/vQHXSyWdLvBiJ9Emo4UStV60
-         O7PjIJQA0T6F5TE9gWQjSONRQXLBadIZwRdqyMSwmm14ndwD9wZg0g3N2vWvRYkCDi7t
-         yuCuvBHRpSkRN74WN23L2oxNL0EfzVDAlBf0oDe3PdEWNW6xfIu5jaE4kYTBoAffjio2
-         /s42bk+qOXYqo07f6dcDH8rcub40utc03pHdvCn2mx1WvQUQYmxEJLFwxFiiivRE6H5B
-         +lVQfh97ZGL6eTLnJ7iC7+MrVAaPxmP7Uh6LbT9YuoCcltuF3GWyskc0e7d+Mqcmac3f
-         KJEg==
-X-Forwarded-Encrypted: i=1; AKwUvBxsqJjJ+iiN04HDXt+hpa/IxXzZNny27EWsWtVS8T1QpqqS73tjmYG7nxg8Pt5Hreou4sNiO0zADoI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z83MKaUcj114889F2yfKdne52s6/wcCoN74mygWal/0XU1rzwf2
-	+LJ4b8yPvnN7JU5qLbV36seLPaZ+Ro74Qi/yJoOcovqp7BZhc3GyfaSHdB+WD89x843FL7LXnwk
-	8UfG5FsJ8wOes5XhBKgp3Ldr1iGSNEyigo1zlZdBVVJOeriN3D7tW7LfvzrA2XKk=
-X-Gm-Gg: AYBFou0Fs1NMndrnFuifY0xJjeGAwiC8+8jUXTN3WODDj3Jdbe1Sjf4G/bbpkTOZbnW
-	1CckNdzJV/FBBFzi2yDhL49bhQeBMj4Sc/YYjx3btGwMsTGsSEV3vMhTNC2+Ju5E82SRX6T0bHF
-	4x3tJMJerfZn3uVbgzsKMw2V8deKO2MQ506oI/qRzE+opCF3K1rKVH8sYZKLdpwGu+gSdPAgeFd
-	AyjrZjPR3pRvDUZcxiEKHuPWHc0g6VC9YkcrcvdWgvN974FcQY8e944KuC3Ii51qJQ+q0eelY+9
-	w/spr7VFZyWsLiy9gbIlu2ZtvRaKZNIUforW+6cs6XRH85LpyZwQPdaasJkenFg7FBzYASLcTnO
-	P7sSnhuT04hxYJvhILUG4Q7hNa46TN5DMh2PHffxBkTuvB74/cIYWrSQ8rhj7/yicfi1zugvX5v
-	1H4Q==
-X-Received: by 2002:a17:90b:5623:b0:3aa:6b5d:a018 with SMTP id 98e67ed59e1d1-3ae89866277mr8172366a91.67.1793616743900;
-        Mon, 02 Nov 2026 02:52:23 -0800 (PST)
-X-Received: by 2002:a17:90b:5623:b0:3aa:6b5d:a018 with SMTP id 98e67ed59e1d1-3ae89866277mr8172345a91.67.1793616743488;
-        Mon, 02 Nov 2026 02:52:23 -0800 (PST)
-Received: from [10.219.57.104] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3aebc8942e0sm4951335a91.7.2026.11.02.02.52.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2026 02:52:22 -0800 (PST)
-Message-ID: <c8375e63-e358-469f-9e9e-8a174137f914@oss.qualcomm.com>
-Date: Mon, 2 Nov 2026 16:22:11 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pFIIuG9I
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=gmu1a3NLHJfVVFwt2LsdZOjGhk0iaWLym4PaWiReE/U=; b=pFIIuG9Ix79G8xtMZU7N6Ru1g/
+	ZU3lybPoXV7qM675SevAwh7hG+KsUjzeYFFwu7JmsN+Tf6o0YExqPLv0X6j+PsEXW8OFJ0oruSiLy
+	JcWmASAayz6MW29RAESxTQi1aJGAjIwToi+cSjZSylBV5lus3FTCmYwRmVQNk2442enb21IFLrr/X
+	HO0cxL7jYPNZuBK2fg3Zfn3qpay6yRrHiVqOzMdKRkI/ES7fwqc1dLw6iOZUzrFNFQdvcMlEVdwb1
+	yuaB5WAUaaap65CXZHSE9Uym6hjsnuN8j8ysKdQWfg4XKxpQi3fknF/733Vgd+n3xZAxKog42HbsP
+	luZ4SBJw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xNpm8-00000002PBW-3HSe;
+	Mon, 02 Nov 2026 11:00:29 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id AE3153002ED; Mon, 02 Nov 2026 12:00:26 +0100 (CET)
+Date: Mon, 2 Nov 2026 12:00:26 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Yury Norov <ynorov@nvidia.com>, Ingo Molnar <mingo@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
+ Kconfig.preempt
+Message-ID: <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261101192203.6979-2-ynorov@nvidia.com>
+ <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,116 +93,115 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/25] accel/qda: Qualcomm DSP Accelerator driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Srinivas Kandagatla
- <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Philipp Stanner <phasta@kernel.org>, dmitry.baryshkov@oss.qualcomm.com,
-        andersson@kernel.org, rob.clark@oss.qualcomm.com, jgg@ziepe.ca
-Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
-        sandheep@qti.qualcomm.com, Bharath Kumar <bkumar@qti.qualcomm.com>,
-        Chenna Kesava Raju <chennak@qti.qualcomm.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        Ekansh Gupta <ekangupt@qti.qualcomm.com>
-References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
- <a97fb0b0-e4e1-4b25-a5ac-60777941c574@kernel.org>
- <26ca5c66-a2ff-4aaf-9c9d-724ac66480eb@oss.qualcomm.com>
- <da2b5192-a081-4469-92f4-2ecfcf502e4a@kernel.org>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <da2b5192-a081-4469-92f4-2ecfcf502e4a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 5qRX-4t1AsVVEZa9HDBiWwGJoL5fZ2_c
-X-Proofpoint-GUID: 5qRX-4t1AsVVEZa9HDBiWwGJoL5fZ2_c
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX/9TtjC3uh5iH
- fwfjGJmymB1wdbmqgJf3giXmoXpGblL2NbE65W8bYTCEssiw1H15zrD8qarud+NWvmSdZsEMjOg
- oBCuhbJwtaeT+07lJMaaDgjvwiwgPbs=
-X-Authority-Analysis: v=2.4 cv=QoHLTlyd c=1 sm=1 tr=0 ts=6ae86b68 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=oPeKDEZYKiJIZNr3YAsA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX6uGRIsI3QgwP
- wG9lGalTFZs/5nHCIW9rOpxruobARk9Asp3h+FWqwDJUlboBgYjkWqCKeehwdSICnprD0B120Mx
- qC1f8AQLAeX5beto7ZxMZkYVGBU376uG2MVlucz+qbeeKc35gVw71+wJwhEVA4ElGaJQ3F4lBjm
- TdiJm3cuEeFSzUTtob0PNtt7SZ4dadhgvaepprVN3xOf9jCMxOVVAThSSbb6o4o9ZZtIh9CK7iV
- /TyFAhZQzjB+y0pjxCcFBsIsgiZvL4JaqCTUs8N5OM7SdQzY+NdCksS8T996oF/w6ohTYUclW8f
- SJGvEWtau/dj70Op/2+4p0f8GS+bwQhccFfqvP+EOGlOvpFEd3i2nV3wgJJVxniloRRv7oM38wh
- vk9OnQtLDtbr18GTu1dD98oY5SSQSvK6n6FpU8srQVy4MZk/Pu/3sGBXfn8wjHZeuKhesWJ6eov
- +9JzyVltIs1G1M99CHQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020043
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
 
-On 02-11-2026 15:42, Krzysztof Kozlowski wrote:
-> On 02/11/2026 11:08, Ekansh Gupta wrote:
->> On 02-11-2026 14:23, Krzysztof Kozlowski wrote:
->>> On 01/11/2026 23:21, Ekansh Gupta wrote:
->>>>  drivers/accel/qda/qda_soc.c            |   66 ++
->>>>  drivers/accel/qda/qda_soc.h            |   61 ++
->>>>  drivers/misc/Kconfig                   |    1 +
->>>>  include/uapi/drm/qda_accel.h           |  282 +++++++
->>>>  33 files changed, 5877 insertions(+), 1 deletion(-)
->>>> ---
->>>> base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
->>>> change-id: 20261102-v4-e8feb321263f
->>>
->>> What is happening here? How are we supposed to work with this?
->>>
->>> v1: 20260223-qda-firstpost-4ab05249e2cc
->>> v2: 20260519-qda-series-78c2bf0ed78b
->>> v2 again: 20260817-qda-v2-78e2d1f10529
->>>
->>> And now completely different one?
->>>
->>> This makes the change id completely unusable. b4 diff obviously does not
->>> work. Any tracking of this does not work.
->>>
->>> NAK, really, I already complained internally months ago about such
->>> practice, so apparently not enough.
->>>
->>> Best regards,
->>> Krzysztof
->>
->> Sorry about this. I lost the original b4 branch and re-enrolled the
-> 
-> You lost original branch four times. It's not a coincidence, it's not
-> random data loss because then after first loss you would solve the
-> problem. It's a broken workflow.
+On Mon, Nov 02, 2026 at 11:16:30AM +0100, Ilya Leoshkevich wrote:
 > 
 > 
-> Best regards,
-> Krzysztof
+> On 11/1/26 20:21, Yury Norov wrote:
+> > The IBM s390 doesn't enable PARAVIRT config for their hardware
+> > virtualized Logical Partitions (LPAR). However, the steal time is
+> > accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
+> > is enabled.
+> > 
+> > Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
+> > and requires it to minimize the configuration space and runtime overhead,
+> > with the lack of non-paravirt user. Now that s390 wants to adopt preferred
+> > cpumask, there's no reason to keep it coupled to paravirt.
+> > 
+> > Make PREFERRED_CPU a user-configurable option, even if paravirtualization
+> > is not enabled, and drop PARAVIRT dependency on the steal governor.
+> > 
+> > Keep the default module selection conditional on PARAVIRT so other SMP
+> > configurations can opt in without enabling the governor by default.
+> > 
+> > Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
+> > CC: Mete Durlu <meted@linux.ibm.com>
+> > Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> > ---
+> > Can be applied independently from the rest of the series.
+> > 
+> >   drivers/virt/Kconfig   |  8 ++++++--
+> >   kernel/Kconfig.preempt | 12 ++++++++++--
+> >   2 files changed, 16 insertions(+), 4 deletions(-)
+> 
+> This is really useful to us, since even though s390 is nominally
+> paravirtualized, it does not technically benefit from defining
+> CONFIG_PARAVIRT.
 
-You are right, and I'm not going to call it data loss again. I started
-each posting from a new tree and re-enrolled the series every time,
-which is what produced a new change-id for every revision. I've changed
-how I work so this cannot happen again:
-- one long-lived tree and one b4 branch for this series, used for all
-future revisions;
-- before every b4 send, a check that the change-id is still
-20260817-qda-v2-78e2d1f10529.
+And therefore removing PARAVIRT is the only possible solution?
 
-v5 will continue from that change-id, with the v3 and v4 postings
-recorded in its history.
+> Specifically, steal time accounting happens by
+> computing a difference between wall time and CPU time, and not by
+> explicitly querying the hypervisor.
+
+Nobody explicitly asks the hypervisor, that would be horrendously slow.
+
+Something trivial like this should do.
+
+---
+ arch/Kconfig                           | 9 +++++++++
+ arch/powerpc/platforms/pseries/Kconfig | 1 +
+ arch/s390/Kconfig                      | 1 +
+ drivers/virt/Kconfig                   | 2 +-
+ 4 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 1163736de1f9..8980054beb52 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1080,6 +1080,15 @@ config HAVE_IRQ_TIME_ACCOUNTING
+ config HAVE_PV_STEAL_CLOCK_GEN
+ 	bool
+ 
++#
++#  Archs that can account CPUTIME_STEAL; normal route is through PARAVIRT which
++#  selects HAVE_PV_STEAL_CLOCK_GEN. Directly selected by s390 and PPC-LPAR
++#  which have their own thing and don't go through generic cputime accounting.
++#
++config HAVE_CPUTIME_STEAL
++	bool
++	default y if HAVE_PV_STEAL_CLOCK_GEN
++
+ config HAVE_MOVE_PUD
+ 	bool
+ 	help
+diff --git a/arch/powerpc/platforms/pseries/Kconfig b/arch/powerpc/platforms/pseries/Kconfig
+index 7d125e288f6e..3c49baf606d7 100644
+--- a/arch/powerpc/platforms/pseries/Kconfig
++++ b/arch/powerpc/platforms/pseries/Kconfig
+@@ -41,6 +41,7 @@ config PPC_SPLPAR
+ 	depends on PPC_PSERIES
+ 	select PARAVIRT_SPINLOCKS if PPC_QUEUED_SPINLOCKS
+ 	select PARAVIRT_TIME_ACCOUNTING if VIRT_CPU_ACCOUNTING_GEN
++	select HAVE_CPUTIME_STEAL
+ 	default y
+ 	help
+ 	  Enabling this option will make the kernel run more efficiently
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index 7138d923d86f..03a884355218 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -291,6 +291,7 @@ config S390
+ 	select USER_STACKTRACE_SUPPORT
+ 	select VDSO_GETRANDOM
+ 	select VIRT_CPU_ACCOUNTING
++	select HAVE_CPUTIME_STEAL
+ 	select VMAP_STACK
+ 	select ZONE_DMA
+ 	# Note: keep the above list sorted alphabetically
+diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+index eeb84e578ddf..a3721d34a55c 100644
+--- a/drivers/virt/Kconfig
++++ b/drivers/virt/Kconfig
+@@ -43,7 +43,7 @@ config FSL_HV_MANAGER
+ 
+ config STEAL_GOVERNOR
+ 	tristate "Dynamic vCPU management based on steal time"
+-	depends on PARAVIRT && SMP
++	depends on SMP && HAVE_CPUTIME_STEAL
+ 	select PREFERRED_CPU
+ 	default m
+ 	help
