@@ -1,58 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.243
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793589850;
-	b=wfDIIqhCxJQmWUvdnDm0bbXLEw75dWkz4UJc3Rhmgc2JHoK1V2IR9eE4EnP6tKNwT5JO
-	 21/66FJi9ZvkPWx3LpC0fdopPirN7t32SQJeGKdxjRXIP7XFWP88kjzG3+P6X8Yk6qB3y
-	 1jTiFMXTzICyO0gHuBs1Usw1vGTCZcMTU/Hb49HGBA3um9PNGtBljM16GYFqLXXO8SAKL
-	 hSUZs5k0Z3e6SJ5hviZtX3Ogq4ELt793FChCGlksnMZuAmGlmQlOXulNptTodVYw3Gz6V
-	 5fwtjWTEugRR0awuhLAhplKjcosqYoICDRXt5FPC2iWGU0S4bHp1a9uRHbRhtKB+8VQ==
+	t=1793590379;
+	b=tSkJpbEYdjfXVmJA6sqV43Jv7pv3XpGAU7SqZhxwyO6w/tARujLMd2uXvxKD/dRIScG6
+	 RKwLvrsg7WrSIaQvQOsDo3Y5twuw6ukY/5bRLSTpvzfGhva6uhuaZD2PUFlsTrzeFaQJE
+	 brKUv9R5bPTZ8UlIclEjZwIhif3OL73TOAuiHqQxQLHAlvLl3K01tvIx8XLd2R7uB3/J2
+	 623gkEeZ0T1GYmt1HX7ehN1KUI1SVhxYf0+x4NtRTUxXxUd8YU3TE9FM4hPKhSA9+hIni
+	 ZRHwEWq4kt4Da9YNIkR3KN/egGNnG66LlvrfD/6NAByjGtVOQsLGsyOqZjKk9mz2ecw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793589850;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=KaTdiwMWudYfERU/E+XvtEtv6XN7xCCT4UxFwKCQbgY=;
-	b=xm1M9SD5zZrYKPyHrO33C7woGgLJE8VHzhe7I6rDZIipQTFdHmbBhr6cQjUvddnCQlEj
-	 1U7brZgfne5Qo88Pp4IaVyUm8oywuV0t6gUQOzhdKSFeTh1C3jyCgxRk5FKDiG8C0EYWR
-	 oRAhjXNiT0JIuBPKQN2e8Fj5Sz4eieK6evlmjF6M3Uuzc4P9TDjijrZWjmCfxVFP8HX7/
-	 55uKExa5kFpVwnGBcwOiuOXsNtVZmOC/PwsOvZt/r9kTw0HBYHyhjPG5bjezfyNkzWyN3
-	 WFM2edlXURqRw4ANySoF2wHIbd4NSt1Oy+pYJROjFXm6PhR6UZLv/Zd2wfjp6S36ppA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793590379;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=m/8uEgVZBiGs6GhX+EaixTcEV6WwGEnxdOq6kuEraE8=;
+	b=AgtHV2+RZSAXjS7aS0Vp2md6izTk66gu5bqShYCR6BBFbf+nw6KIDIVyxNyy3jnTFOJn
+	 bs77TE3M8pKQsh8Hz/LVzy4Qgr3L1Gh1YlDYsFWL1IQnd+2XprI20QmX8yDoJt28KL1fK
+	 6VqHAME4PBF3T/B1hWCBrGJ2tgCTutzYRTScFUf0Y/PvKq2VOJqsjR4s//8qSrduiZzRR
+	 rrZyqOt2U/tI1zmFlvqPQi1YSOeS3e8jAMRqlyDpHM0wpUruhiVcjyIAY8q/bWHlDnuYS
+	 YxwJkb8kRefNeGfvDbFPeuTTSlRBCPVv50pBmQEy+mGZLU5cr8vfRXU0Mg2x+X4L5PQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O2p8XH9+;
-	arc=none smtp.remote-ip=113.46.200.218
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3nhFDKM;
+	arc=none smtp.remote-ip=91.218.175.243
+Received: from mta0.migadu.com (out-243.mta0.migadu.com [91.218.175.243])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470E3606A324;
-	Mon,  2 Nov 2026 03:24:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 470E3606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3AE606A326
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 03:32:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE3AE606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=O2p8XH9+
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=KaTdiwMWudYfERU/E+XvtEtv6XN7xCCT4UxFwKCQbgY=;
-	b=O2p8XH9+nIKo/SHJQvkoNlL4LG8DUPa7z5az4NMbn4QOSUwJiVcYlpUUX/m9TA7CQfyPm2MvU
-	Cwh5LZ6dROeeylnsx9068aMRCbanodwtjZlAGPjtuw2LVfYHEH7g6S6Ul29eDy6TYX4JY1IF6uP
-	NNoos+v4xL/Z385AyfTy/iA=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jHxqs4cm8zpStD;
-	Mon,  2 Nov 2026 11:23:37 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9E70540561;
-	Mon,  2 Nov 2026 11:23:58 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 2 Nov
- 2026 11:23:57 +0800
-Message-ID: <9880eb24-2189-4592-a999-5769c59ebb81@huawei.com>
-Date: Mon, 2 Nov 2026 11:23:57 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3nhFDKM
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=nNlyAiB0N622Wf4HwaxQyqQjcvp12NITnvjasTRHZ0c=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793590372; v=1; x=1794195172;
+ b=G3nhFDKMWIE7AKZx4ckudlwRejG9HG2FRVh9P/6SFJu7sIvMUo2yJB+SF8+tTU/HuPyHRDUy
+ RwxsYecrmTpIdK+6S0G4Nm8uxKCjJmQuNH8UW166d/IUYtVr+Q/lKxufAOPg4aR7jetkKEDtpUJ
+ kPubV+BA0P79DmaYzj8lAjIs=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id d0263b54e1afad11;
+	Mon, 02 Nov 2026 03:32:51 +0000
+X-Mizu-Trace-ID: d0263b54e1afad11
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 2 Nov 2026 11:32:36 +0800
+From: Hangbin Liu <hangbin.liu@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
+	Joel Granados <joel.granados@kernel.org>,
+	Fernando Fernandez Mancera <fmancera@suse.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Thomas Gleixner <tglx@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Maoyi Xie <maoyi.xie@ntu.edu.sg>,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+	Yung Chih Su <yuuchihsu@gmail.com>,
+	Wyatt Feng <bronzed_45_vested@icloud.com>,
+	Hannes Frederic Sowa <hannes@stressinduktion.org>,
+	Flavio Leitner <fbl@redhat.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3 5/5] net: restrict message_cost and message_burst
+ to non-negative values
+Message-ID: <augEVIHANesq7xkO@fedora>
+References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
+ <20261101061331.286404-6-jiayuan.chen@linux.dev>
+ <auftqzpuuNFiScrb@fedora>
+ <2fd1dc53-ae46-4163-90a4-f916c9dce29b@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,105 +89,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/19] resctrl: Generalize monitor events across
- resources
-To: Reinette Chatre <reinette.chatre@intel.com>, <james.morse@arm.com>,
-	<ben.horgan@arm.com>, <fenghuay@nvidia.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <mark.rutland@arm.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tony.luck@intel.com>,
-	<Dave.Martin@arm.com>, <babu.moger@amd.com>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <tan.shaopeng@jp.fujitsu.com>, <jic23@kernel.org>,
-	<zengheng4@huawei.com>, <gshan@redhat.com>, <x86@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
-References: <20261029123611.1108424-1-ruanjinjie@huawei.com>
- <d4a54429-7d45-4936-b5b3-06d8fa8545ee@intel.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <d4a54429-7d45-4936-b5b3-06d8fa8545ee@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fd1dc53-ae46-4163-90a4-f916c9dce29b@linux.dev>
 
-
-
-在 2026/10/31 1:09, Reinette Chatre 写道:
-> Hi Jinjie,
+Hi Jiayuan,
+On Mon, Nov 02, 2026 at 10:23:30AM +0800, Jiayuan Chen wrote:
 > 
-> On 10/29/26 5:35 AM, Jinjie Ruan wrote:
->> Resctrl only knows about monitoring at the L3 scope. MPAM monitors are
->> attached to a resource in an MSC, and firmware says which cache level that
->> resource is. The driver already finds L2 monitors, but resctrl has
->> nowhere to show them.
->>
->> This is not MPAM specific. RISC-V can also place monitors at several
->> points in the system.
->>
+> On 11/2/26 9:55 AM, Hangbin Liu wrote:
+> > Hi Jiayuan,
+> > On Sun, Nov 01, 2026 at 02:12:03PM +0800, Jiayuan Chen wrote:
+> >> net.core.message_cost and net.core.message_burst feed the interval and
+> >> burst of net_ratelimit_state, but neither rejects negative values:
+> >> message_burst uses plain proc_dointvec, and message_cost uses
+> >> proc_dointvec_jiffies, which happily stores -1 second as -HZ jiffies.
+> >>
+> >> Since commit a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are
+> >> negative"), ___ratelimit() splats on such values, so the next
+> >> net_ratelimit() caller warns, e.g. a martian source log:
+> >>
+> >>   Negative interval (-250) or burst (10): Uninitialized ratelimit_state structure?
+> >>   WARNING: lib/ratelimit.c:43 at ___ratelimit+0x56e/0x960, CPU#1: ping/3218
+> >>   RIP: 0010:___ratelimit+0x578/0x960
+> >>   Call Trace:
+> >>    <IRQ>
+> >>    net_ratelimit+0x1c/0x30
+> >>    ip_handle_martian_source+0x1bb/0x340
+> >>    ip_route_input_slow+0x1057/0x3650
+> >>    ip_route_input_noref+0x104/0x260
+> >>    arp_process+0x109b/0x2510
+> >>    arp_rcv+0x381/0x460
+> >>    __netif_receive_skb_one_core+0x173/0x1c0
+> >>    __netif_receive_skb+0x21/0x150
+> >>    process_backlog+0x37e/0x1200
+> >>    __napi_poll.constprop.0+0xa5/0x5e0
+> >>    net_rx_action+0x4c0/0xf70
+> >>    handle_softirqs+0x204/0x9b0
+> >>    __do_softirq+0x10/0x18
+> >>    do_softirq.part.0+0x49/0xd0
+> >>    </IRQ>
+> >>
+> >> Negative values never meant anything here: 0 already expresses both
+> >> "no limit" (interval) and "suppress everything" (burst).
+> > Will this limit breaks the UAPI on old kernels that supports negative values?
 > 
-> One key to this is in the first sentence of this cover letter: "Resctrl only knows
-> about monitoring at the L3 *scope*.".
-> 
-> When it comes to exposing monitoring data to user space resctrl has been using "L3"
-> interchangeable as resource and scope. 
-> 
-> The existing resctrl user interface already establishes that the "L3" in
-> "L3_MON" and the per monitor group "mon_data/mon_L3_xx" refers to the L3 *scope*,
-> not the L3 resource. More specifically, consider the existing user interface:
+> All commits in this series restrict config values, and every one of them
+> changes the old behavior to some degree; the question is whether the
 
-Hi Reinette,
-
-Thanks for your explanation, you are right, the "L3" in "L3_MON" and
-"mon_L3_xx" is the scope, not the resource, this interface can include
-different resources such as MB and L3 at the same time..
-
+The other patches fix shift-out-of-bounds or incorrect behaviors.
 > 
-> # find mon_data/
-> mon_data/
-> mon_data/mon_L3_00
-> mon_data/mon_L3_00/mbm_local_bytes <=== monitoring data associated with MB resource at L3 scope
-> mon_data/mon_L3_00/mbm_total_bytes <=== monitoring data associated with MB resource at L3 scope
-> mon_data/mon_L3_00/llc_occupancy   <=== monitoring data associated with L3 resource at L3 scope
+> change is reasonable.
 > 
-> Associating the monitor events with the L3 resource was an implementation choice
-> that was convenient at the time. Since L2 can similarly be used interchangeably for resource
-> and scope associating the L2 scope monitoring with the L2 resource may similarly be convenient
-> when considering how to support L2 monitors as is done in this series.
+> 
+> For this one, negative values never did anything that 0 doesn't, and
+> since a940d145cc38 setting one already triggers the WARN_ONCE().
 
-L2 works here only because the names happen to be the same for resource
-and scope as L3 has done.
+While this one doesn't improve anything other than the WARN_ONCE.
+The previous kernel works good with negative values.
 
 > 
-> Even so, I do not believe that associating monitoring with the resource will be
-> able to cleanly support all MPAM monitoring capability. Specifically the upcoming CPU-less
-> memory bandwidth monitoring.
 > 
-> As I see the plan at this time: CPU-less memory bandwidth allocation will be
-> backed by a new MB_NODE resource. For these systems the expectation is that their
-> monitoring data will be exposed to user space via NODE scope and will appear to user space as:
+> > As the comment in ___ratelimit() says:
+> >
+> >         /*
+> >          * Zero interval says never limit, otherwise, non-positive burst
+> >          * says always limit.
+> >          */
+> >
+> > If all others agree to set the limit in this patch. I think the comment
 > 
-> mon_data/
-> mon_data/mon_NODE_00
-> mon_data/mon_NODE_00/mbm_total_bytes <=== monitoring data associated with MB resource at NODE scope
+> 
+> The comment and the WARN_ONCE() are about ratelimit_state in general, not
+> net only. There are still other ways to set a negative value,
+> printk_ratelimit for example, so updating them is not this net patch's
+> job.
 
-You are righ, associating monitoring with the resource cannot give
-mon_NODE_00 but mon_MB_xx. I am happy to key it off scope instead for
-naming and display, and keep the resource-based event tables as an
-internal detail.
+printk_ratelimit is not recommend anymore.
+
+/*
+ * Please don't use printk_ratelimit(), because it shares ratelimiting state
+ * with all other unrelated printk_ratelimit() callsites.  Instead use
+ * printk_ratelimited() or plain old __ratelimit().
+ */
+extern int __printk_ratelimit(const char *func);
+#define printk_ratelimit() __printk_ratelimit(__func__)
 
 > 
-> The cover-letter is titled "Generalize monitor events across resources". As I see it such
-> generalization does not prepare resctrl for all MPAM monitoring capabilities. Could this
-> work do so?
-
-CPU-less NODE monitoring is not part of this series, but I will make
-sure the scope-based naming does not block it.
-
+> > and the WARN_ONCE() , and the admin-guide/sysctl/net.rst all need to be updated.
 > 
-> Reinette
+> 
+> 
+> net.rst never documented a range or even the unit for these two, which is
+> why I didn't touch it. No strong preference though.
 
--- 
-Best regards,
-Jinjie
+I think a doc need to be updated if you set a range limit.
 
+Thanks
+Hangbin
