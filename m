@@ -1,86 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793609233;
-	b=bJ/x2JrKVpzdsoGmtcckKv6bKMitXDTlUbVG9l+t9d+jmV7fSiD4Gdw6fOnRkMrbpXK/
-	 ODraWyHF9qtOZiUvMt2giivn4xcobUhBSaWbHo5tTIGNcCrdK2pwXb8vn3rWNYLAEtkHW
-	 IjH/00rMq44c8rOBerg16dL2hqEeDO4HDnCpC3u2cw/p7+Cqt8K8vmHsX0v9p18uiHt2D
-	 o8J63TS9XWwsDNJUXoxr5gZKocsqNwOSDx3hq9HhsX2rfRsvTj0j6h77+UkIKRhT4ndMs
-	 Nwu/j/rI8Eg8tPR0PE8O26KZIPmQYlevRNqUAfi7WV/FXVeEnWX04sINTK1Kb5C4ThA==
+	t=1793609249;
+	b=r8gLvaKl+zU5XDYP4lEdbMjCn2q1OL54eR0AKabTicDHtvltjrEBErMz++B+YCFGJPj4
+	 l3owaI4+uiXkX8dXAmvrbLY4WggK2BvChKcqaunH0FLSQBWHSVW28QULPUEyE1+iEHdHM
+	 MrpjVzHlYZD7ZE5DPHiLAfw6fSwPaCpg7s77SWk/7FyJD/bWChvAgjckVB7O3LJgIbiSU
+	 DOct2/Yobg0E+FkjUTS8fB5i7UltqkMWT8S3S4JcCndf0rJshKA75mfxkmcpg3vg1A2B7
+	 RP4f5pOtRnKk9nALxbvrKW24IofUHbBKzUoVz5cWHGg23RAp9U2Flp4PS0lw5wVY2KQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793609233;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=O6XkqYJ4LCtg+uTN40dEnOg33yY3/MM80Et9d1AnyoQ=;
-	b=xZKOE0XHA3zQ7wNd5iKl7A9//yFMQs8hK0D3/V7WWxnjmTrCYuThcIE07jzGPAyN+Qv+
-	 yviaxbp4aHHKilddXiOAvMTgGtk/zZtwScJggcs0HPomg9EG7fSJkGr8z4IsgpKaWdwHC
-	 +gbBrdTZYqmdZAXh+DT+i6mFrODAKEOtrYOi3ZzLeHqt1YGQxAY6Jefsn5/ofutKjNipk
-	 ulSZC6QqLUCHZpV3tyXzZQQRBNqlXlaJAQ9JElwdrUcl8LpP/c3ao06khTSO6VLkAQ2hv
-	 +k7uQXZ9AVQ/bK3vsiJ8eBG5czi/z+2PhflR3YFiPHGev4lwLvCygdqm/S2HGjDjcyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793609249;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=l6DsGMOyXtuNDoStZPgvM5A17Ioji7L+0RH6yC6Z3uY=;
+	b=pwACKErcXOupP0kdjaySg3X3bwDTRHb1Doul8IGxdvmsVRXcQmTWee1OxFeM9VGmUQE/
+	 8XW/gJYA+QOWWMSwbdYI2V1Gv5t/grWP4zmk//aDzzH1/puDAd5glxamNiklrtjES5RrN
+	 QAk9takEv/PU6R96tSjx7RZWoSPQpSAheomWFBI5UjpigWXptXuD30at1eHdUGYWtnZek
+	 gTO0bkAcYZ+AC59ML4+a8HCTnq1vnxeaym5fTIV2juDHZi1hOS49C8/BWyeRbmks/VHcH
+	 bK0V9DGgWGS186rEL4OYYPmlzIxB4TIcypN2fp7PFr7f9qxENKQebYYIvScjw7Ygvvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=J33ugY7P;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=GbB3EhDi;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=dvTlFKdr;
+	arc=none smtp.remote-ip=103.168.172.147
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B622606A329;
-	Mon,  2 Nov 2026 08:47:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B622606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4942F606A326
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 08:47:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4942F606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=J33ugY7P
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=O6XkqYJ4LCtg+uTN40dEnOg33yY3/MM80Et9d1AnyoQ=; b=J33ugY7PgrW7DnzIWE9Xn7D5Jh
-	anvIDvyIleo64jYgJrJRfmEXWTJtvut4yTs3nlMiV0T/8WOcATAFr6Jac2ORjQjOY/VQgnFrd5voQ
-	+o/D/yg978HQ/N6QCiq6p1y9ZajKCnteMxYNCn5fRI3OKoT0QyghbeyIv3Z4R1RBJ6eQEkKqB8KRi
-	6Rg4mn51QJmE062vd/ufQhftAxLXW39yWSrOxhFt0kUp3whIxdR6DPw++1iim36iaeTKRhdX6WWGo
-	B8PoJ75tfXQ7Nq793Et3J5UP5gvTJ+UR/Z4CEcqnf8aZixxgvk1zgPSAYECCxl0TCK8ODQbaN2TMG
-	bhjfzeFg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNnh4-00000001Yrx-0VPY;
-	Mon, 02 Nov 2026 08:47:06 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E0D62300312; Mon, 02 Nov 2026 09:47:04 +0100 (CET)
-Date: Mon, 2 Nov 2026 09:47:04 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-Message-ID: <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=GbB3EhDi;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=dvTlFKdr
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6DA61EC01BF
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 03:47:28 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Mon, 02 Nov 2026 03:47:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793609233;
+	 x=1793695633; bh=l6DsGMOyXtuNDoStZPgvM5A17Ioji7L+0RH6yC6Z3uY=; b=
+	GbB3EhDiNpybHa8kt4PpX982+k63R35WFRwl8r/oZ1F4VOr08E8yfUQ1svHiAc1X
+	tRX4uR5XKuSpz165KRk6KC4d4H3fi49IH402Du5mWFMBsjG8xTjsL8iBnYiKAlpK
+	RxD0znwWxUMHqj3VfBHVt5JPVoIHDlqLaFGtbXbaicoMOSDsj64H4Sffxoy9s/KE
+	7JkSFWrNx0aa50rsbEz+1eTDTuU8zEdLv1E+3t3xPUm+sDESRYWXU4xfwxFg9ONd
+	FN+NQjyimXhbnssQJWE6dFH1qBKnmJrZbRx6jycAva/EDYJijTobv75ORz4/6sAr
+	AIN/VI1jqQHNbxelQGqr+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793609233; x=
+	1793695633; bh=l6DsGMOyXtuNDoStZPgvM5A17Ioji7L+0RH6yC6Z3uY=; b=d
+	vTlFKdr58LA/trh6wtB4RBGkXgZBf2uHFU7n50nnjLxtZVHUCYwSCpPRjcxM6wZH
+	LxrppkeYqfBhnotRPXlbD5cgpHXx/R84j/URzmhdBN6NzotlERj14vcKzNXUDCKw
+	Iw681KG1U+nejM2xLvb7Z9KvrG96ZdFEYs03OA8JmQqdEZxrjk9muX48PlhSGxBq
+	R+qsl0rphGUBO3iMlPctsBF7+FcDBaDetAbGYH7myVP2JM4PBeAu7Xl8bp3Uars7
+	leWa6RqFLYUvpN4wGXEneET/hwQLeyb73lEsPjbXwmp79oxvmKukHfsEbDdcoL9l
+	h1hXhOrFKKZXHaC+wwWdA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793609233; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:azUBNyzIn+buGkK8YtF8eQA/uZinKyWXxSRCqam/TEgi1oA
+	tF/vXYXdR/Re5BW/rJsG7yB+6zQit1WQL0isKEIpMpiAIoRAiq9CjUbiYGMAltrF
+	StynSASNHnHcRmPR6t0zYdVkpCa03dVgb+mcLTkoFnxrmxHqlbGRbwiApAljGU3s
+	XGO12COEidIezUp98mFSqtlb4NJp6vkXAHliO9WvsIHH2FF7YU52vMyhgAMcb9Lo
+	JllUlGuo2jXo05H+gt7mx+ri2jdI32utPT1womCSKzby0H3QYB88DJ3iWDS8gRTP
+	fPqu3GjZgsDdaUKu8Z13AbSsKVbQ3ZrxPJY9Jlg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:lY8/s58j5uHeae/SYZn6Q5MKOgAcEGJSIJY/AHMO/84=:hALQvJz53oAZKjfxBv3bBWFXhC+sQXJbjxtuhKKtNsA=;
+X-ME-Sender: <xms:CE7oaj8CMpnVzEzlDwM11LaHHRvnXkh3zegNCVXkqb61X2p7SfeTvw>
+    <xme:CE7oaqhi8rdFHFUVaSnYZ1uxeWonDgJuFWxIEuDhA9rrLDTqE6Ai4N5v9C9i7LNnV
+    BlI3s8MWLKepsOTV4PcUlh33cr_OcW-oHBweAfx3NIyNApudHZfWGak>
+X-ME-Proxy-Cause: dmFkZTF8YngIkqjubXoTQ71/MEbV9w+UTqIQ2wI8bU70Btlsc2Biv/ITwdLY0SySvwyES7
+    0cBjn1ugARCmvsdejCIfHs5UHrReO7j1LcbT/rTxsbJgOi5nIH6NH3thRtOfES4CdcuK0y
+    zK3FDMLxByEff1u1sEFXk2krXDha+mwjuYZcpL/h+vr3E3u6MaeXCwlpmdQHK1IU/z/g37
+    NTOHoLn1u1v+wtgJZtNVn9rPvOzMUQDq+SIVOpp/xLaE/KqN8Zm6Fi08h65Lqay4PM8Llb
+    Bxbh0dxbqxEIeJIIAFSmvxbWgfINpazKjGZKjhE2hVgLH9Bj7AMk1N5TDusFfYP2zdRSnb
+    fIE6C84mJGoOB/MWb6t/w8q/rgm9lYqWKtKM/HqWjWzcx6BuXvIvHHJhrGz2BHSs5uCHzE
+    zN5JGQsQg0zik6gYwK4c+q5H3L3DTufmkhjLycFENbClhxRGu82TzcS9fJDcNzoU7czbkQ
+    uVCm5LvW7Kp2U83Y0EPI/gVXVuQGndTgEa6vci2WGb2OHEyoRLO7EnCdLNF4lTd2VhtAld
+    BbFV+Y7nMWVssapR3ffyTxHJ3mgWTo7UVejJvtQ/O1rSl551rixb/v+LOVff9KAfDNnTBk
+    k0veW72p8FtA96jV+c6Mx3qoI1h3pjZucvr1hZ6uzGkKMp4DRXnhQySEFGIg
+X-ME-Proxy: <xmx:DE7oahEAiOvAF3aBW6R6IiO9l6qaWOltrof37fNBGnErnBkMqjiO4w>
+    <xmx:DU7oagKVDrqScTltvDLGw6O0t4Eta4j22A91W62e2Dx-xB5SxPyx3A>
+    <xmx:DU7oah8plnFzlFw8ivZww5QXYBmAk6dDJQpXGFSfJ5tt0qaohtQbvg>
+    <xmx:DU7oaieG2q6mDfAP91vbWjygVqND_iwRGWAeiYesX6Z1r-BMqgq8zg>
+    <xmx:EU7oaoAUDOt83cZeHMYy1cEuo-AetZ0QcF2Gg0vrhNxTaqjMrAzezNAt>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 36D0532A0097; Mon,  2 Nov 2026 03:47:04 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,49 +115,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261101192203.6979-1-ynorov@nvidia.com>
+X-ThreadId: AqeHuJwVl4no
+Date: Mon, 02 Nov 2026 09:46:43 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ekansh Gupta" <ekansh.gupta@oss.qualcomm.com>,
+ "Oded Gabbay" <ogabbay@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Philipp Stanner" <phasta@kernel.org>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, rob.clark@oss.qualcomm.com,
+ "Jason Gunthorpe" <jgg@ziepe.ca>
+Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
+ sandheep@qti.qualcomm.com, "Bharath Kumar" <bkumar@qti.qualcomm.com>,
+ "Chenna Kesava Raju" <chennak@qti.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ "Bharath Kumar" <quic_bkumar@quicinc.com>,
+ "Chenna Kesava Raju" <quic_chennak@quicinc.com>,
+ "Ekansh Gupta" <ekangupt@qti.qualcomm.com>
+Message-Id: <23d04f27-dd2d-414b-acc1-27e46538bfcb@app.fastmail.com>
+In-Reply-To: <20261102-v4-v4-23-88f2f24a5f0b@qti.qualcomm.com>
+References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
+ <20261102-v4-v4-23-88f2f24a5f0b@qti.qualcomm.com>
+Subject: Re: [PATCH v4 23/25] accel/qda: Add DSP capability query
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 01, 2026 at 02:21:56PM -0500, Yury Norov wrote:
-> The preferred CPU mask currently lets the steal governor reduce vCPU
-> demand when physical CPUs are contended. This series adds manual control,
-> opening more use cases.
+On Sun, Nov 1, 2026, at 23:21, Ekansh Gupta wrote:
 
-Sceptical, I am.
+>   *
+>   * This structure is used with DRM_IOCTL_QDA_QUERY to query device attributes
+> - * based on @query_type.
+> + * based on @query_type. @dsp_name and @cap share storage, as only one query
+> + * is made per call.
+>   */
+>  struct drm_qda_query {
+>  	__u32 query_type;
+> -	__u8 dsp_name[16];
+> +	union {
+> +		__u8 dsp_name[16];
+> +		struct {
+> +			__u32 attribute_id;
+> +			__u32 capability;
+> +		} cap;
+> +	};
+>  };
 
-> For example, setting CPUs aside for selected fair tasks at runtime while
-> steering other fair tasks toward the remaining CPUs.
+I think it would be better to make this separate ioctl commands
+instead of a multiplexer for each thing you query. ioctl numbers
+are cheap, but complexity is not.
 
-That's exactly the kind of nonsense we don't need and makes me want to
-stop reading right here.
-
-We already have cpusets that is more than capable of doing this.
-
-> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
-> whose affinity includes preferred CPUs are steered away, while tasks
-> whose allowed CPUs contain no preferred CPU can still run there. The CPU
-> stays online, task affinity is preserved, and the selection can be
-> reversed without rebooting:
-> 
->     # rmmod steal_governor
->     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
->     # taskset -c 3 ./my_workload
->     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
-> 
-> The current preferred list is still readable from:
-> 
->     /sys/devices/system/cpu/preferred
-> 
-> This provides task-placement isolation similar to a use of
-> isolcpus=domain, with a runtime interface. Scheduling domains remain
-> intact, tick suppression, RCU offloading, and managed-IRQ avoidance
-> can be configured separately when needed.
-> 
-> Different preferred cpumask governors may coexist; all update the
-> same mask under common locking. Manual settings are not privileged,
-> and later governor updates may override them.
-
-That is a recipe for disaster.
-
-Don't bother trying again, this isn't happening.
+    Arnd
