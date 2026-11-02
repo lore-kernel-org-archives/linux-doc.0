@@ -1,54 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.132
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793606952;
-	b=ALTUrfOBkBMYRmmRbziueis8y+NJ9+AQrjsXRVLlEsOu7PRokdCBmNRmiK90mN/KhlHr
-	 ldxO7MiielScrTDYoOdd2nMS9QIfox4pfZF+OA8GrxWm5WIKA+h3hKk9geJ7xtCOta0Ib
-	 ENbdq+QtNtPpFxgookYuTL6h/JzNA6ufANiI5PcSVv2nprXeMjIzqJwRX3Ls21e0Qn20m
-	 4DuDIpwOivhApyPN0s4DNOXI7nMUTsYX3PykbVzUwWIiMYpBFUUi7EmCcaeFARonmLzzs
-	 UtCfbkOVFBZgsssq/ZjInEySM0SJtJHqbuKopg88GsyCTNW0xJWPp/Qd4hnshmEh+ZQ==
+	t=1793608199;
+	b=5RGeXwnFWhh4ffs590HivCcd3/D2ON0mhxrvNI3O6647IxEFI7q0xRVzlYM71A3ctrkd
+	 DmMwJCUZKXKlm6FvfPVcShfiKHb4F7CL66PQkdVG/3SiHhiX3GS+qNZpn2l9QdD4THtHD
+	 sY19MIPb8fJdGV+rUupXzmMfm+Y124AxI0Dn/nQiwSTAEJFPl9j1jIPPO5oBRilS5Ep84
+	 G6DV6aX9jCfoTfnNXZiDh0ghpPHq/6Sqrt1MCX6cH9LY7VwFgNTurpSVFYZPCE8x8vupo
+	 w0t7oJRYx0+Bljv8Er+1CrnR41pJy/f9nWgtGaHoL0uQFkPLPapXiWfTdegRC2OBMjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793606952;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=Ua9j3chuGLeYY0btIyoz40p0xgL7yj+uIcM50lwlwKs=;
-	b=nIjDrffSAhQaf7mD/se5Am3phgUCpCFklktSxS/B2Hneh4+oYF6SrSHflQG573rM4z5h
-	 O1MloomS6Sh5wKCcneuyUA4cW9qG2mfePe8JOkSCUraCyZhD75/1ls9VSnS1vnXV/6BsS
-	 KJq741guwJRh4XZU5xiAVcCkvYC4mhFFqBEvRfDHevV52mjN6Vt/5JsHGeUiMtC9MmgaZ
-	 N3H8hIh5lzuUe7c1eGxOjFTE3FMHODbDD1OJT0XI50ZN9RtXwIBEmTuP6twefkEib9TmW
-	 L3AdcVcdXCbcQ+DmUYtbze+GpJ1DDYfOymTxLJLPOzKW/VqCJJo+UdxlEUAZsdWTPTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793608199;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=xgaHGHJ703/BmLgkQ/c7X7zJbd3V5E8MeHEoM0XykK4=;
+	b=cDY5EnH22In3KHcN8JEmd233QUh6iQKyVdtIFZC2XU31CyPKTgqjvEAqAbHYUYPkTg5e
+	 Vi2DGmUpW1dT2Pb4zBcb1kek+5Ren1qhW9YUyNbn8Ssaubq0IHxWdisUyuPXvT2tAxqgM
+	 w/sY6+OsOhQaEZtroZ7aURZ+KYGnRyemaFR/byjnmbln8R0XGmrTQpFwEVtRdgYysZQkC
+	 6WKMbe/ZX9W5SnQTiJH9nwHsML/RUQOgBVt8zZSmFJ0Ftf72l7EqYbT2/vT1pqsPINaE6
+	 DPZFKy62S0iwhCxcE3UYguD/zodHpSmePAvm4o1Gg8V6NfdNAWMM26KclicGJLM03aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cIJ4yp6j;
-	arc=none smtp.remote-ip=95.215.58.132
-Received: from mta1.migadu.com (out-132.mta1.migadu.com [95.215.58.132])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PCJdLjhQ;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF92606A32F
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 08:09:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BF92606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829FF606A324;
+	Mon,  2 Nov 2026 08:29:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 829FF606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cIJ4yp6j
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=AJzTmqiEw66QyrrtTwvf2v4Wxl2wkr7mScJNfEWS5L4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793606950; v=1; x=1794211750;
- b=cIJ4yp6jqlCdvrSUq2VaZy81PExLJQFVCARfpW/sm+mngvSlBxYVEeeBJsCDuDaJws2bR23C
- +7sDp5b/B8Z4f2yEyJ3EA2ou32jIUeMJQW0Y5GbvxE1qsJjcBMzxlqbaBjLh7e7tqT3NC86CZin
- w3EFMfDB8l3wFmL1Nu6sDTDg=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 54617e5f3eb6591b;
-	Mon, 02 Nov 2026 08:09:09 +0000
-X-Mizu-Trace-ID: 54617e5f3eb6591b
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PCJdLjhQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793608198; x=1825144198;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=JGjRxR6gm6ACNJIRopKVz3Mv1eqCxBu0rrxBy/s9uoc=;
+  b=PCJdLjhQoOPua0HtBNdizFy6Ze/4WTByDmQCAMzOldMx7zf1IaqW9FBw
+   r0kIfAb7dTXTEr3BggnAwfo6CNVTN2el/83xZVBJNinq9GbDxteBc624e
+   G/orBkQw5qbw3hLhUeqtm5EPUzXTnRZ1EslBS8XQyCsVBRfsRGWf4JCXm
+   HnDmu0WpIjOyalQk67MiQ9G8dXaXjnofMozFF9bK3XOhRc6E9AZBhML1F
+   VB0WehKaymoUExdtv5pLGlaEUnb7wiTjbtk29ESjNaTzTOdVIh7dG+dKC
+   NEH+t0G/MBl+lXKGMj761clk22FwPcPlEooEhDFt9P0W4znG5Nux6Jspt
+   w==;
+X-CSE-ConnectionGUID: JmkFaQtpSuyEnttKmAsgYg==
+X-CSE-MsgGUID: 6VC9+4V4RqqhBt9qyfNrHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2169918"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2169918"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 00:29:56 -0800
+X-CSE-ConnectionGUID: f5i1oGraQiCNnG6AikT8IA==
+X-CSE-MsgGUID: D20pI9MoSXGOIV3+GHf8eQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="5888222"
+Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 00:29:51 -0800
+Message-ID: <eb118916-090d-431a-8f78-ab2f320c6bc1@linux.intel.com>
+Date: Mon, 2 Nov 2026 16:29:48 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,98 +71,41 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 12/15] mm/hugetlb: keep surplus folios that are reserved
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-12-a0a033db180f@kernel.org>
-Date: Mon, 2 Nov 2026 16:08:46 +0800
-Cc: Oscar Salvador <osalvador@suse.de>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mel Gorman <mgorman@suse.de>,
- Andy Whitcroft <apw@canonical.com>,
- Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>,
- Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Peter Xu <peterx@redhat.com>,
- Breno Leitao <leitao@debian.org>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 20/28] KVM: nVMX: Enable support for secondary VM exit
+ controls
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+ <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
  Peter Zijlstra <peterz@infradead.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org,
- Chris Mason <mason@kernel.org>,
- stable@kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C4D9D9B7-F875-4A05-B3A4-DBD0BD496EA5@linux.dev>
-References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-12-a0a033db180f@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
+ Andrew Cooper <andrew.cooper3@citrix.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
+ Shivansh Dhiman <shivansh.dhiman@amd.com>,
+ David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
+ David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-21-sohil.mehta@intel.com>
+From: Binbin Wu <binbin.wu@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20260911213659.2025974-21-sohil.mehta@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+> From: "Xin Li (Intel)" <xin@zytor.com>
+> 
+> Add support for secondary VM exit controls in nested VMX to facilitate
+> future FRED integration.
+> 
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
 
-
-> On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> From: Chris Mason <mason@kernel.org>
->=20
-> free_huge_folio() may restore a reservation, but still returns the =
-folio
-> to the page allocator if its node has surplus huge pages.
->=20
-> For example, start with no hugetlb folios and allow one surplus 2 MiB
-> folio:
->=20
->  1. Mount hugetlbfs with pagesize=3D2M,min_size=3D2M. This allocates =
-and
->     reserves one surplus folio: free=3D1, reserved=3D1.
->  2. Create a 2 MiB file and write to a shared mapping of it. The fault
->     consumes the folio and its reservation: free=3D0, reserved=3D0.
->  3. Unmap the file and truncate it to zero. The mount's reservation is
->     restored, but the surplus folio is freed: free=3D0, reserved=3D1.
->=20
-> Besides losing a hugetlb folio that is required for a reservation, =
-this
-> can also make available_huge_pages() underflow and cause other issues.
->=20
-> Keep the folio in the pool if it is needed to cover reservations,
-> including any reservation we just restored.
->=20
-> Fix generated by an LLM and sent by Chris Mason in private.
->=20
-> Fixes: 07443a85ad90 ("mm, hugetlb: return a reserved page to a =
-reserved pool if failed")
-> Cc: stable@kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: simplify comment and description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Acked-by: Muchun Song <muchun.song@linux.dev>
-
-Thanks.
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
