@@ -1,89 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793617241;
-	b=sm3n0sxtrZSmIrfQDihImVTWwxCo62dLrk+7QcwdiQgyvyrP5+ASz1k2E8p37dPvcH/r
-	 ufwB1KK3Rxf3uAxfdPLmQUznPaBDuLSGsOva6OlEfXmd5cvJOZE4PUQTi3mlxUy2YM7AZ
-	 ccPz1AfCxHJyl6vhRuRiyHVW2TKRkzQoczlB1paHi0DkF55rCpOkeslXEoXCvgqU/E8WY
-	 MlhofLMYjjR0pUXve24HIJ2NBb/LeMSuoU6iJwUY5DJxRG2+191BJg/nEwP/xlEEPf2EG
-	 qFK58Q+1qXsijeiz5+Znnr3KHpdur7pBZd9kLA++Ak+62/Bgglw2O9QuPRKZW6LRRVA==
+	t=1793617760;
+	b=4iO/5rZAKVPmWG5z5gmSbrJbB74DJtBS3yMHT3DSKhJcWDAuCT/NNCrVnpL21T8lyAtR
+	 u9c9egSuVNvUPjuyRdkPoi0Xi7pIE7XU7lLbDgOXPBtG+5kv5H5O7ZiQzy3MTGQkQFoQj
+	 no0MFhk10xsru3ZzlC4vnjl8HFzTuOe2N6k07KuVg3JX/fcul2JkO5xpw+HKp685bLJFi
+	 rfhCV+Wpd5kuqs246iV9IKOCcP9WAwZmkSyxt5AJs2aDuuVXqYiFXWd4vL0sqE/aWQNB+
+	 brRgbzrDtvm9qcKA7Kcrlb/wFDiHH6T1ScrKJjsSFWVBn2ha+EoJ11VbhH1tF0yLx0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793617241;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=gmu1a3NLHJfVVFwt2LsdZOjGhk0iaWLym4PaWiReE/U=;
-	b=qDCufLmt2SE/L43wwClP6lnWj6qjd8QjltTWf+bpwQfQH74uQ95VBzpuHGQruRy10NiN
-	 oLQCYP5WQBQ/aVRugR4G5wvoXZjZnvi2y7+nf2Bl1/nLLWnj7/baBMDIiqjMeYxVI6NHv
-	 dCv1+HiPzqt57altQcRxeW2+toeqe17FYmYGE5UL78mvrxcdQB/zy2WU5pdZjhnoS3zST
-	 v+tKBTm6pylsM3AJVyUMHnQNoD4MP7NFPsP/wwPb5qbIwiNldqC1Vv62fYgFRqWv/gLyM
-	 iznESBm+ucB7jKuD1Cc+/SUsQNHFkj8SL3gCvgQIKWGccrxynDd98ebDVSZYVjreoEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793617760;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=WDPlWEr5vvxFvs1r3aljWZo5UyQa/QJd8V63WGEeymo=;
+	b=AaM+CG3B8l62rtB2D1B2HXzv5FpNvWjkKPE0pkN+VrM2cE44AgDq9CK3oH21qLkjjyD1
+	 7/JfCtyEiJpsvrI5FscJGyQkrfJyUFDjOAVFLQR4/fVvs8axOJ2MfkAxlulqnDb5A/byB
+	 bk7wtQ/qSI2nXUo0/zL0PbeHVS1frYAwpJpWV7ucOFzAx5rBoKUNTlXFA72EI5apJlEDE
+	 cOxMw9bLr2Zz4og0nEkCVl/BQ4b23FEyYe+P2sYMkcW2que2N3Wh5uKtIJVj0Ky6E7cPH
+	 Gs1g2vdXerGtxUSsFaa3+GKXbaNEx2hWmnbK0aR3ZOE2PDRru1CKqtuEsOporCbss7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pFIIuG9I;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=o9ovnRGQ;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5CB606A32D;
-	Mon,  2 Nov 2026 11:00:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C5CB606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0801D606A326
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 11:09:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0801D606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pFIIuG9I
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gmu1a3NLHJfVVFwt2LsdZOjGhk0iaWLym4PaWiReE/U=; b=pFIIuG9Ix79G8xtMZU7N6Ru1g/
-	ZU3lybPoXV7qM675SevAwh7hG+KsUjzeYFFwu7JmsN+Tf6o0YExqPLv0X6j+PsEXW8OFJ0oruSiLy
-	JcWmASAayz6MW29RAESxTQi1aJGAjIwToi+cSjZSylBV5lus3FTCmYwRmVQNk2442enb21IFLrr/X
-	HO0cxL7jYPNZuBK2fg3Zfn3qpay6yRrHiVqOzMdKRkI/ES7fwqc1dLw6iOZUzrFNFQdvcMlEVdwb1
-	yuaB5WAUaaap65CXZHSE9Uym6hjsnuN8j8ysKdQWfg4XKxpQi3fknF/733Vgd+n3xZAxKog42HbsP
-	luZ4SBJw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNpm8-00000002PBW-3HSe;
-	Mon, 02 Nov 2026 11:00:29 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id AE3153002ED; Mon, 02 Nov 2026 12:00:26 +0100 (CET)
-Date: Mon, 2 Nov 2026 12:00:26 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Yury Norov <ynorov@nvidia.com>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=o9ovnRGQ
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so1449935f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 03:09:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793617757; x=1794222557; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WDPlWEr5vvxFvs1r3aljWZo5UyQa/QJd8V63WGEeymo=;
+        b=o9ovnRGQIld9UNdYZeopARKH6BGbwR4ZZINiPl16cIzEf78zZgLtUSJ9HVBkrQxLQT
+         7G7lNXV+3iD6rn7K4/sEy9r0qh8imBu+Nhsi2puebCBKHuONtiP43ryj6BHViqg2t8AA
+         yZg3K/Iuf+mnbm83klmhbeYxRUkPqC3Nqv6O1AujkoJwJSyh+7N9xPIPd8ZmDuSNrSSx
+         p7FHdDBcsWN9Rll4+gEWKOn0G4R087TNSMxF6zzOXFRS2V9v/zWtjvHbD/bK6uL/4mGi
+         HRaOHugX/VtgRz5u0JVMjmnMwyYtiWeVPqYVRe6qIzEmBHdBweOc1qR+cE2bkP8wR76z
+         8N/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793617757; x=1794222557;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WDPlWEr5vvxFvs1r3aljWZo5UyQa/QJd8V63WGEeymo=;
+        b=a5ReLf5xZbkrBwV6FPKW9d6D8tQvb8YQ3o0FEgx9dtEAa/KxPF8HNKIMTGG5eBLpIv
+         L8m744a/PFDA/4LHPOeJ6Su+9ME8tIrhhArTZaQGt/VIrwa/9Sv7iW3kxEmh/dJevGY7
+         SG8ADM36BRnuRs0FeipO0cIQPn6+GG5jo4hLfHF+ssG925FkpAmGL8B9iaPyEHAFJyAg
+         ZYobiFGONmr7kT+Yo1MOR6e7oaBuvBs76vwbUUedInP8l3iVDwauP6IJ61zdrLo0ViZb
+         jaNaf7CMk6f99HCYtym3LBTaHhtj4JltCnfhrjHfrilF4kiDcx4poofkYBL18c4tJ5aL
+         wE7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxkIQIJUB65eafpSedIhEIChcG1LbB7zsf7hGN8OSVqKJj+0ky3c0fFZilH6cypSyT69IiK2EsOjTI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Q4NQhAh0CMqrj0j2Vgd3YZpCWFZxcWDf32A3SNnYk3Cdxp0jw
+	iQW2V9hIHUrO1eaB/zjfHuw5IKGH1eWBDlqPGJYOve4zYsZQSnKN7qt0MBiHtpfLGkQ=
+X-Gm-Gg: AYBFou1t6I7topT3JKZiE2TW6DgYWp/CTUBN1VMrooIaJUPrBbFcqWF4kR54X9DW+Ik
+	hjo71md+5o2BFM5pLDlx9SbljeJwDShouCuIysc0q9sEFy+OdsLYvClkvSwBep5EIq8ZQDBxO+i
+	qcdeUSV+J8OosadZuTDchBcuXzMJsJRQ5uxh4cRTt5qsqYeM0Bjz+eeUYlndZuRt+Zx6Qs/VXuj
+	f56cEgoEM8mcQTsn8ObLaGwG2lklmF5ta9wPHorbSygKDsDQbIYFMw2gM0RBwWHolvUEth5jAbl
+	kBEbUKoU/l8l1QwYqc8HcrgeZGyYvg15//4sPh6yrOZbVXbeDVv00zGBnt6o0E7TTqTiWsAx1yE
+	YeMQPwsh27s3O6e+dd0Y/Gy0oMjXBs8vVhR0MKVtdCc/vcydbSdkUz0XxgGn0sL+5LXnNMIaQgf
+	GSwcfebKuQDYOm8gujvbGCfKkoOMgG5sc5mogW7Dwss9/FomNbcqa+78dSRomSk4zp83tcoxrMl
+	qg5rqIH6qgZ5EDjlY9Of2MY5BoscmiGQOKxxAawIWbIrDwl7hDU6ZvMIDk6eb+g4T4MlCvr9XE1
+	WCrXUqHHvFAsE+mcwHzof9XUEaiKRt+7nz5gUq60tB1IShoKOnYmDamD4b7shXB7YcR2ZtTehd+
+	5cx24
+X-Received: by 2002:a05:6000:1aca:b0:48e:932:aefa with SMTP id ffacd0b85a97d-48e6e2f66b5mr22271387f8f.26.1793617757065;
+        Mon, 02 Nov 2026 03:09:17 -0800 (PST)
+Received: from localhost (dynamic-002-212-042-085.2.212.pool.telefonica.de. [2.212.42.85])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48e71b8a84esm21497528f8f.39.2026.11.02.03.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 03:09:16 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Arthur Kiyanovski <akiyano@amazon.com>,
+	David Arinzon <darinzon@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
- Kconfig.preempt
-Message-ID: <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <20261101192203.6979-2-ynorov@nvidia.com>
- <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	Dawei Feng <dawei.feng@seu.edu.cn>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] net: ena: Fold header containing PCI id definitions into driver
+Date: Mon,  2 Nov 2026 12:09:05 +0100
+Message-ID: <20261102110907.356621-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,115 +111,140 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4495; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=RycBR3t8kWq8R2cK6MVVdr2eo2PDh9pdi58mZ8/8Dpk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBq6G9TZ7dCfpj8h9L4Ng/H/irEiddEXtPl04VQh ZnbNoJd5l+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCauhvUwAKCRCPgPtYfRL+ Tt0IB/9ze1ziQmqGU0i1ymAVWu2nVGONE7hNXRYQtuoLuvB5y8bxY8WlSwRKCVP6E7cfab7Kp4j Nln4sGMI02gSTGfr1SZypCv0QPtZl3vkH5ruuVt1SQt3eLjvZ+p9HeEdFsKsToTV0CKKPHLw4Pm pr5a3O4o4FPOg0+iPFGFpcl4hX9TfQ3TEjJGxd8Rg28PohcQccMqN7AZuPewwmwGCVWZB4q15rY rd7MLNoXWq/uO/C53m7SkNDTUmDc2b9grAoS/qcHwpVmMUG2Gcwe0yRrpQfganxfCBJ6gxKXC+M h9dqVqsl6+vrwMAMLUSjx8jLZNpx8WJFv78HXiHISfMjEOg3
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 02, 2026 at 11:16:30AM +0100, Ilya Leoshkevich wrote:
-> 
-> 
-> On 11/1/26 20:21, Yury Norov wrote:
-> > The IBM s390 doesn't enable PARAVIRT config for their hardware
-> > virtualized Logical Partitions (LPAR). However, the steal time is
-> > accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
-> > is enabled.
-> > 
-> > Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
-> > and requires it to minimize the configuration space and runtime overhead,
-> > with the lack of non-paravirt user. Now that s390 wants to adopt preferred
-> > cpumask, there's no reason to keep it coupled to paravirt.
-> > 
-> > Make PREFERRED_CPU a user-configurable option, even if paravirtualization
-> > is not enabled, and drop PARAVIRT dependency on the steal governor.
-> > 
-> > Keep the default module selection conditional on PARAVIRT so other SMP
-> > configurations can opt in without enabling the governor by default.
-> > 
-> > Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
-> > CC: Mete Durlu <meted@linux.ibm.com>
-> > Signed-off-by: Yury Norov <ynorov@nvidia.com>
-> > ---
-> > Can be applied independently from the rest of the series.
-> > 
-> >   drivers/virt/Kconfig   |  8 ++++++--
-> >   kernel/Kconfig.preempt | 12 ++++++++++--
-> >   2 files changed, 16 insertions(+), 4 deletions(-)
-> 
-> This is really useful to us, since even though s390 is nominally
-> paravirtualized, it does not technically benefit from defining
-> CONFIG_PARAVIRT.
+The file ena_pci_id_tbl.h is only included once. Fold it into its only
+consumer, simplifying a bit en passant.
 
-And therefore removing PARAVIRT is the only possible solution?
+Note that I took out the trailing comma from the expanded value of
+ENA_PCI_ID_TABLE_ENTRY() and thus these commas have to be added when the
+macro is used improving readability.
 
-> Specifically, steal time accounting happens by
-> computing a difference between wall time and CPU time, and not by
-> explicitly querying the hypervisor.
-
-Nobody explicitly asks the hypervisor, that would be horrendously slow.
-
-Something trivial like this should do.
-
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- arch/Kconfig                           | 9 +++++++++
- arch/powerpc/platforms/pseries/Kconfig | 1 +
- arch/s390/Kconfig                      | 1 +
- drivers/virt/Kconfig                   | 2 +-
- 4 files changed, 12 insertions(+), 1 deletion(-)
+Hello,
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 1163736de1f9..8980054beb52 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1080,6 +1080,15 @@ config HAVE_IRQ_TIME_ACCOUNTING
- config HAVE_PV_STEAL_CLOCK_GEN
- 	bool
+I'm currently working on deprecating <linux/mod_devicetable.h> and my
+check script stumbled over the header removed here as it used
+pci_device_id without including a header to get its definition. Instead
+of adding one, simplify the situation a bit.
+
+The change with the trailing comma is maybe subjective, I don't feel
+strong here and can drop it if desired.
+
+Best regards
+Uwe
+
+ .../device_drivers/ethernet/amazon/ena.rst    |  1 -
+ drivers/net/ethernet/amazon/ena/ena_netdev.c  | 18 +++++++-
+ .../net/ethernet/amazon/ena/ena_pci_id_tbl.h  | 45 -------------------
+ 3 files changed, 17 insertions(+), 47 deletions(-)
+ delete mode 100644 drivers/net/ethernet/amazon/ena/ena_pci_id_tbl.h
+
+diff --git a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
+index 14784a0a6a8a..72ea5ebf2f71 100644
+--- a/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
++++ b/Documentation/networking/device_drivers/ethernet/amazon/ena.rst
+@@ -55,7 +55,6 @@ ena_regs_defs.h     Definition of ENA PCI memory-mapped (MMIO) registers.
+ ena_netdev.[ch]     Main Linux kernel driver.
+ ena_ethtool.c       ethtool callbacks.
+ ena_xdp.[ch]        XDP files
+-ena_pci_id_tbl.h    Supported device IDs.
+ ena_phc.[ch]        PTP hardware clock infrastructure (see `PHC`_ for more info)
+ ena_devlink.[ch]    devlink files.
+ ena_debugfs.[ch]    debugfs files.
+diff --git a/drivers/net/ethernet/amazon/ena/ena_netdev.c b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+index 7eb6456ed0d5..c934d1e922e5 100644
+--- a/drivers/net/ethernet/amazon/ena/ena_netdev.c
++++ b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+@@ -16,7 +16,6 @@
+ #include <net/ip.h>
  
-+#
-+#  Archs that can account CPUTIME_STEAL; normal route is through PARAVIRT which
-+#  selects HAVE_PV_STEAL_CLOCK_GEN. Directly selected by s390 and PPC-LPAR
-+#  which have their own thing and don't go through generic cputime accounting.
-+#
-+config HAVE_CPUTIME_STEAL
-+	bool
-+	default y if HAVE_PV_STEAL_CLOCK_GEN
+ #include "ena_netdev.h"
+-#include "ena_pci_id_tbl.h"
+ #include "ena_xdp.h"
+ 
+ #include "ena_phc.h"
+@@ -41,6 +40,23 @@ static struct ena_aenq_handlers aenq_handlers;
+ 
+ static struct workqueue_struct *ena_wq;
+ 
++#define PCI_DEV_ID_ENA_LLQ_PF	0x1ec2
++#define PCI_DEV_ID_ENA_LLQ_VF	0xec21
++#define PCI_DEV_ID_ENA_PF	0x0ec2
++#define PCI_DEV_ID_ENA_VF	0xec20
++#define PCI_DEV_ID_ENA_RESRV0	0x0051
 +
- config HAVE_MOVE_PUD
- 	bool
- 	help
-diff --git a/arch/powerpc/platforms/pseries/Kconfig b/arch/powerpc/platforms/pseries/Kconfig
-index 7d125e288f6e..3c49baf606d7 100644
---- a/arch/powerpc/platforms/pseries/Kconfig
-+++ b/arch/powerpc/platforms/pseries/Kconfig
-@@ -41,6 +41,7 @@ config PPC_SPLPAR
- 	depends on PPC_PSERIES
- 	select PARAVIRT_SPINLOCKS if PPC_QUEUED_SPINLOCKS
- 	select PARAVIRT_TIME_ACCOUNTING if VIRT_CPU_ACCOUNTING_GEN
-+	select HAVE_CPUTIME_STEAL
- 	default y
- 	help
- 	  Enabling this option will make the kernel run more efficiently
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index 7138d923d86f..03a884355218 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -291,6 +291,7 @@ config S390
- 	select USER_STACKTRACE_SUPPORT
- 	select VDSO_GETRANDOM
- 	select VIRT_CPU_ACCOUNTING
-+	select HAVE_CPUTIME_STEAL
- 	select VMAP_STACK
- 	select ZONE_DMA
- 	# Note: keep the above list sorted alphabetically
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index eeb84e578ddf..a3721d34a55c 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -43,7 +43,7 @@ config FSL_HV_MANAGER
++#define ENA_PCI_ID_TABLE_ENTRY(devid) \
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, devid) }
++
++static const struct pci_device_id ena_pci_tbl[] = {
++	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_RESRV0),
++	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_PF),
++	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_LLQ_PF),
++	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_VF),
++	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_LLQ_VF),
++	{ }
++};
+ MODULE_DEVICE_TABLE(pci, ena_pci_tbl);
  
- config STEAL_GOVERNOR
- 	tristate "Dynamic vCPU management based on steal time"
--	depends on PARAVIRT && SMP
-+	depends on SMP && HAVE_CPUTIME_STEAL
- 	select PREFERRED_CPU
- 	default m
- 	help
+ static int ena_rss_init_default(struct ena_adapter *adapter);
+diff --git a/drivers/net/ethernet/amazon/ena/ena_pci_id_tbl.h b/drivers/net/ethernet/amazon/ena/ena_pci_id_tbl.h
+deleted file mode 100644
+index 3ecdf29160ca..000000000000
+--- a/drivers/net/ethernet/amazon/ena/ena_pci_id_tbl.h
++++ /dev/null
+@@ -1,45 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
+-/*
+- * Copyright 2015-2020 Amazon.com, Inc. or its affiliates. All rights reserved.
+- */
+-
+-#ifndef ENA_PCI_ID_TBL_H_
+-#define ENA_PCI_ID_TBL_H_
+-
+-#ifndef PCI_VENDOR_ID_AMAZON
+-#define PCI_VENDOR_ID_AMAZON 0x1d0f
+-#endif
+-
+-#ifndef PCI_DEV_ID_ENA_PF
+-#define PCI_DEV_ID_ENA_PF	0x0ec2
+-#endif
+-
+-#ifndef PCI_DEV_ID_ENA_LLQ_PF
+-#define PCI_DEV_ID_ENA_LLQ_PF	0x1ec2
+-#endif
+-
+-#ifndef PCI_DEV_ID_ENA_VF
+-#define PCI_DEV_ID_ENA_VF	0xec20
+-#endif
+-
+-#ifndef PCI_DEV_ID_ENA_LLQ_VF
+-#define PCI_DEV_ID_ENA_LLQ_VF	0xec21
+-#endif
+-
+-#ifndef PCI_DEV_ID_ENA_RESRV0
+-#define PCI_DEV_ID_ENA_RESRV0	0x0051
+-#endif
+-
+-#define ENA_PCI_ID_TABLE_ENTRY(devid) \
+-	{PCI_DEVICE(PCI_VENDOR_ID_AMAZON, devid)},
+-
+-static const struct pci_device_id ena_pci_tbl[] = {
+-	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_RESRV0)
+-	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_PF)
+-	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_LLQ_PF)
+-	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_VF)
+-	ENA_PCI_ID_TABLE_ENTRY(PCI_DEV_ID_ENA_LLQ_VF)
+-	{ }
+-};
+-
+-#endif /* ENA_PCI_ID_TBL_H_ */
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.56.0.rc1
+
