@@ -1,69 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793635868;
-	b=Pj4vqlskuiexuXrKfELOQo6GZOAtBoFt+4Fb3bPYkPxux8r7EDrkVXCmGMJfQbztBZq/
-	 EvalJlizGr7ml4VLNxCQQEqOraNY9xeuk2OEgCLAfz69ReqD9RlRJWz4EFGgVkqXPeaUs
-	 FTk8lof2peflTURSUcvwVEEhYL/91TGDVx7oqTtqolvJRL5QRDSNlOIFCJSCIqmHVl7hQ
-	 kNaiPw7YfJ41sJf86BCXA7Rt7wvSFE2h3iJKv5ZAjzv7RYg3v24bLVSAnCkxSkJXRGF/w
-	 t+UQUPgcjJh0DQSVWvzoOjQKRGR6YMRiTlWif5tGstHnoq20WAvRu1nrMvjxeDKI8xQ==
+	t=1793635879;
+	b=Y1ojYDdb7yiagIDklfTVSaNlgqUKwl0m/gkvCrladdRLMFcdH2HPZJl6X4UE0rx5G/NO
+	 vYYRBtbsM3ofMW5zlOx9TYhHQUr6yTxYmlG8v235XWSpskLlN27zryEh389pfDyH6P/QF
+	 jgXs4A9EKWP+wxrLgkNmvh42TAQWr9xiFxG+ZialWMSe57ATaxsf6lZy45Pwl0Psj0ly1
+	 qxZLBNqYl8dp7IPO4/9SUZQJt66kk/roUEhypr1UJjbREHNlKm+PdFrEvoygNSMRUjbBI
+	 bzOF2RfwuqOJJPSk5n6/TJWZ00bXsT189iWYKScooV1a43xuehfGgLyWVykiQwwFHgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793635868;
-	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
-	 X-HE-Meta;
-	bh=X28oczi+F+vGEpsz5GVItgUa0wPWN4NmUVCpkERcWI4=;
-	b=IMYWKLCFmEoEruFwVVOuM0+LqmqcK5eneaVYWcEticgPdyxppqXLulqpY084p9y3LkKm
-	 wA1uRMc+qoymBb8vTFUHp8/J6l8ONPt8cWKseXAefDI6SyJEhutM6ws7D1kj0C6fGtkd/
-	 Yu9Egv6yYp6XOX6j5dqDaYD4dAadbDQiZw/zaw2+t/l7NvJJQccbBv5uqsKvcqugpDp6J
-	 PS8KgQIsQsgr6ieaLH6h9dUtlvRIGy9UIO0AJAsyap6q9CHLK5tVt5mRYH7WLlI/0T//t
-	 6CZG/i+w/pW9lL9QuyCc4sIPF9sdkHTU/r+EfyFH0gOvPBwEXlon5iw1tsh1a0X3+Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793635879;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=djqEA/t3PRcNlOvGKA3S2flmdfP8elCHvbteH61xTYM=;
+	b=zJ5h3DvxuN8WMYNKkf7c/G8SpFT/6dM46yipYn+MWK7E6Wjyl9JOQQ3TkESkXFdB7HUT
+	 r4Td4CaW94omZx4gDa8jCcqnSVIh79joLJB7GffY3D2Ul7vyupuPHUlMeMb9QCtk3U+Aw
+	 bDJmCO5Wq6fw2dhp+tgw5oJ0demeZNxPuLCO8khV86SIe6arBiyjGmO5BNQdtLUxb8xFf
+	 myUxEIiS1CTtEVx7E+cBeEuZijVjaLCzWRi3bJxR5hTfywv97Avt8vf2JtRzkKBAYgaIA
+	 dYlDzd7u78C0Xaev/T/92F2Kg6sbEbWpwvD/NSzdUc7jprG4GPceRDtFyVDc5vBbGgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=perches.com;
-	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b="Ioyx3M/q";
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEBF6070D9B;
-	Mon,  2 Nov 2026 16:11:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CEBF6070D9B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id E850A40196;
-	Mon,  2 Nov 2026 16:11:03 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 4C42D60010;
-	Mon,  2 Nov 2026 16:10:58 +0000 (UTC)
-Message-ID: <762ca14700309938ddd1b8ecb1a8767fb07b719c.camel@perches.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-From: Joe Perches <joe@perches.com>
-To: Jonathan Corbet <corbet@lwn.net>, David Laight
-	 <david.laight.linux@gmail.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Konstantin Ryabitsev	
- <konstantin@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- users@kernel.org, Federico Vaga	 <federico.vaga@vaga.pv.it>, Akira Yokosawa
- <akiyks@gmail.com>, Carlos Bilbao	 <carlos.bilbao@kernel.org>, Avadhut Naik
- <avadhut.naik@amd.com>, Alex Shi	 <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Dongliang Mu	 <dzm91@hust.edu.cn>, Chen-Yu Yeh
- <chenyou910331@gmail.com>, Weijie Yuan	 <wy@wyuan.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu	
- <petr.pavlu@suse.com>
-Date: Mon, 02 Nov 2026 08:10:57 -0800
-In-Reply-To: <87wlqvdylf.fsf@trenco.lwn.net>
-References: 
-	<20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
-	 <20261102093206.50b6c9ad@pumpkin>
-	 <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
-	 <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-	 <87a4nrfgjm.fsf@trenco.lwn.net> <20261102150535.6c5689f6@pumpkin>
-	 <87wlqvdylf.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231B46070D9B
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 16:11:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 231B46070D9B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Ioyx3M/q
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4779B40430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1793635878; bh=djqEA/t3PRcNlOvGKA3S2flmdfP8elCHvbteH61xTYM=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=Ioyx3M/quKScj2io+M7Dnduzzm/Ui/mM/8ev6SzwNISCE/DlntJvB3NtJMYrHPPsl
+	 X6v7DVVLcmaYMSNCm/i/QXmZFsltEoPsWJjsLotaRmWLCve0TLcorMYwI5vHLaR+z6
+	 VYdHCpcdGGoasGr7FRljZZheZyYFPjtUjMcYYbM2wf+GpYvAqBPuP/slBijdgftxX2
+	 SX2nmZNILLGphPgoVBbJ0P0AftFbSLtCpqcWWadyJ/LXn/GvP26uhDBKeqPUydFWk9
+	 uIwLsgjcamCPC+mxIf2Qpsxnx17OHPX+5UlbK1A6k2e/apUU2jPnqC7m1irO0xQnTB
+	 0GBiRo6BBMv9Q==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4779B40430;
+	Mon,  2 Nov 2026 16:11:18 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/11] docs/translations/pt_BR: process: sync with
+ English and fix errors
+In-Reply-To: <20261024132158.39493-1-danielmaraboo@gmail.com>
+References: <20261024132158.39493-1-danielmaraboo@gmail.com>
+Date: Mon, 02 Nov 2026 09:11:17 -0700
+Message-ID: <8733tjdxi2.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,32 +65,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 4C42D60010
-X-Stat-Signature: c9desiqg1e34kuhmf14u7jfd9aexambj
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18Cj6feQ99XY7tmbKPJx3vh8h+4f33qIiY=
-X-HE-Tag: 1793635858-467334
-X-HE-Meta: U2FsdGVkX1/9XdC3odTKp74ltKxRmZNqV71GkwUkLjTzqRqcMWFoHgmc+/jzDzVC8VtFojVZ409lCBkL8SNEPpuRp2qN3Zfvfrafe9ATp9NjN7HTL17AiMEHcUSdN/oy7LEd1Kf3luaDMOrQuyDquAaOdkxSgfMouHWmH+hGuD6O2r3288CrNyOPa1zJd9BMOfO3vslDy+cn+v19fmXTsSVW2VB+9LYPwjiQCQV1hvFuoiRue/FYEwC6lq7JrFiqzQTi9zoxtA5LrJX+TT02+wA/KbH2SfChtDazA3T47g4Q+CsxmqVZlcYgs6eIxWvY
+Content-Type: text/plain
 
-On Mon, 2026-11-02 at 08:47 -0700, Jonathan Corbet wrote:
-> In truth...public-inbox is quite nice for the searching part of things;
-> I tend to use that rather than going into the email stream directly.
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-I gave up on lkml after searching lore became reliable
-several years ago.
+> This series reviews part of the Brazilian Portuguese translation of
+> Documentation/process against the English originals.
+>
+> Patches 2-6 sync coding-assistants.rst, security-bugs.rst,
+> maintainer-netdev.rst, maintainer-soc.rst and changes.rst with changes
+> made to the originals. The other patches fix translation errors against
+> the English text, markup that renders differently from the original,
+> and cross-references that pointed to the English documents even though
+> the targets are translated, adding the pt_BR labels needed for that.
+>
+> The changes are limited to updates and fixes; nothing is rewritten.
+> "make htmldocs" builds without new warnings.
+>
+> Daniel Pereira (11):
+>   docs/translations/pt_BR: process: fix 1.Intro.rst and add labels
+>   docs/translations/pt_BR: process: coding-assistants.rst: add bug
+>     procedure
+>   docs/translations/pt_BR: process: security-bugs.rst: sync with English
+>   docs/translations/pt_BR: process: maintainer-netdev.rst: sync with
+>     English
+>   docs/translations/pt_BR: process: maintainer-soc.rst: sync with
+>     English
+>   docs/translations/pt_BR: process: changes.rst: sync with English
+>   docs/translations/pt_BR: process: license-rules.rst: fix lists and
+>     table
+>   docs/translations/pt_BR: process: 2.Process.rst: fix translation
+>     errors
+>   docs/translations/pt_BR: process: fix cross-references and list markup
+>   docs/translations/pt_BR: process: restore links, emphasis and headings
+>   docs/translations/pt_BR: process: fix kernel-docs and enforcement
+>     statement
 
-What might be useful is something on lore/vger to be
-able to match keyword searches similar to a finger like
-registry and get forwarded threads that match.
+Series applied, thanks.
 
-Another possibility might be:
-
-MAINTAINERS/get_maintainers is public and requires
-senders generating the correct mailto: entries.
-
-Maybe undo that and make lore/vger create all the
-to/cc entries using a single kernel mailing address.
-
-And if the received email by lore/vger already
-has the suggested entries, don't duplicate it.
+jon
