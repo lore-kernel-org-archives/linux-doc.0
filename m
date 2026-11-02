@@ -1,88 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793647610;
-	b=jmbaHOZR3jzs37rgM7t9N0nFMb2Ggm2YcaO1l1f1bIK5Em66cquigNaFMkE9BXrKvXGv
-	 MPfEFs70ita4ixO/qK66HmfspFbxWFUXHkoOVIrUIE3hpLuDr+X/ngLCumjGYNBbChRT1
-	 2VZYykFVdqdj9rWQ8P8ntkh54iYFkXEGeZ2Mz7pqB4255g8OIut77oG+lCZ7HHfbiMDrM
-	 cd32HF0tFj0iXY3MFR3IiyulIS9MYfwFp2pQMpQhbeY9+BMnUrQBbMvt2nvz7ub2POg6Z
-	 Aybc0SxT3WmyMq/8ebN62CCueHlk4v/garDOmx2bu3KQ7ejmZ0TSGibXYPoNlG/4aLg==
+	t=1793647885;
+	b=ShW4Vj8kX6eDZNsi4qTY9HOaavBLRscvCPM+QiRUFS9JfEugkSuJ3vdn7gPk+65bLrJb
+	 sRseuQ4P3AZgmDLx2IOj7ya10DgpiB4Pk4N+8dP72mDWqSgmIcKRe5V2P/8jHtvGuKoRZ
+	 jbsJAdEhyqTUuoqrlY9C183mT5VRwFfWydAcIVq1MwfkJ4kqy2zOSG3jFk+1yp9xox0A7
+	 yFMDqTu9XKX4WoMdEzOoii/BTScbJxyrAhGDQ/c7S+fAvcPIgqQT6f1zb+Sdd0/Ke8Vq2
+	 IokuoEmsZ8jWPJpZ7YwF8NJ+Zbpy+laPmhYTurywpCRQvWcx7sSVcb97wboPjpXVjTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793647610;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793647885;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
-	b=J2FQfJ5Z4FvP0WI390pXCIElkeirYHWw79Z0SPq5GSJimBXK5aCIj8liO31brmuyDAXQ
-	 snTy3jR6UYXJCeIeWwtVx50TkvjA2ThJQ9MGajE81ndBbrtgTlh9RFWqJ4oOEA0MrAjeK
-	 bG1pCePi9/w0qylxIuKIyV6QS7doZZLpVH6EBn0CElH3EWhbWZDHWh2pRLC333mTL0t74
-	 6TtJB0WQTQcO4d9qszC/VP+om0BxmhfPt7YN6g4Tn7jiRiLkyCuPmiy3lvEJFCIuDJmF8
-	 li7qEXFFvrSQCrVus/zDIePNuKvUXcD33R9xb9xrMBfEdSHmQSxqQqjsczS1kOM97fg==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
+	b=FZaLW/h+6xQAcINKgpLRICqK7IhUgBNH3dWXSFkgf5YGEptns9n7+tk1dYuK7Kg/xVZL
+	 JPCZ015bN/rSxfpvQj+2IuzxjIdEgoYuBAKkExQYq3tlx8Dabkmn39acvC2IGUU/A6yES
+	 CH1Sg4XwWCns0fnBMp+UCuQkBP/lrpOfOiwc8gv6lFKVN+qehCKjDyjOdIFFWqprWgjkl
+	 ernFE3IGxRHG5rIbhkmmm+R6sbqY4FjjiVG6oFJNwWQsZ1QEvbkKGbiUnngDbZ/aJpFDU
+	 ySerYjwTj73eM+R6SUphF13zglrvJY9E0V5AsR4h2/PlHU0FXVagH+HOw17/vxJYAEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ji5BHOzQ;
-	arc=none smtp.remote-ip=74.125.224.130
-Received: from mail-yx2-f2.google.com (mail-yx2-f2.google.com [74.125.224.130])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61F4606A327
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:26:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C61F4606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F5A606A32E
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:31:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28F5A606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ji5BHOzQ
-Received: by mail-yx2-f2.google.com with SMTP id 956f58d0204a3-67569b8cbf8so1728918d50.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:26:49 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l73LkrQv
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so32901175e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:31:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793647609; x=1794252409; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
-        b=ji5BHOzQ1RzwPyqsk2s8cHAViYOWD/O+3bZQY/tAGPh6iajASEYoYfopk4UXn09Dvp
-         a8Y3e2wrg8IO3piRB36K67BsnG7u0nhbSW+8Ju9C2+l8e4PSWFRKG3DHntj+sT/fctga
-         4R6gRl67e2TJBXI2nqrqp02Uj3sBQ8yzPwhNpwHIW8R2V6i2xrLJ0gU3vj79VkfBnMpJ
-         5UoLOdz12VNFiwzSkpjsJT5tWJh95TTv8UHajaoTTo6ciV2sUFHKn09peiEAe3KCubYa
-         gmdR7/rtDT7RHk67imJuw2/NIFZXKHl0hTZH0cbZIjhp8KOT1bA+l8VGOwaPX59+N1dJ
-         pdZQ==
+        d=gmail.com; s=20260707; t=1793647883; x=1794252683; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
+        b=l73LkrQvuZciKzRpKr1DfT+CyrRl3sJ4ez5tHIOziCKKoB/NIWjlFJVqceOemEeFiP
+         9SZFYkIhtEQg6AQWUQiCd4HhIzPr6VFPJ+5Vbr01oA7qHVtw0gzlRhch5jJkngznqgv8
+         Innt0EQ5E4l41nWAGtL3GUUDl0QU0hdckMOYKnucV/07iQswTt6jNpTLvLjxUQxSXrbh
+         zYXtDsW1Q2yBmCnUClnpBVLX9t4yeOpGJzwi2YkOZPxnRlK+4t/ju8kpdbOKLVbooiul
+         yi8Ys8kz8IYBi/UvG7xllQbO+R2I006wPSIzT6PGGxF8IEz4JS8+g+mktXlAP4+K8h3v
+         ldFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793647609; x=1794252409;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
-        b=S6kTsix9Y9MVQCPI40wz8InWuKHpl2q93rGcImkD20SNiQmmSzGqbcsVA7qGhCAbI2
-         lizNhUcB/M5VJTcn5ivlo2astlQd7q/42b/giOuzpIqLSg4mNyEAQf1ho7bjxE5dk7B2
-         4S64MUeu3lc0lbr5QJNlR7r0tjLSWrWRpFQWX/+yv+Tl4ztbgKJ0cgWWgbn47+q2AweA
-         E1XVjvzn45Az3M80MY7sFJO2iZw3B2LCcdURAuqyiir/lfNIxAzHUxKb5v47A/NIRcHM
-         Jlcc/up+GEYiAElSjxozl4vRarVqzpvQmJNZ4id5REmLSdAdzrsSiYL73xy/6dzG41iV
-         YrTA==
-X-Forwarded-Encrypted: i=1; AKwUvBzbR8TIt3W5OZCjr2gAOKUT1dij3MCY5tiuvjldpuQfusnn4hReEEcItVlKXNT9qcfezkcFiNRmdUc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/1TkgETUTusCKUeDDJT0WKKFPsTsSH2ginH1sWr/fs7Dq3kwS9
-	S+s7UHwzusUU61uHbTlGncJCcdKnukQaamJW2DHrTOgg8vdEg+VjPmVM
-X-Gm-Gg: AYBFou3iMazbHnoKvGK3q8cGmi7gHO5ZBW4JcBC90inCJVpPt4Kf7SDzTykxR5zdoGa
-	hfrM07dJcO2k+emd2VSwrNmOz5pVlakqxMVNLx/8k1ZqAix3Ukvd/ZeWBxXUa3UjbH/ddVclFHK
-	LLzubxYJ5ntXMcicffuvI2M5Hv5AB3hXHA2roSbWVRON5h/9i9rJKSaPlpGzdlNWPFm4E5HXkZh
-	c7dJjAjeyuJG6uh8kFVuKOCxdPIWdqQyq9HvmmD2VbLeIkaYnCHY5E6oyyOjrcVJ8mho/K3PgaT
-	NE23IOYRSdxl8vBRFben6p1aPd2cq7K/D470EeRe2rr3sQhp+8DJVnY0ZhxDTn0UjUb0Z34uJ5s
-	MgpjltVbeXaEPIHvsI3+uyNfGdHzeM1EqqR07Zk6McK8Fa9CD2yZGCwSgh2NDqfPgxdHJ/4DBjr
-	AqetibmfPi++riGfo9t01ZjI7V2Ehy+TBPi9uS/TELHugAXuk7RX3Wn69cNYgXwHDIhuyAJWLrH
-	ab7LG8MJGjOj2wtCTnksuxJkoXoGGhllfxuac/vifFmUrP2z0lqgqYcc9KcbDDF4ux31YbijOhn
-	/M6xajo+ojMXF9iRZSoDZJlWE5PI/2JC9Cs=
-X-Received: by 2002:a53:d148:0:b0:679:93bd:85ee with SMTP id 956f58d0204a3-67ba4ffc1a6mr6007860d50.39.1793647608751;
-        Mon, 02 Nov 2026 11:26:48 -0800 (PST)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf3700b8sm5719489d50.23.2026.11.02.11.26.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2026 11:26:48 -0800 (PST)
-Message-ID: <d39dfdac-e0e3-4c42-9a55-fbcef6806d77@gmail.com>
-Date: Mon, 2 Nov 2026 14:26:47 -0500
+        d=1e100.net; s=20260707; t=1793647883; x=1794252683;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OHQyuYjFQW3W/4xcSdN8/cZTkkVuQVsRMgUqWbu+rsk=;
+        b=KVrfGab3Kdv0etgld2ZwtFWjtPf+8yxwvSAEUyT+OFa683DYqK4ZaxIu8Z8KoRMzih
+         4iml3+oUi4FJ0ZaowdCs/solEqEa7GBGVKelyB8g1zqAoEiMIY6lLvO6gOoMXEslnr5z
+         nmAysANOlv278jc23mHgDI5MIkWV/xdpptEcrjcvjFEt3p+0hQbcweOyX5aLMIpM3YZc
+         3Fpp2cXdN3BfNVZeT/L5FH8dDltEYTtqlF1EwJHnjMaSR2+K4d+74JQaCXR1rlgywBMH
+         nfASvZZRASGvT9dzEudCIH37U/baa580ynrgVuOubYjQzshTMTrJVfJggo85/sBaKq9N
+         Hmlw==
+X-Forwarded-Encrypted: i=1; AKwUvBzOin710SFlh66aIHYZzGpyDhLHtsX796PX1EYbfSaEer880/vMPWAR8/PoW7Bf2JGohjeeTKGeZ4o=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKlbwk9RjxhHbyHlTyBaSuDVb340RXHY7wJgy8gB+QzcGszMahv
+	fNS37H8pyUNgApeOYbpGZvBEF65wy5a8Wx7EVfHI1T2PGHTV8SdlkBPG
+X-Gm-Gg: AYBFou2iMaIftxmgH6vRao13Q3ExKlwpXNmLc0d6hSsKX21UP/YsnZUgomRAm3MwuZ7
+	qcwZM3vD3lg8c9TTnmoBBcOUEnSh7q/w/k+RYUDx6LYO43nS2iCdpCAt+gBdVNlSH8xjIK3gVcK
+	QOdDf/WTKQejysLUK10EYwCKeAgylN0i/xCiOMNs7SweZFHnbwcSNkB1XAJFtlDSHv6/R5jQLPE
+	BJaSXrLdeHOlcJO/8B0iC55ZL+XEiqkPL3oindTskVM7LdpZwLo1suRKc9kisG60u3eYZJDZv2P
+	Mo/ABQP4MbI0/DgsBgT88uAGfggnkrwsksvHLDwNU4WhNerXz7TrJ4f+cQYHb/opH+wOsOXArf1
+	Fd3uqP6WmvZK0gnewC5r4HXnmiMBBccvMar7/BxfGrFDeltGAqfKULGz3y3hCVw4nuineCzxKPx
+	A+wIPifLN/IrBWFoHY9IuMoxX9E16vaFvcX6vw9XZDK78pBj650zfvPJqJsAoejCo76xm9ELy4G
+	TGPBOVRTllZ3XTBlxTMG/xpgtq+a215J+7dsoXd71O+ds2DDDKzi8Uw1pCDEn2YsvNJ4TeW2uhK
+	kaHAmPCVvz+6KeYv58i3UDy72ws12ufDyqsMQsdE2Z64rJOZWsBwMbQPcBE46Gxo7r2I916FXLu
+	clienBFOgLQ==
+X-Received: by 2002:a05:600c:e555:10b0:4b2:61e5:b2f4 with SMTP id 5b1f17b1804b1-4b261e5b38bmr21493425e9.11.1793647883361;
+        Mon, 02 Nov 2026 11:31:23 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a5372d8bsm9940525e9.0.2026.11.02.11.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 11:31:22 -0800 (PST)
+Date: Mon, 2 Nov 2026 19:31:20 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Jonathan Corbet
+ <corbet@lwn.net>, "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe
+ Perches <joe@perches.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy
+ Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa
+ <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh
+ <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr Pavlu
+ <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102193120.4c88f066@pumpkin>
+In-Reply-To: <20261102-affable-undetectable-beluga-eded3e@meerkat>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	<20261102093206.50b6c9ad@pumpkin>
+	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+	<87a4nrfgjm.fsf@trenco.lwn.net>
+	<20261102150535.6c5689f6@pumpkin>
+	<CAMuHMdXe1xxk2ZFJ=yr=7z1DUs3oRNfzHw1Ls1hftcGnmoNwrA@mail.gmail.com>
+	<20261102-affable-undetectable-beluga-eded3e@meerkat>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,66 +115,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 0/5] tls: perform TLS 1.3 KeyUpdate in the
- kernel
-To: Chuck Lever <cel@kernel.org>, Martin Belanger <martin.belanger@dell.com>
-Cc: John Fastabend <john.fastabend@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Hannes Reinecke <hare@kernel.org>, kernel-tls-handshake@lists.linux.dev,
- linux-nvme@lists.infradead.org, Alistair Francis <alistair.francis@wdc.com>
-References: <20261102-keyupdate-rfc-v4-0-f17419972b9f@gmail.com>
- <785aa669-8229-4909-ad33-66f0824687bd@slotpi15m67>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <785aa669-8229-4909-ad33-66f0824687bd@slotpi15m67>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2 Nov 2026 12:56:28 -0500
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> wrote:
 
+> On Mon, Nov 02, 2026 at 05:24:51PM +0100, Geert Uytterhoeven wrote:
+> > > I certainly scan it.
+> > > It is also useful to have an archived local copy that can be searched.  
+> > 
+> > Indeed. Sorry to say that, but Gmail web interface search is still
+> > much more effective than lore web interface search.  
+> 
+> Folks, I don't want this to turn into another thread of "me too" responses.
+> 
+> Yes, I know that some people still use it for a number of legitimate reasons
+> -- but these are few-and-far-between exceptions. I need this change because
+> the current status quo is NOT TENABLE. *Everyone's* quality of life is
+> affected because Gmail's throttling results in (looks) ~350,000 mails in the
+> queue, most of them waiting for Google to graciously allow us to talk to them.
 
-On 11/2/26 13:24, Chuck Lever wrote:
-> On Mon, 02 Nov 2026 11:57:57 -0500, Martin Belanger wrote:
->> The matching tlshd change for ktls-utils is a small patch to be
->> submitted at a later time if this series is accepted.
-> 
-> Recognizing that there may be further API changes, for the series:
-> 
->    Reviewed-by: Chuck Lever <cel@kernel.org>
-> 
-> I don't expect any changes for the sunrpc consumers will be necessary.
-> For tlshd, as far as I can tell the whole change is:
-> 
-> - In tlshd_start_tls_handshake(), register a callback with
->    gnutls_handshake_set_secret_function() before the gnutls_handshake()
->    loop, as quic.c already does. We rely on SSLKEYLOGFILE to decrypt
->    NFS traffic in Wireshark, so that needs to continue to work.
-> 
-> - In tlshd_initialize_ktls(), after the existing TLS_TX and TLS_RX
->    install succeeds and only for a TLS 1.3 session, set
->    TLS_TX_TRAFFIC_SECRET with the write secret, then
->    TLS_RX_TRAFFIC_SECRET with the read secret.
-> 
-> - A configure.ac check for TLS_TX_TRAFFIC_SECRET in the installed
->    uapi header, so the build works against older kernels.
-> 
-> I assume you plan to send tlshd patches, but let me know if instead
-> you'd like the ktls-handshake folks to take care of this.
-> 
-> 
-Thanks for the review.
+They are actually waiting for gmail to reject them so often they get deleted.
+If you try subscribing a gmail address to lkml it really doesn't work very well.
+Maybe you get 70% of the emails (hard to say) but they all arrive out of order
+and sometimes days late - makes a real mess of patch sets.
 
-Yes, I will send the tlshd patches. I have a prototype, but it uses
-gnutls_session_set_keylog_function(). That replaces the default
-SSLKEYLOGFILE writer, so I will switch it to
-gnutls_handshake_set_secret_function() as quic.c does, and add the
-configure.ac check. I will post it to ktls-utils once the kernel uAPI
-is settled.
+More interesting would be not sending any patch emails (and replies to) to
+gmail addresses.
+That isn't as harsh as unsubscribing gmail addresses and still leaves the
+gmail addresses getting any 'admin' messages.
 
-Martin
+> 
+> So, we either unsubscribe all gmail addresses from LKML and prevent them from
+> resubscribing, or we do something less drastic and revert it to how it was
+> supposed to work in the first place -- only patches without a dedicated list
+> end up on LKML.
+
+Then those of us who want to see most emails (or use local filters) will have
+to subscribe to all the lists we can think of, and then handle the fact that
+we receive multiple copies of emails that get sent to multiple lists.
+
+David
+
+> 
+> -K
+
