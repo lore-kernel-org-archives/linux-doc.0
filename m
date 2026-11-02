@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793621763;
-	b=dkkV4PkB9IEB4UFF7UwuSzGzWnxuuMQN0YK18OkOO97oEwTJlxHtFpnYFnGUIybtkw8v
-	 GwQRo6w0QARR2nshfYBSRSowgZ+W3qZLQtnqG4OWrOPnhtgO0GuVchgSJPuvaZAAGrlD5
-	 dp18cabDqfVbdoXiW1NghmmZm/lQRamX3w8JzKxpuCKDGm6ImkLs4XAA6SdNTNQJw17ZX
-	 psI/YUS849EnJOx27dNLwpFTgWfexEWCn25jIS2Tqq5cEq8uLLu8hW/NeDQDOjvOdMJo3
-	 t6CrVKZPE6a8FUHNJelU5/8qoJXTeC2edSIaW02srxrVYuHAKXzmZJ70xgKeXJvM1fQ==
+	t=1793621764;
+	b=uKps1TSIsiB1tPRoK4gTqSLhYx3R9Qpy2qdcD8mGAXdCSiNtMsnUbVDHE5TcS3sUxosq
+	 W70WxR2JO4Wv7mnaCMDMM2QjEyd13yqLiOA1+Tu0mZPVvYgBDOWS+SOog/Px9iT3y8Qtq
+	 o3d8pdiHAdGXuNMHb0Yu2UgvsGhPYMsUujnDJi+rvM0rxAza4r17ZW/QMY09Lu+JFk/I3
+	 WlRnhSGxlBzThr72+Z+QLj+c02qNnlc0h1zxvGyYABes/IuHyC5BhVqO5KOe4oZMkTkua
+	 FllIZ9GTeHPYCICioVI0D5crbuJuWAfnB9arg7yMcFAlgmhsqoj9GLGCjsPDL42P9Vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793621763;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793621764;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=5E7haAucu6qfiv2l5VpOzqA9ji1qzQ0GwblIaMBQnLU=;
-	b=2ZllP4l8/8gBAYXpvdQkTHIVbTYINI7iyod4fyk7MLslBifWib93Rr0vo+QQcYHMGC+s
-	 lsB8EsolvdluYQr/LcfF2QVUDy9p75jS4kJyEC8O5kv9p54jFnXzG1RnDRskGJ4Q++4Ph
-	 sC2/drqqJZDej3filWA1YrVq/WRDZtH0C75dk2AuP4KVuCop8bCiedZwzOdBzM8XG35WA
-	 sSlegGE6qqFVk+Dnghyt2K2hKOmnw8rIt46FJFqlNj02hEKMGlNcE7YftrSjg61QlSks1
-	 8fCZQE7Q6odzZPf5m3upsRl8J8616k4lRp+E05FgHYb252wZgyTaGdpXREpL7rGPP5g==
+	bh=+9NpFkRdVW/EG2TCUGvGJ4MlQ2xcOGmdMzm207Q8vjU=;
+	b=XPUkpTqmCJwsWdwrFICIlHYnsZTZth8AfHotbSYJja+uC6pbs00MDpZXP4JFHxrOuTZM
+	 WTF9F3qxjF/qdf8jAhc+kidGV8J3UKVgJvbiToxuXemtZPkyd46tj8ZzBfyHv1oLWUrAF
+	 8PIoRZCqJoSOTmPUhEHDOMaUpR8bzUEkW6pHC6dEu4IjiJnu9CNa6bYFbXFaDY3MDXVVd
+	 D6T20AZORdTuqvACsDr61Bdcy+v++jUZ5ZLWA+ApgAyAIQPC0+TkGcBvHt9sdgbRg1yND
+	 +hN0W+zM45W1yI/J1/ClUwwsGj0uU8S3H7ogAkSR6Q3vUaQcJ5pgW7nau/NrWBvkKjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=G9OR64fr;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IPl+jZoo;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E995D606B191
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 12:16:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E995D606B191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272B9606B1BC
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 12:16:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 272B9606B1BC
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=G9OR64fr
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so18448775e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 04:16:01 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IPl+jZoo
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so25631115e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 04:16:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793621760; x=1794226560; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1793621761; x=1794226561; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5E7haAucu6qfiv2l5VpOzqA9ji1qzQ0GwblIaMBQnLU=;
-        b=G9OR64frJl/W1Wr5WSm0zTlzskxU4S2d916hLDQCyQu7kqu23gEhvmom5ycOEi0O5X
-         NIv06Dlo9LBDksr6b/iA+wVadt0CPY+DDH0XKjuavdD7HFyK2j7Hrd1Y9AYYQyEG50bF
-         FmUc4ULZWzaUlnTZVbm37EyNY+TDq/PMS9vvn1E3g0wRHu77TT/2vvuJ99jd/9pYtQLp
-         xjhJEqhxYUj7cBFjhhlEJengysgInXbcwbMrfbXUXHYwDGWn0CI0FVzVr9uQ67asB0Uf
-         e2+feOmrnU5yvI3D3oQgPsGTU04w8GwvPdHYY3gWkiPXU0nBSlFj/T4SFFMgCl54B2Ly
-         HY/w==
+        bh=+9NpFkRdVW/EG2TCUGvGJ4MlQ2xcOGmdMzm207Q8vjU=;
+        b=IPl+jZooc/Ocqa/xTyy0eTf4YzOERgAZD3gXOxXDZT74tas2k1vjLvWMwevPVRcqBL
+         maKGsTaW6Sv5kdK4mbpfYVPn66mrwKrpPWsVgJXcnXPiaUJ5s2A5Nq5JeQtYBrGw2aIS
+         vkIiiLOXFvzhPDz94DN/xahwm0DiDHQnsYxlp3FGehTNRUkBd0ixM8SXHBl5hqOvWBY2
+         PD593Ari+fFZSjZZy5augqgkV9jBYii47phS4MVNOesAnAn42QdtkY5VcQK2DkqXRDr6
+         RAZSX2JrDQhRmye/f0pAV2czhLBeBLCCHYSbDWpkXsYywwRfg3VHR7WvTJFiR3oHRZVg
+         RNIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793621760; x=1794226560;
+        d=1e100.net; s=20260707; t=1793621761; x=1794226561;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5E7haAucu6qfiv2l5VpOzqA9ji1qzQ0GwblIaMBQnLU=;
-        b=jKmLweIHJY1WLX4GG3Rdd1pbAz/rmXKk8Ro35yQ3zggOfzacSztjaToM/JQf1CbmgV
-         05vcPh1lxk+LEjXXZ7oYiZx44D8pqR3tK5I2m2D8htu3bxfFR04p0O7aaADciLre20lN
-         ISL/XK0ODLgQMzOgpZqjtn8shTh0ZMNqH+EcR1/F8JeMONOyBEIHxUB5K79/kBDxwpV5
-         yWiw7MCAqMaSXauPJv7xoDkiBuP3PIeuvBT7qs7tOZhrPiCUePNaf+kNuMozPkmoXtww
-         yYwT/AWyp82+rqwbsVOZ/pkRAigPhtUBURaEEgZ+HWZOsNv3d7AjH2yzX+7m00UT+omF
-         oinQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwgSuLrbP0ef9jxiGPriRvUYxp3DUiePXS0S287E8ddURh9KX40P5vdkl40xTCC5KjnJwclXzxIGPU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+nx7ml3bVAgCjf91T87YS9kBlgGViFgf43oF0g4HzCZRnHrPG2
-	NvUW6GWsr4O3nLGHmX0RaACGMvlQhxGbScjVdbsMDk9bvaUUqmYeXLfO+k0CD+cHkJ0=
-X-Gm-Gg: AYBFou1LmZuYGmDdUVw0Ui8ZkypSszM9n5ftP61ye7TQDhsApAkRNAzbvut3tyggyR/
-	HiUsVgSxqJ391rH2gEU1yLGTU5TZNfrfiHSpjkiYA5JWSqhtQTQWXyo25vwBkw+qaUM2osbf9bQ
-	gUmbHeKyac5lPnlQJ7ejxGFrl3jGH+hLrJUUrpubS5I3krlxXau9Iep6DCSooCVVnogDc1ix1lK
-	lDovoPYK+EU/3VYW+W9tilvxEWUB/cwmmfNCkmCBC65nfgyJ5J8Y7IOODgaB1RVCxyBYKTK+wdn
-	Gla7w+nRrgzEEiZ0pjytONNqrNp58K+4tX6aWZZcSH8DD7qckVUUeyvgla0NckjJPaHrzT1XpOS
-	4kkmuRdj6x7XfwCrzZnqFrTpPlSOxXxnNrj1uAQrM4CTX5OxBhCP1CBVTxVBfFj6hd5Hf1Kl8pv
-	Q55Cd6O51jHVSkWtjJcNN8V525rrguIFC9qyHgNzyD+gh+UJxwtyCrq2Hj6kE4nUzoCB9U6vNNr
-	F3xcmhHzD7JPy2xpJZqn8Si0B1TrIQgoL4C2FGoAsmhAUiEuQ+x1ZB+Ut8fXJnie+zl7JRDgM98
-	a6M0YDcQ/6HG4AhfdYb+Av+jYEyu0LK5
-X-Received: by 2002:a05:600c:1d1c:b0:49f:fe39:5bc8 with SMTP id 5b1f17b1804b1-4ac1709a1f5mr235402515e9.12.1793621760385;
-        Mon, 02 Nov 2026 04:16:00 -0800 (PST)
+        bh=+9NpFkRdVW/EG2TCUGvGJ4MlQ2xcOGmdMzm207Q8vjU=;
+        b=RWtaWU/yZDf1cEy+ZIrls+CgsA9Wxw3coK+WsNHgJHvkCeA+yc75s8Ydo+lUT3cK32
+         LedmBxrwrHRf10FhCxsvryKVR3rip2hPthIxxOfXdgDyDpZwDeR0bQsHIAvlKReSKGts
+         yJmZMfpA34ikuNziPB2UBkjunpCuQbmrCMgDW6aLxGSEszouRNa7sHMzzUYS34fgljuA
+         MU9fo3V6bvndVaoBFFTURRfRHPHnHsB2zKhTRCIad1zfcn5q7+O+rHoR2WAdSPCNOR2J
+         VXvXXMJQc0T5kEs5kVfZsPjheCUBPGVtyRE3qt4sOzeyM/E2rXO0jYK1xpxowFuO8sOh
+         zzhg==
+X-Forwarded-Encrypted: i=1; AKwUvBxY35NWG/0IyQOUZ2BY0UsBH6CTpSKu2N172ZfOvjPLCUbOt5won6hosvohJGYAs/iaLGKhIHmovzs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLReE6OeNXHFWFnS/izMfDkEWwOXg2VQZgAKF7n4zb7vO3GIfZX
+	+lRrjheLcnF2X4QEINnOIp+8epJDHGH3jG+4M6D2jat5umyaTPq/8Enq3plEONTowqU=
+X-Gm-Gg: AYBFou0ZF7hClvFC4B4UUeLyYzo4blei7Nx2xHNE8QNXM9eAjJUX6nz+waKpIaYMRIQ
+	8/lZL2JV1zgklEMFYBRsbmWD+fvtKRAJiTt1sTG6xezbC4P65n1StChkFwATZAuFZVucMR9+UM9
+	xA/SkmkJYO3T13Wk8okOSbJ5PLaMSXJ9yvl7PMCyNS/BTvXQK3thy3RpP+7H6M9IwX63vuccOQD
+	2mDJqakN0dyrcXpoZbTSVabIT8QDbUEXSaDDJRb5g7OZ2EpId8TjVMu6sCjSYzy/3JONIwjSL/M
+	bwsDtb3Ge3k1R4NFU642KvuTebVEGvdFy7OA3a/davoUTgaDpri1bQ+cl3A6TifCpYHV3CHrbMh
+	ujIfU502jaXisC6e6/Cc1DXLazh+y5WpmBf7etE4gIdie7GMhMO/B97UmfA+XmU2ajO4AxdQMc5
+	cotM0EUtlPEi1i4s52ISkHw4ZQeDqa//e6nGrgv0KO91Vqe0bDBNxHh79slNMIUlCiLUhyFrNVW
+	iVi2bxp5h7Q2H86Mc0sIU7itIla+No4xBiWlSr/kIiyGAIRYlDHVtRZRXNPwsaT+NZUHVFWw3+Z
+	QuAUakiIREXyotFkYlGrBwQjr7gwQa2iumK18+QIlkZoJQV8im/M3A==
+X-Received: by 2002:a05:600c:6285:b0:4a1:fa27:df7c with SMTP id 5b1f17b1804b1-4ac182dc8f6mr222521195e9.34.1793621761658;
+        Mon, 02 Nov 2026 04:16:01 -0800 (PST)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b27e46sm434974855e9.3.2026.11.02.04.15.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b27e46sm434974855e9.3.2026.11.02.04.16.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 04:15:59 -0800 (PST)
+        Mon, 02 Nov 2026 04:16:01 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Mon, 02 Nov 2026 12:15:27 +0000
-Subject: [PATCH v3 13/18] perf cs-etm: Queue partial AUX records
+Date: Mon, 02 Nov 2026 12:15:28 +0000
+Subject: [PATCH v3 14/18] perf cs-etm: Don't print missing buffers in
+ snapshot mode
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-james-cs-unformatted-per-thread-fix-v3-13-dbcb0c281b9b@linaro.org>
+Message-Id: <20261102-james-cs-unformatted-per-thread-fix-v3-14-dbcb0c281b9b@linaro.org>
 References: <20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org>
 In-Reply-To: <20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org>
 To: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>
@@ -113,133 +114,43 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  James Clark <james.clark@linaro.org>, John Garry <john.garry@linux.dev>
 X-Mailer: b4 0.15.2
 
-In snapshot mode AUX records may straddle the boundary of multiple trace
-buffers. Currently we only queue AUX records whose range is contained
-wholly within a single buffer.
-
-Fix it by queuing any partial AUX range that overlaps any buffer.
+The driver produces lots of AUX records for trace data that was never
+captured in snapshot mode. Downgrade this to a pr_debug3 message as it's
+only an error in normal mode.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/util/cs-etm.c | 54 +++++++++++++++++++++++++++---------------------
- 1 file changed, 30 insertions(+), 24 deletions(-)
+ tools/perf/util/cs-etm.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
-index f19aa4f787fa..e899d82b7c93 100644
+index e899d82b7c93..c880a1ca7533 100644
 --- a/tools/perf/util/cs-etm.c
 +++ b/tools/perf/util/cs-etm.c
-@@ -3238,7 +3238,8 @@ static int cs_etm__queue_aux_fragment(struct perf_session *session, off_t file_o
- 	union perf_event *auxtrace_event_union;
- 	struct perf_record_auxtrace *auxtrace_event;
- 	union perf_event auxtrace_fragment;
--	__u64 aux_offset, aux_size;
-+	__u64 aux_start, aux_end, auxtrace_start, auxtrace_end;
-+	__u64 frag_start, frag_end, frag_size;
- 	enum cs_etm_format format;
- 
- 	struct cs_etm_auxtrace *etm = container_of(session->auxtrace,
-@@ -3286,25 +3287,23 @@ static int cs_etm__queue_aux_fragment(struct perf_session *session, off_t file_o
- 	}
- 
- 	if (aux_event->flags & PERF_AUX_FLAG_OVERWRITE) {
--		/*
--		 * Clamp size in snapshot mode. The buffer size is clamped in
--		 * __auxtrace_mmap__read() for snapshots, so the aux record size doesn't reflect
--		 * the buffer size.
--		 */
--		aux_size = min(aux_event->aux_size, auxtrace_event->size);
--
- 		/*
- 		 * In this mode, the head also points to the end of the buffer so aux_offset
- 		 * needs to have the size subtracted so it points to the beginning as in normal mode
- 		 */
--		aux_offset = aux_event->aux_offset - aux_size;
-+		aux_start = aux_event->aux_offset - aux_event->aux_size;
-+		aux_end = aux_event->aux_offset;
- 	} else {
--		aux_size = aux_event->aux_size;
--		aux_offset = aux_event->aux_offset;
-+		aux_start = aux_event->aux_offset;
-+		aux_end = aux_event->aux_offset + aux_event->aux_size;
- 	}
- 
--	if (aux_offset >= auxtrace_event->offset &&
--	    aux_offset + aux_size <= auxtrace_event->offset + auxtrace_event->size) {
-+	auxtrace_start = auxtrace_event->offset;
-+	auxtrace_end = auxtrace_start + auxtrace_event->size;
-+	frag_start = max(aux_start, auxtrace_start);
-+	frag_end = min(aux_end, auxtrace_end);
-+
-+	if (frag_start < frag_end) {
- 		/* Old per-thread files have no CPU (before v6.4) */
- 		int queue_idx = sample->cpu == (u32)-1 ? 0 : sample->cpu;
- 		struct cs_etm_queue *etmq = cs_etm__get_queue(etm, queue_idx);
-@@ -3313,18 +3312,19 @@ static int cs_etm__queue_aux_fragment(struct perf_session *session, off_t file_o
- 			return -EINVAL;
- 
- 		/*
--		 * If this AUX event was inside this buffer somewhere, create a new auxtrace event
--		 * based on the sizes of the aux event, and queue that fragment.
-+		 * If this AUX event overlaps this buffer, create a new auxtrace event
-+		 * for the overlapping range and queue that fragment.
- 		 */
-+		frag_size = frag_end - frag_start;
- 		auxtrace_fragment.auxtrace = *auxtrace_event;
--		auxtrace_fragment.auxtrace.size = aux_size;
--		auxtrace_fragment.auxtrace.offset = aux_offset;
-+		auxtrace_fragment.auxtrace.size = frag_size;
-+		auxtrace_fragment.auxtrace.offset = frag_start;
- 		auxtrace_fragment.auxtrace.idx = etmq->queue_nr;
- 		auxtrace_fragment.auxtrace.cpu = etmq->queue_nr;
--		file_offset += aux_offset - auxtrace_event->offset + auxtrace_event->header.size;
-+		file_offset += frag_start - auxtrace_start + auxtrace_event->header.size;
- 
- 		pr_debug3("CS ETM: Queue buffer size: %#"PRI_lx64" offset: %#"PRI_lx64
--			  " tid: %d cpu: %d\n", aux_size, aux_offset, sample->tid, sample->cpu);
-+			  " tid: %d cpu: %d\n", frag_size, frag_start, sample->tid, sample->cpu);
- 		err = auxtrace_queues__add_event(&etm->queues, session, &auxtrace_fragment,
- 						 file_offset, NULL);
- 		if (err)
-@@ -3364,6 +3364,7 @@ static int cs_etm__queue_aux_records_cb(struct perf_session *session, union perf
+@@ -3361,6 +3361,9 @@ static int cs_etm__queue_aux_records_cb(struct perf_session *session, union perf
+ 	struct perf_sample sample;
+ 	int ret;
+ 	struct auxtrace_index_entry *ent;
++	struct cs_etm_auxtrace *etm = container_of(session->auxtrace,
++						   struct cs_etm_auxtrace,
++						   auxtrace);
  	struct auxtrace_index *auxtrace_index;
  	struct evsel *evsel;
  	size_t i;
-+	bool found = false;
- 
- 	/* Don't care about any other events, we're only queuing buffers for AUX events */
- 	if (event->header.type != PERF_RECORD_AUX)
-@@ -3397,11 +3398,14 @@ static int cs_etm__queue_aux_records_cb(struct perf_session *session, union perf
- 			ret = cs_etm__queue_aux_fragment(session, ent->file_offset,
- 							 ent->sz, &event->aux, &sample);
- 			/*
--			 * Stop search on error or successful values. Continue search on
--			 * 1 ('not found')
-+			 * Stop search on error values. Continue search on
-+			 * 1 ('not found') or 0 ('queued')
- 			 */
--			if (ret != 1)
-+			if (ret < 0)
- 				goto out;
-+
-+			if (!ret)
-+				found = true;
- 		}
- 	}
- 
-@@ -3409,8 +3413,10 @@ static int cs_etm__queue_aux_records_cb(struct perf_session *session, union perf
- 	 * Couldn't find the buffer corresponding to this aux record, something went wrong. Warn but
+@@ -3414,8 +3417,10 @@ static int cs_etm__queue_aux_records_cb(struct perf_session *session, union perf
  	 * don't exit with an error because it will still be possible to decode other aux records.
  	 */
--	pr_err("CS ETM: Couldn't find auxtrace buffer for aux_offset: %#"PRI_lx64
--	       " tid: %d cpu: %d\n", event->aux.aux_offset, sample.tid, sample.cpu);
-+	if (!found) {
-+		pr_err("CS ETM: Couldn't find auxtrace buffer for aux_offset: %#"PRI_lx64
-+		       " tid: %d cpu: %d\n", event->aux.aux_offset, sample.tid, sample.cpu);
-+	}
+ 	if (!found) {
+-		pr_err("CS ETM: Couldn't find auxtrace buffer for aux_offset: %#"PRI_lx64
+-		       " tid: %d cpu: %d\n", event->aux.aux_offset, sample.tid, sample.cpu);
++		int level = etm->snapshot_mode ? 3 : 0;
++
++		pr_debugN(level, "CS ETM: Couldn't find auxtrace buffer for aux_offset: %#"PRI_lx64
++			  " tid: %d cpu: %d\n", event->aux.aux_offset, sample.tid, sample.cpu);
+ 	}
  	ret = 0;
  out:
- 	perf_sample__exit(&sample);
 
 -- 
 2.43.0
