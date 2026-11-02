@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793648646;
-	b=YrraTWZG5ua25kd5p6ZwACxUB7whPXLky1ccIe5OafCZe+mkFwWzCMS2+8n8TXs4FVPr
-	 bx+RdEWdqVVcOkZ4hOjme1BUMz6SU9i5ZiQX5xEB28u/VQQ6LsqSdTiAxT1RaBVKMmLwy
-	 UdDSaDaxCXTASp2rUuPxSzjTIAd7Kb8ZLwbi9Z/NzAU4MsVikzynQp6FqExJ0LS6rXewl
-	 YARQR8obZYkKgzgCP2/WOZzojbrej2Frz1Gz0HDxfUrKvJ27gfSY7Rs0xewc4hOt7xEWq
-	 yvvR7mHJi4GiTw6DxtaARpvqzVPzC9NRzYFfIscfMK8bq8sDaUoDQYKiNHKOSHhl1wQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793648646;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
-	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Originating-IP:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version;
-	bh=Xs/bknxSjUD992DcwA52sYwD2HmK67B3GQnMd3KGXmA=;
-	b=306C/nc87W1Gv9iMjt66t+nM6PjnZw4eRcRwW+jiz5tVQ/Sis2xEmuOn9tnTcTMYnv6k
-	 rKlNH0PHvQxMafJH/030/TBdcN1HoIqeUKyp6d/g/e5SSYGd8hqstSTCEUA4aWtzqF8ND
-	 vT1138QX2hqS7TEzBxnSGs32HvbgvxlkBBs2vhaV9fvYPMHcdFWhaxfJxe2ebMU4xH4JI
-	 1WH5GWyGY8Pxsm0WG4GnNyIcC27s7OzGEE2AQW+y3Q2BTsnRNVCW2Pexft9MXg42ZfV9y
-	 BIXyRy06xaCxVKFH/g+CpHgmuTnoLkA6PBSAaTnC0rTBT3q2Ttab0riyyqp+upoG3eA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Xz6MZ6Q5;
-	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.56
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793649269;
+	b=R9AlLl6pk9izf9AiuPsD2D+Asf2dTQr7LMmb2x1By7c1URlPxFRn+5beqQUqCWBvjFHh
+	 /LnEtN9Hc6hcC7V4UpZcOh28G726b0iBxE4VwYxO7jsO2p0tsZx9tM648saL+p+dJHh6y
+	 X4vps3q5MImiWjNEk7wsYPoekxxY/RcpvQLe59xVAovSz2hLosjreXKwy1TdSWShVfD6e
+	 PlFhplouEMTrklerBW2TrLgpx1XpV40UiT/gH2jtrIyz2jyHGJyC0cRLJuhpqQJPYOn2a
+	 jBdRcr4IORxpZfzAs+tealMhPLca/xg+GU/xr7ArKKFg6QuxC4mkjNg8D5cJveu8L2Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793649269;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
+	b=jgM4xgaxLrgr5fdp1zuFrmIzam/sQBX+Y4uPftys7q0P/vPnSORdlLbWO6Mp+RXuLKse
+	 iSjomy578hNT5qn/EfHHjGB6azPuHINsdrSTWilaOOgk6ahxPuHH2nZOufQaCQ4txyq8F
+	 9N50Pi94F3RjWZArG7O7YpyM1KloFWaOksErZcyhJ482LpaZf3ytEaN88FFEiQybFBH3p
+	 o4c+iU791/4vQ7VL+fXWe06oDAH81XGeDE4dp345jo2kMdLWWWrR1RktaLc7j5sK9c5km
+	 B0VBLmckWeJ7jIA1jSvpPRVO34pQ3LVTFfgCul9SOmI0o4OyPTol9NCO5nYFjYVG0GA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=5nCrjxMO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.56
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012056.outbound.protection.outlook.com [40.93.195.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8917A606A329;
-	Mon,  2 Nov 2026 19:44:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8917A606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA5C606A335;
+	Mon,  2 Nov 2026 19:54:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDA5C606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=Xz6MZ6Q5
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2IhL6b3944200;
-	Mon, 2 Nov 2026 11:43:38 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps82601-s2048-2026-q3; bh=Xs/bknxSjUD
-	992DcwA52sYwD2HmK67B3GQnMd3KGXmA=; b=Xz6MZ6Q55LH2h5+cH8Uv9SYwyhG
-	fqA0wCgtCeQ2MLDJE5lEOYNeF2tBmMxf/Ozjov+u3E3gde/WflZJDwBao7xj7sS8
-	x+YiE+yvgTc53YY5b89vpl2L1l5FAQsyGao1lBjvZhO8LmPpCMJBYfR3WLhJRaz2
-	Ju7xsfJ+U1/q/2/dM4jxfqRL6Ri1wUnlzo7YVwGCzoLAfU43sEFrXSNt0sPjpgP5
-	gLVtCwSquAWEu6Ibk9k1YodRwN+FMA10HHh0dhV5VT1HmU1Ongvi3dFQqWf18xtd
-	P9ElzdgxTJCRynqy7J0zQLiia8LoN7NTX3cEsjNE3ribWcsz5OF/7y+21Dg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hne57ca7n-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 02 Nov 2026 11:43:37 -0800 (PST)
-Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
- (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Mon, 2 Nov
- 2026 19:43:36 +0000
-Date: Mon, 2 Nov 2026 11:43:35 -0800
-From: Bobby Eshleman <bobbyeshleman@meta.com>
-To: Michal Luczaj <mhal@rbox.co>
-CC: Stefano Garzarella <sgarzare@redhat.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Stefan Hajnoczi
-	<stefanha@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang
-	<jasowangio@gmail.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio
- =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-        Shuah Khan
-	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Donald Hunter
-	<donald.hunter@gmail.com>,
-        Eric Dumazet <edumazet@kernel.org>, <virtualization@lists.linux.dev>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <sargun@sargun.me>,
-        <jlinbox@meta.com>
-Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
- the g2h device to a netns
-Message-ID: <aujn5/nm9f9YX6bM@devvm29614.prn0.facebook.com>
-References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
- <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
- <atjZZP2ebhXKzMxL@sgarzare-redhat>
- <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
- <atnjOZjKUBagRVWq@sgarzare-redhat>
- <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
- <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
- <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=5nCrjxMO
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vMInJtG9Jk0tF3/xIe/EwfcueBDKe3WF9O9p9JkvUqnG3xdQrnxX0r4roCpCQA3GUuL+2VnwLPYu9nMJgqkKV0GPWvYWjUW2kj0q5oyKK5+4cJYIDcGrJxO6YEwUvcH+OiiAUv8Byogzwl1UZ907muArwkliwAX6PuiS+rYvaOrqxcYALrstqIu5Ncz8XO/L6OU0CkhU5lOhzbZyrMSQaRMWtBc8eFJGgRSrLsZLrZh8Kopp4W7R7+H8dri4GAeFTlrhDSA0vOqdYWKoE2cv6s8Fsb4m4QEJVqAkjWjHsF/XKUG9qls3EMie+H5UCoHVP+NzrJl/bLOZ5WxzHr5seA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
+ b=f/7aZDkPYIJjYAhJfCSaKXmrz1u/QXsYl4QEXvtkGnDRXaSjrkIBr+xQ92P0fQ0l02I8GvSH4NeILGxcuEhhHMEPvF2wiuxax6ngsUcqaxwuB7zkrK2SlNyYJO0ytlxpJt8ybEq07odnsqGaRqNTLf8m5gA835cWyu+u9Ar9g1VKumnBdmhG1kgMsjLCgyth42Gcb7Sjka+sq4eGBPLq4vr75oO5fdg+R+QloVnryNpEZrpziaDepTOZ3SQcc71pXLvgsDRLnAIQps6aZh7k9PfqBTdRIrMafCCdlwoSNoYxChW0qoeGpzIjcg7U+hzTrs6+ckN+fW3c1859ELIRPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jvFCHHa6vIlgfSAuB4RUcZLgFc89wvAcS35tbn+fkcE=;
+ b=5nCrjxMOXshumvrQjE2oBs69rRu88fjuAfmoB149xZMdCVAP6KqV//QNXcBGePpsCO8kdw6WHG96hTn9dxqQBVxsP7Dk/LCZVj9XxjQxxhHSOFdzPGRJD4GFZHXLVwB4IxoSpaz2cvDgwIynVdaJR/abViey1gbMSeXF9LwLUHE=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by IA1PR12MB7758.namprd12.prod.outlook.com (2603:10b6:208:421::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 19:54:18 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 19:54:18 +0000
+Message-ID: <4d7fed02-5ec9-49b9-bc52-83571fd368c7@amd.com>
+Date: Mon, 2 Nov 2026 13:54:14 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] x86,fs/resctrl: Keep mbm_assign_mode in default
+ mode at boot
+To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
+ bp@alien8.de
+Cc: x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ kas@kernel.org, rick.p.edgecombe@intel.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org
+References: <cover.1793392128.git.babu.moger@amd.com>
+ <c1e5ef23e83ea663e9aa969e301fac20723a988a.1793392128.git.babu.moger@amd.com>
+ <3ebc7028-c559-4add-800a-614b29d66ba3@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <3ebc7028-c559-4add-800a-614b29d66ba3@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR03CA0010.namprd03.prod.outlook.com
+ (2603:10b6:610:b0::15) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,166 +103,148 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
-X-Proofpoint-GUID: QR2S-efKBO6QdYqmIxgc6lAyUaLaTRaV
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA3OCBTYWx0ZWRfX/+ZJayM1LQ+r
- 9CV/sgjbk1pFruMf2Sg0Afqz45bxdOm/q1kCI1B+bg8HW4Cjn7g4Lr79nb2RdSW2Xmzq4dF0XOW
- GqQjtLSbwrhVrlFabcgVpqZqM5ZWyic=
-X-Authority-Analysis: v=2.4 cv=SJ/Xx+vH c=1 sm=1 tr=0 ts=6ae8e7e9 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=7x6HtfJdh03M6CCDgxCd:22 a=wpfVPzegXHpEFt3DAXn9:22 a=VwQbUJbxAAAA:8
- a=BjZWFOVnn3HtxxQ2TYoA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: QR2S-efKBO6QdYqmIxgc6lAyUaLaTRaV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA3OCBTYWx0ZWRfX2ea4iepLya8e
- u/RHH1/wfHIKJZ8+Jf7wOY4wj8XR9xzoUNBYjnpFjO47yzsaKfjU/XN8j7g82pGNcHLIAuDVzMJ
- KMGfZDToKxladXb1lbLFhLwt5iGVw3LJBtrZsMaVjskGsjdSEfVKQXCCYwA5zkPm482GMtvPwN3
- jyJIuvtvK2eZdI8VGkblCf8zlVF/GyFNxFgJDRGQUE4YhkD6gz6U8H7oeeXXITLS0LjBEBIQkVd
- hciJv6mh5dbOOr8WbBAG68O9jPfYLSopCyL97moXfPwULj4fUglw2KjlroxFs7mDRTA3fUU1qXY
- XulWKBv1MwarGtHmsJHqll9CuwDtloBZZGQW/RsUBi0kqUJ/29Ugn3cBOSVu/19P+N8EkFP2I+3
- RQ+4KR1LzEbgliAqZ8kR4kJ2WqGwZjinnsOjv8iLgk7AxJ9WUGp/AjfY+5pp07gMXMNbiYKu5YO
- VcLFK14qbwpeW4bMkfw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_05,2026-11-02_03,2025-10-01_01
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|IA1PR12MB7758:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c947364-25f8-4175-0fc9-08df391b1452
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|10067099003|18002099003|22082099003|261102123227099003|4143699003|56012099006|11063799006|261022105027099003|261022113327099003|261026140227099003|261026121527099003|261009223027099003|261028144727099003|261022075727099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	2QB5C8CAn0T9fcdQXgwNCe+e83dL2A1FoUEAf2A7XLmLNMqOQ5Pg/SugPwGSllIJWmz7y0fadS32PxOF0bY2UCQp6wgxxCE/0JrNK1U6txi36AIfDWUIKkUGBwTEGjMWvD1DjlPtjzRUIUvEKro/qv5cXCtRzh2qosrcrIWixERd9pPigc1Vlv7BbaD/xngeqYwzBWmsP49kKqt5e5u0PCCcS1V40R7N8itCkV0+Lz0fk1jRZwXQLTeXNmTArpZW0tckZysfm3VLvTMTw/E4UxwJIUoK41RWmjANutRlX8XrPbzwYTc0djrSCmSNk4QNYZ9pCbV0aNKunSiyhx8vNO6SLulwz8L7hQc4eqh2z0ltF3RkMgfn611zYzQs0y32Qgh47E/MKzglq4qv9cD24+3VbIWsOpyYs4Ub6jjuTOcyW7rCxdkC7sOWcpmk0j/+54KVkdOPKJPol2Glht5TI3F4zFQ0s8snW2d+7N919EEEyR6QTdLAMvfIG8fQiINAIXGMMCZAZmILkXmdvTzJ9IdgIoKGV0Kj8/EH3imb/wl/YfGL6GsAkaLGedlAw3eii/BBsEjOafSfLgHqTo9ccZck4/vpMy/7DgEvz8mmS1O1LvQj+U7eX1iY5Rd1e/bW
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(261102123227099003)(4143699003)(56012099006)(11063799006)(261022105027099003)(261022113327099003)(261026140227099003)(261026121527099003)(261009223027099003)(261028144727099003)(261022075727099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UER1TWFabWNYWXBCU3ZURnJyU0xtb3lIU2RHcEtZTjBWNUJNU0lDd3k0MzRy?=
+ =?utf-8?B?ejVObERlZ2U5RnZjbU1ZMVo5bGxnQ2oyWG9PNUhkNFhSWWNhbFFFNzkrbzhK?=
+ =?utf-8?B?NnJFVUpPTEcrMGZSSHZUcWE4Q1JWazAxS0tXVmpFZ3ZlbXhVR2hJT1VOdjY1?=
+ =?utf-8?B?QVFad053elBOWjMwZjM1NGtmekJHRGhHemR5Q256aXN0azdOMFlTelBIWkp4?=
+ =?utf-8?B?ZkNTYUlHdU0xVnpGUlNNSER3ZmJDVktGTVE1T0VFV1lxMHZjV3dpUGdXbGtH?=
+ =?utf-8?B?OWN2b3owR3lzUWlIZ0ZjT1A1ZDFoN0pPZ3gwL0kwTmlpVlpKUkV2NTVxbG5V?=
+ =?utf-8?B?L3BjcjVIZ1QzWlVCN0M4U3V6VFhxMFVBc3pjcXFKU0t3SVBEWTdnWndVMnFV?=
+ =?utf-8?B?MVlmL2FFVUNYd3ZxUFN4QU4wVDNURkFXcmNEQUptNWxPVWtsWWhod3k4eHl3?=
+ =?utf-8?B?WDhodlRBOEFVMlNRZnM5VVlaWVZCWlFNMEhoNVRwckc5M09IOXl5aEJZYkd6?=
+ =?utf-8?B?ZkVZVDZJeVBaQy9XdVFGZ0pmcVI2TlpTOW8xNCthSnM0S0ZxeW1NY1A2cGJo?=
+ =?utf-8?B?RFZ5Z3ZWKzN2cVZzMzA0UUd5TXg3VVNSUXREY2w0QjV3bEViMFdKT216dnpu?=
+ =?utf-8?B?bUVUV1BXZ0pGb0Ywb3FnMUhwWTlUSzBmUmNwdWNHKzh6cHNuVjFrUHNZT0VO?=
+ =?utf-8?B?bFREUjVQWVNvWWhOdDRKWUhNN3Y5WE5ObFgwSFJoL3loRjlTcGVKcGUxN1Zw?=
+ =?utf-8?B?eDNRZ3prdVF4R0oxYUpUTXB1UTdlaTdmV2hVbnVrWE1La0ZlUkptWENJNmhh?=
+ =?utf-8?B?ZWduZ3Q1bWZNQjRUZ2pxL1dIcXk0ZXBHUlIxK0p6NEdDOVByb1ljcGxsV3hZ?=
+ =?utf-8?B?WEQ2U1kvREJleUtZOXdyNi9ib01OWnFBaXRDWmY3UmtubDN3cmxnUlNqbzdz?=
+ =?utf-8?B?N29VbnVOb0lIRTR6enl1d2F1aS9BbVZhWVJXNHdqZHpMWVdzQTMyeWNLTXBu?=
+ =?utf-8?B?UzVSTE1vanRjcU5tRktxU29vMWRFbGtKYXJoU3dhb1hrNHc0dkZoZjZxbkll?=
+ =?utf-8?B?NCt2MFR0LzZGMlZRelBpSGxlVFJLRUJ6dlhVdXIyOEFrUkpBUVVJVWlRS0Vo?=
+ =?utf-8?B?VXhYVk44dm1VYWdNVk4yOGVzMEIreDJER1A4dXJVaTcrVFdUbGtvRXJ1RmF1?=
+ =?utf-8?B?SzFPb0tXY3Y3YkFoc1B4Zko1TENCVUxiYk9IQUJYSmJ0MHpCY1BWeGVlTkZ2?=
+ =?utf-8?B?ODVtNk5WVnFNWW5XYkpXcnBRQlVYN1ZQTzlpc013RUdoYVZ1aWVHT2RtekFu?=
+ =?utf-8?B?S01qeFZsNUE1SkR2UzFZL2lVa05xUFpoUUlxbllpdHdDdW5pSFZjY0RJemti?=
+ =?utf-8?B?WkNEaWVENWZTQTVxb2F2SHExQ21kWWUyMGpaM0VKeTI2V3B3aUhJVWt0YVhy?=
+ =?utf-8?B?Z0tPdjVYazE1dGFUZnB4ZDVPWEQ0aXErSUlzOThGYnlUQjVWVlpXbG42SDhX?=
+ =?utf-8?B?ZDN5TVJCVUZ0eVRpTkdDaGx1RENQRTFnZ1NWN2c4bWMySHdJUm9pZ21vWWZr?=
+ =?utf-8?B?NXlnN0tzck81bjJSUVc2MXFHUVhDNWMzYzBFTGZHdnhKckpzWks4ZktCQ3hQ?=
+ =?utf-8?B?ckFBaVZWbzBNaHBTYzVWNy9zS3VXNiswdHpLSkNyZ2wvejQzTWtNemJSSEk0?=
+ =?utf-8?B?dWVjdXFVWkxCMjF2eXJidUFPeVJlUzVGSDNySElxS2EvVUdNWVYyeUFGMFZG?=
+ =?utf-8?B?dE44eEg4VDFPUWxLVVZmQ3R5OXR5Q3NUNElNdUdZK0pENEdUam1RNWNISFNk?=
+ =?utf-8?B?Rmw3cW9jUGhzMmd0MjlaWEpnQVBicEEvYlFPcnlEbmdDOVhOdGJwdGM0MjFq?=
+ =?utf-8?B?emlhYUxGZVFKTGV1TkFzR2EwQnpnZ1VTbDZseUdOYkVtWU0vdEorUEt0NVlC?=
+ =?utf-8?B?cjJRZ3NMSzRSOFZoU2xkektSZVBWc1dDbDlnUlFOV25JOFBwWUo5dGwveVND?=
+ =?utf-8?B?NG1pN2dMRnQxQWZmNjNIR0tqcFhmTnlsU01zYTh5eC9KUm9VN0RKSDEzSHZu?=
+ =?utf-8?B?eExiSXllSDh6bzZlVEF5eXhOLzJ2QWtlOHI4bjBzOFJUY1RRa2c3YUdGT2lo?=
+ =?utf-8?B?UmhZTTJ1Q0VEWlQ1ZnNtTjdseUh3UksyMkd6ajZJL2dYaGFDbTVvdnV4RHBU?=
+ =?utf-8?B?cFVJdlBkRzE1eUZ0UFdOQ3JzUjRMZi9TS3N0aWlPMFBrdUd0bzg0Rkx1cFda?=
+ =?utf-8?B?cGNyRlJmdURIcno5cENBdGIxVmM0dW9mRWwvRnQ0MytFY2RPemhDNkc1R3dN?=
+ =?utf-8?Q?2ncxZT3iGndADk2QaF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c947364-25f8-4175-0fc9-08df391b1452
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 19:54:17.9373
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JtDELy5OgYNKqCM3XWZPxnOATEEuzJ60glrf9DuoD6YYLCxOxGzqY8cq2AWIUQvz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7758
 
-On Mon, Nov 02, 2026 at 02:21:27AM +0100, Michal Luczaj wrote:
-> On 10/30/26 21:30, Bobby Eshleman wrote:
-> >>>> Yeah its all kind of a pain. The problem is that we need to hold
-> >>>> sock_lock to set sk_state and sk_err, but can't acquire it under the
-> >>>> table lock. Instead, we grab the socket ref sock_hold under the table
-> >>>> lock to guarantee it stays alive between releasing the table lock and
-> >>>> grabbing the socket lock.
-> >>>>
-> >>>> I was really tempted to not do this lock_sock dance though. The race
-> >>>> condition I'm avoiding here is that if this reset races with an RST
-> >>>> receive, then the socket could end up with TCP_CLOSING + sk_err
-> >>>> ECONNRESET... but I'm not sure this actually propagates up into a real
-> >>>> problem for any potential user.
-> >>
-> >> Right, vsock_connect() is fragile. Two things to be cautious about:
-> >> 1. Don't let it reset the already connected socket. Because that would
-> >> allow user to "re-connect()" and make mess in connected_table.
-> >> 2. Don't let it re-assign transport of an already connected socket. Because
-> >> that breaks the contract in few places.
-> >>
-> >> State 1 is not an issue: vsock_g2h_reset_unreachable() calls
-> >> __vsock_remove_connected().
-> >>
-> >> State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
-> >> when connect() is scheduled out, then after the wake-up sock may get reset
-> >> to SS_UNCONNECTED. Then user re-connect()s and hits the transport
-> >> re-assignment logic. I'm worried that, as we re-assign, someone may be
-> >> holding a reference to such "connected" (even if not in connected_table
-> >> anymore) vsock.
-> > 
-> > I see path you're looking at... after vsock_connect() gets scheduled
-> > back in we set TCP_CLOSE/SS_UNCONNECTED if sock_error returns non-zero.
-> > Could you elaborate on your last concern there about someone holding a
-> > reference? I'm not sure I fully understood.
+Hi Reinette,
+
+On 10/30/26 17:08, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> Ah, sorry, let me explain. This case reminded me of the vsock's TCP_CLOSING
-> bug[1]: reporter mentioned vsk->trans getting freed when skb was still in
-> flight. I did not reproduce the exact scenario, but it did sound plausible
-> and I thought it applies here: virtio_transport_destruct() frees vsk->trans
-> the moment vsock_loopback_work() invokes virtio_transport_consume_skb_sent().
+> On 10/30/26 1:28 PM, Babu Moger wrote:
+>> The mbm_event mode assigns hardware MBM counters to RMID/event pairs.
+>> It is intended for deployments that need to manage counter assignment
+>> on platforms where the number of monitoring groups exceeds the available
+>> hardware counters. Hardware counters are scarce on these platforms, so
+>> mbm_event mode suits workflows that monitor a subset of groups at a time
+>> and rotate assignments as needed.
+>>
+>> x86 resctrl enables the mbm_event mode by default on hardware that supports
+>> it. This breaks the pqos tool [1], which assumes the historical default
+>> mode. It creates 16 or more monitoring groups and uses two counters per
+>> group. On a platform with 32 counters per domain, that exhausts the
+>> mbm_event counters pool, causing additional groups to read "Unassigned".
+>> pqos interprets a non-numeric event read as zero bandwidth and reports 0
+>> MB/s for those groups:
+>>
+>>    $ sudo pqos -m all:0-4
+>>    CORE         IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
+>>       0        0.69         16k       192.0         0.0         0.0
+>>       1        0.40          3k         0.0         0.0         0.0
+>>       2        0.44          1k        64.0         0.0         0.0
+>>       3        0.39          1k        64.0         0.0         0.0
+>>       4        0.43          1k         0.0         0.0         0.0
+>>
+>> Leave mbm_assign_mode in default mode during initialization. Default mode
+>> uses one counter per monitoring group. On existing AMD platforms, the
+>> default active counters pool is 64 and may be larger on newer hardware.
+>> The active counters pool is the number of counters that the hardware can
+>> actively track in default mode.
+>>
+>> Deployments within the active counters pool receive accurate bandwidth
+>> measurements in the default mode. Users can create more monitoring groups
+>> (for example, 4096 on current hardware) than there are active counters in
+>> the pool. Beyond that pool, readings may be misleading or report as
+>> "Unavailable", with no user-visible indication.
+>>
+>> Default mode is still limited once the number of monitoring groups exceeds
+>> that active counters pool. After hardware re-allocates a counter, a read
+>> may return "Unavailable". pqos still treats "Unavailable" as zero.
+>> Successive reads can be a count, "Unavailable", then another count. pqos
+>> treats those jumps as wraparound and can report an inconsistent rate:
+>>
+>>    $ sudo pqos -m all:0-4
+>>    CORE     IPC      MISSES     LLC[KB]   MBL[MB/s]   MBR[MB/s]
+>>    0        0.76         60k        32.0         0.0         0.0
+>>    1        0.45          1k        32.0         0.0         0.0
+>>    2        1.57        107k        64.0         0.0 17592186044184.9
+>>    3        1.62        276k      4928.0         3.2         0.5
+>>
+>> Users that need stable measurements beyond the active counters pool should
+>> use mbm_event mode and rotate assignments as needed. Enable it with:
+>>
+>>    # echo mbm_event > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>>
+>> Fixes: 0f1576e43adc ("x86/resctrl: Configure mbm_event mode if supported")
+>> Closes: https://github.com/intel/intel-cmt-cat/issues/311
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Cc: stable@vger.kernel.org
+>> Link: https://github.com/intel/intel-cmt-cat # [1]
+>> ---
 > 
-> Now, to get there let's start with vsock_connect() setting SS_UNCONNECTED
-> (on a connected) socket after vsock_g2h_reset_unreachable(). Then user is
-> able to re-assign the transport, which involves
-> virtio_transport_destruct(). But since we're dealing with a connected
-> socket, (before the reset) some send() might have triggered
-> vsock_loopback_work(). Does this make sense to you?
+> To help future readers understand how we landed on this I think it may be useful
+> to add a link to the decision that resulted in this fix. For example:
 
-Ah you're right. I think that your approach of making vsock_connect()
-more robust is probably the right way to go...
-
-I think this is the new race...
-
-1) vsock_connect(cid=VMADDR_CID_HOST)
-   -> enqueue pkt
-   -> sleep
-
-2) rx worker receives OP_RESPONSE
-   ->  sets TCP_ESTABLISHED/SS_CONNECTED
-
-   (vsock_connect() still asleep)
-
-2) sendmsg()
-   -> sees SS_CONNECTED
-   -> enqueues skb
-
-3) netns reset sets TCP_CLOSE and sk_err=ECONNRESET
-
-4) vsock_connect()
-   -> scheduled back in
-   -> sees sk_err != 0
-   -> sets SS_UNCONNECTED
-
-5) vsock_connect(CID=VMADDR_CID_LOCAL) call #2
-   -> sees SS_UNCONNECTED
-   -> frees old vsk->trans
-
-6) sendmsg's skb tx completes
-   -> tx worker dereferences vsk->trans for the UAF
-
-If connect() checks for SS_CONNECTING before setting SS_UNCONNECTED,
-then in step 4 sock->state stays as SS_CONNECTING and the second
-connect() call will hit -EISCONN instead of freeing vsk->trans.
-
-Seems to work for a racing vsock_shutdown() too, where sock->state would
-become SS_DISCONNECTING, and the second connect() would hit -EINVAL
-instead of freeing the vsk->trans.
-
-I guess the rule would be that vsock_connect() sets SS_CONNECTING before
-sleeping and only changes it to SS_UNCONNECTED after waking if and only
-if it is still SS_CONNECTING.
-
-WDYT?
-
+Looks like Boris is taking care of adding the below text.
 > 
-> Another thing is this feature of vsock_assign_transport(): in some
-> re-assign failure paths you may end up with vsk->transport = NULL. In the
-> past this caused issues with sockmap: see WARN_ON_ONCE in
-> vsock_bpf_recvmsg(). Problem here is that normally vsock gets removed from
-> sockmap on close(), but in our (reset+reassign) case close() is never invoked.
+> 	...
+> 	Leave mbm_assign_mode in default mode during initialization as decided in [2].
+> 	...
+> 	Link: https://lore.kernel.org/20260804191608.GDanI6eK2Q07w6pNcb@fat_crate.local # [2]
 > 
-> [1]: https://lore.kernel.org/netdev/anzT1fREOSyHT99k@v4bel/
+> | Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
 > 
-> >> So I don't know, maybe it's vsock_connect() that should be fixed/hardened
-> >> instead?
-> >>
-> >> Or at least disallow transport *re*-assignment? Does the "re-" part have a
-> >> use case?
-> >>
-> >> Hope it's not too off-topic.
-> >>
-> >>>> It also avoided some racing with the tx path, but now that send_pkt()
-> >>>> also checks reachability I think that path is safe.
-> >>>>
-> >>>> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
-> >>>> sk_error_report) with no lock_sock?
-> >>>
-> >>> Looking at the code, it seems that in all the places where we close all 
-> >>> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
-> >>> with no lock_sock but with vsock_table_lock.
-> >>>
-> >>> So, makes sense to me.
-> >>
-> >> virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
-> >> peeves: state switcheroo without taking lock_sock(). Which, again, races
-> >> vsock_connect().
-> > 
-> > True, I don't love that either, but I feel the impact is at least
-> > constrained by the fact that it only happens when the module or device
-> > is already going away.
-> 
-> Doesn't it happen on suspend as well? Is so, with a poorly timed connect()
-> things can go south on resume.
+Thank you.
+Babu
 
-Ah that's true.
-
-Thanks,
-Bobby
