@@ -1,54 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793638947;
-	b=CBeUs/46uXJ2fTtYTk2kOAucr6KL+ZrKped4MXbxxnglBqKZsUVrK7kgUH6eHx50SKq4
-	 yGAIWcSLuaU3XSWPtp7RzDetjvu6NOyK5C/2kRUuwKlVk3n9SwThDxJp0uKVljlGhtUiQ
-	 0wGkXqGmW5OVMYZ3kdpqB0fKOEeqTYsmjb6Z5lAPXqOVh6QZy4dlGrc7Aj13Q+QVWv2Ub
-	 EJ6NETSyXcnhxIDP/TxgSsut3z/GGOPwhZxsgfMTyra70pnznpUdpqOfHdDyuJOsIg2Yf
-	 Vma0NsFxtf2U53I9KJhx0waSQxw6n5JLIpz2N4BPPmAYTGL6pxjJsQn7uNAoMuAqxiw==
+	t=1793639152;
+	b=jl/QNK/14BcyjsWtzjCsmeRYVVgozc+QIG54Fuooaf1LpF9DmRCZVPrlOmN1BBepAegH
+	 phyaVjNpCspBAU6isZ6m+WHCIhJQys0gaeAK/aKqKJTsjg/+AtSHM6EWuxLYEtDl2uoOS
+	 2P+yTXuLNShPZcWrZSkLjaJmcCcxA3peBaxzRYfJP94Ob6O+SQ6Yz0uWNqgrl5vpuiTr+
+	 0qEh+0lEJp3FLuL4sD3L2NsQLVjLs2qBsznBkO+XsPF3Va+kUWWFla/yz96oQCktnh8QQ
+	 uF/UtgT7hLXXN95k7Iq5nijycja0LjvxzAlitVQ0taHpWk7jrOlrks+R89Y5xe0T6Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793638947;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=/Xhd5QQQPN+fr/m/CfoFRmyvKrObNyomsD9xFWfUEbI=;
-	b=3LTKD12P+P4lwrh1A2pwMaFZarve60HDrBzCBGzadydAfsFr4noq26fYsatA4X3v6up5
-	 0SDude+FlYxVAWw5pfw7zWsXnxUGAD+ONwQoreLCxT+YcVPWNQVYYT4PSx1+LhBf6y+IV
-	 hNwksibKkW9QL07M2Ekv6JoyXj3Qx/sIpcaX9xFKuZOYH9xkOaKHbt0cGPBpKR8GyKntY
-	 iUeBZKt/EreiC6a5keemZI0bxsrMwLxQXlPLxSJxOGPUf0UAZp1ALr0oH1FOob9gr8RR/
-	 Ghr0NT1tbdlqdXzMAnDCbPv4mQu8aiuupgUhicImjYe3BJpIMbXrNUhSf2UcgsYvKYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793639152;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=XxWtK8Hu0pGGe74xzR22BgI7py7+eqstBMc6PZqmye4=;
+	b=IyWlc9S4sbwSPJ9AupfNoSj6GJRX4Hmygp08rfFnOq94nJqvEYy2aEi8QoOVzDrfbsBA
+	 LGvgRR2sPjQdPDXnlcMuONN7bOUwo7EDhSqJsuMocIvfjpL0Reb78UZBvJvKfAPBdQU7A
+	 fZPd7C5BEOInP70TnT8Vt8flgKzEt5ARLL2MW4Hahp2dIUk0fIHOTJBTdh1FKpBWFebig
+	 y5PpspCa9/UbEfPHyUlNXZ5Yq7LHoo3eiqtrZFgric22TTVjUTM19Wy+4gaHW5eqreYjZ
+	 lSUzZLrgfK2KLRslQEWRsyDRjrblmKGZyQOa01+gMKuopKU4kWsYVHfKgj1NPrhfpLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CVY9ESBT;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=dK7y17Ox;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB4C606A327;
-	Mon,  2 Nov 2026 17:02:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFB4C606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1658606A90C;
+	Mon,  2 Nov 2026 17:05:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1658606A90C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CVY9ESBT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/Xhd5QQQPN+fr/m/CfoFRmyvKrObNyomsD9xFWfUEbI=; b=CVY9ESBTvcWlGwUV39+S2A8lSC
-	xMUPyNqiqf5Eti6nA+eO0FuPNNfkkMSs7UNCp91yOl90wvzh//fzWAi5cUt8AVpIQX3iBPADS4Z8S
-	e4l+v+bbcEIlqxbKsSK/rxXOv1FWkD5AnKCCiIWqamc4Ofe3J7lGEe82MOTGMJ3/+n1pKuL4hNfnV
-	Q8v+ZhgGk9R1DHv6PhUqNC1YrDbsIkU0jwIUpTf5bYqOogtIEU1hoskuNveVsU3swK7Zp+QMuPux4
-	qZgv+ZM1y0jLi3HSt4xzXWcWQzXZzFUWoprSIs520FS22QtGm1cdV7a1Mi9J9Jzx7S5gyXBcsuwMK
-	8ss3sn6g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNvQN-0000000HNzf-005O;
-	Mon, 02 Nov 2026 17:02:23 +0000
-Message-ID: <41ffaec3-aa57-48e3-9d1c-1ae41ee60349@infradead.org>
-Date: Mon, 2 Nov 2026 09:02:21 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=dK7y17Ox
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D45FF40911
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1793639151; bh=XxWtK8Hu0pGGe74xzR22BgI7py7+eqstBMc6PZqmye4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dK7y17OxpRt1qxGZqFnUjMGnNgYhkB6RkJzvjr8NJUGmwaFeyu2iLEFFnky//0AH5
+	 l6lASLtKAtH04mUW8huVMJg+sH6VUrNzD3BuZBZCRzTIeT4HFcfNt238wMp1tx+0rD
+	 Cbh1M5yWVBRbDoFalczTeKmYz9pg5VAULyr0aghnirEAVKN5AD7Xa/uLxpsilMZHR+
+	 auqkXdRl9gQc2XMqKZcebyE1DZZ0gasoKZs1DVGqHFf7nhKlv49uXFzWUJYLCGDqMK
+	 5fd3uZRLLFqPIzxAaNiwG1eyXQx3fpPNfoXodYlr4jK/6n4ybdkhomJ8lNLdxJbnZn
+	 7+vJMrA5K7myQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D45FF40911;
+	Mon,  2 Nov 2026 17:05:50 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Carlos Bilbao (Lambda)" <carlos.bilbao@kernel.org>,
+ danielmaraboo@gmail.com, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Avadhut Naik
+ <avanaik92@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: remove bouncing reviewer for Spanish
+ documentation
+In-Reply-To: <20261102085916.0d1043a3895ddfad9def7e5f@linux-foundation.org>
+References: <20261102022923.686974-1-carlos.bilbao@kernel.org>
+ <20261101184806.11850a34e2dcfae9c3f55af9@linux-foundation.org>
+ <87fqxjdy63.fsf@trenco.lwn.net>
+ <20261102085916.0d1043a3895ddfad9def7e5f@linux-foundation.org>
+Date: Mon, 02 Nov 2026 10:05:50 -0700
+Message-ID: <87qzh3b1u9.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,49 +72,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: fuse: fix spelling of 'successfully'
-To: Wei Lixiang <weilixiang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261102093827.6-1-weilixiang@kylinos.cn>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261102093827.6-1-weilixiang@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Andrew Morton <akpm@linux-foundation.org> writes:
 
+>> > https://lore.kernel.org/all/20260316125324.396889-1-yazen.ghannam@amd.com/
+>> >
+>> > suggests a better patch.
+>> 
+>> I don't quite see how ...?
+>
+> Avadhut has a new email address @gmail.com.
 
-On 11/2/26 1:38 AM, Wei Lixiang wrote:
-> Fix two misspellings of 'successfully' in the FUSE dentry cache
-> documentation. No functional change.
-> 
-> Signed-off-by: Wei Lixiang <weilixiang@kylinos.cn>
+...but has also never reviewed a Spanish-translation patch from any
+email address.  If Avadhut explicitly asks to be reinstated as a
+reviewer at the new address, we can do that, but I don't sense a lot of
+interest there.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Thanks,
 
-> ---
->  Documentation/filesystems/fuse/fuse-caches.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentation/filesystems/fuse/fuse-caches.rst
-> index 0778dd3d357f..de1a452fdd31 100644
-> --- a/Documentation/filesystems/fuse/fuse-caches.rst
-> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
-> @@ -156,8 +156,8 @@ in several occasions:
->  
->  - When a new file system object is created (e.g. ``FUSE_CREATE``,
->    ``FUSE_MKDIR``, etc).
-> -- When a lookup is sucessfully performed.
-> -- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-> +- When a lookup is successfully performed.
-> +- When a dentry is successfully revalidated (``->d_revalidate()``).
->  
->  A dentry expiry time can be set to 0, indicating that it is stale. This means
->  that a ``FUSE_LOOKUP`` will be sent to user-space then next time it needs to be
-
--- 
-~Randy
+jon
