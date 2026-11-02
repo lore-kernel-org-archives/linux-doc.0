@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793632106;
-	b=nBIS3VMfaidub5VxShCKfRasTeR9nhMGZmsp+NDYP+n6PfEiAzK2QG2V6xpg8aUC1Esn
-	 vr6yaLcKf1SRyNhMbIvltcaS/sfz5fs612m8py/nlLbFc14s0KON4t3mUAbh3bnOvU3+C
-	 B6lsyByLpFb3iWCoJxqGW4QL98RTILGrqM15TF0YBiibD37qWeBbbAI5yIn+joGPPFEUa
-	 NZRRAC+9t6Kt0wdZcGCFwck6CEqsE/QAQn5slei52RBTsH2+epLtsbM7TRnEJPt2AURXk
-	 9Ao/KeSFQ91PfLDhKg496gJKEDYDEMJy0dd+CidHEWK/BZue9L/V8UEMNGhfpLpsIkA==
+	t=1793632142;
+	b=zyrWWTp/CjTMMI5y2omeY5l5xH2JpGK9OFB6Z+k0ECW2Y2lSsmq7ViqlYKi5rapa+gAN
+	 T+9Nc/ik8GLnYsg8n2BXFfp04wIjGVVJWR2zYGqNRhz2RyMHR4om0jRXDLhvE4E7XPEFv
+	 A7+uDEG9jHgDv95YzFjrdelFvTrkoxl2OkZINgxoBf04hbtzyNTU4Y3Q2pFS9YycJRjJs
+	 Uqn+Qmw+EWDOvoQ0f9fjo7bUWRmwM9fMXqLBMnuBsymEaXH9SCuVNT+2WTTpFBTq/k6pV
+	 zKDj++yBSh2WZt8HDEXBsB7zCl1xrR/CIaFvtr/o+CwPOXQ+GxtE9Yr21n9xtd1vBGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793632106;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793632142;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=Dp7sSooWMguSrSQWYm7n5WBM775aoRxhTJFL+eJzfGM=;
-	b=I6usm73on+qllaEe4kw5ExEATjUS4/4RPMwip0mBwEKcvOfDUuQvtZhaNSk+qhZ1MJEi
-	 UfKl6rmKCvHE1zgnyHpg9DjcTruXsLRz8hCBdrExa0hJsKQNM2XnLCfKzR0h1bDnoMU/l
-	 uLELdByPZnhmAb7A1tZUJPDWoKLHXb5HKjGpG+D7UvoJpkcICZfb2dbGIJVjLfL2l8WXW
-	 Kxg+p2HjyHGz40heNbkjkjPqA73AgjdRP4xCII2feSoyt+3JETnKgEOleOMuOsdwG6/dm
-	 c/1Yhv7YLCCaqvOicoeomnab9lUyO7D+71W6TSHMmvv2LP+RwjimqP7e6pBTmwgWEqA==
+	bh=YGofg29spfHBU5j0sEupYlWEu86pUC9IfXeVVL8qINU=;
+	b=twVgazNZF6trvunndkBAVwho0erdNOWjjpp7r+vSLga6Z02R5BY5dv2Al4ch1VB9SPXn
+	 vKdvGQkcXQWOdl7x6X/FIq6GT4YhXGc/NpqvO7R/EdPlvIGHSYdOHJOA5i5a5xqffV5NV
+	 Dh2Q5oFjeGpUfeD7VGII3ZgsaKDNHHnuigCELlUDzxmCFfiAUm7F+h0LVbV6wllTiuOjk
+	 NKAyBWfWINq5sJ9K5Rfgun3Wex92IQoYSkYBASkbSGMk6m03adF32qkyV+PCfUu1DGiWJ
+	 D/armF62UdUu+PVqcIg+U0YlJ7N5QeYeQCGtK4JrM5WACAqHG3PPtSmX20IDZL7b8RQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eyNIQCxY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JpmBPtZO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0D5606B1CB;
-	Mon,  2 Nov 2026 15:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA64606BA77;
+	Mon,  2 Nov 2026 15:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eyNIQCxY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E931F00A20;
-	Mon,  2 Nov 2026 15:08:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JpmBPtZO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB991F00A18;
+	Mon,  2 Nov 2026 15:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793632106;
-	bh=Dp7sSooWMguSrSQWYm7n5WBM775aoRxhTJFL+eJzfGM=;
+	s=k20260515; t=1793632141;
+	bh=YGofg29spfHBU5j0sEupYlWEu86pUC9IfXeVVL8qINU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eyNIQCxYEcRLLrGyZcPtIprIvg2rkuSpaKrMvW58hJQxt/VyWt7hS3Qal6zoUQ/gl
-	 0f9cCCPMX1bOMUh9BIWeFK5f4ATpN0EM/aPUrffzJ9XwWlsu4eKD6ZgzUlwDjfLjwL
-	 Uvn00wNomN8/SMqh9jXER44dMwsdR9yWd6JSqBhqRXPHK14atBxuYmQ+rYaoEBUKUD
-	 vDmMOPV29JIfjjL6fBW6U6eWYBA/B7Lc6f6IJGDxAZNs993WFUAYbhkuu/ueCEe0L/
-	 Yqu69q4QgN/VaqD5PYjScQjBFfvU4mejG6swjL58FVzjyKA2XiENQnp0sJJnQeShIQ
-	 zmvRe7kDYECMg==
+	b=JpmBPtZO6G/UqVUziPY4iWq6sxFWqxjtkt4mByDfSmQn4JPupogU0bEEb3whcdZpv
+	 bxJjhl9riucbcDZJP757/It4YGJC5UnRtX978pao8OmQBnQl2aSFvJGabRNROHyvpQ
+	 bZzdyysVF3U57cA3Ja1OK9TBd8Tsli7X4hjtxAFP6BIZk3DMCdCyX58cnbypS2jX2/
+	 rkwz1SxlnDr9giKtJvEtvZB1xm8ozK/+QHDHx5w/XweZen0aQhQjbqjSvObAObvY2I
+	 HxCcEBImWMheaGFA39+r4mxQ3C4umA03aHVfQBgmMCsinQB7bWR44TPgh7+0yTz50I
+	 jxnkq4gmT3FLQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 02 Nov 2026 16:01:47 +0100
-Subject: [PATCH RFC 20/22] platform/x86: toshiba_acpi: let procfs copy in
- writes
+Date: Mon, 02 Nov 2026 16:01:49 +0100
+Subject: [PATCH RFC 22/22] PNP: isapnp: let procfs copy out reads
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-work-procfs-arch-v1-20-c9492ab08480@kernel.org>
+Message-Id: <20261102-work-procfs-arch-v1-22-c9492ab08480@kernel.org>
 References: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
 In-Reply-To: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -92,149 +91,63 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Chuck Lever <cel@kernel.org>
 X-Mailer: b4 0.17-dev
 
-Implement ->proc_write_buf() for the files in /proc/acpi/toshiba so
-procfs copies in what is written before it pins the entry, and parse
-what was written from that copy. Commands longer than PAGE_SIZE - 1
-bytes are rejected now.
+Implement ->proc_read_buf() so procfs copies what is read from
+/proc/bus/isapnp/<card>/<dev> to userspace after it unpinned the entry.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/platform/x86/toshiba_acpi.c | 36 ++++++++++++------------------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+ drivers/pnp/isapnp/proc.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
-index 560e62da05a9..895e321ada03 100644
---- a/drivers/platform/x86/toshiba_acpi.c
-+++ b/drivers/platform/x86/toshiba_acpi.c
-@@ -1478,7 +1478,7 @@ static int set_lcd_status(struct backlight_device *bd)
- 	return set_lcd_brightness(dev, bd->props.brightness);
+diff --git a/drivers/pnp/isapnp/proc.c b/drivers/pnp/isapnp/proc.c
+index 8197c7f29743..152fd5bfbc06 100644
+--- a/drivers/pnp/isapnp/proc.c
++++ b/drivers/pnp/isapnp/proc.c
+@@ -19,37 +19,31 @@ static loff_t isapnp_proc_bus_lseek(struct file *file, loff_t off, int whence)
+ 	return fixed_size_llseek(file, off, whence, 256);
  }
  
--static ssize_t lcd_proc_write(struct file *file, const char __user *buf,
-+static ssize_t lcd_proc_write(struct file *file, char *buf,
- 			      size_t count, loff_t *pos)
+-static ssize_t isapnp_proc_bus_read(struct file *file, char __user * buf,
++static ssize_t isapnp_proc_bus_read(struct file *file, char *buf,
+ 				    size_t nbytes, loff_t * ppos)
  {
- 	struct toshiba_acpi_dev *dev = pde_data(file_inode(file));
-@@ -1488,8 +1488,7 @@ static ssize_t lcd_proc_write(struct file *file, const char __user *buf,
- 	int value;
+ 	struct pnp_dev *dev = pde_data(file_inode(file));
+ 	loff_t pos = *ppos;
+-	int cnt, size = 256;
++	int size = 256;
++	size_t cnt;
  
- 	len = min(count, sizeof(cmd) - 1);
--	if (copy_from_user(cmd, buf, len))
--		return -EFAULT;
-+	memcpy(cmd, buf, len);
- 	cmd[len] = '\0';
- 
- 	levels = dev->backlight_dev->props.max_brightness + 1;
-@@ -1505,7 +1504,7 @@ static ssize_t lcd_proc_write(struct file *file, const char __user *buf,
- 
- static const struct proc_ops lcd_proc_ops = {
- 	.proc_show	= lcd_proc_show,
--	.proc_write	= lcd_proc_write,
-+	.proc_write_buf	= lcd_proc_write,
- };
- 
- /* Video-Out */
-@@ -1541,24 +1540,17 @@ static int video_proc_show(struct seq_file *m, void *v)
- 	return 0;
- }
- 
--static ssize_t video_proc_write(struct file *file, const char __user *buf,
-+static ssize_t video_proc_write(struct file *file, char *buf,
- 				size_t count, loff_t *pos)
- {
- 	struct toshiba_acpi_dev *dev = pde_data(file_inode(file));
--	char *buffer;
--	char *cmd;
-+	char *buffer = buf;
- 	int lcd_out = -1, crt_out = -1, tv_out = -1;
- 	int remain = count;
- 	int value;
- 	int ret;
- 	u32 video_out;
- 
--	cmd = memdup_user_nul(buf, count);
--	if (IS_ERR(cmd))
--		return PTR_ERR(cmd);
+ 	if (pos >= size)
+ 		return 0;
+ 	if (nbytes > size - pos)
+ 		nbytes = size - pos;
+-	cnt = nbytes;
 -
--	buffer = cmd;
--
- 	/*
- 	 * Scan expression.  Multiple expressions may be delimited with ;
- 	 * NOTE: To keep scanning simple, invalid fields are ignored.
-@@ -1577,8 +1569,6 @@ static ssize_t video_proc_write(struct file *file, const char __user *buf,
- 		} while (remain && *(buffer - 1) != ';');
- 	}
+-	if (!access_ok(buf, cnt))
+-		return -EINVAL;
  
--	kfree(cmd);
--
- 	ret = get_video_status(dev, &video_out);
- 	if (!ret) {
- 		unsigned int new_video_out = video_out;
-@@ -1602,7 +1592,7 @@ static ssize_t video_proc_write(struct file *file, const char __user *buf,
+ 	isapnp_cfg_begin(dev->card->number, dev->number);
+-	for (; pos < 256 && cnt > 0; pos++, buf++, cnt--) {
+-		unsigned char val;
+-		val = isapnp_read_byte(pos);
+-		put_user(val, buf);
+-	}
++	for (cnt = 0; cnt < nbytes; cnt++)
++		buf[cnt] = isapnp_read_byte(pos + cnt);
+ 	isapnp_cfg_end();
  
- static const struct proc_ops video_proc_ops = {
- 	.proc_show	= video_proc_show,
--	.proc_write	= video_proc_write,
-+	.proc_write_buf	= video_proc_write,
- };
- 
- /* Fan status */
-@@ -1644,7 +1634,7 @@ static int fan_proc_show(struct seq_file *m, void *v)
- 	return 0;
+-	*ppos = pos;
++	*ppos = pos + nbytes;
+ 	return nbytes;
  }
  
--static ssize_t fan_proc_write(struct file *file, const char __user *buf,
-+static ssize_t fan_proc_write(struct file *file, char *buf,
- 			      size_t count, loff_t *pos)
- {
- 	struct toshiba_acpi_dev *dev = pde_data(file_inode(file));
-@@ -1653,8 +1643,7 @@ static ssize_t fan_proc_write(struct file *file, const char __user *buf,
- 	int value;
- 
- 	len = min(count, sizeof(cmd) - 1);
--	if (copy_from_user(cmd, buf, len))
--		return -EFAULT;
-+	memcpy(cmd, buf, len);
- 	cmd[len] = '\0';
- 
- 	if (sscanf(cmd, " force_on : %i", &value) != 1 ||
-@@ -1671,7 +1660,7 @@ static ssize_t fan_proc_write(struct file *file, const char __user *buf,
- 
- static const struct proc_ops fan_proc_ops = {
- 	.proc_show	= fan_proc_show,
--	.proc_write	= fan_proc_write,
-+	.proc_write_buf	= fan_proc_write,
+ static const struct proc_ops isapnp_proc_bus_proc_ops = {
+ 	.proc_lseek	= isapnp_proc_bus_lseek,
+-	.proc_read	= isapnp_proc_bus_read,
++	.proc_read_buf	= isapnp_proc_bus_read,
  };
  
- /* Fan RPM */
-@@ -1707,7 +1696,7 @@ static int keys_proc_show(struct seq_file *m, void *v)
- 	return 0;
- }
- 
--static ssize_t keys_proc_write(struct file *file, const char __user *buf,
-+static ssize_t keys_proc_write(struct file *file, char *buf,
- 			       size_t count, loff_t *pos)
- {
- 	struct toshiba_acpi_dev *dev = pde_data(file_inode(file));
-@@ -1716,8 +1705,7 @@ static ssize_t keys_proc_write(struct file *file, const char __user *buf,
- 	int value;
- 
- 	len = min(count, sizeof(cmd) - 1);
--	if (copy_from_user(cmd, buf, len))
--		return -EFAULT;
-+	memcpy(cmd, buf, len);
- 	cmd[len] = '\0';
- 
- 	if (sscanf(cmd, " hotkey_ready : %i", &value) == 1 && value == 0)
-@@ -1730,7 +1718,7 @@ static ssize_t keys_proc_write(struct file *file, const char __user *buf,
- 
- static const struct proc_ops keys_proc_ops = {
- 	.proc_show	= keys_proc_show,
--	.proc_write	= keys_proc_write,
-+	.proc_write_buf	= keys_proc_write,
- };
- 
- static int __maybe_unused version_proc_show(struct seq_file *m, void *v)
+ static int isapnp_proc_attach_device(struct pnp_dev *dev)
 
 -- 
 2.53.0
