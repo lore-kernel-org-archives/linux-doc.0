@@ -1,57 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.38
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793578281;
-	b=b7ZV/Pi5b8NKhz5M4MNzXjrxo1Y9oii54pMKbYrbvC+nI0CkGg+6u+cJ6E79nkjDiagU
-	 OjI5pjgYxfrdijCVOs1lzxUM+CrGe2KjaFGHQbr5YKj0Lo6411qAHdfXAlGs/Q1m2jJwu
-	 6zWWlmLEzTfsh8MrwMM3MnD6X25/ZEO6U6XBel5EaypKsfth1d1a7oHpcKJtcVnQqS5pf
-	 SkOpCecX0w6R4m2OMMCL1yJI/Ninn/Tf9xqx4Se0nzC4qhif6Ncl+bmSh3LQ2BR8pXtNW
-	 EaHcIHUqN6TzUequSW1W3+UHJaKkHs5BsdIEerKX0Ddphcf4MD4pS9tcqjeT+KDyqMA==
+	t=1793582529;
+	b=PO69FA37F2YGmlrG/cuBP/fHned9cB9kYGMS1x/8bC4SVWCB9u6NppbITKNDV9NYvaDf
+	 dTF56huUK/IYilOrJCPKa+R0KFp7BN43OtjKWYQwsHtt45VvjZZeKP67sEU8bT++irqjn
+	 C6GAhTKm+WF/AQ/8GzI/BriudpJ8ZRHj7erMSuykNJ04SNsIw6X78x2ULIK6paTPWl760
+	 8IH/pT5gPgSxEpzaOZtT/y3bW1nI6Z9RjF6HVeZhW3Bl/qs+YtByvVtZJ/wGfoLi+M9Jj
+	 s4DNoIwbeXGif2EhLnE+dslbLmcEhHaXmdXGZHZjj3PBfNVuOfS1QSlr9zua60eaxlA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793578281;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Sq9nziOIpI60SWVQskUUtXjXQVzSkp10IxI/xn3NYvQ=;
-	b=IfAPQuBTGVRuLktv0J7XYMOgSfA/Nrg7R0bh4bT3Vl3zis/ny1zTxEhze58UyngIXrl2
-	 u4dVdNA/RR+Nj5N+9tRMSi5IaNK0anTDNuKOsAIkncNiL/uOXyMgSl4aF5oEDyH0ycOB2
-	 rdszLr4iEzulZVJjdM2hAd6uouK6HLk6d3UV6JOa7W3yO8TkcMU0c2+tVv2kSV+TVy3q4
-	 wNw7gF3horFffHCnIdF7CewAn0Ll/3hd/vXxLRCy5j4zNrG4+aJ1UzGiuZC1FFPOjv3Xc
-	 RHjJ1bDyztE8O5Fg7UkBPrZHYxP8vsI41otKZVHTY7aI7CT1B1XXXy52w0tazCkWOKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793582529;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:From:Subject:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=C5gqpTOgkDU//zQkGOQKjOKsqsvBDDMS+gbejxMeVdk=;
+	b=yPfzCduxKGQ+9DqtRFuq2MTuTfV3oFkPyjW0lAEris/iRdYyqx+wVlehNf9PUSUIIe75
+	 2NLDIgqUByoHag7Y4QQJplxUXU2EwaWhCEkrk8/4oBEZmBXjRQe7X53ewPPoyRonaJDXr
+	 gOG3K7oCPh2u+KlZN/QrJFDLX79tzAXcc1PGO7ByE+o8aH5VA8MhwtwwQ6gYtXrihffIB
+	 1QRdtyC9CT91feoeprXXptetmjOJoDrABX+R/QqPsGzmWehdR2ATg0GUaPog8VQNHoRA+
+	 A9d1YimV7ORwPlmfCbqYqlYHI3+zV8/mADQPhSb+nR77da9Owlk9PL0aNB2oHUSrtbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=L8Mj1Jyt;
-	arc=none smtp.remote-ip=185.70.43.101
-Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
+	dmarc=pass header.from=rbox.co;
+	spf=pass smtp.mailfrom=rbox.co;
+	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=I2EnYMrr;
+	arc=none smtp.remote-ip=185.226.149.38
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252FA606A324
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 00:11:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 252FA606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5656606A324;
+	Mon,  2 Nov 2026 01:22:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5656606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=L8Mj1Jyt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1793578277; x=1793837477;
-	bh=Sq9nziOIpI60SWVQskUUtXjXQVzSkp10IxI/xn3NYvQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=L8Mj1JyttzYU+wigxC5VzorvfYK2tcn8FKcCkVuFZY5sb+drSj+arrQs2FkErOIA5
-	 h+C8gsc9sJ7SR6GoPuJIYlRMABW+kLA53kWTErENzSHqZpS06KRgvWLVUqOAnxn6AZ
-	 8quEERAb8vXcMme+NLlQh+oITssP5I3oHvFKaiykaoUOvd73/jl8vJ1Up0xEO26K7g
-	 1UCQPjNjf9jlg2ADhxCNGexqFsuV9eHULeni1IIda2lLRA/vybNwFD20TzkjAos1dp
-	 qo+KxoWZerghFDKcoRwaGFtog5qtMCqJRTC8NrICD4LL3oU118pL8anvaP7xvXVneC
-	 /TvPxLbyzk7oA==
-Date: Mon, 02 Nov 2026 00:11:12 +0000
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-From: Ismael Ojeda Perez <iojedaperez@proton.me>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] hwmon: (it87) Add support for IT8607E
-Message-ID: <179357826986.881874.2370184949108951928@proton.me>
-Feedback-ID: 55883223:user:proton
-X-Pm-Message-ID: b185a709d8000b884356272f6ce0d52cc88b22de
+	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=I2EnYMrr
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <mhal@rbox.co>)
+	id 1xNgkL-00AGvn-9k; Mon, 02 Nov 2026 02:22:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
+	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
+	bh=C5gqpTOgkDU//zQkGOQKjOKsqsvBDDMS+gbejxMeVdk=; b=I2EnYMrrFCOKTtqiYFvChN8tuO
+	Cy6ULEkHqZw8Q+rhppEMB19ro7BO6VuN7dn5ELjJpjzLDnCsLnHAmJUg76QVbr15RlNupVPczMgOt
+	WYkrmzXN0jXh8lEMvXbiTMmKmjoXOSWj46V1Cq2SE+xjtzOUeBeI2TCoF+OAImGTyva3Ujp36uUn2
+	+OMa3CNuLMCPwwJtY0Kp5TaNEtIzTJgcWZ1rDSglQuY4CGsVryG5zGIVdAkk8GgEeZN9Yd8LC/G5i
+	eU1Z+j1RLVNA9qCUpGXnxdd7hU17+050tLzAXhcYSJFagJ/wJ9TbMYxkYmr5DaiWwyI0KVcfok/4+
+	uvU/cxWw==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <mhal@rbox.co>)
+	id 1xNgk3-00069h-Pc; Mon, 02 Nov 2026 02:21:43 +0100
+Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.95)
+	id 1xNgjp-00AfUJ-El;
+	Mon, 02 Nov 2026 02:21:29 +0100
+Message-ID: <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
+Date: Mon, 2 Nov 2026 02:21:27 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,199 +66,119 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Michal Luczaj <mhal@rbox.co>
+Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
+ the g2h device to a netns
+To: Bobby Eshleman <bobbyeshleman@meta.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
+ virtualization@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, sargun@sargun.me,
+ jlinbox@meta.com
+References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
+ <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
+ <atjZZP2ebhXKzMxL@sgarzare-redhat>
+ <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
+ <atnjOZjKUBagRVWq@sgarzare-redhat>
+ <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
+ <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
+Content-Language: pl-PL, en-GB
+In-Reply-To: <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The IT8607E is the Super I/O of the Intel NUC6i3SYB and, according to
-Intel's product specification, the NUC6i5SYB (BIOS SYSKLi35.86A). Its
-environment controller is hidden from ACPI (HHMD._STA returns 0), so the
-chip is only reachable through the LPC configuration ports, and the ACPI
-resource check must be bypassed with ignore_resource_conflict=3D1.
+On 10/30/26 21:30, Bobby Eshleman wrote:
+>>>> Yeah its all kind of a pain. The problem is that we need to hold
+>>>> sock_lock to set sk_state and sk_err, but can't acquire it under the
+>>>> table lock. Instead, we grab the socket ref sock_hold under the table
+>>>> lock to guarantee it stays alive between releasing the table lock and
+>>>> grabbing the socket lock.
+>>>>
+>>>> I was really tempted to not do this lock_sock dance though. The race
+>>>> condition I'm avoiding here is that if this reset races with an RST
+>>>> receive, then the socket could end up with TCP_CLOSING + sk_err
+>>>> ECONNRESET... but I'm not sure this actually propagates up into a real
+>>>> problem for any potential user.
+>>
+>> Right, vsock_connect() is fragile. Two things to be cautious about:
+>> 1. Don't let it reset the already connected socket. Because that would
+>> allow user to "re-connect()" and make mess in connected_table.
+>> 2. Don't let it re-assign transport of an already connected socket. Because
+>> that breaks the contract in few places.
+>>
+>> State 1 is not an issue: vsock_g2h_reset_unreachable() calls
+>> __vsock_remove_connected().
+>>
+>> State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
+>> when connect() is scheduled out, then after the wake-up sock may get reset
+>> to SS_UNCONNECTED. Then user re-connect()s and hits the transport
+>> re-assignment logic. I'm worried that, as we re-assign, someone may be
+>> holding a reference to such "connected" (even if not in connected_table
+>> anymore) vsock.
+> 
+> I see path you're looking at... after vsock_connect() gets scheduled
+> back in we set TCP_CLOSE/SS_UNCONNECTED if sock_error returns non-zero.
+> Could you elaborate on your last concern there about someone holding a
+> reference? I'm not sure I fully understood.
 
-No datasheet is available. The register layout was compared against the
-IT8603E, and the BIOS fan setup (IT8607PeiInit and FanPei PEI modules of
-SYSKLi35.86A.0071) was disassembled to confirm it programs the same
-"newer autopwm" registers (0x68-0x6d for pwm2). Features are therefore
-copied from the IT8603E.
+Ah, sorry, let me explain. This case reminded me of the vsock's TCP_CLOSING
+bug[1]: reporter mentioned vsk->trans getting freed when skb was still in
+flight. I did not reproduce the exact scenario, but it did sound plausible
+and I thought it applies here: virtio_transport_destruct() frees vsk->trans
+the moment vsock_loopback_work() invokes virtio_transport_consume_skb_sent().
 
-Tested on a NUC6i3SYB (BIOS SYSKLi35.86A.0042, chip ID 0x8607, rev 2):
-temperatures agree with coretemp, +3.3V reads 3.31 V, the 3VSB and VBAT
-inputs read plausible values, fan2 tach and pwm2 respond to the
-automatic-curve registers (start 74 C, full speed 92 C, as programmed by
-the BIOS) and to manual mode, and the original values are restored.
+Now, to get there let's start with vsock_connect() setting SS_UNCONNECTED
+(on a connected) socket after vsock_g2h_reset_unreachable(). Then user is
+able to re-assign the transport, which involves
+virtio_transport_destruct(). But since we're dealing with a connected
+socket, (before the reset) some send() might have triggered
+vsock_loopback_work(). Does this make sense to you?
 
-The tachometer was not compared with an external tachometer and the
-voltage scaling was not compared with a multimeter; the values above are
-only cross-checked against coretemp and the expected rail voltages.
+Another thing is this feature of vsock_assign_transport(): in some
+re-assign failure paths you may end up with vsk->transport = NULL. In the
+past this caused issues with sockmap: see WARN_ON_ONCE in
+vsock_bpf_recvmsg(). Problem here is that normally vsock gets removed from
+sockmap on close(), but in our (reset+reassign) case close() is never invoked.
 
-Signed-off-by: Ismael Ojeda Perez <iojedaperez@proton.me>
----
-Changes in v2:
-- Add .reg_pwm =3D IT87_REG_PWM and .num_temp_map =3D 4 to the it8607 entry=
-,
-  copied from it8603. v1 left them out, which would dereference a NULL
-  reg_pwm on hwmon-next (reported by sashiko-bot, thank you).
-- v1 had only been run-tested with the it87.c of 6.18. This version was
-  built from hwmon-next and run on the NUC6i3SYB: all 87 sysfs attributes
-  read without error, pwm2_enable and pwm2_auto_channels_temp written and
-  restored, no oops.
+[1]: https://lore.kernel.org/netdev/anzT1fREOSyHT99k@v4bel/
 
-v1: https://lore.kernel.org/all/179357707375.834227.595814448085536071@prot=
-on.me/
+>> So I don't know, maybe it's vsock_connect() that should be fixed/hardened
+>> instead?
+>>
+>> Or at least disallow transport *re*-assignment? Does the "re-" part have a
+>> use case?
+>>
+>> Hope it's not too off-topic.
+>>
+>>>> It also avoided some racing with the tx path, but now that send_pkt()
+>>>> also checks reachability I think that path is safe.
+>>>>
+>>>> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
+>>>> sk_error_report) with no lock_sock?
+>>>
+>>> Looking at the code, it seems that in all the places where we close all 
+>>> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
+>>> with no lock_sock but with vsock_table_lock.
+>>>
+>>> So, makes sense to me.
+>>
+>> virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
+>> peeves: state switcheroo without taking lock_sock(). Which, again, races
+>> vsock_connect().
+> 
+> True, I don't love that either, but I feel the impact is at least
+> constrained by the fact that it only happens when the module or device
+> is already going away.
 
-Observation, no change needed: on this BIOS the registers 0x68-0x6d of
-pwm2 read 81 4a 5c 59 06 02. With the newer-autopwm layout of it87
-(base+0 fan off temperature, +1 start, +2 max, +3 start pwm, +4 slope,
-+5 hysteresis) that is: fan off temperature -127 C (0x81, the lowest
-value, so the fan is never switched off), start 74 C, max 92 C, start
-pwm 89, slope 6, hysteresis 2. pwm2_auto_point1_temp therefore reads
--127000 and pwm2 reads 89, matching the registers.
-
-Based on the hwmon-next branch of groeck/linux-staging.git (file contents
-as of 2026-11-01). The Super I/O is found at 0x2e, chip ID 0x8607,
-revision 2, hardware monitor at 0xa40; ACPI reserves that range, hence
-ignore_resource_conflict=3D1. Is that acceptable, or would you prefer a DMI
-quirk for the NUC6 boards?
-
- Documentation/hwmon/it87.rst | 16 +++++++++++++++-
- drivers/hwmon/Kconfig        |  4 ++--
- drivers/hwmon/it87.c         | 19 +++++++++++++++++--
- 3 files changed, 34 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/hwmon/it87.rst b/Documentation/hwmon/it87.rst
-index c33ba8a..17bfffb 100644
---- a/Documentation/hwmon/it87.rst
-+++ b/Documentation/hwmon/it87.rst
-@@ -19,6 +19,14 @@ Supported chips:
-=20
-     Datasheet: Not publicly available
-=20
-+  * IT8607E
-+
-+    Prefix: 'it8607'
-+
-+    Addresses scanned: from Super I/O config space (8 I/O ports)
-+
-+    Datasheet: Not publicly available
-+
-   * IT8620E
-=20
-     Prefix: 'it8620'
-@@ -243,7 +251,7 @@ motherboard models.
- Description
- -----------
-=20
--This driver implements support for the IT8603E, IT8620E, IT8623E, IT8628E,
-+This driver implements support for the IT8603E, IT8607E, IT8620E, IT8623E,=
- IT8628E,
- IT8689E, IT8705F, IT8712F, IT8716F, IT8718F, IT8720F, IT8721F, IT8726F,
- IT8728F, IT8732F, IT8758E, IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F,
- IT8786E, IT8790E, IT8792E/IT8795E, IT87952E and SiS950 chips.
-@@ -287,6 +295,12 @@ The IT8603E/IT8623E is a custom design, hardware monit=
-oring part is similar to
- IT8728F. It only supports 3 fans, 16-bit fan mode, and the full speed mode
- of the fan is not supported (value 0 of pwmX_enable).
-=20
-+The IT8607E is found on the Intel NUC6i3SYB and NUC6i5SYB boards. The hard=
-ware
-+monitoring part is treated as compatible with the IT8603E (16-bit fans, ne=
-wer
-+autopwm registers) because no datasheet is available. The BIOS keeps the
-+environment controller hidden from ACPI, so the driver can only be loaded
-+with ``ignore_resource_conflict=3D1``.
-+
- The IT8620E and IT8628E are custom designs, hardware monitoring part is si=
-milar
- to IT8728F. It only supports 16-bit fan mode. Both chips support up to 6 f=
-ans.
-=20
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 18c682e..bc6ddff 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -952,8 +952,8 @@ config SENSORS_IT87
- =09  If you say yes here you get support for ITE IT8705F, IT8712F, IT8716F=
-,
- =09  IT8718F, IT8720F, IT8721F, IT8726F, IT8728F, IT8732F, IT8758E,
- =09  IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F, IT8786E, IT8790E,
--=09  IT8603E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips, and
--=09  the SiS950 clone.
-+=09  IT8603E, IT8607E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips=
-,
-+=09  and the SiS950 clone.
-=20
- =09  This driver can also be built as a module. If so, the module
- =09  will be called it87.
-diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
-index 2757d42..14800a5 100644
---- a/drivers/hwmon/it87.c
-+++ b/drivers/hwmon/it87.c
-@@ -12,6 +12,7 @@
-  *  similar parts.  The other devices are supported by different drivers.
-  *
-  *  Supports: IT8603E  Super I/O chip w/LPC interface
-+ *            IT8607E  Super I/O chip w/LPC interface
-  *            IT8620E  Super I/O chip w/LPC interface
-  *            IT8622E  Super I/O chip w/LPC interface
-  *            IT8623E  Super I/O chip w/LPC interface
-@@ -66,7 +67,7 @@
-=20
- enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
- =09     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
--=09     it8792, it8603, it8613, it8620, it8622, it8628, it8689, it87952 };
-+=09     it8792, it8603, it8607, it8613, it8620, it8622, it8628, it8689, it=
-87952 };
-=20
- static struct platform_device *it87_pdev[2];
-=20
-@@ -160,6 +161,7 @@ static inline void superio_exit(int ioreg, bool noexit)
- #define IT8786E_DEVID 0x8786
- #define IT8790E_DEVID 0x8790
- #define IT8603E_DEVID 0x8603
-+#define IT8607E_DEVID 0x8607
- #define IT8613E_DEVID 0x8613
- #define IT8620E_DEVID 0x8620
- #define IT8622E_DEVID 0x8622
-@@ -530,6 +532,16 @@ static const struct it87_devices it87_devices[] =3D {
- =09=09.num_temp_map =3D 6,
- =09=09.peci_mask =3D 0x07,
- =09},
-+=09[it8607] =3D {
-+=09=09.name =3D "it8607",
-+=09=09.model =3D "IT8607E",
-+=09=09.features =3D FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
-+=09=09  | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_IN7_INTERNAL
-+=09=09  | FEAT_AVCC3 | FEAT_PWM_FREQ2,
-+=09=09.reg_pwm =3D IT87_REG_PWM,
-+=09=09.num_temp_map =3D 4,
-+=09=09.peci_mask =3D 0x07,
-+=09},
- =09[it8620] =3D {
- =09=09.name =3D "it8620",
- =09=09.model =3D "IT8620E",
-@@ -2941,6 +2953,9 @@ static int __init it87_find(int sioaddr, unsigned sho=
-rt *address,
- =09case IT8613E_DEVID:
- =09=09sio_data->type =3D it8613;
- =09=09break;
-+=09case IT8607E_DEVID:
-+=09=09sio_data->type =3D it8607;
-+=09=09break;
- =09case IT8620E_DEVID:
- =09=09sio_data->type =3D it8620;
- =09=09break;
-@@ -3095,7 +3110,7 @@ static int __init it87_find(int sioaddr, unsigned sho=
-rt *address,
-=20
- =09=09sio_data->beep_pin =3D superio_inb(sioaddr,
- =09=09=09=09=09=09 IT87_SIO_BEEP_PIN_REG) & 0x3f;
--=09} else if (sio_data->type =3D=3D it8603) {
-+=09} else if (sio_data->type =3D=3D it8603 || sio_data->type =3D=3D it8607=
-) {
- =09=09int reg27, reg29;
-=20
- =09=09superio_select(sioaddr, GPIO);
---=20
-2.56.0
-
-
+Doesn't it happen on suspend as well? Is so, with a poorly timed connect()
+things can go south on resume.
