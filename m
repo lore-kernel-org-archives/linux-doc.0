@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793634785;
-	b=oWLdc/hmda82sWa+GNThynY/msZtpha01gRFdO/u0LY5HU9c8BLHJK0x4onpn8wTPYDR
-	 xiTGECAjY1FGWqIrkNMFlGGi8PwBpvgbViZtgzqluxzHw1azhhDkvYc6NoWEL5aX1uW6Z
-	 K78RB4QWfQydgtz/6AK+j7jx5pUOz9AoosYdpNf1WV0z292UKZSgnbRdfPYiD/ZJLOE9N
-	 LcrFlJmsPeYDb8olZczplNBDZTyuNFaDlZg1tFByvPBlTou+oG4TVPsx/tb/fqMpQjh8i
-	 KGYtE0CoQVMyOW6860wtnyh6u5HPxz3MOXj80kYJMbgedBRsSzsv/ZhmusPz+UJlz1w==
+	t=1793635015;
+	b=IGefCnQLnRoCNyDw2MTszE0v2peu+1qsSqfFKgcTOlM+S+7q/+MQKlH2fq0Sk7xJ0F6F
+	 /r7af5tk6U6VSIXP7FulrZLy1rG7EoGznQh/tnS00fPadgEYc4IpsKuTXldI7lhV8rCtC
+	 TODubeDZVpUjW/DrJjCq5osx8CUHOs8amA5dCj6KFjeNxPdiIcOYB3tdPTS2hNenuuM14
+	 59dIxh70NSRLe35+xpcofD+izvQZXZqC7LB2hbzxoRy2EvuPgaHQBgKsLxnm5ZMnV3wk7
+	 DJWVgzC5nw0b5dJBuKbO63KZJPvKCWWsmA0QU7yZlZyORcyLR+nLveKIIHk8CyQ+Whw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793634785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793635015;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=nQ0hdBnMen1JUuUNL4lBa3pfIoWp8B/EYxAw6C3p9to=;
-	b=cDxuM+lSXoEkR5MR1VgJ/Xh/hn5xok8+x7nR8eHW0LL5AGCFyrajxZOCC5/3yfWIWai4
-	 dPwsjx9xAogNsYQh/amo+HW/auxeI/YTPUXC4jNDU1mC2aaFs5WIxrzmbccezRx/Ubqk5
-	 T+u6SR+5v+bXkIxZGQ18lZWYGUzIsBbiNashXqzWpbWZNw34oaAb/vJAScXh3nFwOgBO1
-	 2qJnJ2t+BgarIOfZDnevGRcTiz7X4iZgac+Bo+LTW0vJv6htftHFCQHb2aeH08N7fBiX8
-	 vSx2JLh+cVcrvMXuOvJminmb2AlILCXYZaWe9MFjA6bfZXsquXaF8gYL+CJDW0tzv5A==
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=svdWyrsgF+90eWwYkwJ+BgLca86Hpg504Cs6W86/4gc=;
+	b=LM2vUB733k96WFvqMnRYnNXM4bXNB5hJaBWEJGLajjP4+0s7LZjBLWqS+vwdbyew+2qv
+	 6KBVJIiyw3h4NgnQSfmG+Z/0veTCcV8ZXrSMejfM89I9UHTgT3tT8myN7brlrctDCEiZR
+	 cUhy+AkQeVtJX0bbrwInkH/dV23Y/VB4s4n4OhrXgAIxYeuFZco0PQlo6chwPOu77F5Bn
+	 OdA56S2ZSSUMB5GqdSsA/nvsJg0AMdPnxJFoT1rcpvjCB+OVDUmZ7WvGnukjk/TlEqTfa
+	 8bVSDWB6n8n3ocYY0j/ZWuVNUx2Td8qsPQhNpZHb5qsKwxXugzT97/b86vcWNYIgwTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b="gtJQ/rSq";
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QaP9RCUe;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5341C606A586;
-	Mon,  2 Nov 2026 15:53:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5341C606A586
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8622606E032;
+	Mon,  2 Nov 2026 15:56:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8622606E032
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gtJQ/rSq
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5919C40430
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=QaP9RCUe
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1E4C40430
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1793634783; bh=nQ0hdBnMen1JUuUNL4lBa3pfIoWp8B/EYxAw6C3p9to=;
+	t=1793635013; bh=svdWyrsgF+90eWwYkwJ+BgLca86Hpg504Cs6W86/4gc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gtJQ/rSq0xatPCl0j9bqRGOb9xiSRt15peEQgogsSKkmH3n8c4z8sP4j+b8vEreyM
-	 6hpln14XUOcX3IzU3gevgetiP6KKM0DT+lhkAth50pXFZ9Twau/YxP84tui3Yp9yCT
-	 vmaVrKTa0HwtQEpivU0OwzlNi+c3gvXfNp3wuu/jr0eJZdHPb0Be6XQqvPWW+A20AD
-	 C/V9wcnGG+MsDm1DX/SDKU4VXtFi3HGHy2YlNbIMsdROTgHX6gJHvoci+JMLS5O+NI
-	 mYlGSeHZSCDLv7Wx33NJINjXv4eCpYVgwFk72QkAyT48lsWOFyVM7TpiYH2xQk8+LB
-	 NY8eYUQTgDLrQ==
+	b=QaP9RCUe5ki0aqKAVxXwzM8AvvLCGl+a7hvHW+vW8zAhuTUX6SdY48QO0fk4GB3CM
+	 VVqaWGt7mo7i/XBErrZvqhKtYlpFh95r6QBsc6S+UIt8J6kCKmG8jw0wMxZYuF+s6V
+	 GqfP1bgMI9XfRMA39x93ZHnXUYfZp5iRUH3cCEmwE4zbsXFfOF91a11I/+Gb5cCT6M
+	 TPnq7F/Bjnk/y3tt8eZVeL4/KxpAMRpfQI+T9OKiDVx0U19FnS24hFcsRwGzkaCOxi
+	 UQ9I5jLqdZ5+y8Gb+aMBrUybVGIlx9r2GEY/O/q1ICKOQA3zEkNqew6ooIz6ptf9jP
+	 +sr4zneWhEWDg==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5919C40430;
-	Mon,  2 Nov 2026 15:53:03 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A1E4C40430;
+	Mon,  2 Nov 2026 15:56:53 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org
-Cc: patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>, kernel
- test robot <lkp@intel.com>, =?utf-8?Q?Iv=C3=A1n?= Ezequiel Rodriguez
- <ivanrwcm25@gmail.com>, Sebastian Reichel
- <sebastian.reichel@collabora.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: power: supply: fix inline strings
-In-Reply-To: <20261008171203.3080111-1-rdunlap@infradead.org>
-References: <20261008171203.3080111-1-rdunlap@infradead.org>
-Date: Mon, 02 Nov 2026 08:53:02 -0700
-Message-ID: <87jymvdych.fsf@trenco.lwn.net>
+To: Andrew Morton <akpm@linux-foundation.org>, "Carlos Bilbao (Lambda)"
+ <carlos.bilbao@kernel.org>
+Cc: danielmaraboo@gmail.com, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Avadhut Naik
+ <avanaik92@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: remove bouncing reviewer for Spanish
+ documentation
+In-Reply-To: <20261101184806.11850a34e2dcfae9c3f55af9@linux-foundation.org>
+References: <20261102022923.686974-1-carlos.bilbao@kernel.org>
+ <20261101184806.11850a34e2dcfae9c3f55af9@linux-foundation.org>
+Date: Mon, 02 Nov 2026 08:56:52 -0700
+Message-ID: <87fqxjdy63.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,32 +70,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Andrew Morton <akpm@linux-foundation.org> writes:
 
-> Consistently use `string` to quote code symbols.
-> This repairs the docs build warning:
+> On Sun,  1 Nov 2026 18:29:22 -0800 "Carlos Bilbao (Lambda)" <carlos.bilbao@kernel.org> wrote:
 >
->   Documentation/power/power_supply_class.rst:211: WARNING: Inline emphasi=
-s start-string without end-string. [docutils]
+>> Remove Avadhut Naik as reviewer for Spanish documentation. Mail to
+>> avadhut.naik@amd.com bounces with "address not found". Translator credits
+>> in the .rst files are left intact as historical attribution.
+>> 
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202610050416.L69x2Wpo-lkp@i=
-ntel.com/
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Iv=C3=A1n Ezequiel Rodriguez <ivanrwcm25@gmail.com>
-> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Cc: linux-pm@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
+> Thanks.
 >
->  Documentation/power/power_supply_class.rst |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -24843,7 +24843,6 @@ F:	drivers/i2c/busses/i2c-k1.c
+>>  
+>>  SPANISH DOCUMENTATION
+>>  M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+>> -R:	Avadhut Naik <avadhut.naik@amd.com>
+>>  S:	Maintained
+>>  F:	Documentation/translations/sp_SP/
+>
+> https://lore.kernel.org/all/20260316125324.396889-1-yazen.ghannam@amd.com/
+>
+> suggests a better patch.
 
-Applied, thanks.
+I don't quite see how ...?
+
+I've gone ahead and applied this one.
+
+Now if we could get that translation active again, that would be even
+better :)
+
+Thanks,
 
 jon
