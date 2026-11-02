@@ -1,62 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.38
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.85
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793582529;
-	b=PO69FA37F2YGmlrG/cuBP/fHned9cB9kYGMS1x/8bC4SVWCB9u6NppbITKNDV9NYvaDf
-	 dTF56huUK/IYilOrJCPKa+R0KFp7BN43OtjKWYQwsHtt45VvjZZeKP67sEU8bT++irqjn
-	 C6GAhTKm+WF/AQ/8GzI/BriudpJ8ZRHj7erMSuykNJ04SNsIw6X78x2ULIK6paTPWl760
-	 8IH/pT5gPgSxEpzaOZtT/y3bW1nI6Z9RjF6HVeZhW3Bl/qs+YtByvVtZJ/wGfoLi+M9Jj
-	 s4DNoIwbeXGif2EhLnE+dslbLmcEhHaXmdXGZHZjj3PBfNVuOfS1QSlr9zua60eaxlA==
+	t=1793582779;
+	b=LM7ri4O4PzzqmOMakzEf4sXZW/qgWl90TEPwcdw8MkKm/7Uf1vmWRD2lR8rX0JXrFCIC
+	 VDv5wt62TWCqNIT1VmltXNJ7df18PqiMjJ2Bhd0lV0K4JQ/Qh1I47exyfeV8hI1l2nVnL
+	 goFIfKY3FGBpAHpeCEZHWWNZ+se4/6J1JRdcgK7v7JJopfv1w2DIOCqW0yE+lVaICk2wi
+	 is+Sojxo6z4Fk+G/UQtkE7fx9wLFNpBqIsMF7+M85DqZngaK6711w/NcJOzQJ0rJqXggt
+	 pcNNwbJqFgATcU3Or5OjEnr34YHb6alWrJryiezVIrQAdqc4lNNZoHmiPPN0IZTJDaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793582529;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:From:Subject:To:Cc:References:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=C5gqpTOgkDU//zQkGOQKjOKsqsvBDDMS+gbejxMeVdk=;
-	b=yPfzCduxKGQ+9DqtRFuq2MTuTfV3oFkPyjW0lAEris/iRdYyqx+wVlehNf9PUSUIIe75
-	 2NLDIgqUByoHag7Y4QQJplxUXU2EwaWhCEkrk8/4oBEZmBXjRQe7X53ewPPoyRonaJDXr
-	 gOG3K7oCPh2u+KlZN/QrJFDLX79tzAXcc1PGO7ByE+o8aH5VA8MhwtwwQ6gYtXrihffIB
-	 1QRdtyC9CT91feoeprXXptetmjOJoDrABX+R/QqPsGzmWehdR2ATg0GUaPog8VQNHoRA+
-	 A9d1YimV7ORwPlmfCbqYqlYHI3+zV8/mADQPhSb+nR77da9Owlk9PL0aNB2oHUSrtbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793582779;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=dKJhgABntFpeEvPRMITUX6NzxL+GKjKT7B8PFs7e3ug=;
+	b=w5vzdZfN3e662o+FiQH+qsqhPjIFbWFThgFancoYr/sOybzZ/zSBbi2B+Pg+dzGPPSJd
+	 a/hXtk8MS7GNEWExwrtG4PeH/aVOE0YHqrXta0BpFGhbQerT3agt3h8Q+wWe0CjPF7OjS
+	 0r3UfcLeuITD3dNmNItMAnN8y5ynILp6ITivIvN/n/Lcgo3ViKTFOaeUZjZLRG/IWl2w6
+	 dCMTd3OJ7Sm1Q/fQsD/tGztaCzEkxZbNCzhUZbfHAyKzF886kRNMqh48vW4yVyds8QRzB
+	 n8Apm/WWcwvgBvYBOO5UmpRJ5V/f2FNVDjto+0qVp5TrSWwS88ACbkxWnGndWT1pO8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rbox.co;
-	spf=pass smtp.mailfrom=rbox.co;
-	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=I2EnYMrr;
-	arc=none smtp.remote-ip=185.226.149.38
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=q+AfSDu2;
+	arc=none smtp.remote-ip=95.215.58.85
+Received: from mta1.migadu.com (out-85.mta1.migadu.com [95.215.58.85])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5656606A324;
-	Mon,  2 Nov 2026 01:22:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5656606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72936606A32F
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 01:26:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72936606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=I2EnYMrr
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <mhal@rbox.co>)
-	id 1xNgkL-00AGvn-9k; Mon, 02 Nov 2026 02:22:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
-	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
-	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
-	bh=C5gqpTOgkDU//zQkGOQKjOKsqsvBDDMS+gbejxMeVdk=; b=I2EnYMrrFCOKTtqiYFvChN8tuO
-	Cy6ULEkHqZw8Q+rhppEMB19ro7BO6VuN7dn5ELjJpjzLDnCsLnHAmJUg76QVbr15RlNupVPczMgOt
-	WYkrmzXN0jXh8lEMvXbiTMmKmjoXOSWj46V1Cq2SE+xjtzOUeBeI2TCoF+OAImGTyva3Ujp36uUn2
-	+OMa3CNuLMCPwwJtY0Kp5TaNEtIzTJgcWZ1rDSglQuY4CGsVryG5zGIVdAkk8GgEeZN9Yd8LC/G5i
-	eU1Z+j1RLVNA9qCUpGXnxdd7hU17+050tLzAXhcYSJFagJ/wJ9TbMYxkYmr5DaiWwyI0KVcfok/4+
-	uvU/cxWw==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <mhal@rbox.co>)
-	id 1xNgk3-00069h-Pc; Mon, 02 Nov 2026 02:21:43 +0100
-Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.95)
-	id 1xNgjp-00AfUJ-El;
-	Mon, 02 Nov 2026 02:21:29 +0100
-Message-ID: <5a411a67-f550-459d-be9b-5e8e51d3018c@rbox.co>
-Date: Mon, 2 Nov 2026 02:21:27 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=q+AfSDu2
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=l3N0psSADePkKldw55AfcXDQE2PfeeVZR7BrUgT4jW4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793582770; v=1; x=1794187570;
+ b=q+AfSDu2PAe+jEAVVCv/vb70Ab8OyBAgZmhcNhjEOUkilEdAYESS5xyzvRKbghuzccqjGznE
+ cTqTZSBYZqkpJlIcnPasYEfTcQ37RQKjaxxiQqtp8/ZzDthl1ogwSGvKgi6ShmkYKSAXCZ/HxQ8
+ c6C+1jdn2K07FaBFas9kD2dA=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id ad46c3b066790dba;
+	Mon, 02 Nov 2026 01:26:10 +0000
+X-Mizu-Trace-ID: ad46c3b066790dba
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 2 Nov 2026 09:25:54 +0800
+From: Hangbin Liu <hangbin.liu@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
+	Fernando Fernandez Mancera <fmancera@suse.de>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>, Maoyi Xie <maoyi.xie@ntu.edu.sg>,
+	Gerd Rausch <gerd.rausch@oracle.com>,
+	Zhan Xusheng <zhanxusheng1024@gmail.com>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+	Yung Chih Su <yuuchihsu@gmail.com>,
+	Wyatt Feng <bronzed_45_vested@icloud.com>,
+	Flavio Leitner <fbl@redhat.com>,
+	Hannes Frederic Sowa <hannes@stressinduktion.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3 1/5] ipv6: restrict gc_elasticity to 31
+Message-ID: <aufmolKft7khDbNq@fedora>
+References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
+ <20261101061331.286404-2-jiayuan.chen@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,119 +86,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Michal Luczaj <mhal@rbox.co>
-Subject: Re: [PATCH net-next v4 4/7] vsock: add a netlink command to assign
- the g2h device to a netns
-To: Bobby Eshleman <bobbyeshleman@meta.com>
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Donald Hunter
- <donald.hunter@gmail.com>, Eric Dumazet <edumazet@kernel.org>,
- virtualization@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, sargun@sargun.me,
- jlinbox@meta.com
-References: <20261020-vsock-guest-ns-v4-0-047527cfccfc@meta.com>
- <20261020-vsock-guest-ns-v4-4-047527cfccfc@meta.com>
- <atjZZP2ebhXKzMxL@sgarzare-redhat>
- <atld3+5LKmGxJ8+s@devvm29614.prn0.facebook.com>
- <atnjOZjKUBagRVWq@sgarzare-redhat>
- <d946003a-8bec-4e8b-89a3-05eeb96780cc@rbox.co>
- <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
-Content-Language: pl-PL, en-GB
-In-Reply-To: <auT+YIawHSMPHbJI@devvm29614.prn0.facebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261101061331.286404-2-jiayuan.chen@linux.dev>
 
-On 10/30/26 21:30, Bobby Eshleman wrote:
->>>> Yeah its all kind of a pain. The problem is that we need to hold
->>>> sock_lock to set sk_state and sk_err, but can't acquire it under the
->>>> table lock. Instead, we grab the socket ref sock_hold under the table
->>>> lock to guarantee it stays alive between releasing the table lock and
->>>> grabbing the socket lock.
->>>>
->>>> I was really tempted to not do this lock_sock dance though. The race
->>>> condition I'm avoiding here is that if this reset races with an RST
->>>> receive, then the socket could end up with TCP_CLOSING + sk_err
->>>> ECONNRESET... but I'm not sure this actually propagates up into a real
->>>> problem for any potential user.
->>
->> Right, vsock_connect() is fragile. Two things to be cautious about:
->> 1. Don't let it reset the already connected socket. Because that would
->> allow user to "re-connect()" and make mess in connected_table.
->> 2. Don't let it re-assign transport of an already connected socket. Because
->> that breaks the contract in few places.
->>
->> State 1 is not an issue: vsock_g2h_reset_unreachable() calls
->> __vsock_remove_connected().
->>
->> State 2 may be problematic: if vsock_g2h_reset_unreachable() sets TCP_CLOSE
->> when connect() is scheduled out, then after the wake-up sock may get reset
->> to SS_UNCONNECTED. Then user re-connect()s and hits the transport
->> re-assignment logic. I'm worried that, as we re-assign, someone may be
->> holding a reference to such "connected" (even if not in connected_table
->> anymore) vsock.
+On Sun, Nov 01, 2026 at 02:11:59PM +0800, Jiayuan Chen wrote:
+> Every counted IPv6 dst allocation runs ip6_dst_gc() once the number of
+> live dst goes over gc_thresh (1024 by default). ip6_dst_gc() decays
+> ip6_rt_gc_expire by gc_elasticity: the smaller gc_elasticity is, the
+> smaller ip6_rt_gc_expire gets, i.e. the more aggressive the gc.
 > 
-> I see path you're looking at... after vsock_connect() gets scheduled
-> back in we set TCP_CLOSE/SS_UNCONNECTED if sock_error returns non-zero.
-> Could you elaborate on your last concern there about someone holding a
-> reference? I'm not sure I fully understood.
-
-Ah, sorry, let me explain. This case reminded me of the vsock's TCP_CLOSING
-bug[1]: reporter mentioned vsk->trans getting freed when skb was still in
-flight. I did not reproduce the exact scenario, but it did sound plausible
-and I thought it applies here: virtio_transport_destruct() frees vsk->trans
-the moment vsock_loopback_work() invokes virtio_transport_consume_skb_sent().
-
-Now, to get there let's start with vsock_connect() setting SS_UNCONNECTED
-(on a connected) socket after vsock_g2h_reset_unreachable(). Then user is
-able to re-assign the transport, which involves
-virtio_transport_destruct(). But since we're dealing with a connected
-socket, (before the reset) some send() might have triggered
-vsock_loopback_work(). Does this make sense to you?
-
-Another thing is this feature of vsock_assign_transport(): in some
-re-assign failure paths you may end up with vsk->transport = NULL. In the
-past this caused issues with sockmap: see WARN_ON_ONCE in
-vsock_bpf_recvmsg(). Problem here is that normally vsock gets removed from
-sockmap on close(), but in our (reset+reassign) case close() is never invoked.
-
-[1]: https://lore.kernel.org/netdev/anzT1fREOSyHT99k@v4bel/
-
->> So I don't know, maybe it's vsock_connect() that should be fixed/hardened
->> instead?
->>
->> Or at least disallow transport *re*-assignment? Does the "re-" part have a
->> use case?
->>
->> Hope it's not too off-topic.
->>
->>>> It also avoided some racing with the tx path, but now that send_pkt()
->>>> also checks reachability I think that path is safe.
->>>>
->>>> What do you think about doing the below hunk (TCP_CLOSE, ECONNRESET,
->>>> sk_error_report) with no lock_sock?
->>>
->>> Looking at the code, it seems that in all the places where we close all 
->>> connections (virtio_vsock_reset_sock, vhost_vsock_reset_orphans) we do 
->>> with no lock_sock but with vsock_table_lock.
->>>
->>> So, makes sense to me.
->>
->> virtio_vsock_reset_sock() and vhost_vsock_reset_orphans() are my pet
->> peeves: state switcheroo without taking lock_sock(). Which, again, races
->> vsock_connect().
+> ip6_dst_gc() reads ip6_rt_gc_expire into a u32, but gc_elasticity has no
+> bounds at all, so writing >= 32 shifts a 32-bit value by >= 32 bits, and
+> a negative value gives a negative shift count. Both are UB:
 > 
-> True, I don't love that either, but I feel the impact is at least
-> constrained by the fact that it only happens when the module or device
-> is already going away.
+> 	val = atomic_read(&net->ipv6.ip6_rt_gc_expire);
+> 	atomic_set(&net->ipv6.ip6_rt_gc_expire, val - (val >> rt_elasticity));
+> 
+>   UBSAN: shift-out-of-bounds in net/ipv6/route.c:3369:53
+>   shift exponent 32 is too large for 32-bit type 'unsigned int'
+>   CPU: 2 UID: 0 PID: 615 Comm: ping6 Not tainted 7.3.0-rc7+ #364 PREEMPT
+>   Call Trace:
+>    <IRQ>
+>    dump_stack_lvl+0xc1/0xf0
+>    dump_stack+0x10/0x20
+>    __ubsan_handle_shift_out_of_bounds+0x1d1/0x390
+>    ip6_dst_gc.cold+0x15/0x1a
+>    dst_alloc+0x4e0/0x620
+>    ip6_rt_cache_alloc+0x189/0x7e0
+>    __ip6_rt_update_pmtu+0x68e/0x1160
+>    ip6_update_pmtu+0x30c/0x3a0
+>    icmpv6_err+0x1fa/0x330
+>    icmpv6_notify+0x303/0x770
+>    icmpv6_rcv+0xc12/0x1670
+>    ip6_protocol_deliver_rcu+0xb4a/0x1520
+>    ip6_input_finish+0x19c/0x400
+>    ip6_input+0xd4/0x240
+>    ipv6_rcv+0x1fd/0x330
+>    __netif_receive_skb_one_core+0x118/0x1c0
+>    __netif_receive_skb+0x21/0x150
+>    process_backlog+0x37e/0x1200
+>    __napi_poll.constprop.0+0xa5/0x5e0
+>    net_rx_action+0x4c0/0xf70
+>    handle_softirqs+0x204/0x9b0
+>    __do_softirq+0x10/0x18
+> 
+> Make it a u8 and reject writes outside 0..31 with proc_dou8vec_minmax().
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
+> Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+> v2: switched to u8 and proc_dou8vec_minmax(), as suggested by Kuniyuki
+> Iwashima.
+> ---
+>  include/net/netns/ipv6.h | 2 +-
+>  net/ipv6/route.c         | 7 +++++--
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/net/netns/ipv6.h b/include/net/netns/ipv6.h
+> index ffda15318be59..aefce37c04a4f 100644
+> --- a/include/net/netns/ipv6.h
+> +++ b/include/net/netns/ipv6.h
+> @@ -25,11 +25,11 @@ struct netns_sysctl_ipv6 {
+>  	int ip6_rt_gc_min_interval;
+>  	int ip6_rt_gc_timeout;
+>  	int ip6_rt_gc_interval;
+> -	int ip6_rt_gc_elasticity;
+>  	int ip6_rt_mtu_expires;
+>  	int ip6_rt_min_advmss;
+>  	u32 multipath_hash_fields;
+>  	u8 multipath_hash_policy;
+> +	u8 ip6_rt_gc_elasticity;
+>  
+>  	__cacheline_group_begin(sysctl_ipv6_flowlabel);
+>  	u8 flowlabel_consistency;
+> diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+> index 94e5ef1c4f83e..f7d56dd3926bb 100644
+> --- a/net/ipv6/route.c
+> +++ b/net/ipv6/route.c
+> @@ -6579,6 +6579,8 @@ static int ipv6_sysctl_rtcache_flush(const struct ctl_table *ctl, int write,
+>  	return 0;
+>  }
+>  
+> +static unsigned int ip6_rt_gc_elasticity_max = 31;
+> +
+>  static const struct ctl_table ipv6_route_table_template[] = {
+>  	{
+>  		.procname	=	"max_size",
+> @@ -6625,9 +6627,10 @@ static const struct ctl_table ipv6_route_table_template[] = {
+>  	{
+>  		.procname	=	"gc_elasticity",
+>  		.data		=	&init_net.ipv6.sysctl.ip6_rt_gc_elasticity,
+> -		.maxlen		=	sizeof(int),
+> +		.maxlen		=	sizeof(u8),
+>  		.mode		=	0644,
+> -		.proc_handler	=	proc_dointvec,
+> +		.proc_handler	=	proc_dou8vec_minmax,
+> +		.extra2		=	&ip6_rt_gc_elasticity_max,
+>  	},
+>  	{
+>  		.procname	=	"mtu_expires",
+> -- 
+> 2.43.0
+> 
 
-Doesn't it happen on suspend as well? Is so, with a poorly timed connect()
-things can go south on resume.
+Reviewed-by: Hangbin Liu <liuhangbin@kylinos.cn>
