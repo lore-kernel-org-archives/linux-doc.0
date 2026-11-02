@@ -1,48 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793631915;
-	b=Lo2GAgZvXh0b6vObijxOPVdE8rDbFspFRb/nAHuEBlfm/lJDBXSyZuIWn/ATlMJrSGES
-	 XDULjuLRpjjODx9Jmczh/HnN28i+uHWHWvKSUVAPT20sjUsgTMD204TVfLjICpoVFZ0Ip
-	 LnbUHnj+wr8brTtFsjUZTwhVQli0t0lWRBZqPtd5OAjPAuiuUyNBCl/qzwBViBG+A3w51
-	 TDwAfPvQTILNYBjcVGXv5gEl5OU2lVMqcriRvYcH5VMr8nSByF/tznnGTGwTL/OFKkIK+
-	 KfCZvL/f+thkZjWh9oTu+qAr5a1ezl24lJ5d6bAlZ7Jw16//MbbecBURq0PDz8ingwg==
+	t=1793631940;
+	b=jq4VzBzgfh/ODX7LsNnmUHNi60wqc+qyAGTVrzO3ZWXl9VHpFKyVcjHhP93Q9cDHGLig
+	 +eQKi9WYQEG8uzbo2QVSGGMrKV6bXeflGXOBJKaq6fXeRmimEkft9QvUtvVvE/FDC/Fl8
+	 7PQkztk0PsoF4YitloJAJ10Up1wuMYxyLWBs0iGKt0ds40d+id8Q6LwWtlGC27TMlrdNq
+	 QEALpPGj45K0R5jXV+ixN9FyQ2GIXBeT2nSjeYMFpbSQdFVE//uXBQWEi0WAbyx3xjJbL
+	 kc+UDYFRU20Iv9nGGTUYY1VUIu7eaTxAqeN0qx7YO/elsFNGIFrdkmY7j11BQRMelsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793631915;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=/usm8OdHJAbA2hfj2koEwGvMkvG3A+8dTBDDaCx7vxs=;
-	b=0f9RNaIkHqHTHXXfNtMVQyXi6HHXBqBXERquCXoUIkndbi6kTFxA38Kj/VbWQvDxUYL5
-	 PKcbaecd/6hJYYVI44RlV6o72pxcdg+OVQEPCw2LFUoeLTb53wWN+C7cppImpgrX7uFRI
-	 M+T2l4ITRFJXEVUvhW3ClpM3ic/M0XyBPh7Oxk3qc35CaJSkatBHDI1n7oSwLiM0y2ZZq
-	 /nVrukbUr8E/fjh26QkpDVpXsZpqGJflvh1fA7j6hkZOFUFOk5MsVef/yeUteqCY34ISW
-	 8x3vsGKhyZitfpWkIphUAkZxk32GoTVG1DceeOZ9PQRl31dghGaIK7v+7SoqlI0jVSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631940;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+	b=uFZN1qwi1nxPgwNAYOY96d0FWmalAALMhFHvBXGzgaqRf1MeVDT3E98IlOxFshxKivPk
+	 SHqH5PvBfcTchoxzUyGJPQ01/Kp6iW50nBJMfWcIruklxdQikyHynCvz92+nWNCSV0cye
+	 LyMLvi38dLBw10cKjBD3/xNe9aLm4Xpjes6V1ElZe/wuvWpQWkjkusqp7ycf+/xtpV8fi
+	 4la3+k4jiJGz1YSgHXrlyQcVHpt1KLEjzgZZjaOAzce1BgRkXzuYRb0M+i9NBgcpGBoTn
+	 lmgJBpeym4XJbgqmi1ys6Fux00uspsIBcXy98QIiw5/HKs7X05qV4Sr694+pqL7A5Fw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GwaRh4oG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UoYunkSY;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3D5606AB90;
-	Mon,  2 Nov 2026 15:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D054606AE96
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:05:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D054606AE96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GwaRh4oG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1171F00A1B;
-	Mon,  2 Nov 2026 15:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793631915;
-	bh=/usm8OdHJAbA2hfj2koEwGvMkvG3A+8dTBDDaCx7vxs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=GwaRh4oGylUX6g6CEqPXd69Ibpr3KQmakI0Nld+n+JLGApofu8ygx4WwNRI60EvYf
-	 DSOWIV++3VospwIjrvRsrg0mfaY7gRgUeihp43Au6D6HgV7Xv8KolBhRU7xFnfQdC1
-	 T7WNrsjJHzUGFZHB3CY8jnJ95TWdIrLVspjluFdHIKRvTNa2WFPvdVn+u5eXib/14W
-	 9Mf7AL8v6CpiYBfwScgPVzymR7ApEayesBtx54t9q1NbuhjbVtR1b4mKqnuDg4Wxmn
-	 KCXgiDmRsG7or4q0U1UicO9HEaUHCZVEQAI8u1qAq9b4HgJ4PMYdAOqXF8iMKD4/CK
-	 FsxoDOM8JDDag==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 02 Nov 2026 16:01:38 +0100
-Subject: [PATCH RFC 11/22] um: let procfs copy in writes
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UoYunkSY
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a208d93758so33545385e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:05:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793631938; x=1794236738; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+        b=UoYunkSYxQznh5bFA75G99i2y2WW9E086osI9oKEp6qIqKaUZRR8w4CxHUrPRkqq5S
+         FfmqCJGlVnKa5ovIyVvTW73QdAbq7tDgFU70uuBcb+R92YkXxYaOc6CL8ZMXYWHPP754
+         wnsrxDcNSQBDr4jBTgmIADLNqhAKGAMdasjK3IrK0W6zgen1NiBV5tV2pWpdcjzjLeNI
+         cBi8+BY4ejD39ai1Abt1TdY+LOIdW/wMxJ/Q8fXMJii7S0kVXjVQQPDvpFRIa95v+eWH
+         QOTM3mH0vfW6dScDz4mjR07lz/jXDaBKe8q4rfMgUMR2OvxIGPW1WvDHBlLe8jXj9orb
+         jxVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793631938; x=1794236738;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=16KmY+5SMzN5j7+9R15dmTI05WFHA1t98OiX21uElTA=;
+        b=xBG8EUH2AUZEG2xcvouRQiwA4l+nd6ZKyPTWa7ALw3XTaMraLArfDEzKVHbZPpLXIH
+         /cqveyarbjYCeER2SYeX2nzAmcGnUdtF6VocQCbufsWyqqCthzcwsG3jBpsvdpR7EQVT
+         h8CzDwXjFyOvcVDCUvnwpbPUs681GSnOwV21DX2OtrSSEmI62FWFeTya78qIqBhg3bqL
+         pTSZ6Sv5PEGm0lWx1DUsN2VN1FsBUhXVn56ViB2VNdkdRyRR1jG/OdAfEsDQlDc5+e4O
+         Zv3etlYalC35Id8ZT/CHbcqduTz2v7kkrkNzmJtlEIVQlEIiRAkqXydASZUfzdxyykHi
+         ln1Q==
+X-Forwarded-Encrypted: i=1; AKwUvBy1c4FHeBiC8P3t10Ygr4YeHR5tNlLlo69mexpTCTVrdeHfQl2csp3wB7YcozQS2fwsDLbAbe2LCF8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKj3To6VfzIpbgn6LWsB/7kiEWKZKC4uXHmFUUiMING+AFwYMer
+	m4FLzU65+sUfU6pcOrRGgvkdd11oDIzfQgR8b3ur7N7ewdZcxuBe6N/Y
+X-Gm-Gg: AYBFou3JZPj3UQr9QULjf9HH5AScEfP8DwbvmKz8l6jLQ67W/esMde9xA5UZOV5EJqG
+	hxaABwtAObKy1keh8/7K67PtJRuOOakzDl4Xdy/gAq7YYLCclez6Pq77xpKQKZt72podXwCewfr
+	QkTfN7P3Q6Sb1nTI5Y08UiiphqCE4Q0C/nGmveU5mV045aOb5fMHCnM9y2Fo69P56O+odu1MRTu
+	W4PaD3Dg1vjFvqGoOuUbZXz3qxH0TrqZgSnH5Eb0IB/VUYMKQJlkFpMow6+MArgq28+JGix9JOH
+	5l1UfUqaoG9WkOr8O04AiTClAkSLnlfEPbh1Q6UbF3E57bgsOjzLJlRGilN6MO7xOZ5HZ4O7xww
+	iXNNBDk9QUHnb5nxB8XqThs41QntWkxiEkexG7HQm69DVpCi7rV9Bc+iQ3NfAt2ruOGVBCg1ia0
+	hV4ZzVQGESR7VhaiDjcjpVEtHqI2rPQmoyB9zYGGCrKdJ/toyM9Z2k6ZgZVCUyS82W+AuGM3mQo
+	WR4SL5J0FLfbxznvSKvGMDrjUbQ/ElVE1CGRZdhO5VZL0qni+o8ORuHHYXFcpSBwZIA5xGx2OBw
+	L/Yqbzo0F38i9yswJcDyKXwEvwUAQ/KWyg7t67Ej/d/QhZc1zW86vOjOyywD1fck
+X-Received: by 2002:a05:600c:83c5:b0:4a1:f377:5c75 with SMTP id 5b1f17b1804b1-4ac19329ea4mr206305535e9.33.1793631938076;
+        Mon, 02 Nov 2026 07:05:38 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ad414e298bsm128041915e9.2.2026.11.02.07.05.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 07:05:37 -0800 (PST)
+Date: Mon, 2 Nov 2026 15:05:35 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Joe Perches <joe@perches.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga
+ <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, Carlos
+ Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Dongliang
+ Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan
+ <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, Petr
+ Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102150535.6c5689f6@pumpkin>
+In-Reply-To: <87a4nrfgjm.fsf@trenco.lwn.net>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+	<20261102093206.50b6c9ad@pumpkin>
+	<20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+	<CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+	<87a4nrfgjm.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,122 +110,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-work-procfs-arch-v1-11-c9492ab08480@kernel.org>
-References: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
-In-Reply-To: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
- Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
- NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
- Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
- Greg Kroah-Hartman <gregkh@suse.de>, 
- Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
- Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
- linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
- ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
- coreteam@netfilter.org, kexec@lists.infradead.org, 
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
- netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
- sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
- linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-debuggers@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Chuck Lever <cel@kernel.org>
-X-Mailer: b4 0.17-dev
 
-Implement ->proc_write_buf() for the mconsole and exitcode files so
-procfs copies in what is written before it pins the entry. Writes larger
-than PAGE_SIZE - 1 bytes fail with -EINVAL now.
+On Mon, 02 Nov 2026 07:34:37 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-exitcode parses procfs' copy as is, so it no longer stops at the first
-six bytes of what is written.
+> "Rafael J. Wysocki (Intel)" <rafael@kernel.org> writes:
+> 
+> > So it occurred to me that it might be actually better to stop sending
+> > messages directly to LKML subscribers and only make it available for
+> > download somewhere and as a Lore archive.
+> >
+> > Is there really anyone depending on receiving all of the LKML traffic every day?  
+> 
+> * raises hand
+> 
+> Some of us crazy people really do depend on it, yes.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- arch/um/drivers/mconsole_kern.c | 11 ++---------
- arch/um/kernel/exitcode.c       | 14 ++++----------
- 2 files changed, 6 insertions(+), 19 deletions(-)
+I certainly scan it.
+It is also useful to have an archived local copy that can be searched.
+I can see a point in not copying all of netdev to lkml, but there is
+little point not copying patches to low-volume lists.
 
-diff --git a/arch/um/drivers/mconsole_kern.c b/arch/um/drivers/mconsole_kern.c
-index f01b7d8a07bc..a4370470286f 100644
---- a/arch/um/drivers/mconsole_kern.c
-+++ b/arch/um/drivers/mconsole_kern.c
-@@ -769,21 +769,14 @@ static int __init mconsole_init(void)
- __initcall(mconsole_init);
- 
- static ssize_t mconsole_proc_write(struct file *file,
--		const char __user *buffer, size_t count, loff_t *pos)
-+		char *buf, size_t count, loff_t *pos)
- {
--	char *buf;
--
--	buf = memdup_user_nul(buffer, count);
--	if (IS_ERR(buf))
--		return PTR_ERR(buf);
--
- 	mconsole_notify(notify_socket, MCONSOLE_USER_NOTIFY, buf, count);
--	kfree(buf);
- 	return count;
- }
- 
- static const struct proc_ops mconsole_proc_ops = {
--	.proc_write	= mconsole_proc_write,
-+	.proc_write_buf	= mconsole_proc_write,
- 	.proc_lseek	= noop_llseek,
- };
- 
-diff --git a/arch/um/kernel/exitcode.c b/arch/um/kernel/exitcode.c
-index c71657df38f5..8f76e3b20c18 100644
---- a/arch/um/kernel/exitcode.c
-+++ b/arch/um/kernel/exitcode.c
-@@ -32,18 +32,12 @@ static int exitcode_proc_show(struct seq_file *m, void *v)
- }
- 
- static ssize_t exitcode_proc_write(struct file *file,
--		const char __user *buffer, size_t count, loff_t *pos)
-+		char *buffer, size_t count, loff_t *pos)
- {
--	char *end, buf[sizeof("nnnnn\0")];
--	size_t size;
-+	char *end;
- 	int tmp;
- 
--	size = min(count, sizeof(buf) - 1);
--	if (copy_from_user(buf, buffer, size))
--		return -EFAULT;
--	buf[size] = '\0';
--
--	tmp = simple_strtol(buf, &end, 0);
-+	tmp = simple_strtol(buffer, &end, 0);
- 	if ((*end != '\0') && !isspace(*end))
- 		return -EINVAL;
- 
-@@ -53,7 +47,7 @@ static ssize_t exitcode_proc_write(struct file *file,
- 
- static const struct proc_ops exitcode_proc_ops = {
- 	.proc_show	= exitcode_proc_show,
--	.proc_write	= exitcode_proc_write,
-+	.proc_write_buf	= exitcode_proc_write,
- };
- 
- static int make_proc_exitcode(void)
+David
 
--- 
-2.53.0
+> 
+> jon
 
