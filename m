@@ -1,79 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.132
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793606728;
-	b=AfdzXl74FNZTdhoULaUtM1a6CfXDfB/rEPhLW9RJtIyBW1OGIfZtjJQf8c9R1yzjp36N
-	 4Eai/JKkKGuS8hvaGCDEJfhXnLa445kV8nVs6f6SwwUdp2Z2fnJxZ1+I14l4S/3hi+E76
-	 rUO2P+oHFDW2rEJIyoR3LoVA4urjijwNIV9TvS8rBNuQbImtefsJfTPEb9Dt90byHk8mM
-	 NXYTI1mSwSoEW47qZgy9jymmCtLixmNPDyOqd4lcujf5uwZBDGtgywLgAIblppcDQ/BB6
-	 j7LGPGZiCIgFf4LyuMUj0xbpTxopRCMFgk0wqC0a5eEzHlExjglQ4nWHwr6VbdZehuw==
+	t=1793606952;
+	b=ALTUrfOBkBMYRmmRbziueis8y+NJ9+AQrjsXRVLlEsOu7PRokdCBmNRmiK90mN/KhlHr
+	 ldxO7MiielScrTDYoOdd2nMS9QIfox4pfZF+OA8GrxWm5WIKA+h3hKk9geJ7xtCOta0Ib
+	 ENbdq+QtNtPpFxgookYuTL6h/JzNA6ufANiI5PcSVv2nprXeMjIzqJwRX3Ls21e0Qn20m
+	 4DuDIpwOivhApyPN0s4DNOXI7nMUTsYX3PykbVzUwWIiMYpBFUUi7EmCcaeFARonmLzzs
+	 UtCfbkOVFBZgsssq/ZjInEySM0SJtJHqbuKopg88GsyCTNW0xJWPp/Qd4hnshmEh+ZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793606728;
-	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=s3MVvxzGnSWvttHCkz12dBX/2TzSeRqwx2B+vBpsohA=;
-	b=dzbrT7mwtF0AvQelfAEUNWkbjP6y6NV3pA+VwOhjtF9JFBrSFh4kcW0SCcQV2lWGLbLW
-	 WNiAzB0ibHVrTUI9lBaGbUllOa43MOzM4/07S/GgXg/n0y3Jr16dXGJ4kTeoG113PEBUY
-	 xavJXSZWeDsym2SpNDmmKgZusHenr19liRyNUMuQluQcHdnd0kkdIdaSuhckwuKuvAQKO
-	 IEJXi355fK+LBD0swS6d33k0NC9b4AEL3ZwGHxhw9PrzVxY2K9DAcCzML5bSgRrSvgnWK
-	 o/ZFp5B8YR48WrxLcgq/I5BAP88bZFDLcGN0uZFkPVn/1QRfR8z7SjJo3v5yYz2PrBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793606952;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
+	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
+	 To:X-Mailer;
+	bh=Ua9j3chuGLeYY0btIyoz40p0xgL7yj+uIcM50lwlwKs=;
+	b=nIjDrffSAhQaf7mD/se5Am3phgUCpCFklktSxS/B2Hneh4+oYF6SrSHflQG573rM4z5h
+	 O1MloomS6Sh5wKCcneuyUA4cW9qG2mfePe8JOkSCUraCyZhD75/1ls9VSnS1vnXV/6BsS
+	 KJq741guwJRh4XZU5xiAVcCkvYC4mhFFqBEvRfDHevV52mjN6Vt/5JsHGeUiMtC9MmgaZ
+	 N3H8hIh5lzuUe7c1eGxOjFTE3FMHODbDD1OJT0XI50ZN9RtXwIBEmTuP6twefkEib9TmW
+	 L3AdcVcdXCbcQ+DmUYtbze+GpJ1DDYfOymTxLJLPOzKW/VqCJJo+UdxlEUAZsdWTPTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6KG4f6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cIJ4yp6j;
+	arc=none smtp.remote-ip=95.215.58.132
+Received: from mta1.migadu.com (out-132.mta1.migadu.com [95.215.58.132])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717C9606A326;
-	Mon,  2 Nov 2026 08:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF92606A32F
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 08:09:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BF92606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6KG4f6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047321F000C1;
-	Mon,  2 Nov 2026 08:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793606728;
-	bh=s3MVvxzGnSWvttHCkz12dBX/2TzSeRqwx2B+vBpsohA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AR6KG4f6xIXaHUlSombXmoSQ3IvLm0GY8dPAquP6rdFe+3aO/0eJ/SyIZX18LyxEA
-	 oPhCDuI8dM4a1KeoQdYB8PpxAL50hgODsXNIG5Ym19gtekg3Yr3cZWWe+RhYohzB9g
-	 7OSHewDoFxYPaUJUPLsxc4k1knuZiHL55xm0f72hKmfloHJMrwybTLcK45oIprHLyb
-	 my/qQh3w5ZW21XTNdKICi8B6RQtTl8BlwIdkMVE8ZOIT4+sL0ef/Vf0bdxZ1oIwKY2
-	 zSit37Mkx1ls5d6VKOIZJFa0RXAuERrEocaENfN9F1FY0asgN8o3rYYEJpE9dl0xqs
-	 zs4zSuOmYeSHA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xNn2j-00000009iDv-2tka;
-	Mon, 02 Nov 2026 08:05:25 +0000
-Date: Mon, 02 Nov 2026 08:05:25 +0000
-Message-ID: <86ik2f3bga.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Matthias Goergens <matthias.goergens@gmail.com>,
-	Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu
- <yuzenghui@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/process: Add a maintainer entry profile for KVM/arm64
-In-Reply-To: <8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
-References: <20261030083351.3040604-1-matthias.goergens@gmail.com>
-	<8ffc41d7-b032-481c-9643-a87847b8452b@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cIJ4yp6j
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=AJzTmqiEw66QyrrtTwvf2v4Wxl2wkr7mScJNfEWS5L4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793606950; v=1; x=1794211750;
+ b=cIJ4yp6jqlCdvrSUq2VaZy81PExLJQFVCARfpW/sm+mngvSlBxYVEeeBJsCDuDaJws2bR23C
+ +7sDp5b/B8Z4f2yEyJ3EA2ou32jIUeMJQW0Y5GbvxE1qsJjcBMzxlqbaBjLh7e7tqT3NC86CZin
+ w3EFMfDB8l3wFmL1Nu6sDTDg=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 54617e5f3eb6591b;
+	Mon, 02 Nov 2026 08:09:09 +0000
+X-Mizu-Trace-ID: 54617e5f3eb6591b
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,51 +57,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: krzk@kernel.org, matthias.goergens@gmail.com, oupton@kernel.org, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, corbet@lwn.net, skhan@linuxfoundation.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
+Subject: Re: [PATCH 12/15] mm/hugetlb: keep surplus folios that are reserved
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20261028-fixes_hugetlb-v1-12-a0a033db180f@kernel.org>
+Date: Mon, 2 Nov 2026 16:08:46 +0800
+Cc: Oscar Salvador <osalvador@suse.de>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mel Gorman <mgorman@suse.de>,
+ Andy Whitcroft <apw@canonical.com>,
+ Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Rik van Riel <riel@surriel.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Peter Xu <peterx@redhat.com>,
+ Breno Leitao <leitao@debian.org>,
+ Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ linux-s390@vger.kernel.org,
+ Chris Mason <mason@kernel.org>,
+ stable@kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C4D9D9B7-F875-4A05-B3A4-DBD0BD496EA5@linux.dev>
+References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-12-a0a033db180f@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
-On Mon, 02 Nov 2026 07:16:47 +0000,
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> On 30/10/2026 09:33, Matthias Goergens wrote:
-> > +
-> > +If your series depends on something else that is not yet in mainline, such as
-> > +another series under review, say so in the cover letter and name exactly what
-> > +it applies on top of.
-> > +
-> > +Use ``git format-patch --base`` so that the base commit is recorded in the
-> > +patches.
-> 
-> You should rather encourage usage of b4, which does above for you.
 
-No. People use whatever they want to use, and we don't have to be
-prescriptive.
 
->
-> ...
-> 
-> > +
-> > +Security issues
-> > +---------------
-> > +
-> > +Bugs that let a guest attack its host, or a nested guest attack its guest
-> > +hypervisor, should be reported as described in
-> > +Documentation/process/security-bugs.rst.
-> 
-> Do we need to repeat standard stuff in every maintainer profile? Above
-> is quite obvious, so maybe skip it which would make the document shorter
-> increasing the chances anyone will read it.
+> On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
+wrote:
+>=20
+> From: Chris Mason <mason@kernel.org>
+>=20
+> free_huge_folio() may restore a reservation, but still returns the =
+folio
+> to the page allocator if its node has surplus huge pages.
+>=20
+> For example, start with no hugetlb folios and allow one surplus 2 MiB
+> folio:
+>=20
+>  1. Mount hugetlbfs with pagesize=3D2M,min_size=3D2M. This allocates =
+and
+>     reserves one surplus folio: free=3D1, reserved=3D1.
+>  2. Create a 2 MiB file and write to a shared mapping of it. The fault
+>     consumes the folio and its reservation: free=3D0, reserved=3D0.
+>  3. Unmap the file and truncate it to zero. The mount's reservation is
+>     restored, but the surplus folio is freed: free=3D0, reserved=3D1.
+>=20
+> Besides losing a hugetlb folio that is required for a reservation, =
+this
+> can also make available_huge_pages() underflow and cause other issues.
+>=20
+> Keep the folio in the pool if it is needed to cover reservations,
+> including any reservation we just restored.
+>=20
+> Fix generated by an LLM and sent by Chris Mason in private.
+>=20
+> Fixes: 07443a85ad90 ("mm, hugetlb: return a reserved page to a =
+reserved pool if failed")
+> Cc: stable@kernel.org
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: simplify comment and description ]
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-I'm perfectly happy to have this here. Most people will only read the
-one document they need to (if any). And I really doubt that the
-mention of a nested guest escape is that common (as a basic grep would
-have shown you).
+Acked-by: Muchun Song <muchun.song@linux.dev>
 
-	M.
+Thanks.
 
--- 
-Without deviation from the norm, progress is not possible.
