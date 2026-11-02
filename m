@@ -1,72 +1,145 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.251
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793612395;
-	b=vbUL9kcqfFG5VcyoW97eyuDQ9riLbao4GjcHfRWC1tHY+LrQwzoQ6th4fvvSJ76vY11x
-	 tAe9IQGSMuJG5pDcSICsPawSOcwIpBRLUBu3f3NDAWZvM9RPU2IGZmhlQpjndX6Hdd9SN
-	 ixYfs2jZuY1xbMx2YZIMO6yphpZtQn3jqIE36QHEJkuw6/TwGPk1DyPscFP0kjpArjUz+
-	 O4ASkizvdLnn0fMSP0t7RrCgXMPSIf9qmEUEMeSiGgjNrwiXVAaQGLZeg3zvBa+vKsLPo
-	 L7cEt7kBB5pYGnI4L0ezZXHmDQy69Z6S/nspuEG/EmHVeVqKJ3GBeGmyMMKzF6EHcwQ==
+	t=1793612765;
+	b=K/b60OXq3cCOSe4q8/Lkov+logowBLjXtPCTnAEJAeH/Bw75QeRWpLZDiz332szSwoQ5
+	 bL9JWUpdkTLDUa/1JjINkgxKVXeMQsbU7LCT/yyRlkz8caTLRmi9fpymf6/tmUX/IWG6r
+	 ntHygBrOzy1gfac6WGRQTwbIp5T2EVOCyNN0Ne7CQ2vc8RZRDTkLkBo92umAJSJKbyP2o
+	 cOnBBteaoG5q7xqlMTw3ML4EPCOMp3FzifwG75A9oYEG2hH0ez36SK/ND6D1EEEpbyJ+B
+	 KZRlzHVUBuU3JET2RJPJoVTKGx+55LQu7zm8eaJ2DohH9JWOJnCOH5s41TQuz3SjLSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793612395;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=DhqedRR4az/uxbrOAZjla/ffplx4oLVvfwX9vhPDhZc=;
-	b=W3+KSUQyL+ZBvYpvzWhV7N9qkzxdf8xxop7b4FUZgIgxX+yaDAldm5LCSJx3eDqAdygq
-	 TKSfO0COyCJD3X31c3CAfQZms/wNYmFxWbBSyM4GpS4yiv4Qxc39e7y+8hkqJqzxtoZHr
-	 ce6WMt5JKmp0ZL+sTkisfdbuukGxKGvTAeaVxeRfpZJDZcg8akLCZhQ1pOp+mFGmKwCx0
-	 FtvuhNM0K65cLcNNBP4w5fqxS9fZadWQ3TC1osow+2f9YT01gy8P3mM4QtC7gY4nnDQQ8
-	 Hd+nIDQ87PGX3Ttm+nEbC79TVW31Puf93sphgcb0+z+C8J8/tI6d84+o5FYqHRaedRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793612765;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=DGADPf1s/Hceud+YrgbPtgRU1aDRhCryTUpted2/1fo=;
+	b=zC1KuTzoN0yy26BNtoG3EYL9hLRtDy4A9w9y+1PUkK6mpjibwba7rnqjDND3IYx9WyDp
+	 Ffq44XzrdLj/OT9Aki8eZ+sDrM8uBgYDvMM+M5pAkqaJ68O1MFEGYyGLCdfT2BTNHSnIO
+	 Q1jgZANXVBCC/ecGAEftxZojrDJ175XfbNpAt7tNQEnHQxLGxYgbyohqas4ObDuY0ub66
+	 hD5wteUNE53OjCg6cQy9dLugBH83VrSUmG960AuKD6GwMP8U5vLSPZrYkU173dWQ0I/3B
+	 RnNZWfyGslqdLvNFE0I0keC/ygAIJ6AG2sDjIYma8q73NEHcjRY/6DT5LPe1DBpv9cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3bF4bGu;
-	arc=none smtp.remote-ip=95.215.58.251
-Received: from mta1.migadu.com (out-251.mta1.migadu.com [95.215.58.251])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TzVlSzAC;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b="rKnZ/wU3";
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E15606A32E
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 09:39:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8E15606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12905606A324
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 09:46:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12905606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3bF4bGu
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Dbw8940zR/jUhNkJIS8yVdfOTSwknMqwdcPr0t/bPyo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793612391; v=1; x=1794217191;
- b=G3bF4bGu4W9LBDqYe4s4H9hNVR1cDTt/ve6HR6rx05Llf5dGvNIhCFXBILYmT1AYyWh09Gtr
- RQ82GKxDxfDYRkxdIGa5qACVxCgy2PqOVjaSSmZGoCP4hDyOZBrbvrDBXAuB+Dkij5VMMe42PUy
- V/HK/HiDXasr6ZeQe/SqLxmc=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f81ad78c3eac48bc;
-	Mon, 02 Nov 2026 09:39:51 +0000
-X-Mizu-Trace-ID: f81ad78c3eac48bc
-X-Migadu-Flow: FLOW_OUT
-From: Fuad Tabba <fuad.tabba@linux.dev>
-To: Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>
-Cc: Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Vincent Donnefort <vdonnefort@google.com>,
-	Fuad Tabba <tabba@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] KVM: arm64: Add support for self-hosted debug in protected guests
-Date: Mon,  2 Nov 2026 09:39:50 +0000
-Message-ID: <20261102093950.2922035-1-fuad.tabba@linux.dev>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=TzVlSzAC;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=rKnZ/wU3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793612763;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DGADPf1s/Hceud+YrgbPtgRU1aDRhCryTUpted2/1fo=;
+	b=TzVlSzACeapsQeFb9LirF5esTJ42gCmMZ/mO0tT3UjYdQYZRsleQgbC5YfNdrEKwPeOM85
+	4jpvUkqm+BY6+mn+UxZSaJTiGPWPgPBxd4kcUUC8HoDaxf+54YVza6zK+EhIzQ4OhmMpv0
+	ugh4/5zZ0DauTjHsw2AKAU6+LEqZru0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-664-ol3kzO7yMw6FbGxtuwT-ww-1; Mon, 02 Nov 2026 04:46:01 -0500
+X-MC-Unique: ol3kzO7yMw6FbGxtuwT-ww-1
+X-Mimecast-MFC-AGG-ID: ol3kzO7yMw6FbGxtuwT-ww_1793612761
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a1d1f26a63so27066765e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 01:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1793612760; x=1794217560; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DGADPf1s/Hceud+YrgbPtgRU1aDRhCryTUpted2/1fo=;
+        b=rKnZ/wU3hIGbBLbZYuoDzTt8FguYdCfErcuLmGQNwHwv9hIElMhWVOSSLgDm+kLE4s
+         79tWAoA0F6LE2jKPGcirXr2ZsK7GJruia4VYFAiGeu95qSJ6wNZy70RPbc31GpyJPRjd
+         BhJ0pFCe+60ISnUua5KDKcPhrh08TynnwuOhhM18+OsAS7DvA40kVWv3MxvlYpPWAreg
+         Yo3QtTC85EoQyojTifObzyZ7b6BIOSZxN10O/7qwqBwsT40+qfHOD1tEBhKkBpeAQeEc
+         n4TJBQ9SCluqtn0Wg3LXqVEfgAVj/wVuXxyjhPwnp9xrHXqG3sQ0mjbExO8gtmJdFB4H
+         Iw8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793612760; x=1794217560;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=DGADPf1s/Hceud+YrgbPtgRU1aDRhCryTUpted2/1fo=;
+        b=Qu4sFUm7youtn1KQH6jvIEOS40ByK5KBFKRfcHlf3sRo6dK1LG0zfuoX3ChFO0EO5A
+         ijjHJvxjjHLdYHQD/SMRVOuIIjw+iWUCsrA9J92SWeymcbXD/UWVU48j45eEeOsQcLl/
+         4dANuvlkshvFHxwzpwum6ilypkjJ73GD9HaO58A2DMAIAK+lxd1xaSoWGtGeqNgYi1ZV
+         1gohUi/qfDTdza2lKbesK3b8ZgBaColw16iehr5gL0EcUlA0pCZ+jyKy7M8qtgCKgkt0
+         kEs0/klORL8ItGnHPJjZMvTfpBIT+1kK8+nzu5TxXBhVbmJuaykZvt0OdDZSZOfsh8uu
+         CzPw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZN8SroOoyPcDjGhyzR/uhWr8RqK3VyOKNfsiptBQUS2wnSs5sfZH1wUE3Hnos+5P6E9OHWr0v8GY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL+ERsCZ1b4Hv/5+i+39DSKUfgCpfXftpTDmrnjVmnzOMpoFsT1
+	wPOyHfRIlbdqWdnq6xyzd5KMwaX4eqi4Dn8S/pg6iJDRhVxFcp0bhu6lusBfjTI5KAcA87LGmZK
+	Rss+yn0SUKj6zmUmdvozA5SHRUpo57Dbqi56phSWo488gztfSoGjZPdQXyq/ViQ==
+X-Gm-Gg: AYBFou30Sa4xzby6XA0gEloGInEnfV7I9dFL1EX7QOmjAgxqObHsl6RGeYI/z1YhpPO
+	XuSAi93SKJv8VRntEWWXBpw4/+PaVoSuQQAdTdDUq9/ZKKvHU+ALHDIOqZurI3MGbe5arKm0FCz
+	tH1XNUI8I3tWQtxFwLJa8YQyW2/Cv7GDDtnjqC9q7VmpfGgue0dm0M8moYJI7kUrEo2a3aK56e+
+	0TJS/Nz6n4oWNWmh2nLBc2ZjlhHgDSzoPJYokef/7b+IzQ9EdAmcU22KCopTT8/yYNh+DDsb1+g
+	Ou9h/WtA5cOUxwUyjsGLZr3WLNc2wGN9cHuttXXdYhU96GsFWCGiKX4nYDDV07MEOxncv9qJjrf
+	Kte47QIeOnJ8PsM6T67DaRIg0fkD6bHhr5Q3j9HSkCA==
+X-Received: by 2002:a05:600c:3b88:b0:4a1:cf60:dcc3 with SMTP id 5b1f17b1804b1-4ac187a6ffcmr228126975e9.29.1793612760247;
+        Mon, 02 Nov 2026 01:46:00 -0800 (PST)
+X-Received: by 2002:a05:600c:3b88:b0:4a1:cf60:dcc3 with SMTP id 5b1f17b1804b1-4ac187a6ffcmr228126125e9.29.1793612759656;
+        Mon, 02 Nov 2026 01:45:59 -0800 (PST)
+Received: from localhost ([139.47.30.142])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e77409821sm15084520f8f.0.2026.11.02.01.45.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 01:45:58 -0800 (PST)
+Date: Mon, 2 Nov 2026 10:45:57 +0100
+From: Albert Esteve <aesteve@redhat.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
+	Jens Wiklander <jenswi@kernel.org>,
+	Sumit Garg <sumit.garg@kernel.org>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	echanude@redhat.com, mripard@kernel.org
+Subject: Re: [PATCH v3 7/8] dma-buf: transfer memcg charges via
+ DMA_BUF_IOCTL_XFER_CHARGE
+Message-ID: <auhb1W6CRi0vo0Tq@aesteve-thinkpadp1gen8.rmtes.csb>
+References: <20261027-v2_20230123_tjmercier_google_com-v3-0-78d2c4cb8647@redhat.com>
+ <20261027-v2_20230123_tjmercier_google_com-v3-7-78d2c4cb8647@redhat.com>
+ <d76d8bfe-e955-4e90-9f5f-e3e914c0869c@amd.com>
+ <auIeQU0nAnOLdKUB@aesteve-thinkpadp1gen8.rmtes.csb>
+ <9ebce3f2-f7a0-46a9-bad7-39059b99423f@amd.com>
+ <auNzHjhT5xezyZ4I@aesteve-thinkpadp1gen8.rmtes.csb>
+ <08705a7a-86aa-4b43-a22a-e80a572010f2@amd.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,476 +149,410 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <08705a7a-86aa-4b43-a22a-e80a572010f2@amd.com>
 
-pKVM hides DebugVer from protected guests and makes their debug
-registers RAZ/WI or UNDEFINED, so they don't have breakpoints,
-watchpoints or single-step. For a non-protected guest, the host sets the
-owner of the debug registers at vcpu load, from the guest's MDSCR_EL1
-and OS Lock, and EL2 copies the owner and the registers in at each
-entry. However, the host can't see a protected guest's registers.
+On Fri, Oct 30, 2026 at 11:14:50AM +0100, Christian König wrote:
+> On 10/29/26 17:23, Albert Esteve wrote:
+> > On Thu, Oct 29, 2026 at 03:16:12PM +0100, Christian König wrote:
+> >> On 10/28/26 17:09, Albert Esteve wrote:
+> >>> On Wed, Oct 28, 2026 at 10:08:19AM +0100, Christian König wrote:
+> >>>> On 10/27/26 16:02, Albert Esteve wrote:
+> >>>>> dma-heap already supports charging a specific cgroup at allocation
+> >>>>> time via charge_fd in DMA_HEAP_IOCTL_ALLOC. However, dma-bufs can
+> >>>>> originate from any exporter (DRM, V4L2, etc.), and the allocator may
+> >>>>> not know the final owner at allocation time.
+> >>>>>
+> >>>>> Add DMA_BUF_IOCTL_XFER_CHARGE to transfer a dma-buf's memcg charge
+> >>>>> to a different cgroup after allocation. The target is identified by
+> >>>>> charge_fd, which may be a cgroupfd or a pidfd.
+> >>>>>
+> >>>>> The transfer charges the new cgroup before uncharging the old one,
+> >>>>> preserving the original charge on failure. An atomic cmpxchg on
+> >>>>> dmabuf->memcg prevents races with concurrent transfers.
+> >>>>>
+> >>>>> Not all dma-buf exporters back their buffers with reclaimable system
+> >>>>> memory. Some represent device registers, VRAM, or carved-out pools
+> >>>>> where size is not a meaningful memory cost. Add a memcg_account flag
+> >>>>> to dma_buf_export_info that exporters set when their buffers should
+> >>>>> participate in memcg accounting. The xfer ioctl returns -EOPNOTSUPP
+> >>>>> for buffers that do not set the flag. Currently only the system heap
+> >>>>> sets it, other exporters can opt in as needed.
+> >>>>>
+> >>>>> Usage example:
+> >>>>>   int cg_fd = open("/sys/fs/cgroup/clients/app1", O_RDONLY | O_DIRECTORY);
+> >>>>>
+> >>>>>   struct dma_buf_transfer_charge xfer = {
+> >>>>>       .charge_fd = cg_fd,
+> >>>>>   };
+> >>>>>   ioctl(dmabuf_fd, DMA_BUF_IOCTL_XFER_CHARGE, &xfer);
+> >>>>>   /* charge now on app1's cgroup */
+> >>>>>   close(cg_fd);
+> >>>>>
+> >>>>> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> >>>>> ---
+> >>>>>  drivers/dma-buf/dma-buf.c           | 43 +++++++++++++++++++++++++++++++++++++
+> >>>>>  drivers/dma-buf/heaps/system_heap.c |  1 +
+> >>>>>  include/linux/dma-buf.h             |  5 +++++
+> >>>>>  include/linux/memcontrol.h          |  9 ++++++++
+> >>>>>  include/uapi/linux/dma-buf.h        | 26 ++++++++++++++++++++++
+> >>>>>  mm/memcontrol.c                     | 41 +++++++++++++++++++++++++++++++++++
+> >>>>>  6 files changed, 125 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >>>>> index f31f49ebd0af..07513ecedc10 100644
+> >>>>> --- a/drivers/dma-buf/dma-buf.c
+> >>>>> +++ b/drivers/dma-buf/dma-buf.c
+> >>>>> @@ -540,6 +540,45 @@ static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
+> >>>>>  }
+> >>>>>  #endif
+> >>>>>  
+> >>>>> +/* Transfer a dma-buf's memcg charge; see struct dma_buf_transfer_charge */
+> >>>>> +static long dma_buf_xfer_charge(struct dma_buf *dmabuf,
+> >>>>> +				const void __user *user_data)
+> >>>>> +{
+> >>>>> +	struct dma_buf_transfer_charge arg;
+> >>>>> +	struct mem_cgroup *memcg;
+> >>>>> +	int ret = 0;
+> >>>>> +
+> >>>>> +	if (copy_from_user(&arg, user_data, sizeof(arg)))
+> >>>>> +		return -EFAULT;
+> >>>>> +
+> >>>>> +	if (!IS_ENABLED(CONFIG_MEMCG))
+> >>>>> +		return 0;
+> >>>>> +
+> >>>>> +	if (arg.flags != 0)
+> >>>>> +		return -EINVAL;
+> >>>>> +
+> >>>>> +	if (!dmabuf->memcg_account)
+> >>>>> +		return -EOPNOTSUPP;
+> >>>>> +
+> >>>>> +	memcg = mem_cgroup_get_from_fd(arg.charge_fd);
+> >>>>> +	if (IS_ERR(memcg))
+> >>>>> +		return PTR_ERR(memcg);
+> >>>>> +
+> >>>>> +	if (dmabuf->memcg == memcg)
+> >>>>> +		goto skip_transfer;
+> >>>>> +
+> >>>>> +	if (!mem_cgroup_transfer_dmabuf_charge(dmabuf, memcg)) {
+> >>>>> +		ret = -ENOMEM;
+> >>>>> +		goto skip_transfer;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +
+> >>>>> +skip_transfer:
+> >>>>> +	mem_cgroup_put(memcg);
+> >>>>> +	return ret;
+> >>>>> +}
+> >>>>> +
+> >>>>>  static long dma_buf_ioctl(struct file *file,
+> >>>>>  			  unsigned int cmd, unsigned long arg)
+> >>>>>  {
+> >>>>> @@ -590,6 +629,9 @@ static long dma_buf_ioctl(struct file *file,
+> >>>>>  		return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
+> >>>>>  #endif
+> >>>>>  
+> >>>>> +	case DMA_BUF_IOCTL_XFER_CHARGE:
+> >>>>> +		return dma_buf_xfer_charge(dmabuf, (const void __user *)arg);
+> >>>>> +
+> >>>>>  	default:
+> >>>>>  		return -ENOTTY;
+> >>>>>  	}
+> >>>>> @@ -750,6 +792,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+> >>>>>  	dmabuf->size = exp_info->size;
+> >>>>>  	dmabuf->exp_name = exp_info->exp_name;
+> >>>>>  	dmabuf->owner = exp_info->owner;
+> >>>>> +	dmabuf->memcg_account = exp_info->memcg_account;
+> >>>>
+> >>>> The initial charging should probably be done here as well.
+> >>>>
+> >>>> This way DMA-buf heaps only needs to pass in the charge_fd and we can re-use the functionality for other DMA-buf exporters as well.
+> >>>
+> >>> The problem with doing the charge here is that it happens too late.
+> >>> That is the reasoning for this proposal to move all the charging logic
+> >>> into heap allocators before pages are allocated.
+> >>
+> >> Oh, that is a really good point we need to talk about.
+> >>
+> >> DMA-buf heaps is actually a rather simple use case, but we have way more complex things.
+> >>
+> >> For example in some use cases the backing store of a DMA-buf is only allocated on first use and only then it needs to be comitted to it's memcg or dmem.
+> > 
+> > Yes. The idea is focus on heaps for now. But the uAPI is actually
+> > agnostic of the time when the charge happens. When we deal with
+> > lazy-allocation in the future we can just call the reserve/cancel
+> > helpers wherever is more appropiate. As long as the pages are not
+> > allocated, exporters do not set dmabuf->memcg, and XFER does not
+> > work (returns -EOPNOTSUPP).
+> 
+> Yeah exactly that's the reason why I'm raising this topic. That approach won't work in all cases.
+> 
+> See userspace is not aware that the kernel is delaying allocation or that the kernel is allocating the backing store asynchroniously in a background worker for example.
+> 
+> So returning -EOPNOTSUPP when the backing store is not allocated yet and might be allocated later on is rather questionable uAPI because that is racy by design.
 
-Set the owner at EL2 for a protected vCPU instead, by the rules the host
-uses for a non-protected guest, but keep MDCR_EL2.TDA set when the guest
-is the owner. A trap handler returns to the guest without going back
-through the world switch, so a handler that changes the owner switches
-the debug registers itself. The PSCI CPU_ON reset runs after the vcpu
-load, so it sets the owner again.
+Ah! I see what you meant now.
 
-Advertise DebugVer, capped at V8P8 as for a non-protected guest, and the
-breakpoint, watchpoint and context-aware breakpoint counts. The other
-debug registers that took an UNDEF behave as they do for a non-protected
-guest that doesn't own its debug registers.
+> >>
+> >> I don't mind implementing it for DMA-buf heaps first, but we should have the uAPI and it's handling so solid that it also works for future use cases.
+> > 
+> > Agreed. I think we should cover all usecases with the current status.
+> > Your feedback helped a lot in getting there!
+> 
+> I mean we can postpone that until we finally need it, but essentially we need to be able to distinct between charging, e.g. making sure the cgroup has enough free limit, and committing, e.g. allowing the resource to be reclaimed.
+> 
+> And then it is possible that when the memcg of a DMA-buf changes that only the charging changes, but there isn't any comitted backing store yet...
 
-Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
----
+Right. That would need adding a specific flag for committed pages or
+a similar solution. When transfering an uncommited dmabuf only the
+charge moves (limit reservation and dmabuf->memcg), the stat is
+untouched. Once the backing store exists, the exporter commits, it
+sets the flag and bumps MEMCG_DMABUF stat. For memory where its
+backing store can go away (e.g., dynamic dma-buf sharing), it can
+have a mirror function that drops the stat but keeps the charge.
+That would resolve the -EOPNOTSUPP thingy, as transfer succeeds
+when dmabuf->memcg is set even for uncommitted pages.
 
-Notes:
-    Commit 3a81a814437d ("KVM: arm64: Expose self-hosted debug regs as
-    RAZ/WI for protected guests") made these registers RAZ/WI and left
-    debug support for later.
-    
-    Tested by running the breakpoint_test_arm64 kselftest in a protected
-    guest under kvmtool. It passes on hVHE and nVHE hosts under QEMU,
-    and on hVHE again after offlining and onlining the guest CPU it runs
-    on. That test has no single-step case, so I checked single-step with
-    the pkvm_exceptions test from my pKVM selftests series, coming soon.
-    
-    Based on Linux 7.4-rc1 (6628e7d4c6b25).
+My question would be if all exporters know when memory is committed.
+For those that only get, e.g., a firmware handle and cannot observe
+the allocation, I guess the buffer can just remain reserved without
+even being committed. Or in case of protected memory like OP-TEE
+they would not even opt-in to begin with.
 
- Documentation/virt/kvm/arm/pkvm.rst    |   7 +-
- arch/arm64/include/asm/kvm_hyp.h       |   1 +
- arch/arm64/kvm/arm.c                   |   1 +
- arch/arm64/kvm/hyp/include/nvhe/pkvm.h |   1 +
- arch/arm64/kvm/hyp/nvhe/hyp-main.c     |   2 +
- arch/arm64/kvm/hyp/nvhe/pkvm.c         |   8 +-
- arch/arm64/kvm/hyp/nvhe/sys_regs.c     | 253 +++++++++++++++++++++++--
- 7 files changed, 248 insertions(+), 25 deletions(-)
+I do not mind adding that for next version, or leaving it for when
+lazy exporters actually opt-in. It is not a big change either way.
+Although, it may look weird while the system heap is the only user
+and commits right away. But either way I can try to document the
+flag / explain this discussion in the commit.
 
-diff --git a/Documentation/virt/kvm/arm/pkvm.rst b/Documentation/virt/kvm/arm/pkvm.rst
-index b75bb8ad6f26d..b8c8c94cba534 100644
---- a/Documentation/virt/kvm/arm/pkvm.rst
-+++ b/Documentation/virt/kvm/arm/pkvm.rst
-@@ -241,10 +241,9 @@ Other interface differences
- Debug
- -----
- 
--Hardware-assisted debugging is not available to protected guests.
--``MDSCR_EL1``, ``OSLAR_EL1``, ``OSLSR_EL1``, ``OSDLR_EL1``, and breakpoint
--and watchpoint 0 are RAZ/WI; any other debug register access takes an
--undefined instruction exception.
-+A protected guest can use self-hosted debug (breakpoints, watchpoints and
-+single-step) as a non-protected guest can. ``KVM_SET_GUEST_DEBUG`` returns
-+``-EPERM`` for a protected VM.
- 
- Resources
- =========
-diff --git a/arch/arm64/include/asm/kvm_hyp.h b/arch/arm64/include/asm/kvm_hyp.h
-index b0e42be3d9eef..9a785a341090e 100644
---- a/arch/arm64/include/asm/kvm_hyp.h
-+++ b/arch/arm64/include/asm/kvm_hyp.h
-@@ -151,6 +151,7 @@ extern u64 kvm_nvhe_sym(id_aa64mmfr0_el1_sys_val);
- extern u64 kvm_nvhe_sym(id_aa64mmfr1_el1_sys_val);
- extern u64 kvm_nvhe_sym(id_aa64mmfr2_el1_sys_val);
- extern u64 kvm_nvhe_sym(id_aa64smfr0_el1_sys_val);
-+extern u64 kvm_nvhe_sym(id_aa64dfr0_el1_sys_val);
- 
- extern unsigned long kvm_nvhe_sym(__icache_flags);
- extern unsigned int kvm_nvhe_sym(kvm_arm_vmid_bits);
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index 157bf4b812020..ec90a580e82a4 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -2834,6 +2834,7 @@ static void kvm_hyp_init_symbols(void)
- 	kvm_nvhe_sym(id_aa64mmfr1_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR1_EL1);
- 	kvm_nvhe_sym(id_aa64mmfr2_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64MMFR2_EL1);
- 	kvm_nvhe_sym(id_aa64smfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64SMFR0_EL1);
-+	kvm_nvhe_sym(id_aa64dfr0_el1_sys_val) = read_sanitised_ftr_reg(SYS_ID_AA64DFR0_EL1);
- 	kvm_nvhe_sym(__icache_flags) = __icache_flags;
- 	kvm_nvhe_sym(kvm_arm_vmid_bits) = kvm_arm_vmid_bits;
- 
-diff --git a/arch/arm64/kvm/hyp/include/nvhe/pkvm.h b/arch/arm64/kvm/hyp/include/nvhe/pkvm.h
-index 0261b2bc681f7..993d54ce44408 100644
---- a/arch/arm64/kvm/hyp/include/nvhe/pkvm.h
-+++ b/arch/arm64/kvm/hyp/include/nvhe/pkvm.h
-@@ -130,6 +130,7 @@ void put_pkvm_hyp_vm(struct pkvm_hyp_vm *hyp_vm);
- bool kvm_handle_pvm_hvc64(struct kvm_vcpu *vcpu, u64 *exit_code);
- bool kvm_handle_pvm_sysreg(struct kvm_vcpu *vcpu, u64 *exit_code);
- bool kvm_handle_pvm_restricted(struct kvm_vcpu *vcpu, u64 *exit_code);
-+void kvm_load_pvm_debug(struct kvm_vcpu *vcpu);
- void kvm_init_pvm_id_regs(struct kvm_vcpu *vcpu);
- void kvm_reset_pvm_sys_regs(struct kvm_vcpu *vcpu);
- int kvm_check_pvm_sysreg_table(void);
-diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-index 179d7c8277b88..9958ca6d7b0a2 100644
---- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-+++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-@@ -837,6 +837,8 @@ DEFINE_KVM_HOST_HCALL(void, __pkvm_vcpu_load,
- 		hyp_vcpu->vcpu.arch.hcr_el2 &= ~(HCR_EL2_TWE | HCR_EL2_TWI);
- 		hyp_vcpu->vcpu.arch.hcr_el2 |= hcr_el2 & (HCR_EL2_TWE | HCR_EL2_TWI);
- 
-+		kvm_load_pvm_debug(&hyp_vcpu->vcpu);
-+
- 		/* HPMN == 0 is reserved without FEAT_HPMN0. */
- 		if (pmuv3_implemented(SYS_FIELD_GET(ID_AA64DFR0_EL1, PMUVer, dfr0)))
- 			u64p_replace_bits(&hyp_vcpu->vcpu.arch.mdcr_el2,
-diff --git a/arch/arm64/kvm/hyp/nvhe/pkvm.c b/arch/arm64/kvm/hyp/nvhe/pkvm.c
-index fc0475f0877d1..1d484da274c0e 100644
---- a/arch/arm64/kvm/hyp/nvhe/pkvm.c
-+++ b/arch/arm64/kvm/hyp/nvhe/pkvm.c
-@@ -123,8 +123,11 @@ static void pvm_init_traps_mdcr(struct kvm_vcpu *vcpu)
- 		val &= ~(MDCR_EL2_HPME | MDCR_EL2_MTPME);
- 	}
- 
--	if (!kvm_has_feat(kvm, ID_AA64DFR0_EL1, DebugVer, IMP))
--		val |= MDCR_EL2_TDRA | MDCR_EL2_TDA;
-+	/*
-+	 * Keep TDA set even when the guest owns debug: it also traps the DCC
-+	 * and the claim tags, which the world switch doesn't switch.
-+	 */
-+	val |= MDCR_EL2_TDRA | MDCR_EL2_TDA;
- 
- 	if (!kvm_has_feat(kvm, ID_AA64DFR0_EL1, DoubleLock, IMP))
- 		val |= MDCR_EL2_TDOSA;
-@@ -1245,6 +1248,7 @@ int pkvm_reset_vcpu(struct pkvm_hyp_vcpu *hyp_vcpu)
- 
- 	kvm_reset_vcpu_core(&hyp_vcpu->vcpu);
- 	kvm_reset_pvm_sys_regs(&hyp_vcpu->vcpu);
-+	kvm_load_pvm_debug(&hyp_vcpu->vcpu);
- 
- 	/* Must be done after resetting sys registers. */
- 	kvm_reset_vcpu_psci(&hyp_vcpu->vcpu, reset_state);
-diff --git a/arch/arm64/kvm/hyp/nvhe/sys_regs.c b/arch/arm64/kvm/hyp/nvhe/sys_regs.c
-index 32e82653ebf7e..e7148254ec5b8 100644
---- a/arch/arm64/kvm/hyp/nvhe/sys_regs.c
-+++ b/arch/arm64/kvm/hyp/nvhe/sys_regs.c
-@@ -10,6 +10,8 @@
- #include <asm/kvm_mmu.h>
- 
- #include <hyp/adjust_pc.h>
-+#include <hyp/debug-sr.h>
-+#include <hyp/sysreg-sr.h>
- 
- #include <nvhe/pkvm.h>
- 
-@@ -28,6 +30,7 @@ u64 id_aa64mmfr0_el1_sys_val;
- u64 id_aa64mmfr1_el1_sys_val;
- u64 id_aa64mmfr2_el1_sys_val;
- u64 id_aa64smfr0_el1_sys_val;
-+u64 id_aa64dfr0_el1_sys_val;
- 
- struct pvm_ftr_bits {
- 	bool		sign;
-@@ -55,6 +58,13 @@ struct pvm_ftr_bits {
- #define MAX_FEAT_ENUM(id, fld, max)						\
- 	__MAX_FEAT_FUNC(id, fld, max, NULL, false)
- 
-+#define MAX_FEAT_PASSTHRU(id, fld)						\
-+	{									\
-+		.shift = id##_##fld##_SHIFT,					\
-+		.width = id##_##fld##_WIDTH,					\
-+		.max_val = GENMASK(id##_##fld##_WIDTH - 1, 0),			\
-+	}
-+
- #define FEAT_END {	.width = 0,	}
- 
- static bool vm_has_ptrauth(const struct kvm *kvm)
-@@ -175,17 +185,18 @@ static const struct pvm_ftr_bits pvmid_aa64isar2[] = {
- 	FEAT_END
- };
- 
--/*
-- * None of the features in ID_AA64DFR0_EL1 nor ID_AA64MMFR4_EL1 are supported.
-- * However, both have Not-Implemented values that are non-zero. Define them
-- * so they can be used when getting the value of these registers.
-- */
--#define ID_AA64DFR0_EL1_NONZERO_NI					\
--(									\
--	SYS_FIELD_PREP_ENUM(ID_AA64DFR0_EL1, DoubleLock, NI)	|	\
--	SYS_FIELD_PREP_ENUM(ID_AA64DFR0_EL1, MTPMU, NI)			\
--)
-+/* DoubleLock and MTPMU are hidden, but their Not-Implemented values are non-zero. */
-+static const struct pvm_ftr_bits pvmid_aa64dfr0[] = {
-+	MAX_FEAT(ID_AA64DFR0_EL1, DebugVer, V8P8),
-+	MAX_FEAT_PASSTHRU(ID_AA64DFR0_EL1, BRPs),
-+	MAX_FEAT_PASSTHRU(ID_AA64DFR0_EL1, WRPs),
-+	MAX_FEAT_PASSTHRU(ID_AA64DFR0_EL1, CTX_CMPs),
-+	MAX_FEAT(ID_AA64DFR0_EL1, DoubleLock, NI),
-+	MAX_FEAT(ID_AA64DFR0_EL1, MTPMU, NI),
-+	FEAT_END
-+};
- 
-+/* ID_AA64MMFR4_EL1 is hidden, but its Not-Implemented value is non-zero. */
- #define ID_AA64MMFR4_EL1_NONZERO_NI					\
- 	SYS_FIELD_PREP_ENUM(ID_AA64MMFR4_EL1, E2H0, NI)
- 
-@@ -245,7 +256,7 @@ static u64 pvm_calc_id_reg(const struct kvm_vcpu *vcpu, u32 id)
- 	case SYS_ID_AA64MMFR2_EL1:
- 		return get_restricted_features(vcpu, id_aa64mmfr2_el1_sys_val, pvmid_aa64mmfr2);
- 	case SYS_ID_AA64DFR0_EL1:
--		return ID_AA64DFR0_EL1_NONZERO_NI;
-+		return get_restricted_features(vcpu, id_aa64dfr0_el1_sys_val, pvmid_aa64dfr0);
- 	case SYS_ID_AA64MMFR4_EL1:
- 		return ID_AA64MMFR4_EL1_NONZERO_NI;
- 	default:
-@@ -372,6 +383,179 @@ static bool pvm_idst_access(struct kvm_vcpu *vcpu,
- 	return false;
- }
- 
-+static void pvm_set_external_mdscr(struct kvm_vcpu *vcpu, u64 mdscr)
-+{
-+	vcpu->arch.external_mdscr_el1 = mdscr & ~(MDSCR_EL1_SS | MDSCR_EL1_MDE | MDSCR_EL1_KDE);
-+}
-+
-+/* KVM_SET_GUEST_DEBUG fails for a protected vCPU, so only the OS Lock makes it HOST_OWNED. */
-+static int pvm_debug_owner(struct kvm_vcpu *vcpu, u64 mdscr)
-+{
-+	if (kvm_vcpu_os_lock_enabled(vcpu))
-+		return VCPU_DEBUG_HOST_OWNED;
-+
-+	if (mdscr & (MDSCR_EL1_KDE | MDSCR_EL1_MDE))
-+		return VCPU_DEBUG_GUEST_OWNED;
-+
-+	return VCPU_DEBUG_FREE;
-+}
-+
-+/* Trap handlers run after entry has loaded the debug state. */
-+static void pvm_debug_switch_owner(struct kvm_vcpu *vcpu, int new)
-+{
-+	*ctxt_mdscr_el1(&vcpu->arch.ctxt) = read_sysreg(mdscr_el1);
-+
-+	__debug_switch_to_host_common(vcpu);
-+	vcpu->arch.debug_owner = new;
-+	__debug_switch_to_guest_common(vcpu);
-+
-+	write_sysreg(*ctxt_mdscr_el1(&vcpu->arch.ctxt), mdscr_el1);
-+}
-+
-+static void pvm_debug_set_guest_ownership(struct kvm_vcpu *vcpu)
-+{
-+	if (kvm_debug_regs_in_use(vcpu))
-+		return;
-+
-+	pvm_debug_switch_owner(vcpu, VCPU_DEBUG_GUEST_OWNED);
-+}
-+
-+/* Runs before the world switch, which loads the debug state that debug_owner selects. */
-+void kvm_load_pvm_debug(struct kvm_vcpu *vcpu)
-+{
-+	u64 mdscr = __vcpu_sys_reg(vcpu, MDSCR_EL1);
-+
-+	vcpu->arch.debug_owner = pvm_debug_owner(vcpu, mdscr);
-+
-+	if (kvm_host_owns_debug_regs(vcpu))
-+		pvm_set_external_mdscr(vcpu, mdscr);
-+}
-+
-+static bool pvm_trap_dbg_wb_reg(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+				const struct sys_reg_desc *r)
-+{
-+	struct kvm_guest_debug_arch *dbg = &vcpu->arch.vcpu_debug_state;
-+	u64 *reg;
-+
-+	switch (r->Op2) {
-+	case 0b100:
-+		reg = &dbg->dbg_bvr[r->CRm];
-+		break;
-+	case 0b101:
-+		reg = &dbg->dbg_bcr[r->CRm];
-+		break;
-+	case 0b110:
-+		reg = &dbg->dbg_wvr[r->CRm];
-+		break;
-+	default:
-+		reg = &dbg->dbg_wcr[r->CRm];
-+	}
-+
-+	if (p->is_write)
-+		*reg = p->regval;
-+	else
-+		p->regval = *reg;
-+
-+	/* Guest-owned registers are live: __debug_switch_to_host() overwrites memory with them. */
-+	if (p->is_write && kvm_guest_owns_debug_regs(vcpu))
-+		__debug_restore_state(dbg, &vcpu->arch.ctxt);
-+
-+	pvm_debug_set_guest_ownership(vcpu);
-+	return true;
-+}
-+
-+/* Outside HOST_OWNED, use the live register: __sysreg_save_state_nvhe() overwrites memory. */
-+static u64 pvm_read_mdscr(struct kvm_vcpu *vcpu)
-+{
-+	if (kvm_host_owns_debug_regs(vcpu))
-+		return __vcpu_sys_reg(vcpu, MDSCR_EL1);
-+
-+	return read_sysreg(mdscr_el1);
-+}
-+
-+static bool pvm_trap_mdscr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+			   const struct sys_reg_desc *r)
-+{
-+	if (!p->is_write) {
-+		p->regval = pvm_read_mdscr(vcpu);
-+	} else if (kvm_host_owns_debug_regs(vcpu)) {
-+		__vcpu_assign_sys_reg(vcpu, MDSCR_EL1, p->regval);
-+		pvm_set_external_mdscr(vcpu, p->regval);
-+		write_sysreg(vcpu->arch.external_mdscr_el1, mdscr_el1);
-+	} else {
-+		write_sysreg(p->regval, mdscr_el1);
-+	}
-+
-+	pvm_debug_set_guest_ownership(vcpu);
-+	return true;
-+}
-+
-+/* __debug_restore_state() loads MDCCINT_EL1 from memory, so keep memory current. */
-+static bool pvm_trap_mdccint(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+			     const struct sys_reg_desc *r)
-+{
-+	if (p->is_write) {
-+		__vcpu_assign_sys_reg(vcpu, MDCCINT_EL1, p->regval);
-+		if (kvm_debug_regs_in_use(vcpu))
-+			write_sysreg(p->regval, mdccint_el1);
-+	} else {
-+		p->regval = __vcpu_sys_reg(vcpu, MDCCINT_EL1);
-+	}
-+
-+	pvm_debug_set_guest_ownership(vcpu);
-+	return true;
-+}
-+
-+static bool pvm_trap_oslar(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+			   const struct sys_reg_desc *r)
-+{
-+	int new_owner;
-+	u64 mdscr;
-+
-+	if (!p->is_write) {
-+		inject_undef64(vcpu);
-+		return false;
-+	}
-+
-+	mdscr = pvm_read_mdscr(vcpu);
-+
-+	if (p->regval & OSLAR_EL1_OSLK)
-+		__vcpu_rmw_sys_reg(vcpu, OSLSR_EL1, |=, OSLSR_EL1_OSLK);
-+	else
-+		__vcpu_rmw_sys_reg(vcpu, OSLSR_EL1, &=, ~OSLSR_EL1_OSLK);
-+
-+	new_owner = pvm_debug_owner(vcpu, mdscr);
-+	if (new_owner == VCPU_DEBUG_HOST_OWNED)
-+		pvm_set_external_mdscr(vcpu, mdscr);
-+
-+	if (new_owner != vcpu->arch.debug_owner)
-+		pvm_debug_switch_owner(vcpu, new_owner);
-+
-+	return true;
-+}
-+
-+static bool pvm_trap_oslsr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+			   const struct sys_reg_desc *r)
-+{
-+	if (p->is_write) {
-+		inject_undef64(vcpu);
-+		return false;
-+	}
-+
-+	p->regval = __vcpu_sys_reg(vcpu, OSLSR_EL1);
-+	return true;
-+}
-+
-+/* As the host's trap_dbgauthstatus_el1(). */
-+static bool pvm_trap_dbgauthstatus(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
-+				   const struct sys_reg_desc *r)
-+{
-+	if (!p->is_write)
-+		p->regval = read_sysreg(dbgauthstatus_el1);
-+
-+	return true;
-+}
-+
- /* Mark the specified system register as an AArch32 feature id register. */
- #define AARCH32(REG) { SYS_DESC(REG), .access = pvm_access_id_aarch32 }
- 
-@@ -391,6 +575,12 @@ static bool pvm_idst_access(struct kvm_vcpu *vcpu,
- /* Mark the specified system register as Read-As-Zero/Write-Ignored */
- #define RAZ_WI(REG) { SYS_DESC(REG), .access = pvm_access_raz_wi }
- 
-+#define DBG_WB(n)							\
-+	{ SYS_DESC(SYS_DBGBVRn_EL1(n)), .access = pvm_trap_dbg_wb_reg },	\
-+	{ SYS_DESC(SYS_DBGBCRn_EL1(n)), .access = pvm_trap_dbg_wb_reg },	\
-+	{ SYS_DESC(SYS_DBGWVRn_EL1(n)), .access = pvm_trap_dbg_wb_reg },	\
-+	{ SYS_DESC(SYS_DBGWCRn_EL1(n)), .access = pvm_trap_dbg_wb_reg }
-+
- /* Mark the specified system register as not being handled in hyp. */
- #define HOST_HANDLED(REG) { SYS_DESC(REG), .access = NULL }
- 
-@@ -404,15 +594,36 @@ static bool pvm_idst_access(struct kvm_vcpu *vcpu,
- static const struct sys_reg_desc pvm_sys_reg_descs[] = {
- 	/* Cache maintenance by set/way operations are restricted. */
- 
--	/* Debug and Trace Registers are restricted. */
--	RAZ_WI(SYS_DBGBVRn_EL1(0)),
--	RAZ_WI(SYS_DBGBCRn_EL1(0)),
--	RAZ_WI(SYS_DBGWVRn_EL1(0)),
--	RAZ_WI(SYS_DBGWCRn_EL1(0)),
--	RAZ_WI(SYS_MDSCR_EL1),
--	RAZ_WI(SYS_OSLAR_EL1),
--	RAZ_WI(SYS_OSLSR_EL1),
-+	/* Debug registers */
-+	DBG_WB(0),
-+	DBG_WB(1),
-+	{ SYS_DESC(SYS_MDCCINT_EL1), .access = pvm_trap_mdccint },
-+	{ SYS_DESC(SYS_MDSCR_EL1), .access = pvm_trap_mdscr },
-+	DBG_WB(2),
-+	DBG_WB(3),
-+	DBG_WB(4),
-+	DBG_WB(5),
-+	DBG_WB(6),
-+	DBG_WB(7),
-+	DBG_WB(8),
-+	DBG_WB(9),
-+	DBG_WB(10),
-+	DBG_WB(11),
-+	DBG_WB(12),
-+	DBG_WB(13),
-+	DBG_WB(14),
-+	DBG_WB(15),
-+	RAZ_WI(SYS_MDRAR_EL1),
-+	{ SYS_DESC(SYS_OSLAR_EL1), .access = pvm_trap_oslar },
-+	{ SYS_DESC(SYS_OSLSR_EL1), .access = pvm_trap_oslsr },
- 	RAZ_WI(SYS_OSDLR_EL1),
-+	RAZ_WI(SYS_DBGPRCR_EL1),
-+	RAZ_WI(SYS_DBGCLAIMSET_EL1),
-+	RAZ_WI(SYS_DBGCLAIMCLR_EL1),
-+	{ SYS_DESC(SYS_DBGAUTHSTATUS_EL1), .access = pvm_trap_dbgauthstatus },
-+	RAZ_WI(SYS_MDCCSR_EL0),
-+	RAZ_WI(SYS_DBGDTR_EL0),
-+	RAZ_WI(SYS_DBGDTRTX_EL0),
- 
- 	/* Group 1 ID registers */
- 	HOST_HANDLED(SYS_REVIDR_EL1),
-@@ -559,6 +770,8 @@ static const struct sys_reg_desc_reset pvm_sys_reg_reset_vals[] = {
- 	RESET_UNKNOWN(TPIDR_EL1),
- 	RESET_ZERO(CNTKCTL_EL1),
- 	RESET_UNKNOWN(PAR_EL1),
-+	RESET_ZERO(MDCCINT_EL1),
-+	RESET_VAL(OSLSR_EL1, OSLSR_EL1_OSLM_IMPLEMENTED),
- 	RESET_ZERO(DISR_EL1),
- 	RESET_ZERO(CPACR_EL1),
- 	RESET_VAL(CONTEXTIDR_EL1, 0x00000000dbadc0deULL),
-@@ -586,6 +799,8 @@ void kvm_reset_pvm_sys_regs(struct kvm_vcpu *vcpu)
- 
- 		r->reset(vcpu, r);
- 	}
-+
-+	memset(&vcpu->arch.vcpu_debug_state, 0, sizeof(vcpu->arch.vcpu_debug_state));
- }
- 
- /*
+> 
+> >>> What we could do is fill the dmabuf->memcg field when the flag is set
+> >>> (i.e., committing into the dmabuf in the patch semantics). But for that
+> >>> we'd need adding the memcg we want to charge it to into exp_info in
+> >>> order to support charging to cgroups other than the allocator's (for
+> >>> the common case would be simpler as we can just look at current).
+> >>> Maybe that's what you meant?
+> >>
+> >> At least for the DMA-buf heaps use case that sounds reasonable for now.
+> > 
+> > Thanks! Next version will have the flag removed and just use
+> > dmabuf->memcg as indicator, set within dma_buf_export().
+> > Also, `nr_pages` will be computed within dma_buf_export(), the
+> > contract being that exporters setting exp_info.memcg assert that
+> > size reflects actual system memory bytes.
+> 
+> Thinking more about it I would also put changing dmabuf->memcg under the dmabuf->resv lock instead of doing it with cmpxchg.
+> 
+> We don't need it currently, but the dmabuf->resv lock is used for all state changes of the DMA-buf object and this operation is not performance critical in any way possible.
+> 
+> If there is a problem with locking order we at least get lockdep screaming at us very early and not when we want to extend the functionality in the future.
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.47.3
+Sure, will do.
+
+BR,
+Albert.
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>>>
+> >>>>>  	spin_lock_init(&dmabuf->name_lock);
+> >>>>>  	init_waitqueue_head(&dmabuf->poll);
+> >>>>>  	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
+> >>>>> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> >>>>> index adeea8cd328b..a764167167ba 100644
+> >>>>> --- a/drivers/dma-buf/heaps/system_heap.c
+> >>>>> +++ b/drivers/dma-buf/heaps/system_heap.c
+> >>>>> @@ -479,6 +479,7 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+> >>>>>  	exp_info.size = buffer->len;
+> >>>>>  	exp_info.flags = fd_flags;
+> >>>>>  	exp_info.priv = buffer;
+> >>>>> +	exp_info.memcg_account = true;
+> >>>>>  	dmabuf = dma_buf_export(&exp_info);
+> >>>>>  	if (IS_ERR(dmabuf)) {
+> >>>>>  		ret = PTR_ERR(dmabuf);
+> >>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> >>>>> index 23ec0ff23fba..ac0ec88cab93 100644
+> >>>>> --- a/include/linux/dma-buf.h
+> >>>>> +++ b/include/linux/dma-buf.h
+> >>>>> @@ -433,6 +433,9 @@ struct dma_buf {
+> >>>>>  
+> >>>>>  	/** @memcg: the cgroup to which this buffer is currently attributed */
+> >>>>>  	struct mem_cgroup *memcg;
+> >>>>> +
+> >>>>> +	/** @memcg_account: account buffer memory to cgroup */
+> >>>>> +	bool memcg_account;
+> >>>>>  };
+> >>>>>  
+> >>>>>  /**
+> >>>>> @@ -505,6 +508,7 @@ struct dma_buf_attachment {
+> >>>>>   * @flags:	mode flags for the file
+> >>>>>   * @resv:	reservation-object, NULL to allocate default one
+> >>>>>   * @priv:	Attach private data of allocator to this buffer
+> >>>>> + * @memcg_account:	account buffer memory to cgroup
+> >>>>>   *
+> >>>>>   * This structure holds the information required to export the buffer. Used
+> >>>>>   * with dma_buf_export() only.
+> >>>>> @@ -517,6 +521,7 @@ struct dma_buf_export_info {
+> >>>>>  	int flags;
+> >>>>>  	struct dma_resv *resv;
+> >>>>>  	void *priv;
+> >>>>> +	bool memcg_account;
+> >>>>>  };
+> >>>>>  
+> >>>>>  /**
+> >>>>> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> >>>>> index 6b30baa79fa9..36fddafbef4e 100644
+> >>>>> --- a/include/linux/memcontrol.h
+> >>>>> +++ b/include/linux/memcontrol.h
+> >>>>> @@ -679,6 +679,9 @@ bool mem_cgroup_reserve_dmabuf(struct mem_cgroup *memcg, gfp_t gfp,
+> >>>>>  void mem_cgroup_commit_dmabuf(struct dma_buf *dmabuf, struct mem_cgroup *memcg,
+> >>>>>  			      unsigned int nr_pages);
+> >>>>>  
+> >>>>> +bool mem_cgroup_transfer_dmabuf_charge(struct dma_buf *dmabuf,
+> >>>>> +				       struct mem_cgroup *new_memcg);
+> >>>>> +
+> >>>>>  void __mem_cgroup_uncharge(struct folio *folio);
+> >>>>>  
+> >>>>>  /**
+> >>>>> @@ -1206,6 +1209,12 @@ static inline void mem_cgroup_cancel_dmabuf(struct mem_cgroup *memcg,
+> >>>>>  {
+> >>>>>  }
+> >>>>>  
+> >>>>> +static inline bool mem_cgroup_transfer_dmabuf_charge(struct dma_buf *dmabuf,
+> >>>>> +						     struct mem_cgroup *new_memcg)
+> >>>>> +{
+> >>>>> +	return true;
+> >>>>> +}
+> >>>>> +
+> >>>>>  static inline void mem_cgroup_uncharge(struct folio *folio)
+> >>>>>  {
+> >>>>>  }
+> >>>>> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> >>>>> index e827c9d20c5d..ea957f4b1d38 100644
+> >>>>> --- a/include/uapi/linux/dma-buf.h
+> >>>>> +++ b/include/uapi/linux/dma-buf.h
+> >>>>> @@ -168,6 +168,31 @@ struct dma_buf_import_sync_file {
+> >>>>>  	__s32 fd;
+> >>>>>  };
+> >>>>>  
+> >>>>> +/**
+> >>>>> + * struct dma_buf_transfer_charge - Transfer a dma-buf's memcg charge
+> >>>>> + *
+> >>>>> + * Any holder of a dma-buf file descriptor can perform a
+> >>>>> + * DMA_BUF_IOCTL_XFER_CHARGE to attribute the buffer's memory
+> >>>>> + * cost to a specific cgroup, or move it from one cgroup to
+> >>>>> + * another.  The ioctl charges the new cgroup before uncharging
+> >>>>> + * the old one atomically.  On failure the original charge is
+> >>>>> + * preserved.  If the buffer has no existing charge, a new
+> >>>>> + * charge is established.
+> >>>>> + */
+> >>>>> +struct dma_buf_transfer_charge {
+> >>>>> +	/** @flags: Reserved, must be zero */
+> >>>>> +	__u32 flags; /* unused for now */
+> >>>>> +	/**
+> >>>>> +	 * @charge_fd: File descriptor identifying the target cgroup.
+> >>>>> +	 *
+> >>>>> +	 * May be either a pidfd, in which case the charge moves to the
+> >>>>> +	 * memory cgroup of the referenced process, or a cgroupfd obtained
+> >>>>> +	 * by opening a cgroup v2 directory, in which case the charge moves
+> >>>>> +	 * directly to that cgroup's memory controller.
+> >>>>> +	 */
+> >>>>> +	__u32 charge_fd;
+> >>>>> +};
+> >>>>> +
+> >>>>>  #define DMA_BUF_BASE		'b'
+> >>>>>  #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+> >>>>>  
+> >>>>> @@ -179,5 +204,6 @@ struct dma_buf_import_sync_file {
+> >>>>>  #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, __u64)
+> >>>>>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
+> >>>>>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE	_IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
+> >>>>> +#define DMA_BUF_IOCTL_XFER_CHARGE	_IOW(DMA_BUF_BASE, 4, struct dma_buf_transfer_charge)
+> >>>>>  
+> >>>>>  #endif
+> >>>>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> >>>>> index 7b841b905759..3adc84fe6668 100644
+> >>>>> --- a/mm/memcontrol.c
+> >>>>> +++ b/mm/memcontrol.c
+> >>>>> @@ -5786,6 +5786,47 @@ void mem_cgroup_cancel_dmabuf(struct mem_cgroup *memcg, unsigned int nr_pages)
+> >>>>>  		refill_stock(memcg, nr_pages);
+> >>>>>  }
+> >>>>>  
+> >>>>> +/**
+> >>>>> + * mem_cgroup_transfer_dmabuf_charge - move a dma-buf charge
+> >>>>> + * @dmabuf: buffer to transfer charge
+> >>>>> + * @new_memcg: target memcg; caller must hold a reference
+> >>>>> + *
+> >>>>> + * Transfers the charge for @dmabuf to @new_memcg and, on
+> >>>>> + * success, stores @new_memcg in @dmabuf->memcg.
+> >>>>> + * Returns %true on success, %false if the charge against @new_memcg
+> >>>>> + * failed or a concurrent transfer raced on @dmabuf->memcg.
+> >>>>> + * On failure the caller retains its reference to @new_memcg.
+> >>>>> + */
+> >>>>> +bool mem_cgroup_transfer_dmabuf_charge(struct dma_buf *dmabuf,
+> >>>>> +				       struct mem_cgroup *new_memcg)
+> >>>>
+> >>>> I would make that more generic instead of dmabuf specific. E.g. something like this:
+> >>>>
+> >>>> bool mem_cgroup_transfer_charge(struct struct mem_cgroup **ptr_memcg, struct mem_cgroup *new_memcg, enum memcg_stat_item item, unsigned int nr_pages)
+> >>>
+> >>> Ah yes, I like this generalization. And the implementation remains
+> >>> mostly the same. Thanks!
+> >>>
+> >>>>
+> >>>>> +{
+> >>>>> +	struct mem_cgroup *old_memcg = READ_ONCE(dmabuf->memcg);
+> >>>>
+> >>>>> +	unsigned int nr_pages = PAGE_ALIGN(dmabuf->size) >> PAGE_SHIFT;
+> >>>>
+> >>>> This way we can also document in the DMA-buf caller that this conversation must be ok when memcg_account is true.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> +
+> >>>>> +	if (mem_cgroup_disabled())
+> >>>>> +		return true;
+> >>>>> +
+> >>>>> +	if (!mem_cgroup_reserve_dmabuf(new_memcg, GFP_KERNEL, nr_pages))
+> >>>>> +		return false;
+> >>>>> +
+> >>>>> +	mod_memcg_state(new_memcg, MEMCG_DMABUF, nr_pages);
+> >>>>> +
+> >>>>> +	if (cmpxchg(&dmabuf->memcg, old_memcg, new_memcg) != old_memcg) {
+> >>>>> +		mod_memcg_state(new_memcg, MEMCG_DMABUF, -nr_pages);
+> >>>>> +		mem_cgroup_cancel_dmabuf(new_memcg, nr_pages);
+> >>>>> +		return false;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	if (old_memcg) {
+> >>>>> +		/* Uncharge old cgroup */
+> >>>>> +		mod_memcg_state(old_memcg, MEMCG_DMABUF, -nr_pages);
+> >>>>> +		mem_cgroup_cancel_dmabuf(old_memcg, nr_pages);
+> >>>>> +		mem_cgroup_put(old_memcg);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return true;
+> >>>>> +}
+> >>>>> +
+> >>>>>  /**
+> >>>>>   * mem_cgroup_uncharge_dmabuf - uncharge a dma-buf from its memcg
+> >>>>>   * @dmabuf: buffer to uncharge
+> >>>>>
+> >>>>
+> >>>
+> >>
+> > 
+> 
 
