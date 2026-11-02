@@ -1,101 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793647157;
-	b=vuhNE6jM1j8kjTV100Es6a3zjV1qTkZ1tqMrO0LpT89LPSzLqbLVIWv4yw0LIkXdt+0l
-	 msB7pJ+dPYFrSj8I+1uQFEkLjmCZU3+ZEfBslEfQWZkhjk24ruVnUOYdcB5v9Ixri5qPw
-	 sPNRc2uAWu0lfHChc5dPOmaSM2ZewEmDTJqZURRK27tg1BJecqgu+GZSdIdyQlv4iUoaP
-	 INSyNwcFQ3GDI+XIxUWTMrasuXnNS5J76CIHEqw+/AMmJb5glWVR6u5VgGkRsonX6Z1iS
-	 a94qheEXoU5FEOitkTwQDMm/oo0faXVbyEBiz1z69dj+55g+aZHMCMhbmPugLbAAxjg==
+	t=1793647610;
+	b=jmbaHOZR3jzs37rgM7t9N0nFMb2Ggm2YcaO1l1f1bIK5Em66cquigNaFMkE9BXrKvXGv
+	 MPfEFs70ita4ixO/qK66HmfspFbxWFUXHkoOVIrUIE3hpLuDr+X/ngLCumjGYNBbChRT1
+	 2VZYykFVdqdj9rWQ8P8ntkh54iYFkXEGeZ2Mz7pqB4255g8OIut77oG+lCZ7HHfbiMDrM
+	 cd32HF0tFj0iXY3MFR3IiyulIS9MYfwFp2pQMpQhbeY9+BMnUrQBbMvt2nvz7ub2POg6Z
+	 Aybc0SxT3WmyMq/8ebN62CCueHlk4v/garDOmx2bu3KQ7ejmZ0TSGibXYPoNlG/4aLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793647157;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793647610;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=OC/gY15cLyDwevMNUFIaNM4tFLtXDK4Xhw0hL/Ej86M=;
-	b=vTjXa9DVFy33Sd08RjMtY5TuVmUKBN/JL25dk2MBcJvtDblTgT1mWlIIE/tZDq/AtPsu
-	 Zmfz2+rufE2MnlEcg289zPr1L+lVq4i/vaMMXBRs2O2pTbsDXOu6xBotiRu1FXXKE679m
-	 CXHdhFJYnH5L7IoT6Vif3FvT8UtFgzgBboGtv1y74pRfZ+iOB1Be+jzcxydrxUY3eEh9z
-	 607UMyyLI7YKaQkvbk5w4b6BqMCkb1HQn32msQOxMzeuE2ISYHCI0ofy2mD1fufS3SoK/
-	 l24V+AXHCWqoVOHvOisYuQovfk5yWWawEIQ89K8GQyYbXglr2imoST5FwomSgHmk0fg==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
+	b=J2FQfJ5Z4FvP0WI390pXCIElkeirYHWw79Z0SPq5GSJimBXK5aCIj8liO31brmuyDAXQ
+	 snTy3jR6UYXJCeIeWwtVx50TkvjA2ThJQ9MGajE81ndBbrtgTlh9RFWqJ4oOEA0MrAjeK
+	 bG1pCePi9/w0qylxIuKIyV6QS7doZZLpVH6EBn0CElH3EWhbWZDHWh2pRLC333mTL0t74
+	 6TtJB0WQTQcO4d9qszC/VP+om0BxmhfPt7YN6g4Tn7jiRiLkyCuPmiy3lvEJFCIuDJmF8
+	 li7qEXFFvrSQCrVus/zDIePNuKvUXcD33R9xb9xrMBfEdSHmQSxqQqjsczS1kOM97fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NB74w9rB;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ji5BHOzQ;
+	arc=none smtp.remote-ip=74.125.224.130
+Received: from mail-yx2-f2.google.com (mail-yx2-f2.google.com [74.125.224.130])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE5606A326
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:19:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1EE5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61F4606A327
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:26:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C61F4606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=NB74w9rB
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso15502845e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:19:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ji5BHOzQ
+Received: by mail-yx2-f2.google.com with SMTP id 956f58d0204a3-67569b8cbf8so1728918d50.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:26:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793647155; x=1794251955; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OC/gY15cLyDwevMNUFIaNM4tFLtXDK4Xhw0hL/Ej86M=;
-        b=NB74w9rBrA1Fnaludy1HBowebMeI8FhFmSUNE2JVYGwPjKwXx9TI5xm7WO8KeiOryK
-         d702aUwvSY25jzV7QZR4CZoAIzB40eqzwRv478T/lL2sBsDIggpSeSv/QJaU/p0b2Yy+
-         tFtTg/CrEe4Qq2P//4lkseZFThzb0EIKz3XbFlWf+AmjBz/htDERW9z6CuHXf9CKGXNh
-         e1ltXfcu+/VpD9gV5+5ChwmiHXV0V+iZBHEp/Zpra6wqD8n80ubPh8SWwCTeTBujV8ra
-         SZ/lvge5hburvPtLszH8TycgZ9FtOIcKo92fmxORITiMn6Hyrla0+tia6Wa57rORP+Ny
-         JvpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793647155; x=1794251955;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793647609; x=1794252409; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OC/gY15cLyDwevMNUFIaNM4tFLtXDK4Xhw0hL/Ej86M=;
-        b=TV921/xpnK/VXNQf60mI6PUzA6/XBHU2Via1CVzqproBOZpX0eMYs0CKK5JXxynGt0
-         6YK6GZgy05q+gQ8OsZxCpnplnODv06+FJ8/klY9VQ1Izybahhe0mHXiUWSgsh0gx64R+
-         O9NtoO+ZwKTuMQ5LWB9zXyHxmdA00+aUYRJu9sgbwwsyp1vCdz7FWIpOgjLZFv+mAeXs
-         Il71uiNX8ZLueYPn9feOvjLljVW1GZv29j0lNSKocbZE/ZwH54Bxs2S75ADsbhPfyJu5
-         5EVOvkSiyK8Rn7pD3ckX83bgovxfwk3rKyDbXm1wNhE3P8vxGhXeSbu/kataxPBH76H+
-         imrA==
-X-Forwarded-Encrypted: i=1; AKwUvBx3JaTAw7P/EVqYquObZr5zxwC4MWORjxl/qDoUwa9PMStdDBMIialX4oitcenHbNgf4wDamYA94fE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJt5884hNRzLapawQ1Bja4KsqIntt8/rwv1KvpdoueVo3lucDAv
-	aqDz73PkeJKHnYaxaPpaw/HLLycqn0NTPJ2Sd0YHJ/F0tSZ3TcKxYFG1/3RfAeWceWs=
-X-Gm-Gg: AYBFou0QYOyKFfhvg53vxjxvkglzajMY6zbemKQGji1NaVQVdvqNgrSlbnhkHn+pMzw
-	l4Hxk0Fuf+CAKPhbH0OKZ+zk57kx0diyA6t9p2ehGl2KTbRpGH6Zga4vEX/pZxR++Q+93j6FYM7
-	8SEHxlZWTMVwR/7IrxOG24iMniWtUVh5ubCwga3CvhnzAw63QXW8HdEhOpJIRLXxcQiuHs0pqx4
-	E0rOhnuQb/QQ7G4P6D9DmZD+0poaEsWH4+hLKgNu/NJPobIfqOq2aVHaFHTSogU3cH98cBswWEG
-	418KG0xq2JS8dzz9k+w24W9hAQ7lpdGR/8Pj9zUlR3+BXVT+Rpeep56+3gBk4ghiNdAj9qU1WmQ
-	yANqRjrauWKlPqv8lSDljXosFuIPaKOKKlNrtCp9AHGKg2Vee58RmYlMqnq+rovCmdutK0SNMvm
-	GP3XlvxXhwZJXSdUUjDB8XAQKXqWwIWrmarpr2W+4yjoEVq7KQbPEqcERHPKTZXvvrYVDjWsRBo
-	TgYPIuRM/87nmr5mmMyu4H05JIuB/ieAmnb0B4hAU6zv+8+dH8xb4B10QV0wLzTGDAgJrGHaABW
-	XvVHfJLJwnlZyHXKjBVriZDKv+3Uwe/DR4bFpGGpNAIHYOoBE2RPJEaK4ZCv
-X-Received: by 2002:a05:600c:6989:b0:4a7:6425:c274 with SMTP id 5b1f17b1804b1-4ac150b38d0mr251477715e9.2.1793647154958;
-        Mon, 02 Nov 2026 11:19:14 -0800 (PST)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2aae24b32sm6083675e9.12.2026.11.02.11.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 11:19:14 -0800 (PST)
-Date: Mon, 2 Nov 2026 20:19:11 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	jgg@ziepe.ca, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
-	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 08/20] ctlv: Prepare message output handling
-Message-ID: <aujiKOR-JR9kTMia@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-9-jiri@resnulli.us>
- <179302367451.58760.3909701518454079333.b4-review@b4>
+        bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
+        b=ji5BHOzQ1RzwPyqsk2s8cHAViYOWD/O+3bZQY/tAGPh6iajASEYoYfopk4UXn09Dvp
+         a8Y3e2wrg8IO3piRB36K67BsnG7u0nhbSW+8Ju9C2+l8e4PSWFRKG3DHntj+sT/fctga
+         4R6gRl67e2TJBXI2nqrqp02Uj3sBQ8yzPwhNpwHIW8R2V6i2xrLJ0gU3vj79VkfBnMpJ
+         5UoLOdz12VNFiwzSkpjsJT5tWJh95TTv8UHajaoTTo6ciV2sUFHKn09peiEAe3KCubYa
+         gmdR7/rtDT7RHk67imJuw2/NIFZXKHl0hTZH0cbZIjhp8KOT1bA+l8VGOwaPX59+N1dJ
+         pdZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793647609; x=1794252409;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GGgFPYYG6oWLUvP1KotHDJ9Xw83iP8ii3ww9kM3hKP0=;
+        b=S6kTsix9Y9MVQCPI40wz8InWuKHpl2q93rGcImkD20SNiQmmSzGqbcsVA7qGhCAbI2
+         lizNhUcB/M5VJTcn5ivlo2astlQd7q/42b/giOuzpIqLSg4mNyEAQf1ho7bjxE5dk7B2
+         4S64MUeu3lc0lbr5QJNlR7r0tjLSWrWRpFQWX/+yv+Tl4ztbgKJ0cgWWgbn47+q2AweA
+         E1XVjvzn45Az3M80MY7sFJO2iZw3B2LCcdURAuqyiir/lfNIxAzHUxKb5v47A/NIRcHM
+         Jlcc/up+GEYiAElSjxozl4vRarVqzpvQmJNZ4id5REmLSdAdzrsSiYL73xy/6dzG41iV
+         YrTA==
+X-Forwarded-Encrypted: i=1; AKwUvBzbR8TIt3W5OZCjr2gAOKUT1dij3MCY5tiuvjldpuQfusnn4hReEEcItVlKXNT9qcfezkcFiNRmdUc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1TkgETUTusCKUeDDJT0WKKFPsTsSH2ginH1sWr/fs7Dq3kwS9
+	S+s7UHwzusUU61uHbTlGncJCcdKnukQaamJW2DHrTOgg8vdEg+VjPmVM
+X-Gm-Gg: AYBFou3iMazbHnoKvGK3q8cGmi7gHO5ZBW4JcBC90inCJVpPt4Kf7SDzTykxR5zdoGa
+	hfrM07dJcO2k+emd2VSwrNmOz5pVlakqxMVNLx/8k1ZqAix3Ukvd/ZeWBxXUa3UjbH/ddVclFHK
+	LLzubxYJ5ntXMcicffuvI2M5Hv5AB3hXHA2roSbWVRON5h/9i9rJKSaPlpGzdlNWPFm4E5HXkZh
+	c7dJjAjeyuJG6uh8kFVuKOCxdPIWdqQyq9HvmmD2VbLeIkaYnCHY5E6oyyOjrcVJ8mho/K3PgaT
+	NE23IOYRSdxl8vBRFben6p1aPd2cq7K/D470EeRe2rr3sQhp+8DJVnY0ZhxDTn0UjUb0Z34uJ5s
+	MgpjltVbeXaEPIHvsI3+uyNfGdHzeM1EqqR07Zk6McK8Fa9CD2yZGCwSgh2NDqfPgxdHJ/4DBjr
+	AqetibmfPi++riGfo9t01ZjI7V2Ehy+TBPi9uS/TELHugAXuk7RX3Wn69cNYgXwHDIhuyAJWLrH
+	ab7LG8MJGjOj2wtCTnksuxJkoXoGGhllfxuac/vifFmUrP2z0lqgqYcc9KcbDDF4ux31YbijOhn
+	/M6xajo+ojMXF9iRZSoDZJlWE5PI/2JC9Cs=
+X-Received: by 2002:a53:d148:0:b0:679:93bd:85ee with SMTP id 956f58d0204a3-67ba4ffc1a6mr6007860d50.39.1793647608751;
+        Mon, 02 Nov 2026 11:26:48 -0800 (PST)
+Received: from [10.0.0.48] ([71.69.222.122])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf3700b8sm5719489d50.23.2026.11.02.11.26.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 11:26:48 -0800 (PST)
+Message-ID: <d39dfdac-e0e3-4c42-9a55-fbcef6806d77@gmail.com>
+Date: Mon, 2 Nov 2026 14:26:47 -0500
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,22 +92,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179302367451.58760.3909701518454079333.b4-review@b4>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 0/5] tls: perform TLS 1.3 KeyUpdate in the
+ kernel
+To: Chuck Lever <cel@kernel.org>, Martin Belanger <martin.belanger@dell.com>
+Cc: John Fastabend <john.fastabend@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Hannes Reinecke <hare@kernel.org>, kernel-tls-handshake@lists.linux.dev,
+ linux-nvme@lists.infradead.org, Alistair Francis <alistair.francis@wdc.com>
+References: <20261102-keyupdate-rfc-v4-0-f17419972b9f@gmail.com>
+ <785aa669-8229-4909-ad33-66f0824687bd@slotpi15m67>
+Content-Language: en-US
+From: Martin Belanger <martin.nvme.dev@gmail.com>
+In-Reply-To: <785aa669-8229-4909-ad33-66f0824687bd@slotpi15m67>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
->> [ ... 498 lines skipped ... ]
->> +/**
->> + * ctlv_op_query_done - Complete the last query fragment.
->> + * @ctx: query operation context
->> + * @generation: current data generation
->> + *
->> + * Return: 0, or a negative error.
->> + */
->> +int ctlv_op_query_done(struct ctlv_op_ctx *ctx, u64 generation);
->
->Typical kernel style has kdocs in the C files along side the function
->body not the header file
 
-Okay.
+
+On 11/2/26 13:24, Chuck Lever wrote:
+> On Mon, 02 Nov 2026 11:57:57 -0500, Martin Belanger wrote:
+>> The matching tlshd change for ktls-utils is a small patch to be
+>> submitted at a later time if this series is accepted.
+> 
+> Recognizing that there may be further API changes, for the series:
+> 
+>    Reviewed-by: Chuck Lever <cel@kernel.org>
+> 
+> I don't expect any changes for the sunrpc consumers will be necessary.
+> For tlshd, as far as I can tell the whole change is:
+> 
+> - In tlshd_start_tls_handshake(), register a callback with
+>    gnutls_handshake_set_secret_function() before the gnutls_handshake()
+>    loop, as quic.c already does. We rely on SSLKEYLOGFILE to decrypt
+>    NFS traffic in Wireshark, so that needs to continue to work.
+> 
+> - In tlshd_initialize_ktls(), after the existing TLS_TX and TLS_RX
+>    install succeeds and only for a TLS 1.3 session, set
+>    TLS_TX_TRAFFIC_SECRET with the write secret, then
+>    TLS_RX_TRAFFIC_SECRET with the read secret.
+> 
+> - A configure.ac check for TLS_TX_TRAFFIC_SECRET in the installed
+>    uapi header, so the build works against older kernels.
+> 
+> I assume you plan to send tlshd patches, but let me know if instead
+> you'd like the ktls-handshake folks to take care of this.
+> 
+> 
+Thanks for the review.
+
+Yes, I will send the tlshd patches. I have a prototype, but it uses
+gnutls_session_set_keylog_function(). That replaces the default
+SSLKEYLOGFILE writer, so I will switch it to
+gnutls_handshake_set_secret_function() as quic.c does, and add the
+configure.ac check. I will post it to ktls-utils once the kernel uAPI
+is settled.
+
+Martin
