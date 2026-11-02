@@ -1,47 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793609612;
-	b=DcIr1HHqvWX6sPZu7efVlffDHapUUQLnWvr4OuAS97PQMO6lmWJsrLU6MWoZ0WJ91iaW
-	 VKsfhpB3QDLDs5PE+9L3TYJWY7B3RRb6dNWneRaqmIOiaP/NJuEEYbOKRXbgMXoo8Hefz
-	 vRs7dKi8NAR5G4lWWoPkeSbcM33l6036Gvo0vca+1lFiAcKlvifjIaaFUMdTE5oyk9nFB
-	 4cAPtzI3AENc8AbEy/hcfzO5we1l5omxl7rCWeAwZyzXIiD8AuVsaq/91O7NjpE2E1CoW
-	 KXnAGg91gr6lUFSK5n50gU5UaXmg2i2x6c9tnMkNVy09GkgVlHemw65W4aRs6zX4byQ==
+	t=1793609870;
+	b=nzvuvFobuMLw44sjlELhbgAD3uBB84s3YkxHGtNfccUKrV8BAxOB+IVaEAgJj/iTd9FB
+	 bx6j+7y4m1JwX6jHF5yBnbqhsxP8/uHLnUi9JyoqxAmB3v+y5HH8B7hdG7osq3w60pvKw
+	 nqFOwQz9B2NB3ANDnS2K9zvmME4DbEBdOI2cNs0lsDL0AfE4vczXlj7aO9nVF38x0MSlQ
+	 ck4B3NxwRgYC/k8EyB9SvakTzBhNyfOdYjpzYCUEBM9Wj4C9ClajhI3M0lft3Sw9O5G3t
+	 DUI9kcn/AMxvbMppj76xuOZl23x2FnSJ54CeY6jf78bgjQYBtkndy6xmh0smlve7PKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793609612;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=oYYP3lK9ndIzshGQaIxwuIG/4WySmOAiuLgTfIPt85E=;
-	b=cayVbkygmddj/UZ5dHDsEvo19zrlpohgcb/RXzcHEOCbW0zNnJrfabLiGxI5HnDF6Y3n
-	 FnXJpGFnbCZGNaFvcNuHtKiPzEHePhWO1lxddPETBDb5BSPHtJqpfMr6mRpj+oBdtw+mr
-	 fUNSE5sdXMPpG+XmzWWg4IcQ3tjwP5yWckmklC/NF5OruS1n9gxjKc1L5zhXQLxUfHATw
-	 DgqXhERz1xwQ057UGMV3d1wJlhrEoh0DFAqat7rPSWLaKzZje9sdllreX+RQV1j5raYn2
-	 hVPod4hh/C0oonU2uKNWw1BODv1qMkTy2RVI9Kw7OqWmygWS01/zWvW4YS0ZQVLMhGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793609870;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
+	b=CyfmQRWR+9CKqMv5JHFEWQBEuXXzRfaXF3fLLLYBY2Htmh/ito6WW49pVJgmmDdmNhU3
+	 y+tl+osIPCweq8rkEOMmFUgDy/Uii8p3HwLz8CU6YpnYHyDKoY2vic80mlu5o9EB1lg1b
+	 vy4sbyh0Poxqj3YjwFolHRop6ZmUzlNS12N+nt9yjZrcYLzjLB9EeVSmX0hwOWLT3Q91V
+	 /S3GFuQJ2xb9f2tYhH828YsR3TFq44lpEL8o2/n/PoxqXltbF0B9i2U2WEmM1b97J+X9Z
+	 0C0ykNxBN5SV2T30wC3/PZfbZbHgAcEPqgCRfN54tKxZjapgFHLz4FfRyayp/SiC4EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SkgljhrV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F48606A329;
-	Mon,  2 Nov 2026 08:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D05606A327;
+	Mon,  2 Nov 2026 08:57:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51D05606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SkgljhrV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDEA1F0093A;
-	Mon,  2 Nov 2026 08:53:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793609611;
-	bh=oYYP3lK9ndIzshGQaIxwuIG/4WySmOAiuLgTfIPt85E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SkgljhrVlMkigM187kml4RIuWzUhCNfNRB1WWapYtJu506IB54itPx4UTX+oAJvZy
-	 EjjyrlyeUK8VnX4ctKLUvacWcKtHyE47aBf8pRTtz6RgaCGnaHrRJ9Lu8mxJZgOxug
-	 3o7xQih30i69llZOKoUtRXiPfS6KmvN1vM9HRotmAP5sTlHgj313FF4AAqsFMHX3aZ
-	 of212pwWwFfrAHNM+HtTPEqxKvxhhNmACICBjBzQhFO3fvLXbSakDgbD46hQY1dhGq
-	 VW2IIF8yX1SEb7NkSKYLLQB2BM1qkXEu99DEhrQZNLUDdKgP4j+y/Tt7LqXldtvkkP
-	 SyooD4lG2mdDw==
-Message-ID: <a97fb0b0-e4e1-4b25-a5ac-60777941c574@kernel.org>
-Date: Mon, 2 Nov 2026 09:53:18 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 91F7E21EB8;
+	Mon,  2 Nov 2026 08:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793609867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
+	b=Z7Oj74UKbtdUkAKOLh+GKY5N/GfaHCWXDYMHK2ntHPbTqbdaImIRuM5fFvbspPEFKBIoSo
+	QXlE+NdSCLUsLYZxRPskM6kgT8NveBaWIUg7wHGla+smbkcnKISSYCHlNXTO8e/nqIVhvU
+	JRbXWoKve1rKi/neB2bjPwNzegsVQLw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793609867;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
+	b=cIiyNdLYVOhJHW590PBqD2l5SlhN/37+jP940ns8cA/lCEkQXvnQfHWbX3MPmCc0j3oqXa
+	MO+nbwpWekP8rXDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793609867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
+	b=Z7Oj74UKbtdUkAKOLh+GKY5N/GfaHCWXDYMHK2ntHPbTqbdaImIRuM5fFvbspPEFKBIoSo
+	QXlE+NdSCLUsLYZxRPskM6kgT8NveBaWIUg7wHGla+smbkcnKISSYCHlNXTO8e/nqIVhvU
+	JRbXWoKve1rKi/neB2bjPwNzegsVQLw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793609867;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
+	b=cIiyNdLYVOhJHW590PBqD2l5SlhN/37+jP940ns8cA/lCEkQXvnQfHWbX3MPmCc0j3oqXa
+	MO+nbwpWekP8rXDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11900134B8;
+	Mon,  2 Nov 2026 08:57:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xSa6NYZQ6GrYUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 08:57:43 +0000
+Date: Mon, 02 Nov 2026 09:57:42 +0100
+Message-ID: <87ecd34nll.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Joonho Lee <mynameisjune111@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 00/14] ALSA: virtio: staged capture recovery and PCM RESET synchronization
+In-Reply-To: <20261031020855.2402-1-mynameisjune111@gmail.com>
+References: <20261031020855.2402-1-mynameisjune111@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,104 +117,167 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/25] accel/qda: Qualcomm DSP Accelerator driver
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Srinivas Kandagatla <srini@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Philipp Stanner <phasta@kernel.org>, dmitry.baryshkov@oss.qualcomm.com,
- andersson@kernel.org, rob.clark@oss.qualcomm.com, jgg@ziepe.ca
-Cc: lingtong@qti.qualcomm.com, cacar@qti.qualcomm.com,
- sandheep@qti.qualcomm.com, Bharath Kumar <bkumar@qti.qualcomm.com>,
- Chenna Kesava Raju <chennak@qti.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- Ekansh Gupta <ekangupt@qti.qualcomm.com>
-References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On 01/11/2026 23:21, Ekansh Gupta wrote:
->  drivers/accel/qda/qda_soc.c            |   66 ++
->  drivers/accel/qda/qda_soc.h            |   61 ++
->  drivers/misc/Kconfig                   |    1 +
->  include/uapi/drm/qda_accel.h           |  282 +++++++
->  33 files changed, 5877 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
-> change-id: 20261102-v4-e8feb321263f
+On Sat, 31 Oct 2026 03:08:41 +0100,
+Joonho Lee wrote:
+> 
+> Hi Takashi,
+> 
+> This revision supersedes v10 and includes the unmerged prerequisites.
+> Apply patches 1-14 to sound.git for-next at
+> a4311e9447bbb219044db38897f95be112f46a8a. Targeting 7.5 or later still
+> works for me.
+> 
+> Previous revision:
+> https://lore.kernel.org/linux-sound/20261030052629.27742-1-mynameisjune111@gmail.com/T/
+> 
+> The series adds staged capture accounting for shared clients such as
+> dsnoop, lifecycle recovery, and synchronized PCM RESET accounting. The
+> capture compatibility options remain opt-in and disabled by default.
+> 
+> Changes since v10
+> 
+> Sashiko raised nine findings in patches 4, 9, 12 and 14. This revision
+> folds the corrections into the relevant patches and carries the queue
+> retirement checks from patch 3.
+> 
+> Patch 4 seeds ordinary RX once per prepare. Native STOP leaves requests
+> and unread samples owned by the current ring, so resume preserves them.
+> Consumed or discarded space returns through ACK and RESET. This avoids
+> inflated pending lengths and resubmission of unread DMA slots.
+> 
+> Patch 9 restores notifications after rejected native pause and handles
+> both success and failure on the already-running START path. Ordinary
+> capture now honors the XRUN latch in ACK. Its monotonic completion count
+> also detects a whole unobserved ring and reports XRUN for prepare
+> recovery. Capture completions preserve the latch from this patch onward.
+> 
+> A first version of the recovery notification exposed an old ring of
+> samples after paused RESET. Passing every wakeup through period_elapsed
+> let ALSA infer a wrap without a newly completed period. The worker now
+> uses the partial-progress helper for synthetic wakeups and retains PCM
+> timer notifications for actual new periods. The sample comparison and
+> a periodic PCM timer test both reproduce the candidate regression and
+> pass with this separation.
+> 
+> Patch 12 removes the second appl_ptr assignment after a callback member
+> has completed prepare. A linked member's prepare can sleep while the
+> first member accepts SYNC_PTR. The callback path now preserves that
+> acknowledgment under its PCM lock. Explicit RESET retains playback
+> silence handling; prepare leaves filling to the normal START path.
+> 
+> Patch 14 checks the existing XRUN and lifecycle state before mutating
+> paused indirect accounting. The RX queue and substream locks cover its
+> pointer observation, temporary accounting and refill. The notification
+> floor follows the RESET observation. Refill failure retains the existing
+> zero-return policy while the worker reports XRUN and prepare recovers it.
+> 
+> Patch 3 retires each queue wrapper under the detach lock and checks queue
+> identity in PCM, control and event callbacks. The proposed detached-ring
+> IRQ failure was not reproduced on the tested PCI transport: forced
+> callback tests passed on both versions. This part strengthens teardown
+> ownership boundaries; the transport reset callback synchronization
+> contract still applies.
+> 
+> Patch layout
+> 
+>   1-6: ACK errors, START/RELEASE recovery and request/DMA lifetime.
+>   7:   Core stop-threshold accesses used by capture policy sampling.
+>   8:   Partial-progress notification under the PCM stream lock.
+>   9:   Staged capture, shared capture policy and lifecycle recovery.
+>   10:  Staged capture work priority.
+>   11:  Capture compatibility option documentation.
+>   12:  Optional PCM reset operation under the stream lock.
+>   13:  Staged capture RESET accounting.
+>   14:  Ordinary capture RESET accounting.
+> 
+> The core API additions remain separate from their driver users. Drivers
+> without a reset callback retain the ioctl path. Linked RESET and prepare
+> retain their first-error, partial-completion contract. A zero RESET
+> return allows the core rebase to finish; later I/O can report -EPIPE and
+> require prepare or reopen. The internal snd_pcm_ops addition requires
+> out-of-tree modules using it to be rebuilt.
+> 
+> Validation
+> 
+> The functional candidate passed 23 ARM64 QEMU runs with KASAN and lockdep,
+> covering error injection, recovery, reopen and compatibility tests.
+> The core fixtures covered 72 atomic/nonatomic, callback/legacy and linked
+> failure cases, including playback silence. snd-dummy and virtio-snd each
+> passed three playback/capture cycles. Additional timer comparisons kept
+> real period ticks and removed the synthetic resume tick.
+> 
+> For both ordinary and staged capture, an uninstrumented kernel recorded
+> 70 seconds through RW and another 70 seconds through MMAP after
+> PAUSE, RESET and resume, followed by reopen. All 14 segments,
+> 14,208,000 S16 mono frames at 48 kHz, matched independently generated
+> SHA-256 values from QEMU sequence metadata. The oracle includes the
+> intended RESET discard and backend epoch boundaries. The earlier failing
+> candidate and its sample comparison remain in the local evidence.
+> 
+> The paused interleaving test verifies the new atomic observation
+> boundary; it does not establish sample loss in the original code.
+> ARM64 W=1 Image/modules and ARM32 LLVM object builds passed. Test hooks
+> remain separate from the submitted code. Each mail patch is applied to
+> the pinned baseline and compared with its expected intermediate source.
+> 
+> Fresh v11 postimages at stages 3-14 built without compiler warnings.
+> Nine additional stage VMs passed, including eight injected recovery cases
+> at patch 9, staged native and pause-restart capture, and paused RESET at
+> patches 13 and 14. All six additional MMAP segments matched the sequence
+> oracle. Neighboring patches have refreshed contexts where earlier changes
+> moved their code.
+> 
+> Packaging also adds braces to one existing staged if arm. The new module's
+> executable, relocation, data and symbol sections match the tested module
+> byte for byte. The fresh stage tests above use this formatted source.
+> 
+> These results cover QEMU synthetic input. Physical VZ/MOTU acceptance,
+> an independent KCSAN run and broader format/multichannel and ARM32
+> runtime testing remain pending. The high-load TCG scheduling results
+> from earlier revisions still limit performance conclusions. The new
+> ordinary full-ring check reports -EPIPE where the modulo-only path could
+> wait indefinitely. The core progress helper and linked RESET contract
+> still need maintainer review.
+> 
+> Coding assistance was used for analysis, implementation, fixtures and
+> this explanation. The patches carry Assisted-by: LLM.
+> 
+> Thanks,
+> Joonho
 
-What is happening here? How are we supposed to work with this?
+Sashiko reported still a few issues.  As they seem to be rather minor
+issues, I can work v11 now and you can fix incrementally.  Or you can
+resubmit v12, if any.  Let me know which way you prefer.
 
-v1: 20260223-qda-firstpost-4ab05249e2cc
-v2: 20260519-qda-series-78c2bf0ed78b
-v2 again: 20260817-qda-v2-78e2d1f10529
 
-And now completely different one?
+thanks,
 
-This makes the change id completely unusable. b4 diff obviously does not
-work. Any tracking of this does not work.
+Takashi
 
-NAK, really, I already complained internally months ago about such
-practice, so apparently not enough.
-
-Best regards,
-Krzysztof
