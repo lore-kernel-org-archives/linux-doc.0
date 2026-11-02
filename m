@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.138
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793646887;
-	b=3lmRAQc8JPad8LD5O6cwejB5QrVuPC7+rjeQTKYKiUUZqdOtn2OA8Y80jz4n23VUWpXW
-	 Ob9t7L3j3N4B6t4GkxJl7BTtZScQtovfQtAyiPSV6YeloceW7/rtjdsvA0cIPfxK8ClVr
-	 jo624YiQlmEwzGmm0D3QloVGgRmVdsfTNkoRo0Y2UrKX415BU3MB4AXiqot63o4YbdC5n
-	 WEh6ttrhoWq6YOCBurTKzlgxY61G1VVqAYg4bkVujBO8xFKn2aR7qtrA8PIXGavbN8ZAj
-	 OVsNRWimYSrFV/jnzRZJrTKKyxaHs4poT03EKMjHBsl5vZNNetZKcpSwEwOrLM/ThTQ==
+	t=1793646888;
+	b=SwLCCCwt6Hvo6BIiMgoTOqy+/ynWKDF69zGYYjysZeanXIJQMgli8q+hDx6DFAd3QmhJ
+	 ritU782sVyxsMFwlAatPihWiutkC3X8Kegioo4CagaGMWd8AzewVNaUG8e3NH+gr4DkLU
+	 bB1gHjbFwQTlHh4iqY6wKVXr85UhifF60fW7IFlh2X4SO6XvN+lOLoBKGGA7KfugtUZek
+	 mntJVmYtaJnRZPy0K9AiIX1B7MR2hmzvsRJS66v5teet7ccFcFp4FlVrsu3uEqUWEuNmB
+	 j+kAG4EZks2uvZ4bl5scog0bZmL4tdfmTtXmqU33ccrNMTIXO5MggJUxHJyz51SWH7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793646887;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793646888;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=x5vucs4W796ZHC+npd6ZnayJC+IA8nom1dy9O9U2Tu0=;
-	b=w/bHrHVReB64TBtR/MnL6GyGjVuK8F8uU8rwdC5RBMq2I4qdGkL44wYdIN5Yep34Goys
-	 zGMBJy/HYMWf6gaJxJZettWPXLfTU4tZhptEowMZoPRkTfny3WyHi6Try+JKK1tIAkX1u
-	 j2DBZfkbgK/VnG8QyHptg7sIciVj3n/tQkuz5Cj7tKXlZT9mfCGcXnCIl0ZMp7Cl8Sasq
-	 pX6PhgiUjC9WRX1DiTleXg2OOMzUV18uWVj0B6hapjY8x4v55vUaqwY7U/hSdQ7oGcfhr
-	 pnohfvExTlCxDxorDOh9vPCDVMGlKTghSyUo5GCnqUgrnLvrpoh07udCKlyqbQIYpkQ==
+	bh=MkiFUGFO19ZEEra5yPK9Hq7nLjNShk9jvcIBoTbzEvI=;
+	b=ueQmmlBOBjUJxbqDXsa2pTVrwENKyfPbK/Ar/u7N3Ag2AWAYSfrA/vTr038+Z/Cp+W1d
+	 ugaYn4OYqcwo6u+gMHjBqyjr/Ar9xExaKp6yuEZK04P7ggW8oyRIxhn4+eI1Vb7MvXr7T
+	 Ialj5nV7EZYUF8sK/LtLmAFhhHQpQtJIQPhTMNgZ42QioS7LBt6sEq1DqHagtT6k9HWhm
+	 eqajoGzdvZknQrauw4xRk+/OJavPHKsZEsjI517l6WVFArOeXAoEp47c4s+RqpxBKspcY
+	 /cHsC556YhyiKyMpDfhr1GwdSuJMVo5q3ZzDLiinsuMN6nh9tePvE5JIyyZOvOSpplA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fvBS6lME;
-	arc=none smtp.remote-ip=74.125.229.137
-Received: from mail-dl2-f9.google.com (mail-dl2-f9.google.com [74.125.229.137])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rvUfgs1t;
+	arc=none smtp.remote-ip=74.125.229.138
+Received: from mail-dl2-f10.google.com (mail-dl2-f10.google.com [74.125.229.138])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F621606EE9C
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:14:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F621606EE9C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138F8606EEB4
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 19:14:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 138F8606EEB4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fvBS6lME
-Received: by mail-dl2-f9.google.com with SMTP id a92af1059eb24-164f08a9e84so784308c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:14:46 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rvUfgs1t
+Received: by mail-dl2-f10.google.com with SMTP id a92af1059eb24-143601f9f98so890027c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 11:14:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793646886; x=1794251686; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793646887; x=1794251687; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=x5vucs4W796ZHC+npd6ZnayJC+IA8nom1dy9O9U2Tu0=;
-        b=fvBS6lMELxvPUr0t9WppDBxoZ3YyYAaIn0kwnnJ0T1cQMEU6EHFjYMH4dElyrFVU5H
-         oeH0YlKYaZ1RO+vZCTK4pMgcXVpvIVpwKzkboXMjdim7hCZGLPfjKvxuBCZNnRgOYNxV
-         jfBSfCLum1ZHzk42Peda6hJtD2KVEdtyQK6ftkL8Acpwdleq5KTpfjjpIOSsHYS7r6Or
-         hCz5sq9YL8xFycVBZPLC0KZZOhbjzis9byKNUidkJw4GejbZNz2PxdhWMC1bZ4Wygrg4
-         e2HXMEEhQS730SOZNq3nHadFxd9P2R+AH0lrgqxidRc5bN2/Wji7L+XR2WOMRxezaakg
-         brGA==
+        bh=MkiFUGFO19ZEEra5yPK9Hq7nLjNShk9jvcIBoTbzEvI=;
+        b=rvUfgs1tjQo0otGDK26x2g7gPMhqRmdVi4L+U0VjWEMh7TRJmcgw3LH+Len9uordXg
+         5QIj/sxuk2SYG4QMl0+hi3upUddqeTFNsBGQmA2XHUvWkUHnG35L9qRNb8/qMZGBlg3b
+         N4ixqfFRdbcjNw8vfWYEw5//9CwgGcQyAMecERPbm5Ox523I+U2pTiUvn5QlKuWX8K4v
+         zmzq3XjZTizXpKL25yWFyvVdPbM9w+3vbZ9Y1EJ9jJHyakwgIWz/XvjlGVsbOkPYN8vb
+         wlaoPgfFD5XSqzWXRkZd0NEj5mI3WujNjIHNlXxosA+D1ygWtaWgN4++jKuyi7smeDna
+         6RDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793646886; x=1794251686;
+        d=1e100.net; s=20260707; t=1793646887; x=1794251687;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x5vucs4W796ZHC+npd6ZnayJC+IA8nom1dy9O9U2Tu0=;
-        b=nY9uDloqbFROtCNBX8rnryw36tCIcDAHsWBNyqnfx9VL9ReuVlQ8SDMsciCIIMCS2e
-         pff6ITSood/EjEuWO8DwbsG5zk0YLTLP+aIuQLx28/+f6oRiNQqNZLobFQ7K0sIr1eVw
-         VnNwfXyD/cWOJWOa7KYzL5vB0sBTreUY9OLMmIB1TSkEL9A/HLN+xXdnGNblfSlLk5Xq
-         9X9cOVurho59OI6pQPoV6arbJtrc5JotiRGl+x2VyYwoHH1P0iOYEgUgDo16B7NWgd9a
-         pxBViTy8KehnrdEQHygveXA6q6kjxB+Lhnknuwnbw/ZuKtq7p+2u98jI2rv/Z1hSigcO
-         YgSA==
-X-Forwarded-Encrypted: i=1; AKwUvBzT83bZQnPScGXoUORYMR5Y0zOfbm0w6pC6bcVA0hI3/JyQwHud/DaNocnc4uRvYET/Tt8q6ghMsiI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI/sJNVfp9hzxn/HGjhwH1KstWtCHhWgTHZnUPdAa3pEeRhrcXD
-	U8ogwDP7NFvCVhd/okMhy3r2nxSswMpQ9+VDhlBdh/mQPBbvPa//20PX
-X-Gm-Gg: AYBFou0egt+jw/MSKq7TbZ+t61hmyuaI7ApOu2GdJM/v7t/rWDBI0cIPWYjg3or5MF4
-	BRretlz3g19uSVpg0UEK7IHC7cx5TbZaG4zVSeZfSgJ2wNtequgKRVDvt0aPvC+dFGys9rYfquU
-	GVaFbxGxOv3i8q8T0o1LtVUIoI71BDjEe3CJcYeUhBk/potAydWTSPvOxgjlQPwQPJQHk0FOOw0
-	u6SRFlPjeGQqL71jroJo/gEdzr3vgK8uaMcir/CKz881g3wxUzKQ2qm/8bMih41VPZ7FZy/YGcj
-	BKVSWc84dT540ilkew6y+dniTCspSZnrCeYWtsnsfE0/LfttgJaSAY1hThKGnY+/K27w0Ja7oMw
-	eLiqDYYsLQze11TzT5oaoPiZfYkSMNMTRvHmoaj4scbZnuD6H6q74DH8NXENI4LgU/4WSKdcR8Q
-	f1/VZmg0hoV0fwiXVIanMP2DBdRUJfpVxUpH6HygPc8qpohVY3UQ2P8vk6+MvZT8AKtbb3AHZmw
-	EXX1YkptkbdM8vgy/fyRnEyBGyiyHwd/ZdUUB1LbQPjKyLV+3ulDT+FQLIk/Jsj8FxTDGbZaTbK
-	9fBgB6KbGMmqgBI52ppg8HzRPPfSMSJyFQrZgePB9MUn
-X-Received: by 2002:a05:7022:7f13:b0:144:eab0:9cbc with SMTP id a92af1059eb24-1ac5e8dea62mr15143041c88.37.1793646885926;
-        Mon, 02 Nov 2026 11:14:45 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:43::])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1854d925sm62826454c88.7.2026.11.02.11.14.45
+        bh=MkiFUGFO19ZEEra5yPK9Hq7nLjNShk9jvcIBoTbzEvI=;
+        b=xvMW4M+TYgdrbjr3CGpVTCqsiblRXZzuKjd8b4jRodIA2l4VV+mw06/33zZ8Rw5j0c
+         Cmmb6qxeYf+d6PGyQjVQD/6FwvrsAVzYqbKXyAMTJBFZyKw780oAIXdGX9QbrIhKZq95
+         e1+vTqk1YRCIbtNcDOPTNTcrA8jcFhHgtZycLKSzXdtZA6IzdNU1zGVdV3u3FtPxP0SG
+         NnqAKkA7NcTmFd04dnCkdHcBZvHXD25Hg9N+2HnrjZ9linCOBpD+YE39BbTx6yzi3r9k
+         RyGSt0yrGhBvkYiQ53hulJzg/kOUZGEj+L97dXSTF6aZHmdebofKykcFUalakcWCn1yQ
+         ihdA==
+X-Forwarded-Encrypted: i=1; AKwUvBxLd+d6qVrQtF6Vuf4BNCN5VuxZhPzeJd6/8Ro5DGWGkoMXo9rCOZRLJNtBFHZX06tqFysOXOTAzd4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1iYqpQA0kN4Bn0SZGrNWjNNqaizFtNkQeb+0TRiKKYKl1Hb9L
+	Yow1pESpAC8dh55y7DbOAFIeOxYmD1XGMoaVmun60t6APRV3liaxpCMa
+X-Gm-Gg: AYBFou2Zqo1ioJPOyPQ3wegJh1rrt2PnEKo569doI4QKODgovi9i5R7W50BLxc4YWiz
+	9ZdOkBP137BKtDuoBtPNiO0xWUG/L6kzVAAu8clyH1Og+pUA3rxsbguzK5kP4NoSNcZL5GDLVbc
+	69S9oRRcctUPc0rSElv2CBjAd//zM9Tlu8IuzebfO03DKUmmyxpOEiPdu64cDEYYH9Xh76cwko6
+	lkPSS6D2SP0eRZRE+duREKSY9tbXiCxqn99OXm+ycP4zGR+IFTkl1b/TVpBIkg0/ZEFhSW5GNzs
+	kzmT2hXR9g5FAufg2J7mMvaStOQKqIAXqPDsDcGz02qWwu2sT4DfoLon33ODMPUDsxMYXh9oeqX
+	sgepXwmGMbu56xyiciukq7tDQxkCtB2/kvTkzqN4v500HrPFNaUz3flMrcCR6asmKkTDVKMp/ye
+	eXUR5kg0CeyPrGKBothpGSII55OAeVIvcExq8TdHvn6AUg00uEcbaAwRYijeT5OiAbCbGqwGGS7
+	UTNbpSsrALUYXlpk2LU+Fdn6TIxreeDL+dsgFy753kqqq2fZPDs87sJugMzuBBzd0bjmz4+mGWO
+	DjS9qynlWEChTynzdNIBKFeV
+X-Received: by 2002:a05:7022:5f0b:b0:1ab:de8b:5f0f with SMTP id a92af1059eb24-1ac5cb18717mr15331983c88.40.1793646887058;
+        Mon, 02 Nov 2026 11:14:47 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:71::])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1abcf67csm36141887c88.21.2026.11.02.11.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 11:14:45 -0800 (PST)
+        Mon, 02 Nov 2026 11:14:46 -0800 (PST)
 From: Stanislav Fomichev <sdf.kernel@gmail.com>
 X-Google-Original-From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
@@ -103,9 +103,9 @@ Cc: davem@davemloft.net,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH net-next 6/7] net: devmem: size TX net_iovs from the dmabuf sg table
-Date: Mon,  2 Nov 2026 11:14:37 -0800
-Message-ID: <20261102191438.1059771-7-sdf@fomichev.me>
+Subject: [PATCH net-next 7/7] selftests: drv-net: devmem: TX from a hugepage-backed dmabuf
+Date: Mon,  2 Nov 2026 11:14:38 -0800
+Message-ID: <20261102191438.1059771-8-sdf@fomichev.me>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261102191438.1059771-1-sdf@fomichev.me>
 References: <20261102191438.1059771-1-sdf@fomichev.me>
@@ -120,98 +120,226 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-PAGE_SIZE TX net_iovs cap devmem skbs at MAX_SKB_FRAGS pages (~68KB),
-which makes BIG TCP ineffective.
-
-TX net_iovs only need to be DMA contiguous. Use the largest power of 2,
-up to 2MB, which aligns every DMA segment of the dmabuf:
-- 2MB hugepage-backed udmabufs get 2MB net_iovs
-- no UAPI change, TX addresses are dmabuf offsets
-- skbs are still bounded by TCP's size_goal, only frags get larger
+TX net_iovs are now sized from the dmabuf layout, but the TX tests
+use a regular memfd, which usually keeps them small. Add -H to ncdevmem
+to back the udmabuf with 2MB hugepages and a TX test which sends a 3MB
+buffer from it, so that frags end at and continue past the 2MB net_iov
+boundary. The payload has a 7 byte period to catch offset errors.
 
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- net/core/devmem.c      | 28 ++++++++++++++++++++++++++--
- net/core/netdev-genl.c |  2 +-
- 2 files changed, 27 insertions(+), 3 deletions(-)
+ .../selftests/drivers/net/hw/devmem.py        | 10 ++++-
+ .../selftests/drivers/net/hw/devmem_lib.py    | 43 +++++++++++++++++--
+ .../selftests/drivers/net/hw/ncdevmem.c       |  8 +++-
+ .../selftests/drivers/net/hw/nk_devmem.py     | 11 ++++-
+ 4 files changed, 63 insertions(+), 9 deletions(-)
 
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index 19c039ed2cb2..98c9594dbf99 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -181,6 +181,20 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
- 	return err;
- }
+diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
+index 82c11ffc4add..aa7141fb36f7 100755
+--- a/tools/testing/selftests/drivers/net/hw/devmem.py
++++ b/tools/testing/selftests/drivers/net/hw/devmem.py
+@@ -3,7 +3,7 @@
  
-+static bool net_devmem_sgt_aligned(struct sg_table *sgt, size_t size)
-+{
-+	struct scatterlist *sg;
-+	unsigned int i;
-+
-+	for_each_sgtable_dma_sg(sgt, sg, i) {
-+		if (!IS_ALIGNED(sg_dma_address(sg), size) ||
-+		    !IS_ALIGNED(sg_dma_len(sg), size))
-+			return false;
-+	}
-+	return true;
-+}
-+
-+/* niov_shift == 0 picks the net_iov size from the dmabuf, TX only */
- struct net_devmem_dmabuf_binding *
- net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
- 		       struct device *dma_dev,
-@@ -191,11 +205,11 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
- 		       struct netlink_ext_ack *extack)
- {
- 	struct net_devmem_dmabuf_binding *binding;
--	size_t niov_size = 1UL << niov_shift;
- 	static u32 id_alloc_next;
- 	struct scatterlist *sg;
- 	struct dma_buf *dmabuf;
- 	unsigned int sg_idx;
-+	size_t niov_size;
- 	size_t niov_idx;
- 	size_t i;
- 	long err;
-@@ -221,7 +235,6 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
- 	binding->tx_max_frag_size = dev->netmem_tx_max_frag_size;
- 	write_pnet(&binding->net, sock_net(nl_sk));
- 	binding->uid = sk_uid(nl_sk);
--	binding->niov_shift = niov_shift;
- 	xa_init_flags(&binding->bound_rxqs, XA_FLAGS_ALLOC);
+ from os import path
+ from devmem_lib import (setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds,
+-                        run_rx_large_niov)
++                        run_rx_large_niov, run_tx_large_niov)
+ from lib.py import ksft_run, ksft_exit, ksft_disruptive
+ from lib.py import NetDrvEpEnv
  
- 	err = percpu_ref_init(&binding->ref,
-@@ -266,6 +279,17 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
- 		goto err_unmap;
+@@ -36,12 +36,18 @@ from lib.py import NetDrvEpEnv
+     run_rx_large_niov(cfg)
+ 
+ 
++@ksft_disruptive
++def check_tx_large_niov(cfg) -> None:
++    """Run the devmem TX test from a hugepage-backed dmabuf."""
++    run_tx_large_niov(cfg)
++
++
+ def main() -> None:
+     """Run the devmem test cases."""
+     with NetDrvEpEnv(__file__) as cfg:
+         setup_test(cfg, path.abspath(path.dirname(__file__) + "/ncdevmem"))
+         ksft_run([check_rx, check_tx, check_tx_chunks, check_rx_hds,
+-                  check_rx_large_niov],
++                  check_rx_large_niov, check_tx_large_niov],
+                  args=(cfg,))
+     ksft_exit()
+ 
+diff --git a/tools/testing/selftests/drivers/net/hw/devmem_lib.py b/tools/testing/selftests/drivers/net/hw/devmem_lib.py
+index 71b916c16196..8058fd1ddd50 100644
+--- a/tools/testing/selftests/drivers/net/hw/devmem_lib.py
++++ b/tools/testing/selftests/drivers/net/hw/devmem_lib.py
+@@ -2,6 +2,7 @@
+ # pylint: disable=invalid-name,too-many-arguments
+ """Shared helpers for devmem TCP selftests."""
+ 
++import hashlib
+ import os
+ import re
+ 
+@@ -42,15 +43,17 @@ NR_HUGEPAGES_FILE = "/proc/sys/vm/nr_hugepages"
+     defer(_restore_nr_hugepages, nr_hugepages)
+ 
+ 
+-def _probe_devmem(cfg, rx_page_size):
++def _probe_devmem(cfg, rx_page_size, hugepages=False):
+     """Return True if ncdevmem can bind cfg.ifname at @rx_page_size."""
+     probe_command = f"{cfg.bin_local} -f {cfg.ifname}"
+     if rx_page_size != RX_PAGE_SIZE_DEFAULT:
+         probe_command += f" -b {rx_page_size}"
++    if hugepages:
++        probe_command += " -H"
+     return cmd(probe_command, fail=False, shell=True).ret == 0
+ 
+ 
+-def require_devmem(cfg, rx_page_size=RX_PAGE_SIZE_DEFAULT):
++def require_devmem(cfg, rx_page_size=RX_PAGE_SIZE_DEFAULT, hugepages=False):
+     """Probe ncdevmem on cfg.ifname and SKIP the test if devmem isn't supported."""
+     if rx_page_size not in PROBE_RX_PAGE_SIZES:
+         raise RuntimeError(
+@@ -63,10 +66,15 @@ NR_HUGEPAGES_FILE = "/proc/sys/vm/nr_hugepages"
+         # ncdevmem's queue range and cause the probe to fail.
+         cfg.devmem_supported = {size: _probe_devmem(cfg, size)
+                                 for size in PROBE_RX_PAGE_SIZES}
++        cfg.devmem_hugepages = _probe_devmem(cfg, RX_PAGE_SIZE_DEFAULT,
++                                             hugepages=True)
+ 
+     if not cfg.devmem_supported[RX_PAGE_SIZE_DEFAULT]:
+         raise KsftSkipEx("Test requires devmem support")
+ 
++    if hugepages and not cfg.devmem_hugepages:
++        raise KsftSkipEx("Test requires a 2MB hugepage-backed dmabuf")
++
+     if rx_page_size != RX_PAGE_SIZE_DEFAULT:
+         page_size = os.sysconf("SC_PAGE_SIZE")
+         if not _is_aligned(rx_page_size, page_size):
+@@ -169,7 +177,7 @@ def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False,
+     return " ".join(parts)
+ 
+ 
+-def ncdevmem_tx(cfg, port, chunk_size=0):
++def ncdevmem_tx(cfg, port, chunk_size=0, hugepages=False):
+     """Build the ncdevmem TX send command."""
+     if hasattr(cfg, 'netns'):
+         ifname = cfg.nk_guest_ifname
+@@ -182,6 +190,8 @@ def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False,
+ 
+     if chunk_size:
+         extras.append(f"-z {chunk_size}")
++    if hugepages:
++        extras.append("-H")
+ 
+     parts = [cfg.bin_local, f"-f {ifname}", f"-s {addr}",
+              f"-p {port}", *extras]
+@@ -269,6 +279,33 @@ def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False,
+     ksft_eq(socat.stdout.strip(), "hello\nworld")
+ 
+ 
++def run_tx_large_niov(cfg):
++    """Run the devmem TX test from a 2MB hugepage-backed dmabuf.
++
++    The kernel sizes TX niovs from the dmabuf layout. Send a single buffer
++    larger than a hugepage so that frags end at and continue past the niov
++    boundary.
++    """
++    require_devmem(cfg, hugepages=True)
++    _reserve_hugepages()
++    configure_nic(cfg)
++    netns = getattr(cfg, "netns", None)
++    port = rand_port()
++    size = 3 * 1024 * 1024
++    pattern = "abcdefg"
++    expected = (pattern * (size // len(pattern) + 1))[:size]
++    tx_cmd = ncdevmem_tx(cfg, port, hugepages=True)
++    # Hash on the remote, bkg() only drains stdout once the command exits.
++    listen_cmd = f"{socat_listen(cfg, port)} | sha256sum"
++
++    with bkg(listen_cmd, host=cfg.remote, exit_wait=True) as socat:
++        wait_port_listen(port, host=cfg.remote)
++        cmd(f"bash -c 'yes {pattern} | tr -d \"\\n\" | head -c {size} | {tx_cmd}'",
++            ns=netns, shell=True)
++    ksft_eq(socat.stdout.split()[0],
++            hashlib.sha256(expected.encode()).hexdigest())
++
++
+ def run_rx_large_niov(cfg):
+     """Run the devmem RX test with a large niov (rx-page-size > PAGE_SIZE).
+ 
+diff --git a/tools/testing/selftests/drivers/net/hw/ncdevmem.c b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+index 918e3b51f3b8..e29ff27087e7 100644
+--- a/tools/testing/selftests/drivers/net/hw/ncdevmem.c
++++ b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
+@@ -104,6 +104,7 @@ static uint32_t tx_dmabuf_id;
+ static int waittime_ms = 500;
+ static bool fail_on_linear;
+ static uint32_t rx_page_size;
++static bool use_hugepages;
+ 
+ /* System state loaded by current_config_load() */
+ #define MAX_FLOWS	8
+@@ -162,7 +163,7 @@ static struct memory_buffer *udmabuf_alloc(size_t size)
  	}
  
-+	if (!niov_shift) {
-+		niov_size = SZ_2M;
-+		while (niov_size > PAGE_SIZE &&
-+		       (!IS_ALIGNED(dmabuf->size, niov_size) ||
-+			!net_devmem_sgt_aligned(binding->sgt, niov_size)))
-+			niov_size /= 2;
-+		niov_shift = ilog2(niov_size);
-+	}
-+	binding->niov_shift = niov_shift;
-+	niov_size = 1UL << niov_shift;
+ 	memfd_flags = MFD_ALLOW_SEALING;
+-	if (rx_page_size > getpagesize())
++	if (use_hugepages || rx_page_size > getpagesize())
+ 		memfd_flags |= MFD_HUGETLB | MFD_HUGE_2MB;
+ 
+ 	ctx->memfd = memfd_create("udmabuf-test", memfd_flags);
+@@ -1428,11 +1429,14 @@ int main(int argc, char *argv[])
+ 	int is_server = 0, opt;
+ 	int ret, err = 1;
+ 
+-	while ((opt = getopt(argc, argv, "Lls:c:p:v:q:t:f:z:nb:")) != -1) {
++	while ((opt = getopt(argc, argv, "Lls:c:p:v:q:t:f:z:nb:H")) != -1) {
+ 		switch (opt) {
+ 		case 'L':
+ 			fail_on_linear = true;
+ 			break;
++		case 'H':
++			use_hugepages = true;
++			break;
+ 		case 'l':
+ 			is_server = 1;
+ 			break;
+diff --git a/tools/testing/selftests/drivers/net/hw/nk_devmem.py b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
+index 61c6f31f01e5..799030db7c12 100755
+--- a/tools/testing/selftests/drivers/net/hw/nk_devmem.py
++++ b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
+@@ -4,7 +4,7 @@
+ 
+ import os
+ from devmem_lib import (setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds,
+-                        run_rx_large_niov)
++                        run_rx_large_niov, run_tx_large_niov)
+ from lib.py import ksft_run, ksft_exit, ksft_disruptive
+ from lib.py import NetDrvContEnv
+ 
+@@ -37,6 +37,12 @@ from lib.py import NetDrvContEnv
+     run_rx_large_niov(cfg)
+ 
+ 
++@ksft_disruptive
++def check_nk_tx_large_niov(cfg) -> None:
++    """Run the devmem TX large-niov test through netkit."""
++    run_tx_large_niov(cfg)
 +
- 	if (!IS_ALIGNED(dmabuf->size, niov_size)) {
- 		err = -EINVAL;
- 		NL_SET_ERR_MSG_FMT(extack,
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 384fdc5ae514..bfd229bd31ca 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -1261,7 +1261,7 @@ int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
- 	binding = net_devmem_bind_dmabuf(bind_dev,
- 					 bind_dev != netdev ? netdev : NULL,
- 					 dma_dev, DMA_TO_DEVICE, dmabuf_fd,
--					 PAGE_SHIFT, priv, NETLINK_CB(skb).sk,
-+					 0, priv, NETLINK_CB(skb).sk,
- 					 info->extack);
- 	if (IS_ERR(binding)) {
- 		err = PTR_ERR(binding);
++
+ def main() -> None:
+     """Run the netkit devmem test cases."""
+     with NetDrvContEnv(__file__, rxqueues=2, primary_rx_redirect=True) as cfg:
+@@ -44,7 +50,8 @@ from lib.py import NetDrvContEnv
+                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "ncdevmem"))
+         ksft_run([check_nk_rx, check_nk_tx, check_nk_tx_chunks,
+-                  check_nk_rx_hds, check_nk_rx_large_niov], args=(cfg,))
++                  check_nk_rx_hds, check_nk_rx_large_niov,
++                  check_nk_tx_large_niov], args=(cfg,))
+     ksft_exit()
+ 
+ 
 -- 
 2.53.0-Meta
 
