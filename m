@@ -1,208 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793646168;
-	b=2ozXawY7recRk1EiH8hDLt/0TEXwv4UFEm3JjfaZsl4+tK0z1EFewTJX1/1oVHnbxqj0
-	 C7C7FXa/vkIu3TRf7ll7FCFwHOo56n8ytBBnDopStB/LC5sm6gbqqZqxz6xnwryzLcKCd
-	 5BmvN9I0bl6NA/3rzIvDfWxy5xsbo2pZKKTzyoQM7lzF/7qL4jW+Szhn/geCb7Bpl9PPw
-	 G8zUTTe5B0PywTV6y/DzeRfeCkBk2wnTr/jTrFrhwcijamk5xcecGOrCvgZOsw4bgM1HE
-	 aeX1ioY8B9raCCbEEtagesn2AkDmOEOtnoPrgvVgCd28edB0D1vA+6v5qUuAWw8E9rg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793646168;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:user-agent:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=BIc2lzvSLE389QaZhp2RLFGkKUz/zoIeYiB/ijacAog=;
-	b=aM8gRZ20Y4/L7H06kGSUSqFGgPj2JjYXuWjoQuydSwuU8pmDyTzUUdQEdhcX8DPTjuWb
-	 9Ebzenr2vlwrUAU5RKsfBdvvn9F9D57DncMS7qfdfZCwEU1J7Mhquf3CQLq6LfVA1vov+
-	 2Ozbs6Fu10NO+AEasxKnWSL5JHc3cndQGvGqaeGcg4llJu5GvF9f5UrvTMm2f3dNdO7TS
-	 Yk1U1ch95XLfSLXoYrCx9Ii610wRzQnIAhS5oPwhzkuF9WzRdk+ok/0mpcGKcJHgmmJF7
-	 rrb5sLHJyaNRZFKQ6IcCrXfY47T29yjYtN1/leli01NMtwVGhRmfUObX2/8R1hx3rzg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mtmuSPSw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793646460;
+	b=1lLxdbJBxWeDZZ89Ytp2vFXYZ/26DqoAUnPZT03Rh5DVUrwTBXTSYRQh2h8hX53s70EC
+	 fsaAoHw1nIzpc4bYrMGqn1/KWjc1z57qxB3Xv/Oauib5cDwKHVD7KwxI0SMrANFwhUwfN
+	 02FmeS6f+XMaNWppYAErO3yLjxuw/3kKrGKrL1BsB1njYFES/HzvfU82YvkCqeCEkPFi3
+	 GZuXx/Dzls4IzNNiLXgA7/SSXUduKz/pgJLVtDiIuAYONwGNRzklEKn0cukQmtEMVWSKT
+	 PO8lc2esnFIqZ5LdxRsGI5szM2Ac1Ybb1EmbK5kC5gPoS7IE59Q2bLl/a5KemKCFePQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793646460;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=HsFmbkunUAzTvhk5SrTrngWz8M7F9z8hbVVNYkOxAog=;
+	b=iW3ygGV1S1k9eVNzXcfDxhULq7SW5C829XMtAHDw+md9vY01dNz0tqqhCHSyhBUb2iDN
+	 t4RkHPoWM7TKwh8jVDYSotbpeTlRImiK4lHtY1NqwJJ7vpy8+tnbwJHETLgC6PUUmw+wK
+	 JW6g/H5bur+lelxdrb8T8/Gt2CGNNXJoHjslgs58wbNB38mp174nguRLDqMikbfFTdkSm
+	 0cbgCiOIGwrGRDubDHsaZ+hoHXF1mLhrWXwxpECtIn4A8uls6rfWwNSouyyEaGTkXmjoa
+	 9bAtkKiSlA4lV/xOyceu7yd4V2gbqezH8WhySdl2esd/Y6OrZWqZAjFUh4u7UYW+q8w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qQu3UU0B;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38B5606A326;
-	Mon,  2 Nov 2026 19:02:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B38B5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31675606A327;
+	Mon,  2 Nov 2026 19:07:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31675606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mtmuSPSw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793646167; x=1825182167;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=BIc2lzvSLE389QaZhp2RLFGkKUz/zoIeYiB/ijacAog=;
-  b=mtmuSPSwxbMw/Tlwn0DdCeoj6AYv8GS2NIW7++ISkfQiqnKeSCVOo0th
-   Vl5racQ1LD/NrQns9TeabqO3l5JwsUbw+STOyjFy2H8V6k8k6VtGMPEJu
-   6bhxdfEzVaWLLSCZoqfNfQL5qLWNwQ1QFKezDhPNkYjnn9RcnGDuHZtyC
-   evczd/kgR5kApJnV+1IsjemYJ3ge4qjul6Q2n+vnqTLsEZTMiUJ+UVhEj
-   8AY3TYpdPQdjX83hjKZ/FH9m1iyIsmtailvCP0o+UXcUCDjfZmeggwTZl
-   YlyRu3zJRAlXqqPESuQDuxy0KaQgKcy192PsFg5vRYUZa5h5NYh1UkLOv
-   g==;
-X-CSE-ConnectionGUID: lFKIE5R4Q1u9lgbuM3hN7Q==
-X-CSE-MsgGUID: GoDdEpeoQgWyWAECDVLPwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2261066"
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2261066"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 11:02:46 -0800
-X-CSE-ConnectionGUID: uIZTxabMTSuguDpnt/9Zow==
-X-CSE-MsgGUID: zIpB6t6bTuu5HIH2vCI4Ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6325444"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 11:02:45 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 2 Nov 2026 11:02:45 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Mon, 2 Nov 2026 11:02:45 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.33) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 2 Nov 2026 11:02:44 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DcrBn1a4AggQk6rxOeoq64DZhgcgwrGY8iFCV3G2Rnwc97ybUtW0OIGHdz7BuCdAJPZYyLnFvGarieGqYbVbSgn4KKxjuk9TBokWv0NMGP4pMDoQvQboHHCbCbIisl+6UqwK+wQXdXjrObkfZiHkAce0vtYTtQ/mhNtRb3Grd1lbuBM+B0Ia19Q750PGA9crgL6e1WP6FrSIwb77AVcmpD3nxpCcPppToP2URfV0Cke8un0fOiYjZH2dwIVnCP39W5EtWG5V72tKPaAzOZbrstRdjpWkKKAlQPWuko8JEPZYUGgNn0NEXI9u1CuxVJkzS0OanHbx+U9gTyyeGV2/yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BIc2lzvSLE389QaZhp2RLFGkKUz/zoIeYiB/ijacAog=;
- b=uEV4bYDSeWJHQICPH9YsGh4g/Oltx/DIwvv4h17aBin431reAGXzFelgW1iG7yYjRkvdYwSqCqAnhmty/3MdJMrVZZGCdXFqq+zKVwk6b4tozMZpVudJDrCVThfK84L2Rj4ch9T0+0dfJmRtdaAK61QDScRfR2GymaKu9acDyZ+GdCTSLPM47fTMg/z+SgqLzjzPyMcrjiMyUg5PLBkCfb9EQb7wH76JOBEr3YPEU/iDxsAswRCgFHrJvmS8YfKpxea3sYmzd333A7fsRqzUL/ah73TWC0F2iygIEwzsWM5vQpH4jZ6vkGpZe7BeMU+AksYm7c0AXL59FB3VdDEW6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB634048.namprd11.prod.outlook.com
- (2603:10b6:208:549::23) by LV2PR11MB719417.namprd11.prod.outlook.com
- (2603:10b6:408:413::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 19:02:37 +0000
-Received: from IA3PR11MB634048.namprd11.prod.outlook.com
- ([fe80::760f:f0a4:7417:6e57]) by IA3PR11MB634048.namprd11.prod.outlook.com
- ([fe80::760f:f0a4:7417:6e57%5]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 19:02:37 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "jgg@ziepe.ca" <jgg@ziepe.ca>
-CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
-	<linux-coco@lists.linux.dev>, "suzuki.poulose@arm.com"
-	<suzuki.poulose@arm.com>, "drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
-	"James.Bottomley@hansenpartnership.com"
-	<James.Bottomley@hansenpartnership.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "Xing, Cedric" <cedric.xing@intel.com>,
-	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "Reshetova, Elena"
-	<elena.reshetova@intel.com>, "kas@kernel.org" <kas@kernel.org>,
-	"ankita@nvidia.com" <ankita@nvidia.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Jiang, Dave" <dave.jiang@intel.com>,
-	"Quigley, David" <david.quigley@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "pgonda@google.com" <pgonda@google.com>,
-	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>, "Vivi, Rodrigo"
-	<rodrigo.vivi@intel.com>, "lukas@wunner.de" <lukas@wunner.de>, "Fang, Peter"
-	<peter.fang@intel.com>, "jic23@kernel.org" <jic23@kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>, "sameo@meta.com" <sameo@meta.com>,
-	"aik@amd.com" <aik@amd.com>, "sathyanarayanan.kuppuswamy@linux.intel.com"
-	<sathyanarayanan.kuppuswamy@linux.intel.com>, "ksinyuk@kernel.org"
-	<ksinyuk@kernel.org>, "qinkun@google.com" <qinkun@google.com>
-Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Thread-Topic: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Thread-Index: AQHdXLTTjrGSfVTT6UCa8v4N/LvKxbcKKgoAgAENkgCAAFvTgIAAJv0AgA+FnAA=
-Date: Mon, 2 Nov 2026 19:02:37 +0000
-Message-ID: <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
-	 <20261015145053.3664509-21-jiri@resnulli.us>
-	 <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
-	 <20261023141218.GD3977851@ziepe.ca>
-	 <343e4a12f2fdbb4e9a19c4afe49cf2b8908d6739.camel@intel.com>
-	 <20261023220030.GM3977851@ziepe.ca>
-In-Reply-To: <20261023220030.GM3977851@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB634048:EE_|LV2PR11MB719417:EE_
-x-ms-office365-filtering-correlation-id: a920968c-5409-4965-24ef-08df3913dc77
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|38070700021|261021123027099003|5023799004|11063799006|4143699003|261021135927099003|56012099006|261028144727099003|261022075727099003|261026140227099003|261021121427099003|261026121527099003|261022105027099003|10067099003|22082099003|18002099003|261102123227099003|6133799003;
-x-microsoft-antispam-message-info: mE25SFpyupBMW3N874ui1J3T8aH0yT9HBLO+mqXbrhV8N671stGS1mpT5EdrXMgpOeFklsCR0q/prE7akM9XYNWrzL6+N0yXDFHejhyuehygt+a1kwCvbRS2LaY0Q1wn2rgXDB4b6DY0Wo08nrsu94EDEdjda5qarbkhtneqpcpxdDLDTexxQZOxYZloxLE79ILPWlVoNd0wvpMGtRrAzwPIeXpiSZ9z/F5sXMqCJ24ZtcIbNUoZxFZuR3mnwsUhQRYeUrzeCqIW+hpcC1vTr8odW+WebDxc8Han0KLa2L0RVIINbrhH+Xa5c+mOpeT+l0REi3P29t4PrIjK6EKPmpyQLTHPPr904Nrq2eqPPgAgmMXharL6BR0BKBzD7NQ5QN1PgLrzCyBoHPrFXcZq3fVrOZtmlurMaaWi8PYpLdzqCvzVqvt7KbBa5YPtkfsgwJVEMbuLBxP27tMXFT9l08DC04VhInfkSuvVzU/MlR+RAiemRwMfC7ktAbcuTQfvbih6K/PXcRgXGLdEsEDnQayqLh3oD0Adcwf4Xy1pPUYyoUCIdir+NerXRqg/RLUd+MPUZq+14JB9TYXcqX15NUohmBVTweVeuWorjA+5E32UzeTrOjA3VDYAX6XndBqPHSL1VSekFxDcmOI3G+FBRPIX7LsInjfkPhjaLQzfSnwGGwdjp0xpX499CpZyvKhNK5fgEfkHx+ukXB7oSI35g50C6f44g/b557+0Hf86G9I=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB634048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(38070700021)(261021123027099003)(5023799004)(11063799006)(4143699003)(261021135927099003)(56012099006)(261028144727099003)(261022075727099003)(261026140227099003)(261021121427099003)(261026121527099003)(261022105027099003)(10067099003)(22082099003)(18002099003)(261102123227099003)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnhWdUlWNEZqcjZnQ2xaSVc3M2tMQ05US1hxWlgzLzZXdlc0MHJ2YzBRdWt3?=
- =?utf-8?B?SFVVeWFtU09Bc00xa2VJUncvZDRibFJXNXRESE03OVlVZGczYVZUY0d4eTY5?=
- =?utf-8?B?THltdWlOS1FhUldvSFRxMTJKM1UrSHowV3NNUG83Y2t1T0ZpMUhDM3c2ZG1Z?=
- =?utf-8?B?ckxoQzBtL0NIOFF4VXZReHRJY1dUKzZQMHhVelVzZ2lEbGRJK2kxUHRHclox?=
- =?utf-8?B?TjRXNWUwS245cGFIMzhSd3FSeW10Rkxna1pvU1Y5b3I2cnk5MXZhUDBiNnVS?=
- =?utf-8?B?SlNYci96ZktWblFTY09kUUpKcmczMzQweTZjUTJNZGNBd1JLTFhaRjhhcG42?=
- =?utf-8?B?aW5VeGJ5Z3JDekp6L0pSNnRtVS9RK3ljUWVUckNEZGxhcHNKaytXdWJHdmcx?=
- =?utf-8?B?dnFnbjZKdkxpcUU0M2JydWRRTVdVUThKN2hIaWZIRUNjMWNCdU5yNkdCaWE5?=
- =?utf-8?B?VUJuNzliVXF3Uk15OGxsaDl1cTl3MWhmaGlmQXV6ZmxGaUpwSHpWZU84QTRM?=
- =?utf-8?B?emxjeEhmMWhNYjIwZGxpT01pbmZVbmdTaC91ZUpnSm5YNmJERHhkbTJMWGpy?=
- =?utf-8?B?U2cvQWsyeUJOM2M2NFE2NFlDalJBc0k5WEVEMmpFY0VTTEtBZzBIM0xBK3hJ?=
- =?utf-8?B?NzlBVTdGQXdsdy8xa1d0d1BCR1VnQ05uc1M4dmZRalprVDUwdWduYm1DMFBB?=
- =?utf-8?B?NlNjTXRDbm9PQU8rOEhOR0xkMVY3YUh2dittcXBiZG9telRjV1ZtVUUzdm9P?=
- =?utf-8?B?c0VCeVk4QW01QWt1Q3c5NTkyMlRTVG9qNXJmcmNuZElMVGlFdS9TQ3RiZDNx?=
- =?utf-8?B?dHU5VzFUZ1lFaExDNmRLRVRSZ0psc0xHRVlRQzhRVmRrOTBnQWgwSGRianp0?=
- =?utf-8?B?UVRIc1BGQm5hSiswTWxsZHRJdmMwUjVpZWlySUwrcFBvd1VKNVNxRklkQ0tY?=
- =?utf-8?B?anB6a1ZaTnJPNEFMK1RiK1EvVGJSMENtQ2dtZkJCeWlnU3hXaGhheGdmcHo2?=
- =?utf-8?B?QnExQmFHcUdVbkVFaWZqazRxelR4OHlLT1hoN3FHY3RPL293ZnBUZ0Z6RlIy?=
- =?utf-8?B?eFdTWitKMmxtdmVJQ001S3FhdGozVzBGM3M4eStWNHVWVDJDTll3T21lenNs?=
- =?utf-8?B?Y1p3OVQzSDRLSEVBTTVSTFVYUkdacGVDZVFzKytlSk5uTEp3c0VUc3VhOEhJ?=
- =?utf-8?B?SkNXYTE4VnFwb05mTHNsa1M0OWJvbWF4Vk5kQysxUXZYOExWNGpmS0JoMG5o?=
- =?utf-8?B?QkMyL0ZyQXE2aE0yTk0rc3RBUXhTMUhFbUljQW1zUDgvbHRRdFZjdVFuK05O?=
- =?utf-8?B?WXFMVzNLd0kwcHZDaCt4OVNUSGpsMEd3MEtjTTd6dEhycEZLa0xQWDdpeGRR?=
- =?utf-8?B?aWxkQVYzMkV5UTM5R0ZPY3VodmIzWGp5U01ia2QxakZGS3BvMzNXTHQycFI1?=
- =?utf-8?B?Mi8rYWZEQWJiSFh1ZTlaN1RhajdZV3E3MXdYMCtidUtTZmhWQTlJNytKemFo?=
- =?utf-8?B?VEJhU0lrSEwxNGJyL2I0aTRFMkNCcENLU3BXajlqVzdKUDBMZ0lmb3lvVi9i?=
- =?utf-8?B?c2R3dVhHeXU2ZzVObk5sMXY4bm5LcEpQdlBkNnRjZ0xuODg1OTVrS2I1N2ZY?=
- =?utf-8?B?TzhUZDg1Z3hkVWw4eW14UCtSNmNrWkJyODJKcEVqR1k3MnpLMmdNeElmeDBp?=
- =?utf-8?B?cUNmZm5KTmZSeDZiU2pNeXgzelM1ZTIxQ3dSaTdnVzZIdTJDcUhFblA5K092?=
- =?utf-8?B?WTRHbW0ySHlmMkRIWW52bVBwdUVCMk5ra3E3RGxDR0hoKzRNTVF5a3hVSG5M?=
- =?utf-8?B?SG5YQ0RBK1ZJUmVybGF2RnRyZDdnc1d4Uk4zMTB5MmdjUWlkREJRL2d0OEJl?=
- =?utf-8?B?Z2NERmhWNldMYVZpZGpiZVUrVTRVa2RMYi9JTGxIM3dVSjFQU3FOVS91aFpj?=
- =?utf-8?B?c1FMTmk0RzFyUlg5THpRS1BCNTljRWxJcTJHZWhXeWdFTlg2MFAxMXZpZkVh?=
- =?utf-8?B?elFXRFhmNFIvMDlhb2dWaTE0emN1WVB6cUpBejl3U21TdWVzSFp4MzhZeERU?=
- =?utf-8?B?TjMvb0Nnb0pKRXhwK0JPek9RZVJTcGVLY1ZBWEFzNStjd1RHbHc5M3B2emZ6?=
- =?utf-8?B?dVhaZDJkQk9qVnE4TFRPSDdSMHdYbllYWk16eGV6cmFFVlhNRHkzejBmanR5?=
- =?utf-8?B?TDkwL2czUk02UXlBbFltT3VOUUZKZjBhNkROUGo2b1A4NC8zNHh0OEc4OEZv?=
- =?utf-8?B?S0VCYktWbU9GdW5JZk5qTU9vWDJWRGxBbkkyeTBhbzRUdDJNeUhVZVZuTkw0?=
- =?utf-8?B?U2YxLzI0dUk1dEZ6VHk4NlpyUHhKU2VleHZtUWFpMU50SEdXZHk5eVRhaDFJ?=
- =?utf-8?Q?j90dfvA7HfXSrYl8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7661AADDFE62284CABBFF42378ED47CC@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=qQu3UU0B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=smtpout1; t=1793646452;
+	bh=HsFmbkunUAzTvhk5SrTrngWz8M7F9z8hbVVNYkOxAog=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qQu3UU0BtVZ1xtIKTGlCg2ui1+3Wx6lngNELQihhFGiRsCmP2PHtGrCar2wEeCnfa
+	 jt96BCfWSeIOKmOsKf/4OWgKsmpYk3CVJd7ML0XyAoxdNSCOghpOW0ysFJuW3Zzc91
+	 DylQJRLw86v1I7JLw2ZmnGJK4zTzWUTcmPhhA7UmlNLGVE9qQdRhHcK0n3AZeB+c+L
+	 iOFzZx9lfxIP7tnnJgxgA3kjC9F4peMR56I01topOmN+tews9uJaAN5SHt3cNSCG/S
+	 EH1ZeUni4hfMjUxQYuupFODsIzb3P6hWS+y22LHxgeXH2IDG06CA23QB0GPDSXYs5j
+	 rznnn6HGUrXbg==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jJLmz6fhRzKjg;
+	Mon, 02 Nov 2026 14:07:31 -0500 (EST)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: David Hildenbrand <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	Martin Liu <liumartin@google.com>,
+	David Rientjes <rientjes@google.com>,
+	christian.koenig@amd.com,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	SeongJae Park <sj@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Yu Zhao <yuzhao@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Aboorva Devarajan <aboorvad@linux.ibm.com>,
+	David Carlier <devnexen@gmail.com>,
+	Josh Law <objecting@objecting.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	Kees Cook <kees@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	linux-trace-kernel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Oleg Nesterov <oleg@redhat.com>
+Subject: [RFC PATCH v23 02/10] lib: test hierarchical per-cpu counters
+Date: Mon,  2 Nov 2026 14:07:00 -0500
+Message-Id: <20261102190708.1287100-3-mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20261102190708.1287100-1-mathieu.desnoyers@efficios.com>
+References: <20261102190708.1287100-1-mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -212,132 +116,1013 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Q/7AO+dgslcN/3qa7aRa5pTKl8CboC1lMs9ClIqIgs5F5PSM47ZmZzcqcbsu18E8MEPsrsO7HHfkDyJBBhRVDEMWs++qYQSEhFVeRnMFcG2iczDP4sxxgt4FxfhsPo4lVBgj6iSZKaZ2SeMP/e2bUcbE1Js0NjpRCk5tLwbU0kOTXLp43Y+/Ln+qrSUpF2jh6e0G2rBem5jeZxIs+gsG2rtaIotkfBbXHraTzWO10rjeeWpazYpf7hO6BHukzADBhS+fwf5BU3HdFpz12yY0xBeJNfNFuAPDPqiYcHOCy8tOXLfK+Ni00DteHNrVBBYZ2Oy+lcOrsE0UneWlBJAn0Q==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB634048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a920968c-5409-4965-24ef-08df3913dc77
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2026 19:02:37.5767
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zRO2PfZvVMzSE+tdToTHqxV26K10bMqHLZxeyDQ5Ef9aF/uT2jsDzkqB/8IBzBpbaWIVitAoFUvTy+aAl7sicVQHsEN/LEUqB/cUpX+sU8I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB719417
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-U29ycnkgZm9yIHRoZSBkZWxheWVkIHJlc3BvbnNlLi4uDQoNCk9uIEZyaSwgMjAyNi0xMC0yMyBh
-dCAxOTowMCAtMDMwMCwgSmFzb24gR3VudGhvcnBlIHdyb3RlOg0KPiA+IFllYSwgaXQncyBzdHJh
-bmdlLg0KPiA+IA0KPiA+IFRoZSBpbml0aWFsIFREWCBhdHRlc3RhdGlvbiBuYXZpZ2F0ZWQgc29t
-ZSBwbGF0Zm9ybSBsaW1pdGF0aW9ucy4gSXQgaW52b2x2ZWQNCj4gPiBhbiBTR1ggZW5jbGF2ZSBv
-biB0aGUgaG9zdC4gVGhlIGVuY2xhdmUgd2FzIHRoZSB0aGluZyB0aGF0IGRpZCB0aGUgc2lnbmlu
-ZywNCj4gPiBidXQgaXQgZGlkIG5vdCBoYXZlIGFueSBvZiB0aGUgVEQgZGV0YWlscy4gT25seSB0
-aGUgVERYIG1vZHVsZSBkaWQuDQo+ID4gDQo+ID4gU28gdGhlIHByb2Nlc3MgdG8gZ2V0IGEgcXVv
-dGUgc3RhcnRzIHdpdGggZ2V0dGluZyBhIG5vbmNlIGZyb20gdGhlIHJlbW90ZQ0KPiA+IGF0dGVz
-dGVyLiBUaGVuIHRoZSBURFggbW9kdWxlIHRvb2sgdGhlIG5vbmNlIGFuZCBmb3JtZWQgaXQgaW50
-byBhIE1BQ2VkDQo+ID4gInJlcG9ydCIgdGhhdCBpbmNsdWRlZCBhbGwgdGhlIFREIGRldGFpbHMg
-aXQga25vd3MgYWJvdXQuIFRoZW4gdGhpcyByZXBvcnQNCj4gPiBpcyBzaHVmZmxlZCBvdXQgdG8g
-aG9zdCB1c2Vyc3BhY2UsIHdoaWNoIGdpdmVzIGl0IHRvIHRoZSBlbmNsYXZlLiBUaGUNCj4gPiBl
-bmNsYXZlIGp1c3QgY2hlY2tzIGl0IGFuZCBkb2VzIHRoZSBzaWduaW5nLiBUaGVuIHRoZSByZXN1
-bHRpbmcgcXVvdGUgbWFrZXMNCj4gPiBpdHMgd2F5IGJhY2sgdG8gdGhlIGd1ZXN0Lg0KPiA+IA0K
-PiA+IEluIHRoZSBuZXcgYXR0ZXN0YXRpb24sIHRoZSBzaWduaW5nIGhhcHBlbnMgdGhyb3VnaCB0
-aGUgVERYIG1vZHVsZSBpbnN0ZWFkDQo+ID4gb2YgaW4gYW4gU0dYIGVuY2xhdmUuIFNpbmNlIHRo
-ZSBtb2R1bGUgYWxyZWFkeSBoYXMgdGhlIFREIGRldGFpbHMsIGl0IGNhbg0KPiA+IGp1c3QgYWRk
-IHRoZW0gaXRzZWxmIHRvIHRoZSBxdW90ZS4gU28gYWxsIGl0IG5lZWRzIGlzIHRoZSBub25jZS4g
-Rm9yIGxlZ2FjeQ0KPiA+IHJlYXNvbnMgdGhlIG9yaWdpbmFsIFREIHJlcG9ydCBpcyBiZWluZyB1
-c2VkIGZvciB0aGUgbm9uY2UgZGVsaXZlcnkgdG8gaG9zdA0KPiA+IHVzZXJzcGFjZS4gTmV3IFRE
-IGRldGFpbHMgYXJlIG5vdCBnb2luZyB0byBiZSBpbiB0aGUgcmVwb3J0Lg0KPiANCj4gU291bmRz
-IGxpa2Ugc3R1ZmYgdGhlIGtlcm5lbCBzaG91bGQgYmUgaGlkaW5nIHJpZ2h0PyBVc2Vyc3BhY2Ug
-Z2l2ZXMgYQ0KPiBub25jZSBhbmQgZ2V0cyBiYWNrIGEgcmVwb3J0LCBpdCBkb2Vzbid0IGNhcmUg
-YWJvdXQgdGhlc2UgZGV0YWlscz8NCg0KSXQgaXMgaGlkZGVuIGluIHRoZSBub3JtYWwgYXR0ZXN0
-YXRpb24gZmxvdy4gSSdtIGFjdHVhbGx5IG5vdCBzdXJlIHdoYXQgdGhlDQppbnRlbnRpb24gd2Fz
-IGZvciBleHBvc2luZyBpdCB0byB1c2Vyc3BhY2Ugb3JpZ2luYWxseS4gQnV0IGluIHByYWN0aWNl
-LCBpdA0KZW5hYmxlcyB1c2Vyc3BhY2UgdG8gdXNlIHNvbWUgb3RoZXIgZ3Vlc3QtaG9zdCBjb21t
-dW5pY2F0aW9uIGNoYW5uZWwgdG8gcmVhY2gNCnRoZSBlbmNsYXZlIG9uIHRoZSBob3N0LiBTbyBs
-aWtlIHlvdSBjYW4gcnVuIGEgc3RhbmRhcmQgZGlzdHJvIGtlcm5lbCBidXQgaGF2ZQ0Kc29tZSBD
-U1Agc3BlY2lmaWMgY2hhbm5lbCBmb3Igc29tZSByZWFzb24uDQoNCj4gDQo+IElmIHRoZXJlIGlz
-IGEgdjEgYW5kIHYyIHJlcG9ydCBiZWNhdXNlIG9mIHRoaXMgdGhlbiBmaW5lLCB0aGV5IGNhbiBi
-ZQ0KPiBsYWJlbGVkIHRoYXQgd2F5Lg0KDQpUaGVyZSBpcyBvbmx5IG9uZSAiVERYIHJlcG9ydCIg
-YmVjYXVzZSBpdCdzIGxlZ2FjeSB0aGluZyBub3cuDQoNCj4gDQo+ID4gU28gSSdtIHN0aWxsIG5v
-dCBmb2xsb3dpbmcgd2h5IHdlIHdvdWxkIHByb3ZpZGUgdGhlIFREIHJlcG9ydCB0aHJvdWdoIHRo
-ZQ0KPiA+IHN0YW5kYXJkaXplZCBpbnRlcmZhY2UuIE1heWJlIHdlIGRvbid0IHdhbnQgaXQ/DQo+
-IA0KPiBNeSBiaWdnZXN0IG1vdGl2YXRvciBpcyB0byBnZXQgdGhlIG1lYXN1cmVtZW50IHJlZ2lz
-dGVyIHN0dWZmIGJyb3VnaHQNCj4gdG9nZXRoZXIgc28gd2UgY2FuIG11bHRpcGxleCBpdCBpbnRz
-aWRlIHRoZSBrZXJuZWwuIEluIHRoYXQgd29ybGQgSQ0KPiB0aGluayBpdCBpcyBwcmV0dHkgaW1w
-b3J0YW50IHRoYXQgdGhlIHNpZ25hdHVyZSBjb3ZlcmluZyB0aGUNCj4gbWVhc3VyZW1lbnRzIGJl
-IGNsZWFybHkgYWZmaWxpYXRlZCB3aXRoIHRoZSBtZWFzdXJlbWVudCByZWdpc3RlcnMNCj4gdGhl
-bXNlbHZlcyBzbyB0aGVyZSBpcyBzb21lIGhvcGUgb2YgdXNlcnNwYWNlIGZpZ3VyaW5nIGl0IGFs
-bCBvdXQuDQo+IA0KPiBhdHRlc3RhdGlvbiBzdWJzeXN0ZW0gd2lsbCBkZXNjcmliZSBpdCBhcyBv
-bmUgY29oZXJlbnQgd2hvbGUsIHlvdSBnZXQNCj4gYSBzaW5nbGUgVERYIC9kZXYvWFggdGhhdCBj
-YW4gZG8gZXh0ZW5kIGFuZCBnZW5lcmF0ZSBhIHNpZ25lZCBxdW90ZSBvZg0KPiB0aG9zZSByZWdp
-c3RlcnMgdG9nZXRoZXIuIFdpdGggdGhlIHNhbWUgaW50ZXJmYWNlIGFzIGV2ZXJ5IG90aGVyIFJP
-VC4NCj4gDQo+IElNSE8gaXQgbWFrZXMgbm8gc2Vuc2UgdG8gcHVsbCBpbiBtZWFzdXJlbWVudCBy
-ZWdpc3RlciBhbmQgbGVhdmUNCj4gYmVoaW5kIHRoZSBxdW90ZSBpbiBjb25maWdmcy4NCj4gDQo+
-IEkgZ3JhbnQgeW91IHRoZXJlIHdpbGwgbm90IGJlIGEgaHVnZSBhbW91bnQgb2YgdmFsdWUgaW4g
-bW92aW5nIHRoZQ0KPiBxdW90ZSBvdmVyIGJlc2lkZXMgdGhpcyBjb25zaXN0ZW5jeSBhbmQgZWFz
-ZSBvZiB1c2UgZm9yIHVzZXJzcGFjZS4NCj4gDQo+IFRob3VnaCBJIGFtIHBsYW5uaW5nL2hvcGlu
-ZyB0byBoYXZlIGEgc2FuZSBhZG1pbiB0b29sIGhlcmUgYXMgd2UgYWdyZWUNCj4gdG8gdGhpbmdz
-LCBzbyBhZG1pbiBjYW4gZG8gbGlrZToNCj4gDQo+ICQgYXR0ZXN0IHJlcG9ydA0KPiDCoMKgIFRE
-WCBSZXBvcnQ6DQo+IMKgwqDCoMKgIFh5eiANCj4gwqDCoMKgwqAgQWJjDQo+IMKgwqAgVFBNIFJl
-cG9ydDoNCj4gwqDCoMKgwqAgMTI0DQo+IMKgwqDCoMKgIDQzNQ0KDQpIbW0uIFRQTSByZXBvcnQg
-aXMgYSBzaWduZWQgdGhpbmcgcmlnaHQ/IEJ1dCAiVERYIHJlcG9ydCIgaXMgbm90LiBPciAiVERY
-DQpyZXBvcnQiIGlzIHJlYWxseSB0aGUgVERYIHF1b3RlPw0KDQpZb3UgY2FuIGFsbW9zdCB0aGlu
-ayBhYm91dCBURFggcmVwb3J0IGxpa2U6ICJURFggc3BlY2lmaWMgdGhpbmcgdGhhdCBpcyBpbnRl
-bmRlZA0KdG8gYmUgcHJvY2Vzc2VkIGJ5IHRoZSBxdW90aW5nIGVuY2xhdmUgb3IgdGhlIFREWCBt
-b2R1bGUgaXRzZWxmIi4NCg0KSSd2ZSBzZWVuIG1hbnkgcGVvcGxlIHRyeSB0byB3cmFwIHRoZWly
-IGhlYWQgYXJvdW5kIHRoZSBURFggYXR0ZXN0YXRpb24gZGVzaWduDQphdCB0aGlzIHBvaW50LiBF
-dmVyeWJvZHkgdGhpbmtzICJ0aGlzIGNhbid0IGFsbCBiZSBuZWVkZWQiIGFuZCB3ZSBzbG93bHkg
-bmVlZCB0bw0KZ28gdGhyb3VnaCB0aGUgd2hvbGUgdGhpbmcuDQoNCkkgc3RpbGwgZG9uJ3Qgc2Vl
-IHRoZSBuZWVkIHRvIGV4cG9zZSB0aGUgVERYIHJlcG9ydCAoVERYIGRlZmluaXRpb24gb2YgcmVw
-b3J0KQ0KdGhyb3VnaCBhIGdlbmVyaWMgaW50ZXJmYWNlLiBBcmUgeW91IHRoaW5raW5nIGFib3V0
-IGhhdmluZyBhbnkga2luZCBvZiBjb21tdW5pdHkNCmNhbGwgZm9yIFRTTT8gTWF5YmUgd2UgY291
-bGQgd2FsayBwZW9wbGUgdGhyb3VnaCBURFggYXR0ZXN0YXRpb24uDQoNCj4gDQo+ID4gPiBTbyBm
-cm9tIGEgVERYIHBlcnNwZWN0aXZlLCB3aGF0IHdvdWxkIHlvdSB3YW50IHRvIGhhdmUgYXMgbGFi
-ZWxlZA0KPiA+ID4gYmxvYnMgZm9yIHRoaXMga2luZCBvZiBvcGVyYXRpb24sIG5vdyBhbmQgbGF0
-ZXIgYW5kIG1heWJlIHNvbWVkYXkgd2l0aA0KPiA+ID4gRElDRT8NCj4gPiANCj4gPiBPbiB0aGUg
-VERYIHNpZGUgd2Ugd291bGQgaGF2ZSB0byB3b3JrIHRocm91Z2ggaG93IHRvIGFzayBmb3IgYQ0K
-PiA+IHNwZWNpZmljIHR5cGUgb2YgcXVvdGUuIEluIHRoZSBpbml0aWFsIHNldCB3ZSBoYXZlIHBs
-YW5uZWQsIHRoZSBob3N0DQo+ID4gd2lsbCBkZWNpZGUuDQo+IA0KPiBUaGF0J3MgZmluZS4gQnJv
-YWRseSB0aGUgImRlZmF1bHQiIHJlcG9ydCBmb3JtYXQgc2hvdWxkIGJlIHNldCBieSB0aGUNCj4g
-Vk0ncyBpbnN0YW5jZSB0eXBlLCBlZyBkZWZpbmVkIGJ5IHRoZSBDU1AuIEl0IHNob3VsZCBub3Qg
-Y2hhbmdlDQo+IGxhdW5jaCB0byBsYXVuY2ggb2YgdGhlIHNhbWUgVk0uDQoNCkluIHRoZSBhdHRl
-c3RhdGlvbiBzcGFjZSwgaXQgc2VlbXMgdGhlcmUgYXJlIHBlb3BsZSB3aG8gd2FudCBtYW55IHNs
-aWdodGx5DQpkaWZmZXJlbnQgdGhpbmdzLiBBbmQgaXQgaGFzIGJlZW4gZ2VuZXJhdGluZyBvcHRp
-b24gY29tcGxleGl0eSBvbiB0b3Agb2YgdGhlIFREWA0KbGVnYWN5IGJhZ2dhZ2UuDQoNCj4gDQo+
-IElmIHlvdSBhbHNvIHdhbnQgdG8gaGF2ZSBhIHdheSB0byBxdWVyeSBzcGVjaWZpYyB0eXBlcywg
-bGlrZSBBTUQncw0KPiBndWlkIHRoaW5nLCB0aGVuIHRoYXQncyBmaW5lIHRvby4gQnV0IEkgdGhp
-bmsgaW50ZWdyYXRpbmcgaW50byBzeXN0ZW1kDQo+IHJlcG9ydCBtaWdodCBiZSBhIGJpdCB0cmlj
-a3kgc28gSSdtIG5vdCBzdXJlIGl0IGlzIGEgZ3JlYXQgaWRlYS4NCj4gDQo+IEluIGFsbCBjYXNl
-cyB0aGUgZm9ybWF0IG9mIHRoZSByZXBvcnQgaXMgbGFibGVkLCBwYXNzZWQgdG8gdXNlcnNwYWNl
-DQo+IGFuZCBnaXZlbiB0byB0aGUgdmVyaWZpZXIuIEkgc2VlIEludGVsIGFscmVhZHkgZGVmaW5l
-ZCBESUNFIGZvcm1hdCBhcw0KPiAnbGFyZ2VyIHRoYW4gOGsnLsKgDQoNCkknbGwgaGF2ZSB0byBj
-aGVjayAob3IgbWF5YmUgUGV0ZXIgY2FuIGNoaW1lIGluKSBpZiB0aGVyZSBpcyBzb21lIGVhc3kg
-bGFiZWwgdG8NCmxvb2sgYXQuDQoNCj4gV2UnZCBwcm9iYWJseSB3YW50IHRvIGdpdmUgdGhhdCBh
-IGRlZGljYXRlZCBsYWJlbCBpbg0KPiBDVExWIGxhbmQuDQoNCk5vdCBmb2xsb3dpbmcgd2hhdCB5
-b3UgbWVhbiBleGFjdGx5LiBBIENUTFYgZm9ybWF0IHRoYXQgY29udGFpbnMgdGhlIHJlcG9ydD8g
-T3INCmEgdXNlciBBQkkgd2F5IHRvIHJlcXVlc3QgYSBjZXJ0YWluIGZvcm1hdD8NCg0KPiANCj4g
-VGh1cywgaWYgeW91IGJvb3QgaW5zdGFuY2UgdHlwZSBWMSB5b3UgYWx3YXlzIGdldCB0aGUgc2Ft
-ZQ0KPiBzeXN0ZW1kLXJlcG9ydCBmb3JtYXQgYW5kIGEgc3RhYmxlIEFCSSB0aGVyZSBmb3IgeW91
-ciB2ZXJpZmllci4gV2hlbg0KPiB5b3UgdXBncmFkZSB0byBpbnN0YW5jZSB0eXBlIFYyLCB0aGUg
-cmVwb3J0IGZvcm1hdCBBQkkgY2FuIGNoYW5nZSBhbmQNCj4geW91IGhhdmUgdG8gaGF2ZSBhIFYy
-IGF3YXJlIHZlcmlmaWVyIHRvIHByb2Nlc3MgaXQuIFNpbmNlIGV2ZXJ5dGhpbmcNCj4gaXMgbmlj
-ZWx5IGxhYmVsZWQgdGhlIGVycm9yIHJlcG9ydGluZyBzaG91bGQgYmUgYmV0dGVyICd2ZXJpZmll
-cg0KPiBmYWlsZWQgYmVjYXVzZSBJbnRlbCBESUNFIG5vdCBzdXBwb3J0JyBpcyB3YXkgYmV0dGVy
-IHRoYW4gJ3NpZ25hdHVyZQ0KPiBmYWlsdXJlJy4NCj4gDQo+IE9uZSBvZiB0aGUgdGhpbmdzIEkn
-bSBxdWl0ZSBhZGFtZW50IGFib3V0IG9uIHRoZSBkYXRhIGxhYmVsaW5nIGlzIHRoYXQNCj4gaWYg
-c29tZXRoaW5nIHNlZXMgQmxvYiB0eXBlIEEgdGhlbiBpdCBzaG91bGQgYXQgbGVhc3QgYmUgYWJs
-ZSB0bw0KPiB2ZXJpZnkgdGhlIHNpZ25hdHVyZS4gRnVydGhlciBmb3JtYXQgdmFyaWF0aW9uIHNo
-b3VsZCBiZSBzZWxmDQo+IGRlc2NyaWJpbmcgZGF0YSB3aXRoaW4gdGhlIHNpZ25lZCBwYXlsb2Fk
-LiBJZiBpdCBpcyBzbyBkaWZmZXJlbnQgdGhhdA0KPiB5b3UgY2FuJ3QgdmVyaWZ5IHRoZSBzaWdu
-YXR1cmUgdGhlbiB5b3UgaGF2ZSB0byBnaXZlIGl0IGEgZGlmZmVyZW50DQo+IGxhYmVsIHRvby4N
-Cg0KSSdsbCBtYWtlIHN1cmUgdGhpcyBtYWRlIGl0IGJhY2sgdG8gb3VyIGF0dGVzdGF0aW9uIHBl
-b3BsZS4gKHByb2JhYmx5IHNvbWVvbmUNCmFscmVhZHkgcGlja2VkIGl0IHVwKQ0KDQo+IA0KPiA+
-IERvIHdlIHRoaW5rIHRoZXJlIGNvdWxkIGV2ZXIgYmUgYSB1c2FnZSBmb3IgdGhlIGNvY28gZ3Vl
-c3QgdG8NCj4gPiBwcm9jZXNzIHRoZSBxdW90ZSBpdHNlbGY/IElmIHRoZSBvbmx5IHVzZSBpcyBz
-aHVmZmxpbmcgYSBibG9iIHRvIHRoZQ0KPiA+IHZlcmlmaWVyIHRoZW4gbWF5YmUgd2UgZG9uJ3Qg
-bmVlZCB0aGlzIGVpdGhlci4NCj4gDQo+IFByb2JhYmx5IG5vdCwgYnV0IGlmIHlvdSB3YW50ZWQg
-dG8sIHRoZW4gc2FtZSBwcm9jZXNzIGFwcGxpZXMgdGhlDQo+IHZlcmlmaWVyLCB5b3UgZ2V0IHRo
-ZSBsYWJlbCBhbmQgdGhlIGJsb2JzIGFuZCB5b3UgZG8gdGhlIG1hdGguDQo+IA0KPiBOb25lIG9m
-IHRoZXMgY29uY2VwdHMgYXJlIHJlYWxseSBjaGFuZ2luZyBmcm9tIGNvbmZpZ2ZzLXRzbS1yZXBv
-cnQsIGl0DQo+IGlzIGp1c3Qgd3JhcHBlZCBpbnRvIENUTFYgaW5zdGVhZCBvZiB0aGUgY3JlYXRp
-dmUgdXNlIG9mIGNvbmZpZ2ZzIHdpdGgNCj4gaG9wZWZ1bGx5IGEgYml0IG1vcmUgcm9idXN0bmVz
-cyBvbiB0aGUgZGF0YSBsYWJlbGluZy4NCg0K
+Introduce Kunit tests for hierarchical per-cpu counters.
+
+Keep track of two sets of hierarchical counters, each meant to have the
+same precise sum at any time, but distributed differently across the
+topology.
+
+Keep track of an atomic counter along with each hierarchical counter, for
+sum validation.
+
+Those tests cover:
+
+- Single-threaded (no concurrency) updates.
+- Concurrent updates of counters from various CPUs.
+- Contended carries: rounds of concurrent carries from many CPUs into
+  the tree items they share.
+
+The multi-threaded tests run their workers on at most 64 CPUs, spread
+evenly across the online CPUs, so their run time does not grow with the
+size of the machine.
+
+The single-threaded and saturation tests run each update on its target
+CPU with work_on_cpu(), and the multi-threaded tests queue their updates
+on a CPU intensive workqueue, whose workers are reused across rounds
+and can preempt each other on a CPU.  The single and multi-threaded
+tests stop early after a time bound, so they complete on large virtual
+machines where cross-CPU wakeups are slow.
+
+Perform the following validations:
+
+- Compare the precise sum of counters with the sum tracked by
+  an atomic counter.
+- Compare the precise sum of two sets of hierarchical counters.
+- Approximated comparison of hierarchical counter with atomic counter.
+- Approximated comparison of two sets of hierarchical counters.
+- Validate the bounds of approximation ranges.
+- Check the residuals of the tree items, and that no carry was lost or
+  duplicated, whenever the counters are settled, including between the
+  rounds of contended carries.
+- Saturate a counter upward and downward to its worst-case approximation
+  errors, check that it reaches the edges of its accuracy range exactly
+  when all possible CPUs are online, and validate the comparisons at the
+  edges of its precise range.
+
+Run with the following .kunit/.kunitconfig:
+
+CONFIG_KUNIT=y
+CONFIG_SMP=y
+CONFIG_PREEMPT=y
+CONFIG_NR_CPUS=32
+CONFIG_HOTPLUG_CPU=y
+CONFIG_PERCPU_COUNTER_TREE_KUNIT_TEST=y
+
+With the following execution (to use SMP):
+
+./tools/testing/kunit/kunit.py run --arch=x86_64 --qemu_args="-smp 12"
+
+Link: https://lkml.kernel.org/r/20260227153730.1556542-3-mathieu.desnoyers@efficios.com
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Christoph Lameter <cl@gentwo.org>
+Cc: Martin Liu <liumartin@google.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: christian.koenig@amd.com
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: SeongJae Park <sj@kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Liam R. Howlett <liam@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Yu Zhao <yuzhao@google.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Aboorva Devarajan <aboorvad@linux.ibm.com>
+Cc: David Carlier <devnexen@gmail.com>
+Cc: Josh Law <objecting@objecting.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-mm@kvack.org
+---
+Changes since v22:
+- Fix CPU hotplug locking, module unload, and error handling: ERR_PTR
+  handling, a test data leak, allocation sizing, the cpu & ~1 skip, a
+  lost worker when kthread_stop() runs before the thread function, and
+  a task_struct reaping race. (Reported by Sashiko.)
+- Merge the four multi-thread increment tests into one function taking
+  a CPU selector.
+- Add a saturated counter comparison test, upward and downward.
+- Add a contended carries test.
+- Bound the number of CPUs running workers in the multi-threaded tests.
+- Check the residuals and carries of settled counters.
+- Add a configuration table validation test.
+- Run the updates with work_on_cpu() and a workqueue rather than
+  creating a kthread for each update, and bound the run time of the
+  single and multi-threaded tests, which timed out with 192 CPUs in a
+  virtual machine.
+- Fix checkpatch warnings.
+
+Changes since v19:
+- Rename config option to PERCPU_COUNTER_TREE_KUNIT_TEST.
+---
+ MAINTAINERS                           |   1 +
+ lib/Kconfig                           |  12 +
+ lib/tests/Makefile                    |   2 +
+ lib/tests/percpu_counter_tree_kunit.c | 832 ++++++++++++++++++++++++++
+ 4 files changed, 847 insertions(+)
+ create mode 100644 lib/tests/percpu_counter_tree_kunit.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 712af0536005..21348605d06e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11955,6 +11955,7 @@ S:	Supported
+ F:	Documentation/core-api/percpu-counter-tree.rst
+ F:	include/linux/percpu_counter_tree.h
+ F:	lib/percpu_counter_tree.c
++F:	lib/tests/percpu_counter_tree_kunit.c
+ 
+ HIGH-RESOLUTION TIMERS, TIMER WHEEL, CLOCKEVENTS
+ M:	Anna-Maria Behnsen <anna-maria@linutronix.de>
+diff --git a/lib/Kconfig b/lib/Kconfig
+index 1e42f5167c68..3921177a0d24 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -41,6 +41,18 @@ config PACKING_KUNIT_TEST
+ 
+ 	  When in doubt, say N.
+ 
++config PERCPU_COUNTER_TREE_KUNIT_TEST
++	tristate "KUnit tests for hierarchical per-cpu counters" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  This builds Kunit tests for the hierarchical per-cpu counters.
++
++	  For more information on KUnit and unit tests in general,
++	  please refer to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  When in doubt, say N.
++
+ config BITREVERSE
+ 	tristate
+ 	select GENERIC_BITREVERSE if !HAVE_ARCH_BITREVERSE
+diff --git a/lib/tests/Makefile b/lib/tests/Makefile
+index df0537e1b91f..e98687da8706 100644
+--- a/lib/tests/Makefile
++++ b/lib/tests/Makefile
+@@ -59,4 +59,6 @@ obj-$(CONFIG_UTIL_MACROS_KUNIT) += util_macros_kunit.o
+ obj-$(CONFIG_RATELIMIT_KUNIT_TEST) += test_ratelimit.o
+ obj-$(CONFIG_UUID_KUNIT_TEST) += uuid_kunit.o
+ 
++obj-$(CONFIG_PERCPU_COUNTER_TREE_KUNIT_TEST) += percpu_counter_tree_kunit.o
++
+ obj-$(CONFIG_TEST_RUNTIME_MODULE)		+= module/
+diff --git a/lib/tests/percpu_counter_tree_kunit.c b/lib/tests/percpu_counter_tree_kunit.c
+new file mode 100644
+index 000000000000..58b2e488e3c6
+--- /dev/null
++++ b/lib/tests/percpu_counter_tree_kunit.c
+@@ -0,0 +1,832 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++// SPDX-FileCopyrightText: 2026 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++
++#include <kunit/test.h>
++#include <linux/percpu_counter_tree.h>
++#include <linux/kthread.h>
++#include <linux/wait.h>
++#include <linux/random.h>
++#include <linux/cpuhplock.h>
++#include <linux/slab.h>
++#include <linux/sched/task.h>
++#include <linux/workqueue.h>
++
++struct multi_thread_test_data {
++	struct work_struct work;
++	long increment;
++	unsigned int nr_inc;
++	int counter_index;
++};
++
++#define NR_COUNTERS	2
++
++/* Hierarchical per-CPU counter instances. */
++static struct percpu_counter_tree counter[NR_COUNTERS];
++
++/* Global atomic counters for validation. */
++static atomic_long_t global_counter[NR_COUNTERS];
++
++static DECLARE_WAIT_QUEUE_HEAD(kernel_threads_wq);
++static atomic_t kernel_threads_to_run;
++
++static void complete_work(void)
++{
++	if (atomic_dec_and_test(&kernel_threads_to_run))
++		wake_up(&kernel_threads_wq);
++}
++
++/* Random tasks test. */
++#define NR_RAND_TASKS	1000
++
++static void hpcc_print_info(struct kunit *test)
++{
++	kunit_info(test, "Running test with %d CPUs\n", num_online_cpus());
++}
++
++static void add_to_counter(int counter_index, unsigned int nr_inc, long increment)
++{
++	unsigned int i;
++
++	for (i = 0; i < nr_inc; i++) {
++		percpu_counter_tree_add(&counter[counter_index], increment);
++		atomic_long_add(increment, &global_counter[counter_index]);
++	}
++}
++
++/* Check the residuals and the carries of a settled counter. */
++static void check_residuals(struct kunit *test, struct percpu_counter_tree *c)
++{
++#ifdef CONFIG_SMP
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_check_residuals(c));
++#endif
++}
++
++static void check_counters(struct kunit *test)
++{
++	int counter_index;
++
++	/* Compare each counter with its global counter. */
++	for (counter_index = 0; counter_index < NR_COUNTERS; counter_index++) {
++		struct percpu_counter_tree *c = &counter[counter_index];
++		long v = atomic_long_read(&global_counter[counter_index]);
++		long approx_sum = percpu_counter_tree_approximate_sum(c);
++		unsigned long accuracy;
++		long precise_min, precise_max;
++
++		/* Precise comparison. */
++		KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(c), v);
++		check_residuals(test, c);
++		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare_value(c, v));
++
++		/* Approximate comparison. */
++		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare_value(c, v));
++
++		/* Accuracy limits checks. */
++		accuracy = percpu_counter_tree_approximate_accuracy(c);
++
++		/*
++		 * The accuracy is an unsigned long, so the inner expression
++		 * promotes to unsigned. Compute the difference in unsigned and
++		 * cast to signed for the comparison against 0.
++		 */
++		KUNIT_EXPECT_GE(test, (long)(approx_sum - (v - accuracy)), 0);
++		KUNIT_EXPECT_LE(test, (long)(approx_sum - (v + accuracy)), 0);
++
++		/* Precise min/max range check. */
++		percpu_counter_tree_approximate_min_max_range(approx_sum, accuracy,
++							      &precise_min, &precise_max);
++
++		KUNIT_EXPECT_GE(test, v - precise_min, 0);
++		KUNIT_EXPECT_LE(test, v - precise_max, 0);
++	}
++	/* Compare each counter with the second counter. */
++	KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(&counter[0]),
++			percpu_counter_tree_precise_sum(&counter[1]));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare(&counter[0], &counter[1]));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare(&counter[0], &counter[1]));
++}
++
++/*
++ * Workqueue running the updates of the multi-threaded tests. Its workers
++ * are reused across rounds, which keeps the tests fast on machines where
++ * creating threads on remote CPUs is slow. Work items are CPU intensive,
++ * so several of them queued on one CPU run concurrently in separate
++ * workers, and can preempt each other in the middle of an update.
++ */
++static struct workqueue_struct *hpcc_test_wq;
++
++static void multi_thread_work_fn(struct work_struct *work)
++{
++	struct multi_thread_test_data *td =
++		container_of(work, struct multi_thread_test_data, work);
++
++	add_to_counter(td->counter_index, td->nr_inc, td->increment);
++	kfree(td);
++	complete_work();
++}
++
++/* Queue an update of a counter on @target_cpu. Call with the CPU hotplug lock held. */
++static int test_queue_on_cpu(int target_cpu, int counter_index, unsigned int nr_inc,
++			     long increment)
++{
++	struct multi_thread_test_data *td = kzalloc(sizeof(*td), GFP_KERNEL);
++
++	if (!td)
++		return -ENOMEM;
++	INIT_WORK(&td->work, multi_thread_work_fn);
++	td->increment = increment;
++	td->nr_inc = nr_inc;
++	td->counter_index = counter_index;
++	atomic_inc(&kernel_threads_to_run);
++	queue_work_on(target_cpu, hpcc_test_wq, &td->work);
++	return 0;
++}
++
++static void init_kthreads(void)
++{
++	atomic_set(&kernel_threads_to_run, 1);
++}
++
++/*
++ * The caller needs to wait for work completion _before_ stopping kthreads.
++ */
++static void fini_kthreads(void)
++{
++	/* Release our own reference. */
++	complete_work();
++	/* Wait for all others threads to run. */
++	wait_event(kernel_threads_wq, (atomic_read(&kernel_threads_to_run) == 0));
++}
++
++static int init_counters(unsigned long batch_size)
++{
++	int i, ret;
++
++	ret = percpu_counter_tree_init_many(counter, NR_COUNTERS, batch_size, GFP_KERNEL);
++	if (ret)
++		return ret;
++	for (i = 0; i < NR_COUNTERS; i++)
++		atomic_long_set(&global_counter[i], 0);
++	return 0;
++}
++
++static void fini_counters(void)
++{
++	percpu_counter_tree_destroy_many(counter, NR_COUNTERS);
++}
++
++enum up_test_inc_type {
++	INC_ONE,
++	INC_MINUS_ONE,
++	INC_RANDOM,
++};
++
++/*
++ * Single-threaded tests. Those run the updates on various CPUs, one at a
++ * time: work_on_cpu() waits for each update to complete before the next,
++ * effectively making sure there are no concurrent updates. Each test
++ * stops early after SINGLE_THREAD_MAX_SECONDS, because cross-CPU wakeups
++ * can be slow on large virtual machines.
++ */
++#define SINGLE_THREAD_MAX_SECONDS	10
++
++struct single_thread_update {
++	long increment;
++	int counter_index;
++};
++
++static long single_thread_update_fn(void *arg)
++{
++	struct single_thread_update *u = arg;
++
++	add_to_counter(u->counter_index, 1, u->increment);
++	return 0;
++}
++
++static void do_hpcc_test_single_thread(struct kunit *test, int _cpu0, int _cpu1,
++				       enum up_test_inc_type type)
++{
++	unsigned long batch_size_order = 5;
++	int cpu0 = _cpu0;
++	int cpu1 = _cpu1;
++	unsigned long deadline = jiffies + SINGLE_THREAD_MAX_SECONDS * HZ;
++	int ret, i;
++
++	ret = init_counters(1UL << batch_size_order);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		return;
++	cpus_read_lock();
++	for (i = 0; i < 10000 && time_before(jiffies, deadline); i++) {
++		struct single_thread_update u0 = { .counter_index = 0 };
++		struct single_thread_update u1 = { .counter_index = 1 };
++		long increment;
++
++		switch (type) {
++		case INC_ONE:
++			increment = 1;
++			break;
++		case INC_MINUS_ONE:
++			increment = -1;
++			break;
++		case INC_RANDOM:
++			increment = (long)get_random_long() % 50000;
++			break;
++		default:
++			WARN_ON_ONCE(1);
++			increment = 0;
++		}
++		if (_cpu0 < 0)
++			cpu0 = cpumask_any_distribute(cpu_online_mask);
++		if (_cpu1 < 0)
++			cpu1 = cpumask_any_distribute(cpu_online_mask);
++		u0.increment = increment;
++		u1.increment = increment;
++		work_on_cpu(cpu0, single_thread_update_fn, &u0);
++		work_on_cpu(cpu1, single_thread_update_fn, &u1);
++		check_counters(test);
++	}
++	cpus_read_unlock();
++	fini_counters();
++}
++
++static void hpcc_test_single_thread_first(struct kunit *test)
++{
++	int cpu = cpumask_first(cpu_online_mask);
++
++	do_hpcc_test_single_thread(test, cpu, cpu, INC_ONE);
++	do_hpcc_test_single_thread(test, cpu, cpu, INC_MINUS_ONE);
++	do_hpcc_test_single_thread(test, cpu, cpu, INC_RANDOM);
++}
++
++static void hpcc_test_single_thread_first_random(struct kunit *test)
++{
++	int cpu = cpumask_first(cpu_online_mask);
++
++	do_hpcc_test_single_thread(test, cpu, -1, INC_ONE);
++	do_hpcc_test_single_thread(test, cpu, -1, INC_MINUS_ONE);
++	do_hpcc_test_single_thread(test, cpu, -1, INC_RANDOM);
++}
++
++static void hpcc_test_single_thread_random(struct kunit *test)
++{
++	do_hpcc_test_single_thread(test, -1, -1, INC_ONE);
++	do_hpcc_test_single_thread(test, -1, -1, INC_MINUS_ONE);
++	do_hpcc_test_single_thread(test, -1, -1, INC_RANDOM);
++}
++
++/* Multi-threaded SMP tests. */
++
++/*
++ * Bound the number of CPUs running workers in the multi-threaded tests,
++ * so their run time does not grow with the size of the machine. Beyond
++ * this bound, the workers run on a subset spread evenly across the
++ * online CPUs, so they still reach every branch of the tree.
++ */
++#define MAX_WORKER_CPUS	64
++
++/*
++ * Each multi-threaded test stops early after MULTI_THREAD_MAX_SECONDS,
++ * because cross-CPU wakeups can be slow on large virtual machines.
++ */
++#define MULTI_THREAD_MAX_SECONDS	60
++
++static struct cpumask worker_cpus;
++
++/* Select the CPUs running workers. Call with the CPU hotplug lock held. */
++static const struct cpumask *select_worker_cpus(void)
++{
++	unsigned int nr_online = num_online_cpus(), i = 0;
++	int cpu;
++
++	cpumask_clear(&worker_cpus);
++	for_each_online_cpu(cpu) {
++		/* Pick MAX_WORKER_CPUS of the nr_online CPUs, evenly spaced. */
++		if ((i + 1) * MAX_WORKER_CPUS / nr_online !=
++		    i * MAX_WORKER_CPUS / nr_online)
++			cpumask_set_cpu(cpu, &worker_cpus);
++		i++;
++	}
++	return &worker_cpus;
++}
++
++/*
++ * CPU selection for the second counter's thread, relative to the CPU
++ * running the first counter's thread.
++ */
++enum mt_cpu_select {
++	MT_SAME_CPU,		/* Same CPU as the first counter. */
++	MT_EVEN_CPU,		/* Funnel CPU pairs (0, 1), (2, 3), ... to 0, 2, ... */
++	MT_FIRST_CPU,		/* First online CPU. */
++	MT_RANDOM_CPU,		/* Any online CPU. */
++};
++
++/* Return the CPU for the second counter's thread, or -1 to skip @cpu. */
++static int mt_select_cpu(enum mt_cpu_select select, int cpu)
++{
++	int even_cpu;
++
++	switch (select) {
++	case MT_SAME_CPU:
++		return cpu;
++	case MT_EVEN_CPU:
++		even_cpu = cpu & ~1;
++		return cpumask_test_cpu(even_cpu, cpu_online_mask) ? even_cpu : -1;
++	case MT_FIRST_CPU:
++		return cpumask_first(cpu_online_mask);
++	case MT_RANDOM_CPU:
++		return cpumask_any_distribute(cpu_online_mask);
++	}
++	WARN_ON_ONCE(1);
++	return -1;
++}
++
++static void do_hpcc_multi_thread_increment(struct kunit *test, enum mt_cpu_select select,
++					   unsigned long batch_size, unsigned int nr_inc,
++					   long increment)
++{
++	const struct cpumask *cpus;
++	int ret, cpu;
++
++	ret = init_counters(batch_size);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		return;
++	init_kthreads();
++	cpus_read_lock();
++	cpus = select_worker_cpus();
++	for_each_cpu(cpu, cpus) {
++		int cpu1 = mt_select_cpu(select, cpu);
++
++		if (cpu1 < 0)
++			continue;
++		ret = test_queue_on_cpu(cpu, 0, nr_inc, increment);
++		KUNIT_EXPECT_EQ(test, ret, 0);
++		if (ret)
++			break;
++		ret = test_queue_on_cpu(cpu1, 1, nr_inc, increment);
++		KUNIT_EXPECT_EQ(test, ret, 0);
++		if (ret)
++			break;
++	}
++	fini_kthreads();
++	cpus_read_unlock();
++	check_counters(test);
++	fini_counters();
++}
++
++static void hpcc_test_multi_thread_batch_increment(struct kunit *test)
++{
++	unsigned long deadline = jiffies + MULTI_THREAD_MAX_SECONDS * HZ;
++	unsigned long batch_size_order;
++
++	for (batch_size_order = 2; batch_size_order <= 7; batch_size_order++) {
++		unsigned long batch_size = 1UL << batch_size_order;
++		unsigned int nr_inc;
++
++		for (nr_inc = 1; nr_inc < 1024; nr_inc *= 2) {
++			long increment;
++
++			for (increment = 1; increment < 100000; increment *= 10) {
++				enum mt_cpu_select select;
++
++				if (time_after(jiffies, deadline))
++					return;
++				for (select = MT_SAME_CPU; select <= MT_RANDOM_CPU; select++)
++					do_hpcc_multi_thread_increment(test, select, batch_size,
++								       nr_inc, increment);
++			}
++		}
++	}
++}
++
++static void hpcc_test_multi_thread_random_walk(struct kunit *test)
++{
++	unsigned long deadline = jiffies + MULTI_THREAD_MAX_SECONDS * HZ;
++	unsigned long batch_size_order = 5;
++	int loop;
++
++	for (loop = 0; loop < 100 && time_before(jiffies, deadline); loop++) {
++		int ret, i;
++
++		ret = init_counters(1UL << batch_size_order);
++		KUNIT_EXPECT_EQ(test, ret, 0);
++		if (ret)
++			return;
++		init_kthreads();
++		cpus_read_lock();
++		for (i = 0; i < NR_RAND_TASKS; i++) {
++			long increment = (long)get_random_long() % 512;
++			unsigned int nr_inc = ((unsigned long)get_random_long()) % 1024;
++
++			ret = test_queue_on_cpu(cpumask_any_distribute(cpu_online_mask),
++						0, nr_inc, increment);
++			KUNIT_EXPECT_EQ(test, ret, 0);
++			if (ret)
++				break;
++			ret = test_queue_on_cpu(cpumask_any_distribute(cpu_online_mask),
++						1, nr_inc, increment);
++			KUNIT_EXPECT_EQ(test, ret, 0);
++			if (ret)
++				break;
++		}
++		fini_kthreads();
++		cpus_read_unlock();
++		check_counters(test);
++		fini_counters();
++	}
++}
++
++#define CONTENTION_NR_ROUNDS	20000
++#define CONTENTION_NR_INC	8
++
++struct contention_shared {
++	unsigned long batch_size;
++	atomic_t round;			/* Round started by the coordinator. */
++	atomic_t nr_done;		/* Rounds completed by the other workers. */
++	unsigned int nr_workers;
++	unsigned int nr_errors;		/* Rounds ending with invalid residuals. */
++	bool started;
++};
++
++struct contention_data {
++	struct contention_shared *sh;
++	long sum;
++	u32 seed;
++	bool coordinator;
++} ____cacheline_aligned_in_smp;
++
++static DECLARE_WAIT_QUEUE_HEAD(contention_wq);
++
++/*
++ * Add random multiples of the batch size, of either sign, so each
++ * addition carries into the counters above level 0. Increments of
++ * opposite signs and of more than one batch size exercise concurrent
++ * carry extractions retrying after a concurrent update of the residual.
++ */
++static void contention_add(struct contention_data *cd)
++{
++	unsigned int i;
++
++	for (i = 0; i < CONTENTION_NR_INC; i++) {
++		u32 x = cd->seed;
++		long inc;
++
++		/* xorshift32: get_random_u32() would dominate the loop. */
++		x ^= x << 13;
++		x ^= x >> 17;
++		x ^= x << 5;
++		cd->seed = x;
++		inc = (long)((x & 15) + 1) * cd->sh->batch_size;
++		if (x & 16)
++			inc = -inc;
++		percpu_counter_tree_add(&counter[0], inc);
++		cd->sum += inc;
++	}
++}
++
++/*
++ * The workers run rounds of a few additions each, all starting together.
++ * Between rounds, the coordinator checks the residuals of the settled
++ * counter: an invalid residual left by the last updaters of a round would
++ * otherwise be repaired by the next additions.
++ */
++static int contention_worker_fn(void *data)
++{
++	struct contention_data *cd = data;
++	struct contention_shared *sh = cd->sh;
++	int round;
++
++	wait_event(contention_wq, READ_ONCE(sh->started));
++	for (round = 1; round <= CONTENTION_NR_ROUNDS; round++) {
++		if (cd->coordinator) {
++			atomic_set_release(&sh->round, round);
++			contention_add(cd);
++			while (atomic_read_acquire(&sh->nr_done) < round * (sh->nr_workers - 1))
++				cond_resched();
++#ifdef CONFIG_SMP
++			if (percpu_counter_tree_check_residuals(&counter[0]))
++				sh->nr_errors++;
++#endif
++		} else {
++			while (atomic_read_acquire(&sh->round) < round)
++				cond_resched();
++			contention_add(cd);
++			/* Order the additions before the coordinator check. */
++			atomic_inc_return_release(&sh->nr_done);
++		}
++	}
++	complete_work();
++	return 0;
++}
++
++static void do_hpcc_test_contended_carries(struct kunit *test, unsigned long batch_size)
++{
++	struct percpu_counter_tree *c = &counter[0];
++	struct contention_shared sh = { .batch_size = batch_size };
++	struct contention_data *cd;
++	struct task_struct **task;
++	const struct cpumask *cpus;
++	unsigned long accuracy;
++	long expected = 0, approx;
++	bool first = true;
++	int ret, cpu;
++
++	cd = kvcalloc(nr_cpu_ids, sizeof(*cd), GFP_KERNEL);
++	task = kvcalloc(nr_cpu_ids, sizeof(*task), GFP_KERNEL);
++	KUNIT_EXPECT_NOT_NULL(test, cd);
++	KUNIT_EXPECT_NOT_NULL(test, task);
++	if (!cd || !task)
++		goto free;
++	ret = init_counters(batch_size);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		goto free;
++	init_kthreads();
++	cpus_read_lock();
++	cpus = select_worker_cpus();
++	for_each_cpu(cpu, cpus) {
++		cd[cpu].sh = &sh;
++		cd[cpu].coordinator = first;
++		cd[cpu].seed = get_random_u32() | 1;
++		task[cpu] = kthread_create_on_cpu(contention_worker_fn, &cd[cpu], cpu,
++						  "kunit_hpcc_contention/%u");
++		KUNIT_EXPECT_FALSE(test, IS_ERR(task[cpu]));
++		if (IS_ERR(task[cpu]))
++			break;
++		atomic_inc(&kernel_threads_to_run);
++		get_task_struct(task[cpu]);
++		wake_up_process(task[cpu]);
++		sh.nr_workers++;
++		first = false;
++	}
++	/* Start the workers once their number is known. */
++	WRITE_ONCE(sh.started, true);
++	wake_up_all(&contention_wq);
++	fini_kthreads();
++	for_each_cpu(cpu, cpus) {
++		if (IS_ERR_OR_NULL(task[cpu]))
++			continue;
++		kthread_stop_put(task[cpu]);
++		expected += cd[cpu].sum;
++	}
++	cpus_read_unlock();
++
++	kunit_info(test, "batch_size=%lu workers=%u rounds with invalid residuals=%u\n",
++		   batch_size, sh.nr_workers, sh.nr_errors);
++	KUNIT_EXPECT_EQ(test, sh.nr_errors, 0);
++	KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(c), expected);
++	check_residuals(test, c);
++	approx = percpu_counter_tree_approximate_sum(c);
++	accuracy = percpu_counter_tree_approximate_accuracy(c);
++	KUNIT_EXPECT_GE(test, approx, expected - (long)accuracy);
++	KUNIT_EXPECT_LE(test, approx, expected + (long)accuracy);
++	fini_counters();
++free:
++	kvfree(task);
++	kvfree(cd);
++}
++
++/*
++ * Concurrent carries from the worker CPUs into the counters above level 0
++ * which they share, with a check that the residuals are back within range
++ * and that no carry was lost or duplicated after each round.
++ */
++static void hpcc_test_contended_carries(struct kunit *test)
++{
++	unsigned long batch_size_order;
++
++	if (num_online_cpus() < 2)
++		kunit_skip(test, "needs at least 2 online CPUs");
++	for (batch_size_order = 1; batch_size_order <= 5; batch_size_order += 2)
++		do_hpcc_test_contended_carries(test, 1UL << batch_size_order);
++}
++
++static void hpcc_test_init_one(struct kunit *test)
++{
++	struct percpu_counter_tree pct;
++	int ret;
++
++	ret = percpu_counter_tree_init(&pct, 32, GFP_KERNEL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		return;
++
++	percpu_counter_tree_destroy(&pct);
++}
++
++static void hpcc_test_set(struct kunit *test)
++{
++	static long values[] = {
++		5, 100, 127, 128, 255, 256, 4095, 4096, 500000, 0,
++		-5, -100, -127, -128, -255, -256, -4095, -4096, -500000,
++	};
++	struct percpu_counter_tree pct;
++	int i, ret;
++
++	ret = percpu_counter_tree_init(&pct, 32, GFP_KERNEL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		return;
++
++	for (i = 0; i < ARRAY_SIZE(values); i++) {
++		long v = values[i];
++
++		percpu_counter_tree_set(&pct, v);
++		KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(&pct), v);
++		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare_value(&pct, v));
++
++		percpu_counter_tree_add(&pct, v);
++		KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(&pct), 2 * v);
++		KUNIT_EXPECT_EQ(test, 0,
++				percpu_counter_tree_approximate_compare_value(&pct, 2 * v));
++
++		percpu_counter_tree_add(&pct, -2 * v);
++		KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(&pct), 0);
++		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare_value(&pct, 0));
++	}
++
++	percpu_counter_tree_destroy(&pct);
++}
++
++struct saturate_data {
++	struct percpu_counter_tree *c, *probe;
++	long inc;
++	unsigned long max_steps;
++	bool overrun;
++};
++
++/* Copy the state of counter @src into counter @dst, of the same topology. */
++static void copy_counter_state(struct percpu_counter_tree *dst,
++			       struct percpu_counter_tree *src)
++{
++#ifdef CONFIG_SMP
++	percpu_counter_tree_copy_state(dst, src);
++#else
++	atomic_long_set(&dst->count, atomic_long_read(&src->count));
++#endif
++}
++
++/*
++ * Add inc (1 or -1) until the next addition would propagate a carry to the
++ * approximate sum. This leaves every tree item on the path from this CPU to
++ * the root holding its largest residual in the direction of inc which has
++ * not been propagated yet, without knowledge of the tree topology. Each
++ * addition is first tried on the probe counter, which holds the same state:
++ * reverting an addition which reached the approximate sum would not restore
++ * the residuals subtracted on the way. The path from a CPU to the root
++ * holds less than the accuracy bound: more additions mean that a carry was
++ * lost.
++ */
++static long saturate_worker_fn(void *data)
++{
++	struct saturate_data *sd = data;
++	unsigned long steps;
++
++	for (steps = 0; steps < sd->max_steps; steps++) {
++		long approx = percpu_counter_tree_approximate_sum(sd->probe);
++
++		percpu_counter_tree_add(sd->probe, sd->inc);
++		if (percpu_counter_tree_approximate_sum(sd->probe) != approx) {
++			copy_counter_state(sd->probe, sd->c);
++			break;
++		}
++		percpu_counter_tree_add(sd->c, sd->inc);
++	}
++	if (steps == sd->max_steps)
++		sd->overrun = true;
++	return 0;
++}
++
++static void do_hpcc_test_saturated_compare(struct kunit *test, unsigned long batch_size,
++					   long inc)
++{
++	struct percpu_counter_tree *c = &counter[0], *exact = &counter[1], probe;
++	struct saturate_data sd = { .c = c, .probe = &probe, .inc = inc };
++	unsigned long accuracy;
++	long approx, precise, precise_min, precise_max;
++	int ret, cpu;
++
++	ret = percpu_counter_tree_init(&probe, batch_size, GFP_KERNEL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		return;
++	ret = init_counters(batch_size);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		goto destroy_probe;
++	accuracy = percpu_counter_tree_approximate_accuracy(c);
++	sd.max_steps = batch_size + accuracy;
++	cpus_read_lock();
++	for_each_online_cpu(cpu) {
++		work_on_cpu(cpu, saturate_worker_fn, &sd);
++		KUNIT_EXPECT_FALSE(test, sd.overrun);
++		if (sd.overrun)
++			break;
++	}
++	cpus_read_unlock();
++
++	precise = percpu_counter_tree_precise_sum(c);
++	approx = percpu_counter_tree_approximate_sum(c);
++	kunit_info(test, "batch_size=%lu inc=%ld precise=%ld approx=%ld accuracy=%lu\n",
++		   batch_size, inc, precise, approx, accuracy);
++
++	check_residuals(test, c);
++	check_residuals(test, &probe);
++
++	/* Accuracy contract. */
++	KUNIT_EXPECT_GE(test, approx, precise - (long)accuracy);
++	KUNIT_EXPECT_LE(test, approx, precise + (long)accuracy);
++	/* Saturating every possible CPU reaches the accuracy exactly. */
++	if (num_online_cpus() == nr_cpu_ids)
++		KUNIT_EXPECT_EQ(test, (precise - approx) * inc, (long)accuracy);
++	percpu_counter_tree_approximate_min_max_range(approx, accuracy,
++						      &precise_min, &precise_max);
++	KUNIT_EXPECT_GE(test, precise, precise_min);
++	KUNIT_EXPECT_LE(test, precise, precise_max);
++
++	/* Comparisons against a value. */
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare_value(c, precise));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare_value(c, precise));
++	KUNIT_EXPECT_EQ(test, -1, percpu_counter_tree_precise_compare_value(c, precise - 1));
++	KUNIT_EXPECT_EQ(test, 1, percpu_counter_tree_precise_compare_value(c, precise + 1));
++
++	/* Comparisons against a counter with the same precise sum, exactly approximated. */
++	percpu_counter_tree_set(exact, precise);
++	KUNIT_EXPECT_EQ(test, percpu_counter_tree_approximate_sum(exact), precise);
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare(c, exact));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare(exact, c));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare(c, exact));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare(exact, c));
++
++	fini_counters();
++destroy_probe:
++	percpu_counter_tree_destroy(&probe);
++}
++
++/*
++ * Saturate the unpropagated residuals of every tree item reachable from
++ * online CPUs, upward and downward, which yields the largest distance
++ * between the precise and approximate sums of a settled counter in each
++ * direction, and check that the comparison
++ * functions do not return a wrong definitive answer. Small batch sizes
++ * are the most likely to expose margin errors, because the fan-out of
++ * the tree levels can be larger than the batch size.
++ */
++static void hpcc_test_saturated_compare(struct kunit *test)
++{
++	unsigned long batch_size_order;
++
++	for (batch_size_order = 1; batch_size_order <= 5; batch_size_order++) {
++		do_hpcc_test_saturated_compare(test, 1UL << batch_size_order, 1);
++		do_hpcc_test_saturated_compare(test, 1UL << batch_size_order, -1);
++	}
++}
++
++static void hpcc_test_check_config(struct kunit *test)
++{
++#ifdef CONFIG_SMP
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_check_config());
++#else
++	kunit_skip(test, "The configuration table requires CONFIG_SMP");
++#endif
++}
++
++static struct kunit_case hpcc_test_cases[] = {
++	KUNIT_CASE(hpcc_test_check_config),
++	KUNIT_CASE(hpcc_print_info),
++	KUNIT_CASE(hpcc_test_single_thread_first),
++	KUNIT_CASE(hpcc_test_single_thread_first_random),
++	KUNIT_CASE_SLOW(hpcc_test_single_thread_random),
++	KUNIT_CASE(hpcc_test_multi_thread_batch_increment),
++	KUNIT_CASE_SLOW(hpcc_test_multi_thread_random_walk),
++	KUNIT_CASE(hpcc_test_init_one),
++	KUNIT_CASE(hpcc_test_set),
++	KUNIT_CASE(hpcc_test_saturated_compare),
++	KUNIT_CASE(hpcc_test_contended_carries),
++	{}
++};
++
++static int hpcc_test_suite_init(struct kunit_suite *suite)
++{
++	hpcc_test_wq = alloc_workqueue("hpcc_test", WQ_PERCPU | WQ_CPU_INTENSIVE, 0);
++	return hpcc_test_wq ? 0 : -ENOMEM;
++}
++
++static void hpcc_test_suite_exit(struct kunit_suite *suite)
++{
++	destroy_workqueue(hpcc_test_wq);
++}
++
++static struct kunit_suite hpcc_test_suite = {
++	.name = "percpu_counter_tree",
++	.suite_init = hpcc_test_suite_init,
++	.suite_exit = hpcc_test_suite_exit,
++	.test_cases = hpcc_test_cases,
++};
++
++kunit_test_suite(hpcc_test_suite);
++
++MODULE_DESCRIPTION("Test cases for hierarchical per-CPU counters");
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+-- 
+2.47.3
+
