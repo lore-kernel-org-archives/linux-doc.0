@@ -1,49 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637797;
-	b=EnkD3VpRWCMgNzdsRMj1oentFWB1Hy+QRHbKFlPt7EvGZqeFMdM3hlGpbnkWOdacwvVn
-	 GgYBEkR9d6c7Gzp9IjJ+y23+qUfwMJVQUfKLtYO+zT29osMSz1qfKk56JoD9DMHUC1j3o
-	 ShPbp2FKWDtbVBkNTfdUmtFuvkhgz0gGRuQZzXE1fJC3AJ34a8KsWnvDWCCh0PBzryV7F
-	 QKkx1xfjmiKIwWLxKkE+57IbNe+xa1XQN19UOkMxCACov0+84z3cMmpAR7AjdM6wuBmQB
-	 8nfmMCBSAOuxVWVvub/KEfYtuqnVjltPPn8C7tGuQOH7M27voOsIGc4hDzI3MWMnhcw==
+	t=1793638240;
+	b=B6cnsa29Gun7TtjbbAqf0hBc+oENcmd9/E9KEWi5C2s97KBDqw+LnqGT38j3/uCIwo4y
+	 S1wys/sC2XXnr8y38Rl0e4DP6EKpDM4g3xMLJSP4RGamt1QMMaJiNGzZKe31kxf20aHo3
+	 CIcMgqpH8/i70UJdnpXiUp5jOamM/V4AjFSeylHvCsCDF8KWt1D5M23UawT2R+XTvjYOp
+	 LUT+9TdxQRT+NVWgUvVYFHtWquoKS241+1XY4ujrTReRvTWhRfwM8oVsksaN63c1ssrU6
+	 cACx8qa2Sw/fKjvSEbWF4Jd1qJ1LXbpSg0WFKoSAbniI3YHiC8fq+02IvitG7mOSuHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637797;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=VKEMJtPIGsYWPD7vXVQQKFHcH9qLZCoKOisHNhsibWM=;
-	b=wZ/AiiYMycR9WuiCrIrGYskj+V2ZUfbhGdZCy6gLENh2w5PKNdKu/PteJ4bA8oqLTECl
-	 JOJNmXEkwcbvwXNogRtpHakzf6H0PgK0vJ8sY7t11bRlmCWFhWIB3XB05CE2jQaLSkelN
-	 rLzHyhLn4rpvuv7Lw4od4Sfy2S2BCSRL57b5prPcxg9BB5Px27iw2ZHH7jbEZoiVdmvV6
-	 68NLVL6H9OWaBCo2Kx3PZQJECgLjZw54D5vPHfW/rVYBTCUvWmAdY//L4hUJY8O3A9EKV
-	 LXmwEd2xwcVa6F7tsAEaJLvPslwOFFmOV4BqJgZI2EAFTs/cY3/EH/II1Uj2Hj6JBDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793638240;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Date:Message-Id:To:Cc:Subject:From:In-Reply-To:
+	 References:Content-Transfer-Encoding:MIME-Version;
+	bh=I+MJWuTHvHgN/FhY5omphd4Ba1tdxtV5zHdjWOwg5V0=;
+	b=4tcBYt31wXyqg7Sm42ZBi047ZZK1I9UuTAxw+wjVHhspwQ36XpqFOoJ7m9NQoNQTE38o
+	 Ozb5CqdejcAScdSNmGzTghas8s1CFsRSpEc502QVgbF1vHNoWDGqCCvBGQr8K5z9ZRYi4
+	 JnCnJHNiFl39nI/yk9dHOVDhgbARPfIfrVtresrFfS/GdkgBqlc1G303ccYn8oLZ5oZDn
+	 H8cdd6uBfVxManngwM/BEaTpNKV75NSc2wz/kYeejTSTQYSZEtLFL5dXTyktSPdbPG3NM
+	 kDZAeXjASt9UKkUvctxTwHGgjgS6nSVV4wlKNO/QyWcHcp5GTFAaMs13aC1YY0hMUog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j0XQugCH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bS16b14r;
+	arc=none smtp.remote-ip=209.85.215.169
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2094D60A6C36;
-	Mon,  2 Nov 2026 16:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C876074670
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 16:50:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0C876074670
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j0XQugCH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6777E1F00A16;
-	Mon,  2 Nov 2026 16:43:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793637796;
-	bh=VKEMJtPIGsYWPD7vXVQQKFHcH9qLZCoKOisHNhsibWM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=j0XQugCHLLCCguReDnYvHoOTv5zl+T6gIf89ycZyyq7ohYz0yWP32l9mSoOWQJdgs
-	 Tv7tivPcvTwM5ALDUMvvMSIl/5GXiByKJYeNBz7gA0fXAISiz9WuNGD//UaEnZpnTX
-	 hob11MisLkxndqmPl1MTqow8zCTUI4D1tLPAZFXWyrTTemP43+eyy3Ugf2qGTWkmAv
-	 r9ATbmzv6h9SkbUwre6uR07No7/57qYDlpp0ZmpCpZopgQzygaDeEqLBbpbUOm/6KU
-	 SK5h4utyeeDldNVoMN1nT21v6yI9sDZnMYJbLFyomt0SJm208Y6rM63T3qeC7YhTeK
-	 KtviNxBkvTX8g==
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 02 Nov 2026 16:37:48 +0000
-Subject: [PATCH v2 7/7] kunit: tool: Add --parallel to run suites in
- concurrent kernels
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bS16b14r
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd6a7e1f4e4so1364351a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 08:50:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793638239; x=1794243039; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:from
+         :subject:cc:to:message-id:date:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I+MJWuTHvHgN/FhY5omphd4Ba1tdxtV5zHdjWOwg5V0=;
+        b=bS16b14rPOrL3wo4ue5Txv+qnV3i3hmCoMiwjUFcZ2NO+0DnPvtzWW4UzXlRcRDmED
+         8lghrxfcDBb/NrgVeaPkPP1AMRPtPXwrMCqbr7q1u02svA+63NbtsPLtZX6YsFyMlxba
+         LjmHqJnMdbwsoPeLBe0PgE1EE779Fx7MslOYPUxveDssom+iac/04doEZuQmrlrb0+w6
+         nI5Arqpu3To6Pq7TUFHDlMe1+k/YUumGYmRgLvI8M8orbsAMeNRrIvyRXUYYuHT3FLuu
+         s4/65OwiQ6Q+KBGInUl7DEEJofV2FMe8Tc0iEFliJ5Y+JTHyL3RTfcFqHzYdZcS+jAE4
+         Ix7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793638239; x=1794243039;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:from
+         :subject:cc:to:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I+MJWuTHvHgN/FhY5omphd4Ba1tdxtV5zHdjWOwg5V0=;
+        b=oa2YK9j5dUbKbCXyeGrDxIMvgXwS4hGvv5/QmALP4+4yl00jOL4GP3p5dTpup/dL2E
+         Kr7+eHqtn9LbfSneJQX5+tFE0sZUVrRYFBG0l8cbRC45tfZ2yTuFivxksTldrukpGxCI
+         Hxj8nArEu3mAoGPznqjuXvToCHSRj26rzREbtjr8oP2zRxLoHp4rdBlmEmzzdU+D0IFl
+         ltp7uTU4mZmOg3cx/zBW6ZK6BC7oVHjcvA+x0fHSsE6YdJwXWU9sXU3fSbFsp5XrF4RT
+         pdVoz5ujQYV/RSOJhFlxFpgjJqJVTq2omI1C9Gu7J3/mD9p31FdJuJ5rh0A9VsYGREyz
+         mWQA==
+X-Forwarded-Encrypted: i=1; AKwUvBxxIHr7Ixf0Mh7HuGPFnxjUN5sWxT3/CtgkAY+Rgukl6922QtkzbkO8xiT65T1dMeZnn2BbEnQNFJE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+77QGtGm1j0fw+3Fo2IfFlYrfkVPqGc2MKc/cyxIEKoRvfvwIz
+	xVWK9wv6KGBUn//S/1yS/excpRztFJuSk/4L4tRHhSFHsPzdjKxxnzM4
+X-Gm-Gg: AYBFou0BEPjlWB7IGl24AUIRZuSbCpzk9xXHyzFg0FdRXwL2fj4UYElLOWLomb1OX8v
+	UqJjbyLwrAhQP+ds1UzZOm5HZVObpzDmvrVY2OaJZ3F+8vjUM57Cp2uMXNy37PvxWx4cTwoULlW
+	RPKqrb8CuMXX12bZGg5v+3+yXjuzvvwLCVFMg+ceAYha7CPxAZT3btBg9Q+dsq8NrqNt8q2fVlA
+	jDAUn/mr8RgeVfxwS6BGrWzfo9OJJbmPuqXCXnvj0pZJerTAqOiAcsoH6gEbdLtyuhDB1m4D7RR
+	1ykCYDVgLT79mFjFd+rKCa5YPB+BAD9UFpKB9KE4kbt0KtIQmGh5Z4oKjemyweliFSiu5vTuHef
+	CPk2IAuRTwrPlTY6qpNgc+e4/ykH4tp1aZk5JnKj0/5nUd9zxDXy8cmCA+GeTsCMLlslmPNE2Ma
+	LY4EuRq85aMVLrwhg0MSTtWtN1ZNF35PhQvSEKtd1RkKQzW0lAdSmOXUyQEOj75VwWsFcqmt5UA
+	6BqrI6m4t0zVRi+M4+elKCBoiCOOowhCqdKvVT3jsHjEgKA/0an62bgzzmQYBY6OPbS+354vCyB
+	VukPvEVrcJikyW6VpoUjncYxD+dvc/y4eql2iY00N/q3kWGA7xD0z3GN06uCXgHgLe9ttBny8jq
+	oQiOTwXLdEdDqp0CD1SKhY6eNv4D/6ZPTaA==
+X-Received: by 2002:a17:90b:2d90:b0:3ac:9e76:aa9b with SMTP id 98e67ed59e1d1-3ae8957cca9mr8105797a91.7.1793638238825;
+        Mon, 02 Nov 2026 08:50:38 -0800 (PST)
+Received: from localhost ([153.61.198.255])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae84542a13sm14956309a91.5.2026.11.02.08.50.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 08:50:37 -0800 (PST)
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 02 Nov 2026 16:50:37 +0000
+Message-Id: <DMKVOUX2GDZN.2Y8MKLR367NU8@gmail.com>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>
+Cc: "Martin KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>, "Jiri Olsa" <jolsa@kernel.org>,
+ "Emil Tsalapatis" <emil@etsalapatis.com>, "Ihor Solodrai"
+ <ihor.solodrai@linux.dev>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, <bpf@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] bpf: Use "new" URL to show if net-next is open
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+In-Reply-To: <20261102111509.357269-2-u.kleine-koenig@baylibre.com>
+References: <20261102111509.357269-2-u.kleine-koenig@baylibre.com>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,505 +107,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-kunit-parallel-v2-7-8774b558d4b0@kernel.org>
-References: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
-In-Reply-To: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Daniel Latypov <dlatypov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=24300; i=broonie@kernel.org;
- h=from:subject:message-id; bh=EzPIUmbXW7nOcCmVLAWgNNURCGTCS0JiiauznvRxvl4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O2N830lGRvWufJ78jbG/CdzCwxSdCZWOK2RDhUQ2
- f/G09G3o5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABN5c4WR4Ynl6WutX8WTWGZ1
- XDX39e371a5Xev7elWyvT4+za0uvvGH4p3zF9HyIcmB4C39Mh7FxBbfrN54PErHLU5qDO4491Hz
- NCQA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-kunit.py boots a single kernel to run all the selected tests, one after
-another on a single CPU. This is good for robustness but means that the
-overall time taken to complete testing could be improved. Since we are
-already able to split up the set of tests run into multiple kernel boots
-with the --run-isolated option let's take advantage of that and allow
-execution in parallel.
+On Mon, Nov 02, 2026 at 03:15 AM Uwe Kleine-König <u.kleine-koenig@baylibre.com> wrote:
+>  For non-subscribers to kernel mailing lists, there is also a status
+>  page run by David S. Miller on net-next that provides guidance:
+>
+> -  http://vger.kernel.org/~davem/net-next.html
+> +  https://netdev.bots.linux.dev/net-next.html
 
-Add a --parallel N option to the run and exec subcommands. When N is
-greater than one the tests are enumerated with kunit.action=list and
-split up by top level suite, as --run_isolated=suite does, or by
-individual test if --run_isolated=test is also given. The resulting
-kernels are run from a thread pool N wide, each logging its console to
-test.<suite/test>.log in the build directory.
+The link is not the only stale part. The whole paragraph is wrong.
+We apply patches during the merge window too.
 
-Each kernel's output is buffered by its worker and handed to the parser
-in the order the suites were enumerated in, which is the order the
-kernel would have run them, so the results are reported identically
-regardless of which kernel happens to finish first. While developing
-this I noticed some issues with the existing --run_isolated support due
-to test naming, with those fixes in place results were identical with
-and without parallelism.
+diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
+index 4729efd..f6b9533 100644
+--- a/Documentation/bpf/bpf_devel_QA.rst
++++ b/Documentation/bpf/bpf_devel_QA.rst
+@@ -231,19 +231,9 @@ load or urgency.
 
-Performance results with --alltests, using the elapsed time reported by
-the KUnit runner with an already built kernel on a Raspberry Pi 5 with 4
-CPUs and a Graviton 4 with 192 CPUs:
-
-		     default  parallel  per test   parallel per test
-  Raspberry Pi 5     67.7s    49.4s     836.4s     326.5s
-  Graviton 4         64.1s    30.8s     445.9s      39.7s
-
-Even with the overhead of having to boot more kernels we are seeing
-substantial speedups, for obvious reasons these are much better with
-more CPUs available.
-
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/dev-tools/kunit/run_wrapper.rst |  11 ++
- tools/testing/kunit/kunit.py                  |  95 +++++++++++----
- tools/testing/kunit/kunit_tool_test.py        | 165 +++++++++++++++++++++-----
- 3 files changed, 218 insertions(+), 53 deletions(-)
-
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index cecc110a3399..af5176463966 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -315,6 +315,17 @@ command line arguments:
-   This is useful for debugging a non-hermetic test, one that
-   might pass/fail based on what ran before it.
- 
-+- ``--parallel``: Specifies the number of kernels to run at the same time.
-+  The tests are split up by suite (or by test, with ``--run_isolated=test``)
-+  and each is run in its own kernel, up to ``N`` at a time. The results are
-+  reported in the same order as a sequential run, so the output is stable
-+  regardless of which kernel finishes first. Each kernel's console output is
-+  saved to its own log in the build directory, named after the suite or test
-+  it ran, e.g. ``test.kunit_executor_test.log``. Note that each
-+  kernel needs its own memory (1GiB for QEMU), so this is best combined with
-+  ``--filter`` or a filter glob to avoid running more kernels than the host
-+  can comfortably accommodate.
-+
- - ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
- 
-    - ``all``: To view the full kernel output, use ``--raw_output=all``.
-diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-index 0132687cdd43..4c320ef207df 100755
---- a/tools/testing/kunit/kunit.py
-+++ b/tools/testing/kunit/kunit.py
-@@ -8,6 +8,7 @@
- # Author: Brendan Higgins <brendanhiggins@google.com>
- 
- import argparse
-+import concurrent.futures
- import os
- import re
- import shlex
-@@ -18,7 +19,7 @@ assert sys.version_info >= (3, 7), "Python version is too old"
- 
- from dataclasses import dataclass, replace
- from enum import Enum, auto
--from typing import Iterable, List, Optional, Sequence, Tuple
-+from typing import Iterable, Iterator, List, Optional, Sequence, Tuple
- 
- import kunit_json
- import kunit_junit
-@@ -66,6 +67,7 @@ class KunitExecRequest(KunitParseRequest):
- 	list_tests: bool
- 	list_tests_attr: bool
- 	list_suites: bool
-+	parallel: int
- 
- @dataclass
- class KunitRequest(KunitExecRequest, KunitBuildRequest):
-@@ -166,6 +168,52 @@ def _suites_from_test_list(tests: List[str]) -> List[str]:
- 			suites.append(suite)
- 	return suites
- 
-+def _run_kernels(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest,
-+		 filter_globs: List[str]) -> Iterator[Iterable[str]]:
-+	"""Boots a kernel for each filter glob and yields each kernel's output.
-+
-+	Outputs are always yielded in the order of filter_globs, so the
-+	results are reported in the same order whether the kernels are run
-+	one after another or (with --parallel) several at a time.
-+	"""
-+	num_kernels = len(filter_globs)
-+	workers = min(request.parallel, num_kernels)
-+	if workers <= 1:
-+		for i, filter_glob in enumerate(filter_globs):
-+			stdout.print_with_timestamp('Starting KUnit Kernel ({}/{})...'.format(i+1, num_kernels))
-+			yield linux.run_kernel(
-+				args=request.kernel_args,
-+				timeout=request.timeout,
-+				filter_glob=filter_glob,
-+				filter=request.filter,
-+				filter_action=request.filter_action,
-+				build_dir=request.build_dir)
-+		return
-+
-+	# Each kernel's output is buffered by a worker thread and only
-+	# handed back once all the kernels before it in filter_globs have
-+	# been reported, so which kernel finishes first doesn't matter.
-+	# The kernels write to separate log files named after the suite or
-+	# test they ran, e.g. test.<suite>.log.
-+	def run(filter_glob: str) -> List[str]:
-+		return list(linux.run_kernel(
-+			args=request.kernel_args,
-+			timeout=request.timeout,
-+			filter_glob=filter_glob,
-+			filter=request.filter,
-+			filter_action=request.filter_action,
-+			build_dir=request.build_dir,
-+			outfile=kunit_kernel.get_outfile_path(request.build_dir, filter_glob)))
-+
-+	stdout.print_with_timestamp('Starting {} KUnit Kernels, {} at a time...'.format(num_kernels, workers))
-+	with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
-+		futures = [pool.submit(run, filter_glob) for filter_glob in filter_globs]
-+		for i, (filter_glob, future) in enumerate(zip(filter_globs, futures)):
-+			output = future.result()
-+			stdout.print_with_timestamp('Results from KUnit Kernel ({}/{}) for {}, console log in {}:'.format(
-+				i+1, num_kernels, filter_glob, kunit_kernel.get_outfile_path(request.build_dir, filter_glob)))
-+			yield output
-+
- def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -> KunitResult:
- 	filter_globs = [request.filter_glob]
- 	if request.list_tests:
-@@ -184,11 +232,14 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
- 		for line in output:
- 			print(line.rstrip())
- 		return KunitResult(status=KunitStatus.SUCCESS, elapsed_time=0.0)
--	if request.run_isolated:
-+	if request.run_isolated or request.parallel > 1:
- 		tests = _list_tests(linux, request)
- 		if request.run_isolated == 'test':
- 			filter_globs = tests
--		elif request.run_isolated == 'suite':
-+		else:
-+			# One kernel per suite: either --run_isolated=suite, or
-+			# --parallel, which splits the tests up by suite so that
-+			# each suite can be run in a separate kernel.
- 			filter_globs = _suites_from_test_list(tests)
- 			# Apply the test-part of the user's glob, if present.
- 			if '.' in request.filter_glob:
-@@ -203,26 +254,9 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
- 	report.counts = test_counts
- 	parse_request = replace(request, json=None, junit=None)
- 	test_failed = False
--	exec_time = 0.0
--	for i, filter_glob in enumerate(filter_globs):
--		stdout.print_with_timestamp('Starting KUnit Kernel ({}/{})...'.format(i+1, len(filter_globs)))
+ Q: Are patches applied to bpf-next when the merge window is open?
+ -----------------------------------------------------------------
+-A: For the time when the merge window is open, bpf-next will not be
+-processed. This is roughly analogous to net-next patch processing,
+-so feel free to read up on the netdev docs at
+-Documentation/process/maintainer-netdev.rst about further details.
 -
--		test_start = time.time()
--		run_result = linux.run_kernel(
--			args=request.kernel_args,
--			timeout=request.timeout,
--			filter_glob=filter_glob,
--			filter=request.filter,
--			filter_action=request.filter_action,
--			build_dir=request.build_dir)
+-During those two weeks of merge window, we might ask you to resend
+-your patch series once bpf-next is open again. Once Linus released
+-a ``v*-rc1`` after the merge window, we continue processing of bpf-next.
 -
-+	exec_start = time.time()
-+	for run_result in _run_kernels(linux, request, filter_globs):
- 		_, test_result = parse_tests(parse_request, metadata, run_result)
--		# run_kernel() doesn't block on the kernel exiting.
--		# That only happens after we get the last line of output from `run_result`.
--		# So exec_time here actually contains parsing + execution time, which is fine.
--		test_end = time.time()
--		exec_time += test_end - test_start
+-For non-subscribers to kernel mailing lists, there is also a status
+-page run by David S. Miller on net-next that provides guidance:
 -
- 		test_counts.add_subtest_counts(test_result.counts)
- 		# A kernel with no results has no failed test counts to aggregate.
- 		if _map_to_overall_status(test_result.status) != KunitStatus.SUCCESS:
-@@ -240,6 +274,10 @@ def exec_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -
- 			report.status = kunit_parser.TestStatus.FAILURE_TO_PARSE_TESTS
- 	if not request.raw_output:
- 		_write_test_results(request, metadata, report)
-+	# run_kernel() doesn't block on the kernel exiting.
-+	# That only happens after we get the last line of output from `run_result`.
-+	# So exec_time here actually contains parsing + execution time, which is fine.
-+	exec_time = time.time() - exec_start
- 
- 	if len(filter_globs) == 1 and test_counts.crashed > 0:
- 		bd = request.build_dir
-@@ -492,6 +530,13 @@ def add_exec_opts(parser: argparse.ArgumentParser) -> None:
- 	parser.add_argument('--list_suites', help='If set, list all suites that will be '
- 			    'run.',
- 			    action='store_true')
-+	parser.add_argument('--parallel',
-+			    help='Number of kernels to run at the same time. The tests '
-+			    'are split up by suite (or by test with --run_isolated=test) '
-+			    'and each suite is run in its own kernel, with the results '
-+			    'reported in the same order as a sequential run. Defaults '
-+			    'to 1, i.e. a single kernel running all the tests.',
-+			    type=int, default=1, metavar='N')
- 
- def add_parse_opts(parser: argparse.ArgumentParser) -> None:
- 	parser.add_argument('--raw_output', help='If set don\'t parse output from kernel. '
-@@ -562,7 +607,8 @@ def run_handler(cli_args: argparse.Namespace) -> None:
- 					run_isolated=cli_args.run_isolated,
- 					list_tests=cli_args.list_tests,
- 					list_tests_attr=cli_args.list_tests_attr,
--					list_suites=cli_args.list_suites)
-+					list_suites=cli_args.list_suites,
-+					parallel=cli_args.parallel)
- 	result = run_tests(linux, request)
- 	if result.status != KunitStatus.SUCCESS:
- 		sys.exit(1)
-@@ -613,7 +659,8 @@ def exec_handler(cli_args: argparse.Namespace) -> None:
- 					run_isolated=cli_args.run_isolated,
- 					list_tests=cli_args.list_tests,
- 					list_tests_attr=cli_args.list_tests_attr,
--					list_suites=cli_args.list_suites)
-+					list_suites=cli_args.list_suites,
-+					parallel=cli_args.parallel)
- 	result = exec_tests(linux, exec_request)
- 	stdout.print_with_timestamp((
- 		'Elapsed time: %.3fs\n') % (result.elapsed_time))
-diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
-index c4999273e491..beb80c728004 100755
---- a/tools/testing/kunit/kunit_tool_test.py
-+++ b/tools/testing/kunit/kunit_tool_test.py
-@@ -19,6 +19,7 @@ import signal
- import subprocess
- import sys
- import textwrap
-+import time
- from typing import Iterable
- import xml.etree.ElementTree as ET
- 
-@@ -1019,7 +1020,7 @@ class KUnitMainTest(unittest.TestCase):
- 		self.linux_source_mock.run_kernel.return_value = ['TAP version 14', 'init: random output'] + want
- 
- 		got = kunit._list_tests(self.linux_source_mock,
--				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'suite', False, False, False))
-+				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'suite', False, False, False, 1))
- 		self.assertEqual(got, want)
- 		# Should respect the user's filter glob when listing tests.
- 		self.linux_source_mock.run_kernel.assert_called_once_with(
-@@ -1034,7 +1035,7 @@ class KUnitMainTest(unittest.TestCase):
- 			'[    0.300000] suite2.test1']
- 
- 		got = kunit._list_tests(self.linux_source_mock,
--				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'suite', False, False, False))
-+				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'suite', False, False, False, 1))
- 		self.assertEqual(got, want)
- 
- 	@mock.patch.object(kunit, '_list_tests')
-@@ -1044,7 +1045,7 @@ class KUnitMainTest(unittest.TestCase):
- 
- 		# Should respect the user's filter glob when listing tests.
- 		mock_tests.assert_called_once_with(mock.ANY,
--				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*.test*', '', None, None, 'suite', False, False, False))
-+				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*.test*', '', None, None, 'suite', False, False, False, 1))
- 		self.linux_source_mock.run_kernel.assert_has_calls([
- 			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test*', filter='', filter_action=None, timeout=300),
- 			mock.call(args=None, build_dir='.kunit', filter_glob='suite2.test*', filter='', filter_action=None, timeout=300),
-@@ -1057,7 +1058,7 @@ class KUnitMainTest(unittest.TestCase):
- 
- 		# Should respect the user's filter glob when listing tests.
- 		mock_tests.assert_called_once_with(mock.ANY,
--				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'test', False, False, False))
-+				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*', '', None, None, 'test', False, False, False, 1))
- 		self.linux_source_mock.run_kernel.assert_has_calls([
- 			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test1', filter='', filter_action=None, timeout=300),
- 			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test2', filter='', filter_action=None, timeout=300),
-@@ -1065,35 +1066,115 @@ class KUnitMainTest(unittest.TestCase):
- 		])
- 
- 	@mock.patch.object(kunit, '_list_tests')
--	def test_isolated_kernel_without_results_fails(self, mock_tests):
-+	def test_parallel_by_suite(self, mock_tests):
-+		mock_tests.return_value = ['suite.test1', 'suite.test2', 'suite2.test1']
-+		kunit.main(['exec', '--parallel=2', 'suite*.test*'])
-+
-+		# Should split by suite, respecting the user's filter glob.
-+		mock_tests.assert_called_once_with(mock.ANY,
-+				     kunit.KunitExecRequest(None, None, None, False, False, '.kunit', 300, 'suite*.test*', '', None, None, None, False, False, False, 2))
-+		# Each kernel gets its own log file, named after its suite.
-+		# The kernels run concurrently, so don't depend on the order
-+		# they start in.
-+		self.assertEqual(self.linux_source_mock.run_kernel.call_count, 2)
-+		self.linux_source_mock.run_kernel.assert_has_calls([
-+			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test*', filter='', filter_action=None, timeout=300, outfile='.kunit/test.suite.test_.log'),
-+			mock.call(args=None, build_dir='.kunit', filter_glob='suite2.test*', filter='', filter_action=None, timeout=300, outfile='.kunit/test.suite2.test_.log'),
-+		], any_order=True)
-+		self.print_mock.assert_any_call(StrContains('Starting 2 KUnit Kernels, 2 at a time...'))
-+		self.print_mock.assert_any_call(StrContains('Results from KUnit Kernel (1/2) for suite.test*, console log in .kunit/test.suite.test_.log:'))
-+		self.print_mock.assert_any_call(StrContains('Results from KUnit Kernel (2/2) for suite2.test*, console log in .kunit/test.suite2.test_.log:'))
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_by_test(self, mock_tests):
-+		mock_tests.return_value = ['suite.test1', 'suite.test2', 'suite2.test1']
-+		kunit.main(['exec', '--parallel=2', '--run_isolated=test', 'suite*'])
-+
-+		self.assertEqual(self.linux_source_mock.run_kernel.call_count, 3)
-+		self.linux_source_mock.run_kernel.assert_has_calls([
-+			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test1', filter='', filter_action=None, timeout=300, outfile='.kunit/test.suite.test1.log'),
-+			mock.call(args=None, build_dir='.kunit', filter_glob='suite.test2', filter='', filter_action=None, timeout=300, outfile='.kunit/test.suite.test2.log'),
-+			mock.call(args=None, build_dir='.kunit', filter_glob='suite2.test1', filter='', filter_action=None, timeout=300, outfile='.kunit/test.suite2.test1.log'),
-+		], any_order=True)
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_single_suite_runs_one_kernel(self, mock_tests):
-+		# With only one suite there's nothing to parallelise, so this
-+		# should behave exactly like a sequential run.
-+		mock_tests.return_value = ['suite.test1', 'suite.test2']
-+		kunit.main(['exec', '--parallel=4', 'suite'])
-+
-+		self.linux_source_mock.run_kernel.assert_called_once_with(
-+			args=None, build_dir='.kunit', filter_glob='suite', filter='', filter_action=None, timeout=300)
-+		self.print_mock.assert_any_call(StrContains('Starting KUnit Kernel (1/1)...'))
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_stable_order(self, mock_tests):
-+		mock_tests.return_value = ['suite1.test1', 'suite2.test1', 'suite3.test1']
-+
-+		# Make the kernels finish in the reverse of the order they're
-+		# listed in: results must still come out in the listed order.
-+		def fake_run_kernel(filter_glob, **kwargs):
-+			delay = {'suite1': 0.2, 'suite2': 0.1, 'suite3': 0.0}[filter_glob]
-+			time.sleep(delay)
-+			return ['TAP version 14', '1..1', 'ok 1 - ' + filter_glob]
-+		self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
-+
-+		kunit.main(['exec', '--parallel=3', '--raw_output=kunit'])
-+
-+		output = [call.args[0] for call in self.print_mock.call_args_list]
-+		want = ['ok 1 - suite1', 'ok 1 - suite2', 'ok 1 - suite3']
-+		self.assertEqual([l for l in output if l.startswith('ok')], want)
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_counts_all_kernels(self, mock_tests):
- 		mock_tests.return_value = ['suite1.test1', 'suite2.test1']
--		for missing_output in ([], ['KTAP version 1', '1..0']):
--			for missing_suite in ('suite1', 'suite2'):
--				with self.subTest(output=missing_output,
--						 suite=missing_suite):
--					def fake_run_kernel(filter_glob, **kwargs):
--						if filter_glob == missing_suite:
--							return missing_output
--						return ['KTAP version 1', '1..1', 'ok 1 - test1']
--					self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
- 
--					with self.assertRaises(SystemExit) as e:
--						kunit.main(['exec', '--run_isolated=suite'])
--					self.assertEqual(e.exception.code, 1)
-+		def fake_run_kernel(filter_glob, **kwargs):
-+			if filter_glob == 'suite2':
-+				return ['TAP version 14', '1..1', 'not ok 1 - suite2']
-+			return ['TAP version 14', '1..1', 'ok 1 - suite1']
-+		self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
-+
-+		# A failure in any of the kernels must fail the overall run.
-+		with self.assertRaises(SystemExit) as e:
-+			kunit.main(['exec', '--parallel=2'])
-+		self.assertEqual(e.exception.code, 1)
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_isolated_kernel_without_results_fails(self, mock_tests):
-+		mock_tests.return_value = ['suite1.test1', 'suite2.test1']
-+		for parallel in (1, 2):
-+			for missing_output in ([], ['KTAP version 1', '1..0']):
-+				for missing_suite in ('suite1', 'suite2'):
-+					with self.subTest(parallel=parallel, output=missing_output,
-+							 suite=missing_suite):
-+						def fake_run_kernel(filter_glob, **kwargs):
-+							if filter_glob == missing_suite:
-+								return missing_output
-+							return ['KTAP version 1', '1..1', 'ok 1 - test1']
-+						self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
-+
-+						with self.assertRaises(SystemExit) as e:
-+							kunit.main(['exec', '--run_isolated=suite',
-+								    '--parallel=' + str(parallel)])
-+						self.assertEqual(e.exception.code, 1)
- 
- 	@mock.patch.object(kunit, '_list_tests')
- 	def test_isolated_skipped_kernels_succeed(self, mock_tests):
- 		mock_tests.return_value = ['suite1.test1', 'suite2.test1']
--		for all_skipped in (False, True):
--			with self.subTest(all_skipped=all_skipped):
--				def fake_run_kernel(filter_glob, **kwargs):
--					result = 'ok 1 - test1'
--					if all_skipped or filter_glob == 'suite1':
--						result += ' # SKIP unavailable'
--					return ['KTAP version 1', '1..1', result]
--				self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
-+		for parallel in (1, 2):
-+			for all_skipped in (False, True):
-+				with self.subTest(parallel=parallel, all_skipped=all_skipped):
-+					def fake_run_kernel(filter_glob, **kwargs):
-+						result = 'ok 1 - test1'
-+						if all_skipped or filter_glob == 'suite1':
-+							result += ' # SKIP unavailable'
-+						return ['KTAP version 1', '1..1', result]
-+					self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
- 
--				kunit.main(['exec', '--run_isolated=suite'])
-+					kunit.main(['exec', '--run_isolated=suite',
-+						    '--parallel=' + str(parallel)])
- 
- 	@mock.patch.object(kunit, '_list_tests')
- 	def test_isolated_reports_include_all_kernels(self, mock_tests):
-@@ -1109,8 +1190,8 @@ class KUnitMainTest(unittest.TestCase):
- 				'    1..1', f'    {status} 1 - {case}', f'{status} 1 - {suite}']
- 		self.linux_source_mock.run_kernel.side_effect = fake_run_kernel
- 
--		for isolation in ('suite', 'test'):
--			with self.subTest(isolation=isolation), \
-+		for parallel, isolation in itertools.product((1, 2), ('suite', 'test')):
-+			with self.subTest(parallel=parallel, isolation=isolation), \
- 			     tempfile.TemporaryDirectory() as output_dir:
- 				if isolation == 'suite':
- 					mock_tests.return_value = ['suite1.test', 'suite2.test']
-@@ -1121,7 +1202,8 @@ class KUnitMainTest(unittest.TestCase):
- 				json_path = os.path.join(output_dir, 'results.json')
- 				xml_path = os.path.join(output_dir, 'results.xml')
- 				with self.assertRaises(SystemExit) as e:
--					kunit.main(['exec', '--run_isolated=' + isolation,
-+					kunit.main(['exec', '--parallel=' + str(parallel),
-+						    '--run_isolated=' + isolation,
- 						    '--json=' + json_path, '--junit=' + xml_path])
- 				self.assertEqual(e.exception.code, 1)
- 
-@@ -1139,6 +1221,31 @@ class KUnitMainTest(unittest.TestCase):
- 					'FAIL' if case.find('failure') is not None else 'PASS')
- 					for suite in root for case in suite], expected)
- 
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_reports_to_stdout(self, mock_tests):
-+		mock_tests.return_value = ['suite1.test', 'suite2.test']
-+		self.linux_source_mock.run_kernel.side_effect = lambda filter_glob, **kwargs: [
-+			'KTAP version 1', '1..1', 'ok 1 - ' + filter_glob]
-+		kunit.main(['exec', '--parallel=2', '--json', '--junit'])
-+		output = [call.args[0] for call in self.print_mock.call_args_list]
-+		json_reports = [json.loads(line) for line in output if line.startswith('{')]
-+		xml_reports = [ET.fromstring(line) for line in output if line.startswith('<testsuite')]
-+		self.assertEqual(len(json_reports), 1)
-+		self.assertEqual(json_reports[0]['misc']['tests'], 2)
-+		self.assertEqual(len(xml_reports), 1)
-+		self.assertEqual(xml_reports[0].get('tests'), '2')
-+
-+	@mock.patch.object(kunit, '_list_tests')
-+	def test_parallel_raw_output_does_not_write_reports(self, mock_tests):
-+		mock_tests.return_value = ['suite1.test', 'suite2.test']
-+		with tempfile.TemporaryDirectory() as output_dir:
-+			json_path = os.path.join(output_dir, 'results.json')
-+			xml_path = os.path.join(output_dir, 'results.xml')
-+			kunit.main(['exec', '--parallel=2', '--raw_output=all',
-+				    '--json=' + json_path, '--junit=' + xml_path])
-+			self.assertFalse(os.path.exists(json_path))
-+			self.assertFalse(os.path.exists(xml_path))
-+
- 	def test_single_kernel_reports_match_parse(self):
- 		with tempfile.TemporaryDirectory() as output_dir:
- 			json_path = os.path.join(output_dir, 'results.json')
+-  http://vger.kernel.org/~davem/net-next.html
++A: Yes.
 
--- 
-2.47.3
-
+pw-bot: cr
