@@ -1,57 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793577083;
-	b=z8+IQ9UEQm49Rq3WvCrgO7civnC8F+8SBak+LDIYvSSn8W39goyyl6Oo/6/KGC1AOlZ/
-	 0KkKfhXBrBRZlT3O1r3XlYF3sZxllPzbWV/RYAUBSr8GGd13gd3c/xBZndVpI/aibZWH7
-	 Xix/IkWD1XSNRf7g+zO8mJNDFZwzUdheIMNtohXY/4Q7+0SnsI8oEE+mLkwi3reaeGxs0
-	 uycEQ66Za3fG39I7ypKDG5hNZwJreQjVuJEBa6CMv4/fIUskhupXNT7CuGPTeP7o8Ny8C
-	 olWJIrEfziRT81OYONtdLlgHJKy1r1PzNsTUVMnhwq/MI5FpgFpmVgjszAFpispG6CA==
+	t=1793577846;
+	b=RDPiHhEeTHz3ftH21KndLBKU/TfVAOhP+Qf6bACqJcak7t8icB7tYccR1k10YL0goAGJ
+	 nuqWVQwzryjoYNlez2YNGYgw8qj4OlbhTC34p/1MwOkGZE+dmf/NWxE+NHSldi259k9af
+	 fWa7+exmU7i6YAoyxQxgQ0uWHCKzeBfWZOwZHJhZwxLX2gynftf/3sefaO8l/osP29ZWh
+	 mVIy4bMans9CC0TsP+lvGEZQzS7MVo/VL6oi0nJJPqqc5CTXv2VfrXtXp0R7oMD5FrGIn
+	 4HJbI+lDqDlEBvcTz8aBTiVxwEc+O3a7cwZ4eoe8m73J1n+NHDkNqzUjOs+nPkQ+IFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793577083;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793577846;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=EzaB0dFrqATFo/F9hMIFjRzg10fufdUElMcuGto4f/g=;
-	b=HmfTBKx5qf4HBnH8A5OfA8aliO8GmP5SQbRuSHRqBGKbjgQ7qz/OGsTVM3fmNoMTh4UM
-	 2cNUb5YGrAgSa2WGuGHOxgKobcoudMmZEyzTQTj6t/WD8ZYSEy6LkT/KBqzxWR0VCxWkJ
-	 FoJmdBK6a9LGSXClI4gB5HAQu+urVFXSeWDjIJTow/4W+ojYDMgjSKlkVQ6397igVqADp
-	 oAB2JoztJ9LBKLHI+Nm43pcAPJPK0rzBD5RtlXgP+cSvRy6f8+17lI1EEwbnStFdOYfOW
-	 Bezl2Y0IQRt9U5oNSAd0cYesged2++77FEexUBgLXDxB48BU1zZ41zuMjIQ2mkz8xgA==
+	bh=U8BXq1ZgzTnuzcu2ZZ0IDWouTRhXxYtku8B8fJXMvuU=;
+	b=osxRmL3DgDvR86UeIBo4x6ZLSZBSg1ZMq2tGtUIyxekC3OmLiLsW3Ict8GCbu7M7eCPH
+	 AJjV1zuwoedrpRPKh+7Ooroj61XiAMNQJxiACHyS7mA71oFao+ic5KfnkO+WG4ka5Ztzy
+	 OdV9lLyjnZ9IboHVL73Z4FDXITXisvpwGVnJBotYhBeWr7ukbWGosGsYl2JEUISg5VNlQ
+	 SF4RzL7epAt7TpzKSnrZxJRrzbdHWvG1UnXYSwclBLJQGWRd9PtTLL+7X7Xx9EtpmJ2mf
+	 ib4Bd0lvJGtsty8D0M86Xiaf/3Dd6J9qjNS/dcc21rQYQpXcVvJONxm1oYZwwiTzvhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=ZlQD0HLF;
-	arc=none smtp.remote-ip=109.224.244.16
-Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=omh61oRF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9102606A324
-	for <linux-doc@vger.kernel.org>; Sun,  1 Nov 2026 23:51:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9102606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38AE606A324;
+	Mon,  2 Nov 2026 00:04:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=ZlQD0HLF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1793577079; x=1793836279;
-	bh=EzaB0dFrqATFo/F9hMIFjRzg10fufdUElMcuGto4f/g=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=ZlQD0HLF/IOtVcjNIj9YatHrxg3HKazXhbtNL7qoLz8L2HMJKM7T0c7RUqz8C9nxR
-	 BG/wg2JNrIUU0+kgiE+zXfZ5jlGD19ufQ+ssmo4/Zt7dg4DV4EqgBKWPlS3j8K/eop
-	 Hk5vPcenhJR+Z80J89IPsjfe4xiqR6pXm5ynYHNcQ9aKvVnUlFTrAbuqDXLCS3/24s
-	 4+fseg1jQJ9L8mkD9Yg78CRkLnmGtQoxl2LNtkhRIJwGPxkVAX3AgGASZl/aqMKHDG
-	 YyErqqG2Ic0VeDm9L7ZFQyNGTk7obaxDoDipU2KkwAkjZwH0LILPaN+VIYwDqTMit2
-	 QBy9tpiR9mi7Q==
-Date: Sun, 01 Nov 2026 23:51:16 +0000
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-From: Ismael Ojeda Perez <iojedaperez@proton.me>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (it87) Add support for IT8607E
-Message-ID: <179357707375.834227.595814448085536071@proton.me>
-Feedback-ID: 55883223:user:proton
-X-Pm-Message-ID: 195c5c7a0034942337a697c596d10dd4e26769cc
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=omh61oRF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4381F000C1;
+	Mon,  2 Nov 2026 00:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793577845;
+	bh=U8BXq1ZgzTnuzcu2ZZ0IDWouTRhXxYtku8B8fJXMvuU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=omh61oRFlZIGOwkbl+UdKQAd8k3xbCBUSwE9FnToikZ5RJ2W3Es8DepZbYqtR/H9p
+	 cD93Zgz8FwlRbGuEGPnrzcKUx9/M4I4hO1ATCLMdFJK1aH+Mp5FN59Gw6hk9v3OaRk
+	 Z+B4Z/CND2SxHjaGrnPDvc2RUnCUkbk1sAn+VSRLwtNZzL13VEVLK925XDNtLbN0Kz
+	 L5nOnwiAz99mmnk8mXGcEu435mNCEcjxTvT3ytj9mH1nFv08MG4IIc9CAED1vjNnrp
+	 J4sdcNl/bCJgotSb3nl5W1lWxISp0LeCWWsKE06l0f6kRWy2hTF/E7SH5QASQZFQZD
+	 LyH/Pk8n8tiUA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] debugfs: clarify return values when disabled
+Date: Mon,  2 Nov 2026 01:03:59 +0100
+Message-ID: <20261102000359.2510155-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261027053754.1339833-1-rdunlap@infradead.org>
+References: <20261027053754.1339833-1-rdunlap@infradead.org>
+X-Patch-Reply: applied
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,190 +66,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The IT8607E is the Super I/O of the Intel NUC6i3SYB and, according to
-Intel's product specification, the NUC6i5SYB (BIOS SYSKLi35.86A). Its
-environment controller is hidden from ACPI (HHMD._STA returns 0), so the
-chip is only reachable through the LPC configuration ports, and the ACPI
-resource check must be bypassed with ignore_resource_conflict=3D1.
+On Mon, 26 Oct 2026 22:37:54 -0700, Randy Dunlap wrote:
+> [PATCH v2] debugfs: clarify return values when disabled
 
-No datasheet is available. The register layout was compared against the
-IT8603E, and the BIOS fan setup (IT8607PeiInit and FanPei PEI modules of
-SYSKLi35.86A.0071) was disassembled to confirm it programs the same
-"newer autopwm" registers (0x68-0x6d for pwm2). Features are therefore
-copied from the IT8603E.
+Applied, thanks!
 
-Tested on a NUC6i3SYB (BIOS SYSKLi35.86A.0042, chip ID 0x8607, rev 2):
-temperatures agree with coretemp, +3.3V reads 3.31 V, the 3VSB and VBAT
-inputs read plausible values, fan2 tach and pwm2 respond to the
-automatic-curve registers (start 74 C, full speed 92 C, as programmed by
-the BIOS) and to manual mode, and the original values are restored.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-The tachometer was not compared with an external tachometer and the
-voltage scaling was not compared with a multimeter; the values above are
-only cross-checked against coretemp and the expected rail voltages.
+[1/1] debugfs: clarify return values when disabled
+      commit: abad490d6849
 
-Signed-off-by: Ismael Ojeda Perez <iojedaperez@proton.me>
----
-Notes (not part of the commit message):
+      [ Use ERR_PTR() consistently in the debugfs_create_file() comment.
+        - Danilo ]
 
-Based on the hwmon-next branch of groeck/linux-staging.git (file contents
-as of 2026-11-01). Also compiled as a module against 6.18.58.
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-Sample output on the NUC6i3SYB with it87 loaded with
-ignore_resource_conflict=3D1 (raw sysfs, hwmon5 =3D it8607):
-
-  in0_input=3D828  in1_input=3D1212  in2_input=3D2004  in3_input=3D2004
-  in4_input=3D2016  in7_input=3D3312 (3VSB)  in8_input=3D2808 (Vbat)
-  in9_input=3D3312 (+3.3V)
-  temp1_input=3D72000  temp2_input=3D67000  temp3_input=3D74000
-  fan1_input=3D0  fan2_input=3D4623
-  pwm2=3D89  pwm2_enable=3D2
-
-The Super I/O is found at 0x2e, chip ID 0x8607, revision 2, and the
-hardware monitor at 0xa40; ACPI reserves that range, hence the module
-parameter. Is that acceptable, or would you prefer a DMI quirk for the
-NUC6 boards?
-
- Documentation/hwmon/it87.rst | 16 +++++++++++++++-
- drivers/hwmon/Kconfig        |  4 ++--
- drivers/hwmon/it87.c         | 17 +++++++++++++++--
- 3 files changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/hwmon/it87.rst b/Documentation/hwmon/it87.rst
-index c33ba8a..17bfffb 100644
---- a/Documentation/hwmon/it87.rst
-+++ b/Documentation/hwmon/it87.rst
-@@ -19,6 +19,14 @@ Supported chips:
-=20
-     Datasheet: Not publicly available
-=20
-+  * IT8607E
-+
-+    Prefix: 'it8607'
-+
-+    Addresses scanned: from Super I/O config space (8 I/O ports)
-+
-+    Datasheet: Not publicly available
-+
-   * IT8620E
-=20
-     Prefix: 'it8620'
-@@ -243,7 +251,7 @@ motherboard models.
- Description
- -----------
-=20
--This driver implements support for the IT8603E, IT8620E, IT8623E, IT8628E,
-+This driver implements support for the IT8603E, IT8607E, IT8620E, IT8623E,=
- IT8628E,
- IT8689E, IT8705F, IT8712F, IT8716F, IT8718F, IT8720F, IT8721F, IT8726F,
- IT8728F, IT8732F, IT8758E, IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F,
- IT8786E, IT8790E, IT8792E/IT8795E, IT87952E and SiS950 chips.
-@@ -287,6 +295,12 @@ The IT8603E/IT8623E is a custom design, hardware monit=
-oring part is similar to
- IT8728F. It only supports 3 fans, 16-bit fan mode, and the full speed mode
- of the fan is not supported (value 0 of pwmX_enable).
-=20
-+The IT8607E is found on the Intel NUC6i3SYB and NUC6i5SYB boards. The hard=
-ware
-+monitoring part is treated as compatible with the IT8603E (16-bit fans, ne=
-wer
-+autopwm registers) because no datasheet is available. The BIOS keeps the
-+environment controller hidden from ACPI, so the driver can only be loaded
-+with ``ignore_resource_conflict=3D1``.
-+
- The IT8620E and IT8628E are custom designs, hardware monitoring part is si=
-milar
- to IT8728F. It only supports 16-bit fan mode. Both chips support up to 6 f=
-ans.
-=20
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 18c682e..bc6ddff 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -952,8 +952,8 @@ config SENSORS_IT87
- =09  If you say yes here you get support for ITE IT8705F, IT8712F, IT8716F=
-,
- =09  IT8718F, IT8720F, IT8721F, IT8726F, IT8728F, IT8732F, IT8758E,
- =09  IT8771E, IT8772E, IT8781F, IT8782F, IT8783E/F, IT8786E, IT8790E,
--=09  IT8603E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips, and
--=09  the SiS950 clone.
-+=09  IT8603E, IT8607E, IT8620E, IT8623E, IT8628E, and IT8689E sensor chips=
-,
-+=09  and the SiS950 clone.
-=20
- =09  This driver can also be built as a module. If so, the module
- =09  will be called it87.
-diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
-index 2757d42..bdef0b7 100644
---- a/drivers/hwmon/it87.c
-+++ b/drivers/hwmon/it87.c
-@@ -12,6 +12,7 @@
-  *  similar parts.  The other devices are supported by different drivers.
-  *
-  *  Supports: IT8603E  Super I/O chip w/LPC interface
-+ *            IT8607E  Super I/O chip w/LPC interface
-  *            IT8620E  Super I/O chip w/LPC interface
-  *            IT8622E  Super I/O chip w/LPC interface
-  *            IT8623E  Super I/O chip w/LPC interface
-@@ -66,7 +67,7 @@
-=20
- enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
- =09     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
--=09     it8792, it8603, it8613, it8620, it8622, it8628, it8689, it87952 };
-+=09     it8792, it8603, it8607, it8613, it8620, it8622, it8628, it8689, it=
-87952 };
-=20
- static struct platform_device *it87_pdev[2];
-=20
-@@ -160,6 +161,7 @@ static inline void superio_exit(int ioreg, bool noexit)
- #define IT8786E_DEVID 0x8786
- #define IT8790E_DEVID 0x8790
- #define IT8603E_DEVID 0x8603
-+#define IT8607E_DEVID 0x8607
- #define IT8613E_DEVID 0x8613
- #define IT8620E_DEVID 0x8620
- #define IT8622E_DEVID 0x8622
-@@ -530,6 +532,14 @@ static const struct it87_devices it87_devices[] =3D {
- =09=09.num_temp_map =3D 6,
- =09=09.peci_mask =3D 0x07,
- =09},
-+=09[it8607] =3D {
-+=09=09.name =3D "it8607",
-+=09=09.model =3D "IT8607E",
-+=09=09.features =3D FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
-+=09=09  | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_IN7_INTERNAL
-+=09=09  | FEAT_AVCC3 | FEAT_PWM_FREQ2,
-+=09=09.peci_mask =3D 0x07,
-+=09},
- =09[it8620] =3D {
- =09=09.name =3D "it8620",
- =09=09.model =3D "IT8620E",
-@@ -2941,6 +2951,9 @@ static int __init it87_find(int sioaddr, unsigned sho=
-rt *address,
- =09case IT8613E_DEVID:
- =09=09sio_data->type =3D it8613;
- =09=09break;
-+=09case IT8607E_DEVID:
-+=09=09sio_data->type =3D it8607;
-+=09=09break;
- =09case IT8620E_DEVID:
- =09=09sio_data->type =3D it8620;
- =09=09break;
-@@ -3095,7 +3108,7 @@ static int __init it87_find(int sioaddr, unsigned sho=
-rt *address,
-=20
- =09=09sio_data->beep_pin =3D superio_inb(sioaddr,
- =09=09=09=09=09=09 IT87_SIO_BEEP_PIN_REG) & 0x3f;
--=09} else if (sio_data->type =3D=3D it8603) {
-+=09} else if (sio_data->type =3D=3D it8603 || sio_data->type =3D=3D it8607=
-) {
- =09=09int reg27, reg29;
-=20
- =09=09superio_select(sioaddr, GPIO);
---=20
-2.56.0
-
-
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
