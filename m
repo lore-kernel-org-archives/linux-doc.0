@@ -1,74 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633844;
-	b=E3f+O7GLA2UdN7dimyGtiw0G1sG9uAwVCo2gei8F7BDRF7gI5DXfya4nuF5wqpz9Na1x
-	 Z2Dl3cZpdeos4oVpgBb3PlmHvHwdOw8J3vP0wqTfy5Ooh7Vg7WCwRFa4b99c32kjcvK64
-	 nli6hnWbWVKZqShevKr6Yav5PJz8VC5C9WkVz8J47GRmNj4XxDTI7oQYM/gsPKx/OoJIQ
-	 5nwYmPhL2Eng+clXaNBxGeMJrwuBJ9pdhSwmm6nn1ZyucTDS3TxUO2HmgBGX/LkeKwsFF
-	 0FuB6DpfwDAVDwYY5fYAb3mHJDeHW5tjJdlWHOINMpOjVWC9W8ALP/Yhe+bo6VYoE9Q==
+	t=1793633841;
+	b=SVG522PM8q5nMhDAk85sI2tI9M625A1teKvPoiDSFTjb9bxAZl33BKA85s4Sc70uf4zg
+	 UMzq+BYdOqV/7xVC4EQueatIL0YEUuMhq46f4tfFIBBFfxubc5+PdPNPK+DAuDKe/5itL
+	 YVqSkGkEAhuAfx3+56UU+hAtFxp0ibtpEz+2z7tESr7ZYZTEEciyrmvnlRaDwgvfswyRL
+	 +y/hStBb1lZq28Of9BStg+WKezEVx5qayrVaICX6GAu9o8mJ2nAwxnJvqzwF5wxqUPF2V
+	 1YCNT6XLTMTzNu6leNFqmrYIk0hWPxa/aq6UOXuvJScNOEEoy5QT1Z3qi+AKMfG2X1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633844;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633841;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=9juNA68D1pfuFQpRVNDQa7dR4Pnf/xhC+K8NWgBMU/E=;
-	b=z0bxv6WkjnyFHI7xnuj4atHJmf3GWNQj3G/qrmhmYeQ/lHM4BM5BHA2yQDd/bJVKad2b
-	 TWeTlDgCAwtbRuTRLDM/VEi24Jcjg6Pzbgv3ubScGsoiKIL1/tXSBC10XnqBerrC6aMTy
-	 2HRX4VdT7VdEFQHrUOOyUP6923LO9a0Ay1DNbcxi1gkpsPJw5AoW2/DQkuyrA+TzX2vZZ
-	 Gr09XDAzBA3KnKZnrHzGaVNHS49MEU5SCiWwEg3bv0jETgeEtCAeg/6eLTRX8Yg5Uj7Us
-	 ZMQV+VZs10oQD4JJn6F1XeM8cwpKhtp3j4SiB0AMm5fLsJnD+Kvky1JsDmRVzG7R3PQ==
+	bh=tylWbFCUgeCOXBn9trkYSMBYVlhA9mV6Qs1lbXsCOco=;
+	b=5r18GCFYl7yqTwr5djxifbU5HDC9Xl6stQe4kcz4EUDVLjntcaSVJoHMeV4LhADIgiAS
+	 lZzci8Xla/X+s0uRYTC4YfPhpDwiloJfIF3bFW1Pphba6Hsr5tKx2+Of6f+MrSBJvY6+w
+	 j0bI6MBi1OwgQsUBixIuYxdcgQLJnyllWnw9eqqi87prz7KBab4LZRmrk7sLevlgxHZGx
+	 NS85/5SpJ5rIVzPzcnnzmcDFtbngIpu25ik7AqTpRduDSPcf4MGjGX+BRK7q0zvFibgX+
+	 5zWHN1/uVt9WNNk9QTNEpZ+aN3Cm3jeDwH98sEqWSrFWjGckgphKRnZnpy9FktbtORw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="ne/GrZZB";
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NSzJydZv;
 	arc=none smtp.remote-ip=209.85.214.199
 Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6A560EC3D0
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A6A560EC3D0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C3260EA5F7
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7C3260EA5F7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=ne/GrZZB
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2e93e2f72bfso53694545ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:24 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=NSzJydZv
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2eb2437d752so46915085ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793633844; x=1794238644; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793633840; x=1794238640; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9juNA68D1pfuFQpRVNDQa7dR4Pnf/xhC+K8NWgBMU/E=;
-        b=ne/GrZZBB6RQdxM5E5YlzCX2uHuyM90n+ZGH0IzIs+RtSEMzmn90zvFc5wu6L4ndX2
-         UUhYANfqHwY9O0/LpiVnAW59obokAICWZsCfC5WHHR1HIaMtz+dRALHpK3ADpuJceALG
-         fsaZ//B9E3RtbSa8iPpz62QhQ6adoNp+TPCcOkXQEIyVAiQSoyYihqWGqsvnqLJZBIJV
-         Afm6D4Y3dlUWSNqWt5G6WkVgUP7C//FKusN0Z4aTz7GP8GqhyUvlw+Oc/IUJ7byuVaCm
-         41fz1DQe/LHfkRbcy2VviRmHuZ9rbBx7MM6z2thnxzPs3vs3PljyXpUddS/NNIQh9Wm+
-         +tsg==
+        bh=tylWbFCUgeCOXBn9trkYSMBYVlhA9mV6Qs1lbXsCOco=;
+        b=NSzJydZvMVXYxTC62CIB6ze6cmzNxnlcYaAgAV5q0w8GPnprJgO1rjDotE1ldsqVF7
+         id7VY8rj8sVMHSKlTmzi/PwHWNeII+QwqojnCqdiqX3PxCO2GIn3vjlHmseHkMN5XYqg
+         BYPAspktX6r0+V8A2/zX1+AyJq1DpXHLE0LDtoRiJxXMg8DAr6vPt8WXhLgLQF8ebD15
+         QcofgRuBHeqjWN5y9E3jlhTLHW98sFut6vpM+lSkpNsQsFyL3sjc0/ACce80N8Qbe8HF
+         sfB8sbQFa0HOWibvXSBBCPqGq5tFavtJkOEq49CN4uJoCYR6CeAVMFVKwOily0i0nNoJ
+         IFzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793633844; x=1794238644;
+        d=1e100.net; s=20260707; t=1793633840; x=1794238640;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9juNA68D1pfuFQpRVNDQa7dR4Pnf/xhC+K8NWgBMU/E=;
-        b=cJAURTTlKM1QqI8ADVK9AvpbdTJsJzDvGmMsNoMmbO/+69tcfXRi1hzdH+KuqzpgVz
-         F208u9Q6NnN0KcbBQLNq+JSWIvLB5ycrsqtutpHLKV8d6FrHWW+FIQhDRyt3C1QImYxB
-         FAdGzfQTQKiYU/Ie9gaEL2I92/gnnSydF9WNPRx15Hmq8A9/+9P36DlqxyfyzchTKUV+
-         ddOgFaZOk0ETYEPJi0Cr6ThDiNJBg9ExV9DHsSEMl9fflPk5cH738mLEukaYalzfBvEh
-         /r5aHg/J+6IeXO6ui6tkDQ9p9VRHHEs2uhC2+wZrx8XGqhuNrCrI8kr6z6jl0c+3uAub
-         8nfQ==
-X-Forwarded-Encrypted: i=1; AKwUvByQBsJsvPug6/Pc9ENmJwm/cD9x/0Om+ylKXnEzqge0srWFveBrMtOwnh7mvZdiU2NwaTTv2uFNg8I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/R6Kkif2ev87h/ESP6LorJj/xWiQBH3aX0gnOREaXDZI9XF+M+
-	Wfge4PqsQAMcQCo0k1+bWDpFQ3FZ6Y1rnmY6y74lzp/iO6yABbF9jUvFCN0IYADIE5GAFcvhxp9
-	qIsOS0vtC0g==
-X-Received: from plkz4.prod.google.com ([2002:a17:902:7084:b0:2eb:4f47:5748])
- (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f642:b0:2e9:5772:9ab2
- with SMTP id d9443c01a7336-2eb364ec93fmr97906535ad.41.1793633843417; Mon, 02
- Nov 2026 07:37:23 -0800 (PST)
-Date: Mon,  2 Nov 2026 07:36:51 -0800
+        bh=tylWbFCUgeCOXBn9trkYSMBYVlhA9mV6Qs1lbXsCOco=;
+        b=cU689R7qXToBFIpq2voldon6VoeD8X2BNlhEkPamFf92M1eIAQADt0rumzZqXFZOxx
+         VUhBS8aWSUYgSclKBAxnXNozeGoVt0FXybxkvikVPXlJboQ32WxMFH9XrEdA62kb0g8E
+         hyrbeH+4P9iO4FUh/ojpgq0NCzVc17jmeGhpcA9eQmBAKUTB537EBdaIsuIfPPXOEoLJ
+         eyoz+S3WD0+1rHN1vPflf28UZk3kxdXeGSZgrhr2O5H4wpGvR4CBdz7KPbHQ9ReGhvRl
+         4bqySno+RoHmN1j9ltUm+zZne59QbNQDAmwUn8ZkQ+fXDCmKpInOk+mSGcON6dH2tbV6
+         keRg==
+X-Forwarded-Encrypted: i=1; AKwUvBz8GF89uv96OATVuOeG0UdrHbvbnw4erXObTNjz0Pd7xD/PGHe4stD4DkEDoPluC0N4yhlcyet4j/I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+eVPVXnaCmmUEVlbFf+B1tWbye6phvhgtjYBt5x6rE0XzUt8yk
+	oC6N7ZDnOYGBNjrw+E5tII/uuYZOcVPVLHNr2ZxWZSt5Z3KId2EciNfstKtPd0lRbaf2YyzPwfJ
+	i6A6n0NTa7A==
+X-Received: from plbix15.prod.google.com ([2002:a17:902:f80f:b0:2ea:a5c1:240f])
+ (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:37c7:b0:2e8:b5b2:a9f9
+ with SMTP id d9443c01a7336-2eb364e9f75mr92959155ad.37.1793633840266; Mon, 02
+ Nov 2026 07:37:20 -0800 (PST)
+Date: Mon,  2 Nov 2026 07:36:48 -0800
 In-Reply-To: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,9 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
-Message-ID: <20261102153656.1431701-23-vipinsh@google.com>
-Subject: [PATCH v6 22/27] vfio: selftests: Add helpers for Live Update DMA
- memory and sysfs state
+Message-ID: <20261102153656.1431701-20-vipinsh@google.com>
+Subject: [PATCH v6 19/27] vfio: selftests: Add Makefile support for TEST_GEN_PROGS_EXTENDED
 From: Vipin Sharma <vipinsh@google.com>
 To: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
@@ -103,163 +102,50 @@ Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
 	yanjun.zhu@linux.dev, yi.l.liu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 
-Add shared libvfio helpers used by the Live Update kexec selftest:
+From: David Matlack <dmatlack@google.com>
 
- - vfio_thp_memfd_alloc() and vfio_memfd_mmap_aligned() to allocate a
-   shmem memfd, map it at a 2MB-aligned virtual address, and back it
-   with 2MB THP folios via MADV_HUGEPAGE, write-fault population, and
-   MADV_COLLAPSE.
- - __sysfs_iommu_group_get(), a variant of sysfs_iommu_group_get() that
-   returns an error instead of asserting when the device has no IOMMU
-   group.
+Add Makefile support for TEST_GEN_PROGS_EXTENDED targets. These tests
+are not run by default.
 
+TEST_GEN_PROGS_EXTENDED will be used for Live Update selftests in
+subsequent commits. These selftests must be run manually because they
+require the user/runner to perform additional actions, such as kexec,
+during the test.
+
+Signed-off-by: David Matlack <dmatlack@google.com>
 Signed-off-by: Vipin Sharma <vipinsh@google.com>
 ---
- .../selftests/vfio/lib/include/libvfio.h      |  3 ++
- .../vfio/lib/include/libvfio/sysfs.h          |  1 +
- tools/testing/selftests/vfio/lib/libvfio.c    | 54 +++++++++++++++++++
- tools/testing/selftests/vfio/lib/sysfs.c      | 22 ++++++--
- 4 files changed, 77 insertions(+), 3 deletions(-)
+ tools/testing/selftests/vfio/Makefile | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/tools/testing/selftests/vfio/lib/include/libvfio.h b/tools/testing/selftests/vfio/lib/include/libvfio.h
-index 07862b470777..1c245962525b 100644
---- a/tools/testing/selftests/vfio/lib/include/libvfio.h
-+++ b/tools/testing/selftests/vfio/lib/include/libvfio.h
-@@ -33,4 +33,7 @@ char **vfio_selftests_get_bdfs(int *argc, char *argv[], int *nr_bdfs);
-  */
- void *mmap_reserve(size_t size, size_t align, size_t offset);
+diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
+index c2764fcef31d..ece2a3618f2b 100644
+--- a/tools/testing/selftests/vfio/Makefile
++++ b/tools/testing/selftests/vfio/Makefile
+@@ -34,16 +34,18 @@ LDFLAGS += -pthread
+ LIBS_O := $(LIBVFIO_O)
+ LIBS_O += $(LIBLIVEUPDATE_O)
  
-+int vfio_thp_memfd_alloc(size_t size, void **vaddr_out);
-+void *vfio_memfd_mmap_aligned(int fd, size_t size, size_t align);
-+
- #endif /* SELFTESTS_VFIO_LIB_INCLUDE_LIBVFIO_H */
-diff --git a/tools/testing/selftests/vfio/lib/include/libvfio/sysfs.h b/tools/testing/selftests/vfio/lib/include/libvfio/sysfs.h
-index c9ab1ea8f5a9..b9d6f6f69f88 100644
---- a/tools/testing/selftests/vfio/lib/include/libvfio/sysfs.h
-+++ b/tools/testing/selftests/vfio/lib/include/libvfio/sysfs.h
-@@ -6,6 +6,7 @@ int sysfs_sriov_totalvfs_get(const char *bdf);
- int sysfs_sriov_numvfs_get(const char *bdf);
- void sysfs_sriov_numvfs_set(const char *bdf, int numvfs);
- char *sysfs_sriov_vf_bdf_get(const char *pf_bdf, int i);
-+int __sysfs_iommu_group_get(const char *bdf, int *group);
- int sysfs_iommu_group_get(const char *bdf);
- char *sysfs_driver_get(const char *bdf);
+-$(TEST_GEN_PROGS): $(OUTPUT)/%: $(OUTPUT)/%.o $(LIBS_O)
++$(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): $(OUTPUT)/%: $(OUTPUT)/%.o $(LIBS_O)
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< $(LIBS_O) $(LDLIBS) -o $@
  
-diff --git a/tools/testing/selftests/vfio/lib/libvfio.c b/tools/testing/selftests/vfio/lib/libvfio.c
-index 3a3d1ed635c1..00369fe7d074 100644
---- a/tools/testing/selftests/vfio/lib/libvfio.c
-+++ b/tools/testing/selftests/vfio/lib/libvfio.c
-@@ -1,14 +1,23 @@
- // SPDX-License-Identifier: GPL-2.0-only
+-TEST_GEN_PROGS_O = $(patsubst %, %.o, $(TEST_GEN_PROGS))
+-$(TEST_GEN_PROGS_O): $(OUTPUT)/%.o: %.c
++TESTS_O := $(patsubst %, %.o, $(TEST_GEN_PROGS))
++TESTS_O += $(patsubst %, %.o, $(TEST_GEN_PROGS_EXTENDED))
++
++$(TESTS_O): $(OUTPUT)/%.o: %.c
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
  
-+#include <errno.h>
- #include <stdio.h>
- #include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
- #include <sys/mman.h>
+-TEST_DEP_FILES = $(patsubst %.o, %.d, $(TEST_GEN_PROGS_O) $(LIBS_O))
++TEST_DEP_FILES = $(patsubst %.o, %.d, $(TESTS_O) $(LIBS_O))
+ -include $(TEST_DEP_FILES)
  
- #include <linux/align.h>
-+#include <linux/mman.h>
-+#include <linux/sizes.h>
+-EXTRA_CLEAN += $(TEST_GEN_PROGS_O) $(TEST_DEP_FILES)
++EXTRA_CLEAN += $(TESTS_O) $(TEST_DEP_FILES)
  
- #include "../../../kselftest.h"
- #include <libvfio.h>
- 
-+#ifndef MADV_COLLAPSE
-+#define MADV_COLLAPSE 25
-+#endif
-+
- static bool is_bdf(const char *str)
- {
- 	unsigned int s, b, d, f;
-@@ -101,3 +110,48 @@ void *mmap_reserve(size_t size, size_t align, size_t offset)
- 
- 	return map_align;
- }
-+
-+void *vfio_memfd_mmap_aligned(int fd, size_t size, size_t align)
-+{
-+	void *vaddr;
-+
-+	vaddr = mmap_reserve(size, align, 0);
-+	vaddr = mmap(vaddr, size, PROT_READ | PROT_WRITE,
-+		     MAP_SHARED | MAP_FIXED, fd, 0);
-+	VFIO_ASSERT_NE(vaddr, MAP_FAILED);
-+
-+	return vaddr;
-+}
-+
-+int vfio_thp_memfd_alloc(size_t size, void **vaddr_out)
-+{
-+	void *vaddr;
-+	int fd;
-+
-+	VFIO_ASSERT_TRUE(IS_ALIGNED(size, SZ_2M));
-+
-+	fd = memfd_create("vfio-lu-dma", 0);
-+	VFIO_ASSERT_GE(fd, 0);
-+
-+	VFIO_ASSERT_EQ(ftruncate(fd, size), 0);
-+
-+	vaddr = vfio_memfd_mmap_aligned(fd, size, SZ_2M);
-+
-+	if (madvise(vaddr, size, MADV_HUGEPAGE))
-+		ksft_exit_skip("madvise(MADV_HUGEPAGE) failed: %s\n",
-+			       strerror(errno));
-+
-+	/*
-+	 * Write-fault the mapping rather than using fallocate() so that shmem
-+	 * allocates PMD-sized THP folios when shmem_enabled is always,
-+	 * within_size, or advise, then collapse in case shmem_enabled is never.
-+	 */
-+	memset(vaddr, 0, size);
-+
-+	if (madvise(vaddr, size, MADV_COLLAPSE))
-+		ksft_exit_skip("madvise(MADV_COLLAPSE) failed: %s\n",
-+			       strerror(errno));
-+
-+	*vaddr_out = vaddr;
-+	return fd;
-+}
-diff --git a/tools/testing/selftests/vfio/lib/sysfs.c b/tools/testing/selftests/vfio/lib/sysfs.c
-index 98a46a2543cd..219db6aaa101 100644
---- a/tools/testing/selftests/vfio/lib/sysfs.c
-+++ b/tools/testing/selftests/vfio/lib/sysfs.c
-@@ -115,14 +115,30 @@ char *sysfs_sriov_vf_bdf_get(const char *pf_bdf, int i)
- 	return out_vf_bdf;
- }
- 
--int sysfs_iommu_group_get(const char *bdf)
-+int __sysfs_iommu_group_get(const char *bdf, int *group)
- {
-+	char rl_path[PATH_MAX];
- 	char path[PATH_MAX];
--	int group;
-+	char *end;
-+	int ret;
- 
- 	snprintf_assert(path, PATH_MAX, "/sys/bus/pci/devices/%s/iommu_group", bdf);
--	readlink_base(path, "%d", &group);
-+	ret = readlink_safe(path, rl_path);
-+	if (ret == -1)
-+		return -errno;
-+
-+	errno = 0;
-+	*group = strtol(basename(rl_path), &end, 10);
-+	VFIO_ASSERT_EQ(errno, 0);
-+	VFIO_ASSERT_EQ(*end, '\0');
-+	return 0;
-+}
-+
-+int sysfs_iommu_group_get(const char *bdf)
-+{
-+	int group;
- 
-+	VFIO_ASSERT_EQ(__sysfs_iommu_group_get(bdf, &group), 0);
- 	return group;
- }
- 
+ endif
 -- 
 2.56.0.317.g454f8302e1-goog
 
