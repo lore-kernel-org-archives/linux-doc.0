@@ -1,68 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793801552;
-	b=RW/LktQKImQiWoZd5k6+YVdx0altHAIRtV/49yRKD7XV3LzyMeauywuZyUlArCdoSp3X
-	 WGTRHdL9qGTfZ0w11sGul50Ycv4JsAbgCorq57TzaSsGsJYReDPuMKBJf87sn0cm9HJ6v
-	 Vb0jDks6z9cTmxH1og8NAkMj0LjDpsIcs7TYwEYpXvOyy7CHx4PBzDLgIJJUyrSXkRw2f
-	 YPd2G0lrUGOzZu4n1UbSgLJawsXUpeXfUGhXV2S7y8uXGdVUjGAQVRxeFv1h2uPACYDkv
-	 y4LoNQU5lytvIaNU/Bm15LjL5ii1wPdiozIMGNxiOUGrZ+/Pro71Ks5el3v8Rt7JUxA==
+	t=1793801755;
+	b=gpPMfadoMko7i+mNhShVcUqO5HWPwuxh7RNakI+KkZe2sioylIv4+tLULzbW5/pnxq/3
+	 a8enAdhYvzTI+jhNRaB9oV4PeBGUcL5LO/D9YgK/+9ubdStHqK6bNYegN4JlRFxAjjWLM
+	 BBYwin9laH6DSOxcpTYGTRqpcd8Q+n6byUwkv1JG1CZg0xzdXNUKqV1Gcyh2cna0NbWFT
+	 Lq8qLnbE3KhTnvczigAUMFcEos5F59sNt3LmSuJ+hwdzdDxp2TnkpseYq+yoEHa1xFfH3
+	 gEz99eCTvmLU+Icpj6FrY4rwbu0Yv64OmMbbUEXlsHJEa10EwSDCZwgd217E92RrRXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793801552;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=onQfzVmJC7HohmP0cLeGwtdRODbHCJknVIWGqjziqDY=;
-	b=MklAjtYLmFkyuSMC1Nu8bY43xFgYegx+8MZy36up3IWo9laU9jyYlyxgJqojHWuXCERW
-	 x7F7fZnsAKAcW/xWpo9KLFbM0tIRR4miE2cUJP096MmRsfe20N/EFYE5N33It8E/P8bB0
-	 qP24MOr7TUy9ExzADWYxUALbZ06sY9IJiWgvx19dyfshhDxnM9+jBALGwWQEuOuCDIh6R
-	 iFKXU/L8ypLnpCJNAANA8mTLyGJdVmyosCy6LCVH3hFPouVYTW79EoxLseqMwjxVUpGww
-	 R3t/gbW2st8amTfIP8mm+d5YjRj0u7YwIJQQK/r6AB2FsU5SEQZJ6febzRorRu75OkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793801755;
+	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Rspamd-Queue-Id;
+	bh=ZtARmKugIQb+7L25cEk3dwin99E1zGAgqgjVr3BvYFM=;
+	b=ZIzCMJKA+GValsqgn0wJEqBLCAf9tYzifMZ+zwWEwdA7S7f4vux0wDiBtIBF+RShKEp7
+	 oq1RkpMXgDE/Nejp7ysudvxNgerowsAEvntp4O4hAuoaxxhjP0bmdGEhfMRbBY4muc2au
+	 Cc1JL2Z+ySWRmacoy8uu2etmJaxR5ja498DA3Rv7sJDu2h/8WcDKfi/AzU7QXgwnRLxis
+	 JtMCXVRkFCFBdBGalQJ3i4Y9oLoLdKjF+lC9k9bUDPiKZpkKw2kWnUIHMyouGl4uW/AYI
+	 JDBJEDEeijAt9PHdfGML1jZbIlxHPQOAZVtoGx1dGI8IjxIpMcj57n8Qe+Lt7SlbXFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YL0mHBdN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=hsal.es;
+	spf=pass smtp.mailfrom=hsal.es;
+	dkim=pass header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b="0wkqtW/M";
+	arc=none smtp.remote-ip=80.241.56.152
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA8E606D80F;
-	Wed,  4 Nov 2026 14:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA4D606D817;
+	Wed,  4 Nov 2026 14:15:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EA4D606D817
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hsal.es
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hsal.es
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YL0mHBdN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 432C31F0093A;
-	Wed,  4 Nov 2026 14:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793801552;
-	bh=onQfzVmJC7HohmP0cLeGwtdRODbHCJknVIWGqjziqDY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=YL0mHBdNDiunlG8rrAEkkTaGCj1hrgX75U4z1Ml7hTgNdeY1G7/Lqev+aLVQR+Qpn
-	 TdKK4Vzx6TtBRwXZ0bt3OeqzYSVcAzAuv0DOqjLJZibnLWMQIU/66PYdTMkEiIBUUg
-	 oj0qzD5GM57Kb7BUN+tcdPhyVuRQ5maPjgC4q1aYirAW4HGo5HdtYvdCLd2VdgR5bZ
-	 xrKT2Zx3kw/mDTMaP3mQK8OQ527/ncS5Cy74zMQDkUzrend2XgDr7ldd3EqnS2iipS
-	 eCkX7zd4zq9sxqWgYQwz2VRR/vrIFIjwhVNMy7fdS2JG63WulEzNoe96K2ooNFMRV5
-	 mw0Ektf6TZZCQ==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
-  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
- <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
- <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
- Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
- <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
- Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
-  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
- <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
-  Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v3 03/10] liveupdate: Allow file handlers to mark
- retrieve failures as retryable
-In-Reply-To: <20261103010216.3447716-4-dmatlack@google.com> (David Matlack's
-	message of "Tue, 3 Nov 2026 01:02:09 +0000")
-References: <20261103010216.3447716-1-dmatlack@google.com>
-	<20261103010216.3447716-4-dmatlack@google.com>
-Date: Wed, 04 Nov 2026 15:12:26 +0100
-Message-ID: <2vxzv76ck7n9.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=0wkqtW/M
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jKSCX3X7HzKmSs;
+	Wed, 04 Nov 2026 15:15:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hsal.es; s=MBO0001;
+	t=1793801752;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZtARmKugIQb+7L25cEk3dwin99E1zGAgqgjVr3BvYFM=;
+	b=0wkqtW/MQjNfmmaCrI/NKKDd7SrLdD5okc+3APAIMfyU1Vk75/kjp4dx4YAl83AwtyGQ2l
+	zD2+UUSP8sxXicB7tBjP5lu+y5B9hyBBXymZnd/MNnSjWmF89SquKKxRWS1v3D/WG3SVqq
+	pfBll66qAhQyXmCD/r+5oj83Pz5cy35o7wJk4gzy5ONtGVHib/UnKzIlZ+P/p7pmOaj/64
+	Mj1Dew28dvty8rBriJ0O0RlSylB0Bj1ELdxzc0zfVdqqfVHGGcMdFX8h0T/FJYxj+/taYg
+	UZGCT55uzGGXhgml+J4/xug9P76rwzpKX99mvzPfipi5YlstGruvHzIrTfF99w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of hugo@hsal.es designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=hugo@hsal.es
+From: Hugo Sales <hugo@hsal.es>
+Date: Mon,  2 Nov 2026 10:17:54 +0000
+Subject: [PATCH 1/5] drm/amd/display: Render the panel power savings
+ kernel-doc
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,40 +68,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-abm-sysfs-commit-v1-1-e5addfd9539a@hsal.es>
+References: <20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es>
+In-Reply-To: <20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es>
+To: sunpeng.li@amd.com, siqueira@igalia.com, amd-gfx@lists.freedesktop.org, 
+ alexander.deucher@amd.com, harry.wentland@amd.com
+Cc: Hugo Sales <hugo@hsal.es>, airlied@gmail.com, 
+ linux-kernel@vger.kernel.org, mario.limonciello@amd.com, 
+ christian.koenig@amd.com, simona@ffwll.ch, linux-doc@vger.kernel.org, 
+ bhawanpreet.lakha@amd.com, ivan.lipski@amd.com, 
+ dri-devel@lists.freedesktop.org, ray.wu@amd.com, alex.hung@amd.com
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=972; i=hugo@hsal.es;
+ h=from:subject:message-id; bh=FVHKsTcB+kzVbQ+9zevb2MG6df7WbrsHz6OXzX6yqvM=;
+ b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsl4khzmcze1q+fFU/NzGfeUNNfpz+FN3XLZZqGntd
+ SzumTHja/eOUhYGMS4GWTFFFt0bngwsEyfPzCl6vgRmDisTyBAGLk4BmEgrC8Nfke2Lk5cm7JHx
+ E+yr9dl/IM5repLL++adFgtDI7gzxRnPMzKsMvgsrqe59dmMT5Orf8o2Bm9yT7i7Y9ey5ZNrd79
+ MXH6ZCwBNfEr8
+X-Developer-Key: i=hugo@hsal.es; a=openpgp;
+ fpr=193D095149CF7E8737B39064D912B0DB205A91C1
+X-Rspamd-Queue-Id: 4jKSCX3X7HzKmSs
 
-On Tue, Nov 03 2026, David Matlack wrote:
+The DOC section for the panel_power_savings sysfs file is not included
+in any rst file, so it never shows up in the built documentation. Add it
+to the Display Properties section next to the 'adaptive backlight
+modulation' property it interacts with
 
-> From: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> When luo_retrieve_file() invokes a handler's .retrieve() callback and it
-> returns an error, LUO currently records the error in
-> luo_file->retrieve_status and blocks any subsequent retrieve attempts.
-> This is necessary when the handler has already partially consumed or
-> freed the preserved KHO state.
->
-> However, with user arguments passed to .retrieve(), a handler may fail
-> early while validating caller-supplied parameters (such as a missing
-> argument, an invalid or read-only target file descriptor, or a non-empty
-> target file) before touching any preserved KHO state. In such cases,
-> userspace should be able to fix the argument and retry
-> LIVEUPDATE_SESSION_RETRIEVE_FD, and if the file is never retrieved,
-> .finish() must still run to release the preserved KHO state.
->
-> Add a retryable output flag to struct liveupdate_file_op_args. When a
-> handler sets args->retryable = true on error, luo_retrieve_file() leaves
-> luo_file->retrieve_status at 0 so the retrieve operation can be retried
-> and .finish() will still clean up the unconsumed preserved state if the
-> session is finished without retrieving the file.
+Signed-off-by: Hugo Sales <hugo@hsal.es>
+---
+ Documentation/gpu/amdgpu/display/display-manager.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Should we give some sort of signal to userspace whether the error is
-retriable or not? How would it know it can or should try again?
-
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-[...]
+diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
+index f6de9e7779e29..ca4a956d2aa17 100644
+--- a/Documentation/gpu/amdgpu/display/display-manager.rst
++++ b/Documentation/gpu/amdgpu/display/display-manager.rst
+@@ -187,3 +187,6 @@ Display Properties
+ 
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+    :doc: property for adaptive backlight modulation
++
++.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c
++   :doc: panel power savings
 
 -- 
-Regards,
-Pratyush Yadav
+2.56.0
+
