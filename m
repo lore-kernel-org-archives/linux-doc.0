@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637778;
-	b=Y4aSENPulxlFtCvS89xIxoKjMHqOMBapAsYjcY6zcLEFb4PWi5IKYqjZErx764rqZPU9
-	 GPnaRmK7XyaOTr3VCWFdCqGBmdeieOsxzwk5QkW+dep2eFqfpzuXfzNdvY7wv1hsEf3gs
-	 1SVzwn63xq3iLqgfRZv4IGWyrcFP2DDBA8eYNP5F4/Wyf4N2qwxICPUt5f9e51bXogtbI
-	 ntB/ZnkUOSzIk6rheTmv3o8gLewgoTuwSoq5o1Sq0bLsM2d812PdGIXfryim8XnGDOiIq
-	 jRovXCznH/+RXLT0zQGQfOq6ptU4Crg0jKoyW48oXv6T8YJe7LzQALJvQAG/EfAUmCA==
+	t=1793637786;
+	b=u9c1WQnLCm3GprJdtekuE6Xa2ks695XtNJ9to3GqGaDw5JOuiRgOoI2OJ4FIXzwO6ln4
+	 m8z04emK7XYLc1XGXmq7YLJuDgNY0RntHKa+TiuYHSwSPlA/Qe+HZOzkXqdXU04b/YFq1
+	 QHeNFuqJC5C1wcmizu42auOQh5Q2C7g+/EZF2FQYbkJ+S6l4FLwzsjYv4Wom+lZb+wTXa
+	 hXnOn79mF0eiP9SSaxkSO/RFwmxT1RaQKcGAXtYqK32fON8mp2KU0TihewC6E2VDvT5Vi
+	 Aijmn4h9C8OOKuFBLJo4riSZQ+w7s4jpuqQRkh3o0jF04pkD7dS+5mDx8n8RoWCvRVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637778;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=hamBEuV7gXRtKOsQfWyZlxR5aAN+CtsuFbIk3kGlk/E=;
-	b=1yTJ872v+a2rERSXqXo/pH24ct/oyovHdPOA/NGZuWe11QAbfHFJ64Xleo5t1uUpFd8L
-	 t69nopXc9FDQxgOlXs54HDFfR8sH3veX1W1LJiPZ4Ga2KoySFII6zkOpMljGxAXY7lEhm
-	 lLaCiaPFyu987cxHjD4quEzG/6dH0sCss3ifsQOQmfhtjAyhsDX60X8Njs2dR9kWwYS/x
-	 Mjq1mNdZCZ9LePiVC0/eDKzs2/KS2LVtqQhDmamFyVvaA3oxxGguspKWLyFPN670TqXNa
-	 W3z3O52O5e3Xm+I8LIDDMkgWAdqBGYNOo19V+v/Pbx4jH03LFtfthetp/IGR9DsDxKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637786;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=RGW2X2a9i1It8Ht3QPVjmgBH8i3IxBnYaK2D86OciC8=;
+	b=PciXuNdubn/ULNkLzdy9iJWa5+qYmBcY2lQHlrXQ7u9dO5U1EzoEI4yN9AzAH6+tMjym
+	 03OmYsH3XjzAp8qloa2XOx2qvep9h3mLhjSwPB/XPDJc0jHYJEucnsj6BAH0bdkalSoTv
+	 vOToXkSmdxUZG1dwnpN/e9J6J4iKoSBtiUfiar9zuollZ90FGit3qhLX7hf6iy+H9lx66
+	 BOXzLI2PAXEX0Rx5oL32YBPJAyzste3Fj4mHEeg+cpb6F9g5Q/VZ3pdQJsEK7ltJgsA0R
+	 cP4mJkI1gOcD6Plpw+g4z2gqNeAHPlRKBf/vysYYmVHc//JFR+JSNdtkB2bjW6WiFig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=euSt2yyR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoYzVBqn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1E960A44CD;
-	Mon,  2 Nov 2026 16:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318E560A44CD;
+	Mon,  2 Nov 2026 16:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=euSt2yyR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42DE81F00A18;
-	Mon,  2 Nov 2026 16:42:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoYzVBqn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C1B61F00A16;
+	Mon,  2 Nov 2026 16:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793637777;
-	bh=hamBEuV7gXRtKOsQfWyZlxR5aAN+CtsuFbIk3kGlk/E=;
-	h=From:Subject:Date:To:Cc;
-	b=euSt2yyRWWfkTKF0cWx7EZrHGYDl9ua4g8hU1rksJq62LG7P5yqj2pgpaCNHCES2n
-	 SZ3+NwmSNDsxZdKhhHuHongnMld8YPJXpyHf4/Hi+rt3K2zBSgax22ze+04qvPEwKa
-	 eKl/jZwFmzZhRiue1w3sr1UvlFfxJsacZ8387NNwIonBqmLev9VoTojHCK7iAKjxaz
-	 S8OdOtcvsy+1x1LlggHz1omwGBTfOGhnzFu3QuGJVpd4tHmg0WXwNUDp2NfrD7i1n/
-	 h7vOKXOpQznDl5BitNc3L3GyZMQBF0DG+gPHh7y1Dz5jjQdqzTabxJwebydwgSwKjl
-	 OHbnVy3z6VYzA==
+	s=k20260515; t=1793637785;
+	bh=RGW2X2a9i1It8Ht3QPVjmgBH8i3IxBnYaK2D86OciC8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=LoYzVBqnYhgDqCK4MvIH/wyRZBaEdefCO/rr1q/heqq2LppEBfRz3k3SAtQJI0mEh
+	 Ydb5zlN17Ap2hu6WF+ih2XcAjTVu2bfHoFb+HMFubEMhq43aPa3IpYuAy+e5bawnIt
+	 wvWZk6wIIT91m/BPRmyl894hSx3ovSWPZ9v1dwt6V1LYId6ug29doSL0dbR0UFPA8x
+	 /NkRqUgf4HqyiZ0Yx+gAiVkP6qLCdnNMTNEe7dEa28aT5tQ7miVXlIU+CXUdAthLuJ
+	 y1ApljA4zK9e4coQrWsIfBHa2siHVsp2WerHI9100A6XRWxk/qKL3Q9Qx+UvbIPlx8
+	 Xciojdt8tWNlw==
 From: Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2 0/7] kunit: tool: Support parallel test execution
-Date: Mon, 02 Nov 2026 16:37:41 +0000
-Message-Id: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
+Date: Mon, 02 Nov 2026 16:37:44 +0000
+Subject: [PATCH v2 3/7] kunit: tool: Boot with a larger log buffer when
+ listing tests
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,11 +55,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFa86GoC/12NQQ6CMBBFr0JmbU1bRMGV9zAsSh1gpGnJFIiGc
- HcB48blS95/f4aITBjhmszAOFGk4FfQhwRsa3yDgh4rg5b6rKTSohs9DaI3bJxDJ0xuLphaVZh
- UwjrqGWt67cF7+eU4Vk+0w1bZjJbiEPi9P05q837x9D8+KSFFfapQ5zYvMsxuHbJHdwzcQLksy
- wdp46OPvwAAAA==
-X-Change-ID: 20261012-kunit-parallel-a8a7e3c19a30
+Message-Id: <20261102-kunit-parallel-v2-3-8774b558d4b0@kernel.org>
+References: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
+In-Reply-To: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
 To: Brendan Higgins <brendan.higgins@linux.dev>, 
  David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
@@ -69,76 +67,83 @@ Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3124; i=broonie@kernel.org;
- h=from:subject:message-id; bh=y8lyyoJh2Nm4AuwxAjiMi5AE1q5sIB1iDKcXzCvU8n8=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O1RXbgwd/tx2UMPdp7fWcSuunzXxY7Lksnuk1PLx
- Kd9W7kuuKOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATeZ7O8M/q8uXcgxnyat1c
- lgcOxVcc8D1r6Ofl/u7A5shwgb7gVmFGhqmlU9KsXnhyxh7vLYw+rXhJ4Sf/LBdls/vbvnvf1Xu
- +hQMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3331; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=AqCNoXSCcf9LGRuUnv9kym1iD2Mmttshr8Da0mvCvDs=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O0tO7z8C9u7ukTXWNYrzKw9pp9bemRvbT7fl+/T8
+ +yk578FHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIKQ9GhhuaFstyFr8TTNcM
+ y6x52PvvyEJ38dX77lZv/7rK9l0bQyEjw+wffTGrvSdl7J/Xv9KR3VRR5tzKBW1OChvXuHSf/xb
+ NzwMA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Currently the test execution part of KUnit is very single threaded,
-meaning that on larger systems with many CPUs the wall clock time for
-running the full suite is longer than it could be.  While we don't want
-to run multiple tests in parallel on the same kernel for stability and
-clarity reasons all the tests are being run in a virtual environment of
-some kind so we can achieve better parallelism by splitting the tests
-between multiple simultaneously running virtual environments.  The KUnit
-runner already has support for splitting tests up and running either
-suites or individual tests in isolated guests, build on this to support
-parallel execution.
+kunit.action=list prints the name of every suite and test in one burst
+during boot, which on a large configuration such as --alltests comes to
+several thousand lines. That is more than the default 128KiB printk
+ring buffer (CONFIG_LOG_BUF_SHIFT=17, overridden by many defconfigs) can
+hold, and since the console drains more slowly than the executor prints
+the buffer wraps and lines can easily be dropped.
 
-While developing this some existing issues became more visible, some of
-these are fixed with some standalone patches at the start of the series 
-but I split some issues with test naming out, these were sent as:
+If the KTAP header is dropped _list_tests() fails with:
 
- - lib/tests: util_macros: Drop the '.' from the KUnit suite name
-   https://lore.kernel.org/r/20261012-kunit-util-macros-name-v1-1-810b401baeb0@kernel.org
- - kunit: Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
-   https://lore.kernel.org/r/20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org
+  ValueError: LineStream: going past EOF, last line was
 
-Performance results with --alltests, using the elapsed time reported by
-the KUnit runner with an already built kernel on a Raspberry Pi 5 with 4
-CPUs and a Graviton 4 with 192 CPUs:
+but otherwise the loss is silent, --list_tests prints an incomplete list
+and --run_isolated=test will execute a timing dependent sent of tests.
 
-                     default  parallel  per test   parallel per test
-  Raspberry Pi 5     67.7s    49.4s     836.4s     326.5s
-  Graviton 4         64.1s    30.8s     445.9s      39.7s
-
-Even with the overhead of having to boot more kernels we are seeing
-substantial speedups, even on lower end systems with limited parallelism
-available.
+Pass log_buf_len=4M on the kernel command line when booting to list
+tests so that the whole list fits in the buffer, at least until we get
+substantially more tests than we currently have.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
-Changes in v2:
-- Rebase onto v7.4-rc1.
-- Link to v1: https://patch.msgid.link/20261013-kunit-parallel-v1-0-f4be28c895e5@kernel.org
+ tools/testing/kunit/kunit.py           | 11 +++++++++--
+ tools/testing/kunit/kunit_tool_test.py |  2 +-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
----
-Mark Brown (7):
-      kunit: tool: Preserve failures from kernels without test results
-      kunit: tool: Combine reports from isolated kernels
-      kunit: tool: Boot with a larger log buffer when listing tests
-      kunit: tool: Add an outfile argument to run_kernel()
-      kunit: tool: Allow several run_kernel() calls to be in flight at once
-      kunit: tool: Serialise output written from multiple threads
-      kunit: tool: Add --parallel to run suites in concurrent kernels
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index aea67b6a72c4..971e70b0fb1a 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -109,8 +109,15 @@ def config_and_build_tests(linux: kunit_kernel.LinuxSourceTree,
+ 
+ 	return build_tests(linux, request)
+ 
++# kunit.action=list prints every suite and test name in one burst at boot,
++# which can be thousands of lines on a large config. That easily overflows
++# the default 128KiB printk buffer before the console has drained it, so
++# lines (sometimes including the KTAP header) are dropped and the list
++# comes out incomplete. Give the kernel a large enough buffer to hold it.
++_LIST_KERNEL_ARGS = ['log_buf_len=4M']
++
+ def _list_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -> List[str]:
+-	args = ['kunit.action=list']
++	args = ['kunit.action=list'] + _LIST_KERNEL_ARGS
+ 
+ 	if request.kernel_args:
+ 		args.extend(request.kernel_args)
+@@ -129,7 +136,7 @@ def _list_tests(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest)
+ 	return [l for l in lines if re.match(r'^[^\s.]+\.[^\s.]+$', l)]
+ 
+ def _list_tests_attr(linux: kunit_kernel.LinuxSourceTree, request: KunitExecRequest) -> Iterable[str]:
+-	args = ['kunit.action=list_attr']
++	args = ['kunit.action=list_attr'] + _LIST_KERNEL_ARGS
+ 
+ 	if request.kernel_args:
+ 		args.extend(request.kernel_args)
+diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
+index 4590108e4306..17f926ef2820 100755
+--- a/tools/testing/kunit/kunit_tool_test.py
++++ b/tools/testing/kunit/kunit_tool_test.py
+@@ -979,7 +979,7 @@ class KUnitMainTest(unittest.TestCase):
+ 		self.assertEqual(got, want)
+ 		# Should respect the user's filter glob when listing tests.
+ 		self.linux_source_mock.run_kernel.assert_called_once_with(
+-			args=['kunit.action=list'], build_dir='.kunit', filter_glob='suite*', filter='', filter_action=None, timeout=300)
++			args=['kunit.action=list', 'log_buf_len=4M'], build_dir='.kunit', filter_glob='suite*', filter='', filter_action=None, timeout=300)
+ 
+ 	def test_list_tests_with_prefix(self):
+ 		want = ['suite.test1', 'suite.test2', 'suite2.test1']
 
- Documentation/dev-tools/kunit/run_wrapper.rst |  11 ++
- tools/testing/kunit/kunit.py                  | 151 +++++++++++----
- tools/testing/kunit/kunit_junit.py            |   3 +-
- tools/testing/kunit/kunit_kernel.py           |  78 +++++---
- tools/testing/kunit/kunit_printer.py          |   9 +-
- tools/testing/kunit/kunit_tool_test.py        | 253 +++++++++++++++++++++++++-
- 6 files changed, 438 insertions(+), 67 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-change-id: 20261012-kunit-parallel-a8a7e3c19a30
-
-Best regards,
---  
-Mark Brown <broonie@kernel.org>
+-- 
+2.47.3
 
