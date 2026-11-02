@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637789;
-	b=xsFhlgh3JMSekbNXVKmjOxxHBU+vV06yQzC9BcT33PUsC1x/0HhEcB98OksVmbbhImrv
-	 fjpTpCcppXEETl9jKU3vP2JWee1DkO7LiCfCqA14yIyOcAyiohkkWm+YYsqNriK/yQHwb
-	 FO/aM2L3RaHVvEFHHCKNSxI0VJDO7cBj0ol+d3awtzqHd7JE+bRTA81AEiFWN41NuUxvb
-	 hzRKavVdTatGuzE13CFrru8L5tWL6MZOsiYSDq228pj6NCNUbsf6buKTjiPdvNeGHgaG1
-	 HPvcZ30EPLzFwIy9495V24mwf0a5ctYY7/goRmFgpSnbWhDYFrXKEQDWdhdLdZHoGQg==
+	t=1793637791;
+	b=avsYKl3D/ePrb6ZEdjKqmqzWR4jff9gJhsGsydd+totb32Pr2Ss+TdJ5C1oHt83s0sHp
+	 gdKWaeRRSOrHhBUfGaA8QLVVDEKEFNFeemAa8BUt5agqrSalFLTO0n0a63LhIXCsMf/nD
+	 mdXBqYWY20TXQ94Q/3WpAgnUVHGX/SEuwRcqzdfxONi2KH/ocavAo39VL/J/qVmtTWoKK
+	 eFbqTuNZrJ1dcCDaotDEbL88DHXWa1xIKToJp2gDcKjewjQOFa4bdpWjaNJfYYYqgYgES
+	 q81MSIqksIvY6Ngsnp78lE+UwMvS8pG80l/bg076XTsobOmBfnjA081kGW8msBd64+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637789;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637791;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=xKS8ksh8ABYDg1n6CfUN9PLWMQd1ubfCdxxv/bLfaqk=;
-	b=YkMFy7nQg9oNgeuXeiKtcSmZj/h2rzPQ32roR+0y5ou+ENKAfjJ3MZImAK5sSDmNlD1F
-	 RG5QvCfqRlknaeDwaUMdGUFMyOizv9u0nw8fHyuS40O8oTFr8uEJxPYORR+QOw9V+W2u1
-	 8tKpGu0bUGqIAHhHTjmiwOQ1I5i3jnPvTzWlZmrhhy64l/pwr63xXGB4stRWPVpiDgB/9
-	 fUfslsRQAJRVACyrOIr54cVFoB6QKGXFWFq0JxtabeqlhsXnpnzBAf/8J3KdRvuhNnERV
-	 JenMiQCSBoHo4+7yOQ5auuUurCo0OHJ/BWsUNpB/NNHEtkmZS4kyE00NJ6XZh+LdV+A==
+	bh=Nf7/alv68IXjWnlt4DekDFFd76Dlk/dK2BFAvWipGHg=;
+	b=ey5BN3nCc6t214gsqZRtWONkC9aPXvA03B+DFtIuqGffQz9Kj+rZBe3N5nZdrwVLPrE2
+	 qCTSzQExqntbFCuJa7rKw6hlaDVMsi+ToBMSxhnvnduQWzD5CurWo1ZOJ6z5t1AACJarv
+	 kCs8HeswtnKXpbl725MGq9G7Bzr/yLT7/sXthIjJTwwLA9qVToWwpRQDMLQHmHALpPq6v
+	 3Ps59Aw5z7IXG4jpa4xc/c+yXS67ab2rjetrqKvwQ45y/RwgnLCvWKdNEAb+YkwHDafek
+	 sV0Mdbwa1rN0TOnNy1MPkW6+0dO+IMb5z0vc6kqC7kmM47idxoAn16Phi0hE26f2ntg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NqJZBRWo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dz59r6xh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC42260A5BCE;
-	Mon,  2 Nov 2026 16:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3DC60A5BEA;
+	Mon,  2 Nov 2026 16:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NqJZBRWo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FD81F00A17;
-	Mon,  2 Nov 2026 16:43:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dz59r6xh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 081431F00A16;
+	Mon,  2 Nov 2026 16:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793637788;
-	bh=xKS8ksh8ABYDg1n6CfUN9PLWMQd1ubfCdxxv/bLfaqk=;
+	s=k20260515; t=1793637791;
+	bh=Nf7/alv68IXjWnlt4DekDFFd76Dlk/dK2BFAvWipGHg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NqJZBRWo/1fdYiCVa4jzwBiHqEhBYnmhsbAYUKTmmspv59Z3CaUrZ4YbbK4tcNYid
-	 d5cO9beTpa8D6spZlCp2JKcj6mQlKKJ1GbM3T1zOgvt8RzNoOircwNz2CKds+Wwt/l
-	 ocPwc6/A4a4bVOGpbVRS8Oh3W+aKrjA69qtjktDoq3E90CCb2w4acgLJkW+VzOI6TE
-	 FzG9kqIaWQyBFwbTK8/QJ8XeeQ15kVpBlPY9lC0YiiYxZcsKxrQus6/8MM3v+UNX1v
-	 B8J+dXXuC5Yx/3Wh7/xmedF50RwmPssx5yE9tIw8IUq2xNfsImseIt7PYlgABIoaTW
-	 weAWfhqjVHLuw==
+	b=dz59r6xhqzlIAvYjDfGaSaxSh1h68eApMsKIzNfpYWrTjCFawS4ulBsaUH8rlW1pS
+	 c4ZYKaCHaNz4oDSeuYHU0Who36zxcDBt0iB+p+DYptEMfgSOqRkEOKX1f1gOkfToOS
+	 E01DWv/ckx6VhJsrV0NEDTKdY/9YVQpADjRZM6TpUl9MG529nnG67C8iwUGXvLPou/
+	 imy1gpBcn85Nxo65VCwfC47GZyPVuSgJdvC6UV1Gu82YBZPJsAcZ4LNT1AQv0cZPbr
+	 YbgZVGHhY8qIC/l08AY5GJYvkq8N/Ejijzfa8DGdo6RqQwM78JYNdk4QcGR3AKFx9X
+	 hvtZz1Gj79low==
 From: Mark Brown <broonie@kernel.org>
-Date: Mon, 02 Nov 2026 16:37:45 +0000
-Subject: [PATCH v2 4/7] kunit: tool: Add an outfile argument to
- run_kernel()
+Date: Mon, 02 Nov 2026 16:37:46 +0000
+Subject: [PATCH v2 5/7] kunit: tool: Allow several run_kernel() calls to be
+ in flight at once
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-kunit-parallel-v2-4-8774b558d4b0@kernel.org>
+Message-Id: <20261102-kunit-parallel-v2-5-8774b558d4b0@kernel.org>
 References: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
 In-Reply-To: <20261102-kunit-parallel-v2-0-8774b558d4b0@kernel.org>
 To: Brendan Higgins <brendan.higgins@linux.dev>, 
@@ -67,128 +67,180 @@ Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5293; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lXZ9eXBljOMjPYVQDmvSpVu2QKIdNgQesVPJGPs4i6E=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O3NviTuGacXO3vG2eC0I4vLOxYJbeRqXv+gNPe4Q
- /neGXM2d5SyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAii+4w/NPaG9Ertiv1gGNO
- 4sLIN4qHFbbphNxVimj/ftLrna8ckzzDH/429rupYsyefoa/K2IrlXaeDnjfMstpoejLQrOdp3Q
- 3sQIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6673; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=o0udMlqUIfAznzMuinvP8zQVnSnw1dlQ3/LfRtrt4IE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe7O0NV/20+mKd1aou940sblUuQW61lf8kNiovrBUzX
+ aU2a65qRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZyIZmR4dr8w8sMKlZzr5C3
+ CvkVssB162H3iYVvFhm98zvY8Sx5zmyGf9o5JVNslNyOfnYv/BqRdXPGvN/CzNqnS3tyLu5LZQr
+ YyAYA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-run_kernel() always tees the kernel's console output to test.log in the
-build directory. If more than one kernel were to be run at a time they
-would all write to the same file, so allow the caller to choose where
-the log goes with a new optional outfile argument.
+run_kernel() records the kernel it starts in a single self._process
+attribute, which the timeout thread, the cleanup at the end of the
+output and the SIGINT handler all read back. That only works while one
+kernel is running at a time, which rules out running suites in
+parallel guests from multiple threads.
 
-Also teach get_outfile_path() to generate per-kernel log names of the
-form test.<name>.log when given a name, for callers that need to keep
-the logs of several kernels apart. Characters that are awkward in file
-names, such as the '*' in a filter glob, are replaced with '_'.
+Track running kernels in a list protected by a lock instead, with each
+run_kernel() invocation only adding and removing its own entry. The
+timeout thread and the cleanup code work on a local reference to their
+own process rather than going via self, so one kernel timing out can no
+longer terminate a different one. The SIGINT handler terminates every
+kernel that is still running.
 
-Add a unit test covering the new argument.
+No functional change when a single kernel is run at a time.
 
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- tools/testing/kunit/kunit_kernel.py    | 28 ++++++++++++++++++++++++----
- tools/testing/kunit/kunit_tool_test.py | 17 +++++++++++++++++
- 2 files changed, 41 insertions(+), 4 deletions(-)
+ tools/testing/kunit/kunit_kernel.py    | 45 ++++++++++++++++++++--------------
+ tools/testing/kunit/kunit_tool_test.py | 27 ++++++++++++++++++++
+ 2 files changed, 53 insertions(+), 19 deletions(-)
 
 diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-index 58557c47d85f..2641db9eddba 100644
+index 2641db9eddba..1d3226f5a136 100644
 --- a/tools/testing/kunit/kunit_kernel.py
 +++ b/tools/testing/kunit/kunit_kernel.py
-@@ -11,6 +11,7 @@ import importlib.util
- import logging
- import subprocess
- import os
-+import re
- import shlex
- import shutil
- import signal
-@@ -193,8 +194,19 @@ def get_parsed_kunitconfig(build_dir: str,
- 		merged.merge_in_entries(partial)
- 	return merged
+@@ -277,7 +277,11 @@ class LinuxSourceTree:
+ 		if kconfig_add:
+ 			kconfig = kunit_config.parse_from_string('\n'.join(kconfig_add))
+ 			self._kconfig.merge_in_entries(kconfig)
+-		self._process : Optional[subprocess.Popen[Any]] = None
++		# Kernels currently running. There can be several when
++		# run_kernel() is called concurrently from multiple threads.
++		self._processes : List[subprocess.Popen[Any]] = []
++		# SIGINT can interrupt the main thread while it holds this lock.
++		self._processes_lock = threading.RLock()
  
--def get_outfile_path(build_dir: str) -> str:
--	return os.path.join(build_dir, OUTFILE_PATH)
-+def get_outfile_path(build_dir: str, name: Optional[str]=None) -> str:
-+	"""Returns the path of the kernel console log.
-+
-+	When several kernels are run each needs its own log, so `name` is
-+	used to tell them apart, giving test.<name>.log. Characters that are
-+	awkward in file names (anything other than letters, digits, '_', '-'
-+	and '.') are replaced with '_'.
-+	"""
-+	if name is None:
-+		return os.path.join(build_dir, OUTFILE_PATH)
-+	base, ext = os.path.splitext(OUTFILE_PATH)
-+	name = re.sub(r'[^\w.-]', '_', name)
-+	return os.path.join(build_dir, f'{base}.{name}{ext}')
+ 	def arch(self) -> str:
+ 		return self._arch
+@@ -368,7 +372,9 @@ class LinuxSourceTree:
+ 		"""Boots the kernel and yields its console output line by line.
  
- def _default_qemu_config_path(arch: str) -> str:
- 	config_path = os.path.join(QEMU_CONFIGS_DIR, arch + '.py')
-@@ -352,7 +364,12 @@ class LinuxSourceTree:
- 			return
- 		subprocess.call(['stty', 'sane'])
- 
--	def run_kernel(self, args: Optional[List[str]]=None, build_dir: str='', filter_glob: str='', filter: str='', filter_action: Optional[str]=None, timeout: Optional[int]=None) -> Iterator[str]:
-+	def run_kernel(self, args: Optional[List[str]]=None, build_dir: str='', filter_glob: str='', filter: str='', filter_action: Optional[str]=None, timeout: Optional[int]=None, outfile: Optional[str]=None) -> Iterator[str]:
-+		"""Boots the kernel and yields its console output line by line.
-+
-+		The output is also written to `outfile`, which defaults to
-+		test.log in the build directory.
-+		"""
+ 		The output is also written to `outfile`, which defaults to
+-		test.log in the build directory.
++		test.log in the build directory. This may be called from
++		several threads at once to run kernels concurrently, in which
++		case each caller must supply a distinct `outfile`.
+ 		"""
  		# Copy to avoid mutating the caller-supplied list. exec_tests() reuses
  		# the same args across repeated run_kernel() calls (e.g. --run_isolated),
- 		# so appending to the original would accumulate stale flags on each call.
-@@ -365,6 +382,9 @@ class LinuxSourceTree:
- 			args.append('kunit.filter_action=' + filter_action)
- 		args.append('kunit.enable=1')
+@@ -385,37 +391,36 @@ class LinuxSourceTree:
+ 		if outfile is None:
+ 			outfile = get_outfile_path(build_dir)
  
-+		if outfile is None:
-+			outfile = get_outfile_path(build_dir)
-+
- 		self._process = self._ops.start(args, build_dir)
- 		assert self._process is not None # tell mypy it's set
- 		assert self._process.stdout is not None  # tell mypy it's set
-@@ -382,7 +402,7 @@ class LinuxSourceTree:
+-		self._process = self._ops.start(args, build_dir)
+-		assert self._process is not None # tell mypy it's set
+-		assert self._process.stdout is not None  # tell mypy it's set
++		process = self._ops.start(args, build_dir)
++		assert process is not None # tell mypy it's set
++		assert process.stdout is not None  # tell mypy it's set
++		with self._processes_lock:
++			self._processes.append(process)
+ 
+ 		# Enforce the timeout in a background thread.
+ 		def _wait_proc() -> None:
+ 			try:
+-				if self._process:
+-					self._process.wait(timeout=timeout)
++				process.wait(timeout=timeout)
+ 			except Exception as e:
+ 				print(e)
+-				if self._process:
+-					self._process.terminate()
+-					self._process.wait()
++				process.terminate()
++				process.wait()
  		waiter = threading.Thread(target=_wait_proc)
  		waiter.start()
  
--		output = open(get_outfile_path(build_dir), 'w')
-+		output = open(outfile, 'w')
+ 		output = open(outfile, 'w')
  		try:
  			# Tee the output to the file and to our caller in real time.
- 			for line in self._process.stdout:
+-			for line in self._process.stdout:
++			for line in process.stdout:
+ 				output.write(line)
+ 				yield line
+ 		# This runs even if our caller doesn't consume every line.
+ 		finally:
+ 			# Flush any leftover output to the file
+-			if self._process:
+-				if self._process.stdout:
+-					output.write(self._process.stdout.read())
+-					self._process.stdout.close()
+-				self._process = None
++			output.write(process.stdout.read())
++			process.stdout.close()
++			with self._processes_lock:
++				self._processes.remove(process)
+ 			output.close()
+ 
+ 			waiter.join()
+@@ -423,7 +428,9 @@ class LinuxSourceTree:
+ 
+ 	def signal_handler(self, unused_sig: int, unused_frame: Optional[FrameType]) -> None:
+ 		logging.error('Build interruption occurred. Cleaning console.')
+-		if self._process:
+-				self._process.terminate()
+-				self._process.wait()
++		with self._processes_lock:
++			processes = list(self._processes)
++		for process in processes:
++			process.terminate()
++			process.wait()
+ 		self._restore_terminal_if_tty()
 diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
-index 17f926ef2820..4e8068dce918 100755
+index 4e8068dce918..c4999273e491 100755
 --- a/tools/testing/kunit/kunit_tool_test.py
 +++ b/tools/testing/kunit/kunit_tool_test.py
-@@ -522,6 +522,23 @@ class LinuxSourceTreeTest(unittest.TestCase):
- 			with open(kunit_kernel.get_outfile_path(build_dir), 'rt') as outfile:
- 				self.assertEqual(outfile.read(), 'hi\nbye\n', msg='Missing some output')
+@@ -18,6 +18,7 @@ import os
+ import signal
+ import subprocess
+ import sys
++import textwrap
+ from typing import Iterable
+ import xml.etree.ElementTree as ET
  
-+	def test_run_kernel_outfile(self):
-+		"""Verify run_kernel() logs to the given outfile instead of test.log."""
-+		def fake_start(unused_args, unused_build_dir):
-+			return subprocess.Popen(['printf', 'hi\n'], text=True, stdout=subprocess.PIPE)
-+
-+		with tempfile.TemporaryDirectory('') as build_dir:
-+			tree = kunit_kernel.LinuxSourceTree(build_dir, kunitconfig_paths=[os.devnull])
-+			mock.patch.object(tree._ops, 'start', side_effect=fake_start).start()
-+
-+			# Awkward characters in the name are sanitised.
-+			outfile = kunit_kernel.get_outfile_path(build_dir, 'my suite.test*')
-+			self.assertEqual(outfile, os.path.join(build_dir, 'test.my_suite.test_.log'))
-+			self.assertEqual(list(tree.run_kernel(build_dir=build_dir, outfile=outfile)), ['hi\n'])
-+			with open(outfile, 'rt') as f:
-+				self.assertEqual(f.read(), 'hi\n')
-+			self.assertFalse(os.path.exists(kunit_kernel.get_outfile_path(build_dir)))
-+
+@@ -538,6 +539,8 @@ class LinuxSourceTreeTest(unittest.TestCase):
+ 			with open(outfile, 'rt') as f:
+ 				self.assertEqual(f.read(), 'hi\n')
+ 			self.assertFalse(os.path.exists(kunit_kernel.get_outfile_path(build_dir)))
++			# The kernel has exited so should no longer be tracked.
++			self.assertEqual(tree._processes, [])
+ 
  	def test_run_kernel_args_not_mutated(self):
  		"""Verify run_kernel() copies args so callers can reuse them."""
- 		start_calls = []
+@@ -607,6 +610,30 @@ class LinuxSourceTreeTest(unittest.TestCase):
+ 			mock_error.assert_called_once()
+ 			mock_call.assert_called_once_with(['stty', 'sane'])
+ 
++	def test_signal_handler_during_process_update(self):
++		# Run in a subprocess so a deadlock fails with a timeout rather
++		# than hanging the test runner. Deliver a real signal while the
++		# main thread holds the lock used to update the process list.
++		code = textwrap.dedent('''\
++			import os
++			import signal
++			from unittest import mock
++			import kunit_kernel
++
++			tree = kunit_kernel.LinuxSourceTree('', kunitconfig_paths=[os.devnull])
++			process = mock.Mock()
++			with tree._processes_lock:
++				tree._processes.append(process)
++				os.kill(os.getpid(), signal.SIGINT)
++			process.terminate.assert_called_once_with()
++			process.wait.assert_called_once_with()
++		''')
++		result = subprocess.run([sys.executable, '-c', code],
++			cwd=os.path.dirname(os.path.abspath(__file__)),
++			stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
++			stderr=subprocess.STDOUT, text=True, timeout=5)
++		self.assertEqual(result.returncode, 0, msg=result.stdout)
++
+ 	def test_build_reconfig_no_config(self):
+ 		with tempfile.TemporaryDirectory('') as build_dir:
+ 			with open(kunit_kernel.get_kunitconfig_path(build_dir), 'w') as f:
 
 -- 
 2.47.3
