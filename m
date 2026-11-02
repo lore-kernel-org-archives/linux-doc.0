@@ -1,48 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.246.1.125
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793654997;
-	b=LKzhL7XPbjlYt8tralOXk3F0t5Y6ih5cqXuSSnf8jlE60dXetrSfLyOyK0W/W2561gHZ
-	 EPHXcHNeJZNChL1n4ROQ8XCwcP548PjCHMdFfO7ZM1or+2rymZxJK31T3Cg679npkl7gx
-	 ZGaosxXD6lfXjXCUJQyTXmGB/ThV88T3hHVdsNRkuP0TCTyY13YFuTS+givxuFzKpR+Hh
-	 5mTsu6X9YkvsE5S/0brqpaJ28nvfJg+tyLnmJK4sR4ANQ1oHbo1aTop6SJ0hJ98Dj89p6
-	 CVIvfdFbzMNSh0LCWrnxM3se2Um0cHh3mSaV02Z7+HlZg4OBDRMrLXksvoHelh4I2tg==
+	t=1793656179;
+	b=0HIo01T5IIr/Xtxho7QRQqkMAtFUMZ7RvyEktlzEH3G0vHUAWWBD2LOWY+ClknrRiq86
+	 V+93VOuMnws5hTozYW0gPyNsEtk8WFDgSrl0NDro5TzBQXDK1WSXBVT7tQAQ5ux/9B6j3
+	 JkwhQQyFepPNrrVR+4w0LpZOFHWOk1hxPXkx9nDurh9kXzti3T5brRRJuSMhBYiL359tP
+	 gicQVrQWZSDDBXQ7f2/SdLHhV5VRvXN3mP05yp09uzRBmbg4lVo50ERQMmwRgCRvpTnXu
+	 oByuZsYXL/E1gKRGBn/nnt72abBAMI69GIS2fa+JCL3MY0YOSHbWX91hqfp5Y6HxxFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793654997;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Qr7ZW6hh4tFasdpF0XfzpgnxQrmEptjL7eOaOR9FQJU=;
-	b=yd9V4K/6J/X4P9+ttrDyqpOIdyhJ/jN88b6pz8StLTC1UKh7O8v3ZhSgN7AV8Z7TQdhL
-	 57vgXqDC3sEzh1/pVZhbR6blpNNLRXLQSsj4ekC1hH1QCt1ic9vXeOydVwKfK/QbViRwh
-	 mN2JieN1ArRVCrD6mib6Ak4FcQ5hq2AK+jwo0JsnQK3xVrulip0sYwggIrojCgj2CuqlN
-	 BoAzBSAfJXVj1iK2UFZCuL77m2dEKm/VFqdhFgRaNgBHh3Srf2qn2rg8KDdpcWf2Kgzlq
-	 YDj8w+FmJvo0K4ZAm3mhQH0Fupd9QccGv2VsEuu2gPt/HmYu7yOsO9bbxuXGbrvcIJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793656179;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 CC:In-Reply-To:References:Date:Message-ID:X-Mailer:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=6Q5a2xUO39v77POem+TTCk4xnpDmiOALJGJI1qwVmFc=;
+	b=39l/3BAXqpXSJNuaMjJBSGmiYd9uaZprnYgUVmPJB4cAq2G1D0SgVKZxBg0oZlbxdxpg
+	 AniXwVPwy1W7PUz5V1L9q1dELmtMXDpeNuR/3HnddoCoVtxFUesVT5n+JEYIn5oyM6vh9
+	 ibpfrkN38nGaNprB2f81FkVJu+YgSrruX4hmWjQ4qNjVcPz4S3LsCcMBr1JkuzABKhUjj
+	 GaK63mzpjyymdu9dGu+4DW+e4+mLh4BwDbtmCXNwGIgkVrzbhAvD6/7m6nyhY6N0D6zSB
+	 zuatjRp21AIXYm7NA0/DzYJ5TgBOFtWtdEWDYptN2pufMQis5Q6/4byDRuNQQwU31zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YE1u68wU;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=rijvu1Zd;
+	arc=none smtp.remote-ip=44.246.1.125
+Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C91606D80C;
-	Mon,  2 Nov 2026 21:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6326606A327;
+	Mon,  2 Nov 2026 21:49:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6326606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YE1u68wU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5731F00A16;
-	Mon,  2 Nov 2026 21:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793654997;
-	bh=Qr7ZW6hh4tFasdpF0XfzpgnxQrmEptjL7eOaOR9FQJU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YE1u68wUELx1TkvP7hh8A2l6M3A1csKfttKvbOSjKcXhCW5xlxwj6V8tUHo4VfQ1b
-	 LJbecdPP9xzvbaIZHDSViev4/e2qwOKC8gv5aHPR9GBMpdKCD4A9SieUWYKTBm4o7+
-	 pG7aVSOWRSJ7Hevro26exPilDJZvNqHR19M7oG8f/jYSu5fiyYCa1HNdC1iz2EUft1
-	 1mkgUAWXlOeT4rUHILDK5F4/K4oow4HfPYFwhsHixyrwUfGo4r1l+ZYhr+hxjecEqN
-	 /NgsiNu5+qkquJOo81SOhXxk88Kx5ZNt3hwtFLAEbcoog4pl3xPBrg3bLWd8A0vJX8
-	 WnGlmKFGqy8Gg==
-From: Vincent Mailhol <mailhol@kernel.org>
-Date: Mon, 02 Nov 2026 22:29:14 +0100
-Subject: [PATCH v3 7/7] docs: document discoverable root partitions
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=rijvu1Zd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1793656178; x=1825192178;
+  h=mime-version:content-transfer-encoding:subject:from:to:
+   cc:in-reply-to:references:date:message-id;
+  bh=6Q5a2xUO39v77POem+TTCk4xnpDmiOALJGJI1qwVmFc=;
+  b=rijvu1Zd6Ufs848eulZ0WMG9E0a/wT7GKHatkPOIKO0dG2kFQKAyNp1+
+   PqqE0M121BIyXpZ+ruMnB4oD5lar/4IaYeW01aDy5qdCahu+XqHuZDqq6
+   23le/6RSLwn9+6b41GCXEcm3X7EqeMNmThh1Ej8FoX0jKDnr8EqChb87b
+   JeHEJqtqDdxfGviHwWFxCMFheWc8viRo3NmTH4EMTWFkOnWx7Ue1Bz9KB
+   +ro1DwUBMXGRs7DqtyLNGSYZWxeTEzyRU9Kf1IwcqeH6/AUgQnEUfbHM+
+   q3tu3Fic+0woZ8NGCDXAIPqMVUMUM3EjaY9++f2wfP8l7wmtPkgoj9a5q
+   w==;
+X-CSE-ConnectionGUID: ISbOo7rEQqyAW7I/m/6ezA==
+X-CSE-MsgGUID: 5vkqLfBAToCWC65PVe2ffA==
+X-IronPort-AV: E=Sophos;i="6.27,192,1787011200"; 
+   d="scan'208";a="32920958"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 21:49:36 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.182:1024]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.238:2525] with esmtp (Farcaster)
+ id da486bd7-4b4b-4e5a-b155-9370e3643b8d; Mon, 2 Nov 2026 21:49:35 +0000 (UTC)
+X-Farcaster-Flow-ID: da486bd7-4b4b-4e5a-b155-9370e3643b8d
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Mon, 2 Nov 2026 21:49:35 +0000
+Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Mon, 2 Nov 2026 21:49:32 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,126 +75,64 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-discoverable-root_partitions-v3-7-27f04b69b7ab@kernel.org>
-References: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
-In-Reply-To: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Dave Hansen <dave.hansen@intel.com>, 
- James Bottomley <James.Bottomley@HansenPartnership.com>, 
- Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>, 
- Vincent Mailhol <mailhol@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4200; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=gdnxG7x9j+BB8OhhI8GWAeHqbzX7tVWdfqif6sgGXEI=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDFkvGTYqCDr0ph+6Yf/izAoDh8KVW+4+2lTxwf3ZYba5O
- lnuO6bHdUxkYRDjYrAUU2RZVs7JrdBR6B126K8lzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- CGToGDFwcQrAVJuZMfz3jjd7zumuGXZttWWCmebVNx9vT/mVuI3vZPCtCXzr7xYtZmRYd0FSQeb
- DvJOsz/I4n7VUi33L/+pmyazy26BFZPaP+rk8AA==
-X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
- fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: ena: Fold header containing PCI id
+ definitions into driver
+From: Arthur Kiyanovski <akiyano@amazon.com>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+CC: Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
+	<darinzon@amazon.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, "Guangshuo
+ Li" <lgs201920130244@gmail.com>, Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>, Dawei Feng <dawei.feng@seu.edu.cn>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+In-Reply-To: <20261102110907.356621-2-u.kleine-koenig@baylibre.com>
+References: <20261102110907.356621-2-u.kleine-koenig@baylibre.com>
+Date: Mon, 2 Nov 2026 21:49:24 +0000
+Message-ID: <179365616498.28818.15452478866037209509.b4-review@b4>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Document the automatic root block device discovery feature.
+On Mon, 02 Nov 2026 12:09:05 +0100, Uwe Kleine-König <u.kleine-koenig@baylibre.com> wrote:
+> The file ena_pci_id_tbl.h is only included once. Fold it into its only
+> consumer, simplifying a bit en passant.
+> 
+> Note that I took out the trailing comma from the expanded value of
+> ENA_PCI_ID_TABLE_ENTRY() and thus these commas have to be added when the
+> macro is used improving readability.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 
-Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/discoverable-root.rst | 46 +++++++++++++++++++++++++
- Documentation/admin-guide/index.rst             |  1 +
- Documentation/admin-guide/kernel-parameters.txt |  5 +++
- 3 files changed, 52 insertions(+)
+Hi Uwe,
 
-diff --git a/Documentation/admin-guide/discoverable-root.rst b/Documentation/admin-guide/discoverable-root.rst
-new file mode 100644
-index 000000000000..29c93b3526a6
---- /dev/null
-+++ b/Documentation/admin-guide/discoverable-root.rst
-@@ -0,0 +1,46 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _discoverable_root:
-+
-+Discoverable root partitions
-+============================
-+
-+On EFI systems, the kernel can discover the root block device from GPT partition
-+type UUID metadata on the disk containing the active EFI System Partition.
-+
-+This follows the `Discoverable Partitions Specification`_ which defines a list
-+of architecture-specific root partition type UUIDs.
-+
-+An initramfs providing an early userspace ``init``, a ``root=`` kernel
-+command-line option, or a root device supplied through the boot protocol takes
-+precedence over this automatic root partition discovery.
-+
-+Automatic discovery uses the Boot Loader Interface ``LoaderDevicePartUUID`` EFI
-+variable to identify the partition whose disk is searched. This variable is
-+provided by the boot loader or, when the kernel is booted directly by EFI
-+firmware, by the Linux EFI stub.
-+
-+The kernel first searches for the native root partition type UUID. On
-+architectures that can run compatible 32-bit user space, the matching 32-bit
-+root partition type UUID may be used as a fallback if no partition with the
-+native type UUID is found. If multiple partitions on that disk match the
-+selected type UUID, the kernel selects the first match in block device
-+enumeration order, but this may change. Systems should not expose multiple
-+eligible root partitions.
-+
-+Partitions marked with the DPS ``no-auto`` GPT attribute are skipped. This
-+allows a partition with an otherwise discoverable type UUID to opt out from
-+automatic discovery.
-+
-+With ``rootwait`` or ``rootwait=<seconds>``, discovery retries while the EFI
-+System Partition is unavailable, subject to any specified timeout. Once its disk
-+has been scanned, discovery either selects an eligible root partition or stops
-+if none was found. Waiting is also disabled if ``LoaderDevicePartUUID`` is not
-+available or is malformed.
-+
-+The DPS read-only attribute is not enforced by kernel root discovery. The
-+root filesystem is mounted read-only by default unless ``rw`` is specified,
-+and user space remains responsible for later remount policy.
-+
-+.. _Discoverable Partitions Specification:
-+   https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index cd28dfe91b06..0d9c2796ae09 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -50,6 +50,7 @@ Booting the kernel
- 
-    bootconfig
-    kernel-parameters
-+   discoverable-root
-    efi-stub
-    initrd
- 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..2e7b89a05944 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6746,6 +6746,11 @@ Kernel parameters
- 			ramdisk, "nfs" and "cifs" for root on a network file
- 			system, or "mtd" and "ubi" for mounting from raw flash.
- 
-+			If this option is omitted, the kernel may try to
-+			discover the root block device from the GPT partition
-+			type UUID metadata when additional requirements are met.
-+			See Documentation/admin-guide/discoverable-root.rst.
-+
- 	rootdelay=	[KNL] Delay (in seconds) to pause before attempting to
- 			mount the root filesystem
- 
+Thanks for the patch.
+
+I'd prefer to keep ena_pci_id_tbl.h as a separate file - ena_netdev.c is
+already by far the largest file in the driver, and I'd rather not grow it
+further when there's an alternative.
+
+You're right about the missing definition though, and I think we can fix
+that by adding #include <linux/pci.h> to ena_pci_id_tbl.h instead. Would
+that satisfy your check script?
+
+The rest of the cleanup can be applied to the header instead:
+
+ - drop the #ifndef guards around the PCI_DEV_ID_ENA_* defines, nothing
+   defines those names anymore
+ - drop the PCI_VENDOR_ID_AMAZON fallback too, <linux/pci_ids.h> has had
+   it since 4.18
+ - keep the trailing comma change, that's how the other drivers do it
+   (mlx4, e1000, cxgb4, qlcnic, ...)
+
+Would you mind respinning along those lines?
+
+Thanks,
+Arthur
 
 -- 
-2.56.0
-
+Arthur Kiyanovski <akiyano@amazon.com>
