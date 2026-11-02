@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633842;
-	b=snzkAZR3ZOLv9z1IciCufDlo1BXLufsqIjD7/V+HIO5uSA4OIV2UXb+lRY7HaBtdBteH
-	 dOaFKa0WeTXceNDf/yo2LZ7fd9XOU38NOpBLul6KWsT5P2K7yqwz8gPi+u63Ycoc0b4Lq
-	 YwiX7TdgBfhxB+1j42D3nuy0TQnUYaRElVNm244qWnw2K3nEuBpsZmqtxX6cUG8qgKDma
-	 omoqJOQDUKf+Zlk4DWsC72b4Pvct3+1jic/yHZSfZrZyp5Ca9AZ/35C7HdLS3f9DuQD9b
-	 t1gfUb1nyAgrf6E/t6wEAOMDIGoR5uTI495y+NWGIB55PouYr2N8zIs6h21mkQtS1bw==
+	t=1793633843;
+	b=RKSudyylk3yBIWuLDpQZENeGSYyHui3u9593BCgV6s2Eu1LcGl9ekQBvMJqZ2G+IRqDk
+	 5i0TPvNXZycRgp3w6EGFjdHa9tX1MOBo7ewQO09I3IPL1beoZmWb53buKH1e3uZePDjCs
+	 YntHB4zsxNsTdunlZcJfD+MsY35ycQpkJ/1oBgJ0jGU49OMaaicrjG6ekAS5iHWLPbE8g
+	 YtJmzLMi+0HkuUw4/xxGsPS4du6S68z9cAFrYzPBV7gwVTFvdWVOcqzXKW/xF982poRiM
+	 Rvw/cgQXkcSKQLTLINSvw4J2O3x5H5fkPi4Ao3Qw9dWwhhfzH5beUdy7qmEy83Frgkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633842;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633843;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=KAmKs654GCi6VXGTIXtG/L5qz01wzAI854D1tv9w8Xg=;
-	b=DyXWNr3HOUCdMtacLkxXXq7Gzq24ll9BgixieRjjMJxllkQC79jW1r3n3rjD5YssyvHl
-	 jnoLMH8BHd9Dbjcif6xVhSUZ7WFDQPGw2s6UoCE4qPGZ7wsoegrQIwZk3LK1VWSYhawNn
-	 185dyLz3C1TL2BXUvjNkFPh8/yppyCpgWUde4/oEDMw2R43eqSE6fvYjTHG9oVDVI5uCT
-	 0PfG/ZE+uyhWQnGj2/7a9+OkdE6kgw1LZ6WE17TWG+bCO6FtD23HHYxa4qI2ugkeNtlL0
-	 hFtjxGytLEnvsbVnBE9nggdfYpg1rgJ78cbTZrPXz7A3Iz8++5fXYEcn1TxElXPNJ6Q==
+	bh=3Pjs45S57+QYe3zCfvXOSLki7qU0AqGmneDsSzoE048=;
+	b=CS/7FCI0mtXLNv/7n87a13kYpVFsRFBC7jYNH523UT09v3aUvJJHJrNjtYzJUp05GuGB
+	 fGWJQwzHm+kb4LWiAJA3YgKkh1fFld/vuwk+LOVbCG/mESd1hIMyabsXXVVW/8heex7CP
+	 0dqvLGzG8Bjqx4xSICwDDYQHic9D6akydobIW0tqjRJPtY6ZpCz6E8+sq9yENWtbY4VQ8
+	 CxR9YNPGUJT8AuuhWaEyQ7pb3V9/ZU/zF+/KZ2CV/lYwM67TOhGG0JE9SocbKM+7+valR
+	 4VJMa9VRlGp9y+b2k+Lugy9Fiq9W/ux6HrBrt9L0zss7fUuQByYVMx1X3poCF5RP3BQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SYh1oMFk;
-	arc=none smtp.remote-ip=209.85.216.70
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=FAaVSdjU;
+	arc=none smtp.remote-ip=209.85.215.200
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9D960EB617
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B9D960EB617
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B5460EB63A
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46B5460EB63A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SYh1oMFk
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3ac77c3ff6aso3787963a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:22 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=FAaVSdjU
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cc7e0321ec1so3750697a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793633841; x=1794238641; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793633843; x=1794238643; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KAmKs654GCi6VXGTIXtG/L5qz01wzAI854D1tv9w8Xg=;
-        b=SYh1oMFkhceG3pV1vARm5UfRZJq/jUcCzAISHYUSPXhNGXhCb5BtUK7Rnu5bZ07z0A
-         NINrqT14ux5wmPIAGNZ2ebwGFVxRBp/gBvFHWdSA0dO/eppTb9OxbXw5O9JBI7B2t8A5
-         O10mjjrBBNOAeDLfjFxdN1ccMIW1uPoqqMN9/wxsUhbjJelZL3r6ubNoqS4MKHE7ngil
-         JxmTdd9pDgUSx6b+CgNuX11RmF7nayjrBBIOArHf4D922eH1g47CkGhnr9W75v/6qZiV
-         Ynx9s5Dr1qI+56RbDLqIwO0M4SN0RCTJqhDSg2uPZawsZx3Gaes369FwVLwuXtY4PoFn
-         CHzw==
+        bh=3Pjs45S57+QYe3zCfvXOSLki7qU0AqGmneDsSzoE048=;
+        b=FAaVSdjUd0cfsq/b7VcuT8axjNOEN+7MFV5Y7WJXuTArFkLs3yupDaLWDBxj8/DVa1
+         1ynAmNmwqx7A6A0XhZcNV3Z44L7Dmdn+befI7wSwfczoF1hPYM1uVVhoCydWn2EVB6S0
+         WwOZEen3E31komCspSB+f1pW3ChpZkrgywL8NV2ZEF9jcWhGQ604kE3IqfCOv9bx2+9p
+         5rbSlddU+X+JaDalXYFIsBYbtosEkvx5d6b4zsxj/vqjRS2OvPWCfmkhIFeVHl69Otz2
+         G0uNGDNenv9aH4Gc6d8kf7Lwl/HPUDx6Bp+CXXygBvDr8OIwTrPFjfoUy7KhjVoOKmWu
+         mGkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793633841; x=1794238641;
+        d=1e100.net; s=20260707; t=1793633843; x=1794238643;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KAmKs654GCi6VXGTIXtG/L5qz01wzAI854D1tv9w8Xg=;
-        b=PnLykc/QIKNEiQK8L0CjyZge7foPQT6lGQW4dsZfFHr6e8re91xcRSmsC6QaSMTDzz
-         DP6O1Hv/ebwV3hKOvw3YVf6meI3yGeWEhxfaofBIIc5bO58OooOMP4TAzDtMwO8FIJ87
-         tKnM3BHY9X1FWl4ogNN/tqBCnX6leO6JiR7w60QttckFMErA0XVpsUzQcYQxkpBcV/Wd
-         CT7A5JgzFWy5Zi1jt3HW0bmPSO0Az8yHRn83EXwnWbZF8vbPMqiEc48Gjp3wQ/aQ9utO
-         Hxvnau2cWxVifXaGHdxCehsHWSqwSqUduj4/pOUIpuqxoYu7e8w2h1+e3Wa8hVTexNLK
-         Z1rQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDChxaEKuSL3x8PJp0kM3EI7aCBdWV79AWyMoDWhGPg9yRZmtwwtz/sl/KQ3UHs5ZG/xPljG9ve7E=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8L4zKr1JKTvjO37XbwO9tlmqcIKHGuuyZ9ewip2HPiLYB6Nj63
-	rFWBF1kM1XnQKzPeOqgUU/uqfWFKpWAiojZ/A28XWJlWAG9R65ZZb4CO/cgXXBuRZRVmfdeBBKy
-	nWv4ahj4hkw==
-X-Received: from pjqc8.prod.google.com ([2002:a17:90a:a608:b0:3ae:5572:c4d3])
- (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4e88:b0:3ac:85be:cd52
- with SMTP id 98e67ed59e1d1-3ae89867829mr8253650a91.59.1793633841328; Mon, 02
- Nov 2026 07:37:21 -0800 (PST)
-Date: Mon,  2 Nov 2026 07:36:49 -0800
+        bh=3Pjs45S57+QYe3zCfvXOSLki7qU0AqGmneDsSzoE048=;
+        b=0Ziq+aRyDvWdVzGjyoGL62XoslUlnYzxbYAJQI49gG1tSriJYsIw8nqGvD9yzyvyOH
+         P9LO/Tf69uJKiwMp0d2oQyncsxmqBD/agT8J/969Fnr31mGOQNIR9ebmq8ao6ildjuXE
+         qFXeDqj1r+Xe86XMvbwZs3Nh9oUUQX/m/86deLV+ceH3k7/0tIQLkqajEYOK8wADlbjg
+         lyWiK215fq/VY/aududuIuTU0nYQW61Xkq5qI3wlS5P10sg4r7pHviCP3ZoZhDciQD8r
+         ktad1oIGrr2OjJlqNBz9CwIRPrEUOFc6nC4o7je59aYZ+8rMZjOUigff67PomwRSQPGS
+         vIKA==
+X-Forwarded-Encrypted: i=1; AKwUvBxhyNxwVsLCjwIwGWjOrc1+gFutE/0DeMm7FQDyVOg3AkfMI36G8SKUeLH6hcdKG3JYtqpXrDW6Vr8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJvM5ybGKWi3XBYGuubKYlmL1UdztWUbAdx+trM3EMXhqINiWZy
+	MNzKHuA28+Cx1yGKa/4EyBU1havVhCXtQN6XlVAG6H0opFPtU/e3Kvf+uVp9vc6/ePy+Npz9A56
+	5AyIrP6mcRg==
+X-Received: from pgia4.prod.google.com ([2002:a63:e404:0:b0:cc7:865b:2dc5])
+ (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:4cc1:b0:3e2:778e:3cdd
+ with SMTP id adf61e73a8af0-3e9289abb68mr8817317637.37.1793633842371; Mon, 02
+ Nov 2026 07:37:22 -0800 (PST)
+Date: Mon,  2 Nov 2026 07:36:50 -0800
 In-Reply-To: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,9 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
-Message-ID: <20261102153656.1431701-21-vipinsh@google.com>
-Subject: [PATCH v6 20/27] vfio: selftests: Add iommufd noiommu mode
+Message-ID: <20261102153656.1431701-22-vipinsh@google.com>
+Subject: [PATCH v6 21/27] vfio: selftests: Add helpers to map DMA memory at
+ IOVA == PA in noiommu mode
 From: Vipin Sharma <vipinsh@google.com>
 To: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
@@ -102,181 +103,141 @@ Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
 	yanjun.zhu@linux.dev, yi.l.liu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 
-Add an opt-in iommufd_noiommu mode (MODE_IOMMUFD_NOIOMMU) for devices
-bound to vfio-pci in noiommu mode. When a device is in noiommu mode, its
-VFIO character device is named /dev/vfio/devices/noiommu-vfioX (opening
-it requires CAP_SYS_RAWIO), and binding and attaching to an iommufd IOAS
-use a software page table.
+Selftest drivers program the IOVA returned by to_iova() into the device.
+Because a device in noiommu mode uses those addresses directly as
+physical addresses, DMA buffers must be mapped at IOVA == PA so that
+to_iova() returns the buffer's physical address without changing the
+drivers.
 
-Add __vfio_pci_get_cdev_path(bdf, noiommu) to look up either the regular
-or the noiommu cdev path and return NULL when none is present, and make
-vfio_pci_cdev_open() select the cdev based on mode->noiommu.
-
-Because a device in noiommu mode DMAs directly to physical addresses,
-tests that program arbitrary or unmapped IOVAs would corrupt memory.
-Keep MODE_IOMMUFD_NOIOMMU out of FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES()
-so that only noiommu-aware tests opt into it.
+Add __iommu_noiommu_get_pa() to wrap IOMMU_IOAS_NOIOMMU_GET_PA and
+iommu_map_identity() to map a physically contiguous buffer at IOVA == PA
+by first pinning it at a scratch IOVA (BIT_ULL(52), above the 52-bit
+output address space of the noiommu page table), querying its physical
+address and contiguity, mapping it at IOVA == PA, and then unmapping the
+scratch range while keeping the pages pinned.
 
 Signed-off-by: Vipin Sharma <vipinsh@google.com>
 ---
- .../vfio/lib/include/libvfio/iommu.h          | 17 ++++++++++
- .../lib/include/libvfio/vfio_pci_device.h     |  7 +++++
- tools/testing/selftests/vfio/lib/iommu.c      |  9 +++++-
- .../selftests/vfio/lib/vfio_pci_device.c      | 31 +++++++++++++------
- 4 files changed, 53 insertions(+), 11 deletions(-)
+ .../vfio/lib/include/libvfio/iommu.h          | 26 ++++++++
+ tools/testing/selftests/vfio/lib/iommu.c      | 61 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
 
 diff --git a/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h b/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
-index e9a3386a4719..e652b8caf5bb 100644
+index e652b8caf5bb..d449813f9bc4 100644
 --- a/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
 +++ b/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
-@@ -13,6 +13,12 @@ struct iommu_mode {
- 	const char *name;
- 	const char *container_path;
- 	unsigned long iommu_type;
-+	/*
-+	 * For devices bound to vfio-pci in noiommu mode, i.e. not behind an
-+	 * IOMMU. Such devices DMA to the addresses programmed into them as
-+	 * physical addresses.
-+	 */
-+	bool noiommu;
- };
- 
- extern const char *default_iommu_mode;
-@@ -67,6 +73,17 @@ struct iommu_iova_range *iommu_iova_ranges(struct iommu *iommu, u32 *nranges);
- #define MODE_IOMMUFD_COMPAT_TYPE1V2 "iommufd_compat_type1v2"
- #define MODE_IOMMUFD "iommufd"
+@@ -65,6 +65,32 @@ static inline void iommu_unmap_all(struct iommu *iommu)
+ int __iommu_hva2iova(struct iommu *iommu, void *vaddr, iova_t *iova);
+ iova_t iommu_hva2iova(struct iommu *iommu, void *vaddr);
  
 +/*
-+ * iommufd with a device bound to vfio-pci in noiommu mode
-+ * (vfio.enable_unsafe_noiommu_mode=1 and CONFIG_IOMMUFD_NOIOMMU), whose cdev
-+ * is /dev/vfio/devices/noiommu-vfioX. Opening it requires CAP_SYS_RAWIO.
++ * Look up the physical address @iova maps to in the noiommu IOAS of @iommu
++ * (IOMMU_IOAS_NOIOMMU_GET_PA, requires CAP_SYS_RAWIO). On success, *@length is
++ * the number of physically contiguous bytes from *@pa, at most @max_length.
++ */
++int __iommu_noiommu_get_pa(struct iommu *iommu, iova_t iova, u64 max_length,
++			   u64 *pa, u64 *length);
++
++/*
++ * Map @region->size bytes at @region->vaddr at IOVA == PA, and set
++ * @region->iova to that PA. Devices in noiommu mode use the addresses that
++ * drivers program into them, i.e. to_iova(), as physical addresses, which such
++ * a mapping makes right.
 + *
-+ * Not part of FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES(): tests must opt in, since
-+ * the device DMAs to IOVAs as physical addresses, and tests that DMA to
-+ * arbitrary or unmapped IOVAs would corrupt memory.
++ * The buffer must be physically contiguous (e.g. a hugepage or a THP), and a
++ * noiommu device must be attached to @iommu already. The memory stays pinned,
++ * and so at the same physical address, until iommu_unmap(@region), which must
++ * not be called before the device stopped accessing it.
 + */
-+#define MODE_IOMMUFD_NOIOMMU "iommufd_noiommu"
++int __iommu_map_identity(struct iommu *iommu, struct dma_region *region);
 +
- /*
-  * Generator for VFIO selftests fixture variants that replicate across all
-  * possible IOMMU modes. Tests must define FIXTURE_VARIANT_ADD_IOMMU_MODE()
-diff --git a/tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h b/tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h
-index 9a62bfb6b440..bfadeb362723 100644
---- a/tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h
-+++ b/tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h
-@@ -154,6 +154,13 @@ static inline bool vfio_pci_device_match(struct vfio_pci_device *device,
- 		(device_id == vfio_pci_config_readw(device, PCI_DEVICE_ID));
- }
- 
-+/*
-+ * Return the path of the VFIO cdev of @bdf, or NULL if there is none. The cdev
-+ * of a device bound to vfio-pci in noiommu mode is named noiommu-vfioX rather
-+ * than vfioX, and @noiommu selects which of the two to look for. Free with
-+ * free().
-+ */
-+const char *__vfio_pci_get_cdev_path(const char *bdf, bool noiommu);
- const char *vfio_pci_get_cdev_path(const char *bdf);
- 
- void vfio_pci_group_setup(struct vfio_pci_device *device, const char *bdf);
-diff --git a/tools/testing/selftests/vfio/lib/iommu.c b/tools/testing/selftests/vfio/lib/iommu.c
-index b6f3c5c84e01..0df49646d016 100644
---- a/tools/testing/selftests/vfio/lib/iommu.c
-+++ b/tools/testing/selftests/vfio/lib/iommu.c
-@@ -22,7 +22,10 @@
- 
- const char *default_iommu_mode = MODE_IOMMUFD;
- 
--/* Reminder: Keep in sync with FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES(). */
-+/*
-+ * Reminder: Keep in sync with FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES(), which
-+ * deliberately leaves out the noiommu modes.
-+ */
- static const struct iommu_mode iommu_modes[] = {
- 	{
- 		.name = MODE_VFIO_TYPE1_IOMMU,
-@@ -47,6 +50,10 @@ static const struct iommu_mode iommu_modes[] = {
- 	{
- 		.name = MODE_IOMMUFD,
- 	},
-+	{
-+		.name = MODE_IOMMUFD_NOIOMMU,
-+		.noiommu = true,
-+	},
- };
- 
- static const struct iommu_mode *lookup_iommu_mode(const char *iommu_mode)
-diff --git a/tools/testing/selftests/vfio/lib/vfio_pci_device.c b/tools/testing/selftests/vfio/lib/vfio_pci_device.c
-index af789c859586..b0deef2b0e3f 100644
---- a/tools/testing/selftests/vfio/lib/vfio_pci_device.c
-+++ b/tools/testing/selftests/vfio/lib/vfio_pci_device.c
-@@ -380,35 +380,42 @@ static void vfio_pci_device_setup(struct vfio_pci_device *device)
- 		device->msi_eventfds[i] = -1;
- }
- 
--const char *vfio_pci_get_cdev_path(const char *bdf)
-+const char *__vfio_pci_get_cdev_path(const char *bdf, bool noiommu)
- {
-+	const char *prefix = noiommu ? "noiommu-vfio" : "vfio";
- 	char dir_path[PATH_MAX];
- 	struct dirent *entry;
--	char *cdev_path;
-+	char *cdev_path = NULL;
- 	DIR *dir;
- 
--	cdev_path = calloc_assert(PATH_MAX, 1);
--
- 	snprintf_assert(dir_path, sizeof(dir_path), "/sys/bus/pci/devices/%s/vfio-dev/", bdf);
- 
- 	dir = opendir(dir_path);
--	VFIO_ASSERT_NOT_NULL(dir, "Failed to open directory %s\n", dir_path);
-+	if (!dir)
-+		return NULL;
- 
- 	while ((entry = readdir(dir)) != NULL) {
--		/* Find the file that starts with "vfio" */
--		if (strncmp("vfio", entry->d_name, 4))
-+		if (strncmp(prefix, entry->d_name, strlen(prefix)))
- 			continue;
- 
-+		cdev_path = calloc_assert(PATH_MAX, 1);
- 		snprintf_assert(cdev_path, PATH_MAX, "/dev/vfio/devices/%s", entry->d_name);
- 		break;
- 	}
- 
--	VFIO_ASSERT_NE(cdev_path[0], 0, "Failed to find vfio cdev file.\n");
- 	VFIO_ASSERT_EQ(closedir(dir), 0);
- 
- 	return cdev_path;
- }
- 
-+const char *vfio_pci_get_cdev_path(const char *bdf)
++static inline void iommu_map_identity(struct iommu *iommu, struct dma_region *region)
 +{
-+	const char *cdev_path = __vfio_pci_get_cdev_path(bdf, false);
-+
-+	VFIO_ASSERT_NOT_NULL(cdev_path, "Failed to find vfio cdev file for %s\n", bdf);
-+	return cdev_path;
++	VFIO_ASSERT_EQ(__iommu_map_identity(iommu, region), 0);
 +}
 +
- int __vfio_device_bind_iommufd(int device_fd, int iommufd, const char *vf_token)
- {
- 	struct vfio_device_bind_iommufd args = {
-@@ -449,10 +456,14 @@ static void vfio_device_attach_iommufd_pt(int device_fd, u32 pt_id)
+ struct iommu_iova_range *iommu_iova_ranges(struct iommu *iommu, u32 *nranges);
  
- void vfio_pci_cdev_open(struct vfio_pci_device *device, const char *bdf)
- {
--	const char *cdev_path = vfio_pci_get_cdev_path(bdf);
-+	bool noiommu = device->iommu->mode->noiommu;
-+	const char *cdev_path = __vfio_pci_get_cdev_path(bdf, noiommu);
-+
-+	VFIO_ASSERT_NOT_NULL(cdev_path, "Failed to find %svfio cdev file for %s\n",
-+			     noiommu ? "noiommu-" : "", bdf);
+ #define MODE_VFIO_TYPE1_IOMMU "vfio_type1_iommu"
+diff --git a/tools/testing/selftests/vfio/lib/iommu.c b/tools/testing/selftests/vfio/lib/iommu.c
+index 0df49646d016..46e9635cbfc5 100644
+--- a/tools/testing/selftests/vfio/lib/iommu.c
++++ b/tools/testing/selftests/vfio/lib/iommu.c
+@@ -11,6 +11,7 @@
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
  
- 	device->fd = open(cdev_path, O_RDWR);
--	VFIO_ASSERT_GE(device->fd, 0);
-+	VFIO_ASSERT_GE(device->fd, 0, "open(%s) failed\n", cdev_path);
- 	free((void *)cdev_path);
++#include <linux/bits.h>
+ #include <linux/limits.h>
+ #include <linux/mman.h>
+ #include <linux/types.h>
+@@ -244,6 +245,66 @@ int __iommu_unmap_all(struct iommu *iommu, u64 *unmapped)
+ 	return 0;
  }
  
++/*
++ * The noiommu IOAS page table translates to physical addresses of at most 52
++ * bits (drivers/iommu/iommufd/hwpt_noiommu.c), so a mapping at or above this
++ * IOVA never overlaps one at IOVA == PA.
++ */
++#define NOIOMMU_SCRATCH_IOVA	BIT_ULL(52)
++
++int __iommu_noiommu_get_pa(struct iommu *iommu, iova_t iova, u64 max_length,
++			   u64 *pa, u64 *length)
++{
++	struct iommu_ioas_noiommu_get_pa args = {
++		.size = sizeof(args),
++		.ioas_id = iommu->ioas_id,
++		.iova = iova,
++		.length = max_length,
++	};
++
++	if (!iommu->iommufd || !iommu->mode->noiommu)
++		return -EOPNOTSUPP;
++
++	if (ioctl(iommu->iommufd, IOMMU_IOAS_NOIOMMU_GET_PA, &args))
++		return -errno;
++
++	*pa = args.out_phys;
++	*length = args.length;
++	return 0;
++}
++
++int __iommu_map_identity(struct iommu *iommu, struct dma_region *region)
++{
++	struct dma_region scratch = {
++		.vaddr = region->vaddr,
++		.iova = NOIOMMU_SCRATCH_IOVA,
++		.size = region->size,
++	};
++	u64 pa, length;
++	int ret;
++
++	/* Pin the buffer with a scratch mapping to look up its physical address. */
++	ret = __iommu_map(iommu, &scratch);
++	if (ret)
++		return ret;
++
++	ret = __iommu_noiommu_get_pa(iommu, scratch.iova, scratch.size, &pa, &length);
++	if (!ret && length != region->size)
++		ret = -EINVAL;	/* Not physically contiguous. */
++
++	/*
++	 * Map it at IOVA == PA before dropping the scratch mapping, so that it
++	 * stays pinned, and hence at the same physical address, throughout.
++	 */
++	if (!ret) {
++		region->iova = pa;
++		ret = __iommu_map(iommu, region);
++	}
++
++	VFIO_ASSERT_EQ(__iommu_unmap(iommu, &scratch, NULL), 0);
++	return ret;
++}
++
+ static struct vfio_info_cap_header *next_cap_hdr(void *buf, u32 bufsz,
+ 						 u32 *cap_offset)
+ {
 -- 
 2.56.0.317.g454f8302e1-goog
 
