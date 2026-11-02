@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636266;
-	b=g6TxAx6+87cvikpFsKlEk77pVvZhlqqgAkF4EwHjihT7rNAQC2ypMlAlFQMRZy7lKvnU
-	 eJjI3oRgNvyJeknc9TmWMwxagUc49blZSLg3roWpAHllARQbhWdoW5KTLqe9fIHx39ps8
-	 w24M43oKdjVT2qvqaXDw9+qXLCatRS6mBrrfgD7QdC5Cx3sFqqybNGpCwbIpFAmWGTIuN
-	 2rC5ll7VABxGUBp2KswSp7GfLQXJwjrE3Mb3Ck34+Is/NcYGN0QXeZnsMwVN/102C2QBe
-	 sEBNOFeGCfXFppwM5LOpso0QvKkArUYorKb4gqfXucl2WusVLjUkYOLb0J/DXIH2EWw==
+	t=1793636441;
+	b=EpgBMXYuo3NRAutSgwpKag8D9D4CkltU8RYJOjCTmbloHIgUqdh1KVFm1g5RNg7LtT0A
+	 QQMFe/P38hXzO+vaA0Gs7Xdo5tlH/FVWNXwUQW+iB5rfJzq5ieRemMMGLppkANex5witS
+	 OSAtWUO19gSG1DkGvWkgFdeKGtnuLsrSfbrUWf6c0aMHSJpPyrR30Ul5uWvKKviFYdvMm
+	 JMIZpUpDHkWUKPykVIi3ojirEPckgm7KVFKsLRJoKizjI7C4cvAfuzmgdNqAzUFRIFXls
+	 Oe1t3NcfWr9dmNY09pGVlJ6jyedQMaavc7HFhI6J5h58yhBpT3TAkoz69s2KxwcTzwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636266;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=XWF5uHPA88/+w2HDYYKdk4HuFgr86poO/Zjn39tb9Z4=;
-	b=kXwKM3a+mCM5xg8JQNImhumv45NgxVfesoP7RQJaeJ+pz7QqYkz0k4hHD1MVTB1EebEJ
-	 odj5NqSYKXdoJNq/P0x6BMHaTLLYBMKlzwVbc+vY59zu4kRc/gf3LooUDePJIKrx/6zB5
-	 rLlGrHDztqf4egrapUg/X4F8uEtpPvtNKgtaINKQEWWrvNHEKaEsRxkhUsARc4hBX9Ecx
-	 bby3qOMn/wkwT2GCDqmhVyxKSdtM7uvOVdXBCukwq5PFmfH0ZSduZ+L2nEMtRb4yRIMhn
-	 uzg3IkoB7IC+FWez4HQX+77EQIslaOI2aTRp10rxOANDFzxJP4lDqXlSkulDWxW2bWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636441;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tMCUd/PiRvvryn3P2Alsdrnn8ebAo+kqYgr1gYojjfA=;
+	b=K4jdV3l/kJG1Sw9OvMmk+EzW8YhMbkupjAZGJ1FHL55Retkl0lNw2JsWpqkIJOk08s8Y
+	 Tp5Gj3udJMzwYN2YyNz099OaIXigx5nch9yjY43CcDrhr8QPJnrhnamIUA7g2BM5v84g4
+	 n8orLDaTi10RzuQjKJnkWWcxSc52FsWSJ15p3s4NK/bSJRUaNoEApAnS3eGlwa99RZEhe
+	 RxZ/hlvfOAdVWt4e/Upr2RiXPQJ0QYTU3QrWhEzeOvyjvG9gzrnXlu8f6TuvGogK4Fy59
+	 +Dlmo4JbfoYnKmDarQ59kZ4gYUxSxVesdO+ORcXCVOp3h/HQZHftDCvJRSHiGSc74QQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=cSBxcLfx;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=w+JySMGk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7203606AB88;
-	Mon,  2 Nov 2026 16:17:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7203606AB88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5776A606AB84;
+	Mon,  2 Nov 2026 16:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=cSBxcLfx
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2543240430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1793636265; bh=XWF5uHPA88/+w2HDYYKdk4HuFgr86poO/Zjn39tb9Z4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cSBxcLfx2PpW6Lc9wYM44MxwAQt/+q8ee+BnVZRQKFRLR2kiYzBY8G/id7yXPHDuY
-	 oIDf5urt5YudmbiAa7YK0P4t+TornWeQYFba2JD9X5aFUcJGYelK6WrlVtnoE70jYp
-	 WqHGb6z/Z1P1xDSCZukG2cttt+PKNoHLH+n3rz3sVpazHmYO8hi1sjOa8056QzPM8D
-	 nOPkkFFJzv+8HwI/LqyfTfTNfAsKSImDZMjigJuA1uvfjwhMtlU6iykBR72pG0/d4x
-	 23kCfMzhIcBg6IdvWLqlXax9RxSFOo9BofSrt+Eo6Ef/1pHmlXhv4UccNtA0g+0xzS
-	 5QPR9R52gTdzg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2543240430;
-	Mon,  2 Nov 2026 16:17:45 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>, danielmaraboo@gmail.com
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Gabriel Ribeiro
- <ic.gabrielribeiro@gmail.com>
-Subject: Re: [PATCH v2] docs: translations: pt_BR: translate
- programming-language.rst
-In-Reply-To: <20261022154840.119951-1-ic.gabrielribeiro@gmail.com>
-References: <20261022154840.119951-1-ic.gabrielribeiro@gmail.com>
-Date: Mon, 02 Nov 2026 09:17:44 -0700
-Message-ID: <87tslzcimv.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=w+JySMGk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B001F00A16;
+	Mon,  2 Nov 2026 16:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793636441;
+	bh=tMCUd/PiRvvryn3P2Alsdrnn8ebAo+kqYgr1gYojjfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=w+JySMGkb0uYzwkd3pGh8N0Wfah9GlbT7XB21hTbI171Co8UJAdjM8+nRiytlHm/G
+	 pas1G//hGZhAicjL5E3y5QJJO1+n3J9QnWMDmKBkpdCeSbpUL/wEYQmQr3/ipSuGzR
+	 VtpxNbpQWwwxA+vC6g+RnGjwVZSdw8m7JBkVHPlE=
+Date: Mon, 2 Nov 2026 11:20:37 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: David Laight <david.laight.linux@gmail.com>, 
+	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Joe Perches <joe@perches.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-kernel@vger.kernel.org, users@kernel.org, Federico Vaga <federico.vaga@vaga.pv.it>, 
+	Akira Yokosawa <akiyks@gmail.com>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
+	Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, 
+	Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+Message-ID: <20261102-nostalgic-foamy-moose-f9c07b@meerkat>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+ <20261102093206.50b6c9ad@pumpkin>
+ <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
+ <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
+ <87a4nrfgjm.fsf@trenco.lwn.net>
+ <20261102150535.6c5689f6@pumpkin>
+ <87wlqvdylf.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,23 +66,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87wlqvdylf.fsf@trenco.lwn.net>
 
-Gabriel Ribeiro <ic.gabrielribeiro@gmail.com> writes:
+On Mon, Nov 02, 2026 at 08:47:40AM -0700, Jonathan Corbet wrote:
+> > I certainly scan it.
+> > It is also useful to have an archived local copy that can be searched.
+> 
+> In truth...public-inbox is quite nice for the searching part of things;
+> I tend to use that rather than going into the email stream directly.
 
-> Translate the programming language guide and link it from the pt_BR
-> process index.
->
-> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
-> ---
-> Changes in v2:
-> - Use translation-specific labels for the page and all citations.
-> - Drop the obsolete Assisted-by trailer.
->
->  .../translations/pt_BR/process/index.rst      |  1 +
->  .../pt_BR/process/programming-language.rst    | 64 +++++++++++++++++++
->  2 files changed, 65 insertions(+)
+Also, we now provide and maintain kgl, which lets you merge both worlds -- you
+can both search AND push things into your inbox.
 
-Applied, thanks.
+https://korgalore.docs.kernel.org/en/latest/
 
-jon
+-K
