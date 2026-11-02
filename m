@@ -1,85 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.243
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.241.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793590379;
-	b=tSkJpbEYdjfXVmJA6sqV43Jv7pv3XpGAU7SqZhxwyO6w/tARujLMd2uXvxKD/dRIScG6
-	 RKwLvrsg7WrSIaQvQOsDo3Y5twuw6ukY/5bRLSTpvzfGhva6uhuaZD2PUFlsTrzeFaQJE
-	 brKUv9R5bPTZ8UlIclEjZwIhif3OL73TOAuiHqQxQLHAlvLl3K01tvIx8XLd2R7uB3/J2
-	 623gkEeZ0T1GYmt1HX7ehN1KUI1SVhxYf0+x4NtRTUxXxUd8YU3TE9FM4hPKhSA9+hIni
-	 ZRHwEWq4kt4Da9YNIkR3KN/egGNnG66LlvrfD/6NAByjGtVOQsLGsyOqZjKk9mz2ecw==
+	t=1793598962;
+	b=YavxbU5EMo1ezAd4Cj3l8VBm4jRbc+w+2nJCDUqF7BApcpVMNppvjcDvKpAzBb++nwsq
+	 mvjJxwP7e/4xrt1U4luzeAZYrYzB9eSNnlMGKmP8krumpu8sW/DU548stjQNUX5rz9hrh
+	 fbadN7rbs9zW7nyU+zDORh6K6ryHrOFAFteAvE7i2W5XPny9JwF6c103OlRFwIO514rIe
+	 zE0Jl0+00iYELKUbxHgJAISJuIRKFeCYEuJQiJtwMJzkZeDX+brt6LfAElaL3bsVKw292
+	 ITomeniGyHb+1veNHQtPWWQeSRrDwWRicjVQ4tfzaCM0WMaMZNWIYL2fCAkh37M/wVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793590379;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=m/8uEgVZBiGs6GhX+EaixTcEV6WwGEnxdOq6kuEraE8=;
-	b=AgtHV2+RZSAXjS7aS0Vp2md6izTk66gu5bqShYCR6BBFbf+nw6KIDIVyxNyy3jnTFOJn
-	 bs77TE3M8pKQsh8Hz/LVzy4Qgr3L1Gh1YlDYsFWL1IQnd+2XprI20QmX8yDoJt28KL1fK
-	 6VqHAME4PBF3T/B1hWCBrGJ2tgCTutzYRTScFUf0Y/PvKq2VOJqsjR4s//8qSrduiZzRR
-	 rrZyqOt2U/tI1zmFlvqPQi1YSOeS3e8jAMRqlyDpHM0wpUruhiVcjyIAY8q/bWHlDnuYS
-	 YxwJkb8kRefNeGfvDbFPeuTTSlRBCPVv50pBmQEy+mGZLU5cr8vfRXU0Mg2x+X4L5PQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793598962;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=galmyEn4LbKSLuawhs4ZGQeiueItg3W/HcKq5KP6Bgs=;
+	b=vzkMZdVvmgQyjU5YcZ01n0KmtEVBlLrTtZxF/afaprf07O57UsshoN1T6bqH2ts4/O8T
+	 8W/ZYio3AKMohrNDA0hYdgrNeMaUEiwYpugTCmrsR+q2YWnGSIPwD9Rnh2SGhncQCskjA
+	 srrm+R+RgmsBCnYDpRHJwnzUhavayJH7fB7tiHBOrYyplbILYR9neHQ/3dmi3gIWsTXXr
+	 i+VO1Uxq6+j9mP5hGNo5sWhjGLU15L6acyRnoypPfAWoetXc3Gz0Y63n5b57j3nu5cGNy
+	 royho+hP6GnIcuF3apjkTT+ddD4DzsQ7RalOC7qu6KgBGmp14uYqsTF+3A6oWypWcYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3nhFDKM;
-	arc=none smtp.remote-ip=91.218.175.243
-Received: from mta0.migadu.com (out-243.mta0.migadu.com [91.218.175.243])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=codeconstruct.com.au;
+	spf=pass smtp.mailfrom=codeconstruct.com.au;
+	dkim=pass header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=joEgN+t6;
+	arc=none smtp.remote-ip=203.29.241.158
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3AE606A326
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 03:32:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE3AE606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCA3606A326;
+	Mon,  2 Nov 2026 05:56:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BCA3606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G3nhFDKM
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=nNlyAiB0N622Wf4HwaxQyqQjcvp12NITnvjasTRHZ0c=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793590372; v=1; x=1794195172;
- b=G3nhFDKMWIE7AKZx4ckudlwRejG9HG2FRVh9P/6SFJu7sIvMUo2yJB+SF8+tTU/HuPyHRDUy
- RwxsYecrmTpIdK+6S0G4Nm8uxKCjJmQuNH8UW166d/IUYtVr+Q/lKxufAOPg4aR7jetkKEDtpUJ
- kPubV+BA0P79DmaYzj8lAjIs=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id d0263b54e1afad11;
-	Mon, 02 Nov 2026 03:32:51 +0000
-X-Mizu-Trace-ID: d0263b54e1afad11
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 2 Nov 2026 11:32:36 +0800
-From: Hangbin Liu <hangbin.liu@linux.dev>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, stable@vger.kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Fernando Fernandez Mancera <fmancera@suse.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
-	Thomas Gleixner <tglx@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Maoyi Xie <maoyi.xie@ntu.edu.sg>,
-	Zhan Xusheng <zhanxusheng1024@gmail.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
-	Yung Chih Su <yuuchihsu@gmail.com>,
-	Wyatt Feng <bronzed_45_vested@icloud.com>,
-	Hannes Frederic Sowa <hannes@stressinduktion.org>,
-	Flavio Leitner <fbl@redhat.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v3 5/5] net: restrict message_cost and message_burst
- to non-negative values
-Message-ID: <augEVIHANesq7xkO@fedora>
-References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
- <20261101061331.286404-6-jiayuan.chen@linux.dev>
- <auftqzpuuNFiScrb@fedora>
- <2fd1dc53-ae46-4163-90a4-f916c9dce29b@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=joEgN+t6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1793598959;
+	bh=galmyEn4LbKSLuawhs4ZGQeiueItg3W/HcKq5KP6Bgs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=joEgN+t6NvoovW7oKCyZDr2eqdix+/duqp4PMFPCW3+RRwMNBkk04YEGTrQqXFBfa
+	 tCJu2UBAyLCb6xV2/OxjkIAgqYEwt8p4FKq7NIXZ8waf1xyRvl97ugJ8Az60PQtVde
+	 NvMCCJ2xvX1Y80yfKQIMFQPgliXk6vJBrQiVp8GlhsxUBGqyqXyFYipUEdra2x9jW6
+	 7tbTiIxaXd9V6tZX11NmuzG84SPnnozNpGRH4UM+InMJfNnB/aLnlIf/7VxlhdH9xn
+	 720JtOYjZ6d7n7DjPBBG7Dva9h3DRuPJgRgoxCI6V889anGcx67nbuYl1n0zXg5WFV
+	 FmmJo+qfQ9KKA==
+Received: from [192.168.72.161] (210-10-213-150.per.static-ipl.aapt.com.au [210.10.213.150])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6A55B648DC;
+	Mon,  2 Nov 2026 13:55:57 +0800 (AWST)
+Message-ID: <06e25064f8a5455c12b47033a1a62b94100e7590.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Adrian Ambrozewicz <aambrozewicz@nvidia.com>, Donald Shannon	
+ <donalds@nvidia.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus Walleij	
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Lee Jones	
+ <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Andi Shyti	
+ <andi.shyti@kernel.org>, Mark Brown <broonie@kernel.org>, Jiri Slaby	
+ <jirislaby@kernel.org>, Corey Minyard <corey@minyard.net>, "Rafael J.
+ Wysocki"	 <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>,  Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Hans de Goede <hansg@kernel.org>, Lixu
+ Zhang <lixu.zhang@intel.com>, Danilo Krummrich <dakr@kernel.org>,  Johan
+ Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>, Quan Nguyen
+ <quan@os.amperecomputing.com>,  Andrew Jeffery
+ <andrew@codeconstruct.com.au>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-gpio@vger.kernel.org,
+ linux-leds@vger.kernel.org, 	linux-i2c@vger.kernel.org,
+ linux-spi@vger.kernel.org, 	linux-serial@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, 	linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Bart Van Assche	 <bvanassche@google.com>
+Date: Mon, 02 Nov 2026 13:55:56 +0800
+In-Reply-To: <2026103015-stained-shudder-1582@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+	 <2026101310-scuttle-unison-d4c3@gregkh>
+	 <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
+	 <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
+	 <2026103015-stained-shudder-1582@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,100 +90,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fd1dc53-ae46-4163-90a4-f916c9dce29b@linux.dev>
 
-Hi Jiayuan,
-On Mon, Nov 02, 2026 at 10:23:30AM +0800, Jiayuan Chen wrote:
-> 
-> On 11/2/26 9:55 AM, Hangbin Liu wrote:
-> > Hi Jiayuan,
-> > On Sun, Nov 01, 2026 at 02:12:03PM +0800, Jiayuan Chen wrote:
-> >> net.core.message_cost and net.core.message_burst feed the interval and
-> >> burst of net_ratelimit_state, but neither rejects negative values:
-> >> message_burst uses plain proc_dointvec, and message_cost uses
-> >> proc_dointvec_jiffies, which happily stores -1 second as -HZ jiffies.
-> >>
-> >> Since commit a940d145cc38 ("ratelimit: Warn if ->interval or ->burst are
-> >> negative"), ___ratelimit() splats on such values, so the next
-> >> net_ratelimit() caller warns, e.g. a martian source log:
-> >>
-> >>   Negative interval (-250) or burst (10): Uninitialized ratelimit_state structure?
-> >>   WARNING: lib/ratelimit.c:43 at ___ratelimit+0x56e/0x960, CPU#1: ping/3218
-> >>   RIP: 0010:___ratelimit+0x578/0x960
-> >>   Call Trace:
-> >>    <IRQ>
-> >>    net_ratelimit+0x1c/0x30
-> >>    ip_handle_martian_source+0x1bb/0x340
-> >>    ip_route_input_slow+0x1057/0x3650
-> >>    ip_route_input_noref+0x104/0x260
-> >>    arp_process+0x109b/0x2510
-> >>    arp_rcv+0x381/0x460
-> >>    __netif_receive_skb_one_core+0x173/0x1c0
-> >>    __netif_receive_skb+0x21/0x150
-> >>    process_backlog+0x37e/0x1200
-> >>    __napi_poll.constprop.0+0xa5/0x5e0
-> >>    net_rx_action+0x4c0/0xf70
-> >>    handle_softirqs+0x204/0x9b0
-> >>    __do_softirq+0x10/0x18
-> >>    do_softirq.part.0+0x49/0xd0
-> >>    </IRQ>
-> >>
-> >> Negative values never meant anything here: 0 already expresses both
-> >> "no limit" (interval) and "suppress everything" (burst).
-> > Will this limit breaks the UAPI on old kernels that supports negative values?
-> 
-> All commits in this series restrict config values, and every one of them
-> changes the old behavior to some degree; the question is whether the
+Hi Greg,
 
-The other patches fix shift-out-of-bounds or incorrect behaviors.
-> 
-> change is reasonable.
-> 
-> 
-> For this one, negative values never did anything that 0 doesn't, and
-> since a940d145cc38 setting one already triggers the WARN_ONCE().
+> I haven't read all of OBMF, as obviously that isn't what is being
+> proposed here, I was just complaining about the madness of attempting to
+> create a device tree representation for a single USB device that wanted
+> to be carved up into different virtual devices because no one decided to
+> learn from history.
+>=20
+> I have other objections about OBMF-ICP, but that's not what this thread
+> is about, sorry.=C2=A0 Please propose your own patch series for that and =
+I'll
+> be glad to criticize it there.
 
-While this one doesn't improve anything other than the WARN_ONCE.
-The previous kernel works good with negative values.
+OK, fair enough - I'll defer this for an OBMF-ICP submission, rather
+than piling it on to this LSTP thread.
+=20
+> > With OBMF-ICP's super-minimal core protocol, and the use-case
+> > appropriate channels, seems like a suitable approach to me.
+> >=20
+> > The USB-IF has a class ID allocated for OBMF-ICP interface descriptors,
+> > with the intention that we have multiple vendor implementations of the
+> > common protocol; we would like Linux to be one of those.
+>=20
+> It's always fun to make a new spec and protocol,
 
-> 
-> 
-> > As the comment in ___ratelimit() says:
-> >
-> >         /*
-> >          * Zero interval says never limit, otherwise, non-positive burst
-> >          * says always limit.
-> >          */
-> >
-> > If all others agree to set the limit in this patch. I think the comment
-> 
-> 
-> The comment and the WARN_ONCE() are about ratelimit_state in general, not
-> net only. There are still other ways to set a negative value,
-> printk_ratelimit for example, so updating them is not this net patch's
-> job.
+We seem to have different definitions of "fun" :D
 
-printk_ratelimit is not recommend anymore.
+Thanks for the discussion so far, I'll follow up again when we have a
+series to propose. That shouldn't be too long.
 
-/*
- * Please don't use printk_ratelimit(), because it shares ratelimiting state
- * with all other unrelated printk_ratelimit() callsites.  Instead use
- * printk_ratelimited() or plain old __ratelimit().
- */
-extern int __printk_ratelimit(const char *func);
-#define printk_ratelimit() __printk_ratelimit(__func__)
+Cheers,
 
-> 
-> > and the WARN_ONCE() , and the admin-guide/sysctl/net.rst all need to be updated.
-> 
-> 
-> 
-> net.rst never documented a range or even the unit for these two, which is
-> why I didn't touch it. No strong preference though.
 
-I think a doc need to be updated if you set a range limit.
-
-Thanks
-Hangbin
+Jeremy
