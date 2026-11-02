@@ -1,64 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793801758;
-	b=iLLJKl/7Yo5cI7ObOV7HdoJPEwK1bkDbngiOEPWlTdiVPv2jPTUABbgtauTUPF8Zw/2b
-	 7HC5HVCV2kf/1nWfFgVhjHbmuuvXJzpJVh9ihYWj/hF7VsizwjA53KzXIpQsBrRmPoLdF
-	 RYf5eDR8zYVV5lZLhfp90kRaqBhuWjQjpZbeVqdD9ZOGF+KXKP1HidntASbhV9uw7sKO2
-	 H5GHZAYbLpyBwxqDgUjPtDvzSP4viNrOd2wdZxRxB6fWJLWeUWANOsotx9oN6CXLeNDWN
-	 FapBi0gRej95aBdj155FaubRXBh+ozhH9y2G2pbt7bYtiO1/KQMhi9+bvoxL+z9QYbQ==
+	t=1793801754;
+	b=E5xt5sCd4eim1MPDeszIWsfeFLktNi7DEhASDCvoqTpWV6O+K7l100hbdCC20YRicNxx
+	 VEUgSe57eceM+7A8y3MyreAUUYn1O+GPBRue35J/eODxwy8i6wa+9sa3QWlX7wEtgbluo
+	 1133ECQynne/pi+aL7NZCc7DsyWWClEMic1cN9vIDXT7NGoUL9WF3rD+BCzXdzg2HCa6V
+	 nQ8V1eDzkiXNnZEvjqYkbmYdisJceKfFrvgEQhb3Ltwb7fQWo/jEntF4wrv3DcMxMNc8Q
+	 CJcKcjA96l33FYbcoVrbm360RXZbBCJgBJ89autgjWXWvGmCrMTUB8yFD9wj/0Shvhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793801758;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793801754;
+	h=DMARC-Filter:Received:DKIM-Signature:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Rspamd-Queue-Id;
-	bh=bumyUW7IJoU4fJDVcWkPL3ZXgIKGGirCaKj7cS/33IQ=;
-	b=Oc+tgHHpJzYPSi/VTpj88MIxx4mgUnpuPo42MrWLwqqPiIh+QUae7M2/+MT7WjBrYKl6
-	 JRbsUmC3s2fZrMiXD9JtC9XmGV0U52zpzfxkax0KqoPjouHqTcAExGlh2LvcXxPjr2LuB
-	 Rb5Zud+tPt7L+1gPoCSTRgWRq1MbbkNVUh4iWidjRTpUYRZF5/q/un6M47n+iXs9sXFcP
-	 SLdCMymrJk1nepyKTZgRw1LRpecBW9KZ2izznZomw3jliA63yj7rVPDbglam+pqsqW+3v
-	 nS3lzktA//ShRSmCad13hdYLWpXIl6YAGJzRmK+Va0Ay/SMBXj7c0nZUS03bmq5Bkxw==
+	bh=bEePHUew97NQlYUH7O9mv31KwF+DCf1uTt3wuwBLoXY=;
+	b=NSiR1sad/WQBCKgHn9NA7a74gpJ36A3qMb3hdLR27AyvBrAab/1sf88wCUCONRfwC6v6
+	 aVsFbw3ziKWajhtNexDSguGXfYcX8OlI1zbLcKYjyyw0sng/tpV3Lhho5hxDuTnjr1HWm
+	 Dd0nIUV8btTkvtf/q8vZ9bM/2zdi+qyfMdZUB/QJKJdpJwr/YTkdLaiy/R+oH+ZVG11WQ
+	 h5OYB/5c0CMyjJC3q3zvcH1YvwD74DF6PvGBdYxY+cLsaAJ4Kq6AvXAntfCiRuL79XLDP
+	 bVBlT/o9QY/CD6x9/wslvsYmwimHfwGteiUe6/EwK6nUCglidPeIfzBj1OfTpk/65jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hsal.es;
 	spf=pass smtp.mailfrom=hsal.es;
-	dkim=pass header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=ehn7tRHA;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	dkim=pass header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=RQPfgPZA;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D20606EE92;
-	Wed,  4 Nov 2026 14:15:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9D20606EE92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD0D606D834;
+	Wed,  4 Nov 2026 14:15:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CD0D606D834
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hsal.es
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hsal.es
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=ehn7tRHA
+	dkim=pass (2048-bit key, unprotected) header.d=hsal.es header.i=@hsal.es header.a=rsa-sha256 header.s=MBO0001 header.b=RQPfgPZA
 Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jKSCc0V2ZzKsm5;
-	Wed, 04 Nov 2026 15:15:56 +0100 (CET)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jKSCW1KYwz8vj1;
+	Wed, 04 Nov 2026 15:15:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hsal.es; s=MBO0001;
-	t=1793801756;
+	t=1793801751;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bumyUW7IJoU4fJDVcWkPL3ZXgIKGGirCaKj7cS/33IQ=;
-	b=ehn7tRHAR71QFiE1Wm0rpQ0lJvblZBy+ixQBEs/b3plxsrvuUmKczcW1TcyXMVeDuOsn0o
-	adWD6w1ZsqCccFkdopmaoT/RtHUhlcjGB8yySJ5k+bBUUgTAkFhEhqCU/vI/SPQEKLp5IZ
-	7SoP6qmGqOb6NAy8OhmqD8515tM/znOf6D0HSLdlsUFTNHQbnCqmQQyYOHImaFyD8hrWqo
-	w4Lb5uveRc1xUTly717WQZi+KHTafyf9lvL1w+XRIwbsgHmaARw4b0Tfs/tYST0YjFwP6d
-	5e0exFfVDiz6H+NqEkc4364mEbWmIE8rDmKEx52dLrSzlN+hX1JZJfM802XrsA==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bEePHUew97NQlYUH7O9mv31KwF+DCf1uTt3wuwBLoXY=;
+	b=RQPfgPZANXLw7obVU3MlpKmJ8C5/cbxclENEcdDdiLWqrgbjej24ED5CddIkW7qDkF8T6P
+	fnC0j/c/DYxDdBulHh6rbPcRXKz4q6YvDpRqwt+PJJ6UMxpj9pyoEZY7jdcQvQiR9yX11s
+	COUtUxXgQ6FPjdBLpgYn/PkKTg62sjF+4EUOjr4XIkR0DHvofLwwwCFDfjzyzEltcbBhUu
+	3kjobiwvpf7Y973jm2NjcZ3rUHqxZcqLgyI+XbrUJhEF0TLtAkhvf0xc222t2GCbnMOQAY
+	hMvI6tVwtkCsdaiD/hvnToDI0YEy3gOiuSZbsQ29FabbUeY6/g17ht2KYaaC6A==
 Authentication-Results: outgoing_mbo_mout;
 	dkim=none;
 	spf=pass (outgoing_mbo_mout: domain of hugo@hsal.es designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=hugo@hsal.es
 From: Hugo Sales <hugo@hsal.es>
-Date: Mon,  2 Nov 2026 10:17:57 +0000
-Subject: [PATCH 4/5] drm/amd/display: Commit panel_power_savings writes
+Subject: [PATCH 0/5] drm/amd/display: Commit panel_power_savings writes
  from the kernel
+Date: Mon,  2 Nov 2026 10:17:53 +0000
+Message-Id: <20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,9 +70,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-abm-sysfs-commit-v1-4-e5addfd9539a@hsal.es>
-References: <20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es>
-In-Reply-To: <20261102-abm-sysfs-commit-v1-0-e5addfd9539a@hsal.es>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrB3IKITaq5QuYpzUKURLRkUR7
+ 26qy7f4fwflJKzwLHZIvIjKOGRQWYDv3fBhlC4bKlNZIkPo2oi6aVD0Y4wyYWNd/eiYnLcWcvZ
+ LHGS9lq/3bZ3bL/vp/4HjOAGfNJK2dAAAAA==
+X-Change-ID: 20261101-abm-sysfs-commit-96a38de1ac66
 To: sunpeng.li@amd.com, siqueira@igalia.com, amd-gfx@lists.freedesktop.org, 
  alexander.deucher@amd.com, harry.wentland@amd.com
 Cc: Hugo Sales <hugo@hsal.es>, airlied@gmail.com, 
@@ -81,194 +82,103 @@ Cc: Hugo Sales <hugo@hsal.es>, airlied@gmail.com,
  bhawanpreet.lakha@amd.com, ivan.lipski@amd.com, 
  dri-devel@lists.freedesktop.org, ray.wu@amd.com, alex.hung@amd.com
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6501; i=hugo@hsal.es;
- h=from:subject:message-id; bh=PuUQdLgULyzFmOsDS7N5X1W/NxZhVldQrFRTvPkWfds=;
- b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsl4kh11af+7B5ph1wiZLI1VU7A817vEuMVFSOsNk8
- nyDabfb38KOUhYGMS4GWTFFFt0bngwsEyfPzCl6vgRmDisTyBAGLk4BmEiVHcN/F/END2elLbrx
- QlKEr/133tpIqd0Bjw95iQS+OhW8KPBMHMN/T8V0v6l7oi88Kji0NPFv+jORWG4Wlouzf6YfSHI
- w9AzgBAA+m0ob
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4553; i=hugo@hsal.es;
+ h=from:subject:message-id; bh=/VykqWpSa4U5OYmQVb++KOm7Ng9t9BysDsT7ZZMbyp8=;
+ b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsl4kh80qfzB9/Rat+IPvr50T9t34Q2cmY9mE9VPzQ
+ l6qs/X4XDXrKGVhEONikBVTZNG94cnAMnHyzJyi50tg5rAygQxh4OIUgImo5jP8lVmdfyerxsac
+ 890D23ePm374L2rRcfjz5I+5c1qj68IZqxgZTjz+s+HZpU3WEodLlyR78j2zLouL/GRn905d519
+ cS/JWRgBXb02o
 X-Developer-Key: i=hugo@hsal.es; a=openpgp;
  fpr=193D095149CF7E8737B39064D912B0DB205A91C1
-X-Rspamd-Queue-Id: 4jKSCc0V2ZzKsm5
+X-Rspamd-Queue-Id: 4jKSCW1KYwz8vj1
 
-panel_power_savings_store() currently writes the level into
-connector->state and sends a hotplug uevent, and the hardware only gets it
-on a later atomic commit that includes the connector. Hyprland adds the
-connector to a commit only on a modeset or when a connector property it
-sets changes, so it never applies the level
+A write to panel_power_savings stores the ABM level and sends a hotplug
+uevent, but the level reaches the hardware only on the next atomic commit
+that includes the eDP connector. Hyprland adds the connector to a commit
+only on a modeset or when a connector property it sets changes, so on my
+laptop the file read back the new level and the backlight never changed.
+power-profiles-daemon writes this file on every profile and AC change, so
+none of its ABM changes applied
 
-Programs that write the sysfs file, such as power-profiles-daemon, aren't
-the DRM master and can't commit themselves, so they depend on the master
-taking the uevent as a cue to commit the connector, but nothing documents
-they should. A master that wants to control ABM sets the 'adaptive
-backlight modulation' property, and from then on writes return -EBUSY. The
-file has to work without the master's help, like the backlight device,
-whose writes reach DC without a commit
+This shouldn't need a fix in every compositor. The file is for writers
+that aren't the DRM master, like power-profiles-daemon, and they can't
+commit anything themselves. Today they depend on the master taking a
+generic hotplug uevent as a cue to commit the connector again. Nothing
+documents that, and a compositor has no reason to read a hotplug event as
+"a property you never touched has changed". A compositor that wants to own
+ABM sets the 'adaptive backlight modulation' property, and from then on
+the file returns -EBUSY. The file has to work without the master's help.
+The backlight device already does: a brightness write goes straight to DC,
+with no commit at all
 
-Commit the level from the store instead, with a duplicated connector state
-and no modeset. The write returns once the level is applied, or with the
-commit's error, so no uevent is needed. A connector that is off gets the
-level when it is next enabled
+This series makes the write commit the level itself:
 
-Document the new behaviour in the kernel-doc
+  1. Render the existing kernel-doc, which no rst file included
+  2. Stop forcing a modeset when the connector's ABM level changes. DM
+     already sends a new level as a stream update, and the modeset flag
+     dates from before the CRTC was added to such commits
+  3. Move the store tests onto a full pipe the store can commit to
+  4. Commit the level from the store through a duplicated connector
+     state. The write returns the commit's error and no longer sends a
+     uevent
+  5. KUnit cases for a connector with the CRTC on, off and failing
+     atomic check
+
+Patch 2 also asks, below its cut, whether scaling can leave the same
+check
+
+v1 of the patch that added this file had no flush [1], and Mario found
+that the level only took effect on the next modeset [2]. v2's changelog
+says "force an atomic commit" [3], but the merged code (63d0b87213a0)
+sends a hotplug event instead. 8d20a066fa9b later applied the level
+outside atomic and was reverted in 95aaa207e9ef because it broke igt
+abm_gradual. The objections back then were to sysfs overriding the DRM
+master at all [4], which the property above now covers. I didn't find
+any discussion that rejects an internal atomic commit
+
+A write now returns the commit's error instead of storing a level the
+hardware may never get. power-profiles-daemon logs the error and tries
+again on its next profile, AC or battery change. Nothing I found reads
+the uevent for more than a cue to commit the connector, which the kernel
+now does itself
+
+The commit is blocking, so a write can hold the CRTC locks for up to a
+frame while a compositor commit waits
+
+Tested on my laptop (ASUS ROG Flow X13 GV301QH, DCN 2.1) with the series
+on 7.3:
+
+  - igt amd_abm passes all five subtests
+  - Under Hyprland, with no modeset during the run, 25 writes cycling
+    levels 0 to 4 all succeeded and read back, with no -EBUSY and nothing
+    in the kernel log. A write sends no uevent
+  - The backlight PWM follows each write. At level 4 the target PWM is
+    43% of level 0 at the same brightness, and level 0 restores it
+
+[1] https://lore.kernel.org/amd-gfx/20240126222300.119292-1-hamza.mahfooz@amd.com/
+[2] https://lore.kernel.org/amd-gfx/1162e59e-3f53-4c84-b186-bb2f4642216b@amd.com/
+[3] https://lore.kernel.org/amd-gfx/20240202152837.7388-1-hamza.mahfooz@amd.com/
+[4] https://lore.kernel.org/amd-gfx/b117ccc0-6569-4753-9cb9-c304f9e50d30@amd.com/
 
 Signed-off-by: Hugo Sales <hugo@hsal.es>
 ---
-This needs "drm/amd/display: Don't force a modeset when the ABM level
-changes". Without it, atomic check sees the changed level, asks for a
-modeset and the commit fails with -EINVAL
+Hugo Sales (5):
+      drm/amd/display: Render the panel power savings kernel-doc
+      drm/amd/display: Don't force a modeset when the ABM level changes
+      drm/amd/display: Give the panel_power_savings store tests a full pipe
+      drm/amd/display: Commit panel_power_savings writes from the kernel
+      drm/amd/display: Test panel_power_savings commits
 
-A failed write used to leave the level stored and send the uevent anyway.
-Now the level only changes through the commit, so the store reports the
-error. power-profiles-daemon logs a failed write and tries again on the
-next profile, AC or battery change, because it compares against the value
-it reads back. It ignores the hotplug uevent. Compositors used it only as
-a cue to commit the connector, which the store now does itself
-
-The commit is blocking, so a write can hold the CRTC locks for up to a
-frame while a compositor commit waits. The other way round, while the
-store's commit is pending, a nonblocking commit from the compositor on the
-same CRTC fails with -EBUSY, as it would behind any pending commit
-
-The store takes a runtime PM reference around the commit, like the
-atomic ioctl path, and its locks are interruptible
+ .../gpu/amdgpu/display/display-manager.rst         |   3 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    |  90 +++++++-
+ .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     | 231 ++++++++++++++++++++-
+ 4 files changed, 308 insertions(+), 19 deletions(-)
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    | 90 +++++++++++++++++++---
- 1 file changed, 79 insertions(+), 11 deletions(-)
+base-commit: ba496bb837882eb1af58f41572fc289e46c77b8c
+change-id: 20261101-abm-sysfs-commit-96a38de1ac66
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c
-index 27546febf90d3..a661fd558686f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_backlight.c
-@@ -40,7 +40,10 @@
- 
- #include <linux/backlight.h>
- #include <linux/minmax.h>
-+#include <linux/pm_runtime.h>
- #include <linux/power_supply.h>
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_utils.h>
- 
-@@ -691,6 +694,18 @@ EXPORT_IF_KUNIT(amdgpu_dm_setup_backlight_device);
-  *
-  * Modifying this value can have implications on color accuracy, so tread
-  * carefully.
-+ *
-+ * A write commits the new level before it returns, without a modeset. The
-+ * commit waits for any commit already pending on the connector's CRTC, and
-+ * while it is pending, a nonblocking commit from the DRM master on that CRTC
-+ * fails with -EBUSY. If the connector or its CRTC is off, the driver stores
-+ * the level and applies it when the connector is next enabled
-+ *
-+ * If the commit fails, the write returns its error and the level stays as it
-+ * was. While the CRTC needs a modeset, as after a DSC override in debugfs,
-+ * writes fail with -EINVAL until a commit that allows a modeset clears that
-+ * state. Writes fail with -EBUSY once the DRM master has set the connector's
-+ * 'adaptive backlight modulation' property to a value other than 'sysfs'
-  */
- 
- STATIC_IFN_KUNIT
-@@ -712,13 +727,75 @@ ssize_t panel_power_savings_show(struct device *device,
- }
- EXPORT_IF_KUNIT(panel_power_savings_show);
- 
-+static int panel_power_savings_apply(struct drm_connector *connector,
-+				     unsigned int level)
-+{
-+	struct drm_connector_state *conn_state;
-+	struct dm_connector_state *dm_state;
-+	struct drm_device *dev = connector->dev;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_atomic_commit *state;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return -ENODEV;
-+
-+	ret = pm_runtime_resume_and_get(dev->dev);
-+	if (ret < 0)
-+		goto dev_exit;
-+
-+	state = drm_atomic_commit_alloc(dev);
-+	if (!state) {
-+		ret = -ENOMEM;
-+		goto pm_put;
-+	}
-+
-+	/* Kernel commits allow a modeset by default, which a level never needs */
-+	state->allow_modeset = false;
-+
-+	drm_modeset_acquire_init(&ctx, DRM_MODESET_ACQUIRE_INTERRUPTIBLE);
-+	state->acquire_ctx = &ctx;
-+retry:
-+	conn_state = drm_atomic_get_connector_state(state, connector);
-+	if (IS_ERR(conn_state)) {
-+		ret = PTR_ERR(conn_state);
-+		goto out;
-+	}
-+
-+	dm_state = to_dm_connector_state(conn_state);
-+	if (dm_state->abm_sysfs_forbidden) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	dm_state->abm_level = level ?: ABM_LEVEL_IMMEDIATE_DISABLE;
-+
-+	ret = drm_atomic_commit(state);
-+out:
-+	if (ret == -EDEADLK) {
-+		drm_atomic_commit_clear(state);
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry;
-+	}
-+
-+	drm_atomic_commit_put(state);
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+pm_put:
-+	pm_runtime_put_autosuspend(dev->dev);
-+dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return ret;
-+}
-+
- STATIC_IFN_KUNIT
- ssize_t panel_power_savings_store(struct device *device,
- 				 struct device_attribute *attr,
- 				 const char *buf, size_t count)
- {
- 	struct drm_connector *connector = dev_get_drvdata(device);
--	struct drm_device *dev = connector->dev;
- 	long val;
- 	int ret;
- 
-@@ -730,19 +807,10 @@ ssize_t panel_power_savings_store(struct device *device,
- 	if (val < 0 || val > 4)
- 		return -EINVAL;
- 
--	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
--	if (to_dm_connector_state(connector->state)->abm_sysfs_forbidden)
--		ret = -EBUSY;
--	else
--		to_dm_connector_state(connector->state)->abm_level = val ?:
--			ABM_LEVEL_IMMEDIATE_DISABLE;
--	drm_modeset_unlock(&dev->mode_config.connection_mutex);
--
-+	ret = panel_power_savings_apply(connector, val);
- 	if (ret)
- 		return ret;
- 
--	drm_kms_helper_hotplug_event(dev);
--
- 	return count;
- }
- EXPORT_IF_KUNIT(panel_power_savings_store);
-
--- 
-2.56.0
+Best regards,
+--  
+Hugo Sales <hugo@hsal.es>
 
