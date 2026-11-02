@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793626468;
-	b=BOdI3NlQN3qjtT0d0SZARWLRueV78hXX+DNzkPpSJaQHjabCX+wpPqgSIap/arhd8f27
-	 TWt0rii/Mua42za/dTMsQn2as+apRn4alASJyn34esIezsrqwoxCE4lOkrx8Yzgr1cHFy
-	 7y9tO2rjsxruHOjQtGk9Ig1HhB2KS0JLYvpiHpNg40mzFAKThYm0aEz/T6OwHtoUW2aWc
-	 xQR3R046ijHTG4V5uawSHo42e7PNqMWsqyL6kW0/8TQuCvNzVaJhnTINqzLqo3sCPnEx1
-	 pgmJn8Xe1fdr+PDz8NKl7MBb5wvtGhB6q1vg3QDU3rZLS7MEQgu5ZhCC6noV+fZN7BA==
+	t=1793626488;
+	b=L6hToXPKDJDpfKqQ0f3UKZAC5riWmQGICvfp4UpSsl6F8R7fWMMuzpM7yyj8jdPY2a+Z
+	 VkDs6T23XSysUau4DYrQjUbOQ998bvhf4Wvo35JcnoSymH3L43xA7MIQMAZsW13arEek2
+	 nFAsfJWhAiTkhqDqLq2X3N9iMqebB1WIuIuJTL91L5BeutrNTK3bh6lLuWvuE5uZNIut6
+	 ueNYBRDlgqOxOAS7bzkfMhqGZvDcu9eYkc1nDvJj+u/YgMGtPjJj08JXMAdLvcSwxIR8U
+	 /vmnt+E7BPH9X8pH15Zc5TnZICicQ0NgzvBueGnCeVLCDCyD/+9Rhzs1Pq/b2eqjN0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793626468;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793626488;
 	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=g6NqlTicICQ+q+/83SlSfc2B/u3HZTwUz3v/TRoTmcQ=;
-	b=tvmNRmW9p3v0as6IcceOdiB5YNHNsZCKdiN5toz7F0zXm3j0NvUz250q1gYIB8kbARVn
-	 z8gGpryZJoigBy3+MEkYe+e6zNJjsRpXwWM4fJTX5E8KAWg5lHYNqGlM9T/kjlyJXibzN
-	 pHG/7twJLZQDNvOjUdEar8/PmMGSzGlTJfVG+gvyAwTjCmVjQChbJucMdCqNqwQrEFwnF
-	 1Y/cqazkFomfxxTMMrDyqhVLIhzKzMRBLYp1jF/YZ1+VuHxKq1UFD4mabv+Eby/lB28Bs
-	 q+N4jRot7n3QSBl3YSuC3kwrdXsgcAhnBzIZVsUetdTx6Opmf74EBIvpLWw6eshfvug==
+	bh=HXcEyfKU0u37teCYlq1WLOT4N2yI4xxa66b5B/UVhDE=;
+	b=TYT6s/+aoMBKS4n1IMcKR7CqKoB8EPeVVQVnT/8L5btW7fn80TnNO+TouEnGbVnYI+hS
+	 VKe7ro0ji5d1mO+F5j6jQpk99/bQZ9SHnRFwovgbeEzlpwdKVZ3fEZFYKdxtEMTJPJBuj
+	 PKTwQTqYKAsAHLxGmybukojuoA6eOH+C69nFZw+XC+Es5SCVnM/aUpbdOUlBGsrMyftm7
+	 vTPHYBYlc+0c9jxYClgqrABC9gZUSsk090l31y0Hukg9Ck12GHyZe4GMSrRjh4xQQcl5t
+	 t7A7kFoFX9rvN4cOazalhE4z74nJnnzoC6jrRtaw/cdH9En4XIsVfbpxeTwaaIoAjTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RG101fkI;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=p6aU+dmZ;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=24OuaCTk;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7pzs5Qu0;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF11606A32C;
-	Mon,  2 Nov 2026 13:34:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AF11606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27B6606A32D;
+	Mon,  2 Nov 2026 13:34:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B27B6606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RG101fkI;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=p6aU+dmZ
-Date: Mon, 2 Nov 2026 14:34:24 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=24OuaCTk;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7pzs5Qu0
+Date: Mon, 2 Nov 2026 14:34:44 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793626465;
+	s=2020; t=1793626485;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g6NqlTicICQ+q+/83SlSfc2B/u3HZTwUz3v/TRoTmcQ=;
-	b=RG101fkIyuPnwL7br2mkd5gFEHIIYvlds88GJF2Fay8Rfx9jv4mEggYFRLOkVLJKi8grhP
-	8jDxFfe4HkcPvSGiWuyjMHwxZYhVzBSTLod/0vHzOAjUda/UmDa2dkeBc1PS6iCbMvD+6h
-	4nMFRb2hEP4OzXmtdR4En83ifxAE59MnAq9OR0Sg3+TQSdZtpZiFai4zpMyzkOwEwgmdS1
-	jO5uQEKm96baMRqF8zKApWWALbfsuRsmrpcgzkqBDOuBL0eCzw72fCFFz8ggf+v0D4PG8R
-	722Ic/AGwFscpf02t56LuKbSZ/6hv+lCplgU01eToOm1cycr3zzOxo5OQ/y6Aw==
+	bh=HXcEyfKU0u37teCYlq1WLOT4N2yI4xxa66b5B/UVhDE=;
+	b=24OuaCTkItnb6LVCGCpmWvlYuD30oade8FUQ0FFo3+h45mio1XQWJfgutfo6/n6JXefHSY
+	isfrmlHN1d3nhmuhN/Rfvs1KOSAByP9KFQbHXlym9/ITSkpvRGpMlBo3aBUXw/SJ+C35oe
+	jHMDsY1zBZUCxuKeQcb6rrEY7UtzK1wrqY6hEPz7wyGWIr1OdN460iVSXzzvmu/XCAN7yh
+	51CuzDeRqeNoFBrgHMqPtza1xewlI3gZmtWFgVkRT8iv4hX5C9bYcbkr4pgrUC72BqQWXa
+	twECkKwKi7aaCFX1fkoGCXWynSl2lMAleuVJ/18mGi8U9MpkFMB4sgXnXIs7bQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793626465;
+	s=2020e; t=1793626485;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g6NqlTicICQ+q+/83SlSfc2B/u3HZTwUz3v/TRoTmcQ=;
-	b=p6aU+dmZl6ayr9jfXroxmyJFq8wrGWOdSon326kXuQGuPy4ppNcHnfBYQ7O7aZuaZAMsvW
-	+npbd/grJEuAaNCA==
+	bh=HXcEyfKU0u37teCYlq1WLOT4N2yI4xxa66b5B/UVhDE=;
+	b=7pzs5Qu0JRcFgGMIBorvWuDw8dEJKhLeR8CKf2RrPfsBeUCgQDdPfXuSh/FlIdvoReD27F
+	oug2xnNRSJ3gZ1Dg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
@@ -64,11 +64,11 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	enelsonmoore@gmail.com, jlayton@kernel.org,
 	quchaosheng000406@163.com, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 2/2] docs: sched-preemption: Fix the list of
- runtime-selectable models
-Message-ID: <20261102133424.rJTJIkFX@linutronix.de>
+Subject: Re: [PATCH 1/2] docs: kernel-parameters: Drop unsupported preempt=
+ modes
+Message-ID: <20261102133444.7eq6VZkv@linutronix.de>
 References: <20261028024333.795917-1-ruanjinjie@huawei.com>
- <20261028024333.795917-3-ruanjinjie@huawei.com>
+ <20261028024333.795917-2-ruanjinjie@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,45 +80,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261028024333.795917-3-ruanjinjie@huawei.com>
+In-Reply-To: <20261028024333.795917-2-ruanjinjie@huawei.com>
 
-On 2026-10-28 10:43:33 [+0800], Jinjie Ruan wrote:
-> --- a/Documentation/scheduler/sched-preemption.rst
-> +++ b/Documentation/scheduler/sched-preemption.rst
-> @@ -20,9 +20,6 @@ change.
->  The models selectable at runtime are:
->  
->  	=========	====================================================
-> -	none		No preemption of kernel code other than at explicit
-> -			``cond_resched()`` / blocking points.
-> -	voluntary	As ``none``, plus ``might_sleep()`` sites.
->  	full		Any section that is not explicitly preempt disabled
->  			may be preempted at any time.
->  	lazy		As ``full``, except that the scheduling request is
+On 2026-10-28 10:43:32 [+0800], Jinjie Ruan wrote:
+> Since commit d3d16750693b ("sched: dynamic: Make PREEMPT_DYNAMIC depend
+> on ARCH_HAS_PREEMPT_LAZY") only "full" and "lazy" are accepted with
+> CONFIG_PREEMPT_DYNAMIC: every architecture that supports it selects
+> ARCH_HAS_PREEMPT_LAZY, which excludes the none and voluntary models.
+> Passing either is rejected with "Dynamic Preempt: unsupported mode".
+> 
+> Remove the two lines so the parameter reference matches the code.
+> 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-This is fine.
-
-> @@ -31,10 +28,12 @@ The models selectable at runtime are:
->  			apply to real-time tasks.
->  	=========	====================================================
->  
-> -Not every model is available on every kernel.  An architecture that provides
-> -lazy-preempt support offers only ``full`` and ``lazy``, and ``none`` and
-> -``voluntary`` are rejected there.  A PREEMPT_RT kernel always offers ``full``,
-> -and ``lazy`` as well if the architecture provides it.
-> +CONFIG_PREEMPT_DYNAMIC depends on CONFIG_ARCH_HAS_PREEMPT_LAZY, so ``none``
-> +and ``voluntary`` are never selectable at runtime; passing either is
-> +rejected with "Dynamic Preempt: unsupported mode".  The two models are only
-> +left as build-time choices on architectures without lazy-preempt support.
-> +A PREEMPT_RT kernel always offers ``full``, and ``lazy`` as well if the
-> +architecture provides it.
-
-What about:
- Not every model is available on every kernel.  An architecture that provides
- preemption support supports ``full``. If additionally lazy-preempt is
- supported then the choice ``lazy`` becomes available. An architecture
- without preemption support can not enable CONFIG_PREEMPT_DYNAMIC. On
- such an architecture the preemption model can only be selected at
- compile time. 
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 Sebastian
