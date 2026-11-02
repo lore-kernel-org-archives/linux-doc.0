@@ -1,101 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793651082;
-	b=ZDHzo356AItBn1wymUZ3KmURD4uY/HDnuIZiO/YCR82p6QQ/Zg+c3HndRfZJHfC8TNUb
-	 EhpulVL/fvEOSLF+JeD+BgKURsk/UFWwjlhcyhaeFyReDGtmwtqquXGJKQKns7UwTx75V
-	 winSvvldLnjPFtielNc2qL9V+kQ3IB1ZTNmq2qDurK+YXBbN6STtblpilXXKnytDFqGAC
-	 HUj9DgX/FZhIezz5x7YvHBeE9MCvD6s8hP6WtbJDSjawWbMbusQe+EGK+49C0K15/Lx1I
-	 AkmL8KCXrEjbRwc/ODBq7ihcYvv8I2PyUcUBRN4Y8dAP+6UGq60UMktetqxrrKqoIWw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793651082;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=pRkX0U8+HuQCFFzjR90UGSol1Deg6kqBr45BiznV7xw=;
-	b=jYI3LY5Bn0aJpVCQkD1bLn7y5dskWhP5Ev/ctgB4TQVMyIJHRjqf8q+JqRNCPEcIW5HK
-	 pHaHyNrE63fPxEo5YVSjN4syqgFPx5j4k+2GNhK5dU1fafYQR6XVoadw80JceiXiuxVrm
-	 EQXxT1ughMfzbPZzxFY9vIGBu9+ph4lTMfOv+2Et1X2Lh35mGO88IlGVJOuxQAZ6D03+o
-	 wELodSWumIcd9uoCRkfv/obdg/XwUSucwQwb8pGIjshJT3K676RGwclfgqHz94v9s5xjg
-	 z0PcaGSYNrS4ml6hY1lJQJ6j4nehpHESTWM6PCyXacBi5aTV/ZIIv5g6Yh8LofpdvKg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SvOmcQSh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793651292;
+	b=pdetMhDQhPq4j8fQxgAmaloxN57ztOY9SJeS5ophzRlj07hIU8B3zPEjuK2GBMBizb9N
+	 La6ebPLlCo7qG794DbzvZ1ne/kE30hSBuCgGXMKUOON46a0LbO9usa9QRonCO6Ab9aX21
+	 USRm9ekL9BjWDfc0pDQ1GoxcykNRTUuiHROWmSGkhtxsEyr/CBJsDwArm6DkL69kQKjQU
+	 pdc/mE8iw/+GhB27CLsfBR3yIbZU4fsa2vBEhnwJ07vmyTWnftHK+inyaK2uDL8l/8+Fh
+	 CQsBX11JK0WKT9aRwvtSakvGmvJkFD0a+lHBgrM++HuekDq4FsWcm711eYtPY1t3EZw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793651292;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=kNIoXMIj0D6tWi8oDVr/cix9uEHn2FqNesf3emLKmwA=;
+	b=Ia7zPYNraX2AvTR5USXKqzJKDiXquKlDjDzZQOL16YsvRRY06wzlF78WZkv9H3B7Ak4e
+	 rUSYbzu//WVBN42U7Lin13IN+NFJtN4SMpI2csjgHqwppBZlTokPWceQGq5QAudZJnJG2
+	 sTiIk8Jp6nW5lQW8zHPF9f5NKDDOmlVQIh19A2skIAxTc7hESzHGdWSoWpADLGllNbJAk
+	 WYIDN/mEX3kPkkAmiA2qotNfcUsyPetU7ahaUTZnxMDtDSd5yCFBz8HYSs4uvf6fRx6mO
+	 Z3rEf243ef/UHqdbjYKqtw2JiZ9N0coF1YoK1KKUbMW9mPKl9CNn34vXjj6D1OWzoLw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LwqGN/5O";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657A606A32D
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 20:24:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2657A606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838DC606A324;
+	Mon,  2 Nov 2026 20:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SvOmcQSh
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b1aa36fc0eso1868a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 12:24:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793651081; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ioUO/1mOuQbEoqewqT31hURuYHxwQwYgkI+rMg/idfnVpHaKW8rZF00ngJZ65xPo69
-         ZmziGUQfdlbjrmcpC9aV2BmGK788+LTMu9VOJVfgFFDfonHWOmeO0iXbXmqFy2kfGML1
-         1kfgDHedXuYVLa+XYU533mOd6BnIHf8L3MTUb/3pKLYsH32ardzGC7YliG0NCH7QGsTc
-         DqROhJ0qHCtOySSBVdeSIuk2tFj12JkDXy5/yfbcSv8IOqaXjjVK39ZoCnRpJG8bGkhx
-         oNpcuzzePkPWaH3xCWEQLjhkkzuIyIg3GrUjBa9LWuRDzDh//g6ol6p7IkViB7mRHDbj
-         ZxHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pRkX0U8+HuQCFFzjR90UGSol1Deg6kqBr45BiznV7xw=;
-        fh=Y3UpC/bpORa5ayEd0MgxH+jnGEPUHzTDLPXRV7Wjj+Y=;
-        b=LWrL3/J4g8pB4GH01VFisTeuFCOxt/ZFlW7/V4HC7K8jYl2jVqgm2pmqK0jZd3Vzbj
-         wB/XaMBZ/UPhKVccMaLs612dUKaKfwmbbe2ew8/4ruRG7sIqjIsCaDW03hZUbmPIbSFa
-         8Iu33SHiuaQLgMg461Op6TUh4z6TtHlNMDCFhRQW35KVHWUzxsACp+h0LcbC0R64kZKs
-         6Rq7ALMoVRobuLd4vkipBbvHwMMqeePEN6xpzuCTzGYIgIzhy+o6crGlGQ0sc7utXb6A
-         XNCCjBu5CO4tF0srylLPTZA68wZ0PhcvfApv//J2tEytG3C3FoYHDHEw6XGgSANTQfN9
-         YpPQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793651081; x=1794255881; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pRkX0U8+HuQCFFzjR90UGSol1Deg6kqBr45BiznV7xw=;
-        b=SvOmcQShy/Lt3LE+GpGQ7EhkwoAJ2Oh4dl3DKSKKoUDkMaOirBiVW7+e7Hcr3SqfjR
-         SCzAzbBMhDNqzD5P+3DXQjwFtm84mTA9TiGZW9kYlDPzlPeRS5X6qXrkHLehuL+oXz/v
-         a0tJQ7+URmRTDMS+dmS4t0JA8BOePVO4yJtsuCe/+i68+3svgEdr6NJ+9BSxzhGWJtzX
-         D2+3vrhzSS4IGrh4b2ds0fRUX7ytMKUYob9XWOVLjynhVmM+QgInZDmbS+O7gsLrBccc
-         92P5mgdx9E1rTjlCF23JPDzYMGMAom8d73U2aOxjDZhf2pa+SJ4+HkV7kOYcZ1IkzSGp
-         QoNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793651081; x=1794255881;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pRkX0U8+HuQCFFzjR90UGSol1Deg6kqBr45BiznV7xw=;
-        b=yEtVL6BXKhUDLdYRM0MHvtnRcGgmabAJSnLLE0L55Ezijmr7FLanWM0Qd2XwrijWTE
-         PQSrWqB4tcXCEZK+GtxQ4uB3IEBTttKNQagV+0RqpXiT105DUGgeEooYsQa1ey6jFytv
-         cHll2WpHqUl+F8/V+S/mT7vXEnjiVx8WXT0gBlrwTAVXmkoheG90uB8iORtUFNEiJUAP
-         TLKcWHVJWqgEvhPD/pcyKgrH3nl52UxKXjN1JaIsKxAFnUcHwVT8suc0eMZ4zz5lZ1/l
-         6YsPHwnUjrpg+LRYoymQlMCmMf1P5ZnnEvvsKNrr18GPHhjkXcHeWd26MGP3CY8D+Dga
-         dJkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxARFUSV+Vi0mCkIy5qYJNOFlfR0bEX+EOeayijOO7PtuhqXmnz12grrzs8y7tBTzIhHGyaQrnHc6A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/65VmFXDHkV390rf8/GUSd2lPwjSYuQHkRXXXe1sonuPwXE766
-	8AHtUlw6I8RlNL1IZijsYVkgQHVvBuLN6N/xxlK2Rs2SYydYMpvOfVtM8w9VFIWWxMQkUWPt62u
-	JQcr4T1MUotTz6LHyPhjS+uPvYRDZhCBHYcZEKa81
-X-Gm-Gg: AYBFou2Ds7f3f+hQzO4OlANXUwcGztyuDbarYhC4n7qRR0jPzH+nSjCGu5FFQv661qX
-	/FzTXBsJ0KI2rDvJNGI7VseMSz+Ee0qEgM0HgSXrYEsuLZAaSTeB5wmOSE0mY+ehPhzJAWaJNP+
-	SBTzfFUkZ7Z2zcGeh7dLDpc6ZCe/TpVuWat7I9eAlOvE2Fu5xDkV4CJ1Ry0AMMX8d7LSq7d4UCF
-	FlmPenJV7dTajsMGifUm6/n9yUf0CeFZ1NWXxnb0kzKITo5l/4lvcU6xLEXroYZhV9ZeLDn7c9d
-	osjcC20U34ZCjUa6RrclQxpOsCwsu60kr2JUsvZ3PPXValIyUNNY8vxTp7uyhfmkbF7CM5+9Q7u
-	0d8Gi/xB1FZYEXaFkceK1SSZAN/v9InfCmXGMKMFO/FMdvV/EJC0JRMyFiuDN2INRlpQMZ/iA15
-	4PQaH+PRMVOVAI
-X-Received: by 2002:a05:6402:a20c:10b0:6b4:6725:f2c6 with SMTP id
- 4fb4d7f45d1cf-6b539d6a214mr5220a12.13.1793651080182; Mon, 02 Nov 2026
- 12:24:40 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LwqGN/5O
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C281C1F00A16;
+	Mon,  2 Nov 2026 20:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793651292;
+	bh=kNIoXMIj0D6tWi8oDVr/cix9uEHn2FqNesf3emLKmwA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=LwqGN/5ONoTdHIJf0oGXsaCmTm0ZoJmgimhJGGd5YL1IWtV3ZAZCKuENAPVbyXLVO
+	 TCk4hvjQoMayINfxHIWSzC/NuClx8w4pfjevEjDJXyyU0KgBLhcq6v9N0NX4MmCad0
+	 ZDzrkIXoKeOL4EvcS9i5WHW+hgjC7Ac9b9dSN3jzIYphBX6UmQH9REEROu2Vf3iZTG
+	 z4CIr1O0V5uiUy6TH5ZdvB+9mk7kYCZIiQ822FF5FPhRgA+0cICtxrTduFUd1u0FtI
+	 kNb+TiH9Pb3/ieVX6hm88QZ1+UMAtyYC9vmlyIaUYY/2tchw31HJ0DJ2HnYRz3EGdR
+	 h4g+XLF2we1hg==
+Date: Mon, 2 Nov 2026 14:28:10 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: use reset_root_port() for bus reset of devices
+ on a root bus
+Message-ID: <20261102202810.GA982665@bhelgaas>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,54 +63,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102191438.1059771-1-sdf@fomichev.me> <20261102191438.1059771-4-sdf@fomichev.me>
-In-Reply-To: <20261102191438.1059771-4-sdf@fomichev.me>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 2 Nov 2026 12:24:28 -0800
-X-Gm-Features: AclHuK9HmthtDhK5Se7ln97xEjRHJQkrIbx6CEUxI-rYHFFjq-AxT46s87UOWio
-Message-ID: <CAHS8izNMpH-RJm7mk=-MpMMT6nc1_AukmLVHmh2r=AoyBmZPmQ@mail.gmail.com>
-Subject: Re: [PATCH net-next 3/7] net: devmem: use niov_shift in net_devmem_get_niov_at()
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, 
-	edumazet@kernel.org, horms@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com, 
-	pavan.chebbi@broadcom.com, sdf@fomichev.me, bobbyeshleman@meta.com, 
-	asml.silence@gmail.com, daniel@iogearbox.net, razor@blackwall.org, 
-	leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016235940.942090-1-hamzamahfooz@linux.microsoft.com>
 
-On Mon, Nov 2, 2026 at 11:14=E2=80=AFAM Stanislav Fomichev <sdf.kernel@gmai=
-l.com> wrote:
->
-> TX bindings use PAGE_SIZE net_iovs, and the TX lookup hard-codes it.
-> Derive the index and offset from binding->niov_shift instead, so TX
-> bindings can use larger net_iovs. No functional change, TX bindings are
-> still created with PAGE_SHIFT.
->
-> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+On Fri, Oct 16, 2026 at 07:59:39PM -0400, Hamza Mahfooz wrote:
+> The "bus" reset method resets a device by asserting Secondary Bus Reset
+> on its upstream bridge, so it is not available for a device on a root
+> bus, which has no upstream bridge.
+> 
+> Some platforms have no Root Ports and expose PCI devices directly on a
+> root bus, e.g., Hyper-V vPCI places each assigned PCI function directly
+> on the root bus of a virtual host bridge. Such a device has no reset
+> method at all if it supports neither FLR nor PM reset, even if the
+> platform is able to reset it.
+> 
+> pci_host_bridge::reset_root_port() already allows a host bridge to reset
+> a device on a root bus in a platform-specific way, so far only in place
+> of a Secondary Bus Reset by a Root Port. Use it for the "bus" reset
+> method of a device that is the only device on a root bus, and wait for
+> the device to become ready afterwards, as is done for other reset
+> methods.
+> 
+> Signed-off-by: Hamza Mahfooz <hamzamahfooz@linux.microsoft.com>
+
+Applied both to pci/reset for v7.5, thanks!
+
 > ---
->  net/core/devmem.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index 32fafbfa1359..6339f221bc82 100644
-> --- a/net/core/devmem.c
-> +++ b/net/core/devmem.c
-> @@ -455,13 +455,15 @@ struct net_iov *
->  net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding,
->                        size_t virt_addr, size_t *off, size_t *size)
+>  drivers/pci/pci.c | 32 ++++++++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 8cc6a89130b5..fd4e958d6b99 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4924,18 +4924,46 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_bridge_secondary_bus_reset);
+>  
+> +static int pci_root_bus_reset(struct pci_dev *dev, bool probe)
+> +{
+> +	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
+> +	int rc;
+> +
+> +	/*
+> +	 * Bridges, e.g., Root Ports, are not eligible.  Check the header type
+> +	 * because dev->subordinate is not set up yet when the reset methods
+> +	 * are probed during enumeration.
+> +	 */
+> +	if (pci_is_bridge(dev) || !host->reset_root_port)
+> +		return -ENOTTY;
+> +
+> +	if (probe)
+> +		return 0;
+> +
+> +	rc = host->reset_root_port(host, dev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return pci_dev_wait(dev, "bus reset", PCIE_RESET_READY_POLL_MS);
+> +}
+> +
+>  static int pci_parent_bus_reset(struct pci_dev *dev, bool probe)
 >  {
-> +       size_t niov_size =3D 1UL << binding->niov_shift;
-
-I always dreamed of net-iovs can be non-power of 2 and also can vary
-in size inside the same binding (no reason why not), but this is
-providing excellent value anyway.
-
-Reviewed-by: Mina Almasry <almasrymina@google.com>
-
---=20
-Thanks,
-Mina
+>  	struct pci_dev *pdev;
+>  
+> -	if (pci_is_root_bus(dev->bus) || dev->subordinate ||
+> -	    !dev->bus->self || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
+> +	if (dev->subordinate || dev->dev_flags & PCI_DEV_FLAGS_NO_BUS_RESET)
+>  		return -ENOTTY;
+>  
+>  	list_for_each_entry(pdev, &dev->bus->devices, bus_list)
+>  		if (pdev != dev)
+>  			return -ENOTTY;
+>  
+> +	if (pci_is_root_bus(dev->bus))
+> +		return pci_root_bus_reset(dev, probe);
+> +
+> +	if (!dev->bus->self)
+> +		return -ENOTTY;
+> +
+>  	if (probe)
+>  		return 0;
+>  
+> -- 
+> 2.56.0
+> 
