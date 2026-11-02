@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633829;
-	b=UX7OgBZMfLB2rPBdCLEjXcMgHxyUuF8b5X8kHzDUWsfvRescd+MjBMAFhh2LPqacjwtG
-	 sFjP2cvb+7tIk6Sbwfayu33NomF13CI7lgAqFHDDTAabn8f/pqtemGhM9/k2fFGkwvxdy
-	 p3mYeOL9xtLM6e5qhRU5DgfWGpgOE+Gf2QGHFUpxYKR5qtyXd6nT20Bzq8e+f2NzYFXZO
-	 0Qs6cjWamFN2icns1nc4s3zQc1N1hx4B0YtcK0vLAZJ0TOQm8kJdGOIH3R915QwMA2w/y
-	 Npy/hlDm9fIrC9aoQnDkwAi82ZkJgqVekXgxIlr8hW3oynPZYHJvb+NF3exNcsHfg6w==
+	t=1793633830;
+	b=oNsrII7RQ1xR3hygs/4plVLVR/abzx/YUm/7Gbe7parC1sX5EP7iXlh7ragEfFd4eXRW
+	 Ue+bvAxNcM9Pyxdi8uORo4XXG7e/PZNOi/PD83WELCjVM/MpsESW6CU+ds8A+rBZWN28Y
+	 yOwjecOVUm7VmTdSSXvXFAv55CvQO4sOc2Loa3xPm6S6n1iGvWroWISam1k2rMDsVGQct
+	 KbgUUt/uWYZa69Mdlj47llg7hg5maO8d3DFgOHANHWjlDK00TbkXtTdYKkiHQp56OAfVn
+	 OXx4t38wky+UxT51wS9cpbvDRWA8ubN50uXVTGocNfhsARGr4Tz3ziNLN7UHILTZwEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633829;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633830;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=uG7rE7VtaZNVuMuLVIq/vVqSMDnx3FJ/eSjGr3CevQ8=;
-	b=0uwaDCj1u5MddfR0ER+iz981SzPvUu3gDSuvhBfYp3AWk4xa9zMWg14l8rMgYAWMhbyD
-	 CpzlpGAXGMOAducSaSti+zTS8KhGjoPr9VaamgJaP4X3mzCcg0n9zuPU/evORk5I5paPX
-	 uILjQIMbJ6mC8ANae6px/FSJg4HSmXo/ZOUL66vQ8xvjrqr1VED3olj1rTYk6tUqbiaRU
-	 njekvDPp8gP7azpWV4H5L2mtVSDINQjd5+rRTZaXwIwkA+KMP0nngnq0cHlwj0cnZSVMW
-	 oh5RF/asP7Onnjjsr7yvz3VpfNygzxHScWwqfyIZ+2fY9a1MiM7caLU5MbOjMXughEw==
+	bh=z+ppaxYmKgFAGGAkOJ55j6j/Hm1uYafLIHrUuvA3BIk=;
+	b=Ui2ms8CVYhp2sK4fBNuqSjr92O9q7Sj0bMd0T6FSCMAQh7zAlZEDzR/CShQeT6IWATjE
+	 mi1+ZqkZ5NNCoyr9nxumjm6UJQDq93cr+O2rB0ESATgD7qelxKg/P+vRAwfxOAoqAfD+6
+	 MyPOvvUJ90ZEnx1KuSqguXJ/gSYbG7/xj8n3b+EzrmOmeEZ+Dn9n9v+a4WZVdTIMbw1/s
+	 Ix5WoIGr6mdeU+dBJ/w1wrbRwaOyH4i2FyFX783+OyHHYSfCZDwNCXUEMGMewTSqCDzmk
+	 OkXd+Aa5+cH7wqr4c+ZEuMLxM22fg3yxuCjrCtlP+KyKYjK++nvYQO/U91FIv19NHqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=MTy0uESg;
-	arc=none smtp.remote-ip=209.85.214.200
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RHPknbIb;
+	arc=none smtp.remote-ip=209.85.214.199
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6207660E500B
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6207660E500B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993BA60E5032
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 15:37:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 993BA60E5032
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--vipinsh.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=MTy0uESg
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e8ba4757baso29580675ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:09 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RHPknbIb
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2ea0fe07201so19633695ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 07:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793633829; x=1794238629; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793633830; x=1794238630; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uG7rE7VtaZNVuMuLVIq/vVqSMDnx3FJ/eSjGr3CevQ8=;
-        b=MTy0uESgncAZlH0iQMNHpU8jn/jckpkeRnSFlvH0xJzADMfZeqG2eqDZjLvSoeuQEo
-         9aDvj0zLbYP55mxDEfLXUPmurTYimTNHHAA+HAiAtohQvne6lmaJV1hIKdIhEUKp2v5o
-         +FXoYxwqn+R8bnwHePVYqaUT+xMEmEfBTJ8Or6T+AovH2c0EKY4kaGdVClhC4FQQL9It
-         2LQy4c98Ge39Fa/9YMLUzbEQsW6gkCxJP/D7HdYaz0PI467Od/mHZECDLdyRDUYtMQGl
-         S82hmym/DxYo5znL5qBXXIhpIeJmE0Qgzgu8+SMkgEJeKvp6Cr0TuY3X9imoJfgZyEi1
-         SvlQ==
+        bh=z+ppaxYmKgFAGGAkOJ55j6j/Hm1uYafLIHrUuvA3BIk=;
+        b=RHPknbIbBuIHlHHpM+0mhs9tS8/MLTkheddYOkdNGOyFLmEGT944Vj4CKBLdx0YaJu
+         Dev5zbaIf51qW40wRu0B7H4K9XVtl+vkwOM/eW9w+GCgSmMhvQrhhHamlfL9Ao/lFjW6
+         Z/8apUu85BYGwHJLBcr8YTGnEGeW6gU4s/np3+7VkJ2p0adAqkIqX6r1EThLrmWkG5oG
+         wwLsnsjXxqYlhBUPiQCDNldLCi3yeQ+TWM87/k82MUS3u+/Je5RNYTYMPpJF/+dhXuXk
+         SSjvXJFiPF/DZO2+R9mQQ1Rjxvgx6qJKTi7fqJhV2SN5+GEUOyN1lJuBkcUJnGU7ehAo
+         r9Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793633829; x=1794238629;
+        d=1e100.net; s=20260707; t=1793633830; x=1794238630;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=uG7rE7VtaZNVuMuLVIq/vVqSMDnx3FJ/eSjGr3CevQ8=;
-        b=jW51GncVRIPhnOmK5sOcA/dXogx2XHFl6zgn07PfpGi8WfleIedOVmET9sjfolAZt7
-         EDTfkR7GURSzU4MHKTOmHTkrsiXGPT7YTuO/1lL0AjepGOjp5/6zrEMSCXJf1OemCtLg
-         kBcD3zGKGtogf9QYcrqaQ9/y5evHwqbBcIujZsHoNTRJFEAA2WafZ1suisr2r9RJ7C3p
-         vWUzKx05p6mhmriu8S6Mo11ifqN4GuVBGHHhIEap9Z7iSDgpaLYoAB2Doz32NHYWIEJi
-         5+BqrPWYEgpBJoz3qgIlDcxdzBPwLYyIGZ/Acut7CUihVH7KoM8bsaJ3E72/bCzUhS7j
-         ZzmA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmW2lJ0AH0Vtm6EcJOxdaFqg8fyw+Jdf/BQLL8kdElUWaVInyQkxWTG9lhJBU7MN2bBQ0orUKTYk0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9lurPJHVXxP9h0VcVtGRVu8rrCPaSogZ0ZglLWcLgaELkjNr+Z
-	B63XaIa6+j6K7x2TKBz3NZNLbvHeYIDvWGtzCgRAfxtm32dOS3T6GnSZpYJg9jcvEMstzX4rkpK
-	gR6DYxXpc1A==
-X-Received: from plct12.prod.google.com ([2002:a17:902:d28c:b0:2e5:712c:5c7])
- (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ea02:b0:2e9:2a1a:8b69
- with SMTP id d9443c01a7336-2eb364f1986mr88587545ad.55.1793633828399; Mon, 02
- Nov 2026 07:37:08 -0800 (PST)
-Date: Mon,  2 Nov 2026 07:36:37 -0800
+        bh=z+ppaxYmKgFAGGAkOJ55j6j/Hm1uYafLIHrUuvA3BIk=;
+        b=k6toz5BG7WAkARoq9I6GcmiHzE5YLJvzxdqSrMifVzwys0Co1mPHNxYnWMCFdHeSXL
+         gQSQaF4KEi/Nz3ZRh5/4vgNnnPjmIUlOg3yvr+d7HMPVEREXLG/PnKzWT2SUoSfPbCPv
+         UFyOiWT5xwyd7Fon+7mzTDAWWa1DgJBBbsh8H+i8ChYQBj1dLtMEQTkfpCIQpdxV9xla
+         b/6XVmAMp55cYPEzK9MSHPkhXOdhKvGo+wa8qtqu1CyhAOuv/gfKvRt6n4+pmCfGuP+i
+         f7FdBRmyX+UyRS4xcDTsWYHkSEKXrv+g/FNIl5JmTtNmlGalppX21Bbm3Lc/2bKyhWg5
+         uvHQ==
+X-Forwarded-Encrypted: i=1; AKwUvByewnb4wlipyuJ9RwxllzATHGPiMBz79WWzklxMqL8ufXsxHmN6BQAC6ENWh0gXZiOePldwkvxE9jM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9DYg9AcVkjODmgxbupiWDx7fDrxHnvF5LBbhpVP+P6rHvpOGUF
+	t0KTHc8iRydcBju0Ld6Rj5NW2+zcwZyj2McA/6wnR5t5h/cthI/3y6EtLvow+KS2jMffnLaH2S8
+	PwwBNDLJo6Q==
+X-Received: from pgca18-n1.prod.google.com ([2002:a05:6a02:6392:10b0:cd8:b247:58f0])
+ (user=vipinsh job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:134c:b0:3ab:9c73:12f
+ with SMTP id 98e67ed59e1d1-3ae897ee533mr8958349a91.24.1793633829608; Mon, 02
+ Nov 2026 07:37:09 -0800 (PST)
+Date: Mon,  2 Nov 2026 07:36:38 -0800
 In-Reply-To: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261102153656.1431701-1-vipinsh@google.com>
 X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
-Message-ID: <20261102153656.1431701-9-vipinsh@google.com>
-Subject: [PATCH v6 08/27] vfio: Introduce vfio_find_device() helper
+Message-ID: <20261102153656.1431701-10-vipinsh@google.com>
+Subject: [PATCH v6 09/27] vfio: Refactor vfio_device_fops_cdev_open()
 From: Vipin Sharma <vipinsh@google.com>
 To: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
@@ -102,138 +102,73 @@ Cc: ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
 	yanjun.zhu@linux.dev, yi.l.liu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 
-Introduce vfio_find_device() to discover a registered vfio_device from
-vfio_device_class matching user-provided criteria.
+Refactor vfio_device_fops_cdev_open() to use a static helper
+vfio_device_cdev_open(). This helper will be used in subsequent
+patches to support opening the device file during Live Update restore.
 
-To ensure safe lifecycle handling, vfio_find_device() acquires a
-registration reference (device->refcount) via
-vfio_device_try_get_registration() rather than relying solely on
-device.kref taken in class_find_device(). Holding only kref allows
-vendor modules to unload while external callers hold device pointers,
-leading to a kernel panic on release. Callers must release the device
-via vfio_device_put_registration().
-
-Additionally, move refcount_set() prior to vfio_device_add() in
-__vfio_register_dev() so device->refcount is initialized before the
-device is published to class lookups, avoiding registration data races.
-
-On vfio_device_add() failure, the error path drops the initial
-registration reference and waits for completion to drain any reference
-taken by a concurrent lookup before returning the error to the driver.
+No functional change intended.
 
 Signed-off-by: Vipin Sharma <vipinsh@google.com>
 ---
- drivers/vfio/vfio_main.c | 64 +++++++++++++++++++++++++++++++++++++---
- include/linux/vfio.h     |  2 ++
- 2 files changed, 62 insertions(+), 4 deletions(-)
+ drivers/vfio/device_cdev.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index 291460102cd1..00b3bc0c5339 100644
---- a/drivers/vfio/vfio_main.c
-+++ b/drivers/vfio/vfio_main.c
-@@ -13,6 +13,7 @@
- #include <linux/cdev.h>
- #include <linux/compat.h>
- #include <linux/device.h>
-+#include <linux/device/class.h>
- #include <linux/fs.h>
- #include <linux/idr.h>
- #include <linux/iommu.h>
-@@ -383,17 +384,20 @@ static int __vfio_register_dev(struct vfio_device *device,
- 		goto err_out;
+diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
+index 23b229468151..d83e99137e1a 100644
+--- a/drivers/vfio/device_cdev.c
++++ b/drivers/vfio/device_cdev.c
+@@ -20,14 +20,8 @@ void vfio_init_device_cdev(struct vfio_device *device)
+ 	device->cdev.owner = THIS_MODULE;
+ }
+ 
+-/*
+- * device access via the fd opened by this function is blocked until
+- * .open_device() is called successfully during BIND_IOMMUFD.
+- */
+-int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
++static int vfio_device_cdev_open(struct vfio_device *device, struct file *file)
+ {
+-	struct vfio_device *device = container_of(inode->i_cdev,
+-						  struct vfio_device, cdev);
+ 	struct vfio_device_file *df;
+ 	int ret;
+ 
+@@ -46,14 +40,14 @@ int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
+ 		goto err_put_registration;
  	}
  
--	ret = vfio_device_add(device);
--	if (ret)
--		goto err_out;
--
- 	/* Refcounting can't start until the driver calls register */
- 	refcount_set(&device->refcount, 1);
+-	filep->private_data = df;
++	file->private_data = df;
  
-+	ret = vfio_device_add(device);
-+	if (ret)
-+		goto err_add;
-+
- 	vfio_device_group_register(device);
- 	vfio_device_debugfs_init(device);
+ 	/*
+ 	 * Use the pseudo fs inode on the device to link all mmaps
+ 	 * to the same address space, allowing us to unmap all vmas
+ 	 * associated to this device using unmap_mapping_range().
+ 	 */
+-	filep->f_mapping = device->inode->i_mapping;
++	file->f_mapping = device->inode->i_mapping;
  
  	return 0;
-+err_add:
-+	vfio_device_put_registration(device);
-+	wait_for_completion(&device->comp);
- err_out:
- 	vfio_device_remove_group(device);
+ 
+@@ -62,6 +56,18 @@ int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
  	return ret;
-@@ -1845,6 +1849,58 @@ int vfio_dma_rw(struct vfio_device *device, dma_addr_t iova, void *data,
  }
- EXPORT_SYMBOL(vfio_dma_rw);
  
-+struct vfio_device_match_data {
-+	const void *data;
-+	device_match_t match;
-+};
-+
-+static int vfio_device_match_fn(struct device *dev, const void *data)
-+{
-+	struct vfio_device *vdev = container_of(dev, struct vfio_device, device);
-+	const struct vfio_device_match_data *mdata = data;
-+
-+	if (mdata->match(dev, mdata->data)) {
-+		if (vfio_device_try_get_registration(vdev))
-+			return 1;
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * vfio_find_device - Find a registered VFIO device matching search criteria
-+ * @data: Context data passed to the @match function
-+ * @match: Device match callback function
-+ *
-+ * Finds a registered VFIO device in the vfio_device_class matching the search
-+ * criteria specified by @match.
-+ *
-+ * On success, this function acquires a registration reference on the matched
-+ * device via vfio_device_try_get_registration(). This pins the device and
-+ * prevents its vendor driver module from unloading or unbinding while the
-+ * reference is held.
-+ *
-+ * Return: Pointer to the matching vfio_device on success, or NULL if no
-+ * matching device is found. The caller MUST release the acquired registration
-+ * reference using vfio_device_put_registration() when finished with the device.
++/*
++ * device access via the fd opened by this function is blocked until
++ * .open_device() is called successfully during BIND_IOMMUFD.
 + */
-+struct vfio_device *vfio_find_device(const void *data, device_match_t match)
++int vfio_device_fops_cdev_open(struct inode *inode, struct file *file)
 +{
-+	struct vfio_device_match_data mdata = { .data = data, .match = match };
-+	struct device *device;
++	struct vfio_device *device = container_of(inode->i_cdev,
++						  struct vfio_device, cdev);
 +
-+	device = class_find_device(&vfio_device_class, NULL, &mdata, vfio_device_match_fn);
-+	if (!device)
-+		return NULL;
-+
-+	/*
-+	 * Drop standard kref reference. Caller holds reference from
-+	 * vfio_device_try_get_registration().
-+	 */
-+	put_device(device);
-+	return container_of(device, struct vfio_device, device);
++	return vfio_device_cdev_open(device, file);
 +}
-+EXPORT_SYMBOL_GPL(vfio_find_device);
 +
- /*
-  * Module/class support
-  */
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 3cfbf1d73479..1c1e41de49b3 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -441,4 +441,6 @@ static inline bool vfio_file_is_bound_cdev(struct file *file)
- }
- #endif /* IS_ENABLED(CONFIG_VFIO_DEVICE_CDEV) */
- 
-+struct vfio_device *vfio_find_device(const void *data, device_match_t match);
-+
- #endif /* VFIO_H */
+ static void vfio_df_get_kvm_safe(struct vfio_device_file *df)
+ {
+ 	spin_lock(&df->kvm_ref_lock);
 -- 
 2.56.0.317.g454f8302e1-goog
 
