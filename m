@@ -1,55 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793629149;
-	b=FF/UvmRVmhz6Vck+gYvX4HT0uFTaU5ILQKHYYNCpZvigmnGXcXkIqkiI0jL6OQRjmCIc
-	 HwsBA152VdbHbHYfJJGOpUENAVN1vI+4IeWjLGQvC4NaZy4THM+7lLcEqJIcTu16FVTst
-	 crbiwrB6ZiLzvU1cpJ06NodPlNQfkyZI3BINs7ZSBL8fqRejDpM6hwWorwdS6EDhS1yxH
-	 6ZxCEsABcsUM5S5JqReO9EtBBa9BBYEU78PtwJtatF5w10kf/bFFTcmX03fS5RHMdUpAJ
-	 VqX4vfPC8LG89XxTmlO3KFw5jPHCbVWFNHg7NRk4P5yJx3HX0cvseX1H6Eety94XHEQ==
+	t=1793629260;
+	b=pCpHSVZDMMdk6s2/SWjI0YYQxt3cLXCpszddhZgCLrD+zL+P1nSYoDjGmWwEsPGQRuoS
+	 cAF+bgvb4//kt5Wwy5h30dajrh4j4Oyu4lOfrLg9hYjc+HhlN9WcTQLOx97AxD9fJDKmY
+	 GImIjoJ0o5r6bMWBreBX3aZy2fGlhnYDKn1wJzqL6Wxaav6MS4KzJC9Z5/1wzOzE8CLt9
+	 t9NIHnDkbziEWw6zFMPilZPTpBAKhNswWQpO6JtBnrRLy7fpM3gm/E/DWhUO8j+IB6HnY
+	 wm503hZLiIrM4tF2OY8MYwnk+JmVUbqFEciduIYQE6lhvx0uU1BUyMmhHg3uQqZ/32g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629149;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=wkEluUfj/WGVtgyuXSTnsXKK+ML7sa6Og8P63qV/4ys=;
-	b=L4baDdtlktN/UrLbZRYvn5A+D70YlUL3ExlDQww7KqTepF1yM2BtLU6YRZTknzCwmn0K
-	 SoFYweQArrSl86/Q4vU1ze5MBz25moPIpPmrOMd+4gAi44WDPg23eCnhzP40+UK9eyE59
-	 l6b+Idg+Fg4SGODJlYZfa8EgyFwvIpkpvMS4CepalK4Rk4Qg6HQolbm/Thehu8DFhUHmR
-	 DPsheWCm/YWJN3z/m2DsXu0Kyx1WSE+gJXiFesYVz8VXD5DqXPo6DbQByj+FqhNs7+N9a
-	 N+4kzLOq523A8ZF99BMfiFYTRiuEAgmLbDE7XkKU/QOqvu07BN7W5ElRi5lAw4NZI3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629260;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
+	b=w0iUuu25LcgkA3xGhaCiKMEKC4+WEmJvuCSsM7a4JcQzbZkbzH95lmjyghuNDSZ636lM
+	 zDqlTkdA53RBUQ/pfPUtP35lwyf23hoIVTza23nSQ/mxH15ctyh9mOtI68HNAhD4vZQq2
+	 H1pAwc8FT0JABLkWPADeSKIfS3K0Si2FdjU7nGK5JKm78OPZr0ETnE6cVeYr9JSM8ejlT
+	 qSV26qfr4m9ADzs0JeKUvRhT3WqpTt1yNreGV/9s3Zy1LwstRqheSzSloj1kmuJYwmew3
+	 hQf23VzxVy8e0WCjv8ctXarDx8UwmqgUEp8H2W9zOkRKd4ZYX1BHGBPLKByfm8j/6Qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYnrR5sG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4A6606A326
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 14:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821D9606A327;
+	Mon,  2 Nov 2026 14:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYnrR5sG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B801F00A1D
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 14:19:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED4A1F00A24;
+	Mon,  2 Nov 2026 14:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793629149;
-	bh=wkEluUfj/WGVtgyuXSTnsXKK+ML7sa6Og8P63qV/4ys=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=SYnrR5sGrnEETLcEXUpwjRAoNUEZU/8BpDdXjyBEy31IHpDIbqGXTm0P5UzOcj2yF
-	 jVarqm+6Tdd4MCiSOZ5j0HdYM3+XM6Uf/8WxZPovDbQAbXIj43bwQbrD1t0cIg6AuA
-	 4K6m1Gpp6WAClSITQyBqHyStIyQcVes8nlnbr1lVmkAYkV0j6NjEUsYiQVfVeWG+Fh
-	 yPf4zO/Uxm+zSCkyRDAD/xc0omH2+GiW2E4kqAxDch3OEubVWXmFn/o6DRXII52oCl
-	 MxmdpnFDkZk2sJKcfEEtJsDGoTAilqku+h1ji0YKVgwDpyw6xec8/ikaS/nWy+Jmm5
-	 MCHdeh8J0a1hQ==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5ba36cc21cdso4505068e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 06:19:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBywDaZ5T2159o7v61kinIMwyXizkOwb50VQJFZoBSN3zzv57nrzDUoeeqxup9GWzpweKDF61UjoTfA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/FWdpSjn7xF6lyvLMUhexUPn67iiiN/micFoXyIIcjib51799b
-	eJ7935KcFBLO+gPwPsYRFSN2QTOYoC8qpV9XXQUCTGR4gUWokSbvsYXpc5D0Qn9tQS5EVp2qykD
-	minwl3e/PkuA/ABgQj2cA6mcp3w5TERI=
-X-Received: by 2002:a05:6512:224d:b0:5be:3e0f:4901 with SMTP id
- 2adb3069b0e04-5bfd956e604mr3140207e87.39.1793629147649; Mon, 02 Nov 2026
- 06:19:07 -0800 (PST)
+	s=k20260515; t=1793629260;
+	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
+	h=From:To:Cc:Subject:Date;
+	b=i0H9lG0Be05TEfu/3sSSx1mNu2tXsbt81HU4VhWr1YaNjWqP1nbmV2PU6N9fCZNuw
+	 nivi01r4yhBVK5q6ZZ/2sNWNfeS1/SVvtod3GB/cMk9XHlaJxrROzU9uNyaCbwueWN
+	 AE/rw/aIukHRd/bUpfVF3u6Oo+d1/1nWu8xicACG8hfScuBzUWJR1oSKGUI3TT1yza
+	 I6qw7gNhliBS+HPnhAgAxa3M/VUpvB8uzbr6ovyo5O6M56NbveIxMw0j6pJhZqxruk
+	 pALxbTScur8TNXplk3A0Y4Q0gW4y8sE5l288k+10HrKs8+OO7WmnOZctFatwni3om7
+	 HzOPbsKYJ2AYQ==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org
+Subject: [PATCH RFC 0/7] proc: move procfs to what kernfs does
+Date: Mon,  2 Nov 2026 15:19:15 +0100
+Message-ID: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,59 +113,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
- <20261102093206.50b6c9ad@pumpkin> <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
-In-Reply-To: <20261102-smiling-binturong-of-gaiety-f64c1f@meerkat>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 2 Nov 2026 15:18:55 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-X-Gm-Features: AclHuK-gOvZIt77BDkYuF4o-ILwXjzx7KMGEzFhwi_4dJA8B8VxZMsmTmWfgoNU
-Message-ID: <CAJZ5v0iOJ1r1OvYhV_KJSnHOJL+oVUrbOXizLk0kbGNiep7a6w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: David Laight <david.laight.linux@gmail.com>, Joe Perches <joe@perches.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, users@kernel.org, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
-	Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6321; i=brauner@kernel.org; h=from:subject:message-id; bh=DeFgfcqlv/TY20j7H/EH1gPUF0B7m3TaniK1kcChAz8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mGNqL7pz+vPzk4KWfT6wfNmBh/f/+az2dnquniC7r OfbdVtpkY5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJLNFkZJi9z+Wc51MV9sWG KyZ0i3EcLl3135Rh1V/p2TenWEnnPCln+F99gMWOyX62xk4Du399RQ9XTQsXMmEy4ArfuSn16RK 3R1wA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 2, 2026 at 3:12=E2=80=AFPM Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> On Mon, Nov 02, 2026 at 09:32:06AM +0000, David Laight wrote:
-> > > LKML has become mostly a firehose of patches that are already going t=
-o a
-> > > subsystem list. The reason is THE REST: it matches every file in the
-> > > tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
-> > > single patch. During the week of Oct 1-7, 2026:
-> > >
-> > >   - LKML carried 13,641 messages (~1,950/day), 90% of which were also
-> > >     sent to at least one other list;
-> > >   - with ~2,100 subscribers, that is about 29 million deliveries per
-> > >     week for LKML alone.
-> >
-> > That sort of implies that 2100 people are happy to receive all the
-> > patch emails.
->
-> Doesn't really matter, since those who are at gmail.com aren't really
-> receiving "all the patch emails" anyway and they are impacting everyone e=
-lse.
-> Gmail is simply not usable for high-volume mailing list traffic.
->
-> There are other, better ways to get all patches that doesn't involve
-> subscribing to SMTP deliveries.
+Ok, as mentioned off-list I have an RFC version of getting rid of page
+fault induced stalls in procfs when removing entry which plagues
+networking devices among others.
 
-So it occurred to me that it might be actually better to stop sending
-messages directly to LKML subscribers and only make it available for
-download somewhere and as a Lore archive.
+There was a hackish very narrow AI solution to a part of this bug class
+that was floated off-list. It used a second buffering mechanism on top
+of seqfiles which was really nasty. Plus, it didn't fix the whole bug
+class, it only eliminated a small portion. If we want to get rid of the
+whole page fault issue we need a bigger hammer. So I tried to work
+through that over the last couple of weeks. The series in a shape where
+it's not totally insane to have someone else look at it. So here it is.
 
-Is there really anyone depending on receiving all of the LKML traffic every=
- day?
+I understand it's big but I thought it's probably nicer to look at the
+end result than just making a promise of what it might end up looking
+like.
 
-Rafael
+It's not super polished yet and I haven't gotten into sorting out all
+the warts as there were some really gnarly bugs in there like the whole
+readdir mess that repeated entries or terminated early. I think we could
+go a lot further there if we wanted to but I think that blows this out
+of proportion and at some point it becomes difficult to grasp the scope.
+So I'd rather delay that until I have a sense of how acceptable this all
+is.
+
+remove_proc_entry() waits until every call into the entry has returned,
+and most of those calls copy to or from userspace with the entry pinned.
+
+A reader or writer can make a page fault in that copy take as long as
+it wants, with userfaultfd or by punching holes into a memfd over and
+over. And the callers of remove_proc_entry() like to hold locks while
+they wait. addrconf holds RTNL when it removes /proc/net/dev_snmp6/<dev>
+and xt_hashlimit holds a mutex that all network namespaces share.
+
+Every network device with IPv6 gets a /proc/net/dev_snmp6/<dev> that
+everyone can read, and addrconf_ifdown() removes it with RTNL held. So
+any local user can keep RTNL for as long as their read stays stalled.
+Until then no device can be registered, removed or renamed and no
+network namespace can be created or torn down.
+
+Without privileges a FUSE mount in a user namespace whose daemon never
+answers is enough to stall the copy. Killing the reader ends it, but
+until then whoever removes the file sits in D state.
+
+xt_hashlimit removes the proc file of a table with hashlimit_mutex
+held. Every rule insert in every network namespace takes that mutex and
+so does network namespace cleanup. cleanup_net() runs on a single
+workqueue with pernet_ops_rwsem held, so a stalled reader also stops
+every later network namespace teardown and every module load that
+registers pernet operations. xt_recent does the same with recent_mutex.
+
+And it's not specific to networking. remove_proc_entry(), proc_remove()
+and remove_proc_subtree() have over 200 callers and plenty of them hold
+locks. A stalled reader of /proc/fs/ext4/<dev>/options holds up the
+unmount of that filesystem with s_umount held, and every sync(2) with
+it. The same goes for PCI hot-removal, for freeing IRQ descriptors,
+which CPU bring-up waits on, and for unplugging a USB sound card.
+syzbot has hit removal under locks before (cf. [1]), and the xt_recent
+deadlock fixed in (1) below is another one.
+
+Stalling the kernel in a copy to or from userspace is a well-known
+exploitation primitive. It's why unprivileged userfaultfd can't do it
+by default anymore since v5.11 (d0d4730ac2e4), and FUSE has been used
+the same way.
+
+kernfs doesn't have that problem. The code of a kernfs file only ever
+runs with the node pinned and never touches userspace memory, kernfs
+copies in and out itself. This moves procfs over to the same scheme.
+
+sysfs has only held its active reference around ->show() and ->store()
+since v2.6.23, the same release that made remove_proc_entry() wait for
+the entry's callers. A copy to userspace couldn't be stalled for long
+back then. userfaultfd only came in v4.3 and FUSE in user namespaces in
+v4.18. configfs moved its copies out of its active reference in v5.3
+and DRM copies ioctl arguments in and out around the driver's handler
+the same way. debugfs still holds its reference across the copies,
+ran into a deadlock with wifi drivers because of it and grew an API to
+cancel operations instead (cf. [2]).
+
+That touches just about every ->proc_read(), ->proc_write() and
+->proc_ioctl() in the tree, so I've split it up into seven series. They
+go out as replies to this mail:
+
+(1) proc: fix a few old bugs in /proc handlers (38 patches)
+
+    Bugs in the handlers and in procfs itself that are a lot older than
+    the conversion and that reviewing it turned up. Most of them are for
+    stable. They come first so they can go there on their own and the
+    conversion doesn't have to bother with that crap.
+
+(2) proc: let procfs own the data path (16 patches)
+
+    The procfs side. procfs owns the seq_file of an entry, copies in
+    writes, copies out reads and copies ioctl arguments in and out, and
+    only calls into an entry with it pinned. proc_create_seq() and
+    friends and the plain seq_file users are switched over here too.
+
+(3) proc: convert the arch and platform entries (22 patches)
+(4) proc: convert the driver entries (23 patches)
+(5) proc: convert the fs, kernel and mm entries (27 patches)
+(6) proc: convert the net entries and the kfifo samples (11 patches)
+
+(7) proc: drop the __user methods (5 patches)
+
+    Drops the old methods for every entry that can be removed and gives
+    the new ones the names kernfs uses, ->proc_read(), ->proc_write()
+    and ->proc_ioctl(). This needs all four conversion series.
+
+The series should all indicate cleanly what dependencies they have so b4
+should be able to pull it for review. But I could be wrong.
+
+With all of it on a KASAN and lockdep kernel the removal selftests of
+every part pass, the proc, pktgen and allocinfo selftests behave like
+without it and the bugs from (1) that reproduce in a VM are gone. Every
+patch builds on its own on x86_64 and i386, and with W=1 on the
+architectures it touches.
+
+[1]: https://lore.kernel.org/r/000000000000f24f4705b6988f3e@google.com
+[2]: https://lore.kernel.org/r/20231109212251.213873-7-johannes@sipsolutions.net
+
+-- 
+Christian Brauner <brauner@kernel.org>
