@@ -1,67 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793660786;
-	b=w9309LfwX4RD2jfJ44bxo4nXNYRUSrgVP7Coo6VvgwxKPGTXednudN6mZrY2Ucbvlvvu
-	 6Iu44mq5rOaVqaRtkPxuMTKP2JwU0Lybocy0NYkHzQ41KDpw66CSpgc56CG4+0+1NYRIg
-	 IhE2zSqg7FYuryzLR5TBOhytutRaE2qSntESevQ2KnOCiLD2q0uLmQAXu0AuPP8Iif/5A
-	 rlren6ne5aXD6zT6lqhtemTeOFtjbD/s3n3dUjDMwCzJXCznBZofUaV//MtEjA49JmA59
-	 MVVQ9o4bq47XcpMl3FaftuOPPsZtz9uwTv4FDBpgT1QfKFx07RssFnCAt7JQlaTnQjw==
+	t=1793662685;
+	b=CMESw3w4DqPU3wO6mPN5XHE9/aN7XNeLerlp8Q7lHnloWEPL7KQjSU2nP4KivPIV4GiB
+	 scE9mBuiVxFVI9dV5eJT38fxY0hc288wuCC3OcLtXuiOOpg5l3CYlbYlwsx02BezDHZAt
+	 sLz/CUad5cA6ha9+c5Z0zDVS4ZPtB+6yT8Icw3J4nQNXFtIzn/0Ekjv/UsVwsNFpnHwsN
+	 fBg9l0q8Ucgzvc+2nFCof819TQAcCZckOHWRG34lSjJpK45nxiguRmPGIpHUbN1ShH+Gh
+	 9DGv92iocacLk8nfGpzGI3jSVwAwKwz1vbJDquQG6a5x1Z6ywdYx5qmoI9O+b2dZcLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793660786;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=adIUxbBUAhPoTEgVJ2ZdQQ0sIkUjRLbD7ye6beWxzTc=;
-	b=f2vSFgl0gr6+7OuhdfwC+rtg15N23DYKxmG4kPTj33Xj/cuUJdNkEQm6u4S095KO0gcn
-	 KWdACu05ja9s3ftRnNYHARzUXIDgX8qBqKkDWohI9z4QZDYsaXwcg/IPa24C/q2yHw5w5
-	 SKOY6z1qj4UINHCrxIyddf8pwpRHPez5igzG97Ed6iV8u8w36OGiaESuSSsGCLJ5c8ovj
-	 CFCjUu6UuXnjdTUUXU90ljvEIBn+Dum4cDX9I1nbk31vbuP09fnEVFigtvXW9jovcTzN2
-	 0cej/6gaTLY0PzPzmxZH+4MBH9/LD/k6ENUD48UD0nXha68u9fxzUgxBPXUH+gBLx2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793662685;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=ajTKbCVfUpvl1PRge5ZE4DWrvmI1TQg3QGvcmd035B4=;
+	b=PC3bWG3fCa1jj+btKABg9JNY5bFbJi/UG5jxpCo58HZ1S0xveZN0ggwuiKaTbQPqE9pj
+	 Z22+jvnaHGeJgkvj3Ez/6+H/EjEfZqqOf61vnhwm/PkRPGeetX+HIHVg50c33+GRRYeKG
+	 8fqp+VU1NsMRsbmL3jGduC0D11ryzn2ly7ROwwAjX/u+Q5q2QkBbJSmafIsN8zt2WQicJ
+	 3EvHxDpP/6UWLinSdGiFdPXVU4N3qCTfwrak6B2Oyj9Vi2XZzFmHJ+Nqa765l3qmQarwU
+	 YSjyfeLaWGvkhBi35iCWiH9yUeAe14hue8bX0y3YIql+poPxYqiv0AAymp9NvZ1HJ7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ojb3Czh8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eZcRAdFi;
+	arc=none smtp.remote-ip=74.125.229.131
+Received: from mail-dl2-f3.google.com (mail-dl2-f3.google.com [74.125.229.131])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117CF606A324;
-	Mon,  2 Nov 2026 23:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323B3606A326
+	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 23:38:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 323B3606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ojb3Czh8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B1F21F00A16;
-	Mon,  2 Nov 2026 23:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793660785;
-	bh=adIUxbBUAhPoTEgVJ2ZdQQ0sIkUjRLbD7ye6beWxzTc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=ojb3Czh8KMIoL/VvdgllPD/Rn4ll3vpd8bSHNaVcp9Gk0+6ToD6NDryr4AR11vpi1
-	 XUxes3z4YCAm3nOVrM3z7fdOjZ+HdIJ58YE/s2Bvb3wYsSit40e6UpvA6SIWF3sftX
-	 Jc3/DQgmwFDC5HZv5EWJ0QdlR3mDmib6RntK/oytFM9qo31kP5HL6/YpxOxRsFiyEb
-	 YKTj6bbE/tAD2kBNwtfYEJPKAnI40oa2cJi9+zwtSQdFyTroKpSGQHcGuNo68X+NyM
-	 mmbQ8UKB15V9j5BA3mPSpinaIx19MwiqSRLws1EJRYkagmH16Q9QXcp38qBD646Zhd
-	 Jwbd2cKRXDFHQ==
-Date: Mon, 2 Nov 2026 17:06:24 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vipin Sharma <vipinsh@google.com>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org,
-	ajayachandra@nvidia.com, alex@shazbot.org, amastro@fb.com,
-	ankita@nvidia.com, apopple@nvidia.com, bhelgaas@google.com,
-	chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net,
-	dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com,
-	jgg@nvidia.com, jgg@ziepe.ca, jrhilke@google.com,
-	julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com,
-	leon@kernel.org, leonro@nvidia.com, lukas@wunner.de,
-	mattev@meta.com, michal.winiarski@intel.com, parav@nvidia.com,
-	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org,
-	rananta@google.com, rdunlap@infradead.org, rientjes@google.com,
-	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com,
-	schnelle@linux.ibm.com, skhan@linuxfoundation.org,
-	skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com,
-	yanjun.zhu@linux.dev, yi.l.liu@intel.com
-Subject: Re: [PATCH v6 05/27] PCI: liveupdate: Add helpers to preserve struct
- pci_saved_state
-Message-ID: <20261102230624.GA1038787@bhelgaas>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eZcRAdFi
+Received: by mail-dl2-f3.google.com with SMTP id a92af1059eb24-1afb6473195so704782c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 15:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793662684; x=1794267484; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ajTKbCVfUpvl1PRge5ZE4DWrvmI1TQg3QGvcmd035B4=;
+        b=eZcRAdFir/tOfKhPPQaXb6mUvOPizNEbwDyFtkl3vKeIKU9Co8R0LPR3N7E8YyU+0G
+         2EdC+Hi7HYUfRQP/PCKsIm9h8tS8eEbpeWjCtKW5O49DuznCRmny/sHaglVMRcQjk1XW
+         wZt8hlBXazvlT3+G+BQ3Bmz9IyCxfZiYOF/RVxubvZmHO0sNkpaX5eNVfAoQpCQUlI5l
+         2QeIfN1za7Fyo1Y5LFedwCSm+BskmtaBZmZEv/AWmFxszO3hxsuhm+PC8SWdRra5+cJc
+         WZBdVfPBmr8WSta2fMLe085t0LYYVIzsbbeoSfFqPtbxZ27fS5V/opLjzid1gkFKzQ8Y
+         foCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793662684; x=1794267484;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ajTKbCVfUpvl1PRge5ZE4DWrvmI1TQg3QGvcmd035B4=;
+        b=SxAob6IPXPfc9WrVxWeBKZJALKQUlKq5ZaaCOqoQM5MNhJEVjQgZ4MdXgoylLdUoAh
+         d6j6GlODswySjFpBWVTzfTgQVjIXEmE/O2mP4H2E0PLDeEQ7X6QfW4iPzBMWFhsJt95n
+         23Kwe6ZN87MkqUURhZ6aCZ5R+cYGC08trPbV/A8tffwE8irTIKi0ugGKQ6C9IitKvqkz
+         gk+pWoMonGootCBGDyCMQObXDlH40ADxzcGAhbD9tuCH6iOuOLyz5sdOwM3lHFSZ7Taq
+         D12AsULKrj6bJ/JDa2IQgio4mGWbeuWFwFYUqoGa9qsRENhTm9oMjS3ISTt+xgW723/p
+         RQcg==
+X-Forwarded-Encrypted: i=1; AKwUvBzUACqW1wh1wCSvowc2dLP38vwk6RJx1Bu0doAv5vcf9EaUtMUwr8MtygndmRh+K6Vvh6NuVmHcldI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJd3VORBgSS1jV/28G1isHONDvvSsV7vodmCZhXrpNow4vyt2Aa
+	0o+28MYMFPzfmRKR57BHzQUsZvyfr8H2MCpCkAMkpSnyCm0jibcH48mB
+X-Gm-Gg: AYBFou1uKodpMnvyXZrcBdcLZwSWslfQHx+gDkCIHsdkE7qlNKsD+ivgQBcVJb3QLfA
+	FZBG7fJFJof0Z7MsLfEJQ6nyvGlkfXcPgjjQWvXG9sCwCBeGCNWYFtk9XUKIIxMHDFWzdwrwOWZ
+	DreIQunLzGEp2w4JQ7aLZEu0xyUDGnauaoHTrOIji1SJSGusV3kYkVdJCkTME31nFz3MA0sQ8ZI
+	nXe+/c2yrfSmhxDlJQ1uDOpAuoADegrKJqoO+IgC6+K7TGZdc5eT7ZpkvVSCCzuO9NW/JwOe9kj
+	aHYefh+CXImJUabu6/81ba10uRuQVeQXkrTDp/Q0QCLzHhxeQWUitXP7swlQFKZoKlpghhx5RP5
+	E1KV16wFk3ImxjenASOuV1B/61hfTMDmNUMGHP476mxOiPyL4t+t8kjp8B4JyeD+K+RvZ3mYcCc
+	suWY9Rh6C6K9Jc4AyUAQn4E4LwH0SG4jMCrMb/eUh/W3oy4PKhsFCWY3bXVLIn4n3hfJ1wcsc30
+	FWODkQ9U5jMXUo9plJdlLyoDzx3KqlKZ5A6x9ovQpyGaWL0Kf5rHUg18xJHanust/uEVvo6ZfCr
+	itmI+ffZ6K4xHlb3RxokMw==
+X-Received: by 2002:a05:7022:68a4:b0:147:8a40:cdf3 with SMTP id a92af1059eb24-1ac5d1d155amr22814754c88.24.1793662684121;
+        Mon, 02 Nov 2026 15:38:04 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:60::])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1a136537sm36897502c88.18.2026.11.02.15.38.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 15:38:03 -0800 (PST)
+Date: Mon, 2 Nov 2026 15:23:26 -0800
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	michael.chan@broadcom.com, pavan.chebbi@broadcom.com, sdf@fomichev.me, 
+	bobbyeshleman@meta.com, asml.silence@gmail.com, daniel@iogearbox.net, 
+	razor@blackwall.org, leitao@debian.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH net-next 2/7] net: devmem: charge the frag length to TX
+ skb truesize
+Message-ID: <aukaiHZJcYsRCpr0@devvm16445.scu0.facebook.com>
+References: <20261102191438.1059771-1-sdf@fomichev.me>
+ <20261102191438.1059771-3-sdf@fomichev.me>
+ <CAHS8izPefhGytGNeDWZzgZOi=gLeigZ63nFnkq1ERXXGwrNkeg@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,100 +105,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261102153656.1431701-6-vipinsh@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izPefhGytGNeDWZzgZOi=gLeigZ63nFnkq1ERXXGwrNkeg@mail.gmail.com>
 
-On Mon, Nov 02, 2026 at 07:36:34AM -0800, Vipin Sharma wrote:
-> Drivers that keep a device running across Live Update need to hand the
-> state they captured with pci_store_saved_state() to the next kernel,
-> since the next kernel never sees the device in that state. VFIO, for
-> example, captures it at first open and uses it to restore the device
-> when the last user closes it.
+On 11/02, Mina Almasry wrote:
+> On Mon, Nov 2, 2026 at 11:14 AM Stanislav Fomichev <sdf.kernel@gmail.com> wrote:
+> >
+> > truesize isn't well defined for devmem TX frags: they point into a
+> > dmabuf which stays mapped for the lifetime of the binding, and freeing
+> > the skb releases no memory. The charge only feeds sk_sndbuf and TSQ,
+> > which limit queued bytes.
+> >
+> > Charge the frag length instead of PAGE_SIZE:
+> > - TCP uncharges in bytes (tcp_trim_head(), tcp_fragment(),
+> >   tso_fragment()), so the charge must not be smaller than the frag.
+> >   PAGE_SIZE only guarantees that while net_iovs are PAGE_SIZE.
+> > - Frags shorter than a page now count their length, not a page.
+> >
 > 
-> struct pci_saved_state is private to the PCI core and its in-memory
-> layout is not a stable ABI. Add helpers to serialize it into a
-> caller-provided buffer and rebuild it in the next kernel with a stable
-> struct pci_saved_state_ser ABI. Using caller-provided buffers allows
-> drivers to embed the serialized saved state directly in their own
-> KHO-preserved data with a single allocation and lifetime.
+> I don't know about this patch. The justification reads a bit like.
+> "net-iov charging is weird and broken anyway, so we can do whatever we
+> want. Charge size instead of PAGE_SIZE for no reason."
 > 
-> Validate the serialized buffer and verify that the saved standard
-> configuration header matches the live device before rebuilding the
-> state: the vendor and device IDs must match, only Type 0 (Normal)
-> headers are accepted, and BAR0-5 and the expansion ROM BAR address must
-> equal the current hardware values. This ensures that restoring the
-> saved state cannot write stale BAR addresses if resources were
-> reassigned in the new kernel. Only the address bits of the ROM BAR are
-> compared, since its enable and validation status bits may legitimately
-> differ.
+> I agree that charging for net-iov is extremely weird. Neither of
+> today's net-iov types actually allocates any memory. Of course when I
+> was developing the original infra, I took every shortcut I could and
+> just charged net-iov as regular memory, but that doesn't mean we can
+> do whatever we want.
 > 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
+> I think either:
+> 
+> 1. say net-iovs are not really occupied memory, so do a global cleanup
+> that charges 0 for all net-iovs (optionally making it conditional on
+> the net-iov type, so in the future someone can easily add a net-iov
+> that actually can be charged)", or
+> 2. change the net-iov size to be actually size instead of PAGE_SIZE,
+> and keep the current 'we charge net-iovs even though they're not
+> really memory', and then this patch makes sense.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-A few nits below.
-
-> +static const struct pci_cap_saved_data *pci_saved_cap_next(const struct pci_cap_saved_data *cap)
-> +{
-> +	return (const void *)cap + sizeof(*cap) + cap->size;
-> +}
-> +
-> +/**
-> + * pci_liveupdate_saved_state_ser_size() - Size needed to serialize a saved state
-
-Wrap to fit in 80 columns (75 or so is even nicer because it's a
-little more relaxed to read and typo fixes are less likely to rewrap).
-
-> + * @state: Saved state returned by pci_store_saved_state(), or NULL.
-> + *
-> + * Return: Number of bytes needed by pci_liveupdate_serialize_saved_state(), or
-> + * 0 if @state is NULL.
-> + */
-> +size_t pci_liveupdate_saved_state_ser_size(const struct pci_saved_state *state)
-
-I think pci_liveupdate_saved_state_ser_size() is connected with
-pci_liveupdate_serialize_saved_state() and
-pci_liveupdate_deserialize_saved_state().
-
-Would be nice if that were obvious from the names.
-
-They're also pretty long, which makes prototypes and uses very likely
-to wrap in awkward spots.
-
-> + * struct pci_cap_saved_data_ser - A saved capability in a struct pci_saved_state_ser
-> + * @cap_nr: Capability ID (PCI_CAP_ID_* or PCI_EXT_CAP_ID_*).
-> + * @extended: 1 if @cap_nr is an extended capability ID, 0 otherwise.
-> + * @size: Size of @data in bytes, never 0.
-> + * @data: The saved registers.
-> + */
-> +struct pci_cap_saved_data_ser {
-> +	u16 cap_nr;
-
-Maybe "cap_id" to avoid confusion with "nr_caps" or indexes into
-"caps[]" below?
-
-> +	u16 extended;
-> +	u32 size;
-> +	u8 data[];
-> +} __packed;
-> +
-> +/**
-> + * struct pci_saved_state_ser - Serialized struct pci_saved_state
-> + * @size: Size in bytes of this struct, including all entries in @caps.
-> + * @flags: Features a kernel must support to restore the state. None defined.
-> + * @nr_caps: Number of entries in @caps.
-> + * @config_space: The saved standard configuration header.
-> + * @caps: @nr_caps struct pci_cap_saved_data_ser entries.
-> + */
-> +struct pci_saved_state_ser {
-> +	u32 size;
-> +	u32 flags;
-> +	u32 nr_caps;
-> +	u32 config_space[16];
-> +	u8 caps[];
-
-I think it would be helpful if the names of "config_space[]" and
-"caps[]" hinted at the connection between them (both are in config
-space).  "config_space[]" by itself suggests it's complete, which it's
-not, so maybe there's a place for "hdr" or similar in it.
+SG, let me try to explain it better in the commit msg. I don't think
+we can charge 0 because the uncharge path is non-zero. It currently
+works ok because skb frag uncharges the small error that can accumulate.
