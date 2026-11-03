@@ -1,54 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793671571;
-	b=f+cYOi1Liuk7bPXl3QkGVdIQWDRBgc6Rs0GNPzfzqwBJ5M6tjtX86gh4j7Za64KxFHfn
-	 u6whzEyEsZ7YRJ1zOIshYEw76DPh2j04NbYqhbGdCkwBW1nscmm1RRNLbsmPCvEphu5qc
-	 Dm89LBiLbFWtrwsPym9xQLXw286lXk5/VGddbGL4iIeffs3gH4G6dB/DJ7sDqev1TYh8h
-	 MxlVYhxRVY4cmoWz4qp1Go0vnOgCoL0JakM+P4KJBnknQEEMVpeQd4x22SEVdUAmvjZv1
-	 ZA5b0VY0V/5Jr4nq+TxvdFftC9ZBOO2S/MS7xhXg+m76rfTwTnU0Vx8obQcNVgxRY+w==
+	t=1793671668;
+	b=Vt1oNz33cLxATFl9//xx5PBTjfeg8UxwvLFZ1/oXHBH2mguUOkqMZMDQGcHdNTNEhEYT
+	 aaRMuWlrN10576ChviubgSpAEFmioBAzrS32yMu+lohn98XKQ2kCdGbM0QOMJkDzfsdRZ
+	 PobOVZh5QkZGX+2KXZEyigqSmZZeCzwrcZyzdGO73RhXwtr/Caq68KTHZ62OzT+sW9XQF
+	 VX4o50Ma6kSgGWh8Xb4RJwBevj5TsfVhQnsrh9iSk/lVi79AyFdy+BKVra3m2aBE6Wph6
+	 jdh/hbN/geR0PM9bPofeys3Y3vopDV4WP4vABasvwCOHwdmAgnlbbCjT+EBtQiD3Fvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793671571;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=tE/ZWm4PTQlsdcp5fqBMw+DjYzztKuw6GLRHOslzIIE=;
-	b=ppCpFNmBJGHfgHynGa/RzV3ab7yj+dv2xXIKzP2WAyq3mfKJCelkvJC8EcCsmTbIHB1+
-	 dpOHTCJbPRKt8/8ILg2qIunQQzm/IEAY1mSvC5YeEFU0WlWZBpcokGDyhPi1tb7cv1Hvh
-	 xv9+oUiqoeKmC6Xge6Mr/pNSklgY+EV8QMsFDaiWzL40fqUGJTsvdFTJa5gt4dn0zw1sf
-	 tz86ayGaV9PIa9B5Rhegb8JuyQV/TQrnmR20n0kTtXvJ+0VHjJn70Cqd9SGe/hUX/PFaW
-	 dP80BV3crZdYjukQrbBDPDfVPq1vogho+vBBvwgejgIC69W8/HpdA93yKFdh8heIwNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793671668;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=bwHOQTJQeV7B3NmJTLbFBlniH4YO+jWdF1Fi2dFZaZ8=;
+	b=vKKmjX574mgjWTZ5rou6mz9j9cMIfvXcV5o7c2CVVxqcEp4+IYnVw/X3jQuIg1Ct1O2p
+	 NYpu3PtWv0KY5j5nob6bS3NhhrBU9tlttvTqL9rAfy9/q8MuEspN5CnzeUIXGxZ+hOkCQ
+	 5uwCCYpqHt1qy4l8ka5U8LZUOFvu6OOHceG5qgYnc6RZF+luPbGfGo1KDartQuQA4tPhP
+	 h4neGePSTmX8SdYsFtkx255ymsmbosLbSfmnm84e3gbLO18swcWNtYgrJRvIUtd9W2/fn
+	 9TA22LB1uqcHJ2FTwdUwPHXMzOtGgBNWjSyynbwCt1rKQy3C8oDC95f2p1JvusmRvlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZbYg1On;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=o3kwZcw7;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D81C606A32E;
-	Tue,  3 Nov 2026 02:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEC4606A336;
+	Tue,  3 Nov 2026 02:07:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CEC4606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZbYg1On
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97EA11F0093A;
-	Tue,  3 Nov 2026 02:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793671571;
-	bh=tE/ZWm4PTQlsdcp5fqBMw+DjYzztKuw6GLRHOslzIIE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RZbYg1OnYjxw0deJrg19zk2hVbyFk/i0slyVb7mvnHNPQeEfUggLO1TrLd59Pa/Lg
-	 wWj2DhTeX67T96I3VfneSgun6G4v8fHhTgVFc3Zh8GglpXAjCg78GGmO0T3qGtZn/z
-	 EjJ19hLmOAh5NBnxJD37UfYsjJ0699WKk45YdMHnTzSTHene+FaFVGxVmoAJJ31Zhz
-	 XcdM25gVzffaOsiUVIlBGZTTdwZbGLUIfNBwpTD5jlOt3pdL/N/gOmz2alTT9kSZ1c
-	 WUn18mnUbnIVhvuT22p+S1rnv2mR81FZ+5vkKY6vulhN7RkDmc1rnwaNJ4rVFa/Jdj
-	 n3Z21Uo0Yf+vg==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, Jonathan Corbet <corbet@lwn.net>, Naveen N Rao <naveen@kernel.org>, "David S . Miller" <davem@davemloft.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Tiezhu Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
-Date: Tue, 03 Nov 2026 11:06:06 +0900
-Message-ID: <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
-X-Mailer: UndineD 0.1
-In-Reply-To: <871p9251ve.fsf@jogness.linutronix.de>
-References: <179360345418.115681.193455787480210412.stgit@devnote2> <20261102123408.0fb950bf@gandalf.local.home> <871p9251ve.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=o3kwZcw7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=bwHOQTJQeV7B3NmJTLbFBlniH4YO+jWdF1Fi2dFZaZ8=; b=o3kwZcw7uwx8xryMF8q5LYBYO1
+	vzW9vX5RjiBpS7fnDiIZd0+XcxSqsLWLzmAjRyIdItO5cXx4yKsbdLFuk2d+km1wyL5BFoaHEz8lD
+	GIYltlJt5TTbm+06lfkLdZpCR50Z3rRoGcgHI6YfFieII9eYoHoEp4ufU+Q2D0qucbu84h2sOwGAP
+	lRIMKhAXH0TvXS7Sj+GZZJJd9D4WLPzmhaKzVvWlnP9kTvYHR3T3BZba/mhjDJjg8VHH3dsTnjiDh
+	6kHLpjjMXrxl1LlRkPgRSAaYW8IEwZUDwp1G3nmj8qWNWd0PJjgz0v2ooXB0fmeHRofxV6E6x4XRT
+	9nix7eZw==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xO3wB-00000000qyY-2q9E;
+	Tue, 03 Nov 2026 02:07:47 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Jiri Kosina <jkosina@suse.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-input@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] HID: correct typos in hid-lenovo-go-s ABI doc.
+Date: Mon,  2 Nov 2026 18:07:47 -0800
+Message-ID: <20261103020747.2510497-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,65 +69,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 02 Nov 2026 23:07:41 +0106, John Ogness <john.ogness@linutronix.de> wrote:
-> [ Cc'ing Petr Mladek ]
-> 
-> On 2026-11-02, Steven Rostedt <rostedt@goodmis.org> wrote:
-> > [ Cc'ing John Ogness ]
-> 
-> Thanks.
-> 
-> >
-> > On Mon,  2 Nov 2026 16:10:54 +0900
-> > "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-> >> Here are patches to update the probe sample code to use trace_printk
-> >> instead of normal printk. Since the fprobe and kprobe/kretprobe handlers
-> >> can be called from somewhere where console is locked, using printk() is
-> >> basically unsafe. Only the unoptimized kprobe on x86 is safe because it
-> >> is ran with NMI context (in this case, the kernel uses printk_deferred()
-> >> automatically), but optimized kprobe/kretprobe/fprobe are not.
-> >
-> > I don't think printk() is unsafe in these situations anymore.
-> 
-> Since we still support legacy consoles, it is true that printk() is not
-> safe in these contexts when a legacy console is registered.
-> 
-> However, the printk_deferred() variant _is_ safe from any context. Once
-> we convert the legacy consoles (including boot consoles) to nbcon,
-> printk_deferred() can become printk() and still be safe from any
-> context.
+Fix spellos/typos as reported by codespell:
 
-Got it. But since printk_deferred() is not exposed to modules,
-these sample modules can not use it. (printk_deferred_enter/exit()
-are also not exposed.)
+sysfs-driver-hid-lenovo-go-s:185: intertial ==> inertial
+sysfs-driver-hid-lenovo-go-s:185: measurment ==> measurement
 
-> 
-> It is misfortunate to add documentation saying printk() is not safe,
-> since the problem is converting the remaining legacy consoles. But we
-> can cleanup all such documentation later once the legacy consoles are
-> gone.
+Fixes: 168c91839139 ("HID: Add documentation for Lenovo Legion Go drivers")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v2: add Rev-by: from Derek;
+    rebase & resend;
+    add linux-doc & Jon;
 
-So, until it is done, this series is valid. Please let me know it.
-After that version, I can revert these.
+Cc: Derek J. Clark <derekjohn.clark@gmail.com>
+Cc: Jiri Kosina <jkosina@suse.com>
+Cc: Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-input@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
-Thanks,
+ Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> John
-> 
-> >> Thus, this series replaces those printk() (pr_*()) with trace_printk()
-> >> which should be safe to output the result into trace buffer, and use
-> >> trace_dump_stack() instead of stack_trace_print().
-> >> 
-> >> The similar issue had been reported by Tiezhu Yang [1] in 2023, but
-> >> it was pointed different reason, and not applicable to upstream.
-> >> I investigated it again.
-> >> 
-> >> [1] https://lore.kernel.org/all/d179086d-78d8-d0e3-e113-9072cffa55f4@loongson.cn/
->
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+--- linux-next-20260911.orig/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
++++ linux-next-20260911/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
+@@ -182,7 +182,7 @@ Description:	This displays the available
+ What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/manufacturer
+ Date:		April 2026
+ Contact:	linux-input@vger.kernel.org
+-Description:	This displays the manufacturer of the intertial measurment unit.
++Description:	This displays the manufacturer of the inertial measurement unit.
+ 
+ 		Values are Bosch or ST.
+ 
