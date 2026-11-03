@@ -1,134 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718626;
-	b=eyKV7NP7V8R62ZkqxBoAkYcrMpxVc42s/+h3tuUl8nAcqnoCeEdLARhcbVV5UtUAbY9P
-	 uHe4dbmQSBYTI8VgVOfiD8Nm8cSR1ip+LLM013tJe38UD5RCtIQ6O/21aDoeo3dMIwTs5
-	 lazJXDhWrMksJroMbkbVyJrCSAoQH5HYxgLPBQ74r23A20P77m3xFSP2LqMSgtX7MkRTv
-	 3s9a9Sl/KS15/bXwInhM3zfp7nKKNr+jE4LladsluHN069NBXq4k8pHsaujNBXmCr8dwl
-	 BpckZIxcjOTywpl6MENrlLopVo4FiD7TLWsXqjs273ncCqbV40usT7nTl0OMW4hvwig==
+	t=1793719069;
+	b=M+FkXHowB5c0rIMcj0pxkFkcei4Xv3z29mDaCoQBK6MV0+9brrzNF9/axnUcj3921FB5
+	 ISK+m42J3h73MfaMHdnzV5tc9rfII1Y5PnG+Rvpps1A3uFGOPzicJCG7p4hkGhyvsXZ5L
+	 kasVSKWsnAfu1bvrROLKzcXhomX59qX+AeR35+giJQ0PUZytIvJh0WihqVVIlMh2jvgPn
+	 3MfjB5izwmGGtXL5V42N1iPU0DUsrxFBhUqeUFOv+AL1ENrZVInBy/DzXxm4i/eOD5nIX
+	 g2MAVKSkXB+NI2CnwDgX3YaJQwgV5JmXxepLHn6lVQ0e/z1XTvOSEr3oT2+PMJ6bKXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718626;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793719069;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
-	b=y5muTUd3vIC2g55qCAytpMPHZvDR4F3OeSWw/HNWJ+TcQHnEXUiDIZwVsX274KMBLiR1
-	 U4xA32gFo/uWN3xdQrCn241b/4ApKhMA/J/RjmMXn577nXBbzZVHy3HooDbJ0L6RQ6wwN
-	 ODI64NsnHHe7sm6ZA74CsIe6J1qoxFosy8Vw2u6QI3zcOJ3tFIErIbnrnyhbuzvFjcpUQ
-	 OCFHqmuIscK/o+iztG5YXqUfDjpqpcIbzjAVtTjScGuvhk4zCSgTQrnd+sg7KGgkxtigA
-	 uB5kRmRbJBmU5myPESjVCWqnfb2GKAuLl22uIo2wuslU7o0JaplDfahVbXgMgCbsrYg==
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:User-Agent;
+	bh=Kv57rrW9AR5Uyx8+S36d+hVUEIxbqmnbUnmaj9pRDPc=;
+	b=yHklgaMhxntN/IjlvqkcahQNJ7BtXZnA6zSTCsniXIkR7DJLZ6LY9V9qtlHLpPd9qsRv
+	 0iE1kdEH7TJecUZ+lvXJbX87AwS/8cKHCpb3iORe2np1PoXaleJLCb5WGqyECIbWSWt4a
+	 534KHqTFi+0sgee7qg0YuN0g7vpL+dh8NNsaIaVNUYhFgn/q4Hb05QnKz99R8E4JAXr6T
+	 PY0HVKE/2oukKfOpuPCizKt0bsvi77Tu57yPG1cE2sCWw1wtsI1Z2oYbOEFSHFNMfNSZt
+	 9dtTU8NiAWLcZ1wpmk8YAYxHzb6Pe5jr7OJSDy2UM22FNDyWvm536R68eYvMf6T1GRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=M+V3Eapy;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=UTWV8h2n;
+	arc=none smtp.remote-ip=209.85.216.47
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D67B606BA25
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:10:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D67B606BA25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6468E606A78C
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:17:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6468E606A78C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=M+V3Eapy
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5365f9a04c5so70842741cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:10:25 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=UTWV8h2n
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac77270fbfso2158064a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793718624; x=1794323424; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
-        b=M+V3EapyX+HqP1fKSJAlOXOQNSBl88VyBTDoawq7gz03CsUQazeiC6Mc+WP+qPtVQn
-         UsqVNPLGFj0ef4KFNPZ/tU+07pPNs80lTiQ6+n9y3KoIryIZUUn0L7chcMupFsfI6odL
-         CzzKK98n1/SjNmyjDs3IfYnctsWfNLJnpnGOHZmE9A8SI8N0VwUOPtMf+WIbTPBmV1bH
-         6KQ91X8H80VPkn5TzAK7Oig6tCiR4ItroxMh5i3IT0X0RKXWkI+3rGyo3oFxpQO/Qb9y
-         wZtp81G5ndgrxz6ERStz97IUJBMou2SyFiM2zcPBgA1C8yID7aBtgzm3Eez0211myTs0
-         WVww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793718624; x=1794323424;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=chrisdown.name; s=google; t=1793719069; x=1794323869; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
-        b=GTYIVybSkcULu/eCVkikyxqYu0S1gMOZCCxYEnMVRLarw2xsjIY78Ioq3VLZP0VnuT
-         b2uqh/oT64vcBveW+dyFHPzTU5YD/MdEfBxSrRSHjnC11SIDDHjkOQ44d4Ez3Zu3R7dI
-         ebp66qzv6G89hLJqRlDTvRiwxYlJL+oxkDlsE4vm+mRfaqVBSgjOSzyw0hdKSTBAM3Br
-         h8Gy97He3HByUX4w5sJg+kXX+YBf9NEUsPytJKmdKXAZDwe367chtr0XRzCHHv7JG82y
-         oSW6DryXD22WARtPz27/QKmKv5syWvuOZqsKCZ1AZITcUIqoPJ23m2SH4GdVrc+EE3+T
-         Ahrw==
-X-Forwarded-Encrypted: i=1; AKwUvBxDIHs05OsZCrd18nFbg1F/mosYM6hB3JE8FWsGeSCMHq3bh5KKcrlKXF12gNq3bZygLut2ctG3If0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Dhbvqdai7EM2vUONnn1cOPDssSOhl78l8uX9pmm7cGN887MZR
-	9nlvyQ0eV73elSP/DAWH1PZpyagAKDwt65G4/iaLu5LX6wY71wgKF2bbu1VVVw98ph4=
-X-Gm-Gg: AYBFou0Et2yKfBVAEZMTBIaXr2lP5Lg2pPDDqUXvvhK8EBIwuOe9d3BQEdoqnBtzdwy
-	VHz/GfWXNM1dOLfWdVD+hduQSwjtNLI07dZugcpUlYgW+IuvdwuadZTYNFuIze4GBtl1YB4CsUG
-	nnsTUyMktI/b1SE7rkfJ5hT5/Vg8qmU5HlDLMQ9ctyPYOGMBxp70Q6zkGAkaW5ddvua1hCvRJkT
-	nuBgdy9fzuVUrGmd/QYw5uzzbMHoN4GQG4OnpAUwzWMPwhbn/NzMiRbKQWiUkbsVPpx4ySyaTv1
-	6JWU4MyhXEPY/plNARcvSdGmY8YzrpeD3FCuHG4ClwoimJ2f4ruvJTdCIM9e3vr2OHrIiZqvCud
-	GbXK1UPIJiuqMhWqMITOKfEzw++gF2cdVyawKPTxsy5CiuAdEcjgvkkrrtHWKp96VDF8ynF138m
-	2DXS1kT3ouCW1sNeChfMjTmThHGLqIBm4qxgu+DCA7ThfQSAl6Rk8niZ91fvK2stgfF35HfRUqw
-	k5OgoQ7zXpxyFv8sznC5lHEMuiGx90o8VQ87kE69SLjukWHjjLqGx7AkXML1TziJ8kBbjKrVP4T
-	9T0X3DG4ym2/Gi1MgTJWYhiAGA+1CZpoC+0fYw6vubFjEokqDSihNOsqjyJYEXFZ/3DR6ta21iO
-	XGHi4JFfXZA==
-X-Received: by 2002:ac8:5a06:0:b0:536:26db:d4e2 with SMTP id d75a77b69052e-542b639bb42mr236124421cf.15.1793718623983;
-        Tue, 03 Nov 2026 07:10:23 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5498b49dcbasm27980831cf.6.2026.11.03.07.10.21
+        bh=Kv57rrW9AR5Uyx8+S36d+hVUEIxbqmnbUnmaj9pRDPc=;
+        b=UTWV8h2nFTZ0eInmgrs3DEF7YRTvpPFa3wXSTzrgbTJdxS8o6LX18nP95bFPdtGbel
+         mhOBG2L0OGKLRHHR5Df5WGSB4ANOi/n6F8HnF4gGjy7OOMbjUQlof9V2g4MRUDoAwbYS
+         /cttKPQyPKLAjztUy3DJqrlEkWxeSKvdMeTW0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793719069; x=1794323869;
+        h=user-agent:content-disposition:content-type:mime-version:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Kv57rrW9AR5Uyx8+S36d+hVUEIxbqmnbUnmaj9pRDPc=;
+        b=0HZJDt2HorQjefllmN6zypCCRD8UsfbkwLkP5YwHFC4iwrVRbVdb+LgV3K5lYjhaS0
+         h5h/gRCm/W280oTfowdtsrQch6nrHU32r67VuNMEkcsvhTj3UsC4j05C6ypyL8d+7/bj
+         9ezDsU+eiGld0ylX6GKT2LXAKVSTDDLzrmIvei3JkLjcspGSSLR+9oPaWNPT2fnVbxNb
+         6MIcT38dRd6Fu4O8IjFeQsp/2c7aCRDxhUXcAsPmmCs8JMxQEAMjnxtiwmgYw2rRbkFs
+         oTePXgSxclitVnLwt8D2kQC3Q0k3n83XVhpA72bxT8h2TiC6H4/Gj29f1ZfQbk6mrUO9
+         8zcQ==
+X-Forwarded-Encrypted: i=1; AKwUvByNnUaiuKn1hCpryQfpV0WiLjm6ZfIqHv4X+EGXh6RQUqzU9W2bA+diYlSLWVuvBFLIPfw9lOTVBqU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/jVajDvPAx1B7loibxTjfuKgxwwmzNH3y0P9uHka+iOhLZZrCn
+	5X+DgSfGA7X9ozbThLavJqzMGYDlgBcxAkANV3R1bdsXX4R2FVPicSoH6tynJ+wU8nE=
+X-Gm-Gg: AYBFou36COHTvqcjKyBUwUi+wO8kPUfQ7D5PxkOULXFsELglYjbjYNCLbMNslHAmDZO
+	lfoA9NX8wLOU6rzE9S3phtTelkh6v7kUnkwmoEP3C+AYlWDv7qURmI+4y+dOlabApYi3BZ/AgSd
+	/42dbL2b14KSUnUZguDiBjLkQrH6m872ekmYKEwYgg0oIPTjFLP+FhpcyrccUwHd8ESFjViPDPV
+	Wa+cmuY7G7uWyzRMl3uzpNH6Hw55SST062Rn67p2YMsg4Kvj7WKle4jUWvUnEiO7OrX1hSdbom4
+	5nr1ME9/yNqUIZxPjYpPDUUfM/VzU6s0tM8KDHE3VxghFOe/c55We5Ht7ix4KWEAfAtJYJldxM3
+	ZSpuYt9cCmohBznITc6L8e3MVBdeXTZi7D6miQodgW52b8OY+5f/jYvDDSCSXeGH7RkSMJN3qBY
+	mU6h6dRwOiBOeagQ8fdX/RWZaGYexSwIEPBrgG1IzeS0gi7TiCMdlsKKYYPF6+YvCrzVBhU+OEI
+	0Qfm+Q+BZLw0HsSQMu45voygc+izl5j1OZTuk+XcoIq1czn9QaBNNQtieZSIN1t8d6Axpp3xWom
+	wGG/DN/abduKCAhGQQwpsgt/zPInfPixPTyrNZlQEMS+uWfMyR+ZUfps8AOw9lgvaUGnoz0K/8x
+	DVUo/WdAEvT+Bd3ysvnWv4E54nrwCtPXkvHozcaGOkAenZb04yaIrexHV3eQt8oJjDuk7LHcNc1
+	cFdES9DQmkJVP8eIRWAw==
+X-Received: by 2002:a17:90b:3f84:b0:3ab:b39f:41da with SMTP id 98e67ed59e1d1-3ae89776af6mr10813768a91.11.1793719068633;
+        Tue, 03 Nov 2026 07:17:48 -0800 (PST)
+Received: from localhost ([116.86.153.182])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c62984bsm4849760a91.9.2026.11.03.07.17.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 07:10:22 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xOG9V-0000000DAq9-0szH;
-	Tue, 03 Nov 2026 11:10:21 -0400
-Date: Tue, 3 Nov 2026 11:10:21 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Luigi Rizzo <lrizzo@google.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
+        Tue, 03 Nov 2026 07:17:47 -0800 (PST)
+Date: Tue, 3 Nov 2026 23:17:43 +0800
+From: Chris Down <chris@chrisdown.name>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: Jeff Xu <jeffxu@google.com>, David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
+	Andrey Vagin <avagin@gmail.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Shuah Khan <shuah@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, Jiri Olsa <jolsa@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261103151021.GK3889730@ziepe.ca>
-References: <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
- <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca>
- <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca>
- <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
- <20261023145023.GH3977851@ziepe.ca>
- <20261103080933.GA4213@lst.de>
+	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: [PATCH v2 0/8] mseal sysmap: Choose system mapping sealing at boot
+Message-ID: <cover.1793718940.git.chris@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -140,27 +131,89 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103080933.GA4213@lst.de>
+User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-On Tue, Nov 03, 2026 at 09:09:33AM +0100, Christoph Hellwig wrote:
-> On Fri, Oct 23, 2026 at 11:50:23AM -0300, Jason Gunthorpe wrote:
-> > > Disk I/O is still potentially affected by the same problems
-> > > (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
-> > > in confidential computing...)
-> > 
-> > The disk folks already have a proposal to address all of this using
-> > io_uring and preallocated buffers. I really doubt yet another version
-> > is going to be interesting there.
-> 
-> Huh?  If you mean the dma-buf I/O it doesn't really have anything
-> to do with disks, except that this is the first user.  
+System mapping sealing is currently a build time choice. Hosts which
+want it and hosts which need to move or unmap these mappings therefore
+need separate kernels, which is not ideal. Let's allow the administrator
+to choose at boot time.
 
-Yeah
+v2:
 
-> The dma-buf iovec can work for every ->read_iter/->write_iter
-> consumer, and should be adopted more broadly.  Including by
-> networking instead of their own totally weird different world.
+- Skip destructive vDSO tests on unsealed 32-bit x86 mappings
+- Move the sysmap tests into selftests/mm (Lorenzo)
+- Use shared vm_util helpers in the sysmap tests (Lorenzo)
+- Use PROCMAP_QUERY for the vDSO lookup (Lorenzo)
+- Keep test changes in separate patches (Lorenzo)
+- Put the enforcement tests before the kernel changes (Lorenzo)
+- Move MSEAL_SYSTEM_MAPPINGS to mm/Kconfig (Lorenzo)
+- Remove VM_SEALED_SYSMAP (Lorenzo)
+- Seal mappings in __install_special_mapping() (Lorenzo)
+- Leave a sealed uprobe trampoline mapped if optimisation fails
+- Replace the boolean parameter with no_mseal_sys_mappings (Lorenzo)
+- Drop MSEAL_SYSTEM_MAPPINGS_DEFAULT_ON (Lorenzo)
+- Drop the CHECKPOINT_RESTORE dependency (Lorenzo)
+- Document the software which sealing breaks (Lorenzo)
+- Keep Kconfig default-n regardless of CHECKPOINT_RESTORE (Andrei)
+- Retain sealing by default when built in, with no_mseal_sys_mappings as
+  the boot-time opt-out (Lorenzo)
+- Explain the security rationale (Lorenzo)
+- Describe the Meta/Reverie use case (Lorenzo)
+- Skip general checks on unsealed kernels (Lorenzo)
+- Add expect_sealed for strict CI checks (Jeff)
+- Use the existing -T filter to exclude strict checks when needed (Jeff)
+- Test that no_mseal_sys_mappings leaves mappings unsealed (Jeff)
+- Add the vDSO mprotect() enforcement test (Jeff)
 
-I'm not holding my breath on that one..
+v1: https://lore.kernel.org/r/cover.1793094611.git.chris@chrisdown.name
 
-Jason
+Chris Down (8):
+  selftests/mm: Move sysmap_is_sealed into mm
+  selftests/mm: Skip sysmap_is_sealed when system mappings aren't sealed
+  selftests/mm: Test that the seal on system mappings is enforced
+  mm/mseal: Move MSEAL_SYSTEM_MAPPINGS to mm/Kconfig
+  uprobes/x86: Leave sealed trampolines in place on optimisation failure
+  mm/mseal: Seal system mappings in __install_special_mapping()
+  mm/mseal: Add no_mseal_sys_mappings boot parameter
+  selftests/mm: Check that no_mseal_sys_mappings unseals system mappings
+
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ Documentation/userspace-api/mseal.rst         |  12 +-
+ arch/arm64/kernel/vdso.c                      |   9 +-
+ arch/loongarch/kernel/vdso.c                  |   3 +-
+ arch/riscv/kernel/vdso.c                      |   2 +-
+ arch/s390/kernel/vdso.c                       |   2 +-
+ arch/x86/entry/vdso/vma.c                     |   5 +-
+ arch/x86/kernel/uprobes.c                     |   2 +-
+ include/linux/mm.h                            |   6 -
+ init/Kconfig                                  |   5 +-
+ kernel/events/uprobes.c                       |   2 +-
+ lib/vdso/datastore.c                          |   2 +-
+ mm/Kconfig                                    |  23 ++
+ mm/mseal.c                                    |  12 +
+ mm/vma.c                                      |   2 +
+ mm/vma.h                                      |   8 +
+ security/Kconfig                              |  21 --
+ tools/testing/selftests/Makefile              |   1 -
+ tools/testing/selftests/mm/Makefile           |   1 +
+ tools/testing/selftests/mm/config             |   1 +
+ tools/testing/selftests/mm/run_vmtests.sh     |   6 +
+ tools/testing/selftests/mm/sysmap_is_sealed.c | 259 ++++++++++++++++++
+ tools/testing/selftests/mm/vm_util.c          |   5 +
+ tools/testing/selftests/mm/vm_util.h          |   1 +
+ .../mseal_system_mappings/.gitignore          |   2 -
+ .../selftests/mseal_system_mappings/Makefile  |   6 -
+ .../selftests/mseal_system_mappings/config    |   1 -
+ .../mseal_system_mappings/sysmap_is_sealed.c  | 119 --------
+ 28 files changed, 345 insertions(+), 180 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/sysmap_is_sealed.c
+ delete mode 100644 tools/testing/selftests/mseal_system_mappings/.gitignore
+ delete mode 100644 tools/testing/selftests/mseal_system_mappings/Makefile
+ delete mode 100644 tools/testing/selftests/mseal_system_mappings/config
+ delete mode 100644 tools/testing/selftests/mseal_system_mappings/sysmap_is_sealed.c
+
+
+base-commit: 734a9da61a5bc5d82b496a86bacc097d11dc6871
+-- 
+2.54.0
+
