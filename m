@@ -1,100 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718542;
-	b=eit0eBh+LHoxVF48seq3FzzdEh9XiJsiLOdCnyY4+m1WfLpea3r5uv+dhl9dH6iXRq07
-	 d0nUEfvx7OV/yJ14MuE+nzKoBOCQ+DYA0veE9VLCqhb0awEoZo4JxWsxVm8gfyVpcVqj+
-	 ImS++KY57UqOV+0PY/z3Tn2zA9/MfzJZ+jT/u+kW531TIOKHSDBRx4ufnrWZ7tLmsDkxx
-	 smxScjPUGOqWurNiGRyd0aVDJDGcVQQAJCxi1ENVIBG2qAF7S0J0nXLWpcwBRj32Bk3sq
-	 wx8BPlxNNNc+EvIJZeBgPwiODxiQbBAM46cIb+to/Qf33cxpv1n9PwCckj8Uffz+q8g==
+	t=1793718626;
+	b=eyKV7NP7V8R62ZkqxBoAkYcrMpxVc42s/+h3tuUl8nAcqnoCeEdLARhcbVV5UtUAbY9P
+	 uHe4dbmQSBYTI8VgVOfiD8Nm8cSR1ip+LLM013tJe38UD5RCtIQ6O/21aDoeo3dMIwTs5
+	 lazJXDhWrMksJroMbkbVyJrCSAoQH5HYxgLPBQ74r23A20P77m3xFSP2LqMSgtX7MkRTv
+	 3s9a9Sl/KS15/bXwInhM3zfp7nKKNr+jE4LladsluHN069NBXq4k8pHsaujNBXmCr8dwl
+	 BpckZIxcjOTywpl6MENrlLopVo4FiD7TLWsXqjs273ncCqbV40usT7nTl0OMW4hvwig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718542;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718626;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=bsKbfazNgKL/WfwH3AsYRbzEAQO1BlTse7QOEomIcp8=;
-	b=tBQkWBHsnHyua6ClaFb0zDbV2MYRyq2p0Hq1P5JzrFJbJ4N7sYyp9sNCkegM8JdhDDPv
-	 31+W3d9yTMF5nGhML1fFi05eHTpNn1pTg1GiLB/npt7CiG0Td6100sGvvG6YhV+L+8YxV
-	 ySGgR+x9OSU1C2VzWL0KeliJCsxqlBxNRwy1JV/OTRrGu6u45Pd33WPyZWrW+7q1cPkeE
-	 fUNAcuXdWNr2S8QJD7qJgZwdHkgiAZYhXtpXHDqZGhiWqHpUESiNSKarXadUGIpovR8X7
-	 +s4Tfvk45i9Wm42gEwHtTRtknT9dxK0SD7FvtWoiCjteGmjdWdHUAWBEwTpymBS+EvQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
+	b=y5muTUd3vIC2g55qCAytpMPHZvDR4F3OeSWw/HNWJ+TcQHnEXUiDIZwVsX274KMBLiR1
+	 U4xA32gFo/uWN3xdQrCn241b/4ApKhMA/J/RjmMXn577nXBbzZVHy3HooDbJ0L6RQ6wwN
+	 ODI64NsnHHe7sm6ZA74CsIe6J1qoxFosy8Vw2u6QI3zcOJ3tFIErIbnrnyhbuzvFjcpUQ
+	 OCFHqmuIscK/o+iztG5YXqUfDjpqpcIbzjAVtTjScGuvhk4zCSgTQrnd+sg7KGgkxtigA
+	 uB5kRmRbJBmU5myPESjVCWqnfb2GKAuLl22uIo2wuslU7o0JaplDfahVbXgMgCbsrYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R1Qafmbe;
-	arc=none smtp.remote-ip=209.85.160.41
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=M+V3Eapy;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E9A606EEB4
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:09:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8E9A606EEB4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D67B606BA25
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:10:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D67B606BA25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R1Qafmbe
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-475920b9ca2so1154348fac.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:09:01 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=M+V3Eapy
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5365f9a04c5so70842741cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:10:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793718540; x=1794323340; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bsKbfazNgKL/WfwH3AsYRbzEAQO1BlTse7QOEomIcp8=;
-        b=R1Qafmbe5aIW9A4v7whY+iU0qpiskIWxanXp7cmWk9ebmB0IUK5Dge9P4WLl5fwDiM
-         QPnmFHStjbUYBAV8aIg3YY+yjUojBSarvUifG6y0+dJLxJYbd7o4rqSn6lLC5r1gu6Cs
-         +KaZ7GHnF1TZ/CQn8ccI/kYQiVDFHJ917GEJQJ+REaDELvDfdEdki4bS4VT76EcW8zD1
-         mc8gWYsOXi0vDnfCFI17GHh8UyeIyobtxiHvHzq9pGyjPztCQFAKBd8lgUgWJpyQzdc7
-         r2IS5UHZgb7QxLDf/FOzEiQcSZMISre1SSJxwnIzrTuC5Q9t0KjPFYYOWf1eNkgXMVwG
-         amTg==
+        d=ziepe.ca; s=google; t=1793718624; x=1794323424; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
+        b=M+V3EapyX+HqP1fKSJAlOXOQNSBl88VyBTDoawq7gz03CsUQazeiC6Mc+WP+qPtVQn
+         UsqVNPLGFj0ef4KFNPZ/tU+07pPNs80lTiQ6+n9y3KoIryIZUUn0L7chcMupFsfI6odL
+         CzzKK98n1/SjNmyjDs3IfYnctsWfNLJnpnGOHZmE9A8SI8N0VwUOPtMf+WIbTPBmV1bH
+         6KQ91X8H80VPkn5TzAK7Oig6tCiR4ItroxMh5i3IT0X0RKXWkI+3rGyo3oFxpQO/Qb9y
+         wZtp81G5ndgrxz6ERStz97IUJBMou2SyFiM2zcPBgA1C8yID7aBtgzm3Eez0211myTs0
+         WVww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793718540; x=1794323340;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bsKbfazNgKL/WfwH3AsYRbzEAQO1BlTse7QOEomIcp8=;
-        b=KIpoACnSfONj3WhTJiEVdu9+4ohU57Rq3XRcdpFMGZRPXoIvT0R2Nkuoe2nbVQpLIo
-         042CVPBcdaUuqwC2ela8R9NSHlxchcUO8EzC4GrpwlOyTSMX6NitWjsafwb46Ye0OOsz
-         uY6SavBxRA9gFJ4cNR9BSm+fXBLt2wNarY0meOzd65s6KWKE2vpjJ45eVdqTKpCEm24K
-         PnThqUmxqlpZsMDjE/f6aLm/LS6zXh3uEZLghYBOaFhpupKX+XAi46JPTcAm7qlJzKd4
-         zP6EquCvkKauVb0LiUA53+aFd+A/xkNbojjve8g0Crxw5878xpoR/NWqqWDsGrBS8Jbm
-         r3AQ==
-X-Gm-Message-State: APuU4Z8aKHE2vLoaXDqgoPa33ZtqiI1iMrfqy5sFjnoThjItgQXFF+iq
-	vaIROen3tO/BdEazOo74RUdzipVZWusGFkHFjYfPSJb48tFI8DQ4WH/p
-X-Gm-Gg: AYBFou2MAfnGj4qZRsCHxCVWpyI7bp7uG81XaGNUlnYywNtEsTHMIKDSXFvzzIPHNZd
-	AdwFQ/yYhpAnCdiEN8NxZOuFR+4bJjYqqOaj0ltN9oX8Y0av6z8snv+qLzKO92UlLMFhKq8OD6k
-	387f8HG1QsWG1am7YO3clP7BvfXj+zq7YypJoRu2Tc0wdPQDbwES2wh3nYtmbiFA4BrOuTaRDHb
-	mTxavrRxD9eF+WuQ47oeISAEw3TuJiGWHG4FA07vGJC6te1hWkbDYKIEWHTjd+qWUcJF8pNkQ0/
-	3txVKdyiIL8ngQkiku8RO92sbXKpxKZQZzBHTUb8IWkeOkShgghXWbHYUqyjxxcVm+PM99UoJeV
-	jS776mwK6B2bkQbQB8I+YnNRRjWKaxaAmQjmJYT+/YaMVzNzhMfmi3Wq2FBZ5wp9sCpZ2MpIZR2
-	SJ5sSweeXHNtUnClSV965kj3b5KlCVjPzPtLktoanCHr5wvrFWvx8I6MrOAbpMYv+3X5hDD3ONt
-	WN4ekB+kOKwlQ3zedS4ODyQnJi23pVZbSGrhOhrlNHVO8CtPKDuDnJSPZ+/jU3928QjJYfGX5ND
-	cAM+Ptckm1QRg0Z6ViDvj6QfbzTzAB+mrLNJmg==
-X-Received: by 2002:a05:6870:35d4:b0:48f:e24e:6b6b with SMTP id 586e51a60fabf-4a9078091d9mr8423766fac.62.1793718540455;
-        Tue, 03 Nov 2026 07:09:00 -0800 (PST)
-Received: from penguin.lxd ([2605:3f84:842:3300:216:3eff:fe58:9322])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a95d970b9bsm4730448fac.8.2026.11.03.07.08.58
+        d=1e100.net; s=20260707; t=1793718624; x=1794323424;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vt7h2p23Imler/JHYQ9qmz6AHyS0w7TaI6hUPIpmc2U=;
+        b=GTYIVybSkcULu/eCVkikyxqYu0S1gMOZCCxYEnMVRLarw2xsjIY78Ioq3VLZP0VnuT
+         b2uqh/oT64vcBveW+dyFHPzTU5YD/MdEfBxSrRSHjnC11SIDDHjkOQ44d4Ez3Zu3R7dI
+         ebp66qzv6G89hLJqRlDTvRiwxYlJL+oxkDlsE4vm+mRfaqVBSgjOSzyw0hdKSTBAM3Br
+         h8Gy97He3HByUX4w5sJg+kXX+YBf9NEUsPytJKmdKXAZDwe367chtr0XRzCHHv7JG82y
+         oSW6DryXD22WARtPz27/QKmKv5syWvuOZqsKCZ1AZITcUIqoPJ23m2SH4GdVrc+EE3+T
+         Ahrw==
+X-Forwarded-Encrypted: i=1; AKwUvBxDIHs05OsZCrd18nFbg1F/mosYM6hB3JE8FWsGeSCMHq3bh5KKcrlKXF12gNq3bZygLut2ctG3If0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Dhbvqdai7EM2vUONnn1cOPDssSOhl78l8uX9pmm7cGN887MZR
+	9nlvyQ0eV73elSP/DAWH1PZpyagAKDwt65G4/iaLu5LX6wY71wgKF2bbu1VVVw98ph4=
+X-Gm-Gg: AYBFou0Et2yKfBVAEZMTBIaXr2lP5Lg2pPDDqUXvvhK8EBIwuOe9d3BQEdoqnBtzdwy
+	VHz/GfWXNM1dOLfWdVD+hduQSwjtNLI07dZugcpUlYgW+IuvdwuadZTYNFuIze4GBtl1YB4CsUG
+	nnsTUyMktI/b1SE7rkfJ5hT5/Vg8qmU5HlDLMQ9ctyPYOGMBxp70Q6zkGAkaW5ddvua1hCvRJkT
+	nuBgdy9fzuVUrGmd/QYw5uzzbMHoN4GQG4OnpAUwzWMPwhbn/NzMiRbKQWiUkbsVPpx4ySyaTv1
+	6JWU4MyhXEPY/plNARcvSdGmY8YzrpeD3FCuHG4ClwoimJ2f4ruvJTdCIM9e3vr2OHrIiZqvCud
+	GbXK1UPIJiuqMhWqMITOKfEzw++gF2cdVyawKPTxsy5CiuAdEcjgvkkrrtHWKp96VDF8ynF138m
+	2DXS1kT3ouCW1sNeChfMjTmThHGLqIBm4qxgu+DCA7ThfQSAl6Rk8niZ91fvK2stgfF35HfRUqw
+	k5OgoQ7zXpxyFv8sznC5lHEMuiGx90o8VQ87kE69SLjukWHjjLqGx7AkXML1TziJ8kBbjKrVP4T
+	9T0X3DG4ym2/Gi1MgTJWYhiAGA+1CZpoC+0fYw6vubFjEokqDSihNOsqjyJYEXFZ/3DR6ta21iO
+	XGHi4JFfXZA==
+X-Received: by 2002:ac8:5a06:0:b0:536:26db:d4e2 with SMTP id d75a77b69052e-542b639bb42mr236124421cf.15.1793718623983;
+        Tue, 03 Nov 2026 07:10:23 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5498b49dcbasm27980831cf.6.2026.11.03.07.10.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 07:08:59 -0800 (PST)
-From: Matthew Weber <matthew.l.weber@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Matthew Weber <matthew.l.weber@gmail.com>
-Subject: [PATCH] Documentation: admin-guide: Update workload tracing guide
-Date: Tue,  3 Nov 2026 09:08:45 -0600
-Message-Id: <20261103150845.13008-5-matthew.l.weber@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261103150845.13008-1-matthew.l.weber@gmail.com>
-References: <20261103150845.13008-1-matthew.l.weber@gmail.com>
+        Tue, 03 Nov 2026 07:10:22 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xOG9V-0000000DAq9-0szH;
+	Tue, 03 Nov 2026 11:10:21 -0400
+Date: Tue, 3 Nov 2026 11:10:21 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Luigi Rizzo <lrizzo@google.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+Message-ID: <20261103151021.GK3889730@ziepe.ca>
+References: <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
+ <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
+ <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
+ <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+ <20261022201229.GH3381610@ziepe.ca>
+ <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+ <20261023140107.GC3977851@ziepe.ca>
+ <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+ <20261023145023.GH3977851@ziepe.ca>
+ <20261103080933.GA4213@lst.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,195 +138,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103080933.GA4213@lst.de>
 
-Expand workload-tracing.rst, which is aimed at application developers
-and system integrators analyzing which kernel code a workload relies on,
-with guidance on ftrace function graph tracing for target binaries,
-syscall trapping under QEMU with the GDB stub, and mapping workload
-observations to kernel configuration symbols.
+On Tue, Nov 03, 2026 at 09:09:33AM +0100, Christoph Hellwig wrote:
+> On Fri, Oct 23, 2026 at 11:50:23AM -0300, Jason Gunthorpe wrote:
+> > > Disk I/O is still potentially affected by the same problems
+> > > (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
+> > > in confidential computing...)
+> > 
+> > The disk folks already have a proposal to address all of this using
+> > io_uring and preallocated buffers. I really doubt yet another version
+> > is going to be interesting there.
+> 
+> Huh?  If you mean the dma-buf I/O it doesn't really have anything
+> to do with disks, except that this is the first user.  
 
-Add the file to the Workload analysis MAINTAINERS entry.
+Yeah
 
-Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
----
- .../admin-guide/workload-tracing.rst          | 139 +++++++++++++++++-
- MAINTAINERS                                   |   1 +
- 2 files changed, 133 insertions(+), 7 deletions(-)
+> The dma-buf iovec can work for every ->read_iter/->write_iter
+> consumer, and should be adopted more broadly.  Including by
+> networking instead of their own totally weird different world.
 
-diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-index 35963491b..241ee2258 100644
---- a/Documentation/admin-guide/workload-tracing.rst
-+++ b/Documentation/admin-guide/workload-tracing.rst
-@@ -176,6 +176,20 @@ by three workloads we have chose for this analysis.
-  * stress-ng
-  * paxtest
- 
-+To retain arguments, results, and calls from child processes, run the
-+application with its normal inputs and environment::
-+
-+    strace -f -o syscalls.log ./app
-+    strace -f -c -o syscall-summary.txt ./app
-+
-+These are separate runs. ``-f`` follows children and threads; ``-c`` produces
-+a summary rather than the chronological trace. For a narrower investigation,
-+add ``-e trace=%file`` to the first command to select file-related calls.
-+``-k`` can add user-space stack traces when strace supports unwinding; it
-+does not expose the kernel call stack. For an application that does not exit,
-+stop the tracing session after a defined observation interval. Include
-+startup and representative error inputs, not just a successful steady state.
-+
- What is cscope and how do we use it?
- ====================================
- 
-@@ -588,6 +602,116 @@ times each system call is invoked, and the corresponding Linux subsystem.
- | arch_prctl        | 2         | Process Mgmt.   | sys_arch_prctl()     |
- +-------------------+-----------+-----------------+----------------------+
- 
-+Kernel paths reached by the workload
-+====================================
-+
-+To go beyond the syscall boundary, use the function graph tracer described
-+in :doc:`/trace/ftrace`. In a tracing-capable test system or QEMU guest,
-+install ``trace-cmd`` and check that the running kernel provides
-+``CONFIG_FTRACE``, ``CONFIG_FUNCTION_TRACER``, and
-+``CONFIG_FUNCTION_GRAPH_TRACER``. Enabling ``FTRACE`` alone is not sufficient.
-+Check availability and collect a task-filtered graph::
-+
-+    sudo trace-cmd list -t
-+    sudo trace-cmd record -p function_graph -F -c -O nofuncgraph-irqs \
-+        --user "$USER" -o functions.dat ./app
-+    trace-cmd report -i functions.dat > functions.txt
-+
-+Use an isolated measurement system: these commands change its tracing state.
-+``-F`` filters to the launched application, ``-c`` follows its children, and
-+``--user`` avoids running the workload as root just because the recorder needs
-+privileges. Preserve the workload's original user and environment. The option
-+``nofuncgraph-irqs`` excludes interrupt execution from the graph; asynchronous
-+work in other tasks is outside this task filter too. Check the report for lost
-+events before treating missing functions as unobserved. The perf examples
-+above provide sampled profiles, not an exhaustive list of executed functions.
-+
-+Tracing a minimal user space
-+============================
-+
-+A single-binary initramfs has no shell or guest tracing tools. Initial discovery
-+can use the same application and libc in a full guest for the target
-+architecture, but that does not reproduce its launch as PID 1. The following
-+inspects the actual boot with QEMU's host-side GDB stub without adding tools to
-+the archive.
-+
-+Follow :doc:`/process/debugging/gdb-kernel-debugging` for the debug build and
-+matching ``vmlinux`` setup. Add ``nokaslr`` to the guest kernel command line
-+and ``-S -gdb tcp:127.0.0.1:1234`` to the QEMU boot command. ``-S`` pauses the
-+guest before boot, allowing breakpoints to be installed. Connect host GDB::
-+
-+    gdb-multiarch /path/to/build/vmlinux
-+    (gdb) target remote localhost:1234
-+    (gdb) tbreak kernel_init
-+    (gdb) continue
-+
-+For a native 64-bit arm64 workload, the following records syscall entry numbers
-+and the first argument from the saved user registers. It starts after PID 1's
-+kernel initialization, before the application executes::
-+
-+    (gdb) set pagination off
-+    (gdb) set logging file pid1-syscalls.log
-+    (gdb) set logging enabled on
-+    (gdb) break do_el0_svc
-+    (gdb) commands
-+    > silent
-+    > printf "syscall=%lu arg0=%#lx\n", regs->regs[8], regs->regs[0]
-+    > continue
-+    > end
-+    (gdb) continue
-+
-+Interrupt GDB with Ctrl-C after the observation interval, then disable logging.
-+Resolve the numbers using the matching target build's syscall-number definitions.
-+These are entry observations, not decoded arguments or syscall results. To
-+inspect a particular kernel path, disable the logging breakpoint, set a
-+breakpoint on its implementation, and use ``bt`` or ``step`` at the hit.
-+Entry functions and register layouts are architecture- and revision-specific;
-+check them against the matching source. Once other processes exist, an entry
-+breakpoint can also capture their calls; GDB threads in QEMU represent vCPUs,
-+not Linux tasks. This is not a task-filtered whole-kernel coverage collector.
-+
-+QEMU also offers low-level logging with ``-d`` (list options with ``-d help``)
-+and ``-D qemu.log``. For example, ``-d in_asm`` logs translated instruction
-+blocks, not every execution or a workload-specific call trace. A block that is
-+not logged again may still have executed again from the translation cache, so
-+the log cannot show that a block did not run.
-+
-+Mapping observations to configuration
-+-------------------------------------
-+
-+Use the source revision and architecture matching the measured kernel, rather
-+than assuming the syscall tables above describe every build. Locate each
-+syscall implementation with cscope or its ``SYSCALL_DEFINE`` declaration,
-+follow calls into the relevant subsystem, and inspect its Makefile and Kconfig.
-+For example, ``eventfd2`` is implemented in ``fs/eventfd.c``;
-+``fs/Makefile`` builds ``eventfd.o`` under ``CONFIG_EVENTFD``. Use the
-+configuration help to review its dependencies before changing the option.
-+Other paths, such as the core ``write`` syscall, are built unconditionally
-+and may reach different drivers depending on the file descriptor. A syscall
-+does not necessarily map to one removable option.
-+
-+Retain results as well as names: a libc may probe an optional syscall, tolerate
-+``ENOSYS``, and take a fallback path. Observing the call alone does not prove
-+that the feature must remain enabled. Conversely, boot and recovery dependencies
-+may be absent from an application's syscall trace. Record the observed path,
-+source/configuration mapping, and result of re-testing after the change.
-+
-+For the distinction between built code and observed execution, use
-+:doc:`/dev-tools/gcov` for execution counts and :doc:`/dev-tools/kcov` for
-+task-scoped kernel PCs. Follow their collection and symbolization instructions
-+in a separate measurement build; neither strace nor a sampled perf profile
-+supplies those coverage results. Unobserved code remains a candidate for
-+investigation, not proof of an unnecessary feature.
-+
-+Keep the built-code inventory alongside the runtime observations using
-+``scripts/kernel-sloc --report compiled.json kernel .`` and, for the matching
-+debug ELF, ``scripts/kernel-sloc --report linked.json dwarf vmlinux``. See
-+:doc:`kernel-minimization` ("Counting kernel SLOC") for setup and scope. The
-+reports list compiled files and DWARF-resolved functions/source lines, not
-+execution. Compare full source paths as well as function names; repeated
-+static names and inlining make names alone insufficient. An unobserved entry
-+is a review candidate, not proof that its configuration can be removed.
-+
- Conclusion
- ==========
- 
-@@ -597,10 +721,11 @@ information on the resources in use by workloads using strace.
- References
- ==========
- 
-- * `Discovery Linux Kernel Subsystems used by OpenAPS <https://elisa.tech/blog/2022/02/02/discovery-linux-kernel-subsystems-used-by-openaps>`_
-- * `ELISA-White-Papers-Discovering Linux kernel subsystems used by a workload <https://github.com/elisa-tech/ELISA-White-Papers/blob/master/Processes/Discovering_Linux_kernel_subsystems_used_by_a_workload.md>`_
-- * `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_
-- * `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_
-- * `paxtest README <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_
-- * `stress-ng <https://www.mankier.com/1/stress-ng>`_
-- * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`_
-+ * `Discovery Linux Kernel Subsystems used by OpenAPS <https://elisa.tech/blog/2022/02/02/discovery-linux-kernel-subsystems-used-by-openaps>`__
-+ * `ELISA-White-Papers-Discovering Linux kernel subsystems used by a workload <https://github.com/elisa-tech/ELISA-White-Papers/blob/master/Processes/Discovering_Linux_kernel_subsystems_used_by_a_workload.md>`__
-+ * `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`__
-+ * `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`__
-+ * `paxtest README <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`__
-+ * `stress-ng <https://www.mankier.com/1/stress-ng>`__
-+ * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`__
-+ * :doc:`Kernel minimization <kernel-minimization>`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5beb8c43f..dc3d7e9a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -28159,6 +28159,7 @@ M:	Matthew Weber <matthew.l.weber@gmail.com>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
- F:	Documentation/admin-guide/kernel-minimization.rst
-+F:	Documentation/admin-guide/workload-tracing.rst
- 
- WORKQUEUE
- M:	Tejun Heo <tj@kernel.org>
--- 
-2.39.5
+I'm not holding my breath on that one..
 
+Jason
