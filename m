@@ -1,95 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793699062;
-	b=juFmKSR3N2VnEMWvDVYlqFk/fUn5lIrHEhlJLmWAHFb23g+tr6aLdvzTBC6H/hplF/Pd
-	 faZr7YldqYROS2Kri5FlJpUtpvnYdOd9fXVeFOuOQALXc4tBk/kOrIltIT1419788qjr1
-	 eCni/AW+ta+ztZETefgcYdjfiGbHkvXmcJINrDShDNjfs7wA6FAYt108HbyTPqOfPiQCv
-	 x2h4g0GAL2J9YoL2nW04oqFWO0jiDTnbJnFQMcgASysWl8QNyXog6sI5tRsfwcs1cPBQw
-	 q7tnn+qobVDT0Wu9jA1DkhkXLhO05zBOF9Ae8viU4bqksGai+ciPl0dKpA9Z/yeFXpg==
+	t=1793699461;
+	b=SG4nJTQvQIvpUPVbQ8ebcvhGmrwVovHk9jH0wDigThUJ+NFqFbGOJDdbNiQU++Qqe1dG
+	 IdMBwGq4UwbWt9TrmbTjK7N7+1zQuftKjiKWa/x8mJ0qD98YhIF6Xzs69PA9CQVRgMWrQ
+	 HVEMMS949TE/P+xi4OjEGsX8aEMV6KSSARXJ9Ljn0n32hJLtGPfyHHRcXtDCx7zcyOy4Y
+	 BT7Y/xsh9Q6w6p3WueMYvugJVthg9lxWPgrzIbWrKLrB7hLpcfM4NCf93mcX2vbIMekGT
+	 HGna8xC0LyDi8T0MALX3dWqAboylCL4gyomTeXPgkTgZtbUpeDnKSTOwzluWVJnUbFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793699062;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=eIolNKpjbc4RYfEkJstUlCqagpZzn46CDvq+iobq3B4=;
-	b=S4l4DldB05+2jR2MX7vUZOzlYoGt/YukUtacJR+by5kdEO/YlAugFNinL82hGTOFogXQ
-	 d4Wd7NeRFwMeZ/+TW1rCzOFjop6cd9uvPoabqK/L7Tl0CeboibB8ygU42kK001gQAkZJg
-	 +IU21l0Y0tTPIDhGGqN7Yhyn5GwUW07dUhVTzVR/1pVh0biROTFe4YQH0l5CHFdpGm2Gi
-	 JvWityIAxnOcHHpd65EUPMDMHsnqGLb9oCc5BOQTkjRGIhFzk5NCnuSBGXjjtaLuwAk1M
-	 eqYj3jeMczWoZepJ0hwIJi5TcJdQPCMt9+AdE6mYcGoANnp9k2SlBD0asAl8O3Kw71g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793699461;
+	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=OBdI6sTn5K4OgfmCVF/8zIHq3UrF3Zy+wUPm5MAIdzg=;
+	b=LNQduHi6u59lg9dS4thD4Fd6GsajTD8ccbSt4k310Z8TBHFlY1NB0nXmaWjJ/kxO4ltz
+	 D4GqVouXOVltsVUEpHsEorMUNr0PTcdgXLRyPyfpoctxoDBpw1NdjYfC/VSNCQNhS5/Op
+	 knDNqG/rIWTC/8J4TZoP38X3vPFfXFha/E16+pxghY7nViWNAt/6Lax950sPyLM685yW9
+	 JbbaVw9KZ/HI4CxKo2k5HnalUS6N3huTNqWH5IJ6ut/GNX6d18iTUFyzgrIjchjZNcDDZ
+	 VrJM0ws1AkrUmBnXWsgGBL7ondjQYrimitxgXizhYk2R9RC4XDwdvIdNZpZmkiCdvCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DArpoPKf;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=karaolidis.com;
+	spf=pass smtp.mailfrom=karaolidis.com;
+	dkim=pass header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=RTFB8Kme;
+	arc=none smtp.remote-ip=109.224.244.108
+Received: from mail-244108.protonmail.ch (mail-244108.protonmail.ch [109.224.244.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619F5606A32E
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:44:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 619F5606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1367E606A324
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:50:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1367E606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=karaolidis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DArpoPKf
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48dc1508191so600424f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 01:44:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793699061; x=1794303861; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eIolNKpjbc4RYfEkJstUlCqagpZzn46CDvq+iobq3B4=;
-        b=DArpoPKf5xoeQIv1aNscCTXIGhjfLj/yxs8DzuAyyrL0HLsOm5EbVJLNYVjNzVts5c
-         bL+XE6S2CfIAJYsLXppv4W1u7AZEqdvT4Vad3h/JtSo+6E91VCwWwhBtQZjWPF94xel6
-         UFqawneEUqW9T4M/muDJmMkJM8nox/12rz8QtfjJmvsYItg/cpJDGpBkH/Isaj2/E4QV
-         HIa8mWqBVMcN9OFvEHW+LBBtiu30wU8ZRL3dTwbTI6aLfW8O9Poc/PtGdL0W2uivhdP7
-         7S5kTZCOvHFxbPPKg3Jw6AIrrfRdWAj5eY9YeCJK142Lyp1e/Q3gMGNB2VOIMoJRZVoK
-         yBqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793699061; x=1794303861;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eIolNKpjbc4RYfEkJstUlCqagpZzn46CDvq+iobq3B4=;
-        b=kdLwroU1i2Um1QsaTMi6FTBJRMOKkHziyqQKm4nTmMp034nZMB1Kz7/+lR2XA+CaLZ
-         fI0+99fQUHGhYY8SJlDKyyBEBG30bdkSgehKSYIYvzH51YJ1XlprnCzLsmKubnZphz5E
-         mKL8mrhGymtMJfvFqdSElD0xUW3QloxsCjYXkTGG1f3X4O9ugazsA9BPYHh2tmtd2YC4
-         f5E5DNoAXgXnEKCyCea6dQDbv1D+aUE7xPmjTqsRqUPadAWFMJuM1IpvS+g9tsDyfvO7
-         Rnb8x011/AArxQ6FGekiZ4rPWxGREqqJ2T2sxf8225qp2oCwPkYPLJLDAZ+0zoTkgbFn
-         QQGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBydRxeFvxnx7gk5AL832C1g9vCgr0Pimk9ciHUypsGBJ4CgT3CKw7ImhdhXi1Qt/u8vKNaYz85O9QM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9MLGcjSNcwb2rcbHTvxSoENtECbiAnCAInqZx/c9SSvt5weH1r
-	WXbbg5oMBa2OAiK0sUWQ56JWroyO+L9pb5d0KNOenif0DgMkUxut+825Ehl58y8FVAg=
-X-Gm-Gg: AYBFou3uM3N5TsZWN3HGcoyqFHDIlsgvij0fpSTnqZV45jdr11eTgCgntNd3UWjlzdh
-	1TUby0l1OK5Fn+7q/NJCR3GzWlWwqM8Jd5jU7h5uoXlj4s2Jk/jgAysCC0gy4XNVi1tQPdw3hyW
-	SsAADe6NEDQL1E8HNMb6A99XlGB7EWmb0PjcWG7JqZv8YOcKPXqhfRXVwyQeFjRTmdprbMIG0Uv
-	SBmIVvYmFCeRY0YqzBE4vgaADT7TMon1M7IeFYBb4MV89+jvjfL6VZ5REr9guU5w/0FagNt8k0X
-	mIhgZbWUbBR5h0iIEV01qfjpZcrn7E4UBA0YcfZ4Ngdb9U5ekuiGCXaOu3Tk8CTiTcb+TykQkeQ
-	JV3mOa1s5mw8QwYaNIjMJwQhyK78rPykWDthAj2JLBSNAEDRnslhpRTBw/73jxW9Aq3/5NgPBxb
-	yS9z3E076W4n4UxrgHs6KGSF6GMHltCirG5O+BcOgkFAP7OaM3+lSgI8o10gG7rosGRNk+QtdCc
-	wzVLu/GAlwx1EDKycLwIyjQiRX70xFaS4XfV8eqimxc7GYeB8Zdc77rENkuRuCtLhr2vTLWGwVk
-	qrHCz41SdTDgeaKri/k/a26L1VKVWTTa/qlfkwFQsDx1mCYb4ReFbah2GcUIQLd0s3Am4Q==
-X-Received: by 2002:a05:6000:4006:b0:48e:28f2:64ea with SMTP id ffacd0b85a97d-48e6e30088amr33275987f8f.4.1793699060575;
-        Tue, 03 Nov 2026 01:44:20 -0800 (PST)
-Received: from HIT (92-247-231-33.spectrumnet.bg. [92.247.231.33])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e88876946sm5226314f8f.5.2026.11.03.01.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 01:44:19 -0800 (PST)
-From: Viacheslav Shevchuk <slavik.a.shevchuk@gmail.com>
-To: miklos@szeredi.hu
-Cc: corbet@lwn.net,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org,
-	fuse-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Viacheslav Shevchuk <slavik.a.shevchuk@gmail.com>
-Subject: [PATCH] docs: fuse: fix typos in fuse-caches.rst
-Date: Tue,  3 Nov 2026 11:44:07 +0200
-Message-ID: <20261103094407.912-1-slavik.a.shevchuk@gmail.com>
-X-Mailer: git-send-email 2.56.0.windows.1
+	dkim=pass (2048-bit key, unprotected) header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=RTFB8Kme
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karaolidis.com;
+	s=protonmail3; t=1793699458; x=1793958658;
+	bh=OBdI6sTn5K4OgfmCVF/8zIHq3UrF3Zy+wUPm5MAIdzg=;
+	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=RTFB8KmexjksUk20HrjmyS1e1SwZL4VvFQR020kdzu5KmKV6ahtxVkSu6cytKVo3x
+	 wRpNDXXhsjvXTbd/nIBNQp2KB5cwMzGj5pTLY7I4BCvzXbr0v6MzcNQFxB0AOH7Q9b
+	 +YFtelNTADrcMBdsyiVS4Xhu3EVuhBjIRxy3SgdB2jcemj8nDtMtH3wMvw+myjiW5Z
+	 8aqIhC1E6on7pT0iKPKld7GIqpjJN29HtvfKtrrwZjF0MBHOT3hjZ66PCDNK/o9ADl
+	 H8jwHr7GGELk238IfaWXQly2UROvFAi4GfzSVrfyN631PN2v37vvS73oiFI6thOwCO
+	 4/b/lg+nNCynw==
+X-Pm-Submission-Id: 4jJkNH0h9pz2ScjC
+From: Nikolaos Karaolidis <nick@karaolidis.com>
+Date: Tue, 03 Nov 2026 09:50:08 +0000
+Subject: [PATCH RFC 2/6] virtio-mem: prepare memory notifier for a
+ self-hosted memmap
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,39 +59,131 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261103-virtio-mem-memmap-v1-2-308ae1da6240@karaolidis.com>
+References: <20261103-virtio-mem-memmap-v1-0-308ae1da6240@karaolidis.com>
+In-Reply-To: <20261103-virtio-mem-memmap-v1-0-308ae1da6240@karaolidis.com>
+To: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Oscar Salvador <osalvador@suse.de>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Michal Hocko <mhocko@suse.com>, 
+ Hui Zhu <teawater@gmail.com>, 
+ Georgi Djakov <georgi.djakov@oss.qualcomm.com>, 
+ virtualization@lists.linux.dev, linux-mm@kvack.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, Nikolaos Karaolidis <nick@karaolidis.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3542; i=nick@karaolidis.com;
+ h=from:subject:message-id; bh=TO2CmbxVRk5IIxBT/zUC8sOXtYzHOqzh3B7e5x1oZ0Y=;
+ b=owJ4nAFtApL9kA0DAAoB2mjImL9M9YgByyZiAGrprnfulwaXR03O2p0qJDHLazzry3QLpv4Ia
+ U4y+Pitk66ahYkCMwQAAQoAHRYhBLMZG7EWqsMYjymWX9poyJi/TPWIBQJq6a53AAoJENpoyJi/
+ TPWIRpEQALF1yuzhT+G9+r/UaOZj+ncGcwkxjmTohjHCy77NkVXvj4vAzd3+Y7HPpD2AaqYkchw
+ g15fGpkaHJGslMRxczn5mCczJOj6EjzsmThGmSQNIk++5GLtopumrnPrtR3WHpP/cIQv35P3oGn
+ Q0KOw8IVZ3XR7yZDMt3MXy9ONcuAkYT8HIpl490imwmZvW6zvJTNGLwU4ebtqqLE6PrXqHPnmas
+ VRIi/bwtPAvPxOXNLum18q3ixX7KFlV0bJV5bHH6mB/+71kOhV6SKo06ocN1yeScE2suNdDYpwX
+ SKvLtTNE3kWGQA/0ckSj7t5y5WyYE//WoBOs24j89Z9Pm2vWhDSPVOF3T7P8UTr8W6/sHigPrwc
+ mk6nHWBcxitvRp1l8NTFG3EiTkjpnq4o8rpR6pg3OZ8U7IyWO7CW7l2/4XGGk9uFS4mmtC1wkc0
+ vhrbjxLwJDC6bpZYXyNWj7skLCJmDiL/23MuL4kuE0dg98x66IqZc6UsF3D9CYA+koiBhn4zxmc
+ +XPIJi/WBmAEJkYlVZLhV6cbiD8u1wrsPtJs6akIbjv1m9AI44vz5z8hGv/+fln34JqsolDmubH
+ 4IkZb6zcMvg/0h3gA5bLrj7B6G1kYyOO1+66BPyM4FNFIr7k9tKI6b4wvIbaI0Eyj5zrpfRVXOK
+ L3rqdJjtcLV0CIEJzyBs8FA==
+X-Developer-Key: i=nick@karaolidis.com; a=openpgp;
+ fpr=B3191BB116AAC3188F29965FDA68C898BF4CF588
 
-Fix two misspellings of "successfully" and change "then next time"
-to "the next time".
+With MHP_MEMMAP_ON_MEMORY, the core excludes the memmap at the start of
+each memory block from the range passed to memory notifiers. The
+virtio-mem notifier does not expect that:
 
-The misspellings were found with the help of an AI coding assistant
-(Claude Opus 5.5) by grepping Documentation/ for the entries in
-scripts/spelling.txt.
+* In Sub Block Mode, it rejects any range that is not exactly one
+  aligned memory block with a WARN and NOTIFY_BAD.
 
-Signed-off-by: Viacheslav Shevchuk <slavik.a.shevchuk@gmail.com>
+* It adjusts offline_size by the notified size, while adding and
+  removing memory use the full size. Every onlined memory block would
+  leave its memmap size behind in offline_size, until the offline
+  threshold stops further hotplug.
+
+Track the memmap pages per memory block in vm->memmap_pages, expect the
+notified range to start after the memmap in Sub Block Mode, and include
+the memmap when adjusting offline_size.
+
+vm->memmap_pages is always 0 for now, so there is no functional change.
+
+Assisted-by: LLM
+Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
 ---
- Documentation/filesystems/fuse/fuse-caches.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/virtio/virtio_mem.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentation/filesystems/fuse/fuse-caches.rst
-index 0778dd3d..d19592c6 100644
---- a/Documentation/filesystems/fuse/fuse-caches.rst
-+++ b/Documentation/filesystems/fuse/fuse-caches.rst
-@@ -156,11 +156,11 @@ in several occasions:
+diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
+index e18dd736f2ec..ab06adbc0342 100644
+--- a/drivers/virtio/virtio_mem.c
++++ b/drivers/virtio/virtio_mem.c
+@@ -158,6 +158,9 @@ struct virtio_mem {
+ 	/* If set, the driver is in SBM, otherwise in BBM. */
+ 	bool in_sbm;
  
- - When a new file system object is created (e.g. ``FUSE_CREATE``,
-   ``FUSE_MKDIR``, etc).
--- When a lookup is sucessfully performed.
--- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-+- When a lookup is successfully performed.
-+- When a dentry is successfully revalidated (``->d_revalidate()``).
++	/* Pages at the start of each Linux memory block hosting its memmap. */
++	unsigned long memmap_pages;
++
+ 	union {
+ 		struct {
+ 			/* Id of the first memory block of this device. */
+@@ -995,21 +998,23 @@ static int virtio_mem_memory_notifier_cb(struct notifier_block *nb,
+ 	struct memory_notify *mhp = arg;
+ 	const unsigned long start = PFN_PHYS(mhp->start_pfn);
+ 	const unsigned long size = PFN_PHYS(mhp->nr_pages);
++	const unsigned long memmap_size = PFN_PHYS(vm->memmap_pages);
+ 	int rc = NOTIFY_OK;
+-	unsigned long id;
++	unsigned long id, mb_start;
  
- A dentry expiry time can be set to 0, indicating that it is stale. This means
--that a ``FUSE_LOOKUP`` will be sent to user-space then next time it needs to be
-+that a ``FUSE_LOOKUP`` will be sent to user-space the next time it needs to be
- looked up. It can be set to 0 in several occasions:
+ 	if (!virtio_mem_overlaps_range(vm, start, size))
+ 		return NOTIFY_DONE;
  
- - When the user-space FUSE server explicitly requests a dentry to be invalidated
+ 	if (vm->in_sbm) {
+ 		id = virtio_mem_phys_to_mb_id(start);
++		mb_start = virtio_mem_mb_id_to_phys(id);
+ 		/*
+ 		 * In SBM, we add memory in separate memory blocks - we expect
+-		 * it to be onlined/offlined in the same granularity. Bail out
+-		 * if this ever changes.
++		 * it to be onlined/offlined in the same granularity, excluding
++		 * a self-hosted memmap. Bail out if this ever changes.
+ 		 */
+-		if (WARN_ON_ONCE(size != memory_block_size_bytes() ||
+-				 !IS_ALIGNED(start, memory_block_size_bytes())))
++		if (WARN_ON_ONCE(start != mb_start + memmap_size ||
++				 size != memory_block_size_bytes() - memmap_size))
+ 			return NOTIFY_BAD;
+ 	} else {
+ 		id = virtio_mem_phys_to_bb_id(vm, start);
+@@ -1062,7 +1067,8 @@ static int virtio_mem_memory_notifier_cb(struct notifier_block *nb,
+ 		if (vm->in_sbm)
+ 			virtio_mem_sbm_notify_offline(vm, id);
+ 
+-		atomic64_add(size, &vm->offline_size);
++		/* Adding/removing memory accounts the memmap as well. */
++		atomic64_add(size + memmap_size, &vm->offline_size);
+ 		/*
+ 		 * Trigger the workqueue. Now that we have some offline memory,
+ 		 * maybe we can handle pending unplug requests.
+@@ -1077,7 +1083,7 @@ static int virtio_mem_memory_notifier_cb(struct notifier_block *nb,
+ 		if (vm->in_sbm)
+ 			virtio_mem_sbm_notify_online(vm, id, mhp->start_pfn);
+ 
+-		atomic64_sub(size, &vm->offline_size);
++		atomic64_sub(size + memmap_size, &vm->offline_size);
+ 		/*
+ 		 * Start adding more memory once we onlined half of our
+ 		 * threshold. Don't trigger if it's possibly due to our action
+
 -- 
-2.56.0.windows.1
+2.55.0
 
