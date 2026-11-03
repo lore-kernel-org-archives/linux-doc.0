@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793699460;
-	b=sgwoo1WVKiYRyuRahxmytj0hCPo5jURtiNvfrf4ihxahRo4MTz0QLAHDsBcvZI95SVT8
-	 bgos+yJ/5JDuCmBJXTgne4bdciH5FkKC0OQpf9kHlRVeZH838H/H7GstNFhsl36epwH9m
-	 mStfQdpuwTyWANV3IkDPiJVXcEKpRz534I0xVt5t8Z4gibp83qgy/tQ+JBOP9WySCOny9
-	 g1Xl77QcCtrKWhEVO5UIS/w3PhOVLxjVE3oH4IpOY6STMpBC/o7xYLV4BYlqdzbX5NDKh
-	 hygxslPXvShDzxbNkqrfhm9OX2iM5YeF42ETZoe0YMWNmCtAxhxH59N+5gJmHFIWnfw==
+	t=1793699461;
+	b=ERqEhhj7skJrSOFkCftbIwlz9s1nSL2fHbcqmS+GIKauXgL9aahTFzXvDxLFbO4ibpWZ
+	 LE4KtcMtvZP/Y06+O3tmD3z1eWp8qVDwN6SxCfpl1/oe3bYVbpn1g+lDYIDuKmpQOOXwZ
+	 WNN9155CIBWLXIiF/iS6XMFO/q2KL11pZl3hcUsJuOyqfLvYpA596yaU1gJ0d6IEytAj5
+	 UvSZI6iR/c2m5pW5Gw/GsG2Ajkfk6t++XBeKNezLlTy3/OJqz2gsMKshpnvkHCVcf+kgC
+	 HDUzu8gvQHclOE3dUWQoWKibOtwHUNguOCNG/4IIllW51G0yz2VK3zbK33P2p+rWJiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793699460;
-	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793699461;
+	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=DCi8V2XvUFOyb68nKeOHWydr9sYNDskVDmcOf8KHlEQ=;
-	b=xg/m80ZmirZd1nX2N0C3pi0tQG+uCWZOsRIm5iB3OwUJ425cE6+J+5NRv7mmccUM5zcG
-	 yzy1FfFhY7V2zyQP9QOaHg1u4dp89gqgWKBvXxW9gSJcb/ldBMgsktb4gMGR7IwO84jua
-	 wFr4NTctJAjFHhkd9IkL9Z5LrQn1HuIQwNkO9RAzWyjlXwDipDIzDw59lYXRnGMJosWLl
-	 Ur/rLE41V/ne2EVpLNX+PqqgBhQ6lU8m8cz5BfyyUZqDz/PWshsPHLbqSAoFxFrHIgzaI
-	 6eqWgBFPGOeb3wdGlW1jIY5xlwDyyjZHdsrpxWENH4av4g6Eu30B3L+t0l/d/uktEpA==
+	bh=6HeAXp7yX1tk/C25b06NP0zuPlHPPh/+Hik7J1wwkx4=;
+	b=izNmGXboa+T0vBVyXUN2rxgk+6zsCjpkyqsU3vic3rwpk20WEMwZ7sAqSBEoc4bEgFXC
+	 ZZ/7HJyKBabePxPwbEADpiiB3Cqvi9Ajfhq17fGCXrORkdZpvegWK3PLi7RT4kl9Rgvpn
+	 +HnEj/h37ce9HAJnfKp76Mboxzg0yzmBFPxGtJWB78Msb31u+pjM0DGpUGMVryJuBJFA6
+	 8vNx46iHh/m0nQjBKl6dHBs7y6+X16ZHHmsZkF0beqJ1aPDCo6rPnm2JIVtGMNmYphx1Y
+	 CYh1yQyWRU2jL4GrKy02+3QN12sevTXuRPc8wH6MBng4zfUix2kucRQUDiKT5ZP0Icw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=karaolidis.com;
 	spf=pass smtp.mailfrom=karaolidis.com;
-	dkim=pass header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=eURVgQMl;
-	arc=none smtp.remote-ip=79.135.106.112
-Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+	dkim=pass header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=gTIswOwx;
+	arc=none smtp.remote-ip=109.224.244.108
+Received: from mail-244108.protonmail.ch (mail-244108.protonmail.ch [109.224.244.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65653606A327;
-	Tue,  3 Nov 2026 09:50:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65653606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02C4606A332;
+	Tue,  3 Nov 2026 09:51:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E02C4606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=karaolidis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=karaolidis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=eURVgQMl
+	dkim=pass (2048-bit key, unprotected) header.d=karaolidis.com header.i=@karaolidis.com header.a=rsa-sha256 header.s=protonmail3 header.b=gTIswOwx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=karaolidis.com;
-	s=protonmail3; t=1793699456; x=1793958656;
-	bh=DCi8V2XvUFOyb68nKeOHWydr9sYNDskVDmcOf8KHlEQ=;
-	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=eURVgQMlzGm+pkfVW/ALkVz3Uu89Qu/pfKxL3uKVC5/UY2eNfrxtTkSZV+YkCMRQ1
-	 CSAObtSQmGhz+Bx6awstIqhlD37FphL52S7+e/yqQzFtVM/8cwg3h5wT/FVbw8qd7E
-	 M9LDakSpwX9u87yKB7AIZV6EihImEw+xhAsYTfyUFbKDe8Yx9Y/mjfYq/deyrFpNzT
-	 7kmOBnaF2+UAymv0Rz1BWfg9dgz1Y+2bHulyPlYS8lsHmq2ps6HOOy6WMIlfxBeFRT
-	 jmiUevGwRgXLCOVucbl06EEq3foxirijMPjUTFAypTABFdzmYLRo1o0gj0Z3iDWEdC
-	 7zOPCmg1uywVA==
-X-Pm-Submission-Id: 4jJkND1KS7z2ScjH
+	s=protonmail3; t=1793699458; x=1793958658;
+	bh=6HeAXp7yX1tk/C25b06NP0zuPlHPPh/+Hik7J1wwkx4=;
+	h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=gTIswOwxYUKlWxErWTokOEKDObVzE4bKBY/CclpMYDcrnQpos3B4Chm/GAQYdO9ne
+	 NCFU0Nm/1acbnYIthTxWyYkezlUio/rHrN/azR3xwQEZMaNqLXJKpWBSme9JxsDdaw
+	 V0dbE/uGxqH3/S0wBEoxxPbZ0B2UmuqECjGzQDAu1v3bON1zqqm620nPTnzvUJdFs+
+	 Of5brxqy7L/afeq3PfYPi+apdJYg++v6cjNoxjdvstDhJp7WM0AUweiwEXIQhxYuH8
+	 43h9QzoQUBw0aYisHyXYYPyh8zDBRKigXj4AzQM9r4xH396hHJH7F+YiC6LKeX3nIc
+	 kGnJU8S/ELKsQ==
+X-Pm-Submission-Id: 4jJkN811Fsz2Scj6
 From: Nikolaos Karaolidis <nick@karaolidis.com>
-Date: Tue, 03 Nov 2026 09:50:07 +0000
-Subject: [PATCH RFC 1/6] mm/memory_hotplug: add and export
- mhp_memmap_on_memory_nr_pages()
+Subject: [PATCH RFC 0/6] virtio-mem: support memmap_on_memory
+Date: Tue, 03 Nov 2026 09:50:06 +0000
+Message-Id: <20261103-virtio-mem-memmap-v1-0-308ae1da6240@karaolidis.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,9 +61,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-virtio-mem-memmap-v1-1-308ae1da6240@karaolidis.com>
-References: <20261103-virtio-mem-memmap-v1-0-308ae1da6240@karaolidis.com>
-In-Reply-To: <20261103-virtio-mem-memmap-v1-0-308ae1da6240@karaolidis.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQwNj3bLMopLMfN3c1FwQzk0s0E0zTk02N7YwMjc3SlEC6isoSk3LrAC
+ bGa0U5OasFAsRLC5NykpNLgGZplRbCwC08b65egAAAA==
+X-Change-ID: 20261103-virtio-mem-memmap-f3ec7382772d
 To: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
@@ -80,94 +81,102 @@ Cc: Oscar Salvador <osalvador@suse.de>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-cxl@vger.kernel.org, Nikolaos Karaolidis <nick@karaolidis.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2723; i=nick@karaolidis.com;
- h=from:subject:message-id; bh=SKZnlo9//zIgPLDsuEamosfk9Ui/ahFJfPVQh8m9rm8=;
- b=owJ4nAFtApL9kA0DAAoB2mjImL9M9YgByyZiAGrprndq8YVUy5FGPQyLlA9QXuue2CziSNCha
- TWPgRM0WQDh6okCMwQAAQoAHRYhBLMZG7EWqsMYjymWX9poyJi/TPWIBQJq6a53AAoJENpoyJi/
- TPWIpQwQALR5vun7/ritq55SSJRaIThf2srfn090RZm6Q7eMDFjCnQiCf1geKEFFL7tqOfMkG41
- AloHVrKNfejnNJGxeXsl/h8wbmwbRferU4vgAE8PMISemGHn4i/MgzoNDQ9m7dcddpSyibZpEFr
- AiVtUT0DoTEh6dB8TiIVQ/7PHW7lnx98o9MspM5bkVu7EoSsG3FhYeL4U+4W8vfYwAX2l7hKLbe
- wEzH5vHoZBHjAqcMHZbfHIcxyUxzKzB4CHelt1WQiCNaOjhmIhkMOXLCQWbBeztQCCg8yZawVKn
- OXXbpiolCwEetxIGvAxaNxJlePvWmUXeBbLX/fxp6wSrkXf7HsmvjmrKasNMslvl3f9zCecTv2P
- 6y9ke2btUaFyCVGxuWRjgw1105CjYBpmoDWh0zoeNID5Ocp7K/9bUw6FlLr2JiKkfc6jqV4R4nH
- suqZSRpihb/zFS8smkhVc4qvSs2rq9qwIQ0NCVsVfnY7nlSJ1sTZHWoe+cgtgNt0urmly2iU6cb
- pWlpIklPqRpQI72QGcVL7RqCBtkQLuhaj2IayxI9nyJx9GFsp/2m1c0HUw8Y7PaDBvyxTuAWbAW
- 4QLxhHR9CzFYkyf/rQtrWqxBAJhl48FlUPyoZXdvlvMDhgkkVbA2PiwZ9CPxQjY0ly4kAtZu0GY
- qO8jcp1KGsV8B0LtySeco/A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3925; i=nick@karaolidis.com;
+ h=from:subject:message-id; bh=NNPpcglNLpTNsJShxSz++7ZYM10avVud+ofnAjWB9aY=;
+ b=owJ4nAFtApL9kA0DAAoB2mjImL9M9YgByyZiAGrprndObZ4nJcHkyOGnR8X98GzRHnZPY00og
+ 5ZdyhePWdMUsIkCMwQAAQoAHRYhBLMZG7EWqsMYjymWX9poyJi/TPWIBQJq6a53AAoJENpoyJi/
+ TPWIl/cQAOEJLHdPO99uWz96izDeMCElaiPsorxDa1dY2D7aoG+gVGFyjbiVLoPG9ccyV1X8GgC
+ 87APtvVTOGWAICVzNMI0UPWriIepArKYeYAc4lBS+3NAYLHRT4/MLnOtyM3+L8309oIOtWqqGar
+ STGxvYP4Mu/EjXRXgFqg6x88Yps/JzPTJX6kKzl7djrtOi/e29OebonxeqcTSnaDQVgKERsH4+e
+ idJTNqaGL+oCQMJFGD6xzdqeNOoMJF0SnhSS6okBcXzUOhJq0LUUYMIW5Y2XU26bZ9sgw2fTEPv
+ ILJ9/LI0xqeNBobSe3mYGTqv87IWSHaHiM/Y3Ua7sKQ11xvuGB0B9gzRTEh+A/hoQa96hLsXuTo
+ 6satoUNqNKdss39D/7karpqARuukEM0TJowUmDXgcpDyRa0TbaTL2yuORmsZrSJWvdyaAPMYSyX
+ 7nozNOBTetb1iZoBDllZqEGy4SLiJzqbweJMPAR44VrLXUQsqgKPDuSjWZw5Bd0DWprJcMABQBJ
+ PATSor2IAhktB3UF9AoNqLs3PO9hWpzb7/8Fmkkp1oIMHpdtcVal1e3uR7VduKLW9QmJFZUB/Qe
+ zz++rHq/JxPYPxJb9tDy9nR8zT9oQg6P7r/CyBFWdyUCitOiOeSrPA5kJ/mxLafm00ve7nFBY92
+ vwP46+z4AtqoCW2pzw+clRg==
 X-Developer-Key: i=nick@karaolidis.com; a=openpgp;
  fpr=B3191BB116AAC3188F29965FDA68C898BF4CF588
 
-virtio-mem wants to add memory with MHP_MEMMAP_ON_MEMORY. It has to
-know at probe time how many pages at the start of each memory block
-will host the memmap. Those pages never reach the buddy, so they must
-not be fake-offlined, and in Sub Block Mode they must stay plugged while
-the memory block is added.
+virtio-mem adds memory without MHP_MEMMAP_ON_MEMORY. With the memory
+onlined to ZONE_MOVABLE, a VM that grows to many times its boot size
+can run short of unmovable memory. I ran into this while working on
+a guest-initiated memory negotiation project.
 
-memory_block_memmap_on_memory_pages() returns a non-zero value even if
-the core would ignore MHP_MEMMAP_ON_MEMORY, and recomputing the value in
-the driver would duplicate the padding of
-"memory_hotplug.memmap_on_memory=force". Add a helper that returns the
-number of memmap pages, or 0 if the flag would be ignored. Both inputs
-are fixed after boot.
+David wrote last year that memmap_on_memory support for virtio-mem had
+not been worth the effort, because virtio-mem adds memory in small
+blocks [1]. Each block is small, yes, but the memmap adds up when
+scaling to many blocks.
 
-Assisted-by: LLM
+This picks up Hui Zhu's RFC from 2021 [2] and follows David's review of
+it [3][4]:
+
+1. Big Block Mode first (patch 3). Since commit 6b8f0798b85a
+   ("mm/memory_hotplug: split memmap_on_memory requests across
+   memblocks"), the core uses one altmap per memory block, so this also
+   works for big blocks spanning several memory blocks.
+
+2. alloc_contig_range() with pageblock granularity, so subblocks can be
+   2 MiB: done since v5.19 (Zi Yan's series, 448b8ec3bf11).
+
+3. Sub Block Mode only if the memmap spans complete subblocks (patch 5).
+   With larger device blocks, the driver warns and continues without
+   memmap_on_memory, as David suggested in 2023 [5].
+
+The other review points on [2]:
+
+- Plugging more than requested: if no more than the memmap subblocks
+  remain to be plugged, the driver stops short of the requested size, so
+  this doesn't happen.
+- Error handling: if unplugging the memmap subblocks of a removed memory
+  block fails, the block is left in VIRTIO_MEM_SBM_MB_PLUGGED and
+  virtio_mem_cleanup_pending_mb() retries.
+
+Georgi, Cc'ing you as you mentioned out-of-tree virtio-mem patches that
+use memmap_on_memory [6].
+
+Tested in QEMU/KVM (x86-64 guests) on v7.3: 128 MiB, 1 GiB
+and 2 GiB memory blocks; device block sizes 2 MiB to 1 GiB;
+ZONE_MOVABLE, kernel zones and offline blocks; force_bbm;
+memory_hotplug.memmap_on_memory=force on a kernel without THP;
+grow/fill/unplug cycles with memory held during unplug; 600
+offline/online cycles from user space; random resizing under a memory
+hog; injected failures when unplugging memmap subblocks; the
+memory-hotplug selftest; virtio-mem as a module, reloaded. Also with
+KASAN, lockdep, and DEBUG_VM. Built for x86-64, and the changed files
+for arm64, riscv, and s390.
+
+An LLM was used to review the series against the core, write the test
+harness, and draft the cover letter and changelogs. I have reviewed all
+of it.
+
+[1] https://lore.kernel.org/all/1efcb368-fcdf-4bdd-8b94-a705b7806bc2@redhat.com/
+[2] https://lore.kernel.org/all/20210623115839.3524-1-teawater@gmail.com/
+[3] https://lore.kernel.org/all/CADFyXm7Ky+S2gq5ht2h_tX9bLsoOSuctCkG==VYAH0uUHGp+QQ@mail.gmail.com/
+[4] https://lore.kernel.org/all/bc36b6fe-0d1a-6fe2-e8f3-49bbcaebcf41@redhat.com/
+[5] https://lore.kernel.org/all/1bf30145-22a5-cc46-e583-25053460b105@redhat.com/
+[6] https://lore.kernel.org/all/fb932d7f-0ba7-415d-ab36-e948d2bbb537@oss.qualcomm.com/
+
 Signed-off-by: Nikolaos Karaolidis <nick@karaolidis.com>
 ---
- include/linux/memory_hotplug.h |  6 ++++++
- mm/memory_hotplug.c            | 15 +++++++++++++++
- 2 files changed, 21 insertions(+)
+Nikolaos Karaolidis (6):
+      mm/memory_hotplug: add and export mhp_memmap_on_memory_nr_pages()
+      virtio-mem: prepare memory notifier for a self-hosted memmap
+      virtio-mem: support memmap_on_memory in Big Block Mode
+      virtio-mem: move virtio_mem_sbm_try_remove_unplugged_mb()
+      virtio-mem: support memmap_on_memory in Sub Block Mode
+      Documentation/admin-guide/mm: document virtio-mem memmap_on_memory
 
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index b39605d30896..1b261d85e69d 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -74,6 +74,7 @@ struct mhp_params {
- bool mhp_range_allowed(u64 start, u64 size, bool need_mapping);
- struct range mhp_get_pluggable_range(bool need_mapping);
- bool mhp_supports_memmap_on_memory(void);
-+unsigned long mhp_memmap_on_memory_nr_pages(void);
- 
- /*
-  * Zone resizing functions
-@@ -220,6 +221,11 @@ static inline bool mhp_supports_memmap_on_memory(void)
- 	return false;
- }
- 
-+static inline unsigned long mhp_memmap_on_memory_nr_pages(void)
-+{
-+	return 0;
-+}
-+
- static inline void pgdat_kswapd_lock(pg_data_t *pgdat) {}
- static inline void pgdat_kswapd_unlock(pg_data_t *pgdat) {}
- static inline void pgdat_kswapd_lock_init(pg_data_t *pgdat) {}
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 226ab9cb078a..800011ca194e 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1409,6 +1409,21 @@ bool mhp_supports_memmap_on_memory(void)
- }
- EXPORT_SYMBOL_GPL(mhp_supports_memmap_on_memory);
- 
-+/**
-+ * mhp_memmap_on_memory_nr_pages - self-hosted memmap pages per memory block
-+ *
-+ * Return: the number of pages at the start of each memory block that host its
-+ * memmap when adding memory with MHP_MEMMAP_ON_MEMORY, including padding for
-+ * "memory_hotplug.memmap_on_memory=force"; or 0 if the flag would be ignored.
-+ */
-+unsigned long mhp_memmap_on_memory_nr_pages(void)
-+{
-+	if (!mhp_supports_memmap_on_memory())
-+		return 0;
-+	return memory_block_memmap_on_memory_pages();
-+}
-+EXPORT_SYMBOL_GPL(mhp_memmap_on_memory_nr_pages);
-+
- static void altmap_free(struct vmem_altmap *altmap)
- {
- 	WARN_ONCE(altmap->alloc, "Altmap not fully unmapped");
+ Documentation/admin-guide/mm/memory-hotplug.rst |  18 ++
+ drivers/virtio/virtio_mem.c                     | 268 +++++++++++++++++-------
+ include/linux/memory_hotplug.h                  |   6 +
+ mm/memory_hotplug.c                             |  15 ++
+ 4 files changed, 236 insertions(+), 71 deletions(-)
+---
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+change-id: 20261103-virtio-mem-memmap-f3ec7382772d
 
--- 
-2.55.0
+Best regards,
+--  
+Nikolaos Karaolidis <nick@karaolidis.com>
 
