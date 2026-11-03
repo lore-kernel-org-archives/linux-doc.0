@@ -1,72 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793693380;
-	b=1oyWwl0zrhMuhHZdDqC6f/YGNo3XGM74o25ausBtSGiEv+GJzkq3Unp3E9L1TxsXefLY
-	 LHGxR7TLQGzkw2ZzHe7IApbZopdlSMmKsPOzHqrC0+bwuTcpLp6ZXTIUl4YBChO+nCLyh
-	 WE7CmuHPD5CS2vxx00/Lv7rV+RgcKcDJ6F16RTsI1b9L/kvwZkAwhsZ4d33PUgpqyX/DH
-	 KnwKUq76Qa+TH9JohGeB1ah8OzXv9DzYg1Etl7Z97ZfnNqoVHCAbQN6qWaQVBWEPc/YNR
-	 KaPCYhvAmmnDsuBkJCDfQV86qin4l1TmU/0GwV/LeTVMiXms2oF8iMeCd0IQLSo/g4w==
+	t=1793694613;
+	b=fm3vwPIiAsM3cAffPLyt1DuhtVJHKO9thAlamtmjIUMth8gXdn6wZ1UNWS/YHL5n/2j4
+	 RDBqKOB8hQrRQaTfiNjlntvyN3kNiH82+JPPmVu4MjGLha0zk+gvJ/aSZ+SoQflr2nSOi
+	 TcgDCWgv4XBICtor19iuNIr12EFF7pbkWdUHYgsp/VvTfEXvuJ28q/cLRyyNf65totIEL
+	 2BtKKLh8/iOt99E1W5rsAXa5+otb9MUls0G9bdCqnEJqZ2+e7bCjkYq9BglXJKWkUyS9C
+	 P0qoKLWa76E5FgGHTgB4yGNOGDHojPem2/+cvCo1LLKew6Br7CWECHaVCy/ZtsCvlWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793693380;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=2on3ft6XH1eubxEl0nHP4ZK9AQjcmYaJw++Tp033neA=;
-	b=2ZZxU1TgypeRyTKl0ARemZdE331gz08kvEQox0MfJxN4l42vkBeNyP8QzvZ1SBnhVvg6
-	 7DuTuGLorJvtPfIdX2nL6Vk/Rt0MLjOKOJoYPQd5+hoSCTsOYvxNZtVrfzpdBSQpHC5o6
-	 Tvh0/aPjRsSv7GhhDP1csM2wkMZq7CWvd8eYZfRSS55B02bdQnv0mAN2Snfq8Z5oiH8LP
-	 0dp83o3osc7JlpHs4xbJy9ST5OSvh2DfO/zUZXGBDyOFkc/teJtNsb5aJHZWpwOEQFlom
-	 b6F593/vy46t0VUC77/UU1ksyhbcQhm1jMdwUNn93UVUa+D3u5tcXl49bt20Ve+87lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694613;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 Content-Transfer-Encoding;
+	bh=jMsCflS36xjM5xM77gmQxJkejXiZCOlxvrxpfrVWc+Y=;
+	b=VCvxabUrjUmHMePj9ftlVnr/V4y27s3nG3a2lmHhhvSO+vnKhi7e1MpJEPwxHZe8II3o
+	 DM0VniqfyQV0eWfhebv+aCH0c4nvonDEBrXJOzC5P+zQcY1byDPHtemcc6uOkctPb8OGZ
+	 wge+pGfGFNOdTUmCWRGnZlaOzz0G4H53B/IV13JmUGxFzHsnaIkTVXbZlpdhKPxLlIV39
+	 XiM5Hyh0R3b3D8h0NGbR7TgUW/H5BDgcao7Fu77MUtLIPl2gfbAq/964NzxJ3CFdpBgcl
+	 v4jL+l2MbzEGwh7Z/Yx3OApzg9LC9gtLSntBkZtxX1uV+83za9KOenVCI4LB+I5jsng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A5dxzOoN;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC50F606A334;
-	Tue,  3 Nov 2026 08:09:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC50F606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1E82268B05; Tue,  3 Nov 2026 09:09:34 +0100 (CET)
-Date: Tue, 3 Nov 2026 09:09:33 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Luigi Rizzo <lrizzo@google.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC429606EE95;
+	Tue,  3 Nov 2026 08:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A5dxzOoN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC021F00A23;
+	Tue,  3 Nov 2026 08:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793694612;
+	bh=jMsCflS36xjM5xM77gmQxJkejXiZCOlxvrxpfrVWc+Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=A5dxzOoNkDrW4pNqVVyZoklt9Azfg+rSlnLM4mi3BebvkCaa++F/7TpjYlr5zu8wy
+	 4yDD9HfFhTwRuQ0eI0YVHiBgutbM9gl7+BpiJGKoDjUmx0Qh4+3hUkGhTMZigaVRAj
+	 FGz1gAGtbH6SL8KlkVBpzELQqjEAbyBJ+yEaL6UPWLkvk1rnxyKpHitCPg7rU6LpM4
+	 U5/XE9JUJh/38SEUypc8pmzSmAG5aixgcrLNvM4qkWWIVZxHDvvcn3icojD1C4n6n4
+	 SIaWmfGIIrE7TQ8Rv5n12j6VtykfdpxzYYfC3OwRfvoeKfTn33lMic2wRCr7yPaOFQ
+	 eZYtkej6XWYFA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261103080933.GA4213@lst.de>
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org> <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com> <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com> <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com> <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com> <20261023145023.GH3977851@ziepe.ca>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v12 02/19] PCI/P2PDMA: Document the TLP attribute assumptions
+Date: Tue,  3 Nov 2026 10:29:41 +0200
+Message-ID: <20261103-fix-p2p-acs-v4-0-v12-2-912101f93517@nvidia.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261103-fix-p2p-acs-v4-0-v12-0-912101f93517@nvidia.com>
+References: <20261103-fix-p2p-acs-v4-0-v12-0-912101f93517@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,23 +84,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023145023.GH3977851@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 23, 2026 at 11:50:23AM -0300, Jason Gunthorpe wrote:
-> > Disk I/O is still potentially affected by the same problems
-> > (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
-> > in confidential computing...)
-> 
-> The disk folks already have a proposal to address all of this using
-> io_uring and preallocated buffers. I really doubt yet another version
-> is going to be interesting there.
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Huh?  If you mean the dma-buf I/O it doesn't really have anything
-to do with disks, except that this is the first user.  The dma-buf
-iovec can work for every ->read_iter/->write_iter consumer, and
-should be adopted more broadly.  Including by networking instead of
-their own totally weird different world.
+P2PDMA selects a mapping without receiving the Request's ordering or
+Address Type attributes. Its ACS handles only strictly ordered Requests
+carrying an Untranslated address.
+
+Document that the result is not defined for Relaxed Ordering or
+ATS-translated Requests because those TLP attributes can select different
+routes through the fabric.
+
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Tested-by: Tushar Dave <tdave@nvidia.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ Documentation/driver-api/pci/p2pdma.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 63cff9e4d2c9..80f8fec9b0e9 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -15,6 +15,13 @@ then based on the ACS settings the transaction can route entirely within
+ the PCIe hierarchy and never reach the root port. The kernel will evaluate
+ the PCIe topology and always permit P2P in these well-defined cases.
+ 
++This evaluation assumes clients issue strictly ordered Requests carrying an
++Untranslated address. Its result is not defined when clients use Relaxed
++Ordering or issue ATS-translated Requests because those TLP attributes can
++select different routes through the fabric. Unless ACS Translation Blocking
++is enabled, a Port with ACS Direct Translated P2P enabled routes a
++Translated Request directly to the peer regardless of the redirect controls.
++
+ However, if the P2P transaction reaches the host bridge then it might have to
+ hairpin back out the same root port, be routed inside the CPU SOC to another
+ PCIe root port, or routed internally to the SOC.
+
+-- 
+2.56.0
 
