@@ -1,102 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793704312;
-	b=dkflVgQ4dv6rXi81fi6OoSBEY7Kj4Ssc+MqKQbcD02X+mREteyTds7+lYlP5arhuS1DE
-	 3ovGLkpRcdhxmH5T8Iq06IVOgHjn+Nira28ce0i5Ci3rYQJxj/GE2X2dlNbHwoLgMUqAQ
-	 E11kSkZ5qYUb/HSWyxftCdjfxJ1jrtqJDsU5yLKG2mLnovkUQZhQJLGj5WwG0ufSnWRtj
-	 ByJXwo0xj9sYTQeAXnxrlkZWKPKCbFXPv+y3p28VGPAi1NBmWq7EKJDkkMwginOqOxaw1
-	 jsEYWq6wtzfF9PTRzpVStHvLdmg3b5ViF06kAlLbDj/oTsffPEMeQ8MkbxIagY8NzeA==
+	t=1793704503;
+	b=OJruPxMJUXCUUK8VXJCPwUmUr+Z+nyW9mkZr63gZGiftE8QwyMw7kpEeq6idiz81iRtN
+	 oMDc5w9dB2ylfqxdVpdCW8EiAFBbtdsa65qrLZScLw+zWEB55bJoStVuT8PE/ARua2J6d
+	 S9D7H5tE7GCbBD+USCBBR/mH3OJknvx1cvVK0qFOiKtv1IVWk0EX87Cxld9XQCyoy85+G
+	 fMWCMNat1y0/TjUPoP1g6GvCQS0tuQaWovE5ottvflQoRuk8NGjq/afOMifnd5vP7GxTQ
+	 zgTzlQ7uq2uojcK2PRGiN5Upi0LHkZS1F7pJJ44Di6MwIfdvR+IAS3y6faQmkZAuqog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793704312;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793704503;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
-	b=uw/AxYcO5yuWhCMKsPrwb+fwUpNfOuilBcR6y+Tr8cEjkVWL4h1xHe84TvEjQ+YttUdf
-	 lqpu5Y4iyALift8fGjfAZPI/rbmKVTtsJd5TAhnoFQ+eLQAgPBsbN8wL2RUkkImUY2p4m
-	 LbxZpEjOJtpMIl12Ia/ol+hUj9RcKNLoKteeYoi0zy0yYY31NU22cmkMnImGli0yO+lG0
-	 9rtp3vzqukw1v4yYBZqXyEivi7A/0HTiq4i7+nb8R0XeQoCyHZP7smVIfoa99orlV0VWm
-	 W9Kw3J1Mc31sjOHSg8uN3RPZ8Axs5T0c0yeLhlLBB9UmDF3mwAaanDEQNOaG0QC0LDw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=FqFkEa1Wf24oHm/ydD3AaExm05JqCxeJcFBeUKnuAzg=;
+	b=G3/2brCAE150DU6qc2Hl0AdZGCw1ctpQeV4n3D5QtT8dWIi7TELUf0E7opSG2S7MnDL+
+	 R29or8CXH7vTLUl5F5ZAxS9cwGqCodAeCKGSsPwWj+4ucMoXTXbf5i4upTaw+5JtlQMfO
+	 9LhxGBUvexSFIxmtmTGTK18wijDRL10enw0KOCdWR9dPbThQOlS0yM5OE3dUojtj/K1Av
+	 ljfFnn0ShuSI/aaP7OSw9u4quV6yD1skB/UnhHDEZmXA9WDznjSzDwNL/vOYlbNiKp5DN
+	 FpvLpHmvM7uiocolBVMHpRG4dSZ2lwHeyyFyg2Dap7atOuYN90AMJWgtifc8Ij+r9eQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VoneIZrI;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PERKkOYa;
+	arc=none smtp.remote-ip=209.85.218.44
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B42606BFA0
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 11:11:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1B42606BFA0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641EA606A82F
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 11:15:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 641EA606A82F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VoneIZrI
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfdd0678dso2817393f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 03:11:51 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PERKkOYa
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c315869241fso569903166b.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 03:15:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793704310; x=1794309110; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
-        b=VoneIZrIjqDgDNQeYh6sNuFncCLUEz4sf+KffVyKU9JPgoaAuPHSaQJ09adwOf//iX
-         dvPKugxOP47c6kXcmwY5r0qNnfa1PcceKJqRdFG1U9/xtwkoanCLczpPiq9NZhE899qm
-         nMxXQHZGzkH1p2y4RHJoqNYuTsnWSndOXkBTdPwCT5qg39EMRe8IZPdo3kzQwBQJCDcA
-         3LfpVp6B5Ua4Z11wn3xESWu+CQgFscxaE1qWW/TT7qqd6/6bjqPDKYplAQ4kv4h1lv0R
-         mJAd5YRbV2vczxRExpaYmpDM8Xf1A63Sezd1/uA8XBs0oWDOVh9UDqn/mwXh6NR8xiUZ
-         2+Mw==
+        d=gmail.com; s=20260707; t=1793704501; x=1794309301; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FqFkEa1Wf24oHm/ydD3AaExm05JqCxeJcFBeUKnuAzg=;
+        b=PERKkOYaShx0AfUcvg3glaGUkDjcU+eiSZK1M0atlWYClrtMCNETno5tQmbA2D03Jp
+         hssa2xi9vaeUhTseMPme7sq43Gz399dWzXFDA3BRj8Hpd41Cxf0QC01ZIbT3sGAMsHhV
+         9jECDUetyiBXHBXrZlhrvP8clv8ONj8jE3cGNyRyTuF7xTxLTdM6W+RsW//rwvq/7vqk
+         7UoFiqrU9tEvMf+tN+iqj4MzZyQ+DnV3ogkM70ewdakuOSbj7Uu1kXVnu/g17RufdLAF
+         xzxIMnzQbz2r7vRgxZbZZCbxVDrHkkLIYuYUxEtH0H8HIFn4b46YWTYs83FrKJQ4Drji
+         VaRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793704310; x=1794309110;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
-        b=YCbmvwOCVpuyy7s/VNVcJnMvk4l/GgZOgFQU8+nOoR7UTvlIjPfUY2NClw503gtCw4
-         ywYXlzNe62WvOgFa5yQQexV8NKv/3snRvX6r0F5yLXlX6txq9a2Prne4FQyWWxWCPIJH
-         giL1p0VD07Q8tYX0XXYogb6+eSV/7e9G9/XnRAGkxHEZo+er6el+kRPJ5eXCkslkkh2K
-         p+oPxrhyk9aVEi6t6nOniqJPee8+aoWzl6/xM/mjTjverE4NAYzpB9kN0Xeo4aFu6vzf
-         kW8/DzZC7Oqad6TYSoOaQQqFJs9ByGv00vvTKk8wOVqTQ/cBAG813kyx2b73UuAzIoPh
-         SvBA==
-X-Forwarded-Encrypted: i=1; AKwUvByS3D716IC3K//YjXD2dX0eEErymH2gO3W3AH6d6UC8664KLJjYJWS13ADFZcIDv9It5p9CTkZ51SY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8q687sGgdxTxvzRhHxmkIg+/uqrRze4r7M/T5frgaQsXJ4dUVg
-	v/g1aEDR8kC9bqMFCZ3VGUYHj79NNKTrWO2gaKpBp8Bmn8fRCZ7B/9qaO/ADcIJPpQA=
-X-Gm-Gg: AYBFou2RsHwWR94gdjxlMfb8clFidfnHYcj4jNZDqMaatU7lZtRA1XFihbIPryZluNC
-	SpyUA8NpONlTTj4YtjKs/OuVKi8l7aJCvzOQRK0M4h6pQDSmBdjX/Df5C7ObYtPXb0gEKEW8zMr
-	732QtfYbrBFNigolsYVWyq14SCYB7lfdGhpPySWIB1PVodkbaXy+vmXJG6WnXiHlHt2XU818gVP
-	fE0/xhT6JmGYueF6KFDzOqTohUVqyHtoV9mh7qMUBTNw2W88A/YeYUNWhc/k7flWfPGN+yDbj7x
-	PM5nprtjVYu759V+8CHybKjRniLezPlP87/gNgv9oCPVkJzn4aGctgGnKp7iBaYMSamfCnQ4QUK
-	3e0p0dgDDVY+Zrs3QOGRlj7GST6a1MGShXm4ywh9r8KBj0pa2jQ8sNS9T1fdSKAdgZhu9o2dfqh
-	ZxBUYFQ1SM4aMYZLFG3g1T2zV22QlocuwQ9losSpzoMeQ8n8Pb3LBEX7fIWiXbR50RF9u3j8cIA
-	jtNGCwY7RWhcfENtGh3BtGGy1TcZmAtYEb6x3yYveEeJHmvMhB/9HIRglaH8p/9Xil9orW6LeU8
-	uLx0nqr3RQvNrYKlN5NI+JnaPM4KXgoa7ifIS4sqHcQJMlbU+nM=
-X-Received: by 2002:a05:6000:22c8:b0:48e:2c2f:59eb with SMTP id ffacd0b85a97d-48e6e303c74mr28712071f8f.12.1793704310107;
-        Tue, 03 Nov 2026 03:11:50 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b78c10sm24062838f8f.25.2026.11.03.03.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 03:11:49 -0800 (PST)
-Date: Tue, 3 Nov 2026 12:11:47 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>, Naveen N Rao <naveen@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
-Message-ID: <aunBcxXXNhXDd-U5@pathway.suse.cz>
-References: <179360345418.115681.193455787480210412.stgit@devnote2>
- <20261102123408.0fb950bf@gandalf.local.home>
- <871p9251ve.fsf@jogness.linutronix.de>
- <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
+        d=1e100.net; s=20260707; t=1793704501; x=1794309301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FqFkEa1Wf24oHm/ydD3AaExm05JqCxeJcFBeUKnuAzg=;
+        b=I0q/AnpP9cBMit6Q/Rv5aHN8vD7krjB181Kt3yu7jR0WiM2dDo2uZG1SVZvCyXTCT9
+         mn1KpFENUgqcOc+PlmhFA9itFwJZf1NIfL5eWbUKV5qnvslaPhGNmkzsWDGd3rXQdNQf
+         8tacDHA/d1IaL1ELUYAk5jkuKzGj8j34LyNnoHQLmbTg0KPyAegSto0cFhuucGAPtk7n
+         Dody2n0YjWnbTmD6yEiFrMtJz5rKDg+w4BOoXr7kgFfnpRWAemtCwQOh+mtA7hy6gXlb
+         xEhfZ9FftCPU0jeMvQV2iLYjfgMEgtl1ROnyQYwkVzFqTsj6GWzfvcECGfbxZdcEdq21
+         HtVw==
+X-Forwarded-Encrypted: i=1; AKwUvBz49h0gCAuaKPstMfyiFCZN+x0OyNXQL7yZ2Xh7OXOeJWfEccocCXG9s4+rr7zq8AiBcpoe7UaMB6s=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ZDAeM+IyDcS310JrNxdTBSVCyVUBod6TBlAoC9ar2QpFx5Gg1
+	UcGgZVpwr5ofGBcJ/ej6a23g1eJvo8qHSIA5RsvIt7QHbFR1HbRgoDKH
+X-Gm-Gg: AYBFou1H1IXGih3wi3dbwBBsh5aEjNPF1CRZMX2CWcjr1RvLqX73zWsLdtwTmrCljM2
+	PiGC4zmoSvyjNnTZIYDPVCWGOPrKGAYENHpdPNV8oERGwM9UIBw6/xTZ6tT5MxhnuQyb8ltxfjN
+	w/MKDYzqdvJtYhY8VEXmq4wBJ8TjUOHhO6xMyvNZKR58wLtNp1SWflYsYnmIjW3ftLPLgjf8jbW
+	WXWXC4wn/rtrH9qQy/I5Ka29s8s/lrUlpQJekdl/Rx7GS/q0IU7/PJ5G2FsTppV2IcRrvlA/djO
+	IzrIm8zsH7y3WmRTpBwxHP0WrOxF5mQHiIYXcrbrHgkD90uMDBbYi5N5mMNlhIfpk31xafWJVAJ
+	lG2q5JrOmVp0uV5mJV3SqBnJP6RYKkbQZBkEGebvq/CWN0ZTn2X7peaS3U8ZaNkrs6m7bdYNwGY
+	jLLQT0x4I4CS81tDlcSV0jjEhyDhXj3Rg0QbnoCjQUJGSc7tzrDFMxXMGX50cgODnfSNVDiF+Ts
+	HU9a7NphVXncbE/VIQN6ktFk5qi3WGQwtw/hl8M/7Y0+2fKsehB8cylgpWjTYuet9LujY3ZupPn
+	F55Z9SRSdQTaTjsFXKiW3Az0Ytrc1KFEysJJP8oielxojKyLnOXsuvzCd6LOFo+JHeuPKjvJHWj
+	TrvKGcyil8s6OHAcjDH8kZbHSgt6/GE1iuUeVX/2A
+X-Received: by 2002:a17:907:d9f:b0:c40:b477:dfa0 with SMTP id a640c23a62f3a-c4ca7a46ab6mr975704366b.18.1793704500712;
+        Tue, 03 Nov 2026 03:15:00 -0800 (PST)
+Received: from wlan-199066.nbw.tue.nl (wlan-199066.nbw.tue.nl. [131.155.199.66])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b4eca0f376sm4349291a12.26.2026.11.03.03.14.58
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 03 Nov 2026 03:15:00 -0800 (PST)
+From: Michail Andreas Michalopoulos <mike.michalo@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Michail Andreas Michalopoulos <mike.michalo@gmail.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Tom Talpey <tom@talpey.com>,
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+	Enzo Matsumiya <ematsumiya@suse.de>,
+	linux-cifs@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ksmbd: AES-GMAC signing support
+Date: Tue,  3 Nov 2026 12:14:51 +0100
+Message-ID: <20261103111453.84804-1-mike.michalo@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,76 +101,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
+Content-Transfer-Encoding: 8bit
 
-On Tue 2026-11-03 11:06:06, Masami Hiramatsu (Google) wrote:
-> On Mon, 02 Nov 2026 23:07:41 +0106, John Ogness <john.ogness@linutronix.de> wrote:
-> > [ Cc'ing Petr Mladek ]
-> > 
-> > On 2026-11-02, Steven Rostedt <rostedt@goodmis.org> wrote:
-> > > [ Cc'ing John Ogness ]
-> > 
-> > Thanks.
-> > 
-> > >
-> > > On Mon,  2 Nov 2026 16:10:54 +0900
-> > > "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-> > >> Here are patches to update the probe sample code to use trace_printk
-> > >> instead of normal printk. Since the fprobe and kprobe/kretprobe handlers
-> > >> can be called from somewhere where console is locked, using printk() is
-> > >> basically unsafe. Only the unoptimized kprobe on x86 is safe because it
-> > >> is ran with NMI context (in this case, the kernel uses printk_deferred()
-> > >> automatically), but optimized kprobe/kretprobe/fprobe are not.
-> > >
-> > > I don't think printk() is unsafe in these situations anymore.
-> > 
-> > Since we still support legacy consoles, it is true that printk() is not
-> > safe in these contexts when a legacy console is registered.
-> > 
-> > However, the printk_deferred() variant _is_ safe from any context. Once
-> > we convert the legacy consoles (including boot consoles) to nbcon,
-> > printk_deferred() can become printk() and still be safe from any
-> > context.
-> 
-> Got it. But since printk_deferred() is not exposed to modules,
-> these sample modules can not use it. (printk_deferred_enter/exit()
-> are also not exposed.)
+SMB 3.1.1 clients choose the signing algorithm in the
+SMB2_SIGNING_CAPABILITIES negotiate context. ksmbd parses the client's
+list, but init_smb3_11_server() then overwrites the choice with
+AES-CMAC, so a client that does not offer AES-CMAC cannot connect.
+Patch 1 fixes that and keeps each signing key paired with the
+algorithm it was created for. Patch 2 adds AES-GMAC, which Windows and
+macOS offer first, using the lib/crypto AES-GCM API.
 
-We could export it if it would be useful for kprobes...
+Discussion:
+https://lore.kernel.org/linux-cifs/D0F05F9A-5097-4A2D-9235-AE395961F456@gmail.com/
 
-> > It is misfortunate to add documentation saying printk() is not safe,
-> > since the problem is converting the remaining legacy consoles. But we
-> > can cleanup all such documentation later once the legacy consoles are
-> > gone.
-> 
-> So, until it is done, this series is valid. Please let me know it.
-> After that version, I can revert these.
+Testing:
+- smbtorture 4.19 with each algorithm forced
+  (clientsmb3signingalgorithms): without the series an HMAC-SHA256
+  only client fails smb2.connect with NT_STATUS_INVALID_NETWORK_RESPONSE
+  and an AES-GMAC only client cannot negotiate. With it, all three
+  connect and sign with the forced algorithm; smb2.connect then stops
+  at its tree disconnect check (STATUS_ACCESS_DENIED instead of
+  STATUS_NETWORK_NAME_DELETED), as it does for AES-CMAC without the
+  series.
+- smb2.session (smbtorture 4.19, multichannel off): 21 tests pass
+  instead of 12. signing-hmac-sha-256, signing-aes-128-cmac,
+  signing-aes-128-gmac, encryption-aes-{128,256}-{ccm,gcm} and
+  bind_negative_smb3signGtoH2X{d,s} need signing negotiation and now
+  run and pass instead of being skipped. 26 other
+  bind_negative_smb3sign*/smb3sne* tests now run too and fail with
+  STATUS_USER_SESSION_DELETED, because binding needs multichannel;
+  see the next item for them with multichannel enabled. No test that
+  passed before fails.
+- smb2.bench.echo and smb2.bench.read with each algorithm forced,
+  smbtorture 4.19 (x86) and 4.23 (arm64).
+- smb2.session.bind_negative* with multichannel enabled (smbtorture
+  4.19): all tests involving AES-GMAC pass. Without the series most
+  smb3sign* tests were skipped, as ksmbd could not negotiate anything
+  but AES-CMAC. The four AES-CMAC <-> HMAC-SHA256 tests now run and
+  fail on existing binding behaviour that this series does not touch:
+  the *d variants because ksmbd rejects binding from a different
+  ClientGUID (Windows accepts it), the *s variants because a session
+  setup without the binding flag on an already bound connection
+  succeeds instead of failing with STATUS_ACCESS_DENIED.
+- Windows Server 2025: offered AES-GMAC, AES-CMAC, HMAC-SHA256 and
+  ksmbd answered AES-GMAC (checked in a packet capture). A 1 GiB copy
+  to and from the share came back identical (SHA256), with signing
+  required and encryption off.
+- macOS 26: negotiated AES-GMAC, 256 MiB copy identical.
+- No "bad smb2 signature" messages in any of these runs.
 
-I do not have strong opinion here.
+End to end, smbtorture smb2.bench.read with 1 MiB reads, MB/s:
 
-It just looks to me that using trace_printk() everywhere is an
-overkill. It is true that printk() is not safe when probing some
-locations, e.g. where a console is locked. But these are locations
-where you could not use printk() even in the probed code.
+                               HMAC-SHA256   AES-CMAC   AES-GMAC
+  arm64, Apple M4 VM, loopback        1354        924        797
+  x86, AMD EPYC VMs, 3.56 Gbit/s       449        341        469
 
-I believe that trace_printk() has a similar problem. You could
-not use it inside the code used by trace_printk() because
-it might cause an unbound recursion.
+On arm64 AES-GMAC is currently the slowest because the arm64 GHASH
+library code does not use PMULL for bulk data; I'll send a separate
+lib/crypto series for that, as discussed in the thread above.
 
-I agree that the scope of the code used by trace_printk() is
-smaller than the code used by console drivers. Also it is better
-located. And maybe, the recursion can be even detected and handled.
+Not tested: multichannel with Windows or macOS clients (binding was
+only tested with smbtorture), and SMB over RDMA.
 
-But still, the point is that even trace_printk() is not a 100%
-safe cure. So, maybe, instead of proposing trace_printk() everywhere,
-it might be enough to propose it only for probing the printk/console
-related code. Well, I know that it involves also some less obvious
-areas, for example, irq_work, some timer and scheduler code.
+An AI assistant was used to draft the patches and as an independent
+reviewer. I ran the Windows, macOS and benchmark tests; the smbtorture
+runs were done by the assistant under UML.
 
-That said, I do not want to block this patchset. It is solving
-some real problems...
+Michail Andreas Michalopoulos (2):
+  ksmbd: sign with the negotiated SMB 3.1.1 signing algorithm
+  ksmbd: add AES-GMAC signing support
 
-Best Regards,
-Petr
+ Documentation/filesystems/smb/ksmbd.rst |  2 +-
+ fs/smb/server/Kconfig                   |  1 +
+ fs/smb/server/auth.c                    | 60 ++++++++++++++++++++++++-
+ fs/smb/server/auth.h                    |  4 +-
+ fs/smb/server/mgmt/user_session.c       |  1 +
+ fs/smb/server/mgmt/user_session.h       |  2 +
+ fs/smb/server/smb2ops.c                 |  4 +-
+ fs/smb/server/smb2pdu.c                 | 53 +++++++++++++++++++---
+ 8 files changed, 116 insertions(+), 11 deletions(-)
+
+
+base-commit: af8c72f6550744fe948ef2dbc7ab8739c149aab2
+-- 
+2.43.0
+
