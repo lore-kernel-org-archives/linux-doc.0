@@ -1,66 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793738372;
-	b=ygidTJ+ai2m7kHHMs2wfU8IN7801NVGNcGAqPcVmOTJuq8cqtnsntaXQSss2oTd4ctjC
-	 rY1W/7XN2i8p4lklYX6M+nSETkCWa4fZSHcSCSKI7kueX+3Hr9N5KMKANhLNeMN86Xhk6
-	 svclDcOj/5TUzm1tg4Wvmr9Fzk5x1bD5pAfwN9r1t+bTCs1Mq8XtgRGmbMaV1YObuDrX5
-	 pbP/HVYu+b4gMWPH4N5Iy7wxF2qvUDJErmqaYQ4xCJE2cGTiGbtwTTsYW6OZe2hRicUlZ
-	 DKUgcnUaIyUOmfHTlhbNmhGIFAynv0mINGlcBprB+ptBpxfyfZt1c9qpGvvcUf9Ykjw==
+	t=1793739031;
+	b=HFoerhqrCo4QR1sF4xEMW0+vssAZEQ45ZQEPI3zkLACwpzuMFqrkNNfPcG0uB8piAKhS
+	 VxOnKsAITlVJVfyFK+CwBvN5coJzYJdznTK3Ul5kDBn8okA8nnco73uuFu1+Tr/KkUHKa
+	 EA8cA5F83qmSf5KOfuPemfzrWxEuN54PvgN+bZIddE7KCZ35k5PiniyPF5zI5CZnpiRoO
+	 s+5klMr9LgR8NfT+A4hr2QHiQtTSsKc58NLFa7GuhsNJxL5KjQwI9PkzJEdfGe9UYwS5X
+	 FUfJmgzN2Q0xex3LvKFsgO87HPkEIe9eI+NF+bNx/Q2QuRVtzkcYrqtsL0TggDu6R7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793738372;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=V7izd36fjKXdZ+gzbVLsZTvCdQtFHyr5pEDlDocPRsA=;
-	b=uOo64uv6P9rcWU+3IPTdbJGVtRdwa0fb8PM5O3WFTx2KPGLpA2gdIJ5JNwd65j898PPS
-	 fXsYJzcY9KNOm9myBZo9yWvxhsrFFn65FDU1QOqmoH97U0OIWR9s22PP98CM3zRVQnVla
-	 NADpF8Q2KLm0x72WUR+Ha4HZdAicCRwQwi5hJ+f3GBYLHsZ7OHbE6Jxs3uEZ78F+hyqZ7
-	 kirO3UlhyX+fN+k9cd28OwUGAGtQkyLjQMoe7ksmFKJ1sqaaEMiEc2wDpOlqYcGPhbYXo
-	 e+KY6c07UmGxQCHJlpQWqS/st5PSV9IePANGBPpcdvklRu3V6C+MrSd9H0HuYo43A0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793739031;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=xELWjlpLSei6f90PTVpULHIqJs/YZ9fxtevXdlFEib0=;
+	b=veYX9R5f/RyHy9HVoeS+x5mEK00C1zqzShFQf+xJ1+rRnisZxEXIg0YnFWAD2caVyWVS
+	 jbxPwg503j/YiW55y+dp1zO2uEfSt/Y3DPOLiY+aO6BLHqM6JZVTLI9SdAY6P7p3Q3ya4
+	 DFaSoJpYkfz9NWTDnq3CiYwkvioCrisH/vMujdS0l2uUnhUlZRHMStHj0c6sAM9UkAo/3
+	 KS28Xf99jHqZF93qaHeMRYoY3mO0LnwfBT1NLGZn/s994fbr/18hBqXVogUFv2NVF9Pl7
+	 m1/EJ2RTkO4x52HH5Zjq91bHof/gnKlyYFtAENC1DvHiC/QT0d7X/18uu5K/1s5/P+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hWagJdym;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=3hlB2CED;
+	arc=none smtp.remote-ip=44.202.169.39
+Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F9606A31B;
-	Tue,  3 Nov 2026 20:39:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 933F9606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D014B606A33F
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 20:50:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D014B606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=hWagJdym
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=3hlB2CED
+Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
+	by cmsmtp with ESMTPS
+	id OHzWxeb0kOOJnOLSgxJkEu; Tue, 03 Nov 2026 20:50:30 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id OLSfxUQAdgk6fOLSfx5XPv; Tue, 03 Nov 2026 20:50:29 +0000
+X-Authority-Analysis: v=2.4 cv=KM9aDEFo c=1 sm=1 tr=0 ts=6aea4915
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=zd2uoN0lAAAA:8
+ a=_jlGtV7tAAAA:8 a=klRYj2L7PfcOG0d8UPIA:9 a=QEXdDO2ut3YA:10
+ a=nlm17XC03S6CtCLSeiRr:22 a=KPbNTLLc3YvdawN95zVk:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=V7izd36fjKXdZ+gzbVLsZTvCdQtFHyr5pEDlDocPRsA=; b=hWagJdymGKfcNa+QU0a0WhOiwQ
-	CIMe82YRQarotixmUcUcL4conl+lmpIjiZYTehzy+qpvC68OzYVlDCcN56ne6snE110tcfFHiX6nm
-	51njWHmoJoMJnYenJ990h9fyHw6Z9VjmGX7LWIWRRkQ9z5o1BxgBsdF0CRg0YMdlspPvA0uw30tgT
-	JYzMU0Q8NBc3JBK2OocQfMVbipxOe2EHOWRFeukN50NWK/fLr20na/VF4SSqwgHmF2vi2+e4laoRU
-	HIwfejEhSu7G7Clv+HezUKSxzDqTT0tGOr0RTNa03Lyj/B9tQpScpvl5aXhxair2Uib/pU9iSGpm0
-	clVuE9AA==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOLI2-00000003dhn-2fM0;
-	Tue, 03 Nov 2026 20:39:30 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	linux-serial@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Helge Deller <deller@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] vt: modify a constant prefix that looks like a ReST target
-Date: Tue,  3 Nov 2026 12:39:29 -0800
-Message-ID: <20261103203929.2916563-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=xELWjlpLSei6f90PTVpULHIqJs/YZ9fxtevXdlFEib0=; b=3hlB2CEDBZwe
+	aiEylSCBEhU+z8JZSKLZp1kftWUvB1Xvm2YsQWW7K+D+A4muhD2MMK6dbIr8W6XpGrgrsm8cuDjz+
+	u7iOz66NDTS0PoifCQogRaESOGC2qlImEHwFes6rmcITgF9lxjNeYs6a4fFZhMyrT0VamrGRArz9Z
+	5AfScOvNqpBU6saJnEDdELPzgfvHSvp81CByYWtAKskoYSLCiKdpTqPorqnQsBYsGnvUrqUNPry87
+	ItyhlIeKD7vpkHGulL12RllEd52Rpq+PmiRFLMSOcHvD9tYGvAYek0k2nmGEZCeTeUvut3ohFQDus
+	3bpSBfPmBVvzEkC8NhkBmQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:59138)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xOLSb-00000001ohg-3diX;
+	Wed, 04 Nov 2026 02:20:25 +0530
+Message-ID: <d468fa55-c0fc-471c-9341-b735fb394fa3@roeck-us.net>
+Date: Tue, 3 Nov 2026 12:50:23 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,60 +76,115 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 4/4] hwmon: add AMD Pensando ionic sensor driver
+To: "Nikhil P. Rao" <nikhil.rao@amd.com>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Abhijit Gangurde
+ <abhijit.gangurde@amd.com>, Arun Kumar Prakash <ArunKumar.Prakash@amd.com>,
+ Eric Joyner <eric.joyner@amd.com>
+References: <20261103-pr46-b4-v1-0-850ab7fbec19@amd.com>
+ <20261103-pr46-b4-v1-4-850ab7fbec19@amd.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261103-pr46-b4-v1-4-850ab7fbec19@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xOLSb-00000001ohg-3diX
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:59138
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 5
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfGsJX/S6mH97X+s2xNaF9RnZ+lESQ1Yk9bfoWtkaqCyI2k/hZXJB2KOrOm8Jm+adC/a+b+afDwsH/A8mGczpv6pnlSzc32aHHsA+awku5cT5Jzg9mE4e
+ dGOzQAQELTqG/p+9iCEL7bd4J80bL5rkPhwSDAoLWsR9i3gVKF3iqtFs8GeeZcCjYyUklguPZoVqXS0tMAX2cVo54Yl/2nmiK+AAMct/mU+u2Rlu4OMQfdU6
 
-Use CUR_* (could also be something like CUR_x) instead of just "CUR_"
-because the ending '_' indicates a documentation target name, so
-unconfuse the name.
+On 11/3/26 10:14, Nikhil P. Rao wrote:
+> From: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
+> 
+> Add an auxiliary driver that binds to the "ionic.hwmon" device created
+> by the ionic Ethernet driver and reports the adapter's temperature,
+> voltage and power sensors through hwmon.
+> 
+> The sensor set depends on the board and firmware, so the driver reads
+> it from the device at probe rather than hard-coding it. A sensor type
+> with a channel the driver does not recognise is skipped as a whole,
+> since hwmon channel numbers must match the firmware's.
+> 
+> The hwmon device is parented to the adapter's PCI function rather than
+> to the auxiliary device, so lm-sensors names it by PCI address instead
+> of as a virtual device.
+> 
+> Signed-off-by: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
+> Signed-off-by: Eric Joyner <eric.joyner@amd.com>
+> Reviewed-by: Brett Creeley <brett.creeley@amd.com>
+> Co-developed-by: Nikhil P. Rao <nikhil.rao@amd.com>
+> Signed-off-by: Nikhil P. Rao <nikhil.rao@amd.com>
 
-Prevents these warnings:
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:275: ERROR: Unknown target name: "cur". [docutils]
-Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:317: ERROR: Unknown target name: "cur". [docutils]
-Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:353: ERROR: Unknown target name: "cur". [docutils]
+Thanks,
+Guenter
 
-Fixes: 1438d00569c4 ("vt: Add cursor-size helpers")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-serial@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-
- drivers/tty/vt/vt.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
---- linux-next-20261102.orig/drivers/tty/vt/vt.c
-+++ linux-next-20261102/drivers/tty/vt/vt.c
-@@ -273,7 +273,7 @@ EXPORT_SYMBOL_GPL(vc_font_size);
-  * vc_cursor_valid_size - Computes a valid cursor size from the given value
-  * @cursor_size: The size constant of cursor pattern
-  *
-- * The argument given in @cursor_size is one of the CUR_ constants, as stored
-+ * The argument given in @cursor_size is one of the CUR_* constants, as stored
-  * in struct @vc_data.vc_cursor_type. For unknown values, the helper draws the
-  * default cursor or an underline dash.
-  *
-@@ -317,7 +317,7 @@ EXPORT_SYMBOL_GPL(vc_cursor_valid_size);
-  *
-  * The parameter @cell_height is the height of the character cell as
-  * displayed by the console. The argument given in @cursor_size is one
-- * of the CUR_ constants. See vc_cursor_valid_size() for how to get a
-+ * of the CUR_* constants. See vc_cursor_valid_size() for how to get a
-  * valid cursor-size constant.
-  *
-  * Returns:
-@@ -353,7 +353,7 @@ EXPORT_SYMBOL_GPL(vc_cursor_start);
-  *
-  * The parameter @cell_height is the height of the character cell as
-  * displayed by the console. The argument given in @cursor_size is one
-- * of the CUR_ constants. See vc_cursor_valid_size() for how to get a
-+ * of the CUR_* constants. See vc_cursor_valid_size() for how to get a
-  * valid cursor-size constant.
-  *
-  * Returns:
